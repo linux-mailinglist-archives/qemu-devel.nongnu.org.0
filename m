@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE811415DB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 14:03:50 +0200 (CEST)
-Received: from localhost ([::1]:49556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD13415DF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 14:16:32 +0200 (CEST)
+Received: from localhost ([::1]:59516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTNS7-0002uz-Hd
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 08:03:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43674)
+	id 1mTNeR-0002Ft-Eh
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 08:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mTNKk-0006IT-W9
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:56:11 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:37407)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mTNa8-0008DC-2v
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 08:12:04 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mTNKj-0002xD-1p
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:56:10 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id n23so2675812pfv.4
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 04:56:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=SY869irrxzfOoJkdWCuDuzh7ZngMT+9YxkjytmTDREU=;
- b=U7PowsmPYHknkV3fCw5NxMoC2azRQc+aWAttZ+UHqBZVvwM6dUlqw02Rm2h0zbAbI0
- xbGhtLJ9geYBLFjmTS/5oO5gArei8XSmN62/NNQFQA1+cUB9oZTURXW+AEEwQjYGwoGe
- hBw5BdJd2jktGxhnL3O8AKZdJ95pCO39/6x2yaNFPkm/oAj+jO6+sfeIxbSIkB6qsEtT
- mjDd6A1iOBomObypmypRTU8IV2hWlesozGv9gtU73ixhNgIUvTqibBGj62+H1g2CH6Yv
- O0Y0fl6s49RPCuLNCFEjmFme7dqAQUWsUdhWd8oioOQzNLIehSsGSIHAl7DSq+d4KCb4
- 3L8A==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mTNa2-00005L-9i
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 08:12:03 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id t8so16688942wri.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 05:11:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jwqSp4NfwhapBv3/a8JefaUXdQf/crQA0Zbcnsp/acU=;
+ b=l7GJ7OPdXaOcerwJ3ymzQhNM+ZcFcugQ5xnk4cf2Cu885JuBu+PEIUY0kL0Ajj7WI1
+ EpYBVa9brQaL8c/GKsQdBzLystbgPcYq6RzkT1cnFUZugu/7zX2Tt3t1mYjIRexdN2WI
+ RbzU/BS5PP4RrGU7hByJVU58DgeT5SurDRox4y0eVZ0A+fJ0ZZ3mQpbs4ofF0uGezUZn
+ yN82PyebSanK34XwJn9GMq5Nt9Dk1jIrW+doW7gAUR7fcZmXi9030qV3twDMQAe41HOu
+ xUilfN6jBXhbsSlD9rmh/tJoUA1eNy1pkITS/rpYT2WNPVqbFjYIVqCW1ph7KUp+HXbw
+ tn4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=SY869irrxzfOoJkdWCuDuzh7ZngMT+9YxkjytmTDREU=;
- b=tZ9dqksCuj2bEkXyxgNrdyA2LRzlmhEdOulCB4TdK6uHUmE3s+aCuMRkYbp+8AKCKj
- RLo3zAGuwSzY5ZrNQKIovXYPrfTWWM3y9/CyCB7qKHRnLvvxiuEDhFtrNUlQ5Sp4+Shz
- zapQbAtS1ENUpRRkPk2XXRDbrfr8U9tjO3BlNJnrPWthUOUjU9ySomJFQM9ZT+yfLsvn
- SG8nUijX7ty/cfNm/H4yoaOQkA51yNDXrosPGZObjbnmv7Plcac0nVjSXXl095mc+/iF
- SAxwotiUDwDFvV630xWc8oi1HMm394XASGCj+8WO/L8PDPcBb1icf5b5EUM+pHoWJIck
- AIkA==
-X-Gm-Message-State: AOAM532rl+Svm0qIBhQ1WnC3qS8dBCEAOPupD4HHg6OCg9hNB2R0xePM
- zI2Agrvq7q52ezu1PWyfIxEEtg==
-X-Google-Smtp-Source: ABdhPJxN+kA2mTsQR+l1zBPEpE/rXxHeA2wclNVyce3HUXRFs9M3E7zp1eZW9twTe7ZJhuUZvRsFxQ==
-X-Received: by 2002:a62:1ec5:0:b0:446:40ec:73b2 with SMTP id
- e188-20020a621ec5000000b0044640ec73b2mr4086191pfe.5.1632398165735; 
- Thu, 23 Sep 2021 04:56:05 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.156.170])
- by smtp.googlemail.com with ESMTPSA id 201sm5097769pfw.37.2021.09.23.04.55.57
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jwqSp4NfwhapBv3/a8JefaUXdQf/crQA0Zbcnsp/acU=;
+ b=KpnKYrM5F1fo0qWKO8ifutNHw5vIu5Ac6ZRL9aKy63ubrON9CQrWjx7gipPY6QMVe9
+ 64pEkX11ZHh1k8Lp84AAXyYMkZWZ3Jq50cvTkxjIuN00dycpXKmvgQ370mB9/bV7BukL
+ vptMJW/w3+NdlamsG0AZSdG/F5ToVh5kKZMWuJsvYsJY+EH8P8GnbOSSsLkrqg90HgxL
+ wJdDQU2ufWsTb+G2baqRxMsTK5LtEDQI/kO01pd39zrNTXR90i0YyWjsVJPm80cSsqaM
+ SMtQIfJTcgT16oBQ0Gl4AxDnn/bcwUDvZ0Sk27SsJi2WbtyTrnAC3JbVy7y/Ht+MIDm5
+ BzdQ==
+X-Gm-Message-State: AOAM533uwMzx01VGWgsgrlZZCX0yOA2m1UqZ9SziT0Pyz9TMw/l/JK6U
+ 9dCAc8BQx0EZeBkVDKIxEDqngGIxuOFmEA==
+X-Google-Smtp-Source: ABdhPJx4Mf0QGhbTSm9t4JxyU52jfGwMzjLdxqd6/YEG1uHS2IEvuDzRLvt6nQ9bUre3e4lq10JYaQ==
+X-Received: by 2002:adf:aacb:: with SMTP id i11mr4886695wrc.296.1632399116253; 
+ Thu, 23 Sep 2021 05:11:56 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id t22sm1382349wmj.30.2021.09.23.05.11.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Sep 2021 04:56:05 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Thu, 23 Sep 2021 17:25:54 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [RFC PATCH v2 10/16] qdev-monitor: allow adding any sysbus device
- before machine is ready
-In-Reply-To: <alpine.DEB.2.22.394.2109231628280.630@anisinha-lenovo>
-Message-ID: <alpine.DEB.2.22.394.2109231723060.630@anisinha-lenovo>
-References: <20210922161405.140018-1-damien.hedde@greensocs.com>
- <20210922161405.140018-11-damien.hedde@greensocs.com>
- <alpine.DEB.2.22.394.2109231628280.630@anisinha-lenovo>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ Thu, 23 Sep 2021 05:11:55 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/6] Improve consistency of bus init function names
+Date: Thu, 23 Sep 2021 13:11:47 +0100
+Message-Id: <20210923121153.23754-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::42a;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,90 +80,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- mirela.grujic@greensocs.com, Alistair Francis <Alistair.Francis@wdc.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-riscv@nongnu.org, Damien Hedde <damien.hedde@greensocs.com>,
- =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
- mark.burton@greensocs.com, edgari@xilinx.com,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Alberto Garcia <berto@igalia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Currently we have a bit of a mishmash of different function
+names for bus creation. There are two basic patterns: you
+can have a function that allocates and returns a new bus
+object; or you can have a function that takes a pointer to
+a bus object and initializes it in-place. We have to some
+extent a convention for those: the allocate-and-return
+function is 'foo_new()', and the 'init in-place' function
+is 'foo_init()'. However many of our bus creation functions
+don't follow that; some use 'foo_new' vs 'foo_new_inplace';
+some use 'foo_new' for the in-place init version; and
+the bottom level qbus functions are 'qbus_create' vs
+'qbus_create_inplace'. This series tries to bring at least
+scsi, ipack, pci, ide, and qbus into line with the
+_new-vs-_init naming convention.
 
+The other issue with bus creation functions is that some
+of them take a 'name' argument which can be NULL, and some
+do not. Generally "pass in a specific name" should be the
+rare case, but our API design here is easy to misuse, and
+so a lot of callsites (especially for i2c, sd, ssi) pass
+in names when they should not. Untangling that mess is
+going to be tricky (see other thread for more), but as
+a first step, this series proposes a split between
+foo_bus_new() and foo_bus_new_named() where the latter
+takes a name parameter and the former does not. I do
+this only for scsi (and implicitly ide, whose ide_bus_new
+function already doesn't take a name argument) for the
+moment, as the other bus types have more of a mess of
+"pass name when they should not" callsites, so I didn't
+want to put in too much work before finding out if we
+had agreement on this as a naming convention.
 
-On Thu, 23 Sep 2021, Ani Sinha wrote:
+There are definitely more buses that can be cleaned up
+to follow the init vs new convention, but this series is
+already touching 70 files and trying to do every bus in
+one series seems like a recipe for merge conflicts.
+So this seemed like enough to be going on with...
 
->
->
-> On Wed, 22 Sep 2021, Damien Hedde wrote:
->
-> > Skip the sysbus device type per-machine allow-list check before the
-> > MACHINE_INIT_PHASE_READY phase.
-> >
-> > This patch permits adding any sysbus device (it still needs to be
-> > user_creatable) when using the -preconfig experimental option.
-> >
-> > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> > ---
-> >
-> > This commit is RFC. Depending on the condition to allow a device
-> > to be added, it may change.
-> > ---
-> >  softmmu/qdev-monitor.c | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> > index f1c9242855..73b991adda 100644
-> > --- a/softmmu/qdev-monitor.c
-> > +++ b/softmmu/qdev-monitor.c
-> > @@ -269,8 +269,13 @@ static DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
-> >          return NULL;
-> >      }
-> >
-> > -    if (object_class_dynamic_cast(oc, TYPE_SYS_BUS_DEVICE)) {
-> > -        /* sysbus devices need to be allowed by the machine */
-> > +    if (object_class_dynamic_cast(oc, TYPE_SYS_BUS_DEVICE) &&
-> > +        phase_check(MACHINE_INIT_PHASE_READY)) {
-> > +        /*
-> > +         * Sysbus devices need to be allowed by the machine.
-> > +         * We only check that after the machine is ready in order to let
-> > +         * us add any user_creatable sysbus device during machine creation.
-> > +         */
-> >          MachineClass *mc = MACHINE_CLASS(object_get_class(qdev_get_machine()));
-> >          if (!machine_class_is_dynamic_sysbus_dev_allowed(mc, *driver)) {
-> >              error_setg(errp, "'%s' is not an allowed pluggable sysbus device "
->
-> Since now you are adding the state of the machine creation in the
-> valiation condition, the failure error message becomes misleading.
-> Better to do this I think :
->
-> if (object class is TYPE_SYS_BUS_DEVICE)
-> {
->   if (!phase_check(MACHINE_INIT_PHASE_READY))
->     {
->       // error out here saying the state of the machine creation is too
-> early
->     }
->
->     // do the other check on dynamic sysbus
->
-> }
+thanks
+-- PMM
 
-The other thing to consider is whether we should put the machine phaze
-check at a higher level, at qdev_device_add() perhaps. One might envison
-that different device types may be allowed to be added at different
-stages of machine creation. So this check needs be more generalized for
-the future.
+Peter Maydell (6):
+  scsi: Replace scsi_bus_new() with scsi_bus_init(),
+    scsi_bus_init_named()
+  ipack: Rename ipack_bus_new_inplace() to ipack_bus_init()
+  pci: Rename pci_root_bus_new_inplace() to pci_root_bus_init()
+  qbus: Rename qbus_create_inplace() to qbus_init()
+  qbus: Rename qbus_create() to qbus_new()
+  ide: Rename ide_bus_new() to ide_bus_init()
 
+ include/hw/ide/internal.h     |  4 ++--
+ include/hw/ipack/ipack.h      |  8 ++++----
+ include/hw/pci/pci.h          | 10 +++++-----
+ include/hw/qdev-core.h        |  6 +++---
+ include/hw/scsi/scsi.h        | 30 ++++++++++++++++++++++++++++--
+ hw/audio/intel-hda.c          |  2 +-
+ hw/block/fdc.c                |  2 +-
+ hw/block/swim.c               |  3 +--
+ hw/char/virtio-serial-bus.c   |  4 ++--
+ hw/core/bus.c                 | 13 +++++++------
+ hw/core/sysbus.c              | 10 ++++++----
+ hw/gpio/bcm2835_gpio.c        |  3 +--
+ hw/hyperv/vmbus.c             |  2 +-
+ hw/i2c/core.c                 |  2 +-
+ hw/ide/ahci.c                 |  2 +-
+ hw/ide/cmd646.c               |  2 +-
+ hw/ide/isa.c                  |  2 +-
+ hw/ide/macio.c                |  2 +-
+ hw/ide/microdrive.c           |  2 +-
+ hw/ide/mmio.c                 |  2 +-
+ hw/ide/piix.c                 |  2 +-
+ hw/ide/qdev.c                 |  4 ++--
+ hw/ide/sii3112.c              |  2 +-
+ hw/ide/via.c                  |  2 +-
+ hw/ipack/ipack.c              | 10 +++++-----
+ hw/ipack/tpci200.c            |  4 ++--
+ hw/isa/isa-bus.c              |  2 +-
+ hw/misc/auxbus.c              |  2 +-
+ hw/misc/mac_via.c             |  4 ++--
+ hw/misc/macio/cuda.c          |  4 ++--
+ hw/misc/macio/macio.c         |  4 ++--
+ hw/misc/macio/pmu.c           |  4 ++--
+ hw/nubus/mac-nubus-bridge.c   |  2 +-
+ hw/nvme/ctrl.c                |  4 ++--
+ hw/nvme/subsys.c              |  3 +--
+ hw/pci-host/raven.c           |  4 ++--
+ hw/pci-host/versatile.c       |  6 +++---
+ hw/pci/pci.c                  | 30 +++++++++++++++---------------
+ hw/pci/pci_bridge.c           |  4 ++--
+ hw/ppc/spapr_vio.c            |  2 +-
+ hw/s390x/ap-bridge.c          |  2 +-
+ hw/s390x/css-bridge.c         |  2 +-
+ hw/s390x/event-facility.c     |  4 ++--
+ hw/s390x/s390-pci-bus.c       |  2 +-
+ hw/s390x/virtio-ccw.c         |  3 +--
+ hw/scsi/esp-pci.c             |  2 +-
+ hw/scsi/esp.c                 |  2 +-
+ hw/scsi/lsi53c895a.c          |  2 +-
+ hw/scsi/megasas.c             |  3 +--
+ hw/scsi/mptsas.c              |  2 +-
+ hw/scsi/scsi-bus.c            |  6 +++---
+ hw/scsi/spapr_vscsi.c         |  3 +--
+ hw/scsi/virtio-scsi.c         |  4 ++--
+ hw/scsi/vmw_pvscsi.c          |  3 +--
+ hw/sd/allwinner-sdhost.c      |  4 ++--
+ hw/sd/bcm2835_sdhost.c        |  4 ++--
+ hw/sd/pl181.c                 |  3 +--
+ hw/sd/pxa2xx_mmci.c           |  4 ++--
+ hw/sd/sdhci.c                 |  3 +--
+ hw/sd/ssi-sd.c                |  3 +--
+ hw/ssi/ssi.c                  |  2 +-
+ hw/usb/bus.c                  |  2 +-
+ hw/usb/dev-smartcard-reader.c |  3 +--
+ hw/usb/dev-storage-bot.c      |  3 +--
+ hw/usb/dev-storage-classic.c  |  4 ++--
+ hw/usb/dev-uas.c              |  3 +--
+ hw/virtio/virtio-mmio.c       |  3 +--
+ hw/virtio/virtio-pci.c        |  3 +--
+ hw/xen/xen-bus.c              |  2 +-
+ hw/xen/xen-legacy-backend.c   |  2 +-
+ 70 files changed, 156 insertions(+), 142 deletions(-)
+
+-- 
+2.20.1
 
 
