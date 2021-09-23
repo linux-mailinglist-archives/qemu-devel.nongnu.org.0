@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C806415F5A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 15:18:20 +0200 (CEST)
-Received: from localhost ([::1]:36812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E99415FFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 15:33:49 +0200 (CEST)
+Received: from localhost ([::1]:42134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTOcF-00078u-3c
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 09:18:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32994)
+	id 1mTOrE-0003RH-9S
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 09:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mTOZU-0004oe-U4
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 09:15:29 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37534)
+ id 1mTOoM-0002Lg-FH
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 09:30:50 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:43927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mTOZS-0006Wo-3H
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 09:15:28 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id t8so17145255wrq.4
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 06:15:25 -0700 (PDT)
+ id 1mTOoH-0006D4-I2
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 09:30:50 -0400
+Received: by mail-wr1-x430.google.com with SMTP id w17so17138369wrv.10
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 06:30:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Xjji1kXpZggLGs09kwCgKimL46h9GO6P+Iv0nOC7fxs=;
- b=sVIqFy18ym34fvvSOT6Zdm3V3xI2eEh+FEoXtNcCedkNQthopvcE5EsEsFRw+Gb6dk
- I/pKCtQ+30Hc9eDBU31Hp1dPMyyV9NKwlITaQAUfO3vdp66BchHU4GvpoiZjwe9O3DMD
- cTA/cM7Mh0QT7rBbJpk9yoFYALP9PrToFm1xS5Nzrq5hR7WKTBlwvZuHqe93FqvBvsLV
- xCU8bphoxorcu2+SzljB+9sTBGdMcqbHsYzjaVPAUbju8zJTLsAgVf8v+Fsfn+42n95W
- y4/TryLwULwN+PuKTi7sjDlUqr6bQCqt+8qKwSUGwJgod5Sjy65zb1gO7+w6dXbwEMRO
- n15Q==
+ :cc; bh=R72pwKKDq67KLf6mWS3a33RQNqgLdbVmda+g++lW8Po=;
+ b=vKxFaJqMjcs2u5m/gk+GTFvrWoUztnpvMGhUW0Gs9qpysDPfK/oNba2P7nUDSChtSc
+ gns58B4985wfiS+os8kSvebeLFXfDkRDLhEISZbMhHW4KqqtSp7OROzX77AgYhQQflat
+ 0riwYTJCz0kYyWgYJ86A1vGd7FCrEMNjfbitajkSHlwbwGseBDLsKXajvC/WqHBzYhKk
+ 4eYjW6ErJw5lLKVomgNF6fYJHTMjDqFj2lFvmAbW+Mnuw93Y/40b287bwgd2wSuD4m8J
+ ddccJadCsCvXIJwsILu4NAAvno9xBSmTbu+hnemBBp5HXIRU0ClRSmrhhZiJ2wm5kXnK
+ MQgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Xjji1kXpZggLGs09kwCgKimL46h9GO6P+Iv0nOC7fxs=;
- b=PT/UphHZNVByem+nKgwePvqpSKTwCkxseY3E+IMKloKYNyvFSz+S3LwrWnd7knxSH6
- ZDhOokrxODskMN0fi3ebWyEh19GH2buRr4fJ0r93FNltBFJ6c41kT6TEKEC7Ej89cPcP
- BjW4va1fxz5kfxCju+pNtrLZ5m5ZCg74LBLkYZx+pmQBZJ0hKK5wkPv4VlL77a/lyBYf
- RtBCBSEYvLsES1zB/MREa5rJ8esnVcV0IqZ5tI/ry+eM5sPQKCGF/ORDAP6uNTaobD9w
- Bfj4vcsAm0MKRJ5WTMtV4W1pii4okdh80NLhTcTEsl7b6n2wwpp5YnbO++zcUKUDvc4b
- QGCg==
-X-Gm-Message-State: AOAM532c4hPNU0mq0qA65PaFbYcqVPfaMIDMG1dX+Tm3GPExRM/3dnke
- hRPu+sMVCD+r9v7qnitdHam/iNf3zsQ/K1+0VjSexQ==
-X-Google-Smtp-Source: ABdhPJwg3mBNH1hXf7M09xqVdX+r5VwPhA6wBgqWHiKQEjpLZ5lGQWGCVpc9TqHK1CCBCR11q0ejQtkp5v59dmpEo9Q=
-X-Received: by 2002:a5d:59a4:: with SMTP id p4mr5143397wrr.149.1632402924096; 
- Thu, 23 Sep 2021 06:15:24 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=R72pwKKDq67KLf6mWS3a33RQNqgLdbVmda+g++lW8Po=;
+ b=FC+aYzHGuHg6ULOG0F5UJYNlaUJwVH4mRCdAfWTElplyxBi3SUqHHdqKzyhnTBXgfz
+ hVLYXhMJxBwj6X3NFrknQgUATV31g0/NVIbdWCb38OmXqMgtLBMvWQwUOQ4AujD8oW64
+ y7fIZ/+vwxoynb/tMTgqwE73IckhpyY3Y0eSYhFdy3QYR+KUPbyvXkrNHlYapX2QMFI9
+ ZUFLdApfwcIxtbYZtMF9R6L/7qPffSdHdah+upEAMZrodzI9mSx2H4yrxEhM+PZn+v6l
+ uCWVaaEBk4Fzkzzj1geoe+ZY4s1wIyCVVLG+1gAj8a3ElCKeJBt5mfiwGnIpCK2mTBp3
+ ezqg==
+X-Gm-Message-State: AOAM531qlrRwYGZBw/aRRPV9g4I6XUBBPVbYoijY5ZjEPVGpd2LTeU6D
+ 9ltSw7dpu8nVTKcLU1kgZ+hhR+hfdGOXCU9maWgHjQ==
+X-Google-Smtp-Source: ABdhPJy48n+Li9jrTapKCe+BWOMjQ/q6Dw4N5YBFBUuUNj4R9Z3AV47soBvmhhkOwH04wxx2dyNSO+ZHoLVHpcAdVvc=
+X-Received: by 2002:a5d:6b07:: with SMTP id v7mr5026142wrw.376.1632403843302; 
+ Thu, 23 Sep 2021 06:30:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190218140607.31998-1-armbru@redhat.com>
- <20190218140607.31998-19-armbru@redhat.com>
-In-Reply-To: <20190218140607.31998-19-armbru@redhat.com>
+References: <20210920122535.269988-1-eric.auger@redhat.com>
+In-Reply-To: <20210920122535.269988-1-eric.auger@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Sep 2021 14:14:31 +0100
-Message-ID: <CAFEAcA9tzLOwbzO56HjhPUM2yTT7xxfkkOYX3OHVfKT-UC14gA@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PULL 18/18] qapi: move RTC_CHANGE to the target
- schema
-To: Markus Armbruster <armbru@redhat.com>
+Date: Thu, 23 Sep 2021 14:29:50 +0100
+Message-ID: <CAFEAcA-8497+XS0PU3RAkGsrf7PGVm=oGymuHznE3iuopMHbKg@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/rtc/pl031: Send RTC_CHANGE QMP event
+To: Eric Auger <eric.auger@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,99 +75,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>, Gavin Shan <gshan@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Feb 2019 at 14:19, Markus Armbruster <armbru@redhat.com> wrote:
+On Mon, 20 Sept 2021 at 13:25, Eric Auger <eric.auger@redhat.com> wrote:
 >
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> The PL031 currently is not able to report guest RTC change to the QMP
+> monitor as opposed to mc146818 or spapr RTCs. This patch adds the call
+> to qapi_event_send_rtc_change() when the Load Register is written. The
+> value which is reported corresponds to the difference between the guest
+> reference time and the reference time kept in softmmu/rtc.c.
 >
-> A few targets don't emit RTC_CHANGE, we could restrict the event to
-> the tagets that do emit it.
+> For instance adding 20s to the guest RTC value will report 20. Adding
+> an extra 20s to the guest RTC value will report 20 + 20 = 40.
 >
-> Note: There is a lot more of events & commands that we could restrict
-> to capable targets, with the cost of some additional complexity, but
-> the benefit of added correctness and better introspection.
+> The inclusion of qapi/qapi-types-misc-target.h in hw/rtl/pl031.c
+> require to compile the PL031 with specific_ss.add() to avoid
+> ./qapi/qapi-types-misc-target.h:18:13: error: attempt to use poisoned
+> "TARGET_<ARCH>".
 >
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Message-Id: <20190214152251.2073-19-armbru@redhat.com>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Hi; I've just run into this starting from Eric's patch to add
-RTC_CHANGE event support to the pl031 RTC. It seems kind of
-awkward to me:
+Thanks. This looks plausible to me (well, it would ;-)) but
+I would appreciate review from Paolo or somebody else who
+understands the rtc_change feature and handling.
 
-> diff --git a/qapi/target.json b/qapi/target.json
-> index 5c41a0aee7..da7b4be51e 100644
-> --- a/qapi/target.json
-> +++ b/qapi/target.json
-> @@ -7,6 +7,29 @@
+> ---
 >
->  { 'include': 'misc.json' }
+> v1 -> v2:
+> - Use Peter's implementation and remove subsection
 >
-> +##
-> +# @RTC_CHANGE:
-> +#
-> +# Emitted when the guest changes the RTC time.
-> +#
-> +# @offset: offset between base RTC clock (as specified by -rtc base), an=
-d
-> +#          new RTC clock value
-> +#
-> +# Note: This event is rate-limited.
-> +#
-> +# Since: 0.13.0
-> +#
-> +# Example:
-> +#
-> +# <-   { "event": "RTC_CHANGE",
-> +#        "data": { "offset": 78 },
-> +#        "timestamp": { "seconds": 1267020223, "microseconds": 435656 } =
-}
-> +#
-> +##
-> +{ 'event': 'RTC_CHANGE',
-> +  'data': { 'offset': 'int' },
-> +  'if': 'defined(TARGET_ALPHA) || defined(TARGET_ARM) || defined(TARGET_=
-HPPA) || defined(TARGET_I386) || defined(TARGET_MIPS) || defined(TARGET_MIP=
-S64) || defined(TARGET_MOXIE) || defined(TARGET_PPC) || defined(TARGET_PPC6=
-4) || defined(TARGET_S390X) || defined(TARGET_SH4) || defined(TARGET_SPARC)=
-' }
+> Tested with the following script run on guest:
+>
+>   #!/bin/sh
+>   old=$(hwclock --show | cut -f1-7 -d' ')
+>   oldabs=$(date +%s -d "$old")
+>   newabs=$(expr $oldabs + $1)
+>   new=$(date -d @"$newabs")
+>   echo Old: $oldabs $old
+>   echo New: $newabs $new
+>   hwclock --set --date "$new"
+>
+> and compared with x86 behavior.
+> ---
+>  hw/rtc/meson.build |  2 +-
+>  hw/rtc/pl031.c     | 10 +++++++++-
+>  2 files changed, 10 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
+> index 7cecdee5ddb..8fd8d8f9a71 100644
+> --- a/hw/rtc/meson.build
+> +++ b/hw/rtc/meson.build
+> @@ -2,7 +2,7 @@
+>  softmmu_ss.add(when: 'CONFIG_DS1338', if_true: files('ds1338.c'))
+>  softmmu_ss.add(when: 'CONFIG_M41T80', if_true: files('m41t80.c'))
+>  softmmu_ss.add(when: 'CONFIG_M48T59', if_true: files('m48t59.c'))
+> -softmmu_ss.add(when: 'CONFIG_PL031', if_true: files('pl031.c'))
+> +specific_ss.add(when: 'CONFIG_PL031', if_true: files('pl031.c'))
+>  softmmu_ss.add(when: 'CONFIG_TWL92230', if_true: files('twl92230.c'))
+>  softmmu_ss.add(when: ['CONFIG_ISA_BUS', 'CONFIG_M48T59'], if_true: files('m48t59-isa.c'))
+>  softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP', if_true: files('xlnx-zynqmp-rtc.c'))
+> diff --git a/hw/rtc/pl031.c b/hw/rtc/pl031.c
+> index 2bbb2062ac8..e7ced90b025 100644
+> --- a/hw/rtc/pl031.c
+> +++ b/hw/rtc/pl031.c
+> @@ -24,6 +24,7 @@
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+>  #include "trace.h"
+> +#include "qapi/qapi-events-misc-target.h"
+>
+>  #define RTC_DR      0x00    /* Data read register */
+>  #define RTC_MR      0x04    /* Match register */
+> @@ -136,10 +137,17 @@ static void pl031_write(void * opaque, hwaddr offset,
+>      trace_pl031_write(offset, value);
+>
+>      switch (offset) {
+> -    case RTC_LR:
+> +    case RTC_LR: {
+> +        struct tm tm;
 > +
-
-Now we have a massive list of TARGET if conditions. As a general
-principle if we can avoid long TARGET if-lists we should, because
-it is yet another thing that needs updating when a new target
-is added. In this case any new architecture that can handle an
-ISA device would need to update this list. I pretty much guarantee
-nobody is going to remember to do that.
-
-It also doesn't actually usefully tell the thing on the other
-end whether it can expect to see RTC_CHANGE events, because
-whether it will actually get them depends not on the target
-architecture but on the specific combination of machine type
-and plugged-in devices. If there's a need for the other end of
-the QMP connection to tell in advance whether it's going to get
-RTC_CHANGE events then we should probably have an event or
-something for that, and make all rtc-change aware RTC devices
-cause QMP to send that event on startup (or otherwise register
-themselves as being present).
-
-It also means that now rtc devices that emit this event need to
-change in meson.build from softmmu_ss to specific_ss, because the
-qapi_event_send_rtc_change() prototype is in the generated
-qapi/qapi-events-misc-target.h header, and that header uses
-TARGET_* defines which are poisoned for softmmu compiles.
-So instead of being able to build the RTC device once for
-all targets, we need to build it over and over again for
-each target.
-
-Could we reconsider this change? It seems to me to be adding
-complexity and build time and I don't really see the advantage
-that compensates for that.
+>          s->tick_offset += value - pl031_get_count(s);
+> +
+> +        qemu_get_timedate(&tm, s->tick_offset);
+> +        qapi_event_send_rtc_change(qemu_timedate_diff(&tm));
+> +
+>          pl031_set_alarm(s);
+>          break;
+> +    }
+>      case RTC_MR:
+>          s->mr = value;
+>          pl031_set_alarm(s);
 
 -- PMM
 
