@@ -2,69 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3B8415CB3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 13:19:24 +0200 (CEST)
-Received: from localhost ([::1]:57874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159C2415CFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 13:44:40 +0200 (CEST)
+Received: from localhost ([::1]:38618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTMl9-0003eg-Kb
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 07:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38116)
+	id 1mTN9a-0002rQ-Lk
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 07:44:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTMjB-0002wt-EO
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:17:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52720)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTMj9-00033t-OG
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:17:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632395838;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nFLUBPLR/5htiRHFu2oLx0OhiNysRJN9MQ5XjABwLtI=;
- b=FCSSKkveMgEFCr3QS5ccrCQtZscGAOfUk4nMSVsr/VpEhB6KHOpTUSs+k+OkIIjc8lOmiQ
- RFS07VHoUj3a9qBGXP3FyubnJznRPM3qT0k/y+V5XJXdEM5GAa9rb14RQAG9g7LWAJ7ILj
- qDs5G2DcIdTzx5lfyCG+TSvbJ/u3uhs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-C4xZaJiMNBaVeAjjua0BJg-1; Thu, 23 Sep 2021 07:17:17 -0400
-X-MC-Unique: C4xZaJiMNBaVeAjjua0BJg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FDE41018720;
- Thu, 23 Sep 2021 11:17:16 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.235])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 311CE5FC13;
- Thu, 23 Sep 2021 11:17:15 +0000 (UTC)
-Date: Thu, 23 Sep 2021 13:17:13 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 2/6] iotests: add warning for rogue 'qemu' packages
-Message-ID: <YUxiOUTzEtNsiAI7@redhat.com>
-References: <20210923001625.3996451-1-jsnow@redhat.com>
- <20210923001625.3996451-3-jsnow@redhat.com>
- <YUxdjJnwhABAvfbR@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mTN5t-0001nO-32
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:40:50 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37599)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mTN5r-0006YR-69
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:40:48 -0400
+Received: by mail-wr1-x436.google.com with SMTP id t8so16353862wrq.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 04:40:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1tRyC4xj69pF8P0DcEwBTF/cCmmQ1WXOLn8J9OAcepE=;
+ b=h7VeZyoq6q4qf4a7QtaBS/VvJACL1JqUpsR3J1XKZue0Wf0Rd/ogK6HyuU8H8wUD/b
+ BLOpQe7WW1qVQpNIt+PxyGAUblWawC/jhoAs9rK04+4Ys/Gei2uEc4z1BuETFKGAsUkm
+ wxp8bxBG3tuyzqjW+pN9C2Y/HNSs8J+o1Uhg7ON0OSMN9u6PiM2Z9aYHe2Ot2JSn2O0U
+ FaaxTKc/sj02TGWkjXcLZyKCnF7S8+I+Ed3TJBhZGfRest/sd25UOB848qHs9T9rkRPG
+ 9ACgcDDdSCME2nG4eEllvI3PQAqwCFTWoTw8ksrWJUrNx0H9RZcVqDT3ODSQD/u42DNQ
+ IU6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1tRyC4xj69pF8P0DcEwBTF/cCmmQ1WXOLn8J9OAcepE=;
+ b=NpKM4/UyB1SyLa1FPcYwKF0EOzjGg5kxbyni7AGVg3o8UQthMgAc2RlFmSnzFP+Ixg
+ 1IHkbOD9cQqSkpR6fwL5pVW9FWmSk8roH1Y8JLTlHcZUuHQUM31B2uhJ5WMG7aF6/RlI
+ /y1AWoM7gED2x76YuF2ikCPDK+wL8v9e/ReCHVZO+vShFzBhFe+vsH5IsbfX9/DC5vvJ
+ AUdw0wVDk60g4eCKhBgO2Xnq7Jiq/4d3NnfHYsulczeX9T5M1Rs3ki3H4pRyNwn7R5IR
+ 8Ve94G0WH7ai2lll8kyKs8xdgVUUb/ZLkhCArTn+3U9MLcqPLRPcfTBBDEecyWYJLkeG
+ UvpA==
+X-Gm-Message-State: AOAM530RkLj9YXPP127Tp6Z7V5kVk0HWEwkTVeMRu6VVcE/V9W27/m8Y
+ JBzpqgkMkYeEBY27CxlxeJAsllK2+7g=
+X-Google-Smtp-Source: ABdhPJzlmiwrVFnO25LPW0vp+FZ/9v4aXWWANr6LxyBD5PLTZDGxLDctZzJ/gH4Oy1fbGkyB0TPdsA==
+X-Received: by 2002:a5d:59ae:: with SMTP id p14mr4657221wrr.278.1632397244238; 
+ Thu, 23 Sep 2021 04:40:44 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id k17sm10852185wmj.0.2021.09.23.04.40.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Sep 2021 04:40:43 -0700 (PDT)
+Subject: Re: [PATCH] tests: qtest: bios-tables-test depends on the unpacked
+ edk2 ROMs
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210923081555.3648310-1-pbonzini@redhat.com>
+ <YUw5Pglv2lcS2Nz6@redhat.com>
+ <aac1894b-e515-cbc7-5b51-aaddc6fc3de4@amsat.org>
+ <02853d4e-a708-5141-f38b-0dd48329f305@redhat.com>
+ <CAFEAcA--6NfnjuY46LbTmpQ6as+uaxQ0aaMwAOUJ4CHaR4xnsg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <47fe32de-e796-bea9-b295-064fdcfeed24@redhat.com>
+Date: Thu, 23 Sep 2021 13:40:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YUxdjJnwhABAvfbR@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA--6NfnjuY46LbTmpQ6as+uaxQ0aaMwAOUJ4CHaR4xnsg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,107 +93,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.09.2021 um 12:57 hat Kevin Wolf geschrieben:
-> Am 23.09.2021 um 02:16 hat John Snow geschrieben:
-> > Add a warning for when 'iotests' runs against a qemu namespace that
-> > isn't the one in the source tree. This might occur if you have
-> > (accidentally) installed the Python namespace package to your local
-> > packages.
-> > 
-> > (I'm not going to say that this is because I bit myself with this,
-> > but. You can fill in the blanks.)
-> > 
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >  tests/qemu-iotests/testenv.py | 21 ++++++++++++++++++++-
-> >  1 file changed, 20 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-> > index 88104dace90..8a43b193af5 100644
-> > --- a/tests/qemu-iotests/testenv.py
-> > +++ b/tests/qemu-iotests/testenv.py
-> > @@ -16,6 +16,8 @@
-> >  # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> >  #
-> >  
-> > +import importlib.util
-> > +import logging
-> >  import os
-> >  import sys
-> >  import tempfile
-> > @@ -25,7 +27,7 @@
-> >  import random
-> >  import subprocess
-> >  import glob
-> > -from typing import List, Dict, Any, Optional, ContextManager
-> > +from typing import List, Dict, Any, Optional, ContextManager, cast
-> >  
-> >  DEF_GDB_OPTIONS = 'localhost:12345'
-> >  
-> > @@ -112,6 +114,22 @@ def init_directories(self) -> None:
-> >          # Path where qemu goodies live in this source tree.
-> >          qemu_srctree_path = Path(__file__, '../../../python').resolve()
-> >  
-> > +        # warn if we happen to be able to find 'qemu' packages from an
-> > +        # unexpected location (i.e. the package is already installed in
-> > +        # the user's environment)
-> > +        qemu_spec = importlib.util.find_spec('qemu.qmp')
-> > +        if qemu_spec:
-> > +            spec_path = Path(cast(str, qemu_spec.origin))
+On 23/09/21 12:44, Peter Maydell wrote:
+> On Thu, 23 Sept 2021 at 11:32, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> On 23/09/21 12:00, Philippe Mathieu-Daudé wrote:
+>>> See also "blobs: Only install required (system emulation) files":
+>>> https://lore.kernel.org/qemu-devel/20210323155132.238193-1-f4bug@amsat.org/
+>>
+>> Nice and makes a lot of sense.  Regarding "there is probably a nicer way
+>> to do this with Meson", I would do without all the variables and do
+>> something like
+>>
+>> foreach target : target_dirs
+>>     if target in ['...']
+>>       blobs_ss.add('...')
+>>     elif target in ['...']
+>>       blobs_ss.add('...')
+>>     endif
+>> endforeach
+>>
+>> directly in pc-bios/meson.build.
 > 
-> You're casting Optional[str] to str here. The source type is not obvious
-> from the local code, so unless you spend some time actively figuring it
-> out, this could be casting anything to str. But even knowing this, just
-> casting Optional away looks fishy anyway.
-> 
-> Looking up the ModuleSpec docs, it seems okay to assume that it's never
-> None in our case, but wouldn't it be much cleaner to just 'assert
-> qemu_spec.origin' first and then use it without the cast?
-> 
-> > +            try:
-> > +                _ = spec_path.relative_to(qemu_srctree_path)
-> > +            except ValueError:
-> > +                self._logger.warning(
-> > +                    "WARNING: 'qemu' package will be imported from outside "
-> > +                    "the source tree!")
-> > +                self._logger.warning(
-> > +                    "Importing from: '%s'",
-> > +                    spec_path.parents[1])
-> > +
-> >          self.pythonpath = os.getenv('PYTHONPATH')
-> >          self.pythonpath = os.pathsep.join(filter(None, (
-> >              self.source_iotests,
-> > @@ -231,6 +249,7 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
-> >  
-> >          self.build_root = os.path.join(self.build_iotests, '..', '..')
-> >  
-> > +        self._logger = logging.getLogger('qemu.iotests')
-> >          self.init_directories()
-> >          self.init_binaries()
-> 
-> Looks good otherwise.
+> Is it possible also to have meson handle the "symlink the blob from
+> the source dir to the build dir" which currently configure is doing ?
 
-Well, actually there is a major problem: We'll pass the right PYTHONPATH
-for the test scripts that we're calling, but this script itself doesn't
-use it yet. So what I get is:
+Yes, though I would have to check the details on how to do that best 
+(for example whether to keep them at configure time or move them to make).
 
-Traceback (most recent call last):
-  File "/home/kwolf/source/qemu/tests/qemu-iotests/build/check", line 120, in <module>
-    env = TestEnv(imgfmt=args.imgfmt, imgproto=args.imgproto,
-  File "/home/kwolf/source/qemu/tests/qemu-iotests/testenv.py", line 253, in __init__
-    self.init_directories()
-  File "/home/kwolf/source/qemu/tests/qemu-iotests/testenv.py", line 120, in init_directories
-    qemu_spec = importlib.util.find_spec('qemu.qmp')
-  File "/usr/lib64/python3.9/importlib/util.py", line 94, in find_spec
-    parent = __import__(parent_name, fromlist=['__path__'])
-ModuleNotFoundError: No module named 'qemu'
+By the way, I think a lot of the DIRS in configure are not needed 
+anymore; meson would create them anyway and they're not needed by the 
+LINKS loop below.
 
-Kevin
+> That would mean we could avoid having effectively two lists of blobs.
+> (Somebody would need to cross-check that all the blobs the wildcards in
+> configure are linking in are listed in the meson list.) I guess
+> the question is whether other parts of the build system assume those
+> links already exist (ie they don't explicitly declare a dependency
+> on the existence of the blob and would need to change to do so).
 
+Yeah, that's also why in my patch I didn't bother adding the roms 
+dependency to bios-tables-test only.  It's less prone to failure if 
+they're just built before any qtest is run.
+
+Paolo
 
