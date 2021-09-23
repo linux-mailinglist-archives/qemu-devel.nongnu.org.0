@@ -2,73 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0954415E54
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 14:27:29 +0200 (CEST)
-Received: from localhost ([::1]:42476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E71D415E6F
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 14:32:02 +0200 (CEST)
+Received: from localhost ([::1]:47518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTNp3-0002QZ-0K
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 08:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48230)
+	id 1mTNtR-0006Dg-LN
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 08:32:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mTNaB-0008GX-KN
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 08:12:07 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35334)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mTNa8-00008G-Ba
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 08:12:07 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id i23so16659969wrb.2
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 05:12:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=llOJ3+sWfZF3I0x4y3OCKjWL0ARmRV+YWlNErkdm1GY=;
- b=g9CRrAS8ZzgFInaTHnbaVQza+Jtg76O7UyX/8p7fO/OhPbOp1yC3jhbSBL6J/Ufy7G
- vscd+I+4diTjoGWenv4KQoqIXhp2E5XevbqbqYjGoaDLTDny6eQUFNCYYDDK46z5tt/Q
- 9A8OLGThNZGaqkOuv68ZDMtg93TK+EcWRmTDYa7a3N2FsM7kAoacuKam6Wk9rbg9/O1A
- 1TU50/tzOPc/JqyRmmwO/TnxQqxyQQcuIqsM3l0BY8Xc7Ngk2qEVErLRHfc5vKj8EgMh
- s00BukjKzBx+TMzYm0d+wiNKgprRruSgAazBAuOSttwCsoY8JXvx990IMBw73/8i7r1o
- Xpbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=llOJ3+sWfZF3I0x4y3OCKjWL0ARmRV+YWlNErkdm1GY=;
- b=pFrT8qUASJWD6NFZ/BhzVhPXcfHjV+h3VjA8lPa4EW5VmNwg+S/W5NanpXGMEFdtUX
- L8J4Q7yuRbrXoP2KmWrdPTGHJcL/7A0GMf7x/KxDoCt7yNOt4jx56rONI2JdI0P6MNyo
- xxVQA0TVW6b6OU+Yde5ITUqF0J+26O5JlXpP4+2Uv4bINO2xqNesg1ICNUPHC5kAr6oa
- V0n53vGsvLqcqqW+G3ZCNINQf77YL9HtU6X0+eiEdWjjw+n+QrZDN/pLsqaIQ2Bby/tT
- WXBZjsOjWb+iMRBQJ5Net675nLG4ZyT0qhygEGpLzIUcDLjEMb6Rk06mYq5hrXQVQW9o
- lamg==
-X-Gm-Message-State: AOAM530JnlRJiB9mR+1Q5PE9aET1WNyL/boseCp2bPEd3B0PCaK9SsDg
- IklElPxV00tmqmksSfuabcvi1VY5Uh7mow==
-X-Google-Smtp-Source: ABdhPJy34Zp6nxcOJC6DAvyMARdZwGMFJII5x9CmJPJej5mtIlHc34CfyBsth3qbIRVNMl8+4YLF/Q==
-X-Received: by 2002:adf:e447:: with SMTP id t7mr4775225wrm.221.1632399122999; 
- Thu, 23 Sep 2021 05:12:02 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t22sm1382349wmj.30.2021.09.23.05.12.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Sep 2021 05:12:02 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] ide: Rename ide_bus_new() to ide_bus_init()
-Date: Thu, 23 Sep 2021 13:11:53 +0100
-Message-Id: <20210923121153.23754-7-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210923121153.23754-1-peter.maydell@linaro.org>
-References: <20210923121153.23754-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mTNbU-0001Ku-Us; Thu, 23 Sep 2021 08:13:28 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30778
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mTNbS-0001DN-Vd; Thu, 23 Sep 2021 08:13:28 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18NBUZjK019088; 
+ Thu, 23 Sep 2021 08:13:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=iGaJcK7YZWYnXEW6OrwmWuH08E8OIj77vNYI/KxKn/k=;
+ b=hojDevJRQzDRZRaoQBW0gyCXQHwbCWCcYymh9+e0FR8pOgbi8huJc9kbnSnX7kkP120V
+ m1NEN8mubcrGbVgxsR+ADMM9GtSt+ah+DGKhdmW8F6vS4Ss6H/Y0XuG9kIl0fNwgFz5y
+ JNN+ARihpVHvQJ7JPbuGtjR6tE4big00+i+CUJrPNbVhGzHAt9N/S7fpmkUkyjR/MBzS
+ TJtFyjObQld62kVeqaTVvAC/vPYSiLTN51X693acHvZtWQwN7o0F2LEJM20PxFGo0eE+
+ L/IsDW6IJrGT1XIdhInIco5cFZlao7X7V9/ro9Mn5P0IHok05bB8zEb4q0ExjlVvDnub pQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3b8p4gmxn4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 08:13:24 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18NBERLh012260;
+ Thu, 23 Sep 2021 08:13:23 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3b8p4gmxmm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 08:13:23 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18NCC5cR014703;
+ Thu, 23 Sep 2021 12:13:21 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma04ams.nl.ibm.com with ESMTP id 3b7q6ra0rh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 12:13:21 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 18NCDHvv64422250
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Sep 2021 12:13:17 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6293442047;
+ Thu, 23 Sep 2021 12:13:17 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9570A4204B;
+ Thu, 23 Sep 2021 12:13:16 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.13.138])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 23 Sep 2021 12:13:16 +0000 (GMT)
+Date: Thu, 23 Sep 2021 14:13:14 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 18/28] file-posix: try BLKSECTGET on block devices too,
+ do not round to power of 2
+Message-ID: <20210923141314.352fbf75.pasic@linux.ibm.com>
+In-Reply-To: <ba39ff70-9f0a-1e90-a626-c001e6f7f741@redhat.com>
+References: <20210625141822.1368639-1-pbonzini@redhat.com>
+ <20210625141822.1368639-19-pbonzini@redhat.com>
+ <20210906162420.5af35eb9.pasic@linux.ibm.com>
+ <20210922215143.7f289016.pasic@linux.ibm.com>
+ <ba39ff70-9f0a-1e90-a626-c001e6f7f741@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Imi0f2AlZgd7l9KmkpxHdKLEtqtDQRnD
+X-Proofpoint-GUID: dECsrERLvJMewso5GX7FVIuvsI5-fo6Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-23_04,2021-09-23_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 spamscore=0
+ impostorscore=0 mlxscore=0 phishscore=0 clxscore=1015 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109200000 definitions=main-2109230076
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,178 +115,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Alberto Garcia <berto@igalia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:AIO" <linux-aio@kvack.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Hoeppner <Jan.Hoeppner@de.ibm.com>, Stefan Haberland <sth@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function ide_bus_new() does an in-place initialization.  Rename
-it to ide_bus_init() to follow our _init vs _new convention.
+On Thu, 23 Sep 2021 12:57:38 +0200
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/ide/internal.h | 4 ++--
- hw/ide/ahci.c             | 2 +-
- hw/ide/cmd646.c           | 2 +-
- hw/ide/isa.c              | 2 +-
- hw/ide/macio.c            | 2 +-
- hw/ide/microdrive.c       | 2 +-
- hw/ide/mmio.c             | 2 +-
- hw/ide/piix.c             | 2 +-
- hw/ide/qdev.c             | 2 +-
- hw/ide/sii3112.c          | 2 +-
- hw/ide/via.c              | 2 +-
- 11 files changed, 12 insertions(+), 12 deletions(-)
+> On 22/09/21 21:51, Halil Pasic wrote:
+> > We have figured out what is going on here. The problem seems to be
+> > specific to linux aio, which seems to limit the size of the iovec to
+> > 1024 (UIO_MAXIOV).  
+> 
+> Hi Halil,
+> 
+> I'll send a patch shortly to fix this issue.  Sorry about the delay as I 
+> was busy with KVM Forum and all that. :(
 
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 79172217ccb..97e7e59dc58 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -648,8 +648,8 @@ void ide_atapi_cmd(IDEState *s);
- void ide_atapi_cmd_reply_end(IDEState *s);
- 
- /* hw/ide/qdev.c */
--void ide_bus_new(IDEBus *idebus, size_t idebus_size, DeviceState *dev,
--                 int bus_id, int max_units);
-+void ide_bus_init(IDEBus *idebus, size_t idebus_size, DeviceState *dev,
-+                  int bus_id, int max_units);
- IDEDevice *ide_create_drive(IDEBus *bus, int unit, DriveInfo *drive);
- 
- int ide_handle_rw_error(IDEState *s, int error, int op);
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index f2c51574839..a94c6e26fb0 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -1548,7 +1548,7 @@ void ahci_realize(AHCIState *s, DeviceState *qdev, AddressSpace *as, int ports)
-     for (i = 0; i < s->ports; i++) {
-         AHCIDevice *ad = &s->dev[i];
- 
--        ide_bus_new(&ad->port, sizeof(ad->port), qdev, i, 1);
-+        ide_bus_init(&ad->port, sizeof(ad->port), qdev, i, 1);
-         ide_init2(&ad->port, irqs[i]);
- 
-         ad->hba = s;
-diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
-index c2546314855..94c576262c1 100644
---- a/hw/ide/cmd646.c
-+++ b/hw/ide/cmd646.c
-@@ -293,7 +293,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
- 
-     qdev_init_gpio_in(ds, cmd646_set_irq, 2);
-     for (i = 0; i < 2; i++) {
--        ide_bus_new(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
-+        ide_bus_init(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
-         ide_init2(&d->bus[i], qdev_get_gpio_in(ds, i));
- 
-         bmdma_init(&d->bus[i], &d->bmdma[i], d);
-diff --git a/hw/ide/isa.c b/hw/ide/isa.c
-index 6bc19de2265..24bbde24c2b 100644
---- a/hw/ide/isa.c
-+++ b/hw/ide/isa.c
-@@ -73,7 +73,7 @@ static void isa_ide_realizefn(DeviceState *dev, Error **errp)
-     ISADevice *isadev = ISA_DEVICE(dev);
-     ISAIDEState *s = ISA_IDE(dev);
- 
--    ide_bus_new(&s->bus, sizeof(s->bus), dev, 0, 2);
-+    ide_bus_init(&s->bus, sizeof(s->bus), dev, 0, 2);
-     ide_init_ioport(&s->bus, isadev, s->iobase, s->iobase2);
-     isa_init_irq(isadev, &s->irq, s->isairq);
-     ide_init2(&s->bus, s->irq);
-diff --git a/hw/ide/macio.c b/hw/ide/macio.c
-index b270a101632..b03d401ceb5 100644
---- a/hw/ide/macio.c
-+++ b/hw/ide/macio.c
-@@ -449,7 +449,7 @@ static void macio_ide_initfn(Object *obj)
-     SysBusDevice *d = SYS_BUS_DEVICE(obj);
-     MACIOIDEState *s = MACIO_IDE(obj);
- 
--    ide_bus_new(&s->bus, sizeof(s->bus), DEVICE(obj), 0, 2);
-+    ide_bus_init(&s->bus, sizeof(s->bus), DEVICE(obj), 0, 2);
-     memory_region_init_io(&s->mem, obj, &pmac_ide_ops, s, "pmac-ide", 0x1000);
-     sysbus_init_mmio(d, &s->mem);
-     sysbus_init_irq(d, &s->real_ide_irq);
-diff --git a/hw/ide/microdrive.c b/hw/ide/microdrive.c
-index 58a14fea363..6df9b4cbbe1 100644
---- a/hw/ide/microdrive.c
-+++ b/hw/ide/microdrive.c
-@@ -605,7 +605,7 @@ static void microdrive_init(Object *obj)
- {
-     MicroDriveState *md = MICRODRIVE(obj);
- 
--    ide_bus_new(&md->bus, sizeof(md->bus), DEVICE(obj), 0, 1);
-+    ide_bus_init(&md->bus, sizeof(md->bus), DEVICE(obj), 0, 1);
- }
- 
- static void microdrive_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/ide/mmio.c b/hw/ide/mmio.c
-index 36e2f4790ab..fb2ebd4847f 100644
---- a/hw/ide/mmio.c
-+++ b/hw/ide/mmio.c
-@@ -142,7 +142,7 @@ static void mmio_ide_initfn(Object *obj)
-     SysBusDevice *d = SYS_BUS_DEVICE(obj);
-     MMIOState *s = MMIO_IDE(obj);
- 
--    ide_bus_new(&s->bus, sizeof(s->bus), DEVICE(obj), 0, 2);
-+    ide_bus_init(&s->bus, sizeof(s->bus), DEVICE(obj), 0, 2);
-     sysbus_init_irq(d, &s->irq);
- }
- 
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index d3e738320be..ce89fd0aa36 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -137,7 +137,7 @@ static int pci_piix_init_ports(PCIIDEState *d)
-     int i, ret;
- 
-     for (i = 0; i < 2; i++) {
--        ide_bus_new(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
-+        ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
-         ret = ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
-                               port_info[i].iobase2);
-         if (ret) {
-diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-index ca844419106..618045b85ac 100644
---- a/hw/ide/qdev.c
-+++ b/hw/ide/qdev.c
-@@ -68,7 +68,7 @@ static const TypeInfo ide_bus_info = {
-     .class_init = ide_bus_class_init,
- };
- 
--void ide_bus_new(IDEBus *idebus, size_t idebus_size, DeviceState *dev,
-+void ide_bus_init(IDEBus *idebus, size_t idebus_size, DeviceState *dev,
-                  int bus_id, int max_units)
- {
-     qbus_init(idebus, idebus_size, TYPE_IDE_BUS, dev, NULL);
-diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
-index 34c347b9c20..46204f10d75 100644
---- a/hw/ide/sii3112.c
-+++ b/hw/ide/sii3112.c
-@@ -283,7 +283,7 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
- 
-     qdev_init_gpio_in(ds, sii3112_set_irq, 2);
-     for (i = 0; i < 2; i++) {
--        ide_bus_new(&s->bus[i], sizeof(s->bus[i]), ds, i, 1);
-+        ide_bus_init(&s->bus[i], sizeof(s->bus[i]), ds, i, 1);
-         ide_init2(&s->bus[i], qdev_get_gpio_in(ds, i));
- 
-         bmdma_init(&s->bus[i], &s->bmdma[i], s);
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index be09912b334..94cc2142c70 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -190,7 +190,7 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
- 
-     qdev_init_gpio_in(ds, via_ide_set_irq, 2);
-     for (i = 0; i < 2; i++) {
--        ide_bus_new(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
-+        ide_bus_init(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
-         ide_init2(&d->bus[i], qdev_get_gpio_in(ds, i));
- 
-         bmdma_init(&d->bus[i], &d->bmdma[i], d);
--- 
-2.20.1
+Hi Paolo!
+
+With some guidance I could cook up a patch myself. But if you prefer to
+do it yourself, I will be glad to test the fix (please put me on cc).
+Thanks!
+
+Regards,
+Halil
 
 
