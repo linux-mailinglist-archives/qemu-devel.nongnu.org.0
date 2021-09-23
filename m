@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A274C4161AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 17:03:54 +0200 (CEST)
-Received: from localhost ([::1]:52494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FDC4161B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 17:06:13 +0200 (CEST)
+Received: from localhost ([::1]:57822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTQGP-0003Ro-Oi
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 11:03:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58860)
+	id 1mTQIe-00073H-Tq
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 11:06:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mTQDQ-00015k-4G; Thu, 23 Sep 2021 11:00:48 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:48405)
+ id 1mTQGS-00053M-1p; Thu, 23 Sep 2021 11:03:57 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:35387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mTQDM-0001rz-Dy; Thu, 23 Sep 2021 11:00:47 -0400
+ id 1mTQGQ-0004Qg-EM; Thu, 23 Sep 2021 11:03:55 -0400
 Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MTzve-1mLH1z3qyY-00R19F; Thu, 23 Sep 2021 17:00:38 +0200
-Subject: Re: [PATCH] hw/loader: Restrict PC_ROM_* definitions to hw/i386/pc
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210917185949.2244956-1-philmd@redhat.com>
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M1aQN-1mS3Lz200R-0038b2; Thu, 23 Sep 2021 17:03:48 +0200
+Subject: Re: [PATCH 1/2] hmp: Unbreak "change vnc"
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210909081219.308065-1-armbru@redhat.com>
+ <20210909081219.308065-2-armbru@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <d9193d22-a4c7-65bc-fefa-f8abb02deb07@vivier.eu>
-Date: Thu, 23 Sep 2021 17:00:36 +0200
+Message-ID: <2a2a7d19-d5c5-5ca3-184d-baf450b840ff@vivier.eu>
+Date: Thu, 23 Sep 2021 17:03:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210917185949.2244956-1-philmd@redhat.com>
+In-Reply-To: <20210909081219.308065-2-armbru@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:00Kop89YZIQy/FpBBM4YhA9//IYYcQRGFSEatfkrYf44hBkyzut
- 1tAgAUY3zOFp0GB3WH90nprR1mRBvnSwolkxZn3K1nqorJLPqvtl3s7Q0ZdtKjAwkS0EOcv
- z13yRNnrValqjAEE2u7WBM81vi0sHCjVGCysTfQImL3K+z5by7fAT9ObMAuoc0L670JUSup
- 8pcy48nTqAa/oSmJR6PHw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9w+j3rXzHd4=:haIblm71p5Uu9JNv5ZGLh3
- KKuEPZ2AryDmhbbmwfVxqYBOKCl48FFp0zGxEP1MjS9HmXwuDEYQzlVQrstmk2pjEDzxOF7eq
- QbIzRMJ6wv4JEd30eGokxoPKEtDbSTNBQV/1O5FN4OGY/iipVXpPjqcZTqL7gigDlNXBwOlJH
- GVPc7KMM8e6hxefi2VIyf1XRHY116rjpNbYl8VmU+V/n7r94cEPgYOfTuqNR/f3mFFkyTtEnE
- aX9FDIfOm1Vzn+R1ZEshWfgud/ki8DKkArGvkYKXdc0yL8nO44hLHVymwXcs3SmQGMQ1HqjTs
- mnczVTNL/sLZQzrqdzNJ7tilWuS+DVMXUDbnQmpIN/wOauPjkz6+1BZ5R6wEytuhFCxrq46Nd
- ckraD3Ag8ArRE4hakRhB5CE+rF0kjMXzpX+bd/kz3UfhT2K0whSRfIzErRi2mnu5EonvOsnzl
- bXfbnP6RdjF78+0L85w5zcEIgUC1t91w5K4Ms9B1iYK0pZ2MbKGHx9WMpBgUbkf0W/E/8j0N1
- a/DCnAsp/ujdXkAynfN0kffugtiqir5lA7n9SlRrfBqkzKlVt6pn5eNFLD3zvjcUAJuFhVfdF
- MDt2mhPzS4nqmntEfSrBXG9liM6HfuY0ToUK+1FeXsARQVvRmO3RgT/oFihqW9IiTnwliVQaf
- KNIYVbcJXhZV1CcHtLa+zYhTuIVLQpJAeYqxmZshYomUu4uX7mqfF/LGohhR9zaStoQy7nwJ5
- CZhwNpX1Wv6koy1tGezkqFA2aMoy/L4lqz7ORw==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:NXZH6PEuGnHo2hCBh5NIk/cVoOYz3/cqk/54h8sKocMA8uXoN63
+ /7OSiwibtgXar793p2VUuflYPEgtcAnP6aE2jYUWFeEzEuEmIiAmeO69vXHPMUqyZbjpvCW
+ StZrvPVr6kOIElsbXF0WXOpdvTTT8XqxZTGnEQdqqWeCbSCzOHfb9Xow4cgYsOlaRJ2pWil
+ MrxD2vjGFpvpguRT2wV7g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+3uL7yUPwt4=:ETnySxqJmK2cRTluy8fPAe
+ /PrVWX/2Y9D1Hikj8rTAFCOopylQ+sjGURxNRCNeOHTjtUzgaQvG6pHeyRProQB4z2BmLZiJ0
+ OxVNppRpdS+GNwcSdPsAmIotWGJzl5v3BctuFEMOcPVPwbruCagpa2kAVfWa/Pk14gShKakZu
+ wUBA6gjD95s4/y3WVole+4N5wCZ50YObyZDxeOGro/yq5virGiA7bs19r0nAaB5gd8h9lLNg3
+ F+/6/cQk/KUm+/1+lRQqcGmDI1InigneNKK5HUN3nkZ9+m9UR5EH6VouapPJ0ErtT+eXDzU0D
+ uBjawplsBvvXidtRDYx2IagYiwl+2Z5kEbQCyKHl+cqv6C4pSZZa8/JONVGKhBvwL7cLqb3Zm
+ PxFwNdivWBLgqlkHMHNhab6O15lF640rMPRBOohh8rKsjR37PNjvFCotNQJVTYe5pdf+ODgfX
+ AroZLVFYJU3tfLqmSbW5ybE10KIJ9RKPfHpw+FR3+DZkeUxAjGZMROiH+M5ERZ9KYMc9u7O85
+ N94UkGcP1Z0/GSS8cSUaj4955EDgnJcaaBSG+jNji6w8OjxhWbYRWVi4q38OxwCMwkV+4n9QK
+ wuPP1+5NqHzdTy6Hd6G8HwSIaw+SznfXparL8FI0p39tyaK3ZYuAyT3ytXq5bSiUBbjhOzOFP
+ 9LFzP2g6X3FSIKcbpVgTpa9rL5Bst0XQp1+Hdt2U+zH41/9cRqNNoAHFGuGkW/8sbLvTnL/+4
+ H1izDHtjI0A4Dq6/YmovhlfDOn8zGFB2ZkwI+A==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,58 +70,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>, pbonzini@redhat.com,
+ kraxel@redhat.com, qemu-stable@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/09/2021 à 20:59, Philippe Mathieu-Daudé a écrit :
-> The PC_ROM_* definitions are only used by the PC machine,
-> and are irrelevant to the other architectures / machines.
-> Reduce their scope by moving them to hw/i386/pc.c.
+Le 09/09/2021 à 10:12, Markus Armbruster a écrit :
+> HMP command "change vnc" can take the password as argument, or prompt
+> for it:
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>     (qemu) change vnc password 123
+>     (qemu) change vnc password
+>     Password: ***
+>     (qemu)
+> 
+> This regressed in commit cfb5387a1d "hmp: remove "change vnc TARGET"
+> command", v6.0.0.
+> 
+>     (qemu) change vnc passwd 123
+>     Password: ***
+>     (qemu) change vnc passwd
+>     (qemu)
+> 
+> The latter passes NULL to qmp_change_vnc_password(), which is a no-no.
+> Looks like it puts the display into "password required, but none set"
+> state.
+> 
+> The logic error is easy to miss in review, but testing should've
+> caught it.
+> 
+> Fix the obvious way.
+> 
+> Fixes: cfb5387a1de2acda23fb5c97d2378b9e7ddf8025
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  include/hw/loader.h | 6 ------
->  hw/i386/pc.c        | 6 ++++++
->  2 files changed, 6 insertions(+), 6 deletions(-)
+>  monitor/hmp-cmds.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/include/hw/loader.h b/include/hw/loader.h
-> index cbfc1848737..81104cb02fe 100644
-> --- a/include/hw/loader.h
-> +++ b/include/hw/loader.h
-> @@ -336,12 +336,6 @@ void hmp_info_roms(Monitor *mon, const QDict *qdict);
->  #define rom_add_blob_fixed_as(_f, _b, _l, _a, _as)      \
->      rom_add_blob(_f, _b, _l, _l, _a, NULL, NULL, NULL, _as, true)
->  
-> -#define PC_ROM_MIN_VGA     0xc0000
-> -#define PC_ROM_MIN_OPTION  0xc8000
-> -#define PC_ROM_MAX         0xe0000
-> -#define PC_ROM_ALIGN       0x800
-> -#define PC_ROM_SIZE        (PC_ROM_MAX - PC_ROM_MIN_VGA)
-> -
->  int rom_add_vga(const char *file);
->  int rom_add_option(const char *file, int32_t bootindex);
->  
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 7e523b913ca..557d49c9f8f 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -843,6 +843,12 @@ void xen_load_linux(PCMachineState *pcms)
->      x86ms->fw_cfg = fw_cfg;
->  }
->  
-> +#define PC_ROM_MIN_VGA     0xc0000
-> +#define PC_ROM_MIN_OPTION  0xc8000
-> +#define PC_ROM_MAX         0xe0000
-> +#define PC_ROM_ALIGN       0x800
-> +#define PC_ROM_SIZE        (PC_ROM_MAX - PC_ROM_MIN_VGA)
-> +
->  void pc_memory_init(PCMachineState *pcms,
->                      MemoryRegion *system_memory,
->                      MemoryRegion *rom_memory,
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index e00255f7ee..a7e197a90b 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -1496,7 +1496,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+>          }
+>          if (strcmp(target, "passwd") == 0 ||
+>              strcmp(target, "password") == 0) {
+> -            if (arg) {
+> +            if (!arg) {
+>                  MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
+>                  monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
+>                  return;
 > 
 
 Applied to my trivial-patches branch.
