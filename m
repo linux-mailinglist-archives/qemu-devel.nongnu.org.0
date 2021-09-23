@@ -2,64 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B31415B9F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 12:00:51 +0200 (CEST)
-Received: from localhost ([::1]:48588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C32415BB2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 12:03:26 +0200 (CEST)
+Received: from localhost ([::1]:53736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTLX8-00033S-2c
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 06:00:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52138)
+	id 1mTLZc-0006g4-2e
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 06:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTLTS-0006iS-BU
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 05:57:02 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:43207)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTLTQ-0001nS-Aq
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 05:57:02 -0400
-Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MKMIR-1m9Bcm3ouF-00Ljz4; Thu, 23 Sep 2021 11:56:56 +0200
-Subject: Re: [PATCH] docs/nvdimm: Update nvdimm option value in machine example
-To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-References: <20210726071145.150832-1-pankaj.gupta.linux@gmail.com>
- <CAM9Jb+iukn4hszakOnGEgECpFyi0rZWp4FUx-MU+T_KdYd=GZQ@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <60e82b5e-4664-6969-0776-d87f73b6527b@vivier.eu>
-Date: Thu, 23 Sep 2021 11:56:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mTLWg-0004Iw-KG
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:00:26 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mTLWd-0004lU-EY
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:00:22 -0400
+Received: by mail-wr1-x436.google.com with SMTP id q11so15465498wrr.9
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 03:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=QoJUiTYXu267JmroK1OYx3UsmDzuSTP5fsLeIy6839w=;
+ b=UsPnOzCtpTAo4bWhgbY2C5Af6iQfyiOVA/4NKIwONBPnLxkiK9SMfnmxm3ncwQCiJO
+ 11Q08xoPqQXAo9UN0fYHB43xDoCg/nkmEl0gOVlCFF6bxZQt5T3uPuNm+cjkTh4/8Dr4
+ 4UsI0NnZU8lB5ULLZLhkQwEF8JteCbz1GngzJD3eJ081abDAKYzJc7WTCEIrI7RNsMPP
+ kNkdMVo9zUltBmsJttIie2pbNuVGVie6wIbHx6xuGJlDvBrwrY5B/bRXcUbHFKZ6qbfz
+ IjTBTYm4ZbvNZkt4hHfwYtijXa4czDN8lWV9pipJCO7sgMRstyIK7NGFb6EOoDqvxqlc
+ C/RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=QoJUiTYXu267JmroK1OYx3UsmDzuSTP5fsLeIy6839w=;
+ b=wAg4jJkTh8Q81/ZIlW2oVvwTwKZSKg++zZdl3Bz18KqMBTDX56BYcNRiukyE2vlGmw
+ Xlff/brdiCCRE1cexpd8aYl/7xWKoenDtOnSXSqtVOU3ThUoaqnQJaGUU3im1f1pJK7v
+ TfYxbFkSd3q7nv5/QDsWY20sKyyLmxgI7iS3h8/KtQp4pu//A9qIGO1DZJYEm4V7iL3X
+ 5JQxpoBpeS/4LNEkRCEb3JxQbXNWUDqb2YYxhSf2wtinXfSBcB8OViojkPedtMmXmGZj
+ L/z24K/jOof28aJaFw+f6x5beICPZRd1xLb5ZEQseC3Ug6WtOgEPq4tseCHVDDUQIva/
+ YbVA==
+X-Gm-Message-State: AOAM5324YOlcCJClhBvQTlpU43/Lwco7+Tn86i2nuGX46IEF3qj+mUtM
+ aZ+qv2Kihi2aDVqOkveNKik=
+X-Google-Smtp-Source: ABdhPJxxvkQ6RUWAUJxwjaJ/TcndED6s+nrhdPhx1Vtl1NkrmULUoYdCUVmOdpH8VniXhrzbke7kWg==
+X-Received: by 2002:a5d:4411:: with SMTP id z17mr4107280wrq.146.1632391217840; 
+ Thu, 23 Sep 2021 03:00:17 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id i27sm8765891wmb.40.2021.09.23.03.00.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Sep 2021 03:00:17 -0700 (PDT)
+Message-ID: <aac1894b-e515-cbc7-5b51-aaddc6fc3de4@amsat.org>
+Date: Thu, 23 Sep 2021 12:00:16 +0200
 MIME-Version: 1.0
-In-Reply-To: <CAM9Jb+iukn4hszakOnGEgECpFyi0rZWp4FUx-MU+T_KdYd=GZQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] tests: qtest: bios-tables-test depends on the unpacked
+ edk2 ROMs
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210923081555.3648310-1-pbonzini@redhat.com>
+ <YUw5Pglv2lcS2Nz6@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <YUw5Pglv2lcS2Nz6@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fkbjiqkqoJhC9unHMcOx5Xi3VdgYeUKbOn1i/6kgkt07yQHgwoQ
- qgzm/yJZkQDnPU4Qoz4YPwKxd+jdHnjJ8pixGf4JnLy+rJP63vsThN1kQVZAGB/u23CkICl
- 0Rx6iPBu3k94zydGk20pf68kme/S9Iivi238xlrjmgNBotCgVrPIg8989pUDYqA0BcMg5pz
- cMvN7bAt+0DkeEbr912Dw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pd4SLHpJ+Iw=:akkgJAWKyafRWHZ5v1eTPh
- CM27W1GggCj9War7+1UTUhGNtebMygeChzW3td/0I3yumvAwnY1gfw6TQ5oNROLuCOHO8Zkep
- CJAKnuYWkC10u4Z++9wBzEr2pf0DHUqPsKZmEu1L2exJO15cwrmQWpev50vs81gxBChveuNKR
- IxuoxgIQhhnMi6ceQroday3BvV7m6cAoNStc8f0rVMVPicsUjKTzfjrlL53M0gH7sSW5z1FP9
- Y3p1+ymXSLr7SDq85623GnrLUNALGl8cvPPqWz0i8xTVsXVtz2GoluccMEK5EyB1j/7c15K9s
- vP8Xl6EOTuiM6UpaHA3iym0hURKb7l/YjsNxvh3Bdani3cGJKXUUROFuZh/2o5HhInJ6xjDVx
- 2xLCUXGCSxcSgDJrB3C8mcjeJeF/XhpDYoVbX5qhx3nORIVXnEZlY765N+nx71QxejP+skfRV
- xYmmjYuNxFbI6VBQqfI3PuEbViDGw/yNcEqtlzcWGkRF87piQNlMlhA29mO3WF8IW7KKLP87h
- 1aVDCPRM0FP9sYEitWiS5sJH38RcX7XS/yZ1oJTArktzB45Q42a/8bekXUcxqcbF3EvNbU//4
- /jnhSD+1MQqUahslMZMOf8YXpmtr82zN0Ek0C5zxwjp8h/pzxUI8V66guxDW5xfmWY2Aj8/GQ
- vJlKJiadR7Mcqclq/odRVvNGVYlq9XIBn7hjiDmUpgS1Hfn8ww4qOr+Ym1w1bd/vf+t7cvE6E
- ICpCwry3C1yOd6fN6vdt+yPVYLg78ZuzTp0YDA==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,47 +92,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu Developers <qemu-devel@nongnu.org>,
- Pankaj Gupta <pankaj.gupta@ionos.com>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 23/09/2021 à 11:47, Pankaj Gupta a écrit :
-> ping
-
-Could you post your patch with an email address ("From") that is the same as the "Signed-off-by"?
-
-https://wiki.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include_a_Signed-off-by:_line
-
-Thanks,
-Laurent
-
->> Update nvdimm option value in example command from "-machine pc,nvdimm"
->> to "-machine pc,nvdimm=on" as former complains with the below error:
+On 9/23/21 10:22, Daniel P. Berrangé wrote:
+> On Thu, Sep 23, 2021 at 04:15:55AM -0400, Paolo Bonzini wrote:
+>> Skip the test if bzip2 is not available, and run it after they are
+>> uncompressed.
 >>
->> "qemu-system-x86_64: -machine pc,nvdimm: Expected '=' after parameter 'nvdimm'"
->>
->> Signed-off-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 >> ---
->>  docs/nvdimm.txt | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>   pc-bios/meson.build     | 3 ++-
+>>   tests/qtest/meson.build | 6 +++---
+>>   2 files changed, 5 insertions(+), 4 deletions(-)
 >>
->> diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
->> index 0aae682be3..fd7773dc5a 100644
->> --- a/docs/nvdimm.txt
->> +++ b/docs/nvdimm.txt
->> @@ -15,7 +15,7 @@ backend (i.e. memory-backend-file and memory-backend-ram). A simple
->>  way to create a vNVDIMM device at startup time is done via the
->>  following command line options:
->>
->> - -machine pc,nvdimm
->> + -machine pc,nvdimm=on
->>   -m $RAM_SIZE,slots=$N,maxmem=$MAX_SIZE
->>   -object memory-backend-file,id=mem1,share=on,mem-path=$PATH,size=$NVDIMM_SIZE,readonly=off
->>   -device nvdimm,id=nvdimm1,memdev=mem1,unarmed=off
->> --
->> 2.25.1
->>
+>> diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+>> index f2b32598af..975565198e 100644
+>> --- a/pc-bios/meson.build
+>> +++ b/pc-bios/meson.build
+>> @@ -10,8 +10,9 @@ if install_edk2_blobs
+>>       'edk2-x86_64-secure-code.fd',
+>>     ]
+>>   
+>> +  roms = []
+>>     foreach f : fds
+>> -    custom_target(f,
+>> +    roms += custom_target(f,
+>>                     build_by_default: have_system,
+>>                     output: f,
+>>                     input: '@0@.bz2'.format(f),
+>> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+>> index e1f4df3df8..6d8100c9de 100644
+>> --- a/tests/qtest/meson.build
+>> +++ b/tests/qtest/meson.build
+>> @@ -68,12 +68,12 @@ qtests_i386 = \
+>>     (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
+>>     (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
+>>     (config_all_devices.has_key('CONFIG_ESP_PCI') ? ['am53c974-test'] : []) +                 \
+>> +  (install_edk2_blobs ? ['bios-tables-test'] : []) +                                        \
+>>     qtests_pci +                                                                              \
+>>     ['fdc-test',
+>>      'ide-test',
+>>      'hd-geo-test',
+>>      'boot-order-test',
+>> -   'bios-tables-test',
+>>      'rtc-test',
+>>      'i440fx-test',
+>>      'fw_cfg-test',
+>> @@ -180,7 +180,7 @@ qtests_arm = \
+>>   
+>>   # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
+>>   qtests_aarch64 = \
+>> -  (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
+>> +  (cpu != 'arm' and install_edk2_blobs ? ['bios-tables-test'] : []) +                           \
+>>     (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
+>>     (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
+>>     ['arm-cpu-features',
+>> @@ -269,7 +269,7 @@ foreach dir : target_dirs
+>>     qtest_emulator = emulators['qemu-system-' + target_base]
+>>     target_qtests = get_variable('qtests_' + target_base, []) + qtests_generic
+>>   
+>> -  test_deps = []
+>> +  test_deps = roms
 > 
+> Shouldn't this be
+> 
+>    if install_edk2_blobs
+>       test_deps += roms
+>    endif
 
+See also "blobs: Only install required (system emulation) files":
+https://lore.kernel.org/qemu-devel/20210323155132.238193-1-f4bug@amsat.org/
 
