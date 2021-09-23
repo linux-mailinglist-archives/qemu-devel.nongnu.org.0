@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A7A415C51
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 12:53:08 +0200 (CEST)
-Received: from localhost ([::1]:60008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C152415C53
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 12:53:39 +0200 (CEST)
+Received: from localhost ([::1]:32910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTMLj-00016R-7H
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 06:53:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34414)
+	id 1mTMME-0001ro-Lf
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 06:53:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mTMKK-00087u-87
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:51:40 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:55964)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mTMKu-0000Jp-MC; Thu, 23 Sep 2021 06:52:16 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mTMK5-0005gh-1k
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:51:39 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id t20so4146075pju.5
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 03:51:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=4fJXlclBbnkVQPBywtqy0QsfK3GLzEGhebPQ86PZ4yM=;
- b=UwDv30mJvlcUbc5vsqv5ShtJ3oE0rdWz5cuSzKVT1VMx7oOAhptBwIZn+62mHKdIda
- CcTYo+EH+KpGcDyZdaNnrJToFa4sWqSUcsxSlx9OQMQwM6QNX2Bww7OSG0RQXXbD3De5
- /pWCE/0WJrdF+Yon0++dBCaOxfyz5xkXytI1DQ+bx6EBoEMTn9XJoS68bJ+H7GOwtgB8
- qoSCK6s0PZy1TP/XYoD8RYoHjlNP3fM2zc0dTANnUrIbLemr+exTR/fR3LouYTH11512
- q0A2gT3vXM5gNC++K3kAcqiW6ZU/MP54Ed6BdACd1DXgZye8fizrfC83ybMpvRifxhXA
- lPMQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mTMKt-0006Yu-46; Thu, 23 Sep 2021 06:52:16 -0400
+Received: by mail-wr1-x429.google.com with SMTP id q11so15870884wrr.9;
+ Thu, 23 Sep 2021 03:52:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GVORcyaLv3syAmBkfSaYTVn3/eMmXDx6hPlGBkz/PUA=;
+ b=k6hnXZhMTzl/7xD42lAq5o2D87buaWxjziPww9tkZeMt0oEMiN4vS0u1Iak5j/3awL
+ vdKkUPMuIoSK6b6VOieEsyhXgVvoiU9oimDwLqmleIvN0WHACflx6TKlShLWeLQIILQJ
+ Xk+9cyW1QEBRsrzJ1JzK76cn6xfYmaV5Nerojlvv9AyB4YK+eqSjKu8KPzrhaiPAEuL3
+ ejm1ikyJc3BtsqSfTnoMN0zhKYHnfR7eFsnSlnbBZP/Qi5cwcpBidHaXFcgISoj9ue+Q
+ bzMT36C/Ro6VpsREDDv6ixUN2UStEq0fho7nzA58y48ohxwys+/N+z9whgQIYvf4XRkV
+ KEYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=4fJXlclBbnkVQPBywtqy0QsfK3GLzEGhebPQ86PZ4yM=;
- b=WM4p10HxgcxQUe556arl3NOW3VWilmHfk5tRBbgQ5kpjG0Wi1Fjnkb+b1ad+BMFs0a
- COCBWa9qkkVxyinLalVDY4qwFL/0YspGrjCsdUTxCgSM5i9m0qDGID1w8n0Ffp8H7ra1
- gRPcxY5nDejd8pEfPzB2IQFdNL4WuMU2/Aizj2PBZrrl/rm0RzuYs5QTfjD/GSQ7kuw1
- KiVPfgKUqQqeTKNZ6Gl56be/mrjlXuzlo2ZYGW2lAurQ4X2F1LP4nsTdc8n3rXMoLBxk
- 2rQDIRwW1Uffuufan9nfYvSapNhP/6KfcQRqALT+Vr3uI8O0jlgntEFmNTqn9VFzt4JF
- D2tQ==
-X-Gm-Message-State: AOAM532gMydzkKDz7CO6Ghc0tIoehqSdMax3io6qOvH8jt1kYMRunofI
- sqz75a4eEEfp6/D620y4FWC9yg==
-X-Google-Smtp-Source: ABdhPJzia+90/vmutfv9+OVhfiSOiEAHqZONBLVWc1gCXXoo34eh7DSYhO2/LLO7Y/O8VFiKodZgxw==
-X-Received: by 2002:a17:90b:4d8f:: with SMTP id
- oj15mr4553491pjb.13.1632394282429; 
- Thu, 23 Sep 2021 03:51:22 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.156.170])
- by smtp.googlemail.com with ESMTPSA id e13sm5257765pfi.210.2021.09.23.03.51.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Sep 2021 03:51:21 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Thu, 23 Sep 2021 16:21:11 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Damien Hedde <damien.hedde@greensocs.com>
-Subject: Re: [RFC PATCH v2 07/16] hw/core/machine: add
- machine_class_is_dynamic_sysbus_dev_allowed
-In-Reply-To: <20210922161405.140018-8-damien.hedde@greensocs.com>
-Message-ID: <alpine.DEB.2.22.394.2109231559230.630@anisinha-lenovo>
-References: <20210922161405.140018-1-damien.hedde@greensocs.com>
- <20210922161405.140018-8-damien.hedde@greensocs.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GVORcyaLv3syAmBkfSaYTVn3/eMmXDx6hPlGBkz/PUA=;
+ b=rF9q5JpzeQ4q7vwPnW6yUyHFWsjUltJEFECzs0FBrYOcfrlHsfDm2gquyZ8d+zm/am
+ dDlQj0ZTxfHtrdKWkaUV0rL9Lu1EOf+ZZhCDol0dhtfoBq/61qk/70R5z6kYMFu7AnCy
+ hHBPVkYHe4NnnZ1D7EYtnFJiF+273HIhi7HAMC9AhKPtIoytWB6BNXVT2MurQKCvLTYu
+ pjpTOBm6Y9z8FRyR2+nlmT6Nzqp843ZM6Y72ToD51k+HmIwR3dzbG85ayHMP4cm8OkDX
+ hKQnaGu8VJuOx0QHDLLg7p01bUC1nJ0YmkE/47fKNI7OIWqRYWfAn7qz3HHag3HhBa5u
+ L1VA==
+X-Gm-Message-State: AOAM531olilnxRhiqNL+DLqgvtkL4WkXDf+WgX7caPbMgfD2rfZ43MLF
+ OqJF7rejGDv9MQgNPPDKbXo=
+X-Google-Smtp-Source: ABdhPJxUh4VDiUZHpBpKGT4SSa3Zt3TfUoBC6czaAzERKOVrXV9ACfCcRcQphCxkvr/zpyTn8CzUsA==
+X-Received: by 2002:adf:fd03:: with SMTP id e3mr4342990wrr.46.1632394332909;
+ Thu, 23 Sep 2021 03:52:12 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id 20sm9666228wme.46.2021.09.23.03.52.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Sep 2021 03:52:12 -0700 (PDT)
+Message-ID: <58a51968-39b9-1477-5c18-db9638fa66e3@amsat.org>
+Date: Thu, 23 Sep 2021 12:52:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::1029;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] hw/char/mchp_pfsoc_mmuart: QOM'ify PolarFire MMUART
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210918180738.2506799-1-f4bug@amsat.org>
+ <CAEUhbmX_PPdLPgGTtfJZg-Nd0pPxVC93ZYoeVpngnOvdLB0Tww@mail.gmail.com>
+ <0cfcd1c1-8bff-f0dc-02ac-ac12ac392fc8@amsat.org>
+ <CAFEAcA9aZ3HXmHc12X58N5k=1dfk6SZWEU9Uf1ErajNj0EHWxg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <CAFEAcA9aZ3HXmHc12X58N5k=1dfk6SZWEU9Uf1ErajNj0EHWxg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,120 +90,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- mirela.grujic@greensocs.com, Alistair Francis <Alistair.Francis@wdc.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Eric Blake <eblake@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- xen-devel@lists.xenproject.org, Paul Durrant <paul@xen.org>,
- Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-riscv@nongnu.org,
- =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
- mark.burton@greensocs.com, edgari@xilinx.com,
- Igor Mammedov <imammedo@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <alistair23@gmail.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 9/23/21 12:41, Peter Maydell wrote:
+> On Thu, 23 Sept 2021 at 11:29, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>> On 9/23/21 07:16, Bin Meng wrote:> On Sun, Sep 19, 2021 at 2:07 AM
+>> Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>>> +static void mchp_pfsoc_mmuart_realize(DeviceState *dev, Error **errp)
+>>>> +{
+>>>> +    MchpPfSoCMMUartState *s = MCHP_PFSOC_UART(dev);
+>>>> +
+>>>> +    qdev_prop_set_uint8(DEVICE(&s->serial_mm), "regshift", 2);
+>>>> +    qdev_prop_set_uint32(DEVICE(&s->serial_mm), "baudbase", 399193);
+>>>> +    qdev_prop_set_uint8(DEVICE(&s->serial_mm), "endianness",
+>>>> +                        DEVICE_LITTLE_ENDIAN);
+>>>
+>>> It looks like serial_mm_init() does one more thing:
+>>>
+>>>       qdev_set_legacy_instance_id(DEVICE(smm), base, 2);
+>>>
+>>> I am not sure what that is.
+>>
+>> I'll defer on Paolo / Marc-André for that part, I think this is for
+>> migrating legacy (x86?) machines, which is not the case.
+> 
+> Yes, this is only needed for backwards-compatibility of incoming
+> migration data with old versions of QEMU which implemented migration
+> of devices with hand-rolled code. If a device didn't previously
+> handle migration at all then it should not now be setting the
+> legacy instance ID.
 
+Thanks. I'll try to add that in the documentation somewhere.
 
-On Wed, 22 Sep 2021, Damien Hedde wrote:
+> Speaking of migration, I notice that this QOM conversion does
+> not add a vmstate, which usually we do as part of the QOM conversion.
+> The device is also missing a reset method.
 
-> Right now the allowance check for adding a sysbus device using
-> -device cli option (or device_add qmp command) is done well after
-> the device has been created. It is done during the machine init done
-> notifier: machine_init_notify() in hw/core/machine.c
->
-> This new function will allow us to check if a sysbus device type is
-> allowed to be dynamically created by the machine during the device
-> creation time.
->
-> Also make device_is_dynamic_sysbus() use the new function.
->
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> ---
->
-> In the context of our series, we need to be able to do the check at
-> device creation time to allow doing it depending on the current
-> MACHINE_INIT phase.
-> ---
->  include/hw/boards.h | 17 +++++++++++++++++
->  hw/core/machine.c   | 15 ++++++++++++---
->  2 files changed, 29 insertions(+), 3 deletions(-)
->
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 463a5514f9..934443c1cd 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -51,6 +51,23 @@ void machine_set_cpu_numa_node(MachineState *machine,
->   */
->  void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type);
->
-> +/**
-> + * machine_class_is_dynamic_sysbus_dev_allowed: Check if type is an allowed
-> + * sysbus device type for the machine class.
-> + * @mc: Machine class
-> + * @type: type to check (should be a subtype of TYPE_SYS_BUS_DEVICE)
-> + *
-> + * Returns: true if @type is a type in the machine's list of
-> + * dynamically pluggable sysbus devices; otherwise false.
-> + *
-> + * Check if the QOM type @type is in the list of allowed sysbus device
-> + * types (see machine_class_allowed_dynamic_sysbus_dev()).
-> + * Note that if @type is a subtype of a type which is in the list, it is
-> + * allowed too.
-> + */
-> +bool machine_class_is_dynamic_sysbus_dev_allowed(MachineClass *mc,
-> +                                                 const char *type);
-> +
+OK, I'll add that in a previous patch.
 
-How about renaming this to device_type_is_allowed_dynamic_sysbus() ?
+Thanks,
 
->  /**
->   * device_is_dynamic_sysbus: test whether device is a dynamic sysbus device
->   * @mc: Machine class
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 9125c9aad0..1a18912dc8 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -545,18 +545,27 @@ void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *type)
->
->  bool device_is_dynamic_sysbus(MachineClass *mc, DeviceState *dev)
->  {
-> -    bool allowed = false;
-> -    strList *wl;
->      Object *obj = OBJECT(dev);
->
->      if (!object_dynamic_cast(obj, TYPE_SYS_BUS_DEVICE)) {
->          return false;
->      }
->
-> +    return machine_class_is_dynamic_sysbus_dev_allowed(mc,
-> +            object_get_typename(obj));
-> +}
-> +
-> +bool machine_class_is_dynamic_sysbus_dev_allowed(MachineClass *mc,
-> +                                                 const char *type)
-> +{
-> +    bool allowed = false;
-> +    strList *wl;
-> +    ObjectClass *klass = object_class_by_name(type);
-> +
->      for (wl = mc->allowed_dynamic_sysbus_devices;
->           !allowed && wl;
->           wl = wl->next) {
-> -        allowed |= !!object_dynamic_cast(obj, wl->value);
-> +        allowed |= !!object_class_dynamic_cast(klass, wl->value);
->      }
->
->      return allowed;
-> --
-> 2.33.0
->
->
+Phil.
 
