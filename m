@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FF74158F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 09:21:47 +0200 (CEST)
-Received: from localhost ([::1]:34562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D51141592D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 09:36:53 +0200 (CEST)
+Received: from localhost ([::1]:40364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTJ3C-0001Zo-Cd
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 03:21:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46598)
+	id 1mTJHn-00067c-Ab
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 03:36:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mTJ0z-0000Ot-OW
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:19:29 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:45887)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mTJ0y-0000uu-8O
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:19:29 -0400
-Received: by mail-ed1-x530.google.com with SMTP id c22so19694109edn.12
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 00:19:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ag6PEcb2YRyLOqCZcPcvCnNRlIGvQNd2Yv3a1WNfAoE=;
- b=k9GVBbBRPUpudeMvYclIMbk/Klx7UpU8Z+qxIJ3To/1G9qbSwCUsn+RLYs/MjD1iru
- WsJT6tSoxg9P3leEAmFu+Gf35DHcXZY8FckcEieKKpItlnuKIal1VJak1OOe3ci4Dw/T
- bpak89vb+bCKQ5+PsXhy1LfNs+AtTheRqjAdq4SYpvRuqjyLnIMHZeAlZrdUeyA3o2md
- /h8YK+rP7qZR3QGa8Tx6ALHu4cdRU1kb7jt/exvCJtXz1olhoNEvLS1ay5s2ZDn613Yz
- Brl924V/3XQasw3rA8JQ4dGFar1KLnN71AQvrP8jbFOR24F0WIZkP/PreazskuXUWvL4
- wiZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ag6PEcb2YRyLOqCZcPcvCnNRlIGvQNd2Yv3a1WNfAoE=;
- b=ADYCWqAns2NrHI4uJasHdH0VbqZgW7ul6O+PPs44OOtVhx/23MCjrHiaVauFHCvsAZ
- cu/41gitoBbnodA+/O9qXQhp8CFpxpamzokPRa+7S7Otg0xPjubKkK1yWr8xmV9aD1em
- 1492QO6Wy8tXP30S9YDUIVTVbttimKldF6c2f7POdUn7RVFx8xU9JS56HKF+ub0aQ5jz
- 9S+D0Ypox/YjV8sQ8y92OdR1HUgivUnqTtrdvyiOGe/rdR76sob4gvIa3ivZe2HnOP4k
- 1qJVlmZHI85MYJVK6SvobB2eX5rIyjdm0p9ykHPcrl3bIvLmarLxQwypFZkZdCTlIxZY
- 8scA==
-X-Gm-Message-State: AOAM5321+qJ6W6wA9K9tqC29SQbx38yYdTUCsTknsd3/zebn8EVAjRSm
- NKB/lWY+2pgLU1uDwu8Y6Gij0grsjW4=
-X-Google-Smtp-Source: ABdhPJxnfCFf3d0+s6wolc/aGFSZldZgzQyCxFcattNHPdgiWS8Iini8lIiQo6/N3QMtLU4XtgoTpA==
-X-Received: by 2002:a17:907:760d:: with SMTP id
- jx13mr3440978ejc.194.1632381565697; 
- Thu, 23 Sep 2021 00:19:25 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id k15sm2370584ejb.92.2021.09.23.00.19.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Sep 2021 00:19:25 -0700 (PDT)
-Subject: Re: [PATCH 2/3] scsi: make io_timeout configurable
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Hannes Reinecke <hare@suse.de>
-References: <20201116183114.55703-1-hare@suse.de>
- <20201116183114.55703-3-hare@suse.de>
- <dae9daae-aa8d-ddb7-ecf3-95e91defea53@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <89b0f267-8d62-3cfe-7908-cc872506cc8d@redhat.com>
-Date: Thu, 23 Sep 2021 09:19:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mTJG9-0004ty-DZ
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:35:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51739)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mTJG2-00066v-Hm
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:35:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632382501;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5e+E5rxrWszxvxnUaKY5z29k4CgbQMM33SeKMvyuqR0=;
+ b=h0LT4ioQGmRFhDvY/femgzEpcDiZKLv0n4DQoYihiJIawuQ1k2YsIQA83X4Hl9S63Miy8v
+ oAhF5GCSF23myiPk6E73nTZUvJFp/4IOVCaaZR257xyNEiBuHXy2TTZy7ayBSTLXdyn8jr
+ v8cpeZ+htN7g6F/hjV60bnN4OJ2oWaY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-293-UK5vQWPLPvOGzSJv_B6DIg-1; Thu, 23 Sep 2021 03:34:58 -0400
+X-MC-Unique: UK5vQWPLPvOGzSJv_B6DIg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01C2650750
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 07:34:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B67A36B54D;
+ Thu, 23 Sep 2021 07:34:29 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E3E70113865F; Thu, 23 Sep 2021 09:34:27 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2] monitor: Rate-limit MEMORY_DEVICE_SIZE_CHANGE qapi
+ events per device
+References: <20210922125734.79712-1-david@redhat.com>
+Date: Thu, 23 Sep 2021 09:34:27 +0200
+In-Reply-To: <20210922125734.79712-1-david@redhat.com> (David Hildenbrand's
+ message of "Wed, 22 Sep 2021 14:57:34 +0200")
+Message-ID: <87k0j7hhj0.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <dae9daae-aa8d-ddb7-ecf3-95e91defea53@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,24 +80,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/09/21 17:47, Philippe Mathieu-Daudé wrote:
->>
-> 
->> @@ -637,7 +639,7 @@ static int get_stream_blocksize(BlockBackend *blk)
->>       cmd[0] = MODE_SENSE;
->>       cmd[4] = sizeof(buf);
->> -    ret = scsi_SG_IO_FROM_DEV(blk, cmd, sizeof(cmd), buf, sizeof(buf));
->> +    ret = scsi_SG_IO_FROM_DEV(blk, cmd, sizeof(cmd), buf, 
->> sizeof(buf), 6);
-> 
-> Why is this timeout hardcoded? Due to the /* XXX */ comment?
+David Hildenbrand <david@redhat.com> writes:
 
-This command is only invoked at startup and involves no I/O, so 6 
-seconds should be plenty.
+> We want to rate-limit MEMORY_DEVICE_SIZE_CHANGE events per device,
+> otherwise we can lose some events for devices. As we might not always have
+> a device id, add the qom-path to the event and use that to rate-limit
+> per device.
 
-Paolo
+There are actually two reasons for adding qom-path.  One, you need it to
+fix the rate limiting.  But adding to an external interface just to fix
+an internal issue would be questionable.  Fortunately, there's also two:
+make the event useful regardless of whether the user gave it an ID.  If
+you have to respin, consider working two into the commit message.
+
+I'd split this patch into "add qom-path" and "fix rate limiting".
+Suggestion, not demand.
+
+> This was noticed by starting a VM with two virtio-mem devices that each
+> have a requested size > 0. The Linux guest will initialize both devices
+> in parallel, resulting in losing MEMORY_DEVICE_SIZE_CHANGE events for
+> one of the devices.
+>
+> Fixes: 722a3c783ef4 ("virtio-pci: Send qapi events when the virtio-mem size changes")
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Cc: Markus Armbruster <armbru@redhat.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Eric Blake <eblake@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Michal Privoznik <mprivozn@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>
+> Follow up of:
+>     https://lkml.kernel.org/r/20210921102434.24273-1-david@redhat.com
+>
+> v1 -> v2:
+> - Add the qom-path and use that identifier to rate-limit per device
+> - Rephrase subject/description
+>
+> ---
+>  hw/virtio/virtio-mem-pci.c | 3 ++-
+>  monitor/monitor.c          | 9 +++++++++
+>  qapi/machine.json          | 5 ++++-
+>  3 files changed, 15 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
+> index fa5395cd88..dd5085497f 100644
+> --- a/hw/virtio/virtio-mem-pci.c
+> +++ b/hw/virtio/virtio-mem-pci.c
+> @@ -87,6 +87,7 @@ static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *data)
+>      VirtIOMEMPCI *pci_mem = container_of(notifier, VirtIOMEMPCI,
+>                                           size_change_notifier);
+>      DeviceState *dev = DEVICE(pci_mem);
+> +    const char * qom_path = object_get_canonical_path(OBJECT(dev));
+
+No space after this *, please.
+
+>      const uint64_t * const size_p = data;
+>      const char *id = NULL;
+>  
+> @@ -94,7 +95,7 @@ static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *data)
+>          id = g_strdup(dev->id);
+>      }
+>  
+> -    qapi_event_send_memory_device_size_change(!!id, id, *size_p);
+> +    qapi_event_send_memory_device_size_change(!!id, id, *size_p, qom_path);
+
+Doesn't this leak @qom_path?
+
+>  }
+>  
+>  static void virtio_mem_pci_class_init(ObjectClass *klass, void *data)
+> diff --git a/monitor/monitor.c b/monitor/monitor.c
+> index 46a171bca6..21c7a68758 100644
+> --- a/monitor/monitor.c
+> +++ b/monitor/monitor.c
+> @@ -474,6 +474,10 @@ static unsigned int qapi_event_throttle_hash(const void *key)
+>          hash += g_str_hash(qdict_get_str(evstate->data, "node-name"));
+>      }
+>  
+> +    if (evstate->event == QAPI_EVENT_MEMORY_DEVICE_SIZE_CHANGE) {
+> +        hash += g_str_hash(qdict_get_str(evstate->data, "qom-path"));
+> +    }
+> +
+>      return hash;
+>  }
+>  
+> @@ -496,6 +500,11 @@ static gboolean qapi_event_throttle_equal(const void *a, const void *b)
+>                         qdict_get_str(evb->data, "node-name"));
+>      }
+>  
+> +    if (eva->event == QAPI_EVENT_MEMORY_DEVICE_SIZE_CHANGE) {
+> +        return !strcmp(qdict_get_str(eva->data, "qom-path"),
+> +                       qdict_get_str(evb->data, "qom-path"));
+> +    }
+> +
+>      return TRUE;
+>  }
+>  
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 157712f006..2487c92f18 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1245,8 +1245,11 @@
+>  # action).
+>  #
+>  # @id: device's ID
+> +#
+>  # @size: the new size of memory that the device provides
+>  #
+> +# @qom-path: path to the device object in the QOM tree (since 6.2)
+> +#
+>  # Note: this event is rate-limited.
+>  #
+>  # Since: 5.1
+> @@ -1259,7 +1262,7 @@
+>  #
+>  ##
+>  { 'event': 'MEMORY_DEVICE_SIZE_CHANGE',
+> -  'data': { '*id': 'str', 'size': 'size' } }
+> +  'data': { '*id': 'str', 'size': 'size', 'qom-path' : 'str'} }
+>  
+>  
+>  ##
+
+With the two code remarks addressed:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
 
