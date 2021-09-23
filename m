@@ -2,48 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA72B4160DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 16:18:05 +0200 (CEST)
-Received: from localhost ([::1]:42000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79640416108
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 16:30:32 +0200 (CEST)
+Received: from localhost ([::1]:50720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTPY3-0000Ns-CU
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 10:18:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48676)
+	id 1mTPk4-0006pZ-LF
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 10:30:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mTPWx-00082o-Nk
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 10:16:55 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:10609)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mTPib-000604-BR; Thu, 23 Sep 2021 10:28:57 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mTPWu-00059i-Dj
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 10:16:54 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B0FC7746353;
- Thu, 23 Sep 2021 16:16:45 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 735E0745953; Thu, 23 Sep 2021 16:16:45 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 706B87457EE;
- Thu, 23 Sep 2021 16:16:45 +0200 (CEST)
-Date: Thu, 23 Sep 2021 16:16:45 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v5 04/20] nubus: use bitmap to manage available slots
-In-Reply-To: <20210923091308.13832-5-mark.cave-ayland@ilande.co.uk>
-Message-ID: <f39eb222-28aa-416f-61a2-ab74f52fda8f@eik.bme.hu>
-References: <20210923091308.13832-1-mark.cave-ayland@ilande.co.uk>
- <20210923091308.13832-5-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mTPiM-0002dO-Qu; Thu, 23 Sep 2021 10:28:57 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18NE202w017201; 
+ Thu, 23 Sep 2021 10:28:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=9Ad0GDhOn7F2pIIIA8DQ4m/oqyDiJo6NEpzF1Gk+chk=;
+ b=O2+nu2s+03g/Gmi+RUICA6r3p0DxhzrrCVVeTTYM3pd9JKH/0w7JTspGwnoS39xneHag
+ n7CRX/v4/mlcocq8Bka0L+LDF8YI2FpHkUtfGANNM1VrqcqZAqDc+45WMdX5Hq3lAoEh
+ scLd+2ICVhPLj0VuspJuR/641pbItRKQIyHSiuebVthJjiUzOQVTXWHZJ2B4I3Mcc5HI
+ a3yBOCpYHItxPM4MVI8J9q2vpx6wH9pEbw2VAw+iUFX1fb1vxn+DrKUZju4tW8vkuJCK
+ Y6yQMTCPewiAqsCqpP84GCvDE6KYMdIPPHDNE8C+c/0s3ic8GCpX6lhhokTP9TIRSxfo sw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3b8tyfrr11-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 10:28:39 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18NE4QJ1027700;
+ Thu, 23 Sep 2021 10:28:39 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3b8tyfrr06-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 10:28:39 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18NEC8T2003289;
+ Thu, 23 Sep 2021 14:28:36 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03ams.nl.ibm.com with ESMTP id 3b7q6q3kbc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 14:28:36 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 18NENiud51708374
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Sep 2021 14:23:44 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0F20CAE063;
+ Thu, 23 Sep 2021 14:28:34 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 95835AE051;
+ Thu, 23 Sep 2021 14:28:33 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.13.138])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 23 Sep 2021 14:28:33 +0000 (GMT)
+Date: Thu, 23 Sep 2021 16:28:11 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] block: introduce max_hw_iov for use in scsi-generic
+Message-ID: <20210923162811.3ab68c5f.pasic@linux.ibm.com>
+In-Reply-To: <20210923130436.1187591-1-pbonzini@redhat.com>
+References: <20210923130436.1187591-1-pbonzini@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: F0Z8S_MQwyLKoyxIufsdanQzT13343u6
+X-Proofpoint-ORIG-GUID: P2FkhW504qZbQtRiZv24oeyxmJsKV_eE
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-23_04,2021-09-23_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0
+ adultscore=0 clxscore=1015 malwarescore=0 mlxscore=0 suspectscore=0
+ bulkscore=0 phishscore=0 priorityscore=1501 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109200000 definitions=main-2109230089
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,182 +110,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: Kevin Wolf <kwolf@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Sep 2021, Mark Cave-Ayland wrote:
-> Convert nubus_device_realize() to use a bitmap to manage available slots to allow
-> for future Nubus devices to be plugged into arbitrary slots from the command line
-> using a new qdev "slot" parameter for nubus devices.
->
-> Update mac_nubus_bridge_init() to only allow slots 0x9 to 0xe on a Macintosh
-> machines as documented in "Desigining Cards and Drivers for the Macintosh Family".
+On Thu, 23 Sep 2021 09:04:36 -0400
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-Small typo: "a Macintosh machnies", either a or s is not needed.
+> Linux limits the size of iovecs to 1024 (UIO_MAXIOV in the kernel
+> sources, IOV_MAX in POSIX).  Because of this, on some host adapters
+> requests with many iovecs are rejected with -EINVAL by the
+> io_submit() or readv()/writev() system calls.
+> 
+> In fact, the same limit applies to SG_IO as well.  To fix both the
+> EINVAL and the possible performance issues from using fewer iovecs
+> than allowed by Linux (some HBAs have max_segments as low as 128),
+> introduce a separate entry in BlockLimits to hold the max_segments
+> value from sysfs.  This new limit is used only for SG_IO and clamped
+> to bs->bl.max_iov anyway, just like max_hw_transfer is clamped to
+> bs->bl.max_transfer.
 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Doesn't this patch render bs->bl.max_iov a constant?
+
+$ git grep -p -e 'bl\(.\|->\)max_iov'
+block/block-backend.c=int blk_get_max_iov(BlockBackend *blk)
+block/block-backend.c:    return blk->root->bs->bl.max_iov;
+block/file-posix.c=static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+block/file-posix.c:            bs->bl.max_iov = ret;
+block/io.c=void bdrv_refresh_limits(BlockDriverState *bs, Transaction *tran, Error **errp)
+block/io.c:        bs->bl.max_iov = IOV_MAX;
+block/mirror.c=static int coroutine_fn mirror_run(Job *job, Error **errp)
+block/mirror.c:    s->max_iov = MIN(bs->bl.max_iov, target_bs->bl.max_iov);
+
+Can't we use some of the established constants instead of hard coding a
+qemu specific IOV_MAX?
+
+POSIX.1 seems to guarantee the availability of IOV_MAX in <limits.h>
+according to: https://man7.org/linux/man-pages/man2/readv.2.html
+and <sys/uio.h> may have UIO_MAXIOV defined.
+
+> 
+> Reported-by: Halil Pasic <pasic@linux.ibm.com>
+> Cc: Hanna Reitz <hreitz@redhat.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: qemu-block@nongnu.org
+> Fixes: 18473467d5 ("file-posix: try BLKSECTGET on block devices too, do not round to power of 2", 2021-06-25)
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
-> hw/nubus/mac-nubus-bridge.c         |  4 ++++
-> hw/nubus/nubus-bus.c                |  5 +++--
-> hw/nubus/nubus-device.c             | 32 +++++++++++++++++++++++------
-> include/hw/nubus/mac-nubus-bridge.h |  4 ++++
-> include/hw/nubus/nubus.h            | 13 ++++++------
-> 5 files changed, 43 insertions(+), 15 deletions(-)
->
-> diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
-> index 7c329300b8..3f075789e9 100644
-> --- a/hw/nubus/mac-nubus-bridge.c
-> +++ b/hw/nubus/mac-nubus-bridge.c
-> @@ -18,6 +18,10 @@ static void mac_nubus_bridge_init(Object *obj)
->
->     s->bus = NUBUS_BUS(qbus_create(TYPE_NUBUS_BUS, DEVICE(s), NULL));
->
-> +    /* Macintosh only has slots 0x9 to 0xe available */
-> +    s->bus->slot_available_mask = MAKE_64BIT_MASK(MAC_NUBUS_FIRST_SLOT,
-> +                                                  MAC_NUBUS_SLOT_NB);
+>  block/block-backend.c          | 6 ++++++
+>  block/file-posix.c             | 2 +-
+>  block/io.c                     | 1 +
+>  hw/scsi/scsi-generic.c         | 2 +-
+>  include/block/block_int.h      | 7 +++++++
+>  include/sysemu/block-backend.h | 1 +
+>  6 files changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index 6140d133e2..ba2b5ebb10 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -1986,6 +1986,12 @@ uint32_t blk_get_max_transfer(BlockBackend *blk)
+>      return ROUND_DOWN(max, blk_get_request_alignment(blk));
+>  }
+>  
+> +int blk_get_max_hw_iov(BlockBackend *blk)
+> +{
+> +    return MIN_NON_ZERO(blk->root->bs->bl.max_hw_iov,
+> +                        blk->root->bs->bl.max_iov);
+> +}
 > +
->     sysbus_init_mmio(sbd, &s->bus->super_slot_io);
->     sysbus_init_mmio(sbd, &s->bus->slot_io);
-> }
-> diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
-> index f4410803ff..3cd7534864 100644
-> --- a/hw/nubus/nubus-bus.c
-> +++ b/hw/nubus/nubus-bus.c
-> @@ -86,13 +86,14 @@ static void nubus_init(Object *obj)
->
->     memory_region_init_io(&nubus->super_slot_io, obj, &nubus_super_slot_ops,
->                           nubus, "nubus-super-slots",
-> -                          NUBUS_SUPER_SLOT_NB * NUBUS_SUPER_SLOT_SIZE);
-> +                          (NUBUS_SUPER_SLOT_NB + 1) * NUBUS_SUPER_SLOT_SIZE);
->
->     memory_region_init_io(&nubus->slot_io, obj, &nubus_slot_ops,
->                           nubus, "nubus-slots",
->                           NUBUS_SLOT_NB * NUBUS_SLOT_SIZE);
->
-> -    nubus->current_slot = NUBUS_FIRST_SLOT;
-> +    nubus->slot_available_mask = MAKE_64BIT_MASK(NUBUS_FIRST_SLOT,
-> +                                                 NUBUS_SLOT_NB);
-> }
->
-> static void nubus_class_init(ObjectClass *oc, void *data)
-> diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
-> index 4e23df1280..562650a05b 100644
-> --- a/hw/nubus/nubus-device.c
-> +++ b/hw/nubus/nubus-device.c
-> @@ -160,14 +160,28 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
->     NubusDevice *nd = NUBUS_DEVICE(dev);
->     char *name;
->     hwaddr slot_offset;
-> -
-> -    if (nubus->current_slot < NUBUS_FIRST_SLOT ||
-> -            nubus->current_slot > NUBUS_LAST_SLOT) {
-> -        error_setg(errp, "Cannot register nubus card, not enough slots");
-> -        return;
-> +    uint16_t s;
+>  int blk_get_max_iov(BlockBackend *blk)
+>  {
+>      return blk->root->bs->bl.max_iov;
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index cb9bffe047..1567edb3d5 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1273,7 +1273,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+>  
+>          ret = hdev_get_max_segments(s->fd, &st);
+>          if (ret > 0) {
+> -            bs->bl.max_iov = ret;
+> +            bs->bl.max_hw_iov = ret;
+>          }
+>      }
+>  }
+> diff --git a/block/io.c b/block/io.c
+> index a19942718b..f38e7f81d8 100644
+> --- a/block/io.c
+> +++ b/block/io.c
+> @@ -136,6 +136,7 @@ static void bdrv_merge_limits(BlockLimits *dst, const BlockLimits *src)
+>      dst->min_mem_alignment = MAX(dst->min_mem_alignment,
+>                                   src->min_mem_alignment);
+>      dst->max_iov = MIN_NON_ZERO(dst->max_iov, src->max_iov);
+> +    dst->max_hw_iov = MIN_NON_ZERO(dst->max_hw_iov, src->max_hw_iov);
+>  }
+>  
+>  typedef struct BdrvRefreshLimitsState {
+> diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+> index 665baf900e..0306ccc7b1 100644
+> --- a/hw/scsi/scsi-generic.c
+> +++ b/hw/scsi/scsi-generic.c
+> @@ -180,7 +180,7 @@ static int scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s, int len)
+>          page = r->req.cmd.buf[2];
+>          if (page == 0xb0) {
+>              uint64_t max_transfer = blk_get_max_hw_transfer(s->conf.blk);
+> -            uint32_t max_iov = blk_get_max_iov(s->conf.blk);
+> +            uint32_t max_iov = blk_get_max_hw_iov(s->conf.blk);
+>  
+>              assert(max_transfer);
+>              max_transfer = MIN_NON_ZERO(max_transfer, max_iov * qemu_real_host_page_size)
+> diff --git a/include/block/block_int.h b/include/block/block_int.h
+> index f1a54db0f8..c31cbd034a 100644
+> --- a/include/block/block_int.h
+> +++ b/include/block/block_int.h
+> @@ -702,6 +702,13 @@ typedef struct BlockLimits {
+>       */
+>      uint64_t max_hw_transfer;
+>  
+> +    /* Maximal number of scatter/gather elements allowed by the hardware.
+> +     * Applies whenever transfers to the device bypass the kernel I/O
+> +     * scheduler, for example with SG_IO.  If larger than max_iov
+> +     * or if zero, blk_get_max_hw_iov will fall back to max_iov.
+> +     */
+> +    int max_hw_iov;
 > +
-> +    if (nd->slot == -1) {
-> +        /* No slot specified, find first available free slot */
-> +        s = ctz32(nubus->slot_available_mask);
-> +        if (s != 32) {
-> +            nd->slot = s;
-> +        } else {
-> +            error_setg(errp, "Cannot register nubus card, no free slot "
-> +                             "available");
-> +            return;
-> +        }
-> +    } else {
-> +        /* Slot specified, make sure the slot is available */
-> +        if (!(nubus->slot_available_mask & BIT(nd->slot))) {
-> +            error_setg(errp, "Cannot register nubus card, slot %d is "
-> +                             "unavailable or already occupied", nd->slot);
-> +            return;
-> +        }
->     }
->
-> -    nd->slot = nubus->current_slot++;
-> +    nubus->slot_available_mask &= ~BIT(nd->slot);
->
->     /* Super */
->     slot_offset = nd->slot * NUBUS_SUPER_SLOT_SIZE;
-> @@ -191,12 +205,18 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
->     nubus_register_format_block(nd);
-> }
->
-> +static Property nubus_device_properties[] = {
-> +    DEFINE_PROP_INT32("slot", NubusDevice, slot, -1),
-> +    DEFINE_PROP_END_OF_LIST()
-> +};
-> +
-> static void nubus_device_class_init(ObjectClass *oc, void *data)
-> {
->     DeviceClass *dc = DEVICE_CLASS(oc);
->
->     dc->realize = nubus_device_realize;
->     dc->bus_type = TYPE_NUBUS_BUS;
-> +    device_class_set_props(dc, nubus_device_properties);
-> }
->
-> static const TypeInfo nubus_device_type_info = {
-> diff --git a/include/hw/nubus/mac-nubus-bridge.h b/include/hw/nubus/mac-nubus-bridge.h
-> index 36aa098dd4..118d67267d 100644
-> --- a/include/hw/nubus/mac-nubus-bridge.h
-> +++ b/include/hw/nubus/mac-nubus-bridge.h
-> @@ -12,6 +12,10 @@
-> #include "hw/nubus/nubus.h"
-> #include "qom/object.h"
->
-> +#define MAC_NUBUS_FIRST_SLOT 0x9
-> +#define MAC_NUBUS_LAST_SLOT  0xe
-> +#define MAC_NUBUS_SLOT_NB    (MAC_NUBUS_LAST_SLOT - MAC_NUBUS_FIRST_SLOT + 1)
-> +
-> #define TYPE_MAC_NUBUS_BRIDGE "mac-nubus-bridge"
-> OBJECT_DECLARE_SIMPLE_TYPE(MacNubusState, MAC_NUBUS_BRIDGE)
->
-> diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
-> index 89b0976aaa..988e4a2361 100644
-> --- a/include/hw/nubus/nubus.h
-> +++ b/include/hw/nubus/nubus.h
-> @@ -14,13 +14,12 @@
-> #include "qom/object.h"
->
-> #define NUBUS_SUPER_SLOT_SIZE 0x10000000U
-> -#define NUBUS_SUPER_SLOT_NB   0x9
-> +#define NUBUS_SUPER_SLOT_NB   0xe
->
-> #define NUBUS_SLOT_SIZE       0x01000000
-> -#define NUBUS_SLOT_NB         0xF
-> -
-> -#define NUBUS_FIRST_SLOT      0x9
-> -#define NUBUS_LAST_SLOT       0xF
-> +#define NUBUS_FIRST_SLOT      0x0
-> +#define NUBUS_LAST_SLOT       0xf
-> +#define NUBUS_SLOT_NB         (NUBUS_LAST_SLOT - NUBUS_FIRST_SLOT + 1)
->
-> #define TYPE_NUBUS_DEVICE "nubus-device"
-> OBJECT_DECLARE_SIMPLE_TYPE(NubusDevice, NUBUS_DEVICE)
-> @@ -36,13 +35,13 @@ struct NubusBus {
->     MemoryRegion super_slot_io;
->     MemoryRegion slot_io;
->
-> -    int current_slot;
-> +    uint32_t slot_available_mask;
-> };
->
-> struct NubusDevice {
->     DeviceState qdev;
->
-> -    int slot;
-> +    int32_t slot;
+>      /* memory alignment, in bytes so that no bounce buffer is needed */
+>      size_t min_mem_alignment;
+>  
+> diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+> index 29d4fdbf63..82bae55161 100644
+> --- a/include/sysemu/block-backend.h
+> +++ b/include/sysemu/block-backend.h
+> @@ -211,6 +211,7 @@ uint32_t blk_get_request_alignment(BlockBackend *blk);
+>  uint32_t blk_get_max_transfer(BlockBackend *blk);
+>  uint64_t blk_get_max_hw_transfer(BlockBackend *blk);
+>  int blk_get_max_iov(BlockBackend *blk);
+> +int blk_get_max_hw_iov(BlockBackend *blk);
+>  void blk_set_guest_block_size(BlockBackend *blk, int align);
+>  void *blk_try_blockalign(BlockBackend *blk, size_t size);
+>  void *blk_blockalign(BlockBackend *blk, size_t size);
 
-Why uint32_t? Considering its max value even uint8_t would be enough 
-although maybe invalid value would be 255 instead of -1 then. As this was 
-added in previous patch you could avoid churn here by introducing it with 
-the right type in that patch already. (But feel free to ignore it if you 
-have no time for more changes, the current version works so if you don't 
-do another version for other reasons this probably don't worth the effort 
-alone.)
-
-Regards,
-BALATON Zoltan
 
