@@ -2,89 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656DF415D97
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 14:02:34 +0200 (CEST)
-Received: from localhost ([::1]:48474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE811415DB9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 14:03:50 +0200 (CEST)
+Received: from localhost ([::1]:49556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTNQv-00020c-EE
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 08:02:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43512)
+	id 1mTNS7-0002uz-Hd
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 08:03:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mTNKH-0005nO-Nk
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:55:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29981)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mTNK4-0002Oh-B4
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:55:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632398125;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pwt6kwWDNoZEAI/l88WiLwKn2L2wTvAW80Lith94m2U=;
- b=ZdgNRLLe3gejEK0eQZToKQgirGNLdEAXP+Kw61zAyY1LIqZi2HNya4Le7MdRgEupXVBXr4
- fr1da9UELvy0kUUsA+bqHTBz5VAUn5u9PyKrf4Uf74YeoX01OBCS8oVdhEzlnYa1VzWgsd
- ZqGLGz3qt5faVOHOIhBXXBUol8Qgs7k=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-tk_pAryaNfK2TICN0ObJkQ-1; Thu, 23 Sep 2021 07:55:24 -0400
-X-MC-Unique: tk_pAryaNfK2TICN0ObJkQ-1
-Received: by mail-pf1-f197.google.com with SMTP id
- z2-20020a626502000000b003fe1e4314d2so3716139pfb.0
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 04:55:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mTNKk-0006IT-W9
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:56:11 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:37407)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mTNKj-0002xD-1p
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:56:10 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id n23so2675812pfv.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 04:56:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=SY869irrxzfOoJkdWCuDuzh7ZngMT+9YxkjytmTDREU=;
+ b=U7PowsmPYHknkV3fCw5NxMoC2azRQc+aWAttZ+UHqBZVvwM6dUlqw02Rm2h0zbAbI0
+ xbGhtLJ9geYBLFjmTS/5oO5gArei8XSmN62/NNQFQA1+cUB9oZTURXW+AEEwQjYGwoGe
+ hBw5BdJd2jktGxhnL3O8AKZdJ95pCO39/6x2yaNFPkm/oAj+jO6+sfeIxbSIkB6qsEtT
+ mjDd6A1iOBomObypmypRTU8IV2hWlesozGv9gtU73ixhNgIUvTqibBGj62+H1g2CH6Yv
+ O0Y0fl6s49RPCuLNCFEjmFme7dqAQUWsUdhWd8oioOQzNLIehSsGSIHAl7DSq+d4KCb4
+ 3L8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pwt6kwWDNoZEAI/l88WiLwKn2L2wTvAW80Lith94m2U=;
- b=40f9T7tvufMvTozjPLGfYw73PpGM5IopZsBrfOyqYq+EeZvAt9rXYGeau8waGWtBZK
- dd9i8GV0Ya7Tba1fFSyyvqnAL5XU39shg8qmp2TQh02QT4qh/zOvbZTZSTTT9UNX2LB2
- NGJ80DBFvBPTVkAZ8Hof1I81KAjq9hf15w59q/8MT36EaStXdkHueFkeku9KumDA5PXK
- clk3CQMnKAK2UHAe5ZymAYnH0LgRnj6Z9c/8vxAgLu2brIblJsF0yYPtMAXrAPBTb+pO
- DyP3JgF+SUwWmULTBmppaJXYJDt3Rl3yagAxWziCp/bMowAoBxpZ2+zIK57yhifpSfZU
- x4PQ==
-X-Gm-Message-State: AOAM530vOB0RxGyMn/uicG+vTOwLgCB/2dBh/0Ly+4sY95dvjw5T20U7
- ZVqHh5dU9JDKOPk4qWbvSveMMV0ZZLq0jRVBrD22p1nc1bszCA/8mO5DKGhQQeYqwBAhYD/4ojW
- iBKrvyPN+kuTjqvk5AbZjzeL1Uwb3HKk=
-X-Received: by 2002:a17:90a:5d0f:: with SMTP id
- s15mr4993198pji.10.1632398123241; 
- Thu, 23 Sep 2021 04:55:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyBmNozi4ghIzYVxUOj2OXloEbcdtBsR9FuL/wPiulLKOVAZPnqbicmbbZNndGk9AhWtCPOqKIbQQwBUB04EtE=
-X-Received: by 2002:a17:90a:5d0f:: with SMTP id
- s15mr4993176pji.10.1632398123010; 
- Thu, 23 Sep 2021 04:55:23 -0700 (PDT)
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=SY869irrxzfOoJkdWCuDuzh7ZngMT+9YxkjytmTDREU=;
+ b=tZ9dqksCuj2bEkXyxgNrdyA2LRzlmhEdOulCB4TdK6uHUmE3s+aCuMRkYbp+8AKCKj
+ RLo3zAGuwSzY5ZrNQKIovXYPrfTWWM3y9/CyCB7qKHRnLvvxiuEDhFtrNUlQ5Sp4+Shz
+ zapQbAtS1ENUpRRkPk2XXRDbrfr8U9tjO3BlNJnrPWthUOUjU9ySomJFQM9ZT+yfLsvn
+ SG8nUijX7ty/cfNm/H4yoaOQkA51yNDXrosPGZObjbnmv7Plcac0nVjSXXl095mc+/iF
+ SAxwotiUDwDFvV630xWc8oi1HMm394XASGCj+8WO/L8PDPcBb1icf5b5EUM+pHoWJIck
+ AIkA==
+X-Gm-Message-State: AOAM532rl+Svm0qIBhQ1WnC3qS8dBCEAOPupD4HHg6OCg9hNB2R0xePM
+ zI2Agrvq7q52ezu1PWyfIxEEtg==
+X-Google-Smtp-Source: ABdhPJxN+kA2mTsQR+l1zBPEpE/rXxHeA2wclNVyce3HUXRFs9M3E7zp1eZW9twTe7ZJhuUZvRsFxQ==
+X-Received: by 2002:a62:1ec5:0:b0:446:40ec:73b2 with SMTP id
+ e188-20020a621ec5000000b0044640ec73b2mr4086191pfe.5.1632398165735; 
+ Thu, 23 Sep 2021 04:56:05 -0700 (PDT)
+Received: from anisinha-lenovo ([115.96.156.170])
+ by smtp.googlemail.com with ESMTPSA id 201sm5097769pfw.37.2021.09.23.04.55.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Sep 2021 04:56:05 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Thu, 23 Sep 2021 17:25:54 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [RFC PATCH v2 10/16] qdev-monitor: allow adding any sysbus device
+ before machine is ready
+In-Reply-To: <alpine.DEB.2.22.394.2109231628280.630@anisinha-lenovo>
+Message-ID: <alpine.DEB.2.22.394.2109231723060.630@anisinha-lenovo>
+References: <20210922161405.140018-1-damien.hedde@greensocs.com>
+ <20210922161405.140018-11-damien.hedde@greensocs.com>
+ <alpine.DEB.2.22.394.2109231628280.630@anisinha-lenovo>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-References: <20210922190324.190227-1-willianr@redhat.com>
- <20210922190324.190227-3-willianr@redhat.com>
- <1fba1ffa-559b-7c5b-24e0-817f4b855fc5@redhat.com>
- <CAKJDGDbu_DeP25QtvQcM6C0Kt+tXE-7caZaoGL0rcJObZgprKg@mail.gmail.com>
- <2235e846-cfd6-6c67-1e03-dd1ecc38d198@redhat.com>
- <YUxMAJiCW+llt5ml@redhat.com>
-In-Reply-To: <YUxMAJiCW+llt5ml@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Thu, 23 Sep 2021 08:54:56 -0300
-Message-ID: <CAKJDGDYAoh7YaJPkQRSQ8g1YCaW98Chz2bVwNaezP54ikA-tRA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] tests/Makefile: add TESTFILES option to make
- check-acceptance
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,91 +86,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ mirela.grujic@greensocs.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org, Damien Hedde <damien.hedde@greensocs.com>,
+ =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
+ mark.burton@greensocs.com, edgari@xilinx.com,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 23, 2021 at 6:42 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
+
+
+On Thu, 23 Sep 2021, Ani Sinha wrote:
+
 >
-> On Thu, Sep 23, 2021 at 11:34:18AM +0200, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> > On 9/22/21 21:46, Willian Rampazzo wrote:
-> > > On Wed, Sep 22, 2021 at 4:08 PM Philippe Mathieu-Daud=C3=A9
-> > > <philmd@redhat.com> wrote:
-> > > >
-> > > > On 9/22/21 21:03, Willian Rampazzo wrote:
-> > > > > Add the possibility of running all the tests from a single file, =
-or
-> > > > > multiple files, running a single test within a file or multiple t=
-ests
-> > > > > within multiple files using `make check-acceptance` and the TESTF=
-ILES
-> > > > > environment variable.
-> > > > >
-> > > > > Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-> > > > > ---
-> > > > >    docs/devel/testing.rst | 27 +++++++++++++++++++++++++++
-> > > > >    tests/Makefile.include |  5 ++++-
-> > > > >    2 files changed, 31 insertions(+), 1 deletion(-)
-> > > >
-> > > > > diff --git a/tests/Makefile.include b/tests/Makefile.include
-> > > > > index 6e16c05f10..82d7ef7a20 100644
-> > > > > --- a/tests/Makefile.include
-> > > > > +++ b/tests/Makefile.include
-> > > > > @@ -88,6 +88,9 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
-> > > > >    TESTS_VENV_DIR=3D$(BUILD_DIR)/tests/venv
-> > > > >    TESTS_VENV_REQ=3D$(SRC_PATH)/tests/requirements.txt
-> > > > >    TESTS_RESULTS_DIR=3D$(BUILD_DIR)/tests/results
-> > > > > +ifndef TESTFILES
-> > > > > +     TESTFILES=3Dtests/acceptance
-> > > > > +endif
-> > > > >    # Controls the output generated by Avocado when running tests.
-> > > > >    # Any number of command separated loggers are accepted.  For m=
-ore
-> > > > >    # information please refer to "avocado --help".
-> > > > > @@ -130,7 +133,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_=
-DIR) get-vm-images
-> > > > >                --show=3D$(AVOCADO_SHOW) run --job-results-dir=3D$=
-(TESTS_RESULTS_DIR) \
-> > > > >                --filter-by-tags-include-empty --filter-by-tags-in=
-clude-empty-key \
-> > > > >                $(AVOCADO_TAGS) \
-> > > > > -            $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
-> > > > > +            $(if $(GITLAB_CI),,--failfast) $(TESTFILES), \
-> > > >
-> > > > Since this is Avocado specific, maybe call the variable
-> > > > AVOCADO_TESTFILES (similar to AVOCADO_TAGS)?
-> > >
-> > > I don't see a problem with changing that to AVOCADO_TESTFILES. I was
-> > > trying to make things shorter and easy to remember. If the too-long
-> > > variable name is not a problem, I can change that.
+>
+> On Wed, 22 Sep 2021, Damien Hedde wrote:
+>
+> > Skip the sysbus device type per-machine allow-list check before the
+> > MACHINE_INIT_PHASE_READY phase.
 > >
-> > This is the generic tests/Makefile, so $TESTFILES might be confusing,
-> > which is why I prefer the explicit AVOCADO_ prefix (AVOCADO_SHOW,
-> > AVOCADO_TAGS).
+> > This patch permits adding any sysbus device (it still needs to be
+> > user_creatable) when using the -preconfig experimental option.
+> >
+> > Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> > ---
+> >
+> > This commit is RFC. Depending on the condition to allow a device
+> > to be added, it may change.
+> > ---
+> >  softmmu/qdev-monitor.c | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+> > index f1c9242855..73b991adda 100644
+> > --- a/softmmu/qdev-monitor.c
+> > +++ b/softmmu/qdev-monitor.c
+> > @@ -269,8 +269,13 @@ static DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
+> >          return NULL;
+> >      }
+> >
+> > -    if (object_class_dynamic_cast(oc, TYPE_SYS_BUS_DEVICE)) {
+> > -        /* sysbus devices need to be allowed by the machine */
+> > +    if (object_class_dynamic_cast(oc, TYPE_SYS_BUS_DEVICE) &&
+> > +        phase_check(MACHINE_INIT_PHASE_READY)) {
+> > +        /*
+> > +         * Sysbus devices need to be allowed by the machine.
+> > +         * We only check that after the machine is ready in order to let
+> > +         * us add any user_creatable sysbus device during machine creation.
+> > +         */
+> >          MachineClass *mc = MACHINE_CLASS(object_get_class(qdev_get_machine()));
+> >          if (!machine_class_is_dynamic_sysbus_dev_allowed(mc, *driver)) {
+> >              error_setg(errp, "'%s' is not an allowed pluggable sysbus device "
 >
-> IIUC, this is not actually just test files - it is test files plus the
-> test names. So better just  $(AVOCADO_TESTS)
+> Since now you are adding the state of the machine creation in the
+> valiation condition, the failure error message becomes misleading.
+> Better to do this I think :
 >
+> if (object class is TYPE_SYS_BUS_DEVICE)
+> {
+>   if (!phase_check(MACHINE_INIT_PHASE_READY))
+>     {
+>       // error out here saying the state of the machine creation is too
+> early
+>     }
+>
+>     // do the other check on dynamic sysbus
+>
+> }
 
-Ack. I'll send another version soon.
+The other thing to consider is whether we should put the machine phaze
+check at a higher level, at qdev_device_add() perhaps. One might envison
+that different device types may be allowed to be added at different
+stages of machine creation. So this check needs be more generalized for
+the future.
 
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
 
 
