@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5124168B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 02:07:32 +0200 (CEST)
-Received: from localhost ([::1]:33526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D534168C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 02:11:18 +0200 (CEST)
+Received: from localhost ([::1]:43920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTYkV-0004qA-Nj
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 20:07:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39752)
+	id 1mTYo9-0003Nu-I0
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 20:11:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mTYgY-0001Yd-NI; Thu, 23 Sep 2021 20:03:26 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:55571)
+ id 1mTYh9-0002MZ-TS; Thu, 23 Sep 2021 20:04:05 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:41315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mTYgX-0005hU-9Q; Thu, 23 Sep 2021 20:03:26 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 8E47C5C0198;
- Thu, 23 Sep 2021 20:03:24 -0400 (EDT)
+ id 1mTYh8-00065y-7o; Thu, 23 Sep 2021 20:04:03 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 233CD5C018D;
+ Thu, 23 Sep 2021 20:04:01 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 23 Sep 2021 20:03:24 -0400
+ by compute6.internal (MEProxy); Thu, 23 Sep 2021 20:04:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=awM8pk8gaVSbYY5eRoZM+BPdO/qswv9VHADonsYx1
- UU=; b=Kz13H3ajCrjx2RiYkW1BfpHj7Jxac7vLRd2P9vcPbBaJtYBUm09A7B7/Q
- gQGGc6WVXztmJgW6LH2pUE4pPqESfY7ngWxmwhMbYeFL85cBy/LkUavwBjVXUHIU
- kVa/cJJvoZ7YZFcpjJOc0pxXZ/bSmKQYn3wS2uwOxamrkg4yE0+eHC/cKrMDana2
- +SDKVcahlLuSQUClAB36uFcD5QYcQDAPbMdgcuDdxnLSX23ujPhKjltPRqnuXYhp
- BU/HvzGdxdskE/7OC3nnXiT8RKz5rZ5s9VK3JbOaoYL+Kni8Zm8F+Tf5gz5pJV0H
- RIfNsGT329Gy0gFuymDU0HxJlMNAw==
-X-ME-Sender: <xms:zBVNYX5xyvG9Dz9ncNkOb-H5_WezEd75qLKYPYkXl8Wd_GL8RuhRKw>
- <xme:zBVNYc6iRwEIq1Msa2odewThEAM47tS35cpZ_Yweet5uGCgbDB_A0BdG2ds7qzs-1
- ffnX42Xr5RRMVah50c>
-X-ME-Received: <xmr:zBVNYee9DZnr9apS8JYD9vSVK1pe6bpJcOahqW5MGfFxLSKQeQlbyxA-Qpr-hSiAbqmoHShXdtQogv0TociLcBZH6XoMvPa0Flj7QA>
+ :x-sasl-enc; s=fm3; bh=S+oTM3sGKek5uqtfqsiaDi2wP4KeJJgfvke7llKGc
+ gU=; b=Nez2UMSOJ/xeYauQSpneIhcp7kNgecXrFwkRPAm7zy0s+1LJhS2bDYK8t
+ V7fGJaW0vq9N3Hy1Xvl0toLTfUjQZP2pov1UNtJLNKsMK0kaOPCMDwStX6ryqqzV
+ zOQbahTIsXOW7K1tu/LD+dzerO2oaZCBDxcihenonL9Xh3F+xuwI8jgS6x/u4KDd
+ KrzP4ybcFDFfJfuI0e8Lrg68GqDwC2hUkddEl3HDOF8/kGDtXg5YaPSou3+H3A9t
+ xNwvBTHiHu8eGeUQEm5lT4PJKfV6TX/MOYGb/UKq2eXldIZsBYXnqx+5TLF+DraB
+ Vp3fqk5XY+zDlheeTmhMNEEZ0wk0A==
+X-ME-Sender: <xms:8RVNYaBZ7Q7c1SDC9bcYvvl5QOJERSI_gkwYmXNA4xXBMDZL9VzRMQ>
+ <xme:8RVNYUgFC0EPIzR82AICygPy6j0SE9icfi9mnsjia5pF_965nYm16r5-zCBIHQ0Am
+ rgadVynnqPLrDQJi04>
+X-ME-Received: <xmr:8RVNYdlHMN651w5XhnkADnTCQ757_GUCXRmTX_O3oOAUuKcbUMQ3lvlPpyiG0F1fPVbRq2C0pFBCJBDupI7jv6z7mW8MImDLyOh4gg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddgvdejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -45,20 +45,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddgvdejucetufdoteggod
  htthgvrhhnpeeuvdevtdelfeelffdufeefteeukeektdfgieeugffhveetteevhfdvieej
  tdfhleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hfthhhrghinheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:zBVNYYLRTitOM602Qh52oQ7amkIatSKR0YwZZFGuXQ4WHdVY1I-90g>
- <xmx:zBVNYbLE5VwZxHxUoGWrQ-xSwnbirz1oaySQOOWHZC3oR_-Iqxbp6Q>
- <xmx:zBVNYRxIiy1nLCyqiTs5QwIdrkIs_JaJnSvOKAxqdmoJT0fPdvHlxg>
- <xmx:zBVNYSX2TWdEGdxfSIK3V9rqfc1dcJ4sRI9LZnLs77d24veI-Qt4Wg>
+X-ME-Proxy: <xmx:8RVNYYz5CqqmTUwoaUtpcjEBssOKq3SUyS-XtXqKp01qUA9h4nJK-w>
+ <xmx:8RVNYfTMM_QxtFx3ovMG7Tkhpn6F1OjmJnOdb_RqQ-Ruc__-rZpIsw>
+ <xmx:8RVNYTYYCI55_RkBSqR4C69hpTqLzeO0TOHUwIAiwQqhDPUqmBy-7g>
+ <xmx:8RVNYacECI-Qqs6eGazQdqEYKa__O7_MBCpPwvMrhI3Sq5qliZqTFw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Sep 2021 20:03:22 -0400 (EDT)
+ 23 Sep 2021 20:03:58 -0400 (EDT)
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Greg Kurz <groug@kaod.org>
-Message-Id: <8a347c38dda92fa7ff42a88cb20a2ffae95bffc1.1632437396.git.fthain@linux-m68k.org>
+Message-Id: <cf4fc15d3ecdbb1a22a855244348e7225503637a.1632437396.git.fthain@linux-m68k.org>
 In-Reply-To: <cover.1632437396.git.fthain@linux-m68k.org>
 References: <cover.1632437396.git.fthain@linux-m68k.org>
 From: Finn Thain <fthain@linux-m68k.org>
-Subject: [PATCH v1 2/9] hw/mos6522: Remove get_counter_value() methods and
- functions
+Subject: [PATCH v1 7/9] hw/mos6522: Avoid using discrepant QEMU clock values
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -88,66 +87,159 @@ Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This code appears to be unnecessary.
+mos6522_read() and mos6522_write() may call various functions to determine
+timer irq state, timer counter value and QEMUTimer deadline. All called
+functions must use the same value for the present time.
 
 Signed-off-by: Finn Thain <fthain@linux-m68k.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/misc/mos6522.c | 22 ++--------------------
- 1 file changed, 2 insertions(+), 20 deletions(-)
+Changed since RFC
+ - Moved the changes to QEMUTimer callbacks to the next patch.
+ - Fix whitespace.
+---
+ hw/misc/mos6522.c | 47 +++++++++++++++++++++++------------------------
+ 1 file changed, 23 insertions(+), 24 deletions(-)
 
 diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-index a478c1ca43..ff246b5437 100644
+index bfe1719b18..385ea81b62 100644
 --- a/hw/misc/mos6522.c
 +++ b/hw/misc/mos6522.c
-@@ -52,23 +52,13 @@ static void mos6522_update_irq(MOS6522State *s)
+@@ -39,9 +39,9 @@
+ /* XXX: implement all timer modes */
+ 
+ static void mos6522_timer1_update(MOS6522State *s, MOS6522Timer *ti,
+-                                  int64_t current_time);
++                                  int64_t now);
+ static void mos6522_timer2_update(MOS6522State *s, MOS6522Timer *ti,
+-                                  int64_t current_time);
++                                  int64_t now);
+ 
+ static void mos6522_update_irq(MOS6522State *s)
+ {
+@@ -52,13 +52,12 @@ static void mos6522_update_irq(MOS6522State *s)
      }
  }
  
--static uint64_t get_counter_value(MOS6522State *s, MOS6522Timer *ti)
--{
--    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
--
--    if (ti->index == 0) {
--        return mdc->get_timer1_counter_value(s, ti);
--    } else {
--        return mdc->get_timer2_counter_value(s, ti);
--    }
--}
--
- static unsigned int get_counter(MOS6522State *s, MOS6522Timer *ti)
+-static unsigned int get_counter(MOS6522State *s, MOS6522Timer *ti)
++static unsigned int get_counter(MOS6522State *s, MOS6522Timer *ti, int64_t now)
  {
      int64_t d;
      unsigned int counter;
  
--    d = get_counter_value(s, ti);
-+    d = muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - ti->load_time,
-+                 ti->frequency, NANOSECONDS_PER_SECOND);
+-    d = muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - ti->load_time,
+-                 ti->frequency, NANOSECONDS_PER_SECOND);
++    d = muldiv64(now - ti->load_time, ti->frequency, NANOSECONDS_PER_SECOND);
  
      if (ti->index == 0) {
          /* the timer goes down from latch to -1 (period of latch + 2) */
-@@ -191,12 +181,6 @@ static void mos6522_set_sr_int(MOS6522State *s)
-     mos6522_update_irq(s);
+@@ -88,7 +87,7 @@ static void set_counter(MOS6522State *s, MOS6522Timer *ti, unsigned int val)
  }
  
--static uint64_t mos6522_get_counter_value(MOS6522State *s, MOS6522Timer *ti)
--{
--    return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - ti->load_time,
--                    ti->frequency, NANOSECONDS_PER_SECOND);
--}
--
- static void mos6522_portA_write(MOS6522State *s)
+ static int64_t get_next_irq_time(MOS6522State *s, MOS6522Timer *ti,
+-                                 int64_t current_time)
++                                 int64_t now)
  {
-     qemu_log_mask(LOG_UNIMP, "portA_write unimplemented\n");
-@@ -498,8 +482,6 @@ static void mos6522_class_init(ObjectClass *oc, void *data)
-     mdc->portB_write = mos6522_portB_write;
-     mdc->portA_write = mos6522_portA_write;
-     mdc->update_irq = mos6522_update_irq;
--    mdc->get_timer1_counter_value = mos6522_get_counter_value;
--    mdc->get_timer2_counter_value = mos6522_get_counter_value;
+     int64_t d, next_time;
+     unsigned int counter;
+@@ -98,8 +97,7 @@ static int64_t get_next_irq_time(MOS6522State *s, MOS6522Timer *ti,
+     }
+ 
+     /* current counter value */
+-    d = muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - ti->load_time,
+-                 ti->frequency, NANOSECONDS_PER_SECOND);
++    d = muldiv64(now - ti->load_time, ti->frequency, NANOSECONDS_PER_SECOND);
+ 
+     /* the timer goes down from latch to -1 (period of latch + 2) */
+     if (d <= (ti->counter_value + 1)) {
+@@ -122,20 +120,19 @@ static int64_t get_next_irq_time(MOS6522State *s, MOS6522Timer *ti,
+     trace_mos6522_get_next_irq_time(ti->latch, d, next_time - d);
+     next_time = muldiv64(next_time, NANOSECONDS_PER_SECOND, ti->frequency) +
+                          ti->load_time;
+-
+-    if (next_time <= current_time) {
+-        next_time = current_time + 1;
+-    }
+     return next_time;
  }
  
- static const TypeInfo mos6522_type_info = {
+ static void mos6522_timer1_update(MOS6522State *s, MOS6522Timer *ti,
+-                                 int64_t current_time)
++                                  int64_t now)
+ {
+     if (!ti->timer) {
+         return;
+     }
+-    ti->next_irq_time = get_next_irq_time(s, ti, current_time);
++    ti->next_irq_time = get_next_irq_time(s, ti, now);
++    if (ti->next_irq_time <= now) {
++        ti->next_irq_time = now + 1;
++    }
+     if ((s->ier & T1_INT) == 0 || (s->acr & T1MODE) != T1MODE_CONT) {
+         timer_del(ti->timer);
+     } else {
+@@ -144,12 +141,15 @@ static void mos6522_timer1_update(MOS6522State *s, MOS6522Timer *ti,
+ }
+ 
+ static void mos6522_timer2_update(MOS6522State *s, MOS6522Timer *ti,
+-                                 int64_t current_time)
++                                  int64_t now)
+ {
+     if (!ti->timer) {
+         return;
+     }
+-    ti->next_irq_time = get_next_irq_time(s, ti, current_time);
++    ti->next_irq_time = get_next_irq_time(s, ti, now);
++    if (ti->next_irq_time <= now) {
++        ti->next_irq_time = now + 1;
++    }
+     if ((s->ier & T2_INT) == 0) {
+         timer_del(ti->timer);
+     } else {
+@@ -227,12 +227,12 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
+         val = s->dira;
+         break;
+     case VIA_REG_T1CL:
+-        val = get_counter(s, &s->timers[0]) & 0xff;
++        val = get_counter(s, &s->timers[0], now) & 0xff;
+         s->ifr &= ~T1_INT;
+         mos6522_update_irq(s);
+         break;
+     case VIA_REG_T1CH:
+-        val = get_counter(s, &s->timers[0]) >> 8;
++        val = get_counter(s, &s->timers[0], now) >> 8;
+         break;
+     case VIA_REG_T1LL:
+         val = s->timers[0].latch & 0xff;
+@@ -241,12 +241,12 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
+         val = (s->timers[0].latch >> 8) & 0xff;
+         break;
+     case VIA_REG_T2CL:
+-        val = get_counter(s, &s->timers[1]) & 0xff;
++        val = get_counter(s, &s->timers[1], now) & 0xff;
+         s->ifr &= ~T2_INT;
+         mos6522_update_irq(s);
+         break;
+     case VIA_REG_T2CH:
+-        val = get_counter(s, &s->timers[1]) >> 8;
++        val = get_counter(s, &s->timers[1], now) >> 8;
+         break;
+     case VIA_REG_SR:
+         val = s->sr;
+@@ -356,10 +356,9 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+         }
+         mos6522_update_irq(s);
+         /* if IER is modified starts needed timers */
+-        mos6522_timer1_update(s, &s->timers[0],
+-                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+-        mos6522_timer2_update(s, &s->timers[1],
+-                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
++        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        mos6522_timer1_update(s, &s->timers[0], now);
++        mos6522_timer2_update(s, &s->timers[1], now);
+         break;
+     default:
+         g_assert_not_reached();
 -- 
 2.26.3
 
