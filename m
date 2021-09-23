@@ -2,61 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE88415B7D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 11:53:29 +0200 (CEST)
-Received: from localhost ([::1]:35254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE9C415B89
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 11:56:59 +0200 (CEST)
+Received: from localhost ([::1]:39532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTLQ0-0002OI-HY
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 05:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50872)
+	id 1mTLTO-0005QV-93
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 05:56:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mTLOH-0000pn-6v; Thu, 23 Sep 2021 05:51:41 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:50843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mTLOF-0005vI-FN; Thu, 23 Sep 2021 05:51:40 -0400
-Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MQMm9-1mGMyv0zM9-00MKpS; Thu, 23 Sep 2021 11:51:36 +0200
-Subject: Re: [PATCH] docs/nvdimm: Update nvdimm option value in machine example
-To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>, xiaoguangrong.eric@gmail.com
-References: <20210726071145.150832-1-pankaj.gupta.linux@gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <7dc3c0eb-a22a-3d2c-9301-563c3ea9ed94@vivier.eu>
-Date: Thu, 23 Sep 2021 11:51:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mTLOq-0001nG-Ol
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 05:52:16 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38784)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mTLOp-0006Ow-BP
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 05:52:16 -0400
+Received: by mail-wr1-x430.google.com with SMTP id u18so15474681wrg.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 02:52:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=t+bGzuPJ0qKNxjJgzcjHlUnGJY02kw+ZwDq0g9CLjCA=;
+ b=m35wfHdhn/BEb+0OF1ATDu0AQjWv4rxgxzagW84cJKuxNiFKrfqci4fJJ1URM2C7Qo
+ KuW88KdtfU82Upaq0P/YVQnFbREi6zk9d5pQ3Zo2fEzrr4ewJbPrAX010zRmqTce7SUa
+ 8xVIpinf0erulP7RJBjVQ+fFD9grPSkF6Nl8HcelVWmrVDxabEcEhKqrBlxdAjK/02/q
+ sMtQgMDndXi35t924RAFQdUg6sR6ZWAQ5EUfwocZSQv55vrSinRrGZpFaZyyfYRX3wPz
+ OiRk1YkgM8uwVJaMCqq359Pamd0uS/aq/juqjnaUtPK7QvRd/ItyLsHBWjQI6zoWRgHb
+ 098A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=t+bGzuPJ0qKNxjJgzcjHlUnGJY02kw+ZwDq0g9CLjCA=;
+ b=Kdu0iFQHsLmaI8nyBNxOA7Y/sdP08I+pmB77DkfduJT/OQd6bHTohC+sW80F9LS74g
+ U4kXaxgbEvqqd1NU6+/eh2iaupAUj6lXVYQDzeDIeGy8VBpGlf2U/Tt2HEapeqYCeRg9
+ uNmUqL6gKQJFIlnumXzklTJdY5WkwtbTb1bn+SUHEG5JbVx9LOqi1etdRItjmQmzXT5q
+ TrDwcosn6Y0TufGJKcGMXbQNRCNCzu25KHfO1F9mUONVJ7n/p76Wv5+Q5HkmZeKp28RP
+ bTF4/GUoeXFB56lIk5g/E1tHupddhRqcP4pDDc16vsYg3uGPrllyAnkC6yt/wcZCxHz4
+ JMTw==
+X-Gm-Message-State: AOAM530Sqwwvc7q6kOfsATT82kR4E2n8JajGHEnuMiRU3yaIBPMZ91nL
+ o3LLSAdVIUObWlpT+FhWAaQ=
+X-Google-Smtp-Source: ABdhPJw4l9a0e+KJafnFdYuSbj+mwCQcTMTU5nsoh0NPWMftKd80y8lf1ESK46lGSbLJ89PHEHJzIw==
+X-Received: by 2002:a7b:c20f:: with SMTP id x15mr14901287wmi.143.1632390733711; 
+ Thu, 23 Sep 2021 02:52:13 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id q3sm3366517wmc.25.2021.09.23.02.52.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Sep 2021 02:52:13 -0700 (PDT)
+Message-ID: <36fee3e3-40a4-9b6a-e0b6-bbaf826e7df3@amsat.org>
+Date: Thu, 23 Sep 2021 11:52:12 +0200
 MIME-Version: 1.0
-In-Reply-To: <20210726071145.150832-1-pankaj.gupta.linux@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v5 17/20] nubus-bridge: make slot_available_mask a qdev
+ property
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ laurent@vivier.eu
+References: <20210923091308.13832-1-mark.cave-ayland@ilande.co.uk>
+ <20210923091308.13832-18-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20210923091308.13832-18-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:M+Z9UBfCZwS6lDXWY7ZKLCOQjrK13tkXvrlk3/56tUqxNyZ4zoC
- CEMNGfvhhjZFDdhjKLFOp7x3TwfjTcY1sQ+F0pP6PA8NbXiBHyVjykJ3kQSsZNev4nuaj3g
- MVLXrqGhHm/ynltB0k34PuCwKuakfZjLZF2gfDYLH6KeLFJZVOk4K6/lLqgl87/gciYCbAE
- zk9XmWZESs6gNrxj3S4Hw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Z0USoIwqDFw=:TCFlMPQDfqGfuM5GIW5Bn/
- 5AozdZ+29aPvW0R/lQOGWbqEnDuU0cPsYW/7BPIJXYRUdRiFHHdIfbUWQzI40ijeH9YvsY005
- ii7VKFk/Vwx8zWQxAfBqEgnQgT15MYQ0lxVXIJxWmF0XBeBaRBAdztaMzhsMICyK/jHFXmgqO
- viIdM4Hjfb1Ks0Yl0Cm1zLvDiV+wW1Atn+kbTNhzkAhR4gGAAq6vpQL8OYLsfz8SgmLsX6gZ1
- /nHlY6buOwRPIe/VH6z66zsb0I7OuBJLoW/E1jzmCNh+TV1iazNjEQ37m4/2siB+If5H81s8N
- +UmyFOc97r48AJu8YZoIflZeoV5Qh8lZW7Q/WQruzFxU0CWKvfyLI9R9qAJjMxKgfrxq4S3ca
- uoUChaleBQyzaBgGyQJe5kfxY6tzwKJJC3DGJp7bb7NDy94dKoigLJTGvj+vPTl461PZDWR7R
- eqFD7eki4XKE18jqNKnrLWeRj3WechVvcibb7G5ConuQqHP8ku3qjuBHGwJTWeAQCcujI3pkr
- bQUAQWlo5CzgLY5MgbP2A/NJM8WVehSGT+2Mut7mbOmnsHZlLSbVEMrmMqQOj2+m5DnfWahQ0
- XvwcZ3jk8bTlUPIR97B7+uFilLMgXzcTSdEQ5TPSmH5wzWOEnUsnUOrpxTKea0WPlOJyDKQBb
- lqUDF1YLqxTNFSeaMnp7acJaoY+HF5JNaGktHMm3rcvixXn9dDEEjSc3xgjxx0YDlorDQFHnR
- KWfUYbmm2HnbcOsXVyvrLfvaYMDssdO+aObQ2w==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,38 +92,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org,
- Pankaj Gupta <pankaj.gupta@ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 26/07/2021 à 09:11, Pankaj Gupta a écrit :
-> Update nvdimm option value in example command from "-machine pc,nvdimm"
-> to "-machine pc,nvdimm=on" as former complains with the below error:
+On 9/23/21 11:13, Mark Cave-Ayland wrote:
+> This is to allow Macintosh machines to further specify which slots are available
+> since the number of addressable slots may not match the number of physical slots
+> present in the machine.
 > 
-> "qemu-system-x86_64: -machine pc,nvdimm: Expected '=' after parameter 'nvdimm'"
-> 
-> Signed-off-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > ---
->  docs/nvdimm.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
-> index 0aae682be3..fd7773dc5a 100644
-> --- a/docs/nvdimm.txt
-> +++ b/docs/nvdimm.txt
-> @@ -15,7 +15,7 @@ backend (i.e. memory-backend-file and memory-backend-ram). A simple
->  way to create a vNVDIMM device at startup time is done via the
->  following command line options:
->  
-> - -machine pc,nvdimm
-> + -machine pc,nvdimm=on
->   -m $RAM_SIZE,slots=$N,maxmem=$MAX_SIZE
->   -object memory-backend-file,id=mem1,share=on,mem-path=$PATH,size=$NVDIMM_SIZE,readonly=off
->   -device nvdimm,id=nvdimm1,memdev=mem1,unarmed=off
-> 
+>   hw/nubus/nubus-bridge.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> +static Property nubus_bridge_properties[] = {
+> +    DEFINE_PROP_UINT32("slot-available-mask", NubusBridge,
+> +                       bus.slot_available_mask, 0xffff),
 
-cc: qemu-trivial
+What about using DEFINE_PROP_UINT16() here and uint16_t in
+patch 04/20 "nubus: use bitmap to manage available slots"?
+
+Regardless:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> +    DEFINE_PROP_END_OF_LIST()
+> +};
 
