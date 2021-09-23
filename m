@@ -2,59 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD8E4160D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 16:12:37 +0200 (CEST)
-Received: from localhost ([::1]:38306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA72B4160DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 16:18:05 +0200 (CEST)
+Received: from localhost ([::1]:42000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTPSl-0005kY-QG
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 10:12:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45944)
+	id 1mTPY3-0000Ns-CU
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 10:18:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mTPLJ-0002Z3-9f; Thu, 23 Sep 2021 10:04:53 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:49792)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mTPWx-00082o-Nk
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 10:16:55 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:10609)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mTPLG-0007NZ-Qs; Thu, 23 Sep 2021 10:04:52 -0400
-Received: from [192.168.15.189] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id D292D20786;
- Thu, 23 Sep 2021 14:04:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1632405886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UkbynlnCvJheMvgy5KHKY+xz6gcpk1nQXV5B9mUjOns=;
- b=JWNmS1MG18oEUFGyOIkmMRUIIqV+LMdU6sw4WjnCt8zL2ND+/STJkQcO4LdS33T+zi+The
- pA9rPdNQYqWx0fnxDCONrjEK8TrHMHIt18UppwpNxwrp/CIE//fy8rM3L8EFzSG3DVonuE
- xq1U1TRyGPL0wijjmNi/1ar9ll9PUxk=
-Message-ID: <b14de602-9a80-cb44-9ae0-5a39a9dde5cd@greensocs.com>
-Date: Thu, 23 Sep 2021 16:04:44 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mTPWu-00059i-Dj
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 10:16:54 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id B0FC7746353;
+ Thu, 23 Sep 2021 16:16:45 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 735E0745953; Thu, 23 Sep 2021 16:16:45 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 706B87457EE;
+ Thu, 23 Sep 2021 16:16:45 +0200 (CEST)
+Date: Thu, 23 Sep 2021 16:16:45 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v5 04/20] nubus: use bitmap to manage available slots
+In-Reply-To: <20210923091308.13832-5-mark.cave-ayland@ilande.co.uk>
+Message-ID: <f39eb222-28aa-416f-61a2-ab74f52fda8f@eik.bme.hu>
+References: <20210923091308.13832-1-mark.cave-ayland@ilande.co.uk>
+ <20210923091308.13832-5-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [RFC PATCH v2 10/16] qdev-monitor: allow adding any sysbus device
- before machine is ready
-Content-Language: en-US-large
-To: Ani Sinha <ani@anisinha.ca>
-References: <20210922161405.140018-1-damien.hedde@greensocs.com>
- <20210922161405.140018-11-damien.hedde@greensocs.com>
- <alpine.DEB.2.22.394.2109231628280.630@anisinha-lenovo>
- <alpine.DEB.2.22.394.2109231723060.630@anisinha-lenovo>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <alpine.DEB.2.22.394.2109231723060.630@anisinha-lenovo>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,101 +57,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, mirela.grujic@greensocs.com,
- Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
- Eric Auger <eric.auger@redhat.com>, xen-devel@lists.xenproject.org,
- qemu-riscv@nongnu.org,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- mark.burton@greensocs.com, edgari@xilinx.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 23 Sep 2021, Mark Cave-Ayland wrote:
+> Convert nubus_device_realize() to use a bitmap to manage available slots to allow
+> for future Nubus devices to be plugged into arbitrary slots from the command line
+> using a new qdev "slot" parameter for nubus devices.
+>
+> Update mac_nubus_bridge_init() to only allow slots 0x9 to 0xe on a Macintosh
+> machines as documented in "Desigining Cards and Drivers for the Macintosh Family".
 
+Small typo: "a Macintosh machnies", either a or s is not needed.
 
-On 9/23/21 13:55, Ani Sinha wrote:
-> 
-> 
-> On Thu, 23 Sep 2021, Ani Sinha wrote:
-> 
->>
->>
->> On Wed, 22 Sep 2021, Damien Hedde wrote:
->>
->>> Skip the sysbus device type per-machine allow-list check before the
->>> MACHINE_INIT_PHASE_READY phase.
->>>
->>> This patch permits adding any sysbus device (it still needs to be
->>> user_creatable) when using the -preconfig experimental option.
->>>
->>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
->>> ---
->>>
->>> This commit is RFC. Depending on the condition to allow a device
->>> to be added, it may change.
->>> ---
->>>   softmmu/qdev-monitor.c | 9 +++++++--
->>>   1 file changed, 7 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
->>> index f1c9242855..73b991adda 100644
->>> --- a/softmmu/qdev-monitor.c
->>> +++ b/softmmu/qdev-monitor.c
->>> @@ -269,8 +269,13 @@ static DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
->>>           return NULL;
->>>       }
->>>
->>> -    if (object_class_dynamic_cast(oc, TYPE_SYS_BUS_DEVICE)) {
->>> -        /* sysbus devices need to be allowed by the machine */
->>> +    if (object_class_dynamic_cast(oc, TYPE_SYS_BUS_DEVICE) &&
->>> +        phase_check(MACHINE_INIT_PHASE_READY)) {
->>> +        /*
->>> +         * Sysbus devices need to be allowed by the machine.
->>> +         * We only check that after the machine is ready in order to let
->>> +         * us add any user_creatable sysbus device during machine creation.
->>> +         */
->>>           MachineClass *mc = MACHINE_CLASS(object_get_class(qdev_get_machine()));
->>>           if (!machine_class_is_dynamic_sysbus_dev_allowed(mc, *driver)) {
->>>               error_setg(errp, "'%s' is not an allowed pluggable sysbus device "
->>
->> Since now you are adding the state of the machine creation in the
->> valiation condition, the failure error message becomes misleading.
->> Better to do this I think :
->>
->> if (object class is TYPE_SYS_BUS_DEVICE)
->> {
->>    if (!phase_check(MACHINE_INIT_PHASE_READY))
->>      {
->>        // error out here saying the state of the machine creation is too
->> early
->>      }
->>
->>      // do the other check on dynamic sysbus
->>
->> }
-> 
-> The other thing to consider is whether we should put the machine phaze
-> check at a higher level, at qdev_device_add() perhaps. One might envison
-> that different device types may be allowed to be added at different
-> stages of machine creation. So this check needs be more generalized for
-> the future.
-> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+> hw/nubus/mac-nubus-bridge.c         |  4 ++++
+> hw/nubus/nubus-bus.c                |  5 +++--
+> hw/nubus/nubus-device.c             | 32 +++++++++++++++++++++++------
+> include/hw/nubus/mac-nubus-bridge.h |  4 ++++
+> include/hw/nubus/nubus.h            | 13 ++++++------
+> 5 files changed, 43 insertions(+), 15 deletions(-)
+>
+> diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
+> index 7c329300b8..3f075789e9 100644
+> --- a/hw/nubus/mac-nubus-bridge.c
+> +++ b/hw/nubus/mac-nubus-bridge.c
+> @@ -18,6 +18,10 @@ static void mac_nubus_bridge_init(Object *obj)
+>
+>     s->bus = NUBUS_BUS(qbus_create(TYPE_NUBUS_BUS, DEVICE(s), NULL));
+>
+> +    /* Macintosh only has slots 0x9 to 0xe available */
+> +    s->bus->slot_available_mask = MAKE_64BIT_MASK(MAC_NUBUS_FIRST_SLOT,
+> +                                                  MAC_NUBUS_SLOT_NB);
+> +
+>     sysbus_init_mmio(sbd, &s->bus->super_slot_io);
+>     sysbus_init_mmio(sbd, &s->bus->slot_io);
+> }
+> diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
+> index f4410803ff..3cd7534864 100644
+> --- a/hw/nubus/nubus-bus.c
+> +++ b/hw/nubus/nubus-bus.c
+> @@ -86,13 +86,14 @@ static void nubus_init(Object *obj)
+>
+>     memory_region_init_io(&nubus->super_slot_io, obj, &nubus_super_slot_ops,
+>                           nubus, "nubus-super-slots",
+> -                          NUBUS_SUPER_SLOT_NB * NUBUS_SUPER_SLOT_SIZE);
+> +                          (NUBUS_SUPER_SLOT_NB + 1) * NUBUS_SUPER_SLOT_SIZE);
+>
+>     memory_region_init_io(&nubus->slot_io, obj, &nubus_slot_ops,
+>                           nubus, "nubus-slots",
+>                           NUBUS_SLOT_NB * NUBUS_SLOT_SIZE);
+>
+> -    nubus->current_slot = NUBUS_FIRST_SLOT;
+> +    nubus->slot_available_mask = MAKE_64BIT_MASK(NUBUS_FIRST_SLOT,
+> +                                                 NUBUS_SLOT_NB);
+> }
+>
+> static void nubus_class_init(ObjectClass *oc, void *data)
+> diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
+> index 4e23df1280..562650a05b 100644
+> --- a/hw/nubus/nubus-device.c
+> +++ b/hw/nubus/nubus-device.c
+> @@ -160,14 +160,28 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
+>     NubusDevice *nd = NUBUS_DEVICE(dev);
+>     char *name;
+>     hwaddr slot_offset;
+> -
+> -    if (nubus->current_slot < NUBUS_FIRST_SLOT ||
+> -            nubus->current_slot > NUBUS_LAST_SLOT) {
+> -        error_setg(errp, "Cannot register nubus card, not enough slots");
+> -        return;
+> +    uint16_t s;
+> +
+> +    if (nd->slot == -1) {
+> +        /* No slot specified, find first available free slot */
+> +        s = ctz32(nubus->slot_available_mask);
+> +        if (s != 32) {
+> +            nd->slot = s;
+> +        } else {
+> +            error_setg(errp, "Cannot register nubus card, no free slot "
+> +                             "available");
+> +            return;
+> +        }
+> +    } else {
+> +        /* Slot specified, make sure the slot is available */
+> +        if (!(nubus->slot_available_mask & BIT(nd->slot))) {
+> +            error_setg(errp, "Cannot register nubus card, slot %d is "
+> +                             "unavailable or already occupied", nd->slot);
+> +            return;
+> +        }
+>     }
+>
+> -    nd->slot = nubus->current_slot++;
+> +    nubus->slot_available_mask &= ~BIT(nd->slot);
+>
+>     /* Super */
+>     slot_offset = nd->slot * NUBUS_SUPER_SLOT_SIZE;
+> @@ -191,12 +205,18 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
+>     nubus_register_format_block(nd);
+> }
+>
+> +static Property nubus_device_properties[] = {
+> +    DEFINE_PROP_INT32("slot", NubusDevice, slot, -1),
+> +    DEFINE_PROP_END_OF_LIST()
+> +};
+> +
+> static void nubus_device_class_init(ObjectClass *oc, void *data)
+> {
+>     DeviceClass *dc = DEVICE_CLASS(oc);
+>
+>     dc->realize = nubus_device_realize;
+>     dc->bus_type = TYPE_NUBUS_BUS;
+> +    device_class_set_props(dc, nubus_device_properties);
+> }
+>
+> static const TypeInfo nubus_device_type_info = {
+> diff --git a/include/hw/nubus/mac-nubus-bridge.h b/include/hw/nubus/mac-nubus-bridge.h
+> index 36aa098dd4..118d67267d 100644
+> --- a/include/hw/nubus/mac-nubus-bridge.h
+> +++ b/include/hw/nubus/mac-nubus-bridge.h
+> @@ -12,6 +12,10 @@
+> #include "hw/nubus/nubus.h"
+> #include "qom/object.h"
+>
+> +#define MAC_NUBUS_FIRST_SLOT 0x9
+> +#define MAC_NUBUS_LAST_SLOT  0xe
+> +#define MAC_NUBUS_SLOT_NB    (MAC_NUBUS_LAST_SLOT - MAC_NUBUS_FIRST_SLOT + 1)
+> +
+> #define TYPE_MAC_NUBUS_BRIDGE "mac-nubus-bridge"
+> OBJECT_DECLARE_SIMPLE_TYPE(MacNubusState, MAC_NUBUS_BRIDGE)
+>
+> diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
+> index 89b0976aaa..988e4a2361 100644
+> --- a/include/hw/nubus/nubus.h
+> +++ b/include/hw/nubus/nubus.h
+> @@ -14,13 +14,12 @@
+> #include "qom/object.h"
+>
+> #define NUBUS_SUPER_SLOT_SIZE 0x10000000U
+> -#define NUBUS_SUPER_SLOT_NB   0x9
+> +#define NUBUS_SUPER_SLOT_NB   0xe
+>
+> #define NUBUS_SLOT_SIZE       0x01000000
+> -#define NUBUS_SLOT_NB         0xF
+> -
+> -#define NUBUS_FIRST_SLOT      0x9
+> -#define NUBUS_LAST_SLOT       0xF
+> +#define NUBUS_FIRST_SLOT      0x0
+> +#define NUBUS_LAST_SLOT       0xf
+> +#define NUBUS_SLOT_NB         (NUBUS_LAST_SLOT - NUBUS_FIRST_SLOT + 1)
+>
+> #define TYPE_NUBUS_DEVICE "nubus-device"
+> OBJECT_DECLARE_SIMPLE_TYPE(NubusDevice, NUBUS_DEVICE)
+> @@ -36,13 +35,13 @@ struct NubusBus {
+>     MemoryRegion super_slot_io;
+>     MemoryRegion slot_io;
+>
+> -    int current_slot;
+> +    uint32_t slot_available_mask;
+> };
+>
+> struct NubusDevice {
+>     DeviceState qdev;
+>
+> -    int slot;
+> +    int32_t slot;
 
-Hi Ani,
+Why uint32_t? Considering its max value even uint8_t would be enough 
+although maybe invalid value would be 255 instead of -1 then. As this was 
+added in previous patch you could avoid churn here by introducing it with 
+the right type in that patch already. (But feel free to ignore it if you 
+have no time for more changes, the current version works so if you don't 
+do another version for other reasons this probably don't worth the effort 
+alone.)
 
-I think moving out the allowance check from qdev_get_device_class is a 
-good idea. The code will be more clear even if the check is not generalized.
-
-Thanks,
---
-Damien
-
+Regards,
+BALATON Zoltan
 
