@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB23F416420
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 19:13:25 +0200 (CEST)
-Received: from localhost ([::1]:44978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482114163D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 19:06:42 +0200 (CEST)
+Received: from localhost ([::1]:56564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTSHk-0000c0-Kz
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 13:13:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40294)
+	id 1mTSBF-0005zY-6u
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 13:06:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS54-0005gY-V9
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 13:00:19 -0400
-Received: from [115.28.160.31] (port=54352 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS56-0005iX-5X
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 13:00:21 -0400
+Received: from [115.28.160.31] (port=54364 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS52-0005Pn-92
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 13:00:18 -0400
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS54-0005Ri-Cx
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 13:00:19 -0400
 Received: from ld50.lan (unknown [101.88.29.172])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id ABD4D60AF3;
- Fri, 24 Sep 2021 01:00:12 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 1E12160AF4;
+ Fri, 24 Sep 2021 01:00:15 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632416412; bh=vJw0JFSXxIRjSnsdIGzAWXKzu+/LFaQNgGhIlkaYM2c=;
+ t=1632416415; bh=t371MArDB52NetQeB3P4758vn7oHdDsb0TV3IUlUodY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=A4t/g7ntstDdK+ADFH8RAe6/jNHsLPo6ycdkn9Nk516VbUsJK6Igl85N2QKMtn4jm
- Ou6k6d7Bonv0srkZYb5nBRqzq3K0Jh0oUYVmTNULQLbGP/NfYHR5jgL03z93niDdEF
- 36q06hBdz6Wfr8B3HyBxFa/+Hml3JgAPQhyISQHM=
+ b=wFiqtMI89agxTmdOr6N7hIoMtYDuz7+ip9kfft32fLZDv/BanQWSnCOJg1h5179fZ
+ uPAIDYB3uA/5+DZTZydcyXtODJoLWqrOIbpDp+o7srPaeJE+EANChVeCOQgRb4t+1z
+ 6MBia9v3yqj3nH+Dl6LIhF0npZvlJQnz6OM2+fOQ=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 07/30] tcg/loongarch64: Implement necessary relocation
- operations
-Date: Fri, 24 Sep 2021 00:59:16 +0800
-Message-Id: <20210923165939.729081-8-git@xen0n.name>
+Subject: [PATCH v4 08/30] tcg/loongarch64: Implement the memory barrier op
+Date: Fri, 24 Sep 2021 00:59:17 +0800
+Message-Id: <20210923165939.729081-9-git@xen0n.name>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210923165939.729081-1-git@xen0n.name>
 References: <20210923165939.729081-1-git@xen0n.name>
@@ -70,79 +69,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 66 ++++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+ tcg/loongarch64/tcg-target.c.inc | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index f0930f77ef..6967f143e9 100644
+index 6967f143e9..8f7c556c37 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -168,3 +168,69 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
+@@ -234,3 +234,35 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+         g_assert_not_reached();
      }
-     return 0;
  }
 +
-+/*
-+ * Relocations
-+ */
++#include "tcg-insn-defs.c.inc"
 +
 +/*
-+ * Relocation records defined in LoongArch ELF psABI v1.00 is way too
-+ * complicated; a whopping stack machine is needed to stuff the fields, at
-+ * the very least one SOP_PUSH and one SOP_POP (of the correct format) are
-+ * needed.
-+ *
-+ * Hence, define our own simpler relocation types. Numbers are chosen as to
-+ * not collide with potential future additions to the true ELF relocation
-+ * type enum.
++ * TCG intrinsics
 + */
 +
-+/* Field Sk16, shifted right by 2; suitable for conditional jumps */
-+#define R_LOONGARCH_BR_SK16     256
-+/* Field Sd10k16, shifted right by 2; suitable for B and BL */
-+#define R_LOONGARCH_BR_SD10K16  257
-+
-+static bool reloc_br_sk16(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
++static void tcg_out_mb(TCGContext *s, TCGArg a0)
 +{
-+    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
-+    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
-+
-+    tcg_debug_assert((offset & 3) == 0);
-+    offset >>= 2;
-+    if (offset == sextreg(offset, 0, 16)) {
-+        *src_rw = deposit64(*src_rw, 10, 16, offset);
-+        return true;
-+    }
-+
-+    return false;
++    /* Baseline LoongArch only has the full barrier, unfortunately.  */
++    tcg_out_opc_dbar(s, 0);
 +}
 +
-+static bool reloc_br_sd10k16(tcg_insn_unit *src_rw,
-+                             const tcg_insn_unit *target)
++/*
++ * Entry-points
++ */
++
++static void tcg_out_op(TCGContext *s, TCGOpcode opc,
++                       const TCGArg args[TCG_MAX_OP_ARGS],
++                       const int const_args[TCG_MAX_OP_ARGS])
 +{
-+    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
-+    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
++    TCGArg a0 = args[0];
 +
-+    tcg_debug_assert((offset & 3) == 0);
-+    offset >>= 2;
-+    if (offset == sextreg(offset, 0, 26)) {
-+        *src_rw = deposit64(*src_rw, 0, 10, offset >> 16); /* slot d10 */
-+        *src_rw = deposit64(*src_rw, 10, 16, offset); /* slot k16 */
-+        return true;
-+    }
++    switch (opc) {
++    case INDEX_op_mb:
++        tcg_out_mb(s, a0);
++        break;
 +
-+    return false;
-+}
-+
-+static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
-+                        intptr_t value, intptr_t addend)
-+{
-+    tcg_debug_assert(addend == 0);
-+    switch (type) {
-+    case R_LOONGARCH_BR_SK16:
-+        return reloc_br_sk16(code_ptr, (tcg_insn_unit *)value);
-+    case R_LOONGARCH_BR_SD10K16:
-+        return reloc_br_sd10k16(code_ptr, (tcg_insn_unit *)value);
 +    default:
 +        g_assert_not_reached();
 +    }
