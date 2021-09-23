@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E69341664A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 22:01:33 +0200 (CEST)
-Received: from localhost ([::1]:40472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1D1416641
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 21:58:29 +0200 (CEST)
+Received: from localhost ([::1]:34458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTUuS-0001fK-LF
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 16:01:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47370)
+	id 1mTUrU-00064t-Qi
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 15:58:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTUoU-0003sE-7D
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 15:55:23 -0400
+ id 1mTUoX-0003tG-8f
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 15:55:27 -0400
 Received: from mail-db8eur05on2123.outbound.protection.outlook.com
  ([40.107.20.123]:59503 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTUoR-0002vM-EA
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 15:55:21 -0400
+ id 1mTUoV-0002vM-JZ
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 15:55:25 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ng1Bnv/hhEsVg9tHOOP66279VVKT/iqna9eIbCY6UfZA03BGTNaKruhP0o/53Xyp9ZeoNGhLYHgQYahvZByIcFdOECFV9SsGEFlcNYy3V6c2mtLINpnpU54Lu64sc7AMJCfNMc9ao6tVKz8eMrEitEK/mxSPLiW/ms2SLrQ3/levG5/ltHKyAnJnD9YR2A4GH7n6sawM8G8scVm4O0wvV9L+adLX9k0Kz6OorXyFYLYbtDk1AuZI31eJ39smeBAqQk8LZS0UvovepQAOtRo2IKx2rP+pz/xfNl/ObU+IQWxnsbB6k0nU2+nWYFPwP92GXwY8tcTtr7+tjT983LCOKw==
+ b=XHlwvOnkFsXuTQlSh79CFqadC1VwK/wcfOJt6M+l+giptMkKsKzDbcD0p7XVOav5CfhJUI3CrBC7U2pCgn45ynYhjDaQI18cpFVc+x5SP8XmLys6pa3gLCCom5nuFXyVzHgFX+j/5UHnVp1DZkBuNzc+3BDbQnN0cFxSQA/7nW5s5jygPwyfOVD/a68O+1+yqhTrvQbCpCQUKjsmdvwOpxRZZY9aTF88sd2lq/ja6yaU10luwVSokFHXzPrda2HjGC2c7/w0ZqvE5c/rscCne0OUgnzD85GaQaQkPGZiuSJnRiywbm54pTZ1DUyxpp/baWx7Zaakx4znL4S5HnIOEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=G422sMkG1S3zyHGEaBPi+SV34Vm2oY6ZcrDKHENH6rg=;
- b=X5x5B+Sg7ldSPCXHVp7u3cW5SzN9GfZApyvJ4AT6b+B9dJ+g9tyvMYchloRGYcKoTbhBm+YHJcObXml5xo8B5sdYSQsHyr0um055f9wfJIxFbZEEvbj9+BnUe0eeq0wH+T/pzVG3+xv6DKW8DyHLfNuhH1P/H7ZaN8tVQIalLq4uLoUJSSjnIL2CCC+KewnJSJzOQ0ScxEa6P2RF0+NnZdvOf6EGxtVzDXRNkRnZn0o9hFDRo/MqQi5XCyATjrct50TNsoooEZEzJlpg2VuKmoJX36gvDfPjwcMysHwp84iKQXlmCoKNQwDNTBmglR+itM5pN4dNf7ffoo3uGkr6fg==
+ bh=KIjDM+6BaYrqq/MK8+l4meIycBWd/NGx7tzi8zOGQA0=;
+ b=PlPVq+TvA1TnuRlofBH+vxk0wq4OpZAk1Cf5kkTwfG69DY7mV33/MbQeQXL93hcKI5d49HoFGPbcD1LD+VvRJGzAlC6YelzO2rE/IKvAzf6kZNzcqxdxI2UNtrF1PcRhMet6evyc2vp93OWmTnO3pwfuc10d+oLulIChap+azU+tnxR36MLVp8QIyrIUBl4EUe35jHueoCjI/4drVDEJqTySnBI5R0/ubQ8w+nTxsyB8wBOBH/0azI38YUzYmQZGzkSUQWfuQ8P4A4zJvqYpjZ7OnaqqTz1bFcXE3Wwb+GQOAFWkRAy+9Hq5DIih830b4Z29Gb0gHhwwxMVnpwXR8g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G422sMkG1S3zyHGEaBPi+SV34Vm2oY6ZcrDKHENH6rg=;
- b=l23ea55dgC0nuivtx9TMsnntnvFZNo1mEDkbtU6Emdr/WVjDSbKpqh0MK+ZD9MFHAkiCZZOHr2INyFLeCcanIrvNQOzwu3bzilbfOmNJrriS76ZlCMsIz1GZeuzB3DvcPQzEnCojBBhgPMHfVcyDgv9vY2EarNzZsu9vLUy+Fv8=
+ bh=KIjDM+6BaYrqq/MK8+l4meIycBWd/NGx7tzi8zOGQA0=;
+ b=Dv+HysEfyjXEC26Y100ODH7kGVHhsiWuFNrHtzdpI+VqwTtI1J40sPNj6MYooG4iQdA9zmiyzY1D5Pm5rX0blzI2++byp1NvbqApIjQLlq87K6hWUd8ZzfsiRDn6oVYjL29Hwi2cm3RLfj7eggDGDcJxDkWxGE7AkdNCJB/qerc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3224.eurprd08.prod.outlook.com (2603:10a6:209:47::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.18; Thu, 23 Sep
- 2021 19:55:08 +0000
+ 2021 19:55:09 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.015; Thu, 23 Sep 2021
- 19:55:08 +0000
+ 19:55:09 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com, pbonzini@redhat.com, michael.roth@amd.com,
  armbru@redhat.com, vsementsov@virtuozzo.com, den@openvz.org
-Subject: [PATCH 2/5] qapi/qmp: QmpCommand: add .tracing field and API
-Date: Thu, 23 Sep 2021 22:54:48 +0300
-Message-Id: <20210923195451.714796-3-vsementsov@virtuozzo.com>
+Subject: [PATCH 3/5] monitor: add qmp tracing API for qmp_commands
+Date: Thu, 23 Sep 2021 22:54:49 +0300
+Message-Id: <20210923195451.714796-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210923195451.714796-1-vsementsov@virtuozzo.com>
 References: <20210923195451.714796-1-vsementsov@virtuozzo.com>
@@ -65,54 +65,54 @@ MIME-Version: 1.0
 Received: from localhost.localdomain (185.215.60.205) by
  HE1P18901CA0018.EURP189.PROD.OUTLOOK.COM (2603:10a6:3:8b::28) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4544.14 via Frontend Transport; Thu, 23 Sep 2021 19:55:07 +0000
+ 15.20.4544.14 via Frontend Transport; Thu, 23 Sep 2021 19:55:08 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 65da6d78-746f-4c3b-a44a-08d97ecc0bad
+X-MS-Office365-Filtering-Correlation-Id: 1ea0407f-5fdf-48a1-01c6-08d97ecc0c4d
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3224:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB32249FEC725A12AF25B69EE7C1A39@AM6PR08MB3224.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB32244BD8F1AA0280428E4605C1A39@AM6PR08MB3224.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1107;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7J5YHNxLzL7swy7iqYaz2I0AyH0tNf3DMOihaLjsydMV+KyWsTLQAhB+9RdsQPhU47jGIMM252shn50QzL2BF9pf5F9TbrLtFEUkZGRL0iat2eRJk25k+8g/n9RxTAsY1gButqNpxidmqvjsz7sEB8i2afgKqS2CEWea6prC9SKclR34vF/JTB4NAIWVP9EqDKANHVLLtIbjlbztsAcgOplFHk3vdryPDXN+ptmzfgmasa4Zv7td/MMTDm8ZRhjjOSph1EUt/O9JT0z9c4kIdhinFDtwoUXPjnvpKzghhFq/TYsCyx76GCqWU1nDn/mo4p+u7h2NlnShVQRGJuZjz3kvQwunieyKMRY+QRRItkrt5VwPl2lGAuGY673a+QCFXcecKyDxTsmrW8aOEKme4g4u33ZiaWgMD5WQg7RgSDP90E/N4GzXQgzBysQBtOMF1R+tpwHVR9OuSNxXsVe2aLcApQpvjjLNQEWHIgLEgCFS59cILIX0jEKerf0LUlWVtKYolpFIwqPVtc7R5EqdhbgynCML3xT2mS7wkIDNth3dEYjffSqrtNXY3dzwX1Z7W6FEjSu7ZiGSxeaUR0Op8iyxumgqcd6QNHWh1tvN7r5/OQLA/K14TkzcB9N5qaRAowgdFqxTzkZR3ZrFkPF+VztbfypJLb3JzbdUl5pkDb3y1448h0pI0Uywb1rwYWUJzP/p832oR1dZVoK2JNGLbT18yg817l/KyLQ6Ehwmvjo=
+X-Microsoft-Antispam-Message-Info: BbZnbrmYBZnqmTVkyCT5coKIkqL7+ZlCUbZeuJsFpuq5Sgw9r/hLGOhbsjqqG0tkHH12x3oZjMkMTGCHhVUmdU8DtMmd1FOdSTabR0a1+hLdlBiqWHkMQLUHfaNvS8zpPzJe9pSoaKEVjVT9Ug2IvfpQuhXvZn3i3XZkm2fZNIRgs4p7PHGM42F5AfzJY0z4l1EGAOLZ3mSNrimAwwEYyo3i4DLrkAX+4xlc09nkiMo/sQREA+4s18qQj5uG9FcRUHXj+qn4Hexj1Kb66ucV4Z+wV5LC1Qw4rpn5eKLFJmlcHfVwE7aHIYPwPU4FCmSq56J+/ZGkVGdoqwXR6smPVXoCspSdWaz4k6/mMtukYH2YfEfDOdzmglZQLRE64ePvkFCMg/o0y8aOLu3jozdFsnIcsn7yB6GmlRrKFIFTLK6Vjy+DLWUveJX0o6W0/UuOjb48m54M4MhL6XqfTqUVvoxjNvYIgq3i3SHlZaH628gNrQfuYzhAsKwNtXf2ZeNT0ZTv0i3SA/W5cPg39XeFt37puDcRlsLIgsVDXcVigCWxkFZtZzi2/goWowdHhNQgdabTph5jwxNXcoxpypTyzN0oSDUoyP1v0eB5NYf33RZAEm7ynPFBVQUK+CLoohFHHgqDNauu9UvjqHR/oL2De65IFsQTt38P6U4buWXlm3vooEan7ERhnbte4qgacTjjbdNGzLw0YO+KNbS5J/kEhA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6506007)(508600001)(6486002)(5660300002)(38350700002)(38100700002)(86362001)(52116002)(36756003)(6666004)(66476007)(186003)(66946007)(66556008)(316002)(8676002)(8936002)(107886003)(956004)(2616005)(26005)(1076003)(6512007)(2906002)(4326008)(6916009)(142923001);
+ SFS:(4636009)(366004)(6506007)(508600001)(6486002)(5660300002)(38350700002)(38100700002)(86362001)(52116002)(36756003)(6666004)(66476007)(186003)(66946007)(66556008)(316002)(8676002)(8936002)(107886003)(956004)(2616005)(26005)(1076003)(6512007)(2906002)(4326008)(6916009);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?smkWMEhs8EsvBcjmTVrVNXrDf5ahqNZHubHSGczr+O90fnE8MUYES+8PQC7E?=
- =?us-ascii?Q?Zgl4pp0PYWUv+TDHR4T9MAcXjomja5KlRpAyWZ9v3YO4AEoGMoWeJNK9uiTx?=
- =?us-ascii?Q?0Ez3QmBe4ZNpsqt/TwhV5nitv+XD/tiQyBZHkSbad2gvrnkh+K21/7VMIVKV?=
- =?us-ascii?Q?NZQwRhEnElXhdeaj2Zqi8b/EV66XHkkcayzhvm4G6ctpXDRQDSM2ByuQ/Lz7?=
- =?us-ascii?Q?gCVIJrG0P4SkUdGAz6GVJHdMn9Yon08hcMhCU3D4PqLp0YSxykENf0EkKato?=
- =?us-ascii?Q?27R3MHT8ZGL/8FSnJGykQVt3FJxys4/nvWQC/QkOLAphvKXFhyhcS1z0jetv?=
- =?us-ascii?Q?njnHfdN7bfIIYR3QxI/dNCwGlZzPb54CFqpkXw5Qq+wGHpTJR17+aaSDxXz0?=
- =?us-ascii?Q?C778k4mFAYZZJ1lDBCV2HvjZIdYbeDOq1c02ea8gprHgHoisMecWzw7fJnrD?=
- =?us-ascii?Q?A12oYoFqg1votCbVZuJ7ENTXwwSVPtJoF9yO0ocvW/AVuY9zBou4wZbSi+q+?=
- =?us-ascii?Q?rxwIK/Owib5r3sgJfvobbUYWGrEbo8MVPvL7PS208bYVkkzwLwPGqfl97DnA?=
- =?us-ascii?Q?AeRkGU/9rx+2ZtmVF3/rI85p1/4mZ5JsYQw9Rc/9SqKko/ZQ2kMVmJmZDmM6?=
- =?us-ascii?Q?dIslLPktjEV3RJDBoOEWNSvw0SAw4aALIaAhPgg0q5m9sVCMA7BuXqe9Heug?=
- =?us-ascii?Q?eTIM5guTgFBiwWfgsZTqKQ5VNXHzK0DYaEClzYpY5wfJTobWHRJf44BO6Lah?=
- =?us-ascii?Q?gbOjNEaFnLpq+J5hs1NmujfsNFabIc3Nt3yvWcpT6D2IiZh05iQTnpx3tpM4?=
- =?us-ascii?Q?EfY0Mh39WeynR3uUgY5vr420CYRUbyIlmtWYDCEW/kJy2uokE8DuBl+9FSlM?=
- =?us-ascii?Q?3wOxuzfoP/+gPGzhwy08E2f/ZHHC3kVK5lPS3Ld2ot79hTv4PxpUVm6/Y1oZ?=
- =?us-ascii?Q?cqc+GVA0GstbZq4nDTwn5cYkKbLeTMZ15ExAfVtqyXfeqQ27+lygG4pyw7vc?=
- =?us-ascii?Q?xPV9kWi8hmBYaGBVCWn6IrV1Aan8I9SbtnH7rP9NELMo99hihbGLKFfNekOj?=
- =?us-ascii?Q?MV8MAgd9l5NjJRBJD7On1jFCDYJlTnZMPjDP5sr2u0MGukoL+qVGT3glbUL/?=
- =?us-ascii?Q?ahOlgFWx5wK0GD49d/1a/DwWfH8PoYmhcp1GRgG1J1wtozKyRVmUXqxW/Qf9?=
- =?us-ascii?Q?ovYjXeVBK5iVIfgyyJxQGF9+vv36j/6+jMPIlHAVt26MvKqf9uWfbLET9DwS?=
- =?us-ascii?Q?nSeW9kX9JnyAJU+wJnwcqArpb6HTZoVqil1BAyVWvAyO1SVPNR9vySzSkKIz?=
- =?us-ascii?Q?YE550YvOb/ONVWpwCFOwzD/s?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QNVhYlOtgsLTZAJ9kuGf65EIV7xMMKxyyGhLwKQartyruxRhQESgVh6rSGTt?=
+ =?us-ascii?Q?mfCQw/VjNIP+9GncTUvbRKJ8BwlRwx4phXxzx+u/Qacs8eOJI05ytcJewTxZ?=
+ =?us-ascii?Q?4fxFop90YVX6SahTr0xWUGW0XEiNcfEqHxRBiLk2geu0p0qj9ANj7MV7a3tu?=
+ =?us-ascii?Q?Op9YNtmJAFyGpUv1tNVVwziUzwx6l4tj03fNTlqE01psOS3OrW4ryu6XKN/D?=
+ =?us-ascii?Q?BNtaQOzbC4joIX+ENfTLUXnQ/yEDEikpZ9omNLeoJfParfHfj2unBGH4lJYI?=
+ =?us-ascii?Q?Oud7jtjZgglyBOGPt9UWe2CIaidkfIWgdt0B+bQyGMoL8N4zeFevo3NpHnkp?=
+ =?us-ascii?Q?Glz9NocAEeVhQBYKX8++xEF6g8qujcxc+hy0uXx0Idq/TzB3k3CBi1bAzRtt?=
+ =?us-ascii?Q?NyvJS78nYvOP07gdcKmuBqzQz40blOVU6iGDhotDQ/9BFsTZpEluo0ehaebm?=
+ =?us-ascii?Q?XrePsE8JKJxLgVfHqPxYthgLEG65agCDYPdLNN10FOHXnG1iF5ZGTyG4s+Sv?=
+ =?us-ascii?Q?3wX/vGBaAfLAy6l4yHvhNt5vsEVrBx6I1dJRKW3f6owznB51ikw4YvHb7R0Q?=
+ =?us-ascii?Q?3ivK1nQmSEQvXtxWh4JYvnB6jjiMu9yBIVyq+ogqsEJ3/ZyvUHrwUbHrI+HY?=
+ =?us-ascii?Q?L2ag0AZpASu7zttqOsl65qtz2PwnLG035pLRmgw2NZeH9tPxfvrMYk5YUjzd?=
+ =?us-ascii?Q?ZZHQ3mzobaQWXKVbM+Z538NuqTQkReGQBYZuSQZ0sz5OsEY6fEapgBXRYqk4?=
+ =?us-ascii?Q?zlyAxQbjPhZs03uPY3YgT0V38T4c4797Hh6F5U54MZqTXqU/sj5tRse6bjNA?=
+ =?us-ascii?Q?x1gMTvIzVd6hrbGTEnMbqHutn5apa2OvIS47FO6LU0SKmnAyfb5CTjiT2s65?=
+ =?us-ascii?Q?/q/RM5Mt/F6S+/OCNQeBW/ioMQsc9SXjoNu4/h0CYe/LeVtKJ6rRftPC+tZm?=
+ =?us-ascii?Q?l9iUDh5jHdtxYfcq3ds5VZVajkGtF9CslO9vCoxQWATxBOPV3kMvET83rX+C?=
+ =?us-ascii?Q?Bk19IRTpL6Hb6iyDogS8o+EAospQt3mW0AkLCJPhs9GDNyO/EzZk6cabk5Od?=
+ =?us-ascii?Q?pJT6JVTOIxoTpYVOAZZPTJJSZgVp4S+LzW5N0rkaHZDOnAJbkqAtY9OO5fq8?=
+ =?us-ascii?Q?CsIVZwOPLhfLkMOg/jvvZpjeRdzEK97FBz/O0RQQ3yoCfQ2IlzkZLVpjciK9?=
+ =?us-ascii?Q?vDrPjzNWo2ZqAgd6L8rJwg9ESlP6d6NUDUj+zZPBqAsVQ9Grnu7vH6US+69w?=
+ =?us-ascii?Q?T4KqeRlJAf/1eUtZPU2DRGm4+M0zfYAXpngo5ga4i6+UJE+Y6Q6pp+zknIky?=
+ =?us-ascii?Q?XZrmz0Gdckd4Yfe5Sn7vOHem?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65da6d78-746f-4c3b-a44a-08d97ecc0bad
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ea0407f-5fdf-48a1-01c6-08d97ecc0c4d
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 19:55:08.5556 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 19:55:09.5880 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y1uujMP1FYrLsFrK0R1d4RLexFnAN8CuHF/KPD+4pt58hB1wxB1WyqrElGCW6NQKFe5yS/ua8K6ZygjA4Q9kxnF/RJ1O19rVd5zk/0Su6Ps=
+X-MS-Exchange-CrossTenant-UserPrincipalName: VsSI2OXP+2sYzd6H91s58PzdbJFVG+vIHA1YAGZcuwRRs9Mqi5bWaXIDeXgMfheCMnAy4NQBEXyj9tUk7zCih3EPxcGIWIHSnOzXb8Wbuyc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3224
 Received-SPF: pass client-ip=40.107.20.123;
  envelope-from=vsementsov@virtuozzo.com;
@@ -140,84 +140,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to add a possibility to trace some qmp commands by user
-selection. For now add a new field to QmpCommand structure and two
-functions to manipulate with it.
+Add wrappers to manipulate with .tracing in qmp_commands list.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/qapi/qmp/dispatch.h | 14 ++++++++++++++
- qapi/qmp-registry.c         | 27 +++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
+ include/monitor/monitor.h |  3 +++
+ monitor/qmp.c             | 10 ++++++++++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-index 075203dc67..5d0df2f984 100644
---- a/include/qapi/qmp/dispatch.h
-+++ b/include/qapi/qmp/dispatch.h
-@@ -38,6 +38,7 @@ typedef struct QmpCommand
-     QTAILQ_ENTRY(QmpCommand) node;
-     bool enabled;
-     const char *disable_reason;
-+    bool tracing;
- } QmpCommand;
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index 1a8a369b50..9587998217 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -54,4 +54,7 @@ int64_t monitor_fdset_dup_fd_find(int dup_fd);
+ void monitor_register_hmp(const char *name, bool info,
+                           void (*cmd)(Monitor *mon, const QDict *qdict));
  
- typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpCommandList;
-@@ -64,4 +65,17 @@ typedef void (*qmp_cmd_callback_fn)(const QmpCommand *cmd, void *opaque);
- void qmp_for_each_command(const QmpCommandList *cmds, qmp_cmd_callback_fn fn,
-                           void *opaque);
- 
-+/*
-+ * Enable or disable tracing for commands matching the pattern.
-+ * Pattern matching is handled by g_pattern_match_simple().
-+ */
-+void qmp_commands_set_tracing(QmpCommandList *cmds, const char *pattern,
-+                              bool enable);
++bool monitor_qmp_is_tracing_enabled(const char *pattern);
++void monitor_qmp_set_tracing(const char *pattern, bool enable);
 +
-+/*
-+ * Return true if tracing is enabled for any command matching the pattern.
-+ * If pattern is NULL, return true if tracing is enabled for any command.
-+ */
-+bool qmp_commands_is_tracing_enabled(QmpCommandList *cmds, const char *pattern);
-+
- #endif
-diff --git a/qapi/qmp-registry.c b/qapi/qmp-registry.c
-index f78c064aae..56e761857b 100644
---- a/qapi/qmp-registry.c
-+++ b/qapi/qmp-registry.c
-@@ -67,6 +67,33 @@ void qmp_enable_command(QmpCommandList *cmds, const char *name)
-     qmp_toggle_command(cmds, name, true, NULL);
+ #endif /* MONITOR_H */
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index 092c527b6f..def2c7d1da 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -536,3 +536,13 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+         monitor_list_append(&mon->common);
+     }
  }
- 
-+void qmp_commands_set_tracing(QmpCommandList *cmds, const char *pattern,
-+                              bool enable)
-+{
-+    QmpCommand *cmd;
 +
-+    QTAILQ_FOREACH(cmd, cmds, node) {
-+        if (g_pattern_match_simple(pattern, cmd->name)) {
-+            cmd->tracing = true;
-+        }
-+    }
++void monitor_qmp_set_tracing(const char *pattern, bool enable)
++{
++    qmp_commands_set_tracing(&qmp_commands, pattern, enable);
 +}
 +
-+bool qmp_commands_is_tracing_enabled(QmpCommandList *cmds, const char *pattern)
++bool monitor_qmp_is_tracing_enabled(const char *pattern)
 +{
-+    QmpCommand *cmd;
-+
-+    QTAILQ_FOREACH(cmd, cmds, node) {
-+        if (cmd->tracing &&
-+            (!pattern || g_pattern_match_simple(pattern, cmd->name)))
-+        {
-+            return true;
-+        }
-+    }
-+
-+    return false;
++    return qmp_commands_is_tracing_enabled(&qmp_commands, pattern);
 +}
-+
- bool qmp_command_is_enabled(const QmpCommand *cmd)
- {
-     return cmd->enabled;
 -- 
 2.29.2
 
