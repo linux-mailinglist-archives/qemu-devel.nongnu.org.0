@@ -2,133 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7D04167BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 23:52:47 +0200 (CEST)
-Received: from localhost ([::1]:37806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C954167CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 00:03:35 +0200 (CEST)
+Received: from localhost ([::1]:44098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTWe6-0004Z9-Cg
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 17:52:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48430)
+	id 1mTWoX-0000uF-3P
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 18:03:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTWcI-0002pp-GB; Thu, 23 Sep 2021 17:50:54 -0400
-Received: from mail-db8eur05on2118.outbound.protection.outlook.com
- ([40.107.20.118]:52672 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1mTWmu-0008Cb-E6; Thu, 23 Sep 2021 18:01:52 -0400
+Received: from mail-am6eur05on2112.outbound.protection.outlook.com
+ ([40.107.22.112]:18977 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTWcE-0003gE-4I; Thu, 23 Sep 2021 17:50:53 -0400
+ id 1mTWmq-0004ZZ-5I; Thu, 23 Sep 2021 18:01:50 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YpQLuHnyXCfT7M9dHxrUg8PdON5XfxZmsHegjxoXrvTg6HYXsp7csYl9bVzOHc9QT124Dd+rwdlDN3g/yW1F1fy2ExEGXNBhNJom7DcAmfGR99KBTCzAV9beHu1X1Wvof6v/c9zzWQScqeYRH82EBD0v8fZo/KgLNii5sFrvzhzavxY/yHy1NM3/zKHlxegeltwIyWY3TATVG+uqFw5soHTw0AdWhwIfKTitrU01WXGs+fUGPeZfkh0BVo+YUhygkOW2sLd8X0hiHOuIebZyLBTeD9Xj620/aEojTp3UlmEk+hCaKqorztIIOs0GH9ENxUs2w1xcJMqt35Og9Pu2RA==
+ b=D7JGPnfSKrxdGnXermQ+amg3viss3+oeF8Fg0EyZEMPCLdKLntuT9ZAsYi8LmtuKbQVFR56rP5n0jqX88Fl4qGyb/RX7FhMbjoEGC6LuwUZYQAGJA88AZY+A/1la1t3O8teUfH23z2Pxhc03vD7lFktH3fvsrLDx2BKBaVId9Ttbw6VjDBD4X+i3OmwBSeV19RvFtB20x5FIbjcN56Ls17poFqPBGkv/cebRDYeu6pW381i6P4iM1qHACaMLtyraSF3IGStrT8SHCr4lZ81QnL+C5cgLmQRVF+dJe9cRcPS/wIRoAIyf/fV/7k6bekz4oTqBgUUI+xFKvtVR9etcwg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=TRQGOYhA0iGev2XaMhZ0hce//V8te6CkSi+8LCKHaqE=;
- b=QK+Zk7dHsm2Jny7uTs6kubyERcgIB7XiHwspKJTrnCjsDa3FH2YFmuTZXSExCAVqN7ox/mvqb0nLl1iH/Vlk/wCk6+/OVjrki2a8asSXZ1AUF3RtgXB0j0EKdUowq5xrQ+E6f05wefUwNcW5KMCsDuIvn6snyr4UbLM6WGhV09lW9NTMJtZVJTMfaTyYCyyjOiGmsWPGGnQMFZuB3SnrAhfjYyosn9vypUFyX0+4th7TvPEPUA4whezMA4LL72hFzL4IWJ4tU3gf9QpP2zSHo+zwJR+6awXFoZZPAPj5BXdZhS2/xpVSN+OjXEFchIFbyRAU1osjDazqjor9kXuQlg==
+ bh=dSQJqtqgSKYE65NKMSi3cvNonN3sLzZoL8YXkZj1L/w=;
+ b=meE9jsjuE/KMLiYkrsxKFCbv4MmE3e/SPLUybSo6ECpIMV3jKhiokYsozezA8EQTaz1YE9nXksAdM9hM+Ofi5WuSxGVxzlQusAJx4+Q8erKSqNI5QXpMbSfx5bZlh0zr2Xerrkzw7uS2HSsUMJ4NqE1weydmmdGn2t++jExhluJodHWnwnhLgvb32AONVTZopJ/iQbdwVE9XIxgdc0asAw4caub6aw2Fpb5uzM11WjsKYyw9yKBbmeBpwe95Z/tyChFxtW67TdT2Dvl/ZFVfZTuF+U4aL5isRFLAoXLOg4bd4fcakcgUo46U5DAMyzsadgtbnP+Ea3Nc8C6JOY3HJQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TRQGOYhA0iGev2XaMhZ0hce//V8te6CkSi+8LCKHaqE=;
- b=vB/k0Cag/zEf2mlUn5ugrrR/eQKAlugxam1HIJBNpKYfnC+88B3Hv/esG4P3LD0TqHSZn1NAyYfypB0Osg+dGojVvg3xAa8iZcEK5bSKVE4l4HSI8NUj/w+/CI0oX5krzi6zOKvrzlMIovT8zhFnvyVfYaaykCHtY1JJf+e+EbA=
+ bh=dSQJqtqgSKYE65NKMSi3cvNonN3sLzZoL8YXkZj1L/w=;
+ b=Blc7Qtn1Az84lZUkatpxK8TMOGZnII60PKE7Uw6/XqHA7a6IZWQAjbtmFPUVVLw0HJERCwjJ83TOCZnNGCOWEhyVfd1cJZqXgAyVL8zUgTqTnnr8CSCpEW1f3Bc79GQzJ5knA9Y7/HBaXX2VbCL2pH4s42bLSkVWxp61Wavld+c=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1906.eurprd08.prod.outlook.com (2603:10a6:203:48::20)
+ by AM7PR08MB5495.eurprd08.prod.outlook.com (2603:10a6:20b:104::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.15; Thu, 23 Sep
- 2021 21:50:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.15; Thu, 23 Sep
+ 2021 22:01:41 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.015; Thu, 23 Sep 2021
- 21:50:44 +0000
-Subject: Re: [PATCH v6 07/11] block: use int64_t instead of int in driver
- write_zeroes handlers
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, integration@gluster.org,
- kraxel@redhat.com, idryomov@gmail.com, berto@igalia.com, philmd@redhat.com,
- pl@kamp.de, ronniesahlberg@gmail.com, fam@euphon.net, sw@weilnetz.de,
- jsnow@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
- pavel.dovgaluk@ispras.ru, ari@tuxera.com, hreitz@redhat.com, kwolf@redhat.com
-References: <20210903102807.27127-1-vsementsov@virtuozzo.com>
- <20210903102807.27127-8-vsementsov@virtuozzo.com>
- <20210923203345.efajcgbm3qd2sam5@redhat.com>
+ 22:01:41 +0000
+Subject: Re: [PULL 00/12] jobs: mirror: Handle errors after READY cancel
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <07e2d433-766a-4a46-44f2-a8e19729c04d@virtuozzo.com>
-Date: Fri, 24 Sep 2021 00:50:41 +0300
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, kwolf@redhat.com,
+ hreitz@redhat.com, jsnow@redhat.com
+References: <20210921102017.273679-1-vsementsov@virtuozzo.com>
+ <4a51243d-5746-260d-3045-b48650aa5047@linaro.org>
+ <46b96d63-e6f4-5dc3-a4ab-ade47ab5f553@virtuozzo.com>
+Message-ID: <085e9e5a-56b5-21ce-e1af-0500acd39937@virtuozzo.com>
+Date: Fri, 24 Sep 2021 01:01:40 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
-In-Reply-To: <20210923203345.efajcgbm3qd2sam5@redhat.com>
+In-Reply-To: <46b96d63-e6f4-5dc3-a4ab-ade47ab5f553@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR3P192CA0017.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:102:56::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0083.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 Received: from [192.168.100.5] (185.215.60.205) by
- PR3P192CA0017.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:56::22) with Microsoft
+ FR0P281CA0083.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1e::18) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4544.13 via Frontend Transport; Thu, 23 Sep 2021 21:50:43 +0000
+ 15.20.4566.8 via Frontend Transport; Thu, 23 Sep 2021 22:01:41 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0af0370a-f6c0-49f4-7317-08d97edc31d9
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1906:
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB19067439AA0007FE4B21B131C1A39@AM5PR0801MB1906.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Office365-Filtering-Correlation-Id: 0ac1dbed-f67d-4e12-375d-08d97eddb9b5
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5495:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5495001227734BA5A3168622C1A39@AM7PR08MB5495.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:133;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Kamp7Oq8LEWv3qZLj2gLXwyvKrpO69pBteT8mjLqkR/e6xLMZ6YzIZCVWZqg+eWPE2CM9ajrKtDB9YMBu4dKH8yCcBjjJHO5Nh/ebqCgbPuN6BNPe0qMo95NsmKCRgUmB7dLZYCeL0PG0rwlOZ5g7n218PHzdIikhp9iH952o68uEdye523N0rh054/Ps+Mu1FkZmUKu/zcye/UKrdHyscuYLpRr475QgIAB5Xr12vkN1GBxHuhwiKyQ/21uX0N2sW1ohia/nkl11v8M7TCf8thRdNIE5pP4hg7yk8QIoF3BuWiOUQygOBJ9wnyHwFCGV88Hei9f7Q2SyDlMaVJdcaBOk4XRAWwf39wtczvAFOGXJduuUXbFy06v/mc1A1UTuRnmstKUdkcOIiYuRkgl8BUpU2e2FxGtCE9pX8TqfAEjcBeLBoid+jIH0rLXFyU+En8yRUGc3awyWFxyidqCyp1Q2L5dDJntLAzJG2xUBy3O+EFrXUYfNVUZPAePdnZTMJsgR4AxdiZSVoOotz+7dWvjqJ4ZHZdeGWu+6QRYnQ8xuWgIEbRQVOJ6/qcDMwPGtSwsRItvuI8pWeDWtV6X0oVoRVZ5wKW6ZxrD4S9iwZTip9IrvNAIzoskcq2RJ+uLcDK/nsNfiUWTwNBiy/zsptD8bh4kcfnO9kFxSI4Hyx606bI+DfskwBKvplzT+gQfMcTt1a7+otPqOcwagtuc1OiJWUp2egfdTQPH6D06IAF86zjKaBWWCQyVVUvz1T3X
+X-Microsoft-Antispam-Message-Info: 0GY9n1gRIE1atwYV3Uj1W8JeCtbqTzaVVyuh79lWLoU8sRffZAotP4doF1mlT6OAm4AH0Ks+ZlMjKWxI0f8Eeumv9mB6awvNwWlCNyZYYXw35+l8bd6NwsZIQ7GI07zL083OCYof2sPFTHpzoHeeaLfwpklkslKd7gtPqGcci+MaPO7sxg065LSlBCo1FM5AWaKPZCWgxmHNNVZ1zY4tGG4PxhsbxhD5ND8+STvmieB/puUocGHDjjxG+Wo8iACLuBcNCA26VcAOmooPEPXVWcrGxlButcdpYAbqCBKEQjXCKNqxUR5ANK/Hh3NtU0woE15yurzO63qshNK2n9oR0378Ifk/Pv7PRoK6EmNBJoc7DUUVmieG5FSsxyGNzT+0Iofi298EV7TTu1jUG47pLhICOJUm3uaySZOG/HohxCCWKkCWu4B39PZnUHNhhlpnOtGWHFHhOtNVPONwz+qwU0/aKHHyG6wK/vR79kzpZzNwxBqBDU9YM0BygCFvlxrzZayIrEVWQbnCoUH7cyqg87GqoyBK/3TT5B6wGZz4zZ8eWD0x+pXwFJj34DC0Vl1kJCLYuGBQPndvvTih0uozShvIrnjSQASSJQgEQqKhJPmlVWcJPg50ed6WKq1AtHpAyQtYd7lCwgLhjqdDqTS5qCRqlIsxy/+OIj0SDu3u0y9Kxu2hLoiywmxK6eaRxNTA8xifx7hUYlmJxF5NsUhDYfnosQkYwBE4ns9TgARWCmEbZdaHrh4UFpHM8YJvYmQDEJKRGIZXxW0T6yBK/FoA6KF2YB8WdmP0tqgmpY/O65ZqlKErwyCFV/9CfMLGpz5KZx6O8yxVr5/rKoKH0XR12mcvgX5DZbp2akV4efwQ3Mg=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(5660300002)(83380400001)(66556008)(36756003)(86362001)(8676002)(4326008)(2616005)(31696002)(956004)(16576012)(7416002)(6916009)(38350700002)(66476007)(31686004)(38100700002)(52116002)(508600001)(8936002)(66946007)(2906002)(6486002)(316002)(26005)(186003)(45980500001)(43740500002);
+ SFS:(4636009)(366004)(4326008)(316002)(5660300002)(86362001)(966005)(2616005)(53546011)(956004)(8936002)(36756003)(16576012)(2906002)(26005)(186003)(8676002)(83380400001)(38100700002)(38350700002)(31696002)(52116002)(66476007)(66556008)(31686004)(66946007)(6486002)(508600001)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c1FQVFdteWxRajdIdGpGNWc4MFdrTHRzK3A3eFpiMGVXdC9NUUg5K0o2RlN4?=
- =?utf-8?B?YWMyZWhyYzlnQTJBNmhFOGFWcERIR3E2R0pzOFNEZDR5bUlJM2tTMzBWM2RV?=
- =?utf-8?B?MVdhZ3ozVXF2RWp3L1NJazFJcitCaTdKODJJQnpEclBQZDhodDNUK0JlTXZR?=
- =?utf-8?B?RWZ2NHlYNmMwUE1QU200d2IvRXU4WFVkQ0pkWkdtTXZVenNONU9CZ1htYXMy?=
- =?utf-8?B?ZXhML1liVnFsdk4vaDgxY21qRDJ3WkZlejNxaGpoc1U1OGdWL2ozN3ZzTEdZ?=
- =?utf-8?B?TVA3UTByejFSMFVOVTJ1QU9YbHZYSnRtb1hyMWJzdHUrRlZrNkdBTkhoNE45?=
- =?utf-8?B?SnJ2dnBaRENacmgzdis2bXduRllOMVBsYVZTamZHY1YyZ080M0FTcWg5RE96?=
- =?utf-8?B?djlwTDlOQ3orcVg1clMrcUVsbzBsNXF2d2srOHdTNTgvSUpsQnh6cU5xN2pW?=
- =?utf-8?B?SEROczNISXMyZkRDcVBJSFVuVFZuMFdPTDZ6aTlqV0RwYjNtWDZobGkwVXdq?=
- =?utf-8?B?Z3RhOURLSmJHTzNoZlZrTTlnNlMrVGFnOThFQUxHaG8rSFIvNXRoNWU2ZjV0?=
- =?utf-8?B?TVAwdzViOGV3cndkVndtNmg0QWsyZ0gwbXBaQW9ra05aQVVnbjNGTTRTaEFB?=
- =?utf-8?B?SzFOWTJhdStHUGN3ajYvb1dSY05GUXUxL0wza3hoVWhIUDdtVGx4eTRPUWQ2?=
- =?utf-8?B?Y1dCaXZ0TWM3eHltMFhxWVh4WFJiekltME1NbHBHWU5mUm9CaStCTGE0QWxo?=
- =?utf-8?B?RjZTWHV1MVY4ZGE5YmVzVzdZblpZNzd1emhOS0x2VlZjZnJTc3R0YXhNM25s?=
- =?utf-8?B?d0N4eis0czM2eVhUY1JBaHJ0TW1oNzh6RVd1YzBTdCtDZWhpbFNHbTNIbGlW?=
- =?utf-8?B?b204eFFCNzdjRWVWZ3NvZHRlZDFaU0FzMkV3MmdyeUQyWmQ3VU5ZNndZRjZs?=
- =?utf-8?B?UUdxL05QaGpxanNwTVd0YmxqYjhDcGo4ai93SFBWYTdrS3EzTUlkNDRtWFA2?=
- =?utf-8?B?QWtjNmVqN1ZQOG9WU2QvQ2JyZjRZSTNLQ1ErQnpIVUsxdnpHQUVIZmNMK2Y0?=
- =?utf-8?B?eVQrY254MVAwY1FCd291UkszOXYveUIyaEZrS1psbmEwU3lvS0U2NlNsNmxY?=
- =?utf-8?B?NWUwNk5oY0o5TzZxcHNrNTlxcEZWaXY3emh5TjluSTljenV3SVY0dG5kVng0?=
- =?utf-8?B?dVRkYjdQV0JVUlEzR2p6M3lRQTFYSVJ1dHl0V3Q5cGtGRnlFR2ZVRVlTUjJt?=
- =?utf-8?B?RWFqWXFSTTJJekpaWURVVkN3ZEl4RFNoTk5LZjBDUjlncVFpVkdObGVCQVZi?=
- =?utf-8?B?amZ3V3N1OVFYbkhRNkhrQjQyUnBMbmE0RWx3d2lGZmp4cmdJbmpnOG1jM0Vp?=
- =?utf-8?B?bmU1MU94K0l2RTdnWkg3dWUxMldTTHNyM0x4OFFsckFrenNSZ2N1bXAzUGdR?=
- =?utf-8?B?MXpBQWhyVkZNQXY1cWZwdjVRMDZhMGJrd2Yyem1OMmd1aGxkMiswMldMbng5?=
- =?utf-8?B?Q2p3SFRUSjY4ekVmbzh4bWxqWkRVUFV0Y2hONmg1bTg5d0dlK1EzMUJCOURl?=
- =?utf-8?B?aHNOV1ZkZzR6Ym1HWHl0QVU0NVRrNENvN2xXVUVxdmVtaEx3WjdIenRaTEtu?=
- =?utf-8?B?Y1BiTlRGY3ZUSUUycDZnZWFobmtLNXFsR3QvZzNNb0t2NHpVYW9MN0ZVYzhL?=
- =?utf-8?B?Sm5lV1lpMDlZOGg0TjhEbTJVKytYYUlXRXZtbUNsUEJJR1RYK2RnV3B6dHhU?=
- =?utf-8?Q?IpY7BXwD2B4Oc+9pESoHgmsTBbhetT+B1o7LqjT?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K2ZqenRDay9yWThZOHcvZG1xRUgyRmxQZHhaU0dXMEZUbXBmKzFaQzl1ckhv?=
+ =?utf-8?B?eGpPdmlpc2VVYXdXVzBIVHN2R0MzYmltYUthSWQ5OTJuS1dLcFBlMFhBN0Jm?=
+ =?utf-8?B?WXYwYitGaU5FWjdrZ0lkQTcwTWloN1JIUWc0OXBLZkZMSnFVc2RIR0FTOS9u?=
+ =?utf-8?B?L1YrOEhIYTVzd2QyR3kzTUhvVDBiemVpZFoxMjMySXczcENNcHN0aFlDbk9V?=
+ =?utf-8?B?UG9yWWo3TXNGUmUxSmlycEJBeDZCVGlyMlZKVEhPVzJoaC9OL0Mwb2Y4RGFn?=
+ =?utf-8?B?Z1QzL3k4emovZTA5SnB5em50K0RnWnZBeE1mSTUxcGUrakM3WmxwdmU4WnMz?=
+ =?utf-8?B?SUZBQzBhYTYyVzNxVUsxK2lmQmFKWGV3K0JPTVhha0VUZHNMTU9YNjQyTEpF?=
+ =?utf-8?B?d1VNbS8wUHZraENyQkNhdjZiYXozV2cyanhSbGdJdm1jaDNYWFFhZjArcFlU?=
+ =?utf-8?B?M3JrU2hZQVZhZm5QdHhiZDNITmlYWjRRT09IcmVGQXFrU0tDRlFQYUY1RWR1?=
+ =?utf-8?B?c1U3a2NaekwwSmhDL1ZQaTkxZmxhNUlwVUtiMFNoRFFxZHBFVEI2cDM4TFAr?=
+ =?utf-8?B?ZmVyVS93TnljeUhQd2JqU01ET0NWbWswaUtJams1SHA2NTZyWFlvWXBrNjg5?=
+ =?utf-8?B?U0pxWW9vb21hNGxMeDVGVkFtdG8zUE1RNzNoV2ltVmYycHpWWUszeXAzN0dK?=
+ =?utf-8?B?MW5VWis2TUllQ0g4L0UrUlBaZVBOeU5Zdy9qZWdTSythQk92VVdya0ZoOVdY?=
+ =?utf-8?B?ajZ1eFBzNllYL1NURExhVVN1S29OaC9iWGtyR040Z3MzRzZ1dG8xS1JyZTBU?=
+ =?utf-8?B?L3BhNlorUjRqQnk2RTE5VXNic0xTdnVQZDZSS1ZMYWVXd0QyczFsZm9oc3RZ?=
+ =?utf-8?B?ZDF3NlR0YkI4TE1zeW4xazBBWW9jSzhyYUVLM0E3eHJQbFhubDFxVWJFejlZ?=
+ =?utf-8?B?bVF3d3VxNmEyekttNXBCNGsxenJCN1YwZUcyYzJEVDF2YVV2VFQ5bmYvRzAv?=
+ =?utf-8?B?MmdEZjZlNGRnNWhCU2g2blk0R0JIYmZHMG8ySXpNUzhreHNGS1NSVEVXSk1K?=
+ =?utf-8?B?MkZtd3BjeWM1Z1d4U2h5SVhTTDdlNGtuRytsMWlzTDVqajhkL0F1VFdBcmVX?=
+ =?utf-8?B?L3VwM3FNNnA4NmZCQkRQRURjc2Z2d0VUUzdFQlhSTU5DUkxDdVFkZkI4bmRM?=
+ =?utf-8?B?cnhtL2FKNWdpUXRHZ0NMWUJTQTd2SFdHMGpxQmo1amtnRXZSZE1xRWkvd2tl?=
+ =?utf-8?B?ODkxRjFUSno0M0pEaU1LZGVpbzdxbjdtU3p4THlFVDc4YThYZVU1UHpkNDJq?=
+ =?utf-8?B?L1NMd0RDQVkvazU0cGg4UlpNN2RkbStsVngrY0djZkdMc0U4bjA1N3lkZ2dF?=
+ =?utf-8?B?b2VQYXZyRlQxOUlSN1ZzWHhGdm5Da3ZqMDhHVytLVlp2dWpaQ2hYTmxnTHFa?=
+ =?utf-8?B?aGFCakRwOEtWR1hkWGtsS1ExSUFRZEJmWU5SVEtwYkVkc1BDUlBvZGsrbmVO?=
+ =?utf-8?B?Nm1vS1hzd2lud3NRdWtFdHVtNGZyQkZKY1gwRkNJdVJKWllCTmJscUU4djV0?=
+ =?utf-8?B?MFVYdjdjNVArZ0dKazJQVFYwNFExRk0zNEY5Y3JZU2tVRzJ4YmRGSmZ0cGE3?=
+ =?utf-8?B?RUN5VHcrVGlvRGNJOTUyUklWdmtKSUJqTjg3d0I1QTA5T24wWmRJQ1VNcVEy?=
+ =?utf-8?B?WlNMQzFFVm1weXBCQ3BsZDFxdUs0clZzMForZ2NHMW42VXRSVGRBUjhIYW44?=
+ =?utf-8?Q?FeNuTh6W98+RgyIm0nkSad4qmDxo91CS59lLJS8?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0af0370a-f6c0-49f4-7317-08d97edc31d9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ac1dbed-f67d-4e12-375d-08d97eddb9b5
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 21:50:44.6503 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 22:01:41.9363 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yeeSatBF+i7Yt80fViWFSmPSMHMhFREyKljvek5e0qbhNUYb/KrSeefFSPsmVw6TrSTZxBuaAihzW38M3le+NiXuy71dr7aOhyn5Ayxud8k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1906
-Received-SPF: pass client-ip=40.107.20.118;
+X-MS-Exchange-CrossTenant-UserPrincipalName: sat/dSnDReCd/RVelHY313+dAzy5Xi/g7Jz9pHh4UjnjUuXcP3sJSBr1rlwT7T9nsb54RUdsaX0lyQS6CiS3hvUDAmzkB358WabizzAE1q0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5495
+Received-SPF: pass client-ip=40.107.22.112;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -152,105 +148,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-23.09.2021 23:33, Eric Blake wrote:
-> On Fri, Sep 03, 2021 at 01:28:03PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> We are generally moving to int64_t for both offset and bytes parameters
->> on all io paths.
+22.09.2021 22:19, Vladimir Sementsov-Ogievskiy wrote:
+> 22.09.2021 19:05, Richard Henderson wrote:
+>> On 9/21/21 3:20 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>> The following changes since commit 326ff8dd09556fc2e257196c49f35009700794ac:
+>>>
+>>>    Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-09-20 16:17:05 +0100)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>    https://src.openvz.org/scm/~vsementsov/qemu.git  tags/pull-jobs-2021-09-21
+>>>
+>>> for you to fetch changes up to c9489c04319cac75c76af8fc27c254f46e10214c:
+>>>
+>>>    iotests: Add mirror-ready-cancel-error test (2021-09-21 11:56:11 +0300)
+>>>
+>>> ----------------------------------------------------------------
+>>> mirror: Handle errors after READY cancel
+>>>
+>>> ----------------------------------------------------------------
+>>> Hanna Reitz (12):
+>>>        job: Context changes in job_completed_txn_abort()
+>>>        mirror: Keep s->synced on error
+>>>        mirror: Drop s->synced
+>>>        job: Force-cancel jobs in a failed transaction
+>>>        job: @force parameter for job_cancel_sync()
+>>>        jobs: Give Job.force_cancel more meaning
+>>>        job: Add job_cancel_requested()
+>>>        mirror: Use job_is_cancelled()
+>>>        mirror: Check job_is_cancelled() earlier
+>>>        mirror: Stop active mirroring after force-cancel
+>>>        mirror: Do not clear .cancelled
+>>>        iotests: Add mirror-ready-cancel-error test
 >>
->> Main motivation is realization of 64-bit write_zeroes operation for
->> fast zeroing large disk chunks, up to the whole disk.
+>> This fails testing with errors like so:
 >>
->> We chose signed type, to be consistent with off_t (which is signed) and
->> with possibility for signed return type (where negative value means
->> error).
+>> Running test test-replication
+>> test-replication: ../job.c:186: job_state_transition: Assertion `JobSTT[s0][s1]' failed.
+>> ERROR test-replication - too few tests run (expected 13, got 8)
+>> make: *** [Makefile.mtest:816: run-test-100] Error 1
+>> Cleaning up project directory and file based variables
+>> ERROR: Job failed: exit code 1
 >>
->> So, convert driver write_zeroes handlers bytes parameter to int64_t.
+>> https://gitlab.com/qemu-project/qemu/-/pipelines/375324015/failures
 >>
->> The only caller of all updated function is bdrv_co_do_pwrite_zeroes().
->>
->> bdrv_co_do_pwrite_zeroes() itself is of course OK with widening of
->> callee parameter type. Also, bdrv_co_do_pwrite_zeroes()'s
->> max_write_zeroes is limited to INT_MAX. So, updated functions all are
->> safe, they will not get "bytes" larger than before.
->>
->> Still, let's look through all updated functions, and add assertions to
->> the ones which are actually unprepared to values larger than INT_MAX.
->> For these drivers also set explicit max_pwrite_zeroes limit.
->>
-> [snip]
->>
->> At this point all block drivers are prepared to support 64bit
->> write-zero requests, or have explicitly set max_pwrite_zeroes.
 > 
-> The long commit message is essential, but the analysis looks sane.
 > 
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
+> Interesting :(
 > 
->> +++ b/block/iscsi.c
+> I've reproduced, starting test-replication in several parallel loops. (it doesn't reproduce for me if just start in one loop). So, that's some racy bug..
 > 
->> @@ -1250,11 +1250,21 @@ coroutine_fn iscsi_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
->>       iscsi_co_init_iscsitask(iscsilun, &iTask);
->>   retry:
->>       if (use_16_for_ws) {
->> +        /*
->> +         * iscsi_writesame16_task num_blocks argument is uint32_t. We rely here
->> +         * on our max_pwrite_zeroes limit.
->> +         */
->> +        assert(nb_blocks < UINT32_MAX);
->>           iTask.task = iscsi_writesame16_task(iscsilun->iscsi, iscsilun->lun, lba,
->>                                               iscsilun->zeroblock, iscsilun->block_size,
->>                                               nb_blocks, 0, !!(flags & BDRV_REQ_MAY_UNMAP),
->>                                               0, 0, iscsi_co_generic_cb, &iTask);
+> Hmm, and seems it doesn't reproduce so simple on master. I'll try to bisect the series tomorrow.
 > 
-> Should this be <= instead of < ?
+> ====
 > 
->>       } else {
->> +        /*
->> +         * iscsi_writesame10_task num_blocks argument is uint16_t. We rely here
->> +         * on our max_pwrite_zeroes limit.
->> +         */
->> +        assert(nb_blocks < UINT16_MAX);
->>           iTask.task = iscsi_writesame10_task(iscsilun->iscsi, iscsilun->lun, lba,
->>                                               iscsilun->zeroblock, iscsilun->block_size,
->>                                               nb_blocks, 0, !!(flags & BDRV_REQ_MAY_UNMAP),
+> (gdb) bt
+> #0  0x00007f034a3d09d5 in raise () from /lib64/libc.so.6
+> #1  0x00007f034a3b9954 in abort () from /lib64/libc.so.6
+> #2  0x00007f034a3b9789 in __assert_fail_base.cold () from /lib64/libc.so.6
+> #3  0x00007f034a3c9026 in __assert_fail () from /lib64/libc.so.6
+> #4  0x000055d3b503d670 in job_state_transition (job=0x55d3b5e67020, s1=JOB_STATUS_CONCLUDED) at ../job.c:186
+> #5  0x000055d3b503e7c2 in job_conclude (job=0x55d3b5e67020) at ../job.c:652
+> #6  0x000055d3b503eaa1 in job_finalize_single (job=0x55d3b5e67020) at ../job.c:722
+> #7  0x000055d3b503ecd1 in job_completed_txn_abort (job=0x55d3b5e67020) at ../job.c:801
+> #8  0x000055d3b503f2ea in job_cancel (job=0x55d3b5e67020, force=false) at ../job.c:973
+> #9  0x000055d3b503f360 in job_cancel_err (job=0x55d3b5e67020, errp=0x7fffcc997a80) at ../job.c:992
+> #10 0x000055d3b503f576 in job_finish_sync (job=0x55d3b5e67020, finish=0x55d3b503f33f <job_cancel_err>, errp=0x0) at ../job.c:1054
+> #11 0x000055d3b503f3d0 in job_cancel_sync (job=0x55d3b5e67020, force=false) at ../job.c:1008
+> #12 0x000055d3b4ff14a3 in replication_close (bs=0x55d3b5e6ef80) at ../block/replication.c:152
+> #13 0x000055d3b50277fc in bdrv_close (bs=0x55d3b5e6ef80) at ../block.c:4677
+> #14 0x000055d3b50286cf in bdrv_delete (bs=0x55d3b5e6ef80) at ../block.c:5100
+> #15 0x000055d3b502ae3a in bdrv_unref (bs=0x55d3b5e6ef80) at ../block.c:6495
+> #16 0x000055d3b5023a38 in bdrv_root_unref_child (child=0x55d3b5e4c690) at ../block.c:3010
+> #17 0x000055d3b5047998 in blk_remove_bs (blk=0x55d3b5e73b40) at ../block/block-backend.c:845
+> #18 0x000055d3b5046e38 in blk_delete (blk=0x55d3b5e73b40) at ../block/block-backend.c:461
+> #19 0x000055d3b50470dc in blk_unref (blk=0x55d3b5e73b40) at ../block/block-backend.c:516
+> #20 0x000055d3b4fdb20a in teardown_secondary () at ../tests/unit/test-replication.c:367
+> #21 0x000055d3b4fdb632 in test_secondary_continuous_replication () at ../tests/unit/test-replication.c:504
+> #22 0x00007f034b26979e in g_test_run_suite_internal () from /lib64/libglib-2.0.so.0
+> #23 0x00007f034b26959b in g_test_run_suite_internal () from /lib64/libglib-2.0.so.0
+> #24 0x00007f034b26959b in g_test_run_suite_internal () from /lib64/libglib-2.0.so.0
+> #25 0x00007f034b269c8a in g_test_run_suite () from /lib64/libglib-2.0.so.0
+> #26 0x00007f034b269ca5 in g_test_run () from /lib64/libglib-2.0.so.0
+> #27 0x000055d3b4fdb9c0 in main (argc=1, argv=0x7fffcc998138) at ../tests/unit/test-replication.c:613
+> (gdb) fr 4
+> #4  0x000055d3b503d670 in job_state_transition (job=0x55d3b5e67020, s1=JOB_STATUS_CONCLUDED) at ../job.c:186
+> 186         assert(JobSTT[s0][s1]);
+> (gdb) list
+> 181         JobStatus s0 = job->status;
+> 182         assert(s1 >= 0 && s1 < JOB_STATUS__MAX);
+> 183         trace_job_state_transition(job, job->ret,
+> 184                                    JobSTT[s0][s1] ? "allowed" : "disallowed",
+> 185                                    JobStatus_str(s0), JobStatus_str(s1));
+> 186         assert(JobSTT[s0][s1]);
+> 187         job->status = s1;
+> 188
+> 189         if (!job_is_internal(job) && s1 != s0) {
+> 190             qapi_event_send_job_status_change(job->id, job->status);
+> (gdb) p s0
+> $1 = JOB_STATUS_NULL
+> (gdb) p s1
+> $2 = JOB_STATUS_CONCLUDED
 > 
-> here too.  The 16-bit limit is where we're most likely to run into
-> someone actually trying to zeroize that much at once.
 > 
->> +++ b/block/nbd.c
->> @@ -1407,15 +1407,17 @@ static int nbd_client_co_pwritev(BlockDriverState *bs, int64_t offset,
->>   }
->>   
->>   static int nbd_client_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
->> -                                       int bytes, BdrvRequestFlags flags)
->> +                                       int64_t bytes, BdrvRequestFlags flags)
->>   {
->>       BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
->>       NBDRequest request = {
->>           .type = NBD_CMD_WRITE_ZEROES,
->>           .from = offset,
->> -        .len = bytes,
->> +        .len = bytes,  /* .len is uint32_t actually */
->>       };
->>   
->> +    assert(bytes < UINT32_MAX); /* relay on max_pwrite_zeroes */
 > 
-> And again.  Here, you happen to get by with < because we clamped
-> bl.max_pwrite_zeroes at BDRV_REQUEST_MAX_BYTES, which is INT_MAX
-> rounded down.  But I had to check; whereas using <= would be less
-> worrisome, even if we never get a request that large.
-> 
-> If you agree with my analysis, I can make that change while preparing
-> my pull request.
 
-I agree, <= should be right thing, thanks!
 
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> 
+bisect points to "job: Add job_cancel_requested()"
 
+And "bisecting" within this commit shows that the following helps:
+
+diff --git a/job.c b/job.c
+index be878ca5fc..bb52a1b58f 100644
+--- a/job.c
++++ b/job.c
+@@ -655,7 +655,7 @@ static void job_conclude(Job *job)
+  
+  static void job_update_rc(Job *job)
+  {
+-    if (!job->ret && job_is_cancelled(job)) {
++    if (!job->ret && job_cancel_requested(job)) {
+          job->ret = -ECANCELED;
+      }
+      if (job->ret) {
+
+
+- this returns job_update_rc to pre-patch behavior.
+
+But why, I don't know:) More investigation is needed. probably replication code is doing something wrong..
 
 -- 
 Best regards,
