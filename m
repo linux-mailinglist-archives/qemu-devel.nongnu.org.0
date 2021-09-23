@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBD5417181
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 14:07:56 +0200 (CEST)
-Received: from localhost ([::1]:56184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE7141718A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 14:11:14 +0200 (CEST)
+Received: from localhost ([::1]:36500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTjzf-0007aI-D5
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 08:07:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40998)
+	id 1mTk2r-00052A-TT
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 08:11:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mTjrY-0005kC-4I
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:59:32 -0400
-Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:37708)
+ id 1mTjrc-0005yr-JA
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:59:36 -0400
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:38518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mTjrW-0002Ev-CZ
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:59:31 -0400
-Received: by mail-qk1-x729.google.com with SMTP id 73so27787890qki.4
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 04:59:29 -0700 (PDT)
+ id 1mTjrb-0002I0-6M
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:59:36 -0400
+Received: by mail-qk1-x736.google.com with SMTP id q81so24005334qke.5
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 04:59:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:subject:to:cc:references:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HfNvGRwRQXFejBv/zgC2uGmnomFa1B/M42zR82vESsI=;
- b=TCeyQ6g8CzJXW0KU8X8V8ycrxnuMsD8f8a/Komsn2hAAAHI7DVsvszoVtb9rsdUmWb
- g2XkthXRgyIwDYmXI3aKq49HZRI0Di5dtNNAADEvX2MqLOoaSJg/XId7p8uRFMlCZwPD
- SacP9U0U1ugQ0VE7AxEkhj/ssBQNVYDJVZRpOmQ0L84mPmaheuI+0RrKt1gU+Z+N56Y9
- MVHlcFpOEbTaqf+uI7pkNa+FXoS8jMXJ5R3qQ4P/eopiGz7k3Csn2loCUuF7VK1wEGEl
- Inw0FNQHe0Z8sIyXazGiTTuNJ+CvQ+42CFFUqzfpOK1Bg4ZfNniZBYB3ObDZQCOgg2aG
- wLXA==
+ bh=e2HT48gFRsmTc2RBsXxxFzvWIKUptN4SEVyHkGxp2Q4=;
+ b=vRyvBXtIaFtQ+RvT0VmoM4QIKTYjTkiZd4uB0mGELCzBGNVnSsGdUviG3x3iQLa4qR
+ QZbDI++kRn589uRnaY8fZYD/z0txR5CmxXu2u8xZ3H2LpL+8GKrjEqiFDMA5wUuGh+LR
+ ubN4Q9zxC2+wg+FUAk5ShHWhsmTFotmmDGXmRPpAvbQ34+lzyTut+UpCJCZDQCoqo1Pt
+ ktdw3gog0eNOlrXevE1QaelsIaoxELMNK6CL7IqaJXiiz9gTYBIZPYVUN9eJ3E/eqLuv
+ q1lEW0SP2n4yD+KkI1o2FfAJEDsZD0e0H4MX51MbWI/iKEhcJcvD3j7c18qAlg3esvp1
+ LA0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HfNvGRwRQXFejBv/zgC2uGmnomFa1B/M42zR82vESsI=;
- b=u8l0e6qzdfL1/TsBovAG7vEEKSs7CpmBg67qyQYF7JfJ3ZHhwOs0TOmKtQI9xiG6RB
- Ttp0N4952XKWokv50ZDwOopBzY2oBtpRUYWTv+B4TYeV6Pb7/M81wmiiHUDnTEItUjDd
- JF3XXm5+YWM3Z4Jrl+a5dpzFU4yPh4BAmo89DrJQXjcVUa1n0Ekl3gRIyjZjcieI+YvS
- FM6fkkP5Beq4GW+Softom9GcqX63qQW1yhrsmtYljDcVYRlGLlKQlamaJRFNRIYq++vX
- lcNuKsWHcwI0a8Eoy0NAJP7lOqAHi/iEr1xZ2rnlC+JheNH2isi5Bf6az97ylFsbZl+A
- woEw==
-X-Gm-Message-State: AOAM532vH27CiXEbDZyqA+LhGL+MyviUQyP7d60TBYK1nQvqqDnGmSD4
- 3qMU+5Z3Dc/yG+lQkqcbAAVmeQ==
-X-Google-Smtp-Source: ABdhPJzZ5ES8ZyZQ2YD3bCY9gX+f/wtiLa1ohPYOKbgqdcgs4h+6eCGq+i9b5YxhWm/TdygW8R2+9Q==
-X-Received: by 2002:a05:620a:22e:: with SMTP id
- u14mr10132949qkm.101.1632484768848; 
- Fri, 24 Sep 2021 04:59:28 -0700 (PDT)
+ bh=e2HT48gFRsmTc2RBsXxxFzvWIKUptN4SEVyHkGxp2Q4=;
+ b=5czoPxufLxK55r+SK7oX04F6Wno/wwVi3N64B8rBdanMkTwVLL9bqjTgC+PEc34Ixw
+ HTf0EoaxuGlbyxUcmmaiED1+lYpx/9mAChuELZUaOCT5SSANHkeMnalLdpNeAa8/Rgxv
+ fRzaJvX6ksFNU5SBEt/KnqGVMvcuaXPoN47cQ5R8BaZBfiDNXHa+6a29+cgNzR1+InC8
+ hvm3mcrltY+yYsuvk6SXNhHhRU/lR/s6S3sT0/pERG/OPL73eNLSSz/svxZq7gExJ4jX
+ DTTJPZhxnHfj3q3JWUayp+hqTCnBYH4JN5DWLBqApOxZOk0IsGr3iUGt6fyqmfOXgAjQ
+ eTuA==
+X-Gm-Message-State: AOAM532tySyLXFTuY2xZ8eL3CWPV79UfK+lgygejJ9qCm+34qr3f56Yf
+ 4+ZlyJmKScQziQHDub8MYai17htv4ujAuQ==
+X-Google-Smtp-Source: ABdhPJyKIh0XSGvLWrNjT2liqNmLigoFCWYWCFngqb/KExcxX7HQ4e9ZCiPE6lzA/Y9o6EaF+061sQ==
+X-Received: by 2002:a37:2e03:: with SMTP id u3mr10119738qkh.313.1632484774327; 
+ Fri, 24 Sep 2021 04:59:34 -0700 (PDT)
 Received: from [192.168.3.43] (cpe-24-74-129-96.carolina.res.rr.com.
  [24.74.129.96])
- by smtp.gmail.com with ESMTPSA id x10sm286047qtq.45.2021.09.24.04.59.28
+ by smtp.gmail.com with ESMTPSA id k4sm4154410qtq.88.2021.09.24.04.59.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Sep 2021 04:59:28 -0700 (PDT)
+ Fri, 24 Sep 2021 04:59:34 -0700 (PDT)
+Subject: Re: [PATCH] Hexagon (target/hexagon) probe the stores in a packet at
+ start of commit
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1632335718-13541-1-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 09/30] tcg/loongarch64: Implement tcg_out_mov and
- tcg_out_movi
-To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
-References: <20210922180927.666273-1-git@xen0n.name>
- <20210922180927.666273-10-git@xen0n.name>
-Message-ID: <5ace7b10-b7de-46e2-2021-01129024ffe2@linaro.org>
-Date: Thu, 23 Sep 2021 09:50:46 -0700
+Message-ID: <45c6326b-2b01-1ef3-c362-dcb5a11a3d02@linaro.org>
+Date: Thu, 23 Sep 2021 10:05:19 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210922180927.666273-10-git@xen0n.name>
+In-Reply-To: <1632335718-13541-1-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x729.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x736.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -90,140 +88,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: ale@rev.ng, bcain@quicinc.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/21 11:09 AM, WANG Xuerui wrote:
-
-Following up on previous, I suggest:
-
-> +static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
-> +                         tcg_target_long val)
+On 9/22/21 11:35 AM, Taylor Simpson wrote:
+> +static inline void probe_store(CPUHexagonState *env, int slot, int mmu_idx)
 > +{
-> +    if (type == TCG_TYPE_I32) {
-> +        val = (int32_t)val;
+> +    if (!(env->slot_cancelled & (1 << slot))) {
+> +        size1u_t width = env->mem_log_stores[slot].width;
+> +        target_ulong va = env->mem_log_stores[slot].va;
+> +        uintptr_t ra = GETPC();
+> +        probe_write(env, va, width, mmu_idx, ra);
 > +    }
+> +}
 > +
-> +    /* Single-instruction cases.  */
-> +    tcg_target_long low = sextreg(val, 0, 12);
-> +    if (low == val) {
-> +        /* val fits in simm12: addi.w rd, zero, val */
-> +        tcg_out_opc_addi_w(s, rd, TCG_REG_ZERO, val);
-> +        return;
+> +void HELPER(probe_pkt_stores)(CPUHexagonState *env, int has_st0, int has_st1,
+> +                              int has_dczeroa, int mmu_idx)
+> +{
+> +    if (has_st0 && !has_dczeroa) {
+> +        probe_store(env, 0, mmu_idx);
 > +    }
-> +    if (0x800 <= val && val <= 0xfff) {
-> +        /* val fits in uimm12: ori rd, zero, val */
-> +        tcg_out_opc_ori(s, rd, TCG_REG_ZERO, val);
-> +        return;
+> +    if (has_st1 && !has_dczeroa) {
+> +        probe_store(env, 1, mmu_idx);
 > +    }
-
-> +    /* Test for PC-relative values that can be loaded faster.  */
-> +    intptr_t pc_offset = tcg_pcrel_diff(s, (void *)val);
-> +    if (pc_offset == sextreg(pc_offset, 0, 22) && (pc_offset & 3) == 0) {
-> +        tcg_out_opc_pcaddu2i(s, rd, pc_offset >> 2);
-> +        return;
+> +    if (has_dczeroa) {
+> +        /* Probe 32 bytes starting at (dczero_addr & ~0x1f) */
+> +        target_ulong va = env->dczero_addr & ~0x1f;
+> +        uintptr_t ra = GETPC();
+> +        probe_write(env, va +  0, 8, mmu_idx, ra);
+> +        probe_write(env, va +  8, 8, mmu_idx, ra);
+> +        probe_write(env, va + 16, 8, mmu_idx, ra);
+> +        probe_write(env, va + 24, 8, mmu_idx, ra);
 > +    }
+> +}
 
-     /* Handle all 32-bit constants. */
-     if (val == (int32_t)val) {
-         tcg_out_opc_lu12i(s, rd, val >> 12);
-         if (low) {
-             tcg_out_opc_ori(s, rd, rd, val & 0xfff);
-         }
-         return;
-     }
+You know at translate time the value of all of these has_* variables.
 
-     /* Handle pc-relative values requiring 2 instructions. */
-     intptr_t pc_lo = sextract64(pc_offset, 0, 12);
-     intptr_t pc_hi = pc_offset - pc_low;
-     if (pc_hi == (int32_t)pc_hi) {
-         tcg_out_opc_pcaddu12i(s, rd, pc_hi >> 12);
-         tcg_out_opc_addi_d(s, rd, rd, pc_lo);
-         return;
-     }
+Since has_dczeroa disables the other two probes, surely probe_pkt_dczeroa should be its 
+own helper.
 
-     /*
-      * Choose signed low part if bit 13 is also set,
-      * which gives us a chance of making more zeros.
-      * Otherwise, let low be unsigned.
-      */
-     if ((val & 0x1800) != 0x1800) {
-         low = val & 0xfff;
-     }
-     val -= low;
+That said, if dczeroa (apparently) cannot be paired with other stores, why do you need to 
+probe for it at all?  Since the operation is 32-byte aligned, surely the first real store 
+will validate the write for the entire block.
 
-     tcg_target_long hi20 = sextract64(val, 12, 20);
-     tcg_target_long hi32 = sextract64(val, 32, 20);
-     tcg_target_long hi52 = sextract64(val, 52, 12);
-
-     /*
-      * If we can use the sign-extension of a previous
-      * operation, suppress higher -1.
-      */
-     if (hi32 < 0 && hi52 == -1) {
-         hi52 = 0;
-     }
-     if (hi20 < 0 && hi32 == -1) {
-         hi32 = 0;
-     }
-
-     /* Initialize RD with the least non-zero component. */
-     if (hi20) {
-         tcg_out_opc_lu12i_w(s, rd, hi20 >> 12);
-     } else if (hi32) {
-         /* CU32I_D is modify in place, so RD must be initialized. */
-         if (low < 0) {
-             tcg_out_opc_addi_w(s, rd, TCG_REG_ZERO, low);
-         } else {
-             tcg_out_opc_ori(s, rd, TCG_REG_ZERO, low);
-         }
-         low = 0;
-     } else {
-         tcg_out_opc_cu52i_d(s, rd, TCG_REG_ZERO, hi52);
-         hi52 = 0;
-     }
-
-     /* Assume that lu12i + ori are fusable */
-     if (low > 0) {
-         tcg_out_opc_ori(s, rd, rd, low);
-     }
-
-     /* Set the high 32 bits */
-     if (hi32) {
-         tcg_out_opc_cu32i_d(s, rd, hi32);
-     }
-     if (hi52) {
-         tcg_out_opc_cu52i(s, rd, rd, hi52);
-     }
-
-     /*
-      * Note that any subtraction must come last,
-      * because cu32i and cu52i overwrite high bits,
-      * and we have computed them as val - low.
-      */
-     if (low < 0) {
-         tcg_out_opc_addi_d(s, rd, rd, low);
-     }
-
-Untested, and all bugs are mine, of course.
-
-Try "qemu-system-ppc64 -D z -d in_asm,op_opt,out_asm".
-You should see some masking constants like
-
-  ---- 000000001daf2898
-  and_i64 CA,r9,$0x7fffffffffffffff        dead: 2  pref=0xffff
-
-   cu52i.d rd, zero, 0x800
-   addi.d  rd, rd, -1
-
-  ---- 000000001db0775c
-  mov_i64 r26,$0x300000002                 sync: 0  dead: 0 1  pref=0xffff
-
-   ori     rd, zero, 2
-   cu32i   rd, 3
+Once you eliminate dczeroa from this helper, the only time it will be called is with both 
+has_st0 and has_st1 true, at which point you don't need to pass the arguments in at all.
 
 
 r~
