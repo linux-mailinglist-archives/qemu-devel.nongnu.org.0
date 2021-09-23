@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB37141655A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 20:47:27 +0200 (CEST)
-Received: from localhost ([::1]:56782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A6741655B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 20:48:13 +0200 (CEST)
+Received: from localhost ([::1]:58648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTTkk-0004JL-HA
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 14:47:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35542)
+	id 1mTTlU-0005dE-7o
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 14:48:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTTi2-0002pj-WF
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 14:44:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60497)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTTjI-000487-DU
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 14:45:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTTi0-0001n7-46
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 14:44:38 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTTjE-0002zv-PS
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 14:45:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632422675;
+ s=mimecast20190719; t=1632422750;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=nPSYX2aSbOt9zSxfdEbLAQMI1rF+0TBclwgJ864EeZs=;
- b=W5nUmW1S5GNj6VIfXl90ACFuDjUSG7zForkt2QAZSW0b8CW/orPSU40IyyMO2Ep3mgSS/z
- o7Gt9JuM0ulRxAl0+cSdWX3S2Q7t4OI/0t1P5kachPgJYYk2Le3SrnvxVDKQclFw4IdNkq
- CWPTRQh1TzI2nWXskgBeHBnPYH49rJ0=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-qH5jj4UnPruBXtK9fFevEg-1; Thu, 23 Sep 2021 14:44:33 -0400
-X-MC-Unique: qH5jj4UnPruBXtK9fFevEg-1
-Received: by mail-oi1-f200.google.com with SMTP id
- u142-20020acaab94000000b00275c1cf21e7so3188197oie.12
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 11:44:33 -0700 (PDT)
+ bh=t+vvInffFjlaldKhrXHERPN49e+oaSTzndFJJka5at4=;
+ b=OJgEd2guPihgsjGzWErq/ougOoCsR1ZbmdT1ezBOkK5O2D0onMaoCnCb4ktO+0/gDuVvgB
+ +h6nC9tklJNXG6XA79zqcD3WuHn24JIVsnh6729sgWSRO0wTZKhrVBA7nsO3Hw/+2t/tLp
+ cVFZkfGUoTrVeO/7w3TJJltChUvRNnw=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-83-5uZiPFkVOiK0HAApcFqgdQ-1; Thu, 23 Sep 2021 14:45:48 -0400
+X-MC-Unique: 5uZiPFkVOiK0HAApcFqgdQ-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ i7-20020a9d6507000000b0051c10643794so3413855otl.22
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 11:45:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nPSYX2aSbOt9zSxfdEbLAQMI1rF+0TBclwgJ864EeZs=;
- b=lOVtxkFW+qIq0V7SBAosMvyo8uff4Uad8evUgIXujcyKHMDPQ5OjrKTaB9T14e9mzA
- bmc/arBvdfva2RL4APQ4mOpKvG91MjBYSgiKmL1A0Aca/IyZuJKtG0NG2iw9Vi8m9yN8
- 8fscdNshJcx7jJyv7+JJvaUkBwo9+fuIk9hksBwq1Qe80sRQbpvxn+zn7fyEeyzo6hHL
- G+EyDn3GI9RGbPB5gE1eoqUTEr74lCOHGlooDkc0b666jAQ82eHgt9Yjr2WjCfmImOtW
- 2xG5+E1kG99AjQCMWrr8Jt6laAMrMqfvdOcHWFdBD2LgFY9eSG5TZg41eknP8sqqtt8K
- rAVw==
-X-Gm-Message-State: AOAM531ZM+Yv47prUauID1+I6njZU7+rDAoV00HARW2IDTvyIDOnq2Oz
- IaqQ/hdp01AKuRLaobcuPPPMNQnohbVUFZVW0ClEMGGzEbnyXac1xkjQx1UKOyPEobNQzWW38Jb
- LihSq4kIscVfu+Lo9ygRG/GEwjuhlFIo=
-X-Received: by 2002:a9d:7281:: with SMTP id t1mr165956otj.129.1632422672793;
- Thu, 23 Sep 2021 11:44:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx9eRFKQWSPssETFmodssEoOH22wG4K5BS/rYZcQ+oCPWKj79nlwDjiD1tOy426L1nZB9tdQKm6wwpdMV5kaYU=
-X-Received: by 2002:a9d:7281:: with SMTP id t1mr165939otj.129.1632422672561;
- Thu, 23 Sep 2021 11:44:32 -0700 (PDT)
+ bh=t+vvInffFjlaldKhrXHERPN49e+oaSTzndFJJka5at4=;
+ b=oj3uXM4E3I0o9T55bi0rHNbWxuHy7Nmd4lz/iwnzl3UAeFyyh4m4MW+5o1Au36bHVi
+ 2ZniSyjDLFWhJZ5M+stR/zgBETD84QM1arrNt0L1vwH/mA+kPggMVjE/c4lAwKqvL0Qs
+ ZHnOK3JAoXgVot43/boAdNpk8SpPhcXQ7iwanO7/mnspyceLguCTIPl3ezFHQtBXxMmI
+ riaHPlWDptwmm1Q80zZ5iQZwYDq9o4l1jD1pF+9+RtFEYEq1xGIQKMvnjcfBKKY0PQFo
+ QFY/GyzaSVl/RpcbyUwqpjRBEd8gK9u1ffFb2IGIGHdHHXZ1MyisfnBUX5degmJiJp4Q
+ fu7w==
+X-Gm-Message-State: AOAM5302JH5tXuuD17A0tFlDUJsbD8/lUFmfCF4a/Aq3KyLQ9tjvCJI/
+ 77V/VJUqefCQF0GsDqr1mYNhDeJpIEinRU7MVu9LSK0rljxY+4HShQ+dWIAFICRKdfsBBekIrrz
+ 6DbXaRjJDdpJGtIJjQ+t1YkhHCC4iXFQ=
+X-Received: by 2002:a05:6830:310c:: with SMTP id
+ b12mr199234ots.252.1632422744998; 
+ Thu, 23 Sep 2021 11:45:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx683kuNtwxiVcEkTEy4Fhl20tUPeDHtY0/gkf9VArVIJOsBO/mSMaR0W3PueIKGCPaunC5cEVgSRvBaV3KTJo=
+X-Received: by 2002:a05:6830:310c:: with SMTP id
+ b12mr199214ots.252.1632422744814; 
+ Thu, 23 Sep 2021 11:45:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210923180715.4168522-1-jsnow@redhat.com>
- <20210923180715.4168522-3-jsnow@redhat.com>
- <d9c1be2a-e927-49a1-b30e-f99d48946928@virtuozzo.com>
-In-Reply-To: <d9c1be2a-e927-49a1-b30e-f99d48946928@virtuozzo.com>
+References: <20210923182204.4187601-1-jsnow@redhat.com>
+ <20210923182204.4187601-2-jsnow@redhat.com>
+ <20210923183259.pbfbmrq3fnlxukr4@habkost.net>
+In-Reply-To: <20210923183259.pbfbmrq3fnlxukr4@habkost.net>
 From: John Snow <jsnow@redhat.com>
-Date: Thu, 23 Sep 2021 14:44:21 -0400
-Message-ID: <CAFn=p-ZVo3Tgm6p3_DNvQa+1uqbfpThTmSkHmSK_A0BkGHNrgg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] iotests: add warning for rogue 'qemu' packages
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Date: Thu, 23 Sep 2021 14:45:34 -0400
+Message-ID: <CAFn=p-Y2Gm26e9i6yUFUxnJYzYfKDSjr0ZmRavyxLLOe9LPekw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] docs: remove non-reference uses of single backticks
+To: Eduardo Habkost <ehabkost@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000008590ad05ccae054d"
+Content-Type: multipart/alternative; boundary="000000000000d40d1f05ccae09fd"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
@@ -88,305 +90,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008590ad05ccae054d
+--000000000000d40d1f05ccae09fd
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 23, 2021 at 2:32 PM Vladimir Sementsov-Ogievskiy <
-vsementsov@virtuozzo.com> wrote:
+On Thu, Sep 23, 2021 at 2:33 PM Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-> 23.09.2021 21:07, John Snow wrote:
-> > Add a warning for when 'iotests' runs against a qemu namespace that
-> > isn't the one in the source tree. This might occur if you have
-> > (accidentally) installed the Python namespace package to your local
-> > packages.
+> On Thu, Sep 23, 2021 at 02:22:03PM -0400, John Snow wrote:
+> > The single backtick markup in ReST is the "default role". Currently,
+> > Sphinx's default role is called "content". Sphinx suggests you can use
+> > the "Any" role instead to turn any single-backtick enclosed item into a
+> > cross-reference.
 > >
-> > (I'm not going to say that this is because I bit myself with this,
-> > but you can fill in the blanks.)
+> > This is useful for things like autodoc for Python docstrings, where it's
+> > often nicer to reference other types with `foo` instead of the more
+> > laborious :py:meth:`foo`. It's also useful in multi-domain cases to
+> > easily reference definitions from other Sphinx domains, such as
+> > referencing C code definitions from outside of kerneldoc comments.
 > >
-> > In the future, we will pivot to always preferring a specific installed
-> > instance of qemu python packages managed directly by iotests. For now
-> > simply warn if there is an ambiguity over which instance that iotests
-> > might use.
-> >
-> > Example: If a user has navigated to ~/src/qemu/python and executed
-> > `pip install .`, you will see output like this when running `./check`:
-> >
-> > WARNING: 'qemu' python packages will be imported from outside the source
-> tree ('/home/jsnow/src/qemu/python')
-> >           Importing instead from
-> '/home/jsnow/.local/lib/python3.9/site-packages/qemu'
+> > Before we do that, though, we'll need to turn all existing usages of the
+> > "content" role to inline verbatim markup wherever it does not correctly
+> > resolve into a cross-refernece by using double backticks instead.
 > >
 > > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >   tests/qemu-iotests/testenv.py | 24 ++++++++++++++++++++++++
-> >   1 file changed, 24 insertions(+)
+>
+> Clear demonstration of the usefulness of patch 2/2 (these
+> occurrences of `foo` wouldn't have been added if the default role
+> was "any" because "any" errors out on invalid references).
+>
+> However, it looks like there are unrelated changes:
+>
+> [...]
+> > diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
+> > index 24012534827..6b1230f2d7f 100644
+> > --- a/docs/devel/migration.rst
+> > +++ b/docs/devel/migration.rst
+> > @@ -403,8 +403,8 @@ version_id.  And the function ``load_state_old()``
+> (if present) is able to
+> >  load state from minimum_version_id_old to minimum_version_id.  This
+> >  function is deprecated and will be removed when no more users are left.
 > >
-> > diff --git a/tests/qemu-iotests/testenv.py
-> b/tests/qemu-iotests/testenv.py
-> > index 99a57a69f3a..1c0f6358538 100644
-> > --- a/tests/qemu-iotests/testenv.py
-> > +++ b/tests/qemu-iotests/testenv.py
-> > @@ -16,6 +16,8 @@
-> >   # along with this program.  If not, see <http://www.gnu.org/licenses/
-> >.
-> >   #
+> > -There are *_V* forms of many ``VMSTATE_`` macros to load fields for
+> version dependent fields,
+> > -e.g.
+> > +There are *_V* forms of many ``VMSTATE_`` macros to load fields for
+> > +version dependent fields, e.g.
+>
+> Unrelated?  Line wrapping change only.
+>
 > >
-> > +import importlib.util
-> > +import logging
-> >   import os
-> >   import sys
-> >   import tempfile
-> > @@ -112,6 +114,27 @@ def init_directories(self) -> None:
-> >           # Path where qemu goodies live in this source tree.
-> >           qemu_srctree_path = Path(__file__, '../../../python').resolve()
+> >  .. code:: c
 > >
-> > +        # Warn if we happen to be able to find qemu namespace packages
-> > +        # (using qemu.qmp as a bellwether) from an unexpected location.
-> > +        # i.e. the package is already installed in the user's
-> environment.
-> > +        try:
-> > +            qemu_spec = importlib.util.find_spec('qemu.qmp')
-> > +        except ModuleNotFoundError:
-> > +            qemu_spec = None
-> > +
-> > +        if qemu_spec and qemu_spec.origin:
-> > +            spec_path = Path(qemu_spec.origin)
-> > +            try:
-> > +                _ = spec_path.relative_to(qemu_srctree_path)
->
-> It took some time and looking at specification trying to understand what's
-> going on here :)
->
-> Could we just use:
->
-> if not Path(qemu_spec.origin).is_relative_to(qemu_srctree_path):
->     ... logging ...
->
->
-Nope, that's 3.9+ only. (I made the same mistake.)
-
-
-> > +            except ValueError:
->
-> +                self._logger.warning(
-> > +                    "WARNING: 'qemu' python packages will be imported
-> from"
-> > +                    " outside the source tree ('%s')",
-> > +                    qemu_srctree_path)
-> > +                self._logger.warning(
-> > +                    "         Importing instead from '%s'",
-> > +                    spec_path.parents[1])
-> > +
->
-> Also, I'd move this new chunk of code to a separate function (may be even
-> out of class, as the only usage of self is self._logger, which you
-> introduce with this patch. Still a method would be OK too). And then, just
-> call it from __init__(). Just to keep init_directories() simpler. And with
-> this new code we don't init any directories to pass to further test
-> execution, it's just a check for runtime environment.
->
->
-I wanted to keep the wiggly python import logic all in one place so that it
-was harder to accidentally forget a piece of it if/when we adjust it. I can
-create a standalone function for it, but I'd need to stash that
-qemu_srctree_path variable somewhere if we want to call that runtime check
-from somewhere else, because I don't want to compute it twice. Is it still
-worth doing in your opinion if I just create a method/function and pass it
-the qemu_srctree_path variable straight from init_directories()?
-
-Not adding _logger is valid, though. I almost removed it myself. I'll
-squash that in.
-
-
-> >           self.pythonpath = os.pathsep.join(filter(None, (
-> >               self.source_iotests,
-> >               str(qemu_srctree_path),
-> > @@ -230,6 +253,7 @@ def __init__(self, imgfmt: str, imgproto: str,
-> aiomode: str,
+> > @@ -819,9 +819,9 @@ Postcopy now works with hugetlbfs backed memory:
+> >  Postcopy with shared memory
+> >  ---------------------------
 > >
-> >           self.build_root = os.path.join(self.build_iotests, '..', '..')
-> >
-> > +        self._logger = logging.getLogger('qemu.iotests')
-> >           self.init_directories()
-> >           self.init_binaries()
-> >
-> >
+> > -Postcopy migration with shared memory needs explicit support from the
+> other
+> > -processes that share memory and from QEMU. There are restrictions on
+> the type of
+> > -memory that userfault can support shared.
+> > +Postcopy migration with shared memory needs explicit support from the
+> > +other processes that share memory and from QEMU. There are restrictions
+> > +on the type of memory that userfault can support shared.
 >
+> Unrelated?  Line wrapping change only.
+>
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>  # if unrelated line
+> wrapping changes are dropped
 >
 > --
-> Best regards,
-> Vladimir
+> Eduardo
 >
 >
+Apologies for that -- it's bad rebase confetti. Something got merged
+automatically and it resulted in weird junk. Sorry for the noise.
 
---0000000000008590ad05ccae054d
+--js
+
+--000000000000d40d1f05ccae09fd
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 23, 2021 at 2:32 PM Vladi=
-mir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com">vse=
-mentsov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">23.09.2021 21:07, John Snow wrote:<br>
-&gt; Add a warning for when &#39;iotests&#39; runs against a qemu namespace=
- that<br>
-&gt; isn&#39;t the one in the source tree. This might occur if you have<br>
-&gt; (accidentally) installed the Python namespace package to your local<br=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 23, 2021 at 2:33 PM Eduar=
+do Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
+ Thu, Sep 23, 2021 at 02:22:03PM -0400, John Snow wrote:<br>
+&gt; The single backtick markup in ReST is the &quot;default role&quot;. Cu=
+rrently,<br>
+&gt; Sphinx&#39;s default role is called &quot;content&quot;. Sphinx sugges=
+ts you can use<br>
+&gt; the &quot;Any&quot; role instead to turn any single-backtick enclosed =
+item into a<br>
+&gt; cross-reference.<br>
+&gt; <br>
+&gt; This is useful for things like autodoc for Python docstrings, where it=
+&#39;s<br>
+&gt; often nicer to reference other types with `foo` instead of the more<br=
 >
-&gt; packages.<br>
+&gt; laborious :py:meth:`foo`. It&#39;s also useful in multi-domain cases t=
+o<br>
+&gt; easily reference definitions from other Sphinx domains, such as<br>
+&gt; referencing C code definitions from outside of kerneldoc comments.<br>
 &gt; <br>
-&gt; (I&#39;m not going to say that this is because I bit myself with this,=
-<br>
-&gt; but you can fill in the blanks.)<br>
-&gt; <br>
-&gt; In the future, we will pivot to always preferring a specific installed=
-<br>
-&gt; instance of qemu python packages managed directly by iotests. For now<=
-br>
-&gt; simply warn if there is an ambiguity over which instance that iotests<=
-br>
-&gt; might use.<br>
-&gt; <br>
-&gt; Example: If a user has navigated to ~/src/qemu/python and executed<br>
-&gt; `pip install .`, you will see output like this when running `./check`:=
-<br>
-&gt; <br>
-&gt; WARNING: &#39;qemu&#39; python packages will be imported from outside =
-the source tree (&#39;/home/jsnow/src/qemu/python&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Importing instead from &#39;/h=
-ome/jsnow/.local/lib/python3.9/site-packages/qemu&#39;<br>
+&gt; Before we do that, though, we&#39;ll need to turn all existing usages =
+of the<br>
+&gt; &quot;content&quot; role to inline verbatim markup wherever it does no=
+t correctly<br>
+&gt; resolve into a cross-refernece by using double backticks instead.<br>
 &gt; <br>
 &gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
 t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0tests/qemu-iotests/testenv.py | 24 +++++++++++++++++++++++=
-+<br>
-&gt;=C2=A0 =C2=A01 file changed, 24 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testen=
-v.py<br>
-&gt; index 99a57a69f3a..1c0f6358538 100644<br>
-&gt; --- a/tests/qemu-iotests/testenv.py<br>
-&gt; +++ b/tests/qemu-iotests/testenv.py<br>
-&gt; @@ -16,6 +16,8 @@<br>
-&gt;=C2=A0 =C2=A0# along with this program.=C2=A0 If not, see &lt;<a href=
-=3D"http://www.gnu.org/licenses/" rel=3D"noreferrer" target=3D"_blank">http=
-://www.gnu.org/licenses/</a>&gt;.<br>
-&gt;=C2=A0 =C2=A0#<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +import importlib.util<br>
-&gt; +import logging<br>
-&gt;=C2=A0 =C2=A0import os<br>
-&gt;=C2=A0 =C2=A0import sys<br>
-&gt;=C2=A0 =C2=A0import tempfile<br>
-&gt; @@ -112,6 +114,27 @@ def init_directories(self) -&gt; None:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Path where qemu goodies live=
- in this source tree.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_srctree_path =3D Path(__f=
-ile__, &#39;../../../python&#39;).resolve()<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Warn if we happen to be able to find qe=
-mu namespace packages<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # (using qemu.qmp as a bellwether) from a=
-n unexpected location.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # i.e. the package is already installed i=
-n the user&#39;s environment.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_spec =3D importlib.uti=
-l.find_spec(&#39;qemu.qmp&#39;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 except ModuleNotFoundError:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_spec =3D None<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if qemu_spec and qemu_spec.origin:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 spec_path =3D Path(qemu_spe=
-c.origin)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _ =3D spec_pa=
-th.relative_to(qemu_srctree_path)<br>
 <br>
-It took some time and looking at specification trying to understand what&#3=
-9;s going on here :)<br>
+Clear demonstration of the usefulness of patch 2/2 (these<br>
+occurrences of `foo` wouldn&#39;t have been added if the default role<br>
+was &quot;any&quot; because &quot;any&quot; errors out on invalid reference=
+s).<br>
 <br>
-Could we just use:<br>
+However, it looks like there are unrelated changes:<br>
 <br>
-if not Path(qemu_spec.origin).is_relative_to(qemu_srctree_path):<br>
-=C2=A0 =C2=A0 ... logging ...<br>
-<br></blockquote><div><br></div><div>Nope, that&#39;s 3.9+ only. (I made th=
-e same mistake.)<br></div><div> <br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
+[...]<br>
+&gt; diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst<br>
+&gt; index 24012534827..6b1230f2d7f 100644<br>
+&gt; --- a/docs/devel/migration.rst<br>
+&gt; +++ b/docs/devel/migration.rst<br>
+&gt; @@ -403,8 +403,8 @@ version_id.=C2=A0 And the function ``load_state_ol=
+d()`` (if present) is able to<br>
+&gt;=C2=A0 load state from minimum_version_id_old to minimum_version_id.=C2=
+=A0 This<br>
+&gt;=C2=A0 function is deprecated and will be removed when no more users ar=
+e left.<br>
+&gt;=C2=A0 <br>
+&gt; -There are *_V* forms of many ``VMSTATE_`` macros to load fields for v=
+ersion dependent fields,<br>
+&gt; -e.g.<br>
+&gt; +There are *_V* forms of many ``VMSTATE_`` macros to load fields for<b=
+r>
+&gt; +version dependent fields, e.g.<br>
 <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except ValueError:<br></blo=
-ckquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._logger.=
-warning(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- &quot;WARNING: &#39;qemu&#39; python packages will be imported from&quot;<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- &quot; outside the source tree (&#39;%s&#39;)&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- qemu_srctree_path)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._logger.=
-warning(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- &quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Importing instead from &#39;%s&#39=
-;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- spec_path.parents[1])<br>
-&gt; +<br>
+Unrelated?=C2=A0 Line wrapping change only.<br>
 <br>
-Also, I&#39;d move this new chunk of code to a separate function (may be ev=
-en out of class, as the only usage of self is self._logger, which you intro=
-duce with this patch. Still a method would be OK too). And then, just call =
-it from __init__(). Just to keep init_directories() simpler. And with this =
-new code we don&#39;t init any directories to pass to further test executio=
-n, it&#39;s just a check for runtime environment.<br>
-<br></blockquote><div><br></div><div>I wanted to keep the wiggly python imp=
-ort logic all in one place so that it was harder to accidentally forget a p=
-iece of it if/when we adjust it. I can create a standalone function for it,=
- but I&#39;d need to stash that qemu_srctree_path variable somewhere if we =
-want to call that runtime check from somewhere else, because I don&#39;t wa=
-nt to compute it twice. Is it still worth doing in your opinion if I just c=
-reate a method/function and pass it the qemu_srctree_path variable straight=
- from init_directories()?<br></div><div><br></div><div>Not adding _logger i=
-s valid, though. I almost removed it myself. I&#39;ll squash that in.<br></=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.pythonpath =3D os.pathsep=
-.join(filter(None, (<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.source_iote=
-sts,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0str(qemu_srctree=
-_path),<br>
-&gt; @@ -230,6 +253,7 @@ def __init__(self, imgfmt: str, imgproto: str, aio=
-mode: str,<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.build_root =3D os.path.jo=
-in(self.build_iotests, &#39;..&#39;, &#39;..&#39;)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._logger =3D logging.getLogger(&#39;q=
-emu.iotests&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.init_directories()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.init_binaries()<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; <br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 .. code:: c<br>
+&gt;=C2=A0 <br>
+&gt; @@ -819,9 +819,9 @@ Postcopy now works with hugetlbfs backed memory:<b=
+r>
+&gt;=C2=A0 Postcopy with shared memory<br>
+&gt;=C2=A0 ---------------------------<br>
+&gt;=C2=A0 <br>
+&gt; -Postcopy migration with shared memory needs explicit support from the=
+ other<br>
+&gt; -processes that share memory and from QEMU. There are restrictions on =
+the type of<br>
+&gt; -memory that userfault can support shared.<br>
+&gt; +Postcopy migration with shared memory needs explicit support from the=
 <br>
+&gt; +other processes that share memory and from QEMU. There are restrictio=
+ns<br>
+&gt; +on the type of memory that userfault can support shared.<br>
+<br>
+Unrelated?=C2=A0 Line wrapping change only.<br>
+<br>
+Reviewed-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" tar=
+get=3D"_blank">ehabkost@redhat.com</a>&gt;=C2=A0 # if unrelated line wrappi=
+ng changes are dropped<br>
 <br>
 -- <br>
-Best regards,<br>
-Vladimir<br>
-<br>
-</blockquote></div></div>
+Eduardo<br>
+<br></blockquote><div><br></div><div>Apologies for that -- it&#39;s bad reb=
+ase confetti. Something got merged automatically and it resulted in weird j=
+unk. Sorry for the noise.</div><div><br></div><div>--js<br></div></div></di=
+v>
 
---0000000000008590ad05ccae054d--
+--000000000000d40d1f05ccae09fd--
 
 
