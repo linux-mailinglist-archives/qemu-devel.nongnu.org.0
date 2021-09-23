@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7DE415C66
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 13:00:50 +0200 (CEST)
-Received: from localhost ([::1]:43772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B65415C61
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 12:59:41 +0200 (CEST)
+Received: from localhost ([::1]:42758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTMTA-0000ol-Gq
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 07:00:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35210)
+	id 1mTMS4-00007j-4J
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 06:59:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTMPx-00063v-81
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:57:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48814)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTMPv-0002Ho-3H
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:57:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632394646;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p7kWxEG3HntAECVgt4whAZ60S9Hr42s8N3YLCyRQutc=;
- b=gB9gVtWr8e1ENdGEi6mYjwMwCL4SscPcOwSA0ioMRGbZacVvU0RwcFtd81UV9gomGuhN+f
- J9wrZvHCCFaNJ2CaaRvzgDCG/oq/QmU6FiUfsxygsVXFcLRUudMECa0ueqBVUTX+xAkq3U
- WhD9P16/5qFzF0lz5wkdqZIpQkddUpw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-_m29v4ZtN9WtrOh_LyA-sA-1; Thu, 23 Sep 2021 06:57:23 -0400
-X-MC-Unique: _m29v4ZtN9WtrOh_LyA-sA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 070FF9F92A;
- Thu, 23 Sep 2021 10:57:22 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.235])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52A625F707;
- Thu, 23 Sep 2021 10:57:18 +0000 (UTC)
-Date: Thu, 23 Sep 2021 12:57:16 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 2/6] iotests: add warning for rogue 'qemu' packages
-Message-ID: <YUxdjJnwhABAvfbR@redhat.com>
-References: <20210923001625.3996451-1-jsnow@redhat.com>
- <20210923001625.3996451-3-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mTMQC-0006WC-Qa; Thu, 23 Sep 2021 06:57:44 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38551)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mTMQA-0002TF-4F; Thu, 23 Sep 2021 06:57:44 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id u18so15980138wrg.5;
+ Thu, 23 Sep 2021 03:57:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FgHYBTlRLh5iU9Ke8Nv0+SgxWnQGjaZgZGhIeifYXos=;
+ b=F0RAe2TU8AzLY8pC92orIO6ZRH/iMa+u9IfW4a9qoTz/o+pAR67/AkoeYH7ZGzt9Z1
+ oqDaV4Wu3/zHvWjWdE7IJI3L1LFEiTiklwg/Tv/lyurG/aavBE6vNe2ohbqGLGd3bYUw
+ W4DObv1cCCWlJMfm5yxQHvM/eh+vlsdQA+QGK+kzVEJO6Wm99K1g0U4w3E71AUaP/Q4t
+ INer52wOeggvktjp0KPSWBK1LJPQ91ZTh7AWtHMdc6JD6VZ4ZmltufZB330f9bjUjlsq
+ 9kxsCNSYOks4cj5BE3Q9iCHXlHp11FxOEKd7nN96iw6AeB1sRtfcypYna7Bzbjogx3qG
+ w8UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FgHYBTlRLh5iU9Ke8Nv0+SgxWnQGjaZgZGhIeifYXos=;
+ b=BupN76gujDdCyYYyzhYbWlfJsBgWAxanKRCJoCfsoqmvknFCvOki4njQ0YCd5r44y3
+ dBy3MmYDaOjM5NHj/Az5w6pTVXkQbIh7XQGuLQnHwabwOEiGZ1Eq4k2CtK1uA1TzBM9D
+ rXSLyE4fU1pKZxkYYIKqgXsyfyJl0bx12zF0MPjsrgvmqITXmW09+nPrnsQ6X/ITmly7
+ cyMR3Sw/598Lz2YDYunlBhRweb+nT2CvtcgwenHH22/0Mrrt3HFL2Ow5fxhd24SdkCiN
+ iRFp54TLPCGePzQWwz11BH7Kr7HBgjOz8+9WGep/2UgU8bgaRGJgWAL1iEIGpQHPe+hE
+ rtHg==
+X-Gm-Message-State: AOAM530Rl0aHK3mE6qR4hs9M/FTxCQnr0IRWX8MP+y2QW0uCNymgSop2
+ uARGXZVGPJ5u6gqxuWKlsJ0=
+X-Google-Smtp-Source: ABdhPJxfd7IRWVnT0sd+WdL6w25R1LskvSk5Rly/peGjOwl5fXZCpE2jWVblILt3UJ42HDlMqUK1jw==
+X-Received: by 2002:a5d:64e2:: with SMTP id g2mr4418832wri.20.1632394659984;
+ Thu, 23 Sep 2021 03:57:39 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id c7sm5227338wmq.13.2021.09.23.03.57.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Sep 2021 03:57:39 -0700 (PDT)
+Subject: Re: [PULL 18/28] file-posix: try BLKSECTGET on block devices too, do
+ not round to power of 2
+To: Halil Pasic <pasic@linux.ibm.com>
+References: <20210625141822.1368639-1-pbonzini@redhat.com>
+ <20210625141822.1368639-19-pbonzini@redhat.com>
+ <20210906162420.5af35eb9.pasic@linux.ibm.com>
+ <20210922215143.7f289016.pasic@linux.ibm.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ba39ff70-9f0a-1e90-a626-c001e6f7f741@redhat.com>
+Date: Thu, 23 Sep 2021 12:57:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210923001625.3996451-3-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210922215143.7f289016.pasic@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,91 +90,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:AIO" <linux-aio@kvack.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Hoeppner <Jan.Hoeppner@de.ibm.com>, Stefan Haberland <sth@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.09.2021 um 02:16 hat John Snow geschrieben:
-> Add a warning for when 'iotests' runs against a qemu namespace that
-> isn't the one in the source tree. This might occur if you have
-> (accidentally) installed the Python namespace package to your local
-> packages.
-> 
-> (I'm not going to say that this is because I bit myself with this,
-> but. You can fill in the blanks.)
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  tests/qemu-iotests/testenv.py | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-> index 88104dace90..8a43b193af5 100644
-> --- a/tests/qemu-iotests/testenv.py
-> +++ b/tests/qemu-iotests/testenv.py
-> @@ -16,6 +16,8 @@
->  # along with this program.  If not, see <http://www.gnu.org/licenses/>.
->  #
->  
-> +import importlib.util
-> +import logging
->  import os
->  import sys
->  import tempfile
-> @@ -25,7 +27,7 @@
->  import random
->  import subprocess
->  import glob
-> -from typing import List, Dict, Any, Optional, ContextManager
-> +from typing import List, Dict, Any, Optional, ContextManager, cast
->  
->  DEF_GDB_OPTIONS = 'localhost:12345'
->  
-> @@ -112,6 +114,22 @@ def init_directories(self) -> None:
->          # Path where qemu goodies live in this source tree.
->          qemu_srctree_path = Path(__file__, '../../../python').resolve()
->  
-> +        # warn if we happen to be able to find 'qemu' packages from an
-> +        # unexpected location (i.e. the package is already installed in
-> +        # the user's environment)
-> +        qemu_spec = importlib.util.find_spec('qemu.qmp')
-> +        if qemu_spec:
-> +            spec_path = Path(cast(str, qemu_spec.origin))
+On 22/09/21 21:51, Halil Pasic wrote:
+> We have figured out what is going on here. The problem seems to be
+> specific to linux aio, which seems to limit the size of the iovec to
+> 1024 (UIO_MAXIOV).
 
-You're casting Optional[str] to str here. The source type is not obvious
-from the local code, so unless you spend some time actively figuring it
-out, this could be casting anything to str. But even knowing this, just
-casting Optional away looks fishy anyway.
+Hi Halil,
 
-Looking up the ModuleSpec docs, it seems okay to assume that it's never
-None in our case, but wouldn't it be much cleaner to just 'assert
-qemu_spec.origin' first and then use it without the cast?
+I'll send a patch shortly to fix this issue.  Sorry about the delay as I 
+was busy with KVM Forum and all that. :(
 
-> +            try:
-> +                _ = spec_path.relative_to(qemu_srctree_path)
-> +            except ValueError:
-> +                self._logger.warning(
-> +                    "WARNING: 'qemu' package will be imported from outside "
-> +                    "the source tree!")
-> +                self._logger.warning(
-> +                    "Importing from: '%s'",
-> +                    spec_path.parents[1])
-> +
->          self.pythonpath = os.getenv('PYTHONPATH')
->          self.pythonpath = os.pathsep.join(filter(None, (
->              self.source_iotests,
-> @@ -231,6 +249,7 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
->  
->          self.build_root = os.path.join(self.build_iotests, '..', '..')
->  
-> +        self._logger = logging.getLogger('qemu.iotests')
->          self.init_directories()
->          self.init_binaries()
-
-Looks good otherwise.
-
-Kevin
-
+Paolo
 
