@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF7C4158EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 09:16:44 +0200 (CEST)
-Received: from localhost ([::1]:57002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7EF4158F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 09:19:02 +0200 (CEST)
+Received: from localhost ([::1]:60012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTIyJ-0005qO-2S
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 03:16:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45962)
+	id 1mTJ0X-00080o-Kg
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 03:19:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mTIwD-0004xF-Eb
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:14:33 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:45794)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mTIzh-0007Kz-Pu
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:18:09 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:38797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mTIwA-00056b-Pk
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:14:33 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id n18so5363223pgm.12
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 00:14:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=c8V3IDOXZHJK3ehTvL9cy4Jbkf2JzWN4Ozk+Oa0q4n8=;
- b=02ATylKGtr/kMy53q4lWPUcG1jKKr4N4TSKipbScL/K0Itbm2zCnFUJD8EimdeW6Ri
- qylSEjfnYp80xRdBqCBpVVVeq15fXtWGF3Fs4JCQMzf8kD0WSAhjDuNiwbZsA3ysyKrG
- WTE/STXt9NjmwCWMVVT5VG088nY8lCYSAACYXuaiuXIRoVe/anPM/uMCIXfzLBIRTw1t
- 2sOQD0pXBgZdGC9L43QlvNAHcLZxslc4u2l9YD3YHcksM1xMkYQkEw8YPS+yLOP/+O5K
- 1IAFiOHdxKjWRpNOtakh842AhZ8giIxWPtqcMxjB5u9TxeS3NLSAabZ8deEQCoorS8fn
- UL0g==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mTIze-0008ER-VF
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:18:09 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id dj4so20138038edb.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 00:18:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=e2BvDcyPaFB1J3WVl/FATXXyGTxez1s+/3Vd/KEsNN8=;
+ b=NZDnrdqCYZp9z3maYI3WgvUf+RS0wO7dF5ZZAMrab2CqOnSgpDsYSClRisoPFC+ThO
+ UsL0fogPvwZKJQ2rt43MqQaL0FvwX/1m2Oa18fTmzg/Vq4q//7ulhN/Zlygp2zLLcJ65
+ u34mx24m1BvwDsECee3G960OxrIU7OkfPAeQ4p2LNhX1bf4GUpI3uzPCmJ8FyjVk/jDX
+ +RFP7NTFrWnmrLqLrQnlmIUULo2xsEhwZ8+38rziVcKMnqTEEEvQqAT8k+G1Dws1byQq
+ D6aUJnM8wf6bBI46ABZMGulmHW2yt/L97YIzJ3J3H9w0d+GGqk5kOelSHEQRH10htmis
+ Mz3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=c8V3IDOXZHJK3ehTvL9cy4Jbkf2JzWN4Ozk+Oa0q4n8=;
- b=OgsCsUxyateAlmVV8i8ErnkWxHmkICB9Ow3+E+UoaRF3VNkQmBdVCXFDWJTppCoG+b
- quUrQIg7KKPO62RqzMvactLNkPh1mCCcC40LqHQJcTkbDYFUSsuGA4fgdd4wtQ/LT6BD
- j5OQceDpeWoXBB340YHJ4Fl3Ovnc0C92kCCrXZtUR+jFANLPFoz+vGDokI8RXpvcvWUM
- eIpswB63FxCxhRDtCJDLeAgzzpxmvz41BYH5HLFynbYlH77T98s99D8u4uzT/+MF1BIQ
- 54s9YTA/ENxZ8sMOaOyBKoFjPP5NAbv2g7uz5hg7K7LsLS1Kq07H7WNT1PPV0aYOiew7
- v/MA==
-X-Gm-Message-State: AOAM531w+nuY6ctMjOhVj0WKgd7w5qrNC9TjuvdyaJpUtC2m/IYhjaPw
- 9m375mmgOzqTKVJ/8vHlg0vaKA==
-X-Google-Smtp-Source: ABdhPJzaQCC154aHMpbYW/qv0HRY5i4a5LNWcu7XkpEl/kQhM4UmaO/K19gM9M6e0ICGV8KW+1WQDA==
-X-Received: by 2002:a63:ac57:: with SMTP id z23mr2853333pgn.239.1632381268471; 
- Thu, 23 Sep 2021 00:14:28 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.156.170])
- by smtp.googlemail.com with ESMTPSA id bv16sm4331250pjb.12.2021.09.23.00.14.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Sep 2021 00:14:28 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Thu, 23 Sep 2021 12:44:22 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH v3 0/3] tests/acpi/pcihp: add unit tests for hotplug on
- multifunction bridges for q35
-In-Reply-To: <20210920070047.3937292-1-ani@anisinha.ca>
-Message-ID: <alpine.DEB.2.22.394.2109231244190.630@anisinha-lenovo>
-References: <20210920070047.3937292-1-ani@anisinha.ca>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e2BvDcyPaFB1J3WVl/FATXXyGTxez1s+/3Vd/KEsNN8=;
+ b=IUhgVGNmw25yB+bq3DzCIAb5X56gQGUTx2IJt8gwo5k2051HKNIaqTjnjH/BKZAi46
+ gjA8PdKmktr4uQxeu0r8BAeq0o881O2mllj4yC/O8sQVZ0UbOK6mvfascyMyrsZnD6Kw
+ yME0NV0wyDYrnQN9+zRtlgLnOMtaSJXe9sGgSEzbGoM+npzViU8m4K5UHlEeDKag0Nxs
+ 0c+OzKlAta+ERS9qDSaItCtgiH4csnQV3CfNN7+4AstdC7pgD2C0QaKPkio8aIFqwABZ
+ gqYs/wF6otyOkUreIYUh8f0s7NRnTs626CNE3TFUmKqilBTtwOJRWCgjtZVRoOODxZnk
+ bmFA==
+X-Gm-Message-State: AOAM533E5GagOqs0HCt6SzgzUmBU3IZuJHdQC4mGoqSpJ8cQRWvj995B
+ 6x1M0eZjh8HTvFx2LtRAhMlQaesGDok=
+X-Google-Smtp-Source: ABdhPJzQWDqAYQYQ+Ch0jTXGAlY82kFjDeZU6XHS7370kOq2ytfMC1kdN5B4oBwvgs0zMMEmGwj4eA==
+X-Received: by 2002:a50:d84c:: with SMTP id v12mr3713743edj.201.1632381484225; 
+ Thu, 23 Sep 2021 00:18:04 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id f22sm2410875ejz.122.2021.09.23.00.18.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Sep 2021 00:18:03 -0700 (PDT)
+Subject: Re: [PATCH 1/2] meson: introduce modules_arch
+To: "Jose R. Ziviani" <jziviani@suse.de>
+References: <20210917012904.26544-1-jziviani@suse.de>
+ <20210917012904.26544-2-jziviani@suse.de>
+ <20210917071404.efhv3tlnad2ezz3e@sirius.home.kraxel.org>
+ <YUSS0Jp+GBwNwYg3@pizza>
+ <20210920051532.tzanl2asdqzuxlzn@sirius.home.kraxel.org>
+ <YUiGcjBviIqPIyJB@pizza> <05b09438-43ef-bd40-2b0a-2fdebf0425bd@redhat.com>
+ <YUniTK6jLpKtuWX7@pizza>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <0a089de0-48dd-20de-3eb4-9db7c7a6c3d8@redhat.com>
+Date: Thu, 23 Sep 2021 09:18:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::52a;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YUniTK6jLpKtuWX7@pizza>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,39 +94,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping ...
+On 21/09/21 15:46, Jose R. Ziviani wrote:
+>> Alternatively, you could C-ify the contents of config-devices.mak, and embed
+>> them in the per-arch modinfo-*.c; and record CONFIG_* symbols for each
+>> module (e.g. '{ "CONFIG_QXL", "hw-display-qxl" }' from a
+>> 'module_config("CONFIG_QXL")' line in the global modinfo.c file.  Then
+>> before loading a module you do a binary search on the per-arch
+>> config-devices array.
+> With a per-arch modinfo-*.c we don't even need a modinfo.c global, do
+> we?
+> 
+> Each target could be linked to its own modinfo-target.c only.
 
-On Mon, 20 Sep 2021, Ani Sinha wrote:
+Yes, I suppose you don't need it.  However, you may want to use 
+different Python scripts to generate modinfo-*.c (currently from 
+config-devices.mak only) and modinfo.c (from compile_commands.json and 
+various sources), so it may be handy to separate them.
 
-> This patchset adds a unit test to exercize acpi hotplug support for multifunction
-> bridges on q35 machines. This support was added with the commit:
->
-> d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
->
-> changelist:
-> v1 : initial RFC patch.
-> v2: incorporated some of the feedbacks from Igor.
-> v3: forgot to add the ASL diff for patch 3 in commit log for v2. Added now.
->
-> Ani Sinha (3):
->   tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT
->     table blob
->   tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges
->     for q35
->   tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge
->     test
->
->  tests/data/acpi/q35/DSDT.multi-bridge | Bin 0 -> 8435 bytes
->  tests/qtest/bios-tables-test.c        |  18 ++++++++++++++++++
->  2 files changed, 18 insertions(+)
->  create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
->
-> --
-> 2.25.1
->
->
+Paolo
+
 
