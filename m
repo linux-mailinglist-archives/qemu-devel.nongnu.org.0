@@ -2,72 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53D1415A08
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 10:29:33 +0200 (CEST)
-Received: from localhost ([::1]:53784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C88415A31
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 10:43:14 +0200 (CEST)
+Received: from localhost ([::1]:59128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTK6m-0002Qp-Og
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 04:29:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35116)
+	id 1mTKK1-0006Ug-Ez
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 04:43:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mTK5G-0001cg-Hy
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 04:27:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33474)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mTKI8-0005ja-Gj
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 04:41:16 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:45621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mTK5C-0001sp-Db
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 04:27:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632385673;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=n0m1RsQoo8SKZmNW+p9mbX7w401zkFRpoE7OtZyQvnQ=;
- b=QnLgcs1DKhoKdD4Zij7AqK+XJch+TsWDcGKEx10mF+aG1WXyt3UCFMMmmNF4Vl9ic3LkJb
- gobtWtm0hQsyumQ54+D64O/LcczzMYt8bHIidMmNVclA0wykVqX/oemE+MFbe7wxITv5h/
- Vk2UszwVlrHwp4Hjf9vUNzKtFYIiOJY=
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mTKI6-0004sF-Bd
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 04:41:16 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-MsoWbyPWONytKRx-UCy0EQ-1; Thu, 23 Sep 2021 04:27:52 -0400
-X-MC-Unique: MsoWbyPWONytKRx-UCy0EQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-245-Q7uipPnWN1Gba8LL1bOiDw-1; Thu, 23 Sep 2021 04:41:02 -0400
+X-MC-Unique: Q7uipPnWN1Gba8LL1bOiDw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33775362F8;
- Thu, 23 Sep 2021 08:27:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.139])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE7D12C9D5;
- Thu, 23 Sep 2021 08:27:24 +0000 (UTC)
-Date: Thu, 23 Sep 2021 09:27:22 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Willian Rampazzo <willianr@redhat.com>
-Subject: Re: [PATCH 1/2] docs/devel/testing: add instruction to run a single
- acceptance test
-Message-ID: <YUw6akmum97xkT14@redhat.com>
-References: <20210922190324.190227-1-willianr@redhat.com>
- <20210922190324.190227-2-willianr@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2893584A5E4;
+ Thu, 23 Sep 2021 08:41:01 +0000 (UTC)
+Received: from bahia.huguette (unknown [10.39.192.223])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 295DA19C59;
+ Thu, 23 Sep 2021 08:40:59 +0000 (UTC)
+Date: Thu, 23 Sep 2021 10:40:58 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH] 9pfs: fix wrong I/O block size in Rgetattr
+Message-ID: <20210923104058.0c159390@bahia.huguette>
+In-Reply-To: <5479323.DnaQ8grZgu@silver>
+References: <E1mT2Js-0000DW-OH@lizzy.crudebyte.com>
+ <a78b8af7-a61a-c9dc-181c-cccc307482eb@redhat.com>
+ <5479323.DnaQ8grZgu@silver>
 MIME-Version: 1.0
-In-Reply-To: <20210922190324.190227-2-willianr@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,73 +66,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 22, 2021 at 04:03:23PM -0300, Willian Rampazzo wrote:
-> Add instructions to the Acceptance tests section about running a
-> single test file or a test within the test file.
-> 
-> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-> ---
->  docs/devel/testing.rst | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-> index 4a0abbf23d..b03df34f7b 100644
-> --- a/docs/devel/testing.rst
-> +++ b/docs/devel/testing.rst
-> @@ -740,6 +740,20 @@ may be invoked by running:
->  
->    tests/venv/bin/avocado run $OPTION1 $OPTION2 tests/acceptance/
->  
-> +It is also possible to run tests from a single file or a single test
-> +within a test file. To run tests from a single file within the build
-> +tree, use:
-> +
-> + .. code::
-> +
-> +  tests/venv/bin/avocado run tests/acceptance/$TESTFILE
+On Wed, 22 Sep 2021 17:55:02 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Before running this users may well need to run
+> On Mittwoch, 22. September 2021 17:42:08 CEST Philippe Mathieu-Daud=C3=A9=
+ wrote:
+> > On 9/22/21 15:13, Christian Schoenebeck wrote:
+> > > When client sent a 9p Tgetattr request then the wrong I/O block
+> > > size value was returned by 9p server; instead of host file
+> > > system's I/O block size it should rather return an I/O block
+> > > size according to 9p session's 'msize' value, because the value
+> > > returned to client should be an "optimum" block size for I/O
+> > > (i.e. to maximize performance), it should not reflect the actual
+> > > physical block size of the underlying storage media.
+> > >=20
+> > > The I/O block size of a host filesystem is typically 4k, so the
+> > > value returned was far too low for good 9p I/O performance.
+> > >=20
+> > > This patch adds stat_to_iounit() with a similar approach as the
+> > > existing get_iounit() function.
+> > >=20
+> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > ---
+> > >=20
+> > >   hw/9pfs/9p.c | 21 ++++++++++++++++++++-
+> > >   1 file changed, 20 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> > > index c857b31321..708b030474 100644
+> > > --- a/hw/9pfs/9p.c
+> > > +++ b/hw/9pfs/9p.c
+> > > @@ -1262,6 +1262,25 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU
+> > > *pdu, V9fsPath *path,>=20
+> > >   #define P9_STATS_ALL           0x00003fffULL /* Mask for All fields
+> > >   above */>=20
+> > > +static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat
+> > > *stbuf) +{
+> > > +    int32_t iounit =3D 0;
+> > > +    V9fsState *s =3D pdu->s;
+> > > +
+> > > +    /*
+> > > +     * iounit should be multiples of st_blksize (host filesystem blo=
+ck
+> > > size) +     * as well as less than (client msize - P9_IOHDRSZ)
+> > > +     */
+> > > +    if (stbuf->st_blksize) {
+> > > +        iounit =3D stbuf->st_blksize;
+> > > +        iounit *=3D (s->msize - P9_IOHDRSZ) / stbuf->st_blksize;
+> >=20
+> > Is that:
+> >=20
+> >    iounit =3D QEMU_ALIGN_DOWN(s->msize - P9_IOHDRSZ, stbuf->st_blksize)=
+;
+> >=20
+> > ?
+> >=20
+>=20
+> Yes it is, thanks for the hint! :)
+>=20
+> I actually just took the equivalent, already existing code from get_iouni=
+t():
+> https://github.com/qemu/qemu/blob/2c3e83f92d93fbab071b8a96b8ab769b0190247=
+5/hw/9pfs/9p.c#L1880
+>=20
+> Would it be OK to do that subsequently with cleanup patches? My plan was =
+to
+> first address this with one patch, and addressing the cleanup issues
+> separately later on, because this patch is required for testing the follo=
+wing
+> kernel patches:
+> https://lore.kernel.org/netdev/cover.1632156835.git.linux_oss@crudebyte.c=
+om/
+>=20
+> And I wanted to keep things simple by only requiring one patch on QEMU si=
+de
+> for now.
+>=20
 
-   make check-venv
+Fair enough and you're the maintainer anyway so this is your
+call. :-)
 
-we can't assume they have previously done "make check-acceptance"
-as they're possibly just reproducing a failure from gitlab
-CI locally, not running the whole suite.
+Subsequent cleanup would be to switch to QEMU_ALIGN_DOWN() like
+Philippe suggested but also to consolidate the logic in a common
+helper in order to avoid the code duplication.
 
-> +
-> +To run a single test within a test file, use:
-> +
-> + .. code::
-> +
-> +  tests/venv/bin/avocado run tests/acceptance/$TESTFILE:$TESTCLASS.$TESTNAME
-> +
+The patch is correct and simple enough to be merged as is :
 
-Valid test names are visible in the output from any previous execution
-of avocado, and can also be queried using
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-  tests/venv/bin/avocado list tests/acceptance
-
->  Manual Installation
->  -------------------
->  
-> -- 
-> 2.31.1
-> 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>=20
+> > > +    }
+> > > +    if (!iounit) {
+> > > +        iounit =3D s->msize - P9_IOHDRSZ;
+> > > +    }
+> > > +    return iounit;
+> > > +}
+> > > +
+> > >=20
+> > >   static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stb=
+uf,
+> > >  =20
+> > >                                   V9fsStatDotl *v9lstat)
+> > >  =20
+> > >   {
+> > >=20
+> > > @@ -1273,7 +1292,7 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, co=
+nst
+> > > struct stat *stbuf,>=20
+> > >       v9lstat->st_gid =3D stbuf->st_gid;
+> > >       v9lstat->st_rdev =3D stbuf->st_rdev;
+> > >       v9lstat->st_size =3D stbuf->st_size;
+> > >=20
+> > > -    v9lstat->st_blksize =3D stbuf->st_blksize;
+> > > +    v9lstat->st_blksize =3D stat_to_iounit(pdu, stbuf);
+> > >=20
+> > >       v9lstat->st_blocks =3D stbuf->st_blocks;
+> > >       v9lstat->st_atime_sec =3D stbuf->st_atime;
+> > >       v9lstat->st_atime_nsec =3D stbuf->st_atim.tv_nsec;
+>=20
+>=20
 
 
