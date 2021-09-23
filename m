@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555B7415503
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 03:10:01 +0200 (CEST)
-Received: from localhost ([::1]:55596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B3F4154EC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 02:59:48 +0200 (CEST)
+Received: from localhost ([::1]:35176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTDFQ-0005Mm-Cy
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 21:10:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55670)
+	id 1mTD5X-00089D-IX
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 20:59:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCw8-0001bs-W8
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:50:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37928)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCwA-0001gg-7L
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:50:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCw5-0006RH-Oj
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:50:04 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCw8-0006TA-1a
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:50:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632358201;
+ s=mimecast20190719; t=1632358203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=obu6BShoeghm9c61CgF8WTlRYSxU3rneuVvw9Jw+lyk=;
- b=h6CFJL82TEq0Su6/z8269o4aQ+Pe65Hn6T5lhQ1/uxlVoZ5Kkg73KLYoHqC/4UFu1dhTrh
- Sd5XvxB5ie8h7VFkBxWjeYHOl9Fi6AmXsNpw5yXmgo6tEAMTA/JsVwzSKGwy+ZhhiNucry
- alcyuCKFr3pKgGhU/Ng1FaWnr+hY6HQ=
+ bh=KaI1fIVMzq99ELEF2GrnsfIFKSCmsuyOmsCdzyEw7ng=;
+ b=P4rpnDM+cdZEk7ahik+lMzajg3f587/ciDeCGd+eiNepSrpPaKqSKwGdiVpvGTNs3CCzqh
+ 9p7373xbg3EF7dG1/mX2IiswKXRzpJ9ec1LyKD7sDTKwXO5/u3RSLz17WMVQCsF+bB7uh0
+ G1BZG+SKOqS1h9/Wuqm8Z7OVLnTtGQ0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-tAvvT6bGM_CzBnclUFonPw-1; Wed, 22 Sep 2021 20:50:00 -0400
-X-MC-Unique: tAvvT6bGM_CzBnclUFonPw-1
+ us-mta-429-HCXmkk8GNUOLf1dXRT27ow-1; Wed, 22 Sep 2021 20:50:02 -0400
+X-MC-Unique: HCXmkk8GNUOLf1dXRT27ow-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A9BD18D6A2F;
- Thu, 23 Sep 2021 00:49:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF12A801B3D;
+ Thu, 23 Sep 2021 00:50:00 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 96C6C60CA0;
- Thu, 23 Sep 2021 00:49:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 758C860BF1;
+ Thu, 23 Sep 2021 00:49:59 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/17] python, iotests: remove socket_scm_helper
-Date: Wed, 22 Sep 2021 20:49:31 -0400
-Message-Id: <20210923004938.3999963-11-jsnow@redhat.com>
+Subject: [PATCH v2 11/17] python/machine: remove has_quit argument
+Date: Wed, 22 Sep 2021 20:49:32 -0400
+Message-Id: <20210923004938.3999963-12-jsnow@redhat.com>
 In-Reply-To: <20210923004938.3999963-1-jsnow@redhat.com>
 References: <20210923004938.3999963-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,15 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) DKIMWL_WL_HIGH=-1.472, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,312 +84,210 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's not used anymore, now.
+If we spy on the QMP commands instead, we don't need callers to remember
+to pass it. Seems like a fair trade-off.
+
+The one slightly weird bit is overloading this instance variable for
+wait(), where we use it to mean "don't issue the qmp 'quit'
+command". This means that wait() will "fail" if the QEMU process does
+not terminate of its own accord.
+
+In most cases, we probably did already actually issue quit -- some
+iotests do this -- but in some others, we may be waiting for QEMU to
+terminate for some other reason, such as a test wherein we tell the
+guest (directly) to shut down.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/socket_scm_helper.c | 136 -------------------------
- python/qemu/machine/machine.py         |   3 -
- python/qemu/machine/qtest.py           |   2 -
- tests/Makefile.include                 |   1 -
- tests/meson.build                      |   4 -
- tests/qemu-iotests/iotests.py          |   3 -
- tests/qemu-iotests/meson.build         |   5 -
- tests/qemu-iotests/testenv.py          |   8 +-
- 8 files changed, 1 insertion(+), 161 deletions(-)
- delete mode 100644 tests/qemu-iotests/socket_scm_helper.c
- delete mode 100644 tests/qemu-iotests/meson.build
+ python/qemu/machine/machine.py | 34 +++++++++++++++++++---------------
+ tests/qemu-iotests/040         |  7 +------
+ tests/qemu-iotests/218         |  2 +-
+ tests/qemu-iotests/255         |  2 +-
+ 4 files changed, 22 insertions(+), 23 deletions(-)
 
-diff --git a/tests/qemu-iotests/socket_scm_helper.c b/tests/qemu-iotests/socket_scm_helper.c
-deleted file mode 100644
-index eb76d31aa94..00000000000
---- a/tests/qemu-iotests/socket_scm_helper.c
-+++ /dev/null
-@@ -1,136 +0,0 @@
--/*
-- * SCM_RIGHTS with unix socket help program for test
-- *
-- * Copyright IBM, Inc. 2013
-- *
-- * Authors:
-- *  Wenchao Xia    <xiawenc@linux.vnet.ibm.com>
-- *
-- * This work is licensed under the terms of the GNU LGPL, version 2 or later.
-- * See the COPYING.LIB file in the top-level directory.
-- */
--
--#include "qemu/osdep.h"
--#include <sys/socket.h>
--#include <sys/un.h>
--
--/* #define SOCKET_SCM_DEBUG */
--
--/*
-- * @fd and @fd_to_send will not be checked for validation in this function,
-- * a blank will be sent as iov data to notify qemu.
-- */
--static int send_fd(int fd, int fd_to_send)
--{
--    struct msghdr msg;
--    struct iovec iov[1];
--    int ret;
--    char control[CMSG_SPACE(sizeof(int))];
--    struct cmsghdr *cmsg;
--
--    memset(&msg, 0, sizeof(msg));
--    memset(control, 0, sizeof(control));
--
--    /* Send a blank to notify qemu */
--    iov[0].iov_base = (void *)" ";
--    iov[0].iov_len = 1;
--
--    msg.msg_iov = iov;
--    msg.msg_iovlen = 1;
--
--    msg.msg_control = control;
--    msg.msg_controllen = sizeof(control);
--
--    cmsg = CMSG_FIRSTHDR(&msg);
--
--    cmsg->cmsg_len = CMSG_LEN(sizeof(int));
--    cmsg->cmsg_level = SOL_SOCKET;
--    cmsg->cmsg_type = SCM_RIGHTS;
--    memcpy(CMSG_DATA(cmsg), &fd_to_send, sizeof(int));
--
--    do {
--        ret = sendmsg(fd, &msg, 0);
--    } while (ret < 0 && errno == EINTR);
--
--    if (ret < 0) {
--        fprintf(stderr, "Failed to send msg, reason: %s\n", strerror(errno));
--    }
--
--    return ret;
--}
--
--/* Convert string to fd number. */
--static int get_fd_num(const char *fd_str, bool silent)
--{
--    int sock;
--    char *err;
--
--    errno = 0;
--    sock = strtol(fd_str, &err, 10);
--    if (errno) {
--        if (!silent) {
--            fprintf(stderr, "Failed in strtol for socket fd, reason: %s\n",
--                    strerror(errno));
--        }
--        return -1;
--    }
--    if (!*fd_str || *err || sock < 0) {
--        if (!silent) {
--            fprintf(stderr, "bad numerical value for socket fd '%s'\n", fd_str);
--        }
--        return -1;
--    }
--
--    return sock;
--}
--
--/*
-- * To make things simple, the caller needs to specify:
-- * 1. socket fd.
-- * 2. path of the file to be sent.
-- */
--int main(int argc, char **argv, char **envp)
--{
--    int sock, fd, ret;
--
--#ifdef SOCKET_SCM_DEBUG
--    int i;
--    for (i = 0; i < argc; i++) {
--        fprintf(stderr, "Parameter %d: %s\n", i, argv[i]);
--    }
--#endif
--
--    if (argc != 3) {
--        fprintf(stderr,
--                "Usage: %s < socket-fd > < file-path >\n",
--                argv[0]);
--        return EXIT_FAILURE;
--    }
--
--
--    sock = get_fd_num(argv[1], false);
--    if (sock < 0) {
--        return EXIT_FAILURE;
--    }
--
--    fd = get_fd_num(argv[2], true);
--    if (fd < 0) {
--        /* Now only open a file in readonly mode for test purpose. If more
--           precise control is needed, use python script in file operation, which
--           is supposed to fork and exec this program. */
--        fd = open(argv[2], O_RDONLY);
--        if (fd < 0) {
--            fprintf(stderr, "Failed to open file '%s'\n", argv[2]);
--            return EXIT_FAILURE;
--        }
--    }
--
--    ret = send_fd(sock, fd);
--    if (ret < 0) {
--        close(fd);
--        return EXIT_FAILURE;
--    }
--
--    close(fd);
--    return EXIT_SUCCESS;
--}
 diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index 1c6532a3d68..056d340e355 100644
+index 056d340e355..0bd40bc2f76 100644
 --- a/python/qemu/machine/machine.py
 +++ b/python/qemu/machine/machine.py
-@@ -98,7 +98,6 @@ def __init__(self,
-                  name: Optional[str] = None,
-                  base_temp_dir: str = "/var/tmp",
-                  monitor_address: Optional[SocketAddrT] = None,
--                 socket_scm_helper: Optional[str] = None,
-                  sock_dir: Optional[str] = None,
-                  drain_console: bool = False,
-                  console_log: Optional[str] = None,
-@@ -113,7 +112,6 @@ def __init__(self,
-         @param name: prefix for socket and log file names (default: qemu-PID)
-         @param base_temp_dir: default location where temp files are created
-         @param monitor_address: address for QMP monitor
--        @param socket_scm_helper: helper program, required for send_fd_scm()
-         @param sock_dir: where to create socket (defaults to base_temp_dir)
-         @param drain_console: (optional) True to drain console socket to buffer
-         @param console_log: (optional) path to console log file
-@@ -134,7 +132,6 @@ def __init__(self,
-         self._base_temp_dir = base_temp_dir
-         self._sock_dir = sock_dir or self._base_temp_dir
-         self._log_dir = log_dir
--        self._socket_scm_helper = socket_scm_helper
+@@ -170,6 +170,7 @@ def __init__(self,
+         self._console_socket: Optional[socket.socket] = None
+         self._remove_files: List[str] = []
+         self._user_killed = False
++        self._quit_issued = False
  
-         if monitor_address is not None:
-             self._monitor_address = monitor_address
-diff --git a/python/qemu/machine/qtest.py b/python/qemu/machine/qtest.py
-index 395cc8fbfe9..f2f9aaa5e50 100644
---- a/python/qemu/machine/qtest.py
-+++ b/python/qemu/machine/qtest.py
-@@ -115,7 +115,6 @@ def __init__(self,
-                  wrapper: Sequence[str] = (),
-                  name: Optional[str] = None,
-                  base_temp_dir: str = "/var/tmp",
--                 socket_scm_helper: Optional[str] = None,
-                  sock_dir: Optional[str] = None,
-                  qmp_timer: Optional[float] = None):
-         # pylint: disable=too-many-arguments
-@@ -126,7 +125,6 @@ def __init__(self,
-             sock_dir = base_temp_dir
-         super().__init__(binary, args, wrapper=wrapper, name=name,
-                          base_temp_dir=base_temp_dir,
--                         socket_scm_helper=socket_scm_helper,
-                          sock_dir=sock_dir, qmp_timer=qmp_timer)
-         self._qtest: Optional[QEMUQtestProtocol] = None
-         self._qtest_path = os.path.join(sock_dir, name + "-qtest.sock")
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 6e16c05f10b..5bd487a4030 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -139,7 +139,6 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
- check:
+     def __enter__(self: _T) -> _T:
+         return self
+@@ -368,6 +369,7 @@ def _post_shutdown(self) -> None:
+                 command = ''
+             LOG.warning(msg, -int(exitcode), command)
  
- ifeq ($(CONFIG_TOOLS)$(CONFIG_POSIX),yy)
--QEMU_IOTESTS_HELPERS-$(CONFIG_LINUX) = tests/qemu-iotests/socket_scm_helper$(EXESUF)
- check: check-block
- export PYTHON
- check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
-diff --git a/tests/meson.build b/tests/meson.build
-index 55a7b082751..3f3882748ae 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -67,10 +67,6 @@ if have_tools and 'CONFIG_VHOST_USER' in config_host and 'CONFIG_LINUX' in confi
-              dependencies: [qemuutil, vhost_user])
- endif
++        self._quit_issued = False
+         self._user_killed = False
+         self._launched = False
  
--if have_system and 'CONFIG_POSIX' in config_host
--  subdir('qemu-iotests')
--endif
--
- test('decodetree', sh,
-      args: [ files('decode/check.sh'), config_host['PYTHON'], files('../scripts/decodetree.py') ],
-      workdir: meson.current_source_dir() / 'decode',
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index ce06cf56304..9afa258a405 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -109,8 +109,6 @@
+@@ -443,15 +445,13 @@ def _hard_shutdown(self) -> None:
+         self._subp.kill()
+         self._subp.wait(timeout=60)
  
-     qemu_valgrind = ['valgrind', valgrind_logfile, '--error-exitcode=99']
- 
--socket_scm_helper = os.environ.get('SOCKET_SCM_HELPER', 'socket_scm_helper')
--
- luks_default_secret_object = 'secret,id=keysec0,data=' + \
-                              os.environ.get('IMGKEYSECRET', '')
- luks_default_key_secret_opt = 'key-secret=keysec0'
-@@ -600,7 +598,6 @@ def __init__(self, path_suffix=''):
-         super().__init__(qemu_prog, qemu_opts, wrapper=wrapper,
-                          name=name,
-                          base_temp_dir=test_dir,
--                         socket_scm_helper=socket_scm_helper,
-                          sock_dir=sock_dir, qmp_timer=timer)
-         self._num_drives = 0
- 
-diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
-deleted file mode 100644
-index 67aed1e4927..00000000000
---- a/tests/qemu-iotests/meson.build
-+++ /dev/null
-@@ -1,5 +0,0 @@
--if 'CONFIG_LINUX' in config_host
--    socket_scm_helper = executable('socket_scm_helper', 'socket_scm_helper.c')
--else
--    socket_scm_helper = []
--endif
-diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-index 70da0d60c80..207bafb6493 100644
---- a/tests/qemu-iotests/testenv.py
-+++ b/tests/qemu-iotests/testenv.py
-@@ -68,7 +68,7 @@ class TestEnv(ContextManager['TestEnv']):
-     env_variables = ['PYTHONPATH', 'TEST_DIR', 'SOCK_DIR', 'SAMPLE_IMG_DIR',
-                      'OUTPUT_DIR', 'PYTHON', 'QEMU_PROG', 'QEMU_IMG_PROG',
-                      'QEMU_IO_PROG', 'QEMU_NBD_PROG', 'QSD_PROG',
--                     'SOCKET_SCM_HELPER', 'QEMU_OPTIONS', 'QEMU_IMG_OPTIONS',
-+                     'QEMU_OPTIONS', 'QEMU_IMG_OPTIONS',
-                      'QEMU_IO_OPTIONS', 'QEMU_IO_OPTIONS_NO_FMT',
-                      'QEMU_NBD_OPTIONS', 'IMGOPTS', 'IMGFMT', 'IMGPROTO',
-                      'AIOMODE', 'CACHEMODE', 'VALGRIND_QEMU',
-@@ -137,7 +137,6 @@ def init_binaries(self) -> None:
-         """Init binary path variables:
-              PYTHON (for bash tests)
-              QEMU_PROG, QEMU_IMG_PROG, QEMU_IO_PROG, QEMU_NBD_PROG, QSD_PROG
--             SOCKET_SCM_HELPER
+-    def _soft_shutdown(self, timeout: Optional[int],
+-                       has_quit: bool = False) -> None:
++    def _soft_shutdown(self, timeout: Optional[int]) -> None:
          """
-         self.python = sys.executable
+         Perform early cleanup, attempt to gracefully shut down the VM, and wait
+         for it to terminate.
  
-@@ -171,10 +170,6 @@ def root(*names: str) -> str:
-             if not isxfile(b):
-                 sys.exit('Not executable: ' + b)
+         :param timeout: Timeout in seconds for graceful shutdown.
+                         A value of None is an infinite wait.
+-        :param has_quit: When True, don't attempt to issue 'quit' QMP command
  
--        helper_path = os.path.join(self.build_iotests, 'socket_scm_helper')
--        if isxfile(helper_path):
--            self.socket_scm_helper = helper_path  # SOCKET_SCM_HELPER
+         :raise ConnectionReset: On QMP communication errors
+         :raise subprocess.TimeoutExpired: When timeout is exceeded waiting for
+@@ -460,21 +460,19 @@ def _soft_shutdown(self, timeout: Optional[int],
+         self._early_cleanup()
+ 
+         if self._qmp_connection:
+-            if not has_quit:
++            if not self._quit_issued:
+                 # Might raise ConnectionReset
+-                self._qmp.cmd('quit')
++                self.qmp('quit')
+ 
+         # May raise subprocess.TimeoutExpired
+         self._subp.wait(timeout=timeout)
+ 
+-    def _do_shutdown(self, timeout: Optional[int],
+-                     has_quit: bool = False) -> None:
++    def _do_shutdown(self, timeout: Optional[int]) -> None:
+         """
+         Attempt to shutdown the VM gracefully; fallback to a hard shutdown.
+ 
+         :param timeout: Timeout in seconds for graceful shutdown.
+                         A value of None is an infinite wait.
+-        :param has_quit: When True, don't attempt to issue 'quit' QMP command
+ 
+         :raise AbnormalShutdown: When the VM could not be shut down gracefully.
+             The inner exception will likely be ConnectionReset or
+@@ -482,13 +480,13 @@ def _do_shutdown(self, timeout: Optional[int],
+             may result in its own exceptions, likely subprocess.TimeoutExpired.
+         """
+         try:
+-            self._soft_shutdown(timeout, has_quit)
++            self._soft_shutdown(timeout)
+         except Exception as exc:
+             self._hard_shutdown()
+             raise AbnormalShutdown("Could not perform graceful shutdown") \
+                 from exc
+ 
+-    def shutdown(self, has_quit: bool = False,
++    def shutdown(self,
+                  hard: bool = False,
+                  timeout: Optional[int] = 30) -> None:
+         """
+@@ -498,7 +496,6 @@ def shutdown(self, has_quit: bool = False,
+         If the VM has not yet been launched, or shutdown(), wait(), or kill()
+         have already been called, this method does nothing.
+ 
+-        :param has_quit: When true, do not attempt to issue 'quit' QMP command.
+         :param hard: When true, do not attempt graceful shutdown, and
+                      suppress the SIGKILL warning log message.
+         :param timeout: Optional timeout in seconds for graceful shutdown.
+@@ -512,7 +509,7 @@ def shutdown(self, has_quit: bool = False,
+                 self._user_killed = True
+                 self._hard_shutdown()
+             else:
+-                self._do_shutdown(timeout, has_quit)
++                self._do_shutdown(timeout)
+         finally:
+             self._post_shutdown()
+ 
+@@ -529,7 +526,8 @@ def wait(self, timeout: Optional[int] = 30) -> None:
+         :param timeout: Optional timeout in seconds. Default 30 seconds.
+                         A value of `None` is an infinite wait.
+         """
+-        self.shutdown(has_quit=True, timeout=timeout)
++        self._quit_issued = True
++        self.shutdown(timeout=timeout)
+ 
+     def set_qmp_monitor(self, enabled: bool = True) -> None:
+         """
+@@ -574,7 +572,10 @@ def qmp(self, cmd: str,
+             conv_keys = True
+ 
+         qmp_args = self._qmp_args(conv_keys, args)
+-        return self._qmp.cmd(cmd, args=qmp_args)
++        ret = self._qmp.cmd(cmd, args=qmp_args)
++        if cmd == 'quit' and 'error' not in ret and 'return' in ret:
++            self._quit_issued = True
++        return ret
+ 
+     def command(self, cmd: str,
+                 conv_keys: bool = True,
+@@ -585,7 +586,10 @@ def command(self, cmd: str,
+         On failure raise an exception.
+         """
+         qmp_args = self._qmp_args(conv_keys, args)
+-        return self._qmp.command(cmd, **qmp_args)
++        ret = self._qmp.command(cmd, **qmp_args)
++        if cmd == 'quit':
++            self._quit_issued = True
++        return ret
+ 
+     def get_qmp_event(self, wait: bool = False) -> Optional[QMPMessage]:
+         """
+diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
+index f3677de9dfd..6af5ab9e764 100755
+--- a/tests/qemu-iotests/040
++++ b/tests/qemu-iotests/040
+@@ -92,10 +92,9 @@ class TestSingleDrive(ImageCommitTestCase):
+         self.vm.add_device('virtio-scsi')
+         self.vm.add_device("scsi-hd,id=scsi0,drive=drive0")
+         self.vm.launch()
+-        self.has_quit = False
+ 
+     def tearDown(self):
+-        self.vm.shutdown(has_quit=self.has_quit)
++        self.vm.shutdown()
+         os.remove(test_img)
+         os.remove(mid_img)
+         os.remove(backing_img)
+@@ -127,8 +126,6 @@ class TestSingleDrive(ImageCommitTestCase):
+         result = self.vm.qmp('quit')
+         self.assert_qmp(result, 'return', {})
+ 
+-        self.has_quit = True
 -
-     def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
-                  cachemode: Optional[str] = None,
-                  imgopts: Optional[str] = None,
-@@ -300,7 +295,6 @@ def print_env(self) -> None:
- PLATFORM      -- {platform}
- TEST_DIR      -- {TEST_DIR}
- SOCK_DIR      -- {SOCK_DIR}
--SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}
- GDB_OPTIONS   -- {GDB_OPTIONS}
- VALGRIND_QEMU -- {VALGRIND_QEMU}
- PRINT_QEMU_OUTPUT -- {PRINT_QEMU}
+     # Same as above, but this time we add the filter after starting the job
+     @iotests.skip_if_unsupported(['throttle'])
+     def test_commit_plus_filter_and_quit(self):
+@@ -147,8 +144,6 @@ class TestSingleDrive(ImageCommitTestCase):
+         result = self.vm.qmp('quit')
+         self.assert_qmp(result, 'return', {})
+ 
+-        self.has_quit = True
+-
+     def test_device_not_found(self):
+         result = self.vm.qmp('block-commit', device='nonexistent', top='%s' % mid_img)
+         self.assert_qmp(result, 'error/class', 'DeviceNotFound')
+diff --git a/tests/qemu-iotests/218 b/tests/qemu-iotests/218
+index 325d8244fb9..4922b4d3b6f 100755
+--- a/tests/qemu-iotests/218
++++ b/tests/qemu-iotests/218
+@@ -187,4 +187,4 @@ with iotests.VM() as vm, \
+     log(vm.qmp('quit'))
+ 
+     with iotests.Timeout(5, 'Timeout waiting for VM to quit'):
+-        vm.shutdown(has_quit=True)
++        vm.shutdown()
+diff --git a/tests/qemu-iotests/255 b/tests/qemu-iotests/255
+index c43aa9c67ac..3d6d0e80cb5 100755
+--- a/tests/qemu-iotests/255
++++ b/tests/qemu-iotests/255
+@@ -123,4 +123,4 @@ with iotests.FilePath('src.qcow2') as src_path, \
+     vm.qmp_log('block-job-cancel', device='job0')
+     vm.qmp_log('quit')
+ 
+-    vm.shutdown(has_quit=True)
++    vm.shutdown()
 -- 
 2.31.1
 
