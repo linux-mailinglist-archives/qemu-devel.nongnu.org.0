@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06BD7415A07
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 10:27:30 +0200 (CEST)
-Received: from localhost ([::1]:51534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B53D1415A08
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 10:29:33 +0200 (CEST)
+Received: from localhost ([::1]:53784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTK4m-0000ur-Q1
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 04:27:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34764)
+	id 1mTK6m-0002Qp-Og
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 04:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mTK3H-000078-On
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 04:25:55 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:46652)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mTK3F-0000If-Ux
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 04:25:55 -0400
-Received: by mail-ed1-x530.google.com with SMTP id ee50so20578523edb.13
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 01:25:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wditbNMHGHaVJG6i7uoZN+tNuAkXZXQmZAYgkFJc9bU=;
- b=XOqANGer8nKzwQJpZfESxhpZ05nnjlaN0rC4EVfzvWT3QN3PQ7r9f0x6GZUd/cDqAa
- 8lI1vcd5XrDu1ZgrokZ1UwxAqPSiDSFDnlJUd72VErNBx5XB+H56kDSVkGPh/TGP5jTD
- KCx1dhUiZZIGD3gaT7VwfneCf+eJIa4Aa8jc8i7WAN/rYaxtroWr1tDej7M2zP35fcEA
- EageB135XQnVSv3sWQ7mhQAKYR4UlM0oZTrH5FbXPQXFFYQOcajvViGnOTJxwtg1KvVX
- Sl/udjgkM4Pn/RPdX5YDZ7U0vjWqPh62e7LUD/6KH4cHO1S9mt8L3i4xr3EXcEX6ES79
- uv6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wditbNMHGHaVJG6i7uoZN+tNuAkXZXQmZAYgkFJc9bU=;
- b=IMqvrA5RHi3lz484br5fCv1hHOTLQ0+gSOM5TbZZa95MWNTu4CFR2FcxB5C9M4oXc5
- ury72mn2HoByhShsrOtx8y1CanICSFNpfQLT6BKVVh6gPtRNBkCxZoaqZjw2o8jwbC/s
- oAPVZxhUIqcY2KiB9O8xGBtKcInlPKsjgVKYxE8lbH1KpGdR7rnD8boyGkjGCYrT1klQ
- KFDOdqopidB8fs0YiLjucxN+xkOtxWxa8lwARF3JcZ3ElGc79TZ4E4O4Pbbqa45eNC9j
- lm5Tk9bWH4tI37Wivfh56v9VWZn6HY7rtK8hUSNc4F5qYnnCQ7tdfwKpvXl54lx6LbWM
- MZmA==
-X-Gm-Message-State: AOAM533U4MPUj+Svv+rxNIIBFG9aN61pfGpqHddEEoSYsxEuOhhuYJZN
- JZ/cl+0iJ2XKK1Y7nvb+qbZ4TX9sFaE=
-X-Google-Smtp-Source: ABdhPJw+Vl+htPjIm9S+OJDnxnROwzhX+UK5qy7uUtQYPwizQpsAndV+GjYyfLmrFc+KsvAcdJSbYw==
-X-Received: by 2002:aa7:d5c3:: with SMTP id d3mr4030107eds.151.1632385551851; 
- Thu, 23 Sep 2021 01:25:51 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id o7sm2930476edt.68.2021.09.23.01.25.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Sep 2021 01:25:51 -0700 (PDT)
-Subject: Re: [PULL 0/3] Update meson version
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210918093140.5797-1-pbonzini@redhat.com>
- <CAFEAcA_07d87j7y1qnBeTuoKQw=9=fY0Ci=6ky=XxBQbuEqDnw@mail.gmail.com>
- <CAFEAcA_rhpcE9jMXazbG2vdfcDuaczdM488bZChDFHORbr23JA@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4c948d18-8ef2-2a79-9230-3d57a6be223b@redhat.com>
-Date: Thu, 23 Sep 2021 10:25:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mTK5G-0001cg-Hy
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 04:27:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mTK5C-0001sp-Db
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 04:27:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632385673;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=n0m1RsQoo8SKZmNW+p9mbX7w401zkFRpoE7OtZyQvnQ=;
+ b=QnLgcs1DKhoKdD4Zij7AqK+XJch+TsWDcGKEx10mF+aG1WXyt3UCFMMmmNF4Vl9ic3LkJb
+ gobtWtm0hQsyumQ54+D64O/LcczzMYt8bHIidMmNVclA0wykVqX/oemE+MFbe7wxITv5h/
+ Vk2UszwVlrHwp4Hjf9vUNzKtFYIiOJY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318-MsoWbyPWONytKRx-UCy0EQ-1; Thu, 23 Sep 2021 04:27:52 -0400
+X-MC-Unique: MsoWbyPWONytKRx-UCy0EQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33775362F8;
+ Thu, 23 Sep 2021 08:27:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE7D12C9D5;
+ Thu, 23 Sep 2021 08:27:24 +0000 (UTC)
+Date: Thu, 23 Sep 2021 09:27:22 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Willian Rampazzo <willianr@redhat.com>
+Subject: Re: [PATCH 1/2] docs/devel/testing: add instruction to run a single
+ acceptance test
+Message-ID: <YUw6akmum97xkT14@redhat.com>
+References: <20210922190324.190227-1-willianr@redhat.com>
+ <20210922190324.190227-2-willianr@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_rhpcE9jMXazbG2vdfcDuaczdM488bZChDFHORbr23JA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210922190324.190227-2-willianr@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,23 +80,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/09/21 20:22, Peter Maydell wrote:
-> I had another go at this. As far as I can tell it causes all
-> the vm-build-{openbsd,netbsd,freebsd} build-and-tests to hang.
-> At any rate the VMs are sat there eating host CPU.
-> Does 'make vm-build-freebsd' etc work for you ?
+On Wed, Sep 22, 2021 at 04:03:23PM -0300, Willian Rampazzo wrote:
+> Add instructions to the Acceptance tests section about running a
+> single test file or a test within the test file.
+> 
+> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+> ---
+>  docs/devel/testing.rst | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> index 4a0abbf23d..b03df34f7b 100644
+> --- a/docs/devel/testing.rst
+> +++ b/docs/devel/testing.rst
+> @@ -740,6 +740,20 @@ may be invoked by running:
+>  
+>    tests/venv/bin/avocado run $OPTION1 $OPTION2 tests/acceptance/
+>  
+> +It is also possible to run tests from a single file or a single test
+> +within a test file. To run tests from a single file within the build
+> +tree, use:
+> +
+> + .. code::
+> +
+> +  tests/venv/bin/avocado run tests/acceptance/$TESTFILE
 
-It has been hanging for some time but I hadn't debugged it until now. 
-It's caused by a missing dependency that causes bios-tables-test to fail 
-(badly).  It's plausible that the meson upgrade triggered a different 
-build ordering for make/ninja, and made it hang for you as well.
+Before running this users may well need to run
 
-There was also a related bug that caused the test to hang if bzip2 was 
-not available.
+   make check-venv
 
-Paolo
+we can't assume they have previously done "make check-acceptance"
+as they're possibly just reproducing a failure from gitlab
+CI locally, not running the whole suite.
+
+> +
+> +To run a single test within a test file, use:
+> +
+> + .. code::
+> +
+> +  tests/venv/bin/avocado run tests/acceptance/$TESTFILE:$TESTCLASS.$TESTNAME
+> +
+
+Valid test names are visible in the output from any previous execution
+of avocado, and can also be queried using
+
+  tests/venv/bin/avocado list tests/acceptance
+
+>  Manual Installation
+>  -------------------
+>  
+> -- 
+> 2.31.1
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
