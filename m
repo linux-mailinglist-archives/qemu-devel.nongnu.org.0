@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EECF415518
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 03:19:32 +0200 (CEST)
-Received: from localhost ([::1]:46520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0353C41550E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 03:16:22 +0200 (CEST)
+Received: from localhost ([::1]:40268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTDOd-0001zY-BT
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 21:19:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56564)
+	id 1mTDLZ-00064a-1f
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 21:16:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTD6s-0003VZ-OA
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTD6t-0003WM-9q
  for qemu-devel@nongnu.org; Wed, 22 Sep 2021 21:01:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31363)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTD6p-00053D-Ns
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 21:01:10 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTD6q-00053h-6l
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 21:01:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632358866;
+ s=mimecast20190719; t=1632358867;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UaAPesH/gdaRo8BcGSLjONlpoPTLNeMfVO0t1CanoGw=;
- b=cJITHnOaLBlstd0KugzugDKJj6bYl0/Nip29OUbZ50xDQdWOVY85sqZDkIbEPbJdX8Lht9
- xtXvXil1FjTk6M8mZUaLPKdDd5g4gmMOfenp4XGBLNYInE5Tp/1yQGCTjmcOS/hoghbHnF
- v+0w4Lsds6Tbc6qJGLSg/cmaiqrtrh0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FwJruLBN30rXp3VgQR14SSgBdw4JdceEKKDJFqXQfxo=;
+ b=UE/zy8MLSPKjoBY9cilYTuvfeB+p5BCwajhGdJLxCtuBj55tK4IjfkyUuHQcCuSyFNnTch
+ o2ajWiy3yhU3xwYM4dTkdsoWi8ejrB2ZrzBxP4wy/Rod68hxABrqQzu09Dfu0YDtWT5mPz
+ 4GIoTa3FNBJo4wNP93ZH1MRQlkKVwqo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-7rm2wt7hOqeP51XaZEgBNA-1; Wed, 22 Sep 2021 21:01:03 -0400
-X-MC-Unique: 7rm2wt7hOqeP51XaZEgBNA-1
+ us-mta-261-5f9h2_TDNOuPKYTrNpuEtQ-1; Wed, 22 Sep 2021 21:01:04 -0400
+X-MC-Unique: 5f9h2_TDNOuPKYTrNpuEtQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6700E18D6A42;
- Thu, 23 Sep 2021 01:01:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8891F1084683;
+ Thu, 23 Sep 2021 01:01:03 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A18A279448;
- Thu, 23 Sep 2021 01:01:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C0D87177C0;
+ Thu, 23 Sep 2021 01:01:02 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/7] docs/devel: Organize devel manual into further
- subsections
-Date: Wed, 22 Sep 2021 21:00:54 -0400
-Message-Id: <20210923010101.4002759-1-jsnow@redhat.com>
+Subject: [PATCH v3 1/7] docs/devel: create "Community & Governance" subsection
+Date: Wed, 22 Sep 2021 21:00:55 -0400
+Message-Id: <20210923010101.4002759-2-jsnow@redhat.com>
+In-Reply-To: <20210923010101.4002759-1-jsnow@redhat.com>
+References: <20210923010101.4002759-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
@@ -79,45 +81,48 @@ Cc: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's a bit cluttered. On my way to converting the QAPI/QMP documents to=0D
-ReST I thought it could do with another organizational level to help=0D
-make sense of things a bit more quickly.=0D
-=0D
-V3:=0D
- - Rebase/resend.=0D
-=0D
-V2:=0D
- - Move decodetree into TCG subsection=0D
- - Rebase, add QOM/QAPI/QMP docs into API subsection=0D
-=0D
-John Snow (7):=0D
-  docs/devel: create "Community & Governance" subsection=0D
-  docs/devel: create "Developing QEMU" subsection=0D
-  docs/devel: create "Testing & Debugging" subsection=0D
-  docs/devel: create TCG subsection=0D
-  docs/devel: create "Subsystem APIs" subsection=0D
-  docs/devel: create "QEMU API" section=0D
-  docs/devel: create "Miscellaneous Topics" subsection=0D
-=0D
- docs/devel/index.rst                        | 42 ++++-----------------=0D
- docs/devel/section-api.rst                  | 10 +++++=0D
- docs/devel/section-community-governance.rst |  9 +++++=0D
- docs/devel/section-development.rst          | 12 ++++++=0D
- docs/devel/section-misc.rst                 | 13 +++++++=0D
- docs/devel/section-subsystems.rst           | 16 ++++++++=0D
- docs/devel/section-tcg.rst                  | 12 ++++++=0D
- docs/devel/section-testing-debugging.rst    | 12 ++++++=0D
- 8 files changed, 91 insertions(+), 35 deletions(-)=0D
- create mode 100644 docs/devel/section-api.rst=0D
- create mode 100644 docs/devel/section-community-governance.rst=0D
- create mode 100644 docs/devel/section-development.rst=0D
- create mode 100644 docs/devel/section-misc.rst=0D
- create mode 100644 docs/devel/section-subsystems.rst=0D
- create mode 100644 docs/devel/section-tcg.rst=0D
- create mode 100644 docs/devel/section-testing-debugging.rst=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Plonk the Code of Conduct and Conflict Resolution Policy guides into a
+new "Community & Governance" subsection.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ docs/devel/index.rst                        | 3 +--
+ docs/devel/section-community-governance.rst | 9 +++++++++
+ 2 files changed, 10 insertions(+), 2 deletions(-)
+ create mode 100644 docs/devel/section-community-governance.rst
+
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index f95df10b3eb..b5cb57124d3 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -10,8 +10,7 @@ modifying QEMU's source code.
+    :maxdepth: 2
+    :includehidden:
+ 
+-   code-of-conduct
+-   conflict-resolution
++   section-community-governance
+    build-system
+    style
+    kconfig
+diff --git a/docs/devel/section-community-governance.rst b/docs/devel/section-community-governance.rst
+new file mode 100644
+index 00000000000..2c7e07257d1
+--- /dev/null
++++ b/docs/devel/section-community-governance.rst
+@@ -0,0 +1,9 @@
++Community & Governance
++======================
++
++.. toctree::
++   :maxdepth: 2
++   :includehidden:
++
++   code-of-conduct
++   conflict-resolution
+-- 
+2.31.1
 
 
