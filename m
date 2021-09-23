@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A9A416042
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 15:48:39 +0200 (CEST)
-Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F7541604C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 15:54:37 +0200 (CEST)
+Received: from localhost ([::1]:58860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTP5Z-0005JG-MO
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 09:48:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41708)
+	id 1mTPBL-00083p-PB
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 09:54:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mTP42-0004U0-0f
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 09:47:02 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:42646)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mTP40-0006Rn-75
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 09:47:01 -0400
-Received: by mail-ed1-x536.google.com with SMTP id u27so23430879edi.9
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 06:46:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=X6tPYj9oUhcOZ+uoKP+nG8NnVQLmoHX/d9g9BCvLsR4=;
- b=hhQ6niECsnZzrG0mdkN3l2WljsCA50VtPKnZq/g/2/G/ZURvGbApaDR4yM3Qu7Nedr
- yCbU2ae+DEh22mAwEsYAFVeHCmi2bWr7WdChJM2pKepbtPDure7P44nCJZ2ISY4/vdNs
- bq8yhJ5dTW5mGd3AfNM1D7FzOCp7GGd6zmvX2Sac656+re+366zG2dB+NClxqXqRq0xh
- htyslKOh7ULkt6Pot837zj5o9iN+TyPQOYd2F9w9eoRyHdRezVHYpRhoZ3Njl2piiKKY
- XjR+oCA6huAJMYDWQDZUBthnwD5zHMYYY3ylJSOJ4a0uQ9yJ3GvdPxnjKj4UhEWK172g
- MV7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=X6tPYj9oUhcOZ+uoKP+nG8NnVQLmoHX/d9g9BCvLsR4=;
- b=H4YPU6gT3RfSKeK6l/ztHh9Nk6thcMO38vxb/duKiwzwN7hEbhaWWte+BFfiP6PCQ4
- qHThAP0pj7Hg416aS/49CwtLoqcQrQdcMDMoqArADQwyGwUYkAr0MWAaV9UUdUDvuyv3
- pQ1aIA+4Sr3JN/8doFn/fC+BWcLCoiOyeLS5B2HKwnYB6g5Qn3EWLGpHom/fGbJ6JEZb
- IXt0LsJllLAoJgv7Tm9A/3eBqeRROYyv1fHuWn2mc2SOXvqb/BoXfdFOAcJt18tNHhM7
- 7nmHp9XV8vf9TWxgLwXSbiTSN/aQSdSpZ4cOgr28cWp8Lij5TdBfDvUq7cJ3Og5vHDUR
- UyUA==
-X-Gm-Message-State: AOAM532MMZYxQLry1veX25AyiFw3dJ9yBIZe7R8hRr2JiDQ5US4S2Lx5
- PAotcSNm/h8KMawsvbilwdDhIoO0DKZpM2KhrKGF9g==
-X-Google-Smtp-Source: ABdhPJwICFJ0kqduDlOdG2Bm7hRT1CYmYq3zG89jCtiaURODn4W0xVzTn8I3igE6k1ZKJtFQaXUt4Jr9El0Yfcd7sdE=
-X-Received: by 2002:a05:6402:3128:: with SMTP id
- dd8mr5448390edb.383.1632404816373; 
- Thu, 23 Sep 2021 06:46:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTPAD-0007M3-W4
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 09:53:26 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:42807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTPAC-000166-A9
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 09:53:25 -0400
+Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MIdW9-1mfpMl0JC1-00EfxS; Thu, 23 Sep 2021 15:53:22 +0200
+Subject: Re: [PATCH v5 14/20] mac-nubus-bridge: rename MacNubusState to
+ MacNubusBridge
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20210923091308.13832-1-mark.cave-ayland@ilande.co.uk>
+ <20210923091308.13832-15-mark.cave-ayland@ilande.co.uk>
+ <db1b7f79-1442-a6fb-e1f6-c956f2dd9cb3@vivier.eu>
+ <63b200b3-1690-cec2-d54b-7366073c64f3@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <d571c96a-a00d-ae89-f92f-9db2d4b5d068@vivier.eu>
+Date: Thu, 23 Sep 2021 15:53:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210922161405.140018-1-damien.hedde@greensocs.com>
- <20210922161405.140018-3-damien.hedde@greensocs.com>
- <d27c5829-e28f-4d17-966e-6cb86ebe00e6@redhat.com>
- <e3ab341b-3e7a-1485-90ed-dbd9d2e3588d@greensocs.com>
-In-Reply-To: <e3ab341b-3e7a-1485-90ed-dbd9d2e3588d@greensocs.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Thu, 23 Sep 2021 19:16:45 +0530
-Message-ID: <CAARzgww_dxXLhJTm1jeWzbQxVGzT6YNxZi+uTrRDnBZ9Z1v+QA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 02/16] qapi: Implement query-machine-phase QMP
- command
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::536;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x536.google.com
+In-Reply-To: <63b200b3-1690-cec2-d54b-7366073c64f3@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:ILYjm6uBY2nO0BkJ/5kQ+XOOWG/JR7XYg2YULl6yDuUY6Q3Raxv
+ diAIlH2JKhKk+MPuoDST0R39xLQEm7b820xVc3zRlMApxGqFc7ow5kjLxo5QSYrVFq8fvFM
+ sf5Trup7PeBhdbq9LSTztFuHIz9KYpNXEvt8l5WX9dhEbWa3mmS8Q63yGimbNafjIG713vw
+ rDKtDtaj+FN3GhqWBrd7Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:A5geK972PVQ=:uXnUkIl1/qAkR0l/Wl34Mz
+ dAfuex/7ut1J5gK4VLCAKmu5AZM1ZVqmLU5hr6ZbLtxTGvBv49bsl7eVmBmcWo+PjHCUKm3u7
+ GFBZNAEIxymbYBEFA1UVG8rpzuabICyqAKYSSq4v7c6tmQ3OEVJWCaH1cM6iZv2CMmcX/NEvf
+ Uv/1PfSJ/557YyLDkZ0nF2NW/ackh34fhJ3qYuZZIH2E9Q+PkQcD4i37FWFt3XiYotBnzQheu
+ fMesH1/Fe1bwxSnAh0ho9cSU6RBY6dBbJWftVLVnd3YNOVSTDvTBi3xsAMutYzuQd0ZDl9oeM
+ iU8Zs8Qo4eH9XJ+KgW20KHh8bQrW0JibKm/DWsgyq5jSSOR9X4ZnexBcWe3R+d46aU5rdCg6B
+ FEDZyOoFZmi6TpcDleHNrYJvrMs1hdLhH3t28yukgFLXZoQsuLlTCQ3dJ95mkfsiGFhuojV/b
+ Fw7cocO5xA5MEfshXftBvlTS82nukw5OJryWty9VKWw2u/afflcoH3SOvi7ErssvxQmF5x9iS
+ Z3HWqVEy1AjYE5zVts0l8aVHxZSe5OwSC39vXlHDf2LEkXx08jxpe0/8v6i0t+T01F9yGG1X0
+ F2W/9KCdBHYPccyCGFQ58LrcP95f/XPmPU5XnKiWwE9wf6RsDxOn2zaiaXUWf0ZKmZp1JvE4w
+ JzbwR6ie2EfKCAJXYoQkbtjpZd0hYCHxfFt6TVC5r6IHZlfBjxrJGABXO4p0GknKC66RN0kQT
+ VcjLIU+9X9hq5EsOi3Trtxs+MBeZ17N3166KdA==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,58 +73,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, mirela.grujic@greensocs.com,
- Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
- Eric Auger <eric.auger@redhat.com>, xen-devel@lists.xenproject.org,
- qemu-riscv@nongnu.org,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- mark.burton@greensocs.com, edgari@xilinx.com,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 23, 2021 at 6:13 PM Damien Hedde <damien.hedde@greensocs.com> w=
-rote:
->
->
->
-> On 9/22/21 19:37, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 9/22/21 18:13, Damien Hedde wrote:
-> >> From: Mirela Grujic <mirela.grujic@greensocs.com>
-> >>
-> >> The command returns current machine initialization phase.
-> >>  From now on, the MachineInitPhase enum is generated from the
-> >> QAPI schema.
-> >>
-> >> Signed-off-by: Mirela Grujic <mirela.grujic@greensocs.com>
-> >
-> > Missing your S-o-b, otherwise:
->
-> Sorry. I did not realize I had to add it since it was already done by
-> Mirela. I'll add it for this patch and patches 1, 6 and 8.
+Le 23/09/2021 à 14:50, Mark Cave-Ayland a écrit :
+> On 23/09/2021 11:35, Laurent Vivier wrote:
+> 
+>> Le 23/09/2021 à 11:13, Mark Cave-Ayland a écrit :
+>>> This better reflects that the mac-nubus-bridge device is derived from the
+>>> nubus-bridge device, and that the structure represents the state of the bridge
+>>> device and not the Nubus itself. Also update the comment in the file header to
+>>> reflect that mac-nubus-bridge is specific to the Macintosh.
+>>>
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>>   hw/nubus/mac-nubus-bridge.c         | 8 +++++---
+>>>   include/hw/nubus/mac-nubus-bridge.h | 4 ++--
+>>>   2 files changed, 7 insertions(+), 5 deletions(-)
+>>>
+>>
+>>
+>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+>>
+>> (it could be merged with previous one)
+> 
+> I like to try and keep renames on a per-device basis if possible, even if it's just to help rebasing
+> during development.
 
-https://wiki.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include_a_S=
-igned-off-by:_line
-btw, it's strictly not mandatory if you are both from the same company
-and you did not write the patch or contribute in anyway to it.
+Ok. No problem.
 
->
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com >
-> >> ---
-> >>   qapi/machine.json          | 56 ++++++++++++++++++++++++++++++++++++=
-++
-> >>   include/hw/qdev-core.h     | 30 ++------------------
-> >>   hw/core/machine-qmp-cmds.c |  9 ++++++
-> >>   hw/core/qdev.c             |  5 ++++
-> >>   4 files changed, 72 insertions(+), 28 deletions(-)
-> >
+> Other than that, is there anything else outstanding you think would require a v6 series?
+
+Except if you want to address comments from Philippe, I can collect this series and send a PR.
+
+Thanks,
+Laurent
 
