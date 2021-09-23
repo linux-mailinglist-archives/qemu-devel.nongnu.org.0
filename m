@@ -2,104 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF68416399
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 18:49:12 +0200 (CEST)
-Received: from localhost ([::1]:34288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0304163BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 18:58:44 +0200 (CEST)
+Received: from localhost ([::1]:42178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTRuJ-0006zV-6v
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 12:49:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36498)
+	id 1mTS3X-0004P1-1I
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 12:58:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mTRt5-0006B9-7g; Thu, 23 Sep 2021 12:47:55 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64424
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTS0S-0001ub-Lp
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 12:55:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mTRt1-0002sK-AY; Thu, 23 Sep 2021 12:47:54 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18NG0En5008148; 
- Thu, 23 Sep 2021 12:47:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=4zcnOhAJnRiOi5BPkyYBW2cKSZhvgA8MxOoRBB4VPD8=;
- b=NR00wTTmbFFoYZhQHkegz8L1E9QhpPWy2tS4wXHUpnC77fEkk2UCvFvnFfyofNvAweLY
- sHHX7UwtrY46RJb2wRq34xOZWA0MZlsCK3ICilegfJIzJCgM/vFjdkMuqw2zNYhvPgHJ
- jBjDlUxN5FZjjplA8ARnU113i3tk0rgiF/sP2MtrhzOPm8FkZzaaYM4BBQ0vGosN6gtR
- 4YtWTMbh3sxOTR+S4vkQboQ2LY9jXmQSIxgcX5X2pg0r2JoPrcUYPEAz80tzHn6eekP4
- mVKxT2eJtb8KIU+7pe0ZlUv1LxQjHvKrD6tohVB2rcQUEpJ3Zy/91pqxXvSAOiYsS9Ug YQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3b8vqk9asv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Sep 2021 12:47:48 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18NGHga5014401;
- Thu, 23 Sep 2021 12:47:48 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3b8vqk9as9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Sep 2021 12:47:48 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18NGg79g024478;
- Thu, 23 Sep 2021 16:47:46 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma02fra.de.ibm.com with ESMTP id 3b7q6s3xx1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Sep 2021 16:47:46 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 18NGlh1j57344308
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Sep 2021 16:47:43 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4719B42049;
- Thu, 23 Sep 2021 16:47:43 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D564E42052;
- Thu, 23 Sep 2021 16:47:42 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.13.138])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 23 Sep 2021 16:47:42 +0000 (GMT)
-Date: Thu, 23 Sep 2021 18:47:40 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] block: introduce max_hw_iov for use in scsi-generic
-Message-ID: <20210923184740.6363ea31.pasic@linux.ibm.com>
-In-Reply-To: <20210923162811.3ab68c5f.pasic@linux.ibm.com>
-References: <20210923130436.1187591-1-pbonzini@redhat.com>
- <20210923162811.3ab68c5f.pasic@linux.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: yYDFtFDjl0dwTd5xX6w2pWZKMPN7az2P
-X-Proofpoint-GUID: cWC5ARZJD1Llyixyp0yJF_YmDAIxG4-_
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTS0O-0001A7-6b
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 12:55:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632416126;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/SzwoMV+1h1Fhfw2tCKBLkNnB+qaG2+ft85NWt8sF9A=;
+ b=CAsbINZ0s3rvc5DDTuthhNQPXYWyh2l2xHbAs5pfcVO4azdZGwAjFDt+/j4+JEd5drMF21
+ EZfeCZYuBx/T/c1iBVvIcJA3siglo8foQIstlR11VUOtfmpAJRTcFRdODMMHgnc2lIqkb2
+ yQtgug/GCjPtj4cRQ2dye3ufxc0kOCI=
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-mVEsbyUQNA-XkUGcGdq1tg-1; Thu, 23 Sep 2021 12:55:24 -0400
+X-MC-Unique: mVEsbyUQNA-XkUGcGdq1tg-1
+Received: by mail-oo1-f72.google.com with SMTP id
+ d18-20020a4a9cd2000000b0029afc2f9586so4188277ook.19
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 09:55:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/SzwoMV+1h1Fhfw2tCKBLkNnB+qaG2+ft85NWt8sF9A=;
+ b=Fxvaz52c1trBxsLv9yqZO4yZv5gc4j7Nzj8x/601gXpFTu0c+PWYi3FDlOKczecJzk
+ jFvJDHdF/sIuqFUS5sfPbYpQAPFf73zY/WAqEZMd1fS/WW6pC2tC3gq/7p4PTliiXk65
+ FBu6V+5Ln6QQ5tuwbTznQx35DuRvjrg5cksmOsrKP81tCWe4W8MmWKKITezcllGwQw/A
+ z7ZAAuKOl5TGHaii9psnea2MJbEN1zxLhHmNXUQoh/hzK+8ounOpaSQvitk8yo9ui55D
+ HYrC1uofOxirNHuOgC/8hV30Evo9BsIuEScuKZdrLBJbaeez9vRU/L7GjSfSHP3vO1D9
+ icwg==
+X-Gm-Message-State: AOAM533prmhRmFnGCtNZ7iE9ZPIhb5iUfMD0G5Vkvdud1UBmiR0g9nIM
+ JNxrEL4GNsbSO7OcHmFPzDX/WkjxBttHOnO7YtT+W92YecoiGX9PRQBi/BuAuwz89GUgf/PUkMQ
+ ja4vKtksmIm7RQaUP4tA4rTiUTIz0Z9c=
+X-Received: by 2002:a9d:7281:: with SMTP id t1mr5366871otj.129.1632416123204; 
+ Thu, 23 Sep 2021 09:55:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz1KRT3nNbOyu7TdUf/9UOmbTR0Kv2uwgN96UK4Wv/yf2+Fih/mjGwG6o8MzRpx+mejCmng5KsIulZBy8MfA90=
+X-Received: by 2002:a9d:7281:: with SMTP id t1mr5366856otj.129.1632416123010; 
+ Thu, 23 Sep 2021 09:55:23 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-23_05,2021-09-23_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 mlxscore=0 phishscore=0 impostorscore=0 mlxlogscore=982
- malwarescore=0 priorityscore=1501 spamscore=0 adultscore=0 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109200000 definitions=main-2109230102
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210922125619.670673-1-armbru@redhat.com>
+ <20210922125619.670673-2-armbru@redhat.com>
+ <CAFn=p-YasVLZbFWqx=rxFNLcwyHhBKxcJgeKpQLjDZC2bj-_nQ@mail.gmail.com>
+ <87o88jfxfw.fsf@dusky.pond.sub.org>
+In-Reply-To: <87o88jfxfw.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 23 Sep 2021 12:55:12 -0400
+Message-ID: <CAFn=p-ZYxJsR8EUQOm447y6K1CAt1+hcqZf=qGckRtMJ4SGybg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] tests/qapi-schema: Use Python OSError instead of
+ outmoded IOError
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000002354f305ccac7f7e"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,28 +90,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: marcandre.lureau@gmail.com, qemu-devel <qemu-devel@nongnu.org>,
+ mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Sep 2021 16:28:11 +0200
-Halil Pasic <pasic@linux.ibm.com> wrote:
+--0000000000002354f305ccac7f7e
+Content-Type: text/plain; charset="UTF-8"
 
-> Can't we use some of the established constants instead of hard coding a
-> qemu specific IOV_MAX?
-> 
-> POSIX.1 seems to guarantee the availability of IOV_MAX in <limits.h>
-> according to: https://man7.org/linux/man-pages/man2/readv.2.html
-> and <sys/uio.h> may have UIO_MAXIOV defined.
+On Thu, Sep 23, 2021 at 5:33 AM Markus Armbruster <armbru@redhat.com> wrote:
 
-Never mind, the 
-#define IOV_MAX 1024
-in osdep.h is conditional and I guess we already use IOV_MAX from limit
-when CONFIG_IOVEC is defined, i.e. when we don't emulate the interface.
+> John Snow <jsnow@redhat.com> writes:
+>
+> > On Wed, Sep 22, 2021 at 8:56 AM Markus Armbruster <armbru@redhat.com>
+> wrote:
+> >
+> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> >> ---
+> >>  tests/qapi-schema/test-qapi.py | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/tests/qapi-schema/test-qapi.py
+> >> b/tests/qapi-schema/test-qapi.py
+> >> index 73cffae2b6..2e384f5efd 100755
+> >> --- a/tests/qapi-schema/test-qapi.py
+> >> +++ b/tests/qapi-schema/test-qapi.py
+> >> @@ -154,7 +154,7 @@ def test_and_diff(test_name, dir_name, update):
+> >>          errfp = open(os.path.join(dir_name, test_name + '.err'), mode)
+> >>          expected_out = outfp.readlines()
+> >>          expected_err = errfp.readlines()
+> >> -    except IOError as err:
+> >> +    except OSError as err:
+> >>          print("%s: can't open '%s': %s"
+> >>                % (sys.argv[0], err.filename, err.strerror),
+> >>                file=sys.stderr)
+> >> @@ -180,7 +180,7 @@ def test_and_diff(test_name, dir_name, update):
+> >>          errfp.truncate(0)
+> >>          errfp.seek(0)
+> >>          errfp.writelines(actual_err)
+> >> -    except IOError as err:
+> >> +    except OSError as err:
+> >>          print("%s: can't write '%s': %s"
+> >>                % (sys.argv[0], err.filename, err.strerror),
+> >>                file=sys.stderr)
+> >> --
+> >> 2.31.1
+> >>
+> >>
+> > If you're happy with the expanded scope of the exception-catcher, I am
+> too.
+>
+> https://docs.python.org/3.6/library/exceptions.html has
+>
+>     Changed in version 3.3: EnvironmentError, IOError, WindowsError,
+>     socket.error, select.error and mmap.error have been merged into
+>     OSError, and the constructor may return a subclass.
+>
+> and
+>
+>     The following exceptions are kept for compatibility with previous
+>     versions; starting from Python 3.3, they are aliases of OSError.
+>
+>     exception EnvironmentError
+>
+>     exception IOError
+>
+>     exception WindowsError
+>
+>         Only available on Windows.
+>
+> So unless I'm misunderstanding something (which is quite possible),
+> we're catching exactly the same exceptions as before, we just switch to
+> their preferred name.
+>
+> > Reviewed-by: John Snow <jsnow@redhat.com>
+>
+> Thanks!
+>
+>
+Yeah, I suppose the 3.3 upgrade already "expanded" the coverage here, so
+you aren't expanding anything. It's just an expansion of intent in the
+source code, if that distinction makes sense. The code is obviously fine so
+far as I can tell. My RB stands!
 
-Sorry for the noise.
+--js
 
-Regards,
-Halil
+--0000000000002354f305ccac7f7e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 23, 2021 at 5:33 AM Marku=
+s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">John=
+ Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsnow@redha=
+t.com</a>&gt; writes:<br>
+<br>
+&gt; On Wed, Sep 22, 2021 at 8:56 AM Markus Armbruster &lt;<a href=3D"mailt=
+o:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;&gt; Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redh=
+at.com" target=3D"_blank">armbru@redhat.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 tests/qapi-schema/test-qapi.py | 4 ++--<br>
+&gt;&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/tests/qapi-schema/test-qapi.py<br>
+&gt;&gt; b/tests/qapi-schema/test-qapi.py<br>
+&gt;&gt; index 73cffae2b6..2e384f5efd 100755<br>
+&gt;&gt; --- a/tests/qapi-schema/test-qapi.py<br>
+&gt;&gt; +++ b/tests/qapi-schema/test-qapi.py<br>
+&gt;&gt; @@ -154,7 +154,7 @@ def test_and_diff(test_name, dir_name, update)=
+:<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errfp =3D open(os.path.join(dir_=
+name, test_name + &#39;.err&#39;), mode)<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_out =3D outfp.readlines=
+()<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_err =3D errfp.readlines=
+()<br>
+&gt;&gt; -=C2=A0 =C2=A0 except IOError as err:<br>
+&gt;&gt; +=C2=A0 =C2=A0 except OSError as err:<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;%s: can&#39;t open &=
+#39;%s&#39;: %s&quot;<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 % (sys.argv=
+[0], err.filename, err.strerror),<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=3Dsys.=
+stderr)<br>
+&gt;&gt; @@ -180,7 +180,7 @@ def test_and_diff(test_name, dir_name, update)=
+:<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errfp.truncate(0)<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errfp.seek(0)<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errfp.writelines(actual_err)<br>
+&gt;&gt; -=C2=A0 =C2=A0 except IOError as err:<br>
+&gt;&gt; +=C2=A0 =C2=A0 except OSError as err:<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;%s: can&#39;t write =
+&#39;%s&#39;: %s&quot;<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 % (sys.argv=
+[0], err.filename, err.strerror),<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=3Dsys.=
+stderr)<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.31.1<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt; If you&#39;re happy with the expanded scope of the exception-catcher, =
+I am too.<br>
+<br>
+<a href=3D"https://docs.python.org/3.6/library/exceptions.html" rel=3D"nore=
+ferrer" target=3D"_blank">https://docs.python.org/3.6/library/exceptions.ht=
+ml</a> has<br>
+<br>
+=C2=A0 =C2=A0 Changed in version 3.3: EnvironmentError, IOError, WindowsErr=
+or,<br>
+=C2=A0 =C2=A0 socket.error, select.error and mmap.error have been merged in=
+to<br>
+=C2=A0 =C2=A0 OSError, and the constructor may return a subclass.<br>
+<br>
+and<br>
+<br>
+=C2=A0 =C2=A0 The following exceptions are kept for compatibility with prev=
+ious<br>
+=C2=A0 =C2=A0 versions; starting from Python 3.3, they are aliases of OSErr=
+or.<br>
+<br>
+=C2=A0 =C2=A0 exception EnvironmentError<br>
+<br>
+=C2=A0 =C2=A0 exception IOError<br>
+<br>
+=C2=A0 =C2=A0 exception WindowsError<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Only available on Windows.<br>
+<br>
+So unless I&#39;m misunderstanding something (which is quite possible),<br>
+we&#39;re catching exactly the same exceptions as before, we just switch to=
+<br>
+their preferred name.<br>
+<br>
+&gt; Reviewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=
+=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+<br>
+Thanks!<br>
+<br></blockquote><div><br></div><div>Yeah, I suppose the 3.3 upgrade alread=
+y &quot;expanded&quot; the coverage here, so you aren&#39;t expanding anyth=
+ing. It&#39;s just an expansion of intent in the source code, if that disti=
+nction makes sense. The code is obviously fine so far as I can tell. My RB =
+stands!<br></div><div><br></div><div>--js<br></div></div></div>
+
+--0000000000002354f305ccac7f7e--
+
 
