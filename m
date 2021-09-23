@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 746424171F6
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 14:35:59 +0200 (CEST)
-Received: from localhost ([::1]:47654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8F74171A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 14:18:53 +0200 (CEST)
+Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTkQn-0000xM-W2
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 08:35:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41662)
+	id 1mTkAG-0007Hg-9Z
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 08:18:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mTjsU-00070K-Uv
+ id 1mTjsU-00070J-QH
  for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:00:30 -0400
-Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:39510)
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:40916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mTjsR-0003IS-1L
+ id 1mTjsR-0003O7-L4
  for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:00:30 -0400
-Received: by mail-qt1-x82c.google.com with SMTP id j13so9137090qtq.6
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 05:00:25 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id 72so27544458qkk.7
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 05:00:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JE/Nt1L5Emdrqq9XEAvck3yBpb96zTA0rhWrOF/s+8Q=;
- b=fwf/RM0/HfM6VlDcKdG640EcyJorYN8344GuuKrjaDw2ACQwsswcbwNt1cBzyN2gBY
- 12lKxVkXZzSCLCl4j3q1RtodA+Ud7enVYp59GW3EXiA8X9MZlIhd69DPIbsbiF9OMOy6
- jN9YV/f/a9DVDrlIlvj0OzbSgWW2fzsdIHTHp9s/seXVV6nZc5wIuuN8/ZXqEI8H/klb
- wq7tCBfIIJJuIP5Tt4xaC/A/EdYeDreNMYWFvP1OMIUJUCFhkoKo6risoPUhBMrz3VLA
- tKQtxw1K5TDo/stNK06+RIUUV+HtveBRNEeymozwrsIGrn3vm2UmpnpEpTu2bd8/KUDY
- zlig==
+ bh=jKKK6jYhTy0razTQGOGJL/bCgyN5VFFuHYpjffoXNYs=;
+ b=d81YE7TQvMpRPnEM/dNrfKmWjHEkInn5xLyqvv2dS6YENlwlIccN3LaIZ8GHWo2V4E
+ N93C22OcuKar3h55Izbqx+wyK3jEyqZLGSiO6CmMx5kpzRe9gVj4nVt436RCu9NGlZuS
+ Ve+zBByoj/WYBLtZW7zjZjCeRYBOtmWzBfchcYRkhANi/9djnNW1uOPqsEubMyUO2k1b
+ eV+g7ROqja/940lTVFBOkXIZdwotff8Ia1vdP3n3MA14naSnFWliPXZvUesF8XmDAHj1
+ XmJVjrtTGA6FZu3ZXLsLlBJulV6PpLaFG/K5dAgSzk5tvldhcJE6o/oefGwjoFc/KWIM
+ 1g4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=JE/Nt1L5Emdrqq9XEAvck3yBpb96zTA0rhWrOF/s+8Q=;
- b=hXOaaP38MDE/ZuIFMbA/ureqGO+ped9PedxEJ+cYaGZMtaCX6zSJarbltXaLjvNeRU
- y/8VBUq88J0qMmCsmSzC0TQ1pGd+DsI6Q/jswfkQKyVQx5e/LC6R0I8oW9sSjN+3OgcL
- e/3UCgKl60y9EKDZJgGyOpP/o0ie0OdsGWKH/h+Gro7S1ZIDyzyiDQbH2ql3+kSys/Zu
- s7eS6ZTS6UBHR2a9b+1qA0py26xGbKqf/37yN4ETzugI1+kEt9BVyhuRXrc11qIhJed8
- Lji8NGOdeJKWr3ho+F2aK/E+GeHlliU3AsEEuyI3CwbLKdzuwtpSWCMzLuT8tTf3xAoS
- d7QQ==
-X-Gm-Message-State: AOAM5312yHrvdy1NuCmlDiKaMrTDm+Yqup0hGYgm1NX4vBGboteEtmuF
- pe5s3pPCJzkF/2VPxOEXyqVJAg==
-X-Google-Smtp-Source: ABdhPJxiJ9T3V0tSPgY82rWKH7GggYs4wFjlubfWzOZWOuxUqj+doFgLW5FxvC6s04raHUUvW/tRKA==
-X-Received: by 2002:ac8:4084:: with SMTP id p4mr3696028qtl.255.1632484824948; 
- Fri, 24 Sep 2021 05:00:24 -0700 (PDT)
+ bh=jKKK6jYhTy0razTQGOGJL/bCgyN5VFFuHYpjffoXNYs=;
+ b=NtkYpn77dOkgb4qCIrbFhRAQtxSfzebO/xPlZFdv6OfkLXUhmSeTVWzp0MdwJY0h9u
+ vLQ0jAN8LnfeCviePQ+qut4NsGwdbETM3q5wwALEHJXxqxM0x4VOKfAzN18WPFkweaCT
+ btkgpM8o7HWdC698H6rDsQV+Bxj2jZS/ATASFuqzjMF9sNwU0+A95kTTbjPNU8vP1Hql
+ auFTZffzHWiNhMq1xpgRPgfQeQlmkfpJBusCqsHJYW3deN2dkVZYxDiIW68DxNeSZvxu
+ X7MOo2nlxIDaY2h/ZbnIggKZfdB4b44ePWN+UVxAZIHkUZ01hOtQnKLDdC7FLkatenGN
+ PT4Q==
+X-Gm-Message-State: AOAM532ScRD0XMOJGVikO4UjhQrm9GQvSydL9dju8l9aJ0KRKD2XnzSp
+ 1xqfMVWoxTxEZKar0I0iAaS2yg==
+X-Google-Smtp-Source: ABdhPJwcwdJzTOhLr4D46PiQnPHR5yUsoY5jcUWKvEDxGO1OL5mvLrevVrPliZfKCYf+NOR22qNBcw==
+X-Received: by 2002:a37:bc85:: with SMTP id m127mr7211536qkf.119.1632484826786; 
+ Fri, 24 Sep 2021 05:00:26 -0700 (PDT)
 Received: from [192.168.3.43] (cpe-24-74-129-96.carolina.res.rr.com.
  [24.74.129.96])
- by smtp.gmail.com with ESMTPSA id x10sm287526qtq.45.2021.09.24.05.00.23
+ by smtp.gmail.com with ESMTPSA id j15sm686654qth.3.2021.09.24.05.00.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Sep 2021 05:00:24 -0700 (PDT)
-Subject: Re: [PATCH 09/14] bsd-user: Remove used from TaskState
+ Fri, 24 Sep 2021 05:00:26 -0700 (PDT)
+Subject: Re: [PATCH 10/14] bsd-user: Add stop_all_tasks
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20210922061438.27645-1-imp@bsdimp.com>
- <20210922061438.27645-10-imp@bsdimp.com>
+ <20210922061438.27645-11-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <55832708-ecf6-f5cd-dc37-fd22ff5e1bc9@linaro.org>
-Date: Thu, 23 Sep 2021 11:02:05 -0700
+Message-ID: <f76526cf-18c8-47b1-3543-db05c0c0b695@linaro.org>
+Date: Thu, 23 Sep 2021 11:04:05 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210922061438.27645-10-imp@bsdimp.com>
+In-Reply-To: <20210922061438.27645-11-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72f.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -88,20 +88,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, f4bug@amsat.org
+Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/21/21 11:14 PM, Warner Losh wrote:
-> The used field of TaskState is write only. Eliminate it.
-> 
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
-> ---
->   bsd-user/main.c | 1 -
->   bsd-user/qemu.h | 1 -
->   2 files changed, 2 deletions(-)
+> +void stop_all_tasks(void)
+> +{
+> +    /*
+> +     * We trust when using NPTL (pthreads) start_exclusive() handles thread
+> +     * stopping correctly.
+> +     */
+> +    start_exclusive();
+> +}
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Eh.  It begs the question of why this is present, as opposed to calling start_exclusive 
+directly for the one (1) use.  Looks to me like we should remove it.
+
 
 r~
+
 
