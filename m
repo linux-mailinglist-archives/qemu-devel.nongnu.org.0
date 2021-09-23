@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00ED04154E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 02:58:24 +0200 (CEST)
-Received: from localhost ([::1]:59804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 555B7415503
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 03:10:01 +0200 (CEST)
+Received: from localhost ([::1]:55596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTD4A-0005d7-Vo
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 20:58:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55636)
+	id 1mTDFQ-0005Mm-Cy
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 21:10:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCw7-0001X1-Ca
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:50:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22497)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCw8-0001bs-W8
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:50:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCw5-0006Qy-IN
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:50:03 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCw5-0006RH-Oj
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:50:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632358200;
+ s=mimecast20190719; t=1632358201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k7qTeDZVyD88lUlzNuY+3DpesZvpx5g7615vVy+Ub7A=;
- b=MIWaPd5a0/f+XTiGaEp55084ssCw3sFRPutD6Dj4lmGqoSJsF0LdhCOoHpE+BJpmf/7JzO
- 8OtO/xOkQdp2NIj3dYt7NPCZN+8TjCige3IamZtVrDpadDFZebRfwyFxfPp+uZMBbooUXJ
- LP6KQkESIjBuo4TnKbpWf3N2fFojnDE=
+ bh=obu6BShoeghm9c61CgF8WTlRYSxU3rneuVvw9Jw+lyk=;
+ b=h6CFJL82TEq0Su6/z8269o4aQ+Pe65Hn6T5lhQ1/uxlVoZ5Kkg73KLYoHqC/4UFu1dhTrh
+ Sd5XvxB5ie8h7VFkBxWjeYHOl9Fi6AmXsNpw5yXmgo6tEAMTA/JsVwzSKGwy+ZhhiNucry
+ alcyuCKFr3pKgGhU/Ng1FaWnr+hY6HQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-wQfBCk0cPXSbO5SeMnJNsw-1; Wed, 22 Sep 2021 20:49:58 -0400
-X-MC-Unique: wQfBCk0cPXSbO5SeMnJNsw-1
+ us-mta-292-tAvvT6bGM_CzBnclUFonPw-1; Wed, 22 Sep 2021 20:50:00 -0400
+X-MC-Unique: tAvvT6bGM_CzBnclUFonPw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52E949126B;
- Thu, 23 Sep 2021 00:49:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A9BD18D6A2F;
+ Thu, 23 Sep 2021 00:49:59 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E62AD60BF1;
- Thu, 23 Sep 2021 00:49:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96C6C60CA0;
+ Thu, 23 Sep 2021 00:49:57 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/17] python/qmp: add send_fd_scm directly to
- QEMUMonitorProtocol
-Date: Wed, 22 Sep 2021 20:49:30 -0400
-Message-Id: <20210923004938.3999963-10-jsnow@redhat.com>
+Subject: [PATCH v2 10/17] python, iotests: remove socket_scm_helper
+Date: Wed, 22 Sep 2021 20:49:31 -0400
+Message-Id: <20210923004938.3999963-11-jsnow@redhat.com>
 In-Reply-To: <20210923004938.3999963-1-jsnow@redhat.com>
 References: <20210923004938.3999963-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -58,13 +57,13 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) DKIMWL_WL_HIGH=-1.472, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,123 +84,312 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It turns out you can do this directly from Python ... and because of
-this, you don't need to worry about setting the inheritability of the
-fds or spawning another process.
-
-Doing this is helpful because it allows QEMUMonitorProtocol to keep its
-file descriptor and socket object as private implementation
-details. /that/ is helpful in turn because it allows me to write a
-compatible, alternative implementation.
+It's not used anymore, now.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- python/qemu/machine/machine.py | 44 +++++++---------------------------
- python/qemu/qmp/__init__.py    | 21 +++++++---------
- 2 files changed, 18 insertions(+), 47 deletions(-)
+ tests/qemu-iotests/socket_scm_helper.c | 136 -------------------------
+ python/qemu/machine/machine.py         |   3 -
+ python/qemu/machine/qtest.py           |   2 -
+ tests/Makefile.include                 |   1 -
+ tests/meson.build                      |   4 -
+ tests/qemu-iotests/iotests.py          |   3 -
+ tests/qemu-iotests/meson.build         |   5 -
+ tests/qemu-iotests/testenv.py          |   8 +-
+ 8 files changed, 1 insertion(+), 161 deletions(-)
+ delete mode 100644 tests/qemu-iotests/socket_scm_helper.c
+ delete mode 100644 tests/qemu-iotests/meson.build
 
+diff --git a/tests/qemu-iotests/socket_scm_helper.c b/tests/qemu-iotests/socket_scm_helper.c
+deleted file mode 100644
+index eb76d31aa94..00000000000
+--- a/tests/qemu-iotests/socket_scm_helper.c
++++ /dev/null
+@@ -1,136 +0,0 @@
+-/*
+- * SCM_RIGHTS with unix socket help program for test
+- *
+- * Copyright IBM, Inc. 2013
+- *
+- * Authors:
+- *  Wenchao Xia    <xiawenc@linux.vnet.ibm.com>
+- *
+- * This work is licensed under the terms of the GNU LGPL, version 2 or later.
+- * See the COPYING.LIB file in the top-level directory.
+- */
+-
+-#include "qemu/osdep.h"
+-#include <sys/socket.h>
+-#include <sys/un.h>
+-
+-/* #define SOCKET_SCM_DEBUG */
+-
+-/*
+- * @fd and @fd_to_send will not be checked for validation in this function,
+- * a blank will be sent as iov data to notify qemu.
+- */
+-static int send_fd(int fd, int fd_to_send)
+-{
+-    struct msghdr msg;
+-    struct iovec iov[1];
+-    int ret;
+-    char control[CMSG_SPACE(sizeof(int))];
+-    struct cmsghdr *cmsg;
+-
+-    memset(&msg, 0, sizeof(msg));
+-    memset(control, 0, sizeof(control));
+-
+-    /* Send a blank to notify qemu */
+-    iov[0].iov_base = (void *)" ";
+-    iov[0].iov_len = 1;
+-
+-    msg.msg_iov = iov;
+-    msg.msg_iovlen = 1;
+-
+-    msg.msg_control = control;
+-    msg.msg_controllen = sizeof(control);
+-
+-    cmsg = CMSG_FIRSTHDR(&msg);
+-
+-    cmsg->cmsg_len = CMSG_LEN(sizeof(int));
+-    cmsg->cmsg_level = SOL_SOCKET;
+-    cmsg->cmsg_type = SCM_RIGHTS;
+-    memcpy(CMSG_DATA(cmsg), &fd_to_send, sizeof(int));
+-
+-    do {
+-        ret = sendmsg(fd, &msg, 0);
+-    } while (ret < 0 && errno == EINTR);
+-
+-    if (ret < 0) {
+-        fprintf(stderr, "Failed to send msg, reason: %s\n", strerror(errno));
+-    }
+-
+-    return ret;
+-}
+-
+-/* Convert string to fd number. */
+-static int get_fd_num(const char *fd_str, bool silent)
+-{
+-    int sock;
+-    char *err;
+-
+-    errno = 0;
+-    sock = strtol(fd_str, &err, 10);
+-    if (errno) {
+-        if (!silent) {
+-            fprintf(stderr, "Failed in strtol for socket fd, reason: %s\n",
+-                    strerror(errno));
+-        }
+-        return -1;
+-    }
+-    if (!*fd_str || *err || sock < 0) {
+-        if (!silent) {
+-            fprintf(stderr, "bad numerical value for socket fd '%s'\n", fd_str);
+-        }
+-        return -1;
+-    }
+-
+-    return sock;
+-}
+-
+-/*
+- * To make things simple, the caller needs to specify:
+- * 1. socket fd.
+- * 2. path of the file to be sent.
+- */
+-int main(int argc, char **argv, char **envp)
+-{
+-    int sock, fd, ret;
+-
+-#ifdef SOCKET_SCM_DEBUG
+-    int i;
+-    for (i = 0; i < argc; i++) {
+-        fprintf(stderr, "Parameter %d: %s\n", i, argv[i]);
+-    }
+-#endif
+-
+-    if (argc != 3) {
+-        fprintf(stderr,
+-                "Usage: %s < socket-fd > < file-path >\n",
+-                argv[0]);
+-        return EXIT_FAILURE;
+-    }
+-
+-
+-    sock = get_fd_num(argv[1], false);
+-    if (sock < 0) {
+-        return EXIT_FAILURE;
+-    }
+-
+-    fd = get_fd_num(argv[2], true);
+-    if (fd < 0) {
+-        /* Now only open a file in readonly mode for test purpose. If more
+-           precise control is needed, use python script in file operation, which
+-           is supposed to fork and exec this program. */
+-        fd = open(argv[2], O_RDONLY);
+-        if (fd < 0) {
+-            fprintf(stderr, "Failed to open file '%s'\n", argv[2]);
+-            return EXIT_FAILURE;
+-        }
+-    }
+-
+-    ret = send_fd(sock, fd);
+-    if (ret < 0) {
+-        close(fd);
+-        return EXIT_FAILURE;
+-    }
+-
+-    close(fd);
+-    return EXIT_SUCCESS;
+-}
 diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index ae945ca3c94..1c6532a3d68 100644
+index 1c6532a3d68..056d340e355 100644
 --- a/python/qemu/machine/machine.py
 +++ b/python/qemu/machine/machine.py
-@@ -213,48 +213,22 @@ def add_fd(self: _T, fd: int, fdset: int,
-     def send_fd_scm(self, fd: Optional[int] = None,
-                     file_path: Optional[str] = None) -> int:
+@@ -98,7 +98,6 @@ def __init__(self,
+                  name: Optional[str] = None,
+                  base_temp_dir: str = "/var/tmp",
+                  monitor_address: Optional[SocketAddrT] = None,
+-                 socket_scm_helper: Optional[str] = None,
+                  sock_dir: Optional[str] = None,
+                  drain_console: bool = False,
+                  console_log: Optional[str] = None,
+@@ -113,7 +112,6 @@ def __init__(self,
+         @param name: prefix for socket and log file names (default: qemu-PID)
+         @param base_temp_dir: default location where temp files are created
+         @param monitor_address: address for QMP monitor
+-        @param socket_scm_helper: helper program, required for send_fd_scm()
+         @param sock_dir: where to create socket (defaults to base_temp_dir)
+         @param drain_console: (optional) True to drain console socket to buffer
+         @param console_log: (optional) path to console log file
+@@ -134,7 +132,6 @@ def __init__(self,
+         self._base_temp_dir = base_temp_dir
+         self._sock_dir = sock_dir or self._base_temp_dir
+         self._log_dir = log_dir
+-        self._socket_scm_helper = socket_scm_helper
+ 
+         if monitor_address is not None:
+             self._monitor_address = monitor_address
+diff --git a/python/qemu/machine/qtest.py b/python/qemu/machine/qtest.py
+index 395cc8fbfe9..f2f9aaa5e50 100644
+--- a/python/qemu/machine/qtest.py
++++ b/python/qemu/machine/qtest.py
+@@ -115,7 +115,6 @@ def __init__(self,
+                  wrapper: Sequence[str] = (),
+                  name: Optional[str] = None,
+                  base_temp_dir: str = "/var/tmp",
+-                 socket_scm_helper: Optional[str] = None,
+                  sock_dir: Optional[str] = None,
+                  qmp_timer: Optional[float] = None):
+         # pylint: disable=too-many-arguments
+@@ -126,7 +125,6 @@ def __init__(self,
+             sock_dir = base_temp_dir
+         super().__init__(binary, args, wrapper=wrapper, name=name,
+                          base_temp_dir=base_temp_dir,
+-                         socket_scm_helper=socket_scm_helper,
+                          sock_dir=sock_dir, qmp_timer=qmp_timer)
+         self._qtest: Optional[QEMUQtestProtocol] = None
+         self._qtest_path = os.path.join(sock_dir, name + "-qtest.sock")
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 6e16c05f10b..5bd487a4030 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -139,7 +139,6 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+ check:
+ 
+ ifeq ($(CONFIG_TOOLS)$(CONFIG_POSIX),yy)
+-QEMU_IOTESTS_HELPERS-$(CONFIG_LINUX) = tests/qemu-iotests/socket_scm_helper$(EXESUF)
+ check: check-block
+ export PYTHON
+ check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
+diff --git a/tests/meson.build b/tests/meson.build
+index 55a7b082751..3f3882748ae 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -67,10 +67,6 @@ if have_tools and 'CONFIG_VHOST_USER' in config_host and 'CONFIG_LINUX' in confi
+              dependencies: [qemuutil, vhost_user])
+ endif
+ 
+-if have_system and 'CONFIG_POSIX' in config_host
+-  subdir('qemu-iotests')
+-endif
+-
+ test('decodetree', sh,
+      args: [ files('decode/check.sh'), config_host['PYTHON'], files('../scripts/decodetree.py') ],
+      workdir: meson.current_source_dir() / 'decode',
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index ce06cf56304..9afa258a405 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -109,8 +109,6 @@
+ 
+     qemu_valgrind = ['valgrind', valgrind_logfile, '--error-exitcode=99']
+ 
+-socket_scm_helper = os.environ.get('SOCKET_SCM_HELPER', 'socket_scm_helper')
+-
+ luks_default_secret_object = 'secret,id=keysec0,data=' + \
+                              os.environ.get('IMGKEYSECRET', '')
+ luks_default_key_secret_opt = 'key-secret=keysec0'
+@@ -600,7 +598,6 @@ def __init__(self, path_suffix=''):
+         super().__init__(qemu_prog, qemu_opts, wrapper=wrapper,
+                          name=name,
+                          base_temp_dir=test_dir,
+-                         socket_scm_helper=socket_scm_helper,
+                          sock_dir=sock_dir, qmp_timer=timer)
+         self._num_drives = 0
+ 
+diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
+deleted file mode 100644
+index 67aed1e4927..00000000000
+--- a/tests/qemu-iotests/meson.build
++++ /dev/null
+@@ -1,5 +0,0 @@
+-if 'CONFIG_LINUX' in config_host
+-    socket_scm_helper = executable('socket_scm_helper', 'socket_scm_helper.c')
+-else
+-    socket_scm_helper = []
+-endif
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+index 70da0d60c80..207bafb6493 100644
+--- a/tests/qemu-iotests/testenv.py
++++ b/tests/qemu-iotests/testenv.py
+@@ -68,7 +68,7 @@ class TestEnv(ContextManager['TestEnv']):
+     env_variables = ['PYTHONPATH', 'TEST_DIR', 'SOCK_DIR', 'SAMPLE_IMG_DIR',
+                      'OUTPUT_DIR', 'PYTHON', 'QEMU_PROG', 'QEMU_IMG_PROG',
+                      'QEMU_IO_PROG', 'QEMU_NBD_PROG', 'QSD_PROG',
+-                     'SOCKET_SCM_HELPER', 'QEMU_OPTIONS', 'QEMU_IMG_OPTIONS',
++                     'QEMU_OPTIONS', 'QEMU_IMG_OPTIONS',
+                      'QEMU_IO_OPTIONS', 'QEMU_IO_OPTIONS_NO_FMT',
+                      'QEMU_NBD_OPTIONS', 'IMGOPTS', 'IMGFMT', 'IMGPROTO',
+                      'AIOMODE', 'CACHEMODE', 'VALGRIND_QEMU',
+@@ -137,7 +137,6 @@ def init_binaries(self) -> None:
+         """Init binary path variables:
+              PYTHON (for bash tests)
+              QEMU_PROG, QEMU_IMG_PROG, QEMU_IO_PROG, QEMU_NBD_PROG, QSD_PROG
+-             SOCKET_SCM_HELPER
          """
--        Send an fd or file_path to socket_scm_helper.
-+        Send an fd or file_path to the remote via SCM_RIGHTS.
+         self.python = sys.executable
  
--        Exactly one of fd and file_path must be given.
--        If it is file_path, the helper will open that file and pass its own fd.
-+        Exactly one of fd and file_path must be given.  If it is
-+        file_path, the file will be opened read-only and the new file
-+        descriptor will be sent to the remote.
-         """
--        # In iotest.py, the qmp should always use unix socket.
--        assert self._qmp.is_scm_available()
--        if self._socket_scm_helper is None:
--            raise QEMUMachineError("No path to socket_scm_helper set")
--        if not os.path.exists(self._socket_scm_helper):
--            raise QEMUMachineError("%s does not exist" %
--                                   self._socket_scm_helper)
--
--        # This did not exist before 3.4, but since then it is
--        # mandatory for our purpose
--        if hasattr(os, 'set_inheritable'):
--            os.set_inheritable(self._qmp.get_sock_fd(), True)
--            if fd is not None:
--                os.set_inheritable(fd, True)
--
--        fd_param = ["%s" % self._socket_scm_helper,
--                    "%d" % self._qmp.get_sock_fd()]
--
-         if file_path is not None:
-             assert fd is None
--            fd_param.append(file_path)
-+            with open(file_path, "rb") as passfile:
-+                fd = passfile.fileno()
-+                self._qmp.send_fd_scm(fd)
-         else:
-             assert fd is not None
--            fd_param.append(str(fd))
-+            self._qmp.send_fd_scm(fd)
+@@ -171,10 +170,6 @@ def root(*names: str) -> str:
+             if not isxfile(b):
+                 sys.exit('Not executable: ' + b)
  
--        proc = subprocess.run(
--            fd_param,
--            stdin=subprocess.DEVNULL,
--            stdout=subprocess.PIPE,
--            stderr=subprocess.STDOUT,
--            check=False,
--            close_fds=False,
--        )
--        if proc.stdout:
--            LOG.debug(proc.stdout)
+-        helper_path = os.path.join(self.build_iotests, 'socket_scm_helper')
+-        if isxfile(helper_path):
+-            self.socket_scm_helper = helper_path  # SOCKET_SCM_HELPER
 -
--        return proc.returncode
-+        return 0
- 
-     @staticmethod
-     def _remove_if_exists(path: str) -> None:
-diff --git a/python/qemu/qmp/__init__.py b/python/qemu/qmp/__init__.py
-index c27594b66a2..358c0971d06 100644
---- a/python/qemu/qmp/__init__.py
-+++ b/python/qemu/qmp/__init__.py
-@@ -21,6 +21,7 @@
- import json
- import logging
- import socket
-+import struct
- from types import TracebackType
- from typing import (
-     Any,
-@@ -408,18 +409,14 @@ def settimeout(self, timeout: Optional[float]) -> None:
-             raise ValueError(msg)
-         self.__sock.settimeout(timeout)
- 
--    def get_sock_fd(self) -> int:
-+    def send_fd_scm(self, fd: int) -> None:
-         """
--        Get the socket file descriptor.
--
--        @return The file descriptor number.
--        """
--        return self.__sock.fileno()
--
--    def is_scm_available(self) -> bool:
-+        Send a file descriptor to the remote via SCM_RIGHTS.
-         """
--        Check if the socket allows for SCM_RIGHTS.
-+        if self.__sock.family != socket.AF_UNIX:
-+            raise RuntimeError("Can't use SCM_RIGHTS on non-AF_UNIX socket.")
- 
--        @return True if SCM_RIGHTS is available, otherwise False.
--        """
--        return self.__sock.family == socket.AF_UNIX
-+        self.__sock.sendmsg(
-+            [b' '],
-+            [(socket.SOL_SOCKET, socket.SCM_RIGHTS, struct.pack('@i', fd))]
-+        )
+     def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
+                  cachemode: Optional[str] = None,
+                  imgopts: Optional[str] = None,
+@@ -300,7 +295,6 @@ def print_env(self) -> None:
+ PLATFORM      -- {platform}
+ TEST_DIR      -- {TEST_DIR}
+ SOCK_DIR      -- {SOCK_DIR}
+-SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}
+ GDB_OPTIONS   -- {GDB_OPTIONS}
+ VALGRIND_QEMU -- {VALGRIND_QEMU}
+ PRINT_QEMU_OUTPUT -- {PRINT_QEMU}
 -- 
 2.31.1
 
