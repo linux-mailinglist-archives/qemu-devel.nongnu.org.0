@@ -2,69 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7A9417743
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 17:09:39 +0200 (CEST)
-Received: from localhost ([::1]:54222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B27A417744
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 17:09:48 +0200 (CEST)
+Received: from localhost ([::1]:54966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTmpW-0006Ks-EG
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 11:09:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56000)
+	id 1mTmpf-0006pU-9I
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 11:09:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mTmnr-0004zp-H8
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 11:07:55 -0400
-Received: from mail-ua1-x930.google.com ([2607:f8b0:4864:20::930]:46788)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mTmno-0004F7-U0
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 11:07:55 -0400
-Received: by mail-ua1-x930.google.com with SMTP id j19so1104650uag.13
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 08:07:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KodpJ/kT2lP+k5xPxJYuRtHtZpv6h/s1RYsMiYuf+Uc=;
- b=jShsp+Q2VMF/UnqFLWumiXZISJ0IIjIH1YqJYgh1DehQeAXc9xkdlmtiEquekl0ReQ
- GD/JSialvnf6+hFedAl83MqhB+VBWpr2W7WdQb4kfzaagIWr5toeiloCKh42nS8F1rBb
- i3tNepV9bXAbidpzwM4XxYlk30lKd3P4IiMW/5cQvMSl6gHOGpvDzNU2utrhLLszjSzi
- G3L/PQ0BvysKCAGA7ktL/u6CMGK1+BPhk31dQ3l9T4o/l4WbflVLyXjBQLk8cWnjzBFR
- mC/3DnICfpwfb3mNBfpp/q3ubD8C1XQTtrBoFmR60soepTOR4FYlOVdmIs+LXAGppFzk
- YLIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KodpJ/kT2lP+k5xPxJYuRtHtZpv6h/s1RYsMiYuf+Uc=;
- b=u8DDdJVkJ39Hi+TyFC3CcgFS+wz62IEtM91jmC0KuKoHxm46sb39tmjAXDVgvMjxaF
- RDN1Jrkbcm4IwsPIohoO8nmrIice/jCDmQuI1Uw4qrn1i5OGDygAFjZmh6k63pEcVvcj
- fkhxNt9qgFJYBMEYEhxr+s2dkPBJnXpg+jkOkuHpvFB4lXCaryrtee7UwLZFjFiJ5Toy
- mB3pk9qJcE+uS9n1x15ZR/60GUzcOwjAhsN9yH9GVJTdmFE4HKMiIlUPn+7kb9akkvQE
- Ga4Ry3or1p80L1qgd581JQBh2bx3/8IZCdeOzPIniQy90kyWaPNqaFTHeQAMIGeqY/gj
- dEIw==
-X-Gm-Message-State: AOAM533vqmRjJPBuZUDnhcS3oAWuo8AWaiXsrzcywEwL5mjsjSB0wbV4
- sB5TOM+Vug5FRIqscn2Z3HA854GScbCxJesrbBEwlg==
-X-Google-Smtp-Source: ABdhPJyZjqOZgpIEbzot79Q4gOCNuV9j1vLUxNVX/EM9DiagS3fdEV9o91dKQUEWa4yxGi+qNlmSqOSaBulA4hOVjwU=
-X-Received: by 2002:ab0:5b5d:: with SMTP id v29mr1776830uae.85.1632496071143; 
- Fri, 24 Sep 2021 08:07:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mTmoD-0005C9-Of
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 11:08:17 -0400
+Received: from [115.28.160.31] (port=39778 helo=mailbox.box.xen0n.name)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mTmoA-0004QH-60
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 11:08:17 -0400
+Received: from [192.168.9.172] (unknown [101.88.29.172])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id DB99560B0B;
+ Fri, 24 Sep 2021 23:08:05 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1632496086; bh=Q+zX9LxLdPSMj1l1YEACY+aOHhrJcgRMFOyYAkG1NKk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=DdXvcb9eCmL5jS114cH/d7RtpTYpI4rBJ8MbFZLw9Khq/Q0s9n8jhFDuyRtDFkvtu
+ 4ZXOsfv5h7tszarMEhYF9/xyvBlekE2nT69XaBE4xmvN4juWE+UUcYRTaD44msmlvc
+ wXlG+w6nO0XEDgcLItwB4RfeIALGX2OXkCpJPAmE=
+Message-ID: <7ca2e822-839f-96ab-9dc9-276565d03478@xen0n.name>
+Date: Fri, 24 Sep 2021 23:08:05 +0800
 MIME-Version: 1.0
-References: <20210922045636.25206-1-imp@bsdimp.com>
- <20210922045636.25206-3-imp@bsdimp.com>
- <261b4ee5-07d0-ac11-21a6-a5e1c4865fe1@linaro.org>
-In-Reply-To: <261b4ee5-07d0-ac11-21a6-a5e1c4865fe1@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Fri, 24 Sep 2021 09:07:40 -0600
-Message-ID: <CANCZdfoZTc=2B+-QauyByt-i-8LY6DDx9Ybwzi-BSq0JFvbC2g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/9] bsd-user/mmap.c: check pread's return value to fix
- warnings with _FORTIFY_SOURCE
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000006b09e205ccbf1ca3"
-Received-SPF: none client-ip=2607:f8b0:4864:20::930;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x930.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
+ Thunderbird/94.0a1
+Subject: Re: [PATCH v3 09/30] tcg/loongarch64: Implement tcg_out_mov and
+ tcg_out_movi
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210922180927.666273-1-git@xen0n.name>
+ <20210922180927.666273-10-git@xen0n.name>
+ <5ace7b10-b7de-46e2-2021-01129024ffe2@linaro.org>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <5ace7b10-b7de-46e2-2021-01129024ffe2@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,90 +66,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Mika=C3=ABl_Urankar?= <mikael.urankar@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006b09e205ccbf1ca3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Richard,
 
-On Fri, Sep 24, 2021 at 5:59 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 9/21/21 9:56 PM, Warner Losh wrote:
-> > From: Mika=C3=ABl Urankar <mikael.urankar@gmail.com>
-> >
-> > Simmilar to the equivalent linux-user: commit fb7e378cf9c, which added
-> > checking to pread's return value.
-> >
-> > Signed-off-by: Mika=C3=ABl Urankar <mikael.urankar@gmail.com>
-> > Signed-off-by: Warner Losh <imp@bsdimp.com>
-> > ---
-> >   bsd-user/mmap.c | 6 ++++--
-> >   1 file changed, 4 insertions(+), 2 deletions(-)
+On 9/24/21 00:50, Richard Henderson wrote:
+> On 9/22/21 11:09 AM, WANG Xuerui wrote:
 >
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Following up on previous, I suggest:
 >
-> > -        pread(fd, g2h_untagged(start), end - start, offset);
-> > +        if (pread(fd, g2h_untagged(start), end - start, offset) =3D=3D=
- -1)
-> > +            return -1;
+>> +static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
+>> +                         tcg_target_long val)
+>> +{
+>> +    if (type == TCG_TYPE_I32) {
+>> +        val = (int32_t)val;
+>> +    }
+>> +
+>> +    /* Single-instruction cases.  */
+>> +    tcg_target_long low = sextreg(val, 0, 12);
+>> +    if (low == val) {
+>> +        /* val fits in simm12: addi.w rd, zero, val */
+>> +        tcg_out_opc_addi_w(s, rd, TCG_REG_ZERO, val);
+>> +        return;
+>> +    }
+>> +    if (0x800 <= val && val <= 0xfff) {
+>> +        /* val fits in uimm12: ori rd, zero, val */
+>> +        tcg_out_opc_ori(s, rd, TCG_REG_ZERO, val);
+>> +        return;
+>> +    }
 >
-> If it's not too annoying wrt rebasing other cleanups, please add the
-> braces now.
+>> +    /* Test for PC-relative values that can be loaded faster.  */
+>> +    intptr_t pc_offset = tcg_pcrel_diff(s, (void *)val);
+>> +    if (pc_offset == sextreg(pc_offset, 0, 22) && (pc_offset & 3) == 
+>> 0) {
+>> +        tcg_out_opc_pcaddu2i(s, rd, pc_offset >> 2);
+>> +        return;
+>> +    }
 >
-
-You bet.
-
-
+>     /* Handle all 32-bit constants. */
+>     if (val == (int32_t)val) {
+>         tcg_out_opc_lu12i(s, rd, val >> 12);
+>         if (low) {
+>             tcg_out_opc_ori(s, rd, rd, val & 0xfff);
+>         }
+>         return;
+>     }
+>
+>     /* Handle pc-relative values requiring 2 instructions. */
+>     intptr_t pc_lo = sextract64(pc_offset, 0, 12);
+>     intptr_t pc_hi = pc_offset - pc_low;
+>     if (pc_hi == (int32_t)pc_hi) {
+>         tcg_out_opc_pcaddu12i(s, rd, pc_hi >> 12);
+>         tcg_out_opc_addi_d(s, rd, rd, pc_lo);
+>         return;
+>     }
+>
+>     /*
+>      * Choose signed low part if bit 13 is also set,
+>      * which gives us a chance of making more zeros.
+>      * Otherwise, let low be unsigned.
+>      */
+>     if ((val & 0x1800) != 0x1800) {
+>         low = val & 0xfff;
+>     }
+>     val -= low;
+>
+>     tcg_target_long hi20 = sextract64(val, 12, 20);
+>     tcg_target_long hi32 = sextract64(val, 32, 20);
+>     tcg_target_long hi52 = sextract64(val, 52, 12);
+>
+>     /*
+>      * If we can use the sign-extension of a previous
+>      * operation, suppress higher -1.
+>      */
+>     if (hi32 < 0 && hi52 == -1) {
+>         hi52 = 0;
+>     }
+>     if (hi20 < 0 && hi32 == -1) {
+>         hi32 = 0;
+>     }
+>
+>     /* Initialize RD with the least non-zero component. */
+>     if (hi20) {
+>         tcg_out_opc_lu12i_w(s, rd, hi20 >> 12);
+>     } else if (hi32) {
+>         /* CU32I_D is modify in place, so RD must be initialized. */
+>         if (low < 0) {
+>             tcg_out_opc_addi_w(s, rd, TCG_REG_ZERO, low);
+>         } else {
+>             tcg_out_opc_ori(s, rd, TCG_REG_ZERO, low);
+>         }
+>         low = 0;
+>     } else {
+>         tcg_out_opc_cu52i_d(s, rd, TCG_REG_ZERO, hi52);
+>         hi52 = 0;
+>     }
+>
+>     /* Assume that lu12i + ori are fusable */
+>     if (low > 0) {
+>         tcg_out_opc_ori(s, rd, rd, low);
+>     }
+>
+>     /* Set the high 32 bits */
+>     if (hi32) {
+>         tcg_out_opc_cu32i_d(s, rd, hi32);
+>     }
+>     if (hi52) {
+>         tcg_out_opc_cu52i(s, rd, rd, hi52);
+>     }
+>
+>     /*
+>      * Note that any subtraction must come last,
+>      * because cu32i and cu52i overwrite high bits,
+>      * and we have computed them as val - low.
+>      */
+>     if (low < 0) {
+>         tcg_out_opc_addi_d(s, rd, rd, low);
+>     }
+>
+> Untested, and all bugs are mine, of course.
+>
+> Try "qemu-system-ppc64 -D z -d in_asm,op_opt,out_asm".
+> You should see some masking constants like
+>
+>  ---- 000000001daf2898
+>  and_i64 CA,r9,$0x7fffffffffffffff        dead: 2  pref=0xffff
+>
+>   cu52i.d rd, zero, 0x800
+>   addi.d  rd, rd, -1
+>
+>  ---- 000000001db0775c
+>  mov_i64 r26,$0x300000002                 sync: 0  dead: 0 1 pref=0xffff
+>
+>   ori     rd, zero, 2
+>   cu32i   rd, 3
+>
+Oops, for some reason I only received this at about 8 pm... I'll of 
+course take advantage of the Saturday and compare the generated code for 
+the cases, hopefully incorporating some of your ideas presented here. 
+Thanks for the detailed reply!
 >
 > r~
->
-
---0000000000006b09e205ccbf1ca3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 24, 2021 at 5:59 AM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
-nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On 9/21/21 9:56 PM, Warner Losh wrote:<br>
-&gt; From: Mika=C3=ABl Urankar &lt;<a href=3D"mailto:mikael.urankar@gmail.c=
-om" target=3D"_blank">mikael.urankar@gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; Simmilar to the equivalent linux-user: commit fb7e378cf9c, which added=
-<br>
-&gt; checking to pread&#39;s return value.<br>
-&gt; <br>
-&gt; Signed-off-by: Mika=C3=ABl Urankar &lt;<a href=3D"mailto:mikael.uranka=
-r@gmail.com" target=3D"_blank">mikael.urankar@gmail.com</a>&gt;<br>
-&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
-t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0bsd-user/mmap.c | 6 ++++--<br>
-&gt;=C2=A0 =C2=A01 file changed, 4 insertions(+), 2 deletions(-)<br>
-<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
-<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 pread(fd, g2h_untagged(start), end - star=
-t, offset);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (pread(fd, g2h_untagged(start), end - =
-start, offset) =3D=3D -1)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-<br>
-If it&#39;s not too annoying wrt rebasing other cleanups, please add the br=
-aces now.<br></blockquote><div><br></div><div>You bet.</div><div>=C2=A0</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-r~<br>
-</blockquote></div></div>
-
---0000000000006b09e205ccbf1ca3--
 
