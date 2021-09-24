@@ -2,76 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34239417BE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:39:59 +0200 (CEST)
-Received: from localhost ([::1]:44472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF8F417BF1
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:52:42 +0200 (CEST)
+Received: from localhost ([::1]:51770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTr38-00018Q-2G
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:39:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45748)
+	id 1mTrFR-0006ra-9D
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:52:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mTr1q-0008Sw-09
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:38:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22758)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mTrCd-00049s-KO
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:49:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mTr1k-0005Ad-BM
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:38:36 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mTrCV-0004Io-Ug
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:49:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632512310;
+ s=mimecast20190719; t=1632512979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=F46TQmWZ9p9VuMcMApMFzjJqVqkjOVJjcBpbYW9gwDY=;
- b=NhCVuUGYnd2IF4LNrR+QVUMi1zy+1V63FDJXbh7lGfuuCGFIXpk140cW5qftB3X9NSTFiK
- O1deK2RXPrRNtuJJ4ZG4WgxRuAAHNpF2w94fFtmaCwkFsKUxJ493TXbE/CUGZZFrrngaBB
- 8/tRDdH1BHFEaSKEiIQ6GBz/OhtXDJU=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-2BS73HlNOf-HIIIQt1lErw-1; Fri, 24 Sep 2021 15:38:27 -0400
-X-MC-Unique: 2BS73HlNOf-HIIIQt1lErw-1
-Received: by mail-pl1-f199.google.com with SMTP id
- m5-20020a170902bb8500b0013a2b785187so3829306pls.11
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 12:38:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=F46TQmWZ9p9VuMcMApMFzjJqVqkjOVJjcBpbYW9gwDY=;
- b=rRC2SRJsEyFa1RF3RHEIUFMQDFbMUbGQvCc1UZqDgP541BjxTXfjbxetFBI/zT5RcH
- 4tejtB8KbAuz9CPcZ4e4WFqBnyvRj7O/7Rrb6fPiHWMDvDUX02NBXVXiWa3Er3LAFSFJ
- u2HLzOg43TVpX6AUMqaWcmNJD0zHXKO7cYDVvNHmz/US4CJyYMW6GkxXGWIRIc44FWB9
- 46MHycDwnWyvwsDpqiTcbVeZymG5+pB3hOl4qFm9NgB0pyZvqarE9cTzffPplRbWNwpM
- RuGAXV+MhPD9/cI+mONWryZ3gpc9fkMqpQYhi3N4FzsNHkoRnbQSNHw2F8oZIZ/8mvo8
- KdTQ==
-X-Gm-Message-State: AOAM530M20siCoTGvSHHSDF3Rjyt6058YwS5cvDG1jVoeI96EceCAg9B
- BIoaeiDxZLV+FjTgm269jajif7M9/d8vjoIoiPCdqBHEkVUQW2nsnVjNp2NJxYml1Amo4BhGA9x
- nXgy3aEuT9t512JEvuI1NRtDV5hPRVWs=
-X-Received: by 2002:aa7:9807:0:b0:44b:28b0:747e with SMTP id
- e7-20020aa79807000000b0044b28b0747emr11461299pfl.42.1632512306753; 
- Fri, 24 Sep 2021 12:38:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyRHpQxzKo20QHvOSUpg2DqV1m0d7+daEJfsLiDf7b+AcwZboN6drtSulKdB9HUdEce4Je+DasvvyTdJ1eJhHk=
-X-Received: by 2002:aa7:9807:0:b0:44b:28b0:747e with SMTP id
- e7-20020aa79807000000b0044b28b0747emr11461267pfl.42.1632512306419; Fri, 24
- Sep 2021 12:38:26 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=x7qK3fA0fCVmP7qoPOxjVHKfm5i7Pi95nFohktMYIwM=;
+ b=V/DhCHz5w0XmqNsaiwIvH4w15v9k1ugG1Ek8vWueWm2k3hm7ZTqVs/VSmey7FNJts0m6kS
+ qw1hQ4i2hWbeRZQtqUHTRscjh2PegU/8LNsEktHApnpfhgHXcH99S2vVScgqhoMD2nZd20
+ KtW2NFzLSX30tEDz94wRDa3clLJCg9U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-513-EFpsvFvAOeKkU9s7D1pd7Q-1; Fri, 24 Sep 2021 15:49:38 -0400
+X-MC-Unique: EFpsvFvAOeKkU9s7D1pd7Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 084D010B3B7B;
+ Fri, 24 Sep 2021 19:49:07 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.32.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C16F05FC13;
+ Fri, 24 Sep 2021 19:49:06 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 4FEE3222E4F; Fri, 24 Sep 2021 15:49:06 -0400 (EDT)
+From: Vivek Goyal <vgoyal@redhat.com>
+To: qemu-devel@nongnu.org,
+	virtio-fs@redhat.com
+Subject: [PATCH 0/5] virtiofsd: Add support for file security context at
+ creation
+Date: Fri, 24 Sep 2021 15:48:49 -0400
+Message-Id: <20210924194854.919414-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-References: <20210924185506.2542588-1-crosa@redhat.com>
- <20210924185506.2542588-6-crosa@redhat.com>
-In-Reply-To: <20210924185506.2542588-6-crosa@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 24 Sep 2021 16:38:00 -0300
-Message-ID: <CAKJDGDbBVVZwGcj8OVX5xNNh+BfxtiLQKcfFohUXaM6TtSDbpQ@mail.gmail.com>
-Subject: Re: [PATCH 05/16] Acceptance Tests: add standard clean up at test
- tearDown()
-To: Cleber Rosa <crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -79,7 +64,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,55 +77,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Peter Maydell <peter.maydell@linaro.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
- Auger Eric <eric.auger@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>, Ryo ONODERA <ryoon@netbsd.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: miklos@szeredi.hu, chirantan@chromium.org, stephen.smalley.work@gmail.com,
+ dwalsh@redhat.com, dgilbert@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Cleber,
+Hi,
 
-On Fri, Sep 24, 2021 at 3:57 PM Cleber Rosa <crosa@redhat.com> wrote:
->
-> The avocado.Test class, used as the basis of the avocado_qemu.Test
-> class, performs a clean of temporary directories up as part of its own
-> tearDown() implementation.
->
-> But the avocado_qemu.Test class is currently missing the same clean
-> up, as it implemented its own tearDown() method without resorting to
-> the upper class behavior.
->
-> This brings avocado_qemu.Test behavior in sync with the standard
-> avocado.Test behavior and prevents temporary directories from
-> cluttering the test results directory (unless instructed to do so with
-> Avocado's "--keep-tmp" option).
->
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  tests/acceptance/avocado_qemu/__init__.py | 1 +
->  1 file changed, 1 insertion(+)
->
+These patches add support to receive and set file security context at
+the time of file creation. This is one of the components needed to
+support SELinux on virtiofs.
 
-There was a comment from Wainer in the original patch and as you were
-on vacation I submitted a respin last Monday:
+I have posted kernel patches here just now.
 
-https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg05117.html
+https://lore.kernel.org/linux-fsdevel/20210924192442.916927-1-vgoyal@redhat.com/T/#m971f9001dd622b3f7a96a65899e3f146d2185841
 
-I also did some refactoring/fixes to the avocado_qemu here:
+These patches will allow users to configure virtiofsd in multiple modes
+to set security context.
 
-https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg05212.html
+A. Guest and host selinux policies can work with each other.
+	- virtiofsd will use /proc/thread-self/attr/fscreate knob to
+	  set security context before file creation.
+
+B. Remap guest selinux security xattr to something else say,
+   trusted.virtiofs.security.selinux.
+	- Give CAP_SYS_ADMIN to virtiofsd.
+	- "-o -o xattrmap=:map:security.selinux:trusted.virtiofsd.:"
+
+C. If no SELinux on host.
+	- Give CAP_SYS_ADMIN to virtiofsd. 
+
+I have tested mode A and B but yet to test mode C.
+
+I think either mode B or mode C will be most commonly used mode when
+guest does need SELinux support in virtiofs.
+
+With these patches, I am able to boot a guest VM with rootfs on virtiofs
+and with SELinux enabled in guest. 
+
+Please review.
+
+Thanks
+Vivek
+
+
+Vivek Goyal (5):
+  fuse: Header file changes for FUSE_SECURITY_CTX
+  fuse_lowlevel.c: Add capability to parse security context
+  virtiofsd: Move core file creation code in separate function
+  virtiofsd: Create new file with fscreate set
+  virtiofsd: Create new file using O_TMPFILE and set security context
+
+ include/standard-headers/linux/fuse.h |  14 +-
+ tools/virtiofsd/fuse_common.h         |   5 +
+ tools/virtiofsd/fuse_i.h              |   7 +
+ tools/virtiofsd/fuse_lowlevel.c       |  74 ++++++
+ tools/virtiofsd/passthrough_ll.c      | 366 ++++++++++++++++++++++++--
+ 5 files changed, 436 insertions(+), 30 deletions(-)
+
+-- 
+2.31.1
 
 
