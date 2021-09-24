@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6CC4176E9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 16:36:22 +0200 (CEST)
-Received: from localhost ([::1]:55092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA7F4176F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 16:43:16 +0200 (CEST)
+Received: from localhost ([::1]:33036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTmJJ-0002ii-A5
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 10:36:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43192)
+	id 1mTmPz-00078o-1g
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 10:43:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mTmGP-0000eb-DN
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 10:33:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20189)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mTmGL-0006cf-4E
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 10:33:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632493995;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I0Lxbx24slguq5ksAgDPOr+Z+Qh1DDu8PYVpHNU05qU=;
- b=fdK5PJH3SYIwzZZlhIfQsJylxeXeFWnvCa2woHBJkAHGLqBr5RQZcKDTCFvlTGsJJ9k0jy
- E5znC0WSUIs5DeZU4o0iwbLebGxwEd8ofBtlif8PH018WCvJJAbuQThhp2c89VO8ldIYQo
- +Tamu5yBcfe70K1AB7VyAr9a6iwvVyU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-iotKMSR1NYuWPpLx7XNY6w-1; Fri, 24 Sep 2021 10:33:13 -0400
-X-MC-Unique: iotKMSR1NYuWPpLx7XNY6w-1
-Received: by mail-wr1-f71.google.com with SMTP id
- e1-20020adfa741000000b0015e424fdd01so8257874wrd.11
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 07:33:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mTmOF-0006S6-J1; Fri, 24 Sep 2021 10:41:27 -0400
+Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:38487)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mTmOD-0005Rw-Iy; Fri, 24 Sep 2021 10:41:27 -0400
+Received: by mail-qv1-xf2f.google.com with SMTP id cv2so314149qvb.5;
+ Fri, 24 Sep 2021 07:41:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=v2ZKXWqXK/seH2yQQaNzWZ47PMzGrbpiS/63TJKJ0cE=;
+ b=ppg4ruglAIaJOpNzDoFRjyc2noVWOzQLZSctHstxv0pC6b+fU9zYe8mQgQyqeiz+NZ
+ zb9rbF4w9n/awPEgouw8Lp7oGPjUJvHUv8REedbpxaJGtkTYOi0hnMR5FdDpCBsccInj
+ XJxrcE5If53L2D4hec2H+4k55g+3ffPrrpll3kdUv6/R0nloOqzLxsUnmf1hq5bw7gCM
+ osUNe6Odr2uTkbXsRKNf8BriwesC4wAPgK7sSP3CX+RF72C7hm4lu8OXrKI8B3o6lEam
+ eGZYJHM6bFb7dokRnC/pjhzXDltxMzaTgCB7Mfy+Xvy8LpA6kl1SM/R23b16YvNUGYbX
+ e5rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=I0Lxbx24slguq5ksAgDPOr+Z+Qh1DDu8PYVpHNU05qU=;
- b=piLG6i5HIexSirWr3lSii48FzjnuH4oeoBYov8gZb0XnZ1snZWxaaa7nyKDPSaqxxN
- O1P90Fgu2CoehbsxyUrGef2N1tx+TKq4MqbPakS37ZSLzAd3I4lqRbknFV/d0KG7oCHX
- ZELzhlr0OeS5rSgnXizZlrvzOjg88VEbEfteFhEoysKqXZuziAHdmiQBT46jCia0IX+T
- LV1DdrYiUom62ZTGoV1GYunUKqY4ZUvbkqIoUwsKGgGZIQSqG58+Mtlk8McWB7DnOjIi
- edQFa4jmGYhE6oj2eZ0eCcLfMq6lFASTZfR/kmLKm3Yo/iDLDb17HZTZJ5AbXvyycDpv
- ZqCg==
-X-Gm-Message-State: AOAM531U5npRq6cTHOyceEQvjQVhn6Sp1zmTs5tFJg8u0t18c/BmHiFN
- UUpxS7gxl6TBBvvM74b3vrnTxUZJYz8N9eq9+M8Gu0c4Ehow5jPaUhy+SALaLx48jxJ3EfOsB+C
- CbsbToV5Ygic0S54=
-X-Received: by 2002:a05:600c:4b87:: with SMTP id
- e7mr2480488wmp.108.1632493992749; 
- Fri, 24 Sep 2021 07:33:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJznFVpb8+aQOcT4s+hNH5BJhmq5wM5fVsizQEMtvWBnsapFQKQ0akBOeelDjO/O+d/aEnzeNQ==
-X-Received: by 2002:a05:600c:4b87:: with SMTP id
- e7mr2480466wmp.108.1632493992539; 
- Fri, 24 Sep 2021 07:33:12 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id x21sm12471409wmc.14.2021.09.24.07.33.11
+ bh=v2ZKXWqXK/seH2yQQaNzWZ47PMzGrbpiS/63TJKJ0cE=;
+ b=CNgRCx4imyke8ZNHy/xMpAraCcOR727PU1M5yMN5GYVFSpci3vd71IoJT3cmGY2NAM
+ 79qcwi7pv4hmswWWwXvZKJ4erTAb1zZwKW3kf0FoL0Nqmed1cX3rWv9RLZP/K7MnOSwH
+ dMJJB8MzpS0rbHnELixwClpAqOl7c6m+qNQR0qgiPOFGtuoUNcGmpu66+vDBMNOGsgOJ
+ 4vvvmiDKqJfZC8zYa3sMeQirf/KVgABM3fSXWTBnBb+HBq76BNoJxXW0OjwUhoDEKBr6
+ AfdfM5fh25sBsq188zeQmRyYBWmIM22RZSYINIB4qMXN3o3KAp6gW4oX5R9BUHY8pxga
+ BY4g==
+X-Gm-Message-State: AOAM532JDlwH2MGMnehyayx7h0wpQJIsRW1AJMe0r+CB1T0cMwZbpL2d
+ 2qVAlY6fZfJaqwYCUXAtspY=
+X-Google-Smtp-Source: ABdhPJzAJfHkSpYAPv7y57dGphJuZR9D5o1Glvs+Gifdrz7Ms50bJrLhWFIqxg0ExbWFhzGVdTUB0w==
+X-Received: by 2002:a0c:9c86:: with SMTP id i6mr4046746qvf.62.1632494483702;
+ Fri, 24 Sep 2021 07:41:23 -0700 (PDT)
+Received: from [192.168.10.222] ([177.189.43.50])
+ by smtp.gmail.com with ESMTPSA id bi20sm6030367qkb.133.2021.09.24.07.41.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Sep 2021 07:33:12 -0700 (PDT)
-Message-ID: <91ba09c0-cc96-e588-1af9-5142759a7361@redhat.com>
-Date: Fri, 24 Sep 2021 16:33:11 +0200
+ Fri, 24 Sep 2021 07:41:23 -0700 (PDT)
+Message-ID: <9497e03c-69c3-c736-283f-b95331f4b2e2@gmail.com>
+Date: Fri, 24 Sep 2021 11:41:19 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v2 0/5] Reduce load on ppc target maintainers
-To: David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
-References: <20210924095536.441849-1-david@gibson.dropbear.id.au>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210924095536.441849-1-david@gibson.dropbear.id.au>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v3 03/15] target/ppc: PMU basic cycle count for pseries TCG
 Content-Language: en-US
+To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org
+References: <20210903203116.80628-1-danielhb413@gmail.com>
+ <20210903203116.80628-4-danielhb413@gmail.com>
+ <fa7aa371-3fa0-e064-cf73-1c89508bba00@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <fa7aa371-3fa0-e064-cf73-1c89508bba00@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf2f.google.com
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,41 +86,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, dbarboza@redhat.com, aik@ozlabs.ru,
- mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org
+Cc: richard.henderson@linaro.org, clg@kaod.org, qemu-ppc@nongnu.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hervé email is invalid, so forwarding only the cover to him,
-the series is available here:
-https://lore.kernel.org/qemu-devel/20210924095536.441849-1-david@gibson.dropbear.id.au/
 
-On 9/24/21 11:55, David Gibson wrote:
-> Greg Kurz and myself have been co-maintainers for the ppc and ppc64
-> targets for some time now.  However, both our day job responsibilities
-> and interests are leading us towards other areas, so we have less time
-> to devote to this any more.
-> 
-> Therefore, here's a bunch of updates to MAINTAINERS, intended to
-> reduce the load on us.  Mostly this is marking fairly obscure
-> platforms as orphaned (if someone wants to take over maintainership,
-> let me know ASAP).  Bigger changes may be coming, but we haven't
-> decided exactly what that's going to look like yet.
-> 
-> Changes since v1:
->   * Reworked how OpenPIC is listed
-> 
-> David Gibson (5):
->    MAINTAINERS: Orphan obscure ppc platforms
->    MAINTAINERS: Remove David & Greg as reviewers for a number of boards
->    MAINTAINERS: Remove David & Greg as reviewers/co-maintainers of
->      powernv
->    MAINTAINERS: Add information for OpenPIC
->    MAINTAINERS: Demote sPAPR from "Supported" to "Maintained"
-> 
->   MAINTAINERS | 42 ++++++++++++++----------------------------
->   1 file changed, 14 insertions(+), 28 deletions(-)
-> 
 
+On 9/22/21 08:24, Matheus K. Ferst wrote:
+> On 03/09/2021 17:31, Daniel Henrique Barboza wrote:
+>> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você possa confirmar o remetente e saber que o conteúdo é seguro. Em caso de e-mail suspeito entre imediatamente em contato com o DTI.
+>>
+>> This patch adds the barebones of the PMU logic by enabling cycle
+>> counting, done via the performance monitor counter 6. The overall logic
+>> goes as follows:
+>>
+>> - a helper is added to control the PMU state on each MMCR0 write. This
+>> allows for the PMU to start/stop as the frozen counter bit (MMCR0_FC)
+>> is cleared or set;
+>>
+>> - MMCR0 reg initial value is set to 0x80000000 (MMCR0_FC set) to avoid
+>> having to spin the PMU right at system init;
+>>
+>> - the intended usage is to freeze the counters by setting MMCR0_FC, do
+>> any additional setting of events to be counted via MMCR1 (not
+>> implemented yet) and enable the PMU by zeroing MMCR0_FC. Software must
+>> freeze counters to read the results - on the fly reading of the PMCs
+>> will return the starting value of each one.
+>>
+>> Since there will be more PMU exclusive code to be added next, put the
+>> PMU logic in its own helper to keep all in the same place. The name of
+>> the new helper file, power8_pmu.c, is an indicative that the PMU logic
+>> has been tested with the IBM POWER chip family, POWER8 being the oldest
+>> version tested. This doesn't mean that this PMU logic will break with
+>> any other PPC64 chip that implements Book3s, but since we can't assert
+>> that this PMU will work with all available Book3s emulated processors
+>> we're choosing to be explicit.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+> 
+> <snip>
+> 
+>> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+>> index 0babde3131..c3e2e3d329 100644
+>> --- a/target/ppc/translate.c
+>> +++ b/target/ppc/translate.c
+>> @@ -401,6 +401,24 @@ void spr_write_generic(DisasContext *ctx, int sprn, int gprn)
+>>       spr_store_dump_spr(sprn);
+>>   }
+>>
+>> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+>> +void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
+>> +{
+>> +    /*
+>> +     * helper_store_mmcr0 will make clock based operations that
+>> +     * will cause 'bad icount read' errors if we do not execute
+>> +     * gen_icount_io_start() beforehand.
+>> +     */
+>> +    gen_icount_io_start(ctx);
+>> +    gen_helper_store_mmcr0(cpu_env, cpu_gpr[gprn]);
+>> +}
+>> +#else
+>> +void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
+>> +{
+>> +    spr_write_generic(ctx, sprn, gprn);
+>> +}
+>> +#endif
+>> +
+>>   #if !defined(CONFIG_USER_ONLY)
+>>   void spr_write_generic32(DisasContext *ctx, int sprn, int gprn)
+>>   {
+>> @@ -596,7 +614,10 @@ void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
+>>       tcg_gen_andi_tl(t1, t1, ~(MMCR0_UREG_MASK));
+>>       /* Keep all other bits intact */
+>>       tcg_gen_or_tl(t1, t1, t0);
+>> -    gen_store_spr(SPR_POWER_MMCR0, t1);
+>> +
+>> +    /* Overwrite cpu_gpr[gprn] and use spr_write_MMCR0() */
+>> +    tcg_gen_mov_tl(cpu_gpr[gprn], t1);
+>> +    spr_write_MMCR0(ctx, sprn + 0x10, gprn);
+> 
+> IIUC, this makes writing to MMCR0 change the GPR value and expose the unfiltered content of the SPR to problem state. It might be better to call the helper directly or create another method that takes a TCGv as an argument and call it from spr_write_MMCR0_ureg and spr_write_MMCR0.
+
+I'm overwriting cpu_gpr[gprn] with t1, which is filtered by MMCR0_REG_MASK
+right before, to re-use spr_write_MMCR0() since its API requires a gprn
+index. The reason I'm re-using spr_write_MMCR0() here is to avoid code repetition
+in spr_write_MMCR0_ureg(), which would need to repeat the same steps as
+spr_write_MMCR0 (calling icount_io_start(), calling the helper, and then setting
+DISAS_EXIT_UPDATE in a later patch).
+
+The idea behind is that all PMU user_write() functions works the same as its
+privileged counterparts but with some form of filtering done beforehand. Note
+that this is kind of true in the previous patch as well - gen_store_spr() is
+similar to the privileged function MMCR0 was using (spr_write_generic()) with
+the exception of an optional qemu_log().
+
+Maybe I should've made this clear in the previous patch, using spr_write_generic()
+and overwriting cpu_gpr[gprn] with the filtered t1 content back there.
+
+Speaking of which, since t1 is being filtered by MMCR0_REG_MASK before being used to
+overwrite cpu_gpr[gprn], I'm not sure how this is exposing unfiltered content to
+problem state. Can you elaborate?
+
+
+
+Thanks,
+
+
+Daniel
+
+> 
+>>
+>>       tcg_temp_free(t0);
+>>       tcg_temp_free(t1);
+>> -- 
+>> 2.31.1
+>>
+> 
+> 
 
