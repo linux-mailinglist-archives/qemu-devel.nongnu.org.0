@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582E7417687
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 16:04:59 +0200 (CEST)
-Received: from localhost ([::1]:43150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE646417693
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 16:08:25 +0200 (CEST)
+Received: from localhost ([::1]:51418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTlow-0007P9-B0
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 10:04:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35028)
+	id 1mTlsG-0004kR-UA
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 10:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mTlhG-0003h7-1M
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 09:57:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mTlh8-0005LT-5B
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 09:57:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632491812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LfLQpc7b6fe08VADwiop/w3R8LlUh4auMRvPRfWTcnc=;
- b=VB/FDVXcC1oQsM8HuHW1dQBC+wCUFs/is8SQLX9N7bR3mCOvTIpz+qNKuxyI/seQQtgfCO
- 2HYurR5NphreZSghcmcWdVZPFX1NPRPixElZVxvpCZuOxTZwf0S7Zq3mH6uyXPoAWZr+YF
- LBiwGOtb69+tADNLJPqnaarW4KdGYms=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-imSbhn0pNLqbvmOW6Uqqlg-1; Fri, 24 Sep 2021 09:56:47 -0400
-X-MC-Unique: imSbhn0pNLqbvmOW6Uqqlg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5AF68015C7;
- Fri, 24 Sep 2021 13:56:46 +0000 (UTC)
-Received: from redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AC68E5F707;
- Fri, 24 Sep 2021 13:56:42 +0000 (UTC)
-Date: Fri, 24 Sep 2021 08:56:40 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v5 04/26] qom: Add memory-backend-epc ObjectOptions support
-Message-ID: <20210924135640.svjs3avfaguq5kxf@redhat.com>
-References: <20210924112509.25061-1-pbonzini@redhat.com>
- <20210924112509.25061-5-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mTlls-00046b-Hq
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 10:01:50 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39613)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mTllq-00006u-SJ
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 10:01:48 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id r23so2504929wra.6
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 07:01:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lMSbXjWzpcTd0cgiB7J9W78MVBZzIA1fk2Ux6yFF71c=;
+ b=w+f2R/pBzTE32rGz4r8vB7vasYgaXGFXpOBdMi3cU0eHftsBqFfHZTtTvZslhtT6nk
+ b2RPUQLA7vkBg21Uy27P04PZye7JSslfLI/ikyCSAmKhuZIVSYuuCHL36BZ8wRNI7B0a
+ BiRNTYriL+BkIIBlmBedlzeuTTWDR4EBS5k6KUQh0l8EMlGZpJLdsa48HXEHq7UDrR3B
+ 1WUidZT0xo10Wx7AY8WimqfqKEFAUMkuGtuDPz+x5iOxQByEc5OtoZW3M8/PgliSGwXb
+ JLQ+HCug2n7a759nV98z2Mftubs+7GQg4wvvpHm2W6d6KZUJ1AFzpj+gHkgzo52FiBH6
+ au/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lMSbXjWzpcTd0cgiB7J9W78MVBZzIA1fk2Ux6yFF71c=;
+ b=LehmE/vV70AywWQ5lnwsiw6Q/3ZPDqxXHpN0tLmXiw3fLLyyKG+jMx9/Xno9AOcAEs
+ D1V7Z6cZA0H9AArUJfb1cJJvyyJF+nGyIx+MxazARnaHLOSDCS+Q4lStDVDFBIGmjjOV
+ TrCbBtUHWyT4TbDTetbZCgirZ2p36vflX0hH6367qXCuRirsi9vSvIQDzbjRhIkO6SbV
+ uFwdlSxfGmI6X1O12KG4pWYKL/OoIbeRUoyD2xkiwd2Ts1DJwRnch0xoQzEef7S7gFFd
+ 3GXr1H+c1ScElQVV9Cn6Q6Dgkb0fO6hHoxl+txsV8W0oeYhhCA2ThlbEvMUHfessRRPd
+ piGw==
+X-Gm-Message-State: AOAM533hizGvuxAnCd0KU1/Y5wsfM9TtuJseQoUCi1ZceQYf47+2V8My
+ Qlp/Oso7+5TaWJ8iImFlhZY2yur6GXXiRA==
+X-Google-Smtp-Source: ABdhPJy9sdzD89LXZanr2W6p/hqxlIt8piSk3cWJcmWNaGvDTLrrJjihPGHK+71oowb5q/g3k+8ptA==
+X-Received: by 2002:a1c:f713:: with SMTP id v19mr2259024wmh.188.1632492104824; 
+ Fri, 24 Sep 2021 07:01:44 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id y64sm9292673wmc.38.2021.09.24.07.01.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Sep 2021 07:01:44 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] qapi: Move RTC_CHANGE back out of target schema
+Date: Fri, 24 Sep 2021 15:01:40 +0100
+Message-Id: <20210924140142.31398-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210924112509.25061-5-pbonzini@redhat.com>
-User-Agent: NeoMutt/20210205-773-8890a5
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,82 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, philmd@redhat.com, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 24, 2021 at 01:24:47PM +0200, Paolo Bonzini wrote:
-> From: Yang Zhong <yang.zhong@intel.com>
-> 
-> Add the new 'memory-backend-epc' user creatable QOM object in
-> the ObjectOptions to support SGX since v6.1, or the sgx backend
-> object cannot bootup.
-> 
-> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> Message-Id: <20210719112136.57018-4-yang.zhong@intel.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  qapi/qom.json | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index a25616bc7a..0222bb4506 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -647,6 +647,23 @@
->              '*hugetlbsize': 'size',
->              '*seal': 'bool' } }
->  
-> +##
-> +# @MemoryBackendEpcProperties:
-> +#
-> +# Properties for memory-backend-epc objects.
-> +#
-> +# The @share boolean option is true by default with epc
-> +#
-> +# The @merge boolean option is false by default with epc
-> +#
-> +# The @dump boolean option is false by default with epc
-> +#
-> +# Since: 6.2
-> +##
-> +{ 'struct': 'MemoryBackendEpcProperties',
-> +  'base': 'MemoryBackendProperties',
-> +  'data': {} }
+This patchset moves RTC_CHANGE back to misc.json, effectively
+reverting commit 183e4281a30962, which moved the RTC_CHANGE event to
+the target schema.  That change was an attempt to make the event
+target-specific to improve introspection, but the event isn't really
+target-specific: it's machine or device specific.  Putting RTC_CHANGE
+in the target schema with an ifdef list reduces maintainability (by
+adding an if: list with a long list of targets that needs to be
+manually updated as architectures are added or removed or as new
+devices gain the RTC_CHANGE functionality) and increases compile time
+(by preventing RTC devices which emit the event from being "compile
+once" rather than "compile once per target", because
+qapi-events-misc-target.h uses TARGET_* ifdefs, which are poisoned in
+"compile once" files.)
 
-Is the intent to add more members to data in later patches?  Otherwise,...
+Patch 2 fixes a minor documentation issue that I noticed while
+I was doing this -- we didn't document that the units used in
+the RTC_CHANGE event are seconds.
 
-> +
->  ##
->  # @PrManagerHelperProperties:
->  #
-> @@ -797,6 +814,7 @@
->      { 'name': 'memory-backend-memfd',
->        'if': 'CONFIG_LINUX' },
->      'memory-backend-ram',
-> +    'memory-backend-epc',
->      'pef-guest',
->      'pr-manager-helper',
->      'qtest',
-> @@ -855,6 +873,7 @@
->        'memory-backend-memfd':       { 'type': 'MemoryBackendMemfdProperties',
->                                        'if': 'CONFIG_LINUX' },
->        'memory-backend-ram':         'MemoryBackendProperties',
-> +      'memory-backend-epc':         'MemoryBackendEpcProperties',
+thanks
+-- PMM
 
-...this could have just been MemoryBackendProperties.
+Peter Maydell (2):
+  qapi: Move RTC_CHANGE back out of target schema
+  qapi: Document the units for the offset argument to RTC_CHANGE
 
->        'pr-manager-helper':          'PrManagerHelperProperties',
->        'qtest':                      'QtestProperties',
->        'rng-builtin':                'RngProperties',
-> -- 
-> 2.31.1
-> 
-> 
+ qapi/misc-target.json | 33 ---------------------------------
+ qapi/misc.json        | 22 ++++++++++++++++++++++
+ hw/ppc/spapr_rtc.c    |  2 +-
+ hw/rtc/mc146818rtc.c  |  2 +-
+ 4 files changed, 24 insertions(+), 35 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.20.1
 
 
