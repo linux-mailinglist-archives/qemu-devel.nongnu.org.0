@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AAB4170DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 13:30:57 +0200 (CEST)
-Received: from localhost ([::1]:40804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 285544170EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 13:34:16 +0200 (CEST)
+Received: from localhost ([::1]:49338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTjPs-0007rd-Ux
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 07:30:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34442)
+	id 1mTjT5-0005Eg-7k
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 07:34:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mTjKT-0007cS-Do
+ id 1mTjKT-0007d3-LS
  for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:25:21 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38906)
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:35662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mTjKQ-0000Qo-06
+ id 1mTjKR-0000Sg-Of
  for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:25:21 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id dj4so34909310edb.5
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 04:25:17 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id y89so24042118ede.2
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 04:25:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Y5AR/P+mFSJFO235bsACgg5JM9OnHm4NP9JNrfL9ZLQ=;
- b=l/kx0rH7frHAp3l7tsCrjRxwVw32XW+JS7ODGk6Gj4KczlaWkCbxk86VRyN2GuHnqn
- 74U5MwwA9z/HeGEvaDLBWn8eRsw7ee4zD8piom60a+B9i0qyxFCcpOAV0rICcKKVXtd2
- AKzLU/DCI1qteQVgTqNIfE58EEpVQ4N+coFfP0IheBZNNjgWi8GcnGzzwQObWQa8LxL9
- mIo+lr0+GJnQKJMYNptGhS6EfOXufMM5+Z0tbgwUP20ku6sgA3MNiz5o5R88eJO04Piq
- jDP8op52Om6NfZC8NAqe+BHXYVmKhaL9sx5bqFyXY8/Yb1YC6PSdAmMu/Et1nvF2qiO6
- b9lQ==
+ bh=UiMznw01RdLQ9B39Iax6tMW439yM+ztUjpsGI5+mzRc=;
+ b=l5JZME1BWCX5NGxDmKxrEUEs0H2JiuPko1yOtH7eOTtxWghMvUCGpRHzsklSXH/9CE
+ 2RTecHUU2hUvQ4jHiC7KMQq951oBe7Y3v1X06M5unXzSaTZiSD5/NmyOqDj0AyFfyFSV
+ kYhMev1NTWRy1tGvXnQ4yiPfV4vgh5SFlSlK9VfeVRZinoj/Es7W7eFcTndx+KKIfSJA
+ m3QPREun6bPIP8DN16bWTLAtvCB3LUy93SmZSI6ouHZH2c0yJbxe0F4WFOnHPEvI0Xsv
+ rzN/7jcqg/M88pM13Ni0PiaEq4MZ6b+B7zNSVKl5U3GtJtOhoyK+TzNttbp3+gxWtImH
+ eYSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Y5AR/P+mFSJFO235bsACgg5JM9OnHm4NP9JNrfL9ZLQ=;
- b=AdzNYGX9amnNJ01bqpgpsr7AiofhS1cIxSdnL86rZtwbw0mz1y4T3gY42EWbIZMcUD
- aK6DJ+qPdaGdCfMlwt5styh25P+vsaWA0v/eaVuk2mW/9+j6uOjEV9C4XUeqynoqZtiL
- jUMizFkQfDVYicJaRDvOaMgmv9E6AX6Z7VboYdW7pFQYebTDOGF2BDssEXWU/+nfPRlX
- teUwwLhZgaQijTfEHuD/KlqVUCc9LMhI2GFOJJ4rplJHBq7Kr3bD9x6lI95N9vh26B86
- smpEWxRPNhMau/YBz+Pcl2VGSmjYPKpAEbXK79zYLwBdzJYN1ZuWYmVu78WdQE7HMfQY
- M+aw==
-X-Gm-Message-State: AOAM533B9pXVeMzOe86aH/cb0SVbPNt98ue9WAfk08NTN5sVJQGPOZ3M
- tIgJJbjsVsLw5gqGG3q0ZIGV2Csi5Jo=
-X-Google-Smtp-Source: ABdhPJwfVcLLlGpNIWW8ed6FPQBZ5Ns396Qehco5NqPQInwcxMvWTWz/0t/gIAvlO+VRnzOQqqgv/g==
-X-Received: by 2002:a17:906:1d07:: with SMTP id
- n7mr10379767ejh.53.1632482716486; 
- Fri, 24 Sep 2021 04:25:16 -0700 (PDT)
+ bh=UiMznw01RdLQ9B39Iax6tMW439yM+ztUjpsGI5+mzRc=;
+ b=YLaLjOcYN7dDJS6P1G/Wskq73s7fr1mVyL1mccjkbp3ERfUo9uDjtWsqcCxOJbpx5W
+ kxmhmbFfjVDFSIG/jIb9PuN89CsNeBLhl0j3q9IFvWJPxbpi0/iliI4BSdg556T3udwY
+ 3gmCO5SjcGKrasMH9jVYChlGTRfQKZzl1FA1gOJudrt5r/oDWTeiverKHgyQT/ybqzBk
+ cpyJosqo1AoeWi98D4YVkg/HhDp0H1u3sKcaW1x5HjQyXgBdHxfBMiRbZ1YLDrC3Z1Xz
+ SdmrgjcCzlYSG6BMD/6vdJ4eE8FaD+EWfPDG2Qj/6KIWHQW6ytzPhCS8C/x+4Fk1NHj7
+ 41AA==
+X-Gm-Message-State: AOAM533IM8lqOI6hZ2FpC3tpAAhlE4OTuAubpuYJg0+i7j1R5SGi3JK6
+ eH4QQNiXUvRI4j/d+lSQ6Z0Juwx40OI=
+X-Google-Smtp-Source: ABdhPJxlxZNNfpl5T4mBwtP180/GvGgRrg3KnbmtKze3QwXt4X9OGrXvGdBHEPRhMGp84+lUY9R4vA==
+X-Received: by 2002:a17:907:2ce9:: with SMTP id
+ hz9mr10541412ejc.275.1632482717466; 
+ Fri, 24 Sep 2021 04:25:17 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id t14sm4886961ejf.24.2021.09.24.04.25.15
+ by smtp.gmail.com with ESMTPSA id t14sm4886961ejf.24.2021.09.24.04.25.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 04:25:16 -0700 (PDT)
+ Fri, 24 Sep 2021 04:25:17 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 07/26] i386: Add primary SGX CPUID and MSR defines
-Date: Fri, 24 Sep 2021 13:24:50 +0200
-Message-Id: <20210924112509.25061-8-pbonzini@redhat.com>
+Subject: [PATCH v5 08/26] i386: Add SGX CPUID leaf FEAT_SGX_12_0_EAX
+Date: Fri, 24 Sep 2021 13:24:51 +0200
+Message-Id: <20210924112509.25061-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210924112509.25061-1-pbonzini@redhat.com>
 References: <20210924112509.25061-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,82 +91,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-Add CPUID defines for SGX and SGX Launch Control (LC), as well as
-defines for their associated FEATURE_CONTROL MSR bits.  Define the
-Launch Enclave Public Key Hash MSRs (LE Hash MSRs), which exist
-when SGX LC is present (in CPUID), and are writable when SGX LC is
-enabled (in FEATURE_CONTROL).
+CPUID leaf 12_0_EAX is an Intel-defined feature bits leaf enumerating
+the CPU's SGX capabilities, e.g. supported SGX instruction sets.
+Currently there are four enumerated capabilities:
+
+    - SGX1 instruction set, i.e. "base" SGX
+    - SGX2 instruction set for dynamic EPC management
+    - ENCLV instruction set for VMM oversubscription of EPC
+    - ENCLS-C instruction set for thread safe variants of ENCLS
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-7-yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-8-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c |  4 ++--
- target/i386/cpu.h | 12 ++++++++++++
- 2 files changed, 14 insertions(+), 2 deletions(-)
+ target/i386/cpu.c | 20 ++++++++++++++++++++
+ target/i386/cpu.h |  1 +
+ 2 files changed, 21 insertions(+)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6b029f1bdf..21d2a325ea 100644
+index 21d2a325ea..2cd1487bae 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -795,7 +795,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-     [FEAT_7_0_EBX] = {
-         .type = CPUID_FEATURE_WORD,
-         .feat_names = {
--            "fsgsbase", "tsc-adjust", NULL, "bmi1",
-+            "fsgsbase", "tsc-adjust", "sgx", "bmi1",
-             "hle", "avx2", NULL, "smep",
-             "bmi2", "erms", "invpcid", "rtm",
-             NULL, NULL, "mpx", NULL,
-@@ -821,7 +821,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             "la57", NULL, NULL, NULL,
-             NULL, NULL, "rdpid", NULL,
-             "bus-lock-detect", "cldemote", NULL, "movdiri",
--            "movdir64b", NULL, NULL, "pks",
-+            "movdir64b", NULL, "sgxlc", "pks",
-         },
-         .cpuid = {
-             .eax = 7,
+@@ -654,6 +654,7 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+           /* missing:
+           CPUID_XSAVE_XSAVEC, CPUID_XSAVE_XSAVES */
+ #define TCG_14_0_ECX_FEATURES 0
++#define TCG_SGX_12_0_EAX_FEATURES 0
+ 
+ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+     [FEAT_1_EDX] = {
+@@ -1182,6 +1183,25 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .tcg_features = TCG_14_0_ECX_FEATURES,
+      },
+ 
++    [FEAT_SGX_12_0_EAX] = {
++        .type = CPUID_FEATURE_WORD,
++        .feat_names = {
++            "sgx1", "sgx2", NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++        },
++        .cpuid = {
++            .eax = 0x12,
++            .needs_ecx = true, .ecx = 0,
++            .reg = R_EAX,
++        },
++        .tcg_features = TCG_SGX_12_0_EAX_FEATURES,
++    },
+ };
+ 
+ typedef struct FeatureMask {
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 7dd664791a..3823c7c40a 100644
+index 3823c7c40a..cde446cc34 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -389,9 +389,17 @@ typedef enum X86Seg {
- #define MSR_IA32_PKRS                   0x6e1
- 
- #define FEATURE_CONTROL_LOCKED                    (1<<0)
-+#define FEATURE_CONTROL_VMXON_ENABLED_INSIDE_SMX  (1ULL << 1)
- #define FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_SMX (1<<2)
-+#define FEATURE_CONTROL_SGX_LC                    (1ULL << 17)
-+#define FEATURE_CONTROL_SGX                       (1ULL << 18)
- #define FEATURE_CONTROL_LMCE                      (1<<20)
- 
-+#define MSR_IA32_SGXLEPUBKEYHASH0       0x8c
-+#define MSR_IA32_SGXLEPUBKEYHASH1       0x8d
-+#define MSR_IA32_SGXLEPUBKEYHASH2       0x8e
-+#define MSR_IA32_SGXLEPUBKEYHASH3       0x8f
-+
- #define MSR_P6_PERFCTR0                 0xc1
- 
- #define MSR_IA32_SMBASE                 0x9e
-@@ -718,6 +726,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- 
- /* Support RDFSBASE/RDGSBASE/WRFSBASE/WRGSBASE */
- #define CPUID_7_0_EBX_FSGSBASE          (1U << 0)
-+/* Support SGX */
-+#define CPUID_7_0_EBX_SGX               (1U << 2)
- /* 1st Group of Advanced Bit Manipulation Extensions */
- #define CPUID_7_0_EBX_BMI1              (1U << 3)
- /* Hardware Lock Elision */
-@@ -805,6 +815,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_ECX_MOVDIRI           (1U << 27)
- /* Move 64 Bytes as Direct Store Instruction */
- #define CPUID_7_0_ECX_MOVDIR64B         (1U << 28)
-+/* Support SGX Launch Control */
-+#define CPUID_7_0_ECX_SGX_LC            (1U << 30)
- /* Protection Keys for Supervisor-mode Pages */
- #define CPUID_7_0_ECX_PKS               (1U << 31)
+@@ -578,6 +578,7 @@ typedef enum FeatureWord {
+     FEAT_VMX_BASIC,
+     FEAT_VMX_VMFUNC,
+     FEAT_14_0_ECX,
++    FEAT_SGX_12_0_EAX,  /* CPUID[EAX=0x12,ECX=0].EAX (SGX) */
+     FEATURE_WORDS,
+ } FeatureWord;
  
 -- 
 2.31.1
