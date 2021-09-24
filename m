@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C513F417B9D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:13:20 +0200 (CEST)
-Received: from localhost ([::1]:53118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD66417B7B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:09:01 +0200 (CEST)
+Received: from localhost ([::1]:41444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTqdL-0001WX-NF
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39276)
+	id 1mTqZA-0001lU-3i
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:09:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqOI-0003hR-GV
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:57:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55275)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqOQ-00044s-UW
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:57:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqOF-0005JO-Ni
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:57:46 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqOP-0005Qz-7a
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:57:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632509863;
+ s=mimecast20190719; t=1632509871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FSHIXwui3Agh7qaTovqXuJIjY3BQ1RUVcy/TUpfVXoM=;
- b=MEMk7koeEIHryyjgxwN1OuTjiSig2TSapXkZ1YFf1S6gGfpW5/Kn8c3ctLzQ26flClLHrV
- ZDunKVp9B6+tlSMUfjT9bbTMzkGwFF3V0WtXUm6Z9QwqYnNzERTyv3EIQ9hNiislV47ePe
- 18urdtQyA7gQG2ANXi/+vC29m6F3osM=
+ bh=8cLpXE7dersF/3Uit082FoUCZ0kLoqP9IYw+1+xTCHc=;
+ b=hK6PutgmD2UvXz4GtzFbzKHshgU+c+FfyYTvs4pkxrmLFlaSN84BmsgJVdpw6Sj2t6/zSi
+ sZtDZ3bpL3/mamU52fFdJjXTyu8X3xN4hXAqM75Fh3iTCODaffRRsSl8q5VQ+iIruqcC2S
+ 5zqTnMc6nVpcYj8D/Qt4LNZqEp0ZppA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-tyfkOY4ZPvuhajfWUbd2lg-1; Fri, 24 Sep 2021 14:57:39 -0400
-X-MC-Unique: tyfkOY4ZPvuhajfWUbd2lg-1
+ us-mta-32-w05GkW1fPh6RFJCau27-dw-1; Fri, 24 Sep 2021 14:57:50 -0400
+X-MC-Unique: w05GkW1fPh6RFJCau27-dw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 920961B18BDC;
- Fri, 24 Sep 2021 18:57:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A36BC100D680;
+ Fri, 24 Sep 2021 18:57:48 +0000 (UTC)
 Received: from p50.net (unknown [10.22.33.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 481DE5C1A3;
- Fri, 24 Sep 2021 18:57:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC8A45C1A3;
+ Fri, 24 Sep 2021 18:57:37 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/16] Acceptance Tests: workaround expired
- mipsdistros.mips.com HTTPS cert
-Date: Fri, 24 Sep 2021 14:54:57 -0400
-Message-Id: <20210924185506.2542588-8-crosa@redhat.com>
+Subject: [PATCH 08/16] acceptance/tests/vnc.py: use explicit syntax for
+ enabling passwords
+Date: Fri, 24 Sep 2021 14:54:58 -0400
+Message-Id: <20210924185506.2542588-9-crosa@redhat.com>
 In-Reply-To: <20210924185506.2542588-1-crosa@redhat.com>
 References: <20210924185506.2542588-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -58,11 +58,11 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) DKIMWL_WL_HIGH=-1.473, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,81 +94,27 @@ Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The certficiate at https://mipsdistros.mips.com/ is currently
-expired (since Jan 23, 2021).
-
-Instead of failing to obtaining the files, let's downgrade to HTTP
-instead, given that the integrity of the files are already performed
-locally, after the download, using the recorded hash.
+This matches the command line on 82a17d1d67, where the "on" or "off"
+should be explicitly given.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/boot_linux_console.py | 6 +++---
- tests/acceptance/replay_kernel.py      | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ tests/acceptance/vnc.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 80e3a2f7a6..bc0caa1099 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -278,7 +278,7 @@ def test_mips_malta32el_nanomips_4k(self):
-         :avocado: tags=endian:little
-         :avocado: tags=cpu:I7200
-         """
--        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
-+        kernel_url = ('http://mipsdistros.mips.com/LinuxDistro/nanomips/'
-                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
-                       'generic_nano32r6el_page4k.xz')
-         kernel_hash = '477456aafd2a0f1ddc9482727f20fe9575565dd6'
-@@ -291,7 +291,7 @@ def test_mips_malta32el_nanomips_16k_up(self):
-         :avocado: tags=endian:little
-         :avocado: tags=cpu:I7200
-         """
--        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
-+        kernel_url = ('http://mipsdistros.mips.com/LinuxDistro/nanomips/'
-                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
-                       'generic_nano32r6el_page16k_up.xz')
-         kernel_hash = 'e882868f944c71c816e832e2303b7874d044a7bc'
-@@ -304,7 +304,7 @@ def test_mips_malta32el_nanomips_64k_dbg(self):
-         :avocado: tags=endian:little
-         :avocado: tags=cpu:I7200
-         """
--        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
-+        kernel_url = ('http://mipsdistros.mips.com/LinuxDistro/nanomips/'
-                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
-                       'generic_nano32r6el_page64k_dbg.xz')
-         kernel_hash = '18d1c68f2e23429e266ca39ba5349ccd0aeb7180'
-diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index cfca71e65f..cac795ab4f 100644
---- a/tests/acceptance/replay_kernel.py
-+++ b/tests/acceptance/replay_kernel.py
-@@ -434,7 +434,7 @@ def test_mips_malta32el_nanomips_4k(self):
-         :avocado: tags=endian:little
-         :avocado: tags=cpu:I7200
-         """
--        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
-+        kernel_url = ('http://mipsdistros.mips.com/LinuxDistro/nanomips/'
-                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
-                       'generic_nano32r6el_page4k.xz')
-         kernel_hash = '477456aafd2a0f1ddc9482727f20fe9575565dd6'
-@@ -448,7 +448,7 @@ def test_mips_malta32el_nanomips_16k_up(self):
-         :avocado: tags=endian:little
-         :avocado: tags=cpu:I7200
-         """
--        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
-+        kernel_url = ('http://mipsdistros.mips.com/LinuxDistro/nanomips/'
-                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
-                       'generic_nano32r6el_page16k_up.xz')
-         kernel_hash = 'e882868f944c71c816e832e2303b7874d044a7bc'
-@@ -462,7 +462,7 @@ def test_mips_malta32el_nanomips_64k_dbg(self):
-         :avocado: tags=endian:little
-         :avocado: tags=cpu:I7200
-         """
--        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
-+        kernel_url = ('http://mipsdistros.mips.com/LinuxDistro/nanomips/'
-                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
-                       'generic_nano32r6el_page64k_dbg.xz')
-         kernel_hash = '18d1c68f2e23429e266ca39ba5349ccd0aeb7180'
+diff --git a/tests/acceptance/vnc.py b/tests/acceptance/vnc.py
+index 22656bbcc2..f301fbb4f5 100644
+--- a/tests/acceptance/vnc.py
++++ b/tests/acceptance/vnc.py
+@@ -45,7 +45,7 @@ def test_change_password_requires_a_password(self):
+                          'Could not set password')
+ 
+     def test_change_password(self):
+-        self.vm.add_args('-nodefaults', '-S', '-vnc', ':0,password')
++        self.vm.add_args('-nodefaults', '-S', '-vnc', ':0,password=on')
+         self.vm.launch()
+         self.assertTrue(self.vm.qmp('query-vnc')['return']['enabled'])
+         set_password_response = self.vm.qmp('change-vnc-password',
 -- 
 2.31.1
 
