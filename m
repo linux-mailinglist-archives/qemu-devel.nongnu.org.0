@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991EA417BBE
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:24:40 +0200 (CEST)
-Received: from localhost ([::1]:46468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912B7417B70
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:04:51 +0200 (CEST)
+Received: from localhost ([::1]:59332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTqoJ-0007wd-M4
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:24:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40136)
+	id 1mTqV7-0002sD-KG
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:04:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqRo-0000N4-89
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:01:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26680)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mTqNQ-0002fS-Kh
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:56:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqRm-0008Mn-Dl
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:01:23 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mTqNM-0004Xo-7R
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:56:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632510081;
+ s=mimecast20190719; t=1632509807;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QS6ovHewzNb+bkNSkQivt2pv+m0aVY2z+epE+IjXLtE=;
- b=JYIgqfVB9KN8IwjTasK8X7Nd9W1FP+DP+tVg0RZwmLUjvPJxbRaGVi6w8DvtgS2KgmLszK
- 3Dfol16xt5unLJBhnNJnBZNHbJ2fnKuiBJP0WN+af15+IZAnPdkEG/XFfOT922xEufNju5
- yPwQX3NPhivLDGc/gefNpLLsKoG6MZg=
+ bh=ARoIG1s7sICDost83MIH3aA5rdjVN8sBPObMzetBla0=;
+ b=TCEPbF96tn3xhSMWX9dsCqr8FTwiSrL/sJJpR8zerOhrUXa8ssciFMGQxnfLqodnqjx52T
+ gV3UM9Z20zruPOAUOFguL/EdapRlSNPkh3T6Hv7sy5Z1KHuzgOHN5zLfLzL9hJMFTzfSw8
+ z3t+u+28y+bUI6MRo9BEkcKd+sQwYl0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-FP7m0p6ZNXeH70zoC_tT8Q-1; Fri, 24 Sep 2021 15:01:20 -0400
-X-MC-Unique: FP7m0p6ZNXeH70zoC_tT8Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-221-nrlPzodfOQqwUVx9bUr-eQ-1; Fri, 24 Sep 2021 14:56:46 -0400
+X-MC-Unique: nrlPzodfOQqwUVx9bUr-eQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DA4A84A5ED;
- Fri, 24 Sep 2021 19:01:18 +0000 (UTC)
-Received: from p50.net (unknown [10.22.33.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B4645C1A3;
- Fri, 24 Sep 2021 19:00:51 +0000 (UTC)
-From: Cleber Rosa <crosa@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 16/16] tests/acceptance/ppc_prep_40p.py: unify tags
-Date: Fri, 24 Sep 2021 14:55:06 -0400
-Message-Id: <20210924185506.2542588-17-crosa@redhat.com>
-In-Reply-To: <20210924185506.2542588-1-crosa@redhat.com>
-References: <20210924185506.2542588-1-crosa@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50B901927801;
+ Fri, 24 Sep 2021 18:56:45 +0000 (UTC)
+Received: from redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A03E019C87;
+ Fri, 24 Sep 2021 18:56:44 +0000 (UTC)
+Date: Fri, 24 Sep 2021 13:56:43 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 09/11] qdev: Avoid QemuOpts in QMP device_add
+Message-ID: <20210924185643.zatpxo5pvusjz7as@redhat.com>
+References: <20210924090427.9218-1-kwolf@redhat.com>
+ <20210924090427.9218-10-kwolf@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210924090427.9218-10-kwolf@redhat.com>
+User-Agent: NeoMutt/20210205-773-8890a5
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -76,76 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Greg Kurz <groug@kaod.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Auger Eric <eric.auger@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>,
- Ryo ONODERA <ryoon@netbsd.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: pkrempa@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
+ its@irrelevant.dk, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The arch and machine tags apply to all tests, so let's define them
-only once.
+On Fri, Sep 24, 2021 at 11:04:25AM +0200, Kevin Wolf wrote:
+> Directly call qdev_device_add_from_qdict() for QMP device_add instead of
+> first going through QemuOpts and converting back to QDict.
+> 
+> Note that this changes the behaviour of device_add, though in ways that
+> should be considered bug fixes:
+> 
+> QemuOpts ignores differences between data types, so you could
+> successfully pass a string "123" for an integer property, or a string
+> "on" for a boolean property (and vice versa).  After this change, the
+> correct data type for the property must be used in the JSON input.
+> 
+> qemu_opts_from_qdict() also silently ignores any options whose value is
+> a QDict, QList or QNull.
+> 
+> To illustrate, the following QMP command was accepted before and is now
+> rejected for both reasons:
+> 
+> { "execute": "device_add",
+>   "arguments": { "driver": "scsi-cd",
+>                  "drive": { "completely": "invalid" },
+>                  "physical_block_size": "4096" } }
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  softmmu/qdev-monitor.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+>
 
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
----
- tests/acceptance/ppc_prep_40p.py | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_40p.py
-index 5e61e686bd..d1e5674673 100644
---- a/tests/acceptance/ppc_prep_40p.py
-+++ b/tests/acceptance/ppc_prep_40p.py
-@@ -13,6 +13,10 @@
- 
- 
- class IbmPrep40pMachine(Test):
-+    """
-+    :avocado: tags=arch:ppc
-+    :avocado: tags=machine:40p
-+    """
- 
-     timeout = 60
- 
-@@ -24,8 +28,6 @@ class IbmPrep40pMachine(Test):
-     @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-     def test_factory_firmware_and_netbsd(self):
-         """
--        :avocado: tags=arch:ppc
--        :avocado: tags=machine:40p
-         :avocado: tags=os:netbsd
-         :avocado: tags=slowness:high
-         """
-@@ -48,10 +50,6 @@ def test_factory_firmware_and_netbsd(self):
-         wait_for_console_pattern(self, 'Model: IBM PPS Model 6015')
- 
-     def test_openbios_192m(self):
--        """
--        :avocado: tags=arch:ppc
--        :avocado: tags=machine:40p
--        """
-         self.vm.set_console()
-         self.vm.add_args('-m', '192') # test fw_cfg
- 
-@@ -62,8 +60,6 @@ def test_openbios_192m(self):
- 
-     def test_openbios_and_netbsd(self):
-         """
--        :avocado: tags=arch:ppc
--        :avocado: tags=machine:40p
-         :avocado: tags=os:netbsd
-         """
-         drive_url = ('https://archive.netbsd.org/pub/NetBSD-archive/'
 -- 
-2.31.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
