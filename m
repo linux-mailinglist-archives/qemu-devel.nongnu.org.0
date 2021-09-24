@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357E0416C8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 09:09:45 +0200 (CEST)
-Received: from localhost ([::1]:50442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB21416C77
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 09:03:46 +0200 (CEST)
+Received: from localhost ([::1]:42428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTfL6-0000Az-3i
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 03:09:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32972)
+	id 1mTfFJ-0002jY-6g
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 03:03:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mTezP-0006VM-40; Fri, 24 Sep 2021 02:47:23 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:47487)
+ id 1mTezN-0006Ug-Cg; Fri, 24 Sep 2021 02:47:18 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:39791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mTezG-00015r-UF; Fri, 24 Sep 2021 02:47:17 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 255D8580D26;
- Fri, 24 Sep 2021 02:47:09 -0400 (EDT)
+ id 1mTezH-00019b-OO; Fri, 24 Sep 2021 02:47:17 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id F0C13580E91;
+ Fri, 24 Sep 2021 02:47:10 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 24 Sep 2021 02:47:09 -0400
+ by compute5.internal (MEProxy); Fri, 24 Sep 2021 02:47:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=YhkaJ7cPt1uYG
- utd+x2G39XivILcz7tL4nQNT7E6cns=; b=NhrUpicCWuzmgA+xbQ3nWv1KhIzWy
- j/jmaIoDYFwKMoBFPsgc8XFYxWPSrWH14TV8sorjHkiPbv4xykP2ceeDJ2IZDXeM
- bD+Pau1rBY+VFxa2hyO33mrsIkElRLnLvSwEPxVvQmgaAwZSwgxvQsf/jtLdfX+9
- 0nY2xk5vAi23+rwlfw4LAELfCFBbrkvEooNyOT637jB0nUaVmJ/KBsdCC1RBWuG+
- 0L6MkAlo089VBnN12jhhexIgoLIM5IA0R6EVaAlNtcuT58i6LdEczlfz7OXfIEJU
- f/mhO7fbDCSm4lgSGURgsPRCH+/mLWog7E3+yw9u/McXz6q6FrX85oKyQ==
+ :mime-version:content-transfer-encoding; s=fm1; bh=ptJYS5dkz2j5C
+ iXNGgqoPvtTe+U/smq025q84NGLicc=; b=JdA2dNHxBHzcKj3eoFo/a94Gu+cCA
+ N4BZfHsnUJZO/RrE33AFGLsRyr21JWSQQGAgOD0Oss4Kf/gJTatT5RloFPLUY/qN
+ 6d3WpC5gMnAkWLqZW5ZX8lFatlKvwAi7nTeLvMEhWjyHXPBI5JF3CRZqL2kGEVcf
+ arVRa/Ye3k/TmN4dy/vKIVfUmP7NILaRVc5NnzvMh4akjbBTuhxqKbeAlBlw2ztH
+ PUnr3Ea7cORMG93Vtz1fH+cdcsM1nJFCLonvhx2UpVR0c2J724mW/e2/b8c87Ejt
+ KxgU5DwohLTHhvbySm4SPoIAi04EkfcrLi70BGsbE2sFtJ4heYY7vw8Uw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=YhkaJ7cPt1uYGutd+x2G39XivILcz7tL4nQNT7E6cns=; b=EmlO6m3g
- ggvsc4XmiWwGupKd4skI0vLvgRNZAtC84RyHHEBgM3sRIdbkk8S2DDA/al2Q0Rlu
- 7tLOH5Bx08ftuYW6dZvEiiOb3xXpzrZe9cN7LsTFODKw/ra3zwbTKLLeih8ag7Rk
- IIQLwN4Zz2dSfe3Afujdh9LXGrxEc5ZZx25Z5R0yPGZ4j8eJZTCv3wlbaGOfAGwN
- bBe+PFBPhgxY4EjbyB636UtcqtONBA/mLOUoiX9khCsGJJWzUbw3qyeisdtXUm3t
- 6bBrkj13o+VEPq+0pjuIpiyu/Y0m+puZGkiAQVK6ke44PJI8+6TPIEcbl8TwsKG9
- 77xOkF1B3Xq0ZA==
-X-ME-Sender: <xms:bXRNYX2D5YcxCdAnCr9XvYvZGopNA24LJ6sR7xgK7b1eM84j7tKCEQ>
- <xme:bXRNYWFmDfazvLlH3mw4JLNLBDwhhawiAR1sR4UnmvLbO65-7yTae2_0G2DAFtpid
- QS4urGCFBFwduu2-Aw>
-X-ME-Received: <xmr:bXRNYX4VfEQmaMlDClgWBaImO739XupEJd3fvxk8POly1Nwt-NvOk-yhUSUMua4ceg4dlJoRPASenQuIVKo9zHrjET9oBP2wgYuGOB3lyQ>
+ fm3; bh=ptJYS5dkz2j5CiXNGgqoPvtTe+U/smq025q84NGLicc=; b=RjEMaPc6
+ 6VnctlhF7F+/+SNsLFdElPMg4ocSjeWZknT3Ye3ruJk45I3czrhzRHdVu/5IomQK
+ N9d8QzTv1UyRBOCURIzEHIEHs9l5ny/qT/yCn/ZHFo+8e1UtnQZYNQ/nqwUDRBrF
+ 73Kje0NMU4BDWx9CeFVNxJFD2w+Uf8yPHfLkAzXXzTQiCM5I9uYpPUwyLgBFnKiW
+ WGvZhKAjh4f5s/EMexQAG8AYutvTKlKEJuJYaJTrjsB+JUvH/8I1i4bne9KJNyg0
+ JqUJz0xaRbeelbH0M8ZL5+WcdRIkcKj99aJ5IElD/PARwzt5SMAovP+d3G+Kr5Y4
+ sk2a9g1s99Ex+g==
+X-ME-Sender: <xms:bnRNYYVBrzRQSnVcfeljphovqtq1mfVH470hnjgCSaxOOlaYtJRE4A>
+ <xme:bnRNYcl_DuiiiYIEAb2ErItZCV9wW0c76Q_VugRYLXXSbHYL4NyWxC6OXWQiQ74kx
+ k6AvGeyLnNurfK74Qw>
+X-ME-Received: <xmr:bnRNYcZWp-cIN69SIiBLMQKyZbqhOEYgyyXpi0yNI8s7xX50rSsoipQC700MDBwMA0P7I2HEd0nXwOd5hicavWcVe6Robyh9Q3ZKSowx7A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddguddtlecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -54,19 +54,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddguddtlecutefuodetgg
  htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
  gfeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:bXRNYc3GL_1KOxkWOyKtn8aszKk04EBJxCeBil6ecA0UzjY3IOKWEw>
- <xmx:bXRNYaGXMwH_sIJFg4RLsjys3Bj7LOiSstJxqv46OYcCoyxewJTebA>
- <xmx:bXRNYd_RhMQQ-FxLPNFa_8B7BirfnzonD78l7HkqAIc_o5xZa5I6Xg>
- <xmx:bXRNYV8a_-ZCu-qznFXYMfhWoz3qMf7ZHZbriJjwjJkaeqxbS4cVKw>
+X-ME-Proxy: <xmx:bnRNYXVCofGByMVr9bzBH_9Rsy9ZRB1TlwrKlIV0y6n_NR-3EwPJbw>
+ <xmx:bnRNYSkufrloqNCTSP8myLZxiyvxG84moz83h0XNdAWDBcqG_FSicA>
+ <xmx:bnRNYccZ5fRdrcAqY-YGe5UqKVvowHP4AeBfi6vjEMfOoeyjclke-g>
+ <xmx:bnRNYbecYPDwyrVAsX32Y30HrgEwxfF-O9re_YfimL-xhJeb-5iuPA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Sep 2021 02:47:07 -0400 (EDT)
+ 24 Sep 2021 02:47:09 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 2/3] hw/nvme: fix verification of select field in namespace
- attachment
-Date: Fri, 24 Sep 2021 08:47:00 +0200
-Message-Id: <20210924064701.283182-3-its@irrelevant.dk>
+Subject: [PULL 3/3] hw/nvme: Return error for fused operations
+Date: Fri, 24 Sep 2021 08:47:01 +0200
+Message-Id: <20210924064701.283182-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210924064701.283182-1-its@irrelevant.dk>
 References: <20210924064701.283182-1-its@irrelevant.dk>
@@ -95,89 +94,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Naveen Nagar <naveen.n1@samsung.com>, Klaus Jensen <its@irrelevant.dk>,
- Hanna Reitz <hreitz@redhat.com>, Minwoo Im <minwoo.im.dev@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Pankaj Raghav <p.raghav@samsung.com>, Klaus Jensen <its@irrelevant.dk>,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Naveen Nagar <naveen.n1@samsung.com>
+From: Pankaj Raghav <p.raghav@samsung.com>
 
-Fix is added to check for reserved value in select field for
-namespace attachment
+Currently, FUSED operations are not supported by QEMU. As per the 1.4 SPEC,
+controller should abort the command that requested a fused operation with
+an INVALID FIELD error code if they are not supported.
 
-CC: Minwoo Im <minwoo.im.dev@gmail.com>
-Signed-off-by: Naveen Nagar <naveen.n1@samsung.com>
+Changes from v1:
+Added FUSE flag check also to the admin cmd processing as the FUSED
+operations are mentioned in the general SQE section in the SPEC.
+
+Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c       | 15 ++++++++++++---
- include/block/nvme.h |  5 +++++
- 2 files changed, 17 insertions(+), 3 deletions(-)
+ hw/nvme/ctrl.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index ff784851137e..dc0e7b00308e 100644
+index dc0e7b00308e..2f247a9275ca 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -5191,7 +5191,7 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
-     uint16_t list[NVME_CONTROLLER_LIST_SIZE] = {};
-     uint32_t nsid = le32_to_cpu(req->cmd.nsid);
-     uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
--    bool attach = !(dw10 & 0xf);
-+    uint8_t sel = dw10 & 0xf;
-     uint16_t *nr_ids = &list[0];
-     uint16_t *ids = &list[1];
-     uint16_t ret;
-@@ -5224,7 +5224,8 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
-             return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
-         }
+@@ -3893,6 +3893,10 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+         return ns->status;
+     }
  
--        if (attach) {
-+        switch (sel) {
-+        case NVME_NS_ATTACHMENT_ATTACH:
-             if (nvme_ns(ctrl, nsid)) {
-                 return NVME_NS_ALREADY_ATTACHED | NVME_DNR;
-             }
-@@ -5235,7 +5236,10 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
++    if (NVME_CMD_FLAGS_FUSE(req->cmd.flags)) {
++        return NVME_INVALID_FIELD;
++    }
++
+     req->ns = ns;
  
-             nvme_attach_ns(ctrl, ns);
-             nvme_select_iocs_ns(ctrl, ns);
--        } else {
-+
-+            break;
-+
-+        case NVME_NS_ATTACHMENT_DETACH:
-             if (!nvme_ns(ctrl, nsid)) {
-                 return NVME_NS_NOT_ATTACHED | NVME_DNR;
-             }
-@@ -5244,6 +5248,11 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
-             ns->attached--;
+     switch (req->cmd.opcode) {
+@@ -5475,6 +5479,10 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+         return NVME_INVALID_FIELD | NVME_DNR;
+     }
  
-             nvme_update_dmrsl(ctrl);
++    if (NVME_CMD_FLAGS_FUSE(req->cmd.flags)) {
++        return NVME_INVALID_FIELD;
++    }
 +
-+            break;
-+
-+        default:
-+            return NVME_INVALID_FIELD | NVME_DNR;
-         }
- 
-         /*
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 77aae0117494..e3bd47bf76ab 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -1154,6 +1154,11 @@ enum NvmeIdCtrlCmic {
-     NVME_CMIC_MULTI_CTRL    = 1 << 1,
- };
- 
-+enum NvmeNsAttachmentOperation {
-+    NVME_NS_ATTACHMENT_ATTACH = 0x0,
-+    NVME_NS_ATTACHMENT_DETACH = 0x1,
-+};
-+
- #define NVME_CTRL_SQES_MIN(sqes) ((sqes) & 0xf)
- #define NVME_CTRL_SQES_MAX(sqes) (((sqes) >> 4) & 0xf)
- #define NVME_CTRL_CQES_MIN(cqes) ((cqes) & 0xf)
+     switch (req->cmd.opcode) {
+     case NVME_ADM_CMD_DELETE_SQ:
+         return nvme_del_sq(n, req);
 -- 
 2.33.0
 
