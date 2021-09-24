@@ -2,69 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4E9416C6C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 08:57:13 +0200 (CEST)
-Received: from localhost ([::1]:37198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AECF416C76
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 09:03:46 +0200 (CEST)
+Received: from localhost ([::1]:44236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTf8y-0007Xw-24
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 02:57:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34490)
+	id 1mTfFJ-0004B7-DW
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 03:03:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mTf7f-0006KK-RC; Fri, 24 Sep 2021 02:55:51 -0400
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:38874)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mTf7e-0008Mv-4D; Fri, 24 Sep 2021 02:55:51 -0400
-Received: by mail-io1-xd36.google.com with SMTP id e82so11187239iof.5;
- Thu, 23 Sep 2021 23:55:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n0z7tWmX2cAmyIR9DUCFPvcREoGqLRXzgAi++etgJXo=;
- b=kxLWf4sbNtYejGDdkvfNNO91+pd4kmQOxf+i/k3gl+2tP7QKNwCPYBgyOJdDqa+ll7
- GnrNDE4GHRLxQXT+U/EoZC4KKvEjSbNSn0+aGh2g2tMi6VJcmqsPdLS8CxeA7d/tYgB7
- fGBUZ2wWcDroq/g3UcuKlU0j28OEgyIU78uDJgmWlnNjyXuDBWlZjz+OsjpyafbYJPC1
- 4wdmS5fwr8iGzu0a79GIP9bztw/hq/KazuarHibSjQOTBnRqjdD4tBWLSmKXjgyDlD5s
- MxWmZwpxdD6unfp5MGxBJ7TSxdkNMR1DrWj1owIAtaVwFUo31Al56bNBvnHoavd+A3Q9
- SJbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=n0z7tWmX2cAmyIR9DUCFPvcREoGqLRXzgAi++etgJXo=;
- b=7/m57T75CzSb/Ef5n9tAE+B1cuK1Dkzk35J1uYy+PC0QNqaDCNbaBCpulb0kYLBjm1
- podvN8NBPh2qnetQFDJYs+dmuFQJtN7jt5I596B/8OHxV5i2MNTbhp4am/Kc1WnBVCD6
- 3y0dvHrxyZiHo3pcUSJhlsklSs9WkXIzN8+WNTgJguBJco4tdELAPMlXAriD9IYZ2amA
- 7pTdeV/zsdUrECvJ7pj9I9FToeNDgaOZD7xo0Kuem2IZbunJ9fTt4WI6Wzuk06KcWFVU
- jNMiPeM+Hy9MMrG+OyMI1XGLHufGFZ6qgwnTvB3bDtn9fhIWpRR6xniWaQLvbXgrU7BU
- EzjA==
-X-Gm-Message-State: AOAM533RHDfBCf+Mq1YjNr87hVJgzc0X4sShrcjBQ0hU4sUM2mrGm9WT
- hEvB/ky5BYHfiTqLW2c2y0p7jUOUaiZRYRHyErM=
-X-Google-Smtp-Source: ABdhPJzAEZzBmxYWcW5z6UXuATA6HjuRQSXoYzlvmA/ixlnt7agl8RQ5G7l1JQflEw7QS5mVM4QJn6MTJ7pdV5Z32Ac=
-X-Received: by 2002:a05:6638:61c:: with SMTP id
- g28mr7688217jar.117.1632466548685; 
- Thu, 23 Sep 2021 23:55:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mTfCU-000340-EE
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 03:00:50 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50050
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mTfCR-0004C2-NK
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 03:00:50 -0400
+Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mTfCF-0002dM-HJ; Fri, 24 Sep 2021 08:00:39 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, laurent@vivier.eu
+References: <20210923091308.13832-1-mark.cave-ayland@ilande.co.uk>
+ <20210923091308.13832-5-mark.cave-ayland@ilande.co.uk>
+ <a446e9a3-b5a9-f9af-0408-e794aac05352@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <ceb404ca-0384-4c7e-f400-79ad1ac6f7b2@ilande.co.uk>
+Date: Fri, 24 Sep 2021 08:00:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20210921020234.123448-1-frank.chang@sifive.com>
-In-Reply-To: <20210921020234.123448-1-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 24 Sep 2021 16:55:22 +1000
-Message-ID: <CAKmqyKO0nt_KYD-qq-+90JBGk0Z=ffv1-7Fe2YFq2fW7XG0SFg@mail.gmail.com>
-Subject: Re: [PATCH v3] target/riscv: Set mstatus_hs.[SD|FS] bits if Clean and
- V=1 in mark_fs_dirty()
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+In-Reply-To: <a446e9a3-b5a9-f9af-0408-e794aac05352@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v5 04/20] nubus: use bitmap to manage available slots
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,37 +65,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Vincent Chen <vincent.chen@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 21, 2021 at 12:03 PM <frank.chang@sifive.com> wrote:
->
-> From: Frank Chang <frank.chang@sifive.com>
->
-> When V=1, both vsstauts.FS and HS-level sstatus.FS are in effect.
-> Modifying the floating-point state when V=1 causes both fields to
-> be set to 3 (Dirty).
->
-> However, it's possible that HS-level sstatus.FS is Clean and VS-level
-> vsstatus.FS is Dirty at the time mark_fs_dirty() is called when V=1.
-> We can't early return for this case because we still need to set
-> sstatus.FS to Dirty according to spec.
->
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> Reviewed-by: Vincent Chen <vincent.chen@sifive.com>
-> Tested-by: Vincent Chen <vincent.chen@sifive.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 23/09/2021 10:42, Philippe Mathieu-Daudé wrote:
+> On 9/23/21 11:12, Mark Cave-Ayland wrote:
+>> Convert nubus_device_realize() to use a bitmap to manage available slots to allow
+>> for future Nubus devices to be plugged into arbitrary slots from the command line
+>> using a new qdev "slot" parameter for nubus devices.
+>>
+>> Update mac_nubus_bridge_init() to only allow slots 0x9 to 0xe on a Macintosh
+>> machines as documented in "Desigining Cards and Drivers for the Macintosh Family".
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>>   hw/nubus/mac-nubus-bridge.c         |  4 ++++
+>>   hw/nubus/nubus-bus.c                |  5 +++--
+>>   hw/nubus/nubus-device.c             | 32 +++++++++++++++++++++++------
+>>   include/hw/nubus/mac-nubus-bridge.h |  4 ++++
+>>   include/hw/nubus/nubus.h            | 13 ++++++------
+>>   5 files changed, 43 insertions(+), 15 deletions(-)
+> 
+>> diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
+>> index 4e23df1280..562650a05b 100644
+>> --- a/hw/nubus/nubus-device.c
+>> +++ b/hw/nubus/nubus-device.c
+>> @@ -160,14 +160,28 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
+>>       NubusDevice *nd = NUBUS_DEVICE(dev);
+>>       char *name;
+>>       hwaddr slot_offset;
+>> -
+>> -    if (nubus->current_slot < NUBUS_FIRST_SLOT ||
+>> -            nubus->current_slot > NUBUS_LAST_SLOT) {
+>> -        error_setg(errp, "Cannot register nubus card, not enough slots");
+>> -        return;
+>> +    uint16_t s;
+>> +
+>> +    if (nd->slot == -1) {
+>> +        /* No slot specified, find first available free slot */
+>> +        s = ctz32(nubus->slot_available_mask);
+> 
+> Nitpicking:
+> 
+>             int s = ctz32(nubus->slot_available_mask);
+> 
+> Otherwise,
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Thanks!
+I'll make sure this is included in v6.
 
-Applied to riscv-to-apply.next
+>> +        if (s != 32) {
+>> +            nd->slot = s;
+>> +        } else {
+>> +            error_setg(errp, "Cannot register nubus card, no free slot "
+>> +                             "available");
+>> +            return;
+>> +        }
+>> +    } else {
+>> +        /* Slot specified, make sure the slot is available */
+>> +        if (!(nubus->slot_available_mask & BIT(nd->slot))) {
+>> +            error_setg(errp, "Cannot register nubus card, slot %d is "
+>> +                             "unavailable or already occupied", nd->slot);
+>> +            return;
+>> +        }
+>>       }
 
-Alistair
+
+ATB,
+
+Mark.
 
