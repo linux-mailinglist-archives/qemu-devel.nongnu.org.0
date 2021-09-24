@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 950EB416F3C
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3D6416F3D
 	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 11:41:56 +0200 (CEST)
-Received: from localhost ([::1]:52716 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:52852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mThiM-0005Xz-Gf
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 05:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41016)
+	id 1mThiL-0005e7-RK
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 05:41:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThfR-0002Z4-OI
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:38:54 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:38815)
+ id 1mThfV-0002bW-BR
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:38:57 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThfP-0005oV-Lu
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:38:53 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id u18so25539227wrg.5
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 02:38:51 -0700 (PDT)
+ id 1mThfT-0005rk-PY
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:38:56 -0400
+Received: by mail-wr1-x434.google.com with SMTP id d6so25365641wrc.11
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 02:38:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JvnpVVImzxRUAkiErIl1yb3T+bTJx0akVuGOL1sDX9w=;
- b=CDMFFMmokn3JqF0zJlToOGb4JpeYq0klq2nsClc4Lj1G+AaTPuSLHxedxXJ/u1oeHY
- ftJVVeHs1nMkG08DlUYBDFtpv+Psri8jmDr6sBoE8SoxGKzTMpw0OLEp5IASYzNzJr8R
- LeUbj29qp7F3Vw5PEmcDcQxpDju6z3joLtNnkm0p6vmOvGF81/JgmdHpoi3PU3kBQ+42
- eqOpSbaYkQai/sAf0VBev0lXBZZpGxQgzX+yBeG8JZM9f+XSUqInOl7IN+Qlr5E5xC8r
- ZdhGr0XAgjzDQ64JsviX7JZgloy59795uBqzEvVy19VFlSTer7vRysr7FMe2SH0/j2dK
- AgYg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5Bzxb+cyFW2fTjguo4+D1GgUMJzgo2oIaa6x4dhI9M8=;
+ b=Z+ZVrJA7B+LRhlph252Bs05w8qRernFAcR0uaW2EqZLIaeL87gO8XvD5r4bZvNkp3+
+ hX1EJqJbuippSwE2WDYNrROZL+rBetx42PlK+8wrhGeLsOGgUGPblfRoclfGG3tfCD8u
+ eBI9iXodHTu4cufWPSR+WxyXzPIObVXP8ArcVDSr/vlzcvRGCwDLdZr/Wgz90lKfUY2X
+ VYUokkVXMJ0JPMQprbFAppj22boPdVagE8pWBhyciFYNxDEwamnxrhXfsA4rT/riAhY4
+ bbdYIb6pIWaeV5dgSnR9Q0TviODcmzuX3San6zlU6rCX7RAU8jGc5jtP5o00lXg3s9rh
+ wKbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=JvnpVVImzxRUAkiErIl1yb3T+bTJx0akVuGOL1sDX9w=;
- b=u7bIs0At6R8j2l43Bxt5ahQFwVnpIOPNrsB7wv+b3TzFJi4sUeEy4Q//xFsesi4BpM
- 5mcwVDRAp1fOcCdec5mpYFTY8XDPdO+W/gRLuLXN/xUjD9vwdB4dBwmT33kojx50cmBD
- CE1hcPONdb/rGNt3k4QMpTxbCbenDdVZPRMq7qg7ULIDU5v/Htiy6nyhVuE/LWO+ikm+
- 8C2fLwOveKPFeZ25uhzZI0l0zs+7hs/UYPhsSxhqz+ffWZrAZFbBD3kJx1Ls4O4RW4jK
- DTxZeUVS4N33B2pW6rM0XK/KSZrh6B72YED0ggNZC5ahvj9SR2gjMfc1Vz5Ukru2+2xy
- k3Eg==
-X-Gm-Message-State: AOAM531LQXu0e1LxfsIt4ItxXut9IW1nCITySYqIJlxIe1Dy5D7gKrBb
- IvkZu+dE6/GMN4VLXdhsGstTCiWyPlM=
-X-Google-Smtp-Source: ABdhPJxc0qFvwz/qYGStyEUpsltUOXTyRyHnRfoHUhqa0oEtEjEkILszU8wDy4yLxZtKeKDEumRG1w==
-X-Received: by 2002:a7b:cd8a:: with SMTP id y10mr1004214wmj.73.1632476329387; 
- Fri, 24 Sep 2021 02:38:49 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=5Bzxb+cyFW2fTjguo4+D1GgUMJzgo2oIaa6x4dhI9M8=;
+ b=5RlNJwvIEWt4WUrI7XfxjwKL0OnuWxLYY3PpJ7Vmumy+TsHH9HQ4hnDLBaz80N93R6
+ DZQZbeHQlTa1wxFXMStp7gKWvMJNP3g0pwMVAHADO0JPALeyJDCkrLZGrg+EPUDP2v0M
+ hRlyY0VzK6pfR1BPa3+1cazVQWRw+GrU4P6ySVSlN5ZKe0Ou8TgbWIDm9sLE1ShLeQ9O
+ eGsWA+GnacFlHKDRoWsDQaLITm9XopDSqBG4eOF/S8wIoQ8O5SypWz6HUmQis2UwWHVp
+ RJI/dCoDJ+m8FZQFjgsfOUS+LbKTwAM0nSNaVpeIumXhSBLL/8O/mihqUTaMPFIILTts
+ d+Jw==
+X-Gm-Message-State: AOAM531jL3CTF/D45Wjt12UAf8wkVcTWtZkllveUnxfwqel65NJP+fbW
+ XQqJIJtI0xmjhXSDaX/3oFj+dCnJM7Y=
+X-Google-Smtp-Source: ABdhPJyEXLnBJ5FQO1c2ws6DQTUoRXlRdbtMRIFIWPeSVBvWTRWmUt4mhI0LSmwm06Oty6TGQxjWjg==
+X-Received: by 2002:adf:e44f:: with SMTP id t15mr10482837wrm.394.1632476334139; 
+ Fri, 24 Sep 2021 02:38:54 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- g22sm10888276wmp.39.2021.09.24.02.38.48
+ q126sm11435167wma.10.2021.09.24.02.38.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 02:38:48 -0700 (PDT)
+ Fri, 24 Sep 2021 02:38:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 00/40] accel: Move has_work() from CPUClass to AccelOpsClass
-Date: Fri, 24 Sep 2021 11:38:07 +0200
-Message-Id: <20210924093847.1014331-1-f4bug@amsat.org>
+Subject: [PATCH v6 01/40] accel: Simplify qemu_init_vcpu()
+Date: Fri, 24 Sep 2021 11:38:08 +0200
+Message-Id: <20210924093847.1014331-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210924093847.1014331-1-f4bug@amsat.org>
+References: <20210924093847.1014331-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,142 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-CPU has_work() is a per-accelerator handler. This series is organized=0D
-in 2 parts:=0D
-- Patches 1-15: Move has_work() from CPUClass to AccelOpsClass=0D
-- Patches 16-40: Move remainging has_work() to TCGCPUOps=0D
-=0D
-I prefer to send as a single big series to be sure it is merged=0D
-at once, since the 2nd part logic (TCGCPUOps) is related to the=0D
-end of the first part (we proved remaining CPUClass::has_work=0D
-handlers are TCG specific, thus can be moved to TCGCPUOps).=0D
-=0D
-Missing review:=0D
-0001-accel-Simplify-qemu_init_vcpu.patch=0D
-0005-hw-core-Move-cpu_common_has_work-to-cpu_has_work.patch=0D
-0006-accel-Introduce-AccelOpsClass-has_work.patch=0D
-0009-accel-hvf-Implement-AccelOpsClass-has_work.patch=0D
-0010-accel-xen-Implement-AccelOpsClass-has_work.patch=0D
-0011-accel-hax-Implement-AccelOpsClass-has_work.patch=0D
-0012-accel-nvmm-Implement-AccelOpsClass-has_work.patch=0D
-0013-accel-qtest-Implement-AccelOpsClass-has_work.patch=0D
-0014-accel-tcg-Implement-AccelOpsClass-has_work.patch=0D
-0015-accel-Simplify-cpu_has_work.patch=0D
-0016-accel-tcg-Introduce-TCGCPUOps-has_work.patch=0D
-0017-target-arm-Explicit-v7M-cores-use-arm_cpu_has_work-a.patch=0D
-0018-target-arm-Restrict-has_work-handler-to-sysemu-and-T.patch=0D
-0039-accel-tcg-Remove-CPUClass-has_work.patch=0D
-0040-accel-tcg-Simplify-tcg_cpu_has_work.patch=0D
-=0D
-Since v5:=0D
-- Rework ARM v7M case (pm215)=0D
-- Reorder patch logic (rth)=0D
-=0D
-Since v4:=0D
-- Implement arm_v7m_cpu_has_work() (new patch)=0D
-- Assert has_work() handlers are set, don't use default value=0D
-- Fix ARM v7M and cris CPUs=0D
-- Reset R-b tags on modified patches=0D
-=0D
-Since v3:=0D
-- Remove pointless CONFIG_TCG uses (rth)=0D
-- Rework PPC patches, still using indirection=0D
-=0D
-Since v2:=0D
-- Full rewrite, no more RFC.=0D
-=0D
-Supersedes: <20210920214447.2998623-1-f4bug@amsat.org>=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (40):=0D
-  accel: Simplify qemu_init_vcpu()=0D
-  accel/tcg: Restrict cpu_handle_halt() to sysemu=0D
-  hw/core: Restrict cpu_has_work() to sysemu=0D
-  hw/core: Un-inline cpu_has_work()=0D
-  hw/core: Move cpu_common_has_work() to cpu_has_work()=0D
-  accel: Introduce AccelOpsClass::has_work()=0D
-  accel/kvm: Implement AccelOpsClass::has_work()=0D
-  accel/whpx: Implement AccelOpsClass::has_work()=0D
-  accel/hvf: Implement AccelOpsClass::has_work()=0D
-  accel/xen: Implement AccelOpsClass::has_work()=0D
-  accel/hax: Implement AccelOpsClass::has_work()=0D
-  accel/nvmm: Implement AccelOpsClass::has_work()=0D
-  accel/qtest: Implement AccelOpsClass::has_work()=0D
-  accel/tcg: Implement AccelOpsClass::has_work()=0D
-  accel: Simplify cpu_has_work()=0D
-  accel/tcg: Introduce TCGCPUOps::has_work()=0D
-  target/arm: Explicit v7M cores use arm_cpu_has_work as=0D
-    CPUClass:has_work=0D
-  target/arm: Restrict has_work() handler to sysemu and TCG=0D
-  target/avr: Restrict has_work() handler to sysemu=0D
-  target/cris: Restrict has_work() handler to sysemu=0D
-  target/hexagon: Remove unused has_work() handler=0D
-  target/hppa: Restrict has_work() handler to sysemu=0D
-  target/i386: Restrict has_work() handler to sysemu and TCG=0D
-  target/m68k: Restrict has_work() handler to sysemu=0D
-  target/microblaze: Restrict has_work() handler to sysemu=0D
-  target/mips: Restrict has_work() handler to sysemu and TCG=0D
-  target/nios2: Restrict has_work() handler to sysemu=0D
-  target/openrisc: Restrict has_work() handler to sysemu=0D
-  target/ppc: Introduce PowerPCCPUClass::has_work()=0D
-  target/ppc: Restrict has_work() handlers to sysemu and TCG=0D
-  target/riscv: Restrict has_work() handler to sysemu and TCG=0D
-  target/rx: Restrict has_work() handler to sysemu=0D
-  target/s390x: Restrict has_work() handler to sysemu and TCG=0D
-  target/sh4: Restrict has_work() handler to sysemu=0D
-  target/sparc: Remove pointless use of CONFIG_TCG definition=0D
-  target/sparc: Restrict has_work() handler to sysemu=0D
-  target/tricore: Restrict has_work() handler to sysemu=0D
-  target/xtensa: Restrict has_work() handler to sysemu=0D
-  accel/tcg: Remove CPUClass::has_work()=0D
-  accel/tcg: Simplify tcg_cpu_has_work()=0D
-=0D
- include/hw/core/cpu.h             | 28 +++++++++--------------=0D
- include/hw/core/tcg-cpu-ops.h     |  4 ++++=0D
- include/sysemu/accel-ops.h        |  5 +++++=0D
- target/arm/internals.h            |  4 ++++=0D
- target/ppc/cpu-qom.h              |  3 +++=0D
- accel/hvf/hvf-accel-ops.c         |  6 +++++=0D
- accel/kvm/kvm-accel-ops.c         |  6 +++++=0D
- accel/qtest/qtest.c               |  6 +++++=0D
- accel/tcg/cpu-exec.c              | 10 +++++++--=0D
- accel/tcg/tcg-accel-ops.c         |  9 ++++++++=0D
- accel/xen/xen-all.c               |  6 +++++=0D
- hw/core/cpu-common.c              |  6 -----=0D
- softmmu/cpus.c                    | 17 +++++++++-----=0D
- target/arm/cpu.c                  |  9 +++++---=0D
- target/arm/cpu_tcg.c              |  1 +=0D
- target/avr/cpu.c                  |  2 +-=0D
- target/cris/cpu.c                 |  5 ++++-=0D
- target/hexagon/cpu.c              |  6 -----=0D
- target/hppa/cpu.c                 |  4 +++-=0D
- target/i386/cpu.c                 |  6 -----=0D
- target/i386/hax/hax-accel-ops.c   |  6 +++++=0D
- target/i386/nvmm/nvmm-accel-ops.c |  6 +++++=0D
- target/i386/tcg/tcg-cpu.c         |  8 ++++++-=0D
- target/i386/whpx/whpx-accel-ops.c |  6 +++++=0D
- target/m68k/cpu.c                 |  4 +++-=0D
- target/microblaze/cpu.c           |  8 +++----=0D
- target/mips/cpu.c                 |  4 +++-=0D
- target/nios2/cpu.c                |  4 +++-=0D
- target/openrisc/cpu.c             |  4 +++-=0D
- target/ppc/cpu_init.c             | 37 ++++++++++++++++++++++---------=0D
- target/riscv/cpu.c                |  8 +++----=0D
- target/rx/cpu.c                   |  4 +++-=0D
- target/s390x/cpu.c                |  4 +++-=0D
- target/sh4/cpu.c                  |  5 +++--=0D
- target/sparc/cpu.c                |  6 ++---=0D
- target/tricore/cpu.c              |  6 ++++-=0D
- target/xtensa/cpu.c               | 14 ++++++------=0D
- 37 files changed, 189 insertions(+), 88 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+cpus_register_accel() already checks for ops->create_vcpu_thread
+being non-NULL, so it is pointless to re-check for it in
+qemu_init_vcpu().
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ softmmu/cpus.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 071085f840b..646326b24fd 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -604,7 +604,10 @@ void cpu_remove_sync(CPUState *cpu)
+ void cpus_register_accel(const AccelOpsClass *ops)
+ {
+     assert(ops != NULL);
+-    assert(ops->create_vcpu_thread != NULL); /* mandatory */
++
++    /* Mandatory non-NULL handlers */
++    assert(ops->create_vcpu_thread != NULL);
++
+     cpus_accel = ops;
+ }
+ 
+@@ -626,7 +629,7 @@ void qemu_init_vcpu(CPUState *cpu)
+     }
+ 
+     /* accelerators all implement the AccelOpsClass */
+-    g_assert(cpus_accel != NULL && cpus_accel->create_vcpu_thread != NULL);
++    g_assert(cpus_accel != NULL);
+     cpus_accel->create_vcpu_thread(cpu);
+ 
+     while (!cpu->created) {
+-- 
+2.31.1
+
 
