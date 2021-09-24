@@ -2,44 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9BA416FFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:07:49 +0200 (CEST)
-Received: from localhost ([::1]:37662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7589417033
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:19:18 +0200 (CEST)
+Received: from localhost ([::1]:38840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTi7Q-0001tt-Ag
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:07:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44154)
+	id 1mTiIX-0005mK-P5
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mThvv-0008JS-1A; Fri, 24 Sep 2021 05:55:55 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:52243)
+ id 1mThvz-00007j-3N; Fri, 24 Sep 2021 05:55:59 -0400
+Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:51189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mThvs-0003H9-0t; Fri, 24 Sep 2021 05:55:54 -0400
+ id 1mThvx-0003Tz-7Z; Fri, 24 Sep 2021 05:55:58 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HG6pz1jplz4xbV; Fri, 24 Sep 2021 19:55:39 +1000 (AEST)
+ id 4HG6pz1nfhz4xbR; Fri, 24 Sep 2021 19:55:39 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632477339;
- bh=QrtqFXuoGm02BVmn7+hf+bh6Sx8eMrzKqlRQ71LDqd8=;
+ bh=Q/D0dn/QZi1yQEkazIOxAV1MoaDq5WpsIXbFbi3vBtk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=E1iiYr92QUt0xFn1mSrVLr5SqRZeaT10gaFcWovapntdxEa2WFh7kaucs7mtK/QcZ
- ORqLJjEmqIypioi1UeLG1kfJgwnSGh77ouzbrIPtztLEgg7QC5xHeNucCMzNGRjdB1
- p2c5TogaSZBBXOaMN+xUJYWrD51Z1+y/06kYjkr0=
+ b=YjIlgUtyGtXk9NEd0/iBGXs7qi6wP9Sfuz0/K/aqVI88bX4/IDyJ6HgCBogC/z+qu
+ pHwJsGndO5OCsZ3FKIQfyMOrUgErs7Jgnc2G8LHf8XX3g6aNGnYMCFgghi3vV+v5hc
+ Ksd6ZVg6Q1C5dDF0qRgZ0RiIekFu2F51xvK+9hM4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 3/5] MAINTAINERS: Remove David & Greg as
- reviewers/co-maintainers of powernv
-Date: Fri, 24 Sep 2021 19:55:34 +1000
-Message-Id: <20210924095536.441849-4-david@gibson.dropbear.id.au>
+Subject: [PATCH v2 4/5] MAINTAINERS: Add information for OpenPIC
+Date: Fri, 24 Sep 2021 19:55:35 +1000
+Message-Id: <20210924095536.441849-5-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210924095536.441849-1-david@gibson.dropbear.id.au>
 References: <20210924095536.441849-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,42 +63,50 @@ Cc: peter.maydell@linaro.org, dbarboza@redhat.com, hpussin@reactos.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With our interests moving to other areas, Greg and myself no longer have
-capacity to be regular reviewers of code for the powernv machine type, let
-alone co-maintainers.  Additionally, not being IBM employees, we don't have
-easy access to the hardware information we'd need for good review.
+The OpenPIC interrupt controller was once the de facto standard on ppc
+machines.  In qemu it's now only used on some Macintosh and the
+Freescale e500 machine.  It has no listed maintainer, and as far as I
+know, no-one who's really familiar with it any more.
 
-Therefore, remove our names as reviewers and/or co-maintainers of the
-powernv machine type, and the related XIVE interrupt controller.
+Since I'm moving away from the area, I no longer have capacity to do even
+minimal maintenance of it under the auspices of the ppc targets in general.
+
+Therefore, this patch lists the main part of openpic, and marks it as
+"Odd Fixes" to be looked after by Mark Cave-Ayland who handles the
+Macintosh targets.  The openpic_kvm variant is only used on e500, so
+add it to the files for that machine type (itself already Orphaned).
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- MAINTAINERS | 4 ----
- 1 file changed, 4 deletions(-)
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 20436be86f..c82a634a70 100644
+index c82a634a70..937c191c8d 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1329,8 +1329,6 @@ F: tests/qtest/libqos/rtas*
+@@ -1256,6 +1256,8 @@ F: hw/pci-host/ppce500.c
+ F: include/hw/ppc/ppc_e500.h
+ F: include/hw/pci-host/ppce500.h
+ F: pc-bios/u-boot.e500
++F: hw/intc/openpic_kvm.h
++F: include/hw/ppc/openpic_kvm.h
  
- PowerNV (Non-Virtualized)
- M: Cédric Le Goater <clg@kaod.org>
--M: David Gibson <david@gibson.dropbear.id.au>
--M: Greg Kurz <groug@kaod.org>
+ mpc8544ds
  L: qemu-ppc@nongnu.org
- S: Maintained
- F: hw/ppc/pnv*
-@@ -2222,8 +2220,6 @@ T: git https://github.com/philmd/qemu.git fw_cfg-next
+@@ -2255,6 +2257,12 @@ F: net/can/*
+ F: hw/net/can/*
+ F: include/net/can_*.h
  
- XIVE
- M: Cédric Le Goater <clg@kaod.org>
--R: David Gibson <david@gibson.dropbear.id.au>
--R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Supported
- F: hw/*/*xive*
++OpenPIC interrupt controller
++M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
++S: Odd Fixes
++F: hw/intc/openpic.c
++F: include/hw/ppc/openpic.h
++
+ Subsystems
+ ----------
+ Overall Audio backends
 -- 
 2.31.1
 
