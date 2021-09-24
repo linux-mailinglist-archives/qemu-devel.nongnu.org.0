@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5AD0416E87
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 11:08:52 +0200 (CEST)
-Received: from localhost ([::1]:35356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A013F416EA2
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 11:12:28 +0200 (CEST)
+Received: from localhost ([::1]:44054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mThCN-0006rE-N0
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 05:08:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35988)
+	id 1mThFr-0004Xz-Mp
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 05:12:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTh8g-00038x-5L
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:05:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57909)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTh8o-0003Dt-2i
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:05:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29910)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTh8e-0002LP-Ea
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:05:01 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTh8l-0002Qn-2F
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:05:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632474299;
+ s=mimecast20190719; t=1632474306;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WVZZuZu4LsfvcVGJuILGBV61qwCzXv4Jk2+5G7mxNqM=;
- b=GM685lBJvI62oWopRfJI48U/9qOe/FY0EjCSZL8euMfLmnAnQy+eia8kHYu1TmKr4PthYw
- tn1yNs4w2olil5PYX0fpd2EyAdBipkaxNnsf/16IAdJOOUdm5rGl6OWqnkdiB70UC7wwhs
- nLlmjWtDjT6S8rFspxp8+ejxJK4Kfi4=
+ bh=UsQ4v0z1HIL1RRBjmY+F/DST9tQdONVmLarwTyqDWXI=;
+ b=go4iHEW0Y5+COl3gyzg0iYrTuzvIsQhfPuNe1O4cOnSTqfpqt5gPEj0bZfyC3/vOTGFHcL
+ TrxytcmhZsAhEdyvnLgVBYnEM43XBIZaU6BB53UmIo8JRH83fhIVj/QPkarwn5FQlPpiBw
+ kmpHRJKSi512PgggWGLnVkYSou1mfqE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-_fp_qkgBONK4UPnYMzo-ng-1; Fri, 24 Sep 2021 05:04:56 -0400
-X-MC-Unique: _fp_qkgBONK4UPnYMzo-ng-1
+ us-mta-528-fk_OErqWP5-0famckv_YJQ-1; Fri, 24 Sep 2021 05:05:04 -0400
+X-MC-Unique: fk_OErqWP5-0famckv_YJQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2FD61006AA3;
- Fri, 24 Sep 2021 09:04:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6F591923765;
+ Fri, 24 Sep 2021 09:05:03 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F06A55D9DD;
- Fri, 24 Sep 2021 09:04:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3AD545D9DD;
+ Fri, 24 Sep 2021 09:04:56 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/11] qom: Reduce use of error_propagate()
-Date: Fri, 24 Sep 2021 11:04:17 +0200
-Message-Id: <20210924090427.9218-2-kwolf@redhat.com>
+Subject: [PATCH 02/11] iotests/245: Fix type for iothread property
+Date: Fri, 24 Sep 2021 11:04:18 +0200
+Message-Id: <20210924090427.9218-3-kwolf@redhat.com>
 In-Reply-To: <20210924090427.9218-1-kwolf@redhat.com>
 References: <20210924090427.9218-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -82,78 +82,31 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ERRP_GUARD() makes debugging easier by making sure that &error_abort
-still fails at the real origin of the error instead of
-error_propagate().
+iothread is a string property, so None (= JSON null) is not a valid
+value for it. Pass the empty string instead to get the default iothread.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qom/object.c            |  7 +++----
- qom/object_interfaces.c | 17 ++++++-----------
- 2 files changed, 9 insertions(+), 15 deletions(-)
+ tests/qemu-iotests/245 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qom/object.c b/qom/object.c
-index e86cb05b84..6be710bc40 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1389,7 +1389,7 @@ bool object_property_get(Object *obj, const char *name, Visitor *v,
- bool object_property_set(Object *obj, const char *name, Visitor *v,
-                          Error **errp)
- {
--    Error *err = NULL;
-+    ERRP_GUARD();
-     ObjectProperty *prop = object_property_find_err(obj, name, errp);
+diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+index bf8261eec0..9b12b42eed 100755
+--- a/tests/qemu-iotests/245
++++ b/tests/qemu-iotests/245
+@@ -1189,10 +1189,10 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+         self.run_test_iothreads('iothread0', 'iothread0')
  
-     if (prop == NULL) {
-@@ -1400,9 +1400,8 @@ bool object_property_set(Object *obj, const char *name, Visitor *v,
-         error_setg(errp, QERR_PERMISSION_DENIED);
-         return false;
-     }
--    prop->set(obj, v, name, prop->opaque, &err);
--    error_propagate(errp, err);
--    return !err;
-+    prop->set(obj, v, name, prop->opaque, errp);
-+    return !*errp;
- }
+     def test_iothreads_switch_backing(self):
+-        self.run_test_iothreads('iothread0', None)
++        self.run_test_iothreads('iothread0', '')
  
- bool object_property_set_str(Object *obj, const char *name,
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index ad9b56b59a..80691e88cd 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -45,26 +45,21 @@ bool user_creatable_can_be_deleted(UserCreatable *uc)
- static void object_set_properties_from_qdict(Object *obj, const QDict *qdict,
-                                              Visitor *v, Error **errp)
- {
-+    ERRP_GUARD();
-     const QDictEntry *e;
--    Error *local_err = NULL;
+     def test_iothreads_switch_overlay(self):
+-        self.run_test_iothreads(None, 'iothread0')
++        self.run_test_iothreads('', 'iothread0')
  
--    if (!visit_start_struct(v, NULL, NULL, 0, &local_err)) {
--        goto out;
-+    if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
-+        return;
-     }
-     for (e = qdict_first(qdict); e; e = qdict_next(qdict, e)) {
--        if (!object_property_set(obj, e->key, v, &local_err)) {
-+        if (!object_property_set(obj, e->key, v, errp)) {
-             break;
-         }
-     }
--    if (!local_err) {
--        visit_check_struct(v, &local_err);
-+    if (!*errp) {
-+        visit_check_struct(v, errp);
-     }
-     visit_end_struct(v, NULL);
--
--out:
--    if (local_err) {
--        error_propagate(errp, local_err);
--    }
- }
- 
- void object_set_properties_from_keyval(Object *obj, const QDict *qdict,
+ if __name__ == '__main__':
+     iotests.activate_logging()
 -- 
 2.31.1
 
