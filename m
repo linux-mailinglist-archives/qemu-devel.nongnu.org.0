@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FDE3417450
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 15:06:17 +0200 (CEST)
-Received: from localhost ([::1]:51564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E84B417451
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 15:06:25 +0200 (CEST)
+Received: from localhost ([::1]:52482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTku8-0002vg-1g
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 09:06:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49214)
+	id 1mTkuG-0003X2-M1
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 09:06:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mTkV9-0005jN-Aq
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:40:29 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34663)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mTkV7-0005a5-Ly
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:40:26 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id t8so27235712wri.1
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 05:40:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zZvv+hgGy2Jgnk7C22oZUrKiS+A9mleLS2YPo919jNI=;
- b=DecSg/djRdXdgxwzQWGUrXO/VAoS5MXrTthXcEK1i+qyeaODv7o1ZMekwtaRErYK4j
- wDaB9P7C/shpj6gratP9WJFwVdh0Dj0WIN+NPg2zAnQX+7Y+EZ9osmvTjb9rcnWHPUcx
- 66Fjhi5uPRxmwSDWnkp1Ow7PFAAyoyNkfSIsnseJ/eQdshzf3Bn0UHAB4nOmk+Z3ndW4
- T5CnasqPZcoJXc8Oahx+Pb7lz1LNA1JecieUnQVmjh8G6ShYCPCnenw07O0u9IqLSk9M
- nSJBCvNuT6tvpLqqLbmyxkzZGdpu8FSFfJhW2Hei68IlnzyH7RqYnlQCruJTBG5FrQcy
- mkJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zZvv+hgGy2Jgnk7C22oZUrKiS+A9mleLS2YPo919jNI=;
- b=3FNzlWlpeFsLOKxmSWrE3BU/3puL4slAuRiJHlXUnkLbezVaMdM6k9A/fntZ4+BI9v
- lAPSWhz5GlyqOQRdVDUmFesCQKL9hPRKMSl/ogo4W8z83V247CkQBir8RjlrQaMb8Q7c
- FUg+hjKKeJVRS6LxZXk+9yfa399r4r9jyKaUtc6l6PcVDdzK+iGVvv8NCm5qiXwHBApi
- JlaV33cDRDOrlcOhGSWQgsbUj91chNE89ERSIbKgFP/AOQySsZxUMw5Ik8UN58JPTGdH
- 68z9mWt7BziUtLZrVjWGFQvqrWnGTf8+eKD8GYOnEBDTNMiz+b+RL7Y3s/rQ7aEB2gx9
- 7o/g==
-X-Gm-Message-State: AOAM530qO5XScdd6FZgF+KpRUZqacJLKbPGpXKCZMALa7rAcbJ99cUGM
- iAnqK1Jep3wRkWOXEeaIrbre3QteN8W5AnzumpqYIQ==
-X-Google-Smtp-Source: ABdhPJwmYhFlidLHTdTnTIHWsBzXzI00yN6ilKzIKm7mPURkNB2mDNob7UI9iQuOgewrSbZ4YSDO8VaaIbYgkY9BZtE=
-X-Received: by 2002:a7b:c0c5:: with SMTP id s5mr1953384wmh.126.1632487222550; 
- Fri, 24 Sep 2021 05:40:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mTkVD-0005kp-Rd
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:40:32 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:45791)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mTkVB-0005cJ-8M
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:40:31 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.134])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6AA57BFE335A;
+ Fri, 24 Sep 2021 14:40:26 +0200 (CEST)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 24 Sep
+ 2021 14:40:25 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G00520f46b41-558f-461c-8043-a1a5a5e2594c,
+ EA4874C54EC1FB151381C7D8681494D1EB26EF60) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <71b9a1a8-7d76-ff7c-db47-7c8e9b4d87b5@kaod.org>
+Date: Fri, 24 Sep 2021 14:40:24 +0200
 MIME-Version: 1.0
-References: <20190218140607.31998-1-armbru@redhat.com>
- <20190218140607.31998-19-armbru@redhat.com>
- <CAFEAcA9tzLOwbzO56HjhPUM2yTT7xxfkkOYX3OHVfKT-UC14gA@mail.gmail.com>
- <874kaarwou.fsf@dusky.pond.sub.org>
-In-Reply-To: <874kaarwou.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 Sep 2021 13:39:29 +0100
-Message-ID: <CAFEAcA8mMzzgKyDbUUTh+W0r=5C0_HJv+7MMZ3Rdx-E2vcsRZA@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PULL 18/18] qapi: move RTC_CHANGE to the target
- schema
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [RFC PATCH] spapr/xive: Allocate vCPU IPIs from local context
+Content-Language: en-US
+To: Greg Kurz <groug@kaod.org>
+References: <20210922144120.1277504-1-clg@kaod.org>
+ <20210923111249.33c41068@bahia.huguette>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20210923111249.33c41068@bahia.huguette>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 74c9e227-646d-4437-98e3-12d90056c765
+X-Ovh-Tracer-Id: 14355505291308010403
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudejuddgheehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,37 +70,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 Sept 2021 at 13:21, Markus Armbruster <armbru@redhat.com> wrote:
-> ... this isn't really *target*-specific, it's *device*-specific: some
-> devices implement the event, some don't.
->
-> Ideally, we'd just fix that.
+On 9/23/21 11:12, Greg Kurz wrote:
+> On Wed, 22 Sep 2021 16:41:20 +0200
+> Cédric Le Goater <clg@kaod.org> wrote:
+> 
+>> When QEMU switches to the XIVE interrupt mode, it creates all possible
+>> guest interrupts at the level of the KVM device. These interrupts are
+>> backed by real HW interrupts from the IPI interrupt pool of the XIVE
+>> controller.
+>>
+>> Currently, this is done from the QEMU main thread, which results in
+>> allocating all interrupts from the chip on which QEMU is running. IPIs
+>> are not distributed across the system and the load is not well
+>> balanced across the interrupt controllers.
+>>
+>> To improve distribution on the system, we should try to allocate the
+>> underlying HW IPI from the vCPU context. This also benefits to
+>> configurations using CPU pinning. In this case, the HW IPI is
+>> allocated on the local chip, rerouting between interrupt controllers
+>> is reduced and performance improved.
+>>
+>> This moves the initialization of the vCPU IPIs from reset time to the
+>> H_INT_SET_SOURCE_CONFIG hcall which is called from the vCPU context.
+>> But this needs some extra checks in the sequences getting and setting
+>> the source states to make sure a valid HW IPI is backing the guest
+>> interrupt. For that, we check if a target was configured in the END in
+>> case of a vCPU IPI.
+>>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>
+>>   I have tested different SMT configurations, kernel_irqchip=off/on,
+>>   did some migrations, CPU hotplug, etc. It's not enough and I would
+>>   like more testing but, at least, it is not making anymore the bad
+>>   assumption vCPU id = IPI number.
+>>
+> 
+> Yeah, the IPI number is provided by the guest, so h_int_set_source_config()
+> is really the only place where we can know the IPI number of a given vCPU.
 
-Would you want to tell the far end "this machine simply does
-not have an RTC device at all (because the hardware it's emulating
-doesn't have one) and so you won't get RTC_CHANGE events" ?
+The patch lacks a run_on_cpu() to perform the reset on the vCPU context
+to be complete.
 
-A good first step for getting more devices to implement the
-RTC_CHANGE support would be if there was any documentation on how
-to do it. The JSON schema says the offset should be "offset between
-base RTC clock (as specified by -rtc base), and new RTC clock value",
-but there aren't any hints (either there or elsewhere) as to how a
-device is supposed to determine that value, and there's no
-documentation of what the behaviour or intent is of the
-qemu_timedate_diff() function that the existing implementations
-use to calculate the offset.
+> 
+>>   Comments ?
+>>
+> 
+> LGTM but I didn't check if more users of xive_end_is_valid() should
+> be converted to using xive_source_is_initialized().
 
-Side note: probably the JSON schema should document the units
-for 'offset'. Code inspection suggests it wants seconds.
+I think you mean xive_eas_is_valid() ?
 
-Side side note: the JSON event doesn't seem to contemplate
-the possibility that a machine might have more than one RTC...
+The changes only impact KVM support since we are deferring the IRQ
+initialization at the KVM level. What we have to be careful about is not
+accessing an ESB page of an interrupt that would not have been initiliazed
+in the KVM device, else QEMU gets a sigbus.
 
-thanks
--- PMM
+That only happens when QEMU gets/sets the ESB states.
+  
+> Any chance you have some perf numbers to share ?
+
+I will try.
+
+Thanks,
+
+C.
+
+  
+>>   hw/intc/spapr_xive.c     | 17 +++++++++++++++++
+>>   hw/intc/spapr_xive_kvm.c | 36 +++++++++++++++++++++++++++++++-----
+>>   2 files changed, 48 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+>> index 6f31ce74f198..2dc594a720b1 100644
+>> --- a/hw/intc/spapr_xive.c
+>> +++ b/hw/intc/spapr_xive.c
+>> @@ -1089,6 +1089,23 @@ static target_ulong h_int_set_source_config(PowerPCCPU *cpu,
+>>       if (spapr_xive_in_kernel(xive)) {
+>>           Error *local_err = NULL;
+>>   
+>> +        /*
+>> +         * Initialize the vCPU IPIs from the vCPU context to allocate
+>> +         * the backing HW IPI on the local chip. This improves
+>> +         * distribution of the IPIs in the system and when the vCPUs
+>> +         * are pinned, it reduces rerouting between interrupt
+>> +         * controllers for better performance.
+>> +         */
+>> +        if (lisn < SPAPR_XIRQ_BASE) {
+>> +            XiveSource *xsrc = &xive->source;
+>> +
+>> +            kvmppc_xive_source_reset_one(xsrc, lisn, &local_err);
+>> +            if (local_err) {
+>> +                error_report_err(local_err);
+>> +                return H_HARDWARE;
+>> +            }
+>> +        }
+>> +
+>>           kvmppc_xive_set_source_config(xive, lisn, &new_eas, &local_err);
+>>           if (local_err) {
+>>               error_report_err(local_err);
+>> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+>> index 53731d158625..1607a59e9483 100644
+>> --- a/hw/intc/spapr_xive_kvm.c
+>> +++ b/hw/intc/spapr_xive_kvm.c
+>> @@ -254,7 +254,12 @@ static int kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
+>>       SpaprXive *xive = SPAPR_XIVE(xsrc->xive);
+>>       int i;
+>>   
+>> -    for (i = 0; i < xsrc->nr_irqs; i++) {
+>> +    /*
+>> +     * vCPU IPIs are initialized at the KVM level when configured by
+>> +     * H_INT_SET_SOURCE_CONFIG.
+>> +     */
+>> +
+>> +    for (i = SPAPR_XIRQ_BASE; i < xsrc->nr_irqs; i++) {
+>>           int ret;
+>>   
+>>           if (!xive_eas_is_valid(&xive->eat[i])) {
+>> @@ -342,6 +347,27 @@ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int srcno, uint32_t offset,
+>>       }
+>>   }
+>>   
+>> +static bool xive_source_is_initialized(SpaprXive *xive, int lisn)
+>> +{
+>> +    assert(lisn < xive->nr_irqs);
+>> +
+>> +    if (!xive_eas_is_valid(&xive->eat[lisn])) {
+>> +        return false;
+>> +    }
+>> +
+>> +    /*
+>> +     * vCPU IPIs are initialized at the KVM level when configured by
+>> +     * H_INT_SET_SOURCE_CONFIG, in which case, we should have a valid
+>> +     * target (server, priority) in the END.
+>> +     */
+>> +    if (lisn < SPAPR_XIRQ_BASE) {
+>> +        return !!xive_get_field64(EAS_END_INDEX, xive->eat[lisn].w);
+>> +    }
+>> +
+>> +    /* Device sources */
+>> +    return true;
+>> +}
+>> +
+>>   static void kvmppc_xive_source_get_state(XiveSource *xsrc)
+>>   {
+>>       SpaprXive *xive = SPAPR_XIVE(xsrc->xive);
+>> @@ -350,7 +376,7 @@ static void kvmppc_xive_source_get_state(XiveSource *xsrc)
+>>       for (i = 0; i < xsrc->nr_irqs; i++) {
+>>           uint8_t pq;
+>>   
+>> -        if (!xive_eas_is_valid(&xive->eat[i])) {
+>> +        if (!xive_source_is_initialized(xive, i)) {
+>>               continue;
+>>           }
+>>   
+>> @@ -533,7 +559,7 @@ static void kvmppc_xive_change_state_handler(void *opaque, bool running,
+>>               uint8_t pq;
+>>               uint8_t old_pq;
+>>   
+>> -            if (!xive_eas_is_valid(&xive->eat[i])) {
+>> +            if (!xive_source_is_initialized(xive, i)) {
+>>                   continue;
+>>               }
+>>   
+>> @@ -561,7 +587,7 @@ static void kvmppc_xive_change_state_handler(void *opaque, bool running,
+>>       for (i = 0; i < xsrc->nr_irqs; i++) {
+>>           uint8_t pq;
+>>   
+>> -        if (!xive_eas_is_valid(&xive->eat[i])) {
+>> +        if (!xive_source_is_initialized(xive, i)) {
+>>               continue;
+>>           }
+>>   
+>> @@ -666,7 +692,7 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
+>>   
+>>       /* Restore the EAT */
+>>       for (i = 0; i < xive->nr_irqs; i++) {
+>> -        if (!xive_eas_is_valid(&xive->eat[i])) {
+>> +        if (!xive_source_is_initialized(xive, i)) {
+>>               continue;
+>>           }
+>>   
+> 
+
 
