@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24E741731E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 14:53:08 +0200 (CEST)
-Received: from localhost ([::1]:45598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB796417359
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 14:56:43 +0200 (CEST)
+Received: from localhost ([::1]:53924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTkhP-0004yM-Ot
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 08:53:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47210)
+	id 1mTkks-0002Is-OS
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 08:56:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mTkK8-000578-JI
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:29:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20164)
+ id 1mTkKF-0005Hq-UB
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:29:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mTkK7-0001Lj-4t
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:29:04 -0400
+ id 1mTkKE-0001Nk-DB
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:29:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632486542;
+ s=mimecast20190719; t=1632486549;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z4/YWLSBqqeMmHP6hSJ1ULbYNSkIWxvKkzA1HweO/+c=;
- b=U0qK1lVTOPx1+CjIJ5Gyfps78obD/XvjS1r8OmAOWuLJIDzhPsdAk/5sWODshg9JD9QU3p
- bc6tSLIZi4/5IdYCmrtWkXi0Ut2cJZcPytslusDm0ogIbqxfEhM8LK6IHfPoA3/yTKGOck
- v4lw4l1Nf4rtW43XdyN7DYBkcdWURjA=
+ bh=xq5+StopWEUnuq+MsOZSu5IW44+pUvinYBGFVLXEkME=;
+ b=K03Nxe0mtBGMNvL0+/shduGEDo+xB50hHd/2DnHXjTBxy8iTpgwkM7YW1HY5Cf85agfINn
+ zrKEZefeVTxNC75O2tyPG1nH40n/QuFyvUU/ulgzg3Jb9WLl/bM3HlbYnwuvU3ZVc6//lq
+ hIjnbJxIodjO0wY3yZtglJaK96hJHic=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-sBVss0sOP2aiSavRvs9IaA-1; Fri, 24 Sep 2021 08:29:01 -0400
-X-MC-Unique: sBVss0sOP2aiSavRvs9IaA-1
+ us-mta-52-aqgZ7Lk9OEWsSTfimXFPOg-1; Fri, 24 Sep 2021 08:29:08 -0400
+X-MC-Unique: aqgZ7Lk9OEWsSTfimXFPOg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE6781922965;
- Fri, 24 Sep 2021 12:28:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D14A101F008;
+ Fri, 24 Sep 2021 12:29:07 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 52F6462465;
- Fri, 24 Sep 2021 12:28:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 434D96A901;
+ Fri, 24 Sep 2021 12:29:00 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 13/35] acpi: x86: build_dsdt: use
+Subject: [PATCH v4 14/35] acpi: build_hpet: use
  acpi_table_begin()/acpi_table_end() instead of build_header()
-Date: Fri, 24 Sep 2021 08:27:40 -0400
-Message-Id: <20210924122802.1455362-14-imammedo@redhat.com>
+Date: Fri, 24 Sep 2021 08:27:41 -0400
+Message-Id: <20210924122802.1455362-15-imammedo@redhat.com>
 In-Reply-To: <20210924122802.1455362-1-imammedo@redhat.com>
 References: <20210924122802.1455362-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -80,7 +80,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ani@anisinha.ca, Eric Auger <eric.auger@redhat.com>, mst@redhat.com
+Cc: ani@anisinha.ca, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -88,48 +88,89 @@ it replaces error-prone pointer arithmetic for build_header() API,
 with 2 calls to start and finish table creation,
 which hides offsets magic from API user.
 
+while at it convert build_hpet() to endian agnostic
+build_append_FOO() API
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
 ---
 v3:
   * s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
 
 CC: marcel.apfelbaum@gmail.com
 ---
- hw/i386/acpi-build.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ include/hw/acpi/acpi-defs.h | 13 -------------
+ hw/i386/acpi-build.c        | 26 ++++++++++++++++++--------
+ 2 files changed, 18 insertions(+), 21 deletions(-)
 
+diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+index f6d2ca172b..4d8f8b34b0 100644
+--- a/include/hw/acpi/acpi-defs.h
++++ b/include/hw/acpi/acpi-defs.h
+@@ -358,19 +358,6 @@ struct AcpiGenericTimerTable {
+ } QEMU_PACKED;
+ typedef struct AcpiGenericTimerTable AcpiGenericTimerTable;
+ 
+-/*
+- * HPET Description Table
+- */
+-struct Acpi20Hpet {
+-    ACPI_TABLE_HEADER_DEF                    /* ACPI common table header */
+-    uint32_t           timer_block_id;
+-    struct AcpiGenericAddress addr;
+-    uint8_t            hpet_number;
+-    uint16_t           min_tick;
+-    uint8_t            page_protect;
+-} QEMU_PACKED;
+-typedef struct Acpi20Hpet Acpi20Hpet;
+-
+ /*
+  * SRAT (NUMA topology description) table
+  */
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index dfaa47cdc2..7b54ab01c9 100644
+index 7b54ab01c9..1587fe5a20 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -1405,12 +1405,12 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
- #endif
-     int i;
-     VMBusBridge *vmbus_bridge = vmbus_bridge_find();
-+    AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
-+                        .oem_table_id = x86ms->oem_table_id };
- 
-+    acpi_table_begin(&table, table_data);
-     dsdt = init_aml_allocator();
- 
--    /* Reserve space for header */
--    acpi_data_push(dsdt->buf, sizeof(AcpiTableHeader));
--
-     build_dbg_aml(dsdt);
-     if (misc->is_piix4) {
-         sb_scope = aml_scope("_SB");
-@@ -1845,9 +1845,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
- 
-     /* copy AML table into ACPI tables blob and patch header there */
-     g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
--    build_header(linker, table_data,
--        (void *)(table_data->data + table_data->len - dsdt->buf->len),
--                 "DSDT", dsdt->buf->len, 1, x86ms->oem_id, x86ms->oem_table_id);
-+    acpi_table_end(linker, &table);
+@@ -1849,22 +1849,32 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
      free_aml_allocator();
  }
  
++/*
++ * IA-PC HPET (High Precision Event Timers) Specification (Revision: 1.0a)
++ * 3.2.4The ACPI 2.0 HPET Description Table (HPET)
++ */
+ static void
+ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+            const char *oem_table_id)
+ {
+-    Acpi20Hpet *hpet;
+-    int hpet_start = table_data->len;
++    AcpiTable table = { .sig = "HPET", .rev = 1,
++                        .oem_id = oem_id, .oem_table_id = oem_table_id };
+ 
+-    hpet = acpi_data_push(table_data, sizeof(*hpet));
++    acpi_table_begin(&table, table_data);
+     /* Note timer_block_id value must be kept in sync with value advertised by
+      * emulated hpet
+      */
+-    hpet->timer_block_id = cpu_to_le32(0x8086a201);
+-    hpet->addr.address = cpu_to_le64(HPET_BASE);
+-    build_header(linker, table_data,
+-                 (void *)(table_data->data + hpet_start),
+-                 "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
++    /* Event Timer Block ID */
++    build_append_int_noprefix(table_data, 0x8086a201, 4);
++    /* BASE_ADDRESS */
++    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 0, 0, 0, HPET_BASE);
++    /* HPET Number */
++    build_append_int_noprefix(table_data, 0, 1);
++    /* Main Counter Minimum Clock_tick in Periodic Mode */
++    build_append_int_noprefix(table_data, 0, 2);
++    /* Page Protection And OEM Attribute */
++    build_append_int_noprefix(table_data, 0, 1);
++    acpi_table_end(linker, &table);
+ }
+ 
+ #ifdef CONFIG_TPM
 -- 
 2.27.0
 
