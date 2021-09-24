@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860FD41798F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:17:09 +0200 (CEST)
-Received: from localhost ([::1]:45226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A70417987
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:15:09 +0200 (CEST)
+Received: from localhost ([::1]:39796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mToou-0000o0-Dn
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:17:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48612)
+	id 1mTomz-0005Xh-0F
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:15:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mToYA-00031g-S3
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:50 -0400
-Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:34472)
+ id 1mToYB-00033C-Dv
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:51 -0400
+Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:33402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mToY8-00076p-Q1
+ id 1mToY9-00077M-Hv
  for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:50 -0400
-Received: by mail-qk1-x733.google.com with SMTP id i132so29018409qke.1
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 09:59:48 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id a9so6724948qvf.0
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 09:59:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TpDW54Nw8YhHP+9jPj0cxZwWHyAWvFzhUjsYMPCYrAg=;
- b=xIMJ5M1DSDv0410bZB+xxE1p8qx9lod20d293kf53rxCA5EjFT3njJJ95x8bvOHK2A
- xN3BbstZM5SxiHB11evg/HZoLjt1Kpvi0zjEdVFrW7D2qyVzfc7atyWLpvbefPq5g13K
- 4HAdMCEZyKGwVhzsFZtowPkzJ11cgviLwdHGvkOa9A3YsWVHRbg5JOhNBQk7UP71+cfh
- C9yLZ+Mio/Iy9Q+t74rf9LkTNxE7cAeiCdcxtm1TJn5cGeB44VeRLzKNvswjHP2oyjp8
- V81I//bgL0v96XaDVV8VrsdjvIAkv4Okwyro/IdIRhrEvgLiyGb3p9h1Q+J9oH6palB2
- d4eg==
+ bh=6YUMG9BLv2uEtpi53x6iY+Kj4bYcd7Wn5Zd273lBD+w=;
+ b=nUkAvkf43ZVpU71HQ49DEBhet9R30v4JNPpMuXHZjlitnrmgEgjbmbNLWt3gtIFMm0
+ MMFemC5bEeVaP/4v+iOr7hIw+J5C71ggsaZzc3F8TToMdWa/Vf2MN9+0Kej1xdUhFNBg
+ ZfWdgECkhnFRymiw9sT0EZdKh7dvI5VwCSXpQstJW+EJmE1twPPVq3QGPXRI8MUTGDxG
+ p8uXJr6rvbZePRvaNgo4FjyxgpcLPce2VmTMkbZOZsRHkCNPByEoqebO3mXWYyBFibu+
+ u+gS1tWWkoItVV5CbDk0HnQJkwCV05qTVr7KNUmfy9XiN7c0XDasJSsPC3Fa6AzD6pKG
+ 7NUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TpDW54Nw8YhHP+9jPj0cxZwWHyAWvFzhUjsYMPCYrAg=;
- b=MfuP75aw2rSNhLPWB4K1umNJw9vle2b2REmh11WwNL1dyOwsfXzD8igd34TY9Bl+7u
- SoT2GgPmjo01WUACW1o+42+uVNHxzcKKe7SeQBBk1VmyAU5TBW4nKn2OrTs8OAPaWuH5
- VWw66wqUFSRbDB0glJcxhr6LoSjGhT1EQvbd0aYViVdCrTobQSAQH0dWfwxMI+tVGy28
- 8YDlrBbavgqfl2nNjdpa9GjV2euMSwt5B/zaJw4FtELoh0jBz4OrHJRi9ETqUdvkQtON
- ov9fhNiRX5IJAgt92AmXdienghuYlLHDPcAASSwsFsTKOSFs6BTd3sgKLaVTuGND2T/c
- v/Lw==
-X-Gm-Message-State: AOAM530IRy5OLygDolUywo2ohZLHQarPsdrdqkw/JdPhnMYj8m1OV9dJ
- MfOoJW4FFzzZT/qZVBuqqQoIEIywqDw2HA==
-X-Google-Smtp-Source: ABdhPJyWttNgDLxAsEHui6tEnE62a9ium5B8PhIf5W2Nqgo55rO3O9oGnTYrEo0gefbBKMPE/VFnFQ==
-X-Received: by 2002:a37:f613:: with SMTP id y19mr11365789qkj.524.1632502787902; 
- Fri, 24 Sep 2021 09:59:47 -0700 (PDT)
+ bh=6YUMG9BLv2uEtpi53x6iY+Kj4bYcd7Wn5Zd273lBD+w=;
+ b=FSCsVpXU6SkQS43HS9kUMs/FHDHavEV+7nHwgQE1NqU0MKgPoTn9W4CCTZ7XecX8KE
+ Oz5xGiV+9UxvB2WUzqIHUyzZTUPFUvVjzZDQWI+dKqpSFTRmJGHCtYqx1Cj6xO1qLovK
+ aWbDm+DDSfccSYr0lJN2lSzeaG/d/tYmgJ0fs43tZK49uQuBEkzX87Xbudr5aF2CZSvf
+ gB8Ikw+7meoO6x7ibqGhD39D0fMHtlfUm6dmqDFnyLWVByBwsgIQZ0CA9l8/GfOIlUvj
+ KiXu73VOe0yqH3LjIWJm02jGAlhDumiIX4STvxVCFkIVK9pGMvQmoV5l/3qQGdPtkWBr
+ DOoQ==
+X-Gm-Message-State: AOAM532KQYwR53Kt759PXKEvvh4QtRCnTejNJZA0b9IaOWltAmgWsi2u
+ 2Qx8X4sC3bzbe4LP0T739Z+0G1ExFgtLfA==
+X-Google-Smtp-Source: ABdhPJwdQFb4rPF2GHwyW1e9pnyPTFC0R2bUOowBoM9vYPCTaXra4BXWT48HtNDzO4VfhrUiHhXFiQ==
+X-Received: by 2002:a05:6214:13e3:: with SMTP id
+ ch3mr10927371qvb.35.1632502788632; 
+ Fri, 24 Sep 2021 09:59:48 -0700 (PDT)
 Received: from localhost.localdomain (cpe-24-74-129-96.carolina.res.rr.com.
  [24.74.129.96])
- by smtp.gmail.com with ESMTPSA id r13sm7141104qkk.73.2021.09.24.09.59.47
+ by smtp.gmail.com with ESMTPSA id r13sm7141104qkk.73.2021.09.24.09.59.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 09:59:47 -0700 (PDT)
+ Fri, 24 Sep 2021 09:59:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 26/27] linux-user/xtensa: Implement setup_sigtramp
-Date: Fri, 24 Sep 2021 12:59:25 -0400
-Message-Id: <20210924165926.752809-27-richard.henderson@linaro.org>
+Subject: [PATCH v3 27/27] linux-user: Remove default for
+ TARGET_ARCH_HAS_SIGTRAMP_PAGE
+Date: Fri, 24 Sep 2021 12:59:26 -0400
+Message-Id: <20210924165926.752809-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210924165926.752809-1-richard.henderson@linaro.org>
 References: <20210924165926.752809-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x733.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,109 +87,33 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, laurent@vivier.eu,
- Max Filippov <jcmvbkbc@gmail.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create and record the rt signal trampoline.
-Use it when the guest does not use SA_RESTORER.
+All targets now define TARGET_ARCH_HAS_SIGTRAMP_PAGE.
 
-Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/xtensa/target_signal.h |  2 ++
- linux-user/xtensa/signal.c        | 56 ++++++++++++++++++++-----------
- 2 files changed, 38 insertions(+), 20 deletions(-)
+ linux-user/elfload.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/linux-user/xtensa/target_signal.h b/linux-user/xtensa/target_signal.h
-index c60bf656f6..1c7ee73154 100644
---- a/linux-user/xtensa/target_signal.h
-+++ b/linux-user/xtensa/target_signal.h
-@@ -20,4 +20,6 @@ typedef struct target_sigaltstack {
- 
- #include "../generic/signal.h"
- 
-+#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
-+
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 7b3a91b3ed..f6a4f8f489 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -30,10 +30,6 @@
+ #undef ELF_ARCH
  #endif
-diff --git a/linux-user/xtensa/signal.c b/linux-user/xtensa/signal.c
-index 7a3bfb92ca..81572a5fc7 100644
---- a/linux-user/xtensa/signal.c
-+++ b/linux-user/xtensa/signal.c
-@@ -128,6 +128,29 @@ static int setup_sigcontext(struct target_rt_sigframe *frame,
-     return 1;
- }
  
-+static void install_sigtramp(uint8_t *tramp)
-+{
-+#ifdef TARGET_WORDS_BIGENDIAN
-+    /* Generate instruction:  MOVI a2, __NR_rt_sigreturn */
-+    __put_user(0x22, &tramp[0]);
-+    __put_user(0x0a, &tramp[1]);
-+    __put_user(TARGET_NR_rt_sigreturn, &tramp[2]);
-+    /* Generate instruction:  SYSCALL */
-+    __put_user(0x00, &tramp[3]);
-+    __put_user(0x05, &tramp[4]);
-+    __put_user(0x00, &tramp[5]);
-+#else
-+    /* Generate instruction:  MOVI a2, __NR_rt_sigreturn */
-+    __put_user(0x22, &tramp[0]);
-+    __put_user(0xa0, &tramp[1]);
-+    __put_user(TARGET_NR_rt_sigreturn, &tramp[2]);
-+    /* Generate instruction:  SYSCALL */
-+    __put_user(0x00, &tramp[3]);
-+    __put_user(0x50, &tramp[4]);
-+    __put_user(0x00, &tramp[5]);
-+#endif
-+}
-+
- void setup_rt_frame(int sig, struct target_sigaction *ka,
-                     target_siginfo_t *info,
-                     target_sigset_t *set, CPUXtensaState *env)
-@@ -164,26 +187,9 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     if (ka->sa_flags & TARGET_SA_RESTORER) {
-         ra = ka->sa_restorer;
-     } else {
--        ra = frame_addr + offsetof(struct target_rt_sigframe, retcode);
--#ifdef TARGET_WORDS_BIGENDIAN
--        /* Generate instruction:  MOVI a2, __NR_rt_sigreturn */
--        __put_user(0x22, &frame->retcode[0]);
--        __put_user(0x0a, &frame->retcode[1]);
--        __put_user(TARGET_NR_rt_sigreturn, &frame->retcode[2]);
--        /* Generate instruction:  SYSCALL */
--        __put_user(0x00, &frame->retcode[3]);
--        __put_user(0x05, &frame->retcode[4]);
--        __put_user(0x00, &frame->retcode[5]);
--#else
--        /* Generate instruction:  MOVI a2, __NR_rt_sigreturn */
--        __put_user(0x22, &frame->retcode[0]);
--        __put_user(0xa0, &frame->retcode[1]);
--        __put_user(TARGET_NR_rt_sigreturn, &frame->retcode[2]);
--        /* Generate instruction:  SYSCALL */
--        __put_user(0x00, &frame->retcode[3]);
--        __put_user(0x50, &frame->retcode[4]);
--        __put_user(0x00, &frame->retcode[5]);
+-#ifndef TARGET_ARCH_HAS_SIGTRAMP_PAGE
+-#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 0
 -#endif
-+        /* Not used, but retain for ABI compatibility. */
-+        install_sigtramp(frame->retcode);
-+        ra = default_rt_sigreturn;
-     }
-     memset(env->regs, 0, sizeof(env->regs));
-     env->pc = ka->_sa_handler;
-@@ -264,3 +270,13 @@ badframe:
-     force_sig(TARGET_SIGSEGV);
-     return -TARGET_QEMU_ESIGRETURN;
- }
-+
-+void setup_sigtramp(abi_ulong sigtramp_page)
-+{
-+    uint8_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 6, 0);
-+    assert(tramp != NULL);
-+
-+    default_rt_sigreturn = sigtramp_page;
-+    install_sigtramp(tramp);
-+    unlock_user(tramp, sigtramp_page, 6);
-+}
+-
+ #define ELF_OSABI   ELFOSABI_SYSV
+ 
+ /* from personality.h */
 -- 
 2.25.1
 
