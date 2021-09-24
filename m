@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48DF416CF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 09:41:18 +0200 (CEST)
-Received: from localhost ([::1]:36106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43123416CF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 09:40:25 +0200 (CEST)
+Received: from localhost ([::1]:34366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTfpd-00055L-S3
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 03:41:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46718)
+	id 1mTfom-0003ro-11
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 03:40:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mTfmo-0001Zr-5E
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 03:38:23 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50190
+ id 1mTfmr-0001a9-Nf
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 03:38:26 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50194
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mTfml-0003cG-7N
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 03:38:21 -0400
+ id 1mTfmp-0003ez-Ce
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 03:38:25 -0400
 Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mTfmY-0002uw-4M; Fri, 24 Sep 2021 08:38:11 +0100
+ id 1mTfmd-0002uw-Js; Fri, 24 Sep 2021 08:38:15 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Fri, 24 Sep 2021 08:37:48 +0100
-Message-Id: <20210924073808.1041-1-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 24 Sep 2021 08:37:49 +0100
+Message-Id: <20210924073808.1041-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210924073808.1041-1-mark.cave-ayland@ilande.co.uk>
+References: <20210924073808.1041-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v6 00/20] nubus: bus, device, bridge,
- IRQ and address space improvements
+Subject: [PATCH v6 01/20] nubus: add comment indicating reference documents
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -63,117 +64,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset is the next set of changes required to boot MacOS on the q800 machine. The
-main aim of these patches is to improve the Nubus support so that devices can be plugged
-into the Nubus from the command line i.e.
-
-    -device nubus-macfb[,slot=num][,romfile=decl.rom]
-
-At the moment the only device that can be plugged into the Nubus is the macfb framebuffer
-however with these changes it is possible to take a ROM from a real Nubus card and
-attempt to use it in QEMU, and also allow for future interfaces such as virtio.
-
-Patches 1 to 6 move the logic which manages bus addresses from the NubusDevice into
-the NubusBus itself, including the introduction of a bitmap to manage available
-slots on the bus.
-
-Patches 7 and 8 change the handling for unassigned (empty) slots to generate a bus
-fault and add trace events to allow logging of empty slot accesses during Nubus
-enumeration.
-
-Patches 9 to 11 remove the existing stubs for generating the format block (the epilogue
-of the Nubus device embedded ROM consisting of metadata and a checksum) and replace them
-with a romfile device property to allow the entire Nubus ROM to be loaded from a file
-into the ROM area, similar to a PCI option ROM.
-
-Patch 12 moves the Nubus into its own separate address space whilst patches 13 to 17
-update the NubusBridge (and MacNubusBridge) devices to allow machines to map the
-required slots from the Nubus address space using sysbus_mmio_map().
-
-Finally patches 18 to 20 add support for Nubus IRQs and wire them up appropriately for
-the q800 machine through VIA2, which is required for the next set of macfb updates.
-
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/nubus/nubus-bus.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-
-v6:
-- Rebase onto master
-- Add extra R-B tags from Laurent and Philippe
-- Use int for ctz32() result in patches 4 and 5
-- Change slot_available_mask to uint16_t in patches 4 and 17
-- Fix typo in commit message for patch 4
-
-v5:
-- Rebase onto master
-- Add R-B tags from Laurent
-- Introduce NUBUS_FIRST_SLOT/NUBUS_LAST_SLOT and MAC_NUBUS_FIRST_SLOT/MAC_NUBUS_LAST_SLOT
-  and fix up NUBUS_SUPER_SLOT_NB/NUBUS_SLOT_NB in patch 4
-- Fix super slot offset calculation in patch 4
-- Squash original patch 3 ("nubus-device: add device slot parameter") into patch 4
-  ("nubus: use bitmap to manage available slots")
-- Add new patch 1 ("nubus: add comment indicating reference documents") containing
-  documentation references
-- Drop "nubus->slot_available_mask = MAKE_64BIT_MASK(0, 16);" from nubus_init() in patch 17
-  
-v4:
-- Rebase onto master
-- Pass &error_abort to memory_region_init_rom() in patch 11
-- Change warn_error() to error_setg() and tweak message in patch 11
-
-v3:
-- Rebase onto master
-- Add Phil's R-B for patch 7
-- Move NUBUS_FIRST_SLOT/NUBUS_LAST_SLOT check to end of nubus_device_realize() in patch 4
-- Use BIT() macro in patches 4 and 20
-
-v2:
-- Rebase onto master
-- Tweak the cover letter by adding the optional slot parameter in the -device example
-- Add R-B tags from Phil
-- Document the increase in max_access_size in patch 7
-- Change the maximum declaration ROM size to 128KiB using (128 * KiB) in patch 11
-- use MAKE_64BIT_MASK() in patches 4 and 16
-
-
-Mark Cave-Ayland (20):
-  nubus: add comment indicating reference documents
-  nubus-device: rename slot_nb variable to slot
-  nubus-device: expose separate super slot memory region
-  nubus: use bitmap to manage available slots
-  nubus: move slot bitmap checks from NubusDevice realize() to BusClass
-    check_address()
-  nubus: implement BusClass get_dev_path()
-  nubus: add trace-events for empty slot accesses
-  nubus: generate bus error when attempting to access empty slots
-  macfb: don't register declaration ROM
-  nubus-device: remove nubus_register_rom() and
-    nubus_register_format_block()
-  nubus-device: add romfile property for loading declaration ROMs
-  nubus: move nubus to its own 32-bit address space
-  nubus-bridge: introduce separate NubusBridge structure
-  mac-nubus-bridge: rename MacNubusState to MacNubusBridge
-  nubus: move NubusBus from mac-nubus-bridge to nubus-bridge
-  nubus-bridge: embed the NubusBus object directly within nubus-bridge
-  nubus-bridge: make slot_available_mask a qdev property
-  nubus: add support for slot IRQs
-  q800: wire up nubus IRQs
-  q800: configure nubus available slots for Quadra 800
-
- hw/display/macfb.c                  |   6 -
- hw/m68k/q800.c                      |  26 +++-
- hw/nubus/mac-nubus-bridge.c         |  34 ++++-
- hw/nubus/nubus-bridge.c             |  23 ++-
- hw/nubus/nubus-bus.c                | 120 ++++++++++++---
- hw/nubus/nubus-device.c             | 227 ++++++++--------------------
- hw/nubus/trace-events               |   7 +
- hw/nubus/trace.h                    |   1 +
- include/hw/nubus/mac-nubus-bridge.h |  13 +-
- include/hw/nubus/nubus.h            |  49 +++---
- meson.build                         |   1 +
- 11 files changed, 278 insertions(+), 229 deletions(-)
- create mode 100644 hw/nubus/trace-events
- create mode 100644 hw/nubus/trace.h
-
+diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
+index 5c13452308..f4410803ff 100644
+--- a/hw/nubus/nubus-bus.c
++++ b/hw/nubus/nubus-bus.c
+@@ -8,6 +8,14 @@
+  *
+  */
+ 
++/*
++ * References:
++ *   Nubus Specification (TI)
++ *     http://www.bitsavers.org/pdf/ti/nubus/2242825-0001_NuBus_Spec1983.pdf
++ *
++ *   Designing Cards and Drivers for the Macintosh Family (Apple)
++ */
++
+ #include "qemu/osdep.h"
+ #include "hw/nubus/nubus.h"
+ #include "qapi/error.h"
 -- 
 2.20.1
 
