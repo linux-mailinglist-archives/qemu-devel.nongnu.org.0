@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC940416FC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 11:57:22 +0200 (CEST)
-Received: from localhost ([::1]:39794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC154416FE8
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:05:39 +0200 (CEST)
+Received: from localhost ([::1]:34924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mThxJ-0001Hd-6r
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 05:57:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41558)
+	id 1mTi5K-0008Tg-VQ
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:05:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThhH-0005i6-1a; Fri, 24 Sep 2021 05:40:47 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36561)
+ id 1mThh1-0005FJ-2R
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:40:31 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThhE-0007Sd-Cp; Fri, 24 Sep 2021 05:40:46 -0400
-Received: by mail-wr1-x435.google.com with SMTP id g16so25535146wrb.3;
- Fri, 24 Sep 2021 02:40:43 -0700 (PDT)
+ id 1mThgz-0007Db-Mb
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:40:30 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id d6so25378576wrc.11
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 02:40:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=hyZE3nDTgOENPleOcICsAXRzDia9rRVIxphyjqCmuCc=;
- b=SkyJIPwUtLvJ+DsNSPO+QmjrSRIZhzenbp6gElMXAfbF7hEyk8Y6HrASKZkeliSY8m
- 2kcaqL7hXvjf29bB0W51Tu0ApZopoFg7ESg7qcMZzP+TsuPX9wFOQGMpTRZeaIHRWfhE
- FdC3n++tVGerb3wx52kd3apEuTE7+g2K4aEF2pdVbMjpUqDOsKMc4SmFcM2iPSR17e6z
- 4/iFVXknqJ3F2T4OfXGCngPLL/dATfQeh5cB/kmtBhDhTSenbTE+64j3/QIzNLw9eusf
- RMX8BesNHXJiFjyifAsUQDLqQUJ8oQdxLb3XJWTUVKODrhHlGdht/x4pIIt8twYfjvJv
- VkSg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Qq83gm6o51EoSTv2SvU60Q/ZscN9CmckVp0QDVwTqtI=;
+ b=KDCWAGWFJ7upO9THVyMnjHDFpep3f6zTACmCde0ZMovLrlalzOrwlvo0lsOtwv1e9g
+ SNo15gysmGyaSBA/QGdozSsmZ+A1XmwBCOgvUIqWpB4WNSFF27YuSx6lM5yOpNp7h92h
+ LLhywYEi/dmU48cSbtjRRxSiL3J+1yQ0gliA2gqR2BcG4/VvsaGcv4PK/5aGmzTByl8J
+ CepeMYtBlDcLq39aBtzBj4Evzm3zKncqK4CkACkRag5ohrQHiNHioSHZU92f/lwgwVGr
+ gL4sIAWEWtaVlOGir0Q0dcR+9zpwIMho4JOFBCGVQFuj4UuCnpZRxAomOaG/Z4Kxp/WA
+ h/gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=hyZE3nDTgOENPleOcICsAXRzDia9rRVIxphyjqCmuCc=;
- b=hviIcXcFVZB6VPsj9/qah7DVK9eZ8X3ReuRY0v2Dy6tiJ2KSXbkUhtLmGHFuHYx4pA
- N7nCktUwooyMxc80GEFjNWm/x5AYa8dH6Zg5zDv5QxpVc5AX6JwASuC6AovVxOkLmqHj
- yjdQSwrxgZYTb5IDfH9SpH3mY8fcKWR99en6O7uEHrrEjJ8WYksCuMGbYgkDGuOvSTR1
- NHM2/0756ypSg9uvt8zhaK93FvdWh/qzk3GO9NcZIIedqwSkNMbwtKfOoqkn0YbcbFip
- w2YfjLGpwk+TcQ18V90tLzQnRbOfAFDxpceTR32WwHKnRiemEpr9sN6BFPZH3/dBtxaC
- hZTg==
-X-Gm-Message-State: AOAM531Id8nV/sLzCOUwgkmutbx90IS8okGI1vLMI5BU7NOAkRr2rLN1
- nK/+ieZL1cxRQRgMhYzFByQ=
-X-Google-Smtp-Source: ABdhPJwb2TjkH0t/fyeHCaSEl7F3o6cJR7Z//F3sX1Zoybrg/nnFqfOF+gfeWB6U0UpDxXV+rU5hiw==
-X-Received: by 2002:a05:600c:22d4:: with SMTP id
- 20mr999876wmg.177.1632476442554; 
- Fri, 24 Sep 2021 02:40:42 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id f1sm7966000wrc.66.2021.09.24.02.40.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Sep 2021 02:40:41 -0700 (PDT)
-Message-ID: <012da8f3-1399-8eb9-d588-65e02e90183e@amsat.org>
-Date: Fri, 24 Sep 2021 11:40:40 +0200
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=Qq83gm6o51EoSTv2SvU60Q/ZscN9CmckVp0QDVwTqtI=;
+ b=Y80c4ffmMEdQKLD53eNJRJqCw9gHedaLAyRgvD08p18kmKO+ueBHoZw+0dLTgHaq2n
+ XNRQB9IjbxROyYp3pwyJ8IodGrYhf9O7IpV6AL+IDzRW9uCG9Add/1o+yAUd5ESGbEBM
+ Had+kV8YBVDgtRcyk3yfDHmSJvbbwEcWvfdrFfMUUeGP4g/B2J4mxdLOQrM69/fj7w1R
+ FO/XCwyl/1iBfS8wuOPM3SccfPSDRXeyfMKXvON7tWrmv3ICcJPoEHbMC/yn8jJNxN/V
+ mEfwbKBCQGxWy2qbj0JJsIFOw6xsyQasY8OH/xH/PRW/H77LAe93LbD4YuFNCJVu30sX
+ n7OA==
+X-Gm-Message-State: AOAM531cIG/tLAsWA2RZZ3Hw9T4mtDQkTf7ScI6VC0SJ0tX/ssf4Uhrb
+ Xjjff/W73cKXScuX9VaCKTBKH1llIzI=
+X-Google-Smtp-Source: ABdhPJw8GDZW7mDT3/NQPdK7CLRqqVrGF7VJGfXctgRgrFFg8nHO44TSZN+lIdC1lrT85tQ8cLkS2Q==
+X-Received: by 2002:a5d:63d2:: with SMTP id c18mr9942607wrw.311.1632476428088; 
+ Fri, 24 Sep 2021 02:40:28 -0700 (PDT)
+Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id
+ a25sm11606310wmj.34.2021.09.24.02.40.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Sep 2021 02:40:27 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 21/40] target/hexagon: Remove unused has_work() handler
+Date: Fri, 24 Sep 2021 11:38:28 +0200
+Message-Id: <20210924093847.1014331-22-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210924093847.1014331-1-f4bug@amsat.org>
+References: <20210924093847.1014331-1-f4bug@amsat.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH-for-6.2 0/2] disas/nios2: Simplify endianess conversion
-Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>, Chris Wulff <crwulff@gmail.com>,
- Marek Vasut <marex@denx.de>
-References: <20210807110939.95853-1-f4bug@amsat.org>
- <a99e29c5-0aed-2a7c-cbdd-ebaecc99a448@amsat.org>
- <aa70868b-78b0-838a-55cd-3a7399fc041f@vivier.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <aa70868b-78b0-838a-55cd-3a7399fc041f@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -91,45 +85,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Taylor Simpson <tsimpson@quicinc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cris and Marek, could you help me get this series merged?
+has_work() is sysemu specific, and Hexagon target only provides
+a linux-user implementation. Remove the unused hexagon_cpu_has_work().
 
-On 9/23/21 17:14, Laurent Vivier wrote:
-> Le 18/09/2021 à 11:19, Philippe Mathieu-Daudé a écrit :
->> Cc'ing qemu-trivial@ (series fully reviewed).
->>
-> 
-> An Acked-by from one of NiosII maintainers would be welcome.
-> 
-> Thanks,
-> Laurent
-> 
->> On 8/7/21 13:09, Philippe Mathieu-Daudé wrote:
->>> After chatting with Richard Henderson and Paolo Bonzini, we
->>> concluded the load/store API is mature enough to have target
->>> code endianess-agnostic.
->>> Thus we could remove the TARGET_WORDS_BIGENDIAN definition from
->>> target-specific code (restricting it to the binary format loaders).
->>>
->>> While experimenting, I noticed the Nios2 disassembler is an easy
->>> win. MIPS will follow shortly.
->>>
->>> Philippe Mathieu-Daudé (2):
->>>    disas/nios2: Fix style in print_insn_nios2()
->>>    disas/nios2: Simplify endianess conversion
->>>
->>>   include/disas/dis-asm.h |  3 +-
->>>   disas/nios2.c           | 71 ++++++++++++++++-------------------------
->>>   target/nios2/cpu.c      |  6 +---
->>>   3 files changed, 29 insertions(+), 51 deletions(-)
->>>
->>
-> 
-> 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/hexagon/cpu.c | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
+index 3338365c16e..aa01974807c 100644
+--- a/target/hexagon/cpu.c
++++ b/target/hexagon/cpu.c
+@@ -189,11 +189,6 @@ static void hexagon_cpu_synchronize_from_tb(CPUState *cs,
+     env->gpr[HEX_REG_PC] = tb->pc;
+ }
+ 
+-static bool hexagon_cpu_has_work(CPUState *cs)
+-{
+-    return true;
+-}
+-
+ void restore_state_to_opc(CPUHexagonState *env, TranslationBlock *tb,
+                           target_ulong *data)
+ {
+@@ -287,7 +282,6 @@ static void hexagon_cpu_class_init(ObjectClass *c, void *data)
+     device_class_set_parent_reset(dc, hexagon_cpu_reset, &mcc->parent_reset);
+ 
+     cc->class_by_name = hexagon_cpu_class_by_name;
+-    cc->has_work = hexagon_cpu_has_work;
+     cc->dump_state = hexagon_dump_state;
+     cc->set_pc = hexagon_cpu_set_pc;
+     cc->gdb_read_register = hexagon_gdb_read_register;
+-- 
+2.31.1
+
 
