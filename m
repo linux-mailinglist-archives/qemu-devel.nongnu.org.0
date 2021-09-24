@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D44417991
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:17:43 +0200 (CEST)
-Received: from localhost ([::1]:45518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 936F441792C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:03:00 +0200 (CEST)
+Received: from localhost ([::1]:59454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTopS-0000zs-QX
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:17:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48456)
+	id 1mTobD-0005jj-MS
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:02:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mToY6-0002hT-8K
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:46 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:34376)
+ id 1mToY4-0002gU-TI
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:44 -0400
+Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:33406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mToY1-00071A-RZ
+ id 1mToY1-00071g-RY
  for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:44 -0400
-Received: by mail-qt1-x829.google.com with SMTP id 2so10095821qtw.1
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 09:59:39 -0700 (PDT)
+Received: by mail-qv1-xf34.google.com with SMTP id a9so6724748qvf.0
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 09:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+2oTGkDFDH981BJQF84oTMrfB4/Msl13jtU0KS59bkI=;
- b=ZSoWJQ6iTMEkoSktMtaIQuTX41EcJ9GIq6ilGSxW5bucuCGbYejCOmEdCdxb/VzQSy
- pGO+OAMkFhZPTa5/S3EC/zjsLVi4+QWp7dFhkGXfa4CdTcfn5wRKcgviKQcpfFr/JBcx
- weOisHw04m1KU4GjgrpNN9dYnSgYtuZHUqtHLsYfXJgPQkPenEwve/Jfek3CL/qtJ1uB
- hJAt3Fq+O9mZufP6M/egdTdUGWtjyUd98tfayzeMGG7gdXFX82mOzAByd/7xjqgY4ROp
- SXs48lilT+YcG3L734Lkjd3cf5vBqyumPsZ9Z1vk+TCJRthsLB3GKe1jSHZFkf62ocNm
- Xs0g==
+ bh=QyWQEo+8inM5iDruY826QX36+Q2J0PKidDJBY0ejKxk=;
+ b=ObdanfZr1BcgLUvvWkMdYOEO77IQ8AWjbRSBuQ9axysAmhzOLHSO/AC2bBSdrUU1Gl
+ lExrkwmAVuiGcYDZWzXUr+qVPxytPecQhQ80w0hC+99tJ29W2XKzr/5hR6sRvxoF/8BD
+ dvSMl467KFLfOcqUnHSeQquGxfVa4yKf0Di74reozUbBN/JvxmAb2vcfRILFYxBaiAHl
+ r721b8jKTY6cz2hkuxlnKuEHESv/k/KCiOKHuEW5xHDpjUOLjLiBRQNktAnFA81RaJPO
+ DqILIryYDKSIw+DmpryQyv++eZb+lVhjC3mUtMVw3XSfhuVvGBNhv9tP4vPUyrfAa90V
+ y3Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+2oTGkDFDH981BJQF84oTMrfB4/Msl13jtU0KS59bkI=;
- b=nEIYUDTxzMtmy9WHJNGDoBGDlQ3evlWff3GGIqP1yahBDVakMrB2KrM+dkPTYKFWAB
- HTLTHURiH7IWda+sbjzn5WBcWoSoRyNVwF4bishmo6Pl2R0yOE+1lyI9m3+yBy8LyUu+
- V6YiKpJ4YUdFNU1MVo5VYQF8TTSOOwhBtleyWmBD0/RjG55USMnBVkCHnfE0EkdN7xh6
- pE67+J3if9IgIGJ32SqrQ72+TNV5cbGdkkVnwRb6rPrfd9vb6+CQtO4CZKE9A2HlP/4f
- SPe3Wlylc971gw8kaLP/R7iarMKPuK51j1uP7pZmHw5szBOMuNq3nsjJ2jiUYWENwo6j
- xICg==
-X-Gm-Message-State: AOAM533fR3lzqzlIR44NCIFOq3y5Gc7WFsqaJNYx47m8FrK7YdEd0Uv/
- cGK67Zo9Am2Rs1ckxBfCskSW3t5ilQaAlA==
-X-Google-Smtp-Source: ABdhPJzq6gCRutuqbmu2ZoHcpkwPoEFj53+dIpHWFH02y3FafTvV6KKO8ElDSWWe+dlLpoF97suxlg==
-X-Received: by 2002:ac8:71d1:: with SMTP id i17mr5231103qtp.210.1632502779205; 
+ bh=QyWQEo+8inM5iDruY826QX36+Q2J0PKidDJBY0ejKxk=;
+ b=zp4QWqmNpJyVNgKP/pkPXnRQrSYwMjjXSmHsDieJfbmpY7ww9xy0gcFNSjZfPfe0GX
+ 0BixiEJCclogyRPcuabJ30xY9HagyTqc+OU+xjgFQgVy4CP3HUn9OaHz2OvVxUvHaVNJ
+ 4lCvtZ1rNWeZdoAhffm3JjqBuwArVpBnhEODsiaPRqcxny2qdcpK1wsZlbGjNX+P57EI
+ SQLKCKkmvdEEMUhS2EDrSrFtQIgXE1IIo5HMzQUukogsYH68aX8iYgnrUDUKZfma827R
+ O6E547TOI0whLk6J5CcT7e8nSdiKqlek2sKwuB2zJmzdhwzafZOFHVfWQSzWXXpO24G8
+ tssQ==
+X-Gm-Message-State: AOAM531CdfDbh5zSWPextFFhX+mUrhimSvZ5/8VwBwAuyEgbWzbynqoq
+ FqfklZ+5HpR3trcKXm27erZ8gwZmnAILEg==
+X-Google-Smtp-Source: ABdhPJw+gV9C0wUZs6ULNe93EMc22YH+brLkcZtQhedOHFB4cYyQI7vb6MkcLPN8yVfucadIM0vMBw==
+X-Received: by 2002:a05:6214:4b4:: with SMTP id
+ w20mr11195739qvz.20.1632502779865; 
  Fri, 24 Sep 2021 09:59:39 -0700 (PDT)
 Received: from localhost.localdomain (cpe-24-74-129-96.carolina.res.rr.com.
  [24.74.129.96])
- by smtp.gmail.com with ESMTPSA id r13sm7141104qkk.73.2021.09.24.09.59.38
+ by smtp.gmail.com with ESMTPSA id r13sm7141104qkk.73.2021.09.24.09.59.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 09:59:38 -0700 (PDT)
+ Fri, 24 Sep 2021 09:59:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 15/27] linux-user/mips: Implement setup_sigtramp
-Date: Fri, 24 Sep 2021 12:59:14 -0400
-Message-Id: <20210924165926.752809-16-richard.henderson@linaro.org>
+Subject: [PATCH v3 16/27] linux-user/nios2: Properly emulate EXCP_TRAP
+Date: Fri, 24 Sep 2021 12:59:15 -0400
+Message-Id: <20210924165926.752809-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210924165926.752809-1-richard.henderson@linaro.org>
 References: <20210924165926.752809-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,114 +84,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, laurent@vivier.eu,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create and record the two signal trampolines.
+The real kernel has to load the instruction and extract
+the imm5 field; for qemu, modify the translator to do this.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The use of R_AT for this in cpu_loop was a bug.  Handle
+the other trap numbers as per the kernel's trap_table.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/mips/target_signal.h   |  1 +
- linux-user/mips64/target_signal.h |  2 ++
- linux-user/mips/signal.c          | 34 ++++++++++++++++++++++---------
- 3 files changed, 27 insertions(+), 10 deletions(-)
+ target/nios2/cpu.h          |  5 +++--
+ linux-user/nios2/cpu_loop.c | 35 ++++++++++++++++++-----------------
+ target/nios2/translate.c    | 17 ++++++++++++++++-
+ 3 files changed, 37 insertions(+), 20 deletions(-)
 
-diff --git a/linux-user/mips/target_signal.h b/linux-user/mips/target_signal.h
-index d521765f6b..780a4ddf29 100644
---- a/linux-user/mips/target_signal.h
-+++ b/linux-user/mips/target_signal.h
-@@ -73,6 +73,7 @@ typedef struct target_sigaltstack {
- /* compare linux/arch/mips/kernel/signal.c:setup_frame() */
- #define TARGET_ARCH_HAS_SETUP_FRAME
- #endif
-+#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index 2ab82fdc71..395e4d3281 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -158,9 +158,10 @@ struct Nios2CPUClass {
+ struct CPUNios2State {
+     uint32_t regs[NUM_CORE_REGS];
  
- /* bit-flags */
- #define TARGET_SS_AUTODISARM (1U << 31) /* disable sas during sighandling */
-diff --git a/linux-user/mips64/target_signal.h b/linux-user/mips64/target_signal.h
-index d857c55e4c..275e9b7f9a 100644
---- a/linux-user/mips64/target_signal.h
-+++ b/linux-user/mips64/target_signal.h
-@@ -76,4 +76,6 @@ typedef struct target_sigaltstack {
- /* compare linux/arch/mips/kernel/signal.c:setup_frame() */
- #define TARGET_ARCH_HAS_SETUP_FRAME
- #endif
-+#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
-+
- #endif /* MIPS64_TARGET_SIGNAL_H */
-diff --git a/linux-user/mips/signal.c b/linux-user/mips/signal.c
-index 64072779b9..8f79e405ec 100644
---- a/linux-user/mips/signal.c
-+++ b/linux-user/mips/signal.c
-@@ -209,8 +209,6 @@ void setup_frame(int sig, struct target_sigaction * ka,
-         goto give_sigsegv;
-     }
- 
--    install_sigtramp(frame->sf_code, TARGET_NR_sigreturn);
+-#if !defined(CONFIG_USER_ONLY)
++#ifdef CONFIG_USER_ONLY
++    int trap_code;
++#else
+     Nios2MMU mmu;
 -
-     setup_sigcontext(regs, &frame->sf_sc);
- 
-     for(i = 0; i < TARGET_NSIG_WORDS; i++) {
-@@ -231,7 +229,7 @@ void setup_frame(int sig, struct target_sigaction * ka,
-     regs->active_tc.gpr[ 5] = 0;
-     regs->active_tc.gpr[ 6] = frame_addr + offsetof(struct sigframe, sf_sc);
-     regs->active_tc.gpr[29] = frame_addr;
--    regs->active_tc.gpr[31] = frame_addr + offsetof(struct sigframe, sf_code);
-+    regs->active_tc.gpr[31] = default_sigreturn;
-     /* The original kernel code sets CP0_EPC to the handler
-     * since it returns to userland using eret
-     * we cannot do this here, and we must set PC directly */
-@@ -305,8 +303,6 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-         goto give_sigsegv;
-     }
- 
--    install_sigtramp(frame->rs_code, TARGET_NR_rt_sigreturn);
--
-     tswap_siginfo(&frame->rs_info, info);
- 
-     __put_user(0, &frame->rs_uc.tuc_flags);
-@@ -335,11 +331,13 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     env->active_tc.gpr[ 6] = frame_addr
-                              + offsetof(struct target_rt_sigframe, rs_uc);
-     env->active_tc.gpr[29] = frame_addr;
--    env->active_tc.gpr[31] = frame_addr
--                             + offsetof(struct target_rt_sigframe, rs_code);
--    /* The original kernel code sets CP0_EPC to the handler
--    * since it returns to userland using eret
--    * we cannot do this here, and we must set PC directly */
-+    env->active_tc.gpr[31] = default_rt_sigreturn;
+     uint32_t irq_pending;
+ #endif
+ };
+diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
+index 34290fb3b5..246293a501 100644
+--- a/linux-user/nios2/cpu_loop.c
++++ b/linux-user/nios2/cpu_loop.c
+@@ -39,9 +39,10 @@ void cpu_loop(CPUNios2State *env)
+         case EXCP_INTERRUPT:
+             /* just indicate that signals should be handled asap */
+             break;
 +
-+    /*
-+     * The original kernel code sets CP0_EPC to the handler
-+     * since it returns to userland using eret
-+     * we cannot do this here, and we must set PC directly
-+     */
-     env->active_tc.PC = env->active_tc.gpr[25] = ka->_sa_handler;
-     mips_set_hflags_isa_mode_from_pc(env);
-     unlock_user_struct(frame, frame_addr, 1);
-@@ -379,3 +377,19 @@ badframe:
-     force_sig(TARGET_SIGSEGV);
-     return -TARGET_QEMU_ESIGRETURN;
+         case EXCP_TRAP:
+-            if (env->regs[R_AT] == 0) {
+-                abi_long ret;
++            switch (env->trap_code) {
++            case 0:
+                 qemu_log_mask(CPU_LOG_INT, "\nSyscall\n");
+ 
+                 ret = do_syscall(env, env->regs[2],
+@@ -55,26 +56,26 @@ void cpu_loop(CPUNios2State *env)
+ 
+                 env->regs[2] = abs(ret);
+                 /* Return value is 0..4096 */
+-                env->regs[7] = (ret > 0xfffffffffffff000ULL);
+-                env->regs[CR_ESTATUS] = env->regs[CR_STATUS];
+-                env->regs[CR_STATUS] &= ~0x3;
+-                env->regs[R_EA] = env->regs[R_PC] + 4;
++                env->regs[7] = ret > 0xfffff000u;
+                 env->regs[R_PC] += 4;
+                 break;
+-            } else {
+-                qemu_log_mask(CPU_LOG_INT, "\nTrap\n");
+ 
+-                env->regs[CR_ESTATUS] = env->regs[CR_STATUS];
+-                env->regs[CR_STATUS] &= ~0x3;
+-                env->regs[R_EA] = env->regs[R_PC] + 4;
+-                env->regs[R_PC] = cpu->exception_addr;
+-
+-                info.si_signo = TARGET_SIGTRAP;
+-                info.si_errno = 0;
+-                info.si_code = TARGET_TRAP_BRKPT;
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            case 1:
++                qemu_log_mask(CPU_LOG_INT, "\nTrap 1\n");
++                force_sig_fault(TARGET_SIGUSR1, 0, env->regs[R_PC]);
++                break;
++            case 2:
++                qemu_log_mask(CPU_LOG_INT, "\nTrap 2\n");
++                force_sig_fault(TARGET_SIGUSR2, 0, env->regs[R_PC]);
++                break;
++            default:
++                qemu_log_mask(CPU_LOG_INT, "\nTrap %d\n", env->trap_code);
++                force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLTRP,
++                                env->regs[R_PC]);
+                 break;
+             }
++            break;
++
+         case EXCP_DEBUG:
+             info.si_signo = TARGET_SIGTRAP;
+             info.si_errno = 0;
+diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+index 08d7ac5398..485b487665 100644
+--- a/target/nios2/translate.c
++++ b/target/nios2/translate.c
+@@ -636,6 +636,21 @@ static void divu(DisasContext *dc, uint32_t code, uint32_t flags)
+     tcg_temp_free(t0);
  }
-+
-+void setup_sigtramp(abi_ulong sigtramp_page)
+ 
++static void trap(DisasContext *dc, uint32_t code, uint32_t flags)
 +{
-+    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 2 * 8, 0);
-+    assert(tramp != NULL);
-+
-+#ifdef TARGET_ARCH_HAS_SETUP_FRAME
-+    default_sigreturn = sigtramp_page;
-+    install_sigtramp(tramp, TARGET_NR_sigreturn);
++#ifdef CONFIG_USER_ONLY
++    /*
++     * The imm5 field is not stored anywhere on real hw; the kernel
++     * has to load the insn and extract the field.  But we can make
++     * things easier for cpu_loop if we pop this into env->trap_code.
++     */
++    R_TYPE(instr, code);
++    tcg_gen_st_i32(tcg_constant_i32(instr.imm5), cpu_env,
++                   offsetof(CPUNios2State, trap_code));
 +#endif
-+
-+    default_rt_sigreturn = sigtramp_page + 8;
-+    install_sigtramp(tramp + 2, TARGET_NR_rt_sigreturn);
-+
-+    unlock_user(tramp, sigtramp_page, 2 * 8);
++    t_gen_helper_raise_exception(dc, EXCP_TRAP);
 +}
++
+ static const Nios2Instruction r_type_instructions[] = {
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION(eret),                                /* eret */
+@@ -682,7 +697,7 @@ static const Nios2Instruction r_type_instructions[] = {
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION_ILLEGAL(),
+-    INSTRUCTION_FLG(gen_excp, EXCP_TRAP),             /* trap */
++    INSTRUCTION(trap),                                /* trap */
+     INSTRUCTION(wrctl),                               /* wrctl */
+     INSTRUCTION_ILLEGAL(),
+     INSTRUCTION_FLG(gen_cmpxx, TCG_COND_LTU),         /* cmpltu */
 -- 
 2.25.1
 
