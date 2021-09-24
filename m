@@ -2,79 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7455D417B1C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 20:29:46 +0200 (CEST)
-Received: from localhost ([::1]:44234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28ADF417B30
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 20:37:26 +0200 (CEST)
+Received: from localhost ([::1]:47866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTpxB-0005Oq-0X
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 14:29:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35124)
+	id 1mTq4a-0008GH-Ts
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 14:37:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1mTpvz-0004g8-Nm
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:28:31 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:42890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1mTpvy-0005xr-Bj
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:28:31 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id t4so28890961qkb.9
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 11:28:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=tBb3SdLu8c2ib5DHE1A1sRsuYR++mKDzLqBLMiS1QXw=;
- b=M+kXWxt/pcP6mjYXSRPBJet/f16QklbgNHF4uBaYq36uHuTuphuiDzLgTEeDrRey/H
- lr+zmtO7LArH8sIFTvZ6w1k0IK+uMR0kwTI5rAGr8gle/vJ+q11X3dwymyyJfsLFLpcy
- 50avYpf16rTx9irmeIOuIexnwbUujfKMmsmzVixOOzv4n4893NKjpwVFyv/wAbq+Uw24
- bGyj0qN6VEMTaETcd1WsDO5Gc8O1DUK1zNAML73eLzzTHwis1Dzoe27UO/iURdffJ5od
- FHHAVaDWfK4lWvsbQuLe1BZAblTDv5On1GmAKjqGhYX/IQ7wCI0qdq9vf37DPRsp5sXy
- +FpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=tBb3SdLu8c2ib5DHE1A1sRsuYR++mKDzLqBLMiS1QXw=;
- b=ld7c90eGi/I8Gko86pPGgsO5WFwZv8eVngZWdRVGgWN+iFEXilHjvqzE8pTy22+hSy
- CZE1c655tqBhA3fGlNAG4bKGuEHIGbmcC+otiZExKhbdFimBL9+EEL4hcsMZXiPjIsRw
- 27nVNH67DTyyVX7HMF+BV0/HLJviQ6WQLgJBvkXRnDkgC+a+dhA9Hpds/AXs9a6Qefat
- CZnGiX33SKX+jhI5RAIlm37/s/VceI8v4RvLJV3mPjNSzhaRXr3buctu9zd4+2cUZ5dy
- OEtP05ylSgWOH1D4WOmQEzsDqW2z89thCs8vW2Bro1hE4B3Q/HMv/GkIB/saHLnKReIr
- lYcQ==
-X-Gm-Message-State: AOAM5325iwUyUzEFsuKnSyHqb11wYHYgmCnP8NhxenTJtWskXZfwpV3m
- +ZiwutX0d49GactzD4i3RMY=
-X-Google-Smtp-Source: ABdhPJzUdTVh1s/odnfVvZ5OSckL21avavuGNNKtT+vnyDF4wq6/tT7MaN3+dzdyhbgFIheBxh/dZQ==
-X-Received: by 2002:a05:620a:142:: with SMTP id
- e2mr12330572qkn.249.1632508108861; 
- Fri, 24 Sep 2021 11:28:28 -0700 (PDT)
-Received: from [192.168.0.5] (d149-67-175-105.try.wideopenwest.com.
- [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id c19sm7160935qkl.63.2021.09.24.11.28.27
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 24 Sep 2021 11:28:27 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: Ping: [PATCH 0/2] cocoa.m: keyboard quality of life reborn
-From: Programmingkid <programmingkidx@gmail.com>
-In-Reply-To: <CAFEAcA9+0BS2m7FxPaiH9f1CF2BT=WxsjnknQ8hgh0RvgxX1JA@mail.gmail.com>
-Date: Fri, 24 Sep 2021 14:28:26 -0400
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E8EA40D4-5340-4EB4-835C-3F65EC60BA1D@gmail.com>
-References: <89CF5E51-5126-44EF-8311-136CDCC50D8D@gmail.com>
- <CAFEAcA9+0BS2m7FxPaiH9f1CF2BT=WxsjnknQ8hgh0RvgxX1JA@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=programmingkidx@gmail.com; helo=mail-qk1-x72d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mTq27-0006r1-Na; Fri, 24 Sep 2021 14:34:51 -0400
+Received: from [201.28.113.2] (port=21464 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mTq24-0002oa-TE; Fri, 24 Sep 2021 14:34:51 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 24 Sep 2021 15:34:44 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 7CE0B800BB0;
+ Fri, 24 Sep 2021 15:34:44 -0300 (-03)
+Subject: Re: [PATCH v3 03/15] target/ppc: PMU basic cycle count for pseries TCG
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20210903203116.80628-1-danielhb413@gmail.com>
+ <20210903203116.80628-4-danielhb413@gmail.com>
+ <fa7aa371-3fa0-e064-cf73-1c89508bba00@eldorado.org.br>
+ <9497e03c-69c3-c736-283f-b95331f4b2e2@gmail.com>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <b5d60603-6bd9-0323-1754-4eca8c9e5df0@eldorado.org.br>
+Date: Fri, 24 Sep 2021 15:34:44 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <9497e03c-69c3-c736-283f-b95331f4b2e2@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 24 Sep 2021 18:34:45.0029 (UTC)
+ FILETIME=[D8AC7D50:01D7B172]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,34 +61,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: richard.henderson@linaro.org, clg@kaod.org, qemu-ppc@nongnu.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 24/09/2021 11:41, Daniel Henrique Barboza wrote:
+> On 9/22/21 08:24, Matheus K. Ferst wrote:
+>> On 03/09/2021 17:31, Daniel Henrique Barboza wrote:
+>>> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você 
+>>> possa confirmar o remetente e saber que o conteúdo é seguro. Em caso 
+>>> de e-mail suspeito entre imediatamente em contato com o DTI.
+>>>
+>>> This patch adds the barebones of the PMU logic by enabling cycle
+>>> counting, done via the performance monitor counter 6. The overall logic
+>>> goes as follows:
+>>>
+>>> - a helper is added to control the PMU state on each MMCR0 write. This
+>>> allows for the PMU to start/stop as the frozen counter bit (MMCR0_FC)
+>>> is cleared or set;
+>>>
+>>> - MMCR0 reg initial value is set to 0x80000000 (MMCR0_FC set) to avoid
+>>> having to spin the PMU right at system init;
+>>>
+>>> - the intended usage is to freeze the counters by setting MMCR0_FC, do
+>>> any additional setting of events to be counted via MMCR1 (not
+>>> implemented yet) and enable the PMU by zeroing MMCR0_FC. Software must
+>>> freeze counters to read the results - on the fly reading of the PMCs
+>>> will return the starting value of each one.
+>>>
+>>> Since there will be more PMU exclusive code to be added next, put the
+>>> PMU logic in its own helper to keep all in the same place. The name of
+>>> the new helper file, power8_pmu.c, is an indicative that the PMU logic
+>>> has been tested with the IBM POWER chip family, POWER8 being the oldest
+>>> version tested. This doesn't mean that this PMU logic will break with
+>>> any other PPC64 chip that implements Book3s, but since we can't assert
+>>> that this PMU will work with all available Book3s emulated processors
+>>> we're choosing to be explicit.
+>>>
+>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>> ---
+>>
+>> <snip>
+>>
+>>> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+>>> index 0babde3131..c3e2e3d329 100644
+>>> --- a/target/ppc/translate.c
+>>> +++ b/target/ppc/translate.c
+>>> @@ -401,6 +401,24 @@ void spr_write_generic(DisasContext *ctx, int 
+>>> sprn, int gprn)
+>>>       spr_store_dump_spr(sprn);
+>>>   }
+>>>
+>>> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+>>> +void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
+>>> +{
+>>> +    /*
+>>> +     * helper_store_mmcr0 will make clock based operations that
+>>> +     * will cause 'bad icount read' errors if we do not execute
+>>> +     * gen_icount_io_start() beforehand.
+>>> +     */
+>>> +    gen_icount_io_start(ctx);
+>>> +    gen_helper_store_mmcr0(cpu_env, cpu_gpr[gprn]);
+>>> +}
+>>> +#else
+>>> +void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
+>>> +{
+>>> +    spr_write_generic(ctx, sprn, gprn);
+>>> +}
+>>> +#endif
+>>> +
+>>>   #if !defined(CONFIG_USER_ONLY)
+>>>   void spr_write_generic32(DisasContext *ctx, int sprn, int gprn)
+>>>   {
+>>> @@ -596,7 +614,10 @@ void spr_write_MMCR0_ureg(DisasContext *ctx, int 
+>>> sprn, int gprn)
+>>>       tcg_gen_andi_tl(t1, t1, ~(MMCR0_UREG_MASK));
+>>>       /* Keep all other bits intact */
+>>>       tcg_gen_or_tl(t1, t1, t0);
+>>> -    gen_store_spr(SPR_POWER_MMCR0, t1);
+>>> +
+>>> +    /* Overwrite cpu_gpr[gprn] and use spr_write_MMCR0() */
+>>> +    tcg_gen_mov_tl(cpu_gpr[gprn], t1);
+>>> +    spr_write_MMCR0(ctx, sprn + 0x10, gprn);
+>>
+>> IIUC, this makes writing to MMCR0 change the GPR value and expose the 
+>> unfiltered content of the SPR to problem state. It might be better to 
+>> call the helper directly or create another method that takes a TCGv as 
+>> an argument and call it from spr_write_MMCR0_ureg and spr_write_MMCR0.
+> 
+> I'm overwriting cpu_gpr[gprn] with t1, which is filtered by MMCR0_REG_MASK
+> right before, to re-use spr_write_MMCR0() since its API requires a gprn
+> index. The reason I'm re-using spr_write_MMCR0() here is to avoid code 
+> repetition
+> in spr_write_MMCR0_ureg(), which would need to repeat the same steps as
+> spr_write_MMCR0 (calling icount_io_start(), calling the helper, and then 
+> setting
+> DISAS_EXIT_UPDATE in a later patch).
+> 
+> The idea behind is that all PMU user_write() functions works the same as 
+> its
+> privileged counterparts but with some form of filtering done beforehand. 
+> Note
+> that this is kind of true in the previous patch as well - 
+> gen_store_spr() is
+> similar to the privileged function MMCR0 was using (spr_write_generic()) 
+> with
+> the exception of an optional qemu_log().
+> 
+> Maybe I should've made this clear in the previous patch, using 
+> spr_write_generic()
+> and overwriting cpu_gpr[gprn] with the filtered t1 content back there.
+> 
+> Speaking of which, since t1 is being filtered by MMCR0_REG_MASK before 
+> being used to
+> overwrite cpu_gpr[gprn], I'm not sure how this is exposing unfiltered 
+> content to
+> problem state. Can you elaborate?
 
+Suppose MMCR0 has the value 0x80000001 (FC and FCH) and problem state 
+executes an mtspr with the value 0x4000000 (unset FC and set PMAE) in 
+the GPR. The proposed code will do the following:
 
-> On Sep 24, 2021, at 5:26 AM, Peter Maydell <peter.maydell@linaro.org> =
-wrote:
->=20
-> On Fri, 24 Sept 2021 at 00:08, Programmingkid =
-<programmingkidx@gmail.com> wrote:
->>=20
->> Hi Peter, are you reviewing cocoa patches? Should someone else see =
-these patches?
->=20
-> Gerd sent out a message a while back suggesting that people interested
-> in the cocoa UI (we have had several people recently submit patches)
-> ought to start reviewing each others' patches. I would certainly
-> prefer it if those people who are actively using and working on
-> the cocoa UI could take on more of this review work.
->=20
-> -- PMM
+ > tcg_gen_andi_tl(t0, cpu_gpr[gprn], MMCR0_UREG_MASK);
 
-Problem is there isn't anyone else who does actually review cocoa =
-patches. Even if there were others, there is no guarantee their =
-suggestions would be something you agree with. Since you are the cocoa =
-maintainer the only opinion that ultimately matters is yours =F0=9F=98=81.=
+t0 = GPR & MMCR0_UREG_MASK = 0x4000000 & 0x84000080 = 0x4000000
 
+ > gen_load_spr(t1, SPR_POWER_MMCR0);
 
+t1 = MMCR0 = 0x80000001
 
+ > tcg_gen_andi_tl(t1, t1, ~(MMCR0_UREG_MASK));
+
+t1 = t1 & ~MMCR0_UREG_MASK = 0x80000001 & ~0x84000080 = 0x1
+
+ > tcg_gen_or_tl(t1, t1, t0);
+
+t1 = t1 | t0 = 0x4000000 | 0x1 = 0x4000001
+
+ > tcg_gen_mov_tl(cpu_gpr[gprn], t1);
+
+GPR = 0x4000001
+
+Now problem state knows that FCH is set.
+
+-- 
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
