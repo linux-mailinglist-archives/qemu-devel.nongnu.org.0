@@ -2,78 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A70417987
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:15:09 +0200 (CEST)
-Received: from localhost ([::1]:39796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D694179DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:28:03 +0200 (CEST)
+Received: from localhost ([::1]:36778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTomz-0005Xh-0F
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:15:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48614)
+	id 1mTozS-0005q7-9n
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:28:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mToYB-00033C-Dv
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:51 -0400
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:33402)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mToY9-00077M-Hv
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:50 -0400
-Received: by mail-qv1-xf2f.google.com with SMTP id a9so6724948qvf.0
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 09:59:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6YUMG9BLv2uEtpi53x6iY+Kj4bYcd7Wn5Zd273lBD+w=;
- b=nUkAvkf43ZVpU71HQ49DEBhet9R30v4JNPpMuXHZjlitnrmgEgjbmbNLWt3gtIFMm0
- MMFemC5bEeVaP/4v+iOr7hIw+J5C71ggsaZzc3F8TToMdWa/Vf2MN9+0Kej1xdUhFNBg
- ZfWdgECkhnFRymiw9sT0EZdKh7dvI5VwCSXpQstJW+EJmE1twPPVq3QGPXRI8MUTGDxG
- p8uXJr6rvbZePRvaNgo4FjyxgpcLPce2VmTMkbZOZsRHkCNPByEoqebO3mXWYyBFibu+
- u+gS1tWWkoItVV5CbDk0HnQJkwCV05qTVr7KNUmfy9XiN7c0XDasJSsPC3Fa6AzD6pKG
- 7NUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6YUMG9BLv2uEtpi53x6iY+Kj4bYcd7Wn5Zd273lBD+w=;
- b=FSCsVpXU6SkQS43HS9kUMs/FHDHavEV+7nHwgQE1NqU0MKgPoTn9W4CCTZ7XecX8KE
- Oz5xGiV+9UxvB2WUzqIHUyzZTUPFUvVjzZDQWI+dKqpSFTRmJGHCtYqx1Cj6xO1qLovK
- aWbDm+DDSfccSYr0lJN2lSzeaG/d/tYmgJ0fs43tZK49uQuBEkzX87Xbudr5aF2CZSvf
- gB8Ikw+7meoO6x7ibqGhD39D0fMHtlfUm6dmqDFnyLWVByBwsgIQZ0CA9l8/GfOIlUvj
- KiXu73VOe0yqH3LjIWJm02jGAlhDumiIX4STvxVCFkIVK9pGMvQmoV5l/3qQGdPtkWBr
- DOoQ==
-X-Gm-Message-State: AOAM532KQYwR53Kt759PXKEvvh4QtRCnTejNJZA0b9IaOWltAmgWsi2u
- 2Qx8X4sC3bzbe4LP0T739Z+0G1ExFgtLfA==
-X-Google-Smtp-Source: ABdhPJwdQFb4rPF2GHwyW1e9pnyPTFC0R2bUOowBoM9vYPCTaXra4BXWT48HtNDzO4VfhrUiHhXFiQ==
-X-Received: by 2002:a05:6214:13e3:: with SMTP id
- ch3mr10927371qvb.35.1632502788632; 
- Fri, 24 Sep 2021 09:59:48 -0700 (PDT)
-Received: from localhost.localdomain (cpe-24-74-129-96.carolina.res.rr.com.
- [24.74.129.96])
- by smtp.gmail.com with ESMTPSA id r13sm7141104qkk.73.2021.09.24.09.59.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 09:59:48 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 27/27] linux-user: Remove default for
- TARGET_ARCH_HAS_SIGTRAMP_PAGE
-Date: Fri, 24 Sep 2021 12:59:26 -0400
-Message-Id: <20210924165926.752809-28-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210924165926.752809-1-richard.henderson@linaro.org>
-References: <20210924165926.752809-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mTolI-0002zE-Fs
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:13:24 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:54457)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mTolG-0001KG-Nn
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:13:24 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-ENo2Fp9NO_qQ8kVL5nvJCQ-1; Fri, 24 Sep 2021 13:13:17 -0400
+X-MC-Unique: ENo2Fp9NO_qQ8kVL5nvJCQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC007801E72;
+ Fri, 24 Sep 2021 17:13:15 +0000 (UTC)
+Received: from bahia.huguette (unknown [10.39.192.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4474618AD4;
+ Fri, 24 Sep 2021 17:13:14 +0000 (UTC)
+Date: Fri, 24 Sep 2021 19:13:13 +0200
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [RFC PATCH] spapr/xive: Allocate vCPU IPIs from local context
+Message-ID: <20210924191313.36c9c8e9@bahia.huguette>
+In-Reply-To: <6936294c-f236-2179-cd90-d45af74e7179@kaod.org>
+References: <20210922144120.1277504-1-clg@kaod.org>
+ <20210923111249.33c41068@bahia.huguette>
+ <71b9a1a8-7d76-ff7c-db47-7c8e9b4d87b5@kaod.org>
+ <20210924154906.59da27f7@bahia.huguette>
+ <6936294c-f236-2179-cd90-d45af74e7179@kaod.org>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,35 +66,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, laurent@vivier.eu,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All targets now define TARGET_ARCH_HAS_SIGTRAMP_PAGE.
+On Fri, 24 Sep 2021 16:58:00 +0200
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- linux-user/elfload.c | 4 ----
- 1 file changed, 4 deletions(-)
+> [ ... ]
+>=20
+> >> The changes only impact KVM support since we are deferring the IRQ
+> >> initialization at the KVM level. What we have to be careful about is n=
+ot
+> >> accessing an ESB page of an interrupt that would not have been initili=
+azed
+> >> in the KVM device, else QEMU gets a sigbus.
+> >>
+> >=20
+> > Ok, so this is just needed on a path that leads to xive_esb_rw() or
+> > kvmppc_xive_esb_trigger(), right ?
+> >=20
+> > It seems that
+> >=20
+> > h_int_esb()
+> >   kvmppc_xive_esb_rw()
+> >=20
+> > can get there with an lisn provided by the guest, and I don't see any
+> > such check on the way : h_int_esb() only checks xive_eas_is_valid().
+>=20
+> This call is for LSI interrupts (device only) and not vCPU IPIs. see hcal=
+l
+> h_int_get_source_info(). I agree a hcall fuzzer could reach it.
+>=20
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 7b3a91b3ed..f6a4f8f489 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -30,10 +30,6 @@
- #undef ELF_ARCH
- #endif
- 
--#ifndef TARGET_ARCH_HAS_SIGTRAMP_PAGE
--#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 0
--#endif
--
- #define ELF_OSABI   ELFOSABI_SYSV
- 
- /* from personality.h */
--- 
-2.25.1
+Yes we tell the guest to use H_INT_ESB for LSIs only but I don't have
+the impression that it is forbidden for the guest to call H_INT_ESB
+for arbitrary interrupts.
+
+> An alternative solution would be to claim the vCPU IPIs on demand, like
+> we do for the MSIs, and not in spapr_irq_init(). It's a much bigger chang=
+e
+> tough, because the H_INT hcalls consider that the interrupt numbers have
+> been claimed.
+>=20
+
+Maybe it would be simpler to call xive_source_is_initialized() instead of
+xive_eas_is_valid() in cases like this, e.g. hcall code since it is shared
+between emulation and KVM ?
+
+> C.
 
 
