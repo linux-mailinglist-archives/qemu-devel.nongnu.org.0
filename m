@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD4F416FE7
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:05:38 +0200 (CEST)
-Received: from localhost ([::1]:34896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37EE6417023
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:14:19 +0200 (CEST)
+Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTi5J-0008Se-2x
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:05:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41622)
+	id 1mTiDi-0007dk-9G
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:14:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThhZ-0006A1-3D
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:41:08 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46671)
+ id 1mThht-0006Rr-42; Fri, 24 Sep 2021 05:41:26 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThhW-0007jg-Ps
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:41:04 -0400
-Received: by mail-wr1-x435.google.com with SMTP id t7so25382557wrw.13
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 02:41:02 -0700 (PDT)
+ id 1mThhc-0007oU-VK; Fri, 24 Sep 2021 05:41:24 -0400
+Received: by mail-wr1-x431.google.com with SMTP id d6so25384421wrc.11;
+ Fri, 24 Sep 2021 02:41:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h26pMLEnUsWrxMoqQtHQ2NCzZkcdqUGqN4k/9eCW+zM=;
- b=i2jgb4SG15wpDl0VMAQFSr1Uk8/q1R/C2bAbK7nfz1wKoH3oEdUogCeB8kPpkkrFg5
- fGwyFShCM54hUtUN5B26AzbrwEYxh+SrxNF7GIfDFAZUihESACkqIFwmKZ+aCxnhm+JN
- lzIXiK9gfSAVpsM2gX+dktjvdpajJ8HQcMKdeL2vzzOSd2NOQplJ+t379ort07PznYLW
- RwDcjvroIHR+n2TGnllT1MGz2Hzr2DHyC+dmA2vpUdP0bXnpBBf3RkrogWIEntkfVCNe
- 4ANDPpecf+ym3d9ID+dg/yzvQTxwq/E+Wnm25Me2GYx4s+Odi3yDZs5CVH9Fd9AcYJOY
- 3bZA==
+ bh=7WPGnjIwDqq9FNiuzjIUo9e3oGnINOP8qAvzXoIP118=;
+ b=DW3g0HBgSm72NyIUZ0l1AL3YPBRXrik2Fg9obkT6cJiYKQfvtQ2s3flA/ahT+eiRi+
+ WVxQX6nJyrImw7Gp35wLXIa792GtJmNYqosTL5mWwiuN8sPgRr0IFQmxvww5mlCnNKwU
+ 3Xj40Hy95be6qLgJym6m9CPDeZegIviYdMrvoQv9quZ+7F6sBw3oVrch0XBC/Lt41TmU
+ xPJrvk7bbBirlCLt/DzqIPtz7i5JgfIGNHzUYBXUQOSbCQxFj7TR38INRT/qge7J6JBi
+ ljzyB/t66cbNiqnEA+wspbJdbfHrvSiKrRSHKhuZS2caE6thtVxhKjOwkKkFZbVT70OX
+ NG9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=h26pMLEnUsWrxMoqQtHQ2NCzZkcdqUGqN4k/9eCW+zM=;
- b=ApPbe6XRnznXX2GcK8NldourglLO1ClZKBmtxNSNUr3VzoHtcAeqeTCvFy//XCeW2O
- Ia4JqbCccgCgzs3Co1pJtU9oUtc9XDhjX+ytXYeKjQWHRuRCrg7sGY4gohBGt14I05dH
- LEFZCGgvR2eZY+kqufnpB2762w4U//t2toZ/zaE/OYXNInpNq8WXmHUBfWHmk3EJ0piJ
- COPOjC3zIMtahENzfJl9FTIAPGCmzm0GNgrEx1uOKIz0Gd35N3zgI96v5N5D/UT5cPBh
- jppud0CO6MNG2ybyz8Gj8Jk7m4twXq8dPDiJCkgIMVE1vrGv6pXIQn7B4Rjxp8rVuGgQ
- tVGg==
-X-Gm-Message-State: AOAM532ulZNsR0G3ELwnL9QeBGAl7UgebHk95yKzox/W9v50tfonVe9U
- vlW3GRbwvvFE1iEzyf4XMnggvVvJPoY=
-X-Google-Smtp-Source: ABdhPJxPBqdq6C+OkU1AIPNDoICIzsm27N4kVsjTxh+NKpZ4u90T5oKFLdfLyIPpAUxSCCkKYx3Vvw==
-X-Received: by 2002:adf:e0cc:: with SMTP id m12mr10264279wri.62.1632476461266; 
- Fri, 24 Sep 2021 02:41:01 -0700 (PDT)
+ bh=7WPGnjIwDqq9FNiuzjIUo9e3oGnINOP8qAvzXoIP118=;
+ b=QuKYJghI0/fx7b5pJM4/a5yARrK1W3MYpF4CH+5yvBDaYb0AW4scccdHBXybXnvLzX
+ Z1BkKCpllBRhHobHT+d3HHwzzmxUQFanp3/avJX7PElE/FtGX9E3rHr9vCTQON6Fo6iM
+ JVFYX0Zxb+x6ljVCvJEXxtZ4oVdijQSj6WkTWy5QochJcYUDIgofMwpwxhv3LBGrank6
+ Wbkmb/agi1Gb8vSDRJulu2o9LlpSZmyHQcIjgxeWPESMLBjAY2hgZMypEipXZAi50Ic3
+ Da6NIw/DfTRmYp7LxG+l6vVqMuF86HDlQy9xKWnXoevArDQlCghpehPFC4JjRiwAGg9s
+ D/eQ==
+X-Gm-Message-State: AOAM532e86gV77p93tMo2hrBUvtSsMd39CUoqLUGMG2NpipFYUF3qW7Q
+ XqSJ+oz5ES4TzZv6XPyWn2H3ZaY/PD4=
+X-Google-Smtp-Source: ABdhPJyaws8sCJKrNNBWGp1d3cdvHkyeaFu9gNjCXvGQA0cMCiJ4pKeVLqHYFIj8iTedfDDf/XxWxw==
+X-Received: by 2002:a5d:64ab:: with SMTP id m11mr10182168wrp.343.1632476467094; 
+ Fri, 24 Sep 2021 02:41:07 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- h125sm8123691wmh.9.2021.09.24.02.41.00
+ a25sm11607839wmj.34.2021.09.24.02.41.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 02:41:00 -0700 (PDT)
+ Fri, 24 Sep 2021 02:41:06 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 28/40] target/openrisc: Restrict has_work() handler to
- sysemu
-Date: Fri, 24 Sep 2021 11:38:35 +0200
-Message-Id: <20210924093847.1014331-29-f4bug@amsat.org>
+Subject: [PATCH v6 29/40] target/ppc: Introduce PowerPCCPUClass::has_work()
+Date: Fri, 24 Sep 2021 11:38:36 +0200
+Message-Id: <20210924093847.1014331-30-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210924093847.1014331-1-f4bug@amsat.org>
 References: <20210924093847.1014331-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,54 +82,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stafford Horne <shorne@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
+ Greg Kurz <groug@kaod.org>, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restrict has_work() to sysemu.
+We're moving the hook from CPUState to TCGCPUOps. TCGCPUOps is
+a const structure, so to avoid creating multiple versions of
+the same structure, simply changing the has_work() handler,
+introduce yet another indirection with a has_work() handler in
+PowerPCCPUClass, and ppc_cpu_has_work() method which dispatch
+to it.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/openrisc/cpu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/ppc/cpu-qom.h  |  1 +
+ target/ppc/cpu_init.c | 23 ++++++++++++++---------
+ 2 files changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index 27cb04152f9..3c368a1bde7 100644
---- a/target/openrisc/cpu.c
-+++ b/target/openrisc/cpu.c
-@@ -30,11 +30,13 @@ static void openrisc_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.dflag = 0;
- }
- 
-+#if !defined(CONFIG_USER_ONLY)
- static bool openrisc_cpu_has_work(CPUState *cs)
- {
-     return cs->interrupt_request & (CPU_INTERRUPT_HARD |
-                                     CPU_INTERRUPT_TIMER);
- }
-+#endif /* !CONFIG_USER_ONLY */
- 
- static void openrisc_disas_set_info(CPUState *cpu, disassemble_info *info)
- {
-@@ -189,6 +191,7 @@ static const struct TCGCPUOps openrisc_tcg_ops = {
-     .tlb_fill = openrisc_cpu_tlb_fill,
- 
+diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
+index 5800fa324e8..36110112506 100644
+--- a/target/ppc/cpu-qom.h
++++ b/target/ppc/cpu-qom.h
+@@ -188,6 +188,7 @@ struct PowerPCCPUClass {
+     uint32_t flags;
+     int bfd_mach;
+     uint32_t l1_dcache_size, l1_icache_size;
++    bool (*has_work)(CPUState *cpu);
  #ifndef CONFIG_USER_ONLY
-+    .has_work = openrisc_cpu_has_work,
-     .cpu_exec_interrupt = openrisc_cpu_exec_interrupt,
-     .do_interrupt = openrisc_cpu_do_interrupt,
- #endif /* !CONFIG_USER_ONLY */
-@@ -205,7 +208,6 @@ static void openrisc_cpu_class_init(ObjectClass *oc, void *data)
-     device_class_set_parent_reset(dc, openrisc_cpu_reset, &occ->parent_reset);
+     unsigned int gdb_num_sprs;
+     const char *gdb_spr_xml;
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 6aad01d1d3a..2f7d262b176 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -7621,7 +7621,6 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);
+-    CPUClass *cc = CPU_CLASS(oc);
  
-     cc->class_by_name = openrisc_cpu_class_by_name;
--    cc->has_work = openrisc_cpu_has_work;
-     cc->dump_state = openrisc_cpu_dump_state;
-     cc->set_pc = openrisc_cpu_set_pc;
-     cc->gdb_read_register = openrisc_cpu_gdb_read_register;
+     dc->fw_name = "PowerPC,POWER7";
+     dc->desc = "POWER7";
+@@ -7630,7 +7629,7 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
+     pcc->pcr_supported = PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
+     pcc->init_proc = init_proc_POWER7;
+     pcc->check_pow = check_pow_nocheck;
+-    cc->has_work = cpu_has_work_POWER7;
++    pcc->has_work = cpu_has_work_POWER7;
+     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
+                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
+                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
+@@ -7789,7 +7788,6 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);
+-    CPUClass *cc = CPU_CLASS(oc);
+ 
+     dc->fw_name = "PowerPC,POWER8";
+     dc->desc = "POWER8";
+@@ -7798,7 +7796,7 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
+     pcc->pcr_supported = PCR_COMPAT_2_07 | PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
+     pcc->init_proc = init_proc_POWER8;
+     pcc->check_pow = check_pow_nocheck;
+-    cc->has_work = cpu_has_work_POWER8;
++    pcc->has_work = cpu_has_work_POWER8;
+     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
+                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
+                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
+@@ -8003,7 +8001,6 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);
+-    CPUClass *cc = CPU_CLASS(oc);
+ 
+     dc->fw_name = "PowerPC,POWER9";
+     dc->desc = "POWER9";
+@@ -8013,7 +8010,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+                          PCR_COMPAT_2_05;
+     pcc->init_proc = init_proc_POWER9;
+     pcc->check_pow = check_pow_nocheck;
+-    cc->has_work = cpu_has_work_POWER9;
++    pcc->has_work = cpu_has_work_POWER9;
+     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
+                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
+                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
+@@ -8212,7 +8209,6 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+     PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);
+-    CPUClass *cc = CPU_CLASS(oc);
+ 
+     dc->fw_name = "PowerPC,POWER10";
+     dc->desc = "POWER10";
+@@ -8223,7 +8219,7 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
+                          PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
+     pcc->init_proc = init_proc_POWER10;
+     pcc->check_pow = check_pow_nocheck;
+-    cc->has_work = cpu_has_work_POWER10;
++    pcc->has_work = cpu_has_work_POWER10;
+     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
+                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
+                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
+@@ -8790,7 +8786,7 @@ static void ppc_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.nip = value;
+ }
+ 
+-static bool ppc_cpu_has_work(CPUState *cs)
++static bool cpu_has_work_default(CPUState *cs)
+ {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
+@@ -8798,6 +8794,14 @@ static bool ppc_cpu_has_work(CPUState *cs)
+     return msr_ee && (cs->interrupt_request & CPU_INTERRUPT_HARD);
+ }
+ 
++static bool ppc_cpu_has_work(CPUState *cs)
++{
++    PowerPCCPU *cpu = POWERPC_CPU(cs);
++    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
++
++    return pcc->has_work(cs);
++}
++
+ static void ppc_cpu_reset(DeviceState *dev)
+ {
+     CPUState *s = CPU(dev);
+@@ -9037,6 +9041,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+     device_class_set_parent_unrealize(dc, ppc_cpu_unrealize,
+                                       &pcc->parent_unrealize);
+     pcc->pvr_match = ppc_pvr_match_default;
++    pcc->has_work = cpu_has_work_default;
+     device_class_set_props(dc, ppc_cpu_properties);
+ 
+     device_class_set_parent_reset(dc, ppc_cpu_reset, &pcc->parent_reset);
 -- 
 2.31.1
 
