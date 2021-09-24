@@ -2,127 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23FE41759C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 15:25:44 +0200 (CEST)
-Received: from localhost ([::1]:56720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 824444175EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 15:34:52 +0200 (CEST)
+Received: from localhost ([::1]:33166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTlCw-00015w-WA
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 09:25:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57818)
+	id 1mTlLn-00059l-4u
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 09:34:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTlBC-0000HQ-SQ; Fri, 24 Sep 2021 09:23:54 -0400
-Received: from mail-eopbgr30091.outbound.protection.outlook.com
- ([40.107.3.91]:20545 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ id 1mTlKU-0004JJ-EN; Fri, 24 Sep 2021 09:33:30 -0400
+Received: from mail-eopbgr30112.outbound.protection.outlook.com
+ ([40.107.3.112]:51265 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTlB9-0007me-3V; Fri, 24 Sep 2021 09:23:54 -0400
+ id 1mTlKQ-00069o-BS; Fri, 24 Sep 2021 09:33:29 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y0fO372tksKVQU75G0yUG7QXk41ZUWw0k7UB/Zc26i7VUpK5HJmu0/HC2cwI0uT8w9wiopZ1BPgPUtztDCWtrfNKMhZAUrpNw4p6z1rqULXqjdwKSoMwM1T23ZPXhapr+2KNxLllO/UchKVT7PM7Tw8UqgnEB2lTkyGqsZlFwYaCsZhAvSqJjGlBbDxYgclYb4NmlCD7SMUgwyVIPKKWmyArhvMx6HcakKiA4zI6YlAdEDEVerXF04L1W76VlLdnXWP2w2IdrB2hHMmU9R9iXe12UDBrVAcPIbEeb7nWM680ZAMDd6w+0sZwEpuX67q7Ass3sl/4gt0sEGsopry6cQ==
+ b=E5MvB2DtP0vKQwgnT3AnM9kxTNFRB22uJqxj5nl7V4KEVY2gUJ9DkNFfbXZ9ywwvp0MIYwIA5h22au/ebWoXrj470nEk2xLdoy/uP0+OmZJHHctWYqxYHWoMvQA7knOZ681g7/EL4JQCaCzmTFnXiEXk6FPIriLKGsQEPC1kI+fR9F4aqLOsE2hjY5wBVKkrWy/6IlHvntsKuIDQPpLYhiPZTPntHOcTHmRb6W/zvaD470T5fa7nC7uGM++T1e8XB4mRZOkZ3PyYVOrKulbQvaCGHRh6Od3rILruNeAtliuf9rT4adEBHnm3BZVnaNeW70252j/b8CAb/BcK6+0VXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=ZRYYecHLpqNhaj8QnTj0b80alipfbxhcrTguiep1neQ=;
- b=Bzb6KEupRx+hNcq4d2cEtrJtAUh0tuNUZsjww6NUPEIOIWb884mS1ldTAyJNgOyGka9ePqMdg7OPZVNEDWQhTqnMo+kDCt7snIDJpqINiCmX7OTZZiJRvb9lAUPMCC6OoLySj6Vb9r4m3gz9MU+kOqiCt9TN1KyuGFE+AtYkBV5hbpImoaqiEcaswGacNNObxys3M+ZYncvfl2WnPzxl2fx0KcUnO/BCyddyq9BcGfIub84kgi4l6nTdufpC8LTGQwiF+Y3EqsijiuiKkUpTPtIa0nPdiNnctjTfKU8lmd0sdKUfBk9ZW67Nmo4HtsasPgeEohL/55/Fp5KZK7BJlw==
+ bh=j5F6CmvI4XxZsOgoEIyHbNiDf45KzcQTb3E/K+n2MrU=;
+ b=OHV4SVLozv6Xwk5Y+fCAeX2MMfXG94f6oDwIRZWhuWk/01LqMVdP64toeFr8OU1fKYEgzSLAfBSrjSMXHGIV1xdZjiU8hBn0R52Z8AHEXQkBMqYovMcdWWGpUgNojnirmb2c0JSqX6Ep646qpinod0KhuPVpGYELHoFnVpUvbaXS23VbyVVoKCjUQAV9KVND33lTqhXkAYQMcIxBRgf2vgTLT1R7yj2QAfLh8AHRJT7o6MQ4RDjjynSic3y71AQHQ/ckJHggfBXGa97CKUSgd1zMrb3w2tsovBokkzfteBEv7OHrPcshJ+wVv4MczJdpRj96AZxBwZr4ry+Sb7eX1w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZRYYecHLpqNhaj8QnTj0b80alipfbxhcrTguiep1neQ=;
- b=OdC9NxOaUHLHOSA5k3TqAUQkLH5A1PZkouUYsoNrS+MtmmxfExkO/leHLeR0S2N+sjmOKm8dC/sJncqswpubPQ7cf40QJxS+Vg6WwE0TSJDXYPkz8f/EAQUMrROcWUJxxMkBg9lzkrDOdc9xDFQTfTquoJETOdnKmQxbykTNPOQ=
+ bh=j5F6CmvI4XxZsOgoEIyHbNiDf45KzcQTb3E/K+n2MrU=;
+ b=wNDWIgG4KHdRVqTV2MoHkcFBST1n1iW8Fc9k/niXoabQ1pKabgwybUYH1znmDHDU0DU8YM2Oe2haeBu4M7U5y92OhEBJQjTSYHHNhU3aBDwt8EvgM8b2AJaomk3AO4QomjjCxfH+9GsycAdfEiqSeni7V3+M8tqwqlWCbgq7mig=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6645.eurprd08.prod.outlook.com (2603:10a6:20b:38f::16)
+ by AM6PR08MB4950.eurprd08.prod.outlook.com (2603:10a6:20b:ea::31)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.14; Fri, 24 Sep
- 2021 13:23:46 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Fri, 24 Sep
+ 2021 13:33:21 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.018; Fri, 24 Sep 2021
- 13:23:46 +0000
-Subject: Re: [PATCH 01/11] qom: Reduce use of error_propagate()
+ 13:33:21 +0000
+Subject: Re: [PATCH 02/11] iotests/245: Fix type for iothread property
 To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
  qemu-block@nongnu.org, libvir-list@redhat.com, armbru@redhat.com,
  its@irrelevant.dk, pbonzini@redhat.com
 References: <20210924090427.9218-1-kwolf@redhat.com>
- <20210924090427.9218-2-kwolf@redhat.com>
+ <20210924090427.9218-3-kwolf@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <95294b4b-5656-c91b-5409-b9c1d70186e3@virtuozzo.com>
-Date: Fri, 24 Sep 2021 16:23:43 +0300
+Message-ID: <8e56feb0-54cc-f5c1-c669-a08e9280dfd3@virtuozzo.com>
+Date: Fri, 24 Sep 2021 16:33:20 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
-In-Reply-To: <20210924090427.9218-2-kwolf@redhat.com>
+In-Reply-To: <20210924090427.9218-3-kwolf@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0003.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:15::8) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: FR3P281CA0023.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::7) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 Received: from [192.168.100.5] (185.215.60.205) by
- FR0P281CA0003.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:15::8) with Microsoft
+ FR3P281CA0023.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1c::7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4566.8 via Frontend Transport; Fri, 24 Sep 2021 13:23:45 +0000
+ 15.20.4566.8 via Frontend Transport; Fri, 24 Sep 2021 13:33:21 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: debb5ec2-6b73-4abe-d272-08d97f5e89ae
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6645:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB66457857339C34543C9AF430C1A49@AS8PR08MB6645.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: b8c30cb3-3be4-479a-36fa-08d97f5fe099
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4950:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4950D515F2691FB2AA221F54C1A49@AM6PR08MB4950.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: h+0pGOe5j+J6jqFj1YjeofUDN0jwY/+ZByv5zfrH2/fQL3Z7lk4jEPSsZcJBi6eJllkcU+cJkY0OGfrMfltXHV6KW7rYntfmUankEuZIwbBJyJO7xHsTWrhja3RCotVYIgEBydQ/QWo+jc0plyIc/1gAk/ucry0GEsH6kJ4we1GY+J3bFIuExq8dwRdmSBo5Pp7cKHY+YZw29BDP4lXGEJWbrRdi82o75E2ydy3nEVMHIPymXc0e7iMCkVShCTKmVIIBNsVY1QsmTmQQrEJlewaFvc4NWcf3e0PPq4ckB8U9WUbYMPx+zzBHiS7CJ0NId8y2BUVtR/tdhEz2uaRHpp+ZsMNU57/rSIsz/DmAB4sAYgW1u1G0Id6y3gQsANQAUiKv/zdBB0YtlhQ+aQdPG74FKhRkkQqQeyDyuSZe0GaoJCZzXTSz4s+3mXPSyUZU1IQQ3/48u40DCYaPCgGIWr9lHQ5o1uZXt3lpdku5wQwHbR/B/lw/bcnSTiZfRStq6FawVmwGqEOixV2WEJna+7Yh43DV9iVMeTVitumlPDSyj0WQMhIVIgzf1FK1j6ZJYaXnmIqnnzLvLi251jCmC/JQ0LIKtJo0Y46v2KooNRW8KKF3V+dx0Y8Mi5HgwQTO6w3kNNWiefENoj/0pOk4kxAeB6BP3Qx+RxDbfBl0RQE7gQK0yboVNqDJF1DObltch8YqtFAjlba5TjX9hpx2yNhpc67wU5JqemHtsv0g0BfwUT/FBYoNlLJZAnvXhQ6WweSmqf6nRkVoYaUdsYioEQ==
+X-Microsoft-Antispam-Message-Info: Us2IE5yyyobiQtNDNdX7mJ/oS3aeAFTPsXoMYfLbWFWR5G4xjyp0NfcY957u695GcJpO0kVYDao+SVniwB0aZhq8tAVW6cPKoHyEUDmABxPhMs4yTkxFaI6QOYk1fIdpTkPK9SRA52xhjOWlV6LNCokZ83mhs0sXCk19nJlV9oGzq29I4uHtSZ/pPUw7Oo+7GfnnzGtPn4+nWBtxm9sQLn0LPVITsZk9pKDVH5bAALjn6tsNg5vIqURMTiTjWzNQAtsl+oeuHL1l/rMalszwYLKD6tYM+EkMxQxGrmRvLf0IT0VZ1sS61a6m3BJisM2TS4Ph5MIk9t72QIrVR4yl7deF1uwDFmViNYTyhFiC39ZnystBqdz1O7CLNLuwEw+Z5CnsKOl6xbEZS5H+RN5vezMMaST8gcwJkk0amTo5nCqiZkg25P/BV4FAQpzecyVDfNdzJKzWZ4REJqrmRc56zbHQsdarPsg55tMk6BHj/kLkIr6DOtudjGMIlVbsrIBm0QGSdOxJ75FsQCM0nSm+TgnKx/Y1I5BZNZvz8s/wnGGoEsY/eOIxPhYQPPbF/l/ObQW7zRRrwLsWSSaQm3OXeCvNVRBJtopJs3orr6AnQaVnEqDJAap5QuiG+FlvWcEcbv2wGGlRCcpyDRJOvAQWfV7gbKxYaRH+tqCqXTGDrO4x8MEssL712lV7rJUHyyVAsOxxQJ6usJfNIoi8kNY1fK0zn9GeIjKeHWbyG+CPdQL0812JWW8f87xbQgrC6pqaEZTqsGMwSpR3MtgcloFUUA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(38350700002)(4326008)(38100700002)(508600001)(8676002)(7416002)(66476007)(2906002)(186003)(26005)(8936002)(36756003)(66946007)(52116002)(31686004)(86362001)(31696002)(5660300002)(956004)(16576012)(2616005)(83380400001)(6486002)(316002)(66556008)(43740500002)(45980500001);
+ SFS:(4636009)(366004)(6486002)(8676002)(8936002)(4326008)(316002)(16576012)(2906002)(66946007)(7416002)(38100700002)(38350700002)(86362001)(31696002)(31686004)(36756003)(956004)(5660300002)(508600001)(66556008)(66476007)(2616005)(52116002)(4744005)(186003)(26005)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SnlrZEtqOElyWjY0S09OVWY0bEZKNUppdDF2ajdGK3hTU3BHbGk1R2FVNlBj?=
- =?utf-8?B?RDNIb3hIdUU5RzFmckNNNzBIeWlrMWdyTXp4aVJNRVljbll6RkFhTGphODR0?=
- =?utf-8?B?OUlodmVRcWJZdGRFbTBlMXlPWVM3aEM4L1pUbjNDVFBmWTBnRW5FeldSSTBV?=
- =?utf-8?B?MklZNHQ0T3ZLWnltRnIwM05LSXhuS2dHNE9ySXZ2bDF6WTRmRFVCODU2U0Vi?=
- =?utf-8?B?L0NiMzRuUHFqczBJL2JJeExuNU45WUEyOXZVWTJWUzNuYjB4N0JkMkNNL29P?=
- =?utf-8?B?VDVvT3paMGdmemVmNlJ4b1BGRE5DT0o2RFEvYkpHc3RaZXN3aEF0c2RZcTB4?=
- =?utf-8?B?RFBUTTFNSjZ3QmxkZW1VTVlrYzB1dmF5QmFMUE1LQy8wd20yRXB0SEpxVTRv?=
- =?utf-8?B?eWFDdlVyTEl3QlNPdVNuUlZoOHFmdnM3aVdtOUVEaCtzaDN4ZmphQjA3c2FC?=
- =?utf-8?B?WCtWdHpST0tBVStmRTNLU0ZobWFWQlRWTUFOVFdJMyt1aEgzWnovYmVMYklx?=
- =?utf-8?B?RG83M3hHVkt2WjdueHZxbWZiaUw1bGJMaUlQRjVCT0FSUldlTUlmL1ZCUStO?=
- =?utf-8?B?NjJ2YVlmQ2pMaENBOWRiOTUvMjF2dkdjU3pGbFZ1OGxkUkxBTmhiMnM4T3py?=
- =?utf-8?B?SGQyNlJmd2NTek05cDdOR2dieXV3cXVHWnI2S09xMTdFc01NVHRnZWZjdFdt?=
- =?utf-8?B?dWtFeTBtanpWL3QzNjh2d0hFci9JYUlOSmFmRlJhQ3lTTkcyQTVnSmJhV0Fn?=
- =?utf-8?B?MUsxTStVeWMrR044SU5WbWtEMVIzcmdpalQ2a3dEaDBxRmhCLzQ1akFveTFp?=
- =?utf-8?B?bXRLdlJldjlJbjAybFNscGEwRitNYkhKUmc0RFJyVmVLV2xaL01qRllKdll5?=
- =?utf-8?B?OStOZGI5czNNWjZjQVVwaEo3L3A0VXI4UnllU29HUzZwelQrM3FHeHBEVGUr?=
- =?utf-8?B?YkFiRVlBb2FIWVRCUUlpa2UrS2NlYldCY3BpQkpqV3pJRXhxblJCSlcrTWJj?=
- =?utf-8?B?RjRmTnlxODc3b0ZVcGVyNFA2QlZCRWlaOS9KMnMycTZNUzFFMU8xc3lOalNP?=
- =?utf-8?B?eXNIbjJuQmMyMUlzNmZnaU5vT05oUitDZS9ha1QxUkFQVGtHTUZMZUR1ajJq?=
- =?utf-8?B?cXRGOTMwbzJLWnk0eWMzN3diQkh6UUN4VW0zT04zaXQza1JjWFIrV2hSOGlZ?=
- =?utf-8?B?emg3dzByVFJ3dHR5TFVaaitoRVh3Y1h6cjJjSzdVTGsyenovRFZ0OFVhek1K?=
- =?utf-8?B?c0FCa3ZHUDBGMStDcWQ3ZHhHZFpDYTQ1bUtPUkVxOXV3bm1EMU16M0RPL254?=
- =?utf-8?B?MGkyRW01SEdHYWRpd2NTUjVhakhRZ3B6YVJtZVpHVHNZdDdybGk5V3B3Qm9a?=
- =?utf-8?B?UXVwMVZHYVl2NHlJY2tNWkJJT1J5cm5NYVFTb1p5anFvdElaeVNncXUxM1JV?=
- =?utf-8?B?QUhTcjFUUlh5WE01bmJ0RDEvRnhXNzBEUFdtV0hiTjAxbDZPeDd6NTB6a1Vn?=
- =?utf-8?B?WmZ5aDkwdTlUMnkxUFNsTnJFdHZLbUhPdTYrdzZWQ3htdWs3cE9IR1VvV0Ev?=
- =?utf-8?B?M3l2cGpYTWZkUCtyemJLdXNaSkZmdThISWhXSUh0TWJZS0RZVmthblNLUDNJ?=
- =?utf-8?B?RTE2cjBYcTc2VXlzMzlQZzFlczdESk84ajJmL1JBQ1RENWRrOUEwVjJTS1dr?=
- =?utf-8?B?TUMyQmJhczMzaWVFQ2hGam5FM2lQMWlYc3BtWWNJR0hsNzRDeStMWElXVDBF?=
- =?utf-8?Q?E47s7yN1JKgOHAbhiTnp6sIhNfv2Pp57eqDyxy/?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1Q3dGFOUDdJaW9tVEVEZU9mUEJQTUR4aXcvODVHckhLSTJmZTc0Vktla2Fi?=
+ =?utf-8?B?eTZHRkVlbHg1NDBodFZUM1F0UGh1R0xkVXh2K2hwVlNxOVg2NFR1Y3Y5cVBY?=
+ =?utf-8?B?ZUpPTHRrTVVlRy9JdDF3Y29HUDFCQ3Flbk40aGc4eVhDcGFlYWJOZ2tYc293?=
+ =?utf-8?B?N2FMczVSTi9GejQ4VHg3cjIvN2orVEFEM2ZhRlIwUGRSQWVjdEFYMC9pNkNw?=
+ =?utf-8?B?a1k5TU1XYUxFWnZrcDRVOWtGdU5YNTRPZjRmaUFqVjhUK0pxYnkycEVMUDJF?=
+ =?utf-8?B?SDRxWFIvSWNDSUhrbUg2Nm9LY3pEYk12dTN5LzNOT3RHWVF0c1lCVzRtNFlz?=
+ =?utf-8?B?OWx1b3dCT3BkVk12UndseU9rRU8vTmtidVN5SkorOGhSQ01hWmRpczRFTVhO?=
+ =?utf-8?B?VTgwNkpHT0F4L2RQdU5DUVVxZVUvRFR5WTdZSlllM3ZRZ0F1YUhjUi9uQ2hH?=
+ =?utf-8?B?OWhNemlCZTFTczI5d21RWWlZT2kyWE41ejNKTjJEOGR5UU43SVZmT2NHZEsy?=
+ =?utf-8?B?Z0FGWURQdi9SQWhyc3ZKV2RvT2w4MWFOa1E1bnl0eVc4MGZPQnZkMVRuelll?=
+ =?utf-8?B?SmxBdTJxV25jMHc1d0ZxMWk3R0dibTBha3ErZGtSaityNS8wbkhmV1E0Y0tm?=
+ =?utf-8?B?TE9WbkxwV1JxaHVRS0lYZDZ5aitPcWcyQUx0aFFIeVFvdnJjd1YyYnk4MVdI?=
+ =?utf-8?B?dE9XSUhBWCs2VjJFS3ZRMG5LbFVwR2xjYjRHWVVXRDdKcVZ0dFpEbnF2blVK?=
+ =?utf-8?B?WmphdDgwOHVJMlk5SmQ4KzQzMTBsUVFrY3ZQRHZSbStPV0loKzJXTHJRWXlv?=
+ =?utf-8?B?YWZJV2ZtL0lBS1VCYTAzM29YdlRrZFQwQXV0WXlWSVNuSHQ2R2NheXFsdGZW?=
+ =?utf-8?B?WmFvQjlRQ205dmtpTkVUUDExZ1RlRXZIV1pBWjU4QnExcUdya21vNGw4R090?=
+ =?utf-8?B?NGUxOTBCN2RhaU9lcHVKdFB5ZGhFYU1VUkNjeERDQ0dOSzZ1ei95VVRLY1Qx?=
+ =?utf-8?B?UTVmdmw5Mnh0TUE4SlNPNnF2aFl3MUpiNExxdGU0bkVKQjlFeFBNRFdxVitw?=
+ =?utf-8?B?bHdZOVVScldXd3A5bmdJR2Erenp5dG9hVzFoS0gvMjA1TmJhUmd1eTNNb1pS?=
+ =?utf-8?B?TkRBNzlDY09laGZmV0JJMFdpcTZ6aTZqM1AvbzVHZ2hadHZBKzlLZExuZHZv?=
+ =?utf-8?B?SGdKVG4rd2JUNDBVTldXclEwK3VzT3dWVWpiZlkrT0ZTSVR2L0tmTi9Hb2xL?=
+ =?utf-8?B?VlY0cmFHcTlXV1pXVVZyK2FzSG9sQS85UE5lTzF2emtmZmRYWC9GeFl2OXUv?=
+ =?utf-8?B?L2RXODREMEJKemFHMGhtSjZ1eUdiOHBlempoV2RTQmJ5Z0JML2VpRE9vN3Qr?=
+ =?utf-8?B?QjR3NWFlMkNzd2dRU0ZEWXQyeVljVTl6cGhYa2ZkczNGdkZJeVFtVkJ2Y0RM?=
+ =?utf-8?B?WDd0QmJueXF1MGExRFdrVzl4L2cwcGEvcytSRFg0VFR0Nkg4Zzg0M3hOb1p1?=
+ =?utf-8?B?REZRRWZJVVRmL28ralVkbHNCSWV0SURPR2srOU4rRjVaTSt3WE9Bek1uV2xL?=
+ =?utf-8?B?R1REeXBKWU9rL0diei9vSEdYN0VEMkxvZFYwM0l1NW43Z25INUVCbm80OFg5?=
+ =?utf-8?B?UmxSMGVjRFdoeDI3bzgvd2t1VlB0a2dPRDhMMFl1eE9KRkl4RjJSRkpLdCtz?=
+ =?utf-8?B?OHJUN1pJaVVCbm1YRmgwbjg0eCtpSXdmYnR5dDVnVFNTdDVsR1pVQW5BL1B4?=
+ =?utf-8?Q?rR34FZFGTu6vSIYqoqbG9x4JBhLJtzaJ+CwQlaS?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: debb5ec2-6b73-4abe-d272-08d97f5e89ae
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8c30cb3-3be4-479a-36fa-08d97f5fe099
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2021 13:23:46.5803 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2021 13:33:21.7459 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZhgSeuPfb6y3mMOv83i3cSDm2SUG+tJ0Ep7J+dgftnUvRSQIARFaIL8O5J2hjwoIqCcmmJ7WibRFHc1yvbhL5DoF0DE9Oan8g0QGFuEjlco=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6645
-Received-SPF: pass client-ip=40.107.3.91;
+X-MS-Exchange-CrossTenant-UserPrincipalName: tLYy67yEJf7NirWsLtVA4x2iGZyLmgad3NokdoAVVfIXcXwG1b3NV9NI/UsgxsIcTpw0so/lwOxRxAuRxXeG8SKnus5nHZkx2m5NfzJe3QQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4950
+Received-SPF: pass client-ip=40.107.3.112;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR03-AM5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -149,111 +149,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 24.09.2021 12:04, Kevin Wolf wrote:
-> ERRP_GUARD() makes debugging easier by making sure that &error_abort
-> still fails at the real origin of the error instead of
-> error_propagate().
+> iothread is a string property, so None (= JSON null) is not a valid
+> value for it. Pass the empty string instead to get the default iothread.
 > 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   qom/object.c            |  7 +++----
->   qom/object_interfaces.c | 17 ++++++-----------
->   2 files changed, 9 insertions(+), 15 deletions(-)
-> 
-> diff --git a/qom/object.c b/qom/object.c
-> index e86cb05b84..6be710bc40 100644
-> --- a/qom/object.c
-> +++ b/qom/object.c
-> @@ -1389,7 +1389,7 @@ bool object_property_get(Object *obj, const char *name, Visitor *v,
->   bool object_property_set(Object *obj, const char *name, Visitor *v,
->                            Error **errp)
->   {
-> -    Error *err = NULL;
-> +    ERRP_GUARD();
->       ObjectProperty *prop = object_property_find_err(obj, name, errp);
->   
->       if (prop == NULL) {
-> @@ -1400,9 +1400,8 @@ bool object_property_set(Object *obj, const char *name, Visitor *v,
->           error_setg(errp, QERR_PERMISSION_DENIED);
->           return false;
->       }
-> -    prop->set(obj, v, name, prop->opaque, &err);
-> -    error_propagate(errp, err);
-> -    return !err;
-> +    prop->set(obj, v, name, prop->opaque, errp);
-> +    return !*errp;
->   }
+> Signed-off-by: Kevin Wolf<kwolf@redhat.com>
 
-This is OK: prop->set doesn't return value, so we have to analyze errp to make our own return value.
-
->   
->   bool object_property_set_str(Object *obj, const char *name,
-> diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-> index ad9b56b59a..80691e88cd 100644
-> --- a/qom/object_interfaces.c
-> +++ b/qom/object_interfaces.c
-> @@ -45,26 +45,21 @@ bool user_creatable_can_be_deleted(UserCreatable *uc)
->   static void object_set_properties_from_qdict(Object *obj, const QDict *qdict,
->                                                Visitor *v, Error **errp)
->   {
-> +    ERRP_GUARD();
->       const QDictEntry *e;
-> -    Error *local_err = NULL;
->   
-> -    if (!visit_start_struct(v, NULL, NULL, 0, &local_err)) {
-> -        goto out;
-> +    if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
-> +        return;
->       }
->       for (e = qdict_first(qdict); e; e = qdict_next(qdict, e)) {
-> -        if (!object_property_set(obj, e->key, v, &local_err)) {
-> +        if (!object_property_set(obj, e->key, v, errp)) {
->               break;
->           }
->       }
-> -    if (!local_err) {
-> -        visit_check_struct(v, &local_err);
-> +    if (!*errp) {
-> +        visit_check_struct(v, errp);
->       }
->       visit_end_struct(v, NULL);
-> -
-> -out:
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -    }
->   }
->   
->   void object_set_properties_from_keyval(Object *obj, const QDict *qdict,
-> 
-
-ERRP_GUARD() + dereferencing errp is good when we use functions which don't return any value. So we want to check is it fail or not and we have to analyze errp.
-
-But that is not the case: all called functions follow modern recommendations of returning some value indicating failure together with setting errp.
-
-I think, it's better not use ERRP_GUARD where it is not needed: in ideal world, all functions that may fail do return value, and we don't need neither error propagation, nor dereferencing errp. And don't need ERRP_GUARD.  ERRP_GUARD will be still needed to support error_prepend()/error_append() together with error_fatal, but again that's not the case.
-
-Here I suggest something like this:
-
-static void object_set_properties_from_qdict(Object *obj, const QDict *qdict,
-                                              Visitor *v, Error **errp)
-{
-     const QDictEntry *e;
-                                                                                  
-     if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
-         return;
-     }
-     for (e = qdict_first(qdict); e; e = qdict_next(qdict, e)) {
-         if (!object_property_set(obj, e->key, v, errp)) {
-             goto out;
-         }
-     }
-
-     visit_check_struct(v, errp);
-
-out:
-     visit_end_struct(v, NULL);
-}
-
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
 -- 
 Best regards,
