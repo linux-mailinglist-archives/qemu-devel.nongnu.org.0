@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B3E417BB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:17:48 +0200 (CEST)
-Received: from localhost ([::1]:33272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991EA417BBE
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:24:40 +0200 (CEST)
+Received: from localhost ([::1]:46468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTqhf-0007MD-RV
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:17:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40074)
+	id 1mTqoJ-0007wd-M4
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:24:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqRR-0008PD-OB
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:01:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21426)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqRo-0000N4-89
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:01:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqRL-0007x4-Br
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:01:00 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqRm-0008Mn-Dl
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:01:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632510054;
+ s=mimecast20190719; t=1632510081;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SXKP7i3eyeusU8wlcOay2QgJk7AY6TGzB1lRcXjpQYA=;
- b=KwT69ATPWRdGJ4eUJU5NsOhNNbesqnCQDU6+RFPLDzOcROu1pzUWB0pxNwx6Qb51WoysEu
- tmOA+DhvL3UoZOwYgIKfP9QPGsA+B/ElOjvOVVno5EOUQ95MnIuvhZ8MXQIHn1sBNNWvlS
- fod50lIE1duQsHwhJNbkc9PRGMO7W6s=
+ bh=QS6ovHewzNb+bkNSkQivt2pv+m0aVY2z+epE+IjXLtE=;
+ b=JYIgqfVB9KN8IwjTasK8X7Nd9W1FP+DP+tVg0RZwmLUjvPJxbRaGVi6w8DvtgS2KgmLszK
+ 3Dfol16xt5unLJBhnNJnBZNHbJ2fnKuiBJP0WN+af15+IZAnPdkEG/XFfOT922xEufNju5
+ yPwQX3NPhivLDGc/gefNpLLsKoG6MZg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-_SEBF1YzPvSLbn6Ts0oKWQ-1; Fri, 24 Sep 2021 15:00:53 -0400
-X-MC-Unique: _SEBF1YzPvSLbn6Ts0oKWQ-1
+ us-mta-226-FP7m0p6ZNXeH70zoC_tT8Q-1; Fri, 24 Sep 2021 15:01:20 -0400
+X-MC-Unique: FP7m0p6ZNXeH70zoC_tT8Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C26EA101AFA7;
- Fri, 24 Sep 2021 19:00:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DA4A84A5ED;
+ Fri, 24 Sep 2021 19:01:18 +0000 (UTC)
 Received: from p50.net (unknown [10.22.33.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 93A3A5C1A3;
- Fri, 24 Sep 2021 19:00:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B4645C1A3;
+ Fri, 24 Sep 2021 19:00:51 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/16] tests/acceptance/ppc_prep_40p.py: clean up unused import
-Date: Fri, 24 Sep 2021 14:55:05 -0400
-Message-Id: <20210924185506.2542588-16-crosa@redhat.com>
+Subject: [PATCH 16/16] tests/acceptance/ppc_prep_40p.py: unify tags
+Date: Fri, 24 Sep 2021 14:55:06 -0400
+Message-Id: <20210924185506.2542588-17-crosa@redhat.com>
 In-Reply-To: <20210924185506.2542588-1-crosa@redhat.com>
 References: <20210924185506.2542588-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -93,25 +93,58 @@ Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just a removal of an unused imported symbol.
+The arch and machine tags apply to all tests, so let's define them
+only once.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/ppc_prep_40p.py | 1 -
- 1 file changed, 1 deletion(-)
+ tests/acceptance/ppc_prep_40p.py | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_40p.py
-index 6b28a69ea5..5e61e686bd 100644
+index 5e61e686bd..d1e5674673 100644
 --- a/tests/acceptance/ppc_prep_40p.py
 +++ b/tests/acceptance/ppc_prep_40p.py
-@@ -7,7 +7,6 @@
+@@ -13,6 +13,10 @@
  
- import os
  
--from avocado import skipIf
- from avocado import skipUnless
- from avocado_qemu import Test
- from avocado_qemu import wait_for_console_pattern
+ class IbmPrep40pMachine(Test):
++    """
++    :avocado: tags=arch:ppc
++    :avocado: tags=machine:40p
++    """
+ 
+     timeout = 60
+ 
+@@ -24,8 +28,6 @@ class IbmPrep40pMachine(Test):
+     @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
+     def test_factory_firmware_and_netbsd(self):
+         """
+-        :avocado: tags=arch:ppc
+-        :avocado: tags=machine:40p
+         :avocado: tags=os:netbsd
+         :avocado: tags=slowness:high
+         """
+@@ -48,10 +50,6 @@ def test_factory_firmware_and_netbsd(self):
+         wait_for_console_pattern(self, 'Model: IBM PPS Model 6015')
+ 
+     def test_openbios_192m(self):
+-        """
+-        :avocado: tags=arch:ppc
+-        :avocado: tags=machine:40p
+-        """
+         self.vm.set_console()
+         self.vm.add_args('-m', '192') # test fw_cfg
+ 
+@@ -62,8 +60,6 @@ def test_openbios_192m(self):
+ 
+     def test_openbios_and_netbsd(self):
+         """
+-        :avocado: tags=arch:ppc
+-        :avocado: tags=machine:40p
+         :avocado: tags=os:netbsd
+         """
+         drive_url = ('https://archive.netbsd.org/pub/NetBSD-archive/'
 -- 
 2.31.1
 
