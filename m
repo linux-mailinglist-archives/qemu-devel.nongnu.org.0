@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F2E4179ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:38:38 +0200 (CEST)
-Received: from localhost ([::1]:60142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 838514179EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:35:58 +0200 (CEST)
+Received: from localhost ([::1]:53464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTp9h-00054f-6J
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:38:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52536)
+	id 1mTp77-0000SA-6q
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:35:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mToy5-0006Of-AH
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:26:37 -0400
-Received: from [115.28.160.31] (port=41370 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mToy8-0006V1-RU
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:26:44 -0400
+Received: from [115.28.160.31] (port=41386 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mToy2-0004Cv-Se
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:26:37 -0400
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mToy4-0004FK-J2
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:26:40 -0400
 Received: from ld50.lan (unknown [101.88.29.172])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id B256D60B12;
- Sat, 25 Sep 2021 01:26:30 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 9999860B13;
+ Sat, 25 Sep 2021 01:26:32 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632504390; bh=zoWVLHeixICyi7w2F1hpUGZ8DdJZNulu86QUXEHuQ+I=;
+ t=1632504392; bh=KBydwuyKhEegYUL4qPGm8V5xyFEb8kJVvCQ6zouRNzg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jNw15OCs5wNRmZ7jiWxyNBCy911Kon/yjqisg1lWhzCqjVWnq71ghawhoxpBzztOj
- TEYUNk0wh/0FPAwHgeNc0pnf+9Jmjp7BDtU0K0t29ZZ42MGMpx7ojrYSkecZeFTLh5
- KYG9nMRod6/Wc8D3eFWj1bsfjjrwV6mrfTOjSaBI=
+ b=TyOFdFhlwP0BtGCC8GPzp4ILu50ysjYKO9ObOddSLqsTJH1tpFqs5HY9oIcT1Ln9A
+ 41JqWsjqdlOBv5sMyEfY867HGz830RUCxow91jrH718o/MAdssaMhbm8O0pSfmuMsX
+ fJcpB3MQzucPn8sR1VumiaHKnl99/w98MKtStxBg=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 05/30] tcg/loongarch64: Add register names,
- allocation order and input/output sets
-Date: Sat, 25 Sep 2021 01:25:02 +0800
-Message-Id: <20210924172527.904294-6-git@xen0n.name>
+Subject: [PATCH v5 06/30] tcg/loongarch64: Define the operand constraints
+Date: Sat, 25 Sep 2021 01:25:03 +0800
+Message-Id: <20210924172527.904294-7-git@xen0n.name>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210924172527.904294-1-git@xen0n.name>
 References: <20210924172527.904294-1-git@xen0n.name>
@@ -70,134 +69,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 118 +++++++++++++++++++++++++++++++
- 1 file changed, 118 insertions(+)
- create mode 100644 tcg/loongarch64/tcg-target.c.inc
+ tcg/loongarch64/tcg-target-con-str.h | 28 +++++++++++++++
+ tcg/loongarch64/tcg-target.c.inc     | 52 ++++++++++++++++++++++++++++
+ 2 files changed, 80 insertions(+)
+ create mode 100644 tcg/loongarch64/tcg-target-con-str.h
 
-diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
+diff --git a/tcg/loongarch64/tcg-target-con-str.h b/tcg/loongarch64/tcg-target-con-str.h
 new file mode 100644
-index 0000000000..42eebef78e
+index 0000000000..c3986a4fd4
 --- /dev/null
-+++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -0,0 +1,118 @@
++++ b/tcg/loongarch64/tcg-target-con-str.h
+@@ -0,0 +1,28 @@
++/* SPDX-License-Identifier: MIT */
 +/*
-+ * Tiny Code Generator for QEMU
++ * Define LoongArch target-specific operand constraints.
 + *
 + * Copyright (c) 2021 WANG Xuerui <git@xen0n.name>
 + *
-+ * Based on tcg/riscv/tcg-target.c.inc
++ * Based on tcg/riscv/tcg-target-con-str.h
 + *
-+ * Copyright (c) 2018 SiFive, Inc
-+ * Copyright (c) 2008-2009 Arnaud Patard <arnaud.patard@rtp-net.org>
-+ * Copyright (c) 2009 Aurelien Jarno <aurelien@aurel32.net>
-+ * Copyright (c) 2008 Fabrice Bellard
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
++ * Copyright (c) 2021 Linaro
 + */
 +
-+#ifdef CONFIG_DEBUG_TCG
-+static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
-+    "zero",
-+    "ra",
-+    "tp",
-+    "sp",
-+    "a0",
-+    "a1",
-+    "a2",
-+    "a3",
-+    "a4",
-+    "a5",
-+    "a6",
-+    "a7",
-+    "t0",
-+    "t1",
-+    "t2",
-+    "t3",
-+    "t4",
-+    "t5",
-+    "t6",
-+    "t7",
-+    "t8",
-+    "r21", /* reserved in the LP64 ABI, hence no ABI name */
-+    "s9",
-+    "s0",
-+    "s1",
-+    "s2",
-+    "s3",
-+    "s4",
-+    "s5",
-+    "s6",
-+    "s7",
-+    "s8"
-+};
++/*
++ * Define constraint letters for register sets:
++ * REGS(letter, register_mask)
++ */
++REGS('r', ALL_GENERAL_REGS)
++REGS('L', ALL_GENERAL_REGS & ~SOFTMMU_RESERVE_REGS)
++
++/*
++ * Define constraint letters for constants:
++ * CONST(letter, TCG_CT_CONST_* bit set)
++ */
++CONST('I', TCG_CT_CONST_S12)
++CONST('N', TCG_CT_CONST_N12)
++CONST('U', TCG_CT_CONST_U12)
++CONST('Z', TCG_CT_CONST_ZERO)
++CONST('C', TCG_CT_CONST_C12)
++CONST('W', TCG_CT_CONST_WSZ)
+diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
+index 42eebef78e..f0930f77ef 100644
+--- a/tcg/loongarch64/tcg-target.c.inc
++++ b/tcg/loongarch64/tcg-target.c.inc
+@@ -116,3 +116,55 @@ static const int tcg_target_call_oarg_regs[] = {
+     TCG_REG_A0,
+     TCG_REG_A1,
+ };
++
++#define TCG_CT_CONST_ZERO  0x100
++#define TCG_CT_CONST_S12   0x200
++#define TCG_CT_CONST_N12   0x400
++#define TCG_CT_CONST_U12   0x800
++#define TCG_CT_CONST_C12   0x1000
++#define TCG_CT_CONST_WSZ   0x2000
++
++#define ALL_GENERAL_REGS      MAKE_64BIT_MASK(0, 32)
++/*
++ * For softmmu, we need to avoid conflicts with the first 5
++ * argument registers to call the helper.  Some of these are
++ * also used for the tlb lookup.
++ */
++#ifdef CONFIG_SOFTMMU
++#define SOFTMMU_RESERVE_REGS  MAKE_64BIT_MASK(TCG_REG_A0, 5)
++#else
++#define SOFTMMU_RESERVE_REGS  0
 +#endif
 +
-+static const int tcg_target_reg_alloc_order[] = {
-+    /* Registers preserved across calls */
-+    /* TCG_REG_S0 reserved for TCG_AREG0 */
-+    TCG_REG_S1,
-+    TCG_REG_S2,
-+    TCG_REG_S3,
-+    TCG_REG_S4,
-+    TCG_REG_S5,
-+    TCG_REG_S6,
-+    TCG_REG_S7,
-+    TCG_REG_S8,
-+    TCG_REG_S9,
 +
-+    /* Registers (potentially) clobbered across calls */
-+    TCG_REG_T0,
-+    TCG_REG_T1,
-+    TCG_REG_T2,
-+    TCG_REG_T3,
-+    TCG_REG_T4,
-+    TCG_REG_T5,
-+    TCG_REG_T6,
-+    TCG_REG_T7,
-+    TCG_REG_T8,
++static inline tcg_target_long sextreg(tcg_target_long val, int pos, int len)
++{
++    return sextract64(val, pos, len);
++}
 +
-+    /* Argument registers, opposite order of allocation.  */
-+    TCG_REG_A7,
-+    TCG_REG_A6,
-+    TCG_REG_A5,
-+    TCG_REG_A4,
-+    TCG_REG_A3,
-+    TCG_REG_A2,
-+    TCG_REG_A1,
-+    TCG_REG_A0,
-+};
-+
-+static const int tcg_target_call_iarg_regs[] = {
-+    TCG_REG_A0,
-+    TCG_REG_A1,
-+    TCG_REG_A2,
-+    TCG_REG_A3,
-+    TCG_REG_A4,
-+    TCG_REG_A5,
-+    TCG_REG_A6,
-+    TCG_REG_A7,
-+};
-+
-+static const int tcg_target_call_oarg_regs[] = {
-+    TCG_REG_A0,
-+    TCG_REG_A1,
-+};
++/* test if a constant matches the constraint */
++static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
++{
++    if (ct & TCG_CT_CONST) {
++        return 1;
++    }
++    if ((ct & TCG_CT_CONST_ZERO) && val == 0) {
++        return 1;
++    }
++    if ((ct & TCG_CT_CONST_S12) && val == sextreg(val, 0, 12)) {
++        return 1;
++    }
++    if ((ct & TCG_CT_CONST_N12) && -val == sextreg(-val, 0, 12)) {
++        return 1;
++    }
++    if ((ct & TCG_CT_CONST_U12) && val >= 0 && val <= 0xfff) {
++        return 1;
++    }
++    if ((ct & TCG_CT_CONST_C12) && ~val >= 0 && ~val <= 0xfff) {
++        return 1;
++    }
++    if ((ct & TCG_CT_CONST_WSZ) && val == (type == TCG_TYPE_I32 ? 32 : 64)) {
++        return 1;
++    }
++    return 0;
++}
 -- 
 2.33.0
 
