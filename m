@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1599D417020
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:13:52 +0200 (CEST)
-Received: from localhost ([::1]:54184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9BA416FFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:07:49 +0200 (CEST)
+Received: from localhost ([::1]:37662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTiDH-0004xO-2n
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:13:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44184)
+	id 1mTi7Q-0001tt-Ag
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:07:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mThvw-0008Ou-78; Fri, 24 Sep 2021 05:55:56 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:33489)
+ id 1mThvv-0008JS-1A; Fri, 24 Sep 2021 05:55:55 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:52243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mThvs-0003H3-13; Fri, 24 Sep 2021 05:55:55 -0400
+ id 1mThvs-0003H9-0t; Fri, 24 Sep 2021 05:55:54 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HG6pz1TnHz4xbT; Fri, 24 Sep 2021 19:55:39 +1000 (AEST)
+ id 4HG6pz1jplz4xbV; Fri, 24 Sep 2021 19:55:39 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632477339;
- bh=/culBN4uvfd4ezf++3lsR+KbTemq14WUjaFOho2WPBQ=;
+ bh=QrtqFXuoGm02BVmn7+hf+bh6Sx8eMrzKqlRQ71LDqd8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gPwL8SNUrEscE75IxjiO2cOPFb1beZeSqAUQxVg/Tbg0GQGhR7I5VoO0TpuPNTA8s
- /migDe9Vkv6huYaNFIHlOG/TergBw/v1FGZNsJA1GxeGAEjJU1Vw76+tM/ZNUuXUQ4
- JAnOzG7PvAqcb9Shw3FSJhYfv7e2HENT0eINLykc=
+ b=E1iiYr92QUt0xFn1mSrVLr5SqRZeaT10gaFcWovapntdxEa2WFh7kaucs7mtK/QcZ
+ ORqLJjEmqIypioi1UeLG1kfJgwnSGh77ouzbrIPtztLEgg7QC5xHeNucCMzNGRjdB1
+ p2c5TogaSZBBXOaMN+xUJYWrD51Z1+y/06kYjkr0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 2/5] MAINTAINERS: Remove David & Greg as reviewers for a
- number of boards
-Date: Fri, 24 Sep 2021 19:55:33 +1000
-Message-Id: <20210924095536.441849-3-david@gibson.dropbear.id.au>
+Subject: [PATCH v2 3/5] MAINTAINERS: Remove David & Greg as
+ reviewers/co-maintainers of powernv
+Date: Fri, 24 Sep 2021 19:55:34 +1000
+Message-Id: <20210924095536.441849-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210924095536.441849-1-david@gibson.dropbear.id.au>
 References: <20210924095536.441849-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,65 +65,42 @@ Cc: peter.maydell@linaro.org, dbarboza@redhat.com, hpussin@reactos.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Greg and I are moving towards other areas and no longer have capacity to
-act as regular reviewers for several of the secondary ppc machine types.
-So, remove ourselves as reviewers for Macintosh, PReP, sam460ex and
-pegasos2 in MAINTAINERS.
+With our interests moving to other areas, Greg and myself no longer have
+capacity to be regular reviewers of code for the powernv machine type, let
+alone co-maintainers.  Additionally, not being IBM employees, we don't have
+easy access to the hardware information we'd need for good review.
+
+Therefore, remove our names as reviewers and/or co-maintainers of the
+powernv machine type, and the related XIVE interrupt controller.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- MAINTAINERS | 9 ---------
- 1 file changed, 9 deletions(-)
+ MAINTAINERS | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 3408618f2a..20436be86f 100644
+index 20436be86f..c82a634a70 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1265,8 +1265,6 @@ F: hw/ppc/mpc8544_guts.c
+@@ -1329,8 +1329,6 @@ F: tests/qtest/libqos/rtas*
  
- New World (mac99)
- M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
--R: David Gibson <david@gibson.dropbear.id.au>
--R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/mac_newworld.c
-@@ -1285,8 +1283,6 @@ F: pc-bios/qemu_vga.ndrv
- 
- Old World (g3beige)
- M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
--R: David Gibson <david@gibson.dropbear.id.au>
--R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/mac_oldworld.c
-@@ -1300,8 +1296,6 @@ F: pc-bios/qemu_vga.ndrv
- 
- PReP
- M: Hervé Poussineau <hpoussin@reactos.org>
--R: David Gibson <david@gibson.dropbear.id.au>
--R: Greg Kurz <groug@kaod.org>
+ PowerNV (Non-Virtualized)
+ M: Cédric Le Goater <clg@kaod.org>
+-M: David Gibson <david@gibson.dropbear.id.au>
+-M: Greg Kurz <groug@kaod.org>
  L: qemu-ppc@nongnu.org
  S: Maintained
- F: hw/ppc/prep.c
-@@ -1356,8 +1350,6 @@ F: hw/ppc/virtex_ml507.c
+ F: hw/ppc/pnv*
+@@ -2222,8 +2220,6 @@ T: git https://github.com/philmd/qemu.git fw_cfg-next
  
- sam460ex
- M: BALATON Zoltan <balaton@eik.bme.hu>
+ XIVE
+ M: Cédric Le Goater <clg@kaod.org>
 -R: David Gibson <david@gibson.dropbear.id.au>
 -R: Greg Kurz <groug@kaod.org>
  L: qemu-ppc@nongnu.org
- S: Maintained
- F: hw/ppc/sam460ex.c
-@@ -1371,7 +1363,6 @@ F: roms/u-boot-sam460ex
- 
- pegasos2
- M: BALATON Zoltan <balaton@eik.bme.hu>
--R: David Gibson <david@gibson.dropbear.id.au>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: hw/ppc/pegasos2.c
+ S: Supported
+ F: hw/*/*xive*
 -- 
 2.31.1
 
