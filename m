@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B27A417744
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 17:09:48 +0200 (CEST)
-Received: from localhost ([::1]:54966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0663417748
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 17:12:02 +0200 (CEST)
+Received: from localhost ([::1]:59690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTmpf-0006pU-9I
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 11:09:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56082)
+	id 1mTmrp-0001gm-V7
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 11:12:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mTmoD-0005C9-Of
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 11:08:17 -0400
-Received: from [115.28.160.31] (port=39778 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTmqd-0000EJ-GH
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 11:10:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37292)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mTmoA-0004QH-60
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 11:08:17 -0400
-Received: from [192.168.9.172] (unknown [101.88.29.172])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTmqZ-00067F-FM
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 11:10:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632496241;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sTesRNdlBWKPFvjt4ZJv5PVz3rizpMDzEimRANpHKDg=;
+ b=gL3lDO0K9cHWj995ZiZ6S7Ln9tODUySRhyRIL5hAHaK2RxuPEbt963lY8spa4X+/goRrZ4
+ nWr8X7CqHp+aTZw28FqSlVXOnFvGRe0z+UWuJ/35+SjT8+lbEqw1JKybUlqFeoVfLkoa7E
+ 3cB0snipwSlNtSeCqTnlZXbbLwaLXFI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-FqONO9IRMiWWnXpk14b8Ug-1; Fri, 24 Sep 2021 11:10:38 -0400
+X-MC-Unique: FqONO9IRMiWWnXpk14b8Ug-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id DB99560B0B;
- Fri, 24 Sep 2021 23:08:05 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632496086; bh=Q+zX9LxLdPSMj1l1YEACY+aOHhrJcgRMFOyYAkG1NKk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DdXvcb9eCmL5jS114cH/d7RtpTYpI4rBJ8MbFZLw9Khq/Q0s9n8jhFDuyRtDFkvtu
- 4ZXOsfv5h7tszarMEhYF9/xyvBlekE2nT69XaBE4xmvN4juWE+UUcYRTaD44msmlvc
- wXlG+w6nO0XEDgcLItwB4RfeIALGX2OXkCpJPAmE=
-Message-ID: <7ca2e822-839f-96ab-9dc9-276565d03478@xen0n.name>
-Date: Fri, 24 Sep 2021 23:08:05 +0800
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3ECA3BBEE4;
+ Fri, 24 Sep 2021 15:10:37 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA4C15D6D5;
+ Fri, 24 Sep 2021 15:10:34 +0000 (UTC)
+Date: Fri, 24 Sep 2021 17:10:33 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 05/11] qdev: Make DeviceState.id independent of QemuOpts
+Message-ID: <YU3qaUd4jDdcdOrB@redhat.com>
+References: <20210924090427.9218-1-kwolf@redhat.com>
+ <20210924090427.9218-6-kwolf@redhat.com>
+ <ee35074e-b4aa-7566-4ae8-57cee895cd72@virtuozzo.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
- Thunderbird/94.0a1
-Subject: Re: [PATCH v3 09/30] tcg/loongarch64: Implement tcg_out_mov and
- tcg_out_movi
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210922180927.666273-1-git@xen0n.name>
- <20210922180927.666273-10-git@xen0n.name>
- <5ace7b10-b7de-46e2-2021-01129024ffe2@linaro.org>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <5ace7b10-b7de-46e2-2021-01129024ffe2@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <ee35074e-b4aa-7566-4ae8-57cee895cd72@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,149 +77,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ qemu-block@nongnu.org, libvir-list@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, its@irrelevant.dk, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+Am 24.09.2021 um 16:02 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 24.09.2021 12:04, Kevin Wolf wrote:
+> > DeviceState.id is a pointer to a string that is stored in the QemuOpts
+> > object DeviceState.opts and freed together with it. We want to create
+> > devices without going through QemuOpts in the future, so make this a
+> > separately allocated string.
+> > 
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> 
+> Interesting that in hw/xen/xen-legacy-backend.c
+> g_strdup_printf-allocated id is passed to qdev_set_id prior this
+> patch. So, the patch seems to fix that small leak. Worth to mention?
 
-On 9/24/21 00:50, Richard Henderson wrote:
-> On 9/22/21 11:09 AM, WANG Xuerui wrote:
->
-> Following up on previous, I suggest:
->
->> +static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
->> +                         tcg_target_long val)
->> +{
->> +    if (type == TCG_TYPE_I32) {
->> +        val = (int32_t)val;
->> +    }
->> +
->> +    /* Single-instruction cases.  */
->> +    tcg_target_long low = sextreg(val, 0, 12);
->> +    if (low == val) {
->> +        /* val fits in simm12: addi.w rd, zero, val */
->> +        tcg_out_opc_addi_w(s, rd, TCG_REG_ZERO, val);
->> +        return;
->> +    }
->> +    if (0x800 <= val && val <= 0xfff) {
->> +        /* val fits in uimm12: ori rd, zero, val */
->> +        tcg_out_opc_ori(s, rd, TCG_REG_ZERO, val);
->> +        return;
->> +    }
->
->> +    /* Test for PC-relative values that can be loaded faster.  */
->> +    intptr_t pc_offset = tcg_pcrel_diff(s, (void *)val);
->> +    if (pc_offset == sextreg(pc_offset, 0, 22) && (pc_offset & 3) == 
->> 0) {
->> +        tcg_out_opc_pcaddu2i(s, rd, pc_offset >> 2);
->> +        return;
->> +    }
->
->     /* Handle all 32-bit constants. */
->     if (val == (int32_t)val) {
->         tcg_out_opc_lu12i(s, rd, val >> 12);
->         if (low) {
->             tcg_out_opc_ori(s, rd, rd, val & 0xfff);
->         }
->         return;
->     }
->
->     /* Handle pc-relative values requiring 2 instructions. */
->     intptr_t pc_lo = sextract64(pc_offset, 0, 12);
->     intptr_t pc_hi = pc_offset - pc_low;
->     if (pc_hi == (int32_t)pc_hi) {
->         tcg_out_opc_pcaddu12i(s, rd, pc_hi >> 12);
->         tcg_out_opc_addi_d(s, rd, rd, pc_lo);
->         return;
->     }
->
->     /*
->      * Choose signed low part if bit 13 is also set,
->      * which gives us a chance of making more zeros.
->      * Otherwise, let low be unsigned.
->      */
->     if ((val & 0x1800) != 0x1800) {
->         low = val & 0xfff;
->     }
->     val -= low;
->
->     tcg_target_long hi20 = sextract64(val, 12, 20);
->     tcg_target_long hi32 = sextract64(val, 32, 20);
->     tcg_target_long hi52 = sextract64(val, 52, 12);
->
->     /*
->      * If we can use the sign-extension of a previous
->      * operation, suppress higher -1.
->      */
->     if (hi32 < 0 && hi52 == -1) {
->         hi52 = 0;
->     }
->     if (hi20 < 0 && hi32 == -1) {
->         hi32 = 0;
->     }
->
->     /* Initialize RD with the least non-zero component. */
->     if (hi20) {
->         tcg_out_opc_lu12i_w(s, rd, hi20 >> 12);
->     } else if (hi32) {
->         /* CU32I_D is modify in place, so RD must be initialized. */
->         if (low < 0) {
->             tcg_out_opc_addi_w(s, rd, TCG_REG_ZERO, low);
->         } else {
->             tcg_out_opc_ori(s, rd, TCG_REG_ZERO, low);
->         }
->         low = 0;
->     } else {
->         tcg_out_opc_cu52i_d(s, rd, TCG_REG_ZERO, hi52);
->         hi52 = 0;
->     }
->
->     /* Assume that lu12i + ori are fusable */
->     if (low > 0) {
->         tcg_out_opc_ori(s, rd, rd, low);
->     }
->
->     /* Set the high 32 bits */
->     if (hi32) {
->         tcg_out_opc_cu32i_d(s, rd, hi32);
->     }
->     if (hi52) {
->         tcg_out_opc_cu52i(s, rd, rd, hi52);
->     }
->
->     /*
->      * Note that any subtraction must come last,
->      * because cu32i and cu52i overwrite high bits,
->      * and we have computed them as val - low.
->      */
->     if (low < 0) {
->         tcg_out_opc_addi_d(s, rd, rd, low);
->     }
->
-> Untested, and all bugs are mine, of course.
->
-> Try "qemu-system-ppc64 -D z -d in_asm,op_opt,out_asm".
-> You should see some masking constants like
->
->  ---- 000000001daf2898
->  and_i64 CA,r9,$0x7fffffffffffffff        dead: 2  pref=0xffff
->
->   cu52i.d rd, zero, 0x800
->   addi.d  rd, rd, -1
->
->  ---- 000000001db0775c
->  mov_i64 r26,$0x300000002                 sync: 0  dead: 0 1 pref=0xffff
->
->   ori     rd, zero, 2
->   cu32i   rd, 3
->
-Oops, for some reason I only received this at about 8 pm... I'll of 
-course take advantage of the Saturday and compare the generated code for 
-the cases, hopefully incorporating some of your ideas presented here. 
-Thanks for the detailed reply!
->
-> r~
+Ok, I can mention it explicitly.
+
+> > ---
+> >   include/hw/qdev-core.h              | 2 +-
+> >   include/monitor/qdev.h              | 2 +-
+> >   hw/arm/virt.c                       | 2 +-
+> >   hw/core/qdev.c                      | 1 +
+> >   hw/pci-bridge/pci_expander_bridge.c | 2 +-
+> >   hw/ppc/e500.c                       | 2 +-
+> >   softmmu/qdev-monitor.c              | 5 +++--
+> >   7 files changed, 9 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> > index 34c8a7506a..1857d9698e 100644
+> > --- a/include/hw/qdev-core.h
+> > +++ b/include/hw/qdev-core.h
+> > @@ -176,7 +176,7 @@ struct DeviceState {
+> >       Object parent_obj;
+> >       /*< public >*/
+> > -    const char *id;
+> > +    char *id;
+> >       char *canonical_path;
+> >       bool realized;
+> >       bool pending_deleted_event;
+> > diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
+> > index eaa947d73a..389287eb44 100644
+> > --- a/include/monitor/qdev.h
+> > +++ b/include/monitor/qdev.h
+> > @@ -9,6 +9,6 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp);
+> >   int qdev_device_help(QemuOpts *opts);
+> >   DeviceState *qdev_device_add(QemuOpts *opts, Error **errp);
+> > -void qdev_set_id(DeviceState *dev, const char *id);
+> > +void qdev_set_id(DeviceState *dev, char *id);
+> >   #endif
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > index 1d59f0e59f..f933d48d3b 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -1459,7 +1459,7 @@ static void create_platform_bus(VirtMachineState *vms)
+> >       MemoryRegion *sysmem = get_system_memory();
+> >       dev = qdev_new(TYPE_PLATFORM_BUS_DEVICE);
+> > -    dev->id = TYPE_PLATFORM_BUS_DEVICE;
+> > +    dev->id = g_strdup(TYPE_PLATFORM_BUS_DEVICE);
+> >       qdev_prop_set_uint32(dev, "num_irqs", PLATFORM_BUS_NUM_IRQS);
+> >       qdev_prop_set_uint32(dev, "mmio_size", vms->memmap[VIRT_PLATFORM_BUS].size);
+> >       sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> > diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+> > index cefc5eaa0a..d918b50a1d 100644
+> > --- a/hw/core/qdev.c
+> > +++ b/hw/core/qdev.c
+> > @@ -956,6 +956,7 @@ static void device_finalize(Object *obj)
+> >       }
+> >       qemu_opts_del(dev->opts);
+> > +    g_free(dev->id);
+> >   }
+> >   static void device_class_base_init(ObjectClass *class, void *data)
+> > diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+> > index 7112dc3062..10e6e7c2ab 100644
+> > --- a/hw/pci-bridge/pci_expander_bridge.c
+> > +++ b/hw/pci-bridge/pci_expander_bridge.c
+> > @@ -245,7 +245,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
+> >       } else {
+> >           bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
+> >           bds = qdev_new("pci-bridge");
+> > -        bds->id = dev_name;
+> > +        bds->id = g_strdup(dev_name);
+> >           qdev_prop_set_uint8(bds, PCI_BRIDGE_DEV_PROP_CHASSIS_NR, pxb->bus_nr);
+> >           qdev_prop_set_bit(bds, PCI_BRIDGE_DEV_PROP_SHPC, false);
+> >       }
+> > diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> > index 95451414dd..960e7efcd3 100644
+> > --- a/hw/ppc/e500.c
+> > +++ b/hw/ppc/e500.c
+> > @@ -1006,7 +1006,7 @@ void ppce500_init(MachineState *machine)
+> >       /* Platform Bus Device */
+> >       if (pmc->has_platform_bus) {
+> >           dev = qdev_new(TYPE_PLATFORM_BUS_DEVICE);
+> > -        dev->id = TYPE_PLATFORM_BUS_DEVICE;
+> > +        dev->id = g_strdup(TYPE_PLATFORM_BUS_DEVICE);
+> >           qdev_prop_set_uint32(dev, "num_irqs", pmc->platform_bus_num_irqs);
+> >           qdev_prop_set_uint32(dev, "mmio_size", pmc->platform_bus_size);
+> >           sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> > diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+> > index 034b999401..1207e57a46 100644
+> > --- a/softmmu/qdev-monitor.c
+> > +++ b/softmmu/qdev-monitor.c
+> > @@ -592,7 +592,8 @@ static BusState *qbus_find(const char *path, Error **errp)
+> >       return bus;
+> >   }
+> > -void qdev_set_id(DeviceState *dev, const char *id)
+> > +/* Takes ownership of @id, will be freed when deleting the device */
+> > +void qdev_set_id(DeviceState *dev, char *id)
+> >   {
+> >       if (id) {
+> >           dev->id = id;
+> > @@ -690,7 +691,7 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+> >           }
+> >       }
+> > -    qdev_set_id(dev, qemu_opts_id(opts));
+> > +    qdev_set_id(dev, g_strdup(qemu_opts_id(opts)));
+> >       /* set properties */
+> >       if (qemu_opt_foreach(opts, set_property, dev, errp)) {
+> > 
+> 
+> In hw/pci/pci_bridge.c
+> 
+> we do
+> 
+>    br->bus_name = dev->qdev.id
+> 
+> It seems bad, as we now stole dynamic pointer, that may be freed later.
+
+If it's bad now, it was as bad before because previously it was just a
+pointer stolen from the QemuOpts that is freed in the same function as
+dev->id after this patch.
+
+I think the code is correct (it's just another field of the same device,
+the real bus name is just a copy of it, and the bus can't outlive the
+device that owns it anyway), but it might be bad style.
+
+Kevin
+
 
