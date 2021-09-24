@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF22E41701D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:11:56 +0200 (CEST)
-Received: from localhost ([::1]:52794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39BD417034
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:19:27 +0200 (CEST)
+Received: from localhost ([::1]:41256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTiBP-00040f-Pd
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:11:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41830)
+	id 1mTiIg-0007Qp-Sz
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThiK-0007eM-Ex
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:41:52 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41584)
+ id 1mThiU-00088j-12
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:42:02 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThiE-0008JI-Ol
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:41:52 -0400
-Received: by mail-wr1-x435.google.com with SMTP id w29so25433603wra.8
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 02:41:46 -0700 (PDT)
+ id 1mThiS-0008U6-Lj
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:42:01 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id d21so25384457wra.12
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 02:42:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zo8kftudnPOZgXxxzKZCu6JZDCUogG66dPAYCxpYeH4=;
- b=chUbqeJV+99AjzZ2+mWb6PHXxL7KV1IoRNF/wC+uVUh4JMDQ6+DrfIgieceLBCNV0y
- gRqWvQIdoPnmkPC0MjNEbNq3HhLsffeDQXOvgFY7IW9qPPAJ5P8/FXSzead+XE7v2V4Z
- VnLh3NUaBnMf+uJjcgBZKDE+SCLVZERmOu0K+yLqD3UqhUq5a0F72qut3HXWHqsQiBaV
- nK9AurxeUFi8cPgqTWj8I2UPUYFzwNCoBg9UvMLfHpuLCAvvclenYdIwTLaT5ajZuA63
- GxxWbz3l+JKgmLmSA/evbleZwvOyrs9GMRCVt7jKiLA9GW32275/qgsVi5BhBfZx40bh
- NybQ==
+ bh=lsD8NWGZdgfbGQhaRvFJOuKgMHvFJkt23n3sZARQWU8=;
+ b=UwDdJkXdPu+UwIOLG7cF1DpN08NOVjUXh5QxZO3b8BlxRdAye0OJz2hLqKgxw0ZKDG
+ PzPuRnVN0Hcwvs9ZnlPJBOVuyUiE5Wibc1gFbRerxlFnnfoCR6m5gcEaRGIRw6flshnx
+ eKifOQnMKcSSPap9xcmf4wa0TYhT3HsYptzq8553VGvUn4ZHNZlKA4MnxYoP9K5hQV7R
+ lLE/TCBgRrYvCvnP6+FbiCLac7cjuVYnGRwe7QyKDzOhYCfBflTL06U6GT3YPkIwozTj
+ Kp3qDVZS0fvkxnYKCFUI2Ya3nOV56tP3mPcK8INiJEdk+MEH85+SQXa14dlfdHNGLro3
+ Fycg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zo8kftudnPOZgXxxzKZCu6JZDCUogG66dPAYCxpYeH4=;
- b=CToQtcrsNjt4ApJKha5fTU/tNM3ziMF+b5oy3SWM7owotSmW9fT9t/kX6cW7fiJ+0u
- wS8qm5YviOJLCTq5FgRxehs6cqJo2Tr/TsZyxvTZdezQ7V3MmwpnB2CmcUlr3jzJmTgY
- y7HA9lXLX2R3j+oQpQ1enJM4p2dqD+1xXmvqz/BI04XrD8E/3WLHe9HaSsbRTfRyNsM/
- 6WMwQIGg9l5vVKcnkEFTrca+1A9qEcRcJRBXXw2cLSEuJjGRbDECmV5Ls++8pSc4C2SJ
- UTtozkdDMfq4DoDhhtzfOqL0wp+cNIIskus8c6/7TYxPPFdqaCSf1elj98FZKDvJeOrQ
- uwsg==
-X-Gm-Message-State: AOAM531eqj+2JW5x//hpfyBk9vhU1PldroC+qqeQda8xcggDnyDqB080
- av34KlIn1S8YUiMh2Z26KYuYgI0HhNg=
-X-Google-Smtp-Source: ABdhPJy1UoZIAFxZw7dsk5UXIWVHWrGa0sr0xKDp49LL/Sd1laHKtSJCf1n0E7mSfIOzxvMsWdDKgQ==
-X-Received: by 2002:a7b:cc18:: with SMTP id f24mr1091089wmh.8.1632476505294;
- Fri, 24 Sep 2021 02:41:45 -0700 (PDT)
+ bh=lsD8NWGZdgfbGQhaRvFJOuKgMHvFJkt23n3sZARQWU8=;
+ b=vzcRaPNiK+otTAzANYUaKtGYWipPLvqvdMcdoAX2XbKI7eBMzSdnw94jHO6DN1KmOV
+ NvLjoh/Lv0gF2Tpmpo0nRzLTjYYSLuOQzHVM0j2ZPYhZ1o5sAJXlmNJYsRD2YLtmWxJn
+ nWE4imCX0tfQ4sXuIC+6mAJR10Y2rH5Mkw5Jmwe9RY+AMmfE+l8qllV29A8cOVhxA6p6
+ 1MAkSXz7vCMV/pwH7BISY9HLjAdxZW0H92UyIcHMT2V1/Jqymwk/LIx9/65i+XvvKpJg
+ XTXDLPEGY9Idc8UshXkuuE09djfF0wZiq6aaJvuYKei0v5WeEgM5tx8IpdC155BDiWw3
+ oZTQ==
+X-Gm-Message-State: AOAM531Y8yTZFk3BEk663Perh7tjC4glbJ1Y33D+ndBDBb59o69JPGUF
+ IQAp3D+WH6YB4AmwFdFuBaH7LYSLhxM=
+X-Google-Smtp-Source: ABdhPJwRCbd+wpqeirpoZIHuJdD3JA83d7V/aSnH6KC/kwAqhcT7iG/DayNhWUkLO3DFjrX2xrvT/A==
+X-Received: by 2002:adf:ecd2:: with SMTP id s18mr10164901wro.99.1632476519278; 
+ Fri, 24 Sep 2021 02:41:59 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- 20sm12868821wme.46.2021.09.24.02.41.44
+ y7sm5082791wrs.95.2021.09.24.02.41.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 02:41:44 -0700 (PDT)
+ Fri, 24 Sep 2021 02:41:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 37/40] target/tricore: Restrict has_work() handler to sysemu
-Date: Fri, 24 Sep 2021 11:38:44 +0200
-Message-Id: <20210924093847.1014331-38-f4bug@amsat.org>
+Subject: [PATCH v6 40/40] accel/tcg: Simplify tcg_cpu_has_work()
+Date: Fri, 24 Sep 2021 11:38:47 +0200
+Message-Id: <20210924093847.1014331-41-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210924093847.1014331-1-f4bug@amsat.org>
 References: <20210924093847.1014331-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, SPF_HELO_NONE=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,55 +85,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restrict has_work() to sysemu.
+All TCG targets implement the TCGCPUOps::has_work() handler.
+We can remove the non-NULL handler check in tcg_cpu_has_work().
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Add an assertion in tcg_exec_realizefn() for future TCG targets.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/tricore/cpu.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ accel/tcg/cpu-exec.c      | 4 ++++
+ accel/tcg/tcg-accel-ops.c | 5 +----
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-index b95682b7f04..419fa624bd5 100644
---- a/target/tricore/cpu.c
-+++ b/target/tricore/cpu.c
-@@ -62,10 +62,12 @@ static void tricore_cpu_reset(DeviceState *dev)
-     cpu_state_reset(env);
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 5fd1ed34222..18c20e5759b 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -993,6 +993,10 @@ void tcg_exec_realizefn(CPUState *cpu, Error **errp)
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+ 
+     if (!tcg_target_initialized) {
++        /* Mandatory non-NULL handlers */
++        g_assert(cc->tcg_ops->initialize);
++        g_assert(cc->tcg_ops->has_work);
++
+         cc->tcg_ops->initialize();
+         tcg_target_initialized = true;
+     }
+diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
+index 3c75ed2cccc..6cd32f04cb9 100644
+--- a/accel/tcg/tcg-accel-ops.c
++++ b/accel/tcg/tcg-accel-ops.c
+@@ -78,10 +78,7 @@ static bool tcg_cpu_has_work(CPUState *cpu)
+ {
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+ 
+-    if (cc->tcg_ops->has_work) {
+-        return cc->tcg_ops->has_work(cpu);
+-    }
+-    return false;
++    return cc->tcg_ops->has_work(cpu);
  }
  
-+#if !defined(CONFIG_USER_ONLY)
- static bool tricore_cpu_has_work(CPUState *cs)
- {
-     return true;
- }
-+#endif /* !CONFIG_USER_ONLY */
- 
- static void tricore_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-@@ -154,6 +156,9 @@ static const struct TCGCPUOps tricore_tcg_ops = {
-     .initialize = tricore_tcg_init,
-     .synchronize_from_tb = tricore_cpu_synchronize_from_tb,
-     .tlb_fill = tricore_cpu_tlb_fill,
-+#if !defined(CONFIG_USER_ONLY)
-+    .has_work = tricore_cpu_has_work,
-+#endif
- };
- 
- static void tricore_cpu_class_init(ObjectClass *c, void *data)
-@@ -167,7 +172,6 @@ static void tricore_cpu_class_init(ObjectClass *c, void *data)
- 
-     device_class_set_parent_reset(dc, tricore_cpu_reset, &mcc->parent_reset);
-     cc->class_by_name = tricore_cpu_class_by_name;
--    cc->has_work = tricore_cpu_has_work;
- 
-     cc->gdb_read_register = tricore_cpu_gdb_read_register;
-     cc->gdb_write_register = tricore_cpu_gdb_write_register;
+ /* mask must never be zero, except for A20 change call */
 -- 
 2.31.1
 
