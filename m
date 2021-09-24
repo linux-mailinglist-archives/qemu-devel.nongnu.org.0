@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DB8417A16
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:52:45 +0200 (CEST)
-Received: from localhost ([::1]:37020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5750417A85
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 20:06:27 +0200 (CEST)
+Received: from localhost ([::1]:41052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTpNM-0002pH-HH
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:52:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53038)
+	id 1mTpac-0008O7-Bg
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 14:06:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTozX-00088W-HQ
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:28:07 -0400
-Received: from [115.28.160.31] (port=41664 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTozS-00081b-Cw
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:28:02 -0400
+Received: from [115.28.160.31] (port=41634 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTozU-0005Np-Dh
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:28:07 -0400
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTozQ-0005HR-JV
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:28:02 -0400
 Received: from ld50.lan (unknown [101.88.29.172])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 5E12460B2B;
- Sat, 25 Sep 2021 01:27:50 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id F081B60B28;
+ Sat, 25 Sep 2021 01:27:44 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632504470; bh=TNNQFvX5KdoW4SMbwwlehpe4Z+vXbC8CH6v++qzY5+g=;
+ t=1632504465; bh=PvTdAoMiKc6lxa25eQ3SXzsoDbcPwU3zW+4oDgzu2FQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JcA1x5vCb1N2XeXo7xwsPVUYVDNJosv0GpZh5N9A0tBpWSKmjox7OgZ562q9NZucZ
- XzRjdHmjHOk9Ag+mE1gl3pjIm8pUK48eplev75qLLoMAWiNCTY8VH2WqohM9q9aPbX
- YZcIcyZe3/jwfTCsjEEnjkvlT8xzsE0cgwsxsbDc=
+ b=NwGKpgd9/K3FFYudiDvOENFhVZm+1cb63YAKYS7JqJjBNwM9wIRWdPgRSVkRn5O3J
+ h6ayzQVPIq22+E92EVMFrFN0OelvYXT+CKUnTmTR1e2FMJRrKznDgaCdG7Ys4iQt0e
+ MYZFP54U9uF9kc4dZZCG2teI8NbdpqFnTe5I9Lss=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 30/30] configure,
- meson.build: Mark support for loongarch64 hosts
-Date: Sat, 25 Sep 2021 01:25:27 +0800
-Message-Id: <20210924172527.904294-31-git@xen0n.name>
+Subject: [PATCH v5 27/30] tcg/loongarch64: Register the JIT
+Date: Sat, 25 Sep 2021 01:25:24 +0800
+Message-Id: <20210924172527.904294-28-git@xen0n.name>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210924172527.904294-1-git@xen0n.name>
 References: <20210924172527.904294-1-git@xen0n.name>
@@ -70,55 +69,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configure   | 7 ++++++-
- meson.build | 2 +-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ tcg/loongarch64/tcg-target.c.inc | 44 ++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/configure b/configure
-index 1043ccce4f..3a9035385d 100755
---- a/configure
-+++ b/configure
-@@ -659,6 +659,8 @@ elif check_define __arm__ ; then
-   cpu="arm"
- elif check_define __aarch64__ ; then
-   cpu="aarch64"
-+elif check_define __loongarch64 ; then
-+  cpu="loongarch64"
- else
-   cpu=$(uname -m)
- fi
-@@ -667,7 +669,7 @@ ARCH=
- # Normalise host CPU name and set ARCH.
- # Note that this case should only have supported host CPUs, not guests.
- case "$cpu" in
--  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64)
-+  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64|loongarch64)
-   ;;
-   ppc64le)
-     ARCH="ppc64"
-@@ -4969,6 +4971,9 @@ if test "$linux" = "yes" ; then
-   aarch64)
-     linux_arch=arm64
-     ;;
-+  loongarch*)
-+    linux_arch=loongarch
-+    ;;
-   mips64)
-     linux_arch=mips
-     ;;
-diff --git a/meson.build b/meson.build
-index 15ef4d3c41..fc55712ac3 100644
---- a/meson.build
-+++ b/meson.build
-@@ -57,7 +57,7 @@ python = import('python').find_installation()
- 
- supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
- supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
--  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
-+  'arm', 'aarch64', 'loongarch64', 'mips', 'mips64', 'sparc', 'sparc64']
- 
- cpu = host_machine.cpu_family()
- targetos = host_machine.system()
+diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
+index c34683b2d0..39938fd5c2 100644
+--- a/tcg/loongarch64/tcg-target.c.inc
++++ b/tcg/loongarch64/tcg-target.c.inc
+@@ -1603,3 +1603,47 @@ static void tcg_target_init(TCGContext *s)
+     tcg_regset_set_reg(s->reserved_regs, TCG_REG_TP);
+     tcg_regset_set_reg(s->reserved_regs, TCG_REG_RESERVED);
+ }
++
++typedef struct {
++    DebugFrameHeader h;
++    uint8_t fde_def_cfa[4];
++    uint8_t fde_reg_ofs[ARRAY_SIZE(tcg_target_callee_save_regs) * 2];
++} DebugFrame;
++
++#define ELF_HOST_MACHINE EM_LOONGARCH
++
++static const DebugFrame debug_frame = {
++    .h.cie.len = sizeof(DebugFrameCIE) - 4, /* length after .len member */
++    .h.cie.id = -1,
++    .h.cie.version = 1,
++    .h.cie.code_align = 1,
++    .h.cie.data_align = -(TCG_TARGET_REG_BITS / 8) & 0x7f, /* sleb128 */
++    .h.cie.return_column = TCG_REG_RA,
++
++    /* Total FDE size does not include the "len" member.  */
++    .h.fde.len = sizeof(DebugFrame) - offsetof(DebugFrame, h.fde.cie_offset),
++
++    .fde_def_cfa = {
++        12, TCG_REG_SP,                 /* DW_CFA_def_cfa sp, ...  */
++        (FRAME_SIZE & 0x7f) | 0x80,     /* ... uleb128 FRAME_SIZE */
++        (FRAME_SIZE >> 7)
++    },
++    .fde_reg_ofs = {
++        0x80 + 23, 11,                  /* DW_CFA_offset, s0, -88 */
++        0x80 + 24, 10,                  /* DW_CFA_offset, s1, -80 */
++        0x80 + 25, 9,                   /* DW_CFA_offset, s2, -72 */
++        0x80 + 26, 8,                   /* DW_CFA_offset, s3, -64 */
++        0x80 + 27, 7,                   /* DW_CFA_offset, s4, -56 */
++        0x80 + 28, 6,                   /* DW_CFA_offset, s5, -48 */
++        0x80 + 29, 5,                   /* DW_CFA_offset, s6, -40 */
++        0x80 + 30, 4,                   /* DW_CFA_offset, s7, -32 */
++        0x80 + 31, 3,                   /* DW_CFA_offset, s8, -24 */
++        0x80 + 22, 2,                   /* DW_CFA_offset, s9, -16 */
++        0x80 + 1 , 1,                   /* DW_CFA_offset, ra, -8 */
++    }
++};
++
++void tcg_register_jit(const void *buf, size_t buf_size)
++{
++    tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
++}
 -- 
 2.33.0
 
