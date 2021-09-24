@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEDBE417BB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:16:04 +0200 (CEST)
-Received: from localhost ([::1]:58598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6926417BB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:19:07 +0200 (CEST)
+Received: from localhost ([::1]:36674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTqfz-0005Ir-UJ
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:16:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39704)
+	id 1mTqiw-0001H1-KG
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:19:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqPp-0006Dq-Uj
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:59:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41448)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqPu-0006Lj-4G
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:59:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqPo-0006fv-0O
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:59:21 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqPr-0006ik-PR
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:59:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632509959;
+ s=mimecast20190719; t=1632509963;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NcPziRqNjzs91O5Fv0kbcm1jKljztHLGliI2GoDJKwU=;
- b=io/351SFSWnT6RdsiHd6KKmTUD419CaVAGmo7Ml+3aHoHVlFAB9JXoy7sDhoi0zH0Sb0jL
- 3OZpHYzGG2B0yltNZ4Xs2A8b5l+s6Kw+1JvuWopZ6ZhdnhGOJaYwa1RpXvNtQcpMd1Y/OS
- 3oi1lHVZj+qFG5/MIFTN8IT+jzDceBE=
+ bh=z5xo1bf2tZ/5YRiURMLNzz55ZBZvkNdML+o8f6xdlkg=;
+ b=HHVRe7DkA4Mrfd4fd9oTqYOE+/S9I0mgjV+W/77Vh8axUiDeLO8oA16hm7OlfIpd3vUotR
+ XzemcHf+dLualqdCFwEJiMTOBidT4jyIhl6TVPhKwzGtwea4P9vjEptZT1Jbe+O9pQ1vrj
+ PGmHsBrYDI9SYxVn9FodOXbum9p7k4c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-eVKivoeVN9u8CmYdrgrvJQ-1; Fri, 24 Sep 2021 14:59:17 -0400
-X-MC-Unique: eVKivoeVN9u8CmYdrgrvJQ-1
+ us-mta-125-rI8IKjvROZuLG4BX8VPuCw-1; Fri, 24 Sep 2021 14:59:21 -0400
+X-MC-Unique: rI8IKjvROZuLG4BX8VPuCw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D37551018728;
- Fri, 24 Sep 2021 18:59:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6150180830C;
+ Fri, 24 Sep 2021 18:59:19 +0000 (UTC)
 Received: from p50.net (unknown [10.22.33.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 378A15C1A3;
- Fri, 24 Sep 2021 18:58:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EE7D5C1A3;
+ Fri, 24 Sep 2021 18:59:15 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/16] tests/acceptance/boot_xen.py: fetch kernel during test
- setUp()
-Date: Fri, 24 Sep 2021 14:55:01 -0400
-Message-Id: <20210924185506.2542588-12-crosa@redhat.com>
+Subject: [PATCH 12/16] tests/acceptance/boot_xen.py: removed unused import
+Date: Fri, 24 Sep 2021 14:55:02 -0400
+Message-Id: <20210924185506.2542588-13-crosa@redhat.com>
 In-Reply-To: <20210924185506.2542588-1-crosa@redhat.com>
 References: <20210924185506.2542588-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -94,56 +93,24 @@ Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The kernel is a common blob used in all tests.  By moving it to the
-setUp() method, the "fetch asset" plugin will recognize the kernel and
-attempt to fetch it and cache it before the tests are started.
+Just a clean up for an unused import.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/boot_xen.py | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ tests/acceptance/boot_xen.py | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/tests/acceptance/boot_xen.py b/tests/acceptance/boot_xen.py
-index e2c59f6592..cd916ddba4 100644
+index cd916ddba4..66621fd14d 100644
 --- a/tests/acceptance/boot_xen.py
 +++ b/tests/acceptance/boot_xen.py
-@@ -31,23 +31,22 @@ class BootXen(LinuxKernelTest):
-     timeout = 90
-     XEN_COMMON_COMMAND_LINE = 'dom0_mem=128M loglvl=all guest_loglvl=all'
+@@ -13,7 +13,6 @@
  
--    def fetch_guest_kernel(self):
-+    def setUp(self):
-+        super(BootXen, self).setUp()
-+
-         # Using my own built kernel - which works
-         kernel_url = ('https://fileserver.linaro.org/'
-                       's/JSsewXGZ6mqxPr5/download?path=%2F&files='
-                       'linux-5.9.9-arm64-ajb')
-         kernel_sha1 = '4f92bc4b9f88d5ab792fa7a43a68555d344e1b83'
--        kernel_path = self.fetch_asset(kernel_url,
--                                       asset_hash=kernel_sha1)
--
--        return kernel_path
-+        self.kernel_path = self.fetch_asset(kernel_url,
-+                                            asset_hash=kernel_sha1)
+ import os
  
-     def launch_xen(self, xen_path):
-         """
-         Launch Xen with a dom0 guest kernel
-         """
-         self.log.info("launch with xen_path: %s", xen_path)
--        kernel_path = self.fetch_guest_kernel()
- 
-         self.vm.set_console()
- 
-@@ -58,7 +57,7 @@ def launch_xen(self, xen_path):
-                          '-append', xen_command_line,
-                          '-device',
-                          'guest-loader,addr=0x47000000,kernel=%s,bootargs=console=hvc0'
--                         % (kernel_path))
-+                         % (self.kernel_path))
- 
-         self.vm.launch()
+-from avocado import skipIf
+ from avocado_qemu import wait_for_console_pattern
+ from boot_linux_console import LinuxKernelTest
  
 -- 
 2.31.1
