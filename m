@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3453A417758
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 17:17:40 +0200 (CEST)
-Received: from localhost ([::1]:37580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B37417762
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 17:19:11 +0200 (CEST)
+Received: from localhost ([::1]:40622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTmxH-0005xQ-9t
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 11:17:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57398)
+	id 1mTmyl-000815-1M
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 11:19:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1mTmvN-0004Xu-QM
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 11:15:41 -0400
-Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:34553)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mTmwh-0005d8-Df; Fri, 24 Sep 2021 11:17:03 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:33326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1mTmvM-00017U-8u
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 11:15:41 -0400
-Received: by mail-qk1-x72c.google.com with SMTP id i132so28637909qke.1
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 08:15:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mTmwU-0001sc-80; Fri, 24 Sep 2021 11:17:03 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id c21so36892558edj.0;
+ Fri, 24 Sep 2021 08:16:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RG4+rx0CgIY1MzzqpNngu5oUdMnCU+VALy/71d5xtNI=;
- b=UEzXFTn9hWZZB8z7Vtj5k7riH5gr4dgSyA2xCJ7DGYgaHgJL7fNYAlFUB2hCt2Qinx
- QFG/ZOVsreNMVPVu7MdSPZ2p7qvFMrAbGp68NbFKYZ2TEgPwj5teVXuqay4nU23oQtwR
- UNuhtFAZlWwBsjGIyH8MDDlRVVu4kOu6olzjCvdGlXy60yU3/XaVVICtapqYjlJ3qn55
- WtV2bJcgK0xgsfkq7phY8fVWvRJyxorcDl+WQjk/NRQVZEFZ24MiTTof3Xn4aRrpcSVJ
- t5YqXeIcVgbFCnl3BwIRcQLHSMAnSAjBr0FIcDGhoMofT70Ilm8W8xlhgLk/uZ9maU9Q
- MiBg==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=SauvnnXTScXFMiq4ZumTHnWQ42TlM0ud4KL5Y+OhEC0=;
+ b=cxV9M+xOidaDXnRcYvirRkNx+bK0ZL2LB/YHIwqV6EFgYBS49uSJO4+D3JTY/e+xLC
+ EzS9dWZP+PB1LIutFYjdiN2vgpD8mzZEL5ipeJTYb67+5+8dXXWnvEsOXl2jN568E5ng
+ lOx1yFm1nc+VUMTc+hk4vlYHL53Mbc9HQX5+GqDGy4ShBsiaj6owz2WjrpyR4S4acK5c
+ uA1/X/UVxb+1pN+I3EBa0RFZcmny2UjBsYmE/OoaWcnA9Pn+XeNT1cOGz3QzUgcHiklO
+ 8YJtkdOr4+/u8YtoNoD1sChFsDgAyEgvKJTxM+dmbnoBP11MdzQqdxH2H2ik8KB9DaFn
+ zkxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RG4+rx0CgIY1MzzqpNngu5oUdMnCU+VALy/71d5xtNI=;
- b=MqaFvEj7yYTyHfaIdmwRBy27Zpv1He5oF/z3FMZuKATo0CTgS+tkMw/2SO2HoAs2gd
- CxstOLMZO+K5DrLLYrbpyU+L0bJemtgmfan/K+Sl3HKvc1PH7OyX7aKWvzrRKRiAH/mn
- 1FzE6GbI2d/cNFAFKrmS0bTaTa1pBHnLhxhE9QRu5h1GTFLnDLCIbiiJlk+SH7nGknu6
- IPsZr4lfEnjfKuuuDtDlO1jif/0r76eKXHMjMQsRR5jBCc2V3TkE5BlQdMarZATgGf/T
- ZrJaZaBiW8D5C021j4+6kyD341mLf5jRo62B9vwGljY518hgwGdmHlpbho/nsdXF44pU
- bkgQ==
-X-Gm-Message-State: AOAM533NQrmuYcMnuRijvAbmNXCJXB4K4H1RaPAagB++/Wnxhle+hr8R
- Nwn4H2bLxUbBnWuKRul2ZGO7uTf7DPZkL4nB0io=
-X-Google-Smtp-Source: ABdhPJyXl6mtUlBAHp8DLwZ8cncFvX9apnNzwJ7+i6O01NonjD6xoLSik9KOfWSeGLOGXEY8D53i6Mfpx1Eka9gkA2Q=
-X-Received: by 2002:a37:a795:: with SMTP id
- q143mr10658058qke.317.1632496535579; 
- Fri, 24 Sep 2021 08:15:35 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=SauvnnXTScXFMiq4ZumTHnWQ42TlM0ud4KL5Y+OhEC0=;
+ b=zBhb3cO0cKIhoKuRFQmMNPl+QMiKc/L6wulzNYHbuqbTaD4ABstsZFqpf0EGSEpsKr
+ orblWsZIO4NP1SPqa9T7zBO+uYrY5rMID1uYX8a82Fu4Xt8EN7KSUelDqYyoXatsE1j8
+ cTx7TZ5V2vtS5esdxGKC+7fpiWfveD4dlu8BOg8i0LNAz76H7VQHBHLoNATMFjtLS6Dm
+ H1VRjJyWDlLKgVfXcWWeGp713jJir3SxxpTxvIbTowAa+BTbeTeG4gVH55XC7O/E8apd
+ ziT5UtMmBrIXG66ygso3Vq9pX1sEtaYX7K+C71iS4v51aSwgWVIb6v7fUagZR9QC6zUh
+ sL5Q==
+X-Gm-Message-State: AOAM531Z61uFY8be2R9C9Hz2TbgwY/R4G4hv5nk75MXgKDx8XXf3WZ4Q
+ t/lU8T2VxpAOMFuMA0eQM/8=
+X-Google-Smtp-Source: ABdhPJwalksvOX353GVDdZphDqlMA6Df4xk8AzHUqMbSCFL0kD50GIt93WaCJV65BQ5M+ityUoIAwQ==
+X-Received: by 2002:a17:906:774f:: with SMTP id
+ o15mr11538655ejn.200.1632496607621; 
+ Fri, 24 Sep 2021 08:16:47 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id m29sm8696435wrb.89.2021.09.24.08.16.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Sep 2021 08:16:47 -0700 (PDT)
+Message-ID: <b466a1f8-4459-b6f5-ad3e-51370231ec94@amsat.org>
+Date: Fri, 24 Sep 2021 17:16:45 +0200
 MIME-Version: 1.0
-References: <20210924093847.1014331-1-f4bug@amsat.org>
- <20210924093847.1014331-20-f4bug@amsat.org>
-In-Reply-To: <20210924093847.1014331-20-f4bug@amsat.org>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Fri, 24 Sep 2021 18:14:59 +0300
-Message-ID: <CAK4993gz1qOUJ07HoCveBj=ZN=jBc4XmZWU-E9HzwYhiTc8qLg@mail.gmail.com>
-Subject: Re: [PATCH v6 19/40] target/avr: Restrict has_work() handler to sysemu
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="00000000000019ae3f05ccbf383e"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=mrolnik@gmail.com; helo=mail-qk1-x72c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v2 0/5] Reduce load on ppc target maintainers
+Content-Language: en-US
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20210924095536.441849-1-david@gibson.dropbear.id.au>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20210924095536.441849-1-david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,107 +89,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, dbarboza@redhat.com, aik@ozlabs.ru,
+ mark.cave-ayland@ilande.co.uk, groug@kaod.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000019ae3f05ccbf383e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 9/24/21 11:55, David Gibson wrote:
+> Greg Kurz and myself have been co-maintainers for the ppc and ppc64
+> targets for some time now.  However, both our day job responsibilities
+> and interests are leading us towards other areas, so we have less time
+> to devote to this any more.
+> 
+> Therefore, here's a bunch of updates to MAINTAINERS, intended to
+> reduce the load on us.  Mostly this is marking fairly obscure
+> platforms as orphaned (if someone wants to take over maintainership,
+> let me know ASAP).  Bigger changes may be coming, but we haven't
+> decided exactly what that's going to look like yet.
+> 
+> Changes since v1:
+>   * Reworked how OpenPIC is listed
+> 
+> David Gibson (5):
+>    MAINTAINERS: Orphan obscure ppc platforms
+>    MAINTAINERS: Remove David & Greg as reviewers for a number of boards
+>    MAINTAINERS: Remove David & Greg as reviewers/co-maintainers of
+>      powernv
+>    MAINTAINERS: Add information for OpenPIC
+>    MAINTAINERS: Demote sPAPR from "Supported" to "Maintained"
+> 
+>   MAINTAINERS | 42 ++++++++++++++----------------------------
+>   1 file changed, 14 insertions(+), 28 deletions(-)
+> 
 
-Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
+So after this series we still have:
 
-On Fri, Sep 24, 2021 at 12:40 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg>
-wrote:
+PowerPC TCG CPUs
+M: David Gibson <david@gibson.dropbear.id.au>
+M: Greg Kurz <groug@kaod.org>
+L: qemu-ppc@nongnu.org
+S: Maintained
+F: target/ppc/
+F: hw/ppc/
+F: include/hw/ppc/
+F: disas/ppc.c
+F: tests/acceptance/machine_ppc.py
 
-> Restrict has_work() to sysemu.
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  target/avr/cpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-> index 5d70e34dd54..6d51f91ca2c 100644
-> --- a/target/avr/cpu.c
-> +++ b/target/avr/cpu.c
-> @@ -195,6 +195,7 @@ static const struct SysemuCPUOps avr_sysemu_ops =3D {
->  static const struct TCGCPUOps avr_tcg_ops =3D {
->      .initialize =3D avr_cpu_tcg_init,
->      .synchronize_from_tb =3D avr_cpu_synchronize_from_tb,
-> +    .has_work =3D avr_cpu_has_work,
->      .cpu_exec_interrupt =3D avr_cpu_exec_interrupt,
->      .tlb_fill =3D avr_cpu_tlb_fill,
->      .do_interrupt =3D avr_cpu_do_interrupt,
-> @@ -211,7 +212,6 @@ static void avr_cpu_class_init(ObjectClass *oc, void
-> *data)
->
->      cc->class_by_name =3D avr_cpu_class_by_name;
->
-> -    cc->has_work =3D avr_cpu_has_work;
->      cc->dump_state =3D avr_cpu_dump_state;
->      cc->set_pc =3D avr_cpu_set_pc;
->      cc->memory_rw_debug =3D avr_cpu_memory_rw_debug;
-> --
-> 2.31.1
->
->
+You might want to drop the *hw/ppc* lines which should
+be covered elsewhere now.
 
---=20
-Best Regards,
-Michael Rolnik
+tests/acceptance/machine_ppc.py should be split in multiple
+files to ease the tests maintainance.
 
---00000000000019ae3f05ccbf383e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks for staying PPC/TCG maintainers :)
 
-<div dir=3D"ltr">Reviewed-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@=
-gmail.com">mrolnik@gmail.com</a>&gt;</div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 24, 2021 at 12:40 PM Philip=
-pe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.or=
-g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->Restrict has_work() to sysemu.<br>
-<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
-t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
----<br>
-=C2=A0target/avr/cpu.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c<br>
-index 5d70e34dd54..6d51f91ca2c 100644<br>
---- a/target/avr/cpu.c<br>
-+++ b/target/avr/cpu.c<br>
-@@ -195,6 +195,7 @@ static const struct SysemuCPUOps avr_sysemu_ops =3D {<b=
-r>
-=C2=A0static const struct TCGCPUOps avr_tcg_ops =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.initialize =3D avr_cpu_tcg_init,<br>
-=C2=A0 =C2=A0 =C2=A0.synchronize_from_tb =3D avr_cpu_synchronize_from_tb,<b=
-r>
-+=C2=A0 =C2=A0 .has_work =3D avr_cpu_has_work,<br>
-=C2=A0 =C2=A0 =C2=A0.cpu_exec_interrupt =3D avr_cpu_exec_interrupt,<br>
-=C2=A0 =C2=A0 =C2=A0.tlb_fill =3D avr_cpu_tlb_fill,<br>
-=C2=A0 =C2=A0 =C2=A0.do_interrupt =3D avr_cpu_do_interrupt,<br>
-@@ -211,7 +212,6 @@ static void avr_cpu_class_init(ObjectClass *oc, void *d=
-ata)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;class_by_name =3D avr_cpu_class_by_name;<br>
-<br>
--=C2=A0 =C2=A0 cc-&gt;has_work =3D avr_cpu_has_work;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;dump_state =3D avr_cpu_dump_state;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;set_pc =3D avr_cpu_set_pc;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;memory_rw_debug =3D avr_cpu_memory_rw_debug;<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
+Regards,
 
---00000000000019ae3f05ccbf383e--
+Phil.
 
