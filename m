@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F0D417B75
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:06:34 +0200 (CEST)
-Received: from localhost ([::1]:33264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67202417B7A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:08:58 +0200 (CEST)
+Received: from localhost ([::1]:41358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTqWn-0004Mq-8o
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39214)
+	id 1mTqZ7-0001hs-BS
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:08:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqO9-0003K8-TO
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:57:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37438)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqNn-00033u-Kg
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:57:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqO8-0005Cm-3F
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:57:37 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqNi-0004pw-21
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:57:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632509855;
+ s=mimecast20190719; t=1632509828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=nL7iz+RrEoo9yAMNBG9KYSlsAKM1sZClVcQmCtA5nGE=;
- b=AOUNsuGHsatgKWw7W/TT5NtmqJgtj/XX9diAE4R4twh/fDV3NCIh6fV96LJS8tCJNQaQJt
- kVq1odIrskeMdRhehoxA3oZFgGTqYPs1VeOxeVb0reTrAs0K+04d2qpEE7TuLafOmbQ1kO
- Tp7+X547ZCtLfnc92PnXHDnuzkuoIRM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mUrjjmEOrJUouhYIn7Ll+NN6o8uj0JCunn1j0XlKM4s=;
+ b=BtAcJZV7ZCKVtWLYQJPoI7bFKGezFuwfm+9byFk5K7Aje/unna9wmAGsS3vgMQp9Wk8yO3
+ GmkfrdF4kjJnGim9YSs8OjoVQBcOKOsyzv9R+BASxENGHj+v713F07ThRQPSOYuYjLcWXF
+ rvi3An9sWaGtEecMp2NmcZEafiQPeSQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-vVsrc7b1MniNXiqodQvqxw-1; Fri, 24 Sep 2021 14:56:26 -0400
-X-MC-Unique: vVsrc7b1MniNXiqodQvqxw-1
+ us-mta-139-HSYATuiSNmiR8icLZjNyLQ-1; Fri, 24 Sep 2021 14:57:05 -0400
+X-MC-Unique: HSYATuiSNmiR8icLZjNyLQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F649100C664;
- Fri, 24 Sep 2021 18:56:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A206E1007258;
+ Fri, 24 Sep 2021 18:57:03 +0000 (UTC)
 Received: from p50.net (unknown [10.22.33.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 711815FC13;
- Fri, 24 Sep 2021 18:55:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4646776606;
+ Fri, 24 Sep 2021 18:56:24 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/16] Acceptance Tests: use Avocado 91.0 features and other
- improvements
-Date: Fri, 24 Sep 2021 14:54:50 -0400
-Message-Id: <20210924185506.2542588-1-crosa@redhat.com>
+Subject: [PATCH 01/16] Acceptance Tests: bump Avocado requirement to 91.0
+Date: Fri, 24 Sep 2021 14:54:51 -0400
+Message-Id: <20210924185506.2542588-2-crosa@redhat.com>
+In-Reply-To: <20210924185506.2542588-1-crosa@redhat.com>
+References: <20210924185506.2542588-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
@@ -60,8 +62,8 @@ X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,68 +93,84 @@ Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a collection of patches for the Acceptance Tests to leverage=0D
-some of the features of Avocado 91.0.  With the Avocado version bump=0D
-by itself, there would be a change in the default "test runner"=0D
-implementation that Avocado uses, from the one simply known as=0D
-"runner" to the new one called "nrunner".=0D
-=0D
-Among the changes from one implementation to the other, is the fact=0D
-that "nrunner" will run tests in parallel by default.  This is *not=0D
-yet* enabled by default on "make check-acceptance", but users can=0D
-choose to use simply by setting the "AVOCADO_RUNNER" variable, that=0D
-is:=0D
-=0D
-  make AVOCADO_RUNNER=3Dnrunner check-acceptance=0D
-=0D
-If you are curious about the architectural differences of the nrunner,=0D
-please refer to:=0D
-=0D
-  https://avocado-framework.readthedocs.io/en/91.0/guides/contributor/chapt=
-ers/runners.html=0D
-=0D
-One other noteworthy proposal is a convention to tag tests that either=0D
-have known issues, or that touch on QEMU features that have known=0D
-issues.  By tagging those tests accordingly, they will be=0D
-automatically excluded from the regular execution with "make=0D
-check-acceptance".=0D
-=0D
-Finally, some updates to assets locations and some tests refactors and=0D
-cleanups.=0D
-=0D
-Cleber Rosa (16):=0D
-  Acceptance Tests: bump Avocado requirement to 91.0=0D
-  Acceptance Tests: improve check-acceptance description=0D
-  Acceptance Tests: add mechanism for listing tests=0D
-  Acceptance Tests: keep track and disable tests with known issues=0D
-  Acceptance Tests: add standard clean up at test tearDown()=0D
-  Acceptance Tests: use extract from package from avocado.utils=0D
-  Acceptance Tests: workaround expired mipsdistros.mips.com HTTPS cert=0D
-  acceptance/tests/vnc.py: use explicit syntax for enabling passwords=0D
-  tests/acceptance/boot_xen.py: merge base classes=0D
-  tests/acceptance/boot_xen.py: unify tags=0D
-  tests/acceptance/boot_xen.py: fetch kernel during test setUp()=0D
-  tests/acceptance/boot_xen.py: removed unused import=0D
-  tests/acceptance/boot_xen.py: use class attribute=0D
-  tests/acceptance/ppc_prep_40p.py: NetBSD 7.1.2 location update=0D
-  tests/acceptance/ppc_prep_40p.py: clean up unused import=0D
-  tests/acceptance/ppc_prep_40p.py: unify tags=0D
-=0D
- docs/devel/testing.rst                    | 40 ++++++++++=0D
- tests/Makefile.include                    | 15 +++-=0D
- tests/acceptance/avocado_qemu/__init__.py |  1 +=0D
- tests/acceptance/boot_linux_console.py    | 93 +++++++++--------------=0D
- tests/acceptance/boot_xen.py              | 54 ++++---------=0D
- tests/acceptance/machine_rx_gdbsim.py     |  3 +=0D
- tests/acceptance/ppc_prep_40p.py          | 17 ++---=0D
- tests/acceptance/replay_kernel.py         | 18 ++---=0D
- tests/acceptance/tcg_plugins.py           |  2 +-=0D
- tests/acceptance/vnc.py                   |  2 +-=0D
- tests/requirements.txt                    |  2 +-=0D
- 11 files changed, 128 insertions(+), 119 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Avocado 91.0, brings, among other changes, a switch to a new runner
+implementation, known as "nrunner".  While my personal testing shows
+that it's suitable for running the QEMU tests, there are some
+considerations that should be addressed before the change.
+
+For instance, the "nrunner" implementation will run tests in parallel
+by default.  With more tests running, and resources shared, some tests
+may fail with timeouts on some environments.
+
+So, for now, let's bump the Avocado version to allow for the other
+features to be used.  And the "nrunner" implementation to be used by
+those that choose to do so.
+
+More information can be found at the release notes at:
+   https://avocado-framework.readthedocs.io/en/latest/releases/91_0.html
+
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+---
+ docs/devel/testing.rst | 12 ++++++++++++
+ tests/Makefile.include |  2 ++
+ tests/requirements.txt |  2 +-
+ 3 files changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 4a0abbf23d..2818c58ff8 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -740,6 +740,18 @@ may be invoked by running:
+ 
+   tests/venv/bin/avocado run $OPTION1 $OPTION2 tests/acceptance/
+ 
++Running tests in parallel
++-------------------------
++
++The current ``make check-acceptance`` target continues to use the
++Avocado runner implementation simply known as "runner".  But, it's now
++possible to opt-in and choose the "nrunner" implementation, which,
++among other things, allows for parallel execution of tests:
++
++.. code::
++
++  make AVOCADO_RUNNER=nrunner check-acceptance
++
+ Manual Installation
+ -------------------
+ 
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 6e16c05f10..ac289a2e41 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -92,6 +92,7 @@ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
+ # Any number of command separated loggers are accepted.  For more
+ # information please refer to "avocado --help".
+ AVOCADO_SHOW=app
++AVOCADO_RUNNER=runner
+ AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGETS)))
+ 
+ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
+@@ -128,6 +129,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+ 	$(call quiet-command, \
+             $(TESTS_VENV_DIR)/bin/python -m avocado \
+             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
++            --test-runner=$(AVOCADO_RUNNER) \
+             --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
+             $(AVOCADO_TAGS) \
+             $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index a21b59b443..40af24c664 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -1,5 +1,5 @@
+ # Add Python module requirements, one per line, to be installed
+ # in the tests/venv Python virtual environment. For more info,
+ # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+-avocado-framework==88.1
++avocado-framework==91.0
+ pycdlib==1.11.0
+-- 
+2.31.1
 
 
