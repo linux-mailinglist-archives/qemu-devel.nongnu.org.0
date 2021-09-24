@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4046D41714E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 13:51:05 +0200 (CEST)
-Received: from localhost ([::1]:52188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C21E54170F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 13:37:04 +0200 (CEST)
+Received: from localhost ([::1]:57394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTjjM-0001tL-BR
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 07:51:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34596)
+	id 1mTjVn-0002KU-PL
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 07:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mTjKc-0007xV-AK
+ id 1mTjKc-0007yq-Kq
  for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:25:30 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:42725)
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:37718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mTjKa-0000br-FZ
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:25:29 -0400
-Received: by mail-ed1-x535.google.com with SMTP id u27so34245815edi.9
+ id 1mTjKb-0000by-3y
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:25:30 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id bx4so34922481edb.4
  for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 04:25:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DX+n3kP2aHkHKaZjc+ogt7pnXtaudF677+IzkUFKWcc=;
- b=PC43oRRckn0Q4NkC+r6pxMQ4/WtMDqmxTq3nmi1yRCcczFvyJ8gnPE0TclWv9hVLbj
- lE3BbEDqT98Swpou7FP6FuDnwINtV7pQPH5xgavdfIboChmK+ipEpj+hQNMYcsxLga7C
- D63hgjYSN222BLRVCF9lh4exx/ij/f5+jUOoFQUpZq+4iLk4Rx/JFK7ObpP9vW3+Wpqo
- Q2G7BFx5R1XBRdVnbiMwpOSrXzjVdmUh1WPDxZBahAZQajoT5ZeourIFNYt3PQQ1yo4K
- MXc/fgbdIlYAhNQzTDGbl6lq9wgD+EGxxWivXYV/ua7Chl/qlKA0RXeylGS36Bv9csnh
- pEuQ==
+ bh=e3CR8xrdtQNpyFMwEEkkK45w7yuIntrOePJfuLXKl2k=;
+ b=UMbERYiMt6fmplsnsvzyw3yj1YEQoOnbiTTgwLrA/6KAX5dkQe1oCYbzBLm1hctnjs
+ KwuEReRM1rjAfbRJVQZ1GSIoWg4GD7YNbS4o4HuoPx+bMB/OUSLUGJ9reOxKP/uIxPxw
+ a36ifaQNSVgWQjG3jio/Vi/oLJeAZKn+aM/gm7QaVD/Abzm36MlwVrSoYGI1RVRCQ32V
+ clx+EV27u4zHm+KAlnx9xLDJ8ffG8alDovvPxGADvWa7zqdq1IBhpjGBPsh7DK0RN2s1
+ zKPmfOcTGvJwImL9Dff07+eXQjl5YcdbEMSLkYpS2iVZagMhQm0gqXnRUPuyF0lZK4tF
+ sfsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=DX+n3kP2aHkHKaZjc+ogt7pnXtaudF677+IzkUFKWcc=;
- b=gK3Q+9R9TMBCzsZA1H0ptpZueNPDBZ8Bq0ZHls/HNR3C7EJp7SZ5/QNJszZCqHMg7+
- B7AnQKrZKYaoYFVm4xg3JzETqlQZS9rVENjycvhmCVohYF/SFpfFLXQQCnEYt4GXwyFD
- JFRm0usx4qvYFyBASC7aegcxNPS7WukUuOLuOcU1H6PyIMWBxNwBSl03nRCrZx9eAnye
- pfPGqMIg4uG+K63uvrhjzTB1E3uv1PamHrMqVpmUkR1aiVvVnovqXFGbYLgZZOAlgqtO
- a8X85KZ64iJAgp8A0orjtb9VhNZ+p5kGmvfeXFqDTVUiijXoIdQ9/DRx5VMRlm3mdxrg
- 2wqA==
-X-Gm-Message-State: AOAM5335T3eSaliaPZGn3WnzTxHkBErvormku4aRy1Pfq9PV/EvkGe/0
- wqdDeF6Ou+hHaX4A1B6yj9xpHM7AgAo=
-X-Google-Smtp-Source: ABdhPJzkV5BWMVctyI4PhQmIU0xEGfDjQtvV6pQl8/Kzuo2P1BXdnKDRAnU3DVpzwNItbogMtJrqzQ==
-X-Received: by 2002:a17:906:2505:: with SMTP id
- i5mr10550816ejb.450.1632482727235; 
+ bh=e3CR8xrdtQNpyFMwEEkkK45w7yuIntrOePJfuLXKl2k=;
+ b=E0pxpQk9WHtpLFR8iZFa0EEiq7gsNQivktjZ1Vi2/nPCUMjqruRfeHsdhJsAwkGxCk
+ Rswn+RkFZkNVXLAMrP01tFeLz3WHhPofGqQEmTA9Ibs4ldtzvV9dWXzigsf4kmMOGfW0
+ KKtL6mLI6KWPBIrpAN7dInf5CNnmRud2S5FIEKkaghzZgUKLauMWRQxE/wySKaGxa9Ps
+ BUy1of+K6y2ZW/RYTEHrHUBVKTwDC0qlivT4dbf1HYdyL8+LnvnzkV+3AriDr3J39uLv
+ yy2hEXaIu5kqBvUIQZ1zCmDz8IRpO7V2EX63yV94qSsIdQUxi4TOlvJpUFEG3DNimYDY
+ OadQ==
+X-Gm-Message-State: AOAM531lKEh75SsBCff4dIdik7UKB0bnAY9Z0wtEYylNP+I44s7aWZI1
+ wtbq1MNDNSn1dX8e19Xl2i0TNkm0BXM=
+X-Google-Smtp-Source: ABdhPJzh5u3Lr9pMnc1EQfIrQp+VZhxF86mAez1ghcrXYUo9KWqC0ITFhLd9bHan4u+a/l7uhlMv9w==
+X-Received: by 2002:a17:906:1d43:: with SMTP id
+ o3mr10591019ejh.118.1632482727917; 
  Fri, 24 Sep 2021 04:25:27 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id t14sm4886961ejf.24.2021.09.24.04.25.26
+ by smtp.gmail.com with ESMTPSA id t14sm4886961ejf.24.2021.09.24.04.25.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 04:25:26 -0700 (PDT)
+ Fri, 24 Sep 2021 04:25:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 20/26] i386: acpi: Add SGX EPC entry to ACPI tables
-Date: Fri, 24 Sep 2021 13:25:03 +0200
-Message-Id: <20210924112509.25061-21-pbonzini@redhat.com>
+Subject: [PATCH v5 21/26] q35: Add support for SGX EPC
+Date: Fri, 24 Sep 2021 13:25:04 +0200
+Message-Id: <20210924112509.25061-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210924112509.25061-1-pbonzini@redhat.com>
 References: <20210924112509.25061-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,64 +91,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-The ACPI Device entry for SGX EPC is essentially a hack whose primary
-purpose is to provide software with a way to autoprobe SGX support,
-e.g. to allow software to implement SGX support as a driver.  Details
-on the individual EPC sections are not enumerated through ACPI tables,
-i.e. software must enumerate the EPC sections via CPUID.  Furthermore,
-software expects to see only a single EPC Device in the ACPI tables
-regardless of the number of EPC sections in the system.
-
-However, several versions of Windows do rely on the ACPI tables to
-enumerate the address and size of the EPC.  So, regardless of the number
-of EPC sections exposed to the guest, create exactly *one* EPC device
-with a _CRS entry that spans the entirety of all EPC sections (which are
-guaranteed to be contiguous in Qemu).
-
-Note, NUMA support for EPC memory is intentionally not considered as
-enumerating EPC NUMA information is not yet defined for bare metal.
+Enable SGX EPC virtualization, which is currently only support by KVM.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-20-yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-21-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/acpi-build.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ hw/i386/pc_q35.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index dfaa47cdc2..f4d6ae3d02 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1841,6 +1841,28 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 46cd542d17..5481d5c965 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -177,6 +177,7 @@ static void pc_q35_init(MachineState *machine)
+         x86ms->below_4g_mem_size = machine->ram_size;
      }
- #endif
  
-+    if (pcms->sgx_epc.size != 0) {
-+        uint64_t epc_base = pcms->sgx_epc.base;
-+        uint64_t epc_size = pcms->sgx_epc.size;
-+
-+        dev = aml_device("EPC");
-+        aml_append(dev, aml_name_decl("_HID", aml_eisaid("INT0E0C")));
-+        aml_append(dev, aml_name_decl("_STR",
-+                                      aml_unicode("Enclave Page Cache 1.0")));
-+        crs = aml_resource_template();
-+        aml_append(crs,
-+                   aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED,
-+                                    AML_MAX_FIXED, AML_NON_CACHEABLE,
-+                                    AML_READ_WRITE, 0, epc_base,
-+                                    epc_base + epc_size - 1, 0, epc_size));
-+        aml_append(dev, aml_name_decl("_CRS", crs));
-+
-+        method = aml_method("_STA", 0, AML_NOTSERIALIZED);
-+        aml_append(method, aml_return(aml_int(0x0f)));
-+        aml_append(dev, method);
-+
-+        aml_append(sb_scope, dev);
-+    }
-     aml_append(dsdt, sb_scope);
++    pc_machine_init_sgx_epc(pcms);
+     x86_cpus_init(x86ms, pcmc->default_cpu_version);
  
-     /* copy AML table into ACPI tables blob and patch header there */
+     kvmclock_create(pcmc->kvmclock_create_always);
 -- 
 2.31.1
 
