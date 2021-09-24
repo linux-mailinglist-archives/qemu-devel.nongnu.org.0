@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77723417C06
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:57:27 +0200 (CEST)
-Received: from localhost ([::1]:33952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDCCC417C04
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:55:05 +0200 (CEST)
+Received: from localhost ([::1]:58570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTrK2-0005Yh-I1
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:57:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47428)
+	id 1mTrHl-00033J-21
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:55:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mTrCf-0004AT-HO
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:49:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53613)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mTrCc-00049p-BR
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:49:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mTrCa-0004Ll-E7
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:49:48 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mTrCR-0004FS-KY
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:49:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632512983;
+ s=mimecast20190719; t=1632512974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xXZqwWIRkqd5BbVITRT/Unx2IY9mLdjehXnaepKPudg=;
- b=cYKbSG1Z6j4BkwlVLtW0y2IOEnB29Ks9xqmKITErwzUQLJS8ChlJP7fDWOGhgQmUOSmbPZ
- o9PbXj5e5R6tJsWqnm4S+GOB1krEltJ+VhwUcVEscV1GJNew1bevckzIhBcmKK19BX+u0y
- YSQ1N0M83YqiiSahP3enZpcu+OH6rC4=
+ bh=rbuRCJRboLXquzEGjl2ZvdMdNNDTf7EjWG9fB8yspR0=;
+ b=BeTzR6e8sIKBpHyzaXPgco8XT61V3zzzf4JHFDqy+vVQ/HsXfrHW47T/fRPwp3Ld9bnxE8
+ O5tg3+1nd2FQyfvis2U1LAhnNYGmbPFAsw1oJANK5OVl8xkYBXcof+WM650uNk5jIi2kA2
+ idEn6OSAcfmjXv9xqNAazpbI/NCFp2U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-ohi3uKu6MKK6ab47ZYEKAQ-1; Fri, 24 Sep 2021 15:49:40 -0400
-X-MC-Unique: ohi3uKu6MKK6ab47ZYEKAQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-139-WpGDdcI1NF-SJwDKqbhR0A-1; Fri, 24 Sep 2021 15:49:32 -0400
+X-MC-Unique: WpGDdcI1NF-SJwDKqbhR0A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B9221966356;
- Fri, 24 Sep 2021 19:49:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D9D38C95B8;
+ Fri, 24 Sep 2021 19:49:07 +0000 (UTC)
 Received: from horse.redhat.com (unknown [10.22.32.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB3671017CE7;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C70E05BAF4;
  Fri, 24 Sep 2021 19:49:06 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 53890228280; Fri, 24 Sep 2021 15:49:06 -0400 (EDT)
+ id 5808F228281; Fri, 24 Sep 2021 15:49:06 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH 1/5] fuse: Header file changes for FUSE_SECURITY_CTX
-Date: Fri, 24 Sep 2021 15:48:50 -0400
-Message-Id: <20210924194854.919414-2-vgoyal@redhat.com>
+Subject: [PATCH 2/5] fuse_lowlevel.c: Add capability to parse security context
+Date: Fri, 24 Sep 2021 15:48:51 -0400
+Message-Id: <20210924194854.919414-3-vgoyal@redhat.com>
 In-Reply-To: <20210924194854.919414-1-vgoyal@redhat.com>
 References: <20210924194854.919414-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,65 +84,217 @@ Cc: miklos@szeredi.hu, chirantan@chromium.org, stephen.smalley.work@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are just header file changes which should show up in qemu if
-corresponding kernel changes get merged.
+Add capability to enable and parse security context as sent by client
+and put into fuse_req. Filesystems now can get security context from
+request and set it on files during creation.
 
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- include/standard-headers/linux/fuse.h | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ tools/virtiofsd/fuse_common.h   |  5 +++
+ tools/virtiofsd/fuse_i.h        |  7 ++++
+ tools/virtiofsd/fuse_lowlevel.c | 74 +++++++++++++++++++++++++++++++++
+ 3 files changed, 86 insertions(+)
 
-diff --git a/include/standard-headers/linux/fuse.h b/include/standard-headers/linux/fuse.h
-index cce105bfba..9e1672fbb2 100644
---- a/include/standard-headers/linux/fuse.h
-+++ b/include/standard-headers/linux/fuse.h
-@@ -181,6 +181,10 @@
-  *  - add FUSE_OPEN_KILL_SUIDGID
-  *  - extend fuse_setxattr_in, add FUSE_SETXATTR_EXT
-  *  - add FUSE_SETXATTR_ACL_KILL_SGID
-+ *
-+ *  7.35
-+ *  - add FUSE_SECURITY_CTX flag for fuse_init_out
-+ *  - add security context to create, mkdir, symlink, and mknod requests
+diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+index 0c2665b977..6f3485d1dc 100644
+--- a/tools/virtiofsd/fuse_common.h
++++ b/tools/virtiofsd/fuse_common.h
+@@ -377,6 +377,11 @@ struct fuse_file_info {
   */
+ #define FUSE_CAP_SETXATTR_EXT (1 << 29)
  
- #ifndef _LINUX_FUSE_H
-@@ -212,7 +216,7 @@
- #define FUSE_KERNEL_VERSION 7
- 
- /** Minor version number of this interface */
--#define FUSE_KERNEL_MINOR_VERSION 33
-+#define FUSE_KERNEL_MINOR_VERSION 35
- 
- /** The node ID of the root inode */
- #define FUSE_ROOT_ID 1
-@@ -329,6 +333,8 @@ struct fuse_file_lock {
-  *			write/truncate sgid is killed only if file has group
-  *			execute permission. (Same as Linux VFS behavior).
-  * FUSE_SETXATTR_EXT:	Server supports extended struct fuse_setxattr_in
-+ * FUSE_SECURITY_CTX:  add security context to create, mkdir, symlink, and
-+ *                     mknod
-  */
- #define FUSE_ASYNC_READ		(1 << 0)
- #define FUSE_POSIX_LOCKS	(1 << 1)
-@@ -360,6 +366,7 @@ struct fuse_file_lock {
- #define FUSE_SUBMOUNTS		(1 << 27)
- #define FUSE_HANDLE_KILLPRIV_V2	(1 << 28)
- #define FUSE_SETXATTR_EXT	(1 << 29)
-+#define FUSE_SECURITY_CTX	(1 << 30)
- 
++/**
++ * Indicates that file server supports creating file security context
++ */
++#define FUSE_CAP_SECURITY_CTX (1 << 30)
++
  /**
-  * CUSE INIT request/reply flags
-@@ -967,4 +974,9 @@ struct fuse_removemapping_one {
- #define FUSE_REMOVEMAPPING_MAX_ENTRY   \
- 		(PAGE_SIZE / sizeof(struct fuse_removemapping_one))
+  * Ioctl flags
+  *
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index 492e002181..a5572fa4ae 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -15,6 +15,12 @@
+ struct fv_VuDev;
+ struct fv_QueueInfo;
  
-+struct fuse_secctx {
-+	uint32_t        size;
-+	uint32_t        padding;
++struct fuse_security_context {
++        const char *name;
++        uint32_t ctxlen;
++        const void *ctx;
 +};
 +
- #endif /* _LINUX_FUSE_H */
+ struct fuse_req {
+     struct fuse_session *se;
+     uint64_t unique;
+@@ -35,6 +41,7 @@ struct fuse_req {
+     } u;
+     struct fuse_req *next;
+     struct fuse_req *prev;
++    struct fuse_security_context secctx;
+ };
+ 
+ struct fuse_notify_req {
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index e4679c73ab..fae92e0f3f 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -886,11 +886,41 @@ static void do_readlink(fuse_req_t req, fuse_ino_t nodeid,
+     }
+ }
+ 
++static int parse_secctx_fill_req(fuse_req_t req, struct fuse_mbuf_iter *iter)
++{
++    struct fuse_secctx *fsecctx;
++    const void *secctx;
++
++    fsecctx = fuse_mbuf_iter_advance(iter, sizeof(*fsecctx));
++    if (!fsecctx) {
++        return -EINVAL;
++    }
++
++    if (fsecctx->size) {
++        const char *name = fuse_mbuf_iter_advance_str(iter);
++        if (!name) {
++            return -EINVAL;
++        }
++
++        secctx = fuse_mbuf_iter_advance(iter, fsecctx->size);
++        if (!secctx) {
++            return -EINVAL;
++        }
++
++        req->secctx.name = name;
++        req->secctx.ctx = secctx;
++        req->secctx.ctxlen = fsecctx->size;
++    }
++    return 0;
++}
++
+ static void do_mknod(fuse_req_t req, fuse_ino_t nodeid,
+                      struct fuse_mbuf_iter *iter)
+ {
+     struct fuse_mknod_in *arg;
+     const char *name;
++    bool secctx_enabled = req->se->conn.want & FUSE_CAP_SECURITY_CTX;
++    int err;
+ 
+     arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
+     name = fuse_mbuf_iter_advance_str(iter);
+@@ -901,6 +931,13 @@ static void do_mknod(fuse_req_t req, fuse_ino_t nodeid,
+ 
+     req->ctx.umask = arg->umask;
+ 
++    if (secctx_enabled) {
++        err = parse_secctx_fill_req(req, iter);
++        if (err) {
++            fuse_reply_err(req, -err);
++        }
++    }
++
+     if (req->se->op.mknod) {
+         req->se->op.mknod(req, nodeid, name, arg->mode, arg->rdev);
+     } else {
+@@ -913,6 +950,8 @@ static void do_mkdir(fuse_req_t req, fuse_ino_t nodeid,
+ {
+     struct fuse_mkdir_in *arg;
+     const char *name;
++    bool secctx_enabled = req->se->conn.want & FUSE_CAP_SECURITY_CTX;
++    int err;
+ 
+     arg = fuse_mbuf_iter_advance(iter, sizeof(*arg));
+     name = fuse_mbuf_iter_advance_str(iter);
+@@ -923,6 +962,13 @@ static void do_mkdir(fuse_req_t req, fuse_ino_t nodeid,
+ 
+     req->ctx.umask = arg->umask;
+ 
++    if (secctx_enabled) {
++        err = parse_secctx_fill_req(req, iter);
++        if (err) {
++            fuse_reply_err(req, err);
++        }
++    }
++
+     if (req->se->op.mkdir) {
+         req->se->op.mkdir(req, nodeid, name, arg->mode);
+     } else {
+@@ -969,12 +1015,21 @@ static void do_symlink(fuse_req_t req, fuse_ino_t nodeid,
+ {
+     const char *name = fuse_mbuf_iter_advance_str(iter);
+     const char *linkname = fuse_mbuf_iter_advance_str(iter);
++    bool secctx_enabled = req->se->conn.want & FUSE_CAP_SECURITY_CTX;
++    int err;
+ 
+     if (!name || !linkname) {
+         fuse_reply_err(req, EINVAL);
+         return;
+     }
+ 
++    if (secctx_enabled) {
++        err = parse_secctx_fill_req(req, iter);
++        if (err) {
++            fuse_reply_err(req, err);
++        }
++    }
++
+     if (req->se->op.symlink) {
+         req->se->op.symlink(req, linkname, nodeid, name);
+     } else {
+@@ -1048,6 +1103,8 @@ static void do_link(fuse_req_t req, fuse_ino_t nodeid,
+ static void do_create(fuse_req_t req, fuse_ino_t nodeid,
+                       struct fuse_mbuf_iter *iter)
+ {
++    bool secctx_enabled = req->se->conn.want & FUSE_CAP_SECURITY_CTX;
++
+     if (req->se->op.create) {
+         struct fuse_create_in *arg;
+         struct fuse_file_info fi;
+@@ -1060,6 +1117,15 @@ static void do_create(fuse_req_t req, fuse_ino_t nodeid,
+             return;
+         }
+ 
++        if (secctx_enabled) {
++            int err;
++            err = parse_secctx_fill_req(req, iter);
++            if (err) {
++                fuse_reply_err(req, err);
++                return;
++            }
++        }
++
+         memset(&fi, 0, sizeof(fi));
+         fi.flags = arg->flags;
+         fi.kill_priv = arg->open_flags & FUSE_OPEN_KILL_SUIDGID;
+@@ -1997,6 +2063,9 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+     if (arg->flags & FUSE_SETXATTR_EXT) {
+         se->conn.capable |= FUSE_CAP_SETXATTR_EXT;
+     }
++    if (arg->flags & FUSE_SECURITY_CTX) {
++        se->conn.capable |= FUSE_CAP_SECURITY_CTX;
++    }
+ #ifdef HAVE_SPLICE
+ #ifdef HAVE_VMSPLICE
+     se->conn.capable |= FUSE_CAP_SPLICE_WRITE | FUSE_CAP_SPLICE_MOVE;
+@@ -2029,6 +2098,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+     LL_SET_DEFAULT(se->op.readdirplus, FUSE_CAP_READDIRPLUS);
+     LL_SET_DEFAULT(se->op.readdirplus && se->op.readdir,
+                    FUSE_CAP_READDIRPLUS_AUTO);
++    LL_SET_DEFAULT(1, FUSE_CAP_SECURITY_CTX);
+     se->conn.time_gran = 1;
+ 
+     if (bufsize < FUSE_MIN_READ_BUFFER) {
+@@ -2136,6 +2206,10 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+         outarg.flags |= FUSE_SETXATTR_EXT;
+     }
+ 
++    if (se->conn.want & FUSE_CAP_SECURITY_CTX) {
++        outarg.flags |= FUSE_SECURITY_CTX;
++    }
++
+     fuse_log(FUSE_LOG_DEBUG, "   INIT: %u.%u\n", outarg.major, outarg.minor);
+     fuse_log(FUSE_LOG_DEBUG, "   flags=0x%08x\n", outarg.flags);
+     fuse_log(FUSE_LOG_DEBUG, "   max_readahead=0x%08x\n", outarg.max_readahead);
 -- 
 2.31.1
 
