@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB1E417DC6
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 00:29:24 +0200 (CEST)
-Received: from localhost ([::1]:56130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04945417DD3
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 00:39:28 +0200 (CEST)
+Received: from localhost ([::1]:58948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTth5-0001Ox-Bn
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 18:29:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46530)
+	id 1mTtqo-000438-QI
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 18:39:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
- id 1mTtfc-0000UF-1v
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 18:27:54 -0400
-Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:34452)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
- id 1mTtfW-0002ql-48
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 18:27:49 -0400
-Received: by mail-lf1-x135.google.com with SMTP id g41so46129248lfv.1
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 15:27:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QLAbLngn6BOPhLIDkpUSDpIjL/bGWIE7/T5p/Gdt0hE=;
- b=hCC31zeYKqplgCKqPloYGzTDYQjFztJyNYLjG1reg6OjIYx8ZUZ6m+G1AAISZP1EmZ
- 8yYzSHRAGZzF/CtrjuMRHdZneuHd8IuRBf8fLqvKp3VNymNs7sAUWQjI46O/fMGXTDqX
- RuC8fvPqXxe0kKVPQsTbCii3oye7322QTqf+ZOwFmfm3tTjonkvrroZg3OZ0KknH/DIq
- ciQNwZ6YUtK5O1f95oJU0vI2dQKHnz2D1kWWYaRIaVsiZPhpiF/9dkmUl6t2CmR8Fali
- c8n34AIJ6qizDcwhbSjDwx6XptQIwRbtVm50FM2g5xUMY0+ueKuw2YEx/aChkIjJpdhX
- AVEA==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTtpQ-0003AT-Pf
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 18:38:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTtpN-0001LQ-63
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 18:37:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632523076;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4ARj8rPuPj/BsuGhkp3Xju2svQzUzQfre9onv32yf38=;
+ b=YSJVNSZyRL1SbFBkEkc5EWnMuC33NujwDFI4p1yLZMlMqiQ9l5vRYeM9a8zDU7ya9yQQDM
+ tpGTsQTTZkelwIsnlfGubqqWZmdRRVDgpDvYDCfPU0UgNPmTQiISvj6oJk/xMMi5Hx+/Jy
+ +vE6G4kkBVia6fziyc03L3O1oAV93U0=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-587-dTOw8gv1O4KmqbvTe9dbwA-1; Fri, 24 Sep 2021 18:37:53 -0400
+X-MC-Unique: dTOw8gv1O4KmqbvTe9dbwA-1
+Received: by mail-oi1-f197.google.com with SMTP id
+ m84-20020acabc57000000b00275c1cf95d4so7994252oif.2
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 15:37:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QLAbLngn6BOPhLIDkpUSDpIjL/bGWIE7/T5p/Gdt0hE=;
- b=4r7DOcIcT5HkwXSPRMt1ESRMS/q1u1zdC3PNQo2rFyGQ6c6QWW9k4nmc88xIcyCavp
- Uu+HGBKXoUoyXAn2uHmIlWKnaY02wraSKhm1CI3ppdhGFUqIWmDPJN12g9TVvFYSM6+R
- cbxSm0+F3hTcijoV9qE2q9wG5EKOM3ivAc1DILlBiPqm2GkXVWe+FoVTPBTGjAORZxvP
- IeqwHoWciPhRA7sOuzsV+yXDd0IcoiqMkk4JmiT0ZmQ+xa4uRJ7ffAlFvxeOGVFyvdU9
- +BxFipnnk2PN9ns99q6ZJj+NUiSPWsCkMmQf6Zs1oRFQvB8p+pszwwY0RSSb60e/7AT5
- GmZg==
-X-Gm-Message-State: AOAM532da4n2eQUK0O0p/ZLgdUhcuzzXjfUsylkEnOsNby8bBtI/Hgxu
- w9zeoO+oL4smjboi44S5l+Wr4UW9nxsVAfWcWLH0Dg==
-X-Google-Smtp-Source: ABdhPJy14LJXF87frFbKYjvfECchHHPPAHfi3lz2icyD9sAUEhtdmVpW4J3xI7I4LawySoPM84TG14v6Qv9G1uoL+QE=
-X-Received: by 2002:a2e:a80d:: with SMTP id l13mr13804385ljq.213.1632522461848; 
- Fri, 24 Sep 2021 15:27:41 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=4ARj8rPuPj/BsuGhkp3Xju2svQzUzQfre9onv32yf38=;
+ b=qb8dffjQ138H/U4Pso6TBKhYQesdafyrFv2Fq06tuIVxpuiuNliSlDLpYKwCbxjQXa
+ aSoT9G0U2c2uSKD87QLMYGuVjgblbz1zPEEfh7l4VDfKAKJ6r+TZyHOQoAhXnQyLFraG
+ f+2STN83qcEXH6REOeQXqBm2FELoq6f1e6bV4XK4429mnqkcbSU5oaEiNhpjTG1xP6kZ
+ 4k5CzA4uFyuwUtoostRW6xHrWOQUyPXmFKYzPE3LZnQVfSUsVdA7dM8b8wchJT+VFk+4
+ H0MMdLvuSUuaF4IP7GL64BKjYBWretbbqWSad+kKrFaxVYNRHzkDl5NdDxJZQAk5QJSC
+ oUzw==
+X-Gm-Message-State: AOAM532roSfYA04Wj1qRoQQmOyoN50XcBT4phzPELQlLlvWuTqYgCRlj
+ +pGrAtvpCFOFF71SwmfgXgZyUqEZ2Zsz5tLlfqEcPA6FeqZwyjr2tFtCVSR0sTYMpaZi/QeSpfA
+ FyXoAfA4mfhS75aZIcSw+Ko/WQ3nWoDI=
+X-Received: by 2002:a05:6808:209b:: with SMTP id
+ s27mr3383976oiw.168.1632523072066; 
+ Fri, 24 Sep 2021 15:37:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxjgwm5Hs11yrVH/yEYmMx/CJ8r5NIctZzeE7T2Dwj0W3Jgzti3rsW/nxLHpotPGScb8u0u8lMHW4QN0rjqqOE=
+X-Received: by 2002:a05:6808:209b:: with SMTP id
+ s27mr3383969oiw.168.1632523071853; 
+ Fri, 24 Sep 2021 15:37:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAP_N_Z8p+qsOAm15TtUFhCG-bJHM+zOQ4UJkr4XBdUQnm2wtzQ@mail.gmail.com>
- <20210923091828.e2ao3mra6ps5osc2@steredhat>
-In-Reply-To: <20210923091828.e2ao3mra6ps5osc2@steredhat>
-From: "Jiang Wang ." <jiang.wang@bytedance.com>
-Date: Fri, 24 Sep 2021 15:27:30 -0700
-Message-ID: <CAP_N_Z-D+TdAzRhJScs+nitz4GW7otY-nOVHDxGf68X1aXQiHQ@mail.gmail.com>
-Subject: Re: [External] Re: [RFC v7] virtio/vsock: add two more queues for
- datagram types
-To: Stefano Garzarella <sgarzare@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::135;
- envelope-from=jiang.wang@bytedance.com; helo=mail-lf1-x135.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210520225710.168356-1-jsnow@redhat.com>
+ <20210520225710.168356-3-jsnow@redhat.com>
+ <87sfyg6b8e.fsf@dusky.pond.sub.org>
+In-Reply-To: <87sfyg6b8e.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 24 Sep 2021 18:37:40 -0400
+Message-ID: <CAFn=p-ZDdi157BSGWcweQ6sLE5=zMcjROJSahhONqxDC3fH20A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] qapi/parser: Allow empty QAPIDoc Sections
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000c9293805ccc56544"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,381 +90,350 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Arseny Krasnov <arseny.krasnov@kaspersky.com>,
- Jason Wang <jasowang@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 23, 2021 at 2:18 AM Stefano Garzarella <sgarzare@redhat.com> wr=
-ote:
->
-> On Wed, Sep 22, 2021 at 10:36:24AM -0700, Jiang Wang . wrote:
-> >On Wed, Sep 22, 2021 at 2:23 AM Stefano Garzarella <sgarzare@redhat.com>=
- wrote:
-> >>
-> >> On Wed, Sep 22, 2021 at 12:00:24AM +0000, Jiang Wang wrote:
-> >> >Datagram sockets are connectionless and unreliable.
-> >> >The sender does not know the capacity of the receiver
-> >> >and may send more packets than the receiver can handle.
-> >> >
-> >> >Add two more dedicate virtqueues for datagram sockets,
-> >> >so that it will not unfairly steal resources from
-> >> >stream and future connection-oriented sockets.
-> >> >
-> >> >The two new virtqueues are enabled by default and will
-> >> >be removed if the guest does not support. This will help
-> >> >migration work.
-> >> >
-> >> >btw: enable_dgram argument in vhost_vsock_common_realize
-> >> >is redundant for now, but will be used later when we
-> >> >want to disable DGRAM feature bit for old versions.
-> >> >
-> >> >Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
-> >> >---
-> >> >v1 -> v2: use qemu cmd option to control number of queues,
-> >> >        removed configuration settings for dgram.
-> >> >v2 -> v3: use ioctl to get features and decide number of
-> >> >        virt queues, instead of qemu cmd option.
-> >> >v3 -> v4: change DGRAM feature bit value to 2. Add an argument
-> >> >        in vhost_vsock_common_realize to indicate dgram is supported =
-or not.
-> >> >v4 -> v5: don't open dev to get vhostfd. Removed leftover definition =
-of
-> >> >        enable_dgram
-> >> >v5 -> v6: fix style errors. Imporve error handling of
-> >> >        vhost_vsock_dgram_supported. Rename MAX_VQS_WITH_DGRAM and an=
-other one.
-> >> >v6 -> v7: Always enable dgram for vhost-user and vhost kernel.
-> >> >        Delete unused virtqueues at the beginning of
-> >> >        vhost_vsock_common_start for migration. Otherwise, migration =
-will fail.
-> >> >
-> >> > hw/virtio/vhost-user-vsock.c                  |  2 +-
-> >> > hw/virtio/vhost-vsock-common.c                | 32 +++++++++++++++++=
---
-> >> > hw/virtio/vhost-vsock.c                       |  6 +++-
-> >> > include/hw/virtio/vhost-vsock-common.h        |  6 ++--
-> >> > include/hw/virtio/vhost-vsock.h               |  3 ++
-> >> > include/standard-headers/linux/virtio_vsock.h |  1 +
-> >> > 6 files changed, 43 insertions(+), 7 deletions(-)
-> >> >
-> >> >diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsoc=
-k.c
-> >> >index 6095ed7349..9823a2f3bd 100644
-> >> >--- a/hw/virtio/vhost-user-vsock.c
-> >> >+++ b/hw/virtio/vhost-user-vsock.c
-> >> >@@ -105,7 +105,7 @@ static void vuv_device_realize(DeviceState *dev, =
-Error **errp)
-> >> >         return;
-> >> >     }
-> >> >
-> >> >-    vhost_vsock_common_realize(vdev, "vhost-user-vsock");
-> >> >+    vhost_vsock_common_realize(vdev, "vhost-user-vsock", true);
-> >> >
-> >> >     vhost_dev_set_config_notifier(&vvc->vhost_dev, &vsock_ops);
-> >> >
-> >> >diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-c=
-ommon.c
-> >> >index 4ad6e234ad..7d89b4d242 100644
-> >> >--- a/hw/virtio/vhost-vsock-common.c
-> >> >+++ b/hw/virtio/vhost-vsock-common.c
-> >> >@@ -26,6 +26,18 @@ int vhost_vsock_common_start(VirtIODevice *vdev)
-> >> >     int ret;
-> >> >     int i;
-> >> >
-> >> >+    if (!virtio_has_feature(vdev->guest_features, VIRTIO_VSOCK_F_DGR=
-AM)) {
-> >> >+        struct vhost_virtqueue *vqs;
-> >> >+        virtio_delete_queue(vvc->dgram_recv_vq);
-> >> >+        virtio_delete_queue(vvc->dgram_trans_vq);
-> >> >+
-> >>
-> >> Are you sure it works removing queues here?
-> >> The event_queue would always be #4, but the guest will use #2 which
-> >> we're removing.
-> >>
-> >Yes, this works. In fact, I should include this in v6 and my tests done
-> >in my previous emails have these changes. But before I submitted the pat=
-ch,
-> >I thought this code was redundant and removed it without further testing=
-.
->
-> Just tried on an host that doesn't support F_DGRAM and I have the
-> following errors:
-> qemu-system-x86_64: -device vhost-vsock-pci,guest-cid=3D6: vhost_set_vrin=
-g_call failed: No buffer space available (105)
-> qemu-system-x86_64: -device vhost-vsock-pci,guest-cid=3D6: Failed to init=
-ialize virtqueue 2: No buffer space available
->
-> I thinks we should re-add the feature discovery before call
-> vhost_dev_init().
->
+--000000000000c9293805ccc56544
+Content-Type: text/plain; charset="UTF-8"
 
-Yes. You are right. I will add it back.
+On Tue, Sep 7, 2021 at 4:28 AM Markus Armbruster <armbru@redhat.com> wrote:
+
+> John Snow <jsnow@redhat.com> writes:
+>
+> > It simplifies the typing to say that _section is always a
+> > QAPIDoc.Section().
+>
+> If you say so....
+>
+>
+I mean, I thought so at the time. I have an aversion to making optional
+types and then littering isinstance() checks in places. I like keeping as
+much of the typing statically provable as I can without adding runtime
+checks. I'm re-evaluating this patch now, and I'll see if there's anything
+I can do, but it's hard to predict differences in matters of taste and
+style.
+
+One thing an Optional[T] class instance variable can do that might be
+helpful is to remind users that they need to check to see if it's present
+or not. If I see a path to eliminate those checks, though, I will generally
+always take it - eliminates the need to check everywhere else and puts all
+the information you need into the static typing. As a habit, I prefer that
+when feasible.
+
+> To accommodate this change, we must allow for this object to evaluate to
+> > False for functions like _end_section which behave differently based on
+> > whether or not a Section has been started.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> >
+> > ---
+> >
+> > Probably a better fix is to restructure the code to prevent empty
+> > sections from being "ended", but that seems like a bigger whale than
+> > what I'm after at the immediate moment.
+>
+> Do we have a TODO comment for that?
+>
+>
+Nope. I'll either add one or just fix the root issue, because I want to go
+back to writing the cross-referenceable QAPI symbol plugin for sphinx now.
+At the time I thought I'd get to fixing some of the issues raised by pt5 a
+lot sooner, but.
+
 
 > >
-> >To explain it, I think the event queue number does not matter for the
-> >vhost and qemu. The vhost-vsock kernel module does not allocate any
-> >data structure for the event queue.  Qemu also only allocates an array o=
-f
-> >size 2 or 4 for the tx, rx queues. The event queue is handled separately=
-.
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  scripts/qapi/parser.py | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
 > >
-> >The event queue number only shows up in the spec, but in real code, I do=
-n't
-> >see anywhere that the event queue number is used explicitly or implicitl=
-y.
-> >The Event queue looks independent of tx, rx queues.
->
-> Yep, it is used in the linux driver. Look at
-> virtio_transport_event_work(), it uses VSOCK_VQ_EVENT (2).
->
-Agree, it is used in virtio driver and QEMU as you mentioned later.
-
-> The main test to do is to migrate a guest with active connections that
-By active connections, do you mean active vsock stream connections?
-The guest should be the server or the client? I have two simple vsock clien=
-t,
-server tests which only send messages for each direction once. Or I can als=
-o
-use something like iperf3.
-
-> doesn't support F_DGRAM on an host that support it and check if, after
-> the migration, the connections are reset and the CID updated.
-
-Not sure about why CID should be updated? Right now, on the destination
-host, I used the same CID as the one on the source host. You mean choose
-another guest CID on the destination host? I will try that.
-
-> I think is not working now.
->
+> > diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> > index b6a5e661215..3ddde318376 100644
+> > --- a/scripts/qapi/parser.py
+> > +++ b/scripts/qapi/parser.py
+> > @@ -456,6 +456,9 @@ def __init__(self, parser, name=None, indent=0):
+> >              # the expected indent level of the text of this section
+> >              self._indent = indent
 > >
-> >> >+        vqs =3D vvc->vhost_dev.vqs;
-> >> >+        vvc->vhost_dev.nvqs =3D MAX_VQS_WITHOUT_DGRAM;
-> >> >+        vvc->vhost_dev.vqs =3D g_new0(struct vhost_virtqueue,
-> >> >+                                   vvc->vhost_dev.nvqs);
-> >> >+        g_free(vqs);
-> >> >+    }
-> >> >+
-> >> >     if (!k->set_guest_notifiers) {
-> >> >         error_report("binding does not support guest notifiers");
-> >> >         return -ENOSYS;
-> >> >@@ -196,9 +208,11 @@ int vhost_vsock_common_post_load(void *opaque, i=
-nt version_id)
-> >> >     return 0;
-> >> > }
-> >> >
-> >> >-void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name=
-)
-> >> >+void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name=
-,
-> >> >+                               bool enable_dgram)
-> >>                                        ^
-> >> It seems always true, and also unused.
-> >>
-> >Yes, I can remove it. I am just wondering when we modify the feature
-> >bit as in your recent seqpacket patch, do we want to change it to false =
-when
-> >the feature is not supported and make the code logically more
-> >resonable=EF=BC=9F
-> >Or do we still make it true even if the feature bit is not supported?
+> > +        def __bool__(self) -> bool:
+> > +            return bool(self.name or self.text)
+> > +
+> >          def append(self, line):
+> >              # Strip leading spaces corresponding to the expected indent
+> level
+> >              # Blank lines are always OK.
 >
-> Maybe we need to use it because now vhost_dev_init is failing if the
-> host doesn't support F_DGRAM since we are registering more queues than
-> the device can handle.
+> Overriding __bool__() is the minimally invasive compensation for the
+> next hunk's replacement of None by a QAPIDoc.Section
 >
-Sure.
+> However, I'm wary of overriding __bool__().  It creates a difference
+> between "if object:" and "if object is not None:".  Gives me a queasy
+> feeling, as shortening the latter to the former is pretty much
+> automatic.
+>
+>
+That's just Python, though. If collections are empty, they're falsey. If
+QAPIDoc is a collection of documentation lines and we have no lines,
+shouldn't that also be falsey?
 
+Nah, I get the apprehension. It's not a strictly linear collection and I
+didn't check *every* last field, just name and text. It's kind of a hack
+because I'm trying to paper over some deeper(?) problem(??), but it felt
+safe because the static typing means we're not likely to confuse the two
+cases -- we don't need to distinguish "Absent" from "empty". Or at least,
+after this patch we don't need to, anymore. (We'll always have a section,
+so an empty section versus no section makes no difference.)
+
+A boring .is_empty() would avoid that, but we'd have to adjust "if S" to
+> "if S.is_empty()" wherever we changed S from Optional[Section] to
+> Section.  Which S could be affected?
+>
+>
+Feels deeply against the grain of how Python is written to go out of your
+way to create an .is_empty() function.
+
+
+> The following variables get assigned Section or ArgSection:
+>
+>     QAPIDoc.body
+>     QAPIDoc._section
+>     QAPIDoc.args[NAME]
+>     QAPIDoc.features[NAME]
+>
+> .body, .args[NAME] and .features[NAME] are never None I believe.
+>
+> ._section is also assigned None, in ._end_section().  It remains None
+> until the next ._start*_section().
+>
+> The only use of .section that doesn't dot into it is in ._end_section().
+> That's the only spot to adjust.
+>
+> Confirm by testing: in all of "make check", Section.__bool__() is only
+> ever called from QAPIDoc._end_section().  Checked by sticking
+> traceback.print_stack() into .__bool__().
+>
+>
+If that's the only caller, isn't it then perfectly safe to just use the
+patch as written?
+
+
+> > @@ -722,7 +725,7 @@ def _end_section(self):
+> >                  raise QAPIParseError(
+> >                      self._parser,
+> >                      "empty doc section '%s'" % self._section.name)
+> > -            self._section = None
+> > +            self._section = QAPIDoc.Section(self._parser)
 > >
-> >> > {
-> >> >     VHostVSockCommon *vvc =3D VHOST_VSOCK_COMMON(vdev);
-> >> >+    int nvqs =3D MAX_VQS_WITH_DGRAM;
-> >> >
-> >> >     virtio_init(vdev, name, VIRTIO_ID_VSOCK,
-> >> >                 sizeof(struct virtio_vsock_config));
-> >> >@@ -209,12 +223,17 @@ void vhost_vsock_common_realize(VirtIODevice *v=
-dev, const char *name)
-> >> >     vvc->trans_vq =3D virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
-> >> >                                        vhost_vsock_common_handle_out=
-put);
-> >> >
-> >> >+    vvc->dgram_recv_vq =3D virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_=
-SIZE,
-> >> >+                                          vhost_vsock_common_handle_=
-output);
-> >> >+    vvc->dgram_trans_vq =3D virtio_add_queue(vdev, VHOST_VSOCK_QUEUE=
-_SIZE,
-> >> >+                                          vhost_vsock_common_handle_=
-output);
-> >> >+
-> >> >     /* The event queue belongs to QEMU */
-> >> >     vvc->event_vq =3D virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
-> >> >                                        vhost_vsock_common_handle_out=
-put);
-> >> >
-> >> >-    vvc->vhost_dev.nvqs =3D ARRAY_SIZE(vvc->vhost_vqs);
-> >> >-    vvc->vhost_dev.vqs =3D vvc->vhost_vqs;
-> >> >+    vvc->vhost_dev.nvqs =3D nvqs;
-> >> >+    vvc->vhost_dev.vqs =3D g_new0(struct vhost_virtqueue, vvc->vhost=
-_dev.nvqs);
-> >> >
-> >> >     vvc->post_load_timer =3D NULL;
-> >> > }
-> >> >@@ -227,6 +246,13 @@ void vhost_vsock_common_unrealize(VirtIODevice *=
-vdev)
-> >> >
-> >> >     virtio_delete_queue(vvc->recv_vq);
-> >> >     virtio_delete_queue(vvc->trans_vq);
-> >> >+    if (vvc->vhost_dev.nvqs =3D=3D MAX_VQS_WITH_DGRAM) {
-> >> >+        virtio_delete_queue(vvc->dgram_recv_vq);
-> >> >+        virtio_delete_queue(vvc->dgram_trans_vq);
-> >> >+    }
-> >> >+
-> >> >+    g_free(vvc->vhost_dev.vqs);
-> >> >+
-> >> >     virtio_delete_queue(vvc->event_vq);
-> >> >     virtio_cleanup(vdev);
-> >> > }
-> >> >diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-> >> >index 1b1a5c70ed..6e315ecf23 100644
-> >> >--- a/hw/virtio/vhost-vsock.c
-> >> >+++ b/hw/virtio/vhost-vsock.c
-> >> >@@ -23,6 +23,7 @@
-> >> >
-> >> > const int feature_bits[] =3D {
-> >> >     VIRTIO_VSOCK_F_SEQPACKET,
-> >> >+    VIRTIO_VSOCK_F_DGRAM,
-> >> >     VHOST_INVALID_FEATURE_BIT
-> >> > };
-> >> >
-> >> >@@ -116,6 +117,9 @@ static uint64_t vhost_vsock_get_features(VirtIODe=
-vice *vdev,
-> >> >     VHostVSockCommon *vvc =3D VHOST_VSOCK_COMMON(vdev);
-> >> >
-> >> >     virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_SEQPACKET=
-);
-> >> >+    if (vvc->vhost_dev.nvqs =3D=3D MAX_VQS_WITH_DGRAM) {
-> >> >+        virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_DGRAM=
-);
-> >> >+    }
-> >>
-> >> Take a look at
-> >> https://lore.kernel.org/qemu-devel/20210921161642.206461-1-sgarzare@re=
-dhat.com/
-> >>
-> >Yes, I noticed that email. Thanks for reminding me. I did not make
-> >similar changes yet because I want to wait for that patch to be merged.
-> >I can start to make similar changes in the next version.
+> >      def _append_freeform(self, line):
+> >          match = re.match(r'(@\S+:)', line)
 >
-> Yep, better to wait comments on that series.
+> Replacing None by QAPIDoc.Section doesn't just simplify the typing!  It
+> also creates a bogus "additional section" (in the sense of QAPIDoc's
+> class comment) after any section.  Works, because the .start*_section()
+> all call .end_section() first, .end_section() does nothing for empty
+> sections, and the bogus sections remain empty, unless we somehow screw
+> up the code to add contents to them.  Such screwups are now possible,
+> whereas before they would crash.
 >
-OK.
-> >
-> >> If it will be accepted, we should use something similar (e.g.
-> >> `datagram` prop) and handle this flag in vhost-vsock-common.
-> >>
-> >> And we should change a bit the queue handling:
-> >> - if QEMU (new `datagram` prop is `on` or `auto`) and the kernel
-> >>    supports F_DGRAM, we can allocate 5 queues.
-> >Agree with the new prop. But when the kernel supports F_DGRAM, qemu
-> >still only allocates 4 queues. As in the following code=EF=BC=9A
-> >
-> >vvc->vhost_dev.nvqs =3D nvqs;
-> >vvc->vhost_dev.vqs =3D g_new0(struct vhost_virtqueue,
-> >vvc->vhost_dev.nvqs);
-> >
-> >// nvqs will be either 2 or 4. Will not be 5. btw, in the new version, i=
-t will
-> >// always be 4.
+> This correctness argument isn't obvious, and therefore should be made in
+> the commit message.
 >
-> Sorry, with allocating I meant virtio_add_queue() calls.
 >
-> Just to be clear, I think we should do something like this:
->
-> #define VHOST_VSOCK_NVQS          3
-> #define VHOST_VSOCK_NVQS_DGRAM    5
-> #define VHOST_VSOCK_MAX_VQS       VHOST_VSOCK_NVQS_DGRAM
->
-> struct VHostVSockCommon {
->      ...
->
->      VirtQueue *vqs[VHOST_VSOCK_MAX_VQS];
->
->      int event_vq_id;
-> }
->
-> void vhost_vsock_common_realize(...)
-> {
->      int nvqs =3D VHOST_VSOCK_NVQS;
->
->      ...
->
->      if (enable_dgram) {
->          nvqs =3D VHOST_VSOCK_NVQS_DGRAM;
->      }
->
->      ...
->
->      for (i =3D 0; i < nvqs; i++) {
->          vvc->vqs[i] =3D virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
->                                         vhost_vsock_common_handle_output)=
-;
->      }
->
->      /* event queue is not handled by the vhost device */
->      vvc->vhost_dev.nvqs =3D nvqs - 1;
->      vvc->vhost_dev.vqs =3D g_new0(struct vhost_virtqueue, vvc->vhost_dev=
-.nvqs);
->
->      ...
-> }
->
-> int vhost_vsock_common_start(...)
-> {
->      ...
->
->      if (virtio_has_feature(vdev->guest_features, VIRTIO_VSOCK_F_DGRAM)) =
-{
->          vvc->event_vq_id =3D VHOST_VSOCK_NVQS_DGRAM - 1;
->      } else {
->          vvc->event_vq_id =3D VHOST_VSOCK_NVQS - 1;
->      }
->
->      ...
-> }
->
-I see. The example code helps a lot.
+I'll try to suss out the real problem, because I am not sure how to justify
+the hypothetical cases where we might add content to a bogus section,
+because I do not fully understand the circumstances in which the bogus
+sections are generated. I seem to recall we already *have* them for some
+reason, and it's caused by some whitespace issues (in some cases), but
+writing tests or proving it doesn't cause a hypothetical future breakage is
+just not something I know how to write a commit message for.
 
-> Then use `vvc->event_vq_id` in :
-> - vhost_vsock_common_send_transport_reset()
-> - vhost_vsock_common_post_load() (instead of 2 wired in the code)
-I see now vhost_vsock_common_post_load() has a problem. One way
-to fix it is as you mentioned. Another way is to check the acked feature
-bit here too and change the event queue number to 2 or 4 accordingly.
+So, time to detour into QAPIDoc parsing.
 
-In your example code:
-vvc->vqs[i] =3D virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
-                                         vhost_vsock_common_handle_output);
-We still need to do some assignment as following:
-vvc->recv_vq =3D vvc->vqs[0];
-vvc->trans_vq =3D vvc->vqs[1];
-...(skipped other similar assignments)
+--js
 
-I think both ways will work.  Your example adds ordering for those recv and
-trans vqs and makes it similar to virtio and vhost code. I will go that rou=
-te.
+--000000000000c9293805ccc56544
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 7, 2021 at 4:28 AM Markus=
+ Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">John =
+Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsnow@redhat=
+.com</a>&gt; writes:<br>
+<br>
+&gt; It simplifies the typing to say that _section is always a<br>
+&gt; QAPIDoc.Section().<br>
+<br>
+If you say so....<br>
+<br></blockquote><br><div>I mean, I thought so at the time. I have an avers=
+ion to making optional types and then littering isinstance() checks in plac=
+es. I like keeping as much of the typing statically provable as I can witho=
+ut adding runtime checks. I&#39;m re-evaluating this patch now, and I&#39;l=
+l see if there&#39;s anything I can do, but it&#39;s hard to predict differ=
+ences in matters of taste and style.</div><div><br></div><div>One thing an =
+Optional[T] class instance variable can do that might be helpful is to remi=
+nd users that they need to check to see if it&#39;s present or not. If I se=
+e a path to eliminate those checks, though, I will generally always take it=
+ - eliminates the need to check everywhere else and puts all the informatio=
+n you need into the static typing. As a habit, I prefer that when feasible.=
+<br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; To accommodate this change, we must allow for this object to evaluate =
+to<br>
+&gt; False for functions like _end_section which behave differently based o=
+n<br>
+&gt; whether or not a Section has been started.<br>
+&gt;<br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; ---<br>
+&gt;<br>
+&gt; Probably a better fix is to restructure the code to prevent empty<br>
+&gt; sections from being &quot;ended&quot;, but that seems like a bigger wh=
+ale than<br>
+&gt; what I&#39;m after at the immediate moment.<br>
+<br>
+Do we have a TODO comment for that?<br>
+<br></blockquote><div><br></div><div>Nope. I&#39;ll either add one or just =
+fix the root issue, because I want to go back to writing the cross-referenc=
+eable QAPI symbol plugin for sphinx now. At the time I thought I&#39;d get =
+to fixing some of the issues raised by pt5 a lot sooner, but.<br></div><div=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt;<br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 scripts/qapi/parser.py | 5 ++++-<br>
+&gt;=C2=A0 1 file changed, 4 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py<br>
+&gt; index b6a5e661215..3ddde318376 100644<br>
+&gt; --- a/scripts/qapi/parser.py<br>
+&gt; +++ b/scripts/qapi/parser.py<br>
+&gt; @@ -456,6 +456,9 @@ def __init__(self, parser, name=3DNone, indent=3D0=
+):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # the expected indent =
+level of the text of this section<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._indent =3D inden=
+t<br>
+&gt;=C2=A0 <br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 def __bool__(self) -&gt; bool:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return bool(<a href=3D"http=
+://self.name" rel=3D"noreferrer" target=3D"_blank">self.name</a> or self.te=
+xt)<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 def append(self, line):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Strip leading spaces=
+ corresponding to the expected indent level<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Blank lines are alwa=
+ys OK.<br>
+<br>
+Overriding __bool__() is the minimally invasive compensation for the<br>
+next hunk&#39;s replacement of None by a QAPIDoc.Section<br>
+<br>
+However, I&#39;m wary of overriding __bool__().=C2=A0 It creates a differen=
+ce<br>
+between &quot;if object:&quot; and &quot;if object is not None:&quot;.=C2=
+=A0 Gives me a queasy<br>
+feeling, as shortening the latter to the former is pretty much<br>
+automatic.<br>
+<br></blockquote><div><br></div><div>That&#39;s just Python, though. If col=
+lections are empty, they&#39;re falsey. If QAPIDoc is a collection of docum=
+entation lines and we have no lines, shouldn&#39;t that also be falsey?<br>=
+</div><div><br></div><div>Nah, I get the apprehension. It&#39;s not a stric=
+tly linear collection and I didn&#39;t check *every* last field, just name =
+and text. It&#39;s kind of a hack because I&#39;m trying to paper over some=
+ deeper(?) problem(??), but it felt safe because the static typing means we=
+&#39;re not likely to confuse the two cases -- we don&#39;t need to disting=
+uish &quot;Absent&quot; from &quot;empty&quot;. Or at least, after this pat=
+ch we don&#39;t need to, anymore. (We&#39;ll always have a section, so an e=
+mpty section versus no section makes no difference.)<br></div></div><div cl=
+ass=3D"gmail_quote"><br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+A boring .is_empty() would avoid that, but we&#39;d have to adjust &quot;if=
+ S&quot; to<br>
+&quot;if S.is_empty()&quot; wherever we changed S from Optional[Section] to=
+<br>
+Section.=C2=A0 Which S could be affected?<br>
+<br></blockquote><div><br></div><div>Feels deeply against the grain of how =
+Python is written to go out of your way to create an .is_empty() function.<=
+br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
 >
-> Maybe in vhost_vsock_common_send_transport_reset() we can skip the
-> message enqueueing if the device is not started
-> (vvc->vhost_dev.started).
->
-OK. Btw, I can make this a separate change because it looks like a
-standalone bugfix? I.e, not related to dgram?
+The following variables get assigned Section or ArgSection:<br>
+<br>
+=C2=A0 =C2=A0 QAPIDoc.body<br>
+=C2=A0 =C2=A0 QAPIDoc._section<br>
+=C2=A0 =C2=A0 QAPIDoc.args[NAME]<br>
+=C2=A0 =C2=A0 QAPIDoc.features[NAME]<br>
+<br>
+.body, .args[NAME] and .features[NAME] are never None I believe.<br>
+<br>
+._section is also assigned None, in ._end_section().=C2=A0 It remains None<=
+br>
+until the next ._start*_section().<br>
+<br>
+The only use of .section that doesn&#39;t dot into it is in ._end_section()=
+.<br>
+That&#39;s the only spot to adjust.<br>
+<br>
+Confirm by testing: in all of &quot;make check&quot;, Section.__bool__() is=
+ only<br>
+ever called from QAPIDoc._end_section().=C2=A0 Checked by sticking<br>
+traceback.print_stack() into .__bool__().<br>
+<br></blockquote><div><br></div><div>If that&#39;s the only caller, isn&#39=
+;t it then perfectly safe to just use the patch as written?<br></div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; @@ -722,7 +725,7 @@ def _end_section(self):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise QA=
+PIParseError(<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 self._parser,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 &quot;empty doc section &#39;%s&#39;&quot; % self._<a href=3D"http:/=
+/section.name" rel=3D"noreferrer" target=3D"_blank">section.name</a>)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._section =3D None<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._section =3D QAPIDoc.S=
+ection(self._parser)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def _append_freeform(self, line):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 match =3D re.match(r&#39;(@\S+:)&#39=
+;, line)<br>
+<br>
+Replacing None by QAPIDoc.Section doesn&#39;t just simplify the typing!=C2=
+=A0 It<br>
+also creates a bogus &quot;additional section&quot; (in the sense of QAPIDo=
+c&#39;s<br>
+class comment) after any section.=C2=A0 Works, because the .start*_section(=
+)<br>
+all call .end_section() first, .end_section() does nothing for empty<br>
+sections, and the bogus sections remain empty, unless we somehow screw<br>
+up the code to add contents to them.=C2=A0 Such screwups are now possible,<=
+br>
+whereas before they would crash.<br>
+<br></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+This correctness argument isn&#39;t obvious, and therefore should be made i=
+n<br>
+the commit message.<br>
+<br></blockquote><div><br></div><div>I&#39;ll try to suss out the real prob=
+lem, because I am not sure how to justify the hypothetical cases where we m=
+ight add content to a bogus section, because I do not fully understand the =
+circumstances in which the bogus sections are generated. I seem to recall w=
+e already *have* them for some reason, and it&#39;s caused by some whitespa=
+ce issues (in some cases), but writing tests or proving it doesn&#39;t caus=
+e a hypothetical future breakage is just not something I know how to write =
+a commit message for.</div><div><br></div><div>So, time to detour into QAPI=
+Doc parsing.</div><div><br></div><div>--js<br></div></div></div>
 
+--000000000000c9293805ccc56544--
 
-> Thanks,
-> Stefano
->
 
