@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95892416C65
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 08:54:38 +0200 (CEST)
-Received: from localhost ([::1]:59278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DD2416C66
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 08:55:14 +0200 (CEST)
+Received: from localhost ([::1]:60316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTf6T-0003DG-GJ
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 02:54:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32916)
+	id 1mTf73-0003vg-6v
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 02:55:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mTezE-0006Qn-W2; Fri, 24 Sep 2021 02:47:13 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:60083)
+ id 1mTezG-0006R5-4x; Fri, 24 Sep 2021 02:47:13 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:57757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mTezD-00011G-3F; Fri, 24 Sep 2021 02:47:08 -0400
+ id 1mTezE-00012t-17; Fri, 24 Sep 2021 02:47:09 -0400
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 7E558580BB5;
- Fri, 24 Sep 2021 02:47:05 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 38A6A580BD6;
+ Fri, 24 Sep 2021 02:47:07 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 24 Sep 2021 02:47:05 -0400
+ by compute6.internal (MEProxy); Fri, 24 Sep 2021 02:47:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm1; bh=7J5UHw8ym46ZX1M3GqA4ekDmaI
- sicgH9q9qONdk0jP8=; b=UJFg69OOq6Ui2jSk/beWTrHTUpRLcEQXtrH47IaSAI
- OR4YsQPawI2fVsK1tRy+jOQ3A8Z697vtZQ6I9BUKQVv++4KWhQntjpTYHKoI60Di
- 0yM5OPp5YTOfM7Y92MOtKpPcCE3nXXhN4ilw91EEPZhLqg2gtAt4gjYzcnv/Hp3u
- KwIk3OAEdgiT6KJniJiYQqyj4BqtTMPR6368Qp/844fUpV4RGFNIJBo920H6aB4J
- SUa6CJyf0GAFy5JivFpOdOgn4kNIpcMCuKkj3JcpCVNd64Gc94wO+BM+/VNBOVxL
- DMwEYLMoCP18XVkc2xWZFLpvrO1SywldM7v1XfU2KKpQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=BgKIxMdnsVmmI
+ xDyotmdZxJG5MqI1WUheh9D1cwWwaE=; b=dfTkKG9/ja0sjM48WQzOgg5yFygY1
+ W8H/UfITFNOmDR36DXyLkqXRDoAXBS01uxkBARRQwiv8GGtah1E+csbMvgh+vgIf
+ 5KToCrhqWh+bWx98FnqmxfgCD8yCvRkfNoCXjjXemV7lcKQGGLS9x8A75cl+SGF7
+ 1edS9kQ/sqChEzvH68iXxldFbQ6RZKq1PLNJGjA7ZOxtcT5VgrENPQ5nq7V2l1P5
+ hohAEKT1SNBe6yu4TujzlsXm/MLiqZk0SThUPjfoQoOR274nf/gwBrrWVdCu9Z/n
+ GMtzZT9R00WUfsOsBBQQrnXBcKMg8Io5OeH+2ypYby53G50gNQbFRCvFA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=7J5UHw
- 8ym46ZX1M3GqA4ekDmaIsicgH9q9qONdk0jP8=; b=IteCmoMbbDGNfk6QZlfhAz
- V4ElO5me+9eB7Z4mz14HWnCqb2lOkjET5F1mGC6kS6md1EnVniP0gceiMbhZjNFI
- Gs4tkEs6qjDyn0vtM9AWTyaEcR7+OZYEP7zhO4p26sGzWStYZ5v6fdqEfyaQPfQX
- Xpssf1ppT6yqSPzF1ZRkEtVH23Pez5y6SQwzQ4ucZ1NQ6dvOO8GbmsHyel7Ni6uC
- kojk3WrvZFRsL/Qwt7EStxfn5P8bTr0FO1jsVFyU4oQDpj2rpgQctt1UJsfT2z0u
- qJYTM25ZisFRYI7ZelsK8NIeFwD4LTOltpFFcCuhj1WgD2Z4WGGWTbMovqcqYNpQ
- ==
-X-ME-Sender: <xms:aHRNYaWw9S7aSG1BVsUpdUTLsTkO1OxKHDTvhbCvFxAc68zGQrW_CQ>
- <xme:aHRNYWmQYvEp3EpAU_jI6m37nDkrUhTFRWK4DlNK3NY0AP0F4oSUNCkhLEufVbuZ_
- L1q-vwH1vXdtp77B0M>
-X-ME-Received: <xmr:aHRNYeYq4noxCZ7IMVddGA5sevgvahUxj0USJR7Zefq6NIERoVge8f7TERHj-VMCNTxItn-rcPkRMtVCIoyEQwOlY_97c5NdzpzUupY3Gw>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=BgKIxMdnsVmmIxDyotmdZxJG5MqI1WUheh9D1cwWwaE=; b=Yv+p9r1A
+ ZD9HOBPCvkxnDR0FG92rU+D7M4RMEsFDYY74iaDeiQ4AwfwvMjibLzDoqjkZX9My
+ lfJChR7v3IbZyrFsH8FLS0Pi7zMNZJUp/luDzen9Czcx7JVkGIMSUxlHQ8xTOp/i
+ SrG0gKObUm1N9TZUt2LO3VQxm/psD8/wVPWmutxcRf4iKCkeqfk/tb/WiOwtrK+s
+ cZyp0mJM0QKIdsUKN+HSU2TkbV3kwm94Bw1VRiVShuetYzHdIHCp60zrBO6/IyCj
+ AErDznKNwRcTRrTmp5/GLl/VO9lVJD/nVuCKOpVr1SheFRkbZM8T9t2UfObO10ls
+ yxOZkFfpr2NdvA==
+X-ME-Sender: <xms:a3RNYd8Vovg33d-QvwlG8QlNpvvEGTn4HCNleph7HCwRqDcPJ7O1QA>
+ <xme:a3RNYRvGM1AzXNSpOLt8pUYQZ_mYbPv2_ihOChhEn4s8BkvaqSFR-WMnugfW2h-l_
+ 2tCxoJy2uzatUVjgUM>
+X-ME-Received: <xmr:a3RNYbDzS6xN_9agaQHHAZ5KQGjaXzbsr86nUysbqJx8H9mHKP7of8GxdxkpgoBPDSV9b0xfi_xNr5yNKsl5VoqgYuJturcbASudLOjs4A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddguddtlecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpefgveffkefgfedvteejtddugfefffefgeejgedvgeekueeggfdvleduueehvdev
- veenucffohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdr
- ughk
-X-ME-Proxy: <xmx:aHRNYRVUwsmPX0MY5AwO7RqOwr4HlmR6BczdLLTrflol_O8v3Vurtg>
- <xmx:aHRNYUlv6HSKeDqglG4F-vUsLGJ1PWVZuCUGgHrvtlXnikdlTCxLnw>
- <xmx:aHRNYWeUJQEV9aBVW9DDedHm8XIEtH_ajnO3Ik6NB14hsGRRlqC5vw>
- <xmx:aXRNYRikmNVpK1z68RKAUczB_RGQ6_GK2DqOhOp4v_2e1r0DPDjf9g>
+ enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
+ gfeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:a3RNYRdOaiS3R_xxgeiyW54WC5QLtkxslNIH4aTVGp9fwKWcDPrQJA>
+ <xmx:a3RNYSOu4y7N821HfzlE-_lFBz9BwZKd-6296xXBQ9lEPpnbfSmnqg>
+ <xmx:a3RNYTkzj-hz6fWgsGqJpFLuVuv0OXF3dcEu9ras5VkrWHOMhhIDSg>
+ <xmx:a3RNYZoiGzN90F3qNAgs6TPcN3Z1YxZEdbndeEEFXUpU5H2pj6IeHg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Sep 2021 02:47:03 -0400 (EDT)
+ 24 Sep 2021 02:47:05 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 0/3] hw/nvme updates
-Date: Fri, 24 Sep 2021 08:46:58 +0200
-Message-Id: <20210924064701.283182-1-its@irrelevant.dk>
+Subject: [PULL 1/3] hw/nvme: fix validation of ASQ and ACQ
+Date: Fri, 24 Sep 2021 08:46:59 +0200
+Message-Id: <20210924064701.283182-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.33.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210924064701.283182-1-its@irrelevant.dk>
+References: <20210924064701.283182-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
  helo=new3-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -100,44 +100,51 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Hi Peter,=0D
-=0D
-The following changes since commit 2c3e83f92d93fbab071b8a96b8ab769b01902475=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/alistair23/tags/pull-riscv-to-apply=
--20210921' into staging (2021-09-21 10:57:48 -0700)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request=0D
-=0D
-for you to fetch changes up to c53a9a91021c2f57de9ab18393d0048bd0fe90c2:=0D
-=0D
-  hw/nvme: Return error for fused operations (2021-09-24 08:43:58 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-hw/nvme updates=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Klaus Jensen (1):=0D
-  hw/nvme: fix validation of ASQ and ACQ=0D
-=0D
-Naveen Nagar (1):=0D
-  hw/nvme: fix verification of select field in namespace attachment=0D
-=0D
-Pankaj Raghav (1):=0D
-  hw/nvme: Return error for fused operations=0D
-=0D
- hw/nvme/ctrl.c       | 31 ++++++++++++++++++++-----------=0D
- hw/nvme/trace-events |  2 --=0D
- include/block/nvme.h |  5 +++++=0D
- 3 files changed, 25 insertions(+), 13 deletions(-)=0D
-=0D
--- =0D
-2.33.0=0D
-=0D
+Address 0x0 is a valid address. Fix the admin submission and completion
+queue address validation to not error out on this.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+---
+ hw/nvme/ctrl.c       | 8 --------
+ hw/nvme/trace-events | 2 --
+ 2 files changed, 10 deletions(-)
+
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 6baf9e0420d5..ff784851137e 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -5623,14 +5623,6 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+         trace_pci_nvme_err_startfail_sq();
+         return -1;
+     }
+-    if (unlikely(!asq)) {
+-        trace_pci_nvme_err_startfail_nbarasq();
+-        return -1;
+-    }
+-    if (unlikely(!acq)) {
+-        trace_pci_nvme_err_startfail_nbaracq();
+-        return -1;
+-    }
+     if (unlikely(asq & (page_size - 1))) {
+         trace_pci_nvme_err_startfail_asq_misaligned(asq);
+         return -1;
+diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+index 430eeb395b24..ff6cafd520df 100644
+--- a/hw/nvme/trace-events
++++ b/hw/nvme/trace-events
+@@ -159,8 +159,6 @@ pci_nvme_err_invalid_setfeat(uint32_t dw10) "invalid set features, dw10=0x%"PRIx
+ pci_nvme_err_invalid_log_page(uint16_t cid, uint16_t lid) "cid %"PRIu16" lid 0x%"PRIx16""
+ pci_nvme_err_startfail_cq(void) "nvme_start_ctrl failed because there are non-admin completion queues"
+ pci_nvme_err_startfail_sq(void) "nvme_start_ctrl failed because there are non-admin submission queues"
+-pci_nvme_err_startfail_nbarasq(void) "nvme_start_ctrl failed because the admin submission queue address is null"
+-pci_nvme_err_startfail_nbaracq(void) "nvme_start_ctrl failed because the admin completion queue address is null"
+ pci_nvme_err_startfail_asq_misaligned(uint64_t addr) "nvme_start_ctrl failed because the admin submission queue address is misaligned: 0x%"PRIx64""
+ pci_nvme_err_startfail_acq_misaligned(uint64_t addr) "nvme_start_ctrl failed because the admin completion queue address is misaligned: 0x%"PRIx64""
+ pci_nvme_err_startfail_page_too_small(uint8_t log2ps, uint8_t maxlog2ps) "nvme_start_ctrl failed because the page size is too small: log2size=%u, min=%u"
+-- 
+2.33.0
+
 
