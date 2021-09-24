@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D2A416E9E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 11:11:23 +0200 (CEST)
-Received: from localhost ([::1]:41520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92CC7416EB0
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 11:14:58 +0200 (CEST)
+Received: from localhost ([::1]:51458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mThEo-0002gS-11
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 05:11:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36182)
+	id 1mThIH-0001Al-KA
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 05:14:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTh9f-00045E-8l
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:06:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20704)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTh9j-00048U-Nu
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:06:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTh9b-0003I6-AF
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:06:02 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTh9d-0003Iy-Ss
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:06:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632474358;
+ s=mimecast20190719; t=1632474361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2MMbngAgfFJdLFjKN1OY+WDHDson9Zzsfp6RdzHlTdk=;
- b=hPJbbx0opQXgzUwARUPg3zzlTxRKHqIA9KAK+jnLJHWIAoqHibLGIZ5lV7ZrYdbt6l4iDc
- sapwvzKSc1+W2xarq6zNkvNCBfGFrnxfA/3wjITQN8gy1v9UGZa51Lj9lF9O6O7k8+7xB7
- iFJNM2QpOCD6NFr7ndeYa9Z3HaJztbo=
+ bh=KzPpKcm05vMxAm5x56Ljr93Ez4xNOIelk3Z0Gs8Yf1w=;
+ b=UmI+EQUErEl1ekhRlfdGNQMXjfkHsGdrZY0jdsT3GJI0hB9BlHUdlKX2Kpbt/XFbFcRwEQ
+ wAnkykJwLgEtn9+V3m+Ys5lRQunHDHqJhhoT3mTxUKY5vROK8G6U6ZLxKV8pBYvxbGlKJ3
+ KI6wug08MJCp/hVmMOVqA3VORRKTGrM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-Z-a93jIYNQixggyEcGa9tg-1; Fri, 24 Sep 2021 05:05:57 -0400
-X-MC-Unique: Z-a93jIYNQixggyEcGa9tg-1
+ us-mta-219-QIQyJ_7YOV2WtsgiC54fnQ-1; Fri, 24 Sep 2021 05:05:59 -0400
+X-MC-Unique: QIQyJ_7YOV2WtsgiC54fnQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4BB484A5E0;
- Fri, 24 Sep 2021 09:05:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAC381007920;
+ Fri, 24 Sep 2021 09:05:58 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0C265D9DC;
- Fri, 24 Sep 2021 09:05:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EAF895D9DC;
+ Fri, 24 Sep 2021 09:05:56 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/11] qdev: Avoid using string visitor for properties
-Date: Fri, 24 Sep 2021 11:04:20 +0200
-Message-Id: <20210924090427.9218-5-kwolf@redhat.com>
+Subject: [PATCH 05/11] qdev: Make DeviceState.id independent of QemuOpts
+Date: Fri, 24 Sep 2021 11:04:21 +0200
+Message-Id: <20210924090427.9218-6-kwolf@redhat.com>
 In-Reply-To: <20210924090427.9218-1-kwolf@redhat.com>
 References: <20210924090427.9218-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -63,7 +63,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,66 +82,121 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only thing the string visitor adds compared to a keyval visitor is
-list support. git grep for 'visit_start_list' and 'visit.*List' shows
-that devices don't make use of this.
-
-In a world with a QAPIfied command line interface, the keyval visitor is
-used to parse the command line. In order to make sure that no devices
-start using this feature that would make backwards compatibility harder,
-just switch away from object_property_parse(), which internally uses the
-string visitor, to a keyval visitor and object_property_set().
+DeviceState.id is a pointer to a string that is stored in the QemuOpts
+object DeviceState.opts and freed together with it. We want to create
+devices without going through QemuOpts in the future, so make this a
+separately allocated string.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- softmmu/qdev-monitor.c | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+ include/hw/qdev-core.h              | 2 +-
+ include/monitor/qdev.h              | 2 +-
+ hw/arm/virt.c                       | 2 +-
+ hw/core/qdev.c                      | 1 +
+ hw/pci-bridge/pci_expander_bridge.c | 2 +-
+ hw/ppc/e500.c                       | 2 +-
+ softmmu/qdev-monitor.c              | 5 +++--
+ 7 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 0705f00846..034b999401 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -28,6 +28,8 @@
- #include "qapi/qmp/dispatch.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
-+#include "qapi/qmp/qstring.h"
-+#include "qapi/qobject-input-visitor.h"
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
- #include "qemu/help_option.h"
-@@ -198,16 +200,28 @@ static int set_property(void *opaque, const char *name, const char *value,
-                         Error **errp)
- {
-     Object *obj = opaque;
-+    QString *val;
-+    Visitor *v;
-+    int ret;
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 34c8a7506a..1857d9698e 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -176,7 +176,7 @@ struct DeviceState {
+     Object parent_obj;
+     /*< public >*/
  
-     if (strcmp(name, "driver") == 0)
-         return 0;
-     if (strcmp(name, "bus") == 0)
-         return 0;
+-    const char *id;
++    char *id;
+     char *canonical_path;
+     bool realized;
+     bool pending_deleted_event;
+diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
+index eaa947d73a..389287eb44 100644
+--- a/include/monitor/qdev.h
++++ b/include/monitor/qdev.h
+@@ -9,6 +9,6 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp);
  
--    if (!object_property_parse(obj, name, value, errp)) {
--        return -1;
-+    val = qstring_from_str(value);
-+    v = qobject_input_visitor_new_keyval(QOBJECT(val));
-+
-+    if (!object_property_set(obj, name, v, errp)) {
-+        ret = -1;
-+        goto out;
+ int qdev_device_help(QemuOpts *opts);
+ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp);
+-void qdev_set_id(DeviceState *dev, const char *id);
++void qdev_set_id(DeviceState *dev, char *id);
+ 
+ #endif
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 1d59f0e59f..f933d48d3b 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1459,7 +1459,7 @@ static void create_platform_bus(VirtMachineState *vms)
+     MemoryRegion *sysmem = get_system_memory();
+ 
+     dev = qdev_new(TYPE_PLATFORM_BUS_DEVICE);
+-    dev->id = TYPE_PLATFORM_BUS_DEVICE;
++    dev->id = g_strdup(TYPE_PLATFORM_BUS_DEVICE);
+     qdev_prop_set_uint32(dev, "num_irqs", PLATFORM_BUS_NUM_IRQS);
+     qdev_prop_set_uint32(dev, "mmio_size", vms->memmap[VIRT_PLATFORM_BUS].size);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index cefc5eaa0a..d918b50a1d 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -956,6 +956,7 @@ static void device_finalize(Object *obj)
      }
--    return 0;
-+
-+    ret = 0;
-+out:
-+    visit_free(v);
-+    qobject_unref(val);
-+    return ret;
+ 
+     qemu_opts_del(dev->opts);
++    g_free(dev->id);
  }
  
- static const char *find_typename_by_alias(const char *alias)
+ static void device_class_base_init(ObjectClass *class, void *data)
+diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+index 7112dc3062..10e6e7c2ab 100644
+--- a/hw/pci-bridge/pci_expander_bridge.c
++++ b/hw/pci-bridge/pci_expander_bridge.c
+@@ -245,7 +245,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
+     } else {
+         bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
+         bds = qdev_new("pci-bridge");
+-        bds->id = dev_name;
++        bds->id = g_strdup(dev_name);
+         qdev_prop_set_uint8(bds, PCI_BRIDGE_DEV_PROP_CHASSIS_NR, pxb->bus_nr);
+         qdev_prop_set_bit(bds, PCI_BRIDGE_DEV_PROP_SHPC, false);
+     }
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 95451414dd..960e7efcd3 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -1006,7 +1006,7 @@ void ppce500_init(MachineState *machine)
+     /* Platform Bus Device */
+     if (pmc->has_platform_bus) {
+         dev = qdev_new(TYPE_PLATFORM_BUS_DEVICE);
+-        dev->id = TYPE_PLATFORM_BUS_DEVICE;
++        dev->id = g_strdup(TYPE_PLATFORM_BUS_DEVICE);
+         qdev_prop_set_uint32(dev, "num_irqs", pmc->platform_bus_num_irqs);
+         qdev_prop_set_uint32(dev, "mmio_size", pmc->platform_bus_size);
+         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 034b999401..1207e57a46 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -592,7 +592,8 @@ static BusState *qbus_find(const char *path, Error **errp)
+     return bus;
+ }
+ 
+-void qdev_set_id(DeviceState *dev, const char *id)
++/* Takes ownership of @id, will be freed when deleting the device */
++void qdev_set_id(DeviceState *dev, char *id)
+ {
+     if (id) {
+         dev->id = id;
+@@ -690,7 +691,7 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+         }
+     }
+ 
+-    qdev_set_id(dev, qemu_opts_id(opts));
++    qdev_set_id(dev, g_strdup(qemu_opts_id(opts)));
+ 
+     /* set properties */
+     if (qemu_opt_foreach(opts, set_property, dev, errp)) {
 -- 
 2.31.1
 
