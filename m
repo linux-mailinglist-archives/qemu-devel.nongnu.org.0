@@ -2,49 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9A741707A
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:54:23 +0200 (CEST)
-Received: from localhost ([::1]:60082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E20AA417082
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:57:31 +0200 (CEST)
+Received: from localhost ([::1]:34450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTiqU-0004yy-3M
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56670)
+	id 1mTitX-0006tg-0u
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:57:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mTiph-00045s-Ik; Fri, 24 Sep 2021 06:53:33 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:20314)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mTirh-0005mT-Dw
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 06:55:37 -0400
+Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:48303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mTipf-0002oB-FK; Fri, 24 Sep 2021 06:53:33 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 308B2746353;
- Fri, 24 Sep 2021 12:53:29 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 081B0745953; Fri, 24 Sep 2021 12:53:29 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 060097457EE;
- Fri, 24 Sep 2021 12:53:29 +0200 (CEST)
-Date: Fri, 24 Sep 2021 12:53:28 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v2 2/5] MAINTAINERS: Remove David & Greg as reviewers
- for a number of boards
-In-Reply-To: <20210924095536.441849-3-david@gibson.dropbear.id.au>
-Message-ID: <a2c9d721-969b-6220-e6f2-31c34738e@eik.bme.hu>
-References: <20210924095536.441849-1-david@gibson.dropbear.id.au>
- <20210924095536.441849-3-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mTirb-0004WF-Ng
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 06:55:35 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.68])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 07007202EC;
+ Fri, 24 Sep 2021 10:55:20 +0000 (UTC)
+Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 24 Sep
+ 2021 12:55:20 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G00613b99b34-d39b-48b8-8a00-6d567e0f459b,
+ EA4874C54EC1FB151381C7D8681494D1EB26EF60) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <942903da-c16f-23dd-155d-61af84962935@kaod.org>
+Date: Fri, 24 Sep 2021 12:55:19 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1415106647-1632480809=:16439"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] hw/misc: Add an iBT device model
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Titus Rwantare
+ <titusr@google.com>, "andrew@aj.id.au" <andrew@aj.id.au>
+References: <CAMvPwGr-FuQWHTQYxppAyT9uPhzCUDcezgz+jV=GwHGoQF4N6A@mail.gmail.com>
+ <1a0d6240-6654-0cf7-01ce-ef3ebf497a5c@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <1a0d6240-6654-0cf7-01ce-ef3ebf497a5c@amsat.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 182cee8e-37a2-48f9-a21b-12df24e1e0c9
+X-Ovh-Tracer-Id: 12580805561070881641
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudejuddgfeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehmihhnhigrrhgusegrtghmrdhorhhg
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
+ helo=3.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,82 +71,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, dbarboza@redhat.com, hpussin@reactos.org,
- aik@ozlabs.ru, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org
+Cc: Hao Wu <wuhaotsh@google.com>, qemu-arm@nongnu.org,
+ QEMU Developers <qemu-devel@nongnu.org>, Corey Minyard <minyard@acm.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hello Titus,
 
---3866299591-1415106647-1632480809=:16439
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+On 9/24/21 10:42, Philippe Mathieu-Daudé wrote:
+> On 9/24/21 01:48, Titus Rwantare wrote:
+>> Hello all,
+>>
+>> I'd like some clarification on how the following code transfers irqs
+>> back and forth:
+>>> b/hw/arm/aspeed_soc.c
+>>> +    /* iBT */
+>>> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->ibt), errp)) {
+>>> +        return;
+>>> +    }
+>>> +    memory_region_add_subregion(&s->lpc.iomem,
+>>> +                   sc->memmap[ASPEED_DEV_IBT] - sc->memmap[ASPEED_DEV_LPC],
+>>> +                   &s->ibt.iomem);
+>>> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->lpc), 1 + aspeed_lpc_ibt,
 
-On Fri, 24 Sep 2021, David Gibson wrote:
-> Greg and I are moving towards other areas and no longer have capacity to
-> act as regular reviewers for several of the secondary ppc machine types.
-> So, remove ourselves as reviewers for Macintosh, PReP, sam460ex and
-> pegasos2 in MAINTAINERS.
->
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
+The iBT device IRQ is connected to a subdevice irq of the LPC device.
+See aspeed_lpc_realize(). And triggered in aspeed_lpc_set_irq()
 
-> ---
-> MAINTAINERS | 9 ---------
-> 1 file changed, 9 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 3408618f2a..20436be86f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1265,8 +1265,6 @@ F: hw/ppc/mpc8544_guts.c
->
-> New World (mac99)
-> M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> -R: David Gibson <david@gibson.dropbear.id.au>
-> -R: Greg Kurz <groug@kaod.org>
-> L: qemu-ppc@nongnu.org
-> S: Odd Fixes
-> F: hw/ppc/mac_newworld.c
-> @@ -1285,8 +1283,6 @@ F: pc-bios/qemu_vga.ndrv
->
-> Old World (g3beige)
-> M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> -R: David Gibson <david@gibson.dropbear.id.au>
-> -R: Greg Kurz <groug@kaod.org>
-> L: qemu-ppc@nongnu.org
-> S: Odd Fixes
-> F: hw/ppc/mac_oldworld.c
-> @@ -1300,8 +1296,6 @@ F: pc-bios/qemu_vga.ndrv
->
-> PReP
-> M: Hervé Poussineau <hpoussin@reactos.org>
-> -R: David Gibson <david@gibson.dropbear.id.au>
-> -R: Greg Kurz <groug@kaod.org>
-> L: qemu-ppc@nongnu.org
-> S: Maintained
-> F: hw/ppc/prep.c
-> @@ -1356,8 +1350,6 @@ F: hw/ppc/virtex_ml507.c
->
-> sam460ex
-> M: BALATON Zoltan <balaton@eik.bme.hu>
-> -R: David Gibson <david@gibson.dropbear.id.au>
-> -R: Greg Kurz <groug@kaod.org>
-> L: qemu-ppc@nongnu.org
-> S: Maintained
-> F: hw/ppc/sam460ex.c
-> @@ -1371,7 +1363,6 @@ F: roms/u-boot-sam460ex
->
-> pegasos2
-> M: BALATON Zoltan <balaton@eik.bme.hu>
-> -R: David Gibson <david@gibson.dropbear.id.au>
-> L: qemu-ppc@nongnu.org
-> S: Maintained
-> F: hw/ppc/pegasos2.c
->
---3866299591-1415106647-1632480809=:16439--
+> Code smell indeed, likely:
+> 
+>          sysbus_connect_irq(SYS_BUS_DEVICE(&s->ibt), 1 + aspeed_lpc_ibt,
+
+why ? See what's done above for the LPC device. Commit c59f781e3bcc
+("hw/misc: Model KCS devices in the Aspeed LPC controller") and comment
+
+
+     /*
+      * On the AST2400 and AST2500 the one LPC IRQ is shared between all of the
+      * subdevices. Connect the LPC subdevice IRQs to the LPC controller IRQ (by
+      * contrast, on the AST2600, the subdevice IRQs are connected straight to
+      * the GIC).
+      *
+      * LPC subdevice IRQ sources are offset from 1 because the shared IRQ output
+      * to the VIC is at offset 0.
+      */
+
+> 
+>>> +                       qdev_get_gpio_in(DEVICE(&s->lpc), aspeed_lpc_ibt));
+>>> }
+>>
+>> and
+>>
+>>> hw/misc/aspeed_ibt.c
+>>> +static void aspeed_ibt_realize(DeviceState *dev, Error **errp)
+>>> +{
+>>> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+>>> +    AspeedIBTState *ibt = ASPEED_IBT(dev);
+>> ...
+>>> +
+>>> +    sysbus_init_irq(sbd, &ibt->irq);
+>>
+>> I ask because the code in aspeed_soc.c seems to connect to the
+>> lpc->subdevice_irqs[aspeed_lpc_ibt], initialised on
+>> hw/misc/aspeed_lpc.c:408.
+>> I noticed that bmc firmware running in qemu was checking the BT_CTRL
+>> register less frequently than I'd like while editing this patch to use
+>> the IPMIInterface.
+
+OK.
+
+This might be a problem in aspeed_ibt_update_irq(). This patch is
+an experiment from some few years ago. It still works good enough
+for the witherspoon-bmc and powernv9 machines for simple IPMI
+commands: fru, sdr, lan, power off (to be checked).
+
+Could you share your BMC and host command line ?
+
+Thanks,
+
+C.
 
