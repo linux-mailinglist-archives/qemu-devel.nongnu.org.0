@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B2B4169FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 04:24:29 +0200 (CEST)
-Received: from localhost ([::1]:42452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97939416A04
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 04:28:45 +0200 (CEST)
+Received: from localhost ([::1]:44718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTat1-0003Mv-Gy
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 22:24:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54204)
+	id 1mTaxA-0005As-Jd
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 22:28:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mTaq3-0002WM-EI; Thu, 23 Sep 2021 22:21:23 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:58895)
+ id 1mTaq3-0002WN-EG; Thu, 23 Sep 2021 22:21:23 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:40965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mTaq0-0003dR-Cs; Thu, 23 Sep 2021 22:21:22 -0400
+ id 1mTaq0-0003dS-9e; Thu, 23 Sep 2021 22:21:23 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HFwkd4s57z4xb8; Fri, 24 Sep 2021 12:21:13 +1000 (AEST)
+ id 4HFwkd51gsz4xbQ; Fri, 24 Sep 2021 12:21:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632450073;
- bh=ePkhUvOgSjQBh0u7tBrDMJPBCJdMeiuyd5G9EE7RIXg=;
+ bh=zmCr1PCbEsXsd4WzNPEmFJrnhd41NOrg7adYTsm2twA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=P1Ceo3pJiicb/Gj76VAZIxFvwdO165XaAys72saChyzovOPvkL3hGko61WHwpVRwM
- 1VMNQwdM9zPONviLWvo91pgv0gfeTORqjUzVBW8RWJN5exiczKwXNLy51yTZzjJE+q
- 3IHQOVShdR1wkNogX7qJVU/UC9/vOJNnETfJH1KQ=
-Date: Fri, 24 Sep 2021 12:15:55 +1000
+ b=Buv/dllqKjI2EqtygE6vQ7MTB37gdSOhFyrxqCWgjIJG0JmRipO2G41XhPqhKrnTU
+ hyoVsACE39baIUINAZAsJeT7i9Qdv3A1y+aWhH98odoLVTIZUETHxoQMQK8LH9Lz6u
+ zU5n1Tp2YcW6EgBQigB4wLHy2ozjxUwQaQ2xtLrI=
+Date: Fri, 24 Sep 2021 12:16:46 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v7 0/7] DEVICE_UNPLUG_GUEST_ERROR QAPI event
-Message-ID: <YU0023FxGbYQ3Vvl@yekko>
-References: <20210825004835.472919-1-danielhb413@gmail.com>
- <874kac258g.fsf@dusky.pond.sub.org>
- <87wnn8zuju.fsf@dusky.pond.sub.org>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ "@yekko"@gandalf.ozlabs.org
+Subject: Re: [PATCH v2] spapr/xive: Fix kvm_xive_source_reset trace event
+Message-ID: <YU01Dj2MRA8+zVlZ@yekko>
+References: <20210922070205.1235943-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EdSGSrsPfeVCgo1i"
+ protocol="application/pgp-signature"; boundary="2I+LkhPpzMMwf+W4"
 Content-Disposition: inline
-In-Reply-To: <87wnn8zuju.fsf@dusky.pond.sub.org>
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+In-Reply-To: <20210922070205.1235943-1-clg@kaod.org>
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,25 +58,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---EdSGSrsPfeVCgo1i
-Content-Type: text/plain; charset=us-ascii
+--2I+LkhPpzMMwf+W4
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 22, 2021 at 02:03:33PM +0200, Markus Armbruster wrote:
-> Markus Armbruster <armbru@redhat.com> writes:
+On Wed, Sep 22, 2021 at 09:02:05AM +0200, C=E9dric Le Goater wrote:
+> The trace event was placed in the wrong routine. Move it under
+> kvmppc_xive_source_reset_one().
 >=20
-> > Not yet merged.  David, would you like to do the pull request?
->=20
-> Oops, there's v8.  Take that one of course.
+> Fixes: 4e960974d4ee ("xive: Add trace events")
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-I have it in ppc-for-6.2, probably looking at a PR next week.
+Applied to ppc-for-6.2, thanks.
+
+> ---
+>  hw/intc/spapr_xive_kvm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+> index beb904d5bdee..bf43ffb54018 100644
+> --- a/hw/intc/spapr_xive_kvm.c
+> +++ b/hw/intc/spapr_xive_kvm.c
+> @@ -236,6 +236,8 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, in=
+t srcno, Error **errp)
+>      SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
+>      uint64_t state =3D 0;
+> =20
+> +    trace_kvm_xive_source_reset(srcno);
+> +
+>      assert(xive->fd !=3D -1);
+> =20
+>      if (xive_source_irq_is_lsi(xsrc, srcno)) {
+> @@ -328,8 +330,6 @@ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int src=
+no, uint32_t offset,
+>          return xive_esb_rw(xsrc, srcno, offset, data, 1);
+>      }
+> =20
+> -    trace_kvm_xive_source_reset(srcno);
+> -
+>      /*
+>       * Special Load EOI handling for LSI sources. Q bit is never set
+>       * and the interrupt should be re-triggered if the level is still
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -85,25 +112,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---EdSGSrsPfeVCgo1i
+--2I+LkhPpzMMwf+W4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFNNNkACgkQbDjKyiDZ
-s5IqCw//QpufpjbikMc+jlFdAQLznzIONogZ4Un7wFhfzfbrgh0XcLqmsEyLYETZ
-7+XG2QvIGhGiircCHEAQTi+QJFemLocyDw5yr4ua//u2i2/6u45Ils1VuWlkW1pO
-53IVxPAQmRda4+SVqnCQ21AapuWWMslPYzNkSWitIC8kGhhUM+kIweMBPii6TkGM
-sw4lUKouhtRyMhBajrsXOFAnZsUp7vlo5K4hgDaFy7Nb3y6k4H4QkG565yFx//7C
-wUH/hVEkfXyhTfG/tZeBKgoJYB5PoW1fIooZA5laZa0+em5C39eVX5TJvAtjDaPt
-mN9jY4SU722N5H+AkDsrm5sr/9o0Fr2hU7YmjpFRgceWr3ekMnleYF2k8hYF8yOS
-VQ3cCLoxn2HBKt/NqN82PLthIWKLyQHhBsP73wwvncXLM3mXtRcOaurWHoRI233/
-ZWsMl1stag7PgTk4mFaELY9+IYUEdgKGfEa7uu04hYCu9G6KWoJEBb4TmBDuowqv
-9rMyKHLzZGMKy3iigOYAkrRDgeTwUcoWjgh+/0OHd9uueLJCBP1NqKZLVykY6ZTT
-fEUuL27REIEDhP7jK86p8cDApUeD/+569hm4ks3UpAKSGOYM44gOKqK32N42M9ix
-bVScKeHWg8cNpTylswNBLnWqF8Wt92JqcKgDl+eu/rMuYJbpA0w=
-=TOhO
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFNNQ0ACgkQbDjKyiDZ
+s5KMpg/+LtKIDeCAeTmSdzWDjAnOFfiWRX2D/OrL0Jmvn6pAnv+H99WFof9upmMV
+VeFOX2W5c3msqJvzevLAxGW3UdaaCvZWidf7NX5t/7AJOO8fR7W6SaAbqv0+rg6f
+Q8CZHdVdCGlxe5nfpy4xt3XOZj9J7PfKtb82Z6CMuxlYpEMGk12bTnu6TRRyA0Zj
+jM9ZAS7+P3QFOVHM6Xo1bSh138JVqMQHqidWUbaeX5BoLS7/3FDxriPMTs4vwTKD
+nyejloHMtM0nxFvIiwFuYGSh/EJ5IOYdEnb64M1OWfRcr/JcrgWErLh6CakRLwps
+ZGjlQ5BZ92q3LzMgv796+oraBDEQcMdGyYrmlSQV5XP1o8n0RupPJwDd9qiNgIgG
+zc2AtH93F3xDnduqtRscR0DQg3dpHRWd9raOMvwWKHYsIV7Moio5Bv0P7LzotuxH
+OGl8bRFFcTDtoU7hNngzM8alnsmEUoN4/P0wiTpTG7d3RGMmE3iMdUyeNY8QaFS3
+Et24Slh4H/lo+aoCsDHuaUWf6FXkynTkcs+/YrnLRdgRQbXAe7DCAKNgdN+4ch8e
+LA7MHtHlPdlcohL/+8tOm7lzJ4LvSF0Yel2uetnl4TmDSbeFt5piVumjXmysWJKt
+uQFh2n7yZ/wNQzfrmGhUsh2h7uX2cAjLdVC03DiX2wjJjG1b2oM=
+=i8gW
 -----END PGP SIGNATURE-----
 
---EdSGSrsPfeVCgo1i--
+--2I+LkhPpzMMwf+W4--
 
