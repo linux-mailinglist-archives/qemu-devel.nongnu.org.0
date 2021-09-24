@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3D6416F3D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 11:41:56 +0200 (CEST)
-Received: from localhost ([::1]:52852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D00416F3E
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 11:42:01 +0200 (CEST)
+Received: from localhost ([::1]:53256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mThiL-0005e7-RK
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 05:41:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41032)
+	id 1mThiS-0005ul-4W
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 05:42:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThfV-0002bW-BR
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:38:57 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44933)
+ id 1mThfZ-0002kD-Jg
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:39:03 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThfT-0005rk-PY
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:38:56 -0400
-Received: by mail-wr1-x434.google.com with SMTP id d6so25365641wrc.11
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 02:38:55 -0700 (PDT)
+ id 1mThfY-0005wS-9D
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:39:01 -0400
+Received: by mail-wr1-x434.google.com with SMTP id d21so25358911wra.12
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 02:38:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5Bzxb+cyFW2fTjguo4+D1GgUMJzgo2oIaa6x4dhI9M8=;
- b=Z+ZVrJA7B+LRhlph252Bs05w8qRernFAcR0uaW2EqZLIaeL87gO8XvD5r4bZvNkp3+
- hX1EJqJbuippSwE2WDYNrROZL+rBetx42PlK+8wrhGeLsOGgUGPblfRoclfGG3tfCD8u
- eBI9iXodHTu4cufWPSR+WxyXzPIObVXP8ArcVDSr/vlzcvRGCwDLdZr/Wgz90lKfUY2X
- VYUokkVXMJ0JPMQprbFAppj22boPdVagE8pWBhyciFYNxDEwamnxrhXfsA4rT/riAhY4
- bbdYIb6pIWaeV5dgSnR9Q0TviODcmzuX3San6zlU6rCX7RAU8jGc5jtP5o00lXg3s9rh
- wKbg==
+ bh=v/6Xo0TImgBm2K/shdcIyB243lN4oaXhrr/liWYNm+w=;
+ b=Pa9TAG3DJJNK60sjEqpoeDmA5Ja/hj8QumRUf3uvdx8KtTwf7Db64hlkgabldj/bgr
+ w6UgkL2fGHrya1aOpmSDbYmhs0nmg1RfYZBuzVEx/l3pxiRslAE93ncb9NQ2owsY2RQV
+ YAI9fUzxrQvJxCEToZvURcG28wKKOUFMXjt5ZycSM6W35BE4NFCIdVn71KZ6hpStsTkg
+ hmjtGORbtz8XrFcfxWw2vkhckEz2pjbRztnT+y4lB1V/MqyRcl9FL4lFia6d5UlRxXBS
+ yT8TkUGFNxvLS0iwxk6MK0yWevpgf4+8RPyykY2PKPeZSyJGK8A36kykXuJtSA32jfJQ
+ OHGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5Bzxb+cyFW2fTjguo4+D1GgUMJzgo2oIaa6x4dhI9M8=;
- b=5RlNJwvIEWt4WUrI7XfxjwKL0OnuWxLYY3PpJ7Vmumy+TsHH9HQ4hnDLBaz80N93R6
- DZQZbeHQlTa1wxFXMStp7gKWvMJNP3g0pwMVAHADO0JPALeyJDCkrLZGrg+EPUDP2v0M
- hRlyY0VzK6pfR1BPa3+1cazVQWRw+GrU4P6ySVSlN5ZKe0Ou8TgbWIDm9sLE1ShLeQ9O
- eGsWA+GnacFlHKDRoWsDQaLITm9XopDSqBG4eOF/S8wIoQ8O5SypWz6HUmQis2UwWHVp
- RJI/dCoDJ+m8FZQFjgsfOUS+LbKTwAM0nSNaVpeIumXhSBLL/8O/mihqUTaMPFIILTts
- d+Jw==
-X-Gm-Message-State: AOAM531jL3CTF/D45Wjt12UAf8wkVcTWtZkllveUnxfwqel65NJP+fbW
- XQqJIJtI0xmjhXSDaX/3oFj+dCnJM7Y=
-X-Google-Smtp-Source: ABdhPJyEXLnBJ5FQO1c2ws6DQTUoRXlRdbtMRIFIWPeSVBvWTRWmUt4mhI0LSmwm06Oty6TGQxjWjg==
-X-Received: by 2002:adf:e44f:: with SMTP id t15mr10482837wrm.394.1632476334139; 
- Fri, 24 Sep 2021 02:38:54 -0700 (PDT)
+ bh=v/6Xo0TImgBm2K/shdcIyB243lN4oaXhrr/liWYNm+w=;
+ b=19JEwu3rA27yTIDVR3roKxgXrPRvj6vgsTCsCzVw64C9Qr5KzWtA6CKMF2x9mNEx+Q
+ 3QL23IBTY77fn6RMUnrhDIZt5u/x3XFYcVs5CQdO2y2vNbhAlGBm+b7Hzu+vwT/fcgHm
+ AWybPdh1DzYW0ZXMAOitp8xBwG6RMUDE0oxN5OIFHXSQlMOFiSL226o2p4psdIU130f7
+ IB2BdHeWmO0HbAHpqDsvFs/HCzZ9u+P0rsry1oNDcUa0DvujT7z3SY2m3bzpt/vlyONa
+ ukPKwzD/lkJrg4bhUHysKOxzV9C3/FREHQKWAKC8UVt3UKbfHLN/la76LFmDiqpNJoDB
+ YDzw==
+X-Gm-Message-State: AOAM531lsOdZXvTyQsVttzXSAV3RItNsWp3vwd9RSIsLcjHe4LyXhzHb
+ mcp+WYoYwNkRgLAP8ByzcFit2kKbBNU=
+X-Google-Smtp-Source: ABdhPJzhrnXA0uhl2pqV0q5B3dpoBOUbVOmIkvNTuLFX1nY/29IPrGM2JLjn3E6eMtqMs62Y3cpC9g==
+X-Received: by 2002:adf:ef48:: with SMTP id c8mr10126026wrp.349.1632476338844; 
+ Fri, 24 Sep 2021 02:38:58 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- q126sm11435167wma.10.2021.09.24.02.38.53
+ c14sm7622119wrd.50.2021.09.24.02.38.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 02:38:53 -0700 (PDT)
+ Fri, 24 Sep 2021 02:38:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 01/40] accel: Simplify qemu_init_vcpu()
-Date: Fri, 24 Sep 2021 11:38:08 +0200
-Message-Id: <20210924093847.1014331-2-f4bug@amsat.org>
+Subject: [PATCH v6 02/40] accel/tcg: Restrict cpu_handle_halt() to sysemu
+Date: Fri, 24 Sep 2021 11:38:09 +0200
+Message-Id: <20210924093847.1014331-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210924093847.1014331-1-f4bug@amsat.org>
 References: <20210924093847.1014331-1-f4bug@amsat.org>
@@ -91,40 +91,60 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpus_register_accel() already checks for ops->create_vcpu_thread
-being non-NULL, so it is pointless to re-check for it in
-qemu_init_vcpu().
+Commit 372579427a5 ("tcg: enable thread-per-vCPU") added the following
+comment describing EXCP_HALTED in qemu_tcg_cpu_thread_fn():
 
+    case EXCP_HALTED:
+         /* during start-up the vCPU is reset and the thread is
+          * kicked several times. If we don't ensure we go back
+          * to sleep in the halted state we won't cleanly
+          * start-up when the vCPU is enabled.
+          *
+          * cpu->halted should ensure we sleep in wait_io_event
+          */
+         g_assert(cpu->halted);
+         break;
+
+qemu_wait_io_event() is sysemu-specific, so we can restrict the
+cpu_handle_halt() call in cpu_exec() to system emulation.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- softmmu/cpus.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ accel/tcg/cpu-exec.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 071085f840b..646326b24fd 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -604,7 +604,10 @@ void cpu_remove_sync(CPUState *cpu)
- void cpus_register_accel(const AccelOpsClass *ops)
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 75dbc1e4e33..5fd1ed34222 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -588,8 +588,9 @@ static inline void tb_add_jump(TranslationBlock *tb, int n,
+ 
+ static inline bool cpu_handle_halt(CPUState *cpu)
  {
-     assert(ops != NULL);
--    assert(ops->create_vcpu_thread != NULL); /* mandatory */
-+
-+    /* Mandatory non-NULL handlers */
-+    assert(ops->create_vcpu_thread != NULL);
-+
-     cpus_accel = ops;
- }
++#ifndef CONFIG_USER_ONLY
+     if (cpu->halted) {
+-#if defined(TARGET_I386) && !defined(CONFIG_USER_ONLY)
++#if defined(TARGET_I386)
+         if (cpu->interrupt_request & CPU_INTERRUPT_POLL) {
+             X86CPU *x86_cpu = X86_CPU(cpu);
+             qemu_mutex_lock_iothread();
+@@ -597,13 +598,14 @@ static inline bool cpu_handle_halt(CPUState *cpu)
+             cpu_reset_interrupt(cpu, CPU_INTERRUPT_POLL);
+             qemu_mutex_unlock_iothread();
+         }
+-#endif
++#endif /* TARGET_I386 */
+         if (!cpu_has_work(cpu)) {
+             return true;
+         }
  
-@@ -626,7 +629,7 @@ void qemu_init_vcpu(CPUState *cpu)
+         cpu->halted = 0;
      }
++#endif /* !CONFIG_USER_ONLY */
  
-     /* accelerators all implement the AccelOpsClass */
--    g_assert(cpus_accel != NULL && cpus_accel->create_vcpu_thread != NULL);
-+    g_assert(cpus_accel != NULL);
-     cpus_accel->create_vcpu_thread(cpu);
- 
-     while (!cpu->created) {
+     return false;
+ }
 -- 
 2.31.1
 
