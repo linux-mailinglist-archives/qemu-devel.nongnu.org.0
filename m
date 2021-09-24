@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB99541767F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 16:02:21 +0200 (CEST)
-Received: from localhost ([::1]:37778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523BB41767B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 16:01:58 +0200 (CEST)
+Received: from localhost ([::1]:36028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTlmO-0003fl-HR
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 10:02:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34970)
+	id 1mTlm0-0002Q2-Ut
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 10:01:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTlgt-000314-UV
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 09:56:39 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:60799)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTlgu-00031v-CA
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 09:56:40 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:56441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTlgr-00059W-4J
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 09:56:39 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTlgr-0005AD-Ty
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 09:56:40 -0400
 Received: from quad ([82.142.21.142]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mcp3E-1n3Ngm3ivS-00ZyOz; Fri, 24
- Sep 2021 15:56:35 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M3lLh-1mU2nw3aR1-000uhQ; Fri, 24
+ Sep 2021 15:56:36 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] linux-user: Provide new force_sig_fault() function
-Date: Fri, 24 Sep 2021 15:56:29 +0200
-Message-Id: <20210924135631.2067582-6-laurent@vivier.eu>
+Subject: [PULL 7/7] linux-user/aarch64: Use force_sig_fault()
+Date: Fri, 24 Sep 2021 15:56:31 +0200
+Message-Id: <20210924135631.2067582-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210924135631.2067582-1-laurent@vivier.eu>
 References: <20210924135631.2067582-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Aa/W3+/9Dd/FWKEHqQrSMRuBgk3RRcCeVu9Z8Z4ztYIsgzvM0pR
- frAf6FULRJj5hXG6AFG0xeToUdC+jA1IePhgKUikjFKiX/UOq0bPHqKgqEyGBRHKIu69NgK
- j74TlMGV6DkFxddn18xq4wdERh3QbaEMDqV72SCfpTsgxuA7dtS3+Inz5GNfTUg8Js0QCqq
- anyYXLa4dXGDQr3cIkDhw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gNsuaqKw5uw=:BRlI4WXHriuCEU09lruvwV
- MMqojHOBzyWENOd0kNRREKN3cEicKYGlh2LrOH7fufbZXsGP9y4DJf6cJUMUUyxz6Gl2IeWOL
- 9zqDdaUc1k9PFf3B/VukKu52EwjK9DCG41+u9WGRjQvCzm80tuy/88HTP9UpBqW52JUhCyN3u
- kwxEZibWcCc4G4KHKefQpwbpDOq48EXx1IvJ/zjLC5NF1xsPtEvtu4BDxiW1Y0+P4EKUyWXdz
- YOq0oVxf55fWXWXKFrbrtv4OCruFYi2cq9rc/8i5m/svnHoRw3bZpK3eTiBgkacb6kyN3WPHh
- A9UUYlVvVKIJdHwayJZN6stzCrlMwS17HxznjNNy6WtOyCoLPl0wYMpZTK+GtqtSFu7ASfBxt
- mbEibhEkQt1cWARPOj7bUloHb34Mhxd/6Ntf8at+/tkjVT80cSHNzjx1Yv7fgJ+9JfLXUwVzc
- tU6WPw3d5HPRqj/M9+j6EnFyipVHKkTikup4QQd+o7HtAWlBNSNK+0ioJcRVrfkyXjXGpnTg0
- AJg9MpGuKjNabDIKExUYKsafsW3nq7ZzbN7wzeVej4wKCIoUrDi2fsY2FEgi+5inuvVtCfrVw
- evyLPeHdfSUnFLTTbEEFW1VgypZeZDSEFSHE1XwdVVVNDoMELOoIW/gJZf70H6782w6vGa2MM
- 7Ud4/f4MlfIjn1RduBzA3pDvhe5Zb0ciH0XwlOWMcj4xhLed526+zp126gBdRVLUZfsevO+db
- 5wZuOy1dRkKJ7pDgc0Rb8BEiJvTQiGqGckHH2w==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:J3ppuy8nfO+aKlVA06tx1O+/lmCpIvulGhaBp63Ja53tzKTkDx/
+ lU51QVqlImUxMDgEqZ9CWiZwxxqnYZdOZeMLpoqtf5R1jtbg1FTna6Ny1O1pFtLIuMXrY/n
+ JTT+k8T2HuTmlI7udk8CJrRYaGMkg8gYRIldit/FyMMaWFjLc6zSijNqJ3srsDIrs9xvDWN
+ SfPkt53kNdp4O6biL/6jA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IVFbgakdjLc=:fcUK1nHhTn8Vazbaf7hreC
+ oJLChlIRB5bzP0iXVnzWeSZBGgLLw1rZruTDpgCYKoyg/m3bxU7lOTU01YRUX7pIHYbcYUa3B
+ rFUn54Me50TWoSTgdOTaR3ZkYUscCHBAxrGxgBeYj8+Ms7+Eswp6sfQdX8FWWBDDWrk7YN4uf
+ 7ZspxwEdd3pT2IflHcMDenVvLz1xbxXCv4OMe8nPOXHU624rhWoPgMQR5Cx4lwzgN8sa3zWMZ
+ FFpP8WQgDVO9ueNvJSjSfBd3xNSG5DAwCB9JXlmdOzGGb1TcteWRY92olT36JIf/V6AfqQYYe
+ vDas0PmujcEO94c9Azo8FR0kTJyjYB/Q2ebE1GrAxsXPdMD9qvEd6yF9pSIJgVBvDREk3jTZ4
+ UjdHHb9ufty2TQGIo/y8xp/pBE2ywl8ISCVbD3BPQwIMouNT0aJKyd+gNkLtWo2WNfk7hj6SH
+ 3YdS2lsRf7nu9acZ28+Z6LknK9UOsW1BedPIaoxq6tGNZlq2GxOsYu1VJy0OHQpIiucB7C2j3
+ e/sBBKsfIZ+PRVr54Zw7VLvALlA8Vi6tF7syermrayfgoH0Mn2+2OOoIOHJLLGYWwyPaUlkcP
+ emP4mwoxlhAAjWUzrtnBOsy/7joGKIm0uuRKqOLl5PLCstr1vZcJYbYEVNIDQfNkJio8KXzeC
+ RE+OB2BLvgpMERQsIS6RmfuTEvD6BFzlv9vlykdu6jaxRD5VRi8oiXbJjQzyRpE8dVF+TaHNz
+ kMIUEFuKvsS/N0Jz2w53cHkB8kwKzfed6Is/Gw==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,72 +73,99 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-In many places in the linux-user code we need to queue a signal for
-the guest using the QEMU_SI_FAULT si_type.  This requires that the
-caller sets up and passes us a target_siginfo, including setting the
-appropriate part of the _sifields union for the si_type. In a number
-of places the code forgets to set the _sifields union field.
-
-Provide a new force_sig_fault() function, which does the same thing
-as the Linux kernel function of that name -- it takes the signal
-number, the si_code value and the address to use in
-_sifields._sigfault, and assembles the target_siginfo itself.  This
-makes the callsites simpler and means it's harder to forget to pass
-in an address value.
-
-We follow force_sig() and the kernel's force_sig_fault() in not
-requiring the caller to pass in the CPU pointer but always acting
-on the CPU of the current thread.
+Use the new force_sig_fault() function instead of setting up
+a target_siginfo_t and calling queue_signal().
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210813131809.28655-6-peter.maydell@linaro.org>
+Message-Id: <20210813131809.28655-8-peter.maydell@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/signal-common.h |  1 +
- linux-user/signal.c        | 17 +++++++++++++++++
- 2 files changed, 18 insertions(+)
+ linux-user/aarch64/cpu_loop.c | 33 ++++++++-------------------------
+ 1 file changed, 8 insertions(+), 25 deletions(-)
 
-diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h
-index 58ea23f6ea94..79511becb4e7 100644
---- a/linux-user/signal-common.h
-+++ b/linux-user/signal-common.h
-@@ -40,6 +40,7 @@ void tswap_siginfo(target_siginfo_t *tinfo,
- void set_sigmask(const sigset_t *set);
- void force_sig(int sig);
- void force_sigsegv(int oldsig);
-+void force_sig_fault(int sig, int code, abi_ulong addr);
- #if defined(TARGET_ARCH_HAS_SETUP_FRAME)
- void setup_frame(int sig, struct target_sigaction *ka,
-                  target_sigset_t *set, CPUArchState *env);
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 910b9dc6f7d1..203821645509 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -651,6 +651,23 @@ void force_sig(int sig)
-     queue_signal(env, info.si_signo, QEMU_SI_KILL, &info);
- }
+diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+index 980e734e54f3..034b737435a3 100644
+--- a/linux-user/aarch64/cpu_loop.c
++++ b/linux-user/aarch64/cpu_loop.c
+@@ -79,9 +79,8 @@
+ void cpu_loop(CPUARMState *env)
+ {
+     CPUState *cs = env_cpu(env);
+-    int trapnr, ec, fsc;
++    int trapnr, ec, fsc, si_code;
+     abi_long ret;
+-    target_siginfo_t info;
  
-+/*
-+ * Force a synchronously taken QEMU_SI_FAULT signal. For QEMU the
-+ * 'force' part is handled in process_pending_signals().
-+ */
-+void force_sig_fault(int sig, int code, abi_ulong addr)
-+{
-+    CPUState *cpu = thread_cpu;
-+    CPUArchState *env = cpu->env_ptr;
-+    target_siginfo_t info = {};
-+
-+    info.si_signo = sig;
-+    info.si_errno = 0;
-+    info.si_code = code;
-+    info._sifields._sigfault._addr = addr;
-+    queue_signal(env, sig, QEMU_SI_FAULT, &info);
-+}
-+
- /* Force a SIGSEGV if we couldn't write to memory trying to set
-  * up the signal frame. oldsig is the signal we were trying to handle
-  * at the point of failure.
+     for (;;) {
+         cpu_exec_start(cs);
+@@ -110,18 +109,10 @@ void cpu_loop(CPUARMState *env)
+             /* just indicate that signals should be handled asap */
+             break;
+         case EXCP_UDEF:
+-            info.si_signo = TARGET_SIGILL;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_ILL_ILLOPN;
+-            info._sifields._sigfault._addr = env->pc;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->pc);
+             break;
+         case EXCP_PREFETCH_ABORT:
+         case EXCP_DATA_ABORT:
+-            info.si_signo = TARGET_SIGSEGV;
+-            info.si_errno = 0;
+-            info._sifields._sigfault._addr = env->exception.vaddress;
+-
+             /* We should only arrive here with EC in {DATAABORT, INSNABORT}. */
+             ec = syn_get_ec(env->exception.syndrome);
+             assert(ec == EC_DATAABORT || ec == EC_INSNABORT);
+@@ -130,28 +121,24 @@ void cpu_loop(CPUARMState *env)
+             fsc = extract32(env->exception.syndrome, 0, 6);
+             switch (fsc) {
+             case 0x04 ... 0x07: /* Translation fault, level {0-3} */
+-                info.si_code = TARGET_SEGV_MAPERR;
++                si_code = TARGET_SEGV_MAPERR;
+                 break;
+             case 0x09 ... 0x0b: /* Access flag fault, level {1-3} */
+             case 0x0d ... 0x0f: /* Permission fault, level {1-3} */
+-                info.si_code = TARGET_SEGV_ACCERR;
++                si_code = TARGET_SEGV_ACCERR;
+                 break;
+             case 0x11: /* Synchronous Tag Check Fault */
+-                info.si_code = TARGET_SEGV_MTESERR;
++                si_code = TARGET_SEGV_MTESERR;
+                 break;
+             default:
+                 g_assert_not_reached();
+             }
+ 
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            force_sig_fault(TARGET_SIGSEGV, si_code, env->exception.vaddress);
+             break;
+         case EXCP_DEBUG:
+         case EXCP_BKPT:
+-            info.si_signo = TARGET_SIGTRAP;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_TRAP_BRKPT;
+-            info._sifields._sigfault._addr = env->pc;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
+             break;
+         case EXCP_SEMIHOST:
+             env->xregs[0] = do_common_semihosting(cs);
+@@ -171,11 +158,7 @@ void cpu_loop(CPUARMState *env)
+         /* Check for MTE asynchronous faults */
+         if (unlikely(env->cp15.tfsr_el[0])) {
+             env->cp15.tfsr_el[0] = 0;
+-            info.si_signo = TARGET_SIGSEGV;
+-            info.si_errno = 0;
+-            info._sifields._sigfault._addr = 0;
+-            info.si_code = TARGET_SEGV_MTEAERR;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MTEAERR, 0);
+         }
+ 
+         process_pending_signals(env);
 -- 
 2.31.1
 
