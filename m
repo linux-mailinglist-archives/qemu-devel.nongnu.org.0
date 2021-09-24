@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396184170E9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 13:34:13 +0200 (CEST)
-Received: from localhost ([::1]:49008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46A94170D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 13:27:50 +0200 (CEST)
+Received: from localhost ([::1]:60580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTjT2-00051f-7a
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 07:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34410)
+	id 1mTjMr-0002F3-PP
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 07:27:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mTjKS-0007bF-H9
+ id 1mTjKS-0007bP-JK
  for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:25:20 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:38900)
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:36842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mTjKP-0000OJ-2x
+ id 1mTjKP-0000Oo-Kn
  for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:25:20 -0400
-Received: by mail-ed1-x529.google.com with SMTP id dj4so34909050edb.5
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 04:25:16 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id v24so34820387eda.3
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 04:25:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EKKzobHFyXxpWUiNzYO7LLzXVu+MAqFExSkV+Wsg/vk=;
- b=QOleO+PF+gBncjBcT5uao+JRnKRH5jS8yFlBzpvhmtr6CG6VV1ZYxWr+Qh6xhZou4P
- 4mHdVkcO+hqxTZQSx1UZIVjOnZtI8/5ogEKlkUH93ZwQ3Cup3nwd0nrJTYjQRTsbjEKY
- z93XO7+GnDYN9eM5zh94Gwa377Q41KEMfmDhpKSivtMm9gkk2aBnT3QByXxJpvbtfWXw
- ZjnLcNhFZAcq5RTHuyd0m1x9PPzAWKSACktIyJ6Ym6+VV87CTi+iKT9j3aateF2rcdFu
- aiq5A7NvAJyFqvzotFZlzmAXyV8nGMGm+8XKFNIS6wosZoWjeEncJH3/BHkDixh/loOq
- GtUw==
+ bh=95NMlpuMXDUhR24A45FTB4Ijm/sQEfc61ftCTgPEnVU=;
+ b=VgGn+Cg/dGXeU466mhGHcz4LuTsZGt1gMI4nhjP4PHtCn6/6NlqWVksVREWXZTEg+H
+ 0DuZBKJhnegsQwv/Dvzrp3lAB9R45JO1OZH65dUbsKenbqgWWN2E8VIq3u3M5/4Gzyou
+ KOksD3xEbv11lZq+9br3etf8hOA8wHh3gPhSUODq7a8xsOan6GDWSMiP5uU45VvBOdkp
+ IEgMZIvU6URKWlVMBWiB9/IcNozj11lGcouVClG8p31aqj9vuuPVYHG9L0njf/9bPQtZ
+ xkXkbvvt0gilSnus/lEKxCEWMXPmg4U9xGfqN70M+ahxoSIitvD7zuCZoZqcEn7tGGxH
+ 35Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EKKzobHFyXxpWUiNzYO7LLzXVu+MAqFExSkV+Wsg/vk=;
- b=SSbcRlxghoIYqod7zexEVkYBHqcbvg3IzWMwQj4lBxCfs2YHIuTFTbYy5rDCj/wY6d
- oJFEL+tlf3GRCdkltpbgLyKVV5JrOMSwT1/HmFLKRj0ilc4y0MlXN6nPGoKfLiWNJ1j0
- 2vj1OIgFrwRayMOqF/KYMBEtFXuBaYKLUrvu81zKBxMjCtwAlK3Yr4ccQ8K2b++DehuH
- rvR4TxzSm3/GxJA2omtH2Lbbj3WQCM4fo/klk11ysu6e8bvVwBzs8vb7/DUQ9KIDO4DG
- ea9dn8J6ChPCZEJE0g+G9Rq0/nqFjKi3/uREfyM64HQntkmrTP8mE8o1aE06o6EasJUC
- 0XQw==
-X-Gm-Message-State: AOAM530KXxMdGVeJQrMwriB8EAPOS/TZG7XDzyvsRENYkgSkyvaRpSra
- 3m9ieuNSseqwyf18XftdJSd9BUPdh28=
-X-Google-Smtp-Source: ABdhPJwBD4v1mJ1j165YeQ7cvGXw8IPPsfc7w20VKxHHACFXnrrtaLzgsRfU5XR3GSLgHYyf8f3yOA==
-X-Received: by 2002:a17:906:1f09:: with SMTP id
- w9mr11096718ejj.472.1632482715090; 
+ bh=95NMlpuMXDUhR24A45FTB4Ijm/sQEfc61ftCTgPEnVU=;
+ b=ASdMCqlStoKu5OJWWL3dXW/3MHT7V8rMWTAkQ0nza6ZvkebZHr7e9tnIWQBQfkJI4z
+ XafLfEfgn71dlHmnURrYzC1AS+mVg1a1uHoX9fiTPHEZqSwJYzBqzuPMp1X2sMqAqhdw
+ Nr++nFNmCjO3Ez04P93R5RMJad1PT84FX1Ea+AeuIwySTMDI6lwJ5xk3hWRZHGvZUyRk
+ 8yo+va4+KOe1JG4+lgv0BLhR0f2X5G01s//7f/YCgl7GWT0f7h1GkFML28z2p4oFHk/l
+ woFoAi+rcfsNM4n5iwNtQ7CU+OIoG0YImu7AZnXZykK+EZnQm6/RWoWpVg0jp5c2O49c
+ 4acg==
+X-Gm-Message-State: AOAM533rxLVpZpP4yOK89iEWPgiH1OyzSbYK4OgnGygxZ9wo3GD8RATo
+ eEGY8mUSayVTB2Lp4lNt8e3tuiaZXAc=
+X-Google-Smtp-Source: ABdhPJw85AMhwFlTKAtK6DP+WYTuWzY2miXyltKTZH6Tho/ChVi0goxbeiZtNl9LtBHTjNOiio9W2g==
+X-Received: by 2002:a17:906:6dc1:: with SMTP id
+ j1mr10802734ejt.324.1632482715806; 
  Fri, 24 Sep 2021 04:25:15 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id t14sm4886961ejf.24.2021.09.24.04.25.14
+ by smtp.gmail.com with ESMTPSA id t14sm4886961ejf.24.2021.09.24.04.25.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 04:25:14 -0700 (PDT)
+ Fri, 24 Sep 2021 04:25:15 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 05/26] i386: Add 'sgx-epc' device to expose EPC sections to
- guest
-Date: Fri, 24 Sep 2021 13:24:48 +0200
-Message-Id: <20210924112509.25061-6-pbonzini@redhat.com>
+Subject: [PATCH v5 06/26] vl: Add sgx compound properties to expose SGX EPC
+ sections to guest
+Date: Fri, 24 Sep 2021 13:24:49 +0200
+Message-Id: <20210924112509.25061-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210924112509.25061-1-pbonzini@redhat.com>
 References: <20210924112509.25061-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,263 +92,259 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-SGX EPC is enumerated through CPUID, i.e. EPC "devices" need to be
-realized prior to realizing the vCPUs themselves, which occurs long
-before generic devices are parsed and realized.  Because of this,
-do not allow 'sgx-epc' devices to be instantiated after vCPUS have
-been created.
+Because SGX EPC is enumerated through CPUID, EPC "devices" need to be
+realized prior to realizing the vCPUs themselves, i.e. long before
+generic devices are parsed and realized.  From a virtualization
+perspective, the CPUID aspect also means that EPC sections cannot be
+hotplugged without paravirtualizing the guest kernel (hardware does
+not support hotplugging as EPC sections must be locked down during
+pre-boot to provide EPC's security properties).
 
-The 'sgx-epc' device is essentially a placholder at this time, it will
-be fully implemented in a future patch along with a dedicated command
-to create 'sgx-epc' devices.
+So even though EPC sections could be realized through the generic
+-devices command, they need to be created much earlier for them to
+actually be usable by the guest.  Place all EPC sections in a
+contiguous block, somewhat arbitrarily starting after RAM above 4g.
+Ensuring EPC is in a contiguous region simplifies calculations, e.g.
+device memory base, PCI hole, etc..., allows dynamic calculation of the
+total EPC size, e.g. exposing EPC to guests does not require -maxmem,
+and last but not least allows all of EPC to be enumerated in a single
+ACPI entry, which is expected by some kernels, e.g. Windows 7 and 8.
+
+The new compound properties command for sgx like below:
+ ......
+ -object memory-backend-epc,id=mem1,size=28M,prealloc=on \
+ -object memory-backend-epc,id=mem2,size=10M \
+ -M sgx-epc.0.memdev=mem1,sgx-epc.1.memdev=mem2
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-5-yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-6-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/meson.build       |   1 +
- hw/i386/sgx-epc.c         | 167 ++++++++++++++++++++++++++++++++++++++
- include/hw/i386/sgx-epc.h |  44 ++++++++++
- 3 files changed, 212 insertions(+)
- create mode 100644 hw/i386/sgx-epc.c
- create mode 100644 include/hw/i386/sgx-epc.h
+ hw/i386/sgx-epc.c         | 20 ++++++++++++++------
+ hw/i386/x86.c             | 29 +++++++++++++++++++++++++++++
+ include/hw/i386/pc.h      |  3 +++
+ include/hw/i386/sgx-epc.h | 14 ++++++++++++++
+ include/hw/i386/x86.h     |  1 +
+ qapi/machine.json         | 26 ++++++++++++++++++++++++++
+ qemu-options.hx           | 10 ++++++++--
+ 7 files changed, 95 insertions(+), 8 deletions(-)
 
-diff --git a/hw/i386/meson.build b/hw/i386/meson.build
-index 80dad29f2b..b1862c83d4 100644
---- a/hw/i386/meson.build
-+++ b/hw/i386/meson.build
-@@ -16,6 +16,7 @@ i386_ss.add(when: 'CONFIG_Q35', if_true: files('pc_q35.c'))
- i386_ss.add(when: 'CONFIG_VMMOUSE', if_true: files('vmmouse.c'))
- i386_ss.add(when: 'CONFIG_VMPORT', if_true: files('vmport.c'))
- i386_ss.add(when: 'CONFIG_VTD', if_true: files('intel_iommu.c'))
-+i386_ss.add(when: 'CONFIG_SGX', if_true: files('sgx-epc.c'))
- 
- i386_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-common.c'))
- i386_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device_x86.c'))
 diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
-new file mode 100644
-index 0000000000..c584acc17b
---- /dev/null
+index c584acc17b..6677dc74b5 100644
+--- a/hw/i386/sgx-epc.c
 +++ b/hw/i386/sgx-epc.c
-@@ -0,0 +1,167 @@
-+/*
-+ * SGX EPC device
-+ *
-+ * Copyright (C) 2019 Intel Corporation
-+ *
-+ * Authors:
-+ *   Sean Christopherson <sean.j.christopherson@intel.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include "hw/i386/pc.h"
+@@ -14,13 +14,8 @@
+ #include "hw/i386/sgx-epc.h"
+ #include "hw/mem/memory-device.h"
+ #include "hw/qdev-properties.h"
+-#include "monitor/qdev.h"
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+-#include "qemu/config-file.h"
+-#include "qemu/error-report.h"
+-#include "qemu/option.h"
+-#include "qemu/units.h"
+ #include "target/i386/cpu.h"
+ #include "exec/address-spaces.h"
+ 
+@@ -56,6 +51,8 @@ static void sgx_epc_realize(DeviceState *dev, Error **errp)
+ {
+     PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
+     X86MachineState *x86ms = X86_MACHINE(pcms);
++    MemoryDeviceState *md = MEMORY_DEVICE(dev);
++    SGXEPCState *sgx_epc = &pcms->sgx_epc;
+     SGXEPCDevice *epc = SGX_EPC(dev);
+     HostMemoryBackend *hostmem;
+     const char *path;
+@@ -77,7 +74,18 @@ static void sgx_epc_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    error_setg(errp, "'" TYPE_SGX_EPC "' not supported");
++    epc->addr = sgx_epc->base + sgx_epc->size;
++
++    memory_region_add_subregion(&sgx_epc->mr, epc->addr - sgx_epc->base,
++                                host_memory_backend_get_memory(hostmem));
++
++    host_memory_backend_set_mapped(hostmem, true);
++
++    sgx_epc->sections = g_renew(SGXEPCDevice *, sgx_epc->sections,
++                                sgx_epc->nr_sections + 1);
++    sgx_epc->sections[sgx_epc->nr_sections++] = epc;
++
++    sgx_epc->size += memory_device_get_region_size(md, errp);
+ }
+ 
+ static void sgx_epc_unrealize(DeviceState *dev)
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 00448ed55a..41ef9a84a9 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -30,6 +30,8 @@
+ #include "qapi/error.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/qapi-visit-common.h"
++#include "qapi/clone-visitor.h"
++#include "qapi/qapi-visit-machine.h"
+ #include "qapi/visitor.h"
+ #include "sysemu/qtest.h"
+ #include "sysemu/whpx.h"
+@@ -1263,6 +1265,27 @@ static void x86_machine_set_bus_lock_ratelimit(Object *obj, Visitor *v,
+     visit_type_uint64(v, name, &x86ms->bus_lock_ratelimit, errp);
+ }
+ 
++static void machine_get_sgx_epc(Object *obj, Visitor *v, const char *name,
++                                void *opaque, Error **errp)
++{
++    X86MachineState *x86ms = X86_MACHINE(obj);
++    SgxEPCList *list = x86ms->sgx_epc_list;
++
++    visit_type_SgxEPCList(v, name, &list, errp);
++}
++
++static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
++                                void *opaque, Error **errp)
++{
++    X86MachineState *x86ms = X86_MACHINE(obj);
++    SgxEPCList *list;
++
++    list = x86ms->sgx_epc_list;
++    visit_type_SgxEPCList(v, name, &x86ms->sgx_epc_list, errp);
++
++    qapi_free_SgxEPCList(list);
++}
++
+ static void x86_machine_initfn(Object *obj)
+ {
+     X86MachineState *x86ms = X86_MACHINE(obj);
+@@ -1322,6 +1345,12 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+                                 x86_machine_set_bus_lock_ratelimit, NULL, NULL);
+     object_class_property_set_description(oc, X86_MACHINE_BUS_LOCK_RATELIMIT,
+             "Set the ratelimit for the bus locks acquired in VMs");
++
++    object_class_property_add(oc, "sgx-epc", "SgxEPC",
++        machine_get_sgx_epc, machine_set_sgx_epc,
++        NULL, NULL);
++    object_class_property_set_description(oc, "sgx-epc",
++        "SGX EPC device");
+ }
+ 
+ static const TypeInfo x86_machine_info = {
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 4d2e35a152..668e48be8a 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -12,6 +12,7 @@
+ #include "hw/acpi/acpi_dev_interface.h"
+ #include "hw/hotplug.h"
+ #include "qom/object.h"
 +#include "hw/i386/sgx-epc.h"
-+#include "hw/mem/memory-device.h"
-+#include "hw/qdev-properties.h"
-+#include "monitor/qdev.h"
-+#include "qapi/error.h"
-+#include "qapi/visitor.h"
-+#include "qemu/config-file.h"
-+#include "qemu/error-report.h"
-+#include "qemu/option.h"
-+#include "qemu/units.h"
-+#include "target/i386/cpu.h"
-+#include "exec/address-spaces.h"
+ 
+ #define HPET_INTCAP "hpet-intcap"
+ 
+@@ -49,6 +50,8 @@ typedef struct PCMachineState {
+ 
+     /* ACPI Memory hotplug IO base address */
+     hwaddr memhp_io_base;
 +
-+static Property sgx_epc_properties[] = {
-+    DEFINE_PROP_UINT64(SGX_EPC_ADDR_PROP, SGXEPCDevice, addr, 0),
-+    DEFINE_PROP_LINK(SGX_EPC_MEMDEV_PROP, SGXEPCDevice, hostmem,
-+                     TYPE_MEMORY_BACKEND_EPC, HostMemoryBackendEpc *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void sgx_epc_get_size(Object *obj, Visitor *v, const char *name,
-+                             void *opaque, Error **errp)
-+{
-+    Error *local_err = NULL;
-+    uint64_t value;
-+
-+    value = memory_device_get_region_size(MEMORY_DEVICE(obj), &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+    visit_type_uint64(v, name, &value, errp);
-+}
-+
-+static void sgx_epc_init(Object *obj)
-+{
-+    object_property_add(obj, SGX_EPC_SIZE_PROP, "uint64", sgx_epc_get_size,
-+                        NULL, NULL, NULL);
-+}
-+
-+static void sgx_epc_realize(DeviceState *dev, Error **errp)
-+{
-+    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-+    X86MachineState *x86ms = X86_MACHINE(pcms);
-+    SGXEPCDevice *epc = SGX_EPC(dev);
-+    HostMemoryBackend *hostmem;
-+    const char *path;
-+
-+    if (x86ms->boot_cpus != 0) {
-+        error_setg(errp, "'" TYPE_SGX_EPC "' can't be created after vCPUs,"
-+                         "e.g. via -device");
-+        return;
-+    }
-+
-+    if (!epc->hostmem) {
-+        error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
-+        return;
-+    }
-+    hostmem = MEMORY_BACKEND(epc->hostmem);
-+    if (host_memory_backend_is_mapped(hostmem)) {
-+        path = object_get_canonical_path_component(OBJECT(hostmem));
-+        error_setg(errp, "can't use already busy memdev: %s", path);
-+        return;
-+    }
-+
-+    error_setg(errp, "'" TYPE_SGX_EPC "' not supported");
-+}
-+
-+static void sgx_epc_unrealize(DeviceState *dev)
-+{
-+    SGXEPCDevice *epc = SGX_EPC(dev);
-+    HostMemoryBackend *hostmem = MEMORY_BACKEND(epc->hostmem);
-+
-+    host_memory_backend_set_mapped(hostmem, false);
-+}
-+
-+static uint64_t sgx_epc_md_get_addr(const MemoryDeviceState *md)
-+{
-+    const SGXEPCDevice *epc = SGX_EPC(md);
-+
-+    return epc->addr;
-+}
-+
-+static void sgx_epc_md_set_addr(MemoryDeviceState *md, uint64_t addr,
-+                                Error **errp)
-+{
-+    object_property_set_uint(OBJECT(md), SGX_EPC_ADDR_PROP, addr, errp);
-+}
-+
-+static uint64_t sgx_epc_md_get_plugged_size(const MemoryDeviceState *md,
-+                                            Error **errp)
-+{
-+    return 0;
-+}
-+
-+static MemoryRegion *sgx_epc_md_get_memory_region(MemoryDeviceState *md,
-+                                                  Error **errp)
-+{
-+    SGXEPCDevice *epc = SGX_EPC(md);
-+    HostMemoryBackend *hostmem;
-+
-+    if (!epc->hostmem) {
-+        error_setg(errp, "'" SGX_EPC_MEMDEV_PROP "' property must be set");
-+        return NULL;
-+    }
-+
-+    hostmem = MEMORY_BACKEND(epc->hostmem);
-+    return host_memory_backend_get_memory(hostmem);
-+}
-+
-+static void sgx_epc_md_fill_device_info(const MemoryDeviceState *md,
-+                                        MemoryDeviceInfo *info)
-+{
-+    /* TODO */
-+}
-+
-+static void sgx_epc_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    MemoryDeviceClass *mdc = MEMORY_DEVICE_CLASS(oc);
-+
-+    dc->hotpluggable = false;
-+    dc->realize = sgx_epc_realize;
-+    dc->unrealize = sgx_epc_unrealize;
-+    dc->desc = "SGX EPC section";
-+    device_class_set_props(dc, sgx_epc_properties);
-+
-+    mdc->get_addr = sgx_epc_md_get_addr;
-+    mdc->set_addr = sgx_epc_md_set_addr;
-+    mdc->get_plugged_size = sgx_epc_md_get_plugged_size;
-+    mdc->get_memory_region = sgx_epc_md_get_memory_region;
-+    mdc->fill_device_info = sgx_epc_md_fill_device_info;
-+}
-+
-+static TypeInfo sgx_epc_info = {
-+    .name          = TYPE_SGX_EPC,
-+    .parent        = TYPE_DEVICE,
-+    .instance_size = sizeof(SGXEPCDevice),
-+    .instance_init = sgx_epc_init,
-+    .class_init    = sgx_epc_class_init,
-+    .class_size    = sizeof(DeviceClass),
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_MEMORY_DEVICE },
-+        { }
-+    },
-+};
-+
-+static void sgx_epc_register_types(void)
-+{
-+    type_register_static(&sgx_epc_info);
-+}
-+
-+type_init(sgx_epc_register_types)
++    SGXEPCState sgx_epc;
+ } PCMachineState;
+ 
+ #define PC_MACHINE_ACPI_DEVICE_PROP "acpi-device"
 diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
-new file mode 100644
-index 0000000000..cf3ed5c0cd
---- /dev/null
+index cf3ed5c0cd..83269972e0 100644
+--- a/include/hw/i386/sgx-epc.h
 +++ b/include/hw/i386/sgx-epc.h
-@@ -0,0 +1,44 @@
+@@ -41,4 +41,18 @@ typedef struct SGXEPCDevice {
+     HostMemoryBackendEpc *hostmem;
+ } SGXEPCDevice;
+ 
 +/*
-+ * SGX EPC device
-+ *
-+ * Copyright (C) 2019 Intel Corporation
-+ *
-+ * Authors:
-+ *   Sean Christopherson <sean.j.christopherson@intel.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * @base: address in guest physical address space where EPC regions start
++ * @mr: address space container for memory devices
 + */
-+#ifndef QEMU_SGX_EPC_H
-+#define QEMU_SGX_EPC_H
++typedef struct SGXEPCState {
++    uint64_t base;
++    uint64_t size;
 +
-+#include "hw/i386/hostmem-epc.h"
++    MemoryRegion mr;
 +
-+#define TYPE_SGX_EPC "sgx-epc"
-+#define SGX_EPC(obj) \
-+    OBJECT_CHECK(SGXEPCDevice, (obj), TYPE_SGX_EPC)
-+#define SGX_EPC_CLASS(oc) \
-+    OBJECT_CLASS_CHECK(SGXEPCDeviceClass, (oc), TYPE_SGX_EPC)
-+#define SGX_EPC_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(SGXEPCDeviceClass, (obj), TYPE_SGX_EPC)
++    struct SGXEPCDevice **sections;
++    int nr_sections;
++} SGXEPCState;
 +
-+#define SGX_EPC_ADDR_PROP "addr"
-+#define SGX_EPC_SIZE_PROP "size"
-+#define SGX_EPC_MEMDEV_PROP "memdev"
+ #endif
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 6e9244a82c..23267a3674 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -62,6 +62,7 @@ struct X86MachineState {
+     unsigned pci_irq_mask;
+     unsigned apic_id_limit;
+     uint16_t boot_cpus;
++    SgxEPCList *sgx_epc_list;
+ 
+     OnOffAuto smm;
+     OnOffAuto acpi;
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 157712f006..5132abf152 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1194,6 +1194,32 @@
+           }
+ }
+ 
++##
++# @SgxEPC:
++#
++# Sgx EPC cmdline information
++#
++# @memdev: memory backend linked with device
++#
++# Since: 6.2
++##
++{ 'struct': 'SgxEPC',
++  'data': { 'memdev': 'str' }
++}
 +
-+/**
-+ * SGXEPCDevice:
-+ * @addr: starting guest physical address, where @SGXEPCDevice is mapped.
-+ *         Default value: 0, means that address is auto-allocated.
-+ * @hostmem: host memory backend providing memory for @SGXEPCDevice
-+ */
-+typedef struct SGXEPCDevice {
-+    /* private */
-+    DeviceState parent_obj;
++##
++# @SgxEPCProperties:
++#
++# Properties for SgxEPC objects.
++#
++# @sgx-epc: sgx epc section properties.
++#
++# Since: 6.2
++##
++{ 'struct': 'SgxEPCProperties',
++  'data': { 'sgx-epc': ['SgxEPC'] }
++}
 +
-+    /* public */
-+    uint64_t addr;
-+    HostMemoryBackendEpc *hostmem;
-+} SGXEPCDevice;
+ ##
+ # @MemoryDeviceInfo:
+ #
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 8f603cc7e6..ceca52818a 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -126,8 +126,14 @@ SRST
+             -m 512M
+ ERST
+ 
+-HXCOMM Deprecated by -machine
+-DEF("M", HAS_ARG, QEMU_OPTION_M, "", QEMU_ARCH_ALL)
++DEF("M", HAS_ARG, QEMU_OPTION_M,
++    "                sgx-epc.0.memdev=memid\n",
++    QEMU_ARCH_ALL)
 +
-+#endif
++SRST
++``sgx-epc.0.memdev=@var{memid}``
++    Define an SGX EPC section.
++ERST
+ 
+ DEF("cpu", HAS_ARG, QEMU_OPTION_cpu,
+     "-cpu cpu        select CPU ('-cpu help' for list)\n", QEMU_ARCH_ALL)
 -- 
 2.31.1
 
