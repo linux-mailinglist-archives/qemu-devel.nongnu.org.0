@@ -2,53 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F34B417076
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:52:47 +0200 (CEST)
-Received: from localhost ([::1]:57546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9A741707A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:54:23 +0200 (CEST)
+Received: from localhost ([::1]:60082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTiov-0003Ea-NX
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:52:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55892)
+	id 1mTiqU-0004yy-3M
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:54:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mTing-000221-MZ
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 06:51:28 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:41633)
+ id 1mTiph-00045s-Ik; Fri, 24 Sep 2021 06:53:33 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:20314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mTind-0000y9-KX
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 06:51:27 -0400
+ id 1mTipf-0002oB-FK; Fri, 24 Sep 2021 06:53:33 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4C4D3748F56;
- Fri, 24 Sep 2021 12:51:22 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 308B2746353;
+ Fri, 24 Sep 2021 12:53:29 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2320A746398; Fri, 24 Sep 2021 12:51:22 +0200 (CEST)
+ id 081B0745953; Fri, 24 Sep 2021 12:53:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 20F18746353;
- Fri, 24 Sep 2021 12:51:22 +0200 (CEST)
-Date: Fri, 24 Sep 2021 12:51:22 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 060097457EE;
+ Fri, 24 Sep 2021 12:53:29 +0200 (CEST)
+Date: Fri, 24 Sep 2021 12:53:28 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v5 04/20] nubus: use bitmap to manage available slots
-In-Reply-To: <86d88a87-c54b-55c5-5722-310e86e7222e@amsat.org>
-Message-ID: <7fcdc441-894b-8fe3-3542-70ecdae0ee8@eik.bme.hu>
-References: <20210923091308.13832-1-mark.cave-ayland@ilande.co.uk>
- <20210923091308.13832-5-mark.cave-ayland@ilande.co.uk>
- <f39eb222-28aa-416f-61a2-ab74f52fda8f@eik.bme.hu>
- <81bd27ad-8251-4e0b-f4c6-cb03c326b2cc@ilande.co.uk>
- <86d88a87-c54b-55c5-5722-310e86e7222e@amsat.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v2 2/5] MAINTAINERS: Remove David & Greg as reviewers
+ for a number of boards
+In-Reply-To: <20210924095536.441849-3-david@gibson.dropbear.id.au>
+Message-ID: <a2c9d721-969b-6220-e6f2-31c34738e@eik.bme.hu>
+References: <20210924095536.441849-1-david@gibson.dropbear.id.au>
+ <20210924095536.441849-3-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-288400195-1632480682=:16439"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ boundary="3866299591-1415106647-1632480809=:16439"
+X-Spam-Probability: 11%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,83 +57,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- laurent@vivier.eu
+Cc: peter.maydell@linaro.org, dbarboza@redhat.com, hpussin@reactos.org,
+ aik@ozlabs.ru, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-288400195-1632480682=:16439
+--3866299591-1415106647-1632480809=:16439
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
-On Fri, 24 Sep 2021, Philippe Mathieu-Daudé wrote:
-> On 9/24/21 09:16, Mark Cave-Ayland wrote:
->> On 23/09/2021 15:16, BALATON Zoltan wrote:
->> 
->>> On Thu, 23 Sep 2021, Mark Cave-Ayland wrote:
->>>> Convert nubus_device_realize() to use a bitmap to manage available slots 
->>>> to allow
->>>> for future Nubus devices to be plugged into arbitrary slots from the 
->>>> command line
->>>> using a new qdev "slot" parameter for nubus devices.
->>>> 
->>>> Update mac_nubus_bridge_init() to only allow slots 0x9 to 0xe on a 
->>>> Macintosh
->>>> machines as documented in "Desigining Cards and Drivers for the Macintosh 
->>>> Family".
->>> 
->>> Small typo: "a Macintosh machnies", either a or s is not needed.
->> 
->> Thanks - I've updated this for v6.
->> 
->>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>> ---
->>>> hw/nubus/mac-nubus-bridge.c         |  4 ++++
->>>> hw/nubus/nubus-bus.c                |  5 +++--
->>>> hw/nubus/nubus-device.c             | 32 +++++++++++++++++++++++------
->>>> include/hw/nubus/mac-nubus-bridge.h |  4 ++++
->>>> include/hw/nubus/nubus.h            | 13 ++++++------
->>>> 5 files changed, 43 insertions(+), 15 deletions(-)
+On Fri, 24 Sep 2021, David Gibson wrote:
+> Greg and I are moving towards other areas and no longer have capacity to
+> act as regular reviewers for several of the secondary ppc machine types.
+> So, remove ourselves as reviewers for Macintosh, PReP, sam460ex and
+> pegasos2 in MAINTAINERS.
 >
->>>> struct NubusDevice {
->>>>     DeviceState qdev;
->>>> 
->>>> -    int slot;
->>>> +    int32_t slot;
->>> 
->>> Why uint32_t? Considering its max value even uint8_t would be enough 
->>> although maybe invalid value would be 255 instead of -1 then. As this was 
->>> added in previous patch you could avoid churn here by introducing it with 
->>> the right type in that patch already. (But feel free to ignore it if you 
->>> have no time for more changes, the current version works so if you don't 
->>> do another version for other reasons this probably don't worth the effort 
->>> alone.)
->> 
->> I think it makes sense to keep this signed since -1 is used for other bus 
->> implementations to indicate that an explicit slot hasn't been assigned. 
->> Potentially the slot number could be represented by an 8-bit value, however 
->> it seems there is no DEFINE_PROP_INT8 or DEFINE_PROP_INT16. Fortunately the 
->> slot number is restricted by the available slots bitmask anyhow, so this 
->> shouldn't be an issue.
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+
+Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+> ---
+> MAINTAINERS | 9 ---------
+> 1 file changed, 9 deletions(-)
 >
-> I wondered the same and noticed there is no DEFINE_PROP_INT8, so didn't
-> want to bother Mark furthermore :) Adding & using DEFINE_PROP_INT8 seems
-> a good idea, but to be fair with the repository we'd need to audit the
-> other places where DEFINE_PROP_INT32 isn't justified and update. Extra
-> work for not much gain, so I'm find with this patch. Can be improved on
-> top.
-
-That's why I said UINT8 for prop and treat -1 as 0xff but I agree this is 
-not a big deal so I've also said I'm OK with the current version. If it 
-would be more effort than Mark is willing to put in this now I can 
-understand that and not pushing it. It's not something that's wrong or 
-worth holding the series back for just a possible minor improvement to 
-avoid some code churn.
-
-Regards,
-BALATON Zoltan
---3866299591-288400195-1632480682=:16439--
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3408618f2a..20436be86f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1265,8 +1265,6 @@ F: hw/ppc/mpc8544_guts.c
+>
+> New World (mac99)
+> M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> -R: David Gibson <david@gibson.dropbear.id.au>
+> -R: Greg Kurz <groug@kaod.org>
+> L: qemu-ppc@nongnu.org
+> S: Odd Fixes
+> F: hw/ppc/mac_newworld.c
+> @@ -1285,8 +1283,6 @@ F: pc-bios/qemu_vga.ndrv
+>
+> Old World (g3beige)
+> M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> -R: David Gibson <david@gibson.dropbear.id.au>
+> -R: Greg Kurz <groug@kaod.org>
+> L: qemu-ppc@nongnu.org
+> S: Odd Fixes
+> F: hw/ppc/mac_oldworld.c
+> @@ -1300,8 +1296,6 @@ F: pc-bios/qemu_vga.ndrv
+>
+> PReP
+> M: Hervé Poussineau <hpoussin@reactos.org>
+> -R: David Gibson <david@gibson.dropbear.id.au>
+> -R: Greg Kurz <groug@kaod.org>
+> L: qemu-ppc@nongnu.org
+> S: Maintained
+> F: hw/ppc/prep.c
+> @@ -1356,8 +1350,6 @@ F: hw/ppc/virtex_ml507.c
+>
+> sam460ex
+> M: BALATON Zoltan <balaton@eik.bme.hu>
+> -R: David Gibson <david@gibson.dropbear.id.au>
+> -R: Greg Kurz <groug@kaod.org>
+> L: qemu-ppc@nongnu.org
+> S: Maintained
+> F: hw/ppc/sam460ex.c
+> @@ -1371,7 +1363,6 @@ F: roms/u-boot-sam460ex
+>
+> pegasos2
+> M: BALATON Zoltan <balaton@eik.bme.hu>
+> -R: David Gibson <david@gibson.dropbear.id.au>
+> L: qemu-ppc@nongnu.org
+> S: Maintained
+> F: hw/ppc/pegasos2.c
+>
+--3866299591-1415106647-1632480809=:16439--
 
