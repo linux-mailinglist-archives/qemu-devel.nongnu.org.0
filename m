@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD66417B7B
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:09:01 +0200 (CEST)
-Received: from localhost ([::1]:41444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993D3417B9C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:12:05 +0200 (CEST)
+Received: from localhost ([::1]:50624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTqZA-0001lU-3i
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:09:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39330)
+	id 1mTqc8-00088G-LY
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqOQ-00044s-UW
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:57:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51205)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqOr-0004oE-2M
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:58:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqOP-0005Qz-7a
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:57:54 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqOp-0005qN-E2
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:58:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632509871;
+ s=mimecast20190719; t=1632509898;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8cLpXE7dersF/3Uit082FoUCZ0kLoqP9IYw+1+xTCHc=;
- b=hK6PutgmD2UvXz4GtzFbzKHshgU+c+FfyYTvs4pkxrmLFlaSN84BmsgJVdpw6Sj2t6/zSi
- sZtDZ3bpL3/mamU52fFdJjXTyu8X3xN4hXAqM75Fh3iTCODaffRRsSl8q5VQ+iIruqcC2S
- 5zqTnMc6nVpcYj8D/Qt4LNZqEp0ZppA=
+ bh=lwG2MDfxIcspVaCutT2odilBsU0pp8GTIhNoNJgxnX0=;
+ b=dh8QivF/wcMUlpLxm6xR81kM4ft6o7POTf58FOqJlkHKTcx0kHJPg4oCN0vgKcYEwJZALM
+ aTM6jn1qhXlwylfwds148LmVVxpYqFZ5FoebubiW/f6wggQntGldbYR0r5S651HSAPCgSM
+ EQJxQFzal0ZVcmIBG7HDzSyTcATmz8o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-w05GkW1fPh6RFJCau27-dw-1; Fri, 24 Sep 2021 14:57:50 -0400
-X-MC-Unique: w05GkW1fPh6RFJCau27-dw-1
+ us-mta-305-jGlCK6XiMmOaIjE5wuB2lQ-1; Fri, 24 Sep 2021 14:58:17 -0400
+X-MC-Unique: jGlCK6XiMmOaIjE5wuB2lQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A36BC100D680;
- Fri, 24 Sep 2021 18:57:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C44698015C7;
+ Fri, 24 Sep 2021 18:58:15 +0000 (UTC)
 Received: from p50.net (unknown [10.22.33.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BC8A45C1A3;
- Fri, 24 Sep 2021 18:57:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD70979447;
+ Fri, 24 Sep 2021 18:57:48 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/16] acceptance/tests/vnc.py: use explicit syntax for
- enabling passwords
-Date: Fri, 24 Sep 2021 14:54:58 -0400
-Message-Id: <20210924185506.2542588-9-crosa@redhat.com>
+Subject: [PATCH 09/16] tests/acceptance/boot_xen.py: merge base classes
+Date: Fri, 24 Sep 2021 14:54:59 -0400
+Message-Id: <20210924185506.2542588-10-crosa@redhat.com>
 In-Reply-To: <20210924185506.2542588-1-crosa@redhat.com>
 References: <20210924185506.2542588-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -56,13 +55,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) DKIMWL_WL_HIGH=-1.473, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,27 +93,41 @@ Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This matches the command line on 82a17d1d67, where the "on" or "off"
-should be explicitly given.
+While it's a good practice to have reusable base classes, in this
+specific case there's no other user of the BootXenBase class.
+
+By unifying the class used in this test, we can improve readability
+and have the opportunity to add some future improvements in a clearer
+fashion.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/vnc.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/acceptance/boot_xen.py | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/tests/acceptance/vnc.py b/tests/acceptance/vnc.py
-index 22656bbcc2..f301fbb4f5 100644
---- a/tests/acceptance/vnc.py
-+++ b/tests/acceptance/vnc.py
-@@ -45,7 +45,7 @@ def test_change_password_requires_a_password(self):
-                          'Could not set password')
+diff --git a/tests/acceptance/boot_xen.py b/tests/acceptance/boot_xen.py
+index b5860b7d88..4c14f9e2e7 100644
+--- a/tests/acceptance/boot_xen.py
++++ b/tests/acceptance/boot_xen.py
+@@ -18,7 +18,7 @@
+ from boot_linux_console import LinuxKernelTest
  
-     def test_change_password(self):
--        self.vm.add_args('-nodefaults', '-S', '-vnc', ':0,password')
-+        self.vm.add_args('-nodefaults', '-S', '-vnc', ':0,password=on')
-         self.vm.launch()
-         self.assertTrue(self.vm.qmp('query-vnc')['return']['enabled'])
-         set_password_response = self.vm.qmp('change-vnc-password',
+ 
+-class BootXenBase(LinuxKernelTest):
++class BootXen(LinuxKernelTest):
+     """
+     Boots a Xen hypervisor with a Linux DomU kernel.
+     """
+@@ -60,9 +60,6 @@ def launch_xen(self, xen_path):
+         console_pattern = 'VFS: Cannot open root device'
+         wait_for_console_pattern(self, console_pattern, "Panic on CPU 0:")
+ 
+-
+-class BootXen(BootXenBase):
+-
+     def test_arm64_xen_411_and_dom0(self):
+         """
+         :avocado: tags=arch:aarch64
 -- 
 2.31.1
 
