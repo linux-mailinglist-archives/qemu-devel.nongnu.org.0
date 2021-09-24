@@ -2,136 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF26D417608
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 15:37:53 +0200 (CEST)
-Received: from localhost ([::1]:37054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA9DC41760A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 15:38:33 +0200 (CEST)
+Received: from localhost ([::1]:39314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTlOi-0007te-Rt
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 09:37:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59366)
+	id 1mTlPM-00011n-T4
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 09:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTlMZ-00067F-5H; Fri, 24 Sep 2021 09:35:39 -0400
-Received: from mail-eopbgr130103.outbound.protection.outlook.com
- ([40.107.13.103]:4359 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mTlNQ-0007N5-PJ
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 09:36:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTlMX-0007cg-7k; Fri, 24 Sep 2021 09:35:38 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Uou1L23xomEPtoKXmiJkT+XayAecmSMa1sPtJtLinv/05DwRtSQJBeD+SjJyLTihVZ6XnEzSF+xL5M4YF42qgr2VjJ6fWlT/d6zV9dZDpUj26P4fg4fIOIwf+Vrs6cttqJcZojTtW31kKFcVXJlte0UES45xj4gdh/R6uuVT4rlcnhw6wuaH7hWSDRNU+pygHI+p2FqcRURvnxBYQlRwxLu8vFKKwgVQsEvFBI6ZyLZUQvGdZCiB1CrP3NhCdCdgqyeM6wowOWpgYNGRlkafzZK4cTYsBd5hBD7oVydjRQy+sFa0vxg6n4E2kKNTneDhWFV9enC4iewFL8B19gMP4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=tLZjbkHl2yHerKEtsyq0wyXIhGqBhb7lh2QKnnRB3hQ=;
- b=I4HrZOJeTSoGtNB7V7OUnKAmrOKpyMV43wutdhkxVC7KKCOwpFZ2STat3N0AvrKZ5kssUouWZ7X5nFnoupWCU+zMixkQ8UMPpcWiE64YZLWI3uzrLewjt4M8PluM8UpZ3VpX7rpWFzCkQginlGzJOKHrobnoA6p/uO9y5zvJCCRs0moZwiWM+50diPg+ZsV+J5Gstkm11ukMR1Yp4fau+uTLWFDd97ItdIdNEaXG5xAkg1st1rrZ03N4geeZt7RD8FzSBNgV7rMsBkQFxpnE1h7pViuVwCxxkJJ2r/bY1mv0DqeV+ozv3MCQJ+uzizvWYhcbgRIySVPHgrYz1H9gqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tLZjbkHl2yHerKEtsyq0wyXIhGqBhb7lh2QKnnRB3hQ=;
- b=L4RsywCp9p0xlhY0SymBKuu0KTOAOCVf/pmEBVahru/HFyAjcAH0lEfjLzzXrDjut5Hd0erThoR8e2PTzwwYFBLl7sGmxWTu9Yy8mxupeOTiDKUXN1eb7agJp2+st7g7jehhF30hU+8hSR4s9ZyACp3gdkY7GwEL1MJ/tSTz55U=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3622.eurprd08.prod.outlook.com (2603:10a6:20b:4c::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.18; Fri, 24 Sep
- 2021 13:35:32 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.018; Fri, 24 Sep 2021
- 13:35:27 +0000
-Subject: Re: [PATCH 03/11] iotests/051: Fix typo
-To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- qemu-block@nongnu.org, libvir-list@redhat.com, armbru@redhat.com,
- its@irrelevant.dk, pbonzini@redhat.com
-References: <20210924090427.9218-1-kwolf@redhat.com>
- <20210924090427.9218-4-kwolf@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <288acce9-58fa-5251-734c-3d5f2b922503@virtuozzo.com>
-Date: Fri, 24 Sep 2021 16:35:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20210924090427.9218-4-kwolf@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR3PR09CA0010.eurprd09.prod.outlook.com
- (2603:10a6:102:b7::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mTlNN-0008DJ-9l
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 09:36:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632490587;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O0CmkOaEjq8u5/AGn4aw3SejtQjbEi8csO/TnshE0qg=;
+ b=Gtu5KldBeoj8qKURzVkrI6ZMQOQc4avdxN8isxwnCLB/FUR/DqogULAnLTA9iZ6pv/l8Uq
+ q7zmb2piKGqoY6zjDQBD6Jf9uvwRwSlmp2JNqLdU7wMm+qIZl5uj+Q5bWGjVCkBhdP2tPa
+ XpeYBXzN8H2T49/qgqraTruDIoyLNAw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-2FLGHHQtMSWGPeTeBV5s5A-1; Fri, 24 Sep 2021 09:36:26 -0400
+X-MC-Unique: 2FLGHHQtMSWGPeTeBV5s5A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9BF1100C662;
+ Fri, 24 Sep 2021 13:36:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C13335D9DE;
+ Fri, 24 Sep 2021 13:35:53 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5D867113865F; Fri, 24 Sep 2021 15:35:52 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [Qemu-devel] [PULL 18/18] qapi: move RTC_CHANGE to the target
+ schema
+References: <20190218140607.31998-1-armbru@redhat.com>
+ <20190218140607.31998-19-armbru@redhat.com>
+ <CAFEAcA9tzLOwbzO56HjhPUM2yTT7xxfkkOYX3OHVfKT-UC14gA@mail.gmail.com>
+ <874kaarwou.fsf@dusky.pond.sub.org>
+ <CAFEAcA8mMzzgKyDbUUTh+W0r=5C0_HJv+7MMZ3Rdx-E2vcsRZA@mail.gmail.com>
+Date: Fri, 24 Sep 2021 15:35:52 +0200
+In-Reply-To: <CAFEAcA8mMzzgKyDbUUTh+W0r=5C0_HJv+7MMZ3Rdx-E2vcsRZA@mail.gmail.com>
+ (Peter Maydell's message of "Fri, 24 Sep 2021 13:39:29 +0100")
+Message-ID: <87sfxup03r.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Received: from [192.168.100.5] (185.215.60.205) by
- PR3PR09CA0010.eurprd09.prod.outlook.com (2603:10a6:102:b7::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4544.15 via Frontend Transport; Fri, 24 Sep 2021 13:35:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d0b55550-433c-40cc-770e-08d97f602b37
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3622:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3622D0D22DE852F781468E95C1A49@AM6PR08MB3622.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ISP/aw0nCrAerilyKAGIZ+sYPeLs7RmgHYzB6BF3um59meK8Rgyz2adXukBG3tQ8GH5jrhHYsGtAFQC0fNhWEg9awGPss0DVnfifpP5CtRL2s2y9EESqB8tb9pCp26KcQIp5W3YSUndNbvCYVEemCZAjjt/1EYmSFaV5qHgXJYnMwFhbyVbv1Avxg/5LJMxMkhr1ZVNL5yiWF0n/1jzaRGW8PUg7Xv/+blrXXsWxBvR7o7blxeIVLbTvBtXYTAOSPT5WROSoCkiWKHCFQItPIXRiqaczRdLLe65XtSXtBpLDv452isAqLCfzqq6dGfS9U4VgeR1XhG1Dr0eviNovL6VknAaaV+lkWe7Juh6gNOP2FWtZ3GDXcdebVNiQkDun3TFy9hUzCVRdIu2GQ0RoBIZXCg5yyOa7++gI1NBYEPYzh6lNR/cGdlImXc1qqSDEcpY7ApQOkXQgJ7A1k7vQI6rsYzNwMm7NyoF/H/s7os4Z6M7u/vmvBJ0rPSzIez6eGT1QyVZcCaMH7saSSFuIdpNreAyIjTWa3b2OE/7EdLhf78dNYYTYBVYPdzIAaBUp2By6CBFgJqTBAttW9e5U5WzigzD17sCnQ2BvvT+VEV5gUBnYlboiT12rQ43wp2+R9CPbloRvvR4cInkzHNLBu/RvXfG2t6ZW9LDtkPDJshIAl7qRijf0XxTG/iNh1gp/UeNj29VaKLDGpGqfAPd+xO90XHjnvU3QJf3rgKY3l0G+uvl2eTZwuzGY7t13a2+M44ZqHq5cG7o2rxGneCQVQg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(8676002)(86362001)(31696002)(6486002)(2616005)(956004)(38100700002)(8936002)(38350700002)(508600001)(2906002)(83380400001)(4326008)(66946007)(26005)(36756003)(66556008)(7416002)(5660300002)(316002)(52116002)(186003)(66476007)(4744005)(31686004)(16576012)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MjNTN3h4bjNsaUdMRHlDemplNFZkcWpBOExHSnZrNnROSmoxakJ3eWhEc0dH?=
- =?utf-8?B?MC9tc1dUOFd2MEZ2RXFuWll0Sm1Ua3d3eXNBS3cxbXFxdEpwZkVFcU5qRVMw?=
- =?utf-8?B?d1J4S0YySSs3WWxIL0xRd0hZaDVmQ3VHeTNlSEsya0xnV3EwV3U2MXZqSjFT?=
- =?utf-8?B?ZUJ1L2tnL3d3UXNxZGpKVys1eFJ5VjBhZ0ZJbEJjWFZtbVNjRkxrSFZlc1pO?=
- =?utf-8?B?dkNYNlF6dXpRR1VsM2pTc3U5ajYySVlsVDV1QzNCMjNlSUdsLysvdkRJY3B1?=
- =?utf-8?B?V1BWUjZhTjBYK0hiSTZvcTg3NEIwWitJaGluSkQxODNRQ1ZNTHdlczhHK0tG?=
- =?utf-8?B?UE90WXNoa1lYaE5NMjhCVzBuWXU1Y0JnQ05mU1Q0SlBlQW5uN2JVdm9EMytq?=
- =?utf-8?B?dGpnNzhPdVgrb1FKN052TWFNQjZ6ODltbkRrMUxqaSsyVE1lZXJzMHptU3I3?=
- =?utf-8?B?QzEyeEtCei91dUtTNUdCUXV3WTNiR3dhZWs0Rm8rM1hMNWthU0VmVm8wd2Zy?=
- =?utf-8?B?OERlbmtma29yYVpMWW1TakN5cHpiaUY0dWVybjBTRk92SmROSktxNjVESE10?=
- =?utf-8?B?VUlUUFYrSG5SWEVEOGk1UFRRck1ld3Z2cFhPVVlHU0ZXVEZ5M3ZUSXNJRXN3?=
- =?utf-8?B?eHB3N2c3L2Zwa0pWaDJ5TERDN1VVYzNYZC9aQzA4d2JMOU5IbzFHSkF5UUhL?=
- =?utf-8?B?bFl6VW54NU5NMEN5ZXdmUDg3dzhMNmk1RlcrVUlrcVF2WEhPcXdhZXVaU0VX?=
- =?utf-8?B?dG5VU0JiSVVMckxWYmJZSGhVRjFpeERjMlkzZGJlbWQ3aDhuQVpzMmZLdE9p?=
- =?utf-8?B?VlN1UWFkSHJoNDNFMDFtRzAxUFRLWjR4TnZTWWhKL2lxejVFWG9BRDVpeFl5?=
- =?utf-8?B?WjRiU3JTVkNiZ2pDMDdMTllHWDdJVnAyUjlQeE41RWNUcHkveThVSUtTTzE4?=
- =?utf-8?B?cHhkWW5DRlRMbXp6VHNob21HYmNPdm9FNnRzcHRhcHZaLzBLblpLSlZwcVFS?=
- =?utf-8?B?a2o2dUhMU3A1UWNiQ3hCTTUzLyt4cUZ2QTF5Sk5LRENDbGRVWk9EY1J4d0FF?=
- =?utf-8?B?WWY4M2VUbjExdDMvaUFoVEI3MkEwSFM3amMySncweTBtZWNYWmkwL2gzWUky?=
- =?utf-8?B?RXF6c2JYa1MvTjVaZjRTekw2cG1QVGRxblphdlY3QkZqd3VSN1FmRlhLd0JU?=
- =?utf-8?B?a20rU1VWRDlQZ01mNW1wUkZCMEttSjJLU3hNSGc0TW50K0R2VnRSaVQwamZT?=
- =?utf-8?B?WkF0S1ZPamd6ekZVYyt4Ni9kazNaYzkrSDRYNDhMamNtREh1Zkk5WjB0QUdz?=
- =?utf-8?B?cTZpdVZ4MGJLRVZONXNYQ21saXBEMkhiSWlHY2l2N3FuSHlMT2ZDN3VmdFJZ?=
- =?utf-8?B?dncxTEtIdkYwV3R3azV1VEg2M1FCZThiMmJvNWV4Y0lXUUhZUENpODRVTnRv?=
- =?utf-8?B?WDA1MXpHczVSbkFxZFJXRVM0eGJoMEt4MzR5T3F1T2FROWNWYkIyR3lmNkQz?=
- =?utf-8?B?SE9jT2RCL0FWZWRvbjZyeWtsUGlyQzZSdU51NUZ4T0hBcUd6NFU4aGhraTFK?=
- =?utf-8?B?SFZtZEwrb2lodWJZQVF2NXpiVExnSlFtcTV1MVlMamE3cGRvMyszU0gyVENo?=
- =?utf-8?B?YlErdTc4ZjVtaHZEd3AyS0gzdnVkTFF4YnZkbjR4TmV5NGQzRWVWZStJSnk2?=
- =?utf-8?B?cXVwNVErbFcrbjBYMzhiZVNtajk3aStwaDd1a296enFsWkdvbm1LVWJ6THhQ?=
- =?utf-8?Q?wIc/G+B59R0d/x+JX7CRpbeRRHmGECBv7cbvdCl?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0b55550-433c-40cc-770e-08d97f602b37
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2021 13:35:26.9404 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4JCXSiro+0mRVGeBAMc4A50n3YGwJ+hlMNbkRph1+d2vKUnMgl+xpexM5vsx4vI9kmCgrh5cyoxRdJUKUUyeHx/XfwtQ3ZbWeGOCZnwgrl8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3622
-Received-SPF: pass client-ip=40.107.13.103;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -145,20 +86,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-24.09.2021 12:04, Kevin Wolf wrote:
-> The iothread isn't called 'iothread0', but 'thread0'. Depending on the
-> order that properties are parsed, the error message may change from the
-> expected one to another one saying that the iothread doesn't exist.
-> 
-> Signed-off-by: Kevin Wolf<kwolf@redhat.com>
+Peter Maydell <peter.maydell@linaro.org> writes:
 
+> On Fri, 24 Sept 2021 at 13:21, Markus Armbruster <armbru@redhat.com> wrot=
+e:
+>> ... this isn't really *target*-specific, it's *device*-specific: some
+>> devices implement the event, some don't.
+>>
+>> Ideally, we'd just fix that.
+>
+> Would you want to tell the far end "this machine simply does
+> not have an RTC device at all (because the hardware it's emulating
+> doesn't have one) and so you won't get RTC_CHANGE events" ?
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Well, RTC_CHANGE is "Emitted when the guest changes the RTC time."  If
+the guest doesn't *have* an RTC...
 
--- 
-Best regards,
-Vladimir
+> A good first step for getting more devices to implement the
+> RTC_CHANGE support would be if there was any documentation on how
+> to do it. The JSON schema says the offset should be "offset between
+> base RTC clock (as specified by -rtc base), and new RTC clock value",
+> but there aren't any hints (either there or elsewhere) as to how a
+> device is supposed to determine that value, and there's no
+> documentation of what the behaviour or intent is of the
+> qemu_timedate_diff() function that the existing implementations
+> use to calculate the offset.
+
+RTC_CHANGE is from the bad old times, I'm afraid:
+
+    commit 80cd34787fc0fc31b1a341c7b8d8e729c1b6ea58
+    Author: Luiz Capitulino <lcapitulino@redhat.com>
+    Date:   Thu Feb 25 12:11:44 2010 -0300
+
+        QMP: Introduce RTC_CHANGE event
+
+        Emitted whenever the RTC time changes.
+
+        Signed-off-by: Luiz Capitulino <lcapitulino@redhat.com>
+        Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
+
+No hint at why or how to use it.
+
+I figure this is the matching libvirt commit:
+
+    commit 32e6ac9c2601e19715d18f743cf805a3466d3385
+    Author: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+    Date:   Thu Mar 18 18:28:15 2010 +0000
+
+        Add support for an explicit  RTC change event
+
+        This introduces a new event type
+
+           VIR_DOMAIN_EVENT_ID_RTC_CHANGE
+
+        This event includes the new UTC offset measured in seconds.
+        Thus there is a new callback definition for this event type
+
+         typedef void (*virConnectDomainEventRTCChangeCallback)(virConnectP=
+tr conn,
+                                                                virDomainPt=
+r dom,
+                                                                long long u=
+tcoffset,
+                                                                void *opaqu=
+e);
+
+        If the guest XML configuration for the <clock> is set to
+        offset=3D'variable', then the XML will automatically be
+        updated with the new UTC offset value. This ensures that
+        during migration/save/restore the new offset is preserved.
+
+        * daemon/remote.c: Dispatch RTC change events to client
+        * examples/domain-events/events-c/event-test.c: Watch for
+          RTC change events
+        * include/libvirt/libvirt.h.in: Define new RTC change event ID
+          and callback signature
+        * src/conf/domain_event.c, src/conf/domain_event.h,
+          src/libvirt_private.syms: Extend API to handle RTC change events
+        * src/qemu/qemu_driver.c: Connect to the QEMU monitor event
+          for RTC changes and emit a libvirt RTC change event
+        * src/remote/remote_driver.c: Receive and dispatch RTC change
+          events to application
+        * src/remote/remote_protocol.x: Wire protocol definition for
+          RTC change events
+        * src/qemu/qemu_monitor.c, src/qemu/qemu_monitor.h,
+          src/qemu/qemu_monitor_json.c: Watch for RTC_CHANGE event
+          from QEMU monitor
+
+Suggests it might be needed for migration.
+
+How today's libvirt uses RTC_CHANGE would be good to know.  I don't have
+the time to ferret it out myself.  Daniel, do you know?  If not, who
+else might?
+
+> Side note: probably the JSON schema should document the units
+> for 'offset'. Code inspection suggests it wants seconds.
+
+Doc bug, patch would be lovely.
+
+> Side side note: the JSON event doesn't seem to contemplate
+> the possibility that a machine might have more than one RTC...
+
+Right.  It clearly needs an additional member @qom-path identifying the
+RTC device.
+
 
