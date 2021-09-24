@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1096417244
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 14:46:10 +0200 (CEST)
-Received: from localhost ([::1]:50608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51D44172DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 14:51:03 +0200 (CEST)
+Received: from localhost ([::1]:36812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTkaf-0005sz-N8
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 08:46:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47152)
+	id 1mTkfO-0007NU-Mw
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 08:51:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mTkJr-0004zt-Vh
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:28:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56804)
+ id 1mTkK1-00052q-R6
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:28:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mTkJo-0001Ec-GW
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:28:46 -0400
+ id 1mTkK0-0001Jo-BC
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:28:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632486523;
+ s=mimecast20190719; t=1632486535;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kGhJmMxSiDi3ktbyOK1guOl7qOGvbw67Kp43MpQapCQ=;
- b=XQ/oBI6HcqTXmLYcx8K0YREc7hzGtgS/vEqzb+UhgMW5fX2Fr2X/yA6amuWgT74ZlPrtPa
- TGSenzbOT5QNhq5WwU+aBc0ldJaU96RjhTjytFUdbGcJVYdAht034dqCrQkPeb5uGBNDIU
- NOmC4G6FiuReWQsIwjahZ64zKUWy5qI=
+ bh=MCrK5OfoAJbNh/u9lbT/9DUws5i2IZqo+HSbs1VORf4=;
+ b=Db9WUXDh1qv2yOxfg5R6BecjTJwidIU7TF7WJroGAK+hW5Pc6GG+/nnWNR6+Q+zqLp0BBF
+ ukADZlXCQyahCUCwFSUB7plSmWWTuifluAyUReaajZcHc/Jif4p3S7KmeEQw9eFzlgrdUt
+ GZEl9MtqoA5jjHuWcugJzFBwaOirIVA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-ZMens6VoO5Klsc36bfeRfQ-1; Fri, 24 Sep 2021 08:28:40 -0400
-X-MC-Unique: ZMens6VoO5Klsc36bfeRfQ-1
+ us-mta-578-3VDvJRcwOfamC966J6Delw-1; Fri, 24 Sep 2021 08:28:54 -0400
+X-MC-Unique: 3VDvJRcwOfamC966J6Delw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D31015074F;
- Fri, 24 Sep 2021 12:28:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B714D1084683;
+ Fri, 24 Sep 2021 12:28:53 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C4D862465;
- Fri, 24 Sep 2021 12:28:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2881062465;
+ Fri, 24 Sep 2021 12:28:40 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/35] acpi: nvdimm_build_nfit: use
+Subject: [PATCH v4 11/35] acpi: nvdimm_build_ssdt: use
  acpi_table_begin()/acpi_table_end() instead of build_header()
-Date: Fri, 24 Sep 2021 08:27:37 -0400
-Message-Id: <20210924122802.1455362-11-imammedo@redhat.com>
+Date: Fri, 24 Sep 2021 08:27:38 -0400
+Message-Id: <20210924122802.1455362-12-imammedo@redhat.com>
 In-Reply-To: <20210924122802.1455362-1-imammedo@redhat.com>
 References: <20210924122802.1455362-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -89,92 +89,69 @@ it replaces error-prone pointer arithmetic for build_header() API,
 with 2 calls to start and finish table creation,
 which hides offsets magic from API user.
 
-Also since acpi_table_begin() reserves space only for standard header
-while previous acpi_data_push() reserved the header + 4 bytes field,
-add 4 bytes 'Reserved' field into nvdimm_build_nfit() which didn't
-have it.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 ---
+v4:
+  * s/acpi_table_composed/acpi_table_end/
+      (Reviewed-by: Eric Auger <eric.auger@redhat.com>)
 v3:
   * s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
 
 CC: xiaoguangrong.eric@gmail.com
 ---
- hw/acpi/nvdimm.c | 42 +++++++++++++++++-------------------------
- 1 file changed, 17 insertions(+), 25 deletions(-)
+ hw/acpi/nvdimm.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
 diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index e3d5fe1939..15f6ca82ca 100644
+index 15f6ca82ca..a7539cfe89 100644
 --- a/hw/acpi/nvdimm.c
 +++ b/hw/acpi/nvdimm.c
-@@ -44,22 +44,6 @@ static const uint8_t nvdimm_nfit_spa_uuid[] =
-       UUID_LE(0x66f0d379, 0xb4f3, 0x4074, 0xac, 0x43, 0x0d, 0x33,
-               0x18, 0xb7, 0x8c, 0xdb);
- 
--/*
-- * NVDIMM Firmware Interface Table
-- * @signature: "NFIT"
-- *
-- * It provides information that allows OSPM to enumerate NVDIMM present in
-- * the platform and associate system physical address ranges created by the
-- * NVDIMMs.
-- *
-- * It is defined in ACPI 6.0: 5.2.25 NVDIMM Firmware Interface Table (NFIT)
-- */
--struct NvdimmNfitHeader {
--    ACPI_TABLE_HEADER_DEF
--    uint32_t reserved;
--} QEMU_PACKED;
--typedef struct NvdimmNfitHeader NvdimmNfitHeader;
--
- /*
-  * define NFIT structures according to ACPI 6.0: 5.2.25 NVDIMM Firmware
-  * Interface Table (NFIT).
-@@ -401,25 +385,33 @@ void nvdimm_plug(NVDIMMState *state)
-     nvdimm_build_fit_buffer(state);
- }
- 
-+/*
-+ * NVDIMM Firmware Interface Table
-+ * @signature: "NFIT"
-+ *
-+ * It provides information that allows OSPM to enumerate NVDIMM present in
-+ * the platform and associate system physical address ranges created by the
-+ * NVDIMMs.
-+ *
-+ * It is defined in ACPI 6.0: 5.2.25 NVDIMM Firmware Interface Table (NFIT)
-+ */
-+
- static void nvdimm_build_nfit(NVDIMMState *state, GArray *table_offsets,
-                               GArray *table_data, BIOSLinker *linker,
-                               const char *oem_id, const char *oem_table_id)
+@@ -1274,14 +1274,15 @@ static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
+                               NVDIMMState *nvdimm_state,
+                               uint32_t ram_slots, const char *oem_id)
  {
-     NvdimmFitBuffer *fit_buf = &state->fit_buf;
--    unsigned int header;
-+    AcpiTable table = { .sig = "NFIT", .rev = 1,
-+                        .oem_id = oem_id, .oem_table_id = oem_table_id };
++    int mem_addr_offset;
+     Aml *ssdt, *sb_scope, *dev;
+-    int mem_addr_offset, nvdimm_ssdt;
++    AcpiTable table = { .sig = "SSDT", .rev = 1,
++                        .oem_id = oem_id, .oem_table_id = "NVDIMM" };
  
      acpi_add_table(table_offsets, table_data);
  
--    /* NFIT header. */
--    header = table_data->len;
--    acpi_data_push(table_data, sizeof(NvdimmNfitHeader));
 +    acpi_table_begin(&table, table_data);
-+    /* Reserved */
-+    build_append_int_noprefix(table_data, 0, 4);
-     /* NVDIMM device structures. */
-     g_array_append_vals(table_data, fit_buf->fit->data, fit_buf->fit->len);
+     ssdt = init_aml_allocator();
+-    acpi_data_push(ssdt->buf, sizeof(AcpiTableHeader));
 -
+     sb_scope = aml_scope("\\_SB");
+ 
+     dev = aml_device("NVDR");
+@@ -1310,8 +1311,6 @@ static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
+     aml_append(sb_scope, dev);
+     aml_append(ssdt, sb_scope);
+ 
+-    nvdimm_ssdt = table_data->len;
+-
+     /* copy AML table into ACPI tables blob and patch header there */
+     g_array_append_vals(table_data, ssdt->buf->data, ssdt->buf->len);
+     mem_addr_offset = build_append_named_dword(table_data,
+@@ -1323,10 +1322,13 @@ static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
+     bios_linker_loader_add_pointer(linker,
+         ACPI_BUILD_TABLE_FILE, mem_addr_offset, sizeof(uint32_t),
+         NVDIMM_DSM_MEM_FILE, 0);
 -    build_header(linker, table_data,
--                 (void *)(table_data->data + header), "NFIT",
--                 sizeof(NvdimmNfitHeader) + fit_buf->fit->len, 1, oem_id,
--                 oem_table_id);
+-        (void *)(table_data->data + nvdimm_ssdt),
+-                 "SSDT", table_data->len - nvdimm_ssdt, 1, oem_id, "NVDIMM");
+     free_aml_allocator();
++    /*
++     * must be executed as the last so that pointer patching command above
++     * would be executed by guest before it recalculated checksum which were
++     * scheduled by acpi_table_end()
++     */
 +    acpi_table_end(linker, &table);
  }
  
- #define NVDIMM_DSM_MEMORY_SIZE      4096
+ void nvdimm_build_srat(GArray *table_data)
 -- 
 2.27.0
 
