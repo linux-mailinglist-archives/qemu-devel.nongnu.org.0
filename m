@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077D3416B55
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 07:49:31 +0200 (CEST)
-Received: from localhost ([::1]:39528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18309416B69
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 08:07:24 +0200 (CEST)
+Received: from localhost ([::1]:49192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTe5R-0000eK-J0
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 01:49:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53670)
+	id 1mTeMk-0008LU-MK
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 02:07:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tangxingxin1008@gmail.com>)
- id 1mTe4G-0008GJ-Bt; Fri, 24 Sep 2021 01:48:19 -0400
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:38827)
+ (Exim 4.90_1) (envelope-from <hare@suse.de>)
+ id 1mTeL8-0006Vu-DL; Fri, 24 Sep 2021 02:05:43 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:34234)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tangxingxin1008@gmail.com>)
- id 1mTe4E-0000zw-AK; Fri, 24 Sep 2021 01:48:15 -0400
-Received: by mail-il1-x134.google.com with SMTP id q14so9140253ils.5;
- Thu, 23 Sep 2021 22:48:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=D/ppLEq00UAH7ryAoBMY6Ta2gFtRm83gvNv8hfHhvds=;
- b=DGcefvHQQXSUILAQseuOArSaq6EEQmA0BDcYjMYICRopuF3Wrz9DQbJTqDDu6wMdAC
- 5GS+J5jcDaBQJ4NQIEr6WUcEqUk2gAiBf0MyOgXjoJbZeU3jeSMZcD4HZ1I7mbdPw2+m
- zGw6EXlowXaH4w2mPDMep86hgbUn+dcMM0o3JlnW8Yl32hjeCEO2pMUwSmvU/X+ynnVL
- Q4+0FZZdxq0M9WVpjOn/Cetgz0adObRdE1/xfTaQTL05n1LeVP/2qrgZ8zhyOiF6l10A
- 8IrjTVlNqPACBcvhvkk0X50wgRbHes89hd0Cxq2NIviCu0kWE8KUlnteEtYHmjQ9ZmZb
- bepw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=D/ppLEq00UAH7ryAoBMY6Ta2gFtRm83gvNv8hfHhvds=;
- b=qndQ4S+MoK/DqH4XariHIGiXIRmNd0IxuixYXamX6JG7aPyHvYLHDB4ccYVqp/HoNT
- l2X2twoWHZKutfZg/JCS9DbL7QCPfhl3Vfjd4CyZ6jwx+6iNQu6SYWKKAdFcYO0u+S2G
- 6sBWMl+Y0ZcaHDlpjjbxHqExWKIVYRAV3wIKshn32P+YPrlatWKunmBNJAnsuJHxClVL
- 50Ij//UkHi1dWn3u4bs/Y1G/FVLhYGj1QyLGOILqWCmY6RHqvUQDSliOB/p4/PuZBT/g
- jmiMrpGx/RHGAYLdS7ugRIUwQNdjwUO58LdSvFyfWL//yHOFLa6WFO0QWbxTkS59JkWn
- lwVA==
-X-Gm-Message-State: AOAM530O9aOZ9s/PptXhqxSirjdazeXVB24QLAJvfR6c1SC7j2MgYCjc
- b+l95Oh19KrSuc9Jd5b2UDfAiObVEeQ0HmwjG54=
-X-Google-Smtp-Source: ABdhPJw0pKC+Ac+Bzl6MVF4eocaeXWIymLrk2JCRLjtfjd04vJDZYn8s7blK83CJhBzO43rUOJIx1xCSUosh8WbR+WE=
-X-Received: by 2002:a05:6e02:1588:: with SMTP id
- m8mr6841067ilu.188.1632462492104; 
- Thu, 23 Sep 2021 22:48:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hare@suse.de>)
+ id 1mTeL4-0007Eq-UM; Fri, 24 Sep 2021 02:05:42 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 943B52240C;
+ Fri, 24 Sep 2021 06:05:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1632463535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a/Lu8Zfv8PTXQ9idbeqB8jRZ5qSWHY4FwqcyLyWrk4U=;
+ b=VoxB+clyS0U4JI+J8RWuUqsDK6rtjeDlTmpv3QhAOVQilJVAqndKJ6FHuixkKZs2AqxLEI
+ O0SJj4mUIEguLAjMpE4sJ2EBdFnlQ6GESQQjjtIssOq/L2J5nbxLQmwGSB7zA3+kUy2JSt
+ Fl6o54BWzlfLxNR7+H7JLmB9qhf3Q2A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1632463535;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a/Lu8Zfv8PTXQ9idbeqB8jRZ5qSWHY4FwqcyLyWrk4U=;
+ b=Sy8uUgEDQqvG35hj5PNxCgZKk0pKNtoBgDa5tdAddbCga0yvAQA3xA3cQuXvpC9xXldJSt
+ whezeNkvlPTbbwBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 755EE13AAC;
+ Fri, 24 Sep 2021 06:05:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id zsksG69qTWEOUQAAMHmgww
+ (envelope-from <hare@suse.de>); Fri, 24 Sep 2021 06:05:35 +0000
+Subject: Re: [PATCH] hw/nvme: reattach subsystem namespaces on hotplug
+To: Klaus Jensen <its@irrelevant.dk>
+References: <20210909094308.122038-1-hare@suse.de>
+ <YTnmWUKhtlR2j3yI@apples.localdomain>
+ <39666601-8d22-b051-2939-e2ccb96fb010@suse.de>
+ <YUzfAP2BWSDJOLSO@apples.localdomain>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <5ad5bace-07f6-13cd-906a-7b600441dd6d@suse.de>
+Date: Fri, 24 Sep 2021 08:05:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <20210918062816.7546-1-tangxingxin1008@gmail.com>
- <CAKmqyKM2qM3pQaTN06S+TwWBCd2cB4pusex9z7NvdypZC7Nbiw@mail.gmail.com>
-In-Reply-To: <CAKmqyKM2qM3pQaTN06S+TwWBCd2cB4pusex9z7NvdypZC7Nbiw@mail.gmail.com>
-From: eric tang <tangxingxin1008@gmail.com>
-Date: Fri, 24 Sep 2021 13:48:00 +0800
-Message-ID: <CAE_nArV5ahZZ9gCFxyGn+PBhPf-aADGsCQgBWLDQjzuV_KNYeg@mail.gmail.com>
-Subject: Re: [RFC 00/10] add the rest of riscv bitmapip-0.93 instructions
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000f37d3f05ccb74a15"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
- envelope-from=tangxingxin1008@gmail.com; helo=mail-il1-x134.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YUzfAP2BWSDJOLSO@apples.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=hare@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,159 +87,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f37d3f05ccb74a15
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 9/23/21 10:09 PM, Klaus Jensen wrote:
+> On Sep  9 13:37, Hannes Reinecke wrote:
+>> On 9/9/21 12:47 PM, Klaus Jensen wrote:
+>>> On Sep  9 11:43, Hannes Reinecke wrote:
+>>>> With commit 5ffbaeed16 ("hw/nvme: fix controller hot unplugging")
+>>>> namespaces get moved from the controller to the subsystem if one
+>>>> is specified.
+>>>> That keeps the namespaces alive after a controller hot-unplug, but
+>>>> after a controller hotplug we have to reconnect the namespaces
+>>>> from the subsystem to the controller.
+>>>>
+>>>> Fixes: 5ffbaeed16 ("hw/nvme: fix controller hot unplugging")
+>>>> Cc: Klaus Jensen <k.jensen@samsung.com>
+>>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>>>> ---
+>>>>   hw/nvme/subsys.c | 8 +++++++-
+>>>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
+>>>> index 93c35950d6..a9404f2b5e 100644
+>>>> --- a/hw/nvme/subsys.c
+>>>> +++ b/hw/nvme/subsys.c
+>>>> @@ -14,7 +14,7 @@
+>>>>   int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
+>>>>   {
+>>>>       NvmeSubsystem *subsys = n->subsys;
+>>>> -    int cntlid;
+>>>> +    int cntlid, nsid;
+>>>>   
+>>>>       for (cntlid = 0; cntlid < ARRAY_SIZE(subsys->ctrls); cntlid++) {
+>>>>           if (!subsys->ctrls[cntlid]) {
+>>>> @@ -29,12 +29,18 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
+>>>>   
+>>>>       subsys->ctrls[cntlid] = n;
+>>>>   
+>>>> +    for (nsid = 0; nsid < ARRAY_SIZE(subsys->namespaces); nsid++) {
+>>>> +        if (subsys->namespaces[nsid]) {
+>>>> +            nvme_attach_ns(n, subsys->namespaces[nsid]);
+>>>> +        }
+>>>
+>>> Thanks Hannes! I like it, keeping things simple.
+>>>
+>>> But we should only attach namespaces that have the shared property or
+>>> have ns->attached == 0. Non-shared namespaces may already be attached to
+>>> another controller in the subsystem.
+>>>
+>>
+>> Well ... I tried to avoid that subject, but as you brought it up:
+>> There is a slightly tricky issue in fabrics, in that the 'controller' is
+>> independent from the 'connection'.
+>> The 'shared' bit in the CMIC setting indicates that the subsystem may
+>> have more than one _controller_. It doesn't talk about how many
+>> _connections_ a controller may support; that then is the realm of
+>> dynamic or static controllers, which we don't talk about :-).
+>> Sufficient to say, linux only implements the dynamic controller model,
+>> so every connection will be to a different controller.
+>> But you have been warned :-)
+>>
+>> However, the 'CMIC' setting is independent on the 'NMIC' setting (ie the
+>> 'shared' bit in the namespace).
+>> Which leads to the interesting question on how exactly should one handle
+>> non-shared namespaces in subsystems for which there are multiple
+>> controllers. Especially as the NSID space is per subsystem, so each
+>> controller will be able to figure out if there are blanked-out namespaces.
+>> So to make this a sane setup I would propose to set the 'shared' option
+>> automatically whenever the controller has the 'subsys' option set.
+>> And actually, I would ditch the 'shared' option completely, and make it
+>> dependent on the 'subsys' setting for the controller.
+>> Much like we treat the 'CMIC' setting nowadays.
+>> That avoids lots of confusions, and also make the implementation _way_
+>> easier.
+>>
+> 
+> I see your point. Unfortunately, there is no easy way to ditch shared=
+> now. But I think it'd be good enough to attach to shared automatically,
+> but not to "shared=off".
+> 
+> I've already ditched the shared parameter on my RFC refactor series and
+> always having the namespaces shared.
+> 
 
-Ok, thanks. ^ ^!
+Okay.
 
-Alistair Francis <alistair23@gmail.com> =E4=BA=8E2021=E5=B9=B49=E6=9C=8824=
-=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8812:39=E5=86=99=E9=81=93=EF=BC=
-=9A
+>>> However...
+>>>
+>>> The spec says that "The attach and detach operations are persistent
+>>> across all reset events.". This means that we should track those events
+>>> in the subsystem and only reattach namespaces that were attached at the
+>>> time of the "reset" event. Currently, we don't have anything mapping
+>>> that state. But the device already has to take some liberties with
+>>> regard to stuff that is considered persistent by the spec (SMART log
+>>> etc.) since we do not have any way to store stuff persistently across
+>>> qemu invocations, so I think the above is an acceptable compromise.
+>>>
+>> Careful. 'attach' and 'detach' are MI (management interface) operations.
+>> If and how many namespaces are visible to any given controllers is
+>> actually independent on that; and, in fact, controllers might not even
+>> implement 'attach' or 'detach'.
+>> But I do agree that we don't handle the 'reset' state properly.
+>>
+> 
+> The Namespace Attachment command has nothing to do with MI? And the QEMU
+> controller does support attaching and detaching namespaces.
+> 
 
-> On Sat, Sep 18, 2021 at 6:20 PM Eric Tang <tangxingxin1008@gmail.com>
-> wrote:
-> >
-> > These patches fixed some issues about srow/sroiw/clzw instructions and
-> > add the rest of riscv bitmapip-0.93 instructions except fsri/fsriw &
-> > bext/bdep & bextw/bdepw for opcode coding or name conflict problems. Th=
-e
-> > problems had been fixed in riscv bitmapip-1.0 version.
-> >
-> > I have tested these bitmapip instructions, passed by compare the result=
-s
-> > that produced by qemu and spike.
-> >
-> > Please review and give your opinion kindly :)
->
-> Hey Eric,
->
-> Thanks for the patches!
->
-> Unfortunately there is already a series "target/riscv: Update QEmu for
-> Zb[abcs] 1.0.0"
-> (https://www.mail-archive.com/qemu-devel@nongnu.org/msg839086.html)
-> that adds support for the v1.0.0 bit manip extension. That has been
-> reviewed and queued to be merged.
->
-> If you have fixes or features that apply on top of that please send
-> them though :)
->
-> Alistair
->
-> >
-> > Eric Tang (10):
-> >   target/riscv: rvb: fixed an error about srow/sroiw instructions
-> >   target/riscv: rvb: add carry-less multiply instructions
-> >   target/riscv: rvb: add cmix/cmov instructions
-> >   target/riscv: rvb: add generalized shuffle instructions
-> >   target/riscv: rvb: add crossbar permutation instructions
-> >   target/riscv: rvb: add bfp/bfpw instructions
-> >   target/riscv: rvb: add CRC instructions
-> >   target/riscv: rvb: add bit-matrix instructions
-> >   target/riscv: rvb: fixed an issue about clzw instruction
-> >   target/riscv: rvb: add funnel shfit instructions
-> >
-> >  target/riscv/bitmanip_helper.c          | 351 ++++++++++++++++++++++++
-> >  target/riscv/helper.h                   |  28 ++
-> >  target/riscv/insn32.decode              |  36 +++
-> >  target/riscv/insn_trans/trans_rvb.c.inc | 215 ++++++++++++++-
-> >  target/riscv/translate.c                |  14 +
-> >  5 files changed, 641 insertions(+), 3 deletions(-)
-> >
-> > --
-> > 2.17.1
-> >
-> >
->
+No, you got me wrong. Whether a not a namespace is attached is 
+independent of any 'Namespace attachment' command.
+Case in point: the subsystem will be starting up with namespace already 
+attached, even though no-one issued any namespace attachment command.
 
---000000000000f37d3f05ccb74a15
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>>> A potential (as good as it gets) fix would be to keep a map/list of
+>>> "persistently" attached controllers on the namespaces and re-attach
+>>> according to that when we see that controller joining the subsystem
+>>> again. CNTLID would be the obvious choice for the key here, but problem
+>>> is that we cant really use it since we assign it sequentially from the
+>>> subsystem, which now looks like a pretty bad choice. CNTLID should have
+>>> been a required property of the nvme device when subsystems are
+>>> involved. Maybe we can fix up the CNTLID assignment to take the serial
+>>> into account (we know that is defined and *should* be unique) and not
+>>> reuse CNTLIDs. This limits the subsystem to NVME_MAX_CONTROLLERS unique
+>>> controllers, but I think that is fair enough.
+>>>
+>>> Sigh. Need to think this through.
+>>>
+>> Well, actually there is an easy way out. I do agree that we need to make
+>> the 'cntlid' a property of the controller. And once it's set we can
+>> track it properly, eg by having per-cntlid nsid lists in the subsystem.
+>> But if it's not set we can claim that we'll be allocating a new
+>> controller across reboots (which is actually what we're doing), making
+>> us spec compliant again :-)
+>>
+> 
+> That is a decent solution, but we still can't track it across reboots. I
+> think we should just with your patch (but for now, only automatically
+> attach shared namespaces).
+> 
+But that's the point.
+We don't _need_ to track it.
+We only need to track it when it's specified via a (yet-to-be-added) 
+cntlid parameter, but then it's trivial.
+If it's not specified we will allocate a new one and don't need to track 
+stuff. That's even permitted by the NVMe spec; v2.0 section 3.1.1 has:
 
-<div dir=3D"ltr">Ok, thanks. ^ ^!</div><br><div class=3D"gmail_quote"><div =
-dir=3D"ltr" class=3D"gmail_attr">Alistair Francis &lt;<a href=3D"mailto:ali=
-stair23@gmail.com">alistair23@gmail.com</a>&gt; =E4=BA=8E2021=E5=B9=B49=E6=
-=9C=8824=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8812:39=E5=86=99=E9=81=
-=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On =
-Sat, Sep 18, 2021 at 6:20 PM Eric Tang &lt;<a href=3D"mailto:tangxingxin100=
-8@gmail.com" target=3D"_blank">tangxingxin1008@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; These patches fixed some issues about srow/sroiw/clzw instructions and=
-<br>
-&gt; add the rest of riscv bitmapip-0.93 instructions except fsri/fsriw &am=
-p;<br>
-&gt; bext/bdep &amp; bextw/bdepw for opcode coding or name conflict problem=
-s. The<br>
-&gt; problems had been fixed in riscv bitmapip-1.0 version.<br>
-&gt;<br>
-&gt; I have tested these bitmapip instructions, passed by compare the resul=
-ts<br>
-&gt; that produced by qemu and spike.<br>
-&gt;<br>
-&gt; Please review and give your opinion kindly :)<br>
-<br>
-Hey Eric,<br>
-<br>
-Thanks for the patches!<br>
-<br>
-Unfortunately there is already a series &quot;target/riscv: Update QEmu for=
-<br>
-Zb[abcs] 1.0.0&quot;<br>
-(<a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg839086.ht=
-ml" rel=3D"noreferrer" target=3D"_blank">https://www.mail-archive.com/qemu-=
-devel@nongnu.org/msg839086.html</a>)<br>
-that adds support for the v1.0.0 bit manip extension. That has been<br>
-reviewed and queued to be merged.<br>
-<br>
-If you have fixes or features that apply on top of that please send<br>
-them though :)<br>
-<br>
-Alistair<br>
-<br>
-&gt;<br>
-&gt; Eric Tang (10):<br>
-&gt;=C2=A0 =C2=A0target/riscv: rvb: fixed an error about srow/sroiw instruc=
-tions<br>
-&gt;=C2=A0 =C2=A0target/riscv: rvb: add carry-less multiply instructions<br=
->
-&gt;=C2=A0 =C2=A0target/riscv: rvb: add cmix/cmov instructions<br>
-&gt;=C2=A0 =C2=A0target/riscv: rvb: add generalized shuffle instructions<br=
->
-&gt;=C2=A0 =C2=A0target/riscv: rvb: add crossbar permutation instructions<b=
-r>
-&gt;=C2=A0 =C2=A0target/riscv: rvb: add bfp/bfpw instructions<br>
-&gt;=C2=A0 =C2=A0target/riscv: rvb: add CRC instructions<br>
-&gt;=C2=A0 =C2=A0target/riscv: rvb: add bit-matrix instructions<br>
-&gt;=C2=A0 =C2=A0target/riscv: rvb: fixed an issue about clzw instruction<b=
-r>
-&gt;=C2=A0 =C2=A0target/riscv: rvb: add funnel shfit instructions<br>
-&gt;<br>
-&gt;=C2=A0 target/riscv/bitmanip_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- | 351 ++++++++++++++++++++++++<br>
-&gt;=C2=A0 target/riscv/helper.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 28 ++<br>
-&gt;=C2=A0 target/riscv/insn32.decode=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 36 +++<br>
-&gt;=C2=A0 target/riscv/insn_trans/trans_rvb.c.inc | 215 ++++++++++++++-<br=
->
-&gt;=C2=A0 target/riscv/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 14 +<br>
-&gt;=C2=A0 5 files changed, 641 insertions(+), 3 deletions(-)<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.17.1<br>
-&gt;<br>
-&gt;<br>
-</blockquote></div>
+While allocation of static controllers to hosts are expected to be 
+durable (so that hosts can expect to form associations to the same 
+controllers repeatedly (e.g., after each host reboot)), the NVM 
+subsystem may remove the host allocation of a controller that is not in 
+use at any time for implementation specific reasons
+(e.g., controller resource reclamation, subsystem reconfiguration).
 
---000000000000f37d3f05ccb74a15--
+> Would that be acceptable to you? It would require your to add shared=on
+> on your single-namespace test set up since unfortunately, shared=on is
+> not the default. However, we can consider changing that default in 6.2.
+> 
+Yes, for an interim solution it's okay.
+The important bit is to get hotplug up and running again for NVMe; we do 
+have some testcases for patches in upstream linux which I would like to 
+forward to our QA Team.
+
+Cheers
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
