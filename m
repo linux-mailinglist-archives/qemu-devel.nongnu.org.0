@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D18416D02
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 09:44:12 +0200 (CEST)
-Received: from localhost ([::1]:40128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B839416CE4
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 09:35:57 +0200 (CEST)
+Received: from localhost ([::1]:53082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTfsR-0007r1-GS
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 03:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44962)
+	id 1mTfkS-0005hD-9d
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 03:35:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mTfcd-0003AA-RC; Fri, 24 Sep 2021 03:27:51 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:48289)
+ id 1mTfcb-000392-FB; Fri, 24 Sep 2021 03:27:49 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:36137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mTfcZ-0002nz-1I; Fri, 24 Sep 2021 03:27:51 -0400
+ id 1mTfcZ-0002pH-LQ; Fri, 24 Sep 2021 03:27:49 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 7D0F15C01F6;
- Fri, 24 Sep 2021 03:27:45 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id E4A265C020E;
+ Fri, 24 Sep 2021 03:27:46 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 24 Sep 2021 03:27:45 -0400
+ by compute5.internal (MEProxy); Fri, 24 Sep 2021 03:27:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm1; bh=F3fE/DNyu97SsBqpZ8zdbg9aPy
- 3Nw2T+DxDRqBV2Bzc=; b=htmS62kYOE/AdcuTMXeqXysAKF1In0rfW8NVFxNTOM
- UdpJFmbJhncKlm3kwJfqXEWSrvfXvVOb85H6zpvog9WgLMf5xPqpQebHzuLypYpn
- jMBh8ALdIOkUHj/69I1T0jDkvzYOK1+wlOqyCGP9ekxxY3GodD/CUWdmpqGnjaSR
- /O14Dc+Q4Q1RVDZkrbbU6mEHbUjsfnF0wAGsPRTdBtSObVxnisl4I2lCtQP+rE4k
- exK5kOipP32VQxeE6DqHSJ8JyRzoZlTwbxhWU0VnmncF+lRPUbD7XfSdXqv+mldp
- Eqq4RrzBOZevKvfHVDUQ92yBMxWztTeUh738VFHCZpIg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=5yt5X09LNjNuE
+ xr0Bi0xN0yrJWRZcc+WYIN5acFZcVY=; b=hsyOXxFybqwTCRSUELpmusmL7IgUO
+ 3TfdBgoMwwzoX0bIUXjNcBfia5RrzNM6KUnwNaupPfrd4SKfu17q3mYosUWjUr8U
+ iXvFVVDDHBrdqXcAFUGJZagi7OrYDaKrE/GAZFic1v1xWzw3IH/E3KU1Qo9UyK5p
+ EkGNPLWNS5uhdhjFiIqWIy8P/9XTEpqO2UA3dl12Ek6Nyje9x9Cux7bU7VajlxfO
+ oQcn+rnd/e+/izn2zQsW3GGrIDZxySMLkyjnjIhyr8MQf05Se5M0Y4aEIO3bTZZS
+ D58XQuugkskTXpI7u2QEFXYt4j4Y2nBu9WHnho4gY+bEkqjW2vJlZFU8g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=F3fE/D
- Nyu97SsBqpZ8zdbg9aPy3Nw2T+DxDRqBV2Bzc=; b=pirkKkeuGIGbrC6DTh2HQu
- FWLcBnTW96E7wK7Kj44wF+MMcR+ilKob89wgOBdjqQRpn7d08gsZxJ6AGl6YokSZ
- HIu0hk/LW29jsyb0niF6aNnyxCT6jq+Ah93KBQFOYl7eQcHtAicfvX27+4nRHuW0
- wwuKAaSOGRWDlpqAvv1l9uupMHMpEiqpIVTEhW6a+igyZa3hvzNJs9Ofg+7lNOE0
- kxRk7wafrInlOgfWzLk+WK6znssXz6uefc6KJ/LqyWQvC2nCD5BUwMWhrVHeabR8
- YBCtjZWUkQi9cs0cntJgVjIlPHE55RJ/wzYJXRak5Y3l0MLb+9KexRsfMlLrxiVg
- ==
-X-ME-Sender: <xms:8H1NYdF6zofjIUaX4RlRWpqyiwTNDY6AskqXtU33PqEeuGnKdxn4SQ>
- <xme:8H1NYSUt5BNYPLrXALyp9uIDUYEO2UmF6KkB42ewoDZeT8arAg-mjp60nVACuau-8
- RJS1HH53b6BpJ_YvuM>
-X-ME-Received: <xmr:8H1NYfLOMiSPmvShbHMOYISsnnLQXTxft4jTUSXLV-T8mAD85PrIOAfooVW1sZV-hptoBH5QsvLsdH7GI9gHqJy5DPqY7FCKMTT3hDqNYg>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=5yt5X09LNjNuExr0Bi0xN0yrJWRZcc+WYIN5acFZcVY=; b=IjbUGsNH
+ gAzXNk+PKFM/QPrCKIl6BRVnzBx1neWLUyokulIsZHxVaAkn8d99ICPzm43M1mY4
+ mqrO0HJTMox5F6DrOPExa38jAEkrGTpU06fxtcv00PAJEX/DoDJLwLHmQgyWdmWQ
+ OJW3h4s/q2h3V/GIYpfJjYyzTa2fxw4jhg4WLFSg/IWeQvTHwJbFOmMi1BRX2hWN
+ X5dnlxrc41sliWUmxjfOFbtR2f4fxO+Pb7CJfj1FHaHHpE592cSdnxpAL6jrvWAD
+ RbubVtUfSWOJpMOG6yctEdieMrlL0Ndb7XNyGmRmzwYnodA5N+IJko7cU0fT7WVN
+ kfcAYlUQbSDC6w==
+X-ME-Sender: <xms:8n1NYVgEv-Z7FpIn5Rtx3Hgxxa92n6uN8YXMe-m2AkDQ4LMCzjDOUQ>
+ <xme:8n1NYaAFUnaQTj_j-HjjJi4prHRVfQnaRh8NrytcGNrG0frbba_Z8EzBXKYG60U3l
+ MJgajzF6C7_FyFjtZ8>
+X-ME-Received: <xmr:8n1NYVF92vhrkSdrxmTIobsKl27RXeGLb-JSUmO4oBkin8Md3P6utO4qGi07fMX124Fh5TW24H7UrObVLJKb6j3ql-0o6DvvnHYi8fvk8g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddguddujecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpefhgeevkeeigfekvedvteejjeekkedugfdvheeijeffgfekffdvveelffetvdeg
- hfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:8H1NYTH1ivcTSNgKhjFeYfz-x1A_I-UyDgHSy3ZePBKEzjMo9E83Cg>
- <xmx:8H1NYTUw5AHd6oiExbmjCB1E6_BjhUT_ab_Y_-3MTKulxbx4ZBLVTw>
- <xmx:8H1NYePAOrkPtk2ACnSuZ4kqiEPWT49wKmMsgMuJt74F5dFSxctXnA>
- <xmx:8X1NYVI2hMo9nDWmWpZglhoVKy8eCq4tF9nxGmFm1yqoPXR2KnSjJw>
+ enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
+ gfeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:8n1NYaSNLUukquAv38WG8USqOV2TImTCPQKfBvR8zjxM3QDRgCvNXw>
+ <xmx:8n1NYSxrGvdDMSpgkRCD3AcmTg-fl1ul7_LaD4qTWRXXnXk8QC7k2A>
+ <xmx:8n1NYQ7G_2f925U4hgTOjxE1c--BgT78YoPT4a0YJpMusDig-SVS_g>
+ <xmx:8n1NYZkv1rcJnqQqea6xUFwGERcMBxBYMLixoKHwS8MAXNMfXCIzBA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Sep 2021 03:27:43 -0400 (EDT)
+ 24 Sep 2021 03:27:45 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] hw/nvme: fix namespace attachment on controller hotplug
-Date: Fri, 24 Sep 2021 09:27:40 +0200
-Message-Id: <20210924072742.306473-1-its@irrelevant.dk>
+Subject: [PATCH 1/2] hw/nvme: reattach subsystem namespaces on hotplug
+Date: Fri, 24 Sep 2021 09:27:41 +0200
+Message-Id: <20210924072742.306473-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.33.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210924072742.306473-1-its@irrelevant.dk>
+References: <20210924072742.306473-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
  helo=out3-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -96,30 +97,59 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Hannes Reinecke <hare@suse.de>
 
-First patch from Hannes fixes the subsystem registration process such=0D
-that shared (but non-detached) namespaces are automatically attached to=0D
-hotplugged controllers.=0D
-=0D
-The second patch changes the default for 'shared' such that namespaces=0D
-are shared by default and will thus by default be attached to hotplugged=0D
-controllers. This adds a compat property for older machine versions and=0D
-updates the documentation to reflect this.=0D
-=0D
-Hannes Reinecke (1):=0D
-  hw/nvme: reattach subsystem namespaces on hotplug=0D
-=0D
-Klaus Jensen (1):=0D
-  hw/nvme: change nvme-ns 'shared' default=0D
-=0D
- docs/system/devices/nvme.rst | 24 ++++++++++++++----------=0D
- hw/core/machine.c            |  4 +++-=0D
- hw/nvme/ns.c                 |  8 +-------=0D
- hw/nvme/subsys.c             | 10 +++++++++-=0D
- 4 files changed, 27 insertions(+), 19 deletions(-)=0D
-=0D
--- =0D
-2.33.0=0D
-=0D
+With commit 5ffbaeed16 ("hw/nvme: fix controller hot unplugging")
+namespaces get moved from the controller to the subsystem if one
+is specified.
+That keeps the namespaces alive after a controller hot-unplug, but
+after a controller hotplug we have to reconnect the namespaces
+from the subsystem to the controller.
+
+Fixes: 5ffbaeed16 ("hw/nvme: fix controller hot unplugging")
+Cc: Klaus Jensen <k.jensen@samsung.com>
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+[k.jensen: only attach to shared and non-detached namespaces]
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/subsys.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
+index 93c35950d69d..6b2e4c975f5b 100644
+--- a/hw/nvme/subsys.c
++++ b/hw/nvme/subsys.c
+@@ -14,7 +14,7 @@
+ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
+ {
+     NvmeSubsystem *subsys = n->subsys;
+-    int cntlid;
++    int cntlid, nsid;
+ 
+     for (cntlid = 0; cntlid < ARRAY_SIZE(subsys->ctrls); cntlid++) {
+         if (!subsys->ctrls[cntlid]) {
+@@ -29,12 +29,20 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
+ 
+     subsys->ctrls[cntlid] = n;
+ 
++    for (nsid = 1; nsid < ARRAY_SIZE(subsys->namespaces); nsid++) {
++        NvmeNamespace *ns = subsys->namespaces[nsid];
++        if (ns && ns->params.shared && !ns->params.detached) {
++            nvme_attach_ns(n, ns);
++        }
++    }
++
+     return cntlid;
+ }
+ 
+ void nvme_subsys_unregister_ctrl(NvmeSubsystem *subsys, NvmeCtrl *n)
+ {
+     subsys->ctrls[n->cntlid] = NULL;
++    n->cntlid = -1;
+ }
+ 
+ static void nvme_subsys_setup(NvmeSubsystem *subsys)
+-- 
+2.33.0
+
 
