@@ -2,129 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 824444175EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 15:34:52 +0200 (CEST)
-Received: from localhost ([::1]:33166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF26D417608
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 15:37:53 +0200 (CEST)
+Received: from localhost ([::1]:37054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTlLn-00059l-4u
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 09:34:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58974)
+	id 1mTlOi-0007te-Rt
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 09:37:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTlKU-0004JJ-EN; Fri, 24 Sep 2021 09:33:30 -0400
-Received: from mail-eopbgr30112.outbound.protection.outlook.com
- ([40.107.3.112]:51265 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ id 1mTlMZ-00067F-5H; Fri, 24 Sep 2021 09:35:39 -0400
+Received: from mail-eopbgr130103.outbound.protection.outlook.com
+ ([40.107.13.103]:4359 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTlKQ-00069o-BS; Fri, 24 Sep 2021 09:33:29 -0400
+ id 1mTlMX-0007cg-7k; Fri, 24 Sep 2021 09:35:38 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E5MvB2DtP0vKQwgnT3AnM9kxTNFRB22uJqxj5nl7V4KEVY2gUJ9DkNFfbXZ9ywwvp0MIYwIA5h22au/ebWoXrj470nEk2xLdoy/uP0+OmZJHHctWYqxYHWoMvQA7knOZ681g7/EL4JQCaCzmTFnXiEXk6FPIriLKGsQEPC1kI+fR9F4aqLOsE2hjY5wBVKkrWy/6IlHvntsKuIDQPpLYhiPZTPntHOcTHmRb6W/zvaD470T5fa7nC7uGM++T1e8XB4mRZOkZ3PyYVOrKulbQvaCGHRh6Od3rILruNeAtliuf9rT4adEBHnm3BZVnaNeW70252j/b8CAb/BcK6+0VXA==
+ b=Uou1L23xomEPtoKXmiJkT+XayAecmSMa1sPtJtLinv/05DwRtSQJBeD+SjJyLTihVZ6XnEzSF+xL5M4YF42qgr2VjJ6fWlT/d6zV9dZDpUj26P4fg4fIOIwf+Vrs6cttqJcZojTtW31kKFcVXJlte0UES45xj4gdh/R6uuVT4rlcnhw6wuaH7hWSDRNU+pygHI+p2FqcRURvnxBYQlRwxLu8vFKKwgVQsEvFBI6ZyLZUQvGdZCiB1CrP3NhCdCdgqyeM6wowOWpgYNGRlkafzZK4cTYsBd5hBD7oVydjRQy+sFa0vxg6n4E2kKNTneDhWFV9enC4iewFL8B19gMP4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=j5F6CmvI4XxZsOgoEIyHbNiDf45KzcQTb3E/K+n2MrU=;
- b=OHV4SVLozv6Xwk5Y+fCAeX2MMfXG94f6oDwIRZWhuWk/01LqMVdP64toeFr8OU1fKYEgzSLAfBSrjSMXHGIV1xdZjiU8hBn0R52Z8AHEXQkBMqYovMcdWWGpUgNojnirmb2c0JSqX6Ep646qpinod0KhuPVpGYELHoFnVpUvbaXS23VbyVVoKCjUQAV9KVND33lTqhXkAYQMcIxBRgf2vgTLT1R7yj2QAfLh8AHRJT7o6MQ4RDjjynSic3y71AQHQ/ckJHggfBXGa97CKUSgd1zMrb3w2tsovBokkzfteBEv7OHrPcshJ+wVv4MczJdpRj96AZxBwZr4ry+Sb7eX1w==
+ bh=tLZjbkHl2yHerKEtsyq0wyXIhGqBhb7lh2QKnnRB3hQ=;
+ b=I4HrZOJeTSoGtNB7V7OUnKAmrOKpyMV43wutdhkxVC7KKCOwpFZ2STat3N0AvrKZ5kssUouWZ7X5nFnoupWCU+zMixkQ8UMPpcWiE64YZLWI3uzrLewjt4M8PluM8UpZ3VpX7rpWFzCkQginlGzJOKHrobnoA6p/uO9y5zvJCCRs0moZwiWM+50diPg+ZsV+J5Gstkm11ukMR1Yp4fau+uTLWFDd97ItdIdNEaXG5xAkg1st1rrZ03N4geeZt7RD8FzSBNgV7rMsBkQFxpnE1h7pViuVwCxxkJJ2r/bY1mv0DqeV+ozv3MCQJ+uzizvWYhcbgRIySVPHgrYz1H9gqQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j5F6CmvI4XxZsOgoEIyHbNiDf45KzcQTb3E/K+n2MrU=;
- b=wNDWIgG4KHdRVqTV2MoHkcFBST1n1iW8Fc9k/niXoabQ1pKabgwybUYH1znmDHDU0DU8YM2Oe2haeBu4M7U5y92OhEBJQjTSYHHNhU3aBDwt8EvgM8b2AJaomk3AO4QomjjCxfH+9GsycAdfEiqSeni7V3+M8tqwqlWCbgq7mig=
+ bh=tLZjbkHl2yHerKEtsyq0wyXIhGqBhb7lh2QKnnRB3hQ=;
+ b=L4RsywCp9p0xlhY0SymBKuu0KTOAOCVf/pmEBVahru/HFyAjcAH0lEfjLzzXrDjut5Hd0erThoR8e2PTzwwYFBLl7sGmxWTu9Yy8mxupeOTiDKUXN1eb7agJp2+st7g7jehhF30hU+8hSR4s9ZyACp3gdkY7GwEL1MJ/tSTz55U=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4950.eurprd08.prod.outlook.com (2603:10a6:20b:ea::31)
+ by AM6PR08MB3622.eurprd08.prod.outlook.com (2603:10a6:20b:4c::15)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Fri, 24 Sep
- 2021 13:33:21 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.18; Fri, 24 Sep
+ 2021 13:35:32 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.018; Fri, 24 Sep 2021
- 13:33:21 +0000
-Subject: Re: [PATCH 02/11] iotests/245: Fix type for iothread property
+ 13:35:27 +0000
+Subject: Re: [PATCH 03/11] iotests/051: Fix typo
 To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
  qemu-block@nongnu.org, libvir-list@redhat.com, armbru@redhat.com,
  its@irrelevant.dk, pbonzini@redhat.com
 References: <20210924090427.9218-1-kwolf@redhat.com>
- <20210924090427.9218-3-kwolf@redhat.com>
+ <20210924090427.9218-4-kwolf@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <8e56feb0-54cc-f5c1-c669-a08e9280dfd3@virtuozzo.com>
-Date: Fri, 24 Sep 2021 16:33:20 +0300
+Message-ID: <288acce9-58fa-5251-734c-3d5f2b922503@virtuozzo.com>
+Date: Fri, 24 Sep 2021 16:35:24 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
-In-Reply-To: <20210924090427.9218-3-kwolf@redhat.com>
+In-Reply-To: <20210924090427.9218-4-kwolf@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0023.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::7) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: PR3PR09CA0010.eurprd09.prod.outlook.com
+ (2603:10a6:102:b7::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 Received: from [192.168.100.5] (185.215.60.205) by
- FR3P281CA0023.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1c::7) with Microsoft
+ PR3PR09CA0010.eurprd09.prod.outlook.com (2603:10a6:102:b7::15) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4566.8 via Frontend Transport; Fri, 24 Sep 2021 13:33:21 +0000
+ 15.20.4544.15 via Frontend Transport; Fri, 24 Sep 2021 13:35:26 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b8c30cb3-3be4-479a-36fa-08d97f5fe099
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4950:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4950D515F2691FB2AA221F54C1A49@AM6PR08MB4950.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Office365-Filtering-Correlation-Id: d0b55550-433c-40cc-770e-08d97f602b37
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3622:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3622D0D22DE852F781468E95C1A49@AM6PR08MB3622.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Us2IE5yyyobiQtNDNdX7mJ/oS3aeAFTPsXoMYfLbWFWR5G4xjyp0NfcY957u695GcJpO0kVYDao+SVniwB0aZhq8tAVW6cPKoHyEUDmABxPhMs4yTkxFaI6QOYk1fIdpTkPK9SRA52xhjOWlV6LNCokZ83mhs0sXCk19nJlV9oGzq29I4uHtSZ/pPUw7Oo+7GfnnzGtPn4+nWBtxm9sQLn0LPVITsZk9pKDVH5bAALjn6tsNg5vIqURMTiTjWzNQAtsl+oeuHL1l/rMalszwYLKD6tYM+EkMxQxGrmRvLf0IT0VZ1sS61a6m3BJisM2TS4Ph5MIk9t72QIrVR4yl7deF1uwDFmViNYTyhFiC39ZnystBqdz1O7CLNLuwEw+Z5CnsKOl6xbEZS5H+RN5vezMMaST8gcwJkk0amTo5nCqiZkg25P/BV4FAQpzecyVDfNdzJKzWZ4REJqrmRc56zbHQsdarPsg55tMk6BHj/kLkIr6DOtudjGMIlVbsrIBm0QGSdOxJ75FsQCM0nSm+TgnKx/Y1I5BZNZvz8s/wnGGoEsY/eOIxPhYQPPbF/l/ObQW7zRRrwLsWSSaQm3OXeCvNVRBJtopJs3orr6AnQaVnEqDJAap5QuiG+FlvWcEcbv2wGGlRCcpyDRJOvAQWfV7gbKxYaRH+tqCqXTGDrO4x8MEssL712lV7rJUHyyVAsOxxQJ6usJfNIoi8kNY1fK0zn9GeIjKeHWbyG+CPdQL0812JWW8f87xbQgrC6pqaEZTqsGMwSpR3MtgcloFUUA==
+X-Microsoft-Antispam-Message-Info: ISP/aw0nCrAerilyKAGIZ+sYPeLs7RmgHYzB6BF3um59meK8Rgyz2adXukBG3tQ8GH5jrhHYsGtAFQC0fNhWEg9awGPss0DVnfifpP5CtRL2s2y9EESqB8tb9pCp26KcQIp5W3YSUndNbvCYVEemCZAjjt/1EYmSFaV5qHgXJYnMwFhbyVbv1Avxg/5LJMxMkhr1ZVNL5yiWF0n/1jzaRGW8PUg7Xv/+blrXXsWxBvR7o7blxeIVLbTvBtXYTAOSPT5WROSoCkiWKHCFQItPIXRiqaczRdLLe65XtSXtBpLDv452isAqLCfzqq6dGfS9U4VgeR1XhG1Dr0eviNovL6VknAaaV+lkWe7Juh6gNOP2FWtZ3GDXcdebVNiQkDun3TFy9hUzCVRdIu2GQ0RoBIZXCg5yyOa7++gI1NBYEPYzh6lNR/cGdlImXc1qqSDEcpY7ApQOkXQgJ7A1k7vQI6rsYzNwMm7NyoF/H/s7os4Z6M7u/vmvBJ0rPSzIez6eGT1QyVZcCaMH7saSSFuIdpNreAyIjTWa3b2OE/7EdLhf78dNYYTYBVYPdzIAaBUp2By6CBFgJqTBAttW9e5U5WzigzD17sCnQ2BvvT+VEV5gUBnYlboiT12rQ43wp2+R9CPbloRvvR4cInkzHNLBu/RvXfG2t6ZW9LDtkPDJshIAl7qRijf0XxTG/iNh1gp/UeNj29VaKLDGpGqfAPd+xO90XHjnvU3QJf3rgKY3l0G+uvl2eTZwuzGY7t13a2+M44ZqHq5cG7o2rxGneCQVQg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6486002)(8676002)(8936002)(4326008)(316002)(16576012)(2906002)(66946007)(7416002)(38100700002)(38350700002)(86362001)(31696002)(31686004)(36756003)(956004)(5660300002)(508600001)(66556008)(66476007)(2616005)(52116002)(4744005)(186003)(26005)(45980500001)(43740500002);
+ SFS:(4636009)(366004)(8676002)(86362001)(31696002)(6486002)(2616005)(956004)(38100700002)(8936002)(38350700002)(508600001)(2906002)(83380400001)(4326008)(66946007)(26005)(36756003)(66556008)(7416002)(5660300002)(316002)(52116002)(186003)(66476007)(4744005)(31686004)(16576012)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1Q3dGFOUDdJaW9tVEVEZU9mUEJQTUR4aXcvODVHckhLSTJmZTc0Vktla2Fi?=
- =?utf-8?B?eTZHRkVlbHg1NDBodFZUM1F0UGh1R0xkVXh2K2hwVlNxOVg2NFR1Y3Y5cVBY?=
- =?utf-8?B?ZUpPTHRrTVVlRy9JdDF3Y29HUDFCQ3Flbk40aGc4eVhDcGFlYWJOZ2tYc293?=
- =?utf-8?B?N2FMczVSTi9GejQ4VHg3cjIvN2orVEFEM2ZhRlIwUGRSQWVjdEFYMC9pNkNw?=
- =?utf-8?B?a1k5TU1XYUxFWnZrcDRVOWtGdU5YNTRPZjRmaUFqVjhUK0pxYnkycEVMUDJF?=
- =?utf-8?B?SDRxWFIvSWNDSUhrbUg2Nm9LY3pEYk12dTN5LzNOT3RHWVF0c1lCVzRtNFlz?=
- =?utf-8?B?OWx1b3dCT3BkVk12UndseU9rRU8vTmtidVN5SkorOGhSQ01hWmRpczRFTVhO?=
- =?utf-8?B?VTgwNkpHT0F4L2RQdU5DUVVxZVUvRFR5WTdZSlllM3ZRZ0F1YUhjUi9uQ2hH?=
- =?utf-8?B?OWhNemlCZTFTczI5d21RWWlZT2kyWE41ejNKTjJEOGR5UU43SVZmT2NHZEsy?=
- =?utf-8?B?Z0FGWURQdi9SQWhyc3ZKV2RvT2w4MWFOa1E1bnl0eVc4MGZPQnZkMVRuelll?=
- =?utf-8?B?SmxBdTJxV25jMHc1d0ZxMWk3R0dibTBha3ErZGtSaityNS8wbkhmV1E0Y0tm?=
- =?utf-8?B?TE9WbkxwV1JxaHVRS0lYZDZ5aitPcWcyQUx0aFFIeVFvdnJjd1YyYnk4MVdI?=
- =?utf-8?B?dE9XSUhBWCs2VjJFS3ZRMG5LbFVwR2xjYjRHWVVXRDdKcVZ0dFpEbnF2blVK?=
- =?utf-8?B?WmphdDgwOHVJMlk5SmQ4KzQzMTBsUVFrY3ZQRHZSbStPV0loKzJXTHJRWXlv?=
- =?utf-8?B?YWZJV2ZtL0lBS1VCYTAzM29YdlRrZFQwQXV0WXlWSVNuSHQ2R2NheXFsdGZW?=
- =?utf-8?B?WmFvQjlRQ205dmtpTkVUUDExZ1RlRXZIV1pBWjU4QnExcUdya21vNGw4R090?=
- =?utf-8?B?NGUxOTBCN2RhaU9lcHVKdFB5ZGhFYU1VUkNjeERDQ0dOSzZ1ei95VVRLY1Qx?=
- =?utf-8?B?UTVmdmw5Mnh0TUE4SlNPNnF2aFl3MUpiNExxdGU0bkVKQjlFeFBNRFdxVitw?=
- =?utf-8?B?bHdZOVVScldXd3A5bmdJR2Erenp5dG9hVzFoS0gvMjA1TmJhUmd1eTNNb1pS?=
- =?utf-8?B?TkRBNzlDY09laGZmV0JJMFdpcTZ6aTZqM1AvbzVHZ2hadHZBKzlLZExuZHZv?=
- =?utf-8?B?SGdKVG4rd2JUNDBVTldXclEwK3VzT3dWVWpiZlkrT0ZTSVR2L0tmTi9Hb2xL?=
- =?utf-8?B?VlY0cmFHcTlXV1pXVVZyK2FzSG9sQS85UE5lTzF2emtmZmRYWC9GeFl2OXUv?=
- =?utf-8?B?L2RXODREMEJKemFHMGhtSjZ1eUdiOHBlempoV2RTQmJ5Z0JML2VpRE9vN3Qr?=
- =?utf-8?B?QjR3NWFlMkNzd2dRU0ZEWXQyeVljVTl6cGhYa2ZkczNGdkZJeVFtVkJ2Y0RM?=
- =?utf-8?B?WDd0QmJueXF1MGExRFdrVzl4L2cwcGEvcytSRFg0VFR0Nkg4Zzg0M3hOb1p1?=
- =?utf-8?B?REZRRWZJVVRmL28ralVkbHNCSWV0SURPR2srOU4rRjVaTSt3WE9Bek1uV2xL?=
- =?utf-8?B?R1REeXBKWU9rL0diei9vSEdYN0VEMkxvZFYwM0l1NW43Z25INUVCbm80OFg5?=
- =?utf-8?B?UmxSMGVjRFdoeDI3bzgvd2t1VlB0a2dPRDhMMFl1eE9KRkl4RjJSRkpLdCtz?=
- =?utf-8?B?OHJUN1pJaVVCbm1YRmgwbjg0eCtpSXdmYnR5dDVnVFNTdDVsR1pVQW5BL1B4?=
- =?utf-8?Q?rR34FZFGTu6vSIYqoqbG9x4JBhLJtzaJ+CwQlaS?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MjNTN3h4bjNsaUdMRHlDemplNFZkcWpBOExHSnZrNnROSmoxakJ3eWhEc0dH?=
+ =?utf-8?B?MC9tc1dUOFd2MEZ2RXFuWll0Sm1Ua3d3eXNBS3cxbXFxdEpwZkVFcU5qRVMw?=
+ =?utf-8?B?d1J4S0YySSs3WWxIL0xRd0hZaDVmQ3VHeTNlSEsya0xnV3EwV3U2MXZqSjFT?=
+ =?utf-8?B?ZUJ1L2tnL3d3UXNxZGpKVys1eFJ5VjBhZ0ZJbEJjWFZtbVNjRkxrSFZlc1pO?=
+ =?utf-8?B?dkNYNlF6dXpRR1VsM2pTc3U5ajYySVlsVDV1QzNCMjNlSUdsLysvdkRJY3B1?=
+ =?utf-8?B?V1BWUjZhTjBYK0hiSTZvcTg3NEIwWitJaGluSkQxODNRQ1ZNTHdlczhHK0tG?=
+ =?utf-8?B?UE90WXNoa1lYaE5NMjhCVzBuWXU1Y0JnQ05mU1Q0SlBlQW5uN2JVdm9EMytq?=
+ =?utf-8?B?dGpnNzhPdVgrb1FKN052TWFNQjZ6ODltbkRrMUxqaSsyVE1lZXJzMHptU3I3?=
+ =?utf-8?B?QzEyeEtCei91dUtTNUdCUXV3WTNiR3dhZWs0Rm8rM1hMNWthU0VmVm8wd2Zy?=
+ =?utf-8?B?OERlbmtma29yYVpMWW1TakN5cHpiaUY0dWVybjBTRk92SmROSktxNjVESE10?=
+ =?utf-8?B?VUlUUFYrSG5SWEVEOGk1UFRRck1ld3Z2cFhPVVlHU0ZXVEZ5M3ZUSXNJRXN3?=
+ =?utf-8?B?eHB3N2c3L2Zwa0pWaDJ5TERDN1VVYzNYZC9aQzA4d2JMOU5IbzFHSkF5UUhL?=
+ =?utf-8?B?bFl6VW54NU5NMEN5ZXdmUDg3dzhMNmk1RlcrVUlrcVF2WEhPcXdhZXVaU0VX?=
+ =?utf-8?B?dG5VU0JiSVVMckxWYmJZSGhVRjFpeERjMlkzZGJlbWQ3aDhuQVpzMmZLdE9p?=
+ =?utf-8?B?VlN1UWFkSHJoNDNFMDFtRzAxUFRLWjR4TnZTWWhKL2lxejVFWG9BRDVpeFl5?=
+ =?utf-8?B?WjRiU3JTVkNiZ2pDMDdMTllHWDdJVnAyUjlQeE41RWNUcHkveThVSUtTTzE4?=
+ =?utf-8?B?cHhkWW5DRlRMbXp6VHNob21HYmNPdm9FNnRzcHRhcHZaLzBLblpLSlZwcVFS?=
+ =?utf-8?B?a2o2dUhMU3A1UWNiQ3hCTTUzLyt4cUZ2QTF5Sk5LRENDbGRVWk9EY1J4d0FF?=
+ =?utf-8?B?WWY4M2VUbjExdDMvaUFoVEI3MkEwSFM3amMySncweTBtZWNYWmkwL2gzWUky?=
+ =?utf-8?B?RXF6c2JYa1MvTjVaZjRTekw2cG1QVGRxblphdlY3QkZqd3VSN1FmRlhLd0JU?=
+ =?utf-8?B?a20rU1VWRDlQZ01mNW1wUkZCMEttSjJLU3hNSGc0TW50K0R2VnRSaVQwamZT?=
+ =?utf-8?B?WkF0S1ZPamd6ekZVYyt4Ni9kazNaYzkrSDRYNDhMamNtREh1Zkk5WjB0QUdz?=
+ =?utf-8?B?cTZpdVZ4MGJLRVZONXNYQ21saXBEMkhiSWlHY2l2N3FuSHlMT2ZDN3VmdFJZ?=
+ =?utf-8?B?dncxTEtIdkYwV3R3azV1VEg2M1FCZThiMmJvNWV4Y0lXUUhZUENpODRVTnRv?=
+ =?utf-8?B?WDA1MXpHczVSbkFxZFJXRVM0eGJoMEt4MzR5T3F1T2FROWNWYkIyR3lmNkQz?=
+ =?utf-8?B?SE9jT2RCL0FWZWRvbjZyeWtsUGlyQzZSdU51NUZ4T0hBcUd6NFU4aGhraTFK?=
+ =?utf-8?B?SFZtZEwrb2lodWJZQVF2NXpiVExnSlFtcTV1MVlMamE3cGRvMyszU0gyVENo?=
+ =?utf-8?B?YlErdTc4ZjVtaHZEd3AyS0gzdnVkTFF4YnZkbjR4TmV5NGQzRWVWZStJSnk2?=
+ =?utf-8?B?cXVwNVErbFcrbjBYMzhiZVNtajk3aStwaDd1a296enFsWkdvbm1LVWJ6THhQ?=
+ =?utf-8?Q?wIc/G+B59R0d/x+JX7CRpbeRRHmGECBv7cbvdCl?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8c30cb3-3be4-479a-36fa-08d97f5fe099
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0b55550-433c-40cc-770e-08d97f602b37
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2021 13:33:21.7459 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2021 13:35:26.9404 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tLYy67yEJf7NirWsLtVA4x2iGZyLmgad3NokdoAVVfIXcXwG1b3NV9NI/UsgxsIcTpw0so/lwOxRxAuRxXeG8SKnus5nHZkx2m5NfzJe3QQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4950
-Received-SPF: pass client-ip=40.107.3.112;
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4JCXSiro+0mRVGeBAMc4A50n3YGwJ+hlMNbkRph1+d2vKUnMgl+xpexM5vsx4vI9kmCgrh5cyoxRdJUKUUyeHx/XfwtQ3ZbWeGOCZnwgrl8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3622
+Received-SPF: pass client-ip=40.107.13.103;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -149,10 +149,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 24.09.2021 12:04, Kevin Wolf wrote:
-> iothread is a string property, so None (= JSON null) is not a valid
-> value for it. Pass the empty string instead to get the default iothread.
+> The iothread isn't called 'iothread0', but 'thread0'. Depending on the
+> order that properties are parsed, the error message may change from the
+> expected one to another one saying that the iothread doesn't exist.
 > 
 > Signed-off-by: Kevin Wolf<kwolf@redhat.com>
+
 
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
