@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7057141740B
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 15:02:39 +0200 (CEST)
-Received: from localhost ([::1]:41930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9774174E4
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 15:12:35 +0200 (CEST)
+Received: from localhost ([::1]:42238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTkqc-0004vy-Aq
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 09:02:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47924)
+	id 1mTl0E-0007OF-RT
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 09:12:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mTkLz-0007j8-3A
+ id 1mTkLx-0007j7-VW
  for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:31:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33680)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mTkLq-0002Gi-PL
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:30:58 -0400
+ id 1mTkLq-0002HT-OT
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:30:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632486646;
+ s=mimecast20190719; t=1632486648;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ckDIoinAg5o8muHCjEubC03OWnzXqSkFcVAVqQezzjM=;
- b=YuHDK6K56m2qyRPcwTzJy1lzGPBwNnVqwEg4DMYWveie7i62lwgcG6tyer3L5qSXDGl0hu
- Blo0urbGHTnI8BtjMrMhnm7v1nGPHjjPlnazzfVtY9IQ7cQqcpmlxPqPEUjMFkb54Eu4XX
- X9Aj0Pub0+pc0vyZUtj4p871RLbw4ws=
+ bh=8at5SPoTEAdvPySdLd1/IBK/CTsmJv4UelC6BBJqWWU=;
+ b=CfTGxOa+B0YNCBpjMnRUH2MtWdJ1sekV/Wd1pjyX/NWWutCg1XmNcqlow620Dk5BAUQCJw
+ QYz9XbaZuBdYAipq2ge3LLLkMEHf0fAawXkf/rmTSGyGaj50njSY0B9MMoUQFghuijTWF1
+ 7I7KgmxoYG49B+8oBlHArNOPLzVjExE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-1FOFxv-JNqqSGs1uZtQPUw-1; Fri, 24 Sep 2021 08:30:45 -0400
-X-MC-Unique: 1FOFxv-JNqqSGs1uZtQPUw-1
+ us-mta-463-hxDEdkuxPpyC6nup6TvR0Q-1; Fri, 24 Sep 2021 08:30:47 -0400
+X-MC-Unique: hxDEdkuxPpyC6nup6TvR0Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2332835DE0;
- Fri, 24 Sep 2021 12:30:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D6C4835DE5;
+ Fri, 24 Sep 2021 12:30:46 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C72BE62465;
- Fri, 24 Sep 2021 12:30:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 14F5C6A901;
+ Fri, 24 Sep 2021 12:30:44 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 34/35] acpi: remove no longer used build_header()
-Date: Fri, 24 Sep 2021 08:28:01 -0400
-Message-Id: <20210924122802.1455362-35-imammedo@redhat.com>
+Subject: [PATCH v4 35/35] acpi: AcpiGenericAddress no longer used to
+ map/access fields of MMIO, drop packed attribute
+Date: Fri, 24 Sep 2021 08:28:02 -0400
+Message-Id: <20210924122802.1455362-36-imammedo@redhat.com>
 In-Reply-To: <20210924122802.1455362-1-imammedo@redhat.com>
 References: <20210924122802.1455362-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -86,96 +87,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 ---
- include/hw/acpi/acpi-defs.h | 25 -------------------------
- include/hw/acpi/aml-build.h |  4 ----
- hw/acpi/aml-build.c         | 23 -----------------------
- 3 files changed, 52 deletions(-)
+ include/hw/acpi/acpi-defs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index 1a0774edd6..ee733840aa 100644
+index ee733840aa..c97e8633ad 100644
 --- a/include/hw/acpi/acpi-defs.h
 +++ b/include/hw/acpi/acpi-defs.h
-@@ -48,31 +48,6 @@ typedef struct AcpiRsdpData {
-     unsigned *xsdt_tbl_offset;
- } AcpiRsdpData;
- 
--/* Table structure from Linux kernel (the ACPI tables are under the
--   BSD license) */
--
--
--#define ACPI_TABLE_HEADER_DEF   /* ACPI common table header */ \
--    uint32_t signature;          /* ACPI signature (4 ASCII characters) */ \
--    uint32_t length;                 /* Length of table, in bytes, including header */ \
--    uint8_t  revision;               /* ACPI Specification minor version # */ \
--    uint8_t  checksum;               /* To make sum of entire table == 0 */ \
--    uint8_t  oem_id[6] \
--                 QEMU_NONSTRING;     /* OEM identification */ \
--    uint8_t  oem_table_id[8] \
--                 QEMU_NONSTRING;     /* OEM table identification */ \
--    uint32_t oem_revision;           /* OEM revision number */ \
--    uint8_t  asl_compiler_id[4] \
--                 QEMU_NONSTRING;     /* ASL compiler vendor ID */ \
--    uint32_t asl_compiler_revision;  /* ASL compiler revision number */
--
--
--/* ACPI common table header */
--struct AcpiTableHeader {
--    ACPI_TABLE_HEADER_DEF
+@@ -55,7 +55,7 @@ struct AcpiGenericAddress {
+     uint8_t access_width;    /* ACPI 3.0: Minimum Access size (ACPI 3.0),
+                                 ACPI 2.0: Reserved, Table 5-1 */
+     uint64_t address;        /* 64-bit address of struct or register */
 -} QEMU_PACKED;
--typedef struct AcpiTableHeader AcpiTableHeader;
--
- struct AcpiGenericAddress {
-     uint8_t space_id;        /* Address space where struct or register exists */
-     uint8_t bit_width;       /* Size in bits of given register */
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index 6e1f42e119..3cf6f2c1b9 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -444,10 +444,6 @@ void acpi_table_begin(AcpiTable *desc, GArray *array);
-  */
- void acpi_table_end(BIOSLinker *linker, AcpiTable *table);
++};
  
--void
--build_header(BIOSLinker *linker, GArray *table_data,
--             AcpiTableHeader *h, const char *sig, int len, uint8_t rev,
--             const char *oem_id, const char *oem_table_id);
- void *acpi_data_push(GArray *table_data, unsigned size);
- unsigned acpi_data_len(GArray *table);
- void acpi_add_table(GArray *table_offsets, GArray *table_data);
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index c0f339847a..76af0ebaf9 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1754,29 +1754,6 @@ void acpi_table_end(BIOSLinker *linker, AcpiTable *desc)
-         desc->table_offset, table_len, desc->table_offset + checksum_offset);
- }
- 
--void
--build_header(BIOSLinker *linker, GArray *table_data,
--             AcpiTableHeader *h, const char *sig, int len, uint8_t rev,
--             const char *oem_id, const char *oem_table_id)
--{
--    unsigned tbl_offset = (char *)h - table_data->data;
--    unsigned checksum_offset = (char *)&h->checksum - table_data->data;
--    memcpy(&h->signature, sig, 4);
--    h->length = cpu_to_le32(len);
--    h->revision = rev;
--
--    strpadcpy((char *)h->oem_id, sizeof h->oem_id, oem_id, ' ');
--    strpadcpy((char *)h->oem_table_id, sizeof h->oem_table_id,
--              oem_table_id, ' ');
--
--    h->oem_revision = cpu_to_le32(1);
--    memcpy(h->asl_compiler_id, ACPI_BUILD_APPNAME8, 4);
--    h->asl_compiler_revision = cpu_to_le32(1);
--    /* Checksum to be filled in by Guest linker */
--    bios_linker_loader_add_checksum(linker, ACPI_BUILD_TABLE_FILE,
--        tbl_offset, len, checksum_offset);
--}
--
- void *acpi_data_push(GArray *table_data, unsigned size)
- {
-     unsigned off = table_data->len;
+ typedef struct AcpiFadtData {
+     struct AcpiGenericAddress pm1a_cnt;   /* PM1a_CNT_BLK */
 -- 
 2.27.0
 
