@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B89D41787F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 18:28:19 +0200 (CEST)
-Received: from localhost ([::1]:46338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5733941792A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:02:54 +0200 (CEST)
+Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTo3d-0003NX-IE
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 12:28:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42816)
+	id 1mTob7-0005SH-1u
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:02:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mTo2B-0002UM-5e
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:26:47 -0400
-Received: from [115.28.160.31] (port=40718 helo=mailbox.box.xen0n.name)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mTo28-0007b0-MA
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:26:46 -0400
-Received: from [192.168.9.172] (unknown [101.88.29.172])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 701B560B0D;
- Sat, 25 Sep 2021 00:26:27 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632500787; bh=63zw+w5HmmCJ4TvSlKq7A14/IAGsOK7S72WT4rCqtic=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=EKkbOxrmvfm3L0gJO5CU0D55apS98lUzfiReHLYWO8WWyTYIDIFtxyGFPpf9zyOhY
- Lc9xiib9XDtWr/aRpZAVQ0iOvhrruhMNwFPKE0dohvDiVuooqQA4Y4eB7Z8DhD150V
- oujzQSIlMJQKtudhFernqO5vNWuA/QDdbOYwSejw=
-Message-ID: <21860285-7cec-28a7-0c01-5ab244d562ab@xen0n.name>
-Date: Sat, 25 Sep 2021 00:26:26 +0800
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mToXs-0002d3-Lx
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:33 -0400
+Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d]:35577)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mToXp-0006rM-VL
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:31 -0400
+Received: by mail-qv1-xf2d.google.com with SMTP id f2so6679745qvx.2
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 09:59:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cWn+D8WLEAHhYELSPFQ7ITM4yRpVArK0m6kKNDdRQLc=;
+ b=NHjWPdfgDggkYDvNPlPFkjhKeu5zYvaX37gvhJBHnpPvU+mfzCyg/rvq3s2Ijl7k1a
+ OytoywhhrR9Lh2l7WctrEBCG4TI78qqaaLp8k10tuPjozvcI6sz2W9HkN3zluts0pmJI
+ Odkel9q+ZFmkQ0tCPNtsI4feaKl4H5xheONbskSJer1ed9tVbtl26VlPWiMyWPNT/OrG
+ MXDofGAuJ6viioorhTni+wNbyCSILN9r1vCNB5CvKtK6Ci7H5jNBkBFZ2II9PmSe+Ghe
+ BaZVZXH5mBGUMycq6glK94kQDeHSk5fgvafuY9SK++r7fNWAtczK/zu+131chTDHjSBg
+ J1HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cWn+D8WLEAHhYELSPFQ7ITM4yRpVArK0m6kKNDdRQLc=;
+ b=eZDzwPgPn6pWupWWGZIH24UR5Du2hpjDMnXLyaUgl190uOVS7JJNqHtXohZa9uGztH
+ Km+3auboe0V4V1L9XJm8ib6PMJU7VMGzn+3UL6UijAxBCRIat6FkU/xYW8aZ4itTjgX8
+ Qqb0lCTY+8pjQZ2THTla6ZbgYwjcjV+B49IhYBoKfS3Yk3ygV0uFkVd2Ky9zf/dr05z/
+ IvYEzTmcsqjUvF/dx3yfqEe0HezOzC9cDQo3buoruSUj4H9k8myvaUed0cHOKHyDpYnx
+ bSIbjxpIrHjLN/wvBvkjhrKx3GXhURZaTasJkwLgW92IwXUKsFcqcAeE0/DxpEvq/3WX
+ Lj6A==
+X-Gm-Message-State: AOAM532AIEAeR+aHQ93/20ga/KVItvTPemrx1oluMVia1tNTEpYvQsUl
+ ThBYtu87bCFMr6kGpDP/pXFLb/4Cm5SagA==
+X-Google-Smtp-Source: ABdhPJwpxlFxORckEnQPc1Cg+FKE+sT+hrKhNVzohFaukn1UX4sHnPux6AGHjIUfbscS6suioahy0Q==
+X-Received: by 2002:a0c:906c:: with SMTP id o99mr11264531qvo.43.1632502768344; 
+ Fri, 24 Sep 2021 09:59:28 -0700 (PDT)
+Received: from localhost.localdomain (cpe-24-74-129-96.carolina.res.rr.com.
+ [24.74.129.96])
+ by smtp.gmail.com with ESMTPSA id r13sm7141104qkk.73.2021.09.24.09.59.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Sep 2021 09:59:28 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/27] linux-user: Move signal trampolines to new page
+Date: Fri, 24 Sep 2021 12:58:59 -0400
+Message-Id: <20210924165926.752809-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
- Thunderbird/94.0a1
-Subject: Re: [PATCH v3 09/30] tcg/loongarch64: Implement tcg_out_mov and
- tcg_out_movi
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
-References: <20210922180927.666273-1-git@xen0n.name>
- <20210922180927.666273-10-git@xen0n.name>
- <5ace7b10-b7de-46e2-2021-01129024ffe2@linaro.org>
- <7ca2e822-839f-96ab-9dc9-276565d03478@xen0n.name>
- <26730e70-e5be-1dd2-7c19-d4c6a82d36ec@linaro.org>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <26730e70-e5be-1dd2-7c19-d4c6a82d36ec@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,62 +82,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+Supercedes: 20210706234932.356913-1-richard.henderson@linaro.org
+("[PATCH v2 00/36] linux-user: Signal trampolines and vdsos")
 
-On 9/24/21 23:53, Richard Henderson wrote:
-> On 9/24/21 11:08 AM, WANG Xuerui wrote:
->> Oops, for some reason I only received this at about 8 pm...
->
-> That was my fault.  I wrote a bunch of stuff off-line yesterday while 
-> traveling, and the mail queue only flushed this morning.
->
-> I'll note there's a bug in my example code wrt initializing rd with 
-> addi, then overwriting with cu32i.d.
->
-> I like your v4 version of movi, with the high-bit-set predicate. The 
-> only case I can think of that you miss is e.g. 0x7fffffffffffffff, 
-> which can be
->
->     addi.w    rd, zero, -1
->     cu52i.d    rd, rd, 0x7ff
->
-> One possibility is to extract a subroutine:
->
-> static void tcg_out_movi_i32(TCGContext *s, TCGReg rd, int32_t val)
-> {
->     /* Single instruction cases */
->     /* else lu12i.w + ori */
-> }
->
-> static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
->                          tcg_target_long val)
-> {
->     if (type == TCG_TYPE_I32 || val == (int32_t)val) {
->         tcg_out_movi_i32(s, rd, val);
->         return;
->     }
->
->     /* PC-relative cases */
->
->     if (ctz64(val) >= 52) {
->         tcg_out_opc_cu52i_d(s, rd, TCG_REG_ZERO, val >> 52);
->         return;
->     }
->
->     /* Slow path.  Initialize the low 32-bits, then concat high bits. */
->     tcg_out_movi_i32(s, rd, val);
->
->     rd_high_bits_are_ones = (int32_t)val < 0);
->
->     /* Your imm_part_needs_loading checks; rd is always written. */
-> }
->
-This is so impressive understanding of the LoongArch assembly, working 
-around cu32i.d's single operand limitation so nicely. I'll just 
-(shamelessly) take this for v5, thanks again!
->
-> r~
+Changes for v3:
+  * Drop vdsos, reinstate setup_sigtramp for all targets.
+  * Incorporate nios2 kuser page emulation, which contains
+    the sigtramp for that target.
+
+Changes for v2:
+  * Add vdsos for aarch64, arm, i386, riscv.
+  * Drop setup_sigtramp for any target with a vdso.
+  * Drop arm v1 signal support.
+  * Simplify ppc encode_trampoline.
+
+
+r~
+
+
+Richard Henderson (27):
+  linux-user: Add infrastructure for a signal trampoline page
+  linux-user/aarch64: Implement setup_sigtramp
+  linux-user/arm: Drop v1 signal frames
+  linux-user/arm: Drop "_v2" from symbols in signal.c
+  linux-user/arm: Implement setup_sigtramp
+  linux-user/alpha: Implement setup_sigtramp
+  linux-user/cris: Implement setup_sigtramp
+  linux-user/hexagon: Implement setup_sigtramp
+  linux-user/hppa: Document non-use of setup_sigtramp
+  linux-user/i386: Implement setup_sigtramp
+  linux-user/x86_64: Raise SIGSEGV if SA_RESTORER not set
+  linux-user/m68k: Implement setup_sigtramp
+  linux-user/microblaze: Implement setup_sigtramp
+  linux-user/mips: Tidy install_sigtramp
+  linux-user/mips: Implement setup_sigtramp
+  linux-user/nios2: Properly emulate EXCP_TRAP
+  linux-user/nios2: Map a real kuser page
+  linux-user/nios2: Fixes for signal frame setup
+  linux-user/openrisc: Implement setup_sigtramp
+  linux-user/ppc: Simplify encode_trampoline
+  linux-user/ppc: Implement setup_sigtramp
+  linux-user/riscv: Implement setup_sigtramp
+  linux-user/s390x: Implement setup_sigtramp
+  linux-user/sh4: Implement setup_sigtramp
+  linux-user/sparc: Implement setup_sigtramp
+  linux-user/xtensa: Implement setup_sigtramp
+  linux-user: Remove default for TARGET_ARCH_HAS_SIGTRAMP_PAGE
+
+ linux-user/aarch64/target_signal.h    |   2 +
+ linux-user/alpha/target_signal.h      |   1 +
+ linux-user/arm/target_signal.h        |   2 +
+ linux-user/cris/target_signal.h       |   2 +
+ linux-user/hexagon/target_signal.h    |   2 +
+ linux-user/hppa/target_signal.h       |  14 +
+ linux-user/i386/target_signal.h       |   2 +
+ linux-user/m68k/target_signal.h       |   2 +
+ linux-user/microblaze/target_signal.h |   2 +
+ linux-user/mips/target_signal.h       |   1 +
+ linux-user/mips64/target_signal.h     |   2 +
+ linux-user/nios2/target_signal.h      |   3 +
+ linux-user/openrisc/target_signal.h   |   2 +
+ linux-user/ppc/target_signal.h        |   2 +
+ linux-user/riscv/target_signal.h      |   2 +
+ linux-user/s390x/target_signal.h      |   2 +
+ linux-user/sh4/target_signal.h        |   2 +
+ linux-user/signal-common.h            |   6 +
+ linux-user/sparc/target_signal.h      |   4 +
+ linux-user/x86_64/target_signal.h     |   3 +
+ linux-user/xtensa/target_signal.h     |   2 +
+ target/nios2/cpu.h                    |   5 +-
+ linux-user/aarch64/signal.c           |  34 +-
+ linux-user/alpha/signal.c             |  34 +-
+ linux-user/arm/signal.c               | 590 ++++++++++----------------
+ linux-user/cris/signal.c              |  29 +-
+ linux-user/elfload.c                  |  49 +++
+ linux-user/hexagon/signal.c           |  19 +-
+ linux-user/i386/signal.c              |  65 ++-
+ linux-user/m68k/signal.c              |  47 +-
+ linux-user/microblaze/signal.c        |  24 +-
+ linux-user/mips/signal.c              |  39 +-
+ linux-user/nios2/cpu_loop.c           |  84 ++--
+ linux-user/nios2/signal.c             |  51 +--
+ linux-user/openrisc/signal.c          |  22 +-
+ linux-user/ppc/signal.c               |  40 +-
+ linux-user/riscv/signal.c             |  22 +-
+ linux-user/s390x/signal.c             |  24 +-
+ linux-user/sh4/signal.c               |  40 +-
+ linux-user/signal.c                   |   3 +
+ linux-user/sparc/signal.c             |  40 +-
+ linux-user/xtensa/signal.c            |  56 ++-
+ target/nios2/translate.c              |  26 +-
+ 43 files changed, 744 insertions(+), 659 deletions(-)
+
+-- 
+2.25.1
+
 
