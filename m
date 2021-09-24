@@ -2,130 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ABAD416F0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 11:36:25 +0200 (CEST)
-Received: from localhost ([::1]:46404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950EB416F3C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 11:41:56 +0200 (CEST)
+Received: from localhost ([::1]:52716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mThd2-0000WG-MI
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 05:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40536)
+	id 1mThiM-0005Xz-Gf
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 05:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1mThbJ-0008Fa-TB
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:34:38 -0400
-Received: from mail-mw2nam10on2060b.outbound.protection.outlook.com
- ([2a01:111:f400:7e89::60b]:60481
- helo=NAM10-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1mThbH-0002GD-1V
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:34:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=neF4mxu9spzYiz0SgYNhdl7Lth9T/cVpU/0YNyjbdKEPuhIUrCM7DyaIjoIwFFeDYx+TWA+8VsneYxSkMM+37cnZzhHEIG7sQQullvfMn7dNg7HWmIWbB5BxRh/AocJf6LyI4LM9ifrvQiNi9/GAoTsEojWCBqJ5R+3mKi/6h+oV39glbIneJzmRpX17fP2nXAAXpZYfMx6rCMwZUrsdwee16UdZ7LJY6ltJmpdnjStPSYRXUeGfvnizlErvP+GaSSYNCKoTp7zMSRJ/y2SZJrS20PVCHEGVSxE9FauGx2uqFTedSY9U7hSndLpGX0YyWovK1SdOMTVLWSH+Er9LuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=QBoNq5MtWXgIX/iicT5nd+zPLHZs1Zt5/TqWyNtTldY=;
- b=n8HbL8wdU0wLk/fvioEDjbpAjGK7UjZtQ88Y2pCX366mMhTn42EWT3IxFtfSlZdoh9nDtQ4glycWL2E9h1FEAbyVixbGzcDr0BVRFnUHB6wOeYu0SJ9jkqULq5SVa9IYFAdw+pL8imIijaTURqr4J9QqYc/GnvKa20cqG0ewn2hQw9XlwSKgiQb5Rh3/iWhL2k1hMq0ePdPkRF3wkFMlNvtD4hYvQqnTnee/dxRtBTxXkwrlrUUrIDTuTfSkAYs+Pmm91IjQlrRvDOt40yw341gKBty6L9OMsWhVL7Lw1jBzuahGK05aSFD12TNY99aW8B42dAUB6nsdoQLWMWva7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=huawei.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com; 
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QBoNq5MtWXgIX/iicT5nd+zPLHZs1Zt5/TqWyNtTldY=;
- b=Cqp0SQPwWz7BtOyFi95b/h4Kqlv+vqodjuS3OToISk6d0RmXJyXU6cyt9TSYYduVdGTPOzZMZ2YDNFYaG8wYIy/iOC9SkXLBKTshtljv+EUzjQ/oO6FxPNIU7lxPM0XW57PivJufnU3f4ZEQaG1UkGMJTjVbT89HNxWs+SXTki4tv23xbHSvUfSJAoFqxHWc+eAyhsKLH5qB2smc7MryCQGhZjLqLRTG4qlgbkRKpXC8UyhuNYqOhxtoDSFq1Yq/zS0oljkkaHepCGhEfT5XrB4Yx9+JYO/wdwtRkHPhgF/z/cSOyMMpLlg5O1Keg55eNk5BdyGaSngW0/Yh8aSeZw==
-Received: from DS7PR06CA0012.namprd06.prod.outlook.com (2603:10b6:8:2a::22) by
- CH2PR12MB3974.namprd12.prod.outlook.com (2603:10b6:610:2e::27) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4544.13; Fri, 24 Sep 2021 09:29:29 +0000
-Received: from DM6NAM11FT058.eop-nam11.prod.protection.outlook.com
- (2603:10b6:8:2a:cafe::b2) by DS7PR06CA0012.outlook.office365.com
- (2603:10b6:8:2a::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13 via Frontend
- Transport; Fri, 24 Sep 2021 09:29:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; huawei.com; dkim=none (message not signed)
- header.d=none;huawei.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT058.mail.protection.outlook.com (10.13.172.216) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4544.13 via Frontend Transport; Fri, 24 Sep 2021 09:29:29 +0000
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 24 Sep
- 2021 09:29:28 +0000
-Received: from [10.40.102.56] (172.20.187.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 24 Sep
- 2021 09:29:23 +0000
-Subject: Re: [question] VFIO Device Migration: The vCPU may be paused during
- vfio device DMA in iommu nested stage mode && vSVA
-To: "Tian, Kevin" <kevin.tian@intel.com>, Kunkun Jiang
- <jiangkunkun@huawei.com>, Tarun Gupta <targupta@nvidia.com>, Alex Williamson
- <alex.williamson@redhat.com>, Eric Auger <eric.auger@redhat.com>, "Shameer
- Kolothum" <shameerali.kolothum.thodi@huawei.com>, "open list:All patches CC
- here" <qemu-devel@nongnu.org>
-CC: "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>, Zenghui Yu
- <yuzenghui@huawei.com>, Keqian Zhu <zhukeqian1@huawei.com>,
- "liulongfang@huawei.com" <liulongfang@huawei.com>, "tangnianyao@huawei.com"
- <tangnianyao@huawei.com>, "Liu, Yi L" <yi.l.liu@intel.com>, "Zhao, Yan Y"
- <yan.y.zhao@intel.com>
-References: <7494b6a8-8dae-cbe9-fcff-29e10a4f0015@huawei.com>
- <BN9PR11MB5433E189EEC102256A3348A18CA49@BN9PR11MB5433.namprd11.prod.outlook.com>
-X-Nvconfidentiality: public
-From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <06cb5bfd-f6f8-b61b-1a7e-60a9ae2f8fac@nvidia.com>
-Date: Fri, 24 Sep 2021 14:59:20 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mThfR-0002Z4-OI
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:38:54 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:38815)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mThfP-0005oV-Lu
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:38:53 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id u18so25539227wrg.5
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 02:38:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JvnpVVImzxRUAkiErIl1yb3T+bTJx0akVuGOL1sDX9w=;
+ b=CDMFFMmokn3JqF0zJlToOGb4JpeYq0klq2nsClc4Lj1G+AaTPuSLHxedxXJ/u1oeHY
+ ftJVVeHs1nMkG08DlUYBDFtpv+Psri8jmDr6sBoE8SoxGKzTMpw0OLEp5IASYzNzJr8R
+ LeUbj29qp7F3Vw5PEmcDcQxpDju6z3joLtNnkm0p6vmOvGF81/JgmdHpoi3PU3kBQ+42
+ eqOpSbaYkQai/sAf0VBev0lXBZZpGxQgzX+yBeG8JZM9f+XSUqInOl7IN+Qlr5E5xC8r
+ ZdhGr0XAgjzDQ64JsviX7JZgloy59795uBqzEvVy19VFlSTer7vRysr7FMe2SH0/j2dK
+ AgYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=JvnpVVImzxRUAkiErIl1yb3T+bTJx0akVuGOL1sDX9w=;
+ b=u7bIs0At6R8j2l43Bxt5ahQFwVnpIOPNrsB7wv+b3TzFJi4sUeEy4Q//xFsesi4BpM
+ 5mcwVDRAp1fOcCdec5mpYFTY8XDPdO+W/gRLuLXN/xUjD9vwdB4dBwmT33kojx50cmBD
+ CE1hcPONdb/rGNt3k4QMpTxbCbenDdVZPRMq7qg7ULIDU5v/Htiy6nyhVuE/LWO+ikm+
+ 8C2fLwOveKPFeZ25uhzZI0l0zs+7hs/UYPhsSxhqz+ffWZrAZFbBD3kJx1Ls4O4RW4jK
+ DTxZeUVS4N33B2pW6rM0XK/KSZrh6B72YED0ggNZC5ahvj9SR2gjMfc1Vz5Ukru2+2xy
+ k3Eg==
+X-Gm-Message-State: AOAM531LQXu0e1LxfsIt4ItxXut9IW1nCITySYqIJlxIe1Dy5D7gKrBb
+ IvkZu+dE6/GMN4VLXdhsGstTCiWyPlM=
+X-Google-Smtp-Source: ABdhPJxc0qFvwz/qYGStyEUpsltUOXTyRyHnRfoHUhqa0oEtEjEkILszU8wDy4yLxZtKeKDEumRG1w==
+X-Received: by 2002:a7b:cd8a:: with SMTP id y10mr1004214wmj.73.1632476329387; 
+ Fri, 24 Sep 2021 02:38:49 -0700 (PDT)
+Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id
+ g22sm10888276wmp.39.2021.09.24.02.38.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Sep 2021 02:38:48 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 00/40] accel: Move has_work() from CPUClass to AccelOpsClass
+Date: Fri, 24 Sep 2021 11:38:07 +0200
+Message-Id: <20210924093847.1014331-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <BN9PR11MB5433E189EEC102256A3348A18CA49@BN9PR11MB5433.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ce8a1223-e4f4-465e-16d6-08d97f3dcef6
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3974:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB3974B1A8F47255FA054CADA7DCA49@CH2PR12MB3974.namprd12.prod.outlook.com>
-X-MS-Exchange-Transport-Forked: True
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Hrn/CKjczMZGRPeWuj4Vsa4CZxLePX5DZVahTb+N0jyF1/RrBedeJMf2LYaadcSdkrzETo/Y5ulV7MfXwyd54rTGGr4wQx4CYDJ67UvwxAsS8LTAIsfm5By5QU8TjZ9XSwKMXUlv4ymnILcHhK+BuvI2C70HvDww6+0uO4++YYABCcsmmYyvNJ3gds4PzxejE85EOgYbZ5eK4rZYtRnVxFeccy3d1i/l4z9hgP5TbpHfgQgyC2uGUNtWH7wRol0advPHPbsJdQkHexe1lMujcOtUzbUeKFdskOSiskkf3pytX11qGTCi0tnaw9QBpJ9ITrSvCC1ogCM/IBnqFWpLZEwtP3HDxohbufBhmxnP1XpT9iik0aN/zfarBYfuaABGGe3QW6cI90x92P8EFj3FgBWAfPiKsPw6JMrM3TENA77ZvORbqI7dMcadjEpHwaBL3Dnn3FO+5LbNrDSjF4QppuHn4vT56raVO2TNs3qxGvNat9n6dAbZsyVycbEEvOplSVbQA4+LcpkkWg7PYU5Htm8M0BBJ0ZuncVVfiZ35HEx8+TmIMiPdT1o5rzEciEywUuwIBRWeemDEiSHTJ+q7tWAFvHjRkco6wCKAT8dVfVizNjlM+bB4VeeAJxROw5zibtYP3YNe0tN0mkzTYhj1I1qosasVeAyXrATAu6aHNET+JZ5kCWjtvqD0baHsam2bxvymzPwsHfJ0RoEiVP7ApUMABZIjgbSoWGVrTwDoubU=
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(53546011)(83380400001)(16576012)(31686004)(2906002)(5660300002)(16526019)(8936002)(316002)(36906005)(31696002)(110136005)(54906003)(70206006)(8676002)(26005)(426003)(186003)(70586007)(36756003)(86362001)(47076005)(36860700001)(2616005)(508600001)(82310400003)(336012)(356005)(7636003)(4326008)(7416002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2021 09:29:29.0563 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce8a1223-e4f4-465e-16d6-08d97f3dcef6
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT058.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3974
-Received-SPF: softfail client-ip=2a01:111:f400:7e89::60b;
- envelope-from=kwankhede@nvidia.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,99 +83,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 9/24/2021 12:17 PM, Tian, Kevin wrote:
->> From: Kunkun Jiang <jiangkunkun@huawei.com>
->> Sent: Friday, September 24, 2021 2:19 PM
->>
->> Hi all,
->>
->> I encountered a problem in vfio device migration test. The
->> vCPU may be paused during vfio-pci DMA in iommu nested
->> stage mode && vSVA. This may lead to migration fail and
->> other problems related to device hardware and driver
->> implementation.
->>
->> It may be a bit early to discuss this issue, after all, the iommu
->> nested stage mode and vSVA are not yet mature. But judging
->> from the current implementation, we will definitely encounter
->> this problem in the future.
-> 
-> Yes, this is a known limitation to support migration with vSVA.
-> 
->>
->> This is the current process of vSVA processing translation fault
->> in iommu nested stage mode (take SMMU as an example):
->>
->> guest os            4.handle translation fault 5.send CMD_RESUME to vSMMU
->>
->>
->> qemu                3.inject fault into guest os 6.deliver response to
->> host os
->> (vfio/vsmmu)
->>
->>
->> host os              2.notify the qemu 7.send CMD_RESUME to SMMU
->> (vfio/smmu)
->>
->>
->> SMMU              1.address translation fault              8.retry or
->> terminate
->>
->> The order is 1--->8.
->>
->> Currently, qemu may pause vCPU at any step. It is possible to
->> pause vCPU at step 1-5, that is, in a DMA. This may lead to
->> migration fail and other problems related to device hardware
->> and driver implementation. For example, the device status
->> cannot be changed from RUNNING && SAVING to SAVING,
->> because the device DMA is not over.
->>
->> As far as i can see, vCPU should not be paused during a device
->> IO process, such as DMA. However, currently live migration
->> does not pay attention to the state of vfio device when pausing
->> the vCPU. And if the vCPU is not paused, the vfio device is
->> always running. This looks like a *deadlock*.
-> 
-> Basically this requires:
-> 
-> 1) stopping vCPU after stopping device (could selectively enable
-> this sequence for vSVA);
-> 
-
-I don't think this is change is required. When vCPUs are at halt vCPU 
-states are already saved, step 4 or 5 will be taken care by that. Then 
-when device is transitioned in SAVING state, save qemu and host os state 
-in the migration stream, i.e. state at step 2 and 3, depending on that 
-take action while resuming, about step 6 or 7 to run.
-
-Thanks,
-Kirti
-
-> 2) when stopping device, the driver should block new requests
-> from vCPU (queued to a pending list) and then drain all in-fly
-> requests including faults;
->      * to block this further requires switching from fast-path to
-> slow trap-emulation path for the cmd portal before stopping
-> the device;
-> 
-> 3) save the pending requests in the vm image and replay them
-> after the vm is resumed;
->      * finally disable blocking by switching back to the fast-path for
-> the cmd portal;
-> 
->>
->> Do you have any ideas to solve this problem?
->> Looking forward to your replay.
->>
-> 
-> We verified above flow can work in our internal POC.
-> 
-> Thanks
-> Kevin
-> 
+Hi,=0D
+=0D
+CPU has_work() is a per-accelerator handler. This series is organized=0D
+in 2 parts:=0D
+- Patches 1-15: Move has_work() from CPUClass to AccelOpsClass=0D
+- Patches 16-40: Move remainging has_work() to TCGCPUOps=0D
+=0D
+I prefer to send as a single big series to be sure it is merged=0D
+at once, since the 2nd part logic (TCGCPUOps) is related to the=0D
+end of the first part (we proved remaining CPUClass::has_work=0D
+handlers are TCG specific, thus can be moved to TCGCPUOps).=0D
+=0D
+Missing review:=0D
+0001-accel-Simplify-qemu_init_vcpu.patch=0D
+0005-hw-core-Move-cpu_common_has_work-to-cpu_has_work.patch=0D
+0006-accel-Introduce-AccelOpsClass-has_work.patch=0D
+0009-accel-hvf-Implement-AccelOpsClass-has_work.patch=0D
+0010-accel-xen-Implement-AccelOpsClass-has_work.patch=0D
+0011-accel-hax-Implement-AccelOpsClass-has_work.patch=0D
+0012-accel-nvmm-Implement-AccelOpsClass-has_work.patch=0D
+0013-accel-qtest-Implement-AccelOpsClass-has_work.patch=0D
+0014-accel-tcg-Implement-AccelOpsClass-has_work.patch=0D
+0015-accel-Simplify-cpu_has_work.patch=0D
+0016-accel-tcg-Introduce-TCGCPUOps-has_work.patch=0D
+0017-target-arm-Explicit-v7M-cores-use-arm_cpu_has_work-a.patch=0D
+0018-target-arm-Restrict-has_work-handler-to-sysemu-and-T.patch=0D
+0039-accel-tcg-Remove-CPUClass-has_work.patch=0D
+0040-accel-tcg-Simplify-tcg_cpu_has_work.patch=0D
+=0D
+Since v5:=0D
+- Rework ARM v7M case (pm215)=0D
+- Reorder patch logic (rth)=0D
+=0D
+Since v4:=0D
+- Implement arm_v7m_cpu_has_work() (new patch)=0D
+- Assert has_work() handlers are set, don't use default value=0D
+- Fix ARM v7M and cris CPUs=0D
+- Reset R-b tags on modified patches=0D
+=0D
+Since v3:=0D
+- Remove pointless CONFIG_TCG uses (rth)=0D
+- Rework PPC patches, still using indirection=0D
+=0D
+Since v2:=0D
+- Full rewrite, no more RFC.=0D
+=0D
+Supersedes: <20210920214447.2998623-1-f4bug@amsat.org>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (40):=0D
+  accel: Simplify qemu_init_vcpu()=0D
+  accel/tcg: Restrict cpu_handle_halt() to sysemu=0D
+  hw/core: Restrict cpu_has_work() to sysemu=0D
+  hw/core: Un-inline cpu_has_work()=0D
+  hw/core: Move cpu_common_has_work() to cpu_has_work()=0D
+  accel: Introduce AccelOpsClass::has_work()=0D
+  accel/kvm: Implement AccelOpsClass::has_work()=0D
+  accel/whpx: Implement AccelOpsClass::has_work()=0D
+  accel/hvf: Implement AccelOpsClass::has_work()=0D
+  accel/xen: Implement AccelOpsClass::has_work()=0D
+  accel/hax: Implement AccelOpsClass::has_work()=0D
+  accel/nvmm: Implement AccelOpsClass::has_work()=0D
+  accel/qtest: Implement AccelOpsClass::has_work()=0D
+  accel/tcg: Implement AccelOpsClass::has_work()=0D
+  accel: Simplify cpu_has_work()=0D
+  accel/tcg: Introduce TCGCPUOps::has_work()=0D
+  target/arm: Explicit v7M cores use arm_cpu_has_work as=0D
+    CPUClass:has_work=0D
+  target/arm: Restrict has_work() handler to sysemu and TCG=0D
+  target/avr: Restrict has_work() handler to sysemu=0D
+  target/cris: Restrict has_work() handler to sysemu=0D
+  target/hexagon: Remove unused has_work() handler=0D
+  target/hppa: Restrict has_work() handler to sysemu=0D
+  target/i386: Restrict has_work() handler to sysemu and TCG=0D
+  target/m68k: Restrict has_work() handler to sysemu=0D
+  target/microblaze: Restrict has_work() handler to sysemu=0D
+  target/mips: Restrict has_work() handler to sysemu and TCG=0D
+  target/nios2: Restrict has_work() handler to sysemu=0D
+  target/openrisc: Restrict has_work() handler to sysemu=0D
+  target/ppc: Introduce PowerPCCPUClass::has_work()=0D
+  target/ppc: Restrict has_work() handlers to sysemu and TCG=0D
+  target/riscv: Restrict has_work() handler to sysemu and TCG=0D
+  target/rx: Restrict has_work() handler to sysemu=0D
+  target/s390x: Restrict has_work() handler to sysemu and TCG=0D
+  target/sh4: Restrict has_work() handler to sysemu=0D
+  target/sparc: Remove pointless use of CONFIG_TCG definition=0D
+  target/sparc: Restrict has_work() handler to sysemu=0D
+  target/tricore: Restrict has_work() handler to sysemu=0D
+  target/xtensa: Restrict has_work() handler to sysemu=0D
+  accel/tcg: Remove CPUClass::has_work()=0D
+  accel/tcg: Simplify tcg_cpu_has_work()=0D
+=0D
+ include/hw/core/cpu.h             | 28 +++++++++--------------=0D
+ include/hw/core/tcg-cpu-ops.h     |  4 ++++=0D
+ include/sysemu/accel-ops.h        |  5 +++++=0D
+ target/arm/internals.h            |  4 ++++=0D
+ target/ppc/cpu-qom.h              |  3 +++=0D
+ accel/hvf/hvf-accel-ops.c         |  6 +++++=0D
+ accel/kvm/kvm-accel-ops.c         |  6 +++++=0D
+ accel/qtest/qtest.c               |  6 +++++=0D
+ accel/tcg/cpu-exec.c              | 10 +++++++--=0D
+ accel/tcg/tcg-accel-ops.c         |  9 ++++++++=0D
+ accel/xen/xen-all.c               |  6 +++++=0D
+ hw/core/cpu-common.c              |  6 -----=0D
+ softmmu/cpus.c                    | 17 +++++++++-----=0D
+ target/arm/cpu.c                  |  9 +++++---=0D
+ target/arm/cpu_tcg.c              |  1 +=0D
+ target/avr/cpu.c                  |  2 +-=0D
+ target/cris/cpu.c                 |  5 ++++-=0D
+ target/hexagon/cpu.c              |  6 -----=0D
+ target/hppa/cpu.c                 |  4 +++-=0D
+ target/i386/cpu.c                 |  6 -----=0D
+ target/i386/hax/hax-accel-ops.c   |  6 +++++=0D
+ target/i386/nvmm/nvmm-accel-ops.c |  6 +++++=0D
+ target/i386/tcg/tcg-cpu.c         |  8 ++++++-=0D
+ target/i386/whpx/whpx-accel-ops.c |  6 +++++=0D
+ target/m68k/cpu.c                 |  4 +++-=0D
+ target/microblaze/cpu.c           |  8 +++----=0D
+ target/mips/cpu.c                 |  4 +++-=0D
+ target/nios2/cpu.c                |  4 +++-=0D
+ target/openrisc/cpu.c             |  4 +++-=0D
+ target/ppc/cpu_init.c             | 37 ++++++++++++++++++++++---------=0D
+ target/riscv/cpu.c                |  8 +++----=0D
+ target/rx/cpu.c                   |  4 +++-=0D
+ target/s390x/cpu.c                |  4 +++-=0D
+ target/sh4/cpu.c                  |  5 +++--=0D
+ target/sparc/cpu.c                |  6 ++---=0D
+ target/tricore/cpu.c              |  6 ++++-=0D
+ target/xtensa/cpu.c               | 14 ++++++------=0D
+ 37 files changed, 189 insertions(+), 88 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
