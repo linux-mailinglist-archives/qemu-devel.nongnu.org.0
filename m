@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EFFD4179DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:32:27 +0200 (CEST)
-Received: from localhost ([::1]:45120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7BB14179F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:43:17 +0200 (CEST)
+Received: from localhost ([::1]:38778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTp3i-0003Dr-GR
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:32:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51002)
+	id 1mTpEC-0001en-QU
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:43:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mTooV-0001Rz-UQ
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:16:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34334)
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mToxR-0005ai-Si
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:25:57 -0400
+Received: from [115.28.160.31] (port=41314 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mTooP-00042L-VF
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:16:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632503796;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=obHuvU0AvKjKglydsjzXA6Xd5nWp/SnZZBpvDBLsXQc=;
- b=Zw5eld2Uo336pzus8QGHubj2b/kS7+gnbT9ZlUs5+dCR1vLvi2OhXB5f//Lpm0ZgLeACOh
- 4XEGzn+8SSbU4r+7NJ9q+n9x9ZIVGglBsFPSIZWFBjNyG4IMDuYYlOMNXbeK0i8DonDpwm
- ev202Bp1YtvlMHEQD2BSSuq5UNCxLLg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-NfTKncGGNtCNeFRT_AAexQ-1; Fri, 24 Sep 2021 13:16:25 -0400
-X-MC-Unique: NfTKncGGNtCNeFRT_AAexQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mToxN-0003RW-Kk
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 13:25:57 -0400
+Received: from ld50.lan (unknown [101.88.29.172])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BE091922036
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 17:16:24 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.100])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C26A6A905;
- Fri, 24 Sep 2021 17:16:07 +0000 (UTC)
-Date: Fri, 24 Sep 2021 18:16:04 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v3 1/3] QIOChannel: Add io_async_writev & io_async_flush
- callbacks
-Message-ID: <YU4H1HwsiAO3KM6r@redhat.com>
-References: <20210922222423.644444-1-leobras@redhat.com>
- <20210922222423.644444-2-leobras@redhat.com>
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 4518060B0D;
+ Sat, 25 Sep 2021 01:25:35 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1632504335; bh=QZXpR0PApbngbX4D5DvnEqfRMxshhGVLW4B6Z6GleG0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=rY9ZBabmpCBggCwUJR2OQdkDSt/xxDKlGc/XSJwJXw88IOqWIgHwjEIC+pZCaomwz
+ DW5K0I8U4IZd1s+wMpaPBW9kjSi7bsjTDb04izssM8QWGOQyyXcEiD2In4UIx2STOR
+ 3VTRUtkccnVii+MraAsGvGJccE2y7VLzzlmijMtg=
+From: WANG Xuerui <git@xen0n.name>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/30] LoongArch64 port of QEMU TCG
+Date: Sat, 25 Sep 2021 01:24:57 +0800
+Message-Id: <20210924172527.904294-1-git@xen0n.name>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <20210922222423.644444-2-leobras@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,321 +58,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: WANG Xuerui <git@xen0n.name>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 22, 2021 at 07:24:21PM -0300, Leonardo Bras wrote:
-> Adds io_async_writev and io_async_flush as optional callback to QIOChannelClass,
-> allowing the implementation of asynchronous writes by subclasses.
-> 
-> How to use them:
-> - Write data using qio_channel_async_writev(),
-> - Wait write completion with qio_channel_async_flush().
-> 
-> Notes:
-> Some asynchronous implementations may benefit from zerocopy mechanisms, so it's
-> recommended to keep the write buffer untouched until the return of
-> qio_channel_async_flush().
-> 
-> As the new callbacks are optional, if a subclass does not implement them
-> there will be a fallback to the mandatory synchronous implementation:
-> - io_async_writev will fallback to io_writev,
-> - io_async_flush will return without changing anything.
-> This makes simpler for the user to make use of the asynchronous implementation.
-> 
-> Also, some functions like qio_channel_writev_full_all() were adapted to
-> offer an async version, and make better use of the new callbacks.
-> 
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> ---
->  include/io/channel.h | 93 +++++++++++++++++++++++++++++++++++++-------
->  io/channel.c         | 66 ++++++++++++++++++++++++-------
->  2 files changed, 129 insertions(+), 30 deletions(-)
-> 
-> diff --git a/include/io/channel.h b/include/io/channel.h
-> index 88988979f8..74f2e3ae8a 100644
-> --- a/include/io/channel.h
-> +++ b/include/io/channel.h
-> @@ -136,6 +136,14 @@ struct QIOChannelClass {
->                                    IOHandler *io_read,
->                                    IOHandler *io_write,
->                                    void *opaque);
-> +    ssize_t (*io_async_writev)(QIOChannel *ioc,
-> +                               const struct iovec *iov,
-> +                               size_t niov,
-> +                               int *fds,
-> +                               size_t nfds,
-> +                               Error **errp);
-> +   void (*io_async_flush)(QIOChannel *ioc,
-> +                          Error **errp);
->  };
->  
->  /* General I/O handling functions */
-> @@ -255,12 +263,17 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
->   * or QIO_CHANNEL_ERR_BLOCK if no data is can be sent
->   * and the channel is non-blocking
->   */
-> -ssize_t qio_channel_writev_full(QIOChannel *ioc,
-> -                                const struct iovec *iov,
-> -                                size_t niov,
-> -                                int *fds,
-> -                                size_t nfds,
-> -                                Error **errp);
-> +ssize_t __qio_channel_writev_full(QIOChannel *ioc,
+Hi all,
 
-Using "__" is undesirable as that namespace is reserved.
+This is a port of QEMU TCG to the brand-new CPU architecture LoongArch,
+introduced by Loongson with their 3A5000 chips.
 
-> +                                  const struct iovec *iov,
-> +                                  size_t niov,
-> +                                  int *fds,
-> +                                  size_t nfds,
-> +                                  bool async,
-> +                                  Error **errp);
-> +#define qio_channel_writev_full(ioc, iov, niov, fds, nfds, errp) \
-> +    __qio_channel_writev_full(ioc, iov, niov, fds, nfds, false, errp)
-> +#define qio_channel_async_writev_full(ioc, iov, niov, fds, nfds, errp) \
-> +    __qio_channel_writev_full(ioc, iov, niov, fds, nfds, true, errp)
+Tests (run with `ninja test`) all passed, as usual; I also boot-tested
+x86_64 (Debian and Gentoo installation CDs) and install-tested aarch64
+(Debian netboot installer), and ran riscv64 linux-user emulation with a
+chroot; everything seems fine.
 
-The API docs only cover the first function, not the second.
+## About the series
 
+Only the LP64 ABI is supported, as this is the only one fully
+implemented and supported by Loongson. 32-bit support is incomplete from
+outset, and removed from the very latest upstream submissions, so you
+can't even configure for that.
 
->  /**
->   * qio_channel_readv_all_eof:
-> @@ -339,10 +352,15 @@ int qio_channel_readv_all(QIOChannel *ioc,
->   *
->   * Returns: 0 if all bytes were written, or -1 on error
->   */
-> -int qio_channel_writev_all(QIOChannel *ioc,
-> -                           const struct iovec *iov,
-> -                           size_t niov,
-> -                           Error **erp);
-> +int __qio_channel_writev_all(QIOChannel *ioc,
-> +                             const struct iovec *iov,
-> +                             size_t niov,
-> +                             bool async,
-> +                             Error **erp);
-> +#define qio_channel_writev_all(ioc, iov, niov, erp) \
-> +    __qio_channel_writev_all(ioc, iov, niov, false, erp)
-> +#define qio_channel_async_writev_all(ioc, iov, niov, erp) \
-> +    __qio_channel_writev_all(ioc, iov, niov, true, erp)
+The architecture's documentation is already translated into English;
+it can be browsed at https://loongson.github.io/LoongArch-Documentation/.
+The LoongArch ELF psABI doc (version 1.00) could be found at [1];
+if anything is missing there, it's most likely the same as RISC-V, but
+you can always raise an issue over their issue tracker at [2].
 
+[1]: https://loongson.github.io/LoongArch-Documentation/LoongArch-ELF-ABI-EN.html
+[2]: https://github.com/loongson/LoongArch-Documentation/issues
 
->  
->  /**
->   * qio_channel_readv:
-> @@ -849,10 +867,55 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
->   * Returns: 0 if all bytes were written, or -1 on error
->   */
->  
-> -int qio_channel_writev_full_all(QIOChannel *ioc,
-> -                                const struct iovec *iov,
-> -                                size_t niov,
-> -                                int *fds, size_t nfds,
-> -                                Error **errp);
-> +int __qio_channel_writev_full_all(QIOChannel *ioc,
-> +                                  const struct iovec *iov,
-> +                                  size_t niov,
-> +                                  int *fds, size_t nfds,
-> +                                  bool async, Error **errp);
-> +#define qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, errp) \
-> +    __qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, false, errp)
-> +#define qio_channel_async_writev_full_all(ioc, iov, niov, fds, nfds, errp) \
-> +    __qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, true, errp)
-> +
-> +/**
-> + * qio_channel_async_writev:
-> + * @ioc: the channel object
-> + * @iov: the array of memory regions to write data from
-> + * @niov: the length of the @iov array
-> + * @fds: an array of file handles to send
-> + * @nfds: number of file handles in @fds
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + * Behaves like qio_channel_writev_full, but will send
-> + * data asynchronously, this meaning this function
-> + * may return before the data is actually sent.
-> + *
-> + * If at some point it's necessary wait for all data to be
-> + * sent, use qio_channel_async_flush().
-> + *
-> + * If not implemented, falls back to the default writev
-> + */
+In this series I made use of generated instruction encodings and
+emitters from https://github.com/loongson-community/loongarch-opcodes
+(a community project started by myself, something I must admit), as the
+LoongArch encoding is highly irregular even for a fixed 32-bit ISA, and
+I want to minimize the maintenance burden for future collaboration. This
+is something not seen in any of the other TCG ports out there, so I'd
+like to see if this is acceptable practice (and also maybe bikeshed the
+file name).
 
-I'm not convinced by the fallback here. If you're
-layering I/O channels this is not going to result in
-desirable behaviour.
+This series touches some of the same files as Song Gao's previous
+submission of LoongArch *target* support, which is a bit unfortunate;
+one of us will have to rebase after either series gets in. Actual
+conflict should only happen on build system bits and include/elf.h,
+though, as we're working on entirely different areas.
 
-eg if QIOChannelTLS doesn't implement async, then when
-you call async_writev, it'lll invoke sync writev on
-the QIOChannelTLS, which will in turn invoke the sync
-writev on QIOChannelSocket, despite the latter having
-async writev support.  I think this is very misleading
-behaviour
+## How to build and test this
 
-> +ssize_t qio_channel_async_writev(QIOChannel *ioc,
-> +                                 const struct iovec *iov,
-> +                                 size_t niov,
-> +                                 int *fds,
-> +                                 size_t nfds,
-> +                                 Error **errp);
+Upstream support for LoongArch is largely WIP for now, which means you
+must apply a lot of patches if you want to even cross-build for this arch.
+The main sources I used are as follows:
 
-This is missing any flags. We need something like
+* binutils: https://github.com/xen0n/binutils-gdb/tree/for-gentoo-2.37-v2
+  based on https://github.com/loongson/binutils-gdb/tree/loongarch/upstream_v6_a1d65b3
+* gcc: https://github.com/xen0n/gcc/tree/for-gentoo-gcc-12-v2
+  based on https://github.com/loongson/gcc/tree/loongarch_upstream
+* glibc: https://github.com/xen0n/glibc/tree/for-gentoo-glibc-2.34
+  based on https://github.com/loongson/glibc/tree/loongarch_2_34_for_upstream
+* Linux: https://github.com/xen0n/linux/tree/loongarch-playground
+  based on https://github.com/loongson/linux/tree/loongarch-next
+* Gentoo overlay: https://github.com/xen0n/loongson-overlay
 
-   QIO_CHANNEL_WRITE_FLAG_ZEROCOPY
+I have made ready-to-use Gentoo stage3 tarballs, but they're served with
+CDN off my personal cloud account, and I don't want the link to be
+exposed so that my bills skyrocket; you can reach me off-list to get the
+links if you're interested.
 
-passed in an 'unsigned int flags' parameter. This in
-turn makes me question whether we should have the
-common helpers at all, as the api is going to be
-different for sync vs async.
+As for the hardware availability, the boards can already be bought in
+China on Taobao, and I think some people at Loongson might be able to
+arrange for testing environments, if testing on real hardware other than
+mine is required before merging; they have their in-house Debian spin-off
+from the early days of this architecture. Their kernel is
+ABI-incompatible with the version being upstreamed and used by me, but
+QEMU should work there regardless.
 
-The QIOChannelFeature enum probably ought to be
-extended with QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY with
-support for probing whether that's supported or not.
+Lastly, I'm new to QEMU development and this is my first patch series
+here; apologizes if I get anything wrong, and any help or suggestion is
+certainly appreciated!
 
-> +
-> +/**
-> + * qio_channel_async_flush:
-> + * @ioc: the channel object
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + * Will lock until every packet queued with qio_channel_async_writev()
+## Changelog
 
-s/lock/block/ I presume.
+v5 -> v4:
 
-> + * is sent.
-> + *
-> + * If not implemented, returns without changing anything.
-> + */
-> +
-> +void qio_channel_async_flush(QIOChannel *ioc,
-> +                             Error **errp);
-> +
->  
->  #endif /* QIO_CHANNEL_H */
-> diff --git a/io/channel.c b/io/channel.c
-> index e8b019dc36..c4819b922f 100644
-> --- a/io/channel.c
-> +++ b/io/channel.c
-> @@ -67,12 +67,13 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
->  }
->  
->  
-> -ssize_t qio_channel_writev_full(QIOChannel *ioc,
-> -                                const struct iovec *iov,
-> -                                size_t niov,
-> -                                int *fds,
-> -                                size_t nfds,
-> -                                Error **errp)
-> +ssize_t __qio_channel_writev_full(QIOChannel *ioc,
-> +                                  const struct iovec *iov,
-> +                                  size_t niov,
-> +                                  int *fds,
-> +                                  size_t nfds,
-> +                                  bool async,
-> +                                  Error **errp)
->  {
->      QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
->  
-> @@ -83,6 +84,10 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
->          return -1;
->      }
->  
-> +    if (async && klass->io_async_writev) {
-> +        return klass->io_async_writev(ioc, iov, niov, fds, nfds, errp);
-> +    }
-> +
->      return klass->io_writev(ioc, iov, niov, fds, nfds, errp);
->  }
->  
-> @@ -212,19 +217,20 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
->      return ret;
->  }
->  
-> -int qio_channel_writev_all(QIOChannel *ioc,
-> -                           const struct iovec *iov,
-> -                           size_t niov,
-> -                           Error **errp)
-> +int __qio_channel_writev_all(QIOChannel *ioc,
-> +                             const struct iovec *iov,
-> +                             size_t niov,
-> +                             bool async,
-> +                             Error **errp)
->  {
-> -    return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, errp);
-> +    return __qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, async, errp);
->  }
->  
-> -int qio_channel_writev_full_all(QIOChannel *ioc,
-> +int __qio_channel_writev_full_all(QIOChannel *ioc,
->                                  const struct iovec *iov,
->                                  size_t niov,
->                                  int *fds, size_t nfds,
-> -                                Error **errp)
-> +                                bool async, Error **errp)
->  {
->      int ret = -1;
->      struct iovec *local_iov = g_new(struct iovec, niov);
-> @@ -237,8 +243,8 @@ int qio_channel_writev_full_all(QIOChannel *ioc,
->  
->      while (nlocal_iov > 0) {
->          ssize_t len;
-> -        len = qio_channel_writev_full(ioc, local_iov, nlocal_iov, fds, nfds,
-> -                                      errp);
-> +        len = __qio_channel_writev_full(ioc, local_iov, nlocal_iov, fds, nfds,
-> +                                        async, errp);
->          if (len == QIO_CHANNEL_ERR_BLOCK) {
->              if (qemu_in_coroutine()) {
->                  qio_channel_yield(ioc, G_IO_OUT);
-> @@ -474,6 +480,36 @@ off_t qio_channel_io_seek(QIOChannel *ioc,
->  }
->  
->  
-> +ssize_t qio_channel_async_writev(QIOChannel *ioc,
-> +                                 const struct iovec *iov,
-> +                                 size_t niov,
-> +                                 int *fds,
-> +                                 size_t nfds,
-> +                                 Error **errp)
-> +{
-> +     QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
-> +
-> +    if (!klass->io_async_writev) {
-> +        return klass->io_writev(ioc, iov, niov, fds, nfds, errp);
-> +    }
-> +
-> +     return klass->io_async_writev(ioc, iov, niov, fds, nfds, errp);
-> +}
-> +
-> +
-> +void qio_channel_async_flush(QIOChannel *ioc,
-> +                             Error **errp)
-> +{
-> +     QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
-> +
-> +    if (!klass->io_async_flush) {
-> +        return;
-> +    }
-> +
-> +     klass->io_async_flush(ioc, errp);
-> +}
-> +
-> +
->  static void qio_channel_restart_read(void *opaque)
->  {
->      QIOChannel *ioc = opaque;
-> -- 
-> 2.33.0
-> 
+- Updated generated instruction definition to latest (added ldx/stx
+  family of indexed load/stores)
+- Incorporated Richard's suggestion for tcg_out_movi, tested to cover
+  the cases it's supposed to improve
+- Fixed a "size == MO_64" occurrence to just say "type"
+- Used indexed load/stores to optimize qemu_ld/st
+- Fixed zero-extension of address register for qemu_ld/st on 32-bit
+  targets
 
-Regards,
-Daniel
+v4 -> v3:
+
+- Addressed all review comments from v3
+  - Made MAX_CODE_GEN_BUFFER_SIZE to be just SIZE_MAX (but kept
+    TCG_TARGET_NB_REGS as macro definition)
+  - Updated generated instruction definition, made it clear that the
+    whole file is generated
+  - Used deposit64 for hand-written relocation code
+  - Reworked tcg_out_movi
+    - Use pcalau12i + ori for PC-relative values whose offset fits in
+      32-bit
+    - Every individual insn in the slow path (lu12i.w + ori + cu32i.d +
+      cu52i.d) can be suppressed if not needed
+  - Fixed constraint of setcond ops, don't allow constant zero for 1st
+    operand
+
+v3 -> v2:
+
+- Addressed all review comments from v2
+  - Re-organized changes to tcg-target.h so that it's incrementally
+    updated in each commit implementing ops
+  - Removed support for the eqv op
+  - Added support for bswap16_i{32,64} ops
+  - Fixed and refactored various places as pointed out during review
+- Updated generated instruction definitions to latest
+
+v2 -> v1:
+
+- Addressed all review comments from v1
+  - Use "loongarch64" everywhere, tcg directory renamed to "tcg/loongarch64"
+  - Removed all redundant TCG_TARGET_REG_BITS conditional
+  - Removed support for the neg op
+  - Added support for eqv and bswap32_i64 ops
+  - Added safe syscall handling for linux-user
+  - Fixed everything else I could see
+- Updated generated instruction definitions to latest
+- Reordered the configure/meson.build changes to come last
+
+v4: https://patchew.org/QEMU/20210923165939.729081-1-git@xen0n.name/
+v3: https://patchew.org/QEMU/20210922180927.666273-1-git@xen0n.name/
+v2: https://patchew.org/QEMU/20210921201915.601245-1-git@xen0n.name/
+v1: https://patchew.org/QEMU/20210920080451.408655-1-git@xen0n.name/
+
+WANG Xuerui (30):
+  elf: Add machine type value for LoongArch
+  MAINTAINERS: Add tcg/loongarch64 entry with myself as maintainer
+  tcg/loongarch64: Add the tcg-target.h file
+  tcg/loongarch64: Add generated instruction opcodes and encoding
+    helpers
+  tcg/loongarch64: Add register names, allocation order and input/output
+    sets
+  tcg/loongarch64: Define the operand constraints
+  tcg/loongarch64: Implement necessary relocation operations
+  tcg/loongarch64: Implement the memory barrier op
+  tcg/loongarch64: Implement tcg_out_mov and tcg_out_movi
+  tcg/loongarch64: Implement goto_ptr
+  tcg/loongarch64: Implement sign-/zero-extension ops
+  tcg/loongarch64: Implement not/and/or/xor/nor/andc/orc ops
+  tcg/loongarch64: Implement deposit/extract ops
+  tcg/loongarch64: Implement bswap{16,32,64} ops
+  tcg/loongarch64: Implement clz/ctz ops
+  tcg/loongarch64: Implement shl/shr/sar/rotl/rotr ops
+  tcg/loongarch64: Implement add/sub ops
+  tcg/loongarch64: Implement mul/mulsh/muluh/div/divu/rem/remu ops
+  tcg/loongarch64: Implement br/brcond ops
+  tcg/loongarch64: Implement setcond ops
+  tcg/loongarch64: Implement tcg_out_call
+  tcg/loongarch64: Implement simple load/store ops
+  tcg/loongarch64: Add softmmu load/store helpers, implement
+    qemu_ld/qemu_st ops
+  tcg/loongarch64: Implement tcg_target_qemu_prologue
+  tcg/loongarch64: Implement exit_tb/goto_tb
+  tcg/loongarch64: Implement tcg_target_init
+  tcg/loongarch64: Register the JIT
+  linux-user: Add safe syscall handling for loongarch64 hosts
+  accel/tcg/user-exec: Implement CPU-specific signal handler for
+    loongarch64 hosts
+  configure, meson.build: Mark support for loongarch64 hosts
+
+ MAINTAINERS                                   |    5 +
+ accel/tcg/user-exec.c                         |   73 +
+ configure                                     |    7 +-
+ include/elf.h                                 |    2 +
+ linux-user/host/loongarch64/hostdep.h         |   34 +
+ .../host/loongarch64/safe-syscall.inc.S       |   80 +
+ meson.build                                   |    2 +-
+ tcg/loongarch64/tcg-insn-defs.c.inc           |  979 ++++++++++
+ tcg/loongarch64/tcg-target-con-set.h          |   31 +
+ tcg/loongarch64/tcg-target-con-str.h          |   28 +
+ tcg/loongarch64/tcg-target.c.inc              | 1649 +++++++++++++++++
+ tcg/loongarch64/tcg-target.h                  |  180 ++
+ 12 files changed, 3068 insertions(+), 2 deletions(-)
+ create mode 100644 linux-user/host/loongarch64/hostdep.h
+ create mode 100644 linux-user/host/loongarch64/safe-syscall.inc.S
+ create mode 100644 tcg/loongarch64/tcg-insn-defs.c.inc
+ create mode 100644 tcg/loongarch64/tcg-target-con-set.h
+ create mode 100644 tcg/loongarch64/tcg-target-con-str.h
+ create mode 100644 tcg/loongarch64/tcg-target.c.inc
+ create mode 100644 tcg/loongarch64/tcg-target.h
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.33.0
 
 
