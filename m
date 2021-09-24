@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE25416FDA
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:02:33 +0200 (CEST)
-Received: from localhost ([::1]:55724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1988B416FA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 11:54:41 +0200 (CEST)
+Received: from localhost ([::1]:59414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTi2K-0003VU-VO
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:02:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41386)
+	id 1mThui-0003oP-4E
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 05:54:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThgd-0004bb-VS
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:40:08 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37561)
+ id 1mThgj-0004nW-2V; Fri, 24 Sep 2021 05:40:13 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:36543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThgc-0006pa-Dm
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:40:07 -0400
-Received: by mail-wr1-x434.google.com with SMTP id t8so25550649wrq.4
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 02:40:05 -0700 (PDT)
+ id 1mThgh-0006u1-Gz; Fri, 24 Sep 2021 05:40:12 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id g16so25530287wrb.3;
+ Fri, 24 Sep 2021 02:40:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JRKOlLYiSGogxCXK7W1sZhtnHuRe58y47UC3DXkXm/g=;
- b=B3in8lo5Ftj1ZWYW4d3iRbT6My7HPS9340+n8jYee0PG6H3f1FWsaxbQ29hBXTsR96
- S5ylV6RBV6667ZFItiMgghyH4+172SWd1bkQC0ZmSogm5rJDoGmGmEtK0KHO3f6HuXpn
- CWPlShK2FnjnqBTgjEbcIMOookkO3/65IbnMHsLm69rTcuGZwidgn+eu7tK8i9PXD5i/
- xa8zQz2Lgvh996KoRx0bYi+n52RGzBfxpYHrTJMUO4ubBOddewTjxSEmlm6JUaHE8K05
- 1LDYPwRVmypRiErPoeyvNS3CjRrF33D6sD0jrp78MXs+wYepXxRQpdY0iHQNYRLnTh3X
- O0Bg==
+ bh=3jjDpP5pLPewtdopPT9Bv9deCPUCIA2fG6dBKaHxXEg=;
+ b=WOIjYrXNXbdh2jL5gRIhbK4TBGocSjPE/HYr5CjsD476vvB12UEKRlCfGDj/7zhFoJ
+ 5OABnVasQCMDkKYYZuvToEsDwXl6IGgxpwjwOnJKCrYrCmXhKLlR7nVtlEEhH/nzLyMx
+ H2Ig2SSLbo71t4LmouRRkSBtEDMFlVbT68nhfRml0pri6Hp+vDTqqa4I3DqbNe/tg4m3
+ rHsT+9JF6oIYOXSVTjxh6G6opZOrvatb+xlmdwLKResJzYwCZw+hvD7sub/7DfwChsLY
+ atBypv4w1jndbo7cHsf4LimPyqCPL5UJx8ukAk0qx6NwDRZUUpRxMmDoHeRntkP5vje2
+ VVVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JRKOlLYiSGogxCXK7W1sZhtnHuRe58y47UC3DXkXm/g=;
- b=spsKhz1HzoqsUyaWEHkGBN1yTtNpuJbDlzhlTCzUVvfIsMfiLYQvV4nRcNAudCztfl
- 8ao/67ut4nUq4NDv+m6fFxIpzPiPBsLU/ZPP8pn4ziYt52YkLv6SlJiDLGysJfiUxAuT
- Cgv8aaYbgjF+iT6Fz08ShR95268GD0u+VFg3IfHvch94DEbpnpIZ5fjAN56AT1WbVF8p
- v/q5bISs/UYE2R/7HozTR6HZuaWExVbTpiyobf0HTxvUCs92C3f6D8PBkthe9uu/Kw0m
- EmI6FSQkhoFj3Eet2ZcPHBBDKTv8eI+zo5xGeYuY28fz42pO/fz010s5cH7YKaGpPMOt
- e7KA==
-X-Gm-Message-State: AOAM531e+EH2YlaTwHmkYYt1eqDES63MZP1oDjJCXuw8l1X1zu2yf76Q
- BpRew/5fLFhNqideWQ89wIq+XnGitFc=
-X-Google-Smtp-Source: ABdhPJxSsi7GocfHNhpK13aPvafIyRTlD02upQgzK1BlcjNSRQVC4JWnZMwFlNu2os4BXMV9LBa9Wg==
-X-Received: by 2002:adf:f207:: with SMTP id p7mr10524041wro.166.1632476404945; 
- Fri, 24 Sep 2021 02:40:04 -0700 (PDT)
+ bh=3jjDpP5pLPewtdopPT9Bv9deCPUCIA2fG6dBKaHxXEg=;
+ b=gB5OxKvrkDHh0D0J7BclVnSO2Bm8vsfJjPd5613SLd+OoEHtfWBBqS+5jWyqPw3jl/
+ zWdGAkaUbp+6yesd99N+7M/ihN6q9ICMBTtO5+PJLt/rfNQGNfQD8M9MyDa/SnseWTAb
+ v1gcocLoqZYPJs4dsd7t5dJJ4oNuBu1E5Hs2jxjYHM7KCXlsl56qLPWNTFIXtETjFZAX
+ xx3qEn8hBh+YPc/FW6naja3HIIHI+d4u6cNphlPYJufoS3y/aCV0Eyj+ZaEoWNq52zps
+ 2Z652WFXdWgeXbMM9QlpUqcWj8QEYN2XcBSNX8R30OcYJvuE2/EcqEY0InK+f1Rx3Ep8
+ dwIg==
+X-Gm-Message-State: AOAM530quCwvFq6JvQYq/tFm2ivnxFBSLAc/0cyGZVili6Ypwzf/JqsQ
+ X4i01DQVgZz/sqNAsiDH5WDETp2JGGc=
+X-Google-Smtp-Source: ABdhPJy3+AHIs93McQTzdxLkhMqGCtC9ki5PzV1Ocglawiy+Jokpjoa2rZ1FFQvtFa64D//R3aCBzw==
+X-Received: by 2002:a05:600c:1d05:: with SMTP id
+ l5mr1016581wms.119.1632476409645; 
+ Fri, 24 Sep 2021 02:40:09 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- v191sm7786345wme.36.2021.09.24.02.40.03
+ f1sm7964722wrc.66.2021.09.24.02.40.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 02:40:04 -0700 (PDT)
+ Fri, 24 Sep 2021 02:40:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 16/40] accel/tcg: Introduce TCGCPUOps::has_work()
-Date: Fri, 24 Sep 2021 11:38:23 +0200
-Message-Id: <20210924093847.1014331-17-f4bug@amsat.org>
+Subject: [PATCH v6 17/40] target/arm: Explicit v7M cores use arm_cpu_has_work
+ as CPUClass:has_work
+Date: Fri, 24 Sep 2021 11:38:24 +0200
+Message-Id: <20210924093847.1014331-18-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210924093847.1014331-1-f4bug@amsat.org>
 References: <20210924093847.1014331-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,59 +85,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a target-specific has_work() handler for TCG.
-Eventually call it from tcg_cpu_has_work(), our
-AccelOpsClass::has_work() handler.
+ARM v7M cores inherit TYPE_ARM_CPU, so TYPE_ARM_CPU's class_init runs
+first and sets up most of the class fields, setting in particular the
+has_work handler to the generic arm_cpu_has_work(). Thus M-profile
+and A-profile share the same arm_cpu_has_work() function. Some of the
+checks the code there does are perhaps unnecessary for M-profile, but
+they're harmless.
 
-Inspired-by: Richard Henderson <richard.henderson@linaro.org>
+Since we want to move the has_work handler from CPUClass to TCGCPUOps,
+the next commit will be more explicit if we already register this
+handler in arm_v7m_class_init(). Since arm_cpu_has_work() is static to
+target/arm/cpu.c, we have to declare it in "internals.h" to be able to
+use it in target/arm/cpu_tcg.c.
+
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/core/tcg-cpu-ops.h | 4 ++++
- accel/tcg/tcg-accel-ops.c     | 4 ++++
- 2 files changed, 8 insertions(+)
+ target/arm/internals.h | 2 ++
+ target/arm/cpu.c       | 2 +-
+ target/arm/cpu_tcg.c   | 1 +
+ 3 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index 55123cb4d22..4a4c4053e3b 100644
---- a/include/hw/core/tcg-cpu-ops.h
-+++ b/include/hw/core/tcg-cpu-ops.h
-@@ -66,6 +66,10 @@ struct TCGCPUOps {
-     void (*do_interrupt)(CPUState *cpu);
- #endif /* !CONFIG_USER_ONLY || !TARGET_I386 */
- #ifdef CONFIG_SOFTMMU
-+    /**
-+     * @has_work: Callback for checking if there is work to do.
-+     */
-+    bool (*has_work)(CPUState *cpu);
-     /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
-     bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
-     /**
-diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
-index ebaacff1842..cd44bb6d0d8 100644
---- a/accel/tcg/tcg-accel-ops.c
-+++ b/accel/tcg/tcg-accel-ops.c
-@@ -32,6 +32,7 @@
- #include "qemu/main-loop.h"
- #include "qemu/guest-random.h"
- #include "exec/exec-all.h"
-+#include "hw/core/tcg-cpu-ops.h"
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 777f9687648..864b5ad4cdf 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -177,6 +177,8 @@ void arm_translate_init(void);
+ void arm_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
+ #endif /* CONFIG_TCG */
  
- #include "tcg-accel-ops.h"
- #include "tcg-accel-ops-mttcg.h"
-@@ -80,6 +81,9 @@ static bool tcg_cpu_has_work(CPUState *cpu)
-     if (cc->has_work) {
-         return cc->has_work(cpu);
-     }
-+    if (cc->tcg_ops->has_work) {
-+        return cc->tcg_ops->has_work(cpu);
-+    }
-     return false;
++bool arm_cpu_has_work(CPUState *cs);
++
+ /**
+  * aarch64_sve_zcr_get_valid_len:
+  * @cpu: cpu context
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 641a8c2d3d3..4b08f717f64 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -76,7 +76,7 @@ void arm_cpu_synchronize_from_tb(CPUState *cs,
  }
+ #endif /* CONFIG_TCG */
+ 
+-static bool arm_cpu_has_work(CPUState *cs)
++bool arm_cpu_has_work(CPUState *cs)
+ {
+     ARMCPU *cpu = ARM_CPU(cs);
+ 
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 0d5adccf1a7..9a0927ad5d0 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -920,6 +920,7 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
+ 
+     acc->info = data;
+ #ifdef CONFIG_TCG
++    cc->has_work = arm_cpu_has_work;
+     cc->tcg_ops = &arm_v7m_tcg_ops;
+ #endif /* CONFIG_TCG */
  
 -- 
 2.31.1
