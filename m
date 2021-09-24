@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02F441796E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:09:02 +0200 (CEST)
-Received: from localhost ([::1]:48318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1013541797A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 19:11:53 +0200 (CEST)
+Received: from localhost ([::1]:56862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mToh3-0000pJ-Tn
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:09:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48332)
+	id 1mTojn-0006YA-WA
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 13:11:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mToXz-0002ej-4N
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:39 -0400
-Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:35522)
+ id 1mToY2-0002fZ-3D
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:43 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:41541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mToXu-0006wI-Ur
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:38 -0400
-Received: by mail-qk1-x72a.google.com with SMTP id c7so29003543qka.2
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 09:59:34 -0700 (PDT)
+ id 1mToXw-0006x0-Mw
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 12:59:41 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id m7so11925475qke.8
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 09:59:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FWLQL0pLDN+l5fhiAE6r0vZZJCHIq9CC1u+lOHbDMRg=;
- b=jbqpXiP227iB56KT34GI22QoNKWUmiAL5m0c+fZrYQg9FlTNcu4p5uznvNQNmGexYW
- aqn7/0JXtTqFHPjdthtVhhyHZ3CWwEPE+cKlfOCaOhh2jyjMKG55xq+uc8YiU/derCI6
- U1uhgkf/r1E4r7ZlJdDavHUGL8JwAs6jKdBYxAzSH0x/QtXKLtrIuuc3NdBDw0hnPGBM
- hEg/I+492spSjz6JKJ7SdW4cd1+U5KOl18jhnaAgE09qnjjXpG4FhGoErpDk4rmIWT2B
- nFvs1kesh+8vNiN8thn0+hHTcHfDKVyTAfdOk0Z8YigkMtwS5R5zlAZ9S6H7lAfBhLEs
- esxw==
+ bh=9uDmWChPs4lp5UI8b6weWaZXX8zbdz4czXb1drnckGg=;
+ b=y1R55l3yDenfrNbpwSVjFg0dDYxN3NAVRc4/S5F6XCa3I1mbBizZCnYiqMdkoIiP5J
+ 6M6ipzFF+AG2LVcdEVBcSRVKqMYrjNZYLhY5xIvFNqNghP+cYi6pjc1/fonXga4F/q3U
+ OfzGz8CMN/oJ8UxLCraq2npbYiNwUCCHuMbkPWPxtvLu7VsIychWmtoKnfJw2MVNoUQY
+ TeF4odtEcCqz3m/awjef3Q+k03djVl5WWA6vz3CSdv81jm7N/gehtIMQidr7L0Xxdx5F
+ IsbcJcGGYe+3LZFzVr2Cow1NXfaTbfjULbvoMjwDwy0H+BO6Ism/oGJhft0FqNwtfFzI
+ R+Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FWLQL0pLDN+l5fhiAE6r0vZZJCHIq9CC1u+lOHbDMRg=;
- b=t21JrUq9u7Uofb1gNE//cBbBeS7bfiwxQdBps/suAKsniVz/DIeEzoozMHclFOkcMG
- zdIsRKAtAm15tZ98f9NG+2eHmEN5rTTZ0SAZdlCPUz61n9DgM1p/PyKTWpqeS7eAmuUa
- RWVdtfl7tkSmCSfQBU3xO4bxFfdosDK/qds/dqDbD4xN3Yg6pdJK4r6pF51OsA89dr02
- bRYuG1HX3rYRlM33DcqiTIWgxNJBG7Qs+p+pwamwiz7rdlhPGcPXsdV7xShyq8JPuHvP
- FwH34+796NoqXx4L1yGOXFQRyUkn2niP08Bt8FOLdVchVB0v6FBAD5S/DeV+6sCIILq+
- OO+Q==
-X-Gm-Message-State: AOAM532etQCQzCJ8DIaNJHR4fn/Bk9YkZzliEHzu00YvtFpMLFFQnVPj
- wzN0wBREjBaTL9uWOPguREQ0FKVBaIkfVg==
-X-Google-Smtp-Source: ABdhPJy495whHwjMo7cor9js8CEzqpkQ8wHBjCmkFtIzIhG4SlxDqKbuUh480GfAKZw/xkfcPS50gQ==
-X-Received: by 2002:a37:9606:: with SMTP id y6mr11326294qkd.13.1632502774021; 
+ bh=9uDmWChPs4lp5UI8b6weWaZXX8zbdz4czXb1drnckGg=;
+ b=30jGSA9WAC2MBZmKLhTQ5/ISOuT9z7asZcLVOY8+LGCpIOe4XGp8C8p0VhCLZLcMso
+ wIZYYsUqMOpB+Zr7+vvlMHRdseM+pNaCb/P23NzrDD50KlgpccYJj0KjQ38d5YafdJFv
+ mH+FfFY/2AI6C9XHQbYCu0MvombvUHtP7ajWEVmDHDjPtvRdmMBUSOKwJAIOUVUiFeIn
+ dSkxaxmAHFH1NsBvsK/6SB9bO776aRxbfu2QKv8ltkk8LXGp5nom58XpXivWj5j/9j9H
+ D4ednnFACOSkY6dG/pB2c9pHCsbTCMq7+Lc7r3sQCY5MrdZsPb1UeLp3o6MJXt0toARI
+ F1SQ==
+X-Gm-Message-State: AOAM532NBtOzZLOuT/gOFGUFphihIV1sHYbEGBdMYdfFak14Yi8pGJgh
+ mJB4iG1rNmkoy5335/ZoM5KX41/7azLiug==
+X-Google-Smtp-Source: ABdhPJwrAeKbWbscNeC9hhJdJpelF0X8l7V28bM6GecKbHCTeJ3iFNz73miTOtQNRKe8Gjveah6IRA==
+X-Received: by 2002:a37:64cc:: with SMTP id y195mr11350785qkb.97.1632502774804; 
  Fri, 24 Sep 2021 09:59:34 -0700 (PDT)
 Received: from localhost.localdomain (cpe-24-74-129-96.carolina.res.rr.com.
  [24.74.129.96])
- by smtp.gmail.com with ESMTPSA id r13sm7141104qkk.73.2021.09.24.09.59.33
+ by smtp.gmail.com with ESMTPSA id r13sm7141104qkk.73.2021.09.24.09.59.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 09:59:33 -0700 (PDT)
+ Fri, 24 Sep 2021 09:59:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/27] linux-user/hexagon: Implement setup_sigtramp
-Date: Fri, 24 Sep 2021 12:59:07 -0400
-Message-Id: <20210924165926.752809-9-richard.henderson@linaro.org>
+Subject: [PATCH v3 09/27] linux-user/hppa: Document non-use of setup_sigtramp
+Date: Fri, 24 Sep 2021 12:59:08 -0400
+Message-Id: <20210924165926.752809-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210924165926.752809-1-richard.henderson@linaro.org>
 References: <20210924165926.752809-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,74 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
- laurent@vivier.eu, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, laurent@vivier.eu,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Continue to initialize the words on the stack, as documented.
-However, use the off-stack trampoline.
+We cannot use a raw sigtramp page for hppa,
+but must wait for full vdso support.
 
-Cc: Taylor Simpson <tsimpson@quicinc.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/hexagon/target_signal.h |  2 ++
- linux-user/hexagon/signal.c        | 19 +++++++++++++++++--
- 2 files changed, 19 insertions(+), 2 deletions(-)
+ linux-user/hppa/target_signal.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/linux-user/hexagon/target_signal.h b/linux-user/hexagon/target_signal.h
-index 345cf1cbb8..9e0223d322 100644
---- a/linux-user/hexagon/target_signal.h
-+++ b/linux-user/hexagon/target_signal.h
-@@ -31,4 +31,6 @@ typedef struct target_sigaltstack {
+diff --git a/linux-user/hppa/target_signal.h b/linux-user/hppa/target_signal.h
+index 7f525362e9..d558119ee7 100644
+--- a/linux-user/hppa/target_signal.h
++++ b/linux-user/hppa/target_signal.h
+@@ -71,4 +71,18 @@ typedef struct target_sigaltstack {
+ /* mask for all SS_xxx flags */
+ #define TARGET_SS_FLAG_BITS  TARGET_SS_AUTODISARM
  
- #include "../generic/signal.h"
- 
-+#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
++/*
++ * We cannot use a bare sigtramp page for hppa-linux.
++ *
++ * Unlike other guests where we use the instructions at PC to validate
++ * an offset from SP, the hppa libgcc signal frame fallback unwinding uses
++ * the PC address itself to find the frame.  This is due to the fact that
++ * the hppa grows the stack upward, and the frame is of unknown size.
++ *
++ * TODO: We should be able to use a VDSO to address this, by providing
++ * proper unwind info for the sigtramp code, at which point the fallback
++ * unwinder will not be used.
++ */
++#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 0
 +
- #endif /* TARGET_SIGNAL_H */
-diff --git a/linux-user/hexagon/signal.c b/linux-user/hexagon/signal.c
-index c7f0bf6b92..74e61739a0 100644
---- a/linux-user/hexagon/signal.c
-+++ b/linux-user/hexagon/signal.c
-@@ -162,6 +162,11 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
- 
-     setup_ucontext(&frame->uc, env, set);
-     tswap_siginfo(&frame->info, info);
-+    /*
-+     * The on-stack signal trampoline is no longer executed;
-+     * however, the libgcc signal frame unwinding code checks
-+     * for the presence of these two numeric magic values.
-+     */
-     install_sigtramp(frame->tramp);
- 
-     env->gpr[HEX_REG_PC] = ka->_sa_handler;
-@@ -171,8 +176,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-         frame_addr + offsetof(struct target_rt_sigframe, info);
-     env->gpr[HEX_REG_R02] =
-         frame_addr + offsetof(struct target_rt_sigframe, uc);
--    env->gpr[HEX_REG_LR] =
--        frame_addr + offsetof(struct target_rt_sigframe, tramp);
-+    env->gpr[HEX_REG_LR] = default_rt_sigreturn;
- 
-     return;
- 
-@@ -271,3 +275,14 @@ badframe:
-     force_sig(TARGET_SIGSEGV);
-     return 0;
- }
-+
-+void setup_sigtramp(abi_ulong sigtramp_page)
-+{
-+    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 4 * 2, 0);
-+    assert(tramp != NULL);
-+
-+    default_rt_sigreturn = sigtramp_page;
-+    install_sigtramp(tramp);
-+
-+    unlock_user(tramp, sigtramp_page, 4 * 2);
-+}
+ #endif /* HPPA_TARGET_SIGNAL_H */
 -- 
 2.25.1
 
