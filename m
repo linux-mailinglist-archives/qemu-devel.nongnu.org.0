@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36801417BB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:18:59 +0200 (CEST)
-Received: from localhost ([::1]:35904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96379417B9B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:12:04 +0200 (CEST)
+Received: from localhost ([::1]:50508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTqio-0000ks-58
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39640)
+	id 1mTqc7-000835-LV
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:12:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqPa-0005gt-2h
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:59:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22783)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqOz-00059i-8I
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:58:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqPY-0006SI-J7
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:59:05 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1mTqOx-0005xV-H9
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 14:58:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632509944;
+ s=mimecast20190719; t=1632509906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MgebLHC4pH4zCdHw157Ml16S/ZEAZ/bfYP2ZY4hEsyI=;
- b=QW+I5OB3AcLUlIEF8l2z8DGizVmWGSih9ida0GZLxf+sHYPDF51gLYIr9dfupR+GaUlDZ1
- 5nTmAZfQpdA+fNRms15TfEX60JiWgaMTdioYQ0gXyZl7GkXk5mHYHOyCBQk4LjxUUJ9F4a
- /o/o5XZN3GPwxoWkPZrCfwWOTbU+R50=
+ bh=x9nHG9UinIwX+sIbhkskEXL6rkBQJGSD07rpDRHc97M=;
+ b=YuEd6l84hHlJeAEOI66wnbnR3sIkLcbigqIs6uAmiV347bEwzUeB1fez5GBzWPeyz1c6W6
+ fOTD7Z0t9tUsyRF5fDINcEkgFfg7NE3GdKbZl8V02zh7uEqUS8uX4we/b59lfuVoGJ07m0
+ JaqjheSUUQhadUjFF5UrnpFZoNRnW80=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-604-OtBirtVoP0WF5zzWiBYFUA-1; Fri, 24 Sep 2021 14:57:13 -0400
-X-MC-Unique: OtBirtVoP0WF5zzWiBYFUA-1
+ us-mta-19-c8Z0QjzzMqCWgIltRch8tw-1; Fri, 24 Sep 2021 14:57:16 -0400
+X-MC-Unique: c8Z0QjzzMqCWgIltRch8tw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3CEF801E72;
- Fri, 24 Sep 2021 18:57:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81E94A0CCE;
+ Fri, 24 Sep 2021 18:57:14 +0000 (UTC)
 Received: from p50.net (unknown [10.22.33.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC8F75C1A3;
- Fri, 24 Sep 2021 18:57:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 10AD77621D;
+ Fri, 24 Sep 2021 18:57:11 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/16] Acceptance Tests: improve check-acceptance description
-Date: Fri, 24 Sep 2021 14:54:52 -0400
-Message-Id: <20210924185506.2542588-3-crosa@redhat.com>
+Subject: [PATCH 03/16] Acceptance Tests: add mechanism for listing tests
+Date: Fri, 24 Sep 2021 14:54:53 -0400
+Message-Id: <20210924185506.2542588-4-crosa@redhat.com>
 In-Reply-To: <20210924185506.2542588-1-crosa@redhat.com>
 References: <20210924185506.2542588-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -93,29 +93,41 @@ Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "check-acceptance" make rule won't necessarily run *all* available
-tests, because it employs a filter based on the currently configured
-targets.  This change in the description of the rule makes that
-behavior extra clear.
+It is helpful to know the tests that would be executed with a "make
+check-acceptance" without executing them.  Let's introduce a "make
+list-acceptance" rule for that purpose.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/Makefile.include | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index ac289a2e41..2c03256ae8 100644
+index 2c03256ae8..d1f90572a7 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -16,7 +16,7 @@ ifneq ($(filter $(all-check-targets), check-softfloat),)
- 	@echo " $(MAKE) check-tcg            Run TCG tests"
+@@ -17,6 +17,7 @@ ifneq ($(filter $(all-check-targets), check-softfloat),)
  	@echo " $(MAKE) check-softfloat      Run FPU emulation tests"
  endif
--	@echo " $(MAKE) check-acceptance     Run all acceptance (functional) tests"
-+	@echo " $(MAKE) check-acceptance     Run acceptance (functional) tests for currently configured targets"
+ 	@echo " $(MAKE) check-acceptance     Run acceptance (functional) tests for currently configured targets"
++	@echo " $(MAKE) check-acceptance     List acceptance (functional) tests for currently configured targets"
  	@echo
  	@echo " $(MAKE) check-report.tap     Generates an aggregated TAP test report"
  	@echo " $(MAKE) check-venv           Creates a Python venv for tests"
+@@ -135,6 +136,13 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+             $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
+             "AVOCADO", "tests/acceptance")
+ 
++list-acceptance: check-venv
++	$(call quiet-command, \
++            $(TESTS_VENV_DIR)/bin/python -m avocado list \
++            --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
++            $(AVOCADO_TAGS) tests/acceptance, \
++            "AVOCADO", "list tests/acceptance")
++
+ # Consolidated targets
+ 
+ .PHONY: check-block check check-clean get-vm-images
 -- 
 2.31.1
 
