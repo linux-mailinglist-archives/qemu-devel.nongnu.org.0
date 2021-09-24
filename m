@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E22416BB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 08:44:08 +0200 (CEST)
-Received: from localhost ([::1]:49752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95892416C65
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 08:54:38 +0200 (CEST)
+Received: from localhost ([::1]:59278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTewJ-0004iK-EZ
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 02:44:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60332)
+	id 1mTf6T-0003DG-GJ
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 02:54:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mTeuf-00037R-QD
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 02:42:25 -0400
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:36749)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mTeue-0005Mm-5O
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 02:42:25 -0400
-Received: by mail-il1-x12b.google.com with SMTP id v16so9262186ilg.3
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 23:42:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=o/XJrMQb1jUMmAmsjSyN0Y1MHeU2CGo+YJ5GAOILK7A=;
- b=fhLpsfXlCAaz/7tjt4f6hmTqBkb3PyqtmRdO4/o8Sn7CLU2cqyRB/UXpdgxH+AW0Fg
- izomOw6FnBBk3F8wLOoBcy93hTNQGKikGZh9PI7Cki/u8YOamdzWLfia8AELUBIVIYCF
- 9rhZGCHGQjFLdkDlIbE/JQ3v6o3e1seMFDJOStv2WGsh+yMV8NWwKpGR0Ez8KrX14Xei
- o+Uryfq255XVKjK0kMCeNOSNXapZslQS571uRX+algLSvrI9sC1Kt8nnpl0xzTml1E6g
- HeHcqXWCoGAzbBbsHp8UDgAh0NT5Dzg8qXFzHeg68Eh9GNaADCKqHt+xIgNNi2Xnm27d
- fXSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=o/XJrMQb1jUMmAmsjSyN0Y1MHeU2CGo+YJ5GAOILK7A=;
- b=v7C3FAyWFHef6fJWUVWN7CHUM8yx2kjQF7uSbU/5OQXXNHhZ+VOUQzZATwMnUM0yQo
- v1CSbLTHJDWQMbVmoIh4yIf3IazfEllT685Pu7k0j0EiaeXwOnJat0Qv9yYpO3jKeElA
- ELE533qCpriVIcNtrjn57qxU+niEkg57bnnxx7MKZZFgh6pjLxheaJ3JY+k/q9jCOosj
- TZxi2RsYeXIdwhPq62BinHcWCPGV6ZTkGM4yxQjpUvq294Sa3m1gbzoz5a/leor/QHFF
- sa+67qA69/Ux5zme70xWFmiCr/+c4TWba53HfZEVECpP5c7kaxXJnF5PmHfmfCrXsDzK
- QHOA==
-X-Gm-Message-State: AOAM530KX3nnVLINUYx+VFrHx+cDaAlRNaMqwifl1Ck891F2dcLErFca
- g16wyBiAuZEPuh5Z03W9DILSBtDbkKsnNd8c0k3wFF6Iqms=
-X-Google-Smtp-Source: ABdhPJyx7/J644RgEf1PDnqw0dJsc4Ww7c/C8X8Hg2mgL+6+wtMEPaZYmE/9IMYtDfRwsdfkCXdLMDcWwA4mSXthkHg=
-X-Received: by 2002:a92:280f:: with SMTP id l15mr6551199ilf.74.1632465743049; 
- Thu, 23 Sep 2021 23:42:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mTezE-0006Qn-W2; Fri, 24 Sep 2021 02:47:13 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:60083)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mTezD-00011G-3F; Fri, 24 Sep 2021 02:47:08 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7E558580BB5;
+ Fri, 24 Sep 2021 02:47:05 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Fri, 24 Sep 2021 02:47:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=7J5UHw8ym46ZX1M3GqA4ekDmaI
+ sicgH9q9qONdk0jP8=; b=UJFg69OOq6Ui2jSk/beWTrHTUpRLcEQXtrH47IaSAI
+ OR4YsQPawI2fVsK1tRy+jOQ3A8Z697vtZQ6I9BUKQVv++4KWhQntjpTYHKoI60Di
+ 0yM5OPp5YTOfM7Y92MOtKpPcCE3nXXhN4ilw91EEPZhLqg2gtAt4gjYzcnv/Hp3u
+ KwIk3OAEdgiT6KJniJiYQqyj4BqtTMPR6368Qp/844fUpV4RGFNIJBo920H6aB4J
+ SUa6CJyf0GAFy5JivFpOdOgn4kNIpcMCuKkj3JcpCVNd64Gc94wO+BM+/VNBOVxL
+ DMwEYLMoCP18XVkc2xWZFLpvrO1SywldM7v1XfU2KKpQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=7J5UHw
+ 8ym46ZX1M3GqA4ekDmaIsicgH9q9qONdk0jP8=; b=IteCmoMbbDGNfk6QZlfhAz
+ V4ElO5me+9eB7Z4mz14HWnCqb2lOkjET5F1mGC6kS6md1EnVniP0gceiMbhZjNFI
+ Gs4tkEs6qjDyn0vtM9AWTyaEcR7+OZYEP7zhO4p26sGzWStYZ5v6fdqEfyaQPfQX
+ Xpssf1ppT6yqSPzF1ZRkEtVH23Pez5y6SQwzQ4ucZ1NQ6dvOO8GbmsHyel7Ni6uC
+ kojk3WrvZFRsL/Qwt7EStxfn5P8bTr0FO1jsVFyU4oQDpj2rpgQctt1UJsfT2z0u
+ qJYTM25ZisFRYI7ZelsK8NIeFwD4LTOltpFFcCuhj1WgD2Z4WGGWTbMovqcqYNpQ
+ ==
+X-ME-Sender: <xms:aHRNYaWw9S7aSG1BVsUpdUTLsTkO1OxKHDTvhbCvFxAc68zGQrW_CQ>
+ <xme:aHRNYWmQYvEp3EpAU_jI6m37nDkrUhTFRWK4DlNK3NY0AP0F4oSUNCkhLEufVbuZ_
+ L1q-vwH1vXdtp77B0M>
+X-ME-Received: <xmr:aHRNYeYq4noxCZ7IMVddGA5sevgvahUxj0USJR7Zefq6NIERoVge8f7TERHj-VMCNTxItn-rcPkRMtVCIoyEQwOlY_97c5NdzpzUupY3Gw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddguddtlecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpefgveffkefgfedvteejtddugfefffefgeejgedvgeekueeggfdvleduueehvdev
+ veenucffohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdr
+ ughk
+X-ME-Proxy: <xmx:aHRNYRVUwsmPX0MY5AwO7RqOwr4HlmR6BczdLLTrflol_O8v3Vurtg>
+ <xmx:aHRNYUlv6HSKeDqglG4F-vUsLGJ1PWVZuCUGgHrvtlXnikdlTCxLnw>
+ <xmx:aHRNYWeUJQEV9aBVW9DDedHm8XIEtH_ajnO3Ik6NB14hsGRRlqC5vw>
+ <xmx:aXRNYRikmNVpK1z68RKAUczB_RGQ6_GK2DqOhOp4v_2e1r0DPDjf9g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 24 Sep 2021 02:47:03 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 0/3] hw/nvme updates
+Date: Fri, 24 Sep 2021 08:46:58 +0200
+Message-Id: <20210924064701.283182-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.33.0
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20210920214447.2998623-1-f4bug@amsat.org>
- <20210920214447.2998623-24-f4bug@amsat.org>
-In-Reply-To: <20210920214447.2998623-24-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 24 Sep 2021 16:41:56 +1000
-Message-ID: <CAKmqyKMr8ZP_E2AijmfhhnkD_P5dy1Df0bfEqaCvDUivMvG8JA@mail.gmail.com>
-Subject: Re: [PATCH v5 23/31] target/riscv: Restrict has_work() handler to
- sysemu and TCG
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,75 +92,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Klaus Jensen <its@irrelevant.dk>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 21, 2021 at 8:09 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Restrict has_work() to TCG sysemu.
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> ---
->  target/riscv/cpu.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 13575c14085..abb555a8bdb 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -335,9 +335,9 @@ static void riscv_cpu_synchronize_from_tb(CPUState *c=
-s,
->      env->pc =3D tb->pc;
->  }
->
-> +#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
->  static bool riscv_cpu_has_work(CPUState *cs)
->  {
-> -#ifndef CONFIG_USER_ONLY
->      RISCVCPU *cpu =3D RISCV_CPU(cs);
->      CPURISCVState *env =3D &cpu->env;
->      /*
-> @@ -345,10 +345,8 @@ static bool riscv_cpu_has_work(CPUState *cs)
->       * mode and delegation registers, but respect individual enables
->       */
->      return (env->mip & env->mie) !=3D 0;
-> -#else
-> -    return true;
-> -#endif
->  }
-> +#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
->
->  void restore_state_to_opc(CPURISCVState *env, TranslationBlock *tb,
->                            target_ulong *data)
-> @@ -647,6 +645,7 @@ static const struct TCGCPUOps riscv_tcg_ops =3D {
->      .tlb_fill =3D riscv_cpu_tlb_fill,
->
->  #ifndef CONFIG_USER_ONLY
-> +    .has_work =3D riscv_cpu_has_work,
->      .cpu_exec_interrupt =3D riscv_cpu_exec_interrupt,
->      .do_interrupt =3D riscv_cpu_do_interrupt,
->      .do_transaction_failed =3D riscv_cpu_do_transaction_failed,
-> @@ -666,7 +665,6 @@ static void riscv_cpu_class_init(ObjectClass *c, void=
- *data)
->      device_class_set_parent_reset(dc, riscv_cpu_reset, &mcc->parent_rese=
-t);
->
->      cc->class_by_name =3D riscv_cpu_class_by_name;
-> -    cc->has_work =3D riscv_cpu_has_work;
->      cc->dump_state =3D riscv_cpu_dump_state;
->      cc->set_pc =3D riscv_cpu_set_pc;
->      cc->gdb_read_register =3D riscv_cpu_gdb_read_register;
-> --
-> 2.31.1
->
->
+Hi Peter,=0D
+=0D
+The following changes since commit 2c3e83f92d93fbab071b8a96b8ab769b01902475=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/alistair23/tags/pull-riscv-to-apply=
+-20210921' into staging (2021-09-21 10:57:48 -0700)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request=0D
+=0D
+for you to fetch changes up to c53a9a91021c2f57de9ab18393d0048bd0fe90c2:=0D
+=0D
+  hw/nvme: Return error for fused operations (2021-09-24 08:43:58 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+hw/nvme updates=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Klaus Jensen (1):=0D
+  hw/nvme: fix validation of ASQ and ACQ=0D
+=0D
+Naveen Nagar (1):=0D
+  hw/nvme: fix verification of select field in namespace attachment=0D
+=0D
+Pankaj Raghav (1):=0D
+  hw/nvme: Return error for fused operations=0D
+=0D
+ hw/nvme/ctrl.c       | 31 ++++++++++++++++++++-----------=0D
+ hw/nvme/trace-events |  2 --=0D
+ include/block/nvme.h |  5 +++++=0D
+ 3 files changed, 25 insertions(+), 13 deletions(-)=0D
+=0D
+-- =0D
+2.33.0=0D
+=0D
 
