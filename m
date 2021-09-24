@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7BA417BBB
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:21:37 +0200 (CEST)
-Received: from localhost ([::1]:42076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 182DD417B7C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 21:09:05 +0200 (CEST)
+Received: from localhost ([::1]:41888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTqlM-0004yN-Vy
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:21:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40028)
+	id 1mTqZD-00025F-W3
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 15:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mTqR9-0008DS-S0
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:00:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27768)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mTqSf-0001a1-7E
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:02:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mTqR3-0007kB-MQ
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:00:42 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mTqSc-0000ds-Hm
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 15:02:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632510037;
+ s=mimecast20190719; t=1632510133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FKnHc/0Qwo8TsloL+Ek+Nk7exyH09fejtfoxaHRrLp8=;
- b=ddyUuqP4ajf7WZdA5eN6Io+d/kRsOngsU5fFHUvJn3EfKfAdp2NNxjYBkWDboS5L2GmDum
- wC1C2vLHfrwdN562bPoVuGifpybTVNfshJJ3B7MyOO35Da0tU3WxXKRgCQsmWAiFJSI2Sm
- nwE9dbHD7FIMPb815n0PR5L56pLW2sA=
+ bh=jCfiWp9KwlZOTIKgWVvec6dkVvbw8sQxxd2W0q0la+o=;
+ b=cvbKxUw/b+BiaH98FLpX+4luLeBjYgAIHJTm6YEIzlbIZn5MRPCnm1rxEMgj4bZ6Co3sO9
+ qNl341zHTA3i0Fw9SNW1WXn72CrqbYswby4GC3B/dIPujCYy1eq1/MhnpTh6kdQvTWOfWk
+ 19EhIrQ6SB+/oghcJ+Jw9L3/l1Suhqo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-iB_B3Br-Nt2n5RpgbusabA-1; Fri, 24 Sep 2021 15:00:33 -0400
-X-MC-Unique: iB_B3Br-Nt2n5RpgbusabA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-330-Y_oM7hT6Mq2vDm8nhmitmw-1; Fri, 24 Sep 2021 15:02:10 -0400
+X-MC-Unique: Y_oM7hT6Mq2vDm8nhmitmw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE12F802C80;
- Fri, 24 Sep 2021 19:00:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A992C1808311;
+ Fri, 24 Sep 2021 19:02:08 +0000 (UTC)
 Received: from redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E7C9D6A916;
- Fri, 24 Sep 2021 19:00:25 +0000 (UTC)
-Date: Fri, 24 Sep 2021 14:00:24 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F76B1017CE7;
+ Fri, 24 Sep 2021 19:02:05 +0000 (UTC)
+Date: Fri, 24 Sep 2021 14:02:03 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 10/11] vl: Enable JSON syntax for -device
-Message-ID: <20210924190024.lkktjojrdwlfo5kd@redhat.com>
+Subject: Re: [PATCH 11/11] Deprecate stable non-JSON -device and -object
+Message-ID: <20210924190203.igztisq2k5o2rs5y@redhat.com>
 References: <20210924090427.9218-1-kwolf@redhat.com>
- <20210924090427.9218-11-kwolf@redhat.com>
+ <20210924090427.9218-12-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210924090427.9218-11-kwolf@redhat.com>
+In-Reply-To: <20210924090427.9218-12-kwolf@redhat.com>
 User-Agent: NeoMutt/20210205-773-8890a5
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,68 +83,46 @@ Cc: pkrempa@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 24, 2021 at 11:04:26AM +0200, Kevin Wolf wrote:
-> Like we already do for -object, introduce support for JSON syntax in
-> -device, which can be kept stable in the long term and guarantees that a
-> single code path with identical behaviour is used for both QMP and the
-> command line. Compared to the QemuOpts based code, the parser contains
-> less surprises and has support for non-scalar options (lists and
-> structs). Switching management tools to JSON means that we can more
-> easily change the "human" CLI syntax from QemuOpts to the keyval parser
-> later.
-> 
-> In the QAPI schema, a feature flag is added to the device-add command to
-> allow management tools to detect support for this.
+On Fri, Sep 24, 2021 at 11:04:27AM +0200, Kevin Wolf wrote:
+> We want to switch both from QemuOpts to the keyval parser in the future,
+> which results in some incompatibilities, mainly around list handling.
+> Mark the non-JSON version of both as unstable syntax so that management
+> tools switch to JSON and we can later make the change without breaking
+> things.
 > 
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  qapi/qdev.json | 15 +++++++++----
->  softmmu/vl.c   | 58 ++++++++++++++++++++++++++++++++++++++++++++------
->  2 files changed, 62 insertions(+), 11 deletions(-)
-> 
-> diff --git a/qapi/qdev.json b/qapi/qdev.json
-> index b83178220b..cdc8f911b5 100644
-> --- a/qapi/qdev.json
-> +++ b/qapi/qdev.json
-> @@ -32,17 +32,23 @@
->  ##
->  # @device_add:
->  #
-> +# Add a device.
-> +#
->  # @driver: the name of the new device's driver
->  #
->  # @bus: the device's parent bus (device tree path)
->  #
->  # @id: the device's ID, must be unique
->  #
-> -# Additional arguments depend on the type.
-> -#
-> -# Add a device.
-> +# Features:
-> +# @json-cli: If present, the "-device" command line option supports JSON
-> +#            syntax with a structure identical to the arguments of this
-> +#            command.
->  #
->  # Notes:
-> +#
-> +# Additional arguments depend on the type.
-> +#
->  # 1. For detailed information about this command, please refer to the
->  #    'docs/qdev-device-use.txt' file.
->  #
-> @@ -67,7 +73,8 @@
->  ##
->  { 'command': 'device_add',
->    'data': {'driver': 'str', '*bus': 'str', '*id': 'str'},
-> -  'gen': false } # so we can get the additional arguments
-> +  'gen': false, # so we can get the additional arguments
-> +  'features': ['json-cli'] }
-
-Eventually, we'll get rid of this 'gen':false, but this patch series
-is already an improvement towards that goal.
+>  docs/about/deprecated.rst | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> 
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index 3c2be84d80..42f6a478fb 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -160,6 +160,17 @@ Use ``-display sdl`` instead.
+>  
+>  Use ``-display curses`` instead.
+>  
+> +Stable non-JSON ``-device`` and ``-object`` syntax (since 6.2)
+> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +If you rely on a stable interface for ``-device`` and ``-object`` that doesn't
+> +change incompatibly between QEMU versions (e.g. because you are using the QEMU
+> +command line as a machine interface in scripts rather than interactively), use
+> +JSON syntax for these options instead.
+> +
+> +There is no intention to remove support for non-JSON syntax entirely, but
+> +future versions may change the way to spell some options.
+> +
+>  
+>  Plugin argument passing through ``arg=<string>`` (since 6.1)
+>  ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> -- 
+> 2.31.1
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
