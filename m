@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DFA416FFF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:07:50 +0200 (CEST)
-Received: from localhost ([::1]:40998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8994041700A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 12:09:39 +0200 (CEST)
+Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTi7R-000488-RA
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41550)
+	id 1mTi9C-0008BU-JW
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 06:09:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThhF-0005cv-4e
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:40:45 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40534)
+ id 1mThhO-00061v-5k
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:40:55 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mThhD-0007SO-OG
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:40:44 -0400
-Received: by mail-wr1-x433.google.com with SMTP id t28so12107788wra.7
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 02:40:43 -0700 (PDT)
+ id 1mThhI-0007Ya-9t
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 05:40:52 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id t28so12108523wra.7
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 02:40:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2wVO/8lNTdglwVP+4rQ9px8jTQizKXJBfsXgcLc7jls=;
- b=FgN+bzODD3/vzEgURNAkBOlFqtH0gPJBUL248NhSx2xNQIZYxJbTmst8H0ZzsPi2Si
- hxo1/lPk+VVUNQkUscAKHO3f0aMaSqCyEwi6EK+nWFD7adZFBiSzzp3lATJxV46Lo9tC
- TxgEE9ZlfNbjCkbN2c/GGP3XnZesPiTMlUHZ38+IZ3s7vQvt5E3z7HwTVyG+1gkj+IKl
- BaXGUNKXxWiD1s0oFAjL4zbo+JTciYA/oxxeUUTtYL9x/ZuOPAEifpiGI283VMn1MrEe
- F5gASGt4MTPjfsvhGsHy4SQWnTO54I7wmjhCunRhBPIj2YCJ7aaffi2HAmBNUdI6RVVV
- opcg==
+ bh=TotqMEN5DrXYEF17ne4DDCu2zSM8Bp20jLCGhp9+svs=;
+ b=OM/0dF3NI1YOwFRPIv0JxiIP+CxHF93wyDHkuapIBBYEvQy7/ooid8xn1Zxs7n4ENQ
+ kql2G4sBHl99lz27wGxk3HvSsA+EhgZvJub9L3zcoVPtAi1CIYQY4gNB/5zPKXN4Qc1U
+ 9Ip31zS2beKEShsjqrCd2g6HH1To7ALppRwvJkNiB04GyXr5zp+Au7mvGTkdF09NKADZ
+ j98ug4D/QXmyUvFKwphZUsjUJx6BUggyPP/CagjX0XnJ3IrxJ1ZhuJdG903gqSmQb8gT
+ i0Wne0pPNCTLiyCVseNuGlRL31T0nmt6CmY+N9P9xMXqaDkjPEbEQqHYVcSPWwSEAhQY
+ fxWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2wVO/8lNTdglwVP+4rQ9px8jTQizKXJBfsXgcLc7jls=;
- b=kpl5EWM00bGXcMWNXseT/3RYT2Fd6JF09fX9lf9AoDbzm5TEh5v5xXPQsixVQxCVnd
- xhrBhNBS8Izt2liHR/TD5SNPz108Qg1hRoZw8ondTva38uvcdymwWWPZUqN92RxZAw++
- 3rzaoNaAhEDfZj7FSAAcWLMskuUoLYTWVxW3hDl7kxWP8m80HNy4ftM72IzKbeSTvmFT
- a36Hoo1YYBed4VIYwG4cAKGZ5rIWTwHZUoCngO71p+AAudimopHESi29U5Hh0uz2VpFg
- Q1+YqFq0P4p/p+FoHl2JvYVgt0tyMx239dkIh+Lm1UC6gPm/SdB3C9oDESVtpYHbj6xW
- 05rQ==
-X-Gm-Message-State: AOAM532GrvRYsFvZuZk5LzKHdLwJRWHUK+J/blcyrz6cBSIcfbfWOz59
- 1K71pFIrazx83bcFnelZL3aW8hoQlkY=
-X-Google-Smtp-Source: ABdhPJwoMYy0gpKYQ/1CTpDbgpZ2qrGlFUwIVBPLDcWyjY8RwvmwKJ9g+LFxUJVipkH/eM8ljaSVtg==
-X-Received: by 2002:a5d:64c1:: with SMTP id f1mr10274123wri.422.1632476442059; 
- Fri, 24 Sep 2021 02:40:42 -0700 (PDT)
+ bh=TotqMEN5DrXYEF17ne4DDCu2zSM8Bp20jLCGhp9+svs=;
+ b=2TLwTKlIsW2sQZZvlOdrNQIMyIdlL8wwAI6o7VD+OnvxDz7DIyMuxfge7IlVXq/+97
+ g27SJhaj/Mpdt0aKfbdl2cOiVo4xuTbMWnnmqTUWuk6+gIO8Sx8KOWw0Mn/GgN2ftvMf
+ zkXibByjdCED/r7psv1Eng9tBBKcWEio6hpsD/AL1/nx/hqgM63AC7h10Yub+bnCc2iA
+ 2l1zC1JrHiKxsi/zzwQimJ1dEWbfGd7o3ytCl+fxrgOYbvGKqMmRUv+XkBI85vvAMPRt
+ KIsLlZG9IYvPGgSdtNn4f6ZHYfrGY3BnrXNN1Au4RxWZh5DVHCwsf1Q2xfpp4nsPgEXv
+ 9W6g==
+X-Gm-Message-State: AOAM530xnZ5JuNNyUa/FQX4c5xOUPRWtAzJARSll2SYz8i0YFxM3wxR8
+ 3qtNNzdwJV0AreR53vd14TVMWrjJnAg=
+X-Google-Smtp-Source: ABdhPJyBGBgdEd/n8Zi7iyxga5yCoQVwc4ydEor1WSdcRy88clr6yA4QCAXVziHDgny2WZx2w7u+Jw==
+X-Received: by 2002:a5d:4d91:: with SMTP id b17mr10315790wru.321.1632476446748; 
+ Fri, 24 Sep 2021 02:40:46 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- k6sm11192127wmo.37.2021.09.24.02.40.41
+ n14sm6139585wmc.38.2021.09.24.02.40.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 02:40:41 -0700 (PDT)
+ Fri, 24 Sep 2021 02:40:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 24/40] target/m68k: Restrict has_work() handler to sysemu
-Date: Fri, 24 Sep 2021 11:38:31 +0200
-Message-Id: <20210924093847.1014331-25-f4bug@amsat.org>
+Subject: [PATCH v6 25/40] target/microblaze: Restrict has_work() handler to
+ sysemu
+Date: Fri, 24 Sep 2021 11:38:32 +0200
+Message-Id: <20210924093847.1014331-26-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210924093847.1014331-1-f4bug@amsat.org>
 References: <20210924093847.1014331-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,9 +86,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -96,42 +97,54 @@ Restrict has_work() to sysemu.
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/m68k/cpu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/microblaze/cpu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 66d22d11895..ad5d26b5c9e 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -31,10 +31,12 @@ static void m68k_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.pc = value;
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index 15db277925f..36e6e540483 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -92,12 +92,13 @@ static void mb_cpu_synchronize_from_tb(CPUState *cs,
+     cpu->env.iflags = tb->flags & IFLAGS_TB_MASK;
  }
  
-+#if !defined(CONFIG_USER_ONLY)
- static bool m68k_cpu_has_work(CPUState *cs)
++#ifndef CONFIG_USER_ONLY
++
+ static bool mb_cpu_has_work(CPUState *cs)
  {
-     return cs->interrupt_request & CPU_INTERRUPT_HARD;
+     return cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
  }
+ 
+-#ifndef CONFIG_USER_ONLY
+ static void mb_cpu_ns_axi_dp(void *opaque, int irq, int level)
+ {
+     MicroBlazeCPU *cpu = opaque;
+@@ -142,7 +143,7 @@ static void microblaze_cpu_set_irq(void *opaque, int irq, int level)
+         cpu_reset_interrupt(cs, type);
+     }
+ }
+-#endif
 +#endif /* !CONFIG_USER_ONLY */
  
- static void m68k_set_feature(CPUM68KState *env, int feature)
+ static void mb_cpu_reset(DeviceState *dev)
  {
-@@ -518,6 +520,7 @@ static const struct TCGCPUOps m68k_tcg_ops = {
-     .tlb_fill = m68k_cpu_tlb_fill,
+@@ -368,6 +369,7 @@ static const struct TCGCPUOps mb_tcg_ops = {
+     .tlb_fill = mb_cpu_tlb_fill,
  
  #ifndef CONFIG_USER_ONLY
-+    .has_work = m68k_cpu_has_work,
-     .cpu_exec_interrupt = m68k_cpu_exec_interrupt,
-     .do_interrupt = m68k_cpu_do_interrupt,
-     .do_transaction_failed = m68k_cpu_transaction_failed,
-@@ -535,7 +538,6 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_parent_reset(dc, m68k_cpu_reset, &mcc->parent_reset);
++    .has_work = mb_cpu_has_work,
+     .cpu_exec_interrupt = mb_cpu_exec_interrupt,
+     .do_interrupt = mb_cpu_do_interrupt,
+     .do_transaction_failed = mb_cpu_transaction_failed,
+@@ -386,8 +388,6 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
+     device_class_set_parent_reset(dc, mb_cpu_reset, &mcc->parent_reset);
  
-     cc->class_by_name = m68k_cpu_class_by_name;
--    cc->has_work = m68k_cpu_has_work;
-     cc->dump_state = m68k_cpu_dump_state;
-     cc->set_pc = m68k_cpu_set_pc;
-     cc->gdb_read_register = m68k_cpu_gdb_read_register;
+     cc->class_by_name = mb_cpu_class_by_name;
+-    cc->has_work = mb_cpu_has_work;
+-
+     cc->dump_state = mb_cpu_dump_state;
+     cc->set_pc = mb_cpu_set_pc;
+     cc->gdb_read_register = mb_cpu_gdb_read_register;
 -- 
 2.31.1
 
