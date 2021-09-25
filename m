@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20A541830F
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 17:10:29 +0200 (CEST)
-Received: from localhost ([::1]:51576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714FD418310
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 17:11:32 +0200 (CEST)
+Received: from localhost ([::1]:54388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mU9Js-00052o-LX
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 11:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42252)
+	id 1mU9Kt-00074v-Eb
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 11:11:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mU92E-00008I-O8
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:52:14 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35531)
+ id 1mU92J-0000PM-Kq
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:52:19 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mU92D-0005d2-8M
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:52:14 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id i23so36568526wrb.2
- for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 07:52:12 -0700 (PDT)
+ id 1mU92H-0005ho-VQ
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:52:19 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id g16so36516143wrb.3
+ for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 07:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tl5Shev5pC48yBd7v32jcWMdVT27BoRgDVkMAOt+xfs=;
- b=MwgJW+yc7cOusjtImkFrJ2gnNtX5tK9JtKttyALTt8MXdcgv5cew7qYCTAX+CotMag
- 1Ycbd5OTbO4hGdzinmZqax6dLZ0tgTssaA50jntUbIYxpr5feKiQ4DBCmsySC0HpguCh
- pMv3OyKKAgvWp/BFIjUBrNc8b1/DDuzXa8oxru0Vc8CmZMtONai9SfAzJv3PohPruCBX
- SlSnAex8v33qbEq5isQKK/SvwU9aQJeoI/lxQ4L8banpVypRjQkd8CE6dR/XSgP47Zzx
- anfUH0Y8gRs6BYkdl2k7RY4KosRaZrZE86aNrpJp/Rfq2MLXtlJFxLGfJs9ijIrQOVIh
- QMiw==
+ bh=aLzuxgLTjxaUP4zi8sBdv28yd73Nm8j1vjkLU2rmh+g=;
+ b=SaZX5+axWdoNAEqaVs6F8TD8N7AxIfwQMcVy+pxC7HPXxx/qpTmFNIS8cXDA5Pjkog
+ QFSskgw9znaSWXpRbTcv75DFTxQm7oHnNvLyeuf8Xi1lf2hhlsGm9i/T2EW6XIB2pov+
+ 9eHNIR2LGkzGROfbBUquu/TePfTejG4R2FkG/Eujb++9lO9YQ2cHMOXtUxbWBBXHo04u
+ khfjO6apBgrXhYn9uhYhRaLxaL88B/iJvV5wxP7j7wvepaOmqmSJIr+RR9VIwavB+jCA
+ jxAtkacEp2dkZUd8OSKTISEe8b3v+wxGnTxzQ4d0M6lDuGXng4D7z/FWPGMssfqnIKjJ
+ 4VOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tl5Shev5pC48yBd7v32jcWMdVT27BoRgDVkMAOt+xfs=;
- b=6P10YijR6w/p0N4Qg8NXsAPlSSt21T+JZ2HPRrDXAjCT99f0ES0ugWu/hv9linvM30
- BAix3a7BkHmncxb/XCP4w2jZrlmXJ+lPw/zb9BWE5s39vSNtP1p7ncASk2RuThP1f8O6
- riq/17YP495T1tN1Tgqy+am7ut9vZPx0AjL/MKgg6hiZEpOgz5C72GFmfEvFu6RTNbQt
- eelbDHQuk9wZQ1SuOYW5uSk+h60LWgzxR3KI7pCeInh+piXEJTFKvNFRFTXg1Ta1DIQz
- gzXNHrdgme+rWS19VWjlQQr3md/1h7ihBcHEyVkESbwNROi5bxY7t4PoijjiL/+a8m88
- 75jQ==
-X-Gm-Message-State: AOAM532yOJrGesZdpLYYN3RLspyZ6AuEoDB46PLJYbX6GFFpwtmeUc0z
- G6M5CGPk8ZtsDgJcj/D7kaWbNPIo5nM=
-X-Google-Smtp-Source: ABdhPJz++mxK0aLTrnAeo5+QdatxDLpyJgp9NJ9xzEfzSXd8t8Q7OcH6swtbzrZOARYj20kiuxwI2w==
-X-Received: by 2002:a1c:1c7:: with SMTP id 190mr7147880wmb.158.1632581531737; 
- Sat, 25 Sep 2021 07:52:11 -0700 (PDT)
+ bh=aLzuxgLTjxaUP4zi8sBdv28yd73Nm8j1vjkLU2rmh+g=;
+ b=lPB/3D5lm8UXnnEvYE1zkNtFAwPt6j5dk1+fh4Vxjb8PMhmrwbZpmVXMbZD1yG6Blk
+ uChKUXjlmEfpNHaVMrwED0CrEeg7hVx0C8FUOorgpAEBU6hXDuP3fjqZK7diBzVEZ8Eh
+ Y7UmPLSCEyJ/C+scV8SdEM8uCkC2K/3td3WzLQY9FtWzFzb4wwsDtnBJRL7vrpAcazZT
+ c4si3HgLJT++Y+KKv3ocNmYAuj7iVr0QeAyxy4LmrjGkH50eOwT1t7CawNGPH0KsCXHf
+ Qg2V3xnJoq9/87SxKB4fZV2KH9xN/mOl7QufgaDPoRgsGwzjJ8SQsaiJt0wIujkQNCJK
+ b9Rw==
+X-Gm-Message-State: AOAM530YNYmuYwHYFklE/ogphxzvR3GYol7zoOWuObt7SOzHRsIJo5ct
+ Uvtz2XLqM/0EOSzWSn60lLg/nIjWplI=
+X-Google-Smtp-Source: ABdhPJzYPpUggr8HAA3tolud8uCGmSfmGWRHb6x82DTDa6g/c+WwUa8Abhdu1ikeiMFhIIjnDV6leA==
+X-Received: by 2002:a05:600c:4fd2:: with SMTP id
+ o18mr7448821wmq.126.1632581536473; 
+ Sat, 25 Sep 2021 07:52:16 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- n26sm15815610wmi.43.2021.09.25.07.52.10
+ c14sm11255196wrd.50.2021.09.25.07.52.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Sep 2021 07:52:11 -0700 (PDT)
+ Sat, 25 Sep 2021 07:52:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 11/40] accel/nvmm: Implement AccelOpsClass::has_work()
-Date: Sat, 25 Sep 2021 16:50:49 +0200
-Message-Id: <20210925145118.1361230-12-f4bug@amsat.org>
+Subject: [PATCH v7 12/40] accel/qtest: Implement AccelOpsClass::has_work()
+Date: Sat, 25 Sep 2021 16:50:50 +0200
+Message-Id: <20210925145118.1361230-13-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210925145118.1361230-1-f4bug@amsat.org>
 References: <20210925145118.1361230-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,45 +86,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Reinoud Zandijk <reinoud@netbsd.org>, Kamil Rytarowski <kamil@netbsd.org>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since there is no specific NVMM handling for cpu_has_work() in
-cpu_thread_is_idle(), implement NVMM has_work() handler as a
-simple 'return false' code.
+Implement QTest has_work() handler in AccelOpsClass.
+Since no CPU are available under QTest accelerator,
+this function is not reachable.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/i386/nvmm/nvmm-accel-ops.c | 6 ++++++
+ accel/qtest/qtest.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/target/i386/nvmm/nvmm-accel-ops.c b/target/i386/nvmm/nvmm-accel-ops.c
-index f788f75289f..36296f79ff8 100644
---- a/target/i386/nvmm/nvmm-accel-ops.c
-+++ b/target/i386/nvmm/nvmm-accel-ops.c
-@@ -83,6 +83,11 @@ static void nvmm_kick_vcpu_thread(CPUState *cpu)
-     cpus_kick_thread(cpu);
- }
+diff --git a/accel/qtest/qtest.c b/accel/qtest/qtest.c
+index 7e6b8110d52..903c39ec1bf 100644
+--- a/accel/qtest/qtest.c
++++ b/accel/qtest/qtest.c
+@@ -47,12 +47,18 @@ static const TypeInfo qtest_accel_type = {
+ };
+ module_obj(TYPE_QTEST_ACCEL);
  
-+static bool nvmm_cpu_has_work(CPUState *cpu)
++static bool qtest_cpu_has_work(CPUState *cpu)
 +{
-+    return false;
++    g_assert_not_reached();
 +}
 +
- static void nvmm_accel_ops_class_init(ObjectClass *oc, void *data)
+ static void qtest_accel_ops_class_init(ObjectClass *oc, void *data)
  {
      AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
-@@ -94,6 +99,7 @@ static void nvmm_accel_ops_class_init(ObjectClass *oc, void *data)
-     ops->synchronize_post_init = nvmm_cpu_synchronize_post_init;
-     ops->synchronize_state = nvmm_cpu_synchronize_state;
-     ops->synchronize_pre_loadvm = nvmm_cpu_synchronize_pre_loadvm;
-+    ops->has_work = nvmm_cpu_has_work;
- }
  
- static const TypeInfo nvmm_accel_ops_type = {
+     ops->create_vcpu_thread = dummy_start_vcpu_thread;
+     ops->get_virtual_clock = qtest_get_virtual_clock;
++    ops->has_work = qtest_cpu_has_work;
+ };
+ 
+ static const TypeInfo qtest_accel_ops_type = {
 -- 
 2.31.1
 
