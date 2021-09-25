@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BBA41800A
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 08:39:37 +0200 (CEST)
-Received: from localhost ([::1]:58394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21AB1418022
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 08:54:28 +0200 (CEST)
+Received: from localhost ([::1]:33160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mU1LT-00014t-Mb
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 02:39:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56916)
+	id 1mU1Zr-0005i2-6q
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 02:54:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU18D-0007lf-VY
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20925)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU18B-0007hN-1t
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU185-0007RE-24
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:53 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU180-0007LJ-Of
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632551144;
+ s=mimecast20190719; t=1632551139;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I6BMwo9SZ8lwwKx4B+3dxIkoseSUSDVt6RtYDrNb7Dw=;
- b=MQrmlmbr6sBJgkoTUbXJwUV6pISfgfDTcLMkV5jY7OWMo+pTQ0vRi7xu0i/hfMkzkELLuy
- 3R/zC2f3GW/m2pUmuSa+NHWzjhbOrSQY2oFtqSQZjqPxdTGxjwK0Fmrjsvn+T0YiffWOs+
- GAuYbBwG5PQsof7gC0qU7KsRuWytlA0=
+ bh=crdpMqgq/xumj2wSo6tDv4gzNZ7NmdAh+0MIrIKtpPg=;
+ b=efgr41kNE2aGA9pwalYdW2m6zqedkyfCh6rIpv7ooBQedkB58fE1bdPwONbGJv/wALhvy/
+ UKE1NKpdjowse1er/mA9yiOn3dvadTXxUUt09Mfhnun9n3sYCb9WpT/Hr3OPZ/1gsh5gJe
+ KmWkFCNd6xJMDOC3wzQI8+tQXQBkyWc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-K1pmZNYrMUiCuVd0m6Ihaw-1; Sat, 25 Sep 2021 02:25:36 -0400
-X-MC-Unique: K1pmZNYrMUiCuVd0m6Ihaw-1
+ us-mta-556-MJrxAZgKNjayySoSWMOQxw-1; Sat, 25 Sep 2021 02:25:36 -0400
+X-MC-Unique: MJrxAZgKNjayySoSWMOQxw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC5678145E6;
- Sat, 25 Sep 2021 06:25:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D0021006AA2;
+ Sat, 25 Sep 2021 06:25:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 63EAE19D9F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 66E351972D;
  Sat, 25 Sep 2021 06:25:35 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6117C11380D5; Sat, 25 Sep 2021 08:25:25 +0200 (CEST)
+ id 650871136421; Sat, 25 Sep 2021 08:25:25 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/25] qapi: Drop simple unions
-Date: Sat, 25 Sep 2021 08:25:21 +0200
-Message-Id: <20210925062525.988405-22-armbru@redhat.com>
+Subject: [PULL 22/25] tests/qapi-schema: Rename flat-union-* test cases to
+ union-*
+Date: Sat, 25 Sep 2021 08:25:22 +0200
+Message-Id: <20210925062525.988405-23-armbru@redhat.com>
 In-Reply-To: <20210925062525.988405-1-armbru@redhat.com>
 References: <20210925062525.988405-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -79,553 +80,585 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Eric Blake <eblake@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simple unions predate flat unions.  Having both complicates the QAPI
-schema language and the QAPI generator.  We haven't been using simple
-unions in new code for a long time, because they are less flexible and
-somewhat awkward on the wire.
-
-The previous commits eliminated simple union from the tree.  Now drop
-them from the QAPI schema language entirely, and update mentions of
-"flat union" to just "union".
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210917143134.412106-22-armbru@redhat.com>
+Message-Id: <20210917143134.412106-23-armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com
 ---
- docs/devel/qapi-code-gen.rst                  | 125 ++++--------------
- scripts/qapi/expr.py                          |  21 +--
- scripts/qapi/schema.py                        | 101 +++-----------
- .../qapi-schema/flat-union-array-branch.json  |   2 +-
- tests/qapi-schema/flat-union-empty.json       |   2 +-
- tests/qapi-schema/flat-union-int-branch.json  |   2 +-
- tests/qapi-schema/flat-union-no-base.err      |   2 +-
- tests/qapi-schema/flat-union-no-base.json     |   2 +-
- tests/qapi-schema/qapi-schema-test.json       |   2 +-
- tests/qapi-schema/reserved-member-u.json      |   2 +-
- tests/qapi-schema/union-base-empty.json       |   2 +-
- .../union-base-no-discriminator.err           |   2 +-
- .../union-base-no-discriminator.json          |   2 +-
- 13 files changed, 62 insertions(+), 205 deletions(-)
+ tests/qapi-schema/flat-union-array-branch.err |  2 --
+ tests/qapi-schema/flat-union-bad-base.err     |  2 --
+ .../flat-union-bad-discriminator.err          |  2 --
+ tests/qapi-schema/flat-union-base-any.err     |  2 --
+ tests/qapi-schema/flat-union-base-union.err   |  2 --
+ tests/qapi-schema/flat-union-clash-member.err |  2 --
+ .../flat-union-discriminator-bad-name.err     |  2 --
+ tests/qapi-schema/flat-union-empty.err        |  2 --
+ .../flat-union-inline-invalid-dict.err        |  2 --
+ tests/qapi-schema/flat-union-int-branch.err   |  2 --
+ .../flat-union-invalid-branch-key.err         |  2 --
+ .../flat-union-invalid-discriminator.err      |  2 --
+ .../flat-union-invalid-if-discriminator.err   |  2 --
+ tests/qapi-schema/flat-union-no-base.err      |  2 --
+ .../flat-union-optional-discriminator.err     |  2 --
+ .../flat-union-string-discriminator.err       |  2 --
+ tests/qapi-schema/meson.build                 | 32 +++++++++----------
+ tests/qapi-schema/union-array-branch.err      |  2 ++
+ ...ay-branch.json => union-array-branch.json} |  0
+ ...rray-branch.out => union-array-branch.out} |  0
+ tests/qapi-schema/union-bad-base.err          |  2 ++
+ ...nion-bad-base.json => union-bad-base.json} |  0
+ ...-union-bad-base.out => union-bad-base.out} |  0
+ tests/qapi-schema/union-bad-discriminator.err |  2 ++
+ ...ator.json => union-bad-discriminator.json} |  0
+ ...inator.out => union-bad-discriminator.out} |  0
+ tests/qapi-schema/union-base-any.err          |  2 ++
+ ...nion-base-any.json => union-base-any.json} |  0
+ ...-union-base-any.out => union-base-any.out} |  0
+ tests/qapi-schema/union-base-union.err        |  2 ++
+ ...-base-union.json => union-base-union.json} |  0
+ ...on-base-union.out => union-base-union.out} |  0
+ tests/qapi-schema/union-clash-member.err      |  2 ++
+ ...sh-member.json => union-clash-member.json} |  0
+ ...lash-member.out => union-clash-member.out} |  0
+ .../union-discriminator-bad-name.err          |  2 ++
+ ...json => union-discriminator-bad-name.json} |  0
+ ...e.out => union-discriminator-bad-name.out} |  0
+ tests/qapi-schema/union-empty.err             |  2 ++
+ ...flat-union-empty.json => union-empty.json} |  0
+ .../{flat-union-empty.out => union-empty.out} |  0
+ .../qapi-schema/union-inline-invalid-dict.err |  2 ++
+ ...ct.json => union-inline-invalid-dict.json} |  0
+ ...dict.out => union-inline-invalid-dict.out} |  0
+ tests/qapi-schema/union-int-branch.err        |  2 ++
+ ...-int-branch.json => union-int-branch.json} |  0
+ ...on-int-branch.out => union-int-branch.out} |  0
+ .../qapi-schema/union-invalid-branch-key.err  |  2 ++
+ ...key.json => union-invalid-branch-key.json} |  0
+ ...h-key.out => union-invalid-branch-key.out} |  0
+ .../union-invalid-discriminator.err           |  2 ++
+ ....json => union-invalid-discriminator.json} |  0
+ ...or.out => union-invalid-discriminator.out} |  0
+ .../union-invalid-if-discriminator.err        |  2 ++
+ ...on => union-invalid-if-discriminator.json} |  0
+ ...out => union-invalid-if-discriminator.out} |  0
+ tests/qapi-schema/union-no-base.err           |  2 ++
+ ...-union-no-base.json => union-no-base.json} |  0
+ ...at-union-no-base.out => union-no-base.out} |  0
+ .../union-optional-discriminator.err          |  2 ++
+ ...json => union-optional-discriminator.json} |  0
+ ...r.out => union-optional-discriminator.out} |  0
+ .../union-string-discriminator.err            |  2 ++
+ ...r.json => union-string-discriminator.json} |  0
+ ...tor.out => union-string-discriminator.out} |  0
+ 65 files changed, 48 insertions(+), 48 deletions(-)
+ delete mode 100644 tests/qapi-schema/flat-union-array-branch.err
+ delete mode 100644 tests/qapi-schema/flat-union-bad-base.err
+ delete mode 100644 tests/qapi-schema/flat-union-bad-discriminator.err
+ delete mode 100644 tests/qapi-schema/flat-union-base-any.err
+ delete mode 100644 tests/qapi-schema/flat-union-base-union.err
+ delete mode 100644 tests/qapi-schema/flat-union-clash-member.err
+ delete mode 100644 tests/qapi-schema/flat-union-discriminator-bad-name.err
+ delete mode 100644 tests/qapi-schema/flat-union-empty.err
+ delete mode 100644 tests/qapi-schema/flat-union-inline-invalid-dict.err
+ delete mode 100644 tests/qapi-schema/flat-union-int-branch.err
+ delete mode 100644 tests/qapi-schema/flat-union-invalid-branch-key.err
+ delete mode 100644 tests/qapi-schema/flat-union-invalid-discriminator.err
+ delete mode 100644 tests/qapi-schema/flat-union-invalid-if-discriminator.err
+ delete mode 100644 tests/qapi-schema/flat-union-no-base.err
+ delete mode 100644 tests/qapi-schema/flat-union-optional-discriminator.err
+ delete mode 100644 tests/qapi-schema/flat-union-string-discriminator.err
+ create mode 100644 tests/qapi-schema/union-array-branch.err
+ rename tests/qapi-schema/{flat-union-array-branch.json => union-array-branch.json} (100%)
+ rename tests/qapi-schema/{flat-union-array-branch.out => union-array-branch.out} (100%)
+ create mode 100644 tests/qapi-schema/union-bad-base.err
+ rename tests/qapi-schema/{flat-union-bad-base.json => union-bad-base.json} (100%)
+ rename tests/qapi-schema/{flat-union-bad-base.out => union-bad-base.out} (100%)
+ create mode 100644 tests/qapi-schema/union-bad-discriminator.err
+ rename tests/qapi-schema/{flat-union-bad-discriminator.json => union-bad-discriminator.json} (100%)
+ rename tests/qapi-schema/{flat-union-bad-discriminator.out => union-bad-discriminator.out} (100%)
+ create mode 100644 tests/qapi-schema/union-base-any.err
+ rename tests/qapi-schema/{flat-union-base-any.json => union-base-any.json} (100%)
+ rename tests/qapi-schema/{flat-union-base-any.out => union-base-any.out} (100%)
+ create mode 100644 tests/qapi-schema/union-base-union.err
+ rename tests/qapi-schema/{flat-union-base-union.json => union-base-union.json} (100%)
+ rename tests/qapi-schema/{flat-union-base-union.out => union-base-union.out} (100%)
+ create mode 100644 tests/qapi-schema/union-clash-member.err
+ rename tests/qapi-schema/{flat-union-clash-member.json => union-clash-member.json} (100%)
+ rename tests/qapi-schema/{flat-union-clash-member.out => union-clash-member.out} (100%)
+ create mode 100644 tests/qapi-schema/union-discriminator-bad-name.err
+ rename tests/qapi-schema/{flat-union-discriminator-bad-name.json => union-discriminator-bad-name.json} (100%)
+ rename tests/qapi-schema/{flat-union-discriminator-bad-name.out => union-discriminator-bad-name.out} (100%)
+ create mode 100644 tests/qapi-schema/union-empty.err
+ rename tests/qapi-schema/{flat-union-empty.json => union-empty.json} (100%)
+ rename tests/qapi-schema/{flat-union-empty.out => union-empty.out} (100%)
+ create mode 100644 tests/qapi-schema/union-inline-invalid-dict.err
+ rename tests/qapi-schema/{flat-union-inline-invalid-dict.json => union-inline-invalid-dict.json} (100%)
+ rename tests/qapi-schema/{flat-union-inline-invalid-dict.out => union-inline-invalid-dict.out} (100%)
+ create mode 100644 tests/qapi-schema/union-int-branch.err
+ rename tests/qapi-schema/{flat-union-int-branch.json => union-int-branch.json} (100%)
+ rename tests/qapi-schema/{flat-union-int-branch.out => union-int-branch.out} (100%)
+ create mode 100644 tests/qapi-schema/union-invalid-branch-key.err
+ rename tests/qapi-schema/{flat-union-invalid-branch-key.json => union-invalid-branch-key.json} (100%)
+ rename tests/qapi-schema/{flat-union-invalid-branch-key.out => union-invalid-branch-key.out} (100%)
+ create mode 100644 tests/qapi-schema/union-invalid-discriminator.err
+ rename tests/qapi-schema/{flat-union-invalid-discriminator.json => union-invalid-discriminator.json} (100%)
+ rename tests/qapi-schema/{flat-union-invalid-discriminator.out => union-invalid-discriminator.out} (100%)
+ create mode 100644 tests/qapi-schema/union-invalid-if-discriminator.err
+ rename tests/qapi-schema/{flat-union-invalid-if-discriminator.json => union-invalid-if-discriminator.json} (100%)
+ rename tests/qapi-schema/{flat-union-invalid-if-discriminator.out => union-invalid-if-discriminator.out} (100%)
+ create mode 100644 tests/qapi-schema/union-no-base.err
+ rename tests/qapi-schema/{flat-union-no-base.json => union-no-base.json} (100%)
+ rename tests/qapi-schema/{flat-union-no-base.out => union-no-base.out} (100%)
+ create mode 100644 tests/qapi-schema/union-optional-discriminator.err
+ rename tests/qapi-schema/{flat-union-optional-discriminator.json => union-optional-discriminator.json} (100%)
+ rename tests/qapi-schema/{flat-union-optional-discriminator.out => union-optional-discriminator.out} (100%)
+ create mode 100644 tests/qapi-schema/union-string-discriminator.err
+ rename tests/qapi-schema/{flat-union-string-discriminator.json => union-string-discriminator.json} (100%)
+ rename tests/qapi-schema/{flat-union-string-discriminator.out => union-string-discriminator.out} (100%)
 
-diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-index b154eae82e..b2569de486 100644
---- a/docs/devel/qapi-code-gen.rst
-+++ b/docs/devel/qapi-code-gen.rst
-@@ -319,13 +319,9 @@ Union types
- Syntax::
- 
-     UNION = { 'union': STRING,
--              'data': BRANCHES,
--              '*if': COND,
--              '*features': FEATURES }
--          | { 'union': STRING,
--              'data': BRANCHES,
-               'base': ( MEMBERS | STRING ),
-               'discriminator': STRING,
-+              'data': BRANCHES,
-               '*if': COND,
-               '*features': FEATURES }
-     BRANCHES = { BRANCH, ... }
-@@ -334,63 +330,30 @@ Syntax::
- 
- Member 'union' names the union type.
- 
--There are two flavors of union types: simple (no discriminator or
--base), and flat (both discriminator and base).
--
--Each BRANCH of the 'data' object defines a branch of the union.  A
--union must have at least one branch.
--
--The BRANCH's STRING name is the branch name.
--
--The BRANCH's value defines the branch's properties, in particular its
--type.  The form TYPE-REF_ is shorthand for :code:`{ 'type': TYPE-REF }`.
--
--A simple union type defines a mapping from automatic discriminator
--values to data types like in this example::
--
-- { 'struct': 'BlockdevOptionsFile', 'data': { 'filename': 'str' } }
-- { 'struct': 'BlockdevOptionsQcow2',
--   'data': { 'backing': 'str', '*lazy-refcounts': 'bool' } }
--
-- { 'union': 'BlockdevOptionsSimple',
--   'data': { 'file': 'BlockdevOptionsFile',
--             'qcow2': 'BlockdevOptionsQcow2' } }
--
--In the Client JSON Protocol, a simple union is represented by an
--object that contains the 'type' member as a discriminator, and a
--'data' member that is of the specified data type corresponding to the
--discriminator value, as in these examples::
--
-- { "type": "file", "data": { "filename": "/some/place/my-image" } }
-- { "type": "qcow2", "data": { "backing": "/some/place/my-image",
--                              "lazy-refcounts": true } }
--
--The generated C code uses a struct containing a union.  Additionally,
--an implicit C enum 'NameKind' is created, corresponding to the union
--'Name', for accessing the various branches of the union.  The value
--for each branch can be of any type.
--
--Flat unions permit arbitrary common members that occur in all variants
--of the union, not just a discriminator.  Their discriminators need not
--be named 'type'.  They also avoid nesting on the wire.
--
- The 'base' member defines the common members.  If it is a MEMBERS_
- object, it defines common members just like a struct type's 'data'
- member defines struct type members.  If it is a STRING, it names a
- struct type whose members are the common members.
- 
--All flat union branches must be `Struct types`_.
-+Member 'discriminator' must name a non-optional enum-typed member of
-+the base struct.  That member's value selects a branch by its name.
-+If no such branch exists, an empty branch is assumed.
- 
--In the Client JSON Protocol, a flat union is represented by an object
--with the common members (from the base type) and the selected branch's
--members.  The two sets of member names must be disjoint.  Member
--'discriminator' must name a non-optional enum-typed member of the base
--struct.
-+Each BRANCH of the 'data' object defines a branch of the union.  A
-+union must have at least one branch.
- 
--The following example enhances the above simple union example by
--adding an optional common member 'read-only', renaming the
--discriminator to something more applicable than the simple union's
--default of 'type', and reducing the number of ``{}`` required on the wire::
-+The BRANCH's STRING name is the branch name.  It must be a value of
-+the discriminator enum type.
-+
-+The BRANCH's value defines the branch's properties, in particular its
-+type.  The type must a struct type.  The form TYPE-REF_ is shorthand
-+for :code:`{ 'type': TYPE-REF }`.
-+
-+In the Client JSON Protocol, a union is represented by an object with
-+the common members (from the base type) and the selected branch's
-+members.  The two sets of member names must be disjoint.
-+
-+Example::
- 
-  { 'enum': 'BlockdevDriver', 'data': [ 'file', 'qcow2' ] }
-  { 'union': 'BlockdevOptions',
-@@ -406,30 +369,11 @@ Resulting in these JSON objects::
-  { "driver": "qcow2", "read-only": false,
-    "backing": "/some/place/my-image", "lazy-refcounts": true }
- 
--Notice that in a flat union, the discriminator name is controlled by
--the user, but because it must map to a base member with enum type, the
--code generator ensures that branches match the existing values of the
--enum.  The order of branches need not match the order of the enum
--values.  The branches need not cover all possible enum values.
--Omitted enum values are still valid branches that add no additional
--members to the data type.  In the resulting generated C data types, a
--flat union is represented as a struct with the base members in QAPI
--schema order, and then a union of structures for each branch of the
--struct.
--
--A simple union can always be re-written as a flat union where the base
--class has a single member named 'type', and where each branch of the
--union has a struct with a single member named 'data'.  That is, ::
--
-- { 'union': 'Simple', 'data': { 'one': 'str', 'two': 'int' } }
--
--is identical on the wire to::
--
-- { 'enum': 'Enum', 'data': ['one', 'two'] }
-- { 'struct': 'Branch1', 'data': { 'data': 'str' } }
-- { 'struct': 'Branch2', 'data': { 'data': 'int' } }
-- { 'union': 'Flat', 'base': { 'type': 'Enum' }, 'discriminator': 'type',
--   'data': { 'one': 'Branch1', 'two': 'Branch2' } }
-+The order of branches need not match the order of the enum values.
-+The branches need not cover all possible enum values.  In the
-+resulting generated C data types, a union is represented as a struct
-+with the base members in QAPI schema order, and then a union of
-+structures for each branch of the struct.
- 
- The optional 'if' member specifies a conditional.  See `Configuring
- the schema`_ below for more on this.
-@@ -1246,7 +1190,7 @@ that provides the variant members for this type tag value).  The
- "variants" array is in no particular order, and is not guaranteed to
- list cases in the same order as the corresponding "tag" enum type.
- 
--Example: the SchemaInfo for flat union BlockdevOptions from section
-+Example: the SchemaInfo for union BlockdevOptions from section
- `Union types`_ ::
- 
-     { "name": "BlockdevOptions", "meta-type": "object",
-@@ -1261,27 +1205,6 @@ Example: the SchemaInfo for flat union BlockdevOptions from section
- Note that base types are "flattened": its members are included in the
- "members" array.
- 
--A simple union implicitly defines an enumeration type for its implicit
--discriminator (called "type" on the wire, see section `Union types`_).
--
--A simple union implicitly defines an object type for each of its
--variants.
--
--Example: the SchemaInfo for simple union BlockdevOptionsSimple from section
--`Union types`_ ::
--
--    { "name": "BlockdevOptionsSimple", "meta-type": "object",
--      "members": [
--          { "name": "type", "type": "BlockdevOptionsSimpleKind" } ],
--      "tag": "type",
--      "variants": [
--          { "case": "file", "type": "q_obj-BlockdevOptionsFile-wrapper" },
--          { "case": "qcow2", "type": "q_obj-BlockdevOptionsQcow2-wrapper" } ] }
--
--    Enumeration type "BlockdevOptionsSimpleKind" and the object types
--    "q_obj-BlockdevOptionsFile-wrapper", "q_obj-BlockdevOptionsQcow2-wrapper"
--    are implicitly defined.
--
- The SchemaInfo for an alternate type has meta-type "alternate", and
- variant member "members".  "members" is a JSON array.  Each element is
- a JSON object with member "type", which names a type.  Values of the
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 91959ee79a..819ea6ad97 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -513,27 +513,18 @@ def check_union(expr: _JSONObject, info: QAPISourceInfo) -> None:
-     :return: None, ``expr`` is normalized in-place as needed.
-     """
-     name = cast(str, expr['union'])  # Checked in check_exprs
--    base = expr.get('base')
--    discriminator = expr.get('discriminator')
-+    base = expr['base']
-+    discriminator = expr['discriminator']
-     members = expr['data']
- 
--    if discriminator is None:   # simple union
--        if base is not None:
--            raise QAPISemError(info, "'base' requires 'discriminator'")
--    else:                       # flat union
--        check_type(base, info, "'base'", allow_dict=name)
--        if not base:
--            raise QAPISemError(info, "'discriminator' requires 'base'")
--        check_name_is_str(discriminator, info, "'discriminator'")
-+    check_type(base, info, "'base'", allow_dict=name)
-+    check_name_is_str(discriminator, info, "'discriminator'")
- 
-     if not isinstance(members, dict):
-         raise QAPISemError(info, "'data' must be an object")
- 
-     for (key, value) in members.items():
-         source = "'data' member '%s'" % key
--        if discriminator is None:
--            check_name_lower(key, info, source)
--        # else: name is in discriminator enum, which gets checked
-         check_keys(value, info, source, ['type'], ['if'])
-         check_if(value, info, source)
-         check_type(value['type'], info, source, allow_array=not base)
-@@ -664,8 +655,8 @@ def check_exprs(exprs: List[_JSONObject]) -> List[_JSONObject]:
-             check_enum(expr, info)
-         elif meta == 'union':
-             check_keys(expr, info, meta,
--                       ['union', 'data'],
--                       ['base', 'discriminator', 'if', 'features'])
-+                       ['union', 'base', 'discriminator', 'data'],
-+                       ['if', 'features'])
-             normalize_members(expr.get('base'))
-             normalize_members(expr['data'])
-             check_union(expr, info)
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 3d72c7dfc9..004d7095ff 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -321,8 +321,8 @@ def connect_doc(self, doc=None):
-             m.connect_doc(doc)
- 
-     def is_implicit(self):
--        # See QAPISchema._make_implicit_enum_type() and ._def_predefineds()
--        return self.name.endswith('Kind') or self.name == 'QType'
-+        # See QAPISchema._def_predefineds()
-+        return self.name == 'QType'
- 
-     def c_type(self):
-         return c_name(self.name)
-@@ -393,8 +393,7 @@ class QAPISchemaObjectType(QAPISchemaType):
-     def __init__(self, name, info, doc, ifcond, features,
-                  base, local_members, variants):
-         # struct has local_members, optional base, and no variants
--        # flat union has base, variants, and no local_members
--        # simple union has local_members, variants, and no base
-+        # union has base, variants, and no local_members
-         super().__init__(name, info, doc, ifcond, features)
-         self.meta = 'union' if variants else 'struct'
-         assert base is None or isinstance(base, str)
-@@ -465,15 +464,6 @@ def connect_doc(self, doc=None):
-         for m in self.local_members:
-             m.connect_doc(doc)
- 
--    @property
--    def ifcond(self):
--        assert self._checked
--        if isinstance(self._ifcond, QAPISchemaType):
--            # Simple union wrapper type inherits from wrapped type;
--            # see _make_implicit_object_type()
--            return self._ifcond.ifcond
--        return self._ifcond
--
-     def is_implicit(self):
-         # See QAPISchema._make_implicit_object_type(), as well as
-         # _def_predefineds()
-@@ -576,10 +566,9 @@ def visit(self, visitor):
- 
- class QAPISchemaVariants:
-     def __init__(self, tag_name, info, tag_member, variants):
--        # Flat unions pass tag_name but not tag_member.
--        # Simple unions and alternates pass tag_member but not tag_name.
--        # After check(), tag_member is always set, and tag_name remains
--        # a reliable witness of being used by a flat union.
-+        # Unions pass tag_name but not tag_member.
-+        # Alternates pass tag_member but not tag_name.
-+        # After check(), tag_member is always set.
-         assert bool(tag_member) != bool(tag_name)
-         assert (isinstance(tag_name, str) or
-                 isinstance(tag_member, QAPISchemaObjectTypeMember))
-@@ -595,7 +584,7 @@ def set_defined_in(self, name):
-             v.set_defined_in(name)
- 
-     def check(self, schema, seen):
--        if not self.tag_member:  # flat union
-+        if self._tag_name:      # union
-             self.tag_member = seen.get(c_name(self._tag_name))
-             base = "'base'"
-             # Pointing to the base type when not implicit would be
-@@ -625,11 +614,11 @@ def check(self, schema, seen):
-                     self.info,
-                     "discriminator member '%s' of %s must not be conditional"
-                     % (self._tag_name, base))
--        else:                   # simple union
-+        else:                   # alternate
-             assert isinstance(self.tag_member.type, QAPISchemaEnumType)
-             assert not self.tag_member.optional
-             assert not self.tag_member.ifcond.is_present()
--        if self._tag_name:    # flat union
-+        if self._tag_name:      # union
-             # branches that are not explicitly covered get an empty type
-             cases = {v.name for v in self.variants}
-             for m in self.tag_member.type.members:
-@@ -707,18 +696,10 @@ def describe(self, info):
-                 assert role == 'member'
-                 role = 'parameter'
-             elif defined_in.endswith('-base'):
--                # Implicit type created for a flat union's dict 'base'
-+                # Implicit type created for a union's dict 'base'
-                 role = 'base ' + role
-             else:
--                # Implicit type created for a simple union's branch
--                assert defined_in.endswith('-wrapper')
--                # Unreachable and not implemented
-                 assert False
--        elif defined_in.endswith('Kind'):
--            # See QAPISchema._make_implicit_enum_type()
--            # Implicit enum created for simple union's branches
--            assert role == 'value'
--            role = 'branch'
-         elif defined_in != info.defn_name:
-             return "%s '%s' of type '%s'" % (role, self.name, defined_in)
-         return "%s '%s'" % (role, self.name)
-@@ -1004,15 +985,6 @@ def _make_enum_members(self, values, info):
-                                      QAPISchemaIfCond(v.get('if')))
-                 for v in values]
- 
--    def _make_implicit_enum_type(self, name, info, ifcond, values):
--        # See also QAPISchemaObjectTypeMember.describe()
--        name = name + 'Kind'    # reserved by check_defn_name_str()
--        self._def_entity(QAPISchemaEnumType(
--            name, info, None, ifcond, None,
--            self._make_enum_members(values, info),
--            None))
--        return name
--
-     def _make_array_type(self, element_type, info):
-         name = element_type + 'List'    # reserved by check_defn_name_str()
-         if not self.lookup_type(name):
-@@ -1026,17 +998,9 @@ def _make_implicit_object_type(self, name, info, ifcond, role, members):
-         name = 'q_obj_%s-%s' % (name, role)
-         typ = self.lookup_entity(name, QAPISchemaObjectType)
-         if typ:
--            # The implicit object type has multiple users.  This is
--            # either a duplicate definition (which will be flagged
--            # later), or an implicit wrapper type used for multiple
--            # simple unions.  In the latter case, ifcond should be the
--            # disjunction of its user's ifconds.  Not implemented.
--            # Instead, we always pass the wrapped type's ifcond, which
--            # is trivially the same for all users.  It's also
--            # necessary for the wrapper to compile.  But it's not
--            # tight: the disjunction need not imply it.  We may end up
--            # compiling useless wrapper types.
--            # TODO kill simple unions or implement the disjunction
-+            # The implicit object type has multiple users.  This can
-+            # only be a duplicate definition, which will be flagged
-+            # later.
-             pass
-         else:
-             self._def_entity(QAPISchemaObjectType(
-@@ -1084,49 +1048,28 @@ def _def_struct_type(self, expr, info, doc):
-     def _make_variant(self, case, typ, ifcond, info):
-         return QAPISchemaVariant(case, info, typ, ifcond)
- 
--    def _make_simple_variant(self, case, typ, ifcond, info):
--        if isinstance(typ, list):
--            assert len(typ) == 1
--            typ = self._make_array_type(typ[0], info)
--        typ = self._make_implicit_object_type(
--            typ, info, self.lookup_type(typ),
--            'wrapper', [self._make_member('data', typ, None, None, info)])
--        return QAPISchemaVariant(case, info, typ, ifcond)
--
-     def _def_union_type(self, expr, info, doc):
-         name = expr['union']
-+        base = expr['base']
-+        tag_name = expr['discriminator']
-         data = expr['data']
--        base = expr.get('base')
-         ifcond = QAPISchemaIfCond(expr.get('if'))
-         features = self._make_features(expr.get('features'), info)
--        tag_name = expr.get('discriminator')
--        tag_member = None
-         if isinstance(base, dict):
-             base = self._make_implicit_object_type(
-                 name, info, ifcond,
-                 'base', self._make_members(base, info))
--        if tag_name:
--            variants = [
--                self._make_variant(key, value['type'],
--                                   QAPISchemaIfCond(value.get('if')),
--                                   info)
--                for (key, value) in data.items()]
--            members = []
--        else:
--            variants = [
--                self._make_simple_variant(key, value['type'],
--                                          QAPISchemaIfCond(value.get('if')),
--                                          info)
--                for (key, value) in data.items()]
--            enum = [{'name': v.name, 'if': v.ifcond.ifcond} for v in variants]
--            typ = self._make_implicit_enum_type(name, info, ifcond, enum)
--            tag_member = QAPISchemaObjectTypeMember('type', info, typ, False)
--            members = [tag_member]
-+        variants = [
-+            self._make_variant(key, value['type'],
-+                               QAPISchemaIfCond(value.get('if')),
-+                               info)
-+            for (key, value) in data.items()]
-+        members = []
-         self._def_entity(
-             QAPISchemaObjectType(name, info, doc, ifcond, features,
-                                  base, members,
-                                  QAPISchemaVariants(
--                                     tag_name, info, tag_member, variants)))
-+                                     tag_name, info, None, variants)))
- 
-     def _def_alternate_type(self, expr, info, doc):
-         name = expr['alternate']
-diff --git a/tests/qapi-schema/flat-union-array-branch.json b/tests/qapi-schema/flat-union-array-branch.json
-index 0b98820a8f..6dda7ec379 100644
---- a/tests/qapi-schema/flat-union-array-branch.json
-+++ b/tests/qapi-schema/flat-union-array-branch.json
-@@ -1,4 +1,4 @@
--# we require flat union branches to be a struct
-+# we require union branches to be a struct
- { 'enum': 'TestEnum',
-   'data': [ 'value1', 'value2' ] }
- { 'struct': 'Base',
-diff --git a/tests/qapi-schema/flat-union-empty.json b/tests/qapi-schema/flat-union-empty.json
-index 83e1cc7b96..584ed6098c 100644
---- a/tests/qapi-schema/flat-union-empty.json
-+++ b/tests/qapi-schema/flat-union-empty.json
-@@ -1,4 +1,4 @@
--# flat union discriminator cannot be empty
-+# union discriminator enum cannot be empty
- { 'enum': 'Empty', 'data': [ ] }
- { 'struct': 'Base', 'data': { 'type': 'Empty' } }
- { 'union': 'Union', 'base': 'Base', 'discriminator': 'type', 'data': { } }
-diff --git a/tests/qapi-schema/flat-union-int-branch.json b/tests/qapi-schema/flat-union-int-branch.json
-index 9370c349e8..567043d9d2 100644
---- a/tests/qapi-schema/flat-union-int-branch.json
-+++ b/tests/qapi-schema/flat-union-int-branch.json
-@@ -1,4 +1,4 @@
--# we require flat union branches to be a struct
-+# we require union branches to be a struct
- { 'enum': 'TestEnum',
-   'data': [ 'value1', 'value2' ] }
- { 'struct': 'Base',
+diff --git a/tests/qapi-schema/flat-union-array-branch.err b/tests/qapi-schema/flat-union-array-branch.err
+deleted file mode 100644
+index 20a8ef1406..0000000000
+--- a/tests/qapi-schema/flat-union-array-branch.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-array-branch.json: In union 'TestUnion':
+-flat-union-array-branch.json:8: 'data' member 'value1' cannot be an array
+diff --git a/tests/qapi-schema/flat-union-bad-base.err b/tests/qapi-schema/flat-union-bad-base.err
+deleted file mode 100644
+index e0a205a58c..0000000000
+--- a/tests/qapi-schema/flat-union-bad-base.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-bad-base.json: In union 'TestUnion':
+-flat-union-bad-base.json:8: member 'string' of type 'TestTypeA' collides with base member 'string'
+diff --git a/tests/qapi-schema/flat-union-bad-discriminator.err b/tests/qapi-schema/flat-union-bad-discriminator.err
+deleted file mode 100644
+index b705439bd9..0000000000
+--- a/tests/qapi-schema/flat-union-bad-discriminator.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-bad-discriminator.json: In union 'TestUnion':
+-flat-union-bad-discriminator.json:11: 'discriminator' requires a string name
+diff --git a/tests/qapi-schema/flat-union-base-any.err b/tests/qapi-schema/flat-union-base-any.err
+deleted file mode 100644
+index c2d4de6a5d..0000000000
+--- a/tests/qapi-schema/flat-union-base-any.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-base-any.json: In union 'TestUnion':
+-flat-union-base-any.json:8: 'base' requires a struct type, built-in type 'any' isn't
+diff --git a/tests/qapi-schema/flat-union-base-union.err b/tests/qapi-schema/flat-union-base-union.err
+deleted file mode 100644
+index 3563e8777e..0000000000
+--- a/tests/qapi-schema/flat-union-base-union.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-base-union.json: In union 'TestUnion':
+-flat-union-base-union.json:17: 'base' requires a struct type, union type 'UnionBase' isn't
+diff --git a/tests/qapi-schema/flat-union-clash-member.err b/tests/qapi-schema/flat-union-clash-member.err
+deleted file mode 100644
+index 07551e6ef5..0000000000
+--- a/tests/qapi-schema/flat-union-clash-member.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-clash-member.json: In union 'TestUnion':
+-flat-union-clash-member.json:11: member 'name' of type 'Branch1' collides with member 'name' of type 'Base'
+diff --git a/tests/qapi-schema/flat-union-discriminator-bad-name.err b/tests/qapi-schema/flat-union-discriminator-bad-name.err
+deleted file mode 100644
+index 28be49c31a..0000000000
+--- a/tests/qapi-schema/flat-union-discriminator-bad-name.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-discriminator-bad-name.json: In union 'MyUnion':
+-flat-union-discriminator-bad-name.json:6: discriminator '*switch' is not a member of 'base'
+diff --git a/tests/qapi-schema/flat-union-empty.err b/tests/qapi-schema/flat-union-empty.err
+deleted file mode 100644
+index 89b0f25cb0..0000000000
+--- a/tests/qapi-schema/flat-union-empty.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-empty.json: In union 'Union':
+-flat-union-empty.json:4: union has no branches
+diff --git a/tests/qapi-schema/flat-union-inline-invalid-dict.err b/tests/qapi-schema/flat-union-inline-invalid-dict.err
+deleted file mode 100644
+index 53e5416707..0000000000
+--- a/tests/qapi-schema/flat-union-inline-invalid-dict.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-inline-invalid-dict.json: In union 'TestUnion':
+-flat-union-inline-invalid-dict.json:7: 'data' member 'value1' misses key 'type'
+diff --git a/tests/qapi-schema/flat-union-int-branch.err b/tests/qapi-schema/flat-union-int-branch.err
+deleted file mode 100644
+index ae7f800603..0000000000
+--- a/tests/qapi-schema/flat-union-int-branch.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-int-branch.json: In union 'TestUnion':
+-flat-union-int-branch.json:8: branch 'value1' cannot use built-in type 'int'
+diff --git a/tests/qapi-schema/flat-union-invalid-branch-key.err b/tests/qapi-schema/flat-union-invalid-branch-key.err
+deleted file mode 100644
+index 5576a25f9b..0000000000
+--- a/tests/qapi-schema/flat-union-invalid-branch-key.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-invalid-branch-key.json: In union 'TestUnion':
+-flat-union-invalid-branch-key.json:13: branch 'value_wrong' is not a value of enum type 'TestEnum'
+diff --git a/tests/qapi-schema/flat-union-invalid-discriminator.err b/tests/qapi-schema/flat-union-invalid-discriminator.err
+deleted file mode 100644
+index 99bca2ddab..0000000000
+--- a/tests/qapi-schema/flat-union-invalid-discriminator.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-invalid-discriminator.json: In union 'TestUnion':
+-flat-union-invalid-discriminator.json:10: discriminator 'enum_wrong' is not a member of 'base'
+diff --git a/tests/qapi-schema/flat-union-invalid-if-discriminator.err b/tests/qapi-schema/flat-union-invalid-if-discriminator.err
+deleted file mode 100644
+index 350f28da9d..0000000000
+--- a/tests/qapi-schema/flat-union-invalid-if-discriminator.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-invalid-if-discriminator.json: In union 'TestUnion':
+-flat-union-invalid-if-discriminator.json:10: discriminator member 'enum1' of 'base' must not be conditional
 diff --git a/tests/qapi-schema/flat-union-no-base.err b/tests/qapi-schema/flat-union-no-base.err
-index 5167565b00..c60482f96b 100644
+deleted file mode 100644
+index c60482f96b..0000000000
 --- a/tests/qapi-schema/flat-union-no-base.err
-+++ b/tests/qapi-schema/flat-union-no-base.err
-@@ -1,2 +1,2 @@
- flat-union-no-base.json: In union 'TestUnion':
--flat-union-no-base.json:8: 'discriminator' requires 'base'
-+flat-union-no-base.json:8: union misses key 'base'
-diff --git a/tests/qapi-schema/flat-union-no-base.json b/tests/qapi-schema/flat-union-no-base.json
-index 327877b563..f6fe12da3b 100644
---- a/tests/qapi-schema/flat-union-no-base.json
-+++ b/tests/qapi-schema/flat-union-no-base.json
-@@ -1,4 +1,4 @@
--# flat unions require a base
-+# unions require a base
- { 'struct': 'TestTypeA',
-   'data': { 'string': 'str' } }
- { 'struct': 'TestTypeB',
-diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
-index 20f4cc0cfa..2ec50109cb 100644
---- a/tests/qapi-schema/qapi-schema-test.json
-+++ b/tests/qapi-schema/qapi-schema-test.json
-@@ -30,7 +30,7 @@
- { 'struct': 'Empty1', 'data': { } }
- { 'struct': 'Empty2', 'base': 'Empty1', 'data': { } }
- 
--# Likewise for an empty flat union
-+# Likewise for an empty union
- { 'union': 'Union',
-   'base': { 'type': 'EnumOne' }, 'discriminator': 'type',
-   'data': { } }
-diff --git a/tests/qapi-schema/reserved-member-u.json b/tests/qapi-schema/reserved-member-u.json
-index 2bfb8f59b6..d982ab5e0c 100644
---- a/tests/qapi-schema/reserved-member-u.json
-+++ b/tests/qapi-schema/reserved-member-u.json
-@@ -2,6 +2,6 @@
- # We reject use of 'u' as a member name, to allow it for internal use in
- # putting union branch members in a separate namespace from QMP members.
- # This is true even for non-unions, because it is possible to convert a
--# struct to flat union while remaining backwards compatible in QMP.
-+# struct to union while remaining backwards compatible in QMP.
- # TODO - we could munge the member name to 'q_u' to avoid the collision
- { 'struct': 'Oops', 'data': { '*u': 'str' } }
-diff --git a/tests/qapi-schema/union-base-empty.json b/tests/qapi-schema/union-base-empty.json
-index d1843d33b4..6f8ef000db 100644
---- a/tests/qapi-schema/union-base-empty.json
-+++ b/tests/qapi-schema/union-base-empty.json
-@@ -1,4 +1,4 @@
--# Flat union with empty base and therefore without discriminator
-+# Union with empty base and therefore without discriminator
- 
- { 'struct': 'Empty', 'data': { } }
- 
-diff --git a/tests/qapi-schema/union-base-no-discriminator.err b/tests/qapi-schema/union-base-no-discriminator.err
-index 9cd5d11b0b..a730b7fd3c 100644
---- a/tests/qapi-schema/union-base-no-discriminator.err
-+++ b/tests/qapi-schema/union-base-no-discriminator.err
-@@ -1,2 +1,2 @@
- union-base-no-discriminator.json: In union 'TestUnion':
--union-base-no-discriminator.json:11: 'base' requires 'discriminator'
-+union-base-no-discriminator.json:11: union misses key 'discriminator'
-diff --git a/tests/qapi-schema/union-base-no-discriminator.json b/tests/qapi-schema/union-base-no-discriminator.json
-index 1409cf5c9e..2e7cae9b22 100644
---- a/tests/qapi-schema/union-base-no-discriminator.json
-+++ b/tests/qapi-schema/union-base-no-discriminator.json
-@@ -1,4 +1,4 @@
--# we reject simple unions with a base (or flat unions without discriminator)
-+# we reject unions without discriminator
- { 'struct': 'TestTypeA',
-   'data': { 'string': 'str' } }
- 
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-no-base.json: In union 'TestUnion':
+-flat-union-no-base.json:8: union misses key 'base'
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator.err b/tests/qapi-schema/flat-union-optional-discriminator.err
+deleted file mode 100644
+index 3d60a1b496..0000000000
+--- a/tests/qapi-schema/flat-union-optional-discriminator.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-optional-discriminator.json: In union 'MyUnion':
+-flat-union-optional-discriminator.json:6: discriminator member 'switch' of base type 'Base' must not be optional
+diff --git a/tests/qapi-schema/flat-union-string-discriminator.err b/tests/qapi-schema/flat-union-string-discriminator.err
+deleted file mode 100644
+index ff42c9728b..0000000000
+--- a/tests/qapi-schema/flat-union-string-discriminator.err
++++ /dev/null
+@@ -1,2 +0,0 @@
+-flat-union-string-discriminator.json: In union 'TestUnion':
+-flat-union-string-discriminator.json:13: discriminator member 'kind' of base type 'TestBase' must be of enum type
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index 85d3de1481..6187efbd58 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -107,22 +107,6 @@ schemas = [
+   'features-name-bad-type.json',
+   'features-no-list.json',
+   'features-unknown-key.json',
+-  'flat-union-array-branch.json',
+-  'flat-union-bad-base.json',
+-  'flat-union-bad-discriminator.json',
+-  'flat-union-base-any.json',
+-  'flat-union-base-union.json',
+-  'flat-union-clash-member.json',
+-  'flat-union-discriminator-bad-name.json',
+-  'flat-union-empty.json',
+-  'flat-union-inline-invalid-dict.json',
+-  'flat-union-int-branch.json',
+-  'flat-union-invalid-branch-key.json',
+-  'flat-union-invalid-discriminator.json',
+-  'flat-union-invalid-if-discriminator.json',
+-  'flat-union-no-base.json',
+-  'flat-union-optional-discriminator.json',
+-  'flat-union-string-discriminator.json',
+   'funny-char.json',
+   'funny-word.json',
+   'ident-with-escape.json',
+@@ -190,12 +174,28 @@ schemas = [
+   'unclosed-list.json',
+   'unclosed-object.json',
+   'unclosed-string.json',
++  'union-array-branch.json',
++  'union-bad-base.json',
++  'union-bad-discriminator.json',
++  'union-base-any.json',
+   'union-base-empty.json',
+   'union-base-no-discriminator.json',
++  'union-base-union.json',
+   'union-branch-if-invalid.json',
+   'union-branch-invalid-dict.json',
++  'union-clash-member.json',
++  'union-discriminator-bad-name.json',
++  'union-empty.json',
++  'union-inline-invalid-dict.json',
++  'union-int-branch.json',
+   'union-invalid-base.json',
++  'union-invalid-branch-key.json',
+   'union-invalid-data.json',
++  'union-invalid-discriminator.json',
++  'union-invalid-if-discriminator.json',
++  'union-no-base.json',
++  'union-optional-discriminator.json',
++  'union-string-discriminator.json',
+   'union-unknown.json',
+   'unknown-escape.json',
+   'unknown-expr-key.json',
+diff --git a/tests/qapi-schema/union-array-branch.err b/tests/qapi-schema/union-array-branch.err
+new file mode 100644
+index 0000000000..5db9c17481
+--- /dev/null
++++ b/tests/qapi-schema/union-array-branch.err
+@@ -0,0 +1,2 @@
++union-array-branch.json: In union 'TestUnion':
++union-array-branch.json:8: 'data' member 'value1' cannot be an array
+diff --git a/tests/qapi-schema/flat-union-array-branch.json b/tests/qapi-schema/union-array-branch.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-array-branch.json
+rename to tests/qapi-schema/union-array-branch.json
+diff --git a/tests/qapi-schema/flat-union-array-branch.out b/tests/qapi-schema/union-array-branch.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-array-branch.out
+rename to tests/qapi-schema/union-array-branch.out
+diff --git a/tests/qapi-schema/union-bad-base.err b/tests/qapi-schema/union-bad-base.err
+new file mode 100644
+index 0000000000..42b2ed1dda
+--- /dev/null
++++ b/tests/qapi-schema/union-bad-base.err
+@@ -0,0 +1,2 @@
++union-bad-base.json: In union 'TestUnion':
++union-bad-base.json:8: member 'string' of type 'TestTypeA' collides with base member 'string'
+diff --git a/tests/qapi-schema/flat-union-bad-base.json b/tests/qapi-schema/union-bad-base.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-bad-base.json
+rename to tests/qapi-schema/union-bad-base.json
+diff --git a/tests/qapi-schema/flat-union-bad-base.out b/tests/qapi-schema/union-bad-base.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-bad-base.out
+rename to tests/qapi-schema/union-bad-base.out
+diff --git a/tests/qapi-schema/union-bad-discriminator.err b/tests/qapi-schema/union-bad-discriminator.err
+new file mode 100644
+index 0000000000..7cfd470f58
+--- /dev/null
++++ b/tests/qapi-schema/union-bad-discriminator.err
+@@ -0,0 +1,2 @@
++union-bad-discriminator.json: In union 'TestUnion':
++union-bad-discriminator.json:11: 'discriminator' requires a string name
+diff --git a/tests/qapi-schema/flat-union-bad-discriminator.json b/tests/qapi-schema/union-bad-discriminator.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-bad-discriminator.json
+rename to tests/qapi-schema/union-bad-discriminator.json
+diff --git a/tests/qapi-schema/flat-union-bad-discriminator.out b/tests/qapi-schema/union-bad-discriminator.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-bad-discriminator.out
+rename to tests/qapi-schema/union-bad-discriminator.out
+diff --git a/tests/qapi-schema/union-base-any.err b/tests/qapi-schema/union-base-any.err
+new file mode 100644
+index 0000000000..82b48bc1c8
+--- /dev/null
++++ b/tests/qapi-schema/union-base-any.err
+@@ -0,0 +1,2 @@
++union-base-any.json: In union 'TestUnion':
++union-base-any.json:8: 'base' requires a struct type, built-in type 'any' isn't
+diff --git a/tests/qapi-schema/flat-union-base-any.json b/tests/qapi-schema/union-base-any.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-base-any.json
+rename to tests/qapi-schema/union-base-any.json
+diff --git a/tests/qapi-schema/flat-union-base-any.out b/tests/qapi-schema/union-base-any.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-base-any.out
+rename to tests/qapi-schema/union-base-any.out
+diff --git a/tests/qapi-schema/union-base-union.err b/tests/qapi-schema/union-base-union.err
+new file mode 100644
+index 0000000000..2bddaf6a84
+--- /dev/null
++++ b/tests/qapi-schema/union-base-union.err
+@@ -0,0 +1,2 @@
++union-base-union.json: In union 'TestUnion':
++union-base-union.json:17: 'base' requires a struct type, union type 'UnionBase' isn't
+diff --git a/tests/qapi-schema/flat-union-base-union.json b/tests/qapi-schema/union-base-union.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-base-union.json
+rename to tests/qapi-schema/union-base-union.json
+diff --git a/tests/qapi-schema/flat-union-base-union.out b/tests/qapi-schema/union-base-union.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-base-union.out
+rename to tests/qapi-schema/union-base-union.out
+diff --git a/tests/qapi-schema/union-clash-member.err b/tests/qapi-schema/union-clash-member.err
+new file mode 100644
+index 0000000000..c1f3a02552
+--- /dev/null
++++ b/tests/qapi-schema/union-clash-member.err
+@@ -0,0 +1,2 @@
++union-clash-member.json: In union 'TestUnion':
++union-clash-member.json:11: member 'name' of type 'Branch1' collides with member 'name' of type 'Base'
+diff --git a/tests/qapi-schema/flat-union-clash-member.json b/tests/qapi-schema/union-clash-member.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-clash-member.json
+rename to tests/qapi-schema/union-clash-member.json
+diff --git a/tests/qapi-schema/flat-union-clash-member.out b/tests/qapi-schema/union-clash-member.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-clash-member.out
+rename to tests/qapi-schema/union-clash-member.out
+diff --git a/tests/qapi-schema/union-discriminator-bad-name.err b/tests/qapi-schema/union-discriminator-bad-name.err
+new file mode 100644
+index 0000000000..5793e9af66
+--- /dev/null
++++ b/tests/qapi-schema/union-discriminator-bad-name.err
+@@ -0,0 +1,2 @@
++union-discriminator-bad-name.json: In union 'MyUnion':
++union-discriminator-bad-name.json:6: discriminator '*switch' is not a member of 'base'
+diff --git a/tests/qapi-schema/flat-union-discriminator-bad-name.json b/tests/qapi-schema/union-discriminator-bad-name.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-discriminator-bad-name.json
+rename to tests/qapi-schema/union-discriminator-bad-name.json
+diff --git a/tests/qapi-schema/flat-union-discriminator-bad-name.out b/tests/qapi-schema/union-discriminator-bad-name.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-discriminator-bad-name.out
+rename to tests/qapi-schema/union-discriminator-bad-name.out
+diff --git a/tests/qapi-schema/union-empty.err b/tests/qapi-schema/union-empty.err
+new file mode 100644
+index 0000000000..d428439962
+--- /dev/null
++++ b/tests/qapi-schema/union-empty.err
+@@ -0,0 +1,2 @@
++union-empty.json: In union 'Union':
++union-empty.json:4: union has no branches
+diff --git a/tests/qapi-schema/flat-union-empty.json b/tests/qapi-schema/union-empty.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-empty.json
+rename to tests/qapi-schema/union-empty.json
+diff --git a/tests/qapi-schema/flat-union-empty.out b/tests/qapi-schema/union-empty.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-empty.out
+rename to tests/qapi-schema/union-empty.out
+diff --git a/tests/qapi-schema/union-inline-invalid-dict.err b/tests/qapi-schema/union-inline-invalid-dict.err
+new file mode 100644
+index 0000000000..25ddf7c765
+--- /dev/null
++++ b/tests/qapi-schema/union-inline-invalid-dict.err
+@@ -0,0 +1,2 @@
++union-inline-invalid-dict.json: In union 'TestUnion':
++union-inline-invalid-dict.json:7: 'data' member 'value1' misses key 'type'
+diff --git a/tests/qapi-schema/flat-union-inline-invalid-dict.json b/tests/qapi-schema/union-inline-invalid-dict.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-inline-invalid-dict.json
+rename to tests/qapi-schema/union-inline-invalid-dict.json
+diff --git a/tests/qapi-schema/flat-union-inline-invalid-dict.out b/tests/qapi-schema/union-inline-invalid-dict.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-inline-invalid-dict.out
+rename to tests/qapi-schema/union-inline-invalid-dict.out
+diff --git a/tests/qapi-schema/union-int-branch.err b/tests/qapi-schema/union-int-branch.err
+new file mode 100644
+index 0000000000..8fdc81edd1
+--- /dev/null
++++ b/tests/qapi-schema/union-int-branch.err
+@@ -0,0 +1,2 @@
++union-int-branch.json: In union 'TestUnion':
++union-int-branch.json:8: branch 'value1' cannot use built-in type 'int'
+diff --git a/tests/qapi-schema/flat-union-int-branch.json b/tests/qapi-schema/union-int-branch.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-int-branch.json
+rename to tests/qapi-schema/union-int-branch.json
+diff --git a/tests/qapi-schema/flat-union-int-branch.out b/tests/qapi-schema/union-int-branch.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-int-branch.out
+rename to tests/qapi-schema/union-int-branch.out
+diff --git a/tests/qapi-schema/union-invalid-branch-key.err b/tests/qapi-schema/union-invalid-branch-key.err
+new file mode 100644
+index 0000000000..bf58800507
+--- /dev/null
++++ b/tests/qapi-schema/union-invalid-branch-key.err
+@@ -0,0 +1,2 @@
++union-invalid-branch-key.json: In union 'TestUnion':
++union-invalid-branch-key.json:13: branch 'value_wrong' is not a value of enum type 'TestEnum'
+diff --git a/tests/qapi-schema/flat-union-invalid-branch-key.json b/tests/qapi-schema/union-invalid-branch-key.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-invalid-branch-key.json
+rename to tests/qapi-schema/union-invalid-branch-key.json
+diff --git a/tests/qapi-schema/flat-union-invalid-branch-key.out b/tests/qapi-schema/union-invalid-branch-key.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-invalid-branch-key.out
+rename to tests/qapi-schema/union-invalid-branch-key.out
+diff --git a/tests/qapi-schema/union-invalid-discriminator.err b/tests/qapi-schema/union-invalid-discriminator.err
+new file mode 100644
+index 0000000000..38efb24b98
+--- /dev/null
++++ b/tests/qapi-schema/union-invalid-discriminator.err
+@@ -0,0 +1,2 @@
++union-invalid-discriminator.json: In union 'TestUnion':
++union-invalid-discriminator.json:10: discriminator 'enum_wrong' is not a member of 'base'
+diff --git a/tests/qapi-schema/flat-union-invalid-discriminator.json b/tests/qapi-schema/union-invalid-discriminator.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-invalid-discriminator.json
+rename to tests/qapi-schema/union-invalid-discriminator.json
+diff --git a/tests/qapi-schema/flat-union-invalid-discriminator.out b/tests/qapi-schema/union-invalid-discriminator.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-invalid-discriminator.out
+rename to tests/qapi-schema/union-invalid-discriminator.out
+diff --git a/tests/qapi-schema/union-invalid-if-discriminator.err b/tests/qapi-schema/union-invalid-if-discriminator.err
+new file mode 100644
+index 0000000000..3f41d03f8e
+--- /dev/null
++++ b/tests/qapi-schema/union-invalid-if-discriminator.err
+@@ -0,0 +1,2 @@
++union-invalid-if-discriminator.json: In union 'TestUnion':
++union-invalid-if-discriminator.json:10: discriminator member 'enum1' of 'base' must not be conditional
+diff --git a/tests/qapi-schema/flat-union-invalid-if-discriminator.json b/tests/qapi-schema/union-invalid-if-discriminator.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-invalid-if-discriminator.json
+rename to tests/qapi-schema/union-invalid-if-discriminator.json
+diff --git a/tests/qapi-schema/flat-union-invalid-if-discriminator.out b/tests/qapi-schema/union-invalid-if-discriminator.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-invalid-if-discriminator.out
+rename to tests/qapi-schema/union-invalid-if-discriminator.out
+diff --git a/tests/qapi-schema/union-no-base.err b/tests/qapi-schema/union-no-base.err
+new file mode 100644
+index 0000000000..cbf12ac526
+--- /dev/null
++++ b/tests/qapi-schema/union-no-base.err
+@@ -0,0 +1,2 @@
++union-no-base.json: In union 'TestUnion':
++union-no-base.json:8: union misses key 'base'
+diff --git a/tests/qapi-schema/flat-union-no-base.json b/tests/qapi-schema/union-no-base.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-no-base.json
+rename to tests/qapi-schema/union-no-base.json
+diff --git a/tests/qapi-schema/flat-union-no-base.out b/tests/qapi-schema/union-no-base.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-no-base.out
+rename to tests/qapi-schema/union-no-base.out
+diff --git a/tests/qapi-schema/union-optional-discriminator.err b/tests/qapi-schema/union-optional-discriminator.err
+new file mode 100644
+index 0000000000..8d980bd2ac
+--- /dev/null
++++ b/tests/qapi-schema/union-optional-discriminator.err
+@@ -0,0 +1,2 @@
++union-optional-discriminator.json: In union 'MyUnion':
++union-optional-discriminator.json:6: discriminator member 'switch' of base type 'Base' must not be optional
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator.json b/tests/qapi-schema/union-optional-discriminator.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-optional-discriminator.json
+rename to tests/qapi-schema/union-optional-discriminator.json
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator.out b/tests/qapi-schema/union-optional-discriminator.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-optional-discriminator.out
+rename to tests/qapi-schema/union-optional-discriminator.out
+diff --git a/tests/qapi-schema/union-string-discriminator.err b/tests/qapi-schema/union-string-discriminator.err
+new file mode 100644
+index 0000000000..eccbe681bd
+--- /dev/null
++++ b/tests/qapi-schema/union-string-discriminator.err
+@@ -0,0 +1,2 @@
++union-string-discriminator.json: In union 'TestUnion':
++union-string-discriminator.json:13: discriminator member 'kind' of base type 'TestBase' must be of enum type
+diff --git a/tests/qapi-schema/flat-union-string-discriminator.json b/tests/qapi-schema/union-string-discriminator.json
+similarity index 100%
+rename from tests/qapi-schema/flat-union-string-discriminator.json
+rename to tests/qapi-schema/union-string-discriminator.json
+diff --git a/tests/qapi-schema/flat-union-string-discriminator.out b/tests/qapi-schema/union-string-discriminator.out
+similarity index 100%
+rename from tests/qapi-schema/flat-union-string-discriminator.out
+rename to tests/qapi-schema/union-string-discriminator.out
 -- 
 2.31.1
 
