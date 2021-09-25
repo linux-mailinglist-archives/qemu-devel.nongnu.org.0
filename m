@@ -2,53 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC0F4183DB
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 20:03:01 +0200 (CEST)
-Received: from localhost ([::1]:50888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303214183F3
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 20:12:41 +0200 (CEST)
+Received: from localhost ([::1]:40152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUC0q-0007s2-OG
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 14:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36842)
+	id 1mUCAB-0003Tj-Ql
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 14:12:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mUBWW-0002eI-Nk
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 13:31:43 -0400
-Received: from [115.28.160.31] (port=57232 helo=mailbox.box.xen0n.name)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mUBWS-0005eK-KZ
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 13:31:39 -0400
-Received: from ld50.lan (unknown [101.88.29.172])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 574BB60B4E;
- Sun, 26 Sep 2021 01:30:59 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632591059; bh=J3eollWpid4M4LibRHvbMETrg6+D/2i+L9ZCPrMfr/8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fb0SoukKX/25m8R8tLwkzRzSFafHvRgwYY3T7kFEE/AgODluksy71b5N7LKObdA/C
- bkHA/2qwOnk0bR25zX7UZLpFHqm2qFHaZViW2yEz3XYnAGUQqEhCPWbqolaumuOnT4
- GFpqah25OkO2x9rC/uMjfbweZK1oty3PxksWaspE=
-From: WANG Xuerui <git@xen0n.name>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 30/30] configure,
- meson.build: Mark support for loongarch64 hosts
-Date: Sun, 26 Sep 2021 01:30:32 +0800
-Message-Id: <20210925173032.2434906-31-git@xen0n.name>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210925173032.2434906-1-git@xen0n.name>
-References: <20210925173032.2434906-1-git@xen0n.name>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUC8X-0002Yz-HF
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 14:10:57 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37860)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUC8R-0004uZ-T5
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 14:10:54 -0400
+Received: by mail-wr1-x434.google.com with SMTP id t8so37638027wrq.4
+ for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 11:10:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=KUFZiVYURmlquJb/8hjhnumrTU8nUimqof9Ge4p1/c8=;
+ b=nNDAsgVQkWr96C+IMqGNziUsVJhpousfzAm5sCX99XD4qG1WOU5K+nf/SjHhLuXidH
+ 6UGEobp3ciD7ss9/K8MLIMCbwfsAELTIHleCp9+Gs/r8hRIY8cS0d9XzU29tqqwDjh95
+ BeJqtcoF0AjMT78Pig+M0q3PAPul01CbSTVfVG3SSkj5CwXBDHpL3/vMzwuVtxw9vKE1
+ L1TT4ogEOffi3Jqg3XocYX0g2gTFHf7t0IwHz3qC0IXzoQNgTKvXHHuOFpVOc2D3LOa8
+ QSiBsngiAvjRXgPvh+cA0tgRvFw+4JXTDTXTirXLOP0Hi2BfIgLVFSkcSSl8UKPuclUC
+ /c/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KUFZiVYURmlquJb/8hjhnumrTU8nUimqof9Ge4p1/c8=;
+ b=vYHFJX7ku8VbhDXuLheYZ8AX2SzfkQFbdxfVyLH1qimPzh7QrkKYOggbC8EtBQiQKa
+ 8b01R7VGj9WdeOSiGz4uSU4Hv4VE05NQXXxvFzkO0PgJhpzbAPQBXrMpCaLuHETyr5vi
+ 7A2ycjSH36UA/iTIf1phKlqyutKRkiuYgaZc9BOnlsK3zcdMrJ2JRT/YoxIg5JbfY/Qk
+ LJi7g1tOkJ9BnkmwBrGRZuhZVd6Bht73gX252UImIIpBKNaVOx2Vqe1KsceWwimjvMQG
+ 7aeEE/Lq8wxMNmsLApPqQDtvDzwTPQZorfZlEfXhUCdpSatKqPR1rAD/VU2jsql5pjHa
+ EWBQ==
+X-Gm-Message-State: AOAM533XZUK5mcDd7E0EZvZNsv/Ph7McSVn3OuoLFIDCghcLxIWxQngS
+ MNWB/QkmzkjtuhajyrEtzfO+WSpBS+TrjFH1F883bg==
+X-Google-Smtp-Source: ABdhPJz3GfvRilruVcPJIY29yeN+0AkK9nrlzaRI3NVhHMCMzOpbfAByuI5dLAoNvwrGKmVXK/F4KvJn+D2HI1b/EhY=
+X-Received: by 2002:adf:eac5:: with SMTP id o5mr9472431wrn.275.1632593449147; 
+ Sat, 25 Sep 2021 11:10:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210916155404.86958-1-agraf@csgraf.de>
+ <CAFEAcA-LrvO7sg9gY0ZKnvXJyJuFc2Ej1Ve1245FZ7YkH-Oj2A@mail.gmail.com>
+ <CAFEAcA_Hkqg16VbA1qACK4RG22iXHo8b3VZWQoBRZL0HuBazZA@mail.gmail.com>
+ <d4859cae-d9c1-2879-0682-080d4b5efe90@amsat.org>
+ <27a265d5-2e7c-f234-0d09-f40a731e588d@csgraf.de>
+ <bdeef51c-901b-f5a8-0415-03c464255b1f@amsat.org>
+ <60aac468-973b-daee-49ce-71829c234af8@csgraf.de>
+ <2db79dcb-feba-4175-6805-5b365b30d819@amsat.org>
+In-Reply-To: <2db79dcb-feba-4175-6805-5b365b30d819@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 25 Sep 2021 19:09:56 +0100
+Message-ID: <CAFEAcA-hxM3b-zS2s8FbWG=SogNdp+o=X1K45kYqXK=OhBCUbg@mail.gmail.com>
+Subject: Re: [PATCH v12 00/10] hvf: Implement Apple Silicon Support
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,82 +84,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- XiaoJuan Yang <yangxiaojuan@loongson.cn>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Song Gao <gaosong@loongson.cn>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- WANG Xuerui <git@xen0n.name>, Laurent Vivier <laurent@vivier.eu>
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Example output of `uname -a` on an initial Gentoo LA64 port, running
-the upstream submission version of Linux (with some very minor patches
-not influencing output here):
+On Sat, 25 Sept 2021 at 18:22, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+> So this part of Xilinx Versal:
+>
+>      * When loading an OS, we turn on QEMU's PSCI implementation with SMC
+>      * as the PSCI conduit. When there's no -kernel, we assume the user
+>      * provides EL3 firmware to handle PSCI.
+>      */
+>     if (machine->kernel_filename) {
+>         psci_conduit =3D QEMU_PSCI_CONDUIT_SMC;
+>     }
+>
+> abuses the fact that -kernel command line expect a *Linux* kernel able
+> to read the provided dtb which describe SMC. >This won't work if we
+> manually provide a crafted dtb with another conduit
 
-> Linux <hostname> 5.14.0-10342-g37a00851b145 #5 SMP PREEMPT Tue Aug 10 12:56:24 PM CST 2021 loongarch64 GNU/Linux
+...which is not a supported thing to do (it won't work with the
+'virt' board either)...
 
-And the same on the vendor-supplied Loongnix 20 system, with an early
-in-house port of Linux, and using the old-world ABI:
+>, or if we pass any
+> other binary (not Linux, not particularly ELF, since -kernel can load
+> many formats).
 
-> Linux <hostname> 4.19.167-rc5.lnd.1-loongson-3 #1 SMP Sat Apr 17 07:32:32 UTC 2021 loongarch64 loongarch64 loongarch64 GNU/Linux
+-kernel means "assume I am a Linux kernel and boot me accordingly".
+Sometimes it works for other things, but there are no guarantees.
+Among other things it always means "start me at EL2 or EL1, not EL3",
+so PSCI handling via SMC doesn't get in anybody's way even if they're
+not using it. (People who want a pure "load this ELF file" should
+use the generic-loader.)
 
-So a name of "loongarch64" matches both, fortunately.
+The basic distinction the versal-virt board is making here is
+"we have EL3 firmware to run in the guest" vs "we don't";
+for the same reason that the virt board does, in the former
+case we disable QEMU's internal PSCI implementation, and in
+the latter we enable it. In theory the orangepi board code
+should do the same, because if we're really running guest
+code at EL3 it probably is going to assume it has SMC, and
+QEMU taking control instead is going to confuse it.
 
-Signed-off-by: WANG Xuerui <git@xen0n.name>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- configure   | 7 ++++++-
- meson.build | 2 +-
- 2 files changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/configure b/configure
-index 1043ccce4f..3a9035385d 100755
---- a/configure
-+++ b/configure
-@@ -659,6 +659,8 @@ elif check_define __arm__ ; then
-   cpu="arm"
- elif check_define __aarch64__ ; then
-   cpu="aarch64"
-+elif check_define __loongarch64 ; then
-+  cpu="loongarch64"
- else
-   cpu=$(uname -m)
- fi
-@@ -667,7 +669,7 @@ ARCH=
- # Normalise host CPU name and set ARCH.
- # Note that this case should only have supported host CPUs, not guests.
- case "$cpu" in
--  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64)
-+  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64|loongarch64)
-   ;;
-   ppc64le)
-     ARCH="ppc64"
-@@ -4969,6 +4971,9 @@ if test "$linux" = "yes" ; then
-   aarch64)
-     linux_arch=arm64
-     ;;
-+  loongarch*)
-+    linux_arch=loongarch
-+    ;;
-   mips64)
-     linux_arch=mips
-     ;;
-diff --git a/meson.build b/meson.build
-index 15ef4d3c41..fc55712ac3 100644
---- a/meson.build
-+++ b/meson.build
-@@ -57,7 +57,7 @@ python = import('python').find_installation()
- 
- supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
- supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
--  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
-+  'arm', 'aarch64', 'loongarch64', 'mips', 'mips64', 'sparc', 'sparc64']
- 
- cpu = host_machine.cpu_family()
- targetos = host_machine.system()
--- 
-2.33.0
-
+-- PMM
 
