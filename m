@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54BF41811F
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 12:50:03 +0200 (CEST)
-Received: from localhost ([::1]:47672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B5B418120
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 12:54:24 +0200 (CEST)
+Received: from localhost ([::1]:56350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mU5Fq-0007sl-SS
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 06:50:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35468)
+	id 1mU5K2-0005aG-6E
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 06:54:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mU5Cy-0005Qw-62
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 06:47:07 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44612)
+ id 1mU5G9-0001Ye-03
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 06:50:21 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mU5Cw-0004ch-Py
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 06:47:03 -0400
-Received: by mail-wr1-x436.google.com with SMTP id d6so35031380wrc.11
- for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 03:47:02 -0700 (PDT)
+ id 1mU5G6-0006rn-EP
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 06:50:20 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id t8so35322848wri.1
+ for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 03:50:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=E5taq9f+8skwv6btFFK3f47UgjTahdOqnBWaWDb7xIM=;
- b=FzOk/3w0+Ae9jyT9elcwx4KfobhvGU8WgIOGQ93Kdt9sxVLlrMQmyrFa7TSNjn6pwF
- +YbEoC2oVUmA6YBpIIB/AyyVPeppEvy64KyNVz9AfUbL3zyLLobUptig0zNNH98U2olB
- QEYOG4e6DmqlSGdwbySIvU3rZPotgo6CIihUelO8GyZo/jeMhS/L+MJhRxYEca4wQEgr
- NTjiewWJxGsypoxsAuSyMxtA0vgTpGg5jpF8a05sPQL4d3l88miXzRk4xgaaQjUfLf5a
- MMNrTBVEr2U2RsMNSVUJOhxe4T2PSkQ/7HS/jRIB/jEvwO/XKanyNrFMQWS0Dh15ILzl
- tb9w==
+ bh=0M4fUwjCQuKlxoeRC5DZzAHsIYn6IXxHEgEATcqLX/4=;
+ b=hH5lMLnWLuPqL2tCszalABylInGC6qWMzUZeHVRhk8Kc1dOlBuHa74r+LTkKz4diPg
+ 33snNXT4pDaNWRzwSSXYo1imlWdR7bg9053L2zDY+ZzdNeIGjrFpYUG6kDCZ/Z2A6Uf/
+ KC11VcOYEWj6l9DOai7bvqV1jBuNV5EKYaIlS5mveirVQrZLO56xGtP+5Xz6V7Csk9id
+ NYEKU3vD9X4vVf+Ae4hjmgMgU0kAMLhiip1gtiDze4X+s511UOoJO0zip7+MSOlbxnTg
+ w7Q6dxUgrZjABCamnVFfWsYkpp8iKjeJnCYbkB9TtEYd+YqRfdmJVva7wKoJ8NYWqdgD
+ 0UPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=E5taq9f+8skwv6btFFK3f47UgjTahdOqnBWaWDb7xIM=;
- b=s8yt5L8Kyb4OYQY8VccQYuQBS9AuDDt162R/a7AqMX6V/ihygGOVuuO4Sp/rJAkv/r
- k/IWOBf+Y+gKqPfYwYdZEDLa8zDyVV9KTmDGbSJw8oZcm0DkHEDFcVICqLGxUOTlwFl8
- kfF1P/riqA9xM785fJfyZ8zjzNZOUqZjZ/AcB+I8spiClQ0jeac3C6AtBct1PM1CuVBa
- os2kvBsxHb7COlmrpZASEpaQImvwxEI+OLIk55zfJ2KPGSvexHF3TGtiC8WVe48IvGus
- /adPLl1c8cB7PboR875t0A7Vpq4egResjtF9SqtbK/LibXVCWmylvcK2WVZJL/a6FMXY
- vFXA==
-X-Gm-Message-State: AOAM533nOlF/VGkYyec1Oh7UTlMXrfjeGAJ0REtu9FqYFa2+Tl0pnftm
- XDQwL8KxWhCr3wGyeYASphI=
-X-Google-Smtp-Source: ABdhPJxXL879DpMAtXVWcgRNwd4P8z2r1z/4741ok+c9bp4ogtiGl3wwaRThKTE1IKZ6rv2jIoBE+g==
-X-Received: by 2002:a7b:c842:: with SMTP id c2mr6602420wml.93.1632566821607;
- Sat, 25 Sep 2021 03:47:01 -0700 (PDT)
+ bh=0M4fUwjCQuKlxoeRC5DZzAHsIYn6IXxHEgEATcqLX/4=;
+ b=riLKLZHj+18Rxki6pYGQJRCyxe93gt4ux51o0i7olJJHcF6DqFjnkb+2BG4ju0HJh4
+ x1PxOM4cWsMWddjvuthjlIrxTigKOjvFpCzIgnlIrEHCmzPTEZ8wmmydqk3N7mQyxAA3
+ Ih95bAQ1o0MHIcmVDiCaJWWKl3NTRgDjqo5ar7sk8JJ3JRNxMewOsSipwd6qclcNVsxR
+ cP/xGQNUkLFoe9FOIUyJsT4thnd2MkHchgdIg0zNF+EHiec8uLJ/3t/raVZRDUg7hxdQ
+ wLEsiw8AAbPTQXeKwvdfgJxMUp0ITruxzkYc4wrXlih7yyrPpK8X6W8vV2DJ6SafPpDw
+ QRuQ==
+X-Gm-Message-State: AOAM530roNEmrT5x+4UGog9O6pNN71niX104rweohOmhUuxsiUQow4lY
+ 5h+XdC/DOND7L/nDWM8bUBM=
+X-Google-Smtp-Source: ABdhPJywA0iUendDnYxaCCfaDnrNrrVutM5fLYHGkOt3mPurp8GKz0sLJn+z4vUM8rUE84mdpb4E/A==
+X-Received: by 2002:a5d:4d4f:: with SMTP id a15mr16558837wru.210.1632567017076; 
+ Sat, 25 Sep 2021 03:50:17 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id c4sm10909156wrt.23.2021.09.25.03.47.00
+ by smtp.gmail.com with ESMTPSA id l13sm732116wme.38.2021.09.25.03.50.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Sep 2021 03:47:00 -0700 (PDT)
-Message-ID: <0e5165bb-c714-27d5-716c-7bac301c96f8@amsat.org>
-Date: Sat, 25 Sep 2021 12:46:59 +0200
+ Sat, 25 Sep 2021 03:50:16 -0700 (PDT)
+Message-ID: <dde592d4-35fc-8f33-009b-cc6a0e4460ad@amsat.org>
+Date: Sat, 25 Sep 2021 12:50:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 13/14] bsd-user: Rename sigqueue to qemu_sigqueue
+Subject: Re: [PATCH 14/14] bsd-user/signal: Create a dummy signal queueing
+ function
 Content-Language: en-US
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20210922061438.27645-1-imp@bsdimp.com>
- <20210922061438.27645-14-imp@bsdimp.com>
+ <20210922061438.27645-15-imp@bsdimp.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210922061438.27645-14-imp@bsdimp.com>
+In-Reply-To: <20210922061438.27645-15-imp@bsdimp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,14 +96,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/22/21 08:14, Warner Losh wrote:
-> To avoid a name clash with FreeBSD's sigqueue data structure in
-> signalvar.h, rename sigqueue to qemu_sigqueue. This sturcture
-> is currently defined, but unused.
+> Create dummy signal queueing function so we can start to integrate other
+> architectures (at the cost of signals remaining broken) to tame the
+> dependency graph a bit and to bring in signals in a more controlled
+> fashion.
 > 
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->   bsd-user/qemu.h | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
+>   bsd-user/qemu.h   | 1 +
+>   bsd-user/signal.c | 8 ++++++++
+>   2 files changed, 9 insertions(+)
+> 
+> diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+> index 5a2fd87e44..85d1f8fd2a 100644
+> --- a/bsd-user/qemu.h
+> +++ b/bsd-user/qemu.h
+> @@ -209,6 +209,7 @@ void process_pending_signals(CPUArchState *cpu_env);
+>   void signal_init(void);
+>   long do_sigreturn(CPUArchState *env);
+>   long do_rt_sigreturn(CPUArchState *env);
+> +int queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
+>   abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
+>   
+>   /* mmap.c */
+> diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+> index ad6d935569..4e7f618944 100644
+> --- a/bsd-user/signal.c
+> +++ b/bsd-user/signal.c
+> @@ -19,6 +19,14 @@
+>   #include "qemu/osdep.h"
+>   
+>   #include "qemu.h"
+> +/*
+> + * Queue a signal so that it will be send to the virtual CPU as soon as
+> + * possible.
+> + */
+> +int queue_signal(CPUArchState *env, int sig, target_siginfo_t *info)
+> +{
+> +    return 1;
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Shouldn't we abort() here or at least call qemu_log_mask(LOG_UNIMP)?
+
+> +}
+>   
+>   void signal_init(void)
+>   {
+> 
 
