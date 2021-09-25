@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DA941827E
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 16:07:21 +0200 (CEST)
-Received: from localhost ([::1]:37474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300CA418284
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 16:11:47 +0200 (CEST)
+Received: from localhost ([::1]:44072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mU8Kl-00036x-Ai
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 10:07:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36830)
+	id 1mU8P2-0007az-Rm
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 10:11:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mU8ID-00022C-OC
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:04:41 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:39716)
+ id 1mU8NC-0006s2-1g
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:09:50 -0400
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:42540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mU8IC-0000DB-0p
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:04:41 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id f130so31494909qke.6
- for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 07:04:34 -0700 (PDT)
+ id 1mU8NA-0004Oy-3j
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:09:49 -0400
+Received: by mail-qt1-x82f.google.com with SMTP id u32so5193003qtc.9
+ for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 07:09:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=H8uh4VbwWnZxId2dxKCRyF3TLNV43+jvwMHiaXK17ok=;
- b=VUqcNhmP8kk+yVUwvaG205BjrGz54xWZc2ZS46FuQqA+HYvIdAmvMiia8N7cCp4A7z
- EqtLDc03VsQQti25RCx802BzL4TO26XpchiVQ+m0Qpqx5hZJdYyaLqSsj+hjFyaDVVYM
- QcfUUkNp6KCqmbm4dJu5iJskCTBC25Xwdo6lwQ36Ub2PTiEQmogjaI0AIifcIarC6ZUY
- H3k4S0czRPRAyGHbL1ZX3uMLFFjm65bFnhvIAWnDeJQqL7qHSSjWgcsTxGWwemT+vBZR
- W0xBTwNsUNLXH5/AYw5I5yS0RZmXPZ9q2Ikylq6tQ3WD9kDf7p7Kw1DDaBi+MfixJiOQ
- hC1g==
+ bh=af99PK/h7B85T6hGoEZbVKoFh/b2L4pwWl5b80H2lUU=;
+ b=oCrx8PGE6RsKvxEaHdOCW38UGdJp+wcXIvbo+7bWAoch2ylL3yyyQJ0r2SzX1m1h7A
+ gdt9HWU+C2Umfh8HDH5ZaqXPm6L6p74zYefxrbfQKvpCa3TCodgyd4eA53QvzHu5aZ10
+ /M1hxyBD3zr97zbNhlgaJy9T7nDT3UEW2Wj3T8n66Z5skYiE4NYN2RI2sgDKZUpjYdui
+ UOyBjqR0bDX+cP+VkB8d1cBuLT92/LMivpOp01LLhUmbxqPnea4yiAafaWtd7Mkmjoaj
+ NciEDi4QtTYM5dkTfvBxq6mCsJPaIRo2zQwx4LWBCC9Y7ceDGRZG7SX5stDcHvOIvT+S
+ s77A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=H8uh4VbwWnZxId2dxKCRyF3TLNV43+jvwMHiaXK17ok=;
- b=a1VSb3hThPCS1pxRLH1orV0C0r/eaRwSHplXrxAFFrYQTH1q1tIRy2KbPIuRIlwJoZ
- jhTAWOM+C6/I1nMd00AMn4VkhpzhzgZKPTIgbTOj+GkYp7StOzp4dqwhrp0dRAab/ydj
- XzbSmG4gswm8+RjowOQR2X3BQR0w8W+cZTzjQKgFDkwGnT7dSxb8alifUoaj7xMZZECR
- J03KyYV/9TnEiuHR+xrT2mMaC771QCwXd8uIcGNb83q25k2S7uvnLsYkMlfwa2v2mVIT
- x9Jbtqvbdswj2QKBTqHSB/+bcGEd9Y9ZKdEPuAhzlGbZ0tCRXNEavAzjqv57eCRkEubT
- RHag==
-X-Gm-Message-State: AOAM531yJKCq2qCkMCk4TBUL+x1+m2c6W5d1qZzvVkLW3gsk1TjPpht/
- Im7hn26hniNKe/xXV5AEf1hQbg==
-X-Google-Smtp-Source: ABdhPJwTKZFdSgX2Hc3+3nEeUhsHsFSw82sfFIeN9eQrH4sOC74uHt9jGd0jIRfROTfiQ/dAfOJVUw==
-X-Received: by 2002:a37:9182:: with SMTP id
- t124mr15627149qkd.449.1632578674005; 
- Sat, 25 Sep 2021 07:04:34 -0700 (PDT)
+ bh=af99PK/h7B85T6hGoEZbVKoFh/b2L4pwWl5b80H2lUU=;
+ b=DhCS7aXkm5uJbHhYuP0gfYnRrko+cnw+ARJtOyY5ucTe2n+rkPqPRHHbFCNf4Z0av8
+ PDkg6EZQegpzktxIlG0lXnptK/AA5M9qZsna4HG9yv9OwXzyMHe796Z7fIectlxWD7pz
+ JY75Vqq5iKVzRVjHn/H4bPfWbkE6wKadtdu/NTa5aIgcqUmBTCHsy76IGAD+dO7Xq1NI
+ D6aNw+mSFxevzRJK+k7tUUoYBGa8zROdZtrF/AU3VeW/QbUvGD6nHn+C0GZl+uhgxyp/
+ i1hjgCGccioKGODaonVAEYmWvRMhOMnfDJ53dU31rw9dpQ4E25kja50D74BSILUJWQ3Z
+ fy/g==
+X-Gm-Message-State: AOAM530jT5LOErOzD/QsOrd1vC0Tp5dLaZhAGfJXZHTfby2ACKQh/oap
+ gZun0ebbQQIlHZ4oKAYPsU119g==
+X-Google-Smtp-Source: ABdhPJzJWD/GRh3h0Xy2w2xh5KZman7w1tcJi02zId4cp9KMot6y8rE3kF6HbvX+BqwLMpFr3mTopA==
+X-Received: by 2002:ac8:4e30:: with SMTP id d16mr9806287qtw.309.1632578986870; 
+ Sat, 25 Sep 2021 07:09:46 -0700 (PDT)
 Received: from [192.168.3.43] (cpe-24-74-129-96.carolina.res.rr.com.
  [24.74.129.96])
- by smtp.gmail.com with ESMTPSA id y22sm8105233qkp.9.2021.09.25.07.04.32
+ by smtp.gmail.com with ESMTPSA id l13sm8762165qkj.130.2021.09.25.07.09.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Sep 2021 07:04:32 -0700 (PDT)
-Subject: Re: [PATCH v5 09/30] tcg/loongarch64: Implement tcg_out_mov and
- tcg_out_movi
+ Sat, 25 Sep 2021 07:09:46 -0700 (PDT)
+Subject: Re: [PATCH v5 16/30] tcg/loongarch64: Implement shl/shr/sar/rotl/rotr
+ ops
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
 References: <20210924172527.904294-1-git@xen0n.name>
- <20210924172527.904294-10-git@xen0n.name>
- <b1b97929-ef62-72ec-609f-bd84c49481d1@amsat.org>
+ <20210924172527.904294-17-git@xen0n.name>
+ <f9afab7f-5c45-121c-42cb-a032cc341d8c@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dd22f801-6d96-3dc6-3a51-2d5adb21d80c@linaro.org>
-Date: Sat, 25 Sep 2021 10:04:30 -0400
+Message-ID: <403754f2-b313-8350-23a4-f21d806a9da1@linaro.org>
+Date: Sat, 25 Sep 2021 10:09:44 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <b1b97929-ef62-72ec-609f-bd84c49481d1@amsat.org>
+In-Reply-To: <f9afab7f-5c45-121c-42cb-a032cc341d8c@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,52 +96,23 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/25/21 5:54 AM, Philippe Mathieu-Daudé wrote:
->> +    /* High bits must be set; load with lu12i.w + optional ori.  */
->> +    tcg_target_long hi12 = sextreg(val, 12, 20);
+On 9/25/21 6:05 AM, Philippe Mathieu-Daudé wrote:
+>> +    case INDEX_op_shl_i32:
+>> +        if (c2) {
 > 
-> Please declare variables in function prologue.
-
-Ah, true.  Officially, that's qemu coding style.  I tend to overlook it because I don't 
-like the rule.
-
-
->> +    tcg_out_opc_lu12i_w(s, rd, hi12);
->> +    if (lo != 0) {
->> +        tcg_out_opc_ori(s, rd, rd, lo & 0xfff);
+> Why can't we use:
 > 
-> Isn't lo already 12-bit? Why the mask?
-
-lo was extracted signed, for addi; ori wants the value unsigned.
-The value range asserts in tcg_out_opc_* will notice the difference.
-
->> +    /* Slow path.  Initialize the low 32 bits, then concat high bits.  */
->> +    tcg_out_movi_i32(s, rd, val);
->> +
->> +    bool rd_high_bits_are_ones = (int32_t)val < 0;
+>                 tcg_debug_assert(a2 <= 0x1f);
+>                 tcg_out_opc_slli_w(s, a0, a1, a2);
 > 
-> Declare in prologue, however this is hard to read. KISS:
+> ?
 
-If anything was to change here, I think I'd simply re-use "lo":
+Because tcg/optimize.c can produce out-of-range values.
+We have this same masking in tcg/sparc/ starting as far back as 1fd95946657.
 
-     lo = (int32_t)val;
-
-and then check lo < 0 rather than rd_high_bits_are_ones as a boolean.
-
->> +        rd_high_bits_are_ones = hi32 < 0;
-> 
-> Again KISS:
-> 
->             if (hi32 < 0) {
->                 rd_high_bits_are_ones = true;
->             }
-
-This is certainly not KISS, and also wrong.  We would want an unconditional write to 
-rd_high_bits_are_ones.  Although if there were any change,
-
-     lo = hi32.
-
-so that, again, we test lo < 0 for hi52.
+Officially, the tcg backend generator must accept this, with UNSPECIFIED behaviour. 
+Generally, such out-of-range shifts will be followed by a conditional move that overwrites 
+the undefined result.  The tcg backend is not allowed to trap or assert.
 
 
 r~
