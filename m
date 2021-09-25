@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4C4418000
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 08:34:13 +0200 (CEST)
-Received: from localhost ([::1]:43780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95587417FFC
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 08:29:00 +0200 (CEST)
+Received: from localhost ([::1]:35292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mU1GG-0007rO-5O
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 02:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56758)
+	id 1mU1BD-0002EQ-KJ
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 02:28:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU183-0007ac-O5
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47770)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU17z-0007YR-Si
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU17y-0007G3-L8
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:43 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU17v-0007E8-J2
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632551137;
+ s=mimecast20190719; t=1632551135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nH2PT1yKeJg+fJFFcmXZqwNh8bl3WMfEN+zyuo2foWM=;
- b=XxGdBvGmRkd2sfWmwiWpqbk1ZQWPL3AiaNeReFE/LA53nIMMaGgsMddAxTyIkzhGjEACgd
- 8HwMGWznQt1AWspQas924UNEgwt5jb7SGJ4kkktaDb2ki22DyDl5zf6dCZatecQg5C1/gZ
- corfFQ00tCzomf95O+ONsRa7P/8keCI=
+ bh=cgt/qx5DHAI+iBFfRYjAmQ/+wVvk1NDCMGKDj1ImZDk=;
+ b=S8ZgDgnnPk4vU2Q1c5+bVMQlWez0pzdSkXGLpJr7YWA5HKyl3LlV5Axpc+OV08K+uSio9w
+ iaFezNXf+VHbJ/ER0DOASfA+WBJVGFOFCmI77mOzCDNoR0e0F/lDQe4VqojodCXRqYkG14
+ JWX0Acwqf0N/ec6U7AED+iVaZhnH65E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-z2jW-xt4Of6W13Pmq2AVmA-1; Sat, 25 Sep 2021 02:25:35 -0400
-X-MC-Unique: z2jW-xt4Of6W13Pmq2AVmA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-304-hfctazaONg-_qZYTnFobtg-1; Sat, 25 Sep 2021 02:25:33 -0400
+X-MC-Unique: hfctazaONg-_qZYTnFobtg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFAEB180830E;
- Sat, 25 Sep 2021 06:25:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80B5F1084683;
+ Sat, 25 Sep 2021 06:25:32 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 06922100763C;
- Sat, 25 Sep 2021 06:25:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 55A3A60936;
+ Sat, 25 Sep 2021 06:25:32 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3AAFD1138467; Sat, 25 Sep 2021 08:25:25 +0200 (CEST)
+ id 3DF561138468; Sat, 25 Sep 2021 08:25:25 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/25] qapi: Convert simple union TransactionAction to flat one
-Date: Sat, 25 Sep 2021 08:25:10 +0200
-Message-Id: <20210925062525.988405-11-armbru@redhat.com>
+Subject: [PULL 11/25] tests/qapi-schema: Prepare for simple union
+ UserDefListUnion removal
+Date: Sat, 25 Sep 2021 08:25:11 +0200
+Message-Id: <20210925062525.988405-12-armbru@redhat.com>
 In-Reply-To: <20210925062525.988405-1-armbru@redhat.com>
 References: <20210925062525.988405-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -60,11 +61,11 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) DKIMWL_WL_HIGH=-1.473, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,8 +80,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, peter.maydell@linaro.org,
- Hanna Reitz <hreitz@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: peter.maydell@linaro.org, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -89,180 +89,73 @@ schema language and the QAPI generator.  We haven't been using simple
 unions in new code for a long time, because they are less flexible and
 somewhat awkward on the wire.
 
-To prepare for their removal, convert simple union TransactionAction
-to an equivalent flat one.  Adds some boilerplate to the schema, which
-is a bit ugly, but a lot easier to maintain than the simple union
-feature.
+To prepare for their removal, simple union UserDefListUnion has to go.
+It is used to cover arrays.  The next few commits will eliminate its
+uses, and then it gets deleted.  As a first step, provide struct
+ArrayStruct for the tests to be rewritten.
 
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Acked-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20210917143134.412106-11-armbru@redhat.com>
+Message-Id: <20210917143134.412106-12-armbru@redhat.com>
 ---
- qapi/transaction.json | 139 ++++++++++++++++++++++++++++++++++--------
- 1 file changed, 113 insertions(+), 26 deletions(-)
+ tests/qapi-schema/qapi-schema-test.json | 16 ++++++++++++++++
+ tests/qapi-schema/qapi-schema-test.out  | 16 ++++++++++++++++
+ 2 files changed, 32 insertions(+)
 
-diff --git a/qapi/transaction.json b/qapi/transaction.json
-index 894258d9e2..d175b5f863 100644
---- a/qapi/transaction.json
-+++ b/qapi/transaction.json
-@@ -38,41 +38,128 @@
- { 'enum': 'ActionCompletionMode',
-   'data': [ 'individual', 'grouped' ] }
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+index 3c43e14e22..b2d795cb19 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -140,6 +140,22 @@
+             'sizes': ['size'],
+             'any': ['any'],
+             'user': ['Status'] } } # intentional forward ref. to sub-module
++{ 'struct': 'ArrayStruct',
++  'data': { 'integer': ['int'],
++            's8': ['int8'],
++            's16': ['int16'],
++            's32': ['int32'],
++            's64': ['int64'],
++            'u8': ['uint8'],
++            'u16': ['uint16'],
++            'u32': ['uint32'],
++            'u64': ['uint64'],
++            'number': ['number'],
++            'boolean': ['bool'],
++            'string': ['str'],
++            '*sz': ['size'],
++            '*any': ['any'],
++            '*user': ['Status'] } } # intentional forward ref. to sub-module
  
-+##
-+# @TransactionActionKind:
-+#
-+# @abort: Since 1.6
-+# @block-dirty-bitmap-add: Since 2.5
-+# @block-dirty-bitmap-remove: Since 4.2
-+# @block-dirty-bitmap-clear: Since 2.5
-+# @block-dirty-bitmap-enable: Since 4.0
-+# @block-dirty-bitmap-disable: Since 4.0
-+# @block-dirty-bitmap-merge: Since 4.0
-+# @blockdev-backup: Since 2.3
-+# @blockdev-snapshot: Since 2.5
-+# @blockdev-snapshot-internal-sync: Since 1.7
-+# @blockdev-snapshot-sync: since 1.1
-+# @drive-backup: Since 1.6
-+#
-+# Since: 1.1
-+##
-+{ 'enum': 'TransactionActionKind',
-+  'data': [ 'abort', 'block-dirty-bitmap-add', 'block-dirty-bitmap-remove',
-+            'block-dirty-bitmap-clear', 'block-dirty-bitmap-enable',
-+            'block-dirty-bitmap-disable', 'block-dirty-bitmap-merge',
-+            'blockdev-backup', 'blockdev-snapshot',
-+            'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
-+            'drive-backup' ] }
-+
-+##
-+# @AbortWrapper:
-+#
-+# Since: 1.6
-+##
-+{ 'struct': 'AbortWrapper',
-+  'data': { 'data': 'Abort' } }
-+
-+##
-+# @BlockDirtyBitmapAddWrapper:
-+#
-+# Since: 2.5
-+##
-+{ 'struct': 'BlockDirtyBitmapAddWrapper',
-+  'data': { 'data': 'BlockDirtyBitmapAdd' } }
-+
-+##
-+# @BlockDirtyBitmapWrapper:
-+#
-+# Since: 2.5
-+##
-+{ 'struct': 'BlockDirtyBitmapWrapper',
-+  'data': { 'data': 'BlockDirtyBitmap' } }
-+
-+##
-+# @BlockDirtyBitmapMergeWrapper:
-+#
-+# Since: 4.0
-+##
-+{ 'struct': 'BlockDirtyBitmapMergeWrapper',
-+  'data': { 'data': 'BlockDirtyBitmapMerge' } }
-+
-+##
-+# @BlockdevBackupWrapper:
-+#
-+# Since: 2.3
-+##
-+{ 'struct': 'BlockdevBackupWrapper',
-+  'data': { 'data': 'BlockdevBackup' } }
-+
-+##
-+# @BlockdevSnapshotWrapper:
-+#
-+# Since: 2.5
-+##
-+{ 'struct': 'BlockdevSnapshotWrapper',
-+  'data': { 'data': 'BlockdevSnapshot' } }
-+
-+##
-+# @BlockdevSnapshotInternalWrapper:
-+#
-+# Since: 1.7
-+##
-+{ 'struct': 'BlockdevSnapshotInternalWrapper',
-+  'data': { 'data': 'BlockdevSnapshotInternal' } }
-+
-+##
-+# @BlockdevSnapshotSyncWrapper:
-+#
-+# Since: 1.1
-+##
-+{ 'struct': 'BlockdevSnapshotSyncWrapper',
-+  'data': { 'data': 'BlockdevSnapshotSync' } }
-+
-+##
-+# @DriveBackupWrapper:
-+#
-+# Since: 1.6
-+##
-+{ 'struct': 'DriveBackupWrapper',
-+  'data': { 'data': 'DriveBackup' } }
-+
- ##
- # @TransactionAction:
- #
- # A discriminated record of operations that can be performed with
--# @transaction. Action @type can be:
--#
--# - @abort: since 1.6
--# - @block-dirty-bitmap-add: since 2.5
--# - @block-dirty-bitmap-remove: since 4.2
--# - @block-dirty-bitmap-clear: since 2.5
--# - @block-dirty-bitmap-enable: since 4.0
--# - @block-dirty-bitmap-disable: since 4.0
--# - @block-dirty-bitmap-merge: since 4.0
--# - @blockdev-backup: since 2.3
--# - @blockdev-snapshot: since 2.5
--# - @blockdev-snapshot-internal-sync: since 1.7
--# - @blockdev-snapshot-sync: since 1.1
--# - @drive-backup: since 1.6
-+# @transaction.
- #
- # Since: 1.1
- ##
- { 'union': 'TransactionAction',
-+  'base': { 'type': 'TransactionActionKind' },
-+  'discriminator': 'type',
-   'data': {
--       'abort': 'Abort',
--       'block-dirty-bitmap-add': 'BlockDirtyBitmapAdd',
--       'block-dirty-bitmap-remove': 'BlockDirtyBitmap',
--       'block-dirty-bitmap-clear': 'BlockDirtyBitmap',
--       'block-dirty-bitmap-enable': 'BlockDirtyBitmap',
--       'block-dirty-bitmap-disable': 'BlockDirtyBitmap',
--       'block-dirty-bitmap-merge': 'BlockDirtyBitmapMerge',
--       'blockdev-backup': 'BlockdevBackup',
--       'blockdev-snapshot': 'BlockdevSnapshot',
--       'blockdev-snapshot-internal-sync': 'BlockdevSnapshotInternal',
--       'blockdev-snapshot-sync': 'BlockdevSnapshotSync',
--       'drive-backup': 'DriveBackup'
-+       'abort': 'AbortWrapper',
-+       'block-dirty-bitmap-add': 'BlockDirtyBitmapAddWrapper',
-+       'block-dirty-bitmap-remove': 'BlockDirtyBitmapWrapper',
-+       'block-dirty-bitmap-clear': 'BlockDirtyBitmapWrapper',
-+       'block-dirty-bitmap-enable': 'BlockDirtyBitmapWrapper',
-+       'block-dirty-bitmap-disable': 'BlockDirtyBitmapWrapper',
-+       'block-dirty-bitmap-merge': 'BlockDirtyBitmapMergeWrapper',
-+       'blockdev-backup': 'BlockdevBackupWrapper',
-+       'blockdev-snapshot': 'BlockdevSnapshotWrapper',
-+       'blockdev-snapshot-internal-sync': 'BlockdevSnapshotInternalWrapper',
-+       'blockdev-snapshot-sync': 'BlockdevSnapshotSyncWrapper',
-+       'drive-backup': 'DriveBackupWrapper'
-    } }
- 
- ##
+ # for testing sub-modules
+ { 'include': 'include/sub-module.json' }
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
+index d557fe2d89..7a488c1d06 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -189,6 +189,22 @@ object UserDefListUnion
+     case sizes: q_obj_sizeList-wrapper
+     case any: q_obj_anyList-wrapper
+     case user: q_obj_StatusList-wrapper
++object ArrayStruct
++    member integer: intList optional=False
++    member s8: int8List optional=False
++    member s16: int16List optional=False
++    member s32: int32List optional=False
++    member s64: int64List optional=False
++    member u8: uint8List optional=False
++    member u16: uint16List optional=False
++    member u32: uint32List optional=False
++    member u64: uint64List optional=False
++    member number: numberList optional=False
++    member boolean: boolList optional=False
++    member string: strList optional=False
++    member sz: sizeList optional=True
++    member any: anyList optional=True
++    member user: StatusList optional=True
+ include include/sub-module.json
+ command user-def-cmd None -> None
+     gen=True success_response=True boxed=False oob=False preconfig=False
 -- 
 2.31.1
 
