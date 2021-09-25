@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8A54182EB
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 16:54:42 +0200 (CEST)
-Received: from localhost ([::1]:39982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D0C4182F9
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 16:57:51 +0200 (CEST)
+Received: from localhost ([::1]:48510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mU94b-0002hu-Ue
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 10:54:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42036)
+	id 1mU97e-00005m-Ly
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 10:57:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mU91T-0007Pb-NM
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:51:28 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41493)
+ id 1mU91Z-0007S8-B3
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:51:34 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mU91S-0004kF-16
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:51:27 -0400
-Received: by mail-wr1-x435.google.com with SMTP id w29so36381525wra.8
- for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 07:51:25 -0700 (PDT)
+ id 1mU91W-0004pf-OW
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:51:32 -0400
+Received: by mail-wr1-x435.google.com with SMTP id g16so36512198wrb.3
+ for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 07:51:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5Bzxb+cyFW2fTjguo4+D1GgUMJzgo2oIaa6x4dhI9M8=;
- b=OXTzlc0l5v/r8uLvsReuOKdN3lsOY9J7V5T3b1v/C2sV26LnTKMFGdwfhFT/8vxdHS
- 0Go9INDMsXeMhAECUBjGHlV+KmHKaTRG3whAnRlP340XS5kD21J6RsxmCHDxoJ0xpd0z
- 62r8N2JZyHVq7NJ9YGL4ikGLjBRehYLzA4fdxms+0JLckSlv7SzCyGazecRWFfb1ZQq8
- tp/8FyPVL+MvsuUtRHqveeae4+hW3drsKgbfJkAq/StOvPKmhPMePCJG4khmwgPW2K+j
- NNCtNQQG/7l88ca2Z27fPncaDZUz8L+ltujFdzRfBiOn7FAXP/U9CPfg7ndWnEwQ2Cam
- LHNA==
+ bh=tcpBP/9O11lxH2OkY3DQ1OAE3IFU4nJ2jfhNdgzdGjo=;
+ b=esE+aOjTLvFOR1pvVPn5Xd+dAbb4C2cXAr8kclKegqI/M9HwJTImfDcMx3CtJ98vYz
+ xgYZmjlH1XsjuDYVIOPTrv8OFDzv77ubVJfdlrS6KX/Ta6/Hxa+MXt2tw1Qr7UHEVIw4
+ R/BmdqXFv6k6Cm8jd/FVJR2gXionuasqrd4Z+H+6Ymm71q2O4aB29klkNYDJsIIIGeAE
+ akdkIYwHCp9bc7gimgaOfP8OO1jSGMc7YftPVfFbigVlHQ7ZGQEs2wO3QjnoNsZ/GybN
+ gNRlac83LvG0JG7+FQ3AgVTg71P3duUiBTZfQIE6QicWs9wJHJxQDnMrSRIz7s2NjGcK
+ u9jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5Bzxb+cyFW2fTjguo4+D1GgUMJzgo2oIaa6x4dhI9M8=;
- b=0dyrFTNXMdIsmNqmCcBLBrQSrN6JYhzzC5yTgVegQVnIk9cWEMBWSQlI5sh5CNwoqV
- j1JaTviWKRzLm2fGH/lPwCf9Citt6w+nr39tUElvfboYc+5IHzt/FJ7Ykje8HUmmAUtE
- bjCZ0iX7wn2R0eKgGUXuitwCmVqiMRmE3WLwkWFE0kptuGG77w3nHswK/3mEroO5AiSh
- mndiMz9pqfJafvpjMe2pHmmo0fQRyLRKFzj0lT0QOqTmNQrVe7AC3F9fs6c4Oa3Rh1nv
- XAiH0qRhVqfzeO9c4K/vHU7BKF7soIUMfwmPvK1aAk4DfIJPb+3itCnVE6S4ia/4Yq52
- 9j9w==
-X-Gm-Message-State: AOAM532ZpMaw3z1GR8pod6VPaBVf83m6lJx1IEQ4g1V/DzbT4k10cu0c
- Gevsfenyq23xTx7Hs662EgtcY8igK2k=
-X-Google-Smtp-Source: ABdhPJzq85pYyiQEMby/nqs+kxyz8pcpHVsgN5LX6GqmttvViHhfZs4diirSV8lBDozrvbI7Ug+nYA==
-X-Received: by 2002:a5d:6d81:: with SMTP id l1mr17809354wrs.404.1632581484389; 
- Sat, 25 Sep 2021 07:51:24 -0700 (PDT)
+ bh=tcpBP/9O11lxH2OkY3DQ1OAE3IFU4nJ2jfhNdgzdGjo=;
+ b=rxCydRoZSZ1sljRz+iKOdTqCCEOmME5P5ZITcxIJtBkjYOUudMhi7g8k0AC+BKJsRJ
+ Lmlz01Mv/F7THFH/EmMGoA18AHvtbIKkAr6vHYqF6bxIpzWbGazY1f4fD7zkpmkJlK+F
+ Uo0WoG6MlLsSWuIRiRsYYU5wV4D/tqKh1Fb8K9PjZWcnNp1JeOprD4k/UvppGLoJoPiF
+ 0nVCEg0vV1ruC8XVzHduKR3n6vQqoS34ghMrkWDcitJiyGar/+MV68UMjU0UZRVeOAnY
+ jpmTZOGKwGsYEi3l743Uap2bgNMt5gSZDcx+N8KnkPqTxZs0gkIYhpqmHKoOUSSmMuHx
+ LxSA==
+X-Gm-Message-State: AOAM532eMUg3O/qYL4nXJHSgRj9XUJJvlLU4DNHuLjbIhGGi7/DkNj3f
+ S/rTVKOcQc7o3MgDCx1gOI7X4176fN8=
+X-Google-Smtp-Source: ABdhPJwrkJLVpF0GLIvMlPUAzZyE7HWCRtyIDcUjP87AjuIzpUJXDvac+99KVK3C8GDsbK1W0hznBg==
+X-Received: by 2002:a7b:cb49:: with SMTP id v9mr7146092wmj.76.1632581489243;
+ Sat, 25 Sep 2021 07:51:29 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- j21sm11103624wrd.48.2021.09.25.07.51.23
+ i67sm13683401wmi.41.2021.09.25.07.51.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Sep 2021 07:51:23 -0700 (PDT)
+ Sat, 25 Sep 2021 07:51:28 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 01/40] accel: Simplify qemu_init_vcpu()
-Date: Sat, 25 Sep 2021 16:50:39 +0200
-Message-Id: <20210925145118.1361230-2-f4bug@amsat.org>
+Subject: [PATCH v7 02/40] hw/core: Restrict cpu_has_work() to sysemu
+Date: Sat, 25 Sep 2021 16:50:40 +0200
+Message-Id: <20210925145118.1361230-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210925145118.1361230-1-f4bug@amsat.org>
 References: <20210925145118.1361230-1-f4bug@amsat.org>
@@ -85,46 +85,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpus_register_accel() already checks for ops->create_vcpu_thread
-being non-NULL, so it is pointless to re-check for it in
-qemu_init_vcpu().
+cpu_has_work() is only called from system emulation code.
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- softmmu/cpus.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ include/hw/core/cpu.h | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 071085f840b..646326b24fd 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -604,7 +604,10 @@ void cpu_remove_sync(CPUState *cpu)
- void cpus_register_accel(const AccelOpsClass *ops)
- {
-     assert(ops != NULL);
--    assert(ops->create_vcpu_thread != NULL); /* mandatory */
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index bc864564cee..2bd563e221f 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -538,6 +538,22 @@ enum CPUDumpFlags {
+ void cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ 
+ #ifndef CONFIG_USER_ONLY
++/**
++ * cpu_has_work:
++ * @cpu: The vCPU to check.
++ *
++ * Checks whether the CPU has work to do.
++ *
++ * Returns: %true if the CPU has work, %false otherwise.
++ */
++static inline bool cpu_has_work(CPUState *cpu)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
 +
-+    /* Mandatory non-NULL handlers */
-+    assert(ops->create_vcpu_thread != NULL);
++    g_assert(cc->has_work);
++    return cc->has_work(cpu);
++}
 +
-     cpus_accel = ops;
- }
+ /**
+  * cpu_get_phys_page_attrs_debug:
+  * @cpu: The CPU to obtain the physical page address for.
+@@ -636,22 +652,6 @@ CPUState *cpu_create(const char *typename);
+  */
+ const char *parse_cpu_option(const char *cpu_option);
  
-@@ -626,7 +629,7 @@ void qemu_init_vcpu(CPUState *cpu)
-     }
- 
-     /* accelerators all implement the AccelOpsClass */
--    g_assert(cpus_accel != NULL && cpus_accel->create_vcpu_thread != NULL);
-+    g_assert(cpus_accel != NULL);
-     cpus_accel->create_vcpu_thread(cpu);
- 
-     while (!cpu->created) {
+-/**
+- * cpu_has_work:
+- * @cpu: The vCPU to check.
+- *
+- * Checks whether the CPU has work to do.
+- *
+- * Returns: %true if the CPU has work, %false otherwise.
+- */
+-static inline bool cpu_has_work(CPUState *cpu)
+-{
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
+-
+-    g_assert(cc->has_work);
+-    return cc->has_work(cpu);
+-}
+-
+ /**
+  * qemu_cpu_is_self:
+  * @cpu: The vCPU to check against.
 -- 
 2.31.1
 
