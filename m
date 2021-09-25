@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8C8418001
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 08:37:02 +0200 (CEST)
-Received: from localhost ([::1]:49958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43F2418035
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 09:41:53 +0200 (CEST)
+Received: from localhost ([::1]:47812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mU1Iz-0003d3-RL
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 02:37:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56888)
+	id 1mU2Ji-0001ig-Eo
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 03:41:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU189-0007g4-E3
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51482)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU2Hi-0000O6-W9
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 03:39:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU183-0007Lj-5b
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:49 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU2Hf-0003Ca-TR
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 03:39:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632551140;
+ s=mimecast20190719; t=1632555582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fjPpMnc58DLxC5DY4u0Ib6Ur9fvVvDsCHwZCAzUfZVo=;
- b=CmZ17oKUxnXTrDEyYcf93vsmJ0WlueJuw+ltiCxucxC1U1eywpXtdHYRh56XyKNLhg9tv8
- oZzOn88VpXX50xt6yP7doHFcOodL6rnkIkOLWnCZ+zQxTng6ZYqhoKAwXtjYyE4I4MbHCX
- 45gqHDZW0lpHejmxbvzNksN8HXJCiyQ=
+ bh=gbmiHf4X8+JCjQD9mN42DHBZraRGojRCOUHiHaHemZM=;
+ b=CjgQ9tkxKhcPDqwryWBiqNpj/QvnRVRgwKaST7Di56J7HIiYg7+v0z54BTQa4haQigXPkm
+ IwRUcj84XhYHgppF6Zz4yIfIDfTdQmHu/e/ZCp015EqTAQunt61J0r0XGZFaXUNEZVgBl+
+ M+wr8GRBJF94t5pR3PuHQb3R3wKLbn0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-VTY0_5I-NfGSljBM_JZ9jA-1; Sat, 25 Sep 2021 02:25:37 -0400
-X-MC-Unique: VTY0_5I-NfGSljBM_JZ9jA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-475-AdxCfSaNOymIEevSphbX1g-1; Sat, 25 Sep 2021 03:39:38 -0400
+X-MC-Unique: AdxCfSaNOymIEevSphbX1g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB3BA802921;
- Sat, 25 Sep 2021 06:25:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC8651808302;
+ Sat, 25 Sep 2021 07:39:37 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FB5119736;
- Sat, 25 Sep 2021 06:25:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8DC406A916;
+ Sat, 25 Sep 2021 07:39:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6EE6D1135221; Sat, 25 Sep 2021 08:25:25 +0200 (CEST)
+ id 28664113865F; Sat, 25 Sep 2021 09:39:27 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 25/25] tests/qapi-schema: Make test-qapi.py -u work when files
- are absent
-Date: Sat, 25 Sep 2021 08:25:25 +0200
-Message-Id: <20210925062525.988405-26-armbru@redhat.com>
-In-Reply-To: <20210925062525.988405-1-armbru@redhat.com>
-References: <20210925062525.988405-1-armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [Qemu-devel] [PULL 18/18] qapi: move RTC_CHANGE to the target
+ schema
+References: <20190218140607.31998-1-armbru@redhat.com>
+ <20190218140607.31998-19-armbru@redhat.com>
+ <CAFEAcA9tzLOwbzO56HjhPUM2yTT7xxfkkOYX3OHVfKT-UC14gA@mail.gmail.com>
+ <874kaarwou.fsf@dusky.pond.sub.org>
+ <CAFEAcA8mMzzgKyDbUUTh+W0r=5C0_HJv+7MMZ3Rdx-E2vcsRZA@mail.gmail.com>
+ <87sfxup03r.fsf@dusky.pond.sub.org> <YU3j859R7riCP1Ja@redhat.com>
+ <CAFEAcA9zp0O3QWV2d9pEyS-6G79bkq30O=s1oieHnpMvRdQW6Q@mail.gmail.com>
+Date: Sat, 25 Sep 2021 09:39:27 +0200
+In-Reply-To: <CAFEAcA9zp0O3QWV2d9pEyS-6G79bkq30O=s1oieHnpMvRdQW6Q@mail.gmail.com>
+ (Peter Maydell's message of "Fri, 24 Sep 2021 16:02:52 +0100")
+Message-ID: <87zgs1kssw.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -80,58 +88,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, John Snow <jsnow@redhat.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-test-qapi.py -u updates the expected files.  Since it fails when they
-are absent, users have to create them manually before they can use
-test-qapi.py to fill in the contents, say for a new test.  Silly.
-Improve -u to create them.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20210922125619.670673-3-armbru@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
----
- tests/qapi-schema/test-qapi.py | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+> On Fri, 24 Sept 2021 at 15:43, Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om> wrote:
+>>
+>> On Fri, Sep 24, 2021 at 03:35:52PM +0200, Markus Armbruster wrote:
+>> > Peter Maydell <peter.maydell@linaro.org> writes:
+>> > > Side side note: the JSON event doesn't seem to contemplate
+>> > > the possibility that a machine might have more than one RTC...
+>> >
+>> > Right.  It clearly needs an additional member @qom-path identifying th=
+e
+>> > RTC device.
+>>
+>> Are there (mainstream) machines with more than one RTC ?
+>
+> Probably not many. The most likely case is probably "SoC has
+> a crappy RTC and the board designer put a better one on the board".
+> https://www.mail-archive.com/tech@openbsd.org/msg45128.html
+> has a mention of some rockchip-based board like that.
 
-diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.py
-index 2e384f5efd..c717a7a90b 100755
---- a/tests/qapi-schema/test-qapi.py
-+++ b/tests/qapi-schema/test-qapi.py
-@@ -132,6 +132,17 @@ def test_frontend(fname):
-             print('    section=%s\n%s' % (section.name, section.text))
- 
- 
-+def open_test_result(dir_name, file_name, update):
-+    mode = 'r+' if update else 'r'
-+    try:
-+        fp = open(os.path.join(dir_name, file_name), mode)
-+    except FileNotFoundError:
-+        if not update:
-+            raise
-+        fp = open(os.path.join(dir_name, file_name), 'w+')
-+    return fp
-+
-+
- def test_and_diff(test_name, dir_name, update):
-     sys.stdout = StringIO()
-     try:
-@@ -148,10 +159,9 @@ def test_and_diff(test_name, dir_name, update):
-         sys.stdout.close()
-         sys.stdout = sys.__stdout__
- 
--    mode = 'r+' if update else 'r'
-     try:
--        outfp = open(os.path.join(dir_name, test_name + '.out'), mode)
--        errfp = open(os.path.join(dir_name, test_name + '.err'), mode)
-+        outfp = open_test_result(dir_name, test_name + '.out', update)
-+        errfp = open_test_result(dir_name, test_name + '.err', update)
-         expected_out = outfp.readlines()
-         expected_err = errfp.readlines()
-     except OSError as err:
--- 
-2.31.1
+Adding @qom-path is the right thing to do.
+
+Simply ignore it when you know the VM has just one RTC, or that the
+guest will use just one.
 
 
