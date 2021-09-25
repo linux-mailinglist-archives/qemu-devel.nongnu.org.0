@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C7741811E
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 12:49:58 +0200 (CEST)
-Received: from localhost ([::1]:47558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E54BF41811F
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 12:50:03 +0200 (CEST)
+Received: from localhost ([::1]:47672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mU5Fl-0007mv-GU
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 06:49:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35350)
+	id 1mU5Fq-0007sl-SS
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 06:50:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mU5C7-0004hp-Sy
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 06:46:12 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40776)
+ id 1mU5Cy-0005Qw-62
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 06:47:07 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mU5C6-0003vI-Cj
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 06:46:11 -0400
-Received: by mail-wr1-x434.google.com with SMTP id t28so21774206wra.7
- for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 03:46:10 -0700 (PDT)
+ id 1mU5Cw-0004ch-Py
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 06:47:03 -0400
+Received: by mail-wr1-x436.google.com with SMTP id d6so35031380wrc.11
+ for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 03:47:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=elHxdEhbpYEJnOqVH8NRDQ9fAi7vccMh49KFMt41Zr8=;
- b=LhsArdXlZP06LgRSjp1Nkpt2x42rcceERcQ/GeKc/H33/1OBdzEZP6A5Enz66ZcDAD
- urBzb8O2gGJifTXmnunMcmap7TB8KtSLjaRumoQiL/LPxaIGHH2c6UgDgz139+mYpsu1
- nnWQ9MWmbJ+mdCr/BXtti1yuTbchw5z40/5p0/5KZ86JD0GO3mZbBCxJ/JGa5ns51qXN
- z9xzobjFmFFawd7iZNm4Y5OfzLHfU2gUuk7mfBmOCJi4jMZn1AHAMKN6xGk57Xjf6Rl+
- aBbD5VIZppO1EaKR2xC+qgCTypB2zw/E9F506rbnNsIBt/a32Xrx3B5+0aIlAZmPfd2y
- LnVA==
+ bh=E5taq9f+8skwv6btFFK3f47UgjTahdOqnBWaWDb7xIM=;
+ b=FzOk/3w0+Ae9jyT9elcwx4KfobhvGU8WgIOGQ93Kdt9sxVLlrMQmyrFa7TSNjn6pwF
+ +YbEoC2oVUmA6YBpIIB/AyyVPeppEvy64KyNVz9AfUbL3zyLLobUptig0zNNH98U2olB
+ QEYOG4e6DmqlSGdwbySIvU3rZPotgo6CIihUelO8GyZo/jeMhS/L+MJhRxYEca4wQEgr
+ NTjiewWJxGsypoxsAuSyMxtA0vgTpGg5jpF8a05sPQL4d3l88miXzRk4xgaaQjUfLf5a
+ MMNrTBVEr2U2RsMNSVUJOhxe4T2PSkQ/7HS/jRIB/jEvwO/XKanyNrFMQWS0Dh15ILzl
+ tb9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=elHxdEhbpYEJnOqVH8NRDQ9fAi7vccMh49KFMt41Zr8=;
- b=VNWrwZHv1JV8ywBWHlo/oX/x9Q1j8izzQCf/LqejGHHjxRdLb4iEDvD5nIjMxWDqbT
- Fv3F8uvXEfeJ415c1hMODcbIW0TOA+Xs+ce3r9UZLEeCmKkORy1dCdvPBiQBrofhY2dD
- o1fWa6IzI3zXAYE6NkatWOrd65V/Xf7joSf/Exu6DU40kKp4jCfo9igBiEFnzqAmvFBT
- 7YLOMsRSNAgPV2b5s9U4kxiUGziHXLONoU0lUEsVBwRHzmVgug6os4YjmaeNsYlNMZ0L
- PG2MTRu82DZJsnJ/fXzcGFeAJe5o1c2ZG1Pvh0XIpWV5zvvrhDE6Q22gZGgd7DMZdNvZ
- KKoQ==
-X-Gm-Message-State: AOAM533URCrgpvbso386zl7i+eepOoMWRC65wI9VOCX7N5JLpcbrnsuH
- ZqH6P3QlyoMxtGqUoyovUNQ=
-X-Google-Smtp-Source: ABdhPJwEmHNBI39y8CpJAIq4/CMK0O/+8LoaNZdfGrAcGGpgCMic3bbCX4yeOaqZiAu4cuy7XNFIdg==
-X-Received: by 2002:adf:d1eb:: with SMTP id g11mr16703305wrd.194.1632566768753; 
- Sat, 25 Sep 2021 03:46:08 -0700 (PDT)
+ bh=E5taq9f+8skwv6btFFK3f47UgjTahdOqnBWaWDb7xIM=;
+ b=s8yt5L8Kyb4OYQY8VccQYuQBS9AuDDt162R/a7AqMX6V/ihygGOVuuO4Sp/rJAkv/r
+ k/IWOBf+Y+gKqPfYwYdZEDLa8zDyVV9KTmDGbSJw8oZcm0DkHEDFcVICqLGxUOTlwFl8
+ kfF1P/riqA9xM785fJfyZ8zjzNZOUqZjZ/AcB+I8spiClQ0jeac3C6AtBct1PM1CuVBa
+ os2kvBsxHb7COlmrpZASEpaQImvwxEI+OLIk55zfJ2KPGSvexHF3TGtiC8WVe48IvGus
+ /adPLl1c8cB7PboR875t0A7Vpq4egResjtF9SqtbK/LibXVCWmylvcK2WVZJL/a6FMXY
+ vFXA==
+X-Gm-Message-State: AOAM533nOlF/VGkYyec1Oh7UTlMXrfjeGAJ0REtu9FqYFa2+Tl0pnftm
+ XDQwL8KxWhCr3wGyeYASphI=
+X-Google-Smtp-Source: ABdhPJxXL879DpMAtXVWcgRNwd4P8z2r1z/4741ok+c9bp4ogtiGl3wwaRThKTE1IKZ6rv2jIoBE+g==
+X-Received: by 2002:a7b:c842:: with SMTP id c2mr6602420wml.93.1632566821607;
+ Sat, 25 Sep 2021 03:47:01 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id o17sm7378189wrs.25.2021.09.25.03.46.07
+ by smtp.gmail.com with ESMTPSA id c4sm10909156wrt.23.2021.09.25.03.47.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Sep 2021 03:46:08 -0700 (PDT)
-Message-ID: <64e8f0f5-1239-fc04-1c58-189421212f2c@amsat.org>
-Date: Sat, 25 Sep 2021 12:46:07 +0200
+ Sat, 25 Sep 2021 03:47:00 -0700 (PDT)
+Message-ID: <0e5165bb-c714-27d5-716c-7bac301c96f8@amsat.org>
+Date: Sat, 25 Sep 2021 12:46:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 12/14] bsd-user/sysarch: Provide a per-arch framework for
- sysarch syscall
+Subject: Re: [PATCH 13/14] bsd-user: Rename sigqueue to qemu_sigqueue
 Content-Language: en-US
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20210922061438.27645-1-imp@bsdimp.com>
- <20210922061438.27645-13-imp@bsdimp.com>
+ <20210922061438.27645-14-imp@bsdimp.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210922061438.27645-13-imp@bsdimp.com>
+In-Reply-To: <20210922061438.27645-14-imp@bsdimp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,91 +90,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, richard.henderson@linaro.org,
- Stacey Son <sson@FreeBSD.org>
+Cc: Kyle Evans <kevans@freebsd.org>, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Warner,
-
 On 9/22/21 08:14, Warner Losh wrote:
-> Add the missing glue to pull in do_freebsd_sysarch to call
-> do_freebsd_arch_sysarch. Put it in os-sys.c, which will be used for
-> sysctl and sysarch system calls because they are mostly arch specific.
+> To avoid a name clash with FreeBSD's sigqueue data structure in
+> signalvar.h, rename sigqueue to qemu_sigqueue. This sturcture
+> is currently defined, but unused.
 > 
-> Signed-off-by: Stacey Son <sson@FreeBSD.org>
 > Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->   bsd-user/freebsd/meson.build |  3 +++
->   bsd-user/freebsd/os-sys.c    | 28 ++++++++++++++++++++++++++++
->   bsd-user/meson.build         |  6 ++++++
->   bsd-user/qemu.h              |  3 +++
->   bsd-user/syscall.c           |  7 -------
->   5 files changed, 40 insertions(+), 7 deletions(-)
->   create mode 100644 bsd-user/freebsd/meson.build
->   create mode 100644 bsd-user/freebsd/os-sys.c
+>   bsd-user/qemu.h | 14 +++++++-------
+>   1 file changed, 7 insertions(+), 7 deletions(-)
 
-> +/* sysarch() is architecture dependent. */
-> +abi_long do_freebsd_sysarch(void *cpu_env, abi_long arg1, abi_long arg2)
-> +{
-> +
-> +    return do_freebsd_arch_sysarch(cpu_env, arg1, arg2);
-> +}
-> diff --git a/bsd-user/meson.build b/bsd-user/meson.build
-> index 0369549340..561913de05 100644
-> --- a/bsd-user/meson.build
-> +++ b/bsd-user/meson.build
-> @@ -8,3 +8,9 @@ bsd_user_ss.add(files(
->     'syscall.c',
->     'uaccess.c',
->   ))
-> +
-> +# Pull in the OS-specific build glue, if any
-> +if fs.exists(targetos)
-> +   subdir(targetos)
-
-I am a bit confused here, we have an optional implementation ...
-
-> +endif
-> +
-> diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-> index 4ee57b91f0..3dde381d5d 100644
-> --- a/bsd-user/qemu.h
-> +++ b/bsd-user/qemu.h
-> @@ -239,6 +239,9 @@ extern unsigned long target_sgrowsiz;
->   abi_long get_errno(abi_long ret);
->   int is_error(abi_long ret);
->   
-> +/* os-sys.c */
-> +abi_long do_freebsd_sysarch(void *cpu_env, abi_long arg1, abi_long arg2);
-
-... that is declared as non-optional.
-
-In fact it is called by do_freebsd_syscall(), not restricted to TARGET_I386.
-
-This shouldn't be (meson) optional IMO.
-
-> +
->   /* user access */
->   
->   #define VERIFY_READ  PAGE_READ
-> diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-> index 9bc72501b2..9f51563abd 100644
-> --- a/bsd-user/syscall.c
-> +++ b/bsd-user/syscall.c
-> @@ -88,13 +88,6 @@ static abi_long do_obreak(abi_ulong new_brk)
->       return 0;
->   }
->   
-> -#if defined(TARGET_I386)
-> -static abi_long do_freebsd_sysarch(CPUX86State *env, int op, abi_ulong parms)
-> -{
-> -    do_freebsd_arch_sysarch(env, op, parms);
-> -}
-> -#endif
-> -
->   #ifdef __FreeBSD__
->   /*
->    * XXX this uses the undocumented oidfmt interface to find the kind of
-> 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
