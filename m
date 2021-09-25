@@ -2,69 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B949418318
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 17:14:29 +0200 (CEST)
-Received: from localhost ([::1]:34786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A31418332
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 17:22:34 +0200 (CEST)
+Received: from localhost ([::1]:56898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mU9Ni-0004fz-Vn
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 11:14:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42616)
+	id 1mU9VZ-0002rL-Mk
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 11:22:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mU93e-0002I8-Be
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:53:42 -0400
-Received: from mail-ua1-x92b.google.com ([2607:f8b0:4864:20::92b]:37765)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mU9Tq-0008Um-MG
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 11:20:46 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:38565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mU93c-0006jf-5P
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 10:53:42 -0400
-Received: by mail-ua1-x92b.google.com with SMTP id p9so8721434uak.4
- for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 07:53:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z9HUb/dxfmy2GRUqKoXBYU9Ov+Iizb52+iqITK0tEFg=;
- b=anmzGviu/ftPr0dUOoBCXxCnJrBjfyf1NF0mQlVOLHizsuU6Oq51auspJfF56YGVTj
- +FZikFlW01Qiblx19EqMNtlwLiox61Sa+WTAlOc4fkRc/BcCj2DxdWsv1ZW0kWXYw/0j
- Ev2SIxfV5Az2je/maJK26afNq6MLE2y6sbgtfleSbljT3gJL4tNX4M8fvTpkKP6+xYV3
- HRtmUpYPQpp9vIgp3Rvupq53P/k3mckXCTjhL6ETXP0ePqEEE26m3JI6aO+fgPYL9sa7
- EA/XGsvLOyAaCQsHyJ8Bz8CX5LWjPUTnzzKMe7T29mPwdR7/J7/aMJhBXVgg2hOX8FWC
- VJmw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mU9To-0002yh-KT
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 11:20:46 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id q81so28005514qke.5
+ for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 08:20:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Q1mp5bfcOE4tYJtlkfQExh71H7UjAyVQ4UuEct1pjmg=;
+ b=VpPCq3Xn2Hw/a7fbfG21SswwQDtF5dsBvtF90QA3uGXeTkvLR8Gqebbtz2L4a6KVI2
+ X25lV3U+/Vn2EhhuJSLyQCDsoso6oe4+7YpmwlOWwnZFbI3eFpGJImTGdj98AgfVw8rG
+ Wv9oZpiwy95RNXPJQGiZnMrjbzFxPgwTpflbJ3acZDBLsLdy2W+Go0rdH/Ed1CpoaYBT
+ ZGIORcTnbGMKuJWNvzWsY+3QkpZfXLSZc0DIkivxxgcsXhmGZzpAYKFY4WlZffPMjFks
+ VJ62wkt8qylkoVq54wAHeFISGLfbxOkhsmjlqu7nMTkCnivoWOXmFxhPMtvxilyc85U+
+ kdug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z9HUb/dxfmy2GRUqKoXBYU9Ov+Iizb52+iqITK0tEFg=;
- b=Wg47tlJj9jcrWxNT8+/l5KzzPlERVAQQXOYJYTpkdswHoo//bCIp2QsY/Vp4SqP9bP
- EuImqU2x341bNT57u3XO94/QZICwD7QS7JTPNgoHuMKMxbS3yOEpBtYneTr1nngduDIT
- +4gj5XRMGKH9ozmWqvcdHD5XbfKQM+NZypXE3QZr2quSg+OAIOr0y9JqQD7wnecP9bwk
- t8VFAKgylmJ35/XbHXbeH73jsLHBPEcCziUHaEZSt4qq8Bk2UiPtWSZPtZ/Fz3uxts7T
- l+7Mb1BUqIc6UQyo+HzoLSilXehN9A/5htYexRyZBMqBVhpW6KVYjot+sWlNE5JgaptB
- RKxQ==
-X-Gm-Message-State: AOAM533IOvUKTScr+qIi+WGqdNO1mOJs3zoXmr3BVrPJl80/iXfZiNK1
- S+NHZfB/PHJgCWCOQyRCHtD7IplIPrvOHDcvqzxatIn4sOcwmfiG
-X-Google-Smtp-Source: ABdhPJyR2Z3JxqxDoSc+ox30ABzPkfYa1YpD0ndPo1uJ9ti30E8BQm10EPscsa6QIFExlr6HSkoh4rCuD5L6ruWZDv8=
-X-Received: by 2002:ab0:5b5d:: with SMTP id v29mr5986451uae.85.1632581618072; 
- Sat, 25 Sep 2021 07:53:38 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Q1mp5bfcOE4tYJtlkfQExh71H7UjAyVQ4UuEct1pjmg=;
+ b=Wt7QoWTWhlV4PNeCy+yBuQ6hriRumkGITqj+tokGC7vdaoeEp+cfvc4AIn41ZM15AK
+ KshjEPbOzQobjRKSz8+bgBL8emkZl9HLD3E29EYthynOHvR2re4F+FN2VSluh1LYE5UY
+ 1tk2rGEhqxlRGun6VvC5es14AkDm8ChoPCOYvznlFCSnb5jUKfSA2PT4L1OfDPx4B6az
+ 905XwEwGUf3pxstiK58b/bfH/nvFsepmjHWsyfwGJenVqnXQdDwUGQVivSwnM4bsCiEb
+ NnNIHHWT2MwebtqC0Ega68+/0cy21UwhN9AI9pS2HjxqHYemXNt9fn/HrE7bdfPq4bbi
+ JpdQ==
+X-Gm-Message-State: AOAM531udI4jnJOb/rnHwRb5zDvRbuoUzsG8FfgFvlV/JFGH4nWynZmh
+ b2hx+goA0DQskj60tizn2Pc9FA==
+X-Google-Smtp-Source: ABdhPJw6lTyH0D8UZGQrdqm4faTK2+W5+NfufmIdyfBJWlzeHAZa+KeZsznCpFrt/llnsmKDzXWOiQ==
+X-Received: by 2002:a37:a557:: with SMTP id o84mr16222088qke.330.1632583243438; 
+ Sat, 25 Sep 2021 08:20:43 -0700 (PDT)
+Received: from [192.168.3.43] (cpe-24-74-129-96.carolina.res.rr.com.
+ [24.74.129.96])
+ by smtp.gmail.com with ESMTPSA id i18sm2539643qtx.60.2021.09.25.08.20.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 25 Sep 2021 08:20:43 -0700 (PDT)
+Subject: Re: [PATCH v5 04/30] tcg/loongarch64: Add generated instruction
+ opcodes and encoding helpers
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ WANG Xuerui <i.qemu@xen0n.name>, Yunqiang Su <syq@debian.org>,
+ Huacai Chen <chenhuacai@kernel.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20210924172527.904294-1-git@xen0n.name>
+ <20210924172527.904294-5-git@xen0n.name>
+ <313df1b0-9edf-7333-da46-7342ca308dfb@xen0n.name>
+ <6bc47454-7475-7b02-3621-54d064a975e7@linaro.org>
+ <9c7adce3-6e51-10cb-9935-4857f822c332@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <cab11f59-c90d-8228-2226-1e3d1a727196@linaro.org>
+Date: Sat, 25 Sep 2021 11:20:40 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210922061438.27645-1-imp@bsdimp.com>
- <20210922061438.27645-15-imp@bsdimp.com>
- <dde592d4-35fc-8f33-009b-cc6a0e4460ad@amsat.org>
-In-Reply-To: <dde592d4-35fc-8f33-009b-cc6a0e4460ad@amsat.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Sat, 25 Sep 2021 08:53:26 -0600
-Message-ID: <CANCZdfo-YTGs3gLi1T+BKa5a1EhQ1ZpfhbR_x27n0uOKt3xE5A@mail.gmail.com>
-Subject: Re: [PATCH 14/14] bsd-user/signal: Create a dummy signal queueing
- function
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="0000000000006991d305ccd307fd"
-Received-SPF: none client-ip=2607:f8b0:4864:20::92b;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92b.google.com
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <9c7adce3-6e51-10cb-9935-4857f822c332@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,157 +95,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006991d305ccd307fd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Adding Alex to the Cc list re docker testing.
 
-On Sat, Sep 25, 2021, 4:50 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-wrote:
+On 9/25/21 10:31 AM, Philippe Mathieu-Daudé wrote:
+> Xuerui said on the cover 1/ we can buy a board on Taobao and 2/ Loongson
+> might help the community with hardware.
+> 
+> I tried 1/, spend more than 2h to read a translated version of the EULA,
+> succeeded at the SMS verification, but then when I tried to log in to
+> search for boards my account got banned with no explanation. This
+> doesn't seem easy to use outside of China, so I guess we're back on 2/.
+> 
+> Cc'ing other QEMU Loongson contributors in case they might give us ideas
+> about how to add this arch into our CI.
 
-> On 9/22/21 08:14, Warner Losh wrote:
-> > Create dummy signal queueing function so we can start to integrate othe=
-r
-> > architectures (at the cost of signals remaining broken) to tame the
-> > dependency graph a bit and to bring in signals in a more controlled
-> > fashion.
-> >
-> > Signed-off-by: Warner Losh <imp@bsdimp.com>
-> > ---
-> >   bsd-user/qemu.h   | 1 +
-> >   bsd-user/signal.c | 8 ++++++++
-> >   2 files changed, 9 insertions(+)
-> >
-> > diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-> > index 5a2fd87e44..85d1f8fd2a 100644
-> > --- a/bsd-user/qemu.h
-> > +++ b/bsd-user/qemu.h
-> > @@ -209,6 +209,7 @@ void process_pending_signals(CPUArchState *cpu_env)=
-;
-> >   void signal_init(void);
-> >   long do_sigreturn(CPUArchState *env);
-> >   long do_rt_sigreturn(CPUArchState *env);
-> > +int queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
-> >   abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr,
-> abi_ulong sp);
-> >
-> >   /* mmap.c */
-> > diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-> > index ad6d935569..4e7f618944 100644
-> > --- a/bsd-user/signal.c
-> > +++ b/bsd-user/signal.c
-> > @@ -19,6 +19,14 @@
-> >   #include "qemu/osdep.h"
-> >
-> >   #include "qemu.h"
-> > +/*
-> > + * Queue a signal so that it will be send to the virtual CPU as soon a=
-s
-> > + * possible.
-> > + */
-> > +int queue_signal(CPUArchState *env, int sig, target_siginfo_t *info)
-> > +{
-> > +    return 1;
->
-> Shouldn't we abort() here or at least call qemu_log_mask(LOG_UNIMP)?
->
+It does seem like a good idea to have some sort of testing in place.
 
-Sure. This code is just a placeholder for the moment so that I can prepare
-the full signal.c later, but still be able to submit my next 3 patch series
-which add aarch64, arm and riscv64. It can be anything you'd like without
-generating conflicts.
+Perhaps build upon debian-hexagon-cross.docker to set up a cross-build environment for 
+loongarch.  Add just enough more that it's good for a full cross-build of qemu (glib and 
+pixman?).
 
-When I spin the next version I'll have at least an abort here.
+Like the hexagon docker image, the build time would be substantial, so we'd push a golden 
+copy to the qemu-project repo.
 
-Warner
 
-> +}
-> >
-> >   void signal_init(void)
-> >   {
-> >
->
-
---0000000000006991d305ccd307fd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Sat, Sep 25, 2021, 4:50 AM Philippe Mathieu-Daud=C3=
-=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">On 9/22/21 08:14, Warner Losh wrote:=
-<br>
-&gt; Create dummy signal queueing function so we can start to integrate oth=
-er<br>
-&gt; architectures (at the cost of signals remaining broken) to tame the<br=
->
-&gt; dependency graph a bit and to bring in signals in a more controlled<br=
->
-&gt; fashion.<br>
-&gt; <br>
-&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
-t=3D"_blank" rel=3D"noreferrer">imp@bsdimp.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0bsd-user/qemu.h=C2=A0 =C2=A0| 1 +<br>
-&gt;=C2=A0 =C2=A0bsd-user/signal.c | 8 ++++++++<br>
-&gt;=C2=A0 =C2=A02 files changed, 9 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h<br>
-&gt; index 5a2fd87e44..85d1f8fd2a 100644<br>
-&gt; --- a/bsd-user/qemu.h<br>
-&gt; +++ b/bsd-user/qemu.h<br>
-&gt; @@ -209,6 +209,7 @@ void process_pending_signals(CPUArchState *cpu_env=
-);<br>
-&gt;=C2=A0 =C2=A0void signal_init(void);<br>
-&gt;=C2=A0 =C2=A0long do_sigreturn(CPUArchState *env);<br>
-&gt;=C2=A0 =C2=A0long do_rt_sigreturn(CPUArchState *env);<br>
-&gt; +int queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);=
-<br>
-&gt;=C2=A0 =C2=A0abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss=
-_addr, abi_ulong sp);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0/* mmap.c */<br>
-&gt; diff --git a/bsd-user/signal.c b/bsd-user/signal.c<br>
-&gt; index ad6d935569..4e7f618944 100644<br>
-&gt; --- a/bsd-user/signal.c<br>
-&gt; +++ b/bsd-user/signal.c<br>
-&gt; @@ -19,6 +19,14 @@<br>
-&gt;=C2=A0 =C2=A0#include &quot;qemu/osdep.h&quot;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0#include &quot;qemu.h&quot;<br>
-&gt; +/*<br>
-&gt; + * Queue a signal so that it will be send to the virtual CPU as soon =
-as<br>
-&gt; + * possible.<br>
-&gt; + */<br>
-&gt; +int queue_signal(CPUArchState *env, int sig, target_siginfo_t *info)<=
-br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 return 1;<br>
-<br>
-Shouldn&#39;t we abort() here or at least call qemu_log_mask(LOG_UNIMP)?<br=
-></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Sur=
-e. This code is just a placeholder for the moment so that I can prepare the=
- full signal.c later, but still be able to submit my next 3 patch series wh=
-ich add aarch64, arm and riscv64. It can be anything you&#39;d like without=
- generating conflicts.</div><div dir=3D"auto"><br></div><div dir=3D"auto">W=
-hen I spin the next version I&#39;ll have at least an abort here.</div><div=
- dir=3D"auto"><br></div><div dir=3D"auto">Warner</div><div dir=3D"auto"><br=
-></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">
-&gt; +}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0void signal_init(void)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt; <br>
-</blockquote></div></div></div>
-
---0000000000006991d305ccd307fd--
+r~
 
