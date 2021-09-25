@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818D84183C4
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 19:46:51 +0200 (CEST)
-Received: from localhost ([::1]:40902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 637DF4183D2
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 19:53:36 +0200 (CEST)
+Received: from localhost ([::1]:57850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUBlC-0006yR-C6
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 13:46:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36736)
+	id 1mUBrj-0001i4-44
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 13:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mUBWL-0002XQ-VW
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 13:31:31 -0400
-Received: from [115.28.160.31] (port=57218 helo=mailbox.box.xen0n.name)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mUBWH-0005VD-Sc
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mUBWK-0002W1-IT
  for qemu-devel@nongnu.org; Sat, 25 Sep 2021 13:31:29 -0400
+Received: from [115.28.160.31] (port=57220 helo=mailbox.box.xen0n.name)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mUBWH-0005VB-P7
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 13:31:28 -0400
 Received: from ld50.lan (unknown [101.88.29.172])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id ECE8660B49;
- Sun, 26 Sep 2021 01:30:57 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 3C57860B4A;
+ Sun, 26 Sep 2021 01:30:58 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632591058; bh=x4Yei/AMy632P2CFg3FpDWneOl9hjXu2QZZwcD3cY9o=;
+ t=1632591058; bh=p7qSAgx2FVDWwuBZ7puHrYvvv6P07LN6RIl4F1zNeqU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OGwxa/dsNYRRFOEEdCb8JuD4Bq5wsv8IU10wgF8kbG7hv8O+vsLk8Iuv1ewvceX+5
- X+zsV3DxWDlpAHyB9q2kcdfCK9XpgyXrp3T1K/fz3lCcHdCG5Mkc1tofC3gbBgLha4
- BRrsxEUR9afv8wOSCET9v3yLdvbHjGgVjL5lcul8=
+ b=oFX9koRxmqwhbu1ceY3rDF/VP/h8/1O5bVrrY8DR+5Ll8B/ljS7nMLUAZa3L1Q8ZQ
+ phTEeC/puccGd3FvTbfrvXGVwk05zdz2k/FERA5NMZ+TowDYumOT+lINsVjyhpg7jx
+ Z5p6HgUzHFsIWRC00LgkaCZXF465JItdKGWT9q/0=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 25/30] tcg/loongarch64: Implement exit_tb/goto_tb
-Date: Sun, 26 Sep 2021 01:30:27 +0800
-Message-Id: <20210925173032.2434906-26-git@xen0n.name>
+Subject: [PATCH v6 26/30] tcg/loongarch64: Implement tcg_target_init
+Date: Sun, 26 Sep 2021 01:30:28 +0800
+Message-Id: <20210925173032.2434906-27-git@xen0n.name>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210925173032.2434906-1-git@xen0n.name>
 References: <20210925173032.2434906-1-git@xen0n.name>
@@ -41,12 +41,13 @@ Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
 Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
  helo=mailbox.box.xen0n.name
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ TVD_SPACE_RATIO=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,39 +72,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ tcg/loongarch64/tcg-target.c.inc | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 207d15ed88..d0b8ac05c9 100644
+index d0b8ac05c9..e3c73f9fe7 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -980,6 +980,25 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     int c2 = const_args[2];
- 
-     switch (opc) {
-+    case INDEX_op_exit_tb:
-+        /* Reuse the zeroing that exists for goto_ptr.  */
-+        if (a0 == 0) {
-+            tcg_out_call_int(s, tcg_code_gen_epilogue, true);
-+        } else {
-+            tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_A0, a0);
-+            tcg_out_call_int(s, tb_ret_addr, true);
-+        }
-+        break;
+@@ -1604,3 +1604,30 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+     tcg_out_opc_addi_d(s, TCG_REG_SP, TCG_REG_SP, FRAME_SIZE);
+     tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_RA, 0);
+ }
 +
-+    case INDEX_op_goto_tb:
-+        assert(s->tb_jmp_insn_offset == 0);
-+        /* indirect jump method */
-+        tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
-+                   (uintptr_t)(s->tb_jmp_target_addr + a0));
-+        tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
-+        set_jmp_reset_offset(s, a0);
-+        break;
++static void tcg_target_init(TCGContext *s)
++{
++    tcg_target_available_regs[TCG_TYPE_I32] = ALL_GENERAL_REGS;
++    tcg_target_available_regs[TCG_TYPE_I64] = ALL_GENERAL_REGS;
 +
-     case INDEX_op_mb:
-         tcg_out_mb(s, a0);
-         break;
++    tcg_target_call_clobber_regs = ALL_GENERAL_REGS;
++    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S0);
++    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S1);
++    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S2);
++    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S3);
++    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S4);
++    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S5);
++    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S6);
++    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S7);
++    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S8);
++    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S9);
++
++    s->reserved_regs = 0;
++    tcg_regset_set_reg(s->reserved_regs, TCG_REG_ZERO);
++    tcg_regset_set_reg(s->reserved_regs, TCG_REG_TMP0);
++    tcg_regset_set_reg(s->reserved_regs, TCG_REG_TMP1);
++    tcg_regset_set_reg(s->reserved_regs, TCG_REG_TMP2);
++    tcg_regset_set_reg(s->reserved_regs, TCG_REG_SP);
++    tcg_regset_set_reg(s->reserved_regs, TCG_REG_TP);
++    tcg_regset_set_reg(s->reserved_regs, TCG_REG_RESERVED);
++}
 -- 
 2.33.0
 
