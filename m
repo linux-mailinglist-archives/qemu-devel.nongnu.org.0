@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21AB1418022
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 08:54:28 +0200 (CEST)
-Received: from localhost ([::1]:33160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1274641801B
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 08:47:33 +0200 (CEST)
+Received: from localhost ([::1]:43480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mU1Zr-0005i2-6q
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 02:54:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56906)
+	id 1mU1TA-0001tx-3f
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 02:47:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU18B-0007hN-1t
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31040)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU189-0007fx-Bw
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU180-0007LJ-Of
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:50 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mU183-0007Mx-58
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 02:25:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632551139;
+ s=mimecast20190719; t=1632551141;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=crdpMqgq/xumj2wSo6tDv4gzNZ7NmdAh+0MIrIKtpPg=;
- b=efgr41kNE2aGA9pwalYdW2m6zqedkyfCh6rIpv7ooBQedkB58fE1bdPwONbGJv/wALhvy/
- UKE1NKpdjowse1er/mA9yiOn3dvadTXxUUt09Mfhnun9n3sYCb9WpT/Hr3OPZ/1gsh5gJe
- KmWkFCNd6xJMDOC3wzQI8+tQXQBkyWc=
+ bh=Dh1qCXcBy1PNpZRi3lXvaT/kUO2EqqJepPg2N+BW8uc=;
+ b=R3QkT3ph1QLlYPByLjbT+n2CfUY2uS5hctcR0kGkRi0HjiZSiuROm3AMIoS57jmMr5BD6C
+ 4+upw3NFhK5ymZlhPCiZ6u76NhGRlrVwRX0I+ClYBXUrwNQncCOhMWNfuni5fGTwVt5vzS
+ +ILOm1+2sqQMXP0MEuu53QiiCcWKzuU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-MJrxAZgKNjayySoSWMOQxw-1; Sat, 25 Sep 2021 02:25:36 -0400
-X-MC-Unique: MJrxAZgKNjayySoSWMOQxw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-562-aOTH9cRYP1izjX0H5Y8Cqw-1; Sat, 25 Sep 2021 02:25:39 -0400
+X-MC-Unique: aOTH9cRYP1izjX0H5Y8Cqw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D0021006AA2;
- Sat, 25 Sep 2021 06:25:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87246802936;
+ Sat, 25 Sep 2021 06:25:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 66E351972D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 66CB4652AB;
  Sat, 25 Sep 2021 06:25:35 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 650871136421; Sat, 25 Sep 2021 08:25:25 +0200 (CEST)
+ id 685301135A4D; Sat, 25 Sep 2021 08:25:25 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/25] tests/qapi-schema: Rename flat-union-* test cases to
- union-*
-Date: Sat, 25 Sep 2021 08:25:22 +0200
-Message-Id: <20210925062525.988405-23-armbru@redhat.com>
+Subject: [PULL 23/25] test-clone-visitor: Correct an accidental rename
+Date: Sat, 25 Sep 2021 08:25:23 +0200
+Message-Id: <20210925062525.988405-24-armbru@redhat.com>
 In-Reply-To: <20210925062525.988405-1-armbru@redhat.com>
 References: <20210925062525.988405-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
@@ -80,585 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Eric Blake <eblake@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20210917143134.412106-23-armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com
----
- tests/qapi-schema/flat-union-array-branch.err |  2 --
- tests/qapi-schema/flat-union-bad-base.err     |  2 --
- .../flat-union-bad-discriminator.err          |  2 --
- tests/qapi-schema/flat-union-base-any.err     |  2 --
- tests/qapi-schema/flat-union-base-union.err   |  2 --
- tests/qapi-schema/flat-union-clash-member.err |  2 --
- .../flat-union-discriminator-bad-name.err     |  2 --
- tests/qapi-schema/flat-union-empty.err        |  2 --
- .../flat-union-inline-invalid-dict.err        |  2 --
- tests/qapi-schema/flat-union-int-branch.err   |  2 --
- .../flat-union-invalid-branch-key.err         |  2 --
- .../flat-union-invalid-discriminator.err      |  2 --
- .../flat-union-invalid-if-discriminator.err   |  2 --
- tests/qapi-schema/flat-union-no-base.err      |  2 --
- .../flat-union-optional-discriminator.err     |  2 --
- .../flat-union-string-discriminator.err       |  2 --
- tests/qapi-schema/meson.build                 | 32 +++++++++----------
- tests/qapi-schema/union-array-branch.err      |  2 ++
- ...ay-branch.json => union-array-branch.json} |  0
- ...rray-branch.out => union-array-branch.out} |  0
- tests/qapi-schema/union-bad-base.err          |  2 ++
- ...nion-bad-base.json => union-bad-base.json} |  0
- ...-union-bad-base.out => union-bad-base.out} |  0
- tests/qapi-schema/union-bad-discriminator.err |  2 ++
- ...ator.json => union-bad-discriminator.json} |  0
- ...inator.out => union-bad-discriminator.out} |  0
- tests/qapi-schema/union-base-any.err          |  2 ++
- ...nion-base-any.json => union-base-any.json} |  0
- ...-union-base-any.out => union-base-any.out} |  0
- tests/qapi-schema/union-base-union.err        |  2 ++
- ...-base-union.json => union-base-union.json} |  0
- ...on-base-union.out => union-base-union.out} |  0
- tests/qapi-schema/union-clash-member.err      |  2 ++
- ...sh-member.json => union-clash-member.json} |  0
- ...lash-member.out => union-clash-member.out} |  0
- .../union-discriminator-bad-name.err          |  2 ++
- ...json => union-discriminator-bad-name.json} |  0
- ...e.out => union-discriminator-bad-name.out} |  0
- tests/qapi-schema/union-empty.err             |  2 ++
- ...flat-union-empty.json => union-empty.json} |  0
- .../{flat-union-empty.out => union-empty.out} |  0
- .../qapi-schema/union-inline-invalid-dict.err |  2 ++
- ...ct.json => union-inline-invalid-dict.json} |  0
- ...dict.out => union-inline-invalid-dict.out} |  0
- tests/qapi-schema/union-int-branch.err        |  2 ++
- ...-int-branch.json => union-int-branch.json} |  0
- ...on-int-branch.out => union-int-branch.out} |  0
- .../qapi-schema/union-invalid-branch-key.err  |  2 ++
- ...key.json => union-invalid-branch-key.json} |  0
- ...h-key.out => union-invalid-branch-key.out} |  0
- .../union-invalid-discriminator.err           |  2 ++
- ....json => union-invalid-discriminator.json} |  0
- ...or.out => union-invalid-discriminator.out} |  0
- .../union-invalid-if-discriminator.err        |  2 ++
- ...on => union-invalid-if-discriminator.json} |  0
- ...out => union-invalid-if-discriminator.out} |  0
- tests/qapi-schema/union-no-base.err           |  2 ++
- ...-union-no-base.json => union-no-base.json} |  0
- ...at-union-no-base.out => union-no-base.out} |  0
- .../union-optional-discriminator.err          |  2 ++
- ...json => union-optional-discriminator.json} |  0
- ...r.out => union-optional-discriminator.out} |  0
- .../union-string-discriminator.err            |  2 ++
- ...r.json => union-string-discriminator.json} |  0
- ...tor.out => union-string-discriminator.out} |  0
- 65 files changed, 48 insertions(+), 48 deletions(-)
- delete mode 100644 tests/qapi-schema/flat-union-array-branch.err
- delete mode 100644 tests/qapi-schema/flat-union-bad-base.err
- delete mode 100644 tests/qapi-schema/flat-union-bad-discriminator.err
- delete mode 100644 tests/qapi-schema/flat-union-base-any.err
- delete mode 100644 tests/qapi-schema/flat-union-base-union.err
- delete mode 100644 tests/qapi-schema/flat-union-clash-member.err
- delete mode 100644 tests/qapi-schema/flat-union-discriminator-bad-name.err
- delete mode 100644 tests/qapi-schema/flat-union-empty.err
- delete mode 100644 tests/qapi-schema/flat-union-inline-invalid-dict.err
- delete mode 100644 tests/qapi-schema/flat-union-int-branch.err
- delete mode 100644 tests/qapi-schema/flat-union-invalid-branch-key.err
- delete mode 100644 tests/qapi-schema/flat-union-invalid-discriminator.err
- delete mode 100644 tests/qapi-schema/flat-union-invalid-if-discriminator.err
- delete mode 100644 tests/qapi-schema/flat-union-no-base.err
- delete mode 100644 tests/qapi-schema/flat-union-optional-discriminator.err
- delete mode 100644 tests/qapi-schema/flat-union-string-discriminator.err
- create mode 100644 tests/qapi-schema/union-array-branch.err
- rename tests/qapi-schema/{flat-union-array-branch.json => union-array-branch.json} (100%)
- rename tests/qapi-schema/{flat-union-array-branch.out => union-array-branch.out} (100%)
- create mode 100644 tests/qapi-schema/union-bad-base.err
- rename tests/qapi-schema/{flat-union-bad-base.json => union-bad-base.json} (100%)
- rename tests/qapi-schema/{flat-union-bad-base.out => union-bad-base.out} (100%)
- create mode 100644 tests/qapi-schema/union-bad-discriminator.err
- rename tests/qapi-schema/{flat-union-bad-discriminator.json => union-bad-discriminator.json} (100%)
- rename tests/qapi-schema/{flat-union-bad-discriminator.out => union-bad-discriminator.out} (100%)
- create mode 100644 tests/qapi-schema/union-base-any.err
- rename tests/qapi-schema/{flat-union-base-any.json => union-base-any.json} (100%)
- rename tests/qapi-schema/{flat-union-base-any.out => union-base-any.out} (100%)
- create mode 100644 tests/qapi-schema/union-base-union.err
- rename tests/qapi-schema/{flat-union-base-union.json => union-base-union.json} (100%)
- rename tests/qapi-schema/{flat-union-base-union.out => union-base-union.out} (100%)
- create mode 100644 tests/qapi-schema/union-clash-member.err
- rename tests/qapi-schema/{flat-union-clash-member.json => union-clash-member.json} (100%)
- rename tests/qapi-schema/{flat-union-clash-member.out => union-clash-member.out} (100%)
- create mode 100644 tests/qapi-schema/union-discriminator-bad-name.err
- rename tests/qapi-schema/{flat-union-discriminator-bad-name.json => union-discriminator-bad-name.json} (100%)
- rename tests/qapi-schema/{flat-union-discriminator-bad-name.out => union-discriminator-bad-name.out} (100%)
- create mode 100644 tests/qapi-schema/union-empty.err
- rename tests/qapi-schema/{flat-union-empty.json => union-empty.json} (100%)
- rename tests/qapi-schema/{flat-union-empty.out => union-empty.out} (100%)
- create mode 100644 tests/qapi-schema/union-inline-invalid-dict.err
- rename tests/qapi-schema/{flat-union-inline-invalid-dict.json => union-inline-invalid-dict.json} (100%)
- rename tests/qapi-schema/{flat-union-inline-invalid-dict.out => union-inline-invalid-dict.out} (100%)
- create mode 100644 tests/qapi-schema/union-int-branch.err
- rename tests/qapi-schema/{flat-union-int-branch.json => union-int-branch.json} (100%)
- rename tests/qapi-schema/{flat-union-int-branch.out => union-int-branch.out} (100%)
- create mode 100644 tests/qapi-schema/union-invalid-branch-key.err
- rename tests/qapi-schema/{flat-union-invalid-branch-key.json => union-invalid-branch-key.json} (100%)
- rename tests/qapi-schema/{flat-union-invalid-branch-key.out => union-invalid-branch-key.out} (100%)
- create mode 100644 tests/qapi-schema/union-invalid-discriminator.err
- rename tests/qapi-schema/{flat-union-invalid-discriminator.json => union-invalid-discriminator.json} (100%)
- rename tests/qapi-schema/{flat-union-invalid-discriminator.out => union-invalid-discriminator.out} (100%)
- create mode 100644 tests/qapi-schema/union-invalid-if-discriminator.err
- rename tests/qapi-schema/{flat-union-invalid-if-discriminator.json => union-invalid-if-discriminator.json} (100%)
- rename tests/qapi-schema/{flat-union-invalid-if-discriminator.out => union-invalid-if-discriminator.out} (100%)
- create mode 100644 tests/qapi-schema/union-no-base.err
- rename tests/qapi-schema/{flat-union-no-base.json => union-no-base.json} (100%)
- rename tests/qapi-schema/{flat-union-no-base.out => union-no-base.out} (100%)
- create mode 100644 tests/qapi-schema/union-optional-discriminator.err
- rename tests/qapi-schema/{flat-union-optional-discriminator.json => union-optional-discriminator.json} (100%)
- rename tests/qapi-schema/{flat-union-optional-discriminator.out => union-optional-discriminator.out} (100%)
- create mode 100644 tests/qapi-schema/union-string-discriminator.err
- rename tests/qapi-schema/{flat-union-string-discriminator.json => union-string-discriminator.json} (100%)
- rename tests/qapi-schema/{flat-union-string-discriminator.out => union-string-discriminator.out} (100%)
+Commit b359f4b203 "tests: Rename UserDefNativeListUnion to
+UserDefListUnion" renamed test_clone_native_list() to
+test_clone_list_union().  The function has nothing to do with unions.
+Rename it to test_clone_list().
 
-diff --git a/tests/qapi-schema/flat-union-array-branch.err b/tests/qapi-schema/flat-union-array-branch.err
-deleted file mode 100644
-index 20a8ef1406..0000000000
---- a/tests/qapi-schema/flat-union-array-branch.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-array-branch.json: In union 'TestUnion':
--flat-union-array-branch.json:8: 'data' member 'value1' cannot be an array
-diff --git a/tests/qapi-schema/flat-union-bad-base.err b/tests/qapi-schema/flat-union-bad-base.err
-deleted file mode 100644
-index e0a205a58c..0000000000
---- a/tests/qapi-schema/flat-union-bad-base.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-bad-base.json: In union 'TestUnion':
--flat-union-bad-base.json:8: member 'string' of type 'TestTypeA' collides with base member 'string'
-diff --git a/tests/qapi-schema/flat-union-bad-discriminator.err b/tests/qapi-schema/flat-union-bad-discriminator.err
-deleted file mode 100644
-index b705439bd9..0000000000
---- a/tests/qapi-schema/flat-union-bad-discriminator.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-bad-discriminator.json: In union 'TestUnion':
--flat-union-bad-discriminator.json:11: 'discriminator' requires a string name
-diff --git a/tests/qapi-schema/flat-union-base-any.err b/tests/qapi-schema/flat-union-base-any.err
-deleted file mode 100644
-index c2d4de6a5d..0000000000
---- a/tests/qapi-schema/flat-union-base-any.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-base-any.json: In union 'TestUnion':
--flat-union-base-any.json:8: 'base' requires a struct type, built-in type 'any' isn't
-diff --git a/tests/qapi-schema/flat-union-base-union.err b/tests/qapi-schema/flat-union-base-union.err
-deleted file mode 100644
-index 3563e8777e..0000000000
---- a/tests/qapi-schema/flat-union-base-union.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-base-union.json: In union 'TestUnion':
--flat-union-base-union.json:17: 'base' requires a struct type, union type 'UnionBase' isn't
-diff --git a/tests/qapi-schema/flat-union-clash-member.err b/tests/qapi-schema/flat-union-clash-member.err
-deleted file mode 100644
-index 07551e6ef5..0000000000
---- a/tests/qapi-schema/flat-union-clash-member.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-clash-member.json: In union 'TestUnion':
--flat-union-clash-member.json:11: member 'name' of type 'Branch1' collides with member 'name' of type 'Base'
-diff --git a/tests/qapi-schema/flat-union-discriminator-bad-name.err b/tests/qapi-schema/flat-union-discriminator-bad-name.err
-deleted file mode 100644
-index 28be49c31a..0000000000
---- a/tests/qapi-schema/flat-union-discriminator-bad-name.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-discriminator-bad-name.json: In union 'MyUnion':
--flat-union-discriminator-bad-name.json:6: discriminator '*switch' is not a member of 'base'
-diff --git a/tests/qapi-schema/flat-union-empty.err b/tests/qapi-schema/flat-union-empty.err
-deleted file mode 100644
-index 89b0f25cb0..0000000000
---- a/tests/qapi-schema/flat-union-empty.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-empty.json: In union 'Union':
--flat-union-empty.json:4: union has no branches
-diff --git a/tests/qapi-schema/flat-union-inline-invalid-dict.err b/tests/qapi-schema/flat-union-inline-invalid-dict.err
-deleted file mode 100644
-index 53e5416707..0000000000
---- a/tests/qapi-schema/flat-union-inline-invalid-dict.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-inline-invalid-dict.json: In union 'TestUnion':
--flat-union-inline-invalid-dict.json:7: 'data' member 'value1' misses key 'type'
-diff --git a/tests/qapi-schema/flat-union-int-branch.err b/tests/qapi-schema/flat-union-int-branch.err
-deleted file mode 100644
-index ae7f800603..0000000000
---- a/tests/qapi-schema/flat-union-int-branch.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-int-branch.json: In union 'TestUnion':
--flat-union-int-branch.json:8: branch 'value1' cannot use built-in type 'int'
-diff --git a/tests/qapi-schema/flat-union-invalid-branch-key.err b/tests/qapi-schema/flat-union-invalid-branch-key.err
-deleted file mode 100644
-index 5576a25f9b..0000000000
---- a/tests/qapi-schema/flat-union-invalid-branch-key.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-invalid-branch-key.json: In union 'TestUnion':
--flat-union-invalid-branch-key.json:13: branch 'value_wrong' is not a value of enum type 'TestEnum'
-diff --git a/tests/qapi-schema/flat-union-invalid-discriminator.err b/tests/qapi-schema/flat-union-invalid-discriminator.err
-deleted file mode 100644
-index 99bca2ddab..0000000000
---- a/tests/qapi-schema/flat-union-invalid-discriminator.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-invalid-discriminator.json: In union 'TestUnion':
--flat-union-invalid-discriminator.json:10: discriminator 'enum_wrong' is not a member of 'base'
-diff --git a/tests/qapi-schema/flat-union-invalid-if-discriminator.err b/tests/qapi-schema/flat-union-invalid-if-discriminator.err
-deleted file mode 100644
-index 350f28da9d..0000000000
---- a/tests/qapi-schema/flat-union-invalid-if-discriminator.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-invalid-if-discriminator.json: In union 'TestUnion':
--flat-union-invalid-if-discriminator.json:10: discriminator member 'enum1' of 'base' must not be conditional
-diff --git a/tests/qapi-schema/flat-union-no-base.err b/tests/qapi-schema/flat-union-no-base.err
-deleted file mode 100644
-index c60482f96b..0000000000
---- a/tests/qapi-schema/flat-union-no-base.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-no-base.json: In union 'TestUnion':
--flat-union-no-base.json:8: union misses key 'base'
-diff --git a/tests/qapi-schema/flat-union-optional-discriminator.err b/tests/qapi-schema/flat-union-optional-discriminator.err
-deleted file mode 100644
-index 3d60a1b496..0000000000
---- a/tests/qapi-schema/flat-union-optional-discriminator.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-optional-discriminator.json: In union 'MyUnion':
--flat-union-optional-discriminator.json:6: discriminator member 'switch' of base type 'Base' must not be optional
-diff --git a/tests/qapi-schema/flat-union-string-discriminator.err b/tests/qapi-schema/flat-union-string-discriminator.err
-deleted file mode 100644
-index ff42c9728b..0000000000
---- a/tests/qapi-schema/flat-union-string-discriminator.err
-+++ /dev/null
-@@ -1,2 +0,0 @@
--flat-union-string-discriminator.json: In union 'TestUnion':
--flat-union-string-discriminator.json:13: discriminator member 'kind' of base type 'TestBase' must be of enum type
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index 85d3de1481..6187efbd58 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -107,22 +107,6 @@ schemas = [
-   'features-name-bad-type.json',
-   'features-no-list.json',
-   'features-unknown-key.json',
--  'flat-union-array-branch.json',
--  'flat-union-bad-base.json',
--  'flat-union-bad-discriminator.json',
--  'flat-union-base-any.json',
--  'flat-union-base-union.json',
--  'flat-union-clash-member.json',
--  'flat-union-discriminator-bad-name.json',
--  'flat-union-empty.json',
--  'flat-union-inline-invalid-dict.json',
--  'flat-union-int-branch.json',
--  'flat-union-invalid-branch-key.json',
--  'flat-union-invalid-discriminator.json',
--  'flat-union-invalid-if-discriminator.json',
--  'flat-union-no-base.json',
--  'flat-union-optional-discriminator.json',
--  'flat-union-string-discriminator.json',
-   'funny-char.json',
-   'funny-word.json',
-   'ident-with-escape.json',
-@@ -190,12 +174,28 @@ schemas = [
-   'unclosed-list.json',
-   'unclosed-object.json',
-   'unclosed-string.json',
-+  'union-array-branch.json',
-+  'union-bad-base.json',
-+  'union-bad-discriminator.json',
-+  'union-base-any.json',
-   'union-base-empty.json',
-   'union-base-no-discriminator.json',
-+  'union-base-union.json',
-   'union-branch-if-invalid.json',
-   'union-branch-invalid-dict.json',
-+  'union-clash-member.json',
-+  'union-discriminator-bad-name.json',
-+  'union-empty.json',
-+  'union-inline-invalid-dict.json',
-+  'union-int-branch.json',
-   'union-invalid-base.json',
-+  'union-invalid-branch-key.json',
-   'union-invalid-data.json',
-+  'union-invalid-discriminator.json',
-+  'union-invalid-if-discriminator.json',
-+  'union-no-base.json',
-+  'union-optional-discriminator.json',
-+  'union-string-discriminator.json',
-   'union-unknown.json',
-   'unknown-escape.json',
-   'unknown-expr-key.json',
-diff --git a/tests/qapi-schema/union-array-branch.err b/tests/qapi-schema/union-array-branch.err
-new file mode 100644
-index 0000000000..5db9c17481
---- /dev/null
-+++ b/tests/qapi-schema/union-array-branch.err
-@@ -0,0 +1,2 @@
-+union-array-branch.json: In union 'TestUnion':
-+union-array-branch.json:8: 'data' member 'value1' cannot be an array
-diff --git a/tests/qapi-schema/flat-union-array-branch.json b/tests/qapi-schema/union-array-branch.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-array-branch.json
-rename to tests/qapi-schema/union-array-branch.json
-diff --git a/tests/qapi-schema/flat-union-array-branch.out b/tests/qapi-schema/union-array-branch.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-array-branch.out
-rename to tests/qapi-schema/union-array-branch.out
-diff --git a/tests/qapi-schema/union-bad-base.err b/tests/qapi-schema/union-bad-base.err
-new file mode 100644
-index 0000000000..42b2ed1dda
---- /dev/null
-+++ b/tests/qapi-schema/union-bad-base.err
-@@ -0,0 +1,2 @@
-+union-bad-base.json: In union 'TestUnion':
-+union-bad-base.json:8: member 'string' of type 'TestTypeA' collides with base member 'string'
-diff --git a/tests/qapi-schema/flat-union-bad-base.json b/tests/qapi-schema/union-bad-base.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-bad-base.json
-rename to tests/qapi-schema/union-bad-base.json
-diff --git a/tests/qapi-schema/flat-union-bad-base.out b/tests/qapi-schema/union-bad-base.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-bad-base.out
-rename to tests/qapi-schema/union-bad-base.out
-diff --git a/tests/qapi-schema/union-bad-discriminator.err b/tests/qapi-schema/union-bad-discriminator.err
-new file mode 100644
-index 0000000000..7cfd470f58
---- /dev/null
-+++ b/tests/qapi-schema/union-bad-discriminator.err
-@@ -0,0 +1,2 @@
-+union-bad-discriminator.json: In union 'TestUnion':
-+union-bad-discriminator.json:11: 'discriminator' requires a string name
-diff --git a/tests/qapi-schema/flat-union-bad-discriminator.json b/tests/qapi-schema/union-bad-discriminator.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-bad-discriminator.json
-rename to tests/qapi-schema/union-bad-discriminator.json
-diff --git a/tests/qapi-schema/flat-union-bad-discriminator.out b/tests/qapi-schema/union-bad-discriminator.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-bad-discriminator.out
-rename to tests/qapi-schema/union-bad-discriminator.out
-diff --git a/tests/qapi-schema/union-base-any.err b/tests/qapi-schema/union-base-any.err
-new file mode 100644
-index 0000000000..82b48bc1c8
---- /dev/null
-+++ b/tests/qapi-schema/union-base-any.err
-@@ -0,0 +1,2 @@
-+union-base-any.json: In union 'TestUnion':
-+union-base-any.json:8: 'base' requires a struct type, built-in type 'any' isn't
-diff --git a/tests/qapi-schema/flat-union-base-any.json b/tests/qapi-schema/union-base-any.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-base-any.json
-rename to tests/qapi-schema/union-base-any.json
-diff --git a/tests/qapi-schema/flat-union-base-any.out b/tests/qapi-schema/union-base-any.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-base-any.out
-rename to tests/qapi-schema/union-base-any.out
-diff --git a/tests/qapi-schema/union-base-union.err b/tests/qapi-schema/union-base-union.err
-new file mode 100644
-index 0000000000..2bddaf6a84
---- /dev/null
-+++ b/tests/qapi-schema/union-base-union.err
-@@ -0,0 +1,2 @@
-+union-base-union.json: In union 'TestUnion':
-+union-base-union.json:17: 'base' requires a struct type, union type 'UnionBase' isn't
-diff --git a/tests/qapi-schema/flat-union-base-union.json b/tests/qapi-schema/union-base-union.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-base-union.json
-rename to tests/qapi-schema/union-base-union.json
-diff --git a/tests/qapi-schema/flat-union-base-union.out b/tests/qapi-schema/union-base-union.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-base-union.out
-rename to tests/qapi-schema/union-base-union.out
-diff --git a/tests/qapi-schema/union-clash-member.err b/tests/qapi-schema/union-clash-member.err
-new file mode 100644
-index 0000000000..c1f3a02552
---- /dev/null
-+++ b/tests/qapi-schema/union-clash-member.err
-@@ -0,0 +1,2 @@
-+union-clash-member.json: In union 'TestUnion':
-+union-clash-member.json:11: member 'name' of type 'Branch1' collides with member 'name' of type 'Base'
-diff --git a/tests/qapi-schema/flat-union-clash-member.json b/tests/qapi-schema/union-clash-member.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-clash-member.json
-rename to tests/qapi-schema/union-clash-member.json
-diff --git a/tests/qapi-schema/flat-union-clash-member.out b/tests/qapi-schema/union-clash-member.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-clash-member.out
-rename to tests/qapi-schema/union-clash-member.out
-diff --git a/tests/qapi-schema/union-discriminator-bad-name.err b/tests/qapi-schema/union-discriminator-bad-name.err
-new file mode 100644
-index 0000000000..5793e9af66
---- /dev/null
-+++ b/tests/qapi-schema/union-discriminator-bad-name.err
-@@ -0,0 +1,2 @@
-+union-discriminator-bad-name.json: In union 'MyUnion':
-+union-discriminator-bad-name.json:6: discriminator '*switch' is not a member of 'base'
-diff --git a/tests/qapi-schema/flat-union-discriminator-bad-name.json b/tests/qapi-schema/union-discriminator-bad-name.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-discriminator-bad-name.json
-rename to tests/qapi-schema/union-discriminator-bad-name.json
-diff --git a/tests/qapi-schema/flat-union-discriminator-bad-name.out b/tests/qapi-schema/union-discriminator-bad-name.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-discriminator-bad-name.out
-rename to tests/qapi-schema/union-discriminator-bad-name.out
-diff --git a/tests/qapi-schema/union-empty.err b/tests/qapi-schema/union-empty.err
-new file mode 100644
-index 0000000000..d428439962
---- /dev/null
-+++ b/tests/qapi-schema/union-empty.err
-@@ -0,0 +1,2 @@
-+union-empty.json: In union 'Union':
-+union-empty.json:4: union has no branches
-diff --git a/tests/qapi-schema/flat-union-empty.json b/tests/qapi-schema/union-empty.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-empty.json
-rename to tests/qapi-schema/union-empty.json
-diff --git a/tests/qapi-schema/flat-union-empty.out b/tests/qapi-schema/union-empty.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-empty.out
-rename to tests/qapi-schema/union-empty.out
-diff --git a/tests/qapi-schema/union-inline-invalid-dict.err b/tests/qapi-schema/union-inline-invalid-dict.err
-new file mode 100644
-index 0000000000..25ddf7c765
---- /dev/null
-+++ b/tests/qapi-schema/union-inline-invalid-dict.err
-@@ -0,0 +1,2 @@
-+union-inline-invalid-dict.json: In union 'TestUnion':
-+union-inline-invalid-dict.json:7: 'data' member 'value1' misses key 'type'
-diff --git a/tests/qapi-schema/flat-union-inline-invalid-dict.json b/tests/qapi-schema/union-inline-invalid-dict.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-inline-invalid-dict.json
-rename to tests/qapi-schema/union-inline-invalid-dict.json
-diff --git a/tests/qapi-schema/flat-union-inline-invalid-dict.out b/tests/qapi-schema/union-inline-invalid-dict.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-inline-invalid-dict.out
-rename to tests/qapi-schema/union-inline-invalid-dict.out
-diff --git a/tests/qapi-schema/union-int-branch.err b/tests/qapi-schema/union-int-branch.err
-new file mode 100644
-index 0000000000..8fdc81edd1
---- /dev/null
-+++ b/tests/qapi-schema/union-int-branch.err
-@@ -0,0 +1,2 @@
-+union-int-branch.json: In union 'TestUnion':
-+union-int-branch.json:8: branch 'value1' cannot use built-in type 'int'
-diff --git a/tests/qapi-schema/flat-union-int-branch.json b/tests/qapi-schema/union-int-branch.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-int-branch.json
-rename to tests/qapi-schema/union-int-branch.json
-diff --git a/tests/qapi-schema/flat-union-int-branch.out b/tests/qapi-schema/union-int-branch.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-int-branch.out
-rename to tests/qapi-schema/union-int-branch.out
-diff --git a/tests/qapi-schema/union-invalid-branch-key.err b/tests/qapi-schema/union-invalid-branch-key.err
-new file mode 100644
-index 0000000000..bf58800507
---- /dev/null
-+++ b/tests/qapi-schema/union-invalid-branch-key.err
-@@ -0,0 +1,2 @@
-+union-invalid-branch-key.json: In union 'TestUnion':
-+union-invalid-branch-key.json:13: branch 'value_wrong' is not a value of enum type 'TestEnum'
-diff --git a/tests/qapi-schema/flat-union-invalid-branch-key.json b/tests/qapi-schema/union-invalid-branch-key.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-invalid-branch-key.json
-rename to tests/qapi-schema/union-invalid-branch-key.json
-diff --git a/tests/qapi-schema/flat-union-invalid-branch-key.out b/tests/qapi-schema/union-invalid-branch-key.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-invalid-branch-key.out
-rename to tests/qapi-schema/union-invalid-branch-key.out
-diff --git a/tests/qapi-schema/union-invalid-discriminator.err b/tests/qapi-schema/union-invalid-discriminator.err
-new file mode 100644
-index 0000000000..38efb24b98
---- /dev/null
-+++ b/tests/qapi-schema/union-invalid-discriminator.err
-@@ -0,0 +1,2 @@
-+union-invalid-discriminator.json: In union 'TestUnion':
-+union-invalid-discriminator.json:10: discriminator 'enum_wrong' is not a member of 'base'
-diff --git a/tests/qapi-schema/flat-union-invalid-discriminator.json b/tests/qapi-schema/union-invalid-discriminator.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-invalid-discriminator.json
-rename to tests/qapi-schema/union-invalid-discriminator.json
-diff --git a/tests/qapi-schema/flat-union-invalid-discriminator.out b/tests/qapi-schema/union-invalid-discriminator.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-invalid-discriminator.out
-rename to tests/qapi-schema/union-invalid-discriminator.out
-diff --git a/tests/qapi-schema/union-invalid-if-discriminator.err b/tests/qapi-schema/union-invalid-if-discriminator.err
-new file mode 100644
-index 0000000000..3f41d03f8e
---- /dev/null
-+++ b/tests/qapi-schema/union-invalid-if-discriminator.err
-@@ -0,0 +1,2 @@
-+union-invalid-if-discriminator.json: In union 'TestUnion':
-+union-invalid-if-discriminator.json:10: discriminator member 'enum1' of 'base' must not be conditional
-diff --git a/tests/qapi-schema/flat-union-invalid-if-discriminator.json b/tests/qapi-schema/union-invalid-if-discriminator.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-invalid-if-discriminator.json
-rename to tests/qapi-schema/union-invalid-if-discriminator.json
-diff --git a/tests/qapi-schema/flat-union-invalid-if-discriminator.out b/tests/qapi-schema/union-invalid-if-discriminator.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-invalid-if-discriminator.out
-rename to tests/qapi-schema/union-invalid-if-discriminator.out
-diff --git a/tests/qapi-schema/union-no-base.err b/tests/qapi-schema/union-no-base.err
-new file mode 100644
-index 0000000000..cbf12ac526
---- /dev/null
-+++ b/tests/qapi-schema/union-no-base.err
-@@ -0,0 +1,2 @@
-+union-no-base.json: In union 'TestUnion':
-+union-no-base.json:8: union misses key 'base'
-diff --git a/tests/qapi-schema/flat-union-no-base.json b/tests/qapi-schema/union-no-base.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-no-base.json
-rename to tests/qapi-schema/union-no-base.json
-diff --git a/tests/qapi-schema/flat-union-no-base.out b/tests/qapi-schema/union-no-base.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-no-base.out
-rename to tests/qapi-schema/union-no-base.out
-diff --git a/tests/qapi-schema/union-optional-discriminator.err b/tests/qapi-schema/union-optional-discriminator.err
-new file mode 100644
-index 0000000000..8d980bd2ac
---- /dev/null
-+++ b/tests/qapi-schema/union-optional-discriminator.err
-@@ -0,0 +1,2 @@
-+union-optional-discriminator.json: In union 'MyUnion':
-+union-optional-discriminator.json:6: discriminator member 'switch' of base type 'Base' must not be optional
-diff --git a/tests/qapi-schema/flat-union-optional-discriminator.json b/tests/qapi-schema/union-optional-discriminator.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-optional-discriminator.json
-rename to tests/qapi-schema/union-optional-discriminator.json
-diff --git a/tests/qapi-schema/flat-union-optional-discriminator.out b/tests/qapi-schema/union-optional-discriminator.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-optional-discriminator.out
-rename to tests/qapi-schema/union-optional-discriminator.out
-diff --git a/tests/qapi-schema/union-string-discriminator.err b/tests/qapi-schema/union-string-discriminator.err
-new file mode 100644
-index 0000000000..eccbe681bd
---- /dev/null
-+++ b/tests/qapi-schema/union-string-discriminator.err
-@@ -0,0 +1,2 @@
-+union-string-discriminator.json: In union 'TestUnion':
-+union-string-discriminator.json:13: discriminator member 'kind' of base type 'TestBase' must be of enum type
-diff --git a/tests/qapi-schema/flat-union-string-discriminator.json b/tests/qapi-schema/union-string-discriminator.json
-similarity index 100%
-rename from tests/qapi-schema/flat-union-string-discriminator.json
-rename to tests/qapi-schema/union-string-discriminator.json
-diff --git a/tests/qapi-schema/flat-union-string-discriminator.out b/tests/qapi-schema/union-string-discriminator.out
-similarity index 100%
-rename from tests/qapi-schema/flat-union-string-discriminator.out
-rename to tests/qapi-schema/union-string-discriminator.out
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20210917143134.412106-24-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ tests/unit/test-clone-visitor.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tests/unit/test-clone-visitor.c b/tests/unit/test-clone-visitor.c
+index 4048018607..5d48e125b8 100644
+--- a/tests/unit/test-clone-visitor.c
++++ b/tests/unit/test-clone-visitor.c
+@@ -63,7 +63,7 @@ static void test_clone_alternate(void)
+     qapi_free_AltEnumBool(s_dst);
+ }
+ 
+-static void test_clone_list_union(void)
++static void test_clone_list(void)
+ {
+     uint8List *src = NULL, *dst;
+     uint8List *tmp = NULL;
+@@ -203,7 +203,7 @@ int main(int argc, char **argv)
+ 
+     g_test_add_func("/visitor/clone/struct", test_clone_struct);
+     g_test_add_func("/visitor/clone/alternate", test_clone_alternate);
+-    g_test_add_func("/visitor/clone/list_union", test_clone_list_union);
++    g_test_add_func("/visitor/clone/list", test_clone_list);
+     g_test_add_func("/visitor/clone/empty", test_clone_empty);
+     g_test_add_func("/visitor/clone/complex1", test_clone_complex1);
+     g_test_add_func("/visitor/clone/complex2", test_clone_complex2);
 -- 
 2.31.1
 
