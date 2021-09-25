@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5563A418128
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 12:59:58 +0200 (CEST)
-Received: from localhost ([::1]:37274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 021C4418129
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Sep 2021 13:04:42 +0200 (CEST)
+Received: from localhost ([::1]:40040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mU5PR-00040f-Cy
-	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 06:59:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37744)
+	id 1mU5U1-0006gr-Oe
+	for lists+qemu-devel@lfdr.de; Sat, 25 Sep 2021 07:04:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mU5O8-00038O-Lw
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 06:58:36 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46907)
+ id 1mU5SN-0005fE-9R
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 07:02:59 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mU5O7-0005qF-8Z
- for qemu-devel@nongnu.org; Sat, 25 Sep 2021 06:58:36 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id c21so5549802wrb.13
- for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 03:58:34 -0700 (PDT)
+ id 1mU5SL-0001Hp-NU
+ for qemu-devel@nongnu.org; Sat, 25 Sep 2021 07:02:59 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id t28so21861719wra.7
+ for <qemu-devel@nongnu.org>; Sat, 25 Sep 2021 04:02:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Cme6BD9kT/gzNnBQPwfnTIJEkq68DvD6K6y+BpDl7Fs=;
- b=hODdlS7Ej7vVrFPFnzy1IyHaTyzL0SBrY5VeKfqu605+LXQqf4yzOQcZdO5pGpDINo
- 0WBO6WRPaV/konCm39MO8iIIZ1RENeEr2pboP4wyiphCNVJS+E25TiuzPGcHdz5Lrkqy
- 14dw8Fo/I2pLaxRV1YQRZAK5tQd5qCLs4M2bKs0AP0bdZWdfrkVbdve4HvEoANuLTbo2
- tTjRJgK4NUZLBnv60tjtE/Fo+sufg9QvPP4VSy5lz9UA/CWZDAD8vTU160beRi7fYwLD
- 2lueRWBD4kV4tbwGk55C6PWCAO3hR1Vwl9Nd9bpExQcz+0SUk/bmgvvWwdn2jK2uQX4A
- HFeA==
+ bh=MsMkl/ahela3MISSAiBUpoxuFARm1Q8uhlT86VC8dww=;
+ b=g06PXKkEz0CMyYHP6Nns5TS56ehLNbpQa8rvmAl/ZH0rtg0UhGKZ5eWNiJzYgJiE81
+ uZubk5f6F6+RSXROV+rKPfoWW5btdgI9Q2OeWgCoivFJ2iOUVFMUoSGuazoTF5C/YPg4
+ D3SBrBywg64YznMLmRV9gFMRd9IYlIHH0d465OOLIaqDhDQT2fXQMboyfQXbjH1khgHk
+ aumtlVtRnuw96wp2lNzQmjjClRuGH988EcYNgcNpPxihX+Cg4iTS/jGToLcWsZM0hQuK
+ nusbPNKgiXRDOg5hqSbKnKxc4+U6aCM6dWGDTbhJbTq1vMBswAm0RAMUoJ74c2C7pdL0
+ tqtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Cme6BD9kT/gzNnBQPwfnTIJEkq68DvD6K6y+BpDl7Fs=;
- b=d5LdM2ZophSUAiQW1L/Z18wY9vAvJ9GOD0soeX74L0qzzXzbWe7lxGNncMqMoJFz+J
- HrV3glMtrEoziztWis8IGkPlxxTSjY8dQIdBYUDUbNRiWjy5/nQjiZlVOR+6Wgs/rbTO
- CTe9+UyL5dTjVjU0R2vbj6uG9eiLdLCfIY3SvWzWbCzI0uslty5DW0iTDVJH7mZwTHgU
- bORmDMrKnGgGE7G7fLPlExX3Zg6JWf5p1IGZe4ygTOGbDhP9XQjnSljbItoypSj4Q+W6
- XyWA012Db15BUpLpHHH2fc+mGOaQtIvr+QW9Q88zKkhuGHmQsjrdpvBt2c3D9IjXQ/MW
- 9AxQ==
-X-Gm-Message-State: AOAM530lbnt3yCsYFWRTS19/bl6LMtUe4TtkKszMO2AZXei84v1EhraY
- c73VOQIc/PKwJrxRm5BkDYjtJl7Dwkw=
-X-Google-Smtp-Source: ABdhPJwcy0MypIMuoIAAikanfP3LwFmBCKQk4FqkQbS91oErzY1O/sFh32E3rw3PZJ2W9BvnAXNGdA==
-X-Received: by 2002:a05:6000:1567:: with SMTP id
- 7mr16423423wrz.84.1632567513725; 
- Sat, 25 Sep 2021 03:58:33 -0700 (PDT)
+ bh=MsMkl/ahela3MISSAiBUpoxuFARm1Q8uhlT86VC8dww=;
+ b=zf78itpXLpuKak1l8WIbbKlcO8ej/ud1rKVxll4kmSxCfqVbqwd+JhZkELDEYBUNTM
+ e2DWKMt5kKX4r+YoTsLeG78482D8Bi8mgUACGGwhrcRwRdhSVj5WL/x3QOgF2rgLV8z3
+ IBT4sd+JMXxPyhX+R5RyjG4PY72D2v1vfghhmgtai7h1W6SvLezOz4KfBDUYbFlCPdt4
+ F5Pl+JMC8Wf9sl4/BZkbrBviGYyaPNsywGDGo2KiQJM/jgHZp66/zTnIJDw5Pw8WzK0o
+ 6RQ+GvZtcY9leM6JT7RfGWjYaQIG0mEqTjT2XZY7Km8vGPHP/mfyxbIn7OdrnwBcHjQL
+ YZRw==
+X-Gm-Message-State: AOAM533nkQhIGNc9lzkjlf4yH1gFRTm3tFgFS4xf7i5QwGFJZMyBy/Iw
+ yWOjvWPpeEoxU+pGfTa0CIDJ6JBE1tc=
+X-Google-Smtp-Source: ABdhPJzr7cM/ynGhMX5qvN6Kp5W2AWHRvlvoEW/iC8z6Peai/t75qyJXugHMBppOp/APnNTbIteuFA==
+X-Received: by 2002:adf:cc82:: with SMTP id p2mr16810194wrj.5.1632567776317;
+ Sat, 25 Sep 2021 04:02:56 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id n7sm10832209wra.37.2021.09.25.03.58.32
+ by smtp.gmail.com with ESMTPSA id d129sm15987454wmd.23.2021.09.25.04.02.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Sep 2021 03:58:33 -0700 (PDT)
-Message-ID: <c5a57ce7-20c4-ff9f-ed1c-50d2995011d5@amsat.org>
-Date: Sat, 25 Sep 2021 12:58:31 +0200
+ Sat, 25 Sep 2021 04:02:55 -0700 (PDT)
+Message-ID: <e4a8adf5-5b9f-0617-3b66-98d532187a1b@amsat.org>
+Date: Sat, 25 Sep 2021 13:02:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v2 9/9] bsd-user/mmap.c: assert that target_mprotect
- cannot fail
+Subject: Re: [PATCH 1/1] hw: aspeed_gpio: Fix GPIO array indexing
 Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-References: <20210922045636.25206-1-imp@bsdimp.com>
- <20210922045636.25206-10-imp@bsdimp.com>
+To: pdel@fb.com
+References: <20210924061953.1996620-1-pdel@fb.com>
+ <20210924061953.1996620-2-pdel@fb.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210922045636.25206-10-imp@bsdimp.com>
+In-Reply-To: <20210924061953.1996620-2-pdel@fb.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,26 +90,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, richard.henderson@linaro.org,
- =?UTF-8?Q?Mika=c3=abl_Urankar?= <mikael.urankar@gmail.com>
+Cc: qemu-devel@nongnu.org, patrick@stwcx.xyz, rashmica.g@gmail.com,
+ clg@kaod.org, joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/21 06:56, Warner Losh wrote:
-> Similar to the equivalent linux-user change 86abac06c14. All error
-> conditions that target_mprotect checks are also checked by target_mmap.
-> EACCESS cannot happen because we are just removing PROT_WRITE.  ENOMEM
-> should not happen because we are modifying a whole VMA (and we have
-> bigger problems anyway if it happens).
-> 
-> Fixes a Coverity false positive, where Coverity complains about
-> target_mprotect's return value being passed to tb_invalidate_phys_range.
-> 
-> Signed-off-by: Mikaël Urankar <mikael.urankar@gmail.com>
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
->   bsd-user/mmap.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
+Hi Peter,
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 9/24/21 08:19, pdel@fb.com wrote:
+> From: Peter Delevoryas <pdel@fb.com>
+> 
+> The gpio array is declared as a dense array:
+> 
+> ...
+> qemu_irq gpios[ASPEED_GPIO_NR_PINS];
+> 
+> (AST2500 has 228, AST2400 has 216, AST2600 has 208)
+> 
+> However, this array is used like a matrix of GPIO sets
+> (e.g. gpio[NR_SETS][NR_PINS_PER_SET] = gpio[8][32])
+> 
+> size_t offset = set * GPIOS_PER_SET + gpio;
+> qemu_set_irq(s->gpios[offset], !!(new & mask));
+> 
+> This can result in an out-of-bounds access to "s->gpios" because the
+> gpio sets do _not_ have the same length. Some of the groups (e.g.
+> GPIOAB) only have 4 pins. 228 != 8 * 32 == 256.
+> 
+> To fix this, I converted the gpio array from dense to sparse, to that
+> match both the hardware layout and this existing indexing code.
+
+This is one logical change: 1 patch
+
+> Also, I noticed that some of the property specifications looked wrong:
+> the lower 8 bits in the input and output u32's correspond to the first
+> group label, and the upper 8 bits correspond to the last group label.
+
+Another logical change: another patch :)
+
+So please split this patch in 2. Maybe easier to fix GPIOSetProperties
+first, then convert from dense to sparse array.
+
+Regards,
+
+Phil.
+
+> I looked at the datasheet and several of these declarations seemed
+> incorrect to me (I was basing it off of the I/O column). If somebody
+> can double-check this, I'd really appreciate it!
+> 
+> Some were definitely wrong though, like "Y" and "Z" in the 2600.
+> 
+> @@ -796,7 +776,7 @@ static const GPIOSetProperties ast2500_set_props[] = {
+>       [3] = {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
+>       [4] = {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
+>       [5] = {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
+> -    [6] = {0xffffff0f,  0x0fffff0f,  {"Y", "Z", "AA", "AB"} },
+> +    [6] = {0x0fffffff,  0x0fffffff,  {"Y", "Z", "AA", "AB"} },
+>       [7] = {0x000000ff,  0x000000ff,  {"AC"} },
+>   };
+> 
+> @@ -805,9 +785,9 @@ static GPIOSetProperties ast2600_3_3v_set_props[] = {
+>       [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
+>       [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
+>       [3] = {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
+> -    [4] = {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
+> -    [5] = {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
+> -    [6] = {0xffff0000,  0x0fff0000,  {"Y", "Z", "", ""} },
+> +    [4] = {0xffffffff,  0x00ffffff,  {"Q", "R", "S", "T"} },
+> +    [5] = {0xffffffff,  0xffffff00,  {"U", "V", "W", "X"} },
+> +    [6] = {0x0000ffff,  0x0000ffff,  {"Y", "Z", "", ""} },
+>   };
+> 
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+> ---
+>   hw/gpio/aspeed_gpio.c         | 80 +++++++++++++++--------------------
+>   include/hw/gpio/aspeed_gpio.h |  5 +--
+>   2 files changed, 35 insertions(+), 50 deletions(-)
 
