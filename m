@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53516418D01
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 01:09:06 +0200 (CEST)
-Received: from localhost ([::1]:56562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65932418CF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 01:03:01 +0200 (CEST)
+Received: from localhost ([::1]:43626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUdGb-0008Od-Ck
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 19:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60166)
+	id 1mUdAi-00084Y-FP
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 19:03:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUcfB-0006Z9-Fu
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 18:30:27 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36693)
+ id 1mUcfE-0006ZR-Lw
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 18:30:31 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUcfA-0007SM-2N
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 18:30:25 -0400
-Received: by mail-wr1-x431.google.com with SMTP id g16so46527568wrb.3
- for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 15:30:22 -0700 (PDT)
+ id 1mUcfD-0007Vx-BQ
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 18:30:28 -0400
+Received: by mail-wr1-x429.google.com with SMTP id c21so16817321wrb.13
+ for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 15:30:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p+FhEVuxYvtBhbZfLgBuFMc/Z1Zw1Ec9d9CUDDVANlA=;
- b=DA1VubHwWduJoSwatuYzAl+vDf2LeRJU18jwlvUHUbi8s091WbGbU36cpcOTwaixe4
- KuhXs2ZK+cS6MuzsW/eZUyKthgajldpt22XcUhJbnn/vZAM7xK7aeKS9EtvZ6SeWzBvC
- IShYGK963szVPJS/BCuVcksx8QIg1EA0h46dMLdb1qdJ9NkgIrjGaH0tJrdBw2f18pGA
- PHvIxHMhfDVBmt+YlHj0oSPjCc24r0DATvNaqBX4DfZBT/dyb8gYb3MaCErG8oFa8QVw
- OpjV4auRajZjoSq7G46WiZ5axmMdLdg55E+tVBR+OxhpJqLo9tzHde06/mkXKSzyNlcH
- XSvA==
+ bh=L6ntqmXS7ifceLSpB74XEWOrQdhQXzlIYsRxqC94HM4=;
+ b=UB1ZuHAEDwCOnYBJMXx5GsGLkCbYLg49aVp58+G3pqAKA2esQVSRgnBAvUuIb0+pkG
+ fuLqDQB+qJRgmasVjKmx5cGyxqQvy+qGoA59A+9v1hvvPseTabM3pcDohu2RFE1zNDSo
+ ysAa1NQyN1RxOADyBCWho5XegOTCuFxCxQkCufYJf6+3NdUpGpxSlNbFhJ5JaGt/zF3P
+ G0zxbhh1/XIkXIbs/CIdH9FxAlt6M+YG5yU3w4QJu4gLOXLnEtQnJIQpQ7m6jV55urQc
+ NqyqZNN1vDgpBywnj52pxlxz7h53LBQkspnzYVtu83OP6oB0+VC3GG+1++g8f5lO46zf
+ ixgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=p+FhEVuxYvtBhbZfLgBuFMc/Z1Zw1Ec9d9CUDDVANlA=;
- b=qWcWQSGG2kxNhPugXD3O7HwM8qgfTb5RKyr9o3x92Yu4w7qLpcRxhBSXET5ReX+Kup
- POMzHVYUjqR+b+2uALpwR/6CXqjHlMoUbekig3rnZqzb3rqoS0KZER10ExqVhzYphguc
- 7fu8EiTtDOcmw3mAG4I9ksr5wQVv8xZ+i1wakkrqB0VAbLw3zwtq0BZ7TJtrKVhsHMiH
- 2bnEJFNfIgFyCfh9wGWw1Chs8CBi9dRefR29QjmWnym1IH8tk7X+5ktRM4smTTWSOImn
- ZRMKiR+UqPU9RPi1nA+Cme/11gX2dZZ5ogKxU09qGBdpZp9Q8G93yxmLd15Pd4dq85Cg
- sO8A==
-X-Gm-Message-State: AOAM533gu5x99E9WXTfiLGsIKCwvR6bvcSiSgqAhpSyBnSiHbFrLDIF0
- kyaJq+eWKe7/rU8042JvVrb5cIEP2DA=
-X-Google-Smtp-Source: ABdhPJxn9+kIMyYEnwJy5Vir0YeesvqCj/gWyyw5X7h0ork5oY26Q/yM2W7ekViVqEYpvdbTVr7DDQ==
-X-Received: by 2002:a7b:cbce:: with SMTP id n14mr13047789wmi.169.1632695421297; 
- Sun, 26 Sep 2021 15:30:21 -0700 (PDT)
+ bh=L6ntqmXS7ifceLSpB74XEWOrQdhQXzlIYsRxqC94HM4=;
+ b=OClTJjQCL3oYPu1y2X2MRYqn7M/tWkDvse4DNjxeSFEZ2w3NN3LLebRlRCsK1A47e9
+ 56PVm7BNPbzUznWrIdxvVWR7txv6hG7aTChAhJ/zCmN8D+yB8PfO7T/e+uclEqgBVxUR
+ +wg3NYbrGx/wWye/MwcsihVX14c1pde01KJ6dzw/SfPh1sBZw7/xWCpfy9+6/VWzlfML
+ TehN4TJU6V6vCLkRdltLiESC1wrbF/gzhgd8T3D+ibaaTsdWQLg2IZLa49B+MY5ezWiT
+ f33NkP69Pcz5qw7ETuGrakQbofrGOdjjnCWlAUNPGaPeIMyOYdr6u5UfBtTceO8BAVCl
+ MwpA==
+X-Gm-Message-State: AOAM532syjzHhAFNDYdR/habxXhKSbIEGsOAgA4aU9hv92LmdCsQ7RcE
+ Faa0dC2tjF80Pf+j4Ig/U6NDfGB7NpE=
+X-Google-Smtp-Source: ABdhPJwuprpBjTMgomoIinkBrGSQGzDEbyHdGIoi7a5I0stqV299IOSKI3PP7LgwVgKwg1yuAqmvrA==
+X-Received: by 2002:a05:600c:b47:: with SMTP id
+ k7mr12796837wmr.103.1632695425998; 
+ Sun, 26 Sep 2021 15:30:25 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- v17sm14525662wrr.69.2021.09.26.15.30.20
+ u5sm15967283wrg.57.2021.09.26.15.30.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Sep 2021 15:30:20 -0700 (PDT)
+ Sun, 26 Sep 2021 15:30:25 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 39/40] accel/tcg: Remove CPUClass::has_work()
-Date: Mon, 27 Sep 2021 00:27:15 +0200
-Message-Id: <20210926222716.1732932-40-f4bug@amsat.org>
+Subject: [PATCH v8 40/40] accel/tcg: Simplify tcg_cpu_has_work()
+Date: Mon, 27 Sep 2021 00:27:16 +0200
+Message-Id: <20210926222716.1732932-41-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210926222716.1732932-1-f4bug@amsat.org>
 References: <20210926222716.1732932-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,51 +91,50 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that all TCG targets converted their CPUClass::has_work()
-handler to a TCGCPUOps::has_work() one, we can remove has_work
-from CPUClass.
+All TCG targets implement the TCGCPUOps::has_work() handler.
+We can remove the non-NULL handler check in tcg_cpu_has_work().
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Add an assertion in tcg_exec_realizefn() for future TCG targets.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/core/cpu.h     | 2 --
- accel/tcg/tcg-accel-ops.c | 3 ---
- 2 files changed, 5 deletions(-)
+ accel/tcg/cpu-exec.c      | 6 ++++++
+ accel/tcg/tcg-accel-ops.c | 5 +----
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 114eb3b9b2c..c64709b898c 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -89,7 +89,6 @@ struct SysemuCPUOps;
-  * instantiatable CPU type.
-  * @parse_features: Callback to parse command line arguments.
-  * @reset_dump_flags: #CPUDumpFlags to use for reset logging.
-- * @has_work: Callback for checking if there is work to do. Only used by TCG.
-  * @memory_rw_debug: Callback for GDB memory access.
-  * @dump_state: Callback for dumping state.
-  * @get_arch_id: Callback for getting architecture-dependent CPU ID.
-@@ -132,7 +131,6 @@ struct CPUClass {
-     void (*parse_features)(const char *typename, char *str, Error **errp);
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 5fd1ed34222..d577a65237c 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -993,6 +993,12 @@ void tcg_exec_realizefn(CPUState *cpu, Error **errp)
+     CPUClass *cc = CPU_GET_CLASS(cpu);
  
-     int reset_dump_flags;
--    bool (*has_work)(CPUState *cpu);
-     int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
-                            uint8_t *buf, int len, bool is_write);
-     void (*dump_state)(CPUState *cpu, FILE *, int flags);
+     if (!tcg_target_initialized) {
++        /* Mandatory non-NULL handlers */
++        g_assert(cc->tcg_ops->initialize);
++#ifndef CONFIG_USER_ONLY
++        g_assert(cc->tcg_ops->has_work);
++#endif /* !CONFIG_USER_ONLY */
++
+         cc->tcg_ops->initialize();
+         tcg_target_initialized = true;
+     }
 diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
-index cd44bb6d0d8..3c75ed2cccc 100644
+index 3c75ed2cccc..6cd32f04cb9 100644
 --- a/accel/tcg/tcg-accel-ops.c
 +++ b/accel/tcg/tcg-accel-ops.c
-@@ -78,9 +78,6 @@ static bool tcg_cpu_has_work(CPUState *cpu)
+@@ -78,10 +78,7 @@ static bool tcg_cpu_has_work(CPUState *cpu)
  {
      CPUClass *cc = CPU_GET_CLASS(cpu);
  
--    if (cc->has_work) {
--        return cc->has_work(cpu);
+-    if (cc->tcg_ops->has_work) {
+-        return cc->tcg_ops->has_work(cpu);
 -    }
-     if (cc->tcg_ops->has_work) {
-         return cc->tcg_ops->has_work(cpu);
-     }
+-    return false;
++    return cc->tcg_ops->has_work(cpu);
+ }
+ 
+ /* mask must never be zero, except for A20 change call */
 -- 
 2.31.1
 
