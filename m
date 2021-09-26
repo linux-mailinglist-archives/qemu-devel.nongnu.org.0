@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFCF41882B
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 12:55:50 +0200 (CEST)
-Received: from localhost ([::1]:53414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5CA41882D
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 12:58:11 +0200 (CEST)
+Received: from localhost ([::1]:58400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mURoz-0000ko-1O
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 06:55:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34978)
+	id 1mURrG-0004CU-RQ
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 06:58:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mURjb-00072b-KR; Sun, 26 Sep 2021 06:50:15 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:38700)
+ id 1mURjg-000743-67; Sun, 26 Sep 2021 06:50:23 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:35663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mURja-0004jc-0c; Sun, 26 Sep 2021 06:50:15 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- g13-20020a17090a3c8d00b00196286963b9so13105219pjc.3; 
- Sun, 26 Sep 2021 03:50:13 -0700 (PDT)
+ id 1mURjc-0004lg-1Q; Sun, 26 Sep 2021 06:50:18 -0400
+Received: by mail-pg1-x531.google.com with SMTP id e7so14918949pgk.2;
+ Sun, 26 Sep 2021 03:50:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cp2Xa9FQk3XPNpvwE8mKpZGb0OfWyrPKmp8k3Iir4hA=;
- b=n3djnrMBRl+ayWDyKpU1J4/W+p0j2xu3ivVEr9HMPIa11JWb4oP9fW2jGJwvYPUFoK
- xiu9WlI6XoeQcpiB/mYKJUk0KK34PPn1RQNmutGEmtr9xMblszQ9VfilX4WO4eUtGfAm
- 4dUilG64cO/wqxG2TXzOURX1nufmUjbQNRcJ9MWLMzFG+ZblSE94fNUrWNbcPZGu0znM
- kVDpH7g2XdEsN6tbE5JXHCOnHoaPtsKbgw/+RNaiFlj+uSqeaZ+G8ipbWxKSDtE9o1Pw
- 0j1zWFvgRCT8KGAE0kqrnNDraFTVaI5/Pl5UPO/Vjz5Moqv7yxbNd99h5c0zxj8ARKFS
- ulRg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=whagkWhHtXafiUj9cJXVys9f0WWXSEBm/lY0x3a3tBo=;
+ b=U1sTe+1T+VFzejbt19zP68laHDQf5VGDNk2hf7X9IiqtwQC30OPJ05gvGvvTiu3b16
+ 0WgQCngoAMg36cNq2TZ9AB8pDYPETMBZHafG+cbPkhS3MlsHSoWLmgEiqvipJziSPC+x
+ tCg8DnXH5ivPq9gHoAHv6fXQRn9RuyP9zWYC4zEeTo0qPMJBlIk3xWAVVviUBOtz5DMn
+ fFB3WT0vPEvo5f2+03dUyQSb/lcqo0Gj5JWCCFBvW0Sp2rSgyOts2wW1OaAjVifUPVH5
+ sZ7PpgX1gOhaKB0Y7+CzCcdtBkLZ2wNYmnhRz+rizfNU/SdwDRda4KnckCiaB2pYvVef
+ t1qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cp2Xa9FQk3XPNpvwE8mKpZGb0OfWyrPKmp8k3Iir4hA=;
- b=c7SRj2r/+XXslIY2myPeXAA9iMEk1yuz871NbE3dji9kF0fjHr9r4/p+y+GUWlvCYi
- ffeF21jqFumPm4lqu5X1uykp9ip3fSOZquys6c86eKjJ6SqO8pxWJlKOoeC0PhuMcHOr
- XHi6EYUgkKv2476c9eoC45tZ2UD/eMZ6WQdwRgCitUZqYvAyOtHI/bcG9tu3biNktvpt
- s+m5ZRC6jQxN6RZHUizCkXyJYUazA6z0A4wkXPcgbehWOmjsFa+RwSnBjSKeEMhmsufn
- ts0xr5VbG0xDZV/GKHuDrzpwO8cZ4vBzjCMBncw7LcKd+CzOI6jZuI4FB3qL3B5hiSNH
- +Vqw==
-X-Gm-Message-State: AOAM532Cf6urJ9jfavghQ00erF0+EWWY/6Kbonr8qCwgt6I8V8Abg/li
- 5/beSOk30RMuv0FiK3BYKh4=
-X-Google-Smtp-Source: ABdhPJzujw6nsjx4h+X+fTsArCmFhm0XIJZLsf2b1CjwdFmFoHvWjxp1XIhWDwk+YjMZyvZ2rcnqvA==
-X-Received: by 2002:a17:90a:4290:: with SMTP id
- p16mr12918500pjg.112.1632653412227; 
- Sun, 26 Sep 2021 03:50:12 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=whagkWhHtXafiUj9cJXVys9f0WWXSEBm/lY0x3a3tBo=;
+ b=lpBJwk5kvYahtxGf9l3vUmlXuaAfNHkBq/zkgR3K2RVJI+CskWz2Yqux98yyhawbNb
+ YjPBEm5JJva/aUjKprLxaKuX/zNrzlK1nMESILo8IdoWPFnbiOqCdIYKB893dDnR/vLk
+ gGWcgsKVb5vf9dyXUoNvAJyAHlO0pP3vWuzJioxFrrirkOVTic4G2nFWVu51onc5gMsF
+ 5rwxrGrToat3VpQoCuUYBkhU5KMXkdnWxfmG5Ieohiem+NxzemQduJs6UEpBOoqZMGoI
+ 2x9h1pjPH9M7gVVe02cMGJcnno4HiAyrnLKwGPgWFCYLJ0gCO62nim0nwMhOKi4rTpHn
+ tBGA==
+X-Gm-Message-State: AOAM530EcSC4WLlGMJILLUD6Bmq95wYPi3CRErsKWtyRRntyDfrqnbjE
+ b9o/PZ1mzTvxtVXYs7UCER0=
+X-Google-Smtp-Source: ABdhPJzSifyise4NTcuHqlh24PKUf7gOMrjU3eSwntBzW/E3VuMHlWECl4jJbWCJ8wo+Ux/ZOJsnoA==
+X-Received: by 2002:a05:6a00:4:b0:43d:32f3:e861 with SMTP id
+ h4-20020a056a00000400b0043d32f3e861mr18322843pfk.60.1632653414430; 
+ Sun, 26 Sep 2021 03:50:14 -0700 (PDT)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id y13sm16190562pjr.1.2021.09.26.03.50.10
+ by smtp.gmail.com with ESMTPSA id y13sm16190562pjr.1.2021.09.26.03.50.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Sep 2021 03:50:11 -0700 (PDT)
+ Sun, 26 Sep 2021 03:50:14 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH 1/3] hw/char: ibex_uart: Register device in 'input' category
-Date: Sun, 26 Sep 2021 18:50:01 +0800
-Message-Id: <20210926105003.2716-1-bmeng.cn@gmail.com>
+Subject: [PATCH 2/3] hw/char: shakti_uart: Register device in 'input' category
+Date: Sun, 26 Sep 2021 18:50:02 +0800
+Message-Id: <20210926105003.2716-2-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210926105003.2716-1-bmeng.cn@gmail.com>
+References: <20210926105003.2716-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,27 +87,27 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The category of ibex_uart device is not set. Put it into the
+The category of shakti_uart device is not set. Put it into the
 'input' category.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 ---
 
- hw/char/ibex_uart.c | 1 +
+ hw/char/shakti_uart.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
-index 9b0a817713..e58181fcf4 100644
---- a/hw/char/ibex_uart.c
-+++ b/hw/char/ibex_uart.c
-@@ -550,6 +550,7 @@ static void ibex_uart_class_init(ObjectClass *klass, void *data)
-     dc->realize = ibex_uart_realize;
-     dc->vmsd = &vmstate_ibex_uart;
-     device_class_set_props(dc, ibex_uart_properties);
+diff --git a/hw/char/shakti_uart.c b/hw/char/shakti_uart.c
+index 6870821325..98b142c7df 100644
+--- a/hw/char/shakti_uart.c
++++ b/hw/char/shakti_uart.c
+@@ -168,6 +168,7 @@ static void shakti_uart_class_init(ObjectClass *klass, void *data)
+     dc->reset = shakti_uart_reset;
+     dc->realize = shakti_uart_realize;
+     device_class_set_props(dc, shakti_uart_properties);
 +    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
  }
  
- static const TypeInfo ibex_uart_info = {
+ static const TypeInfo shakti_uart_info = {
 -- 
 2.25.1
 
