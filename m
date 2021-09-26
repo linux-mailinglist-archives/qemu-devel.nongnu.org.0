@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3CA418A5E
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 19:29:59 +0200 (CEST)
-Received: from localhost ([::1]:41598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC94418A64
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 19:59:16 +0200 (CEST)
+Received: from localhost ([::1]:57754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUXyQ-00018K-Bz
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 13:29:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49204)
+	id 1mUYQk-0005Q7-HQ
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 13:59:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUXsf-0003qI-SH
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 13:24:03 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:47034)
+ id 1mUYOV-000372-3e; Sun, 26 Sep 2021 13:56:55 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUXsd-000509-Ep
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 13:24:00 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id c21so15184866wrb.13
- for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 10:23:59 -0700 (PDT)
+ id 1mUYOT-0007F4-N6; Sun, 26 Sep 2021 13:56:54 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id s21so5032234wra.7;
+ Sun, 26 Sep 2021 10:56:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:content-language:to
- :cc:from:subject:content-transfer-encoding;
- bh=g7iTCIx7xoLBU/K3fvS0y/NmshOoebbBp9VJ4T8+kO0=;
- b=NXBGykx6lavj3Hil0h/OwaV8c2mGA3mTNlyBhYWVE0YvfqMtMEyzPDCxMYUbsJ6MnG
- v9X249Ume3mwRyfX8SZWg9y59BjmdGN2s9STvoarFTFAJPNWLt+HPsNaWKfgSWNjBCrV
- /uhh4gT035Q67qQVg+T2117R3ZoKHJ2y6X/9zFZqkxSJMIPVNTQFuNHXb6PS5S9Xbu/5
- uUFSrEX1nDoJuyYnw3Fw1hmTGw3VYPZ+zzUDyBSIb2Nhl9maVuFwLfHj5Ab+hxf+iWoR
- I3Mqyi6q+fXsqIF0BQo8ffZr8bJbwkryIL0JO8jc5ca2DduUcc11VDmyrBzZsgATdfcl
- vQxg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kSqLI5yBxvBKqbdGccVj5k6FQVox4keI57BA3Nee2BE=;
+ b=anPYD4grZK+NZRZJx6DuWxvS2XPq2uVxg/E6TmnbEsfCYOf5+SuiGvvAP/vh2Zh/H2
+ /K/r5fSGrbCVSRrF/G+RnIjh61e05RzpOEQbkOJgONguMRj3LqAfvPSmaTddbFhH++F7
+ hc4fLNYHR0lieSXhBwdldT7LDdAxJHgvon2pqsbusLphg8VWPp3ud/dNwN/QMb8eL/6q
+ VrkMfrG7Cso0MciAtmsRbYFwQHbVevUIlFiLDjrxE9/WfQafgSW+aczL3gI/rk6R7bhF
+ 1/4/NjCuQr7VSrMOEoL1rnxTKyyhePAUdvo0mHHWniNuRxI3E5phNQslvxAvzNMr4VCZ
+ CpSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :content-language:to:cc:from:subject:content-transfer-encoding;
- bh=g7iTCIx7xoLBU/K3fvS0y/NmshOoebbBp9VJ4T8+kO0=;
- b=yhBOc9gdPd72EkWpGW1SAK+420U34zQv4JSOB+A9tWC8Lq9GZCH2zexvmGDadiE7Ub
- 5ej7MZ5ZGZNrPXmiHdfhjT5L0VYMC7IrUtJUeOOAEj7VLSEDAhKiYvJ67PG0cYU2iuM5
- d454Gtx48B9Of8ZXpyls4pxtLCDUp3TsHi69yQ+ABRiL34emvRFAjeilRvgkPUQgRgiG
- NM5cuc5jKfMvMEFSQiZ9KyFbnWeMmLcZlKpVfvbnRhVJyuKCndhVgU8kxUGDmhupfk5c
- dXtX3EPYmYyAKGp8FUyheIgIQbDOOMV/GDfAXcvIN1w2w8BTiP9qDonnbKSTfSg1e8Zk
- 4fLA==
-X-Gm-Message-State: AOAM533BKsn9urBFyd41CygMVWKxo/9YxvN5bHv2rhmLw9+2/ukyZ4eL
- xebdIZsrKpBsOyKQg3eKzXE=
-X-Google-Smtp-Source: ABdhPJz8UXbsWC6pkFqcQNL5V9ScBEf93HUyBnZ4uD/nClgcidI8YhWuaaPWHFskrS3P4Jzk1wOiCw==
-X-Received: by 2002:a05:600c:49a2:: with SMTP id
- h34mr4147310wmp.190.1632677037586; 
- Sun, 26 Sep 2021 10:23:57 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id t13sm3711062wro.76.2021.09.26.10.23.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Sep 2021 10:23:57 -0700 (PDT)
-Message-ID: <657cbef7-11ac-196c-01e2-aeb9744fe446@amsat.org>
-Date: Sun, 26 Sep 2021 19:23:56 +0200
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=kSqLI5yBxvBKqbdGccVj5k6FQVox4keI57BA3Nee2BE=;
+ b=RUopWjV5ezazMXQdb8CPjVVKemmf9uDhzCLeQdcMpDnRDgb+8ftbDTyJKx0+hOkE7p
+ bB7yDAxKAZge+J8wcAlIUlrJEhbCoposVQD1j/e9Pi/e2LwCQ4v/jz0LBuRHqSjiapz2
+ eGW5K8VS19UeIJ1LC084iaBj1pVH3NQpEYtCkdlv1iSSlehM8Qg8AUDZPGrsBufXDrez
+ SeQkElgHs0SOxaNks5cXxsMSczfmUNVmJIxkPmzKkHwJyXYFgzkIw5RPT24XYESA+QOg
+ 7MkU6TyRke60MGSVomtO8JA5gFX5jsdVRrA5SzpNl5pgRjy9O0KHPTrCXi0/rxVtUGgz
+ jJ0g==
+X-Gm-Message-State: AOAM530vw359ut8NRTe8NeI56q9KWCxnJ56DSq3VwdBOC7+PsMepdj+Q
+ hLzaY9DMgaxf3iKLRpqD3baJfh9RFIA=
+X-Google-Smtp-Source: ABdhPJywN0BEcx71kgK22yvrYgWV7yiCX1d5OHTPvmjVfmoaFDTD5MOyZmAkkzJRGbpQfG6Hhh29jA==
+X-Received: by 2002:a5d:6991:: with SMTP id g17mr7976831wru.218.1632679011148; 
+ Sun, 26 Sep 2021 10:56:51 -0700 (PDT)
+Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id
+ u6sm16920597wrp.0.2021.09.26.10.56.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 26 Sep 2021 10:56:50 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] hw/i386/amd_iommu: Add description/category to
+ TYPE_AMD_IOMMU_PCI
+Date: Sun, 26 Sep 2021 19:56:45 +0200
+Message-Id: <20210926175648.1649075-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Content-Language: en-US
-To: "Cho, Yu-Chen" <acho@suse.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Subject: gitlab-ci: amd64-opensuse-leap-container job failing
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,53 +82,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-FYI the OpenSUSE job is failing since few days, i.e.:
-https://gitlab.com/qemu-project/qemu/-/jobs/1622345026
-
-  Retrieving repository 'Main Repository' metadata
-[..........................................................error]
-  Repository 'Main Repository' is invalid.
-
-[repo-oss|http://download.opensuse.org/distribution/leap/15.2/repo/oss/]
-Valid metadata not found at specified URL
-  History:
-   - Download (curl) error for
-'http://download.opensuse.org/distribution/leap/15.2/repo/oss/repodata/repomd.xml':
-  Error code: Curl error 56
-  Error message: Recv failure: Connection reset by peer
-   - Can't provide /repodata/repomd.xml
-  Please check if the URIs defined for this repository are pointing to a
-valid repository.
-  Warning: Skipping repository 'Main Repository' because of the above error.
-
-I tried to run 'zypper ref' with:
-
--- >8 --
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -109,5 +109,7 @@ ENV PACKAGES \
-     zlib-devel
- ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
-
--RUN zypper update -y && zypper --non-interactive install -y $PACKAGES
-+RUN zypper refresh && \
-+    zypper update -y && \
-+    zypper --non-interactive install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
----
-
-but no luck: https://gitlab.com/philmd/qemu/-/jobs/1623554962
-
-Should we temporarily disable to job and its dependencies?
-
-Regards,
-
-Phil.
+Trivial patches, sanitizing some amdvi* names, and adding=0D
+a description/category to the TYPE_AMD_IOMMU_PCI device.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  hw/i386/amd_iommu: Rename amdviPCI TypeInfo=0D
+  hw/i386/amd_iommu: Rename SysBus specific functions as=0D
+    amdvi_sysbus_X()=0D
+  hw/i386/amd_iommu: Add description/category to TYPE_AMD_IOMMU_PCI=0D
+=0D
+ hw/i386/amd_iommu.c | 41 +++++++++++++++++++++++++----------------=0D
+ 1 file changed, 25 insertions(+), 16 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
