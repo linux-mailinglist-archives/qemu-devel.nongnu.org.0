@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C5941879A
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 10:57:54 +0200 (CEST)
-Received: from localhost ([::1]:33452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F7D4187A3
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 11:03:20 +0200 (CEST)
+Received: from localhost ([::1]:41726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUPyr-0007bQ-OW
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 04:57:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49274)
+	id 1mUQ47-0005AU-MY
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 05:03:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mUPnb-0006Cf-8w; Sun, 26 Sep 2021 04:46:16 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2805)
+ id 1mUPnb-0006Cg-Fr; Sun, 26 Sep 2021 04:46:16 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mUPnY-0002at-2x; Sun, 26 Sep 2021 04:46:14 -0400
+ id 1mUPnY-0002bA-9A; Sun, 26 Sep 2021 04:46:15 -0400
 Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HHK4x6975zRS1c;
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HHK4x72W3zRXnB;
  Sun, 26 Sep 2021 16:41:53 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
  dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
@@ -27,13 +27,13 @@ Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Sun, 26 Sep 2021 16:46:02 +0800
+ 15.1.2308.8; Sun, 26 Sep 2021 16:46:03 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v10 06/14] qtest/numa-test: Use detailed -smp CLIs in
- pc_dynamic_cpu_cfg
-Date: Sun, 26 Sep 2021 16:45:33 +0800
-Message-ID: <20210926084541.17352-7-wangyanan55@huawei.com>
+Subject: [PATCH v10 07/14] qtest/numa-test: Use detailed -smp CLIs in
+ test_def_cpu_split
+Date: Sun, 26 Sep 2021 16:45:34 +0800
+Message-ID: <20210926084541.17352-8-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210926084541.17352-1-wangyanan55@huawei.com>
 References: <20210926084541.17352-1-wangyanan55@huawei.com>
@@ -78,12 +78,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Since commit 80d7835749 (qemu-options: rewrite help for -smp options),
 the preference of sockets/cores in -smp parsing is considered liable
 to change, and actually we are going to change it in a coming commit.
-So it'll be more stable to use detailed -smp CLIs in testing if we
-have strong dependency on the parsing results.
+So it'll be more stable to use detailed -smp CLIs in the testcases
+that have strong dependency on the parsing results.
 
-pc_dynamic_cpu_cfg currently assumes/needs that there will be 2 CPU
-sockets with "-smp 2". To avoid breaking the test because of parsing
-logic change, now explicitly use "-smp 2,sockets=2".
+Currently, test_def_cpu_split use "-smp 8" and will get 8 CPU sockets
+based on current parsing rule. But if we change to prefer cores over
+sockets we will get one CPU socket with 8 cores, and this testcase
+will not get expected numa set by default on x86_64 (Ok on aarch64).
+
+So now explicitly use "-smp 8,sockets=8" to avoid affect from parsing
+logic change.
 
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
@@ -94,19 +98,19 @@ Reviewed-by: Andrew Jones <drjones@redhat.com>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-index c677cd63c4..fd7a2e80a0 100644
+index fd7a2e80a0..90bf68a5b3 100644
 --- a/tests/qtest/numa-test.c
 +++ b/tests/qtest/numa-test.c
-@@ -265,7 +265,8 @@ static void pc_dynamic_cpu_cfg(const void *data)
-     QTestState *qs;
+@@ -42,7 +42,8 @@ static void test_def_cpu_split(const void *data)
+     g_autofree char *s = NULL;
      g_autofree char *cli = NULL;
  
--    cli = make_cli(data, "-nodefaults --preconfig -machine smp.cpus=2");
-+    cli = make_cli(data, "-nodefaults --preconfig "
-+                         "-machine smp.cpus=2,smp.sockets=2");
-     qs = qtest_init(cli);
+-    cli = make_cli(data, "-machine smp.cpus=8 -numa node,memdev=ram -numa node");
++    cli = make_cli(data, "-machine smp.cpus=8,smp.sockets=8 "
++                         "-numa node,memdev=ram -numa node");
+     qts = qtest_init(cli);
  
-     /* create 2 numa nodes */
+     s = qtest_hmp(qts, "info numa");
 -- 
 2.19.1
 
