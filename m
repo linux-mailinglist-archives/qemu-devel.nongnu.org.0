@@ -2,82 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD044418989
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 16:46:32 +0200 (CEST)
-Received: from localhost ([::1]:54224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CAA4189ED
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 17:18:44 +0200 (CEST)
+Received: from localhost ([::1]:41028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUVQE-00074y-NY
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 10:46:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33432)
+	id 1mUVvP-0003Vx-Fq
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 11:18:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUVKi-000321-8i; Sun, 26 Sep 2021 10:40:48 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37825)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUVKg-0005Sv-RS; Sun, 26 Sep 2021 10:40:48 -0400
-Received: by mail-wr1-x435.google.com with SMTP id t8so43989097wrq.4;
- Sun, 26 Sep 2021 07:40:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=L0UDpYMuYqd61BMBBF5TdlVrKPFkBRFM9HhEyo3+K8g=;
- b=F406oe1X5I2PiU3uZzDjJhXmB7nUcvLKWALSs3G7fkgReH8J55CgGfykojExPl9Lka
- fBbjudsTxew7E6bOpqmBndJnNfPQ/zQHuxGYv5JMUGHTvvCLeR5OLzQSYoVvyk0hRhya
- uwMH7yf7S0yjU/aLhJCt48goE32idqVG9KpWZ+GuXkUwZ/nR+RiTpc4+bPDT/ETcp5oV
- 84G3kLCG4DG2tiCLYIkHpzhrpuNQc/mdvb6poHtOaMcsgTb+rU+vTG3s7ZfKGYLrNcU7
- DD1uAkzQDO4dCHbHREuRBsTWCSQp8jov4yxOrjHKbz4pOx/+bMyRGBxgxabAjINpWYbK
- J8Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=L0UDpYMuYqd61BMBBF5TdlVrKPFkBRFM9HhEyo3+K8g=;
- b=NEp87q7LT71PLw3lriM80JHpWi/rzWi1YNJ+ZaTx9avMzJRDnOeS6stoc3N6b5ujiC
- 5Zaj5EWOAQFmEosiKSnbKB79Sl6ZfHAZ9oIpQD85X4cuP0tbp5wMJmfnwdF2tJjW3Sp5
- 2UJxqUnyrk5WeSe7IQh5AzHRpADdtnGM5mlOGfouP+ms+tL197V4NoctvqRvkYOFQSYh
- M/u4EL1aZfqZCClTzl4DHTs5itGog3er5rSfHoc/nHh7mE4/3u3VhyUo30eFzttUXM9P
- zeYYnoM0zPVRTLnujXVcbNzun3rKqQ9WILlmZQ8+sbkngJ5EStkIa8gkLijubVBtk4zN
- +zjw==
-X-Gm-Message-State: AOAM533CeBMZplHQSBrGCUlQVOSuQoaiCnvEKSvrkNL4Fskuiz8gIHSe
- LuLoy5I9hPL17L+M/12xDBmFXdcLWUA=
-X-Google-Smtp-Source: ABdhPJy9caL9rzcRYmviirUffLNTRfGuKc9ThMLn+eeDydTjS7B84CMLumB9CluVT2dul9Qoz8Vydw==
-X-Received: by 2002:a5d:514e:: with SMTP id u14mr13465893wrt.32.1632667245368; 
- Sun, 26 Sep 2021 07:40:45 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id c4sm14147763wrt.23.2021.09.26.07.40.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Sep 2021 07:40:44 -0700 (PDT)
-Message-ID: <69c5dc06-bfed-d016-21b2-50755ef3cf2c@amsat.org>
-Date: Sun, 26 Sep 2021 16:40:43 +0200
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mUVry-0001ML-HQ
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 11:15:10 -0400
+Received: from [115.28.160.31] (port=43042 helo=mailbox.box.xen0n.name)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mUVrv-0007rx-1k
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 11:15:10 -0400
+Received: from [192.168.9.172] (unknown [101.88.29.172])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 8DD8660B51;
+ Sun, 26 Sep 2021 23:14:55 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1632669295; bh=OloHPV64Z/+Usmi0WFwJtVmoPbUAwYQgkqlJxNp9tD8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=tAlW6cATCyHTlYsKuZWcgqJgI3OTfizZ1Xa5xGK2nO51iPz2SHLc3ELDgbUQNePRf
+ Jolu4eUjsnJCQ73qpHV/rzSA47QdJGq9gQDJqiSz1JkSWTNTrp2yCxFeFK9JrpyFPV
+ 6I6GNHafBYW487CHYPNfr8WIx3YDqzWuqW2GHMqM=
+Message-ID: <48a408cf-91e9-76ce-a2e3-8000f5177d2c@xen0n.name>
+Date: Sun, 26 Sep 2021 23:14:55 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 3/3] hw/char: sifive_uart: Register device in 'input'
- category
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
+ Thunderbird/94.0a1
+Subject: Re: Add LoongArch support to RISU?
 Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
- <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20210926105003.2716-1-bmeng.cn@gmail.com>
- <20210926105003.2716-3-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210926105003.2716-3-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Song Gao <gaosong@loongson.cn>
+References: <e5d5a725-d2f3-8866-4882-11632adb6f52@amsat.org>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <e5d5a725-d2f3-8866-4882-11632adb6f52@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.478,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.478,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,18 +64,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ XiaoJuan Yang <yangxiaojuan@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/26/21 12:50, Bin Meng wrote:
-> The category of sifive_uart device is not set. Put it into the
-> 'input' category.
-> 
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> ---
-> 
->  hw/char/sifive_uart.c | 1 +
->  1 file changed, 1 insertion(+)
+(also adding qemu-devel to Cc)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 9/26/21 16:25, Philippe Mathieu-Daudé wrote:
+> Hi Xuerui,
+>
+> Looking at the script [1] used in your series adding LoongArch TCG
+> backend [2], I think all the bits are in place to also generate most
+> of the files required to run RISU [3] and use it to be able to test
+> Song Gao's LoongArch TCG frontend [4].
+I skimmed over the source code in the afternoon, and indeed the 
+encodings are textbook example of what should be auto-generated. However 
+I didn't find the DSL syntax to be particularly palatable... maybe I was 
+just reading a bit too quickly though.
+> Do you know developers / companies who might be interested in working
+> on this?
+
+As Song replied, Loongson Corporation should be very interested in 
+testing their own offerings. This collaboration is exactly what we as a 
+community strive for, and I'll happily review any code here or in 
+loongarch-opcodes repo for that.
+
+>
+> Regards,
+>
+> Phil.
+>
+> [1] genqemutcgdefs from
+> https://github.com/loongson-community/loongarch-opcodes
+> [2] https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg06601.html
+> [3] https://git.linaro.org/people/pmaydell/risu.git/tree/README
+> [4] https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg04558.html
 
