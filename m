@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88149418A86
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 20:40:38 +0200 (CEST)
-Received: from localhost ([::1]:37248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08529418A8F
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 20:48:01 +0200 (CEST)
+Received: from localhost ([::1]:42584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUZ4n-0006XI-5H
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 14:40:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59054)
+	id 1mUZBw-0002Ui-0W
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 14:48:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mUZ2c-00056L-Ls
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 14:38:22 -0400
-Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f]:46667)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUZ8u-0001Vi-Jg
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 14:44:52 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mUZ2a-0008MK-Th
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 14:38:22 -0400
-Received: by mail-vs1-xe2f.google.com with SMTP id x74so15685314vsx.13
- for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 11:38:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUZ8s-0005CG-Pw
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 14:44:52 -0400
+Received: by mail-wr1-x430.google.com with SMTP id s21so5303014wra.7
+ for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 11:44:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uAiD7RAJueWlbRUtpvTiNLaNfkn8WgzU69242ryt9RI=;
- b=Rc6JpiLsaleC34ROotmUdiilDDo5K5odMQjom+3K26Ajn6YD4bmNV9VaKFLLpE5rDg
- F3NT9T+wb6nmGFmbc5WNF1DupzuQTBCCr6hpMFxIQ4/GATwwaUgpuBu325oD5RKQLe01
- APBEkxNg3DSzx/52fYJtyjM6qefqJ0o+KGPkVpToll3TifR7FRH6o3WWQ+QnkkzAQZzG
- d9Y+lFR4T/GEmcBZGhjCHaDoxDtQPs6pKOFU9ySos4pAmqwtjVOwOjj0KjeSQ4Ahs75O
- tjAK3FrrtIBNWXSKYFQzGRKOU/jFpLAhfFWbwhsODp7e0yL2N02Y9AVzITI4ID52qKd4
- 0ECw==
+ :cc; bh=eQ9PAEO69AwbpuuCY/uk+YciiFogKGJKFZe2ObbnGLA=;
+ b=sT8Q32n2W/qNdPhsoXvpM+kBgZVO1+9UU4zIK3ryr6FpsBWejyUzh8Uy0jr3wMyySv
+ WhhkprR/Tp9J4F3JzcpKXMx13aRfAeuEsk2ZmkyFwoaP3HrmLLH2puZ+HnP74aD7ux7b
+ 1yOGiPtosI52LYaGn3OQzQi8NE8ZcfW4qLua5sCieX/d6JczFK5VTyb0D5lEP2AIiiNJ
+ CEWXPh4uqAko2ZRlIMwp3JIJBInveuMFgqiB/cz+dz0mQh51MjL2dSe1nqptTHXcOilV
+ QWT1hyiCQIOPUesKbJYl9TdLmwVE9Os9WTds9z5nIyNdCJxTeGR3UGiGWjdhfkqWkL/u
+ NKOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uAiD7RAJueWlbRUtpvTiNLaNfkn8WgzU69242ryt9RI=;
- b=XuUg6zWgpCqh7esGH5BIZDR++xuJa/uD/dy18a5J7pbo55y2YvVcIRjXVwsFzHh+v7
- 9PwVqqBPlu/E2Ab2qVzry/D/OYTOLCCzszbAvdvJ9O+gvULVEp+wdaGbu8VCa7C3S/yW
- D71+E1oA3Iuf7Ppm+86d7WbEN9y5bSgVZUyvzQNykH6rahluyGDnLW8FKbrolFe4AA6o
- 7pGrPhnXOpKb0dyYInWnKBcK0lSxSjiCRbSKhNlkESwV7/fl4ZMtf0uk2ebvjiTG6Z2M
- UfBdTcY/qmiJJZunwTS/xjHWpRX5vX5/P9AUMqkqmkdVsqQai2+oQtJMTWdhsRe6ib1G
- hyeQ==
-X-Gm-Message-State: AOAM5316KH/Q9vYguWGBwQpmHVcOD8bpRiJM1aV3p7KVf7P119cQefeA
- WNWRqQQwNmXi1whFViSbRjzCkJ7GJKHxfaI+dLwpoA==
-X-Google-Smtp-Source: ABdhPJwAoRedCRnw2rNsZxc6jz127G8OJfR98SIRGa6XUxGX5TBU3SDS4jzbjTFqPlShBWgjaShBidEBXL72Z7h2W+U=
-X-Received: by 2002:a05:6102:3648:: with SMTP id s8mr59387vsu.42.1632681499036; 
- Sun, 26 Sep 2021 11:38:19 -0700 (PDT)
+ bh=eQ9PAEO69AwbpuuCY/uk+YciiFogKGJKFZe2ObbnGLA=;
+ b=L/d1+gqp4cxalIOIWxGyWmgQ+zyCg+SvCu85e0euvyK0l8ZPFTlOim5/D2AaGusdF7
+ rL9rqHOXEiNE9tx/hrS0zU7J8/VSlffbONSV3UZXpWvkV7ttKDQj/0qNUskvoT35oJQr
+ g6r5F+O4x2SxH4qyQ7w2xXpOT8u2OA2RVwQ4fSVc4YxTPGGdqiAd++r+rkg8xETSYAQg
+ qzOqXkNvVzTx54P+lZRv0XORa9Lv7m+O7cKSyTpdsiKkC8j7H7hMlNvLTbR1HcWk3cYW
+ D1jGxJjW9xH6jQRTY5P5AD2vs+xvE2gfK5hNxhVXYj9c+I3rfoFp1vd79HEftXgN8CkY
+ rdcQ==
+X-Gm-Message-State: AOAM533Y9P42YMdf3iz+FUp313gOYsYV6lnfGxidoSm09zkbGwKfvxK9
+ GdYJQOYRTY7hB78giUeTCR7eMkrZXaqSMJyoRgZqpA==
+X-Google-Smtp-Source: ABdhPJxX2x/RYE3ze1MxatG1UJaSjBQkrzyv4IiwVtmMPnrVk2Zj0UpmZ19FxVih7urnbUMmKUZArh0/MEa9gpQr/OE=
+X-Received: by 2002:a05:600c:2259:: with SMTP id
+ a25mr12328755wmm.133.1632681886521; 
+ Sun, 26 Sep 2021 11:44:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210922045636.25206-1-imp@bsdimp.com>
- <20210922045636.25206-9-imp@bsdimp.com>
- <4d7f5ce6-22c4-e9de-39c6-fb92d7096385@linaro.org>
-In-Reply-To: <4d7f5ce6-22c4-e9de-39c6-fb92d7096385@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Sun, 26 Sep 2021 12:38:08 -0600
-Message-ID: <CANCZdfoYpA0ShW6G1+9WixbGsPFZLSN13i9qxgc6J3qu3t=aaw@mail.gmail.com>
-Subject: Re: [PATCH v2 8/9] bsd-user/mmap.c: Implement MAP_EXCL, required by
- jemalloc in head
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000c820ce05ccea4819"
-Received-SPF: none client-ip=2607:f8b0:4864:20::e2f;
- envelope-from=wlosh@bsdimp.com; helo=mail-vs1-xe2f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210926171708.455435-1-pbonzini@redhat.com>
+In-Reply-To: <20210926171708.455435-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 26 Sep 2021 19:43:53 +0100
+Message-ID: <CAFEAcA_-hQsSwA221j9R3T7GpqBn4vP6=g9=vFQZyk9P8PY+vg@mail.gmail.com>
+Subject: Re: [PULL v2 0/5] Update meson version
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,118 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c820ce05ccea4819
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Sep 24, 2021 at 6:00 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 9/21/21 9:56 PM, Warner Losh wrote:
-> > +        /* Reject the mapping if any page within the range is mapped */
-> > +        if (flags & MAP_EXCL) {
-> > +            for (addr = start; addr < end; addr++) {
-> > +                if (page_get_flags(addr) != 0)
-> > +                    goto fail;
-> > +            }
-> > +        }
+On Sun, 26 Sept 2021 at 18:23, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> How about
+> The following changes since commit 831aaf24967a49d7750090b9dcfd6bf356f16529:
 >
->      if ((flags & MAP_EXCL) &&
->          page_check_range(start, len, 0) < 0) {
->         goto fail;
->      }
+>   Merge remote-tracking branch 'remotes/marcandre/tags/misc-pull-request' into staging (2021-09-14 18:14:56 +0100)
 >
-> Hmm.  This (and your page_get_flags check) could assert due to
-> out-of-range guest address.
->   You're currently attempting that,
+> are available in the Git repository at:
 >
->          /*
->           * Test if requested memory area fits target address space
->           * It can fail only on 64-bit host with 32-bit target.
->           * On any other target/host host mmap() handles this error
-> correctly.
->           */
-> #if TARGET_ABI_BITS == 32 && HOST_LONG_BITS == 64
->          if ((unsigned long)start + len - 1 > (abi_ulong) -1) {
->              errno = EINVAL;
->              goto fail;
->          }
-> #endif
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream-meson
 >
-> but the test isn't correct.  Note that reserved_va may be applied to
-> 64-bit guests, and
-> certainly may be smaller than (abi_ulong)-1.
+> for you to fetch changes up to 1d4bef90b570b8f4ab10c380227d325eb49ce084:
 >
-> You want guest_range_valid_untagged here.
+>   tests: qtest: bios-tables-test depends on the unpacked edk2 ROMs (2021-09-23 06:40:15 -0400)
 >
+> ----------------------------------------------------------------
+> * Bump Meson submodule to 0.58.2
+> * Fix dependencies of tests upon ROMs
+>
+> ----------------------------------------------------------------
+> Paolo Bonzini (5):
+>       meson: bump submodule to 0.58.2
+>       meson: switch minimum meson version to 0.58.2
+>       hexagon: use env keyword argument to pass PYTHONPATH
+>       meson: unpack edk2 firmware even if --disable-blobs
+>       tests: qtest: bios-tables-test depends on the unpacked edk2 ROMs
 
-Great! Thanks for the tip!
+Isn't this in the wrong order? You need to fix the tests first
+and update meson after that, or it breaks bisection.
 
-Warner
-
---000000000000c820ce05ccea4819
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 24, 2021 at 6:00 AM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
-nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On 9/21/21 9:56 PM, Warner Losh wrote:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Reject the mapping if any page within =
-the range is mapped */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (flags &amp; MAP_EXCL) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (addr =3D start; addr &=
-lt; end; addr++) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (page_get_=
-flags(addr) !=3D 0)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- goto fail;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-How about<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if ((flags &amp; MAP_EXCL) &amp;&amp;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0page_check_range(start, len, 0) &lt; 0) {=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto fail;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-Hmm.=C2=A0 This (and your page_get_flags check) could assert due to out-of-=
-range guest address. <br>
-=C2=A0 You&#39;re currently attempting that,<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Test if requested memory area fits tar=
-get address space<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * It can fail only on 64-bit host with 3=
-2-bit target.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * On any other target/host host mmap() h=
-andles this error correctly.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-#if TARGET_ABI_BITS =3D=3D 32 &amp;&amp; HOST_LONG_BITS =3D=3D 64<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((unsigned long)start + len - 1 &gt; (=
-abi_ulong) -1) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0errno =3D EINVAL;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-#endif<br>
-<br>
-but the test isn&#39;t correct.=C2=A0 Note that reserved_va may be applied =
-to 64-bit guests, and <br>
-certainly may be smaller than (abi_ulong)-1.<br>
-<br>
-You want guest_range_valid_untagged here.<br></blockquote><div><br></div><d=
-iv>Great! Thanks for the tip!</div><div><br></div><div>Warner=C2=A0</div></=
-div></div>
-
---000000000000c820ce05ccea4819--
+thanks
+-- PMM
 
