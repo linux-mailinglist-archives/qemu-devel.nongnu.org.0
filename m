@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA42941882C
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 12:56:25 +0200 (CEST)
-Received: from localhost ([::1]:54552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332C341896A
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 16:24:09 +0200 (CEST)
+Received: from localhost ([::1]:40230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mURpY-0001Wg-Ox
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 06:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35002)
+	id 1mUV4Z-0004gg-Oq
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 10:24:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mURjg-000744-8V; Sun, 26 Sep 2021 06:50:23 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:45754)
+ (Exim 4.90_1) (envelope-from <mohamedatef1698@gmail.com>)
+ id 1mUV2w-0003Aa-3N
+ for Qemu-devel@nongnu.org; Sun, 26 Sep 2021 10:22:28 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mURje-0004ne-BR; Sun, 26 Sep 2021 06:50:20 -0400
-Received: by mail-pf1-x436.google.com with SMTP id w19so13007159pfn.12;
- Sun, 26 Sep 2021 03:50:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mohamedatef1698@gmail.com>)
+ id 1mUV2u-0001WW-J6
+ for Qemu-devel@nongnu.org; Sun, 26 Sep 2021 10:22:25 -0400
+Received: by mail-wr1-x431.google.com with SMTP id i23so43887307wrb.2
+ for <Qemu-devel@nongnu.org>; Sun, 26 Sep 2021 07:22:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=iDAkP17wWv58zsiXwhPI2T2NohJECM8EcqThkHpd2sQ=;
- b=Y75eWhzgTNzWrSm/rJMQK0gejS0qfWkdT9IuHOd9roKLo+s10eqGZI1qfh1XWECFbO
- IE3zNAyBuaf9Kds0dPXxgWGGLVvtCVFjJuR1XaJqUE6bPUwbGAduNAxMgFGrRuGM0k9V
- 1a025kFKDY87gGTgaH6MnMbHloujid0S4Da4gM7aMWfWv0KzMsmmgcJL/TCcr0V1xFfH
- 2syaoSNRQLX4/KnN1oWhQRIEcurR6s9T/dTiiYmaC5gUsdBLjiQlhR3lM6/0U8MObIHU
- vmMU7dDD7aEbPL7AGrp8sQxCp4gfvT9Bw06YfKhMKXWtnEDoQHDP3os5UWsVprxbHs3M
- V3Yw==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=djioIIJ+q7ekstzSPL1b+y3KUjJqxpb3NLLkT859Ngk=;
+ b=QHBxKkbmnsSXGJYvGry0UDHt0WB/xcF83mxx2F5aw3Ro9bDJR7Hj1rVeWwT7f+b4PM
+ Hid5bttPnh2U3nW7iBnNIkmk7Pg5TspoHwoX4ZUuYFY69ImI/dJUf4gKA6WpDCSAZDRy
+ f1ZXWK+dOoN6v+E3fG6/SDls95NiWHMmzf3x6rctp7u2vYZW1KLqeFzD7KRdz01L4Fvz
+ OGKGuoWSu5K9+jp+GVgjJG6YGDShMAwNmY3c4upYpWa0WntMUumNWgWJtAtLsOekNoX+
+ DH2jgjciQCla24hVJrhRzIz46kIcQRGsLbG9zL99mOor37tkG4ouInk4dU/iQ3YMlqVs
+ nPLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=iDAkP17wWv58zsiXwhPI2T2NohJECM8EcqThkHpd2sQ=;
- b=zn9hJHOPsVOWQ053EDZH/ZdcrpqHisTEDaZxGoll+YMPwBopKiBPdzL1lGEC9T/EUX
- M1lw8XhfRuHaRdUCw039oDzfFQn+jymPwaDNbDR5FxFxuVIlZop9iexLZLi7hHZ7Ze9p
- 2LB9VNS5qDMU1ITy1Bwxj+1FgInFluCV32ShiLBIyPIx2N+v6Dl/tZwpw9nwfpZ8CoUL
- CXoaXEfW2qtGR2I3WAtPRI+/xvQjAzaecoY6tMePRSm++RhA7IXLlYo8B0USgw3LVcX1
- HyxsVABqP+eY7nO2MXqIcM19mFnLMk3dEw/9X+ssXfA6RUfcAbqUIHvDon3mwo33BYaR
- 3JPw==
-X-Gm-Message-State: AOAM533uLCYAcqWNorxAk6X1hZlrM05HDqNLLn+dRWYwZF0eMpkp98g9
- Qro6yppKz4hOdPQAeXJ1bSs=
-X-Google-Smtp-Source: ABdhPJxLqNgOSYTMTib2RNUmA2NbT4GnxwVOl/q0WrfVN7sRMpVetMvjNdWBPrCVkdbkxBvrPK7iJA==
-X-Received: by 2002:a62:1956:0:b0:442:35b2:f87a with SMTP id
- 83-20020a621956000000b0044235b2f87amr17993215pfz.27.1632653416707; 
- Sun, 26 Sep 2021 03:50:16 -0700 (PDT)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id y13sm16190562pjr.1.2021.09.26.03.50.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Sep 2021 03:50:16 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH 3/3] hw/char: sifive_uart: Register device in 'input' category
-Date: Sun, 26 Sep 2021 18:50:03 +0800
-Message-Id: <20210926105003.2716-3-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210926105003.2716-1-bmeng.cn@gmail.com>
-References: <20210926105003.2716-1-bmeng.cn@gmail.com>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=djioIIJ+q7ekstzSPL1b+y3KUjJqxpb3NLLkT859Ngk=;
+ b=4LhS9dqRkm33JC0MUXI2fnFp7bNY/gkkEn9XsEnYKe/RIh6nUbMq9s3f7A9YBF4IFj
+ 7WYLFrha5/VQAxWOQzC7KIAbKzHtlRf2nPGfrlT3O+2iE44YNCU91Io3FwKH0VONg3yr
+ sEAaWhAQiX+yG9UILijFYRZdGY97PZUIwO9FFFX+dtlx7FzFI1enRh3Yi7tPOx7O6QBg
+ oYJXrY38YQcMxEp/7z57A9IpvrjepfxEqUg0Op55mruFZ97qonBs3noib/AsrLMCUYef
+ weqX4IWZ/tfDg5DAqH+9Qdu3z+RiwBSty8kq8R9VmejcuJ7p16TTeK1nJlUEaNwHR5Si
+ pyDA==
+X-Gm-Message-State: AOAM530/LUfZFBUpaCKX+jDd+gXj/B3jW+BN0I9iFdTxuzJfmaLZ6HNY
+ o9oR3V4nXstyl06sabqmosX0l3L/PkO46u8GMYG5X95YAXhm0w==
+X-Google-Smtp-Source: ABdhPJyWb8ZwTn110H99oR6YkCRl4PD7ygEZxvZuj8pvZ/jih4f/VgbLqjVxW8OdVrp3BkLorqnXSVLixKgaiUKe2Ws=
+X-Received: by 2002:a05:600c:21d6:: with SMTP id
+ x22mr11789681wmj.121.1632666140744; 
+ Sun, 26 Sep 2021 07:22:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Mohamed Atef <mohamedatef1698@gmail.com>
+Date: Sun, 26 Sep 2021 16:22:09 +0200
+Message-ID: <CAPFh8N+Q1_PXtq5YM--X=f+AoJNYhvCLJ7NSqHaw=g6eLP5QOw@mail.gmail.com>
+Subject: Development request
+To: Qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000005b24e105cce6b5b0"
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=mohamedatef1698@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: 9
+X-Spam_score: 0.9
+X-Spam_bar: /
+X-Spam_report: (0.9 / 5.0 requ) BAYES_50=0.8, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,32 +74,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The category of sifive_uart device is not set. Put it into the
-'input' category.
+--0000000000005b24e105cce6b5b0
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
----
+Hello there,
+We are 6 students from Egypt and now We are in our last year and We need to
+build a project as a graduation project.
+And We are interested in the area of runtime systems, operating systems and
+compilers.
+We are going to work 40-60 hrs a week
+Can We help with some tools you need as a graduation project given that We
+have a professor to mentor us.
+If not,
+Can you suggest some tools you need to build and We will work on it.
+The project takes one academic year
 
- hw/char/sifive_uart.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks
 
-diff --git a/hw/char/sifive_uart.c b/hw/char/sifive_uart.c
-index 278e21c434..1c75f792b3 100644
---- a/hw/char/sifive_uart.c
-+++ b/hw/char/sifive_uart.c
-@@ -248,6 +248,7 @@ static void sifive_uart_class_init(ObjectClass *oc, void *data)
-     rc->phases.enter = sifive_uart_reset_enter;
-     rc->phases.hold  = sifive_uart_reset_hold;
-     device_class_set_props(dc, sifive_uart_properties);
-+    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
- }
- 
- static const TypeInfo sifive_uart_info = {
--- 
-2.25.1
+--0000000000005b24e105cce6b5b0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"rtl"><div dir=3D"rtl"><div dir=3D"rtl"><div dir=3D"rtl"><div di=
+r=3D"ltr">Hello there,<br></div><div><div dir=3D"auto">We are 6 students fr=
+om Egypt and now We are in our last year and We need to build a project as =
+a graduation project.=C2=A0</div><div dir=3D"auto">And We are interested in=
+ the area of runtime systems, operating systems and compilers.</div><div di=
+r=3D"auto">We are going to work 40-60 hrs a week=C2=A0</div><div dir=3D"aut=
+o">Can We help with some tools you need as a graduation project given that =
+We have a professor to mentor us.=C2=A0</div><div dir=3D"auto">If not,</div=
+><div dir=3D"auto"> Can you suggest some tools you need to build and We wil=
+l work on it.=C2=A0</div><div dir=3D"auto">The project takes one academic y=
+ear</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thanks</div></div></=
+div></div></div></div>
+
+--0000000000005b24e105cce6b5b0--
 
