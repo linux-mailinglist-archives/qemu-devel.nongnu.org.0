@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79AB0418794
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 10:51:59 +0200 (CEST)
-Received: from localhost ([::1]:47342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200804187AC
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 11:06:36 +0200 (CEST)
+Received: from localhost ([::1]:48014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUPt8-0006Dk-FT
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 04:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49324)
+	id 1mUQ7G-0001Pf-WC
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 05:06:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mUPnd-0006Da-BF; Sun, 26 Sep 2021 04:46:18 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2928)
+ id 1mUPnc-0006DT-ME; Sun, 26 Sep 2021 04:46:18 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:3171)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mUPna-0002bX-Hx; Sun, 26 Sep 2021 04:46:17 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HHK4y2vMPzbmjg;
- Sun, 26 Sep 2021 16:41:54 +0800 (CST)
+ id 1mUPnY-0002bf-QC; Sun, 26 Sep 2021 04:46:16 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4HHK8w3Nxbz8tR1;
+ Sun, 26 Sep 2021 16:45:20 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
  dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -27,13 +27,13 @@ Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Sun, 26 Sep 2021 16:46:06 +0800
+ 15.1.2308.8; Sun, 26 Sep 2021 16:46:07 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v10 09/14] machine: Use ms instead of global current_machine
- in sanity-check
-Date: Sun, 26 Sep 2021 16:45:36 +0800
-Message-ID: <20210926084541.17352-10-wangyanan55@huawei.com>
+Subject: [PATCH v10 10/14] machine: Tweak the order of topology members in
+ struct CpuTopology
+Date: Sun, 26 Sep 2021 16:45:37 +0800
+Message-ID: <20210926084541.17352-11-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210926084541.17352-1-wangyanan55@huawei.com>
 References: <20210926084541.17352-1-wangyanan55@huawei.com>
@@ -43,8 +43,8 @@ X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -75,31 +75,75 @@ Cc: Peter
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the sanity-check of smp_cpus and max_cpus against mc in function
-machine_set_smp(), we are now using ms->smp.max_cpus for the check
-but using current_machine->smp.max_cpus in the error message.
-Tweak this by uniformly using the local ms.
+Now that all the possible topology parameters are integrated in struct
+CpuTopology, tweak the order of topology members to be "cpus/sockets/
+dies/cores/threads/maxcpus" for readability and consistency. We also
+tweak the comment by adding explanation of dies parameter.
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/core/machine.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/core/machine.c   | 8 ++++----
+ include/hw/boards.h | 7 ++++---
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 0df597f99c..1ad5dac3e8 100644
+index 1ad5dac3e8..a21fcd7700 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -881,7 +881,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
-     } else if (ms->smp.max_cpus > mc->max_cpus) {
-         error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
-                    "supported by machine '%s' is %d",
--                   current_machine->smp.max_cpus,
-+                   ms->smp.max_cpus,
-                    mc->name, mc->max_cpus);
-     }
+@@ -829,11 +829,11 @@ static void machine_get_smp(Object *obj, Visitor *v, const char *name,
+ {
+     MachineState *ms = MACHINE(obj);
+     SMPConfiguration *config = &(SMPConfiguration){
+-        .has_cores = true, .cores = ms->smp.cores,
++        .has_cpus = true, .cpus = ms->smp.cpus,
+         .has_sockets = true, .sockets = ms->smp.sockets,
+         .has_dies = true, .dies = ms->smp.dies,
++        .has_cores = true, .cores = ms->smp.cores,
+         .has_threads = true, .threads = ms->smp.threads,
+-        .has_cpus = true, .cpus = ms->smp.cpus,
+         .has_maxcpus = true, .maxcpus = ms->smp.max_cpus,
+     };
+     if (!visit_type_SMPConfiguration(v, name, &config, &error_abort)) {
+@@ -1060,10 +1060,10 @@ static void machine_initfn(Object *obj)
+     /* default to mc->default_cpus */
+     ms->smp.cpus = mc->default_cpus;
+     ms->smp.max_cpus = mc->default_cpus;
+-    ms->smp.cores = 1;
++    ms->smp.sockets = 1;
+     ms->smp.dies = 1;
++    ms->smp.cores = 1;
+     ms->smp.threads = 1;
+-    ms->smp.sockets = 1;
+ }
+ 
+ static void machine_finalize(Object *obj)
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 2ae039b74f..2a1bba86c0 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -275,17 +275,18 @@ typedef struct DeviceMemoryState {
+ /**
+  * CpuTopology:
+  * @cpus: the number of present logical processors on the machine
+- * @cores: the number of cores in one package
+- * @threads: the number of threads in one core
+  * @sockets: the number of sockets on the machine
++ * @dies: the number of dies in one socket
++ * @cores: the number of cores in one die
++ * @threads: the number of threads in one core
+  * @max_cpus: the maximum number of logical processors on the machine
+  */
+ typedef struct CpuTopology {
+     unsigned int cpus;
++    unsigned int sockets;
+     unsigned int dies;
+     unsigned int cores;
+     unsigned int threads;
+-    unsigned int sockets;
+     unsigned int max_cpus;
+ } CpuTopology;
  
 -- 
 2.19.1
