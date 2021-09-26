@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8712418A53
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 19:19:58 +0200 (CEST)
-Received: from localhost ([::1]:53520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131A4418A56
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 19:22:24 +0200 (CEST)
+Received: from localhost ([::1]:57832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUXoj-0006qg-Rt
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 13:19:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48590)
+	id 1mUXr5-0001IP-4a
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 13:22:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mUXmF-0004k1-0N
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 13:17:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27330)
+ id 1mUXmC-0004in-Ut
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 13:17:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mUXm9-00083K-SY
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 13:17:22 -0400
+ id 1mUXmA-00083L-D9
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 13:17:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1632676637;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+i13rroVt2rgTtpIwdEPcYoWwRTUa4fiMBkYqwvyWf8=;
- b=EgrSf53K/3bPKt/mBD8QUH1QypFx+ZS82bAiddUASw12vmMiH+ZL3tsgHUkCFnxqkh28D6
- LDnSOSNFKRKlonpFUnmRpfZudWJDzB2Lk7ZEr6TPPq+1xht4CgAoio+HKhCZYnlWPw6JbC
- EELOZvEywd8KZkfu+WLfmS+k6A4oOWw=
+ bh=EZlDr6wVbPLD57KeSrVyWzttaPmrJEZrj68uAaU9i1o=;
+ b=O+Y4HFvDWnIQaMDTBhTDntBwQozZfbGljJaMZjxCWXze1Fj4mxUjGESoWFS8tv8RoGZ8HT
+ j69yUTAPCDiTmPhxfdsIVqVnZFWKscuFvdIXngaxLDV+s3wfknBnpZZCi1wTLCWeQhEI3V
+ hb3F2uLdNeWfmYW5k18IC7aQZND6AGw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-U70WeWJKOfWNS6Jj0htP9w-1; Sun, 26 Sep 2021 13:17:15 -0400
-X-MC-Unique: U70WeWJKOfWNS6Jj0htP9w-1
+ us-mta-480-m_GKlW3CO9OAzYVgxhB2Hg-1; Sun, 26 Sep 2021 13:17:16 -0400
+X-MC-Unique: m_GKlW3CO9OAzYVgxhB2Hg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF626362F8
- for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 17:17:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F3A4362FA
+ for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 17:17:15 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F8914180
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9E702AF99
  for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 17:17:14 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 4/5] meson: unpack edk2 firmware even if --disable-blobs
-Date: Sun, 26 Sep 2021 13:17:07 -0400
-Message-Id: <20210926171708.455435-5-pbonzini@redhat.com>
+Subject: [PULL v2 5/5] tests: qtest: bios-tables-test depends on the unpacked
+ edk2 ROMs
+Date: Sun, 26 Sep 2021 13:17:08 -0400
+Message-Id: <20210926171708.455435-6-pbonzini@redhat.com>
 In-Reply-To: <20210926171708.455435-1-pbonzini@redhat.com>
 References: <20210926171708.455435-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -82,77 +83,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The edk2 firmware blobs are needed to run bios-tables-test.  Unpack
-them if any UEFI-enabled target is selected, so that the test can run.
-This is a bit more than is actually necessary, since bios-tables-test
-does not run for all UEFI-enabled targets, but it is the easiest
-way to write this logic.
+Skip the test if bzip2 is not available, and run it after they are
+uncompressed.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build                     | 16 ++++++++--------
- pc-bios/descriptors/meson.build |  4 ++--
- pc-bios/meson.build             |  2 +-
- 3 files changed, 11 insertions(+), 11 deletions(-)
+ pc-bios/meson.build     | 3 ++-
+ tests/qtest/meson.build | 6 +++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 3945a6cc2d..e4bd1f9a5b 100644
---- a/meson.build
-+++ b/meson.build
-@@ -95,14 +95,14 @@ if targetos != 'darwin'
- endif
- 
- edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
--install_edk2_blobs = false
--if get_option('install_blobs')
--  foreach target : target_dirs
--    install_edk2_blobs = install_edk2_blobs or target in edk2_targets
--  endforeach
--endif
--
--bzip2 = find_program('bzip2', required: install_edk2_blobs)
-+unpack_edk2_blobs = false
-+foreach target : edk2_targets
-+  if target in target_dirs
-+    bzip2 = find_program('bzip2', required: get_option('install_blobs'))
-+    unpack_edk2_blobs = bzip2.found()
-+    break
-+  endif
-+endforeach
- 
- ##################
- # Compiler flags #
-diff --git a/pc-bios/descriptors/meson.build b/pc-bios/descriptors/meson.build
-index 29efa16d99..66f85d01c4 100644
---- a/pc-bios/descriptors/meson.build
-+++ b/pc-bios/descriptors/meson.build
-@@ -1,4 +1,4 @@
--if install_edk2_blobs
-+if unpack_edk2_blobs and get_option('install_blobs')
-   foreach f: [
-     '50-edk2-i386-secure.json',
-     '50-edk2-x86_64-secure.json',
-@@ -10,7 +10,7 @@ if install_edk2_blobs
-     configure_file(input: files(f),
-                    output: f,
-                    configuration: {'DATADIR': get_option('prefix') / qemu_datadir},
--                   install: get_option('install_blobs'),
-+                   install: true,
-                    install_dir: qemu_datadir / 'firmware')
-   endforeach
- endif
 diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index f2b32598af..a3b3d87891 100644
+index a3b3d87891..a44c9bc127 100644
 --- a/pc-bios/meson.build
 +++ b/pc-bios/meson.build
-@@ -1,4 +1,4 @@
--if install_edk2_blobs
-+if unpack_edk2_blobs
+@@ -1,3 +1,4 @@
++roms = []
+ if unpack_edk2_blobs
    fds = [
      'edk2-aarch64-code.fd',
-     'edk2-arm-code.fd',
+@@ -11,7 +12,7 @@ if unpack_edk2_blobs
+   ]
+ 
+   foreach f : fds
+-    custom_target(f,
++    roms += custom_target(f,
+                   build_by_default: have_system,
+                   output: f,
+                   input: '@0@.bz2'.format(f),
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index e1f4df3df8..c9d8458062 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -68,12 +68,12 @@ qtests_i386 = \
+   (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
+   (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
+   (config_all_devices.has_key('CONFIG_ESP_PCI') ? ['am53c974-test'] : []) +                 \
++  (unpack_edk2_blobs ? ['bios-tables-test'] : []) +                                         \
+   qtests_pci +                                                                              \
+   ['fdc-test',
+    'ide-test',
+    'hd-geo-test',
+    'boot-order-test',
+-   'bios-tables-test',
+    'rtc-test',
+    'i440fx-test',
+    'fw_cfg-test',
+@@ -180,7 +180,7 @@ qtests_arm = \
+ 
+ # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
+ qtests_aarch64 = \
+-  (cpu != 'arm' ? ['bios-tables-test'] : []) +                                                  \
++  (cpu != 'arm' and unpack_edk2_blobs ? ['bios-tables-test'] : []) +                            \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
+   ['arm-cpu-features',
+@@ -269,7 +269,7 @@ foreach dir : target_dirs
+   qtest_emulator = emulators['qemu-system-' + target_base]
+   target_qtests = get_variable('qtests_' + target_base, []) + qtests_generic
+ 
+-  test_deps = []
++  test_deps = roms
+   qtest_env = environment()
+   if have_tools
+     qtest_env.set('QTEST_QEMU_IMG', './qemu-img')
 -- 
 2.27.0
-
 
 
