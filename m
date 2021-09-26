@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E527418A57
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 19:23:04 +0200 (CEST)
-Received: from localhost ([::1]:59340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E62B1418A54
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 19:20:33 +0200 (CEST)
+Received: from localhost ([::1]:54222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUXrj-0002O2-0c
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 13:23:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48552)
+	id 1mUXpI-0007KQ-OK
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 13:20:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mUXmC-0004ha-ER
+ id 1mUXmC-0004hQ-E2
  for qemu-devel@nongnu.org; Sun, 26 Sep 2021 13:17:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35933)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mUXm8-00081E-NT
+ id 1mUXm8-00080K-Kw
  for qemu-devel@nongnu.org; Sun, 26 Sep 2021 13:17:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632676634;
+ s=mimecast20190719; t=1632676633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=azo2X/U6Bf/eZsJOzpZ4egc48NQy5RumrPmofhPYWLc=;
- b=G1xTZeAl69Wn3WT5wMUF8Zr7gamrxlsyNryOKsMVIGKoJOx827Dujp+vVCiIqBlLXgVGJM
- 7cKFqB9bbE0bzuow/ogL8ky7o7HvrLRx2t6Au/iJn2GE2/M5lT9L+jbUWsvIYhwfmATpCq
- LSwnhWHlVOqvUgThze+O5/pKYrkpdkU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=atYib1jCpRAo1p1rhd5iQWpbST5QDuf5aYf4t+Pqdb8=;
+ b=VHEJ5180RKoLNaC7KEw14xoTwht7ZRuDpXXGyPupL3jGDwKWuGTHy4M4SExzzsjLO13GJ7
+ FqdKUHv4EOSva8jlm64TfETvngLyILR089PMdFe3tEY0q6PN79mXPnV7Aoe3LSEwQbCqqV
+ uD/jaUhfn8L+ishBUl+gvH6ONqZqjTk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-ZBGjcSVnNsGV_JyZ9sBQwg-1; Sun, 26 Sep 2021 13:17:10 -0400
-X-MC-Unique: ZBGjcSVnNsGV_JyZ9sBQwg-1
+ us-mta-565-29iKGpX-OguGA1wI-Decgw-1; Sun, 26 Sep 2021 13:17:10 -0400
+X-MC-Unique: 29iKGpX-OguGA1wI-Decgw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35D7B362F9
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A282018125C0
  for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 17:17:09 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 056BE60657
- for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 17:17:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 725BD2AF99
+ for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 17:17:09 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 0/5] Update meson version
-Date: Sun, 26 Sep 2021 13:17:03 -0400
-Message-Id: <20210926171708.455435-1-pbonzini@redhat.com>
+Subject: [PULL v2 1/5] meson: bump submodule to 0.58.2
+Date: Sun, 26 Sep 2021 13:17:04 -0400
+Message-Id: <20210926171708.455435-2-pbonzini@redhat.com>
+In-Reply-To: <20210926171708.455435-1-pbonzini@redhat.com>
+References: <20210926171708.455435-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -79,45 +82,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 831aaf24967a49d7750090b9dcfd6bf356f16529:
+The update to 0.57 has been delayed due to it causing warnings for
+some actual issues, but it brings in important bugfixes and new
+features.  0.58 also brings in a bugfix that is useful for modinfo.
 
-  Merge remote-tracking branch 'remotes/marcandre/tags/misc-pull-request' into staging (2021-09-14 18:14:56 +0100)
+Important bugfixes:
 
-are available in the Git repository at:
+- 0.57: https://github.com/mesonbuild/meson/pull/7760, build: use PIE
+objects for non-PIC static libraries if b_pie=true
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream-meson
+- 0.57: https://github.com/mesonbuild/meson/pull/7900, thus avoiding
+unnecessary rebuilds after running meson.
 
-for you to fetch changes up to 1d4bef90b570b8f4ab10c380227d325eb49ce084:
+- 0.58.2: https://github.com/mesonbuild/meson/pull/8900, fixes for
+passing extract_objects() to custom_target (useful for modinfo)
 
-  tests: qtest: bios-tables-test depends on the unpacked edk2 ROMs (2021-09-23 06:40:15 -0400)
+Features:
 
-----------------------------------------------------------------
-* Bump Meson submodule to 0.58.2
-* Fix dependencies of tests upon ROMs
+- 0.57: the keyval module has now been stabilized
 
-----------------------------------------------------------------
-Paolo Bonzini (5):
-      meson: bump submodule to 0.58.2
-      meson: switch minimum meson version to 0.58.2
-      hexagon: use env keyword argument to pass PYTHONPATH
-      meson: unpack edk2 firmware even if --disable-blobs
-      tests: qtest: bios-tables-test depends on the unpacked edk2 ROMs
+- 0.57: env argument to custom_target (useful for hexagon)
 
- configure                       |  8 ++---
- docs/meson.build                | 14 ++++-----
- meson                           |  2 +-
- meson.build                     | 70 +++++++++++++++++++----------------------
- pc-bios/descriptors/meson.build |  4 +--
- pc-bios/meson.build             |  5 +--
- plugins/meson.build             |  4 +--
- scripts/mtest2make.py           |  7 ++---
- target/hexagon/meson.build      |  3 +-
- tests/qapi-schema/meson.build   |  4 +--
- tests/qtest/meson.build         |  8 ++---
- tests/unit/meson.build          |  2 +-
- trace/meson.build               |  4 +--
- 13 files changed, 63 insertions(+), 72 deletions(-)
+- 0.57: Feature parity between "meson test" and QEMU's TAP driver
+
+- 0.57: https://github.com/mesonbuild/meson/pull/8231, allows bringing
+back version numbers in the configuration summary
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meson b/meson
+index 776acd2a80..8bcd4c72e3 160000
+--- a/meson
++++ b/meson
+@@ -1 +1 @@
+-Subproject commit 776acd2a805c9b42b4f0375150977df42130317f
++Subproject commit 8bcd4c72e321705cb6cde02c684ffd2ec5cc8843
 -- 
 2.27.0
+
 
 
