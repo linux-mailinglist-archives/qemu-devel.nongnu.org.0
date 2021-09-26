@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C64E418ABA
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 21:15:53 +0200 (CEST)
-Received: from localhost ([::1]:37416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF33418B27
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 23:01:33 +0200 (CEST)
+Received: from localhost ([::1]:38666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUZct-000292-MP
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 15:15:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34642)
+	id 1mUbHA-0006T4-8f
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 17:01:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUZat-0000ly-Un
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 15:13:47 -0400
-Received: from mail-oi1-f175.google.com ([209.85.167.175]:43002)
+ (Exim 4.90_1) (envelope-from <guyyur@gmail.com>) id 1mUZUh-0006PU-TB
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 15:07:23 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUZas-0004F0-Aw
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 15:13:47 -0400
-Received: by mail-oi1-f175.google.com with SMTP id x124so22584992oix.9
- for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 12:13:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <guyyur@gmail.com>) id 1mUZUg-0007SS-3X
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 15:07:23 -0400
+Received: by mail-wr1-x430.google.com with SMTP id t8so45569580wri.1
+ for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 12:07:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=BKFULUArWqr1aOPgXwVjeOBQ1CGHX61/44aKqOXc8WA=;
+ b=a7BEEK8yZgWGbhPkeZHndmihKRqDk7AlTGxK62ZDs8qZI2aeYAoVQ9uY4zwMPySxec
+ RfB1zbFAjOnjAMFwKcRKj1eoKkXcUAosaa/nlCse5NYoxMD7JjGYI4IYbzb9bYreTO3I
+ bNF4W6WlmKz7HakvqG9b7Xx2oN406xlKBnZW8vTH5QpN+qdmYJ0+vmDySntc7zSJUDdT
+ pYKRR61RAUkfe6tTXFUza9mWK6KakV7YFy7WY0ez6PKPhH1vcGKcf8kfQFd4vKYKttSp
+ cW7/jAiyJDPLTWJ9h0vuFsisXKw8mFY2k7ifRut6pHyZcuUvhE2Tj0xD+zaOJFJmCNAP
+ kK1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Bqxz+O/JsbdJSBIGfhiRZHaZnW8a1p0CexsNCbI1JjA=;
- b=leemH1MGmDx/fi7dDrsx8B1X0tmrJZ4KVLOlJynTZjFD78LGbWBRaiypWDWqt7iwbA
- DblGySz/aS6CDJDIuJl7vMBBBUymBVg16W5EInG4DRSK5Qm8GE1P5MwIXwgVbwDvb5uc
- S2Vsj/VPS1HRg6u5OYa2LPYLUAIGwE8Smk3DClvEFxrIi5kfPt/oQ1gQbQnqAzhZqHmS
- BejEvxCazYppPezU7U+L9H0Jq6EjhFmnOQz31k7AuuBkvr5EAPSHwj8ax7rak/7C5sd5
- sBSawZTYyxzcwq4jHux/GIHf40gJ+v6QxecrdWiHLEI6UljCB/60irDEIjCY80Zv5Hnm
- 1VLA==
-X-Gm-Message-State: AOAM532gZckrofAPZoucRNQckId9xQ7tRyL30A6aSCVpmfZUi3MjxWjt
- EFt2DEj9Hrb2l9lhm2CqlkxOVUj0bsMeU7BYV54=
-X-Google-Smtp-Source: ABdhPJzx1Q5wu8s4TCDXzr4VMngVBFT4pGJ+qsVacNEIujTQVtG/rURQAy1LtqWVYbDZss3l3EdtmVztIz9cnTPHEAY=
-X-Received: by 2002:a05:6808:cf:: with SMTP id
- t15mr1713663oic.46.1632683624342; 
- Sun, 26 Sep 2021 12:13:44 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BKFULUArWqr1aOPgXwVjeOBQ1CGHX61/44aKqOXc8WA=;
+ b=KhD53Xh3dmV9R/D5P/gNS3u1AWgXyYal3ar/TEVgJpdpOTQkWJdhfdzYZsAVnP7Pva
+ t/r7E4t/GVlas4A7HVaIWmgLCiW3bwfOvTIPOeKcWfxV5f2qxqXUOivLnWxgganiMplJ
+ lEJixHXnUgjGOVe/rMwt0BrKbatvO+/Bide/KdcmP+jOUOaugupZtcnaRle7672MJ+mY
+ K9yU7AdL6hAcREy2sJMFTFxBLhrFHfvde2BYTknTsIjkfyCKoynbfNXFD9gK1K6DsscX
+ RuUYeMa2dOc+IEPKMGiVIxqx6Iyz0On6+cNfkx4LCnNApHx+Eea2aDApEOSRwJ8aM2X5
+ KYjA==
+X-Gm-Message-State: AOAM533G8tUxJaAMllhe3spuPw0lLtuUHa494aGHRzzsUOAv0/1KDZTM
+ AS/be3ucZO2UUkk/moZYIJs=
+X-Google-Smtp-Source: ABdhPJyx9HbbIoTXh3GkOX31SFZCiBluTf+chpyk0Arn62kL/NyTrJwyVqzUrG9sIE9C+tKqlc28Rw==
+X-Received: by 2002:a5d:6991:: with SMTP id g17mr8207437wru.218.1632683240022; 
+ Sun, 26 Sep 2021 12:07:20 -0700 (PDT)
+Received: from [192.168.159.120] (IGLD-84-229-239-40.inter.net.il.
+ [84.229.239.40])
+ by smtp.gmail.com with ESMTPSA id c30sm14591695wrb.74.2021.09.26.12.07.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 26 Sep 2021 12:07:19 -0700 (PDT)
+Message-ID: <b5d1b686-a6ce-63b0-8655-4918f70efdf6@gmail.com>
+Date: Sun, 26 Sep 2021 22:07:18 +0300
 MIME-Version: 1.0
-References: <20210922061438.27645-1-imp@bsdimp.com>
- <20210922061438.27645-15-imp@bsdimp.com>
- <1f21d9a3-fe08-22e7-45f9-27dae0c1c6ba@linaro.org>
- <CANCZdfpdy9EFgr-ushGeEnPZFEPD2_sOc4vii+2by9ksbC3YVg@mail.gmail.com>
- <CAAdtpL7bsDbd9GeSqBgJyr6JnBdF9vi01qk9z582Tuwv8-MpBA@mail.gmail.com>
- <CANCZdfpDRVv2WcLyBrVd=YXwEW-cuGMW4QUpx8kkfC9B2xoRHQ@mail.gmail.com>
-In-Reply-To: <CANCZdfpDRVv2WcLyBrVd=YXwEW-cuGMW4QUpx8kkfC9B2xoRHQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Sun, 26 Sep 2021 21:13:33 +0200
-Message-ID: <CAAdtpL5HxOD4Ve6Re2vH9RvzTV1Ky0Eh6tAz8+SGt0-3JtddQw@mail.gmail.com>
-Subject: Re: [PATCH 14/14] bsd-user/signal: Create a dummy signal queueing
- function
-To: Warner Losh <imp@bsdimp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.167.175;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-oi1-f175.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH v2 7/9] bsd-user/mmap.c: Don't mmap fd == -1 independently
+ from MAP_ANON flag
+Content-Language: en-US
+To: Warner Losh <imp@bsdimp.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20210922045636.25206-1-imp@bsdimp.com>
+ <20210922045636.25206-8-imp@bsdimp.com>
+ <e66d76d0-a463-5a01-e508-bb592c9cce97@linaro.org>
+ <CANCZdfrXJD6X+AiWLYYzQB-mB3uW34r+xe970uMmZz79xA-GqQ@mail.gmail.com>
+From: Guy Yur <guyyur@gmail.com>
+In-Reply-To: <CANCZdfrXJD6X+AiWLYYzQB-mB3uW34r+xe970uMmZz79xA-GqQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=guyyur@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.478, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sun, 26 Sep 2021 16:59:30 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,64 +91,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 26, 2021 at 9:00 PM Warner Losh <imp@bsdimp.com> wrote:
-> On Sun, Sep 26, 2021 at 12:34 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
-.org> wrote:
->> On Sun, Sep 26, 2021 at 8:14 PM Warner Losh <imp@bsdimp.com> wrote:
->> > On Fri, Sep 24, 2021 at 6:00 AM Richard Henderson <richard.henderson@l=
-inaro.org> wrote:
->> >> On 9/21/21 11:14 PM, Warner Losh wrote:
->> >> > Create dummy signal queueing function so we can start to integrate =
-other
->> >> > architectures (at the cost of signals remaining broken) to tame the
->> >> > dependency graph a bit and to bring in signals in a more controlled
->> >> > fashion.
->> >> >
->> >> > Signed-off-by: Warner Losh <imp@bsdimp.com>
->> >> > ---
->> >> >   bsd-user/qemu.h   | 1 +
->> >> >   bsd-user/signal.c | 8 ++++++++
->> >> >   2 files changed, 9 insertions(+)
->>
->> >> > +int queue_signal(CPUArchState *env, int sig, target_siginfo_t *inf=
-o)
->> >> > +{
->> >> > +    return 1;
->> >> > +}
->> >>
->> >> Both here and in linux-user, there are no error conditions.  We shoul=
-d change the return
->> >> to void.
->> >
->> >
->> > In this stubbed out version, there's no errors. But bsd-user can retur=
-n -EAGAIN when
->> > alloc_sigqueue fails (which it can if there are no free qemu_sigqueue =
-structures in
->> > the preallocated list0. However, having said that, nothing checks the =
-return value
->> > so it's as if it is void... So I'll change it to void here...
->>
->> kinda related:
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg836833.html
+On 26/9/21 20:08, Warner Losh wrote:
 >
 >
-> Not sure how I missed this... too many filters I guess.
+> On Fri, Sep 24, 2021 at 6:00 AM Richard Henderson 
+> <richard.henderson@linaro.org> wrote:
 >
-> I've sent a reply, but the right thing to do is to eliminate *that* wart =
-too. I'm always
-> torn between 'oh, linux-user went in a different direction that I like be=
-tter' for something
-> and adopting it and 'oh, more churn in upstreaming, I'll never get done a=
-nd how do I make
-> sure I don't break anything'...
+>     On 9/21/21 9:56 PM, Warner Losh wrote:
+>     >           /* no page was there, so we allocate one */
+>     >           void *p = mmap(host_start, qemu_host_page_size, prot,
+>     > -                       flags | MAP_ANON, -1, 0);
+>     > +                       flags | ((fd != -1) ? MAP_ANON : 0), -1, 0);
+>
+>     I don't understand this change, given that the actual fd passed is
+>     always -1.
+>
+>
+> That's a very good question. I'll have to trace down why that was made 
+> because
+> I'm having trouble with it as well now that I'm trying to defend it.
+>
+mmap_frag can be called with a valid fd, if flags doesn't contain one of 
+MAP_ANON, MAP_STACK, MAP_GUARD.
+The passed fd to mmap is -1 but if flags contains MAP_GUARD then 
+MAP_ANON cannot be added.
 
-Oh no worry. I have in my TODO to clean this, but got delayed by the
-has_work() refactor series.
+* If fd is valid (not -1) we want to map the pages with MAP_ANON.
+* If flags contains MAP_GUARD we don't want to add MAP_ANON because it 
+will be rejected.
+https://github.com/freebsd/freebsd-src/blob/master/sys/vm/vm_mmap.c#L302
+* If flags contains MAP_ANON it doesn't matter if we add it or not.
+* If flags contains MAP_STACK, mmap adds MAP_ANON when called so doesn't 
+matter if we add it or not either.
+https://github.com/freebsd/freebsd-src/blob/master/sys/vm/vm_mmap.c#L284
+
+The intention was to not pass MAP_ANON for the flags that use fd == -1 
+without specifying the flags directly,
+with the assumption that future flags that don't require fd will also 
+not require MAP_ANON.
+Changing to !(flags & MAP_GUARD) will also work.
+
+Guy Yur
+
+> Warner
+>
+>
+>     r~
+>
 
