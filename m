@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98BA7418CE2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 00:51:24 +0200 (CEST)
-Received: from localhost ([::1]:53004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45344418B95
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 00:41:40 +0200 (CEST)
+Received: from localhost ([::1]:55880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUczT-0003Tq-LG
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 18:51:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59904)
+	id 1mUcq3-000314-BI
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 18:41:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUcdx-0003z2-Jr
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 18:29:09 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46778)
+ id 1mUce2-0004D0-Dp
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 18:29:14 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUcdw-0006T7-4P
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 18:29:09 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id c21so16811212wrb.13
- for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 15:29:07 -0700 (PDT)
+ id 1mUce0-0006Wn-Un
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 18:29:14 -0400
+Received: by mail-wr1-x434.google.com with SMTP id d6so46341330wrc.11
+ for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 15:29:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FoSlQqSQ8ZbPbrlQxUB8XNqV2UVRF3KYNvOO8ZgTpHU=;
- b=EqjMAlG/pSk2um+MA0SXVOkYxXLoIyeHiJdsma86EhXCN9QjRdu/5NZPJJ/9CvPupb
- Hf01BS0XA7GGYcn1exYEvVXkMWypwWPHuIH3wvXpG+19qCNnVxTmqMYdBi+iRUBSq+cK
- u8iyGT69TNdtgHfuf+9FGIpbgDwlNrCfXh5ZJTyCCe7ztna6oRVtxbnFipNTrZ7Eiq9/
- GFGn/uRSUfLf/YPMO7J0lLDnMnG+33q7j3uvTOOZPpoI/0bWXrfjE/SZv31XBIDnK890
- P7rg7GwWExjt3sns82QoFzxvtNtbj6jPhtIIczQFApeOKgvJ0QxhUQ3w2Wy6ZGiwsz/0
- t+RA==
+ bh=2wVO/8lNTdglwVP+4rQ9px8jTQizKXJBfsXgcLc7jls=;
+ b=MZ+YNdm+PPVCfa0H+PUCGt5o3W7MxmPlymM/4l1jkbLlyMs+g2/kLTd4PIdUHpi+YZ
+ RSSQP9jXfiulCWqIa90EvJ1RSJl0o8ZUwJnFLkLxzX1FgPUyQ7V/myg52xuw7OH5ddCT
+ oojF//rAWHjEhrNetc8/j9O4xSCcss/9P69byZa3akuJ0+64exRVh7V0DZcbas5Dj2fo
+ XnaJI8wxjSO/c3jvnHsIqhoO46suRm8EzACD+tE9VSQWH2DW7JAf7qdUJ84NW2tsfDQN
+ 9ZirBew5UdiG1Uv3CRT1jboahNm626thBBw0MnRHapSzweRmseq48mypMEByuf/k2De0
+ tuGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FoSlQqSQ8ZbPbrlQxUB8XNqV2UVRF3KYNvOO8ZgTpHU=;
- b=VMbOoKgjTZfbWh9mMKOKCca8hsJIYriOj2E0r6g00UhjRveFeDKchRzWfEGeN0hDvD
- 2xyausb+CXyYDBo5khI+4/pg753FW5BRKwlE6S7N8Uq+q1DKJOT/Wlp9U5JbrueU2Dgb
- /HBYIBISco3Lh5IbBGKJxVXd/iiVEnLbIiDxJa2Olg4IlFQaXTHh8hvghoGeiZRYDtPa
- 3qUnE0bwqnYbNajAm3JBjo+pUkksmmipPgrpNyIiLB6plcRq9+MQm1LtJwRrDL1jGAkr
- omjMsxHHwB9vji6qfvR/rgOeMWkWVuOMjdFQ3JYpsqDaFm32BPaMyfADcpY7HNHpBCrP
- gwLg==
-X-Gm-Message-State: AOAM530sqaL5ouR4UG06UJNz8prhzk3MKgij5ayMcqtUuf6DEaU9DF7v
- pTvZp1hRs9VfhvfjeNwVb5AGxyl6RNs=
-X-Google-Smtp-Source: ABdhPJwG6s3gEaSATqQ6TGjBELsRhm5cbSBOTIKXKGVGKHFANhlUGzS36no0tn+gIQdeKyJwmE9mWw==
-X-Received: by 2002:a1c:a78d:: with SMTP id q135mr13058660wme.36.1632695346743; 
- Sun, 26 Sep 2021 15:29:06 -0700 (PDT)
+ bh=2wVO/8lNTdglwVP+4rQ9px8jTQizKXJBfsXgcLc7jls=;
+ b=fZ4iLGHEq+3XD9MjZwuOZayfF91Lk3KINgqybUhnyWduEuJcxVGgcrVQzXS9SsK2Vm
+ pdX6QI2OMzJIdATJg4w2RLHvD9lZcjbqkMC2u9H1lQEV83NgtdEcKrpB5QuMHfB37RiL
+ 3QE2fupl5DD/+plZ4SWJt5LsXsezjpfhA4QRoTszsbEsyhyS6eETBNH7OBAtznQpN3kW
+ +ZV1T2n+9efRsBwP91Hj6AL+WnG8+wIbPKdilboZEqBa+gJix8Kt0B/K3EvRAg2wApM1
+ EaHD02eZvPNqxpqI1DiJ6CxG9/kwxTfj7dviCxRIRVusKHQMHEM5xnzTdd69BlVxqDGi
+ I+CQ==
+X-Gm-Message-State: AOAM531/dmSnFkzULv0qROeBrAs6UQnMNGs5iycCL+tlzRmaLL6NRwuW
+ Qw679Wm/yY1GdfSB1WrwNUXxwTD+/AM=
+X-Google-Smtp-Source: ABdhPJz59Y48FUCOG1rvt7ODG0HO9JPAEY8fF5bjMDnfEhPoTVqkLnwC/KBxjkmaJCudzJQe7e1hJg==
+X-Received: by 2002:a7b:c4d2:: with SMTP id g18mr732304wmk.180.1632695351581; 
+ Sun, 26 Sep 2021 15:29:11 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- d8sm15797040wrv.80.2021.09.26.15.29.05
+ s10sm15013558wrg.42.2021.09.26.15.29.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Sep 2021 15:29:06 -0700 (PDT)
+ Sun, 26 Sep 2021 15:29:11 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 23/40] target/i386: Restrict has_work() handler to sysemu
- and TCG
-Date: Mon, 27 Sep 2021 00:26:59 +0200
-Message-Id: <20210926222716.1732932-24-f4bug@amsat.org>
+Subject: [PATCH v8 24/40] target/m68k: Restrict has_work() handler to sysemu
+Date: Mon, 27 Sep 2021 00:27:00 +0200
+Message-Id: <20210926222716.1732932-25-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210926222716.1732932-1-f4bug@amsat.org>
 References: <20210926222716.1732932-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,72 +90,47 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restrict has_work() to TCG sysemu.
+Restrict has_work() to sysemu.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/i386/cpu.c         | 6 ------
- target/i386/tcg/tcg-cpu.c | 8 +++++++-
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ target/m68k/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6b029f1bdf1..36a1c5f3fd2 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6554,11 +6554,6 @@ int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
-     return 0;
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index 66d22d11895..ad5d26b5c9e 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -31,10 +31,12 @@ static void m68k_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc = value;
  }
  
--static bool x86_cpu_has_work(CPUState *cs)
--{
--    return x86_cpu_pending_interrupt(cs, cs->interrupt_request) != 0;
--}
--
- static void x86_disas_set_info(CPUState *cs, disassemble_info *info)
++#if !defined(CONFIG_USER_ONLY)
+ static bool m68k_cpu_has_work(CPUState *cs)
  {
-     X86CPU *cpu = X86_CPU(cs);
-@@ -6763,7 +6758,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = x86_cpu_class_by_name;
-     cc->parse_features = x86_cpu_parse_featurestr;
--    cc->has_work = x86_cpu_has_work;
-     cc->dump_state = x86_cpu_dump_state;
-     cc->set_pc = x86_cpu_set_pc;
-     cc->gdb_read_register = x86_cpu_gdb_read_register;
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 3ecfae34cb5..aef050d0898 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -55,6 +55,11 @@ static void x86_cpu_synchronize_from_tb(CPUState *cs,
+     return cs->interrupt_request & CPU_INTERRUPT_HARD;
  }
++#endif /* !CONFIG_USER_ONLY */
+ 
+ static void m68k_set_feature(CPUM68KState *env, int feature)
+ {
+@@ -518,6 +520,7 @@ static const struct TCGCPUOps m68k_tcg_ops = {
+     .tlb_fill = m68k_cpu_tlb_fill,
  
  #ifndef CONFIG_USER_ONLY
-+static bool x86_cpu_has_work(CPUState *cs)
-+{
-+    return x86_cpu_pending_interrupt(cs, cs->interrupt_request) != 0;
-+}
-+
- static bool x86_debug_check_breakpoint(CPUState *cs)
- {
-     X86CPU *cpu = X86_CPU(cs);
-@@ -63,7 +68,7 @@ static bool x86_debug_check_breakpoint(CPUState *cs)
-     /* RF disables all architectural breakpoints. */
-     return !(env->eflags & RF_MASK);
- }
--#endif
-+#endif /* CONFIG_USER_ONLY */
++    .has_work = m68k_cpu_has_work,
+     .cpu_exec_interrupt = m68k_cpu_exec_interrupt,
+     .do_interrupt = m68k_cpu_do_interrupt,
+     .do_transaction_failed = m68k_cpu_transaction_failed,
+@@ -535,7 +538,6 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
+     device_class_set_parent_reset(dc, m68k_cpu_reset, &mcc->parent_reset);
  
- #include "hw/core/tcg-cpu-ops.h"
- 
-@@ -76,6 +81,7 @@ static const struct TCGCPUOps x86_tcg_ops = {
- #ifdef CONFIG_USER_ONLY
-     .fake_user_interrupt = x86_cpu_do_interrupt,
- #else
-+    .has_work = x86_cpu_has_work,
-     .do_interrupt = x86_cpu_do_interrupt,
-     .cpu_exec_interrupt = x86_cpu_exec_interrupt,
-     .debug_excp_handler = breakpoint_handler,
+     cc->class_by_name = m68k_cpu_class_by_name;
+-    cc->has_work = m68k_cpu_has_work;
+     cc->dump_state = m68k_cpu_dump_state;
+     cc->set_pc = m68k_cpu_set_pc;
+     cc->gdb_read_register = m68k_cpu_gdb_read_register;
 -- 
 2.31.1
 
