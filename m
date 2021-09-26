@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1EB418742
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 10:02:41 +0200 (CEST)
-Received: from localhost ([::1]:57928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E890418740
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 10:02:20 +0200 (CEST)
+Received: from localhost ([::1]:56972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUP7Q-0006Zj-1B
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 04:02:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45388)
+	id 1mUP72-0005uh-Ty
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 04:02:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mUP4p-0004p8-VD; Sun, 26 Sep 2021 03:59:59 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:40717)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mUP4h-0004f2-KF
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 03:59:51 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mUP4o-0006NN-49; Sun, 26 Sep 2021 03:59:59 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id v10so16196342ybq.7;
- Sun, 26 Sep 2021 00:59:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mUP4f-0006Gt-VZ
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 03:59:51 -0400
+Received: by mail-wr1-x430.google.com with SMTP id d6so41203633wrc.11
+ for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 00:59:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2JXuPJDPZnhPS5pvhJgjItsXgftt5KRypqBdA5Z5V74=;
- b=bqTAOyb+/VqOYY9bPf+di9ANVDTs35hRLbHfjcoflmyjehJa+JtTvwtLEpLyXzVrdf
- 5TioFA+VF3QRsrVdlT+D1NGoCpZSHufPpZfFV6DCqclo6XxCQK7PilZ3VxefPD6rR4nI
- KXAGvlfy2Ud9cL6tw2GhPP9DCKf8G16jsrpbFZDWclaJOXUJtwnPnu31Bw3vGYuHGyG3
- bLJ0pEK3zgWTUYhMgvRMhHElxiKyUHOqFa3K1CeMHcH0KoraDvI8SeurOGmYVrsugOFr
- +7qVGirTzHNLOuZgdXn2HC2aS7a/HxZ5l6AuBxKp7CmoatI9gu5JZS3E/+Kuv2fW066I
- A9yA==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:cc:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YRh7BdHpG10+BMnIaaVJeA3oOJMus5lCdg2+yQ2Xdlk=;
+ b=P+oFcpBZtL1x4XlwoIvLgfqbCphRXTt3om7RWvnjIYiEIiQqds0/ERww6YOH+0EJ1O
+ 28pREnE9qpRRaLZc4WKy3GLWnP0V94Jzzx4vtNYg95elF6thrDZMI18GzfrFnOTY54fv
+ iI1QJ62XhPB8RuVEJbR1Bim2vNRbV+ur9m2ntqygqvCZfIBf0Fmr/DCf6yBsG3A29emj
+ Vg8G5Xv1zHxO1TzUTSUo5w4ritKF8tn1QKZ3EJmnZwKGYVGW/LwKqCEOXAYXMVsBpkOk
+ Z9J4aDfIQPgAzazfKA71USVf+q7nDq0PHMpCvHL4ASS8efNITsfDbexEMa/TZPJT6M2A
+ xqKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2JXuPJDPZnhPS5pvhJgjItsXgftt5KRypqBdA5Z5V74=;
- b=RNkfBm5RFFhG38z3uhcN9zJbu+uVqUpWjgw4cX2OIPUgXahp0lu6XVMPVtlG2C3bwq
- MqQU9LmxIzid0xNgzm5uWlfIQCMP2muXcxBfdK8SKyTlrN7mY2r2Sbdl5qP8+ZNME+qk
- qxVfd7TImLDTlG1YLe6cA/ysWIAlhb2nI2qTrsWYzCC5Mxg0eyCLCsbtVz+ZOJ3ib8bd
- JSx6hrWP1oQG+dZNKB6IrXdwujlcynRWGKd2TklP6D3HnHN0MlOKGZ3mOkXF0db609J2
- wYl5H2hEcB/G67X4pfSXnyuowRinK0KZP9a5sJ45zKWoq31fUA6RzY0gmZqZh+7JMb0x
- nFjQ==
-X-Gm-Message-State: AOAM532JqoueLzGrwXYJJ0egCJBQmNmw9ZqFNy7e5z/XzY/9CX7pS/IL
- EGpaShYrPEadX/sTRX7MqYEzfkP0I/4RzqI5lfw=
-X-Google-Smtp-Source: ABdhPJwnPcNtl3hGBdcwizbumopgq2Rif90RdLJsbSmI7VdkiNvN/yxQa4em1o0SZvSZkmLomazvmmOcMv6OJ0oO530=
-X-Received: by 2002:a25:905:: with SMTP id 5mr23416587ybj.293.1632643196568;
- Sun, 26 Sep 2021 00:59:56 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:cc:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YRh7BdHpG10+BMnIaaVJeA3oOJMus5lCdg2+yQ2Xdlk=;
+ b=FfRFUSHURTNLn//RZ9uDOXH4jeUHMdpKmkYLqomlgXDMdMYKL7RHvH+jiopuHHlICb
+ ee4WOOiKJDdF8tI4tnlywQ6LiB4smtULKIR8mCCYwXgQe/jHIvte/kSkeONX6E3B/SgV
+ TdJWyMqh1xv9qGVbjfxSVQD6mPFWQuesj96ATdlVHn78LIKQ6y10uKRRXBlMBclN3SL6
+ P3AqJWyN1NV5iuRrCtkfjqxB+49ND2xQRsAfEn9v9Yid6fIbyEkJxn/YS3FjRBm0j4Hf
+ nzsIfMGvRMzjt134hzXiYReXaEY8Q7x0vs1K/3i/XMv4c/3lixZJf4WIuyqJhCRvBNIq
+ CJ7A==
+X-Gm-Message-State: AOAM532fzDud9bT5And/MELAJAh39ik+tVa02q0DP08FOMey/vqmS6Qy
+ uIWJa57bgMN4vOWuhbBb9Rw=
+X-Google-Smtp-Source: ABdhPJzHjAg2Vh+Rg0YZ3dAP+a1sTAk5YDtoEJ+x/nOqfgsTQyTNCN8+VodBGvKkC4jdOsmd2xfnrg==
+X-Received: by 2002:a05:6000:c3:: with SMTP id
+ q3mr20646316wrx.361.1632643188534; 
+ Sun, 26 Sep 2021 00:59:48 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id i203sm17541516wma.7.2021.09.26.00.59.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 26 Sep 2021 00:59:48 -0700 (PDT)
+Message-ID: <38e08d56-00b2-8759-a729-4bb6a26e6cdd@amsat.org>
+Date: Sun, 26 Sep 2021 09:59:46 +0200
 MIME-Version: 1.0
-References: <20210918180738.2506799-1-f4bug@amsat.org>
- <CAEUhbmX_PPdLPgGTtfJZg-Nd0pPxVC93ZYoeVpngnOvdLB0Tww@mail.gmail.com>
- <0cfcd1c1-8bff-f0dc-02ac-ac12ac392fc8@amsat.org>
-In-Reply-To: <0cfcd1c1-8bff-f0dc-02ac-ac12ac392fc8@amsat.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 26 Sep 2021 15:59:45 +0800
-Message-ID: <CAEUhbmW3V06da0Trp+oyE+=sc1w=S7Kg7Zs=GaNjJ8qd7kfT=A@mail.gmail.com>
-Subject: Re: [PATCH] hw/char/mchp_pfsoc_mmuart: QOM'ify PolarFire MMUART
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: Need to merge - QEMU patch for booting eMMC image for AST2600
+ machine
+Content-Language: en-US
+To: Shitalkumar Gandhi <shitalkumar.gandhi@seagate.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+References: <SJ0PR20MB3643750F8FF71E838A750F9B9DA59@SJ0PR20MB3643.namprd20.prod.outlook.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <SJ0PR20MB3643750F8FF71E838A750F9B9DA59@SJ0PR20MB3643.namprd20.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,201 +93,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- Markus Armbruster <armbru@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Hao Wu <wuhaotsh@google.com>, Patrick Venture <venture@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+Hi,
 
-On Thu, Sep 23, 2021 at 6:29 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 9/23/21 07:16, Bin Meng wrote:> On Sun, Sep 19, 2021 at 2:07 AM
-> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
-> >>
-> >> - Embed SerialMM in MchpPfSoCMMUartState and QOM-initialize it
-> >> - Alias SERIAL_MM 'chardev' property on MCHP_PFSOC_UART
-> >> - Forward SerialMM sysbus IRQ in mchp_pfsoc_mmuart_realize()
-> >> - Keep mchp_pfsoc_mmuart_create() behavior
-> >
-> > Thanks for taking care of the updates!
-> >
-> >>
-> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >> ---
-> >>   include/hw/char/mchp_pfsoc_mmuart.h | 16 ++++--
-> >>   hw/char/mchp_pfsoc_mmuart.c         | 77 +++++++++++++++++++++++----=
---
-> >>   2 files changed, 73 insertions(+), 20 deletions(-)
-> >>
-> >> diff --git a/include/hw/char/mchp_pfsoc_mmuart.h b/include/hw/char/mch=
-p_pfsoc_mmuart.h
-> >> index f61990215f0..b484b7ea5e4 100644
-> >> --- a/include/hw/char/mchp_pfsoc_mmuart.h
-> >> +++ b/include/hw/char/mchp_pfsoc_mmuart.h
-> >> @@ -28,16 +28,22 @@
-> >>   #ifndef HW_MCHP_PFSOC_MMUART_H
-> >>   #define HW_MCHP_PFSOC_MMUART_H
-> >>
-> >> +#include "hw/sysbus.h"
-> >>   #include "hw/char/serial.h"
-> >>
-> >>   #define MCHP_PFSOC_MMUART_REG_SIZE  52
-> >>
-> >> -typedef struct MchpPfSoCMMUartState {
-> >> -    MemoryRegion iomem;
-> >> -    hwaddr base;
-> >> -    qemu_irq irq;
-> >> +#define TYPE_MCHP_PFSOC_UART "mchp.pfsoc.uart"
-> >> +OBJECT_DECLARE_SIMPLE_TYPE(MchpPfSoCMMUartState, MCHP_PFSOC_UART)
-> >>
-> >> -    SerialMM *serial;
-> >> +typedef struct MchpPfSoCMMUartState {
-> >> +    /*< private >*/
-> >> +    SysBusDevice parent_obj;
-> >> +
-> >> +    /*< public >*/
-> >> +    MemoryRegion iomem;
-> >> +
-> >> +    SerialMM serial_mm;
-> >>
-> >>       uint32_t reg[MCHP_PFSOC_MMUART_REG_SIZE / sizeof(uint32_t)];
-> >>   } MchpPfSoCMMUartState;
-> >> diff --git a/hw/char/mchp_pfsoc_mmuart.c b/hw/char/mchp_pfsoc_mmuart.c
-> >> index 2facf85c2d8..74404e047d4 100644
-> >> --- a/hw/char/mchp_pfsoc_mmuart.c
-> >> +++ b/hw/char/mchp_pfsoc_mmuart.c
-> >> @@ -22,8 +22,9 @@
-> >>
-> >>   #include "qemu/osdep.h"
-> >>   #include "qemu/log.h"
-> >> -#include "chardev/char.h"
-> >> +#include "qapi/error.h"
-> >>   #include "hw/char/mchp_pfsoc_mmuart.h"
-> >> +#include "hw/qdev-properties.h"
-> >>
-> >>   static uint64_t mchp_pfsoc_mmuart_read(void *opaque, hwaddr addr, un=
-signed size)
-> >>   {
-> >> @@ -63,23 +64,69 @@ static const MemoryRegionOps mchp_pfsoc_mmuart_ops=
- =3D {
-> >>       },
-> >>   };
-> >>
-> >> -MchpPfSoCMMUartState *mchp_pfsoc_mmuart_create(MemoryRegion *sysmem,
-> >> -    hwaddr base, qemu_irq irq, Chardev *chr)
-> >> +static void mchp_pfsoc_mmuart_init(Object *obj)
-> >>   {
-> >> -    MchpPfSoCMMUartState *s;
-> >> -
-> >> -    s =3D g_new0(MchpPfSoCMMUartState, 1);
-> >> +    SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
-> >> +    MchpPfSoCMMUartState *s =3D MCHP_PFSOC_UART(obj);
-> >>
-> >>       memory_region_init_io(&s->iomem, NULL, &mchp_pfsoc_mmuart_ops, s=
-,
-> >>                             "mchp.pfsoc.mmuart", 0x1000);
-> >> +    sysbus_init_mmio(sbd, &s->iomem);
-> >>
-> >> -    s->base =3D base;
-> >> -    s->irq =3D irq;
-> >> -
-> >> -    s->serial =3D serial_mm_init(sysmem, base, 2, irq, 399193, chr,
-> >> -                               DEVICE_LITTLE_ENDIAN);
-> >> -
-> >> -    memory_region_add_subregion(sysmem, base + 0x20, &s->iomem);
-> >> -
-> >> -    return s;
-> >> +    object_initialize_child(obj, "serial-mm", &s->serial_mm, TYPE_SER=
-IAL_MM);
-> >> +    object_property_add_alias(obj, "chardev", OBJECT(&s->serial_mm), =
-"chardev");
-> >
-> > Do we have a common convention for what needs to be done in the
-> > instance_init() call and what in the realize() call?
->
-> No official convention IFAIK, but Peter & Markus described it in a
-> thread 2 years ago, IIRC it was about the TYPE_ARMV7M model.
->
-> See armv7m_instance_init() and armv7m_realize().
->
-> stellaris_init() does:
->
->      nvic =3D qdev_new(TYPE_ARMV7M);
->      qdev_connect_clock_in(nvic, "cpuclk",
->                            qdev_get_clock_out(ssys_dev, "SYSCLK"));
-> (1) qdev_prop_set_uint32(nvic, "num-irq", NUM_IRQ_LINES);
-> (2) object_property_set_link(OBJECT(nvic), "memory",
->                               OBJECT(get_system_memory()), &error_abort);
-> (3) sysbus_realize_and_unref(SYS_BUS_DEVICE(nvic), &error_fatal);
->
-> static void armv7m_instance_init(Object *obj)
-> {
->      ...
->      object_initialize_child(obj, "nvic", &s->nvic, TYPE_NVIC);
->      object_property_add_alias(obj, "num-irq",
->                                OBJECT(&s->nvic), "num-irq");
->
-> For (1) to set the "num-irq" property (aliased to TYPE_NVIC)
-> before realization (3), it has to be available (aliased) first,
-> thus has to be in the instance_init() handler.
->
-> When the child creation depends on a property which is set by
-> the parent, the property must be set before the realization,
-> then is available in the realize() handler. For example with (2):
->
-> static void armv7m_realize(DeviceState *dev, Error **errp)
-> {
->      ...
->      if (!s->board_memory) {
->          error_setg(errp, "memory property was not set");
->          return;
->      }
->      memory_region_add_subregion_overlap(&s->container, 0,
->                                          s->board_memory, -1);
->
-> If your model only provides link/aliased properties, then it
-> requires a instance_init() handler. If no property is consumed
-> during realization, then to keep it simple you can avoid
-> implementing a realize() handler, having all setup in instance_init().
->
-> If your model only consumes properties (no link/alias), it must
-> implement a realize() handler, and similarly you can skip the
-> instance_init(), having all setup in realize().
->
-> Now instance_init() is always called, and can never fail.
-> The resources it allocates are freed later in instance_finalize().
->
-> realize() can however fails and return error. If it succeeds,
-> the resources are released in unrealize().
->
-> If you have to implement realize() and it might fail, then it is
-> cheaper to check the failing conditions first, then allocate
-> resources. So in that case we prefer to avoid instance_init(),
-> otherwise on failure we'd have allocated and released resources
-> we know we'll not use. Pointless.
->
-> Hope this is not too unclear and helps...
->
+On 9/25/21 19:07, Shitalkumar Gandhi via wrote:
+> Hi,
+> 
+> I am attaching a patch that will fix eMMC image booting on QEMU for
+> AST2600 machine, without this patch it will be stuck after SPL saying,
+> "booting from RAM".
+> 
+> Please review and merge, thanks.
+> 
+> Let me know in case of any concern.
 
-These are really helpful. Thanks a lot!
+Thanks for your patch.
 
-Do you think if we find a place in docs/develop to document such best
-practice (qom.rst)?
+Please look at how to submit patches here:
+https://wiki.qemu.org/Contribute/SubmitAPatch#Submitting_your_Patches
 
-> > For example, I see some devices put memory_region_init_io() and
-> > sysbus_init_mmio() in their realize().
+> This patch has been added to boot eMMC image for AST2600 machine on
+> QEMU.
 >
-> Following my previous explanation, it is better (as cheaper) to
-> have them in realize() indeed :)
+> Run quemu as follows:
 >
+> ./qemu-system-arm -m 1G -M ast2600-evb -nographic -drive
+> file=mmc-evb-ast2600.img,format=raw,if=sd,index=2
+
+What is index=2?
+
+Is this mmc-evb-ast2600.img image publicly available?
+
+> Tested: Booted AST2600 eMMC image on QEMU.
+> Suggested-by:  <venture@google.com>
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> Message-Id: <20210416162426.3217033-1-venture@google.com>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>  hw/arm/aspeed.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index ba5f1dc5af..6a890adb83 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -148,7 +148,7 @@ struct AspeedMachineState {
+>          SCU_AST2400_HW_STRAP_BOOT_MODE(AST2400_SPI_BOOT))
+>
+>  /* AST2600 evb hardware value */
+> -#define AST2600_EVB_HW_STRAP1 0x000000C0
+> +#define AST2600_EVB_HW_STRAP1 (0x000000C0 |
+AST26500_HW_STRAP_BOOT_SRC_EMMC)
+
+IIUC you are not implementing any eMMC code, simply faking the
+controller can support eMMC, but the card is used in SD mode?
+
+I'm surprised your guest is happy and boot that. If so, then
+what is the point of announcing eMMC is supported if not used?
 
 Regards,
-Bin
+
+Phil.
+
+>  #define AST2600_EVB_HW_STRAP2 0x00000003
+>
+>  /* Tacoma hardware value */
+> --
+>
 
