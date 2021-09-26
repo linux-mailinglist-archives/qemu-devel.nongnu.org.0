@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A81418B47
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 23:41:13 +0200 (CEST)
-Received: from localhost ([::1]:51766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD90418B5E
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 00:03:50 +0200 (CEST)
+Received: from localhost ([::1]:34300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUbtX-0000SQ-KO
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 17:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54628)
+	id 1mUcFQ-0000m6-W8
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 18:03:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUbrc-0008AN-DD; Sun, 26 Sep 2021 17:39:12 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41730)
+ id 1mUcCs-0007KU-FP; Sun, 26 Sep 2021 18:01:11 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUbrX-00076x-5x; Sun, 26 Sep 2021 17:39:12 -0400
-Received: by mail-wr1-x432.google.com with SMTP id w29so46110441wra.8;
- Sun, 26 Sep 2021 14:39:06 -0700 (PDT)
+ id 1mUcCq-0000Nw-5Z; Sun, 26 Sep 2021 18:01:09 -0400
+Received: by mail-wr1-x434.google.com with SMTP id d21so46228645wra.12;
+ Sun, 26 Sep 2021 15:01:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Zn/EeFiHzDUyaGhXtsd/E2eXxlWN4jO4U2XJ3ypuRU8=;
- b=TusnAc1oGYHvPlvcSQLjOn/YShIM3N+QvWAZlUMwNDBu1uvHUYutfOjrPDO4kfj8sX
- b+9+ls89Fi0fRVdtyFsqDEK0fgaD3gOMV5P0CEpsQ1K//tjLEdXsUYStw9o3B+zyrDi1
- 0K0sOZlegd0Ge98hiFS3UxXweYTR14ZI+7lKO83GETPK579ITIPV2Hx+dNQPk3WvlOaX
- 7So0iMatCiCDWBrFq3ATQ3YPTSRbRqgBIFWWO0eB3hNDcMktRGezL05YpoJ8auklCPQp
- KigcmDpFCnwRbFMXrhGSMjsnVeUsGu3QFjO99BNJIU9g3TqZ5vcfpZ3dkx9VG3rQrR1H
- XlMg==
+ bh=Hk516RwLtnA+J+S1W9+zxqbCKy6xKPg380zaTXEsGVw=;
+ b=aoG4gnmM1fg2WAdBKyVSRHoqDsUaup4PHYQ2ksLIUYPM0NG/e6gwsfB6ZO6QXbKEMb
+ 4XEDKBPDa8iyrmGPth9VTVoqiTt1n/LvKQnFTce0pgAIPcRcgxnWWz7oo7WHBV0U8gl2
+ 6vNJcNBMOJ1yVsE/WBV+0R/hlVHh6LnDytgKk+QB2Ff0cV4V17lwIp1Jps0lXpQF9Ivh
+ KNQ0tbneCQVQv8WqJXNOdzbRJ3QJjo38ytQe7/duOaQzMKcSMdTLVxZFgDkRcEwdW/1A
+ VfhdaGZkb8m8x/SEhihW/ICkwhboCWBSI+ekBCW3TnNfJPW+X10UXJTLXHhpBgu7JvSX
+ 2Lug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=Zn/EeFiHzDUyaGhXtsd/E2eXxlWN4jO4U2XJ3ypuRU8=;
- b=4eXgtdgwWvlTnn68LJ4zMtnmFxDo8yc6KEtmx+1BJ2jHY7mRkjjEZ97KF4qJrdDpiS
- OuzYKLVKXIbfoKMEfa2cdf8aFO4G/AN9AKD7zfTyoapPG+8u6Xu+4bBddfXAdSDfW+rE
- T1gYF7kGycyzUHsqQLwuyWAh2dRaRamxJ2Dq5O513UcuCLc8XA3aYJyjRE0JikR9tdV1
- kn5aUyOiwAHXLvv8+bLPRkyBKXIM8v5wWne9SVheyS/mxNjnTwj0/12AWtJGP/r/f0Ml
- FHpqZZLcRfv7o9isTNE5tUlRYfpcyM/qCONsdvu51rGeKCsS5GQeB0pcBNBSbEprtscn
- p/ug==
-X-Gm-Message-State: AOAM533zhO47khku1OiiGC9xE8Af4w5iwW/X2gOy1j/+nWJiaGvJXwOQ
- bk0D4r2Hq8sT/RjI63y2O44Qdyg7PfA=
-X-Google-Smtp-Source: ABdhPJxiVb52ouDAu7b9pG6QN8xK6OND6x6i7sqCdqaARk4Tph92KlBMWliKcuKPocFbggL8vNiDqg==
-X-Received: by 2002:adf:a31a:: with SMTP id c26mr25367673wrb.307.1632692344935; 
- Sun, 26 Sep 2021 14:39:04 -0700 (PDT)
+ bh=Hk516RwLtnA+J+S1W9+zxqbCKy6xKPg380zaTXEsGVw=;
+ b=tKT/rTXbmPM8BGns0NsQUSlyYW3osO6eBJA0N2wiLrFxkmbpbcA+9VdcXp9sUM+uaS
+ 0kHRyUgIOnMlbAnruhK462S98vb/NzgPuh7LFmcfD8ofmMwpE1DatpWH103/XzX3AC9h
+ 0eO6N+OmNdF1y3O29gY4hgwaEamSU0mVrnT8VyeeqK1oIaFMk9+5eKcqLtjcanY9A0pu
+ vvaMdFvsMqiqNHlbnJGwHfuGkjvNvA6p81auaJ339YiJY0aj2piX0vsIGXN+WydxLMcr
+ ulDqEbwmh4VaFuyOi9Iepsmo34vcVOvEjQoKgj9Pev+xGhuxmG+L3fpXApSyieZJGQ8G
+ tZ2A==
+X-Gm-Message-State: AOAM533V5QWvHFzomOf7kZtK/f4nS1HJF7olxFij85UA+5C0pvg2J0Rn
+ sxazIGnCf08CxKHmYIZgpYS9b0+QFG0=
+X-Google-Smtp-Source: ABdhPJxH2G8thzBIprgr9LruAqq5HGxvY+hirOAWBhQls/TYXKC7Zn8LQran++FstJgPQgMEwSQxyg==
+X-Received: by 2002:adf:e646:: with SMTP id b6mr24377479wrn.153.1632693665810; 
+ Sun, 26 Sep 2021 15:01:05 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- 4sm13854324wmv.42.2021.09.26.14.39.03
+ r9sm14560752wru.2.2021.09.26.15.01.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Sep 2021 14:39:04 -0700 (PDT)
+ Sun, 26 Sep 2021 15:01:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg/riscv: Fix potential bug in clobbered call register set
-Date: Sun, 26 Sep 2021 23:39:02 +0200
-Message-Id: <20210926213902.1713506-1-f4bug@amsat.org>
+Subject: [PATCH 0/2] user-mode: Avoid processing unnecessary meson rules
+Date: Mon, 27 Sep 2021 00:01:01 +0200
+Message-Id: <20210926220103.1721355-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -68,7 +68,7 @@ X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,41 +81,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Joelle van Dyne <j@getutm.app>,
- Alistair Francis <Alistair.Francis@wdc.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tcg_target_call_clobber_regs variable is of type TCGRegSet,
-which is unsigned and might be 64-bit wide. By initializing it
-as unsigned type, only 32-bit are set. Currently the RISCV TCG
-backend only uses 32 registers, so this is not a problem.
-However if more register were to be implemented (such vectors)
-then it would become problematic. Since we are better safe than
-sorry, properly initialize the value as 64-bit.
-
-Fixes: 7a5549f2aea ("tcg/riscv: Add the target init code")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- tcg/riscv/tcg-target.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index dc8d8f1de23..5bd95633b0d 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -1734,7 +1734,7 @@ static void tcg_target_init(TCGContext *s)
-         tcg_target_available_regs[TCG_TYPE_I64] = 0xffffffff;
-     }
- 
--    tcg_target_call_clobber_regs = -1u;
-+    tcg_target_call_clobber_regs = -1ull;
-     tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S0);
-     tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S1);
-     tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S2);
--- 
-2.31.1
-
+Only process linux-user/meson.build on Linux (respectively on BSD).=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  bsd-user: Only process meson rules on BSD host=0D
+  linux-user: Only process meson rules on Linux host=0D
+=0D
+ bsd-user/meson.build   | 4 ++++=0D
+ linux-user/meson.build | 4 ++++=0D
+ 2 files changed, 8 insertions(+)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
