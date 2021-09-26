@@ -2,70 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADFD418781
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 10:41:16 +0200 (CEST)
-Received: from localhost ([::1]:58668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9A4418793
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Sep 2021 10:51:54 +0200 (CEST)
+Received: from localhost ([::1]:46918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUPil-0002Vh-O4
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 04:41:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48612)
+	id 1mUPt3-0005ws-SQ
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 04:51:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mUPft-0001Gj-4Z; Sun, 26 Sep 2021 04:38:17 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:44955)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mUPfp-0004Zt-Sb; Sun, 26 Sep 2021 04:38:16 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id f133so16331568yba.11;
- Sun, 26 Sep 2021 01:38:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=X6vH14M3cNEwL74vqYJumh/hQ0a2dklGUYwGnYcoqJ8=;
- b=O1HDoNRQStM/xne30syd8fi5dz0nJIo3H2x6d+vjmVAWIsQRVmlbNI7hiza1t1GQs8
- abA+BlCK3ijMIyG9CL+0qukWGzHofOcBBB6BFy9qz1AUMqf5sGMq8/vNB4sQDnzmJjZW
- QIe1zx6+75AxSMjPHmhXWDZWLby2S7khjcWbVKcfojks1Dilp36fejJz4JJlWW6OX8jM
- hyszq3mi7p2ryRmSuJyA5zlPGmuFsDNLF9oMIyblXTjiA4Y9+/wr1YeSRByf8voiVwOH
- cWY7x3rQ+F7NSvpKe1YfsGI5D2R/TzyE4bYMXAQUODb3aUQWP+ePi9JxsNYe6HHWFVFg
- xQrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=X6vH14M3cNEwL74vqYJumh/hQ0a2dklGUYwGnYcoqJ8=;
- b=4UiUaZWNhVywvM/d34JPcRoecejQ0Vk/mACiavpzez3bY5XOWvq4HOB098B13xqayy
- zgOXMceqfuUkOFBXig4ZvN6OIOEM4WZqhVHN/wWBp79+qNLRB6xtlFyHTSgxEnIr44xO
- QjDS89TSDYTgQeYaKU6acdTHPK/WcP5r9E6lZuPbfKtljY+MBfHmryU69UR/1reNZPEb
- FH5gCzVpaXIedU/44G4SVr/soOKEw098KcZezaA7lyZWu8vO+i9hvgLkMJiltifRRpVQ
- XD68GeEv3tyHQxuoXh8rCE8VhZHcZxMRqExXS4bWboVRUqa0uKIseDn27LeiVhhq85JD
- FANw==
-X-Gm-Message-State: AOAM53150Obdg4G18KCgdmJKFzLasc2NcWn28KNDzf3jj5lpZn9gT0Fj
- Qk6t2sin8ivhiAfDJw3X2YXO9Y8SMtV5+J+cbW0=
-X-Google-Smtp-Source: ABdhPJzQvRgUW9qQiETfXqrvDQhPDFhyFzyVQuZFvy5O+oaVBCUzbqb7jwekuWUfr6oE5quvZq58SqIu+If3VrxNh7M=
-X-Received: by 2002:a25:5956:: with SMTP id n83mr21832868ybb.109.1632645492043; 
- Sun, 26 Sep 2021 01:38:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mUPnK-0005uI-PE; Sun, 26 Sep 2021 04:45:58 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:3168)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mUPnH-0002DE-Mp; Sun, 26 Sep 2021 04:45:58 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4HHK8Q72FRz8tQR;
+ Sun, 26 Sep 2021 16:44:54 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Sun, 26 Sep 2021 16:45:43 +0800
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Sun, 26 Sep 2021 16:45:42 +0800
+From: Yanan Wang <wangyanan55@huawei.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v10 00/14] machine: smp parsing fixes and improvement
+Date: Sun, 26 Sep 2021 16:45:27 +0800
+Message-ID: <20210926084541.17352-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-References: <20210925133407.1259392-1-f4bug@amsat.org>
- <20210925133407.1259392-2-f4bug@amsat.org>
- <CAEUhbmWRpcBub4BZu3j4b31jTQsrWEQB3MNw4xv7T8z7PZ+UBg@mail.gmail.com>
-In-Reply-To: <CAEUhbmWRpcBub4BZu3j4b31jTQsrWEQB3MNw4xv7T8z7PZ+UBg@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 26 Sep 2021 16:38:01 +0800
-Message-ID: <CAEUhbmV7uHjPsdkRpqXGYDepXnV-A9CtqL2K-Ot6auFryezq1w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] hw/char/mchp_pfsoc_mmuart: Simplify
- MCHP_PFSOC_MMUART_REG definition
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,56 +60,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Peter
+ Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>, Pierre
+ Morel <pmorel@linux.ibm.com>, Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Yanan Wang <wangyanan55@huawei.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, wanghaibin.wang@huawei.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 26, 2021 at 4:31 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Sat, Sep 25, 2021 at 9:34 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
-> >
-> > The current MCHP_PFSOC_MMUART_REG_SIZE definition represent the
-> > size occupied by all the registers. However all registers are
-> > 32-bit wide, and the MemoryRegionOps handlers are restricted to
-> > 32-bit:
-> >
-> >   static const MemoryRegionOps mchp_pfsoc_mmuart_ops =3D {
-> >       .read =3D mchp_pfsoc_mmuart_read,
-> >       .write =3D mchp_pfsoc_mmuart_write,
-> >       .impl =3D {
-> >           .min_access_size =3D 4,
-> >           .max_access_size =3D 4,
-> >       },
-> >
-> > Avoid being triskaidekaphobic, simplify by using the number of
->
-> typo? See https://www.dictionary.com/browse/triskaidekaphobia
->
-> Learned a new word today but I have to say this word is too hard for a
-> non-native speaker :)
->
+Hello,
 
-Never mind, triskaidekaphobia is a noun, and triskaidekaphobic is the
-adjective which is grammarly correct :)
+This is a new version v10 rebased on latest upstream commit 11a1199846.
+To make this series more acceptable, drop the last two patches in v9
+about SMP unit test, since the scalability of the test is not optimally
+designed after rethinking of it. So I will resend the test related
+patches separately after refining them with a best way.
 
-> > registers.
-> >
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > ---
-> >  include/hw/char/mchp_pfsoc_mmuart.h |  4 ++--
-> >  hw/char/mchp_pfsoc_mmuart.c         | 14 ++++++++------
-> >  2 files changed, 10 insertions(+), 8 deletions(-)
-> >
->
-> Reviewed-by: Bin Meng <bin.meng@windriver.com>
-> Tested-by: Bin Meng <bin.meng@windriver.com>
+Patches in v10 are all Reviewed. While some ACKs from x86 maintainers
+are still needed until now.
 
-Regards,
-Bin
+Eduardo, Paolo, any thoughts ?
+
+Thanks,
+Yanan
+.
+
+Summary of v10:
+1) Specifying a CPU topology parameter as zero was implicitly allowed
+but undocumented before, while now it's explicitly deprecated.
+
+2) Refactor/fixes of the smp parsers.
+
+3) For consistency, maxcpus is now uniformly used to calculate the
+omitted topology members.
+
+4) Improve the error reporting.
+
+5) It's also suggested that we should start to prefer cores over sockets
+over threads on the newer machine types, which will make the computed
+virtual topology more reflective of the real hardware. Related discussion
+can be found in [1].
+[1] https://lore.kernel.org/qemu-devel/YNIgInK00yNNI4Dy@redhat.com/
+
+6) In order to reduce code duplication and ease the code maintenance,
+smp_parse() is converted into a generic enough parser for all arches,
+so that the arch-specific ones (e.g. pc_smp_parse) can be removed.
+It's also convenient to introduce more topology members to the generic
+parser in the future. Related discussions can be found in [2] and [3].
+[2] https://lore.kernel.org/qemu-devel/20210630115602.txmvmfe2jrzu7o67@gator.home/
+[3] https://lore.kernel.org/qemu-devel/YPFN83pKBt7F97kW@redhat.com/
+
+---
+
+Changelogs:
+
+v9->v10:
+- rebased on latest upstream commit 11a1199846.
+  there is no change of the patches in v10, except minor update
+  in 08/14 to resolve merge conflict with master.
+- To make this series more acceptable, drop the last two patches
+  about SMP unit test, since the scalability of the test is not
+  optimally designed after rethinking of it. So I will resend the
+  test related patches separately after refining them.
+- v9: https://lore.kernel.org/qemu-devel/20210910073025.16480-1-wangyanan55@huawei.com/
+
+---
+
+Yanan Wang (14):
+  machine: Deprecate "parameter=0" SMP configurations
+  machine: Minor refactor/fix for the smp parsers
+  machine: Uniformly use maxcpus to calculate the omitted parameters
+  machine: Set the value of cpus to match maxcpus if it's omitted
+  machine: Improve the error reporting of smp parsing
+  qtest/numa-test: Use detailed -smp CLIs in pc_dynamic_cpu_cfg
+  qtest/numa-test: Use detailed -smp CLIs in test_def_cpu_split
+  machine: Prefer cores over sockets in smp parsing since 6.2
+  machine: Use ms instead of global current_machine in sanity-check
+  machine: Tweak the order of topology members in struct CpuTopology
+  machine: Make smp_parse generic enough for all arches
+  machine: Remove smp_parse callback from MachineClass
+  machine: Move smp_prefer_sockets to struct SMPCompatProps
+  machine: Put all sanity-check in the generic SMP parser
+
+ docs/about/deprecated.rst  |  15 +++
+ hw/arm/virt.c              |   1 +
+ hw/core/machine.c          | 214 +++++++++++++++++++++++++++----------
+ hw/i386/pc.c               |  63 +----------
+ hw/i386/pc_piix.c          |   1 +
+ hw/i386/pc_q35.c           |   1 +
+ hw/ppc/spapr.c             |   1 +
+ hw/s390x/s390-virtio-ccw.c |   1 +
+ include/hw/boards.h        |  23 ++--
+ qapi/machine.json          |   2 +-
+ qemu-options.hx            |  24 +++--
+ tests/qtest/numa-test.c    |   6 +-
+ 12 files changed, 214 insertions(+), 138 deletions(-)
+
+--
+2.19.1
+
 
