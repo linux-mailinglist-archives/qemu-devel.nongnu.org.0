@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CC0418CE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 00:48:44 +0200 (CEST)
-Received: from localhost ([::1]:46794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65325418C11
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 00:43:31 +0200 (CEST)
+Received: from localhost ([::1]:60860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUcwt-0007lE-91
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 18:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59806)
+	id 1mUcrq-0006S7-EF
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 18:43:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUcdU-0002cW-U4
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 18:28:40 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33658)
+ id 1mUcdZ-0002sk-VB
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 18:28:45 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUcdT-00066p-EM
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 18:28:40 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id t18so46548245wrb.0
- for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 15:28:39 -0700 (PDT)
+ id 1mUcdY-0006AT-HR
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 18:28:45 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id u18so46533422wrg.5
+ for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 15:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r6ZxEtcTtXMZRq7+nFZf7Av8uL6lok+sSg0IbMh7PU4=;
- b=Qe0Mf9yEZwjMz+ydJuf3ti9wMPQE6YwtWkrLuRMwtSWvRswAiHKvAno38Re+9ynLjy
- tGpx6CHu7lj5HuRsC9yZoGN9cZwfMEA79/uhkV8355pK88DzwmUI0yeyDnGzC56ILIMW
- QqgtyXhXb418Hc4L8mWppsAhzHJ39hS4/0op2Q3U1ArOfg1CBaNjKfKbutBm8n/OkRte
- y0635/iKpLNq10OFAofD7fHkeXpEMqu8FgGXUIc58Zd5f1EXNvB66A9q/cNgtCy3sFRe
- wZ49crC9QCx9duDuSNIhNGMmhy+gJu+k4RnAkmO+ypDJJGiGObWKmbY+las0LugnskYx
- Ml2w==
+ bh=bWsdPZ7x9Zv9ulmzVLDInqOVNAhrwd+vJJnOs6jG4pU=;
+ b=Lz1qhq/uC+KoKYHEK0XLdGXE+6OedOp7CtPzLrZMbklblzQg5mCutVwNKYMMj+2qsy
+ c4fLcx+q5HSxWpbTbR4LbOLxLRJcr/W1nd45FUz7N7MBCOfOPe/b4/gpvd1aY7K6Biqq
+ HcbKcv4U+qyJedhwNQYK94dmRrcuBgL1cpnAxEDv9DoOwkKWiPTnc1Ucg4RElpCegDnp
+ WmTu0snU9Jkf+oG9WnGKmd4TOXulOlN/sIZsU7fhATofKMhT8Ccb/PPW3WRTyWPt9cAV
+ tLyJgcMC0nbF1GUeuvFU1AynEaRwRXmScwO8az7UIRgaw5FxHEkopr1kSo5Z9jmydgPQ
+ AjUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=r6ZxEtcTtXMZRq7+nFZf7Av8uL6lok+sSg0IbMh7PU4=;
- b=DwyScuwLg/LZzps7JljzXaSbmoke2YVF5fQm+bb99qB8tVyA6tYTzRxX2+zWG65W7n
- Tvd/3T3JtHgiMuhl2flljsDFmtXtMiPXXeFaUCLgTLb7gSvYNkndNTMll+mZm60mWzqi
- hLTobKy1ij2WicHAqTO2KxCbUeEJd1rXUVwzRVL7rJ5C1lXtL48NvvEvGWrAZ4IuzXot
- 9+xjhv1gUvAfLP5lre2A0nqT/Enm+v2wUHeaVbqeJXbv8/3kVBoxDvh6I61xJYPiC4Ck
- 6bCrRR77yUrVrR0iHDLDEQexbMzMwGfM4DHjFzewqCAHvw0VqGrET00C6kcaYBLBNbgH
- Y1pA==
-X-Gm-Message-State: AOAM532gNDdAUWZj3GHOx0GmtMG5i+4IT7f7dARRYc082SqrWzoAq2wp
- Ab/CipSYSztJRs6PidkoRRYpYz3oz2M=
-X-Google-Smtp-Source: ABdhPJyiD0JWYAWHjgyS5g+bpRe47DYpSl3/WEG66YLxBkVuLFN0sgILQDL6i56Lqt81h3Ha15IsbA==
-X-Received: by 2002:a05:600c:1d18:: with SMTP id
- l24mr13333905wms.98.1632695318051; 
- Sun, 26 Sep 2021 15:28:38 -0700 (PDT)
+ bh=bWsdPZ7x9Zv9ulmzVLDInqOVNAhrwd+vJJnOs6jG4pU=;
+ b=ql/9de7cllJ2GSYojJo+c56DldGpeOy2e8X9rabNJPcMTP5qKDMV37SUF0LrzwI820
+ jNfrr/PaWQUa3b0x8qyNFlkFcq7z56ruyln6e7zkLzhmCUECW+ZcahwfjGTTzT5MtNAA
+ 5T0SYdqaPoUxsPdWbddz1Oybzj0JzmX+0Y6pnbqvzI/YJqhx32zFq5zt5KdBrEvqQAYn
+ NThBBBmKt1S+riVW5BuDRaPBjAqvgl2CtgEH9JfCMHbGaQjB09/3CqHcHqBR2PS72lSo
+ rZzuwnRydGH6+LJN4DOfW0Pvxo/aREy3XiCNGlzvIR6e6ya4FpPfiRZJJfVCK0RER8wq
+ gteQ==
+X-Gm-Message-State: AOAM532dP5SPbmK4P7EiTWaMpbej3keAl0TSgh43gnzRCLWgVlrgzt1k
+ +6UBtL9uvwxPlVNSt7f101nLXne3nsc=
+X-Google-Smtp-Source: ABdhPJwDYMt4yEfClFOFdcVVxIF/Fn5fCbl9IkMYlUQQYUSG92wS0+y2XgsM1Pyp8ecLhyMMJGboLQ==
+X-Received: by 2002:a05:6000:2af:: with SMTP id
+ l15mr24655609wry.17.1632695322803; 
+ Sun, 26 Sep 2021 15:28:42 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- j4sm15186040wrt.67.2021.09.26.15.28.37
+ z8sm5193869wrm.63.2021.09.26.15.28.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Sep 2021 15:28:37 -0700 (PDT)
+ Sun, 26 Sep 2021 15:28:42 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 17/40] target/arm: Restrict has_work() handler to sysemu
- and TCG
-Date: Mon, 27 Sep 2021 00:26:53 +0200
-Message-Id: <20210926222716.1732932-18-f4bug@amsat.org>
+Subject: [PATCH v8 18/40] target/alpha: Restrict has_work() handler to sysemu
+Date: Mon, 27 Sep 2021 00:26:54 +0200
+Message-Id: <20210926222716.1732932-19-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210926222716.1732932-1-f4bug@amsat.org>
 References: <20210926222716.1732932-1-f4bug@amsat.org>
@@ -92,92 +91,49 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restrict arm_cpu_has_work() and has_work() handler to TCG sysemu.
+Restrict has_work() to sysemu.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/arm/internals.h | 4 +++-
- target/arm/cpu.c       | 7 +++++--
- target/arm/cpu_tcg.c   | 2 +-
- 3 files changed, 9 insertions(+), 4 deletions(-)
+ target/alpha/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index f20aeb97fa0..18b3c2bf1ea 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -175,9 +175,11 @@ void arm_translate_init(void);
- 
- #ifdef CONFIG_TCG
- void arm_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
--#endif /* CONFIG_TCG */
+diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+index 93e16a2ffb4..1ca601cac5b 100644
+--- a/target/alpha/cpu.c
++++ b/target/alpha/cpu.c
+@@ -33,6 +33,7 @@ static void alpha_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc = value;
+ }
  
 +#if !defined(CONFIG_USER_ONLY)
- bool arm_cpu_has_work(CPUState *cs);
-+#endif /* !CONFIG_USER_ONLY */
-+#endif /* CONFIG_TCG */
- 
- /**
-  * aarch64_sve_zcr_get_valid_len:
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 4b08f717f64..53c478171ac 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -74,8 +74,8 @@ void arm_cpu_synchronize_from_tb(CPUState *cs,
-         env->regs[15] = tb->pc;
-     }
- }
--#endif /* CONFIG_TCG */
- 
-+#ifndef CONFIG_USER_ONLY
- bool arm_cpu_has_work(CPUState *cs)
+ static bool alpha_cpu_has_work(CPUState *cs)
  {
-     ARMCPU *cpu = ARM_CPU(cs);
-@@ -86,6 +86,9 @@ bool arm_cpu_has_work(CPUState *cs)
-          | CPU_INTERRUPT_VFIQ | CPU_INTERRUPT_VIRQ
-          | CPU_INTERRUPT_EXITTB);
+     /* Here we are checking to see if the CPU should wake up from HALT.
+@@ -47,6 +48,7 @@ static bool alpha_cpu_has_work(CPUState *cs)
+                                     | CPU_INTERRUPT_SMP
+                                     | CPU_INTERRUPT_MCHK);
  }
 +#endif /* !CONFIG_USER_ONLY */
-+
-+#endif /* CONFIG_TCG */
  
- void arm_register_pre_el_change_hook(ARMCPU *cpu, ARMELChangeHookFn *hook,
-                                  void *opaque)
-@@ -2035,6 +2038,7 @@ static const struct TCGCPUOps arm_tcg_ops = {
-     .debug_excp_handler = arm_debug_excp_handler,
+ static void alpha_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
+ {
+@@ -221,6 +223,7 @@ static const struct TCGCPUOps alpha_tcg_ops = {
+     .tlb_fill = alpha_cpu_tlb_fill,
  
- #if !defined(CONFIG_USER_ONLY)
-+    .has_work = arm_cpu_has_work,
-     .cpu_exec_interrupt = arm_cpu_exec_interrupt,
-     .do_interrupt = arm_cpu_do_interrupt,
-     .do_transaction_failed = arm_cpu_do_transaction_failed,
-@@ -2059,7 +2063,6 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     device_class_set_parent_reset(dc, arm_cpu_reset, &acc->parent_reset);
+ #ifndef CONFIG_USER_ONLY
++    .has_work = alpha_cpu_has_work,
+     .cpu_exec_interrupt = alpha_cpu_exec_interrupt,
+     .do_interrupt = alpha_cpu_do_interrupt,
+     .do_transaction_failed = alpha_cpu_do_transaction_failed,
+@@ -238,7 +241,6 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
+                                     &acc->parent_realize);
  
-     cc->class_by_name = arm_cpu_class_by_name;
--    cc->has_work = arm_cpu_has_work;
-     cc->dump_state = arm_cpu_dump_state;
-     cc->set_pc = arm_cpu_set_pc;
-     cc->gdb_read_register = arm_cpu_gdb_read_register;
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 9a0927ad5d0..7d0d9fcbc79 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -902,6 +902,7 @@ static const struct TCGCPUOps arm_v7m_tcg_ops = {
-     .debug_excp_handler = arm_debug_excp_handler,
- 
- #if !defined(CONFIG_USER_ONLY)
-+    .has_work = arm_cpu_has_work,
-     .cpu_exec_interrupt = arm_v7m_cpu_exec_interrupt,
-     .do_interrupt = arm_v7m_cpu_do_interrupt,
-     .do_transaction_failed = arm_cpu_do_transaction_failed,
-@@ -920,7 +921,6 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
- 
-     acc->info = data;
- #ifdef CONFIG_TCG
--    cc->has_work = arm_cpu_has_work;
-     cc->tcg_ops = &arm_v7m_tcg_ops;
- #endif /* CONFIG_TCG */
- 
+     cc->class_by_name = alpha_cpu_class_by_name;
+-    cc->has_work = alpha_cpu_has_work;
+     cc->dump_state = alpha_cpu_dump_state;
+     cc->set_pc = alpha_cpu_set_pc;
+     cc->gdb_read_register = alpha_cpu_gdb_read_register;
 -- 
 2.31.1
 
