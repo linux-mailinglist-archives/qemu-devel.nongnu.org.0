@@ -2,70 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F3A419140
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 11:03:56 +0200 (CEST)
-Received: from localhost ([::1]:39054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251F5419152
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 11:09:36 +0200 (CEST)
+Received: from localhost ([::1]:45820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUmYE-0008LY-L8
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 05:03:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48784)
+	id 1mUmdi-0004hT-Nf
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 05:09:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mUmW8-0007Q2-Cm
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 05:01:44 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36543)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mUmW3-0003J2-QG
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 05:01:41 -0400
-Received: by mail-wr1-x436.google.com with SMTP id g16so50306022wrb.3
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 02:01:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xXeuM+jIVZhXZtle5xYXIuA7MXa1njdQRPv/CJUBXuk=;
- b=zTb2Ws220XGBOXXRdweFRBNw7tILMCd3+ltDpzZNhAmPVNFLaU1ddVsnbaIJ1ystdc
- zo9jZxbkwvWAwSnCFxy21O8EWnw5nRVdXeV7QWkTnCyNXwEJrL6y/skTFH4EKzCsQZ9A
- wW/l5bdNMgAaIE9MGHV4E6bnPsqA9yAuTwosMPXZZ0FUIk4jJrt4kr4JoyDLhPBQQ0kx
- v/KNBPYMSmsRlopy+PBpvddWeH+z9BGhQGOgHal2puY9v1mYiAe2Q3+4Rw8JK1ikudCV
- 2MRiUTUpAWmVY9CJV+rQJWqgvAOOlpJ07nobvhhZK/MihbXWMsyKQn2cHcOFzwQlMEsx
- QtaQ==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mUmc5-0003wD-A3
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 05:07:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30265)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mUmc1-0008Tg-H6
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 05:07:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632733667;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u7ns1ugZhOzPMjpo3MJvSmpO1/M1grl7hfzSUDAv8Qc=;
+ b=U5oQE8mdCPbpeaCn04V69CcuVwP7XfnvnjPma2+/jugTwg3EnfjMWGJFmeO+ne70Ago5h1
+ 3PqwrzHu6SrW2ZFBVZ1N79yfTdmkW66JpVQ1AcUB2VjdTtCHlP8yjJIQMr7Wc4U0f+8d9m
+ oOPR9ylDLBJtfdceljYelZk4eTAoSlM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-vurYHMy3O0ucrT56zSz9kg-1; Mon, 27 Sep 2021 05:07:46 -0400
+X-MC-Unique: vurYHMy3O0ucrT56zSz9kg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ u7-20020adfed47000000b0016061b6caa8so3017957wro.16
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 02:07:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xXeuM+jIVZhXZtle5xYXIuA7MXa1njdQRPv/CJUBXuk=;
- b=8FY2HXN9uirDu8WBh36dk/avpA8JEbkPiz5MJ4fI5D8D7xC8n78tdMUTPDobisvLF4
- pGu3Z+uwezpZewbSowmVYnzyRkhbImesgJXl7Jnfc8Mxv1cGDVxRVyiaO06GtkEqcGFM
- UvWWoGl3uuCZ9MdA+D94Znra2yEBgFCGwn24eDdZb+lzdBJz7n1JsITwlOtPAAKU5Ytz
- sKQAZNO2w5iwNirOJWd6YVRZfpOmNZ57Vs9xbiZ2ClAOB9ZU6YYjxBfeNZbtu5+LIL9b
- I70ZgGaZYLjaRqdyqmaeD9z2Kh3SCfOdx3Qh32V1qXzkaEfhE+MKzDfTo/v75AWqQMrW
- 8ihw==
-X-Gm-Message-State: AOAM532zYT9Chw1yusxt05r3vjtd45RT3lguGK87er4CpYYhEV5T3NAd
- QrWR72iw0T1UXzIiRsJJG90IE72rbt5fmOWQ1DvNDg==
-X-Google-Smtp-Source: ABdhPJwy79VyMSA73RcjIKg/DfG5nbeQ+0evZmzbRXCnNM2S59tNWP0tesvefP+1zdiF7DdHyvoWThnFhnZZdrLRuPM=
-X-Received: by 2002:a05:600c:d6:: with SMTP id
- u22mr1856182wmm.133.1632733297879; 
- Mon, 27 Sep 2021 02:01:37 -0700 (PDT)
+ h=x-gm-message-state:to:cc:references:from:organization:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=u7ns1ugZhOzPMjpo3MJvSmpO1/M1grl7hfzSUDAv8Qc=;
+ b=uOj0Zo8o8wM29FMPu2CUtTzA6pkxwBx3FD23A7xvT6COoSQVVOAsAg7Cp/yWx1yVxg
+ YC+jMjvpmutnn7IUczN7ShX/mDGb4GkJbKAS7MTnFeYw3we6lXAvra3Qn8xUUEgU//uH
+ 5MMXFGT6QGyqjSzPZK9deUcMaAMRT9ttmLkVtmGgZXXU1ARZCZUFdlSbPtZZnRZaX/9I
+ hBgrwYIzEsRw1Tl41UVn/+aGTL2UL6zSkXBKENmV+f+sBxc7xf6hlcadIZkIhSY33Pkg
+ wotGzDtnVF5zSrNQS89MOE4dF5FqUo0v+2gtWBof6+tU1dOREc+gLZjy8f/Fc9CQZ8et
+ Vq+w==
+X-Gm-Message-State: AOAM530E/L5PwQNzba5FrGif1kZVUhL9AM8zGz1RtF/EfttclkX79OK+
+ ZgRJWPepOxKwz1OEDenqMZrOxIIFFE3y/6ZF2rMotO1gwWvuicEqRp4i6azJvf3/zsA64BFP1aw
+ K5h8+m6oDn1XBq90=
+X-Received: by 2002:a5d:6da9:: with SMTP id u9mr26453992wrs.58.1632733664996; 
+ Mon, 27 Sep 2021 02:07:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxM+WMCya60Ee5kSxyuqImP5moqXfA3NzSDg8u5PwhQP4vhrPk1fK+FeAsLyGkyiNxPkq4p0Q==
+X-Received: by 2002:a5d:6da9:: with SMTP id u9mr26453965wrs.58.1632733664773; 
+ Mon, 27 Sep 2021 02:07:44 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c654d.dip0.t-ipconnect.de. [91.12.101.77])
+ by smtp.gmail.com with ESMTPSA id
+ w21sm2471277wmk.15.2021.09.27.02.07.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Sep 2021 02:07:44 -0700 (PDT)
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+ David Dai <david.dai@montage-tech.com>
+References: <20210926021614.76933-1-david.dai@montage-tech.com>
+ <YVGAWh7e96f8yed0@stefanha-x1.localdomain>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH] hw/misc: Add a virtual pci device to dynamically attach
+ memory to QEMU
+Message-ID: <38a0312e-3b00-ac41-3cb0-ab5592b06dc1@redhat.com>
+Date: Mon, 27 Sep 2021 11:07:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210924090427.9218-1-kwolf@redhat.com>
- <20210924090427.9218-12-kwolf@redhat.com>
-In-Reply-To: <20210924090427.9218-12-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 27 Sep 2021 10:00:44 +0100
-Message-ID: <CAFEAcA-Paf0+BvdFrT=B_jfzCNzGB6w4-7hjBeXWt0sJJYJs-Q@mail.gmail.com>
-Subject: Re: [PATCH 11/11] Deprecate stable non-JSON -device and -object
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YVGAWh7e96f8yed0@stefanha-x1.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.478, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,44 +101,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Libvirt <libvir-list@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, eajames@linux.ibm.com,
+ qemu-devel@nongnu.org, changguo.du@montage-tech.com,
+ Igor Mammedov <imammedo@redhat.com>, kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 Sept 2021 at 10:14, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> We want to switch both from QemuOpts to the keyval parser in the future,
-> which results in some incompatibilities, mainly around list handling.
-> Mark the non-JSON version of both as unstable syntax so that management
-> tools switch to JSON and we can later make the change without breaking
-> things.
->
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+On 27.09.21 10:27, Stefan Hajnoczi wrote:
+> On Sun, Sep 26, 2021 at 10:16:14AM +0800, David Dai wrote:
+>> Add a virtual pci to QEMU, the pci device is used to dynamically attach memory
+>> to VM, so driver in guest can apply host memory in fly without virtualization
+>> management software's help, such as libvirt/manager. The attached memory is
 
-> +Stable non-JSON ``-device`` and ``-object`` syntax (since 6.2)
-> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +If you rely on a stable interface for ``-device`` and ``-object`` that doesn't
-> +change incompatibly between QEMU versions (e.g. because you are using the QEMU
-> +command line as a machine interface in scripts rather than interactively), use
-> +JSON syntax for these options instead.
-> +
-> +There is no intention to remove support for non-JSON syntax entirely, but
-> +future versions may change the way to spell some options.
+We do have virtio-mem to dynamically attach memory to a VM. It could be 
+extended by a mechanism for the VM to request more/less memory, that's 
+already a planned feature. But yeah, virito-mem memory is exposed as 
+ordinary system RAM, not only via a BAR to mostly be managed by user 
+space completely.
 
-As it stands, this is basically saying "pretty much anybody
-using the command line, your stuff may break in future, instead
-use some other interface you've never heard of, which doesn't
-appear to be documented in the manual and which none of the
-documentation's examples use". Is there some more limited
-deprecation we can do rather than "the entire commandline
-for almost all users" ?
+>> isolated from System RAM, it can be used in heterogeneous memory management for
+>> virtualization. Multiple VMs dynamically share same computing device memory
+>> without memory overcommit.
 
-thanks
--- PMM
+This sounds a lot like MemExpand/MemLego ... am I right that this is the 
+original design? I recall that VMs share a memory region and dynamically 
+agree upon which part of the memory region a VM uses. I further recall 
+that there were malloc() hooks that would dynamically allocate such 
+memory in user space from the shared memory region.
+
+I can see some use cases for it, although the shared memory design isn't 
+what you typically want in most VM environments.
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
