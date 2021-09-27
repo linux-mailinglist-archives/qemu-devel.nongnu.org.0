@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C3F419C5B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:26:24 +0200 (CEST)
-Received: from localhost ([::1]:45242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9449419AE2
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:12:51 +0200 (CEST)
+Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUuOV-0004Ay-SK
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:26:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49866)
+	id 1mUuBO-0008ME-Np
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:12:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu2Q-0003ir-B2
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:03:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56178)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu2S-0003jW-VW
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:03:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu2N-0003R0-Rs
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:03:34 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu2R-0003Tu-JQ
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:03:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632762211;
+ s=mimecast20190719; t=1632762215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mhGqr1t891o054kB4FzWFV92AJKwIKbsNyCWXLesBJE=;
- b=QNcJB0zdUKRFG5QWRD74IQ7zdcsFeHQO04Ncd/KY3QtHkHe4l09/GV+mwz+OG8AcFgX+ay
- PWQs3LAootVMJLF1crfaNZHeED6GZkMY4hcZty1IE2YJ5D6yEMmwaODkWr63PgebnDQw3X
- I5yWwfSqJeesyhxSpfTjwhYBmCeIlpU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-uYHX3wC7PxKfz8d3t6Ck_g-1; Mon, 27 Sep 2021 13:03:29 -0400
-X-MC-Unique: uYHX3wC7PxKfz8d3t6Ck_g-1
-Received: by mail-wr1-f69.google.com with SMTP id
- j15-20020a5d564f000000b00160698bf7e9so1027101wrw.13
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 10:03:29 -0700 (PDT)
+ bh=VcZeajeug5FjjL0Vw6aTUbYAKJ2OWK+8xl7oF2aw2Yg=;
+ b=OY6KtAYyrOYFNa7dmQ0uTTJ2jZVjtF1uAiF7cSJ/S5TyEdMuarJTmVBHqnqOF6k6NPo7Mc
+ W5WM8ACrqzis1yOcb/o/GIjbDONP1uKl6Y6TJyh5367o8F725M/OkqCO819LOmZIs9pujF
+ zH5KarBIYHewioxtvC/z78T3eEI3TFc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-576-dyyoAZMsOUeeF9MndTa1KA-1; Mon, 27 Sep 2021 13:03:33 -0400
+X-MC-Unique: dyyoAZMsOUeeF9MndTa1KA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ b139-20020a1c8091000000b002fb33c467c8so508058wmd.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 10:03:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mhGqr1t891o054kB4FzWFV92AJKwIKbsNyCWXLesBJE=;
- b=aQSFSxRnTequaZ6bNcMUQotMzo4261GMtttK9PHO1t6Lu7PuWbkpKkM7CgWYvpO+VJ
- C/tbeWcYyoh8ln7bmfGdRhUVHo+H9a1PABf5aEBEY3MFsGiEoGYWY97Bc+t24KujcjWS
- MM+6kpnDkVMXffMBWk/W9LqnMeAsqwD3E8Yd3uZKDkNlt66EiBE5UswsFbkvLYTJCuyD
- 6NxunE4J5Exe7/ilgSGhhBHXRQWLVn6OLogyqP/jFB0L/H5qSHSKd91iiQ9HRTB2IT8P
- fbAgu+4cz/GHwkkYUdsfc2Tu0MUOPKLBoOgLTyNN5LjCz25aFHtaGcpaeravIa3nXPPB
- OK1Q==
-X-Gm-Message-State: AOAM533aqjLJZgJc9xinCm9gPrUc9H9sn4L7NcrZWmMqHCvmVFhQu88o
- 3uCtethqbWTKDCfeUQ37StVUnpwBkgj4Bs21PF3P6tZ40IRWyojIzwRNhVtLBnJ+EdiQPtOKthA
- UXrMh8qFSut5Bw875gersvvpiiJKFNoenBHhFUd7Jt2sPeFmnZbr9utgd9peQQnBF
-X-Received: by 2002:a1c:21c3:: with SMTP id h186mr167828wmh.20.1632762207824; 
- Mon, 27 Sep 2021 10:03:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwMKOcHVjY+iVeK3uGqwijgreU4pdJL73gNLtYP84ICYAfan9yV6aQ+ag2TNcNbV2qulXUcOg==
-X-Received: by 2002:a1c:21c3:: with SMTP id h186mr167786wmh.20.1632762207511; 
- Mon, 27 Sep 2021 10:03:27 -0700 (PDT)
+ bh=VcZeajeug5FjjL0Vw6aTUbYAKJ2OWK+8xl7oF2aw2Yg=;
+ b=uiJvUbTrTgys+Ke86jW7Y3ipgwuAKvMOYUTMNw31PPQ2/mC2IJITty+W9PX08VRfGE
+ OQiTr54I3qJB+hqXIDZ40/mt5FvJE+swucUrRuUD9r/HbR4NDJbNBf+91zv1cG48lcyY
+ b1kegX8foAnz5xqjotVWuQwY9JyhHy2eNZY0XwTaxJEyk3OdDFA7pcAYgcPR6wEyzh4S
+ Ke7jrohrId11I9W7+Lwkbqd8JY0RM6im+oowgSHwYw+QeIVSGMmBGFW8V2kR9ItYcAMD
+ E1YdcTbN1Kt4fDIEAtAMOhCLViG7CKKTblQGqiqLztAtpgkx/osEZg2ijTUKeBExZQ8u
+ tb1w==
+X-Gm-Message-State: AOAM532q5TQayxcvcQ5SMuA0pohlkD6ot8rnojJwAkqyD+8OdH51U32+
+ ozdH+tG6/OFPtk/eylSCFtaPrfW8aIuRxdgM5xqQT6ER1I1dNUbS+Dfd5E/kdnGJdtGLM0KAMH4
+ g49HLZ6TFlwbB4LXM6Vr3/MuSyUUbXz+S8pVOuYuweRaqRCCckJjip2xHSSFPgC2r
+X-Received: by 2002:a5d:43ca:: with SMTP id v10mr1073680wrr.139.1632762212126; 
+ Mon, 27 Sep 2021 10:03:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0rm/vrSaFMIpx0IL74+ni1jvPIBw7S8oZns+HLKILW4h1j6iMoqkqGTGKgBiSZ7K80DyXpQ==
+X-Received: by 2002:a5d:43ca:: with SMTP id v10mr1073658wrr.139.1632762211937; 
+ Mon, 27 Sep 2021 10:03:31 -0700 (PDT)
 Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id n26sm50478wmi.43.2021.09.27.10.03.26
+ by smtp.gmail.com with ESMTPSA id i1sm18026488wrb.93.2021.09.27.10.03.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Sep 2021 10:03:27 -0700 (PDT)
+ Mon, 27 Sep 2021 10:03:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/21] tests/Makefile: allow control over tags during
- check-acceptance
-Date: Mon, 27 Sep 2021 19:02:19 +0200
-Message-Id: <20210927170227.2014482-14-philmd@redhat.com>
+Subject: [PULL 14/21] docs/devel/testing: add instruction to run a single
+ acceptance test
+Date: Mon, 27 Sep 2021 19:02:20 +0200
+Message-Id: <20210927170227.2014482-15-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210927170227.2014482-1-philmd@redhat.com>
 References: <20210927170227.2014482-1-philmd@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -95,94 +95,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Willian Rampazzo <willianr@redhat.com>
 
-Although it is possible to run a specific test using the avocado
-command-line, a user may want to use a specific tag while running the
-``make check-acceptance`` during the development or debugging.
-
-This allows using the AVOCADO_TAGS environment variable where the user
-takes total control of which tests should run based on the tags defined.
-
-This also makes the check-acceptance command flexible to restrict tests
-based on tags while running on CI.
-
-e.g.:
-
-AVOCADO_TAGS="foo bar baz" make check-acceptance
+Add instructions to the Acceptance tests section about running a
+single test file or a test within the test file.
 
 Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210923161141.232208-2-willianr@redhat.com>
+Message-Id: <20210923161141.232208-3-willianr@redhat.com>
 ---
- docs/devel/testing.rst | 14 ++++++++++++++
- tests/Makefile.include | 12 +++++++++---
- 2 files changed, 23 insertions(+), 3 deletions(-)
+ docs/devel/testing.rst | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
 diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 4a0abbf23d3..d1841e35d57 100644
+index d1841e35d57..c9f6b97f876 100644
 --- a/docs/devel/testing.rst
 +++ b/docs/devel/testing.rst
-@@ -732,6 +732,20 @@ available.  On Debian and Ubuntu based systems, depending on the
- specific version, they may be on packages named ``python3-venv`` and
- ``python3-pip``.
+@@ -754,6 +754,34 @@ may be invoked by running:
  
-+It is also possible to run tests based on tags using the
-+``make check-acceptance`` command and the ``AVOCADO_TAGS`` environment
-+variable:
-+
-+.. code::
-+
-+   make check-acceptance AVOCADO_TAGS=quick
-+
-+Note that tags separated with commas have an AND behavior, while tags
-+separated by spaces have an OR behavior. For more information on Avocado
-+tags, see:
-+
-+ https://avocado-framework.readthedocs.io/en/latest/guides/user/chapters/tags.html
-+
- The scripts installed inside the virtual environment may be used
- without an "activation".  For instance, the Avocado test runner
- may be invoked by running:
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 6e16c05f10b..f6484e5b31d 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -92,7 +92,12 @@ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
- # Any number of command separated loggers are accepted.  For more
- # information please refer to "avocado --help".
- AVOCADO_SHOW=app
--AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGETS)))
-+ifndef AVOCADO_TAGS
-+	AVOCADO_CMDLINE_TAGS=$(patsubst %-softmmu,-t arch:%, \
-+						 $(filter %-softmmu,$(TARGETS)))
-+else
-+	AVOCADO_CMDLINE_TAGS=$(addprefix -t , $(AVOCADO_TAGS))
-+endif
+   tests/venv/bin/avocado run $OPTION1 $OPTION2 tests/acceptance/
  
- $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
- 	$(call quiet-command, \
-@@ -128,8 +133,9 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
- 	$(call quiet-command, \
-             $(TESTS_VENV_DIR)/bin/python -m avocado \
-             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
--            --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
--            $(AVOCADO_TAGS) \
-+            $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
-+			--filter-by-tags-include-empty-key) \
-+            $(AVOCADO_CMDLINE_TAGS) \
-             $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
-             "AVOCADO", "tests/acceptance")
++Note that if ``make check-acceptance`` was not executed before, it is
++possible to create the Python virtual environment with the dependencies
++needed running:
++
++ .. code::
++
++  make check-venv
++
++It is also possible to run tests from a single file or a single test within
++a test file. To run tests from a single file within the build tree, use:
++
++ .. code::
++
++  tests/venv/bin/avocado run tests/acceptance/$TESTFILE
++
++To run a single test within a test file, use:
++
++ .. code::
++
++  tests/venv/bin/avocado run tests/acceptance/$TESTFILE:$TESTCLASS.$TESTNAME
++
++Valid test names are visible in the output from any previous execution
++of Avocado or ``make check-acceptance``, and can also be queried using:
++
++ .. code::
++
++  tests/venv/bin/avocado list tests/acceptance
++
+ Manual Installation
+ -------------------
  
 -- 
 2.31.1
