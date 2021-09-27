@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56592419D9A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:54:12 +0200 (CEST)
-Received: from localhost ([::1]:34256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1059B419DA7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:56:06 +0200 (CEST)
+Received: from localhost ([::1]:36456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUupP-0001sl-Cg
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:54:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36764)
+	id 1mUurF-0003MD-3j
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:56:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUuoI-0001BG-2A
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:53:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39029)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUupA-00025W-0A
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:53:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUuoE-0002oh-5O
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:53:00 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUup8-0003by-IS
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:53:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632765176;
+ s=mimecast20190719; t=1632765233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WZT5jgVLx2srJB6/eVU0oqRY7qibCtj37NmvTUq7ISo=;
- b=fylBAXvt1/7yQ+E3VMh4MvEbFiLRhDkhVoWZVYKtKfEw3PjWOTJegKavSCVSms2rrUq+Mp
- QcqaXTgz36Ra53gjOU9tkiymPfYDHsHEp8+XN7tR+jLnVIQzJxb3mMQMHE2UfTFtVHQEpw
- YVxNWIPA9ThUjOd9PFM+mh6s4G02y3A=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-LJsW6XCrPpyrpUe5w5Bojw-1; Mon, 27 Sep 2021 13:52:54 -0400
-X-MC-Unique: LJsW6XCrPpyrpUe5w5Bojw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j142-20020a1c2394000000b0030d06638a56so267755wmj.9
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 10:52:54 -0700 (PDT)
+ bh=Kt7aOeVAXf+d8zhCVHMjzczaJRbSzeUki/WknGHrz7E=;
+ b=fkxSK/M33MWbVKe27ujBWK3TN8z55MzihYUErLOF+Xq+4iA/lo3qtdeYC2Fw/CbRitOvIY
+ 22Y7fqOPX07xqqW+60pu06akQTCF1rUYbfVCYArunps06kfwtrjs6EriLeorGAOj0wKYBs
+ HPdKcCY6N77CnyMFxkkT8wnOAhE/mBg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-jC2rRmnBPR6SDENCJ2MZyQ-1; Mon, 27 Sep 2021 13:53:52 -0400
+X-MC-Unique: jC2rRmnBPR6SDENCJ2MZyQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p63-20020a1c2942000000b0030ccf0767baso521868wmp.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 10:53:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WZT5jgVLx2srJB6/eVU0oqRY7qibCtj37NmvTUq7ISo=;
- b=mlgn8XX/iLsIr4I2gM9snwX/up9sgzdZAUT4mt2e9rIWvwr3E+p+eEJ0xa5GrIu8rl
- qJJ45s+WyfjTf7lf8d3ttIRGgXAQICd8gGWbgLS3EiMNAOhwpjD/qTpRSjkDwZnwJ2q9
- NRDP1k+/pUdRDj7TOE8DMFNgS5CVV1oAU4d0chv0m75E6/v0TFqpwYYVgFgZtbdlE/zg
- iz6xPCChB/AnAAuFYkWVnoostzINbFb1QXU40fzeCNkC1mzpMH1VA8aPM5mERZ7de/Rk
- q9vh536Occ9qy60buXLwPxWRp4CRY5/X/jfGnQUgKa4/MHMc7wVzRkUyvzzhJJv3z29s
- gXgQ==
-X-Gm-Message-State: AOAM533q4IeGP0kUNCK9uZwUoliQdq87BLXRy9aVM/T/DTvs529J2U83
- fotb+J6/BrVXsCzV5CsjweS2oyvn+lCjn/SSEYf5wcvy1APmUdoNVpb13xnpdoOYX71FBysGiOG
- w5pAeNEsd301YGOA=
-X-Received: by 2002:a5d:59ae:: with SMTP id p14mr1400300wrr.278.1632765173315; 
- Mon, 27 Sep 2021 10:52:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxkY9zhzB+sq/E81p093tOkqJlhe+nOBE0j1hQuK+GjX6TxAix3xWjPseMOr7G6tWHvpYC7Ww==
-X-Received: by 2002:a5d:59ae:: with SMTP id p14mr1400272wrr.278.1632765173061; 
- Mon, 27 Sep 2021 10:52:53 -0700 (PDT)
+ bh=Kt7aOeVAXf+d8zhCVHMjzczaJRbSzeUki/WknGHrz7E=;
+ b=LHCE5PylzDG7HgLjQB/WepuRlUnfXN5V9Ewv7jC+0WQrS3o/oljgjozQMX9WK9WpRt
+ e33gV2foYf4pduHzz0IrhVyDzqqgI+g3zzuTA3qWWMSx5L2uzQM32H53VE0XSKGeF8Zp
+ vQYrfafk+cM8Mm3sa2syzvprRjzWGTLpHnR2eb8vrA95gPAADxzqu2v8rAhPeJuQ7efB
+ UCB1N+yH7EWVM1JuqB6QQaDWZItmYdc1jGiW85yj8uZijNpZDVXpsgMMF0DjOdvXvbu0
+ 62LeNzBtuM6bzwXO4hMBGGdHieHu8VqIWidXIPTtsuDLT1er0j5TVzTRho5Ur/kFF2y2
+ yFPg==
+X-Gm-Message-State: AOAM530ISYfa6YzuEWQPtYlhbnt8BRle+ZjOXNXFJkgchZQYiW1cwvCq
+ KHbHN9y3wywqq5LsJREYMtGUPFPswzfra3ZVGBrrd0QM0siH6PPQnJR7pkyfjTXe1im/ZhK9pmg
+ BeiIjLQH/r2GkcBA=
+X-Received: by 2002:a1c:f705:: with SMTP id v5mr408240wmh.18.1632765230738;
+ Mon, 27 Sep 2021 10:53:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzeWbcNB5vFgsiUT7hN/hzd6adShYv4r05j9U2OuqcSyBXmWeaCP8OLRuMJ6m8KF5hNa24M1w==
+X-Received: by 2002:a1c:f705:: with SMTP id v5mr408226wmh.18.1632765230526;
+ Mon, 27 Sep 2021 10:53:50 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id k17sm717844wmj.0.2021.09.27.10.52.52
+ by smtp.gmail.com with ESMTPSA id r6sm588526wrp.41.2021.09.27.10.53.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 10:52:52 -0700 (PDT)
-Message-ID: <bfbe74b2-94cd-9233-1967-d6d7f25c5f4e@redhat.com>
-Date: Mon, 27 Sep 2021 19:52:51 +0200
+ Mon, 27 Sep 2021 10:53:50 -0700 (PDT)
+Message-ID: <2827cbe1-4e7e-9579-e15c-80b52e53fc41@redhat.com>
+Date: Mon, 27 Sep 2021 19:53:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v2] tests/acceptance: Test powernv machines
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-References: <20210817093036.1288791-1-clg@kaod.org>
- <e6bc86e3-1141-9f05-fba3-3319d97583a2@redhat.com>
- <557fc854-042f-bef0-386d-e290dbd6c4ab@kaod.org>
+Subject: Re: [PATCH 2/2] 9pfs: simplify blksize_to_iounit()
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+References: <cover.1632758315.git.qemu_oss@crudebyte.com>
+ <b84eb324d2ebdcc6f9c442c97b5b4d01eecb4f43.1632758315.git.qemu_oss@crudebyte.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <557fc854-042f-bef0-386d-e290dbd6c4ab@kaod.org>
+In-Reply-To: <b84eb324d2ebdcc6f9c442c97b5b4d01eecb4f43.1632758315.git.qemu_oss@crudebyte.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,7 +77,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -58
 X-Spam_score: -5.9
@@ -99,112 +98,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Joel Stanley <joel@jms.id.au>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/21 19:37, Cédric Le Goater wrote:
-> On 9/27/21 19:21, Philippe Mathieu-Daudé wrote:
->> On 8/17/21 11:30, Cédric Le Goater wrote:
->>> Fetch the OpenPOWER images to boot the powernv8 and powernv9 machines
->>> with a simple PCI layout.
->>>
->>> Cc: Cleber Rosa <crosa@redhat.com>
->>> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
->>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>> ---
->>>
->>>   Since v2:
->>>
->>>   - Change the skiboot.lid file to use the one shipped with QEMU
->>>     tests/acceptance/boot_linux_console.py | 35
->>> ++++++++++++++++++++++++++
->>>   1 file changed, 35 insertions(+)
->>>
->>> diff --git a/tests/acceptance/boot_linux_console.py
->>> b/tests/acceptance/boot_linux_console.py
->>> index 5248c8097df9..59c9309c4d0b 100644
->>> --- a/tests/acceptance/boot_linux_console.py
->>> +++ b/tests/acceptance/boot_linux_console.py
->>> @@ -1176,6 +1176,41 @@ def test_ppc64_e500(self):
->>>           tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
->>>           self.do_test_advcal_2018('19', tar_hash, 'uImage')
->>>   +    def do_test_ppc64_powernv(self, proc):
->>> +        images_url =
->>> ('https://github.com/open-power/op-build/releases/download/v2.7/')
->>> +
->>> +        kernel_url = images_url + 'zImage.epapr'
->>> +        kernel_hash =
->>> '0ab237df661727e5392cee97460e8674057a883c5f74381a128fa772588d45cd'
->>> +        kernel_path = self.fetch_asset(kernel_url,
->>> asset_hash=kernel_hash,
->>> +                                       algorithm='sha256')
->>> +        self.vm.set_console()
->>> +        self.vm.add_args('-kernel', kernel_path,
->>> +                         '-append', 'console=tty0 console=hvc0',
->>> +                         '-device',
->>> 'pcie-pci-bridge,id=bridge1,bus=pcie.1,addr=0x0',
->>> +                         '-device',
->>> 'nvme,bus=pcie.2,addr=0x0,serial=1234',
->>> +                         '-device', 'e1000e,bus=bridge1,addr=0x3',
->>> +                         '-device',
->>> 'nec-usb-xhci,bus=bridge1,addr=0x2')
->>> +        self.vm.launch()
->>> +
->>> +        self.wait_for_console_pattern("CPU: " + proc + " generation
->>> processor")
->>> +        self.wait_for_console_pattern("zImage starting: loaded")
->>> +        self.wait_for_console_pattern("Run /init as init process")
->>> +        self.wait_for_console_pattern("Creating 1 MTD partitions")
->>> +
->>> +    def test_ppc_powernv8(self):
->>> +        """
->>> +        :avocado: tags=arch:ppc64
->>> +        :avocado: tags=machine:powernv8
->>> +        """
->>> +        self.do_test_ppc64_powernv('P8')
->>> +
->>> +    def test_ppc_powernv9(self):
->>> +        """
->>> +        :avocado: tags=arch:ppc64
->>> +        :avocado: tags=machine:powernv9
->>> +        """
->>> +        self.do_test_ppc64_powernv('P9')
->>> +
->>>       def test_ppc_g3beige(self):
->>>           """
->>>           :avocado: tags=arch:ppc
->>>
->>
->> Kinda borderline w.r.t. 90 sec timeout limit... (using --enable-debug):
->>
->> JOB ID     : 5229c34e837b7b6de18c68115b07f0eebc446784
->> JOB LOG    :
->> /home/phil/avocado/job-results/job-2021-09-27T19.15-5229c34/job.log
->>   (1/3)
->> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_ppc64_e500:
->> PASS (6.58 s)
->>   (2/3)
->> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8:
->>
->> PASS (80.38 s)
->>   (3/3)
->> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9:
->>
->> PASS (89.22 s)
->> RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 |
->> CANCEL 0
->> JOB TIME   : 176.84 s
+On 9/27/21 17:50, Christian Schoenebeck wrote:
+> Use QEMU_ALIGN_DOWN() macro to reduce code and to make it
+> more human readable.
 > 
-> It's too long I agree and I can remove some of the PCI adapters which
-> need training.
-> 
-> What's your laptop like ?
+> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  hw/9pfs/9p.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-i7-8650U, but maybe better ask Gitlab what are theirs runners like ;)
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
