@@ -2,49 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E44419FE8
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 22:13:22 +0200 (CEST)
-Received: from localhost ([::1]:48954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EA1E41A143
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 23:18:27 +0200 (CEST)
+Received: from localhost ([::1]:39160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUx05-0004Xx-L9
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 16:13:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36958)
+	id 1mUy13-00069Y-J7
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 17:18:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gceq-qemu-devel2@m.gmane-mx.org>)
- id 1mUwsA-0005NJ-SZ
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 16:05:12 -0400
-Received: from ciao.gmane.io ([116.202.254.214]:46244)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gceq-qemu-devel2@m.gmane-mx.org>)
- id 1mUws6-0004Es-Ou
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 16:05:09 -0400
-Received: from list by ciao.gmane.io with local (Exim 4.92)
- (envelope-from <gceq-qemu-devel2@m.gmane-mx.org>) id 1mUws2-0007lM-6S
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 22:05:02 +0200
-X-Injected-Via-Gmane: http://gmane.org/
-To: qemu-devel@nongnu.org
-From: Vineet Gupta <vineet.gupta@linux.dev>
+ (Exim 4.90_1) (envelope-from <vineetg@rivosinc.com>)
+ id 1mUwov-0000DZ-L7
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 16:01:50 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:36575)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <vineetg@rivosinc.com>)
+ id 1mUwos-0001NO-7r
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 16:01:49 -0400
+Received: by mail-pl1-x634.google.com with SMTP id y5so10104985pll.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 13:01:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=from:subject:to:cc:newsgroups:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8TT3TEWsYGaPIOTb5BAyIZTeR9UyYlnqIB+vVGzK/tY=;
+ b=gtRjQhFpRMZfANrprZC1J32oBWQ0rjL8iw8kaBUvE1PH5Hw8kGa68A0jlLOOiaMjgj
+ NRr3sTaODKIPzWGu5uOn7KQKLMqHfjzG+PpylmUDSffhyaYtffhRqUliZE7fIKIiadtw
+ 27ItQT3PyT1kEpXMzQ9aXcUQ0Bm+cy4hku0vOzuc8eX9tNMqjAulNCZFPNGjPNYTTgyS
+ OQvBTvKL0CfmoKzfLNrFsTY+Oalq9QfKmILmR2E/5JI0VLp+43d5Yv1EWGZCpkvR3tlq
+ 6rqBTp1LXgoqqt8kDFrtLQAhrGpq71Ftr0XZVDQwgxKl0gQ1HME7bl654rDcDJk5Thux
+ /CMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:subject:to:cc:newsgroups:references
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=8TT3TEWsYGaPIOTb5BAyIZTeR9UyYlnqIB+vVGzK/tY=;
+ b=Uj8io3DWHItp7dopMABUpyRInjTE6l2g/okTJyO4oKNGQZpZ3DL6oDceRfGc4jSR8C
+ tJKVYBcgDNcsBfRSjdyJe3oKMBZQIpkxgz27r38grKNzYBlV2zeH+Kpeg78IDJGU+Ni1
+ dHVFaIfBX945U+QBqX4CS233Edmr1qh/0JK5rXLDZRqzuvc8uITX9Mtn6aEp8q/kuc2O
+ ovUqwaeP7jHRV+GOjiuGf/CbVqZyjSx/fCid0cAB6URLIwpAKveUIbeyYDgIbEDw6dy7
+ rhTeLSD3BjBpb9eRfGWe5jSr1ZVyW+alPuvPpb0cdQdq4rVfWvfwFIrMQR4pRW7T0oT4
+ nnmw==
+X-Gm-Message-State: AOAM5321ZCxPwF1OeYRDyDcPl5a2cZHNEwXhbBLSjqtugB9/ZzNyc47L
+ Xxq0pGjKeTzgJvPYywQZok1gIA==
+X-Google-Smtp-Source: ABdhPJzhOH0zQYVaGvD+ofwWzmREEdKawiVwUmZIedHVGeTvwazpzqzopLgIzAt5xEyYjIlfAn4vNw==
+X-Received: by 2002:a17:90a:1a42:: with SMTP id 2mr998664pjl.202.1632772903923; 
+ Mon, 27 Sep 2021 13:01:43 -0700 (PDT)
+Received: from [192.168.50.50] (c-24-4-73-83.hsd1.ca.comcast.net. [24.4.73.83])
+ by smtp.gmail.com with ESMTPSA id x21sm18246263pfa.186.2021.09.27.13.01.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Sep 2021 13:01:43 -0700 (PDT)
+From: Vineet Gupta <vineetg@rivosinc.com>
+X-Google-Original-From: Vineet Gupta <vineet.gupta@linux.dev>
 Subject: Re: [PATCH v11 00/16] target/riscv: Update QEmu for Zb[abcs] 1.0.0
-Date: Mon, 27 Sep 2021 13:01:39 -0700
-Message-ID: <5be1705c-c39e-fa44-201c-467811f8e5c8@linux.dev>
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
+Newsgroups: gmane.comp.emulators.qemu
 References: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Message-ID: <5be1705c-c39e-fa44-201c-467811f8e5c8@linux.dev>
+Date: Mon, 27 Sep 2021 13:01:39 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
+MIME-Version: 1.0
 In-Reply-To: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Received-SPF: pass client-ip=116.202.254.214;
- envelope-from=gceq-qemu-devel2@m.gmane-mx.org; helo=ciao.gmane.io
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.136, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=vineetg@rivosinc.com; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-3.136, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 27 Sep 2021 17:14:00 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -224,6 +257,5 @@ Thx,
 >   target/riscv/translate.c                |   6 +
 >   8 files changed, 366 insertions(+), 439 deletions(-)
 > 
-
 
 
