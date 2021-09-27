@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E0D418EE3
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 08:07:51 +0200 (CEST)
-Received: from localhost ([::1]:41170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4DE418EEC
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 08:14:10 +0200 (CEST)
+Received: from localhost ([::1]:50096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUjnp-0003H8-QD
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 02:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36168)
+	id 1mUjtx-0000zH-FJ
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 02:14:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUjLO-0003x5-Pn
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 01:38:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28061)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mUjsk-0000Ho-Kb
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 02:12:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43794)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUjLL-000882-Ne
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 01:38:25 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mUjsg-0003nE-4J
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 02:12:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632721101;
+ s=mimecast20190719; t=1632723168;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iDdoRqv/XSUemGrXVqZigbzVEOiuyy3kk4HfP8WXbPs=;
- b=X4uLuZeonfncYatuJblpKY7h7yjXbNsiE0P3XapP11g5uPXrjCpHCwHwTn0myRz9sTSh8c
- FivdaeDykPzHhWPz+cSmpP72hFwJvG81nrHfAf+hjzf4zcozQHuK7QdLxcM+2pl5obbJo1
- dRY3wUMti9twgUndtKYnoCrtwfJRqYc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-dZ_n29DbOHSnsQSCjRyz0Q-1; Mon, 27 Sep 2021 01:38:20 -0400
-X-MC-Unique: dZ_n29DbOHSnsQSCjRyz0Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- e1-20020adfa741000000b0015e424fdd01so13354297wrd.11
- for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 22:38:20 -0700 (PDT)
+ bh=DwfRXYb/YfmuSLO3/Bgpd31xXqpUMarZh+T0BBj/52E=;
+ b=DK0tIM6Z/ejGr4X/XIWL4BY0yip8SHJKhv7GbyNenJkX5R/Q7MIud8jG7kzD5NNXddPwbe
+ XECcZVsMOiAFiCo9m556PwKGbCm09WjVL+5rRqwtD3Tf/bCTjMaFmJisBI6hn+0hQgmIwD
+ h0iV/ujE4k+Q+8x+yE1/MtWlt0b3N+M=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312-nGIlBf3LO7yDs7F7zZDo1g-1; Mon, 27 Sep 2021 02:12:46 -0400
+X-MC-Unique: nGIlBf3LO7yDs7F7zZDo1g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ c15-20020a5d4ccf000000b0015dff622f39so13335488wrt.21
+ for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 23:12:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=iDdoRqv/XSUemGrXVqZigbzVEOiuyy3kk4HfP8WXbPs=;
- b=qCEtL8xzXVHu8jo9MD82Kj5905DirFevow/kzxAlBWQvMsqLbkHG1yBnWQB8ot0v1T
- 9MZoGbF51xOQuUrTyQ6d1M1aMCTbM0pVWg02wlteLoNBUypTukPsPreCCChNbpDHb56k
- v+z9Z3o64TpolsSrE+s2oCMrjufGcG6HOxkH/yZz+lWpVxfarSzOfgr3f50qae5vnmsr
- GYexBs2JxPVZdU4wD0Ul7oo7RwchIrlDZiCmFyFV9V63QbD9LbONdTdKMUl/UicmsuRg
- fiU1E52QEAKXbyU8YanmhGmvUuYMhb2XZOnK6weKSqaoEwbxqm2C3rDm8/2Va0zsAbY4
- XyRg==
-X-Gm-Message-State: AOAM531h5FR4QthFh5/Ujp/uozk79VBPWSln8UyOFVQZs/sTPS9av819
- drrGQe+cOcHW0igM3Qmx7RIAOZ75+gOxRhS1CI8jU1hWauYl2VKvfVIG2kjyEsW5pfzXcP1qY7T
- dY8f4oQx6mvs9HKg=
-X-Received: by 2002:a05:6000:1103:: with SMTP id
- z3mr2766536wrw.312.1632721099117; 
- Sun, 26 Sep 2021 22:38:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzjIXgCSnoyg9ePWBAAbIJQN5S+iO+Mhv2Z5jjpNwi4mmtzbt34wHxpZoiUtXJS95k0IXVmBw==
-X-Received: by 2002:a05:6000:1103:: with SMTP id
- z3mr2766525wrw.312.1632721098964; 
- Sun, 26 Sep 2021 22:38:18 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id u13sm15543358wrt.41.2021.09.26.22.38.17
+ bh=DwfRXYb/YfmuSLO3/Bgpd31xXqpUMarZh+T0BBj/52E=;
+ b=l8sdLGIVQa81JuK/AmLAD28o0MFApwMY5F9TRgcFR9uzxsk0sEefYEOp1nJgk3Pypm
+ 5qoEcu1WwNQuZt0vN3FeUuNDsJ+JLhylSFWSgCel5O2gEtzLWmi97EILYfftOh/iKgtB
+ t8dOhO1BCUastMaY4wv2q5Ya7SOspQ25b4ogKEPC2nU+p4KUhUHxwbxcfMSE8ZYP/j9h
+ nQirDiKm2+7w1bJtMEZBnmEqI0yMBiD635BCElRU3X+39C5K6RoNWBLDWyIoQZb88+nU
+ V7m+qlPqA5p9hVNWtY07P+1KTPbvLndqrrYWwR+E14Cb+FCdZ2j54eEXfSle1O1dr/dU
+ Itzg==
+X-Gm-Message-State: AOAM53073me3D9QFdRokPeMaxpMCf0iUHqRvJ8QgIa4eZl7B/Wiq8fWW
+ HktfI5xX62IQMQsULy/j4FS80z0ARC8I7NTkH7axGHLRphGlFNVmBYYxvSbWyjTNSikLrF0ua51
+ wzO6e/M6dMRhV2+8=
+X-Received: by 2002:adf:d4cb:: with SMTP id w11mr25953786wrk.125.1632723165587; 
+ Sun, 26 Sep 2021 23:12:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzuj4Mnu1nQV/U1w9Gr+inRwKYqKfjlkkJ50Lp3PGH1kMH+CP9TAz4TTOKmQDoxdL4o47n9jg==
+X-Received: by 2002:adf:d4cb:: with SMTP id w11mr25953773wrk.125.1632723165397; 
+ Sun, 26 Sep 2021 23:12:45 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.21.142])
+ by smtp.gmail.com with ESMTPSA id k10sm3890822wmr.32.2021.09.26.23.12.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Sep 2021 22:38:18 -0700 (PDT)
-Message-ID: <fc85899d-242c-ad0d-00ca-af60b44f6ea6@redhat.com>
-Date: Mon, 27 Sep 2021 07:38:17 +0200
+ Sun, 26 Sep 2021 23:12:45 -0700 (PDT)
+Message-ID: <664cd2fd-253e-7a9c-15a0-a28a9078607b@redhat.com>
+Date: Mon, 27 Sep 2021 08:12:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v5 03/26] hostmem: Add hostmem-epc as a backend for SGX EPC
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210924112509.25061-1-pbonzini@redhat.com>
- <20210924112509.25061-4-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210924112509.25061-4-pbonzini@redhat.com>
+Subject: Re: [PATCH v7 12/40] accel/qtest: Implement AccelOpsClass::has_work()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20210925145118.1361230-1-f4bug@amsat.org>
+ <20210925145118.1361230-13-f4bug@amsat.org>
+ <8b882c1d-933a-448b-ec76-010b36d12096@amsat.org>
+ <e1c7cb21-459e-15a3-7d99-da30c174ea76@linaro.org>
+ <b5f7eccb-7b19-02c2-bef7-c8cf9e544440@amsat.org>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <b5f7eccb-7b19-02c2-bef7-c8cf9e544440@amsat.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -100,44 +104,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, eblake@redhat.com,
- Sean Christopherson <sean.j.christopherson@intel.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/21 13:24, Paolo Bonzini wrote:
-> From: Sean Christopherson <sean.j.christopherson@intel.com>
+On 25/09/2021 18:01, Philippe Mathieu-Daudé wrote:
+> On 9/25/21 17:32, Richard Henderson wrote:
+>> On 9/25/21 11:27 AM, Philippe Mathieu-Daudé wrote:
+>>>> +static bool qtest_cpu_has_work(CPUState *cpu)
+>>>> +{
+>>>> +    g_assert_not_reached();
+>>>> +}
+>>>
+>>> Sigh, this triggers:
+>>>
+>>> Running test qtest-i386/cpu-plug-test
+>>> **
+>>> ERROR:../accel/qtest/qtest.c:52:qtest_cpu_has_work: code should not be reached
+>>> ERROR qtest-i386/cpu-plug-test - Bail out! 
+>>> ERROR:../accel/qtest/qtest.c:52:qtest_cpu_has_work: code should not be reached
+>>> Broken pipe
+>>
+>> Ha ha, yes.  You beat me to the reply within minutes.
+>>
+>>> I suppose it is in my interest to 'return false' here and call it
+>>> a day...
+>>
+>> I *think* that's the right thing, but I could see maybe "true" also makes sense.  I'll 
+>> try and have a closer look.
 > 
-> EPC (Enclave Page Cahe) is a specialized type of memory used by Intel
+> So first I tested using "-machine pc,accel=qtest" -> no crash.
+> 
+> Looking closely at how check-qtest calls QEMU, it does:
+> "-machine pc -accel qtest". Isn't the sugar property supposed
+> to work that way?
+> 
+> Then the backtrace is:
+> 
+> Thread 5 "qemu-system-i38" hit Breakpoint 1, qtest_cpu_has_work (cpu=0x555556a08400) at 
+> accel/qtest/qtest.c:52
+> 52          g_assert_not_reached();
+> (gdb) bt
+> #0  qtest_cpu_has_work (cpu=0x555556a08400) at accel/qtest/qtest.c:52
+> #1  0x0000555555c330ba in cpu_has_work (cpu=0x555556a08400) at softmmu/cpus.c:254
+> #2  0x0000555555c32ac8 in cpu_thread_is_idle (cpu=0x555556a08400) at softmmu/cpus.c:91
+> #3  0x0000555555c33584 in qemu_wait_io_event (cpu=0x555556a08400) at softmmu/cpus.c:417
+> #4  0x0000555555d8a7f4 in dummy_cpu_thread_fn (arg=0x555556a08400) at accel/dummy-cpus.c:53
+> #5  0x0000555555f469f6 in qemu_thread_start (args=0x5555574edae0) at 
+> util/qemu-thread-posix.c:557
+> #6  0x00007ffff4ff3299 in start_thread () at /lib64/libpthread.so.0
+> #7  0x00007ffff4f1b353 in clone () at /lib64/libc.so.6
+> 
+> dummy_cpu_thread_fn() content didn't change since its introduction
+> in commit c7f0f3b1c82 ("qtest: add test framework"):
+> 
+>     "The idea behind qtest is pretty simple.  Instead of executing
+>      a CPU via TCG or KVM, rely on an external process to send events
+>      to the device model that the CPU would normally generate."
+> 
+> Based on that description, qtest should provide a command to notify
+> whether the CPU has work to do or not.
+> 
+> Meanwhile, no qtest command = no work = 'return false'.
+> 
 
-Typo "Enclave Page Cache".
+In fact, with the migration test we have CPU running (it's the purpose of the test), qtest 
+allows to have several accelerators, "-accel qtest" adds the qtest control in QEMU and we 
+have then a KVM or TCG accel to be able to run some qtest commands with a CPU running.
 
-> SGX (Software Guard Extensions).  The SDM desribes EPC as:
-> 
->     The Enclave Page Cache (EPC) is the secure storage used to store
->     enclave pages when they are a part of an executing enclave. For an
->     EPC page, hardware performs additional access control checks to
->     restrict access to the page. After the current page access checks
->     and translations are performed, the hardware checks that the EPC
->     page is accessible to the program currently executing. Generally an
->     EPC page is only accessed by the owner of the executing enclave or
->     an instruction which is setting up an EPC page.
-> 
-> Because of its unique requirements, Linux manages EPC separately from
-> normal memory.  Similar to memfd, the device /dev/sgx_vepc can be
-> opened to obtain a file descriptor which can in turn be used to mmap()
-> EPC memory.
-> 
-> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> Message-Id: <20210719112136.57018-3-yang.zhong@intel.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  backends/hostmem-epc.c        | 82 +++++++++++++++++++++++++++++++++++
->  backends/meson.build          |  1 +
->  include/hw/i386/hostmem-epc.h | 28 ++++++++++++
->  3 files changed, 111 insertions(+)
->  create mode 100644 backends/hostmem-epc.c
->  create mode 100644 include/hw/i386/hostmem-epc.h
+Thanks,
+Laurent
 
 
