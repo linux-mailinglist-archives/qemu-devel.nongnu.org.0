@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC4C419AB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:09:58 +0200 (CEST)
-Received: from localhost ([::1]:36826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE995419ADE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:12:28 +0200 (CEST)
+Received: from localhost ([::1]:41270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUu8b-0003z6-Vh
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:09:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49390)
+	id 1mUuB1-0006z6-Qj
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:12:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu1Z-0002Bi-K2
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:02:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22975)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu1f-0002CH-9C
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:02:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu1V-0002fC-6l
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:02:41 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu1b-0002k8-61
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:02:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632762156;
+ s=mimecast20190719; t=1632762162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ch+SNQ3QN3dmBSgz+yeGRI826NTaBq1nvpxL9SnQaJM=;
- b=dz89ugWAdbtxBpR0+IbRFYxrwCRYCXtGPiTCSESzHBqFRICfj2hx1ZT2BZx0F86K9fjiPT
- BwP3hwRa2WAEymfu4Mclzxa2FRtG0nRB+cOFqb/v6iDBGL4+L7DZxLU+PuA2b016ny9ILw
- /rV37z0dwx0BtVwz87w1kXyQgoB50BQ=
+ bh=28MYPmvj046+z22igZ1+cW5IJfZzrl5tVnoGjfF3hyA=;
+ b=OCprETj8H+uZyqooCRp+YIk2bdORN5M4xQ1+ifI4ogk26fWG/EVh0T6uNRmdrvMpvfVE/d
+ 9LrXqG/qRlfHetFW/lvdLTlg/el4iQKVqejyQQcow2mdTzIgpdwterKR1ZtMDLdovjItw+
+ WyfRhTIkem8feffQHbFjciU1Uu2XAV8=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-N3GmKZKXMpOxUvSWHw8A1g-1; Mon, 27 Sep 2021 13:02:34 -0400
-X-MC-Unique: N3GmKZKXMpOxUvSWHw8A1g-1
+ us-mta-201-6PQk1SoTOe6e4Y2WEdMcXg-1; Mon, 27 Sep 2021 13:02:39 -0400
+X-MC-Unique: 6PQk1SoTOe6e4Y2WEdMcXg-1
 Received: by mail-wm1-f72.google.com with SMTP id
- o28-20020a05600c511c00b0030cdce826f9so180055wms.5
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 10:02:34 -0700 (PDT)
+ j142-20020a1c2394000000b0030d06638a56so207241wmj.9
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 10:02:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ch+SNQ3QN3dmBSgz+yeGRI826NTaBq1nvpxL9SnQaJM=;
- b=qIhtEsa7n+CvJhjJNcflkC33APTvwdiPGZUef9YmTo+0Kx8N2IHagMTmeQ73uQlKCU
- 8+0ZUIxtdC1mRvfz/DOGel/dX5tkAnijCimQCKDBZ96rrY8skQY44lyKx345Lxiw8oOb
- yAT/MlZdIulUO0+3x9w3PHp9kb0YiGNfKH3pA5h2Q1kwu8ChjtxqORNLTPJihRQFVMFK
- k9dCHh5bEFy+SqBLP887+19gS0NRXweYFhYVdEQCIFEoK+cTcEXj/OrUwS2Pq5qSxXIp
- yxn1wVia3EuHrKtIJnyHm2X0PtQVY7OfKSPQj6RVKPiFSaL9/B47nHg86UVccigcAN6Q
- k6Tw==
-X-Gm-Message-State: AOAM533E7puYEafWaPAoi2oQnqPgmypY2Gdspv+MVvBtyBE176MjbRjW
- QbHcko5xkWu8VGWTXP2OV7yIowNHtMD/NbDEhb5c8oBFfaB/4JuGRGBNj0JisBhPE3c+B1XiO/h
- xhV1tMW8v3IPZAChEXwi4Norm1Pws39BDqmMy/NVrH0Ux2l1WiFiI9FNn4S1ErMWm
-X-Received: by 2002:a05:600c:20c:: with SMTP id 12mr137695wmi.90.1632762153449; 
- Mon, 27 Sep 2021 10:02:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyuNBC5ahw/Sj3K3qnX/Y8jxwlFxs/GwkCThGqE+wNUqjjf3MUHLmPuXyM7NJ5/nVEc7tr+Gw==
-X-Received: by 2002:a05:600c:20c:: with SMTP id 12mr137662wmi.90.1632762153112; 
- Mon, 27 Sep 2021 10:02:33 -0700 (PDT)
+ bh=28MYPmvj046+z22igZ1+cW5IJfZzrl5tVnoGjfF3hyA=;
+ b=VWL3iI2McvW+q66+ReV+t/T1fz8HB0hhmQeVJg68U05iG/NcPeBQOg9mMfBKqh2O26
+ YQ1P0/P5fGT83dVwgWSTh9JjjJbkH50dY7MieBn5J/CDNXmBlOETZzIPz2xAw/RC8goV
+ AE2G7CHbbH7fgelQ04fbpyYqD5JSkKvu/dBvLVXwfpcv8SD8wAQrWJuEPtZlIrckzAQg
+ ENifgMhuJZlZE28X5XgtBzcu21Beh032U1kA4vEV3mqVDu8VMlxsJaZbQFoKZILvkdHH
+ gGOUwpUeq3AT7ZuBgRZ1of48j6TftBK4vAroxPPcQeIFyP2pnMfLVRNDXtWbqYChRAYH
+ +ucg==
+X-Gm-Message-State: AOAM533VmLyLKFkImR5qEyu2IHRyTaGooA11OD4sVyy1Y0JfTZ6PocOq
+ a7d37vxbbvtZViKCXXSqJSIKP/noCO5QXDXSTgHnrUpU9KoODDtkdzv2inBvOdWtiZQnaPz2pgY
+ L78W3Z/hYQvsJOfYwLsgllIRkxVx2cZIcm2vG1sfsQr9E7EGU2VaiIRaifx9BXDt7
+X-Received: by 2002:adf:f84e:: with SMTP id d14mr1071492wrq.359.1632762157897; 
+ Mon, 27 Sep 2021 10:02:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxFjtmNPGsVo1x8qhxmCS19YLhH48y+KdIxsMXc68RBKPqmHmolyfQ9qPlb78VQFXh5OSIjdw==
+X-Received: by 2002:adf:f84e:: with SMTP id d14mr1071472wrq.359.1632762157722; 
+ Mon, 27 Sep 2021 10:02:37 -0700 (PDT)
 Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id i67sm69008wmi.41.2021.09.27.10.02.32
+ by smtp.gmail.com with ESMTPSA id 8sm47002wmo.47.2021.09.27.10.02.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Sep 2021 10:02:32 -0700 (PDT)
+ Mon, 27 Sep 2021 10:02:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/21] tests/acceptance: add replay kernel test for s390x
-Date: Mon, 27 Sep 2021 19:02:07 +0200
-Message-Id: <20210927170227.2014482-2-philmd@redhat.com>
+Subject: [PULL 02/21] tests/acceptance: add replay kernel test for openrisc
+Date: Mon, 27 Sep 2021 19:02:08 +0200
+Message-Id: <20210927170227.2014482-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210927170227.2014482-1-philmd@redhat.com>
 References: <20210927170227.2014482-1-philmd@redhat.com>
@@ -73,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -96,52 +96,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Willian Rampazzo <willianr@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+ Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 
 This patch adds record/replay test which boots Linux
-kernel on s390x platform. The test uses kernel binaries
+kernel on openrisc platform. The test uses kernel binaries
 taken from boot_linux_console test.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-[PMD: Drop default '-smp 1' as suggested by Thomas]
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <162737551785.1735673.6775108576116333386.stgit@pasha-ThinkPad-X280>
+Message-Id: <162737552350.1735673.14603125561530143423.stgit@pasha-ThinkPad-X280>
 ---
- tests/acceptance/replay_kernel.py | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ tests/acceptance/replay_kernel.py | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index bb32b312402..06a09d66791 100644
+index 06a09d66791..1bf7e997fe3 100644
 --- a/tests/acceptance/replay_kernel.py
 +++ b/tests/acceptance/replay_kernel.py
-@@ -207,6 +207,21 @@ def test_arm_cubieboard_initrd(self):
-                           '-initrd', initrd_path,
-                           '-no-reboot'))
+@@ -317,6 +317,17 @@ def test_ppc64_e500(self):
+         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
+         self.do_test_advcal_2018(file_path, 'uImage')
  
-+    def test_s390x_s390_ccw_virtio(self):
++    def test_or1k_sim(self):
 +        """
-+        :avocado: tags=arch:s390x
-+        :avocado: tags=machine:s390-ccw-virtio
++        :avocado: tags=arch:or1k
++        :avocado: tags=machine:or1k-sim
 +        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
-+                      '/fedora-secondary/releases/29/Everything/s390x/os/images'
-+                      '/kernel.img')
-+        kernel_hash = 'e8e8439103ef8053418ef062644ffd46a7919313'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        tar_hash = '20334cdaf386108c530ff0badaecc955693027dd'
++        tar_url = ('https://www.qemu-advent-calendar.org'
++                   '/2018/download/day20.tar.xz')
++        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
++        self.do_test_advcal_2018(file_path, 'vmlinux')
 +
-+        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=sclp0'
-+        console_pattern = 'Kernel command line: %s' % kernel_command_line
-+        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=9)
-+
-     def test_ppc64_pseries(self):
+     def test_ppc_g3beige(self):
          """
-         :avocado: tags=arch:ppc64
+         :avocado: tags=arch:ppc
 -- 
 2.31.1
 
