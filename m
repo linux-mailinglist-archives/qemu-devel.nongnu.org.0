@@ -2,53 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7457418E6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 06:40:04 +0200 (CEST)
-Received: from localhost ([::1]:40044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0AEE418E69
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 06:39:38 +0200 (CEST)
+Received: from localhost ([::1]:41382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUiQt-0008O8-Mc
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 00:40:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56214)
+	id 1mUiQT-0000tK-O3
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 00:39:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mUiI3-0004D9-UG; Mon, 27 Sep 2021 00:30:56 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:56543)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mUiI0-0002g7-RG; Mon, 27 Sep 2021 00:30:55 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HHqSk0fndz4xbV; Mon, 27 Sep 2021 14:30:46 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1632717046;
- bh=Ivdti1UTLUM4ELt0uNWkY6gDR4Bc+twcO9caZxqKbSM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kBy5FidVMxRSgqN6VzgdJbl02FllTHxx5AHnzSK6Eq42KaCaXct4mAbEjtIpTmO7F
- /5kYqqyLSYn7tcTm92r/tg9iAOZDfxsc4oapp9wYmp/JwYCrxuEv0s3D238hV2LohH
- a9r5RVhbR8fH2x8IHCP+QCelvql0usf2SjPy2s0A=
-Date: Mon, 27 Sep 2021 14:30:39 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [RESEND PATCH 1/3] hw/intc: openpic: Correct the reset value of
- IPIDR for FSL chipset
-Message-ID: <YVFI78c5xctdjEOC@yekko>
-References: <20210918032653.646370-1-bin.meng@windriver.com>
- <YUlQo68s9mxISwEs@yekko>
- <c329c9a4-0662-4a4f-70fc-b3eda07cb149@amsat.org>
- <CAEUhbmVn3VeGCV25jSXk4G6CRfFuBCX+wFbFKZNPoNKPakEZWA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mUiP0-0007vs-Ib
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 00:38:07 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mUiOz-0000A2-15
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 00:38:06 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id d21so48318881wra.12
+ for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 21:38:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jEae1eAajKs+5oeEH1RXfJofuvmGdVG/0973md1VjKs=;
+ b=MXHyHnVg3QDU8Kil/wizh9S+JJdqlckRZARGpXGwtfqyZwG03pWJCKzEzaRrJ20wR6
+ SuKdu8g7hrDlZIN6/xU1VQvcKvotCS3U+783oO/Ac+QCtW9Ohkfd0HXkhlgRcSuU+t9R
+ u6OU4z3utsRQe+o2wIYIoXHNFV8Vjj0EQ3b1YkqK6ndnENWPRnFB6xiC36PvX/5LkbP3
+ PcdA3nwo/xp7fA/MQ7pFeBSIGx1FOGJeVQDqrR7XMsPclpssLDF3PhFl+pnkcYtMjj7K
+ eXHV0ENhdfGc9DO7dSBX31w+JQdImp+SYHgFe+gHNMjNSoiizKIO7kLX2Co1GBPDJLek
+ Reag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jEae1eAajKs+5oeEH1RXfJofuvmGdVG/0973md1VjKs=;
+ b=lg6L6QSYXR9mjPn2hDUHVwjZRpi3VLACdITffFh5lWK1vS2kyfswwOtlah11maD9Kp
+ xUjwVcEb7tWgsKt1S+d68I3SfM+f6Q62ChANf+c9VI+7L7y84qmAKVGkDU05sc19evwM
+ BP3zbig8LFyCb9fyo5/dIz5W5TAaKFEaKvR1nUqMq05LDVn4SfjX2HNjUdgym5iIyHJx
+ AeVdwsIwQwxJT9i/Td0vnbTL1Bqnjenv5W7yHbMC6zWyWYaFYD60z3ejYwMUzAc8dYUq
+ eAvAVFWo781ed4mzK8DfcM5DhGvrOR17x0OIt9Avj7cNKrO//3EP5SqNYZWay+Jz5XcX
+ ugtQ==
+X-Gm-Message-State: AOAM533/PM9uqBn4dPUpAHVNCjX0Oa9r6sJ8Py96c2XWnJoVHbfP3HqT
+ 5vjAC3HGSTPPYEQngTu0IaY=
+X-Google-Smtp-Source: ABdhPJzvpQMnTSAEhVhr64sosFDljghu+zB5k2Mct7pnjD6jqJkERV6tw3JfHmZrlFDsxtiyHPNPBg==
+X-Received: by 2002:a05:600c:4fd2:: with SMTP id
+ o18mr14012796wmq.126.1632717483517; 
+ Sun, 26 Sep 2021 21:38:03 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id d70sm15370555wmd.3.2021.09.26.21.38.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 26 Sep 2021 21:38:03 -0700 (PDT)
+Message-ID: <f81166c3-0680-2d59-0886-700dc39a0449@amsat.org>
+Date: Mon, 27 Sep 2021 06:38:01 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4Rpn6unSL9fzJ6SQ"
-Content-Disposition: inline
-In-Reply-To: <CAEUhbmVn3VeGCV25jSXk4G6CRfFuBCX+wFbFKZNPoNKPakEZWA@mail.gmail.com>
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v8 13/40] accel/tcg: Implement AccelOpsClass::has_work()
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210926222716.1732932-1-f4bug@amsat.org>
+ <20210926222716.1732932-14-f4bug@amsat.org>
+ <86834955-b2c7-5a94-eec0-47686eb40690@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <86834955-b2c7-5a94-eec0-47686eb40690@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.478,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,104 +92,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Maarten Koning <maarten.koning@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Greg Kurz <groug@kaod.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 9/27/21 02:12, Richard Henderson wrote:
+> On 9/26/21 6:26 PM, Philippe Mathieu-Daudé wrote:
+>> All accelerators but TCG implement their AccelOpsClass::has_work()
+>> handler, meaning all the remaining CPUClass::has_work() ones are
+>> only reachable from TCG accelerator; and these has_work() handlers
+>> belong to TCGCPUOps.
+>>
+>> We will gradually move each target CPUClass::has_work() to
+>> TCGCPUOps in the following commits.
+>> For now, move the CPUClass::has_work() call to tcg_cpu_has_work(),
+>> the TCG AccelOpsClass::has_work() implementation.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+>> ---
+>>   include/hw/core/cpu.h     |  2 +-
+>>   accel/tcg/tcg-accel-ops.c | 11 +++++++++++
+>>   softmmu/cpus.c            |  5 -----
+>>   3 files changed, 12 insertions(+), 6 deletions(-)
+> 
+> Are we really really really sure this works?
 
---4Rpn6unSL9fzJ6SQ
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+As sure as a green CI, so I wonder if KVM is really tested there...
 
-On Thu, Sep 23, 2021 at 01:33:44PM +0800, Bin Meng wrote:
-> On Tue, Sep 21, 2021 at 4:13 PM Philippe Mathieu-Daud=E9 <f4bug@amsat.org=
-> wrote:
-> >
-> > On 9/21/21 05:25, David Gibson wrote:
-> > > On Sat, Sep 18, 2021 at 11:26:51AM +0800, Bin Meng wrote:
-> > >> The reset value of IPIDR should be zero for Freescale chipset, per
-> > >> the following 2 manuals I checked:
-> > >>
-> > >> - P2020RM (https://www.nxp.com/webapp/Download?colCode=3DP2020RM)
-> > >> - P4080RM (https://www.nxp.com/webapp/Download?colCode=3DP4080RM)
-> > >>
-> > >> Currently it is set to 1, which leaves the IPI enabled on core 0
-> > >> after power-on reset. Such may cause unexpected interrupt to be
-> > >> delivered to core 0 if the IPI is triggered from core 0 to other
-> > >> cores later.
-> > >>
-> > >> Fixes: ffd5e9fe0276 ("openpic: Reset IRQ source private members")
-> > >> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/584
-> > >> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > >
-> > > Since these patches are very simple and look sensible, I've applied
-> > > them to ppc-for-6.2.
-> > >
-> > > However, you should note that Greg and I are both moving into other
-> > > areas and don't have much capacity for ppc maintainership any more.
-> > > Therefore I'll shortly be sending some MAINTAINERS updates moving
-> > > openpic (amongst other things) to "Orphan" status.
-> >
-> > I'm not trying to force Bin to become (yet) another maintainer,
-> > but from his previous contributions, he demonstrated a very good
-> > knowledge of embedded PowerPC ISA & chipsets, his patches have good
-> > quality and description, and he is consistent over time in his
-> > contributions. So if he is interested, I'd vouch for him as a
-> > maintainer for embedded ppc. Now up to him, his time and/or employer :)
-> >
->=20
-> Thanks Philippe for the offer.
->=20
-> David, is this the whole PowerPC domain will become un-maintained
-> soon, or is this just openpic and a few other things like a subset of
-> PowerPC?
+> Device emulation raises e.g. CPU_INTERRUPT_HARD.  We certainly test that
+> bit in target/i386/kvm/kvm.c.  But we don't check that bit in your
+> kvm_cpu_has_work.  We're currently checking that via cc->has_work(), in
+> x86_cpu_pending_interrupt, but after this change we won't test it at all
+> for kvm.
 
-Essentially it's all of PowerPC, though we hope to make it a gradual
-transition, rather than us dumping everything all at once.  We're
-starting off with offloading the smaller sub-platforms, including
-e500.
-
-> I got extensive working experience on Freescale/AMCC PowerPC chipset
-> in the past, but I never touched anything on the Mac stuff with IBM
-> chip. And I am not sure if I have enough time to do the work :(
-
-I'm not suggesting you take over all of ppc.  However, if you could
-take e500, that could prevent it from being orphaned.  My latest spin
-of these maintainers changes moves the openpic_kvm.c file under e500
-as well, since that seems to be the only user.  The rest of openpic.c
-is moving to the Mac platforms, maintainer by Mark Cave-Ayland.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---4Rpn6unSL9fzJ6SQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFRSO8ACgkQbDjKyiDZ
-s5K3XRAAhjXqALbWE8lzroekdfFF8v5ZwGjrsv7JXaE+60IG8/vpXTgYD8HuavrM
-1WJkoGEFRfZ8VsEMf5bCOHUh5JOw8btLf1t7i/uLt3vLOcrFB/19w21kRj6RtlPH
-D7ACDwwn19c4L0MZlv/BVFqNDsimZ4UlfqDo62kmZhEWcF2Xu9hCjQgUYWSsRWZi
-kPE5ECzylTA8sm3KpNp9rO7QjKgCixFMTdskU98KJYoclZvLoPRvzOyl6nOIbEPn
-NXPJVkNwk4e2L53pCxkNiBzMQ1sS02iiPk4S+YizqY6MF1G4CIPBWCY3VTaTTSSo
-mHUdk8c7ApnIycDC98NeFXF0bhfqxiKHusgC1ybw4NHdSWdIzfrG2UrNeEl7i1lB
-+SQmfiMOV82BlmA0mSWgSQz2wP+XH47yxVKYqczcMQrQKgx2KeM5AJcgUI8HUUR1
-W2aPfHPcj/7jF+RzwhvqGuEty1ZTCCjq9wdiVWUaMI+Fvn2EExtvHLG3acGiMqTP
-0z6F53T05NTuCLbtRZcVhbiJLne+Vz66BVoanRIbZOIA2sGRmwTw7uaP6BS/hg86
-FzP+fV9LOtSgtCjLtgJVCBUk95M+dXDvj9JML5uOOaZE6KUitvTLHZWFbjluOMEa
-YdGKxN6S2uuDFNJxTNsERaFmzLS+D/DPyHzTmSv3BvYJmoOCTks=
-=v1S7
------END PGP SIGNATURE-----
-
---4Rpn6unSL9fzJ6SQ--
+Indeed. I guess I misunderstood your v6 comment. I'll revisit. Sorry.
 
