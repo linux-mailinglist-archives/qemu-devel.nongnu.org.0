@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C3C41A2CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 00:17:59 +0200 (CEST)
-Received: from localhost ([::1]:49218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED5E41A2D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 00:18:03 +0200 (CEST)
+Received: from localhost ([::1]:49544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUywg-0003nv-0s
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 18:17:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56988)
+	id 1mUywk-00045S-UJ
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 18:18:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
- id 1mUyt2-00011d-Gt
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 18:14:12 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:45941)
+ id 1mUyt5-00016w-0u
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 18:14:15 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:42896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
- id 1mUyt0-0005yz-Pj
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 18:14:12 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id n18so19080094pgm.12
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 15:14:10 -0700 (PDT)
+ id 1mUyt3-00060q-9T
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 18:14:14 -0400
+Received: by mail-pf1-x430.google.com with SMTP id q23so17141351pfs.9
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 15:14:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ATiigdiyl6eSZmUol7/b9Qr5eElVhu1VmJG7FVbfZqg=;
- b=fN44a0lUfQlAfGSPxCBxKfk6pV0lvqzivUShpdCmmxVKdwrnD4PFJoYXKlrngaxsp4
- 3Eo00y8XMoEDK4aFYw2TjPP4Bt6ERTxCji2MQ8mY1oXrmYWt+LQUWJE6Crjbx6pjpZTA
- YVo81ZnUOPjApiGNcO4dPvhi7mxgLAG8+hyAM3y4R8X/1Yu6VfS70Yn7RwJA03cfCn2j
- r+Z2Mn6HMzgzN7nZgAbXZD2XjZfqHbO/b8lvsGyKJEfrMDI9f925PgELmELTA4ZVUPgH
- ub8SxLgf8k78YxQA+JZ2eU4NgTEFHf3zJGkb+hYKxTr/sCu9upYSeU9wlj9+TCVcXhhz
- FXJA==
+ bh=KtS1hmH2XT8liprRsgtkHnkZYg8FqiZUr8kHkqHwVa4=;
+ b=bPu2JdAKwnEoX96XuF+rVS0NoinCGh0+AmP21DGaLZmzABNYqZ3IeJ91Uz8N6GDuKx
+ qwq8ccMj+x0xMMMJZI/TC8vwzyAZfqjqdfBL43K0oYxnw2p38n2SDn3F+Vlt85phruTf
+ JjVPuhcQ5doK1z+arNb3TewWw4pfNQ9OrDHQgSfn/CQf7hfRHF3bkBFktyPOWrQj8KIw
+ BTzhJAN8CjW/AThNHG8OXXzGc3JyfNxQ5CmHt3cK5wPgMkYALI8QXDRIpz1tVtsGPFFc
+ pPbGTe3/WMPpRVArD+gQF0pklZgAr8WTHhqV4ANg+QCjT3Dc2eH0d5RxD7dC47aSoN1+
+ MqXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ATiigdiyl6eSZmUol7/b9Qr5eElVhu1VmJG7FVbfZqg=;
- b=RTspd/eH/LQGil+12dOriy2tJ0hKTPo2HfSaR5mpjqj4AjJX7Pl9JAgLUUxVwRYHgi
- u8P1pBgobbWBUbQlpgXmDoEcJMWw7k4ADsMPBzrLQFQnJG7iSpIBGmtrgTKnzOSNWmku
- oDvuda/BbbkYtgfhIEUEtNcU4i9SFcrQ/5AJg6Xo4yJXMlh3ltfjon95xyheldUASl4k
- q8l7OUKPsjkMJf6HrAi1QBp5huiRonAOa+zPwPVIRpHd/CcKAdqUh6jV6on3F8txandh
- vABmnkGX3bYW6C7YcLCTuoa0z4M7NqEo7yuotnGN8uR/LPpyfjjWw9ICoYLEYwD5ookF
- 9fWw==
-X-Gm-Message-State: AOAM532BhzgBDxPaPGAuZTDCc6cT5Xd2+FOHcf3/xdmC3IvFrLY1Zdpf
- 5M9yOcLNDxw2b0ZQZhnKw26RxrUFW33Wog==
-X-Google-Smtp-Source: ABdhPJw3km4824IGxvajaPm8WeVuu0u633xfZBxLfpgYb7pYJ99OsFxOwVg2TdNbuQ3ikXlhwkIDsw==
-X-Received: by 2002:a63:dc14:: with SMTP id s20mr1566619pgg.291.1632780849451; 
- Mon, 27 Sep 2021 15:14:09 -0700 (PDT)
+ bh=KtS1hmH2XT8liprRsgtkHnkZYg8FqiZUr8kHkqHwVa4=;
+ b=pBfCroHuUfw2wKBMwD2owSS6Wlr/7ctL6UjvkUKfeWG+yzUlINBgtXTiANxgbZqL3y
+ FosAxeweYLSagx3l6sRKFqUZk5AQY9l9U+2WcEEtVrJLoH5olVuEZzOGOSiGufzrLeO6
+ OuharXFTfWdKctx1Dq9vq/GSO9vr08laAAu1LgaQmKdcoLTKnkIf66Uau4Pib41U/QLe
+ 3By4UpnQv2MdNp+hk3M3cbT+/nkjvjE4hMAatX1OeZBdSXheZIoO2sM3hFCMOA8UMDi8
+ Pmcw+wWwwCmaLA2We31Ql+jUYCayDzK38t1jpMcFN9Xom33a38M4/2GdP2gEvz4U3iRh
+ Q/JQ==
+X-Gm-Message-State: AOAM530czA3cNmjRYFlGxfXCUnx11STC/pHf1183hPqJWPKp1KP+pO6q
+ bjY/FIM6DstMvyYKMuRbU0m9QNa0pUGnAw==
+X-Google-Smtp-Source: ABdhPJyERro6Y5a7gIXGUkGEcBTorIsrENTZEMNoc4K9bhqLEmjf/pZgQ21XLhr49+kcW4hwC2jT1g==
+X-Received: by 2002:aa7:954e:0:b0:438:a1c2:340d with SMTP id
+ w14-20020aa7954e000000b00438a1c2340dmr2230188pfq.30.1632780851964; 
+ Mon, 27 Sep 2021 15:14:11 -0700 (PDT)
 Received: from p14s.cg.shawcable.net (S0106889e681aac74.cg.shawcable.net.
  [68.147.0.187])
- by smtp.gmail.com with ESMTPSA id g27sm18817742pfk.173.2021.09.27.15.14.07
+ by smtp.gmail.com with ESMTPSA id g27sm18817742pfk.173.2021.09.27.15.14.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Sep 2021 15:14:07 -0700 (PDT)
+ Mon, 27 Sep 2021 15:14:10 -0700 (PDT)
 From: Mathieu Poirier <mathieu.poirier@linaro.org>
 To: mst@redhat.com
-Subject: [PATCH v4 2/3] vhost-user-rng-pci: Add vhost-user-rng-pci
+Subject: [PATCH v4 3/3] docs: Add documentation for vhost based RNG
  implementation
-Date: Mon, 27 Sep 2021 16:13:58 -0600
-Message-Id: <20210927221359.2917482-3-mathieu.poirier@linaro.org>
+Date: Mon, 27 Sep 2021 16:13:59 -0600
+Message-Id: <20210927221359.2917482-4-mathieu.poirier@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210927221359.2917482-1-mathieu.poirier@linaro.org>
 References: <20210927221359.2917482-1-mathieu.poirier@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=mathieu.poirier@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=mathieu.poirier@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,113 +89,59 @@ Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch provides a PCI bus interface to the vhost-user-rng backend.
+Add description and example for the vhost-user based RNG implementation.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 ---
- hw/virtio/meson.build          |  1 +
- hw/virtio/vhost-user-rng-pci.c | 79 ++++++++++++++++++++++++++++++++++
- 2 files changed, 80 insertions(+)
- create mode 100644 hw/virtio/vhost-user-rng-pci.c
+ docs/system/devices/vhost-user-rng.rst | 39 ++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+ create mode 100644 docs/system/devices/vhost-user-rng.rst
 
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index ae6b2cde1068..521f7d64a86a 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -28,6 +28,7 @@ virtio_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem.c'))
- virtio_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c.c'))
- virtio_ss.add(when: ['CONFIG_VIRTIO_PCI', 'CONFIG_VHOST_USER_I2C'], if_true: files('vhost-user-i2c-pci.c'))
- virtio_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng.c'))
-+virtio_ss.add(when: ['CONFIG_VHOST_USER_RNG', 'CONFIG_VIRTIO_PCI'], if_true: files('vhost-user-rng-pci.c'))
- 
- virtio_pci_ss = ss.source_set()
- virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-pci.c'))
-diff --git a/hw/virtio/vhost-user-rng-pci.c b/hw/virtio/vhost-user-rng-pci.c
+diff --git a/docs/system/devices/vhost-user-rng.rst b/docs/system/devices/vhost-user-rng.rst
 new file mode 100644
-index 000000000000..c83dc8681385
+index 000000000000..a145d4105c1a
 --- /dev/null
-+++ b/hw/virtio/vhost-user-rng-pci.c
-@@ -0,0 +1,79 @@
-+/*
-+ * Vhost-user RNG virtio device PCI glue
-+ *
-+ * Copyright (c) 2021 Mathieu Poirier <mathieu.poirier@linaro.org>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
++++ b/docs/system/devices/vhost-user-rng.rst
+@@ -0,0 +1,39 @@
++QEMU vhost-user-rng - RNG emulation
++===================================
 +
-+#include "qemu/osdep.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/virtio/vhost-user-rng.h"
-+#include "virtio-pci.h"
++Background
++----------
 +
-+struct VHostUserRNGPCI {
-+    VirtIOPCIProxy parent_obj;
-+    VHostUserRNG vdev;
-+};
++What follows builds on the material presented in vhost-user.rst - it should
++be reviewed before moving forward with the content in this file.
 +
-+typedef struct VHostUserRNGPCI VHostUserRNGPCI;
++Description
++-----------
 +
-+#define TYPE_VHOST_USER_RNG_PCI "vhost-user-rng-pci-base"
++The vhost-user-rng device implementation was designed to work with a random
++number generator daemon such as the one found in the vhost-device crate of
++the rust-vmm project available on github [1].
 +
-+DECLARE_INSTANCE_CHECKER(VHostUserRNGPCI, VHOST_USER_RNG_PCI,
-+                         TYPE_VHOST_USER_RNG_PCI)
++[1]. https://github.com/rust-vmm/vhost-device
 +
-+static Property vhost_user_rng_pci_properties[] = {
-+    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
-+                       DEV_NVECTORS_UNSPECIFIED),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
++Examples
++--------
 +
-+static void vhost_user_rng_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-+{
-+    VHostUserRNGPCI *dev = VHOST_USER_RNG_PCI(vpci_dev);
-+    DeviceState *vdev = DEVICE(&dev->vdev);
++The daemon should be started first:
 +
-+    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
-+        vpci_dev->nvectors = 1;
-+    }
++::
 +
-+    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-+}
++  host# vhost-device-rng --socket-path=rng.sock -c 1 -m 512 -p 1000
 +
-+static void vhost_user_rng_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-+    PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
-+    k->realize = vhost_user_rng_pci_realize;
-+    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-+    device_class_set_props(dc, vhost_user_rng_pci_properties);
-+    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
-+    pcidev_k->device_id = 0; /* Set by virtio-pci based on virtio id */
-+    pcidev_k->revision = 0x00;
-+    pcidev_k->class_id = PCI_CLASS_OTHERS;
-+}
++The QEMU invocation needs to create a chardev socket the device can
++use to communicate as well as share the guests memory over a memfd.
 +
-+static void vhost_user_rng_pci_instance_init(Object *obj)
-+{
-+    VHostUserRNGPCI *dev = VHOST_USER_RNG_PCI(obj);
++::
 +
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VHOST_USER_RNG);
-+}
-+
-+static const VirtioPCIDeviceTypeInfo vhost_user_rng_pci_info = {
-+    .base_name = TYPE_VHOST_USER_RNG_PCI,
-+    .non_transitional_name = "vhost-user-rng-pci",
-+    .instance_size = sizeof(VHostUserRNGPCI),
-+    .instance_init = vhost_user_rng_pci_instance_init,
-+    .class_init = vhost_user_rng_pci_class_init,
-+};
-+
-+static void vhost_user_rng_pci_register(void)
-+{
-+    virtio_pci_types_register(&vhost_user_rng_pci_info);
-+}
-+
-+type_init(vhost_user_rng_pci_register);
++  host# qemu-system								\
++      -chardev socket,path=$(PATH)/rng.sock,id=rng0				\
++      -device vhost-user-rng-pci,chardev=rng0					\
++      -m 4096 									\
++      -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on	\
++      -numa node,memdev=mem							\
++      ...
 -- 
 2.25.1
 
