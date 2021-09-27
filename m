@@ -2,92 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251F5419152
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 11:09:36 +0200 (CEST)
-Received: from localhost ([::1]:45820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC049419159
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 11:12:10 +0200 (CEST)
+Received: from localhost ([::1]:48998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUmdi-0004hT-Nf
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 05:09:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49950)
+	id 1mUmgD-0006wh-VT
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 05:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mUmc5-0003wD-A3
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 05:07:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30265)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mUmc1-0008Tg-H6
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 05:07:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632733667;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u7ns1ugZhOzPMjpo3MJvSmpO1/M1grl7hfzSUDAv8Qc=;
- b=U5oQE8mdCPbpeaCn04V69CcuVwP7XfnvnjPma2+/jugTwg3EnfjMWGJFmeO+ne70Ago5h1
- 3PqwrzHu6SrW2ZFBVZ1N79yfTdmkW66JpVQ1AcUB2VjdTtCHlP8yjJIQMr7Wc4U0f+8d9m
- oOPR9ylDLBJtfdceljYelZk4eTAoSlM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-vurYHMy3O0ucrT56zSz9kg-1; Mon, 27 Sep 2021 05:07:46 -0400
-X-MC-Unique: vurYHMy3O0ucrT56zSz9kg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- u7-20020adfed47000000b0016061b6caa8so3017957wro.16
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 02:07:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=u7ns1ugZhOzPMjpo3MJvSmpO1/M1grl7hfzSUDAv8Qc=;
- b=uOj0Zo8o8wM29FMPu2CUtTzA6pkxwBx3FD23A7xvT6COoSQVVOAsAg7Cp/yWx1yVxg
- YC+jMjvpmutnn7IUczN7ShX/mDGb4GkJbKAS7MTnFeYw3we6lXAvra3Qn8xUUEgU//uH
- 5MMXFGT6QGyqjSzPZK9deUcMaAMRT9ttmLkVtmGgZXXU1ARZCZUFdlSbPtZZnRZaX/9I
- hBgrwYIzEsRw1Tl41UVn/+aGTL2UL6zSkXBKENmV+f+sBxc7xf6hlcadIZkIhSY33Pkg
- wotGzDtnVF5zSrNQS89MOE4dF5FqUo0v+2gtWBof6+tU1dOREc+gLZjy8f/Fc9CQZ8et
- Vq+w==
-X-Gm-Message-State: AOAM530E/L5PwQNzba5FrGif1kZVUhL9AM8zGz1RtF/EfttclkX79OK+
- ZgRJWPepOxKwz1OEDenqMZrOxIIFFE3y/6ZF2rMotO1gwWvuicEqRp4i6azJvf3/zsA64BFP1aw
- K5h8+m6oDn1XBq90=
-X-Received: by 2002:a5d:6da9:: with SMTP id u9mr26453992wrs.58.1632733664996; 
- Mon, 27 Sep 2021 02:07:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxM+WMCya60Ee5kSxyuqImP5moqXfA3NzSDg8u5PwhQP4vhrPk1fK+FeAsLyGkyiNxPkq4p0Q==
-X-Received: by 2002:a5d:6da9:: with SMTP id u9mr26453965wrs.58.1632733664773; 
- Mon, 27 Sep 2021 02:07:44 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c654d.dip0.t-ipconnect.de. [91.12.101.77])
- by smtp.gmail.com with ESMTPSA id
- w21sm2471277wmk.15.2021.09.27.02.07.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 02:07:44 -0700 (PDT)
-To: Stefan Hajnoczi <stefanha@redhat.com>,
- David Dai <david.dai@montage-tech.com>
-References: <20210926021614.76933-1-david.dai@montage-tech.com>
- <YVGAWh7e96f8yed0@stefanha-x1.localdomain>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH] hw/misc: Add a virtual pci device to dynamically attach
- memory to QEMU
-Message-ID: <38a0312e-3b00-ac41-3cb0-ab5592b06dc1@redhat.com>
-Date: Mon, 27 Sep 2021 11:07:43 +0200
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1mUmdp-0005PM-HS; Mon, 27 Sep 2021 05:09:41 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:44914)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1mUmdn-0001Sf-2I; Mon, 27 Sep 2021 05:09:41 -0400
+Received: from [10.12.102.111] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 9A80C40A2BC3;
+ Mon, 27 Sep 2021 09:09:28 +0000 (UTC)
+Subject: Re: [PATCH 00/16] Acceptance Tests: use Avocado 91.0 features and
+ other improvements
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20210924185506.2542588-1-crosa@redhat.com>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <847a223c-847a-ac47-8ef0-617cd73b1f99@ispras.ru>
+Date: Mon, 27 Sep 2021 12:09:27 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YVGAWh7e96f8yed0@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20210924185506.2542588-1-crosa@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.478, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.478,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,40 +53,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, eajames@linux.ibm.com,
- qemu-devel@nongnu.org, changguo.du@montage-tech.com,
- Igor Mammedov <imammedo@redhat.com>, kuhn.chenqun@huawei.com
+Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Greg Kurz <groug@kaod.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Willian Rampazzo <wrampazz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alexandre Iooss <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Ryo ONODERA <ryoon@netbsd.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.09.21 10:27, Stefan Hajnoczi wrote:
-> On Sun, Sep 26, 2021 at 10:16:14AM +0800, David Dai wrote:
->> Add a virtual pci to QEMU, the pci device is used to dynamically attach memory
->> to VM, so driver in guest can apply host memory in fly without virtualization
->> management software's help, such as libvirt/manager. The attached memory is
+Hi, Cleber!
 
-We do have virtio-mem to dynamically attach memory to a VM. It could be 
-extended by a mechanism for the VM to request more/less memory, that's 
-already a planned feature. But yeah, virito-mem memory is exposed as 
-ordinary system RAM, not only via a BAR to mostly be managed by user 
-space completely.
+What about record/replay tests from 25.06?
 
->> isolated from System RAM, it can be used in heterogeneous memory management for
->> virtualization. Multiple VMs dynamically share same computing device memory
->> without memory overcommit.
-
-This sounds a lot like MemExpand/MemLego ... am I right that this is the 
-original design? I recall that VMs share a memory region and dynamically 
-agree upon which part of the memory region a VM uses. I further recall 
-that there were malloc() hooks that would dynamically allocate such 
-memory in user space from the shared memory region.
-
-I can see some use cases for it, although the shared memory design isn't 
-what you typically want in most VM environments.
-
--- 
-Thanks,
-
-David / dhildenb
+On 24.09.2021 21:54, Cleber Rosa wrote:
+> This is a collection of patches for the Acceptance Tests to leverage
+> some of the features of Avocado 91.0.  With the Avocado version bump
+> by itself, there would be a change in the default "test runner"
+> implementation that Avocado uses, from the one simply known as
+> "runner" to the new one called "nrunner".
+> 
+> Among the changes from one implementation to the other, is the fact
+> that "nrunner" will run tests in parallel by default.  This is *not
+> yet* enabled by default on "make check-acceptance", but users can
+> choose to use simply by setting the "AVOCADO_RUNNER" variable, that
+> is:
+> 
+>    make AVOCADO_RUNNER=nrunner check-acceptance
+> 
+> If you are curious about the architectural differences of the nrunner,
+> please refer to:
+> 
+>    https://avocado-framework.readthedocs.io/en/91.0/guides/contributor/chapters/runners.html
+> 
+> One other noteworthy proposal is a convention to tag tests that either
+> have known issues, or that touch on QEMU features that have known
+> issues.  By tagging those tests accordingly, they will be
+> automatically excluded from the regular execution with "make
+> check-acceptance".
+> 
+> Finally, some updates to assets locations and some tests refactors and
+> cleanups.
+> 
+> Cleber Rosa (16):
+>    Acceptance Tests: bump Avocado requirement to 91.0
+>    Acceptance Tests: improve check-acceptance description
+>    Acceptance Tests: add mechanism for listing tests
+>    Acceptance Tests: keep track and disable tests with known issues
+>    Acceptance Tests: add standard clean up at test tearDown()
+>    Acceptance Tests: use extract from package from avocado.utils
+>    Acceptance Tests: workaround expired mipsdistros.mips.com HTTPS cert
+>    acceptance/tests/vnc.py: use explicit syntax for enabling passwords
+>    tests/acceptance/boot_xen.py: merge base classes
+>    tests/acceptance/boot_xen.py: unify tags
+>    tests/acceptance/boot_xen.py: fetch kernel during test setUp()
+>    tests/acceptance/boot_xen.py: removed unused import
+>    tests/acceptance/boot_xen.py: use class attribute
+>    tests/acceptance/ppc_prep_40p.py: NetBSD 7.1.2 location update
+>    tests/acceptance/ppc_prep_40p.py: clean up unused import
+>    tests/acceptance/ppc_prep_40p.py: unify tags
+> 
+>   docs/devel/testing.rst                    | 40 ++++++++++
+>   tests/Makefile.include                    | 15 +++-
+>   tests/acceptance/avocado_qemu/__init__.py |  1 +
+>   tests/acceptance/boot_linux_console.py    | 93 +++++++++--------------
+>   tests/acceptance/boot_xen.py              | 54 ++++---------
+>   tests/acceptance/machine_rx_gdbsim.py     |  3 +
+>   tests/acceptance/ppc_prep_40p.py          | 17 ++---
+>   tests/acceptance/replay_kernel.py         | 18 ++---
+>   tests/acceptance/tcg_plugins.py           |  2 +-
+>   tests/acceptance/vnc.py                   |  2 +-
+>   tests/requirements.txt                    |  2 +-
+>   11 files changed, 128 insertions(+), 119 deletions(-)
+> 
 
 
