@@ -2,88 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E29D419CA5
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:29:08 +0200 (CEST)
-Received: from localhost ([::1]:52166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15488419D70
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:49:47 +0200 (CEST)
+Received: from localhost ([::1]:53768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUuR9-0000ZI-G7
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:29:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55766)
+	id 1mUul7-0004OM-38
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:49:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUuOo-0006Gt-FV
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:26:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48650)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mUuSk-0004Vu-R9
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:30:46 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:52875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUuOl-0005TK-GM
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:26:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632763598;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PHBSjBy2Udn0J9NJbjnkI2cwk+chfijVKaYIeQcCmJ4=;
- b=i5XPdJcnFKRhH4M5ARmKLkut387PNzpqXOkuZm2kCFi7TGTA/HVFdnojkaLqG5v+QiUDoQ
- ALpJXn9CMbZq1k49CFb3YG84uSLZRrRA+LLKzWvThYUw/MsqNBBMlvahhhDu8zAMecZpmp
- 1EIOX4z0U50yxWqdeTXatDIH3OkVqI0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-oHXszAt-P_uiOMtcZYPaJQ-1; Mon, 27 Sep 2021 13:26:37 -0400
-X-MC-Unique: oHXszAt-P_uiOMtcZYPaJQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- p63-20020a1c2942000000b0030ccf0767baso487459wmp.6
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 10:26:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PHBSjBy2Udn0J9NJbjnkI2cwk+chfijVKaYIeQcCmJ4=;
- b=G10BNc6ctJL8Fw2Zin7t0HQ8gX8dm3tUq87KHKAOUQanNg306b0h+Iy25bL4tM79jX
- OooDk5P/DavlEm7pWlK071/1BEyfmEPBq3badovXODkLfO/F4aRRrhoMBB89ayAyuUOT
- B3E5PJVXTCXqtlfhzd/I14b2CRXwJ7NTo0PcDYpsnYmUSs96jgaVH3K19DSp71atpqPm
- bjRHZLy/dMJ28U4hU0nv0kY/88RiHXdjVB7jzzpO+HDHCNDHZ11O4JoE8jh8GzAy2Ere
- 4VUXgvbzb269OfLOX+kcpeCwddCdZ6VGk1lw+in4W5kCb0e8wvfz8L1ssMzf9JFUF6wP
- PoOQ==
-X-Gm-Message-State: AOAM5332i9tfixQ1uebATXUMucWwTzcnQ1fyyNFNGHQXhj2kloFVRRfY
- eL9FroDmrEnTwr/9Fh5Dr62juEtkHilAvo/J3ch2/oxMw2FBpyOPI3Hx1SkHc/u/QcHd8ZGNFnT
- rMHCiPabsmArcny6CVTSjN8PQeu7nZGK2oEY5ZrGaVyUWxvpqeidZEKDtE3paBZ/m
-X-Received: by 2002:a05:600c:4ec6:: with SMTP id
- g6mr220623wmq.95.1632763596259; 
- Mon, 27 Sep 2021 10:26:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxu5cwzInMFuRRN3V4PgsCsszal0Xrje//gQW3AOs955FXzZoXAVYwYCdfkGl5ykYaVywzxIQ==
-X-Received: by 2002:a05:600c:4ec6:: with SMTP id
- g6mr220599wmq.95.1632763596033; 
- Mon, 27 Sep 2021 10:26:36 -0700 (PDT)
-Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id h18sm17162794wrb.33.2021.09.27.10.26.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Sep 2021 10:26:35 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: 
-Subject: [PULL v2 22/22] tests/acceptance: Test powernv machines
-Date: Mon, 27 Sep 2021 19:26:26 +0200
-Message-Id: <20210927172626.2026308-2-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210927172626.2026308-1-philmd@redhat.com>
-References: <20210927172626.2026308-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mUuSi-0000V8-U2
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:30:46 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-204-rzJYJqO-OASC1zeha0M8KQ-1; Mon, 27 Sep 2021 13:30:41 -0400
+X-MC-Unique: rzJYJqO-OASC1zeha0M8KQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3033E1923763;
+ Mon, 27 Sep 2021 17:30:40 +0000 (UTC)
+Received: from bahia.huguette (unknown [10.39.192.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC53B652AF;
+ Mon, 27 Sep 2021 17:30:24 +0000 (UTC)
+Date: Mon, 27 Sep 2021 19:30:23 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 1/2] 9pfs: deduplicate iounit code
+Message-ID: <20210927193023.57bc0143@bahia.huguette>
+In-Reply-To: <4720290.jjg2aSD2dJ@silver>
+References: <cover.1632758315.git.qemu_oss@crudebyte.com>
+ <129bb71d5119e61d335f1e3107e472e4beea223a.1632758315.git.qemu_oss@crudebyte.com>
+ <20210927182759.009875ef@bahia.huguette>
+ <4720290.jjg2aSD2dJ@silver>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,79 +65,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+On Mon, 27 Sep 2021 18:50:12 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Fetch the OpenPOWER images to boot the powernv8 and powernv9 machines
-with a simple PCI layout.
+> On Montag, 27. September 2021 18:27:59 CEST Greg Kurz wrote:
+> > On Mon, 27 Sep 2021 17:45:00 +0200
+> >=20
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > Remove redundant code that translates host fileystem's block
+> > > size into 9p client (guest side) block size.
+> > >=20
+> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > ---
+> > >=20
+> > >  hw/9pfs/9p.c | 42 ++++++++++++++++++++----------------------
+> > >  1 file changed, 20 insertions(+), 22 deletions(-)
+> > >=20
+> > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> > > index 708b030474..c65584173a 100644
+> > > --- a/hw/9pfs/9p.c
+> > > +++ b/hw/9pfs/9p.c
+> > > @@ -1262,18 +1262,26 @@ static int coroutine_fn stat_to_v9stat(V9fsPD=
+U
+> > > *pdu, V9fsPath *path,>=20
+> > >  #define P9_STATS_ALL           0x00003fffULL /* Mask for All fields =
+above
+> > >  */>=20
+> > > -static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat
+> > > *stbuf) +/**
+> > > + * Convert host filesystem's block size into an appropriate block si=
+ze
+> > > for
+> > > + * 9p client (guest OS side). The value returned suggests an "optimu=
+m"
+> > > block + * size for 9p I/O, i.e. to maximize performance.
+> > > + *
+> > > + * @pdu: 9p client request
+> > > + * @blksize: host filesystem's block size
+> > > + */
+> > > +static int32_t blksize_to_iounit(const V9fsPDU *pdu, int32_t blksize=
+)
+> > >=20
+> > >  {
+> > > =20
+> > >      int32_t iounit =3D 0;
+> > >      V9fsState *s =3D pdu->s;
+> > >     =20
+> > >      /*
+> > >=20
+> > > -     * iounit should be multiples of st_blksize (host filesystem blo=
+ck
+> > > size) +     * iounit should be multiples of blksize (host filesystem
+> > > block size)>=20
+> > >       * as well as less than (client msize - P9_IOHDRSZ)
+> > >       */
+> > >=20
+> > > -    if (stbuf->st_blksize) {
+> > > -        iounit =3D stbuf->st_blksize;
+> > > -        iounit *=3D (s->msize - P9_IOHDRSZ) / stbuf->st_blksize;
+> > > +    if (blksize) {
+> > > +        iounit =3D blksize;
+> > > +        iounit *=3D (s->msize - P9_IOHDRSZ) / blksize;
+> > >=20
+> > >      }
+> > >      if (!iounit) {
+> > >     =20
+> > >          iounit =3D s->msize - P9_IOHDRSZ;
+> > >=20
+> > > @@ -1281,6 +1289,11 @@ static int32_t stat_to_iounit(const V9fsPDU *p=
+du,
+> > > const struct stat *stbuf)>=20
+> > >      return iounit;
+> > > =20
+> > >  }
+> > >=20
+> > > +static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat
+> > > *stbuf) +{
+> > > +    return blksize_to_iounit(pdu, stbuf->st_blksize);
+> > > +}
+> > > +
+> > >=20
+> > >  static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbu=
+f,
+> > > =20
+> > >                                  V9fsStatDotl *v9lstat)
+> > > =20
+> > >  {
+> > >=20
+> > > @@ -1899,23 +1912,8 @@ out_nofid:
+> > >  static int32_t coroutine_fn get_iounit(V9fsPDU *pdu, V9fsPath *path)
+> > >  {
+> > > =20
+> > >      struct statfs stbuf;
+> > >=20
+> > > -    int32_t iounit =3D 0;
+> > > -    V9fsState *s =3D pdu->s;
+> > > -
+> > > -    /*
+> > > -     * iounit should be multiples of f_bsize (host filesystem block =
+size
+> > > -     * and as well as less than (client msize - P9_IOHDRSZ))
+> > > -     */
+> > > -    if (!v9fs_co_statfs(pdu, path, &stbuf)) {
+> > > -        if (stbuf.f_bsize) {
+> > > -            iounit =3D stbuf.f_bsize;
+> > > -            iounit *=3D (s->msize - P9_IOHDRSZ) / stbuf.f_bsize;
+> > > -        }
+> > > -    }
+> > > -    if (!iounit) {
+> > > -        iounit =3D s->msize - P9_IOHDRSZ;
+> > > -    }
+> > > -    return iounit;
+> > > +    int err =3D v9fs_co_statfs(pdu, path, &stbuf);
+> >=20
+> > It is usually preferred to leave a blank line between declarations
+> > and statements for easier reading. It isn't mandated in the coding
+> > style but Markus consistently asks for it :-) Maybe you can fix
+> > that before pushing to 9p.next ?
+>=20
+> In general: I adapt to whatever code style is preferred.
+>=20
+> I actually did run (like usual) scripts/checkpatch.pl and it did not comp=
+lain.
+>=20
 
-Cc: Cleber Rosa <crosa@redhat.com>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210817093036.1288791-1-clg@kaod.org>
----
- tests/acceptance/boot_linux_console.py | 35 ++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+Yes, this isn't enforced nor checked.
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 0a49c0e2760..06fc967f6c4 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -1176,6 +1176,41 @@ def test_ppc64_e500(self):
-         tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
-         self.do_test_advcal_2018('19', tar_hash, 'uImage')
- 
-+    def do_test_ppc64_powernv(self, proc):
-+        images_url = ('https://github.com/open-power/op-build/releases/download/v2.7/')
-+
-+        kernel_url = images_url + 'zImage.epapr'
-+        kernel_hash = '0ab237df661727e5392cee97460e8674057a883c5f74381a128fa772588d45cd'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash,
-+                                       algorithm='sha256')
-+        self.vm.set_console()
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-append', 'console=tty0 console=hvc0',
-+                         '-device', 'pcie-pci-bridge,id=bridge1,bus=pcie.1,addr=0x0',
-+                         '-device', 'nvme,bus=pcie.2,addr=0x0,serial=1234',
-+                         '-device', 'e1000e,bus=bridge1,addr=0x3',
-+                         '-device', 'nec-usb-xhci,bus=bridge1,addr=0x2')
-+        self.vm.launch()
-+
-+        self.wait_for_console_pattern("CPU: " + proc + " generation processor")
-+        self.wait_for_console_pattern("zImage starting: loaded")
-+        self.wait_for_console_pattern("Run /init as init process")
-+        self.wait_for_console_pattern("Creating 1 MTD partitions")
-+
-+    def test_ppc_powernv8(self):
-+        """
-+        :avocado: tags=arch:ppc64
-+        :avocado: tags=machine:powernv8
-+        """
-+        self.do_test_ppc64_powernv('P8')
-+
-+    def test_ppc_powernv9(self):
-+        """
-+        :avocado: tags=arch:ppc64
-+        :avocado: tags=machine:powernv9
-+        """
-+        self.do_test_ppc64_powernv('P9')
-+
-     def test_ppc_g3beige(self):
-         """
-         :avocado: tags=arch:ppc
--- 
-2.31.1
+> So you mean it is preferred to split up declaration and definition due to=
+ the=20
+> function call involved? I.e. precisely:
+>=20
+
+Not splitting declaration and definitions but rather the declarations
+from the actual code.
+
+> static int32_t coroutine_fn get_iounit(V9fsPDU *pdu, V9fsPath *path)
+> {
+>     struct statfs stbuf;
+>     int err;
+>=20
+>     err =3D v9fs_co_statfs(pdu, path, &stbuf);
+>     return blksize_to_iounit(pdu, (err >=3D 0) ? stbuf.f_bsize : 0);
+> }
+>=20
+> or rather :) ...
+>=20
+> static int32_t coroutine_fn get_iounit(V9fsPDU *pdu, V9fsPath *path)
+> {
+>     struct statfs stbuf;
+>     int err =3D v9fs_co_statfs(pdu, path, &stbuf);
+>=20
+>     return blksize_to_iounit(pdu, (err >=3D 0) ? stbuf.f_bsize : 0);
+> }
+>=20
+> We actually have mixed declaration/definition all over the place.
+>=20
+
+It is okay to have mixed declarations/definitions. Second one is fine :)
+
+> >=20
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> >=20
+> > > +    return blksize_to_iounit(pdu, (err >=3D 0) ? stbuf.f_bsize : 0);
+> > >=20
+> > >  }
+> > > =20
+> > >  static void coroutine_fn v9fs_open(void *opaque)
+>=20
+>=20
 
 
