@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 782944194DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 15:12:24 +0200 (CEST)
-Received: from localhost ([::1]:58138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F96419521
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 15:32:50 +0200 (CEST)
+Received: from localhost ([::1]:40936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUqQh-0003GR-H4
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 09:12:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41858)
+	id 1mUqkT-0004ti-UH
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 09:32:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUqLW-0003Fr-Jz
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUqLV-0003Fp-T4
  for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:07:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26345)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUqLR-0003kg-Mc
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:07:02 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUqLR-0003lF-Lj
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:07:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632748016;
+ s=mimecast20190719; t=1632748017;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rl/76egBchC0z6HYvLrR58HS0uTp9+lCDtH+lGvK4/Y=;
- b=M6HXira5PAThTTtmn6sJ9kJFHhPTMkAJMV/JggAz55LcLDSaGutlh0biibtklWbOPaLnBM
- x0Pbe+ebXc4J4CemcdfuUzcORqIAXyUfqf8BSc4rlN+pq8ejSsbyupnz2BArsRPXoY2xt8
- YXRkQGzYY2Ta2us0xr7liDOWGmRcA2g=
+ bh=ZFZsY4BBWGVMONjkjbAd7BUegvL6XoX2uh9YAuINkKE=;
+ b=M8z7y552pu1iA7nZKABcmKygJhGMY3nbz2qiPmnpOFonuYz7M9TqyZxjG2SkP5UwYj+Rr9
+ bcy9N8r3nC3xKnv89NizxiB7iIsLnqKI5DoE29eLeRa6Ly7cadqXn2zHoHk7Nj4sFXtwHT
+ mxjVEkP2zo6B7OY75jUdJ7WY+xu3mgc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-kon3--wrMp-s78CFPlj5vg-1; Mon, 27 Sep 2021 09:06:52 -0400
-X-MC-Unique: kon3--wrMp-s78CFPlj5vg-1
+ us-mta-259-tlCRer-KOYGEHfMOwoYB7g-1; Mon, 27 Sep 2021 09:06:55 -0400
+X-MC-Unique: tlCRer-KOYGEHfMOwoYB7g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EFB81927804;
- Mon, 27 Sep 2021 13:06:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FC385074E;
+ Mon, 27 Sep 2021 13:06:54 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EA555DF2F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E94C18EF2;
  Mon, 27 Sep 2021 13:06:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 89B17113853B; Mon, 27 Sep 2021 15:06:47 +0200 (CEST)
+ id 8D2E411384A2; Mon, 27 Sep 2021 15:06:47 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 06/25] qapi: Convert simple union MemoryDeviceInfo to flat
- one
-Date: Mon, 27 Sep 2021 15:06:28 +0200
-Message-Id: <20210927130647.1271533-7-armbru@redhat.com>
+Subject: [PULL v2 07/25] qapi: Convert simple union ChardevBackend to flat one
+Date: Mon, 27 Sep 2021 15:06:29 +0200
+Message-Id: <20210927130647.1271533-8-armbru@redhat.com>
 In-Reply-To: <20210927130647.1271533-1-armbru@redhat.com>
 References: <20210927130647.1271533-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -57,9 +56,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,8 +79,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Eric Blake <eblake@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,80 +90,233 @@ schema language and the QAPI generator.  We haven't been using simple
 unions in new code for a long time, because they are less flexible and
 somewhat awkward on the wire.
 
-To prepare for their removal, convert simple union MemoryDeviceInfo to
+To prepare for their removal, convert simple union ChardevBackend to
 an equivalent flat one.  Adds some boilerplate to the schema, which is
 a bit ugly, but a lot easier to maintain than the simple union
 feature.
 
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210917143134.412106-7-armbru@redhat.com>
+Message-Id: <20210917143134.412106-8-armbru@redhat.com>
+[Missing conditionals added]
 ---
- qapi/machine.json | 42 ++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 38 insertions(+), 4 deletions(-)
+ qapi/char.json | 190 +++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 168 insertions(+), 22 deletions(-)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 157712f006..32d47f4e35 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1194,6 +1194,38 @@
-           }
- }
+diff --git a/qapi/char.json b/qapi/char.json
+index 9b18ee3305..f5133a5eeb 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -407,39 +407,185 @@
+   'base': 'ChardevCommon',
+   'if': 'CONFIG_SPICE_PROTOCOL' }
  
 +##
-+# @MemoryDeviceInfoKind:
++# @ChardevBackendKind:
 +#
-+# Since: 2.1
++# @pipe: Since 1.5
++# @udp: Since 1.5
++# @mux: Since 1.5
++# @msmouse: Since 1.5
++# @wctablet: Since 2.9
++# @braille: Since 1.5
++# @testdev: Since 2.2
++# @stdio: Since 1.5
++# @console: Since 1.5
++# @spicevmc: Since 1.5
++# @spiceport: Since 1.5
++# @qemu-vdagent: Since 6.1
++# @vc: v1.5
++# @ringbuf: Since 1.6
++# @memory: Since 1.5
++#
++# Since: 1.4
 +##
-+{ 'enum': 'MemoryDeviceInfoKind',
-+  'data': [ 'dimm', 'nvdimm', 'virtio-pmem', 'virtio-mem' ] }
++{ 'enum': 'ChardevBackendKind',
++  'data': [ 'file',
++            'serial',
++            'parallel',
++            'pipe',
++            'socket',
++            'udp',
++            'pty',
++            'null',
++            'mux',
++            'msmouse',
++            'wctablet',
++            'braille',
++            'testdev',
++            'stdio',
++            'console',
++            { 'name': 'spicevmc', 'if': 'CONFIG_SPICE' },
++            { 'name': 'spiceport', 'if': 'CONFIG_SPICE' },
++            { 'name': 'qemu-vdagent', 'if': 'CONFIG_SPICE_PROTOCOL' },
++            'vc',
++            'ringbuf',
++            # next one is just for compatibility
++            'memory' ] }
 +
 +##
-+# @PCDIMMDeviceInfoWrapper:
++# @ChardevFileWrapper:
 +#
-+# Since: 2.1
++# Since: 1.4
 +##
-+{ 'struct': 'PCDIMMDeviceInfoWrapper',
-+  'data': { 'data': 'PCDIMMDeviceInfo' } }
++{ 'struct': 'ChardevFileWrapper',
++  'data': { 'data': 'ChardevFile' } }
 +
 +##
-+# @VirtioPMEMDeviceInfoWrapper:
++# @ChardevHostdevWrapper:
 +#
-+# Since: 2.1
++# Since: 1.4
 +##
-+{ 'struct': 'VirtioPMEMDeviceInfoWrapper',
-+  'data': { 'data': 'VirtioPMEMDeviceInfo' } }
++{ 'struct': 'ChardevHostdevWrapper',
++  'data': { 'data': 'ChardevHostdev' } }
 +
 +##
-+# @VirtioMEMDeviceInfoWrapper:
++# @ChardevSocketWrapper:
 +#
-+# Since: 2.1
++# Since: 1.4
 +##
-+{ 'struct': 'VirtioMEMDeviceInfoWrapper',
-+  'data': { 'data': 'VirtioMEMDeviceInfo' } }
++{ 'struct': 'ChardevSocketWrapper',
++  'data': { 'data': 'ChardevSocket' } }
++
++##
++# @ChardevUdpWrapper:
++#
++# Since: 1.5
++##
++{ 'struct': 'ChardevUdpWrapper',
++  'data': { 'data': 'ChardevUdp' } }
++
++##
++# @ChardevCommonWrapper:
++#
++# Since: 2.6
++##
++{ 'struct': 'ChardevCommonWrapper',
++  'data': { 'data': 'ChardevCommon' } }
++
++##
++# @ChardevMuxWrapper:
++#
++# Since: 1.5
++##
++{ 'struct': 'ChardevMuxWrapper',
++  'data': { 'data': 'ChardevMux' } }
++
++##
++# @ChardevStdioWrapper:
++#
++# Since: 1.5
++##
++{ 'struct': 'ChardevStdioWrapper',
++  'data': { 'data': 'ChardevStdio' } }
++
++##
++# @ChardevSpiceChannelWrapper:
++#
++# Since: 1.5
++##
++{ 'struct': 'ChardevSpiceChannelWrapper',
++  'data': { 'data': 'ChardevSpiceChannel' },
++  'if': 'CONFIG_SPICE' }
++
++##
++# @ChardevSpicePortWrapper:
++#
++# Since: 1.5
++##
++{ 'struct': 'ChardevSpicePortWrapper',
++  'data': { 'data': 'ChardevSpicePort' },
++  'if': 'CONFIG_SPICE' }
++
++##
++# @ChardevQemuVDAgentWrapper:
++#
++# Since: 6.1
++##
++{ 'struct': 'ChardevQemuVDAgentWrapper',
++  'data': { 'data': 'ChardevQemuVDAgent' },
++  'if': 'CONFIG_SPICE_PROTOCOL' }
++
++##
++# @ChardevVCWrapper:
++#
++# Since: 1.5
++##
++{ 'struct': 'ChardevVCWrapper',
++  'data': { 'data': 'ChardevVC' } }
++
++##
++# @ChardevRingbufWrapper:
++#
++# Since: 1.5
++##
++{ 'struct': 'ChardevRingbufWrapper',
++  'data': { 'data': 'ChardevRingbuf' } }
 +
  ##
- # @MemoryDeviceInfo:
+ # @ChardevBackend:
  #
-@@ -1205,10 +1237,12 @@
- # Since: 2.1
+ # Configuration info for the new chardev backend.
+ #
+-# Since: 1.4 (testdev since 2.2, wctablet since 2.9, vdagent since 6.1)
++# Since: 1.4
  ##
- { 'union': 'MemoryDeviceInfo',
--  'data': { 'dimm': 'PCDIMMDeviceInfo',
--            'nvdimm': 'PCDIMMDeviceInfo',
--            'virtio-pmem': 'VirtioPMEMDeviceInfo',
--            'virtio-mem': 'VirtioMEMDeviceInfo'
-+  'base': { 'type': 'MemoryDeviceInfoKind' },
+ { 'union': 'ChardevBackend',
+-  'data': { 'file': 'ChardevFile',
+-            'serial': 'ChardevHostdev',
+-            'parallel': 'ChardevHostdev',
+-            'pipe': 'ChardevHostdev',
+-            'socket': 'ChardevSocket',
+-            'udp': 'ChardevUdp',
+-            'pty': 'ChardevCommon',
+-            'null': 'ChardevCommon',
+-            'mux': 'ChardevMux',
+-            'msmouse': 'ChardevCommon',
+-            'wctablet': 'ChardevCommon',
+-            'braille': 'ChardevCommon',
+-            'testdev': 'ChardevCommon',
+-            'stdio': 'ChardevStdio',
+-            'console': 'ChardevCommon',
+-            'spicevmc': { 'type': 'ChardevSpiceChannel',
++  'base': { 'type': 'ChardevBackendKind' },
 +  'discriminator': 'type',
-+  'data': { 'dimm': 'PCDIMMDeviceInfoWrapper',
-+            'nvdimm': 'PCDIMMDeviceInfoWrapper',
-+            'virtio-pmem': 'VirtioPMEMDeviceInfoWrapper',
-+            'virtio-mem': 'VirtioMEMDeviceInfoWrapper'
-           }
- }
++  'data': { 'file': 'ChardevFileWrapper',
++            'serial': 'ChardevHostdevWrapper',
++            'parallel': 'ChardevHostdevWrapper',
++            'pipe': 'ChardevHostdevWrapper',
++            'socket': 'ChardevSocketWrapper',
++            'udp': 'ChardevUdpWrapper',
++            'pty': 'ChardevCommonWrapper',
++            'null': 'ChardevCommonWrapper',
++            'mux': 'ChardevMuxWrapper',
++            'msmouse': 'ChardevCommonWrapper',
++            'wctablet': 'ChardevCommonWrapper',
++            'braille': 'ChardevCommonWrapper',
++            'testdev': 'ChardevCommonWrapper',
++            'stdio': 'ChardevStdioWrapper',
++            'console': 'ChardevCommonWrapper',
++            'spicevmc': { 'type': 'ChardevSpiceChannelWrapper',
+                           'if': 'CONFIG_SPICE' },
+-            'spiceport': { 'type': 'ChardevSpicePort',
++            'spiceport': { 'type': 'ChardevSpicePortWrapper',
+                            'if': 'CONFIG_SPICE' },
+-            'qemu-vdagent': { 'type': 'ChardevQemuVDAgent',
++            'qemu-vdagent': { 'type': 'ChardevQemuVDAgentWrapper',
+                               'if': 'CONFIG_SPICE_PROTOCOL' },
+-            'vc': 'ChardevVC',
+-            'ringbuf': 'ChardevRingbuf',
++            'vc': 'ChardevVCWrapper',
++            'ringbuf': 'ChardevRingbufWrapper',
+             # next one is just for compatibility
+-            'memory': 'ChardevRingbuf' } }
++            'memory': 'ChardevRingbufWrapper' } }
  
+ ##
+ # @ChardevReturn:
 -- 
 2.31.1
 
