@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFCE3419629
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 16:22:11 +0200 (CEST)
-Received: from localhost ([::1]:60952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86209419622
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 16:19:55 +0200 (CEST)
+Received: from localhost ([::1]:54040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUrWE-0001iJ-R9
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 10:22:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33702)
+	id 1mUrU2-0005XA-IO
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 10:19:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUrMv-0003i3-J2
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:12:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44068)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUrNg-0005Vk-DX
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:13:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUrMq-0005y8-Ja
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:12:30 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUrNX-0006U1-6P
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:13:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632751947;
+ s=mimecast20190719; t=1632751989;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0W1zZa1Ca8BxENToBjGRq0iFBpjVy+dmwg+/ojrsrEI=;
- b=QGbAUd3j/zSvcF5PnrPthI6tZSJJqfPqTzbFupabPaLazhsRPyERj+bEOyCSokYLD/hpyj
- ncMdX3iPhu5cqI3KqEHc8jqJcqpNnwcN0hUG0n+DQ8njdbQ9TkChIklPtQT576SMkeC5M7
- B8F6nUdlJOQA3pmMaWPwO93DF03urcs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-wfAYSL-1MfyO4T6AvkGAqg-1; Mon, 27 Sep 2021 10:12:24 -0400
-X-MC-Unique: wfAYSL-1MfyO4T6AvkGAqg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- f11-20020adfc98b000000b0015fedc2a8d4so14244702wrh.0
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 07:12:24 -0700 (PDT)
+ bh=AkDVHnzPBj3MObyhee+TcgpEOfgxkMwd9BIyBknAqPE=;
+ b=Y6JOA3V+ATNHqM8qAUOew2dA+ZGx13NDbhJsYbuC9OJCl32VtdpfO5Ewehr1GV30B9ojkE
+ nIW0Gw8nxOaPLqtl52CYXkBbegl5+jWx9K2u3/QEK2IwnlZjzKq/DY90hxoB2KY8oJmnMy
+ bbBKq6YmCwBGDIdZAQkDIWDnqvHOiUY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-569-W-Q49_YWOsaCjblPp_OGTA-1; Mon, 27 Sep 2021 10:13:07 -0400
+X-MC-Unique: W-Q49_YWOsaCjblPp_OGTA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p12-20020a5d4e0c000000b001605e330b62so4331549wrt.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 07:13:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0W1zZa1Ca8BxENToBjGRq0iFBpjVy+dmwg+/ojrsrEI=;
- b=DvQSpwDm7aaKFEkZBj/YxtYaRoBLLYBnhBI7xairnflBRCimH+zg4YQcyEEIW2zgVg
- bj4N66IFhqT9pAlDU30WgJ6c60ygNXxbewjgEbRTZn2RIDcbcsOmYtiTvIXQmxCAvFUG
- EwbTJbgotXEikP4slZUAc4EYjeP4QKYdL2EAIwV2zHGZWiYoYWJEdBR5z26cCZljaG+A
- nEEcIliziK3LiAHV4/EVHcxYQCbv6Uua0ICYau9KwH5YymIgR4SyV02Torfaa66Ium6U
- 1vto7Rye9ODtKOAZ5iZr+dL1fidGPy3EkrmJrOxVHSbQ7Z/+O2vyM0mF6nBMFTVyAJC0
- C9ow==
-X-Gm-Message-State: AOAM531r/+aPJhc5GuNA6rr4Z7tuw1rlWj3yQqTzvXH3Qkek1+UlO/AY
- NVecSod8aIutDM8jxJ9RReoNMfgQMfNIwqc1r0Zqtlg8LV6nW3wBgQ9u5YoUVsQKFdBMbbucFtu
- ckBh+k49elk01guI=
-X-Received: by 2002:a7b:c859:: with SMTP id c25mr147970wml.154.1632751943604; 
- Mon, 27 Sep 2021 07:12:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4g9IaAq0QMcLCE7axyzt26bIrkQ9kh/UBCbl0SUhALrnY2+PWbcdjB2e52hQN4N5TtIo8Pw==
-X-Received: by 2002:a7b:c859:: with SMTP id c25mr147941wml.154.1632751943378; 
- Mon, 27 Sep 2021 07:12:23 -0700 (PDT)
+ bh=AkDVHnzPBj3MObyhee+TcgpEOfgxkMwd9BIyBknAqPE=;
+ b=B2ZtXjdi+YapGEccucII9aat51tchZ1xlGs0eZdlpy4PylJ9zs1uw4N+ybs0FP0a26
+ sFum4juxcD4eMqDrp4PPk/OEaaaCtyB/J0+IXp2R2aK3q4MVIHVr8fca372SzKx2SPm4
+ O3CdLa+bhtSbbTWdZYoiqUnFvOXNylb4x09/Hfnu33mn2B/Km5cAT0mzYG9kOAtoLlQQ
+ 3UEzP76IrkNTUyDkwSyOdTSdFKnL7TEFX58u5y+EPZkqYW46B9+o++F9AV61Y7APyTEL
+ CE3+Jaa545hmBi0FzTuPMULVp4RprREpuoeJcqhIMCDPyMpGnY5qgjUs9i8J4Q8vAqBS
+ +DLw==
+X-Gm-Message-State: AOAM5305N8aWq23xrESrP0am43zK82X5smV7muqgdXN/fCJNlHeO9hG5
+ 8zzZOt3ci7iKFngdWSyT9bS+8jZqrfbZg6g6kqw4ssS1v58unEmFSXwUvUp/HANEj5t8pe+Aj3O
+ Om0Vz1SbxeDsGj5o=
+X-Received: by 2002:a1c:98c6:: with SMTP id a189mr2068553wme.59.1632751985907; 
+ Mon, 27 Sep 2021 07:13:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw18/bAJX8QgmyosWXafDXTae4V1uMssbCl4ElQbuQuCqrq3bZOmoD/IlqL3HSXgsMjSOUK0w==
+X-Received: by 2002:a1c:98c6:: with SMTP id a189mr2068529wme.59.1632751985685; 
+ Mon, 27 Sep 2021 07:13:05 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id k4sm16840591wrv.24.2021.09.27.07.12.22
+ by smtp.gmail.com with ESMTPSA id l10sm281548wmq.42.2021.09.27.07.13.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 07:12:22 -0700 (PDT)
-Message-ID: <fe982e8e-5ead-5be7-48b3-3c962960f21a@redhat.com>
-Date: Mon, 27 Sep 2021 16:12:21 +0200
+ Mon, 27 Sep 2021 07:13:05 -0700 (PDT)
+Message-ID: <2ec1f20b-afc2-8a58-60ae-5b53e5fd7ac7@redhat.com>
+Date: Mon, 27 Sep 2021 16:13:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 4/6] avocado_qemu: tweak ssh connect method
+Subject: Re: [PATCH 0/6] avocado_qemu: small fixes and tweaks
 To: Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org
 References: <20210920204932.94132-1-willianr@redhat.com>
- <20210920204932.94132-5-willianr@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210920204932.94132-5-willianr@redhat.com>
+In-Reply-To: <20210920204932.94132-1-willianr@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -58
 X-Spam_score: -5.9
@@ -104,45 +103,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/20/21 22:49, Willian Rampazzo wrote:
-> The current implementation will crash if the connection fails as the
-> `time` module is not imported. This fixes the import problem and tweaks
-> the connection to wait progressively when the connection fails.
+> Standardize the super() calls according to PEP3135; fix import order based on
+> isort; fix and tweak the ssh `connect` method; explicitly return None on
+> `pick_default_qemu_bin` function to avoid linters R1710; and fix inheritance
+> order on `LinuxTest` to avoid future problems.
 > 
-> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-> ---
->  tests/acceptance/avocado_qemu/__init__.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Note: borrowed https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg05117.html
+>       for completeness.
 > 
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index edb9ed7485..c3613f9262 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -13,6 +13,7 @@
->  import shutil
->  import sys
->  import tempfile
-> +import time
->  import uuid
->  
->  import avocado
-> @@ -305,8 +306,7 @@ def ssh_connect(self, username, credential, credential_is_key=True):
->                  self.ssh_session.connect()
->                  return
->              except:
-> -                time.sleep(4)
-
-10 * 4 = 40
-
-> -                pass
-> +                time.sleep(i)
-
-sum([0..10[) = 45
-
-The described tweak. Almost the same, OK.
-
->          self.fail('ssh connection timeout')
->  
->      def ssh_command(self, command):
+> Cleber Rosa (1):
+>   Acceptance Tests: add standard clean up at test tearDown()
 > 
+> Willian Rampazzo (5):
+>   avocado_qemu: standardize supper() call following PEP3135
+>   avocado_qemu: fix import module based on isort
+>   avocado_qemu: tweak ssh connect method
+>   avocado_qemu: explicitly return None to avoid R1710
+>   avocado_qemu: fix inheritance order on LinuxTest class
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
