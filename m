@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB1E418FA5
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 09:02:16 +0200 (CEST)
-Received: from localhost ([::1]:44358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF76418FAC
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 09:06:52 +0200 (CEST)
+Received: from localhost ([::1]:49280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUkeU-00012l-4x
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 03:02:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51202)
+	id 1mUkix-0004T6-Ew
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 03:06:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mUkc1-000840-U7; Mon, 27 Sep 2021 02:59:41 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:36528)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mUkc0-0001Zg-C2; Mon, 27 Sep 2021 02:59:41 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id w19so18952717ybs.3;
- Sun, 26 Sep 2021 23:59:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=d0TfoZRMtQaQHeX8oI+jYFGeHeo1XKKYb2ENk/hHXFs=;
- b=q14Po4xXSEmb5OU9ZMoSm0T4BPcLJV1LHkhJALyRzLpPHNrzZmIZdqq1SBkp0ciEeM
- K/Zjgrlh8GR/YDge1A5HOR0VoQCVZzWfdBrSCB7+Y0ysCfFZafd+uxgVWOnKqFyjFIOD
- TUImDCax8hS+7s5fd2BbbDix7GJDrHq4swLN8mEn7OTLgfB9pnVsX5U0AuLDaK96IOT2
- G6dn50DNKzJA+rNeXB2xQMpmcI1Szl7x4K2dY36VeApR5AWup42i78BzaGTRgh/D6cBF
- OJfd3jUu2Hmd03ROPYKczE7FVpkyoZGRP0KK/m2qKbI40dxD2LHhGvC27aiUD1wTZ1iV
- VXLQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mUkhn-0003nf-36
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 03:05:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29974)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mUkhk-0006UO-IK
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 03:05:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632726335;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BVQ6zu4QY47K6PthGpGHBmifKAlYmIBnBfu6H5FHpXg=;
+ b=KYNqhSOyB27xTtgTT66kpTR9H/uRQtoUNTNPHOjv0tLjWCRKlcJ+fikxPSeVpEWxN6Y+Vj
+ nju3zCMwMZ0vc44fUMZV84dam6fXLGW/KpzQSS1PbdlQ3X97o4mwsJwmEalsW2STDL49AN
+ F9+d8xdI8DWplxwzPc0+F26vvzFlqjg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-51-HPylXqCIPYaaLgAj7XDnBw-1; Mon, 27 Sep 2021 03:05:33 -0400
+X-MC-Unique: HPylXqCIPYaaLgAj7XDnBw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p12-20020a5d4e0c000000b001605e330b62so3668831wrt.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 00:05:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=d0TfoZRMtQaQHeX8oI+jYFGeHeo1XKKYb2ENk/hHXFs=;
- b=by2ClI+pTHmCd5T4jbQtjkpUXEiS++87KG5zzTzjwdMq18jU77jbvBqtthzmKHvHbh
- Cn5Y6H45EQsy7y4qT2tkGVDbgJfjYQtp3nCUnkS4AWRwiovXv3sUcntGM5rGGT5+0LFv
- nmv7xCmLwxbPUfKJMPZ01rKAy9W78paS+hRdYindBYpOc91+T8mJSmBluGflTPVoCC4S
- OUEZaYWWfGOorWwXDHFMmcTLKEzoB7attnrRLJXGudx6AMMtJt2LhfxfQbzSnvrt0jff
- wGi/G/3qMPRhj/BswRdMhWpcQ6KBqf7na4IO7iY8CFpjDbVOLlijCz85v17KxEJG/gaE
- zrYw==
-X-Gm-Message-State: AOAM531wsoQN9sL1W4oJXucYPDN9OVN8owYZELqbBFFbNisVG/0r/04f
- jtjWtgu0EXpNwS+OTsJqmJMRaa/Lz9F8ML7qrLY=
-X-Google-Smtp-Source: ABdhPJyGTt0eTwzxFw2eURlAK8ilg/OOD4/RNuojbJ0h/ytK64Vtt3A/J+Gu1HW68fILFGHsHKbks7E4G3a9gAxVFcg=
-X-Received: by 2002:a25:905:: with SMTP id 5mr28621346ybj.293.1632725979208;
- Sun, 26 Sep 2021 23:59:39 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BVQ6zu4QY47K6PthGpGHBmifKAlYmIBnBfu6H5FHpXg=;
+ b=KUgziOJEW+GKD9OebqQp78/IUn+MwE4lJok34LoBg/QmQdg1jcYMVGaOwXCYxA+Qip
+ deFbA0gEJT8Oa01baxZ+d4SemffjM0+mhBN2Yei3oMU0e7/zYAypYAvoMs5S1eR3GTzd
+ NcwjoqIjgPeVCuNOQJ7PErS9PZ9m9YF1vlat7XeBOmiLPpXGF3sLcaEQSuImcEYeITEP
+ IgYabL/brCX2nj2IpBeDxKiJbNroIyKl6AWHw1m7/D5vQ1deJNxWyEZyaZdzjA8HbeZo
+ vt6iIKMyK1RC7aprDXOPwTbGT/u+P+vUsxOctL5EDV/N9EDqed4r/Q68xPVWY9xu5No2
+ 529Q==
+X-Gm-Message-State: AOAM531QXyDlmnIplxsgpHrrRBbRidN1ZDjI61hQIAuiLBiJ3eTevKJd
+ 3lDz3owC3pLpY5DgrBYlk6MSuW6HzSz/GFGn/1nhqNgv0TFAWy4e7iIOfBg4onbo10Z2A4R4aan
+ N61Q5X8OObRgugBA=
+X-Received: by 2002:a7b:cb49:: with SMTP id v9mr13856820wmj.76.1632726332470; 
+ Mon, 27 Sep 2021 00:05:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxCckzjnZQn338laSkd0/RD3tlR3GueyXlRVWs97GgEPQtXWIgqVx7BctqXe5P1nPjbXeQcCw==
+X-Received: by 2002:a7b:cb49:: with SMTP id v9mr13856783wmj.76.1632726332222; 
+ Mon, 27 Sep 2021 00:05:32 -0700 (PDT)
+Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id k22sm16486957wrd.59.2021.09.27.00.05.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Sep 2021 00:05:31 -0700 (PDT)
+Subject: Re: [PATCH v15] qapi: introduce 'query-x86-cpuid' QMP command.
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Valeriy Vdovin <valery.vdovin.s@gmail.com>, qemu-devel@nongnu.org
+References: <20210816145132.9636-1-valery.vdovin.s@gmail.com>
+ <24143eb0-9ab4-bcf7-94e7-32037ad49b2e@virtuozzo.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <02ca90a5-9f2f-4385-d5ae-8bd023b367fc@redhat.com>
+Date: Mon, 27 Sep 2021 09:05:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210927022113.1518559-1-bmeng.cn@gmail.com>
- <87h7e6jyto.fsf@dusky.pond.sub.org>
-In-Reply-To: <87h7e6jyto.fsf@dusky.pond.sub.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 27 Sep 2021 14:59:28 +0800
-Message-ID: <CAEUhbmXu3fToVqkBgsJe4oLpC+X8SR_Pkd-K-VpQEjcm8YpOEQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] hw/dma: sifive_pdma: Improve code readability for
- "!!foo & bar"
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <24143eb0-9ab4-bcf7-94e7-32037ad49b2e@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.478, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,68 +98,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>, Denis Lunev <den@openvz.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Markus,
+On 22/09/2021 09.41, Vladimir Sementsov-Ogievskiy wrote:
+> Ping.
+> 
+> Hi! Any chance for this to land?
 
-On Mon, Sep 27, 2021 at 2:51 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Bin Meng <bmeng.cn@gmail.com> writes:
->
-> > GCC seems to be strict about processing pattern like "!!for & bar".
-> > When 'bar' is not 0 or 1, it complains with -Werror=3Dparentheses:
-> >
-> >   suggest parentheses around operand of =E2=80=98!=E2=80=99 or change =
-=E2=80=98&=E2=80=99 to =E2=80=98&&=E2=80=99 or =E2=80=98!=E2=80=99 to =E2=
-=80=98~=E2=80=99 [-Werror=3Dparentheses]
-> >
-> > Add a () around "foo && bar", which also improves code readability.
-> >
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > ---
-> >
-> >  hw/dma/sifive_pdma.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
-> > index b4fd40573a..b8ec7621f3 100644
-> > --- a/hw/dma/sifive_pdma.c
-> > +++ b/hw/dma/sifive_pdma.c
-> > @@ -243,7 +243,7 @@ static void sifive_pdma_write(void *opaque, hwaddr =
-offset,
-> >      offset &=3D 0xfff;
-> >      switch (offset) {
-> >      case DMA_CONTROL:
-> > -        claimed =3D !!s->chan[ch].control & CONTROL_CLAIM;
-> > +        claimed =3D !!(s->chan[ch].control & CONTROL_CLAIM);
-> >
-> >          if (!claimed && (value & CONTROL_CLAIM)) {
-> >              /* reset Next* registers */
->
-> Old code
->
->     first double-negate, mapping zero to zero, non-zero to one
->     then mask, which does nothing, because CONTROL_CLAIM is 1
->
-> New code:
->
->     first mask, yielding 0 or 1
->     then double-negate, which does nothing
->
-> Looks like a bug fix to me.  If I'm right, the commit message is wrong,
-> and the double negate is redundant.
->
+Sorry if I missed the outcome of the discussion - but what about the idea to 
+introduce this with a "x-" prefix first, since there was no 100% certainty 
+that we really fully want to support this command in the current fashion?
 
-Thanks for the review. The double negate is not needed with
-CONTROL_CLAIM which is 1, but is needed if the bit is in another
-position.
+  Thomas
 
-Regards,
-Bin
+
 
