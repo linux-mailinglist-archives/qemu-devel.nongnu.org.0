@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2412F4199CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:58:34 +0200 (CEST)
-Received: from localhost ([::1]:40400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 785C4419A91
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:08:43 +0200 (CEST)
+Received: from localhost ([::1]:60794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUtxZ-00045K-2X
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:58:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47862)
+	id 1mUu7O-0001CA-GL
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUtuy-0001u5-Fx
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:55:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60389)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mUtzu-0000Id-Be
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:00:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22340)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUtuv-0005MN-5S
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:55:50 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mUtzp-0001H2-T8
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:00:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632761747;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=A3GSUpDGt4esMAj+1/O0qf/pF9hSd6H8TJWmnuip1vs=;
- b=PNgISd7FJGhr/hfAo2UIwi3H7wMp627/6EkOH1v1qhJgATOEd0JuJx0C3IchEy374we04D
- lIEeNUQ2I/PuUDo1E0pODfFLGaN8VqG7mM7zIM6/pkdaZQzZ/4+/lVZbWjg1T04metU48v
- Ipd5pi3YwcVCnbLkntPo0BERerDnx5E=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-m0eO8mPXMx-IWEpFwUIyyQ-1; Mon, 27 Sep 2021 12:55:45 -0400
-X-MC-Unique: m0eO8mPXMx-IWEpFwUIyyQ-1
-Received: by mail-vk1-f199.google.com with SMTP id
- d145-20020a1fb497000000b002a13f63cf2bso525606vkf.5
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 09:55:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=A3GSUpDGt4esMAj+1/O0qf/pF9hSd6H8TJWmnuip1vs=;
- b=diOmIf0/L9iLQwwDOtbLVeKzYFjcJKIP34TFjRGYCS/+LhlnDLJgJmIDXCpYtvn1fM
- yXs1WS+SDAFrm4J57p+6vIYosSnju9d1h/6+s+RBvpdY8xH6S/HIaR5S/sdzSJp0k9QO
- AS5CPhlKWvL+r1BL+sq5hEZyZ4mUXefEQJH/24ibMuytk1WIer/oqXgVfWs747e0xO1m
- lO9l2o9XiCz78WcU3hjnV0NMIJOqPSHifxmRt+aXdcpXVICU9otDGkLKGxahBq2WtPqi
- gQt4cWlaBG+6D4VTXO1uUSIYHVmeMvTDh1Q96sGBqYvKuoeKG6fwR3Lpspf+V04IIJyY
- 77+w==
-X-Gm-Message-State: AOAM5310ao4YsOBM0OKXUVpmkipUlSMpOk028SGxKPH9BvpNAWj9lt5n
- AZ3GYrgFsp+FqW99jyRYLWmwdS7+i70u7sWZxP6ib2QreubjApxBliMrF3djNVIbbO/7LEEYP/I
- y2bssWTHg3MZp3xkGuje6rW4/pbXmxyU=
-X-Received: by 2002:a1f:27cd:: with SMTP id n196mr1062612vkn.23.1632761745391; 
- Mon, 27 Sep 2021 09:55:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwdvcrHGM6yelWO/X7+8Pl9PRtouRwV9D4HMMiokQVYfTUYXOigCsEjFFZ9NYOMOZ43Xb90F2d2P8ribJLiNhA=
-X-Received: by 2002:a1f:27cd:: with SMTP id n196mr1062583vkn.23.1632761745164; 
- Mon, 27 Sep 2021 09:55:45 -0700 (PDT)
+ s=mimecast20190719; t=1632762053;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=mzZfcPCdDblg4Kqgk4uY45/tSiuH9b0IxKMj7UiTZ4s=;
+ b=B7ImHEY+Ykc+ObTPQPhY5HfAn49Ha+ZMkSqsMkOBO0tv6O6ClqoEt5u0JVtwPSGI+I4SU1
+ XfLaIkc+Qz5pkz9djkV3IYTcRUYX1hb4j/ihioGjbx7rgC798TmVWv/B7lsuY1AW5MlOsq
+ NySQO7gTJavdMWwdp+10Zbm+oaKpjgA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-596-uk4Yw_yPOG2pCiUBjz8WSw-1; Mon, 27 Sep 2021 13:00:37 -0400
+X-MC-Unique: uk4Yw_yPOG2pCiUBjz8WSw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 073F210BFA7D;
+ Mon, 27 Sep 2021 17:00:36 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0134C5BAF3;
+ Mon, 27 Sep 2021 17:00:14 +0000 (UTC)
+Date: Mon, 27 Sep 2021 18:00:12 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dov Murik <dovmurik@linux.ibm.com>
+Subject: Re: [PATCH v3 1/2] sev/i386: Introduce sev_add_kernel_loader_hashes
+ for measured linux boot
+Message-ID: <YVH4nLO+tuzNIDsC@redhat.com>
+References: <20210825073538.959525-1-dovmurik@linux.ibm.com>
+ <20210825073538.959525-2-dovmurik@linux.ibm.com>
 MIME-Version: 1.0
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 27 Sep 2021 12:55:34 -0400
-Message-ID: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
-Subject: QAPI sync meeting
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+In-Reply-To: <20210825073538.959525-2-dovmurik@linux.ibm.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000d2e72d05ccfcf7a1"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,102 +80,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hubertus Franke <frankeh@us.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d2e72d05ccfcf7a1
-Content-Type: text/plain; charset="UTF-8"
+On Wed, Aug 25, 2021 at 07:35:37AM +0000, Dov Murik wrote:
+> Add the sev_add_kernel_loader_hashes function to calculate the hashes of
+> the kernel/initrd/cmdline and fill a designated OVMF encrypted hash
+> table area.  For this to work, OVMF must support an encrypted area to
+> place the data which is advertised via a special GUID in the OVMF reset
+> table.
+> 
+> The hashes of each of the files is calculated (or the string in the case
+> of the cmdline with trailing '\0' included).  Each entry in the hashes
+> table is GUID identified and since they're passed through the
+> sev_encrypt_flash interface, the hashes will be accumulated by the PSP
+> measurement (SEV_LAUNCH_MEASURE).
+> 
+> Co-developed-by: James Bottomley <jejb@linux.ibm.com>
+> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
+> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+> Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+> ---
+>  target/i386/sev_i386.h |  12 ++++
+>  target/i386/sev-stub.c |   5 ++
+>  target/i386/sev.c      | 137 +++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 154 insertions(+)
+> 
+> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+> index ae6d840478..deb3eec409 100644
+> --- a/target/i386/sev_i386.h
+> +++ b/target/i386/sev_i386.h
+> @@ -28,6 +28,17 @@
+>  #define SEV_POLICY_DOMAIN       0x10
+>  #define SEV_POLICY_SEV          0x20
+>  
+> +typedef struct KernelLoaderContext {
+> +    char *setup_data;
+> +    size_t setup_size;
+> +    char *kernel_data;
+> +    size_t kernel_size;
+> +    char *initrd_data;
+> +    size_t initrd_size;
+> +    char *cmdline_data;
+> +    size_t cmdline_size;
+> +} KernelLoaderContext;
 
-Hiya,
+I'd expect the struct to have 'Sev' as its name prefix, in common
+with everything else SEV related that's exported here. 
 
-I'd like to propose that at least the three of us arrange a time to have a
-meeting where we discuss our plans and ideas for QAPI going forward,
-including rust, python, and golang extensions to the QAPI generator, what
-we hope to accomplish with those projects, and so on.
+> +
+>  extern bool sev_es_enabled(void);
+>  extern uint64_t sev_get_me_mask(void);
+>  extern SevInfo *sev_get_info(void);
+> @@ -37,5 +48,6 @@ extern char *sev_get_launch_measurement(void);
+>  extern SevCapability *sev_get_capabilities(Error **errp);
+>  extern SevAttestationReport *
+>  sev_get_attestation_report(const char *mnonce, Error **errp);
+> +extern bool sev_add_kernel_loader_hashes(KernelLoaderContext *ctx, Error **errp);
 
-What I am hoping to get out of this for myself is a high-level overview of
-people's plans for QAPI and to produce some notes on those plans so that I
-can have a reference that we've all acknowledged as roughly accurate to be
-able to keep the community's design goals for QAPI in mind as I continue my
-own development. Ultimately, I'd like some kind of rough draft of a "QAPI
-roadmap".
-
-I know there was a rust meetup during KVM Forum, but I was unable to attend
-due to the timing. I'd like to expand the focus a little more broadly to
-QAPI in general and discuss our "personal" roadmaps, goals, queued work,
-etc so that we can collaboratively formulate a broader vision of our work.
-
-I'm posting to qemu-devel in case anyone else has an interest in this area
-and would like to eavesdrop or share opinions, but we should probably come
-up with an agenda first. So:
-
-Proposed agenda:
-
-Current projects, wishlists, and goals for QAPI:
-- Markus (~10 min)
-- Marc-Andre (~10 min) (Rust, dbus, etc?)
-- jsnow (~10 min) (Python, golang, etc)
-
-Formulating short-term and long-term roadmaps:
-- Open discussion, ~30 min
-- Collaboratively produce a summary doc (etherpad?) outlining major work to
-be done, separated into near and long terms
-- Upload this summary to the QEMU wiki and mail it back out to qemu-devel
-- We probably won't exactly finish this bit, but we can resume on the
-mailing list afterwards perfectly well.
-
-(Feel free to propose anything different for the meeting, this is just a
-jumping off point for discussion.)
-
-Proposed time:
-
-- Any weekday after 13:00 UTC. Wednesdays, Thursdays and Fridays work
-particularly well for me at the moment.
-- bluejeans and google meeting both work well for me. Open to alternatives.
-
-
-Thanks,
---js
-
---000000000000d2e72d05ccfcf7a1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hiya,</div><div><br></div><div>I&#39;d like to propos=
-e that at least the three of us arrange a time to have a meeting where we d=
-iscuss our plans and ideas for QAPI going forward, including rust, python, =
-and golang extensions to the QAPI generator, what we hope to accomplish wit=
-h those projects, and so on.<br><br></div><div>What I am hoping to get out =
-of this for myself is a high-level overview of people&#39;s plans for QAPI =
-and to produce some notes on those plans so that I can have a reference tha=
-t we&#39;ve all acknowledged as roughly accurate to be able to keep the com=
-munity&#39;s design goals for QAPI in mind as I continue my own development=
-. Ultimately, I&#39;d like some kind of rough draft of a &quot;QAPI roadmap=
-&quot;.<br></div><div><br></div><div>I know there was a rust meetup during =
-KVM Forum, but I was unable to attend due to the timing. I&#39;d like to ex=
-pand the focus a little more broadly to QAPI in general and discuss our &qu=
-ot;personal&quot; roadmaps, goals, queued work, etc so that we can collabor=
-atively formulate a broader vision of our work.<br></div><div><br></div><di=
-v>I&#39;m posting to qemu-devel in case anyone else has an interest in this=
- area and would like to eavesdrop or share opinions, but we should probably=
- come up with an agenda first. So:<br><br></div><div>Proposed agenda:<br></=
-div><div><br></div><div>Current projects, wishlists, and goals for QAPI:</d=
-iv><div>- Markus (~10 min)<br></div><div>- Marc-Andre (~10 min) (Rust, dbus=
-, etc?)<br></div><div>- jsnow (~10 min) (Python, golang, etc)<br></div><div=
-><br></div><div>Formulating short-term and long-term roadmaps:</div><div>- =
-Open discussion, ~30 min<br>- Collaboratively produce a summary doc (etherp=
-ad?) outlining major work to be done, separated into near and long terms<br=
-></div><div>- Upload this summary to the QEMU wiki and mail it back out to =
-qemu-devel<br></div><div>- We probably won&#39;t exactly finish this bit, b=
-ut we can resume on the mailing list afterwards perfectly well.<br></div><b=
-r><div>(Feel free to propose anything different for the meeting, this is ju=
-st a jumping off point for discussion.)<br><br></div><div>Proposed time:</d=
-iv><div><br></div><div>- Any weekday after 13:00 UTC. Wednesdays, Thursdays=
- and Fridays work particularly well for me at the moment.<br></div><div>- b=
-luejeans and google meeting both work well for me. Open to alternatives.<br=
-><br></div><div><br></div><div>Thanks,<br></div><div>--js<br></div></div>
-
---000000000000d2e72d05ccfcf7a1--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
