@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4778E419F3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 21:34:53 +0200 (CEST)
-Received: from localhost ([::1]:49084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9531A419F50
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 21:42:18 +0200 (CEST)
+Received: from localhost ([::1]:42528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUwOq-0004Pe-Aa
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 15:34:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57724)
+	id 1mUwW1-0002Jg-JL
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 15:42:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUwHa-0002dG-MR
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 15:27:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22426)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUwHt-0003Sd-JX
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 15:27:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUwHY-00079W-DE
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 15:27:22 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUwHr-0007P9-St
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 15:27:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632770839;
+ s=mimecast20190719; t=1632770859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jv3ygWN7baaYko3xWhaZHlbf0a5zFoDzyb6Qw6YZ6GY=;
- b=bOBzi1ZnBUXxXklUoxlSeYNS7W0y6ToWmC6r6a+BPE41jxZhO7eglfG8+Ryw3jX4NDwrJn
- u6SnoKzN2b9Q4UY8DoHrjfPES+2Xi4i8dk00lWsne3UoHmEq8f8ZsATPREe8yCdiJSabhZ
- N3XqC6DbcuR1KPj4xY5jPWiOboMzNgw=
+ bh=5bXw48pGXenFR8Znjwp1tOJ/BfFdT4xpOZbVwehQB38=;
+ b=Kj31D7iEAuAnrqEyw+rmPWEnQjx8zmc5b9eFj7ecDDel9ANIlbOLLbXmummLEir8C6oaj2
+ xmbBcUxN1aXNoBq6u2Nigbcj4KwLwwHFfBkLoAZp+Bd2zpVakypXYdPpeB43tVUo9YZ6i9
+ uZM1VNBhqGsdqmi8CwiuXgv6zi2WqMU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-QxYi7ukKMr6dENT5z3SmJw-1; Mon, 27 Sep 2021 15:27:17 -0400
-X-MC-Unique: QxYi7ukKMr6dENT5z3SmJw-1
+ us-mta-358-tp7kp0mtPWuBiHh0KB9mow-1; Mon, 27 Sep 2021 15:27:37 -0400
+X-MC-Unique: tp7kp0mtPWuBiHh0KB9mow-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F54A802947;
- Mon, 27 Sep 2021 19:27:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3C5E1006AA3;
+ Mon, 27 Sep 2021 19:27:36 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDB5360871;
- Mon, 27 Sep 2021 19:27:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 715F060871;
+ Mon, 27 Sep 2021 19:27:21 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/32] python/aqmp: add logging to AsyncProtocol
-Date: Mon, 27 Sep 2021 15:24:49 -0400
-Message-Id: <20210927192513.744199-9-jsnow@redhat.com>
+Subject: [PULL 10/32] python/aqmp: add configurable read buffer limit
+Date: Mon, 27 Sep 2021 15:24:51 -0400
+Message-Id: <20210927192513.744199-11-jsnow@redhat.com>
 In-Reply-To: <20210927192513.744199-1-jsnow@redhat.com>
 References: <20210927192513.744199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,260 +82,75 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ G S Niteesh Babu <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
  John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Give the connection and the reader/writer tasks nicknames, and add
-logging statements throughout.
+QMP can transmit some pretty big messages, and the default limit of 64KB
+isn't sufficient. Make sure that we can configure it.
 
+Reported-by: G S Niteesh Babu <niteesh.gs@gmail.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-id: 20210915162955.333025-9-jsnow@redhat.com
+Message-id: 20210915162955.333025-11-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/protocol.py | 82 ++++++++++++++++++++++++++++++++----
- 1 file changed, 73 insertions(+), 9 deletions(-)
+ python/qemu/aqmp/protocol.py | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/python/qemu/aqmp/protocol.py b/python/qemu/aqmp/protocol.py
-index 19460857bd6..1dfd12895dc 100644
+index 62c26ede5a4..2ef19e96932 100644
 --- a/python/qemu/aqmp/protocol.py
 +++ b/python/qemu/aqmp/protocol.py
-@@ -14,6 +14,7 @@
- from asyncio import StreamReader, StreamWriter
- from enum import Enum
- from functools import wraps
-+import logging
- from ssl import SSLContext
- from typing import (
-     Any,
-@@ -32,8 +33,10 @@
- from .util import (
-     bottom_half,
-     create_task,
-+    exception_summary,
-     flush,
-     is_closing,
-+    pretty_traceback,
-     upper_half,
-     wait_closed,
- )
-@@ -174,14 +177,28 @@ class AsyncProtocol(Generic[T]):
-          can be written after the super() call.
-      - `_on_message`:
-          Actions to be performed when a message is received.
-+
-+    :param name:
-+        Name used for logging messages, if any. By default, messages
-+        will log to 'qemu.aqmp.protocol', but each individual connection
-+        can be given its own logger by giving it a name; messages will
-+        then log to 'qemu.aqmp.protocol.${name}'.
-     """
-     # pylint: disable=too-many-instance-attributes
+@@ -189,6 +189,9 @@ class AsyncProtocol(Generic[T]):
+     #: Logger object for debugging messages from this connection.
+     logger = logging.getLogger(__name__)
  
-+    #: Logger object for debugging messages from this connection.
-+    logger = logging.getLogger(__name__)
++    # Maximum allowable size of read buffer
++    _limit = (64 * 1024)
 +
      # -------------------------
      # Section: Public interface
      # -------------------------
- 
--    def __init__(self) -> None:
-+    def __init__(self, name: Optional[str] = None) -> None:
-+        #: The nickname for this connection, if any.
-+        self.name: Optional[str] = name
-+        if self.name is not None:
-+            self.logger = self.logger.getChild(self.name)
-+
-         # stream I/O
-         self._reader: Optional[StreamReader] = None
-         self._writer: Optional[StreamWriter] = None
-@@ -205,6 +222,14 @@ def __init__(self) -> None:
-         self._runstate = Runstate.IDLE
-         self._runstate_changed: Optional[asyncio.Event] = None
- 
-+    def __repr__(self) -> str:
-+        cls_name = type(self).__name__
-+        tokens = []
-+        if self.name is not None:
-+            tokens.append(f"name={self.name!r}")
-+        tokens.append(f"runstate={self.runstate.name}")
-+        return f"<{cls_name} {' '.join(tokens)}>"
-+
-     @property  # @upper_half
-     def runstate(self) -> Runstate:
-         """The current `Runstate` of the connection."""
-@@ -246,6 +271,7 @@ async def disconnect(self) -> None:
- 
-         :raise Exception: When the reader or writer terminate unexpectedly.
-         """
-+        self.logger.debug("disconnect() called.")
-         self._schedule_disconnect()
-         await self._wait_disconnect()
- 
-@@ -273,6 +299,8 @@ def _set_state(self, state: Runstate) -> None:
-         if state == self._runstate:
-             return
- 
-+        self.logger.debug("Transitioning from '%s' to '%s'.",
-+                          str(self._runstate), str(state))
-         self._runstate = state
-         self._runstate_event.set()
-         self._runstate_event.clear()
-@@ -312,8 +340,15 @@ async def _new_session(self,
- 
-         except BaseException as err:
-             emsg = f"Failed to establish {phase}"
--            # Reset from CONNECTING back to IDLE.
--            await self.disconnect()
-+            self.logger.error("%s: %s", emsg, exception_summary(err))
-+            self.logger.debug("%s:\n%s\n", emsg, pretty_traceback())
-+            try:
-+                # Reset from CONNECTING back to IDLE.
-+                await self.disconnect()
-+            except:
-+                emsg = "Unexpected bottom half exception"
-+                self.logger.critical("%s:\n%s\n", emsg, pretty_traceback())
-+                raise
- 
-             # NB: CancelledError is not a BaseException before Python 3.8
-             if isinstance(err, asyncio.CancelledError):
-@@ -363,12 +398,16 @@ async def _do_connect(self, address: Union[str, Tuple[str, int]],
- 
-         :raise OSError: For stream-related errors.
-         """
-+        self.logger.debug("Connecting to %s ...", address)
-+
-         if isinstance(address, tuple):
-             connect = asyncio.open_connection(address[0], address[1], ssl=ssl)
+@@ -452,6 +455,7 @@ async def _client_connected_cb(reader: asyncio.StreamReader,
+                 port=address[1],
+                 ssl=ssl,
+                 backlog=1,
++                limit=self._limit,
+             )
          else:
-             connect = asyncio.open_unix_connection(path=address, ssl=ssl)
+             coro = asyncio.start_unix_server(
+@@ -459,6 +463,7 @@ async def _client_connected_cb(reader: asyncio.StreamReader,
+                 path=address,
+                 ssl=ssl,
+                 backlog=1,
++                limit=self._limit,
+             )
+ 
+         server = await coro     # Starts listening
+@@ -482,9 +487,18 @@ async def _do_connect(self, address: Union[str, Tuple[str, int]],
+         self.logger.debug("Connecting to %s ...", address)
+ 
+         if isinstance(address, tuple):
+-            connect = asyncio.open_connection(address[0], address[1], ssl=ssl)
++            connect = asyncio.open_connection(
++                address[0],
++                address[1],
++                ssl=ssl,
++                limit=self._limit,
++            )
+         else:
+-            connect = asyncio.open_unix_connection(path=address, ssl=ssl)
++            connect = asyncio.open_unix_connection(
++                path=address,
++                ssl=ssl,
++                limit=self._limit,
++            )
          self._reader, self._writer = await connect
  
-+        self.logger.debug("Connected.")
-+
-     @upper_half
-     async def _establish_session(self) -> None:
-         """
-@@ -382,8 +421,8 @@ async def _establish_session(self) -> None:
- 
-         self._outgoing = asyncio.Queue()
- 
--        reader_coro = self._bh_loop_forever(self._bh_recv_message)
--        writer_coro = self._bh_loop_forever(self._bh_send_message)
-+        reader_coro = self._bh_loop_forever(self._bh_recv_message, 'Reader')
-+        writer_coro = self._bh_loop_forever(self._bh_send_message, 'Writer')
- 
-         self._reader_task = create_task(reader_coro)
-         self._writer_task = create_task(writer_coro)
-@@ -410,6 +449,7 @@ def _schedule_disconnect(self) -> None:
-         """
-         if not self._dc_task:
-             self._set_state(Runstate.DISCONNECTING)
-+            self.logger.debug("Scheduling disconnect.")
-             self._dc_task = create_task(self._bh_disconnect())
- 
-     @upper_half
-@@ -492,30 +532,39 @@ def _done(task: Optional['asyncio.Future[Any]']) -> bool:
-             # Try to flush the writer, if possible:
-             if not error_pathway:
-                 await self._bh_flush_writer()
--        except:
-+        except BaseException as err:
-             error_pathway = True
-+            emsg = "Failed to flush the writer"
-+            self.logger.error("%s: %s", emsg, exception_summary(err))
-+            self.logger.debug("%s:\n%s\n", emsg, pretty_traceback())
-             raise
-         finally:
-             # Cancel any still-running tasks:
-             if self._writer_task is not None and not self._writer_task.done():
-+                self.logger.debug("Cancelling writer task.")
-                 self._writer_task.cancel()
-             if self._reader_task is not None and not self._reader_task.done():
-+                self.logger.debug("Cancelling reader task.")
-                 self._reader_task.cancel()
- 
-             # Close out the tasks entirely (Won't raise):
-             if tasks:
-+                self.logger.debug("Waiting for tasks to complete ...")
-                 await asyncio.wait(tasks)
- 
-             # Lastly, close the stream itself. (May raise):
-             await self._bh_close_stream(error_pathway)
-+            self.logger.debug("Disconnected.")
- 
-     @bottom_half
-     async def _bh_flush_writer(self) -> None:
-         if not self._writer_task:
-             return
- 
-+        self.logger.debug("Draining the outbound queue ...")
-         await self._outgoing.join()
-         if self._writer is not None:
-+            self.logger.debug("Flushing the StreamWriter ...")
-             await flush(self._writer)
- 
-     @bottom_half
-@@ -525,8 +574,10 @@ async def _bh_close_stream(self, error_pathway: bool = False) -> None:
-             return
- 
-         if not is_closing(self._writer):
-+            self.logger.debug("Closing StreamWriter.")
-             self._writer.close()
- 
-+        self.logger.debug("Waiting for StreamWriter to close ...")
-         try:
-             await wait_closed(self._writer)
-         except Exception:  # pylint: disable=broad-except
-@@ -541,13 +592,18 @@ async def _bh_close_stream(self, error_pathway: bool = False) -> None:
-                 # just trust that the Exception we already have is the
-                 # better one to present to the user, even if we don't
-                 # genuinely *know* the relationship between the two.
--                pass
-+                self.logger.debug(
-+                    "Discarding Exception from wait_closed:\n%s\n",
-+                    pretty_traceback(),
-+                )
-             else:
-                 # Oops, this is a brand-new error!
-                 raise
-+        finally:
-+            self.logger.debug("StreamWriter closed.")
- 
-     @bottom_half
--    async def _bh_loop_forever(self, async_fn: _TaskFN) -> None:
-+    async def _bh_loop_forever(self, async_fn: _TaskFN, name: str) -> None:
-         """
-         Run one of the bottom-half methods in a loop forever.
- 
-@@ -555,16 +611,24 @@ async def _bh_loop_forever(self, async_fn: _TaskFN) -> None:
-         disconnect that will terminate the entire loop.
- 
-         :param async_fn: The bottom-half method to run in a loop.
-+        :param name: The name of this task, used for logging.
-         """
-         try:
-             while True:
-                 await async_fn()
-         except asyncio.CancelledError:
-             # We have been cancelled by _bh_disconnect, exit gracefully.
-+            self.logger.debug("Task.%s: cancelled.", name)
-             return
--        except BaseException:
-+        except BaseException as err:
-+            self.logger.error("Task.%s: %s",
-+                              name, exception_summary(err))
-+            self.logger.debug("Task.%s: failure:\n%s\n",
-+                              name, pretty_traceback())
-             self._schedule_disconnect()
-             raise
-+        finally:
-+            self.logger.debug("Task.%s: exiting.", name)
- 
-     @bottom_half
-     async def _bh_send_message(self) -> None:
+         self.logger.debug("Connected.")
 -- 
 2.31.1
 
