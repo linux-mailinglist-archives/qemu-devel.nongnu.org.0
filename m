@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AEE418E69
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 06:39:38 +0200 (CEST)
-Received: from localhost ([::1]:41382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33108418E6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 06:49:00 +0200 (CEST)
+Received: from localhost ([::1]:52658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUiQT-0000tK-O3
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 00:39:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56754)
+	id 1mUiZX-0000W3-8d
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 00:48:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUiP0-0007vs-Ib
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 00:38:07 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45637)
+ id 1mUiYN-00080m-RA; Mon, 27 Sep 2021 00:47:48 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUiOz-0000A2-15
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 00:38:06 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id d21so48318881wra.12
- for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 21:38:04 -0700 (PDT)
+ id 1mUiYM-0008DS-B7; Mon, 27 Sep 2021 00:47:47 -0400
+Received: by mail-wr1-x433.google.com with SMTP id d6so48335379wrc.11;
+ Sun, 26 Sep 2021 21:47:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=jEae1eAajKs+5oeEH1RXfJofuvmGdVG/0973md1VjKs=;
- b=MXHyHnVg3QDU8Kil/wizh9S+JJdqlckRZARGpXGwtfqyZwG03pWJCKzEzaRrJ20wR6
- SuKdu8g7hrDlZIN6/xU1VQvcKvotCS3U+783oO/Ac+QCtW9Ohkfd0HXkhlgRcSuU+t9R
- u6OU4z3utsRQe+o2wIYIoXHNFV8Vjj0EQ3b1YkqK6ndnENWPRnFB6xiC36PvX/5LkbP3
- PcdA3nwo/xp7fA/MQ7pFeBSIGx1FOGJeVQDqrR7XMsPclpssLDF3PhFl+pnkcYtMjj7K
- eXHV0ENhdfGc9DO7dSBX31w+JQdImp+SYHgFe+gHNMjNSoiizKIO7kLX2Co1GBPDJLek
- Reag==
+ bh=ix3GPs7ILYiUQFRczMH/bYnLo9Fsseb5Ku/IPCZWzc0=;
+ b=USEAwtNC6KwP/j830n0Kx511xctvwguLbsYpVGKHmlCx2HnOMG0i4UWtP3CRPUAFm7
+ WZXN+PATEO5cOVAv0lydq7IKAkNYSXicf3TIGHvBzzKx1aCMMwaWfa57La51r/D8ngup
+ DUO4yeMTU+m+vuoBivKBjOFLKjxrN0Uy+7SeI85lkJlghV1J3X97vgTX7HL0IfhSAgL3
+ IeYg4q0U6yByO9txL6CFabmLQZQ9CD2A+B71sa6vcYZuGj55Fg1f+vcPtMYs8Wx8k4mZ
+ 0L/5cRLXZq76eIUJ/FC5nbcGOiTNesp9xrsvsMQrYGcwhrAPVG4fKSLAY7s6DrKA4BN0
+ KzUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=jEae1eAajKs+5oeEH1RXfJofuvmGdVG/0973md1VjKs=;
- b=lg6L6QSYXR9mjPn2hDUHVwjZRpi3VLACdITffFh5lWK1vS2kyfswwOtlah11maD9Kp
- xUjwVcEb7tWgsKt1S+d68I3SfM+f6Q62ChANf+c9VI+7L7y84qmAKVGkDU05sc19evwM
- BP3zbig8LFyCb9fyo5/dIz5W5TAaKFEaKvR1nUqMq05LDVn4SfjX2HNjUdgym5iIyHJx
- AeVdwsIwQwxJT9i/Td0vnbTL1Bqnjenv5W7yHbMC6zWyWYaFYD60z3ejYwMUzAc8dYUq
- eAvAVFWo781ed4mzK8DfcM5DhGvrOR17x0OIt9Avj7cNKrO//3EP5SqNYZWay+Jz5XcX
- ugtQ==
-X-Gm-Message-State: AOAM533/PM9uqBn4dPUpAHVNCjX0Oa9r6sJ8Py96c2XWnJoVHbfP3HqT
- 5vjAC3HGSTPPYEQngTu0IaY=
-X-Google-Smtp-Source: ABdhPJzvpQMnTSAEhVhr64sosFDljghu+zB5k2Mct7pnjD6jqJkERV6tw3JfHmZrlFDsxtiyHPNPBg==
-X-Received: by 2002:a05:600c:4fd2:: with SMTP id
- o18mr14012796wmq.126.1632717483517; 
- Sun, 26 Sep 2021 21:38:03 -0700 (PDT)
+ bh=ix3GPs7ILYiUQFRczMH/bYnLo9Fsseb5Ku/IPCZWzc0=;
+ b=1xXWIOXwuyHLSvfY3fFvufYw0bVoBnoO3IOzs3Dox8GvECzKislrKpmPcbwnVbhuJb
+ +1hItP1tCJKHCyXDZYAj+s8G7v9X56LVBu3olt8BetAvOxWwKv5Nvul5v5fVg8mTvc69
+ AXFA0f5tc26qMz05hcPjJPdBP9/Hf21tJFeFQg+aVnLiqm5/3QhFElhS6s2YGfLBLXci
+ KCuYMmHYngSw9O+tz/2yeVTaJX/H81dU6K6sIEIwdK8x9PUEErzM6AA7d1iscmPeLaph
+ vnymfZChHt21lSBTpM4Ya18089aZAM9o+l/xqcqPKuGjljJ6r0GTSYVp2qIBTdJhM3eQ
+ T6/A==
+X-Gm-Message-State: AOAM533y6cYrRAB3XlCycuo4nKcpMapKpvFY6MAWMLN+odvZZDoFRCUq
+ Q+EvqSEPbaC7xGshm/PzFkI=
+X-Google-Smtp-Source: ABdhPJzPTLsTfGf67OrxNaXdIujcOboS/y2SazQFMh4VOxUC39bl88sAcoTP/gmNmBoqrFSMhTcFPw==
+X-Received: by 2002:a05:6000:186a:: with SMTP id
+ d10mr25865640wri.113.1632718064116; 
+ Sun, 26 Sep 2021 21:47:44 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id d70sm15370555wmd.3.2021.09.26.21.38.02
+ by smtp.gmail.com with ESMTPSA id j4sm15767808wrt.67.2021.09.26.21.47.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Sep 2021 21:38:03 -0700 (PDT)
-Message-ID: <f81166c3-0680-2d59-0886-700dc39a0449@amsat.org>
-Date: Mon, 27 Sep 2021 06:38:01 +0200
+ Sun, 26 Sep 2021 21:47:43 -0700 (PDT)
+Message-ID: <8a997109-92cb-675b-f872-4a07dbebe861@amsat.org>
+Date: Mon, 27 Sep 2021 06:47:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v8 13/40] accel/tcg: Implement AccelOpsClass::has_work()
+Subject: Re: [PATCH 1/2] hw/dma: sifive_pdma: Improve code readability for
+ "!!foo & bar"
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210926222716.1732932-1-f4bug@amsat.org>
- <20210926222716.1732932-14-f4bug@amsat.org>
- <86834955-b2c7-5a94-eec0-47686eb40690@linaro.org>
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
+ <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20210927022113.1518559-1-bmeng.cn@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <86834955-b2c7-5a94-eec0-47686eb40690@linaro.org>
+In-Reply-To: <20210927022113.1518559-1-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -92,37 +90,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Frank Chang <frank.chang@sifive.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/21 02:12, Richard Henderson wrote:
-> On 9/26/21 6:26 PM, Philippe Mathieu-Daudé wrote:
->> All accelerators but TCG implement their AccelOpsClass::has_work()
->> handler, meaning all the remaining CPUClass::has_work() ones are
->> only reachable from TCG accelerator; and these has_work() handlers
->> belong to TCGCPUOps.
->>
->> We will gradually move each target CPUClass::has_work() to
->> TCGCPUOps in the following commits.
->> For now, move the CPUClass::has_work() call to tcg_cpu_has_work(),
->> the TCG AccelOpsClass::has_work() implementation.
->>
->> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
->> ---
->>   include/hw/core/cpu.h     |  2 +-
->>   accel/tcg/tcg-accel-ops.c | 11 +++++++++++
->>   softmmu/cpus.c            |  5 -----
->>   3 files changed, 12 insertions(+), 6 deletions(-)
+On 9/27/21 04:21, Bin Meng wrote:
+> GCC seems to be strict about processing pattern like "!!for & bar".
+> When 'bar' is not 0 or 1, it complains with -Werror=parentheses:
 > 
-> Are we really really really sure this works?
+>   suggest parentheses around operand of ‘!’ or change ‘&’ to ‘&&’ or ‘!’ to ‘~’ [-Werror=parentheses]
+> 
+> Add a () around "foo && bar", which also improves code readability.
+> 
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> ---
+> 
+>  hw/dma/sifive_pdma.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
+> index b4fd40573a..b8ec7621f3 100644
+> --- a/hw/dma/sifive_pdma.c
+> +++ b/hw/dma/sifive_pdma.c
+> @@ -243,7 +243,7 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
+>      offset &= 0xfff;
+>      switch (offset) {
+>      case DMA_CONTROL:
+> -        claimed = !!s->chan[ch].control & CONTROL_CLAIM;
+> +        claimed = !!(s->chan[ch].control & CONTROL_CLAIM);
 
-As sure as a green CI, so I wonder if KVM is really tested there...
+AFAIK in C logical NOT has precedence over bitwise AND, so IIUC
+compilers should read the current code as:
 
-> Device emulation raises e.g. CPU_INTERRUPT_HARD.  We certainly test that
-> bit in target/i386/kvm/kvm.c.  But we don't check that bit in your
-> kvm_cpu_has_work.  We're currently checking that via cc->has_work(), in
-> x86_cpu_pending_interrupt, but after this change we won't test it at all
-> for kvm.
+           claimed (!!s->chan[ch].control) & CONTROL_CLAIM;
 
-Indeed. I guess I misunderstood your v6 comment. I'll revisit. Sorry.
+meaning this patch is doing more than "improve code readability",
+this is a logical change and likely a bug fix...
+
+BTW GCC suggestions are:
+
+           claimed (!!s->chan[ch].control) & CONTROL_CLAIM;
+
+           claimed (!!s->chan[ch].control) && CONTROL_CLAIM;
+>  
+>          if (!claimed && (value & CONTROL_CLAIM)) {
+>              /* reset Next* registers */
+> 
+
 
