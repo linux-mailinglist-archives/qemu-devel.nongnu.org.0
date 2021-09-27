@@ -2,69 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4717D419299
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 12:55:26 +0200 (CEST)
-Received: from localhost ([::1]:59498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C4D4192B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 13:04:34 +0200 (CEST)
+Received: from localhost ([::1]:37094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUoI9-0001Ie-Bb
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 06:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41678)
+	id 1mUoQz-0005kP-Bn
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 07:04:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mUoGd-0000QF-G2
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:53:52 -0400
-Received: from mail-vk1-xa36.google.com ([2607:f8b0:4864:20::a36]:36424)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mUoGY-0003p5-Ns
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:53:50 -0400
-Received: by mail-vk1-xa36.google.com with SMTP id t186so6763643vkd.3
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 03:53:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5xbqQI0lhKymJK9dbq6bqX4ryZLG9KG2KAaatYT/eUM=;
- b=g5cnXLUEY1GWiYSr/0GTpVsy4qjy8DTAwL0rz0nA+PjeqsaF5jAGfzslhHzQV2VX2g
- SDUUEXx5YjlrfFInpafVSiHtlzhD9m4RmUmetS/L9ZAfwGoZerNB06OpO2/bosdoVMYD
- vXUk8/GievrLRLTAVLMfV4rB/TGqNKDJZKQ0ZFvJene5piyVtlD6QjjBX7q3NdDm0E03
- sg+lVmcE9/JBXVbENNcY6thUgdqQ1qx3nL41gTm77aEFpiuyTZFl82sdpEGPXEMTabc0
- 9MFohS8eb/QzqZ6ar1rIQwn9dsJN+1aZJpPD4+r/bYSaRpOsQnoaHSOw5t8pR1C34VN3
- pEnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5xbqQI0lhKymJK9dbq6bqX4ryZLG9KG2KAaatYT/eUM=;
- b=BG6SbS73Nvscp+qGTPv2qXyJv507L3vhooyphwasN0rLjH7vlEAGyb1yyvM2RiKz3u
- zkrlxXdPPS8KcgLgnOD13La8Ow8TuOM3dWLxt50JEXtzf1KuDVsyoVLWw9W6Po8pQl3k
- i9WOcJONJKsJDpCzr9+lWunCnVVbs0CdFzAMB3Pj8H6luN7kPMI9RL0FKjvIyX/hfB30
- zJ7frVENJ1wBYlJ1iVj3nHzn6OC/2grflSdXpqht+YauIwWytsDXAqbeBfp/ODUdSH1F
- 8O0OFTzorCvr64aNbRkPYlmmiV1K9dk3QGVOnN4IcqXjDYTOhhZCN7ZbhGF/o98Dho8f
- 73fg==
-X-Gm-Message-State: AOAM532e0f4LauyuflnxiTO+8tl9XLI5Atfj9lXyZbDn0jHOCkC9rPp/
- 3kLKOV8hSTtpJAfidMZPAuwGiWEgEIf9Fn0WE6sm9g==
-X-Google-Smtp-Source: ABdhPJzuEKjvdhY8HDiW6HWvF6KW7boAC1WCWoRB0Q94s1m8h0atM9VU8K6rSoYSEVdVvsyVflKsf1W70pDBryJ0POU=
-X-Received: by 2002:a1f:2914:: with SMTP id p20mr15283274vkp.5.1632740022662; 
- Mon, 27 Sep 2021 03:53:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mUoMc-000449-Gw
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 07:00:02 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:40258)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mUoMa-00005e-G6
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 07:00:02 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-77-4-h9GmDqNMKjUmpMXgxnRw-1; Mon, 27 Sep 2021 06:59:47 -0400
+X-MC-Unique: 4-h9GmDqNMKjUmpMXgxnRw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0490DBBEE8;
+ Mon, 27 Sep 2021 10:59:46 +0000 (UTC)
+Received: from bahia.huguette (unknown [10.39.192.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B0445D9D5;
+ Mon, 27 Sep 2021 10:59:41 +0000 (UTC)
+Date: Mon, 27 Sep 2021 12:59:40 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v3 0/5] introduce QArray
+Message-ID: <20210927125940.3ef12485@bahia.huguette>
+In-Reply-To: <2431106.PTX978RE0L@silver>
+References: <cover.1629982046.git.qemu_oss@crudebyte.com>
+ <20210831135802.349fb447@bahia.lan> <1697912.9TVREAEhXh@silver>
+ <2431106.PTX978RE0L@silver>
 MIME-Version: 1.0
-References: <20210926220103.1721355-1-f4bug@amsat.org>
- <20210926220103.1721355-2-f4bug@amsat.org>
- <YVGUX6FZlFBhhgwn@redhat.com>
- <CAFEAcA_FRAHy1Hq2QxO2DWkrLZbW_4g=zzCoac18rRNf2CD0kw@mail.gmail.com>
-In-Reply-To: <CAFEAcA_FRAHy1Hq2QxO2DWkrLZbW_4g=zzCoac18rRNf2CD0kw@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 27 Sep 2021 04:53:31 -0600
-Message-ID: <CANCZdfrhw7i0Kd-dzy8FAWa4BW+4Tm2JSHpF4-T-ZGMhYy1EOg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] bsd-user: Only process meson rules on BSD host
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000000fd0ad05ccf7e96b"
-Received-SPF: none client-ip=2607:f8b0:4864:20::a36;
- envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa36.google.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,99 +66,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>, Kyle Evans <kevans@freebsd.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000fd0ad05ccf7e96b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, 27 Sep 2021 12:35:16 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-On Mon, Sep 27, 2021 at 4:08 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+> On Dienstag, 31. August 2021 14:25:04 CEST Christian Schoenebeck wrote:
+> > On Dienstag, 31. August 2021 13:58:02 CEST Greg Kurz wrote:
+> > > On Thu, 26 Aug 2021 14:47:26 +0200
+> > >=20
+> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > > Patches 1 and 2 introduce include/qemu/qarray.h which implements a =
+deep
+> > > > auto free mechanism for arrays. See commit log of patch 1 for a det=
+ailed
+> > > > explanation and motivation for introducing QArray.
+> > > >=20
+> > > > Patches 3..5 are provided (e.g. as example) for 9p being the first =
+user
+> > > > of
+> > > > this new QArray API. These particular patches 3..5 are rebased on m=
+y
+> > > > current 9p queue: https://github.com/cschoenebeck/qemu/commits/9p.n=
+ext
+> > >=20
+> > > > which are basically just the following two queued patches:
+> > > This looks nice indeed but I have the impression the same could be
+> > > achieved using glib's g_autoptr framework with less code being added
+> > > to QEMU (at the cost of being less generic maybe).
+> >=20
+> > I haven't seen a way doing this with glib, except of GArray which has s=
+ome
+> > disadvantages. But who knows, maybe I was missing something.
+>=20
+> Ping
+>=20
+> Let's do this?
+>=20
 
-> On Mon, 27 Sept 2021 at 10:59, Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om>
-> wrote:
-> > If we look at linux-user/meson.build though things are more complex.
-> > There we have alot of sub-dirs, and meson.biuld in those dirs adds
-> > generators for various files. So conceivably skipping linux-user
-> > will mean we won't auto-generate files we don't need on non-Linux.
->
-> The top level meson.build doesn't call process on the
-> syscall_nr_generators[] list unless we're building linux-user
-> targets, so I don't think we will auto-generate anything we
-> don't need.
->
+Hi Christian,
 
-The problem is that I'm trying to add some os-specific files
-to the bsd-user in a patch set I sent off. bsd-user compiles
-for different BSDs, and I'd like to start pulling in per-bsd
-files as I'm upstreaming.  To do that, I have this construct
-in the bsd-user/meson.build file:
+Sorry I don't have enough bandwidth to review or to look for an alternate
+way... :-\ So I suggest you just go forward with this series. Hopefully
+you can get some reviews from Markus and/or Richard.
 
-# Pull in the OS-specific build glue, if any
-if fs.exists(targetos)
-   subdir(targetos)
-endif
+Cheers,
 
-primarily because the builds failed on Linux when it tried to
-find the non-existent bsd-user/linunx directory. The question
-came up on how to cope with this situation, and Philippe
-sent off this series as an alternative to that construct. The
-whole reason why we descend into the linux-user directory
-on BSD and into the bsd-user directory on linux is unclear
-to me as well.
+--
+Greg
 
-So this is preparing the ground for my future work of upstreaming.
-I'm agnostic as to how it's resolved, but it needs to be resolved.
+> > > Anyway, we should likely sort out the SEGV issue you're hitting
+> > > before going forward with supplementary changes in v9fs_walk().
+> >=20
+> > Yeah, let's postpone this series here. I'll look into the Twalk crash i=
+ssue
+> > more closely today and will get back on that issue first.
+> >=20
+> > Best regards,
+> > Christian Schoenebeck
+>=20
+>=20
 
-Warner
-
---0000000000000fd0ad05ccf7e96b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 27, 2021 at 4:08 AM Peter=
- Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Mon, 27 Sept 2021 at 10:59, Daniel P. Berrang=C3=A9 &lt;<a href=3D=
-"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt; =
-wrote:<br>
-&gt; If we look at linux-user/meson.build though things are more complex.<b=
-r>
-&gt; There we have alot of sub-dirs, and meson.biuld in those dirs adds<br>
-&gt; generators for various files. So conceivably skipping linux-user<br>
-&gt; will mean we won&#39;t auto-generate files we don&#39;t need on non-Li=
-nux.<br>
-<br>
-The top level meson.build doesn&#39;t call process on the<br>
-syscall_nr_generators[] list unless we&#39;re building linux-user<br>
-targets, so I don&#39;t think we will auto-generate anything we<br>
-don&#39;t need.<br></blockquote><div><br></div><div>The problem is that I&#=
-39;m trying to add some os-specific files</div><div>to the bsd-user in a pa=
-tch set I sent off. bsd-user compiles</div><div>for different BSDs, and I&#=
-39;d like to start pulling in per-bsd</div><div>files as I&#39;m upstreamin=
-g.=C2=A0 To do that, I have this construct</div><div>in the bsd-user/meson.=
-build file:</div><div><br></div><div># Pull in the OS-specific build glue, =
-if any<br>if fs.exists(targetos)<br>=C2=A0 =C2=A0subdir(targetos)<br>endif<=
-br></div><div><br></div><div>primarily because the builds failed on Linux w=
-hen it tried to</div><div>find the non-existent bsd-user/linunx=C2=A0direct=
-ory. The question</div><div>came up on how to cope with this situation, and=
- Philippe</div><div>sent off this series as an alternative to that construc=
-t. The</div><div>whole reason why we descend into the linux-user directory<=
-/div><div>on BSD and into the bsd-user directory on linux is unclear</div><=
-div>to me as well.</div><div><br></div><div>So this is preparing the ground=
- for my future work of upstreaming.</div><div>I&#39;m agnostic as to how it=
-&#39;s resolved, but it needs to be resolved.</div><div><br></div><div>Warn=
-er</div></div></div>
-
---0000000000000fd0ad05ccf7e96b--
 
