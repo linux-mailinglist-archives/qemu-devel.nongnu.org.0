@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A62DF419459
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 14:34:56 +0200 (CEST)
-Received: from localhost ([::1]:35288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AFD9419482
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 14:44:41 +0200 (CEST)
+Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUpqR-00013m-Ot
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 08:34:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34212)
+	id 1mUpzr-0008UH-Ro
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 08:44:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1mUpm7-0007qd-QJ
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 08:30:28 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2807)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUpwp-0006gG-O9
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 08:41:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1mUpm4-0003o0-HJ
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 08:30:27 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HJ21340X5zRWx4;
- Mon, 27 Sep 2021 20:25:59 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.8; Mon, 27 Sep 2021 20:30:15 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.8; Mon, 27 Sep 2021 20:30:14 +0800
-Subject: Re: [question] VFIO Device Migration: The vCPU may be paused during
- vfio device DMA in iommu nested stage mode && vSVA
-To: "Tian, Kevin" <kevin.tian@intel.com>, Tarun Gupta <targupta@nvidia.com>,
- Alex Williamson <alex.williamson@redhat.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Eric Auger <eric.auger@redhat.com>, Shameer Kolothum
- <shameerali.kolothum.thodi@huawei.com>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-References: <7494b6a8-8dae-cbe9-fcff-29e10a4f0015@huawei.com>
- <BN9PR11MB5433E189EEC102256A3348A18CA49@BN9PR11MB5433.namprd11.prod.outlook.com>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <41425c1b-1db4-f753-ca67-152366fe3865@huawei.com>
-Date: Mon, 27 Sep 2021 20:30:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUpwm-00036J-SN
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 08:41:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632746487;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QQDHbzTB1Ha82uLynbnt4eSS6xpD5663HauuCKPj8JM=;
+ b=NupLKptJgm48oe4AijJQ/aruZ3FaJCDkz/qOjeVrGTidnrJMj/lvMO3rb1I16+vduBKzAv
+ swC7PIDZqqiCXZGon1WSg2c4IoCJO4wPInQXvWOuUxLHNbxrM8QxWQjI1AejDEwccuDIfg
+ uNLjOtlNY/1iavVPHDUI5rHsMHAmX+A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-HVAsS2sdMgm8GWINP3tE3Q-1; Mon, 27 Sep 2021 08:41:23 -0400
+X-MC-Unique: HVAsS2sdMgm8GWINP3tE3Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E761835DE2;
+ Mon, 27 Sep 2021 12:41:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 29AED4180;
+ Mon, 27 Sep 2021 12:41:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C69F7113865F; Mon, 27 Sep 2021 14:41:20 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/25] QAPI patches patches for 2021-09-25
+References: <20210925062525.988405-1-armbru@redhat.com>
+ <CAFEAcA9YRXCKxZJ=LiGqoKRmrk_JdB16ch140dh9ACYPuwTo4w@mail.gmail.com>
+Date: Mon, 27 Sep 2021 14:41:20 +0200
+In-Reply-To: <CAFEAcA9YRXCKxZJ=LiGqoKRmrk_JdB16ch140dh9ACYPuwTo4w@mail.gmail.com>
+ (Peter Maydell's message of "Sat, 25 Sep 2021 09:44:49 +0100")
+Message-ID: <871r5agphr.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <BN9PR11MB5433E189EEC102256A3348A18CA49@BN9PR11MB5433.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme708-chm.china.huawei.com (10.1.199.104) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=jiangkunkun@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -72
-X-Spam_score: -7.3
-X-Spam_bar: -------
-X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.136,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,102 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Yi L" <yi.l.liu@intel.com>, "Zhao, Yan Y" <yan.y.zhao@intel.com>,
- "tangnianyao@huawei.com" <tangnianyao@huawei.com>,
- Zenghui Yu <yuzenghui@huawei.com>,
- "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>,
- "liulongfang@huawei.com" <liulongfang@huawei.com>,
- Keqian Zhu <zhukeqian1@huawei.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Kevin:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-On 2021/9/24 14:47, Tian, Kevin wrote:
->> From: Kunkun Jiang <jiangkunkun@huawei.com>
->> Sent: Friday, September 24, 2021 2:19 PM
+> On Sat, 25 Sept 2021 at 07:25, Markus Armbruster <armbru@redhat.com> wrote:
 >>
->> Hi all,
+>> The following changes since commit 11a11998460ed84d9a127c025f50f7234e5a483f:
 >>
->> I encountered a problem in vfio device migration test. The
->> vCPU may be paused during vfio-pci DMA in iommu nested
->> stage mode && vSVA. This may lead to migration fail and
->> other problems related to device hardware and driver
->> implementation.
+>>   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20210921' into staging (2021-09-24 13:21:18 -0400)
 >>
->> It may be a bit early to discuss this issue, after all, the iommu
->> nested stage mode and vSVA are not yet mature. But judging
->> from the current implementation, we will definitely encounter
->> this problem in the future.
-> Yes, this is a known limitation to support migration with vSVA.
+>> are available in the Git repository at:
+>>
+>>   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2021-09-25
+>>
+>> for you to fetch changes up to 5757c0904e2e8a7f5d9ff359b30542cfcb70556b:
+>>
+>>   tests/qapi-schema: Make test-qapi.py -u work when files are absent (2021-09-25 07:00:50 +0200)
+>>
+>> ----------------------------------------------------------------
+>> QAPI patches patches for 2021-09-25
+>>
 >
->> This is the current process of vSVA processing translation fault
->> in iommu nested stage mode (take SMMU as an example):
->>
->> guest os            4.handle translation fault 5.send CMD_RESUME to vSMMU
->>
->>
->> qemu                3.inject fault into guest os 6.deliver response to
->> host os
->> (vfio/vsmmu)
->>
->>
->> host os              2.notify the qemu 7.send CMD_RESUME to SMMU
->> (vfio/smmu)
->>
->>
->> SMMU              1.address translation fault              8.retry or
->> terminate
->>
->> The order is 1--->8.
->>
->> Currently, qemu may pause vCPU at any step. It is possible to
->> pause vCPU at step 1-5, that is, in a DMA. This may lead to
->> migration fail and other problems related to device hardware
->> and driver implementation. For example, the device status
->> cannot be changed from RUNNING && SAVING to SAVING,
->> because the device DMA is not over.
->>
->> As far as i can see, vCPU should not be paused during a device
->> IO process, such as DMA. However, currently live migration
->> does not pay attention to the state of vfio device when pausing
->> the vCPU. And if the vCPU is not paused, the vfio device is
->> always running. This looks like a *deadlock*.
-> Basically this requires:
+> Fails to build, all hosts except x86-64 Linux:
 >
-> 1) stopping vCPU after stopping device (could selectively enable
-> this sequence for vSVA);
-How to tell if vSVA is open?
-In fact, as long as it is in iommu nested stage mode, there will
-be such a problem, whether it is vSVA or no-vSVA. In no-vSVA mode,
-a fault can also be generated by modifying the guest device driver.
->
-> 2) when stopping device, the driver should block new requests
-> from vCPU (queued to a pending list) and then drain all in-fly
-> requests including faults;
->      * to block this further requires switching from fast-path to
-> slow trap-emulation path for the cmd portal before stopping
-> the device;
->
-> 3) save the pending requests in the vm image and replay them
-> after the vm is resumed;
->      * finally disable blocking by switching back to the fast-path for
-> the cmd portal;
-Is there any related patch sent out and discussed? I might have
-overlooked that.
+> In file included from qapi/qapi-visit-char.h:17,
+>                  from qapi/qapi-commands-char.c:19:
+> qapi/qapi-types-char.h:500:5: error: unknown type name 'ChardevSpiceChannel'
+>   500 |     ChardevSpiceChannel *data;
+>       |     ^~~~~~~~~~~~~~~~~~~
+> qapi/qapi-types-char.h:507:5: error: unknown type name 'ChardevSpicePort'
+>   507 |     ChardevSpicePort *data;
+>       |     ^~~~~~~~~~~~~~~~
+> qapi/qapi-types-char.h:514:5: error: unknown type name 'ChardevQemuVDAgent'
+>   514 |     ChardevQemuVDAgent *data;
+>       |     ^~~~~~~~~~~~~~~~~~
 
-We may be able to discuss and finalize a specification for this
-problem.
-
-Thanks,
-Kunkun Jiang
->> Do you have any ideas to solve this problem?
->> Looking forward to your replay.
->>
-> We verified above flow can work in our internal POC.
->
-> Thanks
-> Kevin
-
+Sorry about that.  Respin on the way.
 
 
