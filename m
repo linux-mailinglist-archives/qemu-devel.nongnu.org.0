@@ -2,58 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057A341925E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 12:42:31 +0200 (CEST)
-Received: from localhost ([::1]:48852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6117B41926C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 12:44:21 +0200 (CEST)
+Received: from localhost ([::1]:51316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUo5e-000284-2t
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 06:42:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37514)
+	id 1mUo7Q-0003md-Fw
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 06:44:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mUnym-0005XQ-9z
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:35:24 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:47799)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mUo1P-0007VX-9c
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:38:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mUnyk-0005EU-1U
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:35:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=3GLfo6cSO29wRlldGuTlQa/9vp0agoaFVPc0nqKfh2g=; b=Ddc2H1seCjm9PlW/NCjWYkO2Ud
- pslK0FL1Lzz3bmlFFJVikh7E25u6wt9QBwLAzqWA1S4Y8oB//hJsehZQD0TiaLPyI5XXEeRki1DFf
- /oQqP7iC/b4ybVXkqMPhEgBU3Eq7saHvPjAAL0cia9WQ59AgdAPllu+fYWmnW1TVHmdAWcpo25eQn
- hAWNRsEzZ/8MnUeaHACn/Fy0YmBhxy/o0kqMscXtH4dYFOyDqjQGtAD38QM6XDoi/764+Tb+UXsRo
- 1SsUIp4TE11B9xsdJJLY7X7HfhHuFNsooC9yPApH2wBUKyl2yAYM0ii71w/PcAL0SiyPdaYiTkiYl
- TaUCV9OT2Gr70xdDdGi1ORSyRk0GOi8jCNgpNtOUpWpANiuKCLlLQS4RBx02w1wPSQpcRHCdwBGo1
- MhA33rqnLfSnRZRzyFO4gc/vYhoTTVmYICLnrptX2RAqy9k9fXCMkaZ1cd6sw3YP9AidnkjgpCbxk
- cXjzmba/M8p8MqORcuZMR9lCetUVNzzBXgqIUqYneaj5Dbz9YgnHlnRwYyZCESZsIkZXHCp1Xj7eJ
- eko4my1JIpC06lSdI1rrjXfQfTUvfssjyFWELinvxPYu6KWSyzcWGHA8/Vx/cp/JKfdOtV9bw7SX/
- DPmVdd2gbytGhN0iQTqukQUO+WGGAEwQH+gbiDGVQ=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 0/5] introduce QArray
-Date: Mon, 27 Sep 2021 12:35:16 +0200
-Message-ID: <2431106.PTX978RE0L@silver>
-In-Reply-To: <1697912.9TVREAEhXh@silver>
-References: <cover.1629982046.git.qemu_oss@crudebyte.com>
- <20210831135802.349fb447@bahia.lan> <1697912.9TVREAEhXh@silver>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mUo1J-0007hs-JK
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:38:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632739079;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tLfZfF4NlbUCuMAmzrKVYskXJxPrgZj4WRoASx1yRvQ=;
+ b=NmHIMrKCcTcE4GiAkIV1Y885fgkDY3TEmD/tzVW/EYwhNGToFlusMG4Nc9D4Wl7QKQzFxi
+ KTaoejGAE9g/cwMJlTiN6GyHUeqUIK//rNn1ZVPuSsG02Zm93ZQA3smiLhgNXIwvkTWvwp
+ ce9Cd9EkQqPgfFSZpiGxxEiETbOYbVo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-Gz-lAAHvPJKUuhV0nEhLRQ-1; Mon, 27 Sep 2021 06:37:57 -0400
+X-MC-Unique: Gz-lAAHvPJKUuhV0nEhLRQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E11BB802CB6;
+ Mon, 27 Sep 2021 10:37:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D72AC4F124;
+ Mon, 27 Sep 2021 10:37:35 +0000 (UTC)
+Date: Mon, 27 Sep 2021 11:37:32 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 11/11] Deprecate stable non-JSON -device and -object
+Message-ID: <YVGe7AqZhPcwnkHX@redhat.com>
+References: <20210924090427.9218-1-kwolf@redhat.com>
+ <20210924090427.9218-12-kwolf@redhat.com>
+ <e2d47803-87ab-f48b-0947-70d99f3996be@redhat.com>
+ <YVF/DThb+Yq8/dd1@redhat.com> <YVGaH1Cf8kiT11Nh@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <YVGaH1Cf8kiT11Nh@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,43 +84,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pkrempa@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ its@irrelevant.dk, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 31. August 2021 14:25:04 CEST Christian Schoenebeck wrote:
-> On Dienstag, 31. August 2021 13:58:02 CEST Greg Kurz wrote:
-> > On Thu, 26 Aug 2021 14:47:26 +0200
-> > 
-> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > Patches 1 and 2 introduce include/qemu/qarray.h which implements a deep
-> > > auto free mechanism for arrays. See commit log of patch 1 for a detailed
-> > > explanation and motivation for introducing QArray.
+On Mon, Sep 27, 2021 at 12:17:03PM +0200, Kevin Wolf wrote:
+> Am 27.09.2021 um 10:21 hat Daniel P. Berrangé geschrieben:
+> > On Mon, Sep 27, 2021 at 10:15:43AM +0200, Paolo Bonzini wrote:
+> > > On 24/09/21 11:04, Kevin Wolf wrote:
+> > > > We want to switch both from QemuOpts to the keyval parser in the future,
+> > > > which results in some incompatibilities, mainly around list handling.
+> > > > Mark the non-JSON version of both as unstable syntax so that management
+> > > > tools switch to JSON and we can later make the change without breaking
+> > > > things.
 > > > 
-> > > Patches 3..5 are provided (e.g. as example) for 9p being the first user
-> > > of
-> > > this new QArray API. These particular patches 3..5 are rebased on my
-> > > current 9p queue: https://github.com/cschoenebeck/qemu/commits/9p.next
+> > > Maybe we need a different section for unstable syntaxes, rather than
+> > > overloading deprecated.rst?
 > > 
-> > > which are basically just the following two queued patches:
-> > This looks nice indeed but I have the impression the same could be
-> > achieved using glib's g_autoptr framework with less code being added
-> > to QEMU (at the cost of being less generic maybe).
+> > This case feels like it hits two scenarios - we want to declare it
+> > unstable, which is something we should document in qemu-options.hx.
 > 
-> I haven't seen a way doing this with glib, except of GArray which has some
-> disadvantages. But who knows, maybe I was missing something.
-
-Ping
-
-Let's do this?
-
-> > Anyway, we should likely sort out the SEGV issue you're hitting
-> > before going forward with supplementary changes in v9fs_walk().
+> Actually, I think a section for unstable syntaxes or generally
+> compatibility promises wouldn't hurt. When I checked, I couldn't find
+> any documentation about the support status of HMP either.
 > 
-> Yeah, let's postpone this series here. I'll look into the Twalk crash issue
-> more closely today and will get back on that issue first.
+> Basically, I imagine HMP and non-JSON -device/-object would be on the
+> same level: We don't change things without a reason, but if we do want
+> to change things, compatibility isn't an argument against making the
+> change.
 > 
-> Best regards,
-> Christian Schoenebeck
+> > We want to also to warn of specific breakage when the impl changes
+> > which is something suitable for deprecations.
+> 
+> We don't do this for HMP either for individual changes.
 
+Well HMP as a whole is considered non-stable, so we don't need to call
+out individual things. We've got a simple story that QMP == stable,
+HMP == unstable.
+
+The comparison here would be if we declared the entire QEMU CLI to be
+unstable, except for JSON syntax args.
+
+> Basically this deprecation notice was meant to make people aware that
+> we're lowering the support status from a long-term stable interface to
+> HMP-like.
+
+Bearing in mind our previous discussions it feels like our goal is that
+we're tending towards a world where we are only wanting to consider
+JSON based configuration to be stable, and everything else non-stable.
+
+I think that's a good long term plan, but if we're really doing that
+then I think we need to big picture explain it in our docs rather
+than mention it in passing against individual args.
+
+BTW I'm also not a fan of deprecating stuff when our documentation is
+still using the deprecated syntax and nothing shows the new preferred
+syntax. We've got alot of results for  $ git grep -- ' -object'  
+
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
