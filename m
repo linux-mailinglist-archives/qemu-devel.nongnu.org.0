@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6117B41926C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 12:44:21 +0200 (CEST)
-Received: from localhost ([::1]:51316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E17419282
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 12:49:36 +0200 (CEST)
+Received: from localhost ([::1]:54286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUo7Q-0003md-Fw
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 06:44:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38262)
+	id 1mUoCV-0005yg-9Y
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 06:49:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mUo1P-0007VX-9c
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:38:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54786)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mUo1J-0007hs-JK
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:38:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632739079;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tLfZfF4NlbUCuMAmzrKVYskXJxPrgZj4WRoASx1yRvQ=;
- b=NmHIMrKCcTcE4GiAkIV1Y885fgkDY3TEmD/tzVW/EYwhNGToFlusMG4Nc9D4Wl7QKQzFxi
- KTaoejGAE9g/cwMJlTiN6GyHUeqUIK//rNn1ZVPuSsG02Zm93ZQA3smiLhgNXIwvkTWvwp
- ce9Cd9EkQqPgfFSZpiGxxEiETbOYbVo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-Gz-lAAHvPJKUuhV0nEhLRQ-1; Mon, 27 Sep 2021 06:37:57 -0400
-X-MC-Unique: Gz-lAAHvPJKUuhV0nEhLRQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E11BB802CB6;
- Mon, 27 Sep 2021 10:37:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D72AC4F124;
- Mon, 27 Sep 2021 10:37:35 +0000 (UTC)
-Date: Mon, 27 Sep 2021 11:37:32 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 11/11] Deprecate stable non-JSON -device and -object
-Message-ID: <YVGe7AqZhPcwnkHX@redhat.com>
-References: <20210924090427.9218-1-kwolf@redhat.com>
- <20210924090427.9218-12-kwolf@redhat.com>
- <e2d47803-87ab-f48b-0947-70d99f3996be@redhat.com>
- <YVF/DThb+Yq8/dd1@redhat.com> <YVGaH1Cf8kiT11Nh@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUo9X-0004wr-Gt
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:46:32 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUo9U-0006Cd-JC
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:46:31 -0400
+Received: by mail-wr1-x429.google.com with SMTP id d6so50937858wrc.11
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 03:46:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=okFMjxgF1IEAAUPNxNlqlGmrmBOLL8+5IjowtiWG/1c=;
+ b=EIISiw9xwfqUdvGQDu3t3gV718p9FGYhjfkXNbAt+JypTpDFAMcm0aZ7o236420xnu
+ 4AD3HZvscTVxn4boKR0b8MV3TRl78dhOYpl7+jZA+1vr6N6fWA+uVw8iIv10Tu6oy0pT
+ mrX39m8bkgNO4HwFuswTjNpP2vlFWLv5DPSI+OonrdG6IAaWLcjIIV3qtb5Z3aZlWU8P
+ TQI87TUxSV3T+XO/6HT+A6fZgEsTjiIgRRr2uDTJNDh9DSeu2VjtQJWF6Q3a3hmlj3KB
+ iqiKn+MUHMATE1tcd6RDFWPVzH0XOG95iXbP9YKwH2E0PrkZUMv8Ju1YI36WrUDStcr5
+ 7GOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=okFMjxgF1IEAAUPNxNlqlGmrmBOLL8+5IjowtiWG/1c=;
+ b=Y+frzja7f9nvUsbWj0M93/anMX1ZnzXvugFLXGCRQ3JH6tnE4NseZcJGBaoPgvfTQ7
+ kJW2YIAesAny8p76BXPLFtSPbnnuwRVn/mjcaQrrGvR0DITR7G2jYxm7NdRRUYlEtjHP
+ wpZDgvbjIs5uWxVLh0Wse0XwKdEth1WvHzALI2a58RFLE+Ki9czG2+D97oZe7aLrABnj
+ 9h6xHcyurnQtI+OKJK/0wrnMjdKpBX3V3iwYCtNVUuX1DIac+qOyHD5kJX4QWxsPbleI
+ 92ggE1oLZ3xwI29hmuV4RxR6ZNljtOTsH7R6T3KNOeosP/ZwBrKcXQHQ0Qt6daoXZoSq
+ GWuw==
+X-Gm-Message-State: AOAM532nicfZ3JR1NCbxngW6SaR45HzLJQ6QWDIfBHOPhOVwypJSfSdB
+ rRCYHx8myttYOYGOlwYqxZZRsy2rrVgDAuQhbprwVw==
+X-Google-Smtp-Source: ABdhPJwyPEjkQbPDQ52WjwHQXD0x5QVDBZ58ScpcsGmVrQU079/Q0FFYJNVLmC7n9UMEdKH0YuFHX7sayM/UQC1jqDo=
+X-Received: by 2002:adf:f185:: with SMTP id h5mr27725708wro.302.1632739586864; 
+ Mon, 27 Sep 2021 03:46:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YVGaH1Cf8kiT11Nh@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210916155404.86958-1-agraf@csgraf.de>
+ <20210916155404.86958-11-agraf@csgraf.de>
+In-Reply-To: <20210916155404.86958-11-agraf@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Sep 2021 11:45:33 +0100
+Message-ID: <CAFEAcA_Xdbjbn1nxvC_5CdC+jdo6=ChiJDULvWT9F+c6VWyRAA@mail.gmail.com>
+Subject: Re: [PATCH v12 10/10] arm: tcg: Adhere to SMCCC 1.3 section 5.2
+To: Alexander Graf <agraf@csgraf.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,73 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pkrempa@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- its@irrelevant.dk, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Peter Collingbourne <pcc@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 27, 2021 at 12:17:03PM +0200, Kevin Wolf wrote:
-> Am 27.09.2021 um 10:21 hat Daniel P. Berrangé geschrieben:
-> > On Mon, Sep 27, 2021 at 10:15:43AM +0200, Paolo Bonzini wrote:
-> > > On 24/09/21 11:04, Kevin Wolf wrote:
-> > > > We want to switch both from QemuOpts to the keyval parser in the future,
-> > > > which results in some incompatibilities, mainly around list handling.
-> > > > Mark the non-JSON version of both as unstable syntax so that management
-> > > > tools switch to JSON and we can later make the change without breaking
-> > > > things.
-> > > 
-> > > Maybe we need a different section for unstable syntaxes, rather than
-> > > overloading deprecated.rst?
-> > 
-> > This case feels like it hits two scenarios - we want to declare it
-> > unstable, which is something we should document in qemu-options.hx.
-> 
-> Actually, I think a section for unstable syntaxes or generally
-> compatibility promises wouldn't hurt. When I checked, I couldn't find
-> any documentation about the support status of HMP either.
-> 
-> Basically, I imagine HMP and non-JSON -device/-object would be on the
-> same level: We don't change things without a reason, but if we do want
-> to change things, compatibility isn't an argument against making the
-> change.
-> 
-> > We want to also to warn of specific breakage when the impl changes
-> > which is something suitable for deprecations.
-> 
-> We don't do this for HMP either for individual changes.
+On Thu, 16 Sept 2021 at 16:54, Alexander Graf <agraf@csgraf.de> wrote:
+>
+> The SMCCC 1.3 spec section 5.2 says
+>
+>   The Unknown SMC Function Identifier is a sign-extended value of (-1)
+>   that is returned in the R0, W0 or X0 registers. An implementation must
+>   return this error code when it receives:
+>
+>     * An SMC or HVC call with an unknown Function Identifier
+>     * An SMC or HVC call for a removed Function Identifier
+>     * An SMC64/HVC64 call from AArch32 state
+>
+> To comply with these statements, let's always return -1 when we encounter
+> an unknown HVC or SMC call.
+>
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Well HMP as a whole is considered non-stable, so we don't need to call
-out individual things. We've got a simple story that QMP == stable,
-HMP == unstable.
+Applied this final patch to target-arm.next now we've sorted out
+the problem with the orangepi, thanks.
 
-The comparison here would be if we declared the entire QEMU CLI to be
-unstable, except for JSON syntax args.
-
-> Basically this deprecation notice was meant to make people aware that
-> we're lowering the support status from a long-term stable interface to
-> HMP-like.
-
-Bearing in mind our previous discussions it feels like our goal is that
-we're tending towards a world where we are only wanting to consider
-JSON based configuration to be stable, and everything else non-stable.
-
-I think that's a good long term plan, but if we're really doing that
-then I think we need to big picture explain it in our docs rather
-than mention it in passing against individual args.
-
-BTW I'm also not a fan of deprecating stuff when our documentation is
-still using the deprecated syntax and nothing shows the new preferred
-syntax. We've got alot of results for  $ git grep -- ' -object'  
-
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
