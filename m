@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3832419F9B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 21:56:17 +0200 (CEST)
-Received: from localhost ([::1]:45814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 388D1419F8C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 21:53:26 +0200 (CEST)
+Received: from localhost ([::1]:39486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUwjX-00077E-5N
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 15:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58142)
+	id 1mUwgn-0002p3-8b
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 15:53:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUwJ3-0006Ql-HK
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 15:28:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37889)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUwJ6-0006UG-GO
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 15:28:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48267)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUwJ1-0008L9-7X
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 15:28:53 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUwJ4-0008Nc-32
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 15:28:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632770930;
+ s=mimecast20190719; t=1632770933;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WT3vLnSnqr9P/xvfw3vqStlB+9kau9jv/JfY+fYXk1I=;
- b=cjEgshF1gKLCxidWllkLaf2XvX7/b4FoTlXvK29GF16lfB6yhBSxDnPGpMzlTlAuxDjkIB
- Fxic5gNy6cQ9TlFGKe1o2u5W3er7mAWk9li76TLSnQ4R/R99sqIgK/DxHXTkPiKaqMlqMu
- /0aqE2ArwwDDwPyPbqRA3gvQxzLuobI=
+ bh=nLc6Y2eQJVeshW7PrOw7x9O65co80u6A/9pzHHuT3NE=;
+ b=aOr1PLcgcLjbOI1GKat7pkQH9X32v9075L3/hvBUROC/BYOoihwdzglA9Nc2yTeF4TQsg7
+ JRvlqwkpB6jz/JBhSUy0Jo7gE9JyIV4mIPH0sMdlgJSgsYnJVkfRJ8WVePSYmgL56XuV5G
+ 8TYkCBsJbb3Jq9MIWf4nlY+bIgJeVzY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-9Ox25qgnOEGEG_iq4nDqQw-1; Mon, 27 Sep 2021 15:28:49 -0400
-X-MC-Unique: 9Ox25qgnOEGEG_iq4nDqQw-1
+ us-mta-287-0edRXwmCNYe6FlhV2IDoOw-1; Mon, 27 Sep 2021 15:28:51 -0400
+X-MC-Unique: 0edRXwmCNYe6FlhV2IDoOw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FA811006AA3;
- Mon, 27 Sep 2021 19:28:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28AE319200C0;
+ Mon, 27 Sep 2021 19:28:50 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A37A360871;
- Mon, 27 Sep 2021 19:28:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 62E5B60871;
+ Mon, 27 Sep 2021 19:28:48 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/32] python/aqmp: add _raw() execution interface
-Date: Mon, 27 Sep 2021 15:25:02 -0400
-Message-Id: <20210927192513.744199-22-jsnow@redhat.com>
+Subject: [PULL 22/32] python/aqmp: add asyncio_run compatibility wrapper
+Date: Mon, 27 Sep 2021 15:25:03 -0400
+Message-Id: <20210927192513.744199-23-jsnow@redhat.com>
 In-Reply-To: <20210927192513.744199-1-jsnow@redhat.com>
 References: <20210927192513.744199-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -87,83 +87,47 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is added in anticipation of wanting it for a synchronous wrapper
-for the iotest interface. Normally, execute() and execute_msg() both
-raise QMP errors in the form of Python exceptions.
-
-Many iotests expect the entire reply as-is. To reduce churn there, add a
-private execution interface that will ease transition churn. However, I
-do not wish to encourage its use, so it will remain a private interface.
+As a convenience. It isn't used by the library itself, but it is used by
+the test suite. It will also come in handy for users of the library
+still on Python 3.6.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20210915162955.333025-22-jsnow@redhat.com
+Message-id: 20210915162955.333025-23-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/qmp_client.py | 51 ++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ python/qemu/aqmp/util.py | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/python/qemu/aqmp/qmp_client.py b/python/qemu/aqmp/qmp_client.py
-index 879348feaaa..82e9dab124c 100644
---- a/python/qemu/aqmp/qmp_client.py
-+++ b/python/qemu/aqmp/qmp_client.py
-@@ -484,6 +484,57 @@ async def _execute(self, msg: Message, assign_id: bool = True) -> Message:
-         exec_id = await self._issue(msg)
-         return await self._reply(exec_id)
+diff --git a/python/qemu/aqmp/util.py b/python/qemu/aqmp/util.py
+index 52a15321889..eaa5fc7d5f9 100644
+--- a/python/qemu/aqmp/util.py
++++ b/python/qemu/aqmp/util.py
+@@ -147,6 +147,25 @@ async def wait_closed(writer: asyncio.StreamWriter) -> None:
+         await asyncio.sleep(0)
  
-+    @upper_half
-+    @require(Runstate.RUNNING)
-+    async def _raw(
-+            self,
-+            msg: Union[Message, Mapping[str, object], bytes],
-+            assign_id: bool = True,
-+    ) -> Message:
-+        """
-+        Issue a raw `Message` to the QMP server and await a reply.
+ 
++def asyncio_run(coro: Coroutine[Any, Any, T], *, debug: bool = False) -> T:
++    """
++    Python 3.6-compatible `asyncio.run` wrapper.
 +
-+        :param msg:
-+            A Message to send to the server. It may be a `Message`, any
-+            Mapping (including Dict), or raw bytes.
-+        :param assign_id:
-+            Assign an arbitrary execution ID to this message. If
-+            `False`, the existing id must either be absent (and no other
-+            such pending execution may omit an ID) or a string. If it is
-+            a string, it must not start with '__aqmp#' and no other such
-+            pending execution may currently be using that ID.
++    :param coro: A coroutine to execute now.
++    :return: The return value from the coroutine.
++    """
++    if sys.version_info >= (3, 7):
++        return asyncio.run(coro, debug=debug)
 +
-+        :return: Execution reply from the server.
++    # Python 3.6
++    loop = asyncio.get_event_loop()
++    loop.set_debug(debug)
++    ret = loop.run_until_complete(coro)
++    loop.close()
 +
-+        :raise ExecInterruptedError:
-+            When the reply could not be retrieved because the connection
-+            was lost, or some other problem.
-+        :raise TypeError:
-+            When assign_id is `False`, an ID is given, and it is not a string.
-+        :raise ValueError:
-+            When assign_id is `False`, but the ID is not usable;
-+            Either because it starts with '__aqmp#' or it is already in-use.
-+        """
-+        # 1. convert generic Mapping or bytes to a QMP Message
-+        # 2. copy Message objects so that we assign an ID only to the copy.
-+        msg = Message(msg)
++    return ret
 +
-+        exec_id = msg.get('id')
-+        if not assign_id and 'id' in msg:
-+            if not isinstance(exec_id, str):
-+                raise TypeError(f"ID ('{exec_id}') must be a string.")
-+            if exec_id.startswith('__aqmp#'):
-+                raise ValueError(
-+                    f"ID ('{exec_id}') must not start with '__aqmp#'."
-+                )
 +
-+        if not assign_id and exec_id in self._pending:
-+            raise ValueError(
-+                f"ID '{exec_id}' is in-use and cannot be used."
-+            )
-+
-+        return await self._execute(msg, assign_id=assign_id)
-+
-     @upper_half
-     @require(Runstate.RUNNING)
-     async def execute_msg(self, msg: Message) -> object:
+ # ----------------------------
+ # Section: Logging & Debugging
+ # ----------------------------
 -- 
 2.31.1
 
