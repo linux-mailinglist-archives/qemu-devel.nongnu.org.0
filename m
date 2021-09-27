@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D754E418E95
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 07:14:06 +0200 (CEST)
-Received: from localhost ([::1]:57062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 314D0418E94
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 07:14:05 +0200 (CEST)
+Received: from localhost ([::1]:57094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUixp-0006Ha-QH
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 01:14:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60960)
+	id 1mUixo-0006Ik-3N
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 01:14:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mUisg-00043H-1W; Mon, 27 Sep 2021 01:08:47 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:44471)
+ id 1mUisg-00043G-7T; Mon, 27 Sep 2021 01:08:47 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:40525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mUisc-0000JH-V8; Mon, 27 Sep 2021 01:08:44 -0400
+ id 1mUisc-0000JJ-TK; Mon, 27 Sep 2021 01:08:44 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HHrJQ3lZTz4xbV; Mon, 27 Sep 2021 15:08:38 +1000 (AEST)
+ id 4HHrJQ3rrJz4xZx; Mon, 27 Sep 2021 15:08:38 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632719318;
- bh=6BKvu98D9dIGERKQE3F5xawFIcqTzxpX6GLc7AYvr7Q=;
+ bh=j6fM17bE1Wy0G6iB2I1Epg7qTZMFHwFkVlOk3uQ/Y0Y=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pVB37YIamsj98nWMbk6eajdWn3BBH0JZRTkTTqXezJTMO1FptS92GMzurehUIg388
- 4K4S2trhk2vcTeQtSIIGYO3/j6+XUQj47SAW2KV8rsY7reLYfot3JJR4mJJj0nfgyw
- OrVDqqphTenyw+UzqpVQYPaGiKWB2pVaL3/3ava4=
-Date: Mon, 27 Sep 2021 15:04:50 +1000
+ b=Ux2iH7bvKSVdAcG7s7F9+Pnwk7eVoVU3RMaLAGz8+zaWH/sygT7Hw0rD2EhL1qNK0
+ lHYq1MuRhRdOyiKKAGhGvnCc4LLnnpLDxpPzfhYGZzSddOpaqUUwT2vhscaOrJziag
+ Kgnj9qj1lmeRdTqmlMHUFphDl4rxBa6AmfAhmx9w=
+Date: Mon, 27 Sep 2021 15:08:34 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 03/15] target/ppc: PMU basic cycle count for pseries TCG
-Message-ID: <YVFQ8uc7mCUhcxvA@yekko>
+Subject: Re: [PATCH v3 02/15] target/ppc: add user write access control for
+ PMU SPRs
+Message-ID: <YVFR0kOUJ2yA6+hg@yekko>
 References: <20210903203116.80628-1-danielhb413@gmail.com>
- <20210903203116.80628-4-danielhb413@gmail.com>
- <fa7aa371-3fa0-e064-cf73-1c89508bba00@eldorado.org.br>
- <9497e03c-69c3-c736-283f-b95331f4b2e2@gmail.com>
- <b5d60603-6bd9-0323-1754-4eca8c9e5df0@eldorado.org.br>
- <3a7f42d0-b6c6-4dd1-2647-2f6fe853db0b@gmail.com>
+ <20210903203116.80628-3-danielhb413@gmail.com>
+ <YTbCnSz86hsUAF/+@yekko>
+ <587d197b-25a4-c5c2-3c3c-4132ac4cdf6b@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="DtitXwNF451sY9qY"
+ protocol="application/pgp-signature"; boundary="51BIjM6AUQDCs2MS"
 Content-Disposition: inline
-In-Reply-To: <3a7f42d0-b6c6-4dd1-2647-2f6fe853db0b@gmail.com>
+In-Reply-To: <587d197b-25a4-c5c2-3c3c-4132ac4cdf6b@gmail.com>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
@@ -63,196 +62,158 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org,
- "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+ qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---DtitXwNF451sY9qY
-Content-Type: text/plain; charset=iso-8859-1
+--51BIjM6AUQDCs2MS
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 24, 2021 at 04:05:37PM -0300, Daniel Henrique Barboza wrote:
+On Thu, Sep 23, 2021 at 11:39:14AM -0300, Daniel Henrique Barboza wrote:
 >=20
 >=20
-> On 9/24/21 15:34, Matheus K. Ferst wrote:
-> > On 24/09/2021 11:41, Daniel Henrique Barboza wrote:
-> > > On 9/22/21 08:24, Matheus K. Ferst wrote:
-> > > > On 03/09/2021 17:31, Daniel Henrique Barboza wrote:
-> > > > > [E-MAIL EXTERNO] N=E3o clique em links ou abra anexos, a menos qu=
-e voc=EA possa confirmar o remetente e saber que o conte=FAdo =E9 seguro. E=
-m caso de e-mail suspeito entre imediatamente em contato com o DTI.
-> > > > >=20
-> > > > > This patch adds the barebones of the PMU logic by enabling cycle
-> > > > > counting, done via the performance monitor counter 6. The overall=
- logic
-> > > > > goes as follows:
-> > > > >=20
-> > > > > - a helper is added to control the PMU state on each MMCR0 write.=
- This
-> > > > > allows for the PMU to start/stop as the frozen counter bit (MMCR0=
-_FC)
-> > > > > is cleared or set;
-> > > > >=20
-> > > > > - MMCR0 reg initial value is set to 0x80000000 (MMCR0_FC set) to =
-avoid
-> > > > > having to spin the PMU right at system init;
-> > > > >=20
-> > > > > - the intended usage is to freeze the counters by setting MMCR0_F=
-C, do
-> > > > > any additional setting of events to be counted via MMCR1 (not
-> > > > > implemented yet) and enable the PMU by zeroing MMCR0_FC. Software=
- must
-> > > > > freeze counters to read the results - on the fly reading of the P=
-MCs
-> > > > > will return the starting value of each one.
-> > > > >=20
-> > > > > Since there will be more PMU exclusive code to be added next, put=
- the
-> > > > > PMU logic in its own helper to keep all in the same place. The na=
-me of
-> > > > > the new helper file, power8_pmu.c, is an indicative that the PMU =
-logic
-> > > > > has been tested with the IBM POWER chip family, POWER8 being the =
-oldest
-> > > > > version tested. This doesn't mean that this PMU logic will break =
-with
-> > > > > any other PPC64 chip that implements Book3s, but since we can't a=
-ssert
-> > > > > that this PMU will work with all available Book3s emulated proces=
-sors
-> > > > > we're choosing to be explicit.
-> > > > >=20
-> > > > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > > > > ---
-> > > >=20
-> > > > <snip>
-> > > >=20
-> > > > > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> > > > > index 0babde3131..c3e2e3d329 100644
-> > > > > --- a/target/ppc/translate.c
-> > > > > +++ b/target/ppc/translate.c
-> > > > > @@ -401,6 +401,24 @@ void spr_write_generic(DisasContext *ctx, in=
-t sprn, int gprn)
-> > > > > =A0=A0=A0=A0=A0 spr_store_dump_spr(sprn);
-> > > > > =A0 }
-> > > > >=20
-> > > > > +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
-> > > > > +void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
-> > > > > +{
-> > > > > +=A0=A0=A0 /*
-> > > > > +=A0=A0=A0=A0 * helper_store_mmcr0 will make clock based operatio=
-ns that
-> > > > > +=A0=A0=A0=A0 * will cause 'bad icount read' errors if we do not =
-execute
-> > > > > +=A0=A0=A0=A0 * gen_icount_io_start() beforehand.
-> > > > > +=A0=A0=A0=A0 */
-> > > > > +=A0=A0=A0 gen_icount_io_start(ctx);
-> > > > > +=A0=A0=A0 gen_helper_store_mmcr0(cpu_env, cpu_gpr[gprn]);
-> > > > > +}
-> > > > > +#else
-> > > > > +void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
-> > > > > +{
-> > > > > +=A0=A0=A0 spr_write_generic(ctx, sprn, gprn);
-> > > > > +}
-> > > > > +#endif
-> > > > > +
-> > > > > =A0 #if !defined(CONFIG_USER_ONLY)
-> > > > > =A0 void spr_write_generic32(DisasContext *ctx, int sprn, int gpr=
-n)
-> > > > > =A0 {
-> > > > > @@ -596,7 +614,10 @@ void spr_write_MMCR0_ureg(DisasContext *ctx,=
- int sprn, int gprn)
-> > > > > =A0=A0=A0=A0=A0 tcg_gen_andi_tl(t1, t1, ~(MMCR0_UREG_MASK));
-> > > > > =A0=A0=A0=A0=A0 /* Keep all other bits intact */
-> > > > > =A0=A0=A0=A0=A0 tcg_gen_or_tl(t1, t1, t0);
-> > > > > -=A0=A0=A0 gen_store_spr(SPR_POWER_MMCR0, t1);
-> > > > > +
-> > > > > +=A0=A0=A0 /* Overwrite cpu_gpr[gprn] and use spr_write_MMCR0() */
-> > > > > +=A0=A0=A0 tcg_gen_mov_tl(cpu_gpr[gprn], t1);
-> > > > > +=A0=A0=A0 spr_write_MMCR0(ctx, sprn + 0x10, gprn);
-> > > >=20
-> > > > IIUC, this makes writing to MMCR0 change the GPR value and expose t=
-he unfiltered content of the SPR to problem state. It might be better to ca=
-ll the helper directly or create another method that takes a TCGv as an arg=
-ument and call it from spr_write_MMCR0_ureg and spr_write_MMCR0.
+> On 9/6/21 22:38, David Gibson wrote:
+> > On Fri, Sep 03, 2021 at 05:31:03PM -0300, Daniel Henrique Barboza wrote:
+> > > The PMU needs to enable writing of its uregs to userspace, otherwise
+> > > Perf applications will not able to setup the counters correctly. This
+> > > patch enables user space writing of all PMU uregs.
 > > >=20
-> > > I'm overwriting cpu_gpr[gprn] with t1, which is filtered by MMCR0_REG=
-_MASK
-> > > right before, to re-use spr_write_MMCR0() since its API requires a gp=
-rn
-> > > index. The reason I'm re-using spr_write_MMCR0() here is to avoid cod=
-e repetition
-> > > in spr_write_MMCR0_ureg(), which would need to repeat the same steps =
-as
-> > > spr_write_MMCR0 (calling icount_io_start(), calling the helper, and t=
-hen setting
-> > > DISAS_EXIT_UPDATE in a later patch).
+> > > MMCR0 is a special case because its userspace writing access is contr=
+olled
+> > > by MMCR0_PMCC bits. There are 4 configurations available (0b00, 0b01,
+> > > 0b10 and 0b11) but for our purposes here we're handling only
+> > > MMCR0_PMCC =3D 0b00. In this case, if userspace tries to write MMCR0,=
+ a
+> > > hypervisor emulation assistance interrupt occurs.
 > > >=20
-> > > The idea behind is that all PMU user_write() functions works the same=
- as its
-> > > privileged counterparts but with some form of filtering done beforeha=
-nd. Note
-> > > that this is kind of true in the previous patch as well - gen_store_s=
-pr() is
-> > > similar to the privileged function MMCR0 was using (spr_write_generic=
-()) with
-> > > the exception of an optional qemu_log().
+> > > This is being done by adding HFLAGS_PMCCCLEAR to hflags. This flag
+> > > indicates if MMCR0_PMCC is cleared (0b00), and a new 'pmcc_clear' fla=
+g in
+> > > DisasContext allow us to use it in spr_write_MMCR0_ureg().
 > > >=20
-> > > Maybe I should've made this clear in the previous patch, using spr_wr=
-ite_generic()
-> > > and overwriting cpu_gpr[gprn] with the filtered t1 content back there.
+> > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> > > ---
+> > >   target/ppc/cpu.h         |  1 +
+> > >   target/ppc/cpu_init.c    | 18 +++++++-------
+> > >   target/ppc/helper_regs.c |  3 +++
+> > >   target/ppc/spr_tcg.h     |  3 ++-
+> > >   target/ppc/translate.c   | 53 +++++++++++++++++++++++++++++++++++++=
+++-
+> > >   5 files changed, 67 insertions(+), 11 deletions(-)
 > > >=20
-> > > Speaking of which, since t1 is being filtered by MMCR0_REG_MASK befor=
-e being used to
-> > > overwrite cpu_gpr[gprn], I'm not sure how this is exposing unfiltered=
- content to
-> > > problem state. Can you elaborate?
+> > > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> > > index f68bb8d8aa..8dfbb62022 100644
+> > > --- a/target/ppc/cpu.h
+> > > +++ b/target/ppc/cpu.h
+> > > @@ -616,6 +616,7 @@ enum {
+> > >       HFLAGS_SE =3D 10,  /* MSR_SE -- from elsewhere on embedded ppc =
+*/
+> > >       HFLAGS_FP =3D 13,  /* MSR_FP */
+> > >       HFLAGS_PR =3D 14,  /* MSR_PR */
+> > > +    HFLAGS_PMCCCLEAR =3D 15, /* PMU MMCR0 PMCC equal to 0b00 */
+> > >       HFLAGS_VSX =3D 23, /* MSR_VSX if cpu has VSX */
+> > >       HFLAGS_VR =3D 25,  /* MSR_VR if cpu has VRE */
+> > > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> > > index 9efc6c2d87..bb5ea04c61 100644
+> > > --- a/target/ppc/cpu_init.c
+> > > +++ b/target/ppc/cpu_init.c
+> > > @@ -6867,7 +6867,7 @@ static void register_book3s_pmu_sup_sprs(CPUPPC=
+State *env)
+> > >   static void register_book3s_pmu_user_sprs(CPUPPCState *env)
+> > >   {
+> > >       spr_register(env, SPR_POWER_UMMCR0, "UMMCR0",
+> > > -                 &spr_read_MMCR0_ureg, SPR_NOACCESS,
+> > > +                 &spr_read_MMCR0_ureg, &spr_write_MMCR0_ureg,
+> > >                    &spr_read_ureg, &spr_write_ureg,
+> > >                    0x00000000);
+> > >       spr_register(env, SPR_POWER_UMMCR1, "UMMCR1",
+> > > @@ -6875,31 +6875,31 @@ static void register_book3s_pmu_user_sprs(CPU=
+PPCState *env)
+> > >                    &spr_read_ureg, &spr_write_ureg,
+> > >                    0x00000000);
+> > >       spr_register(env, SPR_POWER_UMMCRA, "UMMCRA",
+> > > -                 &spr_read_ureg, SPR_NOACCESS,
+> > > +                 &spr_read_ureg, &spr_write_ureg,
+> > >                    &spr_read_ureg, &spr_write_ureg,
+> > >                    0x00000000);
+> > >       spr_register(env, SPR_POWER_UPMC1, "UPMC1",
+> > > -                 &spr_read_ureg, SPR_NOACCESS,
+> > > +                 &spr_read_ureg, &spr_write_ureg,
 > >=20
-> > Suppose MMCR0 has the value 0x80000001 (FC and FCH) and problem state e=
-xecutes an mtspr with the value 0x4000000 (unset FC and set PMAE) in the GP=
-R. The proposed code will do the following:
-> >=20
-> >  > tcg_gen_andi_tl(t0, cpu_gpr[gprn], MMCR0_UREG_MASK);
-> >=20
-> > t0 =3D GPR & MMCR0_UREG_MASK =3D 0x4000000 & 0x84000080 =3D 0x4000000
-> >=20
-> >  > gen_load_spr(t1, SPR_POWER_MMCR0);
-> >=20
-> > t1 =3D MMCR0 =3D 0x80000001
-> >=20
-> >  > tcg_gen_andi_tl(t1, t1, ~(MMCR0_UREG_MASK));
-> >=20
-> > t1 =3D t1 & ~MMCR0_UREG_MASK =3D 0x80000001 & ~0x84000080 =3D 0x1
-> >=20
-> >  > tcg_gen_or_tl(t1, t1, t0);
-> >=20
-> > t1 =3D t1 | t0 =3D 0x4000000 | 0x1 =3D 0x4000001
-> >=20
-> >  > tcg_gen_mov_tl(cpu_gpr[gprn], t1);
-> >=20
-> > GPR =3D 0x4000001
-> >=20
-> > Now problem state knows that FCH is set.
+> > Surely this can't be write.  AFAICT spr_write_ureg() will
+> > unconditionally allow full userspace write access.  That can't be
+> > right - otherwise the OS could never safely use the PMU for itself.
+>=20
+> My assumption here was that the user mode SPRs (UMMCR* and UPMC*) were cr=
+eated to
+> allow userspace read/write of PMU regs, while the regular regs (MMCR* and=
+ PMC*)
+> are the supermode privileged SPRs that can't be written by userspace. At =
+least this
+> is my understanding from reading commit fd51ff6328e3d98158 that introduce=
+d these
+> userspace PMC regs.
 
-Nice catch Matheus.
+Sure, but my point is that these registers are only userspace
+accessible under certain conditions, IIUC.  spr_write_ureg() doesn't
+test for those conditions, so it will *always* allow write access.
 
-> I see. The problem is that overwriting the GPR is exposing bits outside
-> of the MMCR0_UREG_MASK via GPR itself, something that wasn't happening
-> in the previous patch because the filtering logic wasn't visible via
-> userspace.
+> The reason why these are marked as SPR_NOACCESS is because we didn't both=
+ered
+> writing into them from userspace because we had no PMU logic to work
+> with.
 
-Right.  Note that even if it wasn't exposing privileged bits, I don't
-think changing the GPR value would be correct behaviour, although I
-suspect it would be unlikely to cause problems in practice.
+[snip]
+> > > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> > > index b2ead144d1..0babde3131 100644
+> > > --- a/target/ppc/translate.c
+> > > +++ b/target/ppc/translate.c
+> > > @@ -175,6 +175,7 @@ struct DisasContext {
+> > >       bool spe_enabled;
+> > >       bool tm_enabled;
+> > >       bool gtse;
+> > > +    bool pmcc_clear;
+> > >       ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
+> > >       int singlestep_enabled;
+> > >       uint32_t flags;
+> > > @@ -561,7 +562,56 @@ void spr_write_ureg(DisasContext *ctx, int sprn,=
+ int gprn)
+> > >   {
+> > >       gen_store_spr(sprn + 0x10, cpu_gpr[gprn]);
+> > >   }
+> > > -#endif
+> > > +
+> > > +void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
+> >=20
+> >=20
+> > Could you put this def in the PMU specific file, rather than the
+> > enormous translate.c?
+>=20
+> Moving into the existing power8_pmu.c helper is annoying because, being a=
+ helper file,
+> there is no access to the whole DisasContext declaration (that is open co=
+ded in
+> translate.c), and other internal translate.c data like cpu_grp[].
 
-> Thanks for clarifying. I'll fix it in the next version, probably by addin=
-g a
-> common 'write_MMCR0' method that receives a TCGv and that can be shared
-> for both privileged and user write() callbacks, like you suggested in your
-> previous reply.
+Ah, right.  We should probably make that easier someday, but it's not
+reasonbly in scope for this series.
+
+> What I was able to do is create a new file in the target/ppc/translate/ d=
+ir,
+> power8-pmu-regs.c.impl, and moved all these declarations over there. At v=
+ery least we're
+> not overloading translate.c.
+
+Ah, nice.
+
+> Eldorado, is that ok with you guys? I'm aware that this dir was holding n=
+ew
+> decode-tree insns implementations but, in this case, it would hold old fo=
+rmat
+> spr_read/spr_write code.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -260,25 +221,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---DtitXwNF451sY9qY
+--51BIjM6AUQDCs2MS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFRUPEACgkQbDjKyiDZ
-s5Ji6g/9HRaMFVyOvXp7eVdT0WyZ0h9zm4gwgj5PmwS4BEm1VU7qXuXgxEL5fqL/
-QDAfpMAUPzkJp2oR6Tts1VOpdHZZzuk0wjsbkddeE3TjgIpPGBWQu4kOJdrGmdPy
-ayl4BoInRJC30YAsMM7rFvc5SBztq/GLhoD7D+FBdnvYIm7gfyCJVF1eCeYzQNc3
-94G2FYYk07TTsiV0UhH/5qm2Vxd4HvssjYWQ/IimloALFXGxYhR+5i3oOoI/7L+D
-47U6289UCMCkvN9dugBqcFPCwsXqzR/80e9NYH+tuWFvI/Gblf1U06yHLKvDXkZk
-BGZhfgZ4zHWGox0KChK1tfySKwE3ngIPdR6SM9se9Utxj9F44aAdMAy86tnvnK45
-jHE6gEjshL99eMBGcbm4n8knLSberdj78jl2aEBtgW9ap8aLOgNXZE2aTS1AdvjP
-21iG0cArAeD4HKWMGEpdQS6jwQO8lsKXt9FxwWhOTxZV0lBcLdyENZ68oVlrEuzf
-unueX/XQ3jJy08o9VcsETxUiLkKnPhSe2huDNY0Q61BYXJx5nXZutoAYwjd+qkKR
-bugqO/H0SMnCtbnTa6ecorqVwX7AQNoQpIUMvOPwquapHGicGsEhiMq8WGg5qoYY
-T7LtiNm0TkfWZBHOUd/WrKKXtAAEuqEyJsq6b/Ak6T0L6uId7Pg=
-=R5D0
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFRUdEACgkQbDjKyiDZ
+s5L0MA/+N2IPA/J2YRI0sf6IaryTVOEgZCjOxuY0H+WBdDun+Snskx49/y9gSD1u
+NfYOrCdzNKxavMhrvtFwWZSHpr3NrKs0Y/5Ci2/Wf0oPLAaXYBmtL14nFJaH1sXn
+8L2tDOUSpgfFOjwU1bFbAM+2zDjCzSNLbiR+FnKm4AQaTMzsEMSxjgVBZ5Oelsfg
+GY5iL9FdjJ7JzjaTEQh+lVS60DUsIE1DnFgI8bzNOyg3PcEJHRoS7oimE8NUD1fL
+2rIIbcIbuXeBD1TBAgi95qTJCSfGdi+fNsodlq2P3pjW9EC3iTIpai7BRUSuHk8L
+Y5ZEgHHIqcIH6BovyLOdjU5gbadklRGG7yUaseJlrBxZuk/yon8J74VG453XZoU3
+sGEW4E/qyuiJx8x3FvizI2Ziv2pNoTEhsX+/bBGGrFRJG07vPLjsxt9Ck4B3hWnS
+jVesg7DeNNsDSlsFLZcgH/a+tR8kpm4Kc1FZrXKJpsxqlqllKtZfBQVeP9rP9JRS
+gDcrEGd/WVgfl3cICwsIk0Jbmh5KPNKfV3jkQ0Z7tv6rrN5yHo7PNl+XjPgI9Wh7
+NriGzQ7/XXCSoO10R79DlWNR7L21NED434fWDszBmTySZ5uspTo4drHU96AC5bUO
+pD8Xm6KzuNzc0/Y4y0qr70tv+clRHMqnR33RQeO8wWuDq1fTWt4=
+=KmP7
 -----END PGP SIGNATURE-----
 
---DtitXwNF451sY9qY--
+--51BIjM6AUQDCs2MS--
 
