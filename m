@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5A8419210
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 12:15:01 +0200 (CEST)
-Received: from localhost ([::1]:35822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75BBF4191FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 12:08:27 +0200 (CEST)
+Received: from localhost ([::1]:48700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUnf2-0006tz-4M
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 06:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59282)
+	id 1mUnYg-0004kv-HD
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 06:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mUnTm-0001SG-JD
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:03:22 -0400
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:60245)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mUnTk-000405-60
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:03:22 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.33])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E32E120CE7;
- Mon, 27 Sep 2021 10:03:07 +0000 (UTC)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 27 Sep
- 2021 12:03:06 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0014caccf49-6597-4aa1-a040-fa40e8469cd9,
- 7A1C2730502A6E1581EB46D208322E62E5328AE4) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <b16f6405-72cf-144b-975e-98cda77604ab@kaod.org>
-Date: Mon, 27 Sep 2021 12:03:01 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUnUy-00028y-8R
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:04:38 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36814)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUnUv-00055G-Ta
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:04:35 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id g16so50846047wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 03:04:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nzzInOH14HdkZekRsj7WhVgnO6Qo2PAhBOzk5bdzoZ8=;
+ b=L+CsVLDvc3aRXOy3d7A6CIxMsdL5jx5WTuFHy8G/dIHu7MmTv2qdRl8RIpyz+gHPhV
+ VX+8pnITKPhWw2cQuEpPV+wi2A59nZR0EGqQlYUX7PN86s7hTNt152UtW/FUA4GFYzRA
+ 7VYjAjV1aI4bvHDWDrFpa8LLwvccFNMBEERJGkhoIxLHPmoGiqK5rh9L/P22BFeqToAS
+ p+L0dOxST8Lc1L4MEvPwZV1BA2j05qHTDJW52219wIoQbn5nCWNjTppFe+0R/mHiHJ1j
+ Y13RzFO50izm1aiJsiUhd05lUFf+UG6j4tVbZITVCv3mOH38215Y4coeRJgB2u9ekwj/
+ YY8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nzzInOH14HdkZekRsj7WhVgnO6Qo2PAhBOzk5bdzoZ8=;
+ b=g4weAPrU0GpjE1LDbP0yGjhbwvhkuGXgCmyKQa1760X5lxsfJKtK9nY+PZJjY/53NN
+ jaPutVhmEidfv1yHAi7GgZ+dTSX4YVfZKvBj9JxVIpZBMsKq5c9Q5G2CcvXijZxgosun
+ pWfPxjV3O2dtpViFvlVjIepFTh1NJooVHUfRkoyn5CQaSfDDwOX+YNHTrRUdi1w4GaIy
+ MnYu+VfILbWWUYK/TfJ3b1WNG6LMUGzfG9lPysGZKb0zh25EWv/kxAj5bu74KKVfu1vk
+ veqZJCD3YSr6+gXDNmqvTv1NlKM9lBnhfWJH4JaE3IoPLYWa7Jp7KSLE/bKuEn/b9XFu
+ W7+Q==
+X-Gm-Message-State: AOAM532eOxJELqmMl/EQkdnPw6Wi0ETe2KIIQTXjQ7TKoKZX2ogKi4mQ
+ em70vqgRAwrfs/RizqO9TBXAW65v3a6mgDO6GG1Nc47Rh0Q=
+X-Google-Smtp-Source: ABdhPJys/K6vp+NG9mALMo0rIw5LVJ77TWBNWKq7AUuIRzI0zWtSN4T/Tfj9jSr0vJX1Ie6by0rpXgak4g7z/Iq9ptA=
+X-Received: by 2002:adf:eac5:: with SMTP id o5mr18146594wrn.275.1632737071917; 
+ Mon, 27 Sep 2021 03:04:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] hw: Add a 'Sensor devices' qdev category
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- <qemu-devel@nongnu.org>
-References: <20210926221518.1726267-1-f4bug@amsat.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20210926221518.1726267-1-f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 271c2659-ff00-4ab7-a1ae-b2e826a0886a
-X-Ovh-Tracer-Id: 10870282126463110075
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudejkedgvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepleejtddvueelgfekleefheehvdevuefgkeeggffftdejueduhfekieekieffffevnecuffhomhgrihhnpegsvggrlhgvtghorhhnvghrrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepphgsohhniihinhhisehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20210901141008.17203-1-peter.maydell@linaro.org>
+ <CAFEAcA_Jn_y0i5W2zdM+hEFmciu-q=EK3EXQgQateU2r2uAXWw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_Jn_y0i5W2zdM+hEFmciu-q=EK3EXQgQateU2r2uAXWw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Sep 2021 11:03:38 +0100
+Message-ID: <CAFEAcA_h2-CPvMmC4C_sxng+_KExRn9So0E1pXm5R53XGk_4=A@mail.gmail.com>
+Subject: Re: [PATCH v2] target/i386: Use assert() to sanity-check b1 in SSE
+ decode
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.478,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,176 +78,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Titus Rwantare <titusr@google.com>,
- Hao Wu <wuhaotsh@google.com>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>, John Wang <wangzhiqiang.bj@bytedance.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/21 00:15, Philippe Mathieu-Daudé wrote:
-> Sensors models are listed in the 'Misc devices' category.
-> Move them to their own category.
-> 
-> For the devices in the hw/sensor/ directory, the category
-> is obvious.
-> 
-> hw/arm/z2.c models the AER915 model which is described
-> on [*] as:
-> 
->    The 14-pin chip marked AER915 just below the expansion
->    port is a 80C51-type microcontroller, similar to Philips
->    P89LPC915. It has an 8-bit A/D which is used to determine
->    which of six buttons are pressed on the resistor-network
->    wired remote.  It communicates with the main cpu via I2C.
-> 
-> It was introduced in commit 3bf11207c06 ("Add support for
-> Zipit Z2 machine") with this comment:
-> 
->    248 static uint8_t aer915_recv(I2CSlave *slave)
->    249 {
->    ...
->    253     switch (s->buf[0]) {
->    254     /* Return hardcoded battery voltage,
->    255      * 0xf0 means ~4.1V
->    256      */
->    257     case 0x02:
->    258         retval = 0xf0;
->    259         break;
-> 
-> For QEMU the AER915 is a very simple sensor model.
-> 
-> [*] https://www.bealecorner.org/best/measure/z2/index.html
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Ping^2 !
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+thanks
+-- PMM
 
-
-> ---
->   include/hw/qdev-core.h | 1 +
->   hw/arm/z2.c            | 1 +
->   hw/sensor/adm1272.c    | 1 +
->   hw/sensor/dps310.c     | 1 +
->   hw/sensor/emc141x.c    | 1 +
->   hw/sensor/max34451.c   | 2 ++
->   hw/sensor/tmp105.c     | 1 +
->   hw/sensor/tmp421.c     | 1 +
->   softmmu/qdev-monitor.c | 1 +
->   9 files changed, 10 insertions(+)
-> 
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index 34c8a7506a1..f6241212247 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -26,6 +26,7 @@ typedef enum DeviceCategory {
->       DEVICE_CATEGORY_SOUND,
->       DEVICE_CATEGORY_MISC,
->       DEVICE_CATEGORY_CPU,
-> +    DEVICE_CATEGORY_SENSOR,
->       DEVICE_CATEGORY_MAX
->   } DeviceCategory;
->   
-> diff --git a/hw/arm/z2.c b/hw/arm/z2.c
-> index 9c1e876207b..62db9741106 100644
-> --- a/hw/arm/z2.c
-> +++ b/hw/arm/z2.c
-> @@ -288,6 +288,7 @@ static void aer915_class_init(ObjectClass *klass, void *data)
->       k->recv = aer915_recv;
->       k->send = aer915_send;
->       dc->vmsd = &vmstate_aer915_state;
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->   }
->   
->   static const TypeInfo aer915_info = {
-> diff --git a/hw/sensor/adm1272.c b/hw/sensor/adm1272.c
-> index 7310c769be2..2942ac75f90 100644
-> --- a/hw/sensor/adm1272.c
-> +++ b/hw/sensor/adm1272.c
-> @@ -518,6 +518,7 @@ static void adm1272_class_init(ObjectClass *klass, void *data)
->       DeviceClass *dc = DEVICE_CLASS(klass);
->       PMBusDeviceClass *k = PMBUS_DEVICE_CLASS(klass);
->   
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->       dc->desc = "Analog Devices ADM1272 Hot Swap controller";
->       dc->vmsd = &vmstate_adm1272;
->       k->write_data = adm1272_write_data;
-> diff --git a/hw/sensor/dps310.c b/hw/sensor/dps310.c
-> index d60a18ac41b..1e24a499b38 100644
-> --- a/hw/sensor/dps310.c
-> +++ b/hw/sensor/dps310.c
-> @@ -208,6 +208,7 @@ static void dps310_class_init(ObjectClass *klass, void *data)
->       k->send = dps310_tx;
->       dc->reset = dps310_reset;
->       dc->vmsd = &vmstate_dps310;
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->   }
->   
->   static const TypeInfo dps310_info = {
-> diff --git a/hw/sensor/emc141x.c b/hw/sensor/emc141x.c
-> index 7ce8f4e9794..4202d8f185a 100644
-> --- a/hw/sensor/emc141x.c
-> +++ b/hw/sensor/emc141x.c
-> @@ -270,6 +270,7 @@ static void emc141x_class_init(ObjectClass *klass, void *data)
->       DeviceClass *dc = DEVICE_CLASS(klass);
->       I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
->   
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->       dc->reset = emc141x_reset;
->       k->event = emc141x_event;
->       k->recv = emc141x_rx;
-> diff --git a/hw/sensor/max34451.c b/hw/sensor/max34451.c
-> index a91d8bd487c..8300bf4ff43 100644
-> --- a/hw/sensor/max34451.c
-> +++ b/hw/sensor/max34451.c
-> @@ -751,6 +751,8 @@ static void max34451_class_init(ObjectClass *klass, void *data)
->       ResettableClass *rc = RESETTABLE_CLASS(klass);
->       DeviceClass *dc = DEVICE_CLASS(klass);
->       PMBusDeviceClass *k = PMBUS_DEVICE_CLASS(klass);
-> +
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->       dc->desc = "Maxim MAX34451 16-Channel V/I monitor";
->       dc->vmsd = &vmstate_max34451;
->       k->write_data = max34451_write_data;
-> diff --git a/hw/sensor/tmp105.c b/hw/sensor/tmp105.c
-> index 20564494899..43d79b9eeec 100644
-> --- a/hw/sensor/tmp105.c
-> +++ b/hw/sensor/tmp105.c
-> @@ -305,6 +305,7 @@ static void tmp105_class_init(ObjectClass *klass, void *data)
->       DeviceClass *dc = DEVICE_CLASS(klass);
->       I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
->   
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->       dc->realize = tmp105_realize;
->       k->event = tmp105_event;
->       k->recv = tmp105_rx;
-> diff --git a/hw/sensor/tmp421.c b/hw/sensor/tmp421.c
-> index a3db57dcb5a..c328978af9c 100644
-> --- a/hw/sensor/tmp421.c
-> +++ b/hw/sensor/tmp421.c
-> @@ -343,6 +343,7 @@ static void tmp421_class_init(ObjectClass *klass, void *data)
->       I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
->       TMP421Class *sc = TMP421_CLASS(klass);
->   
-> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->       dc->realize = tmp421_realize;
->       k->event = tmp421_event;
->       k->recv = tmp421_rx;
-> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> index 0705f008466..db56f328228 100644
-> --- a/softmmu/qdev-monitor.c
-> +++ b/softmmu/qdev-monitor.c
-> @@ -162,6 +162,7 @@ static void qdev_print_devinfos(bool show_no_user)
->           [DEVICE_CATEGORY_SOUND]   = "Sound",
->           [DEVICE_CATEGORY_MISC]    = "Misc",
->           [DEVICE_CATEGORY_CPU]     = "CPU",
-> +        [DEVICE_CATEGORY_SENSOR]  = "Sensor",
->           [DEVICE_CATEGORY_MAX]     = "Uncategorized",
->       };
->       GSList *list, *elt;
-> 
-
+On Mon, 13 Sept 2021 at 13:34, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Ping? (this has been reviewed)
+>
+> thanks
+> -- PMM
+>
+> On Wed, 1 Sept 2021 at 15:10, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > In the SSE decode function gen_sse(), we combine a byte
+> > 'b' and a value 'b1' which can be [0..3], and switch on them:
+> >    b |= (b1 << 8);
+> >    switch (b) {
+> >    ...
+> >    default:
+> >    unknown_op:
+> >        gen_unknown_opcode(env, s);
+> >        return;
+> >    }
+> >
+> > In three cases inside this switch, we were then also checking for
+> >  "if (b1 >= 2) { goto unknown_op; }".
+> > However, this can never happen, because the 'case' values in each place
+> > are 0x0nn or 0x1nn and the switch will have directed the b1 == (2, 3)
+> > cases to the default already.
+> >
+> > This check was added in commit c045af25a52e9 in 2010; the added code
+> > was unnecessary then as well, and was apparently intended only to
+> > ensure that we never accidentally ended up indexing off the end
+> > of an sse_op_table with only 2 entries as a result of future bugs
+> > in the decode logic.
+> >
+> > Change the checks to assert() instead, and make sure they're always
+> > immediately before the array access they are protecting.
+> >
+> > Fixes: Coverity CID 1460207
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> > v1->v2: use assert() rather than just deleting the if()s
+> >
+> >  target/i386/tcg/translate.c | 12 +++---------
+> >  1 file changed, 3 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+> > index aacb605eee4..a4fee5e445d 100644
+> > --- a/target/i386/tcg/translate.c
+> > +++ b/target/i386/tcg/translate.c
+> > @@ -3521,9 +3521,6 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+> >          case 0x171: /* shift xmm, im */
+> >          case 0x172:
+> >          case 0x173:
+> > -            if (b1 >= 2) {
+> > -                goto unknown_op;
+> > -            }
+> >              val = x86_ldub_code(env, s);
+> >              if (is_xmm) {
+> >                  tcg_gen_movi_tl(s->T0, val);
+> > @@ -3542,6 +3539,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+> >                                  offsetof(CPUX86State, mmx_t0.MMX_L(1)));
+> >                  op1_offset = offsetof(CPUX86State,mmx_t0);
+> >              }
+> > +            assert(b1 < 2);
+> >              sse_fn_epp = sse_op_table2[((b - 1) & 3) * 8 +
+> >                                         (((modrm >> 3)) & 7)][b1];
+> >              if (!sse_fn_epp) {
+> > @@ -3772,10 +3770,8 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+> >              rm = modrm & 7;
+> >              reg = ((modrm >> 3) & 7) | REX_R(s);
+> >              mod = (modrm >> 6) & 3;
+> > -            if (b1 >= 2) {
+> > -                goto unknown_op;
+> > -            }
+> >
+> > +            assert(b1 < 2);
+> >              sse_fn_epp = sse_op_table6[b].op[b1];
+> >              if (!sse_fn_epp) {
+> >                  goto unknown_op;
+> > @@ -4202,10 +4198,8 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+> >              rm = modrm & 7;
+> >              reg = ((modrm >> 3) & 7) | REX_R(s);
+> >              mod = (modrm >> 6) & 3;
+> > -            if (b1 >= 2) {
+> > -                goto unknown_op;
+> > -            }
+> >
+> > +            assert(b1 < 2);
+> >              sse_fn_eppi = sse_op_table7[b].op[b1];
+> >              if (!sse_fn_eppi) {
+> >                  goto unknown_op;
+> > --
+> > 2.20.1
 
