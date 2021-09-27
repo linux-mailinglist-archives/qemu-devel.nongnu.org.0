@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A6C418EA6
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 07:26:42 +0200 (CEST)
-Received: from localhost ([::1]:44118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A054418EA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 07:25:14 +0200 (CEST)
+Received: from localhost ([::1]:43034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUjA0-0008T6-PE
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 01:26:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34050)
+	id 1mUj8b-0007k7-BF
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 01:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mUj1p-0002Yl-3b; Mon, 27 Sep 2021 01:18:13 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:51561)
+ id 1mUj1t-0002cD-AW; Mon, 27 Sep 2021 01:18:18 -0400
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:49201)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mUj1n-0008Iv-JP; Mon, 27 Sep 2021 01:18:12 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 2DDF32B011FE;
- Mon, 27 Sep 2021 01:18:09 -0400 (EDT)
+ id 1mUj1r-0008Mj-IJ; Mon, 27 Sep 2021 01:18:17 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 1FA402B011FD;
+ Mon, 27 Sep 2021 01:18:13 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 27 Sep 2021 01:18:10 -0400
+ by compute6.internal (MEProxy); Mon, 27 Sep 2021 01:18:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=5yt5X09LNjNuE
- xr0Bi0xN0yrJWRZcc+WYIN5acFZcVY=; b=aj45o4ZR3yL0ROLWWhyeKV3DWQWyZ
- 2Mp1iKNQUuQUYrkY2IJP/NoqNDEt9nzGJVcvOCc2fooMuw7Y85dwSOkhnwp0/VDO
- X2n07WETGAIKS0cp4WLqdGRjSkZRePWGv7zt/DFrMsxkTrF/zvaXOBZuexGLMkye
- phSo1S0xzigCZ4o9dFJ2zVZNezgA4nljc8hU779eQkXmWxhq8mMzkDiam5eYWEvQ
- xDxLsbPXyfGcg2yWR4bTEcF31lvTRdCEcUGuXUDUA+p+B0jUo90CskFg2oDkjvp/
- EYh/Y/e21vHZUCDue1jyHaprp+n6IUp80C4zqSH6zgJfuX2unoOgXIL3g==
+ :mime-version:content-transfer-encoding; s=fm1; bh=Ae5wCA8dhSpHI
+ VA3VC5vqxMvJy+pmCouZ+8WyrMRKyQ=; b=Ep92hDIhmIHqjZ5bOV+/s+WOcFGsJ
+ re00TfxY1u+mjJ+EDJN3hwDwyykQnp0SvW/MVeNDivNHLTMIDOVxfZrHIDKdUWtU
+ XelK6ww+Z4A1nLF7afrN8qiZbjYGIbDfzzZrud12GgDw1aHRsH+yaN7F1itXwibS
+ ZXIFvat1Et/Ii/Gopo2HlaB4I9f9rXLq4WAuP+zADb0gjl+WZMIcTbus+JbyhOzQ
+ FGxFG7BTQ99Wsu9WY5zQvhGoYGmbwf8b9GyQg3d1fPH5wcAxtby+OOl5E1yUEgd9
+ Nsf1QY/IYTbuB6usSUqxAsWEN4CoGtfTBpbVDalrkAkGQGABPiotg5fpg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=5yt5X09LNjNuExr0Bi0xN0yrJWRZcc+WYIN5acFZcVY=; b=D9QNLQIP
- He2k3A2upN5XhiGdqui+1Hm4LyDLPWrBGNOi3ZIp4xYHi7/NTFEhs24xSQgf7U98
- RvPCSHmoVIY/LvehBhG8WO7Y8G5GylJefnmP2TT0jcF/V2Pg4Wji+C7U5uDUU/Bf
- 6b3XKfSX8tOoDdqlhLP0JVphLP8ljDQYGHdkXZQ1Pfh8z910F07+4DXxWG6Q889N
- HovDJNhoeopxWuKPhctZqXvUx2L+aeVrc9eBzvOPoL6tLtD2rrUrh+ymLfzj3PdS
- s71cZiDRLYQNzYPtWO+x7iRWBepF5qg2lhSZWOSuZlCuOKIB4/ZOEXChjK7L6c2H
- 7ppR1U/i+OrBZw==
-X-ME-Sender: <xms:EFRRYV4MTa12GiAOJPOzP6QInuU7YwMeMToGLkCKFIGggEeAmxhB1w>
- <xme:EFRRYS7UiDVwzgdEPxxGpa14kUsi7JBN6SeY-5nyGRsI7W7pp3DCSoYTv45SotTde
- Misg2AcU32mn0tUI7M>
-X-ME-Received: <xmr:EFRRYccDrC-w8k6kK0WtcOgvZNu52NNq1Xs2xbfuGos-kYI5FN3SpqBDpEY75jipyoavLc3wFhK0Ya41WBfX8LUCy6m_WYf-lRqRruUN7g>
+ fm3; bh=Ae5wCA8dhSpHIVA3VC5vqxMvJy+pmCouZ+8WyrMRKyQ=; b=k48YgY4/
+ aKu6ZmkTajucL+QHx4SHyZbfLpftjUqsscAHg2dzvbj7XPpP8JOqi7M5etA9vV5n
+ yk0Xhg7Q/zrhTBvjereRyUsIdzGdZpH5OfH2nS4lc9tC3KmKbnCIQAHuZ+hj9BbR
+ iq7eieRjCpCpmr4fQe9qOmp+gGARg/o21InLZ0LTo80wffVl8htjzUwFQATwqsvA
+ qEhpz2PvAzPgwj98JDby1TfQZHPOQr+QRtk/9YNyQhmODZbNEFC/2sywC6Fa2D80
+ iw9XgzeeW0lVBXQ6vyM9j2ULxQbIO8kEIbBdcq+9Yj7Ib80tbj8sQiKnY9Tk65VG
+ izj0lKzUDXLb7A==
+X-ME-Sender: <xms:FFRRYWbwrHlTzR_Uo6z7FVClZP01U8UQm0SV0ibTbGWdZwF00OVnSg>
+ <xme:FFRRYZYbnIgNDjGFgO2UxAGCnYOrwuYJeXcIVDj2vqczF_7bqrJbzNmyBPmFFQKK7
+ PaI-qGnRVmb6dAZa9c>
+X-ME-Received: <xmr:FFRRYQ_b6OQnrxr-HNOXAmbe77ORUumgnzp2ZSteRuy2qKCo8nRa95TBW__Db0PWx2l6BTXLwQiP92b_YfgC3vuzREn3i3HtS2INcz4rGg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejjedgledvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,17 +54,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejjedgledvucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:EFRRYeLR-SkqYJCXfDe9FT7x97-NFx1lBhKAnOG-HgpGlk4Ur5b5RQ>
- <xmx:EFRRYZItiwajWr9nRub-VQGRikh8tI651t-RHfuexrnjtUyLf3ulsQ>
- <xmx:EFRRYXwvsvPDd_L-Sr-MaFFwjw9LxQJ7QH6aQ8SaBX9LRTObe6lvcw>
- <xmx:EFRRYS7lPEINrtOKqCCEv58JSrei9cK345YiP7nZpUZCxrVgKJumkk_YjDo>
+X-ME-Proxy: <xmx:FFRRYYorrOS2rZicSfg4R_MW91kuxVCS7t7H3vWawJGkxKiSh2a_jg>
+ <xmx:FFRRYRpK6BdEt_TeCzuXqBE2c0pkTJ4FpT2ll-M9TG_FSnDe0pwDyg>
+ <xmx:FFRRYWSFWT1rsqMZ57-XjvIWiCtNOl1rVp7cjO3KQtCS7VpMGkXRZQ>
+ <xmx:FFRRYZabRm2e9MPNpgvHnFL6i2kOcIdgrXf3hF1BWfcLMjXpWzrCSScDxw8>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Sep 2021 01:18:06 -0400 (EDT)
+ 27 Sep 2021 01:18:10 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v2 01/16] hw/nvme: reattach subsystem namespaces on hotplug
-Date: Mon, 27 Sep 2021 07:17:44 +0200
-Message-Id: <20210927051759.447305-2-its@irrelevant.dk>
+Subject: [PATCH RFC v2 02/16] hw/nvme: change nvme-ns 'shared' default
+Date: Mon, 27 Sep 2021 07:17:45 +0200
+Message-Id: <20210927051759.447305-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210927051759.447305-1-its@irrelevant.dk>
 References: <20210927051759.447305-1-its@irrelevant.dk>
@@ -103,58 +103,106 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hannes Reinecke <hare@suse.de>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-With commit 5ffbaeed16 ("hw/nvme: fix controller hot unplugging")
-namespaces get moved from the controller to the subsystem if one
-is specified.
-That keeps the namespaces alive after a controller hot-unplug, but
-after a controller hotplug we have to reconnect the namespaces
-from the subsystem to the controller.
+Change namespaces to be shared namespaces by default (parameter
+shared=on). Keep shared=off for older machine types.
 
-Fixes: 5ffbaeed16 ("hw/nvme: fix controller hot unplugging")
-Cc: Klaus Jensen <k.jensen@samsung.com>
-Signed-off-by: Hannes Reinecke <hare@suse.de>
-[k.jensen: only attach to shared and non-detached namespaces]
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/subsys.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ docs/system/devices/nvme.rst | 24 ++++++++++++++----------
+ hw/core/machine.c            |  4 +++-
+ hw/nvme/ns.c                 |  8 +-------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
-index 93c35950d69d..6b2e4c975f5b 100644
---- a/hw/nvme/subsys.c
-+++ b/hw/nvme/subsys.c
-@@ -14,7 +14,7 @@
- int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
- {
-     NvmeSubsystem *subsys = n->subsys;
--    int cntlid;
-+    int cntlid, nsid;
+diff --git a/docs/system/devices/nvme.rst b/docs/system/devices/nvme.rst
+index bff72d1c24d0..a1c0db01f6d5 100644
+--- a/docs/system/devices/nvme.rst
++++ b/docs/system/devices/nvme.rst
+@@ -110,28 +110,32 @@ multipath I/O.
+ This will create an NVM subsystem with two controllers. Having controllers
+ linked to an ``nvme-subsys`` device allows additional ``nvme-ns`` parameters:
  
-     for (cntlid = 0; cntlid < ARRAY_SIZE(subsys->ctrls); cntlid++) {
-         if (!subsys->ctrls[cntlid]) {
-@@ -29,12 +29,20 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
+-``shared`` (default: ``off``)
++``shared`` (default: ``on`` since 6.2)
+   Specifies that the namespace will be attached to all controllers in the
+-  subsystem. If set to ``off`` (the default), the namespace will remain a
+-  private namespace and may only be attached to a single controller at a time.
++  subsystem. If set to ``off``, the namespace will remain a private namespace
++  and may only be attached to a single controller at a time. Shared namespaces
++  are always automatically attached to all controllers (also when controllers
++  are hotplugged).
  
-     subsys->ctrls[cntlid] = n;
+ ``detached`` (default: ``off``)
+   If set to ``on``, the namespace will be be available in the subsystem, but
+-  not attached to any controllers initially.
++  not attached to any controllers initially. A shared namespace with this set
++  to ``on`` will never be automatically attached to controllers.
  
-+    for (nsid = 1; nsid < ARRAY_SIZE(subsys->namespaces); nsid++) {
-+        NvmeNamespace *ns = subsys->namespaces[nsid];
-+        if (ns && ns->params.shared && !ns->params.detached) {
-+            nvme_attach_ns(n, ns);
-+        }
-+    }
-+
-     return cntlid;
- }
+ Thus, adding
  
- void nvme_subsys_unregister_ctrl(NvmeSubsystem *subsys, NvmeCtrl *n)
- {
-     subsys->ctrls[n->cntlid] = NULL;
-+    n->cntlid = -1;
- }
+ .. code-block:: console
  
- static void nvme_subsys_setup(NvmeSubsystem *subsys)
+    -drive file=nvm-1.img,if=none,id=nvm-1
+-   -device nvme-ns,drive=nvm-1,nsid=1,shared=on
++   -device nvme-ns,drive=nvm-1,nsid=1
+    -drive file=nvm-2.img,if=none,id=nvm-2
+-   -device nvme-ns,drive=nvm-2,nsid=3,detached=on
++   -device nvme-ns,drive=nvm-2,nsid=3,shared=off,detached=on
+ 
+-will cause NSID 1 will be a shared namespace (due to ``shared=on``) that is
+-initially attached to both controllers. NSID 3 will be a private namespace
+-(i.e. only attachable to a single controller at a time) and will not be
+-attached to any controller initially (due to ``detached=on``).
++will cause NSID 1 will be a shared namespace that is initially attached to both
++controllers. NSID 3 will be a private namespace due to ``shared=off`` and only
++attachable to a single controller at a time. Additionally it will not be
++attached to any controller initially (due to ``detached=on``) or to hotplugged
++controllers.
+ 
+ Optional Features
+ =================
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 067f42b528fd..5e2fa3e392b9 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -37,7 +37,9 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
+ 
+-GlobalProperty hw_compat_6_1[] = {};
++GlobalProperty hw_compat_6_1[] = {
++    { "nvme-ns", "shared", "off" },
++};
+ const size_t hw_compat_6_1_len = G_N_ELEMENTS(hw_compat_6_1);
+ 
+ GlobalProperty hw_compat_6_0[] = {
+diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+index b7cf1494e75b..8b5f98c76180 100644
+--- a/hw/nvme/ns.c
++++ b/hw/nvme/ns.c
+@@ -465,12 +465,6 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+                        "linked to an nvme-subsys device");
+             return;
+         }
+-
+-        if (ns->params.shared) {
+-            error_setg(errp, "shared requires that the nvme device is "
+-                       "linked to an nvme-subsys device");
+-            return;
+-        }
+     } else {
+         /*
+          * If this namespace belongs to a subsystem (through a link on the
+@@ -532,7 +526,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+ static Property nvme_ns_props[] = {
+     DEFINE_BLOCK_PROPERTIES(NvmeNamespace, blkconf),
+     DEFINE_PROP_BOOL("detached", NvmeNamespace, params.detached, false),
+-    DEFINE_PROP_BOOL("shared", NvmeNamespace, params.shared, false),
++    DEFINE_PROP_BOOL("shared", NvmeNamespace, params.shared, true),
+     DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsid, 0),
+     DEFINE_PROP_UUID("uuid", NvmeNamespace, params.uuid),
+     DEFINE_PROP_UINT64("eui64", NvmeNamespace, params.eui64, 0),
 -- 
 2.33.0
 
