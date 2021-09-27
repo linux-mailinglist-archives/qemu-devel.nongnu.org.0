@@ -2,82 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9614F41A196
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 23:58:16 +0200 (CEST)
-Received: from localhost ([::1]:56554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0CC41A20A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 00:02:05 +0200 (CEST)
+Received: from localhost ([::1]:39672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUydb-000448-JZ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 17:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54086)
+	id 1mUyhH-0003IK-Ru
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 18:02:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vineetg@rivosinc.com>)
- id 1mUyaC-0001se-R6
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 17:54:44 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:37871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vineetg@rivosinc.com>)
- id 1mUya7-0001jy-Q0
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 17:54:43 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id j14so12745419plx.4
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 14:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=from:subject:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=PJzmY0qHI6DChk630lgLKcl3/aH9fh4iKxEHXdjNeAg=;
- b=dkQUUrC5Yi/zC6CXZ8dpap+Z83TGzeaSPChFWmnYNjPjDjaz61x89JoEr3pieSrfK4
- Z9OULe7onqqYxDeDHCrLh5tsNRT+xuZU88QwTEGQcfO8rMVEN32yPEeOqEGfFHn/QKYZ
- FzkcDHdZvlKf/HlY0xTW/A9+Etx7bSRSNE8ksqTNccWZpgxouE9EK1Mnw1dPV+4CKRCi
- o8oPIR68O/D3NW8m9LZlRaEljmuIwiII6mR7gjbyEaqD/x78Ns/Lrit0XEsz4cqEs4L4
- dDu6omU7XSbTKtxhtRf/A4C7T1rKcB7pvNDzjzQsAhqEPyZJcUmNe//fCLWiriAIazhq
- 5fkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:subject:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=PJzmY0qHI6DChk630lgLKcl3/aH9fh4iKxEHXdjNeAg=;
- b=qn0NTYY0jTSO/Epmer1b9IFaMIjqw+kIBULfZE64p0m7wkQOhGSBLbXiaekcnMgYyd
- gOIG+48maN0bxs0u/XSR6LLjn21zCy2uapDQBH8lHqY2HgGPevEe1ypWm612GEuARBhf
- jgu7tnOfHicRF/yHId9YLysp60U94xABVUodANJDPcRTrkbDr+ybvtJiPns/dNPCK+OS
- P9rkLPMzAVaVTu7eAjteMx0j7jPKxZURKHeckSYLCeI4HJMHBV7N+uvmPJXtW8qoTgyW
- WnDo64G9wW8vei0UBuu1kbkII7o+d2ns5cdpsOOnrK7onizlB2KO6sR1apsUvXqjrpuP
- O9Sw==
-X-Gm-Message-State: AOAM530Zpo8I2YzwnGpFa/fXyYA/BXVfZYWBrP1Kax2LPwWvV3LQpVSC
- uMBtNYx3SLZwwjQ+l/VgN1jmCA==
-X-Google-Smtp-Source: ABdhPJz3sKV58OpS1U9joyXGQ4np3v7jRK6ct/kq4vxyb3rPRX/U/UUhhJDZh4vJ44T51Yu6lhjVzA==
-X-Received: by 2002:a17:903:18d:b0:13c:aad1:e74e with SMTP id
- z13-20020a170903018d00b0013caad1e74emr1924066plg.64.1632779677962; 
- Mon, 27 Sep 2021 14:54:37 -0700 (PDT)
-Received: from [192.168.50.50] (c-24-4-73-83.hsd1.ca.comcast.net. [24.4.73.83])
- by smtp.gmail.com with ESMTPSA id w206sm17985007pfc.45.2021.09.27.14.54.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 14:54:37 -0700 (PDT)
-From: Vineet Gupta <vineetg@rivosinc.com>
-X-Google-Original-From: Vineet Gupta <vineet.gupta@linux.dev>
-Subject: Re: [PATCH v11 00/16] target/riscv: Update QEmu for Zb[abcs] 1.0.0
-To: Jim Wilson <jimw@sifive.com>
-References: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
- <5be1705c-c39e-fa44-201c-467811f8e5c8@linux.dev>
- <CAFyWVaaULg4rgBa50a_8LFossYmc4AfQcLDi0trEiunSckVaaw@mail.gmail.com>
-Message-ID: <823201b9-326c-cd1f-7695-e8f02c0c384a@linux.dev>
-Date: Mon, 27 Sep 2021 14:54:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mUybU-0002YI-OD
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 17:56:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mUybR-0002ml-7d
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 17:56:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632779760;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vd/kqlgqTGm3HGN7jGfqX0/UiG6jvgyetaEnUMIFwZo=;
+ b=iLafomYunSY7ShtVIQOYQoZ9DesTWYOLBV61mpI1E7Dohta/dfNEwV3kezHEAWv8Uj2xla
+ eVq1Gq0XCwcthPKsCWrrA8iv/iMHC1EHU+Rb1Hhne77+2W0Gc5aKO4TIjdZWOYKsejqs5T
+ mxgh5QXq3RAxh3jKufAcpeCutCWPL/M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-104-WO8QfaNHMUytvk4Wi1LMYw-1; Mon, 27 Sep 2021 17:55:51 -0400
+X-MC-Unique: WO8QfaNHMUytvk4Wi1LMYw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1D235074D
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 21:55:50 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-113-87.phx2.redhat.com [10.3.113.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C08BA5D9D5
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 21:55:50 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/20] NBD patches through 2021-09-27
+Date: Mon, 27 Sep 2021 16:55:25 -0500
+Message-Id: <20210927215545.3930309-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFyWVaaULg4rgBa50a_8LFossYmc4AfQcLDi0trEiunSckVaaw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=vineetg@rivosinc.com; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-3.136, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,35 +73,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 9b03a1178204598055f23f24e438fdddb5935df9:
 
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-6.2-pull-request' into staging (2021-09-27 11:08:36 +0100)
 
-On 9/27/21 1:23 PM, Jim Wilson wrote:
-> On Mon, Sep 27, 2021 at 1:01 PM Vineet Gupta <vineetg@rivosinc.com 
-> <mailto:vineetg@rivosinc.com>> wrote:
->
->     So I obviously forgot to get the equivalent binutils branch, but the
->     only rvb branch on sifive fork feels dated
->
->     https://github.com/riscv-collab/riscv-binutils-gdb/tree/riscv-binutils-2.35-rvb
->     <https://github.com/riscv-collab/riscv-binutils-gdb/tree/riscv-binutils-2.35-rvb>
->
->
-> That is the right branch to use with the gcc that you are using.  This 
-> stuff hasn't been actively maintained so we have old gcc and binutils 
-> release versions.
->
-> We are in the process of putting stuff upstream now.
->
+are available in the Git repository at:
 
-Thx Jim. Guess we'd have to wait for dust to settle, as this instance of 
-binutils can't seem to grok sh1add.uw spit out by rvb-shNadd-03.c
+  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-09-27
 
--Vineet
+for you to fetch changes up to 3cb015ad05c7c1e07e0deb356cd20e6cd765c0ea:
+
+  nbd/server: Add --selinux-label option (2021-09-27 16:16:28 -0500)
+
+----------------------------------------------------------------
+nbd patches for 2021-09-27
+
+- Richard W.M. Jones: Add --selinux-label option to qemu-nbd
+- Vladimir Sementsov-Ogievskiy: Rework coroutines of qemu NBD client
+  to improve reconnect support
+- Eric Blake: Relax server in regards to NBD_OPT_LIST_META_CONTEXT
+- Vladimir Sementsov-Ogievskiy: Plumb up 64-bit bulk-zeroing support
+  in block layer, in preparation for future NBD spec extensions
+- Nir Soffer: Default to writeback cache in qemu-nbd
+
+----------------------------------------------------------------
+Eric Blake (1):
+      nbd/server: Allow LIST_META_CONTEXT without STRUCTURED_REPLY
+
+Nir Soffer (1):
+      qemu-nbd: Change default cache mode to writeback
+
+Richard W.M. Jones (1):
+      nbd/server: Add --selinux-label option
+
+Vladimir Sementsov-Ogievskiy (17):
+      block/io: bring request check to bdrv_co_(read,write)v_vmstate
+      qcow2: check request on vmstate save/load path
+      block: use int64_t instead of uint64_t in driver read handlers
+      block: use int64_t instead of uint64_t in driver write handlers
+      block: use int64_t instead of uint64_t in copy_range driver handlers
+      block: make BlockLimits::max_pwrite_zeroes 64bit
+      block: use int64_t instead of int in driver write_zeroes handlers
+      block/io: allow 64bit write-zeroes requests
+      block: make BlockLimits::max_pdiscard 64bit
+      block: use int64_t instead of int in driver discard handlers
+      block/io: allow 64bit discard requests
+      nbd/client-connection: nbd_co_establish_connection(): fix non set errp
+      block/nbd: nbd_channel_error() shutdown channel unconditionally
+      block/nbd: move nbd_recv_coroutines_wake_all() up
+      block/nbd: refactor nbd_recv_coroutines_wake_all()
+      block/nbd: drop connection_co
+      block/nbd: check that received handle is valid
+
+ docs/tools/qemu-nbd.rst                       |   6 +-
+ configure                                     |   8 +-
+ meson.build                                   |  10 +-
+ include/block/block_int.h                     |  66 ++--
+ block/io.c                                    |  44 ++-
+ block/blkdebug.c                              |  12 +-
+ block/blklogwrites.c                          |  16 +-
+ block/blkreplay.c                             |   8 +-
+ block/blkverify.c                             |   8 +-
+ block/bochs.c                                 |   4 +-
+ block/cloop.c                                 |   4 +-
+ block/commit.c                                |   2 +-
+ block/copy-before-write.c                     |  15 +-
+ block/copy-on-read.c                          |  19 +-
+ block/crypto.c                                |   8 +-
+ block/curl.c                                  |   3 +-
+ block/dmg.c                                   |   4 +-
+ block/file-posix.c                            |  35 +-
+ block/file-win32.c                            |   8 +-
+ block/filter-compress.c                       |  15 +-
+ block/gluster.c                               |  13 +-
+ block/iscsi.c                                 |  58 ++--
+ block/mirror.c                                |   8 +-
+ block/nbd.c                                   | 443 ++++++++------------------
+ block/nfs.c                                   |  12 +-
+ block/null.c                                  |  18 +-
+ block/nvme.c                                  |  48 ++-
+ block/preallocate.c                           |  14 +-
+ block/qcow.c                                  |  16 +-
+ block/qcow2-cluster.c                         |  14 +-
+ block/qcow2.c                                 |  70 ++--
+ block/qed.c                                   |   9 +-
+ block/quorum.c                                |  11 +-
+ block/raw-format.c                            |  36 +--
+ block/rbd.c                                   |  20 +-
+ block/throttle.c                              |  18 +-
+ block/vdi.c                                   |   8 +-
+ block/vmdk.c                                  |  14 +-
+ block/vpc.c                                   |   8 +-
+ block/vvfat.c                                 |   8 +-
+ nbd/client-connection.c                       |   1 +
+ nbd/client.c                                  |   2 -
+ nbd/server.c                                  |   2 +-
+ qemu-nbd.c                                    |  45 ++-
+ tests/unit/test-bdrv-drain.c                  |  16 +-
+ tests/unit/test-block-iothread.c              |  21 +-
+ block/trace-events                            |  10 +-
+ meson_options.txt                             |   3 +
+ tests/docker/dockerfiles/centos8.docker       |   1 +
+ tests/docker/dockerfiles/fedora.docker        |   1 +
+ tests/docker/dockerfiles/opensuse-leap.docker |   1 +
+ tests/docker/dockerfiles/ubuntu1804.docker    |   1 +
+ tests/docker/dockerfiles/ubuntu2004.docker    |   1 +
+ 53 files changed, 648 insertions(+), 598 deletions(-)
+
+-- 
+2.31.1
+
 
