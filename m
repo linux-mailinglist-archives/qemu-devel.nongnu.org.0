@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EBB2419805
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 17:36:44 +0200 (CEST)
-Received: from localhost ([::1]:50066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00BC341983A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 17:49:32 +0200 (CEST)
+Received: from localhost ([::1]:42588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUsgN-0005ai-0A
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 11:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59196)
+	id 1mUssk-0003QY-EO
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 11:49:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUsep-0004kD-HM; Mon, 27 Sep 2021 11:35:07 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34323)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUsqB-0000d2-4X
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 11:46:51 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUsen-00060x-Ps; Mon, 27 Sep 2021 11:35:07 -0400
-Received: by mail-wr1-x432.google.com with SMTP id t8so52813642wri.1;
- Mon, 27 Sep 2021 08:35:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=XSvz1APDPaA4vE2/ttrlWYJ4sT71ydTv6e3uUBDFbQU=;
- b=LuUStK0hTPZRwFt5yJhhpnFdwQUkbM+0iKs+4ASzCWYoI4b9h2pdHbKhO+bwItLfiN
- zXMc1zmCCfzWfAdqEF+7FHhADt6J2RjajifatdOldYKAGTmMbfc+wg5cKik5yL4VdgKf
- DZTqhyXqzWeSGFl3dRKG9W17BCmZy/qt0o1sZW9SnXmKJNkLG8WqPdDu8t4Me82gz5yL
- lPrKeezzbEy6m0UXZfAbsVTLWstw2fjfIlQ4C+KUuDm8QRdkXu0L1U6pQXpSfeanu2q2
- 1m6jt2jg6MsSe25oqrQYeLrZ1BRiseQRDmVzxd27vY4F3KRravycw75kJUbhJa8Vx4My
- +lNg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUsq9-0007TQ-23
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 11:46:50 -0400
+Received: by mail-wr1-x429.google.com with SMTP id d6so52604187wrc.11
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 08:46:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nhzsQ4P9M/UVf0EdEr4phK4AOpgIFR5ehRHTQe1IBw4=;
+ b=icRFkUf9xz+Sv35UzSGJ2PaXmkCWmKCqmCXd/uRKy6bmUd37Y6gsZZcafzqnnBrhb9
+ HAcCGhT+owQx5dQYCKuaqXHVknLqV4+yhMaB76zXlOCAZnGMDAxLPzOeACAiDkwhUZ/y
+ qmOAoUH4hQdKiOG9/9dWgik276HLQEOiv0eIQEVULEXS2onjvI70d0T0j2Ro6JKYPEap
+ qytv4BC9es5TgLfjMGegdeGcUMpKEY+slEY4pZF9lLOhzQaIFz6rXZZoWIjsfNA4qBVK
+ Pfq5dt8cMrh3MmZhl46rQ1fWt9d7P7o8B8s2zMpESC7/JnDYkDfibrUEerbY2u3nye/Q
+ zq6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=XSvz1APDPaA4vE2/ttrlWYJ4sT71ydTv6e3uUBDFbQU=;
- b=NxDVesvSYpZvOBfIRGgXB8GaDbs6pCjquxzGtc9I05EogyohIt8zu+Stjpvh80XPob
- 20/yN+KX9X5UpHD9NP7IEFAXl9nBCWw4FmfmThH2v6799ngbi7mtO0HEkotSIDLE2sFK
- UaDdtyrnFDtpRxEFCbcz7yKwYwFwtSc8UY6GoXxecWCLC5F9lAJkAz6gBwUZMzfDfEq9
- APqAwgnxDegKev7THiKKcb4IPnrSHz2ag1DCDBXyp1yIWYKDxIU4Gx2x/ILt+Et58k0x
- 1jFDx6tSybrlLSYW3z90N1+rbrG7AArWz8afsjyBDfHAFtl3zBeDWJyUrld08QXuvZSV
- tYJg==
-X-Gm-Message-State: AOAM5326Et4jYV3xcKClrGcmEuYDgLx74gRk3F+BlZWldlsUFwYw9kQX
- jBdhlIZmkanLlbDJ4jCc++I=
-X-Google-Smtp-Source: ABdhPJzpRtMelcAJ5/4tjPCqxbOiWkfQKntnmGR1U7kwPw5Nz5svMi1Sn5M7PZvLBTIYHSxlibRB1Q==
-X-Received: by 2002:a5d:4d0d:: with SMTP id z13mr520132wrt.267.1632756902872; 
- Mon, 27 Sep 2021 08:35:02 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id v18sm16611640wml.44.2021.09.27.08.35.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 08:35:02 -0700 (PDT)
-Message-ID: <8e03f4a4-a47e-5e89-795a-d6d331c88cbf@amsat.org>
-Date: Mon, 27 Sep 2021 17:35:01 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nhzsQ4P9M/UVf0EdEr4phK4AOpgIFR5ehRHTQe1IBw4=;
+ b=3zGnZmnni9/tLHLkgVljJCUMwVSsRaOgLvyKhXfEsRXlyJizFQidlFg4SmvFMVYP9x
+ 3S3vdIYRr8+8FjxGjnX5NXNtA7jX1vVHaNVM0UwRpWMIAhJZgNI+Vsv7rhSqJZt4JCa3
+ HGudIUZaiTiN+LR1Eo/LfBDUXKV60OHYJVRU8xWB5D6bAAnjlR0X3xPmmtW6RBGqhxU5
+ v8JtX80Un1o9ouTIJgENbV5tGpWtdZ/g62seEQplKiQwhgNCo6DDrS5DhBFoll7rsPg5
+ dCHYDRikv1iWadjSWNkyRK8CxSNSEf+E+kvPNNCUUKJftdYLQ8PB7pEXldQ7Y6dGTwLM
+ S0hg==
+X-Gm-Message-State: AOAM53087sikbJpEhQhahwDSm25pWJpaIOlPqUgH71Sa10vQlnazWqtk
+ kIx6L138WiBuH378oblNHwrhmtnSZkd9QRDBRwXXGA==
+X-Google-Smtp-Source: ABdhPJzy9qw+tzHF3YEaq6plnTQIpnash0SIwhb6uvq+2Tv+I6VVXeZer0jTgp1CoOpievHkXSC0YjZ2xeBUp7HOLug=
+X-Received: by 2002:adf:ee48:: with SMTP id w8mr590268wro.263.1632757607229;
+ Mon, 27 Sep 2021 08:46:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v1 1/1] hw/riscv: shakti_c: Mark as not user creatable
-Content-Language: en-US
-To: Alistair Francis <alistair.francis@opensource.wdc.com>,
- qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <bc032f02f44192bfa057cc4f09311fd18d07ef1f.1632726758.git.alistair.francis@wdc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <bc032f02f44192bfa057cc4f09311fd18d07ef1f.1632726758.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.136,
+References: <20210926183410.256484-1-sjg@chromium.org>
+ <CAFEAcA8S2=7rOKxeqcW+kw0BVPO3PUJGSUH-ioN7=c=U7zQxvg@mail.gmail.com>
+ <CAPnjgZ2NCRVxKULWR1JjZU+D9saJ7fbZ=yHmWTSr3ufHxLYg-g@mail.gmail.com>
+ <CAFEAcA9n+2JDFv8BezeEMA4e2Zhr0ENAvzLjBS6YXRoW9P-JXQ@mail.gmail.com>
+ <CAPnjgZ1AO8575LYbwmuouNR5=dgNam6EFDC1_bai=8xAHdw7-Q@mail.gmail.com>
+In-Reply-To: <CAPnjgZ1AO8575LYbwmuouNR5=dgNam6EFDC1_bai=8xAHdw7-Q@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Sep 2021 16:45:53 +0100
+Message-ID: <CAFEAcA8FsPcBELEZxiRMuFbKtmKTFgDHABePQ33hdxYRq0C0ig@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/virt: Allow additions to the generated device tree
+To: Simon Glass <sjg@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,66 +80,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alistair,
+On Mon, 27 Sept 2021 at 16:18, Simon Glass <sjg@chromium.org> wrote:
+> On Mon, 27 Sept 2021 at 02:48, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > So what is missing in the QEMU-provided DTB that it needs?
+>
+> Quite a lot. Here are some examples:
+>
+> U-Boot has limited pre-relocation memory so tries to avoid
+> binding/probing devices that are not used before relocation:
+>
+> https://u-boot.readthedocs.io/en/latest/develop/driver-model/design.html#pre-relocation-support
 
-On 9/27/21 09:13, Alistair Francis wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> Mark the shakti_c machine as not user creatable as it uses serial_hd.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/639
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/riscv/shakti_c.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
-> index 2f084d3c8d..603992d442 100644
-> --- a/hw/riscv/shakti_c.c
-> +++ b/hw/riscv/shakti_c.c
-> @@ -150,6 +150,8 @@ static void shakti_c_soc_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
->      dc->realize = shakti_c_soc_state_realize;
-> +    /* Reason: Uses serial_hds in realize function, thus can't be used twice */
-> +    dc->user_creatable = false;
+It's up to u-boot to decide what it wants to touch and
+what it does not. QEMU tells u-boot what all the available
+devices are; I don't think we should have extra stuff saying
+"and if you are u-boot, do something odd".
 
-I agree with the logical change, but not totally with the comment.
-Well, the comment itself is not incorrect. But the error happens before:
+> There is a configuration node (which is likely to change form in
+> future releases, but will still be there)
+>
+> https://github.com/u-boot/u-boot/blob/master/doc/device-tree-bindings/config.txt
 
-ERROR:tcg/tcg.c:479:tcg_register_thread: assertion failed: (n <
-tcg_max_ctxs)
+I think u-boot should be storing this kind of thing somewhere
+else (e.g. as part of the binary blob that is u-boot itself,
+or stored in flash or RAM as a separate blob).
 
-The reason is TYPE_RISCV_HART_ARRAY creates CPUs in
-riscv_hart_realize(), and this machine use the default CPU limit
-of one CPU:
+> Then there are various features which put things in U-Boot's control
+> dtb, such as verified boot, which adds public keys during signing:
+>
+> https://github.com/u-boot/u-boot/blob/master/doc/uImage.FIT/signature.txt#L135
+>
+> More generally, the U-Boot tree has hundreds of files which add
+> properties for each board, since we try to keep the U-Boot-specific
+> things out of the Linux tree:
+>
+> $ find . -name *u-boot.dtsi |wc -l
+> 398
 
-static void shakti_c_machine_class_init(ObjectClass *klass, void *data)
-{
-    MachineClass *mc = MACHINE_CLASS(klass);
-    mc->desc = "RISC-V Board compatible with Shakti SDK";
-    mc->init = shakti_c_machine_state_init;
-    mc->default_cpu_type = TYPE_RISCV_CPU_SHAKTI_C;
-}
+If any of this is actual information about the hardware then you
+should sort out getting the bindings documented officially
+(which I think is still in the Linux tree), and then QEMU can
+provide them.
 
-The default values come from:
+> Quite a bit of this is to do with SPL and so far it seems that QEMU
+> mostly runs U-Boot proper only, although I see that SPL is starting to
+> creep in too in the U-Boot CI.
+>
+> So at present QEMU is not able to support U-Boot fully.
 
-static void machine_class_base_init(ObjectClass *oc, void *data)
-{
-    MachineClass *mc = MACHINE_CLASS(oc);
-    mc->max_cpus = mc->max_cpus ?: 1;
-    mc->min_cpus = mc->min_cpus ?: 1;
-    mc->default_cpus = mc->default_cpus ?: 1;
+My take is that this is u-boot doing weird custom things with
+the DTB that aren't "describe the hardware". You should be able
+to boot u-boot by putting those custom DTB extra things in a
+separate blob and having u-boot combine that with the
+actual DTB when it starts.
 
-So the crash happens when we try to create the 2nd CPU.
-
->  }
->  
->  static void shakti_c_soc_instance_init(Object *obj)
-> 
+-- PMM
 
