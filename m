@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CB4419215
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 12:16:43 +0200 (CEST)
-Received: from localhost ([::1]:39590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E87B5419208
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 12:11:32 +0200 (CEST)
+Received: from localhost ([::1]:55382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUngg-0000yv-Pb
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 06:16:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59552)
+	id 1mUnbf-0000uQ-VR
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 06:11:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mUnVm-0002oC-Hr
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:05:28 -0400
-Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:56213)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mUnVk-0005kO-Bl
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:05:26 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.183])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 8019521A08;
- Mon, 27 Sep 2021 10:05:22 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 27 Sep
- 2021 12:05:21 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006757d3b18-eb2e-4837-8480-1034a5013d3b,
- 7A1C2730502A6E1581EB46D208322E62E5328AE4) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <9c12c735-2cb4-0902-7d43-ccba7888b098@kaod.org>
-Date: Mon, 27 Sep 2021 12:05:20 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUnYY-0006FA-8N
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:08:19 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41865)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUnYW-00088n-QJ
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:08:18 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id w29so50735295wra.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 03:08:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=J8q1dmv8ByfrswwLW/lDF2Zza3LpzQLATB8uhMs/KDU=;
+ b=dV1GNm9jYFD3RIXiZMwhrWo3UOYaV4ryPHW34IXRtreubXwEEJB3lBZNdgUxXDtK/G
+ PvNeCavW3qPFS6k82IhdsDlNgJyH80d6+2N9L1wjphDX5Mm5JBsx2auexqXxRvODcVYJ
+ /MR+05fT3SdSsE/B+T1H3l+YRlAVNlRoB/IXzqdHyxnElGpD5CPG3tlDCY3HepJPG14+
+ 4WXQLHYxbM4xXkOuzgHI+GBH8bWPGZFlVaUbrU9jV9vgbxNnb/6pRoGCwCg51WUYZ0gv
+ PM3xfoJrQvxE9XcNowwprfJWD0W9n9NMHxJomDUNM7N1p0w6MHWhN41atGw0tS6A2/ZB
+ cBlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=J8q1dmv8ByfrswwLW/lDF2Zza3LpzQLATB8uhMs/KDU=;
+ b=VLOMc2D8QOJpw9o5c2AZM2zl+e77T1QRYLNU03Lkj8cy4DUDU4ipMmABlzNWDOsKF4
+ 02hdSSmIlzvSKgcnbKCTsMW7UYbm/YZPleBv2ETjXCJIs3idHEDxy/ya5gRCJlLM8Fjz
+ M6ysFUJIetnwt6UUFIdI/iNXoOa2RsqesfNqLcqcbBYWtvW8LU44d52FOl7/T3gCqy7E
+ J4PL+DJNT6CzmatxTlKSMZKgQh9nIQlZvFPZp8Y+jDolcm4mCDFxxU0lKnovhTEjmRjU
+ 04Kxu9lWziVzE/jZCqRVlV2xBFAQtFmmvU9mKP7hyQjgqF8Affq3Gt0IrA8XlCGbc2o+
+ azrQ==
+X-Gm-Message-State: AOAM530kk8qwPcUbcxGUe8cLeRk93Jub0CDOJxuSOmonHMNsE4PbHQlm
+ 6GY4gFCmGoXbmNEVkfwDIOGzLeS/Qt27UNeuZGn6oA==
+X-Google-Smtp-Source: ABdhPJxvC9vSjvJyPiIeBsQqDM7TAo01I7J8ksRozunD7IyL8oAJBG4egKYq+eddhBRnAwPtzdU+iv6km014siwiib4=
+X-Received: by 2002:a5d:59a4:: with SMTP id p4mr27029990wrr.149.1632737295525; 
+ Mon, 27 Sep 2021 03:08:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 1/1] hw: aspeed_gpio: Fix GPIO array indexing
-Content-Language: en-US
-To: Peter Delevoryas <pdel@fb.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <20210924061953.1996620-1-pdel@fb.com>
- <20210924061953.1996620-2-pdel@fb.com>
- <e4a8adf5-5b9f-0617-3b66-98d532187a1b@amsat.org>
- <24C5D588-770A-476C-A329-993619106251@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <24C5D588-770A-476C-A329-993619106251@fb.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 756e842b-493a-4fef-99a7-3c92dcbcfbd0
-X-Ovh-Tracer-Id: 10907999773035694886
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudejkedgvdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
- helo=2.mo548.mail-out.ovh.net
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20210926220103.1721355-1-f4bug@amsat.org>
+ <20210926220103.1721355-2-f4bug@amsat.org>
+ <YVGUX6FZlFBhhgwn@redhat.com>
+In-Reply-To: <YVGUX6FZlFBhhgwn@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Sep 2021 11:07:22 +0100
+Message-ID: <CAFEAcA_FRAHy1Hq2QxO2DWkrLZbW_4g=zzCoac18rRNf2CD0kw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] bsd-user: Only process meson rules on BSD host
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.478,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,90 +80,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
- "rashmica.g@gmail.com" <rashmica.g@gmail.com>,
- "joel@jms.id.au" <joel@jms.id.au>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/25/21 16:28, Peter Delevoryas wrote:
-> 
->> On Sep 25, 2021, at 4:03 AM, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> ﻿Hi Peter,
->>
->>> On 9/24/21 08:19, pdel@fb.com wrote:
->>> From: Peter Delevoryas <pdel@fb.com>
->>> The gpio array is declared as a dense array:
->>> ...
->>> qemu_irq gpios[ASPEED_GPIO_NR_PINS];
->>> (AST2500 has 228, AST2400 has 216, AST2600 has 208)
->>> However, this array is used like a matrix of GPIO sets
->>> (e.g. gpio[NR_SETS][NR_PINS_PER_SET] = gpio[8][32])
->>> size_t offset = set * GPIOS_PER_SET + gpio;
->>> qemu_set_irq(s->gpios[offset], !!(new & mask));
->>> This can result in an out-of-bounds access to "s->gpios" because the
->>> gpio sets do _not_ have the same length. Some of the groups (e.g.
->>> GPIOAB) only have 4 pins. 228 != 8 * 32 == 256.
->>> To fix this, I converted the gpio array from dense to sparse, to that
->>> match both the hardware layout and this existing indexing code.
->>
->> This is one logical change: 1 patch
->>
->>> Also, I noticed that some of the property specifications looked wrong:
->>> the lower 8 bits in the input and output u32's correspond to the first
->>> group label, and the upper 8 bits correspond to the last group label.
->>
->> Another logical change: another patch :)
->>
->> So please split this patch in 2. Maybe easier to fix GPIOSetProperties
->> first, then convert from dense to sparse array.
->>
-> 
-> Good point, I’ll split it up then!
+On Mon, 27 Sept 2021 at 10:59, Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+> If we look at linux-user/meson.build though things are more complex.
+> There we have alot of sub-dirs, and meson.biuld in those dirs adds
+> generators for various files. So conceivably skipping linux-user
+> will mean we won't auto-generate files we don't need on non-Linux.
 
-Yes. We can surely merge the GPIOSetProperties patch quickly.
+The top level meson.build doesn't call process on the
+syscall_nr_generators[] list unless we're building linux-user
+targets, so I don't think we will auto-generate anything we
+don't need.
 
-I hope Rashmica has some time to check the second part.
-  
-Thanks,
-
-C.
-
-
-> 
->> Regards,
->>
->> Phil.
->>
->>> I looked at the datasheet and several of these declarations seemed
->>> incorrect to me (I was basing it off of the I/O column). If somebody
->>> can double-check this, I'd really appreciate it!
->>> Some were definitely wrong though, like "Y" and "Z" in the 2600.
->>> @@ -796,7 +776,7 @@ static const GPIOSetProperties ast2500_set_props[] = {
->>>       [3] = {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
->>>       [4] = {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
->>>       [5] = {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
->>> -    [6] = {0xffffff0f,  0x0fffff0f,  {"Y", "Z", "AA", "AB"} },
->>> +    [6] = {0x0fffffff,  0x0fffffff,  {"Y", "Z", "AA", "AB"} },
->>>       [7] = {0x000000ff,  0x000000ff,  {"AC"} },
->>>   };
->>> @@ -805,9 +785,9 @@ static GPIOSetProperties ast2600_3_3v_set_props[] = {
->>>       [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
->>>       [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
->>>       [3] = {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
->>> -    [4] = {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
->>> -    [5] = {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
->>> -    [6] = {0xffff0000,  0x0fff0000,  {"Y", "Z", "", ""} },
->>> +    [4] = {0xffffffff,  0x00ffffff,  {"Q", "R", "S", "T"} },
->>> +    [5] = {0xffffffff,  0xffffff00,  {"U", "V", "W", "X"} },
->>> +    [6] = {0x0000ffff,  0x0000ffff,  {"Y", "Z", "", ""} },
->>>   };
->>> Signed-off-by: Peter Delevoryas <pdel@fb.com>
->>> ---
->>>   hw/gpio/aspeed_gpio.c         | 80 +++++++++++++++--------------------
->>>   include/hw/gpio/aspeed_gpio.h |  5 +--
->>>   2 files changed, 35 insertions(+), 50 deletions(-)
-
+-- PMM
 
