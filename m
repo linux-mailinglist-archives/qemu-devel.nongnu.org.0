@@ -2,82 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33108418E6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 06:49:00 +0200 (CEST)
-Received: from localhost ([::1]:52658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D860418E83
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 06:57:18 +0200 (CEST)
+Received: from localhost ([::1]:37620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUiZX-0000W3-8d
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 00:48:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57986)
+	id 1mUihZ-00017m-Gb
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 00:57:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUiYN-00080m-RA; Mon, 27 Sep 2021 00:47:48 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44940)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUiYM-0008DS-B7; Mon, 27 Sep 2021 00:47:47 -0400
-Received: by mail-wr1-x433.google.com with SMTP id d6so48335379wrc.11;
- Sun, 26 Sep 2021 21:47:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ix3GPs7ILYiUQFRczMH/bYnLo9Fsseb5Ku/IPCZWzc0=;
- b=USEAwtNC6KwP/j830n0Kx511xctvwguLbsYpVGKHmlCx2HnOMG0i4UWtP3CRPUAFm7
- WZXN+PATEO5cOVAv0lydq7IKAkNYSXicf3TIGHvBzzKx1aCMMwaWfa57La51r/D8ngup
- DUO4yeMTU+m+vuoBivKBjOFLKjxrN0Uy+7SeI85lkJlghV1J3X97vgTX7HL0IfhSAgL3
- IeYg4q0U6yByO9txL6CFabmLQZQ9CD2A+B71sa6vcYZuGj55Fg1f+vcPtMYs8Wx8k4mZ
- 0L/5cRLXZq76eIUJ/FC5nbcGOiTNesp9xrsvsMQrYGcwhrAPVG4fKSLAY7s6DrKA4BN0
- KzUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ix3GPs7ILYiUQFRczMH/bYnLo9Fsseb5Ku/IPCZWzc0=;
- b=1xXWIOXwuyHLSvfY3fFvufYw0bVoBnoO3IOzs3Dox8GvECzKislrKpmPcbwnVbhuJb
- +1hItP1tCJKHCyXDZYAj+s8G7v9X56LVBu3olt8BetAvOxWwKv5Nvul5v5fVg8mTvc69
- AXFA0f5tc26qMz05hcPjJPdBP9/Hf21tJFeFQg+aVnLiqm5/3QhFElhS6s2YGfLBLXci
- KCuYMmHYngSw9O+tz/2yeVTaJX/H81dU6K6sIEIwdK8x9PUEErzM6AA7d1iscmPeLaph
- vnymfZChHt21lSBTpM4Ya18089aZAM9o+l/xqcqPKuGjljJ6r0GTSYVp2qIBTdJhM3eQ
- T6/A==
-X-Gm-Message-State: AOAM533y6cYrRAB3XlCycuo4nKcpMapKpvFY6MAWMLN+odvZZDoFRCUq
- Q+EvqSEPbaC7xGshm/PzFkI=
-X-Google-Smtp-Source: ABdhPJzPTLsTfGf67OrxNaXdIujcOboS/y2SazQFMh4VOxUC39bl88sAcoTP/gmNmBoqrFSMhTcFPw==
-X-Received: by 2002:a05:6000:186a:: with SMTP id
- d10mr25865640wri.113.1632718064116; 
- Sun, 26 Sep 2021 21:47:44 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id j4sm15767808wrt.67.2021.09.26.21.47.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Sep 2021 21:47:43 -0700 (PDT)
-Message-ID: <8a997109-92cb-675b-f872-4a07dbebe861@amsat.org>
-Date: Mon, 27 Sep 2021 06:47:42 +0200
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mUiYt-0000Bb-BE; Mon, 27 Sep 2021 00:48:19 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:35843)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mUiYp-00008l-RW; Mon, 27 Sep 2021 00:48:19 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4HHqrq0SHzz4xbV; Mon, 27 Sep 2021 14:48:11 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1632718091;
+ bh=CyR5jkEjxV9S7GHqYfmoOSY7wBBLJZHfuIQ6sy2zmSE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Yfc60d250yNi8T/wQrdC/GTPl1NvifoAiRU91c8VjLk02SQ1y/uYH9YrG+akM+Cdd
+ +2DpoRRiDdSlrrc7Zjt3jXCZcUsBSlCxMgCTv5h7rKGJg1mz0S6dhSxqSTy5uhIKJT
+ +hIzhw24MOXbKqBhm49cVd8llmvFGvDSo/IIMHAI=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v3 0/7] Reduce load on ppc target maintainers
+Date: Mon, 27 Sep 2021 14:48:01 +1000
+Message-Id: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 1/2] hw/dma: sifive_pdma: Improve code readability for
- "!!foo & bar"
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
- <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20210927022113.1518559-1-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210927022113.1518559-1-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.478,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,51 +56,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, Eric Blake <eblake@redhat.com>
+Cc: peter.maydell@linaro.org, dbarboza@redhat.com, aik@ozlabs.ru,
+ mark.cave-ayland@ilande.co.uk, groug@kaod.org, wainersm@redhat.com,
+ hpoussin@reactos.org, clg@kaod.org, crosa@redhat.com,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, philmd@redhat.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/21 04:21, Bin Meng wrote:
-> GCC seems to be strict about processing pattern like "!!for & bar".
-> When 'bar' is not 0 or 1, it complains with -Werror=parentheses:
-> 
->   suggest parentheses around operand of ‘!’ or change ‘&’ to ‘&&’ or ‘!’ to ‘~’ [-Werror=parentheses]
-> 
-> Add a () around "foo && bar", which also improves code readability.
-> 
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> ---
-> 
->  hw/dma/sifive_pdma.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
-> index b4fd40573a..b8ec7621f3 100644
-> --- a/hw/dma/sifive_pdma.c
-> +++ b/hw/dma/sifive_pdma.c
-> @@ -243,7 +243,7 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
->      offset &= 0xfff;
->      switch (offset) {
->      case DMA_CONTROL:
-> -        claimed = !!s->chan[ch].control & CONTROL_CLAIM;
-> +        claimed = !!(s->chan[ch].control & CONTROL_CLAIM);
-
-AFAIK in C logical NOT has precedence over bitwise AND, so IIUC
-compilers should read the current code as:
-
-           claimed (!!s->chan[ch].control) & CONTROL_CLAIM;
-
-meaning this patch is doing more than "improve code readability",
-this is a logical change and likely a bug fix...
-
-BTW GCC suggestions are:
-
-           claimed (!!s->chan[ch].control) & CONTROL_CLAIM;
-
-           claimed (!!s->chan[ch].control) && CONTROL_CLAIM;
->  
->          if (!claimed && (value & CONTROL_CLAIM)) {
->              /* reset Next* registers */
-> 
-
+Greg Kurz and myself have been co-maintainers for the ppc and ppc64=0D
+targets for some time now.  However, both our day job responsibilities=0D
+and interests are leading us towards other areas, so we have less time=0D
+to devote to this any more.=0D
+=0D
+Therefore, here's a bunch of updates to MAINTAINERS, intended to=0D
+reduce the load on us.  Mostly this is marking fairly obscure=0D
+platforms as orphaned (if someone wants to take over maintainership,=0D
+let me know ASAP).  Bigger changes may be coming, but we haven't=0D
+decided exactly what that's going to look like yet.=0D
+=0D
+Changes since v2:=0D
+ * Clarified overly broad TCG CPUs entry=0D
+Changes since v1:=0D
+ * Reworked how OpenPIC is listed=0D
+=0D
+David Gibson (7):=0D
+  qemu: Split machine_ppc.py acceptance tests=0D
+  MAINTAINERS: Remove machine specific files from ppc TCG CPUs entry=0D
+  MAINTAINERS: Remove David & Greg as reviewers for a number of boards=0D
+  MAINTAINERS: Orphan obscure ppc platforms=0D
+  MAINTAINERS: Remove David & Greg as reviewers/co-maintainers of=0D
+    powernv=0D
+  MAINTAINERS: Add information for OpenPIC=0D
+  MAINTAINERS: Demote sPAPR from "Supported" to "Maintained"=0D
+=0D
+ MAINTAINERS                          | 51 ++++++++------------=0D
+ tests/acceptance/machine_ppc.py      | 69 ----------------------------=0D
+ tests/acceptance/ppc_mpc8544ds.py    | 32 +++++++++++++=0D
+ tests/acceptance/ppc_pseries.py      | 35 ++++++++++++++=0D
+ tests/acceptance/ppc_virtex_ml507.py | 34 ++++++++++++++=0D
+ 5 files changed, 121 insertions(+), 100 deletions(-)=0D
+ delete mode 100644 tests/acceptance/machine_ppc.py=0D
+ create mode 100644 tests/acceptance/ppc_mpc8544ds.py=0D
+ create mode 100644 tests/acceptance/ppc_pseries.py=0D
+ create mode 100644 tests/acceptance/ppc_virtex_ml507.py=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
