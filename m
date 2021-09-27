@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C074198F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:35:06 +0200 (CEST)
-Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B44334198F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:36:00 +0200 (CEST)
+Received: from localhost ([::1]:50182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUtar-00050j-13
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:35:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43090)
+	id 1mUtbj-0005jt-Nz
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUtXJ-0002Dg-Ta; Mon, 27 Sep 2021 12:31:25 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:45711)
+ id 1mUtXN-0002Fj-LI; Mon, 27 Sep 2021 12:31:30 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:40610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUtXG-0002MJ-31; Mon, 27 Sep 2021 12:31:24 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id d21so52865596wra.12;
- Mon, 27 Sep 2021 09:31:20 -0700 (PDT)
+ id 1mUtXK-0002Sh-0U; Mon, 27 Sep 2021 12:31:28 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ t16-20020a1c7710000000b003049690d882so1114970wmi.5; 
+ Mon, 27 Sep 2021 09:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kZ3NPq8xSonogV+AXQCkWFGHjkGa33MIFajlqwGAQQA=;
- b=lKaM+KUBVh0vOEoo40ZKt2TRZojBQXgCD2ZbdaLBqZpNqKY2wa6EiliZ71AjSCnbQ5
- rBbG0pzmrvM3R0kEiOPPCQOQBQ2FdwpXyR/y2wd06s3TzKQaMYu9n+KBwlrY8+mMJYku
- uLADpbtkYOFdlgot0XYvH3e1xXt40rnkxKb1ITZNX8G19fnVJE7jVy0t04IMdXn+nOR+
- QV1MRwb0XiteqHE/SSiN+k9P2ktAoXbD/GgkKF6/dswSHQYL2S9BCifzWHrYvXhry+u9
- 7x8Q8L0rYmQPiZgPJUm17VcDWnIpwGjqt+h90B19QujUuyLZk5sVGSaie9aHB8zd2TOC
- OLzw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OTf5iqe9z+S4b3dbtYhCloYbfDKwbKuQuHUgKiVeRVM=;
+ b=lGc4yxMd9oe4PrrXyMD2bPLKRXs60FtqmhJw952515zugPAJWmKmBl3mwDTxtM6zJL
+ lcXFWywidu3auFFn98Wo/Y8zcuxB+qtX6gEWbca44LQ1zCI1lDbDWo2VX2p5LCEyEMoI
+ eZXmpoPxTEH5lVNqrkXa32rqNSekMu+p3HoU3YihEVPqYAseLpNlSdm+oaM2azinR6sY
+ 1ae6LmRzeY++QKU2HdWaeIkh3iikj+WvTvi/Wo7joheGfyZSSk79ezX/BofjqnjF+VYr
+ gFPehN/8zK0PC7u1pIbWQRvMC61jFK/FdKj7cKvgWrmoKXL/tjEpH1dOUzDd4DESUhvg
+ +3yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=kZ3NPq8xSonogV+AXQCkWFGHjkGa33MIFajlqwGAQQA=;
- b=OMTcmRUWx0+DZceZMugB54/fZcWO1lPdOuWoFtlEva4jlal0uUxV/ZXcEcXhiea+JZ
- BBanFS/11XM6nWHp7zTZ/VOoV6nrGb3zXT6vlDXHh+y1QXULVkpqfUiyY0IHmFs64Lv7
- 2xmNDZbNjfbRJHhFyxOtdfGZoIDk2xt/7C+kGS0K5UXwmddEITSDaUMAih5tRpikFmHj
- mv4pv4VVjOhW3+LDjkP6oWNVj7DCZ/xOAkLN0EjWRZ8KuQfMBBoEXE4dn1n6i6WLyMaA
- tDF3qKiJ8WFtaY02xV7ibUuUCbv3r5NbnhSBK9vkFXbZzlTAwizfJGXMzPC6dhugnG1B
- buJQ==
-X-Gm-Message-State: AOAM531rD+QKo7Prq9ot5/zGLOxqDIq6SMyCzZW69cqAONogSwNajq4i
- oPPLrXH59zHO7MpiMSGce6Oda57Ox3Y=
-X-Google-Smtp-Source: ABdhPJywN/nhBJCF1yeUZaUCjwkhN3av7QC1HrQ6VQBKPz2Q4hwipqUDjFRYApsDrt1E0eaMZ+YLxA==
-X-Received: by 2002:adf:d4cb:: with SMTP id w11mr885288wrk.125.1632760278730; 
- Mon, 27 Sep 2021 09:31:18 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=OTf5iqe9z+S4b3dbtYhCloYbfDKwbKuQuHUgKiVeRVM=;
+ b=b22gnAWfPG4KqdNo15zmJJ8Jc6S0FQdFVqtJLYPXh8slVEcC97fVgYW/L2uisyJy7K
+ Xvw9ACVce2fA1Zbv4rLVQ9Z2L+T8l8sIHNs+SMR264KpXx+iwrp8xg2WNbGNZeIuhcbN
+ S5Pio7cW2GEdIJKi2bhERs1OEN++EA4fb3cye0wQeGb4PoC91aU7UxWv09tRA6Vm4k3H
+ ghJ6DuuBgTvouOPu+gQNSsyTUDxT/GDV01jM9wBRnWLizjsEITSQQoUx0sl5PwCav0Ah
+ /9bigKFw7vbQM9SiiDsWdAH8Vb2NUnlUkA9ZS60C3HtH91UOjGpCMzf6UiPfwedWyqH2
+ WAGA==
+X-Gm-Message-State: AOAM533zNWSfkQjqa3zlIXUvc1WRv1Bm8LLiL5Qxs1J/mZGZyXmj1YJB
+ 4LEp5Of/uoYwr06V+90VP7jgBr9HRR8=
+X-Google-Smtp-Source: ABdhPJxU4m7VWUjrRt9R41o+xLGscQudGT7aHfwZSs/AsiL5Z7fHQtURKR+aYH6FdXFkR7Id4ZloBw==
+X-Received: by 2002:a7b:ce19:: with SMTP id m25mr831051wmc.152.1632760283800; 
+ Mon, 27 Sep 2021 09:31:23 -0700 (PDT)
 Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id w5sm9484696wrq.86.2021.09.27.09.31.17
+ by smtp.gmail.com with ESMTPSA id s2sm16702131wrn.77.2021.09.27.09.31.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Sep 2021 09:31:18 -0700 (PDT)
+ Mon, 27 Sep 2021 09:31:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/6] tests/acceptance: Add bFLT loader linux-user test
-Date: Mon, 27 Sep 2021 18:31:10 +0200
-Message-Id: <20210927163116.1998349-1-f4bug@amsat.org>
+Subject: [PATCH v4 1/6] tests/acceptance: Extract QemuBaseTest from Test
+Date: Mon, 27 Sep 2021 18:31:11 +0200
+Message-Id: <20210927163116.1998349-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210927163116.1998349-1-f4bug@amsat.org>
+References: <20210927163116.1998349-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,60 +92,121 @@ Cc: Laurent Vivier <laurent@vivier.eu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since v3:=0D
-- rebased=0D
-- addressed Wainer review comments from v2=0D
-- rename avocado_qemu.Test -> QemuSystemTest=0D
-=0D
-Since v2:=0D
-- rebased tests/acceptance/avocado_qemu/__init__.py patches=0D
-- extract has_cmd() from virtiofs_submounts.py=0D
-- check cpio availability with has_cmd()=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (6):=0D
-  tests/acceptance: Extract QemuBaseTest from Test=0D
-  tests/acceptance: Make pick_default_qemu_bin() more generic=0D
-  tests/acceptance: Introduce QemuUserTest base class=0D
-  tests/acceptance: Share useful helpers from virtiofs_submounts test=0D
-  tests/acceptance: Add bFLT loader linux-user test=0D
-  tests/acceptance: Rename avocado_qemu.Test -> QemuSystemTest=0D
-=0D
- tests/acceptance/avocado_qemu/__init__.py    | 158 ++++++++++++++-----=0D
- tests/acceptance/boot_linux_console.py       |   4 +-=0D
- tests/acceptance/cpu_queries.py              |   4 +-=0D
- tests/acceptance/empty_cpu_model.py          |   4 +-=0D
- tests/acceptance/info_usernet.py             |   4 +-=0D
- tests/acceptance/linux_initrd.py             |   4 +-=0D
- tests/acceptance/linux_ssh_mips_malta.py     |   5 +-=0D
- tests/acceptance/load_bflt.py                |  54 +++++++=0D
- tests/acceptance/machine_arm_canona1100.py   |   4 +-=0D
- tests/acceptance/machine_arm_integratorcp.py |   4 +-=0D
- tests/acceptance/machine_arm_n8x0.py         |   4 +-=0D
- tests/acceptance/machine_avr6.py             |   4 +-=0D
- tests/acceptance/machine_m68k_nextcube.py    |   4 +-=0D
- tests/acceptance/machine_microblaze.py       |   4 +-=0D
- tests/acceptance/machine_mips_fuloong2e.py   |   4 +-=0D
- tests/acceptance/machine_mips_loongson3v.py  |   4 +-=0D
- tests/acceptance/machine_mips_malta.py       |   4 +-=0D
- tests/acceptance/machine_ppc.py              |   4 +-=0D
- tests/acceptance/machine_rx_gdbsim.py        |   4 +-=0D
- tests/acceptance/machine_s390_ccw_virtio.py  |   4 +-=0D
- tests/acceptance/machine_sparc_leon3.py      |   4 +-=0D
- tests/acceptance/migration.py                |   4 +-=0D
- tests/acceptance/multiprocess.py             |   4 +-=0D
- tests/acceptance/pc_cpu_hotplug_props.py     |   4 +-=0D
- tests/acceptance/ppc_prep_40p.py             |   4 +-=0D
- tests/acceptance/version.py                  |   4 +-=0D
- tests/acceptance/virtio-gpu.py               |   4 +-=0D
- tests/acceptance/virtio_check_params.py      |   4 +-=0D
- tests/acceptance/virtio_version.py           |   4 +-=0D
- tests/acceptance/virtiofs_submounts.py       |  59 +------=0D
- tests/acceptance/vnc.py                      |   4 +-=0D
- tests/acceptance/x86_cpu_model_versions.py   |   4 +-=0D
- 32 files changed, 235 insertions(+), 153 deletions(-)=0D
- create mode 100644 tests/acceptance/load_bflt.py=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+The Avocado Test::fetch_asset() is handy to download artifacts
+before running tests. The current class is named Test but only
+tests system emulation. As we want to test user emulation,
+refactor the common code as QemuBaseTest.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ tests/acceptance/avocado_qemu/__init__.py | 72 +++++++++++++----------
+ 1 file changed, 41 insertions(+), 31 deletions(-)
+
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index 2c4fef3e149..8fcbed74849 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -175,7 +175,7 @@ def exec_command_and_wait_for_pattern(test, command,
+     """
+     _console_interaction(test, success_message, failure_message, command + '\r')
+ 
+-class Test(avocado.Test):
++class QemuBaseTest(avocado.Test):
+     def _get_unique_tag_val(self, tag_name):
+         """
+         Gets a tag value, if unique for a key
+@@ -185,6 +185,46 @@ def _get_unique_tag_val(self, tag_name):
+             return vals.pop()
+         return None
+ 
++    def setUp(self):
++        self.arch = self.params.get('arch',
++                                    default=self._get_unique_tag_val('arch'))
++
++        self.cpu = self.params.get('cpu',
++                                   default=self._get_unique_tag_val('cpu'))
++
++        default_qemu_bin = pick_default_qemu_bin(arch=self.arch)
++        self.qemu_bin = self.params.get('qemu_bin',
++                                        default=default_qemu_bin)
++        if self.qemu_bin is None:
++            self.cancel("No QEMU binary defined or found in the build tree")
++
++    def fetch_asset(self, name,
++                    asset_hash=None, algorithm=None,
++                    locations=None, expire=None,
++                    find_only=False, cancel_on_missing=True):
++        return super(QemuBaseTest, self).fetch_asset(name,
++                        asset_hash=asset_hash,
++                        algorithm=algorithm,
++                        locations=locations,
++                        expire=expire,
++                        find_only=find_only,
++                        cancel_on_missing=cancel_on_missing)
++
++
++class Test(QemuBaseTest):
++    """Facilitates system emulation tests.
++
++    TODO: Rename this class as `QemuSystemTest`.
++    """
++
++    def setUp(self):
++        self._vms = {}
++
++        super(Test, self).setUp()
++
++        self.machine = self.params.get('machine',
++                                       default=self._get_unique_tag_val('machine'))
++
+     def require_accelerator(self, accelerator):
+         """
+         Requires an accelerator to be available for the test to continue
+@@ -207,24 +247,6 @@ def require_accelerator(self, accelerator):
+             self.cancel("%s accelerator does not seem to be "
+                         "available" % accelerator)
+ 
+-    def setUp(self):
+-        self._vms = {}
+-
+-        self.arch = self.params.get('arch',
+-                                    default=self._get_unique_tag_val('arch'))
+-
+-        self.cpu = self.params.get('cpu',
+-                                   default=self._get_unique_tag_val('cpu'))
+-
+-        self.machine = self.params.get('machine',
+-                                       default=self._get_unique_tag_val('machine'))
+-
+-        default_qemu_bin = pick_default_qemu_bin(arch=self.arch)
+-        self.qemu_bin = self.params.get('qemu_bin',
+-                                        default=default_qemu_bin)
+-        if self.qemu_bin is None:
+-            self.cancel("No QEMU binary defined or found in the build tree")
+-
+     def _new_vm(self, name, *args):
+         self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
+         vm = QEMUMachine(self.qemu_bin, base_temp_dir=self.workdir,
+@@ -277,18 +299,6 @@ def tearDown(self):
+             vm.shutdown()
+         self._sd = None
+ 
+-    def fetch_asset(self, name,
+-                    asset_hash=None, algorithm=None,
+-                    locations=None, expire=None,
+-                    find_only=False, cancel_on_missing=True):
+-        return super(Test, self).fetch_asset(name,
+-                        asset_hash=asset_hash,
+-                        algorithm=algorithm,
+-                        locations=locations,
+-                        expire=expire,
+-                        find_only=find_only,
+-                        cancel_on_missing=cancel_on_missing)
+-
+ 
+ class LinuxSSHMixIn:
+     """Contains utility methods for interacting with a guest via SSH."""
+-- 
+2.31.1
+
 
