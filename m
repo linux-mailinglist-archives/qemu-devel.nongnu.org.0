@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90AA341961D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 16:19:39 +0200 (CEST)
-Received: from localhost ([::1]:52676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA4F5419609
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 16:14:49 +0200 (CEST)
+Received: from localhost ([::1]:43158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUrTm-0004KT-5u
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 10:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33630)
+	id 1mUrP6-0005tS-KF
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 10:14:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mUrMn-0003Uk-0w
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:12:25 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:44488)
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mUrMl-0003RS-U1
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:12:23 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:44498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mUrMd-0005iD-Sp
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:12:24 -0400
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mUrMe-0005j2-31
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:12:23 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5E4AD22142;
- Mon, 27 Sep 2021 14:12:11 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4A7E422144;
+ Mon, 27 Sep 2021 14:12:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1632751931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ t=1632751933; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
  bh=lg4W8BkcEmPnQTDfAPiydE+ZxIRBgqPGoyf3/PNOkNY=;
- b=O61xyA/Og8Cs6vrBLA6FFRMA7FTPcBKpYBtdV9/gMp18moBmm8+ODEk66pnUpjkT9CqjkB
- l0s2fF3akOE7lmbupkO3hj2VJVG71e4e075pVsUypMv5PFj6fyKeZaTb0r0/MLzALLq1vf
- pZGbZTHpYlXWZN6oHRZmaFIl4P2DEPo=
+ b=oN+Us1MwEDUU3eYThJHt6nupX3WiG4P2693F5/OcoqgIuAC+D3446jH4r9IZh+QxFhQCJn
+ wyazRppN8jW1gAxPOvSMHzfPwdNq9vtqWbWIOtNTPaEHThUCPBIwwVo7m5eLGvnu1C0Mo7
+ Ef2fkH9U2jCfR0v5+gxFEnmYsrDsmg8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1632751931;
+ s=susede2_ed25519; t=1632751933;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
  bh=lg4W8BkcEmPnQTDfAPiydE+ZxIRBgqPGoyf3/PNOkNY=;
- b=9WFNyJ/v0xDHEdO1jkD3Egveqv3Bq5TYfqQea5dD7R12kp6uPF7BWSVHZ77rHKJu0pDjPz
- dFoRSGY/Cl6ZqICA==
+ b=OEOKIjzG1t1CpOkZwXKgfGyEgD1Dy8v0W/fpBWPFRU0zPd1Um15EcbMhwv7ZhxPETFk7Fn
+ kfOwQVRo+HVbuIBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E2D9113A91;
- Mon, 27 Sep 2021 14:12:09 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CF22F13A91;
+ Mon, 27 Sep 2021 14:12:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id b7QRKTnRUWH+LwAAMHmgww
- (envelope-from <jziviani@suse.de>); Mon, 27 Sep 2021 14:12:09 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id CBRWJDvRUWH+LwAAMHmgww
+ (envelope-from <jziviani@suse.de>); Mon, 27 Sep 2021 14:12:11 +0000
 From: "Jose R. Ziviani" <jziviani@suse.de>
 To: qemu-devel@nongnu.org
 Subject: [PATCH v2 0/2] modules: Improve modinfo.c support
-Date: Mon, 27 Sep 2021 11:11:58 -0300
-Message-Id: <20210927141201.21833-1-jziviani@suse.de>
+Date: Mon, 27 Sep 2021 11:11:59 -0300
+Message-Id: <20210927141201.21833-2-jziviani@suse.de>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210927141201.21833-1-jziviani@suse.de>
+References: <20210927141201.21833-1-jziviani@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.28; envelope-from=jziviani@suse.de;
  helo=smtp-out1.suse.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
