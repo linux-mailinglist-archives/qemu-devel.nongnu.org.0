@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8C441969A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 16:45:07 +0200 (CEST)
-Received: from localhost ([::1]:42728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6A3419699
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 16:45:00 +0200 (CEST)
+Received: from localhost ([::1]:42308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUrsQ-0002yt-MA
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 10:45:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46952)
+	id 1mUrsI-0002hO-VY
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 10:44:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mUroB-00076p-DG
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:40:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25061)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUrnl-00075T-Po
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:40:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mUrnu-0002xw-OF
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:40:38 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUrnh-0002ip-T0
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:40:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632753624;
+ s=mimecast20190719; t=1632753613;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/ZdaWFBemLoYhUQiPIB/ns6VAGufrIe30kvNKT9IhKE=;
- b=fXHTOvEARXGTEB25P51vI1dbL3ejmn8wL+eLS7nZGR/TSzFOQpYtRY9zeH2+ULALVoWnZV
- y8tGpTh1ZoDwK0Tf5ro7VUEZN9vryPy84ISU3b/0bIuyx1BckWXyrYJ5+eLFjiQ/UScaM/
- vdAlDLfehuJ/rUyWkZzBUbXcc0tExrM=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-Bcde4qh7Phy3zOFwzZSlwQ-1; Mon, 27 Sep 2021 10:40:21 -0400
-X-MC-Unique: Bcde4qh7Phy3zOFwzZSlwQ-1
-Received: by mail-pg1-f199.google.com with SMTP id
- z7-20020a63c047000000b0026b13e40309so12986983pgi.19
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 07:40:21 -0700 (PDT)
+ bh=mx77zwVhpbech2iljKv5d+EaZ6MiZEZLl5Cb4nG9fuU=;
+ b=KA4Mz6Q0Nthnlejqrm12ZTX0IIUHS+8+mrjDdBoIp52+Gm7B5NqZ449vhcyGQQJuiu0fKi
+ P+8lPqj/g+58QJzvSMIl0Cpx1GYikP8VOlJYalutvffgEXV/Kni0SfxzASPPS9YEUlS3cF
+ drBSLuWgaCN+VHnrCbyP/2LJ5ERgzAU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410-14KOod9KP96geUc6oU93SQ-1; Mon, 27 Sep 2021 10:40:12 -0400
+X-MC-Unique: 14KOod9KP96geUc6oU93SQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m9-20020a05600c4f4900b003057c761567so296319wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 07:40:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/ZdaWFBemLoYhUQiPIB/ns6VAGufrIe30kvNKT9IhKE=;
- b=o8xxV8VX8R21Ez+q07oPG9u3KBiC2OE31nFQt0ykxw6kQkydpjU+HhTCDH9pmwb+Ww
- XbXQQDdn0+SKZ4jJLwn4wVvg2DJ5m72G+ZWfwAxZQlOBkYhBDvpq6OVVl8sGcNpVtK9G
- mR0hYL2rxAsyz14guhtKTXGlQvZRTycHhD6WuXoGCiQOtgcdcKEY8eXCNhdR2j8DxuAU
- zSeI1O5rO3XVpoynPDA8TP3cmTxdK//39oqFR8dFFY5QDptDPDHmG2j5Ujz67Nr3l/Me
- P+ry2TGRO4/8JgoRReUVvRcexYOjuOe5UBXIj+M8DhHyMPZi7komDTeZL0EuSCZMZwBS
- 2V3Q==
-X-Gm-Message-State: AOAM532u6v1A2Rv4rZTbmhmSip20yk/ePbTgIjfv0mKns6EgXfvSTm3O
- pKuT/bYAmbkt7wi7aWZFBG6WbDlBqyG445XaCzb1NYBce+fB6z9WM4Gh7sRI+jro8ZOm3bk3z7j
- rIHbpiM4Fyr7gyKM9Lg8L97svmytPNzI=
-X-Received: by 2002:a17:90b:14d6:: with SMTP id
- jz22mr282798pjb.203.1632753620775; 
- Mon, 27 Sep 2021 07:40:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIcNLXlwOsUB20BW8ByTylrPt3DqK9s7s1HQtboGNtKFTEmc0JH6wQ7UxPHVY0WpkdZfS9h4qd3RqUHAOzYtk=
-X-Received: by 2002:a17:90b:14d6:: with SMTP id
- jz22mr282761pjb.203.1632753620386; 
- Mon, 27 Sep 2021 07:40:20 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mx77zwVhpbech2iljKv5d+EaZ6MiZEZLl5Cb4nG9fuU=;
+ b=SgwFKBnoGVvnnoINZM8W8CX//CdPClL6rsisBDH+/GDh00v25EoPjBsgAHoErcSje7
+ y8aWF6ZWmr1JyqJPKgglPptdJzSbq77wmq+yiIshxaI0kPY3nVBUwpeN1HXcy+DWnRGp
+ 3ak2832NyrNBDMO6tkutnMo+FT3GT68IceCwNCxLSuSpCEJbzhyOQMBok2jNLulmGmz0
+ aN/yWggE39192g3QZLarhK6e/p/4HqDFNrfQXsdeB+nJ7z/Uyg+4UDWwK6zaJ1fuSG1S
+ 5eLgTw13BTPuC1+fJ5aKHIySvDXVjBB9JK31VSZv68d7pJLnqSgfKTlHNMoo9aRyOGHD
+ 0FkQ==
+X-Gm-Message-State: AOAM530BMPZlYdRJBczkIX7xeeAaiaJe1U5wRMJUkyhQ95e0oGMbEhyE
+ LyXEH3twhPvC3+RLNLoDL3M9ta4AgXZV/wJsbE9XXZvINKWXj7ylqVuJHfIpo6wuozT4/D1fho8
+ 2fXlMmAqxINLujgI=
+X-Received: by 2002:a1c:4d01:: with SMTP id o1mr277574wmh.61.1632753610749;
+ Mon, 27 Sep 2021 07:40:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw7drvqcyp9i4GWegafMemW7jwF1EeGWudod6a6/Gtorpq5Mk1SfPKDFKQ5SQ02W8vsNn8R3Q==
+X-Received: by 2002:a1c:4d01:: with SMTP id o1mr277542wmh.61.1632753610589;
+ Mon, 27 Sep 2021 07:40:10 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id o11sm9404721wmh.11.2021.09.27.07.40.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Sep 2021 07:40:10 -0700 (PDT)
+Message-ID: <75fc60df-b9a0-a9e7-0c66-ffa84292ac18@redhat.com>
+Date: Mon, 27 Sep 2021 16:40:08 +0200
 MIME-Version: 1.0
-References: <20210920204932.94132-1-willianr@redhat.com>
- <20210920204932.94132-5-willianr@redhat.com>
- <fe982e8e-5ead-5be7-48b3-3c962960f21a@redhat.com>
-In-Reply-To: <fe982e8e-5ead-5be7-48b3-3c962960f21a@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 27 Sep 2021 11:39:54 -0300
-Message-ID: <CAKJDGDa6D04FoSngCK5+vtNACR66fCn2iiBrOMfW_c7N03jp_w@mail.gmail.com>
-Subject: Re: [PATCH 4/6] avocado_qemu: tweak ssh connect method
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 02/16] Acceptance Tests: improve check-acceptance
+ description
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20210924185506.2542588-1-crosa@redhat.com>
+ <20210924185506.2542588-3-crosa@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20210924185506.2542588-3-crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.136, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,64 +99,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
+Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Greg Kurz <groug@kaod.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+ Auger Eric <eric.auger@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Willian Rampazzo <wrampazz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alexandre Iooss <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Ryo ONODERA <ryoon@netbsd.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 27, 2021 at 11:12 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> On 9/20/21 22:49, Willian Rampazzo wrote:
-> > The current implementation will crash if the connection fails as the
-> > `time` module is not imported. This fixes the import problem and tweaks
-> > the connection to wait progressively when the connection fails.
-> >
-> > Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-> > ---
-> >  tests/acceptance/avocado_qemu/__init__.py | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptan=
-ce/avocado_qemu/__init__.py
-> > index edb9ed7485..c3613f9262 100644
-> > --- a/tests/acceptance/avocado_qemu/__init__.py
-> > +++ b/tests/acceptance/avocado_qemu/__init__.py
-> > @@ -13,6 +13,7 @@
-> >  import shutil
-> >  import sys
-> >  import tempfile
-> > +import time
-> >  import uuid
-> >
-> >  import avocado
-> > @@ -305,8 +306,7 @@ def ssh_connect(self, username, credential, credent=
-ial_is_key=3DTrue):
-> >                  self.ssh_session.connect()
-> >                  return
-> >              except:
-> > -                time.sleep(4)
->
-> 10 * 4 =3D 40
->
-> > -                pass
-> > +                time.sleep(i)
->
-> sum([0..10[) =3D 45
->
-> The described tweak. Almost the same, OK.
->
+On 9/24/21 20:54, Cleber Rosa wrote:
+> The "check-acceptance" make rule won't necessarily run *all* available
+> tests, because it employs a filter based on the currently configured
+> targets.  This change in the description of the rule makes that
+> behavior extra clear.
+> 
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  tests/Makefile.include | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-The idea is that, hopefully, the connection will complete in one of
-the first tries, so the overall wait time will be less than using a
-fixed number. In the worst case, it will wait 5 seconds more than the
-original code.
-
-> >          self.fail('ssh connection timeout')
-> >
-> >      def ssh_command(self, command):
-> >
->
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
