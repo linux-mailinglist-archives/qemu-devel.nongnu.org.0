@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C5E419886
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:07:37 +0200 (CEST)
-Received: from localhost ([::1]:45170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA85A4198BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:16:30 +0200 (CEST)
+Received: from localhost ([::1]:55548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUtAG-0007qj-92
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:07:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37422)
+	id 1mUtIr-0006dq-Oj
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:16:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mUt7C-0005Xs-Ih
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:04:26 -0400
-Received: from mail-vk1-xa33.google.com ([2607:f8b0:4864:20::a33]:41499)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mUt7A-0005Fr-HD
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:04:26 -0400
-Received: by mail-vk1-xa33.google.com with SMTP id h132so7159382vke.8
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 09:04:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=86gAeL3dgvM6du55wK6RIpxb6dmdn7na3uRj0dt5YNY=;
- b=HzClwCdHLQ0P/54Lw/LL2jS4sPdwzqZ6o940q2K96pgWG0E7xjixJdKvPMTqoL+gCz
- H+nBOcaw3zOPr8/iYG5PxBSnjZnlL5xR2rNZc/1uKNvXXVl9ooWTUHMo4N6HjgWzCKld
- djeRQhVexPlNvsnaGH5j1xaDrLUc4cf63x1sU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=86gAeL3dgvM6du55wK6RIpxb6dmdn7na3uRj0dt5YNY=;
- b=D0lYKaiKqn+J9e01Jes8YSdCJNQwWv8Nb8nCFgBcCbPQsR/3A9cR/+e7terxHYqtKU
- D5OHBuLBHnN1d7Wek43FClP7JpezArxc6s/d2LuN764em10DCht9oSTqspvFmmEQWa2a
- wALWrthDVRttkWGriiKEzW6JdrD/R3neBuWw7qx3PfHBILXyfip4ZIhGQHNMqZx0gsJ9
- 40yZPVEoJCL6pNG9i6omkQ/esrVEQu6PtZad9pLVzq9QKIy69/pTLUOeQV64mzbh1iSD
- uQ9iZG5cSLxoKkoT3r7X6Hs7FalCTyzXjtFM6WZWWA1J9RVNE0lTGa96cS+U6qnb3frk
- ehmg==
-X-Gm-Message-State: AOAM530mjZW2aScoV8DKjSBEhc974dkCrL6ZniGvMb+U2sdmcMfpCK9w
- Rt8L/YEoddSWuirIQZSPQmWeBeSz2Qg6+3CvqKTjFA==
-X-Google-Smtp-Source: ABdhPJze3U/i3zgkT4Jp12+zPKSDyJOm2DkZxDIfW+qkKtsPs8jQXAB3nbxVVl5fJF4VwYyfG1l0rdKrOFR1VW3c+Pc=
-X-Received: by 2002:a05:6122:1681:: with SMTP id 1mr597411vkl.9.1632758661985; 
- Mon, 27 Sep 2021 09:04:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210926183410.256484-1-sjg@chromium.org>
- <CAFEAcA8S2=7rOKxeqcW+kw0BVPO3PUJGSUH-ioN7=c=U7zQxvg@mail.gmail.com>
- <CAPnjgZ2NCRVxKULWR1JjZU+D9saJ7fbZ=yHmWTSr3ufHxLYg-g@mail.gmail.com>
- <CAFEAcA9n+2JDFv8BezeEMA4e2Zhr0ENAvzLjBS6YXRoW9P-JXQ@mail.gmail.com>
- <CAPnjgZ1AO8575LYbwmuouNR5=dgNam6EFDC1_bai=8xAHdw7-Q@mail.gmail.com>
- <CAFEAcA8FsPcBELEZxiRMuFbKtmKTFgDHABePQ33hdxYRq0C0ig@mail.gmail.com>
-In-Reply-To: <CAFEAcA8FsPcBELEZxiRMuFbKtmKTFgDHABePQ33hdxYRq0C0ig@mail.gmail.com>
-From: Simon Glass <sjg@chromium.org>
-Date: Mon, 27 Sep 2021 10:04:10 -0600
-Message-ID: <CAPnjgZ2S7SXxHYd_bkcf+GcmmgEew3vpJkw+DRPqrpb44eLgcA@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/virt: Allow additions to the generated device tree
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mUtDS-0001k3-Cr
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:10:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26105)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mUtDN-0002F7-8D
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:10:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632759047;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DMvOnmiov6uBhGSfaZ4CbDmyOb+5ArtxODfNtxG1Z0Y=;
+ b=HmjsOmzYmwo0YSR9DUOw+U2w6Le0bOJ+//3fWmhbnkIWulxfvXpVi+52RxhMKgP717zrEX
+ 6+iadBJ3mBzaMVLMrt0DH7QYIjMDl7NcfhUGoUiQc/j0pO0gT509htM6qth0i6sTPBVCs5
+ OT9SiHYQhEvbMeh7XBa+6CHoey7kOkw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-40-OBIEvnFKMLiSFSSs-2CIHQ-1; Mon, 27 Sep 2021 12:10:46 -0400
+X-MC-Unique: OBIEvnFKMLiSFSSs-2CIHQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50F51835DE1;
+ Mon, 27 Sep 2021 16:10:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 007D71972E;
+ Mon, 27 Sep 2021 16:10:42 +0000 (UTC)
+Date: Mon, 27 Sep 2021 18:10:41 +0200
+From: Kevin Wolf <kwolf@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a33;
- envelope-from=sjg@google.com; helo=mail-vk1-xa33.google.com
-X-Spam_score_int: -92
-X-Spam_score: -9.3
-X-Spam_bar: ---------
-X-Spam_report: (-9.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+Subject: Re: [PATCH 11/11] Deprecate stable non-JSON -device and -object
+Message-ID: <YVHtAVhzKjoaCGBz@redhat.com>
+References: <20210924090427.9218-1-kwolf@redhat.com>
+ <20210924090427.9218-12-kwolf@redhat.com>
+ <CAFEAcA-Paf0+BvdFrT=B_jfzCNzGB6w4-7hjBeXWt0sJJYJs-Q@mail.gmail.com>
+ <YVGqptZGZ6PhqixP@redhat.com>
+ <CAFEAcA_B1SpqaoZxJtuX4y5Gcafe-AeA4KNOgZkysuAgEWu_6Q@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA_B1SpqaoZxJtuX4y5Gcafe-AeA4KNOgZkysuAgEWu_6Q@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,100 +79,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Krempa <pkrempa@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Libvirt <libvir-list@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-
-On Mon, 27 Sept 2021 at 09:46, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Mon, 27 Sept 2021 at 16:18, Simon Glass <sjg@chromium.org> wrote:
-> > On Mon, 27 Sept 2021 at 02:48, Peter Maydell <peter.maydell@linaro.org> wrote:
-> > > So what is missing in the QEMU-provided DTB that it needs?
+Am 27.09.2021 um 14:52 hat Peter Maydell geschrieben:
+> On Mon, 27 Sept 2021 at 12:27, Kevin Wolf <kwolf@redhat.com> wrote:
 > >
-> > Quite a lot. Here are some examples:
+> > Am 27.09.2021 um 11:00 hat Peter Maydell geschrieben:
+> > > On Fri, 24 Sept 2021 at 10:14, Kevin Wolf <kwolf@redhat.com> wrote:
+> > > >
+> > > > We want to switch both from QemuOpts to the keyval parser in the future,
+> > > > which results in some incompatibilities, mainly around list handling.
+> > > > Mark the non-JSON version of both as unstable syntax so that management
+> > > > tools switch to JSON and we can later make the change without breaking
+> > > > things.
+> > > >
+> > > > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > >
+> > > > +Stable non-JSON ``-device`` and ``-object`` syntax (since 6.2)
+> > > > +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> > > > +
+> > > > +If you rely on a stable interface for ``-device`` and ``-object`` that doesn't
+> > > > +change incompatibly between QEMU versions (e.g. because you are using the QEMU
+> > > > +command line as a machine interface in scripts rather than interactively), use
+> > > > +JSON syntax for these options instead.
+> > > > +
+> > > > +There is no intention to remove support for non-JSON syntax entirely, but
+> > > > +future versions may change the way to spell some options.
+> > >
+> > > As it stands, this is basically saying "pretty much anybody
+> > > using the command line, your stuff may break in future, instead
+> > > use some other interface you've never heard of, which doesn't
+> > > appear to be documented in the manual and which none of the
+> > > documentation's examples use".
 > >
-> > U-Boot has limited pre-relocation memory so tries to avoid
-> > binding/probing devices that are not used before relocation:
+> > The documentation is a valid criticism. We need to document the JSON
+> > interfaces properly (which will really mostly be a pointer to the
+> > existing QMP documentation at least for -object, but it's important to
+> > tell people where to look for the details).
 > >
-> > https://u-boot.readthedocs.io/en/latest/develop/driver-model/design.html#pre-relocation-support
->
-> It's up to u-boot to decide what it wants to touch and
-> what it does not. QEMU tells u-boot what all the available
-> devices are; I don't think we should have extra stuff saying
-> "and if you are u-boot, do something odd".
-
-Do you have familiarity with U-Boot and the space constraints of
-embedded systems?
-
->
-> > There is a configuration node (which is likely to change form in
-> > future releases, but will still be there)
+> > > Is there some more limited deprecation we can do rather than "the
+> > > entire commandline for almost all users" ?
 > >
-> > https://github.com/u-boot/u-boot/blob/master/doc/device-tree-bindings/config.txt
->
-> I think u-boot should be storing this kind of thing somewhere
-> else (e.g. as part of the binary blob that is u-boot itself,
-> or stored in flash or RAM as a separate blob).
->
-> > Then there are various features which put things in U-Boot's control
-> > dtb, such as verified boot, which adds public keys during signing:
-> >
-> > https://github.com/u-boot/u-boot/blob/master/doc/uImage.FIT/signature.txt#L135
-> >
-> > More generally, the U-Boot tree has hundreds of files which add
-> > properties for each board, since we try to keep the U-Boot-specific
-> > things out of the Linux tree:
-> >
-> > $ find . -name *u-boot.dtsi |wc -l
-> > 398
->
-> If any of this is actual information about the hardware then you
-> should sort out getting the bindings documented officially
-> (which I think is still in the Linux tree), and then QEMU can
-> provide them.
->
-> > Quite a bit of this is to do with SPL and so far it seems that QEMU
-> > mostly runs U-Boot proper only, although I see that SPL is starting to
-> > creep in too in the U-Boot CI.
-> >
-> > So at present QEMU is not able to support U-Boot fully.
->
-> My take is that this is u-boot doing weird custom things with
-> the DTB that aren't "describe the hardware". You should be able
-> to boot u-boot by putting those custom DTB extra things in a
-> separate blob and having u-boot combine that with the
-> actual DTB when it starts.
+> > I don't think "almost all" users is true.
+> 
+> > I see three groups of users
+> 
+> ...all of whom "rely on a stable interface for -device and -object",
+> and only two of whom it's reasonable to say "use the JSON version" to.
 
-Well this is how U-Boot works. Since it doesn't have a user-space
-program to provide configuration / policy, nor a command line to
-provide parameters (except with sandbox[1]), device tree is what it
-uses. All of its driver model and configuration comes from there The
-'describe the hardware' thing has been discussed to death but U-Boot
-needs board- and arch-specific policy information about the hardware
-so it can actually boot successfully on real systems.
+I'm not sure that the human interactive case requires unchanged syntax
+as strictly as the other cases do.
 
-It has been like this since U-Boot started using device tree, some 9
-years ago! I can't imagine it changing.
+After each distro upgrade (or even a browser upgrade within the same
+distro), some UI changes somewhere and I have to adapt. I don't think
+anyone ever makes promises like "this button is going to stay in the
+exact same place forever". And our policy is already that we're not
+making such promises for HMP either.
 
-As to a separate blob, isn't that what I am suggesting with this
-patch? QEMU doesn't support passing two separate dtb blobs to U-Boot,
-nor is there an API for that. Even if we did that it would require
-code very early in U-Boot to process, which would make it infeasible
-for anything other than QEMU. Ideally QEMU should work the same way as
-other boards.
+> > 1. Using a management tool that is probably using libvirt. This is
+> >    likely the vast majority of users. They won't notice a difference
+> >    because libvirt abstracts it away. libvirt developers are actively
+> >    asking us for JSON (and QAPI) based interfaces because using the same
+> >    representation to describe configurations in QMP and on the CLI makes
+> >    their life easier.
+> 
+> Yes, absolutely we should be recommending that libvirt and
+> other management interfaces use the JSON.
+> 
+> > 2. People starting QEMU on the command line manually. This is
+> >    essentially the same situation as HMP: If something changes, you get
+> >    an error message, you look up the new syntax, done. Small
+> >    inconvenience, but that's it. This includes simple scripts that just
+> >    start QEMU and are only used to store a long command line somewhere.
+> 
+> It's a small inconvenience that we seem to be imposing on our
+> users on a pretty frequent basis. Moreover, each one of these
+> really needs to be its own deprecation, so that users actually
+> can have some advance notice if they need it and look up the
+> new syntax. We shouldn't hide them all under this umbrella
+> "we might break anything at any time" entry, which I think
+> will pretty much encourage breaking compatibility more often
+> because you don't have to think about "oh, we should deprecate
+> this and maybe print warnings about use of deprecated syntax
+> and then drop it later", you can just break things and point
+> to this "we said -device wasn't going to be stable" entry.
 
-As a related point, I am looking at how we pass things between
-firmware components.  If we wanted to pass in some initiate state in
-some sort of blob, is it possible to set that up in memory (along with
-the binary) for when QEMU starts emulating? The code and RAM might be
-quite a long way apart so using a single image would involve a lot of
-zeroes.
+Are you suggesting bringing back stricter compatibility rules for HMP
+then?
 
-Regards,
-Simon
+The problem with the deprecation period is that you need to have a time
+where both options work. But when you have two different parsers, you
+can't just magically have the union of their accepted syntaxes. Unless
+you invest a lot of time and effort, you have a flag day where the
+syntax changes. And I think this is perfectly reasonable for interactive
+use.
 
-[1] https://u-boot.readthedocs.io/en/latest/arch/sandbox.html
+Deprecations are the wrong tool for human interfaces. You don't need to
+know months in advance that something will change in the UI (you'll
+forget it again anyway until the change happens and the information
+becomes relevant), but this is a case for the changelog.
+
+If you do need to know months in advance, JSON is probably better suited
+for your use case.
+
+> As a concrete example, the commit message for this patch vaguely
+> mentions some issues "around list handling", which gives me no
+> idea at all about what syntax is going to break in future or
+> whether it is likely to affect scripts I've written.
+
+The one known incompatible case for -object is the 'host-nodes' property
+of memory-backend, which is a list. QemuOpts doesn't support lists at
+all, but the string visitor allows using a comma separated list of
+integer ranges. (By the way, the existing syntax of it seems to be
+undocumented, so not sure how many users even know about how to use this
+list support.)
+
+For -device, who knows. I'm positive that the string visitor list
+support isn't used there and a patch in this series removes the string
+visitor from -device therefore.
+What other incompatibilities and hacks there are in some devices, we'll
+find out when we actually try to describe devices in QAPI. I'm not even
+entirely sure yet that there will be incompatibilities. But if we do
+find a case, I don't want to have to stop and delay work for another
+year to have a deprecation period for interactive human interfaces.
+
+Another similar case is -drive: We only still have it in its current
+form because even figuring out what the exact cases are that would be
+incompatible is hard enough to stop us from even trying to deprecate
+them individually. But actually it would seem reasonable enough to me to
+just change -drive because that makes sense as a convenient option for
+interactive use, while -blockdev is more verbose and covers the stable
+API part.
+
+> > 3. People writing more complex scripts or applications that invoke QEMU
+> >    manually instead of using libvirt. They may actually be hurt by such
+> >    changes. They should probably be using a proper machine interface,
+> >    i.e. JSON mode, so the deprecation notice is for them to change
+> >    their code. This is probably a small minority and not "almost all
+> >    users".
+> 
+> Yeah, this group is kind of similar to group 1 (well, at one
+> end it shades into group 1 and at the other into group 2).
+> 
+> More generally, I think I'd rather see the deprecation of
+> the old approach appear after some period when the JSON
+> command line version has been available to users and adopted
+> by major consumers like libvirt, not as a patch in the same
+> series which is introducing the JSON syntax in the first plaec.
+
+Okay, that can be done. So I can post this final patch separately and
+only for -object for now, and we'll do -device separately once libvirt
+uses JSON for it.
+
+Kevin
+
 
