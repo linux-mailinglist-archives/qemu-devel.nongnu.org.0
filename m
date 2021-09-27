@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44434199C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:57:00 +0200 (CEST)
-Received: from localhost ([::1]:37618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F40D4199D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:59:43 +0200 (CEST)
+Received: from localhost ([::1]:44258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUtw3-0002Eh-BA
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:56:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47042)
+	id 1mUtyg-0006fA-49
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:59:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mUtq8-0001du-6e
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:50:52 -0400
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:48209)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mUttF-0007eq-DG
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:54:05 -0400
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:53181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mUtq1-00013E-Qz
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:50:51 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.219])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 02F6B21AB6;
- Mon, 27 Sep 2021 16:50:42 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mUtt9-0003on-Gg
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:54:05 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.118])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id D00F920F44;
+ Mon, 27 Sep 2021 16:53:54 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 27 Sep
- 2021 18:50:41 +0200
+ 2021 18:53:54 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-97G0028e5e1c60-8247-4a52-bee6-dd4799586da1,
+ (GARM-103G0056f28b1ef-f30f-446e-a3e2-ddc08e1f8265,
  7A1C2730502A6E1581EB46D208322E62E5328AE4) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <90e2ef32-8151-e65c-d64b-de58bb5337f1@kaod.org>
-Date: Mon, 27 Sep 2021 18:50:40 +0200
+Message-ID: <d3050737-d5bf-bfc3-8e3b-fa2e62ee4407@kaod.org>
+Date: Mon, 27 Sep 2021 18:53:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [RFC PATCH] spapr/xive: Allocate vCPU IPIs from local context
+Subject: Re: [PATCH v3 1/7] qemu: Split machine_ppc.py acceptance tests
 Content-Language: en-US
-To: Greg Kurz <groug@kaod.org>
-References: <20210922144120.1277504-1-clg@kaod.org>
- <20210923111249.33c41068@bahia.huguette>
- <71b9a1a8-7d76-ff7c-db47-7c8e9b4d87b5@kaod.org>
- <20210924154906.59da27f7@bahia.huguette>
- <6936294c-f236-2179-cd90-d45af74e7179@kaod.org>
- <20210924191313.36c9c8e9@bahia.huguette>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, David Gibson
+ <david@gibson.dropbear.id.au>, <qemu-devel@nongnu.org>,
+ <qemu-ppc@nongnu.org>
+References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ <20210927044808.73391-2-david@gibson.dropbear.id.au>
+ <c4ba52a1-46f9-0e74-92b3-c57e617f6f08@redhat.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20210924191313.36c9c8e9@bahia.huguette>
+In-Reply-To: <c4ba52a1-46f9-0e74-92b3-c57e617f6f08@redhat.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 38cd527a-3da0-4e93-ac9a-58ecb18c245d
-X-Ovh-Tracer-Id: 17753752682221702051
+X-Ovh-Tracer-GUID: edf8d9d5-12af-4ab7-b05c-ac629de55536
+X-Ovh-Tracer-Id: 17807795877256006529
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudejkedguddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudejkedguddtgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedutedufeeufeefvdejieeiffelgeetgfeltdfhleeuveeiteegkeeuvdfftdetheenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -74,61 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, dbarboza@redhat.com, aik@ozlabs.ru,
+ mark.cave-ayland@ilande.co.uk, groug@kaod.org, wainersm@redhat.com,
+ hpoussin@reactos.org, crosa@redhat.com,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/21 19:13, Greg Kurz wrote:
-> On Fri, 24 Sep 2021 16:58:00 +0200
-> Cédric Le Goater <clg@kaod.org> wrote:
+On 9/27/21 18:44, Philippe Mathieu-Daudé wrote:
+> Hi David,
 > 
->> [ ... ]
+> On 9/27/21 06:48, David Gibson wrote:
+>> machine_ppc.py contains tests for 3 different ppc based machine types.  It
+>> is listed in MAINTAINERS along with the PPC TCG cpu code.  That's not
+>> really accurate though, since it's really more about testing those machines
+>> than the CPUs.
 >>
->>>> The changes only impact KVM support since we are deferring the IRQ
->>>> initialization at the KVM level. What we have to be careful about is not
->>>> accessing an ESB page of an interrupt that would not have been initiliazed
->>>> in the KVM device, else QEMU gets a sigbus.
->>>>
->>>
->>> Ok, so this is just needed on a path that leads to xive_esb_rw() or
->>> kvmppc_xive_esb_trigger(), right ?
->>>
->>> It seems that
->>>
->>> h_int_esb()
->>>    kvmppc_xive_esb_rw()
->>>
->>> can get there with an lisn provided by the guest, and I don't see any
->>> such check on the way : h_int_esb() only checks xive_eas_is_valid().
+>> Therefore, split it up into separate files for the separate machine types,
+>> and list those along with their machine types in MAINTAINERS.
 >>
->> This call is for LSI interrupts (device only) and not vCPU IPIs. see hcall
->> h_int_get_source_info(). I agree a hcall fuzzer could reach it.
->>
+>> Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+>> ---
+>>   MAINTAINERS                          |  4 +-
+>>   tests/acceptance/machine_ppc.py      | 69 ----------------------------
+>>   tests/acceptance/ppc_mpc8544ds.py    | 32 +++++++++++++
+>>   tests/acceptance/ppc_pseries.py      | 35 ++++++++++++++
+>>   tests/acceptance/ppc_virtex_ml507.py | 34 ++++++++++++++
+>>   5 files changed, 104 insertions(+), 70 deletions(-)
+>>   delete mode 100644 tests/acceptance/machine_ppc.py
+>>   create mode 100644 tests/acceptance/ppc_mpc8544ds.py
+>>   create mode 100644 tests/acceptance/ppc_pseries.py
+>>   create mode 100644 tests/acceptance/ppc_virtex_ml507.py
 > 
-> Yes we tell the guest to use H_INT_ESB for LSIs only but I don't have
-> the impression that it is forbidden for the guest to call H_INT_ESB
-> for arbitrary interrupts.
+> Since I'm preparing an integration-testing pull request,
+> I'll queue this single patch directly, to avoid future
+> merge conflicts.
 > 
->> An alternative solution would be to claim the vCPU IPIs on demand, like
->> we do for the MSIs, and not in spapr_irq_init(). It's a much bigger change
->> tough, because the H_INT hcalls consider that the interrupt numbers have
->> been claimed.
->>
-> 
-> Maybe it would be simpler to call xive_source_is_initialized() instead of
-> xive_eas_is_valid() in cases like this, e.g. hcall code since it is shared
-> between emulation and KVM ?
 
-Yes but we need a better check than :
+Should I resend this patch ?
 
-     if (lisn < SPAPR_XIRQ_BASE) {
-         return !!xive_get_field64(EAS_END_INDEX, xive->eat[lisn].w);
-     }
-
-This is more an heuristic than a precise test on the "validity" of
-a source at the KVM level.
-
+http://patchwork.ozlabs.org/project/qemu-devel/patch/20210817093036.1288791-1-clg@kaod.org/
 
 Thanks,
 
