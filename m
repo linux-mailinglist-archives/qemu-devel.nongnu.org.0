@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55CA3418ECC
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 07:52:01 +0200 (CEST)
-Received: from localhost ([::1]:44060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96FD418EA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 07:28:03 +0200 (CEST)
+Received: from localhost ([::1]:45900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUjYW-0002gc-7c
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 01:52:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34184)
+	id 1mUjBK-0001GD-Mp
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 01:28:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mUj2K-0003Ik-7H; Mon, 27 Sep 2021 01:18:44 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:37617)
+ id 1mUj2M-0003MS-4y; Mon, 27 Sep 2021 01:18:46 -0400
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:39165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mUj2F-0000F7-VW; Mon, 27 Sep 2021 01:18:43 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 77A102B0120E;
- Mon, 27 Sep 2021 01:18:37 -0400 (EDT)
+ id 1mUj2K-0000Ho-0l; Mon, 27 Sep 2021 01:18:45 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 890EF2B01210;
+ Mon, 27 Sep 2021 01:18:41 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 27 Sep 2021 01:18:38 -0400
+ by compute4.internal (MEProxy); Mon, 27 Sep 2021 01:18:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=S0eB+tPU702Wi
- bNvU9mwb0TP3Y70N5xeoeyuAJElhN0=; b=lh94gXCFzBW6gHNu5FWt4Is0yUg/F
- rw2btI+zncG0Zqt8fhH22T6mvcwHemmrB6jnmL9eXWTtziQXEI/dzTpIEHNvDn/u
- LCCBWz6GBjYAovGJkBzsB372WzLpkmOeuZ0eO65hPmoHVlgxZpSttx21rr2F/N/d
- WYPsLNCnsb9R0yJfHGEXgbaKFUn4A5NwbbWE7lPBqi7h8MgBR4e35MiqGlM1oz/J
- OkfeFHz1NwUmAr/Yj1PlZd21myvs8UHlxgkb19F2lzOv3vGLEiaNdaC+NBYNMxWx
- KxpXSTWqKFdDNK4u0+Bd47Gbxvbl2hDXw+3u/+GRloO83qAsaBsHlTxMQ==
+ :mime-version:content-transfer-encoding; s=fm1; bh=UR/e9aCVn9FNh
+ TyZUBSq9J9lnVuyv15+sBoph5fvb8M=; b=b072BLFX3Wj6vnsjJyckizCNBNSx1
+ dhmrQYxFjRjjfGPCDPQLNu5V5tVZ4euTbeAmRxKk7pK+rr+ikIVELkGI1rtr15Q4
+ k9+QI/thbz4PLSDSjXjqgKLWwN7WY7n3YD5dW8q+y6rQ07ZZjwZMp49khsm9ujUB
+ lxbRNUgiXeIppCpVnsAhYIn9eF/fFVWoT8/7o4XkPuo3Shn0CyzYZMaT9sSpOpIr
+ bbqFN/5IZmrcKG8ZbIW1Ph8NVzn/ktha+mc6O+3e9EY2ttpSoHU9x/WPTHynmWqL
+ HzFuJOQhA5IU3iXFXSOBmph/sPcn/nRHgghzgCtupUOKei6GCOvYJAWNw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=S0eB+tPU702WibNvU9mwb0TP3Y70N5xeoeyuAJElhN0=; b=A3HKfpES
- uIcmL2T4UKJYJXxk1mZrBbYKIK4UmjdIBhBTSiUWcHwGoxtTELCsOAwdLL+h6xr3
- kbzGqnnsjkfPTSLlGN/sCkItM0uL1Fi3Vgps0tmT9tLxDcsAeLrO9wgCwy8Fsqzc
- 9Pxd43PQMjC9Q5aEdWJxSknCmUUAiiTitx9rIfc5SG+5RQFilpRqcvkK3CQU1kXY
- 3YwkvM6xhtKxrS26UX4zyHRNTzMtwiJ0s1vH0fq5bGvOvFlplsVmm7UG6RgrLcVl
- iyw8snkV8qUDd78p5YSG6osM9cmJwHJ8JWF5ITZApbfUw+SWIa6bhkF+MGVUmcFZ
- iELfVbWap0cqvA==
-X-ME-Sender: <xms:LFRRYYtywrkH6jZysy84zI0Fx0a4G3A1k4b7sXBDyBvSD5TClNhhOg>
- <xme:LFRRYVfDzTSQU3oktedmLoJyS91JmBJhUrr-7k4e8yFJh2_jGIP6CIkffbZKrGCrg
- ysrXcmCUql4v0poYpA>
-X-ME-Received: <xmr:LFRRYTyusNaSc4Wx2-LBh5flV4_dPWNpVWTPRYCypXNGxBMkvsu3nhmNy7teHyMYgC2C1TAFa995TlIZHCBvK_PCd3gtGt0yxoBdtcOmyA>
+ fm3; bh=UR/e9aCVn9FNhTyZUBSq9J9lnVuyv15+sBoph5fvb8M=; b=sUVpNTnb
+ Dof9QJm2EWTH2w6kAqKlAVI2igxQtIg8/jZ71jSCgd/UxwmiMtDffmVUJdF9Fnx2
+ 5Soo124CxSbJFYJ1HEYwYnWn8OZCZkjhJh8iZ2k64IQ8DGI7yGOizxSv/SLDi2M1
+ 7HIMV1+06ESRzTqgddQ1dtInJB64Xj+UZFgbRN/b7vl/aSUDZxfevoMTpaNP41be
+ 3BWDKKVz7A+wcKMTXADF7TCzzdlO03ccRVEW0kNvUh/WSW0vTOxhB3DqPgCQYc3T
+ tLFT/ZoTo2KJhSpOezBGGPGuUhmwIR/y9xjhtSGao22P65CvIwd7ugOaFR3669yt
+ rfPdCiVqB/ZuvA==
+X-ME-Sender: <xms:MFRRYfqKCtsh2gCjiIUFeOaDLPk91zeR16SKRw6W4K9WAdUYg_eROA>
+ <xme:MFRRYZrkx-5-oeFrq3B7RAJG6Tw9hBW_209-azgDexOGV258_lhX3nXsZa7lB-jYB
+ R6bC5LVFlqT40Cj33E>
+X-ME-Received: <xmr:MFRRYcMJ14MF5gt791HB8EQvZGDuHFLGXNDMZnvAdZbcYk0Qc4MkNX1A_JoKZvQi99rryxzgwTx9Z2vo3gmVf5QQzgTeNL-lb3MU1lPtaA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejjedgledvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeiudehfeejteegueeffeekhfelgfekheetfffgteejgeekuefgtddujeeuudeg
- ieenucffohhmrghinhepuhhuihgurdgurghtrgenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:LVRRYbOD9xE3GgUFYT7miwdPwlka3HXUclvs8vBpjcUD1b5kxfv-Ag>
- <xmx:LVRRYY-p_eWkW_MLJDtW2RkgXcBmYEXwBP2PVm-G3K0UvtqT3yc0ow>
- <xmx:LVRRYTVIEqYVUhlP9A3RBEp1a9Yh5sQPPEt8dtMZXSc06TSDkBiAjA>
- <xmx:LVRRYbeU1ErQbU1kFGTFoQQu7EMyG_0i4R0NlSdue5lcX-fgCLnIPTytt_Q>
+ gvrhhnpeeltdetfeegkefguedvtdduffejiedvjeejudejieelveekhfekvdefleeludev
+ ffenucffohhmrghinhepvddtudelqddtkedrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:MFRRYS7G-7PP8ywZRCIPHQftMmg6VgrZFow6axjeqhQEIaVNA9dgbQ>
+ <xmx:MFRRYe557KgyyYCuUXFBSYymFXWiVgbySYzDs08KJ7KTRB9P7KZBtQ>
+ <xmx:MFRRYahaiq6TVgsA-3Ia5rdIArd7PlGrUXBixXZcLxpIZn_sgN1uTA>
+ <xmx:MVRRYRpqjb1k5unB_MQfyp-DS8NgtLP5NxF8BQGRCG5aDSNvS449-qxv0Zs>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Sep 2021 01:18:34 -0400 (EDT)
+ 27 Sep 2021 01:18:38 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v2 08/16] hw/nvme: hoist qdev state from namespace
-Date: Mon, 27 Sep 2021 07:17:51 +0200
-Message-Id: <20210927051759.447305-9-its@irrelevant.dk>
+Subject: [PATCH RFC v2 09/16] hw/nvme: hoist qdev state from subsystem
+Date: Mon, 27 Sep 2021 07:17:52 +0200
+Message-Id: <20210927051759.447305-10-its@irrelevant.dk>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210927051759.447305-1-its@irrelevant.dk>
 References: <20210927051759.447305-1-its@irrelevant.dk>
@@ -107,724 +107,198 @@ From: Klaus Jensen <k.jensen@samsung.com>
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c   |  32 +++---
- hw/nvme/ns.c     | 263 +++++++++++++++++++++++++----------------------
- hw/nvme/nvme.h   |  44 +++++---
- hw/nvme/subsys.c |   2 +-
- 4 files changed, 186 insertions(+), 155 deletions(-)
+ hw/nvme/ctrl.c   | 10 +++++++---
+ hw/nvme/ns.c     |  2 +-
+ hw/nvme/nvme.h   | 24 +++++++++++++++---------
+ hw/nvme/subsys.c | 36 ++++++++++++++++++------------------
+ 4 files changed, 41 insertions(+), 31 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 3e561a13f76f..67600d075d32 100644
+index 67600d075d32..af2a783ba4c0 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -4620,10 +4620,10 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req,
-                 continue;
-             }
-         }
--        if (ns->params.nsid <= min_nsid) {
-+        if (ns->nsid <= min_nsid) {
-             continue;
-         }
--        list_ptr[j++] = cpu_to_le32(ns->params.nsid);
-+        list_ptr[j++] = cpu_to_le32(ns->nsid);
-         if (j == data_len / sizeof(uint32_t)) {
-             break;
-         }
-@@ -4668,10 +4668,10 @@ static uint16_t nvme_identify_nslist_csi(NvmeCtrl *n, NvmeRequest *req,
-                 continue;
-             }
-         }
--        if (ns->params.nsid <= min_nsid || c->csi != ns->csi) {
-+        if (ns->nsid <= min_nsid || c->csi != ns->csi) {
-             continue;
-         }
--        list_ptr[j++] = cpu_to_le32(ns->params.nsid);
-+        list_ptr[j++] = cpu_to_le32(ns->nsid);
-         if (j == data_len / sizeof(uint32_t)) {
-             break;
-         }
-@@ -4718,14 +4718,14 @@ static uint16_t nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
-      */
-     uuid.hdr.nidt = NVME_NIDT_UUID;
-     uuid.hdr.nidl = NVME_NIDL_UUID;
--    memcpy(uuid.v, ns->params.uuid.data, NVME_NIDL_UUID);
-+    memcpy(uuid.v, ns->uuid.data, NVME_NIDL_UUID);
-     memcpy(pos, &uuid, sizeof(uuid));
-     pos += sizeof(uuid);
- 
--    if (ns->params.eui64) {
-+    if (ns->eui64.v) {
-         eui64.hdr.nidt = NVME_NIDT_EUI64;
-         eui64.hdr.nidl = NVME_NIDL_EUI64;
--        eui64.v = cpu_to_be64(ns->params.eui64);
-+        eui64.v = cpu_to_be64(ns->eui64.v);
-         memcpy(pos, &eui64, sizeof(eui64));
-         pos += sizeof(eui64);
+@@ -6539,7 +6539,7 @@ static int nvme_init_subsys(NvmeCtrl *n, Error **errp)
+         return 0;
      }
-@@ -5264,7 +5264,7 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
-                 return NVME_NS_ALREADY_ATTACHED | NVME_DNR;
-             }
  
--            if (ns->attached && !ns->params.shared) {
-+            if (ns->attached && !(ns->flags & NVME_NS_SHARED)) {
-                 return NVME_NS_PRIVATE | NVME_DNR;
-             }
- 
-@@ -5342,12 +5342,12 @@ static void nvme_format_set(NvmeNamespace *ns, NvmeCmd *cmd)
-     uint8_t mset = (dw10 >> 4) & 0x1;
-     uint8_t pil = (dw10 >> 8) & 0x1;
- 
--    trace_pci_nvme_format_set(ns->params.nsid, lbaf, mset, pi, pil);
-+    trace_pci_nvme_format_set(ns->nsid, lbaf, mset, pi, pil);
- 
-     nvm->id_ns.dps = (pil << 3) | pi;
-     nvm->id_ns.flbas = lbaf | (mset << 4);
- 
--    nvme_ns_init_format(ns);
-+    nvme_ns_nvm_init_format(nvm);
- }
- 
- static void nvme_format_ns_cb(void *opaque, int ret)
-@@ -6552,7 +6552,7 @@ static int nvme_init_subsys(NvmeCtrl *n, Error **errp)
- void nvme_attach_ns(NvmeCtrl *n, NvmeNamespace *ns)
- {
-     NvmeNamespaceNvm *nvm = NVME_NAMESPACE_NVM(ns);
--    uint32_t nsid = ns->params.nsid;
-+    uint32_t nsid = ns->nsid;
-     assert(nsid && nsid <= NVME_MAX_NAMESPACES);
- 
-     n->namespaces[nsid] = ns;
-@@ -6565,7 +6565,6 @@ void nvme_attach_ns(NvmeCtrl *n, NvmeNamespace *ns)
- static void nvme_realize(PCIDevice *pci_dev, Error **errp)
- {
+-    cntlid = nvme_subsys_register_ctrl(n, errp);
++    cntlid = nvme_subsys_register_ctrl(n->subsys, n, errp);
+     if (cntlid < 0) {
+         return -1;
+     }
+@@ -6567,6 +6567,10 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
      NvmeCtrl *n = NVME(pci_dev);
--    NvmeNamespace *ns;
      Error *local_err = NULL;
  
++    if (n->subsys_dev) {
++        n->subsys = &n->subsys_dev->subsys;
++    }
++
      nvme_check_constraints(n, &local_err);
-@@ -6590,12 +6589,11 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
- 
-     /* setup a namespace if the controller drive property was given */
-     if (n->namespace.blkconf.blk) {
--        ns = &n->namespace;
--        ns->params.nsid = 1;
-+        NvmeNamespaceDevice *nsdev = &n->namespace;
-+        NvmeNamespace *ns = &nsdev->ns;
-+        ns->nsid = 1;
- 
--        if (nvme_ns_setup(ns, errp)) {
--            return;
--        }
-+        nvme_ns_init(ns);
- 
-         nvme_attach_ns(n, ns);
-     }
+     if (local_err) {
+         error_propagate(errp, local_err);
+@@ -6637,8 +6641,8 @@ static Property nvme_props[] = {
+     DEFINE_BLOCK_PROPERTIES(NvmeCtrl, namespace.blkconf),
+     DEFINE_PROP_LINK("pmrdev", NvmeCtrl, pmr.dev, TYPE_MEMORY_BACKEND,
+                      HostMemoryBackend *),
+-    DEFINE_PROP_LINK("subsys", NvmeCtrl, subsys, TYPE_NVME_SUBSYS,
+-                     NvmeSubsystem *),
++    DEFINE_PROP_LINK("subsys", NvmeCtrl, subsys_dev, TYPE_NVME_SUBSYSTEM_DEVICE,
++                     NvmeSubsystemDevice *),
+     DEFINE_PROP_STRING("serial", NvmeCtrl, params.serial),
+     DEFINE_PROP_UINT32("cmb_size_mb", NvmeCtrl, params.cmb_size_mb, 0),
+     DEFINE_PROP_UINT32("num_queues", NvmeCtrl, params.num_queues, 0),
 diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 9b59beb0324d..582ff7d0236b 100644
+index 582ff7d0236b..d67632174530 100644
 --- a/hw/nvme/ns.c
 +++ b/hw/nvme/ns.c
-@@ -26,9 +26,8 @@
- 
- #define MIN_DISCARD_GRANULARITY (4 * KiB)
- 
--void nvme_ns_init_format(NvmeNamespace *ns)
-+void nvme_ns_nvm_init_format(NvmeNamespaceNvm *nvm)
- {
--    NvmeNamespaceNvm *nvm = NVME_NAMESPACE_NVM(ns);
-     NvmeIdNs *id_ns = &nvm->id_ns;
-     BlockDriverInfo bdi;
-     int npdg, nlbas, ret;
-@@ -48,7 +47,7 @@ void nvme_ns_init_format(NvmeNamespace *ns)
- 
-     npdg = nvm->discard_granularity / nvm->lbasz;
- 
--    ret = bdrv_get_info(blk_bs(ns->blkconf.blk), &bdi);
-+    ret = bdrv_get_info(blk_bs(nvm->blk), &bdi);
-     if (ret >= 0 && bdi.cluster_size > nvm->discard_granularity) {
-         npdg = bdi.cluster_size / nvm->lbasz;
-     }
-@@ -56,53 +55,39 @@ void nvme_ns_init_format(NvmeNamespace *ns)
-     id_ns->npda = id_ns->npdg = npdg - 1;
- }
- 
--static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
-+void nvme_ns_init(NvmeNamespace *ns)
- {
-     NvmeNamespaceNvm *nvm = NVME_NAMESPACE_NVM(ns);
--    static uint64_t ns_count;
-     NvmeIdNs *id_ns = &nvm->id_ns;
-     uint8_t ds;
-     uint16_t ms;
-     int i;
- 
--    ns->csi = NVME_CSI_NVM;
--    ns->status = 0x0;
--
--    nvm->id_ns.dlfeat = 0x1;
-+    id_ns->dlfeat = 0x1;
- 
-     /* support DULBE and I/O optimization fields */
-     id_ns->nsfeat |= (0x4 | 0x10);
- 
--    if (ns->params.shared) {
-+    if (ns->flags & NVME_NS_SHARED) {
-         id_ns->nmic |= NVME_NMIC_NS_SHARED;
-     }
- 
--    /* Substitute a missing EUI-64 by an autogenerated one */
--    ++ns_count;
--    if (!ns->params.eui64 && ns->params.eui64_default) {
--        ns->params.eui64 = ns_count + NVME_EUI64_DEFAULT;
--    }
--
-     /* simple copy */
-     id_ns->mssrl = cpu_to_le16(nvm->mssrl);
-     id_ns->mcl = cpu_to_le32(nvm->mcl);
-     id_ns->msrc = nvm->msrc;
--    id_ns->eui64 = cpu_to_be64(ns->params.eui64);
-+    id_ns->eui64 = cpu_to_be64(ns->eui64.v);
- 
-     ds = 31 - clz32(nvm->lbasz);
--    ms = ns->params.ms;
-+    ms = nvm->lbaf.ms;
- 
-     id_ns->mc = NVME_ID_NS_MC_EXTENDED | NVME_ID_NS_MC_SEPARATE;
- 
--    if (ms && ns->params.mset) {
-+    if (ms && nvm->flags & NVME_NS_NVM_EXTENDED_LBA) {
-         id_ns->flbas |= NVME_ID_NS_FLBAS_EXTENDED;
-     }
- 
-     id_ns->dpc = 0x1f;
--    id_ns->dps = ns->params.pi;
--    if (ns->params.pi && ns->params.pil) {
--        id_ns->dps |= NVME_ID_NS_DPS_FIRST_EIGHT;
--    }
- 
-     static const NvmeLBAF lbaf[16] = {
-         [0] = { .ds =  9           },
-@@ -135,59 +120,63 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
-     id_ns->flbas |= id_ns->nlbaf;
- 
- lbaf_found:
--    nvme_ns_init_format(ns);
--
--    return 0;
-+    nvme_ns_nvm_init_format(nvm);
- }
- 
--static int nvme_ns_init_blk(NvmeNamespace *ns, Error **errp)
-+static int nvme_nsdev_init_blk(NvmeNamespaceDevice *nsdev,
-+                               Error **errp)
- {
-+    NvmeNamespace *ns = &nsdev->ns;
-     NvmeNamespaceNvm *nvm = NVME_NAMESPACE_NVM(ns);
-+    BlockConf *blkconf = &nsdev->blkconf;
-     bool read_only;
- 
--    if (!blkconf_blocksizes(&ns->blkconf, errp)) {
-+    if (!blkconf_blocksizes(blkconf, errp)) {
-         return -1;
-     }
- 
--    read_only = !blk_supports_write_perm(ns->blkconf.blk);
--    if (!blkconf_apply_backend_options(&ns->blkconf, read_only, false, errp)) {
-+    read_only = !blk_supports_write_perm(blkconf->blk);
-+    if (!blkconf_apply_backend_options(blkconf, read_only, false, errp)) {
-         return -1;
-     }
- 
--    if (ns->blkconf.discard_granularity == -1) {
--        ns->blkconf.discard_granularity =
--            MAX(ns->blkconf.logical_block_size, MIN_DISCARD_GRANULARITY);
-+    if (blkconf->discard_granularity == -1) {
-+        blkconf->discard_granularity =
-+            MAX(blkconf->logical_block_size, MIN_DISCARD_GRANULARITY);
-     }
- 
--    nvm->lbasz = ns->blkconf.logical_block_size;
--    nvm->discard_granularity = ns->blkconf.discard_granularity;
-+    nvm->lbasz = blkconf->logical_block_size;
-+    nvm->discard_granularity = blkconf->discard_granularity;
-     nvm->lbaf.ds = 31 - clz32(nvm->lbasz);
--    nvm->lbaf.ms = ns->params.ms;
-+    nvm->lbaf.ms = nsdev->params.ms;
-+    nvm->blk = blkconf->blk;
- 
--    nvm->size = blk_getlength(ns->blkconf.blk);
-+    nvm->size = blk_getlength(nvm->blk);
-     if (nvm->size < 0) {
--        error_setg_errno(errp, -nvm->size, "could not get blockdev size");
-+        error_setg_errno(errp, -(nvm->size), "could not get blockdev size");
-         return -1;
-     }
- 
-     return 0;
- }
- 
--static int nvme_zns_check_calc_geometry(NvmeNamespace *ns, Error **errp)
-+static int nvme_nsdev_zns_check_calc_geometry(NvmeNamespaceDevice *nsdev,
-+                                              Error **errp)
- {
-+    NvmeNamespace *ns = &nsdev->ns;
-     NvmeNamespaceNvm *nvm = NVME_NAMESPACE_NVM(ns);
-     NvmeNamespaceZoned *zoned = NVME_NAMESPACE_ZONED(ns);
- 
-     uint64_t zone_size, zone_cap;
- 
-     /* Make sure that the values of ZNS properties are sane */
--    if (ns->params.zone_size_bs) {
--        zone_size = ns->params.zone_size_bs;
-+    if (nsdev->params.zone_size_bs) {
-+        zone_size = nsdev->params.zone_size_bs;
-     } else {
-         zone_size = NVME_DEFAULT_ZONE_SIZE;
-     }
--    if (ns->params.zone_cap_bs) {
--        zone_cap = ns->params.zone_cap_bs;
-+    if (nsdev->params.zone_cap_bs) {
-+        zone_cap = nsdev->params.zone_cap_bs;
-     } else {
-         zone_cap = zone_size;
-     }
-@@ -359,46 +348,47 @@ static void nvme_zns_shutdown(NvmeNamespaceZoned *zoned)
-     assert(zoned->nr_open_zones == 0);
- }
- 
--static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
-+static int nvme_nsdev_check_constraints(NvmeNamespaceDevice *nsdev,
-+                                        Error **errp)
- {
--    if (!ns->blkconf.blk) {
-+    if (!nsdev->blkconf.blk) {
-         error_setg(errp, "block backend not configured");
-         return -1;
-     }
- 
--    if (ns->params.pi && ns->params.ms < 8) {
-+    if (nsdev->params.pi && nsdev->params.ms < 8) {
-         error_setg(errp, "at least 8 bytes of metadata required to enable "
-                    "protection information");
-         return -1;
-     }
- 
--    if (ns->params.nsid > NVME_MAX_NAMESPACES) {
-+    if (nsdev->params.nsid > NVME_MAX_NAMESPACES) {
-         error_setg(errp, "invalid namespace id (must be between 0 and %d)",
-                    NVME_MAX_NAMESPACES);
-         return -1;
-     }
- 
--    if (ns->params.zoned) {
--        if (ns->params.max_active_zones) {
--            if (ns->params.max_open_zones > ns->params.max_active_zones) {
-+    if (nsdev->params.zoned) {
-+        if (nsdev->params.max_active_zones) {
-+            if (nsdev->params.max_open_zones > nsdev->params.max_active_zones) {
-                 error_setg(errp, "max_open_zones (%u) exceeds "
--                           "max_active_zones (%u)", ns->params.max_open_zones,
--                           ns->params.max_active_zones);
-+                           "max_active_zones (%u)", nsdev->params.max_open_zones,
-+                           nsdev->params.max_active_zones);
-                 return -1;
-             }
- 
--            if (!ns->params.max_open_zones) {
--                ns->params.max_open_zones = ns->params.max_active_zones;
-+            if (!nsdev->params.max_open_zones) {
-+                nsdev->params.max_open_zones = nsdev->params.max_active_zones;
-             }
-         }
- 
--        if (ns->params.zd_extension_size) {
--            if (ns->params.zd_extension_size & 0x3f) {
-+        if (nsdev->params.zd_extension_size) {
-+            if (nsdev->params.zd_extension_size & 0x3f) {
-                 error_setg(errp, "zone descriptor extension size must be a "
-                            "multiple of 64B");
-                 return -1;
-             }
--            if ((ns->params.zd_extension_size >> 6) > 0xff) {
-+            if ((nsdev->params.zd_extension_size >> 6) > 0xff) {
-                 error_setg(errp,
-                            "zone descriptor extension size is too large");
-                 return -1;
-@@ -409,35 +399,57 @@ static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
-     return 0;
- }
- 
--int nvme_ns_setup(NvmeNamespace *ns, Error **errp)
-+static int nvme_nsdev_setup(NvmeNamespaceDevice *nsdev, Error **errp)
- {
--    if (nvme_ns_check_constraints(ns, errp)) {
-+    NvmeNamespaceNvm *nvm = NVME_NAMESPACE_NVM(&nsdev->ns);
-+    static uint64_t ns_count;
-+
-+    if (nvme_nsdev_check_constraints(nsdev, errp)) {
-         return -1;
-     }
- 
--    if (nvme_ns_init_blk(ns, errp)) {
--        return -1;
-+    if (nsdev->params.shared) {
-+        nsdev->ns.flags |= NVME_NS_SHARED;
-     }
- 
--    if (nvme_ns_init(ns, errp)) {
--        return -1;
--    }
--    if (ns->params.zoned) {
--        NvmeNamespaceZoned *zoned = NVME_NAMESPACE_ZONED(ns);
-+    nsdev->ns.nsid = nsdev->params.nsid;
-+    memcpy(&nsdev->ns.uuid, &nsdev->params.uuid, sizeof(nsdev->ns.uuid));
- 
--        if (nvme_zns_check_calc_geometry(ns, errp) != 0) {
-+    if (nsdev->params.eui64) {
-+        stq_be_p(&nsdev->ns.eui64.v, nsdev->params.eui64);
-+    }
-+
-+    /* Substitute a missing EUI-64 by an autogenerated one */
-+    ++ns_count;
-+    if (!nsdev->ns.eui64.v && nsdev->params.eui64_default) {
-+        nsdev->ns.eui64.v = ns_count + NVME_EUI64_DEFAULT;
-+    }
-+
-+    nvm->id_ns.dps = nsdev->params.pi;
-+    if (nsdev->params.pi && nsdev->params.pil) {
-+        nvm->id_ns.dps |= NVME_ID_NS_DPS_FIRST_EIGHT;
-+    }
-+
-+    nsdev->ns.csi = NVME_CSI_NVM;
-+
-+    nvme_ns_init(&nsdev->ns);
-+
-+    if (nsdev->params.zoned) {
-+        NvmeNamespaceZoned *zoned = NVME_NAMESPACE_ZONED(&nsdev->ns);
-+
-+        if (nvme_nsdev_zns_check_calc_geometry(nsdev, errp) != 0) {
-             return -1;
-         }
- 
-         /* copy device parameters */
--        zoned->zd_extension_size = ns->params.zd_extension_size;
--        zoned->max_open_zones = ns->params.max_open_zones;
--        zoned->max_active_zones = ns->params.max_open_zones;
--        if (ns->params.cross_zone_read) {
-+        zoned->zd_extension_size = nsdev->params.zd_extension_size;
-+        zoned->max_open_zones = nsdev->params.max_open_zones;
-+        zoned->max_active_zones = nsdev->params.max_open_zones;
-+        if (nsdev->params.cross_zone_read) {
-             zoned->flags |= NVME_NS_ZONED_CROSS_READ;
-         }
- 
--        nvme_zns_init(ns);
-+        nvme_zns_init(&nsdev->ns);
-     }
- 
-     return 0;
-@@ -445,12 +457,12 @@ int nvme_ns_setup(NvmeNamespace *ns, Error **errp)
- 
- void nvme_ns_drain(NvmeNamespace *ns)
- {
--    blk_drain(ns->blkconf.blk);
-+    blk_drain(nvme_blk(ns));
- }
- 
- void nvme_ns_shutdown(NvmeNamespace *ns)
- {
--    blk_flush(ns->blkconf.blk);
-+    blk_flush(nvme_blk(ns));
-     if (nvme_ns_zoned(ns)) {
-         nvme_zns_shutdown(NVME_NAMESPACE_ZONED(ns));
-     }
-@@ -466,26 +478,28 @@ void nvme_ns_cleanup(NvmeNamespace *ns)
-     }
- }
- 
--static void nvme_ns_unrealize(DeviceState *dev)
-+static void nvme_nsdev_unrealize(DeviceState *dev)
- {
--    NvmeNamespace *ns = NVME_NS(dev);
-+    NvmeNamespaceDevice *nsdev = NVME_NAMESPACE_DEVICE(dev);
-+    NvmeNamespace *ns = &nsdev->ns;
- 
-     nvme_ns_drain(ns);
-     nvme_ns_shutdown(ns);
-     nvme_ns_cleanup(ns);
- }
- 
--static void nvme_ns_realize(DeviceState *dev, Error **errp)
-+static void nvme_nsdev_realize(DeviceState *dev, Error **errp)
- {
--    NvmeNamespace *ns = NVME_NS(dev);
-+    NvmeNamespaceDevice *nsdev = NVME_NAMESPACE_DEVICE(dev);
-+    NvmeNamespace *ns = &nsdev->ns;
-     BusState *s = qdev_get_parent_bus(dev);
-     NvmeCtrl *n = NVME(s->parent);
-     NvmeSubsystem *subsys = n->subsys;
--    uint32_t nsid = ns->params.nsid;
-+    uint32_t nsid = nsdev->params.nsid;
-     int i;
- 
-     if (!n->subsys) {
--        if (ns->params.detached) {
-+        if (nsdev->params.detached) {
-             error_setg(errp, "detached requires that the nvme device is "
-                        "linked to an nvme-subsys device");
-             return;
-@@ -500,7 +514,11 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
-         }
-     }
- 
--    if (nvme_ns_setup(ns, errp)) {
-+    if (nvme_nsdev_init_blk(nsdev, errp)) {
-+        return;
-+    }
-+
-+    if (nvme_nsdev_setup(nsdev, errp)) {
-         return;
-     }
- 
-@@ -510,7 +528,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
-                 continue;
-             }
- 
--            nsid = ns->params.nsid = i;
-+            nsid = ns->nsid = i;
-             break;
-         }
- 
-@@ -528,11 +546,11 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
-     if (subsys) {
-         subsys->namespaces[nsid] = ns;
- 
--        if (ns->params.detached) {
-+        if (nsdev->params.detached) {
+@@ -509,7 +509,7 @@ static void nvme_nsdev_realize(DeviceState *dev, Error **errp)
+          * If this namespace belongs to a subsystem (through a link on the
+          * controller device), reparent the device.
+          */
+-        if (!qdev_set_parent_bus(dev, &subsys->bus.parent_bus, errp)) {
++        if (!qdev_set_parent_bus(dev, &n->subsys_dev->bus.parent_bus, errp)) {
              return;
          }
+     }
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 356d95805f9e..e8f4b8e3e2e0 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -40,24 +40,29 @@ typedef struct NvmeBus {
+     BusState parent_bus;
+ } NvmeBus;
  
--        if (ns->params.shared) {
-+        if (nsdev->params.shared) {
-             for (i = 0; i < ARRAY_SIZE(subsys->ctrls); i++) {
-                 NvmeCtrl *ctrl = subsys->ctrls[i];
+-#define TYPE_NVME_SUBSYS "nvme-subsys"
+-#define NVME_SUBSYS(obj) \
+-    OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
+-
+ typedef struct NvmeSubsystem {
+-    DeviceState parent_obj;
+-    NvmeBus     bus;
+     uint8_t     subnqn[256];
  
-@@ -548,73 +566,74 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
-     nvme_attach_ns(n, ns);
+     NvmeCtrl      *ctrls[NVME_MAX_CONTROLLERS];
+     NvmeNamespace *namespaces[NVME_MAX_NAMESPACES + 1];
++} NvmeSubsystem;
++
++#define TYPE_NVME_SUBSYSTEM_DEVICE "nvme-subsys"
++OBJECT_DECLARE_SIMPLE_TYPE(NvmeSubsystemDevice, NVME_SUBSYSTEM_DEVICE)
++
++typedef struct NvmeSubsystemDevice {
++    DeviceState parent_obj;
++    NvmeBus     bus;
++
++    NvmeSubsystem subsys;
+ 
+     struct {
+         char *nqn;
+     } params;
+-} NvmeSubsystem;
++} NvmeSubsystemDevice;
+ 
+-int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp);
++int nvme_subsys_register_ctrl(NvmeSubsystem *subsys, NvmeCtrl *n,
++                              Error **errp);
+ void nvme_subsys_unregister_ctrl(NvmeSubsystem *subsys, NvmeCtrl *n);
+ 
+ static inline NvmeCtrl *nvme_subsys_ctrl(NvmeSubsystem *subsys,
+@@ -436,7 +441,8 @@ typedef struct NvmeCtrl {
+ #define NVME_CHANGED_NSID_SIZE  (NVME_MAX_NAMESPACES + 1)
+     DECLARE_BITMAP(changed_nsids, NVME_CHANGED_NSID_SIZE);
+ 
+-    NvmeSubsystem   *subsys;
++    NvmeSubsystem       *subsys;
++    NvmeSubsystemDevice *subsys_dev;
+ 
+     NvmeNamespaceDevice namespace;
+     NvmeNamespace   *namespaces[NVME_MAX_NAMESPACES + 1];
+diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
+index 5a9405d05fbe..4d73d14070dc 100644
+--- a/hw/nvme/subsys.c
++++ b/hw/nvme/subsys.c
+@@ -11,9 +11,8 @@
+ 
+ #include "nvme.h"
+ 
+-int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
++int nvme_subsys_register_ctrl(NvmeSubsystem *subsys, NvmeCtrl *n, Error **errp)
+ {
+-    NvmeSubsystem *subsys = n->subsys;
+     int cntlid, nsid;
+ 
+     for (cntlid = 0; cntlid < ARRAY_SIZE(subsys->ctrls); cntlid++) {
+@@ -45,53 +44,54 @@ void nvme_subsys_unregister_ctrl(NvmeSubsystem *subsys, NvmeCtrl *n)
+     n->cntlid = -1;
  }
  
--static Property nvme_ns_props[] = {
--    DEFINE_BLOCK_PROPERTIES(NvmeNamespace, blkconf),
--    DEFINE_PROP_BOOL("detached", NvmeNamespace, params.detached, false),
--    DEFINE_PROP_BOOL("shared", NvmeNamespace, params.shared, true),
--    DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsid, 0),
--    DEFINE_PROP_UUID("uuid", NvmeNamespace, params.uuid),
--    DEFINE_PROP_UINT64("eui64", NvmeNamespace, params.eui64, 0),
--    DEFINE_PROP_UINT16("ms", NvmeNamespace, params.ms, 0),
--    DEFINE_PROP_UINT8("mset", NvmeNamespace, params.mset, 0),
--    DEFINE_PROP_UINT8("pi", NvmeNamespace, params.pi, 0),
--    DEFINE_PROP_UINT8("pil", NvmeNamespace, params.pil, 0),
--    DEFINE_PROP_UINT16("mssrl", NvmeNamespace, params.mssrl, 128),
--    DEFINE_PROP_UINT32("mcl", NvmeNamespace, params.mcl, 128),
--    DEFINE_PROP_UINT8("msrc", NvmeNamespace, params.msrc, 127),
--    DEFINE_PROP_BOOL("zoned", NvmeNamespace, params.zoned, false),
--    DEFINE_PROP_SIZE("zoned.zone_size", NvmeNamespace, params.zone_size_bs,
-+static Property nvme_nsdev_props[] = {
-+    DEFINE_BLOCK_PROPERTIES(NvmeNamespaceDevice, blkconf),
-+    DEFINE_PROP_BOOL("detached", NvmeNamespaceDevice, params.detached, false),
-+    DEFINE_PROP_BOOL("shared", NvmeNamespaceDevice, params.shared, true),
-+    DEFINE_PROP_UINT32("nsid", NvmeNamespaceDevice, params.nsid, 0),
-+    DEFINE_PROP_UUID("uuid", NvmeNamespaceDevice, params.uuid),
-+    DEFINE_PROP_UINT64("eui64", NvmeNamespaceDevice, params.eui64, 0),
-+    DEFINE_PROP_UINT16("ms", NvmeNamespaceDevice, params.ms, 0),
-+    DEFINE_PROP_UINT8("mset", NvmeNamespaceDevice, params.mset, 0),
-+    DEFINE_PROP_UINT8("pi", NvmeNamespaceDevice, params.pi, 0),
-+    DEFINE_PROP_UINT8("pil", NvmeNamespaceDevice, params.pil, 0),
-+    DEFINE_PROP_UINT16("mssrl", NvmeNamespaceDevice, params.mssrl, 128),
-+    DEFINE_PROP_UINT32("mcl", NvmeNamespaceDevice, params.mcl, 128),
-+    DEFINE_PROP_UINT8("msrc", NvmeNamespaceDevice, params.msrc, 127),
-+    DEFINE_PROP_BOOL("zoned", NvmeNamespaceDevice, params.zoned, false),
-+    DEFINE_PROP_SIZE("zoned.zone_size", NvmeNamespaceDevice, params.zone_size_bs,
-                      NVME_DEFAULT_ZONE_SIZE),
--    DEFINE_PROP_SIZE("zoned.zone_capacity", NvmeNamespace, params.zone_cap_bs,
-+    DEFINE_PROP_SIZE("zoned.zone_capacity", NvmeNamespaceDevice, params.zone_cap_bs,
-                      0),
--    DEFINE_PROP_BOOL("zoned.cross_read", NvmeNamespace,
-+    DEFINE_PROP_BOOL("zoned.cross_read", NvmeNamespaceDevice,
-                      params.cross_zone_read, false),
--    DEFINE_PROP_UINT32("zoned.max_active", NvmeNamespace,
-+    DEFINE_PROP_UINT32("zoned.max_active", NvmeNamespaceDevice,
-                        params.max_active_zones, 0),
--    DEFINE_PROP_UINT32("zoned.max_open", NvmeNamespace,
-+    DEFINE_PROP_UINT32("zoned.max_open", NvmeNamespaceDevice,
-                        params.max_open_zones, 0),
--    DEFINE_PROP_UINT32("zoned.descr_ext_size", NvmeNamespace,
-+    DEFINE_PROP_UINT32("zoned.descr_ext_size", NvmeNamespaceDevice,
-                        params.zd_extension_size, 0),
--    DEFINE_PROP_BOOL("eui64-default", NvmeNamespace, params.eui64_default,
-+    DEFINE_PROP_BOOL("eui64-default", NvmeNamespaceDevice, params.eui64_default,
-                      true),
+-static void nvme_subsys_setup(NvmeSubsystem *subsys)
++static void nvme_subsys_device_setup(NvmeSubsystemDevice *dev)
+ {
+-    const char *nqn = subsys->params.nqn ?
+-        subsys->params.nqn : subsys->parent_obj.id;
++    NvmeSubsystem *subsys = &dev->subsys;
++    const char *nqn = dev->params.nqn ?
++        dev->params.nqn : dev->parent_obj.id;
+ 
+     snprintf((char *)subsys->subnqn, sizeof(subsys->subnqn),
+              "nqn.2019-08.org.qemu:%s", nqn);
+ }
+ 
+-static void nvme_subsys_realize(DeviceState *dev, Error **errp)
++static void nvme_subsys_device_realize(DeviceState *dev, Error **errp)
+ {
+-    NvmeSubsystem *subsys = NVME_SUBSYS(dev);
++    NvmeSubsystemDevice *subsys = NVME_SUBSYSTEM_DEVICE(dev);
+ 
+     qbus_create_inplace(&subsys->bus, sizeof(NvmeBus), TYPE_NVME_BUS, dev,
+                         dev->id);
+ 
+-    nvme_subsys_setup(subsys);
++    nvme_subsys_device_setup(subsys);
+ }
+ 
+-static Property nvme_subsystem_props[] = {
+-    DEFINE_PROP_STRING("nqn", NvmeSubsystem, params.nqn),
++static Property nvme_subsystem_device_props[] = {
++    DEFINE_PROP_STRING("nqn", NvmeSubsystemDevice, params.nqn),
      DEFINE_PROP_END_OF_LIST(),
  };
  
--static void nvme_ns_class_init(ObjectClass *oc, void *data)
-+static void nvme_nsdev_class_init(ObjectClass *oc, void *data)
+-static void nvme_subsys_class_init(ObjectClass *oc, void *data)
++static void nvme_subsys_device_class_init(ObjectClass *oc, void *data)
  {
      DeviceClass *dc = DEVICE_CLASS(oc);
  
      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
  
-     dc->bus_type = TYPE_NVME_BUS;
--    dc->realize = nvme_ns_realize;
--    dc->unrealize = nvme_ns_unrealize;
--    device_class_set_props(dc, nvme_ns_props);
-+    dc->realize = nvme_nsdev_realize;
-+    dc->unrealize = nvme_nsdev_unrealize;
-+    device_class_set_props(dc, nvme_nsdev_props);
-     dc->desc = "Virtual NVMe namespace";
+-    dc->realize = nvme_subsys_realize;
++    dc->realize = nvme_subsys_device_realize;
+     dc->desc = "Virtual NVMe subsystem";
+     dc->hotpluggable = false;
+ 
+-    device_class_set_props(dc, nvme_subsystem_props);
++    device_class_set_props(dc, nvme_subsystem_device_props);
  }
  
--static void nvme_ns_instance_init(Object *obj)
-+static void nvme_nsdev_instance_init(Object *obj)
- {
--    NvmeNamespace *ns = NVME_NS(obj);
--    char *bootindex = g_strdup_printf("/namespace@%d,0", ns->params.nsid);
-+    NvmeNamespaceDevice *nsdev = NVME_NAMESPACE_DEVICE(obj);
-+    char *bootindex = g_strdup_printf("/namespace@%d,0",
-+                                      nsdev->params.nsid);
- 
--    device_add_bootindex_property(obj, &ns->bootindex, "bootindex",
-+    device_add_bootindex_property(obj, &nsdev->bootindex, "bootindex",
-                                   bootindex, DEVICE(obj));
- 
-     g_free(bootindex);
- }
- 
--static const TypeInfo nvme_ns_info = {
--    .name = TYPE_NVME_NS,
-+static const TypeInfo nvme_nsdev_info = {
-+    .name = TYPE_NVME_NAMESPACE_DEVICE,
+-static const TypeInfo nvme_subsys_info = {
+-    .name = TYPE_NVME_SUBSYS,
++static const TypeInfo nvme_subsys_device_info = {
++    .name = TYPE_NVME_SUBSYSTEM_DEVICE,
      .parent = TYPE_DEVICE,
--    .class_init = nvme_ns_class_init,
--    .instance_size = sizeof(NvmeNamespace),
--    .instance_init = nvme_ns_instance_init,
-+    .class_init = nvme_nsdev_class_init,
-+    .instance_size = sizeof(NvmeNamespaceDevice),
-+    .instance_init = nvme_nsdev_instance_init,
+-    .class_init = nvme_subsys_class_init,
+-    .instance_size = sizeof(NvmeSubsystem),
++    .class_init = nvme_subsys_device_class_init,
++    .instance_size = sizeof(NvmeSubsystemDevice),
  };
  
--static void nvme_ns_register_types(void)
-+static void register_types(void)
+ static void nvme_subsys_register_types(void)
  {
--    type_register_static(&nvme_ns_info);
-+    type_register_static(&nvme_nsdev_info);
+-    type_register_static(&nvme_subsys_info);
++    type_register_static(&nvme_subsys_device_info);
  }
  
--type_init(nvme_ns_register_types)
-+type_init(register_types)
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 525bfd0ca831..356d95805f9e 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -80,9 +80,8 @@ static inline NvmeNamespace *nvme_subsys_ns(NvmeSubsystem *subsys,
-     return subsys->namespaces[nsid];
- }
- 
--#define TYPE_NVME_NS "nvme-ns"
--#define NVME_NS(obj) \
--    OBJECT_CHECK(NvmeNamespace, (obj), TYPE_NVME_NS)
-+#define TYPE_NVME_NAMESPACE_DEVICE "nvme-ns"
-+OBJECT_DECLARE_SIMPLE_TYPE(NvmeNamespaceDevice, NVME_NAMESPACE_DEVICE)
- 
- typedef struct NvmeNamespaceParams {
-     bool     detached;
-@@ -170,19 +169,25 @@ typedef struct NvmeNamespaceNvm {
-     unsigned long flags;
- } NvmeNamespaceNvm;
- 
-+enum NvmeNamespaceFlags {
-+    NVME_NS_SHARED = 1 << 0,
-+};
-+
- typedef struct NvmeNamespace {
--    DeviceState  parent_obj;
--    BlockConf    blkconf;
--    int32_t      bootindex;
-+    uint32_t nsid;
-+    uint8_t  csi;
-+    QemuUUID uuid;
-+    union {
-+        uint64_t v;
-+        uint8_t  a[8];
-+    } eui64;
-+
-+    unsigned long flags;
-+
-     const uint32_t *iocs;
--    uint8_t      csi;
-     uint16_t     status;
-     int          attached;
- 
--    QTAILQ_ENTRY(NvmeNamespace) entry;
--
--    NvmeNamespaceParams params;
--
-     struct {
-         uint32_t err_rec;
-     } features;
-@@ -199,10 +204,19 @@ static inline BlockBackend *nvme_blk(NvmeNamespace *ns)
-     return NVME_NAMESPACE_NVM(ns)->blk;
- }
- 
-+typedef struct NvmeNamespaceDevice {
-+    DeviceState  parent_obj;
-+    BlockConf    blkconf;
-+    int32_t      bootindex;
-+
-+    NvmeNamespace       ns;
-+    NvmeNamespaceParams params;
-+} NvmeNamespaceDevice;
-+
- static inline uint32_t nvme_nsid(NvmeNamespace *ns)
- {
-     if (ns) {
--        return ns->params.nsid;
-+        return ns->nsid;
-     }
- 
-     return 0;
-@@ -228,8 +242,8 @@ static inline bool nvme_ns_ext(NvmeNamespaceNvm *nvm)
-     return !!NVME_ID_NS_FLBAS_EXTENDED(nvm->id_ns.flbas);
- }
- 
--void nvme_ns_init_format(NvmeNamespace *ns);
--int nvme_ns_setup(NvmeNamespace *ns, Error **errp);
-+void nvme_ns_nvm_init_format(NvmeNamespaceNvm *nvm);
-+void nvme_ns_init(NvmeNamespace *ns);
- void nvme_ns_drain(NvmeNamespace *ns);
- void nvme_ns_shutdown(NvmeNamespace *ns);
- void nvme_ns_cleanup(NvmeNamespace *ns);
-@@ -424,7 +438,7 @@ typedef struct NvmeCtrl {
- 
-     NvmeSubsystem   *subsys;
- 
--    NvmeNamespace   namespace;
-+    NvmeNamespaceDevice namespace;
-     NvmeNamespace   *namespaces[NVME_MAX_NAMESPACES + 1];
-     NvmeSQueue      **sq;
-     NvmeCQueue      **cq;
-diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
-index 6b2e4c975f5b..5a9405d05fbe 100644
---- a/hw/nvme/subsys.c
-+++ b/hw/nvme/subsys.c
-@@ -31,7 +31,7 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
- 
-     for (nsid = 1; nsid < ARRAY_SIZE(subsys->namespaces); nsid++) {
-         NvmeNamespace *ns = subsys->namespaces[nsid];
--        if (ns && ns->params.shared && !ns->params.detached) {
-+        if (ns && (ns->flags & NVME_NS_SHARED)) {
-             nvme_attach_ns(n, ns);
-         }
-     }
+ type_init(nvme_subsys_register_types)
 -- 
 2.33.0
 
