@@ -2,91 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B064197EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 17:28:36 +0200 (CEST)
-Received: from localhost ([::1]:45076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EBB2419805
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 17:36:44 +0200 (CEST)
+Received: from localhost ([::1]:50066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUsYV-0001q5-Bm
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 11:28:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57410)
+	id 1mUsgN-0005ai-0A
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 11:36:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUsWr-0000Dc-UZ
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 11:26:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45541)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUsWp-0007bj-1C
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 11:26:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632756409;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nuImDDsUhoYi2N4n+d23iP5qi1WcqSD60TpzvnSl+AE=;
- b=DA0p9hH1sU1+82lxrEdXFqlk/96o3sLuQ3dW7WetrdIV2twduHPfkN7QGur0trjJuJdFqj
- BwGPr+GgMO2fcG+7qzwsQnB0wfMpon3sJtM37M9uCcieu8GuWEqSnqbRCM+95/2gBJg4mO
- 9Y65A7i/bEEwxA2ZL8xkkZsxRez3SRk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-0927tqEuMYGxnySa7o0u7g-1; Mon, 27 Sep 2021 11:26:46 -0400
-X-MC-Unique: 0927tqEuMYGxnySa7o0u7g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 17-20020a05600c029100b00305eac9f29aso100182wmk.1
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 08:26:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mUsep-0004kD-HM; Mon, 27 Sep 2021 11:35:07 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34323)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mUsen-00060x-Ps; Mon, 27 Sep 2021 11:35:07 -0400
+Received: by mail-wr1-x432.google.com with SMTP id t8so52813642wri.1;
+ Mon, 27 Sep 2021 08:35:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=nuImDDsUhoYi2N4n+d23iP5qi1WcqSD60TpzvnSl+AE=;
- b=u6RKL+jBmAQyBYr6Rq+dfnRAiU+1kNuI1a+HdyUfnDsOSpqvkwC4gqDg+7JQOx6u1x
- sc65mVjpvO7KehSfIViOmDKfayKKOCVN23n0d7liYbN5GqJXv6uwMPWbk12AlE5U8486
- wZkgcgZIPf71mNekbq69B3/XxAGlkMMAi+jd+Evp45eMGDK2V6ZMjeNG4clnDW+os4qs
- wGFH3Wufs8jwk6bLKQ4vseLAKTQdAlghK0aHjGbDLdTMqt4nWXXgxx8a8tP2qEmDD0Fv
- QJcqYdBaiEp7n0M/Qv8z0ZnZU2oNAgre3sCnt3pukHjY0wjj1g6KqUvncfosdXZU/L62
- GzYQ==
-X-Gm-Message-State: AOAM532zn5UjUxraqWLPfcQjZWi4acK+G7zN8dwJdPHls58BMSPIy0h+
- bUU+UYCbC2z1azrDQoxHtR30AF+9YgGPgzxCHCz+n+EmMLsoHgm3Xq3DpKPPeKfhV0uWl4GBssZ
- LwXy7IecgT/xJ3QA=
-X-Received: by 2002:a5d:504e:: with SMTP id h14mr582401wrt.48.1632756405133;
- Mon, 27 Sep 2021 08:26:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGQJmDU0qks6IeXyvM/ALijwJB+i3f3M/nhTWcXBpnH3qAn9Y9eTnLvpWEVBlitUe9qi+qyA==
-X-Received: by 2002:a5d:504e:: with SMTP id h14mr582359wrt.48.1632756404961;
- Mon, 27 Sep 2021 08:26:44 -0700 (PDT)
+ bh=XSvz1APDPaA4vE2/ttrlWYJ4sT71ydTv6e3uUBDFbQU=;
+ b=LuUStK0hTPZRwFt5yJhhpnFdwQUkbM+0iKs+4ASzCWYoI4b9h2pdHbKhO+bwItLfiN
+ zXMc1zmCCfzWfAdqEF+7FHhADt6J2RjajifatdOldYKAGTmMbfc+wg5cKik5yL4VdgKf
+ DZTqhyXqzWeSGFl3dRKG9W17BCmZy/qt0o1sZW9SnXmKJNkLG8WqPdDu8t4Me82gz5yL
+ lPrKeezzbEy6m0UXZfAbsVTLWstw2fjfIlQ4C+KUuDm8QRdkXu0L1U6pQXpSfeanu2q2
+ 1m6jt2jg6MsSe25oqrQYeLrZ1BRiseQRDmVzxd27vY4F3KRravycw75kJUbhJa8Vx4My
+ +lNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XSvz1APDPaA4vE2/ttrlWYJ4sT71ydTv6e3uUBDFbQU=;
+ b=NxDVesvSYpZvOBfIRGgXB8GaDbs6pCjquxzGtc9I05EogyohIt8zu+Stjpvh80XPob
+ 20/yN+KX9X5UpHD9NP7IEFAXl9nBCWw4FmfmThH2v6799ngbi7mtO0HEkotSIDLE2sFK
+ UaDdtyrnFDtpRxEFCbcz7yKwYwFwtSc8UY6GoXxecWCLC5F9lAJkAz6gBwUZMzfDfEq9
+ APqAwgnxDegKev7THiKKcb4IPnrSHz2ag1DCDBXyp1yIWYKDxIU4Gx2x/ILt+Et58k0x
+ 1jFDx6tSybrlLSYW3z90N1+rbrG7AArWz8afsjyBDfHAFtl3zBeDWJyUrld08QXuvZSV
+ tYJg==
+X-Gm-Message-State: AOAM5326Et4jYV3xcKClrGcmEuYDgLx74gRk3F+BlZWldlsUFwYw9kQX
+ jBdhlIZmkanLlbDJ4jCc++I=
+X-Google-Smtp-Source: ABdhPJzpRtMelcAJ5/4tjPCqxbOiWkfQKntnmGR1U7kwPw5Nz5svMi1Sn5M7PZvLBTIYHSxlibRB1Q==
+X-Received: by 2002:a5d:4d0d:: with SMTP id z13mr520132wrt.267.1632756902872; 
+ Mon, 27 Sep 2021 08:35:02 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id v17sm16603464wrr.69.2021.09.27.08.26.43
+ by smtp.gmail.com with ESMTPSA id v18sm16611640wml.44.2021.09.27.08.35.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 08:26:44 -0700 (PDT)
-Message-ID: <f21bc338-f0e1-e32f-980b-e40806a99555@redhat.com>
-Date: Mon, 27 Sep 2021 17:26:43 +0200
+ Mon, 27 Sep 2021 08:35:02 -0700 (PDT)
+Message-ID: <8e03f4a4-a47e-5e89-795a-d6d331c88cbf@amsat.org>
+Date: Mon, 27 Sep 2021 17:35:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 14/16] tests/acceptance/ppc_prep_40p.py: NetBSD 7.1.2
- location update
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210924185506.2542588-1-crosa@redhat.com>
- <20210924185506.2542588-15-crosa@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210924185506.2542588-15-crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v1 1/1] hw/riscv: shakti_c: Mark as not user creatable
 Content-Language: en-US
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <bc032f02f44192bfa057cc4f09311fd18d07ef1f.1632726758.git.alistair.francis@wdc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <bc032f02f44192bfa057cc4f09311fd18d07ef1f.1632726758.git.alistair.francis@wdc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.136, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.136,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,35 +88,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Greg Kurz <groug@kaod.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Auger Eric <eric.auger@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Willian Rampazzo <wrampazz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>,
- Ryo ONODERA <ryoon@netbsd.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/21 20:55, Cleber Rosa wrote:
-> The NetBSD-7.1.2-prep.iso is no longer available on the CDN, but it's
-> still available in the archive.
+Hi Alistair,
+
+On 9/27/21 09:13, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 > 
-> Let's update its location so that users without the file on cache can
-> still fetch it and run the test.
+> Mark the shakti_c machine as not user creatable as it uses serial_hd.
 > 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/639
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  tests/acceptance/ppc_prep_40p.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  hw/riscv/shakti_c.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
+> index 2f084d3c8d..603992d442 100644
+> --- a/hw/riscv/shakti_c.c
+> +++ b/hw/riscv/shakti_c.c
+> @@ -150,6 +150,8 @@ static void shakti_c_soc_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+>      dc->realize = shakti_c_soc_state_realize;
+> +    /* Reason: Uses serial_hds in realize function, thus can't be used twice */
+> +    dc->user_creatable = false;
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I agree with the logical change, but not totally with the comment.
+Well, the comment itself is not incorrect. But the error happens before:
 
+ERROR:tcg/tcg.c:479:tcg_register_thread: assertion failed: (n <
+tcg_max_ctxs)
+
+The reason is TYPE_RISCV_HART_ARRAY creates CPUs in
+riscv_hart_realize(), and this machine use the default CPU limit
+of one CPU:
+
+static void shakti_c_machine_class_init(ObjectClass *klass, void *data)
+{
+    MachineClass *mc = MACHINE_CLASS(klass);
+    mc->desc = "RISC-V Board compatible with Shakti SDK";
+    mc->init = shakti_c_machine_state_init;
+    mc->default_cpu_type = TYPE_RISCV_CPU_SHAKTI_C;
+}
+
+The default values come from:
+
+static void machine_class_base_init(ObjectClass *oc, void *data)
+{
+    MachineClass *mc = MACHINE_CLASS(oc);
+    mc->max_cpus = mc->max_cpus ?: 1;
+    mc->min_cpus = mc->min_cpus ?: 1;
+    mc->default_cpus = mc->default_cpus ?: 1;
+
+So the crash happens when we try to create the 2nd CPU.
+
+>  }
+>  
+>  static void shakti_c_soc_instance_init(Object *obj)
+> 
 
