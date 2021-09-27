@@ -2,80 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609C14194A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 14:52:08 +0200 (CEST)
-Received: from localhost ([::1]:55166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9014194A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 14:52:18 +0200 (CEST)
+Received: from localhost ([::1]:55630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUq74-0006nB-S3
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 08:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37314)
+	id 1mUq7F-00077W-6H
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 08:52:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUq2l-0003aG-0A; Mon, 27 Sep 2021 08:47:39 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:39850)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUq2i-00078G-V6; Mon, 27 Sep 2021 08:47:38 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- 136-20020a1c048e000000b0030d05169e9bso447922wme.4; 
- Mon, 27 Sep 2021 05:47:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DdQdvNLVHDc2coO8ZFRHEfwkDc1D0a9H2gWyDAoXUeY=;
- b=FQI/XAbi/wzC33TwQBc7T/s/x/BW/DtaFkpi7oVQi93u1DJpEfjaY9UKjLKJg/7Ibl
- QRZJfQQoh4uwRk2DEcsGM39xKcFhmpk76fyoZDMddYGXWjWnnWKiuFERn+Eo7dsWLnCR
- dembhCmxPLsHRgMzyQXe3QTncfhgWD4JW4eDMYgoZfoeN6kTxw4UKP1QTxBdb2+DwfaW
- Aj3nUVqWRNq913zBOLBGr7wr9ezNSALYTTiOqrMrUEAedI2F1Ue9ki0e/WWi6BhayvbQ
- ZvOjLr3ovf56VXwVHR7Fz3LB0dQmVwKxaAGRaWhZs9crB/iWn5X88w8+wilE1SW2OZYX
- swBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DdQdvNLVHDc2coO8ZFRHEfwkDc1D0a9H2gWyDAoXUeY=;
- b=QD2tJFEzuh6FSL/531tqUBemmxC/aAdpSLiCmgXEIKov67xM7dTCsG0ONz1guJaE6Q
- o17Y1BMT2IyuQUNtqPC3CmIBv2AvE4BuUMjSrLEIelxfYDut1sIQtto7R4m5ikAqFfp2
- QbbJ8tENWXfDMe+3lcPGqNvlvZaSdI72VpnfXHVio+MuOe33PFZ/36CFA+jYJxJozf4b
- TCgxI3LyihKhceRvhWCWa1uDrGcORu2bDrjXvJyAozotqyi8Tbmf5MqFxWXvrWRGAOOo
- CivQBlNY0krTLgY+2cfyuoIuCWhqSl79s7G1NRg5vS+XymoGOKpshETXhgW5nqmJ8R7y
- iWRQ==
-X-Gm-Message-State: AOAM532ngRjXgqvFdCpLEYGP3gGUxVOWnLT0LxcfAlwrT23MRsm+pTLI
- +SPbghPqg+VsloEq2i/xRyM=
-X-Google-Smtp-Source: ABdhPJxve82P/Q8A1bYoWzI99dXQKrPRKMHdTU0JXxI5OMQqPB1HPgfVeal0kYANhzNsqe7AJCQi+g==
-X-Received: by 2002:a7b:c923:: with SMTP id h3mr15839057wml.28.1632746854550; 
- Mon, 27 Sep 2021 05:47:34 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id g21sm1136181wmk.10.2021.09.27.05.47.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 05:47:34 -0700 (PDT)
-Message-ID: <d25c8d0b-f5d1-0ac1-fc8f-3fad56820f42@amsat.org>
-Date: Mon, 27 Sep 2021 14:47:32 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] hw: Add a 'Sensor devices' qdev category
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mUq40-00053b-0f; Mon, 27 Sep 2021 08:48:56 -0400
+Received: from mail-db8eur05on2102.outbound.protection.outlook.com
+ ([40.107.20.102]:64992 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mUq3v-0007zM-F4; Mon, 27 Sep 2021 08:48:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BqlsHkTnrykz7HeZ6M57hBBCYewWpDzmiShytIKrdExuT73ePSwtqp/fAJy4l1QQrwc6w67V1B0rVL8ABI3ZZ47JZH/QLlgfExkzfXEATpUmvPAqoRg7flsUIRczgwEFMLe0sgzPBxd0onc2plHKASy5QQHhHs+wPw3M9D63o09eDUAapVdTAhgK/B9SDyIqWA6RF3R80fhJfZU9vaBj6QqhKlfbVDeLl4VUKbMwptbCe+k4uI56840bBNfv3nKnUkkCikYE6x1iTtG5M90h7WREfJiBd40VuMlDvIdgTOPd3+1C3LP+tkPlL+/9vnWdnRhRyMRZkkgmQqdXnatorQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=rATB73x+V+CjyBYoRZ27uPqT0gHmAKshJwtQcedLdRk=;
+ b=MBZ4Ij+qVFx/e7O9+tG/BQ0y/7plwdAPHMVdxH75xHLB/C85pnbbJPIR+Eu1XXpZHAV4ukmNRKWXmDrKJUE8zRsjJlrOydgHGfF/67Mfvjm2eqoXm1b3IjtJclV/6JqPPMvyf1CLO3ZhSknvuj0VBeShatlIiccuaYU6hRWz5TFTfVx5ZlCMlVsXuO4QHAcrurDlDc9TlGWK5EErimqLIB7eyR+TXi6JN6Qjcu1QrOu+KYp/Sd0MgfjNTIgUG3UvlxyP1eTg3d8yB7vvlwfxdoKuKE3tF9y2znCH+lXcphrYzPAztl68PlmN+QvX9NePwwilLtbdvqkVEE/0vniT/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rATB73x+V+CjyBYoRZ27uPqT0gHmAKshJwtQcedLdRk=;
+ b=PzgVZmwyES7S2yELlQ6ZL9PrmdNCIV+0n+bfaVQWrVKqd/TyfKZhw2rF5emMRqm27wIun1n/3oNOty7OEKoyKBHqOdO/84jZ74rttI9ZeP5G7HsWLLATt2NNHrVrqsr6empP7hQfduD4pgMOj9sQLiP+J4K8SUT0GbGQLHYuteQ=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6374.eurprd08.prod.outlook.com (2603:10a6:20b:338::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.20; Mon, 27 Sep
+ 2021 12:48:46 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.021; Mon, 27 Sep 2021
+ 12:48:46 +0000
+Subject: Re: [PATCH v2] nbd/server: Add --selinux-label option
+To: Eric Blake <eblake@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20210723103303.1731437-1-rjones@redhat.com>
+ <20210723103303.1731437-2-rjones@redhat.com> <YPrr72N494WKnJA5@redhat.com>
+ <YPrwbgY9Q4e1ORP1@redhat.com> <20210825193504.d6ka3xzmpd54x2fq@redhat.com>
+ <20210924192313.ulfa4wxjtliqdppd@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <bb85d9f4-0bf3-8cce-3331-33375ef1da04@virtuozzo.com>
+Date: Mon, 27 Sep 2021 15:48:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <20210924192313.ulfa4wxjtliqdppd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: minyard@acm.org, Thomas Huth <thuth@redhat.com>
-References: <20210926221518.1726267-1-f4bug@amsat.org>
- <20210927113349.GH5381@minyard.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210927113349.GH5381@minyard.net>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.136,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-ClientProxiedBy: FR3P281CA0034.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+Received: from [192.168.100.13] (185.215.60.205) by
+ FR3P281CA0034.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1c::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4566.8 via Frontend Transport; Mon, 27 Sep 2021 12:48:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1c17d945-74c5-45cc-81ee-08d981b52559
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6374:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB637420B0BECB210F4870B736C1A79@AS8PR08MB6374.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TmVsJrrOIiEZ3169fQHWcy2E8AcIN/IsdyTnvfwEGcS+atU0RtbSfBmCdC7qGkuswv6X7ofrOrwrQ8fLNuKnlj/u37Mac5MDE0JdV1vQrsh/yM1U5aZtXz/ePlK3LtKZIv+mlEd3B5UtxGamMvLjjW+2kvAp3dteAgygSSALQOlosAIJCAW1PAbbtLWWNnYnf6SaHSLIsRRPlZUz4niE/rYgG60iHxRQ9BsCOQiBpcGezyhUOT1I95rV8xOBXTJF8VM6ZYFh/f/dL3V5B5s8RKq5RPIgskq0oBTwicJpQRkOc3EE4E7jgKBA6J3pT02+EQY9x59/oFqHBcIwom/6Q2Lig+b2q0HTlXpGYmyt4hZXDmvcDxA+lbYlkWaEWGXWwuRIhVwtU1xxwj9JvV8G9wmz0Dbil0ep380EmySKg2jYWLc3jJ3m4p77y/LVsHSwvbkHvfDlzStxbWvjp2Os7tjrqnxrOyYP+Ui9XTXSMcg+BsWN6250OoomQQBo5iKwboTXI33q3hUwTNv1fTA+WHU1PN+B2udnVyeI6dtQqkgyFapYZAp5u9s1JqBLR29IfnrvbSzQxUdnd9p2tsnzvzMkfB6PaRALlOejk1Zc96muFxfk1CfhBdAtU6fwdlWgxIYpK3VbnX6WBkFHcSO4JjEmhYaVVbykzbT7i09HfeM+oZG6pIwDv9+dCFcQ3XugvCSNTuMzbUevf2ZlTih1KEkh20M+dkfqtHLUmQk2oSj4TkjdUwLeQwjoUa8UyxLR/jXPaghhFYV8iFY7lHM3YcBDRe8q5+gao1cTrq6UKb2qWM1a6zSdBAi93ANpM64VX44+h3o6xYEMeZdenupuSMWM9YibfiFbno3cK2S/Y5M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(966005)(8936002)(5660300002)(316002)(16576012)(52116002)(4326008)(110136005)(508600001)(2906002)(86362001)(31696002)(8676002)(66476007)(66556008)(6486002)(66946007)(38100700002)(38350700002)(31686004)(2616005)(26005)(186003)(956004)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 1bG2ccn8Pee0CXhF0/CTyRpVRNrNSQop4VkbudsbfvSebyoIvvOl+yXOC09GFMO4KkEv+Fo1pQBw5U8zkVKUOGmhxVy3rBQtxX6Uak49Iv+VP1VIftf+cFG0gejF4Th8J7qvzMjpdC9mVhV6ZPKG+mKIGlxc3q9unmeJAeXlrY7GMRXfHwIyKDBtvs09k15pHZry/r3kMiloG977Il5ID0mKwK0HTRBXLu68iVyqoQI4RWCrYkehzSPoeeaWrG0xh3fy7myY7lTSQQPcIME0G01F5lhyCRLZL306a16J5xGUaZpqMyuwIpAEU1qJI1Ieby9AOSBxBEvVkrIFmk7z6uNiQfsIMGIrtNB/TyzwEpT561m8Tau2zvFQgWOuLK/Qk5eyAPIgrIWRvlpd9Tu9mDlgZnRX9z7Lsy05DzAqN5bOxS17zv+n1pi2t/xAiThjWmmjSmCsHRWpy2uoX1c0AmcPInvVoESmSJryDwjApLQh9fLWnmCiNNKOJrCy7Nh47dhge5f/j2/sh4AhjPlLOpq8dppl1e3P6lu+PNpkha1+OHZIdLIDJXA6h/E1fNI4RAFAExQY6eZJS1Q+92pmxn8IhTSdki47KRImwBOY/ocOhYpD8b0hbcrlIY71IkVaoLW6yXCKZf960Ums4klCuaOPi5VAILEgvMDg/9fwpRVO7KIb4p9QzEXS/Aq97qZEKqzklyhDdQ1cqkLfJmKVvXlZsdBxdakJdV1zTz+5Yz8YYEnPjpg561Q6xMW83y2r
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c17d945-74c5-45cc-81ee-08d981b52559
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2021 12:48:46.6268 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pbJJWHzG9eSKZu+QBiGmMzrprxoRCag9Sd9CHBEZEhgNs/87c5+HOywQpZ84SDQGbVjeGvTLQ/OwT/pFJQYq/arp7LzuO3s01RnBucwwD7Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6374
+Received-SPF: pass client-ip=40.107.20.102;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-3.136, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,81 +117,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <cminyard@mvista.com>,
- Titus Rwantare <titusr@google.com>, qemu-devel@nongnu.org,
- Hao Wu <wuhaotsh@google.com>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>, John Wang <wangzhiqiang.bj@bytedance.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/21 13:33, Corey Minyard wrote:
-> On Mon, Sep 27, 2021 at 12:15:18AM +0200, Philippe Mathieu-Daudé wrote:
->> Sensors models are listed in the 'Misc devices' category.
->> Move them to their own category.
->>
->> For the devices in the hw/sensor/ directory, the category
->> is obvious.
->>
->> hw/arm/z2.c models the AER915 model which is described
->> on [*] as:
->>
->>   The 14-pin chip marked AER915 just below the expansion
->>   port is a 80C51-type microcontroller, similar to Philips
->>   P89LPC915. It has an 8-bit A/D which is used to determine
->>   which of six buttons are pressed on the resistor-network
->>   wired remote.  It communicates with the main cpu via I2C.
->>
->> It was introduced in commit 3bf11207c06 ("Add support for
->> Zipit Z2 machine") with this comment:
->>
->>   248 static uint8_t aer915_recv(I2CSlave *slave)
->>   249 {
->>   ...
->>   253     switch (s->buf[0]) {
->>   254     /* Return hardcoded battery voltage,
->>   255      * 0xf0 means ~4.1V
->>   256      */
->>   257     case 0x02:
->>   258         retval = 0xf0;
->>   259         break;
->>
->> For QEMU the AER915 is a very simple sensor model.
->>
->> [*] https://www.bealecorner.org/best/measure/z2/index.html
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+24.09.2021 22:23, Eric Blake wrote:
+> Ping
 > 
-> This makes sense to me.  I'd like to hear from others on this.
+> On Wed, Aug 25, 2021 at 02:35:04PM -0500, Eric Blake wrote:
+>> On Fri, Jul 23, 2021 at 05:38:06PM +0100, Daniel P. Berrangé wrote:
+>>> On Fri, Jul 23, 2021 at 06:18:55PM +0200, Kevin Wolf wrote:
+>>>> Am 23.07.2021 um 12:33 hat Richard W.M. Jones geschrieben:
+>>>>> Under SELinux, Unix domain sockets have two labels.  One is on the
+>>>>> disk and can be set with commands such as chcon(1).  There is a
+>>>>> different label stored in memory (called the process label).  This can
+>>>>> only be set by the process creating the socket.  When using SELinux +
+>>>>> SVirt and wanting qemu to be able to connect to a qemu-nbd instance,
+>>>>> you must set both labels correctly first.
+>>>>>
+>>>>> For qemu-nbd the options to set the second label are awkward.  You can
+>>>>> create the socket in a wrapper program and then exec into qemu-nbd.
+>>>>> Or you could try something with LD_PRELOAD.
+>>>>>
+>>>>> This commit adds the ability to set the label straightforwardly on the
+>>>>> command line, via the new --selinux-label flag.  (The name of the flag
+>>>>> is the same as the equivalent nbdkit option.)
+>>>>>
+>>>>> A worked example showing how to use the new option can be found in
+>>>>> this bug: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
+>>>>>
+>>>>> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
+>>>>> Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
+>>>>
+>>>> I suppose this would also be relevant for the built-in NBD server,
+>>>> especially in the context of qemu-storage-daemon?
+>>>
+>>> It depends on the usage scenario really. nbdkit / qemu-nbd are
+>>> not commonly run under any SELinux policy, so then end up being
+>>> unconfined_t. A QEMU NBD client can't connect to an unconfined_t
+>>> socket, so we need to override it with this arg.
+>>>
+>>> In the case of qemu system emulator, under libvirt, it will
+>>> already have a svirt_t type, so in that case there is no need
+>>> to override the type for the socket.
+>>>
+>>> For qsd there's not really any strong practice established
+>>> but i expect most current usage is unconfined_t too and
+>>> would benefit from setting label.
+>>>
+>>>> If so, is this something specific to NBD sockets, or would it actually
+>>>> make sense to have it as a generic option in UnixSocketAddress?
+>>>
+>>> It is applicable to inet sockets too in fact.
 
-Devices on a bus (in particular I2C) are usually user-creatable
-by default. The AER915 is more a band aid for the z2 machine,
-but is not really a device. IMO it would be better to hide it
-as non-user-creatable qdev.
+If so, should patch at least be changed to call setsockcreatecon_raw() for inet sockets as well?
 
->> ---
->>  include/hw/qdev-core.h | 1 +
->>  hw/arm/z2.c            | 1 +
->>  hw/sensor/adm1272.c    | 1 +
->>  hw/sensor/dps310.c     | 1 +
->>  hw/sensor/emc141x.c    | 1 +
->>  hw/sensor/max34451.c   | 2 ++
->>  hw/sensor/tmp105.c     | 1 +
->>  hw/sensor/tmp421.c     | 1 +
->>  softmmu/qdev-monitor.c | 1 +
->>  9 files changed, 10 insertions(+)
+With current code selinux_label is silently ignored in that case.
 
->> diff --git a/hw/arm/z2.c b/hw/arm/z2.c
->> index 9c1e876207b..62db9741106 100644
->> --- a/hw/arm/z2.c
->> +++ b/hw/arm/z2.c
->> @@ -288,6 +288,7 @@ static void aer915_class_init(ObjectClass *klass, void *data)
->>      k->recv = aer915_recv;
->>      k->send = aer915_send;
->>      dc->vmsd = &vmstate_aer915_state;
->> +    set_bit(DEVICE_CATEGORY_SENSOR, dc->categories);
->>  }
+>>
+>> So now that 6.2 is open, should I queue the patch as is, or wait for a
+>> v3 that makes the option more generic to all socket usage?
+>>
+> 
+
+-- 
+Best regards,
+Vladimir
 
