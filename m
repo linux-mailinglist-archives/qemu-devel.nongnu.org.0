@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347B6418D3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 02:10:13 +0200 (CEST)
-Received: from localhost ([::1]:37794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D7D418D32
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 02:04:55 +0200 (CEST)
+Received: from localhost ([::1]:59500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUeDk-0005Nf-8A
-	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 20:10:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40750)
+	id 1mUe8c-0000Jq-U6
+	for lists+qemu-devel@lfdr.de; Sun, 26 Sep 2021 20:04:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mUe5u-0006YJ-Fw
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 20:02:06 -0400
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:36608)
+ id 1mUe6J-0006lF-3P
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 20:02:31 -0400
+Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35]:36415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mUe5s-0005D9-TX
- for qemu-devel@nongnu.org; Sun, 26 Sep 2021 20:02:06 -0400
-Received: by mail-qt1-x830.google.com with SMTP id l13so15205404qtv.3
- for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 17:02:04 -0700 (PDT)
+ id 1mUe6A-0005ND-E1
+ for qemu-devel@nongnu.org; Sun, 26 Sep 2021 20:02:30 -0400
+Received: by mail-qv1-xf35.google.com with SMTP id jo30so10123347qvb.3
+ for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 17:02:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=G8dCWah1rrWRP91pFmuVoR7pmeOUKD1KApLUMoFhocg=;
- b=myqJLjBR7b45BmerjwkEZ+nRJ/cA/QOZxbd9vrwsZmjGw1d2VmIhYBuR9GVcN26wNm
- atMt+lp/R6p6WrltRahjjWjt/BlMPyLs+rIkTdG9jSR8oLnqKPfbwUsmaHqtqlwj9xrp
- I7CbeFBzHKI5tGGIS/ZEVGoDV/V8XpXGO4Msy1KNcMUpfgBj6GtHU+7xOHy1LyRNNfmZ
- 5y8ivRFMubqvYF+t4fuP2plgdlg0KyuVLB2oWS0I8QkIyGjjJSyalAotfEPtw2ddquEc
- gJ/MrHuTSvs2wTz6HT9quKxXBQFVZ2tqEDPTR83D6aCbXsr+4kV3BgP9BoLI1N9CUGHa
- Emwg==
+ bh=ZQNl8y+FN5hvck98x5s9fgNUO9y2KfHbAl/FXyvMLco=;
+ b=kRu6m3W01nhoGujDnw08P3SU0S20mOnNLOpNezKvtxqbZZGW5y1Buv+bp1bvTc18Lk
+ rq7bwde7YXt+jzs7cttsGA8GJkFYoK0M1IPkK6GmU7WS+xPS4iqNLg4ES8BKE8wZd/Ra
+ JGb0Dqo4IcayaYLTV+nSqVaG/1/5inH/5r4Vj7Irl1VH7OgRVutcEMrqMX+RPq8DVMXb
+ 495aCqVCwGmsq2WblaKYdCMdM1wu29Z5FqoEcjLaeygDd7UuAWIPE2fSu2SUBwpY3qt0
+ 1BY2l4axhezMr295/8U/0FEMW4X14LREqjL3gUPwNnSOuqhuO5bGBF2cmdbDh5d8H/zL
+ c7/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=G8dCWah1rrWRP91pFmuVoR7pmeOUKD1KApLUMoFhocg=;
- b=qbQUqqElYcBP/fMcZGSPNi7DnCvK9dUu4CHbbYkOB6aY2I2ygnJk8FHKWP727uTWhh
- NEBR1g00lYszX35otloRIcOobu7sMZxq93H+4bCgpsfXjdAHp6f/0Ii85u285VbzUm5n
- gM26sxIVDa1BelAVYAN2UqxqpZT1CnAv6hNYZIsii0jWsgzR+dyMyYPWtX98eTvY3UDX
- gU6MtLoCi917LWph4SRrj0rCXmW+TNfILWHNmFGxc5BbDRJJyV6Z1HQHrW5ETi1v87tg
- reF3w8mllrjtImmBS3bXugAKaYtvsE18sl90JDD2os9UW1Tntcu9Hjd4uMY775F2Fl9d
- C+2g==
-X-Gm-Message-State: AOAM531LT7rErPgy4XA/XjgNi5Ynx1gqyqQgZPmEpXqWc+frjGa0qsIY
- 8caWgBVLq5GpnZ08kGCHZrfSGO4tu8NPNg==
-X-Google-Smtp-Source: ABdhPJyBQbzfTaibVzhGuLYGXtg92sJ/VI8WbfEKW3MnxJ6Jdx/ih46JX5g9QAObpP4uzp69yCppVA==
-X-Received: by 2002:a05:622a:45:: with SMTP id
- y5mr15639727qtw.145.1632700924046; 
- Sun, 26 Sep 2021 17:02:04 -0700 (PDT)
+ bh=ZQNl8y+FN5hvck98x5s9fgNUO9y2KfHbAl/FXyvMLco=;
+ b=lC9+XmjiUxTRe/Ga9DUMYboAxaKe6yirp7NZ0cCOIUWXCYzNM+xbTES7sai9TEh3Ys
+ ekqMvKjJW50YaAsRHFJXOdtyHvu/8D0aPMCkx76f/Kpl2J9EtETWqnzkqomjj+cNSbVa
+ O+wdwl2Y06ioyaciLabbAyrs/uaRdusLTrYLin9bULvHIWc1hy+9HNr4S+EDhP76+BER
+ 52Rh/dfYmW1rjn9KolCO8SYQN4f1GHsFCbr3AIc84c0429JIMbaLvMMWmbjy/Gq+AvJO
+ N/g52MYFmSmiA47HAFDXlmnP6AuCT07pMqjPDc3cZc15SeA32NhJyrYiogpQUdpC3Kqs
+ S2Qw==
+X-Gm-Message-State: AOAM5326nOl2q3mJ3X/jCHQXE5cnwYleJL1+EyQdn0nXg61EjTH2Loeb
+ VDJsmzAS3AA3B8SkAB1aHIqW89xxwDS2MA==
+X-Google-Smtp-Source: ABdhPJygzTRSruIJr1trB42kJaiAOk2lw4OMoVD/OrVCuRLjY2wgd/BHH2M+VLc4QhGtKogx/4Uffg==
+X-Received: by 2002:ad4:4aa2:: with SMTP id i2mr21335870qvx.0.1632700941206;
+ Sun, 26 Sep 2021 17:02:21 -0700 (PDT)
 Received: from [192.168.3.43] (cpe-24-31-215-130.sc.res.rr.com.
  [24.31.215.130])
- by smtp.gmail.com with ESMTPSA id x18sm11266737qkx.94.2021.09.26.17.02.03
+ by smtp.gmail.com with ESMTPSA id l19sm5703659qkk.12.2021.09.26.17.02.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Sep 2021 17:02:03 -0700 (PDT)
-Subject: Re: [PATCH v8 11/40] accel/nvmm: Implement AccelOpsClass::has_work()
+ Sun, 26 Sep 2021 17:02:20 -0700 (PDT)
+Subject: Re: [PATCH v8 12/40] accel/qtest: Implement AccelOpsClass::has_work()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210926222716.1732932-1-f4bug@amsat.org>
- <20210926222716.1732932-12-f4bug@amsat.org>
+ <20210926222716.1732932-13-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d2351d9a-72c2-d5db-b031-a0234e4e67a5@linaro.org>
-Date: Sun, 26 Sep 2021 20:02:01 -0400
+Message-ID: <60208ce4-bf9f-e6c5-c2af-efade5a9869b@linaro.org>
+Date: Sun, 26 Sep 2021 20:02:19 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210926222716.1732932-12-f4bug@amsat.org>
+In-Reply-To: <20210926222716.1732932-13-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x830.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf35.google.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -94,13 +93,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/26/21 6:26 PM, Philippe Mathieu-Daudé wrote:
-> Since there is no specific NVMM handling for cpu_has_work() in
-> cpu_thread_is_idle(), implement NVMM has_work() handler as a
-> simple 'return false' code.
+> Since there is no specific QTest handling for cpu_has_work() in
+> cpu_thread_is_idle(), implement QTest has_work() handler as a
+> simple 'return false' code. Besides, QTest is a "dummy" accelerator
+> so not much can be done on vCPUs.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/i386/nvmm/nvmm-accel-ops.c | 6 ++++++
+>   accel/qtest/qtest.c | 6 ++++++
 >   1 file changed, 6 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
