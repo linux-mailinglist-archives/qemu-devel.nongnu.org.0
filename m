@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 405034192CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 13:09:08 +0200 (CEST)
-Received: from localhost ([::1]:42718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D924192CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 13:10:03 +0200 (CEST)
+Received: from localhost ([::1]:45334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUoVO-0001hT-Qj
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 07:09:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43932)
+	id 1mUoWI-0003vi-5f
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 07:10:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUoRp-0007jq-F0; Mon, 27 Sep 2021 07:05:25 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:41768)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUoTa-00017X-Gi
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 07:07:15 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:39642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUoRY-00041L-UZ; Mon, 27 Sep 2021 07:05:24 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- g19-20020a1c9d13000000b003075062d4daso108460wme.0; 
- Mon, 27 Sep 2021 04:05:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=NppfjlfrxnbSCEYio86jEeH02o2plzxtMdI/y0zriX8=;
- b=cFGGVVo7f8fzamYStmqR7PX19VuXptJl24FZajx4fXaCdlrm2TBlK/ypl9RF+2LQ7T
- ULvcMITcrtPO8PSIPcWcPGdEhwmoga2U4FGvJi9oUF2T8v5I58lQK742NfTOriTLRTTa
- KATGj6d8QwisbrrP3W9VH1lvuXQCWmkyYrxm2/ky4xDeo7hmZGTgc34Wr/HjW7Qcp9ft
- oKIqu7qFMLHSTewvtTib0qVQ66eR5KfKy5hDWXQSe+il3arGGtL6z8SZ0lYct5xwlXDX
- y2JnVfQChl6P+fNLhA8X0QmSXs25UACKh96KQmdqVf9bRGsj2HJpzxgV0ETlSZpOkYoW
- ajvg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUoTY-0005Zj-JD
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 07:07:14 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ 136-20020a1c048e000000b0030d05169e9bso158174wme.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 04:07:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7dlULmWTw9kE74KICurNrjDKyX3SFbIa9T/PYcyUjTk=;
+ b=fllrWOESN9jKpZwK3idjGoYCPiVbjDmVh1fukX+mBmLJFIOaK20P4wJ031oKQ2g5Bk
+ lzIcxnPkInAuj4DEnJBd00dp8RyE4UK60/KgAsVzjhVYbI8IhyKGqFojVnWW2lDY1evm
+ t5/I/S491/5mE3COMAtu8wumwb3GWMfCn1c4gd85CyKQog0QgU73IUv+muZIZm30WEtb
+ PG2FrFCxl6537VnODx9cjD6ybp2m8QDUp46bAlvXHsa9hTUDgMlkxymKORBwfbQjH9Df
+ OOebCxsksVPololxI03eWhA6zd/SUtLsp2cew+4iEnJ8ZA/0NMMxo7mxL16qU+2q827j
+ JrGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=NppfjlfrxnbSCEYio86jEeH02o2plzxtMdI/y0zriX8=;
- b=XcqjkWdtUC5np63J0QfeIK51oghPng4UNL+l8oSEqGHADbEpZ+C4jZl7GosfHPFmiT
- MDqbzQtO99nJyG0aBCWpZhV47lWRhVSVm5Ugew1mZecfKMK81RwPxYphiAC9ZHHwowKo
- ZmxB8vuhgEk0tMMn65497d3uAzx0oUlAB7XFKbUXhtB5ePbbFSJHHj9XWHUEGp5wOI4v
- SJOI6RFaFBDjgitt3vWhwooun+I6iVdZCfeciF0xUgusombg9YDv03dkrlMOK4ivUgjA
- snsRb2FwW6AjLDj7UDVGLWgawvFOPxp8ZP7IvsVubqzP3rsa19vHxR/ol+0eWmraGmxa
- lPfQ==
-X-Gm-Message-State: AOAM533xSuUkZEa2mxP0xBuYYBucP6gKCq2LTMukal0n66qKg//dQHr6
- 6j6h60H39YF+hzQM2dteLTU=
-X-Google-Smtp-Source: ABdhPJytZHuYl71cP9NntLjeezg+ZZC7GJbus5sIzlglovP6I1/0cKbksJ1jWaGyCk20+a5ce/3XZg==
-X-Received: by 2002:a05:600c:2c50:: with SMTP id
- r16mr1485759wmg.105.1632740707068; 
- Mon, 27 Sep 2021 04:05:07 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id i27sm20804726wmb.40.2021.09.27.04.05.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 04:05:06 -0700 (PDT)
-Message-ID: <e9abc010-46fa-2813-f6c5-43fc62488456@amsat.org>
-Date: Mon, 27 Sep 2021 13:05:05 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7dlULmWTw9kE74KICurNrjDKyX3SFbIa9T/PYcyUjTk=;
+ b=UkAQirrgjDz1n9ODUOZjyuPI9r+IwZ1ao7OlJlpFliVuITrObX0chP09McsDeWTSLf
+ M1Yq0hqSfSW8kLsEDQ5/GG4aQ56NJigAEHsaiOMmY6vzFmG9vwl5ZHZBmOe6mnRMotPf
+ Tv22QpTy/kY+BOH6ceiBJ7eO+3rWsB2AJd+zr9stbVHYY7v1PJ+hMbWmrJSGb7RKmujJ
+ L7YDAQx2dzMBKevyp5IQmHA8WArKrTr636f9huVR3668/c2Bm6kedUFGkVgvElwesXfS
+ AWngd3l8HGrWrD1tFN2XxAZJ8S7w5i4X05/tX3yC2JwrqifoCc/SYtRQ3VgD+V4jNuKi
+ dekw==
+X-Gm-Message-State: AOAM530FlijawlYlx6bLvmkVHWv6Jfc0/kgDuWyGSVUk5+vi+boM97y5
+ Mwx0xyLiO+oSUhMxFerrMgMcPEXqLMe2p/nt7zdYqA==
+X-Google-Smtp-Source: ABdhPJz9lWTqOOpEPMLytFcg9uC86R2fVge0LF3FchNH4FsRQ2XPTRVcFDjS2VqnqJaw9q6Ol7o4O12v4RhfGy+UohU=
+X-Received: by 2002:a05:600c:1988:: with SMTP id
+ t8mr8945527wmq.21.1632740830849; 
+ Mon, 27 Sep 2021 04:07:10 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] allwinner-h3: Switch to SMC as PSCI conduit
-Content-Language: en-US
-To: Alexander Graf <agraf@csgraf.de>, QEMU Developers <qemu-devel@nongnu.org>
-References: <20210920203931.66527-1-agraf@csgraf.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210920203931.66527-1-agraf@csgraf.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.136,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210924165926.752809-1-richard.henderson@linaro.org>
+ <20210924165926.752809-6-richard.henderson@linaro.org>
+In-Reply-To: <20210924165926.752809-6-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Sep 2021 12:06:17 +0100
+Message-ID: <CAFEAcA85RoJO5he8pLw9bcDnav84yz2RiRcuzdu9dJF-QKZaeA@mail.gmail.com>
+Subject: Re: [PATCH v3 05/27] linux-user/arm: Implement setup_sigtramp
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,26 +79,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beniamino Galvani <b.galvani@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/20/21 22:39, Alexander Graf wrote:
-> The Allwinner H3 SoC uses Cortex-A7 cores which support virtualization.
-> However, today we are configuring QEMU to use HVC as PSCI conduit.
-> 
-> That means HVC calls get trapped into QEMU instead of the guest's own
-> emulated CPU and thus break the guest's ability to execute virtualization.
-> 
-> Fix this by moving to SMC as conduit, freeing up HYP completely to the VM.
-> 
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Fixes: 740dafc0ba0 ("hw/arm: add Allwinner H3 System-on-Chip")
-> ---
->  hw/arm/allwinner-h3.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, 24 Sept 2021 at 17:59, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Update the trampoline code to match the kernel: this uses
+> sp-relative accesses rather than pc-relative.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+These functions must write at most 8 bytes:
+
+> +static void write_arm_sigreturn(uint32_t *rc, int syscall)
+> +{
+> +    __put_user(ARM_MOV_R7_IMM(syscall), rc);
+> +    __put_user(ARM_SWI_SYS(syscall), rc + 1);
+> +}
+> +
+> +static void write_thumb_sigreturn(uint32_t *rc, int syscall)
+> +{
+> +    __put_user(THUMB_SWI_SYS << 16 | THUMB_MOVS_R7_IMM(syscall), rc);
+> +}
+>
+>  /*
+> - * Stub needed to make sure the FD register (r9) contains the right
+> - * value.
+> + * Stub needed to make sure the FD register (r9) contains the right value.
+> + * Use the same instruction sequence as the kernel.
+>   */
+> -static const unsigned long sigreturn_fdpic_codes[3] = {
+> -    0xe59fc004, /* ldr r12, [pc, #4] to read function descriptor */
+> -    0xe59c9004, /* ldr r9, [r12, #4] to setup GOT */
+> -    0xe59cf000  /* ldr pc, [r12] to jump into restorer */
+> -};
+
+...and these must write at most 12 bytes. But nothing states
+or asserts that.
+
+> +static void write_arm_fdpic_sigreturn(uint32_t *rc, int ofs)
+> +{
+> +    assert(ofs <= 0xfff);
+> +    __put_user(0xe59d3000 | ofs, rc + 0);   /* ldr r3, [sp, #ofs] */
+> +    __put_user(0xe8930908, rc + 1);         /* ldm r3, { r3, r9 } */
+> +    __put_user(0xe12fff13, rc + 2);         /* bx  r3 */
+> +}
+>
+> -static const unsigned long sigreturn_fdpic_thumb_codes[3] = {
+> -    0xc008f8df, /* ldr r12, [pc, #8] to read function descriptor */
+> -    0x9004f8dc, /* ldr r9, [r12, #4] to setup GOT */
+> -    0xf000f8dc  /* ldr pc, [r12] to jump into restorer */
+> -};
+> +static void write_thumb_fdpic_sigreturn(void *vrc, int ofs)
+> +{
+> +    uint16_t *rc = vrc;
+> +
+> +    assert((ofs & ~0x3fc) == 0);
+> +    __put_user(0x9b00 | (ofs >> 2), rc + 0);      /* ldr r3, [sp, #ofs] */
+> +    __put_user(0xcb0c, rc + 1);                   /* ldm r3, { r2, r3 } */
+> +    __put_user(0x4699, rc + 2);                   /* mov r9, r3 */
+> +    __put_user(0x4710, rc + 3);                   /* bx  r2 */
+> +}
+>
+
+> -            retcode = rc_addr + thumb;
+> +            /* Each trampoline variant consumes a 12-byte slot. */
+> +            retcode = sigreturn_fdpic_tramp + retcode_idx * 12 + thumb;
+>          } else {
+>              retcode = ka->sa_restorer;
+>          }
+>      } else {
+
+> -
+> -        retcode = rc_addr + thumb;
+> +        /* Each trampoline variant consumes 8-byte slot. */
+> +        retcode = default_sigreturn + retcode_idx * 8 + thumb;
+
+These 12 and 8 magic numbers correspond to the maximum sequence sizes
+above...
+
+> +void setup_sigtramp(abi_ulong sigtramp_page)
+> +{
+> +    enum {
+> +        SIGFRAME_FDPIC_OFS = offsetof(struct sigframe, retcode[3]),
+> +        RT_SIGFRAME_FDPIC_OFS = offsetof(struct rt_sigframe, retcode[3]),
+> +    };
+> +
+> +    uint32_t total_size = 4 * 8 + 4 * 12;
+> +    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, total_size, 0);
+> +    uint32_t i = 0;
+> +
+> +    assert(tramp != NULL);
+> +
+> +    default_sigreturn = sigtramp_page;
+> +    write_arm_sigreturn(&tramp[i], TARGET_NR_sigreturn);
+> +    i += 2;
+> +    write_thumb_sigreturn(&tramp[i], TARGET_NR_sigreturn);
+> +    i += 2;
+> +    write_arm_sigreturn(&tramp[i], TARGET_NR_rt_sigreturn);
+> +    i += 2;
+> +    write_thumb_sigreturn(&tramp[i], TARGET_NR_rt_sigreturn);
+> +    i += 2;
+
+...and these "+=2" and the "+=3" later do as well, but with
+a count of 32-bit words rather than bytes. I think it would be
+useful to at least have some defined constants for the lengths
+rather than hard-coded 8,12,2,3, and comments that the write_
+functions must not write more than however-many bytes.
+
+> +
+> +    /*
+> +     * FDPIC require trampolines to call sa_restorer, and different
+> +     * from the pc-relative versions we write to the stack.
+> +     *
+> +     * ARM versions use:
+> +     *    ldr   r3, [sp, #ofs]
+> +     *    ldr   r9, [r3, #4]
+> +     *    ldr   pc, [r3, #0]
+
+This comment doesn't match the code that write_arm_fdpic_sigreturn()
+now generates. The "different from the pc-relative versions we
+write from the stack" bit doesn't seem to be right either, given
+we call the same functions in both places to write the code.
+
+> +     *
+> +     * Thumb versions use:
+> +     *    ldr   r3, [sp, #ofs]
+> +     *    ldmia r3, {r2, r3}
+> +     *    mov   r9, r3
+> +     *    bx    r2
+> +     */
+> +    sigreturn_fdpic_tramp = sigtramp_page + i * 4;
+> +
+> +    /* ARM sigframe */
+> +    write_arm_fdpic_sigreturn(tramp + i,
+> +                              offsetof(struct sigframe, retcode[3]));
+> +    i += 3;
+> +
+> +    /* Thumb sigframe */
+> +    write_thumb_fdpic_sigreturn(tramp + i,
+> +                                offsetof(struct sigframe, retcode[3]));
+> +    i += 3;
+> +
+> +    /* ARM rt_sigframe */
+> +    write_arm_fdpic_sigreturn(tramp + i,
+> +                              offsetof(struct rt_sigframe, retcode[3]));
+> +    i += 3;
+> +
+> +    /* Thumb rt_sigframe */
+> +    write_thumb_fdpic_sigreturn(tramp + i,
+> +                                offsetof(struct rt_sigframe, retcode[3]));
+> +    i += 3;
+> +
+> +    assert(i * 4 == total_size);
+> +    unlock_user(tramp, sigtramp_page, total_size);
+> +}
+> --
+> 2.25.1
+
+thanks
+-- PMM
 
