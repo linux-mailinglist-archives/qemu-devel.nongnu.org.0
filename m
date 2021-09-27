@@ -2,52 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3169418EDD
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 08:04:08 +0200 (CEST)
-Received: from localhost ([::1]:33446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E0D418EE3
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 08:07:51 +0200 (CEST)
+Received: from localhost ([::1]:41170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUjkG-0006QE-1d
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 02:04:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35846)
+	id 1mUjnp-0003H8-QD
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 02:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mUjI0-0001Rc-FO
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 01:34:56 -0400
-Received: from mga07.intel.com ([134.134.136.100]:13820)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUjLO-0003x5-Pn
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 01:38:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mUjHy-0005CR-06
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 01:34:55 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10119"; a="288072090"
-X-IronPort-AV: E=Sophos;i="5.85,325,1624345200"; d="scan'208";a="288072090"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2021 22:34:48 -0700
-X-IronPort-AV: E=Sophos;i="5.85,325,1624345200"; d="scan'208";a="552995654"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.144.101])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 26 Sep 2021 22:34:42 -0700
-Date: Mon, 27 Sep 2021 13:20:34 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v5 04/26] qom: Add memory-backend-epc ObjectOptions support
-Message-ID: <20210927052034.GA15096@yangzhon-Virtual>
-References: <20210924112509.25061-1-pbonzini@redhat.com>
- <20210924112509.25061-5-pbonzini@redhat.com>
- <20210924135640.svjs3avfaguq5kxf@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUjLL-000882-Ne
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 01:38:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632721101;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iDdoRqv/XSUemGrXVqZigbzVEOiuyy3kk4HfP8WXbPs=;
+ b=X4uLuZeonfncYatuJblpKY7h7yjXbNsiE0P3XapP11g5uPXrjCpHCwHwTn0myRz9sTSh8c
+ FivdaeDykPzHhWPz+cSmpP72hFwJvG81nrHfAf+hjzf4zcozQHuK7QdLxcM+2pl5obbJo1
+ dRY3wUMti9twgUndtKYnoCrtwfJRqYc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-dZ_n29DbOHSnsQSCjRyz0Q-1; Mon, 27 Sep 2021 01:38:20 -0400
+X-MC-Unique: dZ_n29DbOHSnsQSCjRyz0Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ e1-20020adfa741000000b0015e424fdd01so13354297wrd.11
+ for <qemu-devel@nongnu.org>; Sun, 26 Sep 2021 22:38:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iDdoRqv/XSUemGrXVqZigbzVEOiuyy3kk4HfP8WXbPs=;
+ b=qCEtL8xzXVHu8jo9MD82Kj5905DirFevow/kzxAlBWQvMsqLbkHG1yBnWQB8ot0v1T
+ 9MZoGbF51xOQuUrTyQ6d1M1aMCTbM0pVWg02wlteLoNBUypTukPsPreCCChNbpDHb56k
+ v+z9Z3o64TpolsSrE+s2oCMrjufGcG6HOxkH/yZz+lWpVxfarSzOfgr3f50qae5vnmsr
+ GYexBs2JxPVZdU4wD0Ul7oo7RwchIrlDZiCmFyFV9V63QbD9LbONdTdKMUl/UicmsuRg
+ fiU1E52QEAKXbyU8YanmhGmvUuYMhb2XZOnK6weKSqaoEwbxqm2C3rDm8/2Va0zsAbY4
+ XyRg==
+X-Gm-Message-State: AOAM531h5FR4QthFh5/Ujp/uozk79VBPWSln8UyOFVQZs/sTPS9av819
+ drrGQe+cOcHW0igM3Qmx7RIAOZ75+gOxRhS1CI8jU1hWauYl2VKvfVIG2kjyEsW5pfzXcP1qY7T
+ dY8f4oQx6mvs9HKg=
+X-Received: by 2002:a05:6000:1103:: with SMTP id
+ z3mr2766536wrw.312.1632721099117; 
+ Sun, 26 Sep 2021 22:38:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzjIXgCSnoyg9ePWBAAbIJQN5S+iO+Mhv2Z5jjpNwi4mmtzbt34wHxpZoiUtXJS95k0IXVmBw==
+X-Received: by 2002:a05:6000:1103:: with SMTP id
+ z3mr2766525wrw.312.1632721098964; 
+ Sun, 26 Sep 2021 22:38:18 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id u13sm15543358wrt.41.2021.09.26.22.38.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 26 Sep 2021 22:38:18 -0700 (PDT)
+Message-ID: <fc85899d-242c-ad0d-00ca-af60b44f6ea6@redhat.com>
+Date: Mon, 27 Sep 2021 07:38:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210924135640.svjs3avfaguq5kxf@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=yang.zhong@intel.com; helo=mga07.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v5 03/26] hostmem: Add hostmem-epc as a backend for SGX EPC
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210924112509.25061-1-pbonzini@redhat.com>
+ <20210924112509.25061-4-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20210924112509.25061-4-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.478, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,94 +100,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, philmd@redhat.com,
- qemu-devel@nongnu.org
+Cc: yang.zhong@intel.com, eblake@redhat.com,
+ Sean Christopherson <sean.j.christopherson@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 24, 2021 at 08:56:40AM -0500, Eric Blake wrote:
-> On Fri, Sep 24, 2021 at 01:24:47PM +0200, Paolo Bonzini wrote:
-> > From: Yang Zhong <yang.zhong@intel.com>
-> > 
-> > Add the new 'memory-backend-epc' user creatable QOM object in
-> > the ObjectOptions to support SGX since v6.1, or the sgx backend
-> > object cannot bootup.
-> > 
-> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> > Message-Id: <20210719112136.57018-4-yang.zhong@intel.com>
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  qapi/qom.json | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> > 
-> > diff --git a/qapi/qom.json b/qapi/qom.json
-> > index a25616bc7a..0222bb4506 100644
-> > --- a/qapi/qom.json
-> > +++ b/qapi/qom.json
-> > @@ -647,6 +647,23 @@
-> >              '*hugetlbsize': 'size',
-> >              '*seal': 'bool' } }
-> >  
-> > +##
-> > +# @MemoryBackendEpcProperties:
-> > +#
-> > +# Properties for memory-backend-epc objects.
-> > +#
-> > +# The @share boolean option is true by default with epc
-> > +#
-> > +# The @merge boolean option is false by default with epc
-> > +#
-> > +# The @dump boolean option is false by default with epc
-> > +#
-> > +# Since: 6.2
-> > +##
-> > +{ 'struct': 'MemoryBackendEpcProperties',
-> > +  'base': 'MemoryBackendProperties',
-> > +  'data': {} }
+On 9/24/21 13:24, Paolo Bonzini wrote:
+> From: Sean Christopherson <sean.j.christopherson@intel.com>
 > 
-> Is the intent to add more members to data in later patches?  Otherwise,...
+> EPC (Enclave Page Cahe) is a specialized type of memory used by Intel
 
-  No new members will be added. thanks! MemoryBackendProperties will replace this.
+Typo "Enclave Page Cache".
 
-  Yang
-
-
+> SGX (Software Guard Extensions).  The SDM desribes EPC as:
 > 
-> > +
-> >  ##
-> >  # @PrManagerHelperProperties:
-> >  #
-> > @@ -797,6 +814,7 @@
-> >      { 'name': 'memory-backend-memfd',
-> >        'if': 'CONFIG_LINUX' },
-> >      'memory-backend-ram',
-> > +    'memory-backend-epc',
-> >      'pef-guest',
-> >      'pr-manager-helper',
-> >      'qtest',
-> > @@ -855,6 +873,7 @@
-> >        'memory-backend-memfd':       { 'type': 'MemoryBackendMemfdProperties',
-> >                                        'if': 'CONFIG_LINUX' },
-> >        'memory-backend-ram':         'MemoryBackendProperties',
-> > +      'memory-backend-epc':         'MemoryBackendEpcProperties',
+>     The Enclave Page Cache (EPC) is the secure storage used to store
+>     enclave pages when they are a part of an executing enclave. For an
+>     EPC page, hardware performs additional access control checks to
+>     restrict access to the page. After the current page access checks
+>     and translations are performed, the hardware checks that the EPC
+>     page is accessible to the program currently executing. Generally an
+>     EPC page is only accessed by the owner of the executing enclave or
+>     an instruction which is setting up an EPC page.
 > 
-> ...this could have just been MemoryBackendProperties.
-
-  Ditto, thanks!
-
-  Yang
-
+> Because of its unique requirements, Linux manages EPC separately from
+> normal memory.  Similar to memfd, the device /dev/sgx_vepc can be
+> opened to obtain a file descriptor which can in turn be used to mmap()
+> EPC memory.
 > 
-> >        'pr-manager-helper':          'PrManagerHelperProperties',
-> >        'qtest':                      'QtestProperties',
-> >        'rng-builtin':                'RngProperties',
-> > -- 
-> > 2.31.1
-> > 
-> > 
-> 
-> -- 
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3266
-> Virtualization:  qemu.org | libvirt.org
+> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> Message-Id: <20210719112136.57018-3-yang.zhong@intel.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  backends/hostmem-epc.c        | 82 +++++++++++++++++++++++++++++++++++
+>  backends/meson.build          |  1 +
+>  include/hw/i386/hostmem-epc.h | 28 ++++++++++++
+>  3 files changed, 111 insertions(+)
+>  create mode 100644 backends/hostmem-epc.c
+>  create mode 100644 include/hw/i386/hostmem-epc.h
+
 
