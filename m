@@ -2,57 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652874198E2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:31:07 +0200 (CEST)
-Received: from localhost ([::1]:42954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C074198F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:35:06 +0200 (CEST)
+Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUtX0-0000i7-Ae
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:31:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
+	id 1mUtar-00050j-13
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mUtUi-0007Ih-Fn
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:28:44 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:47601)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mUtUg-0000Ao-Mv
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:28:44 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-SyGz2NCYPEu4OkpebxTplA-1; Mon, 27 Sep 2021 12:28:38 -0400
-X-MC-Unique: SyGz2NCYPEu4OkpebxTplA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 972021006AA3;
- Mon, 27 Sep 2021 16:28:37 +0000 (UTC)
-Received: from bahia.huguette (unknown [10.39.192.170])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E8E81972E;
- Mon, 27 Sep 2021 16:28:32 +0000 (UTC)
-Date: Mon, 27 Sep 2021 18:28:31 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH 2/2] 9pfs: simplify blksize_to_iounit()
-Message-ID: <20210927182831.2cee0cf8@bahia.huguette>
-In-Reply-To: <b84eb324d2ebdcc6f9c442c97b5b4d01eecb4f43.1632758315.git.qemu_oss@crudebyte.com>
-References: <cover.1632758315.git.qemu_oss@crudebyte.com>
- <b84eb324d2ebdcc6f9c442c97b5b4d01eecb4f43.1632758315.git.qemu_oss@crudebyte.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mUtXJ-0002Dg-Ta; Mon, 27 Sep 2021 12:31:25 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:45711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mUtXG-0002MJ-31; Mon, 27 Sep 2021 12:31:24 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id d21so52865596wra.12;
+ Mon, 27 Sep 2021 09:31:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kZ3NPq8xSonogV+AXQCkWFGHjkGa33MIFajlqwGAQQA=;
+ b=lKaM+KUBVh0vOEoo40ZKt2TRZojBQXgCD2ZbdaLBqZpNqKY2wa6EiliZ71AjSCnbQ5
+ rBbG0pzmrvM3R0kEiOPPCQOQBQ2FdwpXyR/y2wd06s3TzKQaMYu9n+KBwlrY8+mMJYku
+ uLADpbtkYOFdlgot0XYvH3e1xXt40rnkxKb1ITZNX8G19fnVJE7jVy0t04IMdXn+nOR+
+ QV1MRwb0XiteqHE/SSiN+k9P2ktAoXbD/GgkKF6/dswSHQYL2S9BCifzWHrYvXhry+u9
+ 7x8Q8L0rYmQPiZgPJUm17VcDWnIpwGjqt+h90B19QujUuyLZk5sVGSaie9aHB8zd2TOC
+ OLzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=kZ3NPq8xSonogV+AXQCkWFGHjkGa33MIFajlqwGAQQA=;
+ b=OMTcmRUWx0+DZceZMugB54/fZcWO1lPdOuWoFtlEva4jlal0uUxV/ZXcEcXhiea+JZ
+ BBanFS/11XM6nWHp7zTZ/VOoV6nrGb3zXT6vlDXHh+y1QXULVkpqfUiyY0IHmFs64Lv7
+ 2xmNDZbNjfbRJHhFyxOtdfGZoIDk2xt/7C+kGS0K5UXwmddEITSDaUMAih5tRpikFmHj
+ mv4pv4VVjOhW3+LDjkP6oWNVj7DCZ/xOAkLN0EjWRZ8KuQfMBBoEXE4dn1n6i6WLyMaA
+ tDF3qKiJ8WFtaY02xV7ibUuUCbv3r5NbnhSBK9vkFXbZzlTAwizfJGXMzPC6dhugnG1B
+ buJQ==
+X-Gm-Message-State: AOAM531rD+QKo7Prq9ot5/zGLOxqDIq6SMyCzZW69cqAONogSwNajq4i
+ oPPLrXH59zHO7MpiMSGce6Oda57Ox3Y=
+X-Google-Smtp-Source: ABdhPJywN/nhBJCF1yeUZaUCjwkhN3av7QC1HrQ6VQBKPz2Q4hwipqUDjFRYApsDrt1E0eaMZ+YLxA==
+X-Received: by 2002:adf:d4cb:: with SMTP id w11mr885288wrk.125.1632760278730; 
+ Mon, 27 Sep 2021 09:31:18 -0700 (PDT)
+Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id w5sm9484696wrq.86.2021.09.27.09.31.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Sep 2021 09:31:18 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/6] tests/acceptance: Add bFLT loader linux-user test
+Date: Mon, 27 Sep 2021 18:31:10 +0200
+Message-Id: <20210927163116.1998349-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,40 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, qemu-arm@nongnu.org,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 27 Sep 2021 17:50:36 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-
-> Use QEMU_ALIGN_DOWN() macro to reduce code and to make it
-> more human readable.
->=20
-> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  hw/9pfs/9p.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index c65584173a..29cc19c90a 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -1280,8 +1280,7 @@ static int32_t blksize_to_iounit(const V9fsPDU *pdu=
-, int32_t blksize)
->       * as well as less than (client msize - P9_IOHDRSZ)
->       */
->      if (blksize) {
-> -        iounit =3D blksize;
-> -        iounit *=3D (s->msize - P9_IOHDRSZ) / blksize;
-> +        iounit =3D QEMU_ALIGN_DOWN(s->msize - P9_IOHDRSZ, blksize);
->      }
->      if (!iounit) {
->          iounit =3D s->msize - P9_IOHDRSZ;
-
+Since v3:=0D
+- rebased=0D
+- addressed Wainer review comments from v2=0D
+- rename avocado_qemu.Test -> QemuSystemTest=0D
+=0D
+Since v2:=0D
+- rebased tests/acceptance/avocado_qemu/__init__.py patches=0D
+- extract has_cmd() from virtiofs_submounts.py=0D
+- check cpio availability with has_cmd()=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  tests/acceptance: Extract QemuBaseTest from Test=0D
+  tests/acceptance: Make pick_default_qemu_bin() more generic=0D
+  tests/acceptance: Introduce QemuUserTest base class=0D
+  tests/acceptance: Share useful helpers from virtiofs_submounts test=0D
+  tests/acceptance: Add bFLT loader linux-user test=0D
+  tests/acceptance: Rename avocado_qemu.Test -> QemuSystemTest=0D
+=0D
+ tests/acceptance/avocado_qemu/__init__.py    | 158 ++++++++++++++-----=0D
+ tests/acceptance/boot_linux_console.py       |   4 +-=0D
+ tests/acceptance/cpu_queries.py              |   4 +-=0D
+ tests/acceptance/empty_cpu_model.py          |   4 +-=0D
+ tests/acceptance/info_usernet.py             |   4 +-=0D
+ tests/acceptance/linux_initrd.py             |   4 +-=0D
+ tests/acceptance/linux_ssh_mips_malta.py     |   5 +-=0D
+ tests/acceptance/load_bflt.py                |  54 +++++++=0D
+ tests/acceptance/machine_arm_canona1100.py   |   4 +-=0D
+ tests/acceptance/machine_arm_integratorcp.py |   4 +-=0D
+ tests/acceptance/machine_arm_n8x0.py         |   4 +-=0D
+ tests/acceptance/machine_avr6.py             |   4 +-=0D
+ tests/acceptance/machine_m68k_nextcube.py    |   4 +-=0D
+ tests/acceptance/machine_microblaze.py       |   4 +-=0D
+ tests/acceptance/machine_mips_fuloong2e.py   |   4 +-=0D
+ tests/acceptance/machine_mips_loongson3v.py  |   4 +-=0D
+ tests/acceptance/machine_mips_malta.py       |   4 +-=0D
+ tests/acceptance/machine_ppc.py              |   4 +-=0D
+ tests/acceptance/machine_rx_gdbsim.py        |   4 +-=0D
+ tests/acceptance/machine_s390_ccw_virtio.py  |   4 +-=0D
+ tests/acceptance/machine_sparc_leon3.py      |   4 +-=0D
+ tests/acceptance/migration.py                |   4 +-=0D
+ tests/acceptance/multiprocess.py             |   4 +-=0D
+ tests/acceptance/pc_cpu_hotplug_props.py     |   4 +-=0D
+ tests/acceptance/ppc_prep_40p.py             |   4 +-=0D
+ tests/acceptance/version.py                  |   4 +-=0D
+ tests/acceptance/virtio-gpu.py               |   4 +-=0D
+ tests/acceptance/virtio_check_params.py      |   4 +-=0D
+ tests/acceptance/virtio_version.py           |   4 +-=0D
+ tests/acceptance/virtiofs_submounts.py       |  59 +------=0D
+ tests/acceptance/vnc.py                      |   4 +-=0D
+ tests/acceptance/x86_cpu_model_versions.py   |   4 +-=0D
+ 32 files changed, 235 insertions(+), 153 deletions(-)=0D
+ create mode 100644 tests/acceptance/load_bflt.py=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
