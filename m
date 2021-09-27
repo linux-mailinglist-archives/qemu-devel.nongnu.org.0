@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55319419534
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 15:38:59 +0200 (CEST)
-Received: from localhost ([::1]:56830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 725494194F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 15:19:08 +0200 (CEST)
+Received: from localhost ([::1]:43856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUqqQ-0007ms-D4
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 09:38:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41788)
+	id 1mUqXD-0004K9-AS
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 09:19:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUqLT-0003FX-To
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:07:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29215)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUqLQ-0003CM-T0
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:06:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUqLP-0003jJ-O1
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:06:58 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUqLO-0003gf-0x
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:06:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632748014;
+ s=mimecast20190719; t=1632748013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y7cdoSv6tGTyXCNJ6AeziPVZDaTBw1HZcjMAUwlF9bY=;
- b=idepTbffb7HrtGnp2X0tGEHV29+T/1neWKivPkCDC5fmxDJXXhRq8BSojQLOHuqESNLoTE
- 5uW4OODtm4vFxr3trw9M5cpGxra8KDNblTVMXNg9umpVN7Z3tJM91Dlu5T0xsoPgN7H9ws
- vBEj4qNCDl+eIf3JGULSU8+muuTD/3M=
+ bh=apm8qE1ZnC1jfJixNsUjrXUi/YcW2qK5M+S67X2Nsqo=;
+ b=QNPVYKMzm97UqcttyBks2884ibMbb4rD+rh2vnGvtHWZmjlHjMxM/UfRCxj7BSZnR96XMA
+ OrY1n8/K3tCy5qI5X52wnAplpr8RRQ4eYd4AyG+S9A3cxgOiPJxcDuLNJWqF9mUw738FEv
+ znhx1Sdx2iwIiauI1yDWtcAoG5qpkqo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-dUThVnLaPR6fa0yUPiy94g-1; Mon, 27 Sep 2021 09:06:51 -0400
-X-MC-Unique: dUThVnLaPR6fa0yUPiy94g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-292-u1TXRbUvMbWEoed94vqxqQ-1; Mon, 27 Sep 2021 09:06:51 -0400
+X-MC-Unique: u1TXRbUvMbWEoed94vqxqQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B07C8802E70;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEABB83DBCC;
  Mon, 27 Sep 2021 13:06:50 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EA7460C13;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9011026E40;
  Mon, 27 Sep 2021 13:06:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 90C2411384A9; Mon, 27 Sep 2021 15:06:47 +0200 (CEST)
+ id 942891138461; Mon, 27 Sep 2021 15:06:47 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 08/25] qapi: Convert simple union SocketAddressLegacy to
- flat one
-Date: Mon, 27 Sep 2021 15:06:30 +0200
-Message-Id: <20210927130647.1271533-9-armbru@redhat.com>
+Subject: [PULL v2 09/25] qapi: Convert simple union ImageInfoSpecific to flat
+ one
+Date: Mon, 27 Sep 2021 15:06:31 +0200
+Message-Id: <20210927130647.1271533-10-armbru@redhat.com>
 In-Reply-To: <20210927130647.1271533-1-armbru@redhat.com>
 References: <20210927130647.1271533-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -80,9 +80,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, peter.maydell@linaro.org,
+ Hanna Reitz <hreitz@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,208 +90,102 @@ schema language and the QAPI generator.  We haven't been using simple
 unions in new code for a long time, because they are less flexible and
 somewhat awkward on the wire.
 
-To prepare for their removal, convert simple union SocketAddressLegacy
-to an equivalent flat one, with existing enum SocketAddressType
-replacing implicit enum type SocketAddressLegacyKind.  Adds some
-boilerplate to the schema, which is a bit ugly, but a lot easier to
-maintain than the simple union feature.
+To prepare for their removal, convert simple union ImageInfoSpecific
+to an equivalent flat one.  Adds some boilerplate to the schema, which
+is a bit ugly, but a lot easier to maintain than the simple union
+feature.
 
-Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+Implicit enum ImageInfoSpecificKind becomes explicit.  It duplicates
+part of enum BlockdevDriver.  We could reuse BlockdevDriver instead.
+
+Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210917143134.412106-9-armbru@redhat.com>
+Acked-by: Hanna Reitz <hreitz@redhat.com>
+Message-Id: <20210917143134.412106-10-armbru@redhat.com>
 ---
- qapi/sockets.json      | 46 +++++++++++++++++++++++++++++++++++-------
- chardev/char-socket.c  |  6 +++---
- chardev/char-udp.c     |  4 ++--
- tests/unit/test-yank.c |  6 +++---
- util/qemu-sockets.c    |  8 ++++----
- 5 files changed, 51 insertions(+), 19 deletions(-)
+ qapi/block-core.json | 59 ++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 52 insertions(+), 7 deletions(-)
 
-diff --git a/qapi/sockets.json b/qapi/sockets.json
-index 7866dc27d6..ef4b16d6f2 100644
---- a/qapi/sockets.json
-+++ b/qapi/sockets.json
-@@ -110,6 +110,38 @@
-     'cid': 'str',
-     'port': 'str' } }
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index c8ce1d9d5d..623a4f4a3f 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -139,6 +139,52 @@
+       '*encryption-format': 'RbdImageEncryptionFormat'
+   } }
  
 +##
-+# @InetSocketAddressWrapper:
++# @ImageInfoSpecificKind:
 +#
-+# Since: 1.3
++# @luks: Since 2.7
++# @rbd: Since 6.1
++#
++# Since: 1.7
 +##
-+{ 'struct': 'InetSocketAddressWrapper',
-+  'data': { 'data': 'InetSocketAddress' } }
++{ 'enum': 'ImageInfoSpecificKind',
++  'data': [ 'qcow2', 'vmdk', 'luks', 'rbd' ] }
 +
 +##
-+# @UnixSocketAddressWrapper:
++# @ImageInfoSpecificQCow2Wrapper:
 +#
-+# Since: 1.3
++# Since: 1.7
 +##
-+{ 'struct': 'UnixSocketAddressWrapper',
-+  'data': { 'data': 'UnixSocketAddress' } }
++{ 'struct': 'ImageInfoSpecificQCow2Wrapper',
++  'data': { 'data': 'ImageInfoSpecificQCow2' } }
 +
 +##
-+# @VsockSocketAddressWrapper:
++# @ImageInfoSpecificVmdkWrapper:
 +#
-+# Since: 2.8
++# Since: 6.1
 +##
-+{ 'struct': 'VsockSocketAddressWrapper',
-+  'data': { 'data': 'VsockSocketAddress' } }
++{ 'struct': 'ImageInfoSpecificVmdkWrapper',
++  'data': { 'data': 'ImageInfoSpecificVmdk' } }
 +
 +##
-+# @StringWrapper:
++# @ImageInfoSpecificLUKSWrapper:
 +#
-+# Since: 1.3
++# Since: 2.7
 +##
-+{ 'struct': 'StringWrapper',
-+  'data': { 'data': 'String' } }
++{ 'struct': 'ImageInfoSpecificLUKSWrapper',
++  'data': { 'data': 'QCryptoBlockInfoLUKS' } }
++# If we need to add block driver specific parameters for
++# LUKS in future, then we'll subclass QCryptoBlockInfoLUKS
++# to define a ImageInfoSpecificLUKS
++
++##
++# @ImageInfoSpecificRbdWrapper:
++#
++# Since: 6.1
++##
++{ 'struct': 'ImageInfoSpecificRbdWrapper',
++  'data': { 'data': 'ImageInfoSpecificRbd' } }
 +
  ##
- # @SocketAddressLegacy:
+ # @ImageInfoSpecific:
  #
-@@ -117,18 +149,18 @@
- #
- # Note: This type is deprecated in favor of SocketAddress.  The
- #       difference between SocketAddressLegacy and SocketAddress is that the
--#       latter is a flat union rather than a simple union. Flat is nicer
--#       because it avoids nesting on the wire, i.e. that form has fewer {}.
--
-+#       latter is has fewer {} on the wire.
- #
- # Since: 1.3
+@@ -147,14 +193,13 @@
+ # Since: 1.7
  ##
- { 'union': 'SocketAddressLegacy',
-+  'base': { 'type': 'SocketAddressType' },
+ { 'union': 'ImageInfoSpecific',
++  'base': { 'type': 'ImageInfoSpecificKind' },
 +  'discriminator': 'type',
    'data': {
--    'inet': 'InetSocketAddress',
--    'unix': 'UnixSocketAddress',
--    'vsock': 'VsockSocketAddress',
--    'fd': 'String' } }
-+    'inet': 'InetSocketAddressWrapper',
-+    'unix': 'UnixSocketAddressWrapper',
-+    'vsock': 'VsockSocketAddressWrapper',
-+    'fd': 'StringWrapper' } }
+-      'qcow2': 'ImageInfoSpecificQCow2',
+-      'vmdk': 'ImageInfoSpecificVmdk',
+-      # If we need to add block driver specific parameters for
+-      # LUKS in future, then we'll subclass QCryptoBlockInfoLUKS
+-      # to define a ImageInfoSpecificLUKS
+-      'luks': 'QCryptoBlockInfoLUKS',
+-      'rbd': 'ImageInfoSpecificRbd'
++      'qcow2': 'ImageInfoSpecificQCow2Wrapper',
++      'vmdk': 'ImageInfoSpecificVmdkWrapper',
++      'luks': 'ImageInfoSpecificLUKSWrapper',
++      'rbd': 'ImageInfoSpecificRbdWrapper'
+   } }
  
  ##
- # @SocketAddressType:
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index c43668cc15..836cfa0bc2 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -1520,7 +1520,7 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-     addr = g_new0(SocketAddressLegacy, 1);
-     if (path) {
-         UnixSocketAddress *q_unix;
--        addr->type = SOCKET_ADDRESS_LEGACY_KIND_UNIX;
-+        addr->type = SOCKET_ADDRESS_TYPE_UNIX;
-         q_unix = addr->u.q_unix.data = g_new0(UnixSocketAddress, 1);
-         q_unix->path = g_strdup(path);
- #ifdef CONFIG_LINUX
-@@ -1530,7 +1530,7 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-         q_unix->abstract = abstract;
- #endif
-     } else if (host) {
--        addr->type = SOCKET_ADDRESS_LEGACY_KIND_INET;
-+        addr->type = SOCKET_ADDRESS_TYPE_INET;
-         addr->u.inet.data = g_new(InetSocketAddress, 1);
-         *addr->u.inet.data = (InetSocketAddress) {
-             .host = g_strdup(host),
-@@ -1543,7 +1543,7 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-             .ipv6 = qemu_opt_get_bool(opts, "ipv6", 0),
-         };
-     } else if (fd) {
--        addr->type = SOCKET_ADDRESS_LEGACY_KIND_FD;
-+        addr->type = SOCKET_ADDRESS_TYPE_FD;
-         addr->u.fd.data = g_new(String, 1);
-         addr->u.fd.data->str = g_strdup(fd);
-     } else {
-diff --git a/chardev/char-udp.c b/chardev/char-udp.c
-index 16b5dbce58..6756e69924 100644
---- a/chardev/char-udp.c
-+++ b/chardev/char-udp.c
-@@ -165,7 +165,7 @@ static void qemu_chr_parse_udp(QemuOpts *opts, ChardevBackend *backend,
-     qemu_chr_parse_common(opts, qapi_ChardevUdp_base(udp));
- 
-     addr = g_new0(SocketAddressLegacy, 1);
--    addr->type = SOCKET_ADDRESS_LEGACY_KIND_INET;
-+    addr->type = SOCKET_ADDRESS_TYPE_INET;
-     addr->u.inet.data = g_new(InetSocketAddress, 1);
-     *addr->u.inet.data = (InetSocketAddress) {
-         .host = g_strdup(host),
-@@ -180,7 +180,7 @@ static void qemu_chr_parse_udp(QemuOpts *opts, ChardevBackend *backend,
-     if (has_local) {
-         udp->has_local = true;
-         addr = g_new0(SocketAddressLegacy, 1);
--        addr->type = SOCKET_ADDRESS_LEGACY_KIND_INET;
-+        addr->type = SOCKET_ADDRESS_TYPE_INET;
-         addr->u.inet.data = g_new(InetSocketAddress, 1);
-         *addr->u.inet.data = (InetSocketAddress) {
-             .host = g_strdup(localaddr),
-diff --git a/tests/unit/test-yank.c b/tests/unit/test-yank.c
-index 2383d2908c..e6c036a64d 100644
---- a/tests/unit/test-yank.c
-+++ b/tests/unit/test-yank.c
-@@ -88,7 +88,7 @@ static void char_change_test(gconstpointer opaque)
-             .type = CHARDEV_BACKEND_KIND_SOCKET,
-             .u.socket.data = &(ChardevSocket) {
-                 .addr = &(SocketAddressLegacy) {
--                    .type = SOCKET_ADDRESS_LEGACY_KIND_INET,
-+                    .type = SOCKET_ADDRESS_TYPE_INET,
-                     .u.inet.data = &addr->u.inet
-                 },
-                 .has_server = true,
-@@ -102,7 +102,7 @@ static void char_change_test(gconstpointer opaque)
-             .type = CHARDEV_BACKEND_KIND_UDP,
-             .u.udp.data = &(ChardevUdp) {
-                 .remote = &(SocketAddressLegacy) {
--                    .type = SOCKET_ADDRESS_LEGACY_KIND_UNIX,
-+                    .type = SOCKET_ADDRESS_TYPE_UNIX,
-                     .u.q_unix.data = &(UnixSocketAddress) {
-                         .path = (char *)""
-                     }
-@@ -114,7 +114,7 @@ static void char_change_test(gconstpointer opaque)
-             .type = CHARDEV_BACKEND_KIND_SOCKET,
-             .u.socket.data = &(ChardevSocket) {
-                 .addr = &(SocketAddressLegacy) {
--                    .type = SOCKET_ADDRESS_LEGACY_KIND_INET,
-+                    .type = SOCKET_ADDRESS_TYPE_INET,
-                     .u.inet.data = &(InetSocketAddress) {
-                         .host = (char *)"127.0.0.1",
-                         .port = (char *)"0"
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index c5043999e9..72216ef980 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -1455,22 +1455,22 @@ SocketAddress *socket_address_flatten(SocketAddressLegacy *addr_legacy)
-     addr = g_new(SocketAddress, 1);
- 
-     switch (addr_legacy->type) {
--    case SOCKET_ADDRESS_LEGACY_KIND_INET:
-+    case SOCKET_ADDRESS_TYPE_INET:
-         addr->type = SOCKET_ADDRESS_TYPE_INET;
-         QAPI_CLONE_MEMBERS(InetSocketAddress, &addr->u.inet,
-                            addr_legacy->u.inet.data);
-         break;
--    case SOCKET_ADDRESS_LEGACY_KIND_UNIX:
-+    case SOCKET_ADDRESS_TYPE_UNIX:
-         addr->type = SOCKET_ADDRESS_TYPE_UNIX;
-         QAPI_CLONE_MEMBERS(UnixSocketAddress, &addr->u.q_unix,
-                            addr_legacy->u.q_unix.data);
-         break;
--    case SOCKET_ADDRESS_LEGACY_KIND_VSOCK:
-+    case SOCKET_ADDRESS_TYPE_VSOCK:
-         addr->type = SOCKET_ADDRESS_TYPE_VSOCK;
-         QAPI_CLONE_MEMBERS(VsockSocketAddress, &addr->u.vsock,
-                            addr_legacy->u.vsock.data);
-         break;
--    case SOCKET_ADDRESS_LEGACY_KIND_FD:
-+    case SOCKET_ADDRESS_TYPE_FD:
-         addr->type = SOCKET_ADDRESS_TYPE_FD;
-         QAPI_CLONE_MEMBERS(String, &addr->u.fd, addr_legacy->u.fd.data);
-         break;
 -- 
 2.31.1
 
