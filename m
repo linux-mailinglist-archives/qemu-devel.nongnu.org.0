@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D8F418ED3
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 07:54:52 +0200 (CEST)
-Received: from localhost ([::1]:47232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4689418EBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 07:44:10 +0200 (CEST)
+Received: from localhost ([::1]:34946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUjbH-0004s4-7w
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 01:54:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34252)
+	id 1mUjQu-0004kG-C3
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 01:44:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mUj2U-0003fU-LY; Mon, 27 Sep 2021 01:18:54 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:47465)
+ id 1mUj2Y-0003nL-Li; Mon, 27 Sep 2021 01:18:58 -0400
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:58103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mUj2S-0000Os-7K; Mon, 27 Sep 2021 01:18:54 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id B89682B01215;
- Mon, 27 Sep 2021 01:18:49 -0400 (EDT)
+ id 1mUj2X-0000Rq-6E; Mon, 27 Sep 2021 01:18:58 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id AC32A2B01216;
+ Mon, 27 Sep 2021 01:18:53 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 27 Sep 2021 01:18:50 -0400
+ by compute3.internal (MEProxy); Mon, 27 Sep 2021 01:18:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=v+TeP58r9HCCS
- zTGXmrxPSlB17ufLDToEjdmHrP2U0E=; b=YzpALq4GcKPAVc1ndvmaw4Yr2IO9H
- 5Ay4oVzG4t4iSA4lnHJ210piZCIGOGr8SsHaBuXAlyl7V/wtfzpcIj4R9n9QouCy
- AYTCTQlPwsZjuWu15OSHCPHHkoSxGkTU3fl4IIv2ZNBgL8VnLlBxKZFEqUUsYONM
- pr3m9osrGsmixahoY50B3RHny9HRiNKAWJjU4RLJharjtkfRdtf3/Bv7LPyzrxZC
- LWtNq2O5jfgVz3PDytzaexaRT5u0rxx2LZuPba5JReXzc76Ra6nPR7cmXtWUwaaY
- AK0mzzccHOOIEDM7HFm0nsxWUv19X7iIYKGjztM/+31Cp0aIh7tmg/JAw==
+ :mime-version:content-transfer-encoding; s=fm1; bh=38nnrBM97XPIY
+ VmHe5MfH0sS2KBUeMhYG5oVjJyrNKc=; b=ZaqDo+fislbzLHpRaZuubEQxX4744
+ lHwTVS2LND+Vu6q31g8mQuLXAdbzDd91lc1xITWvhGW0w06PNJMu4VKYQACHWHgG
+ +YiACGr3RxZ5yD+f4q9UYA7IavVpBUdQaKyxNBGJu+TGPREZF8i3+dF8NxP9Gdsi
+ 9PBUgiNdgZidAQ6kaIe0rUMx5nPBa2SCVB67SQx7MEEkioPBYMbc8a/CL9wwzCHB
+ 6Qd7BC6yw9alxAroDQzdC0ZsYoNR0ZbJH/Q7VwmbNiHxOiBE8HSQLx/AeOtf7xjm
+ Oe1n1wdcTPe0KpVGPb4Jdr0fu517FdiW69B44NS1VwHRnjCUdohtfn1Sw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=v+TeP58r9HCCSzTGXmrxPSlB17ufLDToEjdmHrP2U0E=; b=vb49OF4i
- OfIoDQmw+Bl8mNE9IgVfRBo68huEsAFBBqc3xCyjmnISe7YjC6r+PmIFVOmPvbc/
- Lfg8VxaKb7DgHad+/nrimqEOYBuF4sLXq3W9pvf7viQzWur0bEQFaFCLTD1C2VBq
- 0Wzo+d62NwJLXNRkCM1lPNaVzEIGIrhXiQXayPzbVhHwn+AT0jMydXnA7mgxCnTj
- q2Q2Eetch/V8cNQjv9+xmNuuY1qD8ozL7M+gJjLSYZ4/M79dW1wBRLK08FoZevVQ
- RIDJDGKAVtZbg1VbQlcyAEwupAXcoYiThhsP8DRulTSGJfBI78Rh943tGiHp1+pC
- 9BxDsBD5JjurEg==
-X-ME-Sender: <xms:OVRRYWY4yEwB_G3HdwjpPuu4SWzD6ZBEg2VFd_fF1Js57p8Zl4vonw>
- <xme:OVRRYZbD6U0GHjlS6fBah6qYVjHrLucMuqiQjCWk3aYVpfAJOBLx-AJHVhcJM91oM
- LjfxG6cezq-ptdV3uo>
-X-ME-Received: <xmr:OVRRYQ9j6Yve6hQkemE4Mw_-ZlbyvshYkw2Tp4U5y_znqBd_ThqorbqycEeE4RxInMlfp3y0qWi_2k9O9havB-MXXWGwFRfHgaANywM1mg>
+ fm3; bh=38nnrBM97XPIYVmHe5MfH0sS2KBUeMhYG5oVjJyrNKc=; b=dCLbfQ7B
+ halFzTcuQLcV2h+VVjf0sxAp2nZ9Fnz0MypmDpk7ll1Nczwc+CeZ2rsk7XMbnQNq
+ h0sW01k0gOLlIwbP7wvu/XNdCM/VnDJubSGbv5HDE6kZUNn75dgrWpfSVhpzjo5m
+ CoXq1ePJjNMpKNAkFFTA5zRA8KkMdGybZ1Z9qq8FqD1WIaXHiEwBrFLoFrVd5CDn
+ 0SCf1zyns7VCtRi4n0Of9YONWn7IAR/N+MVjtLLexrEbzlL4wd+0l4Efr/lKaA+Q
+ IcA5jFCW+iPMqLNmt7oDXREu9E5ME70UkdYncX0I8VTjl6xWYPSQgObdROQIaTwq
+ HWaGH8eTwV8Wng==
+X-ME-Sender: <xms:PVRRYQ6z-w1DpdaOVSsDmOG1pVdnvBwjfRW07njOANx3NwM9Zqt0aA>
+ <xme:PVRRYR7t55Oc4MUihIiNwWQ8sH1hMJzlvBnYI46C5GlIX_m5qAMcc4OCkB37HbsZB
+ N14yz0pLdgTX-J_IlI>
+X-ME-Received: <xmr:PVRRYfdB0euoXxdPqsiKCnWynka2Y8_ehu6xs7MKbEtjoP4D_Mg2w8plABOzl_GBF1VHnKXvHXlACdnGyxpX8G79IH9YWyuKGZgtmj4MOw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejjedgleefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeivdekgeethfevfeelhfejudehieefjeelffevieduueffueffveeihfejudet
- vdenucffohhmrghinhepvddtudegqddtkedrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:OVRRYYoTFtozj7MdifYg6yhGjzePxMtFHVyvEtfylYtH76wLR1lCbw>
- <xmx:OVRRYRoScJw8bQ3ZbfHvDMDXrqzEou6ExWJzGOGm3jq-9RgwaJM_Jw>
- <xmx:OVRRYWSt2QhOtNLTq5NmwWVuh4VuCQObRtOJvnFUrdTizZfntZu7iA>
- <xmx:OVRRYZZDm8si8P6NRCPpuVaZrEWxDZrtL2ZhPLWWBErtpeP5nXIv5NVtTTQ>
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:PVRRYVJs9K_4sxtXoQBrALWVKbnqeMGLkKXxUpc2Kr5ygXPIL8-ZlA>
+ <xmx:PVRRYUKPP7hVP8pcuChSbQQ_4Ewhr_31eU0Cs2XaULccxOs4JkEn2w>
+ <xmx:PVRRYWzng1sOY4zJN7P47ZVdO1ShAGx0NawSWr_9KzQDlq37tzPPjA>
+ <xmx:PVRRYR7Iy4aUC2vUazih9d-PT8bi5h9PgfMckzMvyydvqPCnPWkPh3yd6u0>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Sep 2021 01:18:47 -0400 (EDT)
+ 27 Sep 2021 01:18:51 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v2 11/16] hw/nvme: add experimental object x-nvme-subsystem
-Date: Mon, 27 Sep 2021 07:17:54 +0200
-Message-Id: <20210927051759.447305-12-its@irrelevant.dk>
+Subject: [PATCH RFC v2 12/16] nvme: add structured type for nguid
+Date: Mon, 27 Sep 2021 07:17:55 +0200
+Message-Id: <20210927051759.447305-13-its@irrelevant.dk>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210927051759.447305-1-its@irrelevant.dk>
 References: <20210927051759.447305-1-its@irrelevant.dk>
@@ -105,324 +105,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add a basic user creatable object that models an NVMe NVM subsystem.
+Add a structured type for NGUID.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c   |  14 ++---
- hw/nvme/ns.c     |   5 +-
- hw/nvme/nvme.h   |  10 +++-
- hw/nvme/subsys.c | 144 +++++++++++++++++++++++++++++++++++++++++++++--
- qapi/qom.json    |  17 ++++++
- 5 files changed, 175 insertions(+), 15 deletions(-)
+ include/block/nvme.h | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index b27bf00f623f..c798aeb095e1 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -6562,14 +6562,14 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-     NvmeCtrl *ctrl = NVME_DEVICE(pci_dev);
-     NvmeState *n = NVME_STATE(ctrl);
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 2bcabe561589..f41464ee19bd 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -1269,6 +1269,11 @@ typedef struct QEMU_PACKED NvmeLBAFE {
  
--    if (n->subsys_dev) {
--        n->subsys = &n->subsys_dev->subsys;
--    }
-+    if (ctrl->subsys_dev) {
-+        if (ctrl->namespace.blkconf.blk) {
-+            error_setg(errp, "subsystem support is unavailable with legacy "
-+                       "namespace ('drive' property)");
-+            return;
-+        }
+ #define NVME_NSID_BROADCAST 0xffffffff
  
--    if (ctrl->namespace.blkconf.blk && n->subsys) {
--        error_setg(errp, "subsystem support is unavailable with legacy "
--                   "namespace ('drive' property)");
--        return;
-+        n->subsys = &ctrl->subsys_dev->subsys;
-     }
- 
-     if (nvme_check_constraints(n, errp)) {
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index efbe9b3808e4..09556f0ec7c9 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -493,7 +493,8 @@ static void nvme_nsdev_realize(DeviceState *dev, Error **errp)
-     NvmeNamespaceDevice *nsdev = NVME_NAMESPACE_DEVICE(dev);
-     NvmeNamespace *ns = &nsdev->ns;
-     BusState *s = qdev_get_parent_bus(dev);
--    NvmeState *n = NVME_STATE(s->parent);
-+    NvmeCtrl *ctrl = NVME_DEVICE(s->parent);
-+    NvmeState *n = NVME_STATE(ctrl);
-     NvmeSubsystem *subsys = n->subsys;
-     uint32_t nsid = nsdev->params.nsid;
-     int i;
-@@ -509,7 +510,7 @@ static void nvme_nsdev_realize(DeviceState *dev, Error **errp)
-          * If this namespace belongs to a subsystem (through a link on the
-          * controller device), reparent the device.
-          */
--        if (!qdev_set_parent_bus(dev, &n->subsys_dev->bus.parent_bus, errp)) {
-+        if (!qdev_set_parent_bus(dev, &ctrl->subsys_dev->bus.parent_bus, errp)) {
-             return;
-         }
-     }
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index a0c34a49772f..b67e5900a01d 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -45,8 +45,14 @@ typedef struct NvmeBus {
-     BusState parent_bus;
- } NvmeBus;
- 
-+#define TYPE_NVME_SUBSYSTEM "x-nvme-subsystem"
-+OBJECT_DECLARE_SIMPLE_TYPE(NvmeSubsystem, NVME_SUBSYSTEM)
++typedef struct QEMU_PACKED NvmeNGUID {
++    uint8_t     vspexid[8];
++    uint64_t    eui;
++} NvmeNGUID;
 +
- typedef struct NvmeSubsystem {
--    uint8_t     subnqn[256];
-+    Object parent_obj;
-+
-+    QemuUUID uuid;
-+    uint8_t  subnqn[256];
- 
-     NvmeState     *ctrls[NVME_MAX_CONTROLLERS];
-     NvmeNamespace *namespaces[NVME_MAX_NAMESPACES + 1];
-@@ -467,6 +473,8 @@ typedef struct NvmeCtrl {
- 
-     /* for use with legacy single namespace (-device nvme,drive=...) setups */
-     NvmeNamespaceDevice namespace;
-+
-+    NvmeSubsystemDevice *subsys_dev;
- } NvmeCtrl;
- 
- static inline NvmeNamespace *nvme_ns(NvmeState *n, uint32_t nsid)
-diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
-index 3e1736d846b7..2599b83c348e 100644
---- a/hw/nvme/subsys.c
-+++ b/hw/nvme/subsys.c
-@@ -8,10 +8,13 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-builtin-visit.h"
-+#include "qom/object_interfaces.h"
- 
- #include "nvme.h"
- 
--int nvme_subsys_register_ctrl(NvmeSubsystem *subsys, NvmeState *n, Error **errp)
-+int nvme_subsys_register_ctrl(NvmeSubsystem *subsys, NvmeState *n,
-+                              Error **errp)
- {
-     int cntlid, nsid;
- 
-@@ -44,6 +47,136 @@ void nvme_subsys_unregister_ctrl(NvmeSubsystem *subsys, NvmeState *n)
-     n->cntlid = -1;
- }
- 
-+static void get_controllers(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
-+{
-+    NvmeSubsystem *subsys = NVME_SUBSYSTEM(obj);
-+    strList *paths = NULL;
-+    strList **tail = &paths;
-+    unsigned cntlid;
-+
-+    for (cntlid = 0; cntlid < NVME_MAX_CONTROLLERS; cntlid++) {
-+        NvmeState *n = subsys->ctrls[cntlid];
-+        if (!n) {
-+            continue;
-+        }
-+
-+        QAPI_LIST_APPEND(tail, object_get_canonical_path(OBJECT(n)));
-+    }
-+
-+    visit_type_strList(v, name, &paths, errp);
-+    qapi_free_strList(paths);
-+}
-+
-+static void get_namespaces(Object *obj, Visitor *v, const char *name,
-+                           void *opaque, Error **errp)
-+{
-+    NvmeSubsystem *subsys = NVME_SUBSYSTEM(obj);
-+    strList *paths = NULL;
-+    strList **tail = &paths;
-+    unsigned nsid;
-+
-+    for (nsid = 1; nsid <= NVME_MAX_NAMESPACES; nsid++) {
-+        NvmeNamespace *ns = subsys->namespaces[nsid];
-+        if (!ns) {
-+            continue;
-+        }
-+
-+        QAPI_LIST_APPEND(tail, object_get_canonical_path(OBJECT(ns)));
-+    }
-+
-+    visit_type_strList(v, name, &paths, errp);
-+    qapi_free_strList(paths);
-+}
-+
-+static char *get_subnqn(Object *obj, Error **errp)
-+{
-+    NvmeSubsystem *subsys = NVME_SUBSYSTEM(obj);
-+    return g_strdup((char *)subsys->subnqn);
-+}
-+
-+static void set_subnqn(Object *obj, const char *str, Error **errp)
-+{
-+    NvmeSubsystem *subsys = NVME_SUBSYSTEM(obj);
-+    snprintf((char *)subsys->subnqn, sizeof(subsys->subnqn), "%s", str);
-+}
-+
-+static char *get_uuid(Object *obj, Error **errp)
-+{
-+    NvmeSubsystem *subsys = NVME_SUBSYSTEM(obj);
-+    char buf[UUID_FMT_LEN + 1];
-+
-+    qemu_uuid_unparse(&subsys->uuid, buf);
-+
-+    return g_strdup(buf);
-+}
-+
-+static void set_uuid(Object *obj, const char *str, Error **errp)
-+{
-+    NvmeSubsystem *subsys = NVME_SUBSYSTEM(obj);
-+
-+    if (!strcmp(str, "auto")) {
-+        qemu_uuid_generate(&subsys->uuid);
-+    } else if (qemu_uuid_parse(str, &subsys->uuid) < 0) {
-+        error_setg(errp, "invalid uuid");
-+        return;
-+    }
-+}
-+
-+static void nvme_subsys_complete(UserCreatable *uc, Error **errp)
-+{
-+    NvmeSubsystem *subsys = NVME_SUBSYSTEM(uc);
-+
-+    if (!strcmp((char *)subsys->subnqn, "")) {
-+        char buf[UUID_FMT_LEN + 1];
-+
-+        qemu_uuid_unparse(&subsys->uuid, buf);
-+
-+        snprintf((char *)subsys->subnqn, sizeof(subsys->subnqn),
-+                 "nqn.2014-08.org.nvmexpress:uuid:%s", buf);
-+    }
-+}
-+
-+static void nvme_subsys_instance_init(Object *obj)
-+{
-+    object_property_add(obj, "controllers", "str", get_controllers, NULL, NULL,
-+                        NULL);
-+
-+    object_property_add(obj, "namespaces", "str", get_namespaces, NULL, NULL,
-+                        NULL);
-+}
-+
-+static void nvme_subsys_class_init(ObjectClass *oc, void *data)
-+{
-+    ObjectProperty *op;
-+
-+    UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
-+    ucc->complete = nvme_subsys_complete;
-+
-+    object_class_property_add_str(oc, "subnqn", get_subnqn, set_subnqn);
-+    object_class_property_set_description(oc, "subnqn", "the NVM Subsystem "
-+                                          "NVMe Qualified Name; "
-+                                          "(default: \"nqn.2014-08.org.nvmexpress:uuid:<uuid>\")");
-+
-+    op = object_class_property_add_str(oc, "uuid", get_uuid, set_uuid);
-+    object_property_set_default_str(op, "auto");
-+    object_class_property_set_description(oc, "subnqn", "NVM Subsystem UUID "
-+                                          "(\"auto\" for random value; "
-+                                          "default: \"auto\")");
-+}
-+
-+static const TypeInfo nvme_subsys_info = {
-+    .name = TYPE_NVME_SUBSYSTEM,
-+    .parent = TYPE_OBJECT,
-+    .class_init = nvme_subsys_class_init,
-+    .instance_init = nvme_subsys_instance_init,
-+    .instance_size = sizeof(NvmeSubsystem),
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_USER_CREATABLE },
-+        { },
-+    }
-+};
-+
- static void nvme_subsys_device_setup(NvmeSubsystemDevice *dev)
- {
-     NvmeSubsystem *subsys = &dev->subsys;
-@@ -64,7 +197,7 @@ static void nvme_subsys_device_realize(DeviceState *dev, Error **errp)
-     nvme_subsys_device_setup(subsys);
- }
- 
--static Property nvme_subsystem_device_props[] = {
-+static Property nvme_subsys_device_props[] = {
-     DEFINE_PROP_STRING("nqn", NvmeSubsystemDevice, params.nqn),
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -79,7 +212,7 @@ static void nvme_subsys_device_class_init(ObjectClass *oc, void *data)
-     dc->desc = "Virtual NVMe subsystem";
-     dc->hotpluggable = false;
- 
--    device_class_set_props(dc, nvme_subsystem_device_props);
-+    device_class_set_props(dc, nvme_subsys_device_props);
- }
- 
- static const TypeInfo nvme_subsys_device_info = {
-@@ -89,9 +222,10 @@ static const TypeInfo nvme_subsys_device_info = {
-     .instance_size = sizeof(NvmeSubsystemDevice),
- };
- 
--static void nvme_subsys_register_types(void)
-+static void register_types(void)
- {
-+    type_register_static(&nvme_subsys_info);
-     type_register_static(&nvme_subsys_device_info);
- }
- 
--type_init(nvme_subsys_register_types)
-+type_init(register_types)
-diff --git a/qapi/qom.json b/qapi/qom.json
-index a25616bc7a7d..d4c211fc38b1 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -647,6 +647,21 @@
-             '*hugetlbsize': 'size',
-             '*seal': 'bool' } }
- 
-+##
-+# @NvmeSubsystemProperties:
-+#
-+# Properties for nvme-subsys objects.
-+#
-+# @subnqn: the NVM Subsystem NVMe Qualified Name
-+#
-+# @uuid: the UUID of the subsystem. Used as default in subnqn.
-+#
-+# Since: 6.1
-+##
-+{ 'struct': 'NvmeSubsystemProperties',
-+  'data': { '*subnqn': 'str',
-+            '*uuid': 'str' } }
-+
- ##
- # @PrManagerHelperProperties:
- #
-@@ -797,6 +812,7 @@
-     { 'name': 'memory-backend-memfd',
-       'if': 'CONFIG_LINUX' },
-     'memory-backend-ram',
-+    'x-nvme-subsystem',
-     'pef-guest',
-     'pr-manager-helper',
-     'qtest',
-@@ -855,6 +871,7 @@
-       'memory-backend-memfd':       { 'type': 'MemoryBackendMemfdProperties',
-                                       'if': 'CONFIG_LINUX' },
-       'memory-backend-ram':         'MemoryBackendProperties',
-+      'x-nvme-subsystem':           'NvmeSubsystemProperties',
-       'pr-manager-helper':          'PrManagerHelperProperties',
-       'qtest':                      'QtestProperties',
-       'rng-builtin':                'RngProperties',
+ typedef struct QEMU_PACKED NvmeIdNs {
+     uint64_t    nsze;
+     uint64_t    ncap;
+@@ -1300,7 +1305,7 @@ typedef struct QEMU_PACKED NvmeIdNs {
+     uint32_t    mcl;
+     uint8_t     msrc;
+     uint8_t     rsvd81[23];
+-    uint8_t     nguid[16];
++    NvmeNGUID   nguid;
+     uint64_t    eui64;
+     NvmeLBAF    lbaf[16];
+     uint8_t     rsvd192[192];
 -- 
 2.33.0
 
