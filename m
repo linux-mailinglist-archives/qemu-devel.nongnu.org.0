@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B154418E93
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 07:10:20 +0200 (CEST)
-Received: from localhost ([::1]:53622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5085B418E82
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 06:57:03 +0200 (CEST)
+Received: from localhost ([::1]:36674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUiuB-0003nn-4P
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 01:10:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58158)
+	id 1mUihK-0000Tx-2F
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 00:57:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mUiYw-0000Iy-L0; Mon, 27 Sep 2021 00:48:22 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:53987)
+ id 1mUiYx-0000KY-96; Mon, 27 Sep 2021 00:48:23 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:54761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mUiYu-0000Fm-RO; Mon, 27 Sep 2021 00:48:22 -0400
+ id 1mUiYv-0000Gp-KF; Mon, 27 Sep 2021 00:48:22 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HHqrq1pFNz4xbf; Mon, 27 Sep 2021 14:48:11 +1000 (AEST)
+ id 4HHqrq1vVvz4xbg; Mon, 27 Sep 2021 14:48:11 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632718091;
- bh=cTr2cucr3Q3BJSNdEL8CESCzhRbP0pEnG6aQevl4jOo=;
+ bh=0orLWoIADo924oWOD1wRpwmJ7wQDoUsfKtoh1f1GsHY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MKw09c5gUYUmkaihdxHcXTbeKicfdZ2phHx4G+YtdiVr4UqQA61ZH+7hX4WIPzOen
- 7cEQ64w+yxwQfuq0989F4i8R3Nk7SA9jJkhF/FDSX+2hfqGdxmWBQZpoFGDUtqd6Ad
- O05jrZ2h00QUEjfvau3/zXawT2+XdWqcb7ZsDYt8=
+ b=DW34urUEzQS+DqfKw8LEINePj4m4XTtmv6C+vZLMuDNmRf+lNzLPK/VPUD9XE/Mnr
+ nux0B2zzNOXTUHn2WkVkeMeB4vIY3KfTcJeNZ4SLTiHLTh21Jmq/+LeyQwiSkC1SC0
+ XMTz7ryQMo+L67u1epOYV/OEx4CMXYXk5ob3YOfw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 6/7] MAINTAINERS: Add information for OpenPIC
-Date: Mon, 27 Sep 2021 14:48:07 +1000
-Message-Id: <20210927044808.73391-7-david@gibson.dropbear.id.au>
+Subject: [PATCH v3 7/7] MAINTAINERS: Demote sPAPR from "Supported" to
+ "Maintained"
+Date: Mon, 27 Sep 2021 14:48:08 +1000
+Message-Id: <20210927044808.73391-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210927044808.73391-1-david@gibson.dropbear.id.au>
 References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
@@ -66,52 +67,32 @@ Cc: peter.maydell@linaro.org, dbarboza@redhat.com, aik@ozlabs.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The OpenPIC interrupt controller was once the de facto standard on ppc
-machines.  In qemu it's now only used on some Macintosh and the
-Freescale e500 machine.  It has no listed maintainer, and as far as I
-know, no-one who's really familiar with it any more.
-
-Since I'm moving away from the area, I no longer have capacity to do even
-minimal maintenance of it under the auspices of the ppc targets in general.
-
-Therefore, this patch lists the main part of openpic, and marks it as
-"Odd Fixes" to be looked after by Mark Cave-Ayland who handles the
-Macintosh targets.  The openpic_kvm variant is only used on e500, so
-add it to the files for that machine type (itself already Orphaned).
+qemu/KVM on Power is no longer my primary job responsibility, nor Greg
+Kurz'.  I still have some time for upstream maintenance, but it's no longer
+accurate to say that I'm paid to do so.  Therefore, reduce sPAPR (the
+"pseries" machine type) from Supported to Maintained.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 7439ef1bd9..c0fcba7f8b 100644
+index c0fcba7f8b..8b7cb859e9 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1256,6 +1256,8 @@ F: hw/pci-host/ppce500.c
- F: include/hw/ppc/ppc_e500.h
- F: include/hw/pci-host/ppce500.h
- F: pc-bios/u-boot.e500
-+F: hw/intc/openpic_kvm.h
-+F: include/hw/ppc/openpic_kvm.h
- 
- mpc8544ds
+@@ -1317,7 +1317,7 @@ sPAPR
+ M: David Gibson <david@gibson.dropbear.id.au>
+ M: Greg Kurz <groug@kaod.org>
  L: qemu-ppc@nongnu.org
-@@ -2258,6 +2260,12 @@ F: net/can/*
- F: hw/net/can/*
- F: include/net/can_*.h
- 
-+OpenPIC interrupt controller
-+M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-+S: Odd Fixes
-+F: hw/intc/openpic.c
-+F: include/hw/ppc/openpic.h
-+
- Subsystems
- ----------
- Overall Audio backends
+-S: Supported
++S: Maintained
+ F: hw/*/spapr*
+ F: include/hw/*/spapr*
+ F: hw/*/xics*
 -- 
 2.31.1
 
