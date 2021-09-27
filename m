@@ -2,73 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA6B419611
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 16:16:48 +0200 (CEST)
-Received: from localhost ([::1]:46920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCE3419629
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 16:22:11 +0200 (CEST)
+Received: from localhost ([::1]:60952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUrR1-0008W8-3b
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 10:16:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33628)
+	id 1mUrWE-0001iJ-R9
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 10:22:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mUrMm-0003UR-TY
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:12:24 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:44634)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mUrMg-0005nc-Ds
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:12:24 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 318C6221ED;
- Mon, 27 Sep 2021 14:12:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1632751937; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUrMv-0003i3-J2
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:12:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44068)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUrMq-0005y8-Ja
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:12:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632751947;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BLT3mkHcGKsKQnI/z1NQlD0W7SfmvXPeUCUV5W6U3Qg=;
- b=oAz7VXdTzsBM/t2tQpKBEsMr5J1QWPHpaAmAcdYrqpsAPEG1GnpU9i3kFeXDFwV9oiPNW/
- i8CduhNZb11JGY+5FcIEaXAmTtbMLZeWTmHHXJ+CPbq1fq3UH5m12cXg4FJgMNWEBwJhGj
- sTKiCf1AAlZzo1bCQoWtIUxtj5YnF7o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1632751937;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BLT3mkHcGKsKQnI/z1NQlD0W7SfmvXPeUCUV5W6U3Qg=;
- b=jfHDNn1q2dMGH4yhucNeDHqFTYZtyU4L86kQgXrj8GWYDZULlNyMO6SqriBGfHiXNT+cP9
- FPL8jRSDWVYmZtCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A78DB13A91;
- Mon, 27 Sep 2021 14:12:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MMS5Gj/RUWH+LwAAMHmgww
- (envelope-from <jziviani@suse.de>); Mon, 27 Sep 2021 14:12:15 +0000
-From: "Jose R. Ziviani" <jziviani@suse.de>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] modules: generates per-target modinfo
-Date: Mon, 27 Sep 2021 11:12:01 -0300
-Message-Id: <20210927141201.21833-4-jziviani@suse.de>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210927141201.21833-1-jziviani@suse.de>
-References: <20210927141201.21833-1-jziviani@suse.de>
+ bh=0W1zZa1Ca8BxENToBjGRq0iFBpjVy+dmwg+/ojrsrEI=;
+ b=QGbAUd3j/zSvcF5PnrPthI6tZSJJqfPqTzbFupabPaLazhsRPyERj+bEOyCSokYLD/hpyj
+ ncMdX3iPhu5cqI3KqEHc8jqJcqpNnwcN0hUG0n+DQ8njdbQ9TkChIklPtQT576SMkeC5M7
+ B8F6nUdlJOQA3pmMaWPwO93DF03urcs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-wfAYSL-1MfyO4T6AvkGAqg-1; Mon, 27 Sep 2021 10:12:24 -0400
+X-MC-Unique: wfAYSL-1MfyO4T6AvkGAqg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ f11-20020adfc98b000000b0015fedc2a8d4so14244702wrh.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 07:12:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0W1zZa1Ca8BxENToBjGRq0iFBpjVy+dmwg+/ojrsrEI=;
+ b=DvQSpwDm7aaKFEkZBj/YxtYaRoBLLYBnhBI7xairnflBRCimH+zg4YQcyEEIW2zgVg
+ bj4N66IFhqT9pAlDU30WgJ6c60ygNXxbewjgEbRTZn2RIDcbcsOmYtiTvIXQmxCAvFUG
+ EwbTJbgotXEikP4slZUAc4EYjeP4QKYdL2EAIwV2zHGZWiYoYWJEdBR5z26cCZljaG+A
+ nEEcIliziK3LiAHV4/EVHcxYQCbv6Uua0ICYau9KwH5YymIgR4SyV02Torfaa66Ium6U
+ 1vto7Rye9ODtKOAZ5iZr+dL1fidGPy3EkrmJrOxVHSbQ7Z/+O2vyM0mF6nBMFTVyAJC0
+ C9ow==
+X-Gm-Message-State: AOAM531r/+aPJhc5GuNA6rr4Z7tuw1rlWj3yQqTzvXH3Qkek1+UlO/AY
+ NVecSod8aIutDM8jxJ9RReoNMfgQMfNIwqc1r0Zqtlg8LV6nW3wBgQ9u5YoUVsQKFdBMbbucFtu
+ ckBh+k49elk01guI=
+X-Received: by 2002:a7b:c859:: with SMTP id c25mr147970wml.154.1632751943604; 
+ Mon, 27 Sep 2021 07:12:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw4g9IaAq0QMcLCE7axyzt26bIrkQ9kh/UBCbl0SUhALrnY2+PWbcdjB2e52hQN4N5TtIo8Pw==
+X-Received: by 2002:a7b:c859:: with SMTP id c25mr147941wml.154.1632751943378; 
+ Mon, 27 Sep 2021 07:12:23 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id k4sm16840591wrv.24.2021.09.27.07.12.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Sep 2021 07:12:22 -0700 (PDT)
+Message-ID: <fe982e8e-5ead-5be7-48b3-3c962960f21a@redhat.com>
+Date: Mon, 27 Sep 2021 16:12:21 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=jziviani@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 4/6] avocado_qemu: tweak ssh connect method
+To: Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org
+References: <20210920204932.94132-1-willianr@redhat.com>
+ <20210920204932.94132-5-willianr@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20210920204932.94132-5-willianr@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.136, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,139 +98,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, kraxel@redhat.com,
- "Jose R. Ziviani" <jziviani@suse.de>
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch changes the way modinfo is generated and built. Today we have
-only modinfo.c being genereated and linked to all targets, now it
-generates (and link) one modinfo per target.
+On 9/20/21 22:49, Willian Rampazzo wrote:
+> The current implementation will crash if the connection fails as the
+> `time` module is not imported. This fixes the import problem and tweaks
+> the connection to wait progressively when the connection fails.
+> 
+> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+> ---
+>  tests/acceptance/avocado_qemu/__init__.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+> index edb9ed7485..c3613f9262 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -13,6 +13,7 @@
+>  import shutil
+>  import sys
+>  import tempfile
+> +import time
+>  import uuid
+>  
+>  import avocado
+> @@ -305,8 +306,7 @@ def ssh_connect(self, username, credential, credential_is_key=True):
+>                  self.ssh_session.connect()
+>                  return
+>              except:
+> -                time.sleep(4)
 
-It also makes use of the module_need to add modules that makes sense for
-the selected target.
+10 * 4 = 40
 
-Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
----
- meson.build                 | 25 +++++++++++++++--------
- scripts/modinfo-generate.py | 40 +++++++++++++++++++++----------------
- 2 files changed, 40 insertions(+), 25 deletions(-)
+> -                pass
+> +                time.sleep(i)
 
-diff --git a/meson.build b/meson.build
-index 2711cbb789..9d25ebb2f9 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2395,14 +2395,23 @@ foreach d, list : target_modules
- endforeach
- 
- if enable_modules
--  modinfo_src = custom_target('modinfo.c',
--                              output: 'modinfo.c',
--                              input: modinfo_files,
--                              command: [modinfo_generate, '@INPUT@'],
--                              capture: true)
--  modinfo_lib = static_library('modinfo', modinfo_src)
--  modinfo_dep = declare_dependency(link_whole: modinfo_lib)
--  softmmu_ss.add(modinfo_dep)
-+  foreach target : target_dirs
-+    if target.endswith('-softmmu')
-+      config_target = config_target_mak[target]
-+      config_devices_mak = target + '-config-devices.mak'
-+      modinfo_src = custom_target('modinfo-' + target + '.c',
-+                                  output: 'modinfo-' + target + '.c',
-+                                  input: modinfo_files,
-+                                  command: [modinfo_generate, '--devices', config_devices_mak, '@INPUT@'],
-+                                  capture: true)
-+
-+      modinfo_lib = static_library('modinfo-' + target + '.c', modinfo_src)
-+      modinfo_dep = declare_dependency(link_with: modinfo_lib)
-+
-+      arch = config_target['TARGET_NAME'] == 'sparc64' ? 'sparc64' : config_target['TARGET_BASE_ARCH']
-+      hw_arch[arch].add(modinfo_dep)
-+    endif
-+  endforeach
- endif
- 
- nm = find_program('nm')
-diff --git a/scripts/modinfo-generate.py b/scripts/modinfo-generate.py
-index 9d3e037b15..25fb241b2d 100755
---- a/scripts/modinfo-generate.py
-+++ b/scripts/modinfo-generate.py
-@@ -32,7 +32,7 @@ def parse_line(line):
-             continue
-     return (kind, data)
- 
--def generate(name, lines):
-+def generate(name, lines, core_modules):
-     arch = ""
-     objs = []
-     deps = []
-@@ -49,7 +49,11 @@ def generate(name, lines):
-             elif kind == 'arch':
-                 arch = data;
-             elif kind == 'need':
--                pass # ignore
-+                # don't add a module which dependency is not enabled
-+                # in kconfig
-+                if data.strip() not in core_modules:
-+                    print("    /* module {} is missing. */\n".format(data))
-+                    return []
-             else:
-                 print("unknown:", kind)
-                 exit(1)
-@@ -60,7 +64,7 @@ def generate(name, lines):
-     print_array("objs", objs)
-     print_array("deps", deps)
-     print_array("opts", opts)
--    print("},{");
-+    print("},{")
-     return deps
- 
- def print_pre():
-@@ -74,26 +78,28 @@ def print_post():
-     print("}};")
- 
- def main(args):
-+    if len(args) < 3 or args[0] != '--devices':
-+        print('Expected: modinfo-generate.py --devices '
-+              'config-device.mak [modinfo files]', file=sys.stderr)
-+        exit(1)
-+
-+    # get all devices enabled in kconfig, from *-config-device.mak
-+    enabled_core_modules = set()
-+    with open(args[1]) as file:
-+        for line in file.readlines():
-+            config = line.split('=')
-+            if config[1].rstrip() == 'y':
-+                enabled_core_modules.add(config[0][7:]) # remove CONFIG_
-+
-     deps = {}
-     print_pre()
--    for modinfo in args:
-+    for modinfo in args[2:]:
-         with open(modinfo) as f:
-             lines = f.readlines()
-         print("    /* %s */" % modinfo)
--        (basename, ext) = os.path.splitext(modinfo)
--        deps[basename] = generate(basename, lines)
-+        (basename, _) = os.path.splitext(modinfo)
-+        deps[basename] = generate(basename, lines, enabled_core_modules)
-     print_post()
- 
--    flattened_deps = {flat.strip('" ') for dep in deps.values() for flat in dep}
--    error = False
--    for dep in flattened_deps:
--        if dep not in deps.keys():
--            print("Dependency {} cannot be satisfied".format(dep),
--                  file=sys.stderr)
--            error = True
--
--    if error:
--        exit(1)
--
- if __name__ == "__main__":
-     main(sys.argv[1:])
--- 
-2.33.0
+sum([0..10[) = 45
+
+The described tweak. Almost the same, OK.
+
+>          self.fail('ssh connection timeout')
+>  
+>      def ssh_command(self, command):
+> 
 
 
