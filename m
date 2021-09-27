@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C049E41A2BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 00:11:17 +0200 (CEST)
-Received: from localhost ([::1]:35654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1EA541A2D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 00:18:11 +0200 (CEST)
+Received: from localhost ([::1]:50370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUyqC-0002rT-QK
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 18:11:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54628)
+	id 1mUyws-0004fU-In
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 18:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mUybl-0002j7-Qp
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 17:56:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34631)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mUybo-0002lK-1Y
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 17:56:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mUybh-0002yy-6o
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 17:56:20 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mUybj-00031j-0a
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 17:56:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632779776;
+ s=mimecast20190719; t=1632779778;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nYcY8/gPpGTrFbLOdoGvl9L1U7nOty+5ARQWlo+lWf0=;
- b=ERpVzBVSzluS3HmPVTfVk3oVYmHHJJPqpR1l/N/6wvHcQb+wvoDa53XcR9tH2HGcxvPkex
- 7lUYiKq5kUQ/qRMfzF32RM/2UVEgRIPf0JGr7vNRaR/aZKPTe2dDSn2gMb1CZ9k0wd+aFg
- qHj03RjqCD9MrfF8NaOz5Q2LbIWWbXY=
+ bh=EQQanGm4fTPSC6uaDARC04N2wLZ+oPBky28ifjvlJpo=;
+ b=K5sdzpam0yJXLLIbWtEy3DOc2nJVHWB6yTmB6oakreoTfI75Mv4uklPZdyemEgeC3TnMm8
+ 6yI3xg1UycLciTzSZRiS9K1qagE9VTybB7hoLvILQBt5XCw2MRItRhhdDklMwsRjBMPKCG
+ TkZtU7s52VD8iH5KGskVOL9gNTweTpY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-EFklq3HmMlGbWrNtvPru_w-1; Mon, 27 Sep 2021 17:56:15 -0400
-X-MC-Unique: EFklq3HmMlGbWrNtvPru_w-1
+ us-mta-154-8F6jCiSsOrS5K4ii4W9odg-1; Mon, 27 Sep 2021 17:56:15 -0400
+X-MC-Unique: 8F6jCiSsOrS5K4ii4W9odg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02ED6801E72;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88C5E18125C2;
  Mon, 27 Sep 2021 21:56:14 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-87.phx2.redhat.com [10.3.113.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F2F2E5D9D5;
- Mon, 27 Sep 2021 21:56:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 37F875D9D5;
+ Mon, 27 Sep 2021 21:56:14 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/20] block/io: allow 64bit discard requests
-Date: Mon, 27 Sep 2021 16:55:37 -0500
-Message-Id: <20210927215545.3930309-13-eblake@redhat.com>
+Subject: [PULL 13/20] nbd/server: Allow LIST_META_CONTEXT without
+ STRUCTURED_REPLY
+Date: Mon, 27 Sep 2021 16:55:38 -0500
+Message-Id: <20210927215545.3930309-14-eblake@redhat.com>
 In-Reply-To: <20210927215545.3930309-1-eblake@redhat.com>
 References: <20210927215545.3930309-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -63,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,43 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Block I/O path" <qemu-block@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+The NBD protocol just relaxed the requirements on
+NBD_OPT_LIST_META_CONTEXT:
 
-Now that all drivers are updated by the previous commit, we can drop
-the last limiter on pdiscard path: INT_MAX in bdrv_co_pdiscard().
+https://github.com/NetworkBlockDevice/nbd/commit/13a4e33a87
 
-Now everything is prepared for implementing incredibly cool and fast
-big-discard requests in NBD and qcow2. And any other driver which wants
-it of course.
+Since listing is not stateful (unlike SET_META_CONTEXT), we don't care
+if a client asks for meta contexts without first requesting structured
+replies.  Well-behaved clients will still ask for structured reply
+first (if for no other reason than for back-compat to older servers),
+but that's no reason to avoid this change.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210903102807.27127-12-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20210907173505.1499709-1-eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/io.c | 2 +-
+ nbd/server.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/io.c b/block/io.c
-index 3846e2ed961b..18d345a87af3 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3104,7 +3104,7 @@ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
-         goto out;
-     }
+diff --git a/nbd/server.c b/nbd/server.c
+index 3927f7789dcf..6d03e8a4b436 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -980,7 +980,7 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
+     size_t i;
+     size_t count = 0;
 
--    max_pdiscard = QEMU_ALIGN_DOWN(MIN_NON_ZERO(bs->bl.max_pdiscard, INT_MAX),
-+    max_pdiscard = QEMU_ALIGN_DOWN(MIN_NON_ZERO(bs->bl.max_pdiscard, INT64_MAX),
-                                    align);
-     assert(max_pdiscard >= bs->bl.request_alignment);
-
+-    if (!client->structured_reply) {
++    if (client->opt == NBD_OPT_SET_META_CONTEXT && !client->structured_reply) {
+         return nbd_opt_invalid(client, errp,
+                                "request option '%s' when structured reply "
+                                "is not negotiated",
 -- 
 2.31.1
 
