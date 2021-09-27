@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A18B4197BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 17:22:30 +0200 (CEST)
-Received: from localhost ([::1]:35638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A48F94197BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 17:22:38 +0200 (CEST)
+Received: from localhost ([::1]:36230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUsSZ-0003eU-0F
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 11:22:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55516)
+	id 1mUsSj-00044r-OY
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 11:22:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mUsN6-0000ll-9V
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 11:16:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43753)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mUsN2-0007qy-Kf
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 11:16:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632755803;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OZs7PBNNeYbLGiiqjgG/tmMpy/zM7/W7jzP5P0yZjhk=;
- b=jPmkiZbPdRLA9BSxP2OvP8Zn63nuRLZ2Y19MMKJSIeH793cn3qHWI1MZRC7aVS+f4gAJWr
- rz+oy4ruu37HciutaBQHAN4Mlu3VwA9CDOKHlFY7zToHfonZUaTqZaaUgpovhN6ul3NMil
- r02V2LdzPUmMFBcQD53M0FniBvX69jo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-quEgiGFIO76r1XN8JeYtfw-1; Mon, 27 Sep 2021 11:16:41 -0400
-X-MC-Unique: quEgiGFIO76r1XN8JeYtfw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k5-20020a7bc3050000b02901e081f69d80so376444wmj.8
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 08:16:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mUsOM-0001Rx-47
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 11:18:06 -0400
+Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32]:41713)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sjg@google.com>) id 1mUsOK-0000Po-9w
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 11:18:05 -0400
+Received: by mail-vs1-xe32.google.com with SMTP id az15so18534663vsb.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 08:18:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BNd5Gru1d6gt2MuT3knaFcvxWIHVgR33D0qJAIFCPlk=;
+ b=XdfsVD0Q5jUfBgeEm3Nd1HAJfBen1dV/zP3eC23k8ksCUssvKarms6+P75QK95zYyQ
+ OEy6wmW/BhlOAp2WbA1iFyB6jrCH3L52+O8zK/GvMpvtShVMJXf/28aDPhlRtTiuctAQ
+ 4zMp5mW3wPijl9mIJ9u1bmCyldsOywsjuu0Eg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=OZs7PBNNeYbLGiiqjgG/tmMpy/zM7/W7jzP5P0yZjhk=;
- b=YLs1AdzN7p8VK+FzCUH/BMHr82idp7w/w6+yYsqhOuVM/+UDFcP29yj3zOtV2SI3GO
- N/bA7aLoPCUTAC2myvhwJufu+xtWHvhZkxKoGjoLZ5+Lw+SWmm07xE54vlU6PaeNynG3
- 0FgU876hjwMt8gsmAlzWBM+tsYApFXgVhkB38KuF8YPv0JJ4/k/5AXTkCO+vcC+lZSsd
- n/1j9dZ1F6skr1ubiVu1XGxlfG+H9WiuPEQhuIdDoM/YcZjL6akX/Gx8edvcV+16Wr/T
- Kxic/CtTAtCT0J2ieygLiltR8aVfiyLehCQtUINqMHFOGNbxRpeEf9S0XxuNhx6LpDcV
- Lvhw==
-X-Gm-Message-State: AOAM532VJ+8Pkei/4sss0LqK+RsiKBRJb4qGzlbAi2qFEiHhJDVH7tsw
- NDleNdMvQHz5anTQ2xhgZzc6jkfJE12aSlCC5fXOpnTO24qiQXN1i9hTlY6HH0D9EjCJBnfy9rK
- sGyvI0YKRrWv0E9fbJQ3uXmxqZ3ZKreXtb3qv0WIkXnHfy5sHrn0dvLth9GG8l4g=
-X-Received: by 2002:a1c:7e87:: with SMTP id z129mr440091wmc.75.1632755799963; 
- Mon, 27 Sep 2021 08:16:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwNwVefyDjzxY2u/2kwqFfrNJL/bbQAEccMdm+PerV9UM8nTFGlFqc/C+9Ehdd/tViVzBD8eg==
-X-Received: by 2002:a1c:7e87:: with SMTP id z129mr440067wmc.75.1632755799691; 
- Mon, 27 Sep 2021 08:16:39 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c654d.dip0.t-ipconnect.de. [91.12.101.77])
- by smtp.gmail.com with ESMTPSA id
- d11sm10096772wrx.22.2021.09.27.08.16.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 08:16:39 -0700 (PDT)
-To: Nan Wang <wangnan.light@bytedance.com>, imammedo@redhat.com
-References: <20210927131951.1810823-1-user@n248-145-203>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH] hostmem: change default prealloc threads number
-Message-ID: <b14aebb1-489b-b15b-f9eb-047073920175@redhat.com>
-Date: Mon, 27 Sep 2021 17:16:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BNd5Gru1d6gt2MuT3knaFcvxWIHVgR33D0qJAIFCPlk=;
+ b=PSxUikf0hhrFgqoCMoJCP3YRg08Z7Mn0s1xDZlml6IcDUJJYiKm0GIwpCqpPwfK09I
+ rboI1c8AoSq57sIvZ8gSFLINFEwjWKe43/ejZY90Dv4ovzxfU/gARJ5m28xObQxfqGtF
+ r7b2bhwb20uCHw1iXi2Z2/1ZsGVUUHwLNJEEIUI/Ch8k0Fu1GG9UTnNGvhwnrF3fusCw
+ jqacrf8A/CiH1YwvEzwzjqJMG6PaK45tPY9yRTF638DgVE5DPQSDgLI7soQayzJ/05SJ
+ bh//SfogPsKUnIgVm1vN8mV56hAsNIjXoO8B3Uczab0bftIV0t+kw1ZQbw6j/aKiCv8j
+ /FrA==
+X-Gm-Message-State: AOAM532nQ6yaHwgCXV3qGwHkczgU0ueiRvQLLuAid433XRITLvhSuXJG
+ C3O/ySZH42Us8E+/G8LFSHo3++9dWTzjONzzj//cyg==
+X-Google-Smtp-Source: ABdhPJxLnbrrpNKl4MfEdX7m6jvV+A7ofdABt+vEQs7kBf+YLhXwS16U8XZmz5AGKw2e8Ais4nHn+37aZu4ydSTPiqQ=
+X-Received: by 2002:a05:6102:3a59:: with SMTP id
+ c25mr396589vsu.15.1632755882509; 
+ Mon, 27 Sep 2021 08:18:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210927131951.1810823-1-user@n248-145-203>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.136, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210926183410.256484-1-sjg@chromium.org>
+ <CAFEAcA8S2=7rOKxeqcW+kw0BVPO3PUJGSUH-ioN7=c=U7zQxvg@mail.gmail.com>
+ <CAPnjgZ2NCRVxKULWR1JjZU+D9saJ7fbZ=yHmWTSr3ufHxLYg-g@mail.gmail.com>
+ <CAFEAcA9n+2JDFv8BezeEMA4e2Zhr0ENAvzLjBS6YXRoW9P-JXQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA9n+2JDFv8BezeEMA4e2Zhr0ENAvzLjBS6YXRoW9P-JXQ@mail.gmail.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Mon, 27 Sep 2021 09:17:51 -0600
+Message-ID: <CAPnjgZ1AO8575LYbwmuouNR5=dgNam6EFDC1_bai=8xAHdw7-Q@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/virt: Allow additions to the generated device tree
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
+ envelope-from=sjg@google.com; helo=mail-vs1-xe32.google.com
+X-Spam_score_int: -92
+X-Spam_score: -9.3
+X-Spam_bar: ---------
+X-Spam_report: (-9.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,96 +76,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mikughoull@gmail.com, ehabkost@redhat.com, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.09.21 15:19, Nan Wang wrote:
-> From: "wangnan.light" <wangnan.light@bytedance.com>
-> 
-> the default number of prealloc threads is 1, for huge memory backend
-> file, single thread touch page is really slow.
-> We can adjust thread number by prealloc-threads property, but if the
-> default value updated to MachineState::smp::cpus may be better.
-> For example, old version of qemu(prealloc-threads have not been
-> introduced yet), the value of threads num is MachineState::smp::cpus,
-> so if someone use the same commandline to start current verion of qemu
-> and old version of qemu which will lead to different behaviors.
+Hi Peter,
 
-The introducing patch mentions:
+On Mon, 27 Sept 2021 at 02:48, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Sun, 26 Sept 2021 at 19:55, Simon Glass <sjg@chromium.org> wrote:
+> > In the case of U-Boot at least, it uses the devicetree for
+> > configuration (it is a boot loader, so there is no user space to
+> > provide configuration). So the current setup is not sufficient to boot
+> > it correctly in all cases. On the other hand, the 'virt' feature is
+> > very useful for testing U-Boot, so it would be great to be able to
+> > support this.
+>
+> So what is missing in the QEMU-provided DTB that it needs?
 
-commit ffac16fab33bb42f17e47624985220c1fd864e9d
-Author: Igor Mammedov <imammedo@redhat.com>
-Date:   Wed Feb 19 11:09:50 2020 -0500
+Quite a lot. Here are some examples:
 
-     hostmem: introduce "prealloc-threads" property
+U-Boot has limited pre-relocation memory so tries to avoid
+binding/probing devices that are not used before relocation:
 
-     the property will allow user to specify number of threads to use
-     in pre-allocation stage. It also will allow to reduce implicit
-     hostmem dependency on current_machine.
-     On object creation it will default to 1, but via machine
-     compat property it will be updated to MachineState::smp::cpus
-     to keep current behavior for hostmem and main RAM (which is
-     now also hostmem based).
+https://u-boot.readthedocs.io/en/latest/develop/driver-model/design.html#pre-relocation-support
 
-So it looks like we want to do the latter via compat properties eventually.
+There is a configuration node (which is likely to change form in
+future releases, but will still be there)
 
-However, I'd like to note that more prealloc threads might be good for 
-large backends, and might be bad for small backends. To me, it feels 
-like a workload that relies on this should really do this manually. So I 
-am still not sure if this is the right thing to do.
+https://github.com/u-boot/u-boot/blob/master/doc/device-tree-bindings/config.txt
 
-Note that qapi/qom.json:
+Then there are various features which put things in U-Boot's control
+dtb, such as verified boot, which adds public keys during signing:
 
-"@prealloc-threads: number of CPU threads to use for prealloc (default: 
-1", so that doc would be wrong now.
+https://github.com/u-boot/u-boot/blob/master/doc/uImage.FIT/signature.txt#L135
 
-Why exactly can't workload that cares not simply set this manually? 
-Performance tuning smells like something to be done manually for a 
-specific workload.
+More generally, the U-Boot tree has hundreds of files which add
+properties for each board, since we try to keep the U-Boot-specific
+things out of the Linux tree:
 
-> 
-> Signed-off-by: wangnan.light <wangnan.light@bytedance.com>
-> ---
->   backends/hostmem.c | 2 +-
->   hw/core/machine.c  | 5 +++++
->   2 files changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/backends/hostmem.c b/backends/hostmem.c
-> index 4c05862ed5..c4a249b7e6 100644
-> --- a/backends/hostmem.c
-> +++ b/backends/hostmem.c
-> @@ -273,7 +273,7 @@ static void host_memory_backend_init(Object *obj)
->       backend->merge = machine_mem_merge(machine);
->       backend->dump = machine_dump_guest_core(machine);
->       backend->reserve = true;
-> -    backend->prealloc_threads = 1;
-> +    backend->prealloc_threads = machine_smp_cpus(machine);
->   }
->   
->   static void host_memory_backend_post_init(Object *obj)
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 067f42b528..95ba5b1477 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -1065,6 +1065,11 @@ bool machine_dump_guest_core(MachineState *machine)
->       return machine->dump_guest_core;
->   }
->   
-> +bool machine_smp_cpus(MachineState *machine)
-> +{
-> +    return machine->smp.cpus;
-> +}
-> +
->   bool machine_mem_merge(MachineState *machine)
->   {
->       return machine->mem_merge;
-> 
+$ find . -name *u-boot.dtsi |wc -l
+398
 
+Quite a bit of this is to do with SPL and so far it seems that QEMU
+mostly runs U-Boot proper only, although I see that SPL is starting to
+creep in too in the U-Boot CI.
 
--- 
-Thanks,
+So at present QEMU is not able to support U-Boot fully. It would be
+great to add this as we use QEMU heavily in CI testing, e.g. see the
+second column here:
 
-David / dhildenb
+https://source.denx.de/u-boot/custodians/u-boot-dm/-/pipelines/9260
 
+Regards,
+Simon
 
