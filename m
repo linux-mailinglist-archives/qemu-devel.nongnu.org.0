@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B42D41955C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 15:47:43 +0200 (CEST)
-Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 731B1419577
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 15:55:56 +0200 (CEST)
+Received: from localhost ([::1]:33706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUqys-0002pn-3V
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 09:47:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46376)
+	id 1mUr6p-00052B-HS
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 09:55:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mUqh7-00042p-C9
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:29:22 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:42947)
+ id 1mUqit-0005hW-6F
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:31:12 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mUqh5-0001E5-TJ
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:29:21 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- q127-20020a1ca785000000b0030cb71ea4d1so461232wme.1
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 06:29:19 -0700 (PDT)
+ id 1mUqiq-0002Qs-LX
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:31:10 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id t8so52056956wrq.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 06:31:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5ZbQOrNC/HD3OXRL5DZTul7F8vCypQqlOdA7uIxqVTg=;
- b=HqjUlJHPgwirGCNyCuKB5V27i3z3/fud1tXidsTkFTR9a4NtvEMQQQj1dDsWzFGHuI
- frrkGAzsU4SuDnt3i+bIiOnLWtyLmKZDcgi0fhsQqs/64A4lCvzXwj1Ijorhxh+LcoaE
- cbJQj8kZcsLi9iaNTE2VBV+8Sc8fmwPp5+/8oDwtJY6+Rpu9F2RWqrnHwTqpsQYw07+x
- +Ez3voN6ADnlntSIeU9ee5UR36ypK+kM/qMfutNwN5fG5fxbYpIAw72Vn1R5vcrfqrPN
- O4NFUjbrO68IpPl2YKuvgNLVi9rdyqWEcZdTgj0E1eSHoYanyGcHIAUBBg+wK/OEs0vE
- HjCA==
+ :cc; bh=xv9d4STRP6teJmmUFE71E7z4I2+VG5EJaOGZy4Ws60U=;
+ b=QqJfumt3E9LPMNDpglXxn79fgeHnZ28GcjqKCN5Lvxhm8Xax+1fJ2TfXR5MBPpwElM
+ eWT9L0kHHem08JY2mhA/nJV5Rn1QW/y564IJTzSDTsjE6WbvUmi2VrxTbM0Jg7CPVj5S
+ pT/I2QuzdkQotClJnLsk3XXS8UV1dL6M36389lnrm1Gx5FUJK6x/WWdbYU9fObkmmYqK
+ kU5wvdowzL9neyIIUG6XVwXP/qczN2+iz+b9t9OWLNdIV2y7cQaC2K7u6hihrVOpPAEF
+ XJNFT5vDOWzSk/IRcrbzroobKlFljqTiBDTMaNYBTg8LbGi9njLXYEgX8jn++n55IFml
+ 7ILw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5ZbQOrNC/HD3OXRL5DZTul7F8vCypQqlOdA7uIxqVTg=;
- b=4piHXg7w/8CynNKoPtVdOFj/rhE8cm+b8H4coYCR4u3X8R6gZUy/ZGvfERAK3B0qnq
- gLhmxcnYWqRRaGM21pMniWb9M+P2t4gGflPJbK1tsEFwrtnb7pTWomErEScmN6WM7ld9
- qOsbTlfPNwE1uKi4DnzcywyPAs54TUuntwQKXzg9e/XLPW0wReUM9imNEUU5/Oi8xuIM
- ocdplO0jNS6lWRa1UBRsMGoPDdkwKgC5SJqFrk//8+qhpsL9Dnfkk5Fn9TCM2+mB8cQT
- AppsJ/xOIADIdo08Iwm8vxLSer6xew7uYv56rJ+TbAHJghdzve1x1525Ebf/Lxgr3BbZ
- 0e2A==
-X-Gm-Message-State: AOAM530x8MyHreKcwgHesoIJtBM4nVaInhjLyrMUpkxAQHOHvhdAegym
- tOsz15qfHoTeSGuvZajf2XcjQOSostf+qoI4fIX02w==
-X-Google-Smtp-Source: ABdhPJybJJ9M8jCR1Dw24FMBQruSAEH56YLOydHxvCAlZmLqGEoVBcywRPwERCJMgJqGvbkpo+oehrHRip/7TFxhYH8=
-X-Received: by 2002:a1c:a54e:: with SMTP id o75mr72636wme.32.1632749357409;
- Mon, 27 Sep 2021 06:29:17 -0700 (PDT)
+ bh=xv9d4STRP6teJmmUFE71E7z4I2+VG5EJaOGZy4Ws60U=;
+ b=O/wjdc7MGcs0iay6ulVFIJGbvS7lL/81kjqOjEhtJ9zc14m+dUWz2RYYBFYmkWQC8y
+ 2zDDWg/vR8YJsvXxHPVdT1+r/+FaQ0TT7ye1Yjm7Y3NXLAiAK+traOlajIBUicQL4nVq
+ gTW3rVcXzoUuZVF1zsqxAjddJ9iaWDpXkk48Ul/1r7W2Mlt3qz5Lc51vbNKA2NhUcrP5
+ bBkj2O3nVEYPGVg0tL9tAFYfYxkuwz6whChfQ31nzA8v/Ig64moT5pbi36KTNBSLnr8u
+ tS4idUj0kW5NltA5lV5bJ/AMOioKDb4TYuLctdEHqRJPxi1aHB1Z4oAtxzx9onJ4vBzh
+ Ci9w==
+X-Gm-Message-State: AOAM531KkQTSz/s/OcuOgRQxjcjGNgvpeO1Nn/6IVVWcajCqNSQDXTi0
+ oAESKalBmh5nXcnbor+IbF4/k4JuTmbfDu3C21V9DA==
+X-Google-Smtp-Source: ABdhPJxUQACWZfBzKSLm44FlXQwlm1j9vKU+bdgeM+Cn2Ns6hpfNrktd9yGO4yXdLrKNmBFoObYA9ts2ycwDxpTNGZg=
+X-Received: by 2002:adf:f185:: with SMTP id h5mr28679562wro.302.1632749467299; 
+ Mon, 27 Sep 2021 06:31:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210924165926.752809-1-richard.henderson@linaro.org>
- <20210924165926.752809-19-richard.henderson@linaro.org>
-In-Reply-To: <20210924165926.752809-19-richard.henderson@linaro.org>
+ <20210924165926.752809-26-richard.henderson@linaro.org>
+In-Reply-To: <20210924165926.752809-26-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 27 Sep 2021 14:28:24 +0100
-Message-ID: <CAFEAcA_W-gcQTscQkmQnJP0rcLAY_-8dvN=GHV9Cg7+p1P46MQ@mail.gmail.com>
-Subject: Re: [PATCH v3 18/27] linux-user/nios2: Fixes for signal frame setup
+Date: Mon, 27 Sep 2021 14:30:14 +0100
+Message-ID: <CAFEAcA9gn-MMTV6f5xpzp4KkZ6U5rZu599+9fdQDOEbZu_6VkQ@mail.gmail.com>
+Subject: Re: [PATCH v3 25/27] linux-user/sparc: Implement setup_sigtramp
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,23 +77,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 24 Sept 2021 at 17:59, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Do not confuse host and guest addresses.  Lock and unlock
-> the target_rt_sigframe structure in setup_rt_sigframe.
+> Create and record the two signal trampolines.
+> Use them when the guest does not use SA_RESTORER.
 >
-> Since rt_setup_ucontext always returns 0, drop the return
-> value entirely.  This eliminates the only write to the err
-> variable in setup_rt_sigframe.
->
-> Always copy the siginfo structure.
->
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
