@@ -2,68 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D594192D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 13:10:43 +0200 (CEST)
-Received: from localhost ([::1]:46546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2029441930F
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 13:24:37 +0200 (CEST)
+Received: from localhost ([::1]:35920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUoWw-0004iv-C5
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 07:10:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44680)
+	id 1mUokN-0000mN-Pc
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 07:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mUoUS-00026E-Uz
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 07:08:09 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46821)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mUoUN-0006O4-MY
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 07:08:05 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id c21so21534799wrb.13
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 04:08:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uoC0PrkrIEnvx99vmjou31CoKxnUniJJGeiNkd1T9r4=;
- b=sVFkRdMxLlM5WOCXjo8MPqc3gLV6KuV2ldGaeszZ4qN6kHZz1hPl1LJGCocuNG2fOo
- Dw0XgOIH2yI6pyYLAUy4VfUdMrNOS969BQkMfQx4BHS+ghz+uBLmUSAkMBp7lur1LHHM
- Ua/ZPzxtY+xdT4BDXKvBA9gI66Q01w1a4wcFh26JOQID636paLf9O1nqpuDe/ci9naHU
- U+k+mFVss8dlV3AEoBZ7zdG/KCPGfPZnmJQ1Irv0MT7pze/utugMlPn2oa0cm/9EWLP/
- GRL9HgJQZXvNL0pVE8999aWLjHtjX9vHO7kC4ib6dHozrvKFjAk9lrEZutwPpzlCJVyC
- 0cTA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUohv-0007rT-55
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 07:22:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46222)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUohr-0005Z5-Oj
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 07:22:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632741717;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7hD8Zygv9kRPaP1fi9/6dRyfr9fijqCuW9yPZQS73Pk=;
+ b=Yj53Zwjm5AgpHQn3M3szPbyV9ApsNgklDdMb1KMqW23EolgqOOokvBRFgUjka7uOySGzDT
+ FMuDKqyWKTzENtbP//Ja96RNWpF5KaYQSxpy7twDXvae95H1jL7NyY3PylrW0f1R+r52z5
+ OxwmqEadCwUqH9W7mlv3YLkNrHnxYho=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-557-eRqBeg_VODuLuLPqJ1JTLw-1; Mon, 27 Sep 2021 07:21:56 -0400
+X-MC-Unique: eRqBeg_VODuLuLPqJ1JTLw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ a17-20020adfed11000000b00160525e875aso6431397wro.23
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 04:21:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uoC0PrkrIEnvx99vmjou31CoKxnUniJJGeiNkd1T9r4=;
- b=iYe+NhyF1fyRvh2H+ETqXHuDrL/94zzztqzF3UE0sP7E00OQmyyxSmy1ZXoJZAtoVt
- QC63F9gGBuC3WDVMNOF2j0PnlpowRB6Gi6uHlaXJFUqqffs63yID3b1llN/pb9cQOEJq
- iFSaAl7dgUHfex2MqZ9+ueT37zy9iaNq9zVemcTLOUgYmNXwVKwE6UUou1Ms0r5wV4o2
- qCi/bFeUExotX3+KsD5jM9qAhCMdM50S+eiv1bymsEsdEm8MlEO9jblr1gXHDukYjky/
- KI0umrdMsdorKwNxXBP/dFmEEzIQEFR7cDCCJ7whlRjPq9fZl/+jiF47pKhIIGQC/57Q
- urvw==
-X-Gm-Message-State: AOAM531kebUWH00uo2+t6D3idqtM/QC2giROf1WF2uxJjwocszTN/C8D
- SRmtubtPBCAEbPOC/XA29FMXl4C/soeEuyoqhAkgJ6IkokI=
-X-Google-Smtp-Source: ABdhPJzw8Ul2ZzmOKLy7idWFMpst0F3qMHSURZA8YwnRwXaU7bqOj8PK0JPC7MshzupKS/o0szbziQF25dsL31yO/oI=
-X-Received: by 2002:adf:eac5:: with SMTP id o5mr18495990wrn.275.1632740880466; 
- Mon, 27 Sep 2021 04:08:00 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7hD8Zygv9kRPaP1fi9/6dRyfr9fijqCuW9yPZQS73Pk=;
+ b=6WMJVnL01Qn8a9ixALpg/lIlYCu6X6ApAhljLiXi3sKeeUUaWMoVoHfT/vA19KYTtB
+ 19zSMvhCVIRKsXMZY0ag5F8+MLf4BFgcPXao0eDgiXMiGERlUPdUtBWhU1XBGfKzSFK+
+ b4TyFADFVSez8BMI0U6LH8Ks760viU9CIJh+xeSccjUO0zWMkAbc4OEO6OicTOv9WTzA
+ v6vAjPB8PBMf02XUQdrH7fkv3sdrxm9Qjd+rvRPpzapH67uSYc2qMHAxN0gnE9QjwkrZ
+ y+WGZHllYkc7PONHwG9I4KRC2wQG4i1IHe84jPR5Gekf0JXh0bMv9U7HFB7CZiAZzFeY
+ 9+6g==
+X-Gm-Message-State: AOAM531QA3wKUbeRqJ6cho0fp2a67MwkSWCBImNmDZzIB7BKX/kWht1G
+ 16mxZ1pS98vevNRCQfRqr/Vtubj1CASmvvxOlyutrw9/hLhEFbZnSCTbk2Y+93qxnOfuowOfiAt
+ tZ9wBDCr8J2DRAbY=
+X-Received: by 2002:a5d:6c6f:: with SMTP id r15mr27645232wrz.428.1632741715399; 
+ Mon, 27 Sep 2021 04:21:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxO0Gg4T0jDd5awLgnrHI/JenWdfD88nT+EvEKUxQJgD/sq4eFsxsf1Olalkp2LOYsQua/WKw==
+X-Received: by 2002:a5d:6c6f:: with SMTP id r15mr27645195wrz.428.1632741715132; 
+ Mon, 27 Sep 2021 04:21:55 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id i203sm20852910wma.7.2021.09.27.04.21.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Sep 2021 04:21:54 -0700 (PDT)
+Message-ID: <fd0e791a-edc9-4b5b-fde5-673a2415acac@redhat.com>
+Date: Mon, 27 Sep 2021 13:21:53 +0200
 MIME-Version: 1.0
-References: <20210917052400.1249094-1-tong.ho@xilinx.com>
-In-Reply-To: <20210917052400.1249094-1-tong.ho@xilinx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 27 Sep 2021 12:07:07 +0100
-Message-ID: <CAFEAcA-uYp1o-fNEbmDq2WT-b-gfwVcL7-wshtbCOc=L=U4wTQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/9] hw/nvram: hw/arm: Introduce Xilinx eFUSE and BBRAM
-To: Tong Ho <tong.ho@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v3 1/3] hw/virtio: Comment virtqueue_flush() must be
+ called with RCU read lock
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+References: <20210906104318.1569967-1-philmd@redhat.com>
+ <20210906104318.1569967-2-philmd@redhat.com> <874ka6e2yw.fsf@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <874ka6e2yw.fsf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.136, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,28 +102,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Sept 2021 at 06:24, Tong Ho <tong.ho@xilinx.com> wrote:
->
-> This series implements the Xilinx eFUSE and BBRAM devices for
-> the Versal and ZynqMP product families.
->
-> Furthermore, both new devices are connected to the xlnx-versal-virt
-> board and the xlnx-zcu102 board.
->
-> See changes in docs/system/arm/xlnx-versal-virt.rst for detail.
->
-> ---
+On 9/27/21 12:18, Cornelia Huck wrote:
+> On Mon, Sep 06 2021, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+> 
+>> Reported-by: Stefano Garzarella <sgarzare@redhat.com>
+>> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  include/hw/virtio/virtio.h | 7 +++++++
+>>  hw/virtio/virtio.c         | 1 +
+>>  2 files changed, 8 insertions(+)
+>>
+>> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+>> index 8bab9cfb750..c1c5f6e53c8 100644
+>> --- a/include/hw/virtio/virtio.h
+>> +++ b/include/hw/virtio/virtio.h
+>> @@ -186,6 +186,13 @@ void virtio_delete_queue(VirtQueue *vq);
+>>  
+>>  void virtqueue_push(VirtQueue *vq, const VirtQueueElement *elem,
+>>                      unsigned int len);
+>> +/**
+>> + * virtqueue_flush:
+>> + * @vq: The #VirtQueue
+>> + * @count: Number of elements to flush
+>> + *
+>> + * Must be called within RCU critical section.
+>> + */
+> 
+> Hm... do these doc comments belong into .h files, or rather into .c files?
 
+Maybe we should restart this old thread, vote(?) and settle on a style?
 
+https://lore.kernel.org/qemu-devel/349cd87b-0526-30b8-d9cd-0eee537ab5a4@redhat.com/
 
+>>  void virtqueue_flush(VirtQueue *vq, unsigned int count);
+>>  void virtqueue_detach_element(VirtQueue *vq, const VirtQueueElement *elem,
+>>                                unsigned int len);
+>> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+>> index 3a1f6c520cb..97f60017466 100644
+>> --- a/hw/virtio/virtio.c
+>> +++ b/hw/virtio/virtio.c
+>> @@ -896,6 +896,7 @@ static void virtqueue_packed_flush(VirtQueue *vq, unsigned int count)
+>>      }
+>>  }
+>>  
+>> +/* Called within rcu_read_lock().  */
+>>  void virtqueue_flush(VirtQueue *vq, unsigned int count)
+>>  {
+>>      if (virtio_device_disabled(vq->vdev)) {
+> 
+> The content of the change looks good to me, I'm only wondering about
+> the style...
+> 
 
-Applied to target-arm.next, thanks.
-
--- PMM
 
