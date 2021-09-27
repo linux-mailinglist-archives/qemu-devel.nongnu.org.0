@@ -2,45 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2DD4198BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:18:23 +0200 (CEST)
-Received: from localhost ([::1]:58004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68EC14198AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:13:58 +0200 (CEST)
+Received: from localhost ([::1]:51200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUtKg-0008LF-JD
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:18:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39110)
+	id 1mUtGP-0003c1-Bi
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <129bb71d5119e61d335f1e3107e472e4beea223a@lizzy.crudebyte.com>)
- id 1mUtDW-0001vs-0h
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:10:58 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:47137)
+ (envelope-from <b84eb324d2ebdcc6f9c442c97b5b4d01eecb4f43@lizzy.crudebyte.com>)
+ id 1mUtDb-00028x-05
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:11:03 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:36719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <129bb71d5119e61d335f1e3107e472e4beea223a@lizzy.crudebyte.com>)
- id 1mUtDT-0001MS-VS
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:10:57 -0400
+ (envelope-from <b84eb324d2ebdcc6f9c442c97b5b4d01eecb4f43@lizzy.crudebyte.com>)
+ id 1mUtDZ-0001SN-Ky
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:11:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=t9QhMOqIUhpRDAYJ03MNREHt52RPVjDLx5pifFi97hI=; b=VDyuZ
- G3jtwZksUB2ZOo8Hu59NhJYJGxmaVIx1kMRK+6TgUK1P4im6CV82uFZz5kzuSLfC+7v+7G2yXxq/f
- RdWJJV1TkpHEsz5GrU004sw5XSnPIQ6FLE/zwMtgHVyYjlyvER6eRB1tUBV/FoCnEHWbZsnyNI+1O
- YbqLWWa64vkMPc9v+Wl6JtBiCfYNQtc8T61dOg1rD41AlJ92EZ2X2Dd60tCuwppwWSL96pPQ93geX
- KBpyW5ub7pCrtZjcU95lUMlK3j9D0cKsaMkjTZ2GcrUBKMISZ7Ef1dPDpJI4/eCA/nBTM3DtYZRmi
- pIYqjKwWIF5DqXPn4dKvQAUjdQIzg==;
-Message-Id: <129bb71d5119e61d335f1e3107e472e4beea223a.1632758315.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
+ Content-Description; bh=KjW0FdByYiNjWRRemmOXkRC6wmk7QwbmkjtN0R9DSeE=; b=jX6GY
+ NmBUcvL4HyGSrIXL44htjvh1GSVBL75YSya4tU/sBJfDC0R+DLV+6yJ144tXkm9mFV2txeufPhQM+
+ Acw1QmPUfUHZh5nNcgNb+XkuMPR4HLY2IZlB6PWBV93D5BY8sueRPAK7d1TqSbolWBCcdVfHiUmEa
+ Z+tBe2p5vx/uZPicLv6sfq0LkQB/QU0zBXMJG2Oobnzi3SmsPdOIMoHIpAwAPTyhR+h8k8AHd5H+E
+ Bz0Gq9hnDAEWoa0sGHrGewzGB0R3fUbeIBJL+z6YcQJZ57vmKC6BOo8KvQGXUNGi4YrG7fUw48iCu
+ YZVEQ9uiqkc9K9HQtEc7c6vJAYGog==;
+Message-Id: <b84eb324d2ebdcc6f9c442c97b5b4d01eecb4f43.1632758315.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1632758315.git.qemu_oss@crudebyte.com>
 References: <cover.1632758315.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Mon, 27 Sep 2021 17:45:00 +0200
-Subject: [PATCH 1/2] 9pfs: deduplicate iounit code
+Date: Mon, 27 Sep 2021 17:50:36 +0200
+Subject: [PATCH 2/2] 9pfs: simplify blksize_to_iounit()
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>,
     Philippe Mathieu-Daudé <philmd@redhat.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=129bb71d5119e61d335f1e3107e472e4beea223a@lizzy.crudebyte.com;
+ envelope-from=b84eb324d2ebdcc6f9c442c97b5b4d01eecb4f43@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,88 +66,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove redundant code that translates host fileystem's block
-size into 9p client (guest side) block size.
+Use QEMU_ALIGN_DOWN() macro to reduce code and to make it
+more human readable.
 
+Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p.c | 42 ++++++++++++++++++++----------------------
- 1 file changed, 20 insertions(+), 22 deletions(-)
+ hw/9pfs/9p.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 708b030474..c65584173a 100644
+index c65584173a..29cc19c90a 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -1262,18 +1262,26 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
- #define P9_STATS_ALL           0x00003fffULL /* Mask for All fields above */
- 
- 
--static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat *stbuf)
-+/**
-+ * Convert host filesystem's block size into an appropriate block size for
-+ * 9p client (guest OS side). The value returned suggests an "optimum" block
-+ * size for 9p I/O, i.e. to maximize performance.
-+ *
-+ * @pdu: 9p client request
-+ * @blksize: host filesystem's block size
-+ */
-+static int32_t blksize_to_iounit(const V9fsPDU *pdu, int32_t blksize)
- {
-     int32_t iounit = 0;
-     V9fsState *s = pdu->s;
- 
-     /*
--     * iounit should be multiples of st_blksize (host filesystem block size)
-+     * iounit should be multiples of blksize (host filesystem block size)
+@@ -1280,8 +1280,7 @@ static int32_t blksize_to_iounit(const V9fsPDU *pdu, int32_t blksize)
       * as well as less than (client msize - P9_IOHDRSZ)
       */
--    if (stbuf->st_blksize) {
--        iounit = stbuf->st_blksize;
--        iounit *= (s->msize - P9_IOHDRSZ) / stbuf->st_blksize;
-+    if (blksize) {
-+        iounit = blksize;
-+        iounit *= (s->msize - P9_IOHDRSZ) / blksize;
+     if (blksize) {
+-        iounit = blksize;
+-        iounit *= (s->msize - P9_IOHDRSZ) / blksize;
++        iounit = QEMU_ALIGN_DOWN(s->msize - P9_IOHDRSZ, blksize);
      }
      if (!iounit) {
          iounit = s->msize - P9_IOHDRSZ;
-@@ -1281,6 +1289,11 @@ static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat *stbuf)
-     return iounit;
- }
- 
-+static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat *stbuf)
-+{
-+    return blksize_to_iounit(pdu, stbuf->st_blksize);
-+}
-+
- static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
-                                 V9fsStatDotl *v9lstat)
- {
-@@ -1899,23 +1912,8 @@ out_nofid:
- static int32_t coroutine_fn get_iounit(V9fsPDU *pdu, V9fsPath *path)
- {
-     struct statfs stbuf;
--    int32_t iounit = 0;
--    V9fsState *s = pdu->s;
--
--    /*
--     * iounit should be multiples of f_bsize (host filesystem block size
--     * and as well as less than (client msize - P9_IOHDRSZ))
--     */
--    if (!v9fs_co_statfs(pdu, path, &stbuf)) {
--        if (stbuf.f_bsize) {
--            iounit = stbuf.f_bsize;
--            iounit *= (s->msize - P9_IOHDRSZ) / stbuf.f_bsize;
--        }
--    }
--    if (!iounit) {
--        iounit = s->msize - P9_IOHDRSZ;
--    }
--    return iounit;
-+    int err = v9fs_co_statfs(pdu, path, &stbuf);
-+    return blksize_to_iounit(pdu, (err >= 0) ? stbuf.f_bsize : 0);
- }
- 
- static void coroutine_fn v9fs_open(void *opaque)
 -- 
 2.20.1
 
