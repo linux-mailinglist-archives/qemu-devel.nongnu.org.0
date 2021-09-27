@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E9C41996D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:43:43 +0200 (CEST)
-Received: from localhost ([::1]:39292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70028419967
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:43:22 +0200 (CEST)
+Received: from localhost ([::1]:38020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUtjC-0000bg-Iz
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:43:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44212)
+	id 1mUtir-0008Ah-FQ
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:43:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUtdY-0002TK-MN
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:37:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55878)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUtdS-0007LT-AR
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:37:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632760661;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Kps2siuCQf0ZqaaJQscxoChq6W+2akrOqnBKYXH1bSQ=;
- b=E19mtHarJUASaFA5b4LW5XKnOO9+Gojf9aqXkm+9gDGDbz42CFsmBVTc6x0kmnr3Zf3Ldh
- U2WpgoUCY1POk05QTbc5n7unR1XCFdjC1hqm+HgAQW9fa+Fl5gwGlli+Ms5DWFwi1+sr3c
- YiZ8ngI85ArxVmWX/rZh9mLQCtS/Vco=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-Y_hUC_MDNHqOL5b_rV2sbA-1; Mon, 27 Sep 2021 12:37:39 -0400
-X-MC-Unique: Y_hUC_MDNHqOL5b_rV2sbA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- d12-20020a1c730c000000b0030b4e0ecf5dso144734wmb.9
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 09:37:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUtfT-0005MJ-U1
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:39:51 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:38410)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mUtfR-0000bU-Bh
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:39:51 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ 205-20020a1c01d6000000b0030cd17ffcf8so1136747wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 09:39:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UuJ1HW8ztM4JNQAQkV28zghegf0VVYrN/n6gjaVUeqk=;
+ b=RVCKhyzi7tHDcaxK7Hw3jsLL3poKKY0iS0JCQQvdQyXam5fThvrdG5FNQtTWsOvRkh
+ iI8LUSlsM2vPubdqHfvbhMnJTqQRG7w5uKuUkpz7938rUz4zpnPETaGbeA8MEF1Cn9H1
+ SFdsNone/YFiClRP7mAFcLtBaLoqaKlKuczo7N1T3EmKw/X3nPd9AltZ8axpvKPCSeF+
+ WfutSmlrULGBR8eBZtOeQK70CmwVIE4WK9EEb1woGEt+286GkhVOlt9iBVfywZPiFPlR
+ SX8f2igekpsBa8nInB/5nMYO/40Doj90tkAx6xBxqQjP2RTmC5TOyfMoIMZbo3CR2JaJ
+ rdbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Kps2siuCQf0ZqaaJQscxoChq6W+2akrOqnBKYXH1bSQ=;
- b=c7zhOB0M64bCnjuJVT5eQnnQsl1YOoeu1VF985f5lsF57qtSf/Eh3Lo3BUveOYwoOb
- n/VeOTi17e9EMwbbgw1pvqiCT3ib64TrmLaJb4RreCN9g/k7cWIEcUkV25YeGCM+Qa5R
- GUTLqTxT54ER4FJ5Z1iAbGnM/+byalodB+vkxOV8JkLszjMUPQb8Tda2ToWH2+b/CqS5
- vudCTBhyofcRAqxMKcl3ExOMiB8xrXYrgGusd8TaRlSyHaW8bm7UsPUwxe/O1C/7FP+i
- LhPDrckp/mjtyg56BCYmwkkhY20KYVYGCrrp6ra7vyAUUhpVxzguFJMRGtegrQgqanrh
- Q06g==
-X-Gm-Message-State: AOAM53358FXAp/1HjWc5AeDi6fZs/fJ5uqedTvnebR+bR5mf3qxJQ5oL
- uc2ozUoO+k4QLOvJp0JlXAnl1AvA/4eWwRTo6kG5hH3KQOpQL51SeZfjgZDLXOhxrhP/A04qE/N
- QZL7kN3M4BS2r3Oo=
-X-Received: by 2002:a05:600c:4ca2:: with SMTP id
- g34mr844274wmp.193.1632760658569; 
- Mon, 27 Sep 2021 09:37:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw9fOVSpQ5FHYPPLixwY4x40B67/M7pFctbEeUy9P8FKUG/kh1iPV+z+55F6qHf24BANz4C4Q==
-X-Received: by 2002:a05:600c:4ca2:: with SMTP id
- g34mr844243wmp.193.1632760658364; 
- Mon, 27 Sep 2021 09:37:38 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id h1sm28608wmb.7.2021.09.27.09.37.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 09:37:37 -0700 (PDT)
-Message-ID: <98dadfbf-589a-c088-dddb-bbbe33436f2c@redhat.com>
-Date: Mon, 27 Sep 2021 18:37:37 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UuJ1HW8ztM4JNQAQkV28zghegf0VVYrN/n6gjaVUeqk=;
+ b=GEdKPAvJtOWGzknjUGn1Go+UEJvHYq3URGONlm5dWMs2EPY1m5P/tXQKbuRcdEI2bM
+ CT8yN2OdzT+HtcSyEGOb+F8vUt+lq8QLseBMpBczu3c5FSFgoCFfyKshkC1+8qOtJcC6
+ S8Dg8aKoc+I/RRzGnrdDXAv3V2BeV6ivsefJNqyDDBcVlRf+yEIUtpRW0lXRHJXyhhge
+ A51McPs5RD7Td76TO/wgarAaRWJpVOrruB2Tx9KL+aPVMD0uCpgzpCENckpq+lyNqdHu
+ gcPJMA2gXsFpzWOxwOVwSr8a+rvjmBuevsN8QZNATwuajKdg1TMgq2rFTZmaCa41PRfv
+ zDkA==
+X-Gm-Message-State: AOAM530bkm6Q/mBXpKSVJJBuYkxsCDAcokEWBtyGNKB7TPjWg7wDNcQH
+ Gs78htu5O8MTOFd9CfqE6dKftx7GFxq2qVQCuVrb3Q==
+X-Google-Smtp-Source: ABdhPJxEiFpzhaeepq/L7LIFrtYJirO+dYAZp/GjB41HjhwSkHtaTN2DKZJpmlWqEmVpnXe6rq/hiXLAGXh30CuaKJA=
+X-Received: by 2002:a05:600c:d6:: with SMTP id
+ u22mr852607wmm.133.1632760787520; 
+ Mon, 27 Sep 2021 09:39:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3 0/5] More record/replay acceptance tests
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <162737551207.1735673.5022919664900932604.stgit@pasha-ThinkPad-X280>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <162737551207.1735673.5022919664900932604.stgit@pasha-ThinkPad-X280>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.136, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210921093227.18592-1-kevin.townsend@linaro.org>
+In-Reply-To: <20210921093227.18592-1-kevin.townsend@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Sep 2021 17:38:54 +0100
+Message-ID: <CAFEAcA8gY5q=qtaR8brf+JfHNh=Xt2EzMvGv8g94AFRNm+Q=RA@mail.gmail.com>
+Subject: Re: [PATCH v3] hw/sensor: Add lsm303dlhc magnetometer device
+To: Kevin Townsend <kevin.townsend@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,39 +78,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, wrampazz@redhat.com,
- crosa@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/27/21 10:45, Pavel Dovgalyuk wrote:
-> The following series adds new record/replay tests to the acceptance group.
-> 
-> The provided tests perform kernel boot and disk image boot scenarios.
-> For all of them recording and replaying phases are executed.
-> Tests were borrowed from existing boot_linux*.py tests.
-> 
-> New tests include kernel boot for s390x, alpha, nios2, and openrisc,
-> and Linux boot with cloudinit image for x86_64.
-> 
-> v3 changes:
->  - rebased
->  - removed duplicate ppc64 test
-> v2 changes:
->  - moved ppc64 test to the right script
-> 
+On Tue, 21 Sept 2021 at 10:41, Kevin Townsend <kevin.townsend@linaro.org> wrote:
+>
+> This commit adds emulation of the magnetometer on the LSM303DLHC.
+> It allows the magnetometer's X, Y and Z outputs to be set via the
+> mag-x, mag-y and mag-z properties, as well as the 12-bit
+> temperature output via the temperature property.
+
+Thanks; this is generally looking pretty good. I have some review
+commenst below.
+
+> Signed-off-by: Kevin Townsend <kevin.townsend@linaro.org>
 > ---
-> 
-> Pavel Dovgaluk (1):
->       tests/acceptance: Linux boot test for record/replay
-> 
-> Pavel Dovgalyuk (4):
->       tests/acceptance: add replay kernel test for s390
->       tests/acceptance: add replay kernel test for openrisc
->       tests/acceptance: add replay kernel test for nios2
->       tests/acceptance: add replay kernel test for alpha
+>  hw/sensor/Kconfig          |   4 +
+>  hw/sensor/lsm303dlhc_mag.c | 754 +++++++++++++++++++++++++++++++++++++
+>  hw/sensor/meson.build      |   1 +
+>  3 files changed, 759 insertions(+)
+>  create mode 100644 hw/sensor/lsm303dlhc_mag.c
 
-Thanks Pavel, I apologize for the delay, and have now applied
-your series to my integration-testing tree.
+> +static void lsm303dlhc_mag_get_x(Object *obj, Visitor *v, const char *name,
+> +                                 void *opaque, Error **errp)
+> +{
+> +    LSM303DLHCMagState *s = LSM303DLHC_MAG(obj);
+> +    int64_t value = s->x;
+> +
+> +    /* Convert to uT where 1000 = 1 uT. Conversion factor depends on gain. */
+> +    value *= 1000000;
+> +    switch (s->crb >> 5) {
+> +        case 1:
+> +            /* 11 lsb per uT. */
+> +            value /= 11000;
+> +            break;
+> +        case 2:
+> +            /* 8.55 lsb per uT. */
+> +            value /= 8550;
+> +            break;
+> +        case 3:
+> +            /* 6.70 lsb per uT. */
+> +            value /= 6700;
+> +            break;
+> +        case 4:
+> +            /* 4.50 lsb per uT. */
+> +            value /= 4500;
+> +            break;
+> +        case 5:
+> +            /* 4.00 lsb per uT. */
+> +            value /= 4000;
+> +            break;
+> +        case 6:
+> +            /* 3.30 lsb per uT. */
+> +            value /= 3300;
+> +            break;
+> +        case 7:
+> +            /* 2.30 lsb per uT. */
+> +            value /= 2300;
+> +            break;
+> +        default:
+> +            break;
+> +    }
 
+This gain conversion code is quite long-winded and duplicated
+between the get_x and get_y functions. I think we could reduce it:
+
+/*
+ * Conversion factor from Gauss to sensor values for each GN gain setting,
+ * in units "lsb per Gauss" (see data sheet table 3). There is no documented
+ * behaviour if the GN setting in CRB is incorrectly set to 0b000;
+ * we arbitrarily make it the same as 0b001.
+ */
+uint32_t xy_gain[] = { 1100, 1100, 855, 670, 450, 400, 330, 230 };
+uint32_t z_gain[] = { 980, 980, 760, 600, 400, 355, 295, 205 };
+
+static void lsm303dlhc_mag_get_x(Object *obj, Visitor *v, const char *name,
+                                 void *opaque, Error **errp)
+{
+    LSM303DLHCMagState *s = LSM303DLHC_MAG(obj);
+    int64_t value;
+    int gm = extract32(s->crb, 5, 3);
+
+    /* Convert to uT where 1000 = 1 uT. Conversion factor depends on gain. */
+    int64_t value = muldiv64(s->x, 100000, xy_gain[gm]);
+    visit_type_int(v, name, &value, errp);
+}
+
+static void lsm303dlhc_mag_set_x(Object *obj, Visitor *v, const char *name,
+                                 void *opaque, Error **errp)
+{
+    LSM303DLHCMagState *s = LSM303DLHC_MAG(obj);
+    int64_t value;
+    int64_t reg;
+    int gm = extract32(s->crb, 5, 3);
+
+    if (!visit_type_int(v, name, &value, errp)) {
+        return;
+    }
+
+    reg = muldiv64(value, xy_gain[gm], 100000);
+
+    /* Make sure we are within a 12-bit limit. */
+    if (reg > 2047 || reg < -2048) {
+        error_setg(errp, "value %lld out of register's range", value);
+        return;
+    }
+
+    s->x = (int16_t)reg;
+}
+
+Similarly for y and z (z uses z_gain[], obviously).
+
+(muldiv64() is in "qemu/host-utils.h"; it avoids potential overflows
+by calculating a * b / c with a higher-precision intermediate value;
+we don't need that in the get but we do for the set, and it makes the
+two functions clearly the inverse of each other to use it both places.)
+
+> +/*
+> + * Callback handler whenever a 'I2C_START_RECV' (read) event is received.
+> + */
+> +static void lsm303dlhc_mag_read(LSM303DLHCMagState *s)
+> +{
+> +    s->len = 0;
+> +
+> +    /*
+> +     * The address pointer on the LSM303DLHC auto-increments whenever a byte
+> +     * is read, without the master device having to request the next address.
+> +     *
+> +     * The auto-increment process has the following logic:
+> +     *
+> +     *   - if (s->pointer == 8) then s->pointer = 3
+> +     *   - else: if (s->pointer >= 12) then s->pointer = 0
+> +     *   - else: s->pointer += 1
+> +     *
+> +     * Reading an invalid address return 0.
+> +     *
+> +     * The auto-increment logic is only taken into account in this driver
+> +     * for the LSM303DLHC_MAG_REG_OUT_* and LSM303DLHC_MAG_REG_TEMP_OUT_*
+> +     * registers, which are the two common uses cases for it. Accessing either
+> +     * of these register sets will also populate the rest of the related
+> +     * dataset.
+> +     */
+
+I thought we'd agreed to implement the whole of the auto-increment
+logic, not just for specific registers ?
+
+Could I ask you to write a test case for this new device?
+tests/qtest/tmp105-test.c is probably a good model to follow.
+It doesn't have to be an exhaustive functionality test, but some
+basic tests like:
+ * if you set the sensor values via the qom properties and
+   read them back do you get the same value you read?
+ * if you set the values, change the gain, read back, ditto?
+ * does reading the sensor values via the i2c registers
+   give the right results?
+would help in ensuring this doesn't accidentally regress in future.
+(Make the test case a patch 2 in the patchset.)
+
+thanks
+-- PMM
 
