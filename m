@@ -2,91 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254D04199BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:54:53 +0200 (CEST)
-Received: from localhost ([::1]:33800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66613419D04
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:36:01 +0200 (CEST)
+Received: from localhost ([::1]:35712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUtu0-0007wn-7N
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:54:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46382)
+	id 1mUuXo-0000CS-Ef
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:36:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUtmD-0007Qf-Rb
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:46:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUtmA-0006Mj-H4
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:46:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632761203;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IYPgonmE09YaBM0iRAxilyIKJd/hIX3aaATz/sGSbVw=;
- b=hCEwfJfXvVWj/XNnRF7LbU44MxCwJA441H6XkIxdI1AvbuHrTCd7eJzVyBjZQPUpIQhjn/
- uELewRIOm70p6e9SJ4HGUblWHXVUX/yGNO3jTBU21+W2hrfNyUvbggS1ntcILZmxiwCSVj
- B0zuD5w3v7rhkqYgVyTCY8eSP6RMYBE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-f6YqQoKbPkyItGARSi7fmQ-1; Mon, 27 Sep 2021 12:46:40 -0400
-X-MC-Unique: f6YqQoKbPkyItGARSi7fmQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- r15-20020adfce8f000000b0015df1098ccbso14363688wrn.4
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 09:46:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangnan.light@bytedance.com>)
+ id 1mUtmd-0007Xs-H0
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:47:16 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:42833)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wangnan.light@bytedance.com>)
+ id 1mUtmX-0006hl-5S
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:47:12 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ rm6-20020a17090b3ec600b0019ece2bdd20so503993pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 09:47:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:to:cc:references
+ :from:in-reply-to:content-transfer-encoding;
+ bh=LFR40itf3uS7UIDL+DtvpvvfndY66QPCeJjJuG54ypI=;
+ b=B7ZwCAuL4JrzsjFcVomBNrC6fYlLTerGLqMt8UgBBjWFxbLApKkSk4l2ouC2VInv+3
+ SfzfGftR5HPh4a4ebBMSHYde4an42hMWSvjPb0k1rrS15UfbU+47j8LkNphM5epuSWrg
+ Xe8PrvEeOeXr3uPrkge+zyzj1zxTy8IpjKKFvEKX/7dpPsx/jbUiQYAq2mSDoXsm9Uym
+ MfGqgKfRy/suwO0duNci7eKbsbE8f70UaS+GR0MtcCvju+9AJUyfYcU7s8CGfhOfKC8P
+ 8yKAIpJqepbBJjvGRcL3TUL+9rMmVDoyOE1bfI+N3uB0Gefce+KYt1SzHWzA54gQXR5J
+ mx8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IYPgonmE09YaBM0iRAxilyIKJd/hIX3aaATz/sGSbVw=;
- b=s9TggR9pfTLi/CAqonGXFW0DFVzfuorerRAbIvEU41sZp/OHNUnbrrnDz2l1l34eSj
- Qt6HTt1QCvjwNJLKoYHFeXxxmkTo9UnpbWr8askkiXuymXinGPY7MGCAJ2cP7tgep2te
- IigpPxS9gzJzBXM3g5aPM+WfSZnYCAfFkrAs0HhhYa5EjDsjK7YRN0MzwSHwPDw4G42q
- uM7CocmBbL8DfeaUZBseOmIRHY8H2z0ZP3/T4yeYexgM1jxbANaDRPJn8O79yx42e3KJ
- GEkchx7lfAeXhxAkSqKeC0nOX2WKrKTfm7be7qFoZnuKwiUfCOelKoAcBSyNVJizd7KC
- AlIw==
-X-Gm-Message-State: AOAM530rLiKGP5eSzxQn3Vg85aeJFmD9jtqpl6zIYIkg9bRjT9eAujMp
- iwj0p3VxDzqWyrHb/CFyC8OSSKg+sTyY+04kDuZirJaqYb8y/C0h7HIxceojRXP+xgqWbhIIijN
- uVUJkTk75pVdePsU=
-X-Received: by 2002:adf:b7c1:: with SMTP id t1mr898035wre.387.1632761199329;
- Mon, 27 Sep 2021 09:46:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZUkF8pTG1tw9+z2WgZY+OCY7OHodA4KMlpTsrMq1vF4vRdLOZjBYzTNPZMc14+68ffFSpjA==
-X-Received: by 2002:adf:b7c1:: with SMTP id t1mr898001wre.387.1632761199130;
- Mon, 27 Sep 2021 09:46:39 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id j14sm16938183wrp.21.2021.09.27.09.46.37
+ :to:cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=LFR40itf3uS7UIDL+DtvpvvfndY66QPCeJjJuG54ypI=;
+ b=iZB7t7AswPa0SrTL6iQx5WIea95FKXKZFcQ2DX4l3Zeqt7qPXW5ID5CHdOLsvDWzU1
+ /2J7jR0lJ3eV7SlMeFK1HEWPYET5/ogk+e/BOzjTm5L8g9t1nEMI4WT2KEBhAm/5eoJ/
+ QmzDOOkJmmWVJxiyNVgzfEKW8XhvkxyKNXmmMnjTV9FagIshp0RfbJ9vqFOWFixzqgrb
+ 9FojcbXdEtnjM5GTUg0TrNc+2Ldu7QrOT+y/FA4pou5vGcN4NL7vtA0pzBW31N9+trU7
+ NfYSm159VmbOck/TmFy4M/gNElOrvIC078gLVErRh5cRPOnyJVV4ARYKmL1MWdoEq1mO
+ SLfw==
+X-Gm-Message-State: AOAM5325j9kElt7r3b8e+2sbWE514jqK+TaUJhf76vcKRZv7uniPNCP0
+ VNmrGcmmeptUT18dexSCXAVW2g==
+X-Google-Smtp-Source: ABdhPJxCdMtkwWtK+zqcd1vywysGgUjJLW3W49reSqmSMPdhFrNQNi1VNbASMJVeVnHBl2r0jmxGrQ==
+X-Received: by 2002:a17:90b:1d8e:: with SMTP id
+ pf14mr42292pjb.31.1632761226593; 
+ Mon, 27 Sep 2021 09:47:06 -0700 (PDT)
+Received: from [10.200.188.243] ([139.177.225.242])
+ by smtp.gmail.com with ESMTPSA id n22sm2670376pfa.220.2021.09.27.09.47.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 09:46:38 -0700 (PDT)
-Message-ID: <80a1e61d-97d7-2caa-a366-babd64f8172c@redhat.com>
-Date: Mon, 27 Sep 2021 18:46:36 +0200
+ Mon, 27 Sep 2021 09:47:06 -0700 (PDT)
+Message-ID: <e1a98460-ad0a-9b9c-5958-bb39635886ec@bytedance.com>
+Date: Tue, 28 Sep 2021 00:47:01 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 00/16] Acceptance Tests: use Avocado 91.0 features and
- other improvements
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210924185506.2542588-1-crosa@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210924185506.2542588-1-crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.1.1
+Subject: Re: [External] Re: [PATCH] hostmem: change default prealloc threads
+ number
+To: David Hildenbrand <david@redhat.com>, imammedo@redhat.com
+References: <20210927131951.1810823-1-user@n248-145-203>
+ <b14aebb1-489b-b15b-f9eb-047073920175@redhat.com>
+From: Nan Wang <wangnan.light@bytedance.com>
+In-Reply-To: <b14aebb1-489b-b15b-f9eb-047073920175@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=wangnan.light@bytedance.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
 X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.136, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-3.136, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 27 Sep 2021 13:32:33 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,70 +89,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Greg Kurz <groug@kaod.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Auger Eric <eric.auger@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Willian Rampazzo <wrampazz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>,
- Ryo ONODERA <ryoon@netbsd.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: mikughoull@gmail.com, ehabkost@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/21 20:54, Cleber Rosa wrote:
-> This is a collection of patches for the Acceptance Tests to leverage
-> some of the features of Avocado 91.0.  With the Avocado version bump
-> by itself, there would be a change in the default "test runner"
-> implementation that Avocado uses, from the one simply known as
-> "runner" to the new one called "nrunner".
-> 
-> Among the changes from one implementation to the other, is the fact
-> that "nrunner" will run tests in parallel by default.  This is *not
-> yet* enabled by default on "make check-acceptance", but users can
-> choose to use simply by setting the "AVOCADO_RUNNER" variable, that
-> is:
-> 
->   make AVOCADO_RUNNER=nrunner check-acceptance
-> 
-> If you are curious about the architectural differences of the nrunner,
-> please refer to:
-> 
->   https://avocado-framework.readthedocs.io/en/91.0/guides/contributor/chapters/runners.html
-> 
-> One other noteworthy proposal is a convention to tag tests that either
-> have known issues, or that touch on QEMU features that have known
-> issues.  By tagging those tests accordingly, they will be
-> automatically excluded from the regular execution with "make
-> check-acceptance".
-> 
-> Finally, some updates to assets locations and some tests refactors and
-> cleanups.
-> 
-> Cleber Rosa (16):
->   Acceptance Tests: bump Avocado requirement to 91.0
->   Acceptance Tests: improve check-acceptance description
->   Acceptance Tests: add mechanism for listing tests
->   Acceptance Tests: keep track and disable tests with known issues
->   Acceptance Tests: add standard clean up at test tearDown()
->   Acceptance Tests: use extract from package from avocado.utils
->   Acceptance Tests: workaround expired mipsdistros.mips.com HTTPS cert
->   acceptance/tests/vnc.py: use explicit syntax for enabling passwords
->   tests/acceptance/boot_xen.py: merge base classes
->   tests/acceptance/boot_xen.py: unify tags
->   tests/acceptance/boot_xen.py: fetch kernel during test setUp()
->   tests/acceptance/boot_xen.py: removed unused import
->   tests/acceptance/boot_xen.py: use class attribute
->   tests/acceptance/ppc_prep_40p.py: NetBSD 7.1.2 location update
->   tests/acceptance/ppc_prep_40p.py: clean up unused import
->   tests/acceptance/ppc_prep_40p.py: unify tags
 
-Thanks. Trivial patches 2, 8, 12, 14, 15 applied to my
-integration-testing tree.
 
+On 2021/9/27 11:16, David Hildenbrand wrote:
+> On 27.09.21 15:19, Nan Wang wrote:
+>> From: "wangnan.light" <wangnan.light@bytedance.com>
+>>
+>> the default number of prealloc threads is 1, for huge memory backend
+>> file, single thread touch page is really slow.
+>> We can adjust thread number by prealloc-threads property, but if the
+>> default value updated to MachineState::smp::cpus may be better.
+>> For example, old version of qemu(prealloc-threads have not been
+>> introduced yet), the value of threads num is MachineState::smp::cpus,
+>> so if someone use the same commandline to start current verion of qemu
+>> and old version of qemu which will lead to different behaviors.
+> 
+> The introducing patch mentions:
+> 
+> commit ffac16fab33bb42f17e47624985220c1fd864e9d
+> Author: Igor Mammedov <imammedo@redhat.com>
+> Date:   Wed Feb 19 11:09:50 2020 -0500
+> 
+>      hostmem: introduce "prealloc-threads" property
+> 
+>      the property will allow user to specify number of threads to use
+>      in pre-allocation stage. It also will allow to reduce implicit
+>      hostmem dependency on current_machine.
+>      On object creation it will default to 1, but via machine
+>      compat property it will be updated to MachineState::smp::cpus
+>      to keep current behavior for hostmem and main RAM (which is
+>      now also hostmem based).
+> 
+> So it looks like we want to do the latter via compat properties eventually.
+> 
+> However, I'd like to note that more prealloc threads might be good for 
+> large backends, and might be bad for small backends. To me, it feels 
+> like a workload that relies on this should really do this manually. So I 
+> am still not sure if this is the right thing to do.
+Yes, I agree with you "more prealloc threas are good for large backends, 
+and bad for small backends". But I think most situation large backends 
+always with large vcpu numbers and small backens always with small vcpu 
+numbers, because most users will not create a vm with large vcpu numbers 
+with small memory.
+
+
+> 
+> Note that qapi/qom.json:
+> 
+> "@prealloc-threads: number of CPU threads to use for prealloc (default: 
+> 1", so that doc would be wrong now.
+> 
+> Why exactly can't workload that cares not simply set this manually? 
+> Performance tuning smells like something to be done manually for a 
+> specific workload.
+>
+It is a simply way that let workload set the prealloc threads manually. 
+For example, for large backends it set many prealloc threads, and set 1 
+prealloc threads manually for small backends. Yes, workload can 
+`maunally` set prealloc thread to 1, rather than use `default` value 1.
+So when workload want to(or maybe just forget specify the 
+prealloc-threads property) use the default value, I think the 
+MachineState::smp::cpus maybe better than 1.
+
+
+>>
+>> Signed-off-by: wangnan.light <wangnan.light@bytedance.com>
+>> ---
+>>   backends/hostmem.c | 2 +-
+>>   hw/core/machine.c  | 5 +++++
+>>   2 files changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/backends/hostmem.c b/backends/hostmem.c
+>> index 4c05862ed5..c4a249b7e6 100644
+>> --- a/backends/hostmem.c
+>> +++ b/backends/hostmem.c
+>> @@ -273,7 +273,7 @@ static void host_memory_backend_init(Object *obj)
+>>       backend->merge = machine_mem_merge(machine);
+>>       backend->dump = machine_dump_guest_core(machine);
+>>       backend->reserve = true;
+>> -    backend->prealloc_threads = 1;
+>> +    backend->prealloc_threads = machine_smp_cpus(machine);
+>>   }
+>>   static void host_memory_backend_post_init(Object *obj)
+>> diff --git a/hw/core/machine.c b/hw/core/machine.c
+>> index 067f42b528..95ba5b1477 100644
+>> --- a/hw/core/machine.c
+>> +++ b/hw/core/machine.c
+>> @@ -1065,6 +1065,11 @@ bool machine_dump_guest_core(MachineState 
+>> *machine)
+>>       return machine->dump_guest_core;
+>>   }
+>> +bool machine_smp_cpus(MachineState *machine)
+>> +{
+>> +    return machine->smp.cpus;
+>> +}
+>> +
+>>   bool machine_mem_merge(MachineState *machine)
+>>   {
+>>       return machine->mem_merge;
+>>
+> 
+> 
 
