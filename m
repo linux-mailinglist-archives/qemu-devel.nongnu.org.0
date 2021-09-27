@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87B5419208
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 12:11:32 +0200 (CEST)
-Received: from localhost ([::1]:55382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1169041922D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 12:22:37 +0200 (CEST)
+Received: from localhost ([::1]:51490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUnbf-0000uQ-VR
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 06:11:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60020)
+	id 1mUnmO-0000qL-4a
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 06:22:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mUnYY-0006FA-8N
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:08:19 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41865)
+ id 1mUnci-0004iP-Hr
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:12:36 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mUnYW-00088n-QJ
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:08:18 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id w29so50735295wra.8
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 03:08:16 -0700 (PDT)
+ id 1mUncg-0003Dd-U2
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 06:12:36 -0400
+Received: by mail-wr1-x432.google.com with SMTP id i23so50985392wrb.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 03:12:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=J8q1dmv8ByfrswwLW/lDF2Zza3LpzQLATB8uhMs/KDU=;
- b=dV1GNm9jYFD3RIXiZMwhrWo3UOYaV4ryPHW34IXRtreubXwEEJB3lBZNdgUxXDtK/G
- PvNeCavW3qPFS6k82IhdsDlNgJyH80d6+2N9L1wjphDX5Mm5JBsx2auexqXxRvODcVYJ
- /MR+05fT3SdSsE/B+T1H3l+YRlAVNlRoB/IXzqdHyxnElGpD5CPG3tlDCY3HepJPG14+
- 4WXQLHYxbM4xXkOuzgHI+GBH8bWPGZFlVaUbrU9jV9vgbxNnb/6pRoGCwCg51WUYZ0gv
- PM3xfoJrQvxE9XcNowwprfJWD0W9n9NMHxJomDUNM7N1p0w6MHWhN41atGw0tS6A2/ZB
- cBlQ==
+ :cc; bh=BfghJtw5yvTzVUMWrUsk+gH7KRuMJI70dHEi46aSe8I=;
+ b=MTupWbDRHNedrtYDiFj3ypJWdjuBENRjZITtZ8VviUTLMI8y+5KDBQOz+SgYb8od/o
+ +V1QjKkwuHh+IUybJ57jn6ttC37Qf/L80zq9DUpCJ4Otw6dKKir1keoNwVrNEPcLwioR
+ abbaJv5iUPSArrzxmA7kEmEBMbUIQ86lGT0xdBZmQ23mWBprRyBpNlDvNJOz0yyHZTcw
+ IzmrPIGuT6BD/4sWscT3dAWppatFVKLiNoK32TazGNI8J4yEHnYYQq+4N5B81TkrLjnN
+ wFtYDoJ25A0522CcfoSRS5kmt3Lrx/I/mdImTCwMA5FAYufkD5KLvy21s9+gl8sQGR4M
+ 49RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=J8q1dmv8ByfrswwLW/lDF2Zza3LpzQLATB8uhMs/KDU=;
- b=VLOMc2D8QOJpw9o5c2AZM2zl+e77T1QRYLNU03Lkj8cy4DUDU4ipMmABlzNWDOsKF4
- 02hdSSmIlzvSKgcnbKCTsMW7UYbm/YZPleBv2ETjXCJIs3idHEDxy/ya5gRCJlLM8Fjz
- M6ysFUJIetnwt6UUFIdI/iNXoOa2RsqesfNqLcqcbBYWtvW8LU44d52FOl7/T3gCqy7E
- J4PL+DJNT6CzmatxTlKSMZKgQh9nIQlZvFPZp8Y+jDolcm4mCDFxxU0lKnovhTEjmRjU
- 04Kxu9lWziVzE/jZCqRVlV2xBFAQtFmmvU9mKP7hyQjgqF8Affq3Gt0IrA8XlCGbc2o+
- azrQ==
-X-Gm-Message-State: AOAM530kk8qwPcUbcxGUe8cLeRk93Jub0CDOJxuSOmonHMNsE4PbHQlm
- 6GY4gFCmGoXbmNEVkfwDIOGzLeS/Qt27UNeuZGn6oA==
-X-Google-Smtp-Source: ABdhPJxvC9vSjvJyPiIeBsQqDM7TAo01I7J8ksRozunD7IyL8oAJBG4egKYq+eddhBRnAwPtzdU+iv6km014siwiib4=
-X-Received: by 2002:a5d:59a4:: with SMTP id p4mr27029990wrr.149.1632737295525; 
- Mon, 27 Sep 2021 03:08:15 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=BfghJtw5yvTzVUMWrUsk+gH7KRuMJI70dHEi46aSe8I=;
+ b=DXRaTZwvTNToMftcbaoNQh03n27duX053CkyBvqEXf/cBfhlD8pqcEgBMkyOezRSyb
+ 0Zagy2CccCCo0IAY4o7Lq0spRbOQf8dPMm62g8f/hEJ/LGWT/ZmDWme62vWgKzIiEAxp
+ z2rEo0rWGufj3X/TBAW8gabMWxfXN0N5eRhryfcYo9MqXX77vvRDdcYNEqmQHTBFVuZ7
+ yKa9PU+8OdkcOfY/PUVv+MCkxkyI2cJh500neNcg/e6zZiZ6Y2NQUsnxbU0SFcsaphvm
+ y91aAs1ILLtff6zNtN8NZdCpXYnW7w9DaW4V4hCrqbFUDCzoD/ug3OZJCBYxXCqFh/v5
+ ONvw==
+X-Gm-Message-State: AOAM532gzRA22On5wSO0O0WfjhoR6+iWmlOO2Ab58rqxJbR89oK6+6D3
+ wE7SHaNGjOtoZzEwhILGEQzjGxw9rngxNFvO4ASnlA==
+X-Google-Smtp-Source: ABdhPJyWoFgxc2guu+8G+syA13RbobkNeJvBLNyupoNzqA7+emDRbpL/sVTSSSIATs0cZLu0qzw617qc2ySnJnaCq80=
+X-Received: by 2002:a5d:6b07:: with SMTP id v7mr26321618wrw.376.1632737552646; 
+ Mon, 27 Sep 2021 03:12:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210926220103.1721355-1-f4bug@amsat.org>
- <20210926220103.1721355-2-f4bug@amsat.org>
- <YVGUX6FZlFBhhgwn@redhat.com>
-In-Reply-To: <YVGUX6FZlFBhhgwn@redhat.com>
+References: <20210920203931.66527-1-agraf@csgraf.de>
+ <CAPan3WpYNJgOE9AVpHPegf4Njm=80YXDQYT_jKhKKhUm=r2=hA@mail.gmail.com>
+In-Reply-To: <CAPan3WpYNJgOE9AVpHPegf4Njm=80YXDQYT_jKhKKhUm=r2=hA@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 27 Sep 2021 11:07:22 +0100
-Message-ID: <CAFEAcA_FRAHy1Hq2QxO2DWkrLZbW_4g=zzCoac18rRNf2CD0kw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] bsd-user: Only process meson rules on BSD host
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Date: Mon, 27 Sep 2021 11:11:39 +0100
+Message-ID: <CAFEAcA8QQcaBzxMXyWhs+4FQnnEvErfjqoj3idJtgrTjEpiXwQ@mail.gmail.com>
+Subject: Re: [PATCH] allwinner-h3: Switch to SMC as PSCI conduit
+To: Niek Linnenbank <nieklinnenbank@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,26 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>, Kyle Evans <kevans@freebsd.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Warner Losh <imp@bsdimp.com>
+Cc: Beniamino Galvani <b.galvani@gmail.com>, Alexander Graf <agraf@csgraf.de>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 27 Sept 2021 at 10:59, Daniel P. Berrang=C3=A9 <berrange@redhat.com=
-> wrote:
-> If we look at linux-user/meson.build though things are more complex.
-> There we have alot of sub-dirs, and meson.biuld in those dirs adds
-> generators for various files. So conceivably skipping linux-user
-> will mean we won't auto-generate files we don't need on non-Linux.
+On Wed, 22 Sept 2021 at 20:41, Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
+>
+> Hi Alexander,
+>
+> I've tested your patch on the acceptance tests and they all pass:
+>
+> ARMBIAN_ARTIFACTS_CACHED=yes AVOCADO_ALLOW_LARGE_STORAGE=yes avocado --show=app,console run -t machine:orangepi-pc tests/acceptance/boot_linux_console.py
+> ...
+> RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+> JOB TIME   : 116.08 s
+>
+> Also the latest linux kernel is working OK with all cores booting up fine.
+>
+> At first I couldn't really figure out why simply changing the conduit there works, without also changing the Linux kernel to match.
+> But it turns out we just override the provided DTB for this in fdt_add_psci_node() in hw/arm/boot.c and the Linux kernel then uses that to decide between HVC and SMC.
+>
+> So looks fine to me:
+>   Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+>   Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 
-The top level meson.build doesn't call process on the
-syscall_nr_generators[] list unless we're building linux-user
-targets, so I don't think we will auto-generate anything we
-don't need.
+Applied to target-arm.next, thanks.
+
+PS: if you put spaces in front of 'Reviewed-by' type tags, the automated
+tooling doesn't recognize them.
 
 -- PMM
 
