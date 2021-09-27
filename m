@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98F3419593
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 15:57:59 +0200 (CEST)
-Received: from localhost ([::1]:37912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B42D41955C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 15:47:43 +0200 (CEST)
+Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUr8o-00082n-QF
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 09:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46034)
+	id 1mUqys-0002pn-3V
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 09:47:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mUqev-0000QS-GM
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:27:05 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:35659)
+ id 1mUqh7-00042p-C9
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:29:22 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:42947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mUqep-0008BC-05
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:27:05 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- z184-20020a1c7ec1000000b003065f0bc631so567948wmc.0
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 06:26:58 -0700 (PDT)
+ id 1mUqh5-0001E5-TJ
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:29:21 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ q127-20020a1ca785000000b0030cb71ea4d1so461232wme.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 06:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kLqmqM6sLjK84ND+uPa22MWA49EKwYsrT/lOFA7DTSw=;
- b=cN1TeeVK5ObWDgD+e2Nw2wH9QDjYSI9A+ESSnANT8pRdObASmFKUNbJsLTCfc66Y1r
- UBlhdNw1RWwtCQIn1qQxbORXokc3C1sUsuToWYajfBFCBonFVoM6UfGqItc59cMyG4Zd
- k2ii8BsgA0Gwh0KlqW7IJfw2vF+P2lSrJHzE1p/pT4zprO2451C69qNC0KA4X6+qkjbN
- OYXRS/V+x1pxkaIhrXWzR9coAN+QH0p+oE/JYTjlWpXYBepsg2JnrQ8dT4lhaGw2br+L
- W108hkQIGYR40I97/A/EH3isbE73JXb6ykJ8SgOOz/md42hW36WDPjxNCX26TzbzVvFp
- ag7g==
+ :cc; bh=5ZbQOrNC/HD3OXRL5DZTul7F8vCypQqlOdA7uIxqVTg=;
+ b=HqjUlJHPgwirGCNyCuKB5V27i3z3/fud1tXidsTkFTR9a4NtvEMQQQj1dDsWzFGHuI
+ frrkGAzsU4SuDnt3i+bIiOnLWtyLmKZDcgi0fhsQqs/64A4lCvzXwj1Ijorhxh+LcoaE
+ cbJQj8kZcsLi9iaNTE2VBV+8Sc8fmwPp5+/8oDwtJY6+Rpu9F2RWqrnHwTqpsQYw07+x
+ +Ez3voN6ADnlntSIeU9ee5UR36ypK+kM/qMfutNwN5fG5fxbYpIAw72Vn1R5vcrfqrPN
+ O4NFUjbrO68IpPl2YKuvgNLVi9rdyqWEcZdTgj0E1eSHoYanyGcHIAUBBg+wK/OEs0vE
+ HjCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=kLqmqM6sLjK84ND+uPa22MWA49EKwYsrT/lOFA7DTSw=;
- b=i5fHKc29zGKd+SffFLl01Rov5nR0WZMGJJzOpkQhkGksSsgqBZTm1kxMy4Ay7NG9QY
- L8z8EXQvaKcM+Z/Q5BwbhvXlJhtDbxDewVTUkRMJs8y8cQo8AzKCH0ioCi+10QX+8HPv
- obzCKVTOhfJA58lljTIY7f1egs6ABgZ8BDesUM8BIDZRujLe/jfk9GDu7uIq+Eu8RErp
- WFD2gHl5Oc2d7I+N1uKINQqx8Vw2l2ikzgkpYnrXyfS7AyrVgieBKBaox2v7aUCazNtF
- 02Tw7lY+3InM8bb6t2iO9UVfHdSrRYMtCRNSUzZ8F1DMVf4dEs0peVfl5/3lZ0cgdy9c
- NhoQ==
-X-Gm-Message-State: AOAM530TIxvy6dccQynIO2ZfxO/HHXHX9JChKEuQRTuCuc3jejuecvUy
- rJgKwHPmQ0Tzp/6xQU/7nZ57IIwi+fDGHkiM1quRwQ==
-X-Google-Smtp-Source: ABdhPJwgNREDQwkGChP5Fe7qgZKfV5dxv4QpyQgi3bTZ0Y97Z2gMDui7RfwmmCY6e7nmrCHNc4JS2+O0Bh6TutwpoT8=
-X-Received: by 2002:a7b:c194:: with SMTP id y20mr15762043wmi.37.1632749217265; 
- Mon, 27 Sep 2021 06:26:57 -0700 (PDT)
+ bh=5ZbQOrNC/HD3OXRL5DZTul7F8vCypQqlOdA7uIxqVTg=;
+ b=4piHXg7w/8CynNKoPtVdOFj/rhE8cm+b8H4coYCR4u3X8R6gZUy/ZGvfERAK3B0qnq
+ gLhmxcnYWqRRaGM21pMniWb9M+P2t4gGflPJbK1tsEFwrtnb7pTWomErEScmN6WM7ld9
+ qOsbTlfPNwE1uKi4DnzcywyPAs54TUuntwQKXzg9e/XLPW0wReUM9imNEUU5/Oi8xuIM
+ ocdplO0jNS6lWRa1UBRsMGoPDdkwKgC5SJqFrk//8+qhpsL9Dnfkk5Fn9TCM2+mB8cQT
+ AppsJ/xOIADIdo08Iwm8vxLSer6xew7uYv56rJ+TbAHJghdzve1x1525Ebf/Lxgr3BbZ
+ 0e2A==
+X-Gm-Message-State: AOAM530x8MyHreKcwgHesoIJtBM4nVaInhjLyrMUpkxAQHOHvhdAegym
+ tOsz15qfHoTeSGuvZajf2XcjQOSostf+qoI4fIX02w==
+X-Google-Smtp-Source: ABdhPJybJJ9M8jCR1Dw24FMBQruSAEH56YLOydHxvCAlZmLqGEoVBcywRPwERCJMgJqGvbkpo+oehrHRip/7TFxhYH8=
+X-Received: by 2002:a1c:a54e:: with SMTP id o75mr72636wme.32.1632749357409;
+ Mon, 27 Sep 2021 06:29:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210924165926.752809-1-richard.henderson@linaro.org>
- <20210924165926.752809-18-richard.henderson@linaro.org>
-In-Reply-To: <20210924165926.752809-18-richard.henderson@linaro.org>
+ <20210924165926.752809-19-richard.henderson@linaro.org>
+In-Reply-To: <20210924165926.752809-19-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 27 Sep 2021 14:26:04 +0100
-Message-ID: <CAFEAcA9+KnOeibG+uyyZdtKaCUuE_--F23mFeFy3Jo08aT8XaA@mail.gmail.com>
-Subject: Re: [PATCH v3 17/27] linux-user/nios2: Map a real kuser page
+Date: Mon, 27 Sep 2021 14:28:24 +0100
+Message-ID: <CAFEAcA_W-gcQTscQkmQnJP0rcLAY_-8dvN=GHV9Cg7+p1P46MQ@mail.gmail.com>
+Subject: Re: [PATCH v3 18/27] linux-user/nios2: Fixes for signal frame setup
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,87 +85,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, 24 Sept 2021 at 17:59, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> The first word of page1 is data, so the whole thing
-> can't be implemented with emulation of addresses.
+> Do not confuse host and guest addresses.  Lock and unlock
+> the target_rt_sigframe structure in setup_rt_sigframe.
 >
-> Hijack trap number 31 to implement cmpxchg.
-
-31 is used -- it's "breakpoint". We need to pick something else...
-
+> Since rt_setup_ucontext always returns 0, drop the return
+> value entirely.  This eliminates the only write to the err
+> variable in setup_rt_sigframe.
 >
-> Set default_rt_sigreturn based on the kuser page.
+> Always copy the siginfo structure.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/nios2/target_signal.h |  3 ++
->  linux-user/elfload.c             | 35 ++++++++++++++++++++++
->  linux-user/nios2/cpu_loop.c      | 51 +++++++++++++++++---------------
->  linux-user/nios2/signal.c        |  2 +-
->  target/nios2/translate.c         |  9 ------
->  5 files changed, 66 insertions(+), 34 deletions(-)
->
-> diff --git a/linux-user/nios2/target_signal.h b/linux-user/nios2/target_signal.h
-> index aebf749f12..fe266c4c51 100644
-> --- a/linux-user/nios2/target_signal.h
-> +++ b/linux-user/nios2/target_signal.h
-> @@ -19,4 +19,7 @@ typedef struct target_sigaltstack {
->
->  #include "../generic/signal.h"
->
-> +/* Nios2 uses a fixed address on the kuser page for sigreturn. */
-> +#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 0
-> +
->  #endif /* NIOS2_TARGET_SIGNAL_H */
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 459a26ef1d..7b3a91b3ed 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -1100,6 +1100,41 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUMBState *env
->
->  static void init_thread(struct target_pt_regs *regs, struct image_info *infop)
->  {
-> +    static const uint8_t kuser_page[4 + 2 * 64] = {
-> +        /* __kuser_helper_version */
-> +        [0x00] = 0x02, 0x00, 0x00, 0x00,
-> +
-> +        /* __kuser_cmpxchg */
-> +        [0x04] = 0xfa, 0x6f, 0x3b, 0x00,  /* trap 31 */
-> +                 0x3a, 0x28, 0x00, 0xf8,  /* ret */
-> +
-> +        /* __kuser_sigtramp */
-> +        [0x44] = 0xc4, 0x22, 0x80, 0x00,  /* movi r2, __NR_rt_sigreturn */
-> +                 0x3a, 0x68, 0x3b, 0x00,  /* trap 0 */
-> +    };
-> +
-> +    abi_ulong pg;
-> +    uint8_t *ph;
-> +
-> +    pg = target_mmap(TARGET_PAGE_SIZE, TARGET_PAGE_SIZE,
-> +                     PROT_READ | PROT_WRITE,
-> +                     MAP_ANON | MAP_PRIVATE | MAP_FIXED, -1, 0);
-> +
-> +    /*
-> +     * If the mmap doesn't give us exactly page 1, there's nothing
-> +     * we can do, and it's unlikely that the program will be able
-> +     * to continue.  FIXME: Error out now?
-> +     */
-> +    assert(pg == TARGET_PAGE_SIZE);
 
-Shouldn't we be doing this via the probe_guest_base machinery
-the way we do for the Arm commpage ?
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> +
-> +    ph = lock_user(VERIFY_WRITE, pg, sizeof(kuser_page), 0);
-> +    memcpy(ph, kuser_page, sizeof(kuser_page));
-> +    unlock_user(ph, pg, sizeof(kuser_page));
-> +    target_mprotect(TARGET_PAGE_SIZE, TARGET_PAGE_SIZE, PROT_READ | PROT_EXEC);
-> +
-> +    /* Install __kuser_sigtramp */
-> +    default_rt_sigreturn = TARGET_PAGE_SIZE + 0x44;
-> +
->      regs->ea = infop->entry;
->      regs->sp = infop->start_stack;
->      regs->estatus = 0x3;
-
+thanks
 -- PMM
 
