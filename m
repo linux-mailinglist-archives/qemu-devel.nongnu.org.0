@@ -2,84 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E58341968E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 16:41:39 +0200 (CEST)
-Received: from localhost ([::1]:35070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E039F419685
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 16:39:50 +0200 (CEST)
+Received: from localhost ([::1]:60502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUrp4-00068K-4o
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 10:41:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45008)
+	id 1mUrnJ-0004Fc-7Y
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 10:39:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUrio-0007c4-Cz
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:35:12 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:36829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mUrim-00073U-GB
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:35:10 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- l18-20020a05600c4f1200b002f8cf606262so774739wmq.1
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 07:35:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6t3Hb1R8EVZRBtNbszmoehYjeTiuWP6GyXcpyR8c9qU=;
- b=Dd41YpjMoX/+46Ko6gebKSmAf4A+uM1//wA/JN7MBg6qFbAT4BMkFy+5zVzFG27V2X
- Xq5SPgmuPl8EzXYO1P1xK3QI3RHgB5oPBV77V0PVenEOS/audkyYZLWWmi2tfw5K463D
- /9r/O15Flk+K04bmCCh4FHGRPLeJfA2PRD2OA/+mIGH/hnAC2u/UBELDwiQLe7t84vtb
- +cc4zxe5stnYXRBHC9qc4i5JJnzKjack1EbqCIcXQqaj4zyTZCO/TOEKYz4GsMEGM4Te
- g8EW1X9bsebpDn2/RDgz+ZZPO/u+kcypTcEsoJI/TYlnOyNYW1lpGoGGQUQUSlNzlaOu
- 53BA==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mUrki-0001QT-2X
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:37:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30368)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mUrke-00008c-Fs
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:37:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632753422;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mBTIub9/4FffL+VN/dlIXxdKafYH/6rWjmv91VS76K0=;
+ b=RNXJXrT2sq6SocbrBvuQGiDIrWhos4fHXJ0CWG801DoUauMYTFdEoIVnCrEi33ZEdaBb16
+ RM8Xp12Vw0RzoHOHJR1qqM4EW+QdR/Am0NgTvRIsM8XlDwexiNQOPkCtHgPNTEPuf/yhO6
+ 4Av6mdHUCB4wS/23AzvlVHR2NVMkzcw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-93-4pQ-PdYBOsWfo24X9g2S7A-1; Mon, 27 Sep 2021 10:37:00 -0400
+X-MC-Unique: 4pQ-PdYBOsWfo24X9g2S7A-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ x26-20020a50f19a000000b003da81cce93bso377929edl.19
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 07:37:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6t3Hb1R8EVZRBtNbszmoehYjeTiuWP6GyXcpyR8c9qU=;
- b=YbWEbgwxHhrK2V9bh5smdwtSMXr3buNLitnstR/6DnrW2qlrJukJRToLNj1S4lNyMn
- wFsM3p3iuozNalinv2DbDlM2v2El8TVmaPd8xgN83NGvM59I2biEJjAUUNgz4dasfcnz
- ht3HhQrPsIfT1GvGyuFNoyV4+8Sn7YF7cmDG1a+6y8yrkDJHf81e2rdkCFlQOTmsRw5m
- B4QeFDQCQudVoCO1Hdcs2laFVL1I57kUw7o16VKxAd7xhrSrLpNEaM9nKjW3wmOWYSHh
- Kq13YBNwM2+nBnJm1cGj4CuksucwgtLmdMbjBsWGugwN7+5oLkOcqLTVTA7bbN3mF8Cv
- 9wxQ==
-X-Gm-Message-State: AOAM533mjW3ieUglPXlUtGVGMgS01Nc1a886UqeD6b6Bc3Lek6bNoEfX
- qtOnkTo3nXr5EDF02ARBNiU=
-X-Google-Smtp-Source: ABdhPJxBs73+GBz5HEEU5GwjvDTUTLFX/7YSJnA2R/iqPAMjpgXW27s2h46cd+3od0X8KvdzRFJtgA==
-X-Received: by 2002:a7b:c194:: with SMTP id y20mr16101338wmi.37.1632753306421; 
- Mon, 27 Sep 2021 07:35:06 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id f1sm17111846wrc.66.2021.09.27.07.35.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 07:35:05 -0700 (PDT)
-Message-ID: <89b3ce1b-5eea-a3e2-8361-493a8a96d6a2@amsat.org>
-Date: Mon, 27 Sep 2021 16:35:04 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mBTIub9/4FffL+VN/dlIXxdKafYH/6rWjmv91VS76K0=;
+ b=lyNEY+pEwrjlmvBxmPK89VY4pL16+FassqnHePpfT2/KE1/VZbpOM9a8njRCkA5Y3+
+ TGLmM+MZxGcNLAET2t6zFggSe0bqa7jXfeaWeKObHMorqUxxy1EsuphkIY66kgk/8sz4
+ yrP046azy0SRkrk2wvKTKL4smdj733ijn21judShAP8FBa0oa4TBoXnxYrF4Ao3DKxut
+ xfIP7ohlQSPspQ60TF2kAxf5cDznERj3c47E6A2yqpGpcGJn9n6O6ys2QPCGv9FDmQ+y
+ FFICqz8su1L8zwOBdmUx5pBNmegfBy0qORnHHSInwB0+xm9Ce0Ju0Y/qdCFCJCCCo9DQ
+ mG0w==
+X-Gm-Message-State: AOAM533El9Cq9tqsATGp80G55cgcahRxRsB4hn2bxwCqOwBueT2po1Z5
+ 6QpxkljmL1/flSJyGAn8LPDpSxhfozzCegeoDvXXcjiCSf4wYh6H6d9DbHKUtUuB8tDdYvgA8Qo
+ Wt152F9wGzNHsDvc=
+X-Received: by 2002:a17:907:7e8f:: with SMTP id
+ qb15mr381596ejc.249.1632753419576; 
+ Mon, 27 Sep 2021 07:36:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyUOnWDhMtzpdpjnmXuO4KOh9XayQExFjrPKERlIdF0BBXofquBIbt5+Gzc+h4soD+Mucuozw==
+X-Received: by 2002:a17:907:7e8f:: with SMTP id
+ qb15mr381572ejc.249.1632753419369; 
+ Mon, 27 Sep 2021 07:36:59 -0700 (PDT)
+Received: from steredhat (host-79-34-250-211.business.telecomitalia.it.
+ [79.34.250.211])
+ by smtp.gmail.com with ESMTPSA id o3sm3241165eji.108.2021.09.27.07.36.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Sep 2021 07:36:59 -0700 (PDT)
+Date: Mon, 27 Sep 2021 16:36:57 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: "Jiang Wang ." <jiang.wang@bytedance.com>
+Subject: Re: [External] Re: [RFC v7] virtio/vsock: add two more queues for
+ datagram types
+Message-ID: <20210927143657.b6ailivumzuiap5u@steredhat>
+References: <CAP_N_Z8p+qsOAm15TtUFhCG-bJHM+zOQ4UJkr4XBdUQnm2wtzQ@mail.gmail.com>
+ <20210923091828.e2ao3mra6ps5osc2@steredhat>
+ <CAP_N_Z-D+TdAzRhJScs+nitz4GW7otY-nOVHDxGf68X1aXQiHQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: gitlab-ci: amd64-opensuse-leap-container job failing
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, "Cho, Yu-Chen" <acho@suse.com>,
- qemu-devel <qemu-devel@nongnu.org>
-References: <657cbef7-11ac-196c-01e2-aeb9744fe446@amsat.org>
- <YVGCStPffR/gss2f@redhat.com> <YVHLVT6xS6YjUxFN@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <YVHLVT6xS6YjUxFN@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.136,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAP_N_Z-D+TdAzRhJScs+nitz4GW7otY-nOVHDxGf68X1aXQiHQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,62 +99,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Arseny Krasnov <arseny.krasnov@kaspersky.com>,
+ Jason Wang <jasowang@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/21 15:47, Daniel P. Berrangé wrote:
-> On Mon, Sep 27, 2021 at 09:35:22AM +0100, Daniel P. Berrangé wrote:
->> On Sun, Sep 26, 2021 at 07:23:56PM +0200, Philippe Mathieu-Daudé wrote:
->>> Hi,
->>>
->>> FYI the OpenSUSE job is failing since few days, i.e.:
->>> https://gitlab.com/qemu-project/qemu/-/jobs/1622345026
->>>
->>>   Retrieving repository 'Main Repository' metadata
->>> [..........................................................error]
->>>   Repository 'Main Repository' is invalid.
->>>
->>> [repo-oss|http://download.opensuse.org/distribution/leap/15.2/repo/oss/]
->>> Valid metadata not found at specified URL
->>>   History:
->>>    - Download (curl) error for
->>> 'http://download.opensuse.org/distribution/leap/15.2/repo/oss/repodata/repomd.xml':
->>>   Error code: Curl error 56
->>>   Error message: Recv failure: Connection reset by peer
->>>    - Can't provide /repodata/repomd.xml
->>>   Please check if the URIs defined for this repository are pointing to a
->>> valid repository.
->>>   Warning: Skipping repository 'Main Repository' because of the above error.
->>>
->>> I tried to run 'zypper ref' with:
->>
->> It isn't confined to only SuSE. In libvirt we've had similar problems
->> with several other jobs, though are suse jobs are the worst affected.
->>
->> GitLab have finally acknowledged it is an general infra issue affecting
->> many things:
->>
->>    https://status.gitlab.com/
->>    https://gitlab.com/gitlab-com/gl-infra/production/-/issues/5590
-> 
-> Setting GitLab CI env var works around the problem temporarily:
-> 
->  FF_NETWORK_PER_BUILD=true
+On Fri, Sep 24, 2021 at 03:27:30PM -0700, Jiang Wang . wrote:
+>On Thu, Sep 23, 2021 at 2:18 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
 
-Do you know if we need to recreate the pipeline?
-(It didn't work on already failing one, I'm going to test
-a freshly created one now).
+[...]
 
-> You can set it for all repos under a group eg
-> 
->   https://gitlab.com/groups/qemu-project/-/settings/ci_cd
-> 
-> or per repo eg
-> 
->   https://gitlab.com/berrange/libvirt/-/settings/ci_cd
-> 
-> 
-> Regards,
-> Daniel
-> 
+>> >
+>> >To explain it, I think the event queue number does not matter for the
+>> >vhost and qemu. The vhost-vsock kernel module does not allocate any
+>> >data structure for the event queue.  Qemu also only allocates an array of
+>> >size 2 or 4 for the tx, rx queues. The event queue is handled 
+>> >separately.
+>> >
+>> >The event queue number only shows up in the spec, but in real code, I don't
+>> >see anywhere that the event queue number is used explicitly or implicitly.
+>> >The Event queue looks independent of tx, rx queues.
+>>
+>> Yep, it is used in the linux driver. Look at
+>> virtio_transport_event_work(), it uses VSOCK_VQ_EVENT (2).
+>>
+>Agree, it is used in virtio driver and QEMU as you mentioned later.
+>
+>> The main test to do is to migrate a guest with active connections that
+>By active connections, do you mean active vsock stream connections?
+
+Yep, e.g using ncat also without exchanging data. After the migration 
+the socket should be reset by the driver if the event queue is working.
+
+>The guest should be the server or the client? 
+
+Doesn't matter.
+
+> I have two simple vsock client,
+>server tests which only send messages for each direction once. Or I can also
+>use something like iperf3.
+>
+>> doesn't support F_DGRAM on an host that support it and check if, after
+>> the migration, the connections are reset and the CID updated.
+>
+>Not sure about why CID should be updated? Right now, on the destination
+>host, I used the same CID as the one on the source host. You mean choose
+>another guest CID on the destination host? I will try that.
+
+Yep, because another thing the driver does when it handles the event in 
+the event queue is to update the guest CID.
+Usually you should use different CIDs if you migrate on the same host.
+
+>
+>> I think is not working now.
+>>
+
+[...]
+
+>>
+>I see. The example code helps a lot.
+>
+>> Then use `vvc->event_vq_id` in :
+>> - vhost_vsock_common_send_transport_reset()
+>> - vhost_vsock_common_post_load() (instead of 2 wired in the code)
+>I see now vhost_vsock_common_post_load() has a problem. One way
+>to fix it is as you mentioned. Another way is to check the acked feature
+>bit here too and change the event queue number to 2 or 4 accordingly.
+>
+>In your example code:
+>vvc->vqs[i] = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+>                                         vhost_vsock_common_handle_output);
+>We still need to do some assignment as following:
+>vvc->recv_vq = vvc->vqs[0];
+>vvc->trans_vq = vvc->vqs[1];
+>...(skipped other similar assignments)
+
+Why we need this?
+QEMU handles only the event queue.
+recv_vq, trans_vq pointers are never used (only to deallocate).
+
+>
+>I think both ways will work.  Your example adds ordering for those recv and
+>trans vqs and makes it similar to virtio and vhost code. I will go that route.
+
+Make sense.
+
+>
+>>
+>> Maybe in vhost_vsock_common_send_transport_reset() we can skip the
+>> message enqueueing if the device is not started
+>> (vvc->vhost_dev.started).
+>>
+>OK. Btw, I can make this a separate change because it looks like a
+>standalone bugfix? I.e, not related to dgram?
+
+Yep, sure.
+
+Stefano
+
 
