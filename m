@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCFB41967C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 16:36:02 +0200 (CEST)
-Received: from localhost ([::1]:51704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E58341968E
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 16:41:39 +0200 (CEST)
+Received: from localhost ([::1]:35070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUrjc-0006Zl-PD
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 10:36:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42702)
+	id 1mUrp4-00068K-4o
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 10:41:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mUreZ-0002hd-2S
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:30:47 -0400
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:37465)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mUrio-0007c4-Cz
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:35:12 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:36829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mUreV-0003Sd-DR
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:30:45 -0400
-Received: by mail-qt1-x831.google.com with SMTP id e16so14213527qts.4
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 07:30:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gTMMEFmNRGexpFmf92JgIo8KZxDSkPpak7x4SNV4/Ls=;
- b=Cbls8BZmd4PyRxEjJ8a0RiOf3DPUzJ+PC0xBRYgO7QY7PTzLJKFWQudtq7mumEveU0
- CmTiJUzCdjGH+rzehvhqyAKwd6JFOs0BJf2TRwscrMErm5a7nzXijgRrQdXOeZ2FtjMB
- 90uQKhl1/emOU30f8aoUYf6d2DQWDE1KrAPWVUivjkhBzMMM78puDO1TC/NcZCAm3lBW
- lmUc8eWA9MZAJQ68MMb+VlBjaEHvso5+APDASWE5LvFt17i0kKRa121IRMjAsKEGu5Qu
- QlLjZ5+sJXrEcc9s97BenR8APM+FCTGUfolUw/cmEFJmR4lC38GF/kH7noR3PmOiC8Py
- gH/A==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mUrim-00073U-GB
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 10:35:10 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ l18-20020a05600c4f1200b002f8cf606262so774739wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 07:35:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6t3Hb1R8EVZRBtNbszmoehYjeTiuWP6GyXcpyR8c9qU=;
+ b=Dd41YpjMoX/+46Ko6gebKSmAf4A+uM1//wA/JN7MBg6qFbAT4BMkFy+5zVzFG27V2X
+ Xq5SPgmuPl8EzXYO1P1xK3QI3RHgB5oPBV77V0PVenEOS/audkyYZLWWmi2tfw5K463D
+ /9r/O15Flk+K04bmCCh4FHGRPLeJfA2PRD2OA/+mIGH/hnAC2u/UBELDwiQLe7t84vtb
+ +cc4zxe5stnYXRBHC9qc4i5JJnzKjack1EbqCIcXQqaj4zyTZCO/TOEKYz4GsMEGM4Te
+ g8EW1X9bsebpDn2/RDgz+ZZPO/u+kcypTcEsoJI/TYlnOyNYW1lpGoGGQUQUSlNzlaOu
+ 53BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=gTMMEFmNRGexpFmf92JgIo8KZxDSkPpak7x4SNV4/Ls=;
- b=I0gk2vdj/xoI5sldyLWftjpOcVms51ss656E2E1VvaF8/8R+INHzjYL4hvT5NzLAw+
- jZ0WATs9ZP10ekgMNS6OtzF+QG5lJgOcKRJ4f9Uy8qPCPwJlocuJAdss5gzxF9Ubuv1k
- V8Y1wNM4zl2fCU/xxL+mm0dQY/InzatAgAkWZT3o1w333epPFu8S/WUKZinReRgze78j
- /kjTGKsbewe34LEBluirZ2+dtBVR5ya2XGTFsWT4TWKAfiui0M1wgwKqd49ca5vTm5Bn
- eiPTYT+yaij8NeFYbBWymdJ/fRAuHhKQ/LrLpDibSW3O5zwQrm8cmiLrOcUggvkgwQ7L
- sxTg==
-X-Gm-Message-State: AOAM533GzCO3K0/KAa89g8Je3rTNqP19XrdGI7Rksjfn02KL5nh6OVYW
- 99MqHwDRVHiiZtSLknNBcWiJEU/F3pw4yQ==
-X-Google-Smtp-Source: ABdhPJxX7upDNEUWAVjYaXp61dJ8iw27po5PM2t26KB/WHZNLWbUZmo14Awd8LIw1EsvIvmJh+Sb0g==
-X-Received: by 2002:ac8:4312:: with SMTP id z18mr171254qtm.20.1632753041684;
- Mon, 27 Sep 2021 07:30:41 -0700 (PDT)
-Received: from [192.168.3.43] (cpe-24-31-215-130.sc.res.rr.com.
- [24.31.215.130])
- by smtp.gmail.com with ESMTPSA id a22sm1443171qtx.7.2021.09.27.07.30.40
+ bh=6t3Hb1R8EVZRBtNbszmoehYjeTiuWP6GyXcpyR8c9qU=;
+ b=YbWEbgwxHhrK2V9bh5smdwtSMXr3buNLitnstR/6DnrW2qlrJukJRToLNj1S4lNyMn
+ wFsM3p3iuozNalinv2DbDlM2v2El8TVmaPd8xgN83NGvM59I2biEJjAUUNgz4dasfcnz
+ ht3HhQrPsIfT1GvGyuFNoyV4+8Sn7YF7cmDG1a+6y8yrkDJHf81e2rdkCFlQOTmsRw5m
+ B4QeFDQCQudVoCO1Hdcs2laFVL1I57kUw7o16VKxAd7xhrSrLpNEaM9nKjW3wmOWYSHh
+ Kq13YBNwM2+nBnJm1cGj4CuksucwgtLmdMbjBsWGugwN7+5oLkOcqLTVTA7bbN3mF8Cv
+ 9wxQ==
+X-Gm-Message-State: AOAM533mjW3ieUglPXlUtGVGMgS01Nc1a886UqeD6b6Bc3Lek6bNoEfX
+ qtOnkTo3nXr5EDF02ARBNiU=
+X-Google-Smtp-Source: ABdhPJxBs73+GBz5HEEU5GwjvDTUTLFX/7YSJnA2R/iqPAMjpgXW27s2h46cd+3od0X8KvdzRFJtgA==
+X-Received: by 2002:a7b:c194:: with SMTP id y20mr16101338wmi.37.1632753306421; 
+ Mon, 27 Sep 2021 07:35:06 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id f1sm17111846wrc.66.2021.09.27.07.35.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 07:30:41 -0700 (PDT)
-Subject: Re: [PATCH v3 16/27] linux-user/nios2: Properly emulate EXCP_TRAP
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210924165926.752809-1-richard.henderson@linaro.org>
- <20210924165926.752809-17-richard.henderson@linaro.org>
- <CAFEAcA_=DA267T6BAz+yxbtCjVEUkZ-YpjQCbnXCt0UntD4EYQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <655fa487-6003-92a1-d8ac-8c8f4c8b39e6@linaro.org>
-Date: Mon, 27 Sep 2021 10:30:38 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Mon, 27 Sep 2021 07:35:05 -0700 (PDT)
+Message-ID: <89b3ce1b-5eea-a3e2-8361-493a8a96d6a2@amsat.org>
+Date: Mon, 27 Sep 2021 16:35:04 +0200
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_=DA267T6BAz+yxbtCjVEUkZ-YpjQCbnXCt0UntD4EYQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: gitlab-ci: amd64-opensuse-leap-container job failing
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x831.google.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.136,
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, "Cho, Yu-Chen" <acho@suse.com>,
+ qemu-devel <qemu-devel@nongnu.org>
+References: <657cbef7-11ac-196c-01e2-aeb9744fe446@amsat.org>
+ <YVGCStPffR/gss2f@redhat.com> <YVHLVT6xS6YjUxFN@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <YVHLVT6xS6YjUxFN@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.136,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,35 +93,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/21 9:23 AM, Peter Maydell wrote:
-> Loading the insn and fishing out the imm5 field is about 2
-> lines of code, isn't it?
-> It's how we handle similar cases for other targets.
+On 9/27/21 15:47, Daniel P. Berrangé wrote:
+> On Mon, Sep 27, 2021 at 09:35:22AM +0100, Daniel P. Berrangé wrote:
+>> On Sun, Sep 26, 2021 at 07:23:56PM +0200, Philippe Mathieu-Daudé wrote:
+>>> Hi,
+>>>
+>>> FYI the OpenSUSE job is failing since few days, i.e.:
+>>> https://gitlab.com/qemu-project/qemu/-/jobs/1622345026
+>>>
+>>>   Retrieving repository 'Main Repository' metadata
+>>> [..........................................................error]
+>>>   Repository 'Main Repository' is invalid.
+>>>
+>>> [repo-oss|http://download.opensuse.org/distribution/leap/15.2/repo/oss/]
+>>> Valid metadata not found at specified URL
+>>>   History:
+>>>    - Download (curl) error for
+>>> 'http://download.opensuse.org/distribution/leap/15.2/repo/oss/repodata/repomd.xml':
+>>>   Error code: Curl error 56
+>>>   Error message: Recv failure: Connection reset by peer
+>>>    - Can't provide /repodata/repomd.xml
+>>>   Please check if the URIs defined for this repository are pointing to a
+>>> valid repository.
+>>>   Warning: Skipping repository 'Main Repository' because of the above error.
+>>>
+>>> I tried to run 'zypper ref' with:
+>>
+>> It isn't confined to only SuSE. In libvirt we've had similar problems
+>> with several other jobs, though are suse jobs are the worst affected.
+>>
+>> GitLab have finally acknowledged it is an general infra issue affecting
+>> many things:
+>>
+>>    https://status.gitlab.com/
+>>    https://gitlab.com/gitlab-com/gl-infra/production/-/issues/5590
+> 
+> Setting GitLab CI env var works around the problem temporarily:
+> 
+>  FF_NETWORK_PER_BUILD=true
 
-And we actively get it wrong, e.g. mips.
-So I have patches to move that code *out* of linux-user.
+Do you know if we need to recreate the pipeline?
+(It didn't work on already failing one, I'm going to test
+a freshly created one now).
 
-We have macros in target/nios2/ to do the field decode, and not in linux-user/.
-
-> I think I prefer that over putting
-> linux-user specific fields and handling into the target/nios2
-> code.
-
-Would you prefer a generic-y named field like error_code, which we include in other targets?
-
-> The kernel also defines:
->   * trap 31 ("breakpoint"), which should wind PC back by 4 and
->     send a SIGTRAP/TRAP_BRKPT
->   * trap 30 ("KGDB breakpoint"), which we should treat the same
->     as the "default" case since we should be acting like "kernel
->     with CONFIG_KGDB not defined"
-
-Dang it, how did I miss those?
-
-
-r~
+> You can set it for all repos under a group eg
+> 
+>   https://gitlab.com/groups/qemu-project/-/settings/ci_cd
+> 
+> or per repo eg
+> 
+>   https://gitlab.com/berrange/libvirt/-/settings/ci_cd
+> 
+> 
+> Regards,
+> Daniel
+> 
 
