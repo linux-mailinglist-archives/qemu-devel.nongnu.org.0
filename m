@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7EF419F27
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 21:28:58 +0200 (CEST)
-Received: from localhost ([::1]:36860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 024E7419F24
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 21:28:55 +0200 (CEST)
+Received: from localhost ([::1]:37022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUwJ5-0004Jk-Ip
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 15:28:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57366)
+	id 1mUwJ2-0004QG-3O
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 15:28:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUwGa-0001f4-Nn
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 15:26:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34485)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUwGn-0001la-Gx
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 15:26:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUwGY-0006JW-03
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 15:26:19 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mUwGm-0006VY-1A
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 15:26:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632770776;
+ s=mimecast20190719; t=1632770791;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1Y9FUNr9sJXEncOOrIzg4sKqRsMS57cPOk2sHDag7Iw=;
- b=DQDxlScqYv3RjN6IhNt319N9F9ax8WdG41RlUylR2jkz+CWp922tD6bCooovCvT1paulQ0
- rfv9baXXVIiwH09joQOPvJPhiBL2SsRkzLsa7jZ6FwyUn7mH3UDaWVpMqbF8PuY6s+sESX
- whRqmdj4E9ur0BSO+Nv1gI/QyepQk4A=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=peMJnu/+prQzMTXxvxUm3lXCpJle8C5xm4Im2CFdynU=;
+ b=EMHWH1vlTlOeO+JExq1UyntsVp9AulGg5Zk4yEGx73IH8CCNsuFjpNz/cJfGjU+a9Q+nql
+ 7M6oHA2ulASd5eaNPPWGwSXuL1/ALj25qmQX4i/LwQWdpVOutrBkQgiWTg7rbmD7qPJsXd
+ P7DK/pL9dCjmgvG3V/xyIMkh89m1WQM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-597-kK7vg2OPNEGiyt32r72f0g-1; Mon, 27 Sep 2021 15:26:14 -0400
-X-MC-Unique: kK7vg2OPNEGiyt32r72f0g-1
+ us-mta-351-a7m-Dj9EPiysSSlvdBL-nA-1; Mon, 27 Sep 2021 15:26:29 -0400
+X-MC-Unique: a7m-Dj9EPiysSSlvdBL-nA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 142B719200CF;
- Mon, 27 Sep 2021 19:26:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4112835DE2;
+ Mon, 27 Sep 2021 19:26:27 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 736BE60938;
- Mon, 27 Sep 2021 19:25:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5921460871;
+ Mon, 27 Sep 2021 19:26:13 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/32] Python patches
-Date: Mon, 27 Sep 2021 15:24:41 -0400
-Message-Id: <20210927192513.744199-1-jsnow@redhat.com>
+Subject: [PULL 01/32] python/aqmp: add asynchronous QMP (AQMP) subpackage
+Date: Mon, 27 Sep 2021 15:24:42 -0400
+Message-Id: <20210927192513.744199-2-jsnow@redhat.com>
+In-Reply-To: <20210927192513.744199-1-jsnow@redhat.com>
+References: <20210927192513.744199-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -80,96 +83,73 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
+ John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit de8ed1055c2ce18c95f597eb10df360dcb534f99=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-09-25-v2=
-' into staging (2021-09-27 15:03:42 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/jsnow/qemu.git tags/python-pull-request=0D
-=0D
-for you to fetch changes up to 99e45a6131a7fef19ffe0190f9c479fae4850d53:=0D
-=0D
-  python/aqmp-tui: Add syntax highlighting (2021-09-27 12:10:29 -0400)=0D
-=0D
-----------------------------------------------------------------=0D
-Python Pull request=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-G S Niteesh Babu (5):=0D
-  python: Add dependencies for AQMP TUI=0D
-  python/aqmp-tui: Add AQMP TUI=0D
-  python: Add entry point for aqmp-tui=0D
-  python: add optional pygments dependency=0D
-  python/aqmp-tui: Add syntax highlighting=0D
-=0D
-John Snow (27):=0D
-  python/aqmp: add asynchronous QMP (AQMP) subpackage=0D
-  python/aqmp: add error classes=0D
-  python/pylint: Add exception for TypeVar names ('T')=0D
-  python/aqmp: add asyncio compatibility wrappers=0D
-  python/aqmp: add generic async message-based protocol support=0D
-  python/aqmp: add runstate state machine to AsyncProtocol=0D
-  python/aqmp: Add logging utility helpers=0D
-  python/aqmp: add logging to AsyncProtocol=0D
-  python/aqmp: add AsyncProtocol.accept() method=0D
-  python/aqmp: add configurable read buffer limit=0D
-  python/aqmp: add _cb_inbound and _cb_outbound logging hooks=0D
-  python/aqmp: add AsyncProtocol._readline() method=0D
-  python/aqmp: add QMP Message format=0D
-  python/aqmp: add well-known QMP object models=0D
-  python/aqmp: add QMP event support=0D
-  python/pylint: disable too-many-function-args=0D
-  python/aqmp: add QMP protocol support=0D
-  python/pylint: disable no-member check=0D
-  python/aqmp: Add message routing to QMP protocol=0D
-  python/aqmp: add execute() interfaces=0D
-  python/aqmp: add _raw() execution interface=0D
-  python/aqmp: add asyncio_run compatibility wrapper=0D
-  python/aqmp: add scary message=0D
-  python: bump avocado to v90.0=0D
-  python/aqmp: add AsyncProtocol unit tests=0D
-  python/aqmp: add LineProtocol tests=0D
-  python/aqmp: Add Coverage.py support=0D
-=0D
- python/.gitignore              |   5 +=0D
- python/Makefile                |   9 +=0D
- python/Pipfile.lock            |  28 +-=0D
- python/avocado.cfg             |   3 +=0D
- python/qemu/aqmp/__init__.py   |  59 +++=0D
- python/qemu/aqmp/aqmp_tui.py   | 652 ++++++++++++++++++++++++=0D
- python/qemu/aqmp/error.py      |  50 ++=0D
- python/qemu/aqmp/events.py     | 706 ++++++++++++++++++++++++++=0D
- python/qemu/aqmp/message.py    | 209 ++++++++=0D
- python/qemu/aqmp/models.py     | 133 +++++=0D
- python/qemu/aqmp/protocol.py   | 902 +++++++++++++++++++++++++++++++++=0D
- python/qemu/aqmp/py.typed      |   0=0D
- python/qemu/aqmp/qmp_client.py | 621 +++++++++++++++++++++++=0D
- python/qemu/aqmp/util.py       | 217 ++++++++=0D
- python/setup.cfg               |  43 +-=0D
- python/tests/protocol.py       | 583 +++++++++++++++++++++=0D
- 16 files changed, 4214 insertions(+), 6 deletions(-)=0D
- create mode 100644 python/qemu/aqmp/__init__.py=0D
- create mode 100644 python/qemu/aqmp/aqmp_tui.py=0D
- create mode 100644 python/qemu/aqmp/error.py=0D
- create mode 100644 python/qemu/aqmp/events.py=0D
- create mode 100644 python/qemu/aqmp/message.py=0D
- create mode 100644 python/qemu/aqmp/models.py=0D
- create mode 100644 python/qemu/aqmp/protocol.py=0D
- create mode 100644 python/qemu/aqmp/py.typed=0D
- create mode 100644 python/qemu/aqmp/qmp_client.py=0D
- create mode 100644 python/qemu/aqmp/util.py=0D
- create mode 100644 python/tests/protocol.py=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+For now, it's empty! Soon, it won't be.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-id: 20210915162955.333025-2-jsnow@redhat.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ python/qemu/aqmp/__init__.py | 27 +++++++++++++++++++++++++++
+ python/qemu/aqmp/py.typed    |  0
+ python/setup.cfg             |  1 +
+ 3 files changed, 28 insertions(+)
+ create mode 100644 python/qemu/aqmp/__init__.py
+ create mode 100644 python/qemu/aqmp/py.typed
+
+diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
+new file mode 100644
+index 00000000000..391141c9484
+--- /dev/null
++++ b/python/qemu/aqmp/__init__.py
+@@ -0,0 +1,27 @@
++"""
++QEMU Monitor Protocol (QMP) development library & tooling.
++
++This package provides a fairly low-level class for communicating
++asynchronously with QMP protocol servers, as implemented by QEMU, the
++QEMU Guest Agent, and the QEMU Storage Daemon.
++
++`QMPClient` provides the main functionality of this package. All errors
++raised by this library dervive from `AQMPError`, see `aqmp.error` for
++additional detail. See `aqmp.events` for an in-depth tutorial on
++managing QMP events.
++"""
++
++# Copyright (C) 2020, 2021 John Snow for Red Hat, Inc.
++#
++# Authors:
++#  John Snow <jsnow@redhat.com>
++#
++# Based on earlier work by Luiz Capitulino <lcapitulino@redhat.com>.
++#
++# This work is licensed under the terms of the GNU GPL, version 2.  See
++# the COPYING file in the top-level directory.
++
++
++# The order of these fields impact the Sphinx documentation order.
++__all__ = (
++)
+diff --git a/python/qemu/aqmp/py.typed b/python/qemu/aqmp/py.typed
+new file mode 100644
+index 00000000000..e69de29bb2d
+diff --git a/python/setup.cfg b/python/setup.cfg
+index fdca265fec0..d1da9853a42 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -27,6 +27,7 @@ packages =
+     qemu.qmp
+     qemu.machine
+     qemu.utils
++    qemu.aqmp
+ 
+ [options.package_data]
+ * = py.typed
+-- 
+2.31.1
 
 
