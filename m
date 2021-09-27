@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9449419AE2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:12:51 +0200 (CEST)
-Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A4A419BAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:20:14 +0200 (CEST)
+Received: from localhost ([::1]:33332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUuBO-0008ME-Np
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:12:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49890)
+	id 1mUuIX-0004Gr-8b
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:20:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu2S-0003jW-VW
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:03:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50186)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu2a-0003qD-B9
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:03:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu2R-0003Tu-JQ
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:03:36 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu2Y-0003Ye-IS
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:03:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632762215;
+ s=mimecast20190719; t=1632762220;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VcZeajeug5FjjL0Vw6aTUbYAKJ2OWK+8xl7oF2aw2Yg=;
- b=OY6KtAYyrOYFNa7dmQ0uTTJ2jZVjtF1uAiF7cSJ/S5TyEdMuarJTmVBHqnqOF6k6NPo7Mc
- W5WM8ACrqzis1yOcb/o/GIjbDONP1uKl6Y6TJyh5367o8F725M/OkqCO819LOmZIs9pujF
- zH5KarBIYHewioxtvC/z78T3eEI3TFc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-dyyoAZMsOUeeF9MndTa1KA-1; Mon, 27 Sep 2021 13:03:33 -0400
-X-MC-Unique: dyyoAZMsOUeeF9MndTa1KA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- b139-20020a1c8091000000b002fb33c467c8so508058wmd.5
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 10:03:33 -0700 (PDT)
+ bh=vgeLl83LUv4CVvYnrCBYDZZxrjbLUE14bcfIj+YK0Kw=;
+ b=M70oJL+A6ZofEZ7R3lHP0bskenxmv1RTY71Y3aSEs8HXS8q3dGkImu0YJ4GI0gnBVxX/Sb
+ xiU8ClsrGqwhpfBabr4uw1789HQNAwTS1TPMJP0njEesBxqRU3u8tGLnEwT+15v8vXgaNQ
+ fhThkCqyYJ0OkHEfaYdvyXsoy95IS4w=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-573-GaLBppAmOfm2ytR73cheqg-1; Mon, 27 Sep 2021 13:03:38 -0400
+X-MC-Unique: GaLBppAmOfm2ytR73cheqg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z137-20020a1c7e8f000000b0030cd1800d86so507859wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 10:03:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VcZeajeug5FjjL0Vw6aTUbYAKJ2OWK+8xl7oF2aw2Yg=;
- b=uiJvUbTrTgys+Ke86jW7Y3ipgwuAKvMOYUTMNw31PPQ2/mC2IJITty+W9PX08VRfGE
- OQiTr54I3qJB+hqXIDZ40/mt5FvJE+swucUrRuUD9r/HbR4NDJbNBf+91zv1cG48lcyY
- b1kegX8foAnz5xqjotVWuQwY9JyhHy2eNZY0XwTaxJEyk3OdDFA7pcAYgcPR6wEyzh4S
- Ke7jrohrId11I9W7+Lwkbqd8JY0RM6im+oowgSHwYw+QeIVSGMmBGFW8V2kR9ItYcAMD
- E1YdcTbN1Kt4fDIEAtAMOhCLViG7CKKTblQGqiqLztAtpgkx/osEZg2ijTUKeBExZQ8u
- tb1w==
-X-Gm-Message-State: AOAM532q5TQayxcvcQ5SMuA0pohlkD6ot8rnojJwAkqyD+8OdH51U32+
- ozdH+tG6/OFPtk/eylSCFtaPrfW8aIuRxdgM5xqQT6ER1I1dNUbS+Dfd5E/kdnGJdtGLM0KAMH4
- g49HLZ6TFlwbB4LXM6Vr3/MuSyUUbXz+S8pVOuYuweRaqRCCckJjip2xHSSFPgC2r
-X-Received: by 2002:a5d:43ca:: with SMTP id v10mr1073680wrr.139.1632762212126; 
- Mon, 27 Sep 2021 10:03:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy0rm/vrSaFMIpx0IL74+ni1jvPIBw7S8oZns+HLKILW4h1j6iMoqkqGTGKgBiSZ7K80DyXpQ==
-X-Received: by 2002:a5d:43ca:: with SMTP id v10mr1073658wrr.139.1632762211937; 
- Mon, 27 Sep 2021 10:03:31 -0700 (PDT)
+ bh=vgeLl83LUv4CVvYnrCBYDZZxrjbLUE14bcfIj+YK0Kw=;
+ b=xABcoiMhZT1BcnrDlI6fFeKd+93TBv/nUjtJgdXf0ZsYowRaD1tbrMr+PdG17g346g
+ Ja6oQsklFgbvOgj3q/VSgGpBLG3N/nhchAtjUOi5I3bDdk0dM42EQTtM6R76cm9qVO4L
+ hnP6YZz06sLfHBi2N2L76FsQtqAuDgyMHqhiPvzyc1uv+3Vkiv1pu4XdU1JGI3Lq9SNi
+ bjVLNUeBs0BJjVmXTidjDWXFA4VklNhrxAKHvlHv9zat5L1l2hcKdgNFlYwFR76yi2z9
+ upAk9fGJb8exWV5Lafwi5mpbNb95Hh0TCO9n+rmhPweEbL7JPSMuS6A5voc3ADpy6aho
+ yEdg==
+X-Gm-Message-State: AOAM5334dXY/OB72w8dTDxb1JkX4quiFhbb/yd+OJzQW6RslNS7zawsR
+ AAJhhu1JnDyOMVss2MeygyaZVYVVETaiNtj8hnwaiUWfM5KcWwOLCo0BjUvcEr7Vk6i73zjzcN4
+ XU4rTN1axHpEMgf6bghGrAU00m1s0Qd/+2xZr4mOQDhmfMVyvzmcRMAYnTiWO3lRz
+X-Received: by 2002:a5d:47a4:: with SMTP id 4mr1090772wrb.274.1632762216640;
+ Mon, 27 Sep 2021 10:03:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw+OwjWfoekY1VQfr9O1kNEpxkhgyRUbg4RaZUUeavoYB3slCDNxHm7H0iyO9nKlFtWH5tXQA==
+X-Received: by 2002:a5d:47a4:: with SMTP id 4mr1090734wrb.274.1632762216371;
+ Mon, 27 Sep 2021 10:03:36 -0700 (PDT)
 Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id i1sm18026488wrb.93.2021.09.27.10.03.31
+ by smtp.gmail.com with ESMTPSA id u5sm18576902wrg.57.2021.09.27.10.03.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Sep 2021 10:03:31 -0700 (PDT)
+ Mon, 27 Sep 2021 10:03:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/21] docs/devel/testing: add instruction to run a single
- acceptance test
-Date: Mon, 27 Sep 2021 19:02:20 +0200
-Message-Id: <20210927170227.2014482-15-philmd@redhat.com>
+Subject: [PULL 15/21] tests/Makefile: add AVOCADO_TESTS option to make
+ check-acceptance
+Date: Mon, 27 Sep 2021 19:02:21 +0200
+Message-Id: <20210927170227.2014482-16-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210927170227.2014482-1-philmd@redhat.com>
 References: <20210927170227.2014482-1-philmd@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -96,62 +96,89 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Willian Rampazzo <willianr@redhat.com>
 
-Add instructions to the Acceptance tests section about running a
-single test file or a test within the test file.
+Add the possibility of running all the tests from a single file, or
+multiple files, running a single test within a file or multiple tests
+within multiple files using `make check-acceptance` and the
+AVOCADO_TESTS environment variable.
 
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Willian Rampazzo <willianr@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210923161141.232208-3-willianr@redhat.com>
+Message-Id: <20210923161141.232208-4-willianr@redhat.com>
 ---
- docs/devel/testing.rst | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ docs/devel/testing.rst | 27 +++++++++++++++++++++++++++
+ tests/Makefile.include |  5 ++++-
+ 2 files changed, 31 insertions(+), 1 deletion(-)
 
 diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index d1841e35d57..c9f6b97f876 100644
+index c9f6b97f876..64c97447956 100644
 --- a/docs/devel/testing.rst
 +++ b/docs/devel/testing.rst
-@@ -754,6 +754,34 @@ may be invoked by running:
+@@ -746,6 +746,33 @@ tags, see:
  
-   tests/venv/bin/avocado run $OPTION1 $OPTION2 tests/acceptance/
+  https://avocado-framework.readthedocs.io/en/latest/guides/user/chapters/tags.html
  
-+Note that if ``make check-acceptance`` was not executed before, it is
-+possible to create the Python virtual environment with the dependencies
-+needed running:
++To run a single test file, a couple of them, or a test within a file
++using the ``make check-acceptance`` command, set the ``AVOCADO_TESTS``
++environment variable with the test files or test names. To run all
++tests from a single file, use:
 +
 + .. code::
 +
-+  make check-venv
++  make check-acceptance AVOCADO_TESTS=$FILEPATH
 +
-+It is also possible to run tests from a single file or a single test within
-+a test file. To run tests from a single file within the build tree, use:
-+
-+ .. code::
-+
-+  tests/venv/bin/avocado run tests/acceptance/$TESTFILE
-+
-+To run a single test within a test file, use:
++The same is valid to run tests from multiple test files:
 +
 + .. code::
 +
-+  tests/venv/bin/avocado run tests/acceptance/$TESTFILE:$TESTCLASS.$TESTNAME
++  make check-acceptance AVOCADO_TESTS='$FILEPATH1 $FILEPATH2'
 +
-+Valid test names are visible in the output from any previous execution
-+of Avocado or ``make check-acceptance``, and can also be queried using:
++To run a single test within a file, use:
 +
 + .. code::
 +
-+  tests/venv/bin/avocado list tests/acceptance
++  make check-acceptance AVOCADO_TESTS=$FILEPATH:$TESTCLASS.$TESTNAME
 +
- Manual Installation
- -------------------
++The same is valid to run single tests from multiple test files:
++
++ .. code::
++
++  make check-acceptance AVOCADO_TESTS='$FILEPATH1:$TESTCLASS1.$TESTNAME1 $FILEPATH2:$TESTCLASS2.$TESTNAME2'
++
+ The scripts installed inside the virtual environment may be used
+ without an "activation".  For instance, the Avocado test runner
+ may be invoked by running:
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index f6484e5b31d..e69c4fae53e 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -88,6 +88,9 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
+ TESTS_VENV_DIR=$(BUILD_DIR)/tests/venv
+ TESTS_VENV_REQ=$(SRC_PATH)/tests/requirements.txt
+ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
++ifndef AVOCADO_TESTS
++	AVOCADO_TESTS=tests/acceptance
++endif
+ # Controls the output generated by Avocado when running tests.
+ # Any number of command separated loggers are accepted.  For more
+ # information please refer to "avocado --help".
+@@ -136,7 +139,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+             $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
+ 			--filter-by-tags-include-empty-key) \
+             $(AVOCADO_CMDLINE_TAGS) \
+-            $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
++            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
+             "AVOCADO", "tests/acceptance")
  
+ # Consolidated targets
 -- 
 2.31.1
 
