@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8751E419A5F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:07:08 +0200 (CEST)
-Received: from localhost ([::1]:54456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B56419A9D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 19:09:06 +0200 (CEST)
+Received: from localhost ([::1]:34502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUu5r-0005Hu-Fs
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
+	id 1mUu7l-0002Sj-TH
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 13:09:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu1w-0002R6-FN
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:03:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50841)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu1y-0002XD-OC
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:03:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55130)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu1t-000326-OA
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:03:04 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUu1w-00034M-8e
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 13:03:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632762181;
+ s=mimecast20190719; t=1632762183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kPn5GHEDutfKNKZw8lA1qzDG/9Zl78E1M/sfSpGJuu0=;
- b=ZdbA7+9lEXksLTGMGMaOzGNSSrBXbQIJFzCXo/O8KyrFUyrkeHkRW/yH+vHKcxoUbR7Mju
- z68Jmuv6Ss8Dw9ZI5+bWxmYPgOHXMzcHhuRwZvAZ00DWJ2I9AV6225ITe/fiiMdPB1mvwI
- tgLLtgLekdaa7EA5IH0iB0sMFFM1Ij0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-sAc426WxO32SVl7fPIuesA-1; Mon, 27 Sep 2021 13:02:57 -0400
-X-MC-Unique: sAc426WxO32SVl7fPIuesA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- d12-20020a1c730c000000b0030b4e0ecf5dso175471wmb.9
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 10:02:57 -0700 (PDT)
+ bh=7mdXDk9PuuMhb2IWlDywxJ7KPADtZTFWFXw/QSSlAd8=;
+ b=FUjsrz+zz+rmMBkUqxJ06qRRSv3TGpZTeVxvwa/QgiFMHvxOa93dvFC4LDAgrIwOiw2pgu
+ POTQVYxDXUlNCjk2DtpPASX843sGMcDYyEFQ2e6QApPxYw+kmfXlOKM2YNVKxVEgB2qx81
+ X+pKNH6TdEZVuqsJ9dpujjxUhaE73Bc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-202--ELMGv0YPraNYAxQlOVtdg-1; Mon, 27 Sep 2021 13:03:02 -0400
+X-MC-Unique: -ELMGv0YPraNYAxQlOVtdg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n30-20020a05600c3b9e00b002fbbaada5d7so461454wms.7
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 10:03:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kPn5GHEDutfKNKZw8lA1qzDG/9Zl78E1M/sfSpGJuu0=;
- b=5WMSVAxojJbS6ZgndX5IQuVsa3bKDeegV7D8cNB8d6UTNwWiU/ihDWgKQV/L69856F
- 5uzSaWIDtaLneOkVtPXYoMU/NGs42nkpXw/1zyoWMBmsS+mnGmTJ7100f1RMh2ahC/nO
- aX7uAMsmmXmCJxVv3CnXcjVMKM2qpbd1729XJngh0eup5FbIChCN/fulf5oCZVToAAZ5
- PyvdlwpT3hM1D8gLfSO43oP2MTa9Mbijg+uukqE08W7wX59GQY48keRpOnlJ+vbhs72z
- kC7e3nz746QalBvjXKT0TEJ5lNSlK+V3MxIqpC7WELrI/UmtTP4XN5riLfBkaNoyWobT
- lpXw==
-X-Gm-Message-State: AOAM532jQnimkFTaxRr8pnUWFJg870cDul89lO33f+z5AS7xGge80m9H
- yQnb+brmn9H3kHOHrGZknrrVKFyidNsy5TodZL68i2oWaPOlskR1I9+uhg53UvdO2KScJTJmPA6
- 7WKgCS/xy16p6YvrVrBN/eTFtbEcfcTEiQJbgzlBZle6LPNmB8wQqmz7dISZn9Fwq
-X-Received: by 2002:adf:e74b:: with SMTP id c11mr1073449wrn.101.1632762176385; 
- Mon, 27 Sep 2021 10:02:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyO4h5vtep0WjRypFwTuyp631vpRY8xUV65e8biEejGGtrDoEQi72/xS3Sc4AK2gR00vzTbDg==
-X-Received: by 2002:adf:e74b:: with SMTP id c11mr1073414wrn.101.1632762176159; 
- Mon, 27 Sep 2021 10:02:56 -0700 (PDT)
+ bh=7mdXDk9PuuMhb2IWlDywxJ7KPADtZTFWFXw/QSSlAd8=;
+ b=wDgPOw7lFAaYbKLJXARjItXApMQRrjLhY/IjeUyl0Qlf2iiA+vED6pwcg6MiFN0APS
+ nOiZWMcwGk+ii7sXcOsXJxBrvoYUKykoIrFTECFnLaxQJHWRvP3u2JKCdFgaoSOaZZzA
+ QfT2Icd3Gp20rz6hCvaibhxXlZxihiU04NCGTYOue80EjFDjXmXdkx92iE/ikzAtT7Ah
+ x594bLVCpkke1gTg2d/bq9uGe90ZIZRB7YuMgi8D0s3Y0lzlGAF4mVp29UspV3UfC92x
+ Ob9WRG6x7VHTP/HBnGtHmbRs9gfSo4pG90uR/WbLtP/8Rf1QeuAnKgsdcEk2hGZ6zbeF
+ s3xQ==
+X-Gm-Message-State: AOAM532RJWY1JktkjR7FxXLjUDQ8kOBNnxi3cmAfBXfYXGRERvcwJQeg
+ nHTQiYTmjl+8mBFK/fbcFAESLzhqz6+1AO2cTS7ybUSsR018c1GkVhTeVnBEdkewZuBIK9b0UpA
+ RabDLuq6OmvIe2CbGEazFEcwDmkhiBDEBkhmbLhaUgp1p7z6t46EoheoOOg+i9Yve
+X-Received: by 2002:a05:600c:17d8:: with SMTP id
+ y24mr95678wmo.129.1632762181038; 
+ Mon, 27 Sep 2021 10:03:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwbofEC0Wu+RW2QbQsNe1LdH7aLtvY8RHgmKPmQi/E1sMrJjz80xKkkazZkZ0OkKBFUr0cE3w==
+X-Received: by 2002:a05:600c:17d8:: with SMTP id
+ y24mr95648wmo.129.1632762180752; 
+ Mon, 27 Sep 2021 10:03:00 -0700 (PDT)
 Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id 189sm84643wmz.27.2021.09.27.10.02.55
+ by smtp.gmail.com with ESMTPSA id 1sm115907wms.0.2021.09.27.10.02.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Sep 2021 10:02:55 -0700 (PDT)
+ Mon, 27 Sep 2021 10:03:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/21] Acceptance tests: add myself as a reviewer for the
- acceptance tests
-Date: Mon, 27 Sep 2021 19:02:12 +0200
-Message-Id: <20210927170227.2014482-7-philmd@redhat.com>
+Subject: [PULL 07/21] Acceptance Tests: add standard clean up at test
+ tearDown()
+Date: Mon, 27 Sep 2021 19:02:13 +0200
+Message-Id: <20210927170227.2014482-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210927170227.2014482-1-philmd@redhat.com>
 References: <20210927170227.2014482-1-philmd@redhat.com>
@@ -96,33 +98,51 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Willian Rampazzo <willianr@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Willian Rampazzo <willianr@redhat.com>
+From: Cleber Rosa <crosa@redhat.com>
 
+The avocado.Test class, used as the basis of the avocado_qemu.Test
+class, performs a clean of temporary directories up as part of its own
+tearDown() implementation.
+
+But the avocado_qemu.Test class is currently missing the same clean
+up, as it implemented its own tearDown() method without resorting to
+the upper class behavior.
+
+This brings avocado_qemu.Test behavior in sync with the standard
+avocado.Test behavior and prevents temporary directories from
+cluttering the test results directory (unless instructed to do so with
+Avocado's "--keep-tmp" option).
+
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+[willianr: respin to new Python super format]
 Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-Acked-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210809192907.42138-1-willianr@redhat.com>
+Message-Id: <20210920204932.94132-2-willianr@redhat.com>
 ---
- MAINTAINERS | 1 +
+ tests/acceptance/avocado_qemu/__init__.py | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 069db6d2995..f98523cfe0f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3485,6 +3485,7 @@ W: https://trello.com/b/6Qi1pxVn/avocado-qemu
- R: Cleber Rosa <crosa@redhat.com>
- R: Philippe Mathieu-Daudé <philmd@redhat.com>
- R: Wainer dos Santos Moschetta <wainersm@redhat.com>
-+R: Willian Rampazzo <willianr@redhat.com>
- S: Odd Fixes
- F: tests/acceptance/
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index 2c4fef3e149..d9e1b32aa16 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -276,6 +276,7 @@ def tearDown(self):
+         for vm in self._vms.values():
+             vm.shutdown()
+         self._sd = None
++        super().tearDown()
  
+     def fetch_asset(self, name,
+                     asset_hash=None, algorithm=None,
 -- 
 2.31.1
 
