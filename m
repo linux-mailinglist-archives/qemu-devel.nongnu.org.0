@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F49C4199B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:53:15 +0200 (CEST)
-Received: from localhost ([::1]:55014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254D04199BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 18:54:53 +0200 (CEST)
+Received: from localhost ([::1]:33800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUtsQ-00037n-KD
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:53:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46060)
+	id 1mUtu0-0007wn-7N
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 12:54:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUtk0-0004q0-KS
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:44:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26531)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUtmD-0007Qf-Rb
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:46:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUtjy-0004S8-CB
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:44:32 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mUtmA-0006Mj-H4
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 12:46:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632761069;
+ s=mimecast20190719; t=1632761203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=POTM4n/1UmuBLziHF3tUXVo8I4AyVdg/u06Xn27+Xno=;
- b=IV/o6B6zvqS9g3RPQsOfARkMzxNa2iyQbKq11wD54WCpVhPv07DfCaoZ8Z2lIK2/Jewc0d
- EvSisSCXzLtAO9UfuqZxJWKqkRRoKmxGwzvqgxwKjtQDSoXgYbhEqzKAOBNv/G9YaDscFX
- if3m0Yxkm0EQCX5nDyPBDWuNDp+Vsm4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-CXPNNN2FMlGKcnkaHQ9dKQ-1; Mon, 27 Sep 2021 12:44:28 -0400
-X-MC-Unique: CXPNNN2FMlGKcnkaHQ9dKQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 70-20020a1c0149000000b0030b7dd84d81so484310wmb.3
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 09:44:27 -0700 (PDT)
+ bh=IYPgonmE09YaBM0iRAxilyIKJd/hIX3aaATz/sGSbVw=;
+ b=hCEwfJfXvVWj/XNnRF7LbU44MxCwJA441H6XkIxdI1AvbuHrTCd7eJzVyBjZQPUpIQhjn/
+ uELewRIOm70p6e9SJ4HGUblWHXVUX/yGNO3jTBU21+W2hrfNyUvbggS1ntcILZmxiwCSVj
+ B0zuD5w3v7rhkqYgVyTCY8eSP6RMYBE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-f6YqQoKbPkyItGARSi7fmQ-1; Mon, 27 Sep 2021 12:46:40 -0400
+X-MC-Unique: f6YqQoKbPkyItGARSi7fmQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r15-20020adfce8f000000b0015df1098ccbso14363688wrn.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 09:46:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=POTM4n/1UmuBLziHF3tUXVo8I4AyVdg/u06Xn27+Xno=;
- b=XD6KoHG+081cBf7blE48W6asiOQSr1vQNEmgBPf1PMIuLiMiw01dopEttwnByNijqV
- oNN5ir/pHFLza3pqxe+DrPA0DzMWEI1y320h/vj4nfCiUppqeqNVxRWYzVIX1AMk/jcU
- BlqN0fPnHQCyTDjs9/R7O+ZIgGeye1n8TeJdmZPy16LYFzwxsncbWmBXjnGO/2rP5Vqp
- W4dXso4AoxDccqQIG3JwqeZ+TY29/3Ael244mGxow8LCvRqRprCfdtBuLMZ8595UI/SQ
- 5WyHrkp6L5dROp8e38XR078k2UwWWwKorAeLMuiHl+gSRJdGkpVDlIN2CTmkP2aRjNsi
- xxMg==
-X-Gm-Message-State: AOAM5312z0M8vp1dZsX/3JgP9BX+PAxLvZ0EE617uQO9wqWsajR6aHCf
- Nc/XPH7d8XQy3LNRqbH+bzC5apcvBYNP0qcwD4dX+b5i0RwcUeSeZxwQCwlPZxS22SLDdJWB2KK
- clcapIUpHhZv7crM=
-X-Received: by 2002:a05:6000:18ab:: with SMTP id
- b11mr970738wri.131.1632761066908; 
- Mon, 27 Sep 2021 09:44:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy0A82DklmzyH33g906L5yz9MzUkUagmgSfj4Zv9BmhZHivNAU1x4UsV9Ij0THveNU7ge+A+A==
-X-Received: by 2002:a05:6000:18ab:: with SMTP id
- b11mr970719wri.131.1632761066789; 
- Mon, 27 Sep 2021 09:44:26 -0700 (PDT)
+ bh=IYPgonmE09YaBM0iRAxilyIKJd/hIX3aaATz/sGSbVw=;
+ b=s9TggR9pfTLi/CAqonGXFW0DFVzfuorerRAbIvEU41sZp/OHNUnbrrnDz2l1l34eSj
+ Qt6HTt1QCvjwNJLKoYHFeXxxmkTo9UnpbWr8askkiXuymXinGPY7MGCAJ2cP7tgep2te
+ IigpPxS9gzJzBXM3g5aPM+WfSZnYCAfFkrAs0HhhYa5EjDsjK7YRN0MzwSHwPDw4G42q
+ uM7CocmBbL8DfeaUZBseOmIRHY8H2z0ZP3/T4yeYexgM1jxbANaDRPJn8O79yx42e3KJ
+ GEkchx7lfAeXhxAkSqKeC0nOX2WKrKTfm7be7qFoZnuKwiUfCOelKoAcBSyNVJizd7KC
+ AlIw==
+X-Gm-Message-State: AOAM530rLiKGP5eSzxQn3Vg85aeJFmD9jtqpl6zIYIkg9bRjT9eAujMp
+ iwj0p3VxDzqWyrHb/CFyC8OSSKg+sTyY+04kDuZirJaqYb8y/C0h7HIxceojRXP+xgqWbhIIijN
+ uVUJkTk75pVdePsU=
+X-Received: by 2002:adf:b7c1:: with SMTP id t1mr898035wre.387.1632761199329;
+ Mon, 27 Sep 2021 09:46:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZUkF8pTG1tw9+z2WgZY+OCY7OHodA4KMlpTsrMq1vF4vRdLOZjBYzTNPZMc14+68ffFSpjA==
+X-Received: by 2002:adf:b7c1:: with SMTP id t1mr898001wre.387.1632761199130;
+ Mon, 27 Sep 2021 09:46:39 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id s13sm7798wmc.47.2021.09.27.09.44.25
+ by smtp.gmail.com with ESMTPSA id j14sm16938183wrp.21.2021.09.27.09.46.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 09:44:26 -0700 (PDT)
-Message-ID: <c4ba52a1-46f9-0e74-92b3-c57e617f6f08@redhat.com>
-Date: Mon, 27 Sep 2021 18:44:25 +0200
+ Mon, 27 Sep 2021 09:46:38 -0700 (PDT)
+Message-ID: <80a1e61d-97d7-2caa-a366-babd64f8172c@redhat.com>
+Date: Mon, 27 Sep 2021 18:46:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v3 1/7] qemu: Split machine_ppc.py acceptance tests
-To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
- <20210927044808.73391-2-david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 00/16] Acceptance Tests: use Avocado 91.0 features and
+ other improvements
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20210924185506.2542588-1-crosa@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210927044808.73391-2-david@gibson.dropbear.id.au>
+In-Reply-To: <20210924185506.2542588-1-crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -58
@@ -101,41 +98,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, dbarboza@redhat.com, aik@ozlabs.ru,
- mark.cave-ayland@ilande.co.uk, groug@kaod.org, wainersm@redhat.com,
- hpoussin@reactos.org, clg@kaod.org, crosa@redhat.com,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Willian Rampazzo <wrampazz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alexandre Iooss <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Ryo ONODERA <ryoon@netbsd.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
-
-On 9/27/21 06:48, David Gibson wrote:
-> machine_ppc.py contains tests for 3 different ppc based machine types.  It
-> is listed in MAINTAINERS along with the PPC TCG cpu code.  That's not
-> really accurate though, since it's really more about testing those machines
-> than the CPUs.
+On 9/24/21 20:54, Cleber Rosa wrote:
+> This is a collection of patches for the Acceptance Tests to leverage
+> some of the features of Avocado 91.0.  With the Avocado version bump
+> by itself, there would be a change in the default "test runner"
+> implementation that Avocado uses, from the one simply known as
+> "runner" to the new one called "nrunner".
 > 
-> Therefore, split it up into separate files for the separate machine types,
-> and list those along with their machine types in MAINTAINERS.
+> Among the changes from one implementation to the other, is the fact
+> that "nrunner" will run tests in parallel by default.  This is *not
+> yet* enabled by default on "make check-acceptance", but users can
+> choose to use simply by setting the "AVOCADO_RUNNER" variable, that
+> is:
 > 
-> Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  MAINTAINERS                          |  4 +-
->  tests/acceptance/machine_ppc.py      | 69 ----------------------------
->  tests/acceptance/ppc_mpc8544ds.py    | 32 +++++++++++++
->  tests/acceptance/ppc_pseries.py      | 35 ++++++++++++++
->  tests/acceptance/ppc_virtex_ml507.py | 34 ++++++++++++++
->  5 files changed, 104 insertions(+), 70 deletions(-)
->  delete mode 100644 tests/acceptance/machine_ppc.py
->  create mode 100644 tests/acceptance/ppc_mpc8544ds.py
->  create mode 100644 tests/acceptance/ppc_pseries.py
->  create mode 100644 tests/acceptance/ppc_virtex_ml507.py
+>   make AVOCADO_RUNNER=nrunner check-acceptance
+> 
+> If you are curious about the architectural differences of the nrunner,
+> please refer to:
+> 
+>   https://avocado-framework.readthedocs.io/en/91.0/guides/contributor/chapters/runners.html
+> 
+> One other noteworthy proposal is a convention to tag tests that either
+> have known issues, or that touch on QEMU features that have known
+> issues.  By tagging those tests accordingly, they will be
+> automatically excluded from the regular execution with "make
+> check-acceptance".
+> 
+> Finally, some updates to assets locations and some tests refactors and
+> cleanups.
+> 
+> Cleber Rosa (16):
+>   Acceptance Tests: bump Avocado requirement to 91.0
+>   Acceptance Tests: improve check-acceptance description
+>   Acceptance Tests: add mechanism for listing tests
+>   Acceptance Tests: keep track and disable tests with known issues
+>   Acceptance Tests: add standard clean up at test tearDown()
+>   Acceptance Tests: use extract from package from avocado.utils
+>   Acceptance Tests: workaround expired mipsdistros.mips.com HTTPS cert
+>   acceptance/tests/vnc.py: use explicit syntax for enabling passwords
+>   tests/acceptance/boot_xen.py: merge base classes
+>   tests/acceptance/boot_xen.py: unify tags
+>   tests/acceptance/boot_xen.py: fetch kernel during test setUp()
+>   tests/acceptance/boot_xen.py: removed unused import
+>   tests/acceptance/boot_xen.py: use class attribute
+>   tests/acceptance/ppc_prep_40p.py: NetBSD 7.1.2 location update
+>   tests/acceptance/ppc_prep_40p.py: clean up unused import
+>   tests/acceptance/ppc_prep_40p.py: unify tags
 
-Since I'm preparing an integration-testing pull request,
-I'll queue this single patch directly, to avoid future
-merge conflicts.
+Thanks. Trivial patches 2, 8, 12, 14, 15 applied to my
+integration-testing tree.
 
 
