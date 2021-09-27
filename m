@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B18AA41950C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 15:25:31 +0200 (CEST)
-Received: from localhost ([::1]:57404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB734194E7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 15:16:17 +0200 (CEST)
+Received: from localhost ([::1]:38342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUqdN-0005J1-Fe
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 09:25:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42010)
+	id 1mUqUS-0000Wz-Ju
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 09:16:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUqLi-0003jd-QX
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:07:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45740)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUqLW-0003Fq-6G
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:07:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUqLg-0003us-HT
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:07:14 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mUqLR-0003l2-M0
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 09:07:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632748031;
+ s=mimecast20190719; t=1632748016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bm8FCCJ/3mzzVePMFmbnmX3RycLnrNCdK/g5hIJIKxA=;
- b=CqugzNl1qf4WV/6dzopwRw/skTtV1qKN8EosdmrXXQyFE07t7u7DJu0ukzyRSRjUwmECgN
- Nz5wt2upjkh4JeRalUpcYk7kpDLmcSxxoQ7OnNTJ+8i6Z/Gww/HS5+6WYgY4VvBq9r0eYA
- iOXhjUvXaYlT2VwFhQmfmh2IT1H8k+g=
+ bh=dg9yRNADRqqdZyNvNH4gX7/9UOsvgHheSdqMHBN7N7M=;
+ b=QBDcVey0qwwkd+kDll55JhP+ecm73UeudF7RosscH7CuDJMrIaSuFbuMV4720sTdV3Si+6
+ zpoeY2dQRsiuUkcXC2bePP0J6QvKcmdYzEbrWC9gpR/Uhke+y+NTTH3QoyhBktFjo2DKzh
+ ZHtNw1k5LjDkEljUPJLf0nxhO2hqto4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-aZbixlBfP1mT_epPxQh2Nw-1; Mon, 27 Sep 2021 09:06:53 -0400
-X-MC-Unique: aZbixlBfP1mT_epPxQh2Nw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-25-tvpm8RGqOMmlK0Cd0m8mNg-1; Mon, 27 Sep 2021 09:06:54 -0400
+X-MC-Unique: tvpm8RGqOMmlK0Cd0m8mNg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 834421084688;
- Mon, 27 Sep 2021 13:06:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 367641084691;
+ Mon, 27 Sep 2021 13:06:53 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C50D60938;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C7B56B543;
  Mon, 27 Sep 2021 13:06:51 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A362C11380A9; Mon, 27 Sep 2021 15:06:47 +0200 (CEST)
+ id A6B7211380AB; Mon, 27 Sep 2021 15:06:47 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 13/25] test-qobject-output-visitor: Wean off UserDefListUnion
-Date: Mon, 27 Sep 2021 15:06:35 +0200
-Message-Id: <20210927130647.1271533-14-armbru@redhat.com>
+Subject: [PULL v2 14/25] test-clone-visitor: Wean off UserDefListUnion
+Date: Mon, 27 Sep 2021 15:06:36 +0200
+Message-Id: <20210927130647.1271533-15-armbru@redhat.com>
 In-Reply-To: <20210927130647.1271533-1-armbru@redhat.com>
 References: <20210927130647.1271533-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,448 +83,56 @@ Cc: peter.maydell@linaro.org, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test_visitor_out_list_union_FOO() use simple union
-UserDefListUnion to cover lists of builtin types.  Rewrite as
-test_visitor_out_list_struct(), using struct ArrayStruct and a lot
-less code.
+test_clone_complex1() uses simple union UserDefListUnion to cover
+unions.  Use UserDefFlatUnion instead.  Arrays are still covered by
+test_clone_complex3().
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210917143134.412106-14-armbru@redhat.com>
+Message-Id: <20210917143134.412106-15-armbru@redhat.com>
 ---
- tests/unit/test-qobject-output-visitor.c | 391 ++++++-----------------
- 1 file changed, 93 insertions(+), 298 deletions(-)
+ tests/unit/test-clone-visitor.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/tests/unit/test-qobject-output-visitor.c b/tests/unit/test-qobject-output-visitor.c
-index 9dc1e075e7..34d67a439a 100644
---- a/tests/unit/test-qobject-output-visitor.c
-+++ b/tests/unit/test-qobject-output-visitor.c
-@@ -437,289 +437,118 @@ static void test_visitor_out_null(TestOutputVisitorData *data,
-     g_assert(qobject_type(nil) == QTYPE_QNULL);
- }
+diff --git a/tests/unit/test-clone-visitor.c b/tests/unit/test-clone-visitor.c
+index 4944b3d857..8357a90e60 100644
+--- a/tests/unit/test-clone-visitor.c
++++ b/tests/unit/test-clone-visitor.c
+@@ -99,18 +99,26 @@ static void test_clone_empty(void)
  
--static void init_list_union(UserDefListUnion *cvalue)
--{
--    int i;
--    switch (cvalue->type) {
--    case USER_DEF_LIST_UNION_KIND_INTEGER: {
--        intList **tail = &cvalue->u.integer.data;
--        for (i = 0; i < 32; i++) {
--            QAPI_LIST_APPEND(tail, i);
--        }
--        break;
--    }
--    case USER_DEF_LIST_UNION_KIND_S8: {
--        int8List **tail = &cvalue->u.s8.data;
--        for (i = 0; i < 32; i++) {
--            QAPI_LIST_APPEND(tail, i);
--        }
--        break;
--    }
--    case USER_DEF_LIST_UNION_KIND_S16: {
--        int16List **tail = &cvalue->u.s16.data;
--        for (i = 0; i < 32; i++) {
--            QAPI_LIST_APPEND(tail, i);
--        }
--        break;
--    }
--    case USER_DEF_LIST_UNION_KIND_S32: {
--        int32List **tail = &cvalue->u.s32.data;
--        for (i = 0; i < 32; i++) {
--            QAPI_LIST_APPEND(tail, i);
--        }
--        break;
--    }
--    case USER_DEF_LIST_UNION_KIND_S64: {
--        int64List **tail = &cvalue->u.s64.data;
--        for (i = 0; i < 32; i++) {
--            QAPI_LIST_APPEND(tail, i);
--        }
--        break;
--    }
--    case USER_DEF_LIST_UNION_KIND_U8: {
--        uint8List **tail = &cvalue->u.u8.data;
--        for (i = 0; i < 32; i++) {
--            QAPI_LIST_APPEND(tail, i);
--        }
--        break;
--    }
--    case USER_DEF_LIST_UNION_KIND_U16: {
--        uint16List **tail = &cvalue->u.u16.data;
--        for (i = 0; i < 32; i++) {
--            QAPI_LIST_APPEND(tail, i);
--        }
--        break;
--    }
--    case USER_DEF_LIST_UNION_KIND_U32: {
--        uint32List **tail = &cvalue->u.u32.data;
--        for (i = 0; i < 32; i++) {
--            QAPI_LIST_APPEND(tail, i);
--        }
--        break;
--    }
--    case USER_DEF_LIST_UNION_KIND_U64: {
--        uint64List **tail = &cvalue->u.u64.data;
--        for (i = 0; i < 32; i++) {
--            QAPI_LIST_APPEND(tail, i);
--        }
--        break;
--    }
--    case USER_DEF_LIST_UNION_KIND_BOOLEAN: {
--        boolList **tail = &cvalue->u.boolean.data;
--        for (i = 0; i < 32; i++) {
--            QAPI_LIST_APPEND(tail, QEMU_IS_ALIGNED(i, 3));
--        }
--        break;
--    }
--    case USER_DEF_LIST_UNION_KIND_STRING: {
--        strList **tail = &cvalue->u.string.data;
--        for (i = 0; i < 32; i++) {
--            QAPI_LIST_APPEND(tail, g_strdup_printf("%d", i));
--        }
--        break;
--    }
--    case USER_DEF_LIST_UNION_KIND_NUMBER: {
--        numberList **tail = &cvalue->u.number.data;
--        for (i = 0; i < 32; i++) {
--            QAPI_LIST_APPEND(tail, (double)i / 3);
--        }
--        break;
--    }
--    default:
--        g_assert_not_reached();
--    }
--}
--
--static void check_list_union(QObject *qobj,
--                             UserDefListUnionKind kind)
-+static void test_visitor_out_list_struct(TestOutputVisitorData *data,
-+                                         const void *unused)
+ static void test_clone_complex1(void)
  {
-+    const char *int_member[] = {
-+        "integer", "s8", "s16", "s32", "s64", "u8", "u16", "u32", "u64" };
-+    g_autoptr(ArrayStruct) arrs = g_new0(ArrayStruct, 1);
-+    int i, j;
-     QDict *qdict;
-     QList *qlist;
--    int i;
-+    QListEntry *e;
+-    UserDefListUnion *src, *dst;
++    UserDefFlatUnion *src, *dst;
  
--    qdict = qobject_to(QDict, qobj);
--    g_assert(qdict);
--    g_assert(qdict_haskey(qdict, "data"));
--    qlist = qlist_copy(qobject_to(QList, qdict_get(qdict, "data")));
--
--    switch (kind) {
--    case USER_DEF_LIST_UNION_KIND_U8:
--    case USER_DEF_LIST_UNION_KIND_U16:
--    case USER_DEF_LIST_UNION_KIND_U32:
--    case USER_DEF_LIST_UNION_KIND_U64:
--        for (i = 0; i < 32; i++) {
--            QObject *tmp;
--            QNum *qvalue;
--            uint64_t val;
--
--            tmp = qlist_peek(qlist);
--            g_assert(tmp);
--            qvalue = qobject_to(QNum, tmp);
--            g_assert(qnum_get_try_uint(qvalue, &val));
--            g_assert_cmpint(val, ==, i);
--            qobject_unref(qlist_pop(qlist));
--        }
--        break;
--
--    case USER_DEF_LIST_UNION_KIND_S8:
--    case USER_DEF_LIST_UNION_KIND_S16:
--    case USER_DEF_LIST_UNION_KIND_S32:
--    case USER_DEF_LIST_UNION_KIND_S64:
--        /*
--         * All integer elements in JSON arrays get stored into QNums
--         * when we convert to QObjects, so we can check them all in
--         * the same fashion, so simply fall through here.
--         */
--    case USER_DEF_LIST_UNION_KIND_INTEGER:
--        for (i = 0; i < 32; i++) {
--            QObject *tmp;
--            QNum *qvalue;
--            int64_t val;
--
--            tmp = qlist_peek(qlist);
--            g_assert(tmp);
--            qvalue = qobject_to(QNum, tmp);
--            g_assert(qnum_get_try_int(qvalue, &val));
--            g_assert_cmpint(val, ==, i);
--            qobject_unref(qlist_pop(qlist));
--        }
--        break;
--    case USER_DEF_LIST_UNION_KIND_BOOLEAN:
--        for (i = 0; i < 32; i++) {
--            QObject *tmp;
--            QBool *qvalue;
--            tmp = qlist_peek(qlist);
--            g_assert(tmp);
--            qvalue = qobject_to(QBool, tmp);
--            g_assert_cmpint(qbool_get_bool(qvalue), ==, i % 3 == 0);
--            qobject_unref(qlist_pop(qlist));
--        }
--        break;
--    case USER_DEF_LIST_UNION_KIND_STRING:
--        for (i = 0; i < 32; i++) {
--            QObject *tmp;
--            QString *qvalue;
--            gchar str[8];
--            tmp = qlist_peek(qlist);
--            g_assert(tmp);
--            qvalue = qobject_to(QString, tmp);
--            sprintf(str, "%d", i);
--            g_assert_cmpstr(qstring_get_str(qvalue), ==, str);
--            qobject_unref(qlist_pop(qlist));
--        }
--        break;
--    case USER_DEF_LIST_UNION_KIND_NUMBER:
--        for (i = 0; i < 32; i++) {
--            QObject *tmp;
--            QNum *qvalue;
--            GString *double_expected = g_string_new("");
--            GString *double_actual = g_string_new("");
--
--            tmp = qlist_peek(qlist);
--            g_assert(tmp);
--            qvalue = qobject_to(QNum, tmp);
--            g_string_printf(double_expected, "%.6f", (double)i / 3);
--            g_string_printf(double_actual, "%.6f", qnum_get_double(qvalue));
--            g_assert_cmpstr(double_actual->str, ==, double_expected->str);
--
--            qobject_unref(qlist_pop(qlist));
--            g_string_free(double_expected, true);
--            g_string_free(double_actual, true);
--        }
--        break;
--    default:
--        g_assert_not_reached();
-+    for (i = 31; i >= 0; i--) {
-+        QAPI_LIST_PREPEND(arrs->integer, i);
-     }
--    qobject_unref(qlist);
--}
+-    src = g_new0(UserDefListUnion, 1);
+-    src->type = USER_DEF_LIST_UNION_KIND_STRING;
++    src = g_new0(UserDefFlatUnion, 1);
++    src->integer = 123;
++    src->string = g_strdup("abc");
++    src->enum1 = ENUM_ONE_VALUE1;
++    src->u.value1.boolean = true;
  
--static void test_list_union(TestOutputVisitorData *data,
--                            const void *unused,
--                            UserDefListUnionKind kind)
--{
--    UserDefListUnion *cvalue = g_new0(UserDefListUnion, 1);
--    QObject *obj;
-+    for (i = 31; i >= 0; i--) {
-+        QAPI_LIST_PREPEND(arrs->s8, i);
-+    }
+-    dst = QAPI_CLONE(UserDefListUnion, src);
++    dst = QAPI_CLONE(UserDefFlatUnion, src);
+     g_assert(dst);
+-    g_assert_cmpint(dst->type, ==, src->type);
+-    g_assert(!dst->u.string.data);
  
--    cvalue->type = kind;
--    init_list_union(cvalue);
-+    for (i = 31; i >= 0; i--) {
-+        QAPI_LIST_PREPEND(arrs->s16, i);
-+    }
- 
--    visit_type_UserDefListUnion(data->ov, NULL, &cvalue, &error_abort);
-+    for (i = 31; i >= 0; i--) {
-+        QAPI_LIST_PREPEND(arrs->s32, i);
-+    }
- 
--    obj = visitor_get(data);
--    check_list_union(obj, cvalue->type);
--    qapi_free_UserDefListUnion(cvalue);
--}
-+    for (i = 31; i >= 0; i--) {
-+        QAPI_LIST_PREPEND(arrs->s64, i);
-+    }
- 
--static void test_visitor_out_list_union_int(TestOutputVisitorData *data,
--                                            const void *unused)
--{
--    test_list_union(data, unused, USER_DEF_LIST_UNION_KIND_INTEGER);
--}
-+    for (i = 31; i >= 0; i--) {
-+        QAPI_LIST_PREPEND(arrs->u8, i);
-+    }
- 
--static void test_visitor_out_list_union_int8(TestOutputVisitorData *data,
--                                             const void *unused)
--{
--    test_list_union(data, unused, USER_DEF_LIST_UNION_KIND_S8);
--}
-+    for (i = 31; i >= 0; i--) {
-+        QAPI_LIST_PREPEND(arrs->u16, i);
-+    }
- 
--static void test_visitor_out_list_union_int16(TestOutputVisitorData *data,
--                                              const void *unused)
--{
--    test_list_union(data, unused, USER_DEF_LIST_UNION_KIND_S16);
--}
-+    for (i = 31; i >= 0; i--) {
-+        QAPI_LIST_PREPEND(arrs->u32, i);
-+    }
- 
--static void test_visitor_out_list_union_int32(TestOutputVisitorData *data,
--                                              const void *unused)
--{
--    test_list_union(data, unused, USER_DEF_LIST_UNION_KIND_S32);
--}
-+    for (i = 31; i >= 0; i--) {
-+        QAPI_LIST_PREPEND(arrs->u64, i);
-+    }
- 
--static void test_visitor_out_list_union_int64(TestOutputVisitorData *data,
--                                              const void *unused)
--{
--    test_list_union(data, unused, USER_DEF_LIST_UNION_KIND_S64);
--}
-+    for (i = 31; i >= 0; i--) {
-+        QAPI_LIST_PREPEND(arrs->number, (double)i / 3);
-+    }
- 
--static void test_visitor_out_list_union_uint8(TestOutputVisitorData *data,
--                                              const void *unused)
--{
--    test_list_union(data, unused, USER_DEF_LIST_UNION_KIND_U8);
--}
-+    for (i = 31; i >= 0; i--) {
-+        QAPI_LIST_PREPEND(arrs->boolean, QEMU_IS_ALIGNED(i, 3));
-+    }
- 
--static void test_visitor_out_list_union_uint16(TestOutputVisitorData *data,
--                                               const void *unused)
--{
--    test_list_union(data, unused, USER_DEF_LIST_UNION_KIND_U16);
--}
-+    for (i = 31; i >= 0; i--) {
-+        QAPI_LIST_PREPEND(arrs->string, g_strdup_printf("%d", i));
-+    }
- 
--static void test_visitor_out_list_union_uint32(TestOutputVisitorData *data,
--                                               const void *unused)
--{
--    test_list_union(data, unused, USER_DEF_LIST_UNION_KIND_U32);
--}
-+    visit_type_ArrayStruct(data->ov, NULL, &arrs, &error_abort);
- 
--static void test_visitor_out_list_union_uint64(TestOutputVisitorData *data,
--                                               const void *unused)
--{
--    test_list_union(data, unused, USER_DEF_LIST_UNION_KIND_U64);
--}
-+    qdict = qobject_to(QDict, visitor_get(data));
-+    g_assert(qdict);
- 
--static void test_visitor_out_list_union_bool(TestOutputVisitorData *data,
--                                             const void *unused)
--{
--    test_list_union(data, unused, USER_DEF_LIST_UNION_KIND_BOOLEAN);
--}
-+    for (i = 0; i < G_N_ELEMENTS(int_member); i++) {
-+        qlist = qdict_get_qlist(qdict, int_member[i]);
-+        g_assert(qlist);
-+        j = 0;
-+        QLIST_FOREACH_ENTRY(qlist, e) {
-+            QNum *qvalue = qobject_to(QNum, qlist_entry_obj(e));
-+            g_assert(qvalue);
-+            g_assert_cmpint(qnum_get_int(qvalue), ==, j);
-+            j++;
-+        }
-+    }
- 
--static void test_visitor_out_list_union_str(TestOutputVisitorData *data,
--                                            const void *unused)
--{
--    test_list_union(data, unused, USER_DEF_LIST_UNION_KIND_STRING);
--}
-+    qlist = qdict_get_qlist(qdict, "number");
-+    g_assert(qlist);
-+    i = 0;
-+    QLIST_FOREACH_ENTRY(qlist, e) {
-+        QNum *qvalue = qobject_to(QNum, qlist_entry_obj(e));
-+        char expected[32], actual[32];
- 
--static void test_visitor_out_list_union_number(TestOutputVisitorData *data,
--                                               const void *unused)
--{
--    test_list_union(data, unused, USER_DEF_LIST_UNION_KIND_NUMBER);
-+        g_assert(qvalue);
-+        sprintf(expected, "%.6f", (double)i / 3);
-+        sprintf(actual, "%.6f", qnum_get_double(qvalue));
-+        g_assert_cmpstr(actual, ==, expected);
-+        i++;
-+    }
+-    qapi_free_UserDefListUnion(src);
+-    qapi_free_UserDefListUnion(dst);
++    g_assert_cmpint(dst->integer, ==, 123);
++    g_assert_cmpstr(dst->string, ==, "abc");
++    g_assert_cmpint(dst->enum1, ==, ENUM_ONE_VALUE1);
++    g_assert(dst->u.value1.boolean);
++    g_assert(!dst->u.value1.has_a_b);
++    g_assert_cmpint(dst->u.value1.a_b, ==, 0);
 +
-+    qlist = qdict_get_qlist(qdict, "boolean");
-+    g_assert(qlist);
-+    i = 0;
-+    QLIST_FOREACH_ENTRY(qlist, e) {
-+        QBool *qvalue = qobject_to(QBool, qlist_entry_obj(e));
-+        g_assert(qvalue);
-+        g_assert_cmpint(qbool_get_bool(qvalue), ==, i % 3 == 0);
-+        i++;
-+    }
-+
-+    qlist = qdict_get_qlist(qdict, "string");
-+    g_assert(qlist);
-+    i = 0;
-+    QLIST_FOREACH_ENTRY(qlist, e) {
-+        QString *qvalue = qobject_to(QString, qlist_entry_obj(e));
-+        char expected[32];
-+
-+        g_assert(qvalue);
-+        sprintf(expected, "%d", i);
-+        g_assert_cmpstr(qstring_get_str(qvalue), ==, expected);
-+        i++;
-+    }
++    qapi_free_UserDefFlatUnion(src);
++    qapi_free_UserDefFlatUnion(dst);
  }
  
- static void output_visitor_test_add(const char *testpath,
-@@ -764,42 +593,8 @@ int main(int argc, char **argv)
-                             &out_visitor_data, test_visitor_out_alternate);
-     output_visitor_test_add("/visitor/output/null",
-                             &out_visitor_data, test_visitor_out_null);
--    output_visitor_test_add("/visitor/output/list_union/int",
--                            &out_visitor_data,
--                            test_visitor_out_list_union_int);
--    output_visitor_test_add("/visitor/output/list_union/int8",
--                            &out_visitor_data,
--                            test_visitor_out_list_union_int8);
--    output_visitor_test_add("/visitor/output/list_union/int16",
--                            &out_visitor_data,
--                            test_visitor_out_list_union_int16);
--    output_visitor_test_add("/visitor/output/list_union/int32",
--                            &out_visitor_data,
--                            test_visitor_out_list_union_int32);
--    output_visitor_test_add("/visitor/output/list_union/int64",
--                            &out_visitor_data,
--                            test_visitor_out_list_union_int64);
--    output_visitor_test_add("/visitor/output/list_union/uint8",
--                            &out_visitor_data,
--                            test_visitor_out_list_union_uint8);
--    output_visitor_test_add("/visitor/output/list_union/uint16",
--                            &out_visitor_data,
--                            test_visitor_out_list_union_uint16);
--    output_visitor_test_add("/visitor/output/list_union/uint32",
--                            &out_visitor_data,
--                            test_visitor_out_list_union_uint32);
--    output_visitor_test_add("/visitor/output/list_union/uint64",
--                            &out_visitor_data,
--                            test_visitor_out_list_union_uint64);
--    output_visitor_test_add("/visitor/output/list_union/bool",
--                            &out_visitor_data,
--                            test_visitor_out_list_union_bool);
--    output_visitor_test_add("/visitor/output/list_union/string",
--                            &out_visitor_data,
--                            test_visitor_out_list_union_str);
--    output_visitor_test_add("/visitor/output/list_union/number",
--                            &out_visitor_data,
--                            test_visitor_out_list_union_number);
-+    output_visitor_test_add("/visitor/output/list_struct",
-+                            &out_visitor_data, test_visitor_out_list_struct);
- 
-     g_test_run();
- 
+ static void test_clone_complex2(void)
 -- 
 2.31.1
 
