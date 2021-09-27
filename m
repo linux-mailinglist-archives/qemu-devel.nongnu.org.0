@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6972F419003
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 09:29:20 +0200 (CEST)
-Received: from localhost ([::1]:33180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA7D419018
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 09:38:37 +0200 (CEST)
+Received: from localhost ([::1]:36908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUl4h-00050N-Gs
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 03:29:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55634)
+	id 1mUlDg-0007uR-7E
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 03:38:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mUl3R-0004ET-Rf; Mon, 27 Sep 2021 03:28:01 -0400
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:42575)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mUl3P-0008OQ-M2; Mon, 27 Sep 2021 03:28:01 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id u32so1136008ybd.9;
- Mon, 27 Sep 2021 00:27:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+6NWL0PIE78YTECkSs9hvPfO0IgJGuXRCUlSiVP9pcI=;
- b=EEulhOMnb23dk5YDVXjyHisxXkDLcaR77aZ4Sdbw23lsoLsqIlJdbbk9u0SbAt0Mwx
- I/pimJEP6N1+IECLRsemkeTk/wf+k9BH0lUhxpwAFspydHVG2duneOxBl0Oc6YshEOn6
- ulj6AfPvUFs1egzVrqBnggchjDhKNO58d633jkyiklIfUR3/hWShCoGcyz7fnpQd2sGs
- aib59H15NrpGi6ggraxkJ/2YOKQeBQVb2K3u4VEDdIDeVpg8iaEUJfby5l82Bq5YOdE7
- HUNl+zWvjl51QtBoA80QnNDR2L8DTAjRYcEhbTZPvC1LkaUVFoegvRR0t48DB6iIm67R
- gTFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+6NWL0PIE78YTECkSs9hvPfO0IgJGuXRCUlSiVP9pcI=;
- b=NrRWql5nyvK+Hfvn6uT/YBpOX/wStgCBMB675pwq+vDD2JK3IqwyAf4Fjtulen7kSo
- t5NREGiZO4Uv7qKDcj/sEB8YzItq6tGaewWJHr7jaH0k7ZDKQduCW5RvTq2O+iNyWiXR
- yPR/ZisU1omrxJ5QlCL0RWDV+dPTQHjbhCe2frOxPclMMY5eHRvYvYmYm3k4cmM0fbhP
- jy9XO75pbnt9zDbcDf2ROYwH1GDywBsnnvvHybNoEf+qVh5gdp77rCR125X6s+oGuMcA
- mxSANVarhr0/D9a5YCQSbxDoWGMy4xjouycs4ikEyeCHb4BC6+maWzzescYQNccmOTd5
- uLCw==
-X-Gm-Message-State: AOAM532UA+wZwR2GItNJK9w5CMlHxL/Qq7qTGcsfGCnE+cCXf4DxTEnZ
- 8arC7IhOkN6/rFiABQOvsoebMA4z0IvPVihWuXo=
-X-Google-Smtp-Source: ABdhPJwCPeelV9Ag10nIXWUrSpXU8BxHCqIq7z88gXmdOHHqUm8p8xL+Uvfm74uXQb7NOw+fyQn6GYq/KSSFeTVY5oQ=
-X-Received: by 2002:a05:6902:70b:: with SMTP id
- k11mr29467964ybt.313.1632727678450; 
- Mon, 27 Sep 2021 00:27:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mUlCF-0006wG-Nd
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 03:37:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38103)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mUlCD-0007rV-09
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 03:37:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632728223;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=UNTPSLtfnudaTqg6l04ZlFn4A4EaBZzUB0Pv42eFdb4=;
+ b=hppr2lBCzREJvVGK9Mr23Ontdb+SDUPB4hARggWUnNGrYx26hcqgB0zeBOiMaYjrjNFmv/
+ b/qLOVcpEyKbBggS5WrtR1yN/wK/hxwtRdo8pjYovRevp+k1q0Hr6LdqtjrfAgyZkJ042/
+ ZUyC86Un06vu5AN4WOYdfOoeKsdMkQI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-342-xWVcO5qBNOSAWtjVSBawKA-1; Mon, 27 Sep 2021 03:36:57 -0400
+X-MC-Unique: xWVcO5qBNOSAWtjVSBawKA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D80F01084684;
+ Mon, 27 Sep 2021 07:36:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AFA8652AD;
+ Mon, 27 Sep 2021 07:36:56 +0000 (UTC)
+Date: Mon, 27 Sep 2021 08:36:53 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: nia <nia@netbsd.org>
+Subject: Re: [PATCH] configure: Loosen GCC requirement from 7.5.0 to 7.4.0
+Message-ID: <YVF0hs8yuoqr6IES@redhat.com>
+References: <YVAfpt8k8BHsN2Ln@homeworld.netbsd.org>
 MIME-Version: 1.0
-References: <bc032f02f44192bfa057cc4f09311fd18d07ef1f.1632726758.git.alistair.francis@wdc.com>
-In-Reply-To: <bc032f02f44192bfa057cc4f09311fd18d07ef1f.1632726758.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 27 Sep 2021 15:27:47 +0800
-Message-ID: <CAEUhbmV8XkWRxZxKPxQbr8J27PP1EZxR2yZYHkWgV16fxK-ZOg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] hw/riscv: shakti_c: Mark as not user creatable
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <YVAfpt8k8BHsN2Ln@homeworld.netbsd.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,27 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis <alistair23@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 27, 2021 at 3:13 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> Mark the shakti_c machine as not user creatable as it uses serial_hd.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/639
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+On Sun, Sep 26, 2021 at 07:22:14AM +0000, nia wrote:
+> As discussed in issue 614, we're shipping GCC 7.4.0 as the
+> system compiler in NetBSD 9, the most recent stable branch,
+> and are still actively interested in QEMU on this platform.
+> 
+> The differences between GCC 7.5.0 and 7.4.0 are trivial.
+> 
+> Signed-off-by: Nia Alarie <nia@NetBSD.org>
 > ---
->  hw/riscv/shakti_c.c | 2 ++
->  1 file changed, 2 insertions(+)
->
+>  configure | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 1043ccce4f..f918ad67a1 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2094,8 +2094,8 @@ cat > $TMPC << EOF
+>  #  endif
+>  # endif
+>  #elif defined(__GNUC__) && defined(__GNUC_MINOR__)
+> -# if __GNUC__ < 7 || (__GNUC__ == 7 && __GNUC_MINOR__ < 5)
+> -#  error You need at least GCC v7.5.0 to compile QEMU
+> +# if __GNUC__ < 7 || (__GNUC__ == 7 && __GNUC_MINOR__ < 4)
+> +#  error You need at least GCC v7.4.0 to compile QEMU
+>  # endif
+>  #else
+>  # error You either need GCC or Clang to compiler QEMU
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+You missed another version number change just after here
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
