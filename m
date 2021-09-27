@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33EC419452
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 14:33:25 +0200 (CEST)
-Received: from localhost ([::1]:34102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A62DF419459
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Sep 2021 14:34:56 +0200 (CEST)
+Received: from localhost ([::1]:35288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mUpoy-0000Dm-7T
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 08:33:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33910)
+	id 1mUpqR-00013m-Ot
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 08:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=19049db00e=david.dai@montage-tech.com>)
- id 1mUpkl-00073w-U8
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 08:29:04 -0400
-Received: from usmail.montage-tech.com ([12.176.92.53]:58903)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=19049db00e=david.dai@montage-tech.com>)
- id 1mUpkg-0002wv-97
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 08:29:02 -0400
-X-MDAV-Result: clean
-X-MDAV-Processed: usmail.montage-tech.com, Mon, 27 Sep 2021 05:28:54 -0700
-Received: from shmail.montage-tech.com by usmail.montage-tech.com with ESMTP
- id md5001005814519.msg; Mon, 27 Sep 2021 05:28:53 -0700
-X-Spam-Processed: usmail.montage-tech.com, Mon, 27 Sep 2021 05:28:53 -0700
- (not processed: message from trusted or authenticated source)
-X-MDArrival-Date: Mon, 27 Sep 2021 05:28:53 -0700
-X-Return-Path: prvs=19049db00e=david.dai@montage-tech.com
-X-Envelope-From: david.dai@montage-tech.com
-X-MDaemon-Deliver-To: qemu-devel@nongnu.org
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=montage-tech.com;
- s=MDaemon; t=1632745705; x=1633350505;
- i=david.dai@montage-tech.com; q=dns/txt; h=Date:From:To:Cc:
- Subject:Message-ID:References:MIME-Version:Content-Type:
- Content-Disposition:In-Reply-To; bh=FWVi1EMJuA0mt2nHPu5vHSYUmNYQ
- EK3tpfJI7uC/Cxc=; b=QBv3TbnGEMRmyCUiWKGb8Gz26axYh8Otu5YVKC2cLUJ/
- pPyKgDEEtOBBuTch6rvWqshHv2rLZU56VCMRIYtN0vhMd4hupDPHoZQGmKo48U+z
- YSg6VdUmrlO2qJ7Pn7YX4WxBgLl05AMaJKD+EjYeswjUDGRi+0v2nMLWqRl+nBg=
-X-MDAV-Result: clean
-X-MDAV-Processed: shmail.montage-tech.com, Mon, 27 Sep 2021 20:28:25 +0800
-Received: from tianmu-host-sw-01 by shmail.montage-tech.com with ESMTPA id
- pp5001017490946.msg; Mon, 27 Sep 2021 20:28:24 +0800
-X-Spam-Processed: shmail.montage-tech.com, Mon, 27 Sep 2021 20:28:24 +0800
- (not processed: message from trusted or authenticated source)
-Date: Mon, 27 Sep 2021 20:28:48 +0800
-From: "david.dai" <david.dai@montage-tech.com>
-To: "David Hildenbrand (david@redhat.com)" <david@redhat.com>
-Subject: Re: [PATCH] hw/misc: Add a virtual pci device to dynamically attach
- memory to QEMU
-Message-ID: <20210927122848.GB144947@tianmu-host-sw-01>
-References: <20210926021614.76933-1-david.dai@montage-tech.com>
- <YVGAWh7e96f8yed0@stefanha-x1.localdomain>
- <38a0312e-3b00-ac41-3cb0-ab5592b06dc1@redhat.com>
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1mUpm7-0007qd-QJ
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 08:30:28 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1mUpm4-0003o0-HJ
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 08:30:27 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HJ21340X5zRWx4;
+ Mon, 27 Sep 2021 20:25:59 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.8; Mon, 27 Sep 2021 20:30:15 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.8; Mon, 27 Sep 2021 20:30:14 +0800
+Subject: Re: [question] VFIO Device Migration: The vCPU may be paused during
+ vfio device DMA in iommu nested stage mode && vSVA
+To: "Tian, Kevin" <kevin.tian@intel.com>, Tarun Gupta <targupta@nvidia.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>, Eric Auger <eric.auger@redhat.com>, Shameer Kolothum
+ <shameerali.kolothum.thodi@huawei.com>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>
+References: <7494b6a8-8dae-cbe9-fcff-29e10a4f0015@huawei.com>
+ <BN9PR11MB5433E189EEC102256A3348A18CA49@BN9PR11MB5433.namprd11.prod.outlook.com>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <41425c1b-1db4-f753-ca67-152366fe3865@huawei.com>
+Date: Mon, 27 Sep 2021 20:30:03 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <38a0312e-3b00-ac41-3cb0-ab5592b06dc1@redhat.com>
-X-MDCFSigsAdded: montage-tech.com
-Received-SPF: pass client-ip=12.176.92.53;
- envelope-from=prvs=19049db00e=david.dai@montage-tech.com;
- helo=usmail.montage-tech.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <BN9PR11MB5433E189EEC102256A3348A18CA49@BN9PR11MB5433.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme708-chm.china.huawei.com (10.1.199.104) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.136,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,91 +73,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, eajames@linux.ibm.com,
- qemu-devel@nongnu.org, changguo.du@montage-tech.com,
- david.dai@montage-tech.com, Stefan Hajnoczi <stefanha@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, kuhn.chenqun@huawei.com
+Cc: "Liu, Yi L" <yi.l.liu@intel.com>, "Zhao, Yan Y" <yan.y.zhao@intel.com>,
+ "tangnianyao@huawei.com" <tangnianyao@huawei.com>,
+ Zenghui Yu <yuzenghui@huawei.com>,
+ "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>,
+ "liulongfang@huawei.com" <liulongfang@huawei.com>,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 27, 2021 at 11:07:43AM +0200, David Hildenbrand (david@redhat.com) wrote:
-> 
-> CAUTION: This email originated from outside of the organization. Do not
-> click links or open attachments unless you recognize the sender and know the
-> content is safe.
-> 
-> 
-> On 27.09.21 10:27, Stefan Hajnoczi wrote:
-> > On Sun, Sep 26, 2021 at 10:16:14AM +0800, David Dai wrote:
-> > > Add a virtual pci to QEMU, the pci device is used to dynamically attach memory
-> > > to VM, so driver in guest can apply host memory in fly without virtualization
-> > > management software's help, such as libvirt/manager. The attached memory is
-> 
-> We do have virtio-mem to dynamically attach memory to a VM. It could be
-> extended by a mechanism for the VM to request more/less memory, that's
-> already a planned feature. But yeah, virito-mem memory is exposed as
-> ordinary system RAM, not only via a BAR to mostly be managed by user space
-> completely.
+Hi Kevin:
+
+On 2021/9/24 14:47, Tian, Kevin wrote:
+>> From: Kunkun Jiang <jiangkunkun@huawei.com>
+>> Sent: Friday, September 24, 2021 2:19 PM
+>>
+>> Hi all,
+>>
+>> I encountered a problem in vfio device migration test. The
+>> vCPU may be paused during vfio-pci DMA in iommu nested
+>> stage mode && vSVA. This may lead to migration fail and
+>> other problems related to device hardware and driver
+>> implementation.
+>>
+>> It may be a bit early to discuss this issue, after all, the iommu
+>> nested stage mode and vSVA are not yet mature. But judging
+>> from the current implementation, we will definitely encounter
+>> this problem in the future.
+> Yes, this is a known limitation to support migration with vSVA.
 >
-
-I wish virtio-mem can solve our problem, but it is a dynamic allocation mechanism
-for system RAM in virtualization. In heterogeneous computing environments, the
-attached memory usually comes from computing device, it should be managed separately.
-we doesn't hope Linux MM controls it.
- 
-> > > isolated from System RAM, it can be used in heterogeneous memory management for
-> > > virtualization. Multiple VMs dynamically share same computing device memory
-> > > without memory overcommit.
-> 
-> This sounds a lot like MemExpand/MemLego ... am I right that this is the
-> original design? I recall that VMs share a memory region and dynamically
-> agree upon which part of the memory region a VM uses. I further recall that
-> there were malloc() hooks that would dynamically allocate such memory in
-> user space from the shared memory region.
+>> This is the current process of vSVA processing translation fault
+>> in iommu nested stage mode (take SMMU as an example):
+>>
+>> guest os            4.handle translation fault 5.send CMD_RESUME to vSMMU
+>>
+>>
+>> qemu                3.inject fault into guest os 6.deliver response to
+>> host os
+>> (vfio/vsmmu)
+>>
+>>
+>> host os              2.notify the qemu 7.send CMD_RESUME to SMMU
+>> (vfio/smmu)
+>>
+>>
+>> SMMU              1.address translation fault              8.retry or
+>> terminate
+>>
+>> The order is 1--->8.
+>>
+>> Currently, qemu may pause vCPU at any step. It is possible to
+>> pause vCPU at step 1-5, that is, in a DMA. This may lead to
+>> migration fail and other problems related to device hardware
+>> and driver implementation. For example, the device status
+>> cannot be changed from RUNNING && SAVING to SAVING,
+>> because the device DMA is not over.
+>>
+>> As far as i can see, vCPU should not be paused during a device
+>> IO process, such as DMA. However, currently live migration
+>> does not pay attention to the state of vfio device when pausing
+>> the vCPU. And if the vCPU is not paused, the vfio device is
+>> always running. This looks like a *deadlock*.
+> Basically this requires:
 >
-
-Thank you for telling me about Memexpand/MemLego, I have carefully read the paper.
-some ideas from it are same as this patch, such as software model and stack, but
-it may have a security risk that whole shared memory is visible to all VMs.
------------------------
-     application
------------------------
-memory management driver
------------------------
-     pci driver
------------------------
-   virtual pci device
------------------------
-
-> I can see some use cases for it, although the shared memory design isn't
-> what you typically want in most VM environments.
+> 1) stopping vCPU after stopping device (could selectively enable
+> this sequence for vSVA);
+How to tell if vSVA is open?
+In fact, as long as it is in iommu nested stage mode, there will
+be such a problem, whether it is vSVA or no-vSVA. In no-vSVA mode,
+a fault can also be generated by modifying the guest device driver.
 >
+> 2) when stopping device, the driver should block new requests
+> from vCPU (queued to a pending list) and then drain all in-fly
+> requests including faults;
+>      * to block this further requires switching from fast-path to
+> slow trap-emulation path for the cmd portal before stopping
+> the device;
+>
+> 3) save the pending requests in the vm image and replay them
+> after the vm is resumed;
+>      * finally disable blocking by switching back to the fast-path for
+> the cmd portal;
+Is there any related patch sent out and discussed? I might have
+overlooked that.
 
-The original design for this patch is to share a computing device among multipile
-VMs. Each VM runs a computing application(for example, OpenCL application)
-Our computing device can support a few applications in parallel. In addition, it
-supports SVM(shared virtual memory) via IOMMU/ATS/PASID/PRI. Device exposes its
-memory to host vis PCIe bar or CXL.mem, host constructs memory pool to uniformly
-manage device memory, then attach device memory to VM via a virtual PCI device.
-but we don't know how much memory should be assigned when creating VM, so we hope
-memory is attached to VM on-demand. driver in guest triggers memory attaching, but
-not outside virtualization management software. so the original requirements are:
-1> The managed memory comes from device, it should be isolated from system RAM
-2> The memory can be dynamically attached to VM in fly
-3> The attached memory supports SVM and DMA operation with IOMMU
+We may be able to discuss and finalize a specification for this
+problem.
 
-Thank you very much. 
-
-
-Best Regards,
-David Dai
-
-> -- 
-> Thanks,
-> 
-> David / dhildenb
-> 
-> 
+Thanks,
+Kunkun Jiang
+>> Do you have any ideas to solve this problem?
+>> Looking forward to your replay.
+>>
+> We verified above flow can work in our internal POC.
+>
+> Thanks
+> Kevin
 
 
 
