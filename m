@@ -2,89 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B93A41B560
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 19:44:41 +0200 (CEST)
-Received: from localhost ([::1]:47460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57EB741B563
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 19:46:55 +0200 (CEST)
+Received: from localhost ([::1]:50100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVH9d-00070L-AJ
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 13:44:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52638)
+	id 1mVHBu-0000Qt-5p
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 13:46:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVH51-0005K5-LR
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 13:39:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58411)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVH8p-0007NM-27
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 13:43:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVH4y-0000U7-UA
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 13:39:46 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVH8n-0003gi-0S
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 13:43:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632850782;
+ s=mimecast20190719; t=1632851020;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XVZQwcQxTG9VAcbRB0rFJ4uWctGudl1JVn+ono5N/7Y=;
- b=ebIkX0q/4zXw0+cPQK9KMplBbzYzhfZZUtvTm468QZwqiP3fnXcUxtGr04R7THaiiX8iqt
- l7FiOEvaJEj7U2a4IBQBWV1RCcp6u5D22VKKOyKZ4Hgv1RQr0ErO7dEFSYQFbiAcQQc7Ry
- efANqtUDa6+L1bT3Xe/7dwWhhut4LrU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-ksZJ7nxVOhG6_2eDI7Pjsw-1; Tue, 28 Sep 2021 13:39:36 -0400
-X-MC-Unique: ksZJ7nxVOhG6_2eDI7Pjsw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- j15-20020a5d564f000000b00160698bf7e9so2102294wrw.13
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 10:39:36 -0700 (PDT)
+ bh=ZF8N5BtNAV4mMZiTYv2jGRoibh8QQkP7K9IMh29lHsU=;
+ b=K0kDyi+xVN99EDlfIWgC4pmjQRaFREvGZ3sckOdqL1ohNzC14bkuCo/GEW7FVU+kzvqCv7
+ kHmf0OIh+aVa+Pye7Jf99X8dC8veEvivqwpwYxUaLWKxHcw4bbdhJuagYBbjmzD+Q3auah
+ jJ2P2qgZchW1cuJwN/ONFDAEJ9RTFeI=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-jmWnX2CINlWY5Mwc5SvLIQ-1; Tue, 28 Sep 2021 13:43:38 -0400
+X-MC-Unique: jmWnX2CINlWY5Mwc5SvLIQ-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ i7-20020ac5cd87000000b0029443ee8a47so3341235vka.15
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 10:43:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=XVZQwcQxTG9VAcbRB0rFJ4uWctGudl1JVn+ono5N/7Y=;
- b=0+dQ6dJhcj/XyZaI/Cqh5PlEVLnrIfdQPWswrnuhAHka3mN8u+uIZvxoPOsjatRSV/
- JTtSfuIaoAD+bXZEK9QKFXbsrtwp0b3SB9/O292hnIlFAb+t9L5PnFLOEjaJHmUtdR/S
- Y3o5B1U8pI46T1ad1yPUgmv0JUEZkQnBAEHzTm2tYSbESmiiTm3O6VFW8paWMh35mGP9
- f5j6aqpmNJnkMH8l0xXLXNRttnsAEnrpD2CVafwTbFDvPml55gDorDa82nXd1EBQnL3h
- GTV9c574/4589A9a6AI7EwcWqCM5BslLC+NfgUasNuysAUOv6wrL7s3dSojiwz/sY9eC
- G70w==
-X-Gm-Message-State: AOAM5309PZUPtQ3IgSz85IglA1HcqCKq+LiA2GuFASrk1yCWlP8ilkOr
- oNFoOHBerYDMurI60VUJSAwEaEEe/meHJfgMDUrW3bLTojRd2hZFg0qlJCJ/qHZh9/tX+spH0gD
- x6HAyobEA40coJ1A=
-X-Received: by 2002:a5d:58ef:: with SMTP id f15mr1667664wrd.160.1632850775731; 
- Tue, 28 Sep 2021 10:39:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw10YPVnEOnYbdBFCSDzQFoQusH/Sn3G2sx5DHZkgAyxdh6zVOJr6aMxis5Mq0LNw8/gXICcQ==
-X-Received: by 2002:a5d:58ef:: with SMTP id f15mr1667634wrd.160.1632850775514; 
- Tue, 28 Sep 2021 10:39:35 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id d8sm21513048wrv.80.2021.09.28.10.39.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Sep 2021 10:39:34 -0700 (PDT)
-Message-ID: <c85745b0-d913-5f64-4c08-c2d03542107e@redhat.com>
-Date: Tue, 28 Sep 2021 19:39:34 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZF8N5BtNAV4mMZiTYv2jGRoibh8QQkP7K9IMh29lHsU=;
+ b=KDYjXtLoesI1wqAY62V0H+CsVFUCAiTHGg5U3g1IQ35iz/pUZ6DycJ0MNPGmbvQQ+5
+ 7TicyQcQiublXbciNcPHO1biLwwQYIngSTVpBioofFR1QU8ZxDxVZt3xjUDJz6pPlSuw
+ fwpGyXIu338HtuW0npydr0R/EA2a0HYJr98OjdRGRsW3M7qAtkPz7JHUAJh+95rWnGRm
+ IWf4F5nQQH/JMwM7lj6/JIsHZeY/jX2IL5cw2LxTFXANzCicAJ064SZeXbMd8qb8A5lW
+ 34bJ6pCnuUV472dlvkDp2Pdz+Zh/np5LAmHvxlElU0QRDq6G1Z1te4jCDtNpWw2fFGT2
+ nRYQ==
+X-Gm-Message-State: AOAM533fCogzMlL7heHFj30cgDmq6mEjwgvOQm2Cphnb0R5H5gwN1JuD
+ k1hOK1RIjzG+AH5Tx2b9AdHVbLvkE1FIlYtmO0Mqur4E5Be/U/wQjOtGAsrmCSa+/qwbx2O7vmY
+ KXtulGZPUyFIjKd6NgEWOV80fozZfpOg=
+X-Received: by 2002:a67:f685:: with SMTP id n5mr6771340vso.31.1632851017834;
+ Tue, 28 Sep 2021 10:43:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/K+kqv+VHgK31qH43WuXaNafq0PbZQb4XKV3xHeWwhbsr4Z7WadHWuR/YizcPNT7dTMicVrc21fGQ9gV3skc=
+X-Received: by 2002:a67:f685:: with SMTP id n5mr6771310vso.31.1632851017632;
+ Tue, 28 Sep 2021 10:43:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] qapi: Make some ObjectTypes depend on the build settings
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
-References: <20210928160232.432980-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210928160232.432980-1-thuth@redhat.com>
+References: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
+ <YVMeUbGdnsTpwSbD@redhat.com>
+In-Reply-To: <YVMeUbGdnsTpwSbD@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 28 Sep 2021 13:43:26 -0400
+Message-ID: <CAFn=p-ZG6SAVDz-cOtviekvMvibw+ukhYmSOqH7UTrcH-9fCNA@mail.gmail.com>
+Subject: Re: QAPI sync meeting
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000e0a7d205cd11c0ac"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.562, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,122 +87,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/21 18:02, Thomas Huth wrote:
-> Some of the ObjectType entries already depend on CONFIG_* switches.
-> Some others also only make sense with certain configurations, but
-> are currently always listed in the ObjectType enum. Let's make them
-> depend on the correpsonding CONFIG_* switches, too, so that upper
-> layers (like libvirt) have a better way to determine which features
-> are available in QEMU.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  qapi/qom.json | 30 ++++++++++++++++++++----------
->  1 file changed, 20 insertions(+), 10 deletions(-)
-> 
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index a25616bc7a..78b60433a9 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -777,7 +777,8 @@
->      'authz-pam',
->      'authz-simple',
->      'can-bus',
-> -    'can-host-socketcan',
-> +    { 'name': 'can-host-socketcan',
-> +      'if': 'CONFIG_LINUX' },
->      'colo-compare',
->      'cryptodev-backend',
->      'cryptodev-backend-builtin',
-> @@ -791,20 +792,24 @@
->      'filter-replay',
->      'filter-rewriter',
->      'input-barrier',
-> -    'input-linux',
-> +    { 'name': 'input-linux',
-> +      'if': 'CONFIG_LINUX' },
->      'iothread',
->      'memory-backend-file',
->      { 'name': 'memory-backend-memfd',
->        'if': 'CONFIG_LINUX' },
->      'memory-backend-ram',
->      'pef-guest',
-> -    'pr-manager-helper',
-> +    { 'name': 'pr-manager-helper',
-> +      'if': 'CONFIG_LINUX' },
->      'qtest',
->      'rng-builtin',
->      'rng-egd',
-> -    'rng-random',
-> +    { 'name': 'rng-random',
-> +      'if': 'CONFIG_POSIX' },
->      'secret',
-> -    'secret_keyring',
-> +    { 'name': 'secret_keyring',
-> +      'if': 'CONFIG_SECRET_KEYRING' },
->      'sev-guest',
->      's390-pv-guest',
->      'throttle-group',
-> @@ -835,7 +840,8 @@
->        'authz-listfile':             'AuthZListFileProperties',
->        'authz-pam':                  'AuthZPAMProperties',
->        'authz-simple':               'AuthZSimpleProperties',
-> -      'can-host-socketcan':         'CanHostSocketcanProperties',
-> +      'can-host-socketcan':         { 'type': 'CanHostSocketcanProperties',
-> +                                      'if': 'CONFIG_LINUX' },
->        'colo-compare':               'ColoCompareProperties',
->        'cryptodev-backend':          'CryptodevBackendProperties',
->        'cryptodev-backend-builtin':  'CryptodevBackendProperties',
-> @@ -849,19 +855,23 @@
->        'filter-replay':              'NetfilterProperties',
->        'filter-rewriter':            'FilterRewriterProperties',
->        'input-barrier':              'InputBarrierProperties',
-> -      'input-linux':                'InputLinuxProperties',
-> +      'input-linux':                { 'type': 'InputLinuxProperties',
-> +                                      'if': 'CONFIG_LINUX' },
->        'iothread':                   'IothreadProperties',
->        'memory-backend-file':        'MemoryBackendFileProperties',
->        'memory-backend-memfd':       { 'type': 'MemoryBackendMemfdProperties',
->                                        'if': 'CONFIG_LINUX' },
->        'memory-backend-ram':         'MemoryBackendProperties',
-> -      'pr-manager-helper':          'PrManagerHelperProperties',
-> +      'pr-manager-helper':          { 'type': 'PrManagerHelperProperties',
-> +                                      'if': 'CONFIG_LINUX' },
->        'qtest':                      'QtestProperties',
->        'rng-builtin':                'RngProperties',
->        'rng-egd':                    'RngEgdProperties',
-> -      'rng-random':                 'RngRandomProperties',
-> +      'rng-random':                 { 'type': 'RngRandomProperties',
-> +                                      'if': 'CONFIG_POSIX' },
->        'secret':                     'SecretProperties',
-> -      'secret_keyring':             'SecretKeyringProperties',
-> +      'secret_keyring':             { 'type': 'SecretKeyringProperties',
-> +                                      'if': 'CONFIG_SECRET_KEYRING' },
->        'sev-guest':                  'SevGuestProperties',
->        'throttle-group':             'ThrottleGroupProperties',
->        'tls-creds-anon':             'TlsCredsAnonProperties',
-> 
+--000000000000e0a7d205cd11c0ac
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I quickly opened qapi/qom.json and spotted another one:
+On Tue, Sep 28, 2021 at 9:53 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -870,3 +870,4 @@
-       'tls-cipher-suites':          'TlsCredsProperties',
--      'x-remote-object':            'RemoteObjectProperties'
-+      'x-remote-object':            { 'type': 'RemoteObjectProperties',
-+                                      'if': 'CONFIG_MULTIPROCESS' },
-   } }
+> On Mon, Sep 27, 2021 at 12:55:34PM -0400, John Snow wrote:
+> > Hiya,
+> >
+> > I'd like to propose that at least the three of us arrange a time to hav=
+e
+> a
+> > meeting where we discuss our plans and ideas for QAPI going forward,
+> > including rust, python, and golang extensions to the QAPI generator, wh=
+at
+> > we hope to accomplish with those projects, and so on.
+> >
+> > What I am hoping to get out of this for myself is a high-level overview
+> of
+> > people's plans for QAPI and to produce some notes on those plans so tha=
+t
+> I
+> > can have a reference that we've all acknowledged as roughly accurate to
+> be
+> > able to keep the community's design goals for QAPI in mind as I continu=
+e
+> my
+> > own development. Ultimately, I'd like some kind of rough draft of a "QA=
+PI
+> > roadmap".
+> >
+> > I know there was a rust meetup during KVM Forum, but I was unable to
+> attend
+> > due to the timing. I'd like to expand the focus a little more broadly t=
+o
+> > QAPI in general and discuss our "personal" roadmaps, goals, queued work=
+,
+> > etc so that we can collaboratively formulate a broader vision of our
+> work.
+> >
+> > I'm posting to qemu-devel in case anyone else has an interest in this
+> area
+> > and would like to eavesdrop or share opinions, but we should probably
+> come
+> > up with an agenda first. So:
+>
+> I'd be interested in discussions
+>
+> >
+> > Proposed agenda:
+> >
+> > Current projects, wishlists, and goals for QAPI:
+> > - Markus (~10 min)
+> > - Marc-Andre (~10 min) (Rust, dbus, etc?)
+> > - jsnow (~10 min) (Python, golang, etc)
+> >
+> > Formulating short-term and long-term roadmaps:
+> > - Open discussion, ~30 min
+> > - Collaboratively produce a summary doc (etherpad?) outlining major wor=
+k
+> to
+> > be done, separated into near and long terms
+> > - Upload this summary to the QEMU wiki and mail it back out to qemu-dev=
+el
+> > - We probably won't exactly finish this bit, but we can resume on the
+> > mailing list afterwards perfectly well.
+> >
+> > (Feel free to propose anything different for the meeting, this is just =
+a
+> > jumping off point for discussion.)
+>
+> My interest is in a roadmap for getting to a point where we have
+> ability to configure QEMU  VMs in a "legacy free" way. By this I
+> mean
+>
+>    - 100% of configuration is driven by QAPI defined schemas
+>    - HMP and QemuOpts are banished/untangled from internals of
+>      QEMU, such that they are just a shim around the canonical
+>      QAPI and could even be done as a separate wrapper process
+>    - May or may not involve qemu-system-XXX vs a new "qemu-vm" binary
+>    - May or may not involve QMP vs a REST API taking QAPI JSON vs
+>      something else.
+>
+>
+More or less in agreement. Devil's in the details as always!
 
-While your change is correct, this isn't maintainable long term.
-Not sure how we could improve that :/ But having to handle similar
-information in 3 different places (configure, meson.build, qapi json)
-is error prone. Thoughts?
+
+> > - Any weekday after 13:00 UTC. Wednesdays, Thursdays and Fridays work
+> > particularly well for me at the moment.
+> > - bluejeans and google meeting both work well for me. Open to
+> alternatives.
+>
+> Are you suggesting a 1-off meeting or a regular meeting, or an adhoc
+> set of meetings ?
+>
+>
+I'm proposing a one-off here just for some initial discussion and planning.
+(We didn't have a QAPI BoF at KVM Forum and I'd like something similar
+now.) I don't expect we'll really "finish" plotting out a roadmap in a
+single 60 minute meeting, but it will probably give us good, targeted
+discussions on the ML to follow. If more meetings are desired to discuss
+specific topics, I'm not against scheduling them as-needed.
+
+(I personally don't really mind semi-regular sync-up meetings, like once
+every other month or something to that effect -- it keeps me motivated and
+on track. I suspect that Markus does not quite feel the same way about 'em,
+so I'm just trying to not sign him up for stuff.)
+
+--js
+
+--000000000000e0a7d205cd11c0ac
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 28, 2021 at 9:53 AM Danie=
+l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redh=
+at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Mon, Sep 27, 2021 at 12:55:34PM -0400, John Snow wrote:<br>
+&gt; Hiya,<br>
+&gt; <br>
+&gt; I&#39;d like to propose that at least the three of us arrange a time t=
+o have a<br>
+&gt; meeting where we discuss our plans and ideas for QAPI going forward,<b=
+r>
+&gt; including rust, python, and golang extensions to the QAPI generator, w=
+hat<br>
+&gt; we hope to accomplish with those projects, and so on.<br>
+&gt; <br>
+&gt; What I am hoping to get out of this for myself is a high-level overvie=
+w of<br>
+&gt; people&#39;s plans for QAPI and to produce some notes on those plans s=
+o that I<br>
+&gt; can have a reference that we&#39;ve all acknowledged as roughly accura=
+te to be<br>
+&gt; able to keep the community&#39;s design goals for QAPI in mind as I co=
+ntinue my<br>
+&gt; own development. Ultimately, I&#39;d like some kind of rough draft of =
+a &quot;QAPI<br>
+&gt; roadmap&quot;.<br>
+&gt; <br>
+&gt; I know there was a rust meetup during KVM Forum, but I was unable to a=
+ttend<br>
+&gt; due to the timing. I&#39;d like to expand the focus a little more broa=
+dly to<br>
+&gt; QAPI in general and discuss our &quot;personal&quot; roadmaps, goals, =
+queued work,<br>
+&gt; etc so that we can collaboratively formulate a broader vision of our w=
+ork.<br>
+&gt; <br>
+&gt; I&#39;m posting to qemu-devel in case anyone else has an interest in t=
+his area<br>
+&gt; and would like to eavesdrop or share opinions, but we should probably =
+come<br>
+&gt; up with an agenda first. So:<br>
+<br>
+I&#39;d be interested in discussions<br>
+<br>
+&gt; <br>
+&gt; Proposed agenda:<br>
+&gt; <br>
+&gt; Current projects, wishlists, and goals for QAPI:<br>
+&gt; - Markus (~10 min)<br>
+&gt; - Marc-Andre (~10 min) (Rust, dbus, etc?)<br>
+&gt; - jsnow (~10 min) (Python, golang, etc)<br>
+&gt; <br>
+&gt; Formulating short-term and long-term roadmaps:<br>
+&gt; - Open discussion, ~30 min<br>
+&gt; - Collaboratively produce a summary doc (etherpad?) outlining major wo=
+rk to<br>
+&gt; be done, separated into near and long terms<br>
+&gt; - Upload this summary to the QEMU wiki and mail it back out to qemu-de=
+vel<br>
+&gt; - We probably won&#39;t exactly finish this bit, but we can resume on =
+the<br>
+&gt; mailing list afterwards perfectly well.<br>
+&gt; <br>
+&gt; (Feel free to propose anything different for the meeting, this is just=
+ a<br>
+&gt; jumping off point for discussion.)<br>
+<br>
+My interest is in a roadmap for getting to a point where we have<br>
+ability to configure QEMU=C2=A0 VMs in a &quot;legacy free&quot; way. By th=
+is I<br>
+mean<br>
+<br>
+=C2=A0 =C2=A0- 100% of configuration is driven by QAPI defined schemas<br>
+=C2=A0 =C2=A0- HMP and QemuOpts are banished/untangled from internals of<br=
+>
+=C2=A0 =C2=A0 =C2=A0QEMU, such that they are just a shim around the canonic=
+al<br>
+=C2=A0 =C2=A0 =C2=A0QAPI and could even be done as a separate wrapper proce=
+ss<br>
+=C2=A0 =C2=A0- May or may not involve qemu-system-XXX vs a new &quot;qemu-v=
+m&quot; binary<br>
+=C2=A0 =C2=A0- May or may not involve QMP vs a REST API taking QAPI JSON vs=
+<br>
+=C2=A0 =C2=A0 =C2=A0something else.<br>
+<br></blockquote><div><br></div><div>More or less in agreement. Devil&#39;s=
+ in the details as always!<br></div><div>=C2=A0</div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
+&gt; - Any weekday after 13:00 UTC. Wednesdays, Thursdays and Fridays work<=
+br>
+&gt; particularly well for me at the moment.<br>
+&gt; - bluejeans and google meeting both work well for me. Open to alternat=
+ives.<br>
+<br>
+Are you suggesting a 1-off meeting or a regular meeting, or an adhoc<br>
+set of meetings ?<br>
+<br></blockquote><div><br></div><div>I&#39;m proposing a one-off here just =
+for some initial discussion and planning. (We didn&#39;t have a QAPI BoF at=
+ KVM Forum and I&#39;d like something similar now.) I don&#39;t expect we&#=
+39;ll really &quot;finish&quot; plotting out a roadmap in a single 60 minut=
+e meeting, but it will probably give us good, targeted discussions on the M=
+L to follow. If more meetings are desired to discuss specific topics, I&#39=
+;m not against scheduling them as-needed.</div><div><br></div><div>(I perso=
+nally don&#39;t really mind semi-regular sync-up meetings, like once every =
+other month or something to that effect -- it keeps me motivated and on tra=
+ck. I suspect that Markus does not quite feel the same way about &#39;em, s=
+o I&#39;m just trying to not sign him up for stuff.)</div><div><br></div><d=
+iv>--js<br></div><div>=C2=A0</div></div></div>
+
+--000000000000e0a7d205cd11c0ac--
 
 
