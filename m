@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD5641A92F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 08:59:23 +0200 (CEST)
-Received: from localhost ([::1]:41308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A71BE41A927
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 08:57:29 +0200 (CEST)
+Received: from localhost ([::1]:38456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mV75G-00005w-To
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 02:59:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41990)
+	id 1mV73Q-0006Zf-MU
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 02:57:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mV70x-0004Yw-Jd; Tue, 28 Sep 2021 02:54:55 -0400
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:35686)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mV70v-0004Y0-DE
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 02:54:53 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mV70w-0006Vi-AN; Tue, 28 Sep 2021 02:54:55 -0400
-Received: by mail-io1-xd35.google.com with SMTP id b78so20674090iof.2;
- Mon, 27 Sep 2021 23:54:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mV70t-0006TI-VZ
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 02:54:53 -0400
+Received: by mail-wr1-x429.google.com with SMTP id r23so30759961wra.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 23:54:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3+u6YbFSJCN0l+3OK/ir4bU8Az2LUz58et7dxeOIn+g=;
- b=fZ43rBv9G2reAHyoDF+uIoo10Jv/BLRAMx2d87WQpgEF28jKEL+6yWmFrsML7y/ewY
- IFEPcXkwSqWrw58q7IQj1H8M/AYnY3q1D1uZqIqWeacruMulhJi4TO4Hj8Ttv+H7qGQI
- q2xMlaF68UDDRvt29YWAs0y9glsA404qLnkg/vpGssWYKZD2P9KB/lcNiI6O8faAhshE
- 9y75tr+mgNt5eSqz2OELF9dzgGLPP6XjaH+5B1xA1PiWVNl+gwZjb8Vv2KwU2yOAq+Qi
- M974FEGESMqSCPpIBCXNvzJ4loTk3LgKUM3wxxW6iBtKPqT5pZPUCBK8ucmb/RB3KH01
- 9Qow==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XApEuAvtpcteFqgqpDVjCud3PWAg78tVCdbXnIC3wjA=;
+ b=g8wAlXiSFvTDIIcWf/s/oajPGyRXZImzFmlUnpJcDEEfZj2aNfpgFprUBFVLFFm7Uv
+ h126FPsk/2Jm9RQ4OE+aR4jvZt5vLSKaRlXsVfdy59Z1s4aeW6Aam2PiMr1lLo5QVFpi
+ 1umPuueA4Zg7uwjNZssTikKu7PjS1GvZzPZtA2el3Zx7wFPqsDyaOOxF6n/XWQPgBgot
+ mLU6kw/u8x7BXKAyZXBm0XoegHsU23ml7UTqSmXgkWd3EjY7Nu59Vk4zg6aiRGIsZhzQ
+ /MydJLwPaXMhzPTphRDWUsB2Nr0WU2HK8SPAoSiug9KNbG5SCzPdldK30nglJSzIP3ut
+ Ovfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3+u6YbFSJCN0l+3OK/ir4bU8Az2LUz58et7dxeOIn+g=;
- b=dJoQerfH9B2U3AE6Nis0bUvYOAgmhtIxMdfwa3urVOEfvN5roQyCZkxUE0jQVJjXVN
- Z1Yi/XM989eCN95tvWBZA8fJc/XYPVh6qFw8QEzY5csll5LSM+TgHVhjUj2Xku0f8mT/
- 9kWX63RBWf0wUnxUW86GnS0CnY8F0GKAMZ2dQCKHk+Hb9jVpF4I782c4TX4iccuLd2ID
- qoo8+L7JHGl6ceyvN6fsKlPOWNeRwA3sKluKcnjyMcos9R+x8ybV5LW55X5w856j9eao
- QjuomJFJKry+oKc+miPFr3TfZZjSIkypEwtYXx+9PSH/nofuda6II2KoDw2ToMMpupcq
- D09g==
-X-Gm-Message-State: AOAM533lRP/NCKemQ1NFKGiW5OO+piRetwifcVsvHGSGVJ3yDODntgpn
- 0fOiYY279a9fnxCKbeN+sRmIshhc1LRkntNkrbQ=
-X-Google-Smtp-Source: ABdhPJxeZbadrU2TcX0p5k4JQJAdCavjaQR6TSy+txY1KeNmPf9rDRVbZJTCkPUu4DGa+rKYceZhlaM6a2etHvBLkNI=
-X-Received: by 2002:a05:6638:25cd:: with SMTP id
- u13mr3213015jat.114.1632812093188; 
- Mon, 27 Sep 2021 23:54:53 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XApEuAvtpcteFqgqpDVjCud3PWAg78tVCdbXnIC3wjA=;
+ b=zW5knctU4xxSi99/kqQHbNLdylm0FIIMEz7c4yE8qPUXXxUQF0ie2n+pfEHq3FkyAY
+ mjJ08ixEMtTnuWFLwtcaVtHiK2ucn9GEtw9rbvN9UZJ30iSnFtl1+JVmtOoi202gNUEQ
+ o1P05K1rSpE3Nfi0x/XZ40NCaRFh76ouda5gBIyA2Ozj3oHQOk64FYcBhQk23dQAxyxG
+ AL6v7hq2basf3paDkfxHOycMCXIAoWegvHPbGAogRAZVb+mwn5Sd2AZCHGphR7Yy+4HU
+ z9QBm+Qo0QVv6G+Tvaa5VWnc0CPjvKEiARCNHZyWd0x5snCMTJHDmIDmEszCcg5IGHN2
+ D2wA==
+X-Gm-Message-State: AOAM531xjX9m4FQoD5l+3fCLmHGW9nDtKTxQEhFhLRFh4KLcyLDE5+Km
+ mI7Qolf1u6st/rwMKbfHWww=
+X-Google-Smtp-Source: ABdhPJwl1h02iNVQwlEFUVqEmKdapUB/S+DKYOu1FV2bXRhJqzN1pflwECxs3OnF1K+2CzznoN4D1Q==
+X-Received: by 2002:a5d:5231:: with SMTP id i17mr4575884wra.392.1632812090008; 
+ Mon, 27 Sep 2021 23:54:50 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id w5sm18720035wra.87.2021.09.27.23.54.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Sep 2021 23:54:49 -0700 (PDT)
+Message-ID: <4716e619-73c8-4f99-7406-30613aa43247@amsat.org>
+Date: Tue, 28 Sep 2021 08:54:48 +0200
 MIME-Version: 1.0
-References: <20210926105003.2716-1-bmeng.cn@gmail.com>
- <20210926105003.2716-3-bmeng.cn@gmail.com>
-In-Reply-To: <20210926105003.2716-3-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 28 Sep 2021 16:54:27 +1000
-Message-ID: <CAKmqyKMmU9=JZ6oFKmSm41EE9Mu2=+efruN74z5tSHMdEAumrg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] hw/char: sifive_uart: Register device in 'input'
- category
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v4 23/25] linux-user/sparc: Implement setup_sigtramp
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210928020039.184412-1-richard.henderson@linaro.org>
+ <20210928020039.184412-24-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20210928020039.184412-24-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.136,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,43 +90,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 26, 2021 at 8:53 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> The category of sifive_uart device is not set. Put it into the
-> 'input' category.
->
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 9/28/21 04:00, Richard Henderson wrote:
+> Create and record the two signal trampolines.
+> Use them when the guest does not use SA_RESTORER.
+> 
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->
->  hw/char/sifive_uart.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/hw/char/sifive_uart.c b/hw/char/sifive_uart.c
-> index 278e21c434..1c75f792b3 100644
-> --- a/hw/char/sifive_uart.c
-> +++ b/hw/char/sifive_uart.c
-> @@ -248,6 +248,7 @@ static void sifive_uart_class_init(ObjectClass *oc, void *data)
->      rc->phases.enter = sifive_uart_reset_enter;
->      rc->phases.hold  = sifive_uart_reset_hold;
->      device_class_set_props(dc, sifive_uart_properties);
-> +    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
->  }
->
->  static const TypeInfo sifive_uart_info = {
-> --
-> 2.25.1
->
->
+>  linux-user/sparc/target_signal.h |  4 ++++
+>  linux-user/sparc/signal.c        | 40 +++++++++++++++++++++-----------
+>  2 files changed, 30 insertions(+), 14 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
