@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B8A41BA95
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 00:52:28 +0200 (CEST)
-Received: from localhost ([::1]:36898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5696441BAE6
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 01:16:52 +0200 (CEST)
+Received: from localhost ([::1]:40522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVLxY-0007Ud-S9
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 18:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54150)
+	id 1mVMLC-0002jp-Up
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 19:16:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mVLwF-0006oH-Ga
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 18:51:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52808)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mVLwD-0005ef-1M
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 18:51:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632869460;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=el6WGsq/rzaDDa+0C6xD1xoKNLX5HzZZXuUHLsi9Vz8=;
- b=cSEf1QJd+L4CQkRHxVRw+7P6BKN+QqqmjULq0Fdk/YnHRyds3d87MxkNH7nmXZ/6+kB9ow
- bdy+L0TEzOOksnQBW8kIiQPAjHOvz26iGipJlV6H9gNeEv7/qNik0WNY7URHKJ4vElldSI
- rX6gaa9ZCOILfN7f/oTfg0huNlHK3MU=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-11AIV8aRNyWIghZN1-F1yw-1; Tue, 28 Sep 2021 18:50:58 -0400
-X-MC-Unique: 11AIV8aRNyWIghZN1-F1yw-1
-Received: by mail-il1-f200.google.com with SMTP id
- n13-20020a92d9cd000000b0025872f0c828so567354ilq.19
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 15:50:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mVMKI-00020S-Pq; Tue, 28 Sep 2021 19:15:54 -0400
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:42707)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mVMKD-0005GT-Eo; Tue, 28 Sep 2021 19:15:53 -0400
+Received: by mail-io1-xd2c.google.com with SMTP id b10so706027ioq.9;
+ Tue, 28 Sep 2021 16:15:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zfd3G6OX2RE0vq2vGtFLxbYs1hQi9UyWn8kMctpmPIg=;
+ b=IuuKt2gjRDgCfRPmb7mOV7XQWy89qq9VGz6yxMP+JUUa+65K1xYpJGF7w00w6ndE3Y
+ XyE8rXrH8ms3YNOYLaUgXaLuNjNmrxVF/A8LtVa8jUtgtVt0g7uyhJ7SVvQJjIk3y8v1
+ sCfESSZp5Wdn2RMrEO/7SZHLMyqR2BTpvofJwSjnVxNrSgzpPokjtM8pVW4joKSNB89c
+ rzGX0WSUnVBQoI3zjRJxZWHj9BkUgtdvjM5ZPeKBttbT9Stf25kVNNPuW1ZmoPhvS3gg
+ 2ye58Q/Lx7jSLI920FMySO8yJPwIT3E+e0xdd1F6VIs0iQSG2AoqOHSZIlBboJQ+j3Z4
+ 3CVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=el6WGsq/rzaDDa+0C6xD1xoKNLX5HzZZXuUHLsi9Vz8=;
- b=e+nAhQYf9SjUfgg9xGOvX1RlCjUx4lT5qYHsNil98Z6ML+1X73ASfNhel7Hixz1Bjq
- NTqlJSAl+4m4CZNsEAkMhZpJH2xGUQ6BzzkMqJeMNlI+BOeAwmjPRYjRLw4/Nb147nfJ
- siRl9wFZQI116BTgvD+Zex2I5wTfIO4ggVmjk3VtAwI3TJeABk5K1/DBACoSsChk9rP8
- IPgQuL0VgAdR4O6G2gsQ+L23dIFDcq2G984as13usuSns6C9aOMki7i4d4ltWLlwHT3Q
- jOoozmuK/5DiFjfGQL9672RDdR7t3ewAQLcVHV+YUaKisiuGs461Mx6GHes+v+q5Scnj
- /aKA==
-X-Gm-Message-State: AOAM5328pIWlSfwQ9sDi4tD7IhmmTKzZxL9jNxMyPehW2r/w/Ja2xX9o
- zdpHyqUFvRsqLuEt+l5yRBnTaSnr43p+8gnR6BUWvYR3j4Q2rPbkvB0tcCjQbp2A6tYdD9lp2xM
- Z86zTWHaSc6DycG4=
-X-Received: by 2002:a05:6638:1606:: with SMTP id
- x6mr6777447jas.59.1632869458060; 
- Tue, 28 Sep 2021 15:50:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzkk+6L+M2Zs3L93oaGYlz0vYoZo9C0kQtxAHkXU0lFAtmCMG/Me4s2v9wz2jF7l16gDr5XUQ==
-X-Received: by 2002:a05:6638:1606:: with SMTP id
- x6mr6777438jas.59.1632869457911; 
- Tue, 28 Sep 2021 15:50:57 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a2:9100::d3ec])
- by smtp.gmail.com with ESMTPSA id a12sm213581ilb.66.2021.09.28.15.50.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Sep 2021 15:50:57 -0700 (PDT)
-Date: Tue, 28 Sep 2021 18:50:55 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v3 0/3] QIOChannel async_write & async_flush +
- MSG_ZEROCOPY + multifd
-Message-ID: <YVOcT0qv0Sv72BmS@t490s>
-References: <20210922222423.644444-1-leobras@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zfd3G6OX2RE0vq2vGtFLxbYs1hQi9UyWn8kMctpmPIg=;
+ b=DnO5s10sgy1N8YXKAM0arKW6O7PQbhK7lwqOSVLqmkNZeRu64Ov86QKSCNV1oA/p0z
+ fj3woBhdjYPRT+tPUd/4KbYU4SFhYTMDvb5tmrewejiSQ9FxIjgz7ipcV8g0Kjr8dgZW
+ c7Ei9X/ARYCjA4X0bPkFUttri9e65YYGcESMcYwpvwLpezrHnFnfCJym7YAyrG+6uEAw
+ HfkkgNUo+UF8K5O/FxDbE5FOL2/hi4plJxV1SKzDMu5i+PZwBfbJSJmpRNri+mux0fF1
+ rkk2Erjz1YVPJ+astbgTKt93kD+jp5o6RwN11/FJ5t7978/ulqENp7uYc7XewlCtjkRt
+ UpNw==
+X-Gm-Message-State: AOAM533gUvhmuebv2Wc13goH1kYzWQcj0c47BqdabzgFnIMzoUJWu+EQ
+ RqgCEI2HEoECkMqZMIl7qlcWq2CS3EtAChxsSk4=
+X-Google-Smtp-Source: ABdhPJyZGZnxSTdaTMQtxpXuSwfZ6qOVj1Td8YaMk3rMu69qL7iJo/HbGito1D+h0GUB3EFkQo8oouuRsXs2VkNioNs=
+X-Received: by 2002:a5e:a501:: with SMTP id 1mr5664702iog.187.1632870947793;
+ Tue, 28 Sep 2021 16:15:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210922222423.644444-1-leobras@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210927072124.1564129-1-bmeng.cn@gmail.com>
+ <20210927072124.1564129-2-bmeng.cn@gmail.com>
+In-Reply-To: <20210927072124.1564129-2-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 29 Sep 2021 09:15:19 +1000
+Message-ID: <CAKmqyKPuBU0+YJEc5CtcBDaiiS1gKhY0MEdCg3NdQB+ph1nhAw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hw/dma: sifive_pdma: Don't run DMA when channel is
+ disclaimed
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,41 +77,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Frank Chang <frank.chang@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 22, 2021 at 07:24:20PM -0300, Leonardo Bras wrote:
-> This patch series intends to enable MSG_ZEROCOPY in QIOChannel, and make
-> use of it for multifd migration performance improvement.
-> 
-> Patch #1 creates new callbacks for QIOChannel, allowing the implementation
-> of asynchronous writing.
-> 
-> Patch #2 implements async_write and async_flush on QIOChannelSocket,
-> 
-> Patch #3 Makes use of async_write + async_flush to enable MSG_ZEROCOPY
-> for migration using multifd nocomp.
-> 
-> Results:
-> So far, the resource usage of __sys_sendmsg() reduced 15 times, and the
-> overall migration took 13-18% less time, based in synthetic workload.
-> 
-> The objective is to reduce migration time in hosts with heavy cpu usage.
+On Mon, Sep 27, 2021 at 5:22 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> If Control.run bit is set while not preserving the Control.claim
+> bit, the DMA transfer shall not be started.
+>
+> The following result is PDMA tested in U-Boot on Unleashed board:
+>
+> => mw.l 0x3000000 0x0                      <= Disclaim channel 0
+> => mw.l 0x3000000 0x1                      <= Claim channel 0
+> => mw.l 0x3000004 0x55000000               <= wsize = rsize = 5 (2^5 = 32 bytes)
+> => mw.q 0x3000008 0x2                      <= NextBytes = 2
+> => mw.q 0x3000010 0x84000000               <= NextDestination = 0x84000000
+> => mw.q 0x3000018 0x84001000               <= NextSource = 0x84001000
+> => mw.l 0x84000000 0x87654321              <= Fill test data to dst
+> => mw.l 0x84001000 0x12345678              <= Fill test data to src
+> => md.l 0x84000000 1; md.l 0x84001000 1    <= Dump src/dst memory contents
+> 84000000: 87654321                               !Ce.
+> 84001000: 12345678                               xV4.
+> => md.l 0x3000000 8                        <= Dump PDMA status
+> 03000000: 00000001 55000000 00000002 00000000    .......U........
+> 03000010: 84000000 00000000 84001000 00000000    ................
+> => mw.l 0x3000000 0x2                      <= Set channel 0 run bit only
+> => md.l 0x3000000 8                        <= Dump PDMA status
+> 03000000: 00000000 55000000 00000002 00000000    .......U........
+> 03000010: 84000000 00000000 84001000 00000000    ................
+> => md.l 0x84000000 1; md.l 0x84001000 1    <= Dump src/dst memory contents
+> 84000000: 87654321                               !Ce.
+> 84001000: 12345678                               xV4.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-My previous memory is that we'll add a capability bit for migration, so it'll
-not be enabled until user specified it.  Plan to do it in the next version?
+Thanks!
 
-It'll still be okay if you want to separate the work of (1) qio channel
-zero-copy support on sockets, and (2) apply zero copy to migration, then that
-can be done in part 2.  Your call. :)
+Applied to riscv-to-apply.next
 
-Thanks,
+Alistair
 
--- 
-Peter Xu
-
+>
+> ---
+>
+> (no changes since v1)
+>
+>  hw/dma/sifive_pdma.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
+> index b8ec7621f3..85fe34f5f3 100644
+> --- a/hw/dma/sifive_pdma.c
+> +++ b/hw/dma/sifive_pdma.c
+> @@ -232,7 +232,7 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
+>  {
+>      SiFivePDMAState *s = opaque;
+>      int ch = SIFIVE_PDMA_CHAN_NO(offset);
+> -    bool claimed;
+> +    bool claimed, run;
+>
+>      if (ch >= SIFIVE_PDMA_CHANS) {
+>          qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
+> @@ -244,6 +244,7 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
+>      switch (offset) {
+>      case DMA_CONTROL:
+>          claimed = !!(s->chan[ch].control & CONTROL_CLAIM);
+> +        run = !!(s->chan[ch].control & CONTROL_RUN);
+>
+>          if (!claimed && (value & CONTROL_CLAIM)) {
+>              /* reset Next* registers */
+> @@ -254,13 +255,19 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
+>              s->chan[ch].next_src = 0;
+>          }
+>
+> +        /* claim bit can only be cleared when run is low */
+> +        if (run && !(value & CONTROL_CLAIM)) {
+> +            value |= CONTROL_CLAIM;
+> +        }
+> +
+>          s->chan[ch].control = value;
+>
+>          /*
+>           * If channel was not claimed before run bit is set,
+> +         * or if the channel is disclaimed when run was low,
+>           * DMA won't run.
+>           */
+> -        if (!claimed) {
+> +        if (!claimed || (!run && !(value & CONTROL_CLAIM))) {
+>              s->chan[ch].control &= ~CONTROL_RUN;
+>              return;
+>          }
+> --
+> 2.25.1
+>
+>
 
