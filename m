@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C142F41B16B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:58:53 +0200 (CEST)
-Received: from localhost ([::1]:59722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D588D41B184
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 16:02:56 +0200 (CEST)
+Received: from localhost ([::1]:35928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVDdE-0001KX-Rc
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:58:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52516)
+	id 1mVDh9-0004Nb-QK
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 10:02:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVDY7-0003Cx-Dk
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 09:53:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30713)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVDY3-0004Yw-36
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 09:53:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632837209;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=LVh5QtbzkJIDxz3rohFb8t9ELnu1GPeeBQbw8Nb+cO8=;
- b=VOiCqJFsCI5PKAKoUjGFwsyOJCydj97zBTJVzzrLVNwJcLPZ5Grim6vQs4+H1Qintzz0np
- vver4YG9gzH4T+nWJRzYV2ErRvkc+g5PFJ2gXvEPqYGPYdh00NxLIsJahlOh6WufkZoX/A
- +ZNF8dTQnoVITjDi3vKbMoTruaCz61U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-4wR-vIn3OVGu57LciNWmnA-1; Tue, 28 Sep 2021 09:53:28 -0400
-X-MC-Unique: 4wR-vIn3OVGu57LciNWmnA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 864E61923765
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 13:53:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 02DC75C1B4;
- Tue, 28 Sep 2021 13:53:23 +0000 (UTC)
-Date: Tue, 28 Sep 2021 14:53:21 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: QAPI sync meeting
-Message-ID: <YVMeUbGdnsTpwSbD@redhat.com>
-References: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mVDYJ-0003NW-JZ
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 09:53:47 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39934)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mVDYH-0004lg-VV
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 09:53:47 -0400
+Received: by mail-ed1-x535.google.com with SMTP id x7so68925286edd.6
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 06:53:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YUuWRaYOqtXVrbNdK1ZefmQ6EAecdKXF8ILSBKR+oFE=;
+ b=idTPRsNaZ7zosTWLBFEK582nJkC8zkL39evSuVEZ+BaOHiLeHeY3EapKsQNaKplPR0
+ HvrZuJsKYWU5R3BL+5dXVi+DZqFCegT6+nMbf7/Zb1vny86I64D51/GsIZOBfk5OW6du
+ y4yB1awQiFvch5HTzeKMDf4zAMiyZIi8p4MGmVt9CVVtXsCBQskW+h5EGpo07ikrc0au
+ LuATj4EQHq+lqttHgp46lFBBNTWTXncsPAQ1T/PzQoDZE5tzvI8M7paRpYGlfBY7qAzM
+ hhtG7f8UM1uQMs7ew6i77c58TSxBTO8W7WZdXw4NplJ22nFVzsF9jlKsZF5HtxXFvJxS
+ P6XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=YUuWRaYOqtXVrbNdK1ZefmQ6EAecdKXF8ILSBKR+oFE=;
+ b=KaMJ6qYhEOv56em0RE/qDTwDozI2jTWy/8p0Z/u0agpnnh+xXppUpZOGT6XisjgoeP
+ 7wmk8Pdce6h1uLgeXnWTle3k1Uu5Pl752Dqkxlp4xcgc5pXX1/SAafhGNlFJkEiUUgae
+ eqT/MgRCvUUpdSzkrFlQJohF/48epyVH7DQQJpj0kafgpq6L+dutHwNV7zoU/zTZWGsG
+ CilABk1O6twFnx2CV/+SJEzwidE/aJpfOvpvoUdDhNGckRdiZFO7X2Ke5qANv3zpii5N
+ fBuSz+4gI8kR6mjXbV4mUymCPqpqKd6OCl0Ej8gu/ihFn/RM314ndkNaH8aY6Ph0c6a7
+ aSGw==
+X-Gm-Message-State: AOAM531nd0oQwWHPRyciw9Z07bsBaUqPDO08Zpr8UQhncrbUx+0xsaZw
+ 5CNXboLPit/T+rwvYiMeVCZttkVDg6k=
+X-Google-Smtp-Source: ABdhPJzuaayZpOLp84pDvpk3mPa2XsmQh/5xNHlYUAYAv55ylCn4Uf/w+Fbeg2pfxwLoMZmy7oOMCQ==
+X-Received: by 2002:a17:906:1109:: with SMTP id
+ h9mr6900974eja.296.1632837191588; 
+ Tue, 28 Sep 2021 06:53:11 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id v13sm10373247ejh.62.2021.09.28.06.53.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Sep 2021 06:53:11 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/4] python: stop using socket_scm_helper
+Date: Tue, 28 Sep 2021 15:53:06 +0200
+Message-Id: <20210928135309.199796-2-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210928135309.199796-1-pbonzini@redhat.com>
+References: <20210928135309.199796-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,82 +84,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 27, 2021 at 12:55:34PM -0400, John Snow wrote:
-> Hiya,
-> 
-> I'd like to propose that at least the three of us arrange a time to have a
-> meeting where we discuss our plans and ideas for QAPI going forward,
-> including rust, python, and golang extensions to the QAPI generator, what
-> we hope to accomplish with those projects, and so on.
-> 
-> What I am hoping to get out of this for myself is a high-level overview of
-> people's plans for QAPI and to produce some notes on those plans so that I
-> can have a reference that we've all acknowledged as roughly accurate to be
-> able to keep the community's design goals for QAPI in mind as I continue my
-> own development. Ultimately, I'd like some kind of rough draft of a "QAPI
-> roadmap".
-> 
-> I know there was a rust meetup during KVM Forum, but I was unable to attend
-> due to the timing. I'd like to expand the focus a little more broadly to
-> QAPI in general and discuss our "personal" roadmaps, goals, queued work,
-> etc so that we can collaboratively formulate a broader vision of our work.
-> 
-> I'm posting to qemu-devel in case anyone else has an interest in this area
-> and would like to eavesdrop or share opinions, but we should probably come
-> up with an agenda first. So:
+Python is able to call sendmsg, it does not need a helper.  Write the
+code directly; for now, keep the weird calling convention.
 
-I'd be interested in discussions
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ python/qemu/machine/machine.py | 48 ++++++++++++----------------------
+ python/qemu/qmp/__init__.py    | 15 +++++++++++
+ 2 files changed, 32 insertions(+), 31 deletions(-)
 
-> 
-> Proposed agenda:
-> 
-> Current projects, wishlists, and goals for QAPI:
-> - Markus (~10 min)
-> - Marc-Andre (~10 min) (Rust, dbus, etc?)
-> - jsnow (~10 min) (Python, golang, etc)
-> 
-> Formulating short-term and long-term roadmaps:
-> - Open discussion, ~30 min
-> - Collaboratively produce a summary doc (etherpad?) outlining major work to
-> be done, separated into near and long terms
-> - Upload this summary to the QEMU wiki and mail it back out to qemu-devel
-> - We probably won't exactly finish this bit, but we can resume on the
-> mailing list afterwards perfectly well.
-> 
-> (Feel free to propose anything different for the meeting, this is just a
-> jumping off point for discussion.)
-
-My interest is in a roadmap for getting to a point where we have
-ability to configure QEMU  VMs in a "legacy free" way. By this I
-mean
-
-   - 100% of configuration is driven by QAPI defined schemas
-   - HMP and QemuOpts are banished/untangled from internals of
-     QEMU, such that they are just a shim around the canonical
-     QAPI and could even be done as a separate wrapper process
-   - May or may not involve qemu-system-XXX vs a new "qemu-vm" binary
-   - May or may not involve QMP vs a REST API taking QAPI JSON vs
-     something else.
-
-> - Any weekday after 13:00 UTC. Wednesdays, Thursdays and Fridays work
-> particularly well for me at the moment.
-> - bluejeans and google meeting both work well for me. Open to alternatives.
-
-Are you suggesting a 1-off meeting or a regular meeting, or an adhoc
-set of meetings ?
-
-
-Regards,
-Daniel
+diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+index 34131884a5..e4356ea99e 100644
+--- a/python/qemu/machine/machine.py
++++ b/python/qemu/machine/machine.py
+@@ -213,48 +213,34 @@ def add_fd(self: _T, fd: int, fdset: int,
+     def send_fd_scm(self, fd: Optional[int] = None,
+                     file_path: Optional[str] = None) -> int:
+         """
+-        Send an fd or file_path to socket_scm_helper.
++        Send an fd or file_path via QMP.
+ 
+         Exactly one of fd and file_path must be given.
+-        If it is file_path, the helper will open that file and pass its own fd.
++        If it is file_path, the function will open that file and pass
++        its own fd.
+         """
+         # In iotest.py, the qmp should always use unix socket.
+         assert self._qmp.is_scm_available()
+-        if self._socket_scm_helper is None:
+-            raise QEMUMachineError("No path to socket_scm_helper set")
+-        if not os.path.exists(self._socket_scm_helper):
+-            raise QEMUMachineError("%s does not exist" %
+-                                   self._socket_scm_helper)
+-
+-        # This did not exist before 3.4, but since then it is
+-        # mandatory for our purpose
+-        if hasattr(os, 'set_inheritable'):
+-            os.set_inheritable(self._qmp.get_sock_fd(), True)
+-            if fd is not None:
+-                os.set_inheritable(fd, True)
+-
+-        fd_param = ["%s" % self._socket_scm_helper,
+-                    "%d" % self._qmp.get_sock_fd()]
+ 
+         if file_path is not None:
+             assert fd is None
+-            fd_param.append(file_path)
++            fd = -1
++            try:
++                fd = os.open(file_path, os.O_RDONLY)
++                self._qmp.send_fd(fd)
++            except OSError:
++                return 1
++            finally:
++                if fd != -1:
++                    os.close(fd)
+         else:
+             assert fd is not None
+-            fd_param.append(str(fd))
++            try:
++                self._qmp.send_fd(fd)
++            except OSError:
++                return 1
+ 
+-        proc = subprocess.run(
+-            fd_param,
+-            stdin=subprocess.DEVNULL,
+-            stdout=subprocess.PIPE,
+-            stderr=subprocess.STDOUT,
+-            check=False,
+-            close_fds=False,
+-        )
+-        if proc.stdout:
+-            LOG.debug(proc.stdout)
+-
+-        return proc.returncode
++        return 0
+ 
+     @staticmethod
+     def _remove_if_exists(path: str) -> None:
+diff --git a/python/qemu/qmp/__init__.py b/python/qemu/qmp/__init__.py
+index 269516a79b..27a3e8f7af 100644
+--- a/python/qemu/qmp/__init__.py
++++ b/python/qemu/qmp/__init__.py
+@@ -17,6 +17,7 @@
+ # This work is licensed under the terms of the GNU GPL, version 2.  See
+ # the COPYING file in the top-level directory.
+ 
++import array
+ import errno
+ import json
+ import logging
+@@ -421,3 +422,17 @@ def is_scm_available(self) -> bool:
+         @return True if SCM_RIGHTS is available, otherwise False.
+         """
+         return self.__sock.family == socket.AF_UNIX
++
++    def send_fd(self, fd: int) -> None:
++        """
++        Send a file descriptor to QEMU via SCM_RIGHTS.
++
++        @param fd (int): file descriptor do be sent
++
++        @raise OSError: if the sendmsg system call fails.
++        """
++        # Send a single space so that QEMU looks at the ancillary data
++        self.__sock.sendmsg((b" ", ),
++                            [(socket.SOL_SOCKET,
++                              socket.SCM_RIGHTS,
++                              array.array("i", [fd]).tobytes())])
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.31.1
+
 
 
