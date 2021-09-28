@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C95741AC9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 12:07:36 +0200 (CEST)
-Received: from localhost ([::1]:48784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8839E41ACB1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 12:12:45 +0200 (CEST)
+Received: from localhost ([::1]:53534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVA1P-0003Jn-4l
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 06:07:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53350)
+	id 1mVA6O-0006eF-IO
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 06:12:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVA0S-0002Bw-Hd
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:06:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43778)
+ id 1mVA3n-0004KL-4s
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:10:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVA0O-0007Bt-7D
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:06:36 -0400
+ id 1mVA3l-0001SR-Ha
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:10:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632823590;
+ s=mimecast20190719; t=1632823800;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YBeOBbox1HwsF8JTwhOk9KD3iyUunnJtBddX7znXmGY=;
- b=PALiaayFimOr8o47i+IaJnHhIhBgYcwylZIlYWnIfughDtxYAggNia2kN4NDNpIpLqzaJL
- WOLp46eBdyIcp5fPq/eA1ZgIWSsLdBHHdDFx/Nnay6hC78AiDfGUiSOYS4QEXTJrqyf30D
- h6TdqaoUT6LJftBO0Pr5stNuoH829qk=
+ bh=YPf3X5zlBXnSrfngXer8J+XGpH0c4FgtpUEzTgT61Vw=;
+ b=BVRsBANrTZ2np3Xa/3tm2BKxFMD8atL3a2zbSbzJ17xE9K6n8GNqXYYUL7SAJiBnoR2bMN
+ CEgXRjT0ZpWSSAPB2aJYJuXgFG/nr4jv8ZfrODY4w99rDqzzdZ2EfJDEwlWoEShN1HVQ4+
+ 5SAdRzHnBWUwkHjYH7zR9WEV/YclIoQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-6om5TrKuMRmbbeGAA5zrYg-1; Tue, 28 Sep 2021 06:06:29 -0400
-X-MC-Unique: 6om5TrKuMRmbbeGAA5zrYg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-402-GaCtiCXiMrKBFu08lM4Msw-1; Tue, 28 Sep 2021 06:09:45 -0400
+X-MC-Unique: GaCtiCXiMrKBFu08lM4Msw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8AB6180830C;
- Tue, 28 Sep 2021 10:06:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC7FA50755;
+ Tue, 28 Sep 2021 10:09:43 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.194.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E07EF60871;
- Tue, 28 Sep 2021 10:06:17 +0000 (UTC)
-Date: Tue, 28 Sep 2021 11:06:15 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EE2C60CC6;
+ Tue, 28 Sep 2021 10:09:39 +0000 (UTC)
+Date: Tue, 28 Sep 2021 11:09:37 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH v11 02/14] machine: Minor refactor/fix for the smp parsers
-Message-ID: <YVLpF6YlTWjjS3wE@redhat.com>
+Subject: Re: [PATCH v11 03/14] machine: Uniformly use maxcpus to calculate
+ the omitted parameters
+Message-ID: <YVLp4ZVnVD6/ET8l@redhat.com>
 References: <20210928035755.11684-1-wangyanan55@huawei.com>
- <20210928035755.11684-3-wangyanan55@huawei.com>
+ <20210928035755.11684-4-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210928035755.11684-3-wangyanan55@huawei.com>
+In-Reply-To: <20210928035755.11684-4-wangyanan55@huawei.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,23 +94,38 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 28, 2021 at 11:57:43AM +0800, Yanan Wang wrote:
-> To pave the way for the functional improvement in later patches,
-> make some refactor/cleanup for the smp parsers, including using
-> local maxcpus instead of ms->smp.max_cpus in the calculation,
-> defaulting dies to 0 initially like other members, cleanup the
-> sanity check for dies.
+On Tue, Sep 28, 2021 at 11:57:44AM +0800, Yanan Wang wrote:
+> We are currently using maxcpus to calculate the omitted sockets
+> but using cpus to calculate the omitted cores/threads. This makes
+> cmdlines like:
+>   -smp cpus=8,maxcpus=16
+>   -smp cpus=8,cores=4,maxcpus=16
+>   -smp cpus=8,threads=2,maxcpus=16
+> work fine but the ones like:
+>   -smp cpus=8,sockets=2,maxcpus=16
+>   -smp cpus=8,sockets=2,cores=4,maxcpus=16
+>   -smp cpus=8,sockets=2,threads=2,maxcpus=16
+> break the sanity check.
 > 
-> We actually also fix a hidden defect by avoiding directly using
-> the provided *zero value* in the calculation, which could cause
-> a segment fault (e.g. using dies=0 in the calculation).
+> Since we require for a valid config that the product of "sockets * cores
+> * threads" should equal to the maxcpus, we should uniformly use maxcpus
+> to calculate their omitted values.
+> 
+> Also the if-branch of "cpus == 0 || sockets == 0" was split into two
+> branches of "cpus == 0" and "sockets == 0" so that we can clearly read
+> that we are parsing the configuration with a preference on cpus over
+> sockets over cores over threads.
+> 
+> Note: change in this patch won't affect any existing working cmdlines
+> but improves consistency and allows more incomplete configs to be valid.
 > 
 > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 > ---
->  hw/core/machine.c | 18 ++++++++++--------
->  hw/i386/pc.c      | 23 ++++++++++++++---------
->  2 files changed, 24 insertions(+), 17 deletions(-)
+>  hw/core/machine.c | 30 +++++++++++++++---------------
+>  hw/i386/pc.c      | 30 +++++++++++++++---------------
+>  2 files changed, 30 insertions(+), 30 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
