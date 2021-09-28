@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3FF41AFDD
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:19:43 +0200 (CEST)
-Received: from localhost ([::1]:34524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4862741B003
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:28:39 +0200 (CEST)
+Received: from localhost ([::1]:52694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVD1K-0003LF-Sp
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:19:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38758)
+	id 1mVD9y-0007O6-1V
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:28:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVCaG-0006Yd-SO
+ id 1mVCaG-0006Ya-QA
  for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:44 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:42637)
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:41957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVCaC-0001TL-7d
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:43 -0400
-Received: by mail-ed1-x530.google.com with SMTP id bd28so21418108edb.9
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:39 -0700 (PDT)
+ id 1mVCaB-0001Se-PR
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:42 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id s17so64109691edd.8
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e3CR8xrdtQNpyFMwEEkkK45w7yuIntrOePJfuLXKl2k=;
- b=MvUvjX/UOKt25ZDPXnUhUu2wGVNRDf9Ak4wQgVWHVZbIQtPrpWl11k55vdZkuX0Th0
- kpdX120Yvo2xUZoOuN+oqD40/SZrd48qC8kdabSvUTYdUEuuIk8d8eNNqfQcbND/YLg9
- gjFWP38HJCisTgrIoAojzP4hVsOeKTC9bHXFA8DA3QCuK2DTmhT/8LT0K8tDDdqTuWNA
- aPaz5Tf3Ih6sDRcuyHdnjmNy6n44ScDZZYYrjtTkQu7VSOzU4ieAX0d2C/IPAsNQgUoG
- 5LiZJVpTYsNO4l7o6M1URiV9kj8Ht8FxRWjLllVNo/1avtVA3hAIVPu2DiWwjXLQASMS
- MkiA==
+ bh=HIpbBVsq+qGYM7QnpoxAN/h8ed4NbHFTGJsvkWBRASU=;
+ b=lYD3sLKIhzvpMGiTXcUKXT6GdlYtwKGK/QRBqu94a4sZ0qGayy7m/EbVrc59y/Ooik
+ HYQ/+tAU4MhVE09RZ1oJtSvr+Vt/wqIEaixLE3qBsVkTaEWsD7EEYSc/HzmHpewq9R7o
+ HVpESZXws85qEObz79eIt4C1Zmn2hWsmKNu711Ka5r+VbtzhqIMlRnaOjYpqcr6JrMMC
+ 0gnVqUuIbfRCjzLkGztJ1jquwzzqHutAtap4nGAsS/DPpmkvq9jYV6ek+wv+orkekE5A
+ f4ut5bo19f9SvpmCopuLV93iMMkK2I4LV6BNK5p9DlVanx0MLYL36MqXSG06nUKGGu2O
+ +XSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=e3CR8xrdtQNpyFMwEEkkK45w7yuIntrOePJfuLXKl2k=;
- b=14NqpGczIzrgmpeNOQo5Qc1IO6hXdNSy18W46zaguaoUB7FQF0d65ZrUtKXJl5CVqM
- PO9SdTIBciNU1gkPC6sbhQ4u21cZ/iaBy0mFUbyawxepr+TtG9kicVVIo4OlkuOEcv1k
- 3LLVDLhcTz+seqp4qTjAWNxioyzS89KpiHJGoHw+vwGuvBnhQGfeoL1L43KkiA4/Xh9j
- BHaEi3qBX5FQTz4pf8qVe9+zOdZ00MSYVT4qspB90XPu1aX3cYtxPszdGonTVrlZMXit
- F6aw9AAUexE/e5tw//K+p3hPTyo428SDqB+heW8xtEgpiPmGsKfnp81LSiq4/Qaxfv54
- Di1g==
-X-Gm-Message-State: AOAM533sLF5/8WQHDrCmJ40yIvtkYwnKqq4xjePeL8hSnUg8wTAKhhAD
- kFXsJmjPUYrcxBvjpgggTDxAhJlzpEU=
-X-Google-Smtp-Source: ABdhPJwN95IcDGgE1yk4F1SXea+3jNYH2UXmd1Haa75I+ZfHKVPdj5IWmX7zqepM2YeZUqjFxe0LFg==
-X-Received: by 2002:a17:906:1405:: with SMTP id
- p5mr6308386ejc.197.1632833495430; 
- Tue, 28 Sep 2021 05:51:35 -0700 (PDT)
+ bh=HIpbBVsq+qGYM7QnpoxAN/h8ed4NbHFTGJsvkWBRASU=;
+ b=i17xinKJvZ9w9HeIccy8mtScBdPDuZJQ7tcvQsOFC7HZkQjp4m/i4Cko783zZXGsTg
+ aeWqWQ3nt6xE7pvfr8udMnSKkTQGqB7ahDRrOfIZnXwmRIcjAEseOaWgfjidHU+3xsK8
+ nFtYH7SvL8sSBG7gReRYMiVn/24lZ7hO8qhnYsUVgXDNdDTU5WK6ZZ1mXq03MW1vvXR+
+ hhGQVDMGHqmg8vY12iQzSU2K+Yt9S6BXn7vmg7uc5Vm9f+/ACMxNXz/M64JcMn/Qf9A8
+ qjIDFKLoygbvbqSSYLB2gbf5p4i6hfTesB57oHETTRC1SpFsxVzClvVlIfIXHqyHmFQU
+ jdLg==
+X-Gm-Message-State: AOAM5303X2VTa37T3LP9pC8ihAXOp2ZTwrCXqaUNB6PtP1HVmATQHADZ
+ 055n/Jpti34zZuJzVBCaBg80fYKidqs=
+X-Google-Smtp-Source: ABdhPJx46ySwMifQ7F9B6giPw51XotA23WITMLWGDmzSR+qp5suB64Av1ul2QU9zQJvrntof6Lp2lw==
+X-Received: by 2002:aa7:c305:: with SMTP id l5mr7377224edq.205.1632833496328; 
+ Tue, 28 Sep 2021 05:51:36 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p24sm12641685edq.27.2021.09.28.05.51.34
+ by smtp.gmail.com with ESMTPSA id p24sm12641685edq.27.2021.09.28.05.51.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 28 Sep 2021 05:51:35 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/33] q35: Add support for SGX EPC
-Date: Tue, 28 Sep 2021 14:51:04 +0200
-Message-Id: <20210928125116.183620-22-pbonzini@redhat.com>
+Subject: [PULL 22/33] i440fx: Add support for SGX EPC
+Date: Tue, 28 Sep 2021 14:51:05 +0200
+Message-Id: <20210928125116.183620-23-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210928125116.183620-1-pbonzini@redhat.com>
 References: <20210928125116.183620-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,24 +94,24 @@ Enable SGX EPC virtualization, which is currently only support by KVM.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-21-yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-22-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/pc_q35.c | 1 +
+ hw/i386/pc_piix.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 46cd542d17..5481d5c965 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -177,6 +177,7 @@ static void pc_q35_init(MachineState *machine)
-         x86ms->below_4g_mem_size = machine->ram_size;
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index c5da7739ce..6cc834aff6 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -153,6 +153,7 @@ static void pc_init1(MachineState *machine,
+         }
      }
  
 +    pc_machine_init_sgx_epc(pcms);
      x86_cpus_init(x86ms, pcmc->default_cpu_version);
  
-     kvmclock_create(pcmc->kvmclock_create_always);
+     if (pcmc->kvmclock_enabled) {
 -- 
 2.31.1
 
