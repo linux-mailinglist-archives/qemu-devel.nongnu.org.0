@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E6B641B0EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:36:19 +0200 (CEST)
-Received: from localhost ([::1]:41898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1216341AFD8
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:18:59 +0200 (CEST)
+Received: from localhost ([::1]:59760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVDHO-0002gw-CN
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:36:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38852)
+	id 1mVD0b-0001Hy-Ij
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:18:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVCaK-0006gn-Iq
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:51 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:44889)
+ id 1mVCaI-0006gN-RH
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:46 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:41960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVCaI-0001XH-S0
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:48 -0400
-Received: by mail-ed1-x535.google.com with SMTP id v18so47488045edc.11
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:46 -0700 (PDT)
+ id 1mVCaG-0001UU-Do
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:46 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id s17so64110345edd.8
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ohYcK/h+3ibYka7ysojEKUGWGgYiFqj771QZXpbZi94=;
- b=bP5cRoCnTEx13Ay3LjxgwsYhFnHGppmVU059ZlJhidzLWFq+FZ24k6yg1xy+ruABYu
- iWp1Yy0dDg1+1fOe/lw4yze60bFX4ypEd22pqFrm5h6E9P98E1IRNcT7h24Ukm0lguYS
- xSzdK5FlvipGj1i00SG0vCU65pHzjghs/BlLoUmWn+xF2+YShlJzWt9kbCFlNK5RIekD
- 7moKo53z4NIFpMDhhb2Kx86sCUXYHLwBL5z8PQkrK9kikEWewGY6wk8oPYiIaOEj0h1h
- YyegZ/Oc76iJ84JhmHGiOiAtPxEq8Fok5xsWnmKXRx8fr2M87Vjx4xZ6C5nNvV985JzW
- HG8w==
+ bh=Cz69+LB8vyHglkWeQaZaWYrHPHHMp6AioMXJRYKgxG0=;
+ b=E5IQLxfRVy0wpjxMXq8Ci9s4IRmu3xrHEqOUu+aqmsnXHXeJyv+Dhm/hhd542iVU/T
+ krA2Z1HIJhqw5xOhwErUl7rScSuYq+RQKu8eSHnLATgQnlzFgMz0sEXt6r1nE96r+jlx
+ L3PQCACS9jxhi8kgXOaZvStop3Co7fv852HLnAgdxdR421MM7DGBR6g/UD4oFdjt+FEY
+ OKiCKnS9t3W8z5vRPtg0gomnTZcGHJQHQwLwpnUN93L/PS9MgFiOaZVFf7KnOU3+9ABb
+ 47KBZ6/Wa72ceoNh36WJc0tfWDq/0XKcsmxkX9Z0tE3yPO9Qne7FAox0nb9XYVC4H/Ci
+ uZDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ohYcK/h+3ibYka7ysojEKUGWGgYiFqj771QZXpbZi94=;
- b=HeIZXhljeHjUVthCcWiXJ8TOywAnFGYrYfdMOc+2vFsKcO6XRhaZPTOAjoYfwSs1tq
- TWdvMX/Qpaj4dL6/oOrnHXr2jXtsPE3zTL/V7lI0emhBpdFL22ihKVnPyLy+yQvpKxI7
- 1ec/i0iNuwZRsnqhkEWBRUGotmdK31zq+LJs/9iXHNjM1YOTL69vPcfH9b6B5Q8E2nb0
- DEnd67a5Ifxsi71g8r6WmvCsgIRL5sCNlUWab6ralGfj+bhS7DxVnOoO6/xrJ4hVfpca
- LysaqssNJ2MS+8XHPwhnJEmyey6QAZpTWQN8KLnaSULODWV5Dgip6sLJa9QakSQFfJjw
- PkWg==
-X-Gm-Message-State: AOAM533X3HesZeCAhvTioH9iayB06XHUliatfeuu3doWnxZ8PJxFP3Qn
- Py6PGTulbO59B+d1sSEkYheN7TU/OZg=
-X-Google-Smtp-Source: ABdhPJzBUUMvLR6yq0m4bGi50cS3ZlUC2olXxH2tMau3GeWIshElW3jmaxBZoofS01WXDc92mvu6Ow==
-X-Received: by 2002:a17:906:2613:: with SMTP id
- h19mr6747777ejc.66.1632833499137; 
+ bh=Cz69+LB8vyHglkWeQaZaWYrHPHHMp6AioMXJRYKgxG0=;
+ b=OyVVkpSNh6JzEaqu3FUn1Zy4dkBtFl0rUd/lqtC+rtlVOa+0qE2/rFBBWopY4cHhk7
+ TiSpcH49HshzlZ2OOifKfLSDOWm4yoiVLpkLCIctXOHwELi4mLNgD50yOk2oeT1ZraMI
+ XD06GuPZ0eYMR12wTPwgMFFVfnsNV/29WniD2fKLQPmApzca0DbBmJtYQhb7exPpZNuI
+ vSFLhCia05k8ItrOocds5YwHO1EppwKTIfyZ50E5OBOa8zoosJTrF2FI5bneGyI6LXdz
+ PCsBkRr5NeFcWZ4S+lvr8L3/64erQV1iC5/n0k0v0LPx+qD15igP9wabJDhZvMvToxoq
+ Hw7g==
+X-Gm-Message-State: AOAM533cIv+f3lTA1B7XhipLHaNBlAdHxxBF8LyrqFZQlUT2lCdm6teH
+ LH3xm8shccVlkEzPqHqs/UvcsxqIxHE=
+X-Google-Smtp-Source: ABdhPJzjnCR7dixdxGqEd8fOAXDaa0oEfe7MTL85sy+Ge7nX6OKaU13XgJYUDLvyecTpebfUudbO/g==
+X-Received: by 2002:aa7:d303:: with SMTP id p3mr7542062edq.174.1632833499700; 
  Tue, 28 Sep 2021 05:51:39 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p24sm12641685edq.27.2021.09.28.05.51.38
+ by smtp.gmail.com with ESMTPSA id p24sm12641685edq.27.2021.09.28.05.51.39
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Sep 2021 05:51:38 -0700 (PDT)
+ Tue, 28 Sep 2021 05:51:39 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/33] target/i386: Add the query-sgx-capabilities QMP command
-Date: Tue, 28 Sep 2021 14:51:09 +0200
-Message-Id: <20210928125116.183620-27-pbonzini@redhat.com>
+Subject: [PULL 27/33] meson: unpack edk2 firmware even if --disable-blobs
+Date: Tue, 28 Sep 2021 14:51:10 +0200
+Message-Id: <20210928125116.183620-28-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210928125116.183620-1-pbonzini@redhat.com>
 References: <20210928125116.183620-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,183 +84,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yang Zhong <yang.zhong@intel.com>
+The edk2 firmware blobs are needed to run bios-tables-test.  Unpack
+them if any UEFI-enabled target is selected, so that the test can run.
+This is a bit more than is actually necessary, since bios-tables-test
+does not run for all UEFI-enabled targets, but it is the easiest
+way to write this logic.
 
-Libvirt can use query-sgx-capabilities to get the host
-sgx capabilities to decide how to allocate SGX EPC size to VM.
-
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210910102258.46648-3-yang.zhong@intel.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20210923105529.3845741-1-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/sgx-stub.c         |  6 ++++
- hw/i386/sgx.c              | 66 ++++++++++++++++++++++++++++++++++++++
- include/hw/i386/sgx.h      |  1 +
- qapi/misc-target.json      | 18 +++++++++++
- target/i386/monitor.c      |  5 +++
- tests/qtest/qmp-cmd-test.c |  1 +
- 6 files changed, 97 insertions(+)
+ meson.build                     | 16 ++++++++--------
+ pc-bios/descriptors/meson.build |  4 ++--
+ pc-bios/meson.build             |  2 +-
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/hw/i386/sgx-stub.c b/hw/i386/sgx-stub.c
-index 485e16ecc1..3be9f5ca32 100644
---- a/hw/i386/sgx-stub.c
-+++ b/hw/i386/sgx-stub.c
-@@ -9,6 +9,12 @@ SGXInfo *sgx_get_info(Error **errp)
-     return NULL;
- }
+diff --git a/meson.build b/meson.build
+index 15ef4d3c41..978e8329f7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -106,14 +106,14 @@ if targetos != 'darwin'
+ endif
  
-+SGXInfo *sgx_get_capabilities(Error **errp)
-+{
-+    error_setg(errp, "SGX support is not compiled in");
-+    return NULL;
-+}
-+
- void pc_machine_init_sgx_epc(PCMachineState *pcms)
- {
-     memset(&pcms->sgx_epc, 0, sizeof(SGXEPCState));
-diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-index ea75398575..e481e9358f 100644
---- a/hw/i386/sgx.c
-+++ b/hw/i386/sgx.c
-@@ -18,6 +18,72 @@
- #include "qapi/error.h"
- #include "exec/address-spaces.h"
- #include "hw/i386/sgx.h"
-+#include "sysemu/hw_accel.h"
-+
-+#define SGX_MAX_EPC_SECTIONS            8
-+#define SGX_CPUID_EPC_INVALID           0x0
-+
-+/* A valid EPC section. */
-+#define SGX_CPUID_EPC_SECTION           0x1
-+#define SGX_CPUID_EPC_MASK              0xF
-+
-+static uint64_t sgx_calc_section_metric(uint64_t low, uint64_t high)
-+{
-+    return (low & MAKE_64BIT_MASK(12, 20)) +
-+           ((high & MAKE_64BIT_MASK(0, 20)) << 32);
-+}
-+
-+static uint64_t sgx_calc_host_epc_section_size(void)
-+{
-+    uint32_t i, type;
-+    uint32_t eax, ebx, ecx, edx;
-+    uint64_t size = 0;
-+
-+    for (i = 0; i < SGX_MAX_EPC_SECTIONS; i++) {
-+        host_cpuid(0x12, i + 2, &eax, &ebx, &ecx, &edx);
-+
-+        type = eax & SGX_CPUID_EPC_MASK;
-+        if (type == SGX_CPUID_EPC_INVALID) {
-+            break;
-+        }
-+
-+        if (type != SGX_CPUID_EPC_SECTION) {
-+            break;
-+        }
-+
-+        size += sgx_calc_section_metric(ecx, edx);
-+    }
-+
-+    return size;
-+}
-+
-+SGXInfo *sgx_get_capabilities(Error **errp)
-+{
-+    SGXInfo *info = NULL;
-+    uint32_t eax, ebx, ecx, edx;
-+
-+    int fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
-+    if (fd < 0) {
-+        error_setg(errp, "SGX is not enabled in KVM");
-+        return NULL;
-+    }
-+
-+    info = g_new0(SGXInfo, 1);
-+    host_cpuid(0x7, 0, &eax, &ebx, &ecx, &edx);
-+
-+    info->sgx = ebx & (1U << 2) ? true : false;
-+    info->flc = ecx & (1U << 30) ? true : false;
-+
-+    host_cpuid(0x12, 0, &eax, &ebx, &ecx, &edx);
-+    info->sgx1 = eax & (1U << 0) ? true : false;
-+    info->sgx2 = eax & (1U << 1) ? true : false;
-+
-+    info->section_size = sgx_calc_host_epc_section_size();
-+
-+    close(fd);
-+
-+    return info;
-+}
+ edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
+-install_edk2_blobs = false
+-if get_option('install_blobs')
+-  foreach target : target_dirs
+-    install_edk2_blobs = install_edk2_blobs or target in edk2_targets
+-  endforeach
+-endif
+-
+-bzip2 = find_program('bzip2', required: install_edk2_blobs)
++unpack_edk2_blobs = false
++foreach target : edk2_targets
++  if target in target_dirs
++    bzip2 = find_program('bzip2', required: get_option('install_blobs'))
++    unpack_edk2_blobs = bzip2.found()
++    break
++  endif
++endforeach
  
- SGXInfo *sgx_get_info(Error **errp)
- {
-diff --git a/include/hw/i386/sgx.h b/include/hw/i386/sgx.h
-index 2bf90b3f4f..16fc25725c 100644
---- a/include/hw/i386/sgx.h
-+++ b/include/hw/i386/sgx.h
-@@ -7,5 +7,6 @@
- #include "qapi/qapi-types-misc-target.h"
- 
- SGXInfo *sgx_get_info(Error **errp);
-+SGXInfo *sgx_get_capabilities(Error **errp);
- 
- #endif
-diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index e2a347cc23..594fbd1577 100644
---- a/qapi/misc-target.json
-+++ b/qapi/misc-target.json
-@@ -376,3 +376,21 @@
- #
- ##
- { 'command': 'query-sgx', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
-+
-+##
-+# @query-sgx-capabilities:
-+#
-+# Returns information from host SGX capabilities
-+#
-+# Returns: @SGXInfo
-+#
-+# Since: 6.2
-+#
-+# Example:
-+#
-+# -> { "execute": "query-sgx-capabilities" }
-+# <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
-+#                  "flc": true, "section-size" : 0 } }
-+#
-+##
-+{ 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
-diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index d7384ba348..196c1c9e77 100644
---- a/target/i386/monitor.c
-+++ b/target/i386/monitor.c
-@@ -790,3 +790,8 @@ void hmp_info_sgx(Monitor *mon, const QDict *qdict)
-     monitor_printf(mon, "size: %" PRIu64 "\n",
-                    info->section_size);
- }
-+
-+SGXInfo *qmp_query_sgx_capabilities(Error **errp)
-+{
-+    return sgx_get_capabilities(errp);
-+}
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index b75f3364f3..1af2f74c28 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -101,6 +101,7 @@ static bool query_is_ignored(const char *cmd)
-         "query-sev",
-         "query-sev-capabilities",
-         "query-sgx",
-+        "query-sgx-capabilities",
-         NULL
-     };
-     int i;
+ ##################
+ # Compiler flags #
+diff --git a/pc-bios/descriptors/meson.build b/pc-bios/descriptors/meson.build
+index 29efa16d99..66f85d01c4 100644
+--- a/pc-bios/descriptors/meson.build
++++ b/pc-bios/descriptors/meson.build
+@@ -1,4 +1,4 @@
+-if install_edk2_blobs
++if unpack_edk2_blobs and get_option('install_blobs')
+   foreach f: [
+     '50-edk2-i386-secure.json',
+     '50-edk2-x86_64-secure.json',
+@@ -10,7 +10,7 @@ if install_edk2_blobs
+     configure_file(input: files(f),
+                    output: f,
+                    configuration: {'DATADIR': get_option('prefix') / qemu_datadir},
+-                   install: get_option('install_blobs'),
++                   install: true,
+                    install_dir: qemu_datadir / 'firmware')
+   endforeach
+ endif
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+index f2b32598af..a3b3d87891 100644
+--- a/pc-bios/meson.build
++++ b/pc-bios/meson.build
+@@ -1,4 +1,4 @@
+-if install_edk2_blobs
++if unpack_edk2_blobs
+   fds = [
+     'edk2-aarch64-code.fd',
+     'edk2-arm-code.fd',
 -- 
 2.31.1
 
