@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571B641BA8B
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 00:47:07 +0200 (CEST)
-Received: from localhost ([::1]:56326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD2741BA90
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 00:48:24 +0200 (CEST)
+Received: from localhost ([::1]:59194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVLsQ-0001Qj-Em
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 18:47:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52928)
+	id 1mVLtf-0003Or-WA
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 18:48:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mVLqy-0000XG-Du
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 18:45:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59611)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mVLqs-0001pZ-V2
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 18:45:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632869129;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eAT8jxeNm5WD2CuXtxSGkATh0GHKhjswgL9DX2zsoKM=;
- b=V0uYTm7aFYmYBExa+9vWrDDsQf9bLAiDhDAriTM9Iwtzbg+ZEYPiJIAVnHiWjEFEHFOene
- FaCSdrx5jE+4XKpPsmxnd0F5N8bYm8Gf3t56t/hCNSKQjgGg/CkI7LyWqNrKMtD4vwzt4p
- wGpLUEfHwQNsf2NCoPcpOz15S5h26hg=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-bzncgilMNdm4YZbZDrUIRQ-1; Tue, 28 Sep 2021 18:45:27 -0400
-X-MC-Unique: bzncgilMNdm4YZbZDrUIRQ-1
-Received: by mail-io1-f72.google.com with SMTP id
- b13-20020a05660214cd00b005d6279b61fdso511862iow.13
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 15:45:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mVLsQ-00022A-TK; Tue, 28 Sep 2021 18:47:06 -0400
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e]:33430)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mVLsP-00033y-7p; Tue, 28 Sep 2021 18:47:06 -0400
+Received: by mail-il1-x12e.google.com with SMTP id b6so780665ilv.0;
+ Tue, 28 Sep 2021 15:47:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IdRAFZX8kO7Yb81q5n6iUPI+wYmH2g6lbf2UKEar3ZA=;
+ b=HuOoo5qrFjC8q1usZRSrMyS96NS/0cYQtdJ7IAtqLqYqkrqc5adHCadARDZMcRr1l2
+ 7tWQJGISkfK/Xy5esqVnhARIqGaRwMmnco78zandD18OaHwTefmOZkKSdQTziXvUHj/2
+ AWWb1JMeWEBvfh61rnhsE0Ooaa5raNtFzvCCsu7oAX4qgjWCvKUy4I5alkSJuz27TkMj
+ lg/uMb1fWocBL6GoyS1gWsj/HLg/t+FlZ9yFYIFTb3puiR7AUVfhSgtxekfD32P9JFBE
+ uKjssJmUZkNHCD4w6YBwMoGRkfChqi9WAMPMKPjeuRwtBQUQCuiLdsxJPLhb5OChNkm/
+ 23jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=eAT8jxeNm5WD2CuXtxSGkATh0GHKhjswgL9DX2zsoKM=;
- b=GlyQLNL76Aq5ZCB2cc/+CtOJDJVjRfTQDqmnvdPGBfSIxK81NljNN1bxMbKybmvi9u
- X5CtzVq+kXeyqF2aTLSLRByTY4D/lrTu25oro/xDrGeTWw3UVrL7xPkr/X/mFgClSPPV
- ov7ZZYsUIMY89LNuTtVdBQCShEzgeWHdHR3E6qWfVIzjgAMgjUYm+rO1mnOV/fQi0aUQ
- bitVVjadRmB8gOJVaVmKXpLQ9QWkH0x7pXxV1KkBPyIlv8dj7y/xX5lJp4d9cK+OM2+L
- ByNifoWu37oaYUZkK8JYwVed/84AwLgPsaeSYZIh6u/T178rYZ5vcGDjSJrEcIsCk9vQ
- da/g==
-X-Gm-Message-State: AOAM531qIHxUyedeAHAIKpkclEWEXgWGJRJUfSZ+9elsMiI9DxowquR5
- o8EslbxIA8zSxeyZOYja12QrfnYkxcl7i66tJ5nAvKcIr0h7ltEfFs1Lp0EeHsh8ebz5axAbBDi
- 2D1VVzP2bmIMei2U=
-X-Received: by 2002:a92:db0b:: with SMTP id b11mr6082116iln.275.1632869126908; 
- Tue, 28 Sep 2021 15:45:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvcvlnx+uUqJr+xybpGgH32pZawdC68/5GgJXJ69ZwZYSO/fFpxXa8Zdb9SbSSiXNhQz/hFQ==
-X-Received: by 2002:a92:db0b:: with SMTP id b11mr6082104iln.275.1632869126672; 
- Tue, 28 Sep 2021 15:45:26 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a2:9100::d3ec])
- by smtp.gmail.com with ESMTPSA id b14sm229702ilc.63.2021.09.28.15.45.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Sep 2021 15:45:26 -0700 (PDT)
-Date: Tue, 28 Sep 2021 18:45:24 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v3 2/3] QIOChannelSocket: Implement io_async_write &
- io_async_flush
-Message-ID: <YVObBEofYcUvEmOz@t490s>
-References: <20210922222423.644444-1-leobras@redhat.com>
- <20210922222423.644444-3-leobras@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IdRAFZX8kO7Yb81q5n6iUPI+wYmH2g6lbf2UKEar3ZA=;
+ b=ZBk/45uu9vAWUz3WXjs/JZCaCHj/uLeoQIscDb8oJD4Fngk9GiAPSV6uSVaRNwN2Lh
+ +fPhCul/Ht6iogCJes2DnZFVkarVzYETF4mLav+aDDqaiBdyV/PTbed/HiJwy7RcKg5g
+ uG+qebVyDB134reb749YoboP0SbJrWgkcoJWFBHF4J733Iwm5vgjLhdVoT8GRr9FUiEv
+ S7013WTJtIePtYJQ/Ts8RJR8gqAWpMzBGCJcyPzFoPMj1Nas2K+0i/WsnT4T6eGLt+yh
+ hbfHFBlDtSSwlqQSdHthGa4wf9cfts14PhdV4b0f/SzMNRcmshZJhSn9QTDoucv8hVlt
+ SzHA==
+X-Gm-Message-State: AOAM5324D8gOOC0Yc1CcVWlqt82jxoAXAcYaeMFRjFA0076ulxL92RC8
+ Q7WUfbK8d4lWwu3JquTyzXMZNL1OeeE4chRM7BM=
+X-Google-Smtp-Source: ABdhPJzHrdZiPke5Yj5ZdqLWOaiaVcofrfJtuiaFfmpKfFX3W174Emc/tLcTL5pLuEXouGuquJfrqFXRmF75yXWal6w=
+X-Received: by 2002:a05:6e02:1088:: with SMTP id
+ r8mr6165991ilj.46.1632869223838; 
+ Tue, 28 Sep 2021 15:47:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210922222423.644444-3-leobras@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210927072124.1564129-1-bmeng.cn@gmail.com>
+ <20210927072124.1564129-2-bmeng.cn@gmail.com>
+In-Reply-To: <20210927072124.1564129-2-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 29 Sep 2021 08:46:36 +1000
+Message-ID: <CAKmqyKP_dRpd=9=5ZHOXk4fzU+b08kOzBm-Yo0dtkiMVHV_Kuw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hw/dma: sifive_pdma: Don't run DMA when channel is
+ disclaimed
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,82 +78,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Frank Chang <frank.chang@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 22, 2021 at 07:24:22PM -0300, Leonardo Bras wrote:
-> +static void qio_channel_socket_async_flush(QIOChannel *ioc,
-> +                                           Error **errp)
-> +{
-> +    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
-> +    struct msghdr msg = {};
-> +    struct pollfd pfd;
-> +    struct sock_extended_err *serr;
-> +    struct cmsghdr *cm;
-> +    char control[CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS)];
-> +    int ret;
-> +
-> +    memset(control, 0, CMSG_SPACE(sizeof(int) * SOCKET_MAX_FDS));
-> +    msg.msg_control = control;
-> +    msg.msg_controllen = sizeof(control);
-> +
-> +    while (sioc->async_sent < sioc->async_queued) {
-> +        ret = recvmsg(sioc->fd, &msg, MSG_ERRQUEUE);
-> +        if (ret < 0) {
-> +            if (errno == EAGAIN) {
-> +                /* Nothing on errqueue, wait */
-> +                pfd.fd = sioc->fd;
-> +                pfd.events = 0;
-> +                ret = poll(&pfd, 1, 250);
-> +                if (ret == 0) {
-> +                    /*
-> +                     * Timeout : After 250ms without receiving any zerocopy
-> +                     * notification, consider all data as sent.
-> +                     */
-> +                    break;
+On Mon, Sep 27, 2021 at 5:22 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> If Control.run bit is set while not preserving the Control.claim
+> bit, the DMA transfer shall not be started.
+>
+> The following result is PDMA tested in U-Boot on Unleashed board:
+>
+> => mw.l 0x3000000 0x0                      <= Disclaim channel 0
+> => mw.l 0x3000000 0x1                      <= Claim channel 0
+> => mw.l 0x3000004 0x55000000               <= wsize = rsize = 5 (2^5 = 32 bytes)
+> => mw.q 0x3000008 0x2                      <= NextBytes = 2
+> => mw.q 0x3000010 0x84000000               <= NextDestination = 0x84000000
+> => mw.q 0x3000018 0x84001000               <= NextSource = 0x84001000
+> => mw.l 0x84000000 0x87654321              <= Fill test data to dst
+> => mw.l 0x84001000 0x12345678              <= Fill test data to src
+> => md.l 0x84000000 1; md.l 0x84001000 1    <= Dump src/dst memory contents
+> 84000000: 87654321                               !Ce.
+> 84001000: 12345678                               xV4.
+> => md.l 0x3000000 8                        <= Dump PDMA status
+> 03000000: 00000001 55000000 00000002 00000000    .......U........
+> 03000010: 84000000 00000000 84001000 00000000    ................
+> => mw.l 0x3000000 0x2                      <= Set channel 0 run bit only
+> => md.l 0x3000000 8                        <= Dump PDMA status
+> 03000000: 00000000 55000000 00000002 00000000    .......U........
+> 03000010: 84000000 00000000 84001000 00000000    ................
+> => md.l 0x84000000 1; md.l 0x84001000 1    <= Dump src/dst memory contents
+> 84000000: 87654321                               !Ce.
+> 84001000: 12345678                               xV4.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-After a timeout, we'll break the while loop and continue parsing an invalid
-msg [1].  Is that what we want?
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-Also, I don't think we can return the flush() even if timed out - iiuc we
-should keep polling until we have async_sent==async_queued.  It depends on how
-we define flush(): if it's "when this function returns all data is sent", then
-we should keep polling, and afaict this is what we want here right now.
+Alistair
 
-> +                } else if (ret < 0 ||
-> +                           (pfd.revents & (POLLERR | POLLHUP | POLLNVAL))) {
-> +                    error_setg_errno(errp, errno,
-> +                                     "Poll error");
-> +                    break;
-> +                } else {
-> +                    continue;
-> +                }
-> +            }
-> +            if (errno == EINTR) {
-> +                continue;
-> +            }
-> +
-> +            error_setg_errno(errp, errno,
-> +                             "Unable to read errqueue");
-> +            break;
+>
+> ---
+>
+> (no changes since v1)
+>
+>  hw/dma/sifive_pdma.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
+> index b8ec7621f3..85fe34f5f3 100644
+> --- a/hw/dma/sifive_pdma.c
+> +++ b/hw/dma/sifive_pdma.c
+> @@ -232,7 +232,7 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
+>  {
+>      SiFivePDMAState *s = opaque;
+>      int ch = SIFIVE_PDMA_CHAN_NO(offset);
+> -    bool claimed;
+> +    bool claimed, run;
+>
+>      if (ch >= SIFIVE_PDMA_CHANS) {
+>          qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
+> @@ -244,6 +244,7 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
+>      switch (offset) {
+>      case DMA_CONTROL:
+>          claimed = !!(s->chan[ch].control & CONTROL_CLAIM);
+> +        run = !!(s->chan[ch].control & CONTROL_RUN);
+>
+>          if (!claimed && (value & CONTROL_CLAIM)) {
+>              /* reset Next* registers */
+> @@ -254,13 +255,19 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
+>              s->chan[ch].next_src = 0;
+>          }
+>
+> +        /* claim bit can only be cleared when run is low */
+> +        if (run && !(value & CONTROL_CLAIM)) {
+> +            value |= CONTROL_CLAIM;
 > +        }
 > +
-> +        cm = CMSG_FIRSTHDR(&msg);
-
-[1]
-
-> +        if (cm->cmsg_level != SOL_IP &&
-> +            cm->cmsg_type != IP_RECVERR) {
-> +            error_setg_errno(errp, EPROTOTYPE,
-> +                             "Wrong cmsg in errqueue");
-> +            break;
-> +        }
-
--- 
-Peter Xu
-
+>          s->chan[ch].control = value;
+>
+>          /*
+>           * If channel was not claimed before run bit is set,
+> +         * or if the channel is disclaimed when run was low,
+>           * DMA won't run.
+>           */
+> -        if (!claimed) {
+> +        if (!claimed || (!run && !(value & CONTROL_CLAIM))) {
+>              s->chan[ch].control &= ~CONTROL_RUN;
+>              return;
+>          }
+> --
+> 2.25.1
+>
+>
 
