@@ -2,82 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A24F41AE10
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 13:46:04 +0200 (CEST)
-Received: from localhost ([::1]:49150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79CD341ADFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 13:43:09 +0200 (CEST)
+Received: from localhost ([::1]:44924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVBYg-0004R3-Fp
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 07:46:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47876)
+	id 1mVBVr-0001Ug-Tc
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 07:43:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mVBRN-0007wu-8R
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 07:38:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40687)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mVBRJ-0000F9-38
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 07:38:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632829103;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q4MqSJCoWLiCg/h8l2EqcKSgdVBpe8dOCtRyo35H0LU=;
- b=iImSTn4/H7BQn7XuijwTLkmPj2v48cOSRjkKhFpu9vs0Tce+m0ybIC48gZLCZp+MVxYmM9
- lWS2RJy/omuoUpGp6BCYk+21R11vL2mlFq6k6z3QhscyU2KNeM++q1pOGt3gKeN42pE4xA
- nPB07Qfr8ycOWwsxXccqnGIvqN1lzok=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-qeFjjT-_P4O-bgdnlSldQA-1; Tue, 28 Sep 2021 07:38:21 -0400
-X-MC-Unique: qeFjjT-_P4O-bgdnlSldQA-1
-Received: by mail-pf1-f198.google.com with SMTP id
- z24-20020aa79f98000000b004463f2f0277so14362380pfr.23
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 04:38:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q4MqSJCoWLiCg/h8l2EqcKSgdVBpe8dOCtRyo35H0LU=;
- b=mJ/aqY3almDmPhVS98D3Wc1oK14TzapAwdWmVJ0eoNDqU7Bfa5a5jc3fhoFecyiySW
- p7OR2RKwjkiewUYV0LoWbmZiZEUaTFA8J1cXCMciWWXgYNvrvCPsW7a/zCs3SE+wGzez
- NOfNItHuMZus8l7SnNwFos33HqiwtRdGvpYqtfwNlgcWddYl2xsw5iiNzoruoFNqHHJg
- F7TTijZyKzuEotkZM43fTUbEMBf6zeqhHs5T1Gg6kzSXOsihMpX7Anx2nnWgTF+X5uFr
- FdOizAoY0WaeoGC9mq+fB82+3IICCbiX3+VyvmFTLTF/7sc2u832W/mKQSGkQv50vuDj
- 1TRA==
-X-Gm-Message-State: AOAM533GzMB3GgpOzkpNo4G5RR0HxNmDy6703ILVdvzjUSbhS1zldHkq
- gA9RgbrTUnavVRX6uapL/I/k/bwcgGbxCw+iXIgDY19Ky5fDkvbL+X3dmKhC3USxqTSyr08dKi2
- 5i/+JVpp6qi6eHNIXCmZGBpmP7HtYwFg=
-X-Received: by 2002:a17:902:8bc1:b0:13d:e884:125a with SMTP id
- r1-20020a1709028bc100b0013de884125amr4632383plo.38.1632829100546; 
- Tue, 28 Sep 2021 04:38:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyC4XpjruG5k1J7OLO4GU5awa9UEoCD4hMu0ByMRjWbsj9YdfcpxF2ctas3lucu36LqZB3bEdCWJPO0TL2YIy4=
-X-Received: by 2002:a17:902:8bc1:b0:13d:e884:125a with SMTP id
- r1-20020a1709028bc100b0013de884125amr4632360plo.38.1632829100189; Tue, 28 Sep
- 2021 04:38:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pjp@fedoraproject.org>)
+ id 1mVBSS-0008Df-IQ
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 07:39:36 -0400
+Received: from sonic302-20.consmr.mail.sg3.yahoo.com ([106.10.242.140]:45961)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pjp@fedoraproject.org>)
+ id 1mVBSK-0000fZ-QE
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 07:39:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1632829157; bh=ig9a+GEMENDbq6RaHsP6jNzuSOjps6RB21m4qLU3NP8=;
+ h=Date:From:Reply-To:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To;
+ b=GpGydf3G3UBZu3hS4/pdykRd3vtdl3cpTLkM6myxVHltaV7AiGGF0pBZ690eRHao3HqEBdfLnxxjtbxsrWO+Rql8vUgBqXlWqsUKNd9vfng/hGuJ0ljT720QryQi+EqcowRCi9WehI8vwSiood7P73NK4IWg3CtcY4DovIMnBY+10s1rAb0ebEI7caMeeVnpA2gMYfqF2UJL58PndStnsdlOQfh+nTftQ8Z1dCsMPbY4waGVKHmbXoYpDNFcqiAeTfPY7aOacHtaUAwwOxOOHPTc3V7p+fwSQ2TumCq2tYWh98EapTL+rW5NfJD3Su8iwShtl0MTbNBIN/kRv4Rziw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1632829157; bh=Yg0XwtaKmUI6Bqcl2pWhfgps3zqqwrtClGAMnyJ69t5=;
+ h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
+ b=qBAUw+PbjatOWOht0Lb7FiZhmDguQtCgmdW6VfGiGKp9YmtwxcVKKroN8TcRzaHjrxwed/HykuDV527SJMl6p3ezxISsUzmwiYre9ERom9KgvHoPlYFpoNNKDOB70ulHZZGoQt1E7JkkFNflRSrJ9vJfK24keZpApAYu8uxJB9nwY5kWKdcaa1uchvOCLTq7JWAj7VJm0VowO78uyMGa12yweRKE+DggDT/rHHu3Pkl2kYqbmZbvPl1MyJ1yCkiw8cTX/6JojwxkG23qc125RJQuIggnLgUxZ6iW/NEpkPUc2dC9ui8L2+B2/9X7FG0JX4GszbKQ4bjzOlTj7B2Ljg==
+X-YMail-OSG: 21yWVssVM1kZyBR0FJLTAYMpSYh9i7Xcwb8QaoZNQ3.ia14XfQPOB6d_lTzWhwd
+ 72N.kLvH.HRDGZlio_Hx0qX6HXOuk.M70qrJWGO.E.62LCNNgrtNS7v8LHGEAo9bvTBnDSQVRPbb
+ fGrtXI9y2ZQpoPYLj1mj6jyToJju4f2jbsIVjxCPcJYnSCiyVrI3zbSBNtIkQf_3Ek6lL96KsVto
+ tIEJ4R6eMvS7XmCB_jC6HgyFcqK9sZzM2VMoekL8_Ljae2JJ7Nle3ROLvXat5ZNz0KhUc_X2V6I.
+ fZLv_JdRcMxNH6a8G7iY4qUmhQALx7W2iVLLDoNNz6xmgB_QnBjY1JVgpDdjlzW6eT4IPdJAUHBV
+ vto1O.X4UOIgWYtYYzxjDDMTBo_0B6zjF5W9EOm3Ht.ecGaEpNMKsTz4f0qR0KrfOw_Ml3UD39xW
+ KiLcWWsfxdXzSS2zSJnNuEdnX8hymcfxe38GvCVhlO66Zgm93sIIFii.DlZ8cYgnLBl.8YeM1IYC
+ bwuSBNLZoynElC1YLsxEtYK4pGIzDzlWCS1UUsHybbyQeck2aU2HijsxY0nVinM4facUuQuyfcOv
+ K45b3jzRr5TD1LtkqgZdTFwegXHP82pLRyid73iyxEeF1jfN1XleYefcl5lOg6p_NAJwYHpQ.kZz
+ ZDo4RFmTjZtO4Dg4f6VXgcqkeFd_3UFPfZ7Ec_F1IJJLTUmxiaxIzjCzL4dw5NX4DVuQUX9p.def
+ 66SfrzTflyQWut0DewStrY2O714KUrH2LIyJhko1ghZgP2UX122w2NKLSSIJmE.UlT_mC4nB4gES
+ 1Xju08aR6TefB6Awqq8o6kZxSJTYnhuuM4khU_Cgodl6TNqHwrvwokpmPQFh2Svp_UiTYzaQLjIT
+ RKYlJb364egGH0FI_1Q2pZAfjzF8rOI3ErFdOtIoFwYoEv8Wzg8WVZcMcNh4cSq3SUjUNyBztEdG
+ l9jXtZ3uqYODhqziGo_nHNZegv134qOdFYivND4KD7IouHBMzcz8LUFfFImhLlc6RNYqxpbcUZ2i
+ K6cVXtkQKeQ3n.UFC8FiOBT6rjC_u5ia4GE.DWomAs1hnVEPcPQnE650dSgiO48RYHpO4YY94RIZ
+ 3IpUwWfIM2BhchoE.j1Gs9B81DzTBOEoaowZDF_BVCLe1caDR1UWANzp5I1eoQwjAIz__PEiVm.l
+ DXAVqzZkFc7kzYrCPlFdKQ4gwTTlx5hi.J01b4Tw_CuOewxHtv6dNbtEKvZYKG5KckmFnYUf1aml
+ n4GaXVrxLnrey0fZKiDlKAlsz1MIlR58xCv8fwrD0JvvRdb.vQ8kO4M0RnK6QfGpij4GnLZzICjJ
+ 1v6CXoUDGztyX2E.VlpWHmc2Jh3bl1nloqIthXFV87GHzQdgS1N4ptKmPszcfi4Khy672e3pKC2y
+ ftiT5Vy9SCfLIQBTatpwcY2fjBfNIMIoK.0Ih78C0Gu.uS_n7ZDEPum9cGsWDWzVBdq.E9.0YUBA
+ bPT7AohTbvAnzWYvgoDWXPenEK8QFdnWN7F0QCbCKlLCL1mlp6eI89_NsoPAkOLj6yEd1g9vAT2W
+ ecaxmfHWn72hdCFKqnrf_qZkFWx9R0TmRE4IzBTtxonn_UJTunbmfTPdAqJV_LTEWQVd1BTcDOSz
+ 3xs6NlAgaMZ2qrxPtboBrBjE.9SsPj.NNF1M.TOuZdhH7LTVagSAGAKBfjxXhogaQR0UJjRUY0uQ
+ I0GfNcNFsVWSZJhT4O.l8BGQHtajaiQXX4JJDW52EooyUouErBc59Q3gDwsGVzaCqvH6cpsc03ON
+ I5HFlFBLx6JWv4rWmIALiZ1R9rmRYDZmcwSHS_D31QsrFOHg6KDIhS6yyEsljRknGztf5Yc_nqZt
+ 5EPGzxab1EawskzQA7im_9TNvgW8t1vsuBlsxUZ.3Vss0GrtuseZAGUWyJx0uCc4U.QWGbfIS7mZ
+ lc4hxlLhKw6VA3FVb8SSGtezv4vhfIWmXQyxax_MxhbwqSssKbUug3zZXr_XuIgHaSqqnYSqm6L9
+ g2d2V24Noljs9MBOVOiHRt2Lk1KwZe_6Vc381gXgggAeAMY6YArS0Hp0ETnSK6VLJoNGZ5MlhK4B
+ iAiJ9c_URdKmuuihfgb3I7o2gD5vA25qSjh_j8tfc.jbu0xpXXUW8LwBqJ__44DRIG.e3kBFTcgD
+ uN8ecKQcMXkW3gg4BCqvZQj6V0hvljHWRk9rcj4tWLnv1OKxJ6Xk.rFRzymUpl7Y.ZhyDoLbdVhj
+ DQ8rv1SxbKJuoh3QaYs7u0xtUynrSeg7lDMJbzaSc5f1uPbcPBW5g50v0r0ClmFnFRJdQHuao_Nn
+ ZAnEXA1UMEMLsc3VtUKixgqhqpzTEZoHbwgMdb8pSVemCcHEbsGS_N2UfZb62ivHbJcNOnT0XKA-
+ -
+X-Sonic-MF: <pjp@fedoraproject.org>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic302.consmr.mail.sg3.yahoo.com with HTTP; Tue, 28 Sep 2021 11:39:17 +0000
+Date: Tue, 28 Sep 2021 11:39:16 +0000 (UTC)
+From: P J P <pjp@fedoraproject.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Message-ID: <1043465112.1767719.1632829156550@mail.yahoo.com>
+In-Reply-To: <798304472.4432617.1631626227208@mail.yahoo.com>
+References: <20210908232024.2399215-1-philmd@redhat.com>
+ <YTnhy/Wo5M1qVs1k@redhat.com>
+ <798304472.4432617.1631626227208@mail.yahoo.com>
+Subject: Re: [RFC PATCH 00/10] security: Introduce
+ qemu_security_policy_taint() API
 MIME-Version: 1.0
-References: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
-In-Reply-To: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 28 Sep 2021 15:38:08 +0400
-Message-ID: <CAMxuvawXF71DKHvUmW38Ot0BM2z+Mki7MEpDoQmQUmc5fc9D7g@mail.gmail.com>
-Subject: Re: QAPI sync meeting
-To: John Snow <jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000007f02ad05cd0ca60b"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: WebService/1.1.19043 YMailNorrin
+Received-SPF: neutral client-ip=106.10.242.140;
+ envelope-from=pjp@fedoraproject.org;
+ helo=sonic302-20.consmr.mail.sg3.yahoo.com
+X-Spam_score_int: 10
+X-Spam_score: 1.0
+X-Spam_bar: +
+X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ FREEMAIL_FORGED_REPLYTO=2.095, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,185 +100,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Reply-To: P J P <pj.pandit@yahoo.co.in>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007f02ad05cd0ca60b
-Content-Type: text/plain; charset="UTF-8"
+On Tuesday, 14 September, 2021, 07:00:27 pm IST, P J P <pjp@fedoraproject.o=
+rg> wrote:
+>* Thanks so much for restarting this thread. I've been at it intermittentl=
+y last few
+> months, thinking about how could we annotate the source/module objects.
+>
+> -> [*] https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg04642.htm=
+l
+>
+>* Last time we discussed about having both compile and run time options fo=
+r users
+> to be able to select the qualified objects/backends/devices as desired.
+>
+>* To confirm: How/Where is the security policy defined? Is it device/modul=
+e specific OR QEMU project wide?
+>
+>>> it feels like we need
+>> 'secure': 'bool'
+>
+>* Though we started the (above [*]) discussion with '--security' option in=
+ mind,
+> =C2=A0I wonder if 'secure' annotation is much specific. And if we could w=
+iden its scope.
+>
+>
+>Source annotations: I've been thinking over following approaches
+>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>1) Segregate the QEMU sources under
+>
+> =C2=A0../staging/ <=3D devel/experimental, not for production usage
+> =C2=A0../src/ <=3D good for production usage, hence security relevant
+> =C2=A0../deprecated/ <=3D Bad for production usage, not security relevant
+>
+> =C2=A0- This is similar to Linux staging drivers' tree.
+> =C2=A0- Staging drivers are not considered for production usage and hence=
+ CVE allocation.
+> =C2=A0- At build time by default we only build sources under ../src/ tree=
+.
+> =C2=A0- But we can still have options to build /staging/ and /deprecated/=
+ trees.
+> =C2=A0- It's readily understandable to end users.
+>
+>2) pkgconfig(1) way:
+> =C2=A0- If we could define per device/backend a configuration (.pc) file =
+which is then used
+> =C2=A0at build/run time to decide which sources are suitable for the buil=
+d or usage.
+>
+> =C2=A0- I'm trying to experiment with this.
+>
+>3) We annotate QEMU devices/backends/modules with macros which define its =
+status.
+> =C2=A0It can then be used at build/run times to decide if it's suitable f=
+or usage.
+> =C2=A0For ex:
+>
+> =C2=A0$ cat annotsrc.h
+>
+> =C2=A0#include <inttypes.h>
+>
+> =C2=A0enum SRCSTATUS {
+> =C2=A0DEVEL =3D 0,
+> =C2=A0STAGING,
+> =C2=A0PRODUCTION,
+> =C2=A0DEPRECATED
+> =C2=A0};
+>
+...
+>
+>
+>* Approach 3) above is similar to the _security_policy_taint() API,
+> =C2=A0but works at the source/object file level, rather than specific 'st=
+ruct type' field.
+>=C2=A0
+>* Does adding a field to struct type (ex. DeviceClass) scale to all object=
+s/modules/backends etc?
+> =C2=A0Does it have any limitations to include/cover other sources/objects=
+?
+>
+>* I'd really appreciate your feedback/inputs/suggestions.
 
-Hi!
 
-On Mon, Sep 27, 2021 at 8:55 PM John Snow <jsnow@redhat.com> wrote:
-
-> Hiya,
->
-> I'd like to propose that at least the three of us arrange a time to have a
-> meeting where we discuss our plans and ideas for QAPI going forward,
-> including rust, python, and golang extensions to the QAPI generator, what
-> we hope to accomplish with those projects, and so on.
->
-> What I am hoping to get out of this for myself is a high-level overview of
-> people's plans for QAPI and to produce some notes on those plans so that I
-> can have a reference that we've all acknowledged as roughly accurate to be
-> able to keep the community's design goals for QAPI in mind as I continue my
-> own development. Ultimately, I'd like some kind of rough draft of a "QAPI
-> roadmap".
->
-> I know there was a rust meetup during KVM Forum, but I was unable to
-> attend due to the timing. I'd like to expand the focus a little more
-> broadly to QAPI in general and discuss our "personal" roadmaps, goals,
-> queued work, etc so that we can collaboratively formulate a broader vision
-> of our work.
->
-> I'm posting to qemu-devel in case anyone else has an interest in this area
-> and would like to eavesdrop or share opinions, but we should probably come
-> up with an agenda first. So:
->
-> Proposed agenda:
->
-> Current projects, wishlists, and goals for QAPI:
-> - Markus (~10 min)
-> - Marc-Andre (~10 min) (Rust, dbus, etc?)
->
-
-The QAPI Rust binding RFC series aims to provide the QAPI types to Rust
-with to/from C translations. This is just one brick allowing QEMU to have
-some parts written in Rust: all other internal/subsystem binding pieces
-remain to be done. I don't have other plans for QAPI at this point.
-
-D-Bus (from the early qapi/rust series) was an experiment, showing that
-QAPI/QMP can be exposed via "serde" with almost no effort. (it could most
-likely be over other protocols, such as JSON, in full-Rust implementation).
-We can imagine sharing canonical QAPI IDLs for daemons/helpers written in
-different languages.
-
-However, the biggest hurdle when binding QAPI to D-Bus or many programming
-languages (c, python, go and rust foremost) is that it is not a
-machine/ABI-friendly IDL. QAPI doesn't impose orderdering of fields or
-arguments, and it is not versioned. I believe this is detrimental, because
-bindings have to be written and maintained by hand in various languages,
-with various flavours (some may add abstractions, some may version the
-schema themself, some may use plain dictionaries everywhere etc). The small
-flexibility advantage doesn't outweigh the cost. Imho, some of the pains of
-QAPI/QMP is that it's not so easy to interact with, either from a human
-point of view (who likes speaking JSON?) or a machine point of view (I
-don't have good bindings to use from my language of choice). If we provided
-(and generated) idiomatic client bindings, we would most likely have a few
-rules to not break them, and end up versionizing the schema (version the
-commands, version arguments etc, various options are possible). The wire
-format becomes a detail, and JSON can keep its own flexibility wrt fields
-ordering etc.
-
-- jsnow (~10 min) (Python, golang, etc)
->
->
-I am certainly interested to learn your updated plans.
-
-
-> Formulating short-term and long-term roadmaps:
-> - Open discussion, ~30 min
-> - Collaboratively produce a summary doc (etherpad?) outlining major work
-> to be done, separated into near and long terms
-> - Upload this summary to the QEMU wiki and mail it back out to qemu-devel
-> - We probably won't exactly finish this bit, but we can resume on the
-> mailing list afterwards perfectly well.
->
-> (Feel free to propose anything different for the meeting, this is just a
-> jumping off point for discussion.)
->
-> Proposed time:
->
-> - Any weekday after 13:00 UTC. Wednesdays, Thursdays and Fridays work
-> particularly well for me at the moment.
->
-
-That could work for me.
-
-- bluejeans and google meeting both work well for me. Open to alternatives.
->
->
-> Thanks,
-> --js
->
-
---0000000000007f02ad05cd0ca60b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi!<br></div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 27, 2021 at 8:55 PM Jo=
-hn Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D=
-"ltr"><div>Hiya,</div><div><br></div><div>I&#39;d like to propose that at l=
-east the three of us arrange a time to have a meeting where we discuss our =
-plans and ideas for QAPI going forward, including rust, python, and golang =
-extensions to the QAPI generator, what we hope to accomplish with those pro=
-jects, and so on.<br><br></div><div>What I am hoping to get out of this for=
- myself is a high-level overview of people&#39;s plans for QAPI and to prod=
-uce some notes on those plans so that I can have a reference that we&#39;ve=
- all acknowledged as roughly accurate to be able to keep the community&#39;=
-s design goals for QAPI in mind as I continue my own development. Ultimatel=
-y, I&#39;d like some kind of rough draft of a &quot;QAPI roadmap&quot;.<br>=
-</div><div><br></div><div>I know there was a rust meetup during KVM Forum, =
-but I was unable to attend due to the timing. I&#39;d like to expand the fo=
-cus a little more broadly to QAPI in general and discuss our &quot;personal=
-&quot; roadmaps, goals, queued work, etc so that we can collaboratively for=
-mulate a broader vision of our work.<br></div><div><br></div><div>I&#39;m p=
-osting to qemu-devel in case anyone else has an interest in this area and w=
-ould like to eavesdrop or share opinions, but we should probably come up wi=
-th an agenda first. So:<br><br></div><div>Proposed agenda:<br></div><div><b=
-r></div><div>Current projects, wishlists, and goals for QAPI:</div><div>- M=
-arkus (~10 min)<br></div><div>- Marc-Andre (~10 min) (Rust, dbus, etc?)<br>=
-</div></div></blockquote><div><br></div><div>The QAPI Rust binding RFC seri=
-es aims to provide the QAPI types to Rust with to/from C translations. This=
- is just one brick allowing QEMU to have some parts written in Rust: all ot=
-her internal/subsystem binding pieces remain to be done. I don&#39;t have o=
-ther plans for QAPI at this point.<br><br>D-Bus (from the early qapi/rust s=
-eries) was an experiment, showing that QAPI/QMP can be exposed via &quot;se=
-rde&quot; with almost no effort. (it could most likely be over other protoc=
-ols, such as JSON, in full-Rust implementation). We can imagine sharing can=
-onical QAPI IDLs for daemons/helpers written in different languages.<br><br=
->However, the biggest hurdle when binding QAPI to D-Bus or many programming=
- languages (c, python, go and rust foremost) is that it is not a machine/AB=
-I-friendly IDL. QAPI doesn&#39;t impose orderdering of fields or arguments,=
- and it is not versioned. I believe this is detrimental, because bindings h=
-ave to be written and maintained by hand in various languages, with various=
- flavours (some may add abstractions, some may version the schema themself,=
- some may use plain dictionaries everywhere etc). The small flexibility adv=
-antage doesn&#39;t outweigh the cost. Imho, some of the pains of QAPI/QMP i=
-s that it&#39;s not so easy to interact with, either from a human point of =
-view (who likes speaking JSON?) or a machine point of view (I don&#39;t hav=
-e good bindings to use from my language of choice). If we provided (and gen=
-erated) idiomatic client bindings, we would most likely have a few rules to=
- not break them, and end up versionizing the schema (version the commands, =
-version arguments etc, various options are possible). The wire format becom=
-es a detail, and JSON can keep its own flexibility wrt fields ordering etc.=
-</div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
-v dir=3D"ltr"><div></div><div>- jsnow (~10 min) (Python, golang, etc)<br></=
-div><div><br></div></div></blockquote><div><br></div><div>I am certainly in=
-terested to learn your updated plans.<br></div><div>=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div></div><div>For=
-mulating short-term and long-term roadmaps:</div><div>- Open discussion, ~3=
-0 min<br>- Collaboratively produce a summary doc (etherpad?) outlining majo=
-r work to be done, separated into near and long terms<br></div><div>- Uploa=
-d this summary to the QEMU wiki and mail it back out to qemu-devel<br></div=
-><div>- We probably won&#39;t exactly finish this bit, but we can resume on=
- the mailing list afterwards perfectly well.<br></div><br><div>(Feel free t=
-o propose anything different for the meeting, this is just a jumping off po=
-int for discussion.)<br><br></div><div>Proposed time:</div><div><br></div><=
-div>- Any weekday after 13:00 UTC. Wednesdays, Thursdays and Fridays work p=
-articularly well for me at the moment.<br></div></div></blockquote><div><br=
-></div><div>That could work for me.</div><div> <br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div></div><div>- bluejea=
-ns and google meeting both work well for me. Open to alternatives.<br><br><=
-/div><div><br></div><div>Thanks,<br></div><div>--js<br></div></div>
-</blockquote></div></div>
-
---0000000000007f02ad05cd0ca60b--
-
+Ping...!?
+---
+=C2=A0 -P J P
+http://feedmug.com
 
