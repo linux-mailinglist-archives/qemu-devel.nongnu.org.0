@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4CD41A60E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 05:27:29 +0200 (CEST)
-Received: from localhost ([::1]:39154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 616FE41A632
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 05:48:26 +0200 (CEST)
+Received: from localhost ([::1]:51000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mV3mC-0002wg-Ga
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 23:27:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40390)
+	id 1mV46T-0003RA-5b
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 23:48:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=8905f295c3=pdel@fb.com>)
- id 1mV3jx-0001WH-T1
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 23:25:11 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:24520
- helo=mx0a-00082601.pphosted.com)
+ id 1mV42J-0007Pe-Fh
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 23:44:07 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:36558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=8905f295c3=pdel@fb.com>)
- id 1mV3jw-0000Y1-7T
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 23:25:09 -0400
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
- by m0089730.ppops.net (8.16.1.2/8.16.1.2) with SMTP id 18RKsUdQ027855
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 20:25:07 -0700
+ id 1mV42H-0007Sa-By
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 23:44:07 -0400
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18RKsVWG021313
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 20:44:03 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
  h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=facebook;
- bh=IJVftBwx/9vd0geEQFhNFGLdWweGYHUjf3fRvTCOUh8=;
- b=cNHPBDe98kifbES54tpsM98ITNJ6ZgdPiazAgPJT0a3k4rC0agPky/GBnuRveZMqGEFN
- qLK3QWVRTfwUniJASeOM3PXLBpP9G06Ef6k3ucc0/PxjBXhxhUrLdvarJp9nJ0qGOG4r
- n2sWJ3MlRICUkKjtkM+XczvdlMF6d+10eaY= 
-Received: from mail.thefacebook.com ([163.114.132.120])
- by m0089730.ppops.net with ESMTP id 3bbja2uhns-18
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=facebook; bh=bltmjaoqta0QVPU0Q1s69h6ZlOQ04QPqMX1q/LQ4mtc=;
+ b=ODOZCth9UregCy03vifL1jfmhROsJfhN9rK5jNPW7bXdhrnafbUIrwtv3JJrhU/G3ngp
+ TN1N1OCPIpNjeM26iPlulJy91V1N6JSth19xVrpAHFjxXoqhRgFxIRR6w4Z0tOYUUCTq
+ goSBmfhgN7cgZVypbctk+7ZyheKUjco6n+0= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com with ESMTP id 3bbe8swnqg-5
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 20:25:06 -0700
-Received: from intmgw001.27.prn2.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c085:11d::5) with Microsoft SMTP Server
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 20:44:03 -0700
+Received: from intmgw003.48.prn1.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:82::c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.14; Mon, 27 Sep 2021 20:25:03 -0700
+ 15.1.2308.14; Mon, 27 Sep 2021 20:44:02 -0700
 Received: by devvm660.prn0.facebook.com (Postfix, from userid 385188)
- id EE43843602FB; Mon, 27 Sep 2021 20:24:57 -0700 (PDT)
+ id 018AF4362F48; Mon, 27 Sep 2021 20:43:56 -0700 (PDT)
 From: <pdel@fb.com>
 To: 
 CC: <clg@kaod.org>, <joel@jms.id.au>, <rashmica.g@gmail.com>,
  <patrick@stwcx.xyz>, <qemu-devel@nongnu.org>, <f4bug@amsat.org>, Peter
  Delevoryas <pdel@fb.com>
-Subject: [PATCH 1/1] hw: aspeed_gpio: Fix pin I/O type declarations
-Date: Mon, 27 Sep 2021 20:24:56 -0700
-Message-ID: <20210928032456.3192603-2-pdel@fb.com>
+Subject: [PATCH 0/1] hw: aspeed_gpio: Fix GPIO array indexing
+Date: Mon, 27 Sep 2021 20:43:55 -0700
+Message-ID: <20210928034356.3280959-1-pdel@fb.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210928032456.3192603-1-pdel@fb.com>
-References: <20210928032456.3192603-1-pdel@fb.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
 X-FB-Source: Intern
-X-Proofpoint-ORIG-GUID: M2HfmuahXq5MpnFhSBrjsfnVpwR2Eadt
-X-Proofpoint-GUID: M2HfmuahXq5MpnFhSBrjsfnVpwR2Eadt
+X-Proofpoint-GUID: hwQiJdeQVlkHrtm34vuiCIVhyvaIUVIv
+X-Proofpoint-ORIG-GUID: hwQiJdeQVlkHrtm34vuiCIVhyvaIUVIv
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
  definitions=2021-09-27_07,2021-09-24_02,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- bulkscore=0
- suspectscore=0 impostorscore=0 phishscore=0 mlxlogscore=732 mlxscore=0
- spamscore=0 adultscore=0 priorityscore=1501 clxscore=1015 malwarescore=0
+ mlxlogscore=999
+ suspectscore=0 bulkscore=0 malwarescore=0 mlxscore=0 adultscore=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 phishscore=0 spamscore=0
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2109280023
+ engine=8.12.0-2109230001 definitions=main-2109280025
 X-FB-Internal: deliver
-Received-SPF: pass client-ip=67.231.153.30;
+Received-SPF: pass client-ip=67.231.145.42;
  envelope-from=prvs=8905f295c3=pdel@fb.com; helo=mx0a-00082601.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -95,65 +92,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <pdel@fb.com>
 
-Some of the pin declarations in the Aspeed GPIO module were incorrect,
-probably because of confusion over which bits in the input and output
-uint32_t's correspond to which groups in the label array. Since the
-uint32_t literals are in big endian, it's sort of the opposite of what
-would be intuitive. The least significant bit in ast2500_set_props[6]
-corresponds to GPIOY0, not GPIOAB7.
+Hey everyone,
 
-GPIOxx indicates input and output capabilities, GPIxx indicates only
-input, GPOxx indicates only output.
+I think there might be a bug in aspeed_gpio_update, where it's selecting
+a GPIO IRQ to update. The indexing that maps from GPIO pin to IRQ leads
+to an out-of-bounds array access and a segfault after that.
 
-AST2500:
-- Previously had GPIW0..GPIW7 and GPIX0..GPIX7, that's correct.
-- Previously had GPIOY0..GPIOY3, should have been GPIOY0..GPIOY7.
-- Previously had GPIOAB0..GPIOAB3 and GPIAB4..GPIAB7, should only have
-  been GPIOAB0..GPIOAB3.
+tl;dr
 
-AST2600:
-- GPIOT0..GPIOT7 should have been GPIT0..GPIT7.
-- GPIOU0..GPIOU7 should have been GPIU0..GPIU7.
-- GPIW0..GPIW7 should have been GPIOW0..GPIOW7.
-- GPIOY0..GPIOY7 and GPIOZ0...GPIOZ7 were disabled.
+There's 8 rows of 32 pins (8 * 32 =3D=3D 256 total) on the AST2500, but some
+of the pins are not actually active: there's only 228 pins actually
+active in the AST2500.
 
-Fixes: 4b7f956862dc2db4c5c ("hw/gpio: Add basic Aspeed GPIO model for AST=
-2400 and AST2500")
-Fixes: 36d737ee82b2972167e ("hw/gpio: Add in AST2600 specific implementat=
-ion")
-Signed-off-by: Peter Delevoryas <pdel@fb.com>
----
- hw/gpio/aspeed_gpio.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+The GPIO IRQ array has length 228, but we index it using a matrix
+indexing scheme like [row][column], and end up out-of-bounds for
+high-numbered pins.
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index dfa6d6cb40..33a40a624a 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -796,7 +796,7 @@ static const GPIOSetProperties ast2500_set_props[] =3D=
- {
-     [3] =3D {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
-     [4] =3D {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
-     [5] =3D {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
--    [6] =3D {0xffffff0f,  0x0fffff0f,  {"Y", "Z", "AA", "AB"} },
-+    [6] =3D {0x0fffffff,  0x0fffffff,  {"Y", "Z", "AA", "AB"} },
-     [7] =3D {0x000000ff,  0x000000ff,  {"AC"} },
- };
-=20
-@@ -805,9 +805,9 @@ static GPIOSetProperties ast2600_3_3v_set_props[] =3D=
- {
-     [1] =3D {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
-     [2] =3D {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
-     [3] =3D {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
--    [4] =3D {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
--    [5] =3D {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
--    [6] =3D {0xffff0000,  0x0fff0000,  {"Y", "Z", "", ""} },
-+    [4] =3D {0xffffffff,  0x00ffffff,  {"Q", "R", "S", "T"} },
-+    [5] =3D {0xffffffff,  0xffffff00,  {"U", "V", "W", "X"} },
-+    [6] =3D {0x0000ffff,  0x0000ffff,  {"Y", "Z"} },
- };
-=20
- static GPIOSetProperties ast2600_1_8v_set_props[] =3D {
+I fixed this by converting the IRQ array to a matrix, where some
+of the entries are uninitialized (zero). This retains the matrix
+indexing scheme, which I think is easy to understand.
+
+Notes on reproducing:
+
+I was testing booting Facebook's OpenBMC platform "YosemiteV2" (fby2)
+and hit a segfault:
+
+  qemu-system-arm -machine ast2500-evb \
+      -drive file=3Dfby2.mtd,format=3Draw,if=3Dmtd \
+      -serial stdio -display none
+  ...
+  Setup Caching for Bridge IC info..done.
+  Setup Front Panel Daemon..done.
+  Setup fan speed...
+  FAN CONFIG : Single Rotor FAN
+  Unexpected 4 Servers config! Run FSC 4 TLs Config as default config
+  Setting Zone 0 speed to 70%
+  Setting Zone 1 speed to 70%
+  ok: run: fscd: (pid 1726) 0s
+  done.
+  Powering fru 1 to ON state...
+  Segmentation fault (core dumped)
+
+In gdb:
+
+  Thread 3 "qemu-system-arm" received signal SIGSEGV, Segmentation fault.
+  [Switching to Thread 0x7ffff20ee700 (LWP 1840353)]
+  qemu_set_irq (irq=3D0xffffffff00000000, level=3D1) at ../hw/core/irq.c:45
+  45          irq->handler(irq->opaque, irq->n, level);
+  (gdb) p irq
+  $1 =3D (qemu_irq) 0xffffffff00000000
+  (gdb) up
+  #1  0x00005555558e36f5 in aspeed_gpio_update (s=3D0x7ffff7ecffb0, regs=3D=
+0x7ffff7ed0c94, value=3D128) at ../hw/gpio/aspeed_gpio.c:287
+  287                     qemu_set_irq(s->gpios[offset], !!(new & mask));
+  (gdb) p s->gpios
+  $2 =3D {0x0 <repeats 228 times>}
+  (gdb) p offset
+  $3 =3D 231
+  (gdb) p set
+  $5 =3D 7
+  (gdb) p gpio
+  $4 =3D 7
+
+With my fix, I can boot the fby2 platform. The image I was using is here:
+
+https://github.com/peterdelevoryas/openbmc/releases/tag/fby2.debug.mtd
+
+Peter Delevoryas (1):
+  hw: aspeed_gpio: Fix GPIO array indexing
+
+ hw/gpio/aspeed_gpio.c         | 72 ++++++++++++++---------------------
+ include/hw/gpio/aspeed_gpio.h |  5 +--
+ 2 files changed, 31 insertions(+), 46 deletions(-)
+
 --=20
 2.30.2
 
