@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFDB41B6D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 21:03:35 +0200 (CEST)
-Received: from localhost ([::1]:59696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACC741B6DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 21:03:43 +0200 (CEST)
+Received: from localhost ([::1]:60330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVIO6-0006WG-1c
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 15:03:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38724)
+	id 1mVIOE-0006vt-B5
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 15:03:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1mVILW-0003gz-80; Tue, 28 Sep 2021 15:00:54 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:42544)
+ id 1mVILW-0003hB-Mn; Tue, 28 Sep 2021 15:00:54 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:37378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1mVILU-0000ss-IN; Tue, 28 Sep 2021 15:00:53 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id bd28so25513247edb.9;
- Tue, 28 Sep 2021 12:00:48 -0700 (PDT)
+ id 1mVILU-0000ua-IW; Tue, 28 Sep 2021 15:00:54 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id ba1so29175663edb.4;
+ Tue, 28 Sep 2021 12:00:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5OVWSj9sUkCX1v6cnsRaouH0K3xR+Y3taZ9SLTTRPu0=;
- b=XWFT61t3PalOH34TPLfyZSfHww0+IqfDnho4QXrLxwlCvbgkGOfgiDX3SYDmME0bdQ
- F7XO6f2CloyaqUHQHGVgivc0lZYF838zq2sOlMmlQAK5cT6tOGiEL67gzysejHKpC+CG
- NqeBJwe/gQ0fRmFFOchVP07O++noI/CJu/TN2HOgzHtgCWx+1Naz6pvOYGXp4Z4KpFM1
- GaS0Q4C8/lj5ksTu+7f4b74vJiGxP3XTXOoNAncxxEiGDTsLnBSbpxMGydh6cLxZqr8E
- RoAsjwG569Vr/KFHlywbW1m5NVkkIQpxvFVZRMVerN05a0AaWA1u9GL9+nLQ7NA1jYe3
- sdnA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=XFBG85A/bxkc4cgssKypjfQTM8t7ELRlcncf1RBkjus=;
+ b=lkL+TZ0Xt9RyMrNpKQ0TtL2r7s84SWpO0kcLvQEyeto2m6ovvSgGoIyx5nufNN3T6l
+ 4+kHRMNwdSC2/w2Hb4eA8tUT+//t9YfHVwHx1AnNuVRD9dlDrpLOdShbO+xz1NaGnpTj
+ R18Jxj7xPrSXr7NhCPCSp0aJUKQVVsnZcjJ5dD4xXQzm7ltBE+U8s5j+dTD/Zo7WkAwz
+ q13/79SYcKOLZdIDjxuH2EYCPvPU4i0ky7Vx7ABYs5ChPJQC0s1E89x7wYQxykOJWS42
+ oUXty8SzQZEG7BhkAgnft0qYCPkXCJWVokERE92nQOL0SU4kdwA/9F76lbVDqfqISsO5
+ ySbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5OVWSj9sUkCX1v6cnsRaouH0K3xR+Y3taZ9SLTTRPu0=;
- b=mQBG8Y81M5Wc4mEnq2m8sohcBjqZmR2fNGdaU6c5GZ4aHPKvcHFrXTv656PFc4EUts
- YXuUjKyq/XlKKiIn4XttbqXLzf82I6tasQyCc1Xw2bP6DAAXl01hUMHEmgSteT7WN/Dx
- rewlnZ7cDoCjhEWjoSkfoA8Eq1MgdF/5w899OV8xtto5alcbm8xqXCI9P+SLTa4ZkScR
- On48N2Dg0dXVFnPg6vOjL3u+yDeKTB+Yef+X5webm8L8Qo5KdT1E28COAm4llycYXmdf
- Q0Ti1dgZyrtTUJ/uERgiv0aY5HjLSysjFMNOwjN+42yEmqa+9P3QK0X0bfIC/aNm6es0
- Coqw==
-X-Gm-Message-State: AOAM5331i7wf88Z4SGL5iNApg6HMRhW5j0DdV/WsYWl9RQmm2ZlmRQMP
- E97juP+mpVsoppVeBI+e2qI=
-X-Google-Smtp-Source: ABdhPJyI8NKmZOl9AWb5UFnblR9VVX+EbuCjidrXpI74h4MvT1IPmKhbVCcrhJLrM50l9K180u8+EA==
-X-Received: by 2002:a05:6402:1c8f:: with SMTP id
- cy15mr9367717edb.41.1632855646525; 
- Tue, 28 Sep 2021 12:00:46 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=XFBG85A/bxkc4cgssKypjfQTM8t7ELRlcncf1RBkjus=;
+ b=hd+qIW1bDKiVl8peP7D3AE4LhmrRY6tCXwi9lHVYM5QyQSiY7gDFhJocWPbHSuUq3K
+ JYt6OfAjayiPT2inVrsdp+HZAm/X3snYJP6cco9QZWsTWYQrWb4ImZz41rNdbOoJD/ne
+ bWeFKzkTa3WArinKC9gDGfs5CtbBy9hf/hhjatJ+HuuX+KupVhiO/bUTC8vTcXsgpV11
+ 4M01vA+JtKhSvl8sOmwUchxL88YUQYFJ1g02wkXW1TQXYGWPMmoWMr6A0igP+qge/7yC
+ 84/v1gYQw3fzqh/xFKLwaCipSe2xqMKFDc+idOTdAyaywYA7nJNxEFYL7ZnIN9b4sT9O
+ 1KsQ==
+X-Gm-Message-State: AOAM5302b9BCptA+NxO2wcPgj/QuqRl74nvovfvwvrqZe11NV6bL4WkV
+ irzzITcT8oPgsNLcJYSm8vQ=
+X-Google-Smtp-Source: ABdhPJxDUL0S7UIJAg1z4f3Q6JCR50MnxutKEPC6/c0XLDi521FQR2O9P1xYaQUDGvPjzV9Psw8xjA==
+X-Received: by 2002:a17:906:901:: with SMTP id
+ i1mr8438042ejd.234.1632855648298; 
+ Tue, 28 Sep 2021 12:00:48 -0700 (PDT)
 Received: from neptune.lab ([46.39.229.233])
- by smtp.googlemail.com with ESMTPSA id f10sm4500330edu.70.2021.09.28.12.00.45
+ by smtp.googlemail.com with ESMTPSA id f10sm4500330edu.70.2021.09.28.12.00.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Sep 2021 12:00:45 -0700 (PDT)
+ Tue, 28 Sep 2021 12:00:47 -0700 (PDT)
 From: Alexey Baturo <baturo.alexey@gmail.com>
 X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
 To: 
-Subject: [PATCH v12 0/7] RISC-V Pointer Masking implementatio
-Date: Tue, 28 Sep 2021 22:00:29 +0300
-Message-Id: <20210928190036.4114438-1-space.monkey.delivers@gmail.com>
+Subject: [PATCH v12 1/7] [RISCV_PM] Add J-extension into RISC-V
+Date: Tue, 28 Sep 2021 22:00:30 +0300
+Message-Id: <20210928190036.4114438-2-space.monkey.delivers@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210928190036.4114438-1-space.monkey.delivers@gmail.com>
+References: <20210928190036.4114438-1-space.monkey.delivers@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=baturo.alexey@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=baturo.alexey@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,47 +83,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
- Alistair.Francis@wdc.com, palmer@dabbelt.com
+ kbastian@mail.uni-paderborn.de, Bin Meng <bin.meng@windriver.com>,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ space.monkey.delivers@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ palmer@dabbelt.com, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v11:
-Addressed a few style issues Alistair mentioned in the previous review.
+Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+---
+ target/riscv/cpu.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-If this patch series would be accepted, I think my further attention would be to:
-- Support pm for memory operations for RVV
-- Add proper csr and support pm for memory operations for Hypervisor mode
-- Support address wrapping on unaligned accesses as @Richard mentioned previously
-
-Thanks!
-
-Alexey Baturo (6):
-  [RISCV_PM] Add J-extension into RISC-V
-  [RISCV_PM] Add CSR defines for RISC-V PM extension
-  [RISCV_PM] Support CSRs required for RISC-V PM extension except for
-    the h-mode
-  [RISCV_PM] Print new PM CSRs in QEMU logs
-  [RISCV_PM] Support pointer masking for RISC-V for i/c/f/d/a types of
-    instructions
-  [RISCV_PM] Allow experimental J-ext to be turned on
-
-Anatoly Parshintsev (1):
-  [RISCV_PM] Implement address masking functions required for RISC-V
-    Pointer Masking extension
-
- target/riscv/cpu.c                      |  31 +++
- target/riscv/cpu.h                      |  33 +++
- target/riscv/cpu_bits.h                 |  96 ++++++++
- target/riscv/csr.c                      | 287 ++++++++++++++++++++++++
- target/riscv/insn_trans/trans_rva.c.inc |   3 +
- target/riscv/insn_trans/trans_rvd.c.inc |   2 +
- target/riscv/insn_trans/trans_rvf.c.inc |   2 +
- target/riscv/insn_trans/trans_rvi.c.inc |   2 +
- target/riscv/translate.c                |  46 ++++
- 9 files changed, 502 insertions(+)
-
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 5896aca346..cd86f5422f 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -68,6 +68,7 @@
+ #define RVU RV('U')
+ #define RVH RV('H')
+ #define RVB RV('B')
++#define RVJ RV('J')
+ 
+ /* S extension denotes that Supervisor mode exists, however it is possible
+    to have a core that support S mode but does not have an MMU and there
+@@ -292,6 +293,7 @@ struct RISCVCPU {
+         bool ext_s;
+         bool ext_u;
+         bool ext_h;
++        bool ext_j;
+         bool ext_v;
+         bool ext_counters;
+         bool ext_ifencei;
 -- 
 2.30.2
 
