@@ -2,94 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3692E41AD6E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 12:58:42 +0200 (CEST)
-Received: from localhost ([::1]:44170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16EF441AD74
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 13:00:02 +0200 (CEST)
+Received: from localhost ([::1]:47940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVAor-0000QI-8A
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 06:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36878)
+	id 1mVAq9-00031U-0C
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 07:00:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVAnh-0007ek-Qs
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:57:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24654)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mVAof-0000rE-68; Tue, 28 Sep 2021 06:58:29 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVAne-0007J5-HE
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:57:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632826645;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mXKCsPu6wY7iDMU4HgvA+TIWDkRyDj4bF8zux9JV8Ig=;
- b=iXlwscM+HxERdJ8Iui9Eu5BlkfRQyUxCU9wJAkZV7FckgMS2GvzomNR5LErN1E4rdkL2xL
- NwmSnLP/zuF+4B4Biix8OdzNvd2in5+kvMnWPSwdSz2Js5G8PCJxP33YgUDCSBlJfp3hDL
- wjqPy68mO0zLaZw19Inc76jvlUnTjmA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-LH0MoHmDN7uu6Ao9ejognA-1; Tue, 28 Sep 2021 06:57:24 -0400
-X-MC-Unique: LH0MoHmDN7uu6Ao9ejognA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- r5-20020adfb1c5000000b0015cddb7216fso15001641wra.3
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 03:57:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mXKCsPu6wY7iDMU4HgvA+TIWDkRyDj4bF8zux9JV8Ig=;
- b=sg/3N5WrYMZCzIoiSM2gKFXeKp2jdJ08JPcv+L6oByJ78weHHFeCrnTdEnKhw7aV+1
- AerM4M14gzxpTTyfqjavAe5kVnflNmWMuKm8I67IqQ85WazonTh6XvtpP5EpHE8eRVIa
- vacBYOyBBv87lBVNVasgwe8By87P7mePMAiZYN6Ti8x14nZ+ITEY7nDLklb+TP4RXTcc
- lFQGhaU8LbMYNtpM5AJbBpBaLNNdFxgzXXw6piyTNVeo59RpNozBspmKTUU48pKR8Hyr
- VakdoHxo3A329gJPNZwn2G0ZPdYUYIINxqjMnVeoCOXpCYSwVLY/2IEPeJlhdx9kAcrk
- UQBg==
-X-Gm-Message-State: AOAM532ULK8Fz1qPpZ0io77g2ZmDn9k+8dtZKwO2b94zaqH5G4UdEwGn
- JEl6oNEZfFvL5lixOUv8kP6PTRZKSCq2wJrei++B2fwFbf6EvOueKtz7Z5uKg49BxbRqe200bcO
- wQ5jZzaI3FwZ+Cos=
-X-Received: by 2002:a1c:4b0c:: with SMTP id y12mr3947314wma.35.1632826643389; 
- Tue, 28 Sep 2021 03:57:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyqXJQCex0+u8/XBOQQIsNiqf+go0yFgfoJqzR2TpeEhs+eBTBcEbuBvh3u03xA14vTdfIMLQ==
-X-Received: by 2002:a1c:4b0c:: with SMTP id y12mr3947284wma.35.1632826643190; 
- Tue, 28 Sep 2021 03:57:23 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id y11sm23422869wrg.18.2021.09.28.03.57.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Sep 2021 03:57:22 -0700 (PDT)
-Message-ID: <2652509f-97d7-f999-a36f-47fc3b5ca346@redhat.com>
-Date: Tue, 28 Sep 2021 12:57:21 +0200
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mVAoc-00085h-7K; Tue, 28 Sep 2021 06:58:28 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HJbwX4mmZzRd5k;
+ Tue, 28 Sep 2021 18:54:04 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Tue, 28 Sep 2021 18:58:21 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.8; Tue, 28 Sep 2021 18:58:20 +0800
+Subject: Re: [PATCH 2/2] qemu-options: Add missing "sockets=2" to CLI "-smp 2"
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+References: <20210928093157.14620-1-wangyanan55@huawei.com>
+ <20210928093157.14620-3-wangyanan55@huawei.com>
+ <9728083c-059c-3990-f651-3fbdce86491c@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <0508934a-f4d5-a7ed-310a-065aa823fb08@huawei.com>
+Date: Tue, 28 Sep 2021 18:58:20 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v11 11/14] machine: Make smp_parse generic enough for all
- arches
-To: Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost
- <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Andrew Jones <drjones@redhat.com>
-References: <20210928035755.11684-1-wangyanan55@huawei.com>
- <20210928035755.11684-12-wangyanan55@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210928035755.11684-12-wangyanan55@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <9728083c-059c-3990-f651-3fbdce86491c@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.562, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.562,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,58 +68,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Pierre Morel <pmorel@linux.ibm.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-ppc@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: wanghaibin.wang@huawei.com, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/21 05:57, Yanan Wang wrote:
-> Currently the only difference between smp_parse and pc_smp_parse
-> is the support of dies parameter and the related error reporting.
-> With some arch compat variables like "bool dies_supported", we can
-> make smp_parse generic enough for all arches and the PC specific
-> one can be removed.
-> 
-> Making smp_parse() generic enough can reduce code duplication and
-> ease the code maintenance, and also allows extending the topology
-> with more arch specific members (e.g., clusters) in the future.
-> 
-> Suggested-by: Andrew Jones <drjones@redhat.com>
-> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->  hw/core/machine.c   | 91 +++++++++++++++++++++++++++++++++++----------
->  hw/i386/pc.c        | 84 +----------------------------------------
->  include/hw/boards.h |  9 +++++
->  3 files changed, 81 insertions(+), 103 deletions(-)
 
-> +/*
-> + * smp_parse - Generic function used to parse the given SMP configuration
-> + *
-> + * Any missing parameter in "cpus/maxcpus/sockets/cores/threads" will be
-> + * automatically computed based on the provided ones.
-> + *
-> + * In the calculation of omitted sockets/cores/threads: we prefer sockets
-> + * over cores over threads before 6.2, while preferring cores over sockets
-> + * over threads since 6.2.
-> + *
-> + * In the calculation of cpus/maxcpus: When both maxcpus and cpus are omitted,
-> + * maxcpus will be computed from the given parameters and cpus will be set
-> + * equal to maxcpus. When only one of maxcpus and cpus is given then the
-> + * omitted one will be set to its given counterpart's value. Both maxcpus and
-> + * cpus may be specified, but maxcpus must be equal to or greater than cpus.
-> + *
-> + * For compatibility, apart from the parameters that will be computed, newly
-> + * introduced topology members which are likely to be target specific should
-> + * be directly set as 1 if they are omitted (e.g. dies for PC since 4.1).
-> + */
->  static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+On 2021/9/28 18:46, Philippe Mathieu-Daudé wrote:
+> On 9/28/21 11:31, Yanan Wang wrote:
+>> There is one example of -smp CLI in qemu-options.hx currently
+>> using "-smp 2" and assuming that there will be 2 sockets.
+>> However now the actually calculation logic of missing sockets
+>> and cores is not immutable, we should use more explicit CLIs
+>> like "-smp 2,sockets=2" if we want multiple sockets.
+>>
+>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>> ---
+>>   qemu-options.hx | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index dcd9595650..ff8917c5e1 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -395,7 +395,7 @@ SRST
+>>           -m 2G \
+>>           -object memory-backend-ram,size=1G,id=m0 \
+>>           -object memory-backend-ram,size=1G,id=m1 \
+>> -        -smp 2 \
+>> +        -smp 2,sockets=2,maxcpus=2 \
+> Is the addition of "maxcpus=2" intentional?
+Yes, but it's not necessary IMO. I just wanted to keep consistency
+with other numa config examples in the Doc. Should I remove it ?
 
-Can we have it return a boolean instead?
+Thanks,
+Yanan
+>>           -numa node,nodeid=0,memdev=m0 \
+>>           -numa node,nodeid=1,memdev=m1,initiator=0 \
+>>           -numa cpu,node-id=0,socket-id=0 \
+>>
+> .
 
 
