@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A932041ACE1
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 12:23:00 +0200 (CEST)
-Received: from localhost ([::1]:41614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0755741ACE5
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 12:23:23 +0200 (CEST)
+Received: from localhost ([::1]:42526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVAGJ-0001Ap-OZ
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 06:22:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56506)
+	id 1mVAGg-0001lD-3X
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 06:23:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVADN-00065x-PX
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:19:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44773)
+ id 1mVAEn-0007f1-AQ
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:21:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVADL-0001Ab-Fj
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:19:57 -0400
+ id 1mVAEh-0002Oh-1N
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:21:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632824393;
+ s=mimecast20190719; t=1632824477;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NjcvWDELkeaNFQanzK65Tfx2zgtUSUIdu/uYkOSxj+U=;
- b=hv0hCrENcVpTXexEQn3Q2h63zEXcXdkEfvRHcml2BVVACRRbkYUvgpIPMDsxdWNJW+ob+o
- c6vK024+TBbqMID2A5dtiBCiACCZLHBZcaDNu51ZB+F97dcvzHmp7Kni5ttaaXxmSeD+mr
- Za/UYrC/r7iyv5YHuQLS5Ygwdtm2LdI=
+ bh=zZn4z9hVG+JLfZQmsXlyh+XzabfgsxWS8202pB81dW8=;
+ b=F9TFhutuOrVVWI3AcJNTsTM2i1rZWyZuVI23DIzirB3SyHrhCzhudDCumhkgEZa5xXiSdk
+ EuJ7OBuXn/V9fCRwPfktj2XGo031bKVBcEUu2pU1EE52caP+rjyBaNRtCd3YC9LUfyBM35
+ JjUFSmzZ6/nT4Ha10X8VlWiRyWrX5/g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-JYNu7j0LM4aFi6dkC7i24Q-1; Tue, 28 Sep 2021 06:19:52 -0400
-X-MC-Unique: JYNu7j0LM4aFi6dkC7i24Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-279-lJL1oQaINlCWpaRz8FohjQ-1; Tue, 28 Sep 2021 06:21:15 -0400
+X-MC-Unique: lJL1oQaINlCWpaRz8FohjQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43C34801B3D;
- Tue, 28 Sep 2021 10:19:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B49318125EB;
+ Tue, 28 Sep 2021 10:21:14 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.194.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AABD1017CE3;
- Tue, 28 Sep 2021 10:19:43 +0000 (UTC)
-Date: Tue, 28 Sep 2021 11:19:41 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E99718A8F;
+ Tue, 28 Sep 2021 10:21:05 +0000 (UTC)
+Date: Tue, 28 Sep 2021 11:21:03 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH v11 07/14] qtest/numa-test: Use detailed -smp CLIs in
- test_def_cpu_split
-Message-ID: <YVLsPXRora52YtXe@redhat.com>
+Subject: Re: [PATCH v11 08/14] machine: Prefer cores over sockets in smp
+ parsing since 6.2
+Message-ID: <YVLsj7G+vSjXph4c@redhat.com>
 References: <20210928035755.11684-1-wangyanan55@huawei.com>
- <20210928035755.11684-8-wangyanan55@huawei.com>
+ <20210928035755.11684-9-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210928035755.11684-8-wangyanan55@huawei.com>
+In-Reply-To: <20210928035755.11684-9-wangyanan55@huawei.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -62,7 +62,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -8
 X-Spam_score: -0.9
@@ -70,7 +70,7 @@ X-Spam_bar: /
 X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,33 +90,43 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
  Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org,
  qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
  wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 28, 2021 at 11:57:48AM +0800, Yanan Wang wrote:
-> Since commit 80d7835749 (qemu-options: rewrite help for -smp options),
-> the preference of sockets/cores in -smp parsing is considered liable
-> to change, and actually we are going to change it in a coming commit.
-> So it'll be more stable to use detailed -smp CLIs in the testcases
-> that have strong dependency on the parsing results.
+On Tue, Sep 28, 2021 at 11:57:49AM +0800, Yanan Wang wrote:
+> In the real SMP hardware topology world, it's much more likely that
+> we have high cores-per-socket counts and few sockets totally. While
+> the current preference of sockets over cores in smp parsing results
+> in a virtual cpu topology with low cores-per-sockets counts and a
+> large number of sockets, which is just contrary to the real world.
 > 
-> Currently, test_def_cpu_split use "-smp 8" and will get 8 CPU sockets
-> based on current parsing rule. But if we change to prefer cores over
-> sockets we will get one CPU socket with 8 cores, and this testcase
-> will not get expected numa set by default on x86_64 (Ok on aarch64).
+> Given that it is better to make the virtual cpu topology be more
+> reflective of the real world and also for the sake of compatibility,
+> we start to prefer cores over sockets over threads in smp parsing
+> since machine type 6.2 for different arches.
 > 
-> So now explicitly use "-smp 8,sockets=8" to avoid affect from parsing
-> logic change.
+> In this patch, a boolean "smp_prefer_sockets" is added, and we only
+> enable the old preference on older machines and enable the new one
+> since type 6.2 for all arches by using the machine compat mechanism.
 > 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
+> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
 > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> Acked-by: David Gibson <david@gibson.dropbear.id.au>
+> Acked-by: Cornelia Huck <cohuck@redhat.com>
 > Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 > ---
->  tests/qtest/numa-test.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  hw/arm/virt.c              |  1 +
+>  hw/core/machine.c          | 35 ++++++++++++++++++++++++++---------
+>  hw/i386/pc.c               | 35 ++++++++++++++++++++++++++---------
+>  hw/i386/pc_piix.c          |  1 +
+>  hw/i386/pc_q35.c           |  1 +
+>  hw/ppc/spapr.c             |  1 +
+>  hw/s390x/s390-virtio-ccw.c |  1 +
+>  include/hw/boards.h        |  1 +
+>  qemu-options.hx            |  3 ++-
+>  9 files changed, 60 insertions(+), 19 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
