@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C903C41B49E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 18:58:42 +0200 (CEST)
-Received: from localhost ([::1]:32988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACACF41B4A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 19:02:23 +0200 (CEST)
+Received: from localhost ([::1]:36684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVGRF-0000tS-QK
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 12:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42534)
+	id 1mVGUm-0003ZC-Ud
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 13:02:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVGQ0-0007hN-Ij
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 12:57:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23999)
+ id 1mVGTY-0002sP-Dj
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 13:01:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVGPy-0007E2-5U
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 12:57:23 -0400
+ id 1mVGTW-0001yv-Nk
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 13:01:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632848240;
+ s=mimecast20190719; t=1632848462;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=8995sLfyPilVCGx1LFPD1dmOhK1Lb1elOqW/RzJxJBA=;
- b=E17LDAnNo5juoJ8W7EnbTegKAHK71HNRpB3W5MM+RYQI4TIwjyYrfjq73NXxSB4HYfxuzJ
- GzhP3sGQoZY+FkDg9G5gjxjJyFVlkih6+95iwEHLCIqBfR+zUCaMz6jkwipD/vVPLLOHhf
- oaUTy69UxU7UdsNKiLQkxKBTQ8J2cVk=
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tinLxczNR91Xlr/32tL5UyyhLGSqkE2+F/buIFw5pXQ=;
+ b=ah2zMHSDKgq1CVToi+7kMZIPGrCBP4xRbBJXQjCyjdzjEJMTch4NGHrmHpB5sWsj96vHDi
+ YyJ1imhqqiT20mNRcU9BX27YU+ey3+OAObWeIh3gBNez/DiC+waK/TS32DYIOm8DdN6BR7
+ vV8FO1SEF8FHWtBFGCLs4SFKN/Qv2DI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-VZhuPFnnOACRdIH7dfRBUA-1; Tue, 28 Sep 2021 12:57:19 -0400
-X-MC-Unique: VZhuPFnnOACRdIH7dfRBUA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-474-YxcHKk5DOD2kMtun9W5b_Q-1; Tue, 28 Sep 2021 13:01:00 -0400
+X-MC-Unique: YxcHKk5DOD2kMtun9W5b_Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11D606A7;
- Tue, 28 Sep 2021 16:57:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75BC0824FA6;
+ Tue, 28 Sep 2021 17:00:59 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.192.82])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E1CE719736;
- Tue, 28 Sep 2021 16:56:44 +0000 (UTC)
-Date: Tue, 28 Sep 2021 17:56:41 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5473D109B6E6;
+ Tue, 28 Sep 2021 16:59:56 +0000 (UTC)
+Date: Tue, 28 Sep 2021 17:59:54 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v3 6/7] util/oslib-posix: Support concurrent
- os_mem_prealloc() invocation
-Message-ID: <YVNJSYSP/IVUipc9@redhat.com>
+Subject: Re: [PATCH v3 7/7] util/oslib-posix: Forward SIGBUS to MCE handler
+ under Linux
+Message-ID: <YVNKCkH1azn1iMH5@redhat.com>
 References: <20210816094739.21970-1-david@redhat.com>
- <20210816094739.21970-7-david@redhat.com>
+ <20210816094739.21970-8-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210816094739.21970-7-david@redhat.com>
+In-Reply-To: <20210816094739.21970-8-david@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -84,90 +87,27 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Pankaj Gupta <pankaj.gupta@ionos.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 16, 2021 at 11:47:38AM +0200, David Hildenbrand wrote:
-> Add a mutex to protect the SIGBUS case, as we cannot mess concurrently
-> with the sigbus handler and we have to manage the global variable
-> sigbus_memset_context. The MADV_POPULATE_WRITE path can run
-> concurrently.
+On Mon, Aug 16, 2021 at 11:47:39AM +0200, David Hildenbrand wrote:
+> Temporarily modifying the SIGBUS handler is really nasty, as we might be
+> unlucky and receive an MCE SIGBUS while having our handler registered.
+> Unfortunately, there is no way around messing with SIGBUS when
+> MADV_POPULATE_WRITE is not applicable or not around.
 > 
-> Note that page_mutex and page_cond are shared between concurrent
-> invocations, which shouldn't be a problem.
+> Let's forward SIGBUS that don't belong to us to the already registered
+> handler and document the situation.
 > 
-> This is a preparation for future virtio-mem prealloc code, which will call
-> os_mem_prealloc() asynchronously from an iothread when handling guest
-> requests.
-> 
-> Add a comment that messing with the SIGBUS handler is frowned upon and
-> can result in problems we fortunately haven't seen so far. Note that
-> forwarding signals to the already installed SIGBUS handler isn't clean
-> either, as that one might modify the SIGBUS handler again.
-
-Even with the mutex, messing with SIGBUS post-startup still isn't safe
-as we're clashing with SIGBUS usage in softmmu/cpus.c
-
-IIUC, the virtio-mem prealloc code is something new that we've not
-shipped yet. With this in mind, how about we simply enforce that
-usage of this new feature is dependant on kernel support for
-MADV_POPULATE_WRITE ?  If users want this feature they'll simply
-need to update to a modern kernel.  This shouldn't break any existing
-deployed QEMU guests IIUC
-
-> 
-> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  util/oslib-posix.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> index efa4f96d56..9829149e4b 100644
-> --- a/util/oslib-posix.c
-> +++ b/util/oslib-posix.c
-> @@ -95,6 +95,7 @@ typedef struct MemsetThread MemsetThread;
->  
->  /* used by sigbus_handler() */
->  static MemsetContext *sigbus_memset_context;
-> +static QemuMutex sigbus_mutex;
->  
->  static QemuMutex page_mutex;
-b>  static QemuCond page_cond;
-> @@ -625,6 +626,7 @@ static bool madv_populate_write_possible(char *area, size_t pagesize)
->  void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
->                       Error **errp)
->  {
-> +    static gsize initialized;
->      int ret;
->      struct sigaction act, oldact;
->      size_t hpagesize = qemu_fd_getpagesize(fd);
-> @@ -638,6 +640,12 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
->      use_madv_populate_write = madv_populate_write_possible(area, hpagesize);
->  
->      if (!use_madv_populate_write) {
-> +        if (g_once_init_enter(&initialized)) {
-> +            qemu_mutex_init(&sigbus_mutex);
-> +            g_once_init_leave(&initialized, 1);
-> +        }
-> +
-> +        qemu_mutex_lock(&sigbus_mutex);
->          memset(&act, 0, sizeof(act));
->          act.sa_handler = &sigbus_handler;
->          act.sa_flags = 0;
-> @@ -665,6 +673,7 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
->              perror("os_mem_prealloc: failed to reinstall signal handler");
->              exit(1);
->          }
-> +        qemu_mutex_unlock(&sigbus_mutex);
->      }
->  }
->  
-> -- 
-> 2.31.1
-> 
+>  softmmu/cpus.c     |  4 ++++
+>  util/oslib-posix.c | 36 +++++++++++++++++++++++++++++++++---
+>  2 files changed, 37 insertions(+), 3 deletions(-)
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
 
 Regards,
 Daniel
