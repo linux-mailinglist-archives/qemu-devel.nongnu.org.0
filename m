@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C2441B8C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 22:56:57 +0200 (CEST)
-Received: from localhost ([::1]:39658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D602F41B8E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 23:02:17 +0200 (CEST)
+Received: from localhost ([::1]:44200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVK9o-0007h1-0m
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 16:56:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35170)
+	id 1mVKEy-0002bh-T8
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 17:02:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mVK7w-0006I2-NE
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 16:55:01 -0400
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:39431)
+ id 1mVKDR-0001vL-3Y
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 17:00:42 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mVK7t-0003jq-NO
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 16:55:00 -0400
-Received: by mail-lf1-x12b.google.com with SMTP id i25so1458760lfg.6
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 13:54:57 -0700 (PDT)
+ id 1mVKDO-0007ze-CC
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 17:00:40 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id u18so592704wrg.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 14:00:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=l7NwyCsKPg2tcKPnQR9UCjBUtzzDWMcHY9Hzri/9k5g=;
- b=RMI/7ux6jw6mliUVMWEajoun6rOyeVM8RMxvuqljNJkYATsEyIq41agKma9UeNvOD2
- Ip81Uxu/P6UXIkViWzGwBPLTm+8wYKd2Ob2TBgrZOUlD0+jQckXGPcPiz/eSc490J3ki
- ww4vgpTVny7jxCAiK2Ebl+azPLOMzYoAoOmze7LXJ9N9yFm6rbT6cWLou5iTv/fql7Ys
- lIOH7ajORqjArcvTKZylzxBvSVH5IDc9Qz/IKdZf9797onc0LnV5TXBYKQxZ04kP7r4V
- D0C4aATKlf43UzU/p4GhcMYowA6juXs44z9q2TX1rqvSRuoUotYRhCA4x4CCOJfgFDJA
- z7GA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=v70sYneusvJQ/ptCvYzhmC++wroITMT+ie+B2tx+oN8=;
+ b=umtl7m8uTnfZhsf5rzd1FjHB6xE76/B+qy1lvgPImz4CQ/x+TjuxC3hg29ybK/QyX4
+ YTVES+7Hotg116IV5K/qM5kOFGmajN9tdIBgkM5K7Bmh0NS0FefHIMYcrSt1uaNSW3Oj
+ v45bzDgqd4UFtJpYd1uTJD41RPjSFqAUQ6bRgaYYcXLgof86pvdMeEf5fwUqj5JBEIV+
+ paKnjvQAJenmkjqooiRDXyeyDekYM+RbRWALrxeynlTz9QXupKlOHtb2MqsSPulGttmA
+ 3ZRB9Us59l/mvf9Rz8VZEz7iz9qi8O/JdOumJVpbe00UjpONJ6O0vkQPLk6QVhAyVDRp
+ hJ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=l7NwyCsKPg2tcKPnQR9UCjBUtzzDWMcHY9Hzri/9k5g=;
- b=zKhJy+Z8Pt3Tw97hMinmxNlI4LFsC7ZK3CLa169Em00OgWPTZglg6eO7xJ12g/eWBV
- Vkf67uBzZBWJeI3iSLt0fd3fAp8npF3zyZScs0Da4E12d65i81z/kj3chsjiuE6KLsPL
- Ar21O5xBhSIHjiuyudiSaKdScB+/XMHVW5FqTosCAmsp6NqUHm2DqKdJH1qXyICJJTLs
- ExsEU8vP0DKkgZmH+1N2IzlRQYLchmWJd+9IxDJjo0O1QVRmpOk6UXuwwMs8n/QR0413
- I99ARgErXj9Zm6i9LB+rhJleId6mh/hJoMax0NeW4GI3fFRX0BhxZRJwVA9Q2B/9WX6m
- BPgA==
-X-Gm-Message-State: AOAM530YuOd0zdAYMDRhe9FD2+tvUlow/3Z3HgRJ5ogwy8SHE2hQ2zEV
- 9QhyspA+W9MlvmuWss4uqxRgGW4hAewPBf97
-X-Google-Smtp-Source: ABdhPJxNS+1PoloHoudw53QSAfrcv99nLGSoJ/XrNPN1kIxuQeOYbogODc2Xxc7ZZ0WyRqMoaPBc3g==
-X-Received: by 2002:a2e:b707:: with SMTP id j7mr1946889ljo.297.1632862494715; 
- Tue, 28 Sep 2021 13:54:54 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id l14sm24061lji.137.2021.09.28.13.54.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Sep 2021 13:54:54 -0700 (PDT)
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] target/riscv: Use dup_const_tl in orc.b to legalise
- truncation of constant
-Date: Tue, 28 Sep 2021 22:54:50 +0200
-Message-Id: <20210928205450.4121269-2-philipp.tomsich@vrull.eu>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210928205450.4121269-1-philipp.tomsich@vrull.eu>
-References: <20210928205450.4121269-1-philipp.tomsich@vrull.eu>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v70sYneusvJQ/ptCvYzhmC++wroITMT+ie+B2tx+oN8=;
+ b=bvL/w+bbkC7voC8jZRcaVc/fGvwIxW8xXqR8LO86hMvLPKpo+CWr+wFo23cExPQ1FC
+ Yq32aU3YbQ0MoXhJy09XR3HszFCXTlNJa8xJfSQH5VTbaJOn+8U6CbSiRXGikcOnZsT5
+ oP6/eKo8eZpMiu/FrVi+IYLdeI2Hgha4lz9rlshpv7OAfU1Cu7+QVGIllvBUoj32R+nM
+ 3w5a8NsSXYrUTv3zMjuduGnf2J1D11ZvvUghNseNxEfUiEcdniYnZxKSkCrnevHd+rpA
+ vDANCHlsIFlHkKoRkK66Ym/6vdy30DRGGoOsCgEy2WXsHFMNRVTuqpOFaviu21J4Jp3L
+ g0+Q==
+X-Gm-Message-State: AOAM531eZYsByjWGEzOOFaICh4P7Tf49DqTu63hFmCJPd8yqm5AR53YA
+ QARt57t71lzlQ8RvI2dm9QPw/JymkIQeB31ZhiLfdw==
+X-Google-Smtp-Source: ABdhPJyRwTSjR/lhRCMDR01DSHCvFC0gb6Uj4v7rpXaqbEF9oAhtiPUuM21Nhe/DKOvDU33EJWzrlnVc2L4V0U71RIc=
+X-Received: by 2002:adf:eec3:: with SMTP id a3mr2599456wrp.276.1632862835762; 
+ Tue, 28 Sep 2021 14:00:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12b.google.com
+References: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
+ <20210911140016.834071-12-philipp.tomsich@vrull.eu>
+ <CAKmqyKM7b9Xz0C7YN7QyARUJSAuDqxWk4VnwHfMB+5tTHGvy4w@mail.gmail.com>
+ <CAAeLtUBk3ffamhKaqYsQkCW79Z6Jd+gMH_jAv_NXAVyDPdHOmw@mail.gmail.com>
+ <1dcc5800-a3e6-d1b8-c2e5-0ccf2d724c30@linaro.org>
+ <CAAeLtUCiOFKN=xoJSJyuNHF2Yvc0pYb0ef3L3kB6NtGPQQ5h2w@mail.gmail.com>
+In-Reply-To: <CAAeLtUCiOFKN=xoJSJyuNHF2Yvc0pYb0ef3L3kB6NtGPQQ5h2w@mail.gmail.com>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Date: Tue, 28 Sep 2021 23:00:25 +0200
+Message-ID: <CAAeLtUBXnN-507Zm4YqoO1BCXO0cA=adWBzA=fuavfps4Bg1qw@mail.gmail.com>
+Subject: Re: [PATCH v11 11/16] target/riscv: Add orc.b instruction for Zbb,
+ removing gorc/gorci
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -83,35 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>
+Cc: Alistair Francis <alistair23@gmail.com>, Kito Cheng <kito.cheng@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need to use the newly introduced dup_const_tl in orc.b to legalise
-the truncation (to target_long) of the constant generated with dup_const.
+Richard & Alistair,
 
-Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
----
+On Tue, 28 Sept 2021 at 20:45, Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
+>
+> On Tue, 28 Sept 2021 at 20:45, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > On 9/28/21 11:45 AM, Philipp Tomsich wrote:
+> > > The dup_const macro is returning an unsigned long long, which probably
+> > > should be fixed on the tcg.h-level instead of forcing a cast to target_long
+> > > at the call site.
+> >
+> > No, dup_const is first and primarily for vector support, and therefore must return a
+> > 64-bit constant.
+> >
+> > > Or should we introduce a dup_const_tl?
+> >
+> > Maybe.  I guess that could be a bit better than the cast.
+>
+> I'll provide a patch that wraps dup_const in a dup_const_tl.
 
- target/riscv/insn_trans/trans_rvb.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+A fix is in patchworks:
+https://patchwork.kernel.org/project/qemu-devel/list/?series=554539
 
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 2927353d9b..185c3e9a60 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -249,7 +249,7 @@ static bool trans_rev8_64(DisasContext *ctx, arg_rev8_64 *a)
- static void gen_orc_b(TCGv ret, TCGv source1)
- {
-     TCGv  tmp = tcg_temp_new();
--    TCGv  ones = tcg_constant_tl(dup_const(MO_8, 0x01));
-+    TCGv  ones = tcg_constant_tl(dup_const_tl(MO_8, 0x01));
- 
-     /* Set lsb in each byte if the byte was zero. */
-     tcg_gen_sub_tl(tmp, source1, ones);
--- 
-2.25.1
-
+Thanks,
+Philipp.
 
