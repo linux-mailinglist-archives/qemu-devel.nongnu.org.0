@@ -2,65 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9283141A919
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 08:52:56 +0200 (CEST)
-Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A12941A91D
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 08:54:29 +0200 (CEST)
+Received: from localhost ([::1]:33032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mV6z1-0000Sc-61
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 02:52:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41202)
+	id 1mV70W-0002p7-FB
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 02:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mV6wz-0007yO-MP
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 02:50:49 -0400
-Received: from mail-oi1-f182.google.com ([209.85.167.182]:37451)
+ id 1mV6xv-0000Ib-Ep
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 02:51:47 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mV6wv-00034a-Sh
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 02:50:47 -0400
-Received: by mail-oi1-f182.google.com with SMTP id w206so28861152oiw.4
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 23:50:45 -0700 (PDT)
+ id 1mV6xu-0003vr-0R
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 02:51:47 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id d6so55927955wrc.11
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 23:51:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=cRKj394VFbjeknsmz6UTTF5zH5xWZaxF/5tNFCx9gQM=;
+ b=HECe3MwObo9QRGp9waL4ja/kyPq3ebODjcX0+2dARJSzjcJ7+5ekO3CU9cZuWAJhQ+
+ JkRk/aHcaB/wbUxQSGQH9ro9bSQsg0g+d8ijiKl/hvVKWKz2E2ql+/Xr4MmnbSS0j5Vz
+ hEkpGrI2FVegKR2ISZpuai9GWlRysV8vcRzSuU4uCw4ZeExIKlkw1kC7f7M/Om1XfMdV
+ CYuLurRvT8HgBeo7dDkr4r0Ed7TdgS2dsvRVKPGDa98ZXCh5wzmE4Zsh72SRcTIRwArh
+ XFCMAAJG8J/T3g15P2ggc83k6CH3knCVa/ZE96+K8rT7BuOwk+/2xYp25nmnsByeC6d0
+ sUsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nVbuCyZjB3lEJilOmYdKdtzYomOpq0YRyHHgjNaxfFA=;
- b=KWIngkQPGBKD7eH5d0PzVY+q6xN5uP2vEKjCM4nL+I+TpqZ1xR6Qj266WTijAM4O1r
- kBeV2ZOAjpBcYMf7/qbm9ftrvIcfmHS0RehycxmypAOIiIu8ZiO07+zQYlKjQncHxn/M
- 7bpcKJje0r2RdIXP0vfv02lOow+MTEQomSZO5POqhn2q88NKUE3xEoiyUweV0nlS8qyR
- xwBtSfOrHy2BpjWo0FKNXfu4MNrerNHIhBANZo1FxrNccckL4yINaNAnqHyIlQEHo6Gc
- ELC0iqcfpW33OJSVBnaWbXuoXF8eVaC/Ci1SMGq2IL7ELDGws16hvOiJSv7Llj5GxFcK
- dLTw==
-X-Gm-Message-State: AOAM533UC+5dDeAS89pcqsRw+JJ9Auo6+Y5rQPmAOJWR/1YvYOr4RMuZ
- 0plNgnTewgOEdirE9gcsezs+YsPvKsqXZNnvKKA=
-X-Google-Smtp-Source: ABdhPJyBueODEsoxWZczsjO0hhiYBILTRAmwWBXUCgMRHnXukdyEqr8x/JJGkqJW3ucewSeXWqb3AkTMc/+Gt9yn1d0=
-X-Received: by 2002:a05:6808:2204:: with SMTP id
- bd4mr2396407oib.175.1632811844715; 
- Mon, 27 Sep 2021 23:50:44 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=cRKj394VFbjeknsmz6UTTF5zH5xWZaxF/5tNFCx9gQM=;
+ b=nl5f5NG57944ZQF/1SVXgI1Lf6z52HfxeqSDEit08MWF7IecR7AjSEwWwF5TwguOjj
+ DJg99ZgV4I8Ea0Ic2VPqPZDgosWPDU/k9hgE+sHIOrFsSraG+eFORWsOAw1aGph4loX7
+ a2A6cirMZu6SCl2AkROJdL2/tM7xowb9c3XVyML5TlXikwOT3Bd5CDv+TsxNxKM4rNwJ
+ QYXPcFv5mdToGTvUDv1+eNHOAnQv62GTcsWqGKHBJbKMu0g9/5k4ckNlm9j8j016e0fe
+ rnIraVJPPDcPf6Xto8644ltf5G/MI2Cz/qU4FeEDUHNbkXAGh+8ALhjNcO5NrdRxsDfa
+ QaHA==
+X-Gm-Message-State: AOAM530yC+VT5vgG1cOdBEh85tb5j7uQIsTNMu1RZWSKvkWUpYlva0gb
+ XBDDAYxqc8S8OkCDmenBvUw=
+X-Google-Smtp-Source: ABdhPJzY1QZGqGHzqrizVTQ0GoHTFGz3IzxPrzCKQFDlUqDPpMC0DXCQZxhPp54rAHSTA1X7HlTzfg==
+X-Received: by 2002:a5d:64e5:: with SMTP id g5mr4440149wri.282.1632811904202; 
+ Mon, 27 Sep 2021 23:51:44 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id f9sm2114977wmf.3.2021.09.27.23.51.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Sep 2021 23:51:43 -0700 (PDT)
+Message-ID: <70111cf1-c4dd-38b2-290e-f5ea5f86f4fc@amsat.org>
+Date: Tue, 28 Sep 2021 08:51:42 +0200
 MIME-Version: 1.0
-References: <20210924165926.752809-1-richard.henderson@linaro.org>
- <20210924165926.752809-11-richard.henderson@linaro.org>
- <9f360405-3897-fd03-4da2-e943defb2d86@amsat.org>
- <c01b0ba8-ea47-eb5d-1d3f-4ba746fb7ad2@linaro.org>
-In-Reply-To: <c01b0ba8-ea47-eb5d-1d3f-4ba746fb7ad2@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Tue, 28 Sep 2021 08:50:33 +0200
-Message-ID: <CAAdtpL7gOORWK=q0z5hkP7_Paiyb0+XEZBdOv7iQp8LDKnczRw@mail.gmail.com>
-Subject: Re: [PATCH v3 10/27] linux-user/i386: Implement setup_sigtramp
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.167.182;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-oi1-f182.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v4 10/25] linux-user/i386: Implement setup_sigtramp
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210928020039.184412-1-richard.henderson@linaro.org>
+ <20210928020039.184412-11-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20210928020039.184412-11-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.136,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,41 +90,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: peter.maydell@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 28, 2021 at 3:42 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
-> On 9/24/21 2:01 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> >> +static void install_sigtramp(void *tramp)
-> >> +{
-> >> +    /* This is popl %eax ; movl $syscall,%eax ; int $0x80 */
-> >> +    __put_user(0xb858, (uint16_t *)(tramp + 0));
-> >> +    __put_user(TARGET_NR_sigreturn, (int *)(tramp + 2));
-> >
-> > I know this is mostly code movement, but using uint32_t would
-> > make it easier to read.
->
-> I'll give you int32_t here, since the value is signed.
+On 9/28/21 04:00, Richard Henderson wrote:
+> Create and record the two signal trampolines.
+> Use them when the guest does not use SA_RESTORER.
+> Note that x86_64 does not use this code.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/i386/target_signal.h   |  2 ++
+>  linux-user/x86_64/target_signal.h |  3 ++
+>  linux-user/i386/signal.c          | 56 +++++++++++++++++++++----------
+>  3 files changed, 43 insertions(+), 18 deletions(-)
 
-Better, thanks.
-
->
-> >> +    __put_user(TARGET_NR_rt_sigreturn, (int *)(tramp + 1));
-> >
-> > and uint32_t.
->
-> Likewise.
->
-> >> +    uint16_t *tramp =3D lock_user(VERIFY_WRITE, sigtramp_page, 2 * 8,=
- 0);
-> >
-> > Shouldn't this be 8 + 7?
->
-> Does it really matter if we write 15 or 16 bytes of this page?
-
-Certainly not :)
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
