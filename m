@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDB141A51E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 04:09:10 +0200 (CEST)
-Received: from localhost ([::1]:57276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A693A41A527
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 04:12:43 +0200 (CEST)
+Received: from localhost ([::1]:37354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mV2YP-00050G-Ni
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 22:09:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57418)
+	id 1mV2bq-0002EK-Ki
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 22:12:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mV2QR-0004aS-Fr
+ id 1mV2QR-0004aB-2y
  for qemu-devel@nongnu.org; Mon, 27 Sep 2021 22:00:55 -0400
-Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:41710)
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:33355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mV2QO-0005iP-AR
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 22:00:55 -0400
-Received: by mail-qk1-x733.google.com with SMTP id m7so22267769qke.8
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 19:00:50 -0700 (PDT)
+ id 1mV2QO-0005j6-BC
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 22:00:54 -0400
+Received: by mail-qt1-x82a.google.com with SMTP id x9so18662277qtv.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 19:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5QYt+lT4ScAusNQ+/GzAnI366ZRjwM4LWiOtotKhJfU=;
- b=GL5eZQAAWaZi+I6wrFeJQHOGB5ztU3S7aXox6h1YDsqKvxvhUH4i+VzNQY7LA8GVw6
- /JcNKHPjeG8sD3BuvxnuhjVfYmFlA3CI0JFRIVxixDTYQZ5Ui3GJ2FzY55oTz6kmPEgJ
- 4XvPkDz/N7y1A3fqPJTpnxdKxCC5yKoiDfeA0ZFO2Ym/TE1vtUF6wUf2efe5qiOk2NZi
- XWs69iO0m2zFqD6Cf6UOsB7WnrBRTWYluMtlL4hQm1A+Q9yaeqsnA/PnPkQvv+TFf0tQ
- 5v+ctDeALfkovHccNxvh3CECbWKXDzqyyqgJxoq6TCnN9zBdLYxgi5/8C5EpvoP5gjpP
- Fi0w==
+ bh=vFT/6UTjn+SRrtv7SJvOboDTfiqpHPjXAVLEeQqZ7rU=;
+ b=vhBW82v745U/Fkr6KnOspKtirs5wywdpyArZYCgmuWjkE/vyQn4TfBvT5MUXM00da5
+ 4Qge4nBoiNK6Di1eigSBPFpvLNRILThMFGz+EGk+4Y38TyIAYQdxqwCaar/S3mYtSsP3
+ uvI2wjIJuTUqLGxGradwajna4xlioeiiCcVY5O5zU6MpZRlF3QnTRHb6nIWhHlw+Qyz2
+ OLRNtjIYf9ARLIAFz3B4WAcfQwsdvSkEj8joQiEaL78Bk4mb97Zw2AX7o4YuEmkvIy87
+ jFNSOS2+hMGe+UDGBcwEV38SCxhmDkE9Mkj+2jYjWrER92/z0ccRsUXZ2CmWJIDzTniT
+ Ebkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5QYt+lT4ScAusNQ+/GzAnI366ZRjwM4LWiOtotKhJfU=;
- b=J0m8b5tAO3EoHd2VV71RyRzNKIdwPrwKxB+MG9NqSEoEGa+sGPaGXD1FWBYxuzLt/n
- LxIIlJq4F0zgnTzkQHxt9Qc9DsQZGqsHfb+k8C0R+y3tdXJ8qPg2WMmoOLbiVdyXotiF
- 8SnL3S+NiowNvSUouBvRjJVmKpyqMac/Ik2yDxuiP5ebdGqKdQAP38UsIixZe6Hr995m
- 8qlgLtXcvIbWAQudrqK9NWhfZbJGCVYGWwgnQQsIoJnFRzK3rl7Uh2dS2MkkvNKru/GM
- gc+js/UY8NDDcumjvuAUQMiwMO7fyQ789S4+ZG3ZYePKdZzCslFZpl3LcfZeJ53fsgjR
- qn/w==
-X-Gm-Message-State: AOAM533OlI09nX8/DLXLc5n/DUEtoWOTrI37BfJ0Ye28Gk0s2yZBGJd4
- EgADTTqarJL6Wg30iyfNmXGxB8WuULRy3A==
-X-Google-Smtp-Source: ABdhPJxDJUxrXgupNScA7eE92XPkGV0+/BNduYYj6sDpCggw+qbViH3JPX6wUskO+ZVjckQz/yVBIg==
-X-Received: by 2002:ae9:d61c:: with SMTP id r28mr3162909qkk.122.1632794450327; 
- Mon, 27 Sep 2021 19:00:50 -0700 (PDT)
+ bh=vFT/6UTjn+SRrtv7SJvOboDTfiqpHPjXAVLEeQqZ7rU=;
+ b=1N+nmgq8sY0gFsz9NAPBRfyaHPl0TYWLZmmQ5JyRz2UzqD2uwqTox/2ICeYhEmMZBO
+ O93t3FJ1tNgGGazwBA1uT5xpn3yy9ijQ4VQqobFwLEhagqnzbAODx6Bhaq1Jox1m3XDf
+ bVivU8Cv8ChZ4x8iYN8IS4qdHcUyxdRWORex+E23reDaIinpFOdxDXNTwiRyGJ6/ZWvJ
+ 7B9BNY6EdjRiWW0P/yGrhGOwl2aU0TvHo7RhejHhgzAiBrb/1Yc7co4ObMfBPqNpresG
+ cRFNQNHEqBqIW7uAg3oUpeaYDIilPn65Es/EEkWuJI7vpo52fVlDLA6Mk5BbIUEyRxp8
+ OJmw==
+X-Gm-Message-State: AOAM530ICxTxMSh1OK7Ntsv/ziUeY2sBJ6Je4tHrF70AAL3JrV59TKTj
+ qm/o1HaG9QyIYt2NJMquUdzf3u9Akp/jlw==
+X-Google-Smtp-Source: ABdhPJy5tVZmwZp+J1WNhpZ72S3QVHUqaK5FXeV2N1GEingPY8SYD5Pw5S/8NAlthFk+Drwb/iwqow==
+X-Received: by 2002:ac8:4d87:: with SMTP id a7mr3130933qtw.260.1632794451232; 
+ Mon, 27 Sep 2021 19:00:51 -0700 (PDT)
 Received: from localhost.localdomain (cpe-24-31-215-130.sc.res.rr.com.
  [24.31.215.130])
- by smtp.gmail.com with ESMTPSA id g12sm12530370qtm.59.2021.09.27.19.00.49
+ by smtp.gmail.com with ESMTPSA id g12sm12530370qtm.59.2021.09.27.19.00.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 27 Sep 2021 19:00:50 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/25] linux-user/i386: Implement setup_sigtramp
-Date: Mon, 27 Sep 2021 22:00:24 -0400
-Message-Id: <20210928020039.184412-11-richard.henderson@linaro.org>
+Subject: [PATCH v4 11/25] linux-user/x86_64: Raise SIGSEGV if SA_RESTORER not
+ set
+Date: Mon, 27 Sep 2021 22:00:25 -0400
+Message-Id: <20210928020039.184412-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210928020039.184412-1-richard.henderson@linaro.org>
 References: <20210928020039.184412-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x733.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,125 +88,44 @@ Cc: peter.maydell@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create and record the two signal trampolines.
-Use them when the guest does not use SA_RESTORER.
-Note that x86_64 does not use this code.
+This has been a fixme for some time.  The effect of
+returning -EFAULT from the kernel code is to raise SIGSEGV.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/i386/target_signal.h   |  2 ++
- linux-user/x86_64/target_signal.h |  3 ++
- linux-user/i386/signal.c          | 56 +++++++++++++++++++++----------
- 3 files changed, 43 insertions(+), 18 deletions(-)
+ linux-user/i386/signal.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/linux-user/i386/target_signal.h b/linux-user/i386/target_signal.h
-index 50361af874..64d09f2e75 100644
---- a/linux-user/i386/target_signal.h
-+++ b/linux-user/i386/target_signal.h
-@@ -22,4 +22,6 @@ typedef struct target_sigaltstack {
- #include "../generic/signal.h"
- 
- #define TARGET_ARCH_HAS_SETUP_FRAME
-+#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
-+
- #endif /* I386_TARGET_SIGNAL_H */
-diff --git a/linux-user/x86_64/target_signal.h b/linux-user/x86_64/target_signal.h
-index 4ea74f20dd..4673c5a886 100644
---- a/linux-user/x86_64/target_signal.h
-+++ b/linux-user/x86_64/target_signal.h
-@@ -21,4 +21,7 @@ typedef struct target_sigaltstack {
- 
- #include "../generic/signal.h"
- 
-+/* For x86_64, use of SA_RESTORER is mandatory. */
-+#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 0
-+
- #endif /* X86_64_TARGET_SIGNAL_H */
 diff --git a/linux-user/i386/signal.c b/linux-user/i386/signal.c
-index 3b4b55fc0a..b38b5f108e 100644
+index b38b5f108e..433efa3d69 100644
 --- a/linux-user/i386/signal.c
 +++ b/linux-user/i386/signal.c
-@@ -310,6 +310,22 @@ get_sigframe(struct target_sigaction *ka, CPUX86State *env, size_t frame_size)
- }
+@@ -421,19 +421,18 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
  
- #ifndef TARGET_X86_64
-+static void install_sigtramp(void *tramp)
-+{
-+    /* This is popl %eax ; movl $syscall,%eax ; int $0x80 */
-+    __put_user(0xb858, (uint16_t *)(tramp + 0));
-+    __put_user(TARGET_NR_sigreturn, (int32_t *)(tramp + 2));
-+    __put_user(0x80cd, (uint16_t *)(tramp + 6));
-+}
-+
-+static void install_rt_sigtramp(void *tramp)
-+{
-+    /* This is movl $syscall,%eax ; int $0x80 */
-+    __put_user(0xb8, (uint8_t *)(tramp + 0));
-+    __put_user(TARGET_NR_rt_sigreturn, (int32_t *)(tramp + 1));
-+    __put_user(0x80cd, (uint16_t *)(tramp + 5));
-+}
-+
- /* compare linux/arch/i386/kernel/signal.c:setup_frame() */
- void setup_frame(int sig, struct target_sigaction *ka,
-                  target_sigset_t *set, CPUX86State *env)
-@@ -338,16 +354,9 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     /* Set up to return from userspace.  If provided, use a stub
+        already in userspace.  */
+-#ifndef TARGET_X86_64
      if (ka->sa_flags & TARGET_SA_RESTORER) {
          __put_user(ka->sa_restorer, &frame->pretcode);
      } else {
--        uint16_t val16;
--        abi_ulong retcode_addr;
--        retcode_addr = frame_addr + offsetof(struct sigframe, retcode);
--        __put_user(retcode_addr, &frame->pretcode);
--        /* This is popl %eax ; movl $,%eax ; int $0x80 */
--        val16 = 0xb858;
--        __put_user(val16, (uint16_t *)(frame->retcode+0));
--        __put_user(TARGET_NR_sigreturn, (int *)(frame->retcode+2));
--        val16 = 0x80cd;
--        __put_user(val16, (uint16_t *)(frame->retcode+6));
-+        /* This is no longer used, but is retained for ABI compatibility. */
-+        install_sigtramp(frame->retcode);
-+        __put_user(default_sigreturn, &frame->pretcode);
-     }
++#ifdef TARGET_X86_64
++        /* For x86_64, SA_RESTORER is required ABI.  */
++        goto give_sigsegv;
++#else
+         /* This is no longer used, but is retained for ABI compatibility. */
+         install_rt_sigtramp(frame->retcode);
+         __put_user(default_rt_sigreturn, &frame->pretcode);
+-    }
+-#else
+-    /* XXX: Would be slightly better to return -EFAULT here if test fails
+-       assert(ka->sa_flags & TARGET_SA_RESTORER); */
+-    __put_user(ka->sa_restorer, &frame->pretcode);
+ #endif
++    }
  
      /* Set up registers for signal handler */
-@@ -416,14 +425,9 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     if (ka->sa_flags & TARGET_SA_RESTORER) {
-         __put_user(ka->sa_restorer, &frame->pretcode);
-     } else {
--        uint16_t val16;
--        addr = frame_addr + offsetof(struct rt_sigframe, retcode);
--        __put_user(addr, &frame->pretcode);
--        /* This is movl $,%eax ; int $0x80 */
--        __put_user(0xb8, (char *)(frame->retcode+0));
--        __put_user(TARGET_NR_rt_sigreturn, (int *)(frame->retcode+1));
--        val16 = 0x80cd;
--        __put_user(val16, (uint16_t *)(frame->retcode+5));
-+        /* This is no longer used, but is retained for ABI compatibility. */
-+        install_rt_sigtramp(frame->retcode);
-+        __put_user(default_rt_sigreturn, &frame->pretcode);
-     }
- #else
-     /* XXX: Would be slightly better to return -EFAULT here if test fails
-@@ -592,3 +596,19 @@ badframe:
-     force_sig(TARGET_SIGSEGV);
-     return -TARGET_QEMU_ESIGRETURN;
- }
-+
-+#ifndef TARGET_X86_64
-+void setup_sigtramp(abi_ulong sigtramp_page)
-+{
-+    uint16_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 2 * 8, 0);
-+    assert(tramp != NULL);
-+
-+    default_sigreturn = sigtramp_page;
-+    install_sigtramp(tramp);
-+
-+    default_rt_sigreturn = sigtramp_page + 8;
-+    install_rt_sigtramp(tramp + 8);
-+
-+    unlock_user(tramp, sigtramp_page, 2 * 8);
-+}
-+#endif
+     env->regs[R_ESP] = frame_addr;
 -- 
 2.25.1
 
