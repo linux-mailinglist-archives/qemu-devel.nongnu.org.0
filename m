@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA93D41ADE9
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 13:35:12 +0200 (CEST)
-Received: from localhost ([::1]:38350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A24F41AE10
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 13:46:04 +0200 (CEST)
+Received: from localhost ([::1]:49150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVBOB-0004sb-B1
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 07:35:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46842)
+	id 1mVBYg-0004R3-Fp
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 07:46:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mVBM8-00032b-4t
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 07:33:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25172)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mVBRN-0007wu-8R
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 07:38:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mVBM4-00069z-Ac
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 07:33:03 -0400
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mVBRJ-0000F9-38
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 07:38:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632828779;
+ s=mimecast20190719; t=1632829103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1AaEfA2PK4IIwoHbxwZe/EkKrxav9MdwVe4osXvnKB0=;
- b=eyKNk2Wk3yLraFhSWwlemHya9JZ9B6U43cupoRAgkvi8qqPOOwPEnrDDm+70dyl8dpE7dU
- GiIM3VLny5noAh0KGUYiKqMr+o8qDIBV3dNGo77K5zmzfTCHIlcTNzQ3HKmXwHQcSr/iZw
- /5zQWeOLY7g03LVgdyLovi7YECHsPSE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-n_RCn6BMNs2yokza9hVKFQ-1; Tue, 28 Sep 2021 07:32:54 -0400
-X-MC-Unique: n_RCn6BMNs2yokza9hVKFQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33784192379B;
- Tue, 28 Sep 2021 11:32:51 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ABAC77621B;
- Tue, 28 Sep 2021 11:32:06 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2899018003B6; Tue, 28 Sep 2021 13:32:04 +0200 (CEST)
-Date: Tue, 28 Sep 2021 13:32:04 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 10/29] tcg_funcs: Add tlb_flush to TCGModuleOps
-Message-ID: <20210928113204.ic2syx4w2cjsqr7h@sirius.home.kraxel.org>
-References: <20210831121545.2874233-1-kraxel@redhat.com>
- <20210831121545.2874233-11-kraxel@redhat.com>
- <fdfd7f35-fbec-84f7-ebbd-7790df20b1bd@linaro.org>
+ bh=Q4MqSJCoWLiCg/h8l2EqcKSgdVBpe8dOCtRyo35H0LU=;
+ b=iImSTn4/H7BQn7XuijwTLkmPj2v48cOSRjkKhFpu9vs0Tce+m0ybIC48gZLCZp+MVxYmM9
+ lWS2RJy/omuoUpGp6BCYk+21R11vL2mlFq6k6z3QhscyU2KNeM++q1pOGt3gKeN42pE4xA
+ nPB07Qfr8ycOWwsxXccqnGIvqN1lzok=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-531-qeFjjT-_P4O-bgdnlSldQA-1; Tue, 28 Sep 2021 07:38:21 -0400
+X-MC-Unique: qeFjjT-_P4O-bgdnlSldQA-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ z24-20020aa79f98000000b004463f2f0277so14362380pfr.23
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 04:38:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q4MqSJCoWLiCg/h8l2EqcKSgdVBpe8dOCtRyo35H0LU=;
+ b=mJ/aqY3almDmPhVS98D3Wc1oK14TzapAwdWmVJ0eoNDqU7Bfa5a5jc3fhoFecyiySW
+ p7OR2RKwjkiewUYV0LoWbmZiZEUaTFA8J1cXCMciWWXgYNvrvCPsW7a/zCs3SE+wGzez
+ NOfNItHuMZus8l7SnNwFos33HqiwtRdGvpYqtfwNlgcWddYl2xsw5iiNzoruoFNqHHJg
+ F7TTijZyKzuEotkZM43fTUbEMBf6zeqhHs5T1Gg6kzSXOsihMpX7Anx2nnWgTF+X5uFr
+ FdOizAoY0WaeoGC9mq+fB82+3IICCbiX3+VyvmFTLTF/7sc2u832W/mKQSGkQv50vuDj
+ 1TRA==
+X-Gm-Message-State: AOAM533GzMB3GgpOzkpNo4G5RR0HxNmDy6703ILVdvzjUSbhS1zldHkq
+ gA9RgbrTUnavVRX6uapL/I/k/bwcgGbxCw+iXIgDY19Ky5fDkvbL+X3dmKhC3USxqTSyr08dKi2
+ 5i/+JVpp6qi6eHNIXCmZGBpmP7HtYwFg=
+X-Received: by 2002:a17:902:8bc1:b0:13d:e884:125a with SMTP id
+ r1-20020a1709028bc100b0013de884125amr4632383plo.38.1632829100546; 
+ Tue, 28 Sep 2021 04:38:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyC4XpjruG5k1J7OLO4GU5awa9UEoCD4hMu0ByMRjWbsj9YdfcpxF2ctas3lucu36LqZB3bEdCWJPO0TL2YIy4=
+X-Received: by 2002:a17:902:8bc1:b0:13d:e884:125a with SMTP id
+ r1-20020a1709028bc100b0013de884125amr4632360plo.38.1632829100189; Tue, 28 Sep
+ 2021 04:38:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <fdfd7f35-fbec-84f7-ebbd-7790df20b1bd@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
+In-Reply-To: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 28 Sep 2021 15:38:08 +0400
+Message-ID: <CAMxuvawXF71DKHvUmW38Ot0BM2z+Mki7MEpDoQmQUmc5fc9D7g@mail.gmail.com>
+Subject: Re: QAPI sync meeting
+To: John Snow <jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Type: multipart/alternative; boundary="0000000000007f02ad05cd0ca60b"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,131 +90,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Huacai Chen <chenhuacai@kernel.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Stafford Horne <shorne@gmail.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 02, 2021 at 03:09:15PM +0200, Richard Henderson wrote:
-> On 8/31/21 2:15 PM, Gerd Hoffmann wrote:
-> > diff --git a/target/i386/helper.c b/target/i386/helper.c
-> > index 533b29cb91b6..100add713c5d 100644
-> > --- a/target/i386/helper.c
-> > +++ b/target/i386/helper.c
-> > @@ -103,7 +103,7 @@ void x86_cpu_set_a20(X86CPU *cpu, int a20_state)
-> >           /* when a20 is changed, all the MMU mappings are invalid, so
-> >              we must flush everything */
-> > -        tlb_flush(cs);
-> > +        tcg.tlb_flush(cs);
-> 
-> I think this is a mistake.
-> 
-> (1) If tcg module is not enabled, we should be able to make a direct call.
-> 
-> So IMO we want to retain the direct function call syntax in all the uses.  I
-> think you want to put wrapper functions doing the indirection somewhere --
-> possibly tcg-module.c.
+--0000000000007f02ad05cd0ca60b
+Content-Type: text/plain; charset="UTF-8"
 
-Hmm, when we want avoid indirection I guess it makes sense to use inline
-wrappers in tcg-module.h
+Hi!
 
-How about the patch below? (proof-of-concept for tlb_flush, on top of
-this series)?
+On Mon, Sep 27, 2021 at 8:55 PM John Snow <jsnow@redhat.com> wrote:
 
-thanks,
-  Gerd
+> Hiya,
+>
+> I'd like to propose that at least the three of us arrange a time to have a
+> meeting where we discuss our plans and ideas for QAPI going forward,
+> including rust, python, and golang extensions to the QAPI generator, what
+> we hope to accomplish with those projects, and so on.
+>
+> What I am hoping to get out of this for myself is a high-level overview of
+> people's plans for QAPI and to produce some notes on those plans so that I
+> can have a reference that we've all acknowledged as roughly accurate to be
+> able to keep the community's design goals for QAPI in mind as I continue my
+> own development. Ultimately, I'd like some kind of rough draft of a "QAPI
+> roadmap".
+>
+> I know there was a rust meetup during KVM Forum, but I was unable to
+> attend due to the timing. I'd like to expand the focus a little more
+> broadly to QAPI in general and discuss our "personal" roadmaps, goals,
+> queued work, etc so that we can collaboratively formulate a broader vision
+> of our work.
+>
+> I'm posting to qemu-devel in case anyone else has an interest in this area
+> and would like to eavesdrop or share opinions, but we should probably come
+> up with an agenda first. So:
+>
+> Proposed agenda:
+>
+> Current projects, wishlists, and goals for QAPI:
+> - Markus (~10 min)
+> - Marc-Andre (~10 min) (Rust, dbus, etc?)
+>
 
-From 22f5a216f410fccb769d0f7496c3c36f4b131833 Mon Sep 17 00:00:00 2001
-From: Gerd Hoffmann <kraxel@redhat.com>
-Date: Tue, 28 Sep 2021 11:51:12 +0200
-Subject: [PATCH] tlb_flush inline wrapper
+The QAPI Rust binding RFC series aims to provide the QAPI types to Rust
+with to/from C translations. This is just one brick allowing QEMU to have
+some parts written in Rust: all other internal/subsystem binding pieces
+remain to be done. I don't have other plans for QAPI at this point.
 
----
- include/exec/exec-all.h  |  2 ++
- include/tcg/tcg-module.h | 13 +++++++++++++
- meson.build              |  3 ++-
- 3 files changed, 17 insertions(+), 1 deletion(-)
+D-Bus (from the early qapi/rust series) was an experiment, showing that
+QAPI/QMP can be exposed via "serde" with almost no effort. (it could most
+likely be over other protocols, such as JSON, in full-Rust implementation).
+We can imagine sharing canonical QAPI IDLs for daemons/helpers written in
+different languages.
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 608d768a4371..72e4e3b5bb89 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -160,7 +160,9 @@ void tlb_flush_page_all_cpus_synced(CPUState *src, target_ulong addr);
-  * so this is generally safe. If more selective flushing is required
-  * use one of the other functions for efficiency.
-  */
-+#ifdef TCG_DIRECT_CALL
- void tlb_flush(CPUState *cpu);
-+#endif
- /**
-  * tlb_flush_all_cpus:
-  * @cpu: src CPU of the flush
-diff --git a/include/tcg/tcg-module.h b/include/tcg/tcg-module.h
-index e9c0615b51d9..b3c0f53ea9f3 100644
---- a/include/tcg/tcg-module.h
-+++ b/include/tcg/tcg-module.h
-@@ -1,6 +1,10 @@
- #ifndef TCG_MODULE_H
- #define TCG_MODULE_H
- 
-+#if defined(CONFIG_TCG_BUILTIN) || defined(TCG_MODULE)
-+# define TCG_DIRECT_CALL 1
-+#endif
-+
- #include "exec/exec-all.h"
- 
- struct TCGModuleOps {
-@@ -21,4 +25,13 @@ struct TCGModuleOps {
- };
- extern struct TCGModuleOps tcg;
- 
-+#ifndef TCG_DIRECT_CALL
-+
-+static inline void tlb_flush(CPUState *cpu)
-+{
-+    tcg.tlb_flush(cpu);
-+}
-+
-+#endif
-+
- #endif /* TCG_MODULE_H */
-diff --git a/meson.build b/meson.build
-index 15ef4d3c4187..afe07e7d59c3 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2317,8 +2317,9 @@ subdir('tests/qtest/libqos')
- subdir('tests/qtest/fuzz')
- 
- # accel modules
-+tcg_module_cflags = declare_dependency(compile_args: '-DTCG_MODULE=1')
- tcg_real_module_ss = ss.source_set()
--tcg_real_module_ss.add_all(when: 'CONFIG_TCG_MODULAR', if_true: tcg_module_ss)
-+tcg_real_module_ss.add_all(when: ['CONFIG_TCG_MODULAR', tcg_module_cflags], if_true: tcg_module_ss)
- specific_ss.add_all(when: 'CONFIG_TCG_BUILTIN', if_true: tcg_module_ss)
- target_modules += { 'accel' : { 'qtest': qtest_module_ss,
-                                 'tcg': tcg_real_module_ss }}
--- 
-2.31.1
+However, the biggest hurdle when binding QAPI to D-Bus or many programming
+languages (c, python, go and rust foremost) is that it is not a
+machine/ABI-friendly IDL. QAPI doesn't impose orderdering of fields or
+arguments, and it is not versioned. I believe this is detrimental, because
+bindings have to be written and maintained by hand in various languages,
+with various flavours (some may add abstractions, some may version the
+schema themself, some may use plain dictionaries everywhere etc). The small
+flexibility advantage doesn't outweigh the cost. Imho, some of the pains of
+QAPI/QMP is that it's not so easy to interact with, either from a human
+point of view (who likes speaking JSON?) or a machine point of view (I
+don't have good bindings to use from my language of choice). If we provided
+(and generated) idiomatic client bindings, we would most likely have a few
+rules to not break them, and end up versionizing the schema (version the
+commands, version arguments etc, various options are possible). The wire
+format becomes a detail, and JSON can keep its own flexibility wrt fields
+ordering etc.
+
+- jsnow (~10 min) (Python, golang, etc)
+>
+>
+I am certainly interested to learn your updated plans.
+
+
+> Formulating short-term and long-term roadmaps:
+> - Open discussion, ~30 min
+> - Collaboratively produce a summary doc (etherpad?) outlining major work
+> to be done, separated into near and long terms
+> - Upload this summary to the QEMU wiki and mail it back out to qemu-devel
+> - We probably won't exactly finish this bit, but we can resume on the
+> mailing list afterwards perfectly well.
+>
+> (Feel free to propose anything different for the meeting, this is just a
+> jumping off point for discussion.)
+>
+> Proposed time:
+>
+> - Any weekday after 13:00 UTC. Wednesdays, Thursdays and Fridays work
+> particularly well for me at the moment.
+>
+
+That could work for me.
+
+- bluejeans and google meeting both work well for me. Open to alternatives.
+>
+>
+> Thanks,
+> --js
+>
+
+--0000000000007f02ad05cd0ca60b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi!<br></div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 27, 2021 at 8:55 PM Jo=
+hn Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D=
+"ltr"><div>Hiya,</div><div><br></div><div>I&#39;d like to propose that at l=
+east the three of us arrange a time to have a meeting where we discuss our =
+plans and ideas for QAPI going forward, including rust, python, and golang =
+extensions to the QAPI generator, what we hope to accomplish with those pro=
+jects, and so on.<br><br></div><div>What I am hoping to get out of this for=
+ myself is a high-level overview of people&#39;s plans for QAPI and to prod=
+uce some notes on those plans so that I can have a reference that we&#39;ve=
+ all acknowledged as roughly accurate to be able to keep the community&#39;=
+s design goals for QAPI in mind as I continue my own development. Ultimatel=
+y, I&#39;d like some kind of rough draft of a &quot;QAPI roadmap&quot;.<br>=
+</div><div><br></div><div>I know there was a rust meetup during KVM Forum, =
+but I was unable to attend due to the timing. I&#39;d like to expand the fo=
+cus a little more broadly to QAPI in general and discuss our &quot;personal=
+&quot; roadmaps, goals, queued work, etc so that we can collaboratively for=
+mulate a broader vision of our work.<br></div><div><br></div><div>I&#39;m p=
+osting to qemu-devel in case anyone else has an interest in this area and w=
+ould like to eavesdrop or share opinions, but we should probably come up wi=
+th an agenda first. So:<br><br></div><div>Proposed agenda:<br></div><div><b=
+r></div><div>Current projects, wishlists, and goals for QAPI:</div><div>- M=
+arkus (~10 min)<br></div><div>- Marc-Andre (~10 min) (Rust, dbus, etc?)<br>=
+</div></div></blockquote><div><br></div><div>The QAPI Rust binding RFC seri=
+es aims to provide the QAPI types to Rust with to/from C translations. This=
+ is just one brick allowing QEMU to have some parts written in Rust: all ot=
+her internal/subsystem binding pieces remain to be done. I don&#39;t have o=
+ther plans for QAPI at this point.<br><br>D-Bus (from the early qapi/rust s=
+eries) was an experiment, showing that QAPI/QMP can be exposed via &quot;se=
+rde&quot; with almost no effort. (it could most likely be over other protoc=
+ols, such as JSON, in full-Rust implementation). We can imagine sharing can=
+onical QAPI IDLs for daemons/helpers written in different languages.<br><br=
+>However, the biggest hurdle when binding QAPI to D-Bus or many programming=
+ languages (c, python, go and rust foremost) is that it is not a machine/AB=
+I-friendly IDL. QAPI doesn&#39;t impose orderdering of fields or arguments,=
+ and it is not versioned. I believe this is detrimental, because bindings h=
+ave to be written and maintained by hand in various languages, with various=
+ flavours (some may add abstractions, some may version the schema themself,=
+ some may use plain dictionaries everywhere etc). The small flexibility adv=
+antage doesn&#39;t outweigh the cost. Imho, some of the pains of QAPI/QMP i=
+s that it&#39;s not so easy to interact with, either from a human point of =
+view (who likes speaking JSON?) or a machine point of view (I don&#39;t hav=
+e good bindings to use from my language of choice). If we provided (and gen=
+erated) idiomatic client bindings, we would most likely have a few rules to=
+ not break them, and end up versionizing the schema (version the commands, =
+version arguments etc, various options are possible). The wire format becom=
+es a detail, and JSON can keep its own flexibility wrt fields ordering etc.=
+</div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
+v dir=3D"ltr"><div></div><div>- jsnow (~10 min) (Python, golang, etc)<br></=
+div><div><br></div></div></blockquote><div><br></div><div>I am certainly in=
+terested to learn your updated plans.<br></div><div>=C2=A0</div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div></div><div>For=
+mulating short-term and long-term roadmaps:</div><div>- Open discussion, ~3=
+0 min<br>- Collaboratively produce a summary doc (etherpad?) outlining majo=
+r work to be done, separated into near and long terms<br></div><div>- Uploa=
+d this summary to the QEMU wiki and mail it back out to qemu-devel<br></div=
+><div>- We probably won&#39;t exactly finish this bit, but we can resume on=
+ the mailing list afterwards perfectly well.<br></div><br><div>(Feel free t=
+o propose anything different for the meeting, this is just a jumping off po=
+int for discussion.)<br><br></div><div>Proposed time:</div><div><br></div><=
+div>- Any weekday after 13:00 UTC. Wednesdays, Thursdays and Fridays work p=
+articularly well for me at the moment.<br></div></div></blockquote><div><br=
+></div><div>That could work for me.</div><div> <br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div></div><div>- bluejea=
+ns and google meeting both work well for me. Open to alternatives.<br><br><=
+/div><div><br></div><div>Thanks,<br></div><div>--js<br></div></div>
+</blockquote></div></div>
+
+--0000000000007f02ad05cd0ca60b--
 
 
