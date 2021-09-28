@@ -2,81 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C972841A62E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 05:45:06 +0200 (CEST)
-Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C39841A640
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 06:00:48 +0200 (CEST)
+Received: from localhost ([::1]:37256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mV43E-00084G-A5
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 23:45:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42166)
+	id 1mV4IQ-0005Fo-AC
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 00:00:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=8905f295c3=pdel@fb.com>)
- id 1mV42F-0007Lm-Qi
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 23:44:03 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:18514)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mV4Fr-0000rG-TM; Mon, 27 Sep 2021 23:58:07 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=8905f295c3=pdel@fb.com>)
- id 1mV42D-0007Oh-GE
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 23:44:03 -0400
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18RKsLic004477
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 20:43:59 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=facebook;
- bh=c0/ARrcfO+dtzNZqmEUmkz8ScK9/nq1jd1J0el+o2xU=;
- b=cvR4vxteBvce8koLJBjVYG0WVrzlRmzJLDk4zkPxV3Vi0/xXI++lYDGmijUPPQ/ZBReI
- Pw42Qato7IvdPwzKkBpRbTCwssS/W59DV7BHCcITAn49s8KfBmDJxCzy1XweJbRUlDEI
- dYDxqyFFsBV0S6XqB07uDbvX+FKWr6PE+1g= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 3bbfktvwcx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 20:43:59 -0700
-Received: from intmgw002.46.prn1.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:82::c) with Microsoft SMTP Server
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mV4Fo-00029M-H3; Mon, 27 Sep 2021 23:58:07 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HJQfw2P0Dz1DHLl;
+ Tue, 28 Sep 2021 11:56:40 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.14; Mon, 27 Sep 2021 20:43:58 -0700
-Received: by devvm660.prn0.facebook.com (Postfix, from userid 385188)
- id 0403D4362F4A; Mon, 27 Sep 2021 20:43:57 -0700 (PDT)
-From: <pdel@fb.com>
-To: 
-CC: <clg@kaod.org>, <joel@jms.id.au>, <rashmica.g@gmail.com>,
- <patrick@stwcx.xyz>, <qemu-devel@nongnu.org>, <f4bug@amsat.org>, Peter
- Delevoryas <pdel@fb.com>
-Subject: [PATCH 1/1] hw: aspeed_gpio: Fix GPIO array indexing
-Date: Mon, 27 Sep 2021 20:43:56 -0700
-Message-ID: <20210928034356.3280959-2-pdel@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210928034356.3280959-1-pdel@fb.com>
-References: <20210928034356.3280959-1-pdel@fb.com>
+ 15.1.2308.8; Tue, 28 Sep 2021 11:57:57 +0800
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Tue, 28 Sep 2021 11:57:56 +0800
+From: Yanan Wang <wangyanan55@huawei.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?=
+ <berrange@redhat.com>, Andrew Jones <drjones@redhat.com>
+Subject: [PATCH v11 00/14] machine: smp parsing fixes and improvement
+Date: Tue, 28 Sep 2021 11:57:41 +0800
+Message-ID: <20210928035755.11684-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
 Content-Type: text/plain
-X-FB-Source: Intern
-X-Proofpoint-ORIG-GUID: TceSTnxJndRnTAmkgMQUwbCA6QGKEDib
-X-Proofpoint-GUID: TceSTnxJndRnTAmkgMQUwbCA6QGKEDib
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-27_07,2021-09-24_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- mlxlogscore=999
- adultscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0
- spamscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2109280025
-X-FB-Internal: deliver
-Received-SPF: pass client-ip=67.231.153.30;
- envelope-from=prvs=8905f295c3=pdel@fb.com; helo=mx0b-00082601.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,238 +62,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Pierre
+ Morel <pmorel@linux.ibm.com>, Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Yanan Wang <wangyanan55@huawei.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ wanghaibin.wang@huawei.com, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Delevoryas <pdel@fb.com>
+Hi,
 
-The gpio array is declared as a dense array:
+This is a new version (v11) with some update in patch 11/14 suggested
+by Daniel. Please have another look, Thanks!
 
-  qemu_irq gpios[ASPEED_GPIO_NR_PINS];
+Summary of v11:
+1) Specifying a CPU topology parameter as zero was implicitly allowed
+but undocumented before, while now it's explicitly deprecated.
 
-(AST2500 has 228, AST2400 has 216, AST2600 has 208)
+2) Refactor/fixes of the smp parsers.
 
-However, this array is used like a matrix of GPIO sets
-(e.g. gpio[NR_SETS][NR_PINS_PER_SET] =3D gpio[8][32])
+3) For consistency, maxcpus is now uniformly used to calculate the
+omitted topology members.
 
-  size_t offset =3D set * GPIOS_PER_SET + gpio;
-  qemu_set_irq(s->gpios[offset], !!(new & mask));
+4) Improve the error reporting of the parsers.
 
-This can result in an out-of-bounds access to "s->gpios" because the
-gpio sets do _not_ have the same length. Some of the groups (e.g.
-GPIOAB) only have 4 pins. 228 !=3D 8 * 32 =3D=3D 256.
+5) It's also suggested that we should start to prefer cores over sockets
+over threads on the newer machine types, which will make the computed
+virtual topology more reflective of the real hardware. Related discussion
+can be found in [1].
+[1] https://lore.kernel.org/qemu-devel/YNIgInK00yNNI4Dy@redhat.com/
 
-To fix this, I converted the gpio array from dense to sparse, to match
-both the hardware layout and this existing indexing code.
+6) In order to reduce code duplication and ease the code maintenance,
+smp_parse() is converted into a generic enough parser for all arches,
+so that the arch-specific ones (e.g. pc_smp_parse) can be removed.
+It's also convenient to introduce more topology members to the generic
+parser in the future. Related discussions can be found in [2] and [3].
+[2] https://lore.kernel.org/qemu-devel/20210630115602.txmvmfe2jrzu7o67@gator.home/
+[3] https://lore.kernel.org/qemu-devel/YPFN83pKBt7F97kW@redhat.com/
 
-Fixes: 4b7f956862dc2db4c5c ("hw/gpio: Add basic Aspeed GPIO model for AST=
-2400 and AST2500")
-Signed-off-by: Peter Delevoryas <pdel@fb.com>
----
- hw/gpio/aspeed_gpio.c         | 72 ++++++++++++++---------------------
- include/hw/gpio/aspeed_gpio.h |  5 +--
- 2 files changed, 31 insertions(+), 46 deletions(-)
+Changelogs:
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index dfa6d6cb40..f04d4a454c 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -16,11 +16,7 @@
- #include "hw/irq.h"
- #include "migration/vmstate.h"
-=20
--#define GPIOS_PER_REG 32
--#define GPIOS_PER_SET GPIOS_PER_REG
--#define GPIO_PIN_GAP_SIZE 4
- #define GPIOS_PER_GROUP 8
--#define GPIO_GROUP_SHIFT 3
-=20
- /* GPIO Source Types */
- #define ASPEED_CMD_SRC_MASK         0x01010101
-@@ -259,7 +255,7 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GP=
-IOSets *regs,
-=20
-     diff =3D old ^ new;
-     if (diff) {
--        for (gpio =3D 0; gpio < GPIOS_PER_REG; gpio++) {
-+        for (gpio =3D 0; gpio < ASPEED_GPIOS_PER_SET; gpio++) {
-             uint32_t mask =3D 1 << gpio;
-=20
-             /* If the gpio needs to be updated... */
-@@ -283,8 +279,7 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GP=
-IOSets *regs,
-             if (direction & mask) {
-                 /* ...trigger the line-state IRQ */
-                 ptrdiff_t set =3D aspeed_gpio_set_idx(s, regs);
--                size_t offset =3D set * GPIOS_PER_SET + gpio;
--                qemu_set_irq(s->gpios[offset], !!(new & mask));
-+                qemu_set_irq(s->gpios[set][gpio], !!(new & mask));
-             } else {
-                 /* ...otherwise if we meet the line's current IRQ policy=
-... */
-                 if (aspeed_evaluate_irq(regs, old & mask, gpio)) {
-@@ -297,21 +292,6 @@ static void aspeed_gpio_update(AspeedGPIOState *s, G=
-PIOSets *regs,
-     qemu_set_irq(s->irq, !!(s->pending));
- }
-=20
--static uint32_t aspeed_adjust_pin(AspeedGPIOState *s, uint32_t pin)
--{
--    AspeedGPIOClass *agc =3D ASPEED_GPIO_GET_CLASS(s);
--    /*
--     * The 2500 has a 4 pin gap in group AB and the 2400 has a 4 pin
--     * gap in group Y (and only four pins in AB but this is the last gro=
-up so
--     * it doesn't matter).
--     */
--    if (agc->gap && pin >=3D agc->gap) {
--        pin +=3D GPIO_PIN_GAP_SIZE;
--    }
--
--    return pin;
--}
--
- static bool aspeed_gpio_get_pin_level(AspeedGPIOState *s, uint32_t set_i=
-dx,
-                                       uint32_t pin)
- {
-@@ -367,7 +347,7 @@ static uint32_t update_value_control_source(GPIOSets =
-*regs, uint32_t old_value,
-     uint32_t new_value =3D 0;
-=20
-     /* for each group in set */
--    for (i =3D 0; i < GPIOS_PER_REG; i +=3D GPIOS_PER_GROUP) {
-+    for (i =3D 0; i < ASPEED_GPIOS_PER_SET; i +=3D GPIOS_PER_GROUP) {
-         cmd_source =3D extract32(regs->cmd_source_0, i, 1)
-                 | (extract32(regs->cmd_source_1, i, 1) << 1);
-=20
-@@ -637,7 +617,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr of=
-fset, uint64_t data,
-          *   bidirectional  |   1       |   1        |  data
-          *   input only     |   1       |   0        |   0
-          *   output only    |   0       |   1        |   1
--         *   no pin / gap   |   0       |   0        |   0
-+         *   no pin         |   0       |   0        |   0
-          *
-          *  which is captured by:
-          *  data =3D ( data | ~input) & output;
-@@ -836,14 +816,20 @@ static void aspeed_gpio_realize(DeviceState *dev, E=
-rror **errp)
-     AspeedGPIOState *s =3D ASPEED_GPIO(dev);
-     SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
-     AspeedGPIOClass *agc =3D ASPEED_GPIO_GET_CLASS(s);
--    int pin;
-=20
-     /* Interrupt parent line */
-     sysbus_init_irq(sbd, &s->irq);
-=20
-     /* Individual GPIOs */
--    for (pin =3D 0; pin < agc->nr_gpio_pins; pin++) {
--        sysbus_init_irq(sbd, &s->gpios[pin]);
-+    for (int i =3D 0; i < ASPEED_GPIO_MAX_NR_SETS; i++) {
-+        const GPIOSetProperties *props =3D &agc->props[i];
-+        uint32_t skip =3D ~(props->input | props->output);
-+        for (int j =3D 0; j < ASPEED_GPIOS_PER_SET; j++) {
-+            if (skip >> j & 1) {
-+                continue;
-+            }
-+            sysbus_init_irq(sbd, &s->gpios[i][j]);
-+        }
-     }
-=20
-     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_gpio_ops, s,
-@@ -856,20 +842,22 @@ static void aspeed_gpio_init(Object *obj)
- {
-     AspeedGPIOState *s =3D ASPEED_GPIO(obj);
-     AspeedGPIOClass *agc =3D ASPEED_GPIO_GET_CLASS(s);
--    int pin;
--
--    for (pin =3D 0; pin < agc->nr_gpio_pins; pin++) {
--        char *name;
--        int set_idx =3D pin / GPIOS_PER_SET;
--        int pin_idx =3D aspeed_adjust_pin(s, pin) - (set_idx * GPIOS_PER=
-_SET);
--        int group_idx =3D pin_idx >> GPIO_GROUP_SHIFT;
--        const GPIOSetProperties *props =3D &agc->props[set_idx];
--
--        name =3D g_strdup_printf("gpio%s%d", props->group_label[group_id=
-x],
--                               pin_idx % GPIOS_PER_GROUP);
--        object_property_add(obj, name, "bool", aspeed_gpio_get_pin,
--                            aspeed_gpio_set_pin, NULL, NULL);
--        g_free(name);
-+
-+    for (int i =3D 0; i < ASPEED_GPIO_MAX_NR_SETS; i++) {
-+        const GPIOSetProperties *props =3D &agc->props[i];
-+        uint32_t skip =3D ~(props->input | props->output);
-+        for (int j =3D 0; j < ASPEED_GPIOS_PER_SET; j++) {
-+            if (skip >> j & 1) {
-+                continue;
-+            }
-+            int group_idx =3D j / GPIOS_PER_GROUP;
-+            int pin_idx =3D j % GPIOS_PER_GROUP;
-+            const char *group =3D &props->group_label[group_idx][0];
-+            char *name =3D g_strdup_printf("gpio%s%d", group, pin_idx);
-+            object_property_add(obj, name, "bool", aspeed_gpio_get_pin,
-+                                aspeed_gpio_set_pin, NULL, NULL);
-+            g_free(name);
-+        }
-     }
- }
-=20
-@@ -926,7 +914,6 @@ static void aspeed_gpio_ast2400_class_init(ObjectClas=
-s *klass, void *data)
-     agc->props =3D ast2400_set_props;
-     agc->nr_gpio_pins =3D 216;
-     agc->nr_gpio_sets =3D 7;
--    agc->gap =3D 196;
-     agc->reg_table =3D aspeed_3_3v_gpios;
- }
-=20
-@@ -937,7 +924,6 @@ static void aspeed_gpio_2500_class_init(ObjectClass *=
-klass, void *data)
-     agc->props =3D ast2500_set_props;
-     agc->nr_gpio_pins =3D 228;
-     agc->nr_gpio_sets =3D 8;
--    agc->gap =3D 220;
-     agc->reg_table =3D aspeed_3_3v_gpios;
- }
-=20
-diff --git a/include/hw/gpio/aspeed_gpio.h b/include/hw/gpio/aspeed_gpio.=
-h
-index e1636ce7fe..801846befb 100644
---- a/include/hw/gpio/aspeed_gpio.h
-+++ b/include/hw/gpio/aspeed_gpio.h
-@@ -17,9 +17,9 @@
- OBJECT_DECLARE_TYPE(AspeedGPIOState, AspeedGPIOClass, ASPEED_GPIO)
-=20
- #define ASPEED_GPIO_MAX_NR_SETS 8
-+#define ASPEED_GPIOS_PER_SET 32
- #define ASPEED_REGS_PER_BANK 14
- #define ASPEED_GPIO_MAX_NR_REGS (ASPEED_REGS_PER_BANK * ASPEED_GPIO_MAX_=
-NR_SETS)
--#define ASPEED_GPIO_NR_PINS 228
- #define ASPEED_GROUPS_PER_SET 4
- #define ASPEED_GPIO_NR_DEBOUNCE_REGS 3
- #define ASPEED_CHARS_PER_GROUP_LABEL 4
-@@ -60,7 +60,6 @@ struct AspeedGPIOClass {
-     const GPIOSetProperties *props;
-     uint32_t nr_gpio_pins;
-     uint32_t nr_gpio_sets;
--    uint32_t gap;
-     const AspeedGPIOReg *reg_table;
- };
-=20
-@@ -72,7 +71,7 @@ struct AspeedGPIOState {
-     MemoryRegion iomem;
-     int pending;
-     qemu_irq irq;
--    qemu_irq gpios[ASPEED_GPIO_NR_PINS];
-+    qemu_irq gpios[ASPEED_GPIO_MAX_NR_SETS][ASPEED_GPIOS_PER_SET];
-=20
- /* Parallel GPIO Registers */
-     uint32_t debounce_regs[ASPEED_GPIO_NR_DEBOUNCE_REGS];
---=20
-2.30.2
+v10->v11:
+- only update patch 11/14
+  use GString APIs to build the cpu topology hierarchy string (Daniel)
+  refine the comments of smp_parse()
+- v10: https://lore.kernel.org/qemu-devel/20210926084541.17352-1-wangyanan55@huawei.com/
+
+v9->v10:
+- rebased on latest upstream commit 11a1199846.
+  there is no change of the patches in v10, except minor update
+  in 08/14 to resolve merge conflict with master.
+- To make this series more acceptable, drop the last two patches
+  about SMP unit test, since the scalability of the test is not
+  optimally designed after rethinking of it. So I will resend the
+  test related patches separately after refining them.
+- v9: https://lore.kernel.org/qemu-devel/20210910073025.16480-1-wangyanan55@huawei.com/
+
+Yanan Wang (14):
+  machine: Deprecate "parameter=0" SMP configurations
+  machine: Minor refactor/fix for the smp parsers
+  machine: Uniformly use maxcpus to calculate the omitted parameters
+  machine: Set the value of cpus to match maxcpus if it's omitted
+  machine: Improve the error reporting of smp parsing
+  qtest/numa-test: Use detailed -smp CLIs in pc_dynamic_cpu_cfg
+  qtest/numa-test: Use detailed -smp CLIs in test_def_cpu_split
+  machine: Prefer cores over sockets in smp parsing since 6.2
+  machine: Use ms instead of global current_machine in sanity-check
+  machine: Tweak the order of topology members in struct CpuTopology
+  machine: Make smp_parse generic enough for all arches
+  machine: Remove smp_parse callback from MachineClass
+  machine: Move smp_prefer_sockets to struct SMPCompatProps
+  machine: Put all sanity-check in the generic SMP parser
+
+ docs/about/deprecated.rst  |  15 +++
+ hw/arm/virt.c              |   1 +
+ hw/core/machine.c          | 195 ++++++++++++++++++++++++++-----------
+ hw/i386/pc.c               |  63 +-----------
+ hw/i386/pc_piix.c          |   1 +
+ hw/i386/pc_q35.c           |   1 +
+ hw/ppc/spapr.c             |   1 +
+ hw/s390x/s390-virtio-ccw.c |   1 +
+ include/hw/boards.h        |  23 +++--
+ qapi/machine.json          |   2 +-
+ qemu-options.hx            |  24 +++--
+ tests/qtest/numa-test.c    |   6 +-
+ 12 files changed, 195 insertions(+), 138 deletions(-)
+
+--
+2.19.1
 
 
