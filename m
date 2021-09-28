@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8FE41AF7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 14:56:22 +0200 (CEST)
-Received: from localhost ([::1]:37754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5F041AF9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:04:05 +0200 (CEST)
+Received: from localhost ([::1]:53952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVCej-0000aL-DB
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 08:56:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38210)
+	id 1mVCmC-0003Fs-Q9
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:04:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mVCZ1-0005pw-G1
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:50:29 -0400
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:34583)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mVCa1-0006NL-Hc
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:29 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:43565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mVCYv-0000g5-En
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:50:23 -0400
-Received: by mail-qk1-x736.google.com with SMTP id i132so40629927qke.1
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:50:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Nifb82zOt4L1jbCwPB7F1P15sSowUBIE8D9lmMaSkIc=;
- b=QQ9nWeMK37xStcubx5e+t+SHBrmDrrKwfBTLAsALjR6DY5Ovu9JPPhirBPbfifK8fz
- NHDuAztWuYHEbVLtW62c2/+6COPAbNLeIIFH7l1YGntdchiD35RnsvDK7QvzqB19/6Ho
- L/GnECrVa8nyNWWAL6ffkYgS5FlMPrQdMWvgu2/MjfixA168PPKiIiqvKxj+GgY13Wh1
- DZzKBLmYWPyg03+zV3l9xfTKS7iR+eOq4fyYW1W8OGSotD/lJop0+GgutXAgLBUy+aCJ
- N8a1OQ475pkuEYpyHmYfIcvOlJcuWaKGaG2Qlek2ioKu9Ur433jNIJ8yRAljI8bBDxJt
- ywng==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mVCZw-0001KS-1H
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:25 -0400
+Received: by mail-ed1-x532.google.com with SMTP id v10so78448651edj.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vYpQMqW6dCHm3d6TURtQD9k2qyHHt0kJtDbX+3qegZg=;
+ b=NSFy30VvAH/yYQn2JBiBkJyDvrfoA0U0woAjx3SAoByRkplQWuwqOwPHPJ62HeN6ab
+ q9KRegrOi4s55K/f16MaSu2lHARgX3Jz4rthVuYAwgUGXzxEOgoV3G9u7YdlNIXqFeq9
+ KtcyjTqi5cxjnYXzMjtpgNXjYcdrvWS21u73KT/u9POIZLWLg2sFsuxKx7m4N8hMhqUV
+ +0EzDYbRyycG6B6fz0YJSFMHw1qmUiGDefWEGjpGHedw90agLADOJUTRDMwJpnWOZ8Pb
+ AKxg/nfCTR0Fz1YxPOjT9AjnVbwKKrAx3LZEfGPRC5bWhwBuaLVsbjUOkDcPSQb7lTtz
+ 66oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Nifb82zOt4L1jbCwPB7F1P15sSowUBIE8D9lmMaSkIc=;
- b=PTTD9qFKg9CtcrN1FcIT/Dtt5IHR398X6YQg7ih99FGDaSGO4Clk7vXhALoKT1yUZ1
- lJrxBVscQU1QK2NiOIcuhp8U1lyXLPVtjyTgy67tWcP4rcOCblPQZzbjLvhIxcy6cG36
- rzMf6QaqMP7hpTBMt3NN1Fy6fnQ2oToBbNe/HjCzeKMJ3oOlXx6m23ZNJcBtZs6l+k2d
- o9sMRU+11RMwOcPOBwTMFJEuR/u4/7McFeTbTiGQM+6AaOJX7Zz0/x9avP3s0Kz/hMnn
- Zifhoi/9fGsKkLBXdmlNbcDFHy0RvlDr02QN46BKmEjQ0NEyBZ97JyHUA30CyVSfnId/
- 8qLg==
-X-Gm-Message-State: AOAM533LuiOaBPu5A71S8OVOpIUTgQx0knOW7PKBgCX4zq63UlK99/oz
- 553BCBo5wtluj6NQ1Jn/cQkx0A==
-X-Google-Smtp-Source: ABdhPJxwCmNVP4ejlJqyMRRsFa/BQaGuBqPrVm4WaB55TO71/7vz+lXnPtevUz/ZWeoo6QPQ0hWAgw==
-X-Received: by 2002:a37:8085:: with SMTP id b127mr4957268qkd.449.1632833419774; 
- Tue, 28 Sep 2021 05:50:19 -0700 (PDT)
-Received: from [192.168.3.43] (cpe-24-31-215-130.sc.res.rr.com.
- [24.31.215.130])
- by smtp.gmail.com with ESMTPSA id y22sm14358443qkp.9.2021.09.28.05.50.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Sep 2021 05:50:19 -0700 (PDT)
-Subject: Re: [PATCH 10/29] tcg_funcs: Add tlb_flush to TCGModuleOps
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20210831121545.2874233-1-kraxel@redhat.com>
- <20210831121545.2874233-11-kraxel@redhat.com>
- <fdfd7f35-fbec-84f7-ebbd-7790df20b1bd@linaro.org>
- <20210928113204.ic2syx4w2cjsqr7h@sirius.home.kraxel.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9d3cceef-f385-5d0b-6b0d-2b7be17ce187@linaro.org>
-Date: Tue, 28 Sep 2021 08:50:14 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=vYpQMqW6dCHm3d6TURtQD9k2qyHHt0kJtDbX+3qegZg=;
+ b=P6sAiZB8SpR/DR+7tE0VeHqTKI5Kn92MHIz6H2goGk3SLQvEKr/M47GT1pyOaDU4SQ
+ kEAApdxvPEsk7C0T8SdKEoHz4rOuyH08Tadx4G9UgDkCN1IEfdY/2zPSse5mwpmrYZva
+ wIs9YeG5dNAZIdKyz+5aGg8ZCWEUN9z+VIkDLRXMCVHOA44652lKYZUcgwQP2QTYPBFV
+ YcLNfBd2SN4TjhZjHM1ONKsegKdYM1DMcSlzVp2A5DN8+n1Qhyq2uL0tLnCk7/kRh6hB
+ UwxOrW5x7Z4Xxc8rTXAi/HosV4QhdNh4QB0UuECGKnCLXKzX7WycCoMnVzQGR/KVv7zj
+ h7Dg==
+X-Gm-Message-State: AOAM533OkDDRBUB1I192ZVPofFa3Rn0Qi0+5/DfH3jsvgoHlCTqJX2As
+ pahGiAIscPObUk/8Nc+/VSrHbVCFuGY=
+X-Google-Smtp-Source: ABdhPJwSNf1twRVGvWKn3brEBKto4KmBX+OAWTuuPZY3bdkoJc2sWTXjePX49pdvFy3+7rJs4cKNzQ==
+X-Received: by 2002:a17:907:960f:: with SMTP id
+ gb15mr1739788ejc.460.1632833478965; 
+ Tue, 28 Sep 2021 05:51:18 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id p24sm12641685edq.27.2021.09.28.05.51.17
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Sep 2021 05:51:18 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/33] x86 and misc changes for 2021-09-28
+Date: Tue, 28 Sep 2021 14:50:43 +0200
+Message-Id: <20210928125116.183620-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210928113204.ic2syx4w2cjsqr7h@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x736.google.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.562,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,58 +84,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Huacai Chen <chenhuacai@kernel.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Stafford Horne <shorne@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/21 7:32 AM, Gerd Hoffmann wrote:
-> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-> index 608d768a4371..72e4e3b5bb89 100644
-> --- a/include/exec/exec-all.h
-> +++ b/include/exec/exec-all.h
-> @@ -160,7 +160,9 @@ void tlb_flush_page_all_cpus_synced(CPUState *src, target_ulong addr);
->    * so this is generally safe. If more selective flushing is required
->    * use one of the other functions for efficiency.
->    */
-> +#ifdef TCG_DIRECT_CALL
->   void tlb_flush(CPUState *cpu);
-> +#endif
+The following changes since commit 14f02d8a9ec1746823c106933a4c8f062f9e0f95:
 
-I'm pretty sure you can drop these ifdefs.  Just because there's a regular declaration for 
-a function doesn't mean a subsequent inline definition does not apply.
+  Merge remote-tracking branch 'remotes/philmd/tags/integration-testing-20210927' into staging (2021-09-27 19:52:43 +0100)
 
-And even if that didn't work, I'd be willing to trade inline expansion for not adding lots 
-of ifdefs...
+are available in the Git repository at:
 
-> +static inline void tlb_flush(CPUState *cpu)
-> +{
-> +    tcg.tlb_flush(cpu);
-> +}
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-... these could just as well be out-of-line.
+for you to fetch changes up to 824ba1e99c8bc12048636ea43dec923385ff042f:
 
+  meson_options.txt: Switch the default value for the vnc option to 'auto' (2021-09-28 14:50:14 +0200)
 
-r~
+----------------------------------------------------------------
+* SGX implementation for x86
+* Miscellaneous bugfixes
+* Fix dependencies from ROMs to qtests
+
+----------------------------------------------------------------
+Marc-André Lureau (1):
+      build-sys: add HAVE_IPPROTO_MPTCP
+
+Paolo Bonzini (2):
+      meson: unpack edk2 firmware even if --disable-blobs
+      tests: qtest: bios-tables-test depends on the unpacked edk2 ROMs
+
+Peter Maydell (1):
+      target/i386: Fix memory leak in sev_read_file_base64()
+
+Peter Xu (2):
+      memory: Name all the memory listeners
+      memory: Add tracepoint for dirty sync
+
+Sean Christopherson (21):
+      memory: Add RAM_PROTECTED flag to skip IOMMU mappings
+      hostmem: Add hostmem-epc as a backend for SGX EPC
+      i386: Add 'sgx-epc' device to expose EPC sections to guest
+      vl: Add sgx compound properties to expose SGX EPC sections to guest
+      i386: Add primary SGX CPUID and MSR defines
+      i386: Add SGX CPUID leaf FEAT_SGX_12_0_EAX
+      i386: Add SGX CPUID leaf FEAT_SGX_12_0_EBX
+      i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
+      i386: Add get/set/migrate support for SGX_LEPUBKEYHASH MSRs
+      i386: Add feature control MSR dependency when SGX is enabled
+      i386: Update SGX CPUID info according to hardware/KVM/user input
+      i386: kvm: Add support for exposing PROVISIONKEY to guest
+      i386: Propagate SGX CPUID sub-leafs to KVM
+      Adjust min CPUID level to 0x12 when SGX is enabled
+      hw/i386/fw_cfg: Set SGX bits in feature control fw_cfg accordingly
+      hw/i386/pc: Account for SGX EPC sections when calculating device memory
+      i386/pc: Add e820 entry for SGX EPC section(s)
+      i386: acpi: Add SGX EPC entry to ACPI tables
+      q35: Add support for SGX EPC
+      i440fx: Add support for SGX EPC
+      docs/system: Add SGX documentation to the system manual
+
+Thomas Huth (1):
+      meson_options.txt: Switch the default value for the vnc option to 'auto'
+
+Yang Zhong (5):
+      Kconfig: Add CONFIG_SGX support
+      qom: Add memory-backend-epc ObjectOptions support
+      sgx-epc: Add the fill_device_info() callback support
+      target/i386: Add HMP and QMP interfaces for SGX
+      target/i386: Add the query-sgx-capabilities QMP command
+
+ accel/hvf/hvf-accel-ops.c                |   1 +
+ accel/kvm/kvm-all.c                      |   7 +-
+ backends/hostmem-epc.c                   |  82 ++++++++++++++
+ backends/meson.build                     |   1 +
+ configs/devices/i386-softmmu/default.mak |   1 +
+ docs/system/i386/sgx.rst                 | 165 +++++++++++++++++++++++++++
+ docs/system/target-i386.rst              |   1 +
+ hmp-commands-info.hx                     |  15 +++
+ hw/i386/Kconfig                          |   5 +
+ hw/i386/acpi-build.c                     |  22 ++++
+ hw/i386/fw_cfg.c                         |  10 +-
+ hw/i386/meson.build                      |   2 +
+ hw/i386/pc.c                             |  15 ++-
+ hw/i386/pc_piix.c                        |   1 +
+ hw/i386/pc_q35.c                         |   1 +
+ hw/i386/sgx-epc.c                        | 184 +++++++++++++++++++++++++++++++
+ hw/i386/sgx-stub.c                       |  26 +++++
+ hw/i386/sgx.c                            | 170 ++++++++++++++++++++++++++++
+ hw/i386/x86.c                            |  29 +++++
+ hw/i386/xen/xen-hvm.c                    |   2 +
+ hw/intc/openpic_kvm.c                    |   1 +
+ hw/remote/proxy-memory-listener.c        |   1 +
+ hw/vfio/common.c                         |   2 +
+ hw/vfio/spapr.c                          |   1 +
+ hw/virtio/vhost-vdpa.c                   |   1 +
+ hw/virtio/vhost.c                        |   2 +
+ hw/virtio/virtio.c                       |   1 +
+ hw/xen/xen_pt.c                          |   2 +
+ include/exec/memory.h                    |  23 +++-
+ include/hw/i386/hostmem-epc.h            |  28 +++++
+ include/hw/i386/pc.h                     |   6 +
+ include/hw/i386/sgx-epc.h                |  67 +++++++++++
+ include/hw/i386/sgx.h                    |  12 ++
+ include/hw/i386/x86.h                    |   1 +
+ include/monitor/hmp-target.h             |   1 +
+ include/sysemu/kvm_int.h                 |   2 +-
+ io/dns-resolver.c                        |   2 +-
+ meson.build                              |  18 +--
+ meson_options.txt                        |   2 +-
+ monitor/hmp-cmds.c                       |  10 ++
+ pc-bios/descriptors/meson.build          |   4 +-
+ pc-bios/meson.build                      |   5 +-
+ qapi/machine.json                        |  63 ++++++++++-
+ qapi/misc-target.json                    |  61 ++++++++++
+ qapi/qom.json                            |  19 ++++
+ qapi/sockets.json                        |   2 +-
+ qemu-options.hx                          |  10 +-
+ softmmu/memory.c                         |   7 ++
+ softmmu/physmem.c                        |   4 +-
+ softmmu/trace-events                     |   1 +
+ target/arm/kvm.c                         |   1 +
+ target/i386/cpu.c                        | 167 +++++++++++++++++++++++++++-
+ target/i386/cpu.h                        |  16 +++
+ target/i386/hax/hax-mem.c                |   1 +
+ target/i386/kvm/kvm.c                    |  77 ++++++++++++-
+ target/i386/kvm/kvm_i386.h               |   2 +
+ target/i386/machine.c                    |  20 ++++
+ target/i386/monitor.c                    |  32 ++++++
+ target/i386/nvmm/nvmm-all.c              |   1 +
+ target/i386/sev.c                        |   2 +-
+ target/i386/whpx/whpx-all.c              |   1 +
+ tests/qtest/meson.build                  |   6 +-
+ tests/qtest/qmp-cmd-test.c               |   2 +
+ util/qemu-sockets.c                      |   6 +-
+ 64 files changed, 1395 insertions(+), 38 deletions(-)
+ create mode 100644 backends/hostmem-epc.c
+ create mode 100644 docs/system/i386/sgx.rst
+ create mode 100644 hw/i386/sgx-epc.c
+ create mode 100644 hw/i386/sgx-stub.c
+ create mode 100644 hw/i386/sgx.c
+ create mode 100644 include/hw/i386/hostmem-epc.h
+ create mode 100644 include/hw/i386/sgx-epc.h
+ create mode 100644 include/hw/i386/sgx.h
+-- 
+2.31.1
+
 
