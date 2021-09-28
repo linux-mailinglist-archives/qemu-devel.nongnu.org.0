@@ -2,42 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2014E41B0FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:37:31 +0200 (CEST)
-Received: from localhost ([::1]:45170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663F741B12C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:51:10 +0200 (CEST)
+Received: from localhost ([::1]:45882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVDIY-0004xT-6o
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:37:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44058)
+	id 1mVDVl-00006d-EM
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:51:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1mVCxv-00078w-G2
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 09:16:11 -0400
-Received: from bhuna.collabora.co.uk ([2a00:1098:0:82:1000:25:2eeb:e3e3]:46706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1mVCxk-0006sI-1Q
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 09:16:11 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: fahien) with ESMTPSA id F088C1F43B6E
-From: Antonio Caggiano <antonio.caggiano@collabora.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC 3/3] virtio: Fix shared memory capability
-Date: Tue, 28 Sep 2021 15:15:48 +0200
-Message-Id: <20210928131548.72005-4-antonio.caggiano@collabora.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210928131548.72005-1-antonio.caggiano@collabora.com>
-References: <20210928131548.72005-1-antonio.caggiano@collabora.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mVDRg-0005Lb-7U
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 09:46:56 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37466)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mVDRd-0007Be-T9
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 09:46:55 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ r83-20020a1c4456000000b0030cfc00ca5fso2346706wma.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 06:46:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=QJq7O7Zs54F64OCT3CA3FpvLyJ3CpNnOZX4hwWKKcnY=;
+ b=NVKbElAvY9nga92tyQMr6xJ8UH7cOHAtDtvGZo3vOoF/LIi+IIws+c2fymCvoqRxZM
+ t0iLO0tHo7wxzUcpuzJ5GgeFYOf80JgFzJXJYAbOB4YXAvLLA4CYyRJ0MxExIWDgCHvk
+ 8J6iS1SO3UmBlOKA65JdpWS/hDCoEzQ4Nufv6+0MIEOpmyIYesu7XS+wPfikXgtSKMGD
+ FeYULR/ngacTiz/LJ0dOrI0cP+r1oUxWu2CCGWlhZ/hELt1gdsM99DcMVAXHokOyuly9
+ UT/1t5+olkdqjz5BzPTzc0zhmqbmBM/fm0YdbO/ifnZmCRTjZDlTZ0G4Dn1YB6j5ekW/
+ d6Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=QJq7O7Zs54F64OCT3CA3FpvLyJ3CpNnOZX4hwWKKcnY=;
+ b=WBMWbQCMlq0bktFW82eLRIImEFEp6m3ud9/Z+ARwzuBs7ZpkjWe76qhgycSf4vuQUp
+ VKX0URU8h5T5QDSzFXfK/5re8or124Wnpgy38YQyxpFkxJ3Yc9DauIHMeBq2TT/KTEp5
+ XDEbnTLNffzRK1kHu25LJK364DinNCrC0rL3mHhNf3vteG2aSCDO3S2uq29+EqQaw5lt
+ EbDp5PusJkNvbuxC+ENHizrzxbpJ/7rjBYtlV5gMerCeghB6bR85jsWFWQUAPRwv+2/q
+ wBPDR8IlY7/uyj5UL6Uu/YHJ5JE9f0TiCKdqjuyLi3hRnYy7ZAHRnXE9ov5JhRU8er1r
+ VuRw==
+X-Gm-Message-State: AOAM530s86JzgJYNYQs+O7nu0+GdkZifCZw7EttdRRiny6Y0xw4a7Tac
+ tpOzXBhWKbGv2KcO5/0LNncbRw==
+X-Google-Smtp-Source: ABdhPJzTdfAWMgPTakegVnbp9oTBRG3Uyz6fzbQ0a7E+UMPthHwUwSz7AMS7c66i+3bkfrEjAd1Xlg==
+X-Received: by 2002:a7b:c194:: with SMTP id y20mr4794399wmi.37.1632836811749; 
+ Tue, 28 Sep 2021 06:46:51 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b15sm1918760wru.9.2021.09.28.06.46.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Sep 2021 06:46:50 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 179BE1FF96;
+ Tue, 28 Sep 2021 14:46:50 +0100 (BST)
+References: <cover.1629982046.git.qemu_oss@crudebyte.com>
+ <2431106.PTX978RE0L@silver> <20210927125940.3ef12485@bahia.huguette>
+ <1811981.VuayHpH01O@silver>
+User-agent: mu4e 1.7.0; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v3 0/5] introduce QArray
+Date: Tue, 28 Sep 2021 14:37:45 +0100
+In-reply-to: <1811981.VuayHpH01O@silver>
+Message-ID: <87v92k7qyd.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e3e3;
- envelope-from=antonio.caggiano@collabora.com; helo=bhuna.collabora.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- T_SPF_TEMPERROR=0.01, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,59 +89,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Greg Kurz <groug@kaod.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove virtio_pci_shm_cap as virtio_pci_cap64 should be used instead.
 
-Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
----
- hw/virtio/virtio-pci.c                      | 4 ++--
- include/standard-headers/linux/virtio_pci.h | 7 -------
- 2 files changed, 2 insertions(+), 9 deletions(-)
+Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 9c7b8942c8..200f1e38ef 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1166,7 +1166,7 @@ int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
-                            uint8_t bar, uint64_t offset, uint64_t length,
-                            uint8_t id)
- {
--    struct virtio_pci_shm_cap cap = {
-+    struct virtio_pci_cap64 cap = {
-         .cap.cap_len = sizeof cap,
-         .cap.cfg_type = VIRTIO_PCI_CAP_SHARED_MEMORY_CFG,
-     };
-@@ -1177,7 +1177,7 @@ int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
-     cap.length_hi = cpu_to_le32((length >> 32) & mask32);
-     cap.cap.offset = cpu_to_le32(offset & mask32);
-     cap.offset_hi = cpu_to_le32((offset >> 32) & mask32);
--    cap.id = id;
-+    cap.cap.id = id;
-     return virtio_pci_add_mem_cap(proxy, &cap.cap);
- }
- 
-diff --git a/include/standard-headers/linux/virtio_pci.h b/include/standard-headers/linux/virtio_pci.h
-index 85d1420d29..db7a8e2fcb 100644
---- a/include/standard-headers/linux/virtio_pci.h
-+++ b/include/standard-headers/linux/virtio_pci.h
-@@ -172,13 +172,6 @@ struct virtio_pci_cfg_cap {
- 	uint8_t pci_cfg_data[4]; /* Data for BAR access. */
- };
- 
--struct virtio_pci_shm_cap {
--	struct virtio_pci_cap cap;
--	uint32_t offset_hi;             /* Most sig 32 bits of offset */
--	uint32_t length_hi;             /* Most sig 32 bits of length */
--	uint8_t  id;                    /* To distinguish shm chunks */
--};
--
- /* Macro versions of offsets for the Old Timers! */
- #define VIRTIO_PCI_CAP_VNDR		0
- #define VIRTIO_PCI_CAP_NEXT		1
--- 
-2.30.2
+> On Montag, 27. September 2021 12:59:40 CEST Greg Kurz wrote:
+>> On Mon, 27 Sep 2021 12:35:16 +0200
+>>=20
+>> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+>> > On Dienstag, 31. August 2021 14:25:04 CEST Christian Schoenebeck wrote:
+>> > > On Dienstag, 31. August 2021 13:58:02 CEST Greg Kurz wrote:
+>> > > > On Thu, 26 Aug 2021 14:47:26 +0200
+>> > > >=20
+>> > > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+>> > > > > Patches 1 and 2 introduce include/qemu/qarray.h which implements=
+ a
+>> > > > > deep
+>> > > > > auto free mechanism for arrays. See commit log of patch 1 for a
+>> > > > > detailed
+>> > > > > explanation and motivation for introducing QArray.
+>> > > > >=20
+>> > > > > Patches 3..5 are provided (e.g. as example) for 9p being the fir=
+st
+>> > > > > user
+>> > > > > of
+>> > > > > this new QArray API. These particular patches 3..5 are rebased o=
+n my
+>> > > > > current 9p queue:
+>> > > > > https://github.com/cschoenebeck/qemu/commits/9p.next
+>> > > >=20
+>> > > > > which are basically just the following two queued patches:
+>> > > > This looks nice indeed but I have the impression the same could be
+>> > > > achieved using glib's g_autoptr framework with less code being add=
+ed
+>> > > > to QEMU (at the cost of being less generic maybe).
+>> > >=20
+>> > > I haven't seen a way doing this with glib, except of GArray which has
+>> > > some
+>> > > disadvantages. But who knows, maybe I was missing something.
+>> >=20
+>> > Ping
+>> >=20
+>> > Let's do this?
+>>=20
+>> Hi Christian,
+>>=20
+>> Sorry I don't have enough bandwidth to review or to look for an alternate
+>> way... :-\ So I suggest you just go forward with this series. Hopefully
+>> you can get some reviews from Markus and/or Richard.
+>
+> Ok, then I wait for few more days, and if there are no repsonses, nor vet=
+os=20
+> then I'll queue these patches anyway.
 
+As far as I can make out the main argument for introducing a QEMU
+specific array handler is to avoid needing to use g_array_index() to
+reference the elements of the array. This in itself doesn't seem enough
+justification to me.
+
+I also see you handle deep frees which I admit is not something I've
+really done with GArray as usually I'm using it when I want to have
+everything local to each other.
+
+>
+> Best regards,
+> Christian Schoenebeck
+
+
+--=20
+Alex Benn=C3=A9e
 
