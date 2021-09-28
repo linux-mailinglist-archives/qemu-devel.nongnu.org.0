@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7059F41AF7F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 14:57:05 +0200 (CEST)
-Received: from localhost ([::1]:39364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F1041AF8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 14:59:26 +0200 (CEST)
+Received: from localhost ([::1]:46322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVCfQ-0001f5-CU
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 08:57:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38546)
+	id 1mVChh-0006Or-E3
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 08:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVCa2-0006OV-Qk
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:33 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:39690)
+ id 1mVCa3-0006OZ-JN
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:34 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:47096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVCZw-0001Kd-Qg
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:29 -0400
-Received: by mail-ed1-x536.google.com with SMTP id x7so68154507edd.6
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:24 -0700 (PDT)
+ id 1mVCa1-0001M8-Bj
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:31 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id dn26so5832713edb.13
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=36xUxYH1Afi8N5W5cIUwxmt2NMki93xyDotZiunEpyA=;
- b=esFs6DiYn/Jn0kSuFabKp2Yor2e1gaNf9HUl4vlcc3+zndN0I4m7pjegLtxzkmKIwz
- X/PUtyVuvS6xCGD1Hs9EOC5nXq4vdX0vID3PC+igD4BQPXUie3pMKEss2iJ2Wydm8/eM
- FRwniKQoy+y8GAenUmvI3fpRsF7ZjB1F9VQPnJC/1QRJxPSPW6GQt8CBph1QYiLqjFew
- iU9FArRfXZP+6wxZHoPZ6sw9ACdQHfXd/Nr/ro0rrMRgGMLCSHLaia8vAZyvQz+1gyDV
- JEeCgqANk0LIRLPPdWoXkX0cg+0j/tNtj2rR/mLG78e9IpfJLbBBhohSIw6YGesvCoZX
- xHbg==
+ bh=T6Lr8ErbwMyyYfXEZLpi47v8UMegyeRPBkfE+yqfiHU=;
+ b=LHAedOQGHuQj2um+8zFKwYCn93thhGbF9UmVN9ZriML0pAz4ezxq0JuokiVTljFkrn
+ 1N34wrXtFHcznF2TM7xwec539wIL3ToukIdZXwk65SYnZlG5GPCfdWDlmtA74XRaG5Jd
+ IuQArWqq2s33pl+uQuNkYsz5m+0X6bK80s2WSuvb5VzRklEaFZt/8ucbcok9ZgTRIyA4
+ kwMkc1BMwg9fOiK2n9+M7ifoJheYnXlEiOs8jLjLGl4mMKCnI5MQaHqWsyznzSAvKMD8
+ 6ZTem1XCwRIQx+TgcCauy0iAoWejD5PN82AQW61SPmHZ3ScdGoPvw9Vxp/mdVxsaVbaz
+ ysFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=36xUxYH1Afi8N5W5cIUwxmt2NMki93xyDotZiunEpyA=;
- b=D/40tE6zFdymkGCZvk1HylYmF+Gbec4uytMsxe8ha4Js+vbI204Mqd/NFFMw+ioL4I
- GX6MHHUZfcSoTju2Gy/K/TvaT6nuK2443jwlPzv72qv10G4cEo6fXsEWHfmiQkHS0Bi1
- MgReKq7AYHttdqUS2Ir+gpBky+G2PMlOsfwiFC6oGRG5GAH66XT6kFoC7GboHbdVo70s
- pR8h5CRRe6ClF4/arBAq2hGtEvAytAkfKpUQWlMZ+7LR7OAutDivKA3+zWX4g75aDErF
- dtD5ABomBODRPQJ6VeK1K76DMZ3xFPS0EksBS4r/cdd2s6R0TA1efm1Jo0/H0mrql47v
- FvCw==
-X-Gm-Message-State: AOAM533NUcRIMRF5KhJIXxZTUa9rUpnaW7M6YQgVswu/cXsFz2rf/GGR
- 6+9S2TYOCerhVUFvO6mvjpfHpWBgIPE=
-X-Google-Smtp-Source: ABdhPJyleaWHD5g9BnnhQOVL2SpryqKYaVMsG4KZYvb5Y/c8QcEWt+rFAD77gAUzAC3quziKDiyf1A==
-X-Received: by 2002:a50:e0c8:: with SMTP id j8mr7243608edl.283.1632833480453; 
- Tue, 28 Sep 2021 05:51:20 -0700 (PDT)
+ bh=T6Lr8ErbwMyyYfXEZLpi47v8UMegyeRPBkfE+yqfiHU=;
+ b=gi2HDLqI8qxFyEm9HLab0C2FKbBLrLbDmEOB0EkcabzLTxvun18LGIDQUEahmThbvW
+ 4+hxzCIbOZo78tYArIeYmMnPDNrmLJGacC8nSA4gFb8/VWqDLIWuhT848dU3+bZEJarc
+ vFgzcbovsRkNPck3wW4g4tXoGCaaBes9DDehsO1D/Ei4uFlZLGdnT35jtC/+Ptlqe84A
+ aDppQK832UumgvNJ7a445CvW5xB+yANnk5TWpqBPlTK4FTOt6usdDxUUm7cXoAtJfqJk
+ X8KUYdt+kWoTA0zZYRxFNgVtWEH7pFMHy1o+1MWQK29JCouZMuEkR5+rf4J0mL8O2S1E
+ oQeA==
+X-Gm-Message-State: AOAM533aoBeHCoMkfxipC+nBQFFpq2xM36gx5mqNwYk4ZiYh6s6BSd48
+ 6y5aZWzyXiAGKJCs4lJUAvJ9EhCv7SY=
+X-Google-Smtp-Source: ABdhPJyUOx0QpKktPaQaRi7uS+3dZkp+ADtM853RaFSztuT97ia0hulKf/tQLGt+RTtqvNYq5vgNPw==
+X-Received: by 2002:a17:906:12d4:: with SMTP id
+ l20mr6063378ejb.43.1632833481224; 
+ Tue, 28 Sep 2021 05:51:21 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p24sm12641685edq.27.2021.09.28.05.51.19
+ by smtp.gmail.com with ESMTPSA id p24sm12641685edq.27.2021.09.28.05.51.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 28 Sep 2021 05:51:20 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/33] Kconfig: Add CONFIG_SGX support
-Date: Tue, 28 Sep 2021 14:50:45 +0200
-Message-Id: <20210928125116.183620-3-pbonzini@redhat.com>
+Subject: [PULL 03/33] hostmem: Add hostmem-epc as a backend for SGX EPC
+Date: Tue, 28 Sep 2021 14:50:46 +0200
+Message-Id: <20210928125116.183620-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210928125116.183620-1-pbonzini@redhat.com>
 References: <20210928125116.183620-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,58 +84,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>
+Cc: Yang Zhong <yang.zhong@intel.com>,
+ Sean Christopherson <sean.j.christopherson@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yang Zhong <yang.zhong@intel.com>
+From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-Add new CONFIG_SGX for sgx support in the Qemu, and the Kconfig
-default enable sgx in the i386 platform.
+EPC (Enclave Page Cahe) is a specialized type of memory used by Intel
+SGX (Software Guard Extensions).  The SDM desribes EPC as:
 
+    The Enclave Page Cache (EPC) is the secure storage used to store
+    enclave pages when they are a part of an executing enclave. For an
+    EPC page, hardware performs additional access control checks to
+    restrict access to the page. After the current page access checks
+    and translations are performed, the hardware checks that the EPC
+    page is accessible to the program currently executing. Generally an
+    EPC page is only accessed by the owner of the executing enclave or
+    an instruction which is setting up an EPC page.
+
+Because of its unique requirements, Linux manages EPC separately from
+normal memory.  Similar to memfd, the device /dev/sgx_vepc can be
+opened to obtain a file descriptor which can in turn be used to mmap()
+EPC memory.
+
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-32-yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-3-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configs/devices/i386-softmmu/default.mak | 1 +
- hw/i386/Kconfig                          | 5 +++++
- 2 files changed, 6 insertions(+)
+ backends/hostmem-epc.c        | 82 +++++++++++++++++++++++++++++++++++
+ backends/meson.build          |  1 +
+ include/hw/i386/hostmem-epc.h | 28 ++++++++++++
+ 3 files changed, 111 insertions(+)
+ create mode 100644 backends/hostmem-epc.c
+ create mode 100644 include/hw/i386/hostmem-epc.h
 
-diff --git a/configs/devices/i386-softmmu/default.mak b/configs/devices/i386-softmmu/default.mak
-index 84d1a2487c..598c6646df 100644
---- a/configs/devices/i386-softmmu/default.mak
-+++ b/configs/devices/i386-softmmu/default.mak
-@@ -22,6 +22,7 @@
- #CONFIG_TPM_CRB=n
- #CONFIG_TPM_TIS_ISA=n
- #CONFIG_VTD=n
-+#CONFIG_SGX=n
- 
- # Boards:
- #
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index ddedcef0b2..962d2c981b 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -6,6 +6,10 @@ config SEV
-     select X86_FW_OVMF
-     depends on KVM
- 
-+config SGX
-+    bool
-+    depends on KVM
+diff --git a/backends/hostmem-epc.c b/backends/hostmem-epc.c
+new file mode 100644
+index 0000000000..b47f98b6a3
+--- /dev/null
++++ b/backends/hostmem-epc.c
+@@ -0,0 +1,82 @@
++/*
++ * QEMU host SGX EPC memory backend
++ *
++ * Copyright (C) 2019 Intel Corporation
++ *
++ * Authors:
++ *   Sean Christopherson <sean.j.christopherson@intel.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++#include <sys/ioctl.h>
 +
- config PC
-     bool
-     imply APPLESMC
-@@ -21,6 +25,7 @@ config PC
-     imply PVPANIC_ISA
-     imply QXL
-     imply SEV
-+    imply SGX
-     imply SGA
-     imply TEST_DEVICES
-     imply TPM_CRB
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qom/object_interfaces.h"
++#include "qapi/error.h"
++#include "sysemu/hostmem.h"
++#include "hw/i386/hostmem-epc.h"
++
++static void
++sgx_epc_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
++{
++    uint32_t ram_flags;
++    char *name;
++    int fd;
++
++    if (!backend->size) {
++        error_setg(errp, "can't create backend with size 0");
++        return;
++    }
++
++    fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
++    if (fd < 0) {
++        error_setg_errno(errp, errno,
++                         "failed to open /dev/sgx_vepc to alloc SGX EPC");
++        return;
++    }
++
++    name = object_get_canonical_path(OBJECT(backend));
++    ram_flags = (backend->share ? RAM_SHARED : 0) | RAM_PROTECTED;
++    memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
++                                   name, backend->size, ram_flags,
++                                   fd, 0, errp);
++    g_free(name);
++}
++
++static void sgx_epc_backend_instance_init(Object *obj)
++{
++    HostMemoryBackend *m = MEMORY_BACKEND(obj);
++
++    m->share = true;
++    m->merge = false;
++    m->dump = false;
++}
++
++static void sgx_epc_backend_class_init(ObjectClass *oc, void *data)
++{
++    HostMemoryBackendClass *bc = MEMORY_BACKEND_CLASS(oc);
++
++    bc->alloc = sgx_epc_backend_memory_alloc;
++}
++
++static const TypeInfo sgx_epc_backed_info = {
++    .name = TYPE_MEMORY_BACKEND_EPC,
++    .parent = TYPE_MEMORY_BACKEND,
++    .instance_init = sgx_epc_backend_instance_init,
++    .class_init = sgx_epc_backend_class_init,
++    .instance_size = sizeof(HostMemoryBackendEpc),
++};
++
++static void register_types(void)
++{
++    int fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
++    if (fd >= 0) {
++        close(fd);
++
++        type_register_static(&sgx_epc_backed_info);
++    }
++}
++
++type_init(register_types);
+diff --git a/backends/meson.build b/backends/meson.build
+index d4221831fc..6e68945528 100644
+--- a/backends/meson.build
++++ b/backends/meson.build
+@@ -16,5 +16,6 @@ softmmu_ss.add(when: ['CONFIG_VHOST_USER', 'CONFIG_VIRTIO'], if_true: files('vho
+ softmmu_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('cryptodev-vhost.c'))
+ softmmu_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VHOST_CRYPTO'], if_true: files('cryptodev-vhost-user.c'))
+ softmmu_ss.add(when: 'CONFIG_GIO', if_true: [files('dbus-vmstate.c'), gio])
++softmmu_ss.add(when: 'CONFIG_SGX', if_true: files('hostmem-epc.c'))
+ 
+ subdir('tpm')
+diff --git a/include/hw/i386/hostmem-epc.h b/include/hw/i386/hostmem-epc.h
+new file mode 100644
+index 0000000000..846c726085
+--- /dev/null
++++ b/include/hw/i386/hostmem-epc.h
+@@ -0,0 +1,28 @@
++/*
++ * SGX EPC backend
++ *
++ * Copyright (C) 2019 Intel Corporation
++ *
++ * Authors:
++ *   Sean Christopherson <sean.j.christopherson@intel.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++#ifndef QEMU_HOSTMEM_EPC_H
++#define QEMU_HOSTMEM_EPC_H
++
++#include "sysemu/hostmem.h"
++
++#define TYPE_MEMORY_BACKEND_EPC "memory-backend-epc"
++
++#define MEMORY_BACKEND_EPC(obj)                                        \
++    OBJECT_CHECK(HostMemoryBackendEpc, (obj), TYPE_MEMORY_BACKEND_EPC)
++
++typedef struct HostMemoryBackendEpc HostMemoryBackendEpc;
++
++struct HostMemoryBackendEpc {
++    HostMemoryBackend parent_obj;
++};
++
++#endif
 -- 
 2.31.1
 
