@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF0941AD48
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 12:49:24 +0200 (CEST)
-Received: from localhost ([::1]:54998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367B841AD51
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 12:52:50 +0200 (CEST)
+Received: from localhost ([::1]:59080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVAfr-000500-H9
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 06:49:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34086)
+	id 1mVAjB-00080E-8s
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 06:52:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVAdW-0001qy-Uk
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:46:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34895)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVAh0-0005wz-Pp
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:50:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVAdT-0006nH-MV
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:46:57 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVAgs-0001HR-FO
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:50:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632826012;
+ s=mimecast20190719; t=1632826223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e+E+OQyuRr04ezd3Dkr8PDTZR+4wCJD5xibUm1NThzA=;
- b=ZIq5b3mkc0jYXuBHCgFzevpi8DfNXuJ1cXgTm/27tpIKm0b+NO9tfcGuDERR3b73rZftXp
- WQtisfztIZaVQ9ZwNpGAMkDjDarMTeUSv1HLdKRLhDISzc/7QEgjyj5EtnLbbzr4C3OIN0
- G3ZP8qua7CDmoHaYHSkHGyg+f/qTHjs=
+ bh=KAwYqDZlugOnAtw9hBaQ/R0okDTCizvJ/y4xT6C3bEo=;
+ b=GkMj0mkdAKNM1SSNokhaIabwsFMqWHMDQw5zyVNS5vU+rdnKLCh8onEUCl4Cm1BtRBE0m4
+ xoJgots+8Gv3ITpJMbyC1bgWOhqx2AJkn61FvDvJfUOcc3Ar2nO8FqyQDCQ7soQI7xrPnS
+ 0PvJWOIH96L1KLIIW5zZx8BwMHLqR6c=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-o4VUK5VvNqyfBfN9eyN3PA-1; Tue, 28 Sep 2021 06:46:51 -0400
-X-MC-Unique: o4VUK5VvNqyfBfN9eyN3PA-1
+ us-mta-437-RLjqZAB5MV-8ZpQUQGlqJQ-1; Tue, 28 Sep 2021 06:50:22 -0400
+X-MC-Unique: RLjqZAB5MV-8ZpQUQGlqJQ-1
 Received: by mail-wr1-f69.google.com with SMTP id
- e12-20020a056000178c00b001606927de88so1864047wrg.10
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 03:46:51 -0700 (PDT)
+ e12-20020a056000178c00b001606927de88so1867279wrg.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 03:50:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=e+E+OQyuRr04ezd3Dkr8PDTZR+4wCJD5xibUm1NThzA=;
- b=ScuzpO+2EBx2elSJqhLgB+gSqMnwHiqUZxO5YWo2PffZbGWEy+6vTL4EF6ccNltGnC
- rl0Vi5YZfiUNKl127dzGm66OOOV2CyXHiJ8liwjtxJINiMWCfQpc5LYZJ4RXkeUgyXWU
- NRVbN2rJAzNpo+WdBVJ7zHSaGKgvYUb8Km7aM8HNq8en4iI5IfUb4vnakjHQL0yKLVqw
- pPaTGhwy24YbsdEUi3T17ocmJfp4wYlWud/nu2NCzEdKOXYe069HGb9r8QQVpU7IVfSw
- voB6xrACspnbldJjCLReujVI1A0yOBpzw9IcYFWHhk5Zn1bCS1OULiBcQGqIiCHq7ssr
- IKyQ==
-X-Gm-Message-State: AOAM530qhltkCNnDOJseC30bcUOu2hPzRIcHHspOSOf/XpqvF/I4gUtb
- Z3A8agCgi4iIbynSfXBdIbwyDTmDn1pdoStmhC9alpW+dWBw5I587s5V2JCS00oFtYp7n55ioVQ
- pLfQB6CzT8c2qa8w=
-X-Received: by 2002:a5d:4810:: with SMTP id l16mr5567778wrq.3.1632826010729;
- Tue, 28 Sep 2021 03:46:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw46BYGIBjzwhSQxupnHMq0/Li4KPfFWoXvG5sqUz9W7gOr7Ua20yVyRYOyFDKJvGI/BCm+zQ==
-X-Received: by 2002:a5d:4810:: with SMTP id l16mr5567761wrq.3.1632826010498;
- Tue, 28 Sep 2021 03:46:50 -0700 (PDT)
+ bh=KAwYqDZlugOnAtw9hBaQ/R0okDTCizvJ/y4xT6C3bEo=;
+ b=GhvxwIUCin+aB4aCU1PGFsXbJz1A1mirL/03kNw71POnYi1RqS44zTZVeYEWx5Fskq
+ IrKXnfQi9W+x6i/PqsDj/EgYprwIGMsvnxDFyMIgmruGhgGwQbJ9HXejE0rbgZovtvFH
+ vVMBtjHy+ZIP36OkiOVfF3QGVAhJPvTKazoLJrnWzEw1Fy0H9tWOwGJiLWJ1Y7KR/XG2
+ Bzx5X5yDibnXWlpjoB2WFG6R2g9TSSSbbPK+7+FqFDmUhR1kJ6pR0TZPit4i6yvOKHLS
+ zmeoE8KYf7iA+SDuOYS39pMso43htRcvTPZD/enWUSw40CZJS6mlEDwm4Dw1vaLLfMw0
+ 6xvg==
+X-Gm-Message-State: AOAM532D5TToVCRGhZ4jCrFtEyRlROhBeAsORGCHOa8HAOo6xujCMim5
+ JiMgmigmyJ9h5brLMcsPCpHF1BquWPA1yDkFz4x2B71LEVzF1RYLc8OQhrD118rPVA7wbkM/TGy
+ tUp6IrRlfYFuBnvQ=
+X-Received: by 2002:a1c:4d01:: with SMTP id o1mr3949905wmh.61.1632826221417;
+ Tue, 28 Sep 2021 03:50:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz/IaGD3g3wTm5dlZnHxq6wupH1bIn65OUWi8OG42+t1FWcB8K6+od1UfOvLM7mpXTkbHG/Og==
+X-Received: by 2002:a1c:4d01:: with SMTP id o1mr3949873wmh.61.1632826221151;
+ Tue, 28 Sep 2021 03:50:21 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id g21sm2280904wmk.10.2021.09.28.03.46.49
+ by smtp.gmail.com with ESMTPSA id s13sm2337610wmc.47.2021.09.28.03.50.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Sep 2021 03:46:50 -0700 (PDT)
-Message-ID: <9728083c-059c-3990-f651-3fbdce86491c@redhat.com>
-Date: Tue, 28 Sep 2021 12:46:48 +0200
+ Tue, 28 Sep 2021 03:50:20 -0700 (PDT)
+Message-ID: <62d3c39e-5ba5-b608-feb0-c7817de08ca5@redhat.com>
+Date: Tue, 28 Sep 2021 12:50:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 2/2] qemu-options: Add missing "sockets=2" to CLI "-smp 2"
-To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20210928093157.14620-1-wangyanan55@huawei.com>
- <20210928093157.14620-3-wangyanan55@huawei.com>
+Subject: Re: [PATCH v11 05/14] machine: Improve the error reporting of smp
+ parsing
+To: Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost
+ <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Andrew Jones <drjones@redhat.com>
+References: <20210928035755.11684-1-wangyanan55@huawei.com>
+ <20210928035755.11684-6-wangyanan55@huawei.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210928093157.14620-3-wangyanan55@huawei.com>
+In-Reply-To: <20210928035755.11684-6-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -53
@@ -99,40 +102,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wanghaibin.wang@huawei.com, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Pierre Morel <pmorel@linux.ibm.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-ppc@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/21 11:31, Yanan Wang wrote:
-> There is one example of -smp CLI in qemu-options.hx currently
-> using "-smp 2" and assuming that there will be 2 sockets.
-> However now the actually calculation logic of missing sockets
-> and cores is not immutable, we should use more explicit CLIs
-> like "-smp 2,sockets=2" if we want multiple sockets.
+On 9/28/21 05:57, Yanan Wang wrote:
+> We have two requirements for a valid SMP configuration:
+> the product of "sockets * cores * threads" must represent all the
+> possible cpus, i.e., max_cpus, and then must include the initially
+> present cpus, i.e., smp_cpus.
+> 
+> So we only need to ensure 1) "sockets * cores * threads == maxcpus"
+> at first and then ensure 2) "maxcpus >= cpus". With a reasonable
+> order of the sanity check, we can simplify the error reporting code.
+> When reporting an error message we also report the exact value of
+> each topology member to make users easily see what's going on.
 > 
 > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 > ---
->  qemu-options.hx | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index dcd9595650..ff8917c5e1 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -395,7 +395,7 @@ SRST
->          -m 2G \
->          -object memory-backend-ram,size=1G,id=m0 \
->          -object memory-backend-ram,size=1G,id=m1 \
-> -        -smp 2 \
-> +        -smp 2,sockets=2,maxcpus=2 \
+>  hw/core/machine.c | 22 +++++++++-------------
+>  hw/i386/pc.c      | 24 ++++++++++--------------
+>  2 files changed, 19 insertions(+), 27 deletions(-)
 
-Is the addition of "maxcpus=2" intentional?
-
->          -numa node,nodeid=0,memdev=m0 \
->          -numa node,nodeid=1,memdev=m1,initiator=0 \
->          -numa cpu,node-id=0,socket-id=0 \
-> 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
