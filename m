@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5113041AB7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 11:06:46 +0200 (CEST)
-Received: from localhost ([::1]:45912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1489441AB83
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 11:08:17 +0200 (CEST)
+Received: from localhost ([::1]:50694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mV94W-0000IV-TZ
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 05:06:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40174)
+	id 1mV960-0003v8-3l
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 05:08:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mV91g-0006a6-SU
+ id 1mV91g-0006ZF-QY
  for qemu-devel@nongnu.org; Tue, 28 Sep 2021 05:03:49 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:34862)
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:3775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mV91d-00052V-KG
+ id 1mV91d-00052S-B0
  for qemu-devel@nongnu.org; Tue, 28 Sep 2021 05:03:48 -0400
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 51D014241F;
- Tue, 28 Sep 2021 11:03:34 +0200 (CEST)
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id A251542481;
+ Tue, 28 Sep 2021 11:03:33 +0200 (CEST)
 From: Stefan Reiter <s.reiter@proxmox.com>
 To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -30,12 +30,13 @@ To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
  Eric Blake <eblake@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Wolfgang Bumiller <w.bumiller@proxmox.com>,
  Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: [PATCH v4] VNC-related HMP/QMP fixes
-Date: Tue, 28 Sep 2021 11:03:24 +0200
-Message-Id: <20210928090326.1056010-1-s.reiter@proxmox.com>
+Subject: [PATCH v4 1/2] monitor/hmp: add support for flag argument with value
+Date: Tue, 28 Sep 2021 11:03:25 +0200
+Message-Id: <20210928090326.1056010-2-s.reiter@proxmox.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210928090326.1056010-1-s.reiter@proxmox.com>
+References: <20210928090326.1056010-1-s.reiter@proxmox.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
  helo=proxmox-new.maurer-it.com
@@ -60,46 +61,57 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the removal of the generic 'qmp_change' command, one can no longer replace
-the 'default' VNC display listen address at runtime (AFAIK). For our users who
-need to set up a secondary VNC access port, this means configuring a second VNC
-display (in addition to our standard one for web-access), but it turns out one
-cannot set a password on this second display at the moment, as the
-'set_password' call only operates on the 'default' display.
+Adds support for the "-xS" parameter type, where "-x" denotes a flag
+name and the "S" suffix indicates that this flag is supposed to take an
+arbitrary string parameter.
 
-Additionally, using secret objects, the password is only read once at startup.
-This could be considered a bug too, but is not touched in this series and left
-for a later date.
+These parameters are always optional, the entry in the qdict will be
+omitted if the flag is not given.
 
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+---
+ monitor/hmp.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-v3 -> v4:
-* drop previously patch 1, this was fixed here instead:
-  https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02529.html
-* patch 1: add Eric's R-b
-* patch 2: remove if-assignment, use 'deprecated' feature in schema
-
-v2 -> v3:
-* refactor QMP schema for set/expire_password as suggested by Eric Blake and
-  Markus Armbruster
-
-v1 -> v2:
-* add Marc-André's R-b on patch 1
-* use '-d' flag as suggested by Eric Blake and Gerd Hoffmann
-  * I didn't see a way to do this yet, so I added a "flags with values" arg type
-
-
-Stefan Reiter (2):
-  monitor/hmp: add support for flag argument with value
-  monitor: refactor set/expire_password and allow VNC display id
-
- hmp-commands.hx    |  24 ++++---
- monitor/hmp-cmds.c |  57 ++++++++++++++-
- monitor/hmp.c      |  17 ++++-
- monitor/qmp-cmds.c |  62 ++++++----------
- qapi/ui.json       | 173 +++++++++++++++++++++++++++++++++++++--------
- 5 files changed, 251 insertions(+), 82 deletions(-)
-
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index d50c3124e1..a32dce7a35 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -980,6 +980,7 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+             {
+                 const char *tmp = p;
+                 int skip_key = 0;
++                int ret;
+                 /* option */
+ 
+                 c = *typestr++;
+@@ -1002,8 +1003,22 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+                     }
+                     if (skip_key) {
+                         p = tmp;
++                    } else if (*typestr == 'S') {
++                        /* has option with string value */
++                        typestr++;
++                        tmp = p++;
++                        while (qemu_isspace(*p)) {
++                            p++;
++                        }
++                        ret = get_str(buf, sizeof(buf), &p);
++                        if (ret < 0) {
++                            monitor_printf(mon, "%s: value expected for -%c\n",
++                                           cmd->name, *tmp);
++                            goto fail;
++                        }
++                        qdict_put_str(qdict, key, buf);
+                     } else {
+-                        /* has option */
++                        /* has boolean option */
+                         p++;
+                         qdict_put_bool(qdict, key, true);
+                     }
 -- 
 2.30.2
+
 
 
