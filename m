@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D5C41B344
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 17:47:33 +0200 (CEST)
-Received: from localhost ([::1]:41490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 824E241B38A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 18:07:11 +0200 (CEST)
+Received: from localhost ([::1]:53774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVFKM-0004ki-GZ
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 11:47:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54222)
+	id 1mVFdK-0005cx-19
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 12:07:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mVFJ8-00042Q-Sm
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 11:46:14 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42968)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mVFJ6-0006aa-BW
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 11:46:14 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id v17so15429432wrv.9
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 08:46:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vrull-eu.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=phbMigpI5tSCFWTNOnA2GWAJzEyiZy9PBTLe5I7b2lQ=;
- b=hWOgknKEvQXvqMUE5FUJWj3kLB6uCkumxDZSbPrtsqu9okdJeq5bzfmjyWc+VLoR9V
- XuIp3MYHW00Vizrd1PQx46f6cjYw7VgiksDx4/QrPmOKDHLHEyKgpucvHYOE8oiBlA9F
- pC/B1PrIQSQ6k+nfdqpzVZRk71VXiuVPr4RSkoPr1DHCWEJsKPQoAsuRi7LaQzs11xit
- m3pnYXcKMrUxrM4LW7iTb+iboOeRtuKSX12oXAkXeuas+AkLWf6hfV2pZVC9AcMIF46a
- zUVEDQ1OXlvhuoFkfTNS0yANL5J2dw69Wz2Up6FiyNTiPOARm4hjDbK+Kc0GIw4vCrAJ
- yCzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=phbMigpI5tSCFWTNOnA2GWAJzEyiZy9PBTLe5I7b2lQ=;
- b=Dgy2DEBIZyrUdK1musoGfGTyw1fUipUUZt+w4M4NFYlWV3pHfiKOoaPTbQH1R8UG3N
- mnBMmc7KkU5eupAWanx3SYcXvbKKuHGzDmxWA3FCKgldXoBlM8BokifpRtwcWG0x22tV
- G/Lg04kpVym5+Ve/9aUFpQAjGqZE8JgyshxNurGS43IXmBrizLgCQsIxrltCeQMNm+hu
- EBfUKLG8OcXxnVcVPng0H/jH9+dPgtp8qqAyLEDXha+GR9it5jTRo4ZJ02sug4Vy4Yyd
- k2JrLRTwgu35LdbwNwnypC6wEW7f8upJKk8BjgQmcH9pJrWGheCfjklVBCtvGujk0CRN
- 4V1Q==
-X-Gm-Message-State: AOAM531GgQ0VlTRUIWxhRF99iihJRyaWem6gG2C97BDZVwYQKsPjDkq3
- Ll2UbLp4gcGtDa93e54DKL0hzieNaDsiOgJ9Dxmw/Q==
-X-Google-Smtp-Source: ABdhPJzASgp7T7T3yckKWp+aoQUvmUbw/iIdnrDdP97ABHqXRUvjStTkin7YZlLqxO3bwK77MSK4IYHjDAJ+c4n8fm0=
-X-Received: by 2002:a05:6000:8f:: with SMTP id
- m15mr918665wrx.174.1632843968871; 
- Tue, 28 Sep 2021 08:46:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mVFZM-0002FS-4g
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 12:03:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30909)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mVFZJ-0003Jr-8r
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 12:02:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632844973;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9cXZ9scr8RHVthrJF6JFj+A5upOHgJ62hoRrZTyV51c=;
+ b=PvFeuWxtuHjdwVLPf1lwJ5QgHZXvi0/08HS11HjiHe1/Rc6WtiIlD/9D4iNqOyfmwUczIV
+ Hw5kDgTCZHa1jShL5Wq6fssY+qziK655nMHV7+gyt7AEOT/otR+d8T+kdkYzmAzGdlrT65
+ beQil0XPK+SYJFQi87C00odauhb3wLg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-154-N4RKtq4eMkyzxVJjZVf2Ag-1; Tue, 28 Sep 2021 12:02:49 -0400
+X-MC-Unique: N4RKtq4eMkyzxVJjZVf2Ag-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCBFA1084681
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 16:02:48 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.194.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6FE7419C79;
+ Tue, 28 Sep 2021 16:02:35 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+Subject: [PATCH] qapi: Make some ObjectTypes depend on the build settings
+Date: Tue, 28 Sep 2021 18:02:32 +0200
+Message-Id: <20210928160232.432980-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
- <20210911140016.834071-12-philipp.tomsich@vrull.eu>
- <CAKmqyKM7b9Xz0C7YN7QyARUJSAuDqxWk4VnwHfMB+5tTHGvy4w@mail.gmail.com>
-In-Reply-To: <CAKmqyKM7b9Xz0C7YN7QyARUJSAuDqxWk4VnwHfMB+5tTHGvy4w@mail.gmail.com>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Tue, 28 Sep 2021 17:45:58 +0200
-Message-ID: <CAAeLtUBk3ffamhKaqYsQkCW79Z6Jd+gMH_jAv_NXAVyDPdHOmw@mail.gmail.com>
-Subject: Re: [PATCH v11 11/16] target/riscv: Add orc.b instruction for Zbb,
- removing gorc/gorci
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,81 +74,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Kito Cheng <kito.cheng@sifive.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Richard,
+Some of the ObjectType entries already depend on CONFIG_* switches.
+Some others also only make sense with certain configurations, but
+are currently always listed in the ObjectType enum. Let's make them
+depend on the correpsonding CONFIG_* switches, too, so that upper
+layers (like libvirt) have a better way to determine which features
+are available in QEMU.
 
-On Tue, 28 Sept 2021 at 09:07, Alistair Francis <alistair23@gmail.com> wrot=
-e:
->
-> On Sun, Sep 12, 2021 at 12:07 AM Philipp Tomsich
-> <philipp.tomsich@vrull.eu> wrote:
-> >
-> > The 1.0.0 version of Zbb does not contain gorc/gorci.  Instead, a
-> > orc.b instruction (equivalent to the orc.b pseudo-instruction built on
-> > gorci from pre-0.93 draft-B) is available, mainly targeting
-> > string-processing workloads.
-> >
-> > This commit adds the new orc.b instruction and removed gorc/gorci.
-> >
-> > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->
-> I'm seeing this warning when building with gcc (GCC) 11.2.1
->
-> /var/mnt/scratch/alistair/software/qemu/include/tcg/tcg.h:1267:5:
-> warning: overflow in conversion from =E2=80=98long long unsigned int=E2=
-=80=99 to
-> =E2=80=98int32_t=E2=80=99 {aka =E2=80=98int=E2=80=99} changes value from =
-=E2=80=9872340172838076673=E2=80=99 to
-> =E2=80=9816843009=E2=80=99 [-Woverflow]
->  1267 |     (__builtin_constant_p(VECE)                                  =
-  \
->       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
->  1268 |      ? (  (VECE) =3D=3D MO_8  ? 0x0101010101010101ull * (uint8_t)=
-(C)   \
->       |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
->  1269 |         : (VECE) =3D=3D MO_16 ? 0x0001000100010001ull * (uint16_t=
-)(C)  \
->       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
->  1270 |         : (VECE) =3D=3D MO_32 ? 0x0000000100000001ull * (uint32_t=
-)(C)  \
->       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
->  1271 |         : (VECE) =3D=3D MO_64 ? (uint64_t)(C)                    =
-      \
->       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
->  1272 |         : (qemu_build_not_reached_always(), 0))                  =
-  \
->       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
->  1273 |      : dup_const(VECE, C))
->       |      ~~~~~~~~~~~~~~~~~~~~~
-> ../target/riscv/insn_trans/trans_rvb.c.inc:301:34: note: in expansion
-> of macro =E2=80=98dup_const=E2=80=99
->   301 |     TCGv  ones =3D tcg_constant_tl(dup_const(MO_8, 0x01));
->       |                                  ^~~~~~~~~
-> [78/87] Compiling C object
-> libqemu-riscv32-linux-user.fa.p/target_riscv_translate.c.o
-> In file included from
-> /var/mnt/scratch/alistair/software/qemu/include/tcg/tcg-op.h:28,
->                  from ../target/riscv/translate.c:22:
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ qapi/qom.json | 30 ++++++++++++++++++++----------
+ 1 file changed, 20 insertions(+), 10 deletions(-)
 
-The dup_const macro is returning an unsigned long long, which probably
-should be fixed on the tcg.h-level instead of forcing a cast to target_long
-at the call site.
+diff --git a/qapi/qom.json b/qapi/qom.json
+index a25616bc7a..78b60433a9 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -777,7 +777,8 @@
+     'authz-pam',
+     'authz-simple',
+     'can-bus',
+-    'can-host-socketcan',
++    { 'name': 'can-host-socketcan',
++      'if': 'CONFIG_LINUX' },
+     'colo-compare',
+     'cryptodev-backend',
+     'cryptodev-backend-builtin',
+@@ -791,20 +792,24 @@
+     'filter-replay',
+     'filter-rewriter',
+     'input-barrier',
+-    'input-linux',
++    { 'name': 'input-linux',
++      'if': 'CONFIG_LINUX' },
+     'iothread',
+     'memory-backend-file',
+     { 'name': 'memory-backend-memfd',
+       'if': 'CONFIG_LINUX' },
+     'memory-backend-ram',
+     'pef-guest',
+-    'pr-manager-helper',
++    { 'name': 'pr-manager-helper',
++      'if': 'CONFIG_LINUX' },
+     'qtest',
+     'rng-builtin',
+     'rng-egd',
+-    'rng-random',
++    { 'name': 'rng-random',
++      'if': 'CONFIG_POSIX' },
+     'secret',
+-    'secret_keyring',
++    { 'name': 'secret_keyring',
++      'if': 'CONFIG_SECRET_KEYRING' },
+     'sev-guest',
+     's390-pv-guest',
+     'throttle-group',
+@@ -835,7 +840,8 @@
+       'authz-listfile':             'AuthZListFileProperties',
+       'authz-pam':                  'AuthZPAMProperties',
+       'authz-simple':               'AuthZSimpleProperties',
+-      'can-host-socketcan':         'CanHostSocketcanProperties',
++      'can-host-socketcan':         { 'type': 'CanHostSocketcanProperties',
++                                      'if': 'CONFIG_LINUX' },
+       'colo-compare':               'ColoCompareProperties',
+       'cryptodev-backend':          'CryptodevBackendProperties',
+       'cryptodev-backend-builtin':  'CryptodevBackendProperties',
+@@ -849,19 +855,23 @@
+       'filter-replay':              'NetfilterProperties',
+       'filter-rewriter':            'FilterRewriterProperties',
+       'input-barrier':              'InputBarrierProperties',
+-      'input-linux':                'InputLinuxProperties',
++      'input-linux':                { 'type': 'InputLinuxProperties',
++                                      'if': 'CONFIG_LINUX' },
+       'iothread':                   'IothreadProperties',
+       'memory-backend-file':        'MemoryBackendFileProperties',
+       'memory-backend-memfd':       { 'type': 'MemoryBackendMemfdProperties',
+                                       'if': 'CONFIG_LINUX' },
+       'memory-backend-ram':         'MemoryBackendProperties',
+-      'pr-manager-helper':          'PrManagerHelperProperties',
++      'pr-manager-helper':          { 'type': 'PrManagerHelperProperties',
++                                      'if': 'CONFIG_LINUX' },
+       'qtest':                      'QtestProperties',
+       'rng-builtin':                'RngProperties',
+       'rng-egd':                    'RngEgdProperties',
+-      'rng-random':                 'RngRandomProperties',
++      'rng-random':                 { 'type': 'RngRandomProperties',
++                                      'if': 'CONFIG_POSIX' },
+       'secret':                     'SecretProperties',
+-      'secret_keyring':             'SecretKeyringProperties',
++      'secret_keyring':             { 'type': 'SecretKeyringProperties',
++                                      'if': 'CONFIG_SECRET_KEYRING' },
+       'sev-guest':                  'SevGuestProperties',
+       'throttle-group':             'ThrottleGroupProperties',
+       'tls-creds-anon':             'TlsCredsAnonProperties',
+-- 
+2.27.0
 
-Or should we introduce a dup_const_tl?
-
-Philipp.
 
