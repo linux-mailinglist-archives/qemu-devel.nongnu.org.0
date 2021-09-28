@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A12941A91D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 08:54:29 +0200 (CEST)
-Received: from localhost ([::1]:33032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F60141A91C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 08:54:16 +0200 (CEST)
+Received: from localhost ([::1]:60536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mV70W-0002p7-FB
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 02:54:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41374)
+	id 1mV70J-0002Lz-65
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 02:54:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mV6xv-0000Ib-Ep
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 02:51:47 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44616)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mV6z0-0000zy-Qb; Tue, 28 Sep 2021 02:52:54 -0400
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:41487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mV6xu-0003vr-0R
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 02:51:47 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id d6so55927955wrc.11
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 23:51:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mV6yz-0004pd-1P; Tue, 28 Sep 2021 02:52:54 -0400
+Received: by mail-io1-xd2a.google.com with SMTP id q205so25950869iod.8;
+ Mon, 27 Sep 2021 23:52:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=cRKj394VFbjeknsmz6UTTF5zH5xWZaxF/5tNFCx9gQM=;
- b=HECe3MwObo9QRGp9waL4ja/kyPq3ebODjcX0+2dARJSzjcJ7+5ekO3CU9cZuWAJhQ+
- JkRk/aHcaB/wbUxQSGQH9ro9bSQsg0g+d8ijiKl/hvVKWKz2E2ql+/Xr4MmnbSS0j5Vz
- hEkpGrI2FVegKR2ISZpuai9GWlRysV8vcRzSuU4uCw4ZeExIKlkw1kC7f7M/Om1XfMdV
- CYuLurRvT8HgBeo7dDkr4r0Ed7TdgS2dsvRVKPGDa98ZXCh5wzmE4Zsh72SRcTIRwArh
- XFCMAAJG8J/T3g15P2ggc83k6CH3knCVa/ZE96+K8rT7BuOwk+/2xYp25nmnsByeC6d0
- sUsQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1PE0SENtU9S6Q2rRu+eY7t351eJJlB5+ljVrS6qDq5M=;
+ b=D6xFkpO8cDYzmJBlTbXAsJ1C2Eg0xHz4Ba5aVpkTXEwzCyBJRZuIf1fYwo2B9w7Ujb
+ kpe85k+ZCq3U1qKRYjd5fdte7d7Etrxp7GxoqCYxcWY7Do5nBXH0devjbRDilpNURQ0Y
+ 7qZtVmhGM9UPbj6rkDyT4NK5dqg290s7vWbpOphx3I8LY2vHGV6SE/tJ0r9GUjCAoq9j
+ 1VJUNXYsgHDufdx2+VJ75/cOgD5XekLeE9U/41anyGzLQ8qnO9lVXo8rzgEqgEeUtV2w
+ rdzLLynw2MlHcIb5JbCeVL3qhxox9TgPuvsA4G77eI0+ADStCC3xu7ARfPrvN3xiPmOY
+ eXhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=cRKj394VFbjeknsmz6UTTF5zH5xWZaxF/5tNFCx9gQM=;
- b=nl5f5NG57944ZQF/1SVXgI1Lf6z52HfxeqSDEit08MWF7IecR7AjSEwWwF5TwguOjj
- DJg99ZgV4I8Ea0Ic2VPqPZDgosWPDU/k9hgE+sHIOrFsSraG+eFORWsOAw1aGph4loX7
- a2A6cirMZu6SCl2AkROJdL2/tM7xowb9c3XVyML5TlXikwOT3Bd5CDv+TsxNxKM4rNwJ
- QYXPcFv5mdToGTvUDv1+eNHOAnQv62GTcsWqGKHBJbKMu0g9/5k4ckNlm9j8j016e0fe
- rnIraVJPPDcPf6Xto8644ltf5G/MI2Cz/qU4FeEDUHNbkXAGh+8ALhjNcO5NrdRxsDfa
- QaHA==
-X-Gm-Message-State: AOAM530yC+VT5vgG1cOdBEh85tb5j7uQIsTNMu1RZWSKvkWUpYlva0gb
- XBDDAYxqc8S8OkCDmenBvUw=
-X-Google-Smtp-Source: ABdhPJzY1QZGqGHzqrizVTQ0GoHTFGz3IzxPrzCKQFDlUqDPpMC0DXCQZxhPp54rAHSTA1X7HlTzfg==
-X-Received: by 2002:a5d:64e5:: with SMTP id g5mr4440149wri.282.1632811904202; 
- Mon, 27 Sep 2021 23:51:44 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id f9sm2114977wmf.3.2021.09.27.23.51.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 23:51:43 -0700 (PDT)
-Message-ID: <70111cf1-c4dd-38b2-290e-f5ea5f86f4fc@amsat.org>
-Date: Tue, 28 Sep 2021 08:51:42 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1PE0SENtU9S6Q2rRu+eY7t351eJJlB5+ljVrS6qDq5M=;
+ b=z54BIh0LkXUAKAErolzLP+M3Sg83PC2qN1e8baTD+I8nONDbuej6u6pXzdQF7Ujfl/
+ k2HTpoyl2sqrsDgtHlGVi3SGk3tGmS8E6rFKBEMKaV1H10piExtgnaU1DBlu1qv9XmKg
+ q9DbQsw2MtkW3Aud3RCoR8KDexkFFNpf0993nwNcm3uj6fgeXoe82dGnxhUTMsiOAHnL
+ ZCEOxsGjX5F/efxhIs3B3fskYWuJAzFoxiuHWjJ5pyvkC+AMbPuctzZdlGCscjD+pwsd
+ heiKFRFa5eQ7gTRyIIs8dT2lQSuMi3tbSWcVfvl6Jtt8toUYa8awTBbv/PCKSX2BgdE4
+ tU8g==
+X-Gm-Message-State: AOAM5315GKdX3Ou3DWbNaGiPN3SeE93NhxwlKM0CyVOcvO7KmdJhO9Bb
+ YfMTZ30ugoKNujU8oVUJ5HcyM4fvzb0qSW+aybQ=
+X-Google-Smtp-Source: ABdhPJzKSw/eQN9FH6GH/lGGh2eLQM17BCJkpz3/y+U5DMIwd29Ij68lAY4YSG9+hW346Xyc35rH+fYx21xcpa/qtYo=
+X-Received: by 2002:a5e:c101:: with SMTP id v1mr2855630iol.90.1632811970962;
+ Mon, 27 Sep 2021 23:52:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v4 10/25] linux-user/i386: Implement setup_sigtramp
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210928020039.184412-1-richard.henderson@linaro.org>
- <20210928020039.184412-11-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210928020039.184412-11-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.136,
+References: <20210926105003.2716-1-bmeng.cn@gmail.com>
+In-Reply-To: <20210926105003.2716-1-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 28 Sep 2021 16:52:24 +1000
+Message-ID: <CAKmqyKNuDYrGOzZid+A4V638t8juo-Du+u+cbEhwY3Y81TJa+g@mail.gmail.com>
+Subject: Re: [PATCH 1/3] hw/char: ibex_uart: Register device in 'input'
+ category
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,21 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, laurent@vivier.eu
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/21 04:00, Richard Henderson wrote:
-> Create and record the two signal trampolines.
-> Use them when the guest does not use SA_RESTORER.
-> Note that x86_64 does not use this code.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/i386/target_signal.h   |  2 ++
->  linux-user/x86_64/target_signal.h |  3 ++
->  linux-user/i386/signal.c          | 56 +++++++++++++++++++++----------
->  3 files changed, 43 insertions(+), 18 deletions(-)
+On Sun, Sep 26, 2021 at 8:51 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> The category of ibex_uart device is not set. Put it into the
+> 'input' category.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>
+>  hw/char/ibex_uart.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
+> index 9b0a817713..e58181fcf4 100644
+> --- a/hw/char/ibex_uart.c
+> +++ b/hw/char/ibex_uart.c
+> @@ -550,6 +550,7 @@ static void ibex_uart_class_init(ObjectClass *klass, void *data)
+>      dc->realize = ibex_uart_realize;
+>      dc->vmsd = &vmstate_ibex_uart;
+>      device_class_set_props(dc, ibex_uart_properties);
+> +    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+>  }
+>
+>  static const TypeInfo ibex_uart_info = {
+> --
+> 2.25.1
+>
+>
 
