@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A6B41A51D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 04:08:54 +0200 (CEST)
-Received: from localhost ([::1]:57062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04CA941A529
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 04:13:34 +0200 (CEST)
+Received: from localhost ([::1]:40172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mV2Y9-0004s3-TQ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 22:08:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57264)
+	id 1mV2cf-000474-1M
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 22:13:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mV2QI-0004ZP-0X
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 22:00:51 -0400
-Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:38557)
+ id 1mV2QQ-0004a9-Ma
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 22:00:55 -0400
+Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:39639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mV2QF-0005ce-A7
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 22:00:45 -0400
-Received: by mail-qt1-x835.google.com with SMTP id d8so18568793qtd.5
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 19:00:42 -0700 (PDT)
+ id 1mV2QF-0005d8-Hz
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 22:00:53 -0400
+Received: by mail-qv1-xf2b.google.com with SMTP id a14so12479608qvb.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 19:00:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=L75RzGYt8Ns3QmfNNc+A2kizp0chwVcFwcXS9969nDE=;
- b=eLaG7NUydscKFRfn/zwkKZ8bx3MGs3B3wlK5AWXA5MjOLMjVLz3zicygCPwjMk0ogj
- EDAfx5XrBMG/c5PTaASR14XzFVsbYAiCf7r7t/KN975+OR2JKaP+jhkJ2gvdRpUPge9Y
- QPMv3e0O29u9vf/9hzLxUtq43ubdtj/ZliccAgKpLeacqGg/5UhOZDs/g0FsnHDmaaFc
- sQbhaJTfEaIef/P5ckKW6KS3FPNor6PTVR9bpOIgp2+nLS9AFj5n1OG7/AY8bFni0e1E
- yb0hhuQI/CCxxXbUR/TdPOXCmtzVOK8ybDyPWjgK2Nz0iuDqFANr7LWwxlXKw/++ePNq
- omlQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tmL+joXfoW+8Wn51iJgMBifiuqpS0R+kHN3F+bMNUq0=;
+ b=nV7wlcqb5AJFq2ES+S9KhcKm6ut6yZJBkQL3faOofSs79WBIxDY77TnVlM0HlD7jtj
+ RjWPWqGrufS5atKJF4hB64T0SeKA2qYHRF4rtYQwYzI5bWgN+dSqINZobtHDi/zNIOuq
+ g5Kpln3bKwGgj5jeXNwIzjiSMIgM5VzJ7cbfZceXzMzZ8O35XIT3XKNhZi6YG2v55304
+ OesCUuSrf4MTtvG1qvULy34s3leAdMMWWFXmnMRctQltiJz7fuMcarfAPh3QFwdQrxuk
+ vyd6UCuk2KRWhe64N4wxzl76XOJ/MhK/DA8O4nL4ud/gHhLD3VXoyqVDWdYVcsEubJmY
+ COXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=L75RzGYt8Ns3QmfNNc+A2kizp0chwVcFwcXS9969nDE=;
- b=dlLNpYB7FozBMdvFLG88RV6HERJA28/BCjzxJHBEWY66HMCfrWViIOxPOQg6ikh/yk
- NjPsEQqWfAsWhhegtj9m3nsFGiqvPyNtQSDQjhbBrMXtE5PdY5P41bcWZpEpb19cLLrV
- nUru7QfQr2eN8RpbvzCjw2t9XllWeI+TINiNwooxFWQxayrSOdm+JUJVzLixgbGbKXlU
- L6XyZzb7s9hr7LM8nAzikZGFuGrA+e0GkTmWHxEe6NCoHFGjIWtz2l40zqwCdo4arIBG
- rA9yfZ1xD64ki8UE0ADAPX7CaJ8jDYnepeK3kZEj+PzUm5KqGV6NNaooCfiWca/3OScf
- i/iQ==
-X-Gm-Message-State: AOAM533jOfbA5MaZw5atbOqoZ95puhf6vRkcpZME/uKIp75om2rxnL3p
- dz0CJ5XxQvCUGQ7c6gAUlQiQM93+cZuz5w==
-X-Google-Smtp-Source: ABdhPJy0C/DeGatEeL/WVbfT0RSzR++tHzBb+96sQL06adQB/UMiiX39RpeKkuMTzTB08cY8FPqeeg==
-X-Received: by 2002:ac8:5a:: with SMTP id i26mr3216924qtg.269.1632794441466;
- Mon, 27 Sep 2021 19:00:41 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tmL+joXfoW+8Wn51iJgMBifiuqpS0R+kHN3F+bMNUq0=;
+ b=4jAdR4qr3tLw7HL4U3S8Dd9zifMDlXDOW/HIfWkCGIJbzYnqP64Yk0tcprQL4QBD1B
+ Yvx3xXtubRYc0PE4NUEEYcX/4CKnTItWyi4skZsBsGCwHOB3byJlV960XBh+LpsbWMjc
+ hCb74sEi528m+p1JR/ZayWV9TZW2G84XP/Nh9OJ9AfyrKZf5RU6XDY/wDWUbQbZ4c4Xo
+ RZP6UOOC63rXCgKe+tjANQlFXv+BGBNKDaj/268CHlmXb6p9Bjd0dBJLcFr64kUSNMw/
+ A2Ia8JBX7r8b8y8fXJvPXtCJEzpIsLe7uv6MvK0WzgUTCHEbVJdAO3JcluM3kq0tvmKC
+ AITg==
+X-Gm-Message-State: AOAM5323vxzMu7kZ6B3Fme+C7q4k90c+HTH2unRSKLFWbpZsisWbm6Hc
+ 5viRYQ8FamYP/yM89sUjn6vV+wouN2lA4g==
+X-Google-Smtp-Source: ABdhPJwrz4BHLnWPuIroy8JjDLLWITAXh+Zm5hyLTDp1n06+bnLFoQvjDIbyg26Auy26cvB7WuYB+Q==
+X-Received: by 2002:a0c:90c8:: with SMTP id p66mr3022573qvp.55.1632794442563; 
+ Mon, 27 Sep 2021 19:00:42 -0700 (PDT)
 Received: from localhost.localdomain (cpe-24-31-215-130.sc.res.rr.com.
  [24.31.215.130])
- by smtp.gmail.com with ESMTPSA id g12sm12530370qtm.59.2021.09.27.19.00.40
+ by smtp.gmail.com with ESMTPSA id g12sm12530370qtm.59.2021.09.27.19.00.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Sep 2021 19:00:41 -0700 (PDT)
+ Mon, 27 Sep 2021 19:00:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/25] linux-user: Move signal trampolines to new page
-Date: Mon, 27 Sep 2021 22:00:14 -0400
-Message-Id: <20210928020039.184412-1-richard.henderson@linaro.org>
+Subject: [PATCH v4 01/25] linux-user: Add infrastructure for a signal
+ trampoline page
+Date: Mon, 27 Sep 2021 22:00:15 -0400
+Message-Id: <20210928020039.184412-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210928020039.184412-1-richard.henderson@linaro.org>
+References: <20210928020039.184412-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x835.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,98 +85,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, laurent@vivier.eu
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, laurent@vivier.eu,
+ Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes for v4:
-  * Drop nios2 changes -- I still haven't built a full toolchain.
-  * Clean up arm changes.
-  * Minur i386 pointer type changes.
+Allocate a page to hold the signal trampoline(s).
+Invoke a guest-specific hook to fill in the contents
+of the page before marking it read-execute again.
 
-Changes for v3:
-  * Drop vdsos, reinstate setup_sigtramp for all targets.
-  * Incorporate nios2 kuser page emulation, which contains
-    the sigtramp for that target.
+Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/signal-common.h |  6 ++++++
+ linux-user/elfload.c       | 18 ++++++++++++++++++
+ linux-user/signal.c        |  3 +++
+ 3 files changed, 27 insertions(+)
 
-Changes for v2:
-  * Add vdsos for aarch64, arm, i386, riscv.
-  * Drop setup_sigtramp for any target with a vdso.
-  * Drop arm v1 signal support.
-  * Simplify ppc encode_trampoline.
-
-
-r~
-
-
-Richard Henderson (25):
-  linux-user: Add infrastructure for a signal trampoline page
-  linux-user/aarch64: Implement setup_sigtramp
-  linux-user/arm: Drop v1 signal frames
-  linux-user/arm: Drop "_v2" from symbols in signal.c
-  linux-user/arm: Implement setup_sigtramp
-  linux-user/alpha: Implement setup_sigtramp
-  linux-user/cris: Implement setup_sigtramp
-  linux-user/hexagon: Implement setup_sigtramp
-  linux-user/hppa: Document non-use of setup_sigtramp
-  linux-user/i386: Implement setup_sigtramp
-  linux-user/x86_64: Raise SIGSEGV if SA_RESTORER not set
-  linux-user/m68k: Implement setup_sigtramp
-  linux-user/microblaze: Implement setup_sigtramp
-  linux-user/mips: Tidy install_sigtramp
-  linux-user/mips: Implement setup_sigtramp
-  linux-user/nios2: Document non-use of setup_sigtramp
-  linux-user/openrisc: Implement setup_sigtramp
-  linux-user/ppc: Simplify encode_trampoline
-  linux-user/ppc: Implement setup_sigtramp
-  linux-user/riscv: Implement setup_sigtramp
-  linux-user/s390x: Implement setup_sigtramp
-  linux-user/sh4: Implement setup_sigtramp
-  linux-user/sparc: Implement setup_sigtramp
-  linux-user/xtensa: Implement setup_sigtramp
-  linux-user: Remove default for TARGET_ARCH_HAS_SIGTRAMP_PAGE
-
- linux-user/aarch64/target_signal.h    |   2 +
- linux-user/alpha/target_signal.h      |   1 +
- linux-user/arm/target_signal.h        |   2 +
- linux-user/cris/target_signal.h       |   2 +
- linux-user/hexagon/target_signal.h    |   2 +
- linux-user/hppa/target_signal.h       |  14 +
- linux-user/i386/target_signal.h       |   2 +
- linux-user/m68k/target_signal.h       |   2 +
- linux-user/microblaze/target_signal.h |   2 +
- linux-user/mips/target_signal.h       |   1 +
- linux-user/mips64/target_signal.h     |   2 +
- linux-user/nios2/target_signal.h      |   3 +
- linux-user/openrisc/target_signal.h   |   2 +
- linux-user/ppc/target_signal.h        |   2 +
- linux-user/riscv/target_signal.h      |   2 +
- linux-user/s390x/target_signal.h      |   2 +
- linux-user/sh4/target_signal.h        |   2 +
- linux-user/signal-common.h            |   6 +
- linux-user/sparc/target_signal.h      |   4 +
- linux-user/x86_64/target_signal.h     |   3 +
- linux-user/xtensa/target_signal.h     |   2 +
- linux-user/aarch64/signal.c           |  34 +-
- linux-user/alpha/signal.c             |  34 +-
- linux-user/arm/signal.c               | 583 +++++++++-----------------
- linux-user/cris/signal.c              |  29 +-
- linux-user/elfload.c                  |  14 +
- linux-user/hexagon/signal.c           |  19 +-
- linux-user/i386/signal.c              |  65 ++-
- linux-user/m68k/signal.c              |  47 +--
- linux-user/microblaze/signal.c        |  24 +-
- linux-user/mips/signal.c              |  39 +-
- linux-user/openrisc/signal.c          |  22 +-
- linux-user/ppc/signal.c               |  40 +-
- linux-user/riscv/signal.c             |  22 +-
- linux-user/s390x/signal.c             |  24 +-
- linux-user/sh4/signal.c               |  40 +-
- linux-user/signal.c                   |   3 +
- linux-user/sparc/signal.c             |  40 +-
- linux-user/xtensa/signal.c            |  56 ++-
- 39 files changed, 603 insertions(+), 592 deletions(-)
-
+diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h
+index 79511becb4..7457f8025c 100644
+--- a/linux-user/signal-common.h
++++ b/linux-user/signal-common.h
+@@ -20,6 +20,12 @@
+ #ifndef SIGNAL_COMMON_H
+ #define SIGNAL_COMMON_H
+ 
++/* Fallback addresses into sigtramp page. */
++extern abi_ulong default_sigreturn;
++extern abi_ulong default_rt_sigreturn;
++
++void setup_sigtramp(abi_ulong tramp_page);
++
+ int on_sig_stack(unsigned long sp);
+ int sas_ss_flags(unsigned long sp);
+ abi_ulong target_sigsp(abi_ulong sp, struct target_sigaction *ka);
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 5f9e2141ad..459a26ef1d 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -7,6 +7,7 @@
+ 
+ #include "qemu.h"
+ #include "user-internals.h"
++#include "signal-common.h"
+ #include "loader.h"
+ #include "user-mmap.h"
+ #include "disas/disas.h"
+@@ -17,6 +18,7 @@
+ #include "qemu/units.h"
+ #include "qemu/selfmap.h"
+ #include "qapi/error.h"
++#include "target_signal.h"
+ 
+ #ifdef _ARCH_PPC64
+ #undef ARCH_DLINFO
+@@ -28,6 +30,10 @@
+ #undef ELF_ARCH
+ #endif
+ 
++#ifndef TARGET_ARCH_HAS_SIGTRAMP_PAGE
++#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 0
++#endif
++
+ #define ELF_OSABI   ELFOSABI_SYSV
+ 
+ /* from personality.h */
+@@ -3249,6 +3255,18 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
+ #endif
+     }
+ 
++    /*
++     * TODO: load a vdso, which would also contain the signal trampolines.
++     * Otherwise, allocate a private page to hold them.
++     */
++    if (TARGET_ARCH_HAS_SIGTRAMP_PAGE) {
++        abi_ulong tramp_page = target_mmap(0, TARGET_PAGE_SIZE,
++                                           PROT_READ | PROT_WRITE,
++                                           MAP_PRIVATE | MAP_ANON, -1, 0);
++        setup_sigtramp(tramp_page);
++        target_mprotect(tramp_page, TARGET_PAGE_SIZE, PROT_READ | PROT_EXEC);
++    }
++
+     bprm->p = create_elf_tables(bprm->p, bprm->argc, bprm->envc, &elf_ex,
+                                 info, (elf_interpreter ? &interp_info : NULL));
+     info->start_stack = bprm->p;
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 2038216455..14d8fdfde1 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -35,6 +35,9 @@ static struct target_sigaction sigact_table[TARGET_NSIG];
+ static void host_signal_handler(int host_signum, siginfo_t *info,
+                                 void *puc);
+ 
++/* Fallback addresses into sigtramp page. */
++abi_ulong default_sigreturn;
++abi_ulong default_rt_sigreturn;
+ 
+ /*
+  * System includes define _NSIG as SIGRTMAX + 1,
 -- 
 2.25.1
 
