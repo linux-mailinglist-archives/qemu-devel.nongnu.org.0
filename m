@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F62E41AFFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:24:39 +0200 (CEST)
-Received: from localhost ([::1]:43006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA5F41AFF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:22:38 +0200 (CEST)
+Received: from localhost ([::1]:40092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVD66-0000jm-3X
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:24:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38890)
+	id 1mVD48-00078e-BY
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:22:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVCaL-0006gq-Up
+ id 1mVCaL-0006gp-Ki
  for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:51 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:37543)
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:36733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVCaK-0001Yi-Ed
+ id 1mVCaK-0001YZ-6B
  for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:49 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id ba1so24898811edb.4
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:48 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id y35so31712255ede.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=H2j0w3zV2aYZRFejCWueKk3nNl/dRSroOVrcszJhoRY=;
- b=PvhJUJ84RY886qQJaDbCYRvAzEB7Abo5LtO/7Fwmjw4aE81IXs8IBKi3Vm6ZjYdmRR
- 1H3JqaG/FTy1YEHYTD+BP5GUkKqa52OWnF01wwoKhIIAFg9k6qtJeXfvf4OzUf3AKn8e
- 5Sk/orEprsn/Qgbtv5JBgtU0NB89AXGvPT1H+KhMbRLzLSm5VeV4mLM9cPjfeEGciFhY
- rZ5Mb8RvmnGNRsiqaYPA4Rs/Npbby5YmdtPoWeaX3speHuYKAXpgCOTgf5vX2qhqFRyI
- XLc4MlvBK+mpqhfauSAgQXC8UUppgCrneW36v8R1g/0HW/CLdo8jzqxmH9hB+nos01OJ
- a32Q==
+ bh=R/zfYQqCX/9aRSWbJScPUII4oC13AO6Qw74gztGZOQI=;
+ b=WvgEThNK65lL+570QaI+5vJXRYVcGXFwM3UrPpF5E3/ZvChecpPX1easMqZbUCfZPG
+ YGiexAorse1MTgroDVbm/jdayD47Eq0qlYE/OuBXJ7/HPWolzzMVX8mQJUuYp2wExAHp
+ NiYuY6cTpdzUYgH0mmfxA5ZSs9QXWfwJo6/CNBaooBW78TxB8tgUAaHkaET1XZyHkGnR
+ kwqM4+bjQoBMdBUGae9uQXXVwxwE6IOqKaAn4a8VWGhA/gPGhziEUp6J/65YxkO7Q4J4
+ p8InhxHIwSr+Yifi65uJTHc0UOJaCoRuqqqzBT/xk7X6CQMVEI+NTBSfykgR7PbzGDRf
+ 5OOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=H2j0w3zV2aYZRFejCWueKk3nNl/dRSroOVrcszJhoRY=;
- b=5g/W6nwspV9biFS+Hp11rA1xAMnxwW2VVoujcz83dRyZIhAaabz2s3uDRCDQ/s+JtZ
- DGi/WkAaiTj2sAj8AbUJjgDfdGNgS+hH/hGLfG62KFeR4RT7l3XmOgsevLizQGEyFINF
- WaVNCSVI11W5P5aI+qXpm/XzQQjoKAZfGiGbVQPPORvmS5dgI89jsxttiPRdzGzWat/V
- sjOoDsUNbTKvxxzsLs6gc1BObVCJc4zjHV35Zk+x39AIsetFoQ5T/vtY/MufLe0g2Ho8
- q0fTq++xObpDObe9ovcuGeLS0AwhjCJrc9GepSmqVGh2ckOV6vImfFMQk0U4pgY/1Yep
- Aqcg==
-X-Gm-Message-State: AOAM5331XsHa4Pl7IzBU8tIrBbHsqtpP4COSHlyw87tCxpejMeuOERnQ
- 5zt++sbvo1vG3f5FFHe8XARsJbpMDZs=
-X-Google-Smtp-Source: ABdhPJySug+ggOA7h908cfakAgy2A9QdE1t3j+VhMXUxylGbKEq5wnn9EXhnUW26EJq1glp4UwB7+Q==
-X-Received: by 2002:a17:906:169a:: with SMTP id
- s26mr6058248ejd.278.1632833503206; 
+ bh=R/zfYQqCX/9aRSWbJScPUII4oC13AO6Qw74gztGZOQI=;
+ b=6cC/7rt4jOCZ6cIBABuBeSDogwDbmk3ptuQ9MfX32BjXufHw5kkBbe6tIZB54m4+X0
+ t7JHxEnqteoplSu29DRTupRsXGlPId5mOpW9EEzk2R8r5FC/80NBXaQGwmGErkvXE9O4
+ ni11o5+4Kbd80LDojjbBz4Rx4JleZtdowTXmtokBRenjtlmxlVQaI5gmuju4/1F5B1/t
+ z2gTD5QYk/iE4h80587xcvYcDeZYPQRe91kO5BsPbXJmhPSMSLLv5FK3WeKd09IRaAoA
+ F+lAVPhs+xNo3Iyg/epByWIzaBK85jLs46Pa/1gT3iw7R1LFNkoKerA53Z5Q+MK1e4zX
+ HT/g==
+X-Gm-Message-State: AOAM531mYRfcjqLHjF+swhMq+X4LOGU9SmzHNsJR4Xr5BbKQyoPZ1i5l
+ HIwlFM7mIZOwEMuReWUeUaDhHYN4+SA=
+X-Google-Smtp-Source: ABdhPJw1/yHl+G0vuFt0i5GQc07xt3G/6hk922PBHa7moadkpsiUPwnwjFmYqTiYkcmTEf6oRiUC5w==
+X-Received: by 2002:a17:906:12d4:: with SMTP id
+ l20mr6065582ejb.43.1632833503947; 
  Tue, 28 Sep 2021 05:51:43 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p24sm12641685edq.27.2021.09.28.05.51.42
+ by smtp.gmail.com with ESMTPSA id p24sm12641685edq.27.2021.09.28.05.51.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Sep 2021 05:51:42 -0700 (PDT)
+ Tue, 28 Sep 2021 05:51:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/33] build-sys: add HAVE_IPPROTO_MPTCP
-Date: Tue, 28 Sep 2021 14:51:15 +0200
-Message-Id: <20210928125116.183620-33-pbonzini@redhat.com>
+Subject: [PULL 33/33] meson_options.txt: Switch the default value for the vnc
+ option to 'auto'
+Date: Tue, 28 Sep 2021 14:51:16 +0200
+Message-Id: <20210928125116.183620-34-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210928125116.183620-1-pbonzini@redhat.com>
 References: <20210928125116.183620-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,98 +85,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-The QAPI schema shouldn't rely on C system headers #define, but on
-configure-time project #define, so we can express the build condition in
-a C-independent way.
+There is no reason why VNC should always be enabled and not be set to
+the default value. We already switched the setting in the "configure"
+script in commit 3a6a1256d4 ("configure: Allow vnc to get disabled with
+--without-default-features"), so let's do that in meson_options.txt now,
+too.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20210907121943.3498701-3-marcandre.lureau@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20210903081358.956267-3-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- io/dns-resolver.c   | 2 +-
- meson.build         | 2 ++
- qapi/sockets.json   | 2 +-
- util/qemu-sockets.c | 6 +++---
- 4 files changed, 7 insertions(+), 5 deletions(-)
+ meson_options.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/io/dns-resolver.c b/io/dns-resolver.c
-index a5946a93bf..53b0e8407a 100644
---- a/io/dns-resolver.c
-+++ b/io/dns-resolver.c
-@@ -122,7 +122,7 @@ static int qio_dns_resolver_lookup_sync_inet(QIODNSResolver *resolver,
-             .ipv4 = iaddr->ipv4,
-             .has_ipv6 = iaddr->has_ipv6,
-             .ipv6 = iaddr->ipv6,
--#ifdef IPPROTO_MPTCP
-+#ifdef HAVE_IPPROTO_MPTCP
-             .has_mptcp = iaddr->has_mptcp,
-             .mptcp = iaddr->mptcp,
- #endif
-diff --git a/meson.build b/meson.build
-index 978e8329f7..7f0fafff4a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1374,6 +1374,8 @@ config_host_data.set('HAVE_OPTRESET',
-                      cc.has_header_symbol('getopt.h', 'optreset'))
- config_host_data.set('HAVE_UTMPX',
-                      cc.has_header_symbol('utmpx.h', 'struct utmpx'))
-+config_host_data.set('HAVE_IPPROTO_MPTCP',
-+                     cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
- 
- # has_member
- config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID',
-diff --git a/qapi/sockets.json b/qapi/sockets.json
-index ef4b16d6f2..5773d9fcc4 100644
---- a/qapi/sockets.json
-+++ b/qapi/sockets.json
-@@ -69,7 +69,7 @@
-     '*ipv4': 'bool',
-     '*ipv6': 'bool',
-     '*keep-alive': 'bool',
--    '*mptcp': { 'type': 'bool', 'if': 'IPPROTO_MPTCP' } } }
-+    '*mptcp': { 'type': 'bool', 'if': 'HAVE_IPPROTO_MPTCP' } } }
- 
- ##
- # @UnixSocketAddress:
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 72216ef980..0585e7a629 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -278,7 +278,7 @@ static int inet_listen_saddr(InetSocketAddress *saddr,
- 
-     /* create socket + bind/listen */
-     for (e = res; e != NULL; e = e->ai_next) {
--#ifdef IPPROTO_MPTCP
-+#ifdef HAVE_IPPROTO_MPTCP
-         if (saddr->has_mptcp && saddr->mptcp) {
-             e->ai_protocol = IPPROTO_MPTCP;
-         }
-@@ -462,7 +462,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
-         error_free(local_err);
-         local_err = NULL;
- 
--#ifdef IPPROTO_MPTCP
-+#ifdef HAVE_IPPROTO_MPTCP
-         if (saddr->has_mptcp && saddr->mptcp) {
-             e->ai_protocol = IPPROTO_MPTCP;
-         }
-@@ -699,7 +699,7 @@ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
-         }
-         addr->has_keep_alive = true;
-     }
--#ifdef IPPROTO_MPTCP
-+#ifdef HAVE_IPPROTO_MPTCP
-     begin = strstr(optstr, ",mptcp");
-     if (begin) {
-         if (inet_parse_flag("mptcp", begin + strlen(",mptcp"),
+diff --git a/meson_options.txt b/meson_options.txt
+index a9a9b8f4c6..2c89e79e8b 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -120,7 +120,7 @@ option('usb_redir', type : 'feature', value : 'auto',
+        description: 'libusbredir support')
+ option('virglrenderer', type : 'feature', value : 'auto',
+        description: 'virgl rendering support')
+-option('vnc', type : 'feature', value : 'enabled',
++option('vnc', type : 'feature', value : 'auto',
+        description: 'VNC server')
+ option('vnc_jpeg', type : 'feature', value : 'auto',
+        description: 'JPEG lossy compression for VNC server')
 -- 
 2.31.1
-
 
 
