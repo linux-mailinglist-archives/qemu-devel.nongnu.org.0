@@ -2,76 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89DD841AD7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 13:03:11 +0200 (CEST)
-Received: from localhost ([::1]:51640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF2C41AD7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 13:02:48 +0200 (CEST)
+Received: from localhost ([::1]:50420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVAtC-0005fu-IA
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 07:03:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37184)
+	id 1mVAsp-0004g8-9s
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 07:02:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVAos-0001Si-8W
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:58:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56389)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVAoy-0001l2-97
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:58:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVAoq-0008KA-DT
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:58:41 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVAow-0008Ot-3y
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:58:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632826719;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1632826725;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H0A3uMwY4dMnszcD5lYTVdEog54v6ibEq/X669ojMtg=;
- b=boF1bodOe2XQZvSNzqKJGBP/yUgXLH0fby27DUJW5wpJn6ddmxVioeJ9SCATjHDLv0iOgC
- DzGvXZJ1mMK1pP/mCCqEwoLfzUW/qEk93yDT5mldD6hNte3PCluyFLNcY6cLVm4oBr7xLG
- LXATOXcmnV6Lyp206mgWJJdCdo6uskM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-597-IZHjYDNEP92r2gpkZkHNXw-1; Tue, 28 Sep 2021 06:58:38 -0400
-X-MC-Unique: IZHjYDNEP92r2gpkZkHNXw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 723FF362FA;
- Tue, 28 Sep 2021 10:58:36 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 00E9413AC8;
- Tue, 28 Sep 2021 10:58:28 +0000 (UTC)
-Date: Tue, 28 Sep 2021 11:58:26 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v11 11/14] machine: Make smp_parse generic enough for all
- arches
-Message-ID: <YVL1UuCQ6+KiPwfR@redhat.com>
-References: <20210928035755.11684-1-wangyanan55@huawei.com>
- <20210928035755.11684-12-wangyanan55@huawei.com>
- <2652509f-97d7-f999-a36f-47fc3b5ca346@redhat.com>
+ bh=ntIDc2sx7FlL3GwPyHm16Z5hrk/Ysi5NNhIXU5bFF6M=;
+ b=RuLy+u9gxYGHcQOCHv6BDpETYciTmviEctHHjGE8jWngf52bwLArxUyumIJgZTt6zVmq0/
+ mYZbujF5KUW3jApiQbB5N4QsjkLhpQcKWLCyIcgWCUykNZnZbip8R3LRXAdSIzR+KCRSST
+ +bcU4Si4nuXxphu980UUWPRRlWDCUp8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357--CIAUzpkNHeYbl_mT0DOCg-1; Tue, 28 Sep 2021 06:58:43 -0400
+X-MC-Unique: -CIAUzpkNHeYbl_mT0DOCg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p25-20020a1c5459000000b0030cac3d9db1so1826657wmi.6
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 03:58:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ntIDc2sx7FlL3GwPyHm16Z5hrk/Ysi5NNhIXU5bFF6M=;
+ b=Y8PBq2k2pzKCbbPONw0B2n82EagbxHiA5tAusxO/S2k+SDQPhLu8/l3rLYxAKkgmCP
+ OptMbVe6mLsbADL0Fcx4TnYlbc4eEKBErHdFrnQlDzac8zsEI0WdttzJpe0jSHgGbU1/
+ bGA7grE5ZSUePA2xxYesz9ga3zkaU+q5kYUDa9d9hincOSm058SWrGYV9SD1a5Pe7Ye3
+ BqfWDcRc2vkAQ7kFoYBv1qUvX+uWvESV6K0WDDenqR2TGVfkCcSHnpgvIF/hicUHYaDU
+ knB7JFnKMS5z5A4NDa6I3fV0E15tKfLIlEREBOmVBfrsvTx0hkzB9dbvEGlFVtN1PUUu
+ 8n0A==
+X-Gm-Message-State: AOAM53223Pvi5sreuSMQH34dLDZG4IPAinGZspF+6CPXOY1Ea3xA3DNf
+ VZ0FqZDY1XujnqbnHHt7cPlrpWgT7rsp6kCrOTXpLIPzePX6WVuaDqd16QASdriyFRzOM8ACb3z
+ KiJGptk5mZSoSVik=
+X-Received: by 2002:a05:600c:1c9e:: with SMTP id
+ k30mr3945133wms.74.1632826722441; 
+ Tue, 28 Sep 2021 03:58:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxMH58L8rqBnZ2aUGSAEf2mLUyL/anDrudhO5ajy2KX/oWRt2mY5rFd+jMLHeAdX8SnBZ6ykA==
+X-Received: by 2002:a05:600c:1c9e:: with SMTP id
+ k30mr3945122wms.74.1632826722311; 
+ Tue, 28 Sep 2021 03:58:42 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id l17sm825295wrx.24.2021.09.28.03.58.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Sep 2021 03:58:41 -0700 (PDT)
+Message-ID: <718e3d38-44db-77f5-a1cc-50ca1416b414@redhat.com>
+Date: Tue, 28 Sep 2021 12:58:40 +0200
 MIME-Version: 1.0
-In-Reply-To: <2652509f-97d7-f999-a36f-47fc3b5ca346@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v11 10/14] machine: Tweak the order of topology members in
+ struct CpuTopology
+To: Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost
+ <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Andrew Jones <drjones@redhat.com>
+References: <20210928035755.11684-1-wangyanan55@huawei.com>
+ <20210928035755.11684-11-wangyanan55@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20210928035755.11684-11-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.562, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,71 +104,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Pierre Morel <pmorel@linux.ibm.com>,
  Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-ppc@nongnu.org,
  Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 28, 2021 at 12:57:21PM +0200, Philippe Mathieu-Daudé wrote:
-> On 9/28/21 05:57, Yanan Wang wrote:
-> > Currently the only difference between smp_parse and pc_smp_parse
-> > is the support of dies parameter and the related error reporting.
-> > With some arch compat variables like "bool dies_supported", we can
-> > make smp_parse generic enough for all arches and the PC specific
-> > one can be removed.
-> > 
-> > Making smp_parse() generic enough can reduce code duplication and
-> > ease the code maintenance, and also allows extending the topology
-> > with more arch specific members (e.g., clusters) in the future.
-> > 
-> > Suggested-by: Andrew Jones <drjones@redhat.com>
-> > Suggested-by: Daniel P. Berrange <berrange@redhat.com>
-> > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> > ---
-> >  hw/core/machine.c   | 91 +++++++++++++++++++++++++++++++++++----------
-> >  hw/i386/pc.c        | 84 +----------------------------------------
-> >  include/hw/boards.h |  9 +++++
-> >  3 files changed, 81 insertions(+), 103 deletions(-)
+On 9/28/21 05:57, Yanan Wang wrote:
+> Now that all the possible topology parameters are integrated in struct
+> CpuTopology, tweak the order of topology members to be "cpus/sockets/
+> dies/cores/threads/maxcpus" for readability and consistency. We also
+> tweak the comment by adding explanation of dies parameter.
 > 
-> > +/*
-> > + * smp_parse - Generic function used to parse the given SMP configuration
-> > + *
-> > + * Any missing parameter in "cpus/maxcpus/sockets/cores/threads" will be
-> > + * automatically computed based on the provided ones.
-> > + *
-> > + * In the calculation of omitted sockets/cores/threads: we prefer sockets
-> > + * over cores over threads before 6.2, while preferring cores over sockets
-> > + * over threads since 6.2.
-> > + *
-> > + * In the calculation of cpus/maxcpus: When both maxcpus and cpus are omitted,
-> > + * maxcpus will be computed from the given parameters and cpus will be set
-> > + * equal to maxcpus. When only one of maxcpus and cpus is given then the
-> > + * omitted one will be set to its given counterpart's value. Both maxcpus and
-> > + * cpus may be specified, but maxcpus must be equal to or greater than cpus.
-> > + *
-> > + * For compatibility, apart from the parameters that will be computed, newly
-> > + * introduced topology members which are likely to be target specific should
-> > + * be directly set as 1 if they are omitted (e.g. dies for PC since 4.1).
-> > + */
-> >  static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-> 
-> Can we have it return a boolean instead?
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+> ---
+>  hw/core/machine.c   | 8 ++++----
+>  include/hw/boards.h | 7 ++++---
+>  2 files changed, 8 insertions(+), 7 deletions(-)
 
-That's unrelated to this change, so ought to be a separate commit if
-done.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
