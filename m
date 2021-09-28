@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8839E41ACB1
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 12:12:45 +0200 (CEST)
-Received: from localhost ([::1]:53534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE5141ACB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 12:12:51 +0200 (CEST)
+Received: from localhost ([::1]:53902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVA6O-0006eF-IO
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 06:12:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53932)
+	id 1mVA6U-0006st-Kd
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 06:12:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVA3n-0004KL-4s
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:10:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43834)
+ id 1mVA4w-00056i-HN
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:11:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVA3l-0001SR-Ha
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:10:02 -0400
+ id 1mVA4t-0002Vj-M7
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:11:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632823800;
+ s=mimecast20190719; t=1632823870;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YPf3X5zlBXnSrfngXer8J+XGpH0c4FgtpUEzTgT61Vw=;
- b=BVRsBANrTZ2np3Xa/3tm2BKxFMD8atL3a2zbSbzJ17xE9K6n8GNqXYYUL7SAJiBnoR2bMN
- CEgXRjT0ZpWSSAPB2aJYJuXgFG/nr4jv8ZfrODY4w99rDqzzdZ2EfJDEwlWoEShN1HVQ4+
- 5SAdRzHnBWUwkHjYH7zR9WEV/YclIoQ=
+ bh=no1nhw9PkARqev9XAgmkYpvr8t6B07vU5vuuZxlkx/U=;
+ b=W1Rg8aZcOo9vQk4XJSyWr7zF5y80eZyRMHx/KT0X0gmxGTUbJsryvG5IlJMl3OiXHOuWEX
+ P/a/1GPXZZvPeMOgEqgby/yQlBOxTFM/XAk8NeQy/LHJWI4HoUuta62htCkfmoGmi/ZVGj
+ HvlLj6q5saNlWTdm5qQGoQ7eb0zNNEk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-GaCtiCXiMrKBFu08lM4Msw-1; Tue, 28 Sep 2021 06:09:45 -0400
-X-MC-Unique: GaCtiCXiMrKBFu08lM4Msw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-465-QvQH1zkHNbuOHbpiE9mraA-1; Tue, 28 Sep 2021 06:11:07 -0400
+X-MC-Unique: QvQH1zkHNbuOHbpiE9mraA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC7FA50755;
- Tue, 28 Sep 2021 10:09:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E0EA1006AA9;
+ Tue, 28 Sep 2021 10:11:05 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.194.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EE2C60CC6;
- Tue, 28 Sep 2021 10:09:39 +0000 (UTC)
-Date: Tue, 28 Sep 2021 11:09:37 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E831F19C79;
+ Tue, 28 Sep 2021 10:10:45 +0000 (UTC)
+Date: Tue, 28 Sep 2021 11:10:40 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH v11 03/14] machine: Uniformly use maxcpus to calculate
- the omitted parameters
-Message-ID: <YVLp4ZVnVD6/ET8l@redhat.com>
+Subject: Re: [PATCH v11 04/14] machine: Set the value of cpus to match
+ maxcpus if it's omitted
+Message-ID: <YVLqIMqQE6YXDTH3@redhat.com>
 References: <20210928035755.11684-1-wangyanan55@huawei.com>
- <20210928035755.11684-4-wangyanan55@huawei.com>
+ <20210928035755.11684-5-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210928035755.11684-4-wangyanan55@huawei.com>
+In-Reply-To: <20210928035755.11684-5-wangyanan55@huawei.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -62,7 +62,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -94,41 +94,35 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 28, 2021 at 11:57:44AM +0800, Yanan Wang wrote:
-> We are currently using maxcpus to calculate the omitted sockets
-> but using cpus to calculate the omitted cores/threads. This makes
-> cmdlines like:
->   -smp cpus=8,maxcpus=16
->   -smp cpus=8,cores=4,maxcpus=16
->   -smp cpus=8,threads=2,maxcpus=16
-> work fine but the ones like:
->   -smp cpus=8,sockets=2,maxcpus=16
->   -smp cpus=8,sockets=2,cores=4,maxcpus=16
->   -smp cpus=8,sockets=2,threads=2,maxcpus=16
-> break the sanity check.
+On Tue, Sep 28, 2021 at 11:57:45AM +0800, Yanan Wang wrote:
+> Currently we directly calculate the omitted cpus based on the given
+> incomplete collection of parameters. This makes some cmdlines like:
+>   -smp maxcpus=16
+>   -smp sockets=2,maxcpus=16
+>   -smp sockets=2,dies=2,maxcpus=16
+>   -smp sockets=2,cores=4,maxcpus=16
+> not work. We should probably set the value of cpus to match maxcpus
+> if it's omitted, which will make above configs start to work.
 > 
-> Since we require for a valid config that the product of "sockets * cores
-> * threads" should equal to the maxcpus, we should uniformly use maxcpus
-> to calculate their omitted values.
-> 
-> Also the if-branch of "cpus == 0 || sockets == 0" was split into two
-> branches of "cpus == 0" and "sockets == 0" so that we can clearly read
-> that we are parsing the configuration with a preference on cpus over
-> sockets over cores over threads.
+> So the calculation logic of cpus/maxcpus after this patch will be:
+> When both maxcpus and cpus are omitted, maxcpus will be calculated
+> from the given parameters and cpus will be set equal to maxcpus.
+> When only one of maxcpus and cpus is given then the omitted one
+> will be set to its counterpart's value. Both maxcpus and cpus may
+> be specified, but maxcpus must be equal to or greater than cpus.
 > 
 > Note: change in this patch won't affect any existing working cmdlines
-> but improves consistency and allows more incomplete configs to be valid.
+> but allows more incomplete configs to be valid.
 > 
 > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > Reviewed-by: Andrew Jones <drjones@redhat.com>
-> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 > ---
->  hw/core/machine.c | 30 +++++++++++++++---------------
->  hw/i386/pc.c      | 30 +++++++++++++++---------------
->  2 files changed, 30 insertions(+), 30 deletions(-)
+>  hw/core/machine.c | 29 ++++++++++++++++-------------
+>  hw/i386/pc.c      | 29 ++++++++++++++++-------------
+>  qemu-options.hx   | 11 ++++++++---
+>  3 files changed, 40 insertions(+), 29 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
 
 Regards,
 Daniel
