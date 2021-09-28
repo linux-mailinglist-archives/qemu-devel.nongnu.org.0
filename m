@@ -2,88 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF2C41AD7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 13:02:48 +0200 (CEST)
-Received: from localhost ([::1]:50420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE6C41AD96
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 13:07:58 +0200 (CEST)
+Received: from localhost ([::1]:60288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVAsp-0004g8-9s
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 07:02:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37236)
+	id 1mVAxp-0003iI-Sp
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 07:07:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVAoy-0001l2-97
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:58:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45425)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVArP-0005WE-Tr
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 07:01:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVAow-0008Ot-3y
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 06:58:48 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mVArK-0001vv-NZ
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 07:01:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632826725;
+ s=mimecast20190719; t=1632826873;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ntIDc2sx7FlL3GwPyHm16Z5hrk/Ysi5NNhIXU5bFF6M=;
- b=RuLy+u9gxYGHcQOCHv6BDpETYciTmviEctHHjGE8jWngf52bwLArxUyumIJgZTt6zVmq0/
- mYZbujF5KUW3jApiQbB5N4QsjkLhpQcKWLCyIcgWCUykNZnZbip8R3LRXAdSIzR+KCRSST
- +bcU4Si4nuXxphu980UUWPRRlWDCUp8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357--CIAUzpkNHeYbl_mT0DOCg-1; Tue, 28 Sep 2021 06:58:43 -0400
-X-MC-Unique: -CIAUzpkNHeYbl_mT0DOCg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- p25-20020a1c5459000000b0030cac3d9db1so1826657wmi.6
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 03:58:43 -0700 (PDT)
+ bh=ojLNV1KlCnyKppemMIrj9EcELL88WGgvs8mHLiVPhwY=;
+ b=CkDAHtxYv9dIysxCpwJ5c0HJTSjKEhAv0qogkiMt9gbwp9WNf71KOpCaZ3Hw0AO6HUHCX9
+ qEFJpsfVN4iKdOQF+nMi3m+BuZWfumOOT4c699nKC1SALtcIulKUaBUeNU7cXg1QehFRAQ
+ YNOnBd4bWBd3nQLVKRj9Lo7ghjXdFzI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-pYyXn-usNoWWAxCgjogLEQ-1; Tue, 28 Sep 2021 07:01:10 -0400
+X-MC-Unique: pYyXn-usNoWWAxCgjogLEQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ s13-20020adfeccd000000b00160531902f4so7294649wro.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 04:01:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ntIDc2sx7FlL3GwPyHm16Z5hrk/Ysi5NNhIXU5bFF6M=;
- b=Y8PBq2k2pzKCbbPONw0B2n82EagbxHiA5tAusxO/S2k+SDQPhLu8/l3rLYxAKkgmCP
- OptMbVe6mLsbADL0Fcx4TnYlbc4eEKBErHdFrnQlDzac8zsEI0WdttzJpe0jSHgGbU1/
- bGA7grE5ZSUePA2xxYesz9ga3zkaU+q5kYUDa9d9hincOSm058SWrGYV9SD1a5Pe7Ye3
- BqfWDcRc2vkAQ7kFoYBv1qUvX+uWvESV6K0WDDenqR2TGVfkCcSHnpgvIF/hicUHYaDU
- knB7JFnKMS5z5A4NDa6I3fV0E15tKfLIlEREBOmVBfrsvTx0hkzB9dbvEGlFVtN1PUUu
- 8n0A==
-X-Gm-Message-State: AOAM53223Pvi5sreuSMQH34dLDZG4IPAinGZspF+6CPXOY1Ea3xA3DNf
- VZ0FqZDY1XujnqbnHHt7cPlrpWgT7rsp6kCrOTXpLIPzePX6WVuaDqd16QASdriyFRzOM8ACb3z
- KiJGptk5mZSoSVik=
-X-Received: by 2002:a05:600c:1c9e:: with SMTP id
- k30mr3945133wms.74.1632826722441; 
- Tue, 28 Sep 2021 03:58:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxMH58L8rqBnZ2aUGSAEf2mLUyL/anDrudhO5ajy2KX/oWRt2mY5rFd+jMLHeAdX8SnBZ6ykA==
-X-Received: by 2002:a05:600c:1c9e:: with SMTP id
- k30mr3945122wms.74.1632826722311; 
- Tue, 28 Sep 2021 03:58:42 -0700 (PDT)
+ bh=ojLNV1KlCnyKppemMIrj9EcELL88WGgvs8mHLiVPhwY=;
+ b=i7TIuUuch/9ceK/e2ZzoDa5dyNlFC3jAOAMXufUFl/vD3HHYToFKd5btGHUaSadTEl
+ o8R8BSF62DDDZ/lWmZC3OrVhHcc4Wu1rGw7rAtzBaf+pRFUWmDpMYNxWkRy+ARRZwAPs
+ azWPoRkr/jVPNbANd4vxpYzCzHBYe1McjwoJLuUBF8S6jxu1JxPsrsw65WcVQAUKWjzw
+ 1LZtpCcjPUr5kb5/Z4ZNlcllsf/wHgPZzNQo91pPpVgc2nf/gX7WRzflteSKf5f+/0vP
+ NMrGuTy3lRQzd4yAWsdq+kjF431jE4y/ecja/lb9JDPpTv78il8iudjTc/erudJ5JZJY
+ clsA==
+X-Gm-Message-State: AOAM531HWzzoUe93yc3cmhNMEXtd/gkZerozL88A8ur3/zqow2vgOH6b
+ AYIKbs60x5TAsZVNU/azpvwrVW0o5QT1rDPC747RD8oRPf8G0QeIFmwoIux92CZg9bSIfD+EEox
+ rtcJYOBhiMOaPq9c=
+X-Received: by 2002:a05:600c:1d05:: with SMTP id
+ l5mr4008014wms.119.1632826868872; 
+ Tue, 28 Sep 2021 04:01:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyieif9gIt2XYAlIBgpSHOWz9pdgtKLnZ7leNw8UXX9dCbJKODjmWTmN6WAqsBewlsyPzErBg==
+X-Received: by 2002:a05:600c:1d05:: with SMTP id
+ l5mr4007984wms.119.1632826868710; 
+ Tue, 28 Sep 2021 04:01:08 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id l17sm825295wrx.24.2021.09.28.03.58.41
+ by smtp.gmail.com with ESMTPSA id n186sm2360613wme.31.2021.09.28.04.01.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Sep 2021 03:58:41 -0700 (PDT)
-Message-ID: <718e3d38-44db-77f5-a1cc-50ca1416b414@redhat.com>
-Date: Tue, 28 Sep 2021 12:58:40 +0200
+ Tue, 28 Sep 2021 04:01:08 -0700 (PDT)
+Message-ID: <cf292444-d89c-5acb-f47b-c135079a60b2@redhat.com>
+Date: Tue, 28 Sep 2021 13:01:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v11 10/14] machine: Tweak the order of topology members in
- struct CpuTopology
+Subject: Re: [PATCH v11 14/14] machine: Put all sanity-check in the generic
+ SMP parser
 To: Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost
  <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Andrew Jones <drjones@redhat.com>
 References: <20210928035755.11684-1-wangyanan55@huawei.com>
- <20210928035755.11684-11-wangyanan55@huawei.com>
+ <20210928035755.11684-15-wangyanan55@huawei.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210928035755.11684-11-wangyanan55@huawei.com>
+In-Reply-To: <20210928035755.11684-15-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -53
 X-Spam_score: -5.4
@@ -115,19 +115,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/28/21 05:57, Yanan Wang wrote:
-> Now that all the possible topology parameters are integrated in struct
-> CpuTopology, tweak the order of topology members to be "cpus/sockets/
-> dies/cores/threads/maxcpus" for readability and consistency. We also
-> tweak the comment by adding explanation of dies parameter.
+> Put both sanity-check of the input SMP configuration and sanity-check
+> of the output SMP configuration uniformly in the generic parser. Then
+> machine_set_smp() will become cleaner, also all the invalid scenarios
+> can be tested only by calling the parser.
 > 
 > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > Reviewed-by: Andrew Jones <drjones@redhat.com>
 > Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 > ---
->  hw/core/machine.c   | 8 ++++----
->  include/hw/boards.h | 7 ++++---
->  2 files changed, 8 insertions(+), 7 deletions(-)
+>  hw/core/machine.c | 63 +++++++++++++++++++++++------------------------
+>  1 file changed, 31 insertions(+), 32 deletions(-)
+> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index e2a48aa18c..637acd8d42 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -798,6 +798,20 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>      unsigned threads = config->has_threads ? config->threads : 0;
+>      unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
+>  
+> +    /*
+> +     * Specified CPU topology parameters must be greater than zero,
+> +     * explicit configuration like "cpus=0" is not allowed.
+> +     */
+> +    if ((config->has_cpus && config->cpus == 0) ||
+> +        (config->has_sockets && config->sockets == 0) ||
+> +        (config->has_dies && config->dies == 0) ||
+> +        (config->has_cores && config->cores == 0) ||
+> +        (config->has_threads && config->threads == 0) ||
+> +        (config->has_maxcpus && config->maxcpus == 0)) {
+> +        warn_report("Invalid CPU topology deprecated: "
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Maybe:
+
+   "Deprecated CPU topology: "
+or
+
+   "Deprecated CPU topology (considered invalid): "
+
+> +                    "CPU topology parameters must be greater than zero");
+> +    }
 
 
