@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B5D41AB8D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 11:11:47 +0200 (CEST)
-Received: from localhost ([::1]:55246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B996341ABC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 11:27:51 +0200 (CEST)
+Received: from localhost ([::1]:46580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mV99N-0007TU-1c
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 05:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41946)
+	id 1mV9Ow-0004ea-RO
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 05:27:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mV98Q-0006KX-UF; Tue, 28 Sep 2021 05:10:46 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:48719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mV98P-0002ZG-6o; Tue, 28 Sep 2021 05:10:46 -0400
-Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N3sZs-1mvNEO2Ttg-00zkDp; Tue, 28 Sep 2021 11:10:40 +0200
-Subject: Re: [PATCH] qemu-options: -chardev reconnect=seconds duplicated in
- help, tidy up
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210928071449.1416022-1-armbru@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <0d9c1647-c292-042a-67df-c6b74ce91f64@vivier.eu>
-Date: Tue, 28 Sep 2021 11:10:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mV9Ga-00055O-VY; Tue, 28 Sep 2021 05:19:14 -0400
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:44636)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mV9GX-0001OM-WF; Tue, 28 Sep 2021 05:19:12 -0400
+Received: by mail-il1-x131.google.com with SMTP id b12so10740063ilf.11;
+ Tue, 28 Sep 2021 02:19:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XYFPv5lNK4VDHu9KkerI80tRMy7EbnduVugAEJAoUvY=;
+ b=Csp0rmpNaOOR25SAAiXDcu7zUt0I/zCAYlwhsnjmcNNtib1ID8NhBVa3QbqZDt/OB7
+ 5LfltIW+EkCc5cqhp5iPOUJzqTJaNHgqP0bfic71HvX7J9YQQNDYnToP4M18ryyFyBCy
+ rxT4aRu0/XT5a9SF0whvDMlnRlOzhXBB0iA/bAxvCZVewL6cZExX/PiHIx3iZFDxh8VV
+ Q7dXMSQSWztvrKUNcIobRAV5ao2EMbD/bSSvCpxxCByudfdWgOnlZB9h+j7ZdH5oItqT
+ sXjyJVLfkCp/ekPliduvdn7lbrWcevnf6nku6CjUTiTlVnYXP+mTqfLEIbSDeehJLB0d
+ 9Xiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XYFPv5lNK4VDHu9KkerI80tRMy7EbnduVugAEJAoUvY=;
+ b=fWdfbBCwAKyiGJgPnCnonzJedIkXpQjuGnT2ZEjwq9oyj//0oI/nP6ZFWn//0acQzU
+ ohLb2n0qSNB9iMknL5jv+bE85QmBsImsQXiGNubx9NEPeBM+bMUuDMYOdBhWZu+Vw9C+
+ Z6Iy8Ia1ZKpjyt+vEFHkmJKL9lSZypiGEXwGL7rA4jh8bYs0G+mGuqwPyO8FrvvCBPDM
+ ZjU4BKI8lsBgUTSEEyin/zZnt8R7zTmb2TA1+Bh/fFvZhFb6QFr7AczZaWTWokL8jKOb
+ YSWUSzgGnYiwyEoHHWOni7K0URVkZBwXNNMjWwVst+osqscz5ltr/kpAmdAnEf7hQUxA
+ U6Uw==
+X-Gm-Message-State: AOAM531np00Qovs19wnpQZF54WXOE6xSEeOjdxCMI8tLhrwsrtcTQhf+
+ ZHi2llR+3IaD8h/gA+E+7L6AJLNzWUIphwcs4FY=
+X-Google-Smtp-Source: ABdhPJyxTo+ByI4u725EBQrrq6QFUQCH8L24YJ2NxfztdHFPZWC/CV0Rl8D+LZMurQPtm8/xerbng/+yjYdpB16U5a4=
+X-Received: by 2002:a05:6e02:1be6:: with SMTP id
+ y6mr1317001ilv.290.1632820748614; 
+ Tue, 28 Sep 2021 02:19:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210928071449.1416022-1-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jzoVAp0rnS2e4IhgwzQa+Vmss6/3y3exuaxdWJilWDgxTBof++X
- w+Qt7hopClsyMllgiYfRdvEdBfraJ+LzTT60/eek5St3D08zKgePNZMJhYMHyrTJ07+rtQm
- 2kWI+Wq1Nr77Ej89YpujUTxaX6MRslCZ650Q57mb3Gsoy/GRvwGYIFAcemnce3tB3a+MGGT
- Oc/pmBn0rvIUY5GxQoIEg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vLZGORYPEwQ=:YMcHGtfMbC2b5gP0GnXVCl
- L23KLzFaHgEFk2zcVEIlHWzEXRLkXo0Hj8mPN3LQRM904yXp1dl4kQy/w3INqZo2AIE1/+nw3
- rzuZm1WiQKB+/XPKhN+Bm+oZ4qsnSrm8WZdfEgLNu8+9FDQI5drxZZUQXJb9GGpjYxwa2pqLK
- eQFW7K933JEZLwTZlZul+q3WUkT6BvZWpCUql2A61kk8XTBY7VHw4ZOgoJZmw3KzhGEbxtTXd
- mW3AVkb7RdPRnuaT/gI6NpN1hRzziJqXQ542KWqzWVuO8rl/7tOTh3ssZpC9Hqabx8rlB5GIY
- Qyz4nBMelsVCLW4S+7TYc/0MYS4QT8QqriLx+Oa9iOK4GMXw/bTdeVyvga0BA4w3STTRzzmpW
- KcgIS6Ii+5GhIUs+h3k66Yo7ulTsLOYA3JdgYjK+svq4XUybdm4UATkQo7lY1SiMWWJAOv2rC
- chb7rHg1xIpDe1lZNJoNd75OwMthIh1cWMbzOtqYXujrBZ01rEq+ywu482j4PatDEqiZyqus3
- n6Zo2pabevrOkyH74eh4pTUJfJpoY/uIcNjTWjVxBA/vmtktj5tcDMIa03jwnaygYPau4zDlf
- +vLSZvTTuOO0vrfngWMeTE1VNgU8WvOJHJoM17H8ClsXUK03JzjYkZ/Ob+4tboB7b4EW0EEUj
- Gg+8RPOq+zHMZcEV1gdh9RcpDqxEKQY91Z37WVM8ef7TkHiCVU39E97IqQ9BsdIHX9m9JUe1G
- TAqswcic/heEAYV0ZmHg1klhemtJYb1Mrq1Eug==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.136,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210926105003.2716-1-bmeng.cn@gmail.com>
+ <20210926105003.2716-3-bmeng.cn@gmail.com>
+In-Reply-To: <20210926105003.2716-3-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 28 Sep 2021 19:18:42 +1000
+Message-ID: <CAKmqyKMyJTb6wUcowbVtzv1ZnEpzKkrKcm8hfoS8j80nZs4i9w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] hw/char: sifive_uart: Register device in 'input'
+ category
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x131.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,34 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 28/09/2021 à 09:14, Markus Armbruster a écrit :
-> Fixes: 5dd1f02b4bc2f2c2ef3a2adfd8a412c8c8769085
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On Sun, Sep 26, 2021 at 8:53 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> The category of sifive_uart device is not set. Put it into the
+> 'input' category.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+
+Thanks!
+
+Applied to riscv-to-apply.next
+
+Alistair
+
 > ---
->  qemu-options.hx | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 8f603cc7e6..27e7b9a77c 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -3188,7 +3188,7 @@ DEFHEADING(Character device options:)
->  DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
->      "-chardev help\n"
->      "-chardev null,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-> -    "-chardev socket,id=id[,host=host],port=port[,to=to][,ipv4=on|off][,ipv6=on|off][,nodelay=on|off][,reconnect=seconds]\n"
-> +    "-chardev socket,id=id[,host=host],port=port[,to=to][,ipv4=on|off][,ipv6=on|off][,nodelay=on|off]\n"
->      "         [,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds][,mux=on|off]\n"
->      "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID] (tcp)\n"
->      "-chardev socket,id=id,path=path[,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds]\n"
-> 
-
-Applied to my trivial-patches branch.
-
-Thanks,
-Laurent
+>
+>  hw/char/sifive_uart.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/char/sifive_uart.c b/hw/char/sifive_uart.c
+> index 278e21c434..1c75f792b3 100644
+> --- a/hw/char/sifive_uart.c
+> +++ b/hw/char/sifive_uart.c
+> @@ -248,6 +248,7 @@ static void sifive_uart_class_init(ObjectClass *oc, void *data)
+>      rc->phases.enter = sifive_uart_reset_enter;
+>      rc->phases.hold  = sifive_uart_reset_hold;
+>      device_class_set_props(dc, sifive_uart_properties);
+> +    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+>  }
+>
+>  static const TypeInfo sifive_uart_info = {
+> --
+> 2.25.1
+>
+>
 
