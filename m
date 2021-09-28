@@ -2,73 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D602F41B8E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 23:02:17 +0200 (CEST)
-Received: from localhost ([::1]:44200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0271641B9A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 23:53:36 +0200 (CEST)
+Received: from localhost ([::1]:58894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVKEy-0002bh-T8
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 17:02:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36304)
+	id 1mVL2d-0006Un-Kv
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 17:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mVKDR-0001vL-3Y
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 17:00:42 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38647)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mVKDO-0007ze-CC
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 17:00:40 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id u18so592704wrg.5
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 14:00:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vrull-eu.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v70sYneusvJQ/ptCvYzhmC++wroITMT+ie+B2tx+oN8=;
- b=umtl7m8uTnfZhsf5rzd1FjHB6xE76/B+qy1lvgPImz4CQ/x+TjuxC3hg29ybK/QyX4
- YTVES+7Hotg116IV5K/qM5kOFGmajN9tdIBgkM5K7Bmh0NS0FefHIMYcrSt1uaNSW3Oj
- v45bzDgqd4UFtJpYd1uTJD41RPjSFqAUQ6bRgaYYcXLgof86pvdMeEf5fwUqj5JBEIV+
- paKnjvQAJenmkjqooiRDXyeyDekYM+RbRWALrxeynlTz9QXupKlOHtb2MqsSPulGttmA
- 3ZRB9Us59l/mvf9Rz8VZEz7iz9qi8O/JdOumJVpbe00UjpONJ6O0vkQPLk6QVhAyVDRp
- hJ9w==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mVL1K-0005pH-I8
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 17:52:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40088)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mVL1H-0000K1-Jn
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 17:52:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632865930;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=34IyyMysLKkdBdpyprP8+53om2NvAfDR6dhEVMvooas=;
+ b=JFnqXIKMrdRAUoLhjjxZyxW1M0QSWRMP9oQxojS/+XTySeLxdMjAf8yC2zlLz6+QH+wwCH
+ 2su0aa3Xq8blpEjYSvneKJ3xdtvV6lKgWuKxmSGH6bLSSpZGzqDVgGL1Fio6tN0Kl3sNRB
+ hGIG1cfsYBm6lxL5E4vQmpvpmea5nns=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-LP8pQtq8MH29GXiQcoQ8_g-1; Tue, 28 Sep 2021 17:52:08 -0400
+X-MC-Unique: LP8pQtq8MH29GXiQcoQ8_g-1
+Received: by mail-io1-f72.google.com with SMTP id
+ p71-20020a6b8d4a000000b005d323186f7cso336269iod.17
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 14:52:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v70sYneusvJQ/ptCvYzhmC++wroITMT+ie+B2tx+oN8=;
- b=bvL/w+bbkC7voC8jZRcaVc/fGvwIxW8xXqR8LO86hMvLPKpo+CWr+wFo23cExPQ1FC
- Yq32aU3YbQ0MoXhJy09XR3HszFCXTlNJa8xJfSQH5VTbaJOn+8U6CbSiRXGikcOnZsT5
- oP6/eKo8eZpMiu/FrVi+IYLdeI2Hgha4lz9rlshpv7OAfU1Cu7+QVGIllvBUoj32R+nM
- 3w5a8NsSXYrUTv3zMjuduGnf2J1D11ZvvUghNseNxEfUiEcdniYnZxKSkCrnevHd+rpA
- vDANCHlsIFlHkKoRkK66Ym/6vdy30DRGGoOsCgEy2WXsHFMNRVTuqpOFaviu21J4Jp3L
- g0+Q==
-X-Gm-Message-State: AOAM531eZYsByjWGEzOOFaICh4P7Tf49DqTu63hFmCJPd8yqm5AR53YA
- QARt57t71lzlQ8RvI2dm9QPw/JymkIQeB31ZhiLfdw==
-X-Google-Smtp-Source: ABdhPJyRwTSjR/lhRCMDR01DSHCvFC0gb6Uj4v7rpXaqbEF9oAhtiPUuM21Nhe/DKOvDU33EJWzrlnVc2L4V0U71RIc=
-X-Received: by 2002:adf:eec3:: with SMTP id a3mr2599456wrp.276.1632862835762; 
- Tue, 28 Sep 2021 14:00:35 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=34IyyMysLKkdBdpyprP8+53om2NvAfDR6dhEVMvooas=;
+ b=BYCMoVt/hBPZ+MvsGtF9x0n7APuCCmoNHuT6dooUoaZ/JMmj8ZgXxEJJNDjQVEJQJT
+ FaX83iAkKwHlmSxIzeIdW/CFlEG8vQ2ZvrXMd1rn46AxLfYElIjO0KzcF2RihHQg33Kd
+ Pb00eJDnFK753hln/wZapUyz8vQidw6DLaGTpuuKq6mzN+qorQJ63KkHjU2PKPfT0qtM
+ husjobhe6HgK8bIaphdOjeO/FFvl4SyN6YJQeXHTHg1QLR2iRC3xan5jSaC8Fk9XOObA
+ lLaAhDZbmkX0v1AHZaxweekaNz/HnheUKhAHA0oAg4IKKaQMD1QflZi7egbumd3AnQeQ
+ wINQ==
+X-Gm-Message-State: AOAM530VbDG8hZkGCSznc5hgnFs8FHHmeGrbExJIgUDZJN8bHPNUB+iz
+ X29WpnYial4s0LPvYHSJ+fkynnTHyVruzpvgeRGlguVhaCEYtinJNGGU6NujHGM88tiBqhtXRhJ
+ oP8RCl8WHZVdoDus=
+X-Received: by 2002:a05:6e02:c11:: with SMTP id
+ d17mr6183319ile.25.1632865927976; 
+ Tue, 28 Sep 2021 14:52:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzXwlclyPL3XDfXxxro+ae9Kf1aqhJ+b6hTPZVmTJcOAPelbEI/h+6Ccc7ZD3HTNrMUtTeX/w==
+X-Received: by 2002:a05:6e02:c11:: with SMTP id
+ d17mr6183312ile.25.1632865927803; 
+ Tue, 28 Sep 2021 14:52:07 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a2:9100::d3ec])
+ by smtp.gmail.com with ESMTPSA id j14sm153875ilu.74.2021.09.28.14.52.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Sep 2021 14:52:07 -0700 (PDT)
+Date: Tue, 28 Sep 2021 17:52:05 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH v3 1/3] QIOChannel: Add io_async_writev & io_async_flush
+ callbacks
+Message-ID: <YVOOhSk2QbTpYP2V@t490s>
+References: <20210922222423.644444-1-leobras@redhat.com>
+ <20210922222423.644444-2-leobras@redhat.com>
+ <YU4H1HwsiAO3KM6r@redhat.com>
 MIME-Version: 1.0
-References: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
- <20210911140016.834071-12-philipp.tomsich@vrull.eu>
- <CAKmqyKM7b9Xz0C7YN7QyARUJSAuDqxWk4VnwHfMB+5tTHGvy4w@mail.gmail.com>
- <CAAeLtUBk3ffamhKaqYsQkCW79Z6Jd+gMH_jAv_NXAVyDPdHOmw@mail.gmail.com>
- <1dcc5800-a3e6-d1b8-c2e5-0ccf2d724c30@linaro.org>
- <CAAeLtUCiOFKN=xoJSJyuNHF2Yvc0pYb0ef3L3kB6NtGPQQ5h2w@mail.gmail.com>
-In-Reply-To: <CAAeLtUCiOFKN=xoJSJyuNHF2Yvc0pYb0ef3L3kB6NtGPQQ5h2w@mail.gmail.com>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Tue, 28 Sep 2021 23:00:25 +0200
-Message-ID: <CAAeLtUBXnN-507Zm4YqoO1BCXO0cA=adWBzA=fuavfps4Bg1qw@mail.gmail.com>
-Subject: Re: [PATCH v11 11/16] target/riscv: Add orc.b instruction for Zbb,
- removing gorc/gorci
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YU4H1HwsiAO3KM6r@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,36 +99,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>, Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Richard & Alistair,
+On Fri, Sep 24, 2021 at 06:16:04PM +0100, Daniel P. Berrangé wrote:
+> > +ssize_t qio_channel_async_writev(QIOChannel *ioc,
+> > +                                 const struct iovec *iov,
+> > +                                 size_t niov,
+> > +                                 int *fds,
+> > +                                 size_t nfds,
+> > +                                 Error **errp);
+> 
+> This is missing any flags. We need something like
+> 
+>    QIO_CHANNEL_WRITE_FLAG_ZEROCOPY
+> 
+> passed in an 'unsigned int flags' parameter. This in
+> turn makes me question whether we should have the
+> common helpers at all, as the api is going to be
+> different for sync vs async.
+> 
+> The QIOChannelFeature enum probably ought to be
+> extended with QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY with
+> support for probing whether that's supported or not.
 
-On Tue, 28 Sept 2021 at 20:45, Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
->
-> On Tue, 28 Sept 2021 at 20:45, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
-> >
-> > On 9/28/21 11:45 AM, Philipp Tomsich wrote:
-> > > The dup_const macro is returning an unsigned long long, which probably
-> > > should be fixed on the tcg.h-level instead of forcing a cast to target_long
-> > > at the call site.
-> >
-> > No, dup_const is first and primarily for vector support, and therefore must return a
-> > 64-bit constant.
-> >
-> > > Or should we introduce a dup_const_tl?
-> >
-> > Maybe.  I guess that could be a bit better than the cast.
->
-> I'll provide a patch that wraps dup_const in a dup_const_tl.
+I'm also wondering whether we could just drop the fds/nfds as per my knowledge
+SCM_RIGHT is the only user, at the meantime I don't see why an async interface
+would pass in any fd anyways..  Thanks,
 
-A fix is in patchworks:
-https://patchwork.kernel.org/project/qemu-devel/list/?series=554539
+-- 
+Peter Xu
 
-Thanks,
-Philipp.
 
