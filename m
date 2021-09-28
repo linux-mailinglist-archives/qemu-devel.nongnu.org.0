@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5481941AFDB
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:19:21 +0200 (CEST)
-Received: from localhost ([::1]:32790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F62E41AFFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:24:39 +0200 (CEST)
+Received: from localhost ([::1]:43006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVD0y-0002A6-Ca
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:19:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38828)
+	id 1mVD66-0000jm-3X
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:24:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVCaJ-0006gl-Fv
+ id 1mVCaL-0006gq-Up
  for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:51 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:39688)
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:37543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVCaH-0001WZ-ON
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:47 -0400
-Received: by mail-ed1-x529.google.com with SMTP id x7so68158377edd.6
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:45 -0700 (PDT)
+ id 1mVCaK-0001Yi-Ed
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:49 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id ba1so24898811edb.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BM+iD1PcwtRETlHUjTXSADa0Dlink82Tdo9tl/Wyh+U=;
- b=htg23bmCMM58/B2zrQAuD8RM+vDhUJqGSmGpaNqMZ9yWfWL7aR+5Pm7xvZ5Ic5cdsg
- TCr3cSnxzLb1V4wnAaI0a+t0ZEGx0wl37oNGqlpxx0RkYkskFVQmY0XzkOQnT6NT3XWD
- WiuQGeTOFAzXRffnogVq5XMGudHWK9JXY1eS2Ocyq9QV5SbeNTg7LA0b6e5zWe7AoTxL
- /+y4E9ZJ06AP1JiftcTUn3vRdrt6XgASQWNQtaDMCwqzNY/5X81MvuWpIvD0r8vSNHyJ
- JHCukAnl3g5Q1r1XKsHqAOsbm2xZl/khD4ignAku6UKjv0czocEH+FgNcW6qBpSNVUty
- JnZA==
+ bh=H2j0w3zV2aYZRFejCWueKk3nNl/dRSroOVrcszJhoRY=;
+ b=PvhJUJ84RY886qQJaDbCYRvAzEB7Abo5LtO/7Fwmjw4aE81IXs8IBKi3Vm6ZjYdmRR
+ 1H3JqaG/FTy1YEHYTD+BP5GUkKqa52OWnF01wwoKhIIAFg9k6qtJeXfvf4OzUf3AKn8e
+ 5Sk/orEprsn/Qgbtv5JBgtU0NB89AXGvPT1H+KhMbRLzLSm5VeV4mLM9cPjfeEGciFhY
+ rZ5Mb8RvmnGNRsiqaYPA4Rs/Npbby5YmdtPoWeaX3speHuYKAXpgCOTgf5vX2qhqFRyI
+ XLc4MlvBK+mpqhfauSAgQXC8UUppgCrneW36v8R1g/0HW/CLdo8jzqxmH9hB+nos01OJ
+ a32Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BM+iD1PcwtRETlHUjTXSADa0Dlink82Tdo9tl/Wyh+U=;
- b=yqGCDpz5Ak1CEDNt1/oZk29XgkS/YvV1xKAYFcu+e2XO9u/aINXrmI8AOeKujm9Kqi
- nWcUCUew+BSWMghdF1MEB9fEN/1INDnoYLkX/D9d2QPSQYL4AOs17j+PbQmCEGaThoBw
- Y58OiHLpK60QiuJ1+qlTnhU5rbIJCIcNhUAaOASYAid8tU9ZduEbK2k6JeZyU90n3JYF
- 6VBpC6VOwhTXCcVFIoCr+iXghc9Pt2kJC7yr8vaXrEqDlml1G5Diz00STC40CP00IKRw
- 1JSahQd82b3pDT8zaRvVrkd5LqnZsUtVx8DCQU79k3VvOh8/HEX0e/gdnic/BvsAXRtk
- VZcQ==
-X-Gm-Message-State: AOAM533yhPhqKUgcoJ2W4Djjvbh/GNq7TAEXSlrStL5dbW3UzHlPenIc
- oLbXhFqNpcRhYIZ7SUQu6pS5zExCaOQ=
-X-Google-Smtp-Source: ABdhPJwftiKtSMCvKxwQxyrp5qjPLIw9gBIj+uMynUG/PP439c93tiOe+2bRNwuo4JlO8WWJbMBuEA==
-X-Received: by 2002:a17:906:bfe7:: with SMTP id
- vr7mr6524011ejb.32.1632833502545; 
- Tue, 28 Sep 2021 05:51:42 -0700 (PDT)
+ bh=H2j0w3zV2aYZRFejCWueKk3nNl/dRSroOVrcszJhoRY=;
+ b=5g/W6nwspV9biFS+Hp11rA1xAMnxwW2VVoujcz83dRyZIhAaabz2s3uDRCDQ/s+JtZ
+ DGi/WkAaiTj2sAj8AbUJjgDfdGNgS+hH/hGLfG62KFeR4RT7l3XmOgsevLizQGEyFINF
+ WaVNCSVI11W5P5aI+qXpm/XzQQjoKAZfGiGbVQPPORvmS5dgI89jsxttiPRdzGzWat/V
+ sjOoDsUNbTKvxxzsLs6gc1BObVCJc4zjHV35Zk+x39AIsetFoQ5T/vtY/MufLe0g2Ho8
+ q0fTq++xObpDObe9ovcuGeLS0AwhjCJrc9GepSmqVGh2ckOV6vImfFMQk0U4pgY/1Yep
+ Aqcg==
+X-Gm-Message-State: AOAM5331XsHa4Pl7IzBU8tIrBbHsqtpP4COSHlyw87tCxpejMeuOERnQ
+ 5zt++sbvo1vG3f5FFHe8XARsJbpMDZs=
+X-Google-Smtp-Source: ABdhPJySug+ggOA7h908cfakAgy2A9QdE1t3j+VhMXUxylGbKEq5wnn9EXhnUW26EJq1glp4UwB7+Q==
+X-Received: by 2002:a17:906:169a:: with SMTP id
+ s26mr6058248ejd.278.1632833503206; 
+ Tue, 28 Sep 2021 05:51:43 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id p24sm12641685edq.27.2021.09.28.05.51.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 28 Sep 2021 05:51:42 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/33] memory: Add tracepoint for dirty sync
-Date: Tue, 28 Sep 2021 14:51:14 +0200
-Message-Id: <20210928125116.183620-32-pbonzini@redhat.com>
+Subject: [PULL 32/33] build-sys: add HAVE_IPPROTO_MPTCP
+Date: Tue, 28 Sep 2021 14:51:15 +0200
+Message-Id: <20210928125116.183620-33-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210928125116.183620-1-pbonzini@redhat.com>
 References: <20210928125116.183620-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,56 +85,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Xu <peterx@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Trace at memory_region_sync_dirty_bitmap() for log_sync() or global_log_sync()
-on memory regions.  One trace line should suffice when it finishes, so as to
-estimate the time used for each log sync process.
+The QAPI schema shouldn't rely on C system headers #define, but on
+configure-time project #define, so we can express the build condition in
+a C-independent way.
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20210817013706.30986-1-peterx@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20210907121943.3498701-3-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/memory.c     | 2 ++
- softmmu/trace-events | 1 +
- 2 files changed, 3 insertions(+)
+ io/dns-resolver.c   | 2 +-
+ meson.build         | 2 ++
+ qapi/sockets.json   | 2 +-
+ util/qemu-sockets.c | 6 +++---
+ 4 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 54cd0e9824..db182e5d3d 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2154,6 +2154,7 @@ static void memory_region_sync_dirty_bitmap(MemoryRegion *mr)
-                 }
-             }
-             flatview_unref(view);
-+            trace_memory_region_sync_dirty(mr ? mr->name : "(all)", listener->name, 0);
-         } else if (listener->log_sync_global) {
-             /*
-              * No matter whether MR is specified, what we can do here
-@@ -2161,6 +2162,7 @@ static void memory_region_sync_dirty_bitmap(MemoryRegion *mr)
-              * sync in a finer granularity.
-              */
-             listener->log_sync_global(listener);
-+            trace_memory_region_sync_dirty(mr ? mr->name : "(all)", listener->name, 1);
+diff --git a/io/dns-resolver.c b/io/dns-resolver.c
+index a5946a93bf..53b0e8407a 100644
+--- a/io/dns-resolver.c
++++ b/io/dns-resolver.c
+@@ -122,7 +122,7 @@ static int qio_dns_resolver_lookup_sync_inet(QIODNSResolver *resolver,
+             .ipv4 = iaddr->ipv4,
+             .has_ipv6 = iaddr->has_ipv6,
+             .ipv6 = iaddr->ipv6,
+-#ifdef IPPROTO_MPTCP
++#ifdef HAVE_IPPROTO_MPTCP
+             .has_mptcp = iaddr->has_mptcp,
+             .mptcp = iaddr->mptcp,
+ #endif
+diff --git a/meson.build b/meson.build
+index 978e8329f7..7f0fafff4a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1374,6 +1374,8 @@ config_host_data.set('HAVE_OPTRESET',
+                      cc.has_header_symbol('getopt.h', 'optreset'))
+ config_host_data.set('HAVE_UTMPX',
+                      cc.has_header_symbol('utmpx.h', 'struct utmpx'))
++config_host_data.set('HAVE_IPPROTO_MPTCP',
++                     cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
+ 
+ # has_member
+ config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID',
+diff --git a/qapi/sockets.json b/qapi/sockets.json
+index ef4b16d6f2..5773d9fcc4 100644
+--- a/qapi/sockets.json
++++ b/qapi/sockets.json
+@@ -69,7 +69,7 @@
+     '*ipv4': 'bool',
+     '*ipv6': 'bool',
+     '*keep-alive': 'bool',
+-    '*mptcp': { 'type': 'bool', 'if': 'IPPROTO_MPTCP' } } }
++    '*mptcp': { 'type': 'bool', 'if': 'HAVE_IPPROTO_MPTCP' } } }
+ 
+ ##
+ # @UnixSocketAddress:
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 72216ef980..0585e7a629 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -278,7 +278,7 @@ static int inet_listen_saddr(InetSocketAddress *saddr,
+ 
+     /* create socket + bind/listen */
+     for (e = res; e != NULL; e = e->ai_next) {
+-#ifdef IPPROTO_MPTCP
++#ifdef HAVE_IPPROTO_MPTCP
+         if (saddr->has_mptcp && saddr->mptcp) {
+             e->ai_protocol = IPPROTO_MPTCP;
          }
+@@ -462,7 +462,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+         error_free(local_err);
+         local_err = NULL;
+ 
+-#ifdef IPPROTO_MPTCP
++#ifdef HAVE_IPPROTO_MPTCP
+         if (saddr->has_mptcp && saddr->mptcp) {
+             e->ai_protocol = IPPROTO_MPTCP;
+         }
+@@ -699,7 +699,7 @@ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
+         }
+         addr->has_keep_alive = true;
      }
- }
-diff --git a/softmmu/trace-events b/softmmu/trace-events
-index 7b278590a0..bf1469990e 100644
---- a/softmmu/trace-events
-+++ b/softmmu/trace-events
-@@ -15,6 +15,7 @@ memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uint64_t va
- memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
- memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
- memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
-+memory_region_sync_dirty(const char *mr, const char *listener, int global) "mr '%s' listener '%s' synced (global=%d)"
- flatview_new(void *view, void *root) "%p (root %p)"
- flatview_destroy(void *view, void *root) "%p (root %p)"
- flatview_destroy_rcu(void *view, void *root) "%p (root %p)"
+-#ifdef IPPROTO_MPTCP
++#ifdef HAVE_IPPROTO_MPTCP
+     begin = strstr(optstr, ",mptcp");
+     if (begin) {
+         if (inet_parse_flag("mptcp", begin + strlen(",mptcp"),
 -- 
 2.31.1
 
