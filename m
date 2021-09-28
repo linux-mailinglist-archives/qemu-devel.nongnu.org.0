@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616FE41A632
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 05:48:26 +0200 (CEST)
-Received: from localhost ([::1]:51000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C972841A62E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 05:45:06 +0200 (CEST)
+Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mV46T-0003RA-5b
-	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 23:48:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42178)
+	id 1mV43E-00084G-A5
+	for lists+qemu-devel@lfdr.de; Mon, 27 Sep 2021 23:45:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=8905f295c3=pdel@fb.com>)
- id 1mV42J-0007Pe-Fh
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 23:44:07 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:36558)
+ id 1mV42F-0007Lm-Qi
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 23:44:03 -0400
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:18514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=8905f295c3=pdel@fb.com>)
- id 1mV42H-0007Sa-By
- for qemu-devel@nongnu.org; Mon, 27 Sep 2021 23:44:07 -0400
-Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18RKsVWG021313
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 20:44:03 -0700
+ id 1mV42D-0007Oh-GE
+ for qemu-devel@nongnu.org; Mon, 27 Sep 2021 23:44:03 -0400
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18RKsLic004477
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 20:43:59 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
  h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=facebook; bh=bltmjaoqta0QVPU0Q1s69h6ZlOQ04QPqMX1q/LQ4mtc=;
- b=ODOZCth9UregCy03vifL1jfmhROsJfhN9rK5jNPW7bXdhrnafbUIrwtv3JJrhU/G3ngp
- TN1N1OCPIpNjeM26iPlulJy91V1N6JSth19xVrpAHFjxXoqhRgFxIRR6w4Z0tOYUUCTq
- goSBmfhgN7cgZVypbctk+7ZyheKUjco6n+0= 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=facebook;
+ bh=c0/ARrcfO+dtzNZqmEUmkz8ScK9/nq1jd1J0el+o2xU=;
+ b=cvR4vxteBvce8koLJBjVYG0WVrzlRmzJLDk4zkPxV3Vi0/xXI++lYDGmijUPPQ/ZBReI
+ Pw42Qato7IvdPwzKkBpRbTCwssS/W59DV7BHCcITAn49s8KfBmDJxCzy1XweJbRUlDEI
+ dYDxqyFFsBV0S6XqB07uDbvX+FKWr6PE+1g= 
 Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 3bbe8swnqg-5
+ by mx0a-00082601.pphosted.com with ESMTP id 3bbfktvwcx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 20:44:03 -0700
-Received: from intmgw003.48.prn1.facebook.com (2620:10d:c0a8:1b::d) by
+ for <qemu-devel@nongnu.org>; Mon, 27 Sep 2021 20:43:59 -0700
+Received: from intmgw002.46.prn1.facebook.com (2620:10d:c0a8:1b::d) by
  mail.thefacebook.com (2620:10d:c0a8:82::c) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.14; Mon, 27 Sep 2021 20:44:02 -0700
+ 15.1.2308.14; Mon, 27 Sep 2021 20:43:58 -0700
 Received: by devvm660.prn0.facebook.com (Postfix, from userid 385188)
- id 018AF4362F48; Mon, 27 Sep 2021 20:43:56 -0700 (PDT)
+ id 0403D4362F4A; Mon, 27 Sep 2021 20:43:57 -0700 (PDT)
 From: <pdel@fb.com>
 To: 
 CC: <clg@kaod.org>, <joel@jms.id.au>, <rashmica.g@gmail.com>,
  <patrick@stwcx.xyz>, <qemu-devel@nongnu.org>, <f4bug@amsat.org>, Peter
  Delevoryas <pdel@fb.com>
-Subject: [PATCH 0/1] hw: aspeed_gpio: Fix GPIO array indexing
-Date: Mon, 27 Sep 2021 20:43:55 -0700
-Message-ID: <20210928034356.3280959-1-pdel@fb.com>
+Subject: [PATCH 1/1] hw: aspeed_gpio: Fix GPIO array indexing
+Date: Mon, 27 Sep 2021 20:43:56 -0700
+Message-ID: <20210928034356.3280959-2-pdel@fb.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210928034356.3280959-1-pdel@fb.com>
+References: <20210928034356.3280959-1-pdel@fb.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
 X-FB-Source: Intern
-X-Proofpoint-GUID: hwQiJdeQVlkHrtm34vuiCIVhyvaIUVIv
-X-Proofpoint-ORIG-GUID: hwQiJdeQVlkHrtm34vuiCIVhyvaIUVIv
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
+X-Proofpoint-ORIG-GUID: TceSTnxJndRnTAmkgMQUwbCA6QGKEDib
+X-Proofpoint-GUID: TceSTnxJndRnTAmkgMQUwbCA6QGKEDib
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
  definitions=2021-09-27_07,2021-09-24_02,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
  mlxlogscore=999
- suspectscore=0 bulkscore=0 malwarescore=0 mlxscore=0 adultscore=0
- clxscore=1015 impostorscore=0 priorityscore=1501 phishscore=0 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ adultscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0
+ spamscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2109230001 definitions=main-2109280025
 X-FB-Internal: deliver
-Received-SPF: pass client-ip=67.231.145.42;
- envelope-from=prvs=8905f295c3=pdel@fb.com; helo=mx0a-00082601.pphosted.com
+Received-SPF: pass client-ip=67.231.153.30;
+ envelope-from=prvs=8905f295c3=pdel@fb.com; helo=mx0b-00082601.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -92,79 +94,232 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <pdel@fb.com>
 
-Hey everyone,
+The gpio array is declared as a dense array:
 
-I think there might be a bug in aspeed_gpio_update, where it's selecting
-a GPIO IRQ to update. The indexing that maps from GPIO pin to IRQ leads
-to an out-of-bounds array access and a segfault after that.
+  qemu_irq gpios[ASPEED_GPIO_NR_PINS];
 
-tl;dr
+(AST2500 has 228, AST2400 has 216, AST2600 has 208)
 
-There's 8 rows of 32 pins (8 * 32 =3D=3D 256 total) on the AST2500, but some
-of the pins are not actually active: there's only 228 pins actually
-active in the AST2500.
+However, this array is used like a matrix of GPIO sets
+(e.g. gpio[NR_SETS][NR_PINS_PER_SET] =3D gpio[8][32])
 
-The GPIO IRQ array has length 228, but we index it using a matrix
-indexing scheme like [row][column], and end up out-of-bounds for
-high-numbered pins.
+  size_t offset =3D set * GPIOS_PER_SET + gpio;
+  qemu_set_irq(s->gpios[offset], !!(new & mask));
 
-I fixed this by converting the IRQ array to a matrix, where some
-of the entries are uninitialized (zero). This retains the matrix
-indexing scheme, which I think is easy to understand.
+This can result in an out-of-bounds access to "s->gpios" because the
+gpio sets do _not_ have the same length. Some of the groups (e.g.
+GPIOAB) only have 4 pins. 228 !=3D 8 * 32 =3D=3D 256.
 
-Notes on reproducing:
+To fix this, I converted the gpio array from dense to sparse, to match
+both the hardware layout and this existing indexing code.
 
-I was testing booting Facebook's OpenBMC platform "YosemiteV2" (fby2)
-and hit a segfault:
-
-  qemu-system-arm -machine ast2500-evb \
-      -drive file=3Dfby2.mtd,format=3Draw,if=3Dmtd \
-      -serial stdio -display none
-  ...
-  Setup Caching for Bridge IC info..done.
-  Setup Front Panel Daemon..done.
-  Setup fan speed...
-  FAN CONFIG : Single Rotor FAN
-  Unexpected 4 Servers config! Run FSC 4 TLs Config as default config
-  Setting Zone 0 speed to 70%
-  Setting Zone 1 speed to 70%
-  ok: run: fscd: (pid 1726) 0s
-  done.
-  Powering fru 1 to ON state...
-  Segmentation fault (core dumped)
-
-In gdb:
-
-  Thread 3 "qemu-system-arm" received signal SIGSEGV, Segmentation fault.
-  [Switching to Thread 0x7ffff20ee700 (LWP 1840353)]
-  qemu_set_irq (irq=3D0xffffffff00000000, level=3D1) at ../hw/core/irq.c:45
-  45          irq->handler(irq->opaque, irq->n, level);
-  (gdb) p irq
-  $1 =3D (qemu_irq) 0xffffffff00000000
-  (gdb) up
-  #1  0x00005555558e36f5 in aspeed_gpio_update (s=3D0x7ffff7ecffb0, regs=3D=
-0x7ffff7ed0c94, value=3D128) at ../hw/gpio/aspeed_gpio.c:287
-  287                     qemu_set_irq(s->gpios[offset], !!(new & mask));
-  (gdb) p s->gpios
-  $2 =3D {0x0 <repeats 228 times>}
-  (gdb) p offset
-  $3 =3D 231
-  (gdb) p set
-  $5 =3D 7
-  (gdb) p gpio
-  $4 =3D 7
-
-With my fix, I can boot the fby2 platform. The image I was using is here:
-
-https://github.com/peterdelevoryas/openbmc/releases/tag/fby2.debug.mtd
-
-Peter Delevoryas (1):
-  hw: aspeed_gpio: Fix GPIO array indexing
-
+Fixes: 4b7f956862dc2db4c5c ("hw/gpio: Add basic Aspeed GPIO model for AST=
+2400 and AST2500")
+Signed-off-by: Peter Delevoryas <pdel@fb.com>
+---
  hw/gpio/aspeed_gpio.c         | 72 ++++++++++++++---------------------
  include/hw/gpio/aspeed_gpio.h |  5 +--
  2 files changed, 31 insertions(+), 46 deletions(-)
 
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index dfa6d6cb40..f04d4a454c 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -16,11 +16,7 @@
+ #include "hw/irq.h"
+ #include "migration/vmstate.h"
+=20
+-#define GPIOS_PER_REG 32
+-#define GPIOS_PER_SET GPIOS_PER_REG
+-#define GPIO_PIN_GAP_SIZE 4
+ #define GPIOS_PER_GROUP 8
+-#define GPIO_GROUP_SHIFT 3
+=20
+ /* GPIO Source Types */
+ #define ASPEED_CMD_SRC_MASK         0x01010101
+@@ -259,7 +255,7 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GP=
+IOSets *regs,
+=20
+     diff =3D old ^ new;
+     if (diff) {
+-        for (gpio =3D 0; gpio < GPIOS_PER_REG; gpio++) {
++        for (gpio =3D 0; gpio < ASPEED_GPIOS_PER_SET; gpio++) {
+             uint32_t mask =3D 1 << gpio;
+=20
+             /* If the gpio needs to be updated... */
+@@ -283,8 +279,7 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GP=
+IOSets *regs,
+             if (direction & mask) {
+                 /* ...trigger the line-state IRQ */
+                 ptrdiff_t set =3D aspeed_gpio_set_idx(s, regs);
+-                size_t offset =3D set * GPIOS_PER_SET + gpio;
+-                qemu_set_irq(s->gpios[offset], !!(new & mask));
++                qemu_set_irq(s->gpios[set][gpio], !!(new & mask));
+             } else {
+                 /* ...otherwise if we meet the line's current IRQ policy=
+... */
+                 if (aspeed_evaluate_irq(regs, old & mask, gpio)) {
+@@ -297,21 +292,6 @@ static void aspeed_gpio_update(AspeedGPIOState *s, G=
+PIOSets *regs,
+     qemu_set_irq(s->irq, !!(s->pending));
+ }
+=20
+-static uint32_t aspeed_adjust_pin(AspeedGPIOState *s, uint32_t pin)
+-{
+-    AspeedGPIOClass *agc =3D ASPEED_GPIO_GET_CLASS(s);
+-    /*
+-     * The 2500 has a 4 pin gap in group AB and the 2400 has a 4 pin
+-     * gap in group Y (and only four pins in AB but this is the last gro=
+up so
+-     * it doesn't matter).
+-     */
+-    if (agc->gap && pin >=3D agc->gap) {
+-        pin +=3D GPIO_PIN_GAP_SIZE;
+-    }
+-
+-    return pin;
+-}
+-
+ static bool aspeed_gpio_get_pin_level(AspeedGPIOState *s, uint32_t set_i=
+dx,
+                                       uint32_t pin)
+ {
+@@ -367,7 +347,7 @@ static uint32_t update_value_control_source(GPIOSets =
+*regs, uint32_t old_value,
+     uint32_t new_value =3D 0;
+=20
+     /* for each group in set */
+-    for (i =3D 0; i < GPIOS_PER_REG; i +=3D GPIOS_PER_GROUP) {
++    for (i =3D 0; i < ASPEED_GPIOS_PER_SET; i +=3D GPIOS_PER_GROUP) {
+         cmd_source =3D extract32(regs->cmd_source_0, i, 1)
+                 | (extract32(regs->cmd_source_1, i, 1) << 1);
+=20
+@@ -637,7 +617,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr of=
+fset, uint64_t data,
+          *   bidirectional  |   1       |   1        |  data
+          *   input only     |   1       |   0        |   0
+          *   output only    |   0       |   1        |   1
+-         *   no pin / gap   |   0       |   0        |   0
++         *   no pin         |   0       |   0        |   0
+          *
+          *  which is captured by:
+          *  data =3D ( data | ~input) & output;
+@@ -836,14 +816,20 @@ static void aspeed_gpio_realize(DeviceState *dev, E=
+rror **errp)
+     AspeedGPIOState *s =3D ASPEED_GPIO(dev);
+     SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
+     AspeedGPIOClass *agc =3D ASPEED_GPIO_GET_CLASS(s);
+-    int pin;
+=20
+     /* Interrupt parent line */
+     sysbus_init_irq(sbd, &s->irq);
+=20
+     /* Individual GPIOs */
+-    for (pin =3D 0; pin < agc->nr_gpio_pins; pin++) {
+-        sysbus_init_irq(sbd, &s->gpios[pin]);
++    for (int i =3D 0; i < ASPEED_GPIO_MAX_NR_SETS; i++) {
++        const GPIOSetProperties *props =3D &agc->props[i];
++        uint32_t skip =3D ~(props->input | props->output);
++        for (int j =3D 0; j < ASPEED_GPIOS_PER_SET; j++) {
++            if (skip >> j & 1) {
++                continue;
++            }
++            sysbus_init_irq(sbd, &s->gpios[i][j]);
++        }
+     }
+=20
+     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_gpio_ops, s,
+@@ -856,20 +842,22 @@ static void aspeed_gpio_init(Object *obj)
+ {
+     AspeedGPIOState *s =3D ASPEED_GPIO(obj);
+     AspeedGPIOClass *agc =3D ASPEED_GPIO_GET_CLASS(s);
+-    int pin;
+-
+-    for (pin =3D 0; pin < agc->nr_gpio_pins; pin++) {
+-        char *name;
+-        int set_idx =3D pin / GPIOS_PER_SET;
+-        int pin_idx =3D aspeed_adjust_pin(s, pin) - (set_idx * GPIOS_PER=
+_SET);
+-        int group_idx =3D pin_idx >> GPIO_GROUP_SHIFT;
+-        const GPIOSetProperties *props =3D &agc->props[set_idx];
+-
+-        name =3D g_strdup_printf("gpio%s%d", props->group_label[group_id=
+x],
+-                               pin_idx % GPIOS_PER_GROUP);
+-        object_property_add(obj, name, "bool", aspeed_gpio_get_pin,
+-                            aspeed_gpio_set_pin, NULL, NULL);
+-        g_free(name);
++
++    for (int i =3D 0; i < ASPEED_GPIO_MAX_NR_SETS; i++) {
++        const GPIOSetProperties *props =3D &agc->props[i];
++        uint32_t skip =3D ~(props->input | props->output);
++        for (int j =3D 0; j < ASPEED_GPIOS_PER_SET; j++) {
++            if (skip >> j & 1) {
++                continue;
++            }
++            int group_idx =3D j / GPIOS_PER_GROUP;
++            int pin_idx =3D j % GPIOS_PER_GROUP;
++            const char *group =3D &props->group_label[group_idx][0];
++            char *name =3D g_strdup_printf("gpio%s%d", group, pin_idx);
++            object_property_add(obj, name, "bool", aspeed_gpio_get_pin,
++                                aspeed_gpio_set_pin, NULL, NULL);
++            g_free(name);
++        }
+     }
+ }
+=20
+@@ -926,7 +914,6 @@ static void aspeed_gpio_ast2400_class_init(ObjectClas=
+s *klass, void *data)
+     agc->props =3D ast2400_set_props;
+     agc->nr_gpio_pins =3D 216;
+     agc->nr_gpio_sets =3D 7;
+-    agc->gap =3D 196;
+     agc->reg_table =3D aspeed_3_3v_gpios;
+ }
+=20
+@@ -937,7 +924,6 @@ static void aspeed_gpio_2500_class_init(ObjectClass *=
+klass, void *data)
+     agc->props =3D ast2500_set_props;
+     agc->nr_gpio_pins =3D 228;
+     agc->nr_gpio_sets =3D 8;
+-    agc->gap =3D 220;
+     agc->reg_table =3D aspeed_3_3v_gpios;
+ }
+=20
+diff --git a/include/hw/gpio/aspeed_gpio.h b/include/hw/gpio/aspeed_gpio.=
+h
+index e1636ce7fe..801846befb 100644
+--- a/include/hw/gpio/aspeed_gpio.h
++++ b/include/hw/gpio/aspeed_gpio.h
+@@ -17,9 +17,9 @@
+ OBJECT_DECLARE_TYPE(AspeedGPIOState, AspeedGPIOClass, ASPEED_GPIO)
+=20
+ #define ASPEED_GPIO_MAX_NR_SETS 8
++#define ASPEED_GPIOS_PER_SET 32
+ #define ASPEED_REGS_PER_BANK 14
+ #define ASPEED_GPIO_MAX_NR_REGS (ASPEED_REGS_PER_BANK * ASPEED_GPIO_MAX_=
+NR_SETS)
+-#define ASPEED_GPIO_NR_PINS 228
+ #define ASPEED_GROUPS_PER_SET 4
+ #define ASPEED_GPIO_NR_DEBOUNCE_REGS 3
+ #define ASPEED_CHARS_PER_GROUP_LABEL 4
+@@ -60,7 +60,6 @@ struct AspeedGPIOClass {
+     const GPIOSetProperties *props;
+     uint32_t nr_gpio_pins;
+     uint32_t nr_gpio_sets;
+-    uint32_t gap;
+     const AspeedGPIOReg *reg_table;
+ };
+=20
+@@ -72,7 +71,7 @@ struct AspeedGPIOState {
+     MemoryRegion iomem;
+     int pending;
+     qemu_irq irq;
+-    qemu_irq gpios[ASPEED_GPIO_NR_PINS];
++    qemu_irq gpios[ASPEED_GPIO_MAX_NR_SETS][ASPEED_GPIOS_PER_SET];
+=20
+ /* Parallel GPIO Registers */
+     uint32_t debounce_regs[ASPEED_GPIO_NR_DEBOUNCE_REGS];
 --=20
 2.30.2
 
