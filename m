@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2DB41AFFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:23:28 +0200 (CEST)
-Received: from localhost ([::1]:41248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E6B641B0EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:36:19 +0200 (CEST)
+Received: from localhost ([::1]:41898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVD4x-0007xU-B8
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:23:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38824)
+	id 1mVDHO-0002gw-CN
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:36:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVCaJ-0006gj-72
+ id 1mVCaK-0006gn-Iq
  for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:51 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:36731)
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:44889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVCaG-0001VI-Fx
- for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:46 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id y35so31711282ede.3
- for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:42 -0700 (PDT)
+ id 1mVCaI-0001XH-S0
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 08:51:48 -0400
+Received: by mail-ed1-x535.google.com with SMTP id v18so47488045edc.11
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 05:51:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7aIHkITyfDCPKw7jzecCNevaMEbatHzwC1yR+VL6gh4=;
- b=RQgb65pItN8ERUSJnhcK3syXRZjZZ3Hfm//5kfgXsKZyHbuGYsxPx+pzpMTp9zxpMO
- f54K6aCpgSMR1mPYs3+xjyPeseiutgMoXJAcm9o6XXxDyruaXkQsBkx6Usf6G7Yz2/eL
- kQTJAfM3Q9/CgE5dR2REi1ZBmUZ97q9G2/b13krvKsqd0ZWRrTAS+d4nRiTO7pv23HpD
- RYDKqaJCwbwYw9v2Fm6XbuqfoYM2Kbio3tPFf9LfSr7a3R6rULLiSyPgTy9GyQCC6gq/
- 0y1C99Qk6n/gBsH4hxbUCA0HFSBLrLxrHAcbw5Ro7EdFLHKMsecbzCXSTer7dg8iDc4y
- gM3Q==
+ bh=ohYcK/h+3ibYka7ysojEKUGWGgYiFqj771QZXpbZi94=;
+ b=bP5cRoCnTEx13Ay3LjxgwsYhFnHGppmVU059ZlJhidzLWFq+FZ24k6yg1xy+ruABYu
+ iWp1Yy0dDg1+1fOe/lw4yze60bFX4ypEd22pqFrm5h6E9P98E1IRNcT7h24Ukm0lguYS
+ xSzdK5FlvipGj1i00SG0vCU65pHzjghs/BlLoUmWn+xF2+YShlJzWt9kbCFlNK5RIekD
+ 7moKo53z4NIFpMDhhb2Kx86sCUXYHLwBL5z8PQkrK9kikEWewGY6wk8oPYiIaOEj0h1h
+ YyegZ/Oc76iJ84JhmHGiOiAtPxEq8Fok5xsWnmKXRx8fr2M87Vjx4xZ6C5nNvV985JzW
+ HG8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7aIHkITyfDCPKw7jzecCNevaMEbatHzwC1yR+VL6gh4=;
- b=dVQPZXthVkWW6hrRP1VkCociZEguYN9yJgahPbzVesvJ9YWs8jPWD/SDrT5LHUfYly
- NKZl1i38/NUADLxj6LtgK7zH3jXVorwvu79kPxWmX51dyikGvdkc2hfMZK3RDaL/0+1U
- j9LH5rZEzaJtCGjVRk3Ve7pyebWEYQ8dMsOECf3RDP3TnfOS7ooXcQFMDwemL2K+gSvw
- v5taHSpXoXDwAFfetzAVGxbi2zsFd94/GGkgi/37mNXz5415jQ2gwXrVSajxBjR/FBPm
- aoRjCvbU/+JY345h/qiNBI+xXpo+kDAjw1vqMttzYNhCth4CzGWpYMbYp+mz/kEf9hVR
- yKLw==
-X-Gm-Message-State: AOAM5335nHW3zG1YWeKUX4dsmL7nyjPwHhYahLD8aeg+uq6LbBHVUY7j
- c29alm4fkZwPkp62uv4O20203mxL8rs=
-X-Google-Smtp-Source: ABdhPJwdEP21lGkflRJv7gkvKm7cJYlwpUHL/r9xIjxWv9xvoO6H46k7AE41MNtIlFp7YTnB/jTnoQ==
-X-Received: by 2002:a17:906:1749:: with SMTP id
- d9mr6302442eje.178.1632833498515; 
- Tue, 28 Sep 2021 05:51:38 -0700 (PDT)
+ bh=ohYcK/h+3ibYka7ysojEKUGWGgYiFqj771QZXpbZi94=;
+ b=HeIZXhljeHjUVthCcWiXJ8TOywAnFGYrYfdMOc+2vFsKcO6XRhaZPTOAjoYfwSs1tq
+ TWdvMX/Qpaj4dL6/oOrnHXr2jXtsPE3zTL/V7lI0emhBpdFL22ihKVnPyLy+yQvpKxI7
+ 1ec/i0iNuwZRsnqhkEWBRUGotmdK31zq+LJs/9iXHNjM1YOTL69vPcfH9b6B5Q8E2nb0
+ DEnd67a5Ifxsi71g8r6WmvCsgIRL5sCNlUWab6ralGfj+bhS7DxVnOoO6/xrJ4hVfpca
+ LysaqssNJ2MS+8XHPwhnJEmyey6QAZpTWQN8KLnaSULODWV5Dgip6sLJa9QakSQFfJjw
+ PkWg==
+X-Gm-Message-State: AOAM533X3HesZeCAhvTioH9iayB06XHUliatfeuu3doWnxZ8PJxFP3Qn
+ Py6PGTulbO59B+d1sSEkYheN7TU/OZg=
+X-Google-Smtp-Source: ABdhPJzBUUMvLR6yq0m4bGi50cS3ZlUC2olXxH2tMau3GeWIshElW3jmaxBZoofS01WXDc92mvu6Ow==
+X-Received: by 2002:a17:906:2613:: with SMTP id
+ h19mr6747777ejc.66.1632833499137; 
+ Tue, 28 Sep 2021 05:51:39 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p24sm12641685edq.27.2021.09.28.05.51.37
+ by smtp.gmail.com with ESMTPSA id p24sm12641685edq.27.2021.09.28.05.51.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 28 Sep 2021 05:51:38 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/33] target/i386: Add HMP and QMP interfaces for SGX
-Date: Tue, 28 Sep 2021 14:51:08 +0200
-Message-Id: <20210928125116.183620-26-pbonzini@redhat.com>
+Subject: [PULL 26/33] target/i386: Add the query-sgx-capabilities QMP command
+Date: Tue, 28 Sep 2021 14:51:09 +0200
+Message-Id: <20210928125116.183620-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210928125116.183620-1-pbonzini@redhat.com>
 References: <20210928125116.183620-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,173 +90,139 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yang Zhong <yang.zhong@intel.com>
 
-The QMP and HMP interfaces can be used by monitor or QMP tools to retrieve
-the SGX information from VM side when SGX is enabled on Intel platform.
+Libvirt can use query-sgx-capabilities to get the host
+sgx capabilities to decide how to allocate SGX EPC size to VM.
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210910102258.46648-2-yang.zhong@intel.com>
+Message-Id: <20210910102258.46648-3-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hmp-commands-info.hx         | 15 +++++++++++++
- hw/i386/sgx-stub.c           |  7 ++++++
- hw/i386/sgx.c                | 31 ++++++++++++++++++++++++++
- include/hw/i386/sgx.h        | 11 +++++++++
- include/monitor/hmp-target.h |  1 +
- qapi/misc-target.json        | 43 ++++++++++++++++++++++++++++++++++++
- target/i386/monitor.c        | 27 ++++++++++++++++++++++
- tests/qtest/qmp-cmd-test.c   |  1 +
- 8 files changed, 136 insertions(+)
- create mode 100644 include/hw/i386/sgx.h
+ hw/i386/sgx-stub.c         |  6 ++++
+ hw/i386/sgx.c              | 66 ++++++++++++++++++++++++++++++++++++++
+ include/hw/i386/sgx.h      |  1 +
+ qapi/misc-target.json      | 18 +++++++++++
+ target/i386/monitor.c      |  5 +++
+ tests/qtest/qmp-cmd-test.c |  1 +
+ 6 files changed, 97 insertions(+)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 27206ac049..4c966e8a6b 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -877,3 +877,18 @@ SRST
-   ``info dirty_rate``
-     Display the vcpu dirty rate information.
- ERST
-+
-+#if defined(TARGET_I386)
-+    {
-+        .name       = "sgx",
-+        .args_type  = "",
-+        .params     = "",
-+        .help       = "show intel SGX information",
-+        .cmd        = hmp_info_sgx,
-+    },
-+#endif
-+
-+SRST
-+  ``info sgx``
-+    Show intel SGX information.
-+ERST
 diff --git a/hw/i386/sgx-stub.c b/hw/i386/sgx-stub.c
-index 483c72bba6..485e16ecc1 100644
+index 485e16ecc1..3be9f5ca32 100644
 --- a/hw/i386/sgx-stub.c
 +++ b/hw/i386/sgx-stub.c
-@@ -1,6 +1,13 @@
- #include "qemu/osdep.h"
- #include "hw/i386/pc.h"
- #include "hw/i386/sgx-epc.h"
-+#include "hw/i386/sgx.h"
-+
-+SGXInfo *sgx_get_info(Error **errp)
+@@ -9,6 +9,12 @@ SGXInfo *sgx_get_info(Error **errp)
+     return NULL;
+ }
+ 
++SGXInfo *sgx_get_capabilities(Error **errp)
 +{
 +    error_setg(errp, "SGX support is not compiled in");
 +    return NULL;
 +}
- 
++
  void pc_machine_init_sgx_epc(PCMachineState *pcms)
  {
+     memset(&pcms->sgx_epc, 0, sizeof(SGXEPCState));
 diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-index 8a18cddc3f..ea75398575 100644
+index ea75398575..e481e9358f 100644
 --- a/hw/i386/sgx.c
 +++ b/hw/i386/sgx.c
-@@ -17,6 +17,37 @@
- #include "monitor/qdev.h"
+@@ -18,6 +18,72 @@
  #include "qapi/error.h"
  #include "exec/address-spaces.h"
-+#include "hw/i386/sgx.h"
+ #include "hw/i386/sgx.h"
++#include "sysemu/hw_accel.h"
 +
-+SGXInfo *sgx_get_info(Error **errp)
++#define SGX_MAX_EPC_SECTIONS            8
++#define SGX_CPUID_EPC_INVALID           0x0
++
++/* A valid EPC section. */
++#define SGX_CPUID_EPC_SECTION           0x1
++#define SGX_CPUID_EPC_MASK              0xF
++
++static uint64_t sgx_calc_section_metric(uint64_t low, uint64_t high)
++{
++    return (low & MAKE_64BIT_MASK(12, 20)) +
++           ((high & MAKE_64BIT_MASK(0, 20)) << 32);
++}
++
++static uint64_t sgx_calc_host_epc_section_size(void)
++{
++    uint32_t i, type;
++    uint32_t eax, ebx, ecx, edx;
++    uint64_t size = 0;
++
++    for (i = 0; i < SGX_MAX_EPC_SECTIONS; i++) {
++        host_cpuid(0x12, i + 2, &eax, &ebx, &ecx, &edx);
++
++        type = eax & SGX_CPUID_EPC_MASK;
++        if (type == SGX_CPUID_EPC_INVALID) {
++            break;
++        }
++
++        if (type != SGX_CPUID_EPC_SECTION) {
++            break;
++        }
++
++        size += sgx_calc_section_metric(ecx, edx);
++    }
++
++    return size;
++}
++
++SGXInfo *sgx_get_capabilities(Error **errp)
 +{
 +    SGXInfo *info = NULL;
-+    X86MachineState *x86ms;
-+    PCMachineState *pcms =
-+        (PCMachineState *)object_dynamic_cast(qdev_get_machine(),
-+                                              TYPE_PC_MACHINE);
-+    if (!pcms) {
-+        error_setg(errp, "SGX is only supported on PC machines");
++    uint32_t eax, ebx, ecx, edx;
++
++    int fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
++    if (fd < 0) {
++        error_setg(errp, "SGX is not enabled in KVM");
 +        return NULL;
 +    }
 +
-+    x86ms = X86_MACHINE(pcms);
-+    if (!x86ms->sgx_epc_list) {
-+        error_setg(errp, "No EPC regions defined, SGX not available");
-+        return NULL;
-+    }
-+
-+    SGXEPCState *sgx_epc = &pcms->sgx_epc;
 +    info = g_new0(SGXInfo, 1);
++    host_cpuid(0x7, 0, &eax, &ebx, &ecx, &edx);
 +
-+    info->sgx = true;
-+    info->sgx1 = true;
-+    info->sgx2 = true;
-+    info->flc = true;
-+    info->section_size = sgx_epc->size;
++    info->sgx = ebx & (1U << 2) ? true : false;
++    info->flc = ecx & (1U << 30) ? true : false;
++
++    host_cpuid(0x12, 0, &eax, &ebx, &ecx, &edx);
++    info->sgx1 = eax & (1U << 0) ? true : false;
++    info->sgx2 = eax & (1U << 1) ? true : false;
++
++    info->section_size = sgx_calc_host_epc_section_size();
++
++    close(fd);
 +
 +    return info;
 +}
  
- int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size)
+ SGXInfo *sgx_get_info(Error **errp)
  {
 diff --git a/include/hw/i386/sgx.h b/include/hw/i386/sgx.h
-new file mode 100644
-index 0000000000..2bf90b3f4f
---- /dev/null
+index 2bf90b3f4f..16fc25725c 100644
+--- a/include/hw/i386/sgx.h
 +++ b/include/hw/i386/sgx.h
-@@ -0,0 +1,11 @@
-+#ifndef QEMU_SGX_H
-+#define QEMU_SGX_H
-+
-+#include "qom/object.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "qapi/qapi-types-misc-target.h"
-+
-+SGXInfo *sgx_get_info(Error **errp);
-+
-+#endif
-diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
-index 60fc92722a..dc53add7ee 100644
---- a/include/monitor/hmp-target.h
-+++ b/include/monitor/hmp-target.h
-@@ -49,5 +49,6 @@ void hmp_info_tlb(Monitor *mon, const QDict *qdict);
- void hmp_mce(Monitor *mon, const QDict *qdict);
- void hmp_info_local_apic(Monitor *mon, const QDict *qdict);
- void hmp_info_io_apic(Monitor *mon, const QDict *qdict);
-+void hmp_info_sgx(Monitor *mon, const QDict *qdict);
+@@ -7,5 +7,6 @@
+ #include "qapi/qapi-types-misc-target.h"
  
- #endif /* MONITOR_HMP_TARGET_H */
+ SGXInfo *sgx_get_info(Error **errp);
++SGXInfo *sgx_get_capabilities(Error **errp);
+ 
+ #endif
 diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index 3b05ad3dbf..e2a347cc23 100644
+index e2a347cc23..594fbd1577 100644
 --- a/qapi/misc-target.json
 +++ b/qapi/misc-target.json
-@@ -333,3 +333,46 @@
- { 'command': 'query-sev-attestation-report', 'data': { 'mnonce': 'str' },
-   'returns': 'SevAttestationReport',
-   'if': 'TARGET_I386' }
+@@ -376,3 +376,21 @@
+ #
+ ##
+ { 'command': 'query-sgx', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
 +
 +##
-+# @SGXInfo:
++# @query-sgx-capabilities:
 +#
-+# Information about intel Safe Guard eXtension (SGX) support
-+#
-+# @sgx: true if SGX is supported
-+#
-+# @sgx1: true if SGX1 is supported
-+#
-+# @sgx2: true if SGX2 is supported
-+#
-+# @flc: true if FLC is supported
-+#
-+# @section-size: The EPC section size for guest
-+#
-+# Since: 6.2
-+##
-+{ 'struct': 'SGXInfo',
-+  'data': { 'sgx': 'bool',
-+            'sgx1': 'bool',
-+            'sgx2': 'bool',
-+            'flc': 'bool',
-+            'section-size': 'uint64'},
-+   'if': 'TARGET_I386' }
-+
-+##
-+# @query-sgx:
-+#
-+# Returns information about SGX
++# Returns information from host SGX capabilities
 +#
 +# Returns: @SGXInfo
 +#
@@ -263,63 +230,34 @@ index 3b05ad3dbf..e2a347cc23 100644
 +#
 +# Example:
 +#
-+# -> { "execute": "query-sgx" }
++# -> { "execute": "query-sgx-capabilities" }
 +# <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
 +#                  "flc": true, "section-size" : 0 } }
 +#
 +##
-+{ 'command': 'query-sgx', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
++{ 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
 diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index 119211f0b0..d7384ba348 100644
+index d7384ba348..196c1c9e77 100644
 --- a/target/i386/monitor.c
 +++ b/target/i386/monitor.c
-@@ -35,6 +35,7 @@
- #include "qapi/qapi-commands-misc-target.h"
- #include "qapi/qapi-commands-misc.h"
- #include "hw/i386/pc.h"
-+#include "hw/i386/sgx.h"
- 
- /* Perform linear address sign extension */
- static hwaddr addr_canonical(CPUArchState *env, hwaddr addr)
-@@ -763,3 +764,29 @@ qmp_query_sev_attestation_report(const char *mnonce, Error **errp)
- {
-     return sev_get_attestation_report(mnonce, errp);
+@@ -790,3 +790,8 @@ void hmp_info_sgx(Monitor *mon, const QDict *qdict)
+     monitor_printf(mon, "size: %" PRIu64 "\n",
+                    info->section_size);
  }
 +
-+SGXInfo *qmp_query_sgx(Error **errp)
++SGXInfo *qmp_query_sgx_capabilities(Error **errp)
 +{
-+    return sgx_get_info(errp);
-+}
-+
-+void hmp_info_sgx(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err = NULL;
-+    g_autoptr(SGXInfo) info = qmp_query_sgx(&err);
-+
-+    if (err) {
-+        error_report_err(err);
-+        return;
-+    }
-+    monitor_printf(mon, "SGX support: %s\n",
-+                   info->sgx ? "enabled" : "disabled");
-+    monitor_printf(mon, "SGX1 support: %s\n",
-+                   info->sgx1 ? "enabled" : "disabled");
-+    monitor_printf(mon, "SGX2 support: %s\n",
-+                   info->sgx2 ? "enabled" : "disabled");
-+    monitor_printf(mon, "FLC support: %s\n",
-+                   info->flc ? "enabled" : "disabled");
-+    monitor_printf(mon, "size: %" PRIu64 "\n",
-+                   info->section_size);
++    return sgx_get_capabilities(errp);
 +}
 diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index c98b78d033..b75f3364f3 100644
+index b75f3364f3..1af2f74c28 100644
 --- a/tests/qtest/qmp-cmd-test.c
 +++ b/tests/qtest/qmp-cmd-test.c
-@@ -100,6 +100,7 @@ static bool query_is_ignored(const char *cmd)
-         /* Success depends on Host or Hypervisor SEV support */
+@@ -101,6 +101,7 @@ static bool query_is_ignored(const char *cmd)
          "query-sev",
          "query-sev-capabilities",
-+        "query-sgx",
+         "query-sgx",
++        "query-sgx-capabilities",
          NULL
      };
      int i;
