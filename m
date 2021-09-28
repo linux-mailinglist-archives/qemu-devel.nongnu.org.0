@@ -2,62 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F54941B084
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:33:23 +0200 (CEST)
-Received: from localhost ([::1]:34894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B62341B117
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Sep 2021 15:47:30 +0200 (CEST)
+Received: from localhost ([::1]:41452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVDEY-0006Qz-85
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:33:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39112)
+	id 1mVDSD-0005XH-Jk
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 09:47:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mVCcH-0008Ff-4S; Tue, 28 Sep 2021 08:53:52 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2814)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mVCcB-0002I7-4j; Tue, 28 Sep 2021 08:53:47 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HJfTT5K9qzRfGt;
- Tue, 28 Sep 2021 20:49:17 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Tue, 28 Sep 2021 20:53:34 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.8; Tue, 28 Sep 2021 20:53:33 +0800
-Subject: Re: [PATCH v11 11/14] machine: Make smp_parse generic enough for all
- arches
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20210928035755.11684-1-wangyanan55@huawei.com>
- <20210928035755.11684-12-wangyanan55@huawei.com>
- <2652509f-97d7-f999-a36f-47fc3b5ca346@redhat.com>
- <875yuk51lg.fsf@dusky.pond.sub.org>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <ee30a7d4-0325-590b-ada8-e8ede9ebced2@huawei.com>
-Date: Tue, 28 Sep 2021 20:53:32 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mVDCk-0004sE-Ey
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 09:31:30 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mVDCf-0002U0-B2
+ for qemu-devel@nongnu.org; Tue, 28 Sep 2021 09:31:30 -0400
+Received: by mail-wr1-x430.google.com with SMTP id s21so18050269wra.7
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 06:31:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=WImsCFG4rvDboNNzUINbxxZJfKLTvuOiGuGjZI5bZww=;
+ b=yWEchs5jRr906UbXvDEXdRmr2aDmGiLJCve0y8W/l9rGhTOh66gvZdFkNf0h6lNAUS
+ bP0mYINR1L8YD1evbz450sUVT3UmcfUky9Teprs+Tb+jjw1hKlj1VZgOCHN6bUfzYP47
+ z3Og8eUUDK9jl5relTNWxeI1vZgBWPuf3ygJ1x4H5uqU2AC6RxOJ5lwt5pPj5vYjjmzV
+ tUTpK1lbx4nIHDsf4qilneh8Y1CrK4A2oHiNSIALiBnXbLyzt5WIaJzG92+9mom8I5ig
+ yyg/YPicC362eTl11hOtbpJgW3GgCHB9sHjqs5VGwG4dKDCsXWyNFPZLIX7n0jRusqAM
+ p12Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=WImsCFG4rvDboNNzUINbxxZJfKLTvuOiGuGjZI5bZww=;
+ b=yQnl2sQdIlrefuLSfRXdjCIH9tGlfzflYBJJE2Et0OIWVhaDJema3SvJcGiPY3puAT
+ w24jLLAk1Uc15ML0UlNZf4Y40Avz6XF5fU+K9mG3VOb732tRRolTma3A5rmIA2QmYAQU
+ iVRRX5fZEc/OUlV7SJxv+/A1eL3TDIoblWm6RyydpM0blzoNnrm599Z1vB+daMqJ1ue+
+ nCJDiIEepTSp7KRUQScZys8Uyr+jcSS8Kk9qBtFiTI1kQHqBXr7v3abE1fbqSUyojC+3
+ IlOUdf6cxpjKT32Z6dEtn6KdcZzgAfG0uUHkdmqmdfoi9cpjsYwt9Be3YDDVBWlEGqqT
+ Xxig==
+X-Gm-Message-State: AOAM530QGfIo8H3Ou9QHxUPNxTWMBNDVjj8Xq4QlZDDZPb4Uxjt99OB2
+ WvUGa8a+9MS6Se8uoaeK9DPDxw==
+X-Google-Smtp-Source: ABdhPJyvAhSX7SEK9+qul3O5uqiWxz8uIyKLE+KnGAPOta/4PrC1xCQdAKUn+Sx/hMOmeSEmI/u1Eg==
+X-Received: by 2002:adf:f4c6:: with SMTP id h6mr6782102wrp.397.1632835881301; 
+ Tue, 28 Sep 2021 06:31:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l2sm2811604wmi.1.2021.09.28.06.31.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Sep 2021 06:31:20 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7EAD31FF96;
+ Tue, 28 Sep 2021 14:31:19 +0100 (BST)
+References: <CAFT0Dp1CmK9zKcKrpRO=pQKZTUD-ax1zVg-uEofjnior8Fi_YQ@mail.gmail.com>
+User-agent: mu4e 1.7.0; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Niraj Sorathiya <nirajsorathiya101@gmail.com>
+Subject: Re: Emulation of IOT hardware
+Date: Tue, 28 Sep 2021 14:04:29 +0100
+In-reply-to: <CAFT0Dp1CmK9zKcKrpRO=pQKZTUD-ax1zVg-uEofjnior8Fi_YQ@mail.gmail.com>
+Message-ID: <87zgrw7ro8.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <875yuk51lg.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme719-chm.china.huawei.com (10.1.199.115) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.562,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,79 +86,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, wanghaibin.wang@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2021/9/28 20:25, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
->
->> On 9/28/21 05:57, Yanan Wang wrote:
->>> Currently the only difference between smp_parse and pc_smp_parse
->>> is the support of dies parameter and the related error reporting.
->>> With some arch compat variables like "bool dies_supported", we can
->>> make smp_parse generic enough for all arches and the PC specific
->>> one can be removed.
->>>
->>> Making smp_parse() generic enough can reduce code duplication and
->>> ease the code maintenance, and also allows extending the topology
->>> with more arch specific members (e.g., clusters) in the future.
->>>
->>> Suggested-by: Andrew Jones <drjones@redhat.com>
->>> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
->>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->>> ---
->>>   hw/core/machine.c   | 91 +++++++++++++++++++++++++++++++++++----------
->>>   hw/i386/pc.c        | 84 +----------------------------------------
->>>   include/hw/boards.h |  9 +++++
->>>   3 files changed, 81 insertions(+), 103 deletions(-)
->>> +/*
->>> + * smp_parse - Generic function used to parse the given SMP configuration
->>> + *
->>> + * Any missing parameter in "cpus/maxcpus/sockets/cores/threads" will be
->>> + * automatically computed based on the provided ones.
->>> + *
->>> + * In the calculation of omitted sockets/cores/threads: we prefer sockets
->>> + * over cores over threads before 6.2, while preferring cores over sockets
->>> + * over threads since 6.2.
->>> + *
->>> + * In the calculation of cpus/maxcpus: When both maxcpus and cpus are omitted,
->>> + * maxcpus will be computed from the given parameters and cpus will be set
->>> + * equal to maxcpus. When only one of maxcpus and cpus is given then the
->>> + * omitted one will be set to its given counterpart's value. Both maxcpus and
->>> + * cpus may be specified, but maxcpus must be equal to or greater than cpus.
->>> + *
->>> + * For compatibility, apart from the parameters that will be computed, newly
->>> + * introduced topology members which are likely to be target specific should
->>> + * be directly set as 1 if they are omitted (e.g. dies for PC since 4.1).
->>> + */
->>>   static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->> Can we have it return a boolean instead?
-> Yes, please.  From error.h's big comment:
->
->   * = Rules =
-> [...]
->   * - Whenever practical, also return a value that indicates success /
->   *   failure.  This can make the error checking more concise, and can
->   *   avoid useless error object creation and destruction.  Note that
->   *   we still have many functions returning void.  We recommend
->   *   • bool-valued functions return true on success / false on failure,
->   *   • pointer-valued functions return non-null / null pointer, and
->   *   • integer-valued functions return non-negative / negative.
-Ok. I will add an extra patch to this series to do the change and respin.
-In practice the boolean return value will also make a smp parsing unit
-test more concise. (I'm planning to introduce one test).
+Niraj Sorathiya <nirajsorathiya101@gmail.com> writes:
 
-Thanks,
-Yanan
+> Hello Team,
+>
+> Would you please give me some suggestions on how I should proceed to
+> build an IOT (Internet of Things) emulator ?
 
+Maybe look at the Musca boards:
+
+  https://qemu.readthedocs.io/en/latest/system/arm/musca.html
+
+these are based ARM's IoTKit which are modern ARM M-profile boards for IoT =
+development.
+
+> What aspects do I
+> need to consider ?  IOT can be anything like a smart light ,smart bulb ,s=
+mart lock ,etc. Here smart means that the device can be controlled
+> via the internet.
+
+It really depends on what you are interested in modelling?
+
+One area where we currently fall down is how we handle GPIO type setups
+in emulation. While we have models for displays and backends for network
+and block devices we haven't got coherent way to represent (and change)
+arbitrary IO pins.=20
+
+--=20
+Alex Benn=C3=A9e
 
