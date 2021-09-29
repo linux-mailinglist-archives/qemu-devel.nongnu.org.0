@@ -2,77 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB71D41C192
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:24:36 +0200 (CEST)
-Received: from localhost ([::1]:35096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 746C141C1A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:31:38 +0200 (CEST)
+Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVVpL-0008ME-PS
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:24:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43340)
+	id 1mVVw4-000459-Am
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:31:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVVnn-0007Y8-0k
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:22:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45756)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVtS-0001o3-7R
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:28:50 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:54125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVVnk-0000Xn-KP
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:22:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632907375;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x8HXvCzyGDt5RFTwuliH98qOtloqn+bZenOB3Nqtpg0=;
- b=Mw1B8nXjf8022p5CVx7XmAOQ3MZa4p2W2qpgP7GktXVJvd/0TXyJtFCWl2KDVr3mj5vQSI
- Oufcj7xgToWNj6QD6SuLtRCOsSYp5D3NW/SdEBBy2KMENCscmmzwHzrnQbnVVfkHqCbs4C
- +HCs+bD/UvtAVplKf7KtSPbGAQUaMlk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-A0jhu_zGPBqG5kq2KuESMA-1; Wed, 29 Sep 2021 05:22:52 -0400
-X-MC-Unique: A0jhu_zGPBqG5kq2KuESMA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93E4D1084692;
- Wed, 29 Sep 2021 09:22:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.82])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 002C960C82;
- Wed, 29 Sep 2021 09:22:41 +0000 (UTC)
-Date: Wed, 29 Sep 2021 10:22:39 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [External] Re: [PATCH] hostmem: change default prealloc threads
- number
-Message-ID: <YVQwX3RHcafMwMgy@redhat.com>
-References: <20210927131951.1810823-1-user@n248-145-203>
- <b14aebb1-489b-b15b-f9eb-047073920175@redhat.com>
- <e1a98460-ad0a-9b9c-5958-bb39635886ec@bytedance.com>
- <20210929110531.0724f911@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVtO-0005gQ-Lh
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:28:49 -0400
+Received: from quad ([82.142.21.142]) by mrelayeu.kundenserver.de (mreue010
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MOz8O-1mAg9g15YK-00PQdT; Wed, 29
+ Sep 2021 11:28:44 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/20] Q800 for 6.2 patches
+Date: Wed, 29 Sep 2021 11:28:23 +0200
+Message-Id: <20210929092843.2686234-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210929110531.0724f911@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:1m2QWaHYF4vD3r95wsNyu+OBq90imBH0rHLbAmxrv4SoAInyCEy
+ uFO2/xBwXa7awPnpEPDZ3XU1Lc41B2lMsP28Yu6ixGL/GMzC//I3EJuYMN3Vbm+BHEiTLcd
+ 5beXzo0Qw/YU62eNjlHMZ7cArbO+CIiZ3/ZeVPq8wt9sAKkQr5D8PS1UEkmgCN4TwxRhVSX
+ iKu48w8guFslXM8AiSlzA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NY8XJ0Ag5Ew=:CpjIDs4DUdMTbw7xiQATah
+ svqT2vF4VDIFftLMgGOs433l+ZyMcjRdWIJBVEy0UW7HyxJD1yYl04b3rJtYPWBfgiNXTm1xb
+ Cs+yom1lPrMmnDfKM5uHUC4p8zxWfZ+ayjyccihqOUnhRrzInOq9oYDmRwP6Uu+4OJVyyzIbv
+ KXIOSULyT7/3tFZ+q9iUKyOhVlWObnl1ifP+McHBGtSMNxIUlK6N74tmIU0ScWDtZjVdNEYqm
+ l3/MxfDdjoZN/VdjPOPJu/jbvfB5pxpZGFL0Zi2BnS0aD/Qm4QWGshRB0GrZLQS0L3EgVu0Ln
+ QnhPTCO/pCAPS8XlQfcT4HMYqZsYV2Zhw7h1fUjZPwzgOnzCDfVHFqbx1lNzPm0vrFPt+1vey
+ EXWw1hYljTYt/ZAGOLQqrAuKKc8sRZCPKyAahYsZV9Af6vgxQpsh0rV6dflsqJ4MekmK7wzNV
+ niJrq5YBwGP5HBrG/+PkgZvHTV8xi590/W93OnVGHXNSsvMWYw73MsgKzgruEZLzAcF38B8z2
+ 6HyqYkjJu6rssDaTPsGwaCw3G7YtEsjIgPPuNycsdART2QQroioDJ6kNbWlrqM//VFWStiyZR
+ ao5ft1xjaeF79InvdN+LvhOXxD3oM1Sn3bX1mwPWjrboVjB59ufBMC0e348nGXykBsWykn2gP
+ hIFzN9vr5HeGjneGinxTwP3kdyK1k/W+JjcAPy/64VWio2Azi3SwPt11cp30ajtZzPKnyEoOF
+ 0GTSmPAb3YxCQWrGD0o1ipJQ4moXs+dE7IVnWw==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,108 +65,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: mikughoull@gmail.com, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, ehabkost@redhat.com,
- Nan Wang <wangnan.light@bytedance.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 29, 2021 at 11:05:31AM +0200, Igor Mammedov wrote:
-> On Tue, 28 Sep 2021 00:47:01 +0800
-> Nan Wang <wangnan.light@bytedance.com> wrote:
-> 
-> > On 2021/9/27 11:16, David Hildenbrand wrote:
-> > > On 27.09.21 15:19, Nan Wang wrote:  
-> > >> From: "wangnan.light" <wangnan.light@bytedance.com>
-> > >>
-> > >> the default number of prealloc threads is 1, for huge memory backend
-> > >> file, single thread touch page is really slow.
-> > >> We can adjust thread number by prealloc-threads property, but if the
-> > >> default value updated to MachineState::smp::cpus may be better.
-> > >> For example, old version of qemu(prealloc-threads have not been
-> > >> introduced yet), the value of threads num is MachineState::smp::cpus,
-> > >> so if someone use the same commandline to start current verion of qemu
-> > >> and old version of qemu which will lead to different behaviors.  
-> > > 
-> > > The introducing patch mentions:
-> > > 
-> > > commit ffac16fab33bb42f17e47624985220c1fd864e9d
-> > > Author: Igor Mammedov <imammedo@redhat.com>
-> > > Date:   Wed Feb 19 11:09:50 2020 -0500
-> > > 
-> > >      hostmem: introduce "prealloc-threads" property
-> > > 
-> > >      the property will allow user to specify number of threads to use
-> > >      in pre-allocation stage. It also will allow to reduce implicit
-> > >      hostmem dependency on current_machine.
-> > >      On object creation it will default to 1, but via machine
-> > >      compat property it will be updated to MachineState::smp::cpus
-> > >      to keep current behavior for hostmem and main RAM (which is
-> > >      now also hostmem based).
-> > > 
-> > > So it looks like we want to do the latter via compat properties eventually.
-> > > 
-> > > However, I'd like to note that more prealloc threads might be good for 
-> > > large backends, and might be bad for small backends. To me, it feels 
-> > > like a workload that relies on this should really do this manually. So I 
-> > > am still not sure if this is the right thing to do.  
-> > Yes, I agree with you "more prealloc threas are good for large backends, 
-> > and bad for small backends". But I think most situation large backends 
-> > always with large vcpu numbers and small backens always with small vcpu 
-> > numbers, because most users will not create a vm with large vcpu numbers 
-> > with small memory.
-> > 
-> > 
-> > > 
-> > > Note that qapi/qom.json:
-> > > 
-> > > "@prealloc-threads: number of CPU threads to use for prealloc (default: 
-> > > 1", so that doc would be wrong now.
-> > > 
-> > > Why exactly can't workload that cares not simply set this manually? 
-> > > Performance tuning smells like something to be done manually for a 
-> > > specific workload.
-> > >  
-> > It is a simply way that let workload set the prealloc threads manually. 
-> > For example, for large backends it set many prealloc threads, and set 1 
-> > prealloc threads manually for small backends. Yes, workload can 
-> > `maunally` set prealloc thread to 1, rather than use `default` value 1.
-> > So when workload want to(or maybe just forget specify the 
-> > prealloc-threads property) use the default value, I think the 
-> > MachineState::smp::cpus maybe better than 1.
-> 
-> as commit mentioned by David states, it creates implicit dependency
-> on Machine and we were working getting rid of such dependencies
-> where it's possible.
-> 
-> So if you have to change prealloc-threads to a larger number,
-> you can try to use specific machine compat properties to do it,
-> instead of pushing machine to generic backend code. But 'good'
-> default for your workload doesn't guaranties it's a good one
-> another.
-> 
-> My preference is that user (mgmt layer) should set property
-> explicitly if it cares. It's leads to more stable VM config,
-> as opposed to using defaults which could change over time and
-> unexpectedly 'regress' such VMs, and can factor in host/workload
-> specific nuances without need to change QEMU.
-
-Setting prealloc_threads to match vCPUs count feels like it is making
-an assumption that if we've allowed 4 vCPUs, it is OK for the prealloc
-to consume 4 host CPUs. This assumption could be tricky when QEMU is
-strictly pinned to host CPUs, as vCPU threads are pinned to some pCPUs
-but emulator threads might be pinned differently.
-
-Would there still be a performance advantage to prealloc_threads > 1,
-if all non-vCPU threads are pinned to the same single host CPU ?
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+The following changes since commit 6b54a31bf7b403672a798b6443b1930ae6c74dea=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-reque=
+st' into staging (2021-09-28 13:07:32 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu-m68k.git tags/q800-for-6.2-pull-request=0D
+=0D
+for you to fetch changes up to 5ef251416b5116bbf7723f31ddf8a6949a2ac271:=0D
+=0D
+  q800: configure nubus available slots for Quadra 800 (2021-09-29 10:45:19=
+ +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+Q800 Pull request 20210929=0D
+=0D
+NuBus cleanup and improvement=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Mark Cave-Ayland (20):=0D
+  nubus: add comment indicating reference documents=0D
+  nubus-device: rename slot_nb variable to slot=0D
+  nubus-device: expose separate super slot memory region=0D
+  nubus: use bitmap to manage available slots=0D
+  nubus: move slot bitmap checks from NubusDevice realize() to BusClass=0D
+    check_address()=0D
+  nubus: implement BusClass get_dev_path()=0D
+  nubus: add trace-events for empty slot accesses=0D
+  nubus: generate bus error when attempting to access empty slots=0D
+  macfb: don't register declaration ROM=0D
+  nubus-device: remove nubus_register_rom() and=0D
+    nubus_register_format_block()=0D
+  nubus-device: add romfile property for loading declaration ROMs=0D
+  nubus: move nubus to its own 32-bit address space=0D
+  nubus-bridge: introduce separate NubusBridge structure=0D
+  mac-nubus-bridge: rename MacNubusState to MacNubusBridge=0D
+  nubus: move NubusBus from mac-nubus-bridge to nubus-bridge=0D
+  nubus-bridge: embed the NubusBus object directly within nubus-bridge=0D
+  nubus-bridge: make slot_available_mask a qdev property=0D
+  nubus: add support for slot IRQs=0D
+  q800: wire up nubus IRQs=0D
+  q800: configure nubus available slots for Quadra 800=0D
+=0D
+ meson.build                         |   1 +=0D
+ hw/nubus/trace.h                    |   1 +=0D
+ include/hw/nubus/mac-nubus-bridge.h |  13 +-=0D
+ include/hw/nubus/nubus.h            |  49 +++---=0D
+ hw/display/macfb.c                  |   6 -=0D
+ hw/m68k/q800.c                      |  26 +++-=0D
+ hw/nubus/mac-nubus-bridge.c         |  34 ++++-=0D
+ hw/nubus/nubus-bridge.c             |  23 ++-=0D
+ hw/nubus/nubus-bus.c                | 120 ++++++++++++---=0D
+ hw/nubus/nubus-device.c             | 227 ++++++++--------------------=0D
+ hw/nubus/trace-events               |   7 +=0D
+ 11 files changed, 278 insertions(+), 229 deletions(-)=0D
+ create mode 100644 hw/nubus/trace.h=0D
+ create mode 100644 hw/nubus/trace-events=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
