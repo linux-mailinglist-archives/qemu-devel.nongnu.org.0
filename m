@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5639E41CCED
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:53:26 +0200 (CEST)
-Received: from localhost ([::1]:35316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C366C41CD08
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:58:44 +0200 (CEST)
+Received: from localhost ([::1]:50772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVfds-000300-2O
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:53:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47238)
+	id 1mVfj1-0005TK-QW
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:58:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWZ-0007w5-Hd
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWZ-0007wa-LJ
  for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23925)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWV-0006kC-29
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:49 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWW-0006lV-BW
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632944746;
+ s=mimecast20190719; t=1632944747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VqlJCDEDfbNbMYTPdzxbbcitUekyh8rT6xK3kIX3EOw=;
- b=izdpPnPIQlx7lSIwTHCY6W//3sw406TUHftr/osIgAlroTZAdsAWCTmJnsqUl6urVTMbJx
- DP51aeMirBEcD1Hd+AxlbML7hfgqCpgARbHdcNgHX/51ip66iLKAbQsQd/FneL9sN6LjY/
- xhBYFsKe6H4g/Dwt48cWIDqQx6fRBYU=
+ bh=Jtp/JKbPV04AKCYORABaL829YO1xhXEIzuagpsk0mqQ=;
+ b=dTzwMyTE2e3cd2SHzF784puKLo1UiLYGvQFAC1eAIYMzsuBpUpIc213xRonTAOm/NQuj/J
+ yCF2jXlUyS+sEPcins739l8C96Te6EuDBMPaQHalwRk/BaXviE9vWnlzeu1SYiJOolECBw
+ J9U1fZZpmiRZP8slmspO6c9AEILmIkI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-bO6ihiqtOF-ZJC8O38cCfA-1; Wed, 29 Sep 2021 15:45:42 -0400
-X-MC-Unique: bO6ihiqtOF-ZJC8O38cCfA-1
+ us-mta-408-SQvHoQVfOZu-kqRoa_Wu3g-1; Wed, 29 Sep 2021 15:45:46 -0400
+X-MC-Unique: SQvHoQVfOZu-kqRoa_Wu3g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 588F384BA47;
- Wed, 29 Sep 2021 19:45:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8322419253E1;
+ Wed, 29 Sep 2021 19:45:16 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5688019C59;
- Wed, 29 Sep 2021 19:45:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D79419C59;
+ Wed, 29 Sep 2021 19:45:15 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/13] qapi/parser: add type hint annotations (QAPIDoc)
-Date: Wed, 29 Sep 2021 15:44:25 -0400
-Message-Id: <20210929194428.1038496-11-jsnow@redhat.com>
+Subject: [PATCH v3 11/13] qapi/parser: enable mypy checks
+Date: Wed, 29 Sep 2021 15:44:26 -0400
+Message-Id: <20210929194428.1038496-12-jsnow@redhat.com>
 In-Reply-To: <20210929194428.1038496-1-jsnow@redhat.com>
 References: <20210929194428.1038496-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,220 +82,33 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Annotations do not change runtime behavior.
-This commit consists of only annotations.
+Signed-off-by: John Snow <jsnow@redhat.com>
+
+---
+
+As always, this can be merged with the previous commit.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 67 ++++++++++++++++++++++++------------------
- 1 file changed, 39 insertions(+), 28 deletions(-)
+ scripts/qapi/mypy.ini | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 30b1d98df0b..8a846079207 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -37,6 +37,9 @@
-     from .schema import QAPISchemaFeature, QAPISchemaMember
+diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
+index 54ca4483d6d..66253564297 100644
+--- a/scripts/qapi/mypy.ini
++++ b/scripts/qapi/mypy.ini
+@@ -3,11 +3,6 @@ strict = True
+ disallow_untyped_calls = False
+ python_version = 3.6
  
- 
-+#: Represents a single Top Level QAPI schema expression.
-+TopLevelExpr = Dict[str, object]
-+
- # Return value alias for get_expr().
- _ExprValue = Union[List[object], Dict[str, object], str, bool]
- 
-@@ -454,7 +457,8 @@ class QAPIDoc:
-     """
- 
-     class Section:
--        def __init__(self, parser, name=None, indent=0):
-+        def __init__(self, parser: QAPISchemaParser,
-+                     name: Optional[str] = None, indent: int = 0):
-             # parser, for error messages about indentation
-             self._parser = parser
-             # optional section name (argument/member or section name)
-@@ -463,7 +467,7 @@ def __init__(self, parser, name=None, indent=0):
-             # the expected indent level of the text of this section
-             self._indent = indent
- 
--        def append(self, line):
-+        def append(self, line: str) -> None:
-             # Strip leading spaces corresponding to the expected indent level
-             # Blank lines are always OK.
-             if line:
-@@ -478,7 +482,8 @@ def append(self, line):
-             self.text += line.rstrip() + '\n'
- 
-     class ArgSection(Section):
--        def __init__(self, parser, name, indent=0):
-+        def __init__(self, parser: QAPISchemaParser,
-+                     name: str, indent: int = 0):
-             super().__init__(parser, name, indent)
-             self.member: Optional['QAPISchemaMember'] = None
- 
-@@ -489,35 +494,34 @@ class NullSection(Section):
-         """
-         Empty section that signifies the end of a doc block.
-         """
--        def append(self, line):
-+        def append(self, line: str) -> None:
-             assert False, "BUG: Text appended after end_comment() called."
- 
--    def __init__(self, parser, info):
-+    def __init__(self, parser: QAPISchemaParser, info: QAPISourceInfo):
-         # self._parser is used to report errors with QAPIParseError.  The
-         # resulting error position depends on the state of the parser.
-         # It happens to be the beginning of the comment.  More or less
-         # servicable, but action at a distance.
-         self._parser = parser
-         self.info = info
--        self.symbol = None
-+        self.symbol: Optional[str] = None
-         self.body = QAPIDoc.Section(parser)
--        # dict mapping parameter name to ArgSection
--        self.args = OrderedDict()
--        self.features = OrderedDict()
--        # a list of Section
--        self.sections = []
-+        # dicts mapping parameter/feature names to their ArgSection
-+        self.args: Dict[str, QAPIDoc.ArgSection] = OrderedDict()
-+        self.features: Dict[str, QAPIDoc.ArgSection] = OrderedDict()
-+        self.sections: List[QAPIDoc.Section] = []
-         # the current section
-         self._section = self.body
-         self._append_line = self._append_body_line
- 
--    def has_section(self, name):
-+    def has_section(self, name: str) -> bool:
-         """Return True if we have a section with this name."""
-         for i in self.sections:
-             if i.name == name:
-                 return True
-         return False
- 
--    def append(self, line):
-+    def append(self, line: str) -> None:
-         """
-         Parse a comment line and add it to the documentation.
- 
-@@ -538,18 +542,18 @@ def append(self, line):
-         line = line[1:]
-         self._append_line(line)
- 
--    def end_comment(self):
-+    def end_comment(self) -> None:
-         self._switch_section(QAPIDoc.NullSection(self._parser))
- 
-     @staticmethod
--    def _is_section_tag(name):
-+    def _is_section_tag(name: str) -> bool:
-         return name in ('Returns:', 'Since:',
-                         # those are often singular or plural
-                         'Note:', 'Notes:',
-                         'Example:', 'Examples:',
-                         'TODO:')
- 
--    def _append_body_line(self, line):
-+    def _append_body_line(self, line: str) -> None:
-         """
-         Process a line of documentation text in the body section.
- 
-@@ -594,7 +598,7 @@ def _append_body_line(self, line):
-             # This is a free-form documentation block
-             self._append_freeform(line)
- 
--    def _append_args_line(self, line):
-+    def _append_args_line(self, line: str) -> None:
-         """
-         Process a line of documentation text in an argument section.
- 
-@@ -640,7 +644,7 @@ def _append_args_line(self, line):
- 
-         self._append_freeform(line)
- 
--    def _append_features_line(self, line):
-+    def _append_features_line(self, line: str) -> None:
-         name = line.split(' ', 1)[0]
- 
-         if name.startswith('@') and name.endswith(':'):
-@@ -672,7 +676,7 @@ def _append_features_line(self, line):
- 
-         self._append_freeform(line)
- 
--    def _append_various_line(self, line):
-+    def _append_various_line(self, line: str) -> None:
-         """
-         Process a line of documentation text in an additional section.
- 
-@@ -708,7 +712,11 @@ def _append_various_line(self, line):
- 
-         self._append_freeform(line)
- 
--    def _start_symbol_section(self, symbols_dict, name, indent):
-+    def _start_symbol_section(
-+            self,
-+            symbols_dict: Dict[str, 'QAPIDoc.ArgSection'],
-+            name: str,
-+            indent: int) -> None:
-         # FIXME invalid names other than the empty string aren't flagged
-         if not name:
-             raise QAPIParseError(self._parser, "invalid parameter name")
-@@ -720,13 +728,14 @@ def _start_symbol_section(self, symbols_dict, name, indent):
-         self._switch_section(new_section)
-         symbols_dict[name] = new_section
- 
--    def _start_args_section(self, name, indent):
-+    def _start_args_section(self, name: str, indent: int) -> None:
-         self._start_symbol_section(self.args, name, indent)
- 
--    def _start_features_section(self, name, indent):
-+    def _start_features_section(self, name: str, indent: int) -> None:
-         self._start_symbol_section(self.features, name, indent)
- 
--    def _start_section(self, name=None, indent=0):
-+    def _start_section(self, name: Optional[str] = None,
-+                       indent: int = 0) -> None:
-         if name in ('Returns', 'Since') and self.has_section(name):
-             raise QAPIParseError(self._parser,
-                                  "duplicated '%s' section" % name)
-@@ -734,7 +743,7 @@ def _start_section(self, name=None, indent=0):
-         self._switch_section(new_section)
-         self.sections.append(new_section)
- 
--    def _switch_section(self, new_section):
-+    def _switch_section(self, new_section: 'QAPIDoc.Section') -> None:
-         text = self._section.text = self._section.text.strip()
- 
-         # Only the 'body' section is allowed to have an empty body.
-@@ -749,7 +758,7 @@ def _switch_section(self, new_section):
- 
-         self._section = new_section
- 
--    def _append_freeform(self, line):
-+    def _append_freeform(self, line: str) -> None:
-         match = re.match(r'(@\S+:)', line)
-         if match:
-             raise QAPIParseError(self._parser,
-@@ -771,14 +780,16 @@ def connect_feature(self, feature: 'QAPISchemaFeature') -> None:
-                                % feature.name)
-         self.features[feature.name].connect(feature)
- 
--    def check_expr(self, expr):
-+    def check_expr(self, expr: TopLevelExpr) -> None:
-         if self.has_section('Returns') and 'command' not in expr:
-             raise QAPISemError(self.info,
-                                "'Returns:' is only valid for commands")
- 
--    def check(self):
-+    def check(self) -> None:
- 
--        def check_args_section(args, what):
-+        def check_args_section(
-+                args: Dict[str, QAPIDoc.ArgSection], what: str
-+        ) -> None:
-             bogus = [name for name, section in args.items()
-                      if not section.member]
-             if bogus:
+-[mypy-qapi.parser]
+-disallow_untyped_defs = False
+-disallow_incomplete_defs = False
+-check_untyped_defs = False
+-
+ [mypy-qapi.schema]
+ disallow_untyped_defs = False
+ disallow_incomplete_defs = False
 -- 
 2.31.1
 
