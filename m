@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7F441CD00
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:56:20 +0200 (CEST)
-Received: from localhost ([::1]:42150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A6641CD07
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:58:24 +0200 (CEST)
+Received: from localhost ([::1]:49196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVfgh-0007wj-1z
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:56:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47250)
+	id 1mVfih-0004Q1-2q
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWb-0007xx-R9
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56314)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWj-00082E-8V
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:46:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWW-0006mL-TP
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:51 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWh-0006uF-K0
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:46:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632944748;
+ s=mimecast20190719; t=1632944759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yK2zQRqyjQfeWhO69DRcjNEI8lUvxV+5zY4py8k9rPo=;
- b=WWbExifY0rXVCVvuOCz9/6MGg9p+WpSznuXLt9AEcdD3+nrpGmLDbETKvbkAlw7H9V5b7u
- WiOf42PEuY3BI1lpiCrVuQtdaLPqoAb638rT9bGRBBl1LOFF77cfxWb3b+C0yngUH5++cl
- eiqq4z2FCXrHRfobmK/t5Su1uN1PG3I=
+ bh=UDYbapQxshJAqowJIOeSLVyA+LsWk2oGYns7Zw7QZJM=;
+ b=iM3mZYEPZZOOzZVtc+0TuPGoDQs9gg/LgNfJdi1Mvy8QUu0KoIt7nhU44ma74w/IjcsG7u
+ sV7HThh051bIFZaIhe62wv0asnfTzg0kCKsXEN1Skh27np/xxsqvd5UtPaNNvVHQLmNnar
+ 1HlyXGMmPzIfoqw2amH3BS+brGCEZ1k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-3bgxMeMRPPyFS8g95pKfEg-1; Wed, 29 Sep 2021 15:45:46 -0400
-X-MC-Unique: 3bgxMeMRPPyFS8g95pKfEg-1
+ us-mta-497-X-w54u0yNcetowAvZbnljg-1; Wed, 29 Sep 2021 15:45:54 -0400
+X-MC-Unique: X-w54u0yNcetowAvZbnljg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2302B8EC898;
- Wed, 29 Sep 2021 19:45:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C65F618C03ED;
+ Wed, 29 Sep 2021 19:45:19 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AAEC119729;
- Wed, 29 Sep 2021 19:45:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65FFD19C59;
+ Wed, 29 Sep 2021 19:45:18 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/13] qapi/parser: Silence too-few-public-methods warning
-Date: Wed, 29 Sep 2021 15:44:27 -0400
-Message-Id: <20210929194428.1038496-13-jsnow@redhat.com>
+Subject: [PATCH v3 13/13] qapi/parser: enable pylint checks
+Date: Wed, 29 Sep 2021 15:44:28 -0400
+Message-Id: <20210929194428.1038496-14-jsnow@redhat.com>
 In-Reply-To: <20210929194428.1038496-1-jsnow@redhat.com>
 References: <20210929194428.1038496-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,36 +82,31 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eh. Not worth the fuss today. There are bigger fish to fry.
+Signed-off-by: John Snow <jsnow@redhat.com>
+
+---
+
+This can be merged with the previous commit, if desired.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 3 +++
- 1 file changed, 3 insertions(+)
+ scripts/qapi/pylintrc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 8a846079207..7511eedaa35 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -457,8 +457,10 @@ class QAPIDoc:
-     """
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index 5b7dbc58ad8..b259531a726 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -2,8 +2,7 @@
  
-     class Section:
-+        # pylint: disable=too-few-public-methods
-         def __init__(self, parser: QAPISchemaParser,
-                      name: Optional[str] = None, indent: int = 0):
-+
-             # parser, for error messages about indentation
-             self._parser = parser
-             # optional section name (argument/member or section name)
-@@ -494,6 +496,7 @@ class NullSection(Section):
-         """
-         Empty section that signifies the end of a doc block.
-         """
-+        # pylint: disable=too-few-public-methods
-         def append(self, line: str) -> None:
-             assert False, "BUG: Text appended after end_comment() called."
+ # Add files or directories matching the regex patterns to the ignore list.
+ # The regex matches against base names, not paths.
+-ignore-patterns=parser.py,
+-                schema.py,
++ignore-patterns=schema.py,
  
+ 
+ [MESSAGES CONTROL]
 -- 
 2.31.1
 
