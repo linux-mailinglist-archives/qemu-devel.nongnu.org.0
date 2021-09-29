@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC5841C82C
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 17:18:51 +0200 (CEST)
-Received: from localhost ([::1]:40886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB6441C818
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 17:14:15 +0200 (CEST)
+Received: from localhost ([::1]:33798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVbMA-0003RN-9S
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 11:18:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45154)
+	id 1mVbHj-00073D-0H
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 11:14:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mVbFw-0005at-HB
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 11:12:24 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:34333)
+ id 1mVbFu-0005ZQ-2i
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 11:12:22 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:37177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mVbFr-0006Ne-LX
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 11:12:24 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 0C0655C0167;
- Wed, 29 Sep 2021 11:12:17 -0400 (EDT)
+ id 1mVbFq-0006Ok-FH
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 11:12:21 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 0583C5C0176;
+ Wed, 29 Sep 2021 11:12:18 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Wed, 29 Sep 2021 11:12:17 -0400
+ by compute6.internal (MEProxy); Wed, 29 Sep 2021 11:12:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
- I3+qvDL6zWSWgYaf+kszEoKeHqmUgf28ArcBTIjLQaw=; b=PgFI7YK4mHjVfnUI
- MNl0zUHQw0EpDeryi9F101CG1IsYqlS/OmSOeJ5Fa/0FyK0nZ1tFlQzGqWtnFhqD
- h5hTdxZWY9gh2xwKGrTIm90aosM4feCcMIgvQG03SG9XlVhuWnuSzMbxY99kt/hz
- MD0TowvYjYd12ENgId262J/ZmNcJ9dfUA75HxwX973827RN65Rf/zT9iSc/mqkq3
- vOrojxaLJ9qcQ5uo+bUdRXQAeMJaoaHVFBKP7r/DlDWCSph1nc2pxdE3V6G3vAaz
- H9GiLQlJmZKPK1glDWQEOkp02BOBxZnQhI4NZ+9lVtpkt0Jxx7mCS8+z3uEMHyeN
- vnHpSg==
+ Ew84LfeC3U/hJ6Dh1ix6cgvPSMEKPr0Lx8XE19sjUn0=; b=JhDapszvO55kVaXQ
+ D5duyX9DRZJYd6+raMLqdvS1KnmHQIRwg3E4JfVj1FjkPHJpgdo3nfgye4c/95ug
+ wV6f73aCKLSKyqIZ0dWyvEoksi6vXn5lWJGBdTQnkmx9OLU5bl7U8Hg9BV74Dkko
+ 0LS9tQZ0Uiwpn+19qnAdQ+xJTOpYviHM5kGZZrMLlHC9EmqU4C1cCKaj9Q4Ee7fJ
+ +2RPIC86JV+q0OSZ6RAVlJfiZPvkGRjclB75WaMK3AggEtR0Pv22ghqqVErcZLNh
+ tcfo4VMyNCGocVOy5Twr8sfigpoaMgg5zeGGQi1RBaj5QlA0MQHWXs3/EH5wlL8c
+ i3W3dg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=I3+qvDL6zWSWgYaf+kszEoKeHqmUgf28ArcBTIjLQ
- aw=; b=Prl1M5vUcnAL4uLgiu65zvTVri+aC1S/ttdlZApANl8ZrsmxIR5rZzv4s
- umPiJBvMwyF0DblunDRBl3PzyfmPGludtjNLtZYH2t5nkf4H/hLM4aWMQYySb3X8
- n+7yToqqeH53e77OJnKNsFeU8tcXPddi5BJm3ZY1K2VB4c+paft65s1PWtvZY9UH
- hZ27OCtzBlzLbGINHDcVCYejxztTI+jASKROtNV07Gbyn8lxGBsJo3VAdCVQnCtw
- OAVD+ExBaUHnIZn5xYYSH8/bBC5E5V+nNi8W22QGhp/hj2ar/KKc2tcs2j7H72ee
- prRSUTNrl2BZ/J61h2U+aZ+eeJtlQ==
-X-ME-Sender: <xms:UIJUYT-UWHdk89mdTaZK__T1dLcuTKyR_gGGNG71i3SVdo4FhnPzKQ>
- <xme:UIJUYfvU8fl-CY3hsDYHmVXnG7d7A1iaSutMkQC5yDZe_VUhYf4Ut-puKO5o1wE_r
- EfKF902uZ9LemVTGZ8>
-X-ME-Received: <xmr:UIJUYRCJFaqLQVmp8ipcWOHz6wR4_tIuaWSYeNAgQWM-rRG84KKYZjl8UgsTBW6F5Tg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekvddgkeefucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm3; bh=Ew84LfeC3U/hJ6Dh1ix6cgvPSMEKPr0Lx8XE19sjU
+ n0=; b=hKWNhbali5SwUpkvsclH8hPqnJK4ZeECUC4VMOZ/R1HmZfIivDfyh+v6L
+ ja2URk5a7le82si0tkHHwei5DBVIS4bkGHE/esEbOUzGZCHYz7cKagbXLK+wGUoP
+ MVV+TzgQoG8ASjaecOVeDTQ4RArVA+w/x/e0WstU8gszyPEbxr3Xd+na/K+XC/fV
+ OWl4TXlle5Kj4Tn345dZVVaAj+v6l32yQlPAXq/v9ocuc94jzEMfnr/QN6s9re0F
+ GL8lOWSHfpCB1HFe8JndFFix9xFLP02mF0owsB6w9Yd/iPihslkG2Sp4anR6KADS
+ 9hzBB3vULPc5f0n+aYFUEc5mixSSQ==
+X-ME-Sender: <xms:UYJUYR34VUKEU79eD9yzOhamROlu6C2sSuPKGmFHqL3sOmGqWhwRGQ>
+ <xme:UYJUYYHONqSUz5NXR05IIPbhPA3NUmsxWQpsidiZe5dea57jhVV6FgzbsB5ypvGyz
+ s5Q7dMyl3fubMpsy0k>
+X-ME-Received: <xmr:UYJUYR4rKl3FuNrPdz_I1rbTCFgQmPRl-7wrYLS8Y5D3qfhzV0HrpJGnTp1M-YF2b9A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekvddgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhggtgfgsehtke
  ertdertdejnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghn
@@ -57,17 +57,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekvddgkeefucetufdoteggod
  egveetkeekhfejvdejtdfguefgkeejtddvveeujeevkeelnecuvehluhhsthgvrhfuihii
  vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhi
  hgohgrthdrtghomh
-X-ME-Proxy: <xmx:UIJUYfcn80NKlFjS_c8J4btQPawgLK7SuS-iF-4e5dCwBGma928S4w>
- <xmx:UIJUYYOyZ6rR5OV1gR9uhFOWGLdwJuddTilNW_YxMPlkRlxkSZSQDA>
- <xmx:UIJUYRlQM2Q53sjWNQDTXTeRwA4X5qyJXN5uHPnoRTj3V2lPZ0v3kg>
- <xmx:UYJUYdo_osmlCtJhTPq_WDgoJIH--0ihkytz7KixAMkxaFg9O4ZwcA>
+X-ME-Proxy: <xmx:UYJUYe27PJYjFzEnE3uF8rqGpBnYGtaNfs7z_DnJ7JlrBH_d3OkK0g>
+ <xmx:UYJUYUG2col2av25IiSFfgI2P2j60kLVGpJECNa_Hq9EaihNW9nNfQ>
+ <xmx:UYJUYf-baHhyvohg-8qXTnqZnb2b8J0Wel8PGtaLmYDoMOAeM33VKw>
+ <xmx:UoJUYYDi4lDM4i-D3dpi7Dx7Im7y-D5AQmfyVrli8_wwvLw0Ih4TGw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Sep 2021 11:12:16 -0400 (EDT)
+ 29 Sep 2021 11:12:17 -0400 (EDT)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] hw/mips/boston: Massage memory map information
-Date: Wed, 29 Sep 2021 16:12:09 +0100
-Message-Id: <20210929151211.108-2-jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 2/3] hw/mips/boston: Allow loading elf kernel and dtb
+Date: Wed, 29 Sep 2021 16:12:10 +0100
+Message-Id: <20210929151211.108-3-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210929151211.108-1-jiaxun.yang@flygoat.com>
 References: <20210929151211.108-1-jiaxun.yang@flygoat.com>
@@ -99,178 +99,70 @@ Cc: aleksandar.rikalo@syrmia.com, f4bug@amsat.org, paulburton@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use memmap array to uinfy address of memory map.
-That would allow us reuse address information for FDT generation.
+ELF kernel allows us debugging much easier with DWARF symbols.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 --
-v2: Fix minor style issue, fix uart map size
+v2: Use g_autofree
 ---
- hw/mips/boston.c | 95 ++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 71 insertions(+), 24 deletions(-)
+ hw/mips/boston.c | 36 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 32 insertions(+), 4 deletions(-)
 
 diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 20b06865b2..5c720440fb 100644
+index 5c720440fb..5d3f054a3e 100644
 --- a/hw/mips/boston.c
 +++ b/hw/mips/boston.c
-@@ -64,6 +64,44 @@ struct BostonState {
-     hwaddr fdt_base;
- };
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
  
-+enum {
-+    BOSTON_LOWDDR,
-+    BOSTON_PCIE0,
-+    BOSTON_PCIE1,
-+    BOSTON_PCIE2,
-+    BOSTON_PCIE2_MMIO,
-+    BOSTON_CM,
-+    BOSTON_GIC,
-+    BOSTON_CDMM,
-+    BOSTON_CPC,
-+    BOSTON_PLATREG,
-+    BOSTON_UART,
-+    BOSTON_LCD,
-+    BOSTON_FLASH,
-+    BOSTON_PCIE1_MMIO,
-+    BOSTON_PCIE0_MMIO,
-+    BOSTON_HIGHDDR,
-+};
++#include "elf.h"
+ #include "hw/boards.h"
+ #include "hw/char/serial.h"
+ #include "hw/ide/pci.h"
+@@ -546,10 +547,37 @@ static void boston_mach_init(MachineState *machine)
+             exit(1);
+         }
+     } else if (machine->kernel_filename) {
+-        fit_err = load_fit(&boston_fit_loader, machine->kernel_filename, s);
+-        if (fit_err) {
+-            error_report("unable to load FIT image");
+-            exit(1);
++        uint64_t kernel_entry, kernel_low, kernel_high, kernel_size;
 +
-+static const MemMapEntry boston_memmap[] = {
-+    [BOSTON_LOWDDR] =     {        0x0,    0x10000000 },
-+    [BOSTON_PCIE0] =      { 0x10000000,     0x2000000 },
-+    [BOSTON_PCIE1] =      { 0x12000000,     0x2000000 },
-+    [BOSTON_PCIE2] =      { 0x14000000,     0x2000000 },
-+    [BOSTON_PCIE2_MMIO] = { 0x16000000,      0x100000 },
-+    [BOSTON_CM] =         { 0x16100000,       0x20000 },
-+    [BOSTON_GIC] =        { 0x16120000,       0x20000 },
-+    [BOSTON_CDMM] =       { 0x16140000,        0x8000 },
-+    [BOSTON_CPC] =        { 0x16200000,        0x8000 },
-+    [BOSTON_PLATREG] =    { 0x17ffd000,        0x1000 },
-+    [BOSTON_UART] =       { 0x17ffe000,          0x20 },
-+    [BOSTON_LCD] =        { 0x17fff000,           0x8 },
-+    [BOSTON_FLASH] =      { 0x18000000,     0x8000000 },
-+    [BOSTON_PCIE1_MMIO] = { 0x20000000,    0x20000000 },
-+    [BOSTON_PCIE0_MMIO] = { 0x40000000,    0x40000000 },
-+    [BOSTON_HIGHDDR] =    { 0x80000000,           0x0 },
-+};
++        kernel_size = load_elf(machine->kernel_filename, NULL,
++                           cpu_mips_kseg0_to_phys, NULL,
++                           (uint64_t *)&kernel_entry,
++                           (uint64_t *)&kernel_low, (uint64_t *)&kernel_high,
++                           NULL, 0, EM_MIPS, 1, 0);
 +
- enum boston_plat_reg {
-     PLAT_FPGA_BUILD     = 0x00,
-     PLAT_CORE_CL        = 0x04,
-@@ -275,24 +313,22 @@ type_init(boston_register_types)
++        if (kernel_size) {
++            hwaddr dtb_paddr = QEMU_ALIGN_UP(kernel_high, 64 * KiB);
++            hwaddr dtb_vaddr = cpu_mips_phys_to_kseg0(NULL, dtb_paddr);
++
++            s->kernel_entry = kernel_entry;
++            if (machine->dtb) {
++                int dt_size;
++                g_autofree const void *dtb_file_data, *dtb_load_data;
++
++                dtb_file_data = load_device_tree(machine->dtb, &dt_size);
++                dtb_load_data = boston_fdt_filter(s, dtb_file_data, NULL, &dtb_vaddr);
++
++                /* Calculate real fdt size after filter */
++                dt_size = fdt_totalsize(dtb_load_data);
++                rom_add_blob_fixed("dtb", dtb_load_data, dt_size, dtb_paddr);
++            }
++        } else {
++            /* Try to load file as FIT */
++            fit_err = load_fit(&boston_fit_loader, machine->kernel_filename, s);
++            if (fit_err) {
++                error_report("unable to load kernel image");
++                exit(1);
++            }
+         }
  
- static void gen_firmware(uint32_t *p, hwaddr kernel_entry, hwaddr fdt_addr)
- {
--    const uint32_t cm_base = 0x16100000;
--    const uint32_t gic_base = 0x16120000;
--    const uint32_t cpc_base = 0x16200000;
--
-     /* Move CM GCRs */
-     bl_gen_write_ulong(&p,
-                        cpu_mips_phys_to_kseg1(NULL, GCR_BASE_ADDR + GCR_BASE_OFS),
--                       cm_base);
-+                       boston_memmap[BOSTON_CM].base);
- 
-     /* Move & enable GIC GCRs */
-     bl_gen_write_ulong(&p,
--                       cpu_mips_phys_to_kseg1(NULL, cm_base + GCR_GIC_BASE_OFS),
--                       gic_base | GCR_GIC_BASE_GICEN_MSK);
-+                       cpu_mips_phys_to_kseg1(NULL,
-+                            boston_memmap[BOSTON_CM].base + GCR_GIC_BASE_OFS),
-+                       boston_memmap[BOSTON_GIC].base | GCR_GIC_BASE_GICEN_MSK);
- 
-     /* Move & enable CPC GCRs */
-     bl_gen_write_ulong(&p,
--                       cpu_mips_phys_to_kseg1(NULL, cm_base + GCR_CPC_BASE_OFS),
--                       cpc_base | GCR_CPC_BASE_CPCEN_MSK);
-+                       cpu_mips_phys_to_kseg1(NULL,
-+                            boston_memmap[BOSTON_CM].base + GCR_CPC_BASE_OFS),
-+                       boston_memmap[BOSTON_CPC].base | GCR_CPC_BASE_CPCEN_MSK);
- 
-     /*
-      * Setup argument registers to follow the UHI boot protocol:
-@@ -333,8 +369,9 @@ static const void *boston_fdt_filter(void *opaque, const void *fdt_orig,
-     ram_low_sz = MIN(256 * MiB, machine->ram_size);
-     ram_high_sz = machine->ram_size - ram_low_sz;
-     qemu_fdt_setprop_sized_cells(fdt, "/memory@0", "reg",
--                                 1, 0x00000000, 1, ram_low_sz,
--                                 1, 0x90000000, 1, ram_high_sz);
-+                                 1, boston_memmap[BOSTON_LOWDDR].base, 1, ram_low_sz,
-+                                 1, boston_memmap[BOSTON_HIGHDDR].base + ram_low_sz,
-+                                 1, ram_high_sz);
- 
-     fdt = g_realloc(fdt, fdt_totalsize(fdt));
-     qemu_fdt_dumpdtb(fdt, fdt_sz);
-@@ -438,11 +475,13 @@ static void boston_mach_init(MachineState *machine)
-     sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
- 
-     flash =  g_new(MemoryRegion, 1);
--    memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB,
-+    memory_region_init_rom(flash, NULL, "boston.flash", boston_memmap[BOSTON_FLASH].size,
-                            &error_fatal);
--    memory_region_add_subregion_overlap(sys_mem, 0x18000000, flash, 0);
-+    memory_region_add_subregion_overlap(sys_mem, boston_memmap[BOSTON_FLASH].base,
-+                                        flash, 0);
- 
--    memory_region_add_subregion_overlap(sys_mem, 0x80000000, machine->ram, 0);
-+    memory_region_add_subregion_overlap(sys_mem, boston_memmap[BOSTON_HIGHDDR].base,
-+                                        machine->ram, 0);
- 
-     ddr_low_alias = g_new(MemoryRegion, 1);
-     memory_region_init_alias(ddr_low_alias, NULL, "boston_low.ddr",
-@@ -451,32 +490,40 @@ static void boston_mach_init(MachineState *machine)
-     memory_region_add_subregion_overlap(sys_mem, 0, ddr_low_alias, 0);
- 
-     xilinx_pcie_init(sys_mem, 0,
--                     0x10000000, 32 * MiB,
--                     0x40000000, 1 * GiB,
-+                     boston_memmap[BOSTON_PCIE0].base,
-+                     boston_memmap[BOSTON_PCIE0].size,
-+                     boston_memmap[BOSTON_PCIE0_MMIO].base,
-+                     boston_memmap[BOSTON_PCIE0_MMIO].size,
-                      get_cps_irq(&s->cps, 2), false);
- 
-     xilinx_pcie_init(sys_mem, 1,
--                     0x12000000, 32 * MiB,
--                     0x20000000, 512 * MiB,
-+                     boston_memmap[BOSTON_PCIE1].base,
-+                     boston_memmap[BOSTON_PCIE1].size,
-+                     boston_memmap[BOSTON_PCIE1_MMIO].base,
-+                     boston_memmap[BOSTON_PCIE1_MMIO].size,
-                      get_cps_irq(&s->cps, 1), false);
- 
-     pcie2 = xilinx_pcie_init(sys_mem, 2,
--                             0x14000000, 32 * MiB,
--                             0x16000000, 1 * MiB,
-+                             boston_memmap[BOSTON_PCIE2].base,
-+                             boston_memmap[BOSTON_PCIE2].size,
-+                             boston_memmap[BOSTON_PCIE2_MMIO].base,
-+                             boston_memmap[BOSTON_PCIE2_MMIO].size,
-                              get_cps_irq(&s->cps, 0), true);
- 
-     platreg = g_new(MemoryRegion, 1);
-     memory_region_init_io(platreg, NULL, &boston_platreg_ops, s,
--                          "boston-platregs", 0x1000);
--    memory_region_add_subregion_overlap(sys_mem, 0x17ffd000, platreg, 0);
-+                          "boston-platregs",
-+                          boston_memmap[BOSTON_PLATREG].size);
-+    memory_region_add_subregion_overlap(sys_mem,
-+                          boston_memmap[BOSTON_PLATREG].base, platreg, 0);
- 
--    s->uart = serial_mm_init(sys_mem, 0x17ffe000, 2,
-+    s->uart = serial_mm_init(sys_mem, boston_memmap[BOSTON_UART].base, 2,
-                              get_cps_irq(&s->cps, 3), 10000000,
-                              serial_hd(0), DEVICE_NATIVE_ENDIAN);
- 
-     lcd = g_new(MemoryRegion, 1);
-     memory_region_init_io(lcd, NULL, &boston_lcd_ops, s, "boston-lcd", 0x8);
--    memory_region_add_subregion_overlap(sys_mem, 0x17fff000, lcd, 0);
-+    memory_region_add_subregion_overlap(sys_mem, boston_memmap[BOSTON_LCD].base, lcd, 0);
- 
-     chr = qemu_chr_new("lcd", "vc:320x240", NULL);
-     qemu_chr_fe_init(&s->lcd_display, chr, NULL);
+         gen_firmware(memory_region_get_ram_ptr(flash) + 0x7c00000,
 -- 
 2.30.2
 
