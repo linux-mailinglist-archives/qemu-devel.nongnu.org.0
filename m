@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FA941C211
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:54:24 +0200 (CEST)
-Received: from localhost ([::1]:59636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C7341C1A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:33:23 +0200 (CEST)
+Received: from localhost ([::1]:43180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVWIB-0002p3-Mb
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:54:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45092)
+	id 1mVVxo-0005pI-Aj
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:33:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVth-000298-TP
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVth-000297-GN
  for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:29:07 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:52149)
+Received: from mout.kundenserver.de ([212.227.126.130]:50865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVtf-0005tu-DR
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVte-0005tp-SS
  for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:29:05 -0400
 Received: from quad ([82.142.21.142]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MFsIZ-1mbnh52jhn-00HLlU; Wed, 29
- Sep 2021 11:28:52 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MOz8O-1mAg9Z0ulQ-00PQdT; Wed, 29
+ Sep 2021 11:28:53 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/20] nubus-bridge: make slot_available_mask a qdev property
-Date: Wed, 29 Sep 2021 11:28:40 +0200
-Message-Id: <20210929092843.2686234-18-laurent@vivier.eu>
+Subject: [PULL 18/20] nubus: add support for slot IRQs
+Date: Wed, 29 Sep 2021 11:28:41 +0200
+Message-Id: <20210929092843.2686234-19-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210929092843.2686234-1-laurent@vivier.eu>
 References: <20210929092843.2686234-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:eez8eukwqbtoR2kUc/QwB0UrrA09Mk1K/YSDhY154iCYJwPvdDd
- sgcvsaYAQ1pYzbn7ZixAu2gDjynfdzEKiHW5oHWuU6xNI4laXvnAxkhgzRe+ni8TnJAsjxy
- hVJlx0ktfCzMKsaf+p6+wc28F1KKEHflI4JmX+v8Ul7nFAcZQOmjMJyY8D/aWAptmBZXSAt
- ZlLe45gj4yjB4FO/8wr/w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qT21YRm5jpw=:+CB5vNaJ2MzuOAXv7UfdE4
- 0Q9agFJeFYnSL9F16mKhXhtDNy6WeDZffwso0sXgVxOftMWX54UlffExLXuB4kj9U0c7vh+oB
- 8wbprBbqPiUyuk66sjlZaF/Fd03yKdL1ESt6CQFc2ClPIUu26NMjSahXYTKY+6qH/qQTQQtpa
- 0OaMpPES7KVXfdi+z5WC4gfDsM4LLSkO6soOM3Z8W9SnDSuzUbIOQb/GyAErBiDABg/v30JpL
- EBiYfNdNuV5eRZUnU/LlHUNsqZNOoT5oTIdnPAKj6yTc88wAkCK0r2ltLe/PSKUNJJTFOGwDd
- qGZuz3dFoz9qcOpNWZyyQzKlJpHrSFsyYROPspTBMvuWJQtxtJtmg5NNgExK7yWSRZ1ohz52a
- jrdjQInQaDHd4ZLz+7Xen3TNaIR37gUiumVq70d+K55fOTIBWa9IOuEMOxGV1HhlkA9llSxNj
- eRDqL5SWapGYYNwXH9+CEOpabCYRDtRZksZ3zkbOeQPXwOTV7YQOOTjzAoFhA3CPSFX9FAsl6
- KTzobjZ5drh+6JZKMTOcLk0KZoe5rfqdf6tLnlKM4lHxx4mzjMizJ1LWxiRs0Je6O+Z7oHVG8
- 7iYt/k7rP/Hq43zqTpCOGiqm7g35Wr1WP7fxfdohYLib+v5OIOaXwu8WZE17qA3D62+LQwJ7c
- H8ey/Kv7yss/NQAcYUQqejmTC7t53+uNrVuXixlwPSkAHVHvJeQqbJAWTl4S5o5vF5k/JMuac
- Snfg+h/Ulmdn4nSoI42GSTK6FajZ184z6qd/dA==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:4Kl6eUsDr6mpSmMOfN9LcXb1a3u5HpkiO75U7rNwxNWBgj0pkVB
+ hp0tsvI2eattxWS7GhQ/i4kfium9Eus+ZNQbI/RQB+Iw/78qrBq2Dhpg9p+fBYS5jg9qfGf
+ vMTNyrZvv1GADoWnaChwDpSsUxUK79VFdD0edcJee5YkVBG9xxnKgOZpPoZScoMzD2zHBoj
+ jYd+jZ8VRtB+qFLR+zPCg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ee64jy5aEog=:5Z6gBXhLeJj7rop/0LHQUa
+ JOAE3T9WyhPFqPk7slPd1xyBdg7u0mGIubTHSfSktHtDjnqfL2TLpJ1cIQFvoeJ3NpcovhsjD
+ vrWgnJPx2dQ013Km5VwyjTFMaVNDSlLKbZ/iivJDODZcusgkcJfTT5aUEdr5RgJ1GN+5lyXOh
+ xoS3FcPMm0Wt/JlsRrQ5cmCOw4sMUK4UgaMpSoynhuvsV4wXdJpMf8Xn6cV90C5N7T1gL2WDg
+ t9b2a+Mbev10ryYON5BMr0EzFwonA+xKro1kyPFfaw9/Wop+gBVnVu+FDBqneMdRc4pVQQWMN
+ z6x0F4a+cEtBsRL7u4WSsp6eJ6ppMSAbVvk6/mv4GxZyrxkOgRIVM2RAO/6QQ0sAukNro7m0i
+ EalqmWEGt/OuCtyruCdS1KOngIkFT4n/AWRFaaK8hJTQWn/pYaC1ur9H7ctXLwNjD78R+5t9h
+ Zl3dujkz/qFOttv1sVJwJEMgU6X1Cu9E+/wJ2xos31t1El0yGTh0SbjA5DYzA/Sfv+Ni2BqUE
+ D9IUsVPI2zf9AJFb9u43JN9CM534Ah/n0jNhcPhlZjvucB9L7NRGLFfh6Z3s9WKC+tvfA5CsX
+ /swle0imr1L7zhtVuy0iXhPKn2Tbr4m6EtjloGK8wFL+CEAlG2Atj+IVBpQInmrrETFqjCHP0
+ McVSnTK289JL00SHAPgnd0FFec4xnNRIwfnL6HpiIIIrZt9CtjeAkdwT45Y6ZiY/aDuWLg0k1
+ wDwNPkW/suTmasw1ROyJFw6Qn0eA8ON7qjqMmg==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -75,42 +75,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-This is to allow Macintosh machines to further specify which slots are available
-since the number of addressable slots may not match the number of physical slots
-present in the machine.
+Each Nubus slot has an IRQ line that can be used to request service from the
+CPU. Connect the IRQs to the Nubus bridge so that they can be wired up using qdev
+gpios accordingly, and introduce a new nubus_set_irq() function that can be used
+by Nubus devices to control the slot IRQ.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210924073808.1041-18-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210924073808.1041-19-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/nubus/nubus-bridge.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ include/hw/nubus/nubus.h | 6 ++++++
+ hw/nubus/nubus-bridge.c  | 2 ++
+ hw/nubus/nubus-device.c  | 8 ++++++++
+ 3 files changed, 16 insertions(+)
 
+diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
+index 63c69a7586fc..b3b4d2eadb4b 100644
+--- a/include/hw/nubus/nubus.h
++++ b/include/hw/nubus/nubus.h
+@@ -26,6 +26,8 @@
+ #define NUBUS_LAST_SLOT       0xf
+ #define NUBUS_SLOT_NB         (NUBUS_LAST_SLOT - NUBUS_FIRST_SLOT + 1)
+ 
++#define NUBUS_IRQS            16
++
+ #define TYPE_NUBUS_DEVICE "nubus-device"
+ OBJECT_DECLARE_SIMPLE_TYPE(NubusDevice, NUBUS_DEVICE)
+ 
+@@ -45,6 +47,8 @@ struct NubusBus {
+     MemoryRegion slot_io;
+ 
+     uint16_t slot_available_mask;
++
++    qemu_irq irqs[NUBUS_IRQS];
+ };
+ 
+ #define NUBUS_DECL_ROM_MAX_SIZE    (128 * KiB)
+@@ -60,6 +64,8 @@ struct NubusDevice {
+     MemoryRegion decl_rom;
+ };
+ 
++void nubus_set_irq(NubusDevice *nd, int level);
++
+ struct NubusBridge {
+     SysBusDevice parent_obj;
+ 
 diff --git a/hw/nubus/nubus-bridge.c b/hw/nubus/nubus-bridge.c
-index 1adda7f5a609..7b51722f66ec 100644
+index 7b51722f66ec..c517a8a7047b 100644
 --- a/hw/nubus/nubus-bridge.c
 +++ b/hw/nubus/nubus-bridge.c
-@@ -21,11 +21,18 @@ static void nubus_bridge_init(Object *obj)
+@@ -19,6 +19,8 @@ static void nubus_bridge_init(Object *obj)
+     NubusBus *bus = &s->bus;
+ 
      qbus_create_inplace(bus, sizeof(s->bus), TYPE_NUBUS_BUS, DEVICE(s), NULL);
- }
- 
-+static Property nubus_bridge_properties[] = {
-+    DEFINE_PROP_UINT16("slot-available-mask", NubusBridge,
-+                       bus.slot_available_mask, 0xffff),
-+    DEFINE_PROP_END_OF_LIST()
-+};
 +
- static void nubus_bridge_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     dc->fw_name = "nubus";
-+    device_class_set_props(dc, nubus_bridge_properties);
++    qdev_init_gpio_out(DEVICE(s), bus->irqs, NUBUS_IRQS);
  }
  
- static const TypeInfo nubus_bridge_info = {
+ static Property nubus_bridge_properties[] = {
+diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
+index 280f40e88a30..0f1852f671eb 100644
+--- a/hw/nubus/nubus-device.c
++++ b/hw/nubus/nubus-device.c
+@@ -10,12 +10,20 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/datadir.h"
++#include "hw/irq.h"
+ #include "hw/loader.h"
+ #include "hw/nubus/nubus.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ 
+ 
++void nubus_set_irq(NubusDevice *nd, int level)
++{
++    NubusBus *nubus = NUBUS_BUS(qdev_get_parent_bus(DEVICE(nd)));
++
++    qemu_set_irq(nubus->irqs[nd->slot], level);
++}
++
+ static void nubus_device_realize(DeviceState *dev, Error **errp)
+ {
+     NubusBus *nubus = NUBUS_BUS(qdev_get_parent_bus(dev));
 -- 
 2.31.1
 
