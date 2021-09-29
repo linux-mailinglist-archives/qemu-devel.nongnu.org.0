@@ -2,59 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB9841C22F
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 12:01:50 +0200 (CEST)
-Received: from localhost ([::1]:44366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B142741C1B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:36:42 +0200 (CEST)
+Received: from localhost ([::1]:48608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVWPM-0003dp-VC
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 06:01:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45128)
+	id 1mVW13-00018X-FW
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVto-0002DX-Oa
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:29:12 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:51661)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mVVvc-0004VS-Jm
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:31:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVti-0005wY-T3
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:29:12 -0400
-Received: from quad ([82.142.21.142]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mj7yt-1mzbqU26Mv-00fEHL; Wed, 29
- Sep 2021 11:28:55 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 20/20] q800: configure nubus available slots for Quadra 800
-Date: Wed, 29 Sep 2021 11:28:43 +0200
-Message-Id: <20210929092843.2686234-21-laurent@vivier.eu>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210929092843.2686234-1-laurent@vivier.eu>
-References: <20210929092843.2686234-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mVVvY-0007dk-VZ
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:31:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632907859;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jwu2IOLdS1tVA3n9ciQkUO1Lxacv/Jn7MX0Q5TL3n9Y=;
+ b=Vt1WAIIsvFk9ZLIA8T9yGXhlrQicixW0cD9l/VYhMGmkPjyU7KBm6lo0a93Y7DaXWDrdcZ
+ kPvZpc0zBTjF7Jqn0fCPQoJJ2vw1EjAi4POU+jwzGpimcIOTe7903WmIJIHVZCQN5t8IyY
+ qpc98CdEvLWIGpMlAC43etZXROastPE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-284-3RTRK8mbMaSsUVTUCMzuAA-1; Wed, 29 Sep 2021 05:30:56 -0400
+X-MC-Unique: 3RTRK8mbMaSsUVTUCMzuAA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ m1-20020a056000180100b0015e1ec30ac3so415470wrh.8
+ for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 02:30:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:to:cc:references:from:organization:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Jwu2IOLdS1tVA3n9ciQkUO1Lxacv/Jn7MX0Q5TL3n9Y=;
+ b=OhkKMbenReInIQKikt+GUg+PU4lj9fm3ar3OnxxXrBmPDYhyB2dFWCjhcRCo5pkTDv
+ I54qw/zjhqIlVKVqFDoVxeROeJ+zLauErL+NlwFviSubZ0L7RFYVyc91cX15tirUrca8
+ O5Q/63gbiIWq7scDMhm0R3XzN8LDMj1WutBzs7ouQdnwMxnQ89ulluSdKvWoP8nUVekM
+ GDdyawJqYzRZbCYI5EM4zlWIaAnxnnoDypAlgvXqzUqXKPvm32Ej2Yl8jOYk81o8Ephr
+ jOkdjgTz2+7P9PdjKtb3WBM86GjWsB75PqYSICyJXMIZ9bjwdhqjv2rjP6U0bRqTt3ta
+ jtGA==
+X-Gm-Message-State: AOAM532ni/Dl+vkQuaS1CUXiH0uasoaB8vkpjVmjHQU9Pr8OkQ+WgH/L
+ /XHfQASRD4vCLieeFdp+wlezO/KD1LrUAqg3kUvgxq5eoHJ8hikerr7Stpa+kJzf71ImTXuFzwg
+ nZtvA4RW7Z5dQR0w=
+X-Received: by 2002:a5d:4d0d:: with SMTP id z13mr5615352wrt.267.1632907855371; 
+ Wed, 29 Sep 2021 02:30:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzk/rHaP70lkFBhezd5ns1iGvcfyXTCGgKwKhWsyM12iaOCv8eAgHxp8un5ihnFvRx6OnZINQ==
+X-Received: by 2002:a5d:4d0d:: with SMTP id z13mr5615313wrt.267.1632907855042; 
+ Wed, 29 Sep 2021 02:30:55 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23c3b.dip0.t-ipconnect.de. [79.242.60.59])
+ by smtp.gmail.com with ESMTPSA id
+ w23sm1090934wmi.6.2021.09.29.02.30.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Sep 2021 02:30:54 -0700 (PDT)
+To: "david.dai" <david.dai@montage-tech.com>
+References: <20210926021614.76933-1-david.dai@montage-tech.com>
+ <YVGAWh7e96f8yed0@stefanha-x1.localdomain>
+ <38a0312e-3b00-ac41-3cb0-ab5592b06dc1@redhat.com>
+ <20210927122848.GB144947@tianmu-host-sw-01>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH] hw/misc: Add a virtual pci device to dynamically attach
+ memory to QEMU
+Message-ID: <c87c301e-62af-ab5a-2b9c-fa2ef28898f1@redhat.com>
+Date: Wed, 29 Sep 2021 11:30:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210927122848.GB144947@tianmu-host-sw-01>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:egVA/8lf+F+q1qlgLRDbn/Vz28u9WL2DoeccI9LpOZZ4iovXENY
- kJy4HcaeU+uDu2i/XdleSxAWzL1W/U2TaGTBKZ8PuAOcd+RdJIXPgko2WpXhvTTF4jAMXmg
- WaEl0JvBZSuH3PV8aTKzUP7NIhhWANpHKczSRYITwQXH0KR6jsoyC3cMjt/j0BFiS3F1wpJ
- WCewONqBjigq4Youqox3w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2fFB+24ELDk=:S78h6xdVJAGDO73rX+lXeF
- KZfKO/1P7xVExprTGu4Y0GbTus6Ymr/UiEidnVkaaMxiKkvGvN50Paa1kGMrZ9laQg+A5OWYR
- LF4TJ7mmS2s4RATjmbwlqDNtjrv/Hs8xs7vc1KuzhN+sdSXogCKSQglbQTqqQW/DxxrAldFVY
- IzcogzmBjYxINwFwFOS7/nvtbrU8z87JxT0UKb3h21DCb4tqv4TVRuGNrfWT9WrtlyX4/yRdr
- YTJbl2l5fGB9wt7GQsKXi0bKDGx0IMz8kZGG//Qlilm3wQDd2bXiKb3fxUGQbyCT5wa7BOU4U
- aAVj3f+pGz3o9KcXVx/fJBjV42s6/m/gMYOQivSK1vkWO5nOT8jlHLoRqU1OQG7Pod9WK7Trd
- eeKb73AoarXV/+RA4AXC22ZuYhiPNM2gPwLNAES9vKvG9og6WaFxZzcsSyOYQqdBv5B9pq68W
- 8jS2Jy2iM9r6SrM3nGSJJHAWuiSNzVhrb491V6GjvCYLWPly9tAgClovhAtzSIM0hii8gx+DW
- YlA5Cj0hEbYug/xUn2q0heDby8o3pY48WYUOr8CRX8Y84QPwuF9AbKAAgE2r8ioT8QorBtRff
- ZmRsMa1nJDNdvGaVc30b1jk9n8l8z3qAktyJsQBN2nOn2uDCvBYs8+DxRqT8dK7bJghi/fLlP
- qPDWf/EScQkiJb6mZxNR7Zol/KS1SHMcMva8UGaEqKPZ+EX9IgVHUBG0U2zV0fawmAew7G6FO
- rt4YmSFrErO7wJHZwqyfYYb01pJFwIu/JInKmA==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.562, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,54 +102,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, eajames@linux.ibm.com,
+ qemu-devel@nongnu.org, changguo.du@montage-tech.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+On 27.09.21 14:28, david.dai wrote:
+> On Mon, Sep 27, 2021 at 11:07:43AM +0200, David Hildenbrand (david@redhat.com) wrote:
+>>
+>> CAUTION: This email originated from outside of the organization. Do not
+>> click links or open attachments unless you recognize the sender and know the
+>> content is safe.
+>>
+>>
+>> On 27.09.21 10:27, Stefan Hajnoczi wrote:
+>>> On Sun, Sep 26, 2021 at 10:16:14AM +0800, David Dai wrote:
+>>>> Add a virtual pci to QEMU, the pci device is used to dynamically attach memory
+>>>> to VM, so driver in guest can apply host memory in fly without virtualization
+>>>> management software's help, such as libvirt/manager. The attached memory is
+>>
+>> We do have virtio-mem to dynamically attach memory to a VM. It could be
+>> extended by a mechanism for the VM to request more/less memory, that's
+>> already a planned feature. But yeah, virito-mem memory is exposed as
+>> ordinary system RAM, not only via a BAR to mostly be managed by user space
+>> completely.
 
-Slot 0x9 is reserved for use by the in-built framebuffer whilst only slots
-0xc, 0xd and 0xe physically exist on the Quadra 800.
+There is a virtio-pmem spec proposal to expose the memory region via a 
+PCI BAR. We could do something similar for virtio-mem, however, we would 
+have to wire that new model up differently in QEMU (it's no longer a 
+"memory device" like a DIMM then).
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210924073808.1041-21-mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/m68k/q800.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+>>
+> 
+> I wish virtio-mem can solve our problem, but it is a dynamic allocation mechanism
+> for system RAM in virtualization. In heterogeneous computing environments, the
+> attached memory usually comes from computing device, it should be managed separately.
+> we doesn't hope Linux MM controls it.
 
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 5bc9df58a097..09b336602482 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -78,6 +78,13 @@
- 
- #define MAC_CLOCK  3686418
- 
-+/*
-+ * Slot 0x9 is reserved for use by the in-built framebuffer whilst only
-+ * slots 0xc, 0xd and 0xe physically exist on the Quadra 800
-+ */
-+#define Q800_NUBUS_SLOTS_AVAILABLE    (BIT(0x9) | BIT(0xc) | BIT(0xd) | \
-+                                       BIT(0xe))
-+
- /*
-  * The GLUE (General Logic Unit) is an Apple custom integrated circuit chip
-  * that performs a variety of functions (RAM management, clock generation, ...).
-@@ -392,6 +399,8 @@ static void q800_init(MachineState *machine)
-     /* NuBus */
- 
-     dev = qdev_new(TYPE_MAC_NUBUS_BRIDGE);
-+    qdev_prop_set_uint32(dev, "slot-available-mask",
-+                         Q800_NUBUS_SLOTS_AVAILABLE);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0,
-                     MAC_NUBUS_FIRST_SLOT * NUBUS_SUPER_SLOT_SIZE);
+If that heterogeneous memory would have a dedicated node (which usually 
+is the case IIRC) , and you let it manage by the Linux kernel 
+(dax/kmem), you can bind the memory backend of virtio-mem to that 
+special NUMA node. So all memory managed by that virtio-mem device would 
+come from that heterogeneous memory.
+
+You could then further use a separate NUMA node for that virtio-mem 
+device inside the VM. But to the VM it would look like System memory 
+with different performance characteristics. That would work fore some 
+use cases I guess, but not sure for which not (I assume you can tell :) ).
+
+We could even write an alternative virtio-mem mode, where device manage 
+isn't exposed to the buddy but using some different way to user space.
+
+>   
+>>>> isolated from System RAM, it can be used in heterogeneous memory management for
+>>>> virtualization. Multiple VMs dynamically share same computing device memory
+>>>> without memory overcommit.
+>>
+>> This sounds a lot like MemExpand/MemLego ... am I right that this is the
+>> original design? I recall that VMs share a memory region and dynamically
+>> agree upon which part of the memory region a VM uses. I further recall that
+>> there were malloc() hooks that would dynamically allocate such memory in
+>> user space from the shared memory region.
+>>
+> 
+> Thank you for telling me about Memexpand/MemLego, I have carefully read the paper.
+> some ideas from it are same as this patch, such as software model and stack, but
+> it may have a security risk that whole shared memory is visible to all VMs.
+
+How will you make sure that not all shared memory can be accessed by the 
+other VMs? IOW, emulate !shared memory on shared memory?
+
+> -----------------------
+>       application
+> -----------------------
+> memory management driver
+> -----------------------
+>       pci driver
+> -----------------------
+>     virtual pci device
+> -----------------------
+> 
+>> I can see some use cases for it, although the shared memory design isn't
+>> what you typically want in most VM environments.
+>>
+> 
+> The original design for this patch is to share a computing device among multipile
+> VMs. Each VM runs a computing application(for example, OpenCL application)
+> Our computing device can support a few applications in parallel. In addition, it
+> supports SVM(shared virtual memory) via IOMMU/ATS/PASID/PRI. Device exposes its
+> memory to host vis PCIe bar or CXL.mem, host constructs memory pool to uniformly
+> manage device memory, then attach device memory to VM via a virtual PCI device.
+
+How exactly is that memory pool created/managed? Simply dax/kmem and 
+handling it via the buddy in a special NUMA node.
+
+> but we don't know how much memory should be assigned when creating VM, so we hope
+> memory is attached to VM on-demand. driver in guest triggers memory attaching, but
+> not outside virtualization management software. so the original requirements are:
+> 1> The managed memory comes from device, it should be isolated from system RAM
+> 2> The memory can be dynamically attached to VM in fly
+> 3> The attached memory supports SVM and DMA operation with IOMMU
+> 
+> Thank you very much.
+
+Thanks for the info. If virtio-mem is not applicable and cannot be 
+modified for this use case, would it make sense to create a new virtio 
+device type?
+
+
 -- 
-2.31.1
+Thanks,
+
+David / dhildenb
 
 
