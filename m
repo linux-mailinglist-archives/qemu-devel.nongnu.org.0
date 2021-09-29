@@ -2,94 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD6741C7D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 17:06:47 +0200 (CEST)
-Received: from localhost ([::1]:47492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CED5741C7D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 17:06:59 +0200 (CEST)
+Received: from localhost ([::1]:47712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVbAT-0005GD-UW
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 11:06:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42466)
+	id 1mVbAg-0005P4-TK
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 11:06:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mVb7B-0002ak-Os
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 11:03:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34967)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mVb7r-0003IK-Dn; Wed, 29 Sep 2021 11:04:03 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:57253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mVb78-00072y-0D
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 11:03:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632927795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u4OgBLzP5P0di3pXlRpyDGbuVDN3bUXQg0FLjsfGDZc=;
- b=G8N7toax8aOYDmpmRIfOeyNl3D6kwxhHBB/C9dRUGrMHu2SVNhc8FuVzqlfciyNX/BOCi5
- D6Vb3ntvZlvAMzYDrrJjHnlTBaCGNhhC1XLT95QFUYUgqzDsJqpOVueL0sbIgLDqCpcl6i
- MtlnGAcXmRMQyNHTPB9AU3TkiXNOXkY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-125-1hu-xnGDMJSGx9dPiFD8YQ-1; Wed, 29 Sep 2021 11:03:13 -0400
-X-MC-Unique: 1hu-xnGDMJSGx9dPiFD8YQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- r11-20020aa7cfcb000000b003d4fbd652b9so2703358edy.14
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 08:03:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=u4OgBLzP5P0di3pXlRpyDGbuVDN3bUXQg0FLjsfGDZc=;
- b=LIg0+13TZwip8KoEoH9HNjGpIv/fZ3H01k9AUDvUWTBYY2d4SB0d9Ojk1qxtNYUClz
- DTUY4wKIzW+e0MbYGm3TLaIxeZS+N2r9/OyuRFLVvkPYQD2zPeFTVXtqa5PQDjEBk6/Q
- XIxLtcil/by/HywoTXLUTcURYRlwxbs/1PW+2e6+dIDUwx6/3F0tEQXYKsMQbBZRF9sD
- bZFxNeVHKP63z6EvaXcGYEsT+mi2xFtDcxInx4DTzA007W6K+kYgRCqQzpsmDS1vTKiH
- HhZDAXgk9qxUAuGGTUuMa9b4Gd8Qiv31kG/2NuW1cGjQIQSPjQaGCqSIrirJhDyyDtCN
- hgJQ==
-X-Gm-Message-State: AOAM531ZmxHywflvkB9aRH0GsdLrEqp9BqTCLT7IB1A/U3TSCVOXWpvV
- Ke60PUYuBOZL8veqqsGOW0MTRG/GERiCCB03jsVMegzns5yL+LUJk7q2Yq3HBw6VNA+nIBOps3q
- Vm7lWkog9weGPAj8=
-X-Received: by 2002:a17:906:64a:: with SMTP id t10mr203075ejb.5.1632927791258; 
- Wed, 29 Sep 2021 08:03:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+8IBYumanreTh7YZKPwTuvVLRFCEV4xYux6dR+vpiBe4nM5+y32NMPaiyzuSJf6uqEp10kw==
-X-Received: by 2002:a17:906:64a:: with SMTP id t10mr202966ejb.5.1632927790049; 
- Wed, 29 Sep 2021 08:03:10 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id 5sm69389ejy.53.2021.09.29.08.03.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Sep 2021 08:03:09 -0700 (PDT)
-Message-ID: <9ba3ebe2-4d74-628f-fb76-5541f629ff9e@redhat.com>
-Date: Wed, 29 Sep 2021 17:03:08 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mVb7p-0007eh-5F; Wed, 29 Sep 2021 11:04:03 -0400
+Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MhUDj-1n16WA1Rg3-00egiU; Wed, 29 Sep 2021 17:03:53 +0200
+Subject: Re: [PATCH] target/sh4: Use lookup_symbol in sh4_tr_disas_log
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210929130316.121330-1-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <c9c6c642-eb01-05b0-ed9d-4b8539b7f2ae@vivier.eu>
+Date: Wed, 29 Sep 2021 17:03:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PULL 00/20] NBD patches through 2021-09-27
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <20210927215545.3930309-1-eblake@redhat.com>
- <CAFEAcA9P_xzSce_3bVKO95HOdhbf1aqVJ-eiXOkJ09Hj4ow+bg@mail.gmail.com>
- <97e67c45-21f9-2630-7173-991d01871116@redhat.com>
- <CAFXwXrnZzyUBSikVr6uFLHQeD5hWcXDq+eG=uwBC5xQ8FVivmg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFXwXrnZzyUBSikVr6uFLHQeD5hWcXDq+eG=uwBC5xQ8FVivmg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.03, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210929130316.121330-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:/qKOENDJlD4kiFEeOxPQ8XfQK7dXPUSU0hYuXEZrVj9VZAiaE62
+ /A7XTrm3yPM4vrHBNmx87aDQu/TX8dIWRKJxt9ghPNAyg5wrYrXn9RHNNvki5px6XPO0L2R
+ 8T6uLQpiA9UWyZjtcxFdnRlnrTb5WU39qemwKXhRgzYZTdgq+tr11H9osHSUmLB9K+8fpWl
+ tUQfT2WQh9hy1Q+cPguhg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vN4T1WzSrH4=:TY1cn0XThqPr6bSekKfURP
+ hXXs96igwV/xJMOq9HH7uwA8Y3U/Bj1/aNIl7Hcc08fQ/ZkKfRD5B2L0Am2Vxav6GjlMPhW7r
+ 2Mmwhe7qN2E/izUpP5VuEht8fGU/cvlYWtOFABLUsZkA05o+2JrwPBCRe/FhHNKA0BsH5KpKJ
+ 0eFFYPYxvYhcEtAe+faekOW38DYz1KaIHbNyt6X7+4U/lXHmisarazz5u7zAf36aL84TXnCoJ
+ 8d99v8xcOUZUepYi+IoL0cghL60i9rg5feRf6+J3f99CubiQ/nNc3D7MVZugC3AouYK/MWTP6
+ 26BdL9qp6KBJfM+mzgqNv2xH6puR0eY+amCPMlg+KgeuYQiwPTip8k3gdGmpze1rs1waWjYiH
+ TxY9k0ULRk857l9IasF6Y+NPJu7LaePfp8Il+T4jRQZWNP7sOE6YiCVxmE4qAfVC5QaJllD/1
+ 3qf6M1i6FsIhFT2V4NMflUtycIqI/Ftsk8WV8aKNWvbKPBUhrOgciduB+xLsSzBs+IulYnpFR
+ qtugc9AUbutmEUb4JPqOsha9xU/CoIWkFwnhUMK8kNq9eCRRnuwUzPu8tIfNJYtlBWtKUoAyT
+ a6+O32wzifSpFHkL0iE2AnmHRktuo26PgocgYGu0OjPCpP04LFFfcZ+zNQ1gUz0O54cxTfSJD
+ LuGZXJidjDQBHtnGV5Z6703vSAnvjRRHx5i5BSPTOGbma6HMXOjd8RInQCpoT724mMq4j3GZC
+ gj9cY9v0d8b1aWw0heic/LkLTvjRRYjatgQaZA==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.03,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,26 +69,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Eric Blake <eblake@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/09/21 15:58, Richard Henderson wrote:
+Le 29/09/2021 à 15:03, Richard Henderson a écrit :
+> The correct thing to do has been present but commented
+> out since the initial commit of the sh4 translator.
 > 
->      > /usr/bin/ld: /usr/lib64/libselinux.so: error adding symbols: file in
->      > wrong format
->      > collect2: error: ld returned 1 exit status
+> Fixes: fdf9b3e831e
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/sh4/translate.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->     Missing libselinux-devel.i686 in
->     tests/docker/dockerfiles/fedora-i386-cross.docker, I think?
+> diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+> index cf5fe9243d..d363050272 100644
+> --- a/target/sh4/translate.c
+> +++ b/target/sh4/translate.c
+> @@ -2344,7 +2344,7 @@ static void sh4_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+>  
+>  static void sh4_tr_disas_log(const DisasContextBase *dcbase, CPUState *cs)
+>  {
+> -    qemu_log("IN:\n");  /* , lookup_symbol(dcbase->pc_first)); */
+> +    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
+>      log_target_disas(cs, dcbase->pc_first, dcbase->tb->size);
+>  }
+>  
 > 
-> But additionally, incorrect package probing, I think.
 
-Probably Meson deciding to look at --print-search-dirs and crossing 
-fingers.  But -m32 and other multilib flags should be added to 
-config-meson.cross rather than QEMU_CFLAGS.
+Applied to my trivial-patches branch.
 
-Paolo
+Thanks,
+Laurent
 
 
