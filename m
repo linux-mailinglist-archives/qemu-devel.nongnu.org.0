@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681AA41CCDE
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:48:47 +0200 (CEST)
-Received: from localhost ([::1]:49716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F09441CCE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:51:04 +0200 (CEST)
+Received: from localhost ([::1]:56860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVfZN-00027u-6z
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47048)
+	id 1mVfbb-0006rh-Fd
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:51:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfW0-0007TI-4U
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfW0-0007Td-9n
  for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42472)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfVw-0006Bm-QR
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:15 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfVx-0006Ck-C8
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632944711;
+ s=mimecast20190719; t=1632944712;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r8V+Ogw9WNH215AikDA20SvTc2Qpd8O1Clg8V3SoAp4=;
- b=Uln9JXIb0PHFkbz1it5vtse7qX3okwwXbLTMVUoWEVTr+2te1YMvpi7iJ21izQTPs++yxV
- C/ip+BJdvhwP1OnKVAq53SdTbupN2Ne9cDdZTmpa2Gby95qDghzF5Zqm8q3uFRE/hvlBYv
- DMBxQUEeOwhyPiIpNnGeTFX85WI1XDU=
+ bh=Vp1Z6jUrVyI8dXf9JGLwFdI3q50mjfk9QTys8vLuwTg=;
+ b=ECnrfjcW1k0/w65GcUi20Bhink2T+p4zuOjyhGv0rJGwMKpjM6RegZuUqJIT2LCmPT5iZT
+ 9OyC7LvBJdOwE8ZAnU10JDtFIXclRv3Cclt53jwbuCgqtB53/z3gJEDLzbVxCyC0v+GyaO
+ R35sSsJiXJ/MsXohar1UcOq1Y8uELM4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-59oGITg4MamZlHSe0KXLfg-1; Wed, 29 Sep 2021 15:45:10 -0400
-X-MC-Unique: 59oGITg4MamZlHSe0KXLfg-1
+ us-mta-279--pRY0JnZMeqM0oZuKhlGiA-1; Wed, 29 Sep 2021 15:45:11 -0400
+X-MC-Unique: -pRY0JnZMeqM0oZuKhlGiA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B81556C35;
- Wed, 29 Sep 2021 19:45:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA7E78710FD;
+ Wed, 29 Sep 2021 19:45:05 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6796526DEF;
- Wed, 29 Sep 2021 19:45:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DFC3E3CC7;
+ Wed, 29 Sep 2021 19:45:03 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/13] qapi/pylintrc: ignore 'consider-using-f-string'
- warning
-Date: Wed, 29 Sep 2021 15:44:16 -0400
-Message-Id: <20210929194428.1038496-2-jsnow@redhat.com>
+Subject: [PATCH v3 02/13] qapi/gen: use dict.items() to iterate over _modules
+Date: Wed, 29 Sep 2021 15:44:17 -0400
+Message-Id: <20210929194428.1038496-3-jsnow@redhat.com>
 In-Reply-To: <20210929194428.1038496-1-jsnow@redhat.com>
 References: <20210929194428.1038496-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,25 +82,34 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pylint 2.11.x adds this warning. We're not yet ready to pursue that
-conversion, so silence it for now.
+New pylint warning. I could silence it, but this is the only occurrence
+in the entire tree, including everything in iotests/ and python/. Easier
+to just change this one instance.
+
+(The warning is emitted in cases where you are fetching the values
+anyway, so you may as well just take advantage of the iterator to avoid
+redundant lookups.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/pylintrc | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/qapi/gen.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index c5275d5f59b..5b7dbc58ad8 100644
---- a/scripts/qapi/pylintrc
-+++ b/scripts/qapi/pylintrc
-@@ -23,6 +23,7 @@ disable=fixme,
-         too-many-branches,
-         too-many-statements,
-         too-many-instance-attributes,
-+        consider-using-f-string,
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index ab26d5c937a..2ec1e7b3b68 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -296,10 +296,9 @@ def _temp_module(self, name: str) -> Iterator[None]:
+         self._current_module = old_module
  
- [REPORTS]
+     def write(self, output_dir: str, opt_builtins: bool = False) -> None:
+-        for name in self._module:
++        for name, (genc, genh) in self._module.items():
+             if QAPISchemaModule.is_builtin_module(name) and not opt_builtins:
+                 continue
+-            (genc, genh) = self._module[name]
+             genc.write(output_dir)
+             genh.write(output_dir)
  
 -- 
 2.31.1
