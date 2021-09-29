@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9A841C0AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 10:32:57 +0200 (CEST)
-Received: from localhost ([::1]:52068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9E241C0D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 10:41:40 +0200 (CEST)
+Received: from localhost ([::1]:55386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVV1M-0004XK-Rc
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 04:32:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60284)
+	id 1mVV9n-00077u-3p
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 04:41:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVUxP-0002ej-9y
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 04:28:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41185)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVV7M-00060D-0A
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 04:39:08 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:45449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVUxN-0005XH-Ll
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 04:28:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632904128;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rNo49Sx+3Cw790TcpzWMPGWZUMrMX+PPAE8I35t+QU4=;
- b=iTcAdkNJ0JFU9SrJoMhmrTc7nkxVtvIuFiHpkQDi6UOE2S6cBnV5LFarDUIOg+LVw34ZRK
- FZirA6OjEwqWsowzMfZRFVspkUgeuiyd0/D5udivpLZPFDIPO+BuL4i+CWP53CeUIjyndl
- erhxZlztQgAU7kMLGinacCepqGcpTLA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-zBx5v6wNNByCLCO1iZzanQ-1; Wed, 29 Sep 2021 04:28:47 -0400
-X-MC-Unique: zBx5v6wNNByCLCO1iZzanQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C86021006AA4;
- Wed, 29 Sep 2021 08:28:45 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.82])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89025196F1;
- Wed, 29 Sep 2021 08:28:33 +0000 (UTC)
-Date: Wed, 29 Sep 2021 09:28:30 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH v12 16/16] machine: Make smp_parse return a boolean
-Message-ID: <YVQjrt8SvWXuBV4Z@redhat.com>
-References: <20210929025816.21076-1-wangyanan55@huawei.com>
- <20210929025816.21076-17-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVV7J-0005dZ-UM
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 04:39:07 -0400
+Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MbRwP-1n7JyU17Qf-00br0L; Wed, 29 Sep 2021 10:38:59 +0200
+Subject: Re: [PATCH v5 18/20] nubus: add support for slot IRQs
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210923091308.13832-1-mark.cave-ayland@ilande.co.uk>
+ <20210923091308.13832-19-mark.cave-ayland@ilande.co.uk>
+ <2e859345-2285-6b29-a3a0-7c888f73cc93@amsat.org>
+ <43591fdf-045b-6c33-d54b-a3f18f0c5d58@ilande.co.uk>
+ <8e879ded-3a4e-b12f-1479-62401af06927@amsat.org>
+ <a4ed9bec-5aee-dfca-e773-808983153e34@amsat.org>
+ <29f38069-2229-d638-1921-6737b179b6ed@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <82983f6d-f053-e21e-c4c1-5bda8e832974@vivier.eu>
+Date: Wed, 29 Sep 2021 10:38:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210929025816.21076-17-wangyanan55@huawei.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <29f38069-2229-d638-1921-6737b179b6ed@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:5fZjyR8pJMs1rK988+AUJucVLKcKMZcba1H+u5whHnEISX456RN
+ Y9wDLvhzqzq5XDBU9KaYp1h3matAKu3zon/VO6zH8SDGiHUdT9cTIj+JSeGklfqAWGIM0wS
+ p6UXjbLICArWaqOR//AF3j365/aRJO6wklLi+oTcxDsh+4eKVhqtHjPvaCReSdmwJbZ4i4S
+ JAM1r9Sde45gdVxIaS3BQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iiEj6LUpf5M=:YKFLex3SQy53loU+jY5ysw
+ FsvL1zNEPO/kTFK/OjcyAsmYrhr6OjFpKjbvLxsWHKN3wL/cySo3vByNkYAk1UdhCJPSsV6BV
+ dpkJj1owdzJLtY+Lsd8VL8GACcEv6eMBXhitg0tQoHrnGtFK7NbYBFkVe6FHT85DaDCCKTG3j
+ o4zSmywc5Ig/0Ielv/CW/OPq0MBcoZLgb2jFhIePj1C+2ee89xaezIljlVnXpLq0+lWROvCYq
+ 0aTjdows90uyfs8BRQr6XPRpI4JcsvkV2uPygnLU+WpK++xfZ+Rv8Gsa4Soy0Ng9LJomTNq3v
+ HiVziPwN9Fajx4OlXknaV1nFKnO2n7+BTTcfsicROtggE9Tgdjq+ACfu8wPjtmCygd30UChjd
+ pfeSbGzRoD3aARQXQv4ZFL+3ZGI5WnzYLZ28o8pyDQ3rBgv9q+KL4++ymOD3z0ADCQASCcyFz
+ ap6OR20uAuXumY9dNy9eBwpE5TMuewEXrBLyNLYVUZNFi3+bO25MklTdxZ41kOrLcIGaiNvee
+ tzqv/0TgDd9VvIwHQ3P0xYYqjzvN2L5d0qwbITYyF65NGEGbAv12+0YB+OPF0hknPFeaZLb6+
+ NGUa8u1gbgPSYP9IdF6IZFiinjgDL/B9R2GtSw2UGljQHwU1XUQaRbclGLJsa/B4pyz2EXWuD
+ cFtfn6p6RxVGCJx7UmQuSwc38Ht8w8XmTyo/J5eHhadMZrAD5ZBKBMaIs5kr3xoqMkpZwUJLQ
+ aTY0Bqtyn7lXbWrsE9VbxCUvEXTlQE/50buMqQ==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.562,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,49 +77,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Pierre Morel <pmorel@linux.ibm.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 29, 2021 at 10:58:16AM +0800, Yanan Wang wrote:
-> Quoting one of the Rules described in include/qapi/error.h:
-> "
-> Whenever practical, also return a value that indicates success /
-> failure.  This can make the error checking more concise, and can
-> avoid useless error object creation and destruction.  Note that
-> we still have many functions returning void.  We recommend
-> • bool-valued functions return true on success / false on failure,
-> • pointer-valued functions return non-null / null pointer, and
-> • integer-valued functions return non-negative / negative.
-> "
+Le 29/09/2021 à 08:42, Mark Cave-Ayland a écrit :
+> On 24/09/2021 10:05, Philippe Mathieu-Daudé wrote:
 > 
-> So make smp_parse() return true on success and false on failure,
-> so that we can more laconically check whether the parsing has
-> succeeded without touching the errp.
+>> On 9/24/21 11:01, Philippe Mathieu-Daudé wrote:
+>>> On 9/24/21 09:06, Mark Cave-Ayland wrote:
+>>>> On 23/09/2021 10:49, Philippe Mathieu-Daudé wrote:
+>>>>
+>>>>> On 9/23/21 11:13, Mark Cave-Ayland wrote:
+>>>>>> Each Nubus slot has an IRQ line that can be used to request service from the
+>>>>>> CPU. Connect the IRQs to the Nubus bridge so that they can be wired up using qdev
+>>>>>> gpios accordingly, and introduce a new nubus_set_irq() function that can be used
+>>>>>> by Nubus devices to control the slot IRQ.
+>>>>>>
+>>>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>>>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+>>>>>> ---
+>>>>>>   hw/nubus/nubus-bridge.c  | 2 ++
+>>>>>>   hw/nubus/nubus-device.c  | 8 ++++++++
+>>>>>>   include/hw/nubus/nubus.h | 6 ++++++
+>>>>>>   3 files changed, 16 insertions(+)
+>>>>>
+>>>>>>   static Property nubus_bridge_properties[] = {
+>>>>>> diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
+>>>>>> index 280f40e88a..0f1852f671 100644
+>>>>>> --- a/hw/nubus/nubus-device.c
+>>>>>> +++ b/hw/nubus/nubus-device.c
+>>>>>> @@ -10,12 +10,20 @@
+>>>>>>   #include "qemu/osdep.h"
+>>>>>>   #include "qemu/datadir.h"
+>>>>>> +#include "hw/irq.h"
+>>>>>>   #include "hw/loader.h"
+>>>>>>   #include "hw/nubus/nubus.h"
+>>>>>>   #include "qapi/error.h"
+>>>>>>   #include "qemu/error-report.h"
+>>>>>> +void nubus_set_irq(NubusDevice *nd, int level)
+>>>>>> +{
+>>>>>> +    NubusBus *nubus = NUBUS_BUS(qdev_get_parent_bus(DEVICE(nd)));
+>>>>>> +
+>>>>>
+>>>>> A trace-event could be helpful here, otherwise:
+>>>>>
+>>>>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>>>
+>>>>>> +    qemu_set_irq(nubus->irqs[nd->slot], level);
+>>>>>> +}
+>>>>
+>>>> I think adding a trace event here would just be too verbose (particularly if you have more than
+>>>> one nubus device) and not particularly helpful: normally the part you want to debug is the in
+>>>> the device itself looking at which constituent flags combine to raise/lower the interrupt line.
+>>>> And once you've done that then you've already got a suitable trace-event in place...
+>>>
+>>> But devices accessing the bus are not aware of which devices are plugged
+>>> onto it. Wait, what is suppose to call nubus_set_irq()? Devices on the
+>>> bus, to propagate the interrupt up to the CPU? OK so then the trace
+>>> event is irrelevant indeed. I understood this API as any external device
+>>> could trigger an IRQ to device on the bus. I wonder if renaming as
+>>> nubus_device_set_irq() could make it clearer. Or even simpler, add
+>>> a comment in "hw/nubus/nubus.h" explaining what nubus_set_irq() is for
+>>> to avoid any confusion, and we are good.
+>>
+>> Just noticed v6 was sent, so the function description could either
+>> - sent as reply to v6 patch and squashed by Laurent when applying
+>> - sent later as a new cleanup patch on top
+>> - never added
+>>
+>> Up to you, I don't mind mind much the outcome.
 > 
-> Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->  hw/core/machine.c | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
+> I'm happy enough with the current version given the existing precedent of pci_set_irq() and that the
+> next set of q800 patches will make use of nubus_set_irq() to provide a working reference in-tree.
+> 
+> Laurent, do you have any further comments on the series?
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+No, I'm going to queue the v6 to my branch and send the PR.
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Thanks,
+Laurent
 
