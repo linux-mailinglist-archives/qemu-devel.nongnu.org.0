@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F35A41C1FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:49:59 +0200 (CEST)
-Received: from localhost ([::1]:51484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B533541C20F
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:53:00 +0200 (CEST)
+Received: from localhost ([::1]:55786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVWDu-0005fp-NR
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:49:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44932)
+	id 1mVWGp-0000CE-Qa
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:52:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVtX-0001qs-DL
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVtX-0001re-Il
  for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:28:55 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:37493)
+Received: from mout.kundenserver.de ([212.227.126.187]:33455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVtS-0005lZ-Um
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVtT-0005ll-E1
  for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:28:55 -0400
 Received: from quad ([82.142.21.142]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MTiDV-1mO8Qm1QOz-00U3Kg; Wed, 29
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N1OsF-1mz7LG3GW3-012qBU; Wed, 29
  Sep 2021 11:28:49 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/20] nubus-device: remove nubus_register_rom() and
- nubus_register_format_block()
-Date: Wed, 29 Sep 2021 11:28:33 +0200
-Message-Id: <20210929092843.2686234-11-laurent@vivier.eu>
+Subject: [PULL 11/20] nubus-device: add romfile property for loading
+ declaration ROMs
+Date: Wed, 29 Sep 2021 11:28:34 +0200
+Message-Id: <20210929092843.2686234-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210929092843.2686234-1-laurent@vivier.eu>
 References: <20210929092843.2686234-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1qjO7kYPFavm1y5qjijn/PFMSLM6lICoAObLuNoVbTt9OEDz2cx
- gJPkhiUoofiBnqIvLn5bwEdl3tj38D0A0ypszYAthwGrGrgBMphJQIz7FZxlq7HKqGxFWCL
- IbtIabecu5ggvdQbZjZgdcDkIi69tPHcfOkp0VhNA11Jv5wosR4ZW26QcBpvE0hIdRDv2OM
- 52R0bIGM2Xum1K9Ptas/Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UkybBEZF+FE=:kx2EFP+LFk7HAi92+wPcCc
- doCQ15hdP0H+tFgBWgJ7UWvEu1ecl7oaFeIzssufE0sXMV8CxMunm5YsSz/OClPGFF55jE6hh
- d6GZW7GocGs70Z/VY3bUyEJxhn6GbZ3rwMN6u/HlyVZM6JQEIyN+42L5G5nELOZv7uSCSkmEz
- 7sBMlqPDq+9W+OjQas+6ggBvZlNCe8s0pBaC8zYCCbKuml5zLBoCJVJHmKo1xl3NW74OlgcnJ
- erlMIOFkV+LAIehtTonzX6VKWxM8ZOaj+8k0jUjaCc6ZI+bjIT2RHS+kWy/CfgKsAvsFte53Q
- M9XjWCshgSvx8CI+fGK0l/KOVBhRFYdEaEU0iif/NUumjZPgSbBdf1vici89Y5e2sGXiI71s2
- lPBI3UIiXKA4xaJfIJO3RZfHfYTt7xWkKiZo6Vq3Vuc+xHDG6OAV0Kp/tkIazuSxh9TPI+eEs
- zR89BPGEZ/awvEXmRTVuezsgLX6/cY4uGmlKc4kySZqsiVe46FQLLgz2NKXealWEgYZSNmplo
- 4UQlSBHVUzZ4JZWwkTwhKfXMYNSG+ay9nHgwwpbjxhoYrGIVAbuVfMfoaHlRRRdeLGNYjmIuo
- H/grCXdolvyCecfmJUie4QluasMWhbYQ6R6IsNRWx1um3BoFTbyBH9YEw7P4roYdRYNiq2FBc
- p2cXbOdJjfcoArs6Nh9A4pM4Q+1Dfz+TSDxDAw0lh8nqj9p/pNRz3v8H1Q4h47YsfJQdeccvQ
- QqGzwYn6gAOuZI6JZ0LGUS8HqcniAc2T2GzIyQ==
+X-Provags-ID: V03:K1:/6Go44XtxVtAhV6TJ5xSTXUZwLeyrmnqhrO9UeNXOP65BP9mxuY
+ lMjeZKjVc4vHWxoFH9O5ZPiIZyggXeVrmAJvgHlAgrW8QR3JcEr90JKJ4Wxdm+nA6VKc9D0
+ AVWNUWvIINLFvHurMZoSzKmw86eM30K1u8PAz1AU3a4aZNIWdmTSu/Izfz+fWA7KZVUEiyu
+ NIipFH7PAMeHqGcjMH4tA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wYpntaaVRqs=:UnTFoqEIgct6ysMnSz/WRA
+ aqAkvvVo9zxNB3ntOO1e37eUGa3ZeiIDa0q599sFEiK6nODHfc2D6vbwmGQ0zgBXNqZaL6Hjm
+ kjyuwXJU+qFf26V6gxj2nMD5xw/G4X9i8rnYZyFIf6MUKZUrO3ZKnUme/rta2GMW5OKOK1+Ew
+ 8aNDDGMGa0fVbYPZnX7hCu4DwYxycP9XrwzgJgkL8KaZxa1czZMGkAh5jHbDEiRYJ0Tzj+bGy
+ myaLpetpRoFS8nWa0rURhtsglEyIuT4CelRpXo0GPUIPu8vQnirvj2sskmeyTuTsjUlrE/LwG
+ Up+3A7+RYPafgVgajyd1QQ40S09aMv9lzafEv9sF5tJeMbGVcMeB6N529T1dz+q/bI12gv/fG
+ 8WZb4KQ8ABK5vqJ+r0XNSB40l7T4ICnoiIN+/Df3uVt/Upp4zgSTbTWsQVM0yiVpr1SzbFOx1
+ O6WPOM/UHzEYjwaKSbj3J3U/hUjfAUs1lrR38E4VPqtOC1bfz9gAUHxiCxgfQPrGuK6oUb6Gs
+ amFkiAZp7Jii3hzSE3qM6syo4mBWEGNpD5VV3RbrgInOP/KE5ebuC55pWbcX8POOycvoPkzmE
+ 0yCaclYBkJVKPMfLc0Z9bmbKLWAxaOJf91eaFZWLhFdPX6wFJQXs5Ypogr8MntsYPrE4eT49h
+ WNrTH0GiRFO//3Gq3lE+agRsuLGoa2F6P2fcu0N+RREe7xuaTDFOTpCdSEI3H+G0bUt9nrpR9
+ R7/QqfuoMqzlo+32YUeHdrHxD1x3E2zuZGJ0dw==
 Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -74,211 +74,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Since there is no need to generate a dummy declaration ROM, remove both
-nubus_register_rom() and nubus_register_format_block(). These will shortly be
-replaced with a mechanism to optionally load a declaration ROM from disk to
-allow real images to be used within QEMU.
+The declaration ROM is located at the top-most address of the standard slot
+space.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210924073808.1041-11-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210924073808.1041-12-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/hw/nubus/nubus.h |  19 ------
- hw/nubus/nubus-device.c  | 143 ---------------------------------------
- 2 files changed, 162 deletions(-)
+ include/hw/nubus/nubus.h |  6 ++++++
+ hw/nubus/nubus-device.c  | 44 +++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 49 insertions(+), 1 deletion(-)
 
 diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
-index 3eea2952d553..187ecc00a576 100644
+index 187ecc00a576..343be958417a 100644
 --- a/include/hw/nubus/nubus.h
 +++ b/include/hw/nubus/nubus.h
-@@ -44,25 +44,6 @@ struct NubusDevice {
+@@ -12,6 +12,7 @@
+ #include "hw/qdev-properties.h"
+ #include "exec/address-spaces.h"
+ #include "qom/object.h"
++#include "qemu/units.h"
+ 
+ #define NUBUS_SUPER_SLOT_SIZE 0x10000000U
+ #define NUBUS_SUPER_SLOT_NB   0xe
+@@ -38,12 +39,17 @@ struct NubusBus {
+     uint16_t slot_available_mask;
+ };
+ 
++#define NUBUS_DECL_ROM_MAX_SIZE    (128 * KiB)
++
+ struct NubusDevice {
+     DeviceState qdev;
+ 
      int32_t slot;
      MemoryRegion super_slot_mem;
      MemoryRegion slot_mem;
--
--    /* Format Block */
--
--    MemoryRegion fblock_io;
--
--    uint32_t rom_length;
--    uint32_t rom_crc;
--    uint8_t rom_rev;
--    uint8_t rom_format;
--    uint8_t byte_lanes;
--    int32_t directory_offset;
--
--    /* ROM */
--
--    MemoryRegion rom_io;
--    const uint8_t *rom;
++
++    char *romfile;
++    MemoryRegion decl_rom;
  };
  
--void nubus_register_rom(NubusDevice *dev, const uint8_t *rom, uint32_t size,
--                        int revision, int format, uint8_t byte_lanes);
--
  #endif
 diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
-index 516b13d2d53d..d4932d64a278 100644
+index d4932d64a278..280f40e88a30 100644
 --- a/hw/nubus/nubus-device.c
 +++ b/hw/nubus/nubus-device.c
-@@ -13,147 +13,6 @@
+@@ -9,16 +9,21 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/datadir.h"
++#include "hw/loader.h"
+ #include "hw/nubus/nubus.h"
  #include "qapi/error.h"
++#include "qemu/error-report.h"
  
  
--/* The Format Block Structure */
--
--#define FBLOCK_DIRECTORY_OFFSET 0
--#define FBLOCK_LENGTH           4
--#define FBLOCK_CRC              8
--#define FBLOCK_REVISION_LEVEL   12
--#define FBLOCK_FORMAT           13
--#define FBLOCK_TEST_PATTERN     14
--#define FBLOCK_RESERVED         18
--#define FBLOCK_BYTE_LANES       19
--
--#define FBLOCK_SIZE             20
--#define FBLOCK_PATTERN_VAL      0x5a932bc7
--
--static uint64_t nubus_fblock_read(void *opaque, hwaddr addr, unsigned int size)
--{
--    NubusDevice *dev = opaque;
--    uint64_t val;
--
--#define BYTE(v, b) (((v) >> (24 - 8 * (b))) & 0xff)
--    switch (addr) {
--    case FBLOCK_BYTE_LANES:
--        val = dev->byte_lanes;
--        val |= (val ^ 0xf) << 4;
--        break;
--    case FBLOCK_RESERVED:
--        val = 0x00;
--        break;
--    case FBLOCK_TEST_PATTERN...FBLOCK_TEST_PATTERN + 3:
--        val = BYTE(FBLOCK_PATTERN_VAL, addr - FBLOCK_TEST_PATTERN);
--        break;
--    case FBLOCK_FORMAT:
--        val = dev->rom_format;
--        break;
--    case FBLOCK_REVISION_LEVEL:
--        val = dev->rom_rev;
--        break;
--    case FBLOCK_CRC...FBLOCK_CRC + 3:
--        val = BYTE(dev->rom_crc, addr - FBLOCK_CRC);
--        break;
--    case FBLOCK_LENGTH...FBLOCK_LENGTH + 3:
--        val = BYTE(dev->rom_length, addr - FBLOCK_LENGTH);
--        break;
--    case FBLOCK_DIRECTORY_OFFSET...FBLOCK_DIRECTORY_OFFSET + 3:
--        val = BYTE(dev->directory_offset, addr - FBLOCK_DIRECTORY_OFFSET);
--        break;
--    default:
--        val = 0;
--        break;
--    }
--    return val;
--}
--
--static void nubus_fblock_write(void *opaque, hwaddr addr, uint64_t val,
--                               unsigned int size)
--{
--    /* read only */
--}
--
--static const MemoryRegionOps nubus_format_block_ops = {
--    .read = nubus_fblock_read,
--    .write = nubus_fblock_write,
--    .endianness = DEVICE_BIG_ENDIAN,
--    .valid = {
--        .min_access_size = 1,
--        .max_access_size = 1,
--    }
--};
--
--static void nubus_register_format_block(NubusDevice *dev)
--{
--    char *fblock_name;
--
--    fblock_name = g_strdup_printf("nubus-slot-%d-format-block",
--                                  dev->slot);
--
--    hwaddr fblock_offset = memory_region_size(&dev->slot_mem) - FBLOCK_SIZE;
--    memory_region_init_io(&dev->fblock_io, NULL, &nubus_format_block_ops,
--                          dev, fblock_name, FBLOCK_SIZE);
--    memory_region_add_subregion(&dev->slot_mem, fblock_offset,
--                                &dev->fblock_io);
--
--    g_free(fblock_name);
--}
--
--static void mac_nubus_rom_write(void *opaque, hwaddr addr, uint64_t val,
--                                       unsigned int size)
--{
--    /* read only */
--}
--
--static uint64_t mac_nubus_rom_read(void *opaque, hwaddr addr,
--                                    unsigned int size)
--{
--    NubusDevice *dev = opaque;
--
--    return dev->rom[addr];
--}
--
--static const MemoryRegionOps mac_nubus_rom_ops = {
--    .read  = mac_nubus_rom_read,
--    .write = mac_nubus_rom_write,
--    .endianness = DEVICE_BIG_ENDIAN,
--    .valid = {
--        .min_access_size = 1,
--        .max_access_size = 1,
--    },
--};
--
--
--void nubus_register_rom(NubusDevice *dev, const uint8_t *rom, uint32_t size,
--                        int revision, int format, uint8_t byte_lanes)
--{
--    hwaddr rom_offset;
--    char *rom_name;
--
--    /* FIXME : really compute CRC */
--    dev->rom_length = 0;
--    dev->rom_crc = 0;
--
--    dev->rom_rev = revision;
--    dev->rom_format = format;
--
--    dev->byte_lanes = byte_lanes;
--    dev->directory_offset = -size;
--
--    /* ROM */
--
--    dev->rom = rom;
--    rom_name = g_strdup_printf("nubus-slot-%d-rom", dev->slot);
--    memory_region_init_io(&dev->rom_io, NULL, &mac_nubus_rom_ops,
--                          dev, rom_name, size);
--    memory_region_set_readonly(&dev->rom_io, true);
--
--    rom_offset = memory_region_size(&dev->slot_mem) - FBLOCK_SIZE +
--                 dev->directory_offset;
--    memory_region_add_subregion(&dev->slot_mem, rom_offset, &dev->rom_io);
--
--    g_free(rom_name);
--}
--
  static void nubus_device_realize(DeviceState *dev, Error **errp)
  {
      NubusBus *nubus = NUBUS_BUS(qdev_get_parent_bus(dev));
-@@ -179,8 +38,6 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
+     NubusDevice *nd = NUBUS_DEVICE(dev);
+-    char *name;
++    char *name, *path;
+     hwaddr slot_offset;
++    int64_t size;
++    int ret;
+ 
+     /* Super */
+     slot_offset = nd->slot * NUBUS_SUPER_SLOT_SIZE;
+@@ -38,10 +43,47 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
      memory_region_add_subregion(&nubus->slot_io, slot_offset,
                                  &nd->slot_mem);
      g_free(name);
--
--    nubus_register_format_block(nd);
++
++    /* Declaration ROM */
++    if (nd->romfile != NULL) {
++        path = qemu_find_file(QEMU_FILE_TYPE_BIOS, nd->romfile);
++        if (path == NULL) {
++            path = g_strdup(nd->romfile);
++        }
++
++        size = get_image_size(path);
++        if (size < 0) {
++            error_setg(errp, "failed to find romfile \"%s\"", nd->romfile);
++            g_free(path);
++            return;
++        } else if (size == 0) {
++            error_setg(errp, "romfile \"%s\" is empty", nd->romfile);
++            g_free(path);
++            return;
++        } else if (size > NUBUS_DECL_ROM_MAX_SIZE) {
++            error_setg(errp, "romfile \"%s\" too large (maximum size 128K)",
++                       nd->romfile);
++            g_free(path);
++            return;
++        }
++
++        name = g_strdup_printf("nubus-slot-%x-declaration-rom", nd->slot);
++        memory_region_init_rom(&nd->decl_rom, OBJECT(dev), name, size,
++                               &error_abort);
++        ret = load_image_mr(path, &nd->decl_rom);
++        g_free(path);
++        if (ret < 0) {
++            error_setg(errp, "could not load romfile \"%s\"", nd->romfile);
++            return;
++        }
++        memory_region_add_subregion(&nd->slot_mem, NUBUS_SLOT_SIZE - size,
++                                    &nd->decl_rom);
++    }
  }
  
  static Property nubus_device_properties[] = {
+     DEFINE_PROP_INT32("slot", NubusDevice, slot, -1),
++    DEFINE_PROP_STRING("romfile", NubusDevice, romfile),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
 -- 
 2.31.1
 
