@@ -2,85 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6CD41C819
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 17:14:39 +0200 (CEST)
-Received: from localhost ([::1]:34018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79F741C832
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 17:20:58 +0200 (CEST)
+Received: from localhost ([::1]:44394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVbI6-0007CD-W5
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 11:14:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45148)
+	id 1mVbOD-0005od-9c
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 11:20:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mVbFv-0005Zs-QL
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 11:12:23 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:58727)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mVbKe-0003S6-CB; Wed, 29 Sep 2021 11:17:16 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:53215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mVbFr-0006Ph-LO
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 11:12:23 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 03C195C0145;
- Wed, 29 Sep 2021 11:12:19 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 29 Sep 2021 11:12:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=rxIRwIam2GitG
- W+QPEB+JElT6fDl0FGNSWHHw49AxNw=; b=DthFFADNLc1KFQSoAsiD5tlrCDkTF
- fooH4PiGs8SjihiptQGwwF7KUI1OWlC7JKsWQvk1hUnukRSguWOMBK834BxUPbdS
- COzz3cK+ftJT12OEEtVBWNZuuW/mzroen6701CdI8Nnn6Pz6eWswJSONRoo3kBM8
- pLC/eA/huasqKB2pcCjc87NV1DOQFvRLH5YvxbSASVXuaQCYhnKHZMC+ThkkRL8I
- SotOme3yQzqm0LkolVWQzX2Hq+rz/eZk+ZFqhGN4oUW5EP2742N74uhfrLZSgajL
- qGXx2c8hx1HmpXpPgCoDWqkM97PbWAim3EAtdNgdREE2gZoVVmlLWKulA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=rxIRwIam2GitGW+QPEB+JElT6fDl0FGNSWHHw49AxNw=; b=r7xB/vNl
- ZtcTlQaf7XV854yXJ5QalPakO9+4icLQbxT3Q9gZex+aKxredgFZkWM1SmmC+Z86
- r5bgkeD4KyyawLZ+zTrA14idrs9nA5gRjGQxOEQ28idbkSIHz7VhYQLJ5T3SIaj3
- bEPzY+UphUQL2aAzPuxLitE8zYJjhS/U28Iz79xfYnjUgJy4xkEkCGATz5dDyD/m
- biupHY7UBXQ7F7tsLPkyK0hLP/0cqvchMTM3n/dbwsymF498ce+TG8GTIoQIBHqS
- xUSFcpISuLV8vL2c6gm8ekB/Nrs8ZqR3nNHRJTQIGLxQhTB3oTEh+jXVdofJFE1t
- lV4Izw2EqPEXVA==
-X-ME-Sender: <xms:UoJUYfduc_hSdsi-LMyf2CH9V1DLTpT_YockGQlbxhzlEIzx3_WSRQ>
- <xme:UoJUYVNFgkRSudkNnI0uddcrvz3-Pcthg2q9UDGY1igz1qvufzWUS9EO_mBk6Io9X
- CC1ic0o6kt3R5POp34>
-X-ME-Received: <xmr:UoJUYYhupA9c34RKFVFaHRvvihIfOlPqOtrkELyyvbTSZoAotiuBMJYOloV3xOHQ0GU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekvddgkeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
- dtredttdenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhg
- sehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpeejiefhgfetleekleffud
- ektdehvedujedvgeekkeejfefhhffhtedutefgtdffueenucevlhhushhtvghrufhiiigv
- pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihgh
- horghtrdgtohhm
-X-ME-Proxy: <xmx:UoJUYQ-slH6g4PtpV7QGxsYyNr7sskqMDgF88FK7YqcD6ChRU80xZw>
- <xmx:UoJUYbuA-lNGp9A4pnbhCsseXIiP2H_ladqk2fmTFoD6pnDuAORaJQ>
- <xmx:UoJUYfFtmyh-DO_MDvSJM4tvOTMoXsD6qPOVeVLTn1vBWTC4Xxypaw>
- <xmx:UoJUYbJAzz1sGHR26z8bPEGI7Uw2GsoNhI-vWj7rMw3xFasl1OKTng>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Sep 2021 11:12:18 -0400 (EDT)
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] hw/mips/boston: Add FDT generator
-Date: Wed, 29 Sep 2021 16:12:11 +0100
-Message-Id: <20210929151211.108-4-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210929151211.108-1-jiaxun.yang@flygoat.com>
-References: <20210929151211.108-1-jiaxun.yang@flygoat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mVbKc-000210-Jv; Wed, 29 Sep 2021 11:17:16 -0400
+Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MZAvp-1mInOp42Mr-00V5qd; Wed, 29 Sep 2021 17:16:55 +0200
+Subject: Re: [PATCH] target/i386: Include 'hw/i386/apic.h' locally
+From: Laurent Vivier <laurent@vivier.eu>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20210902152243.386118-1-f4bug@amsat.org>
+ <a4cba848-e668-7cf1-fe93-b5da3a4ac6dc@redhat.com>
+ <f3e89488-0d05-657a-34f7-060a7250517d@amsat.org>
+ <f9e3c54f-a7cb-a043-f7fd-9d9d0dd61c16@vivier.eu>
+Message-ID: <6fa5f79c-8d3b-9534-26d6-ebe1ba937491@vivier.eu>
+Date: Wed, 29 Sep 2021 17:16:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <f9e3c54f-a7cb-a043-f7fd-9d9d0dd61c16@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=jiaxun.yang@flygoat.com;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:gtnsvCqwUKzGHyV6y4weKFK8exTuhWuX2g6bjpWcuUwurd4lk6e
+ PrV2g4Hf3i/XKW2ZWnRCLjAgqfFr81rf9/iv64/Uo8FV7AIQDe12uyOkV8/ViMhhPwm+7Sq
+ 41o25sQGF5OIQunSB9ySomY4PxOc8urm2ME1wTfc67m6Yi76Rk6rajSzUiiRTt7tE79C3av
+ yRWPTeDQ03OsoPaZPeuVw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kYB5Btne//E=:KUK6OkqEiUTBX1DphE7lRt
+ xaAhUqj6Nvq3CDpF5HPiAUb2XySDNY4YsEuw5b1jAC0qNThTDFaP9JspZGDzCkuvl6YMsuRGS
+ xPXLiBJmEbw21RadCmfnACxF/pbV1gqZmQiaVMeckSi3a09GDDHA+/Ot+LG6oZVvTYy7LMJjc
+ vdu/PLxKStCcREi7TNP/NCFW3ZfeypO+rRh4RqOJKlgirXbm/xPNMq9JOUV2kyR8FI2uyYlmE
+ rrrLUSKAJbiw4EmCBFljELMwPcsbThPAdZRHtQNDx+MVxIESAQT5sAvSFHaPjOAGmLuZosi3c
+ V9CnHtZ/7EHxTUE+dPchQz8oAG3VU8qk5QFeVq6KPl2SEDtHr3GBqOK7Q5M+DnvmFX7oepy6G
+ wIIOuo++Oso2uwMnAGocS4RSskUQFw7hxUN0lQEUyjoKeivW8mdoEuXOxV1JLXulDYIG//ecG
+ nVcU92X/zmCHwVpvKydMiVfJ+Ugpluw6Bj4Wtaxg6GskdRXJ7P7yLeAE/s7vngXJ2b8LARr/q
+ xNTPLC6T+oQColtNZrrzLXGm28mbZaLPmY5A69IK1lD0TLvNddXxneA05bFlU5sExHH1u9TMY
+ rnzh29SICO6JHY+Ofr2LjCdNCNB9p8iCb3/jsxwpstZC0LSftQ8FSK5dZJ/TwkcoLw9W2711B
+ EqUm7ntmTviN3fWORz0o8eHVpjtVq9VlgsSvDIGmEP1LgptMpJXGpePO5EsDayQNcw+clTzpA
+ jhQ8S05rZ8EcxdFfktNc5k7xIOO0BYUTA4w8hg==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.03,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,287 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@syrmia.com, f4bug@amsat.org, paulburton@kernel.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kamil Rytarowski <kamil@netbsd.org>, Cameron Esfahani <dirty@apple.com>,
+ qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Reinoud Zandijk <reinoud@netbsd.org>, Colin Xu <colin.xu@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, haxm-team@intel.com,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Wenchao Wang <wenchao.wang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generate FDT on our own if no dtb argument supplied.
-Avoid introducing unused device in FDT with user supplied dtb.
+Le 29/09/2021 à 17:00, Laurent Vivier a écrit :
+> Le 29/09/2021 à 16:08, Philippe Mathieu-Daudé a écrit :
+>> On 9/16/21 00:05, Paolo Bonzini wrote:
+>>> On 02/09/21 17:22, Philippe Mathieu-Daudé wrote:
+>>>> Instead of including a sysemu-specific header in "cpu.h"
+>>>> (which is shared with user-mode emulations), include it
+>>>> locally when required.
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>> ---
+>>>
+>>> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+>>
+>> Thank you, Cc'ing qemu-trivial@ :)
+>>
+> 
+> Applied to my trivial-patches branch.
+> 
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
---
-v2: Address f4bug cmments (Thanks!)
----
- hw/mips/boston.c | 234 +++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 226 insertions(+), 8 deletions(-)
+We have a problem:
 
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 5d3f054a3e..4c1a951b10 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -49,6 +49,15 @@ typedef struct BostonState BostonState;
- DECLARE_INSTANCE_CHECKER(BostonState, BOSTON,
-                          TYPE_BOSTON)
- 
-+#define FDT_IRQ_TYPE_NONE       0
-+#define FDT_IRQ_TYPE_LEVEL_HIGH 4
-+#define FDT_GIC_SHARED          0
-+#define FDT_GIC_LOCAL           1
-+#define FDT_BOSTON_CLK_SYS      1
-+#define FDT_BOSTON_CLK_CPU      2
-+#define FDT_PCI_IRQ_MAP_PINS    4
-+#define FDT_PCI_IRQ_MAP_DESCS   6
-+
- struct BostonState {
-     SysBusDevice parent_obj;
- 
-@@ -435,6 +444,213 @@ xilinx_pcie_init(MemoryRegion *sys_mem, uint32_t bus_nr,
-     return XILINX_PCIE_HOST(dev);
- }
- 
-+
-+static void fdt_create_pcie(void *fdt, int gic_ph, int irq, hwaddr reg_base,
-+                            hwaddr reg_size, hwaddr mmio_base, hwaddr mmio_size)
-+{
-+    int i;
-+    char *name, *intc_name;
-+    uint32_t intc_ph;
-+    uint32_t interrupt_map[FDT_PCI_IRQ_MAP_PINS][FDT_PCI_IRQ_MAP_DESCS];
-+
-+    intc_ph = qemu_fdt_alloc_phandle(fdt);
-+    name = g_strdup_printf("/soc/pci@%" HWADDR_PRIx, reg_base);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "xlnx,axi-pcie-host-1.00.a");
-+    qemu_fdt_setprop_string(fdt, name, "device_type", "pci");
-+    qemu_fdt_setprop_cells(fdt, name, "reg", reg_base, reg_size);
-+
-+    qemu_fdt_setprop_cell(fdt, name, "#address-cells", 3);
-+    qemu_fdt_setprop_cell(fdt, name, "#size-cells", 2);
-+    qemu_fdt_setprop_cell(fdt, name, "#interrupt-cells", 1);
-+
-+    qemu_fdt_setprop_cell(fdt, name, "interrupt-parent", gic_ph);
-+    qemu_fdt_setprop_cells(fdt, name, "interrupts", FDT_GIC_SHARED, irq,
-+                            FDT_IRQ_TYPE_LEVEL_HIGH);
-+
-+    qemu_fdt_setprop_cells(fdt, name, "ranges", 0x02000000, 0, mmio_base,
-+                            mmio_base, 0, mmio_size);
-+    qemu_fdt_setprop_cells(fdt, name, "bus-range", 0x00, 0xff);
-+
-+
-+
-+    intc_name = g_strdup_printf("%s/interrupt-controller", name);
-+    qemu_fdt_add_subnode(fdt, intc_name);
-+    qemu_fdt_setprop(fdt, intc_name, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop_cell(fdt, intc_name, "#address-cells", 0);
-+    qemu_fdt_setprop_cell(fdt, intc_name, "#interrupt-cells", 1);
-+    qemu_fdt_setprop_cell(fdt, intc_name, "phandle", intc_ph);
-+
-+    qemu_fdt_setprop_cells(fdt, name, "interrupt-map-mask", 0, 0, 0, 7);
-+    for (i = 0; i < FDT_PCI_IRQ_MAP_PINS; i++) {
-+        uint32_t *irqmap = interrupt_map[i];
-+
-+        irqmap[0] = cpu_to_be32(0);
-+        irqmap[1] = cpu_to_be32(0);
-+        irqmap[2] = cpu_to_be32(0);
-+        irqmap[3] = cpu_to_be32(i + 1);
-+        irqmap[4] = cpu_to_be32(intc_ph);
-+        irqmap[5] = cpu_to_be32(i + 1);
-+    }
-+    qemu_fdt_setprop(fdt, name, "interrupt-map", &interrupt_map, sizeof(interrupt_map));
-+
-+    g_free(intc_name);
-+    g_free(name);
-+}
-+
-+static const void *create_fdt(BostonState *s, const MemMapEntry *memmap, int *dt_size)
-+{
-+    void *fdt;
-+    int cpu;
-+    MachineState *mc = s->mach;
-+    uint32_t platreg_ph, gic_ph, clk_ph;
-+    char *name, *gic_name, *platreg_name, *stdout_name;
-+    static const char * const syscon_compat[2] = {"img,boston-platform-regs", "syscon"};
-+
-+    fdt = create_device_tree(dt_size);
-+    if (!fdt) {
-+        error_report("create_device_tree() failed");
-+        exit(1);
-+    }
-+
-+    platreg_ph = qemu_fdt_alloc_phandle(fdt);
-+    gic_ph = qemu_fdt_alloc_phandle(fdt);
-+    clk_ph = qemu_fdt_alloc_phandle(fdt);
-+
-+    qemu_fdt_setprop_string(fdt, "/", "model", "img,boston");
-+    qemu_fdt_setprop_string(fdt, "/", "compatible", "img,boston");
-+    qemu_fdt_setprop_cell(fdt, "/", "#size-cells", 0x1);
-+    qemu_fdt_setprop_cell(fdt, "/", "#address-cells", 0x1);
-+
-+
-+    qemu_fdt_add_subnode(fdt, "/cpus");
-+    qemu_fdt_setprop_cell(fdt, "/cpus", "#size-cells", 0x0);
-+    qemu_fdt_setprop_cell(fdt, "/cpus", "#address-cells", 0x1);
-+
-+    for (cpu = 0; cpu < mc->smp.cpus; cpu++) {
-+        name = g_strdup_printf("/cpus/cpu@%d", cpu);
-+        qemu_fdt_add_subnode(fdt, name);
-+        qemu_fdt_setprop_string(fdt, name, "compatible", "img,mips");
-+        qemu_fdt_setprop_string(fdt, name, "status", "okay");
-+        qemu_fdt_setprop_cell(fdt, name, "reg", cpu);
-+        qemu_fdt_setprop_string(fdt, name, "device_type", "cpu");
-+        qemu_fdt_setprop_cells(fdt, name, "clocks", clk_ph, FDT_BOSTON_CLK_CPU);
-+        g_free(name);
-+    }
-+
-+    qemu_fdt_add_subnode(fdt, "/soc");
-+    qemu_fdt_setprop(fdt, "/soc", "ranges", NULL, 0);
-+    qemu_fdt_setprop_string(fdt, "/soc", "compatible", "simple-bus");
-+    qemu_fdt_setprop_cell(fdt, "/soc", "#size-cells", 0x1);
-+    qemu_fdt_setprop_cell(fdt, "/soc", "#address-cells", 0x1);
-+
-+    fdt_create_pcie(fdt, gic_ph, 2, memmap[BOSTON_PCIE0].base, memmap[BOSTON_PCIE0].size,
-+                    memmap[BOSTON_PCIE0_MMIO].base, memmap[BOSTON_PCIE0_MMIO].size);
-+
-+    fdt_create_pcie(fdt, gic_ph, 1, memmap[BOSTON_PCIE1].base, memmap[BOSTON_PCIE1].size,
-+                    memmap[BOSTON_PCIE1_MMIO].base, memmap[BOSTON_PCIE1_MMIO].size);
-+
-+    fdt_create_pcie(fdt, gic_ph, 0, memmap[BOSTON_PCIE2].base, memmap[BOSTON_PCIE2].size,
-+                    memmap[BOSTON_PCIE2_MMIO].base, memmap[BOSTON_PCIE2_MMIO].size);
-+
-+    /* GIC with it's timer node */
-+    gic_name = g_strdup_printf("/soc/interrupt-controller@%" HWADDR_PRIx,
-+                                memmap[BOSTON_GIC].base);
-+    qemu_fdt_add_subnode(fdt, gic_name);
-+    qemu_fdt_setprop_string(fdt, gic_name, "compatible", "mti,gic");
-+    qemu_fdt_setprop_cells(fdt, gic_name, "reg", memmap[BOSTON_GIC].base,
-+                            memmap[BOSTON_GIC].size);
-+    qemu_fdt_setprop(fdt, gic_name, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop_cell(fdt, gic_name, "#interrupt-cells", 3);
-+    qemu_fdt_setprop_cell(fdt, gic_name, "phandle", gic_ph);
-+
-+    name = g_strdup_printf("%s/timer", gic_name);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "mti,gic-timer");
-+    qemu_fdt_setprop_cells(fdt, name, "interrupts", FDT_GIC_LOCAL, 1,
-+                            FDT_IRQ_TYPE_NONE);
-+    qemu_fdt_setprop_cells(fdt, name, "clocks", clk_ph, FDT_BOSTON_CLK_CPU);
-+    g_free(name);
-+    g_free(gic_name);
-+
-+    /* CDMM node */
-+    name = g_strdup_printf("/soc/cdmm@%" HWADDR_PRIx, memmap[BOSTON_CDMM].base);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "mti,mips-cdmm");
-+    qemu_fdt_setprop_cells(fdt, name, "reg", memmap[BOSTON_CDMM].base,
-+                            memmap[BOSTON_CDMM].size);
-+    g_free(name);
-+
-+    /* CPC node */
-+    name = g_strdup_printf("/soc/cpc@%" HWADDR_PRIx, memmap[BOSTON_CPC].base);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "mti,mips-cpc");
-+    qemu_fdt_setprop_cells(fdt, name, "reg", memmap[BOSTON_CPC].base,
-+                            memmap[BOSTON_CPC].size);
-+    g_free(name);
-+
-+    /* platreg and it's clk node */
-+    platreg_name = g_strdup_printf("/soc/system-controller@%" HWADDR_PRIx,
-+                                    memmap[BOSTON_PLATREG].base);
-+    qemu_fdt_add_subnode(fdt, platreg_name);
-+    qemu_fdt_setprop_string_array(fdt, platreg_name, "compatible",
-+                                 (char **)&syscon_compat,
-+                                 ARRAY_SIZE(syscon_compat));
-+    qemu_fdt_setprop_cells(fdt, platreg_name, "reg", memmap[BOSTON_PLATREG].base,
-+                            memmap[BOSTON_PLATREG].size);
-+    qemu_fdt_setprop_cell(fdt, platreg_name, "phandle", platreg_ph);
-+
-+    name = g_strdup_printf("%s/clock", platreg_name);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "img,boston-clock");
-+    qemu_fdt_setprop_cell(fdt, name, "#clock-cells", 1);
-+    qemu_fdt_setprop_cell(fdt, name, "phandle", clk_ph);
-+    g_free(name);
-+    g_free(platreg_name);
-+
-+    /* reboot node */
-+    name = g_strdup_printf("/soc/reboot");
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "syscon-reboot");
-+    qemu_fdt_setprop_cell(fdt, name, "regmap", platreg_ph);
-+    qemu_fdt_setprop_cell(fdt, name, "offset", 0x10);
-+    qemu_fdt_setprop_cell(fdt, name, "mask", 0x10);
-+    g_free(name);
-+
-+    /* uart node */
-+    name = g_strdup_printf("/soc/uart@%" HWADDR_PRIx, memmap[BOSTON_UART].base);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "ns16550a");
-+    qemu_fdt_setprop_cells(fdt, name, "reg", memmap[BOSTON_UART].base,
-+                            memmap[BOSTON_UART].size);
-+    qemu_fdt_setprop_cell(fdt, name, "reg-shift", 0x2);
-+    qemu_fdt_setprop_cell(fdt, name, "interrupt-parent", gic_ph);
-+    qemu_fdt_setprop_cells(fdt, name, "interrupts", FDT_GIC_SHARED, 3,
-+                            FDT_IRQ_TYPE_LEVEL_HIGH);
-+    qemu_fdt_setprop_cells(fdt, name, "clocks", clk_ph, FDT_BOSTON_CLK_SYS);
-+
-+    qemu_fdt_add_subnode(fdt, "/chosen");
-+    stdout_name = g_strdup_printf("%s:115200", name);
-+    qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", stdout_name);
-+    g_free(stdout_name);
-+    g_free(name);
-+
-+    /* lcd node */
-+    name = g_strdup_printf("/soc/lcd@%" HWADDR_PRIx, memmap[BOSTON_LCD].base);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "img,boston-lcd");
-+    qemu_fdt_setprop_cells(fdt, name, "reg", memmap[BOSTON_LCD].base,
-+                            memmap[BOSTON_LCD].size);
-+    g_free(name);
-+
-+    name = g_strdup_printf("/memory@0");
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "device_type", "memory");
-+    g_free(name);
-+
-+    return fdt;
-+}
-+
- static void boston_mach_init(MachineState *machine)
- {
-     DeviceState *dev;
-@@ -556,21 +772,23 @@ static void boston_mach_init(MachineState *machine)
-                            NULL, 0, EM_MIPS, 1, 0);
- 
-         if (kernel_size) {
-+            int dt_size;
-+            g_autofree const void *dtb_file_data, *dtb_load_data;
-             hwaddr dtb_paddr = QEMU_ALIGN_UP(kernel_high, 64 * KiB);
-             hwaddr dtb_vaddr = cpu_mips_phys_to_kseg0(NULL, dtb_paddr);
- 
-             s->kernel_entry = kernel_entry;
-             if (machine->dtb) {
--                int dt_size;
--                g_autofree const void *dtb_file_data, *dtb_load_data;
--
-                 dtb_file_data = load_device_tree(machine->dtb, &dt_size);
--                dtb_load_data = boston_fdt_filter(s, dtb_file_data, NULL, &dtb_vaddr);
--
--                /* Calculate real fdt size after filter */
--                dt_size = fdt_totalsize(dtb_load_data);
--                rom_add_blob_fixed("dtb", dtb_load_data, dt_size, dtb_paddr);
-+            } else {
-+                dtb_file_data = create_fdt(s, boston_memmap, &dt_size);
-             }
-+
-+            dtb_load_data = boston_fdt_filter(s, dtb_file_data, NULL, &dtb_vaddr);
-+
-+            /* Calculate real fdt size after filter */
-+            dt_size = fdt_totalsize(dtb_load_data);
-+            rom_add_blob_fixed("dtb", dtb_load_data, dt_size, dtb_paddr);
-         } else {
-             /* Try to load file as FIT */
-             fit_err = load_fit(&boston_fit_loader, machine->kernel_filename, s);
--- 
-2.30.2
+.../target/i386/tcg/sysemu/seg_helper.c:145:9: error: implicit declaration of function
+'apic_poll_irq' [-Werror=implicit-function-declaration]
+  145 |         apic_poll_irq(cpu->apic_state);
+      |         ^~~~~~~~~~~~~
+.../target/i386/tcg/sysemu/seg_helper.c:145:9: error: nested extern declaration of 'apic_poll_irq'
+[-Werror=nested-externs]
+
 
 
