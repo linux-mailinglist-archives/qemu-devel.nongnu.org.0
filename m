@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1586841C20A
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:51:59 +0200 (CEST)
-Received: from localhost ([::1]:55076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F8E41C225
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:59:31 +0200 (CEST)
+Received: from localhost ([::1]:40074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVWFq-00088y-17
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45020)
+	id 1mVWN8-0000MT-Jc
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVtb-00021i-P7
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:28:59 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:50829)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVtf-000295-T9
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:29:07 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:35423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVta-0005qU-7N
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:28:59 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVta-0005qd-GT
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:29:03 -0400
 Received: from quad ([82.142.21.142]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MhUQ7-1n1G0q1wqR-00ecIi; Wed, 29
- Sep 2021 11:28:47 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1M1HqM-1mYH3C06aw-002nRx; Wed, 29
+ Sep 2021 11:28:48 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/20] nubus: implement BusClass get_dev_path()
-Date: Wed, 29 Sep 2021 11:28:29 +0200
-Message-Id: <20210929092843.2686234-7-laurent@vivier.eu>
+Subject: [PULL 07/20] nubus: add trace-events for empty slot accesses
+Date: Wed, 29 Sep 2021 11:28:30 +0200
+Message-Id: <20210929092843.2686234-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210929092843.2686234-1-laurent@vivier.eu>
 References: <20210929092843.2686234-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:h+ftqzMgrGdRhau9XXPR4svOyg6eZ6RlH/jKJ1nDiE46xCmEnfb
- xN5FLmpBys0kVB6tSyE95ig0Ea1okzfzSkCkzkUs1XK79uCB7QEX5HtVOZYfYaDt3Rd4cer
- r36icbelC+YjhoF22Dy4x/w7VrUsWuBkA2OK9kvcH/HRXX5YVPP9kACH2o97BOGLy7b8IRW
- Py8/7aIbzy4EESO77ZpSQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0mjs8Ofn8KA=:Dt7HH0les0I3oaVR4prhLY
- YgcEn+b1l6NsFuP3ng9yNKtj9smOUHiWmc/+dbsmDs3xSuTKMOfUu6ma87B9IiJpb2BkKU9Za
- OACDxtMbjWM5KsnfyD7M2tg9zU5s7ljat3CDgBqNO19Z9rnR7+EYEP7ejSUyLuTOFQpx+pOQZ
- 6y4tgi8CCBlfayZ1U7Wq+/Obm9bYPEN9LhgxGovC1VhNruQ2Mt8G3GMvsPDt2BlO+CaA2fR3t
- hsMAzqjEy13WMYZVUO6EzgXSJoBKJlgYkjOzurnI9iQTElTxpSOEBMloJ1BdcjJ8FJEcRtucc
- UFv0vcAxghBxOktqqgMfCnFZ7lRPzQOQaa2bAF5s2DuW7OsbAn8s3P/2C8EvJucJEwL38SXJW
- Mqh6zYkvlg+BfYWZ4o8N4eYACKkhN2NeF1ReIYU/vZGsCOa2KdrCOz7F7YvEOVNEZ7l5n3YCQ
- 0E/Z2EgiwLfALCwBxu3g1/DH+alCfYTgL10V76tJ+3INIiLKN2wvTblKJphw7PP/7YoH4rXj4
- TO9aGabLtG5IWEvb7H7EkxC4dCwIz/ycwHsmxPd4KK5k2bUp6I0qCx2Qhij14i5Rx9rjH8PAM
- roWAzhUqiewCjVm+H4hjITgfjJRTIW0tiyWJWvvTVP8BEciDd+Co09iVswNMVv6XcJZHkyv/q
- znu2jRR0Di5T3HoA2uqsbt/V5wlwpxpldwcPdJN0dXHQ4+d5Y/Q9//PEQ+DxGLU1iexmvEocR
- mFmj922QJu2VZSnoM9t+OnRAkjVYh079UpzIVw==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:llOd+AHXWEFRb5NqqDzvKos7h5dUILgJYUeKp2Jl/dhQaIS5up3
+ lZ3ru0QshJX3qh05QE09X8yenwTHl09g/c0X8A5AyDwV2+4T7QNqIwj+BM6WPOL0ruA5K7t
+ y7HDoiuauKXuyVDnCUzusDr1UuUmG8yLa6w/HiwXP9gYorI5SwSc1WUahaU7DqlUzR4N994
+ LgwCPyHyXrVq2GjNVYbGA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:PEQgKKI8rKE=:efIkO/oZjS2K15XfufC041
+ XUlzT0kTQAxHEeKouWOvKG13Wk7b2BFlxD4Lg3TGqgA/ckAjWiash2kFEt6lsVGP3dxDrDMxX
+ GNSIbtGYPYXeAHfUqIqNKcL1cNp+det4a6ve9EJEqNYnPg28IIfR13RqjpspuIAZ5AvtAh/Lc
+ YLNC1FcY8JawtgE90gRXKMq3MUlLlj34axllSK97LbxeE37GNXVcS+Ta1Zxju0GuapuK73THk
+ 8VO1VXqtVmPKme6g44rLB4pUdahGLQo0w0SGm1H8WKcjDMwjRVNP4tYROGztHqoQMc7gj4Svz
+ hZL/w3pAsrW5DvgXr2c3GQqFDfaivKq0Z85QKTLJauArFT7EHXbAxsmwcRdngT4XXmPa9mcoh
+ 73qo2KwJvnwJFh8Q0otZUbsu/VVbv7EEUNpbl7rtsPPGYMRbcBobbVOR6WruxgLDEEfg078n4
+ C5LE4LpuU9w4BFIttiNrhGYsWIw6mTr1EEslWH5mXMF5jH4Ep0LFjTIPqbr9tkbw1/ZzMJuAR
+ oHhLEt0uxHUWK90PSWpiH8/EsNgET+k8gkDPaxhtg+Cl7p7MfdGN06uTcafvCQ/xQtyqJt0j8
+ 1tMEulvntVMK/YiAo812OsVQgiaUvujm18E29x2b/sOk6HvvtifB5ybRcYPQ3uLx/yJongMsp
+ 2tOSNt2mFiFhRllxXAAek4asIeZJerMlVZNkaUweBfV44PIVip6D1SZ2XrbzpQvzfk9n5bKCE
+ u14LwHyXIRIc1VnFymeNoWd9cpqOf+9zjKGN8g==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -75,49 +75,114 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
+Increase the max_access_size to 4 bytes for empty Nubus slot and super slot
+accesses to allow tracing of the Nubus enumeration process by the guest OS.
+
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210924073808.1041-7-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210924073808.1041-8-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/nubus/nubus-bus.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ meson.build           |  1 +
+ hw/nubus/trace.h      |  1 +
+ hw/nubus/nubus-bus.c  | 10 +++++++---
+ hw/nubus/trace-events |  7 +++++++
+ 4 files changed, 16 insertions(+), 3 deletions(-)
+ create mode 100644 hw/nubus/trace.h
+ create mode 100644 hw/nubus/trace-events
 
+diff --git a/meson.build b/meson.build
+index 15ef4d3c4187..7bdbbbdf02ed 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2142,6 +2142,7 @@ if have_system
+     'hw/misc/macio',
+     'hw/net',
+     'hw/net/can',
++    'hw/nubus',
+     'hw/nvme',
+     'hw/nvram',
+     'hw/pci',
+diff --git a/hw/nubus/trace.h b/hw/nubus/trace.h
+new file mode 100644
+index 000000000000..3749420da175
+--- /dev/null
++++ b/hw/nubus/trace.h
+@@ -0,0 +1 @@
++#include "trace/trace-hw_nubus.h"
 diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
-index 96ef027bad26..04f11edd2465 100644
+index 04f11edd2465..a9fb6ded9e4e 100644
 --- a/hw/nubus/nubus-bus.c
 +++ b/hw/nubus/nubus-bus.c
-@@ -96,6 +96,21 @@ static void nubus_init(Object *obj)
-                                                  NUBUS_SLOT_NB);
- }
+@@ -19,6 +19,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/nubus/nubus.h"
+ #include "qapi/error.h"
++#include "trace.h"
  
-+static char *nubus_get_dev_path(DeviceState *dev)
-+{
-+    NubusDevice *nd = NUBUS_DEVICE(dev);
-+    BusState *bus = qdev_get_parent_bus(dev);
-+    char *p = qdev_get_dev_path(bus->parent);
-+
-+    if (p) {
-+        char *ret = g_strdup_printf("%s/%s/%02x", p, bus->name, nd->slot);
-+        g_free(p);
-+        return ret;
-+    } else {
-+        return g_strdup_printf("%s/%02x", bus->name, nd->slot);
-+    }
-+}
-+
- static bool nubus_check_address(BusState *bus, DeviceState *dev, Error **errp)
+ 
+ static NubusBus *nubus_find(void)
+@@ -31,12 +32,13 @@ static void nubus_slot_write(void *opaque, hwaddr addr, uint64_t val,
+                              unsigned int size)
  {
-     NubusDevice *nd = NUBUS_DEVICE(dev);
-@@ -130,6 +145,7 @@ static void nubus_class_init(ObjectClass *oc, void *data)
- 
-     bc->realize = nubus_realize;
-     bc->check_address = nubus_check_address;
-+    bc->get_dev_path = nubus_get_dev_path;
+     /* read only */
++    trace_nubus_slot_write(addr, val, size);
  }
  
- static const TypeInfo nubus_bus_info = {
+-
+ static uint64_t nubus_slot_read(void *opaque, hwaddr addr,
+                                 unsigned int size)
+ {
++    trace_nubus_slot_read(addr, size);
+     return 0;
+ }
+ 
+@@ -46,7 +48,7 @@ static const MemoryRegionOps nubus_slot_ops = {
+     .endianness = DEVICE_BIG_ENDIAN,
+     .valid = {
+         .min_access_size = 1,
+-        .max_access_size = 1,
++        .max_access_size = 4,
+     },
+ };
+ 
+@@ -54,11 +56,13 @@ static void nubus_super_slot_write(void *opaque, hwaddr addr, uint64_t val,
+                                    unsigned int size)
+ {
+     /* read only */
++    trace_nubus_super_slot_write(addr, val, size);
+ }
+ 
+ static uint64_t nubus_super_slot_read(void *opaque, hwaddr addr,
+                                       unsigned int size)
+ {
++    trace_nubus_super_slot_read(addr, size);
+     return 0;
+ }
+ 
+@@ -68,7 +72,7 @@ static const MemoryRegionOps nubus_super_slot_ops = {
+     .endianness = DEVICE_BIG_ENDIAN,
+     .valid = {
+         .min_access_size = 1,
+-        .max_access_size = 1,
++        .max_access_size = 4,
+     },
+ };
+ 
+diff --git a/hw/nubus/trace-events b/hw/nubus/trace-events
+new file mode 100644
+index 000000000000..e31833d694af
+--- /dev/null
++++ b/hw/nubus/trace-events
+@@ -0,0 +1,7 @@
++# See docs/devel/tracing.txt for syntax documentation.
++
++# nubus-bus.c
++nubus_slot_read(uint64_t addr, int size) "reading unassigned addr 0x%"PRIx64 " size %d"
++nubus_slot_write(uint64_t addr, uint64_t val, int size) "writing unassigned addr 0x%"PRIx64 " value 0x%"PRIx64 " size %d"
++nubus_super_slot_read(uint64_t addr, int size) "reading unassigned addr 0x%"PRIx64 " size %d"
++nubus_super_slot_write(uint64_t addr, uint64_t val, int size) "writing unassigned addr 0x%"PRIx64 " value 0x%"PRIx64 " size %d"
 -- 
 2.31.1
 
