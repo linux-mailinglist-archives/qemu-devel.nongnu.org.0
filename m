@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F9D41BF8F
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 09:08:33 +0200 (CEST)
-Received: from localhost ([::1]:52812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5768941BF97
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 09:10:30 +0200 (CEST)
+Received: from localhost ([::1]:54924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVThf-0003Fv-Mz
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 03:08:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42802)
+	id 1mVTjZ-0004eG-6s
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 03:10:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mVTg2-0002RS-Kh
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 03:06:50 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57040
+ id 1mVTgg-0002zy-UY
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 03:07:32 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57046
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mVTg0-0003pJ-Vk
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 03:06:50 -0400
+ id 1mVTgb-0004Iq-AN
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 03:07:26 -0400
 Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1]
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mVTfn-0003mW-4N; Wed, 29 Sep 2021 08:06:39 +0100
+ id 1mVTgN-0003mu-L9; Wed, 29 Sep 2021 08:07:15 +0100
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210926222716.1732932-1-f4bug@amsat.org>
- <20210926222716.1732932-36-f4bug@amsat.org>
+ <20210926222716.1732932-37-f4bug@amsat.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <1c99f768-a15a-3d95-d0cd-7c81777c585f@ilande.co.uk>
-Date: Wed, 29 Sep 2021 08:06:41 +0100
+Message-ID: <3e01a50f-2217-5b75-72b0-139f5ef8467e@ilande.co.uk>
+Date: Wed, 29 Sep 2021 08:07:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20210926222716.1732932-36-f4bug@amsat.org>
+In-Reply-To: <20210926222716.1732932-37-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v8 35/40] target/sparc: Remove pointless use of CONFIG_TCG
- definition
+Subject: Re: [PATCH v8 36/40] target/sparc: Restrict has_work() handler to
+ sysemu
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -71,37 +71,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 26/09/2021 23:27, Philippe Mathieu-Daudé wrote:
 
-> The SPARC target only support TCG acceleration. Remove the CONFIG_TCG
-> definition introduced by mistake in commit 78271684719 ("cpu: tcg_ops:
-> move to tcg-cpu-ops.h, keep a pointer in CPUClass").
+> Restrict has_work() to sysemu.
 > 
-> Reported-by: Richard Henderson <richard.henderson@linaro.org>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   target/sparc/cpu.c | 2 --
->   1 file changed, 2 deletions(-)
+>   target/sparc/cpu.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
 > diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-> index 21dd27796d0..0d252cb5bdc 100644
+> index 0d252cb5bdc..8d61bf15f6c 100644
 > --- a/target/sparc/cpu.c
 > +++ b/target/sparc/cpu.c
-> @@ -859,7 +859,6 @@ static const struct SysemuCPUOps sparc_sysemu_ops = {
->   };
->   #endif
+> @@ -702,6 +702,7 @@ static void sparc_cpu_synchronize_from_tb(CPUState *cs,
+>       cpu->env.npc = tb->cs_base;
+>   }
 >   
-> -#ifdef CONFIG_TCG
->   #include "hw/core/tcg-cpu-ops.h"
->   
->   static const struct TCGCPUOps sparc_tcg_ops = {
-> @@ -874,7 +873,6 @@ static const struct TCGCPUOps sparc_tcg_ops = {
->       .do_unaligned_access = sparc_cpu_do_unaligned_access,
->   #endif /* !CONFIG_USER_ONLY */
->   };
-> -#endif /* CONFIG_TCG */
->   
->   static void sparc_cpu_class_init(ObjectClass *oc, void *data)
+> +#if !defined(CONFIG_USER_ONLY)
+>   static bool sparc_cpu_has_work(CPUState *cs)
 >   {
+>       SPARCCPU *cpu = SPARC_CPU(cs);
+> @@ -710,6 +711,7 @@ static bool sparc_cpu_has_work(CPUState *cs)
+>       return (cs->interrupt_request & CPU_INTERRUPT_HARD) &&
+>              cpu_interrupts_enabled(env);
+>   }
+> +#endif /* !CONFIG_USER_ONLY */
+>   
+>   static char *sparc_cpu_type_name(const char *cpu_model)
+>   {
+> @@ -867,6 +869,7 @@ static const struct TCGCPUOps sparc_tcg_ops = {
+>       .tlb_fill = sparc_cpu_tlb_fill,
+>   
+>   #ifndef CONFIG_USER_ONLY
+> +    .has_work = sparc_cpu_has_work,
+>       .cpu_exec_interrupt = sparc_cpu_exec_interrupt,
+>       .do_interrupt = sparc_cpu_do_interrupt,
+>       .do_transaction_failed = sparc_cpu_do_transaction_failed,
+> @@ -888,7 +891,6 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
+>   
+>       cc->class_by_name = sparc_cpu_class_by_name;
+>       cc->parse_features = sparc_cpu_parse_features;
+> -    cc->has_work = sparc_cpu_has_work;
+>       cc->dump_state = sparc_cpu_dump_state;
+>   #if !defined(TARGET_SPARC64) && !defined(CONFIG_USER_ONLY)
+>       cc->memory_rw_debug = sparc_cpu_memory_rw_debug;
 
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
