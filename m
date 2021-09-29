@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B1F41BD0B
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 05:04:05 +0200 (CEST)
-Received: from localhost ([::1]:54476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E91C141BD04
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 05:02:17 +0200 (CEST)
+Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVPt6-0003qO-9E
-	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 23:04:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60764)
+	id 1mVPrM-0000De-QZ
+	for lists+qemu-devel@lfdr.de; Tue, 28 Sep 2021 23:02:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mVPo5-0005SL-2w; Tue, 28 Sep 2021 22:58:53 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3146)
+ id 1mVPnw-0004z0-45; Tue, 28 Sep 2021 22:58:44 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:3176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mVPo2-00061q-6H; Tue, 28 Sep 2021 22:58:52 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HK1DJ3y42z8ywc;
- Wed, 29 Sep 2021 10:54:08 +0800 (CST)
+ id 1mVPns-0005sG-UV; Tue, 28 Sep 2021 22:58:43 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4HK1JS71zNz8tWW;
+ Wed, 29 Sep 2021 10:57:44 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Wed, 29 Sep 2021 10:58:35 +0800
+ 15.1.2308.8; Wed, 29 Sep 2021 10:58:36 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Wed, 29 Sep 2021 10:58:34 +0800
+ 15.1.2308.8; Wed, 29 Sep 2021 10:58:35 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini
  <pbonzini@redhat.com>, =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?=
  <berrange@redhat.com>, Andrew Jones <drjones@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, "Markus
  Armbruster" <armbru@redhat.com>
-Subject: [PATCH v12 06/16] machine: Improve the error reporting of smp parsing
-Date: Wed, 29 Sep 2021 10:58:06 +0800
-Message-ID: <20210929025816.21076-7-wangyanan55@huawei.com>
+Subject: [PATCH v12 07/16] qtest/numa-test: Use detailed -smp CLIs in
+ pc_dynamic_cpu_cfg
+Date: Wed, 29 Sep 2021 10:58:07 +0800
+Message-ID: <20210929025816.21076-8-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210929025816.21076-1-wangyanan55@huawei.com>
 References: <20210929025816.21076-1-wangyanan55@huawei.com>
@@ -47,12 +48,12 @@ X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,106 +78,38 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Pierre
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have two requirements for a valid SMP configuration:
-the product of "sockets * cores * threads" must represent all the
-possible cpus, i.e., max_cpus, and then must include the initially
-present cpus, i.e., smp_cpus.
+Since commit 80d7835749 (qemu-options: rewrite help for -smp options),
+the preference of sockets/cores in -smp parsing is considered liable
+to change, and actually we are going to change it in a coming commit.
+So it'll be more stable to use detailed -smp CLIs in testing if we
+have strong dependency on the parsing results.
 
-So we only need to ensure 1) "sockets * cores * threads == maxcpus"
-at first and then ensure 2) "maxcpus >= cpus". With a reasonable
-order of the sanity check, we can simplify the error reporting code.
-When reporting an error message we also report the exact value of
-each topology member to make users easily see what's going on.
+pc_dynamic_cpu_cfg currently assumes/needs that there will be 2 CPU
+sockets with "-smp 2". To avoid breaking the test because of parsing
+logic change, now explicitly use "-smp 2,sockets=2".
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/core/machine.c | 22 +++++++++-------------
- hw/i386/pc.c      | 24 ++++++++++--------------
- 2 files changed, 19 insertions(+), 27 deletions(-)
+ tests/qtest/numa-test.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index d8f458db60..e38ab760e6 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -782,25 +782,21 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     maxcpus = maxcpus > 0 ? maxcpus : sockets * cores * threads;
-     cpus = cpus > 0 ? cpus : maxcpus;
+diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
+index c677cd63c4..fd7a2e80a0 100644
+--- a/tests/qtest/numa-test.c
++++ b/tests/qtest/numa-test.c
+@@ -265,7 +265,8 @@ static void pc_dynamic_cpu_cfg(const void *data)
+     QTestState *qs;
+     g_autofree char *cli = NULL;
  
--    if (sockets * cores * threads < cpus) {
--        error_setg(errp, "cpu topology: "
--                   "sockets (%u) * cores (%u) * threads (%u) < "
--                   "smp_cpus (%u)",
--                   sockets, cores, threads, cpus);
-+    if (sockets * cores * threads != maxcpus) {
-+        error_setg(errp, "Invalid CPU topology: "
-+                   "product of the hierarchy must match maxcpus: "
-+                   "sockets (%u) * cores (%u) * threads (%u) "
-+                   "!= maxcpus (%u)",
-+                   sockets, cores, threads, maxcpus);
-         return;
-     }
+-    cli = make_cli(data, "-nodefaults --preconfig -machine smp.cpus=2");
++    cli = make_cli(data, "-nodefaults --preconfig "
++                         "-machine smp.cpus=2,smp.sockets=2");
+     qs = qtest_init(cli);
  
-     if (maxcpus < cpus) {
--        error_setg(errp, "maxcpus must be equal to or greater than smp");
--        return;
--    }
--
--    if (sockets * cores * threads != maxcpus) {
-         error_setg(errp, "Invalid CPU topology: "
-+                   "maxcpus must be equal to or greater than smp: "
-                    "sockets (%u) * cores (%u) * threads (%u) "
--                   "!= maxcpus (%u)",
--                   sockets, cores, threads,
--                   maxcpus);
-+                   "== maxcpus (%u) < smp_cpus (%u)",
-+                   sockets, cores, threads, maxcpus, cpus);
-         return;
-     }
- 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index d9382b7d57..a37eef8057 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -749,25 +749,21 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
-     maxcpus = maxcpus > 0 ? maxcpus : sockets * dies * cores * threads;
-     cpus = cpus > 0 ? cpus : maxcpus;
- 
--    if (sockets * dies * cores * threads < cpus) {
--        error_setg(errp, "cpu topology: "
--                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
--                   "smp_cpus (%u)",
--                   sockets, dies, cores, threads, cpus);
-+    if (sockets * dies * cores * threads != maxcpus) {
-+        error_setg(errp, "Invalid CPU topology: "
-+                   "product of the hierarchy must match maxcpus: "
-+                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
-+                   "!= maxcpus (%u)",
-+                   sockets, dies, cores, threads, maxcpus);
-         return;
-     }
- 
-     if (maxcpus < cpus) {
--        error_setg(errp, "maxcpus must be equal to or greater than smp");
--        return;
--    }
--
--    if (sockets * dies * cores * threads != maxcpus) {
--        error_setg(errp, "Invalid CPU topology deprecated: "
-+        error_setg(errp, "Invalid CPU topology: "
-+                   "maxcpus must be equal to or greater than smp: "
-                    "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
--                   "!= maxcpus (%u)",
--                   sockets, dies, cores, threads,
--                   maxcpus);
-+                   "== maxcpus (%u) < smp_cpus (%u)",
-+                   sockets, dies, cores, threads, maxcpus, cpus);
-         return;
-     }
- 
+     /* create 2 numa nodes */
 -- 
 2.19.1
 
