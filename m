@@ -2,93 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F1B41C06F
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 10:14:38 +0200 (CEST)
-Received: from localhost ([::1]:40772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE0341C0A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 10:27:45 +0200 (CEST)
+Received: from localhost ([::1]:46646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVUjc-0004RK-Lj
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 04:14:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55366)
+	id 1mVUwJ-0000iB-Qq
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 04:27:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mVUhJ-0003Z0-07
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 04:12:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mVUhE-0008LH-Gm
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 04:12:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632903126;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M4ylwflDruhcNAjlN8eUl7+g+e/yZt/28Ny5dKxDRAQ=;
- b=jOY5I+o2Ds5ZiK+BFVLYShGNtMouST0+Phn1nCn8NPdJT1vU0qA6rCdzOJPPJMF4jhj1GM
- iIhtYSRwehPxU5rAKjskKMoXCrcbGLO0Snzi5Zk56dTeZy/wjTAd62k2mLLMZ18ind2oXY
- k49RuXNmSnZKefSIIlOGnEoNrxTq3fU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-ghphQA7JMtus4yLQrPGdUA-1; Wed, 29 Sep 2021 04:12:05 -0400
-X-MC-Unique: ghphQA7JMtus4yLQrPGdUA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l42-20020a05600c1d2a00b0030d02f09530so560976wms.0
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 01:12:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mVUv6-0008Lq-TR; Wed, 29 Sep 2021 04:26:28 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mVUv3-0003Yg-Sf; Wed, 29 Sep 2021 04:26:28 -0400
+Received: by mail-wm1-x335.google.com with SMTP id o19so1186945wms.1;
+ Wed, 29 Sep 2021 01:26:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bU8l847DhjBMLUDfhdHZZzeEk7jd00n+/WAc+BC05lU=;
+ b=aFsLuFZ0mso0VbBJuLHlMe26jWKtWTEWrAP53LlEbqH4eawAM1oe6zjEuWzPdUR/44
+ TrIqbgcbDbX1EScQrlwBZezsRFeJlwJ6MvCXAlhmKxop3GKgmv6P0ZUn4/YH3y+rB+KB
+ 50lXKsL1z9S4xUPytIPx6GN74ogORk4zfGAaZnOw4kOH9Qu872bUahT/zZTZpl2B9df4
+ UFWKBgFUuOA072JKRq6vV9aNMccP/14IZ8JBUQ8pHlYn6MI0rgn3aIh7v8xAO1pGlLiJ
+ 258w4IFtUVPkfPPVdDNlLOVU4FLKijca8MDA20zqlJgkaDms0KO+Wx47mRaBg2s0CflR
+ 10dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=M4ylwflDruhcNAjlN8eUl7+g+e/yZt/28Ny5dKxDRAQ=;
- b=KbHdP1sKlLpQGbpwp8xEj6ptnaz/SQbR9FTmqvINuAYCbYlO2oezmle4jxN33/ZbcJ
- 6PS1Y2o7CLhGmLN3UeKREjtgnFYfFD9S8wf2IR9s7pxye1IIbMWbJ+S7bSdIIySDhYus
- zz261CKEE9nd0EdVALp/597SZSVzAKSCUHPimVmNA/wCx/Q2ABCj+k+tI+hnqK4dnQyt
- j/neH5uQCezaiyMILTshT9ZOmdvhvezBUlUdzSgCYuSwg28bXO4Wbhz7VagXeLTYPH3r
- GVHrmQwsCn6tyPIsMfV7zHjSqIuCFRUCjyZjdwyaHrTUskYSVMuJtw61d5GEjBAmyYex
- /LfQ==
-X-Gm-Message-State: AOAM53214++MUf2GehQ10cSo2b4IrrH36XnY+avwPVi7xVnLLMjpOMIi
- qWv89WG1qR+F++j9YTfU5dXFV7nDug1eeRqwd3S5l1E4ofym+4Lv45Ti/eEAaCmUEwNWIDDeLAH
- Qyv0BSSFLZ7oxsHo=
-X-Received: by 2002:a5d:50c1:: with SMTP id f1mr5270834wrt.386.1632903124403; 
- Wed, 29 Sep 2021 01:12:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyK7256KM44gTM8jc/OHcFiLi8+qJXwdX0juE5oTsLu7+Ojinh1l1ctlKpGtK4MfHcrTLBK1w==
-X-Received: by 2002:a5d:50c1:: with SMTP id f1mr5270810wrt.386.1632903124215; 
- Wed, 29 Sep 2021 01:12:04 -0700 (PDT)
-Received: from thuth.remote.csb (p549bb2bd.dip0.t-ipconnect.de.
- [84.155.178.189])
- by smtp.gmail.com with ESMTPSA id o7sm1769247wro.45.2021.09.29.01.12.02
+ bh=bU8l847DhjBMLUDfhdHZZzeEk7jd00n+/WAc+BC05lU=;
+ b=FYmw741MlXZIBvTetkrfW6VSu8JcfsBLwCeb9ThGnhmgsV5hJgDfqIfPKSOCJso3bB
+ LbY8ORyafRZIcyxNOclllMzkbsZxZnaZdRqilsOqiLU+oPtRehOj2sNcZzM+8iY9k2VD
+ g4nXyubSl1z/zn+uM0/ga9Pdz1YeM1naWZezwguZWxgjXtYipETJpYlw6OEiCU37kAO2
+ 87D0/Jgs2GrEHM8uIudCO9FN/+8qS5nuuWKG8XD1FoklKRNn2d20mzq93cdWqkk1HaPl
+ WINYgcdksTi4O/l1EHD1z6NNw7E+uquRbdiatvrkzVJuA6BhHpd7QVLPyBd3TySJdlul
+ mu8A==
+X-Gm-Message-State: AOAM530F9tAx6/Jo0kLOc64CzH4iDWUMK1GVs0xOP/bt3sQMdCendYXY
+ lJWUzWteOeE7huLSnDdPD4o=
+X-Google-Smtp-Source: ABdhPJyVtyMPTlevKoRf+IemJ81fhPi2/ixu4PetR2R+kr4gN1sIi+x+Kj47gQZX4ix4PcX4/qy9ag==
+X-Received: by 2002:a1c:f402:: with SMTP id z2mr9002360wma.53.1632903984063;
+ Wed, 29 Sep 2021 01:26:24 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id z5sm1035798wmp.26.2021.09.29.01.26.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Sep 2021 01:12:03 -0700 (PDT)
-Subject: Re: [PATCH v2 3/5] s390x: topology: CPU topology objects and
- structures
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-References: <1626975764-22131-1-git-send-email-pmorel@linux.ibm.com>
- <1626975764-22131-4-git-send-email-pmorel@linux.ibm.com>
- <aceb16ce-b944-b00b-0624-5b5dd41accf0@redhat.com>
- <c9193765-adae-d179-8a14-8bc88a288fe0@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <70fafbc6-b1f6-dfec-6e5c-9eb863cae0a0@redhat.com>
-Date: Wed, 29 Sep 2021 10:12:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Wed, 29 Sep 2021 01:26:23 -0700 (PDT)
+Message-ID: <29496f5b-0241-cfe3-acf8-3d76e040e397@amsat.org>
+Date: Wed, 29 Sep 2021 10:26:21 +0200
 MIME-Version: 1.0
-In-Reply-To: <c9193765-adae-d179-8a14-8bc88a288fe0@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v2 1/1] hw/riscv: shakti_c: Mark as not user creatable
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.562, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <c617a04d4e3dd041a3427b47a1b1d5ab475a2edd.1632871759.git.alistair.francis@wdc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <c617a04d4e3dd041a3427b47a1b1d5ab475a2edd.1632871759.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.562,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,54 +88,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/09/2021 14.45, Pierre Morel wrote:
+On 9/29/21 01:29, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 > 
+> Mark the shakti_c machine as not user creatable.
 > 
-> On 9/7/21 9:32 AM, Thomas Huth wrote:
->> On 22/07/2021 19.42, Pierre Morel wrote:
->>> We use new objects to have a dynamic administration of the CPU topology.
->>> The highier level object is the S390 book. In a first implementation
->>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/639
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  hw/riscv/shakti_c.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
->>
->> I didn't spot any migration related code in here ... is this already 
->> migration-safe?
->>
-> 
-> Not sure at all.
-> 
-> The topology may change at any moment and we interpret PTF, the instruction 
-> which tell us if the topology changed.
-> Obviously the topology on the target may not be the same as on the source.
-> 
-> So what I propose is to disable topology change during the migration:
-> - on migration start, disable PTF interpretation and block the 
-> topology_change _report in the emulation.
-> - on migration end set back PTF interpretation and unblock the emulation
-> 
-> In the case, in discussion with David on KVM, that we do not emulate PTF for 
-> hosts without the stfl(11) we can even make it simpler in QEMU by always 
-> reporting "no change" for PTF 2 in the emulation.
-> 
-> Note that the Linux kernel, even if the topology can change at any moment 
-> use a polling every minute to check the topology changes, so I guess we can 
-> ignore the optimization during the migration.
-> 
-> What do you think?
+> diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
+> index 2f084d3c8d..e7cd3bdfb4 100644
+> --- a/hw/riscv/shakti_c.c
+> +++ b/hw/riscv/shakti_c.c
+> @@ -150,6 +150,12 @@ static void shakti_c_soc_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+>      dc->realize = shakti_c_soc_state_realize;
+> +    /* Reasons:
+> +     *     - Creates CPUS in riscv_hart_realize(), and can create unintended
+> +     *       CPUs
 
-I don't have much clue, this topology stuff is still mostly a black box to 
-me - so there is no interrupt or something similar presented to the guest 
-when the topology changes? The guest really has to poll for changes? ... 
-that sounds like a weird design to me... if the guest polls too frequently, 
-it wastes cycles due to the polling - but if it polls not often enough, it 
-could run for a while with wrong topology information?
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-  Thomas
-
-
+> +     *     - Uses serial_hds in realize function, thus can't be used twice
+> +     */
+> +    dc->user_creatable = false;
+>  }
 
