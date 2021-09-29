@@ -2,61 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE2341BE8F
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 07:11:47 +0200 (CEST)
-Received: from localhost ([::1]:58744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 894F741BEA6
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 07:21:01 +0200 (CEST)
+Received: from localhost ([::1]:37496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVRsg-0002Tn-Ge
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 01:11:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48372)
+	id 1mVS1b-0007jT-Pq
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 01:20:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mVRqJ-0001ft-CA
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 01:09:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30818)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mVRzM-00070o-Cj
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 01:18:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mVRqF-0004Fp-MR
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 01:09:17 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mVRzJ-0003bc-4O
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 01:18:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632892153;
+ s=mimecast20190719; t=1632892715;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vZ1B0ArULdjvB65onyfgnG/mhNAWC5haMufbMm+4gYk=;
- b=cT7kCb6oLf64RzmKbVorpnm7XMDG+L8Ml5JEYiN1aXT2XiEfOfo71T0BXNOPU8zAhd5dnH
- pyYeXS8iWKELHTxl856XpQe7/wF4XSflkVMmM5myzff2lwbEMHlTcUh7ua73/rK0WT6ruW
- +ySuNVScKV36vG6++/YK9nSnJ8Fc2CU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-95-wrZxD1g5N7OCvkuu6x2tig-1; Wed, 29 Sep 2021 01:09:11 -0400
-X-MC-Unique: wrZxD1g5N7OCvkuu6x2tig-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B46E8015C7;
- Wed, 29 Sep 2021 05:09:10 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4279219739;
- Wed, 29 Sep 2021 05:09:10 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A3B371800386; Wed, 29 Sep 2021 07:09:08 +0200 (CEST)
-Date: Wed, 29 Sep 2021 07:09:08 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Jose R. Ziviani" <jziviani@suse.de>
-Subject: Re: [PATCH v3 0/2] modules: Improve modinfo.c support
-Message-ID: <20210929050908.3fqf3wwbk6vrtziu@sirius.home.kraxel.org>
-References: <20210928204628.20001-1-jziviani@suse.de>
+ bh=GwGfoEN/G4kcfA3zo+eIee8luTjWuLbB4+f/GWc8AQo=;
+ b=RIPRtBN6F7TMecd0TqILqQyOgOo2u64Wq2i6xmpaV6bGYzBKFg48P8jZsBMJ4GO3deaEzF
+ KSXhBcfSw2FCuuDRdnWEy1lTlBdD+S7K205hfbfpz5sG6t8r9ggV9hI4bUt4l3n4IOJQZh
+ lPp9nRL4RjpSfoCiWlrQERWxx0aw+RM=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-mMi3talnOi-Xd4IVTM5zdQ-1; Wed, 29 Sep 2021 01:18:33 -0400
+X-MC-Unique: mMi3talnOi-Xd4IVTM5zdQ-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ x33-20020a0565123fa100b003fcfd99073dso1331673lfa.6
+ for <qemu-devel@nongnu.org>; Tue, 28 Sep 2021 22:18:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GwGfoEN/G4kcfA3zo+eIee8luTjWuLbB4+f/GWc8AQo=;
+ b=LOf8XVHGry89eH4TDUjgH01wfINueF0ndKz2Mtu5b5LG8L2J2GbYap7KUzF2rWIyjT
+ 1VMOCzBAnMzbEoErwAdkEnzk6k3npuzSrPRxPe14KleEKnJ8rIEzq+RaKmyhnkuaUlTN
+ wleplqpePITwr7etK/bJ0g4cLlyq2KeJ4iKnxrEqByiHQHHUgidaV0UBB97yW2AmAcLU
+ S61ReIn1EiOVLAxocZF3YQtvlFcPIOQuebkPiA0/A2pQ8tk/bdrbO9DMs52c8Ox4k1YH
+ Rr3UrcFxZG/cgahdeihFHG5tLh7tofALD7w/02PpROHrb/Wf7Kv2SOoxbg6FBnc7rh6d
+ ifVg==
+X-Gm-Message-State: AOAM530JZBS/DiVCbZXEe2+KWQDqDPUKgYcVka6S7WyyC2J0JSr93OtD
+ 1HFAmP80XdpN7bcC7oN4uMesj+Ol9yT4PyKfvosNEY/+Gxr66C1m4S8rKHSMmSQbWroRcJBnIdl
+ 2fq3qmI1Xa25I2WBJTUL1QI9+hKNXmvo=
+X-Received: by 2002:ac2:4bc1:: with SMTP id o1mr9832246lfq.84.1632892712082;
+ Tue, 28 Sep 2021 22:18:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLth1aj5fLqi5BlTO6JWwhjlxIHE1PHunQlTXIxWyVMaymxtrHp2Q/L1Y2IKSvESlfvx+fBtpoppG44aQXmA4=
+X-Received: by 2002:ac2:4bc1:: with SMTP id o1mr9832216lfq.84.1632892711830;
+ Tue, 28 Sep 2021 22:18:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210928204628.20001-1-jziviani@suse.de>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20210907090322.1756-1-jasowang@redhat.com>
+In-Reply-To: <20210907090322.1756-1-jasowang@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 29 Sep 2021 13:18:20 +0800
+Message-ID: <CACGkMEu3+5eXK9kf7Bxmzdn9DiYyJa6tzzbFUmdfrF-3jwYN9Q@mail.gmail.com>
+Subject: Re: [PATCH V3 00/10] vhost-vDPA multiqueue
+To: mst <mst@redhat.com>, jasowang <jasowang@redhat.com>, 
+ qemu-devel <qemu-devel@nongnu.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -77,41 +89,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: eperezma <eperezma@redhat.com>, Eli Cohen <elic@nvidia.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 28, 2021 at 05:46:26PM -0300, Jose R. Ziviani wrote:
-> This patchset introduces the modinfo_kconfig aiming for a fine-tune
-> control of module loading by simply checking Kconfig options during the
-> compile time, then generates one modinfo-<target>-softmmu.c per target.
-> 
-> The main reason of this change is to fix problems like:
-> $ ./qemu-system-s390x -nodefaults -display none -accel tcg -M none -device help | head
-> Failed to open module: /.../hw-display-qxl.so: undefined symbol: vga_ioport_read
-> Failed to open module: /.../hw-display-virtio-vga.so: undefined symbol: vmstate_vga_common
-> Failed to open module: /.../hw-display-virtio-vga.so: undefined symbol: vmstate_vga_common
-> Failed to open module: /.../hw-display-virtio-vga-gl.so: undefined symbol: have_vga
-> Failed to open module: /.../hw-usb-smartcard.so: undefined symbol: ccid_card_ccid_attach
-> Failed to open module: /.../hw-usb-redirect.so: undefined symbol: vmstate_usb_device
-> Failed to open module: /.../hw-usb-host.so: undefined symbol: vmstate_usb_device
-> 
-> With this patch, I run this small script successfuly:
->     #!/bin/bash
->     pushd ~/suse/virtualization/qemu/build
->     for qemu in qemu-system-*
->     do
->         [[ -f "$qemu" ]] || continue
->         res=$(./$qemu -nodefaults -display none -accel tcg -M none -device help 2>&1 | grep "Failed to" > /dev/null; echo $?)
->         [[ $res -eq 0 ]] && echo "Error: $qemu"
->     done
->     popd
-> 
-> Also run 'make check' and 'check-acceptance' without any failures.
+On Tue, Sep 7, 2021 at 5:03 PM Jason Wang <jasowang@redhat.com> wrote:
+>
+> Hi All:
+>
+> This patch implements the multiqueue support for vhost-vDPA. The most
+> important requirement si the control virtqueue support. The virtio-net
+> and vhost-net core are tweak to support control virtqueue as if what
+> data queue pairs are done: a dedicated vhost_net device which is
+> coupled with the NetClientState is intrdouced so most of the existing
+> vhost codes could be reused with minor changes. This means the control
+> virtqueue will bypass the Qemu. With the control virtqueue, vhost-vDPA
+> are extend to support creating and destroying multiqueue queue pairs
+> plus the control virtqueue.
+>
+> For the future, if we want to support live migration, we can either do
+> shadow cvq on top or introduce new interfaces for reporting device
+> states.
+>
+> Tests are done via the vp_vdpa driver in L1 guest.
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Michael, does this look good to you? If yes, do you plan to merge this
+or I can do that?
 
-take care,
-  Gerd
+Thanks
+
+>
+> Changes since V2:
+>
+> - rebase to qemu master
+> - use "queue_pairs" instead of "qps"
+> - typo fixes
+>
+> Changes since V1:
+>
+> - start and stop vhost devices when all queues were setup
+> - fix the case when driver doesn't support MQ but device support
+> - correctly set the batching capability to avoid a map/unmap storm
+> - various other tweaks
+>
+> Jason Wang (10):
+>   vhost-vdpa: open device fd in net_init_vhost_vdpa()
+>   vhost-vdpa: classify one time request
+>   vhost-vdpa: prepare for the multiqueue support
+>   vhost-vdpa: let net_vhost_vdpa_init() returns NetClientState *
+>   net: introduce control client
+>   vhost-net: control virtqueue support
+>   virtio-net: use "queue_pairs" instead of "queues" when possible
+>   vhost: record the last virtqueue index for the virtio device
+>   virtio-net: vhost control virtqueue support
+>   vhost-vdpa: multiqueue support
+>
+>  hw/net/vhost_net.c             |  55 ++++++++---
+>  hw/net/virtio-net.c            | 165 ++++++++++++++++++---------------
+>  hw/virtio/vhost-vdpa.c         |  56 +++++++++--
+>  include/hw/virtio/vhost-vdpa.h |   1 +
+>  include/hw/virtio/vhost.h      |   2 +
+>  include/hw/virtio/virtio-net.h |   5 +-
+>  include/net/net.h              |   5 +
+>  include/net/vhost_net.h        |   6 +-
+>  net/net.c                      |  24 ++++-
+>  net/vhost-vdpa.c               | 127 ++++++++++++++++++++++---
+>  10 files changed, 328 insertions(+), 118 deletions(-)
+>
+> --
+> 2.25.1
+>
 
 
