@@ -2,65 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0F541C7D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 17:03:57 +0200 (CEST)
-Received: from localhost ([::1]:42636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD6741C7D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 17:06:47 +0200 (CEST)
+Received: from localhost ([::1]:47492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVb7k-0001rL-94
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 11:03:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41334)
+	id 1mVbAT-0005GD-UW
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 11:06:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mVb4r-000890-DQ; Wed, 29 Sep 2021 11:00:57 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:49537)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mVb7B-0002ak-Os
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 11:03:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mVb4m-0004ug-1X; Wed, 29 Sep 2021 11:00:57 -0400
-Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MK3eI-1mFZ3n3IPG-00LUDT; Wed, 29 Sep 2021 17:00:33 +0200
-Subject: Re: [PATCH] target/i386: Include 'hw/i386/apic.h' locally
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20210902152243.386118-1-f4bug@amsat.org>
- <a4cba848-e668-7cf1-fe93-b5da3a4ac6dc@redhat.com>
- <f3e89488-0d05-657a-34f7-060a7250517d@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <f9e3c54f-a7cb-a043-f7fd-9d9d0dd61c16@vivier.eu>
-Date: Wed, 29 Sep 2021 17:00:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mVb78-00072y-0D
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 11:03:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632927795;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u4OgBLzP5P0di3pXlRpyDGbuVDN3bUXQg0FLjsfGDZc=;
+ b=G8N7toax8aOYDmpmRIfOeyNl3D6kwxhHBB/C9dRUGrMHu2SVNhc8FuVzqlfciyNX/BOCi5
+ D6Vb3ntvZlvAMzYDrrJjHnlTBaCGNhhC1XLT95QFUYUgqzDsJqpOVueL0sbIgLDqCpcl6i
+ MtlnGAcXmRMQyNHTPB9AU3TkiXNOXkY=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-1hu-xnGDMJSGx9dPiFD8YQ-1; Wed, 29 Sep 2021 11:03:13 -0400
+X-MC-Unique: 1hu-xnGDMJSGx9dPiFD8YQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ r11-20020aa7cfcb000000b003d4fbd652b9so2703358edy.14
+ for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 08:03:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=u4OgBLzP5P0di3pXlRpyDGbuVDN3bUXQg0FLjsfGDZc=;
+ b=LIg0+13TZwip8KoEoH9HNjGpIv/fZ3H01k9AUDvUWTBYY2d4SB0d9Ojk1qxtNYUClz
+ DTUY4wKIzW+e0MbYGm3TLaIxeZS+N2r9/OyuRFLVvkPYQD2zPeFTVXtqa5PQDjEBk6/Q
+ XIxLtcil/by/HywoTXLUTcURYRlwxbs/1PW+2e6+dIDUwx6/3F0tEQXYKsMQbBZRF9sD
+ bZFxNeVHKP63z6EvaXcGYEsT+mi2xFtDcxInx4DTzA007W6K+kYgRCqQzpsmDS1vTKiH
+ HhZDAXgk9qxUAuGGTUuMa9b4Gd8Qiv31kG/2NuW1cGjQIQSPjQaGCqSIrirJhDyyDtCN
+ hgJQ==
+X-Gm-Message-State: AOAM531ZmxHywflvkB9aRH0GsdLrEqp9BqTCLT7IB1A/U3TSCVOXWpvV
+ Ke60PUYuBOZL8veqqsGOW0MTRG/GERiCCB03jsVMegzns5yL+LUJk7q2Yq3HBw6VNA+nIBOps3q
+ Vm7lWkog9weGPAj8=
+X-Received: by 2002:a17:906:64a:: with SMTP id t10mr203075ejb.5.1632927791258; 
+ Wed, 29 Sep 2021 08:03:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx+8IBYumanreTh7YZKPwTuvVLRFCEV4xYux6dR+vpiBe4nM5+y32NMPaiyzuSJf6uqEp10kw==
+X-Received: by 2002:a17:906:64a:: with SMTP id t10mr202966ejb.5.1632927790049; 
+ Wed, 29 Sep 2021 08:03:10 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id 5sm69389ejy.53.2021.09.29.08.03.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Sep 2021 08:03:09 -0700 (PDT)
+Message-ID: <9ba3ebe2-4d74-628f-fb76-5541f629ff9e@redhat.com>
+Date: Wed, 29 Sep 2021 17:03:08 +0200
 MIME-Version: 1.0
-In-Reply-To: <f3e89488-0d05-657a-34f7-060a7250517d@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MNkton+xaTjRDiQ0TFtTeSBNISyX8iL9UuDuvfrqEqu2FvWULwI
- mrmubcHKuVh7dz9Am3j9Mn1Hcc+TBY6vbJIoAJTDJJxt93ESfGmYb/Q+DsAbjJNfB2506WB
- UGj5U6xCT5VjX7lhrwnrHTlXsdxbYYDY1JPa9VsK4NeqQdohCaxTRvMbA0dCybt0tRYvCdt
- ZqH6qGyEWAZm6lZlqMY2g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:m4bGmsUd0yY=:UZEE5/JKQR4ub4X2Nukcnq
- 5cuLegB29KY0QOVdEt+8viIgBI5oLSi99MLHWAMVmADAAuobGKzoLk6+VKtUIKnBmwCVufe7c
- GqWuwd73ZdniOhq43kMa08b3UP1knxZzpDg5Cg/yrBq0mGdkxtnGuZDMM50Myjw/3rNyu609N
- 5UgHoELUoLSHbjEW+jIDmvQ9kMleL8YtyqVuQJqwtpk8yMYVRmFiSudStVRc12IBxmwBYGVAP
- kHmonVXu8RxM/81i4NAlIBcSIgC5fhvkA+zQtcydwBlG94eyToiwJseRfHYAObyoBOS2c4PRg
- iYo90MpoYYrYXeoOHy8CuWEKQ0yoYZBmMG2PuSoxfkj3gblduakQ+SS8dSpYD0zJmCX/tzrPt
- CPO7Zi4x9ourIXrZR2xOy056sy8kIjKYBjZcMqS9gN9fh77vo5kc20cHHB9BPff91UjEH2gP/
- 36F7Shb1RQRoYN8aI0xaxC4172pnctE0olMJiQyKmg/xc9IeVUIF9HATEdp+/0qCg+nDf65VR
- QeZoe3nTXDYs9AaLMnmcaVyyw/yKQuWSsFX9Gx9uFljRAXAYpg/VuVEpCv4MNqz7vV8iuufnC
- MtMkupDjCYw7th+4W07yulKfFFpTHp4S/c4/Luss6KQn3O4Bfv6OJRc+YLfpmWqCVxSMLbHXY
- gNmXhDpzw1E26Icui0VCQnO8b/CUsJixmkTecrFTpJDzA8evNfx2sSRh8rQXmPfYxKEq5DF6d
- jnlqr5jZBlHOC0z4TXivwF2g3EdgMYLJwNKnYw==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.03,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PULL 00/20] NBD patches through 2021-09-27
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <20210927215545.3930309-1-eblake@redhat.com>
+ <CAFEAcA9P_xzSce_3bVKO95HOdhbf1aqVJ-eiXOkJ09Hj4ow+bg@mail.gmail.com>
+ <97e67c45-21f9-2630-7173-991d01871116@redhat.com>
+ <CAFXwXrnZzyUBSikVr6uFLHQeD5hWcXDq+eG=uwBC5xQ8FVivmg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAFXwXrnZzyUBSikVr6uFLHQeD5hWcXDq+eG=uwBC5xQ8FVivmg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.03, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,34 +102,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>,
- Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
- Colin Xu <colin.xu@intel.com>, haxm-team@intel.com,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Wenchao Wang <wenchao.wang@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Eric Blake <eblake@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 29/09/2021 à 16:08, Philippe Mathieu-Daudé a écrit :
-> On 9/16/21 00:05, Paolo Bonzini wrote:
->> On 02/09/21 17:22, Philippe Mathieu-Daudé wrote:
->>> Instead of including a sysemu-specific header in "cpu.h"
->>> (which is shared with user-mode emulations), include it
->>> locally when required.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>
->> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+On 29/09/21 15:58, Richard Henderson wrote:
 > 
-> Thank you, Cc'ing qemu-trivial@ :)
+>      > /usr/bin/ld: /usr/lib64/libselinux.so: error adding symbols: file in
+>      > wrong format
+>      > collect2: error: ld returned 1 exit status
 > 
+>     Missing libselinux-devel.i686 in
+>     tests/docker/dockerfiles/fedora-i386-cross.docker, I think?
+> 
+> But additionally, incorrect package probing, I think.
 
-Applied to my trivial-patches branch.
+Probably Meson deciding to look at --print-search-dirs and crossing 
+fingers.  But -m32 and other multilib flags should be added to 
+config-meson.cross rather than QEMU_CFLAGS.
 
-Thanks,
-Laurent
+Paolo
+
 
