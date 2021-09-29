@@ -2,94 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B142741C1B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:36:42 +0200 (CEST)
-Received: from localhost ([::1]:48608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB7241C1D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:42:51 +0200 (CEST)
+Received: from localhost ([::1]:35170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVW13-00018X-FW
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:36:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45444)
+	id 1mVW70-0002qA-Ko
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:42:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mVVvc-0004VS-Jm
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:31:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24353)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mVW46-0000Mf-0K
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:39:50 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mVVvY-0007dk-VZ
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:31:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632907859;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Jwu2IOLdS1tVA3n9ciQkUO1Lxacv/Jn7MX0Q5TL3n9Y=;
- b=Vt1WAIIsvFk9ZLIA8T9yGXhlrQicixW0cD9l/VYhMGmkPjyU7KBm6lo0a93Y7DaXWDrdcZ
- kPvZpc0zBTjF7Jqn0fCPQoJJ2vw1EjAi4POU+jwzGpimcIOTe7903WmIJIHVZCQN5t8IyY
- qpc98CdEvLWIGpMlAC43etZXROastPE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-3RTRK8mbMaSsUVTUCMzuAA-1; Wed, 29 Sep 2021 05:30:56 -0400
-X-MC-Unique: 3RTRK8mbMaSsUVTUCMzuAA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- m1-20020a056000180100b0015e1ec30ac3so415470wrh.8
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 02:30:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=Jwu2IOLdS1tVA3n9ciQkUO1Lxacv/Jn7MX0Q5TL3n9Y=;
- b=OhkKMbenReInIQKikt+GUg+PU4lj9fm3ar3OnxxXrBmPDYhyB2dFWCjhcRCo5pkTDv
- I54qw/zjhqIlVKVqFDoVxeROeJ+zLauErL+NlwFviSubZ0L7RFYVyc91cX15tirUrca8
- O5Q/63gbiIWq7scDMhm0R3XzN8LDMj1WutBzs7ouQdnwMxnQ89ulluSdKvWoP8nUVekM
- GDdyawJqYzRZbCYI5EM4zlWIaAnxnnoDypAlgvXqzUqXKPvm32Ej2Yl8jOYk81o8Ephr
- jOkdjgTz2+7P9PdjKtb3WBM86GjWsB75PqYSICyJXMIZ9bjwdhqjv2rjP6U0bRqTt3ta
- jtGA==
-X-Gm-Message-State: AOAM532ni/Dl+vkQuaS1CUXiH0uasoaB8vkpjVmjHQU9Pr8OkQ+WgH/L
- /XHfQASRD4vCLieeFdp+wlezO/KD1LrUAqg3kUvgxq5eoHJ8hikerr7Stpa+kJzf71ImTXuFzwg
- nZtvA4RW7Z5dQR0w=
-X-Received: by 2002:a5d:4d0d:: with SMTP id z13mr5615352wrt.267.1632907855371; 
- Wed, 29 Sep 2021 02:30:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzk/rHaP70lkFBhezd5ns1iGvcfyXTCGgKwKhWsyM12iaOCv8eAgHxp8un5ihnFvRx6OnZINQ==
-X-Received: by 2002:a5d:4d0d:: with SMTP id z13mr5615313wrt.267.1632907855042; 
- Wed, 29 Sep 2021 02:30:55 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23c3b.dip0.t-ipconnect.de. [79.242.60.59])
- by smtp.gmail.com with ESMTPSA id
- w23sm1090934wmi.6.2021.09.29.02.30.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Sep 2021 02:30:54 -0700 (PDT)
-To: "david.dai" <david.dai@montage-tech.com>
-References: <20210926021614.76933-1-david.dai@montage-tech.com>
- <YVGAWh7e96f8yed0@stefanha-x1.localdomain>
- <38a0312e-3b00-ac41-3cb0-ab5592b06dc1@redhat.com>
- <20210927122848.GB144947@tianmu-host-sw-01>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH] hw/misc: Add a virtual pci device to dynamically attach
- memory to QEMU
-Message-ID: <c87c301e-62af-ab5a-2b9c-fa2ef28898f1@redhat.com>
-Date: Wed, 29 Sep 2021 11:30:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mVW43-0006Jo-Iy
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:39:49 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18T9Ts4r032613; 
+ Wed, 29 Sep 2021 05:39:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=ThG3fcNJr4G+fljrCkT0yE8ARERNZcdKMt0Fna9dDjA=;
+ b=LBi3l/DlPB7iEbx8uXQ0Z30rndGDj35lANjSh7Ny5FMYq2wLM31VLY/wjSPhgeU31KIl
+ bJG85C+dTW70wNDLJKCZgq2MDn1yW04F4ULxzTkK1ooZkuM9gFrdOOjA9KvOfqXEHvf3
+ dfiphCDY5uAg5To/PsCMFqi+zDqzjexpbaYw2zl8rnwgqudpZgd91JMK1uvz/Wu3nQGk
+ dNs8LxW/e2a+MuPZys4V4TPNA6SzfGaAwXKK9bNUy01hLZSiD7yxxAqTHrMMNhqtcGDP
+ kxCJ1jnOcbfR4UTXG2vyacuTB/wgMWxLv+VRCNHD2iCuu9QSNSzlOcpQJvDYY6wX1O7Z 3A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bcnjj86wc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Sep 2021 05:39:41 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18T9V1b1005594;
+ Wed, 29 Sep 2021 05:39:41 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bcnjj86w4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Sep 2021 05:39:41 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18T9XQtv030289;
+ Wed, 29 Sep 2021 09:39:40 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma02dal.us.ibm.com with ESMTP id 3b9udbp7ps-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Sep 2021 09:39:40 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 18T9dc7h39059926
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 29 Sep 2021 09:39:38 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 12E7FC6055;
+ Wed, 29 Sep 2021 09:39:38 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 66127C6066;
+ Wed, 29 Sep 2021 09:39:34 +0000 (GMT)
+Received: from [9.148.12.91] (unknown [9.148.12.91])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 29 Sep 2021 09:39:34 +0000 (GMT)
+Subject: Re: [PATCH v3 1/2] sev/i386: Introduce sev_add_kernel_loader_hashes
+ for measured linux boot
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210825073538.959525-1-dovmurik@linux.ibm.com>
+ <20210825073538.959525-2-dovmurik@linux.ibm.com>
+ <YVH4nLO+tuzNIDsC@redhat.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <8840b347-bcb4-9f22-1349-f45e4112ec1b@linux.ibm.com>
+Date: Wed, 29 Sep 2021 12:39:32 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20210927122848.GB144947@tianmu-host-sw-01>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <YVH4nLO+tuzNIDsC@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.562, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: nDucWIMTlpkz1ScMNCUHb7tP49fisfkr
+X-Proofpoint-ORIG-GUID: pEOFNyKrPhdtJb2PnYpGzpcxpz68eolg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-29_02,2021-09-28_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0
+ lowpriorityscore=0 suspectscore=0 spamscore=0 mlxscore=0 phishscore=0
+ mlxlogscore=999 bulkscore=0 malwarescore=0 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2109290057
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.562,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,119 +116,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, eajames@linux.ibm.com,
- qemu-devel@nongnu.org, changguo.du@montage-tech.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- kuhn.chenqun@huawei.com
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>, Hubertus Franke <frankeh@us.ibm.com>,
+ Jim Cadden <jcadden@ibm.com>, Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.09.21 14:28, david.dai wrote:
-> On Mon, Sep 27, 2021 at 11:07:43AM +0200, David Hildenbrand (david@redhat.com) wrote:
->>
->> CAUTION: This email originated from outside of the organization. Do not
->> click links or open attachments unless you recognize the sender and know the
->> content is safe.
->>
->>
->> On 27.09.21 10:27, Stefan Hajnoczi wrote:
->>> On Sun, Sep 26, 2021 at 10:16:14AM +0800, David Dai wrote:
->>>> Add a virtual pci to QEMU, the pci device is used to dynamically attach memory
->>>> to VM, so driver in guest can apply host memory in fly without virtualization
->>>> management software's help, such as libvirt/manager. The attached memory is
->>
->> We do have virtio-mem to dynamically attach memory to a VM. It could be
->> extended by a mechanism for the VM to request more/less memory, that's
->> already a planned feature. But yeah, virito-mem memory is exposed as
->> ordinary system RAM, not only via a BAR to mostly be managed by user space
->> completely.
 
-There is a virtio-pmem spec proposal to expose the memory region via a 
-PCI BAR. We could do something similar for virtio-mem, however, we would 
-have to wire that new model up differently in QEMU (it's no longer a 
-"memory device" like a DIMM then).
 
+On 27/09/2021 20:00, Daniel P. Berrangé wrote:
+> On Wed, Aug 25, 2021 at 07:35:37AM +0000, Dov Murik wrote:
+>> Add the sev_add_kernel_loader_hashes function to calculate the hashes of
+>> the kernel/initrd/cmdline and fill a designated OVMF encrypted hash
+>> table area.  For this to work, OVMF must support an encrypted area to
+>> place the data which is advertised via a special GUID in the OVMF reset
+>> table.
 >>
+>> The hashes of each of the files is calculated (or the string in the case
+>> of the cmdline with trailing '\0' included).  Each entry in the hashes
+>> table is GUID identified and since they're passed through the
+>> sev_encrypt_flash interface, the hashes will be accumulated by the PSP
+>> measurement (SEV_LAUNCH_MEASURE).
+>>
+>> Co-developed-by: James Bottomley <jejb@linux.ibm.com>
+>> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
+>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>> Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+>> ---
+>>  target/i386/sev_i386.h |  12 ++++
+>>  target/i386/sev-stub.c |   5 ++
+>>  target/i386/sev.c      | 137 +++++++++++++++++++++++++++++++++++++++++
+>>  3 files changed, 154 insertions(+)
+>>
+>> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+>> index ae6d840478..deb3eec409 100644
+>> --- a/target/i386/sev_i386.h
+>> +++ b/target/i386/sev_i386.h
+>> @@ -28,6 +28,17 @@
+>>  #define SEV_POLICY_DOMAIN       0x10
+>>  #define SEV_POLICY_SEV          0x20
+>>  
+>> +typedef struct KernelLoaderContext {
+>> +    char *setup_data;
+>> +    size_t setup_size;
+>> +    char *kernel_data;
+>> +    size_t kernel_size;
+>> +    char *initrd_data;
+>> +    size_t initrd_size;
+>> +    char *cmdline_data;
+>> +    size_t cmdline_size;
+>> +} KernelLoaderContext;
 > 
-> I wish virtio-mem can solve our problem, but it is a dynamic allocation mechanism
-> for system RAM in virtualization. In heterogeneous computing environments, the
-> attached memory usually comes from computing device, it should be managed separately.
-> we doesn't hope Linux MM controls it.
+> I'd expect the struct to have 'Sev' as its name prefix, in common
+> with everything else SEV related that's exported here. 
 
-If that heterogeneous memory would have a dedicated node (which usually 
-is the case IIRC) , and you let it manage by the Linux kernel 
-(dax/kmem), you can bind the memory backend of virtio-mem to that 
-special NUMA node. So all memory managed by that virtio-mem device would 
-come from that heterogeneous memory.
+Yes, you're right.  I'll fix that.
 
-You could then further use a separate NUMA node for that virtio-mem 
-device inside the VM. But to the VM it would look like System memory 
-with different performance characteristics. That would work fore some 
-use cases I guess, but not sure for which not (I assume you can tell :) ).
+-Dov
 
-We could even write an alternative virtio-mem mode, where device manage 
-isn't exposed to the buddy but using some different way to user space.
-
->   
->>>> isolated from System RAM, it can be used in heterogeneous memory management for
->>>> virtualization. Multiple VMs dynamically share same computing device memory
->>>> without memory overcommit.
->>
->> This sounds a lot like MemExpand/MemLego ... am I right that this is the
->> original design? I recall that VMs share a memory region and dynamically
->> agree upon which part of the memory region a VM uses. I further recall that
->> there were malloc() hooks that would dynamically allocate such memory in
->> user space from the shared memory region.
->>
 > 
-> Thank you for telling me about Memexpand/MemLego, I have carefully read the paper.
-> some ideas from it are same as this patch, such as software model and stack, but
-> it may have a security risk that whole shared memory is visible to all VMs.
-
-How will you make sure that not all shared memory can be accessed by the 
-other VMs? IOW, emulate !shared memory on shared memory?
-
-> -----------------------
->       application
-> -----------------------
-> memory management driver
-> -----------------------
->       pci driver
-> -----------------------
->     virtual pci device
-> -----------------------
+>> +
+>>  extern bool sev_es_enabled(void);
+>>  extern uint64_t sev_get_me_mask(void);
+>>  extern SevInfo *sev_get_info(void);
+>> @@ -37,5 +48,6 @@ extern char *sev_get_launch_measurement(void);
+>>  extern SevCapability *sev_get_capabilities(Error **errp);
+>>  extern SevAttestationReport *
+>>  sev_get_attestation_report(const char *mnonce, Error **errp);
+>> +extern bool sev_add_kernel_loader_hashes(KernelLoaderContext *ctx, Error **errp);
 > 
->> I can see some use cases for it, although the shared memory design isn't
->> what you typically want in most VM environments.
->>
+> Regards,
+> Daniel
 > 
-> The original design for this patch is to share a computing device among multipile
-> VMs. Each VM runs a computing application(for example, OpenCL application)
-> Our computing device can support a few applications in parallel. In addition, it
-> supports SVM(shared virtual memory) via IOMMU/ATS/PASID/PRI. Device exposes its
-> memory to host vis PCIe bar or CXL.mem, host constructs memory pool to uniformly
-> manage device memory, then attach device memory to VM via a virtual PCI device.
-
-How exactly is that memory pool created/managed? Simply dax/kmem and 
-handling it via the buddy in a special NUMA node.
-
-> but we don't know how much memory should be assigned when creating VM, so we hope
-> memory is attached to VM on-demand. driver in guest triggers memory attaching, but
-> not outside virtualization management software. so the original requirements are:
-> 1> The managed memory comes from device, it should be isolated from system RAM
-> 2> The memory can be dynamically attached to VM in fly
-> 3> The attached memory supports SVM and DMA operation with IOMMU
-> 
-> Thank you very much.
-
-Thanks for the info. If virtio-mem is not applicable and cannot be 
-modified for this use case, would it make sense to create a new virtio 
-device type?
-
-
--- 
-Thanks,
-
-David / dhildenb
-
 
