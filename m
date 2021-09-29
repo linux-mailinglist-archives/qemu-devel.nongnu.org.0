@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82ACF41C6AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 16:29:20 +0200 (CEST)
-Received: from localhost ([::1]:52234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D67141C6BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 16:34:13 +0200 (CEST)
+Received: from localhost ([::1]:56484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVaaE-0001xl-WB
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 10:29:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59756)
+	id 1mVaey-000523-9o
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 10:34:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mVaW2-0000cf-UI
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 10:24:58 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:53230)
+ id 1mVaYh-0002Fk-79
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 10:27:43 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:53276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mVaW0-00008y-EA
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 10:24:58 -0400
+ id 1mVaYf-0002YP-Lz
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 10:27:42 -0400
 Received: from [192.168.15.226] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 5EC0320779;
- Wed, 29 Sep 2021 14:24:52 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 72A2021EB6;
+ Wed, 29 Sep 2021 14:27:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1632925492;
+ s=mail; t=1632925659;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tlYUCeQvsB+uh/nRg0yiVwINYNvcCUoMPY23Aq57/IY=;
- b=jy8nGpFGIMVxfmqWHLObctxJlvBk+K7lkRN8ovK8soWuIPVKFE9JOyn7SJiURWN/WCdYiV
- UvbkoDiFcfAcXOj9FKVrML5UYrGDO/vKh8oYu+nQdd+7fjkk0PwfiozU+F5dlog35TPPPq
- Z4Q7lJy7O3G9OMs0D/agQ45gLyECsU4=
-Message-ID: <307ae3c0-de82-da34-6443-c087c4c6cc71@greensocs.com>
-Date: Wed, 29 Sep 2021 16:24:52 +0200
+ bh=LbFjHth4qcs8w48Y1TwAMxd4U2J0XQ5wAnbiyneSSFE=;
+ b=5QZQsvEGOjr4+8HRJY0LEeC96kHYQr0WuZHWNpgMv0MlUSltnzJsLDBOXwcl7xqOg/r5Lq
+ p8+tAn5Fsd4iVqYd5bwgzAHEg18zwLn8sdh1yuQLMvUWpFT+v5TFu/zEwm4Z+ROffvgtWW
+ P2DkWf6EyAgluU97fRp+DWGWe/10OTE=
+Message-ID: <37f86c44-b057-a434-a0a1-13af68d4c78f@greensocs.com>
+Date: Wed, 29 Sep 2021 16:27:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 1/3] hw/input/lasips2: Fix typos in function names
+Subject: Re: [PATCH 2/3] hw/input/lasips2: Move LASIPS2State declaration to
+ 'hw/input/lasips2.h'
 Content-Language: en-US-large
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210920064048.2729397-1-f4bug@amsat.org>
- <20210920064048.2729397-2-f4bug@amsat.org>
+ <20210920064048.2729397-3-f4bug@amsat.org>
 From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <20210920064048.2729397-2-f4bug@amsat.org>
+In-Reply-To: <20210920064048.2729397-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=5.135.226.135;
@@ -75,55 +76,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 9/20/21 08:40, Philippe Mathieu-Daudé wrote:
-> Artist is another device, this one is the Lasi PS/2.
-> Rename the functions accordingly.
+> We want to use the OBJECT_DECLARE_SIMPLE_TYPE() macro to QOM'ify
+> this device in the next commit. To make its review simpler, as a
+> first step move the LASIPS2State and LASIPS2Port declarations to
+> 'hw/input/lasips2.h'
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+
 > ---
->   hw/input/lasips2.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+>   include/hw/input/lasips2.h | 18 ++++++++++++++++++
+>   hw/input/lasips2.c         | 18 ------------------
+>   2 files changed, 18 insertions(+), 18 deletions(-)
 > 
+> diff --git a/include/hw/input/lasips2.h b/include/hw/input/lasips2.h
+> index 0cd7b59064a..c88f1700162 100644
+> --- a/include/hw/input/lasips2.h
+> +++ b/include/hw/input/lasips2.h
+> @@ -11,6 +11,24 @@
+>   
+>   #define TYPE_LASIPS2 "lasips2"
+>   
+> +struct LASIPS2State;
+> +typedef struct LASIPS2Port {
+> +    struct LASIPS2State *parent;
+> +    MemoryRegion reg;
+> +    void *dev;
+> +    uint8_t id;
+> +    uint8_t control;
+> +    uint8_t buf;
+> +    bool loopback_rbne;
+> +    bool irq;
+> +} LASIPS2Port;
+> +
+> +typedef struct LASIPS2State {
+> +    LASIPS2Port kbd;
+> +    LASIPS2Port mouse;
+> +    qemu_irq irq;
+> +} LASIPS2State;
+> +
+>   void lasips2_init(MemoryRegion *address_space, hwaddr base, qemu_irq irq);
+>   
+>   #endif /* HW_INPUT_LASIPS2_H */
 > diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
-> index e7faf24058b..68d741d3421 100644
+> index 68d741d3421..0f8362f17bc 100644
 > --- a/hw/input/lasips2.c
 > +++ b/hw/input/lasips2.c
-> @@ -96,7 +96,7 @@ typedef enum {
->       LASIPS2_STATUS_CLKSHD = 0x80,
->   } lasips2_status_reg_t;
+> @@ -33,24 +33,6 @@
+>   #include "hw/irq.h"
 >   
-> -static const char *artist_read_reg_name(uint64_t addr)
-> +static const char *lasips2_read_reg_name(uint64_t addr)
->   {
->       switch (addr & 0xc) {
->       case REG_PS2_ID:
-> @@ -116,7 +116,7 @@ static const char *artist_read_reg_name(uint64_t addr)
->       }
->   }
 >   
-> -static const char *artist_write_reg_name(uint64_t addr)
-> +static const char *lasips2_write_reg_name(uint64_t addr)
->   {
->       switch (addr & 0x0c) {
->       case REG_PS2_RESET:
-> @@ -145,7 +145,7 @@ static void lasips2_reg_write(void *opaque, hwaddr addr, uint64_t val,
->       LASIPS2Port *port = opaque;
->   
->       trace_lasips2_reg_write(size, port->id, addr,
-> -                            artist_write_reg_name(addr), val);
-> +                            lasips2_write_reg_name(addr), val);
->   
->       switch (addr & 0xc) {
->       case REG_PS2_CONTROL:
-> @@ -239,7 +239,7 @@ static uint64_t lasips2_reg_read(void *opaque, hwaddr addr, unsigned size)
->           break;
->       }
->       trace_lasips2_reg_read(size, port->id, addr,
-> -                           artist_read_reg_name(addr), ret);
-> +                           lasips2_read_reg_name(addr), ret);
->   
->       return ret;
->   }
+> -struct LASIPS2State;
+> -typedef struct LASIPS2Port {
+> -    struct LASIPS2State *parent;
+> -    MemoryRegion reg;
+> -    void *dev;
+> -    uint8_t id;
+> -    uint8_t control;
+> -    uint8_t buf;
+> -    bool loopback_rbne;
+> -    bool irq;
+> -} LASIPS2Port;
+> -
+> -typedef struct LASIPS2State {
+> -    LASIPS2Port kbd;
+> -    LASIPS2Port mouse;
+> -    qemu_irq irq;
+> -} LASIPS2State;
+> -
+>   static const VMStateDescription vmstate_lasips2 = {
+>       .name = "lasips2",
+>       .version_id = 0,
 > 
 
