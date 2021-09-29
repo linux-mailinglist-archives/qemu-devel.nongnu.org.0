@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B0A41CAEC
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 19:13:13 +0200 (CEST)
-Received: from localhost ([::1]:41692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623B041CAF6
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 19:16:28 +0200 (CEST)
+Received: from localhost ([::1]:46186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVd8q-0003eN-7D
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 13:13:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43202)
+	id 1mVdBz-0006nr-BH
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 13:16:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mVd7I-0002Fj-1N
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 13:11:36 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45924)
+ id 1mVd8l-0004id-O9
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 13:13:07 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:38906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mVd7F-0004dU-QU
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 13:11:35 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id d21so5430648wra.12
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 10:11:33 -0700 (PDT)
+ id 1mVd8k-0005tb-BS
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 13:13:07 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id u18so5500390wrg.5
+ for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 10:13:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WFvx7IMf4WN0a4VJurzxay8WhJ7VJ0rbsCqJw90qglk=;
- b=AbkPQLy2WG73bjNFw+8lmTiaChZr5C/tqegJoxVFmzI4Wi207bc8t1rCVzVv4MK+64
- D7jZO+NkcVz+o60iXmfGp7vuXagiMbIDyWw5cohiKdbQfd1hKUaPzm86hqDGEzU53S/q
- aw55NB7pw2hCrqs9t3nlMT5o7mFcxM8Soict3SMnaWSSKjfVlPPxdPXoz44JLxed36aH
- 5gwgLor9aohmFEUZ/Z8oroal8qxpRiNHmW3ArJ6kI9ZeqQ2+Af8WcVWmSV9vW7OtSi9/
- /J8+BslFRyA42MQzE9GfnUl22YqfkFqxtlvc5NjlyNL8tmbvL56EwjAkyArkg+9MpUy6
- Iz6w==
+ bh=rmgm4HZcZ3zZOm+hv4pfl35aBfZjgvTcCgGk7iU8N44=;
+ b=maKFm6859yNmFvZY5zrjfz4AWzA5zDMvqp5FzDrYYtE37cYTVlZ4nJYSB6szXlbaXg
+ 2RXGJKdGiz8fF550gykvrKnvGuyabua8F/ysRWwoiB8ux/09DpbY5T7WPgCARI4DYpz6
+ 9rj7m6Mu2l1j+MuGFCS16L7J7kHRgXYgR1ibPuhZwxZQ2sjq8o9qDsNm58O2ZMw/+gnJ
+ BG0fcr1CrX/PWfu9/jCGVd45g7ZvTsWrUgvQPIBTFYS17FJJ7i0PK+/1AxIoY5mEBXZL
+ wGoGWiYWpzuS3D3J4olNWlndH+nk4/SGHqJmd+Y47JNes/VUVuXCO9mXwR/pXx8CTIDh
+ GNQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WFvx7IMf4WN0a4VJurzxay8WhJ7VJ0rbsCqJw90qglk=;
- b=3rolRCbRCC9DDkUn1BWm+cwI5jnJ6KK4uVj48L0yYO4uud1tHOYrkRpxTK1OywjmZy
- UDtUOOiYc8VSqtSyav4098xZ0JLY8Enc9HyIKyzpJeRjJybHgyTb9FdvcM8fm9w56WBf
- WNr7JlDrmiU25hUjgBK/5OOfCQ9ix0bIwWx8vg42UR/V7OL0VXgcaiqXKxoJyO2Nk4Bp
- sbvh9axgjAtFBj67MHS7z+29qsP7rVcrHBMXZDbxMjijCB9uL05bBQYta5hJpHVL3t8U
- RqSBIMFN8ppmNZeKnbsRV55zsJx9HTzrLeL46hyy2XCxIxlf7mkO6hM+C0uu2PHpW8em
- 47gg==
-X-Gm-Message-State: AOAM533VpBQUEhCa1Eajc6iD2NYAxgmRgUPzfKGd4bOJdlE/i1Dr4SPL
- XC4djzt1bquXyXjeRKmCBSM=
-X-Google-Smtp-Source: ABdhPJzYiWCnrjakl9kgGISutQA2bCQ8g2YjxsY+RXWWM3Lz42dQ+L9eFkUDWhhkz2jcWvhq7IBLJw==
-X-Received: by 2002:adf:ecd2:: with SMTP id s18mr1210106wro.99.1632935492407; 
- Wed, 29 Sep 2021 10:11:32 -0700 (PDT)
+ bh=rmgm4HZcZ3zZOm+hv4pfl35aBfZjgvTcCgGk7iU8N44=;
+ b=qO29ZOo+gEfosepsxCko0AyE41ZDT3te9MjlnsV0sO7lqagWwlcpGQD1ty8o5mnx9d
+ 23Gx5QArUFvWjKm1s9PayZ+IulaGlgFtclShDIP8wN1zGHtJUx0mfnG/luQPNedBmP1i
+ qIFXGz4oAq5tgYG20NdRs+TdulmjDITWWdVomcoGbnQv6/HUMwPJ7BBbORomRayLDlbr
+ soTJ5B4s3VwOsWWa2KonjtWdppQyqHG7YWrwVd/0MgXnq21auJy/jm+4wkaPr4SkAaVz
+ zfXITSjiOJf8sThh0K7gFTUx7d6EBX/5sJ6KKI0DIqQEwKvej7flA6OzcBCRnI8hdnkK
+ aTVg==
+X-Gm-Message-State: AOAM530hJZlNkEh9gpjq+2v86nNKyVTkkVW5h4xap+6W8V1vzMU2iuv5
+ eH1tSNe60NbX/YSGgKoC37cebvTB8IA=
+X-Google-Smtp-Source: ABdhPJx4o6gFx81F1yI4AjvRhLYGhWG6DhP0nGjCi1+epr+sISXXcOcbeXAoDwL6vNiSa+N6QEoVQw==
+X-Received: by 2002:a05:6000:18cf:: with SMTP id
+ w15mr1243631wrq.314.1632935585001; 
+ Wed, 29 Sep 2021 10:13:05 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id l11sm500600wms.45.2021.09.29.10.11.31
+ by smtp.gmail.com with ESMTPSA id 20sm2399937wme.46.2021.09.29.10.13.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Sep 2021 10:11:31 -0700 (PDT)
-Message-ID: <f2979fb9-a8b9-c4e2-3ce0-10228b67e9ed@amsat.org>
-Date: Wed, 29 Sep 2021 19:11:30 +0200
+ Wed, 29 Sep 2021 10:13:04 -0700 (PDT)
+Message-ID: <47fd30ff-0d78-6c30-05f5-bfeba5250883@amsat.org>
+Date: Wed, 29 Sep 2021 19:13:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v6 26/30] tcg/loongarch64: Implement tcg_target_init
+Subject: Re: [PATCH v6 10/30] tcg/loongarch64: Implement goto_ptr
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
+To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
 References: <20210925173032.2434906-1-git@xen0n.name>
- <20210925173032.2434906-27-git@xen0n.name>
- <8fb1e344-a31d-02cf-edf8-fe775d3dc307@amsat.org>
- <f05efe32-0c0e-cece-54e5-5ea059f4717e@linaro.org>
+ <20210925173032.2434906-11-git@xen0n.name>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <f05efe32-0c0e-cece-54e5-5ea059f4717e@linaro.org>
+In-Reply-To: <20210925173032.2434906-11-git@xen0n.name>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
 X-Spam_bar: ----
@@ -94,34 +92,20 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- XiaoJuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>,
- Laurent Vivier <laurent@vivier.eu>
+ XiaoJuan Yang <yangxiaojuan@loongson.cn>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Song Gao <gaosong@loongson.cn>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/21 01:07, Richard Henderson wrote:
-> On 9/26/21 3:15 AM, Philippe Mathieu-Daudé wrote:
->> On 9/25/21 19:30, WANG Xuerui wrote:
->>> Signed-off-by: WANG Xuerui <git@xen0n.name>
->>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>   tcg/loongarch64/tcg-target.c.inc | 27 +++++++++++++++++++++++++++
->>>   1 file changed, 27 insertions(+)
->>
->>> +static void tcg_target_init(TCGContext *s)
->>> +{
->>> +    tcg_target_available_regs[TCG_TYPE_I32] = ALL_GENERAL_REGS;
->>> +    tcg_target_available_regs[TCG_TYPE_I64] = ALL_GENERAL_REGS;
->>> +
->>> +    tcg_target_call_clobber_regs = ALL_GENERAL_REGS;
->>
->> If you plan to add support for vector registers later, I think it is
->> safer to start today with:
->>
->>         tcg_target_call_clobber_regs = -1ull;
-> 
-> It is not "safer", it is wrong -- there are bits set for which there are
-> no registers.
+On 9/25/21 19:30, WANG Xuerui wrote:
+> Signed-off-by: WANG Xuerui <git@xen0n.name>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/loongarch64/tcg-target-con-set.h | 17 +++++++++++++++++
+>  tcg/loongarch64/tcg-target.c.inc     | 15 +++++++++++++++
+>  2 files changed, 32 insertions(+)
+>  create mode 100644 tcg/loongarch64/tcg-target-con-set.h
 
-OK, got it now, thanks.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
