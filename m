@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1540941CAF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 19:17:19 +0200 (CEST)
-Received: from localhost ([::1]:47484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B0A41CAEC
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 19:13:13 +0200 (CEST)
+Received: from localhost ([::1]:41692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVdCo-0007jP-1P
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 13:17:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42758)
+	id 1mVd8q-0003eN-7D
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 13:13:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mVd5a-0008PQ-JZ; Wed, 29 Sep 2021 13:09:50 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44586)
+ id 1mVd7I-0002Fj-1N
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 13:11:36 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mVd5Y-000389-Qm; Wed, 29 Sep 2021 13:09:50 -0400
-Received: by mail-wr1-x429.google.com with SMTP id d6so5427421wrc.11;
- Wed, 29 Sep 2021 10:09:48 -0700 (PDT)
+ id 1mVd7F-0004dU-QU
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 13:11:35 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id d21so5430648wra.12
+ for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 10:11:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+H8AOyZXxw+5dCnqa2Q8A+xVYQisa33e+HzuNr9q3b0=;
- b=e15wcr+U8+SeX0f0+TJQbJ9yTVrmhcbTbLrgO2+1meYKkYDow0z6HAQPlS+z+uYZj0
- Zqr/IVjHLuF8k/Y/e79uSZTBUAnkZ5yng16Ru1V/sY9FABLONWBS60RO7+8EENcdlxWF
- ztX4yUPdiQkuXt08X2OKZaDP/j6aiY1qGGykfS3wjVtFfpoTZ+ldIETCZB08i+bZ8XvP
- uHLFDedERYfIAKHAQFMminXoYCAGKSNC0980Bvkit5ICUBNJzDmhGMyS2dHEfHLtPQkb
- 2X6h0QtYl2AnHzbd5I0v5uG1JG14MrMhSLhxMQGf8/x71RSUARTLI4hOZyqSc7fwZIOr
- cCBA==
+ bh=WFvx7IMf4WN0a4VJurzxay8WhJ7VJ0rbsCqJw90qglk=;
+ b=AbkPQLy2WG73bjNFw+8lmTiaChZr5C/tqegJoxVFmzI4Wi207bc8t1rCVzVv4MK+64
+ D7jZO+NkcVz+o60iXmfGp7vuXagiMbIDyWw5cohiKdbQfd1hKUaPzm86hqDGEzU53S/q
+ aw55NB7pw2hCrqs9t3nlMT5o7mFcxM8Soict3SMnaWSSKjfVlPPxdPXoz44JLxed36aH
+ 5gwgLor9aohmFEUZ/Z8oroal8qxpRiNHmW3ArJ6kI9ZeqQ2+Af8WcVWmSV9vW7OtSi9/
+ /J8+BslFRyA42MQzE9GfnUl22YqfkFqxtlvc5NjlyNL8tmbvL56EwjAkyArkg+9MpUy6
+ Iz6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+H8AOyZXxw+5dCnqa2Q8A+xVYQisa33e+HzuNr9q3b0=;
- b=sVO0uYjEMxSC0MXilMid6vhe6SxlIwBbfh32gl+Qsj10o9CuXej9WUBSMAD1VxQvre
- m0WhmwIvRKyYPP8T6SF/pcls0UPPNh1qUFLIr3SgkgcCsjqfcqsCxF34KXCaxFzbEqID
- D/dMr9Qz4wWql3CHjW9TvEnsOEl/m6QHzE87hFwKLsxrll00X2zDh3f75gglljoUKJ9Y
- MtpMSPgloBB4JhC8rsH/KhAUHvM+XhOYuCZx83y053UTPYBkJvA7wYRA46TP27tZMdWR
- oCLiYh1SkyUi8kTFsweeVsR5cJ3joqANKWGLgMUBiW/b3ZR6rZ/d73bDGDYJYVMabbDf
- AkRQ==
-X-Gm-Message-State: AOAM532jfFor68Uph/GQdOnSwsmGTY83Btq/FMvctJLG0R4aSRjJMPnR
- FonsiLAphcIpZ06yu1eypKE=
-X-Google-Smtp-Source: ABdhPJx91Earijit4bnHlQwY4VNfjWceJTN7Nua8OGpHlgNMgQcJyd3MLp/k3DH3+jrAr8VD/DyeCg==
-X-Received: by 2002:a5d:5683:: with SMTP id f3mr1138553wrv.349.1632935387064; 
- Wed, 29 Sep 2021 10:09:47 -0700 (PDT)
+ bh=WFvx7IMf4WN0a4VJurzxay8WhJ7VJ0rbsCqJw90qglk=;
+ b=3rolRCbRCC9DDkUn1BWm+cwI5jnJ6KK4uVj48L0yYO4uud1tHOYrkRpxTK1OywjmZy
+ UDtUOOiYc8VSqtSyav4098xZ0JLY8Enc9HyIKyzpJeRjJybHgyTb9FdvcM8fm9w56WBf
+ WNr7JlDrmiU25hUjgBK/5OOfCQ9ix0bIwWx8vg42UR/V7OL0VXgcaiqXKxoJyO2Nk4Bp
+ sbvh9axgjAtFBj67MHS7z+29qsP7rVcrHBMXZDbxMjijCB9uL05bBQYta5hJpHVL3t8U
+ RqSBIMFN8ppmNZeKnbsRV55zsJx9HTzrLeL46hyy2XCxIxlf7mkO6hM+C0uu2PHpW8em
+ 47gg==
+X-Gm-Message-State: AOAM533VpBQUEhCa1Eajc6iD2NYAxgmRgUPzfKGd4bOJdlE/i1Dr4SPL
+ XC4djzt1bquXyXjeRKmCBSM=
+X-Google-Smtp-Source: ABdhPJzYiWCnrjakl9kgGISutQA2bCQ8g2YjxsY+RXWWM3Lz42dQ+L9eFkUDWhhkz2jcWvhq7IBLJw==
+X-Received: by 2002:adf:ecd2:: with SMTP id s18mr1210106wro.99.1632935492407; 
+ Wed, 29 Sep 2021 10:11:32 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id o17sm485218wrs.25.2021.09.29.10.09.45
+ by smtp.gmail.com with ESMTPSA id l11sm500600wms.45.2021.09.29.10.11.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Sep 2021 10:09:46 -0700 (PDT)
-Message-ID: <f022914b-052a-cb5e-e2aa-a01cb208b372@amsat.org>
-Date: Wed, 29 Sep 2021 19:09:45 +0200
+ Wed, 29 Sep 2021 10:11:31 -0700 (PDT)
+Message-ID: <f2979fb9-a8b9-c4e2-3ce0-10228b67e9ed@amsat.org>
+Date: Wed, 29 Sep 2021 19:11:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v3] target/i386: Include 'hw/i386/apic.h' locally
+Subject: Re: [PATCH v6 26/30] tcg/loongarch64: Implement tcg_target_init
 Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20210929163124.2523413-1-f4bug@amsat.org>
- <bee85404-7092-5565-aa77-165b35db10ee@vivier.eu>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
+References: <20210925173032.2434906-1-git@xen0n.name>
+ <20210925173032.2434906-27-git@xen0n.name>
+ <8fb1e344-a31d-02cf-edf8-fe775d3dc307@amsat.org>
+ <f05efe32-0c0e-cece-54e5-5ea059f4717e@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <bee85404-7092-5565-aa77-165b35db10ee@vivier.eu>
+In-Reply-To: <f05efe32-0c0e-cece-54e5-5ea059f4717e@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
 X-Spam_bar: ----
@@ -88,87 +93,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>,
- Kamil Rytarowski <kamil@netbsd.org>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Wenchao Wang <wenchao.wang@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ XiaoJuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/29/21 18:51, Laurent Vivier wrote:
-> Le 29/09/2021 à 18:31, Philippe Mathieu-Daudé a écrit :
->> Instead of including a sysemu-specific header in "cpu.h"
->> (which is shared with user-mode emulations), include it
->> locally when required.
+On 9/27/21 01:07, Richard Henderson wrote:
+> On 9/26/21 3:15 AM, Philippe Mathieu-Daudé wrote:
+>> On 9/25/21 19:30, WANG Xuerui wrote:
+>>> Signed-off-by: WANG Xuerui <git@xen0n.name>
+>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>   tcg/loongarch64/tcg-target.c.inc | 27 +++++++++++++++++++++++++++
+>>>   1 file changed, 27 insertions(+)
 >>
->> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  target/i386/cpu.h                    | 4 ----
->>  hw/i386/kvmvapic.c                   | 1 +
->>  hw/i386/x86.c                        | 1 +
->>  target/i386/cpu-dump.c               | 1 +
->>  target/i386/cpu-sysemu.c             | 1 +
->>  target/i386/cpu.c                    | 1 +
->>  target/i386/gdbstub.c                | 4 ++++
->>  target/i386/hax/hax-all.c            | 1 +
->>  target/i386/helper.c                 | 1 +
->>  target/i386/hvf/hvf.c                | 1 +
->>  target/i386/hvf/x86_emu.c            | 1 +
->>  target/i386/nvmm/nvmm-all.c          | 1 +
->>  target/i386/tcg/sysemu/misc_helper.c | 1 +
->>  target/i386/tcg/sysemu/seg_helper.c  | 1 +
->>  target/i386/whpx/whpx-all.c          | 1 +
->>  15 files changed, 17 insertions(+), 4 deletions(-)
+>>> +static void tcg_target_init(TCGContext *s)
+>>> +{
+>>> +    tcg_target_available_regs[TCG_TYPE_I32] = ALL_GENERAL_REGS;
+>>> +    tcg_target_available_regs[TCG_TYPE_I64] = ALL_GENERAL_REGS;
+>>> +
+>>> +    tcg_target_call_clobber_regs = ALL_GENERAL_REGS;
 >>
-> ...
->> diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
->> index 02b635a52cf..0158fd2bf28 100644
->> --- a/target/i386/cpu-dump.c
->> +++ b/target/i386/cpu-dump.c
->> @@ -22,6 +22,7 @@
->>  #include "qemu/qemu-print.h"
->>  #ifndef CONFIG_USER_ONLY
->>  #include "hw/i386/apic_internal.h"
->> +#include "hw/i386/apic.h"
->>  #endif
->>  
->>  /***********************************************************/
+>> If you plan to add support for vector registers later, I think it is
+>> safer to start today with:
+>>
+>>         tcg_target_call_clobber_regs = -1ull;
 > 
-> Why do you add this part compared to v1?
+> It is not "safer", it is wrong -- there are bits set for which there are
+> no registers.
 
-This is a mistake.
-
->> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
->> index 4ba6e82fab3..50058a24f2a 100644
->> --- a/target/i386/hvf/hvf.c
->> +++ b/target/i386/hvf/hvf.c
->> @@ -70,6 +70,7 @@
->>  #include <sys/sysctl.h>
->>  
->>  #include "hw/i386/apic_internal.h"
->> +#include "hw/i386/apic.h"
->>  #include "qemu/main-loop.h"
->>  #include "qemu/accel.h"
->>  #include "target/i386/cpu.h"
-> 
-> Same question
-
-Was missing for cpu_set_apic_tpr():
-
-include/hw/i386/apic.h:16:void cpu_set_apic_tpr(DeviceState *s, uint8_t
-val);
-target/i386/hvf/hvf.c:98:    cpu_set_apic_tpr(x86_cpu->apic_state, tpr);
-target/i386/hvf/hvf.c:618:
-cpu_set_apic_tpr(x86_cpu->apic_state, tpr);
-
-> 
-> Thanks,
-> Laurent
-> 
+OK, got it now, thanks.
 
