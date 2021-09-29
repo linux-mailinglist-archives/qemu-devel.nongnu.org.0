@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367D041CDDC
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 23:13:44 +0200 (CEST)
-Received: from localhost ([::1]:42996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E4241CE2B
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 23:29:57 +0200 (CEST)
+Received: from localhost ([::1]:54786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVgta-0000fQ-Fa
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 17:13:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34414)
+	id 1mVh9G-0000ps-3z
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 17:29:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mVgsh-0008Px-Jw
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 17:12:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29956)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mVgsd-0003fA-CE
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 17:12:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632949961;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=/xg17MaPNWl0iMfcqF32TSrsfGAsNbSLsXuvt2M9lfY=;
- b=ADpCQsuiI8FCayFVmBxK6xHLGa/HRsqslXqbAIlHEWFCeCqHZa8Jcp9mK5AC3gMJDdFbVb
- 4ROJC8BCD31ACzgqJWBA5uqbsFPh3e6PIySAO/Yp7KfVp+sUkpcEJY5AcUlDKbmHavbYNS
- HnPPmkvlxT4xcAla8NIt1POT11ZDQ2c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-_AbF92rPOOqdHK_qABk-Bg-1; Wed, 29 Sep 2021 17:12:37 -0400
-X-MC-Unique: _AbF92rPOOqdHK_qABk-Bg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80E301006AA3
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 21:12:36 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-113-87.phx2.redhat.com [10.3.113.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3BEAE19C59
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 21:12:36 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/19] NBD patches through 2021-09-27
-Date: Wed, 29 Sep 2021 16:12:10 -0500
-Message-Id: <20210929211229.4163263-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1mVh7j-0008Nb-5E
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 17:28:19 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:47002)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1mVh7h-0008Pe-Dr
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 17:28:18 -0400
+Received: by mail-ed1-x534.google.com with SMTP id dn26so13757103edb.13
+ for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 14:28:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=tApL4dO7T3ta68pFUFhW57VhWPj0RpOozrohuooX/XA=;
+ b=s6juyrRyTJJJex0KyKwD7wYBeowtuXlC0KxmrVp1DzzMCLr4AgHay6icKE0CLIUEGZ
+ RYkm5JVDf9iGUn9JqcyXBy1h2IeTPprM/+e28tLUMJYkDf/ExfV4sQWfRHh89rgX2jLP
+ gATMJzx1t310phTa1W1kJsyBTD1SRAd158Wbt78GUmAcu9C7B8EvHwVaTXD2CQ4txehJ
+ weRq3hgPZDeoIUyj8cIIUzlLaSzIeVQD++S9GJnY4MUgGZQI2C2Cwn2XZ9rlBlM8s4hd
+ cOo+wHJBWshs4ccyyj+BtHh7Mw7QQ+EgrmkbgB0uw43HXOiXyQ+er8LMgj62ST2MyT0R
+ ZNUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tApL4dO7T3ta68pFUFhW57VhWPj0RpOozrohuooX/XA=;
+ b=5rm0jWqS6x3lTiKeFbx0J2/heloo5GNIBhHj+w3KMxB/vR6o9Ho1ch3rSFmQcOfBej
+ 7eL8kBxgzkOspuEWpXiFLqohTeaQKNxLoVPGGQt6yVNbzZCbqjijBK8mzZS85Mmd6VH5
+ lLiA1teLo50NzU24t3nR32zT/2V5XtZRHb/ZskVCUODhr9tB8KVgmRk2Q2hbzoK6Q+eO
+ e47V68nyEYiDhdq00MCDO4QNHU/VkQkS1r78vopLXFczMjK4ndbwpg4xhJ4g5W+A2DjG
+ 2Y4WtWl1po3HMZmnV/igUBLRNDaz2I8TGLDcCxVOvOzX+EY8U/zedtQoSC2MiRIDAPV8
+ tEMA==
+X-Gm-Message-State: AOAM532pE0F+V63ZAFTkm5mD2ZJox22v0JgEB33192jIM7pTu0RqjhdC
+ uLg6loT9Dp8sHhir8rWZbXegA9cpmxzQm8uB2eFTjg==
+X-Google-Smtp-Source: ABdhPJzKaXaAEdKJZl/XekHs/OYkC3STVrPmNW6MdPiD9/8LvAdh2vAuYnG+wrsQMTcNPLx6vw8yXmTrKIx5PjNA+Dg=
+X-Received: by 2002:a17:907:3e05:: with SMTP id
+ hp5mr2287172ejc.527.1632950893752; 
+ Wed, 29 Sep 2021 14:28:13 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20210928223942.244860-1-titusr@google.com>
+ <85fb7136-c7b3-8144-d79f-19b5e95e83cb@kaod.org>
+In-Reply-To: <85fb7136-c7b3-8144-d79f-19b5e95e83cb@kaod.org>
+From: Titus Rwantare <titusr@google.com>
+Date: Wed, 29 Sep 2021 14:27:37 -0700
+Message-ID: <CAMvPwGqspcxEjzZN8rC5noPpf0G4zK7G8FyLxCPC3j2-4qdnjw@mail.gmail.com>
+Subject: Re: [RFC 0/1] hw/ipmi: add an aspeed IPMI iBT device model
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, f4bug@amsat.org, 
+ andrew@aj.id.au, wuhaotsh@google.com, minyard@acm.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=titusr@google.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,105 +84,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 6b54a31bf7b403672a798b6443b1930ae6c74dea:
+On Tue, 28 Sept 2021 at 23:24, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> Hello Titus,
+>
+> On 9/29/21 00:39, Titus Rwantare wrote:
+> > This patch follows the Handing IPMI for emulating BMC patch set by Hao =
+Wu.
+> > Building on top of the work in [PATCH] hw/misc: Add an iBT device model=
+ posted
+> > by C=C3=A9dric Le Goater, this iBT model works as a backend to ipmi-hos=
+t-extern.
+>
+> Could you please resend with my patch which is still available here :
+>
+>   https://github.com/legoater/qemu/commit/c6b679690f32534e8992d96752d90d2=
+c4aa48130
+>
+> or here :
+>
+>   http://patchwork.ozlabs.org/project/qemu-devel/patch/20210407171637.777=
+743-20-clg@kaod.org/
+>
+> and in another patch, the modifications you made on top of mine. That
+> will help understand where the problem could be.
+>
+> You can modify patches but you need to keep the original author name,
+> commit log, signed-off-by to certify its origin. Then list the changes
+> you have made and add your signed-off-by.
+>
+> The patch you sent seems to be mostly mine and I don't see any of the
+> above.
+>
+> Here is some more info in the kernel documentation :
+>
+>    https://www.kernel.org/doc/html/v4.12/process/submitting-patches.html#=
+sign-your-work-the-developer-s-certificate-of-origin
+>
+> I don't think we have the same kind of documentation in QEMU but it's
+> the same process.
 
-  Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-request' into staging (2021-09-28 13:07:32 +0100)
+Thanks, I'm still learning.
 
-are available in the Git repository at:
+>
+> > Needed to run:
+> > - [PATCH 4/8] hw/ipmi: Refactor IPMI interface, Hao Wu
+> > - [PATCH 5/8] hw/ipmi: Take out common from ipmi_bmc_extern.c, Hao Wu
+> > - [PATCH 6/8] hw/ipmi: Move handle_command to IPMICoreClass, Hao Wu
+> > - [PATCH 7/8] hw/ipmi: Add an IPMI external host device, Hao Wu
+>
+> I have no idea what these patches do and where they are. They seem to
+> modify the core IPMI framework and it is important to understand the
+> overall changes. Please include them in the patchset first since they
+> are initial requirements.
+>
 
-  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-09-27-v2
+I've pushed everything here: https://github.com/Rwantare/qemu/tree/aspeed-i=
+bt
+The other patches are out for review and will likely change before merging
 
-for you to fetch changes up to 1af7737871fb3b66036f5e520acb0a98fc2605f7:
+> > Host commandline
+> >      -chardev socket,id=3Dipmichr1,host=3Dlocalhost,port=3D9999,reconne=
+ct=3D10 \
+> >      -device ipmi-bmc-extern,chardev=3Dipmichr1,id=3Dbmc0 \
+> >      -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10 -nodefaults
+> >
+> > BMC commandline
+> >      -chardev socket,id=3Dipmichr1,host=3Dlocalhost,port=3D9999,server=
+=3Don,wait=3Doff \
+> >      -device "ipmi-host-extern,chardev=3Dipmichr1,responder=3D/machine/=
+soc/ibt"
+>
+> Could we have the full command lines also ?
+>
 
-  block/nbd: check that received handle is valid (2021-09-29 13:46:33 -0500)
+Sure, there's not much else there, one of the bmc firmwares I'm testing wit=
+h
+is a quanta-q71l-bmc which should build from OpenBMC.
 
-v2: defer problematic selinux patch; sending cover letter only since
-remaining patches are unchanged
+Host:
+qemu-system-x86_64 \
+-nographic -m 4G \
+-kernel arch/x86/boot/bzImage -append "console=3DttyS0 earlyprintk=3DttyS0"=
+ \
+-serial /dev/tty -monitor /dev/pts/9 -initrd u-root.cpio \
+-chardev socket,id=3Dipmichr0,host=3Dlocalhost,port=3D9999,reconnect=3D10 \
+-device ipmi-bmc-extern,chardev=3Dipmichr0,id=3Dbmc0 \
+-device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10 -nodefaults
 
-----------------------------------------------------------------
-nbd patches for 2021-09-27
+BMC:
+qemu-system-arm \
+-machine quanta-q71l-bmc \
+-nographic \
+-drive file=3Dpath/to/openbmc/image,if=3Dmtd,bus=3D0,unit=3D0,snapshot=3Don=
+ \
+-chardev socket,id=3Dipmichr1,host=3Dlocalhost,port=3D9999,server=3Don,wait=
+=3Doff \
+-device "ipmi-host-extern,chardev=3Dipmichr1,responder=3D/machine/soc/ibt"
 
-- Vladimir Sementsov-Ogievskiy: Rework coroutines of qemu NBD client
-  to improve reconnect support
-- Eric Blake: Relax server in regards to NBD_OPT_LIST_META_CONTEXT
-- Vladimir Sementsov-Ogievskiy: Plumb up 64-bit bulk-zeroing support
-  in block layer, in preparation for future NBD spec extensions
-- Nir Soffer: Default to writeback cache in qemu-nbd
+>
+> > Currently, IRQs are not functional, but it is able to connect.
+> > The following printout is from the host:
+> >
+> > [    6.869742] ipmi_si IPI0001:00: IPMI message handler: Found new BMC =
+(man_id:
+> >   0x002b79, prod_id: 0x0000, dev_id: 0x00)
+> > [   12.393281] ipmi_si IPI0001:00: IPMI bt interface initialized
+> >
+> > This patch is an RFC because of the missing IRQs and the need for other=
+ patches
+> > to get merged.
+>
+> We will need the whole project to start reviewing.
+>
+> Thanks,
+>
+> C.
 
-----------------------------------------------------------------
-Eric Blake (1):
-      nbd/server: Allow LIST_META_CONTEXT without STRUCTURED_REPLY
+Noted, I think I should be able to send the BT commits from
+https://github.com/Rwantare/qemu/tree/aspeed-ibt
+after the others are reviewed and merged.
+For now, the irq setup is my point of confusion.
 
-Nir Soffer (1):
-      qemu-nbd: Change default cache mode to writeback
-
-Vladimir Sementsov-Ogievskiy (17):
-      block/io: bring request check to bdrv_co_(read,write)v_vmstate
-      qcow2: check request on vmstate save/load path
-      block: use int64_t instead of uint64_t in driver read handlers
-      block: use int64_t instead of uint64_t in driver write handlers
-      block: use int64_t instead of uint64_t in copy_range driver handlers
-      block: make BlockLimits::max_pwrite_zeroes 64bit
-      block: use int64_t instead of int in driver write_zeroes handlers
-      block/io: allow 64bit write-zeroes requests
-      block: make BlockLimits::max_pdiscard 64bit
-      block: use int64_t instead of int in driver discard handlers
-      block/io: allow 64bit discard requests
-      nbd/client-connection: nbd_co_establish_connection(): fix non set errp
-      block/nbd: nbd_channel_error() shutdown channel unconditionally
-      block/nbd: move nbd_recv_coroutines_wake_all() up
-      block/nbd: refactor nbd_recv_coroutines_wake_all()
-      block/nbd: drop connection_co
-      block/nbd: check that received handle is valid
-
- docs/tools/qemu-nbd.rst          |   6 +-
- include/block/block_int.h        |  66 +++---
- block/io.c                       |  44 +++-
- block/blkdebug.c                 |  12 +-
- block/blklogwrites.c             |  16 +-
- block/blkreplay.c                |   8 +-
- block/blkverify.c                |   8 +-
- block/bochs.c                    |   4 +-
- block/cloop.c                    |   4 +-
- block/commit.c                   |   2 +-
- block/copy-before-write.c        |  15 +-
- block/copy-on-read.c             |  19 +-
- block/crypto.c                   |   8 +-
- block/curl.c                     |   3 +-
- block/dmg.c                      |   4 +-
- block/file-posix.c               |  35 ++--
- block/file-win32.c               |   8 +-
- block/filter-compress.c          |  15 +-
- block/gluster.c                  |  13 +-
- block/iscsi.c                    |  58 +++--
- block/mirror.c                   |   8 +-
- block/nbd.c                      | 443 ++++++++++++---------------------------
- block/nfs.c                      |  12 +-
- block/null.c                     |  18 +-
- block/nvme.c                     |  48 ++++-
- block/preallocate.c              |  14 +-
- block/qcow.c                     |  16 +-
- block/qcow2-cluster.c            |  14 +-
- block/qcow2.c                    |  70 +++++--
- block/qed.c                      |   9 +-
- block/quorum.c                   |  11 +-
- block/raw-format.c               |  36 ++--
- block/rbd.c                      |  20 +-
- block/throttle.c                 |  18 +-
- block/vdi.c                      |   8 +-
- block/vmdk.c                     |  14 +-
- block/vpc.c                      |   8 +-
- block/vvfat.c                    |   8 +-
- nbd/client-connection.c          |   1 +
- nbd/client.c                     |   2 -
- nbd/server.c                     |   2 +-
- qemu-nbd.c                       |   6 +-
- tests/unit/test-bdrv-drain.c     |  16 +-
- tests/unit/test-block-iothread.c |  21 +-
- block/trace-events               |  10 +-
- 45 files changed, 585 insertions(+), 596 deletions(-)
-
--- 
-2.31.1
-
+Thanks,
+-Titus
 
