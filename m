@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A115B41C1AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:35:54 +0200 (CEST)
-Received: from localhost ([::1]:47958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1586841C20A
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:51:59 +0200 (CEST)
+Received: from localhost ([::1]:55076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVW0H-0000hd-Lr
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:35:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44928)
+	id 1mVWFq-00088y-17
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:51:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVtX-0001qg-9A
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:28:55 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:37851)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVtb-00021i-P7
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:28:59 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:50829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVtS-0005kr-9p
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:28:55 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mVVta-0005qU-7N
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:28:59 -0400
 Received: from quad ([82.142.21.142]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MRTAj-1m8kDT451Z-00NUpC; Wed, 29
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MhUQ7-1n1G0q1wqR-00ecIi; Wed, 29
  Sep 2021 11:28:47 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/20] nubus: move slot bitmap checks from NubusDevice
- realize() to BusClass check_address()
-Date: Wed, 29 Sep 2021 11:28:28 +0200
-Message-Id: <20210929092843.2686234-6-laurent@vivier.eu>
+Subject: [PULL 06/20] nubus: implement BusClass get_dev_path()
+Date: Wed, 29 Sep 2021 11:28:29 +0200
+Message-Id: <20210929092843.2686234-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210929092843.2686234-1-laurent@vivier.eu>
 References: <20210929092843.2686234-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:CUJ/J4uF2iaoVj70WBiThgw+Sj7VYK8vRxTQmPnbFp9LSYXZMSd
- 4nFu7mhmz8Q5ZADPHPOpzfr6WhNtzNdJ3QyDAO6wbXiW0YLt6mNnbpHyTNxPtbUP/LxE1Xs
- 3POKsa6OW5bH4RnK9PpZYG3IE/M/GUWrZlAtaCEEXLzO938FAH8MGhxm+UBTXnZ0Lv257s1
- 1I8pw/aXnJZZr1SGJh51w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5Kg0lQvqvMU=:KqvkAmC5p36Asef9puvtGI
- 7gKrMKr+BsNEiqXggXoBwywRhTFcDG4ifnBv0rOsKld2GRpz4yrZ12hvmH/i/0q81Kdfs8duS
- erzC44ocZ71eNGY1vAEpy5/sFNg2sMDMcEqN2PC/BP9laQBzkCllluJczr55/Me3tsvY3ovaZ
- phqosD1n0xNiK/caLB8EtB1I5Pjla1k6ikTHhHdignz7lE7Wk2oRMwx/lG9Brq8H+o7gSmL3z
- g0syi0GPrYTm+fq2PQnlyTvWYQQvn21Ir+BzBFmpLVNPxe1kZr/81+/rCV4vWg2dVKFiod5Ml
- N53TCMdc9uv4BvLRjaAP6+0EBRl/CWQdz8k9TjKuP7yesFIfVBiCojX50uTeqGA8FwBFjs05J
- dphMDDMANC3nsLChgaZ/e0U2OV7oB6tY2deBG2HEzlHcBsvwH4Fs8+kPcP0QsAMVNSu4QE+uN
- 0BPD3Z5AY7MvY19617TeGA5rNBTMcztu5Vs47VaFkCSCQsFeoQ42AcEoSnGeYYWP+413qyXrw
- aMXSJ9mY2EEpMp/2K2qA2ILlOSZUuZMQLklTCilh/SIWLNuuOZxNk6f5T7HCpYWPO5h+o4Fs1
- H25jhcEXNhe4NMuJ8z1V0fO0mU38t3hEdESudlpoSWLzoKiEeu/QbxJR5oLvR+ybPaJFO04C1
- CAu5fi8j9GG8xYb2RYJyo9BEQZ/5zVqyjLfwDBcG0d9Fa8gR6kQOg9yK+TkIHzHPcvpNIdc/l
- HyZ0H2d+vhatzVVe3bh06n0GNVllCeBCGrsQJA==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:h+ftqzMgrGdRhau9XXPR4svOyg6eZ6RlH/jKJ1nDiE46xCmEnfb
+ xN5FLmpBys0kVB6tSyE95ig0Ea1okzfzSkCkzkUs1XK79uCB7QEX5HtVOZYfYaDt3Rd4cer
+ r36icbelC+YjhoF22Dy4x/w7VrUsWuBkA2OK9kvcH/HRXX5YVPP9kACH2o97BOGLy7b8IRW
+ Py8/7aIbzy4EESO77ZpSQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0mjs8Ofn8KA=:Dt7HH0les0I3oaVR4prhLY
+ YgcEn+b1l6NsFuP3ng9yNKtj9smOUHiWmc/+dbsmDs3xSuTKMOfUu6ma87B9IiJpb2BkKU9Za
+ OACDxtMbjWM5KsnfyD7M2tg9zU5s7ljat3CDgBqNO19Z9rnR7+EYEP7ejSUyLuTOFQpx+pOQZ
+ 6y4tgi8CCBlfayZ1U7Wq+/Obm9bYPEN9LhgxGovC1VhNruQ2Mt8G3GMvsPDt2BlO+CaA2fR3t
+ hsMAzqjEy13WMYZVUO6EzgXSJoBKJlgYkjOzurnI9iQTElTxpSOEBMloJ1BdcjJ8FJEcRtucc
+ UFv0vcAxghBxOktqqgMfCnFZ7lRPzQOQaa2bAF5s2DuW7OsbAn8s3P/2C8EvJucJEwL38SXJW
+ Mqh6zYkvlg+BfYWZ4o8N4eYACKkhN2NeF1ReIYU/vZGsCOa2KdrCOz7F7YvEOVNEZ7l5n3YCQ
+ 0E/Z2EgiwLfALCwBxu3g1/DH+alCfYTgL10V76tJ+3INIiLKN2wvTblKJphw7PP/7YoH4rXj4
+ TO9aGabLtG5IWEvb7H7EkxC4dCwIz/ycwHsmxPd4KK5k2bUp6I0qCx2Qhij14i5Rx9rjH8PAM
+ roWAzhUqiewCjVm+H4hjITgfjJRTIW0tiyWJWvvTVP8BEciDd+Co09iVswNMVv6XcJZHkyv/q
+ znu2jRR0Di5T3HoA2uqsbt/V5wlwpxpldwcPdJN0dXHQ4+d5Y/Q9//PEQ+DxGLU1iexmvEocR
+ mFmj922QJu2VZSnoM9t+OnRAkjVYh079UpzIVw==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,96 +75,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Allow Nubus to manage the slot allocations itself using the BusClass check_address()
-virtual function rather than managing this during NubusDevice realize().
-
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210924073808.1041-6-mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20210924073808.1041-7-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/nubus/nubus-bus.c    | 29 +++++++++++++++++++++++++++++
- hw/nubus/nubus-device.c | 21 ---------------------
- 2 files changed, 29 insertions(+), 21 deletions(-)
+ hw/nubus/nubus-bus.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
-index 3cd75348646b..96ef027bad26 100644
+index 96ef027bad26..04f11edd2465 100644
 --- a/hw/nubus/nubus-bus.c
 +++ b/hw/nubus/nubus-bus.c
-@@ -96,11 +96,40 @@ static void nubus_init(Object *obj)
+@@ -96,6 +96,21 @@ static void nubus_init(Object *obj)
                                                   NUBUS_SLOT_NB);
  }
  
-+static bool nubus_check_address(BusState *bus, DeviceState *dev, Error **errp)
++static char *nubus_get_dev_path(DeviceState *dev)
 +{
 +    NubusDevice *nd = NUBUS_DEVICE(dev);
-+    NubusBus *nubus = NUBUS_BUS(bus);
++    BusState *bus = qdev_get_parent_bus(dev);
++    char *p = qdev_get_dev_path(bus->parent);
 +
-+    if (nd->slot == -1) {
-+        /* No slot specified, find first available free slot */
-+        int s = ctz32(nubus->slot_available_mask);
-+        if (s != 32) {
-+            nd->slot = s;
-+        } else {
-+            error_setg(errp, "Cannot register nubus card, no free slot "
-+                             "available");
-+            return false;
-+        }
++    if (p) {
++        char *ret = g_strdup_printf("%s/%s/%02x", p, bus->name, nd->slot);
++        g_free(p);
++        return ret;
 +    } else {
-+        /* Slot specified, make sure the slot is available */
-+        if (!(nubus->slot_available_mask & BIT(nd->slot))) {
-+            error_setg(errp, "Cannot register nubus card, slot %d is "
-+                             "unavailable or already occupied", nd->slot);
-+            return false;
-+        }
++        return g_strdup_printf("%s/%02x", bus->name, nd->slot);
 +    }
-+
-+    nubus->slot_available_mask &= ~BIT(nd->slot);
-+    return true;
 +}
 +
- static void nubus_class_init(ObjectClass *oc, void *data)
+ static bool nubus_check_address(BusState *bus, DeviceState *dev, Error **errp)
  {
-     BusClass *bc = BUS_CLASS(oc);
+     NubusDevice *nd = NUBUS_DEVICE(dev);
+@@ -130,6 +145,7 @@ static void nubus_class_init(ObjectClass *oc, void *data)
  
      bc->realize = nubus_realize;
-+    bc->check_address = nubus_check_address;
+     bc->check_address = nubus_check_address;
++    bc->get_dev_path = nubus_get_dev_path;
  }
  
  static const TypeInfo nubus_bus_info = {
-diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
-index 2e96d6b4fc39..516b13d2d53d 100644
---- a/hw/nubus/nubus-device.c
-+++ b/hw/nubus/nubus-device.c
-@@ -161,27 +161,6 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
-     char *name;
-     hwaddr slot_offset;
- 
--    if (nd->slot == -1) {
--        /* No slot specified, find first available free slot */
--        int s = ctz32(nubus->slot_available_mask);
--        if (s != 32) {
--            nd->slot = s;
--        } else {
--            error_setg(errp, "Cannot register nubus card, no free slot "
--                             "available");
--            return;
--        }
--    } else {
--        /* Slot specified, make sure the slot is available */
--        if (!(nubus->slot_available_mask & BIT(nd->slot))) {
--            error_setg(errp, "Cannot register nubus card, slot %d is "
--                             "unavailable or already occupied", nd->slot);
--            return;
--        }
--    }
--
--    nubus->slot_available_mask &= ~BIT(nd->slot);
--
-     /* Super */
-     slot_offset = nd->slot * NUBUS_SUPER_SLOT_SIZE;
- 
 -- 
 2.31.1
 
