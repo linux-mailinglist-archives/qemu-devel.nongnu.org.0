@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6112141CCF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:53:48 +0200 (CEST)
-Received: from localhost ([::1]:37030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A3441CD02
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:56:47 +0200 (CEST)
+Received: from localhost ([::1]:44970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVfeF-0004Hw-8z
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:53:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47110)
+	id 1mVfh8-0001cu-FQ
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:56:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWE-0007eL-9l
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20396)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWO-0007jY-5n
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWB-0006TF-Cl
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:29 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWG-0006Xm-Ea
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632944726;
+ s=mimecast20190719; t=1632944731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0KCb6iNGYUzpcG61oVv8RDctCBUpQc4Md8uKwiAchp0=;
- b=KfJ2CCpmISRUP72I9orBEmEqri4JZq2NTiktNXS1KLzYvBtcf2tM1ND+fsjsTIdV1L/Ubz
- acz7ogUSJU/73TwXXH5nVx+Cnnlmdj/wUQB/plyLiMIxxx60BmO9Q/tN0FvyMSbQQ4kURY
- szJigzxhK8OOM93T5wmbNSv65JKoBrI=
+ bh=vgEu582rg+QZQ5sXfi6l5BL21SJgdH3Gt59RDW8pSD0=;
+ b=hNYszFvtHOwglwYNtyThYVKkkFh62EOl83uR3rFCFGtAfqsmjYFUCtMvPxAf7fusEmG+SK
+ 7LdLGODA2FDPA+R6m5dojDsMFDoxq4BeXr/QCWr/UaHF16N0sQd5CQYi5py4C/GyJ/mI/4
+ TG65isSbwE90Ey00L2OPGGZ2fgZFKg0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-knD0WzDpMxGRnaWI8IH7WQ-1; Wed, 29 Sep 2021 15:45:24 -0400
-X-MC-Unique: knD0WzDpMxGRnaWI8IH7WQ-1
+ us-mta-18-6pu-ePzhM4mAmdKUleYi4w-1; Wed, 29 Sep 2021 15:45:30 -0400
+X-MC-Unique: 6pu-ePzhM4mAmdKUleYi4w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 962CF8B0695;
- Wed, 29 Sep 2021 19:45:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3653189CD1F;
+ Wed, 29 Sep 2021 19:45:09 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A7A9227067;
- Wed, 29 Sep 2021 19:45:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 01C512B3CD;
+ Wed, 29 Sep 2021 19:45:07 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/13] qapi: Add spaces after symbol declaration for
- consistency
-Date: Wed, 29 Sep 2021 15:44:19 -0400
-Message-Id: <20210929194428.1038496-5-jsnow@redhat.com>
+Subject: [PATCH v3 05/13] qapi/parser: improve detection of '@symbol:' preface
+Date: Wed, 29 Sep 2021 15:44:20 -0400
+Message-Id: <20210929194428.1038496-6-jsnow@redhat.com>
 In-Reply-To: <20210929194428.1038496-1-jsnow@redhat.com>
 References: <20210929194428.1038496-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,133 +82,128 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Several QGA definitions omit a blank line after the symbol
-declaration. This works OK currently, but it's the only place where we
-do this. Adjust it for consistency.
+Leading and trailing whitespace are now discarded, addressing the FIXME
+comment. A new error is raised to detect this accidental case.
 
-Future commits may wind up enforcing this formatting.
+Parsing for args sections is left alone here; the 'name' variable is
+moved into the only block where it is used.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 
 ---
 
-This isn't strictly necessary and I don't actually get around to
-enforcing it in this series, but I figured I'd share it with the list
-anyway. We can just drop this patch but I wanted to see your thoughts.
+Tangentially related to delinting in that removing 'FIXME' comments is a
+goal for pylint. My goal is to allow 'TODO' to be checked in, but
+'FIXME' should be fixed prior to inclusion.
+
+Arbitrary, but that's life for you.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- qapi/block-core.json            | 1 +
- qga/qapi-schema.json            | 3 +++
- tests/qapi-schema/doc-good.json | 8 ++++++++
- 3 files changed, 12 insertions(+)
+ scripts/qapi/parser.py                              | 13 ++++++++-----
+ tests/qapi-schema/doc-whitespace-leading-symbol.err |  1 +
+ .../qapi-schema/doc-whitespace-leading-symbol.json  |  6 ++++++
+ tests/qapi-schema/doc-whitespace-leading-symbol.out |  0
+ .../qapi-schema/doc-whitespace-trailing-symbol.err  |  1 +
+ .../qapi-schema/doc-whitespace-trailing-symbol.json |  6 ++++++
+ .../qapi-schema/doc-whitespace-trailing-symbol.out  |  0
+ tests/qapi-schema/meson.build                       |  2 ++
+ 8 files changed, 24 insertions(+), 5 deletions(-)
+ create mode 100644 tests/qapi-schema/doc-whitespace-leading-symbol.err
+ create mode 100644 tests/qapi-schema/doc-whitespace-leading-symbol.json
+ create mode 100644 tests/qapi-schema/doc-whitespace-leading-symbol.out
+ create mode 100644 tests/qapi-schema/doc-whitespace-trailing-symbol.err
+ create mode 100644 tests/qapi-schema/doc-whitespace-trailing-symbol.json
+ create mode 100644 tests/qapi-schema/doc-whitespace-trailing-symbol.out
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 4114f8b6fc3..52a6dae9522 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3132,6 +3132,7 @@
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index bfd2dbfd9a2..2f93a752f66 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -549,18 +549,21 @@ def _append_body_line(self, line):
  
- ##
- # @BlockdevQcow2EncryptionFormat:
-+#
- # @aes: AES-CBC with plain64 initialization vectors
- #
- # Since: 2.10
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index c60f5e669d7..94e4aacdcc6 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -1140,6 +1140,7 @@
- 
- ##
- # @GuestExec:
-+#
- # @pid: pid of child process in guest OS
- #
- # Since: 2.5
-@@ -1171,6 +1172,7 @@
- 
- ##
- # @GuestHostName:
-+#
- # @host-name: Fully qualified domain name of the guest OS
- #
- # Since: 2.10
-@@ -1197,6 +1199,7 @@
- 
- ##
- # @GuestUser:
-+#
- # @user: Username
- # @domain: Logon domain (windows only)
- # @login-time: Time of login of this user on the computer. If multiple
-diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.json
-index a20acffd8b9..86dc25d2bd8 100644
---- a/tests/qapi-schema/doc-good.json
-+++ b/tests/qapi-schema/doc-good.json
-@@ -53,6 +53,7 @@
- 
- ##
- # @Enum:
-+#
- # @one: The _one_ {and only}
- #
- # Features:
-@@ -67,6 +68,7 @@
- 
- ##
- # @Base:
-+#
- # @base1:
- # the first member
- ##
-@@ -75,6 +77,7 @@
- 
- ##
- # @Variant1:
-+#
- # A paragraph
- #
- # Another paragraph (but no @var: line)
-@@ -91,11 +94,13 @@
- 
- ##
- # @Variant2:
-+#
- ##
- { 'struct': 'Variant2', 'data': {} }
- 
- ##
- # @Object:
-+#
- # Features:
- # @union-feat1: a feature
- ##
-@@ -109,6 +114,7 @@
- 
- ##
- # @Alternate:
-+#
- # @i: an integer
- #     @b is undocumented
- #
-@@ -126,6 +132,7 @@
- 
- ##
- # @cmd:
-+#
- # @arg1: the first argument
- #
- # @arg2: the second
-@@ -175,6 +182,7 @@
- 
- ##
- # @EVT_BOXED:
-+#
- # Features:
- # @feat3: a feature
- ##
+         Else, append the line to the current section.
+         """
+-        name = line.split(' ', 1)[0]
+-        # FIXME not nice: things like '#  @foo:' and '# @foo: ' aren't
+-        # recognized, and get silently treated as ordinary text
+-        if not self.symbol and not self.body.text and line.startswith('@'):
+-            if not line.endswith(':'):
++        stripped = line.strip()
++
++        if not self.symbol and not self.body.text and stripped.startswith('@'):
++            if not stripped.endswith(':'):
+                 raise QAPIParseError(self._parser, "line should end with ':'")
++            if not stripped == line:
++                raise QAPIParseError(
++                    self._parser, "extra whitespace around symbol declaration")
+             self.symbol = line[1:-1]
+             # FIXME invalid names other than the empty string aren't flagged
+             if not self.symbol:
+                 raise QAPIParseError(self._parser, "invalid name")
+         elif self.symbol:
+             # This is a definition documentation block
++            name = line.split(' ', 1)[0]
+             if name.startswith('@') and name.endswith(':'):
+                 self._append_line = self._append_args_line
+                 self._append_args_line(line)
+diff --git a/tests/qapi-schema/doc-whitespace-leading-symbol.err b/tests/qapi-schema/doc-whitespace-leading-symbol.err
+new file mode 100644
+index 00000000000..785468b90e2
+--- /dev/null
++++ b/tests/qapi-schema/doc-whitespace-leading-symbol.err
+@@ -0,0 +1 @@
++doc-whitespace-leading-symbol.json:4:1: extra whitespace around symbol declaration
+diff --git a/tests/qapi-schema/doc-whitespace-leading-symbol.json b/tests/qapi-schema/doc-whitespace-leading-symbol.json
+new file mode 100644
+index 00000000000..128c781bec9
+--- /dev/null
++++ b/tests/qapi-schema/doc-whitespace-leading-symbol.json
+@@ -0,0 +1,6 @@
++# Documentation for expression has leading whitespace
++
++##
++#  @leading-whitespace:
++##
++{ 'command': 'leading-whitespace', 'data': {'a': 'int'} }
+diff --git a/tests/qapi-schema/doc-whitespace-leading-symbol.out b/tests/qapi-schema/doc-whitespace-leading-symbol.out
+new file mode 100644
+index 00000000000..e69de29bb2d
+diff --git a/tests/qapi-schema/doc-whitespace-trailing-symbol.err b/tests/qapi-schema/doc-whitespace-trailing-symbol.err
+new file mode 100644
+index 00000000000..fe583b38008
+--- /dev/null
++++ b/tests/qapi-schema/doc-whitespace-trailing-symbol.err
+@@ -0,0 +1 @@
++doc-whitespace-trailing-symbol.json:4:1: extra whitespace around symbol declaration
+diff --git a/tests/qapi-schema/doc-whitespace-trailing-symbol.json b/tests/qapi-schema/doc-whitespace-trailing-symbol.json
+new file mode 100644
+index 00000000000..da706c3d176
+--- /dev/null
++++ b/tests/qapi-schema/doc-whitespace-trailing-symbol.json
+@@ -0,0 +1,6 @@
++# Documentation for expression has extra whitespace
++
++##
++# @trailing-whitespace:  
++##
++{ 'command': 'trailing-whitespace', 'data': {'a': 'int'} }
+diff --git a/tests/qapi-schema/doc-whitespace-trailing-symbol.out b/tests/qapi-schema/doc-whitespace-trailing-symbol.out
+new file mode 100644
+index 00000000000..e69de29bb2d
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index 6187efbd58f..64ffbd1b3d4 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -82,6 +82,8 @@ schemas = [
+   'doc-missing.json',
+   'doc-no-symbol.json',
+   'doc-undoc-feature.json',
++  'doc-whitespace-leading-symbol.json',
++  'doc-whitespace-trailing-symbol.json',
+   'double-type.json',
+   'duplicate-key.json',
+   'empty.json',
 -- 
 2.31.1
 
