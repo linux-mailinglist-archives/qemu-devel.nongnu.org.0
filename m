@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEAA241CC51
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:07:49 +0200 (CEST)
-Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D054541CC7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:16:12 +0200 (CEST)
+Received: from localhost ([::1]:46292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVevk-0000nZ-IU
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:07:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39604)
+	id 1mVf3r-0004if-Ek
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:16:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mVeu5-0008Hl-Mu
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:06:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46196)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mVf2J-0003zw-09
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:14:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mVeu3-0007J5-I8
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:06:04 -0400
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mVf2C-0005d7-Ko
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:14:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632942362;
+ s=mimecast20190719; t=1632942866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ubSadoL9lZPv3uFEJrs22Q28MDpYSRqDwW23UoZyeZg=;
- b=bDe3rXCAGDahbuYk/AC0Z7+s9orJ2wTVz7UaaVjLz6I79o3P9zPZNcIB5X9hdAKDcnUu9y
- kUha0XigMInofX+lv7hmnPvPzzjpa0uV3sev6x8YPS29c7A8fO16AZ5GITMM5CvZL6J1m7
- xWiqW5WYRUb6aeZj3dKI8kRWspnYKHo=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-mKHsFdTkOT-uESO8N4k_zQ-1; Wed, 29 Sep 2021 15:06:01 -0400
-X-MC-Unique: mKHsFdTkOT-uESO8N4k_zQ-1
-Received: by mail-lf1-f71.google.com with SMTP id
- m2-20020ac24ac2000000b003f524eae63eso3290443lfp.10
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 12:06:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ubSadoL9lZPv3uFEJrs22Q28MDpYSRqDwW23UoZyeZg=;
- b=5lpTLERGQbBxiAyw6tld4UZergrP2Q3Dy9+6PUCmYyayNN1F5iQpho6pgXFdit9MT9
- sGW2axvuxEcdUWoKi5amLHtC4GLt4vs+RmPUiwPMX5tkULvKqkCGJ590XvNpDFyDt1Js
- cmbwBvLGtQy2DeXBsPFq8pXpUTyeWmiav88jxua8PfvivnK/wcRaffu8BDqWTomoIENE
- YeLgU9Ul60ZiVNGTyhKK3D2wi0QdEFemiYvlejTiGR7XO7ElqcfVa5oxQ2d9HO1Omxde
- ggKRsolRgQt8WBSdxYj90esa+oqYSjB2E3Busj+ooh/oqL9yDQZiKWepqO1aoOQ3Jvwd
- a9mw==
-X-Gm-Message-State: AOAM530H+zgOGlyMDacgre6hi9wfD9I1s3yBrSm7b+iLb1YmGnBouJ+b
- rL97bhGSyX0FnPQclEXZ0/+2jQEZcSLkpur7HV+Xnoma5OI8/jziiUaCkk7IMqJ+bBYSLfRajY2
- VwvhWIObUqFRl5ZzKgq/EPA0AP2vV+Ss=
-X-Received: by 2002:a2e:b449:: with SMTP id o9mr1602424ljm.472.1632942359898; 
- Wed, 29 Sep 2021 12:05:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJySZdFvGN8NMoax1lKNCK5tZ6HwyBXpfyRw5XIvpspGPe8xD1poguxsB50nAQsdRQtCucsyzs9AwB5WtY/pib8=
-X-Received: by 2002:a2e:b449:: with SMTP id o9mr1602395ljm.472.1632942359632; 
- Wed, 29 Sep 2021 12:05:59 -0700 (PDT)
+ bh=ZYxS0XGWvyn+bIPbHAJq7G1uhsLI5J4DtQeGJPDONEw=;
+ b=EiTdwx57VWFZIweP3a2m+YlY7oDdfmrVT45bojYCBpGoLKOVkukX2+C2kHKxHgnD3smwmA
+ LnwRSGJGpV+OXGlE1/JoLryEhsXf3uwHMywr2Kx0TeY1V84ZIwfap066EVqINkUngyuOZg
+ /xUb7BJlCJTGB1ZWLM8I4vtWc+XS8Ig=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-335--mzNp1P0PYKE0m6W0QnhTg-1; Wed, 29 Sep 2021 15:14:25 -0400
+X-MC-Unique: -mzNp1P0PYKE0m6W0QnhTg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79D5681450F;
+ Wed, 29 Sep 2021 19:14:24 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0AAB060854;
+ Wed, 29 Sep 2021 19:14:23 +0000 (UTC)
+Date: Wed, 29 Sep 2021 20:14:23 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PULL 00/20] NBD patches through 2021-09-27
+Message-ID: <20210929191423.GS3361@redhat.com>
+References: <20210927215545.3930309-1-eblake@redhat.com>
+ <CAFEAcA9P_xzSce_3bVKO95HOdhbf1aqVJ-eiXOkJ09Hj4ow+bg@mail.gmail.com>
+ <97e67c45-21f9-2630-7173-991d01871116@redhat.com>
+ <CAFXwXrnZzyUBSikVr6uFLHQeD5hWcXDq+eG=uwBC5xQ8FVivmg@mail.gmail.com>
+ <9ba3ebe2-4d74-628f-fb76-5541f629ff9e@redhat.com>
+ <20210929182921.t3g4ozzweoo4vpyu@redhat.com>
 MIME-Version: 1.0
-References: <20210922222423.644444-1-leobras@redhat.com>
- <20210922222423.644444-2-leobras@redhat.com>
- <YU4H1HwsiAO3KM6r@redhat.com> <YVOOhSk2QbTpYP2V@t490s>
-In-Reply-To: <YVOOhSk2QbTpYP2V@t490s>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Wed, 29 Sep 2021 16:06:33 -0300
-Message-ID: <CAJ6HWG6F9nyJKvS436-NznqEmG_vQ5K=3mxib-5QtkqZ8gqwLQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] QIOChannel: Add io_async_writev & io_async_flush
- callbacks
-To: Peter Xu <peterx@redhat.com>
+In-Reply-To: <20210929182921.t3g4ozzweoo4vpyu@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -93,53 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, berrange@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Peter, thanks for reviewing!
+On Wed, Sep 29, 2021 at 01:29:21PM -0500, Eric Blake wrote:
+> On Wed, Sep 29, 2021 at 05:03:08PM +0200, Paolo Bonzini wrote:
+> > On 29/09/21 15:58, Richard Henderson wrote:
+> > > 
+> > >      > /usr/bin/ld: /usr/lib64/libselinux.so: error adding symbols: file in
+> > >      > wrong format
+> > >      > collect2: error: ld returned 1 exit status
+> > > 
+> > >     Missing libselinux-devel.i686 in
+> > >     tests/docker/dockerfiles/fedora-i386-cross.docker, I think?
+> > > 
+> > > But additionally, incorrect package probing, I think.
+> > 
+> > Probably Meson deciding to look at --print-search-dirs and crossing fingers.
+> > But -m32 and other multilib flags should be added to config-meson.cross
+> > rather than QEMU_CFLAGS.
+> 
+> Rich, Dan, this is caused by 'nbd/server: Add --selinux-label option'
+> (20/20 in this pull request); can you investigate?
+> 
+> In the short term, I'm leaning towards withdrawing that patch from the
+> pull request, and getting everything else upstream; we can revisit a
+> fixed version of that patch for my next pull request.
 
-On Tue, Sep 28, 2021 at 6:52 PM Peter Xu <peterx@redhat.com> wrote:
->
-> On Fri, Sep 24, 2021 at 06:16:04PM +0100, Daniel P. Berrang=C3=A9 wrote:
-> > > +ssize_t qio_channel_async_writev(QIOChannel *ioc,
-> > > +                                 const struct iovec *iov,
-> > > +                                 size_t niov,
-> > > +                                 int *fds,
-> > > +                                 size_t nfds,
-> > > +                                 Error **errp);
-> >
-> > This is missing any flags. We need something like
-> >
-> >    QIO_CHANNEL_WRITE_FLAG_ZEROCOPY
-> >
-> > passed in an 'unsigned int flags' parameter. This in
-> > turn makes me question whether we should have the
-> > common helpers at all, as the api is going to be
-> > different for sync vs async.
-> >
-> > The QIOChannelFeature enum probably ought to be
-> > extended with QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY with
-> > support for probing whether that's supported or not.
->
-> I'm also wondering whether we could just drop the fds/nfds as per my know=
-ledge
-> SCM_RIGHT is the only user, at the meantime I don't see why an async inte=
-rface
-> would pass in any fd anyways..  Thanks,
+Yes I'll have to look at this later, so withdraw it from the PR for now.
 
-FWIW, I think it's a great idea.
-Daniel, what do you think?
+Rich.
 
->
-> --
-> Peter Xu
->
-
-Best regards,
-Leonardo
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-df lists disk usage of guests without needing to install any
+software inside the virtual machine.  Supports Linux and Windows.
+http://people.redhat.com/~rjones/virt-df/
 
 
