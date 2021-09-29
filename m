@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B4041CBE0
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 20:32:22 +0200 (CEST)
-Received: from localhost ([::1]:44560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8097E41CBF5
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 20:37:19 +0200 (CEST)
+Received: from localhost ([::1]:48964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVeNQ-0006he-Qr
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 14:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59844)
+	id 1mVeSE-0001XK-4z
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 14:37:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mVeKs-0005s7-Sz
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 14:29:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23026)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mVeOd-00083V-Q9
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 14:33:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mVeKo-0004Lg-JI
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 14:29:41 -0400
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mVeOb-0007i5-2k
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 14:33:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632940174;
+ s=mimecast20190719; t=1632940411;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tZUjwSeXID7qo8xUZucmv1oKqV8PXcoO3+jeZ0FXlbg=;
- b=ggv6WAScoTj8gDGBN9+LnnJpHf4g3mcfxE5m+0qHILmyYFuEU87Kx4sx8HIrDNbTRWt9LT
- IgFKzUTeyUdgtOpQMGSVO9s/Ci2tPw7XOLg03SO1OLEjGGcXbF+MUVxGWutbNMNTr608tL
- /5Of+to0V7lPC/eKXUnSKuezPRFWc/U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-0oTbUTDBMfiqqNNUmVE1Sg-1; Wed, 29 Sep 2021 14:29:31 -0400
-X-MC-Unique: 0oTbUTDBMfiqqNNUmVE1Sg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66CA6835DE7;
- Wed, 29 Sep 2021 18:29:30 +0000 (UTC)
-Received: from redhat.com (ovpn-113-87.phx2.redhat.com [10.3.113.87])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4F581B5C2;
- Wed, 29 Sep 2021 18:29:22 +0000 (UTC)
-Date: Wed, 29 Sep 2021 13:29:21 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PULL 00/20] NBD patches through 2021-09-27
-Message-ID: <20210929182921.t3g4ozzweoo4vpyu@redhat.com>
-References: <20210927215545.3930309-1-eblake@redhat.com>
- <CAFEAcA9P_xzSce_3bVKO95HOdhbf1aqVJ-eiXOkJ09Hj4ow+bg@mail.gmail.com>
- <97e67c45-21f9-2630-7173-991d01871116@redhat.com>
- <CAFXwXrnZzyUBSikVr6uFLHQeD5hWcXDq+eG=uwBC5xQ8FVivmg@mail.gmail.com>
- <9ba3ebe2-4d74-628f-fb76-5541f629ff9e@redhat.com>
+ bh=/M9LGTi33XME3vXqiZlZNMHCVzyVvuNu+brku+g1ea8=;
+ b=cPZJRRgmPOKk+4OxACzw6UuuyiVmxmYgIVHIYFTW36BMgzjkE1+XB2AmbVKWVSHezXlw6W
+ i3BGcFMSBLDaKKyeYf9erH8oCXXr2tfYguh+9kzdO7Bd8zJT1k9KIdu9EIald6V6RPzoNB
+ vNOhzMt+DQHd23S8S3nD7G+0BCtBtY0=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-479-WSzpyecCPjW679hlF-pElA-1; Wed, 29 Sep 2021 14:33:29 -0400
+X-MC-Unique: WSzpyecCPjW679hlF-pElA-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ c24-20020ac25318000000b003f257832dfdso3157928lfh.20
+ for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 11:33:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/M9LGTi33XME3vXqiZlZNMHCVzyVvuNu+brku+g1ea8=;
+ b=zRpRNZere8HgGveAo6oKzvKv5/j8rO0Nf/gtctbtEi67pS1ibEp3/1yOsfzYZzsqjQ
+ t1ak/vk9xIruFlTkInC+fVEt65iDyyfSbIsEft1PSV6VYJJjMuXHALTh2bmgNiSh2WmD
+ kayDvA9/anK1cCgcyI4B/OE2skhKWffsrawkOcU8Xlf5VBjR6jugHLrxMDJMRzCOziMe
+ 5Kw6u/3nrTdYS5iH13Lu1wyuDCwyK2QoKHDx2aJyrJcNSonT8b2vXHVH6rv2jIG/b8f7
+ eQRs2pXrzkWQ97ZDLo+LrKW3eOAXAdfJod8/mNseon7pYBO01tMoZnAPsU/09T2QmqGA
+ j24A==
+X-Gm-Message-State: AOAM531pePXDy2Q/ps8mH/IGxsLzXG9hEMFQZqv/QUGdcuL2iU9AHnen
+ PAknEF/PFZO/j01U36H9FMurCG7bYW7W7fd8/ZIsj/ff+GqqK+05h+QgknmV5oSXt4IG5W3Y0A+
+ 2c+TaN9LTuzViBIcSsLZqFMLd1MZPK3Q=
+X-Received: by 2002:ac2:5984:: with SMTP id w4mr1105982lfn.187.1632940407758; 
+ Wed, 29 Sep 2021 11:33:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJylSiQmTNrF9ABW4HvL33FoqY2n2GiQc+JoB2Dkc27lx4mkm08Wg8rAEg6vTeEYHcKfULBWfsm398uWiGOYuYE=
+X-Received: by 2002:ac2:5984:: with SMTP id w4mr1105929lfn.187.1632940407115; 
+ Wed, 29 Sep 2021 11:33:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <9ba3ebe2-4d74-628f-fb76-5541f629ff9e@redhat.com>
-User-Agent: NeoMutt/20210205-773-8890a5
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20210922222423.644444-1-leobras@redhat.com>
+ <YVOcT0qv0Sv72BmS@t490s>
+In-Reply-To: <YVOcT0qv0Sv72BmS@t490s>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Wed, 29 Sep 2021 15:34:01 -0300
+Message-ID: <CAJ6HWG7kL1jHmZQX1yLciqEksr=bmvx3f4VHRGqQLf_tT2CKnA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] QIOChannel async_write & async_flush +
+ MSG_ZEROCOPY + multifd
+To: Peter Xu <peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,38 +90,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, rjones@redhat.com
+Cc: qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 29, 2021 at 05:03:08PM +0200, Paolo Bonzini wrote:
-> On 29/09/21 15:58, Richard Henderson wrote:
-> > 
-> >      > /usr/bin/ld: /usr/lib64/libselinux.so: error adding symbols: file in
-> >      > wrong format
-> >      > collect2: error: ld returned 1 exit status
-> > 
-> >     Missing libselinux-devel.i686 in
-> >     tests/docker/dockerfiles/fedora-i386-cross.docker, I think?
-> > 
-> > But additionally, incorrect package probing, I think.
-> 
-> Probably Meson deciding to look at --print-search-dirs and crossing fingers.
-> But -m32 and other multilib flags should be added to config-meson.cross
-> rather than QEMU_CFLAGS.
+Hello Peter,
 
-Rich, Dan, this is caused by 'nbd/server: Add --selinux-label option'
-(20/20 in this pull request); can you investigate?
+On Tue, Sep 28, 2021 at 7:51 PM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Wed, Sep 22, 2021 at 07:24:20PM -0300, Leonardo Bras wrote:
+> > This patch series intends to enable MSG_ZEROCOPY in QIOChannel, and make
+> > use of it for multifd migration performance improvement.
+> >
+> > Patch #1 creates new callbacks for QIOChannel, allowing the implementation
+> > of asynchronous writing.
+> >
+> > Patch #2 implements async_write and async_flush on QIOChannelSocket,
+> >
+> > Patch #3 Makes use of async_write + async_flush to enable MSG_ZEROCOPY
+> > for migration using multifd nocomp.
+> >
+> > Results:
+> > So far, the resource usage of __sys_sendmsg() reduced 15 times, and the
+> > overall migration took 13-18% less time, based in synthetic workload.
+> >
+> > The objective is to reduce migration time in hosts with heavy cpu usage.
+>
+> My previous memory is that we'll add a capability bit for migration, so it'll
+> not be enabled until user specified it.  Plan to do it in the next version?
 
-In the short term, I'm leaning towards withdrawing that patch from the
-pull request, and getting everything else upstream; we can revisit a
-fixed version of that patch for my next pull request.
+You mean like I did in pre-V1, enabling ZEROCOPY for multifd it in QMP?
+Or is this something else?
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+
+>
+> It'll still be okay if you want to separate the work of (1) qio channel
+> zero-copy support on sockets, and (2) apply zero copy to migration, then that
+> can be done in part 2.  Your call. :)
+
+Ok  :)
+
+>
+> Thanks,
+>
+> --
+> Peter Xu
+>
+
+Thank you Peter,
+
+Best regards,
+Leonardo
 
 
