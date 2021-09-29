@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5E941CCF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:54:10 +0200 (CEST)
-Received: from localhost ([::1]:37994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA1541CD01
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:56:39 +0200 (CEST)
+Received: from localhost ([::1]:44076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVfeb-00050h-Bx
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:54:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47144)
+	id 1mVfh0-000113-4w
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWK-0007hY-CZ
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58918)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWQ-0007lq-3y
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWI-0006Zd-Oe
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:36 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVfWN-0006dj-VN
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:45:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632944734;
+ s=mimecast20190719; t=1632944738;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4kLbZrRFkZsyh/na6cTKsezjy+ayXpcMxZvdGtgNfyE=;
- b=FwQQT+FVYum0VTyHk+9kHmiV1y1CEMTwy898pYbLN/vTJduFnFNuD9bcNxpjcT0ao/BQTV
- UWSvNFHaFzuOlprFPAJimZOUcmTyyZ+GkGQ5N5Tcg0uGBn0gjxXR9bdbP5MrLDhr9LyusB
- 8BjCjTvCjYBU77OPURzQiVMMXNwp5r0=
+ bh=ttyL5yKkstBuidNsxns2YyTkIBprKJqaN9Gmb7f277U=;
+ b=ez+iZPCRgOJpXu4mC4vK7IvMc0Va1JDwDCAnoQZwP5ZXHO1igat3HQlMOKLZEYVFcB9LjE
+ gnZ/TLcNIpCnCQPTSPtFTbTzUY/ksVwN0tgw+VVj/GXlt7s+vTHu5cBIuFiZCUsfGbhw3T
+ ppM4IRBvFXAfGyewMtjieu7NRaSkdqU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-ltjnYfGFMG227h6VvtreWQ-1; Wed, 29 Sep 2021 15:45:33 -0400
-X-MC-Unique: ltjnYfGFMG227h6VvtreWQ-1
+ us-mta-193-VHDNIYCZMlCABkp3VO-I6A-1; Wed, 29 Sep 2021 15:45:37 -0400
+X-MC-Unique: VHDNIYCZMlCABkp3VO-I6A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B02E0824FB2;
- Wed, 29 Sep 2021 19:45:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E70818B84D7;
+ Wed, 29 Sep 2021 19:45:12 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD7BF1972D;
- Wed, 29 Sep 2021 19:45:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA99E19C59;
+ Wed, 29 Sep 2021 19:45:11 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/13] qapi/parser: Simplify _end_section()
-Date: Wed, 29 Sep 2021 15:44:22 -0400
-Message-Id: <20210929194428.1038496-8-jsnow@redhat.com>
+Subject: [PATCH v3 08/13] qapi/parser: Introduce NullSection
+Date: Wed, 29 Sep 2021 15:44:23 -0400
+Message-Id: <20210929194428.1038496-9-jsnow@redhat.com>
 In-Reply-To: <20210929194428.1038496-1-jsnow@redhat.com>
 References: <20210929194428.1038496-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,49 +82,109 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "if self._section" clause in end_section is mysterious: In which
-circumstances might we end a section when we don't have one?
+Here's the weird bit. QAPIDoc generally expects -- virtually everywhere
+-- that it will always have a current section. The sole exception to
+this is in the case that end_comment() is called, which leaves us with
+*no* section. However, in this case, we also don't expect to actually
+ever mutate the comment contents ever again.
 
-QAPIDoc always expects there to be a "current section", only except
-after a call to end_comment(). This actually *shouldn't* ever be 'None',
-so let's remove that logic so I don't wonder why it's like this again in
-three months.
+NullSection is just a Null-object that allows us to maintain the
+invariant that we *always* have a current section, enforced by static
+typing -- allowing us to type that field as QAPIDoc.Section instead of
+the more ambiguous Optional[QAPIDoc.Section].
+
+end_section is renamed to switch_section and now accepts as an argument
+the new section to activate, clarifying that no callers ever just
+unilaterally end a section; they only do so when starting a new section.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+
+---
+
+For my money: Optional types can be a nuisance because an unfamiliar
+reader may wonder in what circumstances the field may be unset. This
+makes the condition quite a bit more explicit and statically provable.
+
+Doing it in this way (and not by creating a dummy section) will also
+continue to reject (rather noisily) any erroneous attempts to append
+additional lines after end_comment() has been called.
+
+Also, this section isn't indexed into .sections[] and isn't really
+visible in any way to external users of the class, so it seems like a
+harmless and low-cost way to formalize the "life cycle" of a QAPIDoc
+parser.
+
+Clean and clear as I can make it, in as few lines as I could muster.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/parser.py | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ scripts/qapi/parser.py | 27 ++++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 52748e8e462..1fdc5bc7056 100644
+index 1fdc5bc7056..123fc2f099c 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -721,13 +721,21 @@ def _start_section(self, name=None, indent=0):
-         self.sections.append(self._section)
+@@ -478,6 +478,13 @@ def __init__(self, parser, name, indent=0):
+         def connect(self, member):
+             self.member = member
  
-     def _end_section(self):
--        if self._section:
--            text = self._section.text = self._section.text.strip()
--            if self._section.name and (not text or text.isspace()):
--                raise QAPIParseError(
--                    self._parser,
--                    "empty doc section '%s'" % self._section.name)
--            self._section = None
-+        assert self._section is not None
++    class NullSection(Section):
++        """
++        Empty section that signifies the end of a doc block.
++        """
++        def append(self, line):
++            assert False, "BUG: Text appended after end_comment() called."
 +
-+        text = self._section.text = self._section.text.strip()
-+
-+        # Only the 'body' section is allowed to have an empty body.
-+        # All other sections, including anonymous ones, must have text.
-+        if self._section != self.body and not text:
-+            # We do not create anonymous sections unless there is
-+            # something to put in them; this is a parser bug.
-+            assert self._section.name
-+            raise QAPIParseError(
-+                self._parser,
-+                "empty doc section '%s'" % self._section.name)
-+
-+        self._section = None
+     def __init__(self, parser, info):
+         # self._parser is used to report errors with QAPIParseError.  The
+         # resulting error position depends on the state of the parser.
+@@ -525,7 +532,7 @@ def append(self, line):
+         self._append_line(line)
+ 
+     def end_comment(self):
+-        self._end_section()
++        self._switch_section(QAPIDoc.NullSection(self._parser))
+ 
+     @staticmethod
+     def _is_section_tag(name):
+@@ -702,9 +709,9 @@ def _start_symbol_section(self, symbols_dict, name, indent):
+             raise QAPIParseError(self._parser,
+                                  "'%s' parameter name duplicated" % name)
+         assert not self.sections
+-        self._end_section()
+-        self._section = QAPIDoc.ArgSection(self._parser, name, indent)
+-        symbols_dict[name] = self._section
++        new_section = QAPIDoc.ArgSection(self._parser, name, indent)
++        self._switch_section(new_section)
++        symbols_dict[name] = new_section
+ 
+     def _start_args_section(self, name, indent):
+         self._start_symbol_section(self.args, name, indent)
+@@ -716,13 +723,11 @@ def _start_section(self, name=None, indent=0):
+         if name in ('Returns', 'Since') and self.has_section(name):
+             raise QAPIParseError(self._parser,
+                                  "duplicated '%s' section" % name)
+-        self._end_section()
+-        self._section = QAPIDoc.Section(self._parser, name, indent)
+-        self.sections.append(self._section)
+-
+-    def _end_section(self):
+-        assert self._section is not None
++        new_section = QAPIDoc.Section(self._parser, name, indent)
++        self._switch_section(new_section)
++        self.sections.append(new_section)
+ 
++    def _switch_section(self, new_section):
+         text = self._section.text = self._section.text.strip()
+ 
+         # Only the 'body' section is allowed to have an empty body.
+@@ -735,7 +740,7 @@ def _end_section(self):
+                 self._parser,
+                 "empty doc section '%s'" % self._section.name)
+ 
+-        self._section = None
++        self._section = new_section
  
      def _append_freeform(self, line):
          match = re.match(r'(@\S+:)', line)
