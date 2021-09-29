@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5067C41C155
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:09:58 +0200 (CEST)
-Received: from localhost ([::1]:49180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D9A41C15F
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 11:12:40 +0200 (CEST)
+Received: from localhost ([::1]:52692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVVbB-0006Xh-DM
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:09:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39798)
+	id 1mVVdn-0000eb-3P
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 05:12:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mVVX3-0003or-Bj
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:05:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57380)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mVVX0-0002yS-IO
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:05:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632906336;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rWpIqOHdtmXLgudD3fUXdGhLXEWAnDYOxkyUmK2dH/o=;
- b=eQ05Lv04fJ5Pbg6unW4esErvs+R7md1bxYCh5yi5BzG04/Kc9rcHbz7HRRAHB3YupBxg2n
- VOQ6f0MI7gGVddnOodej8H51SB7Of+CP714XaEdc/+DzIyzv9r59e6A5EJGpBvIBu2QakT
- Iks5hTg99ALb4FRvkcPa6s6S7Ls7yeQ=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-GIgOKPCrP1a2hKdA2DLE-A-1; Wed, 29 Sep 2021 05:05:35 -0400
-X-MC-Unique: GIgOKPCrP1a2hKdA2DLE-A-1
-Received: by mail-ed1-f70.google.com with SMTP id
- d11-20020a50cd4b000000b003da63711a8aso1655173edj.20
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 02:05:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mVVbz-0007OD-2e
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:10:47 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52024)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mVVbu-0007CG-11
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:10:46 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id o19so1277688wms.1
+ for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 02:10:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sSziG86OyoRTL66noHj0SwAN+2VckCYxnmfYy0a1Hug=;
+ b=LZHtNIuH1mm00PvsA0j9z8/HAGnVLIkQHUqptjFSZEc1NTV0bvdHtMX1OCnX1qGWHI
+ WvG1NphyvGDWzTAjyW9uw0V8BcvtJOaaLdfUOamu89KNQBoVHUwZiVMvvhGiznlSbodA
+ m4fzPuoekeYuKWvovBMcz1cRaSDxl2Nvpz9zShqnUJIIVp9nh8sNbevtROXuZR2SlYO8
+ fAbUF+oXFmNmv5zifvqGXqGk1+uAEcrTnC+i4R0qsYSUALrymeeBtAAzxXNvZ3L/CTB7
+ XxqBd5ciBDkhwyEU/27Tpk8nsZP/Aqi9jXFXEor76qvIJ8SGz7HNhe0fJheI70UP/kHM
+ iobQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nu7eweULHSagHSId0LWqG5awQwbbqpMDS/1ms6BRtHQ=;
- b=mR9Di2RJOm0o9VqdE426+UC6XacQpk1Kg3dGIb5J8n0yFWOE5QpcGJ3o7Iy5hWLhZw
- AYqVc4/QQXuL+1KC9yLBAG4wzdMh7UkCGKAiho7xyY/oFne27RJog/M1VcyK98Gf1KOI
- CzVHsei/Ln62aSZ6ozwlfKG+l+hb9z9ECta+vu/d8Lg0bb11HTT6sfafeyCzeR8/y+DB
- 6WeWaukicrmW3p/Di2Cl46phjI60QHoKzAdWcPjNStgwFufbQ2CsOjVz8kaSq88h0tj/
- A5Mu2P7UoYJIg9HnkU592YTsUsNxOpEisqzzz06Tpkku4l0w8jrLcZrmm41vkibgUQcI
- Tpng==
-X-Gm-Message-State: AOAM533GnZqiJb85b5aLH5cUQ+m+KEsyk9QaLwkKestDvQoFtYCcKS8N
- XzKsMEZh6pugD9mFX+QloaVT7PCLuKnVouy0ulF2bZ/o40SozaE+BYxcPaBVgA+7/90BKYZq7lp
- 7z8W13kQ9cUAf/r4=
-X-Received: by 2002:a17:906:63ca:: with SMTP id
- u10mr12268191ejk.411.1632906333768; 
- Wed, 29 Sep 2021 02:05:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyfSqxMoXERenZ0LSjPz4GX96z2lKAoCTss2JxFLfrpBQcY8duARYcl4ViO0XmHkrl3B4d1ow==
-X-Received: by 2002:a17:906:63ca:: with SMTP id
- u10mr12268165ejk.411.1632906333520; 
- Wed, 29 Sep 2021 02:05:33 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id u4sm974211ejc.19.2021.09.29.02.05.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Sep 2021 02:05:33 -0700 (PDT)
-Date: Wed, 29 Sep 2021 11:05:31 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Nan Wang <wangnan.light@bytedance.com>
-Subject: Re: [External] Re: [PATCH] hostmem: change default prealloc threads
- number
-Message-ID: <20210929110531.0724f911@redhat.com>
-In-Reply-To: <e1a98460-ad0a-9b9c-5958-bb39635886ec@bytedance.com>
-References: <20210927131951.1810823-1-user@n248-145-203>
- <b14aebb1-489b-b15b-f9eb-047073920175@redhat.com>
- <e1a98460-ad0a-9b9c-5958-bb39635886ec@bytedance.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sSziG86OyoRTL66noHj0SwAN+2VckCYxnmfYy0a1Hug=;
+ b=HLGZ6NXKK3FdNznvWSrGQ9pzWXThmDGc5rRTV//qsdGjSxL4wxzh0iXIT9Zbo96AlE
+ Dxhi+PreQV3qSH8Q11ImYFLF8AICm+JA6VpFr+9pv05+tm63lYi6UMm2uHPPXvsHlige
+ Zbt+pqtCOO5nhpRmlmkbGOG50tBCh1wqUbaBmDaJ/xlsbp44TQgbReyfDVukn2RkIhig
+ 3qPp8u1TW+oV7CWSn3bOxrAmTKlwnd5tQLZcB9XT+x7LfaQHTww/fVXO2vEiQWjSjrL8
+ dLAKqP/ygzs0IeMtngQ9YJCrpP9tWcw8KzPrBp4K+Ck39xS+BT2MInjHUu1SKSPnEFyo
+ ne4g==
+X-Gm-Message-State: AOAM5315etxII60LkxFDvODHREDad2MaW+0/yFrk97orGZHQgD9sTp3/
+ Fh+w0Dr29V1sTWdUJDVQixo5SY6OvjRJ1KZ1ZV8sUA==
+X-Google-Smtp-Source: ABdhPJwuey3K2/IOrVbTWjqKUCvT8WEyM9mSqmx9fXRK0OrHrA/vyeAZpy4VA8fFZZ9gHlKs9SwU4weoiqrfmVX2WH8=
+X-Received: by 2002:a05:600c:d6:: with SMTP id
+ u22mr9121925wmm.133.1632906639073; 
+ Wed, 29 Sep 2021 02:10:39 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210926183410.256484-1-sjg@chromium.org>
+ <CAFEAcA8S2=7rOKxeqcW+kw0BVPO3PUJGSUH-ioN7=c=U7zQxvg@mail.gmail.com>
+ <CAPnjgZ2NCRVxKULWR1JjZU+D9saJ7fbZ=yHmWTSr3ufHxLYg-g@mail.gmail.com>
+ <CAFEAcA9n+2JDFv8BezeEMA4e2Zhr0ENAvzLjBS6YXRoW9P-JXQ@mail.gmail.com>
+ <CAPnjgZ1AO8575LYbwmuouNR5=dgNam6EFDC1_bai=8xAHdw7-Q@mail.gmail.com>
+ <CAFEAcA8FsPcBELEZxiRMuFbKtmKTFgDHABePQ33hdxYRq0C0ig@mail.gmail.com>
+ <CAPnjgZ2S7SXxHYd_bkcf+GcmmgEew3vpJkw+DRPqrpb44eLgcA@mail.gmail.com>
+ <CAFEAcA-bk6PF_P3JOxQSCXo7Fh2K5AVygB9WwDUiK2fV9Fx5jw@mail.gmail.com>
+ <CAPnjgZ26gQVpzL6fYsGzDf=c+z4aG5SPkBf7yoDC9+ynxQi_9Q@mail.gmail.com>
+ <CAFEAcA_QNcAHtdxUPLpmyzMYgb9YzhcE0-zyh=N8rqm4vOcGZA@mail.gmail.com>
+ <CAPnjgZ0xMH+SSjQWGjynTLDDbg6tO=z+-eDbpDKV1gqo=bhqaQ@mail.gmail.com>
+In-Reply-To: <CAPnjgZ0xMH+SSjQWGjynTLDDbg6tO=z+-eDbpDKV1gqo=bhqaQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 29 Sep 2021 10:09:45 +0100
+Message-ID: <CAFEAcA9y+sBpL-ncYwdqNkMx_oXkQ-pdhNcHOdgTxJmWBArzhA@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/virt: Allow additions to the generated device tree
+To: Simon Glass <sjg@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,145 +87,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mikughoull@gmail.com, qemu-devel@nongnu.org, ehabkost@redhat.com,
- David Hildenbrand <david@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Sep 2021 00:47:01 +0800
-Nan Wang <wangnan.light@bytedance.com> wrote:
+On Wed, 29 Sept 2021 at 04:01, Simon Glass <sjg@chromium.org> wrote:
+> On Tue, 28 Sept 2021 at 03:21, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > So what *is* this patch doing? The subject says "Allow additions to
+> > the generated device tree", and the patch adds an option to
+> > "Merge a device tree binary (dtb) file into the generated device tree".
+> > That sounds exactly like "combine two bits of dtb" -- the one the
+> > user provides to the -dtbi option and the one QEMU generates
+> > internally.
+>
+> Yes that's right, but as you say one of them is generated by QEMU. It
+> is fixing a problem caused by QEMU's generation of the device tree,
+> since it provides no wat to augment the device tree without my patch.
 
-> On 2021/9/27 11:16, David Hildenbrand wrote:
-> > On 27.09.21 15:19, Nan Wang wrote: =20
-> >> From: "wangnan.light" <wangnan.light@bytedance.com>
-> >>
-> >> the default number of prealloc threads is 1, for huge memory backend
-> >> file, single thread touch page is really slow.
-> >> We can adjust thread number by prealloc-threads property, but if the
-> >> default value updated to MachineState::smp::cpus may be better.
-> >> For example, old version of qemu(prealloc-threads have not been
-> >> introduced yet), the value of threads num is MachineState::smp::cpus,
-> >> so if someone use the same commandline to start current verion of qemu
-> >> and old version of qemu which will lead to different behaviors. =20
-> >=20
-> > The introducing patch mentions:
-> >=20
-> > commit ffac16fab33bb42f17e47624985220c1fd864e9d
-> > Author: Igor Mammedov <imammedo@redhat.com>
-> > Date:=C2=A0=C2=A0 Wed Feb 19 11:09:50 2020 -0500
-> >=20
-> >  =C2=A0=C2=A0=C2=A0 hostmem: introduce "prealloc-threads" property
-> >=20
-> >  =C2=A0=C2=A0=C2=A0 the property will allow user to specify number of t=
-hreads to use
-> >  =C2=A0=C2=A0=C2=A0 in pre-allocation stage. It also will allow to redu=
-ce implicit
-> >  =C2=A0=C2=A0=C2=A0 hostmem dependency on current_machine.
-> >  =C2=A0=C2=A0=C2=A0 On object creation it will default to 1, but via ma=
-chine
-> >  =C2=A0=C2=A0=C2=A0 compat property it will be updated to MachineState:=
-:smp::cpus
-> >  =C2=A0=C2=A0=C2=A0 to keep current behavior for hostmem and main RAM (=
-which is
-> >  =C2=A0=C2=A0=C2=A0 now also hostmem based).
-> >=20
-> > So it looks like we want to do the latter via compat properties eventua=
-lly.
-> >=20
-> > However, I'd like to note that more prealloc threads might be good for=
-=20
-> > large backends, and might be bad for small backends. To me, it feels=20
-> > like a workload that relies on this should really do this manually. So =
-I=20
-> > am still not sure if this is the right thing to do. =20
-> Yes, I agree with you "more prealloc threas are good for large backends,=
-=20
-> and bad for small backends". But I think most situation large backends=20
-> always with large vcpu numbers and small backens always with small vcpu=
-=20
-> numbers, because most users will not create a vm with large vcpu numbers=
-=20
-> with small memory.
->=20
->=20
-> >=20
-> > Note that qapi/qom.json:
-> >=20
-> > "@prealloc-threads: number of CPU threads to use for prealloc (default:=
-=20
-> > 1", so that doc would be wrong now.
-> >=20
-> > Why exactly can't workload that cares not simply set this manually?=20
-> > Performance tuning smells like something to be done manually for a=20
-> > specific workload.
-> > =20
-> It is a simply way that let workload set the prealloc threads manually.=
-=20
-> For example, for large backends it set many prealloc threads, and set 1=
-=20
-> prealloc threads manually for small backends. Yes, workload can=20
-> `maunally` set prealloc thread to 1, rather than use `default` value 1.
-> So when workload want to(or maybe just forget specify the=20
-> prealloc-threads property) use the default value, I think the=20
-> MachineState::smp::cpus maybe better than 1.
+You can augment it in the guest if you need to add guest-specific stuff.
 
-as commit mentioned by David states, it creates implicit dependency
-on Machine and we were working getting rid of such dependencies
-where it's possible.
+> > > The only current working option is to just pass the U-Boot dtb through
+> > > and not use QEMU's on-the-fly-generated dtb at all. But I am assuming
+> > > there is a reason why QEMU generates that dtb, so that would not be
+> > > desirable?
+> >
+> > QEMU generates the dtb to tell the guest what hardware is
+> > present and where it is. We don't guarantee that that hardware
+> > arrangement is necessarily stable between QEMU versions (in
+> > practice there are generally additions and not deletions or
+> > moves, but in theory there might be). All the guest is supposed
+> > to assume is the location of RAM and flash; everything else it
+> > must look in the dtb to determine.
+>
+> Yes, so that is going to severely limit the usefulness of the virtio
+> support, for example. But we can just ignore it for CI, I suppose,
+> since we can use fixed parameters to QEMU, if you don't want to allow
+> more control of the device tree.
 
-So if you have to change prealloc-threads to a larger number,
-you can try to use specific machine compat properties to do it,
-instead of pushing machine to generic backend code. But 'good'
-default for your workload doesn't guaranties it's a good one
-another.
+virtio-mmio devices should already be correctly indicated in the
+device tree. virtio-pci devices can be found by probing the PCI
+bus in the usual way (and you can find out where the PCI controller
+is by looking in the dtb).
 
-My preference is that user (mgmt layer) should set property
-explicitly if it cares. It's leads to more stable VM config,
-as opposed to using defaults which could change over time and
-unexpectedly 'regress' such VMs, and can factor in host/workload
-specific nuances without need to change QEMU.
+> This patch is really just augmenting what QEMU is already doing and
+> solving a problem that it has. I don't see it as creating a new boot
+> mechanism or being a weird tweak. If anything, it puts the tweaking in
+> the hands of the user. It seems like something you would be keen on,
+> from that POV.
 
+I absolutely see it as a weird tweak. It's something that
+only u-boot seems to care about, and it's adding an extra
+user-facing command line option that is basically
+"if you need to boot u-boot you need this". The user should
+not need to "control" the dtb, because QEMU should already
+be creating a dtb which describes the hardware it is exposing
+to the guest.
 
-> >> Signed-off-by: wangnan.light <wangnan.light@bytedance.com>
-> >> ---
-> >> =C2=A0 backends/hostmem.c | 2 +-
-> >> =C2=A0 hw/core/machine.c=C2=A0 | 5 +++++
-> >> =C2=A0 2 files changed, 6 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/backends/hostmem.c b/backends/hostmem.c
-> >> index 4c05862ed5..c4a249b7e6 100644
-> >> --- a/backends/hostmem.c
-> >> +++ b/backends/hostmem.c
-> >> @@ -273,7 +273,7 @@ static void host_memory_backend_init(Object *obj)
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 backend->merge =3D machine_mem_merge(ma=
-chine);
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 backend->dump =3D machine_dump_guest_co=
-re(machine);
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 backend->reserve =3D true;
-> >> -=C2=A0=C2=A0=C2=A0 backend->prealloc_threads =3D 1;
-> >> +=C2=A0=C2=A0=C2=A0 backend->prealloc_threads =3D machine_smp_cpus(mac=
-hine);
-> >> =C2=A0 }
-> >> =C2=A0 static void host_memory_backend_post_init(Object *obj)
-> >> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> >> index 067f42b528..95ba5b1477 100644
-> >> --- a/hw/core/machine.c
-> >> +++ b/hw/core/machine.c
-> >> @@ -1065,6 +1065,11 @@ bool machine_dump_guest_core(MachineState=20
-> >> *machine)
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return machine->dump_guest_core;
-> >> =C2=A0 }
-> >> +bool machine_smp_cpus(MachineState *machine)
-> >> +{
-> >> +=C2=A0=C2=A0=C2=A0 return machine->smp.cpus;
-> >> +}
-> >> +
-> >> =C2=A0 bool machine_mem_merge(MachineState *machine)
-> >> =C2=A0 {
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return machine->mem_merge;
-> >> =20
-> >=20
-> >  =20
->=20
+> > Guest software running on the "virt" board needs to know it is
+> > running on the "virt" board and deal with the interface and
+> > information that QEMU provides. (For instance, Arm Trusted
+> > Firmware and UEFI both have done this.)
+>
+> Well unfortunately this is in conflict, based on what you have said in
+> this thread. We can either have virtio support (use QEMU-generated
+> device tree) or have U-Boot work correctly (use -dtb). Do you have any
+> other ideas?
 
+I've already suggested what I think you should do: have u-boot
+combine the dtb it gets from QEMU with the dtb-extras stuff
+it wants for its own purposes, with the latter supplied in
+any of a bunch of workable ways (extra file loaded in memory,
+concatenate the dtb blob with the u-boot binary at compile
+time, whatever; rough analogy with however u-boot gets the
+full dtb on hardware platforms where there is none).
+
+-- PMM
 
