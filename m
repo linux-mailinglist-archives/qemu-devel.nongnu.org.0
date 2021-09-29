@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08AE41D004
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 01:33:46 +0200 (CEST)
-Received: from localhost ([::1]:59594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D36E741D013
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 01:37:14 +0200 (CEST)
+Received: from localhost ([::1]:34134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVj57-0007Le-HE
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 19:33:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55414)
+	id 1mVj8T-00013l-T5
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 19:37:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1mVj3q-0006bE-36
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 19:32:26 -0400
-Received: from mga12.intel.com ([192.55.52.136]:8655)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1mVj3n-0000aW-GH
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 19:32:25 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10122"; a="204547959"
-X-IronPort-AV: E=Sophos;i="5.85,334,1624345200"; d="scan'208";a="204547959"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2021 16:32:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,334,1624345200"; d="scan'208";a="617782299"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga001.fm.intel.com with ESMTP; 29 Sep 2021 16:32:12 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 29 Sep 2021 16:32:12 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 29 Sep 2021 16:32:12 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.012;
- Wed, 29 Sep 2021 16:32:12 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Antonio Caggiano <antonio.caggiano@collabora.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: virtio-gpu: Get FD for texture
-Thread-Topic: virtio-gpu: Get FD for texture
-Thread-Index: AQHXs4lrZDs5kXGfUkqMN7/oDwRhcKu7gXSAgAAiykA=
-Date: Wed, 29 Sep 2021 23:32:12 +0000
-Message-ID: <2ba7012a2e9e487c891218216f882cd6@intel.com>
-References: <968fd181-3f7d-4639-3265-9e4b36a6de61@collabora.com>
- <273005ec-fc49-b8ac-cd6e-9efdb8a8aab4@collabora.com>
-In-Reply-To: <273005ec-fc49-b8ac-cd6e-9efdb8a8aab4@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.6.200.16
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mVj7W-0000BQ-OA; Wed, 29 Sep 2021 19:36:14 -0400
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:38610)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mVj7V-00036s-3b; Wed, 29 Sep 2021 19:36:14 -0400
+Received: by mail-io1-xd2a.google.com with SMTP id z184so5296713iof.5;
+ Wed, 29 Sep 2021 16:36:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fy85Wze5xBlgPnSXClQw/7iNZhoVYQObjdkVFNBiAyo=;
+ b=pV+1kR1vKKjqZ6x91/O6M/101btdIgtAZT9MgI1wJD2jlfPHtkpCVwnesedLG5F2uR
+ TBoPyQqHUNyhAu2ykJe3JbLM/wXgen0bZ0Y2smdKNxUwzEWNn8MG2Ij22ncmrRn6kwvX
+ apN1elBOwd5iQ/b5mNjImSIZhElIeY7BhvGVgKi6NY1+Kf9Hle0fjElnLzT7au49gJlf
+ emuV9A53/a3TKLaOZvahRApRU6KBskWWZjUSLaC71qr8Sp9gO+Z+CgmTpf5iCeOL6H6a
+ hBGs+TsIgOl/5/ZqKIECSDlY643IzKwCyuvWwvnDzgIcupPtrcZ+PiFxqPQpas5KbT1l
+ Cydg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fy85Wze5xBlgPnSXClQw/7iNZhoVYQObjdkVFNBiAyo=;
+ b=PC0Pu6fxTplADJxpx/fg9w12LMsYHO5pZx1Tn8VSiKkg6dSFkiBFGsTlmzSntHPpkL
+ quF5GRZY7kAXdA5aX3JUntHAN29b150A2/tqvEsgxNDJ8j+FF1onihk3vWsM6xT57nMB
+ 1HBpyts1ykA/jaUzJM7oOjQ/HwxYp0zpTuqZ6MI4oKrwlSvWjHFT0Sw2k62+3AmVjeai
+ 3e6jCsFSFhyL5ODapjWKjs1PuJv+E8mDtF8ys41Z8lrE2uJteijjFKurSPtePPufMjrC
+ yAAxjyOWrHW20HqaRlmt4eY7uKrvFjnofdJ8RTZUkx0AAYaZxEqLC/LWlfD0ia1nj0k5
+ 6f+g==
+X-Gm-Message-State: AOAM530raSh/EFpS7liobo/07WpjXp1fA6cpYtbVr1KMWLJHH8xNU3ux
+ 9ZKJ7BkO9uwmQ6qnVVKFpV665xUJtHnynSs4XEI=
+X-Google-Smtp-Source: ABdhPJz6aQebl3GhazcsqfoB2ZtHbAkltxwBFeE2B0gvqPjSTVnoesz6c4gq7S0zaC3wzRO2mcvbcDsm2FnzsTO9a64=
+X-Received: by 2002:a5e:c101:: with SMTP id v1mr1747020iol.90.1632958571009;
+ Wed, 29 Sep 2021 16:36:11 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=192.55.52.136;
- envelope-from=vivek.kasireddy@intel.com; helo=mga12.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <c617a04d4e3dd041a3427b47a1b1d5ab475a2edd.1632871759.git.alistair.francis@wdc.com>
+ <CAEUhbmVq9Jy9AvkzPvTb-FSLnu5h7wK+RaKdJ7gfU0pjqt6tPQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmVq9Jy9AvkzPvTb-FSLnu5h7wK+RaKdJ7gfU0pjqt6tPQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 30 Sep 2021 09:35:44 +1000
+Message-ID: <CAKmqyKP=B4Cp2ZASVy0KmbR-JMGdoF4zDsN1OdV6Pz_EPhSJew@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] hw/riscv: shakti_c: Mark as not user creatable
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,39 +76,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kraxel@redhat.com" <kraxel@redhat.com>
+Cc: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgQW50b25pbywNCg0KPiANCj4gSSBhbSBzdGFydGluZyB0byBiZWxpZXZlIHRoYXQgdGhlIGVy
-cm9yIGlzIGR1ZSB0byB0aGUgZmFjdCB0aGF0IG5vIEVHTENvbnRleHQgaXMgYWN0aXZlIG9uIHRo
-ZQ0KPiBjdXJyZW50IHRocmVhZCAodGhlIG9uZSBydW5uaW5nIHRoZSBWdWxrYW4gYXBwbGljYXRp
-b24pLg0KW0thc2lyZWRkeSwgVml2ZWtdIFdoaWNoIFVJIG1vZHVsZSAoYW5kIEhvc3QgZW52aXJv
-bm1lbnQpIGFyZSB5b3UgdGVzdGluZyB3aXRoPw0KZ3RrPyBlZ2wtaGVhZGxlc3M/IENvdWxkIHlv
-dSBwbGVhc2UgcHJvdmlkZSBtb3JlIGRldGFpbHMgYWJvdXQgdGhlIGVudmlyb25tZW50IGFuZA0K
-dGhlIHVzZS1jYXNlPw0KDQo+IA0KPiBUcnlpbmcgdG8gY2FsbCBlZ2xNYWtlQ3VycmVudCB3aXRo
-aW4gdGhpcyB0aHJlYWQgZ2l2ZXMgbWUgYW4gRUdMX0JBRF9BQ0NFU1MgZXJyb3INCj4gYXMgdGhl
-IEVHTENvbnRleHQgYXNzb2NpYXRlZCB0byB0aGUgR0wgdGV4dHVyZSBiZWxvbmdzIHRvIGEgZGlm
-ZmVyZW50IHRocmVhZC4NCltLYXNpcmVkZHksIFZpdmVrXSBJSVVDLCBjb250ZXh0cyBjYW4gb25s
-eSBiZSBib3VuZCB0byBvbmUgdGhyZWFkIGF0IGEgdGltZS4gU28geW91IGVpdGhlcg0KbmVlZCB0
-byByZWxlYXNlIHRoZSBjb250ZXh0IGluIHRoZSBvdGhlciB0aHJlYWQgKGVnbE1ha2VDdXJyZW50
-KE5VTEwsIE5VTEwpIGJlZm9yZSBtYWtpbmcNCml0IGN1cnJlbnQgaW4geW91ciBjdXJyZW50IHRo
-cmVhZCBvciBjcmVhdGUgYSBzaGFyZWQgY29udGV4dCBiZXR3ZWVuIGJvdGggdGhlIHRocmVhZHMg
-dG8gYmUgYWJsZQ0KdG8gc2hhcmUgdGV4dHVyZXMuDQoNClRoYW5rcywNClZpdmVrDQoNCj4gDQo+
-IERvZXMgdGhhdCBtYWtlIHNlbnNlPw0KPiANCj4gS2luZCByZWdhcmRzLA0KPiBBbnRvbmlvIENh
-Z2dpYW5vDQo+IA0KPiBPbiAyNy8wOS8yMSAxMjoyMSwgQW50b25pbyBDYWdnaWFubyB3cm90ZToN
-Cj4gPiBIaSwNCj4gPg0KPiA+IEkgYW0gdHJ5aW5nIHRvIHN1cHBvcnQgYSBWdWxrYW4gYXBwbGlj
-YXRpb24gaW4gdGhlIGd1ZXN0DQo+ID4gKEdUS0dsQXJlYStWaXJHTCt2ZW51cykgd2hpY2ggbmVl
-ZHMgdG8gaW1wb3J0IGEgR0wgdGV4dHVyZSBmcm9tIGEgR0wNCj4gPiBjb250ZXh0Lg0KPiA+DQo+
-ID4gQmVmb3JlIGRvaW5nIHRoYXQsIEkgbmVlZCB0byBnZXQgYSBGRCBmb3IgdGhhdCB0ZXh0dXJl
-LCB0aGVyZWZvcmUgSQ0KPiA+IHRyaWVkIHdpdGggY2FsbGluZyBlZ2wtaGVscGVycy5oOmVnbF9n
-ZXRfZmRfZm9yX3RleHR1cmUoKSBidXQgSSBnZXQgYW4NCj4gPiBlcG94eSBlcnJvcjoNCj4gPg0K
-PiA+ICA+IE5vIHByb3ZpZGVyIG9mIGVnbENyZWF0ZUltYWdlS0hSIGZvdW5kLsKgIFJlcXVpcmVz
-IG9uZSBvZjoNCj4gPg0KPiA+ICA+wqDCoCBFR0xfS0hSX2ltYWdlDQo+ID4NCj4gPiAgPsKgwqAg
-RUdMX0tIUl9pbWFnZV9iYXNlDQo+ID4NCj4gPiBUaGlzIGlzIGEgYml0IHdlaXJkIHRvIG1lIGFz
-IEkgYW0gc3VyZSBJIGFtIHJ1bm5pbmcgUUVNVSB3aXRoIGlyaXMgYW5kDQo+ID4gYWNjb3JkaW5n
-IHRvIGVnbGluZm8gYm90aCBvZiB0aGVzZSBleHRlbnNpb25zIGFyZSBhdmFpbGFibGUuDQo+ID4N
-Cj4gPiBEbyB5b3UgdGhpbmsgbXkgYXBwcm9hY2ggbWFrZXMgc2Vuc2Ugb3IgSSBhbSBkb2luZyBz
-b21ldGhpbmcgd3JvbmcNCj4gPiBzb21ld2hlcmU/DQo+ID4NCj4gPg0KPiA+IEtpbmQgcmVnYXJk
-cywNCj4gPiBBbnRvbmlvIENhZ2dpYW5vDQo=
+On Wed, Sep 29, 2021 at 7:47 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Wed, Sep 29, 2021 at 7:30 AM Alistair Francis
+> <alistair.francis@opensource.wdc.com> wrote:
+> >
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > Mark the shakti_c machine as not user creatable.
+> >
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/639
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  hw/riscv/shakti_c.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
+> > index 2f084d3c8d..e7cd3bdfb4 100644
+> > --- a/hw/riscv/shakti_c.c
+> > +++ b/hw/riscv/shakti_c.c
+> > @@ -150,6 +150,12 @@ static void shakti_c_soc_class_init(ObjectClass *klass, void *data)
+> >  {
+> >      DeviceClass *dc = DEVICE_CLASS(klass);
+> >      dc->realize = shakti_c_soc_state_realize;
+> > +    /* Reasons:
+>
+> nits: the multi-line comment format should use:
+>
+> /*
+>  *
+>  */
+
+Fixed when applying the patch
+
+Applied to riscv-to-apply.next
+
+Alistair
+
+>
+> > +     *     - Creates CPUS in riscv_hart_realize(), and can create unintended
+> > +     *       CPUs
+> > +     *     - Uses serial_hds in realize function, thus can't be used twice
+> > +     */
+> > +    dc->user_creatable = false;
+> >  }
+> >
+> >  static void shakti_c_soc_instance_init(Object *obj)
+>
+>
+> Otherwise,
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
