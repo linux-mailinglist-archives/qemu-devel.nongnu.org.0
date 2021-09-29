@@ -2,64 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 805A041C785
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 16:57:23 +0200 (CEST)
-Received: from localhost ([::1]:60668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA72541C79B
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 16:58:58 +0200 (CEST)
+Received: from localhost ([::1]:36624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVb1O-0003EB-1E
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 10:57:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40088)
+	id 1mVb2v-00063b-29
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 10:58:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mVazr-0001ra-Hr; Wed, 29 Sep 2021 10:55:47 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:42781)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mVb1r-00056K-MJ
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 10:57:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mVazp-0000eT-Kb; Wed, 29 Sep 2021 10:55:47 -0400
-Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mn2eN-1nDPqy196N-00k8gN; Wed, 29 Sep 2021 16:55:35 +0200
-Subject: Re: [PATCH v2 2/2] qemu-options: Add missing "sockets=2, maxcpus=2"
- to CLI "-smp 2"
-To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20210928121134.21064-1-wangyanan55@huawei.com>
- <20210928121134.21064-3-wangyanan55@huawei.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <0214cefb-059d-d6a7-f681-7fdd26715c85@vivier.eu>
-Date: Wed, 29 Sep 2021 16:55:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mVb1o-0002Pt-Io
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 10:57:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632927466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ClkLC89eOjyRm24cWRofxm3lI/IZtLH8xob3cAVr6tY=;
+ b=Q5oJtUjOcZG8BLbJ/bqCuni5yaLUT2FLReyRPI2bl9Hu/4/+bynWCJJ8VpTpwZsBpHSZic
+ 1OQcVR1HiVFsnDaBK37tBkkXNFxJJZQKpScViKyQPmJ5wKv3+jxSckv3AXdAq5Arc9XQTH
+ vzUJwXmY3QO0ob0WufdEtiVOxSR0/q0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-mMmfad2uMeCY6wL-K_V7hQ-1; Wed, 29 Sep 2021 10:57:44 -0400
+X-MC-Unique: mMmfad2uMeCY6wL-K_V7hQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ d11-20020a50cd4b000000b003da63711a8aso2647288edj.20
+ for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 07:57:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ClkLC89eOjyRm24cWRofxm3lI/IZtLH8xob3cAVr6tY=;
+ b=BGzZZZzEXLSnIxeht/eRzBg9lMMOWsCFNSoBCuVSRPp5bBlBGtWfy/kUvOdKLtMhaP
+ 5XIfWGnILpMBNbEQyxeTx1O9O2ycAYHVBc2dI25DEi47zXWVVN+DU1/FthqP8D3FpuDG
+ Y+YvOfeifbaq5pnV/eCahFi7MF+qejKp+JiiffHOXb6qbUtoaaQ9HpdqfuBuzPiSvzrE
+ RBxaoBuYlIpryYHCiq1umCodJkNxl14saDFKL3j+t+QfRgbOeP2nZwF61Pkkv416fJHA
+ EfntvNGPXdibQKAcx7FoOw/Xtqpc0HIDCJ2jzPiLLdqOE4U//0sELNwtb/Fm5WuGxqta
+ OFFA==
+X-Gm-Message-State: AOAM530iibkfydW9iqQBHCIvxLWJ8ZHOd2QA2aEBJeWpGTewhGt5Q3tp
+ 8OALx/xLvClSg3j0PBGJBXp5EipIO0QJp4avJTW7Q4KtO9PA8cMU33mGQ66CbiR3iH78cgU9e5i
+ bryXmsX4mlTXtG5o=
+X-Received: by 2002:a50:cfc1:: with SMTP id i1mr356060edk.251.1632927463732;
+ Wed, 29 Sep 2021 07:57:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyHL99CLGoKbC1E13uz+mlyDprUqJ07/VXeRy2S7O+flM2VBjhz5NkEip+ZA9oLnpXDjTc26g==
+X-Received: by 2002:a50:cfc1:: with SMTP id i1mr356026edk.251.1632927463479;
+ Wed, 29 Sep 2021 07:57:43 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id a22sm18731eds.62.2021.09.29.07.57.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Sep 2021 07:57:42 -0700 (PDT)
+Message-ID: <f0df8f93-0214-58cd-4304-20afd2e150ec@redhat.com>
+Date: Wed, 29 Sep 2021 16:57:41 +0200
 MIME-Version: 1.0
-In-Reply-To: <20210928121134.21064-3-wangyanan55@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:g1pFBIfZMG6vPjlZkWjx/WnXRxA+w/n088fjBoRiIyl9P7JRAzN
- yx+raWshnHC761OEuwXWEYjwxOq6Umy24Kk0yfgxHFtilBjXj8HrycnquPeWM8GXp38Kc/4
- eBdSK+MxxyeTIG75rZo4YNSHgtOLbVcV/TAtiap/D6ClNHE2w56jvKBvWx/uw2XpnRIEAHc
- ofMnmVyg1I59wpgVDM/Ig==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:S874Pbk3c9M=:W0gwEiXjzrrZFzdRoghXtw
- 2soDaWlk9xmjEhThZX9v7JZ6DqUSaF2CkK5YiVDZvOWYqRN2s2uFRBWSolxoTf8yKHFBzbSmG
- x1ThsYlMarCXXEL/BTTnZi/n4ODdGdIx5o9G+vBrlS1/XFoDfZ4b4TLxRFPxgPF6+9Z+6Cigm
- ebrtzfnRS7uKoSJEvD12VdLvjlsPfUsHjBmPkpzSCYg3H8Ff9Q4XyldJfhrzkYTG3dijpp2r4
- KnYqhMfXFfY/N1rLiMB3vf3a9ZgaRgh9WXrVC+K4i6OBu0yEv2t6qs1lFbGCQkhJmuDrUgRgO
- VBP7ptSFyqMhVi1a3WMMwEDTR/QTedvNg4/jqHPn6hbMxrPw/zriG8Kz/qx4BsJLdpD2KDRbz
- CjckO7xNDwTtpnqBOnJUFXCBqbWbdgyebYoWTWo5gMF2HN0RgJxQoLvvyzqEGkRw6HoQftq+w
- ZRgMNtS4Ms3Yrld8UQFBKzV15jM9ToKvCK0HV0K5I5WtgQty6IlbMw4tuPvuvGnBP3a3Jj/yl
- oa/X56Q/M8KG4Nmrorntkp1cY1QaNJ3yvIG9C+coMpL8OeCHtymprjzHq25pjb7hUrO4fbpQn
- WIuZAAQauhEWNvjzdyeS+tIzPKOeDA1GCVWqz2ZLBg7sgsHLYNXMN99xJt/h6t1lzm9NnkyxS
- bKu7oIblW9oNcvw/YjfykzbzuAMq/xP43VWb3sQy/whmYqgnR+QpHtpaznGwxYtdYSI4QKZZD
- 5Q/Ahsm1lIUerGg2HX1m052AngbTLwp9OSqWsA==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.03,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v12 00/16] machine: smp parsing fixes and improvement
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210929025816.21076-1-wangyanan55@huawei.com>
+ <83769e14-f85b-26bd-705c-498557b26f57@redhat.com>
+ <87sfxntp5x.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <87sfxntp5x.fsf@dusky.pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.03, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,45 +101,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wanghaibin.wang@huawei.com, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ wanghaibin.wang@huawei.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 28/09/2021 à 14:11, Yanan Wang a écrit :
-> There is one numa config example in qemu-options.hx currently
-> using "-smp 2" and assuming that there will be 2 sockets and
-> 2 cpus totally. However now the actual calculation logic of
-> missing sockets and cores is not immutable and is considered
-> liable to change. Although we will get maxcpus=2 finally based
-> on current parser, it's always stable to specify it explicitly.
+On 29/09/21 16:46, Markus Armbruster wrote:
+> Paolo Bonzini <pbonzini@redhat.com> writes:
 > 
-> So "-smp 2,sockets=2,maxcpus=2" will be optimal when we expect
-> multiple sockets and 2 cpus totally.
+>> On 29/09/21 04:58, Yanan Wang wrote:
+>>> Hi,
+>>> This is a new version (v12) with minor update suggested by Daniel
+>>> and Philippe. Two new commits (#1 and #16) are added. Thanks!
+>>
+>> Queued, thanks!
 > 
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> Reviewed-by: Philippe Mathieu-Daude <philmd@redhat.com>
-> ---
->  qemu-options.hx | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Could you amend PATCH 16 to drop ERRP_GUARD() in machine_set_smp()?
 > 
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index dcd9595650..ff8917c5e1 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -395,7 +395,7 @@ SRST
->          -m 2G \
->          -object memory-backend-ram,size=1G,id=m0 \
->          -object memory-backend-ram,size=1G,id=m1 \
-> -        -smp 2 \
-> +        -smp 2,sockets=2,maxcpus=2 \
->          -numa node,nodeid=0,memdev=m0 \
->          -numa node,nodeid=1,memdev=m1,initiator=0 \
->          -numa cpu,node-id=0,socket-id=0 \
 > 
 
-Applied to my trivial-patches branch.
+Sure.
 
-Thanks,
-Laurent
+Paolo
+
 
