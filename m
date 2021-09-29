@@ -2,85 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFCF41C62E
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 15:58:16 +0200 (CEST)
-Received: from localhost ([::1]:36126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97FE41C649
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 16:05:57 +0200 (CEST)
+Received: from localhost ([::1]:50276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVa6C-0004Jv-0E
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 09:58:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49202)
+	id 1mVaDc-0005c8-Pr
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 10:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mVZtX-00037e-TG
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 09:45:11 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38416)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mVZtV-0006tj-Ri
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 09:45:11 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- 205-20020a1c01d6000000b0030cd17ffcf8so5318811wmb.3
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 06:45:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Wo/PgGAFEtMFn89yOPPQjd2gsYZAZ9ruUPI7sHwaYiU=;
- b=EsttBjPO+4Q2VcHpULWn/2WB9cPmFH1ImOUvJHe8C9+GTnG9rXhZ7Gn/r+ToruPUdl
- CI9y6go/8hVClFFakOdZFjLB81jh1qe4UI4klC3O5XlknAO8xqKSNL7EeSWR6cirB2Gn
- j43EE8rADsDdpszIXdGEvBfvOKP1P8SRdtEu4Q92JuAfq1SVFg7J2qdMh/6TC+DVf9Fi
- I/mjdLNM75MRDB/pb8CHIpQWnHAb58kLklxyL6678LcAoNBgOkM8d+78b7CsDcVOpRCk
- 2AHI8PM7QmfHPIlfgzvGgONhT6jWYL3p4XB6KFG5mPYTFKI36wwTq41t32GPlbc5a9X5
- qPPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Wo/PgGAFEtMFn89yOPPQjd2gsYZAZ9ruUPI7sHwaYiU=;
- b=AMkiyg/HfeciRRaIyEIuDYPtZfS3wExuZ4AuXK3GV+hZT8Xl0kjhmrST8R/36AYb0X
- mCox1E5AKWTeq7r98cUW2bQ2v0oyISrBY7PWc3Vz3aJ8wNRIbe6cws/eUb476/osGijB
- dAdIVCfL8hW09nZ8HC5iIyymyWKtwiZl86jZVDf5UzHFfRITB9pxkNAYU9jkX79VdDwN
- 9awxg26FAqIsdSVUQ6J4Cbp3jBmQmcEgR56Lgn+H9h+0rBP2QTwpEjYUW3N7Kh6TimuD
- dAIB4yRPoV0q3WAL4izxca18dL5nP7KwAhle1wBP+AC+zUdheuqJHrxTUlG4gZFTAv9B
- y6nQ==
-X-Gm-Message-State: AOAM531HJkeN3I6rx6v0xpGJpIS2mGgqD4P6sYeqkR7tnPObytkf37Rb
- XxI79AKJxAZ6A4kOjTHAmD4=
-X-Google-Smtp-Source: ABdhPJyiQC9/UcjtTF3HQzH84WSk377OqIzHt+BFChFxUpcM6lnnUH73jGa3X7uH9tZ/fNovFp1qGQ==
-X-Received: by 2002:a1c:98d1:: with SMTP id a200mr5658529wme.86.1632923107378; 
- Wed, 29 Sep 2021 06:45:07 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id f19sm1747749wmf.11.2021.09.29.06.45.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Sep 2021 06:45:06 -0700 (PDT)
-Message-ID: <ed62f0a9-1c80-11f8-3e3d-2781d1bb47a6@amsat.org>
-Date: Wed, 29 Sep 2021 15:45:05 +0200
+ (Exim 4.90_1) (envelope-from <limingwang@huawei.com>)
+ id 1mVVeB-0002m9-Vk; Wed, 29 Sep 2021 05:13:03 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3478)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <limingwang@huawei.com>)
+ id 1mVVe8-0000bY-55; Wed, 29 Sep 2021 05:13:03 -0400
+Received: from dggeme703-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HK9bl4JbfzWVB4;
+ Wed, 29 Sep 2021 17:11:31 +0800 (CST)
+Received: from huawei.com (10.174.187.17) by dggeme703-chm.china.huawei.com
+ (10.1.199.99) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.8; Wed, 29
+ Sep 2021 17:12:50 +0800
+From: MingWang Li <limingwang@huawei.com>
+To: <palmer@dabbelt.com>, <alistair.francis@wdc.com>, <bin.meng@windriver.com>
+Subject: [PATCH] hw/riscv: virt: bugfix the memory-backend-file command is
+ invalid
+Date: Wed, 29 Sep 2021 17:12:44 +0800
+Message-ID: <20210929091244.75988-1-limingwang@huawei.com>
+X-Mailer: git-send-email 2.19.1.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v5 26/26] tests/tcg/multiarch: Re-enable signals test for
- most guests
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210929130553.121567-1-richard.henderson@linaro.org>
- <20210929130553.121567-27-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210929130553.121567-27-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.17]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggeme703-chm.china.huawei.com (10.1.199.99)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=limingwang@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.03,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 29 Sep 2021 09:50:40 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,24 +59,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
+Cc: qemu-riscv@nongnu.org, Mingwang Li <limingwang@huawei.com>,
+ qemu-devel@nongnu.org, jiangyifei@huawei.com, wanghaibin.wang@huawei.com,
+ fanliang@huawei.com, wu.wubin@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/29/21 15:05, Richard Henderson wrote:
-> With signal trampolines safely off the stack for all
-> guests besides hppa, we can re-enable this test.
-> 
-> It does show up a problem with sh4 (unrelated?),
-> so leave that test disabled for now.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tests/tcg/hppa/Makefile.target      | 7 +++++++
->  tests/tcg/i386/Makefile.target      | 3 ---
->  tests/tcg/multiarch/Makefile.target | 8 --------
->  tests/tcg/sh4/Makefile.target       | 7 +++++++
->  4 files changed, 14 insertions(+), 11 deletions(-)
+From: Mingwang Li <limingwang@huawei.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+If default main_mem is used to be registered as the system memory,
+other memory cannot be initialized. Therefore, the system memory
+should be initialized to the machine->ram, which consists of the
+default main_mem and other possible memory required by applications,
+such as shared hugepage memory in DPDK.
+Also, the mc->defaul_ram_id should be set to the default main_mem,
+which is named as "riscv_virt_board.ram".
+
+Signed-off-by: Mingwang Li <limingwang@huawei.com>
+Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+---
+ hw/riscv/virt.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index ec0cb69b8c..b3b431c847 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -771,7 +771,6 @@ static void virt_machine_init(MachineState *machine)
+     const MemMapEntry *memmap = virt_memmap;
+     RISCVVirtState *s = RISCV_VIRT_MACHINE(machine);
+     MemoryRegion *system_memory = get_system_memory();
+-    MemoryRegion *main_mem = g_new(MemoryRegion, 1);
+     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
+     char *plic_hart_config, *soc_name;
+     target_ulong start_addr = memmap[VIRT_DRAM].base;
+@@ -890,10 +889,8 @@ static void virt_machine_init(MachineState *machine)
+     }
+ 
+     /* register system main memory (actual RAM) */
+-    memory_region_init_ram(main_mem, NULL, "riscv_virt_board.ram",
+-                           machine->ram_size, &error_fatal);
+     memory_region_add_subregion(system_memory, memmap[VIRT_DRAM].base,
+-        main_mem);
++        machine->ram);
+ 
+     /* create device tree */
+     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
+@@ -1032,6 +1029,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     mc->cpu_index_to_instance_props = riscv_numa_cpu_index_to_props;
+     mc->get_default_cpu_node_id = riscv_numa_get_default_cpu_node_id;
+     mc->numa_mem_supported = true;
++    mc->default_ram_id = "riscv_virt_board.ram";
+ 
+     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
+ 
+-- 
+2.19.1
+
 
