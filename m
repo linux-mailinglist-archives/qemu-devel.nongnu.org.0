@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8097E41CBF5
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 20:37:19 +0200 (CEST)
-Received: from localhost ([::1]:48964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8819541CC47
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 21:05:25 +0200 (CEST)
+Received: from localhost ([::1]:38272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVeSE-0001XK-4z
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 14:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60738)
+	id 1mVetP-0006f4-II
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 15:05:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mVeOd-00083V-Q9
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 14:33:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44923)
+ id 1mVeqv-0005yh-2x
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:02:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mVeOb-0007i5-2k
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 14:33:35 -0400
+ id 1mVeqq-0004e2-EJ
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 15:02:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632940411;
+ s=mimecast20190719; t=1632942162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/M9LGTi33XME3vXqiZlZNMHCVzyVvuNu+brku+g1ea8=;
- b=cPZJRRgmPOKk+4OxACzw6UuuyiVmxmYgIVHIYFTW36BMgzjkE1+XB2AmbVKWVSHezXlw6W
- i3BGcFMSBLDaKKyeYf9erH8oCXXr2tfYguh+9kzdO7Bd8zJT1k9KIdu9EIald6V6RPzoNB
- vNOhzMt+DQHd23S8S3nD7G+0BCtBtY0=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-WSzpyecCPjW679hlF-pElA-1; Wed, 29 Sep 2021 14:33:29 -0400
-X-MC-Unique: WSzpyecCPjW679hlF-pElA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- c24-20020ac25318000000b003f257832dfdso3157928lfh.20
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 11:33:29 -0700 (PDT)
+ bh=ysGJt8SCAsRGgkgA1pZwkHpAQ2GcGhhFbrWxbV+dSs0=;
+ b=An+kKglWH9Nf3bAUuna3BXDIkM29N1v1FJM5TARurcRoM1PYEdM5imz/8+rG56JEVhpMV1
+ oosBtp4f1eJULRmSHF/e8k9tqOG7bf47bH1rHS3ZRQ6nv1btI0Ardh8lhgjGie36RUdrn6
+ lgFt4j53IV3vqKuZEP76uREKW7gUj5I=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-mNFmyoIPPjOipLyOiRajxg-1; Wed, 29 Sep 2021 15:02:33 -0400
+X-MC-Unique: mNFmyoIPPjOipLyOiRajxg-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ x33-20020a0565123fa100b003fcfd99073dso3296417lfa.6
+ for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 12:02:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/M9LGTi33XME3vXqiZlZNMHCVzyVvuNu+brku+g1ea8=;
- b=zRpRNZere8HgGveAo6oKzvKv5/j8rO0Nf/gtctbtEi67pS1ibEp3/1yOsfzYZzsqjQ
- t1ak/vk9xIruFlTkInC+fVEt65iDyyfSbIsEft1PSV6VYJJjMuXHALTh2bmgNiSh2WmD
- kayDvA9/anK1cCgcyI4B/OE2skhKWffsrawkOcU8Xlf5VBjR6jugHLrxMDJMRzCOziMe
- 5Kw6u/3nrTdYS5iH13Lu1wyuDCwyK2QoKHDx2aJyrJcNSonT8b2vXHVH6rv2jIG/b8f7
- eQRs2pXrzkWQ97ZDLo+LrKW3eOAXAdfJod8/mNseon7pYBO01tMoZnAPsU/09T2QmqGA
- j24A==
-X-Gm-Message-State: AOAM531pePXDy2Q/ps8mH/IGxsLzXG9hEMFQZqv/QUGdcuL2iU9AHnen
- PAknEF/PFZO/j01U36H9FMurCG7bYW7W7fd8/ZIsj/ff+GqqK+05h+QgknmV5oSXt4IG5W3Y0A+
- 2c+TaN9LTuzViBIcSsLZqFMLd1MZPK3Q=
-X-Received: by 2002:ac2:5984:: with SMTP id w4mr1105982lfn.187.1632940407758; 
- Wed, 29 Sep 2021 11:33:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJylSiQmTNrF9ABW4HvL33FoqY2n2GiQc+JoB2Dkc27lx4mkm08Wg8rAEg6vTeEYHcKfULBWfsm398uWiGOYuYE=
-X-Received: by 2002:ac2:5984:: with SMTP id w4mr1105929lfn.187.1632940407115; 
- Wed, 29 Sep 2021 11:33:27 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ysGJt8SCAsRGgkgA1pZwkHpAQ2GcGhhFbrWxbV+dSs0=;
+ b=LdTNQdoEWx0a7lq6zBBVIoYoTgVYmZX/kcJQ9HHWKEQUqMyTiH6AIoPakSWVtFDWk+
+ H5irotq0UmyXJX3cwkTx3a5bnAwZIeBzG0CDdMzCiyEGZb2zCp2SdsObpjiDdDImfpAA
+ OVlZ++uUVxg6WD+89jaNlXBwE7MSx4BOd6HgXA86j+tBR5RKzi0LW2bK+F3Dg90bTT41
+ tU5Ny0y66B+oy/QoczE8ee2SS7chBdzG5GuF68iraIKn94np7SzZFkauEKh07Vi1FdKr
+ S970+C58bfPtXs56lKcXVvHtpDtEIMBgRqNl2dXIxI7Nc52ppe3Gl8PirZynwl+NyWxn
+ N5Kg==
+X-Gm-Message-State: AOAM533Du5q4JGTAXHiOu6gbnH7s17lbof+c6CdPrTQ/uIOpIVJ/CMg5
+ jtZCjEWnLH4gRzbuvrEYJY8ic9bwoamM25OGMZo2fWphO1bdTTV6QUQx55KFu+qr81oJB9Pq0m3
+ BOdoFpP/4UPIBeWIajzL7aPvvqXmQxlc=
+X-Received: by 2002:a05:6512:22c1:: with SMTP id
+ g1mr1368576lfu.169.1632942151413; 
+ Wed, 29 Sep 2021 12:02:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxHXypmZ8jDPHfhdoxwRmEf+EniHNcua0kphkev7TtfidayW/bjZ+gWlVl7UIriROpioZTiDoMKSuSf8MF+FQQ=
+X-Received: by 2002:a05:6512:22c1:: with SMTP id
+ g1mr1368528lfu.169.1632942150995; 
+ Wed, 29 Sep 2021 12:02:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210922222423.644444-1-leobras@redhat.com>
- <YVOcT0qv0Sv72BmS@t490s>
-In-Reply-To: <YVOcT0qv0Sv72BmS@t490s>
+ <20210922222423.644444-2-leobras@redhat.com>
+ <YU4H1HwsiAO3KM6r@redhat.com>
+In-Reply-To: <YU4H1HwsiAO3KM6r@redhat.com>
 From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Wed, 29 Sep 2021 15:34:01 -0300
-Message-ID: <CAJ6HWG7kL1jHmZQX1yLciqEksr=bmvx3f4VHRGqQLf_tT2CKnA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] QIOChannel async_write & async_flush +
- MSG_ZEROCOPY + multifd
-To: Peter Xu <peterx@redhat.com>
+Date: Wed, 29 Sep 2021 16:03:04 -0300
+Message-ID: <CAJ6HWG4kiu5V3Tgn_KbPotu2CVy2Yw5KLy9kFxots+Nc-67zgw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] QIOChannel: Add io_async_writev & io_async_flush
+ callbacks
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lsoaresp@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -91,58 +96,360 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
  Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Peter,
+Hello Daniel, thank you for reviewing!
 
-On Tue, Sep 28, 2021 at 7:51 PM Peter Xu <peterx@redhat.com> wrote:
+On Fri, Sep 24, 2021 at 2:16 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
 >
-> On Wed, Sep 22, 2021 at 07:24:20PM -0300, Leonardo Bras wrote:
-> > This patch series intends to enable MSG_ZEROCOPY in QIOChannel, and make
-> > use of it for multifd migration performance improvement.
+> On Wed, Sep 22, 2021 at 07:24:21PM -0300, Leonardo Bras wrote:
+> > Adds io_async_writev and io_async_flush as optional callback to QIOChan=
+nelClass,
+> > allowing the implementation of asynchronous writes by subclasses.
 > >
-> > Patch #1 creates new callbacks for QIOChannel, allowing the implementation
-> > of asynchronous writing.
+> > How to use them:
+> > - Write data using qio_channel_async_writev(),
+> > - Wait write completion with qio_channel_async_flush().
 > >
-> > Patch #2 implements async_write and async_flush on QIOChannelSocket,
+> > Notes:
+> > Some asynchronous implementations may benefit from zerocopy mechanisms,=
+ so it's
+> > recommended to keep the write buffer untouched until the return of
+> > qio_channel_async_flush().
 > >
-> > Patch #3 Makes use of async_write + async_flush to enable MSG_ZEROCOPY
-> > for migration using multifd nocomp.
+> > As the new callbacks are optional, if a subclass does not implement the=
+m
+> > there will be a fallback to the mandatory synchronous implementation:
+> > - io_async_writev will fallback to io_writev,
+> > - io_async_flush will return without changing anything.
+> > This makes simpler for the user to make use of the asynchronous impleme=
+ntation.
 > >
-> > Results:
-> > So far, the resource usage of __sys_sendmsg() reduced 15 times, and the
-> > overall migration took 13-18% less time, based in synthetic workload.
+> > Also, some functions like qio_channel_writev_full_all() were adapted to
+> > offer an async version, and make better use of the new callbacks.
 > >
-> > The objective is to reduce migration time in hosts with heavy cpu usage.
+> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > ---
+> >  include/io/channel.h | 93 +++++++++++++++++++++++++++++++++++++-------
+> >  io/channel.c         | 66 ++++++++++++++++++++++++-------
+> >  2 files changed, 129 insertions(+), 30 deletions(-)
+> >
+> > diff --git a/include/io/channel.h b/include/io/channel.h
+> > index 88988979f8..74f2e3ae8a 100644
+> > --- a/include/io/channel.h
+> > +++ b/include/io/channel.h
+> > @@ -136,6 +136,14 @@ struct QIOChannelClass {
+> >                                    IOHandler *io_read,
+> >                                    IOHandler *io_write,
+> >                                    void *opaque);
+> > +    ssize_t (*io_async_writev)(QIOChannel *ioc,
+> > +                               const struct iovec *iov,
+> > +                               size_t niov,
+> > +                               int *fds,
+> > +                               size_t nfds,
+> > +                               Error **errp);
+> > +   void (*io_async_flush)(QIOChannel *ioc,
+> > +                          Error **errp);
+> >  };
+> >
+> >  /* General I/O handling functions */
+> > @@ -255,12 +263,17 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
+> >   * or QIO_CHANNEL_ERR_BLOCK if no data is can be sent
+> >   * and the channel is non-blocking
+> >   */
+> > -ssize_t qio_channel_writev_full(QIOChannel *ioc,
+> > -                                const struct iovec *iov,
+> > -                                size_t niov,
+> > -                                int *fds,
+> > -                                size_t nfds,
+> > -                                Error **errp);
+> > +ssize_t __qio_channel_writev_full(QIOChannel *ioc,
 >
-> My previous memory is that we'll add a capability bit for migration, so it'll
-> not be enabled until user specified it.  Plan to do it in the next version?
+> Using "__" is undesirable as that namespace is reserved.
 
-You mean like I did in pre-V1, enabling ZEROCOPY for multifd it in QMP?
-Or is this something else?
+Thank you for the tip!
+I will make sure to remember avoiding this in the future.
 
-
->
-> It'll still be okay if you want to separate the work of (1) qio channel
-> zero-copy support on sockets, and (2) apply zero copy to migration, then that
-> can be done in part 2.  Your call. :)
-
-Ok  :)
 
 >
-> Thanks,
+> > +                                  const struct iovec *iov,
+> > +                                  size_t niov,
+> > +                                  int *fds,
+> > +                                  size_t nfds,
+> > +                                  bool async,
+> > +                                  Error **errp);
+> > +#define qio_channel_writev_full(ioc, iov, niov, fds, nfds, errp) \
+> > +    __qio_channel_writev_full(ioc, iov, niov, fds, nfds, false, errp)
+> > +#define qio_channel_async_writev_full(ioc, iov, niov, fds, nfds, errp)=
+ \
+> > +    __qio_channel_writev_full(ioc, iov, niov, fds, nfds, true, errp)
 >
+> The API docs only cover the first function, not the second.
+
+You are right.
+If this ends up being the final implementation, I will make sure to
+provide correct docs.
+
+>
+>
+> >  /**
+> >   * qio_channel_readv_all_eof:
+> > @@ -339,10 +352,15 @@ int qio_channel_readv_all(QIOChannel *ioc,
+> >   *
+> >   * Returns: 0 if all bytes were written, or -1 on error
+> >   */
+> > -int qio_channel_writev_all(QIOChannel *ioc,
+> > -                           const struct iovec *iov,
+> > -                           size_t niov,
+> > -                           Error **erp);
+> > +int __qio_channel_writev_all(QIOChannel *ioc,
+> > +                             const struct iovec *iov,
+> > +                             size_t niov,
+> > +                             bool async,
+> > +                             Error **erp);
+> > +#define qio_channel_writev_all(ioc, iov, niov, erp) \
+> > +    __qio_channel_writev_all(ioc, iov, niov, false, erp)
+> > +#define qio_channel_async_writev_all(ioc, iov, niov, erp) \
+> > +    __qio_channel_writev_all(ioc, iov, niov, true, erp)
+>
+>
+> >
+> >  /**
+> >   * qio_channel_readv:
+> > @@ -849,10 +867,55 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
+> >   * Returns: 0 if all bytes were written, or -1 on error
+> >   */
+> >
+> > -int qio_channel_writev_full_all(QIOChannel *ioc,
+> > -                                const struct iovec *iov,
+> > -                                size_t niov,
+> > -                                int *fds, size_t nfds,
+> > -                                Error **errp);
+> > +int __qio_channel_writev_full_all(QIOChannel *ioc,
+> > +                                  const struct iovec *iov,
+> > +                                  size_t niov,
+> > +                                  int *fds, size_t nfds,
+> > +                                  bool async, Error **errp);
+> > +#define qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, errp) \
+> > +    __qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, false, er=
+rp)
+> > +#define qio_channel_async_writev_full_all(ioc, iov, niov, fds, nfds, e=
+rrp) \
+> > +    __qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, true, err=
+p)
+> > +
+> > +/**
+> > + * qio_channel_async_writev:
+> > + * @ioc: the channel object
+> > + * @iov: the array of memory regions to write data from
+> > + * @niov: the length of the @iov array
+> > + * @fds: an array of file handles to send
+> > + * @nfds: number of file handles in @fds
+> > + * @errp: pointer to a NULL-initialized error object
+> > + *
+> > + * Behaves like qio_channel_writev_full, but will send
+> > + * data asynchronously, this meaning this function
+> > + * may return before the data is actually sent.
+> > + *
+> > + * If at some point it's necessary wait for all data to be
+> > + * sent, use qio_channel_async_flush().
+> > + *
+> > + * If not implemented, falls back to the default writev
+> > + */
+>
+> I'm not convinced by the fallback here. If you're
+> layering I/O channels this is not going to result in
+> desirable behaviour.
+>
+> eg if QIOChannelTLS doesn't implement async, then when
+> you call async_writev, it'lll invoke sync writev on
+> the QIOChannelTLS, which will in turn invoke the sync
+> writev on QIOChannelSocket, despite the latter having
+> async writev support.  I think this is very misleading
+> behaviour
+
+Yeah, it's a good point.
+Failing when async is not supported seems a better approach.
+
+>
+> > +ssize_t qio_channel_async_writev(QIOChannel *ioc,
+> > +                                 const struct iovec *iov,
+> > +                                 size_t niov,
+> > +                                 int *fds,
+> > +                                 size_t nfds,
+> > +                                 Error **errp);
+>
+> This is missing any flags. We need something like
+>
+>    QIO_CHANNEL_WRITE_FLAG_ZEROCOPY
+>
+> passed in an 'unsigned int flags' parameter. This in
+> turn makes me question whether we should have the
+> common helpers at all, as the api is going to be
+> different for sync vs async.
+>
+> The QIOChannelFeature enum probably ought to be
+> extended with QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY with
+> support for probing whether that's supported or not.
+
+Yeah, that makes sense to me.
+
+>
+> > +
+> > +/**
+> > + * qio_channel_async_flush:
+> > + * @ioc: the channel object
+> > + * @errp: pointer to a NULL-initialized error object
+> > + *
+> > + * Will lock until every packet queued with qio_channel_async_writev()
+>
+> s/lock/block/ I presume.
+
+correct.
+
+>
+> > + * is sent.
+> > + *
+> > + * If not implemented, returns without changing anything.
+> > + */
+> > +
+> > +void qio_channel_async_flush(QIOChannel *ioc,
+> > +                             Error **errp);
+> > +
+> >
+> >  #endif /* QIO_CHANNEL_H */
+> > diff --git a/io/channel.c b/io/channel.c
+> > index e8b019dc36..c4819b922f 100644
+> > --- a/io/channel.c
+> > +++ b/io/channel.c
+> > @@ -67,12 +67,13 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
+> >  }
+> >
+> >
+> > -ssize_t qio_channel_writev_full(QIOChannel *ioc,
+> > -                                const struct iovec *iov,
+> > -                                size_t niov,
+> > -                                int *fds,
+> > -                                size_t nfds,
+> > -                                Error **errp)
+> > +ssize_t __qio_channel_writev_full(QIOChannel *ioc,
+> > +                                  const struct iovec *iov,
+> > +                                  size_t niov,
+> > +                                  int *fds,
+> > +                                  size_t nfds,
+> > +                                  bool async,
+> > +                                  Error **errp)
+> >  {
+> >      QIOChannelClass *klass =3D QIO_CHANNEL_GET_CLASS(ioc);
+> >
+> > @@ -83,6 +84,10 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
+> >          return -1;
+> >      }
+> >
+> > +    if (async && klass->io_async_writev) {
+> > +        return klass->io_async_writev(ioc, iov, niov, fds, nfds, errp)=
+;
+> > +    }
+> > +
+> >      return klass->io_writev(ioc, iov, niov, fds, nfds, errp);
+> >  }
+> >
+> > @@ -212,19 +217,20 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
+> >      return ret;
+> >  }
+> >
+> > -int qio_channel_writev_all(QIOChannel *ioc,
+> > -                           const struct iovec *iov,
+> > -                           size_t niov,
+> > -                           Error **errp)
+> > +int __qio_channel_writev_all(QIOChannel *ioc,
+> > +                             const struct iovec *iov,
+> > +                             size_t niov,
+> > +                             bool async,
+> > +                             Error **errp)
+> >  {
+> > -    return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, errp);
+> > +    return __qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, asyn=
+c, errp);
+> >  }
+> >
+> > -int qio_channel_writev_full_all(QIOChannel *ioc,
+> > +int __qio_channel_writev_full_all(QIOChannel *ioc,
+> >                                  const struct iovec *iov,
+> >                                  size_t niov,
+> >                                  int *fds, size_t nfds,
+> > -                                Error **errp)
+> > +                                bool async, Error **errp)
+> >  {
+> >      int ret =3D -1;
+> >      struct iovec *local_iov =3D g_new(struct iovec, niov);
+> > @@ -237,8 +243,8 @@ int qio_channel_writev_full_all(QIOChannel *ioc,
+> >
+> >      while (nlocal_iov > 0) {
+> >          ssize_t len;
+> > -        len =3D qio_channel_writev_full(ioc, local_iov, nlocal_iov, fd=
+s, nfds,
+> > -                                      errp);
+> > +        len =3D __qio_channel_writev_full(ioc, local_iov, nlocal_iov, =
+fds, nfds,
+> > +                                        async, errp);
+> >          if (len =3D=3D QIO_CHANNEL_ERR_BLOCK) {
+> >              if (qemu_in_coroutine()) {
+> >                  qio_channel_yield(ioc, G_IO_OUT);
+> > @@ -474,6 +480,36 @@ off_t qio_channel_io_seek(QIOChannel *ioc,
+> >  }
+> >
+> >
+> > +ssize_t qio_channel_async_writev(QIOChannel *ioc,
+> > +                                 const struct iovec *iov,
+> > +                                 size_t niov,
+> > +                                 int *fds,
+> > +                                 size_t nfds,
+> > +                                 Error **errp)
+> > +{
+> > +     QIOChannelClass *klass =3D QIO_CHANNEL_GET_CLASS(ioc);
+> > +
+> > +    if (!klass->io_async_writev) {
+> > +        return klass->io_writev(ioc, iov, niov, fds, nfds, errp);
+> > +    }
+> > +
+> > +     return klass->io_async_writev(ioc, iov, niov, fds, nfds, errp);
+> > +}
+> > +
+> > +
+> > +void qio_channel_async_flush(QIOChannel *ioc,
+> > +                             Error **errp)
+> > +{
+> > +     QIOChannelClass *klass =3D QIO_CHANNEL_GET_CLASS(ioc);
+> > +
+> > +    if (!klass->io_async_flush) {
+> > +        return;
+> > +    }
+> > +
+> > +     klass->io_async_flush(ioc, errp);
+> > +}
+> > +
+> > +
+> >  static void qio_channel_restart_read(void *opaque)
+> >  {
+> >      QIOChannel *ioc =3D opaque;
+> > --
+> > 2.33.0
+> >
+>
+> Regards,
+> Daniel
 > --
-> Peter Xu
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 >
-
-Thank you Peter,
-
-Best regards,
-Leonardo
 
 
