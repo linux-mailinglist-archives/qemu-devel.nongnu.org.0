@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E8441C235
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 12:05:12 +0200 (CEST)
-Received: from localhost ([::1]:50078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758C641C244
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 12:07:46 +0200 (CEST)
+Received: from localhost ([::1]:55140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVWSd-0007jO-Mz
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 06:05:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48390)
+	id 1mVWV7-0002sU-IY
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 06:07:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mVWBU-0003QP-4h; Wed, 29 Sep 2021 05:47:28 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:38760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mVWBS-0004Yp-Fy; Wed, 29 Sep 2021 05:47:27 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- 205-20020a1c01d6000000b0030cd17ffcf8so4708501wmb.3; 
- Wed, 29 Sep 2021 02:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lZI2Hu+ZftE7Whv6CnKpagIlJ+8EMYBZVdV52vtfoTQ=;
- b=Km5BuIfQm1rR+omMofQ1dNw8Pn4ui1AG0FqQs/q59ZKvWPdKaEOsvGbbr3zK6/mE0+
- dERNphRSuPFOtmh1YJp33iDbRYfXIgD7/fn9f5YXHOKpH65MOCtfh4g5CGi6MqwJbpUB
- 6i0SBPglLxSZ2dpNY/rQmFgbbI0WDWFztYQrwVj2EJ2Fvp3TdmDnqH1GFjsD8b1riPN/
- tKzaRSFNLIxGHqxIhUwvuz/02uoB8UB10jKUIcjjNojyV+X/iqWFN4T/diP0tIRwuS2q
- BqOr3gQyDV1Oqsig4+X1rq/GkeYbRdKDq4afoAs0kaPrOhBIEyPXj7G6SUi0CKLyIkVs
- hZ3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lZI2Hu+ZftE7Whv6CnKpagIlJ+8EMYBZVdV52vtfoTQ=;
- b=MWf4UHviAdhOFpsdmc+GZoDKHu/3Yr+SIQnxzEnk5pBwX9hAHprRqirYLnxjl0DZHB
- xt4LKjlG7+7wDrIVyjEBUHpXxUMRSbm/Ya8/llzoIIMDnUthonqFD2ItpvrW1jug76Zs
- yrX7vFqKi29pt3YZYGajdRJwl4K3RlzEAtunFUmywxArIPgOiIwf+gr2jBAfLxzvMUif
- LXznLnV5mgPYz6urssNXz5gn4JwHHd1DsaUeoQovHKfYM+3ST/uFj9EHIeJI0MFarJJw
- KbOaTz/Eoh7VEfIto60M8hCrZHx65odHn+9L+qqxaPRGyjA+T4hOKYyXndN3idiEAQl4
- nZZw==
-X-Gm-Message-State: AOAM531qOGB0frNZPObiX11AVt/U3P87daFmN6mj/2PFnhguud2eq4Zm
- gGl4fVjw6XjVmYmhZg/AjljPM6T3cVAv1LYs+b1K/nz1rOM=
-X-Google-Smtp-Source: ABdhPJx39kN+wbwkdjdtIA+n5e9FyxqTtBps/C1zY8EXAxetoPlFcLhcdsZqq6B75NsZbtLtr33Ab2mU0Y56zbkcu/0=
-X-Received: by 2002:a1c:ed1a:: with SMTP id l26mr968098wmh.119.1632908844007; 
- Wed, 29 Sep 2021 02:47:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mVWLI-0006qa-GT
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:57:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33303)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mVWLG-0004RK-FC
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:57:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632909452;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wenwGyPa+F2uucdmR8WaQIICBO0XPJippqY1ISXERw8=;
+ b=G0Nvgs7Hske/wPlqEbcXyLjsvFyoMqKBZu/PkqQu7P6fhfeS3gG4TkX2BQJFGErxMBN38M
+ fDmZgRrorJbmTA8enOV4t0iamr6PguScFxgzWMJP54W5mhOIvFN3rJfG0tfd3jNVCxoSul
+ WVZjVr5g7bkMC7v+YpXsgZwNU7CrCLk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-l1kvPeGWOwuCiuIhmym-Ng-1; Wed, 29 Sep 2021 05:57:28 -0400
+X-MC-Unique: l1kvPeGWOwuCiuIhmym-Ng-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 671551015DA0
+ for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 09:57:27 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 197815D9C6;
+ Wed, 29 Sep 2021 09:57:19 +0000 (UTC)
+Date: Wed, 29 Sep 2021 10:57:19 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 0/1] vmx: Fix <genid/> mapping
+Message-ID: <20210929095719.GH3361@redhat.com>
+References: <cover.1632900578.git.mprivozn@redhat.com>
+ <20210929092044.GE3361@redhat.com> <YVQy9yiU1RPxCcM8@redhat.com>
 MIME-Version: 1.0
-References: <c617a04d4e3dd041a3427b47a1b1d5ab475a2edd.1632871759.git.alistair.francis@wdc.com>
-In-Reply-To: <c617a04d4e3dd041a3427b47a1b1d5ab475a2edd.1632871759.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 29 Sep 2021 17:47:12 +0800
-Message-ID: <CAEUhbmVq9Jy9AvkzPvTb-FSLnu5h7wK+RaKdJ7gfU0pjqt6tPQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] hw/riscv: shakti_c: Mark as not user creatable
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=bmeng.cn@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <YVQy9yiU1RPxCcM8@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,53 +77,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis <alistair23@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: libvir-list@redhat.com, Michal Privoznik <mprivozn@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 29, 2021 at 7:30 AM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> Mark the shakti_c machine as not user creatable.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/639
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/riscv/shakti_c.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
-> index 2f084d3c8d..e7cd3bdfb4 100644
-> --- a/hw/riscv/shakti_c.c
-> +++ b/hw/riscv/shakti_c.c
-> @@ -150,6 +150,12 @@ static void shakti_c_soc_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
->      dc->realize = shakti_c_soc_state_realize;
-> +    /* Reasons:
+Looking at the qemu code the problem IMHO is:
 
-nits: the multi-line comment format should use:
+https://gitlab.com/qemu-project/qemu/-/blob/6b54a31bf7b403672a798b6443b1930ae6c74dea/docs/specs/vmgenid.txt#L189
+https://gitlab.com/qemu-project/qemu/-/blob/6b54a31bf7b403672a798b6443b1930ae6c74dea/hw/acpi/vmgenid.c#L37
 
-/*
- *
- */
+This byte swapping makes no sense to me.  How do we know that the
+guest is little endian?  What will this code do for BE guests?  I
+think qemu would be better off treating the "GUID" as a list of bytes
+and writing that exactly into the guest memory.
 
-> +     *     - Creates CPUS in riscv_hart_realize(), and can create unintended
-> +     *       CPUs
-> +     *     - Uses serial_hds in realize function, thus can't be used twice
-> +     */
-> +    dc->user_creatable = false;
->  }
->
->  static void shakti_c_soc_instance_init(Object *obj)
+Rich.
 
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-builder quickly builds VMs from scratch
+http://libguestfs.org/virt-builder.1.html
 
-Otherwise,
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
