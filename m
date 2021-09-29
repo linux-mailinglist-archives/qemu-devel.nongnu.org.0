@@ -2,69 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758C641C244
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 12:07:46 +0200 (CEST)
-Received: from localhost ([::1]:55140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3690A41C248
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Sep 2021 12:09:32 +0200 (CEST)
+Received: from localhost ([::1]:54582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVWV7-0002sU-IY
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 06:07:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49810)
+	id 1mVWWp-0002U9-0B
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 06:09:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mVWLI-0006qa-GT
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:57:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33303)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1mVWPL-0004cJ-1Z; Wed, 29 Sep 2021 06:01:47 -0400
+Received: from isrv.corpit.ru ([86.62.121.231]:56285)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mVWLG-0004RK-FC
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 05:57:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632909452;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wenwGyPa+F2uucdmR8WaQIICBO0XPJippqY1ISXERw8=;
- b=G0Nvgs7Hske/wPlqEbcXyLjsvFyoMqKBZu/PkqQu7P6fhfeS3gG4TkX2BQJFGErxMBN38M
- fDmZgRrorJbmTA8enOV4t0iamr6PguScFxgzWMJP54W5mhOIvFN3rJfG0tfd3jNVCxoSul
- WVZjVr5g7bkMC7v+YpXsgZwNU7CrCLk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-l1kvPeGWOwuCiuIhmym-Ng-1; Wed, 29 Sep 2021 05:57:28 -0400
-X-MC-Unique: l1kvPeGWOwuCiuIhmym-Ng-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 671551015DA0
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 09:57:27 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 197815D9C6;
- Wed, 29 Sep 2021 09:57:19 +0000 (UTC)
-Date: Wed, 29 Sep 2021 10:57:19 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 0/1] vmx: Fix <genid/> mapping
-Message-ID: <20210929095719.GH3361@redhat.com>
-References: <cover.1632900578.git.mprivozn@redhat.com>
- <20210929092044.GE3361@redhat.com> <YVQy9yiU1RPxCcM8@redhat.com>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1mVWPF-0007dS-Fm; Wed, 29 Sep 2021 06:01:45 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 3E6D140495;
+ Wed, 29 Sep 2021 13:01:30 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id E306B8E;
+ Wed, 29 Sep 2021 13:01:29 +0300 (MSK)
+Subject: Re: [PATCH] virtio-net : Add check for VIRTIO_NET_F_MAC
+To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org
+References: <20210929065215.21549-1-lulu@redhat.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Message-ID: <8566c96d-5a61-fec7-f898-e5ac0937fd06@msgid.tls.msk.ru>
+Date: Wed, 29 Sep 2021 13:01:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <YVQy9yiU1RPxCcM8@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210929065215.21549-1-lulu@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -94
+X-Spam_score: -9.5
+X-Spam_bar: ---------
+X-Spam_report: (-9.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.562,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,27 +57,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Michal Privoznik <mprivozn@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking at the qemu code the problem IMHO is:
+29.09.2021 09:52, Cindy Lu wrote:
+> For vdpa device, if the host support VIRTIO_NET_F_MAC
+> we need to read the mac address from hardware, so need
+> to check this bit, the logic is
+> 1 if the host support VIRTIO_NET_F_MAC and the mac address
+>     is correct, qemu will use the mac address in hardware
+> 2.if the host not support , qemu will use the mac from cmdline
 
-https://gitlab.com/qemu-project/qemu/-/blob/6b54a31bf7b403672a798b6443b1930ae6c74dea/docs/specs/vmgenid.txt#L189
-https://gitlab.com/qemu-project/qemu/-/blob/6b54a31bf7b403672a798b6443b1930ae6c74dea/hw/acpi/vmgenid.c#L37
+So if hw supports NET_F_MAC, cmdline-provided parameter will
+silently be ignored?
 
-This byte swapping makes no sense to me.  How do we know that the
-guest is little endian?  What will this code do for BE guests?  I
-think qemu would be better off treating the "GUID" as a list of bytes
-and writing that exactly into the guest memory.
+s/host not support/host does not support this feature/
 
-Rich.
+> 3.if the cmdline not provide mac address, qemu will use radam mac
+> address
 
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-builder quickly builds VMs from scratch
-http://libguestfs.org/virt-builder.1.html
+s/not/does not/
+s/radam/random/
 
+Thanks,
+
+/mjt
 
