@@ -2,87 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C657041D58D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 10:36:31 +0200 (CEST)
-Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D518041D592
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 10:37:51 +0200 (CEST)
+Received: from localhost ([::1]:54940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVrYM-0007bX-TX
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 04:36:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51426)
+	id 1mVrZe-00016L-VH
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 04:37:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mVrWY-0005xK-As
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 04:34:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43368)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1mVrY0-00080f-SG
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 04:36:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mVrWV-000268-Fs
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 04:34:38 -0400
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1mVrXz-0003Ug-2X
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 04:36:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632990874;
+ s=mimecast20190719; t=1632990964;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NMxox06wry7fOQB1NbLB2v4Z9QehDnBGuBwr+j20JvM=;
- b=NBRPxtjWSfDM3ZPFEOOxEbgGQSWBiiTf/GeSkQEH65jGEWLAbC+1qvPCgYH7j6i3MDDX6t
- uH3a1c4hge26lSf02I1XXk494v+7Ommi9dx1yhoip0vNnog3kEzzQVP8gcn2TAOy+qrO8X
- iaRtjykBC3aO61cxPB1AfUZnhLrgGh4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-Qh3AbJ54MRWHe7nO1qXPSQ-1; Thu, 30 Sep 2021 04:34:28 -0400
-X-MC-Unique: Qh3AbJ54MRWHe7nO1qXPSQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- d11-20020a50cd4b000000b003da63711a8aso5421025edj.20
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 01:34:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GTJMzLS3rhBUpVlTiugfSArbJxb4AzMspHSEMIQ+5K4=;
- b=UfUkMf2xATPYwZCsrEBXAqJweMLc2MjqQzUyw5gazmh/l0Fl2pGXuhkcsB5FhTfRA/
- 9mMw5r8ba0zR5tfpb6jVWi7h8LVAu5xLjNlZc3MukfPoFCzIMSJzwaF5JRD4FR1MpG0F
- CfvZ/SLDq4mhOM6aN7Z1rtktmDNNDwC6ZyoPShCn8DpU/xstXjrxSEB2raX/aZ9KVFJv
- CPEFTpf58J9Zgu/iDq225c0Qqhh6lUsD2GzAQyGDSNlc165n1kXltAklRRUgLKv94Cln
- mLOziV9mr/Q2YTveNRvxlXn+b5eIiLEemgJxgCrfstVkIsRnEDgvr9wAaytAU62ZdXMj
- FlNg==
-X-Gm-Message-State: AOAM531NmplUpW/qefRoaC8DCnYokeVyUxe2diMWQx1fUisHxEftkbhf
- d9s9ZyeSqO8TcNhgEScumcnfhEtpLrveyI0nlmWsIoU07Y9M/VUTqUi2PFdt/UzNuzDif54QETp
- eoyptesmZFnMFLxE=
-X-Received: by 2002:a17:906:34c5:: with SMTP id
- h5mr5399089ejb.152.1632990866966; 
- Thu, 30 Sep 2021 01:34:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywEdMyvycuIKaWx5Qwp1IwSASde2xLyDh8NhKTuSgQIfNttu+g26xQCprpAo9L756tpMa/Tg==
-X-Received: by 2002:a17:906:34c5:: with SMTP id
- h5mr5399060ejb.152.1632990866656; 
- Thu, 30 Sep 2021 01:34:26 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id cn8sm1082336edb.77.2021.09.30.01.34.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 01:34:26 -0700 (PDT)
-Date: Thu, 30 Sep 2021 10:34:24 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PULL 1/5] hw/pcie-root-port: Fix hotplug for PCI devices
- requiring IO
-Message-ID: <20210930103424.5f408978@redhat.com>
-In-Reply-To: <20210929172519-mutt-send-email-mst@kernel.org>
-References: <20210803205043.165034-1-mst@redhat.com>
- <20210803205043.165034-2-mst@redhat.com>
- <YVGP9vdTtu5sRVpl@redhat.com>
- <20210927053932-mutt-send-email-mst@kernel.org>
- <CA+aaKfDO_KRZYova9fGkPAr0vgh=YygATZ87iwrfqeV=CyN=tg@mail.gmail.com>
- <20210929172519-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ bh=j+BAAfmlTxQ/NAcGClhhTzp2ZGHHbzHFTkWR2yol8PQ=;
+ b=XBZ7Q4sZoF/X1LSpOhpwhKO/gvdH1EoE1OmI6gyxra76t3Ovl42t/AQqFkudisOi2OR+iU
+ kVrVEms+SMXpDob85GNErJ4l3kGtn2xeO66BrZgbqiFm9+QB1E46x/Pj/5m4tereT1d7r0
+ RRoOb0qxbqEg9rXA083qC8nve156xBI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-DMfmivreMP-8oold8wVykA-1; Thu, 30 Sep 2021 04:36:03 -0400
+X-MC-Unique: DMfmivreMP-8oold8wVykA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7895E19067F5
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:36:02 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.39.194.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1986C1972E;
+ Thu, 30 Sep 2021 08:36:00 +0000 (UTC)
+Subject: Re: [PATCH 0/1] vmx: Fix <genid/> mapping
+To: "Richard W.M. Jones" <rjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>
+References: <cover.1632900578.git.mprivozn@redhat.com>
+ <20210929092044.GE3361@redhat.com> <YVQy9yiU1RPxCcM8@redhat.com>
+ <20210929095719.GH3361@redhat.com> <YVQ7my3BHi1On/JK@redhat.com>
+ <20210929103400.GJ3361@redhat.com> <20210930073348.GL7596@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <88a3d48e-4ad6-6919-90ac-4ecca0e7f247@redhat.com>
+Date: Thu, 30 Sep 2021 10:35:59 +0200
 MIME-Version: 1.0
+In-Reply-To: <20210930073348.GL7596@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -103,188 +81,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcel@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: libvir-list@redhat.com, Michal Privoznik <mprivozn@redhat.com>,
+ qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Sep 2021 17:47:37 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On 09/30/21 09:33, Richard W.M. Jones wrote:
+> 
+> More data: I found a colleague who has a Hyper-V instance with a
+> Windows guest and he helped me to understand how Hyper-V represents
+> generation IDs.  Hyper-V has had support for generation IDs since long
+> before Microsoft proposed the feature for standardization.  Originally
+> (I think pre-2013) Hyper-V used an XML description which included:
+> 
+> <generation_id type="string">4a07df4361fdf4c883f97bc30e524b9d</generation_id>
+> 
+> Note this is a pure hex string, not a GUID.
+> 
+> In current Hyper-V, the same representation is used but it's embedded
+> in a binary file.
+> 
+> My colleague ran two Windows VMs on Hyper-V and examined the
+> generation_id on the hypervisor and compared it to the output of
+> VMGENID.EXE inside the guest.
+> 
+> The first guest had this in the binary hypervisor metadata:
+> 
+> 000056b0  00 00 0e 67 65 6e 65 72  61 74 69 6f 6e 5f 69 64  |...generation_id|
+> 000056c0  00 40 00 00 00 38 00 30  00 35 00 61 00 32 00 38  |.@...8.0.5.a.2.8|
+> 000056d0  00 37 00 61 00 32 00 35  00 30 00 39 00 38 00 39  |.7.a.2.5.0.9.8.9|
+> 000056e0  00 65 00 34 00 66 00 65  00 36 00 66 00 36 00 39  |.e.4.f.e.6.f.6.9|
+> 000056f0  00 39 00 32 00 62 00 65  00 33 00 33 00 34 00 61  |.9.2.b.e.3.3.4.a|
+> 00005700  00 34 00 33 00 00 00 00  00 00 00 00 00 00 00 00  |.4.3............|
+> 
+> and reported the output of VMGENID in this guest as:
+> 
+> VmCounterValue: fe6f6992be334a43:805a287a250989e4
+> 
+> The second guest had:
+> 
+> 00005360  c5 06 00 00 00 0e 67 65  6e 65 72 61 74 69 6f 6e  |......generation|
+> 00005370  5f 69 64 00 40 00 00 00  65 00 62 00 66 00 62 00  |_id.@...e.b.f.b.|
+> 00005380  62 00 37 00 39 00 37 00  33 00 36 00 35 00 37 00  |b.7.9.7.3.6.5.7.|
+> 00005390  32 00 38 00 65 00 37 00  30 00 62 00 33 00 66 00  |2.8.e.7.0.b.3.f.|
+> 000053a0  64 00 33 00 63 00 37 00  31 00 33 00 65 00 63 00  |d.3.c.7.1.3.e.c.|
+> 000053b0  65 00 38 00 34 00 32 00  00 00 00 00 00 00 00 00  |e.8.4.2.........|
+> 
+> and VMGENID was:
+> 
+> VmCounterValue: b3fd3c713ece842:ebfbb797365728e7
+> 
+> Note:
+> 
+>  - In both cases, the generation ID is clearly not a GUID.
+> 
+>  - The two 64 bit words are swapped over somewhere, but individual
+>    bytes are not byte-swapped, and there is again no evidence of
+>    UUID-aware byte swapping.
+> 
+> ----------------------------------------------------------------------
+> 
+> So how do we get from where we are to a more sane vmgenid in qemu?
+> 
+> I propose we deprecate the guid parameter in:
+> 
+>   -device vmgenid,guid=8987940a-0951-2cc5-e815-10634ff550b9,id=vmgenid0
+> 
+> Instead it will be replaced by bytes= which will simply write
+> the bytes, in the order they appear, into guest memory with no
+> attempt to interpret or byte-swap.  Something like:
+> 
+>   -device vmgenid,bytes=112233445566778899aabbccddeeff00,id=vmgenid0
+> 
+> (guid although deprecated will need to be kept around for a while,
+> along with its weird byte-swapping behaviour).
+> 
+> We will then have a plain and simple method to emulate the behaviour
+> of other hypervisors.  We will look at exactly what bytes they write
+> to guest memory and copy that behaviour when v2v converting from those
+> hypervisors.
 
-> On Wed, Sep 29, 2021 at 04:41:49PM +0300, Marcel Apfelbaum wrote:
-> > Hi=C2=A0Michael,
-> >=20
-> > On Mon, Sep 27, 2021 at 12:49 PM Michael S. Tsirkin <mst@redhat.com> wr=
-ote:
-> >=20
-> >     On Mon, Sep 27, 2021 at 10:33:42AM +0100, Daniel P. Berrang=C3=A9 w=
-rote: =20
-> >     > On Tue, Aug 03, 2021 at 04:52:03PM -0400, Michael S. Tsirkin wrot=
-e: =20
-> >     > > From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> >     > >
-> >     > > Q35 has now ACPI hotplug enabled by default for PCI(e) devices.
-> >     > > As opposed to native PCIe hotplug, guests like Fedora 34
-> >     > > will not assign IO range to pcie-root-ports not supporting
-> >     > > native hotplug, resulting into a regression.
-> >     > >
-> >     > > Reproduce by:
-> >     > >=C2=A0 =C2=A0 =C2=A0qemu-bin -M q35 -device pcie-root-port,id=3D=
-p1 -monitor stdio
-> >     > >=C2=A0 =C2=A0 =C2=A0device_add e1000,bus=3Dp1
-> >     > > In the Guest OS the respective pcie-root-port will have the IO =
-range
-> >     > > disabled.
-> >     > >
-> >     > > Fix it by setting the "reserve-io" hint capability of the
-> >     > > pcie-root-ports so the firmware will allocate the IO range inst=
-ead.
-> >     > >
-> >     > > Acked-by: Igor Mammedov <imammedo@redhat.com>
-> >     > > Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
-> >     > > Message-Id: <20210802090057.1709775-1-marcel@redhat.com>
-> >     > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> >     > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >     > > ---
-> >     > >=C2=A0 hw/pci-bridge/gen_pcie_root_port.c | 5 +++++
-> >     > >=C2=A0 1 file changed, 5 insertions(+) =20
-> >     >
-> >     > This change, when combined with the switch to ACPI based hotplug =
-by
-> >     > default, is responsible for a significant regression in QEMU 6.1.=
-0
-> >     >
-> >     > It is no longer possible to have more than 15 pcie-root-port devi=
-ces
-> >     > added to a q35 VM in 6.1.0.=C2=A0 Before this I've had as many as=
- 80+ devices
-> >     > present before I stopped trying to add more.
-> >     >
-> >     >=C2=A0 =C2=A0https://gitlab.com/qemu-project/qemu/-/issues/641
-> >     >
-> >     > This regression is significant, because it has broken the out of =
-the
-> >     > box default configuration that OpenStack uses for booting all VMs=
-.
-> >     > They add 16 pcie-root-ports by defalt to allow empty slots for de=
-vice
-> >     > hotplug under q35 [1]. =20
-> >=20
-> >=20
-> >     Indeed, oops. Thanks for the report!
-> >=20
-> >     Going back and looking at seabios code, didn't we get confused?
-> >     Shouldn't we have reserved memory and not IO?
-> >=20
-> >=20
-> > We need the IO space for the legacy PCI bridges, otherwise an empty PCI=
- bridge
-> > will become unusable. =20
->=20
-> Maybe we should go back to using OSC then ... the issue
-> is we can't then mix acpi and native hotplug for bridges.
+I don't have anything against this, I just don't know who's going to
+implement the QEMU change.
 
-How OSC could help with the issue?
-
-> >=20
-> >=20
-> >     I see:
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int resource_optional =3D=
- pcie_cap && (type =3D=3D
-> >     PCI_REGION_TYPE_IO);
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!sum && hotplug_suppo=
-rt && !resource_optional)
-> >     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sum =3D ali=
-gn; /* reserve min size for hot-plug */
-> >=20
-> >=20
-> >     generally maybe we should just add an ACPI-hotplug capability and
-> >     teach seabios about it?
-> >=20
-> >=20
-> > I suppose it is possible.
-> >=20
-> > Thanks,
-> > Marcel
-> > =C2=A0
-> >=20
-> >=20
-> >     Marcel?
-> >  =20
-> >     > > diff --git a/hw/pci-bridge/gen_pcie_root_port.c b/hw/pci-bridge=
-/ =20
-> >     gen_pcie_root_port.c =20
-> >     > > index ec9907917e..20099a8ae3 100644
-> >     > > --- a/hw/pci-bridge/gen_pcie_root_port.c
-> >     > > +++ b/hw/pci-bridge/gen_pcie_root_port.c
-> >     > > @@ -28,6 +28,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(GenPCIERootPort, =
-=20
-> >     GEN_PCIE_ROOT_PORT) =20
-> >     > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (GEN_PCIE_ROOT_PORT_AER_OFFSE=
-T + PCI_ERR_SIZEOF)
-> >     > >=C2=A0
-> >     > >=C2=A0 #define GEN_PCIE_ROOT_PORT_MSIX_NR_VECTOR=C2=A0 =C2=A0 =
-=C2=A0 =C2=A01
-> >     > > +#define GEN_PCIE_ROOT_DEFAULT_IO_RANGE=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 4096
-> >     > >=C2=A0
-> >     > >=C2=A0 struct GenPCIERootPort {
-> >     > >=C2=A0 =C2=A0 =C2=A0 /*< private >*/
-> >     > > @@ -75,6 +76,7 @@ static bool gen_rp_test_migrate_msix(void *op=
-aque, =20
-> >     int version_id) =20
-> >     > >=C2=A0 static void gen_rp_realize(DeviceState *dev, Error **errp=
-)
-> >     > >=C2=A0 {
-> >     > >=C2=A0 =C2=A0 =C2=A0 PCIDevice *d =3D PCI_DEVICE(dev);
-> >     > > +=C2=A0 =C2=A0 PCIESlot *s =3D PCIE_SLOT(d);
-> >     > >=C2=A0 =C2=A0 =C2=A0 GenPCIERootPort *grp =3D GEN_PCIE_ROOT_PORT=
-(d);
-> >     > >=C2=A0 =C2=A0 =C2=A0 PCIERootPortClass *rpc =3D PCIE_ROOT_PORT_G=
-ET_CLASS(d);
-> >     > >=C2=A0 =C2=A0 =C2=A0 Error *local_err =3D NULL;
-> >     > > @@ -85,6 +87,9 @@ static void gen_rp_realize(DeviceState *dev, =
-Error =20
-> >     **errp) =20
-> >     > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;
-> >     > >=C2=A0 =C2=A0 =C2=A0 }
-> >     > >=C2=A0
-> >     > > +=C2=A0 =C2=A0 if (grp->res_reserve.io =3D=3D -1 && s->hotplug =
-&& !s->native_hotplug) =20
-> >     { =20
-> >     > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 grp->res_reserve.io =3D GEN_PCIE_R=
-OOT_DEFAULT_IO_RANGE;
-> >     > > +=C2=A0 =C2=A0 }
-> >     > >=C2=A0 =C2=A0 =C2=A0 int rc =3D pci_bridge_qemu_reserve_cap_init=
-(d, 0,
-> >     > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 grp->res_reserve, errp);
-> >     > >=C2=A0
-> >     > > --
-> >     > > MST
-> >     > >
-> >     > > =20
-> >     >
-> >     > Regards,
-> >     > Daniel
-> >     >
-> >     > [1] https://github.com/openstack/tripleo-heat-templates/blob/ =20
-> >     7a6cd0640ec390a330f5699d8ed60f71b2a9f514/deployment/nova/
-> >     nova-compute-container-puppet.yaml#L462-L472 =20
-> >     > --
-> >     > |: https://berrange.com=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 http=
-s://www.flickr.com/photos/ =20
-> >     dberrange :| =20
-> >     > |: https://libvirt.org=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 https:// =20
-> >     fstop138.berrange.com :| =20
-> >     > |: https://entangle-photo.org=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 https=
-://www.instagram.com/ =20
-> >     dberrange :|
-> >=20
-> >  =20
->=20
+Thanks
+Laszlo
 
 
