@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A9D41E309
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 23:09:49 +0200 (CEST)
-Received: from localhost ([::1]:40826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01D741E2FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 23:06:00 +0200 (CEST)
+Received: from localhost ([::1]:56082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mW3JM-0007cZ-Mu
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 17:09:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60598)
+	id 1mW3Ff-00071X-Sx
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 17:05:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mW37U-0006yb-GU
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 16:57:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36560)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mW37X-00076f-Br
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 16:57:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mW37R-0008WH-NJ
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 16:57:32 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mW37V-00008G-80
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 16:57:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633035449;
+ s=mimecast20190719; t=1633035452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XVoVVh21zBcGPmu266grzEy5Qtc9X3Tp/2KP3hidR8Y=;
- b=OzIbVz5T3uEuIIpkOn64HfZIcGOHwfG4nobJalR29FEOPdWWgfwz2WncMQ4HwTfvH3Mbd0
- k/VgP9VVocS06jdLIQIT8cWdxNILSX1vqWKar9dvGjM1BDLPhIt2yjz7XtVnvzJiCZWbfD
- BVw9WGcE3Dr26U8Lsd6pwPkmeaqRsxg=
+ bh=sP2hUZwS7EDUfocpquC0RQaDc+27DCP/OXm49ig30Kg=;
+ b=UfZgcKwqjM7x7j7IGPfx6avR8ZjMKsV5GW7jEHsulrf1mSC8IJOvRlnR1HZSedgpgjT29P
+ qUYi2rhIlVAdxaQjEwgdO9u4fZDs4/8IgHWPgNbWkuQtEpaNDJO49WymEy4JFXx3xJmdEe
+ uaY2THnYuBgaNrlVsVlngpTQ1x7lBuA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-eUXdK5GVMPuzshgJjycl9w-1; Thu, 30 Sep 2021 16:57:27 -0400
-X-MC-Unique: eUXdK5GVMPuzshgJjycl9w-1
+ us-mta-248--pwNX5UMNECWoK4e3hNlXA-1; Thu, 30 Sep 2021 16:57:28 -0400
+X-MC-Unique: -pwNX5UMNECWoK4e3hNlXA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2C1D814707;
- Thu, 30 Sep 2021 20:57:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFB10100790E;
+ Thu, 30 Sep 2021 20:57:27 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFD905BAF3;
- Thu, 30 Sep 2021 20:57:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE47060938;
+ Thu, 30 Sep 2021 20:57:26 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 07/13] qapi/parser: Introduce NullSection
-Date: Thu, 30 Sep 2021 16:57:10 -0400
-Message-Id: <20210930205716.1148693-8-jsnow@redhat.com>
+Subject: [PATCH v4 08/13] qapi/parser: add import cycle workaround
+Date: Thu, 30 Sep 2021 16:57:11 -0400
+Message-Id: <20210930205716.1148693-9-jsnow@redhat.com>
 In-Reply-To: <20210930205716.1148693-1-jsnow@redhat.com>
 References: <20210930205716.1148693-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,112 +82,103 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here's the weird bit. QAPIDoc generally expects -- virtually everywhere
--- that it will always have a current section. The sole exception to
-this is in the case that end_comment() is called, which leaves us with
-*no* section. However, in this case, we also don't expect to actually
-ever mutate the comment contents ever again.
+Adding static types causes a cycle in the QAPI generator:
+[schema -> expr -> parser -> schema]. It exists because the QAPIDoc
+class needs the names of types defined by the schema module, but the
+schema module needs to import both expr.py/parser.py to do its actual
+parsing.
 
-NullSection is just a Null-object that allows us to maintain the
-invariant that we *always* have a current section, enforced by static
-typing -- allowing us to type that field as QAPIDoc.Section instead of
-the more ambiguous Optional[QAPIDoc.Section].
+Ultimately, the layering violation is that parser.py should not have any
+knowledge of specifics of the Schema. QAPIDoc performs double-duty here
+both as a parser *and* as a finalized object that is part of the schema.
 
-end_section is renamed to switch_section and now accepts as an argument
-the new section to activate, clarifying that no callers ever just
-unilaterally end a section; they only do so when starting a new section.
+In this patch, add the offending type hints alongside the workaround to
+avoid the cycle becoming a problem at runtime. See
+https://mypy.readthedocs.io/en/latest/runtime_troubles.html#import-cycles
+for more information on this workaround technique.
+
+
+I see three ultimate resolutions here:
+
+(1) Just keep this patch and use the TYPE_CHECKING trick to eliminate
+    the cycle which is only present during static analysis.
+
+(2) Don't bother to annotate connect_member() et al, give them 'object'
+    or 'Any'. I don't particularly like this, because it diminishes the
+    usefulness of type hints for documentation purposes. Still, it's an
+    extremely quick fix.
+
+(3) Reimplement doc <--> definition correlation directly in schema.py,
+    integrating doc fields directly into QAPISchemaMember and relieving
+    the QAPIDoc class of the responsibility. Users of the information
+    would instead visit the members first and retrieve their
+    documentation instead of the inverse operation -- visiting the
+    documentation and retrieving their members.
+
+My preference is (3), but in the short-term (1) is the easiest way to
+have my cake (strong type hints) and eat it too (Not have import
+cycles). Do (1) for now, but plan for (3).
+
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-
 ---
-
-For my money: Optional types can be a nuisance because an unfamiliar
-reader may wonder in what circumstances the field may be unset. This
-makes the condition quite a bit more explicit and statically provable.
-
-Doing it in this way (and not by creating a mutable dummy section) will also
-continue to reject (rather noisily) any erroneous attempts to append
-additional lines after end_comment() has been called.
-
-Also, this section isn't indexed into .sections[] and isn't really
-visible in any way to external users of the class, so it seems like a
-harmless and low-cost way to formalize the "life cycle" of a QAPIDoc
-parser.
-
-Clean and clear as I can make it, in as few lines as I could muster.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi/parser.py | 27 ++++++++++++++++-----------
- 1 file changed, 16 insertions(+), 11 deletions(-)
+ scripts/qapi/parser.py | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 82f1d952b13..40c5da4b172 100644
+index 40c5da4b172..75582ddb003 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -478,6 +478,13 @@ def __init__(self, parser, name, indent=0):
-         def connect(self, member):
+@@ -18,6 +18,7 @@
+ import os
+ import re
+ from typing import (
++    TYPE_CHECKING,
+     Dict,
+     List,
+     Optional,
+@@ -30,6 +31,12 @@
+ from .source import QAPISourceInfo
+ 
+ 
++if TYPE_CHECKING:
++    # pylint: disable=cyclic-import
++    # TODO: Remove cycle. [schema -> expr -> parser -> schema]
++    from .schema import QAPISchemaFeature, QAPISchemaMember
++
++
+ # Return value alias for get_expr().
+ _ExprValue = Union[List[object], Dict[str, object], str, bool]
+ 
+@@ -473,9 +480,9 @@ def append(self, line):
+     class ArgSection(Section):
+         def __init__(self, parser, name, indent=0):
+             super().__init__(parser, name, indent)
+-            self.member = None
++            self.member: Optional['QAPISchemaMember'] = None
+ 
+-        def connect(self, member):
++        def connect(self, member: 'QAPISchemaMember') -> None:
              self.member = member
  
-+    class NullSection(Section):
-+        """
-+        Immutable dummy section for use at the end of a doc block.
-+        """
-+        def append(self, line):
-+            assert False, "Text appended after end_comment() called."
-+
-     def __init__(self, parser, info):
-         # self._parser is used to report errors with QAPIParseError.  The
-         # resulting error position depends on the state of the parser.
-@@ -525,7 +532,7 @@ def append(self, line):
-         self._append_line(line)
+     class NullSection(Section):
+@@ -747,14 +754,14 @@ def _append_freeform(self, line):
+                                  % match.group(1))
+         self._section.append(line)
  
-     def end_comment(self):
--        self._end_section()
-+        self._switch_section(QAPIDoc.NullSection(self._parser))
+-    def connect_member(self, member):
++    def connect_member(self, member: 'QAPISchemaMember') -> None:
+         if member.name not in self.args:
+             # Undocumented TODO outlaw
+             self.args[member.name] = QAPIDoc.ArgSection(self._parser,
+                                                         member.name)
+         self.args[member.name].connect(member)
  
-     @staticmethod
-     def _is_section_tag(name):
-@@ -699,9 +706,9 @@ def _start_symbol_section(self, symbols_dict, name, indent):
-             raise QAPIParseError(self._parser,
-                                  "'%s' parameter name duplicated" % name)
-         assert not self.sections
--        self._end_section()
--        self._section = QAPIDoc.ArgSection(self._parser, name, indent)
--        symbols_dict[name] = self._section
-+        new_section = QAPIDoc.ArgSection(self._parser, name, indent)
-+        self._switch_section(new_section)
-+        symbols_dict[name] = new_section
- 
-     def _start_args_section(self, name, indent):
-         self._start_symbol_section(self.args, name, indent)
-@@ -713,13 +720,11 @@ def _start_section(self, name=None, indent=0):
-         if name in ('Returns', 'Since') and self.has_section(name):
-             raise QAPIParseError(self._parser,
-                                  "duplicated '%s' section" % name)
--        self._end_section()
--        self._section = QAPIDoc.Section(self._parser, name, indent)
--        self.sections.append(self._section)
--
--    def _end_section(self):
--        assert self._section is not None
-+        new_section = QAPIDoc.Section(self._parser, name, indent)
-+        self._switch_section(new_section)
-+        self.sections.append(new_section)
- 
-+    def _switch_section(self, new_section):
-         text = self._section.text = self._section.text.strip()
- 
-         # Only the 'body' section is allowed to have an empty body.
-@@ -732,7 +737,7 @@ def _end_section(self):
-                 self._parser,
-                 "empty doc section '%s'" % self._section.name)
- 
--        self._section = None
-+        self._section = new_section
- 
-     def _append_freeform(self, line):
-         match = re.match(r'(@\S+:)', line)
+-    def connect_feature(self, feature):
++    def connect_feature(self, feature: 'QAPISchemaFeature') -> None:
+         if feature.name not in self.features:
+             raise QAPISemError(feature.info,
+                                "feature '%s' lacks documentation"
 -- 
 2.31.1
 
