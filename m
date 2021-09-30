@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8F741D690
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 11:43:33 +0200 (CEST)
-Received: from localhost ([::1]:50690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF6241D6B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 11:47:18 +0200 (CEST)
+Received: from localhost ([::1]:55566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVsbE-0006Qk-J9
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 05:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35622)
+	id 1mVser-0001SK-2F
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 05:47:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mVsYy-0004LV-A4
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:41:12 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:41807)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mVsYw-0007CL-0y
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:41:11 -0400
-Received: by mail-ed1-x532.google.com with SMTP id s17so19503491edd.8
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 02:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UncZKiMNSEy9uBtzahFZI3CWkZfU/Avb9ILzeJS2iTw=;
- b=dw+8U15Uzqn67ONibuCvxP2lJH9ALTrWVzu5jvH4vx8qURLBDMaPW0CWUfTcyIG6Ca
- CMYPCdUaE19+7aab5U3aRNdRc+ajYSI2nDOcaft6AmucPZoEdSUwvLq1RqaOuMO07zTb
- wFUDRP/o5y27TkjWXbDfZzOdmp2bnTmFEZaWcVu8wN7wQSsXhSKEJ+2wnEG24dXd2P04
- IDL0fo7NTbYPMQCsXriMs0f00ETNg7+8CW9BLhqXonOeiNaXqVnshjlrWqMXsFMDtcjB
- wDdnV+W0NRc9AEdAJg/y63coCaOlInY748QOYqeNVouiujfTcYzyUWYP01JXCKokdX+w
- PRsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UncZKiMNSEy9uBtzahFZI3CWkZfU/Avb9ILzeJS2iTw=;
- b=sW025vAxE6FFBirRtEnFGxMWU4H3wK6x1rh7oAa5sGz8LNy8Pw0fpc2bunm2WuSbWN
- tE9nbfsERixp/u8w1jdUjnpGKM1pojmBt4OwvLBshOXGZiLuigUvsc8tMsQIWPkNcBv3
- FIQIUpYefUIbVa1gZTD4LmnbzpXHO+WhyMiMsJOeSdAHOxu7gDw5/W+N4GvZFSjg6Hbt
- LT3hchlrMbljELmhmZmVpzgDocqB1OUUw0rv3UyksW/Jcav0KS38KnrJcy+D/z7/84NU
- p9G2bmX0xnv1ZLur/tJFtzZu9k1If7Upc9aI16g/NcR18fH+v3rjvUYTUwhxngZKhSvi
- ROLw==
-X-Gm-Message-State: AOAM5316i0Gq2ylkXx9X5ab+7vSmtlsIJRbnm2dcZqOYpMlw0GPouUl7
- VasUxxOBMxcxPWzsAh0fpfmUq75vOhKFhmFdXvb00a7Yd5k=
-X-Google-Smtp-Source: ABdhPJyUdugnsWvZC46GdX6UrdEIud+bcnY5aE6R2CFv7QCBYlH6RQl8gz/arXu9PK+3EgGFh2rq+YDqjzcaTEwWF9k=
-X-Received: by 2002:a17:906:4cc1:: with SMTP id
- q1mr5324373ejt.415.1632994867983; 
- Thu, 30 Sep 2021 02:41:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mVsdN-0000YU-9c
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:45:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34365)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mVsdL-0002I4-17
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:45:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632995142;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hFkIwd1ugNBfveGeQ60wOK6s9VJVn1EX0zkd0ztFizE=;
+ b=iFMFVxMAlXUp7ABCsryBI51BQ3d7X3PKf/+c0hSJtWxyIKUlJOFEAKTMdCZTZKN2YsANsP
+ 6fkLts//4bVTN50VoODGCH6RUBMKGuLKSnwZhADGZDYa2B+XRPOM4NDIqmdL142ddZlR4z
+ 7EPc5SucayFHKoZKKrfN11w39H9/E2o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-n61PQ06OMB6EahDWPVGdhA-1; Thu, 30 Sep 2021 05:45:37 -0400
+X-MC-Unique: n61PQ06OMB6EahDWPVGdhA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99AFE1044699;
+ Thu, 30 Sep 2021 09:45:36 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2730E5F70B;
+ Thu, 30 Sep 2021 09:45:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AB44E113865F; Thu, 30 Sep 2021 11:45:15 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 09/13] qapi/parser: add import cycle workaround
+References: <20210929194428.1038496-1-jsnow@redhat.com>
+ <20210929194428.1038496-10-jsnow@redhat.com>
+Date: Thu, 30 Sep 2021 11:45:15 +0200
+In-Reply-To: <20210929194428.1038496-10-jsnow@redhat.com> (John Snow's message
+ of "Wed, 29 Sep 2021 15:44:24 -0400")
+Message-ID: <87o88aqtw4.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20210916053733.3457822-1-ani@anisinha.ca>
-In-Reply-To: <20210916053733.3457822-1-ani@anisinha.ca>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Thu, 30 Sep 2021 15:10:57 +0530
-Message-ID: <CAARzgwyN1tFNWYjua5S_eEwBgjA_g-_6KC2+cSkEaih4piSDiw@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: add myself as a reviewer for KVM guest cpu
- related changes
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000006cfe305cd333fe7"
-Received-SPF: none client-ip=2a00:1450:4864:20::532;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,95 +80,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000006cfe305cd333fe7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+John Snow <jsnow@redhat.com> writes:
 
-I take this back. I=E2=80=99m not sure if I=E2=80=99ll have a lot of spare =
-time to review
-patches in this area. Sadly there is no means to monitor changes/commits in
-a particular area without taking on review responsibilities. Essentially
-there has to be a =E2=80=9Cwatchers=E2=80=9D category. Badly needed IMHO. S=
-omeone mentioned
-this in the forum too.
+> There is a cycle that exists in the QAPI generator: [schema -> expr ->
 
-On Thu, Sep 16, 2021 at 11:08 Ani Sinha <ani@anisinha.ca> wrote:
+"There is" or "there will be once we add strong type hints"?
 
-> I have looked into cpu features for KVM guests as a part of a different
-> project. Would be interested to follow and review patches in this space.
+> parser -> schema]. It exists because the QAPIDoc class needs the names
+> of types defined by the schema module, but the schema module needs to
+> import both expr.py/parser.py to do its actual parsing.
 >
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> Ultimately, the layering violation is that parser.py should not have any
+> knowledge of specifics of the Schema. QAPIDoc performs double-duty here
+> both as a parser *and* as a finalized object that is part of the schema.
+>
+> I see three paths here:
+>
+> (1) Just use the TYPE_CHECKING trick to eliminate the cycle which is only
+>     present during static analysis.
+>
+> (2) Don't bother to annotate connect_member() et al, give them 'object'
+>     or 'Any'. I don't particularly like this, because it diminishes the
+>     usefulness of type hints for documentation purposes. Still, it's an
+>     extremely quick fix.
+>
+> (3) Reimplement doc <--> definition correlation directly in schema.py,
+>     integrating doc fields directly into QAPISchemaMember and relieving
+>     the QAPIDoc class of the responsibility. Users of the information
+>     would instead visit the members first and retrieve their
+>     documentation instead of the inverse operation -- visiting the
+>     documentation and retrieving their members.
+>
+> I prefer (3), but (1) is the easiest way to have my cake (strong type
+> hints) and eat it too (Not have import cycles). Do (1) for now, but plan
+> for (3). See also:
+> https://mypy.readthedocs.io/en/latest/runtime_troubles.html#import-cycles
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+>  scripts/qapi/parser.py | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6c20634d63..3a3167c499 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -364,6 +364,7 @@ Guest CPU Cores (KVM)
->  ---------------------
->  Overall KVM CPUs
->  M: Paolo Bonzini <pbonzini@redhat.com>
-> +R: Ani Sinha <ani@anisinha.ca>
->  L: kvm@vger.kernel.org
->  S: Supported
->  F: */*/kvm*
-> --
-> 2.25.1
->
->
+> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> index 123fc2f099c..30b1d98df0b 100644
+> --- a/scripts/qapi/parser.py
+> +++ b/scripts/qapi/parser.py
+> @@ -18,6 +18,7 @@
+>  import os
+>  import re
+>  from typing import (
+> +    TYPE_CHECKING,
+>      Dict,
+>      List,
+>      Optional,
+> @@ -30,6 +31,12 @@
+>  from .source import QAPISourceInfo
+>  
+>  
+> +if TYPE_CHECKING:
+> +    # pylint: disable=cyclic-import
+> +    # TODO: Remove cycle. [schema -> expr -> parser -> schema]
+> +    from .schema import QAPISchemaFeature, QAPISchemaMember
+> +
+> +
+>  # Return value alias for get_expr().
+>  _ExprValue = Union[List[object], Dict[str, object], str, bool]
+>  
+> @@ -473,9 +480,9 @@ def append(self, line):
+>      class ArgSection(Section):
+>          def __init__(self, parser, name, indent=0):
+>              super().__init__(parser, name, indent)
+> -            self.member = None
+> +            self.member: Optional['QAPISchemaMember'] = None
+>  
+> -        def connect(self, member):
+> +        def connect(self, member: 'QAPISchemaMember') -> None:
+>              self.member = member
+>  
+>      class NullSection(Section):
+> @@ -750,14 +757,14 @@ def _append_freeform(self, line):
+>                                   % match.group(1))
+>          self._section.append(line)
+>  
+> -    def connect_member(self, member):
+> +    def connect_member(self, member: 'QAPISchemaMember') -> None:
+>          if member.name not in self.args:
+>              # Undocumented TODO outlaw
+>              self.args[member.name] = QAPIDoc.ArgSection(self._parser,
+>                                                          member.name)
+>          self.args[member.name].connect(member)
+>  
+> -    def connect_feature(self, feature):
+> +    def connect_feature(self, feature: 'QAPISchemaFeature') -> None:
+>          if feature.name not in self.features:
+>              raise QAPISemError(feature.info,
+>                                 "feature '%s' lacks documentation"
 
---00000000000006cfe305cd333fe7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This adds just the type hints that cause the cycle.  I like that,
+because it illustrates the cycle.  Would be nice if the commit message
+mentioned this, perhaps
 
-<div dir=3D"auto">I take this back. I=E2=80=99m not sure if I=E2=80=99ll ha=
-ve a lot of spare time to review patches in this area. Sadly there is no me=
-ans to monitor changes/commits in a particular area without taking on revie=
-w responsibilities. Essentially there has to be a =E2=80=9Cwatchers=E2=80=
-=9D category. Badly needed IMHO. Someone mentioned this in the forum too.</=
-div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Thu, Sep 16, 2021 at 11:08 Ani Sinha &lt;<a href=3D"mailto:ani@anisin=
-ha.ca">ani@anisinha.ca</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
-x">I have looked into cpu features for KVM guests as a part of a different<=
-br>
-project. Would be interested to follow and review patches in this space.<br=
->
-<br>
-Signed-off-by: Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" target=3D"_=
-blank">ani@anisinha.ca</a>&gt;<br>
----<br>
-=C2=A0MAINTAINERS | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/MAINTAINERS b/MAINTAINERS<br>
-index 6c20634d63..3a3167c499 100644<br>
---- a/MAINTAINERS<br>
-+++ b/MAINTAINERS<br>
-@@ -364,6 +364,7 @@ Guest CPU Cores (KVM)<br>
-=C2=A0---------------------<br>
-=C2=A0Overall KVM CPUs<br>
-=C2=A0M: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D=
-"_blank">pbonzini@redhat.com</a>&gt;<br>
-+R: Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" target=3D"_blank">ani@=
-anisinha.ca</a>&gt;<br>
-=C2=A0L: <a href=3D"mailto:kvm@vger.kernel.org" target=3D"_blank">kvm@vger.=
-kernel.org</a><br>
-=C2=A0S: Supported<br>
-=C2=A0F: */*/kvm*<br>
--- <br>
-2.25.1<br>
-<br>
-</blockquote></div></div>
+  I prefer (3), but (1) is the easiest way to have my cake (strong type
+  hints) and eat it too (Not have import cycles). Do (1) for now, but plan
+  for (3). Also add the type hints that cause the cycle right away to
+  illustrate. See also:
+  https://mypy.readthedocs.io/en/latest/runtime_troubles.html#import-cycles
 
---00000000000006cfe305cd333fe7--
+Slightly nicer, I think, would be swapping this and the next patch.
+Then that one's commit message needs to say something like "except for a
+few problematic ones, which the next commit will add".  Worthwhile?  Up
+to you.
+
 
