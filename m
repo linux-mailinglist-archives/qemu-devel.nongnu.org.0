@@ -2,52 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F5341D821
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 12:54:12 +0200 (CEST)
-Received: from localhost ([::1]:56834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC3E41D820
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 12:53:56 +0200 (CEST)
+Received: from localhost ([::1]:58350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVthb-0003Mt-KU
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 06:54:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52032)
+	id 1mVthL-0004Qh-Cp
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 06:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1mVta4-0000Tu-Eg; Thu, 30 Sep 2021 06:46:25 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:45371)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mVtg3-0003c7-A2
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 06:52:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1mVta2-0003Ak-LB; Thu, 30 Sep 2021 06:46:24 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 6AD0C408E1;
- Thu, 30 Sep 2021 13:46:09 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id 3DEA68E;
- Thu, 30 Sep 2021 13:46:09 +0300 (MSK)
-Subject: Re: [PATCH] virtio-net : Add check for VIRTIO_NET_F_MAC
-To: Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20210929065215.21549-1-lulu@redhat.com>
- <8566c96d-5a61-fec7-f898-e5ac0937fd06@msgid.tls.msk.ru>
- <CACLfguUZ-JrcGenNecUZkaXf7upRiih73QPkhxN+fPKFaEpL8A@mail.gmail.com>
- <20210929093513-mutt-send-email-mst@kernel.org>
- <CACLfguVsjZbDo0JXMHJeNSusOyimajOABBG66T6tm32QN=ihEw@mail.gmail.com>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Message-ID: <6e7328e3-7cee-a99b-ebe9-dd4d9507495a@msgid.tls.msk.ru>
-Date: Thu, 30 Sep 2021 13:46:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mVtg1-00007h-4s
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 06:52:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632999151;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RwHY83yLnKOARk2ADkAxs/oPMfJa/fRmQXGPm6qpoNA=;
+ b=NRlSqVU5z60DNZPTkpF6OPZsOzE124wpNTiP2WYeeLjeaDHMfGOdn/BkFKJi+Lka1CPTF+
+ P0t65prm2GxPYh0rR3DaKOv0HuFxHQedCSKKxWCegQSg+1R08LUdL43HM/hGA06kcR/7u+
+ msjXErNzxf8dtZjpxJRjfdrIO5trAoU=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-R6fkzsT5OKKP0g_HGtI3FA-1; Thu, 30 Sep 2021 06:52:27 -0400
+X-MC-Unique: R6fkzsT5OKKP0g_HGtI3FA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ 14-20020a508e4e000000b003d84544f33eso5862609edx.2
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 03:52:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=RwHY83yLnKOARk2ADkAxs/oPMfJa/fRmQXGPm6qpoNA=;
+ b=tDLqkLWBqVlacsnsE43GGz2GvKBsutkoCJA6qxDu8sx+0IDEZ9dCdnQUHf2V71FByM
+ YFgP/agrVo0E78RXBQv7qnKYrK2WoC+J34xhu/K41bd2/ghe0wRCOaldGwJUg7AJUnpd
+ gBTResUTeQQx843cff8YaARo2h0chuz08pLWzITp4ccrD6q2Py0+5kNLtbyAhFjIaIty
+ X/BT/nOLvc/ebFR/XvvjO9BCOnTwI2IVjXiwuN+vaE7CGiKungYAfzEwO6lIP2nHygVh
+ 4a5P3wXHtnMJHzXSToY8z+0IAA+VmuEpnN/xv/CeUjg4aejl9Pv6nd7UvaRertBRwQyf
+ eL/w==
+X-Gm-Message-State: AOAM533PaYrlzywMRuEe0SNDkHwPgOZaz0+0w+aKJsXLc2xVa89o0Hf0
+ yE9WRYL4YyUDPHuvkidoG1Fh/yOkDqTUliHb1t5025Wypz2TjzuclheVIZA7GboNapLLLTG9Hbf
+ B17/An0NERnP54EU=
+X-Received: by 2002:a50:d987:: with SMTP id w7mr6207364edj.240.1632999146219; 
+ Thu, 30 Sep 2021 03:52:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzf8eMxWpCzYYnHzJSzHJgO+gXUL9X+XsD76jzy/ab6E3+F1DnhE29sbPFU4cCDUPDo3RcUbg==
+X-Received: by 2002:a50:d987:: with SMTP id w7mr6207332edj.240.1632999145958; 
+ Thu, 30 Sep 2021 03:52:25 -0700 (PDT)
+Received: from redhat.com ([2.55.134.220])
+ by smtp.gmail.com with ESMTPSA id h18sm1271972ejt.29.2021.09.30.03.52.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Sep 2021 03:52:24 -0700 (PDT)
+Date: Thu, 30 Sep 2021 06:52:21 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PULL 1/5] hw/pcie-root-port: Fix hotplug for PCI devices
+ requiring IO
+Message-ID: <20210930065118-mutt-send-email-mst@kernel.org>
+References: <20210803205043.165034-1-mst@redhat.com>
+ <20210803205043.165034-2-mst@redhat.com>
+ <YVGP9vdTtu5sRVpl@redhat.com>
+ <20210927053932-mutt-send-email-mst@kernel.org>
+ <CA+aaKfDO_KRZYova9fGkPAr0vgh=YygATZ87iwrfqeV=CyN=tg@mail.gmail.com>
+ <20210929172519-mutt-send-email-mst@kernel.org>
+ <20210930103424.5f408978@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CACLfguVsjZbDo0JXMHJeNSusOyimajOABBG66T6tm32QN=ihEw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.03,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210930103424.5f408978@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,23 +101,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-stable@nongnu.org
+Cc: marcel@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-30.09.2021 04:35, Cindy Lu wrote:
-[]
-> so here come to the final question. which mac address has the higher priority?
-> I think the NET_F_MAC bit means the hw mac address > command-line address.
-> if the hw drivers want to change this. they can simply remove this bit.
+On Thu, Sep 30, 2021 at 10:34:24AM +0200, Igor Mammedov wrote:
+> On Wed, 29 Sep 2021 17:47:37 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> 
+> > On Wed, Sep 29, 2021 at 04:41:49PM +0300, Marcel Apfelbaum wrote:
+> > > Hi Michael,
+> > > 
+> > > On Mon, Sep 27, 2021 at 12:49 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > 
+> > >     On Mon, Sep 27, 2021 at 10:33:42AM +0100, Daniel P. Berrangé wrote:  
+> > >     > On Tue, Aug 03, 2021 at 04:52:03PM -0400, Michael S. Tsirkin wrote:  
+> > >     > > From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> > >     > >
+> > >     > > Q35 has now ACPI hotplug enabled by default for PCI(e) devices.
+> > >     > > As opposed to native PCIe hotplug, guests like Fedora 34
+> > >     > > will not assign IO range to pcie-root-ports not supporting
+> > >     > > native hotplug, resulting into a regression.
+> > >     > >
+> > >     > > Reproduce by:
+> > >     > >     qemu-bin -M q35 -device pcie-root-port,id=p1 -monitor stdio
+> > >     > >     device_add e1000,bus=p1
+> > >     > > In the Guest OS the respective pcie-root-port will have the IO range
+> > >     > > disabled.
+> > >     > >
+> > >     > > Fix it by setting the "reserve-io" hint capability of the
+> > >     > > pcie-root-ports so the firmware will allocate the IO range instead.
+> > >     > >
+> > >     > > Acked-by: Igor Mammedov <imammedo@redhat.com>
+> > >     > > Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
+> > >     > > Message-Id: <20210802090057.1709775-1-marcel@redhat.com>
+> > >     > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > >     > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > >     > > ---
+> > >     > >  hw/pci-bridge/gen_pcie_root_port.c | 5 +++++
+> > >     > >  1 file changed, 5 insertions(+)  
+> > >     >
+> > >     > This change, when combined with the switch to ACPI based hotplug by
+> > >     > default, is responsible for a significant regression in QEMU 6.1.0
+> > >     >
+> > >     > It is no longer possible to have more than 15 pcie-root-port devices
+> > >     > added to a q35 VM in 6.1.0.  Before this I've had as many as 80+ devices
+> > >     > present before I stopped trying to add more.
+> > >     >
+> > >     >   https://gitlab.com/qemu-project/qemu/-/issues/641
+> > >     >
+> > >     > This regression is significant, because it has broken the out of the
+> > >     > box default configuration that OpenStack uses for booting all VMs.
+> > >     > They add 16 pcie-root-ports by defalt to allow empty slots for device
+> > >     > hotplug under q35 [1].  
+> > > 
+> > > 
+> > >     Indeed, oops. Thanks for the report!
+> > > 
+> > >     Going back and looking at seabios code, didn't we get confused?
+> > >     Shouldn't we have reserved memory and not IO?
+> > > 
+> > > 
+> > > We need the IO space for the legacy PCI bridges, otherwise an empty PCI bridge
+> > > will become unusable.  
+> > 
+> > Maybe we should go back to using OSC then ... the issue
+> > is we can't then mix acpi and native hotplug for bridges.
+> 
+> How OSC could help with the issue?
 
-At the very least, qemu should NEVER silently ignore stuff specified
-on the command line. It should either warn the user or error out if
-command-line parameter can not be applied for whatever reason.
+guests see the pci capability and vonclude that bridge supports hotplug.
+ 
 
-I don't know the context, what NET_F_MAC is, but the general rule is
-this: if the user specified something, it must not be ignored.
+> > > 
+> > > 
+> > >     I see:
+> > >                 int resource_optional = pcie_cap && (type ==
+> > >     PCI_REGION_TYPE_IO);
+> > >                 if (!sum && hotplug_support && !resource_optional)
+> > >                     sum = align; /* reserve min size for hot-plug */
+> > > 
+> > > 
+> > >     generally maybe we should just add an ACPI-hotplug capability and
+> > >     teach seabios about it?
+> > > 
+> > > 
+> > > I suppose it is possible.
+> > > 
+> > > Thanks,
+> > > Marcel
+> > >  
+> > > 
+> > > 
+> > >     Marcel?
+> > >   
+> > >     > > diff --git a/hw/pci-bridge/gen_pcie_root_port.c b/hw/pci-bridge/  
+> > >     gen_pcie_root_port.c  
+> > >     > > index ec9907917e..20099a8ae3 100644
+> > >     > > --- a/hw/pci-bridge/gen_pcie_root_port.c
+> > >     > > +++ b/hw/pci-bridge/gen_pcie_root_port.c
+> > >     > > @@ -28,6 +28,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(GenPCIERootPort,  
+> > >     GEN_PCIE_ROOT_PORT)  
+> > >     > >          (GEN_PCIE_ROOT_PORT_AER_OFFSET + PCI_ERR_SIZEOF)
+> > >     > > 
+> > >     > >  #define GEN_PCIE_ROOT_PORT_MSIX_NR_VECTOR       1
+> > >     > > +#define GEN_PCIE_ROOT_DEFAULT_IO_RANGE          4096
+> > >     > > 
+> > >     > >  struct GenPCIERootPort {
+> > >     > >      /*< private >*/
+> > >     > > @@ -75,6 +76,7 @@ static bool gen_rp_test_migrate_msix(void *opaque,  
+> > >     int version_id)  
+> > >     > >  static void gen_rp_realize(DeviceState *dev, Error **errp)
+> > >     > >  {
+> > >     > >      PCIDevice *d = PCI_DEVICE(dev);
+> > >     > > +    PCIESlot *s = PCIE_SLOT(d);
+> > >     > >      GenPCIERootPort *grp = GEN_PCIE_ROOT_PORT(d);
+> > >     > >      PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(d);
+> > >     > >      Error *local_err = NULL;
+> > >     > > @@ -85,6 +87,9 @@ static void gen_rp_realize(DeviceState *dev, Error  
+> > >     **errp)  
+> > >     > >          return;
+> > >     > >      }
+> > >     > > 
+> > >     > > +    if (grp->res_reserve.io == -1 && s->hotplug && !s->native_hotplug)  
+> > >     {  
+> > >     > > +        grp->res_reserve.io = GEN_PCIE_ROOT_DEFAULT_IO_RANGE;
+> > >     > > +    }
+> > >     > >      int rc = pci_bridge_qemu_reserve_cap_init(d, 0,
+> > >     > >                                                grp->res_reserve, errp);
+> > >     > > 
+> > >     > > --
+> > >     > > MST
+> > >     > >
+> > >     > >  
+> > >     >
+> > >     > Regards,
+> > >     > Daniel
+> > >     >
+> > >     > [1] https://github.com/openstack/tripleo-heat-templates/blob/  
+> > >     7a6cd0640ec390a330f5699d8ed60f71b2a9f514/deployment/nova/
+> > >     nova-compute-container-puppet.yaml#L462-L472  
+> > >     > --
+> > >     > |: https://berrange.com      -o-    https://www.flickr.com/photos/  
+> > >     dberrange :|  
+> > >     > |: https://libvirt.org         -o-            https://  
+> > >     fstop138.berrange.com :|  
+> > >     > |: https://entangle-photo.org    -o-    https://www.instagram.com/  
+> > >     dberrange :|
+> > > 
+> > >   
+> > 
 
-/mjt
 
