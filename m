@@ -2,43 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B53C41DB10
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:29:54 +0200 (CEST)
-Received: from localhost ([::1]:47838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F2441D956
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 14:07:14 +0200 (CEST)
+Received: from localhost ([::1]:60572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVw8H-0000kG-2z
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:29:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37368)
+	id 1mVuqH-0003nZ-EC
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 08:07:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel@labath.sk>) id 1mVsk9-0007HT-51
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:52:45 -0400
-Received: from holomatrix.labath.sk ([92.48.125.149]:53642)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel@labath.sk>) id 1mVsk6-00076N-Re
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:52:44 -0400
-Received: from unimatrix0.localdomain (unknown [172.29.152.10])
- by holomatrix.labath.sk (Postfix) with ESMTPS id 717477760C55;
- Thu, 30 Sep 2021 09:51:38 +0000 (GMT)
-Received: by unimatrix0.localdomain (Postfix, from userid 1000)
- id F34302940A9; Thu, 30 Sep 2021 11:51:37 +0200 (CEST)
-From: Pavel Labath <pavel@labath.sk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] gdbstub: Switch to the thread receiving a signal
-Date: Thu, 30 Sep 2021 11:51:11 +0200
-Message-Id: <20210930095111.23205-1-pavel@labath.sk>
-X-Mailer: git-send-email 2.32.0
+ (Exim 4.90_1) (envelope-from <rashmica.g@gmail.com>)
+ id 1mVuoP-0002sD-Hk
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 08:05:17 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:37828)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rashmica.g@gmail.com>)
+ id 1mVuoK-0005xi-RU
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 08:05:17 -0400
+Received: by mail-pf1-x429.google.com with SMTP id s55so3722563pfw.4
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 05:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=GvZJRa2AOYs2WenkqYjS9GuxoJCyDE5kItx4sT1WQ8k=;
+ b=HGHWPjVSdbfBTLEygBHn+6c3SHK5oD9ElGqu2JZ1qqNfDXpYdHf3fkP033gFXnaOFe
+ 8WKR6ClSHnOa8FT7YfDRHPPiHM/AHfuuQG7W+nIGlyHeOyRdnlPrfzGqxevTivUIJB6W
+ qmRr0KRboof01Iv9/MIQ8iPzuddimNksWYsKYUtLXl3ZWe/296388PdEA81WtydLLyWt
+ Dw1SpvKgeOQFs+7N5DEO5IdQLMh+nq1L3eav63Kja1A0pyNLcTjbN5OIzSOWwfQEJCsf
+ s1LIHWI8FfgkfP9/7w1uEk8mEI7BBifQGLWNyckV7oR5CYjWR6X5UrsZZ5KMEzqGDxws
+ BfUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=GvZJRa2AOYs2WenkqYjS9GuxoJCyDE5kItx4sT1WQ8k=;
+ b=pYfRNVC4GEni+SkeglseT5rCB0wMRl9GhwVQiR56F8XB2HAqbakutTkGRK2RtlvM7o
+ KMfDF6+d26xnwd83xopKC3WxstDbzwAm81ww+id2WUW22+VRSG/QdkZlTY2vRXJ6euP1
+ muE1UrAotPZrDXedfX8IuDRyUFR3ZmdvlGsUwZn+2qGCFIRDf2D+PgSZo3DVxDIrEqAI
+ ZLX+Kk+9aPQGJCnTod8s8O5xJVkFIl8rQtPkkCeHHiSKtz9m4VPBnb1322fALT0tgfuo
+ 2l40CVqrNZ6cJJn1I1FQBG/TcCkoOzHzAa56FUUkhx/oKZPRCPVtKL/EuyMy0rx/es4k
+ mHXg==
+X-Gm-Message-State: AOAM533c/G33KhfDy3PeJYMD/9TZpcDDk68l1w8rWu2E4Mk6K7DrzYkQ
+ zJfh1HSGfQ0lzHLTXDs0ago=
+X-Google-Smtp-Source: ABdhPJxGEkTBa9qS9UDzTk5X0zeXB+rT8zefL7qP68eR6T8GB5122CqD9ylfTO6zgS6jlIdXq4gwiw==
+X-Received: by 2002:a63:200a:: with SMTP id g10mr4534376pgg.242.1633003509775; 
+ Thu, 30 Sep 2021 05:05:09 -0700 (PDT)
+Received: from [10.0.30.13] (203-123-126-183.ip4.superloop.com.
+ [203.123.126.183])
+ by smtp.googlemail.com with ESMTPSA id h13sm2881949pgf.14.2021.09.30.05.05.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Sep 2021 05:05:09 -0700 (PDT)
+Message-ID: <3ff823c0ca926013ba057280bba533c8fd571570.camel@gmail.com>
+Subject: Re: [PATCH 1/1] hw: aspeed_gpio: Fix pin I/O type declarations
+From: Rashmica Gupta <rashmica.g@gmail.com>
+To: Peter Delevoryas <pdel@fb.com>
+Date: Thu, 30 Sep 2021 22:05:04 +1000
+In-Reply-To: <7B801EC5-8A3B-4C06-8FDA-194AD84C437C@fb.com>
+References: <20210928032456.3192603-1-pdel@fb.com>
+ <20210928032456.3192603-2-pdel@fb.com>
+ <00f8b06a-337a-2a93-8f22-642760424905@greensocs.com>
+ <7B801EC5-8A3B-4C06-8FDA-194AD84C437C@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=92.48.125.149; envelope-from=pavel@labath.sk;
- helo=holomatrix.labath.sk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=rashmica.g@gmail.com; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 30 Sep 2021 09:20:08 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,130 +87,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Pavel Labath <pavel@labath.sk>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: "damien.hedde@greensocs.com" <damien.hedde@greensocs.com>,
+ Cameron Esfahani via <qemu-devel@nongnu.org>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
+ =?ISO-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Dan Zhang <zhdaniel@fb.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Respond with Txxthread:yyyy; instead of a plain Sxx to indicate which
-thread received the signal. Otherwise, the debugger will associate it
-with the main one. Also automatically select this thread, as that is
-what gdb expects.
+On Thu, 2021-09-30 at 00:45 +0000, Peter Delevoryas wrote:
+> 
+> > On Sep 28, 2021, at 3:53 AM, Damien Hedde
+> > <damien.hedde@greensocs.com> wrote:
+> > 
+> > 
+> > 
+> > On 9/28/21 05:24, pdel@fb.com wrote:
+> > > From: Peter Delevoryas <pdel@fb.com>
+> > > Some of the pin declarations in the Aspeed GPIO module were
+> > > incorrect,
+> > > probably because of confusion over which bits in the input and
+> > > output
+> > > uint32_t's correspond to which groups in the label array. Since
+> > > the
+> > > uint32_t literals are in big endian, it's sort of the opposite of
+> > > what
+> > > would be intuitive. The least significant bit in
+> > > ast2500_set_props[6]
+> > > corresponds to GPIOY0, not GPIOAB7.
 
-Signed-off-by: Pavel Labath <pavel@labath.sk>
----
- gdbstub.c                                     |  9 ++-
- tests/tcg/multiarch/Makefile.target           |  7 +++
- .../gdbstub/test-thread-breakpoint.py         | 60 +++++++++++++++++++
- 3 files changed, 74 insertions(+), 2 deletions(-)
- create mode 100644 tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
+Looks like I didn't think about endianness! I remember there was
+conflicting information about which groups of GPIOs were input only -
+the input/output table says groups W and X for ast2600 while the info
+in direction registers says T and U. I don't recall why I went with the
+former over the latter but the latter seems to be correct as this is
+what is in the kernel driver.
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 36b85aa..7bd4479 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -3138,8 +3138,13 @@ gdb_handlesig(CPUState *cpu, int sig)
-     tb_flush(cpu);
- 
-     if (sig != 0) {
--        snprintf(buf, sizeof(buf), "S%02x", target_signal_to_gdb(sig));
--        put_packet(buf);
-+        gdbserver_state.c_cpu = cpu;
-+        gdbserver_state.g_cpu = cpu;
-+        g_string_printf(gdbserver_state.str_buf,
-+                        "T%02xthread:", target_signal_to_gdb(sig));
-+        gdb_append_thread_id(cpu, gdbserver_state.str_buf);
-+        g_string_append_c(gdbserver_state.str_buf, ';');
-+        put_strbuf();
-     }
-     /* put_packet() might have detected that the peer terminated the
-        connection.  */
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index 85a6fb7..c7b7e8b 100644
---- a/tests/tcg/multiarch/Makefile.target
-+++ b/tests/tcg/multiarch/Makefile.target
-@@ -73,6 +73,13 @@ run-gdbstub-qxfer-auxv-read: sha1
- 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-qxfer-auxv-read.py, \
- 	"basic gdbstub qXfer:auxv:read support")
- 
-+run-gdbstub-thread-breakpoint: testthread
-+	$(call run-test, $@, $(GDB_SCRIPT) \
-+		--gdb $(HAVE_GDB_BIN) \
-+		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
-+		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-thread-breakpoint.py, \
-+	"hitting a breakpoint on non-main thread")
-+
- else
- run-gdbstub-%:
- 	$(call skip-test, "gdbstub test $*", "need working gdb")
-diff --git a/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py b/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
-new file mode 100644
-index 0000000..798d508
---- /dev/null
-+++ b/tests/tcg/multiarch/gdbstub/test-thread-breakpoint.py
-@@ -0,0 +1,60 @@
-+from __future__ import print_function
-+#
-+# Test auxiliary vector is loaded via gdbstub
-+#
-+# This is launched via tests/guest-debug/run-test.py
-+#
-+
-+import gdb
-+import sys
-+
-+failcount = 0
-+
-+def report(cond, msg):
-+    "Report success/fail of test"
-+    if cond:
-+        print ("PASS: %s" % (msg))
-+    else:
-+        print ("FAIL: %s" % (msg))
-+        global failcount
-+        failcount += 1
-+
-+def run_test():
-+    "Run through the tests one by one"
-+
-+    sym, ok = gdb.lookup_symbol("thread1_func")
-+    gdb.execute("b thread1_func")
-+    gdb.execute("c")
-+
-+    frame = gdb.selected_frame()
-+    report(str(frame.function()) == "thread1_func", "break @ %s"%frame)
-+
-+#
-+# This runs as the script it sourced (via -x, via run-test.py)
-+#
-+try:
-+    inferior = gdb.selected_inferior()
-+    arch = inferior.architecture()
-+    print("ATTACHED: %s" % arch.name())
-+except (gdb.error, AttributeError):
-+    print("SKIPPING (not connected)", file=sys.stderr)
-+    exit(0)
-+
-+if gdb.parse_and_eval('$pc') == 0:
-+    print("SKIP: PC not set")
-+    exit(0)
-+
-+try:
-+    # These are not very useful in scripts
-+    gdb.execute("set pagination off")
-+    gdb.execute("set confirm off")
-+
-+    # Run the actual tests
-+    run_test()
-+except (gdb.error):
-+    print ("GDB Exception: %s" % (sys.exc_info()[0]))
-+    failcount += 1
-+    pass
-+
-+print("All tests complete: %d failures" % failcount)
-+exit(failcount)
--- 
-2.32.0
+> > > GPIOxx indicates input and output capabilities, GPIxx indicates
+> > > only
+> > > input, GPOxx indicates only output.
+> > > AST2500:
+> > > - Previously had GPIW0..GPIW7 and GPIX0..GPIX7, that's correct.
+> > > - Previously had GPIOY0..GPIOY3, should have been GPIOY0..GPIOY7.
+> > > - Previously had GPIOAB0..GPIOAB3 and GPIAB4..GPIAB7, should only
+> > > have
+> > >   been GPIOAB0..GPIOAB3.
+> > > AST2600:
+> > > - GPIOT0..GPIOT7 should have been GPIT0..GPIT7.
+> > > - GPIOU0..GPIOU7 should have been GPIU0..GPIU7.
+> > > - GPIW0..GPIW7 should have been GPIOW0..GPIOW7.
+> > > - GPIOY0..GPIOY7 and GPIOZ0...GPIOZ7 were disabled.
+> > > Fixes: 4b7f956862dc2db4c5c ("hw/gpio: Add basic Aspeed GPIO model
+> > > for AST2400 and AST2500")
+> > > Fixes: 36d737ee82b2972167e ("hw/gpio: Add in AST2600 specific
+> > > implementation")
+> > > Signed-off-by: Peter Delevoryas <pdel@fb.com>
+> > 
+> > Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+> 
+
+Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
+
+> cc’ing Dan
+> 
+> > 
+> > > ---
+> > >  hw/gpio/aspeed_gpio.c | 8 ++++----
+> > >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > > diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+> > > index dfa6d6cb40..33a40a624a 100644
+> > > --- a/hw/gpio/aspeed_gpio.c
+> > > +++ b/hw/gpio/aspeed_gpio.c
+> > > @@ -796,7 +796,7 @@ static const GPIOSetProperties
+> > > ast2500_set_props[] = {
+> > >      [3] = {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
+> > >      [4] = {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
+> > >      [5] = {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
+> > > -    [6] = {0xffffff0f,  0x0fffff0f,  {"Y", "Z", "AA", "AB"} },
+> > > +    [6] = {0x0fffffff,  0x0fffffff,  {"Y", "Z", "AA", "AB"} },
+> > >      [7] = {0x000000ff,  0x000000ff,  {"AC"} },
+> > >  };
+> > >  @@ -805,9 +805,9 @@ static GPIOSetProperties
+> > > ast2600_3_3v_set_props[] = {
+> > >      [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
+> > >      [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
+> > >      [3] = {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
+> > > -    [4] = {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
+> > > -    [5] = {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
+> > > -    [6] = {0xffff0000,  0x0fff0000,  {"Y", "Z", "", ""} },
+> > > +    [4] = {0xffffffff,  0x00ffffff,  {"Q", "R", "S", "T"} },
+> > > +    [5] = {0xffffffff,  0xffffff00,  {"U", "V", "W", "X"} },
+> > > +    [6] = {0x0000ffff,  0x0000ffff,  {"Y", "Z"} },
+> > >  };
+> > >    static GPIOSetProperties ast2600_1_8v_set_props[] = {
+> 
+
 
 
