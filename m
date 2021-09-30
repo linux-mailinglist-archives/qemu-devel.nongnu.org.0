@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06A941DDBD
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:39:41 +0200 (CEST)
-Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6EC41DDA8
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:36:03 +0200 (CEST)
+Received: from localhost ([::1]:45656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVy9s-0000vU-Rx
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36698)
+	id 1mVy6M-0000fN-C2
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy1Q-0004cv-Cd
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:30:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26180)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy1Z-00051r-FL
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:31:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy1M-0002KV-Ps
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:30:54 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy1V-0002TR-TG
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:31:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633015850;
+ s=mimecast20190719; t=1633015861;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qyr3yv4vUAQfnUWEUDYrFC705fmtKP48APeBDAgvsU8=;
- b=aHGjlfWudgNcDGcOnAYgG7RyZD0L+n0fC4uckEvmUqcH4WkXqw0/YeQ4A7CW1mpSwqTifZ
- JEHEVf3IPkZ2rEMDQ6Sizw6FnQLHD0f7lWkq0YtTDPYHdkWWGnkJzGaZXCPSkdZDmYYg8y
- 7AiVmf94iqYZUF7O3aPT3bmVHPAyjzw=
+ bh=cnQmG3wpzhjMCk5JuEtAPjLrD5OGTNRTDuJ/cszHA2o=;
+ b=ZWdmgYdv8dHSssvS0QY8YhWEpYIQIERGJrpabvP3mlzsp85bTNwL5SHZVZPHS0EhpTwpMn
+ yfoLffblt2an0vh3qvU4BrgQYc9U4vu0JkRcza/Ksy7LsHV027ZUD2gSJd8kTE/GatlMSV
+ FHgcfZqpHx+xItMt/9q91lieMXOtv9I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-y6iHBIGENS6-Hde8OFpWnw-1; Thu, 30 Sep 2021 11:30:49 -0400
-X-MC-Unique: y6iHBIGENS6-Hde8OFpWnw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-254-FLZhIBUVPYy12V75RoMSLQ-1; Thu, 30 Sep 2021 11:30:59 -0400
+X-MC-Unique: FLZhIBUVPYy12V75RoMSLQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D6E61966328;
- Thu, 30 Sep 2021 15:30:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 376A51006AA5;
+ Thu, 30 Sep 2021 15:30:56 +0000 (UTC)
 Received: from horse.redhat.com (unknown [10.22.16.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4977F5C1A1;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D81610016F4;
  Thu, 30 Sep 2021 15:30:48 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id C8B32228280; Thu, 30 Sep 2021 11:30:47 -0400 (EDT)
+ id D2227228282; Thu, 30 Sep 2021 11:30:47 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com,
 	stefanha@redhat.com
-Subject: [PATCH 01/13] virtio_fs.h: Add notification queue feature bit
-Date: Thu, 30 Sep 2021 11:30:25 -0400
-Message-Id: <20210930153037.1194279-2-vgoyal@redhat.com>
+Subject: [PATCH 03/13] virtiofsd: Remove unused virtio_fs_config definition
+Date: Thu, 30 Sep 2021 11:30:27 -0400
+Message-Id: <20210930153037.1194279-4-vgoyal@redhat.com>
 In-Reply-To: <20210930153037.1194279-1-vgoyal@redhat.com>
 References: <20210930153037.1194279-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,11 +61,11 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,28 +85,31 @@ Cc: jaggel@bu.edu, iangelak@redhat.com, dgilbert@redhat.com, vgoyal@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change will ultimately come from kernel as kernel header file update
-when kernel patches get merged.
+"struct virtio_fs_config" definition seems to be unused in fuse_virtio.c.
+Remove it.
 
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- include/standard-headers/linux/virtio_fs.h | 3 +++
- 1 file changed, 3 insertions(+)
+ tools/virtiofsd/fuse_virtio.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/include/standard-headers/linux/virtio_fs.h b/include/standard-headers/linux/virtio_fs.h
-index a32fe8a64c..b7f015186e 100644
---- a/include/standard-headers/linux/virtio_fs.h
-+++ b/include/standard-headers/linux/virtio_fs.h
-@@ -8,6 +8,9 @@
- #include "standard-headers/linux/virtio_config.h"
- #include "standard-headers/linux/virtio_types.h"
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 8f4fd165b9..da7b6a76bf 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -82,12 +82,6 @@ struct fv_VuDev {
+     struct fv_QueueInfo **qi;
+ };
  
-+/* Feature bits. Notification queue supported */
-+#define VIRTIO_FS_F_NOTIFICATION	0
-+
- struct virtio_fs_config {
- 	/* Filesystem name (UTF-8, not NUL-terminated, padded with NULs) */
- 	uint8_t tag[36];
+-/* From spec */
+-struct virtio_fs_config {
+-    char tag[36];
+-    uint32_t num_queues;
+-};
+-
+ /* Callback from libvhost-user */
+ static uint64_t fv_get_features(VuDev *dev)
+ {
 -- 
 2.31.1
 
