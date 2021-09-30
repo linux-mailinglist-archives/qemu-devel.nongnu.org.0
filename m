@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDE441D358
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 08:29:56 +0200 (CEST)
-Received: from localhost ([::1]:52862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8562B41D31E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 08:15:21 +0200 (CEST)
+Received: from localhost ([::1]:59806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVpZr-00061X-KH
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 02:29:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47596)
+	id 1mVpLk-0008Cg-Fs
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 02:15:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVosk-0001zP-W7; Thu, 30 Sep 2021 01:45:24 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:50427)
+ id 1mVosj-0001yN-91; Thu, 30 Sep 2021 01:45:22 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:43815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVosh-0003iR-9G; Thu, 30 Sep 2021 01:45:22 -0400
+ id 1mVosh-0003iY-4U; Thu, 30 Sep 2021 01:45:20 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HKhyR2y3Dz4xby; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
+ id 4HKhyR38lhz4xc0; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632980671;
- bh=kNAF5MrJ1MsEsW76qbXpJcq81x2JeaDZn9ax95eR+Zs=;
+ bh=GNrWN7CbH4ycrOkozO8KW08YzHAQ+rYMlrTlt2GVRx0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UCOQ4D5mCfREtjZXIacUJWK6HdL+6F3iRbclok6t+281KIHk1XV3/GFw7ZXHcHVPT
- 9RBiKf9lqLO3doEQxhQRb5q7i8zoUSzSaooyAtma1pXY0EZa9YW4FPw+tP4x64JvOm
- G6hH07wKcOVkjNmzzkXvK/I6JcwlDnpJfRHiYgW4=
+ b=iV2i60WOnor4oi3qYmnzWr9GGduCXmB6L9AU5zBxiCo74bVlZIFf7GkvWuS8okZ8I
+ lSFYRi0yXFhF4C9AP4z3q8+bH/1FiV5zAyJF9mtq03RsnrFxcetRnEf6K8jlwfhhCr
+ IY6FNPaJep/SG/0+YDCA1TZypLTy4KdRGnUEHfBo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 28/44] spapr_numa.c: rename numa_assoc_array to
- FORM1_assoc_array
-Date: Thu, 30 Sep 2021 15:44:10 +1000
-Message-Id: <20210930054426.357344-29-david@gibson.dropbear.id.au>
+Subject: [PULL 29/44] spapr: move FORM1 verifications to post CAS
+Date: Thu, 30 Sep 2021 15:44:11 +1000
+Message-Id: <20210930054426.357344-30-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210930054426.357344-1-david@gibson.dropbear.id.au>
 References: <20210930054426.357344-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -66,173 +65,178 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Introducing a new NUMA affinity, FORM2, requires a new mechanism to
-switch between affinity modes after CAS. Also, we want FORM2 data
-structures and functions to be completely separated from the existing
-FORM1 code, allowing us to avoid adding new code that inherits the
-existing complexity of FORM1.
+FORM2 NUMA affinity is prepared to deal with empty (memory/cpu less)
+NUMA nodes. This is used by the DAX KMEM driver to locate a PAPR SCM
+device that has a different latency than the original NUMA node from the
+regular memory. FORM2 is also able  to deal with asymmetric NUMA
+distances gracefully, something that our FORM1 implementation doesn't
+do.
 
-The idea of switching values used by the write_dt() functions in
-spapr_numa.c was already introduced in the previous patch, and
-the same approach will be used when dealing with the FORM1 and FORM2
-arrays.
+Move these FORM1 verifications to a new function and wait until after
+CAS, when we're sure that we're sticking with FORM1, to enforce them.
 
-We can accomplish that by that by renaming the existing numa_assoc_array
-to FORM1_assoc_array, which now is used exclusively to handle FORM1 affinity
-data. A new helper get_associativity() is then introduced to be used by the
-write_dt() functions to retrieve the current ibm,associativity array of
-a given node, after considering affinity selection that might have been
-done during CAS. All code that was using numa_assoc_array now needs to
-retrieve the array by calling this function.
-
-This will allow for an easier plug of FORM2 data later on.
-
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20210920174947.556324-5-danielhb413@gmail.com>
+Message-Id: <20210920174947.556324-6-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_hcall.c   |  1 +
- hw/ppc/spapr_numa.c    | 38 +++++++++++++++++++++++++-------------
- include/hw/ppc/spapr.h |  2 +-
- 3 files changed, 27 insertions(+), 14 deletions(-)
+ hw/ppc/spapr.c              | 33 -----------------------
+ hw/ppc/spapr_hcall.c        |  6 +++++
+ hw/ppc/spapr_numa.c         | 53 ++++++++++++++++++++++++++++++++-----
+ include/hw/ppc/spapr_numa.h |  1 +
+ 4 files changed, 54 insertions(+), 39 deletions(-)
 
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 270106975b..524951def1 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2774,39 +2774,6 @@ static void spapr_machine_init(MachineState *machine)
+     /* init CPUs */
+     spapr_init_cpus(spapr);
+ 
+-    /*
+-     * check we don't have a memory-less/cpu-less NUMA node
+-     * Firmware relies on the existing memory/cpu topology to provide the
+-     * NUMA topology to the kernel.
+-     * And the linux kernel needs to know the NUMA topology at start
+-     * to be able to hotplug CPUs later.
+-     */
+-    if (machine->numa_state->num_nodes) {
+-        for (i = 0; i < machine->numa_state->num_nodes; ++i) {
+-            /* check for memory-less node */
+-            if (machine->numa_state->nodes[i].node_mem == 0) {
+-                CPUState *cs;
+-                int found = 0;
+-                /* check for cpu-less node */
+-                CPU_FOREACH(cs) {
+-                    PowerPCCPU *cpu = POWERPC_CPU(cs);
+-                    if (cpu->node_id == i) {
+-                        found = 1;
+-                        break;
+-                    }
+-                }
+-                /* memory-less and cpu-less node */
+-                if (!found) {
+-                    error_report(
+-                       "Memory-less/cpu-less nodes are not supported (node %d)",
+-                                 i);
+-                    exit(1);
+-                }
+-            }
+-        }
+-
+-    }
+-
+     spapr->gpu_numa_id = spapr_numa_initial_nvgpu_numa_id(machine);
+ 
+     /* Init numa_assoc_array */
 diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 0e9a5b2e40..9056644890 100644
+index 9056644890..222c1b6bbd 100644
 --- a/hw/ppc/spapr_hcall.c
 +++ b/hw/ppc/spapr_hcall.c
-@@ -17,6 +17,7 @@
- #include "kvm_ppc.h"
- #include "hw/ppc/fdt.h"
- #include "hw/ppc/spapr_ovec.h"
-+#include "hw/ppc/spapr_numa.h"
- #include "mmu-book3s-v3.h"
- #include "hw/mem/memory-device.h"
+@@ -1198,6 +1198,12 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+     spapr->cas_pre_isa3_guest = !spapr_ovec_test(ov1_guest, OV1_PPC_3_00);
+     spapr_ovec_cleanup(ov1_guest);
  
++    /*
++     * Check for NUMA affinity conditions now that we know which NUMA
++     * affinity the guest will use.
++     */
++    spapr_numa_associativity_check(spapr);
++
+     /*
+      * Ensure the guest asks for an interrupt mode we support;
+      * otherwise terminate the boot.
 diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 08e2d6aed8..dce9ce987a 100644
+index dce9ce987a..6718c0fdd1 100644
 --- a/hw/ppc/spapr_numa.c
 +++ b/hw/ppc/spapr_numa.c
-@@ -46,6 +46,15 @@ static int get_vcpu_assoc_size(SpaprMachineState *spapr)
-     return get_numa_assoc_size(spapr) + 1;
+@@ -193,6 +193,48 @@ static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
+ 
  }
  
-+/*
-+ * Retrieves the ibm,associativity array of NUMA node 'node_id'
-+ * for the current NUMA affinity.
-+ */
-+static const uint32_t *get_associativity(SpaprMachineState *spapr, int node_id)
++static void spapr_numa_FORM1_affinity_check(MachineState *machine)
 +{
-+    return spapr->FORM1_assoc_array[node_id];
++    int i;
++
++    /*
++     * Check we don't have a memory-less/cpu-less NUMA node
++     * Firmware relies on the existing memory/cpu topology to provide the
++     * NUMA topology to the kernel.
++     * And the linux kernel needs to know the NUMA topology at start
++     * to be able to hotplug CPUs later.
++     */
++    if (machine->numa_state->num_nodes) {
++        for (i = 0; i < machine->numa_state->num_nodes; ++i) {
++            /* check for memory-less node */
++            if (machine->numa_state->nodes[i].node_mem == 0) {
++                CPUState *cs;
++                int found = 0;
++                /* check for cpu-less node */
++                CPU_FOREACH(cs) {
++                    PowerPCCPU *cpu = POWERPC_CPU(cs);
++                    if (cpu->node_id == i) {
++                        found = 1;
++                        break;
++                    }
++                }
++                /* memory-less and cpu-less node */
++                if (!found) {
++                    error_report(
++"Memory-less/cpu-less nodes are not supported with FORM1 NUMA (node %d)", i);
++                    exit(EXIT_FAILURE);
++                }
++            }
++        }
++    }
++
++    if (!spapr_numa_is_symmetrical(machine)) {
++        error_report(
++"Asymmetrical NUMA topologies aren't supported in the pSeries machine using FORM1 NUMA");
++        exit(EXIT_FAILURE);
++    }
 +}
 +
- static bool spapr_numa_is_symmetrical(MachineState *ms)
- {
-     int src, dst;
-@@ -124,7 +133,7 @@ static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
-      */
-     for (i = 1; i < nb_numa_nodes; i++) {
-         for (j = 1; j < FORM1_DIST_REF_POINTS; j++) {
--            spapr->numa_assoc_array[i][j] = cpu_to_be32(i);
-+            spapr->FORM1_assoc_array[i][j] = cpu_to_be32(i);
-         }
+ /*
+  * Set NUMA machine state data based on FORM1 affinity semantics.
+  */
+@@ -250,12 +292,6 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+         return;
      }
  
-@@ -176,8 +185,8 @@ static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
-              * and going up to 0x1.
-              */
-             for (i = n_level; i > 0; i--) {
--                assoc_src = spapr->numa_assoc_array[src][i];
--                spapr->numa_assoc_array[dst][i] = assoc_src;
-+                assoc_src = spapr->FORM1_assoc_array[src][i];
-+                spapr->FORM1_assoc_array[dst][i] = assoc_src;
-             }
-         }
-     }
-@@ -204,8 +213,8 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
-      * 'i' will be a valid node_id set by the user.
-      */
-     for (i = 0; i < nb_numa_nodes; i++) {
--        spapr->numa_assoc_array[i][0] = cpu_to_be32(FORM1_DIST_REF_POINTS);
--        spapr->numa_assoc_array[i][FORM1_DIST_REF_POINTS] = cpu_to_be32(i);
-+        spapr->FORM1_assoc_array[i][0] = cpu_to_be32(FORM1_DIST_REF_POINTS);
-+        spapr->FORM1_assoc_array[i][FORM1_DIST_REF_POINTS] = cpu_to_be32(i);
-     }
+-    if (!spapr_numa_is_symmetrical(machine)) {
+-        error_report("Asymmetrical NUMA topologies aren't supported "
+-                     "in the pSeries machine");
+-        exit(EXIT_FAILURE);
+-    }
+-
+     spapr_numa_define_FORM1_domains(spapr);
+ }
  
-     /*
-@@ -219,15 +228,15 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
-     max_nodes_with_gpus = nb_numa_nodes + NVGPU_MAX_NUM;
+@@ -265,6 +301,11 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+     spapr_numa_FORM1_affinity_init(spapr, machine);
+ }
  
-     for (i = nb_numa_nodes; i < max_nodes_with_gpus; i++) {
--        spapr->numa_assoc_array[i][0] = cpu_to_be32(FORM1_DIST_REF_POINTS);
-+        spapr->FORM1_assoc_array[i][0] = cpu_to_be32(FORM1_DIST_REF_POINTS);
- 
-         for (j = 1; j < FORM1_DIST_REF_POINTS; j++) {
-             uint32_t gpu_assoc = smc->pre_5_1_assoc_refpoints ?
-                                  SPAPR_GPU_NUMA_ID : cpu_to_be32(i);
--            spapr->numa_assoc_array[i][j] = gpu_assoc;
-+            spapr->FORM1_assoc_array[i][j] = gpu_assoc;
-         }
- 
--        spapr->numa_assoc_array[i][FORM1_DIST_REF_POINTS] = cpu_to_be32(i);
-+        spapr->FORM1_assoc_array[i][FORM1_DIST_REF_POINTS] = cpu_to_be32(i);
-     }
- 
-     /*
-@@ -259,14 +268,17 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
++void spapr_numa_associativity_check(SpaprMachineState *spapr)
++{
++    spapr_numa_FORM1_affinity_check(MACHINE(spapr));
++}
++
  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
                                         int offset, int nodeid)
  {
-+    const uint32_t *associativity = get_associativity(spapr, nodeid);
-+
-     _FDT((fdt_setprop(fdt, offset, "ibm,associativity",
--                      spapr->numa_assoc_array[nodeid],
-+                      associativity,
-                       get_numa_assoc_size(spapr) * sizeof(uint32_t))));
- }
- 
- static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
-                                            PowerPCCPU *cpu)
- {
-+    const uint32_t *associativity = get_associativity(spapr, cpu->node_id);
-     int max_distance_ref_points = get_max_dist_ref_points(spapr);
-     int vcpu_assoc_size = get_vcpu_assoc_size(spapr);
-     uint32_t *vcpu_assoc = g_new(uint32_t, vcpu_assoc_size);
-@@ -280,7 +292,7 @@ static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
-      */
-     vcpu_assoc[0] = cpu_to_be32(max_distance_ref_points + 1);
-     vcpu_assoc[vcpu_assoc_size - 1] = cpu_to_be32(index);
--    memcpy(vcpu_assoc + 1, spapr->numa_assoc_array[cpu->node_id] + 1,
-+    memcpy(vcpu_assoc + 1, associativity + 1,
-            (vcpu_assoc_size - 2) * sizeof(uint32_t));
- 
-     return vcpu_assoc;
-@@ -319,10 +331,10 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
-     cur_index += 2;
-     for (i = 0; i < nr_nodes; i++) {
-         /*
--         * For the lookup-array we use the ibm,associativity array,
--         * from numa_assoc_array. without the first element (size).
-+         * For the lookup-array we use the ibm,associativity array of the
-+         * current NUMA affinity, without the first element (size).
-          */
--        uint32_t *associativity = spapr->numa_assoc_array[i];
-+        const uint32_t *associativity = get_associativity(spapr, i);
-         memcpy(cur_index, ++associativity,
-                sizeof(uint32_t) * max_distance_ref_points);
-         cur_index += max_distance_ref_points;
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 814e087e98..6b3dfc5dc2 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -249,7 +249,7 @@ struct SpaprMachineState {
-     unsigned gpu_numa_id;
-     SpaprTpmProxy *tpm_proxy;
- 
--    uint32_t numa_assoc_array[NUMA_NODES_MAX_NUM][FORM1_NUMA_ASSOC_SIZE];
-+    uint32_t FORM1_assoc_array[NUMA_NODES_MAX_NUM][FORM1_NUMA_ASSOC_SIZE];
- 
-     Error *fwnmi_migration_blocker;
- };
+diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
+index 6f9f02d3de..7cb3367400 100644
+--- a/include/hw/ppc/spapr_numa.h
++++ b/include/hw/ppc/spapr_numa.h
+@@ -24,6 +24,7 @@
+  */
+ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+                                    MachineState *machine);
++void spapr_numa_associativity_check(SpaprMachineState *spapr);
+ void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas);
+ void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
+                                        int offset, int nodeid);
 -- 
 2.31.1
 
