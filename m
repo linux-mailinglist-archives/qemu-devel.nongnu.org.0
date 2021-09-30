@@ -2,49 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E407C41D0ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 03:22:49 +0200 (CEST)
-Received: from localhost ([::1]:52030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 500FA41D101
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 03:37:23 +0200 (CEST)
+Received: from localhost ([::1]:58686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVkme-00056y-BG
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 21:22:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43072)
+	id 1mVl0j-0002K7-Qx
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 21:37:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVkjC-00049l-BD; Wed, 29 Sep 2021 21:19:15 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:46599)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1mVkzS-0000yN-O0
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 21:36:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.151.124]:23786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVkj6-00044T-QX; Wed, 29 Sep 2021 21:19:14 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HKb3y6q4pz4xbL; Thu, 30 Sep 2021 11:18:54 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1632964734;
- bh=SKD5slPbWY4lKaF3ODSGtiitdWB0KQCFsPbWg9KpzcQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DXDnYCJFm3htQ1utJL5BOCNpzSUK7qxJCT7DaiJ/lWYuUhB/7cvrWEb5CA6MT2wMX
- /0rzq97G53wAAXE6KRuWLN1thtE4v2ANIMfJrOA3Jkt+wKXSkL5PkZuA7bv3EaZhKX
- dMOadwR/XZUL9AlRLuJpbdTLJOW4hO5fncbfvN0A=
-Date: Thu, 30 Sep 2021 11:15:26 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v3 0/7] Reduce load on ppc target maintainers
-Message-ID: <YVUPrnvWT80f7IxR@yekko>
-References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1mVkzP-0007Io-RR
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 21:36:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632965758;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=z6CdZQot7e/jv3+B8tEHsn/M6uEaMYq7urNvl4MElY4=;
+ b=LW4HYmnK3aykg8BXaqEdzgPQuTL7JwwPe07+oYzYx6J6gkp2tjBH3SAEl7RxN1O/qZDj+e
+ 4lVJHyPAXmaI+JuNbrCHBvU4KZ/bCOaN4NAoETlwMMRBc/IDOgfhSry+xZcZel43EEOItE
+ mTJ+kDiI0vPgdBgyw3zGwS1hjONDRSM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-EsNaNnH4OwG_HM8G0GL9eA-1; Wed, 29 Sep 2021 21:35:54 -0400
+X-MC-Unique: EsNaNnH4OwG_HM8G0GL9eA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ j26-20020a508a9a000000b003da84aaa5c5so4439941edj.11
+ for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 18:35:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=z6CdZQot7e/jv3+B8tEHsn/M6uEaMYq7urNvl4MElY4=;
+ b=QdsKZRF0tf4qMWKxdhTckLgXAmCvdanbfre+dQtJ5pMXANZST9/AhWW/vylm5LLTsu
+ UAEikDbDxXBKN1ue9qNbr+GSNFfVkaSTyVafC2dGaX+Q05JhOv9mE0imLuJTfGrc4gFL
+ 59kKBNtR+hSQEnrU7LHZC/OpOnQ67CPJoWtGlS7Ix7LbW+hGhPoGmSG5t6jXpvT5vhiO
+ rs/4yAs4os/RisY1f9Jp+WJ7/w1lL4zs/DF+szlyItkoGjjFHz3Qw+FTOPmrLuBiS/Bi
+ aN7sVvRZ7guiEHvxr83Wz8by0cmUZmAF155IH7W7MCHe8ueEOtcMPGRHJ+4X+gDNUgOj
+ p2bw==
+X-Gm-Message-State: AOAM533b1Sj/l6hMemtb5tO08/g7fudzGFcblE5s4ySeF4fwTVxdY89U
+ Tu0riDaYwDJ6N5dq36mBfUaWEuRjNXIMTmCTt6EBx3e0QfwvAQsbhOYM2w/0iwITv4DiNBXX1I0
+ zssZPaEzpcJtt5FETFQnNyuJzEW7+JF4=
+X-Received: by 2002:a17:906:318b:: with SMTP id
+ 11mr3750257ejy.493.1632965753452; 
+ Wed, 29 Sep 2021 18:35:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZZiP8A83jxNXNTPKzh8/cYK3ghUOF8QFtK84yGgZ90k6k19hQmpOGbCZ3gwXGQchLfkm6rNrOFedVYV8vx6A=
+X-Received: by 2002:a17:906:318b:: with SMTP id
+ 11mr3750242ejy.493.1632965753232; 
+ Wed, 29 Sep 2021 18:35:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Re6+eGJxBZo9vC7o"
-Content-Disposition: inline
-In-Reply-To: <20210927044808.73391-1-david@gibson.dropbear.id.au>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210929065215.21549-1-lulu@redhat.com>
+ <8566c96d-5a61-fec7-f898-e5ac0937fd06@msgid.tls.msk.ru>
+ <CACLfguUZ-JrcGenNecUZkaXf7upRiih73QPkhxN+fPKFaEpL8A@mail.gmail.com>
+ <20210929093513-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20210929093513-mutt-send-email-mst@kernel.org>
+From: Cindy Lu <lulu@redhat.com>
+Date: Thu, 30 Sep 2021 09:35:15 +0800
+Message-ID: <CACLfguVsjZbDo0JXMHJeNSusOyimajOABBG66T6tm32QN=ihEw@mail.gmail.com>
+Subject: Re: [PATCH] virtio-net : Add check for VIRTIO_NET_F_MAC
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.151.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,87 +90,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, dbarboza@redhat.com, aik@ozlabs.ru,
- mark.cave-ayland@ilande.co.uk, groug@kaod.org, wainersm@redhat.com,
- hpoussin@reactos.org, clg@kaod.org, crosa@redhat.com,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, philmd@redhat.com
+Cc: Jason Wang <jasowang@redhat.com>, mjt@tls.msk.ru,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Sep 29, 2021 at 9:36 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Wed, Sep 29, 2021 at 08:08:40PM +0800, Cindy Lu wrote:
+> > On Wed, Sep 29, 2021 at 6:07 PM Michael Tokarev <mjt@tls.msk.ru> wrote:
+> > >
+> > > 29.09.2021 09:52, Cindy Lu wrote:
+> > > > For vdpa device, if the host support VIRTIO_NET_F_MAC
+> > > > we need to read the mac address from hardware, so need
+> > > > to check this bit, the logic is
+> > > > 1 if the host support VIRTIO_NET_F_MAC and the mac address
+> > > >     is correct, qemu will use the mac address in hardware
+> > > > 2.if the host not support , qemu will use the mac from cmdline
+> > >
+> > > So if hw supports NET_F_MAC, cmdline-provided parameter will
+> > > silently be ignored?
+> > >
+> > yes, this is based on the virtio spec, you can check this document in
+> > 5.1.5 Device Initialization
+> > https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html
+>
+> Maybe use the hw mac if mac is not provided? If provided
+> make sure the command line matches the hardware, and fail
+> otherwise?
+>
 
---Re6+eGJxBZo9vC7o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+so here come to the final question. which mac address has the higher priority?
+I think the NET_F_MAC bit means the hw mac address > command-line address.
+if the hw drivers want to change this. they can simply remove this bit.
 
-On Mon, Sep 27, 2021 at 02:48:01PM +1000, David Gibson wrote:
-> Greg Kurz and myself have been co-maintainers for the ppc and ppc64
-> targets for some time now.  However, both our day job responsibilities
-> and interests are leading us towards other areas, so we have less time
-> to devote to this any more.
->=20
-> Therefore, here's a bunch of updates to MAINTAINERS, intended to
-> reduce the load on us.  Mostly this is marking fairly obscure
-> platforms as orphaned (if someone wants to take over maintainership,
-> let me know ASAP).  Bigger changes may be coming, but we haven't
-> decided exactly what that's going to look like yet.
 
-Thanks for the feedback and acks on this.  I'm now merging v3 into
-ppc-for-6.2 to go into a pull request shortly.
+> > Also, this check it only working for vdpa device
+> > > s/host not support/host does not support this feature/
+> > Thanks , will fix this
+> > >
+> > > > 3.if the cmdline not provide mac address, qemu will use radam mac
+> > > > address
+> > >
+> > > s/not/does not/
+> > > s/radam/random/
+> > >
+> > thanks, will fix this
+> > > Thanks,
+> > >
+> > > /mjt
+> > >
+>
 
->=20
-> Changes since v2:
->  * Clarified overly broad TCG CPUs entry
-> Changes since v1:
->  * Reworked how OpenPIC is listed
->=20
-> David Gibson (7):
->   qemu: Split machine_ppc.py acceptance tests
->   MAINTAINERS: Remove machine specific files from ppc TCG CPUs entry
->   MAINTAINERS: Remove David & Greg as reviewers for a number of boards
->   MAINTAINERS: Orphan obscure ppc platforms
->   MAINTAINERS: Remove David & Greg as reviewers/co-maintainers of
->     powernv
->   MAINTAINERS: Add information for OpenPIC
->   MAINTAINERS: Demote sPAPR from "Supported" to "Maintained"
->=20
->  MAINTAINERS                          | 51 ++++++++------------
->  tests/acceptance/machine_ppc.py      | 69 ----------------------------
->  tests/acceptance/ppc_mpc8544ds.py    | 32 +++++++++++++
->  tests/acceptance/ppc_pseries.py      | 35 ++++++++++++++
->  tests/acceptance/ppc_virtex_ml507.py | 34 ++++++++++++++
->  5 files changed, 121 insertions(+), 100 deletions(-)
->  delete mode 100644 tests/acceptance/machine_ppc.py
->  create mode 100644 tests/acceptance/ppc_mpc8544ds.py
->  create mode 100644 tests/acceptance/ppc_pseries.py
->  create mode 100644 tests/acceptance/ppc_virtex_ml507.py
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Re6+eGJxBZo9vC7o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFVD60ACgkQbDjKyiDZ
-s5K4dA//XK3rxHJAV6Tv72Qz0kHsFG1UssanxVaWlcCSjXoNT39xeCWlJhmFzcIk
-RYYhJBREih9Xc4RWfovirOvdeZsaN47VAFKWDPaEc5C3o1gxHK4spj0huX5KnCg7
-U6cHep2RSJFwS82muEVoa3+1ABTtSOdhnq4uvz0g7QMNLSnNuCx/sfZRx4jChDNK
-SCoi1Ke7cpVw+VJ4/TBqHaZs5E3Kirrpd10ukWReMPDxqZo/fYnj7iUPWQOZUtsK
-QHxftYdAMqqRgfyCOJrbXXZJu1fJzWbXF03VLbLgO6WFsQaRlUr9eCIaQ/Kmss6r
-QIZbeV9sRGOUiiTQpKk/qoYimmy8MayF6LX1+CB95e70T3E7ceJ22NrEsi5Rn4jH
-1xWdwqUYFErywzyLQK8eJT+loI/aRrQR9pEUKn5ai20v/rVWvjweyXpAXLBR8fb8
-bJI3ba0a9Q0TPOVtb4dd/NYdPMxFk/XpBRJmpbDvI2vuGwYa8vXPaMvQKCz6LfGe
-ZlH23dWP0+yzRA4x9oey1rBB8ETtnf/pOE1nMV74mUXUL+2Ku2z0SPfsDhmgRHbn
-aFiU9HQY2LUTErNZt2uI+19vIKXZDKMUNSPYReUwCkIaJc2UiQgg0B1d0b5Womm+
-M6u7n7bw9j1OGdNJRLvIuM1HGAxYVaaYAg6VObUGQj0TLSgEXjg=
-=/dHt
------END PGP SIGNATURE-----
-
---Re6+eGJxBZo9vC7o--
 
