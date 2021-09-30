@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B84841DB46
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:40:56 +0200 (CEST)
-Received: from localhost ([::1]:47740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F5841DB40
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:39:12 +0200 (CEST)
+Received: from localhost ([::1]:42150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVwIx-0004NF-3C
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34934)
+	id 1mVwHG-0000DY-Mm
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:39:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVw51-00019A-W0
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:26:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53390)
+ id 1mVw5E-0001Pe-8o
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:26:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVw4z-0008I1-IQ
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:26:31 -0400
+ id 1mVw5C-0008SO-G2
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:26:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633008389;
+ s=mimecast20190719; t=1633008401;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IV9ayM3oqqG2UpgUQ5wM7k37ea3Elk60iMb+R1fKFRk=;
- b=OL1qXxfMI9RMz0uHyF9cuhPdd8Qi1ZT6fl6yRBN/tbbsrzhryVzYUktSwTaLSEbNhiAYYy
- 1pPf2HNwxUXV/db4Rdmuv49v05qk0SLx1CrpAx5OeQuYmfBfUgoZ0Dd94Z0t2rVLmr1/DE
- FeqmfWJxRCKA4r8prdYTXyJk1L5z8HQ=
+ bh=4s22p1yItYL9g+U7hn0u1tetQ3AicfFRhgFlO775VlY=;
+ b=Hy5MkS8AUqYwCnGYgn2qo1cWJ5t/ALgKXyefKNcYss4zXwSKKenN16TPNlWfvUCyTI8Yve
+ cXWVe5GoOtgIvp0EArxeyes4fwo1pzPxYH8YC14V7HCWDRupOptlu7lQaEvsrGQFxv+w75
+ 1LbpcrtN289TpSyIqi3UiC+YVzRvp0U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128--81qAR6cMN6exnL6W_G5Lw-1; Thu, 30 Sep 2021 09:26:27 -0400
-X-MC-Unique: -81qAR6cMN6exnL6W_G5Lw-1
+ us-mta-516-LgPI3NUEOnaAopM2x-69qA-1; Thu, 30 Sep 2021 09:26:40 -0400
+X-MC-Unique: LgPI3NUEOnaAopM2x-69qA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58E259F92A;
- Thu, 30 Sep 2021 13:26:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75A791084683;
+ Thu, 30 Sep 2021 13:26:39 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.39.195.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE6965D9C6;
- Thu, 30 Sep 2021 13:26:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A516B5D9C6;
+ Thu, 30 Sep 2021 13:26:26 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/19] qapi: introduce x-query-profile QMP command
-Date: Thu, 30 Sep 2021 14:23:38 +0100
-Message-Id: <20210930132349.3601823-9-berrange@redhat.com>
+Subject: [PATCH v3 09/19] qapi: introduce x-query-numa QMP command
+Date: Thu, 30 Sep 2021 14:23:39 +0100
+Message-Id: <20210930132349.3601823-10-berrange@redhat.com>
 In-Reply-To: <20210930132349.3601823-1-berrange@redhat.com>
 References: <20210930132349.3601823-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -65,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,7 +92,7 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a counterpart to the HMP "info profile" command. It is being
+This is a counterpart to the HMP "info numa" command. It is being
 added with an "x-" prefix because this QMP command is intended as an
 adhoc debugging tool and will thus not be modelled in QAPI as fully
 structured data, nor will it have long term guaranteed stability.
@@ -100,113 +100,105 @@ The existing HMP command is rewritten to call the QMP command.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- monitor/misc.c             | 30 ++++++++----------------------
- monitor/qmp-cmds.c         | 32 ++++++++++++++++++++++++++++++++
+ hw/core/machine-hmp-cmds.c | 33 +++++---------------------------
+ hw/core/machine-qmp-cmds.c | 39 ++++++++++++++++++++++++++++++++++++++
  qapi/machine.json          | 12 ++++++++++++
- tests/qtest/qmp-cmd-test.c |  3 +++
- 4 files changed, 55 insertions(+), 22 deletions(-)
+ 3 files changed, 56 insertions(+), 28 deletions(-)
 
-diff --git a/monitor/misc.c b/monitor/misc.c
-index ffe7966870..5aebfaa986 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -67,6 +67,7 @@
- #include "block/block-hmp-cmds.h"
- #include "qapi/qapi-commands-char.h"
- #include "qapi/qapi-commands-control.h"
-+#include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-qom.h"
-@@ -929,32 +930,17 @@ static void hmp_info_mtree(Monitor *mon, const QDict *qdict)
-     mtree_info(flatview, dispatch_tree, owner, disabled);
- }
+diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
+index 76b22b00d6..cfa01c6933 100644
+--- a/hw/core/machine-hmp-cmds.c
++++ b/hw/core/machine-hmp-cmds.c
+@@ -134,35 +134,12 @@ void hmp_info_memdev(Monitor *mon, const QDict *qdict)
  
--#ifdef CONFIG_PROFILER
--
--int64_t dev_time;
--
- static void hmp_info_profile(Monitor *mon, const QDict *qdict)
+ void hmp_info_numa(Monitor *mon, const QDict *qdict)
  {
--    static int64_t last_cpu_exec_time;
--    int64_t cpu_exec_time;
--    int64_t delta;
--
--    cpu_exec_time = tcg_cpu_exec_time();
--    delta = cpu_exec_time - last_cpu_exec_time;
+-    int i, nb_numa_nodes;
+-    NumaNodeMem *node_mem;
+-    CpuInfoFastList *cpu_list, *cpu;
+-    MachineState *ms = MACHINE(qdev_get_machine());
 +    Error *err = NULL;
-+    g_autoptr(HumanReadableText) info = qmp_x_query_profile(&err);
++    g_autoptr(HumanReadableText) info = qmp_x_query_numa(&err);
  
--    monitor_printf(mon, "async time  %" PRId64 " (%0.3f)\n",
--                   dev_time, dev_time / (double)NANOSECONDS_PER_SECOND);
--    monitor_printf(mon, "qemu time   %" PRId64 " (%0.3f)\n",
--                   delta, delta / (double)NANOSECONDS_PER_SECOND);
--    last_cpu_exec_time = cpu_exec_time;
--    dev_time = 0;
--}
--#else
--static void hmp_info_profile(Monitor *mon, const QDict *qdict)
--{
--    monitor_printf(mon, "Internal profiler not compiled\n");
+-    nb_numa_nodes = ms->numa_state ? ms->numa_state->num_nodes : 0;
+-    monitor_printf(mon, "%d nodes\n", nb_numa_nodes);
+-    if (!nb_numa_nodes) {
 +    if (err) {
 +        error_report_err(err);
-+        return;
-+    }
+         return;
+     }
+-
+-    cpu_list = qmp_query_cpus_fast(&error_abort);
+-    node_mem = g_new0(NumaNodeMem, nb_numa_nodes);
+-
+-    query_numa_node_mem(node_mem, ms);
+-    for (i = 0; i < nb_numa_nodes; i++) {
+-        monitor_printf(mon, "node %d cpus:", i);
+-        for (cpu = cpu_list; cpu; cpu = cpu->next) {
+-            if (cpu->value->has_props && cpu->value->props->has_node_id &&
+-                cpu->value->props->node_id == i) {
+-                monitor_printf(mon, " %" PRIi64, cpu->value->cpu_index);
+-            }
+-        }
+-        monitor_printf(mon, "\n");
+-        monitor_printf(mon, "node %d size: %" PRId64 " MB\n", i,
+-                       node_mem[i].node_mem >> 20);
+-        monitor_printf(mon, "node %d plugged: %" PRId64 " MB\n", i,
+-                       node_mem[i].node_plugged_mem >> 20);
+-    }
+-    qapi_free_CpuInfoFastList(cpu_list);
+-    g_free(node_mem);
 +    monitor_printf(mon, "%s", info->human_readable_text);
  }
--#endif
- 
- /* Capture support */
- static QLIST_HEAD (capture_list_head, CaptureState) capture_head;
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 5c0d5e116b..6122ad18b6 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -36,6 +36,7 @@
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-ui.h"
-+#include "qapi/type-helpers.h"
- #include "qapi/qmp/qerror.h"
- #include "hw/mem/memory-device.h"
- #include "hw/acpi/acpi_dev_interface.h"
-@@ -350,3 +351,34 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
-         abort();
-     }
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 76f2b84d81..4f4ab30f8c 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -205,3 +205,42 @@ MemdevList *qmp_query_memdev(Error **errp)
+     object_child_foreach(obj, query_memdev, &list);
+     return list;
  }
 +
-+#ifdef CONFIG_PROFILER
-+
-+int64_t dev_time;
-+
-+HumanReadableText *qmp_x_query_profile(Error **errp)
++HumanReadableText *qmp_x_query_numa(Error **errp)
 +{
 +    g_autoptr(GString) buf = g_string_new("");
-+    static int64_t last_cpu_exec_time;
-+    int64_t cpu_exec_time;
-+    int64_t delta;
++    int i, nb_numa_nodes;
++    NumaNodeMem *node_mem;
++    CpuInfoFastList *cpu_list, *cpu;
++    MachineState *ms = MACHINE(qdev_get_machine());
 +
-+    cpu_exec_time = tcg_cpu_exec_time();
-+    delta = cpu_exec_time - last_cpu_exec_time;
++    nb_numa_nodes = ms->numa_state ? ms->numa_state->num_nodes : 0;
++    g_string_append_printf(buf, "%d nodes\n", nb_numa_nodes);
++    if (!nb_numa_nodes) {
++        goto done;
++    }
 +
-+    g_string_append_printf(buf, "async time  %" PRId64 " (%0.3f)\n",
-+                           dev_time, dev_time / (double)NANOSECONDS_PER_SECOND);
-+    g_string_append_printf(buf, "qemu time   %" PRId64 " (%0.3f)\n",
-+                           delta, delta / (double)NANOSECONDS_PER_SECOND);
-+    last_cpu_exec_time = cpu_exec_time;
-+    dev_time = 0;
++    cpu_list = qmp_query_cpus_fast(&error_abort);
++    node_mem = g_new0(NumaNodeMem, nb_numa_nodes);
 +
++    query_numa_node_mem(node_mem, ms);
++    for (i = 0; i < nb_numa_nodes; i++) {
++        g_string_append_printf(buf, "node %d cpus:", i);
++        for (cpu = cpu_list; cpu; cpu = cpu->next) {
++            if (cpu->value->has_props && cpu->value->props->has_node_id &&
++                cpu->value->props->node_id == i) {
++                g_string_append_printf(buf, " %" PRIi64, cpu->value->cpu_index);
++            }
++        }
++        g_string_append_printf(buf, "\n");
++        g_string_append_printf(buf, "node %d size: %" PRId64 " MB\n", i,
++                               node_mem[i].node_mem >> 20);
++        g_string_append_printf(buf, "node %d plugged: %" PRId64 " MB\n", i,
++                               node_mem[i].node_plugged_mem >> 20);
++    }
++    qapi_free_CpuInfoFastList(cpu_list);
++    g_free(node_mem);
++
++ done:
 +    return human_readable_text_from_str(buf);
 +}
-+#else
-+HumanReadableText *qmp_x_query_profile(Error **errp)
-+{
-+    error_setg(errp, "Internal profiler not compiled");
-+    return NULL;
-+}
-+#endif
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 4c18904521..db1bb9454e 100644
+index db1bb9454e..c69a7ceef6 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
 @@ -1347,6 +1347,18 @@
@@ -214,34 +206,20 @@ index 4c18904521..db1bb9454e 100644
       '*maxcpus': 'int' } }
  
 +##
-+# @x-query-profile:
++# @x-query-numa:
 +#
-+# Query TCG profiling information
++# Query NUMA topology information
 +#
-+# Returns: profile information
++# Returns: topology information
 +#
 +# Since: 6.2
 +##
-+{ 'command': 'x-query-profile',
++{ 'command': 'x-query-numa',
 +  'returns': 'HumanReadableText' }
 +
  ##
- # @x-query-roms:
+ # @x-query-profile:
  #
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index c98b78d033..fbd7ac10fb 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -46,6 +46,9 @@ static int query_error_class(const char *cmd)
-         { "query-balloon", ERROR_CLASS_DEVICE_NOT_ACTIVE },
-         { "query-hotpluggable-cpus", ERROR_CLASS_GENERIC_ERROR },
-         { "query-vm-generation-id", ERROR_CLASS_GENERIC_ERROR },
-+#ifndef CONFIG_PROFILER
-+        { "x-query-profile", ERROR_CLASS_GENERIC_ERROR },
-+#endif
-         { NULL, -1 }
-     };
-     int i;
 -- 
 2.31.1
 
