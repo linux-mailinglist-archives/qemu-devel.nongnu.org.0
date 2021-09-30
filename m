@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE01D41D181
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 04:37:21 +0200 (CEST)
-Received: from localhost ([::1]:41132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8127741D183
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 04:37:32 +0200 (CEST)
+Received: from localhost ([::1]:41672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVlwm-0005tE-Ed
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 22:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53730)
+	id 1mVlwx-0006HX-J4
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 22:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1mVluQ-0004Zy-20
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 22:34:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45014)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1mVluv-0004fz-Nh
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 22:35:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1mVluO-00046J-2H
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 22:34:53 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1mVlut-0004QN-27
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 22:35:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632969291;
+ s=mimecast20190719; t=1632969322;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5OxXT5vwCSaxMJcCBln9PLTU8YcBV6S6Ba4bWGtdK3A=;
- b=EXc9KbHMHwZQ4S9N/Dh9nornzCfChadzJxl2lx/NzOCFftYnZkx/n/jlUCDxjRXKBk668w
- tj/Qpva8xhCMvpvK36bSdo+75yCK9MnrBqPixtdqg85xpjLB9LNZbyASUEoGmkWtp02i7S
- B7ztHzNtzqOpZiaawYa4RfAoZuhAA9A=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Viky7+0eH2A2ul8B38jZzsN9k+GwKAB1ScEPtKNyg5g=;
+ b=KHDvpBtadKBioLwvTAj/PXX7lBKTIpcHFRnCyFm6PTQGog3ScC8bHMYICAIX6jXjbLXBbx
+ MF8OcJOYywlucQ//3QBpYjG3uIFuo7lgDjQsJSmVqpLhhYFzt/DOu1F9Nb1MXtx+KFTQf0
+ A650PU7JnIXh0Cr0zZ6a+gFJELFW3W4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-z45RO01fPjKFY1do3JhjSQ-1; Wed, 29 Sep 2021 22:34:50 -0400
-X-MC-Unique: z45RO01fPjKFY1do3JhjSQ-1
+ us-mta-409-YwWTqZB8NXGG6cvK2u0SFg-1; Wed, 29 Sep 2021 22:35:21 -0400
+X-MC-Unique: YwWTqZB8NXGG6cvK2u0SFg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34244180830F;
- Thu, 30 Sep 2021 02:34:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D0F41084687;
+ Thu, 30 Sep 2021 02:35:20 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-12-120.pek2.redhat.com [10.72.12.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0AA01009962;
- Thu, 30 Sep 2021 02:33:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B568710016F4;
+ Thu, 30 Sep 2021 02:34:49 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, kraxel@redhat.com,
  dgilbert@redhat.com, stefanha@redhat.com, arei.gonglei@huawei.com,
  marcandre.lureau@redhat.com
-Subject: [PATCH v9 00/10] vhost-vdpa: add support for configure interrupt
-Date: Thu, 30 Sep 2021 10:33:38 +0800
-Message-Id: <20210930023348.17770-1-lulu@redhat.com>
+Subject: [PATCH v9 01/10] virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
+Date: Thu, 30 Sep 2021 10:33:39 +0800
+Message-Id: <20210930023348.17770-2-lulu@redhat.com>
+In-Reply-To: <20210930023348.17770-1-lulu@redhat.com>
+References: <20210930023348.17770-1-lulu@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -54,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,89 +82,165 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-these patches add the support for configure interrupt
+To support configure interrupt for vhost-vdpa
+introduce VIRTIO_CONFIG_IRQ_IDX -1 as config queue index, Then we can reuse
+the function guest_notifier_mask and guest_notifier_pending.
+Add the check of queue index, if the driver does not support configure
+interrupt, the function will just return
 
-These codes are all tested in vp-vdpa (support configure interrupt)
-vdpa_sim (not support configure interrupt), virtio tap device
+Signed-off-by: Cindy Lu <lulu@redhat.com>
+---
+ hw/display/vhost-user-gpu.c    |  6 ++++++
+ hw/net/virtio-net.c            | 10 +++++++---
+ hw/virtio/vhost-user-fs.c      |  9 +++++++--
+ hw/virtio/vhost-vsock-common.c |  6 ++++++
+ hw/virtio/virtio-crypto.c      |  6 ++++++
+ include/hw/virtio/virtio.h     |  2 ++
+ 6 files changed, 34 insertions(+), 5 deletions(-)
 
-test in virtio-pci bus and virtio-mmio bus
-
-Change in v2:
-Add support for virtio-mmio bus
-active the notifier while the backend support configure interrupt
-misc fixes from v1
-
-Change in v3
-fix the coding style problems
-
-Change in v4
-misc fixes from v3
-merge the set_config_notifier to set_guest_notifier
-when vdpa start, check the feature by VIRTIO_NET_F_STATUS
-
-Change in v5
-misc fixes from v4
-split the code to introduce configure interrupt type and the callback function
-will init the configure interrupt in all virtio-pci and virtio-mmio bus, but will
-only active while using vhost-vdpa driver
-
-Change in v6
-misc fixes from v5
-decouple virtqueue from interrupt setting and misc process
-fix the bug in virtio_net_handle_rx
-use -1 as the queue number to identify if the interrupt is configure interrupt
-
-Change in v7
-misc fixes from v6
-decouple virtqueue from interrupt setting and misc process
-decouple virtqueue from vector use/release process
-decouple virtqueue from set notifier fd handler process
-move config_notifier and masked_config_notifier to VirtIODevice
-fix the bug in virtio_net_handle_rx, add more information
-add VIRTIO_CONFIG_IRQ_IDX as the queue number to identify if the interrupt is configure interrupt
-
-Change in v8
-misc fixes from v7
-decouple virtqueue from interrupt setting and misc process
-decouple virtqueue from vector use/release process
-decouple virtqueue from set notifier fd handler process
-move the vhost configure interrupt to vhost_net
-
-Change in v9
-misc fixes from v8
-address the comments for v8
-
-Cindy Lu (10):
-  virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
-  virtio-pci: decouple notifier from interrupt process
-  virtio-pci: decouple the single vector from the interrupt process
-  vhost: add new call back function for config interrupt
-  vhost-vdpa: add support for config interrupt call back
-  virtio: add support for configure interrupt
-  virtio-net: add support for configure interrupt
-  vhost: add support for configure interrupt
-  virtio-mmio: add support for configure interrupt
-  virtio-pci: add support for configure interrupt
-
- hw/display/vhost-user-gpu.c       |   6 +
- hw/net/vhost_net.c                |  10 ++
- hw/net/virtio-net.c               |  16 +-
- hw/virtio/trace-events            |   2 +
- hw/virtio/vhost-user-fs.c         |   9 +-
- hw/virtio/vhost-vdpa.c            |   7 +
- hw/virtio/vhost-vsock-common.c    |   6 +
- hw/virtio/vhost.c                 |  76 +++++++++
- hw/virtio/virtio-crypto.c         |   6 +
- hw/virtio/virtio-mmio.c           |  27 ++++
- hw/virtio/virtio-pci.c            | 260 ++++++++++++++++++++----------
- hw/virtio/virtio-pci.h            |   4 +-
- hw/virtio/virtio.c                |  29 ++++
- include/hw/virtio/vhost-backend.h |   3 +
- include/hw/virtio/vhost.h         |   4 +
- include/hw/virtio/virtio.h        |   6 +
- include/net/vhost_net.h           |   3 +
- 17 files changed, 386 insertions(+), 88 deletions(-)
-
+diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+index 49df56cd14..73ad3d84c9 100644
+--- a/hw/display/vhost-user-gpu.c
++++ b/hw/display/vhost-user-gpu.c
+@@ -485,6 +485,9 @@ vhost_user_gpu_guest_notifier_pending(VirtIODevice *vdev, int idx)
+ {
+     VhostUserGPU *g = VHOST_USER_GPU(vdev);
+ 
++    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
++        return false;
++    }
+     return vhost_virtqueue_pending(&g->vhost->dev, idx);
+ }
+ 
+@@ -493,6 +496,9 @@ vhost_user_gpu_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
+ {
+     VhostUserGPU *g = VHOST_USER_GPU(vdev);
+ 
++    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
++        return;
++    }
+     vhost_virtqueue_mask(&g->vhost->dev, vdev, idx, mask);
+ }
+ 
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 16d20cdee5..65b7cabcaf 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -3152,7 +3152,10 @@ static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
+     VirtIONet *n = VIRTIO_NET(vdev);
+     NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
+     assert(n->vhost_started);
+-    return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
++    if (idx != VIRTIO_CONFIG_IRQ_IDX) {
++        return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
++    }
++    return false;
+ }
+ 
+ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+@@ -3161,8 +3164,9 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+     VirtIONet *n = VIRTIO_NET(vdev);
+     NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
+     assert(n->vhost_started);
+-    vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
+-                             vdev, idx, mask);
++    if (idx != VIRTIO_CONFIG_IRQ_IDX) {
++        vhost_net_virtqueue_mask(get_vhost_net(nc->peer), vdev, idx, mask);
++    }
+ }
+ 
+ static void virtio_net_set_config_size(VirtIONet *n, uint64_t host_features)
+diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+index c595957983..309c8efabf 100644
+--- a/hw/virtio/vhost-user-fs.c
++++ b/hw/virtio/vhost-user-fs.c
+@@ -156,11 +156,13 @@ static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+      */
+ }
+ 
+-static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx,
+-                                            bool mask)
++static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
+ {
+     VHostUserFS *fs = VHOST_USER_FS(vdev);
+ 
++    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
++        return;
++    }
+     vhost_virtqueue_mask(&fs->vhost_dev, vdev, idx, mask);
+ }
+ 
+@@ -168,6 +170,9 @@ static bool vuf_guest_notifier_pending(VirtIODevice *vdev, int idx)
+ {
+     VHostUserFS *fs = VHOST_USER_FS(vdev);
+ 
++    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
++        return false;
++    }
+     return vhost_virtqueue_pending(&fs->vhost_dev, idx);
+ }
+ 
+diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+index 4ad6e234ad..2112b44802 100644
+--- a/hw/virtio/vhost-vsock-common.c
++++ b/hw/virtio/vhost-vsock-common.c
+@@ -101,6 +101,9 @@ static void vhost_vsock_common_guest_notifier_mask(VirtIODevice *vdev, int idx,
+ {
+     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+ 
++    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
++        return;
++    }
+     vhost_virtqueue_mask(&vvc->vhost_dev, vdev, idx, mask);
+ }
+ 
+@@ -109,6 +112,9 @@ static bool vhost_vsock_common_guest_notifier_pending(VirtIODevice *vdev,
+ {
+     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+ 
++    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
++        return false;
++    }
+     return vhost_virtqueue_pending(&vvc->vhost_dev, idx);
+ }
+ 
+diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+index 54f9bbb789..1d5192f8b4 100644
+--- a/hw/virtio/virtio-crypto.c
++++ b/hw/virtio/virtio-crypto.c
+@@ -948,6 +948,9 @@ static void virtio_crypto_guest_notifier_mask(VirtIODevice *vdev, int idx,
+ 
+     assert(vcrypto->vhost_started);
+ 
++    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
++        return;
++    }
+     cryptodev_vhost_virtqueue_mask(vdev, queue, idx, mask);
+ }
+ 
+@@ -958,6 +961,9 @@ static bool virtio_crypto_guest_notifier_pending(VirtIODevice *vdev, int idx)
+ 
+     assert(vcrypto->vhost_started);
+ 
++    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
++        return false;
++    }
+     return cryptodev_vhost_virtqueue_pending(vdev, queue, idx);
+ }
+ 
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index fa711a8912..2766c293f4 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -67,6 +67,8 @@ typedef struct VirtQueueElement
+ 
+ #define VIRTIO_NO_VECTOR 0xffff
+ 
++#define VIRTIO_CONFIG_IRQ_IDX -1
++
+ #define TYPE_VIRTIO_DEVICE "virtio-device"
+ OBJECT_DECLARE_TYPE(VirtIODevice, VirtioDeviceClass, VIRTIO_DEVICE)
+ 
 -- 
 2.21.3
 
