@@ -2,35 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09BC41D33E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 08:23:13 +0200 (CEST)
-Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B628B41D33F
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 08:23:33 +0200 (CEST)
+Received: from localhost ([::1]:41022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVpTM-0006A0-Nc
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 02:23:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47608)
+	id 1mVpTg-0006Qg-Nb
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 02:23:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVosn-0001zu-52; Thu, 30 Sep 2021 01:45:25 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:37963)
+ id 1mVot7-0002Ny-UM; Thu, 30 Sep 2021 01:45:45 -0400
+Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:53215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVosj-00042l-Mn; Thu, 30 Sep 2021 01:45:24 -0400
+ id 1mVot6-00044m-1O; Thu, 30 Sep 2021 01:45:45 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HKhyR3v4fz4xc7; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
+ id 4HKhyR3y5gz4xc6; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632980671;
- bh=HzWjb7sZD6zFnDRZekCp8lpO/lPgg42fwK8Jeu0wF6Y=;
+ bh=yAY+LD8MQArIJOi80Rk5/239hHY0FX96UQCZuSlFHxs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LMrv0oQL0rKyzN95uXdNWswHLVEThKWhOf+DN7da8+yI1pmDvaXol8Q+C3JihHgmi
- nsWuTsE4BoJodSE6Scl0CNofTAQhkf/CLYInCakrqU7YgSpYHS9c+U2ylXcUREi9TJ
- pp8mejaU3MtQGygeYr9I9Ot1GlRxx9PykwNPC0/A=
+ b=Yb4MiWax/qyb2Nk5l5p7VCxurLQGMDk6X7DRVeG5pV2Sd6NA+L3uhU1gWpnsWp+aZ
+ IQTkkVTuCQZ/06Lkc1wD4m8/lrNR18qB2B/dEI/Elrhat4hXT3jE7GklaFMlK3AhCc
+ L5Wo1d24mYARjfctw8m/g+NDTTDkpNVsCZQ0XPYg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 36/44] hw/intc: openpic: Clean up the styles
-Date: Thu, 30 Sep 2021 15:44:18 +1000
-Message-Id: <20210930054426.357344-37-david@gibson.dropbear.id.au>
+Subject: [PULL 37/44] spapr_numa.c: fixes in
+ spapr_numa_FORM2_write_rtas_tables()
+Date: Thu, 30 Sep 2021 15:44:19 +1000
+Message-Id: <20210930054426.357344-38-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210930054426.357344-1-david@gibson.dropbear.id.au>
 References: <20210930054426.357344-1-david@gibson.dropbear.id.au>
@@ -56,192 +57,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>, Bin Meng <bin.meng@windriver.com>,
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
  mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, groug@kaod.org,
  hpoussin@reactos.org, clg@kaod.org, qemu-ppc@nongnu.org, philmd@redhat.com,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Correct the multi-line comment format. No functional changes.
+This patch has a handful of modifications for the recent added
+FORM2 support:
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
+- to not allocate more than the necessary size in 'distance_table'.
+At this moment the array is oversized due to allocating uint32_t for
+all elements, when most of them fits in an uint8_t. Fix it by
+changing the array to uint8_t and allocating the exact size;
 
-Message-Id: <20210918032653.646370-3-bin.meng@windriver.com>
+- use stl_be_p() to store the uint32_t at the start of 'distance_table';
+
+- use sizeof(uint32_t) to skip the uint32_t length when populating the
+distances;
+
+- use the NUMA_DISTANCE_MIN macro from sysemu/numa.h to avoid hardcoding
+the local distance value.
+
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20210922122852.130054-2-danielhb413@gmail.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/openpic.c        | 55 +++++++++++++++++++++++++---------------
- include/hw/ppc/openpic.h |  9 ++++---
- 2 files changed, 40 insertions(+), 24 deletions(-)
+ hw/ppc/spapr_numa.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/hw/intc/openpic.c b/hw/intc/openpic.c
-index 23eafb32bd..49504e740f 100644
---- a/hw/intc/openpic.c
-+++ b/hw/intc/openpic.c
-@@ -47,7 +47,7 @@
- #include "qemu/timer.h"
- #include "qemu/error-report.h"
+diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+index 58d5dc7084..5822938448 100644
+--- a/hw/ppc/spapr_numa.c
++++ b/hw/ppc/spapr_numa.c
+@@ -502,9 +502,8 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
+     int nb_numa_nodes = ms->numa_state->num_nodes;
+     int distance_table_entries = nb_numa_nodes * nb_numa_nodes;
+     g_autofree uint32_t *lookup_index_table = NULL;
+-    g_autofree uint32_t *distance_table = NULL;
++    g_autofree uint8_t *distance_table = NULL;
+     int src, dst, i, distance_table_size;
+-    uint8_t *node_distances;
  
--//#define DEBUG_OPENPIC
-+/* #define DEBUG_OPENPIC */
- 
- #ifdef DEBUG_OPENPIC
- static const int debug_openpic = 1;
-@@ -118,7 +118,8 @@ static FslMpicInfo fsl_mpic_42 = {
- #define ILR_INTTGT_CINT   0x01 /* critical */
- #define ILR_INTTGT_MCP    0x02 /* machine check */
- 
--/* The currently supported INTTGT values happen to be the same as QEMU's
-+/*
-+ * The currently supported INTTGT values happen to be the same as QEMU's
-  * openpic output codes, but don't depend on this.  The output codes
-  * could change (unlikely, but...) or support could be added for
-  * more INTTGT values.
-@@ -177,10 +178,11 @@ static void openpic_cpu_write_internal(void *opaque, hwaddr addr,
-                                        uint32_t val, int idx);
- static void openpic_reset(DeviceState *d);
- 
--/* Convert between openpic clock ticks and nanosecs.  In the hardware the clock
--   frequency is driven by board inputs to the PIC which the PIC would then
--   divide by 4 or 8.  For now hard code to 25MZ.
--*/
-+/*
-+ * Convert between openpic clock ticks and nanosecs.  In the hardware the clock
-+ * frequency is driven by board inputs to the PIC which the PIC would then
-+ * divide by 4 or 8.  For now hard code to 25MZ.
-+ */
- #define OPENPIC_TIMER_FREQ_MHZ 25
- #define OPENPIC_TIMER_NS_PER_TICK (1000 / OPENPIC_TIMER_FREQ_MHZ)
- static inline uint64_t ns_to_ticks(uint64_t ns)
-@@ -253,7 +255,8 @@ static void IRQ_local_pipe(OpenPICState *opp, int n_CPU, int n_IRQ,
-                 __func__, src->output, n_IRQ, active, was_active,
-                 dst->outputs_active[src->output]);
- 
--        /* On Freescale MPIC, critical interrupts ignore priority,
-+        /*
-+         * On Freescale MPIC, critical interrupts ignore priority,
-          * IACK, EOI, etc.  Before MPIC v4.1 they also ignore
-          * masking.
-          */
-@@ -276,7 +279,8 @@ static void IRQ_local_pipe(OpenPICState *opp, int n_CPU, int n_IRQ,
- 
-     priority = IVPR_PRIORITY(src->ivpr);
- 
--    /* Even if the interrupt doesn't have enough priority,
-+    /*
-+     * Even if the interrupt doesn't have enough priority,
-      * it is still raised, in case ctpr is lowered later.
+     /*
+      * ibm,numa-lookup-index-table: array with length and a
+@@ -531,11 +530,13 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
+      * array because NUMA ids can be sparse (node 0 is the first,
+      * node 8 is the second ...).
       */
-     if (active) {
-@@ -408,7 +412,8 @@ static void openpic_set_irq(void *opaque, int n_IRQ, int level)
+-    distance_table = g_new0(uint32_t, distance_table_entries + 1);
+-    distance_table[0] = cpu_to_be32(distance_table_entries);
++    distance_table_size = distance_table_entries * sizeof(uint8_t) +
++                          sizeof(uint32_t);
++    distance_table = g_new0(uint8_t, distance_table_size);
++    stl_be_p(distance_table, distance_table_entries);
+ 
+-    node_distances = (uint8_t *)&distance_table[1];
+-    i = 0;
++    /* Skip the uint32_t array length at the start */
++    i = sizeof(uint32_t);
+ 
+     for (src = 0; src < nb_numa_nodes; src++) {
+         for (dst = 0; dst < nb_numa_nodes; dst++) {
+@@ -546,16 +547,14 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
+              * adding the numa_info to retrieve distance info from.
+              */
+             if (src == dst) {
+-                node_distances[i++] = 10;
++                distance_table[i++] = NUMA_DISTANCE_MIN;
+                 continue;
+             }
+ 
+-            node_distances[i++] = numa_info[src].distance[dst];
++            distance_table[i++] = numa_info[src].distance[dst];
          }
- 
-         if (src->output != OPENPIC_OUTPUT_INT) {
--            /* Edge-triggered interrupts shouldn't be used
-+            /*
-+             * Edge-triggered interrupts shouldn't be used
-              * with non-INT delivery, but just in case,
-              * try to make it do something sane rather than
-              * cause an interrupt storm.  This is close to
-@@ -501,7 +506,8 @@ static inline void write_IRQreg_ivpr(OpenPICState *opp, int n_IRQ, uint32_t val)
- {
-     uint32_t mask;
- 
--    /* NOTE when implementing newer FSL MPIC models: starting with v4.0,
-+    /*
-+     * NOTE when implementing newer FSL MPIC models: starting with v4.0,
-      * the polarity bit is read-only on internal interrupts.
-      */
-     mask = IVPR_MASK_MASK | IVPR_PRIORITY_MASK | IVPR_SENSE_MASK |
-@@ -511,7 +517,8 @@ static inline void write_IRQreg_ivpr(OpenPICState *opp, int n_IRQ, uint32_t val)
-     opp->src[n_IRQ].ivpr =
-         (opp->src[n_IRQ].ivpr & IVPR_ACTIVITY_MASK) | (val & mask);
- 
--    /* For FSL internal interrupts, The sense bit is reserved and zero,
-+    /*
-+     * For FSL internal interrupts, The sense bit is reserved and zero,
-      * and the interrupt is always level-triggered.  Timers and IPIs
-      * have no sense or polarity bits, and are edge-triggered.
-      */
-@@ -695,16 +702,20 @@ static void qemu_timer_cb(void *opaque)
-     openpic_set_irq(opp, n_IRQ, 0);
- }
- 
--/* If enabled is true, arranges for an interrupt to be raised val clocks into
--   the future, if enabled is false cancels the timer. */
-+/*
-+ * If enabled is true, arranges for an interrupt to be raised val clocks into
-+ * the future, if enabled is false cancels the timer.
-+ */
- static void openpic_tmr_set_tmr(OpenPICTimer *tmr, uint32_t val, bool enabled)
- {
-     uint64_t ns = ticks_to_ns(val & ~TCCR_TOG);
--    /* A count of zero causes a timer to be set to expire immediately.  This
--       effectively stops the simulation since the timer is constantly expiring
--       which prevents guest code execution, so we don't honor that
--       configuration.  On real hardware, this situation would generate an
--       interrupt on every clock cycle if the interrupt was unmasked. */
-+    /*
-+     * A count of zero causes a timer to be set to expire immediately.  This
-+     * effectively stops the simulation since the timer is constantly expiring
-+     * which prevents guest code execution, so we don't honor that
-+     * configuration.  On real hardware, this situation would generate an
-+     * interrupt on every clock cycle if the interrupt was unmasked.
-+     */
-     if ((ns == 0) || !enabled) {
-         tmr->qemu_timer_active = false;
-         tmr->tccr = tmr->tccr & TCCR_TOG;
-@@ -717,8 +728,10 @@ static void openpic_tmr_set_tmr(OpenPICTimer *tmr, uint32_t val, bool enabled)
      }
+ 
+-    distance_table_size = distance_table_entries * sizeof(uint8_t) +
+-                          sizeof(uint32_t);
+     _FDT(fdt_setprop(fdt, rtas, "ibm,numa-distance-table",
+                      distance_table, distance_table_size));
  }
- 
--/* Returns the currrent tccr value, i.e., timer value (in clocks) with
--   appropriate TOG. */
-+/*
-+ * Returns the currrent tccr value, i.e., timer value (in clocks) with
-+ * appropriate TOG.
-+ */
- static uint64_t openpic_tmr_get_timer(OpenPICTimer *tmr)
- {
-     uint64_t retval;
-@@ -1309,7 +1322,7 @@ static void openpic_reset(DeviceState *d)
- typedef struct MemReg {
-     const char             *name;
-     MemoryRegionOps const  *ops;
--    hwaddr      start_addr;
-+    hwaddr                  start_addr;
-     ram_addr_t              size;
- } MemReg;
- 
-diff --git a/include/hw/ppc/openpic.h b/include/hw/ppc/openpic.h
-index f89802a15c..ebdaf8a493 100644
---- a/include/hw/ppc/openpic.h
-+++ b/include/hw/ppc/openpic.h
-@@ -51,7 +51,8 @@ typedef enum IRQType {
-     IRQ_TYPE_FSLSPECIAL,    /* FSL timer/IPI interrupt, edge, no polarity */
- } IRQType;
- 
--/* Round up to the nearest 64 IRQs so that the queue length
-+/*
-+ * Round up to the nearest 64 IRQs so that the queue length
-  * won't change when moving between 32 and 64 bit hosts.
-  */
- #define IRQQUEUE_SIZE_BITS ((OPENPIC_MAX_IRQ + 63) & ~63)
-@@ -101,8 +102,10 @@ typedef struct OpenPICTimer {
-     bool                  qemu_timer_active; /* Is the qemu_timer is running? */
-     struct QEMUTimer     *qemu_timer;
-     struct OpenPICState  *opp;          /* Device timer is part of. */
--    /* The QEMU_CLOCK_VIRTUAL time (in ns) corresponding to the last
--       current_count written or read, only defined if qemu_timer_active. */
-+    /*
-+     * The QEMU_CLOCK_VIRTUAL time (in ns) corresponding to the last
-+     * current_count written or read, only defined if qemu_timer_active.
-+     */
-     uint64_t              origin_time;
- } OpenPICTimer;
- 
 -- 
 2.31.1
 
