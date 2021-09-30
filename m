@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1876E41DBEB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 16:05:47 +0200 (CEST)
-Received: from localhost ([::1]:49172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 434A341DC0A
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 16:09:52 +0200 (CEST)
+Received: from localhost ([::1]:59668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVwgz-0002Lr-Uc
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 10:05:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
+	id 1mVwkw-0001hp-CQ
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 10:09:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVwBM-00084Z-5s
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:33:04 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVwBJ-0005Cm-06
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:33:03 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- r83-20020a1c4456000000b0030cfc00ca5fso8469982wma.2
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 06:33:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=z0rguPNAxUyDxy2CQeF8SNel11uZtjc8zMuaI4+6rbI=;
- b=XFgiUX9aBArfQYx2EL8RhFfTRDI5lNEElbzAypy3yamnDNX15E22s0PvR53AF6o2Rc
- B8kuz40bLuEJwqI6n3hMrtPsKMuh5x4EPQk5f2C3+2DnP5ARVHmaY5mooOr0H7nGy7wl
- mg3cRYeNnpXmaWU73bxtb12PQAmHJBgYyAVJOgiFS6uLTBf8Zs9ahN08+W0qgFYE8dpj
- /AFCTzvqqENRSpiZuQlgtqWWuupBdPR1GDBHZjWPQ0unwTT3ekiqwz3tRcvmvVdkNdCg
- oTvBLueNOu1jCwTwwCDpVnX9pCBEPZZprTYWkxBJPAHB6WHHF90f5exnJfQAUsIX1BXY
- qfPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=z0rguPNAxUyDxy2CQeF8SNel11uZtjc8zMuaI4+6rbI=;
- b=HApl/vXX1yltwyQlQ7osG84b4nPRUhYHmby1+sf4Ft6MroVc7AhGXP4CH4bqI/LlWa
- PWz5nKv7Q9+LqXmb7fhk0b3eWH033NGKtLjFKrZlYWPFTrkUMepgu9OxV+jSv8Lfbqsv
- iErPQBfVoAI3qV/UD7AvIpxz7PLIxQ1s3Bhu+EI6IwarXHZN1lePufzfQ3C3SXeRLY4W
- 8qGzwmqOSjfe9t4E9Laxa4kzLWi/jWEVdR6tPikvNIkeJAm8IlQJpRcC29+sm2a2paTr
- Q5HKU9eoC6Z+CrVG3MI0M+D7N9AW0ybT22gy2zyyNHWtp6yBurWRAXGv/yzeQJ2a51WZ
- 3/Bg==
-X-Gm-Message-State: AOAM530G6EC6bL+QAahNvL+c5LQqDn+1hHkI1qS7avbwjBLrOPn/ZXrU
- bYOTm3r644c9A9LR0cjXOMbHgBNv9z4=
-X-Google-Smtp-Source: ABdhPJwSOEFFDFD3Hs3Ej7QTATsDT9RDP0S7lv7VS9PNawvfZ4jVQGiCzy6bDqE2zES8FazBkZMjOg==
-X-Received: by 2002:a1c:f402:: with SMTP id z2mr15843065wma.53.1633008779286; 
- Thu, 30 Sep 2021 06:32:59 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c4sm3037168wrt.23.2021.09.30.06.32.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 06:32:58 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 0/7] Cleanup sectioning in a few doc files
-Date: Thu, 30 Sep 2021 15:32:43 +0200
-Message-Id: <20210930133250.181156-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mVwJ4-0006o0-AZ
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:41:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27382)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mVwJ0-0003Hh-Kx
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:41:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633009257;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=99weWqUAgTfWKdGXUKGT+C8JrcE0+rjcw1+1fyEMRv8=;
+ b=R/Gx8RgCUN7Ic43gmQJDJeKd4GehZuu8V28rtn9iSTZ/TZWV3sNt0Hw5ZVamrbALAD657H
+ J5lPu31Uv8d9vlIZS3x/ccEgifNdKudAzQaexbAVS0B1QJf2yp/moHlBgJyczflE8Me75G
+ dkuyWRl21EvxmEV9BYuTwE5XVJ4AMx0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-FQU21rKIOgKL8Hvb5pM4_w-1; Thu, 30 Sep 2021 09:40:55 -0400
+X-MC-Unique: FQU21rKIOgKL8Hvb5pM4_w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA6CB10144E0;
+ Thu, 30 Sep 2021 13:40:53 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 608605D6D5;
+ Thu, 30 Sep 2021 13:40:53 +0000 (UTC)
+Date: Thu, 30 Sep 2021 14:40:52 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: michael.roth@amd.com
+Subject: Moving QEMU downloads to GitLab Releases?
+Message-ID: <YVW+ZGmIs+repvj4@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="04NYIUabMPt5kNHt"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,38 +75,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch 1 is more or less unrelated and is just a cleanup for file names; the
-others clean up the section headers for various doc files and fix a few
-cases in which related documentation is scattered through the file.
+--04NYIUabMPt5kNHt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Paolo Bonzini (7):
-  docs: name included files ".rst.inc"
-  docs: move notes inside the body of the document
-  docs: put "make" information together in build-system.rst
-  docs: reorganize qgraph.rst
-  docs: reorganize tcg-plugins.rst
-  docs: move gcov section at the end of testing.rst
-  docs: reorganize testing.rst
+Hi Mike,
+QEMU downloads are currently hosted on qemu.org's Apache web server.
+Paolo and I were discussing ways to reduce qemu.org network traffic to
+save money and eventually turn off the qemu.org server since there is no
+full-time sysadmin for it. I'd like to discuss moving QEMU downloads to
+GitLab Releases.
 
- docs/devel/build-system.rst                   |  21 +-
- ...definitions.rst => ci-definitions.rst.inc} |   0
- docs/devel/{ci-jobs.rst => ci-jobs.rst.inc}   |   0
- .../{ci-runners.rst => ci-runners.rst.inc}    |   0
- docs/devel/ci.rst                             |   6 +-
- docs/devel/multi-process.rst                  |  20 +-
- docs/devel/qgraph.rst                         | 132 ++++++-------
- docs/devel/tcg-plugins.rst                    | 117 ++++++-----
- docs/devel/testing.rst                        | 182 +++++++++---------
- 9 files changed, 243 insertions(+), 235 deletions(-)
- rename docs/devel/{ci-definitions.rst => ci-definitions.rst.inc} (100%)
- rename docs/devel/{ci-jobs.rst => ci-jobs.rst.inc} (100%)
- rename docs/devel/{ci-runners.rst => ci-runners.rst.inc} (100%)
+Since you create and sign QEMU releases I wanted to see what you think
+about the idea. GitLab Releases has two ways of creating release assets:
+archiving a git tree and attaching arbitrary binaries. The
+scripts/make-release script fetches submodules and generates version
+files, so it may be necessary to treat QEMU tarballs as arbitrary
+binaries instead of simply letting GitLab create git tree archives:
+https://docs.gitlab.com/ee/user/project/releases/#use-a-generic-package-for-attaching-binaries
 
--- 
-2.31.1
+Releases can be uploaded via the GitLab API from your local machine or
+deployed as a GitLab CI job. Uploading from your local machine would be
+the closest to the current workflow.
+
+In the long term we could have a CI job that automatically publishes
+QEMU releases when a new qemu.git tag is pushed. The release process
+could be fully automated so that manual steps are no longer necessary,
+although we'd have to trust GitLab with QEMU GPG signing keys.
+
+What do you think?
+
+Stefan
+
+--04NYIUabMPt5kNHt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFVvmQACgkQnKSrs4Gr
+c8hQ4Af/SDI0HIEbvoqD/WUOsv+s1LClXKGDHxiyKEzgScsUh19cBnnOTaAM2VN1
+IFZB08s2BWxMzyW30oYwFrqFf2B2gLr8oiVi1NT8/kQ6rwTeHsrrk+rPxWxTcRLF
+E8CJ/PwJyOorteFolTiKT2daZlQ3wZXFNVSlg+D9cxXdtKRrazihzIa7tdnm12lp
+mDogtOm+oajpWiljubkUa5B0/zePoo+62yii+qh1jLRJVkQiYf+0134ofsXXPrq7
+9FUo0EeggGsYOVOGHAXh4WOk2RKyVsPO6D6r+qvqN7V0VPyfPvthFqchymOqiEoJ
+U1bZaGSdfQ/xnXaY07WGDeVcqkhFmQ==
+=att1
+-----END PGP SIGNATURE-----
+
+--04NYIUabMPt5kNHt--
 
 
