@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DC741D304
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 08:04:31 +0200 (CEST)
-Received: from localhost ([::1]:33186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4426641D303
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 08:04:29 +0200 (CEST)
+Received: from localhost ([::1]:32938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVpBG-0005ci-KT
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 02:04:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47314)
+	id 1mVpBD-0005Rr-SV
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 02:04:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVos9-00012C-Vt; Thu, 30 Sep 2021 01:44:46 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:44903)
+ id 1mVosK-0001J7-DH; Thu, 30 Sep 2021 01:44:56 -0400
+Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:49315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVos4-0003Qg-Kn; Thu, 30 Sep 2021 01:44:45 -0400
+ id 1mVos4-0003R3-Nz; Thu, 30 Sep 2021 01:44:56 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HKhyR0Zpvz4xbX; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
+ id 4HKhyR0mSbz4xbZ; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632980671;
- bh=arwTfhg6v1PQHggBw8kAfRW4zT5ULa24cgyZ0nUkC2E=;
+ bh=VFpJc4+zVi9K9aRZOF5fx13RPoQZuPp/V8j1IRlxkS0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=X51/sJA6f1Stnt9zn+kF/nZc1MFJOrPyZvdAvPpp6Uo8ReOpaCJcXOba/7DE4tBb1
- JKQPPmiozOiRJxJotgwHpIISkGiwPtCBddpHqMU/yM/LVuzzthpwhwiPQZsnzMRVCD
- ssoECHwdtKn09NVkzzZe/By4MyvvQwNmM5YrH7js=
+ b=AzHFGLyTMf4NwTjKn204KvDFA15uBK3AOpRN62I2HJIiAYruV2BfIK71ONxDRkzGV
+ dfHSqCrm+j62ttEnbIelcjDVErsh7wQ3N8ULnlCY4wm5kvvsela+K4GtESLV4oJmel
+ 2vXq77mtCUVXZX/4YL/+aNSrfMZTIJCZqa7Uw/zQ=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/44] ppc/pnv: Add a comment on the "primary-topology-index"
- property
-Date: Thu, 30 Sep 2021 15:43:48 +1000
-Message-Id: <20210930054426.357344-7-david@gibson.dropbear.id.au>
+Subject: [PULL 08/44] ppc/xive: Export priority_to_ipb() helper
+Date: Thu, 30 Sep 2021 15:43:50 +1000
+Message-Id: <20210930054426.357344-9-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210930054426.357344-1-david@gibson.dropbear.id.au>
 References: <20210930054426.357344-1-david@gibson.dropbear.id.au>
@@ -66,38 +65,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-On P10, the chip id is calculated from the "Primary topology table
-index". See skiboot commits for more information [1].
-
-This information is extracted from the hdata on real systems which
-QEMU needs to emulate. Add this property for all machines even if it
-is only used on POWER10.
-
-[1] https://github.com/open-power/skiboot/commit/2ce3f083f399
-    https://github.com/open-power/skiboot/commit/a2d4d7f9e14a
-
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20210901094153.227671-4-clg@kaod.org>
+Message-Id: <20210901094153.227671-7-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv_xscom.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/intc/xive.c        | 21 ++++++---------------
+ include/hw/ppc/xive.h | 11 +++++++++++
+ 2 files changed, 17 insertions(+), 15 deletions(-)
 
-diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-index faa488e311..9ce018dbc2 100644
---- a/hw/ppc/pnv_xscom.c
-+++ b/hw/ppc/pnv_xscom.c
-@@ -284,6 +284,10 @@ int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_offset,
-     _FDT(xscom_offset);
-     g_free(name);
-     _FDT((fdt_setprop_cell(fdt, xscom_offset, "ibm,chip-id", chip->chip_id)));
-+    /*
-+     * On P10, the xscom bus id has been deprecated and the chip id is
-+     * calculated from the "Primary topology table index". See skiboot.
-+     */
-     _FDT((fdt_setprop_cell(fdt, xscom_offset, "ibm,primary-topology-index",
-                            chip->chip_id)));
-     _FDT((fdt_setprop_cell(fdt, xscom_offset, "#address-cells", 1)));
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index b817ee8e37..b0c4f76b1d 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -27,17 +27,6 @@
+  * XIVE Thread Interrupt Management context
+  */
+ 
+-/*
+- * Convert a priority number to an Interrupt Pending Buffer (IPB)
+- * register, which indicates a pending interrupt at the priority
+- * corresponding to the bit number
+- */
+-static uint8_t priority_to_ipb(uint8_t priority)
+-{
+-    return priority > XIVE_PRIORITY_MAX ?
+-        0 : 1 << (XIVE_PRIORITY_MAX - priority);
+-}
+-
+ /*
+  * Convert an Interrupt Pending Buffer (IPB) register to a Pending
+  * Interrupt Priority Register (PIPR), which contains the priority of
+@@ -89,7 +78,7 @@ static uint64_t xive_tctx_accept(XiveTCTX *tctx, uint8_t ring)
+         regs[TM_CPPR] = cppr;
+ 
+         /* Reset the pending buffer bit */
+-        regs[TM_IPB] &= ~priority_to_ipb(cppr);
++        regs[TM_IPB] &= ~xive_priority_to_ipb(cppr);
+         regs[TM_PIPR] = ipb_to_pipr(regs[TM_IPB]);
+ 
+         /* Drop Exception bit */
+@@ -353,7 +342,7 @@ static void xive_tm_set_os_cppr(XivePresenter *xptr, XiveTCTX *tctx,
+ static void xive_tm_set_os_pending(XivePresenter *xptr, XiveTCTX *tctx,
+                                    hwaddr offset, uint64_t value, unsigned size)
+ {
+-    xive_tctx_ipb_update(tctx, TM_QW1_OS, priority_to_ipb(value & 0xff));
++    xive_tctx_ipb_update(tctx, TM_QW1_OS, xive_priority_to_ipb(value & 0xff));
+ }
+ 
+ static void xive_os_cam_decode(uint32_t cam, uint8_t *nvt_blk,
+@@ -1535,7 +1524,8 @@ bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
+     /* handle CPU exception delivery */
+     if (count) {
+         trace_xive_presenter_notify(nvt_blk, nvt_idx, match.ring);
+-        xive_tctx_ipb_update(match.tctx, match.ring, priority_to_ipb(priority));
++        xive_tctx_ipb_update(match.tctx, match.ring,
++                             xive_priority_to_ipb(priority));
+     }
+ 
+     return !!count;
+@@ -1682,7 +1672,8 @@ static void xive_router_end_notify(XiveRouter *xrtr, uint8_t end_blk,
+          * use. The presenter will resend the interrupt when the vCPU
+          * is dispatched again on a HW thread.
+          */
+-        ipb = xive_get_field32(NVT_W4_IPB, nvt.w4) | priority_to_ipb(priority);
++        ipb = xive_get_field32(NVT_W4_IPB, nvt.w4) |
++            xive_priority_to_ipb(priority);
+         nvt.w4 = xive_set_field32(NVT_W4_IPB, nvt.w4, ipb);
+         xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
+ 
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index db76411654..29b130eaea 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -458,6 +458,17 @@ struct XiveENDSource {
+  */
+ #define XIVE_PRIORITY_MAX  7
+ 
++/*
++ * Convert a priority number to an Interrupt Pending Buffer (IPB)
++ * register, which indicates a pending interrupt at the priority
++ * corresponding to the bit number
++ */
++static inline uint8_t xive_priority_to_ipb(uint8_t priority)
++{
++    return priority > XIVE_PRIORITY_MAX ?
++        0 : 1 << (XIVE_PRIORITY_MAX - priority);
++}
++
+ /*
+  * XIVE Thread Interrupt Management Aera (TIMA)
+  *
 -- 
 2.31.1
 
