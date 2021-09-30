@@ -2,67 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732E741DFD2
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 19:12:34 +0200 (CEST)
-Received: from localhost ([::1]:53010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FDD441DFD7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 19:13:57 +0200 (CEST)
+Received: from localhost ([::1]:55322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVzbl-0005jn-35
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 13:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33998)
+	id 1mVzd6-0007Mt-Fr
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 13:13:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mVza5-0004tG-KY
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 13:10:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55088)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVzbi-0006E5-0v
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 13:12:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mVza1-0001Jh-Om
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 13:10:48 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mVzbf-0002qI-Ap
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 13:12:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633021843;
+ s=mimecast20190719; t=1633021946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gLzedvbr995yyLxH5n+q1/J6NdX1GdUqZ+EWHFhmPuA=;
- b=hQq6TRasPr6YMo2VYVLSxlykRfJC7jWW1nAQBs6xZGdnCdx7EjkXjCayUlp5YHDd5QIRF2
- tfwoIrZUhr/OMHAy5guPpzOmwmjQRG5NKlRxFobEQ4I2LNWxOjF+W8UuO1W7gMnHCmcthG
- dYv3QH84UjWYlzjg+ZBfyEvCWOKX7Qg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-RbGNfIgGNNm9f2EIVHlIAQ-1; Thu, 30 Sep 2021 13:10:40 -0400
-X-MC-Unique: RbGNfIgGNNm9f2EIVHlIAQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76F3F19067E5
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 17:10:39 +0000 (UTC)
-Received: from thinkpad.redhat.com (unknown [10.39.192.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4132B9AA4B;
- Thu, 30 Sep 2021 17:09:27 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] failover: allow to pause the VM during the migration
-Date: Thu, 30 Sep 2021 19:09:26 +0200
-Message-Id: <20210930170926.1298118-1-lvivier@redhat.com>
+ in-reply-to:in-reply-to:references:references;
+ bh=2ZRN643k1EdMGEMviLuvYFmhHTNdeR10nx4MZt90OLc=;
+ b=empvG/cNSQziLoWfWVz5lZ0suhsGyj/UguoG6f7LW9V6dDrC5g1vAfK0k/g46whrBUIsYL
+ 6SJGSDaA26IOVj3gAQtRh0CTIJiKg9FcECyJluV9tF8xpomqMCU6Nr1XkA3xXbCdnmz28u
+ 4tBavpuAGjF2gDlmwGukVyKyziqsH/c=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-137-v5hq7nEHMbWXaHW_rPY7ig-1; Thu, 30 Sep 2021 13:12:07 -0400
+X-MC-Unique: v5hq7nEHMbWXaHW_rPY7ig-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ i9-20020ab029c90000b02902aa59690c5aso3389586uaq.3
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 10:12:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2ZRN643k1EdMGEMviLuvYFmhHTNdeR10nx4MZt90OLc=;
+ b=E0KyqVnxnJqKsUJqbz4S9iisXA8+p1b7gCndX2QoGVL9qcGA0qglG2TzzB4vXKD1qp
+ clkKcGdZ27qqcpuswBlF43OC9t2l6GqDBZX+mN8SL7tJZpksbl9CoUqyHO4BUK2B/5jv
+ o0ZNCOgfIk1K2HS12LVuPaAqD3Cd92paqvD+FGYoEH46o23NoVRvHuUOaQZt3q6lXGei
+ joHQnp+91U17uGHkKvnFBIf9YvLAxCK/5HcTGsbk4XL1pPVR5J3sSjcl96+rBwW2pYqQ
+ OqpDRwXVupllupsiyt+z299LMguyCZMLnRWOEAPRK6WEAqZLL87bNEa/VWkoLM6eHCH8
+ HDjg==
+X-Gm-Message-State: AOAM530TFMKhFn/q/lfRF6UZuMgfZ9FvEm8VcVG2lL56HhyQTH5qL46z
+ Wgi6ayFlyb6cXf0FOJg9eacGj1IKx0m/3JzaEp0pnYRx7DcNw/jzdACznZSHYrAy50mvsCovMXi
+ LqeZ52T8+64zHzAuWpQEFBkvFkH7t0q4=
+X-Received: by 2002:ab0:558d:: with SMTP id v13mr6706490uaa.50.1633021927047; 
+ Thu, 30 Sep 2021 10:12:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJykoLwJdxgqmNfM92HFkymVp9dGzoYPQkTt+SsEh4kwcRvXdduH/4AipbqOV/5+AOdqBGiv2uta6QSO/zW1R3Y=
+X-Received: by 2002:ab0:558d:: with SMTP id v13mr6706472uaa.50.1633021926854; 
+ Thu, 30 Sep 2021 10:12:06 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20210929194428.1038496-1-jsnow@redhat.com>
+ <20210929194428.1038496-10-jsnow@redhat.com>
+ <87o88aqtw4.fsf@dusky.pond.sub.org>
+In-Reply-To: <87o88aqtw4.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 30 Sep 2021 13:11:55 -0400
+Message-ID: <CAFn=p-ZhF0wpbwL0X5Xn7YLKNSth+Bhsm9ScZF=MJtKHa4cWXQ@mail.gmail.com>
+Subject: Re: [PATCH v3 09/13] qapi/parser: add import cycle workaround
+To: Markus Armbruster <armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000dc61c005cd398b82"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,332 +88,332 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we want to save a snapshot of a VM to a file, we used to follow the
-following steps:
+--000000000000dc61c005cd398b82
+Content-Type: text/plain; charset="UTF-8"
 
-1- stop the VM:
-   (qemu) stop
+On Thu, Sep 30, 2021 at 5:45 AM Markus Armbruster <armbru@redhat.com> wrote:
 
-2- migrate the VM to a file:
-   (qemu) migrate "exec:cat > snapshot"
+> John Snow <jsnow@redhat.com> writes:
+>
+> > There is a cycle that exists in the QAPI generator: [schema -> expr ->
+>
+> "There is" or "there will be once we add strong type hints"?
+>
+>
+"There exists in my mind-palace a cycle where, ..."
 
-3- resume the VM:
-   (qemu) cont
+(Will adjust the commit message.)
 
-After that we can restore the snapshot with:
-  qemu-system-x86_64 ... -incoming "exec:cat snapshot"
-  (qemu) cont
 
-But when failover is configured, it doesn't work anymore.
+> > parser -> schema]. It exists because the QAPIDoc class needs the names
+> > of types defined by the schema module, but the schema module needs to
+> > import both expr.py/parser.py to do its actual parsing.
+> >
+> > Ultimately, the layering violation is that parser.py should not have any
+> > knowledge of specifics of the Schema. QAPIDoc performs double-duty here
+> > both as a parser *and* as a finalized object that is part of the schema.
+> >
+> > I see three paths here:
+> >
+> > (1) Just use the TYPE_CHECKING trick to eliminate the cycle which is only
+> >     present during static analysis.
+> >
+> > (2) Don't bother to annotate connect_member() et al, give them 'object'
+> >     or 'Any'. I don't particularly like this, because it diminishes the
+> >     usefulness of type hints for documentation purposes. Still, it's an
+> >     extremely quick fix.
+> >
+> > (3) Reimplement doc <--> definition correlation directly in schema.py,
+> >     integrating doc fields directly into QAPISchemaMember and relieving
+> >     the QAPIDoc class of the responsibility. Users of the information
+> >     would instead visit the members first and retrieve their
+> >     documentation instead of the inverse operation -- visiting the
+> >     documentation and retrieving their members.
+> >
+> > I prefer (3), but (1) is the easiest way to have my cake (strong type
+> > hints) and eat it too (Not have import cycles). Do (1) for now, but plan
+> > for (3). See also:
+> >
+> https://mypy.readthedocs.io/en/latest/runtime_troubles.html#import-cycles
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  scripts/qapi/parser.py | 15 +++++++++++----
+> >  1 file changed, 11 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> > index 123fc2f099c..30b1d98df0b 100644
+> > --- a/scripts/qapi/parser.py
+> > +++ b/scripts/qapi/parser.py
+> > @@ -18,6 +18,7 @@
+> >  import os
+> >  import re
+> >  from typing import (
+> > +    TYPE_CHECKING,
+> >      Dict,
+> >      List,
+> >      Optional,
+> > @@ -30,6 +31,12 @@
+> >  from .source import QAPISourceInfo
+> >
+> >
+> > +if TYPE_CHECKING:
+> > +    # pylint: disable=cyclic-import
+> > +    # TODO: Remove cycle. [schema -> expr -> parser -> schema]
+> > +    from .schema import QAPISchemaFeature, QAPISchemaMember
+> > +
+> > +
+> >  # Return value alias for get_expr().
+> >  _ExprValue = Union[List[object], Dict[str, object], str, bool]
+> >
+> > @@ -473,9 +480,9 @@ def append(self, line):
+> >      class ArgSection(Section):
+> >          def __init__(self, parser, name, indent=0):
+> >              super().__init__(parser, name, indent)
+> > -            self.member = None
+> > +            self.member: Optional['QAPISchemaMember'] = None
+> >
+> > -        def connect(self, member):
+> > +        def connect(self, member: 'QAPISchemaMember') -> None:
+> >              self.member = member
+> >
+> >      class NullSection(Section):
+> > @@ -750,14 +757,14 @@ def _append_freeform(self, line):
+> >                                   % match.group(1))
+> >          self._section.append(line)
+> >
+> > -    def connect_member(self, member):
+> > +    def connect_member(self, member: 'QAPISchemaMember') -> None:
+> >          if member.name not in self.args:
+> >              # Undocumented TODO outlaw
+> >              self.args[member.name] = QAPIDoc.ArgSection(self._parser,
+> >                                                          member.name)
+> >          self.args[member.name].connect(member)
+> >
+> > -    def connect_feature(self, feature):
+> > +    def connect_feature(self, feature: 'QAPISchemaFeature') -> None:
+> >          if feature.name not in self.features:
+> >              raise QAPISemError(feature.info,
+> >                                 "feature '%s' lacks documentation"
+>
+> This adds just the type hints that cause the cycle.  I like that,
+> because it illustrates the cycle.  Would be nice if the commit message
+> mentioned this, perhaps
+>
+>   I prefer (3), but (1) is the easiest way to have my cake (strong type
+>   hints) and eat it too (Not have import cycles). Do (1) for now, but plan
+>   for (3). Also add the type hints that cause the cycle right away to
+>   illustrate. See also:
+>
+> https://mypy.readthedocs.io/en/latest/runtime_troubles.html#import-cycles
+>
+> Slightly nicer, I think, would be swapping this and the next patch.
+> Then that one's commit message needs to say something like "except for a
+> few problematic ones, which the next commit will add".  Worthwhile?  Up
+> to you.
+>
+>
+Doing it the other way around means you can't squash the mypy patch into
+the bulk-type-hints patch, but I think the git log usefulness is not better
+or worse either way around. (Reviewer usefulness is maybe a ship that has
+sailed, by now?)
 
-As the failover needs to ask the guest OS to unplug the card
-the machine cannot be paused.
+--js
 
-This patch introduces a new migration parameter, "pause-vm", that
-asks the migration to pause the VM during the migration startup
-phase after the the card is unplugged.
+--000000000000dc61c005cd398b82
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Once the migration is done, we only need to resume the VM with
-"cont" and the card is plugged back:
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 30, 2021 at 5:45 AM Marku=
+s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">John=
+ Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsnow@redha=
+t.com</a>&gt; writes:<br>
+<br>
+&gt; There is a cycle that exists in the QAPI generator: [schema -&gt; expr=
+ -&gt;<br>
+<br>
+&quot;There is&quot; or &quot;there will be once we add strong type hints&q=
+uot;?<br>
+<br></blockquote><div><br></div><div>&quot;There exists in my mind-palace a=
+ cycle where, ...&quot;</div><div><br></div><div>(Will adjust the commit me=
+ssage.)<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+&gt; parser -&gt; schema]. It exists because the QAPIDoc class needs the na=
+mes<br>
+&gt; of types defined by the schema module, but the schema module needs to<=
+br>
+&gt; import both <a href=3D"http://expr.py/parser.py" rel=3D"noreferrer" ta=
+rget=3D"_blank">expr.py/parser.py</a> to do its actual parsing.<br>
+&gt;<br>
+&gt; Ultimately, the layering violation is that parser.py should not have a=
+ny<br>
+&gt; knowledge of specifics of the Schema. QAPIDoc performs double-duty her=
+e<br>
+&gt; both as a parser *and* as a finalized object that is part of the schem=
+a.<br>
+&gt;<br>
+&gt; I see three paths here:<br>
+&gt;<br>
+&gt; (1) Just use the TYPE_CHECKING trick to eliminate the cycle which is o=
+nly<br>
+&gt;=C2=A0 =C2=A0 =C2=A0present during static analysis.<br>
+&gt;<br>
+&gt; (2) Don&#39;t bother to annotate connect_member() et al, give them &#3=
+9;object&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0or &#39;Any&#39;. I don&#39;t particularly like thi=
+s, because it diminishes the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0usefulness of type hints for documentation purposes=
+. Still, it&#39;s an<br>
+&gt;=C2=A0 =C2=A0 =C2=A0extremely quick fix.<br>
+&gt;<br>
+&gt; (3) Reimplement doc &lt;--&gt; definition correlation directly in sche=
+ma.py,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0integrating doc fields directly into QAPISchemaMemb=
+er and relieving<br>
+&gt;=C2=A0 =C2=A0 =C2=A0the QAPIDoc class of the responsibility. Users of t=
+he information<br>
+&gt;=C2=A0 =C2=A0 =C2=A0would instead visit the members first and retrieve =
+their<br>
+&gt;=C2=A0 =C2=A0 =C2=A0documentation instead of the inverse operation -- v=
+isiting the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0documentation and retrieving their members.<br>
+&gt;<br>
+&gt; I prefer (3), but (1) is the easiest way to have my cake (strong type<=
+br>
+&gt; hints) and eat it too (Not have import cycles). Do (1) for now, but pl=
+an<br>
+&gt; for (3). See also:<br>
+&gt; <a href=3D"https://mypy.readthedocs.io/en/latest/runtime_troubles.html=
+#import-cycles" rel=3D"noreferrer" target=3D"_blank">https://mypy.readthedo=
+cs.io/en/latest/runtime_troubles.html#import-cycles</a><br>
+&gt;<br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 scripts/qapi/parser.py | 15 +++++++++++----<br>
+&gt;=C2=A0 1 file changed, 11 insertions(+), 4 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py<br>
+&gt; index 123fc2f099c..30b1d98df0b 100644<br>
+&gt; --- a/scripts/qapi/parser.py<br>
+&gt; +++ b/scripts/qapi/parser.py<br>
+&gt; @@ -18,6 +18,7 @@<br>
+&gt;=C2=A0 import os<br>
+&gt;=C2=A0 import re<br>
+&gt;=C2=A0 from typing import (<br>
+&gt; +=C2=A0 =C2=A0 TYPE_CHECKING,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Dict,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 List,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Optional,<br>
+&gt; @@ -30,6 +31,12 @@<br>
+&gt;=C2=A0 from .source import QAPISourceInfo<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt; +if TYPE_CHECKING:<br>
+&gt; +=C2=A0 =C2=A0 # pylint: disable=3Dcyclic-import<br>
+&gt; +=C2=A0 =C2=A0 # TODO: Remove cycle. [schema -&gt; expr -&gt; parser -=
+&gt; schema]<br>
+&gt; +=C2=A0 =C2=A0 from .schema import QAPISchemaFeature, QAPISchemaMember=
+<br>
+&gt; +<br>
+&gt; +<br>
+&gt;=C2=A0 # Return value alias for get_expr().<br>
+&gt;=C2=A0 _ExprValue =3D Union[List[object], Dict[str, object], str, bool]=
+<br>
+&gt;=C2=A0 <br>
+&gt; @@ -473,9 +480,9 @@ def append(self, line):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 class ArgSection(Section):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 def __init__(self, parser, name, ind=
+ent=3D0):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(parse=
+r, name, indent)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.member =3D None<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.member: Optional[&#39;=
+QAPISchemaMember&#39;] =3D None<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 def connect(self, member):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 def connect(self, member: &#39;QAPISchema=
+Member&#39;) -&gt; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.member =3D member=
+<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 class NullSection(Section):<br>
+&gt; @@ -750,14 +757,14 @@ def _append_freeform(self, line):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0% match.group(1))<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._section.append(line)<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 def connect_member(self, member):<br>
+&gt; +=C2=A0 =C2=A0 def connect_member(self, member: &#39;QAPISchemaMember&=
+#39;) -&gt; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if <a href=3D"http://member.name" re=
+l=3D"noreferrer" target=3D"_blank">member.name</a> not in self.args:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Undocumented TODO ou=
+tlaw<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.args[<a href=3D"h=
+ttp://member.name" rel=3D"noreferrer" target=3D"_blank">member.name</a>] =
+=3D QAPIDoc.ArgSection(self._parser,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http=
+://member.name" rel=3D"noreferrer" target=3D"_blank">member.name</a>)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.args[<a href=3D"http://member.n=
+ame" rel=3D"noreferrer" target=3D"_blank">member.name</a>].connect(member)<=
+br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 def connect_feature(self, feature):<br>
+&gt; +=C2=A0 =C2=A0 def connect_feature(self, feature: &#39;QAPISchemaFeatu=
+re&#39;) -&gt; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if <a href=3D"http://feature.name" r=
+el=3D"noreferrer" target=3D"_blank">feature.name</a> not in self.features:<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise QAPISemError(<a =
+href=3D"http://feature.info" rel=3D"noreferrer" target=3D"_blank">feature.i=
+nfo</a>,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;feature &#39;%s&#39; =
+lacks documentation&quot;<br>
+<br>
+This adds just the type hints that cause the cycle.=C2=A0 I like that,<br>
+because it illustrates the cycle.=C2=A0 Would be nice if the commit message=
+<br>
+mentioned this, perhaps<br>
+<br>
+=C2=A0 I prefer (3), but (1) is the easiest way to have my cake (strong typ=
+e<br>
+=C2=A0 hints) and eat it too (Not have import cycles). Do (1) for now, but =
+plan<br>
+=C2=A0 for (3). Also add the type hints that cause the cycle right away to<=
+br>
+=C2=A0 illustrate. See also:<br>
+=C2=A0 <a href=3D"https://mypy.readthedocs.io/en/latest/runtime_troubles.ht=
+ml#import-cycles" rel=3D"noreferrer" target=3D"_blank">https://mypy.readthe=
+docs.io/en/latest/runtime_troubles.html#import-cycles</a><br>
+<br>
+Slightly nicer, I think, would be swapping this and the next patch.<br>
+Then that one&#39;s commit message needs to say something like &quot;except=
+ for a<br>
+few problematic ones, which the next commit will add&quot;.=C2=A0 Worthwhil=
+e?=C2=A0 Up<br>
+to you.<br>
+<br></blockquote></div><div class=3D"gmail_quote"><br></div><div class=3D"g=
+mail_quote">Doing it the other way around means you can&#39;t squash the my=
+py patch into the bulk-type-hints patch, but I think the git log usefulness=
+ is not better or worse either way around. (Reviewer usefulness is maybe a =
+ship that has sailed, by now?)</div><div class=3D"gmail_quote"><br></div><d=
+iv class=3D"gmail_quote">--js<br></div></div>
 
-1- set the parameter:
-   (qemu) migrate_set_parameter pause-vm on
-
-2- migrate the VM to a file:
-   (qemu) migrate "exec:cat > snapshot"
-
-   The primary failover card (VFIO) is unplugged and the VM is paused.
-
-3- resume the VM:
-   (qemu) cont
-
-   The VM restarts and the primary failover card is plugged back
-
-The VM state sent in the migration stream is "paused", it means
-when the snapshot is loaded or if the stream is sent to a destination
-QEMU, the VM needs to be resumed manually.
-
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- qapi/migration.json            | 20 +++++++++++++++---
- include/hw/virtio/virtio-net.h |  1 +
- hw/net/virtio-net.c            | 33 ++++++++++++++++++++++++++++++
- migration/migration.c          | 37 +++++++++++++++++++++++++++++++++-
- monitor/hmp-cmds.c             |  8 ++++++++
- 5 files changed, 95 insertions(+), 4 deletions(-)
-
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 88f07baedd06..86284d96ad2a 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -743,6 +743,10 @@
- #                        block device name if there is one, and to their node name
- #                        otherwise. (Since 5.2)
- #
-+# @pause-vm:           Pause the virtual machine before doing the migration.
-+#                      This allows QEMU to unplug a card before doing the
-+#                      migration as it depends on the guest kernel. (since 6.2)
-+#
- # Since: 2.4
- ##
- { 'enum': 'MigrationParameter',
-@@ -758,7 +762,7 @@
-            'xbzrle-cache-size', 'max-postcopy-bandwidth',
-            'max-cpu-throttle', 'multifd-compression',
-            'multifd-zlib-level' ,'multifd-zstd-level',
--           'block-bitmap-mapping' ] }
-+           'block-bitmap-mapping', 'pause-vm' ] }
- 
- ##
- # @MigrateSetParameters:
-@@ -903,6 +907,10 @@
- #                        block device name if there is one, and to their node name
- #                        otherwise. (Since 5.2)
- #
-+# @pause-vm:           Pause the virtual machine before doing the migration.
-+#                      This allows QEMU to unplug a card before doing the
-+#                      migration as it depends on the guest kernel. (since 6.2)
-+#
- # Since: 2.4
- ##
- # TODO either fuse back into MigrationParameters, or make
-@@ -934,7 +942,8 @@
-             '*multifd-compression': 'MultiFDCompression',
-             '*multifd-zlib-level': 'uint8',
-             '*multifd-zstd-level': 'uint8',
--            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
-+            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ],
-+            '*pause-vm': 'bool' } }
- 
- ##
- # @migrate-set-parameters:
-@@ -1099,6 +1108,10 @@
- #                        block device name if there is one, and to their node name
- #                        otherwise. (Since 5.2)
- #
-+# @pause-vm:           Pause the virtual machine before doing the migration.
-+#                      This allows QEMU to unplug a card before doing the
-+#                      migration as it depends on the guest kernel. (since 6.2)
-+#
- # Since: 2.4
- ##
- { 'struct': 'MigrationParameters',
-@@ -1128,7 +1141,8 @@
-             '*multifd-compression': 'MultiFDCompression',
-             '*multifd-zlib-level': 'uint8',
-             '*multifd-zstd-level': 'uint8',
--            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
-+            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ],
-+            '*pause-vm': 'bool' } }
- 
- ##
- # @query-migrate-parameters:
-diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-index 824a69c23f06..a6c186e28b45 100644
---- a/include/hw/virtio/virtio-net.h
-+++ b/include/hw/virtio/virtio-net.h
-@@ -210,6 +210,7 @@ struct VirtIONet {
-     bool failover;
-     DeviceListener primary_listener;
-     Notifier migration_state;
-+    VMChangeStateEntry *vm_state;
-     VirtioNetRssData rss_data;
-     struct NetRxPkt *rx_pkt;
-     struct EBPFRSSContext ebpf_rss;
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index f205331dcf8c..c83364eac47b 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -39,6 +39,7 @@
- #include "migration/misc.h"
- #include "standard-headers/linux/ethtool.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/runstate.h"
- #include "trace.h"
- #include "monitor/qdev.h"
- #include "hw/pci/pci.h"
-@@ -3303,6 +3304,35 @@ static void virtio_net_migration_state_notifier(Notifier *notifier, void *data)
-     virtio_net_handle_migration_primary(n, s);
- }
- 
-+static void virtio_net_failover_restart_cb(void *opaque, bool running,
-+                                           RunState state)
-+{
-+    DeviceState *dev;
-+    VirtIONet *n = opaque;
-+    Error *err = NULL;
-+    PCIDevice *pdev;
-+
-+    if (!running) {
-+        return;
-+    }
-+
-+    dev = failover_find_primary_device(n);
-+    if (!dev) {
-+        return;
-+    }
-+
-+    pdev = PCI_DEVICE(dev);
-+    if (!pdev->partially_hotplugged) {
-+        return;
-+    }
-+
-+    if (!failover_replug_primary(n, dev, &err)) {
-+        if (err) {
-+            error_report_err(err);
-+        }
-+    }
-+}
-+
- static bool failover_hide_primary_device(DeviceListener *listener,
-                                          QemuOpts *device_opts)
- {
-@@ -3360,6 +3390,8 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
-         device_listener_register(&n->primary_listener);
-         n->migration_state.notify = virtio_net_migration_state_notifier;
-         add_migration_state_change_notifier(&n->migration_state);
-+        n->vm_state = qemu_add_vm_change_state_handler(
-+                                             virtio_net_failover_restart_cb, n);
-         n->host_features |= (1ULL << VIRTIO_NET_F_STANDBY);
-     }
- 
-@@ -3508,6 +3540,7 @@ static void virtio_net_device_unrealize(DeviceState *dev)
-     if (n->failover) {
-         device_listener_unregister(&n->primary_listener);
-         remove_migration_state_change_notifier(&n->migration_state);
-+        qemu_del_vm_change_state_handler(n->vm_state);
-     }
- 
-     max_queues = n->multiqueue ? n->max_queues : 1;
-diff --git a/migration/migration.c b/migration/migration.c
-index bb909781b7f5..9c96986d4abf 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -901,6 +901,9 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
-                        s->parameters.block_bitmap_mapping);
-     }
- 
-+    params->has_pause_vm = true;
-+    params->pause_vm = s->parameters.pause_vm;
-+
-     return params;
- }
- 
-@@ -1549,6 +1552,11 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
-         dest->has_block_bitmap_mapping = true;
-         dest->block_bitmap_mapping = params->block_bitmap_mapping;
-     }
-+
-+    if (params->has_pause_vm) {
-+        dest->has_pause_vm = true;
-+        dest->pause_vm = params->pause_vm;
-+    }
- }
- 
- static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
-@@ -1671,6 +1679,10 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
-             QAPI_CLONE(BitmapMigrationNodeAliasList,
-                        params->block_bitmap_mapping);
-     }
-+
-+    if (params->has_pause_vm) {
-+        s->parameters.pause_vm = params->pause_vm;
-+    }
- }
- 
- void qmp_migrate_set_parameters(MigrateSetParameters *params, Error **errp)
-@@ -1718,6 +1730,12 @@ void qmp_migrate_start_postcopy(Error **errp)
-                          " started");
-         return;
-     }
-+
-+    if (s->parameters.pause_vm) {
-+        error_setg(errp, "Postcopy cannot be started if pause-vm is on");
-+        return;
-+    }
-+
-     /*
-      * we don't error if migration has finished since that would be racy
-      * with issuing this command.
-@@ -3734,13 +3752,27 @@ static void qemu_savevm_wait_unplug(MigrationState *s, int old_state,
-                             "failure");
-             }
-         }
--
-         migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG, new_state);
-     } else {
-         migrate_set_state(&s->state, old_state, new_state);
-     }
- }
- 
-+/* stop the VM before starting the migration but after device unplug */
-+static void pause_vm_after_unplug(MigrationState *s)
-+{
-+    if (s->parameters.pause_vm) {
-+        qemu_mutex_lock_iothread();
-+        qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, NULL);
-+        s->vm_was_running = runstate_is_running();
-+        if (vm_stop_force_state(RUN_STATE_PAUSED)) {
-+            migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
-+                                         MIGRATION_STATUS_FAILED);
-+        }
-+        qemu_mutex_unlock_iothread();
-+    }
-+}
-+
- /*
-  * Master migration thread on the source VM.
-  * It drives the migration and pumps the data down the outgoing channel.
-@@ -3790,6 +3822,8 @@ static void *migration_thread(void *opaque)
-     qemu_savevm_wait_unplug(s, MIGRATION_STATUS_SETUP,
-                                MIGRATION_STATUS_ACTIVE);
- 
-+    pause_vm_after_unplug(s);
-+
-     s->setup_time = qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
- 
-     trace_migration_thread_setup_complete();
-@@ -4265,6 +4299,7 @@ static void migration_instance_init(Object *obj)
-     params->has_announce_max = true;
-     params->has_announce_rounds = true;
-     params->has_announce_step = true;
-+    params->has_pause_vm = true;
- 
-     qemu_sem_init(&ms->postcopy_pause_sem, 0);
-     qemu_sem_init(&ms->postcopy_pause_rp_sem, 0);
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index b5e71d9e6f52..71bc8c15335b 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -513,6 +513,10 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
-                 }
-             }
-         }
-+
-+        monitor_printf(mon, "%s: %s\n",
-+            MigrationParameter_str(MIGRATION_PARAMETER_PAUSE_VM),
-+            params->pause_vm ? "on" : "off");
-     }
- 
-     qapi_free_MigrationParameters(params);
-@@ -1399,6 +1403,10 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
-         error_setg(&err, "The block-bitmap-mapping parameter can only be set "
-                    "through QMP");
-         break;
-+    case MIGRATION_PARAMETER_PAUSE_VM:
-+        p->has_pause_vm = true;
-+        visit_type_bool(v, param, &p->pause_vm, &err);
-+        break;
-     default:
-         assert(0);
-     }
--- 
-2.31.1
+--000000000000dc61c005cd398b82--
 
 
