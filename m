@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9967941D2F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 08:00:06 +0200 (CEST)
-Received: from localhost ([::1]:52844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5A441D2F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 07:59:23 +0200 (CEST)
+Received: from localhost ([::1]:51806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVp6z-0007s9-8S
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 02:00:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47388)
+	id 1mVp6H-00079z-LB
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 01:59:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVosF-0001AG-Gc; Thu, 30 Sep 2021 01:44:51 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:60507)
+ id 1mVosb-0001hy-1Z; Thu, 30 Sep 2021 01:45:13 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:38649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVosC-0003Zh-UA; Thu, 30 Sep 2021 01:44:51 -0400
+ id 1mVosZ-0003bV-1q; Thu, 30 Sep 2021 01:45:12 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HKhyR28wgz4xbp; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
+ id 4HKhyR2Qq6z4xbr; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632980671;
- bh=osUuIllG/VpPXwOFez6W8Xy8H94lWynoV66kLii3ISg=;
+ bh=DQLD13lUsjPdo3EnlgwwNNNC+9Zl9Dh80UlyQ11KVEY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HP1Ve530tE/gwXctgA3TZgq7r2hDRxVnlnWdheYX4YJ2E1DEWJg6UKmhHETeOD7U8
- Ydz5+sbUCioTXAUsgEc7QLF6qegDvD3D0phdfeAbfUQlOPr3Q+Vw87ilTml0yfZHow
- kS+Nm9jJp5Lgm57kuVryF4V3He5WUPInTJMiAngc=
+ b=Nn3+PMisXhQ4aBaPKKG4cq3U1+MbC2Qtr3O5RW5XlwP9XQdzUgI/oxHxBa2NPPFPI
+ L6G1NtkcBGvVwuJ/XCUVVp5fi49fdU/d13A8rwiVRv6KR1UvYb/ekDwRh37RplYW+E
+ oEjfTiPhKPvmp/9KxzyE+OmaqvgLovkszGVDVdvY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 20/44] memory_hotplug.c: send DEVICE_UNPLUG_GUEST_ERROR in
- acpi_memory_hotplug_write()
-Date: Thu, 30 Sep 2021 15:44:02 +1000
-Message-Id: <20210930054426.357344-21-david@gibson.dropbear.id.au>
+Subject: [PULL 22/44] target/ppc: Replace debug messages by asserts for
+ unknown IRQ pins
+Date: Thu, 30 Sep 2021 15:44:04 +1000
+Message-Id: <20210930054426.357344-23-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210930054426.357344-1-david@gibson.dropbear.id.au>
 References: <20210930054426.357344-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,64 +58,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, mark.cave-ayland@ilande.co.uk,
- qemu-devel@nongnu.org, groug@kaod.org, hpoussin@reactos.org, clg@kaod.org,
- Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org, philmd@redhat.com,
+Cc: mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, groug@kaod.org,
+ hpoussin@reactos.org, clg@kaod.org, qemu-ppc@nongnu.org, philmd@redhat.com,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Cédric Le Goater <clg@kaod.org>
 
-MEM_UNPLUG_ERROR is deprecated since the introduction of
-DEVICE_UNPLUG_GUEST_ERROR. Keep emitting both while the deprecation of
-MEM_UNPLUG_ERROR is pending.
+If an unknown pin of the IRQ controller is raised, something is very
+wrong in the QEMU model. It is better to abort.
 
-CC: Michael S. Tsirkin <mst@redhat.com>
-CC: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20210907004755.424931-8-danielhb413@gmail.com>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20210920061203.989563-3-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/acpi/memory_hotplug.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/ppc/ppc.c | 24 ++++++------------------
+ 1 file changed, 6 insertions(+), 18 deletions(-)
 
-diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
-index 6a71de408b..d0fffcf787 100644
---- a/hw/acpi/memory_hotplug.c
-+++ b/hw/acpi/memory_hotplug.c
-@@ -8,6 +8,7 @@
- #include "qapi/error.h"
- #include "qapi/qapi-events-acpi.h"
- #include "qapi/qapi-events-machine.h"
-+#include "qapi/qapi-events-qdev.h"
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index 7375bf4fa9..a327206a0a 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -165,9 +165,7 @@ static void ppc6xx_set_irq(void *opaque, int pin, int level)
+             ppc_set_irq(cpu, PPC_INTERRUPT_RESET, level);
+             break;
+         default:
+-            /* Unknown pin - do nothing */
+-            LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+-            return;
++            g_assert_not_reached();
+         }
+         if (level)
+             env->irq_input_state |= 1 << pin;
+@@ -252,9 +250,7 @@ static void ppc970_set_irq(void *opaque, int pin, int level)
+             /* XXX: TODO */
+             break;
+         default:
+-            /* Unknown pin - do nothing */
+-            LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+-            return;
++            g_assert_not_reached();
+         }
+         if (level)
+             env->irq_input_state |= 1 << pin;
+@@ -287,9 +283,7 @@ static void power7_set_irq(void *opaque, int pin, int level)
+         ppc_set_irq(cpu, PPC_INTERRUPT_EXT, level);
+         break;
+     default:
+-        /* Unknown pin - do nothing */
+-        LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+-        return;
++        g_assert_not_reached();
+     }
+ }
  
- #define MEMORY_SLOTS_NUMBER          "MDNR"
- #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
-@@ -178,8 +179,16 @@ static void acpi_memory_hotplug_write(void *opaque, hwaddr addr, uint64_t data,
-             hotplug_handler_unplug(hotplug_ctrl, dev, &local_err);
-             if (local_err) {
-                 trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
-+
-+                /*
-+                 * Send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_GUEST_ERROR
-+                 * while the deprecation of MEM_UNPLUG_ERROR is
-+                 * pending.
-+                 */
-                 qapi_event_send_mem_unplug_error(dev->id ? : "",
-                                                  error_get_pretty(local_err));
-+                qapi_event_send_device_unplug_guest_error(!!dev->id, dev->id,
-+                                                          dev->canonical_path);
-                 error_free(local_err);
-                 break;
-             }
+@@ -323,9 +317,7 @@ static void power9_set_irq(void *opaque, int pin, int level)
+         ppc_set_irq(cpu, PPC_INTERRUPT_HVIRT, level);
+         break;
+     default:
+-        /* Unknown pin - do nothing */
+-        LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+-        return;
++        g_assert_not_reached();
+     }
+ }
+ 
+@@ -459,9 +451,7 @@ static void ppc40x_set_irq(void *opaque, int pin, int level)
+             ppc_set_irq(cpu, PPC_INTERRUPT_DEBUG, level);
+             break;
+         default:
+-            /* Unknown pin - do nothing */
+-            LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+-            return;
++            g_assert_not_reached();
+         }
+         if (level)
+             env->irq_input_state |= 1 << pin;
+@@ -523,9 +513,7 @@ static void ppce500_set_irq(void *opaque, int pin, int level)
+             ppc_set_irq(cpu, PPC_INTERRUPT_DEBUG, level);
+             break;
+         default:
+-            /* Unknown pin - do nothing */
+-            LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+-            return;
++            g_assert_not_reached();
+         }
+         if (level)
+             env->irq_input_state |= 1 << pin;
 -- 
 2.31.1
 
