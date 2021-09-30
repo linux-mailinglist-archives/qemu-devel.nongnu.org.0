@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18FC641D37A
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 08:35:13 +0200 (CEST)
-Received: from localhost ([::1]:34246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3938B41D390
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 08:46:11 +0200 (CEST)
+Received: from localhost ([::1]:46496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVpex-0004C1-V1
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 02:35:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47622)
+	id 1mVppa-0004yC-2z
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 02:46:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVoss-00021o-PU; Thu, 30 Sep 2021 01:45:32 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:40713)
+ id 1mVot5-0002GH-4J; Thu, 30 Sep 2021 01:45:43 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:49503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVosg-000400-Ec; Thu, 30 Sep 2021 01:45:29 -0400
+ id 1mVot3-00042O-7z; Thu, 30 Sep 2021 01:45:42 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HKhyR3ksDz4xc5; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
+ id 4HKhyR3p3qz4xbw; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632980671;
- bh=tEV66u/ER4tbPfc0Fs+aJ16ZrVhBFtkocO5b7T2c9Qg=;
+ bh=FrpYk2SVXypc5reRuTOP37BQI1hZ6patEoyMOJ8lUB0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=c5wklyMePusL8KHALEpdlJF+wKDuD5SurcthgP0iCIrvCFSS1DkMDvGmXcjWAsiSn
- Ws+jWIvmg4M3y7mQtnRJGKX+FfUDezBRtnzW7CivMcSSB4mnOimkARykl6lQ4N1wxs
- Vr/QrD98hH+YL2s6s08vdMt6enIKUo+dDeGRHvxM=
+ b=mpfQww5nazkZ9kWbB9OzaDpkvsgKufOgs+sCcpEkSWsALDzsn9Z6EOmV1XQ9+q8hU
+ kzpKtYZv2O6fnkQ4u/tiSc2FPHMswP7y9MD0SzbUwkYflqEdQ9A8vKlnjulnQKCSk5
+ iYsbvX//uluWdHtRPIjrX2pBgn4fNuBwtPdrH1e8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 34/44] hw/intc: openpic: Correct the reset value of IPIDR for
- FSL chipset
-Date: Thu, 30 Sep 2021 15:44:16 +1000
-Message-Id: <20210930054426.357344-35-david@gibson.dropbear.id.au>
+Subject: [PULL 35/44] hw/intc: openpic: Drop Raven related codes
+Date: Thu, 30 Sep 2021 15:44:17 +1000
+Message-Id: <20210930054426.357344-36-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210930054426.357344-1-david@gibson.dropbear.id.au>
 References: <20210930054426.357344-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -66,46 +65,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bmeng.cn@gmail.com>
 
-The reset value of IPIDR should be zero for Freescale chipset, per
-the following 2 manuals I checked:
+There is no machine that uses Motorola MCP750 (aka Raven) model.
+Drop the related codes.
 
-- P2020RM (https://www.nxp.com/webapp/Download?colCode=P2020RM)
-- P4080RM (https://www.nxp.com/webapp/Download?colCode=P4080RM)
+While we are here, drop the mentioning of Intel GW80314 I/O
+companion chip in the comments as it has been obsolete for years,
+and correct a typo too.
 
-Currently it is set to 1, which leaves the IPI enabled on core 0
-after power-on reset. Such may cause unexpected interrupt to be
-delivered to core 0 if the IPI is triggered from core 0 to other
-cores later.
-
-Fixes: ffd5e9fe0276 ("openpic: Reset IRQ source private members")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/584
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Message-Id: <20210918032653.646370-1-bin.meng@windriver.com>
+Message-Id: <20210918032653.646370-2-bin.meng@windriver.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/openpic.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/intc/openpic.c        | 28 +---------------------------
+ include/hw/ppc/openpic.h | 16 ----------------
+ 2 files changed, 1 insertion(+), 43 deletions(-)
 
 diff --git a/hw/intc/openpic.c b/hw/intc/openpic.c
-index 9b4c17854d..2790c6710a 100644
+index 2790c6710a..23eafb32bd 100644
 --- a/hw/intc/openpic.c
 +++ b/hw/intc/openpic.c
-@@ -1276,6 +1276,15 @@ static void openpic_reset(DeviceState *d)
-             break;
-         }
+@@ -25,12 +25,8 @@
+ /*
+  *
+  * Based on OpenPic implementations:
+- * - Intel GW80314 I/O companion chip developer's manual
+  * - Motorola MPC8245 & MPC8540 user manuals.
+- * - Motorola MCP750 (aka Raven) programmer manual.
+- * - Motorola Harrier programmer manuel
+- *
+- * Serial interrupts, as implemented in Raven chipset are not supported yet.
++ * - Motorola Harrier programmer manual
+  *
+  */
  
-+        /* Mask all IPI interrupts for Freescale OpenPIC */
-+        if ((opp->model == OPENPIC_MODEL_FSL_MPIC_20) ||
-+            (opp->model == OPENPIC_MODEL_FSL_MPIC_42)) {
-+            if (i >= opp->irq_ipi0 && i < opp->irq_tim0) {
-+                write_IRQreg_idr(opp, i, 0);
-+                continue;
-+            }
-+        }
-+
-         write_IRQreg_idr(opp, i, opp->idr_reset);
-     }
-     /* Initialise IRQ destinations */
+@@ -1564,28 +1560,6 @@ static void openpic_realize(DeviceState *dev, Error **errp)
+ 
+         break;
+ 
+-    case OPENPIC_MODEL_RAVEN:
+-        opp->nb_irqs = RAVEN_MAX_EXT;
+-        opp->vid = VID_REVISION_1_3;
+-        opp->vir = VIR_GENERIC;
+-        opp->vector_mask = 0xFF;
+-        opp->tfrr_reset = 4160000;
+-        opp->ivpr_reset = IVPR_MASK_MASK | IVPR_MODE_MASK;
+-        opp->idr_reset = 0;
+-        opp->max_irq = RAVEN_MAX_IRQ;
+-        opp->irq_ipi0 = RAVEN_IPI_IRQ;
+-        opp->irq_tim0 = RAVEN_TMR_IRQ;
+-        opp->brr1 = -1;
+-        opp->mpic_mode_mask = GCR_MODE_MIXED;
+-
+-        if (opp->nb_cpus != 1) {
+-            error_setg(errp, "Only UP supported today");
+-            return;
+-        }
+-
+-        map_list(opp, list_le, &list_count);
+-        break;
+-
+     case OPENPIC_MODEL_KEYLARGO:
+         opp->nb_irqs = KEYLARGO_MAX_EXT;
+         opp->vid = VID_REVISION_1_2;
+diff --git a/include/hw/ppc/openpic.h b/include/hw/ppc/openpic.h
+index 74ff44bff0..f89802a15c 100644
+--- a/include/hw/ppc/openpic.h
++++ b/include/hw/ppc/openpic.h
+@@ -21,7 +21,6 @@ enum {
+ 
+ typedef struct IrqLines { qemu_irq irq[OPENPIC_OUTPUT_NB]; } IrqLines;
+ 
+-#define OPENPIC_MODEL_RAVEN       0
+ #define OPENPIC_MODEL_FSL_MPIC_20 1
+ #define OPENPIC_MODEL_FSL_MPIC_42 2
+ #define OPENPIC_MODEL_KEYLARGO    3
+@@ -32,13 +31,6 @@ typedef struct IrqLines { qemu_irq irq[OPENPIC_OUTPUT_NB]; } IrqLines;
+ #define OPENPIC_MAX_IRQ     (OPENPIC_MAX_SRC + OPENPIC_MAX_IPI + \
+                              OPENPIC_MAX_TMR)
+ 
+-/* Raven */
+-#define RAVEN_MAX_CPU      2
+-#define RAVEN_MAX_EXT     48
+-#define RAVEN_MAX_IRQ     64
+-#define RAVEN_MAX_TMR      OPENPIC_MAX_TMR
+-#define RAVEN_MAX_IPI      OPENPIC_MAX_IPI
+-
+ /* KeyLargo */
+ #define KEYLARGO_MAX_CPU  4
+ #define KEYLARGO_MAX_EXT  64
+@@ -49,14 +41,6 @@ typedef struct IrqLines { qemu_irq irq[OPENPIC_OUTPUT_NB]; } IrqLines;
+ /* Timers don't exist but this makes the code happy... */
+ #define KEYLARGO_TMR_IRQ  (KEYLARGO_IPI_IRQ + KEYLARGO_MAX_IPI)
+ 
+-/* Interrupt definitions */
+-#define RAVEN_FE_IRQ     (RAVEN_MAX_EXT)     /* Internal functional IRQ */
+-#define RAVEN_ERR_IRQ    (RAVEN_MAX_EXT + 1) /* Error IRQ */
+-#define RAVEN_TMR_IRQ    (RAVEN_MAX_EXT + 2) /* First timer IRQ */
+-#define RAVEN_IPI_IRQ    (RAVEN_TMR_IRQ + RAVEN_MAX_TMR) /* First IPI IRQ */
+-/* First doorbell IRQ */
+-#define RAVEN_DBL_IRQ    (RAVEN_IPI_IRQ + (RAVEN_MAX_CPU * RAVEN_MAX_IPI))
+-
+ typedef struct FslMpicInfo {
+     int max_ext;
+ } FslMpicInfo;
 -- 
 2.31.1
 
