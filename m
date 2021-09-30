@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B304541DB1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:32:39 +0200 (CEST)
-Received: from localhost ([::1]:54252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86EA141DB28
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:35:14 +0200 (CEST)
+Received: from localhost ([::1]:33728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVwAw-0005HO-Of
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:32:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34576)
+	id 1mVwDR-0002Sv-HY
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:35:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVw2t-000858-Bz
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:24:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22906)
+ id 1mVw3Z-0000GR-7Z
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:25:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVw2r-0006NR-PE
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:24:19 -0400
+ id 1mVw3X-0006yJ-NP
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:25:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633008257;
+ s=mimecast20190719; t=1633008299;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TwfXBy5YLaKoNxW3iE7qKzfNihghFuw4ctnjMEr8kUo=;
- b=TRvJE6LWOMcSe82tNfqDWY07xmdWo0j+SK/wL4CNBSRZMj+Yam+RqXwT2eEdCEMHokNO0j
- OtOPFyAn1n5AjRo2ERD80nIw9Dpqx1e0vinN+mqXAQLlwMz5DzkYLo3DOcBDdyiKevx35o
- WPrf/6S09ok0X0o8v77LmWZNshmrQKw=
+ bh=DzVBbNIJnvx6NjmqjsMEoqvUzPv4kgTcGuAJCm71FxE=;
+ b=P4bIaWELOEGqHii4teXtJToPA01sQ6IM6gkA2KdCr26EWNzxTkFCkkoSwYK/Z0cldIqF9k
+ zsFMede/3CeWjEXDoc4Vcv1gOCfzbi5Tfiyz5KilHRRy3rDFWXxtO12Z1jORZXxkNgXXR2
+ lNSi9sKIMsXK/xDHkkhk388ewKxgiVs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-c-zQKhdjMwerJeyJXS3b8A-1; Thu, 30 Sep 2021 09:24:15 -0400
-X-MC-Unique: c-zQKhdjMwerJeyJXS3b8A-1
+ us-mta-205-SYmwrsDsM_WxaizM1S_UDQ-1; Thu, 30 Sep 2021 09:24:58 -0400
+X-MC-Unique: SYmwrsDsM_WxaizM1S_UDQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 962DB1966323;
- Thu, 30 Sep 2021 13:24:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78EA2802C8A;
+ Thu, 30 Sep 2021 13:24:56 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.39.195.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A0FD5D9C6;
- Thu, 30 Sep 2021 13:24:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E086E5D9C6;
+ Thu, 30 Sep 2021 13:24:14 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/19] docs/devel: document expectations for HMP commands
- in the future
-Date: Thu, 30 Sep 2021 14:23:35 +0100
-Message-Id: <20210930132349.3601823-6-berrange@redhat.com>
+Subject: [PATCH v3 06/19] monitor: remove 'info ioapic' HMP command
+Date: Thu, 30 Sep 2021 14:23:36 +0100
+Message-Id: <20210930132349.3601823-7-berrange@redhat.com>
 In-Reply-To: <20210930132349.3601823-1-berrange@redhat.com>
 References: <20210930132349.3601823-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -89,41 +88,81 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
  Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eric Blake <eblake@redhat.com>
+ Eric Blake <eblake@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We no longer wish to have commands implemented in HMP only. All commands
-should start with a QMP implementation and the HMP merely be a shim
-around this. To reduce the burden of implementing QMP commands where
-there is low expectation of machine usage, requirements for QAPI
-modelling are relaxed provided the command is under the "x-" name
-prefix.
+This command was turned into a no-op four years ago in
 
+  commit 0c8465440d50c18a7bb13d0a866748f0593e193a
+  Author: Peter Xu <peterx@redhat.com>
+  Date:   Fri Dec 29 15:31:04 2017 +0800
+
+    hmp: obsolete "info ioapic"
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/devel/writing-monitor-commands.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hmp-commands-info.hx         | 15 ---------------
+ include/monitor/hmp-target.h |  1 -
+ target/i386/monitor.c        |  6 ------
+ 3 files changed, 22 deletions(-)
 
-diff --git a/docs/devel/writing-monitor-commands.rst b/docs/devel/writing-monitor-commands.rst
-index 82a382d700..8fb855e192 100644
---- a/docs/devel/writing-monitor-commands.rst
-+++ b/docs/devel/writing-monitor-commands.rst
-@@ -11,6 +11,14 @@ For an in-depth introduction to the QAPI framework, please refer to
- docs/devel/qapi-code-gen.txt. For documentation about the QMP protocol,
- start with docs/interop/qmp-intro.txt.
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 27206ac049..f8312342cd 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -127,21 +127,6 @@ SRST
+     Show local APIC state
+ ERST
  
-+New commands may be implemented in QMP only.  New HMP commands should be
-+implemented on top of QMP.  The typical HMP command wraps around an
-+equivalent QMP command, but HMP convenience commands built from QMP
-+building blocks are also fine.  The long term goal is to make all
-+existing HMP commands conform to this, to fully isolate HMP from the
-+internals of QEMU. Refer to the `Writing a debugging aid returning
-+unstructured text`_ section for further guidance on commands that
-+would have traditionally been HMP only.
+-#if defined(TARGET_I386)
+-    {
+-        .name       = "ioapic",
+-        .args_type  = "",
+-        .params     = "",
+-        .help       = "show io apic state",
+-        .cmd        = hmp_info_io_apic,
+-    },
+-#endif
+-
+-SRST
+-  ``info ioapic``
+-    Show io APIC state
+-ERST
+-
+     {
+         .name       = "cpus",
+         .args_type  = "",
+diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
+index 60fc92722a..df79ad3355 100644
+--- a/include/monitor/hmp-target.h
++++ b/include/monitor/hmp-target.h
+@@ -48,6 +48,5 @@ void hmp_info_mem(Monitor *mon, const QDict *qdict);
+ void hmp_info_tlb(Monitor *mon, const QDict *qdict);
+ void hmp_mce(Monitor *mon, const QDict *qdict);
+ void hmp_info_local_apic(Monitor *mon, const QDict *qdict);
+-void hmp_info_io_apic(Monitor *mon, const QDict *qdict);
  
- Overview
- --------
+ #endif /* MONITOR_HMP_TARGET_H */
+diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+index 119211f0b0..19468c4e85 100644
+--- a/target/i386/monitor.c
++++ b/target/i386/monitor.c
+@@ -669,12 +669,6 @@ void hmp_info_local_apic(Monitor *mon, const QDict *qdict)
+     x86_cpu_dump_local_apic_state(cs, CPU_DUMP_FPU);
+ }
+ 
+-void hmp_info_io_apic(Monitor *mon, const QDict *qdict)
+-{
+-    monitor_printf(mon, "This command is obsolete and will be "
+-                   "removed soon. Please use 'info pic' instead.\n");
+-}
+-
+ SevInfo *qmp_query_sev(Error **errp)
+ {
+     SevInfo *info;
 -- 
 2.31.1
 
