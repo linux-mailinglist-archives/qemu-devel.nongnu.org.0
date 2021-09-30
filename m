@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C752E41E374
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 23:42:30 +0200 (CEST)
-Received: from localhost ([::1]:33728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FE141E38D
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 23:56:26 +0200 (CEST)
+Received: from localhost ([::1]:39916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mW3oz-0007LT-KB
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 17:42:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41446)
+	id 1mW42T-0004Io-8m
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 17:56:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mW3nt-0006ai-L6
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 17:41:21 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:34479)
+ id 1mW40U-0003M4-Kw; Thu, 30 Sep 2021 17:54:22 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mW3nr-0002Km-AV
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 17:41:21 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- r11-20020a1c440b000000b0030cf0f01fbaso2496329wma.1
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 14:41:18 -0700 (PDT)
+ id 1mW40S-0005Ff-BH; Thu, 30 Sep 2021 17:54:22 -0400
+Received: by mail-wr1-x436.google.com with SMTP id u18so12355136wrg.5;
+ Thu, 30 Sep 2021 14:54:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0HUo69Cc97Iz0LZTc04ZGkEz9meb+luDhnkRckVuZ/I=;
- b=nRqyQg2SjnJeQfDqkQkcSh5MKzbANsBAmq2cICTLPwU/Tcm6rLTrxbm5rdT0jbqCaP
- uobTePpNoAj2hDFPM0iw68oY/+lhyuiBiERXkvTADgHTUBB6d+31JILxS2QeDrLxLRuF
- Eghb3nz3Hn2+3vSKceWO3pUKK9Gb/7nCEN4EUxQPA1ly4YvOgqYk1bV64ooiJBlofzqk
- 9+WNTYt9Cx8i/ZBienwGdtG3mro7XWkisIyKplOSAEyip8kn9dd6NIWwqrWLE98OBkgJ
- A2X1C7pfflgLUSKhBZic6RTq0DDci3BOSX7PvH/VXe+nPUSF54Ie0ezoPBlxZ3aPlbcx
- 2YCw==
+ bh=6eAD+p36Z5Qycy9bvVaFcVsiLtWL2Umeb+LQeTDqnFU=;
+ b=UesUw91d8ewxJ1PQK2C0uOWxYXNsfJqJORwS5xsCK1M05iWyy3kH51DKVW1NkITi0t
+ QbVwPV4SNyJmw4BvwKujTT6pTX2GqHXt3sa86zkrRyeLWf/LxXSJDI+Iy2Qhk+xpm436
+ UWrlRMg3XzstdDzNA3EBGvX+Pr9uuekhGfQsAOfc45iq5GTMEUgIj6YtrOpEcJy+qvL7
+ MoG8Ld0r+3ECwAFr0f3FCF+EthV6R8OOou6bYaktrT4OxvizL0EA2QzUzK3Zz0UyO5jP
+ t/W8YCLP/vsEzysJW8yJGrgMeDedTkldEzMIULdylOTQBdVd45U6ULGj6+1P+xWVXKZ7
+ nxfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0HUo69Cc97Iz0LZTc04ZGkEz9meb+luDhnkRckVuZ/I=;
- b=eDpJwAt1qNAzywol75BLND3RJOwY8n5GNDiuuRaBWyQr+Qp6n9Iyy1d6XJQ9xjEuPB
- mjloeZpPmwsXf6tglLzLYEQJoa05hvAkPEo2lLmeklkdfLUxOlgRGjWaD/HIgil0z0hp
- XTb+wTPuM0ItM7+hmoBzNs6CACWCoJ5dcNuhkUN9HvKKgrrIZSBywS8anajV0TyZjfsX
- WZouh4q/TscPG6OLYqwINj0WxTg2qFLPRrNJpl6faXTk6yH4zgCNMBtyQg7eDr5njAku
- ka6CL2QhTa/CLYixEyhJ7DXd6L9tMs5f1sAM0nGTWjlOvTppg3F/Kn2ON0XIYXUPpLkZ
- 2fpQ==
-X-Gm-Message-State: AOAM531xKTER8I63PCpr7TEJ6iMk9tfnwdEKf+1qvfsr0Xb9fjY2WyS0
- V1eYRVwuvNEZU8PbTNzw6NM=
-X-Google-Smtp-Source: ABdhPJxDTPqHW+gmB/34sF5redu9D2HuYsqwBlqObmLXwdFgAzF4IgbbZy0IUlJg8OtXITNRzhnq5Q==
-X-Received: by 2002:a05:600c:a08:: with SMTP id
- z8mr1273610wmp.165.1633038077330; 
- Thu, 30 Sep 2021 14:41:17 -0700 (PDT)
+ bh=6eAD+p36Z5Qycy9bvVaFcVsiLtWL2Umeb+LQeTDqnFU=;
+ b=SKk5AVPLX4QcAjBmC01+SFDsLmaFF9kufH6JGRFKiuxlocRbzzkPTtP/EWD24mmDdA
+ mFhZcH7emFwq2X3B9J2FN79H7laz22qaBfmVXph7wBe6+25R0F/WSY7kaipgWrN3l84h
+ mjdWLNZD2at4NA6Q7vmS+7sR7ybUsECBcZKqZM0IKezxnXF2Ps6KYJNteY8MxA+LWuQ+
+ woWueoQnAXLRe+AHO2TXQHr/B5x0KyI8N2/h+NxSQcQLVw6smxrQW8cJFJCgddyczHQg
+ C9MhK+RSlUCpEfrT+1r/bOPD3Y4UgtZmTAhF57pZE4t43fZhwhvy0Ig+XPsvHoGbAYvU
+ aiHQ==
+X-Gm-Message-State: AOAM531xiyW+5PnUCa8VgELSZuIcf2FNyzcRA53JwxfoKfDCfT3o1BGW
+ /x46D2ItMRdpB5imLRGO5UI=
+X-Google-Smtp-Source: ABdhPJw9vKoqdW1/kqiItWnwA/eRqXehwbqcX3iFwVwvN6HwxJZP8S5U/OyY4B0UzJbaBg/JOKC56A==
+X-Received: by 2002:adf:a499:: with SMTP id g25mr8136060wrb.239.1633038858362; 
+ Thu, 30 Sep 2021 14:54:18 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id z12sm4219591wrv.31.2021.09.30.14.41.16
+ by smtp.gmail.com with ESMTPSA id o1sm4091738wru.91.2021.09.30.14.54.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Sep 2021 14:41:16 -0700 (PDT)
-Message-ID: <06480ee3-6fa4-c4b8-efe8-d0c6f1999fc3@amsat.org>
-Date: Thu, 30 Sep 2021 23:41:13 +0200
+ Thu, 30 Sep 2021 14:54:15 -0700 (PDT)
+Message-ID: <907d7432-a81b-b36b-9af5-a5554df3bddf@amsat.org>
+Date: Thu, 30 Sep 2021 23:54:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v2] Hexagon (target/hexagon) probe the stores in a packet
- at start of commit
+Subject: Re: [PATCH 1/3] hw/intc/arm_gicv3: Move checking of
+ redist-region-count to arm_gicv3_common_realize
 Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1633036599-7637-1-git-send-email-tsimpson@quicinc.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210930150842.3810-1-peter.maydell@linaro.org>
+ <20210930150842.3810-2-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <1633036599-7637-1-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <20210930150842.3810-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -92,189 +90,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Taylor,
-
-On 9/30/21 23:16, Taylor Simpson wrote:
-> When a packet has 2 stores, either both commit or neither commit.
-> At the beginning of gen_commit_packet, we check for multiple stores.
-> If there are multiple stores, call a helper that will probe each of
-> them before proceeding with the commit.
+On 9/30/21 17:08, Peter Maydell wrote:
+> The GICv3 devices have an array property redist-region-count.
+> Currently we check this for errors (bad values) in
+> gicv3_init_irqs_and_mmio(), just before we use it.  Move this error
+> checking to the arm_gicv3_common_realize() function, where we
+> sanity-check all of the other base-class properties. (This will
+> always be before gicv3_init_irqs_and_mmio() is called, because
+> that function is called in the subclass realize methods, after
+> they have called the parent-class realize.)
 > 
-> Note that we don't call the probe helper for packets with only one
-> store.  Therefore, we call process_store_log before anything else
-> involved in committing the packet.
+> The motivation for this refactor is:
+>  * we would like to use the redist_region_count[] values in
+>    arm_gicv3_common_realize() in a subsequent patch, so we need
+>    to have already done the sanity-checking first
+>  * this removes the only use of the Error** argument to
+>    gicv3_init_irqs_and_mmio(), so we can remove some error-handling
+>    boilerplate
 > 
-> Test case added in tests/tcg/hexagon/hex_sigsegv.c
-> 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> 
-> *** Changes in v2 ***
-> Address feedback from Richard Henderson <richard.henderson@linaro.org>
-> - Since we know the value of all the mask at translation time, call
->   specialized helper
-> - dczeroa has to be the only store operation in a packet, so we go
->   ahead and process that first
-> - When there are two scalar stores, we probe the one in slot 0 - the
->   call to process_store_log will do slot 1 first, so we don't need
->   to probe
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/hexagon/helper.h           |   2 +
->  target/hexagon/op_helper.c        |  16 ++++++
->  target/hexagon/translate.c        |  32 +++++++++++-
->  tests/tcg/hexagon/hex_sigsegv.c   | 106 ++++++++++++++++++++++++++++++++++++++
->  tests/tcg/hexagon/Makefile.target |   1 +
->  5 files changed, 155 insertions(+), 2 deletions(-)
->  create mode 100644 tests/tcg/hexagon/hex_sigsegv.c
+>  include/hw/intc/arm_gicv3_common.h |  2 +-
+>  hw/intc/arm_gicv3.c                |  6 +-----
+>  hw/intc/arm_gicv3_common.c         | 26 +++++++++++++-------------
+>  hw/intc/arm_gicv3_kvm.c            |  6 +-----
+>  4 files changed, 16 insertions(+), 24 deletions(-)
 > 
-> diff --git a/target/hexagon/helper.h b/target/hexagon/helper.h
-> index ca201fb..89de2a3 100644
-> --- a/target/hexagon/helper.h
-> +++ b/target/hexagon/helper.h
-> @@ -89,3 +89,5 @@ DEF_HELPER_4(sffms_lib, f32, env, f32, f32, f32)
+> diff --git a/include/hw/intc/arm_gicv3_common.h b/include/hw/intc/arm_gicv3_common.h
+> index aa4f0d67703..cb2b0d0ad45 100644
+> --- a/include/hw/intc/arm_gicv3_common.h
+> +++ b/include/hw/intc/arm_gicv3_common.h
+> @@ -306,6 +306,6 @@ struct ARMGICv3CommonClass {
+>  };
 >  
->  DEF_HELPER_3(dfmpyfix, f64, env, f64, f64)
->  DEF_HELPER_4(dfmpyhh, f64, env, f64, f64, f64)
-> +
-> +DEF_HELPER_2(probe_pkt_scalar_store_s0, void, env, int)
-> diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
-> index 61d5cde..af32de4 100644
-> --- a/target/hexagon/op_helper.c
-> +++ b/target/hexagon/op_helper.c
-> @@ -377,6 +377,22 @@ int32_t HELPER(vacsh_pred)(CPUHexagonState *env,
->      return PeV;
+>  void gicv3_init_irqs_and_mmio(GICv3State *s, qemu_irq_handler handler,
+> -                              const MemoryRegionOps *ops, Error **errp);
+> +                              const MemoryRegionOps *ops);
+>  
+>  #endif
+> diff --git a/hw/intc/arm_gicv3.c b/hw/intc/arm_gicv3.c
+> index 3f24707838c..bcf54a5f0a5 100644
+> --- a/hw/intc/arm_gicv3.c
+> +++ b/hw/intc/arm_gicv3.c
+> @@ -393,11 +393,7 @@ static void arm_gic_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>  
+> -    gicv3_init_irqs_and_mmio(s, gicv3_set_irq, gic_ops, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        return;
+> -    }
+> +    gicv3_init_irqs_and_mmio(s, gicv3_set_irq, gic_ops);
+>  
+>      gicv3_init_cpuif(s);
 >  }
+> diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
+> index 223db16feca..8e47809398b 100644
+> --- a/hw/intc/arm_gicv3_common.c
+> +++ b/hw/intc/arm_gicv3_common.c
+> @@ -250,22 +250,11 @@ static const VMStateDescription vmstate_gicv3 = {
+>  };
 >  
-> +static void probe_store(CPUHexagonState *env, int slot, int mmu_idx)
-> +{
-> +    if (!(env->slot_cancelled & (1 << slot))) {
-> +        size1u_t width = env->mem_log_stores[slot].width;
-> +        target_ulong va = env->mem_log_stores[slot].va;
-> +        uintptr_t ra = GETPC();
-> +        probe_write(env, va, width, mmu_idx, ra);
-> +    }
-
-Matter of taste probably:
-
-       if (env->slot_cancelled & (1 << slot) {
-           return;
-       }
-       probe_write(env, env->mem_log_stores[slot].va,
-                   env->mem_log_stores[slot].width, mmu_idx, GETPC());
-
-> +}
-> +
-> +/* Called during packet commit when there are two scalar stores */
-> +void HELPER(probe_pkt_scalar_store_s0)(CPUHexagonState *env, int mmu_idx)
-> +{
-> +    probe_store(env, 0, mmu_idx);
-> +}
-> +
->  /*
->   * mem_noshuf
->   * Section 5.5 of the Hexagon V67 Programmer's Reference Manual
-> diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
-> index 6fb4e68..8fc2c83 100644
-> --- a/target/hexagon/translate.c
-> +++ b/target/hexagon/translate.c
-> @@ -471,10 +471,38 @@ static void update_exec_counters(DisasContext *ctx, Packet *pkt)
->  
->  static void gen_commit_packet(DisasContext *ctx, Packet *pkt)
+>  void gicv3_init_irqs_and_mmio(GICv3State *s, qemu_irq_handler handler,
+> -                              const MemoryRegionOps *ops, Error **errp)
+> +                              const MemoryRegionOps *ops)
 >  {
-> +    /*
-> +     * If there is more than one store in a packet, make sure they are all OK
-> +     * before proceeding with the rest of the packet commit.
-> +     *
-> +     * dczeroa has to be the only store operation in the packet, so we go
-> +     * ahead and process that first.
-> +     *
-> +     * When there are two scalar stores, we probe the one in slot 0.
-> +     *
-> +     * Note that we don't call the probe helper for packets with only one
-> +     * store.  Therefore, we call process_store_log before anything else
-> +     * involved in committing the packet.
-> +     */
-> +    bool has_store_s0 = pkt->pkt_has_store_s0;
-> +    bool has_store_s1 = (pkt->pkt_has_store_s1 && !ctx->s1_store_processed);
-> +    if (pkt->pkt_has_dczeroa) {
-> +        /*
-> +         * The dczeroa will be the store in slot 0, check that we don't have
-> +         * a store in slot 1.
-> +         */
-> +        g_assert(has_store_s0 && !has_store_s1);
-> +        process_dczeroa(ctx, pkt);
-> +    } else if (has_store_s0 && has_store_s1) {
-> +        TCGv mem_idx = tcg_const_tl(ctx->mem_idx);
-> +        gen_helper_probe_pkt_scalar_store_s0(cpu_env, mem_idx);
-> +        tcg_temp_free(mem_idx);
-
-The index is read-only, so you can avoid the temporary:
-
-   gen_helper_probe_pkt_scalar_store_s0(cpu_env,
-                                        tcg_constant_tl(ctx->mem_idx));
-
-Maybe add a (better) comment here:
-
-       } else {
-
-           /* default path, all constraints OK, we are good */
+>      SysBusDevice *sbd = SYS_BUS_DEVICE(s);
+> -    int rdist_capacity = 0;
+>      int i;
+>  
+> -    for (i = 0; i < s->nb_redist_regions; i++) {
+> -        rdist_capacity += s->redist_region_count[i];
+> -    }
+> -    if (rdist_capacity < s->num_cpu) {
+> -        error_setg(errp, "Capacity of the redist regions(%d) "
+> -                   "is less than number of vcpus(%d)",
+> -                   rdist_capacity, s->num_cpu);
+> -        return;
+> -    }
+> -
+>      /* For the GIC, also expose incoming GPIO lines for PPIs for each CPU.
+>       * GPIO array layout is thus:
+>       *  [0..N-1] spi
+> @@ -308,7 +297,7 @@ void gicv3_init_irqs_and_mmio(GICv3State *s, qemu_irq_handler handler,
+>  static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
+>  {
+>      GICv3State *s = ARM_GICV3_COMMON(dev);
+> -    int i;
+> +    int i, rdist_capacity;
+>  
+>      /* revision property is actually reserved and currently used only in order
+>       * to keep the interface compatible with GICv2 code, avoiding extra
+> @@ -350,6 +339,17 @@ static void arm_gicv3_common_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>  
+> +    rdist_capacity = 0;
+> +    for (i = 0; i < s->nb_redist_regions; i++) {
+> +        rdist_capacity += s->redist_region_count[i];
+> +    }
+> +    if (rdist_capacity < s->num_cpu) {
+> +        error_setg(errp, "Capacity of the redist regions(%d) "
+> +                   "is less than number of vcpus(%d)",
+> +                   rdist_capacity, s->num_cpu);
+> +        return;
 > +    }
 > +
-> +    process_store_log(ctx, pkt);
-> +
->      gen_reg_writes(ctx);
->      gen_pred_writes(ctx, pkt);
-> -    process_store_log(ctx, pkt);
-> -    process_dczeroa(ctx, pkt);
->      update_exec_counters(ctx, pkt);
->      if (HEX_DEBUG) {
->          TCGv has_st0 =
-> diff --git a/tests/tcg/hexagon/hex_sigsegv.c b/tests/tcg/hexagon/hex_sigsegv.c
-> new file mode 100644
-> index 0000000..dc2b349
-> --- /dev/null
-> +++ b/tests/tcg/hexagon/hex_sigsegv.c
+>      s->cpu = g_new0(GICv3CPUState, s->num_cpu);
+>  
+>      for (i = 0; i < s->num_cpu; i++) {
+> diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
+> index 5c09f00dec2..ab58c73306d 100644
+> --- a/hw/intc/arm_gicv3_kvm.c
+> +++ b/hw/intc/arm_gicv3_kvm.c
+> @@ -787,11 +787,7 @@ static void kvm_arm_gicv3_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>  
+> -    gicv3_init_irqs_and_mmio(s, kvm_arm_gicv3_set_irq, NULL, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        return;
+> -    }
+> +    gicv3_init_irqs_and_mmio(s, kvm_arm_gicv3_set_irq, NULL);
+>  
+>      for (i = 0; i < s->num_cpu; i++) {
+>          ARMCPU *cpu = ARM_CPU(qemu_get_cpu(i));
+> 
 
-hex_sigsegv is a generic test name ...
+The pattern make me think gicv3_init_irqs_and_mmio() should be
+refactored as a ARMGICv3CommonClass::init_irqs_and_mmio handler,
+called in arm_gicv3_common_realize().
 
-> @@ -0,0 +1,106 @@
-> +/*
-> + *  Copyright(c) 2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
-> + *
-> + *  This program is free software; you can redistribute it and/or modify
-> + *  it under the terms of the GNU General Public License as published by
-> + *  the Free Software Foundation; either version 2 of the License, or
-> + *  (at your option) any later version.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
-> + *
-> + *  You should have received a copy of the GNU General Public License
-> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +/*
-> + * Test the VLIW semantics of two stores in a packet
-
-... but you are testing a very specific case.
-
-Maybe rename as "multi_pkt_stores" (or better)?
-
-> + *
-> + * When a packet has 2 stores, either both commit or neither commit.
-> + * We test this with a packet that does stores to both NULL and a global
-> + * variable, "should_not_change".  After the SIGSEGV is caught, we check
-> + * that the "should_not_change" value is the same.
-> + */
-
-Otherwise LGTM.
-
-Regards,
-
-Phil.
+Or maybe even have ARMGICv3CommonClass::irq_handler and
+ARMGICv3CommonClass::ops set in each child class_init().
 
