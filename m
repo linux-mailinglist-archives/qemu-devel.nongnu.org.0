@@ -2,71 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB2341D6C9
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 11:50:40 +0200 (CEST)
-Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80CA141D6C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 11:50:37 +0200 (CEST)
+Received: from localhost ([::1]:32816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVsi6-0005IP-NF
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 05:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36888)
+	id 1mVsi4-0005CH-C8
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 05:50:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mVsgZ-0003um-1o
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:49:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43187)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mVsgU-0003td-G6
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:48:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mVsgK-0004l6-2O
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:49:02 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mVsgR-0004rO-Ev
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:48:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632995327;
+ s=mimecast20190719; t=1632995334;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=24bPIdGE2vsPrMwfr/b0sequvnKjNDwAT8UVJ/xFyg4=;
- b=fczzeOk2HDFwX8pKtTuKJ7IGYiGV1HXM99YHoPBAExWYmZeeYAGVf/H/V7czASpUZ1VnUj
- tJ9Ab88gZfySggfE/JJwJ8TrFaj6YK+IIsYZ18tBV+K/1Fa7JceseFe1lLwt/APIZtitB8
- nno1Vn+uNiiEquEYIK3U3vYWJYZbgt0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-Id_fvLvKOMiPYlR1LAwX3Q-1; Thu, 30 Sep 2021 05:48:45 -0400
-X-MC-Unique: Id_fvLvKOMiPYlR1LAwX3Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7275D1023F4E;
- Thu, 30 Sep 2021 09:48:44 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCAAD60BD8;
- Thu, 30 Sep 2021 09:48:10 +0000 (UTC)
-Date: Thu, 30 Sep 2021 10:48:09 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [PATCH v5] Prevent vhost-user-blk-test hang
-Message-ID: <YVWH2YUDLzaRxHYW@stefanha-x1.localdomain>
-References: <20210927171651.1433-1-raphael.norwitz@nutanix.com>
- <YVLYZCZ0NlhhrStG@stefanha-x1.localdomain>
- <20210930052900.GA15735@raphael-debian-dev>
+ bh=TTaffFfY1vrUfme7Hk0fW6AMVmcnRYzpqFbiH7obxBY=;
+ b=Uz1aGYzhvGkY2rEpOF3ld4VBd7Lp48RZ+G6LXVX3TqnVeMbh2wjE0kWgEK+rmVGQ9gL011
+ F8yJFbFLfFkhUJfCalgDC57Dra8ySJ7CgBVAF7Jmw+1uqRAVJzoy3rvYpjlVhG1rQl6l3Q
+ qCDDsCIVxqxetxBzI/xI2eBzPCuaXBI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-qbeTnS_aNyWNc_UQsG6RXQ-1; Thu, 30 Sep 2021 05:48:48 -0400
+X-MC-Unique: qbeTnS_aNyWNc_UQsG6RXQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r2-20020a7bc082000000b0030d2ab5c3a7so768144wmh.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 02:48:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=TTaffFfY1vrUfme7Hk0fW6AMVmcnRYzpqFbiH7obxBY=;
+ b=VavkG/+WMkyX1BtS6GLYjO9mDcXsNuylNl2s8AZ3K6f8vmWHDmX3Vkmis6g57yWmgk
+ 3SepjOZIwPYbjYPOvftE77tU6pG4EhCC8Ai2oIqYa+kmjNtRssymiCWo0F3BE3L9ux1A
+ zePE3Z9TNdI6KSbKTWr5jx+H1nCKz3OcvM4V+lK5Ynuxr/uuMpOTJzYTbMefv1QzSzAH
+ /EZWQifiykzT1seKaMosc4oIUjQyDKrzcFK711ddJTLyys0Hitz4sTq8IcP9S2ZxMS2V
+ 92G/HXoqlBcXctpi9dfsqN1bGEtPbbIEWLli1LjqCCiA83u+wqKuWX7W3As5hoTQpKxs
+ /4pw==
+X-Gm-Message-State: AOAM533y1t1qvUfiwl3xQgD1rYA048KVzpTaU/e90SOWbeEnKfqz4gVn
+ tHsc6+eA/Ul7k7SBWDaKro3cKJPfAOdUv+nzCY0LLK3hhmrVW/Xu1gBHyzzLl+wRPfcIj4kG/j1
+ a4yn6gKiUtXxDLjU=
+X-Received: by 2002:adf:e44c:: with SMTP id t12mr5076021wrm.49.1632995327232; 
+ Thu, 30 Sep 2021 02:48:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxLtSxZ5VGA0yRN7+pAPmGGrXsg76JNh0AcFYl4438LBJ827BrP5mFlvklBZH5m5MgUGUUMFw==
+X-Received: by 2002:adf:e44c:: with SMTP id t12mr5075995wrm.49.1632995327032; 
+ Thu, 30 Sep 2021 02:48:47 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.21.142])
+ by smtp.gmail.com with ESMTPSA id n26sm4276654wmi.43.2021.09.30.02.48.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Sep 2021 02:48:46 -0700 (PDT)
+Message-ID: <ec216e3a-71a3-c7a5-628f-1871d063d2a2@redhat.com>
+Date: Thu, 30 Sep 2021 11:48:45 +0200
 MIME-Version: 1.0
-In-Reply-To: <20210930052900.GA15735@raphael-debian-dev>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] failover: fix unplug pending detection
+To: Ani Sinha <ani@anisinha.ca>
+References: <20210930082032.1237812-1-lvivier@redhat.com>
+ <alpine.DEB.2.22.394.2109301450580.579856@anisinha-lenovo>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <alpine.DEB.2.22.394.2109301450580.579856@anisinha-lenovo>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="30MITR5Mjtg+I0ax"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.03, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,150 +99,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "eblake@redhat.com" <eblake@redhat.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
+Cc: Jens Freimann <jfreimann@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---30MITR5Mjtg+I0ax
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 30/09/2021 11:24, Ani Sinha wrote:
+> 
+> 
+> On Thu, 30 Sep 2021, Laurent Vivier wrote:
+> 
+>> Failover needs to detect the end of the PCI unplug to start migration
+>> after the VFIO card has been unplugged.
+>>
+>> To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and reset in
+>> pcie_unplug_device().
+>>
+>> But since
+>>      17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35")
+>> we have switched to ACPI unplug and these functions are not called anymore
+>> and the flag not set. So failover migration is not able to detect if card
+>> is really unplugged and acts as it's done as soon as it's started. So it
+>> doesn't wait the end of the unplug to start the migration. We don't see any
+>> problem when we test that because ACPI unplug is faster than PCIe native
+>> hotplug and when the migration really starts the unplug operation is
+>> already done.
+>>
+>> See c000a9bd06ea ("pci: mark device having guest unplug request pending")
+>>      a99c4da9fc2a ("pci: mark devices partially unplugged")
+> 
+> Ok so I have a basic question about partially_hotplugged flag in the
+> device struct (there were no comments added in a99c4da9fc2a39847
+> explaining it). It seems we return early from pcie_unplug_device() when
+> this flag is set from failover_unplug_primary() in virtio-net. What is the
+> purpose of this flag? It seems we are not doing a full unplug of the
+> primary device?
 
-On Thu, Sep 30, 2021 at 05:29:06AM +0000, Raphael Norwitz wrote:
-> On Tue, Sep 28, 2021 at 10:55:00AM +0200, Stefan Hajnoczi wrote:
-> > On Mon, Sep 27, 2021 at 05:17:01PM +0000, Raphael Norwitz wrote:
-> > > In the vhost-user-blk-test, as of now there is nothing stoping
-> > > vhost-user-blk in QEMU writing to the socket right after forking off =
-the
-> > > storage daemon before it has a chance to come up properly, leaving th=
-e
-> > > test hanging forever. This intermittently hanging test has caused QEM=
-U
-> > > automation failures reported multiple times on the mailing list [1].
-> > >=20
-> > > This change makes the storage-daemon notify the vhost-user-blk-test
-> > > that it is fully initialized and ready to handle client connections b=
-y
-> > > creating a pidfile on initialiation. This ensures that the storage-da=
-emon
-> > > backend won't miss vhost-user messages and thereby resolves the hang.
-> > >=20
-> > > [1] https://lore.kernel.org/qemu-devel/CAFEAcA8kYpz9LiPNxnWJAPSjc=3Dn=
-v532bEdyfynaBeMeohqBp3A@mail.gmail.com/
-> >=20
->=20
-> Hey Stefan,
->=20
-> > Hi Raphael,
-> > I would like to understand the issue that is being worked around in the
-> > patch.
-> >=20
-> > QEMU should be okay with listen fd passing. The qemu-storage-daemon
-> > documentation even contains example code for this
-> > (docs/tools/qemu-storage-daemon.rst) and that may need to be updated if
-> > listen fd passing is fundamentally broken.
-> >=20
->=20
-> The issue is that the "client" (in this case vhost-user-blk in QEMU) can
-> proceed to use the socket before the storage-daemon has a chance to
-> properly start up and monitor it. This is nothing unique to the
-> storage-daemon - I've seen races like this happen happend with different
-> vhost-user backends before.
->=20
-> Yes - I do think the docs can be improved to explicitly state that the
-> storage-daemon must be allowed to properly initialize before any data is
-> sent over the socket. Maybe we should even perscribe the use of the pidfi=
-le
-> option?
->=20
-> > Can you share more details about the problem?
-> >=20
->=20
-> Did you see my analysis [1]?
->=20
-> [1] https://lore.kernel.org/qemu-devel/20210827165253.GA14291@raphael-deb=
-ian-dev/
->=20
-> Basically QEMU sends VHOST_USER_GET_PROTOCOL_FEATURES across the vhost
-> socket and the storage daemon never receives it. Looking at the
-> QEMU state we see it is stuck waiting for a vhost-user response. Meanwhil=
-e
-> the storage-daemon never receives any message to begin with. AFAICT
-> there is nothing stopping QEMU from running first and sending a message
-> before vhost-user-blk comes up, and from testing we can see that waiting
-> for the storage-daemon to come up resolves the problem completely.
+Yes, to be able to plug it back in case of migration failure we must keep all the data 
+structures.
 
-The root cause has not been determined yet. QEMU should accept the
-incoming connection and then read the previously-sent
-VHOST_USER_GET_PROTOCOL_FEATURES message. There is no reason at the
-Sockets API level why the message should get lost, so there is probably
-a QEMU bug here.
-
-> > Does "writing to the socket" mean writing vhost-user protocol messages
-> > or does it mean connect(2)?
-> >=20
->=20
-> Yes - it means writing vhost-user messages. We see a message sent from
-> QEMU to the backend.
->=20
-> Note that in qtest_socket_server() (called from create_listen_socket())
-> we have already called listen() on the socket, so I would expect QEMU
-> calling connect(2) to succeed and proceed to successfully send messages
-> whether or not there is another listener. I even tried commenting out the
-> execlp for the storage-daemon and I saw the same behavior from QEMU - it
-> sends the message and hangs indefinitely.
-
-QEMU is correct in waiting for a vhost-user reply. The question is why
-qemu-storage-daemon's vhost-user-block export isn't processing the
-request and replying to it?
-
-> > Could the problem be that vhost-user-blk-test.c creates the listen fds
-> > and does not close them? This means the host network stack doesn't
-> > consider the socket closed after QEMU terminates and therefore the test
-> > process hangs after QEMU is gone? In that case vhost-user-blk-test need=
-s
-> > to close the fds after spawning qemu-storage-daemon.
-> >=20
->=20
-> When the test hangs both QEMU and storage-daemon are still up and
-> connected to the socket and waiting for messages from each other. I don't
-> see how we would close the FD in this state or how it would help.
-
-Yes, I see. In that case the theory about fds doesn't apply.
-
-> We may want to think about implementing some kind of timeoout for initial
-> vhost-user messages so that we fail instead of hang in cases like these,
-> as I proposed in [1]. What do you think?
-
-Let's hold off on workarounds until the root cause has been found.
-
-Do you have time to debug why vu_accept() and vu_message_read() don't
-see the pending VHOST_USER_GET_PROTOCOL_FEATURES message?
+But reading the code again it seems this part should be in acpi_pcihp_eject_slot() rather 
+than in acpi_pcihp_device_unplug_cb() to prevent the 
+hotplug_handler_unplug()/object_unparent()  rather than the qdev_unrealize() (to be like 
+in pcie.c).
 
 Thanks,
-Stefan
-
---30MITR5Mjtg+I0ax
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFVh9YACgkQnKSrs4Gr
-c8i0kAf+KmsZgTLv7sJe/R54KFuIPRgDOTYc/UqXpvnCoCG0MA7RM5VeV8bBBraL
-GeUhjO2ppYhSZhE47xU3tF026pq17keKAZOXQlKGFn63/gyYLRFlpequ3PcDMLoI
-8i2QHwex/OxhKVw1wm5lGUDpe45H1QJ0IC7AwGorfcvoHen5QVcEAE2hR62DqZOU
-2xIoJyfkkmoZO4vttgrYe3q1UHh9XQAnsl21BDu4q0IabIhaPfzTyvOWVjBd4NSE
-c4kgXV8l8gcxKIUVCm9E0XpQsX7ldXLd59sKzxTI7T5csLQ+/UKOOXkYe2VBMKEf
-yPCRZj/ixiOZeRfG80FfVIoO9aHFFQ==
-=5sKB
------END PGP SIGNATURE-----
-
---30MITR5Mjtg+I0ax--
+Laurent
 
 
