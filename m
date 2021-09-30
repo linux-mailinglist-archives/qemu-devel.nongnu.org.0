@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3BA41DDF7
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:50:17 +0200 (CEST)
-Received: from localhost ([::1]:56432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B2D41DD82
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:31:38 +0200 (CEST)
+Received: from localhost ([::1]:37904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVyK7-0002HH-IL
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:50:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33402)
+	id 1mVy25-0003Vv-82
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:31:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mVxk7-0001vl-7l
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:13:04 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34680)
+ (Exim 4.90_1) (envelope-from <remy.noel@shadow.tech>)
+ id 1mVxmJ-00055J-16
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:15:20 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mVxk4-0004cS-T4
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:13:02 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id t8so10716942wri.1
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=L6nrpdzxj6tcLVw+s5eJoucaIzPWccTPColLALXDHFY=;
- b=wzX0fxHEI0O0Hipw8S95qbbVMaWdNHFJ4Bl42tpOF0vDpSXl9l7XSH3YqulMVMCL1Y
- CnrsqNiP52a+9Ge0hoGwohz2glWEE1393tWf2EhFTE61rIqVXmTgZ+GLeV+pd+QXL1L0
- clUWuEw0uzfJZx0/7vMzptOC37yw5/XrRwkNsY8DBgLej158dnpICNkDTPeC5ATAVASz
- gcGB+8zQBzi0NwILxVnuYn/ORV8a5dVXrH69KBRXtupT6hqHkZNx08aP1X8ttW2wsFOA
- 3j23XuTK7kZNOZVnnxLhjjjxDyzntqUzDCMiM2vY/hf3lyr8aiPf0NwDsx/v8QGziZ2d
- 6+2g==
+ (Exim 4.90_1) (envelope-from <remy.noel@shadow.tech>)
+ id 1mVxmC-0006I6-PV
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:15:18 -0400
+Received: by mail-wr1-x433.google.com with SMTP id d26so10671035wrb.6
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:15:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=shadow-tech.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=3Lorjg4DkfHVI/bKmKwdue4k8cd4ebKAxAry4ybOEJI=;
+ b=vOZdDXxC+fBmktW4Tmg7H9YE4fV0yXk1oGQD7AqVPCCaP31z0FHTcOfD6Mirsf7+2Y
+ ON5NKe+IppsdUeErHZ9Uy4Xh2aeGjt8FAD3IbsnwHFlpedVyi7pW/vwB+sM8dNjAWsOj
+ 4irTnA+95Y24vl23dLY5F/FVj1GLwjSMtsPk+3+lP+Mbv3WGqm8pSOKVg1aIfliTzB7O
+ IH5QJcm2SzLFHFyOO4JVulsrI1bMBCvXSIT5NHD09IUYOTm1o8PqtavtOCQJcCGnygI5
+ mcVrbsqWNYHDgVVuQF7C6bgCXBQsSg6NJfNsSMa/9WVOUTH9EqgVV6ovhuoHmuv18CrU
+ pwZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=L6nrpdzxj6tcLVw+s5eJoucaIzPWccTPColLALXDHFY=;
- b=G8aqRtvlp25siNIojPnsknVg2KKqg+HPGVFz132v8/INxCRJZcnT6HS40xt7kCmgmw
- fwZ8RTrLM1jh1dwwLYswrbHf6DvqjJ5eDCKd5OOzc6k9aM2j8/DNMhB04g9HSADAupSy
- QlwqJYa3gtDWQMHhL3xLIN09ZXx9RwtXNxJZuu5jR3v9IDT+hwqkrloUAJd5iNTbNvOA
- naBs19KBBaPslANtonLO1IhbJF0iCT99EitCznWuYkUd1Xe8gnAdYXZO3xcLmKUrDdcQ
- PTFumUZ4HUOoOs8KTEXrjNn4PL6CLDmZ9cIfos9nwX1ea0d2GgvygKRpJ7gb4nyRI1lQ
- B4YQ==
-X-Gm-Message-State: AOAM530wZ4cgj4RhWh8k1vJPb+d0OuGo3mRgMOzqiq2NiYsVh7/3VKj8
- n/KeXFDBYM0NGGcLfiMRwV0NS5EQbWjeQ+Ahil/z+m9Tbpw=
-X-Google-Smtp-Source: ABdhPJxu14BoZgWzGOJJy7UyUgw0NBv5oR+Npuj1w/PuEQm3xnoXWb51QdHDqaUCMVBxop/pSr5ESm4KWaG1/LAJn2Q=
-X-Received: by 2002:a5d:59a4:: with SMTP id p4mr6896921wrr.149.1633014779077; 
- Thu, 30 Sep 2021 08:12:59 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=3Lorjg4DkfHVI/bKmKwdue4k8cd4ebKAxAry4ybOEJI=;
+ b=VQX4F3S/6ht1KN9ZoO99bFp/z6iKKCkIePH2prf9L1rxd23N03WxXixhCNJf5kxg5w
+ XYpsrcUZXVA+z4+klROcTybGRQZDYPqz2xIfIXdlvIl2IfgwlI16/Fjw7S+T6b5D9p8C
+ q7sQ06afIU3Ym2Ikb2NfNLBrWW4X+GDhklR518mu6oIDuCiGZEXylfC1b908okfwFQ/+
+ d48cjXOiVXYN/1MezVH34d297b4cLv89w9e3xK0xol6g8/qAJyM776jrrzkFFAz3E24h
+ ltglSdjzQ9BDzt/GeNgYmk6OiR64B7Rj6qPsPqRqjI9rVnCS1uPOjX40bHAqU78x3Ize
+ QuUw==
+X-Gm-Message-State: AOAM5302s3edKFnkGs4LXnPLAdVjO7dkA1Jh/NSnndyY37Wz56RPswDU
+ 1vOLhXif9mn7gZ8vWTI3kgTy1Q==
+X-Google-Smtp-Source: ABdhPJzdWx2j06I6hJLPy3zY4zM8y8Jz39oJXOED8iJViKd0YBEVHDW1IBkXQ+mHfZNSHyXWpvidcA==
+X-Received: by 2002:a05:6000:2c6:: with SMTP id
+ o6mr7013100wry.292.1633014910305; 
+ Thu, 30 Sep 2021 08:15:10 -0700 (PDT)
+Received: from gmail.com ([2001:41d0:fc88:4700:250:b6ff:fe1f:8e7])
+ by smtp.gmail.com with ESMTPSA id h18sm3213977wrs.75.2021.09.30.08.15.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Sep 2021 08:15:09 -0700 (PDT)
+Date: Thu, 30 Sep 2021 17:15:08 +0200
+From: Remy Noel <remy.noel@shadow.tech>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: Strange qemu6 regression cauing disabled usb controller.
+Message-ID: <20210930151508.mhdkotqv2bcwy6vt@gmail.com>
+References: <20210930134844.f4kh72vpeknr2vmk@gmail.com>
+ <YVXSUExueN0MpEDG@redhat.com>
 MIME-Version: 1.0
-References: <20210929211229.4163263-1-eblake@redhat.com>
-In-Reply-To: <20210929211229.4163263-1-eblake@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 30 Sep 2021 16:12:05 +0100
-Message-ID: <CAFEAcA8u+tzZg-VhaXt9hRmOgtditxhyTGtHdH8MY9Xy_iq7aQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/19] NBD patches through 2021-09-27
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YVXSUExueN0MpEDG@redhat.com>
+Received-SPF: permerror client-ip=2a00:1450:4864:20::433;
+ envelope-from=remy.noel@shadow.tech; helo=mail-wr1-x433.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ FSL_HELO_FAKE=3.096, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,42 +86,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Sept 2021 at 22:13, Eric Blake <eblake@redhat.com> wrote:
+On Thu, Sep 30, 2021 at 04:05:52PM +0100, Daniel P. Berrangé wrote:
+>On Thu, Sep 30, 2021 at 03:48:44PM +0200, Remy Noel wrote:
 >
-> The following changes since commit 6b54a31bf7b403672a798b6443b1930ae6c74dea:
+>Co-incidentally we've just had another bug report filed today that
+>suggests 7bed89958bfbf40df9ca681cefbdca63abdde39d as a buggy commit
+>causing deadlock in QEMU
 >
->   Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-request' into staging (2021-09-28 13:07:32 +0100)
->
-> are available in the Git repository at:
->
->   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-09-27-v2
->
-> for you to fetch changes up to 1af7737871fb3b66036f5e520acb0a98fc2605f7:
->
->   block/nbd: check that received handle is valid (2021-09-29 13:46:33 -0500)
->
-> v2: defer problematic selinux patch; sending cover letter only since
-> remaining patches are unchanged
->
-> ----------------------------------------------------------------
-> nbd patches for 2021-09-27
->
-> - Vladimir Sementsov-Ogievskiy: Rework coroutines of qemu NBD client
->   to improve reconnect support
-> - Eric Blake: Relax server in regards to NBD_OPT_LIST_META_CONTEXT
-> - Vladimir Sementsov-Ogievskiy: Plumb up 64-bit bulk-zeroing support
->   in block layer, in preparation for future NBD spec extensions
-> - Nir Soffer: Default to writeback cache in qemu-nbd
+>  https://gitlab.com/qemu-project/qemu/-/issues/650
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
-for any user-visible changes.
-
--- PMM
+Thanks, although, in this issue, the deadlock seems to be caused by the rcu 
+while in the usb one, it is caused by the iothread unlock (or it may 
+highlight an existing issue) even without rcu waiting.
 
