@@ -2,76 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAECC41D7CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 12:33:48 +0200 (CEST)
-Received: from localhost ([::1]:34688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 335E241D7E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 12:36:35 +0200 (CEST)
+Received: from localhost ([::1]:39250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVtNr-0003YN-8K
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 06:33:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46982)
+	id 1mVtQY-0006hc-9r
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 06:36:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVtLG-0001y9-3M
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 06:31:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54431)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mVtNi-0004Xa-PW
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 06:33:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVtLA-0006BE-FY
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 06:31:05 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mVtNg-0008HE-V2
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 06:33:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632997858;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1632998015;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1LdDo/aO4T4/u7SlfRZRwccYmDGejjKHpxqBAJClDwA=;
- b=R5sMYlM4i7Y59faFXUpdfHohR3KcOUTSt8EeUZy8b78lNODq3SHAOFT+EXGgrGByVAj8+G
- WOVsXfFDvcwVqogpnMvQPyhePeZ21gxC+WwJmBE8v1ajd6x9rBQFzvzbyWM3cTB2oQqpni
- 9uDr2ERMct8o8tF/a7cCIddoe6l9wCk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-OXBYxjN3NhejJMUuaXLn1w-1; Thu, 30 Sep 2021 06:30:51 -0400
-X-MC-Unique: OXBYxjN3NhejJMUuaXLn1w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 738C01006AA4;
- Thu, 30 Sep 2021 10:30:49 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 715E760BD8;
- Thu, 30 Sep 2021 10:30:30 +0000 (UTC)
-Date: Thu, 30 Sep 2021 11:30:27 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: P J P <pjp@fedoraproject.org>
-Subject: Re: [RFC PATCH 00/10] security: Introduce
- qemu_security_policy_taint() API
-Message-ID: <YVWRw0ZKq3G6P5YP@redhat.com>
-References: <20210908232024.2399215-1-philmd@redhat.com>
- <YTnhy/Wo5M1qVs1k@redhat.com>
- <798304472.4432617.1631626227208@mail.yahoo.com>
+ bh=AP3kxnHqOf21JZkzTaXwpF00WCpGdtMgq70yaIr1v5E=;
+ b=i0vWwgSXhZOKuivuiIMfz5bfQvr/f8iASphBsdhtBg3MlSQCrQw51DBz2B2E6h0nLsoWjx
+ QMj69fbH5tj7LnNEHfkhup3B2jEhA8PCW6u5Yx3GFNPkujxyUiYt/zEpTlJlvG84WVdWct
+ oQVaxQzFzx7Dw2LhPhNdsbZZ70m1QAg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580--OIzHxypMIuFOkWCsMzPag-1; Thu, 30 Sep 2021 06:33:32 -0400
+X-MC-Unique: -OIzHxypMIuFOkWCsMzPag-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ w2-20020a5d5442000000b0016061c95fb7so1502833wrv.12
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 03:33:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:to:cc:references:from:organization:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=AP3kxnHqOf21JZkzTaXwpF00WCpGdtMgq70yaIr1v5E=;
+ b=WOZyn/SqmgzklYf7NWdpNKUtqo2zHWFk9tIVGhlHNH+UBcUbPG/5GyvdszNqOAKksS
+ pomUQKQSysIHxyx/n1SRywQtpIxlhdJ0M2qtqRUA+8QBc6DEy/Xs0Tpm8d+qtYigu3Gj
+ wv4j6kp2B4Mk7L09ilROvnVQsSCsHOxJSVHxy8qEzGRCaDOA5EbY1JEMH/FVDUUU0LG3
+ 2sOvFiJ4R3nhqGJ50AltG0LIKWS/gPpD9rQIU3poiqLMAD1Z0QNT7XE3iHetEhoWI/q4
+ 3yBzuRccsnycQbsZB9gY7ZIU1Xd/N89cBcKctiyiUfKQrTSR3Q8I4AzGSdO4vtupfBeQ
+ 5x+Q==
+X-Gm-Message-State: AOAM532n4pVNqc3HVTR2IogPdIJyQoq5rRBiSO+y1iN6s3Sid9cuTc63
+ QStVpcN008NDbMx/WlTk8pFLNXm1Ti5OavecQGSrqVWz/WeQwJBBVHJr6K9Z/zjCLuVLO1wIsEi
+ 3q7ZH3aV8v++4B6s=
+X-Received: by 2002:adf:a29c:: with SMTP id s28mr2111022wra.259.1632998011560; 
+ Thu, 30 Sep 2021 03:33:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxJ6WxfI2ySlUVUdjPQov+DT1xfRoZS388bYQf/kn68pvKydQlw4yiGP1PEqaD4eGZHhE+n0g==
+X-Received: by 2002:adf:a29c:: with SMTP id s28mr2110997wra.259.1632998011328; 
+ Thu, 30 Sep 2021 03:33:31 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c64bb.dip0.t-ipconnect.de. [91.12.100.187])
+ by smtp.gmail.com with ESMTPSA id c18sm2557785wmb.27.2021.09.30.03.33.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Sep 2021 03:33:30 -0700 (PDT)
+To: "david.dai" <david.dai@montage-tech.com>
+References: <20210926021614.76933-1-david.dai@montage-tech.com>
+ <YVGAWh7e96f8yed0@stefanha-x1.localdomain>
+ <38a0312e-3b00-ac41-3cb0-ab5592b06dc1@redhat.com>
+ <20210927122848.GB144947@tianmu-host-sw-01>
+ <c87c301e-62af-ab5a-2b9c-fa2ef28898f1@redhat.com>
+ <20210930094007.GA239054@tianmu-host-sw-01>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH] hw/misc: Add a virtual pci device to dynamically attach
+ memory to QEMU
+Message-ID: <5eba1406-4012-481a-b7ed-0090654668d2@redhat.com>
+Date: Thu, 30 Sep 2021 12:33:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <798304472.4432617.1631626227208@mail.yahoo.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210930094007.GA239054@tianmu-host-sw-01>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.03, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,155 +103,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, eajames@linux.ibm.com,
+ qemu-devel@nongnu.org, changguo.du@montage-tech.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 14, 2021 at 01:30:27PM +0000, P J P wrote:
-> Hello Philippe, all
+On 30.09.21 11:40, david.dai wrote:
+> On Wed, Sep 29, 2021 at 11:30:53AM +0200, David Hildenbrand (david@redhat.com) wrote:
+>>
+>> On 27.09.21 14:28, david.dai wrote:
+>>> On Mon, Sep 27, 2021 at 11:07:43AM +0200, David Hildenbrand (david@redhat.com) wrote:
+>>>>
+>>>> CAUTION: This email originated from outside of the organization. Do not
+>>>> click links or open attachments unless you recognize the sender and know the
+>>>> content is safe.
+>>>>
+>>>>
+>>>> On 27.09.21 10:27, Stefan Hajnoczi wrote:
+>>>>> On Sun, Sep 26, 2021 at 10:16:14AM +0800, David Dai wrote:
+>>>>>> Add a virtual pci to QEMU, the pci device is used to dynamically attach memory
+>>>>>> to VM, so driver in guest can apply host memory in fly without virtualization
+>>>>>> management software's help, such as libvirt/manager. The attached memory is
+>>>>
+>>>> We do have virtio-mem to dynamically attach memory to a VM. It could be
+>>>> extended by a mechanism for the VM to request more/less memory, that's
+>>>> already a planned feature. But yeah, virito-mem memory is exposed as
+>>>> ordinary system RAM, not only via a BAR to mostly be managed by user space
+>>>> completely.
+>>
+>> There is a virtio-pmem spec proposal to expose the memory region via a PCI
+>> BAR. We could do something similar for virtio-mem, however, we would have to
+>> wire that new model up differently in QEMU (it's no longer a "memory device"
+>> like a DIMM then).
+>>
+>>>>
+>>>
+>>> I wish virtio-mem can solve our problem, but it is a dynamic allocation mechanism
+>>> for system RAM in virtualization. In heterogeneous computing environments, the
+>>> attached memory usually comes from computing device, it should be managed separately.
+>>> we doesn't hope Linux MM controls it.
+>>
+>> If that heterogeneous memory would have a dedicated node (which usually is
+>> the case IIRC) , and you let it manage by the Linux kernel (dax/kmem), you
+>> can bind the memory backend of virtio-mem to that special NUMA node. So all
+>> memory managed by that virtio-mem device would come from that heterogeneous
+>> memory.
+>>
 > 
-> >On Thursday, 9 September, 2021, 03:58:40 pm IST, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >On Thu, Sep 09, 2021 at 01:20:14AM +0200, Philippe Mathieu-Daudé wrote:
-> >> This series is experimental! The goal is to better limit the
-> >> boundary of what code is considerated security critical, and
-> >> what is less critical (but still important!).
-> >>
-> >> This approach was quickly discussed few months ago with Markus
-> >> then Daniel. Instead of classifying the code on a file path
-> >> basis (see [1]), we insert (runtime) hints into the code
-> >> (which survive code movement). Offending unsafe code can
-> >> taint the global security policy. By default this policy
-> >> is 'none': the current behavior. It can be changed on the
-> >> command line to 'warn' to display warnings, and to 'strict'
-> >> to prohibit QEMU running with a tainted policy.
-> >
+> Yes, CXL type 2, 3 devices expose memory to host as a dedicated node, the node
+> is marked as soft_reserved_memory, dax/kmem can take over the node to create a
+> dax devcie. This dax device can be regarded as the memory backend of virtio-mem
 > 
-> * Thanks so much for restarting this thread. I've been at it intermittently last few
->   months, thinking about how could we annotate the source/module objects.
-> 
->    -> [*] https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg04642.html
-> 
-> * Last time we discussed about having both compile and run time options for users
->   to be able to select the qualified objects/backends/devices as desired.
+> I don't sure whether a dax device can be open by multiple VMs or host applications.
 
-Right, we have multiple different use cases here
+virito-mem currently relies on having a single sparse memory region 
+(anon mmap, mmaped file, mmaped huge pages, mmap shmem) per VM. Although 
+we can share memory with other processes, sharing with other VMs is not 
+intended. Instead of actually mmaping parts dynamically (which can be 
+quite expensive), virtio-mem relies on punching holes into the backend 
+and dynamically allocating memory/file blocks/... on access.
 
- - People building QEMU who want to cut down what they ship to
-   minimize the stuff they support, which is outside the security
-   guarantee. This can be OS distros, but also any other consumer
-   of QEMU
-   
-   eg. RHEL wants to cut out almost all non-virtualization stuff.
-   There is a quirk here though, that RHEL still includes TCG
-   which is considered outside the security guarantee. So a
-   simple build time "--secure on|off" doesn't do the job on
-   its own.
+So the easy way to make it work is:
 
-   We need something to let people understand the consequences
-   of the build options they are enabling.
+a) Exposing the CXL memory to the buddy via dax/kmem, esulting in device 
+memory getting managed by the buddy on a separate NUMA node.
+b) (optional) allocate huge pages on that separate NUMA node.
+c) Use ordinary memory-device-ram or memory-device-memfd (for huge 
+pages), *bidning* the memory backend to that special NUMA node.
 
-   NB, when I talk of build options, I include both configure/meson
-   args, and also the CONFIG_* options set in configs/**/*.mak
+This will dynamically allocate memory from that special NUMA node, 
+resulting in the virtio-mem device completely being backed by that 
+device memory, being able to dynamically resize the memory allocation.
 
 
- - Application developers want to check that they're not using
-   stuff outside the security guarantee, even if the distro
-   has enable it.  These need to be able to query whether the
-   VM they've launched has undesirable configuration choices.
+Exposing an actual devdax to the virtio-mem device, shared by multiple 
+VMs isn't really what we want and won't work without major design 
+changes. Also, I'm not so sure it's a very clean design: exposing memory 
+belonging to other VMs to unrelated QEMU processes. This sounds like a 
+serious security hole: if you managed to escalate to the QEMU process 
+from inside the VM, you can access unrelated VM memory quite happily. 
+You want an abstraction in-between, that makes sure each VM/QEMU process 
+only sees private memory: for example, the buddy via dax/kmem.
 
-
-Some people fall into both groups, some people fall into neither
-group.
-
-
-> * To confirm: How/Where is the security policy defined? Is it
->   device/module specific OR QEMU project wide?
-
-Currently our only definition is in the docs
-
-  https://qemu-project.gitlab.io/qemu/system/security.html#security-requirements
-
-Philippe's patch is proposing tagging against internal QEMU objects
-of various types.  I further proposed that we expose this in QMP
-so it is introspectable.
-
-I think there's scope for doing stuff at build time with configure
-args and *mak CONFIG_* options, but haven't thought what that might
-look like.
-
-> > IOW, the reporting via QAPI introspetion is much more important
-> > for libvirt and mgmt apps, than any custom cli arg / printfs
-> > at the QEMU level.
-> >
-> 
-> * True, while it makes sense to have a solution that is conversant with
->   the management/libvirt layers, It'll be great if we could address qemu/cli
->   other use cases too.
-> 
-> >it feels like we need
-> >  'secure': 'bool'
-> 
-> * Though we started the (above [*]) discussion with '--security' option in mind,
->   I wonder if 'secure' annotation is much specific. And if we could widen its scope.
-> --- x ---
-> 
-> 
-> Source annotations: I've been thinking over following approaches
-> ===================
-> 
-> 1) Segregate the QEMU sources under
-> 
->       ../staging/      <= devel/experimental, not for production usage
->       ../src/          <= good for production usage, hence security relevant
->       ../deprecated/   <= Bad for production usage, not security relevant 
-> 
->    - This is similar to Linux staging drivers' tree.
->    - Staging drivers are not considered for production usage and hence CVE allocation.
->    - At build time by default we only build sources under ../src/ tree.
->    - But we can still have options to build /staging/ and /deprecated/ trees.  
->    - It's readily understandable to end users.
-
-I don't think we should be working in terms of source files at all.
-Some files contain multiple distinct bits of functionality that are
-not easily separated, and will have distinct security levels. Also
-IMHO it is unpleasant to be moving files around in git to when code
-switches between levels.  Also there are distinct criteria here,
-both security levels, and support levels - there can be stuff which
-is fully supported but considered insecure, and stuff that is
-deprecated but considered secure. 
-
-> 2) pkgconfig(1) way:
->    - If we could define per device/backend a configuration (.pc) file which is then used
->      at build/run time to decide which sources are suitable for the build or usage.
-> 
->    - I'm trying to experiment with this.
-
-For build time configuration, we have a pretty clear set of
-toggles between the configure/meson options, and the CONFIG_*
-make options.  I don't think we need to complicate things by
-trying to add pkg-config into the mix here.
-
-> 3) We annotate QEMU devices/backends/modules with macros which define its status.
->    It can then be used at build/run times to decide if it's suitable for usage.
-
-What is what Philippe's patches are doing in essence
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks,
+
+David / dhildenb
 
 
