@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB8B41DD06
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:11:24 +0200 (CEST)
-Received: from localhost ([::1]:48782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C1541DD20
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:16:23 +0200 (CEST)
+Received: from localhost ([::1]:57950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVxiV-00066R-5R
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:11:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60284)
+	id 1mVxnK-00041i-Kb
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:16:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mVxg7-0003xv-8G
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:08:56 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:45630)
+ id 1mVxjD-0008V2-Jh
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:08 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mVxg4-00019O-EE
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:08:54 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- b192-20020a1c1bc9000000b0030cfaf18864so4592037wmb.4
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:08:51 -0700 (PDT)
+ id 1mVxjB-0003sF-9s
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:07 -0400
+Received: by mail-wr1-x430.google.com with SMTP id w29so10651857wra.8
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:12:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=8L0rcLYer97m5XJ0cEUlqhLq50Ovc127of8s10tTwzA=;
- b=zGBH/N6ArzRb3OFkcJyuQT8GuBySnMNe1+ylz8AzFz9AZTIgu41u2SxVB0GF53nt9x
- j6s7uEsT065GcjsqEZN/DKW7CNjjqjKs7bdrkQdrSeuLMMIjQXm3n5L6fv1Lt+bC7Bkm
- rv2QIeKYH1mOUDOvLfUzZEV3U9kL8Ia/7odclWmkuThV/ny2Ell+7vLEZaXxbpoezqie
- xHqlY6wgBC3q31LUveamuNyn2Z94Cy3mV5INSQT1au56F6FyaPq3qDHt9/HDpFLGFj2Y
- CMzHgO86U4Vzbotgvrh8a4R1eMoOioM0vYMBX5sooVCFZxcxVC3ClNNt9A8UKa70LO+W
- T7EQ==
+ bh=czvOQVMTn3AFUjgfXeidA6VLYpMWH9dBWejPu5BrKd4=;
+ b=Ejjj3BPpsh8vPdk2TAduqESiTYoFfddBYUSLvb92IxXRUMGzdOnYe9yZsTToHrdK7m
+ wB/96NxA8htlUp1ebTRAlL47J3Y9+UcZXDGz0us9KLXznMxvO1gWEoLryqLDPuhnlpI6
+ yJpJeKumGBXmluA3u5v3aqwaVna7pulfghvWW2fSlAj/1ixsVAAnkekVHhviSkB45bOk
+ Aa1pnOkJyxzYq7tYKz+ODsiGqYFucTN9BWgf1h+ilF/Z2pQTxEfg048BAmSYRnpF9w0J
+ Mk6NVqHA8orlu3dzb9xYf5rA3HGABPgvFmjysY1cMUQajonliUZK4AlEuLsZxx+imRuI
+ cIDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8L0rcLYer97m5XJ0cEUlqhLq50Ovc127of8s10tTwzA=;
- b=rHSrQIL1g9vHFggXivWqYb4E5ixfaGvT2Uayd2IqBDUy1rNU8u8yDnjmD2p93I+Pxz
- 3pqCY4IQnC7zcZFvXHQ0V1+WhMh3AmA78KXyUoxj+3rnWCTjLsghfJByddQ8Woc7ni+M
- ihxsj+BaaS882iljLehXGtN/ArpItDjDRog2MO0bkNLguUEeQKTCSfa5mLv3H0FWwTmP
- AXFGDF8ksTviiLHpNHQrjVS3mFu10s/iwgabFpKTKbQOh9X5ws436LReWrV3iCvcfqU5
- SnlHY9K3XoLCkBZECx35aEKb5cZMsDz/aM0WK6j9WDUrjBREn1djCRFVk8nuARV22lBq
- zw2w==
-X-Gm-Message-State: AOAM531rsZElkJ9qy/5s9LdzKj47mW8euVzmSx+iKMTtmjd7/tIaooLN
- AHFJEYw8bpbRKWWHoHQSjbSSuQ==
-X-Google-Smtp-Source: ABdhPJxTP2EWNXVNH4KZwNQVc0w0QgeMtnrug9QjRoK3pwBRFO/p8uqRBH8xoRImXUr84ctPBP5XVQ==
-X-Received: by 2002:a05:600c:2193:: with SMTP id
- e19mr5986608wme.38.1633014530680; 
- Thu, 30 Sep 2021 08:08:50 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=czvOQVMTn3AFUjgfXeidA6VLYpMWH9dBWejPu5BrKd4=;
+ b=CBZF4etnibM6ZQjfjC9IKnIpIhrGfhbwribyIvF6/hrTxwV44nK/F/reIJ5UyJW67B
+ zJIesLhfk+k5vBdjK2FuFhKvGJLNMIsW3BKu2L5rTE022Wzk+7I4Yvte4AqIMniphtQS
+ AopPpwRU4MBa75rFEkoqyyI5tkNfZmn2W8UQUiA7vT+t72INddXZdspzFmnNESejZj2S
+ mL+7bNYMUxPgRZai+6reAeNhZi/1jhPl3a9Ggl+SBJKqFDUWKhYnBVaCga6GK/9h2pIq
+ SBxTDjNRQ/4JdTh5c7SjkzXtEjiYvvLgdDyc1Fe1QGK3qYSEMuc+WBz83g/zwBpJSVgT
+ txiQ==
+X-Gm-Message-State: AOAM532AsQVYzbCzMTnIvasWf+lay1nB2N6ku9/E4fMhOmUi79PUDhLO
+ N4Ehea+7qeJAaXNEtBY6ARnD6UgkUXwIhQ==
+X-Google-Smtp-Source: ABdhPJwF76BfKUioFB9SWS62vJMAGwvTT+PiysVog+dUBBK75m/RbfbmMrz6Cg/9F//4dVwrKNHGMg==
+X-Received: by 2002:a05:6000:144e:: with SMTP id
+ v14mr5514630wrx.228.1633014723758; 
+ Thu, 30 Sep 2021 08:12:03 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o26sm5085942wmc.17.2021.09.30.08.08.49
+ by smtp.gmail.com with ESMTPSA id g8sm1952098wrm.46.2021.09.30.08.12.03
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 08:08:50 -0700 (PDT)
+ Thu, 30 Sep 2021 08:12:03 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw/intc/arm_gicv3: Support multiple redistributor regions
-Date: Thu, 30 Sep 2021 16:08:42 +0100
-Message-Id: <20210930150842.3810-4-peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/22] target-arm queue
+Date: Thu, 30 Sep 2021 16:11:39 +0100
+Message-Id: <20210930151201.9407-1-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210930150842.3810-1-peter.maydell@linaro.org>
-References: <20210930150842.3810-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,215 +86,179 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our GICv3 QOM interface includes an array property
-redist-region-count which allows board models to specify that the
-registributor registers are not in a single contiguous range, but
-split into multiple pieces.  We implemented this for KVM, but
-currently the TCG GICv3 model insists that there is only one region.
-You can see the limit being hit with a setup like:
-  qemu-system-aarch64 -machine virt,gic-version=3 -smp 124
+Nothing too exciting in this lot :-)
 
-Add support for split regions to the TCG GICv3.  To do this we switch
-from allocating a simple array of MemoryRegions to an array of
-GICv3RedistRegion structs so that we can use the GICv3RedistRegion as
-the opaque pointer in the MemoryRegion read/write callbacks.  Each
-GICv3RedistRegion contains the MemoryRegion, a backpointer allowing
-the read/write callback to get hold of the GICv3State, and an index
-which allows us to calculate which CPU's redistributor is being
-accessed.
+The following changes since commit ba0fa56bc06e563de68d2a2bf3ddb0cfea1be4f9:
 
-Note that arm_gicv3_kvm always passes in NULL as the ops argument
-to gicv3_init_irqs_and_mmio(), so the only MemoryRegion read/write
-callbacks we need to update to handle this new scheme are the
-gicv3_redist_read/write functions used by the emulated GICv3.
+  Merge remote-tracking branch 'remotes/vivier/tags/q800-for-6.2-pull-request' into staging (2021-09-29 21:20:49 +0100)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/intc/arm_gicv3_common.h | 12 ++++++++-
- hw/intc/arm_gicv3.c                |  6 -----
- hw/intc/arm_gicv3_common.c         | 15 ++++++++---
- hw/intc/arm_gicv3_kvm.c            |  4 +--
- hw/intc/arm_gicv3_redist.c         | 40 ++++++++++++++++--------------
- 5 files changed, 46 insertions(+), 31 deletions(-)
+are available in the Git repository at:
 
-diff --git a/include/hw/intc/arm_gicv3_common.h b/include/hw/intc/arm_gicv3_common.h
-index cb2b0d0ad45..fc38e4b7dca 100644
---- a/include/hw/intc/arm_gicv3_common.h
-+++ b/include/hw/intc/arm_gicv3_common.h
-@@ -215,13 +215,23 @@ struct GICv3CPUState {
-     bool seenbetter;
- };
- 
-+/*
-+ * The redistributor pages might be split into more than one region
-+ * on some machine types if there are many CPUs.
-+ */
-+typedef struct GICv3RedistRegion {
-+    GICv3State *gic;
-+    MemoryRegion iomem;
-+    uint32_t cpuidx; /* index of first CPU this region covers */
-+} GICv3RedistRegion;
-+
- struct GICv3State {
-     /*< private >*/
-     SysBusDevice parent_obj;
-     /*< public >*/
- 
-     MemoryRegion iomem_dist; /* Distributor */
--    MemoryRegion *iomem_redist; /* Redistributor Regions */
-+    GICv3RedistRegion *redist_regions; /* Redistributor Regions */
-     uint32_t *redist_region_count; /* redistributor count within each region */
-     uint32_t nb_redist_regions; /* number of redist regions */
- 
-diff --git a/hw/intc/arm_gicv3.c b/hw/intc/arm_gicv3.c
-index bcf54a5f0a5..c6282984b1e 100644
---- a/hw/intc/arm_gicv3.c
-+++ b/hw/intc/arm_gicv3.c
-@@ -387,12 +387,6 @@ static void arm_gic_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    if (s->nb_redist_regions != 1) {
--        error_setg(errp, "VGICv3 redist region number(%d) not equal to 1",
--                   s->nb_redist_regions);
--        return;
--    }
--
-     gicv3_init_irqs_and_mmio(s, gicv3_set_irq, gic_ops);
- 
-     gicv3_init_cpuif(s);
-diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-index 8de9205b386..9884d2e39b9 100644
---- a/hw/intc/arm_gicv3_common.c
-+++ b/hw/intc/arm_gicv3_common.c
-@@ -254,6 +254,7 @@ void gicv3_init_irqs_and_mmio(GICv3State *s, qemu_irq_handler handler,
- {
-     SysBusDevice *sbd = SYS_BUS_DEVICE(s);
-     int i;
-+    int cpuidx;
- 
-     /* For the GIC, also expose incoming GPIO lines for PPIs for each CPU.
-      * GPIO array layout is thus:
-@@ -282,14 +283,20 @@ void gicv3_init_irqs_and_mmio(GICv3State *s, qemu_irq_handler handler,
-                           "gicv3_dist", 0x10000);
-     sysbus_init_mmio(sbd, &s->iomem_dist);
- 
--    s->iomem_redist = g_new0(MemoryRegion, s->nb_redist_regions);
-+    s->redist_regions = g_new0(GICv3RedistRegion, s->nb_redist_regions);
-+    cpuidx = 0;
-     for (i = 0; i < s->nb_redist_regions; i++) {
-         char *name = g_strdup_printf("gicv3_redist_region[%d]", i);
-+        GICv3RedistRegion *region = &s->redist_regions[i];
- 
--        memory_region_init_io(&s->iomem_redist[i], OBJECT(s),
--                              ops ? &ops[1] : NULL, s, name,
-+        region->gic = s;
-+        region->cpuidx = cpuidx;
-+        cpuidx += s->redist_region_count[i];
-+
-+        memory_region_init_io(&region->iomem, OBJECT(s),
-+                              ops ? &ops[1] : NULL, region, name,
-                               s->redist_region_count[i] * GICV3_REDIST_SIZE);
--        sysbus_init_mmio(sbd, &s->iomem_redist[i]);
-+        sysbus_init_mmio(sbd, &region->iomem);
-         g_free(name);
-     }
- }
-diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
-index ab58c73306d..2ca7152500c 100644
---- a/hw/intc/arm_gicv3_kvm.c
-+++ b/hw/intc/arm_gicv3_kvm.c
-@@ -825,7 +825,7 @@ static void kvm_arm_gicv3_realize(DeviceState *dev, Error **errp)
-                             KVM_VGIC_V3_ADDR_TYPE_DIST, s->dev_fd, 0);
- 
-     if (!multiple_redist_region_allowed) {
--        kvm_arm_register_device(&s->iomem_redist[0], -1,
-+        kvm_arm_register_device(&s->redist[0].iomem, -1,
-                                 KVM_DEV_ARM_VGIC_GRP_ADDR,
-                                 KVM_VGIC_V3_ADDR_TYPE_REDIST, s->dev_fd, 0);
-     } else {
-@@ -838,7 +838,7 @@ static void kvm_arm_gicv3_realize(DeviceState *dev, Error **errp)
-             uint64_t addr_ormask =
-                         i | ((uint64_t)s->redist_region_count[i] << 52);
- 
--            kvm_arm_register_device(&s->iomem_redist[i], -1,
-+            kvm_arm_register_device(&s->redist[i].iomem, -1,
-                                     KVM_DEV_ARM_VGIC_GRP_ADDR,
-                                     KVM_VGIC_V3_ADDR_TYPE_REDIST_REGION,
-                                     s->dev_fd, addr_ormask);
-diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-index 7072bfcbb1d..424e7e28a86 100644
---- a/hw/intc/arm_gicv3_redist.c
-+++ b/hw/intc/arm_gicv3_redist.c
-@@ -425,22 +425,24 @@ static MemTxResult gicr_writell(GICv3CPUState *cs, hwaddr offset,
- MemTxResult gicv3_redist_read(void *opaque, hwaddr offset, uint64_t *data,
-                               unsigned size, MemTxAttrs attrs)
- {
--    GICv3State *s = opaque;
-+    GICv3RedistRegion *region = opaque;
-+    GICv3State *s = region->gic;
-     GICv3CPUState *cs;
-     MemTxResult r;
-     int cpuidx;
- 
-     assert((offset & (size - 1)) == 0);
- 
--    /* This region covers all the redistributor pages; there are
--     * (for GICv3) two 64K pages per CPU. At the moment they are
--     * all contiguous (ie in this one region), though we might later
--     * want to allow splitting of redistributor pages into several
--     * blocks so we can support more CPUs.
-+    /*
-+     * There are (for GICv3) two 64K redistributor pages per CPU.
-+     * In some cases the redistributor pages for all CPUs are not
-+     * contiguous (eg on the virt board they are split into two
-+     * parts if there are too many CPUs to all fit in the same place
-+     * in the memory map); if so then the GIC has multiple MemoryRegions
-+     * for the redistributors.
-      */
--    cpuidx = offset / 0x20000;
--    offset %= 0x20000;
--    assert(cpuidx < s->num_cpu);
-+    cpuidx = region->cpuidx + offset / GICV3_REDIST_SIZE;
-+    offset %= GICV3_REDIST_SIZE;
- 
-     cs = &s->cpu[cpuidx];
- 
-@@ -482,22 +484,24 @@ MemTxResult gicv3_redist_read(void *opaque, hwaddr offset, uint64_t *data,
- MemTxResult gicv3_redist_write(void *opaque, hwaddr offset, uint64_t data,
-                                unsigned size, MemTxAttrs attrs)
- {
--    GICv3State *s = opaque;
-+    GICv3RedistRegion *region = opaque;
-+    GICv3State *s = region->gic;
-     GICv3CPUState *cs;
-     MemTxResult r;
-     int cpuidx;
- 
-     assert((offset & (size - 1)) == 0);
- 
--    /* This region covers all the redistributor pages; there are
--     * (for GICv3) two 64K pages per CPU. At the moment they are
--     * all contiguous (ie in this one region), though we might later
--     * want to allow splitting of redistributor pages into several
--     * blocks so we can support more CPUs.
-+    /*
-+     * There are (for GICv3) two 64K redistributor pages per CPU.
-+     * In some cases the redistributor pages for all CPUs are not
-+     * contiguous (eg on the virt board they are split into two
-+     * parts if there are too many CPUs to all fit in the same place
-+     * in the memory map); if so then the GIC has multiple MemoryRegions
-+     * for the redistributors.
-      */
--    cpuidx = offset / 0x20000;
--    offset %= 0x20000;
--    assert(cpuidx < s->num_cpu);
-+    cpuidx = region->cpuidx + offset / GICV3_REDIST_SIZE;
-+    offset %= GICV3_REDIST_SIZE;
- 
-     cs = &s->cpu[cpuidx];
- 
--- 
-2.20.1
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210930
 
+for you to fetch changes up to 1f4b2ec701b9d73d3fa7bb90c8b4376bc7d3c42b:
+
+  hw/arm: sabrelite: Connect SPI flash CS line to GPIO3_19 (2021-09-30 13:44:13 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * allwinner-h3: Switch to SMC as PSCI conduit
+ * arm: tcg: Adhere to SMCCC 1.3 section 5.2
+ * xlnx-zcu102, xlnx-versal-virt: Support BBRAM and eFUSE devices
+ * gdbstub related code cleanups
+ * Don't put FPEXC and FPSID in org.gnu.gdb.arm.vfp XML
+ * Use _init vs _new convention in bus creation function names
+ * sabrelite: Connect SPI flash CS line to GPIO3_19
+
+----------------------------------------------------------------
+Alexander Graf (2):
+      allwinner-h3: Switch to SMC as PSCI conduit
+      arm: tcg: Adhere to SMCCC 1.3 section 5.2
+
+Peter Maydell (10):
+      configs: Don't include 32-bit-only GDB XML in aarch64 linux configs
+      target/arm: Fix coding style issues in gdbstub code in helper.c
+      target/arm: Move gdbstub related code out of helper.c
+      target/arm: Don't put FPEXC and FPSID in org.gnu.gdb.arm.vfp XML
+      scsi: Replace scsi_bus_new() with scsi_bus_init(), scsi_bus_init_named()
+      ipack: Rename ipack_bus_new_inplace() to ipack_bus_init()
+      pci: Rename pci_root_bus_new_inplace() to pci_root_bus_init()
+      qbus: Rename qbus_create_inplace() to qbus_init()
+      qbus: Rename qbus_create() to qbus_new()
+      ide: Rename ide_bus_new() to ide_bus_init()
+
+Tong Ho (9):
+      hw/nvram: Introduce Xilinx eFuse QOM
+      hw/nvram: Introduce Xilinx Versal eFuse device
+      hw/nvram: Introduce Xilinx ZynqMP eFuse device
+      hw/nvram: Introduce Xilinx battery-backed ram
+      hw/arm: xlnx-versal-virt: Add Xilinx BBRAM device
+      hw/arm: xlnx-versal-virt: Add Xilinx eFUSE device
+      hw/arm: xlnx-zcu102: Add Xilinx BBRAM device
+      hw/arm: xlnx-zcu102: Add Xilinx eFUSE device
+      docs/system/arm: xlnx-versal-virt: BBRAM and eFUSE Usage
+
+Xuzhou Cheng (1):
+      hw/arm: sabrelite: Connect SPI flash CS line to GPIO3_19
+
+ docs/system/arm/xlnx-versal-virt.rst      |  49 ++
+ configs/targets/aarch64-linux-user.mak    |   2 +-
+ configs/targets/aarch64-softmmu.mak       |   2 +-
+ configs/targets/aarch64_be-linux-user.mak |   2 +-
+ configs/targets/arm-linux-user.mak        |   2 +-
+ configs/targets/arm-softmmu.mak           |   2 +-
+ configs/targets/armeb-linux-user.mak      |   2 +-
+ include/hw/arm/xlnx-versal.h              |  15 +
+ include/hw/arm/xlnx-zynqmp.h              |   5 +
+ include/hw/ide/internal.h                 |   4 +-
+ include/hw/ipack/ipack.h                  |   8 +-
+ include/hw/nvram/xlnx-bbram.h             |  54 ++
+ include/hw/nvram/xlnx-efuse.h             | 132 +++++
+ include/hw/nvram/xlnx-versal-efuse.h      |  68 +++
+ include/hw/nvram/xlnx-zynqmp-efuse.h      |  44 ++
+ include/hw/pci/pci.h                      |  10 +-
+ include/hw/qdev-core.h                    |   6 +-
+ include/hw/scsi/scsi.h                    |  30 +-
+ target/arm/internals.h                    |   7 +
+ hw/arm/allwinner-h3.c                     |   2 +-
+ hw/arm/sabrelite.c                        |   2 +-
+ hw/arm/xlnx-versal-virt.c                 |  88 +++
+ hw/arm/xlnx-versal.c                      |  57 ++
+ hw/arm/xlnx-zcu102.c                      |  30 ++
+ hw/arm/xlnx-zynqmp.c                      |  49 ++
+ hw/audio/intel-hda.c                      |   2 +-
+ hw/block/fdc.c                            |   2 +-
+ hw/block/swim.c                           |   3 +-
+ hw/char/virtio-serial-bus.c               |   4 +-
+ hw/core/bus.c                             |  13 +-
+ hw/core/sysbus.c                          |  10 +-
+ hw/gpio/bcm2835_gpio.c                    |   3 +-
+ hw/hyperv/vmbus.c                         |   2 +-
+ hw/i2c/core.c                             |   2 +-
+ hw/ide/ahci.c                             |   2 +-
+ hw/ide/cmd646.c                           |   2 +-
+ hw/ide/isa.c                              |   2 +-
+ hw/ide/macio.c                            |   2 +-
+ hw/ide/microdrive.c                       |   2 +-
+ hw/ide/mmio.c                             |   2 +-
+ hw/ide/piix.c                             |   2 +-
+ hw/ide/qdev.c                             |   4 +-
+ hw/ide/sii3112.c                          |   2 +-
+ hw/ide/via.c                              |   2 +-
+ hw/ipack/ipack.c                          |  10 +-
+ hw/ipack/tpci200.c                        |   4 +-
+ hw/isa/isa-bus.c                          |   2 +-
+ hw/misc/auxbus.c                          |   2 +-
+ hw/misc/mac_via.c                         |   4 +-
+ hw/misc/macio/cuda.c                      |   4 +-
+ hw/misc/macio/macio.c                     |   4 +-
+ hw/misc/macio/pmu.c                       |   4 +-
+ hw/nubus/nubus-bridge.c                   |   2 +-
+ hw/nvme/ctrl.c                            |   4 +-
+ hw/nvme/subsys.c                          |   3 +-
+ hw/nvram/xlnx-bbram.c                     | 545 +++++++++++++++++++
+ hw/nvram/xlnx-efuse-crc.c                 | 119 +++++
+ hw/nvram/xlnx-efuse.c                     | 280 ++++++++++
+ hw/nvram/xlnx-versal-efuse-cache.c        | 114 ++++
+ hw/nvram/xlnx-versal-efuse-ctrl.c         | 783 +++++++++++++++++++++++++++
+ hw/nvram/xlnx-zynqmp-efuse.c              | 855 ++++++++++++++++++++++++++++++
+ hw/pci-host/raven.c                       |   4 +-
+ hw/pci-host/versatile.c                   |   6 +-
+ hw/pci/pci.c                              |  30 +-
+ hw/pci/pci_bridge.c                       |   4 +-
+ hw/ppc/spapr_vio.c                        |   2 +-
+ hw/s390x/ap-bridge.c                      |   2 +-
+ hw/s390x/css-bridge.c                     |   2 +-
+ hw/s390x/event-facility.c                 |   4 +-
+ hw/s390x/s390-pci-bus.c                   |   2 +-
+ hw/s390x/virtio-ccw.c                     |   3 +-
+ hw/scsi/esp-pci.c                         |   2 +-
+ hw/scsi/esp.c                             |   2 +-
+ hw/scsi/lsi53c895a.c                      |   2 +-
+ hw/scsi/megasas.c                         |   3 +-
+ hw/scsi/mptsas.c                          |   2 +-
+ hw/scsi/scsi-bus.c                        |   6 +-
+ hw/scsi/spapr_vscsi.c                     |   3 +-
+ hw/scsi/virtio-scsi.c                     |   4 +-
+ hw/scsi/vmw_pvscsi.c                      |   3 +-
+ hw/sd/allwinner-sdhost.c                  |   4 +-
+ hw/sd/bcm2835_sdhost.c                    |   4 +-
+ hw/sd/pl181.c                             |   3 +-
+ hw/sd/pxa2xx_mmci.c                       |   4 +-
+ hw/sd/sdhci.c                             |   3 +-
+ hw/sd/ssi-sd.c                            |   3 +-
+ hw/ssi/ssi.c                              |   2 +-
+ hw/usb/bus.c                              |   2 +-
+ hw/usb/dev-smartcard-reader.c             |   3 +-
+ hw/usb/dev-storage-bot.c                  |   3 +-
+ hw/usb/dev-storage-classic.c              |   4 +-
+ hw/usb/dev-uas.c                          |   3 +-
+ hw/virtio/virtio-mmio.c                   |   3 +-
+ hw/virtio/virtio-pci.c                    |   3 +-
+ hw/xen/xen-bus.c                          |   2 +-
+ hw/xen/xen-legacy-backend.c               |   2 +-
+ target/arm/gdbstub.c                      | 154 ++++++
+ target/arm/gdbstub64.c                    | 140 +++++
+ target/arm/helper.c                       | 262 ---------
+ target/arm/psci.c                         |  35 +-
+ gdb-xml/arm-neon.xml                      |   2 -
+ gdb-xml/arm-vfp-sysregs.xml               |  17 +
+ gdb-xml/arm-vfp.xml                       |   2 -
+ gdb-xml/arm-vfp3.xml                      |   2 -
+ hw/Kconfig                                |   2 +
+ hw/arm/Kconfig                            |   2 +
+ hw/nvram/Kconfig                          |  19 +
+ hw/nvram/meson.build                      |   8 +
+ 108 files changed, 3806 insertions(+), 447 deletions(-)
+ create mode 100644 include/hw/nvram/xlnx-bbram.h
+ create mode 100644 include/hw/nvram/xlnx-efuse.h
+ create mode 100644 include/hw/nvram/xlnx-versal-efuse.h
+ create mode 100644 include/hw/nvram/xlnx-zynqmp-efuse.h
+ create mode 100644 hw/nvram/xlnx-bbram.c
+ create mode 100644 hw/nvram/xlnx-efuse-crc.c
+ create mode 100644 hw/nvram/xlnx-efuse.c
+ create mode 100644 hw/nvram/xlnx-versal-efuse-cache.c
+ create mode 100644 hw/nvram/xlnx-versal-efuse-ctrl.c
+ create mode 100644 hw/nvram/xlnx-zynqmp-efuse.c
+ create mode 100644 gdb-xml/arm-vfp-sysregs.xml
 
