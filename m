@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40EF041D2D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 07:48:12 +0200 (CEST)
-Received: from localhost ([::1]:50596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21E541D2E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 07:52:20 +0200 (CEST)
+Received: from localhost ([::1]:60852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVovT-00049p-8G
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 01:48:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47168)
+	id 1mVozT-0002lE-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 01:52:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVos1-0000tL-Q8; Thu, 30 Sep 2021 01:44:37 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:54527)
+ id 1mVos3-0000tm-4C; Thu, 30 Sep 2021 01:44:39 -0400
+Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:59267)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVorz-0003LF-Pu; Thu, 30 Sep 2021 01:44:37 -0400
+ id 1mVos0-0003LH-4J; Thu, 30 Sep 2021 01:44:38 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HKhyQ6ry5z4xbP; Thu, 30 Sep 2021 15:44:30 +1000 (AEST)
+ id 4HKhyQ6xnXz4xb9; Thu, 30 Sep 2021 15:44:30 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632980670;
- bh=Hbf5PQQ1MXRc3VxbMWK0lcX0RKfAFcYUPhqyVBTMK/E=;
+ bh=ndz8vhlC+4u4oL7K9TxL3BD+ACDtY42WBMLj9fITS24=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ESXm3H0LJw20q73ISEGdt3K4l0pGQYUImjnkmCSDdNCKjLxkV8xZSTCWh1loNgMeJ
- +XwPLz8B4ymq1Bvmsdy2pLzcrSv+qhFhzAAq2TmNw8O+B9CUS+2Vav4B90+nouAkzF
- 3g56WJfIMkPZPScEGBq8Dna1MvAf/SelFax2KQ3Q=
+ b=ILAKNg0c2CaArPyZiW7iJfEjQlV+5AdPyFaBLsYEctLP5peMcpGneSZ1wi6jtKApm
+ JbGyiWmI2+1rUPwXZK0ZeCZZEt7eZAU2BLkoxaqsAoVpx8mZs9FYAkYw6lKnApOg+K
+ XB+YOLmKv8iywR64uZIIrGhwRwoMx540UqWDNSYw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/44] host-utils: Fix overflow detection in divu128()
-Date: Thu, 30 Sep 2021 15:43:43 +1000
-Message-Id: <20210930054426.357344-2-david@gibson.dropbear.id.au>
+Subject: [PULL 02/44] host-utils: fix missing zero-extension in divs128
+Date: Thu, 30 Sep 2021 15:43:44 +1000
+Message-Id: <20210930054426.357344-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210930054426.357344-1-david@gibson.dropbear.id.au>
 References: <20210930054426.357344-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -66,31 +66,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Luis Pires <luis.pires@eldorado.org.br>
 
-The previous code didn't detect overflows if the high 64-bit
-of the dividend were equal to the 64-bit divisor. In that case,
-64 bits wouldn't be enough to hold the quotient.
+*plow (lower 64 bits of the dividend) is passed into divs128() as
+a signed 64-bit integer. When building an __int128_t from it, it
+must be zero-extended, instead of sign-extended.
 
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210910112624.72748-2-luis.pires@eldorado.org.br>
+Message-Id: <20210910112624.72748-3-luis.pires@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- util/host-utils.c | 2 +-
+ include/qemu/host-utils.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/util/host-utils.c b/util/host-utils.c
-index 7b9322071d..a789a11b46 100644
---- a/util/host-utils.c
-+++ b/util/host-utils.c
-@@ -102,7 +102,7 @@ int divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor)
-         *plow  = dlo / divisor;
-         *phigh = dlo % divisor;
-         return 0;
--    } else if (dhi > divisor) {
-+    } else if (dhi >= divisor) {
+diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
+index 711b221704..753b9fb89f 100644
+--- a/include/qemu/host-utils.h
++++ b/include/qemu/host-utils.h
+@@ -70,7 +70,7 @@ static inline int divs128(int64_t *plow, int64_t *phigh, int64_t divisor)
+     if (divisor == 0) {
          return 1;
      } else {
- 
+-        __int128_t dividend = ((__int128_t)*phigh << 64) | *plow;
++        __int128_t dividend = ((__int128_t)*phigh << 64) | (uint64_t)*plow;
+         __int128_t result = dividend / divisor;
+         *plow = result;
+         *phigh = dividend % divisor;
 -- 
 2.31.1
 
