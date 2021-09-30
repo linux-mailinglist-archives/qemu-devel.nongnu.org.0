@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B458541DCF7
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:07:25 +0200 (CEST)
-Received: from localhost ([::1]:44468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FA641DD05
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:11:20 +0200 (CEST)
+Received: from localhost ([::1]:48638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVxee-00035Z-Nr
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:07:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59556)
+	id 1mVxiR-00060D-35
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:11:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVxde-0001sV-0x
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:06:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35285)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVxdZ-0007OY-IQ
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:06:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633014374;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=hU/gTUjO+mgEv5qfnpk1X/AAH34RwBWB7RbwfMZ/FC8=;
- b=bkhqhI5rAWoh3gCkouqbALoCgPCwLX6u/4krVkkmAi0wsvlcPt5zJtJQnul3+F3Ja8em/U
- yhlmqJBBK4Ve11sLVWdgnM4vsqeavepc0l64wGShESNoDeNhu7suapPGoocSad/YHpxAtP
- eoMR0UYkKL/iavy75hoZN98FnBHVBcY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-o8fOxrIUPeKfSsD4IQC2pg-1; Thu, 30 Sep 2021 11:06:07 -0400
-X-MC-Unique: o8fOxrIUPeKfSsD4IQC2pg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DCCF107E1E4;
- Thu, 30 Sep 2021 15:06:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 63DFF60854;
- Thu, 30 Sep 2021 15:05:55 +0000 (UTC)
-Date: Thu, 30 Sep 2021 16:05:52 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Remy Noel <remy.noel@shadow.tech>
-Subject: Re: Strange qemu6 regression cauing disabled usb controller.
-Message-ID: <YVXSUExueN0MpEDG@redhat.com>
-References: <20210930134844.f4kh72vpeknr2vmk@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mVxfz-0003vR-S2
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:08:47 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:40587)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mVxfy-00013k-9R
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:08:47 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ t16-20020a1c7710000000b003049690d882so8698551wmi.5
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=w4h7/Ss4Ha60rWKYGJeIua0QA6I0Dk/czC85h6uCkXY=;
+ b=AYjlDdivBT7Fz8wCFWarbw5PIsgZ/CbcVxj6bV95lPJtbVU4H3VGen02kg0sGFbe/r
+ jzQo/lU47Kx/n/lFTqfnuyiW/1sR0EnVH9VmCS/GJEHWrTH/G8NOcOoeGL9kO3CSwRFo
+ yoydVhR4+U9eDed2nPKV5TI0XK00pSyOas8IRLc8cDd8JkoFx4e29DY8MGv3NeQA++lV
+ iaSOqMlPY2vb/iGeg1NaSxmwgSnenD0eUCNB6Wiz6FfHLT0AlA42uUs9wmUvi+prfiUJ
+ rAbDRFcWwhZAdKNnkJyucn4ZSOTbQR3Po9WnXyJdPWGQbz0VZfNDzG5wPbVMwtbUnvvE
+ M/dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=w4h7/Ss4Ha60rWKYGJeIua0QA6I0Dk/czC85h6uCkXY=;
+ b=XMOq/ME1Dkgo5GihJhQFj7jVqK5ZV7dxhh91/Cw7hq016r4Pm+YQj6ZBZBkuoIWuj1
+ gfdy7GhFEujgyO29mlRESep5EBnLsyrZ8FS1cWs+H7awjSTQP9aFM+CK0nnApmiSY8N3
+ ZFg5u+OUVilZgulfoINBZ1F1z+DriRmZJlyVxQSzvqQ+plEqXH+TifgerxmjxGBJR6Nt
+ 2Jhc+w5VVjhKiAHKWXCSC5zqHchATp2lRSpwfplXpwmeONm5pdLcqE4k45sNJxySaGSV
+ XgOWfNs1b+1QsX5bybvHM1W0m4dXjGD4SHH5pFLjpCK0cbtjW3AGhMsc5ReQxSiQSLWg
+ QmTQ==
+X-Gm-Message-State: AOAM533Cllep8w22FzXDLGA0YYJAHq/pKCiq+ZqMY6CZNDI/O/UohbvW
+ ysLYDcDE0w1LRLVwMyMy/cFMDK+go58BLw==
+X-Google-Smtp-Source: ABdhPJwnYzHNOsAcPaeE1pDob+/sew8VVxpGesfTDR2BHPmCiTvnD9pPbpx0lHaAi9TFCmsDYRqrPQ==
+X-Received: by 2002:a7b:c7ce:: with SMTP id z14mr1018897wmk.91.1633014524555; 
+ Thu, 30 Sep 2021 08:08:44 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id o26sm5085942wmc.17.2021.09.30.08.08.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Sep 2021 08:08:44 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/3] arm_gicv3: Support multiple redistributor regions
+Date: Thu, 30 Sep 2021 16:08:39 +0100
+Message-Id: <20210930150842.3810-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210930134844.f4kh72vpeknr2vmk@gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,32 +82,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 30, 2021 at 03:48:44PM +0200, Remy Noel wrote:
-> Hello,
-> 
-> I'm encountering a nagging issue with usbredir and a windows guest, but although I did pinpoint the commit that caused the issue, I have a hard time understanding it.
-> 
-> The issue occurs when a two usbredir devices are added to a guest windows vm. When the second device is added, the UHCI usb controller is disabled by windows with an error code 43 (can be seen with in the usb adapters section of the device manager).
-> 
-> The commit causing the issue (everything works well when reverting it) is 7bed89958bfbf40df9ca681cefbdca63abdde39d : device_core: use drain_call_rcu in in qmp_device_add.
+Our GICv3 QOM interface includes an array property
+redist-region-count which allows board models to specify that the
+registributor registers are not in a single contiguous range, but
+split into multiple pieces.  We implemented this for KVM, but
+currently the TCG GICv3 model insists that there is only one region.
+You can see the limit being hit with a setup like:
+  qemu-system-aarch64 -machine virt,gic-version=3 -smp 124
 
-Co-incidentally we've just had another bug report filed today that
-suggests 7bed89958bfbf40df9ca681cefbdca63abdde39d as a buggy commit
-causing deadlock in QEMU
+This patchset adds support for multiple regions to the emulated
+GICv3, which means that the virt board now supports more than
+123 CPUs for TCG as well as for KVM.
 
-  https://gitlab.com/qemu-project/qemu/-/issues/650
+Patches 1 and 2 are smaller initial cleanup; patch 3 is the
+bulk of the feature work.
 
-Regards,
-Daniel
+(This turned out to be pretty simple; we should probably have
+done it before...)
+
+-- PMM
+
+Peter Maydell (3):
+  hw/intc/arm_gicv3: Move checking of redist-region-count to
+    arm_gicv3_common_realize
+  hw/intc/arm_gicv3: Set GICR_TYPER.Last correctly when
+    nb_redist_regions > 1
+  hw/intc/arm_gicv3: Support multiple redistributor regions
+
+ include/hw/intc/arm_gicv3_common.h | 14 ++++++--
+ hw/intc/arm_gicv3.c                | 12 +------
+ hw/intc/arm_gicv3_common.c         | 56 +++++++++++++++++++-----------
+ hw/intc/arm_gicv3_kvm.c            | 10 ++----
+ hw/intc/arm_gicv3_redist.c         | 40 +++++++++++----------
+ 5 files changed, 73 insertions(+), 59 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.20.1
 
 
