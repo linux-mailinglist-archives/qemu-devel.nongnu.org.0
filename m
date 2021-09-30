@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA3341D2D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 07:48:21 +0200 (CEST)
-Received: from localhost ([::1]:50822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D7941D2EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 07:56:33 +0200 (CEST)
+Received: from localhost ([::1]:42026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVovc-0004J9-MH
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 01:48:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47252)
+	id 1mVp3W-0000cQ-Pt
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 01:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVos6-0000yZ-N6; Thu, 30 Sep 2021 01:44:42 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:48983)
+ id 1mVos6-0000xh-8o; Thu, 30 Sep 2021 01:44:42 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:37099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVos4-0003Qd-34; Thu, 30 Sep 2021 01:44:41 -0400
+ id 1mVos4-0003R0-Lp; Thu, 30 Sep 2021 01:44:42 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HKhyR0Sctz4xbV; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
+ id 4HKhyR0g6Qz4xbQ; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632980671;
- bh=S9GGjdmwiCarkNlSuYdMzWNZxvjfdSdcf/aQWNQYdSk=;
+ bh=2p30RpvvRdORiiZEMhXoxFuuS3myQ6w/elWyJ7r4SNw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=l3rIKSiwRiy34ywzD0FvJ+B9t/GCYx8+ys0NG2FpN4nRwxkJMMi0a6CYAeVXl+ukr
- KVTQzPbOR1II+mzaOqv8uPBFxlKO1Ts2OM+cKe+vIM4awOLJTwRIS5ivbFNZJ4kYDH
- ASyLLY4Rm7IC5yeELLw2T6lX4EyKapo/7F8qcirQ=
+ b=GxFSuHpwzh4bnOEqWH1K45oIQ739sYdrrsZEXnMHyCImbIR48zss/mFA/sD9nqIun
+ UHiBndnUw02cn8e3g4FZuGWxlKqmv+i5qi2Tchat2TkXCwlVd4zhO7Xj9J8cdmlCPF
+ v87pk0dQc0ws8hgWolrZ5nDDJzNhax6sZphXIYjQ=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/44] ppc/spapr: Add a POWER10 DD2 CPU
-Date: Thu, 30 Sep 2021 15:43:47 +1000
-Message-Id: <20210930054426.357344-6-david@gibson.dropbear.id.au>
+Subject: [PULL 07/44] ppc/pnv: Remove useless variable
+Date: Thu, 30 Sep 2021 15:43:49 +1000
+Message-Id: <20210930054426.357344-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210930054426.357344-1-david@gibson.dropbear.id.au>
 References: <20210930054426.357344-1-david@gibson.dropbear.id.au>
@@ -66,25 +66,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Cédric Le Goater <clg@kaod.org>
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20210901094153.227671-3-clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20210901094153.227671-5-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_cpu_core.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/ppc/pnv.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index 4f316a6f9d..58e7341cb7 100644
---- a/hw/ppc/spapr_cpu_core.c
-+++ b/hw/ppc/spapr_cpu_core.c
-@@ -382,6 +382,7 @@ static const TypeInfo spapr_cpu_core_type_infos[] = {
-     DEFINE_SPAPR_CPU_CORE_TYPE("power9_v1.0"),
-     DEFINE_SPAPR_CPU_CORE_TYPE("power9_v2.0"),
-     DEFINE_SPAPR_CPU_CORE_TYPE("power10_v1.0"),
-+    DEFINE_SPAPR_CPU_CORE_TYPE("power10_v2.0"),
- #ifdef CONFIG_KVM
-     DEFINE_SPAPR_CPU_CORE_TYPE("host"),
- #endif
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 2f5358b70c..a62e90b15e 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -838,8 +838,7 @@ static void pnv_init(MachineState *machine)
+     for (i = 0; i < pnv->num_chips; i++) {
+         char chip_name[32];
+         Object *chip = OBJECT(qdev_new(chip_typename));
+-        int chip_id = i;
+-        uint64_t chip_ram_size =  pnv_chip_get_ram_size(pnv, chip_id);
++        uint64_t chip_ram_size =  pnv_chip_get_ram_size(pnv, i);
+ 
+         pnv->chips[i] = PNV_CHIP(chip);
+ 
+@@ -850,9 +849,9 @@ static void pnv_init(MachineState *machine)
+                                 &error_fatal);
+         chip_ram_start += chip_ram_size;
+ 
+-        snprintf(chip_name, sizeof(chip_name), "chip[%d]", chip_id);
++        snprintf(chip_name, sizeof(chip_name), "chip[%d]", i);
+         object_property_add_child(OBJECT(pnv), chip_name, chip);
+-        object_property_set_int(chip, "chip-id", chip_id, &error_fatal);
++        object_property_set_int(chip, "chip-id", i, &error_fatal);
+         object_property_set_int(chip, "nr-cores", machine->smp.cores,
+                                 &error_fatal);
+         object_property_set_int(chip, "nr-threads", machine->smp.threads,
 -- 
 2.31.1
 
