@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF5B41E155
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 20:39:18 +0200 (CEST)
-Received: from localhost ([::1]:40394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DCF641E1D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 20:57:19 +0200 (CEST)
+Received: from localhost ([::1]:50460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mW0xg-0006sf-QN
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 14:39:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56826)
+	id 1mW1F8-0005o1-KC
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 14:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mW0wF-00060v-Ru
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 14:37:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mW0wA-0000Ux-R7
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 14:37:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633027060;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e+9XnuSK0Z5tuWIgc2XClN+ybyTmXcrEtQGSmVKFXqg=;
- b=TmdzeOkMFYI1CU8RJrdXOR896NgKiUBmf7X7o67vUAtIgihQL036xhYpjnSLBjvZfvkJGO
- ykLaMuOVDM6UGWwX2WK5ZeM/VKyPZfo4m1CmX+PEhdT7V1P31t4uG3Z/v3qRl+QRurORoA
- svwWgP2VTeCAUqLqcFTfgi91GEuvttA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-svWf7UQ9OQSITBNuDtwLwg-1; Thu, 30 Sep 2021 14:37:38 -0400
-X-MC-Unique: svWf7UQ9OQSITBNuDtwLwg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F02199126D;
- Thu, 30 Sep 2021 18:37:36 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C50135F4E8;
- Thu, 30 Sep 2021 18:37:28 +0000 (UTC)
-Date: Thu, 30 Sep 2021 19:37:27 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Willian Rampazzo <wrampazz@redhat.com>
-Subject: Re: [PATCH v3] nbd/server: Add --selinux-label option
-Message-ID: <20210930183727.GD3361@redhat.com>
-References: <20210930084701.3899578-1-rjones@redhat.com>
- <c9a4f4ce-b626-18a4-326a-03ebfe5b5aee@virtuozzo.com>
- <CAKJDGDbtCp-aecYPs-4zK4dojo=uhez=_T2iL2yKx08guuXKbA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mW1AU-0001A2-5K
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 14:52:30 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:40697)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mW1AS-0004Ig-HT
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 14:52:29 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ t16-20020a1c7710000000b003049690d882so9229488wmi.5
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 11:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oG6TVt+wB88HQe8ymLyRe+a+mn+8WXfFfSxHmdkgTdU=;
+ b=yPMM7GTT5lCViQrqJNMiTpDdICwf4nX6pbP34KHZY8qTtn2egF/FkmY+OAkl5VklgB
+ afeO0C3ZwpWS83J5IwHcF4PMEhtRxqtlOtmboCokdMZVjtkQC0snv6LmBnJNNq99OjVY
+ 3xQLiQtMxqs/5QWSeBCZdSB248KjxDwX+evTvXHjWk1XcUX3TXQ9oqY8p5fgxiJ3JB9u
+ pOs09IqfNZkHsCARBO0YV0w68eVCJi+va/WlXLEH5NwAXMHoeYo8E5AxdqEsnOq8Bn4A
+ RXEEZgptaSqRxpCxKT5WfLT49f4vp5PYhDFOlR8C7p8BRemyuCqdA5Q2JawVP3LkpVD7
+ QeIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oG6TVt+wB88HQe8ymLyRe+a+mn+8WXfFfSxHmdkgTdU=;
+ b=E3aHi232SQa+mPRm53162YshR45TqItH8QoJhINy5zqwo4TdMjmKFhUofvsmA1BBwp
+ ExoWd7Hnm2dhse+WfaiWBheKcVbTNZrolPm4/FEHfT5JMltrPjNPZEfeQRWIMkXoWI8F
+ Y4j8dfGwB2eBWn7TQADw4WGkLAd16sU/OAezFcSjsV2MwFoeyhs20hBnAeU56NCQ5ZES
+ KW+LCztEfsIji25R5t1D4r28EUq53V79MrfdPFjDs4ER/eOViyTXEeb5uYFBk5lXrdbl
+ SfFhLwXTPRxKhqtDjGmSR+/9e9p7do93hpmV16b1ID/piBr/BYAhAGXlBgOqSLPz41v0
+ KX7g==
+X-Gm-Message-State: AOAM531wIMLEXRg/2Xpw2Xop9y9d7FevVFlaxNottqd6qRl/g2K10xyR
+ EYxdLWaFzpDHc+U00F/5cFp9Cg==
+X-Google-Smtp-Source: ABdhPJw6WJyoc3Ex5W8OoqUqjqPXoGEGndN91bj9avwjzNNfEpZ1FBLC4lwb+wW7eHqZc6Ry4Me0hw==
+X-Received: by 2002:a7b:c74d:: with SMTP id w13mr794513wmk.11.1633027946061;
+ Thu, 30 Sep 2021 11:52:26 -0700 (PDT)
+Received: from localhost.localdomain
+ (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id l124sm5487151wml.8.2021.09.30.11.52.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Sep 2021 11:52:25 -0700 (PDT)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: eric.auger@redhat.com
+Subject: [PATCH 0/3] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
+Date: Thu, 30 Sep 2021 19:50:48 +0100
+Message-Id: <20210930185050.262759-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <CAKJDGDbtCp-aecYPs-4zK4dojo=uhez=_T2iL2yKx08guuXKbA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,66 +82,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
- Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Wainer Moschetta <wainersm@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-devel@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 30, 2021 at 02:00:11PM -0300, Willian Rampazzo wrote:
-> On Thu, Sep 30, 2021 at 5:55 AM Vladimir Sementsov-Ogievskiy
-> <vsementsov@virtuozzo.com> wrote:
-> >
-> > 9/30/21 11:47, Richard W.M. Jones wrote:
-> > > Under SELinux, Unix domain sockets have two labels.  One is on the
-> > > disk and can be set with commands such as chcon(1).  There is a
-> > > different label stored in memory (called the process label).  This can
-> > > only be set by the process creating the socket.  When using SELinux +
-> > > SVirt and wanting qemu to be able to connect to a qemu-nbd instance,
-> > > you must set both labels correctly first.
-> > >
-> > > For qemu-nbd the options to set the second label are awkward.  You can
-> > > create the socket in a wrapper program and then exec into qemu-nbd.
-> > > Or you could try something with LD_PRELOAD.
-> > >
-> > > This commit adds the ability to set the label straightforwardly on the
-> > > command line, via the new --selinux-label flag.  (The name of the flag
-> > > is the same as the equivalent nbdkit option.)
-> > >
-> > > A worked example showing how to use the new option can be found in
-> > > this bug: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
-> > >
-> > > Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1984938
-> > > Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
-> > > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> > > Signed-off-by: Eric Blake <eblake@redhat.com>
-> >
-> > this should be Reviewed-by?
-> 
-> Maybe, because of this:
-> https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg07081.html
-> 
-> I got confused with this v3.
+Replace the VIRTIO_IOMMU_F_BYPASS feature with
+VIRTIO_IOMMU_F_BYPASS_CONFIG, which enables a config space bit to switch
+global bypass on and off.
 
-Yes, I'd somehow lost the original patch and picked it up from Eric's
-queue to make v3.
+Add a boot-bypass option, which defaults to 'on' to be in line with
+other vIOMMUs and to allow running firmware/bootloader that are unaware
+of the IOMMU.
 
-Having said that I'm not sure what the objection above means.  Do you
-mean Eric's tag should be Reviewed-by instead of S-o-b?  (And why?)
+See the spec change for more rationale
+https://lists.oasis-open.org/archives/virtio-dev/202109/msg00137.html
 
-Rich.
+Jean-Philippe Brucker (3):
+  NOMERGE: virtio-iommu: Add definitions for
+    VIRTIO_IOMMU_F_BYPASS_CONFIG
+  virtio-iommu: Default to bypass during boot
+  virtio-iommu: Support bypass domain
+
+ include/hw/virtio/virtio-iommu.h              |  1 +
+ include/standard-headers/linux/virtio_iommu.h | 10 +++-
+ hw/virtio/virtio-iommu.c                      | 60 ++++++++++++++++---
+ hw/virtio/trace-events                        |  4 +-
+ 4 files changed, 64 insertions(+), 11 deletions(-)
 
 -- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-df lists disk usage of guests without needing to install any
-software inside the virtual machine.  Supports Linux and Windows.
-http://people.redhat.com/~rjones/virt-df/
+2.33.0
 
 
