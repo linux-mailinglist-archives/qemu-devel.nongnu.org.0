@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A6041DDC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:41:57 +0200 (CEST)
-Received: from localhost ([::1]:34422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3BA41DDF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:50:17 +0200 (CEST)
+Received: from localhost ([::1]:56432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVyC4-0004CM-Ge
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33232)
+	id 1mVyK7-0002HH-IL
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:50:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mVxjZ-0000Pv-8I
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:29 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37377)
+ id 1mVxk7-0001vl-7l
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:13:04 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mVxjU-000479-7k
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:27 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- r83-20020a1c4456000000b0030cfc00ca5fso8752293wma.2
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:12:21 -0700 (PDT)
+ id 1mVxk4-0004cS-T4
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:13:02 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id t8so10716942wri.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=eE5hlGewDD9+3dCoxNYhNH6vg+idFDYR6hzN8PkHQWs=;
- b=ec8cx/xWhQrIanR/T3xUeMxZtjOb7CY6RJDNOzoYhJ52L1T/ZYPeHEm3ghPSqHDCKu
- 5qHLiXEf7vN3/qKFlCimn2KhEZFlRbBIISjMP6pgn74tQEl5n7TQfphboIpHFUhaWJao
- MJqn0i1B7mwdrjeLnw/SlQp9oLUUinr0EtkVUe7r8hQem+nMLc5MKPuQlfAfF3gqLE74
- d8jHaQNFl2KtulpdE/G4KyOahxxCrTtU44V20eSXZyO3vRM+HzvGp/WSpwPzh5c8ATVV
- 0ACRkJXsXZvjoWSLSCQmQLBjT6MByx+OPtJ4/oWxp6YgRn6MCQTpzWZtzJaEegjahqx2
- 372A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=L6nrpdzxj6tcLVw+s5eJoucaIzPWccTPColLALXDHFY=;
+ b=wzX0fxHEI0O0Hipw8S95qbbVMaWdNHFJ4Bl42tpOF0vDpSXl9l7XSH3YqulMVMCL1Y
+ CnrsqNiP52a+9Ge0hoGwohz2glWEE1393tWf2EhFTE61rIqVXmTgZ+GLeV+pd+QXL1L0
+ clUWuEw0uzfJZx0/7vMzptOC37yw5/XrRwkNsY8DBgLej158dnpICNkDTPeC5ATAVASz
+ gcGB+8zQBzi0NwILxVnuYn/ORV8a5dVXrH69KBRXtupT6hqHkZNx08aP1X8ttW2wsFOA
+ 3j23XuTK7kZNOZVnnxLhjjjxDyzntqUzDCMiM2vY/hf3lyr8aiPf0NwDsx/v8QGziZ2d
+ 6+2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=eE5hlGewDD9+3dCoxNYhNH6vg+idFDYR6hzN8PkHQWs=;
- b=jipRtexkMx4kJw8mrC9ZVPx029Oed6n9ABu4QtU6qP038Hjo/zSCrzCGtyNXg8rQwt
- LGF2bRMeXg0gKmjbESqm6aktBvqdBJYq08OunXXamPhCZ+qEg4sSr8uLhvCsf2SThpFI
- /eG3zlxbRtMnh2kkWn0a20V6oQy8Dzv3K7n7L8m6fTdqwpMTeZKdtcexbXuBWmoFt6zp
- WtNIIfcaBsneuQVpr6VsL3hzDmcLaW2h4wUiB9KG8lnJ2kEvtzC4jFYAnaoSgx9NguKE
- nw2vZ4V3H64M8E3SbfnI+e22Q3jFTAIDAVy7fALF/2R7e6Kfye39VshTKMDYpfgso/ea
- bofQ==
-X-Gm-Message-State: AOAM533cCT0lBZ0BW5vrFPIFkz6wZqhCe4ezcHi4pXi7aCAvElQu3rbn
- yY8A3unX5x31h3B2OnF1N/IOfqPlRyJ24A==
-X-Google-Smtp-Source: ABdhPJzkntP1FC3gvBT6+vfY30EbRWYkyn9cG9rMjwUHIDW/Vg1O/o8OHM+cWCKJar+SD2mdqjHI+A==
-X-Received: by 2002:a1c:9a4f:: with SMTP id c76mr4037963wme.22.1633014740899; 
- Thu, 30 Sep 2021 08:12:20 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g8sm1952098wrm.46.2021.09.30.08.12.20
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 08:12:20 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 22/22] hw/arm: sabrelite: Connect SPI flash CS line to GPIO3_19
-Date: Thu, 30 Sep 2021 16:12:01 +0100
-Message-Id: <20210930151201.9407-23-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210930151201.9407-1-peter.maydell@linaro.org>
-References: <20210930151201.9407-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=L6nrpdzxj6tcLVw+s5eJoucaIzPWccTPColLALXDHFY=;
+ b=G8aqRtvlp25siNIojPnsknVg2KKqg+HPGVFz132v8/INxCRJZcnT6HS40xt7kCmgmw
+ fwZ8RTrLM1jh1dwwLYswrbHf6DvqjJ5eDCKd5OOzc6k9aM2j8/DNMhB04g9HSADAupSy
+ QlwqJYa3gtDWQMHhL3xLIN09ZXx9RwtXNxJZuu5jR3v9IDT+hwqkrloUAJd5iNTbNvOA
+ naBs19KBBaPslANtonLO1IhbJF0iCT99EitCznWuYkUd1Xe8gnAdYXZO3xcLmKUrDdcQ
+ PTFumUZ4HUOoOs8KTEXrjNn4PL6CLDmZ9cIfos9nwX1ea0d2GgvygKRpJ7gb4nyRI1lQ
+ B4YQ==
+X-Gm-Message-State: AOAM530wZ4cgj4RhWh8k1vJPb+d0OuGo3mRgMOzqiq2NiYsVh7/3VKj8
+ n/KeXFDBYM0NGGcLfiMRwV0NS5EQbWjeQ+Ahil/z+m9Tbpw=
+X-Google-Smtp-Source: ABdhPJxu14BoZgWzGOJJy7UyUgw0NBv5oR+Npuj1w/PuEQm3xnoXWb51QdHDqaUCMVBxop/pSr5ESm4KWaG1/LAJn2Q=
+X-Received: by 2002:a5d:59a4:: with SMTP id p4mr6896921wrr.149.1633014779077; 
+ Thu, 30 Sep 2021 08:12:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210929211229.4163263-1-eblake@redhat.com>
+In-Reply-To: <20210929211229.4163263-1-eblake@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 30 Sep 2021 16:12:05 +0100
+Message-ID: <CAFEAcA8u+tzZg-VhaXt9hRmOgtditxhyTGtHdH8MY9Xy_iq7aQ@mail.gmail.com>
+Subject: Re: [PULL v2 00/19] NBD patches through 2021-09-27
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,74 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+On Wed, 29 Sept 2021 at 22:13, Eric Blake <eblake@redhat.com> wrote:
+>
+> The following changes since commit 6b54a31bf7b403672a798b6443b1930ae6c74dea:
+>
+>   Merge remote-tracking branch 'remotes/jsnow-gitlab/tags/python-pull-request' into staging (2021-09-28 13:07:32 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-09-27-v2
+>
+> for you to fetch changes up to 1af7737871fb3b66036f5e520acb0a98fc2605f7:
+>
+>   block/nbd: check that received handle is valid (2021-09-29 13:46:33 -0500)
+>
+> v2: defer problematic selinux patch; sending cover letter only since
+> remaining patches are unchanged
+>
+> ----------------------------------------------------------------
+> nbd patches for 2021-09-27
+>
+> - Vladimir Sementsov-Ogievskiy: Rework coroutines of qemu NBD client
+>   to improve reconnect support
+> - Eric Blake: Relax server in regards to NBD_OPT_LIST_META_CONTEXT
+> - Vladimir Sementsov-Ogievskiy: Plumb up 64-bit bulk-zeroing support
+>   in block layer, in preparation for future NBD spec extensions
+> - Nir Soffer: Default to writeback cache in qemu-nbd
 
-The Linux spi-imx driver does not work on QEMU. The reason is that the
-state of m25p80 loops in STATE_READING_DATA state after receiving
-RDSR command, the new command is ignored. Before sending a new command,
-CS line should be pulled high to make the state of m25p80 back to IDLE.
 
-Currently the SPI flash CS line is connected to the SPI controller, but
-on the real board, it's connected to GPIO3_19. This matches the ecspi1
-device node in the board dts.
+Applied, thanks.
 
-ecspi1 node in imx6qdl-sabrelite.dtsi:
-  &ecspi1 {
-          cs-gpios = <&gpio3 19 GPIO_ACTIVE_LOW>;
-          pinctrl-names = "default";
-          pinctrl-0 = <&pinctrl_ecspi1>;
-          status = "okay";
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
+for any user-visible changes.
 
-          flash: m25p80@0 {
-                  compatible = "sst,sst25vf016b", "jedec,spi-nor";
-                  spi-max-frequency = <20000000>;
-                  reg = <0>;
-          };
-  };
-
-Should connect the SSI_GPIO_CS to GPIO3_19 when adding a spi-nor to
-spi1 on sabrelite machine.
-
-Verified this patch on Linux v5.14.
-
-Logs:
-  # echo "01234567899876543210" > test
-  # mtd_debug erase /dev/mtd0 0x0 0x1000
-  Erased 4096 bytes from address 0x00000000 in flash
-  # mtd_debug write /dev/mtdblock0 0x0 20 test
-  Copied 20 bytes from test to address 0x00000000 in flash
-  # mtd_debug read /dev/mtdblock0 0x0 20 test_out
-  Copied 20 bytes from address 0x00000000 in flash to test_out
-  # cat test_out
-  01234567899876543210#
-
-Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-Reported-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210927142825.491-1-xchengl.cn@gmail.com
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/sabrelite.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
-index 29fc777b613..553608e5835 100644
---- a/hw/arm/sabrelite.c
-+++ b/hw/arm/sabrelite.c
-@@ -87,7 +87,7 @@ static void sabrelite_init(MachineState *machine)
-                 qdev_realize_and_unref(flash_dev, BUS(spi_bus), &error_fatal);
- 
-                 cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
--                sysbus_connect_irq(SYS_BUS_DEVICE(spi_dev), 1, cs_line);
-+                qdev_connect_gpio_out(DEVICE(&s->gpio[2]), 19, cs_line);
-             }
-         }
-     }
--- 
-2.20.1
-
+-- PMM
 
