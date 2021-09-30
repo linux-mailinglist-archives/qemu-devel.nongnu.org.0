@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38AF41DEE4
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 18:23:46 +0200 (CEST)
-Received: from localhost ([::1]:45686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BA541DF29
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 18:38:45 +0200 (CEST)
+Received: from localhost ([::1]:48826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVyqX-0002m5-S9
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 12:23:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49348)
+	id 1mVz52-0007I2-3O
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 12:38:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mVyoq-0008MI-1G; Thu, 30 Sep 2021 12:22:00 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:58021)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mVyon-0001zF-Sl; Thu, 30 Sep 2021 12:21:59 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.252])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B207DC15F04F;
- Thu, 30 Sep 2021 18:21:53 +0200 (CEST)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Thu, 30 Sep
- 2021 18:21:53 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0052ccebcd3-c199-49c4-8917-22e0d282d937,
- 7F6F77616FEFA4DE1E608E9282B3397E3DBDA81F) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <1fbe4ef9-ffd1-8032-c989-4316e0acbd1a@kaod.org>
-Date: Thu, 30 Sep 2021 18:21:47 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mVz33-0005M8-VI
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 12:36:41 -0400
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:40693)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mVz32-00069Q-5y
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 12:36:41 -0400
+Received: by mail-qt1-x829.google.com with SMTP id b16so6260871qtt.7
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 09:36:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Au7CltD8wFWSoBrMPeMEqWGovf4IXtHpXSS1LcOPOUE=;
+ b=yPejOks2jlkzjUvTBfGDldbR/nxdC8TExJbDrfM4U+i1IkCPxYvuR3i7c7jkVKkXbI
+ jMy0AHTomVhkt3/11v7z+FKViJn/59mhlGKeRM86ls4yc4jvE2ExxO1WySQysqW5W0qh
+ nJc+Qwa5GLzolQyGxTdI6PuQJm0kBJX9NCO5DPdl/vcVtagHP96jTUlwv9JWZqDN6WKz
+ a1cP6+MxG8lYPS2Rkto94AU9fbQewg9u79QGvx3nAthNNy8CNtwZ6raZtmhAV2+KcZef
+ PCCX5VUsBCuF6ANGJ9eu6gi6Jve9uRMzCnuZdbxS0lJSpNCa8071ogy+2ZtvpQjcRwXk
+ EAUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Au7CltD8wFWSoBrMPeMEqWGovf4IXtHpXSS1LcOPOUE=;
+ b=lYpuZ1U8AQcMuQu7FoJSf5g4XS+sLAQFHOWta5MEWEPRXtb0wQu6+uEVrvHdJ3UOjT
+ 8W2oDVrXJeLqQB0lDMHV90owOIdUz9TDRn1QgLFtx7MdB2Q56g4tLyKDsoVbM/REIaP3
+ Tk2G+LM6qgjaSnAmSAc6anl/DXo39vzqhB0hlimH5ks6Zurkfv1ZJXqcTFTxGozB50RJ
+ wk1atWWcBXbZcSrTpuFswUE9IhcPd64t8FwGaz9RbJrA8ZEBzP00G8uWZxOv9D/CMQEk
+ Rxz/rE0SjYjodXrPZypdrz0LsZ9EgWtd9mhGNJShcvsCEzNeKqZ66lecK94d16+NMcnM
+ BceA==
+X-Gm-Message-State: AOAM531HnV0xqdMLfHM385j1ZpBN9LVyxqu2m8cn9gHras0hLcaq9637
+ wMT2XqJKU0/VE+MBaVopz7NQKPycXGhjnA==
+X-Google-Smtp-Source: ABdhPJx8UTBZxdRtj8s8v8CbJxD2oj0GPQnEnXAPfSqQ12jko57I535ZKlRjN7WVvz3mhrsrdN1cUA==
+X-Received: by 2002:ac8:5492:: with SMTP id h18mr7853601qtq.152.1633019798012; 
+ Thu, 30 Sep 2021 09:36:38 -0700 (PDT)
+Received: from localhost.localdomain (c-67-174-166-185.hsd1.ga.comcast.net.
+ [67.174.166.185])
+ by smtp.gmail.com with ESMTPSA id q8sm1855781qtl.80.2021.09.30.09.36.37
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Sep 2021 09:36:37 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] tests/docker: Fix fedora-i386-cross
+Date: Thu, 30 Sep 2021 12:36:34 -0400
+Message-Id: <20210930163636.721311-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [RFC PATCH 1/1] hw: aspeed_adc: Add initial Aspeed ADC support
-Content-Language: en-US
-To: Peter Delevoryas <pdel@fb.com>
-References: <20210930004235.1656003-1-pdel@fb.com>
- <20210930004235.1656003-2-pdel@fb.com>
- <76c9714a-4c25-27f7-7d26-c471919e8a8f@kaod.org>
- <1CD4D960-272F-4D4F-AAE8-F42C1772662A@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <1CD4D960-272F-4D4F-AAE8-F42C1772662A@fb.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c64f4836-8c07-4c22-ad0a-5b8f8b9bd289
-X-Ovh-Tracer-Id: 16438420116662684594
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudekgedgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueevledvjeetgeetfeeiveeftefffedvvdeikeetveelfeeglefgueetvdefvdefnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.127,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,82 +83,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Amithash Prasad <amithash@fb.com>,
- Cameron Esfahani via <qemu-devel@nongnu.org>,
- "patrick@stwcx.xyz" <patrick@stwcx.xyz>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, Dan Zhang <zhdaniel@fb.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
->> FYI, these series was sent by Andrew in 2017 and I have been keeping
->> it alive since in the aspeed-x.y branches :
->>
->> * memory: Support unaligned accesses on aligned-only models
->>   https://github.com/legoater/qemu/commit/1960ba6bde27b91edb5336985a9210260a4c8938
->>
->>   That was requested by Phil I think.
->>
->> * hw/adc: Add basic Aspeed ADC model
->>   https://github.com/legoater/qemu/commit/1eff7b1cf10d1777635f7d2cef8ecb441cc607c4
->>
->>   This is the initial patch. I added multi-engine support recently
->>   for the fuji.
->>
->> * hw/arm: Integrate ADC model into Aspeed SoC
->>   https://github.com/legoater/qemu/commit/3052f9d8ccdaf78b753e53574b7e8cc2ee01429f
->>
->>   That one is trivial.
->>
->>
->> Overall comments :
->>
->> I prefer the 'regs' array approach of your proposal.
-> 
-> Ok (I was just following patterns from aspeed_scu.c), I’ll keep that aspect.
-> 
->>
->> I think the AspeedADCEngine should appear as a QOM object. Check
->> the patches above.
-> 
-> I see, I’ll make sure to test this.
-
-The engines are behind the same BAR and they share the IRQ. So
-it makes sense I think. And it shows up nicely under the monitor :
-
-     ...
-     000000001e6e7000-000000001e6e7fff (prio 0, i/o): aspeed.xdma
-     000000001e6e9000-000000001e6e9fff (prio 0, i/o): aspeed.adc
-       000000001e6e9000-000000001e6e90ff (prio 0, i/o): aspeed.adc.engine.0
-       000000001e6e9100-000000001e6e91ff (prio 0, i/o): aspeed.adc.engine.1
-     000000001e700000-000000001e700fff (prio -1000, i/o): aspeed.video
-     ...
+The meson + pkg-config probing issues came up wrt a recent
+NBD pull request at the same time as I am trying to reproduce
+a gitlab-ci failure with fedora-i386-cross, and ran into 
+something apparently related.
 
 
-     /adc (aspeed.adc-ast2600)
-       /aspeed.adc[0] (memory-region)
-       /engine[0] (aspeed.adc.engine)
-         /aspeed.adc.engine.0[0] (memory-region)
-       /engine[1] (aspeed.adc.engine)
-         /aspeed.adc.engine.1[0] (memory-region)
-       /unnamed-gpio-in[0] (irq)
-       /unnamed-gpio-in[1] (irq)
+r~
 
 
->> To move on, maybe, you could rework the initial series and take
->> ownership ?
->>
-> 
-> Yeah definitely! I’ll resubmit once I’ve reworked it. I don’t intend
-> to include the unaligned-access support though, at least not w/ the ADC
-> changes.
+Richard Henderson (2):
+  tests/docker: Remove fedora-i386-cross from DOCKER_PARTIAL_IMAGES
+  tests/docker: Fix fedora-i386-cross
 
-Yeah. This can come later.
+ tests/docker/Makefile.include                     | 2 +-
+ tests/docker/dockerfiles/fedora-i386-cross.docker | 5 +++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-Thanks,
-
-C.
+-- 
+2.25.1
 
 
