@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CDB41DB6C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:47:56 +0200 (CEST)
-Received: from localhost ([::1]:39336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F7241DB7F
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:51:24 +0200 (CEST)
+Received: from localhost ([::1]:45880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVwPk-0001WA-1R
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:47:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36420)
+	id 1mVwT5-00062G-Jx
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:51:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVwBM-00084Y-5c
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:33:04 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:55260)
+ id 1mVwBO-00086M-1t
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:33:11 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVwBJ-0005DR-Sr
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:33:03 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id s24so4691648wmh.4
+ id 1mVwBK-0005E3-BH
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:33:04 -0400
+Received: by mail-wm1-x336.google.com with SMTP id b192so4698852wmb.2
  for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 06:33:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZldbnCdugQGK5VNaU/g/0ED4l/N93hoQAw50o2LtEUM=;
- b=TcgTnnA4pJecOJ/1BIZ5q4h7ySFF54iIpsvkDpol6iiDJaXFp9Mq4J9F33kaH4EANh
- qzwVWKJU0mGPHaem9N06Xk33VB8gPCiwsAAc62/vVYpm5JOWGifbRdNtsECIl8iIcv+X
- usnnFi6MT8WazKr0PTfAxoEzFx9g/SHcFG/Onb6smOxBHkclf7B/cKi2Tf+NcGLmhclu
- oQAnCihG2bKzZ4zPDlo/PuXcZWFawJQd1IlmoB8sKtUAfqa2ViBbJ+u5KkBUY2ifV25o
- LmTeBXf5ENFTNFHqJ73jJWu+sWfTSYnyAwGqVUqloUYTUdlEFz5ZSl/3FooHyITzPZC6
- Dr+A==
+ bh=BBHBXq8Ru5s+ypJN2TXJKrG3+TagSinMXkrtblxPDYw=;
+ b=MuqEC7ADWIydIie9+zHF4BxmwZBBaFTDUNZckPxCGh0GlkefILwa/TSktcrlaAItNZ
+ IwbfDmesFqWZ6lBhMqwsQMR5hBCsKlrnGCj0LQqatz8f2olNHlcvX3oK8V8AMJqRSHJF
+ 6GZX1DB5kXzXUi1NNRcIOkTRfBw81aX3vb8nEWLKq/RjYhtA0rHlUYTOIdWU/oajOf6f
+ 63tLRSsmFMchxHSlBcndf+LhQpc7IKKbyijgkYG1ftbKJKvL2OO4z65Cp/aRaU2GOQGR
+ UoR/ljfjXrmhNenCG+CBPaXmaKZN3eZu7aVrEjQLZhkIazlaX1/17rndeGFudtqOACjL
+ eLiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZldbnCdugQGK5VNaU/g/0ED4l/N93hoQAw50o2LtEUM=;
- b=e51WFCZ3h8zjGiDVcKN0rIj/iUDDWj5ix/QBMTlCgSGzHJT8L9TQa9zv6gPh4TpF7v
- HdtOR+dWAlj9FtI/zIKYluzD4ph24/mZFrXOxR3VPd2zFh0fvgEuPxbRQ3pFMghl1W89
- BRFb935Jtiszqv1OitANTvOGE/KlWWmL4q7itfPemrLJbuw+G6zDB0VrHXCCLK3dXbhR
- z2OixBZKFzdsR3a55cQVwuNYKkh5+ROPU2pahT715m+l/sXW3WYNu+DLihS1wwMEF0x8
- vVaqJevvL+XW4b6cUwULLhuLIakPh66i/RhKyN36HahdfWYbo/YIlqyE7vqGy6WRE0tT
- gbAg==
-X-Gm-Message-State: AOAM533hJZOQSJKsHxpqG/Kz4nXJkNvhM6SZ7qzUsCL1kBEpvO2OxXqF
- cF6cQmtiqbnym0PkRzZVogm23jkxVoo=
-X-Google-Smtp-Source: ABdhPJx39LKVnwzcnFRRJYbGdXfKS58ZyJXKgA5i3L7MF9yPFcCklrxg6ioOVesX3XGF9iqfMu+Pog==
-X-Received: by 2002:a7b:c048:: with SMTP id u8mr5289674wmc.113.1633008780458; 
- Thu, 30 Sep 2021 06:33:00 -0700 (PDT)
+ bh=BBHBXq8Ru5s+ypJN2TXJKrG3+TagSinMXkrtblxPDYw=;
+ b=r+rD30xYNDrgmkwIHcgx4qCEfqCFpxDMwDyFbDhoTDb2ActlJSr1Jiz6yr1WyjWIBG
+ LthqLFKP0+9Ck0TzSF2cLNYgUqX1GopT2rOXcwgKvy95MkCkDJsY5tgjbdypNw/Plkuu
+ B7W7LePgMh906LGwvaoTNdKRmggMm/uv+8QFZFo8E4YTna1mvN+VdhXybS2FJkgczeUd
+ in/fAIDe4Ld0sv/Y5uTMXJciDfZQFpf80v4JOV6zcieQychKRpg9lycRF5G3AsFvFBwI
+ GNSdbXPEGV9SQ8fhlytCU7S8OxOyU0R9nNBeC+9mb4wOQ4JppinpF43AylRj6Bpj3gvg
+ 39cQ==
+X-Gm-Message-State: AOAM531FmVQjCVdEXdkl8iiWMULtXeU3UbQLmP13u4g28ZHeCirB20A/
+ crrhTHgZn8LlRaIUuMvxBEnYbc6hf2Q=
+X-Google-Smtp-Source: ABdhPJyZfSuEDy+wSUNhmIYQKlS55IPE/kQk6CBr+E+pHRsRghBdpa3s/7GxkkGn3Tu/GB1+GskUIw==
+X-Received: by 2002:a1c:1f0d:: with SMTP id f13mr5414527wmf.25.1633008781053; 
+ Thu, 30 Sep 2021 06:33:01 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c4sm3037168wrt.23.2021.09.30.06.32.59
+ by smtp.gmail.com with ESMTPSA id c4sm3037168wrt.23.2021.09.30.06.33.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 30 Sep 2021 06:33:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] docs: move notes inside the body of the document
-Date: Thu, 30 Sep 2021 15:32:45 +0200
-Message-Id: <20210930133250.181156-3-pbonzini@redhat.com>
+Subject: [PATCH 3/7] docs: put "make" information together in build-system.rst
+Date: Thu, 30 Sep 2021 15:32:46 +0200
+Message-Id: <20210930133250.181156-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210930133250.181156-1-pbonzini@redhat.com>
 References: <20210930133250.181156-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,44 +87,47 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make all documents start with a heading.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/multi-process.rst | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ docs/devel/build-system.rst | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/docs/devel/multi-process.rst b/docs/devel/multi-process.rst
-index 69699329d6..e5758a79ab 100644
---- a/docs/devel/multi-process.rst
-+++ b/docs/devel/multi-process.rst
-@@ -1,15 +1,17 @@
--This is the design document for multi-process QEMU. It does not
--necessarily reflect the status of the current implementation, which
--may lack features or be considerably different from what is described
--in this document. This document is still useful as a description of
--the goals and general direction of this feature.
--
--Please refer to the following wiki for latest details:
--https://wiki.qemu.org/Features/MultiProcessQEMU
--
- Multi-process QEMU
- ===================
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 3baec158f2..0f636d620e 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -380,6 +380,16 @@ phony target, while benchmarks are run with ``make bench``.  Meson test
+ suites such as ``unit`` can be ran with ``make check-unit`` too.  It is also
+ possible to run tests defined in meson.build with ``meson test``.
  
-+.. note::
++Useful make targets
++-------------------
 +
-+  This is the design document for multi-process QEMU. It does not
-+  necessarily reflect the status of the current implementation, which
-+  may lack features or be considerably different from what is described
-+  in this document. This document is still useful as a description of
-+  the goals and general direction of this feature.
++``help``
++  Print a help message for the most common build targets.
 +
-+  Please refer to the following wiki for latest details:
-+  https://wiki.qemu.org/Features/MultiProcessQEMU
++``print-VAR``
++  Print the value of the variable VAR. Useful for debugging the build
++  system.
 +
- QEMU is often used as the hypervisor for virtual machines running in the
- Oracle cloud. Since one of the advantages of cloud computing is the
- ability to run many VMs from different tenants in the same cloud
+ Important files for the build system
+ ====================================
+ 
+@@ -473,14 +483,3 @@ Built by Makefile:
+   meson.build.  The rules are produced from Meson's JSON description of
+   tests (obtained with "meson introspect --tests") through the script
+   scripts/mtest2make.py.
+-
+-
+-Useful make targets
+--------------------
+-
+-``help``
+-  Print a help message for the most common build targets.
+-
+-``print-VAR``
+-  Print the value of the variable VAR. Useful for debugging the build
+-  system.
 -- 
 2.31.1
 
