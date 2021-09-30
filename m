@@ -2,82 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500FA41D101
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 03:37:23 +0200 (CEST)
-Received: from localhost ([::1]:58686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5973741D161
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 04:25:50 +0200 (CEST)
+Received: from localhost ([::1]:35922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVl0j-0002K7-Qx
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 21:37:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45450)
+	id 1mVllc-00019G-R5
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 22:25:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1mVkzS-0000yN-O0
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 21:36:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.151.124]:23786)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mVlhh-0000JV-Om
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 22:21:45 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:59863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1mVkzP-0007Io-RR
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 21:36:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632965758;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=z6CdZQot7e/jv3+B8tEHsn/M6uEaMYq7urNvl4MElY4=;
- b=LW4HYmnK3aykg8BXaqEdzgPQuTL7JwwPe07+oYzYx6J6gkp2tjBH3SAEl7RxN1O/qZDj+e
- 4lVJHyPAXmaI+JuNbrCHBvU4KZ/bCOaN4NAoETlwMMRBc/IDOgfhSry+xZcZel43EEOItE
- mTJ+kDiI0vPgdBgyw3zGwS1hjONDRSM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-EsNaNnH4OwG_HM8G0GL9eA-1; Wed, 29 Sep 2021 21:35:54 -0400
-X-MC-Unique: EsNaNnH4OwG_HM8G0GL9eA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- j26-20020a508a9a000000b003da84aaa5c5so4439941edj.11
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 18:35:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z6CdZQot7e/jv3+B8tEHsn/M6uEaMYq7urNvl4MElY4=;
- b=QdsKZRF0tf4qMWKxdhTckLgXAmCvdanbfre+dQtJ5pMXANZST9/AhWW/vylm5LLTsu
- UAEikDbDxXBKN1ue9qNbr+GSNFfVkaSTyVafC2dGaX+Q05JhOv9mE0imLuJTfGrc4gFL
- 59kKBNtR+hSQEnrU7LHZC/OpOnQ67CPJoWtGlS7Ix7LbW+hGhPoGmSG5t6jXpvT5vhiO
- rs/4yAs4os/RisY1f9Jp+WJ7/w1lL4zs/DF+szlyItkoGjjFHz3Qw+FTOPmrLuBiS/Bi
- aN7sVvRZ7guiEHvxr83Wz8by0cmUZmAF155IH7W7MCHe8ueEOtcMPGRHJ+4X+gDNUgOj
- p2bw==
-X-Gm-Message-State: AOAM533b1Sj/l6hMemtb5tO08/g7fudzGFcblE5s4ySeF4fwTVxdY89U
- Tu0riDaYwDJ6N5dq36mBfUaWEuRjNXIMTmCTt6EBx3e0QfwvAQsbhOYM2w/0iwITv4DiNBXX1I0
- zssZPaEzpcJtt5FETFQnNyuJzEW7+JF4=
-X-Received: by 2002:a17:906:318b:: with SMTP id
- 11mr3750257ejy.493.1632965753452; 
- Wed, 29 Sep 2021 18:35:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZZiP8A83jxNXNTPKzh8/cYK3ghUOF8QFtK84yGgZ90k6k19hQmpOGbCZ3gwXGQchLfkm6rNrOFedVYV8vx6A=
-X-Received: by 2002:a17:906:318b:: with SMTP id
- 11mr3750242ejy.493.1632965753232; 
- Wed, 29 Sep 2021 18:35:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mVlhd-0003tv-TR
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 22:21:45 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4HKcSH3WX8z4xbL; Thu, 30 Sep 2021 12:21:35 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1632968495;
+ bh=R78Ol/y5p4PLdUebkhLKoRGxGuj3QSW85i/94IZMFdI=;
+ h=Date:From:To:Cc:Subject:From;
+ b=XYX23teguW0OBXGb52/0POy58bRGgsRGVvICsHL5g0jNli4rGHhtCj+Bk4SPW3n7L
+ v+PtI8gn+qTDdrGr44cdvJ3FuCT2cB0kORzxiDBQBYTHfz9aQIW75Ee79oNBn+CPVS
+ gi7kmNVgvzAWzLRohrIdUtSCoNtlLB7hCejAy10o=
+Date: Thu, 30 Sep 2021 11:59:42 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-devel@nongnu.org
+Subject: Rust in Qemu BoF followup 2: Rust toolchain availability
+Message-ID: <YVUaDrf5BXPkZu5r@yekko>
 MIME-Version: 1.0
-References: <20210929065215.21549-1-lulu@redhat.com>
- <8566c96d-5a61-fec7-f898-e5ac0937fd06@msgid.tls.msk.ru>
- <CACLfguUZ-JrcGenNecUZkaXf7upRiih73QPkhxN+fPKFaEpL8A@mail.gmail.com>
- <20210929093513-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20210929093513-mutt-send-email-mst@kernel.org>
-From: Cindy Lu <lulu@redhat.com>
-Date: Thu, 30 Sep 2021 09:35:15 +0800
-Message-ID: <CACLfguVsjZbDo0JXMHJeNSusOyimajOABBG66T6tm32QN=ihEw@mail.gmail.com>
-Subject: Re: [PATCH] virtio-net : Add check for VIRTIO_NET_F_MAC
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.151.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="9AG8NhoFAXVqazJS"
+Content-Disposition: inline
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,56 +57,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, mjt@tls.msk.ru,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-stable@nongnu.org
+Cc: peter.maydell@linaro.org, berrange@redhat.com, slp@redhat.com,
+ cohuck@redhat.com, richard.henderson@linaro.org, f4bug@amsat.org,
+ emaste@freebsd.org, hreitz@redhat.com, stefanha@redhat.com,
+ marcandre.lureau@redhat.com, pbonzini@redhat.com, brad@comstyle.com,
+ alex.bennee@linaro.org, imp@bsdimp.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 29, 2021 at 9:36 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Wed, Sep 29, 2021 at 08:08:40PM +0800, Cindy Lu wrote:
-> > On Wed, Sep 29, 2021 at 6:07 PM Michael Tokarev <mjt@tls.msk.ru> wrote:
-> > >
-> > > 29.09.2021 09:52, Cindy Lu wrote:
-> > > > For vdpa device, if the host support VIRTIO_NET_F_MAC
-> > > > we need to read the mac address from hardware, so need
-> > > > to check this bit, the logic is
-> > > > 1 if the host support VIRTIO_NET_F_MAC and the mac address
-> > > >     is correct, qemu will use the mac address in hardware
-> > > > 2.if the host not support , qemu will use the mac from cmdline
-> > >
-> > > So if hw supports NET_F_MAC, cmdline-provided parameter will
-> > > silently be ignored?
-> > >
-> > yes, this is based on the virtio spec, you can check this document in
-> > 5.1.5 Device Initialization
-> > https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html
->
-> Maybe use the hw mac if mac is not provided? If provided
-> make sure the command line matches the hardware, and fail
-> otherwise?
->
 
-so here come to the final question. which mac address has the higher priority?
-I think the NET_F_MAC bit means the hw mac address > command-line address.
-if the hw drivers want to change this. they can simply remove this bit.
+--9AG8NhoFAXVqazJS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi again all,
 
-> > Also, this check it only working for vdpa device
-> > > s/host not support/host does not support this feature/
-> > Thanks , will fix this
-> > >
-> > > > 3.if the cmdline not provide mac address, qemu will use radam mac
-> > > > address
-> > >
-> > > s/not/does not/
-> > > s/radam/random/
-> > >
-> > thanks, will fix this
-> > > Thanks,
-> > >
-> > > /mjt
-> > >
->
+I've now done.. or at least started... the second part of my followup
+=66rom the KVM Forum BoF on Rust in Qemu.
 
+I've extended the page at https://wiki.qemu.org/RustInQemu with
+information on Rust toolchain availability.  However, I found I had a
+lot more open questions on this one, so there are quite a lot of gaps.
+
+In particular:
+ * I haven't so far figured out how to definitively check package
+   information for RHEL & SLES (they're not covered by repology, and
+   RHEL module structure confuses me, even as a RedHatter)
+ * I'm not at all sure what criteria to use to consider something as
+   having "good enough" rustup support, so that information is all
+   blank so far
+ * I've taken a bit of a stab in the dark about what Rust version is
+   recent enough for our purposes (1.31.0).  I strongly suspect we're
+   going to want to move that to something more recent, but I don't
+   know what, which will mean revising a bunch of stuff
+ * I'm not really convinced that the way I've formatted it is
+    particularly good, but I haven't though of a better alternative.
+
+Contributions to improving this would be most welcomed.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--9AG8NhoFAXVqazJS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFVGgwACgkQbDjKyiDZ
+s5LoIA/+IPF9FqGbed+Qy5nQeLplSZphOpQkkIb07/g98vYOolv+MEjFMbRo7wrj
+aXHvXHXlvdOoHrt0gZNA+gFcHDkWufx8cnAKx5yKUHTaU71L2O8w7d/P8no74IVQ
+xuYSNSsrzkGJ5A6+V/XscnNUWHuRUxHkCcxlvY7zqRzyjPfOPxeCYYROEOVg5QxS
+aBSL7nP01l2+88IxthZNQsDY9tittTPkDlZiTjSnO9WVpk6JKvazsTsyECsq2hs6
+9DuhkeV9mReumExy11opJIhc0wJcyUYIkDgHtsR9DykNTiMHZN/06FtxjShO4Gic
+AKVWoR/DvSNRlBsiFJM/NwDTJlPiaV3fDyioOj942cLhgm+3jzKUxATelYSoBXkw
+ffkQ5Z8SLZNktjjPTa0NOmPcU7EahaAfq0zNTttmBW79Jl16SpUb/B664Vws6kTc
+GLS8HIHLYMDS+f9QqpZDp3zb0xSe6A+qtDndB/6oikoDK19ZCc08Xox3O02YYVT+
+qMLGkKSGlGaYxXZL6dRDYWQUlDGpYaUuFSKfZufeuHHAtT8umekCo2f1VL1/at7i
+JP8SbFhnFBaUK/wwvW8b8SJfmqklR3dZ7NCJxtQaHr13ML6HckYiIccw6ip9Q32A
+up7L/7v7+275NYXeN+mPQLxtMc5LqBbWX44PsInWQjpOsMbe3CM=
+=d0CD
+-----END PGP SIGNATURE-----
+
+--9AG8NhoFAXVqazJS--
 
