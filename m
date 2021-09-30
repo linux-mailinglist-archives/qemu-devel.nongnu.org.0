@@ -2,85 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC3E41D820
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 12:53:56 +0200 (CEST)
-Received: from localhost ([::1]:58350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7E7741D920
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 13:53:53 +0200 (CEST)
+Received: from localhost ([::1]:50412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVthL-0004Qh-Cp
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 06:53:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52722)
+	id 1mVudM-0002xM-Cy
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 07:53:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mVtg3-0003c7-A2
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 06:52:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56653)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1mVucF-0002Dd-SR
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 07:52:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mVtg1-00007h-4s
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 06:52:35 -0400
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1mVucD-00034E-MI
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 07:52:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632999151;
+ s=mimecast20190719; t=1633002760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RwHY83yLnKOARk2ADkAxs/oPMfJa/fRmQXGPm6qpoNA=;
- b=NRlSqVU5z60DNZPTkpF6OPZsOzE124wpNTiP2WYeeLjeaDHMfGOdn/BkFKJi+Lka1CPTF+
- P0t65prm2GxPYh0rR3DaKOv0HuFxHQedCSKKxWCegQSg+1R08LUdL43HM/hGA06kcR/7u+
- msjXErNzxf8dtZjpxJRjfdrIO5trAoU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-R6fkzsT5OKKP0g_HGtI3FA-1; Thu, 30 Sep 2021 06:52:27 -0400
-X-MC-Unique: R6fkzsT5OKKP0g_HGtI3FA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- 14-20020a508e4e000000b003d84544f33eso5862609edx.2
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 03:52:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=RwHY83yLnKOARk2ADkAxs/oPMfJa/fRmQXGPm6qpoNA=;
- b=tDLqkLWBqVlacsnsE43GGz2GvKBsutkoCJA6qxDu8sx+0IDEZ9dCdnQUHf2V71FByM
- YFgP/agrVo0E78RXBQv7qnKYrK2WoC+J34xhu/K41bd2/ghe0wRCOaldGwJUg7AJUnpd
- gBTResUTeQQx843cff8YaARo2h0chuz08pLWzITp4ccrD6q2Py0+5kNLtbyAhFjIaIty
- X/BT/nOLvc/ebFR/XvvjO9BCOnTwI2IVjXiwuN+vaE7CGiKungYAfzEwO6lIP2nHygVh
- 4a5P3wXHtnMJHzXSToY8z+0IAA+VmuEpnN/xv/CeUjg4aejl9Pv6nd7UvaRertBRwQyf
- eL/w==
-X-Gm-Message-State: AOAM533PaYrlzywMRuEe0SNDkHwPgOZaz0+0w+aKJsXLc2xVa89o0Hf0
- yE9WRYL4YyUDPHuvkidoG1Fh/yOkDqTUliHb1t5025Wypz2TjzuclheVIZA7GboNapLLLTG9Hbf
- B17/An0NERnP54EU=
-X-Received: by 2002:a50:d987:: with SMTP id w7mr6207364edj.240.1632999146219; 
- Thu, 30 Sep 2021 03:52:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzf8eMxWpCzYYnHzJSzHJgO+gXUL9X+XsD76jzy/ab6E3+F1DnhE29sbPFU4cCDUPDo3RcUbg==
-X-Received: by 2002:a50:d987:: with SMTP id w7mr6207332edj.240.1632999145958; 
- Thu, 30 Sep 2021 03:52:25 -0700 (PDT)
-Received: from redhat.com ([2.55.134.220])
- by smtp.gmail.com with ESMTPSA id h18sm1271972ejt.29.2021.09.30.03.52.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 03:52:24 -0700 (PDT)
-Date: Thu, 30 Sep 2021 06:52:21 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PULL 1/5] hw/pcie-root-port: Fix hotplug for PCI devices
- requiring IO
-Message-ID: <20210930065118-mutt-send-email-mst@kernel.org>
-References: <20210803205043.165034-1-mst@redhat.com>
- <20210803205043.165034-2-mst@redhat.com>
- <YVGP9vdTtu5sRVpl@redhat.com>
- <20210927053932-mutt-send-email-mst@kernel.org>
- <CA+aaKfDO_KRZYova9fGkPAr0vgh=YygATZ87iwrfqeV=CyN=tg@mail.gmail.com>
- <20210929172519-mutt-send-email-mst@kernel.org>
- <20210930103424.5f408978@redhat.com>
+ bh=q7ecDDE2gg2yCNk5Vcwg8Uhl8w5cvRkFs6n2BRT4swQ=;
+ b=T1qcgGYcAQ0nrDaXqkobT7ntDX3IfBgB0+Zk2JgHs0W25aE3NP2RMmUH9VyjkMeOM2Bc81
+ Eb3oludAXdcv2OmliL0kcRX3VuNlvoa3QQOoI8/aUrbkZLp+uMsi5o7Dz2ytXiYB/5pRAE
+ waZmLJZQBbUmcIUd12OYSFi1I4dP6Fs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590-G3vizTh9Mm6z6kO_jUVSZA-1; Thu, 30 Sep 2021 07:52:39 -0400
+X-MC-Unique: G3vizTh9Mm6z6kO_jUVSZA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C3678145E5;
+ Thu, 30 Sep 2021 11:52:38 +0000 (UTC)
+Received: from starship (unknown [10.35.206.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 292D319C59;
+ Thu, 30 Sep 2021 11:52:30 +0000 (UTC)
+Message-ID: <376e11a40954de4705ba726371a50f98a8596e7c.camel@redhat.com>
+Subject: Re: [PATCH 0/3] KVM: qemu patches for few KVM features I developed
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 30 Sep 2021 14:52:29 +0300
+In-Reply-To: <20210914155214.105415-1-mlevitsk@redhat.com>
+References: <20210914155214.105415-1-mlevitsk@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 MIME-Version: 1.0
-In-Reply-To: <20210930103424.5f408978@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -101,157 +75,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcel@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 30, 2021 at 10:34:24AM +0200, Igor Mammedov wrote:
-> On Wed, 29 Sep 2021 17:47:37 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Tue, 2021-09-14 at 18:52 +0300, Maxim Levitsky wrote:
+> These patches implement the qemu side logic to support
+> the KVM features I developed recently.
 > 
-> > On Wed, Sep 29, 2021 at 04:41:49PM +0300, Marcel Apfelbaum wrote:
-> > > Hi Michael,
-> > > 
-> > > On Mon, Sep 27, 2021 at 12:49 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > 
-> > >     On Mon, Sep 27, 2021 at 10:33:42AM +0100, Daniel P. Berrangé wrote:  
-> > >     > On Tue, Aug 03, 2021 at 04:52:03PM -0400, Michael S. Tsirkin wrote:  
-> > >     > > From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> > >     > >
-> > >     > > Q35 has now ACPI hotplug enabled by default for PCI(e) devices.
-> > >     > > As opposed to native PCIe hotplug, guests like Fedora 34
-> > >     > > will not assign IO range to pcie-root-ports not supporting
-> > >     > > native hotplug, resulting into a regression.
-> > >     > >
-> > >     > > Reproduce by:
-> > >     > >     qemu-bin -M q35 -device pcie-root-port,id=p1 -monitor stdio
-> > >     > >     device_add e1000,bus=p1
-> > >     > > In the Guest OS the respective pcie-root-port will have the IO range
-> > >     > > disabled.
-> > >     > >
-> > >     > > Fix it by setting the "reserve-io" hint capability of the
-> > >     > > pcie-root-ports so the firmware will allocate the IO range instead.
-> > >     > >
-> > >     > > Acked-by: Igor Mammedov <imammedo@redhat.com>
-> > >     > > Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
-> > >     > > Message-Id: <20210802090057.1709775-1-marcel@redhat.com>
-> > >     > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > >     > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > >     > > ---
-> > >     > >  hw/pci-bridge/gen_pcie_root_port.c | 5 +++++
-> > >     > >  1 file changed, 5 insertions(+)  
-> > >     >
-> > >     > This change, when combined with the switch to ACPI based hotplug by
-> > >     > default, is responsible for a significant regression in QEMU 6.1.0
-> > >     >
-> > >     > It is no longer possible to have more than 15 pcie-root-port devices
-> > >     > added to a q35 VM in 6.1.0.  Before this I've had as many as 80+ devices
-> > >     > present before I stopped trying to add more.
-> > >     >
-> > >     >   https://gitlab.com/qemu-project/qemu/-/issues/641
-> > >     >
-> > >     > This regression is significant, because it has broken the out of the
-> > >     > box default configuration that OpenStack uses for booting all VMs.
-> > >     > They add 16 pcie-root-ports by defalt to allow empty slots for device
-> > >     > hotplug under q35 [1].  
-> > > 
-> > > 
-> > >     Indeed, oops. Thanks for the report!
-> > > 
-> > >     Going back and looking at seabios code, didn't we get confused?
-> > >     Shouldn't we have reserved memory and not IO?
-> > > 
-> > > 
-> > > We need the IO space for the legacy PCI bridges, otherwise an empty PCI bridge
-> > > will become unusable.  
-> > 
-> > Maybe we should go back to using OSC then ... the issue
-> > is we can't then mix acpi and native hotplug for bridges.
+> First two patches are for features that are already accepted
+> upstream, and I already posted them on the qemu mailing list once.
 > 
-> How OSC could help with the issue?
+> And the 3rd patch is for nested TSC scaling on SVM
+> which isn't yet accepted in KVM but can already be added to qemu since
+> it is conditional on KVM supporting it, and ABI wise it only relies
+> on SVM spec.
+> 
+> Best regards,
+>     Maxim Levitsky
+> 
+> Maxim Levitsky (3):
+>   KVM: use KVM_{GET|SET}_SREGS2 when supported.
+>   gdbstub: implement NOIRQ support for single step on KVM
+>   KVM: SVM: add migration support for nested TSC scaling
+> 
+>  accel/kvm/kvm-all.c   |  30 +++++++++++
+>  gdbstub.c             |  60 +++++++++++++++++----
+>  include/sysemu/kvm.h  |  17 ++++++
+>  target/i386/cpu.c     |   5 ++
+>  target/i386/cpu.h     |   7 +++
+>  target/i386/kvm/kvm.c | 122 +++++++++++++++++++++++++++++++++++++++++-
+>  target/i386/machine.c |  53 ++++++++++++++++++
+>  7 files changed, 282 insertions(+), 12 deletions(-)
+> 
+> -- 
+> 2.26.3
+> 
+> 
+Very polite ping on these patches.
 
-guests see the pci capability and vonclude that bridge supports hotplug.
- 
-
-> > > 
-> > > 
-> > >     I see:
-> > >                 int resource_optional = pcie_cap && (type ==
-> > >     PCI_REGION_TYPE_IO);
-> > >                 if (!sum && hotplug_support && !resource_optional)
-> > >                     sum = align; /* reserve min size for hot-plug */
-> > > 
-> > > 
-> > >     generally maybe we should just add an ACPI-hotplug capability and
-> > >     teach seabios about it?
-> > > 
-> > > 
-> > > I suppose it is possible.
-> > > 
-> > > Thanks,
-> > > Marcel
-> > >  
-> > > 
-> > > 
-> > >     Marcel?
-> > >   
-> > >     > > diff --git a/hw/pci-bridge/gen_pcie_root_port.c b/hw/pci-bridge/  
-> > >     gen_pcie_root_port.c  
-> > >     > > index ec9907917e..20099a8ae3 100644
-> > >     > > --- a/hw/pci-bridge/gen_pcie_root_port.c
-> > >     > > +++ b/hw/pci-bridge/gen_pcie_root_port.c
-> > >     > > @@ -28,6 +28,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(GenPCIERootPort,  
-> > >     GEN_PCIE_ROOT_PORT)  
-> > >     > >          (GEN_PCIE_ROOT_PORT_AER_OFFSET + PCI_ERR_SIZEOF)
-> > >     > > 
-> > >     > >  #define GEN_PCIE_ROOT_PORT_MSIX_NR_VECTOR       1
-> > >     > > +#define GEN_PCIE_ROOT_DEFAULT_IO_RANGE          4096
-> > >     > > 
-> > >     > >  struct GenPCIERootPort {
-> > >     > >      /*< private >*/
-> > >     > > @@ -75,6 +76,7 @@ static bool gen_rp_test_migrate_msix(void *opaque,  
-> > >     int version_id)  
-> > >     > >  static void gen_rp_realize(DeviceState *dev, Error **errp)
-> > >     > >  {
-> > >     > >      PCIDevice *d = PCI_DEVICE(dev);
-> > >     > > +    PCIESlot *s = PCIE_SLOT(d);
-> > >     > >      GenPCIERootPort *grp = GEN_PCIE_ROOT_PORT(d);
-> > >     > >      PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(d);
-> > >     > >      Error *local_err = NULL;
-> > >     > > @@ -85,6 +87,9 @@ static void gen_rp_realize(DeviceState *dev, Error  
-> > >     **errp)  
-> > >     > >          return;
-> > >     > >      }
-> > >     > > 
-> > >     > > +    if (grp->res_reserve.io == -1 && s->hotplug && !s->native_hotplug)  
-> > >     {  
-> > >     > > +        grp->res_reserve.io = GEN_PCIE_ROOT_DEFAULT_IO_RANGE;
-> > >     > > +    }
-> > >     > >      int rc = pci_bridge_qemu_reserve_cap_init(d, 0,
-> > >     > >                                                grp->res_reserve, errp);
-> > >     > > 
-> > >     > > --
-> > >     > > MST
-> > >     > >
-> > >     > >  
-> > >     >
-> > >     > Regards,
-> > >     > Daniel
-> > >     >
-> > >     > [1] https://github.com/openstack/tripleo-heat-templates/blob/  
-> > >     7a6cd0640ec390a330f5699d8ed60f71b2a9f514/deployment/nova/
-> > >     nova-compute-container-puppet.yaml#L462-L472  
-> > >     > --
-> > >     > |: https://berrange.com      -o-    https://www.flickr.com/photos/  
-> > >     dberrange :|  
-> > >     > |: https://libvirt.org         -o-            https://  
-> > >     fstop138.berrange.com :|  
-> > >     > |: https://entangle-photo.org    -o-    https://www.instagram.com/  
-> > >     dberrange :|
-> > > 
-> > >   
-> > 
+Best regards,
+   Maxim Levitsky
 
 
