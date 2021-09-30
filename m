@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A69A641D650
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 11:27:06 +0200 (CEST)
-Received: from localhost ([::1]:38074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69EA341D670
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 11:36:29 +0200 (CEST)
+Received: from localhost ([::1]:41924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVsLJ-00059U-4Z
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 05:27:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32788)
+	id 1mVsUO-0008Nn-3P
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 05:36:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mVsJM-0004Nf-Oq
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:25:04 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:54167)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mVsJL-0002LR-0x
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:25:04 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id r7so3744071pjo.3
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 02:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=8IwfzeEf+LmGGerYqAqOMUZuItJo9T69cJehetlEMtg=;
- b=6skKT6BQipjfEZ21qC3kVBp0xZZUYcKukwcTHlKbET9oxRrL4eslA/sqBsx5Zbh7UC
- jqVkLiW5bDAE9tfsqYN1CR8r/v/S9Hu+PW5IdP7jFHIafdWW1lpQqvble+MPqB9FOsCX
- BODGjlmf9wuvNCd35WAJgJb0H5uQsRFjIEWkY1GLEd7h+v7PmdqJ6elIjikDtOdfteOu
- sOk9y95mZZDoXCDuFnHIXyiTWAUpy41oE8wUtW5+M6/Pq7pa5AZT5x3OGbViSFi4Hci2
- 4bnRaf1Cag/6ebhVl0SBQehpyWwM2m7iJtJQM1vdlvrtNAcStero1u1uRgn9v2y6Y8s2
- mItQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=8IwfzeEf+LmGGerYqAqOMUZuItJo9T69cJehetlEMtg=;
- b=Qrzdkf9+BRAMppmuky9hm9oliT6xpnTJXWqJ6URmVeZeb9QmlHWLPJuX53lWNtuhux
- a297AaNdBDk5YWHRtmtOcBMQspkFv/dqgtEi6U7s80Yb5HrJTALsxtkXnnH/uoW5icBL
- 1fG6WQA0PHep2qU0J7uzaOq8LtWTui8/R4LSg+z7P1No9jCqh1poxW1GdjViHcAMU9/8
- usB9dHeiLK/+yKeGuA1G+OnMqsx87lm32KUsqqUfNo8npAfxD7OWOAuqOinEXb0luAIa
- CJenTFHX1aIfkCOhJMd9VDxBa1YyBrm4p3gbEBrJSVwQJbZYxONclds4+Ag7v+D5gmlz
- pFfA==
-X-Gm-Message-State: AOAM533+icNp/lNEZlA+8qRq5aiLEFtsD81AlVbKyMcfcEaeDhPd8NXr
- HG9ZOf3sdyAcYQS3MqYIkJ/2bw==
-X-Google-Smtp-Source: ABdhPJwU2jBndivz/kEof3XVo2B62ExZrj5Twl8Zk+5FwX7oJR6NC6/mrC0XFdeNVmc+fqa/WLk/RQ==
-X-Received: by 2002:a17:90a:6301:: with SMTP id
- e1mr5308667pjj.245.1632993900823; 
- Thu, 30 Sep 2021 02:25:00 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.130.103])
- by smtp.googlemail.com with ESMTPSA id m11sm2273938pga.27.2021.09.30.02.24.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 02:25:00 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Thu, 30 Sep 2021 14:54:54 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH] failover: fix unplug pending detection
-In-Reply-To: <20210930082032.1237812-1-lvivier@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2109301450580.579856@anisinha-lenovo>
-References: <20210930082032.1237812-1-lvivier@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mVsT0-0007cY-Lo
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:35:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59818)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mVsSx-0002F6-P5
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:35:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632994499;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uyKhSRx/ENyQ3Hd1A3NJxb/wg7jKkxrhI/DlfNmllXM=;
+ b=jEgZTpp0PyzjBm33OlK9ZT+CIqz1GuBQp3Wbtci0qIx2V9YDtWdvG+7ObRlX1E/kES4xK1
+ lNu+TUdu9j9LjBXWMudlHm2zEJyv5Qa8ln8b0MveHi8eeAl1Py3cTHgSipeBnvmXFZSYS2
+ JoYMWLTO4U2uVNFgHxjaArGCBFd9bY8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-362-ybkjN2T2OmC1-BT01wYHNA-1; Thu, 30 Sep 2021 05:34:57 -0400
+X-MC-Unique: ybkjN2T2OmC1-BT01wYHNA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14F26100C621;
+ Thu, 30 Sep 2021 09:34:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B591100760B;
+ Thu, 30 Sep 2021 09:34:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2DC60113865F; Thu, 30 Sep 2021 11:34:55 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 08/13] qapi/parser: Introduce NullSection
+References: <20210929194428.1038496-1-jsnow@redhat.com>
+ <20210929194428.1038496-9-jsnow@redhat.com>
+Date: Thu, 30 Sep 2021 11:34:55 +0200
+In-Reply-To: <20210929194428.1038496-9-jsnow@redhat.com> (John Snow's message
+ of "Wed, 29 Sep 2021 15:44:23 -0400")
+Message-ID: <87tui2qudc.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,74 +80,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>, Jens Freimann <jfreimann@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+John Snow <jsnow@redhat.com> writes:
 
-
-On Thu, 30 Sep 2021, Laurent Vivier wrote:
-
-> Failover needs to detect the end of the PCI unplug to start migration
-> after the VFIO card has been unplugged.
+> Here's the weird bit. QAPIDoc generally expects -- virtually everywhere
+> -- that it will always have a current section. The sole exception to
+> this is in the case that end_comment() is called, which leaves us with
+> *no* section. However, in this case, we also don't expect to actually
+> ever mutate the comment contents ever again.
 >
-> To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and reset in
-> pcie_unplug_device().
+> NullSection is just a Null-object that allows us to maintain the
+> invariant that we *always* have a current section, enforced by static
+> typing -- allowing us to type that field as QAPIDoc.Section instead of
+> the more ambiguous Optional[QAPIDoc.Section].
 >
-> But since
->     17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35")
-> we have switched to ACPI unplug and these functions are not called anymore
-> and the flag not set. So failover migration is not able to detect if card
-> is really unplugged and acts as it's done as soon as it's started. So it
-> doesn't wait the end of the unplug to start the migration. We don't see any
-> problem when we test that because ACPI unplug is faster than PCIe native
-> hotplug and when the migration really starts the unplug operation is
-> already done.
+> end_section is renamed to switch_section and now accepts as an argument
+> the new section to activate, clarifying that no callers ever just
+> unilaterally end a section; they only do so when starting a new section.
 >
-> See c000a9bd06ea ("pci: mark device having guest unplug request pending")
->     a99c4da9fc2a ("pci: mark devices partially unplugged")
-
-Ok so I have a basic question about partially_hotplugged flag in the
-device struct (there were no comments added in a99c4da9fc2a39847
-explaining it). It seems we return early from pcie_unplug_device() when
-this flag is set from failover_unplug_primary() in virtio-net. What is the
-purpose of this flag? It seems we are not doing a full unplug of the
-primary device?
-
+> Signed-off-by: John Snow <jsnow@redhat.com>
 >
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 > ---
->  hw/acpi/pcihp.c | 6 ++++++
->  1 file changed, 6 insertions(+)
 >
-> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> index f610a25d2ef9..a2d27a3c4763 100644
-> --- a/hw/acpi/pcihp.c
-> +++ b/hw/acpi/pcihp.c
-> @@ -366,6 +366,11 @@ void acpi_pcihp_device_unplug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
->      trace_acpi_pci_unplug(PCI_SLOT(pdev->devfn),
->                            acpi_pcihp_get_bsel(pci_get_bus(pdev)));
+> For my money: Optional types can be a nuisance because an unfamiliar
+> reader may wonder in what circumstances the field may be unset. This
+> makes the condition quite a bit more explicit and statically provable.
 >
-> +    if (pdev->partially_hotplugged) {
-> +        pdev->qdev.pending_deleted_event = false;
-> +        return;
-> +    }
+> Doing it in this way (and not by creating a dummy section) will also
+> continue to reject (rather noisily) any erroneous attempts to append
+> additional lines after end_comment() has been called.
+>
+> Also, this section isn't indexed into .sections[] and isn't really
+> visible in any way to external users of the class, so it seems like a
+> harmless and low-cost way to formalize the "life cycle" of a QAPIDoc
+> parser.
+>
+> Clean and clear as I can make it, in as few lines as I could muster.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/parser.py | 27 ++++++++++++++++-----------
+>  1 file changed, 16 insertions(+), 11 deletions(-)
+>
+> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> index 1fdc5bc7056..123fc2f099c 100644
+> --- a/scripts/qapi/parser.py
+> +++ b/scripts/qapi/parser.py
+> @@ -478,6 +478,13 @@ def __init__(self, parser, name, indent=0):
+>          def connect(self, member):
+>              self.member = member
+>  
+> +    class NullSection(Section):
+> +        """
+> +        Empty section that signifies the end of a doc block.
+
+What about "Dummy section for use at the end of a doc block"?
+
+> +        """
+> +        def append(self, line):
+> +            assert False, "BUG: Text appended after end_comment() called."
+
+How can a failing assertion *not* be a bug?
+
 > +
->      /*
->       * clean up acpi-index so it could reused by another device
->       */
-> @@ -396,6 +401,7 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
->          return;
->      }
->
-> +    pdev->qdev.pending_deleted_event = true;
->      s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
->      acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
->  }
-> --
-> 2.31.1
->
->
+>      def __init__(self, parser, info):
+>          # self._parser is used to report errors with QAPIParseError.  The
+>          # resulting error position depends on the state of the parser.
+> @@ -525,7 +532,7 @@ def append(self, line):
+>          self._append_line(line)
+>  
+>      def end_comment(self):
+> -        self._end_section()
+> +        self._switch_section(QAPIDoc.NullSection(self._parser))
+>  
+>      @staticmethod
+>      def _is_section_tag(name):
+> @@ -702,9 +709,9 @@ def _start_symbol_section(self, symbols_dict, name, indent):
+>              raise QAPIParseError(self._parser,
+>                                   "'%s' parameter name duplicated" % name)
+>          assert not self.sections
+> -        self._end_section()
+> -        self._section = QAPIDoc.ArgSection(self._parser, name, indent)
+> -        symbols_dict[name] = self._section
+> +        new_section = QAPIDoc.ArgSection(self._parser, name, indent)
+> +        self._switch_section(new_section)
+> +        symbols_dict[name] = new_section
+>  
+>      def _start_args_section(self, name, indent):
+>          self._start_symbol_section(self.args, name, indent)
+> @@ -716,13 +723,11 @@ def _start_section(self, name=None, indent=0):
+>          if name in ('Returns', 'Since') and self.has_section(name):
+>              raise QAPIParseError(self._parser,
+>                                   "duplicated '%s' section" % name)
+> -        self._end_section()
+> -        self._section = QAPIDoc.Section(self._parser, name, indent)
+> -        self.sections.append(self._section)
+> -
+> -    def _end_section(self):
+> -        assert self._section is not None
+> +        new_section = QAPIDoc.Section(self._parser, name, indent)
+> +        self._switch_section(new_section)
+> +        self.sections.append(new_section)
+>  
+> +    def _switch_section(self, new_section):
+>          text = self._section.text = self._section.text.strip()
+>  
+>          # Only the 'body' section is allowed to have an empty body.
+> @@ -735,7 +740,7 @@ def _end_section(self):
+>                  self._parser,
+>                  "empty doc section '%s'" % self._section.name)
+>  
+> -        self._section = None
+> +        self._section = new_section
+>  
+>      def _append_freeform(self, line):
+>          match = re.match(r'(@\S+:)', line)
+
+Feels clearer, thanks!
+
 
