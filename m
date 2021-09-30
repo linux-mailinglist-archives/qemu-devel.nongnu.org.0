@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53ABA41DE44
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:58:12 +0200 (CEST)
-Received: from localhost ([::1]:44958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16E441DDE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:46:23 +0200 (CEST)
+Received: from localhost ([::1]:46428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVyRn-0005H2-Bn
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:58:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36818)
+	id 1mVyGM-0003v4-Sx
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:46:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy1a-00054I-MV
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:31:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41616)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy2H-0005uq-G6
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:31:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.151.124]:53972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy1U-0002RW-I5
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:31:06 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy2E-00030X-2B
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:31:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633015859;
+ s=mimecast20190719; t=1633015904;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xXqnxPuS2B0pFLnq3FoVQDfZckLmo3zdQMJyndqZ/TM=;
- b=QbUS8Q3aqi+2I8bg/I0JMfqB7QZ4gs3YEz9uv6tUKgpsnZdT2JSA9EAkAlmc4K9SgMuRuk
- Ol1JLQe6RugH/R75srmvgsheS4PPDSM65+aRtdLJg80TftVGybzwFsQ6srrBNgFRpGjimj
- hf8YD7jPQxrbaTHyrxaP/JY9INm03Y8=
+ bh=aJtNFeqiQ1kOmOZHX97FpByGq70o7cDl9sNER1MSarc=;
+ b=dDwSBFBK+PQJl+trWoImaTgg1tYTOh2LTzv7Etif0NnDS+XVIPYSsrEyEivKQWxyJfFhZu
+ gO4U4WqKHlaUDXCyNTreHLe/K4PBbzYCrARMT5bVPPNWIIs6cR1SK/83lSS1u5SK9RJo4D
+ qnsAa20YaeYr5+hzrxRfjKN6ux8K5oM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-c3KLzaCBOGe05gKjMxboPQ-1; Thu, 30 Sep 2021 11:30:58 -0400
-X-MC-Unique: c3KLzaCBOGe05gKjMxboPQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-2-NCmXo8AFP1iSKDavSAec3w-1; Thu, 30 Sep 2021 11:31:39 -0400
+X-MC-Unique: NCmXo8AFP1iSKDavSAec3w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0997DDF8A9;
- Thu, 30 Sep 2021 15:30:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7882110168C8;
+ Thu, 30 Sep 2021 15:31:38 +0000 (UTC)
 Received: from horse.redhat.com (unknown [10.22.16.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D98001009962;
- Thu, 30 Sep 2021 15:30:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 08E9660CC9;
+ Thu, 30 Sep 2021 15:30:57 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 139DA22828A; Thu, 30 Sep 2021 11:30:48 -0400 (EDT)
+ id 1E49822828B; Thu, 30 Sep 2021 11:30:48 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com,
 	stefanha@redhat.com
-Subject: [PATCH 11/13] virtiofsd: Shutdown notification queue in the end
-Date: Thu, 30 Sep 2021 11:30:35 -0400
-Message-Id: <20210930153037.1194279-12-vgoyal@redhat.com>
+Subject: [PATCH 12/13] virtiofsd: Implement blocking posix locks
+Date: Thu, 30 Sep 2021 11:30:36 -0400
+Message-Id: <20210930153037.1194279-13-vgoyal@redhat.com>
 In-Reply-To: <20210930153037.1194279-1-vgoyal@redhat.com>
 References: <20210930153037.1194279-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=170.10.151.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,109 +84,328 @@ Cc: jaggel@bu.edu, iangelak@redhat.com, dgilbert@redhat.com, vgoyal@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-So far we did not have the notion of cross queue traffic. That is, we
-get request on a queue and send back response on same queue. So if a
-request be being processed and at the same time a stop queue request
-comes in, we wait for all pending requests to finish and then queue
-is stopped and associated data structure cleaned.
+As of now we don't support fcntl(F_SETLKW) and if we see one, we return
+-EOPNOTSUPP.
 
-But with notification queue, now it is possible that we get a locking
-request on request queue and send the notification back on a different
-queue (notificaiton queue). This means, we need to make sure that
-notifiation queue has not already been shutdown or is not being
-shutdown in parallel while we are trying to send a notification back.
-Otherwise bad things are bound to happen.
+Change that by accepting these requests and returning a reply
+immediately asking caller to wait. Once lock is available, send a
+notification to the waiter indicating lock is available.
 
-One way to solve this problem is that stop notification queue in the
-end. First stop hiprio and all request queues. That means by the
-time we are trying to stop notification queue, we know no other
-request can be in progress which can try to send something on
-notification queue.
+In response to lock request, we are returning error value as "1", which
+signals to client to queue the lock request internally and later client
+will get a notification which will signal lock is taken (or error). And
+then fuse client should wake up the guest process.
 
-But problem is that currently we don't have any control on in what
-order queues should be stopped. If there was a notion of whole device
-being stopped, then we could decide in what order queues should be
-stopped.
-
-Stefan mentioned that there is a command to stop whole device
-VHOST_USER_SET_STATUS but it is not implemented in libvhost-user
-yet. Also we probably could not move away from per queue stop
-logic we have as of now.
-
-As an alternative, he said if we stop all queue when qidx 0 is
-being stopped, it should be fine and we can solve the issue of
-notification queue shutdown order.
-
-So in this patch I am shutting down all queues when queue 0
-is being shutdown. And also changed shutdown order in such a
-way that notification queue is shutdown last.
-
-Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Signed-off-by: Ioannis Angelakopoulos <iangelak@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+ tools/virtiofsd/fuse_lowlevel.c  | 37 ++++++++++++++++-
+ tools/virtiofsd/fuse_lowlevel.h  | 26 ++++++++++++
+ tools/virtiofsd/fuse_virtio.c    | 50 ++++++++++++++++++++---
+ tools/virtiofsd/passthrough_ll.c | 70 ++++++++++++++++++++++++++++----
+ 4 files changed, 167 insertions(+), 16 deletions(-)
 
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index e4679c73ab..2e7f4b786d 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -179,8 +179,8 @@ int fuse_send_reply_iov_nofree(fuse_req_t req, int error, struct iovec *iov,
+         .unique = req->unique,
+         .error = error,
+     };
+-
+-    if (error <= -1000 || error > 0) {
++    /* error = 1 has been used to signal client to wait for notificaiton */
++    if (error <= -1000 || error > 1) {
+         fuse_log(FUSE_LOG_ERR, "fuse: bad error value: %i\n", error);
+         out.error = -ERANGE;
+     }
+@@ -290,6 +290,11 @@ int fuse_reply_err(fuse_req_t req, int err)
+     return send_reply(req, -err, NULL, 0);
+ }
+ 
++int fuse_reply_wait(fuse_req_t req)
++{
++    return send_reply(req, 1, NULL, 0);
++}
++
+ void fuse_reply_none(fuse_req_t req)
+ {
+     fuse_free_req(req);
+@@ -2165,6 +2170,34 @@ static void do_destroy(fuse_req_t req, fuse_ino_t nodeid,
+     send_reply_ok(req, NULL, 0);
+ }
+ 
++static int send_notify_iov(struct fuse_session *se, int notify_code,
++                           struct iovec *iov, int count)
++{
++    struct fuse_out_header out;
++    if (!se->got_init) {
++        return -ENOTCONN;
++    }
++    out.unique = 0;
++    out.error = notify_code;
++    iov[0].iov_base = &out;
++    iov[0].iov_len = sizeof(struct fuse_out_header);
++    return fuse_send_msg(se, NULL, iov, count);
++}
++
++int fuse_lowlevel_notify_lock(struct fuse_session *se, uint64_t unique,
++                  int32_t error)
++{
++    struct fuse_notify_lock_out outarg = {0};
++    struct iovec iov[2];
++
++    outarg.unique = unique;
++    outarg.error = -error;
++
++    iov[1].iov_base = &outarg;
++    iov[1].iov_len = sizeof(outarg);
++    return send_notify_iov(se, FUSE_NOTIFY_LOCK, iov, 2);
++}
++
+ int fuse_lowlevel_notify_store(struct fuse_session *se, fuse_ino_t ino,
+                                off_t offset, struct fuse_bufvec *bufv)
+ {
+diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
+index c55c0ca2fc..64624b48dc 100644
+--- a/tools/virtiofsd/fuse_lowlevel.h
++++ b/tools/virtiofsd/fuse_lowlevel.h
+@@ -1251,6 +1251,22 @@ struct fuse_lowlevel_ops {
+  */
+ int fuse_reply_err(fuse_req_t req, int err);
+ 
++/**
++ * Ask caller to wait for lock.
++ *
++ * Possible requests:
++ *   setlkw
++ *
++ * If caller sends a blocking lock request (setlkw), then reply to caller
++ * that wait for lock to be available. Once lock is available caller will
++ * receive a notification with request's unique id. Notification will
++ * carry info whether lock was successfully obtained or not.
++ *
++ * @param req request handle
++ * @return zero for success, -errno for failure to send reply
++ */
++int fuse_reply_wait(fuse_req_t req);
++
+ /**
+  * Don't send reply
+  *
+@@ -1685,6 +1701,16 @@ int fuse_lowlevel_notify_delete(struct fuse_session *se, fuse_ino_t parent,
+ int fuse_lowlevel_notify_store(struct fuse_session *se, fuse_ino_t ino,
+                                off_t offset, struct fuse_bufvec *bufv);
+ 
++/**
++ * Notify event related to previous lock request
++ *
++ * @param se the session object
++ * @param unique the unique id of the request which requested setlkw
++ * @param error zero for success, -errno for the failure
++ */
++int fuse_lowlevel_notify_lock(struct fuse_session *se, uint64_t unique,
++                              int32_t error);
++
+ /*
+  * Utility functions
+  */
 diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index c67c2e0e7a..a87e88e286 100644
+index a87e88e286..bb2d4456fc 100644
 --- a/tools/virtiofsd/fuse_virtio.c
 +++ b/tools/virtiofsd/fuse_virtio.c
-@@ -826,6 +826,11 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vud, int qidx)
-     assert(qidx < vud->nqueues);
-     ourqi = vud->qi[qidx];
+@@ -273,6 +273,23 @@ static void vq_send_element(struct fv_QueueInfo *qi, VuVirtqElement *elem,
+     vu_dispatch_unlock(qi->virtio_dev);
+ }
  
-+    /* Queue is already stopped */
-+    if (!ourqi) {
-+        return;
-+    }
++/* Returns NULL if queue is empty */
++static FVRequest *vq_pop_notify_elem(struct fv_QueueInfo *qi)
++{
++    struct fuse_session *se = qi->virtio_dev->se;
++    VuDev *dev = &se->virtio_dev->dev;
++    VuVirtq *q = vu_get_queue(dev, qi->qidx);
++    FVRequest *req;
 +
-     /* qidx == 1 is the notification queue if notifications are enabled */
-     if (!se->notify_enabled || qidx != 1) {
-         /* Kill the thread */
-@@ -847,14 +852,25 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vud, int qidx)
- 
- static void stop_all_queues(struct fv_VuDev *vud)
++    vu_dispatch_rdlock(qi->virtio_dev);
++    pthread_mutex_lock(&qi->vq_lock);
++    /* Pop an element from queue */
++    req = vu_queue_pop(dev, q, sizeof(FVRequest));
++    pthread_mutex_unlock(&qi->vq_lock);
++    vu_dispatch_unlock(qi->virtio_dev);
++    return req;
++}
++
+ /*
+  * Called back by ll whenever it wants to send a reply/message back
+  * The 1st element of the iov starts with the fuse_out_header
+@@ -281,9 +298,9 @@ static void vq_send_element(struct fv_QueueInfo *qi, VuVirtqElement *elem,
+ int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
+                     struct iovec *iov, int count)
  {
-+    struct fuse_session *se = vud->se;
-+
-     for (int i = 0; i < vud->nqueues; i++) {
-         if (!vud->qi[i]) {
-             continue;
-         }
+-    FVRequest *req = container_of(ch, FVRequest, ch);
+-    struct fv_QueueInfo *qi = ch->qi;
+-    VuVirtqElement *elem = &req->elem;
++    FVRequest *req;
++    struct fv_QueueInfo *qi;
++    VuVirtqElement *elem;
+     int ret = 0;
  
-+        /* Shutdown notification queue in the end */
-+        if (se->notify_enabled && i == 1) {
-+            continue;
+     assert(count >= 1);
+@@ -294,8 +311,30 @@ int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
+ 
+     size_t tosend_len = iov_size(iov, count);
+ 
+-    /* unique == 0 is notification, which we don't support */
+-    assert(out->unique);
++    /* unique == 0 is notification */
++    if (!out->unique) {
++        if (!se->notify_enabled) {
++            return -EOPNOTSUPP;
 +        }
-         fuse_log(FUSE_LOG_INFO, "%s: Stopping queue %d thread\n", __func__, i);
-         fv_queue_cleanup_thread(vud, i);
-     }
++        /* If notifications are enabled, queue index 1 is notification queue */
++        qi = se->virtio_dev->qi[1];
++        req = vq_pop_notify_elem(qi);
++        if (!req) {
++            /*
++             * TODO: Implement some sort of ring buffer and queue notifications
++             * on that and send these later when notification queue has space
++             * available.
++             */
++            return -ENOSPC;
++        }
++        req->reply_sent = false;
++    } else {
++        assert(ch);
++        req = container_of(ch, FVRequest, ch);
++        qi = ch->qi;
++    }
 +
-+    if (se->notify_enabled) {
-+        fuse_log(FUSE_LOG_INFO, "%s: Stopping queue %d thread\n", __func__, 1);
-+        fv_queue_cleanup_thread(vud, 1);
++    elem = &req->elem;
+     assert(!req->reply_sent);
+ 
+     /* The 'in' part of the elem is to qemu */
+@@ -985,6 +1024,7 @@ static int fv_get_config(VuDev *dev, uint8_t *config, uint32_t len)
+         struct fuse_notify_delete_out       delete_out;
+         struct fuse_notify_store_out        store_out;
+         struct fuse_notify_retrieve_out     retrieve_out;
++        struct fuse_notify_lock_out         lock_out;
+     };
+ 
+     notify_size = sizeof(struct fuse_out_header) +
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 6928662e22..277f74762b 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -2131,13 +2131,35 @@ out:
+     }
+ }
+ 
++static void setlk_send_notification(struct fuse_session *se, uint64_t unique,
++                                    int saverr)
++{
++    int ret;
++
++    do {
++        ret = fuse_lowlevel_notify_lock(se, unique, saverr);
++        /*
++         * Retry sending notification if notification queue does not have
++         * free descriptor yet, otherwise break out of loop. Either we
++         * successfully sent notifiation or some other error occurred.
++         */
++        if (ret != -ENOSPC) {
++            break;
++        }
++        usleep(10000);
++    } while (1);
++}
++
+ static void lo_setlk(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi,
+                      struct flock *lock, int sleep)
+ {
+     struct lo_data *lo = lo_data(req);
+     struct lo_inode *inode;
+     struct lo_inode_plock *plock;
+-    int ret, saverr = 0;
++    int ret, saverr = 0, ofd;
++    uint64_t unique;
++    struct fuse_session *se = req->se;
++    bool blocking_lock = false;
+ 
+     fuse_log(FUSE_LOG_DEBUG,
+              "lo_setlk(ino=%" PRIu64 ", flags=%d)"
+@@ -2151,11 +2173,6 @@ static void lo_setlk(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi,
+         return;
+     }
+ 
+-    if (sleep) {
+-        fuse_reply_err(req, EOPNOTSUPP);
+-        return;
+-    }
+-
+     inode = lo_inode(req, ino);
+     if (!inode) {
+         fuse_reply_err(req, EBADF);
+@@ -2168,21 +2185,56 @@ static void lo_setlk(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi,
+ 
+     if (!plock) {
+         saverr = ret;
++        pthread_mutex_unlock(&inode->plock_mutex);
+         goto out;
+     }
+ 
++    /*
++     * plock is now released when inode is going away. We already have
++     * a reference on inode, so it is guaranteed that plock->fd is
++     * still around even after dropping inode->plock_mutex lock
++     */
++    ofd = plock->fd;
++    pthread_mutex_unlock(&inode->plock_mutex);
++
++    /*
++     * If this lock request can block, request caller to wait for
++     * notification. Do not access req after this. Once lock is
++     * available, send a notification instead.
++     */
++    if (sleep && lock->l_type != F_UNLCK) {
++        /*
++         * If notification queue is not enabled, can't support async
++         * locks.
++         */
++        if (!se->notify_enabled) {
++            saverr = EOPNOTSUPP;
++            goto out;
++        }
++        blocking_lock = true;
++        unique = req->unique;
++        fuse_reply_wait(req);
++    }
++
+     /* TODO: Is it alright to modify flock? */
+     lock->l_pid = 0;
+-    ret = fcntl(plock->fd, F_OFD_SETLK, lock);
++    if (blocking_lock) {
++        ret = fcntl(ofd, F_OFD_SETLKW, lock);
++    } else {
++        ret = fcntl(ofd, F_OFD_SETLK, lock);
++    }
+     if (ret == -1) {
+         saverr = errno;
+     }
+ 
+ out:
+-    pthread_mutex_unlock(&inode->plock_mutex);
+     lo_inode_put(lo, &inode);
+ 
+-    fuse_reply_err(req, saverr);
++    if (!blocking_lock) {
++        fuse_reply_err(req, saverr);
++    } else {
++        setlk_send_notification(se, unique, saverr);
 +    }
  }
  
- /* Callback from libvhost-user on start or stop of a queue */
-@@ -934,7 +950,16 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
-          * the queue thread doesn't block in virtio_send_msg().
-          */
-         vu_dispatch_unlock(vud);
--        fv_queue_cleanup_thread(vud, qidx);
-+
-+        /*
-+         * If queue 0 is being shutdown, treat it as if device is being
-+         * shutdown and stop all queues.
-+         */
-+        if (qidx == 0) {
-+            stop_all_queues(vud);
-+        } else {
-+            fv_queue_cleanup_thread(vud, qidx);
-+        }
-         vu_dispatch_wrlock(vud);
-     }
- }
+ static void lo_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
 -- 
 2.31.1
 
