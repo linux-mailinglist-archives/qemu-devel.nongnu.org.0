@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 613D041DD1C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:15:53 +0200 (CEST)
-Received: from localhost ([::1]:56690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56AD641DD6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:28:10 +0200 (CEST)
+Received: from localhost ([::1]:59340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVxmq-0003C9-90
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:15:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33022)
+	id 1mVxyj-0007Qx-9u
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mVxjL-0000Ed-N5
+ id 1mVxjN-0000FP-KM
  for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:17 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36354)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mVxjG-0003xF-CV
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:13 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id h15so9052610wrc.3
+ id 1mVxjH-0003xt-3b
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:16 -0400
+Received: by mail-wr1-x433.google.com with SMTP id h15so9052681wrc.3
  for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=l41ejspVWX81CNfODL+puu6Y17ESCpUt8k0smDDjmWo=;
- b=pxeF6QoDtoacjYBg1XTzneqamdIVJBco1lpG+YpwXBmUxMhO6z2xOxzPf7Ecc9lGTN
- RBbs/eQMWszevR/bCbnzA6ejOPgglHwlISTT0ToWOhvNAFTVUMSO/juJ/Z67MkJjKggv
- jfvE8sjy6np98hupLOMCFRNXQEbTXXGx6Yx4Go7NBVuDd4XejI9KL1hBdvKusN2B71oN
- YygyAxlF0nX1TwDzX+3hLQGH7pcpPtchF07JGj7mh04uMLffy4PcplmZ+utCeUqr+OiU
- p64lAEmg92wkAgNBS7oWawQZEc16glOKUbwJIb5zwABgaBZLIqu8zZ11oOH9SQpyH1K4
- /OnA==
+ bh=XLebwh8ygRsd0Pf9EoW0+q/5vT4Ko+x+7OO6En4P6kU=;
+ b=OBfgKPxoepN8Ur58uq0IwGQzi/UtFGNMFzSAdjebrbPUiDr/qRHveYxCbsHqbdL9rH
+ Zzh1qVdhDS+xAglnhhZiqB0TSK4ixPvD1djY3TpwwmjadhJJ9VoPXHUTytusbE/9v+JQ
+ z5plU3VBWatkJox0AUONCrXkFCvJDr+eahJqmbNCZmYYEOlSwx10qJVaoSWkicLx+jpa
+ YSuDTFIrQrJdJsVHGFIcgRZ3IaVld+AGLtX0WYjiNKXd4+0Ne2l1EGRqVTGXwxqdd57H
+ 99eY1CO2V+dAiqEcFh/DkVZL5c2hcWKwHVHO9FOkC2nBCP1FKQxqvLmoZpXzZsZkvgVt
+ hkdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l41ejspVWX81CNfODL+puu6Y17ESCpUt8k0smDDjmWo=;
- b=fxK3Mgjfb/5EwxdsELemlPy9b0yja9vckTV4CD3YO8eY39mYr1ocpFdEHr+I/8W+6e
- ZJfs9B6m4AMdSdttDyxaqIfNfSQgs6619PFswTCrUc6KmP1gKh1YinPdRRhS7OP94njQ
- BBYluXXi2vMjR1CRMbPePNVNyAw5NFzs2cybkaDWdhxvKVnDdub+rAxMbSWSvUf1JrN4
- Mf7K2FF+bAbHKkExkAFSHc7/zmXvSPMJadJwc0rf/luV7TFBltTUK0VtVePORKnPIzVp
- n9hX2UjUpBD4kHLhqvX09jtXGKklpP7badWG8nFr9OqFgSQBQsbtm7hJusZz1mWxptD1
- rAug==
-X-Gm-Message-State: AOAM532K/8aVIyf+hnuU8C/2g+WGIjJ1xr16rRncCffvbNDuCLCChiwy
- Ia3DRT7R6NNbkqNIhx8dMGakFSQ3Bx3WEA==
-X-Google-Smtp-Source: ABdhPJyMp7wUhEFhqakwcP6SgINeelh2QTJk7UR3U0Ivu2IGfrSIuNXHCwGzNpzmrJxXBvtN3NKC2g==
-X-Received: by 2002:a5d:4a4e:: with SMTP id v14mr6832915wrs.271.1633014728759; 
- Thu, 30 Sep 2021 08:12:08 -0700 (PDT)
+ bh=XLebwh8ygRsd0Pf9EoW0+q/5vT4Ko+x+7OO6En4P6kU=;
+ b=LdFkHJua30vQYmF5w3/ukw278Uy5rCGfLr5dQQtsHh1CXk1tbRg9BHY/hRsl1JYKxU
+ tT/cQ7ivnalY82a5ETyAITiLFTmu0hzTQMrZ9t//gRqtn7lqD2nW9+haEgIQydYtrKm/
+ LcqWj7vnuYEOJc1nxdhE5d3Us/kc2wni6JBTb/r0kselr52QjbVGt4m79d1KMWbgItLT
+ oqOak9h0PeyM3mlJTsS9e3VxAazCiYHX8gMaf+adhwZgm4jR4/IcBRldzeBVOurW8Kvd
+ tgAVPUrAw6Er0/HgDNfxHgpAgC+59EXq4YsebxnptzLETImL1yMRzqVF+NS84mX0o6GL
+ /xFg==
+X-Gm-Message-State: AOAM530bcFGfdZuFMyKSNkR45U6dEdXhcFoUoebHxePMfwlT5vIJDd7/
+ zdeUzvFXpS7JVO04fHZx8EVgCXx1Ekt7jw==
+X-Google-Smtp-Source: ABdhPJwEXlFqiuljwiZpG81+8lbvS48u9eD5+kV8ISL+FE9TQwkcqT5LqIti+o7KgJvpLktw+qYn/Q==
+X-Received: by 2002:adf:f481:: with SMTP id l1mr6702236wro.411.1633014729707; 
+ Thu, 30 Sep 2021 08:12:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g8sm1952098wrm.46.2021.09.30.08.12.07
+ by smtp.gmail.com with ESMTPSA id g8sm1952098wrm.46.2021.09.30.08.12.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 08:12:08 -0700 (PDT)
+ Thu, 30 Sep 2021 08:12:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/22] hw/nvram: Introduce Xilinx ZynqMP eFuse device
-Date: Thu, 30 Sep 2021 16:11:44 +0100
-Message-Id: <20210930151201.9407-6-peter.maydell@linaro.org>
+Subject: [PULL 06/22] hw/nvram: Introduce Xilinx battery-backed ram
+Date: Thu, 30 Sep 2021 16:11:45 +0100
+Message-Id: <20210930151201.9407-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210930151201.9407-1-peter.maydell@linaro.org>
 References: <20210930151201.9407-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,9 +88,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tong Ho <tong.ho@xilinx.com>
 
-This implements the Xilinx ZynqMP eFuse, an one-time
-field-programmable non-volatile storage device.  There is
-only one such device in the Xilinx ZynqMP product family.
+This device is present in Versal and ZynqMP product
+families to store a 256-bit encryption key.
 
 Co-authored-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Co-authored-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
@@ -98,78 +97,28 @@ Co-authored-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Signed-off-by: Tong Ho <tong.ho@xilinx.com>
-Message-id: 20210917052400.1249094-4-tong.ho@xilinx.com
+Message-id: 20210917052400.1249094-5-tong.ho@xilinx.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/nvram/xlnx-zynqmp-efuse.h |  44 ++
- hw/nvram/xlnx-zynqmp-efuse.c         | 855 +++++++++++++++++++++++++++
- hw/nvram/Kconfig                     |   4 +
- hw/nvram/meson.build                 |   2 +
- 4 files changed, 905 insertions(+)
- create mode 100644 include/hw/nvram/xlnx-zynqmp-efuse.h
- create mode 100644 hw/nvram/xlnx-zynqmp-efuse.c
+ include/hw/nvram/xlnx-bbram.h |  54 ++++
+ hw/nvram/xlnx-bbram.c         | 545 ++++++++++++++++++++++++++++++++++
+ hw/nvram/Kconfig              |   4 +
+ hw/nvram/meson.build          |   1 +
+ 4 files changed, 604 insertions(+)
+ create mode 100644 include/hw/nvram/xlnx-bbram.h
+ create mode 100644 hw/nvram/xlnx-bbram.c
 
-diff --git a/include/hw/nvram/xlnx-zynqmp-efuse.h b/include/hw/nvram/xlnx-zynqmp-efuse.h
+diff --git a/include/hw/nvram/xlnx-bbram.h b/include/hw/nvram/xlnx-bbram.h
 new file mode 100644
-index 00000000000..6b051ec4f15
+index 00000000000..87d59ef3c0c
 --- /dev/null
-+++ b/include/hw/nvram/xlnx-zynqmp-efuse.h
-@@ -0,0 +1,44 @@
++++ b/include/hw/nvram/xlnx-bbram.h
+@@ -0,0 +1,54 @@
 +/*
-+ * Copyright (c) 2021 Xilinx Inc.
++ * QEMU model of the Xilinx BBRAM Battery Backed RAM
 + *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+#ifndef XLNX_ZYNQMP_EFUSE_H
-+#define XLNX_ZYNQMP_EFUSE_H
-+
-+#include "hw/irq.h"
-+#include "hw/sysbus.h"
-+#include "hw/register.h"
-+#include "hw/nvram/xlnx-efuse.h"
-+
-+#define XLNX_ZYNQMP_EFUSE_R_MAX ((0x10fc / 4) + 1)
-+
-+#define TYPE_XLNX_ZYNQMP_EFUSE "xlnx,zynqmp-efuse"
-+OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPEFuse, XLNX_ZYNQMP_EFUSE);
-+
-+struct XlnxZynqMPEFuse {
-+    SysBusDevice parent_obj;
-+    qemu_irq irq;
-+
-+    XlnxEFuse *efuse;
-+    uint32_t regs[XLNX_ZYNQMP_EFUSE_R_MAX];
-+    RegisterInfo regs_info[XLNX_ZYNQMP_EFUSE_R_MAX];
-+};
-+
-+#endif
-diff --git a/hw/nvram/xlnx-zynqmp-efuse.c b/hw/nvram/xlnx-zynqmp-efuse.c
-new file mode 100644
-index 00000000000..1f87dbf988d
---- /dev/null
-+++ b/hw/nvram/xlnx-zynqmp-efuse.c
-@@ -0,0 +1,855 @@
-+/*
-+ * QEMU model of the ZynqMP eFuse
-+ *
-+ * Copyright (c) 2015 Xilinx Inc.
++ * Copyright (c) 2015-2021 Xilinx Inc.
 + *
 + * Written by Edgar E. Iglesias <edgari@xilinx.com>
 + *
@@ -191,725 +140,476 @@ index 00000000000..1f87dbf988d
 + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 + * THE SOFTWARE.
 + */
++#ifndef XLNX_BBRAM_H
++#define XLNX_BBRAM_H
++
++#include "sysemu/block-backend.h"
++#include "hw/qdev-core.h"
++#include "hw/irq.h"
++#include "hw/sysbus.h"
++#include "hw/register.h"
++
++#define RMAX_XLNX_BBRAM ((0x4c / 4) + 1)
++
++#define TYPE_XLNX_BBRAM "xlnx,bbram-ctrl"
++OBJECT_DECLARE_SIMPLE_TYPE(XlnxBBRam, XLNX_BBRAM);
++
++struct XlnxBBRam {
++    SysBusDevice parent_obj;
++    qemu_irq irq_bbram;
++
++    BlockBackend *blk;
++
++    uint32_t crc_zpads;
++    bool bbram8_wo;
++    bool blk_ro;
++
++    uint32_t regs[RMAX_XLNX_BBRAM];
++    RegisterInfo regs_info[RMAX_XLNX_BBRAM];
++};
++
++#endif
+diff --git a/hw/nvram/xlnx-bbram.c b/hw/nvram/xlnx-bbram.c
+new file mode 100644
+index 00000000000..b70828e5bf1
+--- /dev/null
++++ b/hw/nvram/xlnx-bbram.c
+@@ -0,0 +1,545 @@
++/*
++ * QEMU model of the Xilinx BBRAM Battery Backed RAM
++ *
++ * Copyright (c) 2014-2021 Xilinx Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
 +
 +#include "qemu/osdep.h"
-+#include "hw/nvram/xlnx-zynqmp-efuse.h"
++#include "hw/nvram/xlnx-bbram.h"
 +
++#include "qemu/error-report.h"
 +#include "qemu/log.h"
 +#include "qapi/error.h"
++#include "sysemu/blockdev.h"
 +#include "migration/vmstate.h"
 +#include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
++#include "hw/nvram/xlnx-efuse.h"
 +
-+#ifndef ZYNQMP_EFUSE_ERR_DEBUG
-+#define ZYNQMP_EFUSE_ERR_DEBUG 0
++#ifndef XLNX_BBRAM_ERR_DEBUG
++#define XLNX_BBRAM_ERR_DEBUG 0
 +#endif
 +
-+REG32(WR_LOCK, 0x0)
-+    FIELD(WR_LOCK, LOCK, 0, 16)
-+REG32(CFG, 0x4)
-+    FIELD(CFG, SLVERR_ENABLE, 5, 1)
-+    FIELD(CFG, MARGIN_RD, 2, 2)
-+    FIELD(CFG, PGM_EN, 1, 1)
-+    FIELD(CFG, EFUSE_CLK_SEL, 0, 1)
-+REG32(STATUS, 0x8)
-+    FIELD(STATUS, AES_CRC_PASS, 7, 1)
-+    FIELD(STATUS, AES_CRC_DONE, 6, 1)
-+    FIELD(STATUS, CACHE_DONE, 5, 1)
-+    FIELD(STATUS, CACHE_LOAD, 4, 1)
-+    FIELD(STATUS, EFUSE_3_TBIT, 2, 1)
-+    FIELD(STATUS, EFUSE_2_TBIT, 1, 1)
-+    FIELD(STATUS, EFUSE_0_TBIT, 0, 1)
-+REG32(EFUSE_PGM_ADDR, 0xc)
-+    FIELD(EFUSE_PGM_ADDR, EFUSE, 11, 2)
-+    FIELD(EFUSE_PGM_ADDR, ROW, 5, 6)
-+    FIELD(EFUSE_PGM_ADDR, COLUMN, 0, 5)
-+REG32(EFUSE_RD_ADDR, 0x10)
-+    FIELD(EFUSE_RD_ADDR, EFUSE, 11, 2)
-+    FIELD(EFUSE_RD_ADDR, ROW, 5, 6)
-+REG32(EFUSE_RD_DATA, 0x14)
-+REG32(TPGM, 0x18)
-+    FIELD(TPGM, VALUE, 0, 16)
-+REG32(TRD, 0x1c)
-+    FIELD(TRD, VALUE, 0, 8)
-+REG32(TSU_H_PS, 0x20)
-+    FIELD(TSU_H_PS, VALUE, 0, 8)
-+REG32(TSU_H_PS_CS, 0x24)
-+    FIELD(TSU_H_PS_CS, VALUE, 0, 8)
-+REG32(TSU_H_CS, 0x2c)
-+    FIELD(TSU_H_CS, VALUE, 0, 4)
-+REG32(EFUSE_ISR, 0x30)
-+    FIELD(EFUSE_ISR, APB_SLVERR, 31, 1)
-+    FIELD(EFUSE_ISR, CACHE_ERROR, 4, 1)
-+    FIELD(EFUSE_ISR, RD_ERROR, 3, 1)
-+    FIELD(EFUSE_ISR, RD_DONE, 2, 1)
-+    FIELD(EFUSE_ISR, PGM_ERROR, 1, 1)
-+    FIELD(EFUSE_ISR, PGM_DONE, 0, 1)
-+REG32(EFUSE_IMR, 0x34)
-+    FIELD(EFUSE_IMR, APB_SLVERR, 31, 1)
-+    FIELD(EFUSE_IMR, CACHE_ERROR, 4, 1)
-+    FIELD(EFUSE_IMR, RD_ERROR, 3, 1)
-+    FIELD(EFUSE_IMR, RD_DONE, 2, 1)
-+    FIELD(EFUSE_IMR, PGM_ERROR, 1, 1)
-+    FIELD(EFUSE_IMR, PGM_DONE, 0, 1)
-+REG32(EFUSE_IER, 0x38)
-+    FIELD(EFUSE_IER, APB_SLVERR, 31, 1)
-+    FIELD(EFUSE_IER, CACHE_ERROR, 4, 1)
-+    FIELD(EFUSE_IER, RD_ERROR, 3, 1)
-+    FIELD(EFUSE_IER, RD_DONE, 2, 1)
-+    FIELD(EFUSE_IER, PGM_ERROR, 1, 1)
-+    FIELD(EFUSE_IER, PGM_DONE, 0, 1)
-+REG32(EFUSE_IDR, 0x3c)
-+    FIELD(EFUSE_IDR, APB_SLVERR, 31, 1)
-+    FIELD(EFUSE_IDR, CACHE_ERROR, 4, 1)
-+    FIELD(EFUSE_IDR, RD_ERROR, 3, 1)
-+    FIELD(EFUSE_IDR, RD_DONE, 2, 1)
-+    FIELD(EFUSE_IDR, PGM_ERROR, 1, 1)
-+    FIELD(EFUSE_IDR, PGM_DONE, 0, 1)
-+REG32(EFUSE_CACHE_LOAD, 0x40)
-+    FIELD(EFUSE_CACHE_LOAD, LOAD, 0, 1)
-+REG32(EFUSE_PGM_LOCK, 0x44)
-+    FIELD(EFUSE_PGM_LOCK, SPK_ID_LOCK, 0, 1)
-+REG32(EFUSE_AES_CRC, 0x48)
-+REG32(EFUSE_TBITS_PRGRMG_EN, 0x100)
-+    FIELD(EFUSE_TBITS_PRGRMG_EN, TBITS_PRGRMG_EN, 3, 1)
-+REG32(DNA_0, 0x100c)
-+REG32(DNA_1, 0x1010)
-+REG32(DNA_2, 0x1014)
-+REG32(IPDISABLE, 0x1018)
-+    FIELD(IPDISABLE, VCU_DIS, 8, 1)
-+    FIELD(IPDISABLE, GPU_DIS, 5, 1)
-+    FIELD(IPDISABLE, APU3_DIS, 3, 1)
-+    FIELD(IPDISABLE, APU2_DIS, 2, 1)
-+    FIELD(IPDISABLE, APU1_DIS, 1, 1)
-+    FIELD(IPDISABLE, APU0_DIS, 0, 1)
-+REG32(SYSOSC_CTRL, 0x101c)
-+    FIELD(SYSOSC_CTRL, SYSOSC_EN, 0, 1)
-+REG32(USER_0, 0x1020)
-+REG32(USER_1, 0x1024)
-+REG32(USER_2, 0x1028)
-+REG32(USER_3, 0x102c)
-+REG32(USER_4, 0x1030)
-+REG32(USER_5, 0x1034)
-+REG32(USER_6, 0x1038)
-+REG32(USER_7, 0x103c)
-+REG32(MISC_USER_CTRL, 0x1040)
-+    FIELD(MISC_USER_CTRL, FPD_SC_EN_0, 14, 1)
-+    FIELD(MISC_USER_CTRL, LPD_SC_EN_0, 11, 1)
-+    FIELD(MISC_USER_CTRL, LBIST_EN, 10, 1)
-+    FIELD(MISC_USER_CTRL, USR_WRLK_7, 7, 1)
-+    FIELD(MISC_USER_CTRL, USR_WRLK_6, 6, 1)
-+    FIELD(MISC_USER_CTRL, USR_WRLK_5, 5, 1)
-+    FIELD(MISC_USER_CTRL, USR_WRLK_4, 4, 1)
-+    FIELD(MISC_USER_CTRL, USR_WRLK_3, 3, 1)
-+    FIELD(MISC_USER_CTRL, USR_WRLK_2, 2, 1)
-+    FIELD(MISC_USER_CTRL, USR_WRLK_1, 1, 1)
-+    FIELD(MISC_USER_CTRL, USR_WRLK_0, 0, 1)
-+REG32(ROM_RSVD, 0x1044)
-+    FIELD(ROM_RSVD, PBR_BOOT_ERROR, 0, 3)
-+REG32(PUF_CHASH, 0x1050)
-+REG32(PUF_MISC, 0x1054)
-+    FIELD(PUF_MISC, REGISTER_DIS, 31, 1)
-+    FIELD(PUF_MISC, SYN_WRLK, 30, 1)
-+    FIELD(PUF_MISC, SYN_INVLD, 29, 1)
-+    FIELD(PUF_MISC, TEST2_DIS, 28, 1)
-+    FIELD(PUF_MISC, UNUSED27, 27, 1)
-+    FIELD(PUF_MISC, UNUSED26, 26, 1)
-+    FIELD(PUF_MISC, UNUSED25, 25, 1)
-+    FIELD(PUF_MISC, UNUSED24, 24, 1)
-+    FIELD(PUF_MISC, AUX, 0, 24)
-+REG32(SEC_CTRL, 0x1058)
-+    FIELD(SEC_CTRL, PPK1_INVLD, 30, 2)
-+    FIELD(SEC_CTRL, PPK1_WRLK, 29, 1)
-+    FIELD(SEC_CTRL, PPK0_INVLD, 27, 2)
-+    FIELD(SEC_CTRL, PPK0_WRLK, 26, 1)
-+    FIELD(SEC_CTRL, RSA_EN, 11, 15)
-+    FIELD(SEC_CTRL, SEC_LOCK, 10, 1)
-+    FIELD(SEC_CTRL, PROG_GATE_2, 9, 1)
-+    FIELD(SEC_CTRL, PROG_GATE_1, 8, 1)
-+    FIELD(SEC_CTRL, PROG_GATE_0, 7, 1)
-+    FIELD(SEC_CTRL, DFT_DIS, 6, 1)
-+    FIELD(SEC_CTRL, JTAG_DIS, 5, 1)
-+    FIELD(SEC_CTRL, ERROR_DIS, 4, 1)
-+    FIELD(SEC_CTRL, BBRAM_DIS, 3, 1)
-+    FIELD(SEC_CTRL, ENC_ONLY, 2, 1)
-+    FIELD(SEC_CTRL, AES_WRLK, 1, 1)
-+    FIELD(SEC_CTRL, AES_RDLK, 0, 1)
-+REG32(SPK_ID, 0x105c)
-+REG32(PPK0_0, 0x10a0)
-+REG32(PPK0_1, 0x10a4)
-+REG32(PPK0_2, 0x10a8)
-+REG32(PPK0_3, 0x10ac)
-+REG32(PPK0_4, 0x10b0)
-+REG32(PPK0_5, 0x10b4)
-+REG32(PPK0_6, 0x10b8)
-+REG32(PPK0_7, 0x10bc)
-+REG32(PPK0_8, 0x10c0)
-+REG32(PPK0_9, 0x10c4)
-+REG32(PPK0_10, 0x10c8)
-+REG32(PPK0_11, 0x10cc)
-+REG32(PPK1_0, 0x10d0)
-+REG32(PPK1_1, 0x10d4)
-+REG32(PPK1_2, 0x10d8)
-+REG32(PPK1_3, 0x10dc)
-+REG32(PPK1_4, 0x10e0)
-+REG32(PPK1_5, 0x10e4)
-+REG32(PPK1_6, 0x10e8)
-+REG32(PPK1_7, 0x10ec)
-+REG32(PPK1_8, 0x10f0)
-+REG32(PPK1_9, 0x10f4)
-+REG32(PPK1_10, 0x10f8)
-+REG32(PPK1_11, 0x10fc)
++REG32(BBRAM_STATUS, 0x0)
++    FIELD(BBRAM_STATUS, AES_CRC_PASS, 9, 1)
++    FIELD(BBRAM_STATUS, AES_CRC_DONE, 8, 1)
++    FIELD(BBRAM_STATUS, BBRAM_ZEROIZED, 4, 1)
++    FIELD(BBRAM_STATUS, PGM_MODE, 0, 1)
++REG32(BBRAM_CTRL, 0x4)
++    FIELD(BBRAM_CTRL, ZEROIZE, 0, 1)
++REG32(PGM_MODE, 0x8)
++REG32(BBRAM_AES_CRC, 0xc)
++REG32(BBRAM_0, 0x10)
++REG32(BBRAM_1, 0x14)
++REG32(BBRAM_2, 0x18)
++REG32(BBRAM_3, 0x1c)
++REG32(BBRAM_4, 0x20)
++REG32(BBRAM_5, 0x24)
++REG32(BBRAM_6, 0x28)
++REG32(BBRAM_7, 0x2c)
++REG32(BBRAM_8, 0x30)
++REG32(BBRAM_SLVERR, 0x34)
++    FIELD(BBRAM_SLVERR, ENABLE, 0, 1)
++REG32(BBRAM_ISR, 0x38)
++    FIELD(BBRAM_ISR, APB_SLVERR, 0, 1)
++REG32(BBRAM_IMR, 0x3c)
++    FIELD(BBRAM_IMR, APB_SLVERR, 0, 1)
++REG32(BBRAM_IER, 0x40)
++    FIELD(BBRAM_IER, APB_SLVERR, 0, 1)
++REG32(BBRAM_IDR, 0x44)
++    FIELD(BBRAM_IDR, APB_SLVERR, 0, 1)
++REG32(BBRAM_MSW_LOCK, 0x4c)
++    FIELD(BBRAM_MSW_LOCK, VAL, 0, 1)
 +
-+#define BIT_POS(ROW, COLUMN)    (ROW * 32 + COLUMN)
-+#define R_MAX (R_PPK1_11 + 1)
++#define R_MAX (R_BBRAM_MSW_LOCK + 1)
 +
-+/* #define EFUSE_XOSC            26 */
++#define RAM_MAX (A_BBRAM_8 + 4 - A_BBRAM_0)
 +
-+/*
-+ * eFUSE layout references:
-+ *   ZynqMP: UG1085 (v2.1) August 21, 2019, p.277, Table 12-13
-+ */
-+#define EFUSE_AES_RDLK        BIT_POS(22, 0)
-+#define EFUSE_AES_WRLK        BIT_POS(22, 1)
-+#define EFUSE_ENC_ONLY        BIT_POS(22, 2)
-+#define EFUSE_BBRAM_DIS       BIT_POS(22, 3)
-+#define EFUSE_ERROR_DIS       BIT_POS(22, 4)
-+#define EFUSE_JTAG_DIS        BIT_POS(22, 5)
-+#define EFUSE_DFT_DIS         BIT_POS(22, 6)
-+#define EFUSE_PROG_GATE_0     BIT_POS(22, 7)
-+#define EFUSE_PROG_GATE_1     BIT_POS(22, 7)
-+#define EFUSE_PROG_GATE_2     BIT_POS(22, 9)
-+#define EFUSE_SEC_LOCK        BIT_POS(22, 10)
-+#define EFUSE_RSA_EN          BIT_POS(22, 11)
-+#define EFUSE_RSA_EN14        BIT_POS(22, 25)
-+#define EFUSE_PPK0_WRLK       BIT_POS(22, 26)
-+#define EFUSE_PPK0_INVLD      BIT_POS(22, 27)
-+#define EFUSE_PPK0_INVLD_1    BIT_POS(22, 28)
-+#define EFUSE_PPK1_WRLK       BIT_POS(22, 29)
-+#define EFUSE_PPK1_INVLD      BIT_POS(22, 30)
-+#define EFUSE_PPK1_INVLD_1    BIT_POS(22, 31)
++#define BBRAM_PGM_MAGIC 0x757bdf0d
 +
-+/* Areas.  */
-+#define EFUSE_TRIM_START      BIT_POS(1, 0)
-+#define EFUSE_TRIM_END        BIT_POS(1, 30)
-+#define EFUSE_DNA_START       BIT_POS(3, 0)
-+#define EFUSE_DNA_END         BIT_POS(5, 31)
-+#define EFUSE_AES_START       BIT_POS(24, 0)
-+#define EFUSE_AES_END         BIT_POS(31, 31)
-+#define EFUSE_ROM_START       BIT_POS(17, 0)
-+#define EFUSE_ROM_END         BIT_POS(17, 31)
-+#define EFUSE_IPDIS_START     BIT_POS(6, 0)
-+#define EFUSE_IPDIS_END       BIT_POS(6, 31)
-+#define EFUSE_USER_START      BIT_POS(8, 0)
-+#define EFUSE_USER_END        BIT_POS(15, 31)
-+#define EFUSE_BISR_START      BIT_POS(32, 0)
-+#define EFUSE_BISR_END        BIT_POS(39, 31)
++QEMU_BUILD_BUG_ON(R_MAX != ARRAY_SIZE(((XlnxBBRam *)0)->regs));
 +
-+#define EFUSE_USER_CTRL_START BIT_POS(16, 0)
-+#define EFUSE_USER_CTRL_END   BIT_POS(16, 16)
-+#define EFUSE_USER_CTRL_MASK  ((uint32_t)MAKE_64BIT_MASK(0, 17))
-+
-+#define EFUSE_PUF_CHASH_START BIT_POS(20, 0)
-+#define EFUSE_PUF_CHASH_END   BIT_POS(20, 31)
-+#define EFUSE_PUF_MISC_START  BIT_POS(21, 0)
-+#define EFUSE_PUF_MISC_END    BIT_POS(21, 31)
-+#define EFUSE_PUF_SYN_WRLK    BIT_POS(21, 30)
-+
-+#define EFUSE_SPK_START       BIT_POS(23, 0)
-+#define EFUSE_SPK_END         BIT_POS(23, 31)
-+
-+#define EFUSE_PPK0_START      BIT_POS(40, 0)
-+#define EFUSE_PPK0_END        BIT_POS(51, 31)
-+#define EFUSE_PPK1_START      BIT_POS(52, 0)
-+#define EFUSE_PPK1_END        BIT_POS(63, 31)
-+
-+#define EFUSE_CACHE_FLD(s, reg, field) \
-+    ARRAY_FIELD_DP32((s)->regs, reg, field, \
-+                     (xlnx_efuse_get_row((s->efuse), EFUSE_ ## field) \
-+                      >> (EFUSE_ ## field % 32)))
-+
-+#define EFUSE_CACHE_BIT(s, reg, field) \
-+    ARRAY_FIELD_DP32((s)->regs, reg, field, xlnx_efuse_get_bit((s->efuse), \
-+                EFUSE_ ## field))
-+
-+#define FBIT_UNKNOWN (~0)
-+
-+QEMU_BUILD_BUG_ON(R_MAX != ARRAY_SIZE(((XlnxZynqMPEFuse *)0)->regs));
-+
-+static void update_tbit_status(XlnxZynqMPEFuse *s)
++static bool bbram_msw_locked(XlnxBBRam *s)
 +{
-+    unsigned int check = xlnx_efuse_tbits_check(s->efuse);
-+    uint32_t val = s->regs[R_STATUS];
-+
-+    val = FIELD_DP32(val, STATUS, EFUSE_0_TBIT, !!(check & (1 << 0)));
-+    val = FIELD_DP32(val, STATUS, EFUSE_2_TBIT, !!(check & (1 << 1)));
-+    val = FIELD_DP32(val, STATUS, EFUSE_3_TBIT, !!(check & (1 << 2)));
-+
-+    s->regs[R_STATUS] = val;
++    return ARRAY_FIELD_EX32(s->regs, BBRAM_MSW_LOCK, VAL) != 0;
 +}
 +
-+/* Update the u32 array from efuse bits. Slow but simple approach.  */
-+static void cache_sync_u32(XlnxZynqMPEFuse *s, unsigned int r_start,
-+                           unsigned int f_start, unsigned int f_end,
-+                           unsigned int f_written)
++static bool bbram_pgm_enabled(XlnxBBRam *s)
 +{
-+    uint32_t *u32 = &s->regs[r_start];
-+    unsigned int fbit, wbits = 0, u32_off = 0;
++    return ARRAY_FIELD_EX32(s->regs, BBRAM_STATUS, PGM_MODE) != 0;
++}
 +
-+    /* Avoid working on bits that are not relevant.  */
-+    if (f_written != FBIT_UNKNOWN
-+        && (f_written < f_start || f_written > f_end)) {
++static void bbram_bdrv_error(XlnxBBRam *s, int rc, gchar *detail)
++{
++    Error *errp;
++
++    error_setg_errno(&errp, -rc, "%s: BBRAM backstore %s failed.",
++                     blk_name(s->blk), detail);
++    error_report("%s", error_get_pretty(errp));
++    error_free(errp);
++
++    g_free(detail);
++}
++
++static void bbram_bdrv_read(XlnxBBRam *s, Error **errp)
++{
++    uint32_t *ram = &s->regs[R_BBRAM_0];
++    int nr = RAM_MAX;
++
++    if (!s->blk) {
 +        return;
 +    }
 +
-+    for (fbit = f_start; fbit <= f_end; fbit++, wbits++) {
-+        if (wbits == 32) {
-+            /* Update the key offset.  */
-+            u32_off += 1;
-+            wbits = 0;
++    s->blk_ro = !blk_supports_write_perm(s->blk);
++    if (!s->blk_ro) {
++        int rc;
++
++        rc = blk_set_perm(s->blk,
++                          (BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE),
++                          BLK_PERM_ALL, NULL);
++        if (rc) {
++            s->blk_ro = true;
 +        }
-+        u32[u32_off] |= xlnx_efuse_get_bit(s->efuse, fbit) << wbits;
 +    }
-+}
++    if (s->blk_ro) {
++        warn_report("%s: Skip saving updates to read-only BBRAM backstore.",
++                    blk_name(s->blk));
++    }
 +
-+/*
-+ * Keep the syncs in bit order so we can bail out for the
-+ * slower ones.
-+ */
-+static void zynqmp_efuse_sync_cache(XlnxZynqMPEFuse *s, unsigned int bit)
-+{
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, AES_RDLK);
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, AES_WRLK);
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, ENC_ONLY);
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, BBRAM_DIS);
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, ERROR_DIS);
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, JTAG_DIS);
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, DFT_DIS);
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, PROG_GATE_0);
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, PROG_GATE_1);
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, PROG_GATE_2);
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, SEC_LOCK);
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, PPK0_WRLK);
-+    EFUSE_CACHE_BIT(s, SEC_CTRL, PPK1_WRLK);
-+
-+    EFUSE_CACHE_FLD(s, SEC_CTRL, RSA_EN);
-+    EFUSE_CACHE_FLD(s, SEC_CTRL, PPK0_INVLD);
-+    EFUSE_CACHE_FLD(s, SEC_CTRL, PPK1_INVLD);
-+
-+    /* Update the tbits.  */
-+    update_tbit_status(s);
-+
-+    /* Sync the various areas.  */
-+    s->regs[R_MISC_USER_CTRL] = xlnx_efuse_get_row(s->efuse,
-+                                                   EFUSE_USER_CTRL_START)
-+                                & EFUSE_USER_CTRL_MASK;
-+    s->regs[R_PUF_CHASH] = xlnx_efuse_get_row(s->efuse, EFUSE_PUF_CHASH_START);
-+    s->regs[R_PUF_MISC]  = xlnx_efuse_get_row(s->efuse, EFUSE_PUF_MISC_START);
-+
-+    cache_sync_u32(s, R_DNA_0, EFUSE_DNA_START, EFUSE_DNA_END, bit);
-+
-+    if (bit < EFUSE_AES_START) {
++    if (blk_pread(s->blk, 0, ram, nr) < 0) {
++        error_setg(errp,
++                   "%s: Failed to read %u bytes from BBRAM backstore.",
++                   blk_name(s->blk), nr);
 +        return;
 +    }
 +
-+    cache_sync_u32(s, R_ROM_RSVD, EFUSE_ROM_START, EFUSE_ROM_END, bit);
-+    cache_sync_u32(s, R_IPDISABLE, EFUSE_IPDIS_START, EFUSE_IPDIS_END, bit);
-+    cache_sync_u32(s, R_USER_0, EFUSE_USER_START, EFUSE_USER_END, bit);
-+    cache_sync_u32(s, R_SPK_ID, EFUSE_SPK_START, EFUSE_SPK_END, bit);
-+    cache_sync_u32(s, R_PPK0_0, EFUSE_PPK0_START, EFUSE_PPK0_END, bit);
-+    cache_sync_u32(s, R_PPK1_0, EFUSE_PPK1_START, EFUSE_PPK1_END, bit);
++    /* Convert from little-endian backstore for each 32-bit word */
++    nr /= 4;
++    while (nr--) {
++        ram[nr] = le32_to_cpu(ram[nr]);
++    }
 +}
 +
-+static void zynqmp_efuse_update_irq(XlnxZynqMPEFuse *s)
++static void bbram_bdrv_sync(XlnxBBRam *s, uint64_t hwaddr)
 +{
-+    bool pending = s->regs[R_EFUSE_ISR] & s->regs[R_EFUSE_IMR];
-+    qemu_set_irq(s->irq, pending);
++    uint32_t le32;
++    unsigned offset;
++    int rc;
++
++    assert(A_BBRAM_0 <= hwaddr && hwaddr <= A_BBRAM_8);
++
++    /* Backstore is always in little-endian */
++    le32 = cpu_to_le32(s->regs[hwaddr / 4]);
++
++    /* Update zeroized flag */
++    if (le32 && (hwaddr != A_BBRAM_8 || s->bbram8_wo)) {
++        ARRAY_FIELD_DP32(s->regs, BBRAM_STATUS, BBRAM_ZEROIZED, 0);
++    }
++
++    if (!s->blk || s->blk_ro) {
++        return;
++    }
++
++    offset = hwaddr - A_BBRAM_0;
++    rc = blk_pwrite(s->blk, offset, &le32, 4, 0);
++    if (rc < 0) {
++        bbram_bdrv_error(s, rc, g_strdup_printf("write to offset %u", offset));
++    }
 +}
 +
-+static void zynqmp_efuse_isr_postw(RegisterInfo *reg, uint64_t val64)
++static void bbram_bdrv_zero(XlnxBBRam *s)
 +{
-+    XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(reg->opaque);
-+    zynqmp_efuse_update_irq(s);
++    int rc;
++
++    ARRAY_FIELD_DP32(s->regs, BBRAM_STATUS, BBRAM_ZEROIZED, 1);
++
++    if (!s->blk || s->blk_ro) {
++        return;
++    }
++
++    rc = blk_make_zero(s->blk, 0);
++    if (rc < 0) {
++        bbram_bdrv_error(s, rc, g_strdup("zeroizing"));
++    }
++
++    /* Restore bbram8 if it is non-zero */
++    if (s->regs[R_BBRAM_8]) {
++        bbram_bdrv_sync(s, A_BBRAM_8);
++    }
 +}
 +
-+static uint64_t zynqmp_efuse_ier_prew(RegisterInfo *reg, uint64_t val64)
++static void bbram_zeroize(XlnxBBRam *s)
 +{
-+    XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(reg->opaque);
++    int nr = RAM_MAX - (s->bbram8_wo ? 0 : 4); /* only wo bbram8 is cleared */
++
++    memset(&s->regs[R_BBRAM_0], 0, nr);
++    bbram_bdrv_zero(s);
++}
++
++static void bbram_update_irq(XlnxBBRam *s)
++{
++    bool pending = s->regs[R_BBRAM_ISR] & ~s->regs[R_BBRAM_IMR];
++
++    qemu_set_irq(s->irq_bbram, pending);
++}
++
++static void bbram_ctrl_postw(RegisterInfo *reg, uint64_t val64)
++{
++    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
 +    uint32_t val = val64;
 +
-+    s->regs[R_EFUSE_IMR] |= val;
-+    zynqmp_efuse_update_irq(s);
-+    return 0;
++    if (val & R_BBRAM_CTRL_ZEROIZE_MASK) {
++        bbram_zeroize(s);
++        /* The bit is self clearing */
++        s->regs[R_BBRAM_CTRL] &= ~R_BBRAM_CTRL_ZEROIZE_MASK;
++    }
 +}
 +
-+static uint64_t zynqmp_efuse_idr_prew(RegisterInfo *reg, uint64_t val64)
++static void bbram_pgm_mode_postw(RegisterInfo *reg, uint64_t val64)
 +{
-+    XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(reg->opaque);
++    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
 +    uint32_t val = val64;
 +
-+    s->regs[R_EFUSE_IMR] &= ~val;
-+    zynqmp_efuse_update_irq(s);
-+    return 0;
++    if (val == BBRAM_PGM_MAGIC) {
++        bbram_zeroize(s);
++
++        /* The status bit is cleared only by POR */
++        ARRAY_FIELD_DP32(s->regs, BBRAM_STATUS, PGM_MODE, 1);
++    }
 +}
 +
-+static void zynqmp_efuse_pgm_addr_postw(RegisterInfo *reg, uint64_t val64)
++static void bbram_aes_crc_postw(RegisterInfo *reg, uint64_t val64)
 +{
-+    XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(reg->opaque);
-+    unsigned bit = val64;
-+    unsigned page = FIELD_EX32(bit, EFUSE_PGM_ADDR, EFUSE);
-+    bool puf_prot = false;
-+    const char *errmsg = NULL;
++    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
++    uint32_t calc_crc;
 +
-+    /* Allow only valid array, and adjust for skipped array 1 */
-+    switch (page) {
-+    case 0:
-+        break;
-+    case 2 ... 3:
-+        bit = FIELD_DP32(bit, EFUSE_PGM_ADDR, EFUSE, page - 1);
-+        puf_prot = xlnx_efuse_get_bit(s->efuse, EFUSE_PUF_SYN_WRLK);
-+        break;
-+    default:
-+        errmsg = "Invalid address";
-+        goto pgm_done;
++    if (!bbram_pgm_enabled(s)) {
++        /* We are not in programming mode, don't do anything */
++        return;
 +    }
 +
-+    if (ARRAY_FIELD_EX32(s->regs, WR_LOCK, LOCK)) {
-+        errmsg = "Array write-locked";
-+        goto pgm_done;
-+    }
-+
-+    if (!ARRAY_FIELD_EX32(s->regs, CFG, PGM_EN)) {
-+        errmsg = "Array pgm-disabled";
-+        goto pgm_done;
-+    }
-+
-+    if (puf_prot) {
-+        errmsg = "PUF_HD-store write-locked";
-+        goto pgm_done;
-+    }
-+
-+    if (ARRAY_FIELD_EX32(s->regs, SEC_CTRL, AES_WRLK)
-+        && bit >= EFUSE_AES_START && bit <= EFUSE_AES_END) {
-+        errmsg = "AES key-store Write-locked";
-+        goto pgm_done;
-+    }
-+
-+    if (!xlnx_efuse_set_bit(s->efuse, bit)) {
-+        errmsg = "Write failed";
-+    }
-+
-+ pgm_done:
-+    if (!errmsg) {
-+        ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, PGM_ERROR, 0);
-+    } else {
-+        ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, PGM_ERROR, 1);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s - eFuse write error: %s; addr=0x%x\n",
-+                      object_get_canonical_path(OBJECT(s)),
-+                      errmsg, (unsigned)val64);
-+    }
-+
-+    ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, PGM_DONE, 1);
-+    zynqmp_efuse_update_irq(s);
-+}
-+
-+static void zynqmp_efuse_rd_addr_postw(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(reg->opaque);
++    /* Perform the AES integrity check */
++    s->regs[R_BBRAM_STATUS] |= R_BBRAM_STATUS_AES_CRC_DONE_MASK;
 +
 +    /*
-+     * Grant reads only to allowed bits; reference sources:
-+     * 1/ XilSKey - XilSKey_ZynqMp_EfusePs_ReadRow()
-+     * 2/ UG1085, v2.0, table 12-13
-+     * (note: enumerates the masks as <first, last> per described in
-+     *  references to avoid mental translation).
++     * Set check status.
++     *
++     * ZynqMP BBRAM check has a zero-u32 prepended; see:
++     *  https://github.com/Xilinx/embeddedsw/blob/release-2019.2/lib/sw_services/xilskey/src/xilskey_bbramps_zynqmp.c#L311
 +     */
-+#define COL_MASK(L_, H_) \
-+    ((uint32_t)MAKE_64BIT_MASK((L_), (1 + (H_) - (L_))))
++    calc_crc = xlnx_efuse_calc_crc(&s->regs[R_BBRAM_0],
++                                   (R_BBRAM_8 - R_BBRAM_0), s->crc_zpads);
 +
-+    static const uint32_t ary0_col_mask[] = {
-+        /* XilSKey - XSK_ZYNQMP_EFUSEPS_TBITS_ROW */
-+        [0]  = COL_MASK(28, 31),
-+
-+        /* XilSKey - XSK_ZYNQMP_EFUSEPS_USR{0:7}_FUSE_ROW */
-+        [8]  = COL_MASK(0, 31), [9]  = COL_MASK(0, 31),
-+        [10] = COL_MASK(0, 31), [11] = COL_MASK(0, 31),
-+        [12] = COL_MASK(0, 31), [13] = COL_MASK(0, 31),
-+        [14] = COL_MASK(0, 31), [15] = COL_MASK(0, 31),
-+
-+        /* XilSKey - XSK_ZYNQMP_EFUSEPS_MISC_USR_CTRL_ROW */
-+        [16] = COL_MASK(0, 7) | COL_MASK(10, 16),
-+
-+        /* XilSKey - XSK_ZYNQMP_EFUSEPS_PBR_BOOT_ERR_ROW */
-+        [17] = COL_MASK(0, 2),
-+
-+        /* XilSKey - XSK_ZYNQMP_EFUSEPS_PUF_CHASH_ROW */
-+        [20] = COL_MASK(0, 31),
-+
-+        /* XilSKey - XSK_ZYNQMP_EFUSEPS_PUF_AUX_ROW */
-+        [21] = COL_MASK(0, 23) | COL_MASK(29, 31),
-+
-+        /* XilSKey - XSK_ZYNQMP_EFUSEPS_SEC_CTRL_ROW */
-+        [22] = COL_MASK(0, 31),
-+
-+        /* XilSKey - XSK_ZYNQMP_EFUSEPS_SPK_ID_ROW */
-+        [23] = COL_MASK(0, 31),
-+
-+        /* XilSKey - XSK_ZYNQMP_EFUSEPS_PPK0_START_ROW */
-+        [40] = COL_MASK(0, 31), [41] = COL_MASK(0, 31),
-+        [42] = COL_MASK(0, 31), [43] = COL_MASK(0, 31),
-+        [44] = COL_MASK(0, 31), [45] = COL_MASK(0, 31),
-+        [46] = COL_MASK(0, 31), [47] = COL_MASK(0, 31),
-+        [48] = COL_MASK(0, 31), [49] = COL_MASK(0, 31),
-+        [50] = COL_MASK(0, 31), [51] = COL_MASK(0, 31),
-+
-+        /* XilSKey - XSK_ZYNQMP_EFUSEPS_PPK1_START_ROW */
-+        [52] = COL_MASK(0, 31), [53] = COL_MASK(0, 31),
-+        [54] = COL_MASK(0, 31), [55] = COL_MASK(0, 31),
-+        [56] = COL_MASK(0, 31), [57] = COL_MASK(0, 31),
-+        [58] = COL_MASK(0, 31), [59] = COL_MASK(0, 31),
-+        [60] = COL_MASK(0, 31), [61] = COL_MASK(0, 31),
-+        [62] = COL_MASK(0, 31), [63] = COL_MASK(0, 31),
-+    };
-+
-+    uint32_t col_mask = COL_MASK(0, 31);
-+#undef COL_MASK
-+
-+    uint32_t efuse_idx = s->regs[R_EFUSE_RD_ADDR];
-+    uint32_t efuse_ary = FIELD_EX32(efuse_idx, EFUSE_RD_ADDR, EFUSE);
-+    uint32_t efuse_row = FIELD_EX32(efuse_idx, EFUSE_RD_ADDR, ROW);
-+
-+    switch (efuse_ary) {
-+    case 0:     /* Various */
-+        if (efuse_row >= ARRAY_SIZE(ary0_col_mask)) {
-+            goto denied;
-+        }
-+
-+        col_mask = ary0_col_mask[efuse_row];
-+        if (!col_mask) {
-+            goto denied;
-+        }
-+        break;
-+    case 2:     /* PUF helper data, adjust for skipped array 1 */
-+    case 3:
-+        val64 = FIELD_DP32(efuse_idx, EFUSE_RD_ADDR, EFUSE, efuse_ary - 1);
-+        break;
-+    default:
-+        goto denied;
-+    }
-+
-+    s->regs[R_EFUSE_RD_DATA] = xlnx_efuse_get_row(s->efuse, val64) & col_mask;
-+
-+    ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, RD_ERROR, 0);
-+    ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, RD_DONE, 1);
-+    zynqmp_efuse_update_irq(s);
-+    return;
-+
-+ denied:
-+    qemu_log_mask(LOG_GUEST_ERROR,
-+                  "%s: Denied efuse read from array %u, row %u\n",
-+                  object_get_canonical_path(OBJECT(s)),
-+                  efuse_ary, efuse_row);
-+
-+    s->regs[R_EFUSE_RD_DATA] = 0;
-+
-+    ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, RD_ERROR, 1);
-+    ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, RD_DONE, 0);
-+    zynqmp_efuse_update_irq(s);
++    ARRAY_FIELD_DP32(s->regs, BBRAM_STATUS, AES_CRC_PASS,
++                     (s->regs[R_BBRAM_AES_CRC] == calc_crc));
 +}
 +
-+static void zynqmp_efuse_aes_crc_postw(RegisterInfo *reg, uint64_t val64)
++static uint64_t bbram_key_prew(RegisterInfo *reg, uint64_t val64)
 +{
-+    XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(reg->opaque);
-+    bool ok;
++    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
++    uint32_t original_data = *(uint32_t *) reg->data;
 +
-+    ok = xlnx_efuse_k256_check(s->efuse, (uint32_t)val64, EFUSE_AES_START);
-+
-+    ARRAY_FIELD_DP32(s->regs, STATUS, AES_CRC_PASS, (ok ? 1 : 0));
-+    ARRAY_FIELD_DP32(s->regs, STATUS, AES_CRC_DONE, 1);
-+
-+    s->regs[R_EFUSE_AES_CRC] = 0;   /* crc value is write-only */
++    if (bbram_pgm_enabled(s)) {
++        return val64;
++    } else {
++        /* We are not in programming mode, don't do anything */
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "Not in programming mode, dropping the write\n");
++        return original_data;
++    }
 +}
 +
-+static uint64_t zynqmp_efuse_cache_load_prew(RegisterInfo *reg,
-+                                             uint64_t valu64)
++static void bbram_key_postw(RegisterInfo *reg, uint64_t val64)
 +{
-+    XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(reg->opaque);
++    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
 +
-+    if (valu64 & R_EFUSE_CACHE_LOAD_LOAD_MASK) {
-+        zynqmp_efuse_sync_cache(s, FBIT_UNKNOWN);
-+        ARRAY_FIELD_DP32(s->regs, STATUS, CACHE_DONE, 1);
-+        zynqmp_efuse_update_irq(s);
-+    }
++    bbram_bdrv_sync(s, reg->access->addr);
++}
 +
++static uint64_t bbram_wo_postr(RegisterInfo *reg, uint64_t val)
++{
 +    return 0;
 +}
 +
-+static uint64_t zynqmp_efuse_wr_lock_prew(RegisterInfo *reg, uint64_t val)
++static uint64_t bbram_r8_postr(RegisterInfo *reg, uint64_t val)
 +{
-+    return val == 0xDF0D ? 0 : 1;
++    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
++
++    return s->bbram8_wo ? bbram_wo_postr(reg, val) : val;
 +}
 +
-+static RegisterAccessInfo zynqmp_efuse_regs_info[] = {
-+    {   .name = "WR_LOCK",  .addr = A_WR_LOCK,
-+        .reset = 0x1,
-+        .pre_write = zynqmp_efuse_wr_lock_prew,
-+    },{ .name = "CFG",  .addr = A_CFG,
-+    },{ .name = "STATUS",  .addr = A_STATUS,
-+        .rsvd = 0x8,
-+        .ro = 0xff,
-+    },{ .name = "EFUSE_PGM_ADDR",  .addr = A_EFUSE_PGM_ADDR,
-+         .post_write = zynqmp_efuse_pgm_addr_postw
-+    },{ .name = "EFUSE_RD_ADDR",  .addr = A_EFUSE_RD_ADDR,
-+        .rsvd = 0x1f,
-+        .post_write = zynqmp_efuse_rd_addr_postw,
-+    },{ .name = "EFUSE_RD_DATA",  .addr = A_EFUSE_RD_DATA,
-+        .ro = 0xffffffff,
-+    },{ .name = "TPGM",  .addr = A_TPGM,
-+    },{ .name = "TRD",  .addr = A_TRD,
-+        .reset = 0x1b,
-+    },{ .name = "TSU_H_PS",  .addr = A_TSU_H_PS,
-+        .reset = 0xff,
-+    },{ .name = "TSU_H_PS_CS",  .addr = A_TSU_H_PS_CS,
-+        .reset = 0xb,
-+    },{ .name = "TSU_H_CS",  .addr = A_TSU_H_CS,
-+        .reset = 0x7,
-+    },{ .name = "EFUSE_ISR",  .addr = A_EFUSE_ISR,
-+        .rsvd = 0x7fffffe0,
-+        .w1c = 0x8000001f,
-+        .post_write = zynqmp_efuse_isr_postw,
-+    },{ .name = "EFUSE_IMR",  .addr = A_EFUSE_IMR,
-+        .reset = 0x8000001f,
-+        .rsvd = 0x7fffffe0,
-+        .ro = 0xffffffff,
-+    },{ .name = "EFUSE_IER",  .addr = A_EFUSE_IER,
-+        .rsvd = 0x7fffffe0,
-+        .pre_write = zynqmp_efuse_ier_prew,
-+    },{ .name = "EFUSE_IDR",  .addr = A_EFUSE_IDR,
-+        .rsvd = 0x7fffffe0,
-+        .pre_write = zynqmp_efuse_idr_prew,
-+    },{ .name = "EFUSE_CACHE_LOAD",  .addr = A_EFUSE_CACHE_LOAD,
-+        .pre_write = zynqmp_efuse_cache_load_prew,
-+    },{ .name = "EFUSE_PGM_LOCK",  .addr = A_EFUSE_PGM_LOCK,
-+    },{ .name = "EFUSE_AES_CRC",  .addr = A_EFUSE_AES_CRC,
-+        .post_write = zynqmp_efuse_aes_crc_postw,
-+    },{ .name = "EFUSE_TBITS_PRGRMG_EN",  .addr = A_EFUSE_TBITS_PRGRMG_EN,
-+        .reset = R_EFUSE_TBITS_PRGRMG_EN_TBITS_PRGRMG_EN_MASK,
-+    },{ .name = "DNA_0",  .addr = A_DNA_0,
-+        .ro = 0xffffffff,
-+    },{ .name = "DNA_1",  .addr = A_DNA_1,
-+        .ro = 0xffffffff,
-+    },{ .name = "DNA_2",  .addr = A_DNA_2,
-+        .ro = 0xffffffff,
-+    },{ .name = "IPDISABLE",  .addr = A_IPDISABLE,
-+        .ro = 0xffffffff,
-+    },{ .name = "SYSOSC_CTRL",  .addr = A_SYSOSC_CTRL,
-+        .ro = 0xffffffff,
-+    },{ .name = "USER_0",  .addr = A_USER_0,
-+        .ro = 0xffffffff,
-+    },{ .name = "USER_1",  .addr = A_USER_1,
-+        .ro = 0xffffffff,
-+    },{ .name = "USER_2",  .addr = A_USER_2,
-+        .ro = 0xffffffff,
-+    },{ .name = "USER_3",  .addr = A_USER_3,
-+        .ro = 0xffffffff,
-+    },{ .name = "USER_4",  .addr = A_USER_4,
-+        .ro = 0xffffffff,
-+    },{ .name = "USER_5",  .addr = A_USER_5,
-+        .ro = 0xffffffff,
-+    },{ .name = "USER_6",  .addr = A_USER_6,
-+        .ro = 0xffffffff,
-+    },{ .name = "USER_7",  .addr = A_USER_7,
-+        .ro = 0xffffffff,
-+    },{ .name = "MISC_USER_CTRL",  .addr = A_MISC_USER_CTRL,
-+        .ro = 0xffffffff,
-+    },{ .name = "ROM_RSVD",  .addr = A_ROM_RSVD,
-+        .ro = 0xffffffff,
-+    },{ .name = "PUF_CHASH", .addr = A_PUF_CHASH,
-+        .ro = 0xffffffff,
-+    },{ .name = "PUF_MISC",  .addr = A_PUF_MISC,
-+        .ro = 0xffffffff,
-+    },{ .name = "SEC_CTRL",  .addr = A_SEC_CTRL,
-+        .ro = 0xffffffff,
-+    },{ .name = "SPK_ID",  .addr = A_SPK_ID,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK0_0",  .addr = A_PPK0_0,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK0_1",  .addr = A_PPK0_1,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK0_2",  .addr = A_PPK0_2,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK0_3",  .addr = A_PPK0_3,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK0_4",  .addr = A_PPK0_4,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK0_5",  .addr = A_PPK0_5,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK0_6",  .addr = A_PPK0_6,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK0_7",  .addr = A_PPK0_7,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK0_8",  .addr = A_PPK0_8,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK0_9",  .addr = A_PPK0_9,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK0_10",  .addr = A_PPK0_10,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK0_11",  .addr = A_PPK0_11,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK1_0",  .addr = A_PPK1_0,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK1_1",  .addr = A_PPK1_1,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK1_2",  .addr = A_PPK1_2,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK1_3",  .addr = A_PPK1_3,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK1_4",  .addr = A_PPK1_4,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK1_5",  .addr = A_PPK1_5,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK1_6",  .addr = A_PPK1_6,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK1_7",  .addr = A_PPK1_7,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK1_8",  .addr = A_PPK1_8,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK1_9",  .addr = A_PPK1_9,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK1_10",  .addr = A_PPK1_10,
-+        .ro = 0xffffffff,
-+    },{ .name = "PPK1_11",  .addr = A_PPK1_11,
-+        .ro = 0xffffffff,
++static bool bbram_r8_readonly(XlnxBBRam *s)
++{
++    return !bbram_pgm_enabled(s) || bbram_msw_locked(s);
++}
++
++static uint64_t bbram_r8_prew(RegisterInfo *reg, uint64_t val64)
++{
++    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
++
++    if (bbram_r8_readonly(s)) {
++        val64 = *(uint32_t *)reg->data;
++    }
++
++    return val64;
++}
++
++static void bbram_r8_postw(RegisterInfo *reg, uint64_t val64)
++{
++    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
++
++    if (!bbram_r8_readonly(s)) {
++        bbram_bdrv_sync(s, A_BBRAM_8);
++    }
++}
++
++static uint64_t bbram_msw_lock_prew(RegisterInfo *reg, uint64_t val64)
++{
++    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
++
++    /* Never lock if bbram8 is wo; and, only POR can clear the lock */
++    if (s->bbram8_wo) {
++        val64 = 0;
++    } else {
++        val64 |= s->regs[R_BBRAM_MSW_LOCK];
++    }
++
++    return val64;
++}
++
++static void bbram_isr_postw(RegisterInfo *reg, uint64_t val64)
++{
++    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
++
++    bbram_update_irq(s);
++}
++
++static uint64_t bbram_ier_prew(RegisterInfo *reg, uint64_t val64)
++{
++    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
++    uint32_t val = val64;
++
++    s->regs[R_BBRAM_IMR] &= ~val;
++    bbram_update_irq(s);
++    return 0;
++}
++
++static uint64_t bbram_idr_prew(RegisterInfo *reg, uint64_t val64)
++{
++    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
++    uint32_t val = val64;
++
++    s->regs[R_BBRAM_IMR] |= val;
++    bbram_update_irq(s);
++    return 0;
++}
++
++static RegisterAccessInfo bbram_ctrl_regs_info[] = {
++    {   .name = "BBRAM_STATUS",  .addr = A_BBRAM_STATUS,
++        .rsvd = 0xee,
++        .ro = 0x3ff,
++    },{ .name = "BBRAM_CTRL",  .addr = A_BBRAM_CTRL,
++        .post_write = bbram_ctrl_postw,
++    },{ .name = "PGM_MODE",  .addr = A_PGM_MODE,
++        .post_write = bbram_pgm_mode_postw,
++    },{ .name = "BBRAM_AES_CRC",  .addr = A_BBRAM_AES_CRC,
++        .post_write = bbram_aes_crc_postw,
++        .post_read = bbram_wo_postr,
++    },{ .name = "BBRAM_0",  .addr = A_BBRAM_0,
++        .pre_write = bbram_key_prew,
++        .post_write = bbram_key_postw,
++        .post_read = bbram_wo_postr,
++    },{ .name = "BBRAM_1",  .addr = A_BBRAM_1,
++        .pre_write = bbram_key_prew,
++        .post_write = bbram_key_postw,
++        .post_read = bbram_wo_postr,
++    },{ .name = "BBRAM_2",  .addr = A_BBRAM_2,
++        .pre_write = bbram_key_prew,
++        .post_write = bbram_key_postw,
++        .post_read = bbram_wo_postr,
++    },{ .name = "BBRAM_3",  .addr = A_BBRAM_3,
++        .pre_write = bbram_key_prew,
++        .post_write = bbram_key_postw,
++        .post_read = bbram_wo_postr,
++    },{ .name = "BBRAM_4",  .addr = A_BBRAM_4,
++        .pre_write = bbram_key_prew,
++        .post_write = bbram_key_postw,
++        .post_read = bbram_wo_postr,
++    },{ .name = "BBRAM_5",  .addr = A_BBRAM_5,
++        .pre_write = bbram_key_prew,
++        .post_write = bbram_key_postw,
++        .post_read = bbram_wo_postr,
++    },{ .name = "BBRAM_6",  .addr = A_BBRAM_6,
++        .pre_write = bbram_key_prew,
++        .post_write = bbram_key_postw,
++        .post_read = bbram_wo_postr,
++    },{ .name = "BBRAM_7",  .addr = A_BBRAM_7,
++        .pre_write = bbram_key_prew,
++        .post_write = bbram_key_postw,
++        .post_read = bbram_wo_postr,
++    },{ .name = "BBRAM_8",  .addr = A_BBRAM_8,
++        .pre_write = bbram_r8_prew,
++        .post_write = bbram_r8_postw,
++        .post_read = bbram_r8_postr,
++    },{ .name = "BBRAM_SLVERR",  .addr = A_BBRAM_SLVERR,
++        .rsvd = ~1,
++    },{ .name = "BBRAM_ISR",  .addr = A_BBRAM_ISR,
++        .w1c = 0x1,
++        .post_write = bbram_isr_postw,
++    },{ .name = "BBRAM_IMR",  .addr = A_BBRAM_IMR,
++        .ro = 0x1,
++    },{ .name = "BBRAM_IER",  .addr = A_BBRAM_IER,
++        .pre_write = bbram_ier_prew,
++    },{ .name = "BBRAM_IDR",  .addr = A_BBRAM_IDR,
++        .pre_write = bbram_idr_prew,
++    },{ .name = "BBRAM_MSW_LOCK",  .addr = A_BBRAM_MSW_LOCK,
++        .pre_write = bbram_msw_lock_prew,
++        .ro = ~R_BBRAM_MSW_LOCK_VAL_MASK,
 +    }
 +};
 +
-+static void zynqmp_efuse_reg_write(void *opaque, hwaddr addr,
-+                                   uint64_t data, unsigned size)
++static void bbram_ctrl_reset(DeviceState *dev)
 +{
-+    RegisterInfoArray *reg_array = opaque;
-+    XlnxZynqMPEFuse *s;
-+    Object *dev;
++    XlnxBBRam *s = XLNX_BBRAM(dev);
++    unsigned int i;
 +
-+    assert(reg_array != NULL);
-+
-+    dev = reg_array->mem.owner;
-+    assert(dev);
-+
-+    s = XLNX_ZYNQMP_EFUSE(dev);
-+
-+    if (addr != A_WR_LOCK && s->regs[R_WR_LOCK]) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s[reg_0x%02lx]: Attempt to write locked register.\n",
-+                      object_get_canonical_path(OBJECT(s)), (long)addr);
-+    } else {
-+        register_write_memory(opaque, addr, data, size);
++    for (i = 0; i < ARRAY_SIZE(s->regs_info); ++i) {
++        if (i < R_BBRAM_0 || i > R_BBRAM_8) {
++            register_reset(&s->regs_info[i]);
++        }
 +    }
++
++    bbram_update_irq(s);
 +}
 +
-+static const MemoryRegionOps zynqmp_efuse_ops = {
++static const MemoryRegionOps bbram_ctrl_ops = {
 +    .read = register_read_memory,
-+    .write = zynqmp_efuse_reg_write,
++    .write = register_write_memory,
 +    .endianness = DEVICE_LITTLE_ENDIAN,
 +    .valid = {
 +        .min_access_size = 4,
@@ -917,132 +617,130 @@ index 00000000000..1f87dbf988d
 +    },
 +};
 +
-+static void zynqmp_efuse_register_reset(RegisterInfo *reg)
++static void bbram_ctrl_realize(DeviceState *dev, Error **errp)
 +{
-+    if (!reg->data || !reg->access) {
-+        return;
++    XlnxBBRam *s = XLNX_BBRAM(dev);
++
++    if (s->crc_zpads) {
++        s->bbram8_wo = true;
 +    }
 +
-+    /* Reset must not trigger some registers' writers */
-+    switch (reg->access->addr) {
-+    case A_EFUSE_AES_CRC:
-+        *(uint32_t *)reg->data = reg->access->reset;
-+        return;
-+    }
-+
-+    register_reset(reg);
++    bbram_bdrv_read(s, errp);
 +}
 +
-+static void zynqmp_efuse_reset(DeviceState *dev)
++static void bbram_ctrl_init(Object *obj)
 +{
-+    XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(dev);
-+    unsigned int i;
-+
-+    for (i = 0; i < ARRAY_SIZE(s->regs_info); ++i) {
-+        zynqmp_efuse_register_reset(&s->regs_info[i]);
-+    }
-+
-+    zynqmp_efuse_sync_cache(s, FBIT_UNKNOWN);
-+    ARRAY_FIELD_DP32(s->regs, STATUS, CACHE_DONE, 1);
-+    zynqmp_efuse_update_irq(s);
-+}
-+
-+static void zynqmp_efuse_realize(DeviceState *dev, Error **errp)
-+{
-+    XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(dev);
-+
-+    if (!s->efuse) {
-+        error_setg(errp, "%s.efuse: link property not connected to XLNX-EFUSE",
-+                   object_get_canonical_path(OBJECT(dev)));
-+        return;
-+    }
-+
-+    s->efuse->dev = dev;
-+}
-+
-+static void zynqmp_efuse_init(Object *obj)
-+{
-+    XlnxZynqMPEFuse *s = XLNX_ZYNQMP_EFUSE(obj);
++    XlnxBBRam *s = XLNX_BBRAM(obj);
 +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
 +    RegisterInfoArray *reg_array;
 +
 +    reg_array =
-+        register_init_block32(DEVICE(obj), zynqmp_efuse_regs_info,
-+                              ARRAY_SIZE(zynqmp_efuse_regs_info),
++        register_init_block32(DEVICE(obj), bbram_ctrl_regs_info,
++                              ARRAY_SIZE(bbram_ctrl_regs_info),
 +                              s->regs_info, s->regs,
-+                              &zynqmp_efuse_ops,
-+                              ZYNQMP_EFUSE_ERR_DEBUG,
++                              &bbram_ctrl_ops,
++                              XLNX_BBRAM_ERR_DEBUG,
 +                              R_MAX * 4);
 +
 +    sysbus_init_mmio(sbd, &reg_array->mem);
-+    sysbus_init_irq(sbd, &s->irq);
++    sysbus_init_irq(sbd, &s->irq_bbram);
 +}
 +
-+static const VMStateDescription vmstate_efuse = {
-+    .name = TYPE_XLNX_ZYNQMP_EFUSE,
++static void bbram_prop_set_drive(Object *obj, Visitor *v, const char *name,
++                                 void *opaque, Error **errp)
++{
++    DeviceState *dev = DEVICE(obj);
++
++    qdev_prop_drive.set(obj, v, name, opaque, errp);
++
++    /* Fill initial data if backend is attached after realized */
++    if (dev->realized) {
++        bbram_bdrv_read(XLNX_BBRAM(obj), errp);
++    }
++}
++
++static void bbram_prop_get_drive(Object *obj, Visitor *v, const char *name,
++                                 void *opaque, Error **errp)
++{
++    qdev_prop_drive.get(obj, v, name, opaque, errp);
++}
++
++static void bbram_prop_release_drive(Object *obj, const char *name,
++                                     void *opaque)
++{
++    qdev_prop_drive.release(obj, name, opaque);
++}
++
++static const PropertyInfo bbram_prop_drive = {
++    .name  = "str",
++    .description = "Node name or ID of a block device to use as BBRAM backend",
++    .realized_set_allowed = true,
++    .get = bbram_prop_get_drive,
++    .set = bbram_prop_set_drive,
++    .release = bbram_prop_release_drive,
++};
++
++static const VMStateDescription vmstate_bbram_ctrl = {
++    .name = TYPE_XLNX_BBRAM,
 +    .version_id = 1,
 +    .minimum_version_id = 1,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32_ARRAY(regs, XlnxZynqMPEFuse, R_MAX),
++        VMSTATE_UINT32_ARRAY(regs, XlnxBBRam, R_MAX),
 +        VMSTATE_END_OF_LIST(),
 +    }
 +};
 +
-+static Property zynqmp_efuse_props[] = {
-+    DEFINE_PROP_LINK("efuse",
-+                     XlnxZynqMPEFuse, efuse,
-+                     TYPE_XLNX_EFUSE, XlnxEFuse *),
-+
++static Property bbram_ctrl_props[] = {
++    DEFINE_PROP("drive", XlnxBBRam, blk, bbram_prop_drive, BlockBackend *),
++    DEFINE_PROP_UINT32("crc-zpads", XlnxBBRam, crc_zpads, 1),
 +    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+static void zynqmp_efuse_class_init(ObjectClass *klass, void *data)
++static void bbram_ctrl_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
 +
-+    dc->reset = zynqmp_efuse_reset;
-+    dc->realize = zynqmp_efuse_realize;
-+    dc->vmsd = &vmstate_efuse;
-+    device_class_set_props(dc, zynqmp_efuse_props);
++    dc->reset = bbram_ctrl_reset;
++    dc->realize = bbram_ctrl_realize;
++    dc->vmsd = &vmstate_bbram_ctrl;
++    device_class_set_props(dc, bbram_ctrl_props);
 +}
 +
-+
-+static const TypeInfo efuse_info = {
-+    .name          = TYPE_XLNX_ZYNQMP_EFUSE,
++static const TypeInfo bbram_ctrl_info = {
++    .name          = TYPE_XLNX_BBRAM,
 +    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(XlnxZynqMPEFuse),
-+    .class_init    = zynqmp_efuse_class_init,
-+    .instance_init = zynqmp_efuse_init,
++    .instance_size = sizeof(XlnxBBRam),
++    .class_init    = bbram_ctrl_class_init,
++    .instance_init = bbram_ctrl_init,
 +};
 +
-+static void efuse_register_types(void)
++static void bbram_ctrl_register_types(void)
 +{
-+    type_register_static(&efuse_info);
++    type_register_static(&bbram_ctrl_info);
 +}
 +
-+type_init(efuse_register_types)
++type_init(bbram_ctrl_register_types)
 diff --git a/hw/nvram/Kconfig b/hw/nvram/Kconfig
-index 6c2bb5afe3b..3059c5dae03 100644
+index 3059c5dae03..24cfc18f8b1 100644
 --- a/hw/nvram/Kconfig
 +++ b/hw/nvram/Kconfig
-@@ -26,3 +26,7 @@ config XLNX_EFUSE
- config XLNX_EFUSE_VERSAL
+@@ -30,3 +30,7 @@ config XLNX_EFUSE_VERSAL
+ config XLNX_EFUSE_ZYNQMP
      bool
      select XLNX_EFUSE
 +
-+config XLNX_EFUSE_ZYNQMP
++config XLNX_BBRAM
 +    bool
-+    select XLNX_EFUSE
++    select XLNX_EFUSE_CRC
 diff --git a/hw/nvram/meson.build b/hw/nvram/meson.build
-index 62352ad8ecc..6dc54d98734 100644
+index 6dc54d98734..202a5466e63 100644
 --- a/hw/nvram/meson.build
 +++ b/hw/nvram/meson.build
-@@ -14,5 +14,7 @@ softmmu_ss.add(when: 'CONFIG_XLNX_EFUSE', if_true: files('xlnx-efuse.c'))
- softmmu_ss.add(when: 'CONFIG_XLNX_EFUSE_VERSAL', if_true: files(
-                                                    'xlnx-versal-efuse-cache.c',
+@@ -16,5 +16,6 @@ softmmu_ss.add(when: 'CONFIG_XLNX_EFUSE_VERSAL', if_true: files(
                                                     'xlnx-versal-efuse-ctrl.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_EFUSE_ZYNQMP', if_true: files(
-+                                                   'xlnx-zynqmp-efuse.c'))
+ softmmu_ss.add(when: 'CONFIG_XLNX_EFUSE_ZYNQMP', if_true: files(
+                                                    'xlnx-zynqmp-efuse.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_BBRAM', if_true: files('xlnx-bbram.c'))
  
  specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_nvram.c'))
 -- 
