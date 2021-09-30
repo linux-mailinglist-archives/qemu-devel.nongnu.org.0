@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D38F41DE6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 18:08:53 +0200 (CEST)
-Received: from localhost ([::1]:41112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD5541DEB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 18:18:06 +0200 (CEST)
+Received: from localhost ([::1]:58104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVyc8-0004zf-7T
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 12:08:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36792)
+	id 1mVyl4-0000MG-07
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 12:18:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy1Z-00051l-De
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:31:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44508)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy28-0005hi-AC
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:31:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy1W-0002TQ-JF
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:31:05 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy21-0002r3-ED
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:31:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633015860;
+ s=mimecast20190719; t=1633015891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Jz7/5rO1+w0ACgMJO7jQO0M9S+IExx5M+xRBrOnfa5Q=;
- b=g4nkcyczBOcxUcjgnLRjmxFaw+z9hpG7CoerhGwTZMQDlXB86Fe4a7nkfIaXdk1XKtbZ+n
- KLE6kPAaxS9p+a4t+ylUTJ89/iT8rKbFQ8qhluokoXIB0jXhym7VOdPFLqvId5zh8ztYLV
- G8A2/xeSpTx9PWDDZKIHI3P4+CUy4U4=
+ bh=Wq085S62m4NMqg3+3BFaX2LXkZ67M8Cr6kIWLXEhzWU=;
+ b=AhafCGXFqxJi+nKOIXaa8/wsoxTWd7CcY397aRkrxjEQbRbUaX9oxS0fE9xOQiUzXJ/oL8
+ k5XSdnwae3YMvZj/X/drR7MIxKVr8w4ucCplHIKz1dmSdIM5KiVJXls6fKzSiNJIcOC21+
+ 5Vxyc9i2uV6qJlMTqVJRSNo1O5ZcxPs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-W_R9ST7XNTq6F0IG91Zb6g-1; Thu, 30 Sep 2021 11:30:57 -0400
-X-MC-Unique: W_R9ST7XNTq6F0IG91Zb6g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-246-H93OStsJOcSEjO-iM00emQ-1; Thu, 30 Sep 2021 11:31:29 -0400
+X-MC-Unique: H93OStsJOcSEjO-iM00emQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37A2084A5E1;
- Thu, 30 Sep 2021 15:30:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E403D10168C0;
+ Thu, 30 Sep 2021 15:31:28 +0000 (UTC)
 Received: from horse.redhat.com (unknown [10.22.16.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0C9A1009962;
- Thu, 30 Sep 2021 15:30:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9582218B5E;
+ Thu, 30 Sep 2021 15:30:56 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id DBF9E228284; Thu, 30 Sep 2021 11:30:47 -0400 (EDT)
+ id E826B228286; Thu, 30 Sep 2021 11:30:47 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com,
 	stefanha@redhat.com
-Subject: [PATCH 05/13] virtiofsd: Add a helper to stop all queues
-Date: Thu, 30 Sep 2021 11:30:29 -0400
-Message-Id: <20210930153037.1194279-6-vgoyal@redhat.com>
+Subject: [PATCH 07/13] virtiofsd: Release file locks using F_UNLCK
+Date: Thu, 30 Sep 2021 11:30:31 -0400
+Message-Id: <20210930153037.1194279-8-vgoyal@redhat.com>
 In-Reply-To: <20210930153037.1194279-1-vgoyal@redhat.com>
 References: <20210930153037.1194279-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,54 +85,74 @@ Cc: jaggel@bu.edu, iangelak@redhat.com, dgilbert@redhat.com, vgoyal@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a helper to stop all the queues. Later in the patch series I am
-planning to use this helper at one more place later in the patch series.
+We are emulating posix locks for guest using open file description locks
+in virtiofsd. When any of the fd is closed in guest, we find associated
+OFD lock fd (if there is one) and close it to release all the locks.
+
+Assumption here is that there is no other thread using lo_inode_plock
+structure or plock->fd, hence it is safe to do so.
+
+But now we are about to introduce blocking variant of locks (SETLKW),
+and that means we might be waiting to a lock to be available and
+using plock->fd. And that means there are still users of plock
+structure.
+
+So release locks using fcntl(SETLK, F_UNLCK) instead of closing fd
+and plock will be freed later when lo_inode is being freed.
 
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Signed-off-by: Ioannis Angelakopoulos <iangelak@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index fcf12db9cd..baead08b28 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -740,6 +740,18 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vud, int qidx)
-     vud->qi[qidx] = NULL;
- }
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 38b2af8599..6928662e22 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -1557,9 +1557,6 @@ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64_t n)
+         lo_map_remove(&lo->ino_map, inode->fuse_ino);
+         g_hash_table_remove(lo->inodes, &inode->key);
+         if (lo->posix_lock) {
+-            if (g_hash_table_size(inode->posix_locks)) {
+-                fuse_log(FUSE_LOG_WARNING, "Hash table is not empty\n");
+-            }
+             g_hash_table_destroy(inode->posix_locks);
+             pthread_mutex_destroy(&inode->plock_mutex);
+         }
+@@ -2266,6 +2263,8 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+     (void)ino;
+     struct lo_inode *inode;
+     struct lo_data *lo = lo_data(req);
++    struct lo_inode_plock *plock;
++    struct flock flock;
  
-+static void stop_all_queues(struct fv_VuDev *vud)
-+{
-+    for (int i = 0; i < vud->nqueues; i++) {
-+        if (!vud->qi[i]) {
-+            continue;
+     inode = lo_inode(req, ino);
+     if (!inode) {
+@@ -2282,8 +2281,22 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+     /* An fd is going away. Cleanup associated posix locks */
+     if (lo->posix_lock) {
+         pthread_mutex_lock(&inode->plock_mutex);
+-        g_hash_table_remove(inode->posix_locks,
++        plock = g_hash_table_lookup(inode->posix_locks,
+             GUINT_TO_POINTER(fi->lock_owner));
++
++        if (plock) {
++            /*
++             * An fd is being closed. For posix locks, this means
++             * drop all the associated locks.
++             */
++            memset(&flock, 0, sizeof(struct flock));
++            flock.l_type = F_UNLCK;
++            flock.l_whence = SEEK_SET;
++            /* Unlock whole file */
++            flock.l_start = flock.l_len = 0;
++            fcntl(plock->fd, F_OFD_SETLK, &flock);
 +        }
 +
-+        fuse_log(FUSE_LOG_INFO, "%s: Stopping queue %d thread\n", __func__, i);
-+        fv_queue_cleanup_thread(vud, i);
-+    }
-+}
-+
- /* Callback from libvhost-user on start or stop of a queue */
- static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
- {
-@@ -870,15 +882,7 @@ int virtio_loop(struct fuse_session *se)
-      * Make sure all fv_queue_thread()s quit on exit, as we're about to
-      * free virtio dev and fuse session, no one should access them anymore.
-      */
--    for (int i = 0; i < se->virtio_dev->nqueues; i++) {
--        if (!se->virtio_dev->qi[i]) {
--            continue;
--        }
--
--        fuse_log(FUSE_LOG_INFO, "%s: Stopping queue %d thread\n", __func__, i);
--        fv_queue_cleanup_thread(se->virtio_dev, i);
--    }
--
-+    stop_all_queues(se->virtio_dev);
-     fuse_log(FUSE_LOG_INFO, "%s: Exit\n", __func__);
- 
-     return 0;
+         pthread_mutex_unlock(&inode->plock_mutex);
+     }
+     res = close(dup(lo_fi_fd(req, fi)));
 -- 
 2.31.1
 
