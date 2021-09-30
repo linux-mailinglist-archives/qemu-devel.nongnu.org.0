@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CA141D6C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 11:50:37 +0200 (CEST)
-Received: from localhost ([::1]:32816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D072B41D733
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 12:07:26 +0200 (CEST)
+Received: from localhost ([::1]:41202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVsi4-0005CH-C8
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 05:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36884)
+	id 1mVsyK-0004Mb-Tx
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 06:07:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mVsgU-0003td-G6
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:48:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58308)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mVsvc-0002bp-2L
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 06:04:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36187)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mVsgR-0004rO-Ev
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:48:57 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mVsvX-0001QJ-8c
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 06:04:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632995334;
+ s=mimecast20190719; t=1632996269;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TTaffFfY1vrUfme7Hk0fW6AMVmcnRYzpqFbiH7obxBY=;
- b=Uz1aGYzhvGkY2rEpOF3ld4VBd7Lp48RZ+G6LXVX3TqnVeMbh2wjE0kWgEK+rmVGQ9gL011
- F8yJFbFLfFkhUJfCalgDC57Dra8ySJ7CgBVAF7Jmw+1uqRAVJzoy3rvYpjlVhG1rQl6l3Q
- qCDDsCIVxqxetxBzI/xI2eBzPCuaXBI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-qbeTnS_aNyWNc_UQsG6RXQ-1; Thu, 30 Sep 2021 05:48:48 -0400
-X-MC-Unique: qbeTnS_aNyWNc_UQsG6RXQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r2-20020a7bc082000000b0030d2ab5c3a7so768144wmh.1
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 02:48:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=TTaffFfY1vrUfme7Hk0fW6AMVmcnRYzpqFbiH7obxBY=;
- b=VavkG/+WMkyX1BtS6GLYjO9mDcXsNuylNl2s8AZ3K6f8vmWHDmX3Vkmis6g57yWmgk
- 3SepjOZIwPYbjYPOvftE77tU6pG4EhCC8Ai2oIqYa+kmjNtRssymiCWo0F3BE3L9ux1A
- zePE3Z9TNdI6KSbKTWr5jx+H1nCKz3OcvM4V+lK5Ynuxr/uuMpOTJzYTbMefv1QzSzAH
- /EZWQifiykzT1seKaMosc4oIUjQyDKrzcFK711ddJTLyys0Hitz4sTq8IcP9S2ZxMS2V
- 92G/HXoqlBcXctpi9dfsqN1bGEtPbbIEWLli1LjqCCiA83u+wqKuWX7W3As5hoTQpKxs
- /4pw==
-X-Gm-Message-State: AOAM533y1t1qvUfiwl3xQgD1rYA048KVzpTaU/e90SOWbeEnKfqz4gVn
- tHsc6+eA/Ul7k7SBWDaKro3cKJPfAOdUv+nzCY0LLK3hhmrVW/Xu1gBHyzzLl+wRPfcIj4kG/j1
- a4yn6gKiUtXxDLjU=
-X-Received: by 2002:adf:e44c:: with SMTP id t12mr5076021wrm.49.1632995327232; 
- Thu, 30 Sep 2021 02:48:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxLtSxZ5VGA0yRN7+pAPmGGrXsg76JNh0AcFYl4438LBJ827BrP5mFlvklBZH5m5MgUGUUMFw==
-X-Received: by 2002:adf:e44c:: with SMTP id t12mr5075995wrm.49.1632995327032; 
- Thu, 30 Sep 2021 02:48:47 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.21.142])
- by smtp.gmail.com with ESMTPSA id n26sm4276654wmi.43.2021.09.30.02.48.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Sep 2021 02:48:46 -0700 (PDT)
-Message-ID: <ec216e3a-71a3-c7a5-628f-1871d063d2a2@redhat.com>
-Date: Thu, 30 Sep 2021 11:48:45 +0200
+ bh=83O1NbwQ0WxHSvPCqeQcnyILAgBOBe8iflQ5rD6Em6A=;
+ b=HCn1ZwwcuWS3d5iO1JS77uaniumol5dvFvTperOfA07gxHb0LduhtpTWZm1YyWe94fXt04
+ JPnoBfjKvUCQJ5GwqjZH/tk+4E8oIidXJaKwE0tWGVdqJUy6lCEM0rOhYBwsa8QOaxryz/
+ F/AVBNXHL++XpTdZ+iwJ8g9FYB/JuPw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-cGjkV-HZNFOkAQAXz0jD-g-1; Thu, 30 Sep 2021 06:04:25 -0400
+X-MC-Unique: cGjkV-HZNFOkAQAXz0jD-g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E161D1090E67;
+ Thu, 30 Sep 2021 10:04:24 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 760D719729;
+ Thu, 30 Sep 2021 10:04:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 069AF113865F; Thu, 30 Sep 2021 12:04:23 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 3/6] qapi/parser: add type hint annotations (QAPIDoc)
+References: <20210520225710.168356-1-jsnow@redhat.com>
+ <20210520225710.168356-4-jsnow@redhat.com>
+ <87o8943brt.fsf@dusky.pond.sub.org>
+ <CAFn=p-Y4uqnLEvemPkTwYAdnFfoPLojyjRsWbD2zsEBpfvpqhQ@mail.gmail.com>
+Date: Thu, 30 Sep 2021 12:04:22 +0200
+In-Reply-To: <CAFn=p-Y4uqnLEvemPkTwYAdnFfoPLojyjRsWbD2zsEBpfvpqhQ@mail.gmail.com>
+ (John Snow's message of "Tue, 28 Sep 2021 19:25:29 -0400")
+Message-ID: <87bl4aqt09.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] failover: fix unplug pending detection
-To: Ani Sinha <ani@anisinha.ca>
-References: <20210930082032.1237812-1-lvivier@redhat.com>
- <alpine.DEB.2.22.394.2109301450580.579856@anisinha-lenovo>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <alpine.DEB.2.22.394.2109301450580.579856@anisinha-lenovo>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.03, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,52 +82,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jens Freimann <jfreimann@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/09/2021 11:24, Ani Sinha wrote:
-> 
-> 
-> On Thu, 30 Sep 2021, Laurent Vivier wrote:
-> 
->> Failover needs to detect the end of the PCI unplug to start migration
->> after the VFIO card has been unplugged.
->>
->> To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and reset in
->> pcie_unplug_device().
->>
->> But since
->>      17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35")
->> we have switched to ACPI unplug and these functions are not called anymore
->> and the flag not set. So failover migration is not able to detect if card
->> is really unplugged and acts as it's done as soon as it's started. So it
->> doesn't wait the end of the unplug to start the migration. We don't see any
->> problem when we test that because ACPI unplug is faster than PCIe native
->> hotplug and when the migration really starts the unplug operation is
->> already done.
->>
->> See c000a9bd06ea ("pci: mark device having guest unplug request pending")
->>      a99c4da9fc2a ("pci: mark devices partially unplugged")
-> 
-> Ok so I have a basic question about partially_hotplugged flag in the
-> device struct (there were no comments added in a99c4da9fc2a39847
-> explaining it). It seems we return early from pcie_unplug_device() when
-> this flag is set from failover_unplug_primary() in virtio-net. What is the
-> purpose of this flag? It seems we are not doing a full unplug of the
-> primary device?
+John Snow <jsnow@redhat.com> writes:
 
-Yes, to be able to plug it back in case of migration failure we must keep all the data 
-structures.
+> On Tue, Sep 7, 2021 at 6:44 AM Markus Armbruster <armbru@redhat.com> wrote:
+>
+>> John Snow <jsnow@redhat.com> writes:
+>>
+>> > Annotations do not change runtime behavior.
+>> >
+>> > This commit adds mostly annotations, but uses a TYPE_CHECKING runtime
+>> > check to conditionally import dependencies, which only triggers during
+>> > runs of mypy.
+>>
+>> Please add a reference to
+>> https://mypy.readthedocs.io/en/latest/runtime_troubles.html#import-cycles
+>>
+>>
+> OK.
+>
+>
+>> > Signed-off-by: John Snow <jsnow@redhat.com>
+>> >
+>> > ---
+>> >
+>> > TopLevelExpr, an idea from previous drafts, makes a return here in order
+>> > to give a semantic meaning to check_expr(). The type is intended to be
+>> > used more in forthcoming commits (pt5c), but I opted to include it now
+>> > instead of creating yet-another Dict[str, object] type hint that I would
+>> > forget to change later.
+>> >
+>> > Signed-off-by: John Snow <jsnow@redhat.com>
+>> > ---
+>> >  scripts/qapi/parser.py | 77 ++++++++++++++++++++++++++----------------
+>> >  1 file changed, 48 insertions(+), 29 deletions(-)
+>> >
+>> > diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+>> > index 3ddde318376..b1e2fa5c577 100644
+>> > --- a/scripts/qapi/parser.py
+>> > +++ b/scripts/qapi/parser.py
+>> > @@ -18,6 +18,7 @@
+>> >  import os
+>> >  import re
+>> >  from typing import (
+>> > +    TYPE_CHECKING,
+>> >      Dict,
+>> >      List,
+>> >      Optional,
+>> > @@ -30,6 +31,15 @@
+>> >  from .source import QAPISourceInfo
+>> >
+>> >
+>> > +if TYPE_CHECKING:
+>> > +    # pylint: disable=cyclic-import
+>> > +    # TODO: Remove cycle. [schema -> expr -> parser -> schema]
+>>
+>
+> WRT this todo: you mentioned that you'd prefer having some idea or plan for
+> how to eliminate the cycle in order to let this band-aid fly. How about
+> adding a 'doc' member to e.g. QAPISchemaFeature and doing the connection
+> entirely inside of schema.py, and dropping connect_member() and
+> connect_feature()?
+>
+> Would that be serviceable?
 
-But reading the code again it seems this part should be in acpi_pcihp_eject_slot() rather 
-than in acpi_pcihp_device_unplug_cb() to prevent the 
-hotplug_handler_unplug()/object_unparent()  rather than the qdev_unrealize() (to be like 
-in pcie.c).
+I guess it would.  One way to find out.
 
-Thanks,
-Laurent
+>> > +    from .schema import QAPISchemaFeature, QAPISchemaMember
+>> > +
+>> > +
+>> > +#: Represents a single Top Level QAPI schema expression.
+>> > +TopLevelExpr = Dict[str, object]
+>>
+>> Related: _ExprValue below, and _JSONObject in expr.py.  The latter's
+>> comment gives the best rationale (except I don't get "the purpose of
+>> this module is to interrogate that type").
+>>
+>>
+> in expr.py, the purpose of that module (expr) is explicitly to interrogate
+> (check, validate) the shape of arbitrary JSON objects. I am saying that a
+> more strict definition specifically here in expr.py is not necessary
+> because the entire purpose of expr.py is to, at runtime, verify the shape
+> of any such variables that might be annotated that way. I am drawing some
+> distinction to introspect.py, where we're generating that data ourselves --
+> the stronger types are more viable there, because we know what they are
+> already.
+
+Let me try to write a clearer comment:
+
+    # Deserialized JSON objects as returned by the parser.
+    # This is a actually Dict[str, _JSONValue], where _JSONValue is
+    # Union[bool, str, List[Self], Dict[str, Self]].  Since mypy lacks
+    # recursive types, we can't define _JSONValue, and use object
+    # instead.  Sad.
+    _JSONObject = Dict[str, object]
+
+> (again, sorry about mypy's lack of recursive typing, I hate it too, I
+> promise)
+
+We got to play the hand we've been dealt.
+
+>> I think we'd like to have
+>>
+>> * A recursive type for JSON value (in our bastardized version of JSON)
+>>
+>>   This is Union of bool, str, List[Self], Dict[str, Self].  It's what
+>>   .get_expr() returns.
+>>
+>>   Since mypy can't do recursive, we approximate with _ExprValue.
+>>
+>> * A recursive type for JSON object
+>>
+>>   This is the Dict branch of the above.  It's what check_keys() &
+>>   friends take as argument.
+>>
+>>   We approximate with _JSONObject.
+>>
+>>   Same for the List branch would make sense if we had a use for the
+>>   type.
+>>
+>> * A recursive type for TOP-LEVEL-EXPR
+>>
+>>   Actually the same type as the previous one, to be used only for the
+>>   schema's top-level expressions.  It's the elements of
+>>   QAPISchemaParser.exprs[], and what check_exprs() takes as argument.
+>>
+>>   We approximate with TopLevelExpr, but so far use it only for
+>>   check_exprs().
+>>
+>>   Doesn't really improve type checking, but may serve as documentation.
+>>
+>>
+> That's the intended effect here -- to help highlight which functions
+> operate on those top-level expressions, and which might be invoked in more
+> arbitrary cases.
+> Consider also a hypothetical TOP-LEVEL-EXPR that is actually a bona-fide
+> object with additional metadata, too. In these cases, the type really will
+> be different.
+>
+>
+>> Shouldn't these types be all defined in one place, namely right here?
+>> Bonus: we need to explain the mypy sadness just once then.
+>>
+>> Shouldn't their names be more systematic?  _ExprValue, _JSONObject and
+>> TopLevelExpr hardly suggest any relation...
+>>
+>>
+> I drop _JSONObject in pt5c, it was a stop-gap. For the rest, I'll see about
+> a more rigorous consolidation now that we're this far in.
+>
+> pt5c was intended as a "cleanup" step that did some of that consolidation
+> of nearly-redundant types; but I wanted all of parser.py under the mypy gun
+> *first*.
+> Will you take a raincheck here and we'll focus on the consolidation in the
+> next series? I agree it's worth doing.
+
+Works for me.
+
+> (I can add a 'FIXME' that will 100% need to be fixed before I move
+> scripts/qapi under python/qemu/qapi -- the linter config there prohibits
+> them, so you can be sure I can't ignore it.)
+
+Makes sense.
 
 
