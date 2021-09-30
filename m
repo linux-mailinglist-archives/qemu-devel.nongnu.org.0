@@ -2,72 +2,149 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CB741DE7B
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 18:12:22 +0200 (CEST)
-Received: from localhost ([::1]:48284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CF441DE55
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 18:03:30 +0200 (CEST)
+Received: from localhost ([::1]:55336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVyfV-0001it-D4
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 12:12:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36814)
+	id 1mVyWv-0003uZ-NU
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 12:03:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy1a-00053f-DF
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:31:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42387)
+ (Exim 4.90_1) (envelope-from <prvs=9907f52c21=jtanen@fb.com>)
+ id 1mVyMh-0007oR-9h
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:52:55 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:20734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mVy1W-0002TS-43
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:31:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633015861;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=r/u/fjgANOyKBgiNvEeiUlOjEnrW34JQFDABOt3fZqg=;
- b=QsX514HyE9/L4kNC3I4bKyrENEYecWzzUcFlY+f9h7np62CMFcT+YAt6E/9dtNGVw65mQz
- Me9+EQCBJelVKGVeoc0jKu8YM07p0SAC+gjPL7w/KhGRI/ZYttVhlw7lniYavFjwUOW+S9
- B4l1LlwWfDBPxOQxHz4JcYFp2LYzCD8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-L2BBFy71ONKKyZpahOqAkA-1; Thu, 30 Sep 2021 11:30:57 -0400
-X-MC-Unique: L2BBFy71ONKKyZpahOqAkA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC29184A5E3;
- Thu, 30 Sep 2021 15:30:56 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.16.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 70B781024866;
- Thu, 30 Sep 2021 15:30:56 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id ECC52228287; Thu, 30 Sep 2021 11:30:47 -0400 (EDT)
-From: Vivek Goyal <vgoyal@redhat.com>
-To: qemu-devel@nongnu.org,
-	virtio-fs@redhat.com,
-	stefanha@redhat.com
-Subject: [PATCH 08/13] virtiofsd: Create a notification queue
-Date: Thu, 30 Sep 2021 11:30:32 -0400
-Message-Id: <20210930153037.1194279-9-vgoyal@redhat.com>
-In-Reply-To: <20210930153037.1194279-1-vgoyal@redhat.com>
-References: <20210930153037.1194279-1-vgoyal@redhat.com>
+ (Exim 4.90_1) (envelope-from <prvs=9907f52c21=jtanen@fb.com>)
+ id 1mVyMf-00039j-4e
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:52:54 -0400
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18UDgtXc001529; 
+ Thu, 30 Sep 2021 08:52:49 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=facebook; bh=iFtsbgqys2wixYdTlTr10YtErqj3IJobmk4Q0G0W2pY=;
+ b=TtcYXIoC6rXMIK2pjhgzbzuOzSBLrWMvOmF0c1eNuRxK1UNyPwLnXw5LT2cGhvky1sid
+ 6sYzaZbD4hv5yZ505QKEc15dH7yskToU6mPR1/fW42XN3MNReQUqWqs/EHTUMHA3Wbyp
+ 0oeyO4mQtCLsIY5XZxolrsg6LJipn+EH1Vw= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+ by mx0a-00082601.pphosted.com with ESMTP id 3bcvtk7r8a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Thu, 30 Sep 2021 08:52:49 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (100.104.98.9) by
+ o365-in.thefacebook.com (100.104.94.230) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.14; Thu, 30 Sep 2021 08:52:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=l9UcKmkvwp6o5cFsHT0VSn3EVbs6Z8KA0BYFQ6HGMIEsRn7wUtZK4VWVzZb7I9ovqUSSvQ8DiXwxwtX8bm5M2XGXLXFPIbqPyQBlhGxX3kEHGgGEz67Y9mQqjV42iZBCr5041/nfV+Rt5aFZdoCNIqhRnsbBlMGfiJo76yep7sqHPYRaOJKrhrMPruMlROqURutKJQbu81LzHL4oHjYUTQZPjvkjp7ehW79vJxs/Cgd/+j6wx9y9COPGYt1qtG0ipIYs1jlrfOlfTbcfYe6gj47weRts2YbtE8AycSEKCOLbJb5lhF+bhKRbmffxlES/NNDZOdbj5Pv5UIpfZygmcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=iFtsbgqys2wixYdTlTr10YtErqj3IJobmk4Q0G0W2pY=;
+ b=RHbySiLLLNODZ0ww/GggcXVG5Us6ogYKQDcGfL+uPwBGvbVZrr0PtxbQL5fRPpf+px5E1/B6C08jL4JOaJn17r3X12QC4Ldw+Ebt7wB7qzpZvvmg9cjJVLpzvOvKaHpCVIcA33hAjpQfAhPHoOK3Zh1RRc4luaw9+wuUk9R6tiWANwEmM0tgrM3KdhWkVZ8AXOOJov89GMILnfiNT5Zw5PYPQxUELNluHLG9U2ykJZUsGEUuEdEEyoj0HobrBNMYBMfU2Fd9r8DabxWGk02znmGF3aIui+x/wInnIomw6rglUgL43Np805EsTNL2x1sl9I/yJn3Vks9/2vb6mfF4fQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from SA1PR15MB4484.namprd15.prod.outlook.com (2603:10b6:806:197::5)
+ by SN6PR15MB2272.namprd15.prod.outlook.com (2603:10b6:805:26::30)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.16; Thu, 30 Sep
+ 2021 15:52:46 +0000
+Received: from SA1PR15MB4484.namprd15.prod.outlook.com
+ ([fe80::e92c:9d8e:a9b0:5b6e]) by SA1PR15MB4484.namprd15.prod.outlook.com
+ ([fe80::e92c:9d8e:a9b0:5b6e%2]) with mapi id 15.20.4566.017; Thu, 30 Sep 2021
+ 15:52:46 +0000
+From: Joe Tanen <jtanen@fb.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: Joe Tanen <jtanen@fb.com>, "dirty@apple.com" <dirty@apple.com>
+Subject: [PATCH v1] Use CLOCK_MONOTONIC_RAW if available for get_clock().
+Thread-Topic: [PATCH v1] Use CLOCK_MONOTONIC_RAW if available for get_clock().
+Thread-Index: AQHXthKyRjSgKbhwdUGK66yq8X/F5Q==
+Date: Thu, 30 Sep 2021 15:52:46 +0000
+Message-ID: <SA1PR15MB4484B78AA300C0D419BA70DFABAA9@SA1PR15MB4484.namprd15.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+suggested_attachment_session_id: 424d99b3-03d8-63b2-0adf-102c57d3c3ce
+authentication-results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=fb.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 55485472-cab1-49c3-347e-08d9842a58fd
+x-ms-traffictypediagnostic: SN6PR15MB2272:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR15MB2272A66A037E0B5C897034EDABAA9@SN6PR15MB2272.namprd15.prod.outlook.com>
+x-fb-source: Internal
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DodH8CHOFbzb5xzhm770oEBNhXvv295BoaHvqO3tSB4mfdeSp0GpvBVKQorrgo7hRjEjdnxgU3P3zYdP29vm7HhmdEqoOz/6HI+XDwdNbm4HzRIELOZ+OSixepUN0etz/hwD6edv+lO7ODgJqOLBYn1nBNg1GyTy3P6OQdY5GZSixCRELuKHgMStMKGMEA6p59Kx4m7L6eyIkZ+QB5JZAkfeNdvI3Wh5Zr1JRtR2ckZAaPdAXw68DJU/laN2zk6OwvZzbyqz3J9uu/mWYbhsG0h0SYpZzKrxwhRMfvBNI5b6W1SicdE/6tUSdiwsT7o1CjlZc4HMa2v4q3xBBHv685ZHV/eZgmKLsL38X5FLjLP8MPJ3LGUibm7vZDsjNpRlWsCFNapeSz7qUn9g0KWiTie/LvDF5BEPTWyUPmo3QAV8/zUgbTZjw854elHmvQHi+v/ikr222vXWJgjOzKT9NoGn6AFZunpVkWYyT/sLL6FDUOR/0qF7AGhfCRYj9FFkoH38513Y023AV7UU1rJ0sKuc5hl8rrpgUbWY2UwvJ22UKUoMDtTJAxmiXC3C9vo0aK3G6hZAcLtWJ+akUnMOXg7olkgx7uDmRVk8Q3nerW9oy1J4Hh6uZ1ooohBQrVyJ93dbG7jFvi9tVpbQ4joe+0LOiLu947f4x4IOhVe7ujJXOv/BSg4jcV8PpvVEy10YIgjnmJ0nyknfnaLewK6rEzomOKpap50UkAbl/2Vj7r4Xqt6ZonCFN4Z4TgxX1VsCeIKfSSps9SkiFfW6hOsFAQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR15MB4484.namprd15.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(38070700005)(4326008)(54906003)(508600001)(5660300002)(55016002)(66446008)(9686003)(52536014)(122000001)(38100700002)(316002)(6916009)(186003)(66476007)(64756008)(66556008)(66946007)(91956017)(76116006)(2906002)(8936002)(6506007)(83380400001)(8676002)(71200400001)(86362001)(7696005)(33656002)(131093003)(21314003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?p/l/ojCVsA3H8UNIpeoLxob7t9JlcDiDbmJfsLQnl2KnjOGtbAwKfH7Wpw?=
+ =?iso-8859-1?Q?NCV6VUflad+ZdvmejUMYUUh+ztqykkERpKyq5fZMsV5ZwdsRPGnseRhoUl?=
+ =?iso-8859-1?Q?Ljt31Z0i7Dzn0U3hrR3i8Ic13EesRq7lk8jAAlDFkKen9gyBuOtCAUIlEM?=
+ =?iso-8859-1?Q?MgvN4lunXuCq/tjXLa+tMhT4uMWvOWFjN1ZW9jp8Cpk7RrtPAuTENtJx+B?=
+ =?iso-8859-1?Q?1mc4QZL09nthBYHMopytKOCHAmfGcEJmmpbqfPM2ZXwTXr1/Pzd3WtRcVX?=
+ =?iso-8859-1?Q?E8xDstfGsssm9C4BSGT0Ing7hA+TxsKEjy+6iJYapLvOfMi6VRthZm7TMt?=
+ =?iso-8859-1?Q?6P6O7pkVKyk6GMosf6vBpNohuNyQTkv/m3+DgymQgK++eR/YlMHHAhyNql?=
+ =?iso-8859-1?Q?S5njb8PqZfCWvN2+u99KbFJQCv/NpeLWqSRn83ZA+S/FK0J6R+5bROvHj0?=
+ =?iso-8859-1?Q?Ko5oQU4pXmZ0t812LXUvMhW5+0i0hoAD2hRVD4gF2WId7HEPWIPudB3r4c?=
+ =?iso-8859-1?Q?N6M59ODMZAShHrC1ZCssHVZich/famE3TgPVtC+LpnrR1YaYSMhK+6+dWT?=
+ =?iso-8859-1?Q?Xvfc+AOwxMWwVTVLhz3L+rVHI4dQClr9+cBQWhOzi1HcP+No4Edki6xCj0?=
+ =?iso-8859-1?Q?vBdGq4qB2NA4jyC5UbK19vYMnK68+8+4FhVdfZdp5opO86pfiAQhWI2dji?=
+ =?iso-8859-1?Q?ACsx4cA/1Y1R8NT5lvx2sEhpKh0Q+8v+ucIvDJmgHpahC1TUMgLEH0Em50?=
+ =?iso-8859-1?Q?oX/klQSEq5mZOiYkIh9KyOZEWuuEcXTD43Jyshcc9HXMQ8wi746kNX1z+T?=
+ =?iso-8859-1?Q?MmncmTjq0fH0YmFhMZHkojRFft8pH4hBSEC7JNYnvpAYyG0dyJFTn3QWzI?=
+ =?iso-8859-1?Q?Xj6phklUzY6dPZyEBU6rr6ZvPfNBdRHvI5Pg+hE0YCwt42pJ4RzhCqHasx?=
+ =?iso-8859-1?Q?YuJnoC/VLELkR4AhKeg2obIPRQ8TO7epuvPAuDVB3cimfeGRKXunghlpR/?=
+ =?iso-8859-1?Q?aXiswNLAC0K/qiCl23ojsX/TpK0jmIb4u9kW+iq2wZ9HNynVHX1u7io+bq?=
+ =?iso-8859-1?Q?Ih8OzatZz3aagmZAc+XmtDgiLeerst5XWwIMxW1r3OpGCkUts0jv7Fn62K?=
+ =?iso-8859-1?Q?HCEMSpFNCgDrxpXRF2+Xi1ft0sZ/FTfFTEm5G2rSWuaiLGuctKbrnXv/ns?=
+ =?iso-8859-1?Q?smQRmdIl35FmraJ3OLTrsUAVcTZcz2rcbZYBvKDNsnoavxmZ9nZkEAtbwb?=
+ =?iso-8859-1?Q?kdWXkZHWfAFrtF0osfiFxeeN2aplHzw5DKAt5ZKp1UO9v90qbwpFazR3aT?=
+ =?iso-8859-1?Q?0uasJXXcaSSmXWvD/rAUjI18V+pau7j+Z8eWhqqb9/MFLHNdLwL+E21KeA?=
+ =?iso-8859-1?Q?GgxkTM8qROCiHmGtLma3AOGK+uK5zxeQ=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR15MB4484.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55485472-cab1-49c3-347e-08d9842a58fd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2021 15:52:46.4405 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mzWU/J33rk8dHPBGXt2nv6ZWTLlXAlAqyyqoPjdTu9XHPeKR5rFVg6orgIl39PZc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR15MB2272
+X-OriginatorOrg: fb.com
+X-Proofpoint-GUID: 88qgpJMnbi8Gs6UkYr9bCnOR3-YEJ9Xz
+X-Proofpoint-ORIG-GUID: 88qgpJMnbi8Gs6UkYr9bCnOR3-YEJ9Xz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-30_05,2021-09-30_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 mlxlogscore=754
+ malwarescore=0 suspectscore=0 impostorscore=0 adultscore=0 bulkscore=0
+ clxscore=1015 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2109300098
+X-FB-Internal: deliver
+Received-SPF: pass client-ip=67.231.145.42;
+ envelope-from=prvs=9907f52c21=jtanen@fb.com; helo=mx0a-00082601.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,329 +157,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jaggel@bu.edu, iangelak@redhat.com, dgilbert@redhat.com, vgoyal@redhat.com,
- miklos@szeredi.hu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a notification queue which will be used to send async notifications
-for file lock availability.
-
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Signed-off-by: Ioannis Angelakopoulos <iangelak@redhat.com>
----
- hw/virtio/vhost-user-fs-pci.c     |  4 +-
- hw/virtio/vhost-user-fs.c         | 62 +++++++++++++++++++++++++--
- include/hw/virtio/vhost-user-fs.h |  2 +
- tools/virtiofsd/fuse_i.h          |  1 +
- tools/virtiofsd/fuse_virtio.c     | 70 +++++++++++++++++++++++--------
- 5 files changed, 116 insertions(+), 23 deletions(-)
-
-diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
-index 2ed8492b3f..cdb9471088 100644
---- a/hw/virtio/vhost-user-fs-pci.c
-+++ b/hw/virtio/vhost-user-fs-pci.c
-@@ -41,8 +41,8 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-     DeviceState *vdev = DEVICE(&dev->vdev);
- 
-     if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
--        /* Also reserve config change and hiprio queue vectors */
--        vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 2;
-+        /* Also reserve config change, hiprio and notification queue vectors */
-+        vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 3;
-     }
- 
-     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index d1efbc5b18..6bafcf0243 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -31,6 +31,7 @@ static const int user_feature_bits[] = {
-     VIRTIO_F_NOTIFY_ON_EMPTY,
-     VIRTIO_F_RING_PACKED,
-     VIRTIO_F_IOMMU_PLATFORM,
-+    VIRTIO_FS_F_NOTIFICATION,
- 
-     VHOST_INVALID_FEATURE_BIT
- };
-@@ -147,7 +148,7 @@ static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-      */
- }
- 
--static void vuf_create_vqs(VirtIODevice *vdev)
-+static void vuf_create_vqs(VirtIODevice *vdev, bool notification_vq)
- {
-     VHostUserFS *fs = VHOST_USER_FS(vdev);
-     unsigned int i;
-@@ -155,6 +156,15 @@ static void vuf_create_vqs(VirtIODevice *vdev)
-     /* Hiprio queue */
-     fs->hiprio_vq = virtio_add_queue(vdev, fs->conf.queue_size,
-                                      vuf_handle_output);
-+    /*
-+     * Notification queue. Feature negotiation happens later. So at this
-+     * point of time we don't know if driver will use notification queue
-+     * or not.
-+     */
-+    if (notification_vq) {
-+        fs->notification_vq = virtio_add_queue(vdev, fs->conf.queue_size,
-+                                               vuf_handle_output);
-+    }
- 
-     /* Request queues */
-     fs->req_vqs = g_new(VirtQueue *, fs->conf.num_request_queues);
-@@ -163,8 +173,12 @@ static void vuf_create_vqs(VirtIODevice *vdev)
-                                           vuf_handle_output);
-     }
- 
--    /* 1 high prio queue, plus the number configured */
--    fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
-+    /* 1 high prio queue, 1 notification queue plus the number configured */
-+    if (notification_vq) {
-+        fs->vhost_dev.nvqs = 2 + fs->conf.num_request_queues;
-+    } else {
-+        fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
-+    }
-     fs->vhost_dev.vqs = g_new0(struct vhost_virtqueue, fs->vhost_dev.nvqs);
- }
- 
-@@ -176,6 +190,11 @@ static void vuf_cleanup_vqs(VirtIODevice *vdev)
-     virtio_delete_queue(fs->hiprio_vq);
-     fs->hiprio_vq = NULL;
- 
-+    if (fs->notification_vq) {
-+        virtio_delete_queue(fs->notification_vq);
-+    }
-+    fs->notification_vq = NULL;
-+
-     for (i = 0; i < fs->conf.num_request_queues; i++) {
-         virtio_delete_queue(fs->req_vqs[i]);
-     }
-@@ -194,9 +213,43 @@ static uint64_t vuf_get_features(VirtIODevice *vdev,
- {
-     VHostUserFS *fs = VHOST_USER_FS(vdev);
- 
-+    virtio_add_feature(&features, VIRTIO_FS_F_NOTIFICATION);
-+
-     return vhost_get_features(&fs->vhost_dev, user_feature_bits, features);
- }
- 
-+static void vuf_set_features(VirtIODevice *vdev, uint64_t features)
-+{
-+    VHostUserFS *fs = VHOST_USER_FS(vdev);
-+
-+    if (virtio_has_feature(features, VIRTIO_FS_F_NOTIFICATION)) {
-+        fs->notify_enabled = true;
-+        /*
-+         * If guest first booted with no notification queue support and
-+         * later rebooted with kernel which supports notification, we
-+         * can end up here
-+         */
-+        if (!fs->notification_vq) {
-+            vuf_cleanup_vqs(vdev);
-+            vuf_create_vqs(vdev, true);
-+        }
-+        return;
-+    }
-+
-+    fs->notify_enabled = false;
-+    if (!fs->notification_vq) {
-+        return;
-+    }
-+    /*
-+     * Driver does not support notification queue. Reconfigure queues
-+     * and do not create notification queue.
-+     */
-+    vuf_cleanup_vqs(vdev);
-+
-+    /* Create queues again */
-+    vuf_create_vqs(vdev, false);
-+}
-+
- static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx,
-                                             bool mask)
- {
-@@ -262,7 +315,7 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
-     virtio_init(vdev, "vhost-user-fs", VIRTIO_ID_FS,
-                 sizeof(struct virtio_fs_config));
- 
--    vuf_create_vqs(vdev);
-+    vuf_create_vqs(vdev, true);
-     ret = vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
-                          VHOST_BACKEND_TYPE_USER, 0, errp);
-     if (ret < 0) {
-@@ -327,6 +380,7 @@ static void vuf_class_init(ObjectClass *klass, void *data)
-     vdc->realize = vuf_device_realize;
-     vdc->unrealize = vuf_device_unrealize;
-     vdc->get_features = vuf_get_features;
-+    vdc->set_features = vuf_set_features;
-     vdc->get_config = vuf_get_config;
-     vdc->set_status = vuf_set_status;
-     vdc->guest_notifier_mask = vuf_guest_notifier_mask;
-diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
-index 0d62834c25..95dc0dd402 100644
---- a/include/hw/virtio/vhost-user-fs.h
-+++ b/include/hw/virtio/vhost-user-fs.h
-@@ -39,7 +39,9 @@ struct VHostUserFS {
-     VhostUserState vhost_user;
-     VirtQueue **req_vqs;
-     VirtQueue *hiprio_vq;
-+    VirtQueue *notification_vq;
-     int32_t bootindex;
-+    bool notify_enabled;
- 
-     /*< public >*/
- };
-diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
-index 492e002181..4942d080da 100644
---- a/tools/virtiofsd/fuse_i.h
-+++ b/tools/virtiofsd/fuse_i.h
-@@ -73,6 +73,7 @@ struct fuse_session {
-     int   vu_socketfd;
-     struct fv_VuDev *virtio_dev;
-     int thread_pool_size;
-+    bool notify_enabled;
- };
- 
- struct fuse_chan {
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index baead08b28..f5b87a508a 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -14,6 +14,7 @@
- #include "qemu/osdep.h"
- #include "qemu/iov.h"
- #include "qapi/error.h"
-+#include "standard-headers/linux/virtio_fs.h"
- #include "fuse_i.h"
- #include "standard-headers/linux/fuse.h"
- #include "fuse_misc.h"
-@@ -85,12 +86,25 @@ struct fv_VuDev {
- /* Callback from libvhost-user */
- static uint64_t fv_get_features(VuDev *dev)
- {
--    return 1ULL << VIRTIO_F_VERSION_1;
-+    uint64_t features;
-+
-+    features = 1ull << VIRTIO_F_VERSION_1 |
-+               1ull << VIRTIO_FS_F_NOTIFICATION;
-+
-+    return features;
- }
- 
- /* Callback from libvhost-user */
- static void fv_set_features(VuDev *dev, uint64_t features)
- {
-+    struct fv_VuDev *vud = container_of(dev, struct fv_VuDev, dev);
-+    struct fuse_session *se = vud->se;
-+
-+    if ((1ull << VIRTIO_FS_F_NOTIFICATION) & features) {
-+        se->notify_enabled = true;
-+    } else {
-+        se->notify_enabled = false;
-+    }
- }
- 
- /*
-@@ -719,22 +733,25 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vud, int qidx)
- {
-     int ret;
-     struct fv_QueueInfo *ourqi;
-+    struct fuse_session *se = vud->se;
- 
-     assert(qidx < vud->nqueues);
-     ourqi = vud->qi[qidx];
- 
--    /* Kill the thread */
--    if (eventfd_write(ourqi->kill_fd, 1)) {
--        fuse_log(FUSE_LOG_ERR, "Eventfd_write for queue %d: %s\n",
--                 qidx, strerror(errno));
--    }
--    ret = pthread_join(ourqi->thread, NULL);
--    if (ret) {
--        fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d err %d\n",
--                 __func__, qidx, ret);
-+    /* qidx == 1 is the notification queue if notifications are enabled */
-+    if (!se->notify_enabled || qidx != 1) {
-+        /* Kill the thread */
-+        if (eventfd_write(ourqi->kill_fd, 1)) {
-+            fuse_log(FUSE_LOG_ERR, "Eventfd_read for queue: %m\n");
-+        }
-+        ret = pthread_join(ourqi->thread, NULL);
-+        if (ret) {
-+            fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d err"
-+                     " %d\n", __func__, qidx, ret);
-+        }
-+        close(ourqi->kill_fd);
-     }
-     pthread_mutex_destroy(&ourqi->vq_lock);
--    close(ourqi->kill_fd);
-     ourqi->kick_fd = -1;
-     g_free(vud->qi[qidx]);
-     vud->qi[qidx] = NULL;
-@@ -757,6 +774,9 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
- {
-     struct fv_VuDev *vud = container_of(dev, struct fv_VuDev, dev);
-     struct fv_QueueInfo *ourqi;
-+    int valid_queues = 2; /* One hiprio queue and one request queue */
-+    bool notification_q = false;
-+    struct fuse_session *se = vud->se;
- 
-     fuse_log(FUSE_LOG_INFO, "%s: qidx=%d started=%d\n", __func__, qidx,
-              started);
-@@ -768,10 +788,19 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
-      * well-behaved client in mind and may not protect against all types of
-      * races yet.
-      */
--    if (qidx > 1) {
--        fuse_log(FUSE_LOG_ERR,
--                 "%s: multiple request queues not yet implemented, please only "
--                 "configure 1 request queue\n",
-+    if (se->notify_enabled) {
-+        valid_queues++;
-+        /*
-+         * If notification queue is enabled, then qidx 1 is notificaiton queue.
-+         */
-+        if (qidx == 1) {
-+            notification_q = true;
-+        }
-+    }
-+
-+    if (qidx >= valid_queues) {
-+        fuse_log(FUSE_LOG_ERR, "%s: multiple request queues not yet"
-+                 "implemented, please only configure 1 request queue\n",
-                  __func__);
-         exit(EXIT_FAILURE);
-     }
-@@ -793,11 +822,18 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
-             assert(vud->qi[qidx]->kick_fd == -1);
-         }
-         ourqi = vud->qi[qidx];
-+        pthread_mutex_init(&ourqi->vq_lock, NULL);
-+        /*
-+         * For notification queue, we don't have to start a thread yet.
-+         */
-+        if (notification_q) {
-+            return;
-+        }
-+
-         ourqi->kick_fd = dev->vq[qidx].kick_fd;
- 
-         ourqi->kill_fd = eventfd(0, EFD_CLOEXEC | EFD_SEMAPHORE);
-         assert(ourqi->kill_fd != -1);
--        pthread_mutex_init(&ourqi->vq_lock, NULL);
- 
-         if (pthread_create(&ourqi->thread, NULL, fv_queue_thread, ourqi)) {
-             fuse_log(FUSE_LOG_ERR, "%s: Failed to create thread for queue %d\n",
-@@ -1048,7 +1084,7 @@ int virtio_session_mount(struct fuse_session *se)
-     se->vu_socketfd = data_sock;
-     se->virtio_dev->se = se;
-     pthread_rwlock_init(&se->virtio_dev->vu_dispatch_rwlock, NULL);
--    if (!vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, NULL,
-+    if (!vu_init(&se->virtio_dev->dev, 3, se->vu_socketfd, fv_panic, NULL,
-                  fv_set_watch, fv_remove_watch, &fv_iface)) {
-         fuse_log(FUSE_LOG_ERR, "%s: vu_init failed\n", __func__);
-         return -1;
--- 
-2.31.1
-
+CLOCK_MONOTONIC_RAW provides an unadjusted system clock on some platforms,=
+=0A=
+which is closer in spirit to providing a guest with a raw hardware clock th=
+an=0A=
+CLOCK_MONOTONIC.=0A=
+=0A=
+Using CLOCK_MONOTONIC_RAW also works around a current issue in OSX where=0A=
+CLOCK_MONOTONIC has been observed to go backwards.=0A=
+=0A=
+Since CLOCK_MONOTONIC_RAW might not be available on all platforms, revert t=
+o=0A=
+using CLOCK_MONOTONIC if it is not present.=0A=
+=0A=
+Signed-off-by: Joe Tanen <jtanen@fb.com>=0A=
+---=0A=
+ include/qemu/timer.h     |  3 ++-=0A=
+ util/qemu-timer-common.c | 11 +++++++++++=0A=
+ 2 files changed, 13 insertions(+), 1 deletion(-)=0A=
+=0A=
+diff --git a/include/qemu/timer.h b/include/qemu/timer.h=0A=
+index 88ef114689..fb8f5074df 100644=0A=
+--- a/include/qemu/timer.h=0A=
++++ b/include/qemu/timer.h=0A=
+@@ -828,12 +828,13 @@ static inline int64_t get_clock(void)=0A=
+ #else=0A=
+ =0A=
+ extern int use_rt_clock;=0A=
++extern clockid_t rt_clock;=0A=
+ =0A=
+ static inline int64_t get_clock(void)=0A=
+ {=0A=
+     if (use_rt_clock) {=0A=
+         struct timespec ts;=0A=
+-        clock_gettime(CLOCK_MONOTONIC, &ts);=0A=
++        clock_gettime(rt_clock, &ts);=0A=
+         return ts.tv_sec * 1000000000LL + ts.tv_nsec;=0A=
+     } else {=0A=
+         /* XXX: using gettimeofday leads to problems if the date=0A=
+diff --git a/util/qemu-timer-common.c b/util/qemu-timer-common.c=0A=
+index cc1326f726..5039c5406c 100644=0A=
+--- a/util/qemu-timer-common.c=0A=
++++ b/util/qemu-timer-common.c=0A=
+@@ -49,13 +49,24 @@ static void __attribute__((constructor)) init_get_clock=
+(void)=0A=
+ #else=0A=
+ =0A=
+ int use_rt_clock;=0A=
++clockid_t rt_clock;=0A=
+ =0A=
+ static void __attribute__((constructor)) init_get_clock(void)=0A=
+ {=0A=
+     struct timespec ts;=0A=
+ =0A=
+     use_rt_clock =3D 0;=0A=
++#if (defined(__APPLE__) || defined(__linux__)) && defined(CLOCK_MONOTONIC_=
+RAW)=0A=
++    /* CLOCK_MONOTONIC_RAW is not available on all platforms or with all=
+=0A=
++     * compiler flags.=0A=
++     */=0A=
++    if (clock_gettime(CLOCK_MONOTONIC_RAW, &ts) =3D=3D 0) {=0A=
++        rt_clock =3D CLOCK_MONOTONIC_RAW;=0A=
++        use_rt_clock =3D 1;=0A=
++    } else=0A=
++#endif=0A=
+     if (clock_gettime(CLOCK_MONOTONIC, &ts) =3D=3D 0) {=0A=
++        rt_clock =3D CLOCK_MONOTONIC;=0A=
+         use_rt_clock =3D 1;=0A=
+     }=0A=
+     clock_start =3D get_clock();=0A=
+-- =0A=
+2.31.1=0A=
 
