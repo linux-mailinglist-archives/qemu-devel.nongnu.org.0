@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE10C41DAFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:28:11 +0200 (CEST)
-Received: from localhost ([::1]:48636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06FCB41DB1E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:32:31 +0200 (CEST)
+Received: from localhost ([::1]:54110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVw6c-0001NI-TG
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:28:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34450)
+	id 1mVwAn-0005Bn-TI
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:32:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVw2f-0007kz-7H
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:24:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23972)
+ id 1mVw2j-0007pK-1V
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:24:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mVw2c-0006Av-7C
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:24:04 -0400
+ id 1mVw2g-0006Ej-Bv
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:24:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633008241;
+ s=mimecast20190719; t=1633008245;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2lGhYz/PP30eqX3Eqj0SHD1eVWfklz38zYEhdkcz+V4=;
- b=IC0uhpP1ZAZjCmxXm/RIIEI1u084VSfMAflVcFMno20BxmUHWdiJp9SV9ipQRvURH7VrLC
- JmEqeFzYbBspFpe1SByMdvt/6ARkKdmsyT+lYbBPgCx8ocTDh4/5hivHMcaH6EtEkQIP/u
- B/QtFFkB1I+uQ6Z2/mLnVIWhyXCx6fE=
+ bh=9Po9xfPHngLdrtA8HJjzlWRlYB5bfgztc6iHW/5BmUQ=;
+ b=ZzEPUegiVhA64BMtAzdnm5MM7A+BYcVNhbqNW6wDtZrt+hHAQoBJfvSEjXj/20dsNA/tAV
+ VeHuFmTzZRJtsHaZTz6mDy4Rv6tk0WA8fCVSMVkX+hmvuYpULVgxNLhuqfSJZ5BwLo+qkS
+ BEKrOfneLwqiHFFmLfOxAlJLTd8BjC8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-y_6jW03KOAOi9yNCozkZ7w-1; Thu, 30 Sep 2021 09:24:00 -0400
-X-MC-Unique: y_6jW03KOAOi9yNCozkZ7w-1
+ us-mta-344-eHzPvBydMq-FTzu8ko8lMg-1; Thu, 30 Sep 2021 09:24:04 -0400
+X-MC-Unique: eHzPvBydMq-FTzu8ko8lMg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF38C1084683;
- Thu, 30 Sep 2021 13:23:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5403835DE0;
+ Thu, 30 Sep 2021 13:24:02 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.39.195.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FA8E5D9C6;
- Thu, 30 Sep 2021 13:23:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 24E925D9C6;
+ Thu, 30 Sep 2021 13:23:58 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/19] docs/devel: rename file for writing monitor commands
-Date: Thu, 30 Sep 2021 14:23:31 +0100
-Message-Id: <20210930132349.3601823-2-berrange@redhat.com>
+Subject: [PATCH v3 02/19] docs/devel: tweak headings in monitor command docs
+Date: Thu, 30 Sep 2021 14:23:32 +0100
+Message-Id: <20210930132349.3601823-3-berrange@redhat.com>
 In-Reply-To: <20210930132349.3601823-1-berrange@redhat.com>
 References: <20210930132349.3601823-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -92,45 +92,41 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The file already covers writing HMP commands, in addition to
-the QMP commands, so it deserves a more general name.
+The new headings reflect the intended structure of the document and will
+better suit additions that follow.
 
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/devel/index.rst                                        | 2 +-
- ...riting-qmp-commands.rst => writing-monitor-commands.rst} | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename docs/devel/{writing-qmp-commands.rst => writing-monitor-commands.rst} (99%)
+ docs/devel/writing-monitor-commands.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index f95df10b3e..7c25177c5d 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -44,4 +44,4 @@ modifying QEMU's source code.
-    ebpf_rss
-    vfio-migration
-    qapi-code-gen
--   writing-qmp-commands
-+   writing-monitor-commands
-diff --git a/docs/devel/writing-qmp-commands.rst b/docs/devel/writing-monitor-commands.rst
-similarity index 99%
-rename from docs/devel/writing-qmp-commands.rst
-rename to docs/devel/writing-monitor-commands.rst
-index 6a10a06c48..4a4c051624 100644
---- a/docs/devel/writing-qmp-commands.rst
+diff --git a/docs/devel/writing-monitor-commands.rst b/docs/devel/writing-monitor-commands.rst
+index 4a4c051624..a973c48f66 100644
+--- a/docs/devel/writing-monitor-commands.rst
 +++ b/docs/devel/writing-monitor-commands.rst
-@@ -1,8 +1,8 @@
--How to write QMP commands using the QAPI framework
--==================================================
-+How to write monitor commands
-+=============================
+@@ -85,8 +85,8 @@ any data". Now you're ready to enter the QMP example commands as explained in
+ the following sections.
  
- This document is a step-by-step guide on how to write new QMP commands using
--the QAPI framework. It also shows how to implement new style HMP commands.
-+the QAPI framework and HMP commands.
  
- This document doesn't discuss QMP protocol level details, nor does it dive
- into the QAPI framework implementation.
+-Writing a command that doesn't return data
+-------------------------------------------
++Writing a simple command: hello-world
++-------------------------------------
+ 
+ That's the most simple QMP command that can be written. Usually, this kind of
+ command carries some meaningful action in QEMU but here it will just print
+@@ -340,8 +340,8 @@ Please, check the "-monitor" command-line option to know how to open a user
+ monitor.
+ 
+ 
+-Writing a command that returns data
+------------------------------------
++Writing more complex commands
++-----------------------------
+ 
+ A QMP command is capable of returning any data the QAPI supports like integers,
+ strings, booleans, enumerations and user defined types.
 -- 
 2.31.1
 
