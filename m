@@ -2,80 +2,166 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653B441D0BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 02:46:28 +0200 (CEST)
-Received: from localhost ([::1]:56438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D668E41D0BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 02:48:32 +0200 (CEST)
+Received: from localhost ([::1]:60532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVkDP-0003my-Fd
-	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 20:46:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35532)
+	id 1mVkFT-0006f4-TR
+	for lists+qemu-devel@lfdr.de; Wed, 29 Sep 2021 20:48:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=9907073e8e=pdel@fb.com>)
- id 1mVk9y-0002P9-TJ
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 20:42:51 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:31658)
+ id 1mVkDY-00058r-A7
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 20:46:32 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:3236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=9907073e8e=pdel@fb.com>)
- id 1mVk9w-0004ws-1d
- for qemu-devel@nongnu.org; Wed, 29 Sep 2021 20:42:50 -0400
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18TNkCfb006576
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 17:42:42 -0700
+ id 1mVkDW-0007Ih-2v
+ for qemu-devel@nongnu.org; Wed, 29 Sep 2021 20:46:31 -0400
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18TNkG4u029266; 
+ Wed, 29 Sep 2021 17:46:05 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=facebook;
- bh=hkTcXDcbMXhTg+WSAuWccteWWQSXmzEQVHxcvWStVSU=;
- b=ZUVxDlj7ipMhJYMCwDX/DqWJUf5JLpyEpaErZb4YB4PHBcGoEdYeXr7y/pFsMqt4yCSd
- 2X/Zqffaz5OOABzOvyf6x4Fjwq2dnpYh3V6q/jtRs1P3wQpfJNxNkbzTk3V3v9/i9R9i
- biwwPuXXeBwXyPaXN//64vnLr1212aEQ828= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 3bcvtk2qjq-3
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 29 Sep 2021 17:42:42 -0700
-Received: from intmgw001.27.prn2.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::7) with Microsoft SMTP Server
+ h=from : cc : subject :
+ date : message-id : references : in-reply-to : content-type : content-id :
+ content-transfer-encoding : mime-version; s=facebook;
+ bh=5zwpvkBbcZeWGyoNrC3/9NA7xmn64cLFY2DumPFyt+A=;
+ b=QzbHN8ke4VaQ4IuF9IdgTWsboYHNch3cBpT5uUMUnvLvWuYN3vAXpNQjWF5YA6lD33VM
+ r0159y1uqDPoLwKPPrKdMmTWpgeN2MZ4QjwknOEd4JmqKkFj0TTfy8NgKgTFyG5W+HUr
+ xvY1AQq4WPCHV7r+SXXcqbdFDAo7uGYfuTo= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+ by mx0a-00082601.pphosted.com with ESMTP id 3bcrv64ykc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Wed, 29 Sep 2021 17:46:05 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (100.104.98.9) by
+ o365-in.thefacebook.com (100.104.94.228) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.14; Wed, 29 Sep 2021 17:42:41 -0700
-Received: by devvm660.prn0.facebook.com (Postfix, from userid 385188)
- id A794748462EB; Wed, 29 Sep 2021 17:42:40 -0700 (PDT)
-From: <pdel@fb.com>
-To: 
-CC: <clg@kaod.org>, <patrick@stwcx.xyz>, <amithash@fb.com>, <zhdaniel@fb.com>, 
- <qemu-devel@nongnu.org>, Peter Delevoryas <pdel@fb.com>
-Subject: [RFC PATCH 1/1] hw: aspeed_adc: Add initial Aspeed ADC support
-Date: Wed, 29 Sep 2021 17:42:35 -0700
-Message-ID: <20210930004235.1656003-2-pdel@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210930004235.1656003-1-pdel@fb.com>
-References: <20210930004235.1656003-1-pdel@fb.com>
+ 15.1.2308.14; Wed, 29 Sep 2021 17:46:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gLz+7IqJTJkDbo2s+mm4mXYGPr6W0QuAT6p/9uTQdSORxCd5Xx1YMhJRUOgPRJ2G6pGhhh8B7AhZyj7MtaDw6R+FRm5NcM+FUA3De7hBkGSQ52iFKURb4XwvMtnNtTAn8NZecRMlUcYjyHdiiI8Jsfx6bXoDWWryFXhySYQKD0bqF+mJtoSXFoNQTLJtuSNwETHjOQ4o22yiqx0t3Xd3rBvK+Gbnzr7jyhGwAhmIYBHVtulfIpPZbdLRSZoqx0j0FHRzsCe0OL/vkJGIJLpUh0NZ4vf8UtO0TKSBD88FjEerWbD+GuzUSKx+/4Xsoe7kTDBiU2+ysxk2/Q2TVHOu+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=5zwpvkBbcZeWGyoNrC3/9NA7xmn64cLFY2DumPFyt+A=;
+ b=gFWTLjY7karOG3YEyMrJDfC1yPZ02IhrrVPlgQe0bwfih4wG+7mCYQiXXp9QisNCwWG4W3+Xh0CgQJ0FyN/m36KtXrQJLRF83ERN07Kr8OLeVLi/QDiyKx0dMYiLAi3kXdFjMzaPWHIrf5HHl2x9qZQ2AYvQ+OlEG0m+kqYMf7nXCJk+EcG6vuhTd+7q8NSuBXC2bTdcVgHtn2N1rAknLbksL171dseg3g1dU8/ctGqB1FbQGxTGyjxCHUbjaTk16djjt65Vdgmt1fJTe3T6qZnHbpdQRgjTn/JS7U9ITGf5/+oXCeWGEk5i/TOxQWanQvQlYlQPsRq8xO4PK4W+tA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from BYAPR15MB3032.namprd15.prod.outlook.com (2603:10b6:a03:ff::11)
+ by BYAPR15MB3030.namprd15.prod.outlook.com (2603:10b6:a03:fb::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Thu, 30 Sep
+ 2021 00:45:59 +0000
+Received: from BYAPR15MB3032.namprd15.prod.outlook.com
+ ([fe80::38da:f6f6:bb5c:dd5f]) by BYAPR15MB3032.namprd15.prod.outlook.com
+ ([fe80::38da:f6f6:bb5c:dd5f%7]) with mapi id 15.20.4566.015; Thu, 30 Sep 2021
+ 00:45:53 +0000
+From: Peter Delevoryas <pdel@fb.com>
+CC: =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>, Joel Stanley
+ <joel@jms.id.au>, "rashmica.g@gmail.com" <rashmica.g@gmail.com>,
+ "patrick@stwcx.xyz" <patrick@stwcx.xyz>, Cameron Esfahani via
+ <qemu-devel@nongnu.org>, =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?=
+ <f4bug@amsat.org>, Dan Zhang <zhdaniel@fb.com>,
+ "damien.hedde@greensocs.com" <damien.hedde@greensocs.com>
+Subject: Re: [PATCH 1/1] hw: aspeed_gpio: Fix pin I/O type declarations
+Thread-Topic: [PATCH 1/1] hw: aspeed_gpio: Fix pin I/O type declarations
+Thread-Index: AQHXtBhvyGkUUD0zdEGBkIvSFwZ2p6u5ReCAgAJ6+oA=
+Date: Thu, 30 Sep 2021 00:45:53 +0000
+Message-ID: <7B801EC5-8A3B-4C06-8FDA-194AD84C437C@fb.com>
+References: <20210928032456.3192603-1-pdel@fb.com>
+ <20210928032456.3192603-2-pdel@fb.com>
+ <00f8b06a-337a-2a93-8f22-642760424905@greensocs.com>
+In-Reply-To: <00f8b06a-337a-2a93-8f22-642760424905@greensocs.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kaod.org; dkim=none (message not signed)
+ header.d=none;kaod.org; dmarc=none action=none header.from=fb.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: de1dad7f-ec34-41eb-5d8e-08d983aba858
+x-ms-traffictypediagnostic: BYAPR15MB3030:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR15MB3030FE5193FB073C622940CCACAA9@BYAPR15MB3030.namprd15.prod.outlook.com>
+x-fb-source: Internal
+x-ms-oob-tlc-oobclassifiers: OLM:3173;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: IxVegPCAfaSsu/xmPMMeqFAm4fOCYKeE5nw1Q5V+G2BPAL4zKgkZNABpF4x3QY2ZFs/DCLlgRRJVhTISnJCANmpvkCgtxf5NBBgWYxYedpB2MOE8aNxY9vBTvsUatIavNInhFYjyHpZIM8pyHVzi5AugVEqYlqC4MePqnQs3sJKEca1lnxMDjhMRsgfWvDSr3LakIdsEskOnlSDXr9PGwF15kxDEOZDF1+hIDMOHV1PEDcyAwoOe+ViyGZhcrnNtOz5I2GN1QjEzm/QvlO1T1UUo0/9oP/ub87hJFWmMtEK5t+7go38cNlxLoHoOpDYwWWNm4FqzkHrnc04addZ3VLrf0kR5bVU3cHuLSoaav2N75q1AaKQkaJMC7Gdh/iRnjDQw7FhFZUjVQPgNDS+IeCA71YPjJr47vOepnFJy55ZbGUc3DRaesnBeeFUGUKMtx15uKLxEuzvlC45w5HrPyFsYxf9qIYMMY+/QYXz/cMQunCR2gD07YMN8tCStvf6Ts0/PB8OfFDDhCZohrxFNT8UXP8caMneDs9iMK4/d+Zt5ftaL6NvlLs3OThMyyy8Pb2+I6o7gDapw5ZBIlLXlfrq2qxX5YCBqGATEHqQwWXKydNnZ+GRw9WJNdg/MXFHM5hzU7cZMazBDabepDghu2Q1GmhmxvJ/GhLAkUl63xoCQiy+y2oQg7246xde7dbWPiJtXZnsHQfOWJBg2cUvcfB8ONeUMlfNyC65jAFQWVQY=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR15MB3032.namprd15.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(33656002)(6486002)(186003)(86362001)(122000001)(38070700005)(508600001)(71200400001)(38100700002)(76116006)(6512007)(8936002)(8676002)(5660300002)(54906003)(36756003)(2906002)(6506007)(53546011)(2616005)(109986005)(66556008)(66476007)(66446008)(66946007)(316002)(83380400001)(4326008)(64756008)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Y3pkbjlKSkk4QVdvdS9JYXZaL0lWVkp6czlwU0FxWm9tOElhM2dLMWUvRXFH?=
+ =?utf-8?B?aHBCdVF0ajdWby91YlIxbXZlNlNKRmNJdmgybGkrbGtwQWk1bG1IdlhCV2N1?=
+ =?utf-8?B?SmEyREtJQ2VLdzNuQ0JhNmlFSVhXR28yT2ZrT05sem1ZWUlIK0NQZDhHcFM5?=
+ =?utf-8?B?cCs0YVdybndqOTR1L2NJa2xYSWlRL0hRdEhNY3YzTFhhekhZVWZyYW1SR2JB?=
+ =?utf-8?B?bnB4YzYyckp1YW1qWnVVT01yOVhwdFczT1NZbXFOSXlaUzhnVlBHdk54S1N1?=
+ =?utf-8?B?VHhQb2l1eFpMT2gvS3BiN2RCdDc2bTYzYnE4VUpNOCtDdlY0enJtTnZkYlZO?=
+ =?utf-8?B?K1hYd2h5MFRYY3A4emZnS2VYUFROOFNXRDFMRXhuYTRmM0dDOHVBdjdVeWNy?=
+ =?utf-8?B?US91WXJRQ29CWW9RdXl1NkFIRDRmZ1BoS0w4ZWU1V0JOOTFIMkFMZjFGSmpm?=
+ =?utf-8?B?cks5bnFWZEJnanpHRThuc3Q4QlhyK0E3aXp6eUc3TUxZUitSa2xNb0RlZE5z?=
+ =?utf-8?B?d3RmZW9Qa0JZVnViN0hRZytFL3ZHVW1jMHRIdXdqSnBZelRFWkkvQXpMVzhE?=
+ =?utf-8?B?Wk4vb2Z5c0xLYnJBcDhhejI1UnZOSis5NmFwSlJSN2dRYTBVSFhFbEVqbVh6?=
+ =?utf-8?B?Vk9kTndhdnF4bmhnQXJPa21wVzc0bE4xMjFObFVGZ1FVUGo5RVM0S0lab1NT?=
+ =?utf-8?B?eEM4L3M5UFZrM0FKUktRZStVaUxkanF5VkNiRDkrUkYyQXlGUzJoYis0Q0FQ?=
+ =?utf-8?B?eTJDNW1yK3d2dTNkM3hKeVJQZTBJWTYxcm9UNE9jOVl4SVoraEtOOXplZDlj?=
+ =?utf-8?B?MC9iMmoyaHRIeUIrenY1aWFZVEFQNkFEU3g3dDZTbndPcFdtekZzWlJpWFpR?=
+ =?utf-8?B?RnA1UXpDeUlPbzV3VXhScFNJVUN6TFdFQzNiTnRJVmZIR0VRT1VxN2VvTEdy?=
+ =?utf-8?B?dGRaa25YU1F0eXhPeTVDNEx4Mi9jam85THlRSC8yYW5hQ0Q1WVA2WHZvNUFw?=
+ =?utf-8?B?aDQyeDJyQTVQbVMyTmxpcWxpU1RIQVRQcUlWOHBHbFJUblB6Tk5HZXdkcURn?=
+ =?utf-8?B?MFJXRnBEb29WMXZUQ2dnVmZYcDJLTGxjd29wTnl3Nzdyck1XZ3ZpT1JhOEhM?=
+ =?utf-8?B?elBDTjcyZTBmWlBVKzVTNFJSa0paYXFrT0ladUUwYm00eXN1Y2YwTTQ0Ti9r?=
+ =?utf-8?B?MXljNHhKcTRlaFdVV2h0dmppYXVjcUk5d2kreHhUMnlCMmFyeGs0d0packZv?=
+ =?utf-8?B?aUxDL0d6TnduY2xRUXdMcDdSdXFPaWVEWDVwdS81SFRCYUdRWHJ5VVVZWDN4?=
+ =?utf-8?B?TFNmNVkxNGZocUhYdllXMVQxbE1UQk50V0ZXaXdzSjVXR2VyUTJsZkUzTmRi?=
+ =?utf-8?B?czY1SGZCL1gwcTcvSmlxdlB6cVBlbG13eXRBMTZMcFpBSTZrTjIrNEZ5NnIz?=
+ =?utf-8?B?clQ0OXJXWVM2NXVNZWh4d1pHN1c2T2hDOE9odU5wQ29LTlpJeWtmVytla3hS?=
+ =?utf-8?B?dEdIRmRCOHZ2N3NZcFNxamZhMTB6Q0hFV2dJTEdiajFGMUNkd1lHOGdCV2Mx?=
+ =?utf-8?B?YVhyVFZzTW9VNmVEVFZjSmQ3cVhUQjU5MDJSdjBVQ25UTlJyYlVENi9DNStl?=
+ =?utf-8?B?RFpXdDR4V2JkQklZQXZUOC85SHYxRS91TnpxbThFbWlXR2pULzNLdXlQbmVo?=
+ =?utf-8?B?YWE2amE1enQ2YUIwSjNKOGJZZnlGRXNVclY5bHdWL1huRmpaelZxTXgzRk05?=
+ =?utf-8?B?M0NxRWxTcVRWQTdHNklkNWY0MkE5Sm83RUt4NElCS2JOQ3dJK1JORlZzSVov?=
+ =?utf-8?Q?r4PPe9wr0jEdCPiSP7AqTVMy/8xW8d/uI6pg0=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <474E0CB4B4681542896957650CE20F05@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-FB-Source: Intern
-X-Proofpoint-GUID: 1j0-4iskKqi1B73MR67LT3dw4SaqboW9
-X-Proofpoint-ORIG-GUID: 1j0-4iskKqi1B73MR67LT3dw4SaqboW9
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR15MB3032.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: de1dad7f-ec34-41eb-5d8e-08d983aba858
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2021 00:45:53.5466 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mgUWCG4tfo2B1LF6XCKvZ1x/qcn6xStEDGWWXTB7NgdNaYkC7/8V2jw9PMPknVgL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB3030
+X-OriginatorOrg: fb.com
+X-Proofpoint-GUID: _RUyY0xk2MZnKO0eBbJKkhWt409vrXYN
+X-Proofpoint-ORIG-GUID: _RUyY0xk2MZnKO0eBbJKkhWt409vrXYN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
  definitions=2021-09-29_09,2021-09-29_01,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- mlxscore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 mlxlogscore=999
- malwarescore=0 suspectscore=0 impostorscore=0 adultscore=0 bulkscore=0
- clxscore=1015 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ spamscore=0 priorityscore=1501 malwarescore=0 clxscore=1011
+ impostorscore=0 adultscore=0 suspectscore=0 phishscore=0 bulkscore=0
+ mlxscore=0 mlxlogscore=842 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2109230001 definitions=main-2109300001
 X-FB-Internal: deliver
 Received-SPF: pass client-ip=67.231.145.42;
  envelope-from=prvs=9907073e8e=pdel@fb.com; helo=mx0a-00082601.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MISSING_HEADERS=1.021, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,551 +177,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Delevoryas <pdel@fb.com>
-
-This change sets up Aspeed SoC ADC emulation, so that most ADC drivers
-will pass the initialization sequence and load successfully. In the
-future, we can extend this to emulate more features.
-
-The initialization sequence is:
-
-    1. Set `ADC00` to `0xF`.
-    2. Wait for bit 8 of `ADC00` to be set.
-
-I also added the sequence for enabling "Auto compensating sensing mode":
-
-    1. Set `ADC00` to `0x2F` (set bit 5).
-    2. Wait for bit 5 of `ADC00` to be reset (to zero).
-    3. ...
-    4. ...
-
-Fuji (AST2600):
-  Before:
-    [   56.185778] aspeed_adc: probe of 1e6e9000.adc failed with error -1=
-10
-    [   56.687936] aspeed_adc: probe of 1e6e9100.adc failed with error -1=
-10
-
-  After:
-    aspeed_adc_read 0x0c read 0x0000
-    aspeed_adc_read 0x0c read 0x0000
-    aspeed_adc_write 0x00 write 0x000f
-    aspeed_adc_read 0x00 read 0x010f
-    aspeed_adc_read 0x00 read 0x010f
-    [   55.885164] aspeed_adc 1e6e9000.adc: trim 8
-    aspeed_adc_read 0xc4 read 0x0000
-    aspeed_adc_write 0xc4 write 0x0008
-    aspeed_adc_write 0x00 write 0x011f
-    aspeed_adc_write 0x00 write 0x1011f
-    aspeed_adc_read 0x10 read 0x0000
-    aspeed_adc_write 0x00 write 0x010f
-    [   55.886509] aspeed_adc 1e6e9000.adc: cv 512
-    aspeed_adc_write 0x00 write 0xffff010f
-    aspeed_adc_read 0x0c read 0x0000
-    aspeed_adc_read 0x0c read 0x0000
-    aspeed_adc_write 0x00 write 0x000f
-    aspeed_adc_read 0x00 read 0x010f
-    aspeed_adc_read 0x00 read 0x010f
-    [   55.890609] aspeed_adc 1e6e9100.adc: trim 8
-    aspeed_adc_read 0xc4 read 0x0000
-    aspeed_adc_write 0xc4 write 0x0008
-    aspeed_adc_write 0x00 write 0x011f
-    aspeed_adc_write 0x00 write 0x1011f
-    aspeed_adc_read 0x10 read 0x0000
-    aspeed_adc_write 0x00 write 0x010f
-    [   55.891863] aspeed_adc 1e6e9100.adc: cv 512
-    aspeed_adc_write 0x00 write 0xffff010f
-
-YosemiteV2 (AST2500):
-  Before:
-    [   20.561588] ast_adc ast_adc.0: ast_adc_probe
-    [   20.563741] hwmon hwmon0: write offset: c4, val: 8
-    [   20.563925] hwmon hwmon0: write offset: c, val: 40
-    [   20.564099] hwmon hwmon0: write offset: 0, val: f
-    [   21.066110] ast_adc: driver init failed (ret=3D-110)!
-    [   21.066635] ast_adc: probe of ast_adc.0 failed with error -110
-
-  After:
-    aspeed_adc_write 0xc4 write 0x0008
-    aspeed_adc_write 0x0c write 0x0040
-    aspeed_adc_write 0x00 write 0x000f
-    aspeed_adc_read 0x00 read 0x010f
-    aspeed_adc_write 0x00 write 0x002f
-    aspeed_adc_read 0x00 read 0x000f
-    aspeed_adc_read 0xc4 read 0x0008
-    [   19.602033] ast_adc: driver successfully loaded.
-
-Signed-off-by: Peter Delevoryas <pdel@fb.com>
----
- hw/adc/aspeed_adc.c         | 205 ++++++++++++++++++++++++++++++++++++
- hw/adc/meson.build          |   1 +
- hw/adc/trace-events         |   4 +
- hw/arm/aspeed_ast2600.c     |  18 ++++
- hw/arm/aspeed_soc.c         |  17 +++
- include/hw/adc/aspeed_adc.h |  48 +++++++++
- include/hw/arm/aspeed_soc.h |   5 +
- 7 files changed, 298 insertions(+)
- create mode 100644 hw/adc/aspeed_adc.c
- create mode 100644 include/hw/adc/aspeed_adc.h
-
-diff --git a/hw/adc/aspeed_adc.c b/hw/adc/aspeed_adc.c
-new file mode 100644
-index 0000000000..590936148b
---- /dev/null
-+++ b/hw/adc/aspeed_adc.c
-@@ -0,0 +1,205 @@
-+/*
-+ * Aspeed ADC Controller
-+ *
-+ * Copyright 2021 Facebook, Inc.
-+ *
-+ * This program is free software; you can redistribute it and/or modify =
-it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but W=
-ITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ * for more details.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/adc/aspeed_adc.h"
-+#include "hw/qdev-properties.h"
-+#include "migration/vmstate.h"
-+#include "trace.h"
-+#include "qemu/log.h"
-+
-+#define TO_REG(offset) ((offset) >> 2)
-+#define ENGINE_CONTROL TO_REG(0x00)
-+
-+static uint64_t aspeed_adc_read(void *opaque, hwaddr offset, unsigned si=
-ze)
-+{
-+    AspeedADCState *s =3D ASPEED_ADC(opaque);
-+    int reg =3D TO_REG(offset);
-+
-+    if (reg >=3D ASPEED_ADC_MAX_REGS) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Out-of-bounds read 0x%04" HWADDR_PRIX "\n",
-+                      __func__, offset);
-+        return 0;
-+    }
-+
-+    int value =3D s->regs[reg];
-+
-+    trace_aspeed_adc_read(offset, value);
-+    return value;
-+}
-+
-+static void aspeed_adc_write(void *opaque, hwaddr offset, uint64_t data,
-+                             unsigned size)
-+{
-+    AspeedADCState *s =3D ASPEED_ADC(opaque);
-+    int reg =3D TO_REG(offset);
-+
-+    if (reg >=3D ASPEED_ADC_MAX_REGS) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Out-of-bounds write 0x%04" HWADDR_PRIX "\n",
-+                      __func__, offset);
-+        return;
-+    }
-+
-+    trace_aspeed_adc_write(offset, data);
-+
-+    switch (reg) {
-+    case ENGINE_CONTROL:
-+        switch (data) {
-+        case 0xF:
-+            s->regs[ENGINE_CONTROL] =3D 0x10F;
-+            return;
-+        case 0x2F:
-+            s->regs[ENGINE_CONTROL] =3D 0xF;
-+            return;
-+        }
-+        break;
-+    }
-+
-+    s->regs[reg] =3D data;
-+}
-+
-+static const MemoryRegionOps aspeed_adc_ops =3D {
-+    .read =3D aspeed_adc_read,
-+    .write =3D aspeed_adc_write,
-+    .endianness =3D DEVICE_LITTLE_ENDIAN,
-+    .valid.min_access_size =3D 4,
-+    .valid.max_access_size =3D 4,
-+    .valid.unaligned =3D false,
-+};
-+
-+static void aspeed_adc_realize(DeviceState *dev, Error **errp)
-+{
-+    SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
-+    AspeedADCState *s =3D ASPEED_ADC(dev);
-+
-+    sysbus_init_irq(sbd, &s->irq);
-+    // The memory region is actually 4KB (0x1000), but there's 2 ADC's i=
-n the
-+    // AST2600 that are offset by 0x100.
-+    memory_region_init_io(&s->mmio, OBJECT(s), &aspeed_adc_ops, s,
-+                          TYPE_ASPEED_ADC, 0x100);
-+    sysbus_init_mmio(sbd, &s->mmio);
-+}
-+
-+static void aspeed_adc_reset(DeviceState *dev)
-+{
-+    AspeedADCState *s =3D ASPEED_ADC(dev);
-+    AspeedADCClass *aac =3D ASPEED_ADC_GET_CLASS(dev);
-+
-+    memcpy(s->regs, aac->resets, aac->nr_regs << 2);
-+}
-+
-+static const uint32_t aspeed_2400_resets[ASPEED_2400_ADC_NR_REGS] =3D {
-+    [ENGINE_CONTROL] =3D 0x00000000,
-+};
-+
-+static const uint32_t aspeed_2500_resets[ASPEED_2500_ADC_NR_REGS] =3D {
-+    [ENGINE_CONTROL] =3D 0x00000000,
-+};
-+
-+static const uint32_t aspeed_2600_resets[ASPEED_2600_ADC_NR_REGS] =3D {
-+    [ENGINE_CONTROL] =3D 0x00000000,
-+};
-+
-+static const VMStateDescription aspeed_adc_vmstate =3D {
-+    .name =3D TYPE_ASPEED_ADC,
-+    .version_id =3D 0,
-+    .minimum_version_id =3D 0,
-+    .fields =3D (VMStateField[]) {
-+        VMSTATE_UINT32_ARRAY(regs, AspeedADCState, ASPEED_ADC_MAX_REGS),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void aspeed_adc_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    dc->realize =3D aspeed_adc_realize;
-+    dc->reset =3D aspeed_adc_reset;
-+    dc->desc =3D "Aspeed Analog-to-Digital Converter";
-+    dc->vmsd =3D &aspeed_adc_vmstate;
-+}
-+
-+static void aspeed_2400_adc_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedADCClass *aac =3D ASPEED_ADC_CLASS(klass);
-+
-+    dc->desc =3D "Aspeed 2400 Analog-to-Digital Converter";
-+    aac->resets =3D aspeed_2400_resets;
-+    aac->nr_regs =3D ASPEED_2400_ADC_NR_REGS;
-+}
-+
-+static void aspeed_2500_adc_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedADCClass *aac =3D ASPEED_ADC_CLASS(klass);
-+
-+    dc->desc =3D "Aspeed 2500 Analog-to-Digital Converter";
-+    aac->resets =3D aspeed_2500_resets;
-+    aac->nr_regs =3D ASPEED_2500_ADC_NR_REGS;
-+}
-+
-+static void aspeed_2600_adc_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedADCClass *aac =3D ASPEED_ADC_CLASS(klass);
-+
-+    dc->desc =3D "Aspeed 2600 Analog-to-Digital Converter";
-+    aac->resets =3D aspeed_2600_resets;
-+    aac->nr_regs =3D ASPEED_2600_ADC_NR_REGS;
-+}
-+
-+static const TypeInfo aspeed_adc_info =3D {
-+    .name =3D TYPE_ASPEED_ADC,
-+    .parent =3D TYPE_SYS_BUS_DEVICE,
-+    .instance_size =3D sizeof(AspeedADCState),
-+    .class_init =3D aspeed_adc_class_init,
-+    .class_size =3D sizeof(AspeedADCClass),
-+    .abstract =3D true,
-+};
-+
-+static const TypeInfo aspeed_2400_adc_info =3D {
-+    .name =3D TYPE_ASPEED_2400_ADC,
-+    .parent =3D TYPE_ASPEED_ADC,
-+    .instance_size =3D sizeof(AspeedADCState),
-+    .class_init =3D aspeed_2400_adc_class_init,
-+};
-+
-+static const TypeInfo aspeed_2500_adc_info =3D {
-+    .name =3D TYPE_ASPEED_2500_ADC,
-+    .parent =3D TYPE_ASPEED_ADC,
-+    .instance_size =3D sizeof(AspeedADCState),
-+    .class_init =3D aspeed_2500_adc_class_init,
-+};
-+
-+static const TypeInfo aspeed_2600_adc_info =3D {
-+    .name =3D TYPE_ASPEED_2600_ADC,
-+    .parent =3D TYPE_ASPEED_ADC,
-+    .instance_size =3D sizeof(AspeedADCState),
-+    .class_init =3D aspeed_2600_adc_class_init,
-+};
-+
-+static void aspeed_adc_register_types(void)
-+{
-+    type_register_static(&aspeed_adc_info);
-+    type_register_static(&aspeed_2400_adc_info);
-+    type_register_static(&aspeed_2500_adc_info);
-+    type_register_static(&aspeed_2600_adc_info);
-+}
-+
-+type_init(aspeed_adc_register_types);
-diff --git a/hw/adc/meson.build b/hw/adc/meson.build
-index ac4f093fea..65e1dd73c1 100644
---- a/hw/adc/meson.build
-+++ b/hw/adc/meson.build
-@@ -2,3 +2,4 @@ softmmu_ss.add(when: 'CONFIG_STM32F2XX_ADC', if_true: fil=
-es('stm32f2xx_adc.c'))
- softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_adc.c'))
- softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq-xadc.c'))
- softmmu_ss.add(when: 'CONFIG_MAX111X', if_true: files('max111x.c'))
-+softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_adc.c')=
-)
-diff --git a/hw/adc/trace-events b/hw/adc/trace-events
-index 456f21c8f4..c23d7bb6d7 100644
---- a/hw/adc/trace-events
-+++ b/hw/adc/trace-events
-@@ -3,3 +3,7 @@
- # npcm7xx_adc.c
- npcm7xx_adc_read(const char *id, uint64_t offset, uint32_t value) " %s o=
-ffset: 0x%04" PRIx64 " value 0x%04" PRIx32
- npcm7xx_adc_write(const char *id, uint64_t offset, uint32_t value) "%s o=
-ffset: 0x%04" PRIx64 " value 0x%04" PRIx32
-+
-+# aspeed_adc.c
-+aspeed_adc_read(uint8_t offset, uint32_t value)  "0x%02" PRIx8 " read 0x=
-%04" PRIx32
-+aspeed_adc_write(uint8_t offset, uint32_t value) "0x%02" PRIx8 " write 0=
-x%04" PRIx32
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 9d70e8e060..a582e882f2 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -44,6 +44,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] =3D {
-     [ASPEED_DEV_SCU]       =3D 0x1E6E2000,
-     [ASPEED_DEV_XDMA]      =3D 0x1E6E7000,
-     [ASPEED_DEV_ADC]       =3D 0x1E6E9000,
-+    [ASPEED_DEV_ADC2]      =3D 0x1E6E9100,
-     [ASPEED_DEV_VIDEO]     =3D 0x1E700000,
-     [ASPEED_DEV_SDHCI]     =3D 0x1E740000,
-     [ASPEED_DEV_EMMC]      =3D 0x1E750000,
-@@ -77,6 +78,7 @@ static const int aspeed_soc_ast2600_irqmap[] =3D {
-     [ASPEED_DEV_SDMC]      =3D 0,
-     [ASPEED_DEV_SCU]       =3D 12,
-     [ASPEED_DEV_ADC]       =3D 78,
-+    [ASPEED_DEV_ADC2]      =3D 78,
-     [ASPEED_DEV_XDMA]      =3D 6,
-     [ASPEED_DEV_SDHCI]     =3D 43,
-     [ASPEED_DEV_EHCI1]     =3D 5,
-@@ -216,6 +218,11 @@ static void aspeed_soc_ast2600_init(Object *obj)
-=20
-     snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
-     object_initialize_child(obj, "hace", &s->hace, typename);
-+
-+    snprintf(typename, sizeof(typename), "aspeed.adc-%s", socname);
-+    for (i =3D 0; i < sc->adcs_num; i++) {
-+        object_initialize_child(obj, "adc[*]", &s->adc[i], typename);
-+    }
- }
-=20
- /*
-@@ -507,6 +514,16 @@ static void aspeed_soc_ast2600_realize(DeviceState *=
-dev, Error **errp)
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->hace), 0, sc->memmap[ASPEED_DEV_H=
-ACE]);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
-                        aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
-+
-+    /* ADC */
-+    for (int i =3D 0; i < sc->adcs_num; i++) {
-+        SysBusDevice *bus =3D SYS_BUS_DEVICE(&s->adc[i]);
-+        if (!sysbus_realize(bus, errp)) {
-+            return;
-+        }
-+        sysbus_mmio_map(bus, 0, sc->memmap[ASPEED_DEV_ADC + i]);
-+        sysbus_connect_irq(bus, 0, aspeed_soc_get_irq(s, ASPEED_DEV_ADC =
-+ i));
-+    }
- }
-=20
- static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
-@@ -524,6 +541,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass=
- *oc, void *data)
-     sc->ehcis_num    =3D 2;
-     sc->wdts_num     =3D 4;
-     sc->macs_num     =3D 4;
-+    sc->adcs_num     =3D 2;
-     sc->irqmap       =3D aspeed_soc_ast2600_irqmap;
-     sc->memmap       =3D aspeed_soc_ast2600_memmap;
-     sc->num_cpus     =3D 2;
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index ed84502e23..412c557e40 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -216,6 +216,11 @@ static void aspeed_soc_init(Object *obj)
-=20
-     snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
-     object_initialize_child(obj, "hace", &s->hace, typename);
-+
-+    snprintf(typename, sizeof(typename), "aspeed.adc-%s", socname);
-+    for (i =3D 0; i < sc->adcs_num; i++) {
-+        object_initialize_child(obj, "adc[*]", &s->adc[i], typename);
-+    }
- }
-=20
- static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-@@ -435,6 +440,16 @@ static void aspeed_soc_realize(DeviceState *dev, Err=
-or **errp)
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->hace), 0, sc->memmap[ASPEED_DEV_H=
-ACE]);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
-                        aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
-+
-+    /* ADC */
-+    for (int i =3D 0; i < sc->adcs_num; i++) {
-+        SysBusDevice *bus =3D SYS_BUS_DEVICE(&s->adc[i]);
-+        if (!sysbus_realize(bus, errp)) {
-+            return;
-+        }
-+        sysbus_mmio_map(bus, 0, sc->memmap[ASPEED_DEV_ADC + i]);
-+        sysbus_connect_irq(bus, 0, aspeed_soc_get_irq(s, ASPEED_DEV_ADC =
-+ i));
-+    }
- }
- static Property aspeed_soc_properties[] =3D {
-     DEFINE_PROP_LINK("dram", AspeedSoCState, dram_mr, TYPE_MEMORY_REGION=
-,
-@@ -475,6 +490,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass=
- *oc, void *data)
-     sc->ehcis_num    =3D 1;
-     sc->wdts_num     =3D 2;
-     sc->macs_num     =3D 2;
-+    sc->adcs_num     =3D 1;
-     sc->irqmap       =3D aspeed_soc_ast2400_irqmap;
-     sc->memmap       =3D aspeed_soc_ast2400_memmap;
-     sc->num_cpus     =3D 1;
-@@ -500,6 +516,7 @@ static void aspeed_soc_ast2500_class_init(ObjectClass=
- *oc, void *data)
-     sc->ehcis_num    =3D 2;
-     sc->wdts_num     =3D 3;
-     sc->macs_num     =3D 2;
-+    sc->adcs_num     =3D 1;
-     sc->irqmap       =3D aspeed_soc_ast2500_irqmap;
-     sc->memmap       =3D aspeed_soc_ast2500_memmap;
-     sc->num_cpus     =3D 1;
-diff --git a/include/hw/adc/aspeed_adc.h b/include/hw/adc/aspeed_adc.h
-new file mode 100644
-index 0000000000..5528781be0
---- /dev/null
-+++ b/include/hw/adc/aspeed_adc.h
-@@ -0,0 +1,48 @@
-+/*
-+ * Aspeed ADC Controller
-+ *
-+ * Copyright 2021 Facebook, Inc.
-+ *
-+ * This program is free software; you can redistribute it and/or modify =
-it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but W=
-ITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ * for more details.
-+ */
-+
-+#ifndef ASPEED_ADC_H
-+#define ASPEED_ADC_H
-+
-+#include "qemu/osdep.h"
-+#include "hw/sysbus.h"
-+#include "qom/object.h"
-+
-+#define TYPE_ASPEED_ADC "aspeed.adc"
-+OBJECT_DECLARE_TYPE(AspeedADCState, AspeedADCClass, ASPEED_ADC)
-+#define TYPE_ASPEED_2400_ADC TYPE_ASPEED_ADC "-ast2400"
-+#define TYPE_ASPEED_2500_ADC TYPE_ASPEED_ADC "-ast2500"
-+#define TYPE_ASPEED_2600_ADC TYPE_ASPEED_ADC "-ast2600"
-+
-+#define ASPEED_2400_ADC_NR_REGS (0xC4 >> 2)
-+#define ASPEED_2500_ADC_NR_REGS (0xC8 >> 2)
-+#define ASPEED_2600_ADC_NR_REGS (0xD0 >> 2)
-+#define ASPEED_ADC_MAX_REGS ASPEED_2600_ADC_NR_REGS
-+
-+struct AspeedADCState {
-+    SysBusDevice parent;
-+    MemoryRegion mmio;
-+    qemu_irq irq;
-+    uint32_t regs[ASPEED_ADC_MAX_REGS];
-+};
-+
-+struct AspeedADCClass {
-+    SysBusDeviceClass parent;
-+    const uint32_t *resets;
-+    uint32_t nr_regs;
-+};
-+
-+#endif
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 87d76c9259..4503f08870 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -30,12 +30,14 @@
- #include "hw/usb/hcd-ehci.h"
- #include "qom/object.h"
- #include "hw/misc/aspeed_lpc.h"
-+#include "hw/adc/aspeed_adc.h"
-=20
- #define ASPEED_SPIS_NUM  2
- #define ASPEED_EHCIS_NUM 2
- #define ASPEED_WDTS_NUM  4
- #define ASPEED_CPUS_NUM  2
- #define ASPEED_MACS_NUM  4
-+#define ASPEED_ADCS_NUM  2
-=20
- struct AspeedSoCState {
-     /*< private >*/
-@@ -65,6 +67,7 @@ struct AspeedSoCState {
-     AspeedSDHCIState sdhci;
-     AspeedSDHCIState emmc;
-     AspeedLPCState lpc;
-+    AspeedADCState adc[ASPEED_ADCS_NUM];
-     uint32_t uart_default;
- };
-=20
-@@ -82,6 +85,7 @@ struct AspeedSoCClass {
-     int ehcis_num;
-     int wdts_num;
-     int macs_num;
-+    int adcs_num;
-     const int *irqmap;
-     const hwaddr *memmap;
-     uint32_t num_cpus;
-@@ -105,6 +109,7 @@ enum {
-     ASPEED_DEV_SDMC,
-     ASPEED_DEV_SCU,
-     ASPEED_DEV_ADC,
-+    ASPEED_DEV_ADC2,
-     ASPEED_DEV_VIDEO,
-     ASPEED_DEV_SRAM,
-     ASPEED_DEV_SDHCI,
---=20
-2.30.2
-
+DQo+IE9uIFNlcCAyOCwgMjAyMSwgYXQgMzo1MyBBTSwgRGFtaWVuIEhlZGRlIDxkYW1pZW4uaGVk
+ZGVAZ3JlZW5zb2NzLmNvbT4gd3JvdGU6DQo+IA0KPiANCj4gDQo+IE9uIDkvMjgvMjEgMDU6MjQs
+IHBkZWxAZmIuY29tIHdyb3RlOg0KPj4gRnJvbTogUGV0ZXIgRGVsZXZvcnlhcyA8cGRlbEBmYi5j
+b20+DQo+PiBTb21lIG9mIHRoZSBwaW4gZGVjbGFyYXRpb25zIGluIHRoZSBBc3BlZWQgR1BJTyBt
+b2R1bGUgd2VyZSBpbmNvcnJlY3QsDQo+PiBwcm9iYWJseSBiZWNhdXNlIG9mIGNvbmZ1c2lvbiBv
+dmVyIHdoaWNoIGJpdHMgaW4gdGhlIGlucHV0IGFuZCBvdXRwdXQNCj4+IHVpbnQzMl90J3MgY29y
+cmVzcG9uZCB0byB3aGljaCBncm91cHMgaW4gdGhlIGxhYmVsIGFycmF5LiBTaW5jZSB0aGUNCj4+
+IHVpbnQzMl90IGxpdGVyYWxzIGFyZSBpbiBiaWcgZW5kaWFuLCBpdCdzIHNvcnQgb2YgdGhlIG9w
+cG9zaXRlIG9mIHdoYXQNCj4+IHdvdWxkIGJlIGludHVpdGl2ZS4gVGhlIGxlYXN0IHNpZ25pZmlj
+YW50IGJpdCBpbiBhc3QyNTAwX3NldF9wcm9wc1s2XQ0KPj4gY29ycmVzcG9uZHMgdG8gR1BJT1kw
+LCBub3QgR1BJT0FCNy4NCj4+IEdQSU94eCBpbmRpY2F0ZXMgaW5wdXQgYW5kIG91dHB1dCBjYXBh
+YmlsaXRpZXMsIEdQSXh4IGluZGljYXRlcyBvbmx5DQo+PiBpbnB1dCwgR1BPeHggaW5kaWNhdGVz
+IG9ubHkgb3V0cHV0Lg0KPj4gQVNUMjUwMDoNCj4+IC0gUHJldmlvdXNseSBoYWQgR1BJVzAuLkdQ
+SVc3IGFuZCBHUElYMC4uR1BJWDcsIHRoYXQncyBjb3JyZWN0Lg0KPj4gLSBQcmV2aW91c2x5IGhh
+ZCBHUElPWTAuLkdQSU9ZMywgc2hvdWxkIGhhdmUgYmVlbiBHUElPWTAuLkdQSU9ZNy4NCj4+IC0g
+UHJldmlvdXNseSBoYWQgR1BJT0FCMC4uR1BJT0FCMyBhbmQgR1BJQUI0Li5HUElBQjcsIHNob3Vs
+ZCBvbmx5IGhhdmUNCj4+ICAgYmVlbiBHUElPQUIwLi5HUElPQUIzLg0KPj4gQVNUMjYwMDoNCj4+
+IC0gR1BJT1QwLi5HUElPVDcgc2hvdWxkIGhhdmUgYmVlbiBHUElUMC4uR1BJVDcuDQo+PiAtIEdQ
+SU9VMC4uR1BJT1U3IHNob3VsZCBoYXZlIGJlZW4gR1BJVTAuLkdQSVU3Lg0KPj4gLSBHUElXMC4u
+R1BJVzcgc2hvdWxkIGhhdmUgYmVlbiBHUElPVzAuLkdQSU9XNy4NCj4+IC0gR1BJT1kwLi5HUElP
+WTcgYW5kIEdQSU9aMC4uLkdQSU9aNyB3ZXJlIGRpc2FibGVkLg0KPj4gRml4ZXM6IDRiN2Y5NTY4
+NjJkYzJkYjRjNWMgKCJody9ncGlvOiBBZGQgYmFzaWMgQXNwZWVkIEdQSU8gbW9kZWwgZm9yIEFT
+VDI0MDAgYW5kIEFTVDI1MDAiKQ0KPj4gRml4ZXM6IDM2ZDczN2VlODJiMjk3MjE2N2UgKCJody9n
+cGlvOiBBZGQgaW4gQVNUMjYwMCBzcGVjaWZpYyBpbXBsZW1lbnRhdGlvbiIpDQo+PiBTaWduZWQt
+b2ZmLWJ5OiBQZXRlciBEZWxldm9yeWFzIDxwZGVsQGZiLmNvbT4NCj4gDQo+IFJldmlld2VkLWJ5
+OiBEYW1pZW4gSGVkZGUgPGRhbWllbi5oZWRkZUBncmVlbnNvY3MuY29tPg0KDQpjY+KAmWluZyBE
+YW4NCg0KPiANCj4+IC0tLQ0KPj4gIGh3L2dwaW8vYXNwZWVkX2dwaW8uYyB8IDggKysrKy0tLS0N
+Cj4+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPj4g
+ZGlmZiAtLWdpdCBhL2h3L2dwaW8vYXNwZWVkX2dwaW8uYyBiL2h3L2dwaW8vYXNwZWVkX2dwaW8u
+Yw0KPj4gaW5kZXggZGZhNmQ2Y2I0MC4uMzNhNDBhNjI0YSAxMDA2NDQNCj4+IC0tLSBhL2h3L2dw
+aW8vYXNwZWVkX2dwaW8uYw0KPj4gKysrIGIvaHcvZ3Bpby9hc3BlZWRfZ3Bpby5jDQo+PiBAQCAt
+Nzk2LDcgKzc5Niw3IEBAIHN0YXRpYyBjb25zdCBHUElPU2V0UHJvcGVydGllcyBhc3QyNTAwX3Nl
+dF9wcm9wc1tdID0gew0KPj4gICAgICBbM10gPSB7MHhmZmZmZmZmZiwgIDB4ZmZmZmZmZmYsICB7
+Ik0iLCAiTiIsICJPIiwgIlAifSB9LA0KPj4gICAgICBbNF0gPSB7MHhmZmZmZmZmZiwgIDB4ZmZm
+ZmZmZmYsICB7IlEiLCAiUiIsICJTIiwgIlQifSB9LA0KPj4gICAgICBbNV0gPSB7MHhmZmZmZmZm
+ZiwgIDB4MDAwMGZmZmYsICB7IlUiLCAiViIsICJXIiwgIlgifSB9LA0KPj4gLSAgICBbNl0gPSB7
+MHhmZmZmZmYwZiwgIDB4MGZmZmZmMGYsICB7IlkiLCAiWiIsICJBQSIsICJBQiJ9IH0sDQo+PiAr
+ICAgIFs2XSA9IHsweDBmZmZmZmZmLCAgMHgwZmZmZmZmZiwgIHsiWSIsICJaIiwgIkFBIiwgIkFC
+In0gfSwNCj4+ICAgICAgWzddID0gezB4MDAwMDAwZmYsICAweDAwMDAwMGZmLCAgeyJBQyJ9IH0s
+DQo+PiAgfTsNCj4+ICBAQCAtODA1LDkgKzgwNSw5IEBAIHN0YXRpYyBHUElPU2V0UHJvcGVydGll
+cyBhc3QyNjAwXzNfM3Zfc2V0X3Byb3BzW10gPSB7DQo+PiAgICAgIFsxXSA9IHsweGZmZmZmZmZm
+LCAgMHhmZmZmZmZmZiwgIHsiRSIsICJGIiwgIkciLCAiSCJ9IH0sDQo+PiAgICAgIFsyXSA9IHsw
+eGZmZmZmZmZmLCAgMHhmZmZmZmZmZiwgIHsiSSIsICJKIiwgIksiLCAiTCJ9IH0sDQo+PiAgICAg
+IFszXSA9IHsweGZmZmZmZmZmLCAgMHhmZmZmZmZmZiwgIHsiTSIsICJOIiwgIk8iLCAiUCJ9IH0s
+DQo+PiAtICAgIFs0XSA9IHsweGZmZmZmZmZmLCAgMHhmZmZmZmZmZiwgIHsiUSIsICJSIiwgIlMi
+LCAiVCJ9IH0sDQo+PiAtICAgIFs1XSA9IHsweGZmZmZmZmZmLCAgMHgwMDAwZmZmZiwgIHsiVSIs
+ICJWIiwgIlciLCAiWCJ9IH0sDQo+PiAtICAgIFs2XSA9IHsweGZmZmYwMDAwLCAgMHgwZmZmMDAw
+MCwgIHsiWSIsICJaIiwgIiIsICIifSB9LA0KPj4gKyAgICBbNF0gPSB7MHhmZmZmZmZmZiwgIDB4
+MDBmZmZmZmYsICB7IlEiLCAiUiIsICJTIiwgIlQifSB9LA0KPj4gKyAgICBbNV0gPSB7MHhmZmZm
+ZmZmZiwgIDB4ZmZmZmZmMDAsICB7IlUiLCAiViIsICJXIiwgIlgifSB9LA0KPj4gKyAgICBbNl0g
+PSB7MHgwMDAwZmZmZiwgIDB4MDAwMGZmZmYsICB7IlkiLCAiWiJ9IH0sDQo+PiAgfTsNCj4+ICAg
+IHN0YXRpYyBHUElPU2V0UHJvcGVydGllcyBhc3QyNjAwXzFfOHZfc2V0X3Byb3BzW10gPSB7DQoN
+Cg==
 
