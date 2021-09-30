@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C83C41D5A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 10:46:50 +0200 (CEST)
-Received: from localhost ([::1]:33968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3A041D5A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 10:47:56 +0200 (CEST)
+Received: from localhost ([::1]:36004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVriL-0006Fr-6T
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 04:46:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52586)
+	id 1mVrjP-0007ie-U5
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 04:47:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mVre5-0004HT-GI
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 04:42:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33582)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mVrgp-0005zX-9U
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 04:45:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mVre1-0000D0-Eh
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 04:42:24 -0400
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mVrgn-0002bI-Ek
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 04:45:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632991339;
+ s=mimecast20190719; t=1632991512;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JE10gGUBb1Zh10JFPP+5kIKfnoM1j71cTBeMNqCUJG4=;
- b=NWncsrtbG1hWQSlVrnqb22tC+QwD9IfHEaJdSFQFWWGeBaXXNSvenJytcZltifVWk0zE+L
- w5e/Bydu1NJBpbDckr1dE+vOasijXqTgRFKSr3P0mcm7ikQvaphrIzn8LaKHv3bHy/0Ylb
- EKSd59tPr+izkcsOG9VDMKz1D+0rlR0=
+ bh=lcfSpydyG+OS89VCFVNffBPIel0far4Ncf9N60YGsmk=;
+ b=gjlUqbw6GZnxWmX7C64HU5K647bLcs1ViFs56VUT7cta4cjC6UIhIvQJ0KVuCzK4bPErLS
+ Hlmr9zSFksrtvfhyYEsAf3GqzqQXmGLyeEfT3rKF+1YiA00kBoGnycT8PXYL67kTAZSWnT
+ R2MfKxprp/prxR2xs/GhvZN0RrB4vGE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-ly7Y4C39MzW4eNIGPjuv_w-1; Thu, 30 Sep 2021 04:42:17 -0400
-X-MC-Unique: ly7Y4C39MzW4eNIGPjuv_w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-121-yhDU_rR3OMy9DPyBNtKr4A-1; Thu, 30 Sep 2021 04:45:09 -0400
+X-MC-Unique: yhDU_rR3OMy9DPyBNtKr4A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D25B51923763;
- Thu, 30 Sep 2021 08:42:16 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6377F19730;
- Thu, 30 Sep 2021 08:42:10 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B95CA113865F; Thu, 30 Sep 2021 10:42:08 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 05/13] qapi/parser: improve detection of '@symbol:'
- preface
-References: <20210929194428.1038496-1-jsnow@redhat.com>
- <20210929194428.1038496-6-jsnow@redhat.com>
-Date: Thu, 30 Sep 2021 10:42:08 +0200
-In-Reply-To: <20210929194428.1038496-6-jsnow@redhat.com> (John Snow's message
- of "Wed, 29 Sep 2021 15:44:20 -0400")
-Message-ID: <875yuisbdr.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34AAF1808319;
+ Thu, 30 Sep 2021 08:45:08 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D721160657;
+ Thu, 30 Sep 2021 08:45:07 +0000 (UTC)
+Date: Thu, 30 Sep 2021 09:45:07 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PULL 00/20] NBD patches through 2021-09-27
+Message-ID: <20210930084506.GV3361@redhat.com>
+References: <20210927215545.3930309-1-eblake@redhat.com>
+ <CAFEAcA9P_xzSce_3bVKO95HOdhbf1aqVJ-eiXOkJ09Hj4ow+bg@mail.gmail.com>
+ <97e67c45-21f9-2630-7173-991d01871116@redhat.com>
+ <CAFXwXrnZzyUBSikVr6uFLHQeD5hWcXDq+eG=uwBC5xQ8FVivmg@mail.gmail.com>
+ <9ba3ebe2-4d74-628f-fb76-5541f629ff9e@redhat.com>
+ <20210929182921.t3g4ozzweoo4vpyu@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210929182921.t3g4ozzweoo4vpyu@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,139 +81,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, berrange@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On Wed, Sep 29, 2021 at 01:29:21PM -0500, Eric Blake wrote:
+> On Wed, Sep 29, 2021 at 05:03:08PM +0200, Paolo Bonzini wrote:
+> > On 29/09/21 15:58, Richard Henderson wrote:
+> > > 
+> > >      > /usr/bin/ld: /usr/lib64/libselinux.so: error adding symbols: file in
+> > >      > wrong format
+> > >      > collect2: error: ld returned 1 exit status
+> > > 
+> > >     Missing libselinux-devel.i686 in
+> > >     tests/docker/dockerfiles/fedora-i386-cross.docker, I think?
 
-> Leading and trailing whitespace are now discarded, addressing the FIXME
-> comment. A new error is raised to detect this accidental case.
->
-> Parsing for args sections is left alone here; the 'name' variable is
-> moved into the only block where it is used.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
->
-> ---
->
-> Tangentially related to delinting in that removing 'FIXME' comments is a
-> goal for pylint. My goal is to allow 'TODO' to be checked in, but
-> 'FIXME' should be fixed prior to inclusion.
->
-> Arbitrary, but that's life for you.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/parser.py                              | 13 ++++++++-----
->  tests/qapi-schema/doc-whitespace-leading-symbol.err |  1 +
->  .../qapi-schema/doc-whitespace-leading-symbol.json  |  6 ++++++
->  tests/qapi-schema/doc-whitespace-leading-symbol.out |  0
->  .../qapi-schema/doc-whitespace-trailing-symbol.err  |  1 +
->  .../qapi-schema/doc-whitespace-trailing-symbol.json |  6 ++++++
->  .../qapi-schema/doc-whitespace-trailing-symbol.out  |  0
->  tests/qapi-schema/meson.build                       |  2 ++
->  8 files changed, 24 insertions(+), 5 deletions(-)
->  create mode 100644 tests/qapi-schema/doc-whitespace-leading-symbol.err
->  create mode 100644 tests/qapi-schema/doc-whitespace-leading-symbol.json
->  create mode 100644 tests/qapi-schema/doc-whitespace-leading-symbol.out
->  create mode 100644 tests/qapi-schema/doc-whitespace-trailing-symbol.err
->  create mode 100644 tests/qapi-schema/doc-whitespace-trailing-symbol.json
->  create mode 100644 tests/qapi-schema/doc-whitespace-trailing-symbol.out
->
-> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-> index bfd2dbfd9a2..2f93a752f66 100644
-> --- a/scripts/qapi/parser.py
-> +++ b/scripts/qapi/parser.py
-> @@ -549,18 +549,21 @@ def _append_body_line(self, line):
->  
->          Else, append the line to the current section.
->          """
-> -        name = line.split(' ', 1)[0]
-> -        # FIXME not nice: things like '#  @foo:' and '# @foo: ' aren't
-> -        # recognized, and get silently treated as ordinary text
-> -        if not self.symbol and not self.body.text and line.startswith('@'):
-> -            if not line.endswith(':'):
-> +        stripped = line.strip()
-> +
-> +        if not self.symbol and not self.body.text and stripped.startswith('@'):
-> +            if not stripped.endswith(':'):
->                  raise QAPIParseError(self._parser, "line should end with ':'")
-> +            if not stripped == line:
-> +                raise QAPIParseError(
-> +                    self._parser, "extra whitespace around symbol declaration")
+This part is easy to fix.
 
-This rejects both leading and trailing whitespace.  Rejecting leading
-whitespace is good.  Rejecting trailing whitespace feels a bit pedantic,
-and it might not extend to the related case I'll point out below.
+> > > But additionally, incorrect package probing, I think.
+> > 
+> > Probably Meson deciding to look at --print-search-dirs and crossing fingers.
+> > But -m32 and other multilib flags should be added to config-meson.cross
+> > rather than QEMU_CFLAGS.
 
-Have you considered a regexp instead?  Say
+However this part I've no idea.  The docker file uses:
 
-           match = re.match(r'(\s*)@([^:]*)(:?)(\s*)(.*)$', line)
+  ENV QEMU_CONFIGURE_OPTS --extra-cflags=-m32 --disable-vhost-user
 
-Then match.group(n) is
+I emulated this locally using:
 
-     n=1  leading whitespace, if any
-     n=2  symbol
-     n=3  trailing colon, if any
-     n=4  trailing whitespace, if any
-     n=5  trailing text, if any
+  PKG_CONFIG_LIBDIR=/usr/lib/pkgconfig ../configure --extra-cflags=-m32 --disable-vhost-user
 
-Omit the subgroups you don't need.
+but config-meson.cross does not have -m32 anywhere.  Nevertheless it
+seemed to build a 32 bit qemu with selinux fine:
 
->              self.symbol = line[1:-1]
->              # FIXME invalid names other than the empty string aren't flagged
->              if not self.symbol:
->                  raise QAPIParseError(self._parser, "invalid name")
->          elif self.symbol:
->              # This is a definition documentation block
-> +            name = line.split(' ', 1)[0]
->              if name.startswith('@') and name.endswith(':'):
->                  self._append_line = self._append_args_line
->                  self._append_args_line(line)
+$ file ./qemu-system-x86_64
+./qemu-system-x86_64: ELF 32-bit LSB pie executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, BuildID[sha1]=1d070416c7d211f8bfa018557265c25e79a913bb, for GNU/Linux 3.2.0, with debug_info, not stripped
+$ ldd ./qemu-system-x86_64 | grep selin
+  libselinux.so.1 => /lib/libselinux.so.1 (0xf52b0000)
 
-Same issue here, and in _append_args_line().  To reproduce, I hacked up
-doc-good.json like so
+I will post v3 soon, but how can I test patches under your CI system?
 
-    diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.json
-    index 86dc25d2bd..977fcbad48 100644
-    --- a/tests/qapi-schema/doc-good.json
-    +++ b/tests/qapi-schema/doc-good.json
-    @@ -133,7 +133,7 @@
-     ##
-     # @cmd:
-     #
-    -# @arg1: the first argument
-    +#  @arg1: the first argument
-     #
-     # @arg2: the second
-     #        argument
+Rich.
 
-and got
-
-    $ PYTHONPATH=/work/armbru/qemu/scripts python3 /work/armbru/qemu/tests/qapi-schema/test-qapi.py -d tests/qapi-schema doc-good.json
-    doc-good FAIL
-    --- tests/qapi-schema/doc-good.out
-    +++ 
-    @@ -149,12 +149,12 @@
-     == Another subsection
-     doc symbol=cmd
-         body=
-    -
-    -    arg=arg1
-    -the first argument
-    +@arg1: the first argument
-         arg=arg2
-     the second
-     argument
-    +    arg=arg1
-    +
-         arg=arg3
-
-         feature=cmd-feat1
-
-[...]
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
 
 
