@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D518041D592
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 10:37:51 +0200 (CEST)
-Received: from localhost ([::1]:54940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D712241D595
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 10:41:38 +0200 (CEST)
+Received: from localhost ([::1]:57506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVrZe-00016L-VH
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 04:37:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51674)
+	id 1mVrdJ-0002tW-OA
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 04:41:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1mVrY0-00080f-SG
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 04:36:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20648)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mVrb8-0002DO-5Y
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 04:39:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1mVrXz-0003Ug-2X
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 04:36:08 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mVrb1-00061l-K5
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 04:39:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632990964;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1632991155;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j+BAAfmlTxQ/NAcGClhhTzp2ZGHHbzHFTkWR2yol8PQ=;
- b=XBZ7Q4sZoF/X1LSpOhpwhKO/gvdH1EoE1OmI6gyxra76t3Ovl42t/AQqFkudisOi2OR+iU
- kVrVEms+SMXpDob85GNErJ4l3kGtn2xeO66BrZgbqiFm9+QB1E46x/Pj/5m4tereT1d7r0
- RRoOb0qxbqEg9rXA083qC8nve156xBI=
+ bh=WdSEbn4K5L+2syee7ssjVoIKL4/USXaldiwaGGS4DK0=;
+ b=RksBsVuMieduK8q0UUUgi6wiNiKXKuqg2wDcVovRiSjnCpOHI7hN8+psqv2sNBvtaHyl60
+ vJTByfEguUy7CcqQRZkRK26KfBayzuQHGduRsXvi4pePfxpuDaE+9ddIfyIXTn9W8MYauI
+ Y09s+GKJPVsHrBZ+I1K/8o5yf84nkOY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-DMfmivreMP-8oold8wVykA-1; Thu, 30 Sep 2021 04:36:03 -0400
-X-MC-Unique: DMfmivreMP-8oold8wVykA-1
+ us-mta-429-o9F0fIFpMc-Go8ZQ9zzWtg-1; Thu, 30 Sep 2021 04:39:09 -0400
+X-MC-Unique: o9F0fIFpMc-Go8ZQ9zzWtg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7895E19067F5
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:36:02 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.39.194.139])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1986C1972E;
- Thu, 30 Sep 2021 08:36:00 +0000 (UTC)
-Subject: Re: [PATCH 0/1] vmx: Fix <genid/> mapping
-To: "Richard W.M. Jones" <rjones@redhat.com>,
- =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>
-References: <cover.1632900578.git.mprivozn@redhat.com>
- <20210929092044.GE3361@redhat.com> <YVQy9yiU1RPxCcM8@redhat.com>
- <20210929095719.GH3361@redhat.com> <YVQ7my3BHi1On/JK@redhat.com>
- <20210929103400.GJ3361@redhat.com> <20210930073348.GL7596@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <88a3d48e-4ad6-6919-90ac-4ecca0e7f247@redhat.com>
-Date: Thu, 30 Sep 2021 10:35:59 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 177CA1084686
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:39:09 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 30FFB1972D;
+ Thu, 30 Sep 2021 08:39:07 +0000 (UTC)
+Date: Thu, 30 Sep 2021 09:39:03 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Leonardo Bras Soares Passos <leobras@redhat.com>
+Subject: Re: [PATCH v3 2/3] QIOChannelSocket: Implement io_async_write &
+ io_async_flush
+Message-ID: <YVV3p9kksJZ5Wa0G@redhat.com>
+References: <20210922222423.644444-1-leobras@redhat.com>
+ <20210922222423.644444-3-leobras@redhat.com>
+ <YU4NKmq4KJkbmY97@redhat.com>
+ <CAJ6HWG7rWEFwt9zFr3piaCDMBf0sfawdXTqF-03A3SHz-R++sg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210930073348.GL7596@redhat.com>
+In-Reply-To: <CAJ6HWG7rWEFwt9zFr3piaCDMBf0sfawdXTqF-03A3SHz-R++sg@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,90 +85,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Michal Privoznik <mprivozn@redhat.com>,
- qemu-devel@nongnu.org, armbru@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/30/21 09:33, Richard W.M. Jones wrote:
+On Wed, Sep 29, 2021 at 04:32:12PM -0300, Leonardo Bras Soares Passos wrote:
+> Hello Daniel,
 > 
-> More data: I found a colleague who has a Hyper-V instance with a
-> Windows guest and he helped me to understand how Hyper-V represents
-> generation IDs.  Hyper-V has had support for generation IDs since long
-> before Microsoft proposed the feature for standardization.  Originally
-> (I think pre-2013) Hyper-V used an XML description which included:
+> On Fri, Sep 24, 2021 at 2:38 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> [...]
+> > > @@ -154,6 +171,19 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
+> > >          return -1;
+> > >      }
+> > >
+> > > +#ifdef CONFIG_LINUX
+> > > +    if (addr->type != SOCKET_ADDRESS_TYPE_INET) {
+> > > +        return 0;
+> > > +    }
+> > > +
+> > > +    ret = qemu_setsockopt(fd, SOL_SOCKET, SO_ZEROCOPY, &v, sizeof(v));
+> > > +    if (ret >= 0) {
+> > > +        QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
+> > > +        klass->io_async_writev = qio_channel_socket_async_writev;
+> > > +        klass->io_async_flush = qio_channel_socket_async_flush;
+> > > +    }
+> > > +#endif
+> >
+> > This is not write - the async APIs should not be tied 1:1 to ZEROCOPY
+> > usage - we should have them take a flag to request ZEROCOPY behaviour.
 > 
-> <generation_id type="string">4a07df4361fdf4c883f97bc30e524b9d</generation_id>
+> I agree, but I am not aware of how to do asynchronous send in a socket
+> without MSG_ZEROCOPY.
 > 
-> Note this is a pure hex string, not a GUID.
+> I mean, I know of the non-blocking send, but I am not sure how it
+> checks if everything was sent (i.e. the flush part).
+> Would it also be using the ERRQUEUE for that?
 > 
-> In current Hyper-V, the same representation is used but it's embedded
-> in a binary file.
-> 
-> My colleague ran two Windows VMs on Hyper-V and examined the
-> generation_id on the hypervisor and compared it to the output of
-> VMGENID.EXE inside the guest.
-> 
-> The first guest had this in the binary hypervisor metadata:
-> 
-> 000056b0  00 00 0e 67 65 6e 65 72  61 74 69 6f 6e 5f 69 64  |...generation_id|
-> 000056c0  00 40 00 00 00 38 00 30  00 35 00 61 00 32 00 38  |.@...8.0.5.a.2.8|
-> 000056d0  00 37 00 61 00 32 00 35  00 30 00 39 00 38 00 39  |.7.a.2.5.0.9.8.9|
-> 000056e0  00 65 00 34 00 66 00 65  00 36 00 66 00 36 00 39  |.e.4.f.e.6.f.6.9|
-> 000056f0  00 39 00 32 00 62 00 65  00 33 00 33 00 34 00 61  |.9.2.b.e.3.3.4.a|
-> 00005700  00 34 00 33 00 00 00 00  00 00 00 00 00 00 00 00  |.4.3............|
-> 
-> and reported the output of VMGENID in this guest as:
-> 
-> VmCounterValue: fe6f6992be334a43:805a287a250989e4
-> 
-> The second guest had:
-> 
-> 00005360  c5 06 00 00 00 0e 67 65  6e 65 72 61 74 69 6f 6e  |......generation|
-> 00005370  5f 69 64 00 40 00 00 00  65 00 62 00 66 00 62 00  |_id.@...e.b.f.b.|
-> 00005380  62 00 37 00 39 00 37 00  33 00 36 00 35 00 37 00  |b.7.9.7.3.6.5.7.|
-> 00005390  32 00 38 00 65 00 37 00  30 00 62 00 33 00 66 00  |2.8.e.7.0.b.3.f.|
-> 000053a0  64 00 33 00 63 00 37 00  31 00 33 00 65 00 63 00  |d.3.c.7.1.3.e.c.|
-> 000053b0  65 00 38 00 34 00 32 00  00 00 00 00 00 00 00 00  |e.8.4.2.........|
-> 
-> and VMGENID was:
-> 
-> VmCounterValue: b3fd3c713ece842:ebfbb797365728e7
-> 
-> Note:
-> 
->  - In both cases, the generation ID is clearly not a GUID.
-> 
->  - The two 64 bit words are swapped over somewhere, but individual
->    bytes are not byte-swapped, and there is again no evidence of
->    UUID-aware byte swapping.
-> 
-> ----------------------------------------------------------------------
-> 
-> So how do we get from where we are to a more sane vmgenid in qemu?
-> 
-> I propose we deprecate the guid parameter in:
-> 
->   -device vmgenid,guid=8987940a-0951-2cc5-e815-10634ff550b9,id=vmgenid0
-> 
-> Instead it will be replaced by bytes= which will simply write
-> the bytes, in the order they appear, into guest memory with no
-> attempt to interpret or byte-swap.  Something like:
-> 
->   -device vmgenid,bytes=112233445566778899aabbccddeeff00,id=vmgenid0
-> 
-> (guid although deprecated will need to be kept around for a while,
-> along with its weird byte-swapping behaviour).
-> 
-> We will then have a plain and simple method to emulate the behaviour
-> of other hypervisors.  We will look at exactly what bytes they write
-> to guest memory and copy that behaviour when v2v converting from those
-> hypervisors.
+> What would you suggest?
 
-I don't have anything against this, I just don't know who's going to
-implement the QEMU change.
+Yeah, there isn't any really. I guess I'm anticipating a future that
+probably won't exist.  Lets just call the callbacks 'io_write_zerocopy'
+and 'io_flush_zerocopy' and ignore the flag.
 
-Thanks
-Laszlo
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
