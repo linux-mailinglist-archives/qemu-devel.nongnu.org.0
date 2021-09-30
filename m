@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301D041DCED
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:02:47 +0200 (CEST)
-Received: from localhost ([::1]:34768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DC941DBFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 16:07:01 +0200 (CEST)
+Received: from localhost ([::1]:51544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVxaA-0004Bn-74
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:02:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39984)
+	id 1mVwiC-0003yL-JY
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 10:07:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <remy.noel@shadow.tech>)
- id 1mVwQe-0004p6-LP
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:48:53 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <remy.noel@shadow.tech>)
- id 1mVwQb-0001MN-Q5
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:48:52 -0400
-Received: by mail-wr1-x430.google.com with SMTP id m22so4737296wrb.0
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 06:48:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shadow-tech.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=fJAemPiFH0wQd63/cZyx+CFc1Z44a1AIBcDZUwoMZ5w=;
- b=mixJxZSGP6xU31G51+mrQPU0Sr2G6VWy8BRCyBmHWNcAdK0FZ3t9tQUNgPAuZU2ag0
- 7Az/5pzWZb0g6oenQ5zBq8mDNa0wIrQLwNKhw1TnkL2LYYTe7eLLog/4ytB8s9iCA/f+
- 1nnTcK30TCIAEZW5Z38U5rVI7wRgL5/o3dbZerX/ORnkstKffopG3XyRO+ysL8qDHyGH
- 3CNs2p607u69XWBeyMIbi44c9jr3aF+Sk+xlB2W979ufJfq1aAZLBDuRsevEYd55/fGq
- YO5A0W5XTR72Gi/5MVAQA9pZs1dcomLAPtYcNQUQO1h+vyPtLCNTOpEVt1E6ejuuf5bG
- WCBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=fJAemPiFH0wQd63/cZyx+CFc1Z44a1AIBcDZUwoMZ5w=;
- b=lVFVbWBAzDNvD27e3T2vD9pn2xTdday7TvvsOIHIes6jMWZd4/daS57XOxOAv8o6sI
- FxSJ1TWuIS5KJkvHG7uWNXy5aMaBJpKAGE8OztT1zcBKqr5JbVcQVqXsr73tAQAJRLIX
- GzI+CLyaQ3GF5bwOQmzO2bHGoFQt8lEsP7Ct6+FNOwfOBCmG71QxKe5j8DusnAOJ+h+X
- DtXl7EAuN8edKoH7HYON0fD1uC9ujo1EU3wTl55QA9sBJAYmrg/IxLN2p2XUZNlcvHmF
- uVdrlVyyr4iWX8eoLsB4yYhgMh2in+RRwaOHm4jVYw2stgHFKcv+/knPn1LWxHRyhghm
- kguQ==
-X-Gm-Message-State: AOAM532mmG1MNZpuxqJVzo5vvjEHjrDD/jwpEbodk/Xr9bk+qi2fFatn
- gAgq22PU4P31zH7jRzwH2Bj4vpg1rjaEvg==
-X-Google-Smtp-Source: ABdhPJxtmS918iy9/khwzAX4iJ7yBEela8ZjVHGv4RSDJksqb5WXjQuelbShiJe95ljCJwzPYXJIIw==
-X-Received: by 2002:a5d:610c:: with SMTP id v12mr6516544wrt.423.1633009726367; 
- Thu, 30 Sep 2021 06:48:46 -0700 (PDT)
-Received: from gmail.com ([2001:41d0:fc88:4700:250:b6ff:fe1f:8e7])
- by smtp.gmail.com with ESMTPSA id q10sm2959193wmq.12.2021.09.30.06.48.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 06:48:46 -0700 (PDT)
-Date: Thu, 30 Sep 2021 15:48:44 +0200
-From: Remy Noel <remy.noel@shadow.tech>
-To: qemu-devel@nongnu.org
-Subject: Strange qemu6 regression cauing disabled usb controller.
-Message-ID: <20210930134844.f4kh72vpeknr2vmk@gmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mVwdZ-00016E-U0
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 10:02:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23058)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mVwdV-0003xx-PZ
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 10:02:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633010527;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ok8331cXZuaIDU4yRXEbjL/pkkhxrYJlIUZC3yiRlzA=;
+ b=et9/P4+522/+3PUQGWel0FhjUk1kmFQpgi3HPgmba9ngp7mcmOO80OkhHhOkwo9+mgzycG
+ e+SxGuaDHnWoqUlRu1NML70yTNNZBtM+YN4VKoM4KEGKaeL8rC78bQhaFEoQIGwvh3+Lyx
+ hSgiWhzPFofKzN2qK2/2dczTPoS7ryk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-126-lWWZ-7cLNdWL8qh2dojmcw-1; Thu, 30 Sep 2021 10:01:55 -0400
+X-MC-Unique: lWWZ-7cLNdWL8qh2dojmcw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE8DF18125DB;
+ Thu, 30 Sep 2021 14:01:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80B0F652A4;
+ Thu, 30 Sep 2021 14:01:41 +0000 (UTC)
+Date: Thu, 30 Sep 2021 15:01:38 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v2 1/5] qemu/qarray.h: introduce QArray
+Message-ID: <YVXDQkKdt0bM/w2G@redhat.com>
+References: <cover.1629638507.git.qemu_oss@crudebyte.com>
+ <12467459.urXsdUxXdL@silver> <YVW8HlNfGuR7NHsq@redhat.com>
+ <4707830.eRlNOxMu1p@silver>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+In-Reply-To: <4707830.eRlNOxMu1p@silver>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: permerror client-ip=2a00:1450:4864:20::430;
- envelope-from=remy.noel@shadow.tech; helo=mail-wr1-x430.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FSL_HELO_FAKE=3.096, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 30 Sep 2021 10:58:27 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,179 +83,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Thu, Sep 30, 2021 at 03:55:36PM +0200, Christian Schoenebeck wrote:
+> On Donnerstag, 30. September 2021 15:31:10 CEST Daniel P. Berrangé wrote:
+> > On Thu, Sep 30, 2021 at 03:20:19PM +0200, Christian Schoenebeck wrote:
+> > > On Mittwoch, 29. September 2021 19:48:38 CEST Daniel P. Berrangé wrote:
+> > > > On Wed, Sep 29, 2021 at 07:32:39PM +0200, Christian Schoenebeck wrote:
+> > > > > On Dienstag, 28. September 2021 18:41:17 CEST Daniel P. Berrangé 
+> wrote:
+> > > > > > On Tue, Sep 28, 2021 at 06:23:23PM +0200, Christian Schoenebeck 
+> wrote:
+> > > > > > > On Dienstag, 28. September 2021 15:04:36 CEST Daniel P. Berrangé
+> > > 
+> > > wrote:
+> > > > > > > > On Sun, Aug 22, 2021 at 03:16:46PM +0200, Christian Schoenebeck
+> > > 
+> > > wrote:
+> > > > > [...]
+> > > > > 
+> > > > > > The GLib automatic memory support is explicitly designed to be
+> > > > > > extendd
+> > > > > > with support for application specific types. We already do exactly
+> > > > > > that
+> > > > > > all over QEMU with many calls to G_DEFINE_AUTOPTR_CLEANUP_FUNC(..)
+> > > > > > to
+> > > > > > register functions for free'ing specific types, such that you can
+> > > > > > use 'g_autoptr' with them.
+> > > > > 
+> > > > > Ok, just to make sure that I am not missing something here, because
+> > > > > really
+> > > > > if there is already something that does the job that I simply haven't
+> > > > > seen, then I happily drop this QArray code.
+> > > > 
+> > > > I don't believe there is anything that currently addresses this well.
+> > > > 
+> > > > > But AFAICS this G_DEFINE_AUTOPTR_CLEANUP_FUNC() & g_autoptr concept
+> > > > > does
+> > > > > not have any notion of "size" or "amount", right?
+> > > > 
+> > > > Correct, all it knows is that there's a data type and an associated
+> > > > free function.
+> > > 
+> > > Ok, thanks for the clarification.
+> > > 
+> > > > > So let's say you already have the following type and cleanup function
+> > > > > in
+> > > > > your existing code:
+> > > > > 
+> > > > > typedef struct MyScalar {
+> > > > > 
+> > > > >     int a;
+> > > > >     char *b;
+> > > > > 
+> > > > > } MyScalar;
+> > > > > 
+> > > > > void myscalar_free(MayScalar *s) {
+> > > > > 
+> > > > >     g_free(s->b);
+> > > > > 
+> > > > > }
+> > > > > 
+> > > > > Then if you want to use G_DEFINE_AUTOPTR_CLEANUP_FUNC() for an array
+> > > > > on
+> > > > > that scalar type, then you still would need to *manually* write
+> > > > > additionally a separate type and cleanup function like:
+> > > > > 
+> > > > > typedef struct MyArray {
+> > > > > 
+> > > > >     MyScalar *s;
+> > > > >     int n;
+> > > > > 
+> > > > > };
+> > > > > 
+> > > > > void myarray_free(MyArray *a) {
+> > > > > 
+> > > > >     for (int i = 0; i < a->n; ++i) {
+> > > > >     
+> > > > >         myscalar_free(a->s[i]);
+> > > > >     
+> > > > >     }
+> > > > >     g_free(a);
+> > > > > 
+> > > > > }
+> > > > > 
+> > > > > Plus you have to manually populate that field 'n' after allocation.
+> > > > > 
+> > > > > Am I wrong?
+> > > > 
+> > > > Yes and no.  You can of course manually write all these stuff
+> > > > as you describe, but since we expect the array wrappers to be
+> > > > needed for more than one type it makes more sense to have
+> > > > that all done via macros.
+> > > > 
+> > > > Your patch contains a DECLARE_QARRAY_TYPE and DEFINE_QARRAY_TYPE
+> > > > that provide all this reqiured boilerplate code.  The essential
+> > > > difference that I'm suggesting is that the array struct type emitted
+> > > > by the macro is explicitly visible as a concept to calling code such
+> > > > that it is used directly used with g_autoptr.
+> > > 
+> > > I got that, but your preferred user pattern was this:
+> > >     DECLARE_QARRAY_TYPE(Foo);
+> > > 	 
+> > > 	 ...
+> > > 	 
+> > >     g_autoptr(FooArray) foos = foo_array_new(n);
+> > > 
+> > > I don't see a portable way to do upper-case to lower-case conversion with
+> > > the> 
+> > > C preprocessor. So you would end up like this instead:
+> > >     g_autoptr(FooArray) foos = Foo_array_new(n);
+> > > 
+> > > Which does not really fit into common QEMU naming conventions either, does
+> > > it?
+> > Right, it would need to be a two arg macro:
+> > 
+> >   DECLARE_QARRAY_TYPE(Foo, foo);
+> > 
+> > similar to what we do with macros for declaring QOM types becuase of
+> > the same case conversion needs.
+> > 
+> > > And I can help it, I don't see what's wrong in exposing a regular C-array
+> > > to user code. I mean in the Linux kernel for instance it is absolutely
+> > > normal to convert from a compound structure to its parent structure. I
+> > > don't find anything magical about that and it is simply less code and
+> > > better readable.
+> > QEMU code is not Linux code. We're following the GLib practices for
+> > automatic memory deallocation, and QOM is also modelled on GLib. The
+> > proposal looks magical from the POV of QEMU's code patterns, as it is
+> > not making use of GLib's g_auto* code.
+> 
+> Hmm, I start to think whether I should just make it some 9p local utility code 
+> for now instead, e.g. "P9Array" or something.
 
-I'm encountering a nagging issue with usbredir and a windows guest, but although I did pinpoint the commit that caused the issue, I have a hard time understanding it.
-
-The issue occurs when a two usbredir devices are added to a guest windows vm. When the second device is added, the UHCI usb controller is disabled by windows with an error code 43 (can be seen with in the usb adapters section of the device manager).
-
-The commit causing the issue (everything works well when reverting it) is 7bed89958bfbf40df9ca681cefbdca63abdde39d : device_core: use drain_call_rcu in in qmp_device_add.
-
-I narrowed the problem to the unlock of the iothread: the minimum drain_call_rcu code that still reproduce the issue is:
-
-void drain_call_rcu(void)
-{
-     bool locked = qemu_mutex_iothread_locked();
-     if (locked) {
-         qemu_mutex_unlock_iothread();
-     }
-     usleep(50000); // time spent draining the rcu on a few slow cases.
-
-     if (locked) {
-         qemu_mutex_lock_iothread();
-     }
-}
-
-The issue can be reproduced from a basic windows home instalation and the following qemu command line:
-
-qemu-system-x86_64 -M pc -cpu host,hv_time,hv_synic,hv_stimer,hv_vpindex -enable-kvm -m 4096 -device piix3-usb-uhci,id=uhci -qmp tcp:127.0.0.1:4444,server=on,wait=off,ipv4 -drive <disk-parameters> -snapshot
-
-Note that the hv parameters are needed to trigger the issue I do not know why.
-
-Two usbredir devices are then added to the vm (qmp client script added at the end of the mail) in order to trigger the issue.
-
-The second device can be added right after or much later than the first and the bug still triggers.
-
-I tried to find what was able to take avantage of the free iothread lock, but the only thing I got so far is that the iothread lock is not taken during the first drain (from the first device add), but is taken many times during the second drain by physmem's IOs (from kvm-accel, but at this point, I'm a bit lost).
-
-I'm looking for pointers as to what could trigger the issue in order to narrow it down, as, so far, I do not understand exactly what causes the regression.
-I am unsure of how this would even transcribe in a linux vm so i didn't try to reproduce the issue with one.
-
-Below is the reproduction script (python):
-
-import asyncio
-import json
-import socket
-import sys
-import time
-
-char1 = {
-     "execute": "chardev-add",
-     "arguments": {
-         "id": "r-usb0",
-         "backend": {
-             "type": "socket",
-             "data": {
-                 "nodelay": True,
-                 "addr": {
-                     "type": "inet",
-                     "data": {
-                         "host": "::",
-                         "port": "10100"
-                     }
-                 }
-             }
-         }
-     }
-}
-dev1 = {
-     "execute": "device_add",
-     "arguments": {
-         "driver": "usb-redir",
-         "id": "r-usb0",
-         "chardev": "r-usb0",
-         "bus": "uhci.0"
-     }
-}
-char2 = {
-     "execute": "chardev-add",
-     "arguments": {
-         "id": "r-usb1",
-         "backend": {
-             "type": "socket",
-             "data": {
-                 "nodelay": True,
-                 "addr": {
-                     "type": "inet",
-                     "data": {
-                         "host": "::",
-                         "port": "10101"
-                     }
-                 }
-             }
-         }
-     }
-}
-dev2 = {
-     "execute": "device_add",
-     "arguments": {
-         "driver": "usb-redir",
-         "id": "r-usb1",
-         "chardev": "r-usb1",
-         "bus": "uhci.0"
-     }
-}
-
-
-cond = None
-ids = {}
-
-async def pull_answers(reader):
-     while True:
-         data = await reader.read(1024)
-         if not data:
-             sys.exit(0)
-         data = data.decode('ascii')
-         while data:
-             try:
-                 msg, remain = json.JSONDecoder().raw_decode(data)
-             except ValueError as vae:
-                 break
-             if not msg:
-                 break
-             msg_id = msg.get('id')
-             if msg_id:
-                 async with cond:
-                     ids[msg_id] = msg
-                     cond.notify_all()
-             else:
-                 print("QMP:", msg)
-             data = data[remain:]
-
-
-async def wait_answer(async_msg_id):
-     async with cond:
-         msg_id = await async_msg_id
-         await cond.wait_for(lambda : msg_id in ids)
-         return ids[msg_id]
-
-
-ID = 0
-
-async def send_message(writer, obj):
-     global ID
-     obj['id'] = ID
-     ID += 1
-     writer.write(json.dumps(obj).encode())
-     await writer.drain()
-     return obj['id']
+IMHO even if it was private to a subsystem it should still be using the
+standard g_auto functionality for automatically deallocating memory,
+because this is a QEMU wide standard.
 
 
-async def main():
-     global cond
-     cond = asyncio.Condition()
-     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-         sock.connect(('127.0.0.1', 4444))
-         reader, writer = await asyncio.open_connection(sock=sock)
-         waiter = asyncio.create_task(pull_answers(reader))
-         await send_message(writer, {'execute': 'qmp_capabilities'})
-         sender = asyncio.create_task(send_message(writer, char1))
-         resp = await wait_answer(sender)
-         sender = asyncio.create_task(send_message(writer, dev1))
-         resp = await wait_answer(sender)
-         time.sleep(.01)
-         sender = send_message(writer, char2)
-         resp = await wait_answer(sender)
-         sender = send_message(writer, dev2)
-         resp = await wait_answer(sender)
-         print("Added. Awaiting disconnect ...")
-         await waiter
-         return 0
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-
-asyncio.run(main())
 
