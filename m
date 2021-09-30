@@ -2,35 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9B741D34C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 08:29:22 +0200 (CEST)
-Received: from localhost ([::1]:51050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E4E41D343
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 08:26:23 +0200 (CEST)
+Received: from localhost ([::1]:45752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVpZC-0004q4-6B
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 02:29:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47862)
+	id 1mVpWQ-0001D4-Pm
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 02:26:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVotO-0002kB-Hr; Thu, 30 Sep 2021 01:46:03 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:33547)
+ id 1mVotQ-0002my-CL; Thu, 30 Sep 2021 01:46:04 -0400
+Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:35331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mVotM-0004Ji-K1; Thu, 30 Sep 2021 01:46:02 -0400
+ id 1mVotO-0004Kt-78; Thu, 30 Sep 2021 01:46:04 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HKhyR4NwWz4xcB; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
+ id 4HKhyR4XZnz4xcF; Thu, 30 Sep 2021 15:44:31 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632980671;
- bh=2akbGMYQCmIo5ebEHKutJze1cfRN/V09huIwPc9SNwc=;
+ bh=nLTsYhMEOzGuelIYBRjJ8NMou6jgk3xV4OwXGPQ+pYc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZT/kMCRRb0AUfkRfxGzs6PNimdB4/HgjsxLrlSSoWcS6Hx+P1c1ckpB9q7If7mp1p
- yxn9APSkXU+533tVd7P3Vu0vYg4wmHBKbebbD5YLZotoDPKtkeMeDQQ/EJnUXb2M88
- V1/kqvhnRH0VYNt0cJKeYqQevNLSDbpIQuIBrDxc=
+ b=I/kwHF9L7jI0lgdA3JklM/5ZieWr+SaZ4wCBykKoKDp28V9FXInhGmd9AME/d62Io
+ guo1lRew9hvns2UcmgzIcxx1n8t2S96Cd1FnsEGarPne4WtbyXyEQupc0sg/viMut8
+ DjGRU3LXpcgCM4w8jtf50SnX73pJUuqdG+hbWnrY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 41/44] MAINTAINERS: Orphan obscure ppc platforms
-Date: Thu, 30 Sep 2021 15:44:23 +1000
-Message-Id: <20210930054426.357344-42-david@gibson.dropbear.id.au>
+Subject: [PULL 42/44] MAINTAINERS: Remove David & Greg as
+ reviewers/co-maintainers of powernv
+Date: Thu, 30 Sep 2021 15:44:24 +1000
+Message-Id: <20210930054426.357344-43-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210930054426.357344-1-david@gibson.dropbear.id.au>
 References: <20210930054426.357344-1-david@gibson.dropbear.id.au>
@@ -63,77 +64,43 @@ Cc: mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are a nunber of old embedded ppc machine types which have been little
-changed and in "Odd Fixes" state for a long time.  With both myself and
-Greg Kurz moving toward other areas, we no longer have the capacity to
-keep reviewing and maintaining even the rare patches that come in for those
-platforms.
+With our interests moving to other areas, Greg and myself no longer have
+capacity to be regular reviewers of code for the powernv machine type, let
+alone co-maintainers.  Additionally, not being IBM employees, we don't have
+easy access to the hardware information we'd need for good review.
 
-Therefore, remove our names as reviewers and mark these platforms as
-orphaned.
+Therefore, remove our names as reviewers and/or co-maintainers of the
+powernv machine type, and the related XIVE interrupt controller.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Acked-by: Cédric Le Goater <clg@kaod.org>
 ---
- MAINTAINERS | 19 +++++--------------
- 1 file changed, 5 insertions(+), 14 deletions(-)
+ MAINTAINERS | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 4d547e5604..a79543a877 100644
+index a79543a877..ed9691d65c 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1236,24 +1236,18 @@ F: hw/openrisc/openrisc_sim.c
- PowerPC Machines
- ----------------
- 405
+@@ -1331,8 +1331,6 @@ F: tests/acceptance/ppc_pseries.py
+ 
+ PowerNV (Non-Virtualized)
+ M: Cédric Le Goater <clg@kaod.org>
 -M: David Gibson <david@gibson.dropbear.id.au>
 -M: Greg Kurz <groug@kaod.org>
  L: qemu-ppc@nongnu.org
--S: Odd Fixes
-+S: Orphan
- F: hw/ppc/ppc405_boards.c
+ S: Maintained
+ F: hw/ppc/pnv*
+@@ -2225,8 +2223,6 @@ T: git https://github.com/philmd/qemu.git fw_cfg-next
  
- Bamboo
--M: David Gibson <david@gibson.dropbear.id.au>
--M: Greg Kurz <groug@kaod.org>
+ XIVE
+ M: Cédric Le Goater <clg@kaod.org>
+-R: David Gibson <david@gibson.dropbear.id.au>
+-R: Greg Kurz <groug@kaod.org>
  L: qemu-ppc@nongnu.org
--S: Odd Fixes
-+S: Orphan
- F: hw/ppc/ppc440_bamboo.c
- 
- e500
--M: David Gibson <david@gibson.dropbear.id.au>
--M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
--S: Odd Fixes
-+S: Orphan
- F: hw/ppc/e500*
- F: hw/gpio/mpc8xxx.c
- F: hw/i2c/mpc_i2c.c
-@@ -1264,10 +1258,8 @@ F: include/hw/pci-host/ppce500.h
- F: pc-bios/u-boot.e500
- 
- mpc8544ds
--M: David Gibson <david@gibson.dropbear.id.au>
--M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
--S: Odd Fixes
-+S: Orphan
- F: hw/ppc/mpc8544ds.c
- F: hw/ppc/mpc8544_guts.c
- F: tests/acceptance/ppc_mpc8544ds.py
-@@ -1777,9 +1769,8 @@ F: include/hw/acpi/ghes.h
- F: docs/specs/acpi_hest_ghes.rst
- 
- ppc4xx
--M: David Gibson <david@gibson.dropbear.id.au>
- L: qemu-ppc@nongnu.org
--S: Odd Fixes
-+S: Orphan
- F: hw/ppc/ppc4*.c
- F: hw/i2c/ppc4xx_i2c.c
- F: include/hw/ppc/ppc4xx.h
+ S: Supported
+ F: hw/*/*xive*
 -- 
 2.31.1
 
