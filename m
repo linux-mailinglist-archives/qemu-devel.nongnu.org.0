@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9841341D686
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 11:41:06 +0200 (CEST)
-Received: from localhost ([::1]:45646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1117841D61E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 11:17:41 +0200 (CEST)
+Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVsYr-0002wd-1v
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 05:41:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35334)
+	id 1mVsCB-0001YH-HV
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 05:17:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mVsWf-0001sC-1r
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:38:49 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:50791)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mVsWd-0005Jj-3z
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:38:48 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id j27so4152533wms.0
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 02:38:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=sO+0pt3IBaQBk1MQ/AKhUymotGM0OEsKl4r0U1W2Q3M=;
- b=BOnNAZo3QGM1Ji2xqmQ/NZirnOxBEw91b9GMNQIMFfCWXeVOxL3T+t+ZV3TEcQ3RQj
- /D9HqgWKpo8QfvGMHxMSx8WNKMek00UIPr6VfkdmSFJoFJId5zwV7TDBhkRl13L/hlqc
- CL8gJrWp182HCltBilkY/cYceQ1ZG/1dbdClg3l6J2RbfQt2W/bS9EhYduUPaB+ssteV
- O/wveQatYlojf2TKzledwbeZ8RtdfApb36NGn4zKkgfcPzpNVIHUJb8z/I7ZxFpGeaF/
- GlM+DpWCdyHUfV86AvskotXHgp1hR/rcuxbe/M1Nl5YaGf81GKcVeHAYr5Yste09MOND
- 5tzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=sO+0pt3IBaQBk1MQ/AKhUymotGM0OEsKl4r0U1W2Q3M=;
- b=xJi8emUODEPjzCVd0ydWa5xirMO9GKnWuGJMl6SKuHb5pE4A+c3RFkYvILxwQx2WDL
- URkRPTAJA+sV5tVIBLZMlTv8/UBxnSyW+W/AU96C5RaShMHFygfD6X9hJdsKwa35kVEx
- G7QHnHGSOjJQgXa4D2Pb4q/OEU48+uBCJSftQQcFi+BWG4SwmPVYwOcASleSvdEP9nCL
- 3YtrnjLsxf/01eNn3OwV78I49LwciBo1I7ngSjk/+8JQ/zVbjvm9F2KaWtrQC9JgLo2/
- bGVw7PReA8ge4SJG4IbKnesM51YQBZ+SvYscR3tAztY7rjTlm2aC7+hIph2VDqGYIy4+
- Tk6A==
-X-Gm-Message-State: AOAM531zHk/lpmuZqY3oNBJ1VIl9/vBDJxxWIaMq/39lIPGl3c5QUuPI
- d4tK4pFggywl54R5BjygRJnUCw==
-X-Google-Smtp-Source: ABdhPJxNkJjsKGNTwRz4lJB8AX2uvEUk0ndrdQ5ToFNG5q3Qm13+deMQfQbHNA67aPQ+t/8gMiHzLg==
-X-Received: by 2002:a05:600c:2904:: with SMTP id
- i4mr4414072wmd.118.1632994724296; 
- Thu, 30 Sep 2021 02:38:44 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p3sm2388194wrn.47.2021.09.30.02.38.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 02:38:43 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8C69C1FF96;
- Thu, 30 Sep 2021 10:38:42 +0100 (BST)
-References: <CADc=-s7RifpTSQ_6tYY4B4pze-wy6KprPo=J6Jvv0VVV3PU8DA@mail.gmail.com>
-User-agent: mu4e 1.7.0; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Matt <mborgerson@gmail.com>
-Subject: Re: TCG Floating Point Support (Work in Progress)
-Date: Thu, 30 Sep 2021 10:13:52 +0100
-In-reply-to: <CADc=-s7RifpTSQ_6tYY4B4pze-wy6KprPo=J6Jvv0VVV3PU8DA@mail.gmail.com>
-Message-ID: <87bl4a768t.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mVsBG-0000sN-C8
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:16:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29862)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mVsBC-0003iU-AR
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 05:16:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632993395;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bU6iTf9NKjMwaTTohBE4uLjKrjvIH62Ik2WPu2ZKE/g=;
+ b=XX3h/K/La+bYHBCgGVEnTYTTRCSXSwaYoAs0oAv34YCu4B6dq/k41dHfsfIiLYcvbSkP4x
+ s767eFRstFKspS72jWI7MQ+seCVoy4tHG6/hGUBozK+5/qDbGqR+EbOjkngWbCvPvhE2HI
+ 9eY3aPjjD+pldyHCipYS8Gdo4XMnpzM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-eTnwj0nMOxG_MHItN8RbQA-1; Thu, 30 Sep 2021 05:16:27 -0400
+X-MC-Unique: eTnwj0nMOxG_MHItN8RbQA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 179298143FF
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 09:16:27 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 49CB35C23A;
+ Thu, 30 Sep 2021 09:16:21 +0000 (UTC)
+Date: Thu, 30 Sep 2021 10:16:20 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 0/1] vmx: Fix <genid/> mapping
+Message-ID: <20210930091620.GX3361@redhat.com>
+References: <cover.1632900578.git.mprivozn@redhat.com>
+ <20210929092044.GE3361@redhat.com> <YVQy9yiU1RPxCcM8@redhat.com>
+ <20210929095719.GH3361@redhat.com> <YVQ7my3BHi1On/JK@redhat.com>
+ <20210929103400.GJ3361@redhat.com>
+ <20210930073348.GL7596@redhat.com> <YVV5hZmEs2NmbiiI@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <YVV5hZmEs2NmbiiI@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,88 +82,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, aurelien@aurel32.net
+Cc: libvir-list@redhat.com, Michal Privoznik <mprivozn@redhat.com>,
+ lersek@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Sep 30, 2021 at 09:47:01AM +0100, Daniel P. Berrangé wrote:
+> On Thu, Sep 30, 2021 at 08:33:48AM +0100, Richard W.M. Jones wrote:
+> > I propose we deprecate the guid parameter in:
+> > 
+> >   -device vmgenid,guid=8987940a-0951-2cc5-e815-10634ff550b9,id=vmgenid0
+> > 
+> > Instead it will be replaced by bytes= which will simply write
+> > the bytes, in the order they appear, into guest memory with no
+> > attempt to interpret or byte-swap.  Something like:
+> > 
+> >   -device vmgenid,bytes=112233445566778899aabbccddeeff00,id=vmgenid0
+> > 
+> > (guid although deprecated will need to be kept around for a while,
+> > along with its weird byte-swapping behaviour).
+> > 
+> > We will then have a plain and simple method to emulate the behaviour
+> > of other hypervisors.  We will look at exactly what bytes they write
+> > to guest memory and copy that behaviour when v2v converting from those
+> > hypervisors.
+> 
+> From the libvirt POV, I'm not expecting anything in QEMU to change
+> in this respect. If guid is replaced by a new attribute taking data
+> in a different way, then libvirt will have to remap itself, so that
+> existing usage in libvirt keeps working the same way as it did with
+> guid.  Essentially from libvirt's POV, it is simply a documentation
+> issue to specify how the libvirt XML representation translates to
+> the guest visible representation, and ensure that all libvirt drivers
+> implement it the same way. The QEMU genid support arrived first so
+> that set the standard for how libvirt will represent it, that all
+> further libvirt hypervisor drivers need to match.
 
-Matt <mborgerson@gmail.com> writes:
+I was going to suggest something like:
 
-> Hello--
->
-> I'm excited to share that I have been developing support for TCG
-> floating point operations; specifically, to accelerate emulation of
-> x86 guest code which heavily exercises the x87 FPU for a game console
-> emulator project based on QEMU. So far, this work has shown great
-> promise, demonstrating some dramatic performance improvements in
-> emulation of x87 heavy code.
+  <genid type="guid">aa-bb-cc..</genid>
+or
+  <genid type="binary">aabbcc..</genid>
 
-I've not reviewed the code as it is a rather large diff. For your proper
-submission could you please ensure that your patch series is broken up
-into discreet commits to aid review. It also aids bisection if
-regressions are identified.
+with the type defaulting to guid for backwards compatibility.
 
-> The feature works in concert with unaccelerated x87 FPU helpers, and
-> also allows total soft float helper fallback if the user discovers
-> some issue with the hard float implementation.
+Does libvirt XML have any other fields were you're passing
+essentially small snippets of binary data?
 
-The phrase "if the user discovers some issues" is a bit of a red flag.
-We should always be striving for correct emulation of floating point.
-Indeed we have recently got the code base to the point we pass all of
-the Berkey softfloat test suite. This can be checked by running:
+Rich.
 
-  make check-softfloat
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+libguestfs lets you edit virtual machines.  Supports shell scripting,
+bindings from many languages.  http://libguestfs.org
 
-However the test code links directly to the softfloat code so won't work
-with direct code execution. The existing 32/64 bit hardfloat
-optimisations work within the helpers. While generating direct code is
-appealing to avoid the cost of helper calls it's fairly well cached and
-predicted code. Experience with the initial hardfloat code showed the
-was still a performance win even with the cost of the helper call.
-
-> For the TCG target,
-> I've opted to implement it for x86-64 hosts using SSE2, although this
-> could be extended to support full 80b double extended precision with
-> host x87 support. I'm also in early development of an implementation
-> for AArch64 hosts.
-
-I don't think you'll see the same behaviour emulating an x87 on anything
-that isn't an x87 because the boundaries for things like inexact
-calculation will be different. Indeed if you look at the existing
-hardfloat code function can_use_fpu() you will see we only call the host
-processor function if the inexact bit is already set. Other wrappers
-have even more checks for normal numbers. Anything that needs NaN
-handling will fallback to the correct softfloat code.
-
-I think there will be a wariness to merge anything that only works for a
-single frontend/backend combination. Running translated x86 on x86 is
-not the common case for TCG ;-)
-
-> There are still some significant tasks to be done, like proper
-> handling of exception flags, edge cases, and testing, to name a few.
-
-These are the things that make correct handling of floating point hard.=20
-
-> Once in a slightly more mature state, I do think this feature would
-> make a natural addition to upstream QEMU and plan to submit it for
-> consideration.
->
-> I'm writing to the mailing list now to inform FPU maintainers and any
-> other interested parties that this work is happening, to solicit any
-> early feedback, and to extend an invitation to anyone interested in
-> collaborating to expedite its upstreaming.
-
-I'll happily review patches on the list that provide for an accelerated
-FPU experience as long as the correctness is maintained.
-
-> My initial TCG FP work can be found here:
-> https://github.com/mborgerson/xemu/pull/464/commits
->
-> Thanks,
-> Matt
-
-
---=20
-Alex Benn=C3=A9e
 
