@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0343B41DB80
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:51:49 +0200 (CEST)
-Received: from localhost ([::1]:47362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CDB41DB6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:47:56 +0200 (CEST)
+Received: from localhost ([::1]:39336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVwTU-00071B-26
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36436)
+	id 1mVwPk-0001WA-1R
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:47:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVwBO-00086O-1x
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:33:11 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36844)
+ id 1mVwBM-00084Y-5c
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:33:04 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:55260)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mVwBL-0005DK-Fy
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:33:05 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id h15so8490526wrc.3
+ id 1mVwBJ-0005DR-Sr
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:33:03 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id s24so4691648wmh.4
  for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 06:33:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JqmlKLizONgEjnZPec0fBTavTsjsC4JPAMjk8DVQkD4=;
- b=FP8m6tuNWkZ2fZZvaBSI+T2m0Gj0i8oXKLmMKcaoVf+QgoW64zEhPw/yaKPBhdevAW
- eXjAg6pe5vb+N50B8YkoPjf5b+axgQjt/EY/I6wB9k1iN70tur6IgfRezu9sjE59tRF7
- eEG9cDrFh0ywG/sjPHxNFG+l813TQjS5WyC9bw+4zgOCeSlp4JvbCMq4wm7C0e3oyL8u
- xyN7ohPcZ8VORij4CcHNm8k3miMLl1jth2KPev0au3ciYsI4EM4Z0Rh866ytzaiDCZ2n
- IFpZNtbGc5n8ZCR+NilNQVGuzLX+sEAH8idBWCbQTu6BxlMIotaJvDiG8hhGTkaeWlNb
- qL0g==
+ bh=ZldbnCdugQGK5VNaU/g/0ED4l/N93hoQAw50o2LtEUM=;
+ b=TcgTnnA4pJecOJ/1BIZ5q4h7ySFF54iIpsvkDpol6iiDJaXFp9Mq4J9F33kaH4EANh
+ qzwVWKJU0mGPHaem9N06Xk33VB8gPCiwsAAc62/vVYpm5JOWGifbRdNtsECIl8iIcv+X
+ usnnFi6MT8WazKr0PTfAxoEzFx9g/SHcFG/Onb6smOxBHkclf7B/cKi2Tf+NcGLmhclu
+ oQAnCihG2bKzZ4zPDlo/PuXcZWFawJQd1IlmoB8sKtUAfqa2ViBbJ+u5KkBUY2ifV25o
+ LmTeBXf5ENFTNFHqJ73jJWu+sWfTSYnyAwGqVUqloUYTUdlEFz5ZSl/3FooHyITzPZC6
+ Dr+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JqmlKLizONgEjnZPec0fBTavTsjsC4JPAMjk8DVQkD4=;
- b=FUA0376zSokDlvMd9PqaCuizVlqI1Os8/oKhaEIc5n7CQ+3Fl96Resp/2u3Rk65DSQ
- d0MtvmU31r9gU23vTyQ6BkN5pVluC3+kOQYqjIa1Q+CNek2BHHbHzksEP2bMHBc2gWg7
- NNNQOzqzNbfBNqBl6GGm5Vq//M5jBUAUyMO5tSp1sye0EG7v44Is1s232OZd+qLyUEJs
- ifK/WwmrL3FICkhIRhxhr8by0E9pxzSwSyt36RJNEh2L4vpYw/iAbSEw3JFsE+bBmxTH
- UN/cMzS8scRH2o5zIVXWhxoHHc/znG+yfF5JuL67vngLbXvzzGrZ3ZA+gm+8JP4hpsYB
- HmHg==
-X-Gm-Message-State: AOAM5300AD/ktaok+oQGGv/N1NXl1P6UpNtJGtjDk39B9BSQxthVH3MR
- j1HCkaN+70xPj5kBR8FXHy0vZlCDgps=
-X-Google-Smtp-Source: ABdhPJy2l5nbFCFJtTPW+Tm1m38HvuHtlYm5MZkhmhb4SrLi4l6MJlvIr117KNxSX5qyChudX5pKkg==
-X-Received: by 2002:a5d:6292:: with SMTP id k18mr6276234wru.110.1633008779878; 
- Thu, 30 Sep 2021 06:32:59 -0700 (PDT)
+ bh=ZldbnCdugQGK5VNaU/g/0ED4l/N93hoQAw50o2LtEUM=;
+ b=e51WFCZ3h8zjGiDVcKN0rIj/iUDDWj5ix/QBMTlCgSGzHJT8L9TQa9zv6gPh4TpF7v
+ HdtOR+dWAlj9FtI/zIKYluzD4ph24/mZFrXOxR3VPd2zFh0fvgEuPxbRQ3pFMghl1W89
+ BRFb935Jtiszqv1OitANTvOGE/KlWWmL4q7itfPemrLJbuw+G6zDB0VrHXCCLK3dXbhR
+ z2OixBZKFzdsR3a55cQVwuNYKkh5+ROPU2pahT715m+l/sXW3WYNu+DLihS1wwMEF0x8
+ vVaqJevvL+XW4b6cUwULLhuLIakPh66i/RhKyN36HahdfWYbo/YIlqyE7vqGy6WRE0tT
+ gbAg==
+X-Gm-Message-State: AOAM533hJZOQSJKsHxpqG/Kz4nXJkNvhM6SZ7qzUsCL1kBEpvO2OxXqF
+ cF6cQmtiqbnym0PkRzZVogm23jkxVoo=
+X-Google-Smtp-Source: ABdhPJx39LKVnwzcnFRRJYbGdXfKS58ZyJXKgA5i3L7MF9yPFcCklrxg6ioOVesX3XGF9iqfMu+Pog==
+X-Received: by 2002:a7b:c048:: with SMTP id u8mr5289674wmc.113.1633008780458; 
+ Thu, 30 Sep 2021 06:33:00 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id c4sm3037168wrt.23.2021.09.30.06.32.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 06:32:59 -0700 (PDT)
+ Thu, 30 Sep 2021 06:33:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] docs: name included files ".rst.inc"
-Date: Thu, 30 Sep 2021 15:32:44 +0200
-Message-Id: <20210930133250.181156-2-pbonzini@redhat.com>
+Subject: [PATCH 2/7] docs: move notes inside the body of the document
+Date: Thu, 30 Sep 2021 15:32:45 +0200
+Message-Id: <20210930133250.181156-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210930133250.181156-1-pbonzini@redhat.com>
 References: <20210930133250.181156-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,43 +87,44 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Make all documents start with a heading.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/{ci-definitions.rst => ci-definitions.rst.inc} | 0
- docs/devel/{ci-jobs.rst => ci-jobs.rst.inc}               | 0
- docs/devel/{ci-runners.rst => ci-runners.rst.inc}         | 0
- docs/devel/ci.rst                                         | 6 +++---
- 4 files changed, 3 insertions(+), 3 deletions(-)
- rename docs/devel/{ci-definitions.rst => ci-definitions.rst.inc} (100%)
- rename docs/devel/{ci-jobs.rst => ci-jobs.rst.inc} (100%)
- rename docs/devel/{ci-runners.rst => ci-runners.rst.inc} (100%)
+ docs/devel/multi-process.rst | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/docs/devel/ci-definitions.rst b/docs/devel/ci-definitions.rst.inc
-similarity index 100%
-rename from docs/devel/ci-definitions.rst
-rename to docs/devel/ci-definitions.rst.inc
-diff --git a/docs/devel/ci-jobs.rst b/docs/devel/ci-jobs.rst.inc
-similarity index 100%
-rename from docs/devel/ci-jobs.rst
-rename to docs/devel/ci-jobs.rst.inc
-diff --git a/docs/devel/ci-runners.rst b/docs/devel/ci-runners.rst.inc
-similarity index 100%
-rename from docs/devel/ci-runners.rst
-rename to docs/devel/ci-runners.rst.inc
-diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
-index 8d95247188..d106610096 100644
---- a/docs/devel/ci.rst
-+++ b/docs/devel/ci.rst
-@@ -8,6 +8,6 @@ found at::
+diff --git a/docs/devel/multi-process.rst b/docs/devel/multi-process.rst
+index 69699329d6..e5758a79ab 100644
+--- a/docs/devel/multi-process.rst
++++ b/docs/devel/multi-process.rst
+@@ -1,15 +1,17 @@
+-This is the design document for multi-process QEMU. It does not
+-necessarily reflect the status of the current implementation, which
+-may lack features or be considerably different from what is described
+-in this document. This document is still useful as a description of
+-the goals and general direction of this feature.
+-
+-Please refer to the following wiki for latest details:
+-https://wiki.qemu.org/Features/MultiProcessQEMU
+-
+ Multi-process QEMU
+ ===================
  
-    https://wiki.qemu.org/Testing/CI
- 
--.. include:: ci-definitions.rst
--.. include:: ci-jobs.rst
--.. include:: ci-runners.rst
-+.. include:: ci-definitions.rst.inc
-+.. include:: ci-jobs.rst.inc
-+.. include:: ci-runners.rst.inc
++.. note::
++
++  This is the design document for multi-process QEMU. It does not
++  necessarily reflect the status of the current implementation, which
++  may lack features or be considerably different from what is described
++  in this document. This document is still useful as a description of
++  the goals and general direction of this feature.
++
++  Please refer to the following wiki for latest details:
++  https://wiki.qemu.org/Features/MultiProcessQEMU
++
+ QEMU is often used as the hypervisor for virtual machines running in the
+ Oracle cloud. Since one of the advantages of cloud computing is the
+ ability to run many VMs from different tenants in the same cloud
 -- 
 2.31.1
 
