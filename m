@@ -2,59 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FA441DAF2
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:23:37 +0200 (CEST)
-Received: from localhost ([::1]:43778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 533B941DAFD
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 15:28:17 +0200 (CEST)
+Received: from localhost ([::1]:48716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVw2B-0006IB-7e
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:23:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33612)
+	id 1mVw6i-0001R2-DI
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 09:28:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mVvz8-0003qd-Rm
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:20:29 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:52335)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mVw2f-0007kJ-EO
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:24:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mVvz5-00032q-Kc
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:20:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=2UrZC7AQ4ezzXNsyTSmC4lrw5Nc6T6ptNwJ+p37F5SU=; b=pFnh2KoIDr85lPLSIZM20NE+/C
- nur/eZDzEAACHNuYHKA5aS/zh2n9ZWV3+hY2+9k7I0J402wnZ7gaC6GdbSSY3vLTFOeMZh79fs+FJ
- i68OhmFEjTSxY4499jk8hFgIoWvrQyP2McSRdFhrHSyoRecEfQJkOkNCqxcBBj2TYsd8a7s2lKrGH
- +ojDOMUEdRns3y++LOkKLnDtJHEDGgUnIC+TGXA10T+ngVZkqStDBpXbNePymr6dv5ZNIU4wtR6zy
- JatnNgmPNnDQml6+3bXoz/FS+n/weC6rEHSp/FsWXNruHDY8tOfNCgmU9d/sdtK2Y/dVQgOlvQTlv
- d0zQu3spRXeMLlm2m/3kvKUmFVCwgT7dDiPzA/Cy4dLjn11kczyy3ap1igIJR6AZXfgG56LvrT0QD
- SDe/OjEXr+htVDbdRagey19y5wlE/j2ML6X2yROkPOiCivefRULAHXW4RLEjVS17sX4aL40ZP+d1G
- aVgs9JkFSxZ7Mn22XCi6GP3PiUUC2cFPDZlwedpKhhgdNL2gS0kP7riEzoi8rOHzElPmBY+Xi5no9
- LuB/wdUTwV7AC7vyx55aQf4vfLmqf3u89LtKuCrr7unE5awfC29G2idvze5cN/g/WhO96N5ceRZMG
- GYv6SjRgG5FZfHsYR00eIgROKZs6J+EWUkntRC4e0=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org,
- Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 1/5] qemu/qarray.h: introduce QArray
-Date: Thu, 30 Sep 2021 15:20:19 +0200
-Message-ID: <12467459.urXsdUxXdL@silver>
-In-Reply-To: <YVSm9s4pUKOzsLqV@redhat.com>
-References: <cover.1629638507.git.qemu_oss@crudebyte.com>
- <3065428.eF6XsjkFDY@silver> <YVSm9s4pUKOzsLqV@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mVw2a-000696-Fv
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 09:24:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633008239;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0XZ1PpgZiuoAZO5KTUFn5H+HDx/9T7q0EiRGOwoGrE0=;
+ b=a7Q4ilBaU7Mwf7mw0vV2zOyAYLYIluJFTAfBKBXVjEi2LZcOVo8QqhC2HLr0GR+IL1+5oj
+ op0jenBSjT42CwkbNW5PgBB2tVbb/C2+QgNzooZAGpVbRA0+dnaBtlZGNY4PZDp8ArVkm2
+ IKzCl8RLEyD2t3vbhH3Fz05U/Of7NlY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-q2F9bIuJOFaqK5qY4K9cnQ-1; Thu, 30 Sep 2021 09:23:56 -0400
+X-MC-Unique: q2F9bIuJOFaqK5qY4K9cnQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6B0F835DE0;
+ Thu, 30 Sep 2021 13:23:54 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.195.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ECDFC5D9C6;
+ Thu, 30 Sep 2021 13:23:50 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/19] monitor: explicitly permit QMP commands to be added
+ for all use cases
+Date: Thu, 30 Sep 2021 14:23:30 +0100
+Message-Id: <20210930132349.3601823-1-berrange@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,119 +76,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Cornelia Huck <cohuck@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 29. September 2021 19:48:38 CEST Daniel P. Berrang=E9 wrote:
-> On Wed, Sep 29, 2021 at 07:32:39PM +0200, Christian Schoenebeck wrote:
-> > On Dienstag, 28. September 2021 18:41:17 CEST Daniel P. Berrang=E9 wrot=
-e:
-> > > On Tue, Sep 28, 2021 at 06:23:23PM +0200, Christian Schoenebeck wrote:
-> > > > On Dienstag, 28. September 2021 15:04:36 CEST Daniel P. Berrang=E9=
-=20
-wrote:
-> > > > > On Sun, Aug 22, 2021 at 03:16:46PM +0200, Christian Schoenebeck=20
-wrote:
-> > [...]
-> > > The GLib automatic memory support is explicitly designed to be extendd
-> > > with support for application specific types. We already do exactly th=
-at
-> > > all over QEMU with many calls to G_DEFINE_AUTOPTR_CLEANUP_FUNC(..) to
-> > > register functions for free'ing specific types, such that you can
-> > > use 'g_autoptr' with them.
-> >=20
-> > Ok, just to make sure that I am not missing something here, because rea=
-lly
-> > if there is already something that does the job that I simply haven't
-> > seen, then I happily drop this QArray code.
->=20
-> I don't believe there is anything that currently addresses this well.
->=20
-> > But AFAICS this G_DEFINE_AUTOPTR_CLEANUP_FUNC() & g_autoptr concept does
-> > not have any notion of "size" or "amount", right?
->=20
-> Correct, all it knows is that there's a data type and an associated
-> free function.
-
-Ok, thanks for the clarification.
-
-> > So let's say you already have the following type and cleanup function in
-> > your existing code:
-> >=20
-> > typedef struct MyScalar {
-> >=20
-> >     int a;
-> >     char *b;
-> >=20
-> > } MyScalar;
-> >=20
-> > void myscalar_free(MayScalar *s) {
-> >=20
-> >     g_free(s->b);
-> >=20
-> > }
-> >=20
-> > Then if you want to use G_DEFINE_AUTOPTR_CLEANUP_FUNC() for an array on
-> > that scalar type, then you still would need to *manually* write
-> > additionally a separate type and cleanup function like:
-> >=20
-> > typedef struct MyArray {
-> >=20
-> >     MyScalar *s;
-> >     int n;
-> >=20
-> > };
-> >=20
-> > void myarray_free(MyArray *a) {
-> >=20
-> >     for (int i =3D 0; i < a->n; ++i) {
-> >    =20
-> >         myscalar_free(a->s[i]);
-> >    =20
-> >     }
-> >     g_free(a);
-> >=20
-> > }
-> >=20
-> > Plus you have to manually populate that field 'n' after allocation.
-> >=20
-> > Am I wrong?
->=20
-> Yes and no.  You can of course manually write all these stuff
-> as you describe, but since we expect the array wrappers to be
-> needed for more than one type it makes more sense to have
-> that all done via macros.
->=20
-> Your patch contains a DECLARE_QARRAY_TYPE and DEFINE_QARRAY_TYPE
-> that provide all this reqiured boilerplate code.  The essential
-> difference that I'm suggesting is that the array struct type emitted
-> by the macro is explicitly visible as a concept to calling code such
-> that it is used directly used with g_autoptr.
-
-I got that, but your preferred user pattern was this:
-
-    DECLARE_QARRAY_TYPE(Foo);
-	 ...
-    g_autoptr(FooArray) foos =3D foo_array_new(n);
-
-I don't see a portable way to do upper-case to lower-case conversion with t=
-he=20
-C preprocessor. So you would end up like this instead:
-
-    g_autoptr(FooArray) foos =3D Foo_array_new(n);
-
-Which does not really fit into common QEMU naming conventions either, does =
-it?
-
-And I can help it, I don't see what's wrong in exposing a regular C-array t=
-o=20
-user code. I mean in the Linux kernel for instance it is absolutely normal =
-to=20
-convert from a compound structure to its parent structure. I don't find=20
-anything magical about that and it is simply less code and better readable.
-
-Best regards,
-Christian Schoenebeck
-
+Previous postings:=0D
+=0D
+  v1: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02295.html=
+=0D
+  v2: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg03703.html=
+=0D
+=0D
+We are still adding HMP commands without any QMP counterparts. This is=0D
+done because there are a reasonable number of scenarios where the cost=0D
+of designing a QAPI data type for the command is not justified.=0D
+=0D
+This has the downside, however, that we will never be able to fully=0D
+isolate the monitor code from the remainder of QEMU internals. It is=0D
+desirable to be able to get to a point where subsystems in QEMU are=0D
+exclusively implemented using QAPI types and never need to have any=0D
+knowledge of the monitor.=0D
+=0D
+The way to get there is to stop adding commands to HMP only. All=0D
+commands must be implemented using QMP and any HMP equivalent be=0D
+a shim around the QMP implemetation. We don't want to compromise=0D
+our supportability of QMP long term though.=0D
+=0D
+This series proposes that we relax our requirements around fine grained=0D
+QAPI data design, but with the caveat that any command taking this=0D
+design approach is mandated to use the 'x-' name prefix. This tradeoff=0D
+should be suitable for any commands we have been adding exclusively to=0D
+HMP in recent times, and thus mean we have mandate QMP support for all=0D
+new commands going forward.=0D
+=0D
+The series then converts the following HMP commands to be QMP shims.=0D
+=0D
+    info opcount=0D
+    info jit=0D
+    info irq=0D
+    info lapic=0D
+    info cmma=0D
+    info skeys=0D
+    info ramblock=0D
+    info rdma=0D
+    info usb=0D
+    info numa=0D
+    info profile=0D
+    info roms=0D
+=0D
+A full conversion would also enable HMP to be emulated entirely=0D
+outside QEMU. This could be interesting if we introduce a new QEMU=0D
+system emulator binary which is legacy free and 100% controlled=0D
+via QMP, as it would let us provide HMP backcompat around it=0D
+without the burden of HMP being integrated directly.=0D
+=0D
+There are still many HMP commands with no QMP counterpart after=0D
+this series.=0D
+=0D
+ - A few are not relevant to port as they directly=0D
+   reflect HMP functionality (help, info history).=0D
+ - A few are sort of available in QMP but look quite=0D
+   different (drive_add vs blockdev_add)=0D
+ - A few are complicated. "info usbhost" is a dynamically=0D
+   loaded HMP command inside a loadable module and we=0D
+   don't have a way to dynamically register QMP handlers=0D
+   at runtime.=0D
+ - Most are just tedious gruntwork.=0D
+=0D
+Changed in v3:=0D
+=0D
+ - Temporarily spun off the 'info registers' and 'info tlb'=0D
+   conversions. These required 30+ patches across all the=0D
+   targets and was making this series too large and conflict=0D
+   prone and spanning too many subsystems.=0D
+=0D
+   I'll re-submit those two later=0D
+=0D
+ - Pull in a fix for the 'info lapic' command=0D
+=0D
+ - Misc improvements to the documentation after reviews=0D
+=0D
+ - Add helper for GString -> HumanReadableText conversion=0D
+=0D
+Changed in v2:=0D
+=0D
+ - Improved documentation in response to feedback=0D
+ - Finished "info registers" conversion on all targets=0D
+ - Got a bit carried away and converted many many more=0D
+   commands=0D
+=0D
+Daniel P. Berrang=C3=A9 (18):=0D
+  docs/devel: rename file for writing monitor commands=0D
+  docs/devel: tweak headings in monitor command docs=0D
+  docs/devel: document expectations for QAPI data modelling for QMP=0D
+  docs/devel: add example of command returning unstructured text=0D
+  docs/devel: document expectations for HMP commands in the future=0D
+  monitor: remove 'info ioapic' HMP command=0D
+  qapi: introduce x-query-roms QMP command=0D
+  qapi: introduce x-query-profile QMP command=0D
+  qapi: introduce x-query-numa QMP command=0D
+  qapi: introduce x-query-usb QMP command=0D
+  qapi: introduce x-query-rdma QMP command=0D
+  qapi: introduce x-query-ramblock QMP command=0D
+  qapi: introduce x-query-skeys QMP command=0D
+  qapi: introduce x-query-cmma QMP command=0D
+  qapi: introduce x-query-lapic QMP command=0D
+  qapi: introduce x-query-irq QMP command=0D
+  qapi: introduce x-query-jit QMP command=0D
+  qapi: introduce x-query-opcount QMP command=0D
+=0D
+Dongli Zhang (1):=0D
+  hmp: synchronize cpu state for lapic info=0D
+=0D
+ accel/tcg/cpu-exec.c                          |  51 +++++-=0D
+ accel/tcg/hmp.c                               |  24 ++-=0D
+ accel/tcg/translate-all.c                     |  84 ++++-----=0D
+ docs/devel/index.rst                          |   2 +-=0D
+ ...mands.rst =3D> writing-monitor-commands.rst} | 134 ++++++++++++++-=0D
+ hmp-commands-info.hx                          |  15 --=0D
+ hw/core/cpu-common.c                          |   7 +=0D
+ hw/core/loader.c                              |  53 ++++--=0D
+ hw/core/machine-hmp-cmds.c                    |  33 +---=0D
+ hw/core/machine-qmp-cmds.c                    |  40 +++++=0D
+ hw/rdma/rdma_rm.c                             | 104 +++++------=0D
+ hw/rdma/rdma_rm.h                             |   2 +-=0D
+ hw/rdma/vmw/pvrdma_main.c                     |  31 ++--=0D
+ hw/s390x/s390-skeys.c                         |  35 +++-=0D
+ hw/s390x/s390-stattrib.c                      |  56 ++++--=0D
+ hw/usb/bus.c                                  |  36 +++-=0D
+ include/exec/cpu-all.h                        |   6 +-=0D
+ include/exec/ramlist.h                        |   2 +-=0D
+ include/hw/core/cpu.h                         |  10 ++=0D
+ include/hw/rdma/rdma.h                        |   2 +-=0D
+ include/monitor/hmp-target.h                  |   1 -=0D
+ include/qapi/type-helpers.h                   |  14 ++=0D
+ include/tcg/tcg.h                             |   4 +-=0D
+ monitor/hmp-cmds.c                            |  81 +++------=0D
+ monitor/misc.c                                |  30 +---=0D
+ monitor/qmp-cmds.c                            | 116 +++++++++++++=0D
+ qapi/common.json                              |  11 ++=0D
+ qapi/machine-target.json                      |  47 +++++=0D
+ qapi/machine.json                             | 110 ++++++++++++=0D
+ qapi/meson.build                              |   3 +=0D
+ qapi/qapi-type-helpers.c                      |  23 +++=0D
+ scripts/qapi/commands.py                      |   1 +=0D
+ softmmu/physmem.c                             |  19 ++-=0D
+ stubs/usb-dev-stub.c                          |   8 +=0D
+ target/i386/cpu-dump.c                        | 161 +++++++++---------=0D
+ target/i386/cpu.h                             |   4 +-=0D
+ target/i386/monitor.c                         |  50 ++++--=0D
+ tcg/tcg.c                                     |  98 ++++++-----=0D
+ tests/qtest/qmp-cmd-test.c                    |   8 +=0D
+ 39 files changed, 1063 insertions(+), 453 deletions(-)=0D
+ rename docs/devel/{writing-qmp-commands.rst =3D> writing-monitor-commands.=
+rst} (78%)=0D
+ create mode 100644 include/qapi/type-helpers.h=0D
+ create mode 100644 qapi/qapi-type-helpers.c=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
