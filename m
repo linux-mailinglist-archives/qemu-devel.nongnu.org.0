@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56AD641DD6D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:28:10 +0200 (CEST)
-Received: from localhost ([::1]:59340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D761841DD5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:24:59 +0200 (CEST)
+Received: from localhost ([::1]:52262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVxyj-0007Qx-9u
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33052)
+	id 1mVxve-0002Zd-Sr
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:24:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mVxjN-0000FP-KM
+ id 1mVxjL-0000Eg-OY
  for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:17 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36358)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mVxjH-0003xt-3b
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:16 -0400
-Received: by mail-wr1-x433.google.com with SMTP id h15so9052681wrc.3
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:12:10 -0700 (PDT)
+ id 1mVxjH-0003yI-LP
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:14 -0400
+Received: by mail-wr1-x435.google.com with SMTP id w29so10652475wra.8
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:12:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=XLebwh8ygRsd0Pf9EoW0+q/5vT4Ko+x+7OO6En4P6kU=;
- b=OBfgKPxoepN8Ur58uq0IwGQzi/UtFGNMFzSAdjebrbPUiDr/qRHveYxCbsHqbdL9rH
- Zzh1qVdhDS+xAglnhhZiqB0TSK4ixPvD1djY3TpwwmjadhJJ9VoPXHUTytusbE/9v+JQ
- z5plU3VBWatkJox0AUONCrXkFCvJDr+eahJqmbNCZmYYEOlSwx10qJVaoSWkicLx+jpa
- YSuDTFIrQrJdJsVHGFIcgRZ3IaVld+AGLtX0WYjiNKXd4+0Ne2l1EGRqVTGXwxqdd57H
- 99eY1CO2V+dAiqEcFh/DkVZL5c2hcWKwHVHO9FOkC2nBCP1FKQxqvLmoZpXzZsZkvgVt
- hkdw==
+ bh=BVVGQaFtY+zcuvVCpwrCcg36mAkrFaMBGiBzIwrFBNo=;
+ b=P8W+QqzjS4Da6b12wEA7XTCl0xFS0NPxyV3aaa3VsvzRbLt9bhcUknf3jcDOfqW5ad
+ +KsU/FBiWcRUdqq1gBqmwUQkd6JRmg+SIwlkzR3A2ogykRk8jx+rpO0c31yzIBtoY1g9
+ wx1y5ihg+VY5yDxgCLcaJPgLeZ6dQ7OH/1HTilSzjw6wNt5iSB5o5ht3av6wJyx18gie
+ 5o5M6Xl+IP6ihymyiQIgzqSZyYC8iEAfqgqqdf5+xdcDLSQeJ8tzv+mX7mP24t2/L1Br
+ NUW67bRiJUV/zYaFxESWG3DoLWGY+Y3R1RgW8aDbzoGpkoHfJDifMW6B2oCB94LmJA+r
+ nQoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XLebwh8ygRsd0Pf9EoW0+q/5vT4Ko+x+7OO6En4P6kU=;
- b=LdFkHJua30vQYmF5w3/ukw278Uy5rCGfLr5dQQtsHh1CXk1tbRg9BHY/hRsl1JYKxU
- tT/cQ7ivnalY82a5ETyAITiLFTmu0hzTQMrZ9t//gRqtn7lqD2nW9+haEgIQydYtrKm/
- LcqWj7vnuYEOJc1nxdhE5d3Us/kc2wni6JBTb/r0kselr52QjbVGt4m79d1KMWbgItLT
- oqOak9h0PeyM3mlJTsS9e3VxAazCiYHX8gMaf+adhwZgm4jR4/IcBRldzeBVOurW8Kvd
- tgAVPUrAw6Er0/HgDNfxHgpAgC+59EXq4YsebxnptzLETImL1yMRzqVF+NS84mX0o6GL
- /xFg==
-X-Gm-Message-State: AOAM530bcFGfdZuFMyKSNkR45U6dEdXhcFoUoebHxePMfwlT5vIJDd7/
- zdeUzvFXpS7JVO04fHZx8EVgCXx1Ekt7jw==
-X-Google-Smtp-Source: ABdhPJwEXlFqiuljwiZpG81+8lbvS48u9eD5+kV8ISL+FE9TQwkcqT5LqIti+o7KgJvpLktw+qYn/Q==
-X-Received: by 2002:adf:f481:: with SMTP id l1mr6702236wro.411.1633014729707; 
- Thu, 30 Sep 2021 08:12:09 -0700 (PDT)
+ bh=BVVGQaFtY+zcuvVCpwrCcg36mAkrFaMBGiBzIwrFBNo=;
+ b=bxmhGuDNfk3queU1dAsu6dAqPIT+TEx8CmXNi2lJqqiq2Px3h+Y0Rb/Brc5GrzFw/1
+ pBvn5VHLRNezrKyDlxW6y+x/ogQeOTSFIxCyM/WewoFVUuiMqBtq0feXNNWVQqJZ5ZTW
+ BSAM2B+MKWlL4+TCNie/N4WFNIpzEg/9P1Y0FAx7XGW3gg/w+LAH3R9czngqR+4MvVRF
+ 37pr+vbFpDX4t7J10Y+/PRda/5rVRcKBkz6DeHkFCbXyr+YXrzkMMuctsTgEd6cj3QcR
+ cHwoICEZWoXrOx90NSei600qiscA0/idFcewe8qev7bMfGhuxEW/yYDHFRa+9tcViM7G
+ v7Ow==
+X-Gm-Message-State: AOAM530fAyjLQh9z/w0R9UOuigshPhmA0vHSduNOMwcK5FfwfJbV9r+6
+ fZoGAwNV4GXERnfFlKfUMQtfrZSgmGkfOg==
+X-Google-Smtp-Source: ABdhPJxWJGqJ3/2EocsNCtw1RjZwbVbOTL/tj4iJxUo3+VJu9X4CncKFMXUkHBraOlwExmqAW7ABmA==
+X-Received: by 2002:adf:f946:: with SMTP id q6mr6829432wrr.437.1633014730353; 
+ Thu, 30 Sep 2021 08:12:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g8sm1952098wrm.46.2021.09.30.08.12.08
+ by smtp.gmail.com with ESMTPSA id g8sm1952098wrm.46.2021.09.30.08.12.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 08:12:09 -0700 (PDT)
+ Thu, 30 Sep 2021 08:12:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/22] hw/nvram: Introduce Xilinx battery-backed ram
-Date: Thu, 30 Sep 2021 16:11:45 +0100
-Message-Id: <20210930151201.9407-7-peter.maydell@linaro.org>
+Subject: [PULL 07/22] hw/arm: xlnx-versal-virt: Add Xilinx BBRAM device
+Date: Thu, 30 Sep 2021 16:11:46 +0100
+Message-Id: <20210930151201.9407-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210930151201.9407-1-peter.maydell@linaro.org>
 References: <20210930151201.9407-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,661 +88,182 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tong Ho <tong.ho@xilinx.com>
 
-This device is present in Versal and ZynqMP product
-families to store a 256-bit encryption key.
+Connect the support for Versal Battery-Backed RAM (BBRAM)
 
-Co-authored-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Co-authored-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+The command argument:
+  -drive if=pflash,index=0,...
+Can be used to optionally connect the bbram to a backend
+storage, such that field-programmed values in one
+invocation can be made available to next invocation.
 
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+The backend storage must be a seekable binary file, and
+its size must be 36 bytes or larger. A file with all
+binary 0's is a 'blank'.
+
 Signed-off-by: Tong Ho <tong.ho@xilinx.com>
-Message-id: 20210917052400.1249094-5-tong.ho@xilinx.com
+Message-id: 20210917052400.1249094-6-tong.ho@xilinx.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/nvram/xlnx-bbram.h |  54 ++++
- hw/nvram/xlnx-bbram.c         | 545 ++++++++++++++++++++++++++++++++++
- hw/nvram/Kconfig              |   4 +
- hw/nvram/meson.build          |   1 +
- 4 files changed, 604 insertions(+)
- create mode 100644 include/hw/nvram/xlnx-bbram.h
- create mode 100644 hw/nvram/xlnx-bbram.c
+ include/hw/arm/xlnx-versal.h |  5 +++++
+ hw/arm/xlnx-versal-virt.c    | 36 ++++++++++++++++++++++++++++++++++++
+ hw/arm/xlnx-versal.c         | 18 ++++++++++++++++++
+ hw/arm/Kconfig               |  1 +
+ 4 files changed, 60 insertions(+)
 
-diff --git a/include/hw/nvram/xlnx-bbram.h b/include/hw/nvram/xlnx-bbram.h
-new file mode 100644
-index 00000000000..87d59ef3c0c
---- /dev/null
-+++ b/include/hw/nvram/xlnx-bbram.h
-@@ -0,0 +1,54 @@
-+/*
-+ * QEMU model of the Xilinx BBRAM Battery Backed RAM
-+ *
-+ * Copyright (c) 2015-2021 Xilinx Inc.
-+ *
-+ * Written by Edgar E. Iglesias <edgari@xilinx.com>
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+#ifndef XLNX_BBRAM_H
-+#define XLNX_BBRAM_H
+diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+index 9b790517478..1cac6133383 100644
+--- a/include/hw/arm/xlnx-versal.h
++++ b/include/hw/arm/xlnx-versal.h
+@@ -24,6 +24,7 @@
+ #include "qom/object.h"
+ #include "hw/usb/xlnx-usb-subsystem.h"
+ #include "hw/misc/xlnx-versal-xramc.h"
++#include "hw/nvram/xlnx-bbram.h"
+ 
+ #define TYPE_XLNX_VERSAL "xlnx-versal"
+ OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
+@@ -79,6 +80,7 @@ struct Versal {
+         } iou;
+ 
+         XlnxZynqMPRTC rtc;
++        XlnxBBRam bbram;
+     } pmc;
+ 
+     struct {
+@@ -105,6 +107,7 @@ struct Versal {
+ #define VERSAL_GEM1_WAKE_IRQ_0     59
+ #define VERSAL_ADMA_IRQ_0          60
+ #define VERSAL_XRAM_IRQ_0          79
++#define VERSAL_BBRAM_APB_IRQ_0     121
+ #define VERSAL_RTC_APB_ERR_IRQ     121
+ #define VERSAL_SD0_IRQ_0           126
+ #define VERSAL_RTC_ALARM_IRQ       142
+@@ -172,6 +175,8 @@ struct Versal {
+ 
+ #define MM_PMC_SD0                  0xf1040000U
+ #define MM_PMC_SD0_SIZE             0x10000
++#define MM_PMC_BBRAM_CTRL           0xf11f0000
++#define MM_PMC_BBRAM_CTRL_SIZE      0x00050
+ #define MM_PMC_CRP                  0xf1260000U
+ #define MM_PMC_CRP_SIZE             0x10000
+ #define MM_PMC_RTC                  0xf12a0000
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+index 5bca360dcec..e1c5ead475a 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -356,6 +356,26 @@ static void fdt_add_rtc_node(VersalVirt *s)
+     g_free(name);
+ }
+ 
++static void fdt_add_bbram_node(VersalVirt *s)
++{
++    const char compat[] = TYPE_XLNX_BBRAM;
++    const char interrupt_names[] = "bbram-error";
++    char *name = g_strdup_printf("/bbram@%x", MM_PMC_BBRAM_CTRL);
 +
-+#include "sysemu/block-backend.h"
-+#include "hw/qdev-core.h"
-+#include "hw/irq.h"
-+#include "hw/sysbus.h"
-+#include "hw/register.h"
++    qemu_fdt_add_subnode(s->fdt, name);
 +
-+#define RMAX_XLNX_BBRAM ((0x4c / 4) + 1)
++    qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
++                           GIC_FDT_IRQ_TYPE_SPI, VERSAL_BBRAM_APB_IRQ_0,
++                           GIC_FDT_IRQ_FLAGS_LEVEL_HI);
++    qemu_fdt_setprop(s->fdt, name, "interrupt-names",
++                     interrupt_names, sizeof(interrupt_names));
++    qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
++                                 2, MM_PMC_BBRAM_CTRL,
++                                 2, MM_PMC_BBRAM_CTRL_SIZE);
++    qemu_fdt_setprop(s->fdt, name, "compatible", compat, sizeof(compat));
++    g_free(name);
++}
 +
-+#define TYPE_XLNX_BBRAM "xlnx,bbram-ctrl"
-+OBJECT_DECLARE_SIMPLE_TYPE(XlnxBBRam, XLNX_BBRAM);
-+
-+struct XlnxBBRam {
-+    SysBusDevice parent_obj;
-+    qemu_irq irq_bbram;
-+
+ static void fdt_nop_memory_nodes(void *fdt, Error **errp)
+ {
+     Error *err = NULL;
+@@ -510,6 +530,18 @@ static void create_virtio_regions(VersalVirt *s)
+     }
+ }
+ 
++static void bbram_attach_drive(XlnxBBRam *dev)
++{
++    DriveInfo *dinfo;
 +    BlockBackend *blk;
 +
-+    uint32_t crc_zpads;
-+    bool bbram8_wo;
-+    bool blk_ro;
-+
-+    uint32_t regs[RMAX_XLNX_BBRAM];
-+    RegisterInfo regs_info[RMAX_XLNX_BBRAM];
-+};
-+
-+#endif
-diff --git a/hw/nvram/xlnx-bbram.c b/hw/nvram/xlnx-bbram.c
-new file mode 100644
-index 00000000000..b70828e5bf1
---- /dev/null
-+++ b/hw/nvram/xlnx-bbram.c
-@@ -0,0 +1,545 @@
-+/*
-+ * QEMU model of the Xilinx BBRAM Battery Backed RAM
-+ *
-+ * Copyright (c) 2014-2021 Xilinx Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/nvram/xlnx-bbram.h"
-+
-+#include "qemu/error-report.h"
-+#include "qemu/log.h"
-+#include "qapi/error.h"
-+#include "sysemu/blockdev.h"
-+#include "migration/vmstate.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/qdev-properties-system.h"
-+#include "hw/nvram/xlnx-efuse.h"
-+
-+#ifndef XLNX_BBRAM_ERR_DEBUG
-+#define XLNX_BBRAM_ERR_DEBUG 0
-+#endif
-+
-+REG32(BBRAM_STATUS, 0x0)
-+    FIELD(BBRAM_STATUS, AES_CRC_PASS, 9, 1)
-+    FIELD(BBRAM_STATUS, AES_CRC_DONE, 8, 1)
-+    FIELD(BBRAM_STATUS, BBRAM_ZEROIZED, 4, 1)
-+    FIELD(BBRAM_STATUS, PGM_MODE, 0, 1)
-+REG32(BBRAM_CTRL, 0x4)
-+    FIELD(BBRAM_CTRL, ZEROIZE, 0, 1)
-+REG32(PGM_MODE, 0x8)
-+REG32(BBRAM_AES_CRC, 0xc)
-+REG32(BBRAM_0, 0x10)
-+REG32(BBRAM_1, 0x14)
-+REG32(BBRAM_2, 0x18)
-+REG32(BBRAM_3, 0x1c)
-+REG32(BBRAM_4, 0x20)
-+REG32(BBRAM_5, 0x24)
-+REG32(BBRAM_6, 0x28)
-+REG32(BBRAM_7, 0x2c)
-+REG32(BBRAM_8, 0x30)
-+REG32(BBRAM_SLVERR, 0x34)
-+    FIELD(BBRAM_SLVERR, ENABLE, 0, 1)
-+REG32(BBRAM_ISR, 0x38)
-+    FIELD(BBRAM_ISR, APB_SLVERR, 0, 1)
-+REG32(BBRAM_IMR, 0x3c)
-+    FIELD(BBRAM_IMR, APB_SLVERR, 0, 1)
-+REG32(BBRAM_IER, 0x40)
-+    FIELD(BBRAM_IER, APB_SLVERR, 0, 1)
-+REG32(BBRAM_IDR, 0x44)
-+    FIELD(BBRAM_IDR, APB_SLVERR, 0, 1)
-+REG32(BBRAM_MSW_LOCK, 0x4c)
-+    FIELD(BBRAM_MSW_LOCK, VAL, 0, 1)
-+
-+#define R_MAX (R_BBRAM_MSW_LOCK + 1)
-+
-+#define RAM_MAX (A_BBRAM_8 + 4 - A_BBRAM_0)
-+
-+#define BBRAM_PGM_MAGIC 0x757bdf0d
-+
-+QEMU_BUILD_BUG_ON(R_MAX != ARRAY_SIZE(((XlnxBBRam *)0)->regs));
-+
-+static bool bbram_msw_locked(XlnxBBRam *s)
-+{
-+    return ARRAY_FIELD_EX32(s->regs, BBRAM_MSW_LOCK, VAL) != 0;
-+}
-+
-+static bool bbram_pgm_enabled(XlnxBBRam *s)
-+{
-+    return ARRAY_FIELD_EX32(s->regs, BBRAM_STATUS, PGM_MODE) != 0;
-+}
-+
-+static void bbram_bdrv_error(XlnxBBRam *s, int rc, gchar *detail)
-+{
-+    Error *errp;
-+
-+    error_setg_errno(&errp, -rc, "%s: BBRAM backstore %s failed.",
-+                     blk_name(s->blk), detail);
-+    error_report("%s", error_get_pretty(errp));
-+    error_free(errp);
-+
-+    g_free(detail);
-+}
-+
-+static void bbram_bdrv_read(XlnxBBRam *s, Error **errp)
-+{
-+    uint32_t *ram = &s->regs[R_BBRAM_0];
-+    int nr = RAM_MAX;
-+
-+    if (!s->blk) {
-+        return;
-+    }
-+
-+    s->blk_ro = !blk_supports_write_perm(s->blk);
-+    if (!s->blk_ro) {
-+        int rc;
-+
-+        rc = blk_set_perm(s->blk,
-+                          (BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE),
-+                          BLK_PERM_ALL, NULL);
-+        if (rc) {
-+            s->blk_ro = true;
-+        }
-+    }
-+    if (s->blk_ro) {
-+        warn_report("%s: Skip saving updates to read-only BBRAM backstore.",
-+                    blk_name(s->blk));
-+    }
-+
-+    if (blk_pread(s->blk, 0, ram, nr) < 0) {
-+        error_setg(errp,
-+                   "%s: Failed to read %u bytes from BBRAM backstore.",
-+                   blk_name(s->blk), nr);
-+        return;
-+    }
-+
-+    /* Convert from little-endian backstore for each 32-bit word */
-+    nr /= 4;
-+    while (nr--) {
-+        ram[nr] = le32_to_cpu(ram[nr]);
++    dinfo = drive_get_by_index(IF_PFLASH, 0);
++    blk = dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
++    if (blk) {
++        qdev_prop_set_drive(DEVICE(dev), "drive", blk);
 +    }
 +}
 +
-+static void bbram_bdrv_sync(XlnxBBRam *s, uint64_t hwaddr)
-+{
-+    uint32_t le32;
-+    unsigned offset;
-+    int rc;
-+
-+    assert(A_BBRAM_0 <= hwaddr && hwaddr <= A_BBRAM_8);
-+
-+    /* Backstore is always in little-endian */
-+    le32 = cpu_to_le32(s->regs[hwaddr / 4]);
-+
-+    /* Update zeroized flag */
-+    if (le32 && (hwaddr != A_BBRAM_8 || s->bbram8_wo)) {
-+        ARRAY_FIELD_DP32(s->regs, BBRAM_STATUS, BBRAM_ZEROIZED, 0);
-+    }
-+
-+    if (!s->blk || s->blk_ro) {
-+        return;
-+    }
-+
-+    offset = hwaddr - A_BBRAM_0;
-+    rc = blk_pwrite(s->blk, offset, &le32, 4, 0);
-+    if (rc < 0) {
-+        bbram_bdrv_error(s, rc, g_strdup_printf("write to offset %u", offset));
-+    }
-+}
-+
-+static void bbram_bdrv_zero(XlnxBBRam *s)
-+{
-+    int rc;
-+
-+    ARRAY_FIELD_DP32(s->regs, BBRAM_STATUS, BBRAM_ZEROIZED, 1);
-+
-+    if (!s->blk || s->blk_ro) {
-+        return;
-+    }
-+
-+    rc = blk_make_zero(s->blk, 0);
-+    if (rc < 0) {
-+        bbram_bdrv_error(s, rc, g_strdup("zeroizing"));
-+    }
-+
-+    /* Restore bbram8 if it is non-zero */
-+    if (s->regs[R_BBRAM_8]) {
-+        bbram_bdrv_sync(s, A_BBRAM_8);
-+    }
-+}
-+
-+static void bbram_zeroize(XlnxBBRam *s)
-+{
-+    int nr = RAM_MAX - (s->bbram8_wo ? 0 : 4); /* only wo bbram8 is cleared */
-+
-+    memset(&s->regs[R_BBRAM_0], 0, nr);
-+    bbram_bdrv_zero(s);
-+}
-+
-+static void bbram_update_irq(XlnxBBRam *s)
-+{
-+    bool pending = s->regs[R_BBRAM_ISR] & ~s->regs[R_BBRAM_IMR];
-+
-+    qemu_set_irq(s->irq_bbram, pending);
-+}
-+
-+static void bbram_ctrl_postw(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
-+    uint32_t val = val64;
-+
-+    if (val & R_BBRAM_CTRL_ZEROIZE_MASK) {
-+        bbram_zeroize(s);
-+        /* The bit is self clearing */
-+        s->regs[R_BBRAM_CTRL] &= ~R_BBRAM_CTRL_ZEROIZE_MASK;
-+    }
-+}
-+
-+static void bbram_pgm_mode_postw(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
-+    uint32_t val = val64;
-+
-+    if (val == BBRAM_PGM_MAGIC) {
-+        bbram_zeroize(s);
-+
-+        /* The status bit is cleared only by POR */
-+        ARRAY_FIELD_DP32(s->regs, BBRAM_STATUS, PGM_MODE, 1);
-+    }
-+}
-+
-+static void bbram_aes_crc_postw(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
-+    uint32_t calc_crc;
-+
-+    if (!bbram_pgm_enabled(s)) {
-+        /* We are not in programming mode, don't do anything */
-+        return;
-+    }
-+
-+    /* Perform the AES integrity check */
-+    s->regs[R_BBRAM_STATUS] |= R_BBRAM_STATUS_AES_CRC_DONE_MASK;
-+
-+    /*
-+     * Set check status.
-+     *
-+     * ZynqMP BBRAM check has a zero-u32 prepended; see:
-+     *  https://github.com/Xilinx/embeddedsw/blob/release-2019.2/lib/sw_services/xilskey/src/xilskey_bbramps_zynqmp.c#L311
-+     */
-+    calc_crc = xlnx_efuse_calc_crc(&s->regs[R_BBRAM_0],
-+                                   (R_BBRAM_8 - R_BBRAM_0), s->crc_zpads);
-+
-+    ARRAY_FIELD_DP32(s->regs, BBRAM_STATUS, AES_CRC_PASS,
-+                     (s->regs[R_BBRAM_AES_CRC] == calc_crc));
-+}
-+
-+static uint64_t bbram_key_prew(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
-+    uint32_t original_data = *(uint32_t *) reg->data;
-+
-+    if (bbram_pgm_enabled(s)) {
-+        return val64;
-+    } else {
-+        /* We are not in programming mode, don't do anything */
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "Not in programming mode, dropping the write\n");
-+        return original_data;
-+    }
-+}
-+
-+static void bbram_key_postw(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
-+
-+    bbram_bdrv_sync(s, reg->access->addr);
-+}
-+
-+static uint64_t bbram_wo_postr(RegisterInfo *reg, uint64_t val)
-+{
-+    return 0;
-+}
-+
-+static uint64_t bbram_r8_postr(RegisterInfo *reg, uint64_t val)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
-+
-+    return s->bbram8_wo ? bbram_wo_postr(reg, val) : val;
-+}
-+
-+static bool bbram_r8_readonly(XlnxBBRam *s)
-+{
-+    return !bbram_pgm_enabled(s) || bbram_msw_locked(s);
-+}
-+
-+static uint64_t bbram_r8_prew(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
-+
-+    if (bbram_r8_readonly(s)) {
-+        val64 = *(uint32_t *)reg->data;
-+    }
-+
-+    return val64;
-+}
-+
-+static void bbram_r8_postw(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
-+
-+    if (!bbram_r8_readonly(s)) {
-+        bbram_bdrv_sync(s, A_BBRAM_8);
-+    }
-+}
-+
-+static uint64_t bbram_msw_lock_prew(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
-+
-+    /* Never lock if bbram8 is wo; and, only POR can clear the lock */
-+    if (s->bbram8_wo) {
-+        val64 = 0;
-+    } else {
-+        val64 |= s->regs[R_BBRAM_MSW_LOCK];
-+    }
-+
-+    return val64;
-+}
-+
-+static void bbram_isr_postw(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
-+
-+    bbram_update_irq(s);
-+}
-+
-+static uint64_t bbram_ier_prew(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
-+    uint32_t val = val64;
-+
-+    s->regs[R_BBRAM_IMR] &= ~val;
-+    bbram_update_irq(s);
-+    return 0;
-+}
-+
-+static uint64_t bbram_idr_prew(RegisterInfo *reg, uint64_t val64)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(reg->opaque);
-+    uint32_t val = val64;
-+
-+    s->regs[R_BBRAM_IMR] |= val;
-+    bbram_update_irq(s);
-+    return 0;
-+}
-+
-+static RegisterAccessInfo bbram_ctrl_regs_info[] = {
-+    {   .name = "BBRAM_STATUS",  .addr = A_BBRAM_STATUS,
-+        .rsvd = 0xee,
-+        .ro = 0x3ff,
-+    },{ .name = "BBRAM_CTRL",  .addr = A_BBRAM_CTRL,
-+        .post_write = bbram_ctrl_postw,
-+    },{ .name = "PGM_MODE",  .addr = A_PGM_MODE,
-+        .post_write = bbram_pgm_mode_postw,
-+    },{ .name = "BBRAM_AES_CRC",  .addr = A_BBRAM_AES_CRC,
-+        .post_write = bbram_aes_crc_postw,
-+        .post_read = bbram_wo_postr,
-+    },{ .name = "BBRAM_0",  .addr = A_BBRAM_0,
-+        .pre_write = bbram_key_prew,
-+        .post_write = bbram_key_postw,
-+        .post_read = bbram_wo_postr,
-+    },{ .name = "BBRAM_1",  .addr = A_BBRAM_1,
-+        .pre_write = bbram_key_prew,
-+        .post_write = bbram_key_postw,
-+        .post_read = bbram_wo_postr,
-+    },{ .name = "BBRAM_2",  .addr = A_BBRAM_2,
-+        .pre_write = bbram_key_prew,
-+        .post_write = bbram_key_postw,
-+        .post_read = bbram_wo_postr,
-+    },{ .name = "BBRAM_3",  .addr = A_BBRAM_3,
-+        .pre_write = bbram_key_prew,
-+        .post_write = bbram_key_postw,
-+        .post_read = bbram_wo_postr,
-+    },{ .name = "BBRAM_4",  .addr = A_BBRAM_4,
-+        .pre_write = bbram_key_prew,
-+        .post_write = bbram_key_postw,
-+        .post_read = bbram_wo_postr,
-+    },{ .name = "BBRAM_5",  .addr = A_BBRAM_5,
-+        .pre_write = bbram_key_prew,
-+        .post_write = bbram_key_postw,
-+        .post_read = bbram_wo_postr,
-+    },{ .name = "BBRAM_6",  .addr = A_BBRAM_6,
-+        .pre_write = bbram_key_prew,
-+        .post_write = bbram_key_postw,
-+        .post_read = bbram_wo_postr,
-+    },{ .name = "BBRAM_7",  .addr = A_BBRAM_7,
-+        .pre_write = bbram_key_prew,
-+        .post_write = bbram_key_postw,
-+        .post_read = bbram_wo_postr,
-+    },{ .name = "BBRAM_8",  .addr = A_BBRAM_8,
-+        .pre_write = bbram_r8_prew,
-+        .post_write = bbram_r8_postw,
-+        .post_read = bbram_r8_postr,
-+    },{ .name = "BBRAM_SLVERR",  .addr = A_BBRAM_SLVERR,
-+        .rsvd = ~1,
-+    },{ .name = "BBRAM_ISR",  .addr = A_BBRAM_ISR,
-+        .w1c = 0x1,
-+        .post_write = bbram_isr_postw,
-+    },{ .name = "BBRAM_IMR",  .addr = A_BBRAM_IMR,
-+        .ro = 0x1,
-+    },{ .name = "BBRAM_IER",  .addr = A_BBRAM_IER,
-+        .pre_write = bbram_ier_prew,
-+    },{ .name = "BBRAM_IDR",  .addr = A_BBRAM_IDR,
-+        .pre_write = bbram_idr_prew,
-+    },{ .name = "BBRAM_MSW_LOCK",  .addr = A_BBRAM_MSW_LOCK,
-+        .pre_write = bbram_msw_lock_prew,
-+        .ro = ~R_BBRAM_MSW_LOCK_VAL_MASK,
-+    }
-+};
-+
-+static void bbram_ctrl_reset(DeviceState *dev)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(dev);
-+    unsigned int i;
-+
-+    for (i = 0; i < ARRAY_SIZE(s->regs_info); ++i) {
-+        if (i < R_BBRAM_0 || i > R_BBRAM_8) {
-+            register_reset(&s->regs_info[i]);
-+        }
-+    }
-+
-+    bbram_update_irq(s);
-+}
-+
-+static const MemoryRegionOps bbram_ctrl_ops = {
-+    .read = register_read_memory,
-+    .write = register_write_memory,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
-+    },
-+};
-+
-+static void bbram_ctrl_realize(DeviceState *dev, Error **errp)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(dev);
-+
-+    if (s->crc_zpads) {
-+        s->bbram8_wo = true;
-+    }
-+
-+    bbram_bdrv_read(s, errp);
-+}
-+
-+static void bbram_ctrl_init(Object *obj)
-+{
-+    XlnxBBRam *s = XLNX_BBRAM(obj);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+    RegisterInfoArray *reg_array;
-+
-+    reg_array =
-+        register_init_block32(DEVICE(obj), bbram_ctrl_regs_info,
-+                              ARRAY_SIZE(bbram_ctrl_regs_info),
-+                              s->regs_info, s->regs,
-+                              &bbram_ctrl_ops,
-+                              XLNX_BBRAM_ERR_DEBUG,
-+                              R_MAX * 4);
-+
-+    sysbus_init_mmio(sbd, &reg_array->mem);
-+    sysbus_init_irq(sbd, &s->irq_bbram);
-+}
-+
-+static void bbram_prop_set_drive(Object *obj, Visitor *v, const char *name,
-+                                 void *opaque, Error **errp)
-+{
-+    DeviceState *dev = DEVICE(obj);
-+
-+    qdev_prop_drive.set(obj, v, name, opaque, errp);
-+
-+    /* Fill initial data if backend is attached after realized */
-+    if (dev->realized) {
-+        bbram_bdrv_read(XLNX_BBRAM(obj), errp);
-+    }
-+}
-+
-+static void bbram_prop_get_drive(Object *obj, Visitor *v, const char *name,
-+                                 void *opaque, Error **errp)
-+{
-+    qdev_prop_drive.get(obj, v, name, opaque, errp);
-+}
-+
-+static void bbram_prop_release_drive(Object *obj, const char *name,
-+                                     void *opaque)
-+{
-+    qdev_prop_drive.release(obj, name, opaque);
-+}
-+
-+static const PropertyInfo bbram_prop_drive = {
-+    .name  = "str",
-+    .description = "Node name or ID of a block device to use as BBRAM backend",
-+    .realized_set_allowed = true,
-+    .get = bbram_prop_get_drive,
-+    .set = bbram_prop_set_drive,
-+    .release = bbram_prop_release_drive,
-+};
-+
-+static const VMStateDescription vmstate_bbram_ctrl = {
-+    .name = TYPE_XLNX_BBRAM,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32_ARRAY(regs, XlnxBBRam, R_MAX),
-+        VMSTATE_END_OF_LIST(),
-+    }
-+};
-+
-+static Property bbram_ctrl_props[] = {
-+    DEFINE_PROP("drive", XlnxBBRam, blk, bbram_prop_drive, BlockBackend *),
-+    DEFINE_PROP_UINT32("crc-zpads", XlnxBBRam, crc_zpads, 1),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void bbram_ctrl_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->reset = bbram_ctrl_reset;
-+    dc->realize = bbram_ctrl_realize;
-+    dc->vmsd = &vmstate_bbram_ctrl;
-+    device_class_set_props(dc, bbram_ctrl_props);
-+}
-+
-+static const TypeInfo bbram_ctrl_info = {
-+    .name          = TYPE_XLNX_BBRAM,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(XlnxBBRam),
-+    .class_init    = bbram_ctrl_class_init,
-+    .instance_init = bbram_ctrl_init,
-+};
-+
-+static void bbram_ctrl_register_types(void)
-+{
-+    type_register_static(&bbram_ctrl_info);
-+}
-+
-+type_init(bbram_ctrl_register_types)
-diff --git a/hw/nvram/Kconfig b/hw/nvram/Kconfig
-index 3059c5dae03..24cfc18f8b1 100644
---- a/hw/nvram/Kconfig
-+++ b/hw/nvram/Kconfig
-@@ -30,3 +30,7 @@ config XLNX_EFUSE_VERSAL
- config XLNX_EFUSE_ZYNQMP
-     bool
-     select XLNX_EFUSE
-+
-+config XLNX_BBRAM
-+    bool
-+    select XLNX_EFUSE_CRC
-diff --git a/hw/nvram/meson.build b/hw/nvram/meson.build
-index 6dc54d98734..202a5466e63 100644
---- a/hw/nvram/meson.build
-+++ b/hw/nvram/meson.build
-@@ -16,5 +16,6 @@ softmmu_ss.add(when: 'CONFIG_XLNX_EFUSE_VERSAL', if_true: files(
-                                                    'xlnx-versal-efuse-ctrl.c'))
- softmmu_ss.add(when: 'CONFIG_XLNX_EFUSE_ZYNQMP', if_true: files(
-                                                    'xlnx-zynqmp-efuse.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_BBRAM', if_true: files('xlnx-bbram.c'))
+ static void sd_plugin_card(SDHCIState *sd, DriveInfo *di)
+ {
+     BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
+@@ -570,6 +602,7 @@ static void versal_virt_init(MachineState *machine)
+     fdt_add_usb_xhci_nodes(s);
+     fdt_add_sd_nodes(s);
+     fdt_add_rtc_node(s);
++    fdt_add_bbram_node(s);
+     fdt_add_cpu_nodes(s, psci_conduit);
+     fdt_add_clk_node(s, "/clk125", 125000000, s->phandle.clk_125Mhz);
+     fdt_add_clk_node(s, "/clk25", 25000000, s->phandle.clk_25Mhz);
+@@ -579,6 +612,9 @@ static void versal_virt_init(MachineState *machine)
+     memory_region_add_subregion_overlap(get_system_memory(),
+                                         0, &s->soc.fpd.apu.mr, 0);
  
- specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_nvram.c'))
++    /* Attach bbram backend, if given */
++    bbram_attach_drive(&s->soc.pmc.bbram);
++
+     /* Plugin SD cards.  */
+     for (i = 0; i < ARRAY_SIZE(s->soc.pmc.iou.sd); i++) {
+         sd_plugin_card(&s->soc.pmc.iou.sd[i], drive_get_next(IF_SD));
+diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+index 547a26603a3..23451ae0126 100644
+--- a/hw/arm/xlnx-versal.c
++++ b/hw/arm/xlnx-versal.c
+@@ -314,6 +314,23 @@ static void versal_create_xrams(Versal *s, qemu_irq *pic)
+     }
+ }
+ 
++static void versal_create_bbram(Versal *s, qemu_irq *pic)
++{
++    SysBusDevice *sbd;
++
++    object_initialize_child_with_props(OBJECT(s), "bbram", &s->pmc.bbram,
++                                       sizeof(s->pmc.bbram), TYPE_XLNX_BBRAM,
++                                       &error_fatal,
++                                       "crc-zpads", "0",
++                                       NULL);
++    sbd = SYS_BUS_DEVICE(&s->pmc.bbram);
++
++    sysbus_realize(sbd, &error_fatal);
++    memory_region_add_subregion(&s->mr_ps, MM_PMC_BBRAM_CTRL,
++                                sysbus_mmio_get_region(sbd, 0));
++    sysbus_connect_irq(sbd, 0, pic[VERSAL_BBRAM_APB_IRQ_0]);
++}
++
+ /* This takes the board allocated linear DDR memory and creates aliases
+  * for each split DDR range/aperture on the Versal address map.
+  */
+@@ -402,6 +419,7 @@ static void versal_realize(DeviceState *dev, Error **errp)
+     versal_create_sds(s, pic);
+     versal_create_rtc(s, pic);
+     versal_create_xrams(s, pic);
++    versal_create_bbram(s, pic);
+     versal_map_ddr(s);
+     versal_unimp(s);
+ 
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 18832abf7d1..d35ded9b241 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -381,6 +381,7 @@ config XLNX_VERSAL
+     select XLNX_ZDMA
+     select XLNX_ZYNQMP
+     select OR_IRQ
++    select XLNX_BBRAM
+ 
+ config NPCM7XX
+     bool
 -- 
 2.20.1
 
