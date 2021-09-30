@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53DA41DD53
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:22:40 +0200 (CEST)
-Received: from localhost ([::1]:46936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF7A41DD23
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 17:16:29 +0200 (CEST)
+Received: from localhost ([::1]:58238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mVxtP-0007LU-Rn
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:22:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32962)
+	id 1mVxnQ-0004DB-IC
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 11:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mVxjJ-0000BD-FN
+ id 1mVxjJ-0000Aj-Cg
  for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:13 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:41900)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mVxjD-0003uB-W3
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:13 -0400
-Received: by mail-wr1-x434.google.com with SMTP id w29so10652055wra.8
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:12:07 -0700 (PDT)
+ id 1mVxjF-0003vp-A1
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 11:12:12 -0400
+Received: by mail-wr1-x433.google.com with SMTP id h15so9052483wrc.3
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 08:12:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=3b/eUZ85vtp5+DMkKCRt0b139ytnYD7QsgZ5MnN9SgA=;
- b=GypI5LuND+faUdTmPS6UFzJLL9QfzdVKg/RSHZ5j1N056oaNNI6e9FsO4uPGblO/o7
- 0+1mzHWxrBjNL9CjEmwO5s/PNZyMs0+Nm2XEq1rE/rT5OZRK74GWQrLnWFEiDXiRnsu9
- jd11r/1t7gNC6ZDKkilcaByj27DtJ94mkDApTl8fNzrgMS1HF3E//edj78+ULcvII+vL
- uawVVJNsXbqiBL64pnEkMHc9Az1ZQ1wRCGEfPAh/6doqW4854inVJ2QQI8T/OJ8LhM52
- GnRiCyTN8GRcmIeAPl13EqwUvG++lQA6gN2o5ewTvnF+WCOP9pbpr61h106DeDw/RzXf
- PbZA==
+ bh=V8eWYncZxRi/zWeXUkirF5LyMh8AtlDHHnrSmwtX22E=;
+ b=oK/nHH3goqYNgHQHohSHEZOoYy69AxkJcqo2bmmwIKM4NNInaJDfmOYoTEVcgjnT1e
+ i4q882owe85hsNytXkHmSG+Ag99ChykJ82r/y3XOj4SkhqrRLvcQnaigJZfeKxdUR3mn
+ YZd+0n40Kv6DL5OLHAgH0z6z7THMGggtYLo7mR0XcZNMXMiFMi/g800oPEtyHL/PYcr4
+ oizIOP5gn3lQwTfK8vRU47W7sRuP9YzAUdP4xNxquIsQhUVzoxBh6fWuyfW9YUYt7jGl
+ aLzru8ZS44DkqT0pwoBtXYZcj4U7XtUfPzSJEZ5ZbNMFd+zjSaGybFA1txvKLQyWajg/
+ hhOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3b/eUZ85vtp5+DMkKCRt0b139ytnYD7QsgZ5MnN9SgA=;
- b=NJdjGRE2y9SN/YYZL+D02P5IOFBt4HGqt7rQV+GC4eK9lkxXY6fyvWAUNBHFHYucqL
- yfRgaxRQ3FrCUF+gIh6H1gHZLL0ozVQCuGbv5rZbW3Tikf0E5ilhqRiaJhnz3/ObQZka
- S3Loo2tlCO8YzY+TCePT4J0fQgTMCoysIlXSSoDNyc5L/ZonkUwypbugt0TbaT1kUxI/
- WpbPnree4uzO73BvI2b8jujlt5WyV38Zb+W9QtKSBkALBKMo3qq5oKNpJHqhL0jW3zl0
- PNUfNQFvKIO9LT1+evWBmoT3tUmnXjEigZOoQ4nTcgNx85qaIahjaDKlp22dNLfwxdBz
- ACEQ==
-X-Gm-Message-State: AOAM531ACFtkfb0pT2qv1nPL51t0F/ucupJ1syXHw/j6UGk8umYXT3Xo
- S3YOf0ghJuFALaaaEbn+wcAhdoTBqsyVNA==
-X-Google-Smtp-Source: ABdhPJx+K4e2Vj3rMwb68tbw1tVzbiWMXA3QwL2hMBMVjMVsVk1u8v0Qto3Z31ur7FCdTs7q2WOwQg==
-X-Received: by 2002:a05:6000:1567:: with SMTP id
- 7mr6928761wrz.84.1633014725974; 
- Thu, 30 Sep 2021 08:12:05 -0700 (PDT)
+ bh=V8eWYncZxRi/zWeXUkirF5LyMh8AtlDHHnrSmwtX22E=;
+ b=rQfh0E7c28HyJtrhPwcVrpWtiPpUbCFDolOIS8AAbabqA2HVMDdEN/v72PcSAvixDw
+ vWygB+E62J/rVHAQt9kZuP67g8gadNqnMCPAHybTRI0UEzX97jXg3DorEDU1FkZdABtX
+ PA+UdB93WPbfFnC7rj9JOKRJTDu+x1yhFb+FrS7rAK48EX+mcYN9NamkB7lSjghJm0wX
+ IZEnMJ+T5dFcHg5jEauJCOt78oDCBddL9wTOqLn6esSsDzIJtRdj3o5eTh4L0eoxuAxB
+ 8LLlCKxaJN/2rb9TzaExfoAjHDM5YGM8uctrFuk/ArrI6lo/6enQYyb1i2VWwr1rpvZ5
+ /wEA==
+X-Gm-Message-State: AOAM530on/8ZWBB770qxA8bzgEpJoFGZzBq4kLlwhEfuLeyDEUv6zJ8V
+ aX3Ha6l9z2xiW2/MoZn53IMrLhS+n8pVpg==
+X-Google-Smtp-Source: ABdhPJye3OlDhwMckliX49Q6TvuIPG9yJ/Z8GxrnW8jnzO4sMFypICaRJZbhIv1gaz3R7LrTv+i19w==
+X-Received: by 2002:adf:d1b3:: with SMTP id w19mr6904649wrc.152.1633014727306; 
+ Thu, 30 Sep 2021 08:12:07 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g8sm1952098wrm.46.2021.09.30.08.12.05
+ by smtp.gmail.com with ESMTPSA id g8sm1952098wrm.46.2021.09.30.08.12.06
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 08:12:05 -0700 (PDT)
+ Thu, 30 Sep 2021 08:12:06 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/22] hw/nvram: Introduce Xilinx eFuse QOM
-Date: Thu, 30 Sep 2021 16:11:42 +0100
-Message-Id: <20210930151201.9407-4-peter.maydell@linaro.org>
+Subject: [PULL 04/22] hw/nvram: Introduce Xilinx Versal eFuse device
+Date: Thu, 30 Sep 2021 16:11:43 +0100
+Message-Id: <20210930151201.9407-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210930151201.9407-1-peter.maydell@linaro.org>
 References: <20210930151201.9407-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,11 +88,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tong Ho <tong.ho@xilinx.com>
 
-This introduces the QOM for Xilinx eFuse, an one-time
-field-programmable storage bit array.
+This implements the Xilinx Versal eFuse, an one-time
+field-programmable non-volatile storage device.  There is
+only one such device in the Xilinx Versal product family.
 
-The actual mmio interface to the array varies by device
-families and will be provided in different change-sets.
+This device has two separate mmio interfaces, a controller
+and a flatten readback.
+
+The controller provides interfaces for field-programming,
+configuration, control, and status.
+
+The flatten readback is a cache to provide a byte-accessible
+read-only interface to efficiently read efuse array.
 
 Co-authored-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Co-authored-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
@@ -101,32 +107,28 @@ Co-authored-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Signed-off-by: Tong Ho <tong.ho@xilinx.com>
-Message-id: 20210917052400.1249094-2-tong.ho@xilinx.com
+Message-id: 20210917052400.1249094-3-tong.ho@xilinx.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/nvram/xlnx-efuse.h | 132 ++++++++++++++++
- hw/nvram/xlnx-efuse-crc.c     | 119 +++++++++++++++
- hw/nvram/xlnx-efuse.c         | 280 ++++++++++++++++++++++++++++++++++
- hw/nvram/Kconfig              |   7 +
- hw/nvram/meson.build          |   2 +
- 5 files changed, 540 insertions(+)
- create mode 100644 include/hw/nvram/xlnx-efuse.h
- create mode 100644 hw/nvram/xlnx-efuse-crc.c
- create mode 100644 hw/nvram/xlnx-efuse.c
+ include/hw/nvram/xlnx-versal-efuse.h |  68 +++
+ hw/nvram/xlnx-versal-efuse-cache.c   | 114 ++++
+ hw/nvram/xlnx-versal-efuse-ctrl.c    | 783 +++++++++++++++++++++++++++
+ hw/nvram/Kconfig                     |   4 +
+ hw/nvram/meson.build                 |   3 +
+ 5 files changed, 972 insertions(+)
+ create mode 100644 include/hw/nvram/xlnx-versal-efuse.h
+ create mode 100644 hw/nvram/xlnx-versal-efuse-cache.c
+ create mode 100644 hw/nvram/xlnx-versal-efuse-ctrl.c
 
-diff --git a/include/hw/nvram/xlnx-efuse.h b/include/hw/nvram/xlnx-efuse.h
+diff --git a/include/hw/nvram/xlnx-versal-efuse.h b/include/hw/nvram/xlnx-versal-efuse.h
 new file mode 100644
-index 00000000000..58414e468b5
+index 00000000000..a873dc5cb01
 --- /dev/null
-+++ b/include/hw/nvram/xlnx-efuse.h
-@@ -0,0 +1,132 @@
++++ b/include/hw/nvram/xlnx-versal-efuse.h
+@@ -0,0 +1,68 @@
 +/*
-+ * QEMU model of the Xilinx eFuse core
-+ *
-+ * Copyright (c) 2015 Xilinx Inc.
-+ *
-+ * Written by Edgar E. Iglesias <edgari@xilinx.com>
++ * Copyright (c) 2020 Xilinx Inc.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a copy
 + * of this software and associated documentation files (the "Software"), to deal
@@ -146,250 +148,63 @@ index 00000000000..58414e468b5
 + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 + * THE SOFTWARE.
 + */
++#ifndef XLNX_VERSAL_EFUSE_H
++#define XLNX_VERSAL_EFUSE_H
 +
-+#ifndef XLNX_EFUSE_H
-+#define XLNX_EFUSE_H
++#include "hw/irq.h"
++#include "hw/sysbus.h"
++#include "hw/register.h"
++#include "hw/nvram/xlnx-efuse.h"
 +
-+#include "sysemu/block-backend.h"
-+#include "hw/qdev-core.h"
++#define XLNX_VERSAL_EFUSE_CTRL_R_MAX ((0x100 / 4) + 1)
 +
-+#define TYPE_XLNX_EFUSE "xlnx,efuse"
-+OBJECT_DECLARE_SIMPLE_TYPE(XlnxEFuse, XLNX_EFUSE);
++#define TYPE_XLNX_VERSAL_EFUSE_CTRL  "xlnx,versal-efuse"
++#define TYPE_XLNX_VERSAL_EFUSE_CACHE "xlnx,pmc-efuse-cache"
 +
-+struct XlnxEFuse {
-+    DeviceState parent_obj;
-+    BlockBackend *blk;
-+    bool blk_ro;
-+    uint32_t *fuse32;
++OBJECT_DECLARE_SIMPLE_TYPE(XlnxVersalEFuseCtrl, XLNX_VERSAL_EFUSE_CTRL);
++OBJECT_DECLARE_SIMPLE_TYPE(XlnxVersalEFuseCache, XLNX_VERSAL_EFUSE_CACHE);
 +
-+    DeviceState *dev;
++struct XlnxVersalEFuseCtrl {
++    SysBusDevice parent_obj;
++    qemu_irq irq_efuse_imr;
 +
-+    bool init_tbits;
++    XlnxEFuse *efuse;
 +
-+    uint8_t efuse_nr;
-+    uint32_t efuse_size;
++    void *extra_pg0_lock_spec;      /* Opaque property */
++    uint32_t extra_pg0_lock_n16;
 +
-+    uint32_t *ro_bits;
-+    uint32_t ro_bits_cnt;
++    uint32_t regs[XLNX_VERSAL_EFUSE_CTRL_R_MAX];
++    RegisterInfo regs_info[XLNX_VERSAL_EFUSE_CTRL_R_MAX];
++};
++
++struct XlnxVersalEFuseCache {
++    SysBusDevice parent_obj;
++    MemoryRegion iomem;
++
++    XlnxEFuse *efuse;
 +};
 +
 +/**
-+ * xlnx_efuse_calc_crc:
-+ * @data: an array of 32-bit words for which the CRC should be computed
-+ * @u32_cnt: the array size in number of 32-bit words
-+ * @zpads: the number of 32-bit zeros prepended to @data before computation
-+ *
-+ * This function is used to compute the CRC for an array of 32-bit words,
-+ * using a Xilinx-specific data padding.
-+ *
-+ * Returns: the computed 32-bit CRC
-+ */
-+uint32_t xlnx_efuse_calc_crc(const uint32_t *data, unsigned u32_cnt,
-+                             unsigned zpads);
-+
-+/**
-+ * xlnx_efuse_get_bit:
++ * xlnx_versal_efuse_read_row:
 + * @s: the efuse object
-+ * @bit: the efuse bit-address to read the data
++ * @bit: the bit-address within the 32-bit row to be read
++ * @denied: if non-NULL, to receive true if the row is write-only
 + *
-+ * Returns: the bit, 0 or 1, at @bit of object @s
++ * Returns: the 32-bit word containing address @bit; 0 if @denies is true
 + */
-+bool xlnx_efuse_get_bit(XlnxEFuse *s, unsigned int bit);
-+
-+/**
-+ * xlnx_efuse_set_bit:
-+ * @s: the efuse object
-+ * @bit: the efuse bit-address to be written a value of 1
-+ *
-+ * Returns: true on success, false on failure
-+ */
-+bool xlnx_efuse_set_bit(XlnxEFuse *s, unsigned int bit);
-+
-+/**
-+ * xlnx_efuse_k256_check:
-+ * @s: the efuse object
-+ * @crc: the 32-bit CRC to be compared with
-+ * @start: the efuse bit-address (which must be multiple of 32) of the
-+ *         start of a 256-bit array
-+ *
-+ * This function computes the CRC of a 256-bit array starting at @start
-+ * then compares to the given @crc
-+ *
-+ * Returns: true of @crc == computed, false otherwise
-+ */
-+bool xlnx_efuse_k256_check(XlnxEFuse *s, uint32_t crc, unsigned start);
-+
-+/**
-+ * xlnx_efuse_tbits_check:
-+ * @s: the efuse object
-+ *
-+ * This function inspects a number of efuse bits at specific addresses
-+ * to see if they match a validation pattern. Each pattern is a group
-+ * of 4 bits, and there are 3 groups.
-+ *
-+ * Returns: a 3-bit mask, where a bit of '1' means the corresponding
-+ * group has a valid pattern.
-+ */
-+uint32_t xlnx_efuse_tbits_check(XlnxEFuse *s);
-+
-+/**
-+ * xlnx_efuse_get_row:
-+ * @s: the efuse object
-+ * @bit: the efuse bit address for which a 32-bit value is read
-+ *
-+ * Returns: the entire 32 bits of the efuse, starting at a bit
-+ * address that is multiple of 32 and contains the bit at @bit
-+ */
-+static inline uint32_t xlnx_efuse_get_row(XlnxEFuse *s, unsigned int bit)
-+{
-+    if (!(s->fuse32)) {
-+        return 0;
-+    } else {
-+        unsigned int row_idx = bit / 32;
-+
-+        assert(row_idx < (s->efuse_size * s->efuse_nr / 32));
-+        return s->fuse32[row_idx];
-+    }
-+}
++uint32_t xlnx_versal_efuse_read_row(XlnxEFuse *s, uint32_t bit, bool *denied);
 +
 +#endif
-diff --git a/hw/nvram/xlnx-efuse-crc.c b/hw/nvram/xlnx-efuse-crc.c
+diff --git a/hw/nvram/xlnx-versal-efuse-cache.c b/hw/nvram/xlnx-versal-efuse-cache.c
 new file mode 100644
-index 00000000000..5a5cc13f39f
+index 00000000000..eaec64d785e
 --- /dev/null
-+++ b/hw/nvram/xlnx-efuse-crc.c
-@@ -0,0 +1,119 @@
++++ b/hw/nvram/xlnx-versal-efuse-cache.c
+@@ -0,0 +1,114 @@
 +/*
-+ * Xilinx eFuse/bbram CRC calculator
++ * QEMU model of the EFuse_Cache
 + *
-+ * Copyright (c) 2021 Xilinx Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+#include "qemu/osdep.h"
-+#include "hw/nvram/xlnx-efuse.h"
-+
-+static uint32_t xlnx_efuse_u37_crc(uint32_t prev_crc, uint32_t data,
-+                                   uint32_t addr)
-+{
-+    /* A table for 7-bit slicing */
-+    static const uint32_t crc_tab[128] = {
-+        0x00000000, 0xe13b70f7, 0xc79a971f, 0x26a1e7e8,
-+        0x8ad958cf, 0x6be22838, 0x4d43cfd0, 0xac78bf27,
-+        0x105ec76f, 0xf165b798, 0xd7c45070, 0x36ff2087,
-+        0x9a879fa0, 0x7bbcef57, 0x5d1d08bf, 0xbc267848,
-+        0x20bd8ede, 0xc186fe29, 0xe72719c1, 0x061c6936,
-+        0xaa64d611, 0x4b5fa6e6, 0x6dfe410e, 0x8cc531f9,
-+        0x30e349b1, 0xd1d83946, 0xf779deae, 0x1642ae59,
-+        0xba3a117e, 0x5b016189, 0x7da08661, 0x9c9bf696,
-+        0x417b1dbc, 0xa0406d4b, 0x86e18aa3, 0x67dafa54,
-+        0xcba24573, 0x2a993584, 0x0c38d26c, 0xed03a29b,
-+        0x5125dad3, 0xb01eaa24, 0x96bf4dcc, 0x77843d3b,
-+        0xdbfc821c, 0x3ac7f2eb, 0x1c661503, 0xfd5d65f4,
-+        0x61c69362, 0x80fde395, 0xa65c047d, 0x4767748a,
-+        0xeb1fcbad, 0x0a24bb5a, 0x2c855cb2, 0xcdbe2c45,
-+        0x7198540d, 0x90a324fa, 0xb602c312, 0x5739b3e5,
-+        0xfb410cc2, 0x1a7a7c35, 0x3cdb9bdd, 0xdde0eb2a,
-+        0x82f63b78, 0x63cd4b8f, 0x456cac67, 0xa457dc90,
-+        0x082f63b7, 0xe9141340, 0xcfb5f4a8, 0x2e8e845f,
-+        0x92a8fc17, 0x73938ce0, 0x55326b08, 0xb4091bff,
-+        0x1871a4d8, 0xf94ad42f, 0xdfeb33c7, 0x3ed04330,
-+        0xa24bb5a6, 0x4370c551, 0x65d122b9, 0x84ea524e,
-+        0x2892ed69, 0xc9a99d9e, 0xef087a76, 0x0e330a81,
-+        0xb21572c9, 0x532e023e, 0x758fe5d6, 0x94b49521,
-+        0x38cc2a06, 0xd9f75af1, 0xff56bd19, 0x1e6dcdee,
-+        0xc38d26c4, 0x22b65633, 0x0417b1db, 0xe52cc12c,
-+        0x49547e0b, 0xa86f0efc, 0x8ecee914, 0x6ff599e3,
-+        0xd3d3e1ab, 0x32e8915c, 0x144976b4, 0xf5720643,
-+        0x590ab964, 0xb831c993, 0x9e902e7b, 0x7fab5e8c,
-+        0xe330a81a, 0x020bd8ed, 0x24aa3f05, 0xc5914ff2,
-+        0x69e9f0d5, 0x88d28022, 0xae7367ca, 0x4f48173d,
-+        0xf36e6f75, 0x12551f82, 0x34f4f86a, 0xd5cf889d,
-+        0x79b737ba, 0x988c474d, 0xbe2da0a5, 0x5f16d052
-+    };
-+
-+    /*
-+     * eFuse calculation is shown here:
-+     *  https://github.com/Xilinx/embeddedsw/blob/release-2019.2/lib/sw_services/xilskey/src/xilskey_utils.c#L1496
-+     *
-+     * Each u32 word is appended a 5-bit value, for a total of 37 bits; see:
-+     *  https://github.com/Xilinx/embeddedsw/blob/release-2019.2/lib/sw_services/xilskey/src/xilskey_utils.c#L1356
-+     */
-+    uint32_t crc = prev_crc;
-+    const unsigned rshf = 7;
-+    const uint32_t im = (1 << rshf) - 1;
-+    const uint32_t rm = (1 << (32 - rshf)) - 1;
-+    const uint32_t i2 = (1 << 2) - 1;
-+    const uint32_t r2 = (1 << 30) - 1;
-+
-+    unsigned j;
-+    uint32_t i, r;
-+    uint64_t w;
-+
-+    w = (uint64_t)(addr) << 32;
-+    w |= data;
-+
-+    /* Feed 35 bits, in 5 rounds, each a slice of 7 bits */
-+    for (j = 0; j < 5; j++) {
-+        r = rm & (crc >> rshf);
-+        i = im & (crc ^ w);
-+        crc = crc_tab[i] ^ r;
-+
-+        w >>= rshf;
-+    }
-+
-+    /* Feed the remaining 2 bits */
-+    r = r2 & (crc >> 2);
-+    i = i2 & (crc ^ w);
-+    crc = crc_tab[i << (rshf - 2)] ^ r;
-+
-+    return crc;
-+}
-+
-+uint32_t xlnx_efuse_calc_crc(const uint32_t *data, unsigned u32_cnt,
-+                             unsigned zpads)
-+{
-+    uint32_t crc = 0;
-+    unsigned index;
-+
-+    for (index = zpads; index; index--) {
-+        crc = xlnx_efuse_u37_crc(crc, 0, (index + u32_cnt));
-+    }
-+
-+    for (index = u32_cnt; index; index--) {
-+        crc = xlnx_efuse_u37_crc(crc, data[index - 1], index);
-+    }
-+
-+    return crc;
-+}
-diff --git a/hw/nvram/xlnx-efuse.c b/hw/nvram/xlnx-efuse.c
-new file mode 100644
-index 00000000000..ee1caab54cb
---- /dev/null
-+++ b/hw/nvram/xlnx-efuse.c
-@@ -0,0 +1,280 @@
-+/*
-+ * QEMU model of the EFUSE eFuse
-+ *
-+ * Copyright (c) 2015 Xilinx Inc.
-+ *
-+ * Written by Edgar E. Iglesias <edgari@xilinx.com>
++ * Copyright (c) 2017 Xilinx Inc.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a copy
 + * of this software and associated documentation files (the "Software"), to deal
@@ -411,284 +226,907 @@ index 00000000000..ee1caab54cb
 + */
 +
 +#include "qemu/osdep.h"
-+#include "hw/nvram/xlnx-efuse.h"
++#include "hw/nvram/xlnx-versal-efuse.h"
 +
-+#include "qemu/error-report.h"
++#include "qemu/log.h"
++#include "hw/qdev-properties.h"
++
++#define MR_SIZE 0xC00
++
++static uint64_t efuse_cache_read(void *opaque, hwaddr addr, unsigned size)
++{
++    XlnxVersalEFuseCache *s = XLNX_VERSAL_EFUSE_CACHE(opaque);
++    unsigned int w0 = QEMU_ALIGN_DOWN(addr * 8, 32);
++    unsigned int w1 = QEMU_ALIGN_DOWN((addr + size - 1) * 8, 32);
++
++    uint64_t ret;
++
++    assert(w0 == w1 || (w0 + 32) == w1);
++
++    ret = xlnx_versal_efuse_read_row(s->efuse, w1, NULL);
++    if (w0 < w1) {
++        ret <<= 32;
++        ret |= xlnx_versal_efuse_read_row(s->efuse, w0, NULL);
++    }
++
++    /* If 'addr' unaligned, the guest is always assumed to be little-endian. */
++    addr &= 3;
++    if (addr) {
++        ret >>= 8 * addr;
++    }
++
++    return ret;
++}
++
++static void efuse_cache_write(void *opaque, hwaddr addr, uint64_t value,
++                              unsigned size)
++{
++    /* No Register Writes allowed */
++    qemu_log_mask(LOG_GUEST_ERROR, "%s: efuse cache registers are read-only",
++                  __func__);
++}
++
++static const MemoryRegionOps efuse_cache_ops = {
++    .read = efuse_cache_read,
++    .write = efuse_cache_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 4,
++    },
++};
++
++static void efuse_cache_init(Object *obj)
++{
++    XlnxVersalEFuseCache *s = XLNX_VERSAL_EFUSE_CACHE(obj);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++
++    memory_region_init_io(&s->iomem, obj, &efuse_cache_ops, s,
++                          TYPE_XLNX_VERSAL_EFUSE_CACHE, MR_SIZE);
++    sysbus_init_mmio(sbd, &s->iomem);
++}
++
++static Property efuse_cache_props[] = {
++    DEFINE_PROP_LINK("efuse",
++                     XlnxVersalEFuseCache, efuse,
++                     TYPE_XLNX_EFUSE, XlnxEFuse *),
++
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void efuse_cache_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    device_class_set_props(dc, efuse_cache_props);
++}
++
++static const TypeInfo efuse_cache_info = {
++    .name          = TYPE_XLNX_VERSAL_EFUSE_CACHE,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(XlnxVersalEFuseCache),
++    .class_init    = efuse_cache_class_init,
++    .instance_init = efuse_cache_init,
++};
++
++static void efuse_cache_register_types(void)
++{
++    type_register_static(&efuse_cache_info);
++}
++
++type_init(efuse_cache_register_types)
+diff --git a/hw/nvram/xlnx-versal-efuse-ctrl.c b/hw/nvram/xlnx-versal-efuse-ctrl.c
+new file mode 100644
+index 00000000000..d3623767032
+--- /dev/null
++++ b/hw/nvram/xlnx-versal-efuse-ctrl.c
+@@ -0,0 +1,783 @@
++/*
++ * QEMU model of the Versal eFuse controller
++ *
++ * Copyright (c) 2020 Xilinx Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/nvram/xlnx-versal-efuse.h"
++
 +#include "qemu/log.h"
 +#include "qapi/error.h"
-+#include "sysemu/blockdev.h"
++#include "migration/vmstate.h"
 +#include "hw/qdev-properties.h"
-+#include "hw/qdev-properties-system.h"
 +
-+#define TBIT0_OFFSET     28
-+#define TBIT1_OFFSET     29
-+#define TBIT2_OFFSET     30
-+#define TBIT3_OFFSET     31
-+#define TBITS_PATTERN    (0x0AU << TBIT0_OFFSET)
-+#define TBITS_MASK       (0x0FU << TBIT0_OFFSET)
++#ifndef XLNX_VERSAL_EFUSE_CTRL_ERR_DEBUG
++#define XLNX_VERSAL_EFUSE_CTRL_ERR_DEBUG 0
++#endif
 +
-+bool xlnx_efuse_get_bit(XlnxEFuse *s, unsigned int bit)
++REG32(WR_LOCK, 0x0)
++    FIELD(WR_LOCK, LOCK, 0, 16)
++REG32(CFG, 0x4)
++    FIELD(CFG, SLVERR_ENABLE, 5, 1)
++    FIELD(CFG, MARGIN_RD, 2, 1)
++    FIELD(CFG, PGM_EN, 1, 1)
++REG32(STATUS, 0x8)
++    FIELD(STATUS, AES_USER_KEY_1_CRC_PASS, 11, 1)
++    FIELD(STATUS, AES_USER_KEY_1_CRC_DONE, 10, 1)
++    FIELD(STATUS, AES_USER_KEY_0_CRC_PASS, 9, 1)
++    FIELD(STATUS, AES_USER_KEY_0_CRC_DONE, 8, 1)
++    FIELD(STATUS, AES_CRC_PASS, 7, 1)
++    FIELD(STATUS, AES_CRC_DONE, 6, 1)
++    FIELD(STATUS, CACHE_DONE, 5, 1)
++    FIELD(STATUS, CACHE_LOAD, 4, 1)
++    FIELD(STATUS, EFUSE_2_TBIT, 2, 1)
++    FIELD(STATUS, EFUSE_1_TBIT, 1, 1)
++    FIELD(STATUS, EFUSE_0_TBIT, 0, 1)
++REG32(EFUSE_PGM_ADDR, 0xc)
++    FIELD(EFUSE_PGM_ADDR, PAGE, 13, 4)
++    FIELD(EFUSE_PGM_ADDR, ROW, 5, 8)
++    FIELD(EFUSE_PGM_ADDR, COLUMN, 0, 5)
++REG32(EFUSE_RD_ADDR, 0x10)
++    FIELD(EFUSE_RD_ADDR, PAGE, 13, 4)
++    FIELD(EFUSE_RD_ADDR, ROW, 5, 8)
++REG32(EFUSE_RD_DATA, 0x14)
++REG32(TPGM, 0x18)
++    FIELD(TPGM, VALUE, 0, 16)
++REG32(TRD, 0x1c)
++    FIELD(TRD, VALUE, 0, 8)
++REG32(TSU_H_PS, 0x20)
++    FIELD(TSU_H_PS, VALUE, 0, 8)
++REG32(TSU_H_PS_CS, 0x24)
++    FIELD(TSU_H_PS_CS, VALUE, 0, 8)
++REG32(TRDM, 0x28)
++    FIELD(TRDM, VALUE, 0, 8)
++REG32(TSU_H_CS, 0x2c)
++    FIELD(TSU_H_CS, VALUE, 0, 8)
++REG32(EFUSE_ISR, 0x30)
++    FIELD(EFUSE_ISR, APB_SLVERR, 31, 1)
++    FIELD(EFUSE_ISR, CACHE_PARITY_E2, 14, 1)
++    FIELD(EFUSE_ISR, CACHE_PARITY_E1, 13, 1)
++    FIELD(EFUSE_ISR, CACHE_PARITY_E0S, 12, 1)
++    FIELD(EFUSE_ISR, CACHE_PARITY_E0R, 11, 1)
++    FIELD(EFUSE_ISR, CACHE_APB_SLVERR, 10, 1)
++    FIELD(EFUSE_ISR, CACHE_REQ_ERROR, 9, 1)
++    FIELD(EFUSE_ISR, MAIN_REQ_ERROR, 8, 1)
++    FIELD(EFUSE_ISR, READ_ON_CACHE_LD, 7, 1)
++    FIELD(EFUSE_ISR, CACHE_FSM_ERROR, 6, 1)
++    FIELD(EFUSE_ISR, MAIN_FSM_ERROR, 5, 1)
++    FIELD(EFUSE_ISR, CACHE_ERROR, 4, 1)
++    FIELD(EFUSE_ISR, RD_ERROR, 3, 1)
++    FIELD(EFUSE_ISR, RD_DONE, 2, 1)
++    FIELD(EFUSE_ISR, PGM_ERROR, 1, 1)
++    FIELD(EFUSE_ISR, PGM_DONE, 0, 1)
++REG32(EFUSE_IMR, 0x34)
++    FIELD(EFUSE_IMR, APB_SLVERR, 31, 1)
++    FIELD(EFUSE_IMR, CACHE_PARITY_E2, 14, 1)
++    FIELD(EFUSE_IMR, CACHE_PARITY_E1, 13, 1)
++    FIELD(EFUSE_IMR, CACHE_PARITY_E0S, 12, 1)
++    FIELD(EFUSE_IMR, CACHE_PARITY_E0R, 11, 1)
++    FIELD(EFUSE_IMR, CACHE_APB_SLVERR, 10, 1)
++    FIELD(EFUSE_IMR, CACHE_REQ_ERROR, 9, 1)
++    FIELD(EFUSE_IMR, MAIN_REQ_ERROR, 8, 1)
++    FIELD(EFUSE_IMR, READ_ON_CACHE_LD, 7, 1)
++    FIELD(EFUSE_IMR, CACHE_FSM_ERROR, 6, 1)
++    FIELD(EFUSE_IMR, MAIN_FSM_ERROR, 5, 1)
++    FIELD(EFUSE_IMR, CACHE_ERROR, 4, 1)
++    FIELD(EFUSE_IMR, RD_ERROR, 3, 1)
++    FIELD(EFUSE_IMR, RD_DONE, 2, 1)
++    FIELD(EFUSE_IMR, PGM_ERROR, 1, 1)
++    FIELD(EFUSE_IMR, PGM_DONE, 0, 1)
++REG32(EFUSE_IER, 0x38)
++    FIELD(EFUSE_IER, APB_SLVERR, 31, 1)
++    FIELD(EFUSE_IER, CACHE_PARITY_E2, 14, 1)
++    FIELD(EFUSE_IER, CACHE_PARITY_E1, 13, 1)
++    FIELD(EFUSE_IER, CACHE_PARITY_E0S, 12, 1)
++    FIELD(EFUSE_IER, CACHE_PARITY_E0R, 11, 1)
++    FIELD(EFUSE_IER, CACHE_APB_SLVERR, 10, 1)
++    FIELD(EFUSE_IER, CACHE_REQ_ERROR, 9, 1)
++    FIELD(EFUSE_IER, MAIN_REQ_ERROR, 8, 1)
++    FIELD(EFUSE_IER, READ_ON_CACHE_LD, 7, 1)
++    FIELD(EFUSE_IER, CACHE_FSM_ERROR, 6, 1)
++    FIELD(EFUSE_IER, MAIN_FSM_ERROR, 5, 1)
++    FIELD(EFUSE_IER, CACHE_ERROR, 4, 1)
++    FIELD(EFUSE_IER, RD_ERROR, 3, 1)
++    FIELD(EFUSE_IER, RD_DONE, 2, 1)
++    FIELD(EFUSE_IER, PGM_ERROR, 1, 1)
++    FIELD(EFUSE_IER, PGM_DONE, 0, 1)
++REG32(EFUSE_IDR, 0x3c)
++    FIELD(EFUSE_IDR, APB_SLVERR, 31, 1)
++    FIELD(EFUSE_IDR, CACHE_PARITY_E2, 14, 1)
++    FIELD(EFUSE_IDR, CACHE_PARITY_E1, 13, 1)
++    FIELD(EFUSE_IDR, CACHE_PARITY_E0S, 12, 1)
++    FIELD(EFUSE_IDR, CACHE_PARITY_E0R, 11, 1)
++    FIELD(EFUSE_IDR, CACHE_APB_SLVERR, 10, 1)
++    FIELD(EFUSE_IDR, CACHE_REQ_ERROR, 9, 1)
++    FIELD(EFUSE_IDR, MAIN_REQ_ERROR, 8, 1)
++    FIELD(EFUSE_IDR, READ_ON_CACHE_LD, 7, 1)
++    FIELD(EFUSE_IDR, CACHE_FSM_ERROR, 6, 1)
++    FIELD(EFUSE_IDR, MAIN_FSM_ERROR, 5, 1)
++    FIELD(EFUSE_IDR, CACHE_ERROR, 4, 1)
++    FIELD(EFUSE_IDR, RD_ERROR, 3, 1)
++    FIELD(EFUSE_IDR, RD_DONE, 2, 1)
++    FIELD(EFUSE_IDR, PGM_ERROR, 1, 1)
++    FIELD(EFUSE_IDR, PGM_DONE, 0, 1)
++REG32(EFUSE_CACHE_LOAD, 0x40)
++    FIELD(EFUSE_CACHE_LOAD, LOAD, 0, 1)
++REG32(EFUSE_PGM_LOCK, 0x44)
++    FIELD(EFUSE_PGM_LOCK, SPK_ID_LOCK, 0, 1)
++REG32(EFUSE_AES_CRC, 0x48)
++REG32(EFUSE_AES_USR_KEY0_CRC, 0x4c)
++REG32(EFUSE_AES_USR_KEY1_CRC, 0x50)
++REG32(EFUSE_PD, 0x54)
++REG32(EFUSE_ANLG_OSC_SW_1LP, 0x60)
++REG32(EFUSE_TEST_CTRL, 0x100)
++
++#define R_MAX (R_EFUSE_TEST_CTRL + 1)
++
++#define R_WR_LOCK_UNLOCK_PASSCODE   (0xDF0D)
++
++/*
++ * eFuse layout references:
++ *   https://github.com/Xilinx/embeddedsw/blob/release-2019.2/lib/sw_services/xilnvm/src/xnvm_efuse_hw.h
++ */
++#define BIT_POS_OF(A_) \
++    ((uint32_t)((A_) & (R_EFUSE_PGM_ADDR_ROW_MASK | \
++                        R_EFUSE_PGM_ADDR_COLUMN_MASK)))
++
++#define BIT_POS(R_, C_) \
++        ((uint32_t)((R_EFUSE_PGM_ADDR_ROW_MASK                  \
++                    & ((R_) << R_EFUSE_PGM_ADDR_ROW_SHIFT))     \
++                    |                                           \
++                    (R_EFUSE_PGM_ADDR_COLUMN_MASK               \
++                     & ((C_) << R_EFUSE_PGM_ADDR_COLUMN_SHIFT))))
++
++#define EFUSE_TBIT_POS(A_)          (BIT_POS_OF(A_) >= BIT_POS(0, 28))
++
++#define EFUSE_ANCHOR_ROW            (0)
++#define EFUSE_ANCHOR_3_COL          (27)
++#define EFUSE_ANCHOR_1_COL          (1)
++
++#define EFUSE_AES_KEY_START         BIT_POS(12, 0)
++#define EFUSE_AES_KEY_END           BIT_POS(19, 31)
++#define EFUSE_USER_KEY_0_START      BIT_POS(20, 0)
++#define EFUSE_USER_KEY_0_END        BIT_POS(27, 31)
++#define EFUSE_USER_KEY_1_START      BIT_POS(28, 0)
++#define EFUSE_USER_KEY_1_END        BIT_POS(35, 31)
++
++#define EFUSE_RD_BLOCKED_START      EFUSE_AES_KEY_START
++#define EFUSE_RD_BLOCKED_END        EFUSE_USER_KEY_1_END
++
++#define EFUSE_GLITCH_DET_WR_LK      BIT_POS(4, 31)
++#define EFUSE_PPK0_WR_LK            BIT_POS(43, 6)
++#define EFUSE_PPK1_WR_LK            BIT_POS(43, 7)
++#define EFUSE_PPK2_WR_LK            BIT_POS(43, 8)
++#define EFUSE_AES_WR_LK             BIT_POS(43, 11)
++#define EFUSE_USER_KEY_0_WR_LK      BIT_POS(43, 13)
++#define EFUSE_USER_KEY_1_WR_LK      BIT_POS(43, 15)
++#define EFUSE_PUF_SYN_LK            BIT_POS(43, 16)
++#define EFUSE_DNA_WR_LK             BIT_POS(43, 27)
++#define EFUSE_BOOT_ENV_WR_LK        BIT_POS(43, 28)
++
++#define EFUSE_PGM_LOCKED_START      BIT_POS(44, 0)
++#define EFUSE_PGM_LOCKED_END        BIT_POS(51, 31)
++
++#define EFUSE_PUF_PAGE              (2)
++#define EFUSE_PUF_SYN_START         BIT_POS(129, 0)
++#define EFUSE_PUF_SYN_END           BIT_POS(255, 27)
++
++#define EFUSE_KEY_CRC_LK_ROW           (43)
++#define EFUSE_AES_KEY_CRC_LK_MASK      ((1U << 9) | (1U << 10))
++#define EFUSE_USER_KEY_0_CRC_LK_MASK   (1U << 12)
++#define EFUSE_USER_KEY_1_CRC_LK_MASK   (1U << 14)
++
++/*
++ * A handy macro to return value of an array element,
++ * or a specific default if given index is out of bound.
++ */
++#define ARRAY_GET(A_, I_, D_) \
++    ((unsigned int)(I_) < ARRAY_SIZE(A_) ? (A_)[I_] : (D_))
++
++QEMU_BUILD_BUG_ON(R_MAX != ARRAY_SIZE(((XlnxVersalEFuseCtrl *)0)->regs));
++
++typedef struct XlnxEFuseLkSpec {
++    uint16_t row;
++    uint16_t lk_bit;
++} XlnxEFuseLkSpec;
++
++static void efuse_imr_update_irq(XlnxVersalEFuseCtrl *s)
 +{
-+    bool b = s->fuse32[bit / 32] & (1 << (bit % 32));
-+    return b;
++    bool pending = s->regs[R_EFUSE_ISR] & ~s->regs[R_EFUSE_IMR];
++    qemu_set_irq(s->irq_efuse_imr, pending);
 +}
 +
-+static int efuse_bytes(XlnxEFuse *s)
++static void efuse_isr_postw(RegisterInfo *reg, uint64_t val64)
 +{
-+    return ROUND_UP((s->efuse_nr * s->efuse_size) / 8, 4);
++    XlnxVersalEFuseCtrl *s = XLNX_VERSAL_EFUSE_CTRL(reg->opaque);
++    efuse_imr_update_irq(s);
 +}
 +
-+static int efuse_bdrv_read(XlnxEFuse *s, Error **errp)
++static uint64_t efuse_ier_prew(RegisterInfo *reg, uint64_t val64)
 +{
-+    uint32_t *ram = s->fuse32;
-+    int nr = efuse_bytes(s);
++    XlnxVersalEFuseCtrl *s = XLNX_VERSAL_EFUSE_CTRL(reg->opaque);
++    uint32_t val = val64;
 +
-+    if (!s->blk) {
-+        return 0;
++    s->regs[R_EFUSE_IMR] &= ~val;
++    efuse_imr_update_irq(s);
++    return 0;
++}
++
++static uint64_t efuse_idr_prew(RegisterInfo *reg, uint64_t val64)
++{
++    XlnxVersalEFuseCtrl *s = XLNX_VERSAL_EFUSE_CTRL(reg->opaque);
++    uint32_t val = val64;
++
++    s->regs[R_EFUSE_IMR] |= val;
++    efuse_imr_update_irq(s);
++    return 0;
++}
++
++static void efuse_status_tbits_sync(XlnxVersalEFuseCtrl *s)
++{
++    uint32_t check = xlnx_efuse_tbits_check(s->efuse);
++    uint32_t val = s->regs[R_STATUS];
++
++    val = FIELD_DP32(val, STATUS, EFUSE_0_TBIT, !!(check & (1 << 0)));
++    val = FIELD_DP32(val, STATUS, EFUSE_1_TBIT, !!(check & (1 << 1)));
++    val = FIELD_DP32(val, STATUS, EFUSE_2_TBIT, !!(check & (1 << 2)));
++
++    s->regs[R_STATUS] = val;
++}
++
++static void efuse_anchor_bits_check(XlnxVersalEFuseCtrl *s)
++{
++    unsigned page;
++
++    if (!s->efuse || !s->efuse->init_tbits) {
++        return;
 +    }
 +
-+    s->blk_ro = !blk_supports_write_perm(s->blk);
-+    if (!s->blk_ro) {
-+        int rc;
++    for (page = 0; page < s->efuse->efuse_nr; page++) {
++        uint32_t row = 0, bit;
 +
-+        rc = blk_set_perm(s->blk,
-+                          (BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE),
-+                          BLK_PERM_ALL, NULL);
-+        if (rc) {
-+            s->blk_ro = true;
++        row = FIELD_DP32(row, EFUSE_PGM_ADDR, PAGE, page);
++        row = FIELD_DP32(row, EFUSE_PGM_ADDR, ROW, EFUSE_ANCHOR_ROW);
++
++        bit = FIELD_DP32(row, EFUSE_PGM_ADDR, COLUMN, EFUSE_ANCHOR_3_COL);
++        if (!xlnx_efuse_get_bit(s->efuse, bit)) {
++            xlnx_efuse_set_bit(s->efuse, bit);
++        }
++
++        bit = FIELD_DP32(row, EFUSE_PGM_ADDR, COLUMN, EFUSE_ANCHOR_1_COL);
++        if (!xlnx_efuse_get_bit(s->efuse, bit)) {
++            xlnx_efuse_set_bit(s->efuse, bit);
 +        }
 +    }
-+    if (s->blk_ro) {
-+        warn_report("%s: Skip saving updates to read-only eFUSE backstore.",
-+                    blk_name(s->blk));
++}
++
++static void efuse_key_crc_check(RegisterInfo *reg, uint32_t crc,
++                                uint32_t pass_mask, uint32_t done_mask,
++                                unsigned first, uint32_t lk_mask)
++{
++    XlnxVersalEFuseCtrl *s = XLNX_VERSAL_EFUSE_CTRL(reg->opaque);
++    uint32_t r, lk_bits;
++
++    /*
++     * To start, assume both DONE and PASS, and clear PASS by xor
++     * if CRC-check fails or CRC-check disabled by lock fuse.
++     */
++    r = s->regs[R_STATUS] | done_mask | pass_mask;
++
++    lk_bits = xlnx_efuse_get_row(s->efuse, EFUSE_KEY_CRC_LK_ROW) & lk_mask;
++    if (lk_bits == 0 && xlnx_efuse_k256_check(s->efuse, crc, first)) {
++        pass_mask = 0;
 +    }
 +
-+    if (blk_pread(s->blk, 0, ram, nr) < 0) {
-+        error_setg(errp, "%s: Failed to read %u bytes from eFUSE backstore.",
-+                   blk_name(s->blk), nr);
-+        return -1;
++    s->regs[R_STATUS] = r ^ pass_mask;
++}
++
++static void efuse_data_sync(XlnxVersalEFuseCtrl *s)
++{
++    efuse_status_tbits_sync(s);
++}
++
++static int efuse_lk_spec_cmp(const void *a, const void *b)
++{
++    uint16_t r1 = ((const XlnxEFuseLkSpec *)a)->row;
++    uint16_t r2 = ((const XlnxEFuseLkSpec *)b)->row;
++
++    return (r1 > r2) - (r1 < r2);
++}
++
++static void efuse_lk_spec_sort(XlnxVersalEFuseCtrl *s)
++{
++    XlnxEFuseLkSpec *ary = s->extra_pg0_lock_spec;
++    const uint32_t n8 = s->extra_pg0_lock_n16 * 2;
++    const uint32_t sz  = sizeof(ary[0]);
++    const uint32_t cnt = n8 / sz;
++
++    if (ary && cnt) {
++        qsort(ary, cnt, sz, efuse_lk_spec_cmp);
++    }
++}
++
++static uint32_t efuse_lk_spec_find(XlnxVersalEFuseCtrl *s, uint32_t row)
++{
++    const XlnxEFuseLkSpec *ary = s->extra_pg0_lock_spec;
++    const uint32_t n8  = s->extra_pg0_lock_n16 * 2;
++    const uint32_t sz  = sizeof(ary[0]);
++    const uint32_t cnt = n8 / sz;
++    const XlnxEFuseLkSpec *item = NULL;
++
++    if (ary && cnt) {
++        XlnxEFuseLkSpec k = { .row = row, };
++
++        item = bsearch(&k, ary, cnt, sz, efuse_lk_spec_cmp);
 +    }
 +
-+    /* Convert from little-endian backstore for each 32-bit row */
-+    nr /= 4;
-+    while (nr--) {
-+        ram[nr] = le32_to_cpu(ram[nr]);
++    return item ? item->lk_bit : 0;
++}
++
++static uint32_t efuse_bit_locked(XlnxVersalEFuseCtrl *s, uint32_t bit)
++{
++    /* Hard-coded locks */
++    static const uint16_t pg0_hard_lock[] = {
++        [4] = EFUSE_GLITCH_DET_WR_LK,
++        [37] = EFUSE_BOOT_ENV_WR_LK,
++
++        [8 ... 11]  = EFUSE_DNA_WR_LK,
++        [12 ... 19] = EFUSE_AES_WR_LK,
++        [20 ... 27] = EFUSE_USER_KEY_0_WR_LK,
++        [28 ... 35] = EFUSE_USER_KEY_1_WR_LK,
++        [64 ... 71] = EFUSE_PPK0_WR_LK,
++        [72 ... 79] = EFUSE_PPK1_WR_LK,
++        [80 ... 87] = EFUSE_PPK2_WR_LK,
++    };
++
++    uint32_t row = FIELD_EX32(bit, EFUSE_PGM_ADDR, ROW);
++    uint32_t lk_bit = ARRAY_GET(pg0_hard_lock, row, 0);
++
++    return lk_bit ? lk_bit : efuse_lk_spec_find(s, row);
++}
++
++static bool efuse_pgm_locked(XlnxVersalEFuseCtrl *s, unsigned int bit)
++{
++
++    unsigned int lock = 1;
++
++    /* Global lock */
++    if (!ARRAY_FIELD_EX32(s->regs, CFG, PGM_EN)) {
++        goto ret_lock;
++    }
++
++    /* Row lock */
++    switch (FIELD_EX32(bit, EFUSE_PGM_ADDR, PAGE)) {
++    case 0:
++        if (ARRAY_FIELD_EX32(s->regs, EFUSE_PGM_LOCK, SPK_ID_LOCK) &&
++            bit >= EFUSE_PGM_LOCKED_START && bit <= EFUSE_PGM_LOCKED_END) {
++            goto ret_lock;
++        }
++
++        lock = efuse_bit_locked(s, bit);
++        break;
++    case EFUSE_PUF_PAGE:
++        if (bit < EFUSE_PUF_SYN_START || bit > EFUSE_PUF_SYN_END) {
++            lock = 0;
++            goto ret_lock;
++        }
++
++        lock = EFUSE_PUF_SYN_LK;
++        break;
++    default:
++        lock = 0;
++        goto ret_lock;
++    }
++
++    /* Row lock by an efuse bit */
++    if (lock) {
++        lock = xlnx_efuse_get_bit(s->efuse, lock);
++    }
++
++ ret_lock:
++    return lock != 0;
++}
++
++static void efuse_pgm_addr_postw(RegisterInfo *reg, uint64_t val64)
++{
++    XlnxVersalEFuseCtrl *s = XLNX_VERSAL_EFUSE_CTRL(reg->opaque);
++    unsigned bit = val64;
++    bool ok = false;
++
++    /* Always zero out PGM_ADDR because it is write-only */
++    s->regs[R_EFUSE_PGM_ADDR] = 0;
++
++    /*
++     * Indicate error if bit is write-protected (or read-only
++     * as guarded by efuse_set_bit()).
++     *
++     * Keep it simple by not modeling program timing.
++     *
++     * Note: model must NEVER clear the PGM_ERROR bit; it is
++     *       up to guest to do so (or by reset).
++     */
++    if (efuse_pgm_locked(s, bit)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Denied setting of efuse<%u, %u, %u>\n",
++                      object_get_canonical_path(OBJECT(s)),
++                      FIELD_EX32(bit, EFUSE_PGM_ADDR, PAGE),
++                      FIELD_EX32(bit, EFUSE_PGM_ADDR, ROW),
++                      FIELD_EX32(bit, EFUSE_PGM_ADDR, COLUMN));
++    } else if (xlnx_efuse_set_bit(s->efuse, bit)) {
++        ok = true;
++        if (EFUSE_TBIT_POS(bit)) {
++            efuse_status_tbits_sync(s);
++        }
++    }
++
++    if (!ok) {
++        ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, PGM_ERROR, 1);
++    }
++
++    ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, PGM_DONE, 1);
++    efuse_imr_update_irq(s);
++}
++
++static void efuse_rd_addr_postw(RegisterInfo *reg, uint64_t val64)
++{
++    XlnxVersalEFuseCtrl *s = XLNX_VERSAL_EFUSE_CTRL(reg->opaque);
++    unsigned bit = val64;
++    bool denied;
++
++    /* Always zero out RD_ADDR because it is write-only */
++    s->regs[R_EFUSE_RD_ADDR] = 0;
++
++    /*
++     * Indicate error if row is read-blocked.
++     *
++     * Note: model must NEVER clear the RD_ERROR bit; it is
++     *       up to guest to do so (or by reset).
++     */
++    s->regs[R_EFUSE_RD_DATA] = xlnx_versal_efuse_read_row(s->efuse,
++                                                          bit, &denied);
++    if (denied) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Denied reading of efuse<%u, %u>\n",
++                      object_get_canonical_path(OBJECT(s)),
++                      FIELD_EX32(bit, EFUSE_RD_ADDR, PAGE),
++                      FIELD_EX32(bit, EFUSE_RD_ADDR, ROW));
++
++        ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, RD_ERROR, 1);
++    }
++
++    ARRAY_FIELD_DP32(s->regs, EFUSE_ISR, RD_DONE, 1);
++    efuse_imr_update_irq(s);
++    return;
++}
++
++static uint64_t efuse_cache_load_prew(RegisterInfo *reg, uint64_t val64)
++{
++    XlnxVersalEFuseCtrl *s = XLNX_VERSAL_EFUSE_CTRL(reg->opaque);
++
++    if (val64 & R_EFUSE_CACHE_LOAD_LOAD_MASK) {
++        efuse_data_sync(s);
++
++        ARRAY_FIELD_DP32(s->regs, STATUS, CACHE_DONE, 1);
++        efuse_imr_update_irq(s);
 +    }
 +
 +    return 0;
 +}
 +
-+static void efuse_bdrv_sync(XlnxEFuse *s, unsigned int bit)
++static uint64_t efuse_pgm_lock_prew(RegisterInfo *reg, uint64_t val64)
 +{
-+    unsigned int row_offset;
-+    uint32_t le32;
++    XlnxVersalEFuseCtrl *s = XLNX_VERSAL_EFUSE_CTRL(reg->opaque);
 +
-+    if (!s->blk || s->blk_ro) {
-+        return;  /* Silent on read-only backend to avoid message flood */
++    /* Ignore all other bits */
++    val64 = FIELD_EX32(val64, EFUSE_PGM_LOCK, SPK_ID_LOCK);
++
++    /* Once the bit is written 1, only reset will clear it to 0 */
++    val64 |= ARRAY_FIELD_EX32(s->regs, EFUSE_PGM_LOCK, SPK_ID_LOCK);
++
++    return val64;
++}
++
++static void efuse_aes_crc_postw(RegisterInfo *reg, uint64_t val64)
++{
++    efuse_key_crc_check(reg, val64,
++                        R_STATUS_AES_CRC_PASS_MASK,
++                        R_STATUS_AES_CRC_DONE_MASK,
++                        EFUSE_AES_KEY_START,
++                        EFUSE_AES_KEY_CRC_LK_MASK);
++}
++
++static void efuse_aes_u0_crc_postw(RegisterInfo *reg, uint64_t val64)
++{
++    efuse_key_crc_check(reg, val64,
++                        R_STATUS_AES_USER_KEY_0_CRC_PASS_MASK,
++                        R_STATUS_AES_USER_KEY_0_CRC_DONE_MASK,
++                        EFUSE_USER_KEY_0_START,
++                        EFUSE_USER_KEY_0_CRC_LK_MASK);
++}
++
++static void efuse_aes_u1_crc_postw(RegisterInfo *reg, uint64_t val64)
++{
++    efuse_key_crc_check(reg, val64,
++                        R_STATUS_AES_USER_KEY_1_CRC_PASS_MASK,
++                        R_STATUS_AES_USER_KEY_1_CRC_DONE_MASK,
++                        EFUSE_USER_KEY_1_START,
++                        EFUSE_USER_KEY_1_CRC_LK_MASK);
++}
++
++static uint64_t efuse_wr_lock_prew(RegisterInfo *reg, uint64_t val)
++{
++    return val != R_WR_LOCK_UNLOCK_PASSCODE;
++}
++
++static const RegisterAccessInfo efuse_ctrl_regs_info[] = {
++    {   .name = "WR_LOCK",  .addr = A_WR_LOCK,
++        .reset = 0x1,
++        .pre_write = efuse_wr_lock_prew,
++    },{ .name = "CFG",  .addr = A_CFG,
++        .rsvd = 0x9,
++    },{ .name = "STATUS",  .addr = A_STATUS,
++        .rsvd = 0x8,
++        .ro = 0xfff,
++    },{ .name = "EFUSE_PGM_ADDR",  .addr = A_EFUSE_PGM_ADDR,
++        .post_write = efuse_pgm_addr_postw,
++    },{ .name = "EFUSE_RD_ADDR",  .addr = A_EFUSE_RD_ADDR,
++        .rsvd = 0x1f,
++        .post_write = efuse_rd_addr_postw,
++    },{ .name = "EFUSE_RD_DATA",  .addr = A_EFUSE_RD_DATA,
++        .ro = 0xffffffff,
++    },{ .name = "TPGM",  .addr = A_TPGM,
++    },{ .name = "TRD",  .addr = A_TRD,
++        .reset = 0x19,
++    },{ .name = "TSU_H_PS",  .addr = A_TSU_H_PS,
++        .reset = 0xff,
++    },{ .name = "TSU_H_PS_CS",  .addr = A_TSU_H_PS_CS,
++        .reset = 0x11,
++    },{ .name = "TRDM",  .addr = A_TRDM,
++        .reset = 0x3a,
++    },{ .name = "TSU_H_CS",  .addr = A_TSU_H_CS,
++        .reset = 0x16,
++    },{ .name = "EFUSE_ISR",  .addr = A_EFUSE_ISR,
++        .rsvd = 0x7fff8000,
++        .w1c = 0x80007fff,
++        .post_write = efuse_isr_postw,
++    },{ .name = "EFUSE_IMR",  .addr = A_EFUSE_IMR,
++        .reset = 0x80007fff,
++        .rsvd = 0x7fff8000,
++        .ro = 0xffffffff,
++    },{ .name = "EFUSE_IER",  .addr = A_EFUSE_IER,
++        .rsvd = 0x7fff8000,
++        .pre_write = efuse_ier_prew,
++    },{ .name = "EFUSE_IDR",  .addr = A_EFUSE_IDR,
++        .rsvd = 0x7fff8000,
++        .pre_write = efuse_idr_prew,
++    },{ .name = "EFUSE_CACHE_LOAD",  .addr = A_EFUSE_CACHE_LOAD,
++        .pre_write = efuse_cache_load_prew,
++    },{ .name = "EFUSE_PGM_LOCK",  .addr = A_EFUSE_PGM_LOCK,
++        .pre_write = efuse_pgm_lock_prew,
++    },{ .name = "EFUSE_AES_CRC",  .addr = A_EFUSE_AES_CRC,
++        .post_write = efuse_aes_crc_postw,
++    },{ .name = "EFUSE_AES_USR_KEY0_CRC",  .addr = A_EFUSE_AES_USR_KEY0_CRC,
++        .post_write = efuse_aes_u0_crc_postw,
++    },{ .name = "EFUSE_AES_USR_KEY1_CRC",  .addr = A_EFUSE_AES_USR_KEY1_CRC,
++        .post_write = efuse_aes_u1_crc_postw,
++    },{ .name = "EFUSE_PD",  .addr = A_EFUSE_PD,
++        .ro = 0xfffffffe,
++    },{ .name = "EFUSE_ANLG_OSC_SW_1LP",  .addr = A_EFUSE_ANLG_OSC_SW_1LP,
++    },{ .name = "EFUSE_TEST_CTRL",  .addr = A_EFUSE_TEST_CTRL,
++        .reset = 0x8,
 +    }
++};
 +
-+    /* Backstore is always in little-endian */
-+    le32 = cpu_to_le32(xlnx_efuse_get_row(s, bit));
++static void efuse_ctrl_reg_write(void *opaque, hwaddr addr,
++                                 uint64_t data, unsigned size)
++{
++    RegisterInfoArray *reg_array = opaque;
++    XlnxVersalEFuseCtrl *s;
++    Object *dev;
 +
-+    row_offset = (bit / 32) * 4;
-+    if (blk_pwrite(s->blk, row_offset, &le32, 4, 0) < 0) {
-+        error_report("%s: Failed to write offset %u of eFUSE backstore.",
-+                     blk_name(s->blk), row_offset);
++    assert(reg_array != NULL);
++
++    dev = reg_array->mem.owner;
++    assert(dev);
++
++    s = XLNX_VERSAL_EFUSE_CTRL(dev);
++
++    if (addr != A_WR_LOCK && s->regs[R_WR_LOCK]) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s[reg_0x%02lx]: Attempt to write locked register.\n",
++                      object_get_canonical_path(OBJECT(s)), (long)addr);
++    } else {
++        register_write_memory(opaque, addr, data, size);
 +    }
 +}
 +
-+static int efuse_ro_bits_cmp(const void *a, const void *b)
++static void efuse_ctrl_register_reset(RegisterInfo *reg)
 +{
-+    uint32_t i = *(const uint32_t *)a;
-+    uint32_t j = *(const uint32_t *)b;
-+
-+    return (i > j) - (i < j);
-+}
-+
-+static void efuse_ro_bits_sort(XlnxEFuse *s)
-+{
-+    uint32_t *ary = s->ro_bits;
-+    const uint32_t cnt = s->ro_bits_cnt;
-+
-+    if (ary && cnt > 1) {
-+        qsort(ary, cnt, sizeof(ary[0]), efuse_ro_bits_cmp);
-+    }
-+}
-+
-+static bool efuse_ro_bits_find(XlnxEFuse *s, uint32_t k)
-+{
-+    const uint32_t *ary = s->ro_bits;
-+    const uint32_t cnt = s->ro_bits_cnt;
-+
-+    if (!ary || !cnt) {
-+        return false;
-+    }
-+
-+    return bsearch(&k, ary, cnt, sizeof(ary[0]), efuse_ro_bits_cmp) != NULL;
-+}
-+
-+bool xlnx_efuse_set_bit(XlnxEFuse *s, unsigned int bit)
-+{
-+    if (efuse_ro_bits_find(s, bit)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: WARN: "
-+                      "Ignored setting of readonly efuse bit<%u,%u>!\n",
-+                      object_get_canonical_path(OBJECT(s)),
-+                      (bit / 32), (bit % 32));
-+        return false;
-+    }
-+
-+    s->fuse32[bit / 32] |= 1 << (bit % 32);
-+    efuse_bdrv_sync(s, bit);
-+    return true;
-+}
-+
-+bool xlnx_efuse_k256_check(XlnxEFuse *s, uint32_t crc, unsigned start)
-+{
-+    uint32_t calc;
-+
-+    /* A key always occupies multiple of whole rows */
-+    assert((start % 32) == 0);
-+
-+    calc = xlnx_efuse_calc_crc(&s->fuse32[start / 32], (256 / 32), 0);
-+    return calc == crc;
-+}
-+
-+uint32_t xlnx_efuse_tbits_check(XlnxEFuse *s)
-+{
-+    int nr;
-+    uint32_t check = 0;
-+
-+    for (nr = s->efuse_nr; nr-- > 0; ) {
-+        int efuse_start_row_num = (s->efuse_size * nr) / 32;
-+        uint32_t data = s->fuse32[efuse_start_row_num];
-+
-+        /*
-+         * If the option is on, auto-init blank T-bits.
-+         * (non-blank will still be reported as '0' in the check, e.g.,
-+         *  for error-injection tests)
-+         */
-+        if ((data & TBITS_MASK) == 0 && s->init_tbits) {
-+            data |= TBITS_PATTERN;
-+
-+            s->fuse32[efuse_start_row_num] = data;
-+            efuse_bdrv_sync(s, (efuse_start_row_num * 32 + TBIT0_OFFSET));
-+        }
-+
-+        check = (check << 1) | ((data & TBITS_MASK) == TBITS_PATTERN);
-+    }
-+
-+    return check;
-+}
-+
-+static void efuse_realize(DeviceState *dev, Error **errp)
-+{
-+    XlnxEFuse *s = XLNX_EFUSE(dev);
-+
-+    /* Sort readonly-list for bsearch lookup */
-+    efuse_ro_bits_sort(s);
-+
-+    if ((s->efuse_size % 32) != 0) {
-+        error_setg(errp,
-+                   "%s.efuse-size: %u: property value not multiple of 32.",
-+                   object_get_canonical_path(OBJECT(dev)), s->efuse_size);
++    if (!reg->data || !reg->access) {
 +        return;
 +    }
 +
-+    s->fuse32 = g_malloc0(efuse_bytes(s));
-+    if (efuse_bdrv_read(s, errp)) {
-+        g_free(s->fuse32);
++    /* Reset must not trigger some registers' writers */
++    switch (reg->access->addr) {
++    case A_EFUSE_AES_CRC:
++    case A_EFUSE_AES_USR_KEY0_CRC:
++    case A_EFUSE_AES_USR_KEY1_CRC:
++        *(uint32_t *)reg->data = reg->access->reset;
++        return;
 +    }
++
++    register_reset(reg);
 +}
 +
-+static void efuse_prop_set_drive(Object *obj, Visitor *v, const char *name,
-+                                 void *opaque, Error **errp)
++static void efuse_ctrl_reset(DeviceState *dev)
 +{
-+    DeviceState *dev = DEVICE(obj);
++    XlnxVersalEFuseCtrl *s = XLNX_VERSAL_EFUSE_CTRL(dev);
++    unsigned int i;
 +
-+    qdev_prop_drive.set(obj, v, name, opaque, errp);
-+
-+    /* Fill initial data if backend is attached after realized */
-+    if (dev->realized) {
-+        efuse_bdrv_read(XLNX_EFUSE(obj), errp);
++    for (i = 0; i < ARRAY_SIZE(s->regs_info); ++i) {
++        efuse_ctrl_register_reset(&s->regs_info[i]);
 +    }
++
++    efuse_anchor_bits_check(s);
++    efuse_data_sync(s);
++    efuse_imr_update_irq(s);
 +}
 +
-+static void efuse_prop_get_drive(Object *obj, Visitor *v, const char *name,
-+                                 void *opaque, Error **errp)
-+{
-+    qdev_prop_drive.get(obj, v, name, opaque, errp);
-+}
-+
-+static void efuse_prop_release_drive(Object *obj, const char *name,
-+                                     void *opaque)
-+{
-+    qdev_prop_drive.release(obj, name, opaque);
-+}
-+
-+static const PropertyInfo efuse_prop_drive = {
-+    .name  = "str",
-+    .description = "Node name or ID of a block device to use as eFUSE backend",
-+    .realized_set_allowed = true,
-+    .get = efuse_prop_get_drive,
-+    .set = efuse_prop_set_drive,
-+    .release = efuse_prop_release_drive,
++static const MemoryRegionOps efuse_ctrl_ops = {
++    .read = register_read_memory,
++    .write = efuse_ctrl_reg_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
 +};
 +
-+static Property efuse_properties[] = {
-+    DEFINE_PROP("drive", XlnxEFuse, blk, efuse_prop_drive, BlockBackend *),
-+    DEFINE_PROP_UINT8("efuse-nr", XlnxEFuse, efuse_nr, 3),
-+    DEFINE_PROP_UINT32("efuse-size", XlnxEFuse, efuse_size, 64 * 32),
-+    DEFINE_PROP_BOOL("init-factory-tbits", XlnxEFuse, init_tbits, true),
-+    DEFINE_PROP_ARRAY("read-only", XlnxEFuse, ro_bits_cnt, ro_bits,
-+                      qdev_prop_uint32, uint32_t),
++static void efuse_ctrl_realize(DeviceState *dev, Error **errp)
++{
++    XlnxVersalEFuseCtrl *s = XLNX_VERSAL_EFUSE_CTRL(dev);
++    const uint32_t lks_sz = sizeof(XlnxEFuseLkSpec) / 2;
++
++    if (!s->efuse) {
++        error_setg(errp, "%s.efuse: link property not connected to XLNX-EFUSE",
++                   object_get_canonical_path(OBJECT(dev)));
++        return;
++    }
++
++    /* Sort property-defined pgm-locks for bsearch lookup */
++    if ((s->extra_pg0_lock_n16 % lks_sz) != 0) {
++        error_setg(errp,
++                   "%s.pg0-lock: array property item-count not multiple of %u",
++                   object_get_canonical_path(OBJECT(dev)), lks_sz);
++        return;
++    }
++
++    efuse_lk_spec_sort(s);
++}
++
++static void efuse_ctrl_init(Object *obj)
++{
++    XlnxVersalEFuseCtrl *s = XLNX_VERSAL_EFUSE_CTRL(obj);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    RegisterInfoArray *reg_array;
++
++    reg_array =
++        register_init_block32(DEVICE(obj), efuse_ctrl_regs_info,
++                              ARRAY_SIZE(efuse_ctrl_regs_info),
++                              s->regs_info, s->regs,
++                              &efuse_ctrl_ops,
++                              XLNX_VERSAL_EFUSE_CTRL_ERR_DEBUG,
++                              R_MAX * 4);
++
++    sysbus_init_mmio(sbd, &reg_array->mem);
++    sysbus_init_irq(sbd, &s->irq_efuse_imr);
++}
++
++static const VMStateDescription vmstate_efuse_ctrl = {
++    .name = TYPE_XLNX_VERSAL_EFUSE_CTRL,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32_ARRAY(regs, XlnxVersalEFuseCtrl, R_MAX),
++        VMSTATE_END_OF_LIST(),
++    }
++};
++
++static Property efuse_ctrl_props[] = {
++    DEFINE_PROP_LINK("efuse",
++                     XlnxVersalEFuseCtrl, efuse,
++                     TYPE_XLNX_EFUSE, XlnxEFuse *),
++    DEFINE_PROP_ARRAY("pg0-lock",
++                      XlnxVersalEFuseCtrl, extra_pg0_lock_n16,
++                      extra_pg0_lock_spec, qdev_prop_uint16, uint16_t),
++
 +    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+static void efuse_class_init(ObjectClass *klass, void *data)
++static void efuse_ctrl_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
 +
-+    dc->realize = efuse_realize;
-+    device_class_set_props(dc, efuse_properties);
++    dc->reset = efuse_ctrl_reset;
++    dc->realize = efuse_ctrl_realize;
++    dc->vmsd = &vmstate_efuse_ctrl;
++    device_class_set_props(dc, efuse_ctrl_props);
 +}
 +
-+static const TypeInfo efuse_info = {
-+    .name          = TYPE_XLNX_EFUSE,
-+    .parent        = TYPE_DEVICE,
-+    .instance_size = sizeof(XlnxEFuse),
-+    .class_init    = efuse_class_init,
++static const TypeInfo efuse_ctrl_info = {
++    .name          = TYPE_XLNX_VERSAL_EFUSE_CTRL,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(XlnxVersalEFuseCtrl),
++    .class_init    = efuse_ctrl_class_init,
++    .instance_init = efuse_ctrl_init,
 +};
 +
-+static void efuse_register_types(void)
++static void efuse_ctrl_register_types(void)
 +{
-+    type_register_static(&efuse_info);
++    type_register_static(&efuse_ctrl_info);
 +}
-+type_init(efuse_register_types)
++
++type_init(efuse_ctrl_register_types)
++
++/*
++ * Retrieve a row, with unreadable bits returned as 0.
++ */
++uint32_t xlnx_versal_efuse_read_row(XlnxEFuse *efuse,
++                                    uint32_t bit, bool *denied)
++{
++    bool dummy;
++
++    if (!denied) {
++        denied = &dummy;
++    }
++
++    if (bit >= EFUSE_RD_BLOCKED_START && bit <= EFUSE_RD_BLOCKED_END) {
++        *denied = true;
++        return 0;
++    }
++
++    *denied = false;
++    return xlnx_efuse_get_row(efuse, bit);
++}
 diff --git a/hw/nvram/Kconfig b/hw/nvram/Kconfig
-index e872fcb1941..252251f3665 100644
+index 252251f3665..6c2bb5afe3b 100644
 --- a/hw/nvram/Kconfig
 +++ b/hw/nvram/Kconfig
-@@ -15,3 +15,10 @@ config NMC93XX_EEPROM
- 
- config CHRP_NVRAM
+@@ -22,3 +22,7 @@ config XLNX_EFUSE_CRC
+ config XLNX_EFUSE
      bool
+     select XLNX_EFUSE_CRC
 +
-+config XLNX_EFUSE_CRC
++config XLNX_EFUSE_VERSAL
 +    bool
-+
-+config XLNX_EFUSE
-+    bool
-+    select XLNX_EFUSE_CRC
++    select XLNX_EFUSE
 diff --git a/hw/nvram/meson.build b/hw/nvram/meson.build
-index fd2951a860f..623c94efff6 100644
+index 623c94efff6..62352ad8ecc 100644
 --- a/hw/nvram/meson.build
 +++ b/hw/nvram/meson.build
-@@ -9,5 +9,7 @@ softmmu_ss.add(when: 'CONFIG_AT24C', if_true: files('eeprom_at24c.c'))
- softmmu_ss.add(when: 'CONFIG_MAC_NVRAM', if_true: files('mac_nvram.c'))
- softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_otp.c'))
+@@ -11,5 +11,8 @@ softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_otp.c'))
  softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_nvm.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_EFUSE_CRC', if_true: files('xlnx-efuse-crc.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_EFUSE', if_true: files('xlnx-efuse.c'))
+ softmmu_ss.add(when: 'CONFIG_XLNX_EFUSE_CRC', if_true: files('xlnx-efuse-crc.c'))
+ softmmu_ss.add(when: 'CONFIG_XLNX_EFUSE', if_true: files('xlnx-efuse.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_EFUSE_VERSAL', if_true: files(
++                                                   'xlnx-versal-efuse-cache.c',
++                                                   'xlnx-versal-efuse-ctrl.c'))
  
  specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_nvram.c'))
 -- 
