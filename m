@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302EF41E2EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 22:59:21 +0200 (CEST)
-Received: from localhost ([::1]:47236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C09941E2F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Sep 2021 22:59:25 +0200 (CEST)
+Received: from localhost ([::1]:47716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mW39D-0000xw-My
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 16:59:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60516)
+	id 1mW39I-0001HP-Jf
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 16:59:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mW37P-0006oW-4C
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 16:57:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43387)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mW37T-0006ww-SA
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 16:57:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mW37L-0008PN-N1
- for qemu-devel@nongnu.org; Thu, 30 Sep 2021 16:57:26 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mW37R-0008W2-1Z
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 16:57:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633035442;
+ s=mimecast20190719; t=1633035448;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vp1Z6jUrVyI8dXf9JGLwFdI3q50mjfk9QTys8vLuwTg=;
- b=IA3D8NDvJyXWXRIFOCBUIUYlQ/JHY0XxLx4NfhDyoLNOi+zJUyEVyBFh9qiX25nGa+IFxO
- BIHKRS0UuS6X4vDl7mTDXTHRJNq5cODMXbDFZw6xtNVunqcaUFa3YNVT8yUbO7HJeV3zQF
- pQxNqZu+KbgVp1+oZlG2g57ZBnhxMOk=
+ bh=V+hHX4akG1U0gFoXljzpl8hFTLN2S9vvA0s7cJ1Au1M=;
+ b=H64TahVLIxJyNX7uv4qztR/xqtRyMFWxpG5aBMXkssoRjEH6nCpq/wXqIAyk/WUK+i8/Ai
+ NDQtiLNsxDIW8r3QWfgeVEKr2wQk66yoAm90GK45LZFMu5s5b1v2uO/OgF16qb9fxD5MlV
+ i/D6j/IBVQst0FerwJekoyddiKOrKsc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-CKQfk2qvOw6sTn1W6dovlA-1; Thu, 30 Sep 2021 16:57:21 -0400
-X-MC-Unique: CKQfk2qvOw6sTn1W6dovlA-1
+ us-mta-571-4ApiqRCcNUu62HbkMfle0A-1; Thu, 30 Sep 2021 16:57:23 -0400
+X-MC-Unique: 4ApiqRCcNUu62HbkMfle0A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A68C479EDD;
- Thu, 30 Sep 2021 20:57:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBB88189CD26;
+ Thu, 30 Sep 2021 20:57:21 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9C2D05BAE5;
- Thu, 30 Sep 2021 20:57:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D3E7D60936;
+ Thu, 30 Sep 2021 20:57:20 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/13] qapi/gen: use dict.items() to iterate over _modules
-Date: Thu, 30 Sep 2021 16:57:05 -0400
-Message-Id: <20210930205716.1148693-3-jsnow@redhat.com>
+Subject: [PATCH v4 03/13] qapi/parser: fix unused check_args_section arguments
+Date: Thu, 30 Sep 2021 16:57:06 -0400
+Message-Id: <20210930205716.1148693-4-jsnow@redhat.com>
 In-Reply-To: <20210930205716.1148693-1-jsnow@redhat.com>
 References: <20210930205716.1148693-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,13 +55,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,35 +82,56 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New pylint warning. I could silence it, but this is the only occurrence
-in the entire tree, including everything in iotests/ and python/. Easier
-to just change this one instance.
+Pylint informs us we're not using these arguments. Oops, it's
+right. Correct the error message and remove the remaining unused
+parameter.
 
-(The warning is emitted in cases where you are fetching the values
-anyway, so you may as well just take advantage of the iterator to avoid
-redundant lookups.)
+Fix test output now that the error message is improved.
+Fixes: e151941d1b
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/gen.py | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ scripts/qapi/parser.py                | 16 +++++++++-------
+ tests/qapi-schema/doc-bad-feature.err |  2 +-
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index ab26d5c937a..2ec1e7b3b68 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -296,10 +296,9 @@ def _temp_module(self, name: str) -> Iterator[None]:
-         self._current_module = old_module
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index f03ba2cfec8..bfd2dbfd9a2 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -753,16 +753,18 @@ def check_expr(self, expr):
  
-     def write(self, output_dir: str, opt_builtins: bool = False) -> None:
--        for name in self._module:
-+        for name, (genc, genh) in self._module.items():
-             if QAPISchemaModule.is_builtin_module(name) and not opt_builtins:
-                 continue
--            (genc, genh) = self._module[name]
-             genc.write(output_dir)
-             genh.write(output_dir)
+     def check(self):
  
+-        def check_args_section(args, info, what):
++        def check_args_section(args, what):
+             bogus = [name for name, section in args.items()
+                      if not section.member]
+             if bogus:
+                 raise QAPISemError(
+                     self.info,
+-                    "documented member%s '%s' %s not exist"
+-                    % ("s" if len(bogus) > 1 else "",
+-                       "', '".join(bogus),
+-                       "do" if len(bogus) > 1 else "does"))
++                    "documented %s%s '%s' %s not exist" % (
++                        what,
++                        "s" if len(bogus) > 1 else "",
++                        "', '".join(bogus),
++                        "do" if len(bogus) > 1 else "does"
++                    ))
+ 
+-        check_args_section(self.args, self.info, 'members')
+-        check_args_section(self.features, self.info, 'features')
++        check_args_section(self.args, 'member')
++        check_args_section(self.features, 'feature')
+diff --git a/tests/qapi-schema/doc-bad-feature.err b/tests/qapi-schema/doc-bad-feature.err
+index e4c62adfa3e..49d1746c3d1 100644
+--- a/tests/qapi-schema/doc-bad-feature.err
++++ b/tests/qapi-schema/doc-bad-feature.err
+@@ -1 +1 @@
+-doc-bad-feature.json:3: documented member 'a' does not exist
++doc-bad-feature.json:3: documented feature 'a' does not exist
 -- 
 2.31.1
 
