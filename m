@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7298D41E850
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 09:26:43 +0200 (CEST)
-Received: from localhost ([::1]:56742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A5741E849
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 09:24:07 +0200 (CEST)
+Received: from localhost ([::1]:48446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWCwM-0005UK-Gf
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 03:26:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36670)
+	id 1mWCtq-00085x-Kb
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 03:24:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mWCio-0004K6-S7
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:12:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36986)
+ id 1mWCjM-0005Uu-KZ
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:13:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mWCin-0005Pm-82
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:12:42 -0400
+ id 1mWCjL-0005q0-3a
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:13:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633072360;
+ s=mimecast20190719; t=1633072393;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vzWYw5TdT4VDxLuD7rJPNEK27A6V1k2WSJKxtaO9E8Q=;
- b=EEQe23rkPF8eSoUe+AoNMklqb/X66gbzjbVNCZF7ODMJ45hjJ8WW5PNBpx3T9UtNs8qwwx
- SRkcR1SSEuk5Yukc0ajsnKCcgigw1ZIuKhyX7ArU/Gr99jJ7zrlfv1pr7a3EllcpnHW5ZY
- ZkjHnjdT0U+IE3VIAPBucp1j5x808P0=
+ bh=YxfcG9Hve63YPITjYpliIf6LuctyQ6i/mHcmM3wdCOw=;
+ b=Z+LjKCQVSRPwfv4xe0WuKR4ECo6KLpUiFR+MhdY/8PYsInJn9tUAA9Vg9pfwD0h6ckbwiY
+ ROn0qytD71uJLwBMFf9ZjmHNw4n++DBxt/f4z0fbTkXab3DW/9C8urhknYP430DnSX8tTy
+ pE/E5oeKHurOQBNZdMY1opO25pPLJog=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-3dRQ6-m-PaGfBzEIbwGrqQ-1; Fri, 01 Oct 2021 03:12:37 -0400
-X-MC-Unique: 3dRQ6-m-PaGfBzEIbwGrqQ-1
+ us-mta-400-W5YLp4aZNsSLyvgwVv0_Pw-1; Fri, 01 Oct 2021 03:13:12 -0400
+X-MC-Unique: W5YLp4aZNsSLyvgwVv0_Pw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9933218D6A35;
- Fri,  1 Oct 2021 07:12:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAA6F18D6A3E;
+ Fri,  1 Oct 2021 07:13:10 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58310652A3;
- Fri,  1 Oct 2021 07:12:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F1761652A3;
+ Fri,  1 Oct 2021 07:12:36 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v4 16/20] vhost: Check for device VRING_USED_F_NO_NOTIFY
- at shadow virtqueue kick
-Date: Fri,  1 Oct 2021 09:05:59 +0200
-Message-Id: <20211001070603.307037-17-eperezma@redhat.com>
+Subject: [RFC PATCH v4 17/20] vhost: Use VRING_AVAIL_F_NO_INTERRUPT at device
+ call on shadow virtqueue
+Date: Fri,  1 Oct 2021 09:06:00 +0200
+Message-Id: <20211001070603.307037-18-eperezma@redhat.com>
 In-Reply-To: <20211001070603.307037-1-eperezma@redhat.com>
 References: <20211001070603.307037-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -92,38 +92,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index df7e6fa3ec..775f8d36a0 100644
+index 775f8d36a0..2fd0bab75d 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -173,6 +173,15 @@ static void vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
-     svq->ring_id_maps[qemu_head] = elem;
+@@ -60,6 +60,9 @@ typedef struct VhostShadowVirtqueue {
+ 
+     /* Next head to consume from device */
+     uint16_t used_idx;
++
++    /* Cache for the exposed notification flag */
++    bool notification;
+ } VhostShadowVirtqueue;
+ 
+ /* If the device is using some of these, SVQ cannot communicate */
+@@ -105,6 +108,24 @@ bool vhost_svq_valid_device_features(uint64_t *dev_features)
+     return r;
  }
  
-+static void vhost_svq_kick(VhostShadowVirtqueue *svq)
++static void vhost_svq_set_notification(VhostShadowVirtqueue *svq, bool enable)
 +{
-+    /* Make sure we are reading updated device flag */
-+    smp_mb();
-+    if (!(svq->vring.used->flags & VRING_USED_F_NO_NOTIFY)) {
-+        event_notifier_set(&svq->kick_notifier);
++    uint16_t notification_flag;
++
++    if (svq->notification == enable) {
++        return;
++    }
++
++    notification_flag = cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
++
++    svq->notification = enable;
++    if (enable) {
++        svq->vring.avail->flags &= ~notification_flag;
++    } else {
++        svq->vring.avail->flags |= notification_flag;
 +    }
 +}
 +
- /* Handle guest->device notifications */
- static void vhost_handle_guest_kick(EventNotifier *n)
- {
-@@ -197,7 +206,7 @@ static void vhost_handle_guest_kick(EventNotifier *n)
-             }
+ static void vhost_vring_write_descs(VhostShadowVirtqueue *svq,
+                                     const struct iovec *iovec,
+                                     size_t num, bool more_descs, bool write)
+@@ -273,7 +294,7 @@ static void vhost_svq_handle_call_no_test(EventNotifier *n)
+     do {
+         unsigned i = 0;
  
-             vhost_svq_add(svq, elem);
--            event_notifier_set(&svq->kick_notifier);
-+            vhost_svq_kick(svq);
-         }
+-        /* TODO: Use VRING_AVAIL_F_NO_INTERRUPT */
++        vhost_svq_set_notification(svq, false);
+         while (true) {
+             g_autofree VirtQueueElement *elem = vhost_svq_get_buf(svq);
+             if (!elem) {
+@@ -286,6 +307,7 @@ static void vhost_svq_handle_call_no_test(EventNotifier *n)
  
-         virtio_queue_set_notification(svq->vq, true);
+         virtqueue_flush(vq, i);
+         event_notifier_set(&svq->guest_call_notifier);
++        vhost_svq_set_notification(svq, true);
+     } while (vhost_svq_more_used(svq));
+ }
+ 
 -- 
 2.27.0
 
