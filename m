@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10E7C41F375
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:44:28 +0200 (CEST)
-Received: from localhost ([::1]:38146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B7741F397
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:48:46 +0200 (CEST)
+Received: from localhost ([::1]:47536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWMaB-0004pC-0i
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:44:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55114)
+	id 1mWMeL-0002sw-VX
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:48:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWM5E-0005C8-1H
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:29 -0400
-Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:34808)
+ id 1mWM5G-0005EC-QH
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:31 -0400
+Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d]:38669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWM5A-0005If-CK
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:27 -0400
-Received: by mail-qt1-x835.google.com with SMTP id m26so9646193qtn.1
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:12:23 -0700 (PDT)
+ id 1mWM5B-0005Io-KS
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:30 -0400
+Received: by mail-qv1-xf2d.google.com with SMTP id cv2so5984752qvb.5
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h+WX/Xz3j7uTzh8f9NwZfFO9w7icTNNLSs9RiVXjf3k=;
- b=mCrnYTJnJbIbGzuxs5qDnO0t4J7n5Fu+Qhpm2DHKICihgqmI6wflxWRy8RtkQg40eY
- E5ZC8hEIUbbTCfnCh3aujUhfw5Vgf9gBybenKAwTc2H2C3Nm2FpodLkkPme+C/55yPUF
- PmIwSX0OI6w2W5H58XRYRnQ/sixHb28XQnAd2NgX0Bm+yf0AC3yLmjpMN3dl9R23NHom
- u28E+AGfGnJFeJsOYOuLnLDV3YTk1ZImviLjptMKDoJF2+RJfCSFA/WCAU6wK3armwYU
- WLa7tAQf+RZAJqH+DNOTAizAyV9NPhYQqn42Ap1usXn+c66PZDNkgB6cjzqZU8gHogAs
- hwnA==
+ bh=7570NHxgZZiIlSGX0IMLoQr+WiKI3C5JO5f+PGrIgpw=;
+ b=wsQNFhzeKyj2bCz5AcZFLwdtCU02LAWPz0h/7AgxFq1cxGPpGwG/hdhPhdSw1d24UU
+ qlFZTnC2dI7OclCLRG436teRdwYjCNdp9qfmuLs+oBmTe+MrhJyZmPejJMY5Eh1GobWM
+ NWm9RLZc+kLhpWMMXTS3aSeOm4gC1yeYM06WMElsYUcVePXB7bdD/X9umFjGTdLzO4RP
+ hiEGhP9I/z7/CbQE0ROBM9e9M8i3urviRUj23uRNPFzGlUm7t/ac3UN0R/yd6HShOOOW
+ lmuGfyIEp3tjiFJlbFTMKXVIrXP0zxSkl19s+MP/LZRO0k9KsIMhXtOCXWvxEZOZ4bGA
+ L5+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h+WX/Xz3j7uTzh8f9NwZfFO9w7icTNNLSs9RiVXjf3k=;
- b=tQlTs4Lv1O3eiRf7pUHizf3h/Z8Gk2qt8BS4pti9C4qfHRwA87xSbvSsDP+XJVJ4fL
- /5Bgy4eiXwL595k2f0pQVLGLQyp0i/UmEEpoRe3UUY20GDEF2F3se1nvOXMCsmA48eO8
- gBOSd04Wq6GCSn4TNTE9JR71n38Hx58SuwStDW26f3bC5pd5nBnOQuygmKUzFTSNhsYQ
- yPvKnXN0sMzTqnVKJ/ckJeUVTsZs5IQMCinbI9EySj+3An0rAgx35ng2Km1tp5yhoTns
- 4S2FQ3FnMcWNLbBivHdkhtCI+MM8R+l0/DuuFjlg+1htuNXgkQ9yPqbvEVg8z9Pa5jp8
- Yz+A==
-X-Gm-Message-State: AOAM532/W/1e2lqgk/O/rc9Uhfa8YCSyGX9viIaXPGQWMT12LEyYyZsk
- FuiIoT7zS0Zca5wtT+ya0xVqOt6wLcUobA==
-X-Google-Smtp-Source: ABdhPJwKGjTuE5TNy6NU/FlFmn+Y5yF2ow3hn/mbcHu0tpmo8gB+BLk+kVvRk04vlmR4A3/R6wgagw==
-X-Received: by 2002:ac8:7143:: with SMTP id h3mr14627375qtp.242.1633108343053; 
+ bh=7570NHxgZZiIlSGX0IMLoQr+WiKI3C5JO5f+PGrIgpw=;
+ b=UFiDHZz13PqxA2twJD1iZZaQgJiNDJ9U8Fr9N+reMuB1pI0DiZ3ZWxqVzWThSbvu1E
+ t8/pZMH1ShbysLHXC9Nr0yNVZWqx5fX9woYuikVPl3A8ItZYgiL5I85CXPBNeJdgHg/V
+ 3jGGRP89SnXqpZcDvn1xxjyckfmNJyOzsVpXRFyWBsrz8WnETO6rIAbNbblPX5c56Szm
+ 0k11Q4pPTsZjyNzDjOxRp+/o81BfpQFgkjSLhWomMcjrKcrH59Qu6f6JRDBgtpf1O1Ct
+ orqo78Z6ldY/UnGqMK99+nliwWMfa3/6cTpatU1r7UhPZoXoeRVMYRWUup5Tz1FryJVK
+ +qJg==
+X-Gm-Message-State: AOAM533puEMx8EfkBtuBmah67mSRPdGMbaBIKBainZWm01lI83Nj5Ikg
+ PvQSY6KcVj3q9Ee8szP07fnbXBfXCWyHfg==
+X-Google-Smtp-Source: ABdhPJy196vMpgGdWwjrcjD+zyZzfrMpsGQCQ4DlQ1BjOYynxlq+sHxvs/5lmaKpVmyYEyYF0U9dnA==
+X-Received: by 2002:a05:6214:1465:: with SMTP id
+ c5mr9982163qvy.66.1633108343860; 
  Fri, 01 Oct 2021 10:12:23 -0700 (PDT)
 Received: from localhost.localdomain (c-67-174-166-185.hsd1.ga.comcast.net.
  [67.174.166.185])
- by smtp.gmail.com with ESMTPSA id y15sm3557250qko.78.2021.10.01.10.12.22
+ by smtp.gmail.com with ESMTPSA id y15sm3557250qko.78.2021.10.01.10.12.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 10:12:22 -0700 (PDT)
+ Fri, 01 Oct 2021 10:12:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 34/41] target/ppc: Implement ppc_cpu_record_sigsegv
-Date: Fri,  1 Oct 2021 13:11:44 -0400
-Message-Id: <20211001171151.1739472-35-richard.henderson@linaro.org>
+Subject: [PATCH v3 35/41] target/riscv: Make riscv_cpu_tlb_fill sysemu only
+Date: Fri,  1 Oct 2021 13:11:45 -0400
+Message-Id: <20211001171151.1739472-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211001171151.1739472-1-richard.henderson@linaro.org>
 References: <20211001171151.1739472-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x835.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,111 +84,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, alex.bennee@linaro.org, laurent@vivier.eu,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-riscv@nongnu.org, alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Record DAR, DSISR, and exception_index.  That last means
-that we must exit to cpu_loop ourselves, instead of letting
-exception_index being overwritten.
+The fallback code in raise_sigsegv is sufficient for riscv.
+Remove the code from cpu_loop that raised SIGSEGV.
 
-This is exactly what the user-mode ppc_cpu_tlb_fill does,
-so simply rename it as ppc_cpu_record_sigsegv.
-
-Cc: qemu-ppc@nongnu.org
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: qemu-riscv@nongnu.org
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/cpu.h              |  3 ---
- target/ppc/internal.h         |  9 +++++++++
- target/ppc/cpu_init.c         |  6 ++++--
- target/ppc/user_only_helper.c | 15 +++++++++++----
- 4 files changed, 24 insertions(+), 9 deletions(-)
+ linux-user/riscv/cpu_loop.c |  7 -------
+ target/riscv/cpu.c          |  2 +-
+ target/riscv/cpu_helper.c   | 21 +--------------------
+ 3 files changed, 2 insertions(+), 28 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 01d3773bc7..60d1117845 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1278,9 +1278,6 @@ extern const VMStateDescription vmstate_ppc_cpu;
+diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
+index 9859a366e4..aef019b1c8 100644
+--- a/linux-user/riscv/cpu_loop.c
++++ b/linux-user/riscv/cpu_loop.c
+@@ -87,13 +87,6 @@ void cpu_loop(CPURISCVState *env)
+             sigcode = TARGET_TRAP_BRKPT;
+             sigaddr = env->pc;
+             break;
+-        case RISCV_EXCP_INST_PAGE_FAULT:
+-        case RISCV_EXCP_LOAD_PAGE_FAULT:
+-        case RISCV_EXCP_STORE_PAGE_FAULT:
+-            signum = TARGET_SIGSEGV;
+-            sigcode = TARGET_SEGV_MAPERR;
+-            sigaddr = env->badaddr;
+-            break;
+         case RISCV_EXCP_SEMIHOST:
+             env->gpr[xA0] = do_common_semihosting(cs);
+             env->pc += 4;
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 7c626d89cd..0292a72feb 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -675,9 +675,9 @@ static const struct SysemuCPUOps riscv_sysemu_ops = {
+ static const struct TCGCPUOps riscv_tcg_ops = {
+     .initialize = riscv_translate_init,
+     .synchronize_from_tb = riscv_cpu_synchronize_from_tb,
+-    .tlb_fill = riscv_cpu_tlb_fill,
  
- /*****************************************************************************/
- void ppc_translate_init(void);
--bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                      MMUAccessType access_type, int mmu_idx,
--                      bool probe, uintptr_t retaddr);
+ #ifndef CONFIG_USER_ONLY
++    .tlb_fill = riscv_cpu_tlb_fill,
+     .cpu_exec_interrupt = riscv_cpu_exec_interrupt,
+     .do_interrupt = riscv_cpu_do_interrupt,
+     .do_transaction_failed = riscv_cpu_do_transaction_failed,
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index d41d5cd27c..b520d6fc78 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -748,7 +748,6 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                             riscv_cpu_two_stage_lookup(mmu_idx);
+     riscv_raise_exception(env, cs->exception_index, retaddr);
+ }
+-#endif /* !CONFIG_USER_ONLY */
  
- #if !defined(CONFIG_USER_ONLY)
- void ppc_store_sdr1(CPUPPCState *env, target_ulong value);
-diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-index 55284369f5..339974b7d8 100644
---- a/target/ppc/internal.h
-+++ b/target/ppc/internal.h
-@@ -283,5 +283,14 @@ static inline void pte_invalidate(target_ulong *pte0)
- #define PTE_PTEM_MASK 0x7FFFFFBF
- #define PTE_CHECK_MASK (TARGET_PAGE_MASK | 0x7B)
- 
-+#ifdef CONFIG_USER_ONLY
-+void ppc_cpu_record_sigsegv(CPUState *cs, vaddr addr,
-+                            MMUAccessType access_type,
-+                            bool maperr, uintptr_t ra);
-+#else
-+bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                      MMUAccessType access_type, int mmu_idx,
-+                      bool probe, uintptr_t retaddr);
-+#endif
- 
- #endif /* PPC_INTERNAL_H */
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 6aad01d1d3..ec8da08f0b 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -9014,9 +9014,11 @@ static const struct SysemuCPUOps ppc_sysemu_ops = {
- 
- static const struct TCGCPUOps ppc_tcg_ops = {
-   .initialize = ppc_translate_init,
--  .tlb_fill = ppc_cpu_tlb_fill,
- 
--#ifndef CONFIG_USER_ONLY
-+#ifdef CONFIG_USER_ONLY
-+  .record_sigsegv = ppc_cpu_record_sigsegv,
-+#else
-+  .tlb_fill = ppc_cpu_tlb_fill,
-   .cpu_exec_interrupt = ppc_cpu_exec_interrupt,
-   .do_interrupt = ppc_cpu_do_interrupt,
-   .cpu_exec_enter = ppc_cpu_exec_enter,
-diff --git a/target/ppc/user_only_helper.c b/target/ppc/user_only_helper.c
-index aa3f867596..7ff76f7a06 100644
---- a/target/ppc/user_only_helper.c
-+++ b/target/ppc/user_only_helper.c
-@@ -21,16 +21,23 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
-+#include "internal.h"
- 
--
--bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                      MMUAccessType access_type, int mmu_idx,
--                      bool probe, uintptr_t retaddr)
-+void ppc_cpu_record_sigsegv(CPUState *cs, vaddr address,
-+                            MMUAccessType access_type,
-+                            bool maperr, uintptr_t retaddr)
+ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                         MMUAccessType access_type, int mmu_idx,
+@@ -756,7 +755,6 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
  {
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-     CPUPPCState *env = &cpu->env;
-     int exception, error_code;
+     RISCVCPU *cpu = RISCV_CPU(cs);
+     CPURISCVState *env = &cpu->env;
+-#ifndef CONFIG_USER_ONLY
+     vaddr im_address;
+     hwaddr pa = 0;
+     int prot, prot2, prot_pmp;
+@@ -888,25 +886,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     }
  
-+    /*
-+     * Both DSISR and the "trap number" (exception vector offset,
-+     * looked up from exception_index) are present in the linux-user
-+     * signal frame.
-+     * FIXME: we don't actually populate the trap number properly.
-+     * It would be easiest to fill in an env->trap value now.
-+     */
-     if (access_type == MMU_INST_FETCH) {
-         exception = POWERPC_EXCP_ISI;
-         error_code = 0x40000000;
+     return true;
+-
+-#else
+-    switch (access_type) {
+-    case MMU_INST_FETCH:
+-        cs->exception_index = RISCV_EXCP_INST_PAGE_FAULT;
+-        break;
+-    case MMU_DATA_LOAD:
+-        cs->exception_index = RISCV_EXCP_LOAD_PAGE_FAULT;
+-        break;
+-    case MMU_DATA_STORE:
+-        cs->exception_index = RISCV_EXCP_STORE_PAGE_FAULT;
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
+-    env->badaddr = address;
+-    cpu_loop_exit_restore(cs, retaddr);
+-#endif
+ }
++#endif /* !CONFIG_USER_ONLY */
+ 
+ /*
+  * Handle Traps
 -- 
 2.25.1
 
