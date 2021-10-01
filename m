@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797D441EE51
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 15:16:47 +0200 (CEST)
-Received: from localhost ([::1]:38080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4A441EE6D
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 15:21:12 +0200 (CEST)
+Received: from localhost ([::1]:44722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWIP8-000534-Fj
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 09:16:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54120)
+	id 1mWITP-0001VL-CO
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 09:21:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mWIMc-0003d9-Kp
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 09:14:11 -0400
-Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:35051)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mWIMZ-0001IZ-6J
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 09:14:10 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.139])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 3058B22DEA;
- Fri,  1 Oct 2021 13:14:03 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 1 Oct
- 2021 15:14:01 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0050d6e0214-3973-4d16-b014-46ad590903ea,
- 4BD1923EFCE0A2D5FFEE921A78BF2E0F2CE6D79C) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <cb8b2ebd-ff24-519d-994e-0b5478ad1c5b@kaod.org>
-Date: Fri, 1 Oct 2021 15:14:01 +0200
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mWIQK-000887-AV
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 09:18:00 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:44559)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mWIQI-0003wu-7V
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 09:18:00 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id v18so33932579edc.11
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 06:17:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uMN2/GbwrskolvwwoxfhjRcyfZ/HpAbbYr+FiT5kuVo=;
+ b=nEtz+Sa3crlXw0TU2cX3cdEUTH7u6v5l90+DOqu3YU5frcB+XMAx8MxQejijsjxDdu
+ PK1+/LrqEG2Zoo7JTkOjFMclRNjqx0uW8mH5PANVzOKIhBkbrLqHg9m7Mh3lkDHT2JKR
+ 5wL+jR/JHiFuYSkXfcLf7RguwoK77i8B3EvsL8WholzhBi4T19shQdVqBY2AvGomGkKF
+ vCgboVuQgX/mMICFgOh8liKkn06AtlSE8ZB8Q20sPg/IKyAHz3m6vmgVtXmyZAmOh9ZZ
+ 0BWL6lWIchuHGidQ0c8BTu0w5/JPaLSgs/WIgbRF8tV9Kyg+xC8NzJNkiWkw7jtaQgzM
+ 6Pjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uMN2/GbwrskolvwwoxfhjRcyfZ/HpAbbYr+FiT5kuVo=;
+ b=FaoR5ena8n/BHalIIFXS/qo5JvAYfn9tLbPk6ZbBIDbucLuhWXM4kbEGWlRo/G65nU
+ fJJkLzF95EkY7AOM425lvy5hLJ9ZzFCN71F1iDPe4QYSOicbiQ4hUdGzEWLqMKZOjdAv
+ HILOD6Zryrz500xVOT2+DPpRdeOGKkg+FQAqDD/ZnhWKSsbXzhO8nOdnHKZt/5VVtgKV
+ NTo4lAXLneYE2jvm3Dt+8ZfBtDA58ZDmUbJtzX6HwdzBSZ7pKsw2QGGTHz070/21x4Lq
+ Actq103kBQ3dWxQoZ+AJo/DHzyM6HZG95WheH1iTiBVe37vlLo+FxpnJB5zUY1ggFh3n
+ aNPQ==
+X-Gm-Message-State: AOAM533mBGEADNhjh+l4Vj8kdVYqpPMC3RSk1ribtLfxJRQEeQ+bBAEZ
+ zNJsUsYguTOHYwOaqstHBn1Mmzbng2UHk3OGnGDJ1w==
+X-Google-Smtp-Source: ABdhPJxoZUGoF+i/z/0Q4bNEIg4NGkhT3Q4MukXpuavLRe4ffhbEdTIlOVv+wWehptIaLOFG04BCkVV7+lIbdov7Oaw=
+X-Received: by 2002:a17:906:4cc1:: with SMTP id
+ q1mr5937345ejt.415.1633094273575; 
+ Fri, 01 Oct 2021 06:17:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
- MAINTAINERS: Orphan obscure ppc platforms)
-Content-Language: en-US
-To: Christophe Leroy <christophe.leroy@csgroup.eu>, Thomas Huth
- <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
- <20210927044808.73391-5-david@gibson.dropbear.id.au>
- <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
- <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
- <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
- <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
- <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
- <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: a0a76dfc-e053-44c4-bc0d-80aad15a789a
-X-Ovh-Tracer-Id: 692146970069273415
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudekiedgheekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekkeefheefvdefhefgjeelveekheeileehudevkeefvdfhleetiedvffdtudeknecuffhomhgrihhnpehgihhtlhgrsgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo552.mail-out.ovh.net
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.127,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211001082502.1342878-1-lvivier@redhat.com>
+ <20211001104514.46bhlpenx4rz2qnm@sirius.home.kraxel.org>
+ <0eeefb15-1b41-076c-7dd4-ca5fc78eefa9@redhat.com>
+ <20211001124935.qal55li6aozocan3@sirius.home.kraxel.org>
+In-Reply-To: <20211001124935.qal55li6aozocan3@sirius.home.kraxel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 1 Oct 2021 18:47:42 +0530
+Message-ID: <CAARzgwxxuZ=cdqJfd_x_ot-NsqefVdH5g_oM8wKs17bLZWzo+Q@mail.gmail.com>
+Subject: Re: [PATCH v3] failover: fix unplug pending detection
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000000fc4b505cd4a64ea"
+Received-SPF: none client-ip=2a00:1450:4864:20::52d;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,62 +78,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>, dbarboza@redhat.com,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
- Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/21 15:04, Christophe Leroy wrote:
-> 
-> 
-> Le 01/10/2021 à 14:04, Thomas Huth a écrit :
->> On 01/10/2021 13.12, Peter Maydell wrote:
->>> On Fri, 1 Oct 2021 at 10:43, Thomas Huth <thuth@redhat.com> wrote:
->>>> Nevertheless, as long as nobody has a hint where to find that
->>>> ppc405_rom.bin, I think both boards are pretty useless in QEMU (as far as I
->>>> can see, they do not work without the bios at all, so it's also not possible
->>>> to use a Linux image with the "-kernel" CLI option directly).
->>>
->>> It is at least in theory possible to run bare-metal code on
->>> either board, by passing either a pflash or a bios argument.
->>
->> True. I did some more research, and seems like there was once support for those boards in u-boot, but it got removed there a couple of years ago already:
->>
->> https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdf
->>
->> https://gitlab.com/qemu-project/u-boot/-/commit/b147ff2f37d5b
->>
->> https://gitlab.com/qemu-project/u-boot/-/commit/7514037bcdc37
->>
->>> But I agree that there seem to be no signs of anybody actually
->>> successfully using these boards for anything, so we should
->>> deprecate-and-delete them.
->>
->> Yes, let's mark them as deprecated now ... if someone still uses them and speaks up, we can still revert the deprecation again.
->>
-> 
-> 
-> I really would like to be able to use them to validate Linux Kernel changes, hence looking for that missing BIOS.
-> 
-> If we remove ppc405 from QEMU, we won't be able to do any regression tests of Linux Kernel on those processors.
+--0000000000000fc4b505cd4a64ea
+Content-Type: text/plain; charset="UTF-8"
 
-It's nice to have I agree.
+On Fri, Oct 1, 2021 at 18:19 Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-Someone needs to find the right u-boot level and certainly also,
-a host old enough to support the compiler options. May be, a RH6
-ppc64 VM or an old ppc32 debian image running under QEMU or
-some MAC.
+>   Hi,
+>
+> > > So, in case the first time didn't work (for example due to the guest
+> not
+> > > listening because grub just doesn't do that), you can try a second time
+> > > once the linux kernel is up'n'running.
+> > >
+> > > I suspect this patch will break that (didn't actually test though).
+> >
+> > I think the solution to this problem is to not check for
+> > pending_deleted_event value in qmp_device_del().
+> >
+> > But this has been explicitly added by:
+> >
+> > commit cce8944cc9efab47d4bf29cfffb3470371c3541b
+> > Author: Julia Suvorova <jusual@redhat.com>
+> > Date:   Thu Feb 20 17:55:56 2020 +0100
+> >
+> >     qdev-monitor: Forbid repeated device_del
+> >
+> >     [ ... ]
+> >
+> > So do you mean ACPI differs from PCIe Native hotplug in this case?
+>
+> Yes.
+>
+> It's one of the issues I'm trying to address with the
+>
+>   https://gitlab.com/kraxel/qemu/-/commits/sirius/pcie-hotplug
+>
+> series.  See this commit:
+>
+>
+> https://gitlab.com/kraxel/qemu/-/commit/675d9257d794c9d59ea7c80f48fe176a2aa3f8ba
 
-Tell me if you need some help to get a system/image.
 
-C.
+I think the scope of this patch is limited to making the acpi hotplug path
+identical to PCIE native path wrt failover. If there are issues with the
+existing approach, it should be looked into separately using subsequent
+patches.
+
+<https://gitlab.com/kraxel/qemu/-/commit/675d9257d794c9d59ea7c80f48fe176a2aa3f8ba>
+>
+> So, yes, I think acpi and pcie hotplug should show consistent behavior
+> here.  And I think we need some way to recover in case the guest didn't
+> respond to an unplug event.  Just allowing to send device_del multiple
+> times looks like a sensible approach to me, and given OpenStack already
+> does that it looks like the most sensible way forward.
+>
+> take care,
+>   Gerd
+>
+>
+
+--0000000000000fc4b505cd4a64ea
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Oct 1, 2021 at 18:19 Gerd Hoffmann &lt;<a href=3D"m=
+ailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-wid=
+th:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,2=
+04,204)">=C2=A0 Hi,<br>
+<br>
+&gt; &gt; So, in case the first time didn&#39;t work (for example due to th=
+e guest not<br>
+&gt; &gt; listening because grub just doesn&#39;t do that), you can try a s=
+econd time<br>
+&gt; &gt; once the linux kernel is up&#39;n&#39;running.<br>
+&gt; &gt; <br>
+&gt; &gt; I suspect this patch will break that (didn&#39;t actually test th=
+ough).<br>
+&gt; <br>
+&gt; I think the solution to this problem is to not check for<br>
+&gt; pending_deleted_event value in qmp_device_del().<br>
+&gt; <br>
+&gt; But this has been explicitly added by:<br>
+&gt; <br>
+&gt; commit cce8944cc9efab47d4bf29cfffb3470371c3541b<br>
+&gt; Author: Julia Suvorova &lt;<a href=3D"mailto:jusual@redhat.com" target=
+=3D"_blank">jusual@redhat.com</a>&gt;<br>
+&gt; Date:=C2=A0 =C2=A0Thu Feb 20 17:55:56 2020 +0100<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0qdev-monitor: Forbid repeated device_del<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0[ ... ]<br>
+&gt; <br>
+&gt; So do you mean ACPI differs from PCIe Native hotplug in this case?<br>
+<br>
+Yes.<br>
+<br>
+It&#39;s one of the issues I&#39;m trying to address with the<br>
+<br>
+=C2=A0 <a href=3D"https://gitlab.com/kraxel/qemu/-/commits/sirius/pcie-hotp=
+lug" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/kraxel/qemu/-/=
+commits/sirius/pcie-hotplug</a><br>
+<br>
+series.=C2=A0 See this commit:<br>
+<br>
+=C2=A0 <a href=3D"https://gitlab.com/kraxel/qemu/-/commit/675d9257d794c9d59=
+ea7c80f48fe176a2aa3f8ba" rel=3D"noreferrer" target=3D"_blank">https://gitla=
+b.com/kraxel/qemu/-/commit/675d9257d794c9d59ea7c80f48fe176a2aa3f8ba</a></bl=
+ockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I think the scope of=
+ this patch is limited to making the acpi hotplug path identical to PCIE na=
+tive path wrt failover. If there are issues with the existing approach, it =
+should be looked into separately using subsequent patches.</div><div dir=3D=
+"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bo=
+rder-left-color:rgb(204,204,204)" dir=3D"auto"><a href=3D"https://gitlab.co=
+m/kraxel/qemu/-/commit/675d9257d794c9d59ea7c80f48fe176a2aa3f8ba" rel=3D"nor=
+eferrer" target=3D"_blank"></a><br>
+<br>
+So, yes, I think acpi and pcie hotplug should show consistent behavior<br>
+here.=C2=A0 And I think we need some way to recover in case the guest didn&=
+#39;t<br>
+respond to an unplug event.=C2=A0 Just allowing to send device_del multiple=
+<br>
+times looks like a sensible approach to me, and given OpenStack already<br>
+does that it looks like the most sensible way forward.<br>
+<br>
+take care,<br>
+=C2=A0 Gerd<br>
+<br>
+</blockquote></div></div>
+
+--0000000000000fc4b505cd4a64ea--
 
