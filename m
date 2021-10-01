@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9939241F331
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:36:44 +0200 (CEST)
-Received: from localhost ([::1]:53594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF01841F417
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:58:34 +0200 (CEST)
+Received: from localhost ([::1]:50248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWMSh-0004Ju-9o
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55808)
+	id 1mWMnp-0007CM-R7
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mWM8s-0002no-Ur
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:16:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41540)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mWM8p-0008JE-7q
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:16:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633108570;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=0RDL6OPsBpQ8yxdCm1HozU4NLEGPnl3ZGrsM6NRK6M0=;
- b=fu95pibK9J3ZmxVujieqgnTGDcI8ljzop6mV6QSBXt8mivvPxN68oAVF9hQ368B4DFB5Cm
- aP28ddm3G53WcKJOqPs6v1kxMDD4BEO91wNxDFo4rfoMb6LmCXTLcTCqsR8W8mADdjJpcu
- AgU6yKNlG6gCNewGS+AW4MRXQAyhh38=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-tdvoboP2M1uEBmanAquEyA-1; Fri, 01 Oct 2021 13:15:57 -0400
-X-MC-Unique: tdvoboP2M1uEBmanAquEyA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1EF519067E1;
- Fri,  1 Oct 2021 17:15:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA7A15D6BA;
- Fri,  1 Oct 2021 17:15:51 +0000 (UTC)
-Date: Fri, 1 Oct 2021 18:15:49 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v12 16/16] machine: Make smp_parse return a boolean
-Message-ID: <YVdCRYvRHIio6MZe@redhat.com>
-References: <20210929025816.21076-1-wangyanan55@huawei.com>
- <20210929025816.21076-17-wangyanan55@huawei.com>
- <0343d17f-bb46-a266-7ba4-20bdf30631d0@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mWMGE-00087H-I3
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:23:51 -0400
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:37586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mWMGB-0005wd-Ua
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:23:49 -0400
+Received: by mail-qt1-x829.google.com with SMTP id e16so9674133qts.4
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:23:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=oXG9/nUzRVfQFoYdRhJmTFx/EvVk9I3jETZCgxmSsL4=;
+ b=lfWOWnqZzSQRdQnPSkciArcCMu2P4Yzw6QdG3j5Cji7wCvUGkNEswACxphZzoew95R
+ l34rqdJilw/tfcSQevUHCQfeIIYNa7n05LvSxIkLTU3ZvLH9unUTWZq+XeO6kp3/9iU1
+ 03pl8oE7gKpZ9q+WnwZDbs+bGrCNvzgbptZfZ0UbRE+uCL0iHUQqubE8sJGk6LenA1Du
+ BvEIUmmepUm8obgUVr3aHWUwbgJaK/bazepYqIY/zOyq/eth7QRd/SJOMRzriePahg4w
+ vk1aO2bROh69I0Rle/Fy4O+YCCKkYv7y98ty9Vlf+JcARq0W5lI9K+oFGbLppM3X65V2
+ XLag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oXG9/nUzRVfQFoYdRhJmTFx/EvVk9I3jETZCgxmSsL4=;
+ b=hefgBFQV51g4+9os9kmz/j7G2rufYQVpwmMsjGkXerc2W7fsQNqy8img0V5USJ2hyv
+ ZxS12djQtrmFqMrOHHRvpWmt5wlJOQ0mJyZXwMPp7ilQE9xc2ABgfP1CLXz/9gpr72Wu
+ OT6SIPfhDAkoyjoafameEqRLulvtvcSwjSOHuYNXubIqR9BH065YwSwcS0SYxJFg9inA
+ +kN0+NUiucqFbUzQi02pQB0DedWykqjDzk8NNmcF7cmlvxpn4nRnaPQQyQoAqiREzEDs
+ JcbEiwuP9802Y2M9H6Q0q3sH0jDBUEcys7lNkdHKBYiUY932dQabPxRVPlOYKqWPpp00
+ pSJA==
+X-Gm-Message-State: AOAM533WzeArflkAC6DIiKaKggflyck5RNVwOMDZncInsFkUZb+AhEBh
+ 5bj6NKXrlJa4Rjm5wD4rI+ie+A==
+X-Google-Smtp-Source: ABdhPJyZk7UvNtBRhvYqLsjGdbqmnaFei4zz1pKOWvJ7JMNlxXRFrZvOUHzo5sQPgVg2JI2Due3AYA==
+X-Received: by 2002:ac8:1090:: with SMTP id a16mr14445444qtj.297.1633109026207; 
+ Fri, 01 Oct 2021 10:23:46 -0700 (PDT)
+Received: from [192.168.3.43] (c-67-174-166-185.hsd1.ga.comcast.net.
+ [67.174.166.185])
+ by smtp.gmail.com with ESMTPSA id 188sm3272229qkm.21.2021.10.01.10.23.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Oct 2021 10:23:45 -0700 (PDT)
+Subject: Re: hexagon container update
+To: Brian Cain <bcain@quicinc.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <SN6PR02MB42057F473618E661B72E1FF3B8AB9@SN6PR02MB4205.namprd02.prod.outlook.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <107df921-3339-7b73-15f3-daba2d61882e@linaro.org>
+Date: Fri, 1 Oct 2021 13:23:43 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <0343d17f-bb46-a266-7ba4-20bdf30631d0@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <SN6PR02MB42057F473618E661B72E1FF3B8AB9@SN6PR02MB4205.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.127,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,76 +88,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-ppc@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Taylor Simpson <tsimpson@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 01, 2021 at 07:08:51PM +0200, Paolo Bonzini wrote:
-> On 29/09/21 04:58, Yanan Wang wrote:
-> > @@ -933,8 +935,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
-> >           return;
-> >       }
-> > -    smp_parse(ms, config, errp);
-> > -    if (*errp) {
-> > +    if (!smp_parse(ms, config, errp)) {
-> >           qapi_free_SMPConfiguration(config);
-> >       }
-> >   }
-> > 
+On 10/1/21 12:59 PM, Brian Cain wrote:
+> Alex,
 > 
-> This is actually a leak, so I'm replacing this patch with
+> We need to update the docker container used for hexagon for new test cases proposed in Taylor's recent patch series under review.  Thankfully, CodeLinaro has provided a binary of the hexagon cross toolchain so now I think we can simplify the hexagon docker file to something like the below.  I hope this also means that we can remove the exceptional handling for the hexagon container.
+> 
+> I can propose a patch but I'm not quite certain how to test it.
 
-This patch isn't adding a leak, as there's no change in
-control flow / exit paths.  AFAICT, the leak was introduced
-in patch 15 instead, so the code below shoudl be squashed
-into that, and this patch left as-is.
+make docker-image-debian-hexagon-cross NOCACHE=1 V=1
+
+and then make check-tcg to use the new image.
 
 > 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 54f04a5ac6..d49ebc24e2 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -897,7 +897,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
->  {
->      MachineClass *mc = MACHINE_GET_CLASS(obj);
->      MachineState *ms = MACHINE(obj);
-> -    SMPConfiguration *config;
-> +    g_autoptr(SMPConfiguration) config = NULL;
->      ERRP_GUARD();
->      if (!visit_type_SMPConfiguration(v, name, &config, errp)) {
-> @@ -920,7 +920,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
->      smp_parse(ms, config, errp);
->      if (*errp) {
-> -        goto out_free;
-> +        return;
->      }
->      /* sanity-check smp_cpus and max_cpus against mc */
-> @@ -935,9 +935,6 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
->                     ms->smp.max_cpus,
->                     mc->name, mc->max_cpus);
->      }
-> -
-> -out_free:
-> -    qapi_free_SMPConfiguration(config);
->  }
->  static void machine_class_init(ObjectClass *oc, void *data)
-> 
-> which removes the need.
+> The "--no-check-certificate" argument to wget is very bad but I'm not quite certain how to upgrade/change the container's certificate store to accept the apparently-legit-but-perhaps-newer-than-expected certificate presented by codelinaro.jfrog.io.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Hum.  This all suggests that it would be better to update the build-toolchain script.
 
+> RUN cd /tmp && \
+>      wget --quiet --no-check-certificate ${CLANG_URL}
+> RUN cd /opt && \
+>      tar xf /tmp/clang+llvm-Sept-2021-cross-hexagon-unknown-linux-musl.tar.xz
+
+You'd want to remove the tarball as well.
+
+
+r~
 
