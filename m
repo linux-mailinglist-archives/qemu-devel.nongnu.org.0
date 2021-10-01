@@ -2,84 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32F041F262
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 18:44:58 +0200 (CEST)
-Received: from localhost ([::1]:53480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E023241F2A3
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:03:21 +0200 (CEST)
+Received: from localhost ([::1]:35342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWLeb-0003sh-Kg
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 12:44:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47482)
+	id 1mWLwO-0003Qn-E0
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:03:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWLbp-0001cy-Ip
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 12:42:05 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:46964)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWLbn-0004XW-RS
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 12:42:05 -0400
-Received: by mail-qk1-x731.google.com with SMTP id b65so9697656qkc.13
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 09:42:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=aQbL8pXIXocxX9H8b/2nNpVZyCyOOEJ+2eX3f4bQsb0=;
- b=wXbQCGjvp4GLHV24dvNcEoftO+b+jxKTmz0SX5x2HR0+WKCJvkioVyd5rDUb2pCsyj
- o4MwxX88vRap3XoIMPH26Rln/IMU3v7eS9oXh7nMXv+ICLXwXcGBr6pwdAR2E1rH+e9G
- KNiwnEpz/fBuGfOjg9/YJkFPWP0jIasbrHIi5xoe9Jmc2rwoK0LDzR/wU1wjZbeFmvdD
- YEhrospe7J6JtzCADzrRF55UOLO4nVmGg2KvlI4Zwe+SSleJ/yccWHSdHTqccQETU7z8
- JuQIl058Sfvctk3JRr/BoFuVNjJ4FsVaTDrdfRW23LqaJ1v9W9MoKhc5ea1v1Qa+zBz4
- WCMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=aQbL8pXIXocxX9H8b/2nNpVZyCyOOEJ+2eX3f4bQsb0=;
- b=xcJDy3LrB5OhWgQ+D6dLj79m/gH+Rm6PtifYu039n97BOxa1sMGvPU758hLCSh17R7
- c63cSo+b9ivp9BaIuCsffzYdO76Lo7MwVf5tpMx3cL7C5b5VVGiSfm8M1lbTJNE/P3Uy
- VNGh2ggoGNTBPUDyarTSJ3L8atCuOq8yIhpc6d450UjHeTC7FVaH9aDosVow2dCjmgwy
- 9AxL2GzNjfvXUVW5wKNZF1bqzrTi9+c6xHfOKghO1Bu47fPwXvq/d8B7D3577YOlsrty
- nOS/9xTjUd2PVEWmUoO8yDtmE6p3pJf++cojwxmreYbG+OROmSjWWMl/fmvQgKtFxNpo
- /81A==
-X-Gm-Message-State: AOAM531PamMaVsV49ge6EMkaTpZohEJ2P96RZLi7URiMtNrgF2O/fa2U
- vqZG27fvkjslKtlzwsZZgtCSouQ8OBouYA==
-X-Google-Smtp-Source: ABdhPJxEISaAeFeyVBnUq/DuWLEI7heMQCiSZdmm/c7At99cOYDg6yzkNykzMscChFIJiV2TCPFeTA==
-X-Received: by 2002:ae9:eb58:: with SMTP id b85mr10034928qkg.323.1633106522896; 
- Fri, 01 Oct 2021 09:42:02 -0700 (PDT)
-Received: from [192.168.3.43] (c-67-174-166-185.hsd1.ga.comcast.net.
- [67.174.166.185])
- by smtp.gmail.com with ESMTPSA id p12sm3298438qkj.54.2021.10.01.09.42.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Oct 2021 09:42:02 -0700 (PDT)
-Subject: Re: [RFC PATCH 00/13] x86 User Interrupts support
-To: Stefan Hajnoczi <stefanha@redhat.com>, Sohil Mehta
- <sohil.mehta@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210913200132.3396598-1-sohil.mehta@intel.com>
- <456bf9cf-87b8-4c3d-ac0c-7e392bcf26de@www.fastmail.com>
- <YVXmGTo5Uzp44QQq@stefanha-x1.localdomain>
- <778d40fe-ad8e-fd7c-4caa-499910bb0925@intel.com>
- <YVc47ohb4nxrBO5h@stefanha-x1.localdomain>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3abdadab-9b7e-7cc0-5ec5-17fa385ce7d4@linaro.org>
-Date: Fri, 1 Oct 2021 12:41:59 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <YVc47ohb4nxrBO5h@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1mWLtq-0002Rh-U3
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:00:44 -0400
+Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:63097)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1mWLtk-0002oF-Fg
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:00:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
+ t=1633107636; x=1633712436;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=9C44s+AhUSPpTvOsUhA2IRPmzYao4Osoy63kHZn46BA=;
+ b=G3PpptLzq9ZgckA3CFmYMdIBGZrZ6J6ZGTIT/izoTIfQB3WPYKEjXXRh
+ P0uZjr9A8PrexDBHUZz/jDyIDO9eGdmu73kfiLJnLACBGa8Ghw9/9j025
+ 2d6oK1GALpjhRCW62AmvUROt9+Wl8ylE4XeX1Q3gnCkDwQZIWHCteIvdd 0=;
+Received: from mail-co1nam11lp2171.outbound.protection.outlook.com (HELO
+ NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.171])
+ by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2021 16:59:27 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fs4YHyOLxiW7d+NdFLeeOOC+V7yTXvI8J6EfFwoSmqGdUtX1C7U3ndwME6vAJVkeuTOPlvyCIqi5kyDIp0hR2OeaahZCD9sDqr1X8u4jRVKR7HxkVeNYRt+b6qxuo58E1yFs8MFP/iniABz4AqFbdnJyEQGrbotlNdeXqvemSdM9MVundUTv+TInbdroEYmcjuxFfIyL6Bj1hjdeZMbWJcmT+5yL8PXk6GCXbZlGzrbmimGePtaAuzTf92Hs6g0M1l1ha2p33sXzCEi9pKb2THLYPUtvRNX8BfCTLiVTW0b3nhmveQGeL5ihPsb2bUPhOf3ociynz07tToXe09CGhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9C44s+AhUSPpTvOsUhA2IRPmzYao4Osoy63kHZn46BA=;
+ b=CZPiCLse/ODOMs2vATLembi3Y/OaKZqx7G2K5u4PLV/cy1MVI/gctPafKqIcWFpgzm91lcheptRbLCIH7ns23Mm+os56F9WASlrrd7dteU7rLAqKPoZuJi0QPciRe0aXlth0FA9s0Q6mrSO4+zhglefl1wVrh21dSiD0pUmyVwNiCjRrFs52GVz+gtxHuu63JALGph+odpR+ZCLsEXNwwa9LDO9dK4uoRiLCOhsAoyshNVBxCsQ0DOpBFOlUYvHz51mFPq8BqO0fmj5FVBtE+XRBeWwlX/2qrVTdgHP6vh9fmB1mpe4bn5BAyq0TsmZgSQs/sq1ktPWfcRNqpzEY6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from SN6PR02MB4205.namprd02.prod.outlook.com (2603:10b6:805:35::17)
+ by SA0PR02MB7164.namprd02.prod.outlook.com (2603:10b6:806:db::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14; Fri, 1 Oct
+ 2021 16:59:26 +0000
+Received: from SN6PR02MB4205.namprd02.prod.outlook.com
+ ([fe80::5012:ec15:af97:2c90]) by SN6PR02MB4205.namprd02.prod.outlook.com
+ ([fe80::5012:ec15:af97:2c90%5]) with mapi id 15.20.4544.022; Fri, 1 Oct 2021
+ 16:59:26 +0000
+From: Brian Cain <bcain@quicinc.com>
+To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: hexagon container update
+Thread-Topic: hexagon container update
+Thread-Index: Ade25RCxllT+hUwlRb2vNrqCSUbc9Q==
+Date: Fri, 1 Oct 2021 16:59:26 +0000
+Message-ID: <SN6PR02MB42057F473618E661B72E1FF3B8AB9@SN6PR02MB4205.namprd02.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x731.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.127,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=quicinc.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5c7c326a-a221-4842-9c25-08d984fcd368
+x-ms-traffictypediagnostic: SA0PR02MB7164:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SA0PR02MB7164390FCB826C6B1A31C510B8AB9@SA0PR02MB7164.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: F4IU06oGOQeaWN09iHZP2bfZ4whGJMeZvANfJL1AH+WDmnAYyrbO95LqPYy4nxMUKK0hdTHqJK38NjqNFzENY51TGAs4SHuibje5jS2ptFTVUaNW3xXQIh92u1Wp21tyym43bAOQiAnGICTEoga8T9/F0KzfB1EAFo22BQRMzgw62e+CLCDF2cwI9WC7O4MHEVxkL6KV2P4GnROgmStkH43m2N/BYCxwy0OkeGtqafNLdz+y0ZLDcBKKl78cwQQywEenJSPAJQ5BFbnXwBorJ6D6/YSdN5TU1dkf2KezGxyBsuI15O/3C7aI9IDY5jmxKg48GXOOqk3Pser9VMQrmHQaP0o7zHIhL/5uIDg+xKAAIWMvBbVOrT0nylDzU5sp0XgjrcDBFN4ykRh9cYb4+BbzobGm9lnRnq/M5dyNyzFGn9F9az8X/yOTSv2nLxsY4k3zIxhivlvF8Qt3h2inBrvzJdgf/ZijJjSGoTVn1MkHmUXWi/DI9Lyp2kV4Nk2nn72uZxmWFE6eMQhngP0Zgtii4nMVBo74rFOAOXzQsk5BHjS6LBMwOB0ODcNj7omXn5YZmyDlFxlpAfBtHOHruno7aEdhn0BmmylUOqTqhtAv/FQTB8TFg3+k9lLns7uDMgfKbdhbUiFTeGNFBNwBmOWomX7J6iMWL9y/DkxwzZAxwDLfI/gOh4qrtosQINdSVrOJHEs3ZQsKv43XZb219Defk3J1wRvpCCFWrBSSGzCE2JapqWiyZH6m2xd/HBJ35ZbI8YZ+J7z09y+r8IhdmQBLAKiVFoxGgHUnErMKwzSeRzB425R6RhTURc7DBix/
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR02MB4205.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(26005)(33656002)(66476007)(64756008)(8936002)(55016002)(66946007)(7116003)(86362001)(66446008)(66556008)(9686003)(7696005)(52536014)(83380400001)(8676002)(5660300002)(15650500001)(107886003)(122000001)(76116006)(508600001)(6506007)(3480700007)(186003)(316002)(110136005)(966005)(38070700005)(38100700002)(2906002)(4326008)(71200400001)(133083001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?sYRBSlVsISldF1rRPLTbFB4Hb/fPUnB11ceWONPU3EcPsK2j+IduSah04B?=
+ =?iso-8859-1?Q?VhGQX83lnY5zMIzEQgC4MKwWJCMJJ1Jy3sWoTejtch64jnX0pgKeX4egYb?=
+ =?iso-8859-1?Q?BVjw3JW/SMxHc548TjhQCaWQtpguC4+cufa6DBBxXuSQgO/aK3yuNGqJil?=
+ =?iso-8859-1?Q?Ody6c3dE8G59Vm69N8AEyV+2l0s/ionBNv2dcT+fh0gMM/09zlPpdV7V9/?=
+ =?iso-8859-1?Q?yeN2YULZCSDl3vkyz8p79AKdxSWBBf4B4/ILl7WhuWC/OiK8wS70aOI3MM?=
+ =?iso-8859-1?Q?56RyqXiT5xGLtQNdH/hSRPk3Ewq9TNcjsTcbvJxMowhhCtqZPp9U21gmFS?=
+ =?iso-8859-1?Q?1aHo8LdCiAgmbGL6M2XVPm1yUx10qQhfL22ZqvMOPJKH33d761FLb/pZyU?=
+ =?iso-8859-1?Q?hxf7Z6FZlQj6J42Wm6x/rS8dIDCgBX+lcgkmLUv0vj/ZgP8cbpDExwrIbP?=
+ =?iso-8859-1?Q?ba/zWpKeFVQjcQVxIcDD2/ekTwWPaBUF6loxUQ3aPyL1/Nb4xf86e60jIK?=
+ =?iso-8859-1?Q?RJBw21a/ci0/kNEqFFFCb7PxGTmCTWxn+sGQUrUsi8RFixfxRhIS/acdcv?=
+ =?iso-8859-1?Q?yW/0pHZtm8xpV24hFvgHWsNs6fCxCe4UJR8THoNXzBABwO0lrH7QoTL+u5?=
+ =?iso-8859-1?Q?858qJCxrWF9Dv80GBvpMnIMj+h6HFP7U78AIYgQwWeSTBShazAlATXZIPR?=
+ =?iso-8859-1?Q?ee7+e8rWfsvAjXUY8OfgL/4amc4/cjaWutanDxgdEirU+kFEoGw+AFuMrm?=
+ =?iso-8859-1?Q?4d6/WVx3EbG37PDoPTNJEYrHOFPVWIOpGUsw9B2MozShlrFREmHWrshybu?=
+ =?iso-8859-1?Q?fPltfuwN8n4OSzBOGYRwsEYVURoNTVHRoXuy7smbM6J8YjYKJFYq+cMi6i?=
+ =?iso-8859-1?Q?n6MM2XtTqajXyI/2Vet1jv0ZklcxPBTa+SA0EkyTTaBhLQV7bVoe0As7cl?=
+ =?iso-8859-1?Q?mYA3Xzg2ZtqcQonhIrRea2XUxNUMfajpaJs6J0yWEBmuGSTy2AFRk1Y0Gm?=
+ =?iso-8859-1?Q?Ii+fJBrRt5gTv8j11RJ5jSB72XQSIrIuWIJekPH2WRAPdQqRA9JnXlUPrf?=
+ =?iso-8859-1?Q?uWdjyUQ8ibqjO56ZfdbZ42XcpA18iqPWTjZDU9sObflGAbSEeFCNpS2XlS?=
+ =?iso-8859-1?Q?nYD98haQdFhbxYxZ3T3oEX/pWSZLKqi3aTpH3f1Nk4KN6I6lGuN/fZyP/m?=
+ =?iso-8859-1?Q?Hmz7ebrCRqJ1PlRlZt0cwB7pdBAH+XtIjeXzdW/bx3fiSsSUTXgupPEe2v?=
+ =?iso-8859-1?Q?nlt+tCRlVhsTDO8X2K8yfpj9q423ATGijE9LK4n2YiSzIgnTZ/o+XkCqKo?=
+ =?iso-8859-1?Q?PDFoTDy9i0MzLyLroQwl7mweHu5N95O44L+xSrpWJoyUsKB7L/MfceQ1yO?=
+ =?iso-8859-1?Q?OzjCQp4Wy6?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4205.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c7c326a-a221-4842-9c25-08d984fcd368
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Oct 2021 16:59:26.1360 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NhyB6b/Yo4OCvrOjIim46elo4GXJGh7wNS6vXFiabExthqktWTVykrHplHGKsz2TlPSJC7JgSqPBWYvgICQGQA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR02MB7164
+Received-SPF: pass client-ip=216.71.142.165; envelope-from=bcain@quicinc.com;
+ helo=esa.hc3962-90.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,38 +136,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Peter Zijlstra \(Intel\)" <peterz@infradead.org>, qemu-devel@nongnu.org,
- Dave Hansen <dave.hansen@intel.com>, linux-kselftest@vger.kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arch@vger.kernel.org,
- Raj Ashok <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- the arch/x86 maintainers <x86@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Zeng Guang <guang.zeng@intel.com>, Gayatri Kammela <gayatri.kammela@intel.com>,
- "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>,
- Ramesh Thomas <ramesh.thomas@intel.com>, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, "Williams,
- Dan J" <dan.j.williams@intel.com>, Christian Brauner <christian@brauner.io>,
- Jens Axboe <axboe@kernel.dk>, Tony Luck <tony.luck@intel.com>,
- Linux API <linux-api@vger.kernel.org>, Randy E Witt <randy.e.witt@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Taylor Simpson <tsimpson@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/21 12:35 PM, Stefan Hajnoczi wrote:
-> QEMU's TCG threads execute translated code. There are events that
-> require interrupting these threads. Today a check is performed at the
-> start of every translated block. Most of the time the check is false and
-> it's a waste of CPU.
-> 
-> User interrupts can eliminate the need for checks by interrupting TCG
-> threads when events occur.
+Alex,
 
-We used to use interrupts, and stopped because we need to wait until the guest is in a 
-stable state.  The guest is always in a stable state at the beginning of each TB.
+We need to update the docker container used for hexagon for new test cases =
+proposed in Taylor's recent patch series under review.  Thankfully, CodeLin=
+aro has provided a binary of the hexagon cross toolchain so now I think we =
+can simplify the hexagon docker file to something like the below.  I hope t=
+his also means that we can remove the exceptional handling for the hexagon =
+container.
 
-See 378df4b2375.
+I can propose a patch but I'm not quite certain how to test it.
 
+The "--no-check-certificate" argument to wget is very bad but I'm not quite=
+ certain how to upgrade/change the container's certificate store to accept =
+the apparently-legit-but-perhaps-newer-than-expected certificate presented =
+by codelinaro.jfrog.io.
 
-r~
+~~~
+
+FROM qemu/debian10
+
+RUN apt update && \
+        DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
+        DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+        apt install -y --no-install-recommends \
+        xz-utils \
+        wget
+
+ENV CLANG_URL https://codelinaro.jfrog.io/artifactory/codelinaro-toolchain-=
+for-hexagon/v2021.09.10/clang+llvm-Sept-2021-cross-hexagon-unknown-linux-mu=
+sl.tar.xz
+
+RUN cd /tmp && \
+    wget --quiet --no-check-certificate ${CLANG_URL}
+RUN cd /opt && \
+    tar xf /tmp/clang+llvm-Sept-2021-cross-hexagon-unknown-linux-musl.tar.x=
+z
+
 
