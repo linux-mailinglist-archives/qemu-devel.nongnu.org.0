@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D16C41F329
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:32:31 +0200 (CEST)
-Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B6541F320
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:30:31 +0200 (CEST)
+Received: from localhost ([::1]:34458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWMOc-0003aD-1w
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:32:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55024)
+	id 1mWMMg-00087z-N2
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:30:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWM5C-00059E-1r
+ id 1mWM5C-0005AE-Ad
  for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:26 -0400
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:39764)
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:46068)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWM55-0005HN-O3
+ id 1mWM5A-0005Hn-8A
  for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:25 -0400
-Received: by mail-qv1-xf2f.google.com with SMTP id a14so5983865qvb.6
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:12:19 -0700 (PDT)
+Received: by mail-qt1-x832.google.com with SMTP id r1so9592328qta.12
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:12:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XFe/Vw3cr/4hcwv1jUnUaBVa+r7ZoPXYiTXFgPNQ9tk=;
- b=hN0VzbmAKpG9vNs3ycl/GIdoifB2BWVlyH5jMqcd7zECz5NFyhnscNEjBA8hjZ30af
- 3LvFg85gHF29/3V9YtGR3X5JQTO7AbUb0tKPiJqUXxVcXZBagS3GAkBI3FcVgp5c7e5L
- nnb0lQBbzrzHiircP0mKtgROlT1M8Zic2r78H86QdOM7pf4SgYJEtW2ASnu6zKQhVFU0
- 457umLNgZXsbmc2DxMa+fp18gKgxnZdXlzFFetWYU7FLRpLeJ7IsFpsuHCtq9zc5lY6a
- hTnOlt370bWmoP2CGXnLINK5/6sLgBYiAbehHkXHoIIKXLPJX7aGLvPwSA9MFiKtpFOW
- vJwQ==
+ bh=6mS1vCOgpN+V+J5nlq9LKRVT4rEwhx/pTcxKt2Kvegg=;
+ b=oMEguWANqVRdFfaZpS+NyyN+QKTmwzS+fxLIpoBkuqlzDSV4fDFnSKR7qiQdlkp/cS
+ 54keSaotJBTMjhySIX7D0RLzfOx1+kkUuDC7oASlf3bgeeOeUZH71iX8Jka9NWUEaQ+T
+ n7DhU3e6m35cT2E4QpZjMnjqlE2ay69j/mc78DZHnm1zrs+YwzcKBBJrKaIqtfPPJjeK
+ cjZhKgTiQ5muoGIua3TwA8vLJeL/oRKMaU2Fx+zgcFvYR5e6iNakyzNT0kDs0nXj5eRp
+ rAvEy/x0zWJHfPj+36wLRFK1qZ1mEHMgcliwQOaxcURXPjJVXcXom2B7FqLaOnu7RqrB
+ 08Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XFe/Vw3cr/4hcwv1jUnUaBVa+r7ZoPXYiTXFgPNQ9tk=;
- b=pfgvWONjdrsqoJ9nNhddmGxfmAOuVsvJX8UXX6Y+C7BuCqTgrlYRHtvICTp8KYVEtU
- Di4/odnoAX6Rl4CbVw93+k+hmmMVSHOi+dZ6Ya2sPBtgGlfJd8ZLTO/sRXlpf2D36FrE
- dBkfMWq+6gAgji0hMKmYVorCHmCCzvPrQPkX+K/vpPllRCvcOG6ANwCPLYR4zFax5gJ0
- xI08qflr0rxphj5MIA8/dl0hZNCTsKd8zpSO71Tqtvj8kcL8CtsU3afNeIIQaylq1Hd0
- nwRsKCJK9qTxBrhZaTXpq47Dsh5qgntDDXfm+wxTsU3ME3R48jW1qwnd9Im3WmlcHlpJ
- d9MQ==
-X-Gm-Message-State: AOAM5304xJPP5AoiiUy7yuTiL+UhQMeOPy2sggj47Tmf9H1fRfX1jpla
- CT/odWU+SaNFksM3ndssU54+KplEJUbp9A==
-X-Google-Smtp-Source: ABdhPJw5M5zEKytm/f4Ln0ysd2xqTblg3pVCcmMO+QXmL1evcsbuDLOzvrF1KRDemuP9APHpbLiG2Q==
-X-Received: by 2002:a05:6214:987:: with SMTP id
- dt7mr11395223qvb.65.1633108338759; 
- Fri, 01 Oct 2021 10:12:18 -0700 (PDT)
+ bh=6mS1vCOgpN+V+J5nlq9LKRVT4rEwhx/pTcxKt2Kvegg=;
+ b=6I6dui6HtNX+2B2SHaM2E0ybPr89sCSF5yhzXNSf3OB+aw/3zhrtw5LhGl0vOD8iov
+ /7bIxndnhib/+hp249uPrcoy50zhdyarCszJhd4ZYdHCFy0+JbfHwYywsy6EOaePU0bG
+ ihzsfKsKnJaHwRXqRQyU7F+rFAAEjPmVTwuvkKjocoSFeWTcdUKhGTjO6EI2N/mgP+Ek
+ kfkBDVm6tJ1k2w69SqYA6JRfLfWwldpYr3FvBQemRIiACb+t+yGuguCkcytmrfTMOavM
+ EXp7Li0xZXOEMb07wbMjSBMgAW4EHdoZcWO33jR9TRTJQptXmi/XG/Ae985PiVizzQIQ
+ F2og==
+X-Gm-Message-State: AOAM530bDJ81C1IU+WGJIM5SoFkVd2pwPWywBgMJLNaSYK4wvbkf6fbQ
+ Wb8TkBk4bGYFEtUkWJbkODq0SiqLnVvO2g==
+X-Google-Smtp-Source: ABdhPJz3H3i1xaIzSvJvY99Wz7LB4nB54ZgZPM2f/aSBfpuPwMyZafkqF/Giq/0gvocx7GVlI+3WVQ==
+X-Received: by 2002:ac8:148b:: with SMTP id l11mr14304016qtj.298.1633108339652; 
+ Fri, 01 Oct 2021 10:12:19 -0700 (PDT)
 Received: from localhost.localdomain (c-67-174-166-185.hsd1.ga.comcast.net.
  [67.174.166.185])
- by smtp.gmail.com with ESMTPSA id y15sm3557250qko.78.2021.10.01.10.12.18
+ by smtp.gmail.com with ESMTPSA id y15sm3557250qko.78.2021.10.01.10.12.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 10:12:18 -0700 (PDT)
+ Fri, 01 Oct 2021 10:12:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 29/41] target/microblaze: Make mb_cpu_tlb_fill sysemu only
-Date: Fri,  1 Oct 2021 13:11:39 -0400
-Message-Id: <20211001171151.1739472-30-richard.henderson@linaro.org>
+Subject: [PATCH v3 30/41] target/mips: Make mips_cpu_tlb_fill sysemu only
+Date: Fri,  1 Oct 2021 13:11:40 -0400
+Message-Id: <20211001171151.1739472-31-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211001171151.1739472-1-richard.henderson@linaro.org>
 References: <20211001171151.1739472-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x832.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,109 +83,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>, alex.bennee@linaro.org,
- laurent@vivier.eu
+Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fallback code in raise_sigsegv is sufficient for mb linux-user.
-Remove the code from cpu_loop that handled the unnamed 0xaa exception.
+The fallback code in raise_sigsegv is sufficient for mips linux-user.
+This means we can remove tcg/user/tlb_helper.c entirely.
+Remove the code from cpu_loop that raised SIGSEGV.
 
-Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/cpu.h          |  8 ++++----
- linux-user/microblaze/cpu_loop.c | 10 ----------
- target/microblaze/cpu.c          |  2 +-
- target/microblaze/helper.c       | 13 +------------
- 4 files changed, 6 insertions(+), 27 deletions(-)
+ target/mips/tcg/tcg-internal.h    |  7 ++--
+ linux-user/mips/cpu_loop.c        | 11 ------
+ target/mips/cpu.c                 |  2 +-
+ target/mips/tcg/user/tlb_helper.c | 59 -------------------------------
+ target/mips/tcg/meson.build       |  3 --
+ target/mips/tcg/user/meson.build  |  3 --
+ 6 files changed, 5 insertions(+), 80 deletions(-)
+ delete mode 100644 target/mips/tcg/user/tlb_helper.c
+ delete mode 100644 target/mips/tcg/user/meson.build
 
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index b7a848bbae..e9cd0b88de 100644
---- a/target/microblaze/cpu.h
-+++ b/target/microblaze/cpu.h
-@@ -394,10 +394,6 @@ void mb_tcg_init(void);
- #define MMU_USER_IDX    2
- /* See NB_MMU_MODES further up the file.  */
+diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
+index bad3deb611..466768aec4 100644
+--- a/target/mips/tcg/tcg-internal.h
++++ b/target/mips/tcg/tcg-internal.h
+@@ -18,9 +18,6 @@
+ void mips_tcg_init(void);
  
--bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                     MMUAccessType access_type, int mmu_idx,
--                     bool probe, uintptr_t retaddr);
--
- typedef CPUMBState CPUArchState;
- typedef MicroBlazeCPU ArchCPU;
+ void mips_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
+-bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                       MMUAccessType access_type, int mmu_idx,
+-                       bool probe, uintptr_t retaddr);
+ void mips_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+                                   MMUAccessType access_type, int mmu_idx,
+                                   uintptr_t retaddr) QEMU_NORETURN;
+@@ -60,6 +57,10 @@ void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+                                     MemTxResult response, uintptr_t retaddr);
+ void cpu_mips_tlb_flush(CPUMIPSState *env);
  
-@@ -415,6 +411,10 @@ static inline void cpu_get_tb_cpu_state(CPUMBState *env, target_ulong *pc,
- }
++bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                       MMUAccessType access_type, int mmu_idx,
++                       bool probe, uintptr_t retaddr);
++
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ #endif
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index cb03fb066b..b735c99a24 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -158,17 +158,6 @@ done_syscall:
+             }
+             env->active_tc.gpr[2] = ret;
+             break;
+-        case EXCP_TLBL:
+-        case EXCP_TLBS:
+-        case EXCP_AdEL:
+-        case EXCP_AdES:
+-            info.si_signo = TARGET_SIGSEGV;
+-            info.si_errno = 0;
+-            /* XXX: check env->error_code */
+-            info.si_code = TARGET_SEGV_MAPERR;
+-            info._sifields._sigfault._addr = env->CP0_BadVAddr;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-            break;
+         case EXCP_CpU:
+         case EXCP_RI:
+             info.si_signo = TARGET_SIGILL;
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 00e0c55d0e..4aae23934b 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -539,9 +539,9 @@ static const struct SysemuCPUOps mips_sysemu_ops = {
+ static const struct TCGCPUOps mips_tcg_ops = {
+     .initialize = mips_tcg_init,
+     .synchronize_from_tb = mips_cpu_synchronize_from_tb,
+-    .tlb_fill = mips_cpu_tlb_fill,
  
  #if !defined(CONFIG_USER_ONLY)
-+bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                     MMUAccessType access_type, int mmu_idx,
-+                     bool probe, uintptr_t retaddr);
-+
- void mb_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
-                                unsigned size, MMUAccessType access_type,
-                                int mmu_idx, MemTxAttrs attrs,
-diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
-index 52222eb93f..a94467dd2d 100644
---- a/linux-user/microblaze/cpu_loop.c
-+++ b/linux-user/microblaze/cpu_loop.c
-@@ -37,16 +37,6 @@ void cpu_loop(CPUMBState *env)
-         process_queued_cpu_work(cs);
- 
-         switch (trapnr) {
--        case 0xaa:
--            {
--                info.si_signo = TARGET_SIGSEGV;
--                info.si_errno = 0;
--                /* XXX: check env->error_code */
--                info.si_code = TARGET_SEGV_MAPERR;
--                info._sifields._sigfault._addr = 0;
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            }
--            break;
-         case EXCP_INTERRUPT:
-           /* just indicate that signals should be handled asap */
-           break;
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 15db277925..b9c888b87e 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -365,9 +365,9 @@ static const struct SysemuCPUOps mb_sysemu_ops = {
- static const struct TCGCPUOps mb_tcg_ops = {
-     .initialize = mb_tcg_init,
-     .synchronize_from_tb = mb_cpu_synchronize_from_tb,
--    .tlb_fill = mb_cpu_tlb_fill,
- 
- #ifndef CONFIG_USER_ONLY
-+    .tlb_fill = mb_cpu_tlb_fill,
-     .cpu_exec_interrupt = mb_cpu_exec_interrupt,
-     .do_interrupt = mb_cpu_do_interrupt,
-     .do_transaction_failed = mb_cpu_transaction_failed,
-diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
-index dd2aecd1d5..a607fe68e5 100644
---- a/target/microblaze/helper.c
-+++ b/target/microblaze/helper.c
-@@ -24,18 +24,7 @@
- #include "qemu/host-utils.h"
- #include "exec/log.h"
- 
--#if defined(CONFIG_USER_ONLY)
++    .tlb_fill = mips_cpu_tlb_fill,
+     .cpu_exec_interrupt = mips_cpu_exec_interrupt,
+     .do_interrupt = mips_cpu_do_interrupt,
+     .do_transaction_failed = mips_cpu_do_transaction_failed,
+diff --git a/target/mips/tcg/user/tlb_helper.c b/target/mips/tcg/user/tlb_helper.c
+deleted file mode 100644
+index 210c6d529e..0000000000
+--- a/target/mips/tcg/user/tlb_helper.c
++++ /dev/null
+@@ -1,59 +0,0 @@
+-/*
+- * MIPS TLB (Translation lookaside buffer) helpers.
+- *
+- *  Copyright (c) 2004-2005 Jocelyn Mayer
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+- */
+-#include "qemu/osdep.h"
 -
--bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                     MMUAccessType access_type, int mmu_idx,
--                     bool probe, uintptr_t retaddr)
+-#include "cpu.h"
+-#include "exec/exec-all.h"
+-#include "internal.h"
+-
+-static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
+-                                MMUAccessType access_type)
 -{
--    cs->exception_index = 0xaa;
--    cpu_loop_exit_restore(cs, retaddr);
+-    CPUState *cs = env_cpu(env);
+-
+-    env->error_code = 0;
+-    if (access_type == MMU_INST_FETCH) {
+-        env->error_code |= EXCP_INST_NOTAVAIL;
+-    }
+-
+-    /* Reference to kernel address from user mode or supervisor mode */
+-    /* Reference to supervisor address from user mode */
+-    if (access_type == MMU_DATA_STORE) {
+-        cs->exception_index = EXCP_AdES;
+-    } else {
+-        cs->exception_index = EXCP_AdEL;
+-    }
+-
+-    /* Raise exception */
+-    if (!(env->hflags & MIPS_HFLAG_DM)) {
+-        env->CP0_BadVAddr = address;
+-    }
 -}
 -
--#else /* !CONFIG_USER_ONLY */
+-bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                       MMUAccessType access_type, int mmu_idx,
+-                       bool probe, uintptr_t retaddr)
+-{
+-    MIPSCPU *cpu = MIPS_CPU(cs);
+-    CPUMIPSState *env = &cpu->env;
 -
-+#ifndef CONFIG_USER_ONLY
- static bool mb_cpu_access_is_secure(MicroBlazeCPU *cpu,
-                                     MMUAccessType access_type)
- {
+-    /* data access */
+-    raise_mmu_exception(env, address, access_type);
+-    do_raise_exception_err(env, cs->exception_index, env->error_code, retaddr);
+-}
+diff --git a/target/mips/tcg/meson.build b/target/mips/tcg/meson.build
+index 8f6f7508b6..98003779ae 100644
+--- a/target/mips/tcg/meson.build
++++ b/target/mips/tcg/meson.build
+@@ -28,9 +28,6 @@ mips_ss.add(when: 'TARGET_MIPS64', if_true: files(
+   'mxu_translate.c',
+ ))
+ 
+-if have_user
+-  subdir('user')
+-endif
+ if have_system
+   subdir('sysemu')
+ endif
+diff --git a/target/mips/tcg/user/meson.build b/target/mips/tcg/user/meson.build
+deleted file mode 100644
+index 79badcd321..0000000000
+--- a/target/mips/tcg/user/meson.build
++++ /dev/null
+@@ -1,3 +0,0 @@
+-mips_user_ss.add(files(
+-  'tlb_helper.c',
+-))
 -- 
 2.25.1
 
