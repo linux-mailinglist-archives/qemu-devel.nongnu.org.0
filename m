@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2EA41F174
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 17:46:36 +0200 (CEST)
-Received: from localhost ([::1]:33986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC4741F166
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 17:42:52 +0200 (CEST)
+Received: from localhost ([::1]:53500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWKk7-0008HN-LR
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 11:46:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33860)
+	id 1mWKgV-0002EN-CH
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 11:42:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWKY4-0006pv-N1
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:34:08 -0400
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:42888)
+ id 1mWKY3-0006jb-11
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:34:07 -0400
+Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:41817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWKXu-0007kZ-Kv
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:34:08 -0400
-Received: by mail-qt1-x830.google.com with SMTP id f15so9302057qtv.9
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 08:33:58 -0700 (PDT)
+ id 1mWKXv-0007lY-Ng
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:34:06 -0400
+Received: by mail-qt1-x834.google.com with SMTP id t2so9291266qtx.8
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 08:33:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k/SnMn3cz6aHPIbcUbwKN2ElGsSac37gMdkQcSMJ6WQ=;
- b=Wn6xzyjBTdCRQX4O4ZN+01a/+yBTD9I06VQ/C7SBr4Lb/pdaHgPbMkl/cT2EgaS1TJ
- uTMnwQIt7CGmRYN2oEiWQOHz7bCWIHDDvc8MMyUUGVBPYs3aIJv3TxHA0w4o80wTQLBG
- U+Wcbmm3L31gsLjGH/rdpFCAD/dKDcar2BAlMBY7ExNkOgwPjd+NB7Wk0/cb0hp1Uw6n
- rk8KiJvWwYmkl9NA66ya3/ghK6dzwY6pDaIHCVDZ1TrN9KH2WjeyIPs4Dd3xCUwUcP4R
- MHeoXdPN2w1uKvkTZfHa6tFBL74rneVAvVA9+HvaLlKgoM/jhrJBlUrgj+tDbd3YaroO
- bzMA==
+ bh=gXXC2XsHwTZReF8hOMB+sB2b5Bdxnek1fsOyxb7DiMI=;
+ b=IDiXIR43FotQVnwcSqS87BOBZGCrbx9CkNdw9LmgnMXfbptOwA5D477gSaARsPrHxU
+ +/h/1HR6S7P6d3T0F70+0/Zg3XB6GyMAg3iIgMusaRSrjs0RoHNOrXSGTR8SBqBlnv/I
+ M+2Jz8DycyY0O6nTowEoNTQclxd/eJjuq6rOgjzkTontiP9a6lKnZpekX/CSjeMFwsmK
+ Cib2briqVnPuLAAqDcYrJPzAAPrdDHT0T6moG9b3MwPyf1lTPeJEZOwjkZ3hHIyFByAo
+ zdbe2GFhu/IQ1VNn0e80riXZJmWZjtvs6yhbX6W5sAfrW/9eJcEamWXAOv2aQF0IRehZ
+ /lNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k/SnMn3cz6aHPIbcUbwKN2ElGsSac37gMdkQcSMJ6WQ=;
- b=NqoCYUuX2qGmyHj1k7dx8z4vJswYRBP0u3IANskUPcPvfPK6pZxrxtzoicKMR3TrNg
- cUjRUbZdmQdB/EfcEVDKvon9Kix+RtfX2TJ8oA4wCiJvIqZei1AEWBZM7duz+LQi56W+
- d34ITNJB91Ez99ZHVgjmZz+6yfDT9BV6M7gUoKjfoO8Yt3qreSrsL5gGmmcQmGLbxjgB
- SFY+PGiYdKT4CK5Rz+2Fy3E1hyYM7WeY3ElEZ1Ojj5TyaED9kTB9z2TOobhdzIwS1SWF
- VlkSoxajFIYJ2N1KHBsKn5P44dj3P3l85BJOrWudCjCB5+74dSwPnzfZYU55W++UjL1t
- MYoA==
-X-Gm-Message-State: AOAM532dFpGGj5mTZMaYFv2u/nTqQbpGi/v1xwi5B/EDTeHUx3v+O25A
- LiuJYifOG+5u19afccLNFt407KFtr52W0A==
-X-Google-Smtp-Source: ABdhPJwp6A6yIKiXbsO9FZgDRdRWtS/85/abE7rMoSlI3Y+ed3cTLAHnICgk309vHm5BYEL5PIdCDA==
-X-Received: by 2002:ac8:138c:: with SMTP id h12mr13236328qtj.357.1633102437778; 
- Fri, 01 Oct 2021 08:33:57 -0700 (PDT)
+ bh=gXXC2XsHwTZReF8hOMB+sB2b5Bdxnek1fsOyxb7DiMI=;
+ b=zeS6gezIb6ggJ1dPzKsIxdIf85QXy2rcnVHxVat8w3SfJq7y5OTjkLmpKarjFg0erG
+ h5gOKqRq9M341jz0m8IN/QOpNeNbhXxg6w5M0iZGgP+ArZvzYrXKMvPANCnT0wkMbaEM
+ 4RaNli6pRWIPHXaZK8zceuFgNgE4NtiMrabW711oJKz9SkS1QBODoe7ANnEdQpu8R8ho
+ PM7uowGcR2bhbH3Ie//oe1ksJE8Kx3FKFrri5eCXhJ2u6npYLkIOTutxktPOhWNivcj8
+ HSXwQSm0Zv6X0xLi25jqM/esiUxkD0hiJ2MZnC6rW+LlQVZOlSafdrF1gex1Gf0Fgeod
+ wrGg==
+X-Gm-Message-State: AOAM531z5yU37MFdJ9xOT9MsqNR1QV1+cOswYpBhAliOrWv3ey/NCEsK
+ 7RN6JfrelFmS2xT1hcrtL2gVjuX52ZRIbw==
+X-Google-Smtp-Source: ABdhPJzfGCTgGduUDcOwFaEsad8ef2PvIrp3JbTHmN5sA6KotPvror0l+19+vtNLXUBu7OVFjwYoZg==
+X-Received: by 2002:ac8:4d8b:: with SMTP id a11mr13338151qtw.51.1633102438762; 
+ Fri, 01 Oct 2021 08:33:58 -0700 (PDT)
 Received: from localhost.localdomain (c-67-174-166-185.hsd1.ga.comcast.net.
  [67.174.166.185])
- by smtp.gmail.com with ESMTPSA id x8sm3484823qtv.5.2021.10.01.08.33.57
+ by smtp.gmail.com with ESMTPSA id x8sm3484823qtv.5.2021.10.01.08.33.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 08:33:57 -0700 (PDT)
+ Fri, 01 Oct 2021 08:33:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/9] linux-user/nios2: Fix sigmask in setup_rt_frame
-Date: Fri,  1 Oct 2021 11:33:45 -0400
-Message-Id: <20211001153347.1736014-10-richard.henderson@linaro.org>
+Subject: [PATCH 8/9] linux-user/nios2: Use set_sigmask in do_rt_sigreturn
+Date: Fri,  1 Oct 2021 11:33:46 -0400
+Message-Id: <20211001153347.1736014-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211001153347.1736014-1-richard.henderson@linaro.org>
 References: <20211001153347.1736014-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x830.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x834.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,27 +87,48 @@ Cc: marex@denx.de, crwulff@gmail.com, alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not cast the signal mask elements; trust __put_user.
+Using do_sigprocmask directly was incorrect, as it will
+leave the signal blocked by the outer layers of linux-user.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/nios2/signal.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ linux-user/nios2/signal.c | 2 +-
+ linux-user/signal.c       | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
-index 20b65aa06e..80e3d42fc9 100644
+index 80e3d42fc9..517cd39270 100644
 --- a/linux-user/nios2/signal.c
 +++ b/linux-user/nios2/signal.c
-@@ -168,8 +168,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     target_save_altstack(&frame->uc.tuc_stack, env);
-     rt_setup_ucontext(&frame->uc, env);
-     for (i = 0; i < TARGET_NSIG_WORDS; i++) {
--        __put_user((abi_ulong)set->sig[i],
--                   (abi_ulong *)&frame->uc.tuc_sigmask.sig[i]);
-+        __put_user(set->sig[i], &frame->uc.tuc_sigmask.sig[i]);
+@@ -205,7 +205,7 @@ long do_rt_sigreturn(CPUNios2State *env)
      }
  
-     /* Set up to return from userspace; jump to fixed address sigreturn
+     target_to_host_sigset(&set, &frame->uc.tuc_sigmask);
+-    do_sigprocmask(SIG_SETMASK, &set, NULL);
++    set_sigmask(&set);
+ 
+     if (rt_restore_ucontext(env, &frame->uc, &rval)) {
+         goto badframe;
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 2038216455..5ec63cd092 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -252,7 +252,6 @@ int do_sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
+     return 0;
+ }
+ 
+-#if !defined(TARGET_NIOS2)
+ /* Just set the guest's signal mask to the specified value; the
+  * caller is assumed to have called block_signals() already.
+  */
+@@ -262,7 +261,6 @@ void set_sigmask(const sigset_t *set)
+ 
+     ts->signal_mask = *set;
+ }
+-#endif
+ 
+ /* sigaltstack management */
+ 
 -- 
 2.25.1
 
