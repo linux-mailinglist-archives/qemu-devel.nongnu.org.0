@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A3A41E963
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 11:06:38 +0200 (CEST)
-Received: from localhost ([::1]:33864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B0241E96E
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 11:12:00 +0200 (CEST)
+Received: from localhost ([::1]:49526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWEV0-0005zz-LP
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 05:06:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57958)
+	id 1mWEaF-0007zJ-Dw
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 05:11:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mWERL-00025u-Nv
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 05:02:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46070)
+ id 1mWEX8-0003qx-IS
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 05:08:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mWERH-0005rn-6y
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 05:02:45 -0400
+ id 1mWEX4-0002iR-Ny
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 05:08:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633078960;
+ s=mimecast20190719; t=1633079321;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=h02nqfp8RCpQakVSP4ApThZJ4aYWZwAtlhml1//tolg=;
- b=CrPgHiA/wpzgnKXOuWRmpNFsVY9WBtpnXK0l9oSzaEyZ+FKGe3HQG1UTsf9IBXGQTVGd1s
- M6hQfp2LSWzrK9CbKyFQ39AWkjadldH8B2eWMOBQx5E/bgYWCrbCQpjhNOzBqLo9tEEjoK
- qYHsKTbOmASBp5AUrfA7XU+QnPyDd6Y=
+ bh=PrVZofCcfa67fs4N3t0NNeTpuNnAl3CeaqnGyhcboqc=;
+ b=P0QDntJFHryuIcfIbx7/fQF2K2Tgs9JVNaHJEzS3eV7x7GbZgIS2fywSHM7cMQzQuOLxBT
+ GOQUleBRgzNKAcFONYiw0yPFdT0nFfOVK3t5BfCmK9tTUoeHqCzaUzOA7rd85In+yOhfvY
+ r8NtWEKuwYmQiM56FCR0t8sm08OPxRU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-GVlhjqfuMp6jfnKY97WM6Q-1; Fri, 01 Oct 2021 05:02:37 -0400
-X-MC-Unique: GVlhjqfuMp6jfnKY97WM6Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-268-ce18OlleMiWBEZF-9VqLPg-1; Fri, 01 Oct 2021 05:08:39 -0400
+X-MC-Unique: ce18OlleMiWBEZF-9VqLPg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69C56802C98
- for <qemu-devel@nongnu.org>; Fri,  1 Oct 2021 09:02:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AB0418414A2;
+ Fri,  1 Oct 2021 09:08:38 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.195.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C7E319736;
- Fri,  1 Oct 2021 09:01:45 +0000 (UTC)
-Date: Fri, 1 Oct 2021 10:01:43 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 74E6560936;
+ Fri,  1 Oct 2021 09:08:36 +0000 (UTC)
+Date: Fri, 1 Oct 2021 10:08:33 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Laine Stump <laine@redhat.com>
-Subject: Re: [PATCH] failover: allow to pause the VM during the migration
-Message-ID: <YVbOd7dYNst3BBfA@redhat.com>
-References: <20210930170926.1298118-1-lvivier@redhat.com>
- <f1898bf0-dadb-4e2e-a45a-9087d2c63678@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 3/3] dtc: Update to version 1.6.1
+Message-ID: <YVbQERWD9fY0kxxW@redhat.com>
+References: <20210827120901.150276-1-thuth@redhat.com>
+ <20210827120901.150276-4-thuth@redhat.com>
+ <7004c933-5262-3119-80f5-722a8e858046@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <f1898bf0-dadb-4e2e-a45a-9087d2c63678@redhat.com>
+In-Reply-To: <7004c933-5262-3119-80f5-722a8e858046@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,101 +81,47 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Libvirt <libvir-list@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Jiri Denemark <jdenemar@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 30, 2021 at 04:17:44PM -0400, Laine Stump wrote:
-> On 9/30/21 1:09 PM, Laurent Vivier wrote:
-> > If we want to save a snapshot of a VM to a file, we used to follow the
-> > following steps:
+On Thu, Sep 30, 2021 at 09:10:12AM +0200, Thomas Huth wrote:
+> On 27/08/2021 14.09, Thomas Huth wrote:
+> > The dtc submodule is currently pointing to non-release commit. It's nicer
+> > if submodules point to release versions instead and since dtc 1.6.1 is
+> > available now, let's update to that version.
 > > 
-> > 1- stop the VM:
-> >     (qemu) stop
+> > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > ---
+> >   dtc | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
 > > 
-> > 2- migrate the VM to a file:
-> >     (qemu) migrate "exec:cat > snapshot"
-> > 
-> > 3- resume the VM:
-> >     (qemu) cont
-> > 
-> > After that we can restore the snapshot with:
-> >    qemu-system-x86_64 ... -incoming "exec:cat snapshot"
-> >    (qemu) cont
+> > diff --git a/dtc b/dtc
+> > index 85e5d83984..b6910bec11 160000
+> > --- a/dtc
+> > +++ b/dtc
+> > @@ -1 +1 @@
+> > -Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
+> > +Subproject commit b6910bec11614980a21e46fbccc35934b671bd81
 > 
-> This is the basics of what libvirt does for a snapshot, and steps 1+2 are
-> what it does for a "managedsave" (where it saves the snapshot to disk and
-> then terminates the qemu process, for later re-animation).
+> Ping!
 > 
-> In those cases, it seems like this new parameter could work for us - instead
-> of explicitly pausing the guest prior to migrating it to disk, we would set
-> this new parameter to on, then directly migrate-to-disk (relying on qemu to
-> do the pause). Care will need to be taken to assure that error recovery
-> behaves the same though.
+> David, could you please pick up this patch if you don't mind it?
 
-What libvirt does is actually quite different from this in a signficant
-way.  In the HMP example here 'migrate' is a blocking command that does
-not return until migration is finished.
+Most of our supported platforms don't have version 1.6.1 available.
 
-Libvirt uses QMP and 'migrate' there is a asynchronous command that merely
-launches the migration and returns control to the client.
+As a general goal IMHO we should be seeking to eliminate bundling of
+3rd party modules that are commonly available in distros. We've
+carried dtc for a hell of a long time, and if we keep updating our
+submodule we'll keep relyin on new features, and never be able to
+drop it because it will always be newer than what's in the distros.
 
-IOW, what libvirt does is
-
-    stop
-    migrate
-    while status != failed || completed
-       query-migrate
-       
-       ...also receive any QMP migration events...
-
-       ...possibly modify migration parameters...
-
-    cont
-
-With this pattern I'm not seeing any need for a new migration parameter
-for libvirt. The migration status lets us distinguish when QEMU is in
-the "waiting for unplug" phase vs the "active" phase. So AFAICT, libvirt
-can do:
-
-    migrate
-    while status != failed || completed
-       query-migrate
-       
-       ...also receive any QMP migration events..
-
-       if status changed wait-for-unplug to active
-         stop
-
-       ...possibly modify migration parameters...
-
-    cont
-
-
-There is a small window here when the guest CPUs are running
-but migration is active.  In most cases for libvirt that is
-harmless.  If there are cases where libvirt needs a strong
-guarantee to synchonize the 'stop' with some other option,
-then the new proposed "pause-vm" parameter as the same problem
-as libvirt can't sychronize against that either.
-
-
-> There are a couple of cases when libvirt apparently *doesn't* pause the
-> guest during the migrate-to-disk, both having to do with saving a coredump
-> of the guest. Since I really have no idea of how common/important that is
-> (or even if my assessment of the code is correct), I'm Cc'ing this patch to
-> libvir-list to make sure it catches the attention of someone who knows the
-> answers and implications.
-
-IIUC, the problem with unplug only happens when libvirt pauses
-the guest. So surely if there are some scenarios where we're not
-pausing the guest, there's no problem to solve for those.
-
+So personally I think we should never again update dtc and capstone
+modules. If we want to take adbantage of new features, then do that
+through conditional compilation, as we do for any of the other 3rd
+party libraries consumed.
 
 Regards,
 Daniel
