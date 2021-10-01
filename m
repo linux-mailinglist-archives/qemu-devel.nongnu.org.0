@@ -2,93 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B3841ED41
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 14:22:04 +0200 (CEST)
-Received: from localhost ([::1]:35464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99A941ED45
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 14:22:32 +0200 (CEST)
+Received: from localhost ([::1]:36712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWHY9-0003Mx-K2
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 08:22:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41616)
+	id 1mWHYd-0004Hx-Jp
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 08:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mWHVw-0001fN-AZ
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:19:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55627)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mWHW6-0001sn-Ut
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:19:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mWHVs-0004O8-H4
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:19:42 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mWHW5-0004bY-6A
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:19:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633090778;
+ s=mimecast20190719; t=1633090792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qmXQUa3VerOj23+cSMt79/t4YiYsXOdT/TbZ5NIitRw=;
- b=Y4qW8NvEGvBTb4f+4fv4pnkgx6yO70GVixCHs6tR/uGb3rNJ3cdRj9VqCKsPstMGaclvnH
- Ze4RG3J6dLhjWriSiFK5kpBlRxexfPwpi75xsT60SXTSUhUNIXAkM9e3HiUbMtUotaSoFa
- nsNN+nFJjn9i2wBG0+jOIauqiXQLeug=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-dddGtuqjMbKCS4JSdn_KdQ-1; Fri, 01 Oct 2021 08:19:37 -0400
-X-MC-Unique: dddGtuqjMbKCS4JSdn_KdQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- z6-20020a50cd06000000b003d2c2e38f1fso10210135edi.1
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 05:19:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qmXQUa3VerOj23+cSMt79/t4YiYsXOdT/TbZ5NIitRw=;
- b=3jWYZGxwNMX2BO1vjn9ij9+rbJgcoA3pIwNHYLAUWF7wB9sEELbO5xFlwX8C+pCWuA
- GM2YFPXk5UqgTwlD9NmgvTuPxyhdNOJfPAqd/UqKoSCfrEr6vev2zuU4PYco2HGozCb8
- mhbPmGFkdZfDsV4SG3NVczKS1PxV/6sJe9UsE9JyYOzoQUrYHYe0ZiPjeFCRFqDND1jH
- 6kkLTpjqfFkV+898ppGZ6kg7Gz/kFJ8dC8e8tXqpOXB8sVRAGJ9urSVzE1RIAa4SPwPe
- jB2Av5DrlUZZnsdH/lI/S9vw0xosZ/a2/wDTbBlQtDtuNXfLAfPzouqksVRqFDmjbZ9/
- MKkg==
-X-Gm-Message-State: AOAM533muE/p4jq1wUze0OFpaJnXBUt0eu83m4D5MFfoako5C2P+kDyw
- XX6/bEAmsy8IxgFIPO+i8RHFjeOmdiWbpSS2ySWHT3OOa11P03QSXehb/Z/6NKbEeurWQf+/6bE
- i3lT/54bdeI12L4o=
-X-Received: by 2002:aa7:c4ce:: with SMTP id p14mr14141718edr.129.1633090776255; 
- Fri, 01 Oct 2021 05:19:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZSpQE3WKTmueMwE6XxCxI7JHjYcvbTvGIAB3oeGiK6hjGF82aeL37H+uhADpPVR0pCTK0dQ==
-X-Received: by 2002:aa7:c4ce:: with SMTP id p14mr14141699edr.129.1633090775987; 
- Fri, 01 Oct 2021 05:19:35 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id l13sm3029103edq.76.2021.10.01.05.19.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Oct 2021 05:19:35 -0700 (PDT)
-Message-ID: <232effd7-81d9-76df-7ca3-42406c5ec9de@redhat.com>
-Date: Fri, 1 Oct 2021 14:19:29 +0200
+ content-transfer-encoding:content-transfer-encoding;
+ bh=up8VLH2SC1OBnMuEVn2fQuqpybOBoZUqysqzUYrph94=;
+ b=YuZNX3CmqjfdSl+i5yImqMuNNXJewaVa5jVRC6GztIbECUhUP6UGInEt+7O6YDIIhhMRA+
+ 1tLu0oWmPl/x6G+RLH5aVZ4HItzzq4Nv9OoiEQDxanJ/G5rrVvJcUkKy7i7zm80EZqHHOX
+ hDQiB0INknhJw/hIPUILQA2k2Z2nTpM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-557-TmDHtylfPG-VlK-rIZtf-Q-1; Fri, 01 Oct 2021 08:19:49 -0400
+X-MC-Unique: TmDHtylfPG-VlK-rIZtf-Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ED9310B746B;
+ Fri,  1 Oct 2021 12:19:48 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5BD2F5F4E0;
+ Fri,  1 Oct 2021 12:19:46 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/ppc: Deprecate the ref405ep and taihu machines and the 405
+ CPU models
+Date: Fri,  1 Oct 2021 14:19:43 +0200
+Message-Id: <20211001121943.1016447-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 1/7] docs: name included files ".rst.inc"
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210930133250.181156-1-pbonzini@redhat.com>
- <20210930133250.181156-2-pbonzini@redhat.com>
- <875yuh2ung.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <875yuh2ung.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.127, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,18 +74,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/10/21 07:14, Markus Armbruster wrote:
-> Emacs recognizes .rst, but doesn't recognize .rst.inc.  Sure we want
-> file names that defeat common tooling?
-> 
-> 
+These machines need a firmware image called 'ppc405_rom.bin', and nobody
+seems to have such a firmware image left for testing, so the machines are
+currently unusable. There used to be support in U-Boot, but it has been
+removed a couple of year ago already.
+Thus let's mark these boards and the 405 CPU as deprecated now, so that we
+could remove them in a couple of releases (unless somebody speaks up and
+says that these are still usefull for them).
 
-I don't do Emacs, but a patch for .editorconfig should rectify that.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/about/deprecated.rst | 15 +++++++++++++++
+ hw/ppc/ppc405_boards.c    |  2 ++
+ 2 files changed, 17 insertions(+)
 
-Paolo
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 2f7db9a98d..27c03ef624 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -238,6 +238,11 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
+ (the ISA has never been upstreamed to a compiler toolchain). Therefore
+ this CPU is also deprecated.
+ 
++PPC 405 CPU models (since 6.2)
++''''''''''''''''''''''''''''''
++
++The related boards ``ref405ep`` and ``taihu`` are marked as deprecated, too.
++
+ 
+ QEMU API (QAPI) events
+ ----------------------
+@@ -258,6 +263,16 @@ This machine is deprecated because we have enough AST2500 based OpenPOWER
+ machines. It can be easily replaced by the ``witherspoon-bmc`` or the
+ ``romulus-bmc`` machines.
+ 
++``ref405ep`` and ``taihu`` machines (since 6.2)
++'''''''''''''''''''''''''''''''''''''''''''''''
++
++These machines need a firmware image called 'ppc405_rom.bin', and nobody seems
++to have a working copy of such a firmware image anymore. `Support in U-Boot
++<https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdfdba62c069>`__
++has been removed a couple of years ago, too, so it is very unlikely that
++anybody is still using this code at all.
++
++
+ Backend options
+ ---------------
+ 
+diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+index 972a7a4a3e..1578c0dac8 100644
+--- a/hw/ppc/ppc405_boards.c
++++ b/hw/ppc/ppc405_boards.c
+@@ -317,6 +317,7 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
+     mc->init = ref405ep_init;
+     mc->default_ram_size = 0x08000000;
+     mc->default_ram_id = "ef405ep.ram";
++    mc->deprecation_reason = "ppc405 CPU is deprecated";
+ }
+ 
+ static const TypeInfo ref405ep_type = {
+@@ -547,6 +548,7 @@ static void taihu_class_init(ObjectClass *oc, void *data)
+     mc->init = taihu_405ep_init;
+     mc->default_ram_size = 0x08000000;
+     mc->default_ram_id = "taihu_405ep.ram";
++    mc->deprecation_reason = "ppc405 CPU is deprecated";
+ }
+ 
+ static const TypeInfo taihu_type = {
+-- 
+2.27.0
 
 
