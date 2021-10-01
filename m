@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3BFB41F40B
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:57:04 +0200 (CEST)
-Received: from localhost ([::1]:44192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57DF441F32F
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:35:46 +0200 (CEST)
+Received: from localhost ([::1]:48728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWMmN-0003Cy-PT
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:57:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55130)
+	id 1mWMRl-00010X-Aq
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:35:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWM5F-0005D9-GQ
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:29 -0400
-Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:41506)
+ id 1mWM5C-00059h-53
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:26 -0400
+Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:34492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWM5A-0005IN-CR
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:29 -0400
-Received: by mail-qt1-x82c.google.com with SMTP id t2so9610480qtx.8
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:12:20 -0700 (PDT)
+ id 1mWM5A-0005IV-9c
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:25 -0400
+Received: by mail-qv1-xf2c.google.com with SMTP id x8so6003373qvp.1
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:12:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=g+FO3WUb/++tC//nR4BBTKuJptT+iDAQAdjiSDu9yJ4=;
- b=tNv6UJvR/q/twh/HuK2f6V2vcbWw+nyQYBqovb6Yqx6QD29mQ6Fq8vmNLkqCgeZwgn
- LcXvhKs/sZ8pSxXQQmwWT3JwMePRiyxaSqXpG6KgH0ThkkzslKzyHFrlAIGUIkNWl5sf
- 8CFqtZe6/H5UM2uVI5uDiv8NX+bg0fEgbnffXDumWWhATNw0JqnUmE4CDK0EWPM7elhq
- AmGextJ1FokF9NwvB8YZin9e2Tf1sYwqyMCEzaDrYAtyvDlWtY3Sb3IdoURtXJ+EyG8P
- TP/q0ySrl0y7ZvXMMQwBqHAgq0Rpe2QL2SBrz5L+nhIuM9vK8eBSqSopqmJH2BTNDIok
- smEA==
+ bh=cVCx2jHCPvPujkZ/wrXYdO47hYaVZq7kiqP/WMFmGDE=;
+ b=Aew/8u6YB1iOZFN9N26/Kz5Qxnb6h66J9LkqbKIXer9tEZW+3Q01jRo5cXWzwKyMfQ
+ 3Lf93TBnKIdNWC0wRE2m/yimQvIHzW1b4Z1dwBu5ufPHeNkuqu0zwwAGNVrtiHOm4RFO
+ BBXaW5hcC6ZAL5tYKg7QrTJHzTXlrcTHEt8pM6sgpomtlPQ4qqocotVzoUg5rzKr+xhY
+ OUIzsIcPVxv82juVuzpDm3uEGQzhZapKcJ5wbhyHthYxo22z33TLe5prSoix2YtGhV58
+ ZfRXbUG8UnaGVQOnunMBYicOD/er8mw1wEWE7OedRumxVomIczYs8xN5reksKeuh+QuF
+ CIFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=g+FO3WUb/++tC//nR4BBTKuJptT+iDAQAdjiSDu9yJ4=;
- b=B00K3Z57iMJirecRBpaF7yyQ16QY6V/CWePWfosSRg1mD/Up/vlrATpfW88JaUhJo8
- ZEcG3OAoqEuSRLpgYdGg4RF+OBNtmlSdeyytHQ1vp8jbmDb9oDKoIqdloFlsUtG12O0H
- PUXP5QkYayGxhXNRCsl1xa3vDtsoCQ3SJYV5gFwJZ0V8w+T+QyZFeRpVebp0MSqF5kDU
- Ue8ZT0lVZY13pUdf3gz55TdgZ37k1WpjcwVwuujg8Mi7IGeJOFfZkxN7j0Cf2QIidbDA
- 9pirRL68CdUCpTIymiC5QuxndRn6rGONbFzR5rSo4IG1V84AIwGoscPLAWouc7XNvTJz
- JhKg==
-X-Gm-Message-State: AOAM53153cZirZjtWZwL98ktuLNOEuCVkRkVhUByj4vRLwy+CHXJQyjn
- secMaXtaFkBBrWMyurp8lOGRcH9QjOw2vw==
-X-Google-Smtp-Source: ABdhPJxcWh/H9Oz3iyT3FO63JSePwL7VsG8EaF6QeS2hJM0XA2gaQ/knRhIRZ4Yt/xqMLq75rzUU4g==
-X-Received: by 2002:ac8:429a:: with SMTP id o26mr14382995qtl.317.1633108340454; 
- Fri, 01 Oct 2021 10:12:20 -0700 (PDT)
+ bh=cVCx2jHCPvPujkZ/wrXYdO47hYaVZq7kiqP/WMFmGDE=;
+ b=ZY6oSXgQxHY+hJOMAX25q2wET7NU2ELp6rg7/52Md8+q1huhsKwSvr5uf9iaOwkOj+
+ XbsstFZaKLy41HmER5fMT4cTgqzIEcrgBVea1TK3gWHbrprLIMVtBw2BTu74iwpvkbE3
+ UsFnmOPJ561iwx3/gJA8lm2VRoqOCKGffickGYhrA7hyqlmg/MsyJZnbjtoTsggAcsgF
+ wfRKqTQHvcvpIryX6Jwb5NDYpXDm7fhF3eEoBs/x6euzxFStlTsRZp8lGEzRg+Ns2ajF
+ zAXqjDJHF8iSwM08dIqmLaP5KMWkkXMHkTrGN7msz3dyHjzLWCEJRDaWRn7i0wq6tia9
+ vupQ==
+X-Gm-Message-State: AOAM533kgcozzgsDdvFtUUrFQgFcrssLLOSlFjhYikWHrJgQp0mUxExP
+ WZgiFzVgFjqPmQ4n+y5aQjM+KSlkOG6ymQ==
+X-Google-Smtp-Source: ABdhPJzyWKY2LfvmqiOqyVMaSgPHdMqpVwOpBaOqEvzriY/ZXypnB7p1bjB53mTuKQ3Gwwnh1hSpYg==
+X-Received: by 2002:a05:6214:5b1:: with SMTP id
+ by17mr8179346qvb.18.1633108341355; 
+ Fri, 01 Oct 2021 10:12:21 -0700 (PDT)
 Received: from localhost.localdomain (c-67-174-166-185.hsd1.ga.comcast.net.
  [67.174.166.185])
- by smtp.gmail.com with ESMTPSA id y15sm3557250qko.78.2021.10.01.10.12.19
+ by smtp.gmail.com with ESMTPSA id y15sm3557250qko.78.2021.10.01.10.12.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 01 Oct 2021 10:12:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 31/41] target/nios2: Implement nios2_cpu_record_sigsegv
-Date: Fri,  1 Oct 2021 13:11:41 -0400
-Message-Id: <20211001171151.1739472-32-richard.henderson@linaro.org>
+Subject: [PATCH v3 32/41] linux-user/openrisc: Adjust signal for EXCP_RANGE,
+ EXCP_FPE
+Date: Fri,  1 Oct 2021 13:11:42 -0400
+Message-Id: <20211001171151.1739472-33-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211001171151.1739472-1-richard.henderson@linaro.org>
 References: <20211001171151.1739472-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2c.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,78 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
+Cc: Stafford Horne <shorne@gmail.com>, alex.bennee@linaro.org,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because the linux-user kuser page handling is currently implemented
-by detecting magic addresses in the unnamed 0xaa trap, we cannot
-simply remove nios2_cpu_tlb_fill and rely on the fallback code.
+The kernel vectors both of these through unhandled_exception, which
+results in force_sig(SIGSEGV).  This isn't very useful for userland
+when enabling overflow traps or fpu traps, but c'est la vie.
 
+Cc: Stafford Horne <shorne@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/cpu.h    | 6 ++++++
- target/nios2/cpu.c    | 6 ++++--
- target/nios2/helper.c | 7 ++++---
- 3 files changed, 14 insertions(+), 5 deletions(-)
+ linux-user/openrisc/cpu_loop.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index a80587338a..1a69ed7a49 100644
---- a/target/nios2/cpu.h
-+++ b/target/nios2/cpu.h
-@@ -218,9 +218,15 @@ static inline int cpu_mmu_index(CPUNios2State *env, bool ifetch)
-                                                   MMU_SUPERVISOR_IDX;
- }
- 
-+#ifdef CONFIG_USER_ONLY
-+void nios2_cpu_record_sigsegv(CPUState *cpu, vaddr addr,
-+                              MMUAccessType access_type,
-+                              bool maperr, uintptr_t ra);
-+#else
- bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-                         bool probe, uintptr_t retaddr);
-+#endif
- 
- static inline int cpu_interrupts_enabled(CPUNios2State *env)
- {
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 947bb09bc1..421cad114a 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -220,9 +220,11 @@ static const struct SysemuCPUOps nios2_sysemu_ops = {
- 
- static const struct TCGCPUOps nios2_tcg_ops = {
-     .initialize = nios2_tcg_init,
--    .tlb_fill = nios2_cpu_tlb_fill,
- 
--#ifndef CONFIG_USER_ONLY
-+#ifdef CONFIG_USER_ONLY
-+    .record_sigsegv = nios2_cpu_record_sigsegv,
-+#else
-+    .tlb_fill = nios2_cpu_tlb_fill,
-     .cpu_exec_interrupt = nios2_cpu_exec_interrupt,
-     .do_interrupt = nios2_cpu_do_interrupt,
-     .do_unaligned_access = nios2_cpu_do_unaligned_access,
-diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index 53be8398e9..e5c98650e1 100644
---- a/target/nios2/helper.c
-+++ b/target/nios2/helper.c
-@@ -38,10 +38,11 @@ void nios2_cpu_do_interrupt(CPUState *cs)
-     env->regs[R_EA] = env->regs[R_PC] + 4;
- }
- 
--bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                        MMUAccessType access_type, int mmu_idx,
--                        bool probe, uintptr_t retaddr)
-+void nios2_cpu_record_sigsegv(CPUState *cs, vaddr addr,
-+                              MMUAccessType access_type,
-+                              bool maperr, uintptr_t retaddr)
- {
-+    /* FIXME: Disentangle kuser page from linux-user sigsegv handling. */
-     cs->exception_index = 0xaa;
-     cpu_loop_exit_restore(cs, retaddr);
- }
+diff --git a/linux-user/openrisc/cpu_loop.c b/linux-user/openrisc/cpu_loop.c
+index f6360db47c..de5417a262 100644
+--- a/linux-user/openrisc/cpu_loop.c
++++ b/linux-user/openrisc/cpu_loop.c
+@@ -56,13 +56,17 @@ void cpu_loop(CPUOpenRISCState *env)
+             break;
+         case EXCP_DPF:
+         case EXCP_IPF:
+-        case EXCP_RANGE:
+             info.si_signo = TARGET_SIGSEGV;
+             info.si_errno = 0;
+             info.si_code = TARGET_SEGV_MAPERR;
+             info._sifields._sigfault._addr = env->pc;
+             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+             break;
++        case EXCP_RANGE:
++        case EXCP_FPE:
++            /* ??? The kernel vectors both of these to unhandled_exception. */
++            force_sig(TARGET_SIGSEGV);
++            break;
+         case EXCP_ALIGN:
+             info.si_signo = TARGET_SIGBUS;
+             info.si_errno = 0;
+@@ -77,13 +81,6 @@ void cpu_loop(CPUOpenRISCState *env)
+             info._sifields._sigfault._addr = env->pc;
+             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+             break;
+-        case EXCP_FPE:
+-            info.si_signo = TARGET_SIGFPE;
+-            info.si_errno = 0;
+-            info.si_code = 0;
+-            info._sifields._sigfault._addr = env->pc;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-            break;
+         case EXCP_INTERRUPT:
+             /* We processed the pending cpu work above.  */
+             break;
 -- 
 2.25.1
 
