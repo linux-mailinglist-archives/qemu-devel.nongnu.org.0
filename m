@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FEEF41ED63
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 14:26:18 +0200 (CEST)
-Received: from localhost ([::1]:44036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E5141ED4A
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 14:24:23 +0200 (CEST)
+Received: from localhost ([::1]:42058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWHcG-0001OX-T0
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 08:26:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42234)
+	id 1mWHaO-0008GJ-9q
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 08:24:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mWHYK-0005jN-HM
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:22:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57725)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mWHYk-0006LE-5g
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:22:38 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:40765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mWHYG-0006jh-Fg
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:22:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633090927;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qwycd8uwMcLpdsy3jyxEf52XV6MJ3dLAdS9MefEAvaY=;
- b=Zp8zg5rsxfTWmK/WliyJj2Eph5PYC8X/MC4uaXkJb+R3sj8pV2wQG8tjMfAagupN/P/rQg
- Rof6SukmDnJvBwW6gUO05MFivgvsknhDowRttAOs2MVRBaLj5lCLIA0DiCWeonKjKuc8C2
- B0pI3hg1byrOBDVrmQ8I4qrFOgZieXY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-gSVeaAGsPh-Qv-kQuI80Vw-1; Fri, 01 Oct 2021 08:22:04 -0400
-X-MC-Unique: gSVeaAGsPh-Qv-kQuI80Vw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 526F41084687;
- Fri,  1 Oct 2021 12:22:03 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C37160C81;
- Fri,  1 Oct 2021 12:22:02 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E584F18007AC; Fri,  1 Oct 2021 14:22:00 +0200 (CEST)
-Date: Fri, 1 Oct 2021 14:22:00 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: OHCI/usb pass through
-Message-ID: <20211001122200.wjmzcheu4aunlhq7@sirius.home.kraxel.org>
-References: <771189a-95c4-5144-ba7-478d28dfd5ef@eik.bme.hu>
- <20211001043943.2cxyxjfgmr5duicl@sirius.home.kraxel.org>
- <81cbbb94-c4dd-dde2-d98a-7487269169cf@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mWHYg-0007Bx-Fn
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:22:37 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.17])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 479BFC18F586;
+ Fri,  1 Oct 2021 14:22:31 +0200 (CEST)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 1 Oct
+ 2021 14:22:30 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R0039273a315-9dc7-42d5-b253-cad9539954c1,
+ 4BD1923EFCE0A2D5FFEE921A78BF2E0F2CE6D79C) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <83766d80-62fd-0c75-6462-44aceacbf995@kaod.org>
+Date: Fri, 1 Oct 2021 14:22:30 +0200
 MIME-Version: 1.0
-In-Reply-To: <81cbbb94-c4dd-dde2-d98a-7487269169cf@eik.bme.hu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] hw/ppc: Deprecate the ref405ep and taihu machines and the
+ 405 CPU models
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, <qemu-devel@nongnu.org>
+References: <20211001121943.1016447-1-thuth@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211001121943.1016447-1-thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9cc92df0-3f28-42c7-b9db-84e04b70be65
+X-Ovh-Tracer-Id: 18268570416571386845
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudekiedggeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekkeefheefvdefhefgjeelveekheeileehudevkeefvdfhleetiedvffdtudeknecuffhomhgrihhnpehgihhtlhgrsgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.127,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,32 +70,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> > > We can get the endpoint from a packet and from ohci so
-> > > I wonder if we can get the active packet from ep->queue (and how to do that)
-> > 
-> > I think ohci never looks beyond the active td so there should never be
-> > more than one packet on the list.
+On 10/1/21 14:19, Thomas Huth wrote:
+> These machines need a firmware image called 'ppc405_rom.bin', and nobody
+> seems to have such a firmware image left for testing, so the machines are
+> currently unusable. There used to be support in U-Boot, but it has been
+> removed a couple of year ago already.
+> Thus let's mark these boards and the 405 CPU as deprecated now, so that we
+> could remove them in a couple of releases (unless somebody speaks up and
+> says that these are still usefull for them).
 > 
-> OK, how to get the packet from that QTAILQ list? If there are multiple
-> packets is the active one first or last? How to get that? I could try to
-> find the answers in the code but I realy did not want to spend much time
-> with it just trying to help Howard so I'd like to ask for some help with
-> this.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-See include/qemu/queue.h, QTAILQ_FIRST() is what you need.  Returns NULL
-when the queue is empty.  There is also a separate QLIST_EMPTY() helper.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-grepping in hw/usb/*.c should find you code examples in other host
-adapters code.
 
-take care,
-  Gerd
+> ---
+>   docs/about/deprecated.rst | 15 +++++++++++++++
+>   hw/ppc/ppc405_boards.c    |  2 ++
+>   2 files changed, 17 insertions(+)
+> 
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index 2f7db9a98d..27c03ef624 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -238,6 +238,11 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
+>   (the ISA has never been upstreamed to a compiler toolchain). Therefore
+>   this CPU is also deprecated.
+>   
+> +PPC 405 CPU models (since 6.2)
+> +''''''''''''''''''''''''''''''
+> +
+> +The related boards ``ref405ep`` and ``taihu`` are marked as deprecated, too.
+> +
+>   
+>   QEMU API (QAPI) events
+>   ----------------------
+> @@ -258,6 +263,16 @@ This machine is deprecated because we have enough AST2500 based OpenPOWER
+>   machines. It can be easily replaced by the ``witherspoon-bmc`` or the
+>   ``romulus-bmc`` machines.
+>   
+> +``ref405ep`` and ``taihu`` machines (since 6.2)
+> +'''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +These machines need a firmware image called 'ppc405_rom.bin', and nobody seems
+> +to have a working copy of such a firmware image anymore. `Support in U-Boot
+> +<https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdfdba62c069>`__
+> +has been removed a couple of years ago, too, so it is very unlikely that
+> +anybody is still using this code at all.
+> +
+> +
+>   Backend options
+>   ---------------
+>   
+> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> index 972a7a4a3e..1578c0dac8 100644
+> --- a/hw/ppc/ppc405_boards.c
+> +++ b/hw/ppc/ppc405_boards.c
+> @@ -317,6 +317,7 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
+>       mc->init = ref405ep_init;
+>       mc->default_ram_size = 0x08000000;
+>       mc->default_ram_id = "ef405ep.ram";
+> +    mc->deprecation_reason = "ppc405 CPU is deprecated";
+>   }
+>   
+>   static const TypeInfo ref405ep_type = {
+> @@ -547,6 +548,7 @@ static void taihu_class_init(ObjectClass *oc, void *data)
+>       mc->init = taihu_405ep_init;
+>       mc->default_ram_size = 0x08000000;
+>       mc->default_ram_id = "taihu_405ep.ram";
+> +    mc->deprecation_reason = "ppc405 CPU is deprecated";
+>   }
+>   
+>   static const TypeInfo taihu_type = {
+> 
 
 
