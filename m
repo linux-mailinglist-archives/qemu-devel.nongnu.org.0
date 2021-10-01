@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAEAA41F333
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:38:08 +0200 (CEST)
-Received: from localhost ([::1]:56662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C1C41F301
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:23:14 +0200 (CEST)
+Received: from localhost ([::1]:45450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWMU3-0006Oi-Qs
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54902)
+	id 1mWMFd-0004w3-OH
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:23:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWM53-00051R-Lb
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:17 -0400
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:40673)
+ id 1mWM54-00052y-4K
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:18 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:46050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWM51-0005Bm-6m
+ id 1mWM52-0005DI-0j
  for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:17 -0400
-Received: by mail-qt1-x834.google.com with SMTP id b16so9624091qtt.7
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:12:14 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id q125so9797793qkd.12
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:12:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eeVnsYGPYAHebpgHrC5W3wwVNSfsNcsD0o1AtI7xBGA=;
- b=CLcl0fmUQ3wSGr/VMjEUqbNgm26UVqUT8ER6rVWFVVONZDp/1TePOgg8Qnp1iIogTE
- hXbiRiMOxpoHS03O/xsf8jNNU1hMchvl+pCTWqs//+sjW0g9RiDCUbmMTG4kcxxGS7zl
- gCEHXBKoxWjdkYPXJa0oPTCjgTDe9OtflqzDZ9zc6gXzzXLy1VmwFOAty4ooQxSjaurk
- hbVk4NQBgruJazkYotkopLp0qupec1u+SeGWxGIenI86YiWM8Z2hicJVlenXaR4jowhN
- ZhEVSd7LLIHhZs7+w3hITpWi2Em4eEVTAJY3f62bgJ3w3Ya3D9nMNtZdQlDv2e6VWRMX
- O7hg==
+ bh=kQq48uinsO7YylDhnHpQEq7bEF7K0DH0ooQKeZ28gIs=;
+ b=P7sgxRwKcGnzx8/NU7x2zpkmBdAQ8+FhiZOPALlK4fdZ3iS2eRQnNxSm7h3/+iZ6PP
+ rsXgcY4KYj/1gPMwtis9OrynI7ELmTk6xY1TJyUVeU2/AVmmcm6fyNX7oq5mJht55q+C
+ yLUXpzqlGPj+/gV71fg7uw2+KmlfbAeZ5Qm8vcdchVHrK0pHxUAXk+HfjGXBTOkPlFWu
+ U3W2Cuzhc1ouEDH3iRltjWIfuWe4W4DH25IoVMFL1lMG93fG+MkWbSm46l597fLtPdaS
+ yLDojQdfjhi8/ORN6p7EHKSMWMpKaTm6d8x6d7EYBdnPMeoQvrbBmZ8NnNDbQz3BZ4lV
+ Ce2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eeVnsYGPYAHebpgHrC5W3wwVNSfsNcsD0o1AtI7xBGA=;
- b=HO0XJyJTBKBp7X/36xI6lKE9tYFvVhVSSo4iqm3HhJNlFWF1xnaIZLVfG48Yye82lr
- csW9fmt/+bLYor7mZR9IP+vtPrmJDWLrbl0qpvfBT6oy9sooon+/a06sishdC8qqeJua
- AKnc1jiIOUgkQFSVrCT/04uVLrp/75p3MqPw33FIQL4YCOdN5iy3WZwk2rCAR1SftVZB
- YIDPOuFMJ0SN58F38iJJH7AH74vz4NHXGB9RugjR0rTMqQxdvFpf1n80qZE95R7uqtuC
- o4o3Vh8u41BCM5AvFur7W1ns3XGUmj5OA1NEH2FC60y95vqtLZ0F5cymSXagU72eNr9P
- Fc4Q==
-X-Gm-Message-State: AOAM532REFifN5o/0VMsHzPYcqaK6p+4hQh6QaSUe1cKGLlc0y6tyEZy
- F9bQdWk608ngdFoWV9OC8kj4yEtfwwn9aA==
-X-Google-Smtp-Source: ABdhPJwGLXHt1xfs1JsJTGiiMdF2Mzt0itQF6cjJakNWDr0YqMRy1t9DOo9bUiUE985EqnFzhF9m8w==
-X-Received: by 2002:ac8:764a:: with SMTP id i10mr13887145qtr.414.1633108334250; 
- Fri, 01 Oct 2021 10:12:14 -0700 (PDT)
+ bh=kQq48uinsO7YylDhnHpQEq7bEF7K0DH0ooQKeZ28gIs=;
+ b=h5Mms0Iitp3b7tIJoDhdN2nftipZOdhZUQwBboghdR7AZjlFfHIUBCYBeuFINm5zRp
+ 4tVTnTvv78KOWCXfidcgep6BGAUsX3yQOFquY0+pfYvGXQzPCSz4A9nqyFBZdwv6h4wR
+ S3r+yM02r2zW/NBWcMMYhqPF1ymxXvazKoV9KnonBASWFpwdNAl3vW5KMU6ZwqGr6iDy
+ S+XJ/FF0cR94cyZhQJSKANhQEGpe9UMg9Atx0vqULWwcz8/jkMeiEELxvhkekRvBclFm
+ xKfkWLV18QH6APRBu9TDBZRL1WgvwUTu3B/SxziPjOmOMftOVPikv9RytUczRkvvvRrJ
+ Adjg==
+X-Gm-Message-State: AOAM533qjE5Gjs+Q59CcjreHYm1P0TnLT8qfqZJpvjvE76PRwPiMzkdH
+ zZrtdflspI+MWepWFt75JUtlBFOaGEKfCQ==
+X-Google-Smtp-Source: ABdhPJy4xt/rQKfzyiADxhIrKaVEkmpv9cLo5f/xdN/x4Mj2KNy1xOKv7ETRRiYDbcqiZ3gzrRmfJg==
+X-Received: by 2002:a37:41ca:: with SMTP id
+ o193mr10861873qka.187.1633108335112; 
+ Fri, 01 Oct 2021 10:12:15 -0700 (PDT)
 Received: from localhost.localdomain (c-67-174-166-185.hsd1.ga.comcast.net.
  [67.174.166.185])
- by smtp.gmail.com with ESMTPSA id y15sm3557250qko.78.2021.10.01.10.12.13
+ by smtp.gmail.com with ESMTPSA id y15sm3557250qko.78.2021.10.01.10.12.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 10:12:13 -0700 (PDT)
+ Fri, 01 Oct 2021 10:12:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 24/41] target/cris: Make cris_cpu_tlb_fill sysemu only
-Date: Fri,  1 Oct 2021 13:11:34 -0400
-Message-Id: <20211001171151.1739472-25-richard.henderson@linaro.org>
+Subject: [PATCH v3 25/41] target/hexagon: Remove hexagon_cpu_tlb_fill
+Date: Fri,  1 Oct 2021 13:11:35 -0400
+Message-Id: <20211001171151.1739472-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211001171151.1739472-1-richard.henderson@linaro.org>
 References: <20211001171151.1739472-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x834.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,157 +84,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>, alex.bennee@linaro.org,
- laurent@vivier.eu, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Taylor Simpson <tsimpson@quicinc.com>, alex.bennee@linaro.org,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fallback code in raise_sigsegv is sufficient for cris-linux-user.
-Remove the code from cpu_loop that handled the unnamed 0xaa exception.
+The fallback code in raise_sigsegv is sufficient for hexagon.
+Remove the code from cpu_loop that raises SIGSEGV.
 
-This makes all of the code in helper.c sysemu only, so remove the
-ifdefs and move the file to cris_softmmu_ss.
-
-Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Taylor Simpson <tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/cpu.h          |  8 ++++----
- linux-user/cris/cpu_loop.c | 10 ----------
- target/cris/cpu.c          |  4 ++--
- target/cris/helper.c       | 18 ------------------
- target/cris/meson.build    |  7 +++++--
- 5 files changed, 11 insertions(+), 36 deletions(-)
+ linux-user/hexagon/cpu_loop.c | 24 +-----------------------
+ target/hexagon/cpu.c          | 23 -----------------------
+ 2 files changed, 1 insertion(+), 46 deletions(-)
 
-diff --git a/target/cris/cpu.h b/target/cris/cpu.h
-index 6603565f83..b445b194ea 100644
---- a/target/cris/cpu.h
-+++ b/target/cris/cpu.h
-@@ -189,6 +189,10 @@ extern const VMStateDescription vmstate_cris_cpu;
- void cris_cpu_do_interrupt(CPUState *cpu);
- void crisv10_cpu_do_interrupt(CPUState *cpu);
- bool cris_cpu_exec_interrupt(CPUState *cpu, int int_req);
-+
-+bool cris_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr);
- #endif
+diff --git a/linux-user/hexagon/cpu_loop.c b/linux-user/hexagon/cpu_loop.c
+index bee2a9e4ea..6b24cbaba9 100644
+--- a/linux-user/hexagon/cpu_loop.c
++++ b/linux-user/hexagon/cpu_loop.c
+@@ -28,8 +28,7 @@
+ void cpu_loop(CPUHexagonState *env)
+ {
+     CPUState *cs = env_cpu(env);
+-    int trapnr, signum, sigcode;
+-    target_ulong sigaddr;
++    int trapnr;
+     target_ulong syscallnum;
+     target_ulong ret;
  
- void cris_cpu_dump_state(CPUState *cs, FILE *f, int flags);
-@@ -251,10 +255,6 @@ static inline int cpu_mmu_index (CPUCRISState *env, bool ifetch)
- 	return !!(env->pregs[PR_CCS] & U_FLAG);
- }
- 
--bool cris_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                       MMUAccessType access_type, int mmu_idx,
--                       bool probe, uintptr_t retaddr);
--
- /* Support function regs.  */
- #define SFR_RW_GC_CFG      0][0
- #define SFR_RW_MM_CFG      env->pregs[PR_SRS]][0
-diff --git a/linux-user/cris/cpu_loop.c b/linux-user/cris/cpu_loop.c
-index b9085619c4..0d5d268609 100644
---- a/linux-user/cris/cpu_loop.c
-+++ b/linux-user/cris/cpu_loop.c
-@@ -37,16 +37,6 @@ void cpu_loop(CPUCRISState *env)
+@@ -39,10 +38,6 @@ void cpu_loop(CPUHexagonState *env)
+         cpu_exec_end(cs);
          process_queued_cpu_work(cs);
  
+-        signum = 0;
+-        sigcode = 0;
+-        sigaddr = 0;
+-
          switch (trapnr) {
--        case 0xaa:
--            {
--                info.si_signo = TARGET_SIGSEGV;
--                info.si_errno = 0;
--                /* XXX: check env->error_code */
--                info.si_code = TARGET_SEGV_MAPERR;
--                info._sifields._sigfault._addr = env->pregs[PR_EDA];
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            }
--            break;
          case EXCP_INTERRUPT:
-           /* just indicate that signals should be handled asap */
-           break;
-diff --git a/target/cris/cpu.c b/target/cris/cpu.c
-index c2e7483f5b..ed6c781342 100644
---- a/target/cris/cpu.c
-+++ b/target/cris/cpu.c
-@@ -205,9 +205,9 @@ static const struct SysemuCPUOps cris_sysemu_ops = {
- 
- static const struct TCGCPUOps crisv10_tcg_ops = {
-     .initialize = cris_initialize_crisv10_tcg,
--    .tlb_fill = cris_cpu_tlb_fill,
- 
- #ifndef CONFIG_USER_ONLY
-+    .tlb_fill = cris_cpu_tlb_fill,
-     .cpu_exec_interrupt = cris_cpu_exec_interrupt,
-     .do_interrupt = crisv10_cpu_do_interrupt,
- #endif /* !CONFIG_USER_ONLY */
-@@ -215,9 +215,9 @@ static const struct TCGCPUOps crisv10_tcg_ops = {
- 
- static const struct TCGCPUOps crisv32_tcg_ops = {
-     .initialize = cris_initialize_tcg,
--    .tlb_fill = cris_cpu_tlb_fill,
- 
- #ifndef CONFIG_USER_ONLY
-+    .tlb_fill = cris_cpu_tlb_fill,
-     .cpu_exec_interrupt = cris_cpu_exec_interrupt,
-     .do_interrupt = cris_cpu_do_interrupt,
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/target/cris/helper.c b/target/cris/helper.c
-index 36926faf32..a0d6ecdcd3 100644
---- a/target/cris/helper.c
-+++ b/target/cris/helper.c
-@@ -39,22 +39,6 @@
- #define D_LOG(...) do { } while (0)
- #endif
- 
--#if defined(CONFIG_USER_ONLY)
+             /* just indicate that signals should be handled asap */
+@@ -65,12 +60,6 @@ void cpu_loop(CPUHexagonState *env)
+                 env->gpr[0] = ret;
+             }
+             break;
+-        case HEX_EXCP_FETCH_NO_UPAGE:
+-        case HEX_EXCP_PRIV_NO_UREAD:
+-        case HEX_EXCP_PRIV_NO_UWRITE:
+-            signum = TARGET_SIGSEGV;
+-            sigcode = TARGET_SEGV_MAPERR;
+-            break;
+         case EXCP_ATOMIC:
+             cpu_exec_step_atomic(cs);
+             break;
+@@ -79,17 +68,6 @@ void cpu_loop(CPUHexagonState *env)
+                      trapnr);
+             exit(EXIT_FAILURE);
+         }
 -
--bool cris_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                       MMUAccessType access_type, int mmu_idx,
--                       bool probe, uintptr_t retaddr)
+-        if (signum) {
+-            target_siginfo_t info = {
+-                .si_signo = signum,
+-                .si_errno = 0,
+-                .si_code = sigcode,
+-                ._sifields._sigfault._addr = sigaddr
+-            };
+-            queue_signal(env, info.si_signo, QEMU_SI_KILL, &info);
+-        }
+-
+         process_pending_signals(env);
+     }
+ }
+diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
+index 3338365c16..160a46a3d5 100644
+--- a/target/hexagon/cpu.c
++++ b/target/hexagon/cpu.c
+@@ -245,34 +245,11 @@ static void hexagon_cpu_init(Object *obj)
+     qdev_property_add_static(DEVICE(obj), &hexagon_lldb_stack_adjust_property);
+ }
+ 
+-static bool hexagon_tlb_fill(CPUState *cs, vaddr address, int size,
+-                             MMUAccessType access_type, int mmu_idx,
+-                             bool probe, uintptr_t retaddr)
 -{
--    CRISCPU *cpu = CRIS_CPU(cs);
--
--    cs->exception_index = 0xaa;
--    cpu->env.pregs[PR_EDA] = address;
+-#ifdef CONFIG_USER_ONLY
+-    switch (access_type) {
+-    case MMU_INST_FETCH:
+-        cs->exception_index = HEX_EXCP_FETCH_NO_UPAGE;
+-        break;
+-    case MMU_DATA_LOAD:
+-        cs->exception_index = HEX_EXCP_PRIV_NO_UREAD;
+-        break;
+-    case MMU_DATA_STORE:
+-        cs->exception_index = HEX_EXCP_PRIV_NO_UWRITE;
+-        break;
+-    }
 -    cpu_loop_exit_restore(cs, retaddr);
+-#else
+-#error System mode not implemented for Hexagon
+-#endif
 -}
 -
--#else /* !CONFIG_USER_ONLY */
--
--
- static void cris_shift_ccs(CPUCRISState *env)
- {
-     uint32_t ccs;
-@@ -304,5 +288,3 @@ bool cris_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ #include "hw/core/tcg-cpu-ops.h"
  
-     return ret;
- }
--
--#endif /* !CONFIG_USER_ONLY */
-diff --git a/target/cris/meson.build b/target/cris/meson.build
-index 67c3793c85..c1e326d950 100644
---- a/target/cris/meson.build
-+++ b/target/cris/meson.build
-@@ -2,13 +2,16 @@ cris_ss = ss.source_set()
- cris_ss.add(files(
-   'cpu.c',
-   'gdbstub.c',
--  'helper.c',
-   'op_helper.c',
-   'translate.c',
- ))
+ static const struct TCGCPUOps hexagon_tcg_ops = {
+     .initialize = hexagon_translate_init,
+     .synchronize_from_tb = hexagon_cpu_synchronize_from_tb,
+-    .tlb_fill = hexagon_tlb_fill,
+ };
  
- cris_softmmu_ss = ss.source_set()
--cris_softmmu_ss.add(files('mmu.c', 'machine.c'))
-+cris_softmmu_ss.add(files(
-+  'helper.c',
-+  'machine.c',
-+  'mmu.c',
-+))
- 
- target_arch += {'cris': cris_ss}
- target_softmmu_arch += {'cris': cris_softmmu_ss}
+ static void hexagon_cpu_class_init(ObjectClass *c, void *data)
 -- 
 2.25.1
 
