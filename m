@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D47DD41F419
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:59:07 +0200 (CEST)
-Received: from localhost ([::1]:51954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C405D41F452
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 20:05:45 +0200 (CEST)
+Received: from localhost ([::1]:39188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWMoM-0008Kv-S0
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:59:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35776)
+	id 1mWMum-0001zE-Q7
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 14:05:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>)
- id 1mWMkF-0002IR-9v; Fri, 01 Oct 2021 13:54:51 -0400
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:1397
- helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>)
- id 1mWMkD-0005LC-Kn; Fri, 01 Oct 2021 13:54:51 -0400
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4HLd6K757yz8PbN;
- Fri,  1 Oct 2021 13:54:33 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
- :date:mime-version:subject:to:cc:references:from:in-reply-to
- :content-type:content-transfer-encoding; s=default; bh=14okNHQJS
- kgEI1aItTF0jMMrhRY=; b=bfI0ghocdOxSGrRijdgtvGxWlqUC8ozAj5g7Ixx0D
- MgoWyTlIe4IqJzLdQoU7ryzMQqUd3z2vS4RK/aq0BOx1L44VSpGEaW5EMhsFeHiV
- zYeXRU2ANmrpgM0OCoUNME/OljIKNfAPCMeO8JfJJh9p6IyndX4d3nxf7vtSNMoD
- KE=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
- :date:mime-version:subject:to:cc:references:from:in-reply-to
- :content-type:content-transfer-encoding; q=dns; s=default; b=GqR
- 4GYX6cl4MvgKe0yL3kISPTyTVCGXNZjb/qWaa6dGZ5DTA1BSkYklwJAF2lpJ135c
- DgZPBmulWJNO0b2jzMGEQq1nfyHwvg8vCi+QN9g1xu0GGzxssj3ikNKMysv6Zy2q
- HTBsvVgIqXA7wLckNUs9iGoTOb5VC538tm6hgIBw=
-Received: from [IPV6:2001:470:b0db:100:2180:9c72:cb7b:b0bd] (unknown
- [IPv6:2001:470:b0db:100:2180:9c72:cb7b:b0bd])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4HLd6K35r9z8PbK;
- Fri,  1 Oct 2021 13:54:33 -0400 (EDT)
-Message-ID: <9bbfbede-0b93-d9ea-cad9-2e7a32c0ebbf@comstyle.com>
-Date: Fri, 1 Oct 2021 13:54:32 -0400
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mWMUG-0000XQ-1H
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:38:22 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46669)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mWMUA-0000fo-62
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:38:18 -0400
+Received: by mail-wr1-x436.google.com with SMTP id k7so16526513wrd.13
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:38:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=yO3yTTEzbhf/x4NiXg2WSPV6sp86QcJAMc0N5bcX0+w=;
+ b=B0y+jAY1R3bsDDR0ds7bcYmxU1Xq6NEl1fRXnVVvBcmTTo8gSreqmxh6/cV2GJfG8U
+ g6GDZMGtPpE5H8gTw1liG/rKJo9wQ/0ZFMr8vODzZRA+IvoCrfaL+jDNpeUprOTPlMLx
+ uU83jm/+TehUGR4IZujs1kpeQr+uk/Su51+/2/PMwQXRr4J5ohonq/NDRRRI/rmQjhV7
+ ypPc97aarua0C7mUP7bRV/GFvlpewTLcFSuxQ6unP9WFrOO0OwLF/h+AXydPVhqkkfTH
+ 2cmJPDhScFeDw4gEDt2P4HMg0j1YfDfVvLhq2ctVFKx3UQwX1CwpJu5BfdNNGXx9Ctem
+ gsyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=yO3yTTEzbhf/x4NiXg2WSPV6sp86QcJAMc0N5bcX0+w=;
+ b=G2QkwrO2hACPu6I1NVPgO3asMSrHUOFceyuHQLy5T1EMu0HcZv2sOtDaWJfv3qEByS
+ uYSQhgu8ZbA8U2WAk17HdNqrcZW2uq3pgOjDzgh/pS9pIQveLCGvp3/iMUpoGYKs7W4j
+ Cl+NcY1VNMUKFXei1u1Hy+IMrUgQ1iikd+V1wEG21JkQPO/VnV8Iun4/lBJhVWRhqlY6
+ phud76TBvUVO+Ol/6JD3WcwA0zQyytiyJMbYaK79K4SBLA3gF7gWDDU1il+okchQigSZ
+ B0Tt4rQdamJqZdKc5Z+52IM+gj+jGpqufyfaRxWYXpvyKfg6N/BwGR5z4xnl+VhSNZ1g
+ FpNA==
+X-Gm-Message-State: AOAM5312B/nGNfClHpYBzXkc+lrmN0oJgF2W7EPkMqJZWckmgwZOiCvg
+ 6KbLHwjIcckGvMhR/YkifMPSMw==
+X-Google-Smtp-Source: ABdhPJxpupnCW2Dsa3o+TmUhNfRdGNR0AvRZux1AsfCeA3eaDRxE8/8zYEOv2IK8WsP1ZEIrbIhQlQ==
+X-Received: by 2002:a5d:47cf:: with SMTP id o15mr9926159wrc.394.1633109892789; 
+ Fri, 01 Oct 2021 10:38:12 -0700 (PDT)
+Received: from localhost.localdomain
+ (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id k9sm6186592wrz.22.2021.10.01.10.38.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Oct 2021 10:38:12 -0700 (PDT)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: eric.auger@redhat.com,
+	imammedo@redhat.com
+Subject: [PATCH v4 02/11] hw/arm/virt-acpi-build: Add VIOT table for
+ virtio-iommu
+Date: Fri,  1 Oct 2021 18:33:50 +0100
+Message-Id: <20211001173358.863017-3-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211001173358.863017-1-jean-philippe@linaro.org>
+References: <20211001173358.863017-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101
- Thunderbird/93.0
-Subject: Re: [PATCH 3/3] dtc: Update to version 1.6.1
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20210827120901.150276-1-thuth@redhat.com>
- <20210827120901.150276-4-thuth@redhat.com>
- <7004c933-5262-3119-80f5-722a8e858046@redhat.com>
- <YVbQERWD9fY0kxxW@redhat.com>
- <CAFEAcA8PdNEHU2YMGT56bCwezf9i+BGxijwevLJakrR_N1Yjhw@mail.gmail.com>
- <YVbYavVeV/OmYON6@redhat.com>
-From: Brad Smith <brad@comstyle.com>
-In-Reply-To: <YVbYavVeV/OmYON6@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.127,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,58 +85,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-arm@nongnu.org,
+ ani@anisinha.ca, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/2021 5:44 AM, Daniel P. Berrang=C3=A9 wrote:
+When a virtio-iommu is instantiated, describe it using the ACPI VIOT
+table.
 
-> On Fri, Oct 01, 2021 at 10:37:51AM +0100, Peter Maydell wrote:
->> On Fri, 1 Oct 2021 at 10:10, Daniel P. Berrang=C3=A9 <berrange@redhat.=
-com> wrote:
->>> On Thu, Sep 30, 2021 at 09:10:12AM +0200, Thomas Huth wrote:
->>>> On 27/08/2021 14.09, Thomas Huth wrote:
->>>>> The dtc submodule is currently pointing to non-release commit. It's=
- nicer
->>>>> if submodules point to release versions instead and since dtc 1.6.1=
- is
->>>>> available now, let's update to that version.
->>> Most of our supported platforms don't have version 1.6.1 available.
->>>
->>> As a general goal IMHO we should be seeking to eliminate bundling of
->>> 3rd party modules that are commonly available in distros. We've
->>> carried dtc for a hell of a long time, and if we keep updating our
->>> submodule we'll keep relyin on new features, and never be able to
->>> drop it because it will always be newer than what's in the distros.
->>>
->>> So personally I think we should never again update dtc and capstone
->>> modules. If we want to take adbantage of new features, then do that
->>> through conditional compilation, as we do for any of the other 3rd
->>> party libraries consumed.
->> I agree in general, but (per the commit message here) our dtc
->> submodule is currently pointing at some random not-a-release
->> commit in upstream dtc. We should at least move forward to
->> whatever the next released dtc after that is, before we say
->> "no more dtc updates".
-> Yep, if we want to fix it onto an official version tag, that's
-> OK, just not jumping right to very latest version. We might want
-> to move it backwards to better align with what we're targetting
-> in the support
->
-> Best I can tell the distros currently have these versions:
->
->       - Alpine 3.14 - 1.6.1
->       - CentOS 8 - 1.6.0
->       - Debian 10 - 1.4.7
->       - Fedora 33 - 1.6.0
->       - OpenSUSE Leap 15.3 - 1.5.1
->       - Ubuntu 18.04 - 1.4.5
->       - FreeBSD Ports - 1.6.0
->       - OpenBSD Ports - 1.6.0
-I already updated OpenBSD to 1.6.1.
->       - macOS HomeBrew - 1.6.1
->       - Windows MSys2 - 1.6.0
->
->
-> Regards,
-> Daniel
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+---
+ hw/arm/virt-acpi-build.c | 7 +++++++
+ hw/arm/Kconfig           | 1 +
+ 2 files changed, 8 insertions(+)
+
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 6cec97352b..e26639e1e1 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -55,6 +55,7 @@
+ #include "kvm_arm.h"
+ #include "migration/vmstate.h"
+ #include "hw/acpi/ghes.h"
++#include "hw/acpi/viot.h"
+ 
+ #define ARM_SPI_BASE 32
+ 
+@@ -934,6 +935,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+     }
+ #endif
+ 
++    if (vms->iommu == VIRT_IOMMU_VIRTIO) {
++        acpi_add_table(table_offsets, tables_blob);
++        build_viot(ms, tables_blob, tables->linker, vms->virtio_iommu_bdf,
++                   vms->oem_id, vms->oem_table_id);
++    }
++
+     /* XSDT is pointed to by RSDP */
+     xsdt = tables_blob->len;
+     build_xsdt(tables_blob, tables->linker, table_offsets, vms->oem_id,
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 18832abf7d..a05d75faca 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -27,6 +27,7 @@ config ARM_VIRT
+     select DIMM
+     select ACPI_HW_REDUCED
+     select ACPI_APEI
++    select ACPI_VIOT
+ 
+ config CHEETAH
+     bool
+-- 
+2.33.0
+
 
