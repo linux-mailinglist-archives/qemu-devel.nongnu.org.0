@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D80041F437
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:59:51 +0200 (CEST)
-Received: from localhost ([::1]:53678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47DD41F419
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:59:07 +0200 (CEST)
+Received: from localhost ([::1]:51954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWMp4-00013g-3q
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:59:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33384)
+	id 1mWMoM-0008Kv-S0
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:59:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mWMYo-0004JH-JY
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:43:03 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:35430)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mWMYm-0004ZW-Pc
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:43:02 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id v25so6043991wra.2
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:42:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5CS2z1SevkbSoB879G+2NDFjYwoRuePhjlGvIjdncRI=;
- b=j5c3t0N0VVlZ+Jtb3GxJY+1JMe0ZbMs2cNckTQ3hLmaEJYn6rLWKarcZF37vT6JmqW
- Dfd4k8f9uRo92c5V6JDIQRZmH3FYq7SqmiiYvIbNEHc0QHLk5tbxN4x4O7yuflg0iwv0
- Bbq+9jclWbE6eIeVnQC9J55QQRvAcubMlyhtAb+QwMcgl3fcjbpeKJShoLhKi1MKMfrL
- YGsOTsycqkdoH/N/rYWLS7jC2yDnE5sZvpeOP6E3shmXx/J9weqcQnIpy4f/I563LePP
- iJUwIC+/q0IhVJEd0de2SyZmQmM1wHrQRyW/e/F9Ewg7TGoEQY2TPZO5R7F1dW/H6cZ8
- SdnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5CS2z1SevkbSoB879G+2NDFjYwoRuePhjlGvIjdncRI=;
- b=7MtC4hfPsgNeYpAvgxKgXzICQNguZ2G3J+UsLKPmWXe7fukWDdFOcgeXr6YFZIKp3f
- cyayToFlkV3MHtkoVi5oXrc2sYTxUmzpTCIHpwn0hdvbLRBWKBpLBMVVO/USMDorvJYk
- jZAs8dlWw6CbCR80e8G+ucVFNekXhcAuY5/1NABYaAdiu60H3rM5wCGjDdLr1AZk5IYq
- m7vZLSjhIeUjMg1mrGeFLsrAxDr3A+UehywOr9QTiMk5DC40LcdcAduIgqx7w5351PWr
- gb9D+cOGNpt+8wJmahhtpeD7lFt1yZ27wWNMpGugIwd7GPnHyqHUa7QAhToXy/sNqTY+
- XwDw==
-X-Gm-Message-State: AOAM531ER7KXJViN/LRou9drNIY7Y8pFkjb9Zz4Hi2/GIEAKColMSenW
- 3saFpKiTTSAJCaLs/R9u0/LmNw==
-X-Google-Smtp-Source: ABdhPJyqNAMP3utdIQ5idon9YDQUBytZ9WVUnwWS4ki739DSlEWDYx+Uj7Qdp4PFWr85Cl6xwXWjPQ==
-X-Received: by 2002:a5d:6d03:: with SMTP id e3mr13812556wrq.383.1633110178934; 
- Fri, 01 Oct 2021 10:42:58 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v23sm5945882wmj.4.2021.10.01.10.42.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 10:42:57 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CB3991FF96;
- Fri,  1 Oct 2021 18:42:56 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] hw/arm: fix the position of vcram for raspi
-Date: Fri,  1 Oct 2021 18:42:42 +0100
-Message-Id: <20211001174243.128157-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>)
+ id 1mWMkF-0002IR-9v; Fri, 01 Oct 2021 13:54:51 -0400
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:1397
+ helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>)
+ id 1mWMkD-0005LC-Kn; Fri, 01 Oct 2021 13:54:51 -0400
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4HLd6K757yz8PbN;
+ Fri,  1 Oct 2021 13:54:33 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; s=default; bh=14okNHQJS
+ kgEI1aItTF0jMMrhRY=; b=bfI0ghocdOxSGrRijdgtvGxWlqUC8ozAj5g7Ixx0D
+ MgoWyTlIe4IqJzLdQoU7ryzMQqUd3z2vS4RK/aq0BOx1L44VSpGEaW5EMhsFeHiV
+ zYeXRU2ANmrpgM0OCoUNME/OljIKNfAPCMeO8JfJJh9p6IyndX4d3nxf7vtSNMoD
+ KE=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; q=dns; s=default; b=GqR
+ 4GYX6cl4MvgKe0yL3kISPTyTVCGXNZjb/qWaa6dGZ5DTA1BSkYklwJAF2lpJ135c
+ DgZPBmulWJNO0b2jzMGEQq1nfyHwvg8vCi+QN9g1xu0GGzxssj3ikNKMysv6Zy2q
+ HTBsvVgIqXA7wLckNUs9iGoTOb5VC538tm6hgIBw=
+Received: from [IPV6:2001:470:b0db:100:2180:9c72:cb7b:b0bd] (unknown
+ [IPv6:2001:470:b0db:100:2180:9c72:cb7b:b0bd])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4HLd6K35r9z8PbK;
+ Fri,  1 Oct 2021 13:54:33 -0400 (EDT)
+Message-ID: <9bbfbede-0b93-d9ea-cad9-2e7a32c0ebbf@comstyle.com>
+Date: Fri, 1 Oct 2021 13:54:32 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101
+ Thunderbird/93.0
+Subject: Re: [PATCH 3/3] dtc: Update to version 1.6.1
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20210827120901.150276-1-thuth@redhat.com>
+ <20210827120901.150276-4-thuth@redhat.com>
+ <7004c933-5262-3119-80f5-722a8e858046@redhat.com>
+ <YVbQERWD9fY0kxxW@redhat.com>
+ <CAFEAcA8PdNEHU2YMGT56bCwezf9i+BGxijwevLJakrR_N1Yjhw@mail.gmail.com>
+ <YVbYavVeV/OmYON6@redhat.com>
+From: Brad Smith <brad@comstyle.com>
+In-Reply-To: <YVbYavVeV/OmYON6@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.127,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,158 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Michael Bishop <cleverca22@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous calculation fell over when I tried to create a 8gb Pi 4
-because the values where only 32 bit. However the quirk of the Pi
-hardware is the vcram can only appear in the first 1gb of address
-space. This also limits where the initial kernel and DTB can be
-loaded (notice the DTS for the 8gb Pi4 still only uses 32 bit sizes).
-Fix this cleaning up setup_boot to directly use vcram_base and
-documenting what is going on.
+On 10/1/2021 5:44 AM, Daniel P. Berrang=C3=A9 wrote:
 
-NB: the aliases are confusing.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Michael Bishop <cleverca22@gmail.com>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/bcm2835_peripherals.c | 14 +++++++++++---
- hw/arm/bcm2836.c             |  2 ++
- hw/arm/raspi.c               | 19 ++++++++++++-------
- 3 files changed, 25 insertions(+), 10 deletions(-)
-
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 1f2f0ad486..3856c7d267 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -12,6 +12,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
-+#include "qemu/units.h"
- #include "hw/arm/bcm2835_peripherals.h"
- #include "hw/misc/bcm2835_mbox_defs.h"
- #include "hw/arm/raspi_platform.h"
-@@ -74,6 +75,7 @@ static void bcm2835_peripherals_init(Object *obj)
-     /* Framebuffer */
-     object_initialize_child(obj, "fb", &s->fb, TYPE_BCM2835_FB);
-     object_property_add_alias(obj, "vcram-size", OBJECT(&s->fb), "vcram-size");
-+    object_property_add_alias(obj, "vcram-base", OBJECT(&s->fb), "vcram-base");
- 
-     object_property_add_const_link(OBJECT(&s->fb), "dma-mr",
-                                    OBJECT(&s->gpu_bus_mr));
-@@ -138,7 +140,7 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-     Object *obj;
-     MemoryRegion *ram;
-     Error *err = NULL;
--    uint64_t ram_size, vcram_size;
-+    uint64_t ram_size, vcram_size, vcram_base;
-     int n;
- 
-     obj = object_property_get_link(OBJECT(dev), "ram", &error_abort);
-@@ -235,15 +237,21 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-         qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_ARM_IRQ,
-                                INTERRUPT_ARM_MAILBOX));
- 
--    /* Framebuffer */
-+    /*
-+     * The framebuffer has to live in the first 1gb of addressable
-+     * space which is fine for older Pi's with less than 1gb of RAM
-+     * but we need to take care not to put it too high otherwise
-+     */
-     vcram_size = object_property_get_uint(OBJECT(s), "vcram-size", &err);
-     if (err) {
-         error_propagate(errp, err);
-         return;
-     }
- 
-+    vcram_base = MIN(ram_size, 1 * GiB) - vcram_size;
-+
-     if (!object_property_set_uint(OBJECT(&s->fb), "vcram-base",
--                                  ram_size - vcram_size, errp)) {
-+                                  vcram_base, errp)) {
-         return;
-     }
- 
-diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index 34aaaa77f1..18034c4131 100644
---- a/hw/arm/bcm2836.c
-+++ b/hw/arm/bcm2836.c
-@@ -79,6 +79,8 @@ static void bcm2836_init(Object *obj)
-                               "board-rev");
-     object_property_add_alias(obj, "vcram-size", OBJECT(&s->peripherals),
-                               "vcram-size");
-+    object_property_add_alias(obj, "vcram-base", OBJECT(&s->peripherals),
-+                              "vcram-base");
- }
- 
- static bool bcm283x_common_realize(DeviceState *dev, Error **errp)
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 50462bc04c..0342aeab03 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -198,14 +198,19 @@ static void reset_secondary(ARMCPU *cpu, const struct arm_boot_info *info)
-     cpu_set_pc(cs, info->smp_loader_start);
- }
- 
-+/*
-+ * NB: ram_limit isn't the same as ram_size - it indicates the portion
-+ * of RAM that boot components can live in (up to the first 1gb - the
-+ * vcram_size, aka vcram_base)
-+ */
- static void setup_boot(MachineState *machine, RaspiProcessorId processor_id,
--                       size_t ram_size)
-+                       size_t ram_limit)
- {
-     RaspiMachineState *s = RASPI_MACHINE(machine);
-     int r;
- 
-     s->binfo.board_id = MACH_TYPE_BCM2708;
--    s->binfo.ram_size = ram_size;
-+    s->binfo.ram_size = ram_limit;
-     s->binfo.nb_cpus = machine->smp.cpus;
- 
-     if (processor_id <= PROCESSOR_ID_BCM2836) {
-@@ -241,7 +246,7 @@ static void setup_boot(MachineState *machine, RaspiProcessorId processor_id,
-                              ? FIRMWARE_ADDR_2 : FIRMWARE_ADDR_3;
-         /* load the firmware image (typically kernel.img) */
-         r = load_image_targphys(machine->firmware, firmware_addr,
--                                ram_size - firmware_addr);
-+                                ram_limit - firmware_addr);
-         if (r < 0) {
-             error_report("Failed to load firmware from %s", machine->firmware);
-             exit(1);
-@@ -260,7 +265,7 @@ static void raspi_machine_init(MachineState *machine)
-     RaspiMachineState *s = RASPI_MACHINE(machine);
-     uint32_t board_rev = mc->board_rev;
-     uint64_t ram_size = board_ram_size(board_rev);
--    uint32_t vcram_size;
-+    uint32_t vcram_base;
-     DriveInfo *di;
-     BlockBackend *blk;
-     BusState *bus;
-@@ -297,10 +302,10 @@ static void raspi_machine_init(MachineState *machine)
-     qdev_prop_set_drive_err(carddev, "drive", blk, &error_fatal);
-     qdev_realize_and_unref(carddev, bus, &error_fatal);
- 
--    vcram_size = object_property_get_uint(OBJECT(&s->soc), "vcram-size",
-+    vcram_base = object_property_get_uint(OBJECT(&s->soc), "vcram-base",
-                                           &error_abort);
--    setup_boot(machine, board_processor_id(mc->board_rev),
--               machine->ram_size - vcram_size);
-+
-+    setup_boot(machine, board_processor_id(mc->board_rev), vcram_base);
- }
- 
- static void raspi_machine_class_common_init(MachineClass *mc,
--- 
-2.30.2
-
+> On Fri, Oct 01, 2021 at 10:37:51AM +0100, Peter Maydell wrote:
+>> On Fri, 1 Oct 2021 at 10:10, Daniel P. Berrang=C3=A9 <berrange@redhat.=
+com> wrote:
+>>> On Thu, Sep 30, 2021 at 09:10:12AM +0200, Thomas Huth wrote:
+>>>> On 27/08/2021 14.09, Thomas Huth wrote:
+>>>>> The dtc submodule is currently pointing to non-release commit. It's=
+ nicer
+>>>>> if submodules point to release versions instead and since dtc 1.6.1=
+ is
+>>>>> available now, let's update to that version.
+>>> Most of our supported platforms don't have version 1.6.1 available.
+>>>
+>>> As a general goal IMHO we should be seeking to eliminate bundling of
+>>> 3rd party modules that are commonly available in distros. We've
+>>> carried dtc for a hell of a long time, and if we keep updating our
+>>> submodule we'll keep relyin on new features, and never be able to
+>>> drop it because it will always be newer than what's in the distros.
+>>>
+>>> So personally I think we should never again update dtc and capstone
+>>> modules. If we want to take adbantage of new features, then do that
+>>> through conditional compilation, as we do for any of the other 3rd
+>>> party libraries consumed.
+>> I agree in general, but (per the commit message here) our dtc
+>> submodule is currently pointing at some random not-a-release
+>> commit in upstream dtc. We should at least move forward to
+>> whatever the next released dtc after that is, before we say
+>> "no more dtc updates".
+> Yep, if we want to fix it onto an official version tag, that's
+> OK, just not jumping right to very latest version. We might want
+> to move it backwards to better align with what we're targetting
+> in the support
+>
+> Best I can tell the distros currently have these versions:
+>
+>       - Alpine 3.14 - 1.6.1
+>       - CentOS 8 - 1.6.0
+>       - Debian 10 - 1.4.7
+>       - Fedora 33 - 1.6.0
+>       - OpenSUSE Leap 15.3 - 1.5.1
+>       - Ubuntu 18.04 - 1.4.5
+>       - FreeBSD Ports - 1.6.0
+>       - OpenBSD Ports - 1.6.0
+I already updated OpenBSD to 1.6.1.
+>       - macOS HomeBrew - 1.6.1
+>       - Windows MSys2 - 1.6.0
+>
+>
+> Regards,
+> Daniel
 
