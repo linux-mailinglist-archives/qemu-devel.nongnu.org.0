@@ -2,83 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CD441EDE2
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 14:53:48 +0200 (CEST)
-Received: from localhost ([::1]:39000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E2B41EDFE
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 14:58:25 +0200 (CEST)
+Received: from localhost ([::1]:42990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWI2t-0001sQ-9c
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 08:53:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47882)
+	id 1mWI7M-0004rl-PC
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 08:58:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mWI0E-0007ts-24
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:51:02 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mWI0C-0001u5-A3
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:51:01 -0400
-Received: by mail-wr1-x433.google.com with SMTP id v25so4707557wra.2
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 05:50:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=CjUiIcTXAqFtECtkq4MVbhhQ7h1/BrSQdcA+rYHuUmM=;
- b=E+V2XbN9MtgIty9MBkf9xDwF6P2Xa/FunrTeJhXih4id7uoEQk4UXsHepIV99P9S0o
- v+YiIVn1Bxn5hHKFPYU2LFQG0fiaGeHuIDo6WMaLkpoPFxcExEMMaUfSrAGFdc1Hlppo
- s/QgnS7YzAxPb7agysnGEhuCj3bGFjMJi3/37fhfc5PdMNwixAoc4+XU9ICrhacJrH30
- 7JVrmwPQp1x3ih/y9m2FiAOTP7Y4j4HDX17Me92bB19RZPd70stWcFjucWgopDexwZbs
- wiabEmPXCp94L9x/GGRb6sMkog1mywCJ4KvPboedVbUayJp8w7DBZg9FXpeam0DNHy6m
- 7gEw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mWI66-0003uG-Qp
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:57:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mWI65-0006B8-0n
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:57:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633093024;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0MfzHs7Bm6m1LQz1vTYHej0qiGwhtN1hXC5v8oM274E=;
+ b=KA0XzCWyMRqb6OWA9jgQcXjnZcF5n7a1fvrXNM5JYRMey4uZziBBAE1Hk0GDas4uJ89owc
+ 3G+nNapEe1TN+YpjXUHlD0tK1U6WS64N8bY7f77ZC6kYNvPAktFM82iqVZ0BH5qiHoOPg3
+ BSI0nKG4KkZIa0LPtfIpe1q4Z0uAYHI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-2aS8yjHXMa2hoQmAByNmtg-1; Fri, 01 Oct 2021 08:57:03 -0400
+X-MC-Unique: 2aS8yjHXMa2hoQmAByNmtg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k6-20020a05600c0b4600b0030d2a0a259eso3299253wmr.6
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 05:57:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=CjUiIcTXAqFtECtkq4MVbhhQ7h1/BrSQdcA+rYHuUmM=;
- b=EoxujnkwIBmVZpqmWPceYAywhEL0P6WSKQVRLzhENr2COm4163XU+q4JPjfBzHp2kV
- vJiZM4koWoIGvYIQH9wS+ldFAzYkzf7QuiCE6IFPRLwhKxvu/H5sRZF1JLvWs/enrWQt
- uD6XZEWn0haryx4hD4gGp4imWonjAgUaKRJ7D1IHNnIdPTF4A6pIT3yW2z68csxqconQ
- RuED5uFOff0URObaOXHmGPzgd1AztE0n7X3X11t78q0SmkRVhCdQvw86Q10lBIP1NusU
- ZdzfkWXt4nxH2kqI+aONT6eqUUfPhVmk46h7VqPK/doZmrD+0kkf6pUpbSE6GCF4tq/D
- upkw==
-X-Gm-Message-State: AOAM530fJ2GtGMVVG0cs7n/ZLGOMe5qi+ys+Oj+qg7QLyVYm6xdCbthy
- sy3HyxU03xboiBbvDjzvdXr4mYqVrT8=
-X-Google-Smtp-Source: ABdhPJyOgXfu4D3DpkD86woE2MJTFPM6TKBgjLymyTlTmOIZqGCxhnyeHuHN5QfK6m1vRm1wa8BltQ==
-X-Received: by 2002:adf:b353:: with SMTP id k19mr12244449wrd.325.1633092658766; 
- Fri, 01 Oct 2021 05:50:58 -0700 (PDT)
+ bh=0MfzHs7Bm6m1LQz1vTYHej0qiGwhtN1hXC5v8oM274E=;
+ b=d1/WvIaSIbMRG93lnWlias/lbHNNofxPhQcoYs/JjgVL+rPnMpMecRdr7b+erMmmC4
+ qyKJYdqbiMkkpDlQWpy62bXq7If0jxR37ntr86cLYzayt6OawyWVgsOXgd6roB2IdYUK
+ ZB4F5iX3WvQVyGDXEeHeRrnE6F7hIv0DjJDeNa8F9gX0j5hEBkpQa3v8Zi+jvz6Wm7/d
+ XwuY1WNuEZ9097ygvc4TorAnZlyQEr9YC+hM65zB5rBxG//yWfPyKsTVai7Zu+A/M4ag
+ D6jZEDRZlint24gu+mJL7037oLdVPks1SQ4FeNsW/vtcY7jN4XqrGCQDk89ySNmWkhrT
+ Ckcw==
+X-Gm-Message-State: AOAM532r1T9EkAl/Hbel/a3ofkmBQqbveNMIBeDWXmrAHUP2m8gudgMJ
+ jEmAoKRGOlJ8y6moZv6CXdsB2m80qkQBTC6wMjbPfPNOFPoCXXeVVv72SjFfMLd17tdQ9Uc1PtE
+ sXtuWCkkG1imxOUo=
+X-Received: by 2002:a1c:9a07:: with SMTP id c7mr4437970wme.106.1633093022160; 
+ Fri, 01 Oct 2021 05:57:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx3ONizNhPtgHZce2zY/GpjLkl9aEVUh4aEfwHLK4In1E8PRaawDCx+cepExbAnAfo/s/PKWw==
+X-Received: by 2002:a1c:9a07:: with SMTP id c7mr4437955wme.106.1633093021983; 
+ Fri, 01 Oct 2021 05:57:01 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id f17sm6157467wru.69.2021.10.01.05.50.57
+ by smtp.gmail.com with ESMTPSA id n68sm7570448wmn.13.2021.10.01.05.57.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Oct 2021 05:50:58 -0700 (PDT)
-Message-ID: <f7b6a481-a4fd-0de3-6486-878608c18757@amsat.org>
-Date: Fri, 1 Oct 2021 14:50:57 +0200
+ Fri, 01 Oct 2021 05:57:01 -0700 (PDT)
+Message-ID: <fb1aa5e4-8dda-baa5-f48d-8743dccc3355@redhat.com>
+Date: Fri, 1 Oct 2021 14:57:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: Moving QEMU downloads to GitLab Releases?
+Subject: Re: [PATCH] hw/ppc: Deprecate the ref405ep and taihu machines and the
+ 405 CPU models
+To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
+References: <20211001121943.1016447-1-thuth@redhat.com>
+ <CAFEAcA_Vjvi8JvELyG1DghCoHbUR1fzodPoaU2n-QPcf9bGwCg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <CAFEAcA_Vjvi8JvELyG1DghCoHbUR1fzodPoaU2n-QPcf9bGwCg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <YVW+ZGmIs+repvj4@stefanha-x1.localdomain>
- <CAJSP0QUq46nOTAv=4V0mhT2ZNbfKBPJXLNLY5Jun5B_h=sedQw@mail.gmail.com>
- <26661c01-e7ae-e225-7ec4-2e915b7a6ac5@redhat.com>
- <20211001103416.zquwneah34iv3mmz@sirius.home.kraxel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211001103416.zquwneah34iv3mmz@sirius.home.kraxel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.127,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.127,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,32 +99,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Berrange <berrange@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- michael.roth@amd.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/1/21 12:34, Gerd Hoffmann wrote:>> Maybe we should also discuss
-again whether we could decrease the size of the
->> release tarballs. Someone recently mentioned that we could e.g. remove the
->> edk2 sources from the tarballs - edk2 is licensed under a BSD-style license,
->> so we are not forced to ship its sources in our tarballs (unlike the other
->> firmwares which are licensed under GPL).
+On 10/1/21 14:46, Peter Maydell wrote:
+> On Fri, 1 Oct 2021 at 13:22, Thomas Huth <thuth@redhat.com> wrote:
+
+>> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+>> index 2f7db9a98d..27c03ef624 100644
+>> --- a/docs/about/deprecated.rst
+>> +++ b/docs/about/deprecated.rst
+>> @@ -238,6 +238,11 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
+>>  (the ISA has never been upstreamed to a compiler toolchain). Therefore
+>>  this CPU is also deprecated.
 >>
->> Or maybe we could also finally move the firmware images completely into a
->> separate tarball instead?
+>> +PPC 405 CPU models (since 6.2)
+>> +''''''''''''''''''''''''''''''
+>> +
+>> +The related boards ``ref405ep`` and ``taihu`` are marked as deprecated, too.
+>> +
 > 
-> The idea of a separate qemu-firmware repo is floating around for a
-> while already but never really took off.
+> What is this "too" a reference to? The immediately preceding section
+> in the document is about the MIPS I7200 CPU model.
 > 
-> Now with hosting moved to gitlab we should be able to run automated
-> firmware binary builds in CI and purge all firmware from the qemu git
-> repo (both submodules and binaries) and add a script fetching those
-> from gitlab instead.
+> The not-being-deprecated sam460ex board also uses the ppc405 CPU
+> I think, so I don't think we can drop the CPU models.
 
-We already have some firmware jobs which might be used as template:
+>> +    mc->deprecation_reason = "ppc405 CPU is deprecated";
+>>  }
+> 
+> We're not deprecating the machine types because we're deprecating
+> the CPU types. We're deprecating them because we believe that
+> nobody's using them.
 
-.gitlab-ci.d/edk2.yml
-.gitlab-ci.d/opensbi.yml
+OTOH we mostly test default CPUs. I am a bit worried about CPU
+coverage in general. I'm not suggesting we should remove old
+CPUs along with their machines, because we can still test an ISA,
+just worried about having so many code paths uncovered.
+
 
