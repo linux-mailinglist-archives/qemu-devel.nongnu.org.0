@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B5D41F10D
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 17:18:35 +0200 (CEST)
-Received: from localhost ([::1]:50696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F27A41F11E
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 17:21:44 +0200 (CEST)
+Received: from localhost ([::1]:52966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWKIv-0005pA-Mb
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 11:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57622)
+	id 1mWKM2-0007US-FV
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 11:21:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mWKHX-00057R-Ey
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:17:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28658)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mWKHT-0001TX-EM
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:17:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633101417;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Xiq9JZW3Z0ko76hWys98cF+zfkB35WXJn3lS564i/TM=;
- b=ZL8momtoGuzz650cztrAi8GO6ki8Wt8XoeIa25seANLZGPJKXt0BDdlcC/CN7m8+20qv4C
- 1oJ9kc7cBks87LT5OoGYS2sLz6ieYu5wBpGeIY0lmNDzjK8qg5ZB8D3d+kcNX32EiW5vOP
- y4lh3OlHvx+KnftGQT73ApObuGjHk1I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-ZEeUPmwKO429PjEe1K8UYQ-1; Fri, 01 Oct 2021 11:16:52 -0400
-X-MC-Unique: ZEeUPmwKO429PjEe1K8UYQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1780C8010ED;
- Fri,  1 Oct 2021 15:16:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA5B65F4E1;
- Fri,  1 Oct 2021 15:16:49 +0000 (UTC)
-Date: Fri, 1 Oct 2021 16:16:47 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH 1/5] 9pfs: introduce P9Array
-Message-ID: <YVcmX/lKmHrsivVJ@redhat.com>
-References: <cover.1633097129.git.qemu_oss@crudebyte.com>
- <a954ef47b5ac26085a16c5c2aec8695374e0424d.1633097129.git.qemu_oss@crudebyte.com>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mWKKT-0006g5-S7
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:20:06 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:34494)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mWKKS-0003xI-5c
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:20:05 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ on12-20020a17090b1d0c00b001997c60aa29so3934270pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 08:20:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=Qmwq8rgNIR2Rt+Q8MVO5EyNJS+QQk13afsgJbkTSuO4=;
+ b=7EppTQh2WTl/2ol34nRynKKevenn1I4kklhqVSzJS27ujzpmNxmhMOI2A2FoIm1NqW
+ NF5S5YGv77GhTx9w7kW4px+IlEc9RqZGVvwkZt2XCuCAqWfBsFoulfgXLL0r+uatxZx6
+ LJiT0Llx4iPvv0zQwE3M8W0ryp0gjK2L4jptdadhS2DbVUFMY4I+xr3yS3C/TnK0ONI6
+ gMlhg/aXfiB+/zN6SvTjrdiZzZ48EyZWyq1oENIJ9CXebdNOb6zTHjzzS4FGLWGf1RgH
+ OoEZwZpivj2oyx/nXYxYG0zTfqaQfLpGNOlcnKFsiO7QPVyXm2lycEr1zFE0CU9woWUT
+ Wkng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=Qmwq8rgNIR2Rt+Q8MVO5EyNJS+QQk13afsgJbkTSuO4=;
+ b=Z37nir3SUS6y3bGD48ilx4zV3l5YI/GvoiJcaMXWrdaSTteuQorTUAo9A9eRLaRtA7
+ nBdETgXLldfs3SwIQSGuLi4Jio3dom4XzC1WXl+MO10BM/YRp1vOeBEgxyitg3+Nr0vS
+ VTzuhlQbZAzvCVGlRE4vw59JzdeemUDmU5qbhXbW77HTBnAFKgpDZq2ob4q9QkEUd1j3
+ EEkPnW1F0XBlIgFOeWxGg0C6ONWpe6DkVcETRMxbc3NYwx5Pr1STWsOQQGTis6Buk/Df
+ C44BkGZfDoF6IKcWWoxZfLDQ+gsDOLlSrx/7PGXIAT+5WLwLLfZWGVzlVUKdNmCTJLVE
+ V34w==
+X-Gm-Message-State: AOAM5325CeBXLhyOLV2V2dNff2NR9mGNegQxNYLiqkpen1aNETV/Xlei
+ K1REa0eEekXi7ruESoTlCrIErg==
+X-Google-Smtp-Source: ABdhPJzNUneGeufNef+PKa3rRwizkyXgLrKHqyYN6JScjXNNbkxblXCwH4ebsheU+4DFLyOgsrM2Jg==
+X-Received: by 2002:a17:90b:4c11:: with SMTP id
+ na17mr332155pjb.105.1633101602218; 
+ Fri, 01 Oct 2021 08:20:02 -0700 (PDT)
+Received: from anisinha-lenovo ([203.163.233.126])
+ by smtp.googlemail.com with ESMTPSA id g22sm8410465pfj.15.2021.10.01.08.19.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Oct 2021 08:20:01 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Fri, 1 Oct 2021 20:49:54 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3] failover: fix unplug pending detection
+In-Reply-To: <20211001124935.qal55li6aozocan3@sirius.home.kraxel.org>
+Message-ID: <alpine.DEB.2.22.394.2110012049310.579856@anisinha-lenovo>
+References: <20211001082502.1342878-1-lvivier@redhat.com>
+ <20211001104514.46bhlpenx4rz2qnm@sirius.home.kraxel.org>
+ <0eeefb15-1b41-076c-7dd4-ca5fc78eefa9@redhat.com>
+ <20211001124935.qal55li6aozocan3@sirius.home.kraxel.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <a954ef47b5ac26085a16c5c2aec8695374e0424d.1633097129.git.qemu_oss@crudebyte.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,62 +87,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 01, 2021 at 04:26:17PM +0200, Christian Schoenebeck wrote:
-> Implements deep auto free of arrays while retaining common C-style
-> squared bracket access. Main purpose of this API is to get rid of
-> error prone individual array deallocation pathes in user code, i.e.
-> turning something like this:
-> 
->   void doSomething(size_t n) {
->       Foo *foos = malloc(n * sizeof(Foo));
->       for (...) {
->           foos[i].s = malloc(...);
->           if (...) {
->               goto out;
->           }
->       }
->   out:
->       if (...) {
->           for (...) {
->               /* deep deallocation */
->               free(foos[i].s);
->           }
->           /* array deallocation */
->           free(foos);
->       }
->   }
-> 
-> into something more simple and safer like:
-> 
->   void doSomething(size_t n) {
->       P9ARRAY_REF(Foo) foos = NULL;
->       P9ARRAY_NEW(Foo, foos, n);
->       for (...) {
->           foos[i].s = malloc(...);
->           if (...) {
->               return; /* array auto freed here */
->           }
->       }
->       /* array auto freed here */
->   }
-
-As explained before, I'm against the idea of introducing new ways
-to automatically free local variables that are not using g_auto*
-functionality. It is not following the QEMU wide coding style
-that is documented.
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+On Fri, 1 Oct 2021, Gerd Hoffmann wrote:
 
+>   Hi,
+>
+> > > So, in case the first time didn't work (for example due to the guest not
+> > > listening because grub just doesn't do that), you can try a second time
+> > > once the linux kernel is up'n'running.
+> > >
+> > > I suspect this patch will break that (didn't actually test though).
+> >
+> > I think the solution to this problem is to not check for
+> > pending_deleted_event value in qmp_device_del().
+> >
+> > But this has been explicitly added by:
+> >
+> > commit cce8944cc9efab47d4bf29cfffb3470371c3541b
+> > Author: Julia Suvorova <jusual@redhat.com>
+> > Date:   Thu Feb 20 17:55:56 2020 +0100
+> >
+> >     qdev-monitor: Forbid repeated device_del
+> >
+> >     [ ... ]
+> >
+> > So do you mean ACPI differs from PCIe Native hotplug in this case?
+>
+> Yes.
+>
+> It's one of the issues I'm trying to address with the
+>
+>   https://gitlab.com/kraxel/qemu/-/commits/sirius/pcie-hotplug
+>
+> series.  See this commit:
+>
+>   https://gitlab.com/kraxel/qemu/-/commit/675d9257d794c9d59ea7c80f48fe176a2aa3f8ba
+>
+
+I think the scope of this patch is limited to making the acpi hotplug path
+identical to PCIE native path wrt failover. If there are issues with the
+existing approach, it should be looked into separately using subsequent
+patches.
+
+
+> So, yes, I think acpi and pcie hotplug should show consistent behavior
+> here.  And I think we need some way to recover in case the guest didn't
+> respond to an unplug event.  Just allowing to send device_del multiple
+> times looks like a sensible approach to me, and given OpenStack already
+> does that it looks like the most sensible way forward.
+>
+> take care,
+>   Gerd
+>
+>
 
