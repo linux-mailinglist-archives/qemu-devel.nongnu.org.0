@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C405D41F452
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 20:05:45 +0200 (CEST)
-Received: from localhost ([::1]:39188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B92341F448
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 20:02:56 +0200 (CEST)
+Received: from localhost ([::1]:59936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWMum-0001zE-Q7
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 14:05:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60706)
+	id 1mWMs3-0005M4-1m
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 14:02:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mWMUG-0000XQ-1H
+ id 1mWMUG-0000XP-1G
  for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:38:22 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46669)
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:41561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mWMUA-0000fo-62
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:38:18 -0400
-Received: by mail-wr1-x436.google.com with SMTP id k7so16526513wrd.13
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:38:13 -0700 (PDT)
+ id 1mWMUD-0000jC-7P
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:38:19 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ g19-20020a1c9d13000000b003075062d4daso7288599wme.0
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:38:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yO3yTTEzbhf/x4NiXg2WSPV6sp86QcJAMc0N5bcX0+w=;
- b=B0y+jAY1R3bsDDR0ds7bcYmxU1Xq6NEl1fRXnVVvBcmTTo8gSreqmxh6/cV2GJfG8U
- g6GDZMGtPpE5H8gTw1liG/rKJo9wQ/0ZFMr8vODzZRA+IvoCrfaL+jDNpeUprOTPlMLx
- uU83jm/+TehUGR4IZujs1kpeQr+uk/Su51+/2/PMwQXRr4J5ohonq/NDRRRI/rmQjhV7
- ypPc97aarua0C7mUP7bRV/GFvlpewTLcFSuxQ6unP9WFrOO0OwLF/h+AXydPVhqkkfTH
- 2cmJPDhScFeDw4gEDt2P4HMg0j1YfDfVvLhq2ctVFKx3UQwX1CwpJu5BfdNNGXx9Ctem
- gsyA==
+ bh=ezcbvk/+kLD6i+tf1SI+n2SWS5P4d5inXJz75DvTmhM=;
+ b=ybZ9ULUbYc9FQ/tepxzqHXkP07aCwVxeouYzulmVK3/AMQ1oqtjSM4CziQ5LM+xCFo
+ +2nVqlfhP9Ktj4iIv1I4iqBuB5AKLNt0WsMLcZKl9DwENLZCxER4X97euLpjomDwX+Xo
+ XAR6iU6RQhAsBGeK3YHa1ku0KCDFPei5+X7mvlP3nV1aQG0GASk/2sY+YWVZsOgW9iTB
+ RSMvJWQCtcDPqMmrNFnOnk+PmiYlznL7J1+xvEBepKnsV15TRW7z7gP7Movy9hfjNSOR
+ 4cGs88bLTehDlLwrJsX59A/WhzwAkTTMHKBC39dS2D0QteV8GfVYYLJonVvhEoksD4ZB
+ UvaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yO3yTTEzbhf/x4NiXg2WSPV6sp86QcJAMc0N5bcX0+w=;
- b=G2QkwrO2hACPu6I1NVPgO3asMSrHUOFceyuHQLy5T1EMu0HcZv2sOtDaWJfv3qEByS
- uYSQhgu8ZbA8U2WAk17HdNqrcZW2uq3pgOjDzgh/pS9pIQveLCGvp3/iMUpoGYKs7W4j
- Cl+NcY1VNMUKFXei1u1Hy+IMrUgQ1iikd+V1wEG21JkQPO/VnV8Iun4/lBJhVWRhqlY6
- phud76TBvUVO+Ol/6JD3WcwA0zQyytiyJMbYaK79K4SBLA3gF7gWDDU1il+okchQigSZ
- B0Tt4rQdamJqZdKc5Z+52IM+gj+jGpqufyfaRxWYXpvyKfg6N/BwGR5z4xnl+VhSNZ1g
- FpNA==
-X-Gm-Message-State: AOAM5312B/nGNfClHpYBzXkc+lrmN0oJgF2W7EPkMqJZWckmgwZOiCvg
- 6KbLHwjIcckGvMhR/YkifMPSMw==
-X-Google-Smtp-Source: ABdhPJxpupnCW2Dsa3o+TmUhNfRdGNR0AvRZux1AsfCeA3eaDRxE8/8zYEOv2IK8WsP1ZEIrbIhQlQ==
-X-Received: by 2002:a5d:47cf:: with SMTP id o15mr9926159wrc.394.1633109892789; 
- Fri, 01 Oct 2021 10:38:12 -0700 (PDT)
+ bh=ezcbvk/+kLD6i+tf1SI+n2SWS5P4d5inXJz75DvTmhM=;
+ b=gVRJ5mACik3mr0I60B+DixSoxb76qa7Y+JNK7r39MlMmFyW3L6edI65gSb4Jo2io20
+ bjaRDwajR0nf5kD/VcAa7Va/B7Fk1eFA92LGhckQUS75YAx2BatohUx99XKakdTUmkoC
+ CZTqLkS9PTNkmJnwArnfPxfEtfLYYyV0kHklY+lAJn8EkZouO+lbOnJxcLZNzxtM78q1
+ et93fLPY5U8RV9RHFdYvfIVH5y4CyCeuLVAFl3UB3kSAs8IqyAN4H1mwrhcoUeF7dSyF
+ 1MQA19/Bc69DjHq3v1/q0csvNCzOrBls9uwSc/ySxmi15JJmifIccTS21GCztugXGXI3
+ 9tmw==
+X-Gm-Message-State: AOAM532S/EvgtdZNan+F5Qup1GRImBoPPG2Fts5LhDsIkstryvdRjPGy
+ lzMCqlJZviQA/HAUgAJVrRWQPw==
+X-Google-Smtp-Source: ABdhPJy8He/O+mO6L3RXYlWzWb0oPE7IRFLlcF/1w3sD9hqt12yXuufVh0XDo46/OP6+MnjZhsNowA==
+X-Received: by 2002:a1c:1d92:: with SMTP id d140mr6071526wmd.17.1633109895826; 
+ Fri, 01 Oct 2021 10:38:15 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id k9sm6186592wrz.22.2021.10.01.10.38.11
+ by smtp.gmail.com with ESMTPSA id k9sm6186592wrz.22.2021.10.01.10.38.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 10:38:12 -0700 (PDT)
+ Fri, 01 Oct 2021 10:38:15 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: eric.auger@redhat.com,
 	imammedo@redhat.com
-Subject: [PATCH v4 02/11] hw/arm/virt-acpi-build: Add VIOT table for
- virtio-iommu
-Date: Fri,  1 Oct 2021 18:33:50 +0100
-Message-Id: <20211001173358.863017-3-jean-philippe@linaro.org>
+Subject: [PATCH v4 05/11] hw/arm/virt: Use object_property_set instead of
+ qdev_prop_set
+Date: Fri,  1 Oct 2021 18:33:53 +0100
+Message-Id: <20211001173358.863017-6-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211001173358.863017-1-jean-philippe@linaro.org>
 References: <20211001173358.863017-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,53 +93,32 @@ Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a virtio-iommu is instantiated, describe it using the ACPI VIOT
-table.
+To propagate errors to the caller of the pre_plug callback, use the
+object_poperty_set*() functions directly instead of the qdev_prop_set*()
+helpers.
 
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Suggested-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- hw/arm/virt-acpi-build.c | 7 +++++++
- hw/arm/Kconfig           | 1 +
- 2 files changed, 8 insertions(+)
+ hw/arm/virt.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 6cec97352b..e26639e1e1 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -55,6 +55,7 @@
- #include "kvm_arm.h"
- #include "migration/vmstate.h"
- #include "hw/acpi/ghes.h"
-+#include "hw/acpi/viot.h"
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 36f0261ef4..ac307b6030 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2465,8 +2465,9 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+                                         db_start, db_end,
+                                         VIRTIO_IOMMU_RESV_MEM_T_MSI);
  
- #define ARM_SPI_BASE 32
- 
-@@ -934,6 +935,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+-        qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
+-        qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
++        object_property_set_uint(OBJECT(dev), "len-reserved-regions", 1, errp);
++        object_property_set_str(OBJECT(dev), "reserved-regions[0]",
++                                resv_prop_str, errp);
+         g_free(resv_prop_str);
      }
- #endif
- 
-+    if (vms->iommu == VIRT_IOMMU_VIRTIO) {
-+        acpi_add_table(table_offsets, tables_blob);
-+        build_viot(ms, tables_blob, tables->linker, vms->virtio_iommu_bdf,
-+                   vms->oem_id, vms->oem_table_id);
-+    }
-+
-     /* XSDT is pointed to by RSDP */
-     xsdt = tables_blob->len;
-     build_xsdt(tables_blob, tables->linker, table_offsets, vms->oem_id,
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 18832abf7d..a05d75faca 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -27,6 +27,7 @@ config ARM_VIRT
-     select DIMM
-     select ACPI_HW_REDUCED
-     select ACPI_APEI
-+    select ACPI_VIOT
- 
- config CHEETAH
-     bool
+ }
 -- 
 2.33.0
 
