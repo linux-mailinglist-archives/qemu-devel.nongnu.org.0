@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC4741F166
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 17:42:52 +0200 (CEST)
-Received: from localhost ([::1]:53500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B248F41F168
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 17:43:30 +0200 (CEST)
+Received: from localhost ([::1]:55730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWKgV-0002EN-CH
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 11:42:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33848)
+	id 1mWKh7-0003rm-Pz
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 11:43:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWKY3-0006jb-11
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:34:07 -0400
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:41817)
+ id 1mWKY4-0006pE-J9
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:34:08 -0400
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:43831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWKXv-0007lY-Ng
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:34:06 -0400
-Received: by mail-qt1-x834.google.com with SMTP id t2so9291266qtx.8
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 08:33:59 -0700 (PDT)
+ id 1mWKXw-0007mW-K8
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:34:08 -0400
+Received: by mail-qk1-x72f.google.com with SMTP id 138so9479688qko.10
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 08:34:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gXXC2XsHwTZReF8hOMB+sB2b5Bdxnek1fsOyxb7DiMI=;
- b=IDiXIR43FotQVnwcSqS87BOBZGCrbx9CkNdw9LmgnMXfbptOwA5D477gSaARsPrHxU
- +/h/1HR6S7P6d3T0F70+0/Zg3XB6GyMAg3iIgMusaRSrjs0RoHNOrXSGTR8SBqBlnv/I
- M+2Jz8DycyY0O6nTowEoNTQclxd/eJjuq6rOgjzkTontiP9a6lKnZpekX/CSjeMFwsmK
- Cib2briqVnPuLAAqDcYrJPzAAPrdDHT0T6moG9b3MwPyf1lTPeJEZOwjkZ3hHIyFByAo
- zdbe2GFhu/IQ1VNn0e80riXZJmWZjtvs6yhbX6W5sAfrW/9eJcEamWXAOv2aQF0IRehZ
- /lNg==
+ bh=Ty9oWbKVOJOBomZhBTDMFXJ5kVE2f+VzbHAS7qTOPJk=;
+ b=tVpl60him62RPDaU2zi63+ORUV+IjjTy9W5qc37q7vK7jH8NuwiVhYX0QWp6HyuVJm
+ 6iph14sfd9e9iFvCl07TUGislyUAuFijWPMoi68/OK2Cj9x4o8tJXk6jcl16bkHyYMwo
+ UDyNjgTo6jn0aaiXc+SPWuRUnwY3YMCTfL9JmVfaSBjAuTiWy+FUblOzGu6uZvwMmIEL
+ v0YoJrQEePhOvDFiqr+EbQxw6QaWBK3dHWntTOIBkwPaayZoG15ttb5kq7liYTsU2zUC
+ 3QVRe4L9WMBus9pO8XThpDO9OaVF6pUc0r+31E5bKeJda5/l5N/x57u4H19LESkhgfPr
+ Np1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gXXC2XsHwTZReF8hOMB+sB2b5Bdxnek1fsOyxb7DiMI=;
- b=zeS6gezIb6ggJ1dPzKsIxdIf85QXy2rcnVHxVat8w3SfJq7y5OTjkLmpKarjFg0erG
- h5gOKqRq9M341jz0m8IN/QOpNeNbhXxg6w5M0iZGgP+ArZvzYrXKMvPANCnT0wkMbaEM
- 4RaNli6pRWIPHXaZK8zceuFgNgE4NtiMrabW711oJKz9SkS1QBODoe7ANnEdQpu8R8ho
- PM7uowGcR2bhbH3Ie//oe1ksJE8Kx3FKFrri5eCXhJ2u6npYLkIOTutxktPOhWNivcj8
- HSXwQSm0Zv6X0xLi25jqM/esiUxkD0hiJ2MZnC6rW+LlQVZOlSafdrF1gex1Gf0Fgeod
- wrGg==
-X-Gm-Message-State: AOAM531z5yU37MFdJ9xOT9MsqNR1QV1+cOswYpBhAliOrWv3ey/NCEsK
- 7RN6JfrelFmS2xT1hcrtL2gVjuX52ZRIbw==
-X-Google-Smtp-Source: ABdhPJzfGCTgGduUDcOwFaEsad8ef2PvIrp3JbTHmN5sA6KotPvror0l+19+vtNLXUBu7OVFjwYoZg==
-X-Received: by 2002:ac8:4d8b:: with SMTP id a11mr13338151qtw.51.1633102438762; 
- Fri, 01 Oct 2021 08:33:58 -0700 (PDT)
+ bh=Ty9oWbKVOJOBomZhBTDMFXJ5kVE2f+VzbHAS7qTOPJk=;
+ b=IqRFGKhuyEyN1ybM4PJklmoVUkpf3u+sXGs99756brSvVgR3Sw3b8i+ch4BHynrX9x
+ FvCm8ZRsiO1oIMJtsEUpidfJ3eDGLDD37f6kNkHV7B+WJEK/kF9iCWqKnBeJ1sAF0GnC
+ Lz6CdxyKlCXqOd74FY6EaVfAdMf7qM2zXb8hEcRqJbps58Vc0ZBNzgTr+DQx9ZWqIGH/
+ Ylit5yyy5+xBqXKuK0EDbvD75mdafr/rNdo0xiX0spcebNJLp3v3R71TcgNfqsaB7iXJ
+ 1ePWYnsXRaHCtqBeujEMIRBo4WZivGiSKwj4FLm+wpKFIRbH42Sn4wzUMXspruwPJhi6
+ o5iw==
+X-Gm-Message-State: AOAM533sVbXnV2C+LEIK5nNaUrwVH4zJlLV0Jx5wgqOugDg5tX3U2ycQ
+ pCjX2Rf6QRxP2sqlFHCLKIIe7y0AdmjyQQ==
+X-Google-Smtp-Source: ABdhPJyagLvSLGGnkXjGZhWKPFRjU6Oq0V8FjrAixn1+wtB1ryaoFmIQzP3b8h+IoG6XzW12sy/Hcw==
+X-Received: by 2002:a37:6350:: with SMTP id x77mr10162330qkb.356.1633102439674; 
+ Fri, 01 Oct 2021 08:33:59 -0700 (PDT)
 Received: from localhost.localdomain (c-67-174-166-185.hsd1.ga.comcast.net.
  [67.174.166.185])
  by smtp.gmail.com with ESMTPSA id x8sm3484823qtv.5.2021.10.01.08.33.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 08:33:58 -0700 (PDT)
+ Fri, 01 Oct 2021 08:33:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 8/9] linux-user/nios2: Use set_sigmask in do_rt_sigreturn
-Date: Fri,  1 Oct 2021 11:33:46 -0400
-Message-Id: <20211001153347.1736014-11-richard.henderson@linaro.org>
+Subject: [PATCH 9/9] tests/tcg: Enable container_cross_cc for nios2
+Date: Fri,  1 Oct 2021 11:33:47 -0400
+Message-Id: <20211001153347.1736014-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211001153347.1736014-1-richard.henderson@linaro.org>
 References: <20211001153347.1736014-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x834.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,48 +87,35 @@ Cc: marex@denx.de, crwulff@gmail.com, alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using do_sigprocmask directly was incorrect, as it will
-leave the signal blocked by the outer layers of linux-user.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/nios2/signal.c | 2 +-
- linux-user/signal.c       | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ tests/tcg/configure.sh | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
-index 80e3d42fc9..517cd39270 100644
---- a/linux-user/nios2/signal.c
-+++ b/linux-user/nios2/signal.c
-@@ -205,7 +205,7 @@ long do_rt_sigreturn(CPUNios2State *env)
-     }
- 
-     target_to_host_sigset(&set, &frame->uc.tuc_sigmask);
--    do_sigprocmask(SIG_SETMASK, &set, NULL);
-+    set_sigmask(&set);
- 
-     if (rt_restore_ucontext(env, &frame->uc, &rval)) {
-         goto badframe;
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 2038216455..5ec63cd092 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -252,7 +252,6 @@ int do_sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
-     return 0;
- }
- 
--#if !defined(TARGET_NIOS2)
- /* Just set the guest's signal mask to the specified value; the
-  * caller is assumed to have called block_signals() already.
-  */
-@@ -262,7 +261,6 @@ void set_sigmask(const sigset_t *set)
- 
-     ts->signal_mask = *set;
- }
--#endif
- 
- /* sigaltstack management */
- 
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 1f985ccfc0..62ca1e2cae 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -59,6 +59,7 @@ fi
+ : $(cross_cc_mips64="mips64-linux-gnuabi64-gcc")
+ : $(cross_cc_mipsel="mipsel-linux-gnu-gcc")
+ : $(cross_cc_mips="mips-linux-gnu-gcc")
++: $(cross_cc_nios2="nios2-linux-gnu-gcc")
+ : ${cross_cc_ppc="powerpc-linux-gnu-gcc"}
+ : ${cross_cc_cflags_ppc="-m32"}
+ : ${cross_cc_ppc64="powerpc64-linux-gnu-gcc"}
+@@ -153,6 +154,11 @@ for target in $target_list; do
+       container_image=debian-mips-cross
+       container_cross_cc=mips-linux-gnu-gcc
+       ;;
++    nios2-*)
++      container_hosts=x86_64
++      container_image=debian-nios2-cross
++      container_cross_cc=nios2-linux-gnu-gcc
++      ;;
+     ppc-*|ppc64abi32-*)
+       container_hosts=x86_64
+       container_image=debian-powerpc-test-cross
 -- 
 2.25.1
 
