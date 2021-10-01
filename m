@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC68741F22B
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 18:33:42 +0200 (CEST)
-Received: from localhost ([::1]:40072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE1341F23C
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 18:37:22 +0200 (CEST)
+Received: from localhost ([::1]:43276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWLTh-0002iR-Jh
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 12:33:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45454)
+	id 1mWLXF-00055g-JA
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 12:37:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWLSE-0001kK-CP
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 12:32:12 -0400
-Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:43792)
+ id 1mWLUW-0003ju-QV
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 12:34:32 -0400
+Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:36629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWLSC-0004pL-LA
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 12:32:10 -0400
-Received: by mail-qk1-x72c.google.com with SMTP id 138so9677180qko.10
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 09:32:08 -0700 (PDT)
+ id 1mWLUV-0006k8-9t
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 12:34:32 -0400
+Received: by mail-qk1-x732.google.com with SMTP id p4so9709272qki.3
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 09:34:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=TWGQJk5aChMo6jAn48gWAN6C5M7YY9vwaN9CPCi+OVY=;
- b=orf/xjmWKa1JnCPiMWOaJiMAfYGqywxfcNRei9Jm3DdQVhYiQatF+q/WtOjw84HcRu
- 0Kznpu9yQejLUWhy6+m7Ezjp4758xkCX1aLFljZXGO9tSG6PmJhnWRpnXbu0DHMpaSdB
- NmOzZlzTMzMOre/16gLohi9l8DASGbbSpSTeL9dwf1PJ5L279MaRLZFDGLZvKJGndpmb
- n2vTMnQ72yv3Uqi0rPY/c0qJyKbIqjOSvhqmc8qqES3a++9LdfEfzVq970+i5leJ4y9j
- xRa6xFyefSqLueIg9FXaDgUQ2/5sM2s8fZRRc776xeOAgoxdW28pGNr+pEwnrHA3UuzM
- 46aA==
+ bh=fXM9N5tnq2moWBT/kcjda9tO0kiSuwnQK43uWjgag+Y=;
+ b=YHo54dhrrl5J8RQmeqaEu7SM7A+sJ0iK6tSlQAebn9PQLnD2rQU25aD2D3TBveseZ4
+ 3w4ok9C//unX6lPdbUeC0zeATDd4YegpwGNAzmui8ewwlSUY5nEyX3eEXgA7arnz5HgQ
+ 32afKpLfQRwABvGluv7zCiGwfvL89GcLtKIh5kWqHHG++THORaLK3lhfsRq1bodzsMfk
+ zJ/0mLKIrNqwdz4gLY90TySA0grkvGdyawE98ekPJ/L32PN/hOsoQaaEeDO5R3JiuFdX
+ ium+Jk4y8vuQrkl9Tk5l8NTnle3OUhwdn3x0UeoAG7L+c6ku3pPajHit4VPCEvLtC04y
+ h95Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=TWGQJk5aChMo6jAn48gWAN6C5M7YY9vwaN9CPCi+OVY=;
- b=rf7KHSLkyBIFlrnuwmDnDxJcrppDWkFeCYlquvpCrw6YOcD39TxqI9fP/xrulzg8xs
- AMdpFN88VNrhkZVYW/7jyt8uz0m5fFuN/Auy5Q8EDa5Dg20g9yGcvQ6pDxAX4GRhuZMg
- 6jo4+X4PTC01t92HEko2CTHO3r2XtQQdJsiOH4QPsT8iW6lnec3g6hwdWw+YmLH88Tqv
- 0vHyTjiNP6LYtiiq4W3pS6QYixRT4zt+Ab3H2LhoIdqCx36neDYcOH6hHDpn42W0lquh
- mEUT1kHdlAOtyzd+ZZ2nOZyLwqjCDgCoaUzmlC/7UzZE1+f7TADleuaXMCVqsi6CmqK5
- NMWA==
-X-Gm-Message-State: AOAM530gT68u1/QoFoq3CaWaMGacrMdULQVOo4lZ+HWRB5yW2AxUq++y
- /0by09eCh2Ia1cjT57hGSIwsf63PjUjTUA==
-X-Google-Smtp-Source: ABdhPJwzKaFWt/DN73NhDmlH0ydAD/vxy+pfwyAbbxppf/AepzkBmiREoM46gxnfhDGLNZ31d8tlEw==
-X-Received: by 2002:a05:620a:430f:: with SMTP id
- u15mr10430336qko.32.1633105927384; 
- Fri, 01 Oct 2021 09:32:07 -0700 (PDT)
+ bh=fXM9N5tnq2moWBT/kcjda9tO0kiSuwnQK43uWjgag+Y=;
+ b=ymkuj4mBvY7iXG4Y/25M9bCi72TLHhp2ZcOxphQgeA8etDZhDm/D542Ggw+8vW0m0c
+ 6VFhTDOTIJ8N/2CdDaCYP07PCvp5EjOE0MjJiq0ad//3dVOve+QnzxzxHFafFsyLJyo1
+ CaQCHXfMR/y55Cx9v1gVRTzY9a4CchysqVJEXdWgFhCaekgVOBaPwyxfwk8M51E1mztB
+ Sz/LaJx12Bu6t0lyFj+JS2JsIw5Xiaz9TJpshS1XpHHYaBo0C5/DlD1qYFzcRLDTO13d
+ Z4tFkHEZWwOqEUJPdW2YrLUUMiI+8umuI+asD5JrYJqvg5L3f4hN6XnSBPEItDWAuS8Q
+ ry3Q==
+X-Gm-Message-State: AOAM533ZcIoJ/7ofD1IZ0byorN577Qxwau2imAJqAEfWhoViILwg6ibo
+ VZ9Gm8ewF0aSCfpzz0ViZQegeyTMxUkRXg==
+X-Google-Smtp-Source: ABdhPJxsCGVxou9ZkE414UmTvRwp/mox7taCdV3BWgjP+kbAdNdRH4xgJmHFAFz5jf0x5EAcTr74Fg==
+X-Received: by 2002:a37:9144:: with SMTP id t65mr10507841qkd.170.1633106070276; 
+ Fri, 01 Oct 2021 09:34:30 -0700 (PDT)
 Received: from [192.168.3.43] (c-67-174-166-185.hsd1.ga.comcast.net.
  [67.174.166.185])
- by smtp.gmail.com with ESMTPSA id u12sm4018870qtw.73.2021.10.01.09.32.06
+ by smtp.gmail.com with ESMTPSA id b20sm3481676qtt.2.2021.10.01.09.34.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Oct 2021 09:32:07 -0700 (PDT)
-Subject: Re: [PATCH 2/3] hw/intc/arm_gicv3: Set GICR_TYPER.Last correctly when
- nb_redist_regions > 1
+ Fri, 01 Oct 2021 09:34:29 -0700 (PDT)
+Subject: Re: [PATCH 3/3] hw/intc/arm_gicv3: Support multiple redistributor
+ regions
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210930150842.3810-1-peter.maydell@linaro.org>
- <20210930150842.3810-3-peter.maydell@linaro.org>
+ <20210930150842.3810-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9f9d138b-dc0f-0c47-6728-1d781d8f03ec@linaro.org>
-Date: Fri, 1 Oct 2021 12:32:05 -0400
+Message-ID: <ee2ee990-b939-b99c-2cda-ed24ed0fccbb@linaro.org>
+Date: Fri, 1 Oct 2021 12:34:27 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210930150842.3810-3-peter.maydell@linaro.org>
+In-Reply-To: <20210930150842.3810-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x732.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -95,18 +94,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/30/21 11:08 AM, Peter Maydell wrote:
-> The 'Last' bit in the GICR_TYPER GICv3 redistributor register is
-> supposed to be set to 1 if this is the last redistributor in a series
-> of contiguous redistributor pages.  Currently we set Last only for
-> the redistributor for CPU (num_cpu - 1).  This only works if there is
-> a single redistributor region; if there are multiple redistributor
-> regions then we need to set the Last bit for the last redistributor
-> in each region.
+> Our GICv3 QOM interface includes an array property
+> redist-region-count which allows board models to specify that the
+> registributor registers are not in a single contiguous range, but
+> split into multiple pieces.  We implemented this for KVM, but
+> currently the TCG GICv3 model insists that there is only one region.
+> You can see the limit being hit with a setup like:
+>    qemu-system-aarch64 -machine virt,gic-version=3 -smp 124
 > 
-> This doesn't cause any problems currently because only the KVM GICv3
-> supports multiple redistributor regions, and it ignores the value in
-> GICv3State::gicr_typer.  But we need to fix this before we can enable
-> support for multiple regions in the emulated GICv3.
+> Add support for split regions to the TCG GICv3.  To do this we switch
+> from allocating a simple array of MemoryRegions to an array of
+> GICv3RedistRegion structs so that we can use the GICv3RedistRegion as
+> the opaque pointer in the MemoryRegion read/write callbacks.  Each
+> GICv3RedistRegion contains the MemoryRegion, a backpointer allowing
+> the read/write callback to get hold of the GICv3State, and an index
+> which allows us to calculate which CPU's redistributor is being
+> accessed.
+> 
+> Note that arm_gicv3_kvm always passes in NULL as the ops argument
+> to gicv3_init_irqs_and_mmio(), so the only MemoryRegion read/write
+> callbacks we need to update to handle this new scheme are the
+> gicv3_redist_read/write functions used by the emulated GICv3.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
