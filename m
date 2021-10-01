@@ -2,52 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F8741E5EC
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 03:56:17 +0200 (CEST)
-Received: from localhost ([::1]:42248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D60341E619
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 04:49:16 +0200 (CEST)
+Received: from localhost ([::1]:60448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mW7mZ-00053i-H1
-	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 21:56:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49136)
+	id 1mW8br-0004st-5b
+	for lists+qemu-devel@lfdr.de; Thu, 30 Sep 2021 22:49:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mW7i2-0002ZJ-Dv; Thu, 30 Sep 2021 21:51:35 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:37585)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mW7hz-0003mh-Fd; Thu, 30 Sep 2021 21:51:34 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HLCks2yXDz4xbT; Fri,  1 Oct 2021 11:51:17 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1633053077;
- bh=PLROqIRnu2IQz0NWe6c7Ul7eZ6i6t2tyEj/PPTrs+Vg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=edMW3Tnbv5I2pr4lQzWHKzERpyP8y2lh/s4WhL/3sk/qt83ps54p0tBkKzu3t80Mo
- ckgt6xhcEzp2B/rrJNjZx8xXzBxbVmTP/xd3emSBaujv+lc+hbAgUOImKljfI0kqAL
- mcl931LqoKu8dGrtbTvcZMNNSjzuKzi9i+w83qWE=
-Date: Fri, 1 Oct 2021 11:42:30 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 3/3] dtc: Update to version 1.6.1
-Message-ID: <YVZnhshGOgYzdNYL@yekko>
-References: <20210827120901.150276-1-thuth@redhat.com>
- <20210827120901.150276-4-thuth@redhat.com>
- <7004c933-5262-3119-80f5-722a8e858046@redhat.com>
- <20210930135633.63566d4d@bahia.huguette>
+ (Exim 4.90_1) (envelope-from <mborgerson@gmail.com>)
+ id 1mW8aG-0003eG-Mh
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 22:47:36 -0400
+Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33]:46842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mborgerson@gmail.com>)
+ id 1mW8aE-0000vU-Nt
+ for qemu-devel@nongnu.org; Thu, 30 Sep 2021 22:47:36 -0400
+Received: by mail-vs1-xe33.google.com with SMTP id i30so9676655vsj.13
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 19:47:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ha7ieIbhrMCVdX3tL+Cq0XoOjTTqdI8+ouzkL0jMKl0=;
+ b=C0tvFuREekKa7InQMLa7Jv6QPSgIesuQQiKeNsQUnAH+Aasn+pwca+6My1+19vBz62
+ 1qVcAKnsUkYoLb1aPctJ5I2LnvSWACIjm5pvQjsxV6f1AF4Tq22qzKX/8GHW51OfaWxC
+ 5IzXQ+TI+2h5ey0XLxY3XsHyNCRkTLK8Gar4zdoqHUawSyJU1OhUOub2Y2bssfUDuUBN
+ 3HooGE48+QjBmH5IrBeDsRnzwWvdrHCZxtGab6mbXofOtAuWQhTSarCkWO/oTwI+//F4
+ b8MJHHgCO14ECGgdNKFVDEF2uy1sIXZjM75GTdKOQnp8d/o6pCCoc1xsC7GfEslaJGiF
+ JZcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ha7ieIbhrMCVdX3tL+Cq0XoOjTTqdI8+ouzkL0jMKl0=;
+ b=k/wmepJDFTqdsOVBw2Ut+OXsfAXB6nCF//NiUvuBOdcdIChtchmKl3d9eKS1719Nh8
+ 5cxq6ZVbHDxNDW5fZ2N1g4nkUnDpIh+JRQAm9lEksjm/W4L5PXk7NV5nveGPtEx9aEIJ
+ 5MbFszoz5pjcwqOOYr6vx6C/YQER4qSYpfxbBwNy9OFZfmkwstk2PZWfxGOU4cUagoOR
+ M27d+cohcAg8BULRzm6tFgSD+yDr/MBb0+te14g/nlXOXg/KOrEXccQ1MDJP8MbYj2iO
+ rCf2onluDpjmYTyrRlOJpauSSyjNH4sUlN5Ji9oJch90ZDcAdNcRqnQw+I+ZPnUBfw6P
+ 372A==
+X-Gm-Message-State: AOAM531ByAdGy1zQIsj+ctw9dL0X2H1MN/Ldj5BfVvSQiX697L+YYSb2
+ nlLB9u//I/7q2eEf7MOvQWI3Ku6x1WK2pmxtv0RDmJe20QC1CQ==
+X-Google-Smtp-Source: ABdhPJw/6qPvfat9ASypqbunfr310uL4fsuHbHjPob2/AXqTe+q5noA1mDT/XM2Uce3e3sAXZ2X7jG03AQFZCRhcrVA=
+X-Received: by 2002:a67:b304:: with SMTP id a4mr2304774vsm.49.1633056453468;
+ Thu, 30 Sep 2021 19:47:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6r8RucNjW08wPYPP"
-Content-Disposition: inline
-In-Reply-To: <20210930135633.63566d4d@bahia.huguette>
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <CADc=-s7RifpTSQ_6tYY4B4pze-wy6KprPo=J6Jvv0VVV3PU8DA@mail.gmail.com>
+ <87bl4a768t.fsf@linaro.org>
+In-Reply-To: <87bl4a768t.fsf@linaro.org>
+From: Matt <mborgerson@gmail.com>
+Date: Thu, 30 Sep 2021 19:47:22 -0700
+Message-ID: <CADc=-s5wJ0cBv9r0rXaOk0Ys77Far7mgXq5B+y4KoNr937cC7A@mail.gmail.com>
+Subject: Re: TCG Floating Point Support (Work in Progress)
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
+ envelope-from=mborgerson@gmail.com; helo=mail-vs1-xe33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,165 +79,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Thank you Alex, for your quick and thoughtful response.
 
---6r8RucNjW08wPYPP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> I've not reviewed the code as it is a rather large diff. For your proper
+> submission could you please ensure that your patch series is broken up
+> into discreet commits to aid review.
 
-On Thu, Sep 30, 2021 at 01:56:33PM +0200, Greg Kurz wrote:
-> On Thu, 30 Sep 2021 09:10:12 +0200
-> Thomas Huth <thuth@redhat.com> wrote:
->=20
-> > On 27/08/2021 14.09, Thomas Huth wrote:
-> > > The dtc submodule is currently pointing to non-release commit. It's n=
-icer
-> > > if submodules point to release versions instead and since dtc 1.6.1 is
-> > > available now, let's update to that version.
-> > >=20
-> > > Signed-off-by: Thomas Huth <thuth@redhat.com>
-> > > ---
->=20
-> > >   dtc | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/dtc b/dtc
-> > > index 85e5d83984..b6910bec11 160000
-> > > --- a/dtc
-> > > +++ b/dtc
-> > > @@ -1 +1 @@
-> > > -Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
-> > > +Subproject commit b6910bec11614980a21e46fbccc35934b671bd81
-> >=20
-> > Ping!
-> >=20
-> > David, could you please pick up this patch if you don't mind it?
-> >=20
-> >   Thanks,
-> >    Thomas
-> >=20
->=20
-> Hi Thomas !
->=20
-> greg@bahia:[main]dtc$ git log --oneline  85e5d839847af54efab170f2b1331b2a=
-6421e647..v1.6.1
-> b6910bec1161 Bump version to v1.6.1
-> 21d61d18f968 Fix CID 1461557
-> 4c2ef8f4d14c checks: Introduce is_multiple_of()
-> e59ca36fb70e Make handling of cpp line information more tolerant
-> 0c3fd9b6aceb checks: Drop interrupt_cells_is_cell check
-> 6b3081abc4ac checks: Add check_is_cell() for all phandle+arg properties
-> 2dffc192a77f yamltree: Remove marker ordering dependency
-> 61e513439e40 pylibfdt: Rework "avoid unused variable warning" lines
-> c8bddd106095 tests: add a positive gpio test case
-> ad4abfadb687 checks: replace strstr and strrchr with strends
-> 09c6a6e88718 dtc.h: add strends for suffix matching
-> 9bb9b8d0b4a0 checks: tigthen up nr-gpios prop exception
-> b07b62ee3342 libfdt: Add FDT alignment check to fdt_check_header()
-> a2def5479950 libfdt: Check that the root-node name is empty
-> 4ca61f84dc21 libfdt: Check that there is only one root node
-> 34d708249a91 dtc: Remove -O dtbo support
-> 8e7ff260f755 libfdt: Fix a possible "unchecked return value" warning
-> 88875268c05c checks: Warn on node-name and property name being the same
-> 9d2279e7e6ee checks: Change node-name check to match devicetree spec
-> f527c867a8c6 util: limit gnu_printf format attribute to gcc >=3D 4.4.0
-> 183df9e9c2b9 gitignore: Ignore the swp files
-> 0db6d09584e1 gitignore: Add cscope files
-> 307afa1a7be8 Update Jon Loeliger's email
-> ca16a723fa9d fdtdump: Fix gcc11 warning
-> 64990a272e8f srcpos: increase MAX_SRCFILE_DEPTH
-> 163f0469bf2e dtc: Allow overlays to have .dtbo extension
-> 3b01518e688d Set last_comp_version correctly in new dtb and fix potential=
- version issues in fdt_open_into
-> f7e5737f26aa tests: Fix overlay_overlay_nosugar test case
-> 7cd5d5fe43d5 libfdt: Tweak description of assume-aligned load helpers
-> a7c404099349 libfdt: Internally perform potentially unaligned loads
-> bab85e48a6f4 meson: increase default timeout for tests
-> f8b46098824d meson: do not assume python is installed, skip tests
-> 30a56bce4f0b meson: fix -Wall warning
-> 5e735860c478 libfdt: Check for 8-byte address alignment in fdt_ro_probe_()
-> 67849a327927 build-sys: add meson build
-> 05874d08212d pylibfdt: allow build out of tree
-> 3bc3a6b9fe0c dtc: Fix signedness comparisons warnings: Wrap (-1)
-> e1147b159e92 dtc: Fix signedness comparisons warnings: change types
-> 04cf1fdc0fcf convert-dtsv0: Fix signedness comparisons warning
-> b30013edb878 libfdt: Fix kernel-doc comments
-> cbca977ea121 checks: Allow PCI bridge child nodes without an address
-> 73e0f143b73d libfdt: fdt_strerror(): Fix comparison warning
-> 6c2be7d85315 libfdt: fdt_get_string(): Fix sequential write comparison wa=
-rnings
-> 82525f41d59e libfdt: libfdt_wip: Fix comparison warning
-> fb1f65f15832 libfdt: fdt_create_with_flags(): Fix comparison warning
-> f28aa271000b libfdt: fdt_move(): Fix comparison warnings
-> 3d7c6f44195a libfdt: fdt_add_string_(): Fix comparison warning
-> 10f682788c30 libfdt: fdt_node_offset_by_phandle(): Fix comparison warning
-> 07158f4cf2a2 libfdt: overlay: Fix comparison warning
-> ce9e1f25a7de libfdt: fdt_resize(): Fix comparison warning
-> faa76fc10bc5 libfdt: fdt_splice_(): Fix comparison warning
-> 54dca0985316 libfdt: fdt_get_string(): Fix comparison warnings
-> f8e11e61624e libfdt: fdt_grab_space_(): Fix comparison warning
-> 0c43d4d7bf5a libfdt: fdt_mem_rsv(): Fix comparison warnings
-> 442ea3dd1579 libfdt: fdt_offset_ptr(): Fix comparison warnings
-> ca19c3db2bf6 Makefile: Specify cflags for libyaml
-> 7bb86f1c0956 libfdt: fix fdt_check_node_offset_ w/ VALID_INPUT
-> 3d522abc7571 dtc: Include stdlib.h in util.h
-> 808cdaaf524f dtc: Avoid UB when shifting
-> 3e3138b4a956 libfdt: fix fdt_check_full buffer overrun
-> 9d7888cbf19c dtc: Consider one-character strings as strings
-> 8259d59f59de checks: Improve i2c reg property checking
-> fdabcf2980a4 checks: Remove warning for I2C_OWN_SLAVE_ADDRESS
-> 2478b1652c8d libfdt: add extern "C" for C++
-> f68bfc2668b2 libfdt: trivial typo fix
-> 7be250b4d059 libfdt: Correct condition for reordering blocks
-> 81e0919a3e21 checks: Add interrupt provider test
->=20
-> I don't see anything obvious that would preclude from updating
-> to v1.6.1, but I don't think either David or I will post another
-> PR anytime soon. Maybe better if this goes through someone else's
-> tree.
->=20
-> FWIW I could successfully build QEMU using the updated submodule,
-> so as discussed on IRC :
->=20
-> Acked-by: Greg Kurz <groug@kaod.org>
->=20
-> David will hopefully nack it in time if he's aware of an issue.
+Of course.
 
-No, it should be fine.
+> The phrase "if the user discovers some issues" is a bit of a red flag.
+> We should always be striving for correct emulation of floating point.
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+I agree. This is an option that I added for use during feature
+development. Ultimately I would like not to have such an option, and
+for it to always *just work*.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+> Indeed we have recently got the code base to the point we pass all of
+> the Berkey softfloat test suite. This can be checked by running:
+>
+>   make check-softfloat
+>
+> However the test code links directly to the softfloat code so won't work
+> with direct code execution.
 
---6r8RucNjW08wPYPP
-Content-Type: application/pgp-signature; name="signature.asc"
+I had planned to leverage the existing soft float test suite, and I
+think this can be done with the right harnessing. It would be nice to
+have a mechanism to test translation of individual TCG ops, e.g. be
+able to run translated blocks from test code and evaluate their
+output. I'm not sure if any such op level testing like that is being
+done. There are also guest tests in tests/tcg, which could also be
+expanded to include more FP tests.
 
------BEGIN PGP SIGNATURE-----
+> The existing 32/64 bit hardfloat
+> optimisations work within the helpers. While generating direct code is
+> appealing to avoid the cost of helper calls it's fairly well cached and
+> predicted code. Experience with the initial hardfloat code showed the
+> was still a performance win even with the cost of the helper call.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFWZ4YACgkQbDjKyiDZ
-s5JOsRAAgC00c4/HtdU6IoUuOB17/U3QgXs2jn5keRCCEbVz3RY6d6bPVmsQUgin
-e1Qk8kJlKVr5r0H8rj8b/cEDPTa3ksZbKChEwJTP5hjTFrlnKqQXHv+XTXgaFzck
-SPtxCc6GUR3S4JVR0pLfMpn/Z9VBn2nBYRlwqPXya77WW+XtsWYEJqKQRTg7NHdV
-M+InjxulmVkZmmkrLx7ZywMKdt6T7QtIYnlW7g8McwBzEEHWF5Tu7QrXjHsTdAGX
-jTpg1S4ND9IpPX04+/i156xBUhuGqXOqyBsQbDTUhmGVVRe1jL8Fvgj5chbzCbzS
-D7r7jHwUtc+4lTriB8lKtxDNh+151k6NDKe9Xaf73+8vsJUzvjt5Lo2hhCJSlqjR
-5zn37kBLbsvpxDkD7vVM5XVy8x5Mu1WGZk49NgEIPIvhEZqKgZ4lvZ5bl/YBcsPy
-rA9ZwvwlxWPY6od+UxoIcaMCy/EtnFd79uB73FjGH5O08uZO08xwt5WkNYEp1rTP
-lS89GgwhekIkYUwE2IgNsEHlfP11uI12WQQ5/a2s4mPmGbwYr2lorUlG5e59qXIq
-SF54p7Lu8EDMWIDm2GmsWaNGgrXvK50bfAqpQxeJKYf/nUUAb0G0MF5smOTR4YIV
-U4Bz0PFbYZLJyNa+M7rsolw4xXSXUeSElnEONPm++eDdRClSMA8=
-=mA36
------END PGP SIGNATURE-----
+Unfortunately, even with the existing hardfloat support, the overhead
+of the helper calls is still too costly for my particular application.
 
---6r8RucNjW08wPYPP--
+> I don't think you'll see the same behaviour emulating an x87 on anything
+> that isn't an x87 because the boundaries for things like inexact
+> calculation will be different. Indeed if you look at the existing
+> hardfloat code function can_use_fpu() you will see we only call the host
+> processor function if the inexact bit is already set. Other wrappers
+> have even more checks for normal numbers. Anything that needs NaN
+> handling will fallback to the correct softfloat code.
+
+Fair points. Bit-perfect x87 emulation with this approach may be
+ultimately unachievable; and I'm still evaluating the cases when this
+will not work. This has been a learning experience for me, and I
+gladly welcome expert input in this matter.
+
+Personally, I would accept minor accuracy differences in trade for
+significant performance advantage in emulation of game code, but not
+for scientific applications, which I understand may diminish upstream
+appeal of this x87 translation work.
+
+> I think there will be a wariness to merge anything that only works for a
+> single frontend/backend combination. Running translated x86 on x86 is
+> not the common case for TCG ;-)
+
+Understood; initially this works on a single frontend/backend
+combination, with eventual translation to other guests and hosts. It
+will be a long road, but my plan next is to produce a translation for
+AArch64 systems.
+
+> These are the things that make correct handling of floating point hard.
+
+Agreed!
+
+> I'll happily review patches on the list that provide for an accelerated
+> FPU experience as long as the correctness is maintained.
+
+Thank you!
+
+Matt
+
+On Thu, Sep 30, 2021 at 2:38 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>
+>
+> Matt <mborgerson@gmail.com> writes:
+>
+> > Hello--
+> >
+> > I'm excited to share that I have been developing support for TCG
+> > floating point operations; specifically, to accelerate emulation of
+> > x86 guest code which heavily exercises the x87 FPU for a game console
+> > emulator project based on QEMU. So far, this work has shown great
+> > promise, demonstrating some dramatic performance improvements in
+> > emulation of x87 heavy code.
+>
+> I've not reviewed the code as it is a rather large diff. For your proper
+> submission could you please ensure that your patch series is broken up
+> into discreet commits to aid review. It also aids bisection if
+> regressions are identified.
+>
+> > The feature works in concert with unaccelerated x87 FPU helpers, and
+> > also allows total soft float helper fallback if the user discovers
+> > some issue with the hard float implementation.
+>
+> The phrase "if the user discovers some issues" is a bit of a red flag.
+> We should always be striving for correct emulation of floating point.
+> Indeed we have recently got the code base to the point we pass all of
+> the Berkey softfloat test suite. This can be checked by running:
+>
+>   make check-softfloat
+>
+> However the test code links directly to the softfloat code so won't work
+> with direct code execution. The existing 32/64 bit hardfloat
+> optimisations work within the helpers. While generating direct code is
+> appealing to avoid the cost of helper calls it's fairly well cached and
+> predicted code. Experience with the initial hardfloat code showed the
+> was still a performance win even with the cost of the helper call.
+>
+> > For the TCG target,
+> > I've opted to implement it for x86-64 hosts using SSE2, although this
+> > could be extended to support full 80b double extended precision with
+> > host x87 support. I'm also in early development of an implementation
+> > for AArch64 hosts.
+>
+> I don't think you'll see the same behaviour emulating an x87 on anything
+> that isn't an x87 because the boundaries for things like inexact
+> calculation will be different. Indeed if you look at the existing
+> hardfloat code function can_use_fpu() you will see we only call the host
+> processor function if the inexact bit is already set. Other wrappers
+> have even more checks for normal numbers. Anything that needs NaN
+> handling will fallback to the correct softfloat code.
+>
+> I think there will be a wariness to merge anything that only works for a
+> single frontend/backend combination. Running translated x86 on x86 is
+> not the common case for TCG ;-)
+>
+> > There are still some significant tasks to be done, like proper
+> > handling of exception flags, edge cases, and testing, to name a few.
+>
+> These are the things that make correct handling of floating point hard.
+>
+> > Once in a slightly more mature state, I do think this feature would
+> > make a natural addition to upstream QEMU and plan to submit it for
+> > consideration.
+> >
+> > I'm writing to the mailing list now to inform FPU maintainers and any
+> > other interested parties that this work is happening, to solicit any
+> > early feedback, and to extend an invitation to anyone interested in
+> > collaborating to expedite its upstreaming.
+>
+> I'll happily review patches on the list that provide for an accelerated
+> FPU experience as long as the correctness is maintained.
+>
+> > My initial TCG FP work can be found here:
+> > https://github.com/mborgerson/xemu/pull/464/commits
+> >
+> > Thanks,
+> > Matt
+>
+>
+> --
+> Alex Benn=C3=A9e
 
