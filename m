@@ -2,91 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A8E41E7C6
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 08:50:47 +0200 (CEST)
-Received: from localhost ([::1]:46944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B96D41E816
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 09:13:44 +0200 (CEST)
+Received: from localhost ([::1]:48028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWCNZ-0008MX-N5
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 02:50:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59616)
+	id 1mWCjm-0004Ok-MS
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 03:13:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mWCLB-0007Z0-VE
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 02:48:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43492)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mWCd8-00026M-7T
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:06:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mWCL6-0001LM-FL
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 02:48:17 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mWCd4-0000Qm-Ib
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:06:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633070890;
+ s=mimecast20190719; t=1633072003;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ff/2YViCFxJW2ajFTUw2nG/ZiWCfbIiCwhdQhQi8I9U=;
- b=NOrARB7ZgeCee37JFsJM7f9/kQtDkX8ErthNAQ4Yi9jKa3GOn0Qv1ZCCnp+5pDsytlFiP0
- J6tJvvLwTF4B8yOFPOJBBtGYImYPQLDiGrkCwu7ms2hGaTHm1KdxZGIj1mg4kMaTagACFW
- 4FaN3Muh6CKLCxI0tycmNvhUM+tCBlY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-547-mh6oI7clN16MP-mwPeb_mg-1; Fri, 01 Oct 2021 02:48:09 -0400
-X-MC-Unique: mh6oI7clN16MP-mwPeb_mg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- d12-20020a1c730c000000b0030b4e0ecf5dso2782813wmb.9
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 23:48:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ff/2YViCFxJW2ajFTUw2nG/ZiWCfbIiCwhdQhQi8I9U=;
- b=fNeJdHr17TOeeluIFd1HossqUpLqdqj4cnBl8IT7Tzq2McdTWTM+iQXPkgdw60DFaq
- SpHG9ZHZsyKwICPhhNA0Bqm5MBSzRKV3oMyCwRd4uiL2oS0Z6wujDsTBCzZHV320vJVW
- odjswZ48PQSkCouxpJY5FW7hhlI0S7qCqdSImbD4edQDIpoXaJkuLg/NJOFjo/MI7co4
- VCDpyDqr2FDGKaiMX80Nm2SsBPUbyNrbmJ0UApsEwfrra/Zx1mrU0rnoWiKPBIVHlyLF
- TNscdzANbjrOZI6KCvpj6+ZbHu/RiiBAChuADKgQr4zUUyD0ZuK8H1fY8mSLY9M018KO
- iTfQ==
-X-Gm-Message-State: AOAM533fPIvymLSvaER8C7PXPnwwe2u7HIj9RZVJGGOCgHBhBtHroxlS
- /oMS2y7ADhtQtQDrbbR03Z9anWOqT4e9IvP+gyZzHY5tyYsYIjn3K4TW4tLHB4NwU8S6Sa2vfO6
- jynZz+Ep2lq45HFY=
-X-Received: by 2002:adf:d1c5:: with SMTP id b5mr10568645wrd.252.1633070888238; 
- Thu, 30 Sep 2021 23:48:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzeMH+WlUcC2HfgSbtgHhU9U8Paodca7yv/+fBhBLjyp0HF+b0wGA9gcSgvZxHrzP9K6qKQjA==
-X-Received: by 2002:adf:d1c5:: with SMTP id b5mr10568615wrd.252.1633070887986; 
- Thu, 30 Sep 2021 23:48:07 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.21.142])
- by smtp.gmail.com with ESMTPSA id m5sm5851758wms.41.2021.09.30.23.48.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Sep 2021 23:48:07 -0700 (PDT)
-Message-ID: <d66ef0ad-5913-6514-59a9-5274ca1ae76e@redhat.com>
-Date: Fri, 1 Oct 2021 08:48:06 +0200
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZKYxIJTnjnvJGdIBj9SIoVU4ac+/5a4Qc3SmgnU/Qgg=;
+ b=AaVv4lCyQ0JVSFRyGBjyXnmvoOAVGZgZTBiyQ1qbpkSjltPWilxDjiA9kWq+WgKnDxWXaL
+ wajnhhwvSSvbu3jWgJFyr8FiW97/yBXOo8Noyqq+Z2HYyM30216RUVKT+Csq7vLb+aS83W
+ RdcGwyV3aqP8mgI76pmKaSyqMZGC5ws=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-409-y_3PyrOaO-aCiBRGgZkCJw-1; Fri, 01 Oct 2021 03:06:36 -0400
+X-MC-Unique: y_3PyrOaO-aCiBRGgZkCJw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1907A362F8;
+ Fri,  1 Oct 2021 07:06:35 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.193.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 341FC4180;
+ Fri,  1 Oct 2021 07:06:06 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v4 00/20] vDPA shadow virtqueue
+Date: Fri,  1 Oct 2021 09:05:43 +0200
+Message-Id: <20211001070603.307037-1-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] failover: allow to pause the VM during the migration
-To: Laine Stump <laine@redhat.com>, qemu-devel@nongnu.org
-References: <20210930170926.1298118-1-lvivier@redhat.com>
- <f1898bf0-dadb-4e2e-a45a-9087d2c63678@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <f1898bf0-dadb-4e2e-a45a-9087d2c63678@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.127, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,104 +75,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Libvirt <libvir-list@redhat.com>,
+Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
  Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Jiri Denemark <jdenemar@redhat.com>, Eric Blake <eblake@redhat.com>
+ virtualization@lists.linux-foundation.org,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Eric Blake <eblake@redhat.com>, Michael Lilja <ml@napatech.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/09/2021 22:17, Laine Stump wrote:
-> On 9/30/21 1:09 PM, Laurent Vivier wrote:
->> If we want to save a snapshot of a VM to a file, we used to follow the
->> following steps:
->>
->> 1- stop the VM:
->>     (qemu) stop
->>
->> 2- migrate the VM to a file:
->>     (qemu) migrate "exec:cat > snapshot"
->>
->> 3- resume the VM:
->>     (qemu) cont
->>
->> After that we can restore the snapshot with:
->>    qemu-system-x86_64 ... -incoming "exec:cat snapshot"
->>    (qemu) cont
-> 
-> This is the basics of what libvirt does for a snapshot, and steps 1+2 are what it does for 
-> a "managedsave" (where it saves the snapshot to disk and then terminates the qemu process, 
-> for later re-animation).
-> 
-> In those cases, it seems like this new parameter could work for us - instead of explicitly 
-> pausing the guest prior to migrating it to disk, we would set this new parameter to on, 
-> then directly migrate-to-disk (relying on qemu to do the pause). Care will need to be 
-> taken to assure that error recovery behaves the same though.
-
-In case of error, the VM is restarted like it's done for a standard migration. I can 
-change that if you need.
-
-An other point is the VM state sent to the migration stream is "paused", it means that 
-machine needs to be resumed after the stream is loaded (from the file or on destination in 
-the case of a real migration), but it can be also changed to be "running" so the machine 
-will be resumed automatically at the end of the file loading (or real migration)
-
-> There are a couple of cases when libvirt apparently *doesn't* pause the guest during the 
-> migrate-to-disk, both having to do with saving a coredump of the guest. Since I really 
-> have no idea of how common/important that is (or even if my assessment of the code is 
-> correct), I'm Cc'ing this patch to libvir-list to make sure it catches the attention of 
-> someone who knows the answers and implications.
-
-It's an interesting point I need to test and think about: in case of a coredump I guess 
-the machine is crashed and doesn't answer to the unplug request and so the failover unplug 
-cannot be done. For the moment the migration will hang until it is canceled. IT can be 
-annoying if we want to debug the cause of the crash...
-
-> 
->> But when failover is configured, it doesn't work anymore.
->>
->> As the failover needs to ask the guest OS to unplug the card
->> the machine cannot be paused.
->>
->> This patch introduces a new migration parameter, "pause-vm", that
->> asks the migration to pause the VM during the migration startup
->> phase after the the card is unplugged.
->>
->> Once the migration is done, we only need to resume the VM with
->> "cont" and the card is plugged back:
->>
->> 1- set the parameter:
->>     (qemu) migrate_set_parameter pause-vm on
->>
->> 2- migrate the VM to a file:
->>     (qemu) migrate "exec:cat > snapshot"
->>
->>     The primary failover card (VFIO) is unplugged and the VM is paused.
->>
->> 3- resume the VM:
->>     (qemu) cont
->>
->>     The VM restarts and the primary failover card is plugged back
->>
->> The VM state sent in the migration stream is "paused", it means
->> when the snapshot is loaded or if the stream is sent to a destination
->> QEMU, the VM needs to be resumed manually.
->>
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> ---
->>   qapi/migration.json            | 20 +++++++++++++++---
->>   include/hw/virtio/virtio-net.h |  1 +
->>   hw/net/virtio-net.c            | 33 ++++++++++++++++++++++++++++++
->>   migration/migration.c          | 37 +++++++++++++++++++++++++++++++++-
->>   monitor/hmp-cmds.c             |  8 ++++++++
->>   5 files changed, 95 insertions(+), 4 deletions(-)
->>
-...
-
-Thanks,
-Laurent
+This series enable shadow virtqueue (SVQ) for vhost-vdpa devices. This=0D
+is intended as a new method of tracking the memory the devices touch=0D
+during a migration process: Instead of relay on vhost device's dirty=0D
+logging capability, SVQ intercepts the VQ dataplane forwarding the=0D
+descriptors between VM and device. This way qemu is the effective=0D
+writer of guests memory, like in qemu's virtio device operation.=0D
+=0D
+When SVQ is enabled qemu offers a new vring to the device to read=0D
+and write into, and also intercepts kicks and calls between the device=0D
+and the guest. Used buffers relay would cause dirty memory being=0D
+tracked, but at this RFC SVQ is not enabled on migration automatically.=0D
+=0D
+It is based on the ideas of DPDK SW assisted LM, in the series of=0D
+DPDK's https://patchwork.dpdk.org/cover/48370/ . However, these does=0D
+not map the shadow vq in guest's VA, but in qemu's.=0D
+=0D
+For qemu to use shadow virtqueues the guest virtio driver must not use=0D
+features like event_idx or indirect descriptors. These limitations will=0D
+be addressed in later series, but they are left out for simplicity at=0D
+the moment.=0D
+=0D
+SVQ needs to be enabled with QMP command:=0D
+=0D
+{ "execute": "x-vhost-enable-shadow-vq",=0D
+      "arguments": { "name": "dev0", "enable": true } }=0D
+=0D
+This series includes some patches to delete in the final version that=0D
+helps with its testing. The first two of the series freely implements=0D
+the feature to stop the device and be able to retrieve its status. It's=0D
+intended to be used with vp_vpda driver in a nested environment. This=0D
+driver also need modifications to forward the new status bit.=0D
+=0D
+Patches 2-8 prepares the SVQ and QMP command to support guest to host=0D
+notifications forwarding. If the SVQ is enabled with these ones=0D
+applied and the device supports it, that part can be tested in=0D
+isolation (for example, with networking), hopping through SVQ.=0D
+=0D
+Same thing is true with patches 9-13, but with device to guest=0D
+notifications.=0D
+=0D
+The rest of the patches implements the actual buffer forwarding.=0D
+=0D
+Comments are welcome.=0D
+=0D
+TODO:=0D
+* Event, indirect, packed, and others features of virtio - Waiting for=0D
+  confirmation of the big picture.=0D
+* Use already available iova tree to track mappings.=0D
+* To sepparate buffers forwarding in its own AIO context, so we can=0D
+  throw more threads to that task and we don't need to stop the main=0D
+  event loop.=0D
+* unmap iommu memory. Now the tree can only grow from SVQ enable, but=0D
+  it should be fine as long as not a lot of memory is added to the=0D
+  guest.=0D
+* Rebase on top of latest qemu (and, hopefully, on top of multiqueue=0D
+  vdpa).=0D
+* Some assertions need to be appropiate error handling paths.=0D
+* Proper documentation.=0D
+=0D
+Changes from v3 RFC:=0D
+  * Move everything to vhost-vdpa backend. A big change, this allowed=0D
+    some cleanup but more code has been added in other places.=0D
+  * More use of glib utilities, especially to manage memory.=0D
+v3 link:=0D
+https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06032.html=0D
+=0D
+Changes from v2 RFC:=0D
+  * Adding vhost-vdpa devices support=0D
+  * Fixed some memory leaks pointed by different comments=0D
+v2 link:=0D
+https://lists.nongnu.org/archive/html/qemu-devel/2021-03/msg05600.html=0D
+=0D
+Changes from v1 RFC:=0D
+  * Use QMP instead of migration to start SVQ mode.=0D
+  * Only accepting IOMMU devices, closer behavior with target devices=0D
+    (vDPA)=0D
+  * Fix invalid masking/unmasking of vhost call fd.=0D
+  * Use of proper methods for synchronization.=0D
+  * No need to modify VirtIO device code, all of the changes are=0D
+    contained in vhost code.=0D
+  * Delete superfluous code.=0D
+  * An intermediate RFC was sent with only the notifications forwarding=0D
+    changes. It can be seen in=0D
+    https://patchew.org/QEMU/20210129205415.876290-1-eperezma@redhat.com/=
+=0D
+v1 link:=0D
+https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05372.html=0D
+=0D
+Eugenio P=C3=A9rez (20):=0D
+      virtio: Add VIRTIO_F_QUEUE_STATE=0D
+      virtio-net: Honor VIRTIO_CONFIG_S_DEVICE_STOPPED=0D
+      virtio: Add virtio_queue_is_host_notifier_enabled=0D
+      vhost: Make vhost_virtqueue_{start,stop} public=0D
+      vhost: Add x-vhost-enable-shadow-vq qmp=0D
+      vhost: Add VhostShadowVirtqueue=0D
+      vdpa: Register vdpa devices in a list=0D
+      vhost: Route guest->host notification through shadow virtqueue=0D
+      Add vhost_svq_get_svq_call_notifier=0D
+      Add vhost_svq_set_guest_call_notifier=0D
+      vdpa: Save call_fd in vhost-vdpa=0D
+      vhost-vdpa: Take into account SVQ in vhost_vdpa_set_vring_call=0D
+      vhost: Route host->guest notification through shadow virtqueue=0D
+      virtio: Add vhost_shadow_vq_get_vring_addr=0D
+      vdpa: Save host and guest features=0D
+      vhost: Add vhost_svq_valid_device_features to shadow vq=0D
+      vhost: Shadow virtqueue buffers forwarding=0D
+      vhost: Add VhostIOVATree=0D
+      vhost: Use a tree to store memory mappings=0D
+      vdpa: Add custom IOTLB translations to SVQ=0D
+=0D
+Eugenio P=C3=A9rez (20):=0D
+  virtio: Add VIRTIO_F_QUEUE_STATE=0D
+  virtio-net: Honor VIRTIO_CONFIG_S_DEVICE_STOPPED=0D
+  virtio: Add virtio_queue_is_host_notifier_enabled=0D
+  vhost: Make vhost_virtqueue_{start,stop} public=0D
+  vhost: Add x-vhost-enable-shadow-vq qmp=0D
+  vhost: Add VhostShadowVirtqueue=0D
+  vdpa: Register vdpa devices in a list=0D
+  vhost: Route guest->host notification through shadow virtqueue=0D
+  vdpa: Save call_fd in vhost-vdpa=0D
+  vhost-vdpa: Take into account SVQ in vhost_vdpa_set_vring_call=0D
+  vhost: Route host->guest notification through shadow virtqueue=0D
+  virtio: Add vhost_shadow_vq_get_vring_addr=0D
+  vdpa: Save host and guest features=0D
+  vhost: Add vhost_svq_valid_device_features to shadow vq=0D
+  vhost: Shadow virtqueue buffers forwarding=0D
+  vhost: Check for device VRING_USED_F_NO_NOTIFY at shadow virtqueue=0D
+    kick=0D
+  vhost: Use VRING_AVAIL_F_NO_INTERRUPT at device call on shadow=0D
+    virtqueue=0D
+  vhost: Add VhostIOVATree=0D
+  vhost: Use a tree to store memory mappings=0D
+  vdpa: Add custom IOTLB translations to SVQ=0D
+=0D
+ qapi/net.json                                 |  23 +=0D
+ hw/virtio/vhost-iova-tree.h                   |  40 ++=0D
+ hw/virtio/vhost-shadow-virtqueue.h            |  37 ++=0D
+ hw/virtio/virtio-pci.h                        |   1 +=0D
+ include/hw/virtio/vhost-vdpa.h                |  13 +=0D
+ include/hw/virtio/vhost.h                     |   4 +=0D
+ include/hw/virtio/virtio.h                    |   5 +-=0D
+ .../standard-headers/linux/virtio_config.h    |   5 +=0D
+ include/standard-headers/linux/virtio_pci.h   |   2 +=0D
+ hw/net/virtio-net.c                           |   6 +-=0D
+ hw/virtio/vhost-iova-tree.c                   | 230 +++++++=0D
+ hw/virtio/vhost-shadow-virtqueue.c            | 619 ++++++++++++++++++=0D
+ hw/virtio/vhost-vdpa.c                        | 412 +++++++++++-=0D
+ hw/virtio/vhost.c                             |  12 +-=0D
+ hw/virtio/virtio-pci.c                        |  16 +-=0D
+ hw/virtio/virtio.c                            |   5 +=0D
+ hw/virtio/meson.build                         |   2 +-=0D
+ hw/virtio/trace-events                        |   1 +=0D
+ 18 files changed, 1413 insertions(+), 20 deletions(-)=0D
+ create mode 100644 hw/virtio/vhost-iova-tree.h=0D
+ create mode 100644 hw/virtio/vhost-shadow-virtqueue.h=0D
+ create mode 100644 hw/virtio/vhost-iova-tree.c=0D
+ create mode 100644 hw/virtio/vhost-shadow-virtqueue.c=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
 
