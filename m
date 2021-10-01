@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A02F441EE45
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 15:11:23 +0200 (CEST)
-Received: from localhost ([::1]:58490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D33AA41EE4B
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 15:14:53 +0200 (CEST)
+Received: from localhost ([::1]:36292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWIJu-0007lv-Fa
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 09:11:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51698)
+	id 1mWINI-0003q6-LE
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 09:14:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
- id 1mWIDM-0000Kq-Ft; Fri, 01 Oct 2021 09:04:36 -0400
-Received: from pegase2.c-s.fr ([93.17.235.10]:39355)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mWILB-0002FN-6S
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 09:12:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
- id 1mWIDI-0002uw-U9; Fri, 01 Oct 2021 09:04:36 -0400
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
- by localhost (Postfix) with ESMTP id 4HLVgd4Hvqz9sV9;
- Fri,  1 Oct 2021 15:04:29 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
- by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6zNHoL1jQrBJ; Fri,  1 Oct 2021 15:04:29 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase2.c-s.fr (Postfix) with ESMTP id 4HLVgd3DR7z9sSp;
- Fri,  1 Oct 2021 15:04:29 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 5690E8B8BB;
- Fri,  1 Oct 2021 15:04:29 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id 8Z-05pCDT3P7; Fri,  1 Oct 2021 15:04:29 +0200 (CEST)
-Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.203.170])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 1C3FC8B87D;
- Fri,  1 Oct 2021 15:04:28 +0200 (CEST)
-Subject: Re: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
- MAINTAINERS: Orphan obscure ppc platforms)
-To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
- <20210927044808.73391-5-david@gibson.dropbear.id.au>
- <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
- <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
- <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
- <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
- <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Message-ID: <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
-Date: Fri, 1 Oct 2021 15:04:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mWIL6-0000ID-VO
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 09:12:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633093954;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=G2N0R9SUhuRBNmJf5pHae3J8YnosiDq2GuWFT0dGtTU=;
+ b=VB/H+6/1jLLi/4RRSfbXP0d77GFqFVtZIuf7P1PR3CPYd4eEdLY/p0BOqR5rlHfu4dkJlR
+ WJAErnwKyfBs5N69HneSmCUhOfWTVRq5xVuJQYH38wvCVidZxYQ16/ij7uj+/fRbuQK6dy
+ 3FRgt6xawtwwY9KQe4cCbERv3pQJwVs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-545-nEPdLweyOAGdYJp0LmUIow-1; Fri, 01 Oct 2021 09:12:28 -0400
+X-MC-Unique: nEPdLweyOAGdYJp0LmUIow-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2E9D802CBF;
+ Fri,  1 Oct 2021 13:12:27 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 493FB5C1B4;
+ Fri,  1 Oct 2021 13:12:26 +0000 (UTC)
+Date: Fri, 1 Oct 2021 14:12:23 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] hw/ppc: Deprecate the ref405ep and taihu machines and
+ the 405 CPU models
+Message-ID: <YVcJNzs6zULuMEC+@redhat.com>
+References: <20211001121943.1016447-1-thuth@redhat.com>
+ <CAFEAcA_Vjvi8JvELyG1DghCoHbUR1fzodPoaU2n-QPcf9bGwCg@mail.gmail.com>
+ <ee30cba8-9da1-eefa-0e91-3f5f85708348@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr-FR
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=93.17.235.10;
- envelope-from=christophe.leroy@csgroup.eu; helo=pegase2.c-s.fr
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.127,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <ee30cba8-9da1-eefa-0e91-3f5f85708348@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 01 Oct 2021 09:08:27 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,60 +81,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>, dbarboza@redhat.com,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
- Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Oct 01, 2021 at 03:01:08PM +0200, Thomas Huth wrote:
+> On 01/10/2021 14.46, Peter Maydell wrote:
+> > On Fri, 1 Oct 2021 at 13:22, Thomas Huth <thuth@redhat.com> wrote:
+> > > 
+> > > These machines need a firmware image called 'ppc405_rom.bin', and nobody
+> > > seems to have such a firmware image left for testing, so the machines are
+> > > currently unusable. There used to be support in U-Boot, but it has been
+> > > removed a couple of year ago already.
+> > > Thus let's mark these boards and the 405 CPU as deprecated now, so that we
+> > > could remove them in a couple of releases (unless somebody speaks up and
+> > > says that these are still usefull for them).
+> > > 
+> > > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > > ---
+> > >   docs/about/deprecated.rst | 15 +++++++++++++++
+> > >   hw/ppc/ppc405_boards.c    |  2 ++
+> > >   2 files changed, 17 insertions(+)
+> > > 
+> > > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> > > index 2f7db9a98d..27c03ef624 100644
+> > > --- a/docs/about/deprecated.rst
+> > > +++ b/docs/about/deprecated.rst
+> > > @@ -238,6 +238,11 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
+> > >   (the ISA has never been upstreamed to a compiler toolchain). Therefore
+> > >   this CPU is also deprecated.
+> > > 
+> > > +PPC 405 CPU models (since 6.2)
+> > > +''''''''''''''''''''''''''''''
+> > > +
+> > > +The related boards ``ref405ep`` and ``taihu`` are marked as deprecated, too.
+> > > +
+> > 
+> > What is this "too" a reference to? The immediately preceding section
+> > in the document is about the MIPS I7200 CPU model.
+> 
+> It was meant as a reference to the machines below. I'll try to rephrase in v2.
+> (As far as I can see, the 405 can only be used on these boards, it does not
+> seem to be possible to use these CPU types on other boards)
+> 
+> > The not-being-deprecated sam460ex board also uses the ppc405 CPU
+> > I think, so I don't think we can drop the CPU models.
+> 
+> No, that board uses a 460exb CPU which is a slightly different kind of
+> embedded PPC CPU, as far as I know.
+> 
+> > >   QEMU API (QAPI) events
+> > >   ----------------------
+> > > @@ -258,6 +263,16 @@ This machine is deprecated because we have enough AST2500 based OpenPOWER
+> > >   machines. It can be easily replaced by the ``witherspoon-bmc`` or the
+> > >   ``romulus-bmc`` machines.
+> > > 
+> > > +``ref405ep`` and ``taihu`` machines (since 6.2)
+> > > +'''''''''''''''''''''''''''''''''''''''''''''''
+> > > +
+> > > +These machines need a firmware image called 'ppc405_rom.bin', and nobody seems
+> > > +to have a working copy of such a firmware image anymore. `Support in U-Boot
+> > 
+> > "any more".
+> > 
+> > > +<https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdfdba62c069>`__
+> > > +has been removed a couple of years ago, too, so it is very unlikely that
+> > > +anybody is still using this code at all.
+> > 
+> > (I'm not sure whether anybody ever actually successfully booted a
+> > u-boot binary on QEMU's taihu/ref405ep boards.)
+> 
+> Me neither. Maybe I should rather drop that reference in v2...
+> but I still wonder where that "ppc405_rom.bin" originally came from...
+> 
+> > >   Backend options
+> > >   ---------------
+> > > 
+> > > diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> > > index 972a7a4a3e..1578c0dac8 100644
+> > > --- a/hw/ppc/ppc405_boards.c
+> > > +++ b/hw/ppc/ppc405_boards.c
+> > > @@ -317,6 +317,7 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
+> > >       mc->init = ref405ep_init;
+> > >       mc->default_ram_size = 0x08000000;
+> > >       mc->default_ram_id = "ef405ep.ram";
+> > > +    mc->deprecation_reason = "ppc405 CPU is deprecated";
+> > >   }
+> > > 
+> > >   static const TypeInfo ref405ep_type = {
+> > > @@ -547,6 +548,7 @@ static void taihu_class_init(ObjectClass *oc, void *data)
+> > >       mc->init = taihu_405ep_init;
+> > >       mc->default_ram_size = 0x08000000;
+> > >       mc->default_ram_id = "taihu_405ep.ram";
+> > > +    mc->deprecation_reason = "ppc405 CPU is deprecated";
+> > >   }
+> > 
+> > We're not deprecating the machine types because we're deprecating
+> > the CPU types. We're deprecating them because we believe that
+> > nobody's using them.
+> 
+> Ok, I'll try to come up with a different text instead.
+
+IIUC, the user isn't specifying the CPU on the command line, they
+are specifying the machine type, and getting the fixed CPU model
+as a side effect. With that in mind it is probably clearer to talk
+about the machine type in the deprecation message as that corresponds
+to their CLI args.
+
+IOW   "machine taihu is deprecated"
 
 
-Le 01/10/2021 à 14:04, Thomas Huth a écrit :
-> On 01/10/2021 13.12, Peter Maydell wrote:
->> On Fri, 1 Oct 2021 at 10:43, Thomas Huth <thuth@redhat.com> wrote:
->>> Nevertheless, as long as nobody has a hint where to find that
->>> ppc405_rom.bin, I think both boards are pretty useless in QEMU (as 
->>> far as I
->>> can see, they do not work without the bios at all, so it's also not 
->>> possible
->>> to use a Linux image with the "-kernel" CLI option directly).
->>
->> It is at least in theory possible to run bare-metal code on
->> either board, by passing either a pflash or a bios argument.
-> 
-> True. I did some more research, and seems like there was once support 
-> for those boards in u-boot, but it got removed there a couple of years 
-> ago already:
-> 
-> https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdf
-> 
-> https://gitlab.com/qemu-project/u-boot/-/commit/b147ff2f37d5b
-> 
-> https://gitlab.com/qemu-project/u-boot/-/commit/7514037bcdc37
-> 
->> But I agree that there seem to be no signs of anybody actually
->> successfully using these boards for anything, so we should
->> deprecate-and-delete them.
-> 
-> Yes, let's mark them as deprecated now ... if someone still uses them 
-> and speaks up, we can still revert the deprecation again.
-> 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-
-I really would like to be able to use them to validate Linux Kernel 
-changes, hence looking for that missing BIOS.
-
-If we remove ppc405 from QEMU, we won't be able to do any regression 
-tests of Linux Kernel on those processors.
-
-Christophe
 
