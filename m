@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7668B41E922
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 10:37:06 +0200 (CEST)
-Received: from localhost ([::1]:33980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE1B41E938
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 10:54:02 +0200 (CEST)
+Received: from localhost ([::1]:44278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWE2T-0002UO-1k
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 04:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51710)
+	id 1mWEIr-0002jL-1i
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 04:54:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mWE1R-0001ef-87
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 04:36:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51168)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mWEHg-00022I-1y
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 04:52:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mWE1O-0008Ic-Ks
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 04:36:00 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mWEHe-0005el-2v
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 04:52:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633077357;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SYY8JIGpHJzXitNyvnZqcxWn6NnjN61w6YxlLvuig7U=;
- b=SDC95MtcMC7BoyXZvZ63cXtQpkNtBLfmD4nlei//gXTYwanTT+ZuJCD9sEdXdrpL/br++4
- UVvSmo1ChxQxbsz8hHZYmvYPZM4WJ4LRTlqzr2hRCa6cfaYqgZV4D3Pqcjil8KqFgYdBoU
- UdCea/D+chnk0wSYfqWtYmaxWEOGFNQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-2D6JHHGfMB6FVJGsRZ_1Cg-1; Fri, 01 Oct 2021 04:35:54 -0400
-X-MC-Unique: 2D6JHHGfMB6FVJGsRZ_1Cg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 129-20020a1c0187000000b0030d4081c36cso918464wmb.0
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 01:35:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SYY8JIGpHJzXitNyvnZqcxWn6NnjN61w6YxlLvuig7U=;
- b=Y8QwrAMueI7KFN2zf753Gzjl+bob5bHyJQ2dZSyNjOpE53LBGoba8uMugBMWaFvrPo
- wxqkYE+7Z/U5Y/KNJOwMnRj7X5/Hh4yIheYiXMK3/d45MnhIQhuR2E9vpFFi4JlLNlPi
- R6VPgEQ31hQv+HwURuYd/oplo7wPCpGSFKZJXXrrDiaa4B/IYbjKHoO25RWG20ekRKsN
- OV2s2jCbhJRDLhppq6V72KDMs3zbSFyorTQNEsDKSTkgEGZkk0bJKapvxsoMr0DBK06X
- iivFrE+iBzog9+vMNebhByr+WCTd+52i6AvvSwASSVgvpTxdtoqoFZI8Aix6sJPfQri8
- LfqQ==
-X-Gm-Message-State: AOAM531IC+E/2mvLra94vFb7dM16BDIl75EW+hRYNQ7L1eKoqZmzyvFn
- uat6HlZ+m8ch1sZ3tajhA/1klDyZ91fnSU7eUxQE/euFmljwtk0qxk8fLBGvDD13BEC0X+gWaAG
- 0XfhXFd2Dd0FGs90=
-X-Received: by 2002:a05:6000:1866:: with SMTP id
- d6mr10969480wri.141.1633077353490; 
- Fri, 01 Oct 2021 01:35:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzdBt7DnZ6F3VILk4VFjXQ3d6SPEUJ+DnywFMANzAkfcAx11AO0ZzrPjnvMJeBICMs64yUGTQ==
-X-Received: by 2002:a05:6000:1866:: with SMTP id
- d6mr10969441wri.141.1633077353183; 
- Fri, 01 Oct 2021 01:35:53 -0700 (PDT)
-Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id m5sm6141097wms.41.2021.10.01.01.35.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Oct 2021 01:35:52 -0700 (PDT)
-To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
- <20210927044808.73391-5-david@gibson.dropbear.id.au>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
- MAINTAINERS: Orphan obscure ppc platforms)
-Message-ID: <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
-Date: Fri, 1 Oct 2021 10:35:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ s=mimecast20190719; t=1633078365;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=F6GwcA9+/d3D8lW91R6/rptEk4xE+IFKKXeQnFdUfDM=;
+ b=DBPUX+Sux5BQ/KkE2aYeW6TUmTMGsKX9H48n3hMK1uJ67BBYukJSKRmrNH/h/Pcm0C0WeH
+ eO6//iBADLOPdhOJmmF0RXFTf2jxXMOeLdl+OCt35AY9eAaTD4m4xaDa1n3+GQRzVhIbu8
+ kcuw4LRPB3oKM0cDmWxVmV42UDEnhzE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-139-pNyOIIq2NoCRP6gFGERiNw-1; Fri, 01 Oct 2021 04:52:35 -0400
+X-MC-Unique: pNyOIIq2NoCRP6gFGERiNw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91EDA1018720;
+ Fri,  1 Oct 2021 08:52:34 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A35A9608BA;
+ Fri,  1 Oct 2021 08:52:22 +0000 (UTC)
+Date: Fri, 1 Oct 2021 09:52:20 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: Moving QEMU downloads to GitLab Releases?
+Message-ID: <YVbMROzMahQmaRt5@redhat.com>
+References: <YVW+ZGmIs+repvj4@stefanha-x1.localdomain>
+ <CAJSP0QUq46nOTAv=4V0mhT2ZNbfKBPJXLNLY5Jun5B_h=sedQw@mail.gmail.com>
+ <YVXePK28T7nl9J7k@invalid>
+ <YVa0p4rZDh3teOwC@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210927044808.73391-5-david@gibson.dropbear.id.au>
+In-Reply-To: <YVa0p4rZDh3teOwC@stefanha-x1.localdomain>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -101,74 +81,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>, peter.maydell@linaro.org,
- dbarboza@redhat.com, aik@ozlabs.ru, mark.cave-ayland@ilande.co.uk,
- groug@kaod.org, wainersm@redhat.com, Alexander Graf <agraf@csgraf.de>,
- hpoussin@reactos.org, clg@kaod.org, crosa@redhat.com,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, philmd@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Eldon Stegall <eldon-qemu@eldondev.com>,
+ michael.roth@amd.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/09/2021 06.48, David Gibson wrote:
-> There are a nunber of old embedded ppc machine types which have been little
-> changed and in "Odd Fixes" state for a long time.  With both myself and
-> Greg Kurz moving toward other areas, we no longer have the capacity to
-> keep reviewing and maintaining even the rare patches that come in for those
-> platforms.
-> 
-> Therefore, remove our names as reviewers and mark these platforms as
-> orphaned.
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   MAINTAINERS | 19 +++++--------------
->   1 file changed, 5 insertions(+), 14 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f2060b46f9..1ecb5716c8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1236,24 +1236,18 @@ F: hw/openrisc/openrisc_sim.c
->   PowerPC Machines
->   ----------------
->   405
-> -M: David Gibson <david@gibson.dropbear.id.au>
-> -M: Greg Kurz <groug@kaod.org>
->   L: qemu-ppc@nongnu.org
-> -S: Odd Fixes
-> +S: Orphan
->   F: hw/ppc/ppc405_boards.c
+On Fri, Oct 01, 2021 at 08:11:35AM +0100, Stefan Hajnoczi wrote:
+> We need to keep the security of QEMU releases in mind. Mike Roth
+> signs and publishes releases. Whoever facilitates or hosts the files
+> should not be able to modify the files after Mike has blessed them. One
+> way to do this is to keep hosting the .sig files on download.qemu.org
+> and to redirect the actual tarballs to a file hosting provider. A way to
+> securely publish files without hosting anything on qemu.org would be
+> even better though (maybe it's enough to publish signatures on the
+> static GitLab Pages website).
 
-Related question: Does *anybody* know how to still use the ref405ep or taihu 
-board in QEMU? We just got another ticket asking for the related firmware image:
+If someone modifies the download files, then when you verify the sig
+it will be detected. It doesn't matter whether the sig is on the same
+host or not, because if someone modifies the sig too, then it will
+still fail validation. The important thing is that the user has got
+the right public key to verify with.
 
-  https://gitlab.com/qemu-project/qemu/-/issues/651
+IOW, hosting the .sig separately is not required. We need to ensure
+that our public key, however, is published & discoverable in a
+trustworthy place that is separate from the download server. We fail
+at that today because www.qemu.org and download.qemu.org are the
+same server.
 
-And if you google for 'ppc405_rom.bin', I only find pages where people are 
-asking basically the same question, e.g.:
-
-  https://lists.nongnu.org/archive/html/qemu-devel/2007-08/msg00252.html (in 
-2007 already! And no answer)
-
-  https://github.com/Xilinx/qemu/issues/36 (in 2019, no answer)
-
-  https://lists.libreplanet.org/archive/html/qemu-ppc/2019-12/msg00263.html 
-(in 2019, no answer about bios location)
-
-  https://lkml.org/lkml/2020/4/25/61 (in 2020, no answer)
+So it will be beneficial if the download site is split off from
+the public website, compared to our current setup.
 
 
-Seems like the Linux kernel removed support for the 405ep board here:
-
- 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=548f5244f1064c9facb19c5e9
-
-... to me this all sounds like these 405 boards are pretty dead code in QEMU 
-right now, so if nobody has a clue how to use them, I'd suggest to mark them 
-as deprecated and remove them in a couple of releases?
-
-  Thomas
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
