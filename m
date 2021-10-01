@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA73141EFDF
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 16:44:40 +0200 (CEST)
-Received: from localhost ([::1]:49538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B5D41F10D
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 17:18:35 +0200 (CEST)
+Received: from localhost ([::1]:50696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWJmB-0000wz-EQ
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 10:44:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48584)
+	id 1mWKIv-0005pA-Mb
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 11:18:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1mWJkG-0006zC-Tl
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 10:42:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25403)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mWKHX-00057R-Ey
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:17:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1mWJkC-0006An-T5
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 10:42:39 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mWKHT-0001TX-EM
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:17:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633099355;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=C9pf8aolW+XlolbKscRbpuIIpleUgE8B9pyXl8y64NA=;
- b=BLDd2G9SGWZQ4quuyu8O65aqN1QW9E6f1nZnoyVxg19Q9Obk+ZjtodnTiDUvl6mujcQlPv
- RF82iXzxKHNTzlsi/x14ct2t9zXGYf2fPCUeK7YlrIlLLu5pC3UHEo0cOm4pJbDqQ1oW74
- tgITZGWciB4X0SAnF4vz8+fDX8gFpTc=
+ s=mimecast20190719; t=1633101417;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Xiq9JZW3Z0ko76hWys98cF+zfkB35WXJn3lS564i/TM=;
+ b=ZL8momtoGuzz650cztrAi8GO6ki8Wt8XoeIa25seANLZGPJKXt0BDdlcC/CN7m8+20qv4C
+ 1oJ9kc7cBks87LT5OoGYS2sLz6ieYu5wBpGeIY0lmNDzjK8qg5ZB8D3d+kcNX32EiW5vOP
+ y4lh3OlHvx+KnftGQT73ApObuGjHk1I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-6bx22-xAPpijxwN9-sa4Rw-1; Fri, 01 Oct 2021 10:42:34 -0400
-X-MC-Unique: 6bx22-xAPpijxwN9-sa4Rw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-433-ZEeUPmwKO429PjEe1K8UYQ-1; Fri, 01 Oct 2021 11:16:52 -0400
+X-MC-Unique: ZEeUPmwKO429PjEe1K8UYQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44E52101F034;
- Fri,  1 Oct 2021 14:42:32 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 16A225DF26;
- Fri,  1 Oct 2021 14:42:28 +0000 (UTC)
-Date: Fri, 1 Oct 2021 16:42:25 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 09/11] qdev: Avoid QemuOpts in QMP device_add
-Message-ID: <YVceUfvP2WU59l0L@angien.pipo.sk>
-References: <20210924090427.9218-1-kwolf@redhat.com>
- <20210924090427.9218-10-kwolf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1780C8010ED;
+ Fri,  1 Oct 2021 15:16:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA5B65F4E1;
+ Fri,  1 Oct 2021 15:16:49 +0000 (UTC)
+Date: Fri, 1 Oct 2021 16:16:47 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 1/5] 9pfs: introduce P9Array
+Message-ID: <YVcmX/lKmHrsivVJ@redhat.com>
+References: <cover.1633097129.git.qemu_oss@crudebyte.com>
+ <a954ef47b5ac26085a16c5c2aec8695374e0424d.1633097129.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-In-Reply-To: <20210924090427.9218-10-kwolf@redhat.com>
+In-Reply-To: <a954ef47b5ac26085a16c5c2aec8695374e0424d.1633097129.git.qemu_oss@crudebyte.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pkrempa@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,37 +79,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- its@irrelevant.dk, pbonzini@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 24, 2021 at 11:04:25 +0200, Kevin Wolf wrote:
-> Directly call qdev_device_add_from_qdict() for QMP device_add instead of
-> first going through QemuOpts and converting back to QDict.
+On Fri, Oct 01, 2021 at 04:26:17PM +0200, Christian Schoenebeck wrote:
+> Implements deep auto free of arrays while retaining common C-style
+> squared bracket access. Main purpose of this API is to get rid of
+> error prone individual array deallocation pathes in user code, i.e.
+> turning something like this:
 > 
-> Note that this changes the behaviour of device_add, though in ways that
-> should be considered bug fixes:
+>   void doSomething(size_t n) {
+>       Foo *foos = malloc(n * sizeof(Foo));
+>       for (...) {
+>           foos[i].s = malloc(...);
+>           if (...) {
+>               goto out;
+>           }
+>       }
+>   out:
+>       if (...) {
+>           for (...) {
+>               /* deep deallocation */
+>               free(foos[i].s);
+>           }
+>           /* array deallocation */
+>           free(foos);
+>       }
+>   }
 > 
-> QemuOpts ignores differences between data types, so you could
-> successfully pass a string "123" for an integer property, or a string
-> "on" for a boolean property (and vice versa).  After this change, the
-> correct data type for the property must be used in the JSON input.
+> into something more simple and safer like:
 > 
-> qemu_opts_from_qdict() also silently ignores any options whose value is
-> a QDict, QList or QNull.
+>   void doSomething(size_t n) {
+>       P9ARRAY_REF(Foo) foos = NULL;
+>       P9ARRAY_NEW(Foo, foos, n);
+>       for (...) {
+>           foos[i].s = malloc(...);
+>           if (...) {
+>               return; /* array auto freed here */
+>           }
+>       }
+>       /* array auto freed here */
+>   }
 
-Sorry for chiming in a bit late, but preferrably this commit should be
-postponed to at least the next release so that we decrease the amount of
-libvirt users broken by this.
+As explained before, I'm against the idea of introducing new ways
+to automatically free local variables that are not using g_auto*
+functionality. It is not following the QEMU wide coding style
+that is documented.
 
-Granted users are supposed to use new libvirt with new qemu but that's
-not always the case.
 
-Anyways, libvirt is currently mangling all the types to strings with
-device_add. I'm currently working on fixing it and it will hopefully be
-done until next-month's release, but preferrably we increase the window
-of working combinations by postponing this until the next release.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
