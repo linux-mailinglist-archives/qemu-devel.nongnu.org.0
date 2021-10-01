@@ -2,79 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F27A41F11E
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 17:21:44 +0200 (CEST)
-Received: from localhost ([::1]:52966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787E941F13F
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 17:29:27 +0200 (CEST)
+Received: from localhost ([::1]:56996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWKM2-0007US-FV
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 11:21:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58066)
+	id 1mWKTW-00028z-9Y
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 11:29:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mWKKT-0006g5-S7
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:20:06 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:34494)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mWKKS-0003xI-5c
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:20:05 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- on12-20020a17090b1d0c00b001997c60aa29so3934270pjb.1
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 08:20:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=Qmwq8rgNIR2Rt+Q8MVO5EyNJS+QQk13afsgJbkTSuO4=;
- b=7EppTQh2WTl/2ol34nRynKKevenn1I4kklhqVSzJS27ujzpmNxmhMOI2A2FoIm1NqW
- NF5S5YGv77GhTx9w7kW4px+IlEc9RqZGVvwkZt2XCuCAqWfBsFoulfgXLL0r+uatxZx6
- LJiT0Llx4iPvv0zQwE3M8W0ryp0gjK2L4jptdadhS2DbVUFMY4I+xr3yS3C/TnK0ONI6
- gMlhg/aXfiB+/zN6SvTjrdiZzZ48EyZWyq1oENIJ9CXebdNOb6zTHjzzS4FGLWGf1RgH
- OoEZwZpivj2oyx/nXYxYG0zTfqaQfLpGNOlcnKFsiO7QPVyXm2lycEr1zFE0CU9woWUT
- Wkng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=Qmwq8rgNIR2Rt+Q8MVO5EyNJS+QQk13afsgJbkTSuO4=;
- b=Z37nir3SUS6y3bGD48ilx4zV3l5YI/GvoiJcaMXWrdaSTteuQorTUAo9A9eRLaRtA7
- nBdETgXLldfs3SwIQSGuLi4Jio3dom4XzC1WXl+MO10BM/YRp1vOeBEgxyitg3+Nr0vS
- VTzuhlQbZAzvCVGlRE4vw59JzdeemUDmU5qbhXbW77HTBnAFKgpDZq2ob4q9QkEUd1j3
- EEkPnW1F0XBlIgFOeWxGg0C6ONWpe6DkVcETRMxbc3NYwx5Pr1STWsOQQGTis6Buk/Df
- C44BkGZfDoF6IKcWWoxZfLDQ+gsDOLlSrx/7PGXIAT+5WLwLLfZWGVzlVUKdNmCTJLVE
- V34w==
-X-Gm-Message-State: AOAM5325CeBXLhyOLV2V2dNff2NR9mGNegQxNYLiqkpen1aNETV/Xlei
- K1REa0eEekXi7ruESoTlCrIErg==
-X-Google-Smtp-Source: ABdhPJzNUneGeufNef+PKa3rRwizkyXgLrKHqyYN6JScjXNNbkxblXCwH4ebsheU+4DFLyOgsrM2Jg==
-X-Received: by 2002:a17:90b:4c11:: with SMTP id
- na17mr332155pjb.105.1633101602218; 
- Fri, 01 Oct 2021 08:20:02 -0700 (PDT)
-Received: from anisinha-lenovo ([203.163.233.126])
- by smtp.googlemail.com with ESMTPSA id g22sm8410465pfj.15.2021.10.01.08.19.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 08:20:01 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Fri, 1 Oct 2021 20:49:54 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3] failover: fix unplug pending detection
-In-Reply-To: <20211001124935.qal55li6aozocan3@sirius.home.kraxel.org>
-Message-ID: <alpine.DEB.2.22.394.2110012049310.579856@anisinha-lenovo>
-References: <20211001082502.1342878-1-lvivier@redhat.com>
- <20211001104514.46bhlpenx4rz2qnm@sirius.home.kraxel.org>
- <0eeefb15-1b41-076c-7dd4-ca5fc78eefa9@redhat.com>
- <20211001124935.qal55li6aozocan3@sirius.home.kraxel.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mWKRL-0000nI-4X
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:27:11 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:40913)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mWKRJ-00020c-9N
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 11:27:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=U9xXzKTdMOgii859ZIwfiIob9l3wpxTEIR8Z5UwaiUo=; b=Yt8JdPikVW7zgZDDu9akZqh+WN
+ eho5rAYAWHZBKEX+MZJ212wTNcveRU9VpFjLsTdQGrRsJlSbuYSWeZM5oxMmd3ToY8gF8Lk8UXfot
+ EWDyq1KXJlSkm2Q45rwfoTlkEqdPd6+Kxl1dvONSB2yfBeDn0HqLOZGYTOWKGpuuTIr7fo+QUbLrY
+ 88ffp0pgnIrLCUcWTQA7CP1GPUAk1UrSxU6Lo0ls9EZNYCCWUus6yxPSaLsBtzh8X7nxAEz4lY4t8
+ Mu2hv9WxpmhjW3gXhvn2/nJqlGMYfMM9B7B0OlQEAUycFvjbMIFoDv7BYF8aMpLr/hcR7RcMiIEHb
+ DZyrJiH8KgV7tGQ4Ku8gSgHi6VLzCwtclEfaQ8qq90BEQYmEusUvFb9Wbm2enrzInLO7J3cZyKB4E
+ SeRUe6h0ZZ1ru7R/UxPYFvoEstRwJBDyeNahC3AfqkCeMyiwVoNqkOlH09XDmvK/hmWKuZhiylV2E
+ N1s+ZHLw5y+SwaZ/4CLAjvykwOpw2rH/5uQJoW3pqR9GKTEnXq192ehd0/rkEYviniIX+liCkgsy1
+ uzixRHqxetue61xrh86DfJS6YECEEZj8f1g0FS9+Sf02kCEOt0f01qFZEvldMQLv6bDcXQYHRA8qa
+ 40IoO2WT+dJVuQX/2TnOC/QQiBzKcOk4j44qvOziY=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org,
+ Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 1/5] 9pfs: introduce P9Array
+Date: Fri, 01 Oct 2021 17:27:06 +0200
+Message-ID: <3721374.iaAHClRopi@silver>
+In-Reply-To: <YVcmX/lKmHrsivVJ@redhat.com>
+References: <cover.1633097129.git.qemu_oss@crudebyte.com>
+ <a954ef47b5ac26085a16c5c2aec8695374e0424d.1633097129.git.qemu_oss@crudebyte.com>
+ <YVcmX/lKmHrsivVJ@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::102c;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,67 +68,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Freitag, 1. Oktober 2021 17:16:47 CEST Daniel P. Berrang=E9 wrote:
+> On Fri, Oct 01, 2021 at 04:26:17PM +0200, Christian Schoenebeck wrote:
+> > Implements deep auto free of arrays while retaining common C-style
+> > squared bracket access. Main purpose of this API is to get rid of
+> > error prone individual array deallocation pathes in user code, i.e.
+> >=20
+> > turning something like this:
+> >   void doSomething(size_t n) {
+> >  =20
+> >       Foo *foos =3D malloc(n * sizeof(Foo));
+> >       for (...) {
+> >      =20
+> >           foos[i].s =3D malloc(...);
+> >           if (...) {
+> >          =20
+> >               goto out;
+> >          =20
+> >           }
+> >      =20
+> >       }
+> >  =20
+> >   out:
+> >       if (...) {
+> >      =20
+> >           for (...) {
+> >          =20
+> >               /* deep deallocation */
+> >               free(foos[i].s);
+> >          =20
+> >           }
+> >           /* array deallocation */
+> >           free(foos);
+> >      =20
+> >       }
+> >  =20
+> >   }
+> >=20
+> > into something more simple and safer like:
+> >   void doSomething(size_t n) {
+> >  =20
+> >       P9ARRAY_REF(Foo) foos =3D NULL;
+> >       P9ARRAY_NEW(Foo, foos, n);
+> >       for (...) {
+> >      =20
+> >           foos[i].s =3D malloc(...);
+> >           if (...) {
+> >          =20
+> >               return; /* array auto freed here */
+> >          =20
+> >           }
+> >      =20
+> >       }
+> >       /* array auto freed here */
+> >  =20
+> >   }
+>=20
+> As explained before, I'm against the idea of introducing new ways
+> to automatically free local variables that are not using g_auto*
+> functionality. It is not following the QEMU wide coding style
+> that is documented.
+
+Yes, your concerns are linked in the cover letter. And I also made it clear=
+=20
+that what you suggested does not fit either. So my position has not changed.
+
+Best regards,
+Christian Schoenebeck
 
 
-On Fri, 1 Oct 2021, Gerd Hoffmann wrote:
-
->   Hi,
->
-> > > So, in case the first time didn't work (for example due to the guest not
-> > > listening because grub just doesn't do that), you can try a second time
-> > > once the linux kernel is up'n'running.
-> > >
-> > > I suspect this patch will break that (didn't actually test though).
-> >
-> > I think the solution to this problem is to not check for
-> > pending_deleted_event value in qmp_device_del().
-> >
-> > But this has been explicitly added by:
-> >
-> > commit cce8944cc9efab47d4bf29cfffb3470371c3541b
-> > Author: Julia Suvorova <jusual@redhat.com>
-> > Date:   Thu Feb 20 17:55:56 2020 +0100
-> >
-> >     qdev-monitor: Forbid repeated device_del
-> >
-> >     [ ... ]
-> >
-> > So do you mean ACPI differs from PCIe Native hotplug in this case?
->
-> Yes.
->
-> It's one of the issues I'm trying to address with the
->
->   https://gitlab.com/kraxel/qemu/-/commits/sirius/pcie-hotplug
->
-> series.  See this commit:
->
->   https://gitlab.com/kraxel/qemu/-/commit/675d9257d794c9d59ea7c80f48fe176a2aa3f8ba
->
-
-I think the scope of this patch is limited to making the acpi hotplug path
-identical to PCIE native path wrt failover. If there are issues with the
-existing approach, it should be looked into separately using subsequent
-patches.
-
-
-> So, yes, I think acpi and pcie hotplug should show consistent behavior
-> here.  And I think we need some way to recover in case the guest didn't
-> respond to an unplug event.  Just allowing to send device_del multiple
-> times looks like a sensible approach to me, and given OpenStack already
-> does that it looks like the most sensible way forward.
->
-> take care,
->   Gerd
->
->
 
