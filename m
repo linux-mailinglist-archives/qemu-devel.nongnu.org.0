@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF0F41E986
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 11:21:06 +0200 (CEST)
-Received: from localhost ([::1]:57662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4FE41E992
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 11:23:03 +0200 (CEST)
+Received: from localhost ([::1]:60418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWEj3-0005XE-FN
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 05:21:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33530)
+	id 1mWEkw-0007ZE-3P
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 05:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mWEhF-0004cE-Vz
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 05:19:14 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43625)
+ id 1mWEjZ-0006q7-Uk
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 05:21:37 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mWEhD-000390-TR
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 05:19:13 -0400
-Received: by mail-wr1-x434.google.com with SMTP id x20so14382388wrg.10
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 02:19:11 -0700 (PDT)
+ id 1mWEjY-0005E1-Hk
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 05:21:37 -0400
+Received: by mail-wr1-x429.google.com with SMTP id h15so12795760wrc.3
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 02:21:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dofPHDkbS5EFK6rOTSbKGobLAdsU61X+RZBg8dfRTVk=;
- b=S6poW1P51cJFr2hRdvSLez6SAYz4Msukn5tEbtcTfMZ5Deb576L9LJdB1jRt8UnQ0K
- 7w9uErjd78KTQpNXjkFWbEeNAC1aaXJQg0IWRJl9IrcGAAQUL/yyKjr78lvq4F79U0VP
- nQpMwmxbI9vAmEvFXNOM7LSyrr08G/QLpYka9LaFNfa++SRovzVIv8paT1wM/V/t3Pz8
- +Ld/ZIi2aVP3Op4QTnEHJPFP7BDcdawR5cs+cvN2F+BF1Tt2UW4dZpOhjeWzZExK8Dc8
- 0vzjDVzwScgGSqqBSr96oi0NiBBtCtL5sjgCtZHNHRkoN6yKk8OOsC2f476ICfw8qCEg
- wpDg==
+ :cc; bh=ARSYM6kaVzycBn5QeUC2Y9eb1Eb4FCuunLw8xkOIQ04=;
+ b=r1xrTmAlJujJU3pFfuuDgN3JydCTx/lHPVR8/a54fq6cdhsXm041V+wEfD4+yjHdUH
+ /MvQOfHBtvyOaG51hlXfv4f2JbYJOic9EPoJ1Hwj6CyUXmj/Acavd6u4q2p600nJJ9Bw
+ yagmf96Ft3eBHikG3oUqa2esIoE64iu9qo6VK68JeMLd60F8vuwYkSvebi9wi8blSXBI
+ npkAt84DOVV1qrd/gqFxSj2paN1651EvjgqWjuguXQP9OiXhWr8FsQitVvvSyCzjPBOF
+ yNgfi8x6WW12oD1PFObTFxGF7ETaWoshRKTNCHNLMV68sp5WhACFFWkgTLJAOht8bypN
+ 8Tbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dofPHDkbS5EFK6rOTSbKGobLAdsU61X+RZBg8dfRTVk=;
- b=TTV+taWxGsCoil6FH5Ap8bksCOkI3mRQqJwwiwgsFAgFRJVB3lOVYzUe3cYdVpbuj1
- 82d/p954nOddaa/VvTDlKsX03tQXQenXfbXTEokOQ+zf36AQZlxqyLXLSf3P7yiaFTj/
- ryePcNjTsEJOKDpSMrlrLFOy434/jvaMQEqxECnMfY4v+KPQDxtZ/z4hh3UdoisxiAPN
- fAXqlsy5bWpt1JVLI9Shu2EG+nUU6IpOCt+k5CdqkgwSR2cmMYN489Toi4LWLQ7fOrQh
- uNypAYxTwF66PReITPhCxEU8OV3EMhc2WA+sXbrcFdFzlXkPnYkmmaO/QwGBy/n+j6QM
- QFkA==
-X-Gm-Message-State: AOAM533K4P9pMpwIcQjaAPx3/hQXobpYeztpanOzke9AXAR53Di8htfN
- PFT33CJpQ97FaydTr+X+dM6U0WAvuYj1KFE9QqmHyw==
-X-Google-Smtp-Source: ABdhPJyS1qw3hx0ulzWHTLtkbRMfM2dFODpvR+2F26kHUSHiRuUt0ygplA39XPeNusM+s3dINh9CIhjl6lGOsRUv0MA=
-X-Received: by 2002:a5d:6b07:: with SMTP id v7mr10825268wrw.376.1633079950299; 
- Fri, 01 Oct 2021 02:19:10 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=ARSYM6kaVzycBn5QeUC2Y9eb1Eb4FCuunLw8xkOIQ04=;
+ b=XQMzAI+7odaNguSzyEIxy1UH0vzGNlYW7JffMqcV61mJx61ug+rwdYOX4zP8U2IOm/
+ 08e6DFIVKRqXYVGVW3x3ydVrWfvuepAPHNFXjINiIEJe6ILdRz2w/tQLJoqsfs+KIYvw
+ 17/4RkuavNN0dh1+D3FrdkDdlZ3s0hREQdQ5dieUjh2+/LSaZape3uHspNOaKz74HE9I
+ e8QbfpXFmjU4gJjnDuptGFd9Z8qRYbq03WzrOUNIqy6M+P5T9vupC071nwlPgJ7LsEd0
+ 0mg55RMju2bxMOEBoBQsKk/6IWYg9R7pMYA92GSPk8+aRpXDh1ppovEDhwq5ymRsZiFy
+ y74g==
+X-Gm-Message-State: AOAM531AW02s9EOztnTJmctVNz0yTDGeWo3gaU9mYES/2kunlN0vcJw1
+ 1t4KU4jsErqXhPICmEkMtRC1twPSKKdVBU9g2Gfr3A==
+X-Google-Smtp-Source: ABdhPJxANDGm2zfVeSPaLiCpd06G34jRMPTzxeGEodyB+g7QqJajUxh7HU+8ej2ve+KTa7JEUfaPRZJnDs2QO2dX6nA=
+X-Received: by 2002:a5d:6b07:: with SMTP id v7mr10836687wrw.376.1633080094932; 
+ Fri, 01 Oct 2021 02:21:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210930150842.3810-1-peter.maydell@linaro.org>
- <20210930150842.3810-2-peter.maydell@linaro.org>
- <907d7432-a81b-b36b-9af5-a5554df3bddf@amsat.org>
-In-Reply-To: <907d7432-a81b-b36b-9af5-a5554df3bddf@amsat.org>
+References: <20210930133250.181156-1-pbonzini@redhat.com>
+ <20210930133250.181156-2-pbonzini@redhat.com>
+ <875yuh2ung.fsf@dusky.pond.sub.org>
+In-Reply-To: <875yuh2ung.fsf@dusky.pond.sub.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Oct 2021 10:18:16 +0100
-Message-ID: <CAFEAcA_Lijdzooc=5UvP1U+khogXRBjunkrHg9wh0ex1z=u8TA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] hw/intc/arm_gicv3: Move checking of
- redist-region-count to arm_gicv3_common_realize
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Fri, 1 Oct 2021 10:20:41 +0100
+Message-ID: <CAFEAcA-kOs3dKhh3SRchg6Ne8QL8kwyz+2ihDC6ND2v-seuRfw@mail.gmail.com>
+Subject: Re: [PATCH 1/7] docs: name included files ".rst.inc"
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,31 +78,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 Sept 2021 at 22:54, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
-> The pattern make me think gicv3_init_irqs_and_mmio() should be
-> refactored as a ARMGICv3CommonClass::init_irqs_and_mmio handler,
-> called in arm_gicv3_common_realize().
+On Fri, 1 Oct 2021 at 06:15, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Emacs recognizes .rst, but doesn't recognize .rst.inc.  Sure we want
+> file names that defeat common tooling?
 
-That won't work because the two subclasses want to call it
-with different arguments.
+*.rst.inc is the standard convention we have for included
+rst file fragments: we already use it for 9 files in docs/.
 
-More generally, I find QEMU's class method infrastructure
-sufficiently clunky that it is better avoided except in
-the case where it's actually needed, ie where you have one
-callsite that might have to deal with an object whose
-exact type may vary such that you don't know which of the
-methods you want and you need the dynamic-dispatch.
-In this case that doesn't apply: both of the callsites of
-gicv3_init_irqs_and_mmio() know exactly what function they
-want to be calling (there is only one implementation), and
-moreover both callsites are part of the GICv3 implementation
-themselves, so this isn't about presenting a nice (or "nice")
-external interface to other parts of QEMU.
+It also matches with the use of '.c.inc' for included C files
+that we use elsewhere. (In that case we are constrained by
+Meson, which will not permit us to use '.inc.c'.)
 
 -- PMM
 
