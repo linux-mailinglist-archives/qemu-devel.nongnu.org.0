@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE7241F328
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:32:23 +0200 (CEST)
-Received: from localhost ([::1]:39472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531C241F319
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:28:32 +0200 (CEST)
+Received: from localhost ([::1]:59130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWMOU-0003C2-Dr
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:32:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54820)
+	id 1mWMKl-0005iH-0t
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:28:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWM51-0004rY-2J
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:15 -0400
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:43602)
+ id 1mWM50-0004py-HF
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:14 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:42628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWM4u-000567-Mx
+ id 1mWM4v-00056t-T5
  for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:14 -0400
-Received: by mail-qk1-x736.google.com with SMTP id 138so9803051qko.10
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:12:08 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id x12so9810800qkf.9
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nMBhe6wRyQJffJfKqR3e4B4BjhzuFHvBY7lYZ6XbL2k=;
- b=hiXQ3mmw5CBhTiIe+H0zJFUOd8tQlCu6I7USJ9pr7fUw9L66NMmICsOqxlPs8R3Gho
- llCdRf3wWjVoI138TAgVv4z65YGzmQHm3v/jEOPQE0Y8xOes4knIgigu/pbacllm25m/
- urZQGqYjvyFYSNJQ1yWzXpPNT9GhgxHTTE6tVuhkj1eqW/eN5McrYX9WyyHue8JekTBH
- pueo29vmGAM/b0VAcmg/XGr2OOTgqkn5YmSvaoneuDxmoOR0Nxob3nuoBQmO0hA6tnXK
- VZq57jP6FUnA3prwlFdPi2ai3LUlwMpV7Q0aJvWbEK933n9cOsGr+jcrbTDTc0w73tMM
- zenA==
+ bh=plpjMgZs0Fmj1no4dWQvatctpg292W263ogwu9LIdH8=;
+ b=otGns6K9LbdwNOmejpmuDxPUaHT3dlCKnwXo+BvZwjQp6r9i/YX32rNDzD1o7qWfkH
+ yDH0qmoEZ/b+DnMzVjWRgsbFgcA02KDlIfSgVqbVAnFAXxx3wckiR456+kX1aM6Tx/Av
+ dpM+25P9ciO3tcMtOHnQ8+wLl719rGCM6p/Rwi+8Yf43nJqT7BUUdoPJsVjLrBLILBsY
+ wrVtZB9BXvTgo3SkBRkpcMp8rtBDUITFU9DEdLm9R2oKurS+XROF0VgvGqWSOqohRY02
+ kAvBkzDEukaNe/9AVPjP4YafY/IyV2BlKXQ7aZTwveXGenZjIjuVNqcPF2iZ8Izm/IFa
+ RLtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nMBhe6wRyQJffJfKqR3e4B4BjhzuFHvBY7lYZ6XbL2k=;
- b=5DzzG1YWWdPShZwzBNEtzwvxHsZ5n0wtMY8Wz72523t2uaJDCUt1lKpt2kIq8UrWK9
- 7RDuNPiQH511WX5Ho9m7cfIQJlJOyfNKmZXinL0givoplRY18fE7r9ZJg9J6tEPNwvTs
- a312WYX+GNJmvnJv6pp5WujsSquthcD5i/NeQ0UsNjez5s+PJyWZw2zV+TlJGtRESLU6
- +9jyk4VPLpiSJneqqkKVuZC8LaJbvJFG2xE2nnLBO2KKMBMV/lMfw7gDxzDn8dY15lJn
- AGHkcpTlvSD/qi8+w6GUuFaob2dbHUQZGG0+TINoppitBXOYxn1h7EbOXsQRl/a6/+49
- 9DEg==
-X-Gm-Message-State: AOAM532u7TqwLOxRktCUo8iPw+CDWTjLJRl/GjZ5phNcF57RXGSKzxNM
- KOPYZWVCzhMAq95X3MT0jWMl/KmsJJ5ygg==
-X-Google-Smtp-Source: ABdhPJxXEptVnIRiJgPkCgvNAJHYlWUVI47UnRYTinbxOUAJ7QeFNfhiXJLtwJKYtyadGA1dEzujNg==
-X-Received: by 2002:a37:67cb:: with SMTP id
- b194mr10154077qkc.379.1633108327799; 
- Fri, 01 Oct 2021 10:12:07 -0700 (PDT)
+ bh=plpjMgZs0Fmj1no4dWQvatctpg292W263ogwu9LIdH8=;
+ b=6z2Rb3ASIvcJuzzNdvv/fMDH2IWbcL/b/Ddhhz0ZrUk6Nc/jIUrswi5MneBBFCSY/0
+ pT9XguxVsfVPDoSCwQQqtUJXBcFRBVT4CLlB77hlGDo7HsFiVXJ1bED7ciE+O1KEayIg
+ ryG3naLpm2hhcUjBQzkk9Fa5qr0VX97rvtEiZ/PKqvwL8aX38wLYKW89NUihZcbOiZy+
+ /916Hd0TIyXdtgcH2Uj+GQwbjRPRaiRN/JQHyxwV+QR0asG1GmqlTnQf+658HwizpOzi
+ HH7cJJGICFIWWNtD2qTP1Db2WGeKg7tcqSnuzyJVzpvc0aQ1NnA8o7vDfcE90pe2pmLH
+ jHVA==
+X-Gm-Message-State: AOAM532Q+P4Tgj3xmGth3as415Tu/LQ+CphaRfLowFHxUQf4xDpHYDv5
+ WJXlkjpeJ6uPvcozXkI9OMd+nMua3d6vQw==
+X-Google-Smtp-Source: ABdhPJxKkmVpz6DZfDCDbezX6eVGCRrvL2RmU1sG3eWshNrFYFInCdlOVIYtQsf6Y4A8+gLTmKmC5Q==
+X-Received: by 2002:a37:27d5:: with SMTP id n204mr10251474qkn.31.1633108328922; 
+ Fri, 01 Oct 2021 10:12:08 -0700 (PDT)
 Received: from localhost.localdomain (c-67-174-166-185.hsd1.ga.comcast.net.
  [67.174.166.185])
  by smtp.gmail.com with ESMTPSA id y15sm3557250qko.78.2021.10.01.10.12.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 10:12:07 -0700 (PDT)
+ Fri, 01 Oct 2021 10:12:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/41] linux-user/host/riscv: Improve host_signal_write
-Date: Fri,  1 Oct 2021 13:11:27 -0400
-Message-Id: <20211001171151.1739472-18-richard.henderson@linaro.org>
+Subject: [PATCH v3 18/41] linux-user/signal: Drop HOST_SIGNAL_PLACEHOLDER
+Date: Fri,  1 Oct 2021 13:11:28 -0400
+Message-Id: <20211001171151.1739472-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211001171151.1739472-1-richard.henderson@linaro.org>
 References: <20211001171151.1739472-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x736.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,117 +84,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
+Cc: alex.bennee@linaro.org, laurent@vivier.eu,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not read 4 bytes before we determine the size of the insn.
-Simplify triple switches in favor of checking major opcodes.
-Include the missing cases of compact fsd and fsdsp.
+Now that all of the linux-user hosts have been converted
+to host-signal.h, drop the compatibility code.
 
+Reviewed by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/host/riscv/host-signal.h | 83 ++++++++++-------------------
- 1 file changed, 28 insertions(+), 55 deletions(-)
+ include/exec/exec-all.h | 12 ------------
+ linux-user/signal.c     | 14 --------------
+ 2 files changed, 26 deletions(-)
 
-diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/host/riscv/host-signal.h
-index 5860dce7d7..ab06d70964 100644
---- a/linux-user/host/riscv/host-signal.h
-+++ b/linux-user/host/riscv/host-signal.h
-@@ -17,65 +17,38 @@ static inline uintptr_t host_signal_pc(ucontext_t *uc)
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 5f94d799aa..5dd663c153 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -685,18 +685,6 @@ MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write);
+ bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
+                                  uintptr_t host_pc, abi_ptr guest_addr);
  
- static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
- {
--    uint32_t insn = *(uint32_t *)host_signal_pc(uc);
+-/**
+- * cpu_signal_handler
+- * @signum: host signal number
+- * @pinfo: host siginfo_t
+- * @puc: host ucontext_t
+- *
+- * To be called from the SIGBUS and SIGSEGV signal handler to inform the
+- * virtual cpu of exceptions.  Returns true if the signal was handled by
+- * the virtual CPU.
+- */
+-int cpu_signal_handler(int signum, void *pinfo, void *puc);
 -
+ #else
+ static inline void mmap_lock(void) {}
+ static inline void mmap_unlock(void) {}
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index bab47a6962..537c6c41c0 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -777,17 +777,6 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+     ucontext_t *uc = puc;
+     struct emulated_sigtable *k;
+     int guest_sig;
+-
+-#ifdef HOST_SIGNAL_PLACEHOLDER
+-    /* the CPU emulator uses some host signals to detect exceptions,
+-       we forward to it some signals */
+-    if ((host_sig == SIGSEGV || host_sig == SIGBUS)
+-        && info->si_code > 0) {
+-        if (cpu_signal_handler(host_sig, info, puc)) {
+-            return;
+-        }
+-    }
+-#else
+     uintptr_t pc = 0;
+     bool sync_sig = false;
+ 
+@@ -847,7 +836,6 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+ 
+         sync_sig = true;
+     }
+-#endif
+ 
+     /* get target signal number */
+     guest_sig = host_to_target_signal(host_sig);
+@@ -862,7 +850,6 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+     k->pending = guest_sig;
+     ts->signal_pending = 1;
+ 
+-#ifndef HOST_SIGNAL_PLACEHOLDER
      /*
--     * Detect store by reading the instruction at the program
--     * counter. Note: we currently only generate 32-bit
--     * instructions so we thus only detect 32-bit stores
-+     * Detect store by reading the instruction at the program counter.
-+     * Do not read more than 16 bits, because we have not yet determined
-+     * the size of the instruction.
-      */
--    switch (((insn >> 0) & 0b11)) {
--    case 3:
--        switch (((insn >> 2) & 0b11111)) {
--        case 8:
--            switch (((insn >> 12) & 0b111)) {
--            case 0: /* sb */
--            case 1: /* sh */
--            case 2: /* sw */
--            case 3: /* sd */
--            case 4: /* sq */
--                return true;
--            default:
--                break;
--            }
--            break;
--        case 9:
--            switch (((insn >> 12) & 0b111)) {
--            case 2: /* fsw */
--            case 3: /* fsd */
--            case 4: /* fsq */
--                return true;
--            default:
--                break;
--            }
--            break;
--        default:
--            break;
--        }
-+    const uint16_t *pinsn = (const uint16_t *)host_signal_pc(uc);
-+    uint16_t insn = pinsn[0];
-+
-+    /* 16-bit instructions */
-+    switch (insn & 0xe003) {
-+    case 0xa000: /* c.fsd */
-+    case 0xc000: /* c.sw */
-+    case 0xe000: /* c.sd (rv64) / c.fsw (rv32) */
-+    case 0xa002: /* c.fsdsp */
-+    case 0xc002: /* c.swsp */
-+    case 0xe002: /* c.sdsp (rv64) / c.fswsp (rv32) */
-+        return true;
+      * For synchronous signals, unwind the cpu state to the faulting
+      * insn and then exit back to the main loop so that the signal
+@@ -872,7 +859,6 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+         cpu->exception_index = EXCP_INTERRUPT;
+         cpu_loop_exit_restore(cpu, pc);
      }
+-#endif
  
--    /* Check for compressed instructions */
--    switch (((insn >> 13) & 0b111)) {
--    case 7:
--        switch (insn & 0b11) {
--        case 0: /*c.sd */
--        case 2: /* c.sdsp */
--            return true;
--        default:
--            break;
--        }
--        break;
--    case 6:
--        switch (insn & 0b11) {
--        case 0: /* c.sw */
--        case 3: /* c.swsp */
--            return true;
--        default:
--            break;
--        }
--        break;
--    default:
--        break;
-+    /* 32-bit instructions, major opcodes */
-+    switch (insn & 0x7f) {
-+    case 0x23: /* store */
-+    case 0x27: /* store-fp */
-+        return true;
-+    case 0x2f: /* amo */
-+        /*
-+         * The AMO function code is in bits 25-31, unread as yet.
-+         * The AMO functions are LR (read), SC (write), and the
-+         * rest are all read-modify-write.
-+         */
-+        insn = pinsn[1];
-+        return (insn >> 11) != 2; /* LR */
-     }
+     rewind_if_in_safe_syscall(puc);
  
-     return false;
 -- 
 2.25.1
 
