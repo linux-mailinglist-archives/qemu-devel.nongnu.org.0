@@ -2,59 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4D341E91A
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 10:29:11 +0200 (CEST)
-Received: from localhost ([::1]:57652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7668B41E922
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 10:37:06 +0200 (CEST)
+Received: from localhost ([::1]:33980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWDuo-0007I6-JE
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 04:29:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50018)
+	id 1mWE2T-0002UO-1k
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 04:37:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mWDr8-0004WW-SB
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 04:25:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39421)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mWE1R-0001ef-87
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 04:36:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mWDr2-0007Tt-Fj
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 04:25:19 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mWE1O-0008Ic-Ks
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 04:36:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633076713;
+ s=mimecast20190719; t=1633077357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=02VRuu+jbIJ5WWM36RzPFfnTYUvx0Hx5/oV8ujMoAjA=;
- b=QdU54voITG+Pcp3zbC/uznIZGID6MKy916os3VY8RKtt9ObL2cT57vNKfUfP79ZHLEFcbY
- iUHwv2Vu4bX+VqJs+iFcKKtH17npuDWcs5ekch3Be0Js729lwFkB8E+Qvy86vrDUeqLLeU
- Ob1XxFqKXr/uqk0xJJKm7HticVDyNcE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-e7G-pvVPMK-L-HOk7szwcw-1; Fri, 01 Oct 2021 04:25:09 -0400
-X-MC-Unique: e7G-pvVPMK-L-HOk7szwcw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FEACCC623;
- Fri,  1 Oct 2021 08:25:05 +0000 (UTC)
-Received: from thinkpad.redhat.com (unknown [10.39.192.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8403B102AE4B;
- Fri,  1 Oct 2021 08:25:03 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] failover: fix unplug pending detection
-Date: Fri,  1 Oct 2021 10:25:02 +0200
-Message-Id: <20211001082502.1342878-1-lvivier@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SYY8JIGpHJzXitNyvnZqcxWn6NnjN61w6YxlLvuig7U=;
+ b=SDC95MtcMC7BoyXZvZ63cXtQpkNtBLfmD4nlei//gXTYwanTT+ZuJCD9sEdXdrpL/br++4
+ UVvSmo1ChxQxbsz8hHZYmvYPZM4WJ4LRTlqzr2hRCa6cfaYqgZV4D3Pqcjil8KqFgYdBoU
+ UdCea/D+chnk0wSYfqWtYmaxWEOGFNQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-2D6JHHGfMB6FVJGsRZ_1Cg-1; Fri, 01 Oct 2021 04:35:54 -0400
+X-MC-Unique: 2D6JHHGfMB6FVJGsRZ_1Cg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 129-20020a1c0187000000b0030d4081c36cso918464wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 01:35:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SYY8JIGpHJzXitNyvnZqcxWn6NnjN61w6YxlLvuig7U=;
+ b=Y8QwrAMueI7KFN2zf753Gzjl+bob5bHyJQ2dZSyNjOpE53LBGoba8uMugBMWaFvrPo
+ wxqkYE+7Z/U5Y/KNJOwMnRj7X5/Hh4yIheYiXMK3/d45MnhIQhuR2E9vpFFi4JlLNlPi
+ R6VPgEQ31hQv+HwURuYd/oplo7wPCpGSFKZJXXrrDiaa4B/IYbjKHoO25RWG20ekRKsN
+ OV2s2jCbhJRDLhppq6V72KDMs3zbSFyorTQNEsDKSTkgEGZkk0bJKapvxsoMr0DBK06X
+ iivFrE+iBzog9+vMNebhByr+WCTd+52i6AvvSwASSVgvpTxdtoqoFZI8Aix6sJPfQri8
+ LfqQ==
+X-Gm-Message-State: AOAM531IC+E/2mvLra94vFb7dM16BDIl75EW+hRYNQ7L1eKoqZmzyvFn
+ uat6HlZ+m8ch1sZ3tajhA/1klDyZ91fnSU7eUxQE/euFmljwtk0qxk8fLBGvDD13BEC0X+gWaAG
+ 0XfhXFd2Dd0FGs90=
+X-Received: by 2002:a05:6000:1866:: with SMTP id
+ d6mr10969480wri.141.1633077353490; 
+ Fri, 01 Oct 2021 01:35:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzdBt7DnZ6F3VILk4VFjXQ3d6SPEUJ+DnywFMANzAkfcAx11AO0ZzrPjnvMJeBICMs64yUGTQ==
+X-Received: by 2002:a05:6000:1866:: with SMTP id
+ d6mr10969441wri.141.1633077353183; 
+ Fri, 01 Oct 2021 01:35:53 -0700 (PDT)
+Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id m5sm6141097wms.41.2021.10.01.01.35.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Oct 2021 01:35:52 -0700 (PDT)
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ <20210927044808.73391-5-david@gibson.dropbear.id.au>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
+ MAINTAINERS: Orphan obscure ppc platforms)
+Message-ID: <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
+Date: Fri, 1 Oct 2021 10:35:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210927044808.73391-5-david@gibson.dropbear.id.au>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -75,92 +101,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- Jens Freimann <jfreimann@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>, peter.maydell@linaro.org,
+ dbarboza@redhat.com, aik@ozlabs.ru, mark.cave-ayland@ilande.co.uk,
+ groug@kaod.org, wainersm@redhat.com, Alexander Graf <agraf@csgraf.de>,
+ hpoussin@reactos.org, clg@kaod.org, crosa@redhat.com,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Failover needs to detect the end of the PCI unplug to start migration
-after the VFIO card has been unplugged.
+On 27/09/2021 06.48, David Gibson wrote:
+> There are a nunber of old embedded ppc machine types which have been little
+> changed and in "Odd Fixes" state for a long time.  With both myself and
+> Greg Kurz moving toward other areas, we no longer have the capacity to
+> keep reviewing and maintaining even the rare patches that come in for those
+> platforms.
+> 
+> Therefore, remove our names as reviewers and mark these platforms as
+> orphaned.
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>   MAINTAINERS | 19 +++++--------------
+>   1 file changed, 5 insertions(+), 14 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f2060b46f9..1ecb5716c8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1236,24 +1236,18 @@ F: hw/openrisc/openrisc_sim.c
+>   PowerPC Machines
+>   ----------------
+>   405
+> -M: David Gibson <david@gibson.dropbear.id.au>
+> -M: Greg Kurz <groug@kaod.org>
+>   L: qemu-ppc@nongnu.org
+> -S: Odd Fixes
+> +S: Orphan
+>   F: hw/ppc/ppc405_boards.c
 
-To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and reset in
-pcie_unplug_device().
+Related question: Does *anybody* know how to still use the ref405ep or taihu 
+board in QEMU? We just got another ticket asking for the related firmware image:
 
-But since
-    17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35")
-we have switched to ACPI unplug and these functions are not called anymore
-and the flag not set. So failover migration is not able to detect if card
-is really unplugged and acts as it's done as soon as it's started. So it
-doesn't wait the end of the unplug to start the migration. We don't see any
-problem when we test that because ACPI unplug is faster than PCIe native
-hotplug and when the migration really starts the unplug operation is
-already done.
+  https://gitlab.com/qemu-project/qemu/-/issues/651
 
-See c000a9bd06ea ("pci: mark device having guest unplug request pending")
-    a99c4da9fc2a ("pci: mark devices partially unplugged")
+And if you google for 'ppc405_rom.bin', I only find pages where people are 
+asking basically the same question, e.g.:
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
----
+  https://lists.nongnu.org/archive/html/qemu-devel/2007-08/msg00252.html (in 
+2007 already! And no answer)
 
-Notes:
-    v3: add some inlined comments to explain partially_hotplugged and
-        pending_deleted_event
-    v2: move partially_hotplugged to acpi_pcihp_eject_slot()
+  https://github.com/Xilinx/qemu/issues/36 (in 2019, no answer)
 
- hw/acpi/pcihp.c | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+  https://lists.libreplanet.org/archive/html/qemu-ppc/2019-12/msg00263.html 
+(in 2019, no answer about bios location)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index f610a25d2ef9..30405b5113d7 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -222,9 +222,27 @@ static void acpi_pcihp_eject_slot(AcpiPciHpState *s, unsigned bsel, unsigned slo
-         PCIDevice *dev = PCI_DEVICE(qdev);
-         if (PCI_SLOT(dev->devfn) == slot) {
-             if (!acpi_pcihp_pc_no_hotplug(s, dev)) {
--                hotplug_ctrl = qdev_get_hotplug_handler(qdev);
--                hotplug_handler_unplug(hotplug_ctrl, qdev, &error_abort);
--                object_unparent(OBJECT(qdev));
-+                /*
-+                 * partially_hotplugged is used by virtio-net failover:
-+                 * failover has asked the guest OS to unplug the device
-+                 * but we need to keep some references to the device
-+                 * to be able to plug it back in case of failure so
-+                 * we don't execute hotplug_handler_unplug().
-+                 */
-+                if (dev->partially_hotplugged) {
-+                    /*
-+                     * pending_deleted_event is set to true when
-+                     * virtio-net failover asks to unplug the device,
-+                     * and set to false here when the operation is done
-+                     * This is used by the migration loop to detect the
-+                     * end of the operation and really start the migration.
-+                     */
-+                    qdev->pending_deleted_event = false;
-+                } else {
-+                    hotplug_ctrl = qdev_get_hotplug_handler(qdev);
-+                    hotplug_handler_unplug(hotplug_ctrl, qdev, &error_abort);
-+                    object_unparent(OBJECT(qdev));
-+                }
-             }
-         }
-     }
-@@ -396,6 +414,12 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-         return;
-     }
+  https://lkml.org/lkml/2020/4/25/61 (in 2020, no answer)
+
+
+Seems like the Linux kernel removed support for the 405ep board here:
+
  
-+    /*
-+     * pending_deleted_event is used by virtio-net failover to detect the
-+     * end of the unplug operation, the flag is set to false in
-+     * acpi_pcihp_eject_slot() when the operation is completed.
-+     */
-+    pdev->qdev.pending_deleted_event = true;
-     s->acpi_pcihp_pci_status[bsel].down |= (1U << slot);
-     acpi_send_event(DEVICE(hotplug_dev), ACPI_PCI_HOTPLUG_STATUS);
- }
--- 
-2.31.1
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=548f5244f1064c9facb19c5e9
+
+... to me this all sounds like these 405 boards are pretty dead code in QEMU 
+right now, so if nobody has a clue how to use them, I'd suggest to mark them 
+as deprecated and remove them in a couple of releases?
+
+  Thomas
 
 
