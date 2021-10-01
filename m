@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DFE41E87F
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 09:41:15 +0200 (CEST)
-Received: from localhost ([::1]:55334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2708741E880
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 09:41:37 +0200 (CEST)
+Received: from localhost ([::1]:56816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWDAP-0007TV-O2
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 03:41:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41350)
+	id 1mWDAm-0008Vb-7h
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 03:41:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1mWD8G-0005i5-7Y
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:39:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26258)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1mWD8C-0001kO-Et
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:38:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633073934;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PeT8s/Bq8F8bITuiIDYlMPB+tf4bezmx9TuWR/mtYJM=;
- b=FHes0C6UjKYnJQYBPSvvuvq8D0GRIqjwyMViZePKvje6N7FT3O2chPB/AG+CtroIKQd0RR
- ymKN5IUKM+lyyu8Zj5xfMn4umSZy/RCSmTRm3Pzoa/pgHy9pn+iniEIeDSDiQzvtq32IxJ
- wHzTkG7INV8hQ0yosZhPDOAXiA85G4Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-zzVHWoGRMgy243DSi4sNhA-1; Fri, 01 Oct 2021 03:38:52 -0400
-X-MC-Unique: zzVHWoGRMgy243DSi4sNhA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17F2A802B9F
- for <qemu-devel@nongnu.org>; Fri,  1 Oct 2021 07:38:52 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E916A5C25A;
- Fri,  1 Oct 2021 07:37:50 +0000 (UTC)
-Date: Fri, 1 Oct 2021 09:37:47 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Laine Stump <laine@redhat.com>
-Subject: Re: [PATCH] failover: allow to pause the VM during the migration
-Message-ID: <YVa6y5arhPjRTSl1@angien.pipo.sk>
-References: <20210930170926.1298118-1-lvivier@redhat.com>
- <f1898bf0-dadb-4e2e-a45a-9087d2c63678@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mWD8h-0006Mo-G0
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:39:27 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mWD8X-00022J-PL
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:39:27 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id m22so8530737wrb.0
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 00:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jqlIL+knClEttLSROwT1k3lb/7eehqPXjGV+EH/wzF4=;
+ b=CzUK+HPZMI7CrkF9lN+jwXO0sPvYSb/XNxsu7UpLuKBdL182LUK0UlPWv5eFUjD2mu
+ 3uc1gEA7r6HJnGciyS9yQ1w9O7cZ9+MmLJ2NKKQwCxiv+VtgeyXgEKSUS6RZV3smSKCp
+ /qui1EACReQ/xU4SnQMKgekZRihMcYGh6CZ/F+Qo8Aq1J1BOJvi9QnSIWQNg7VSmBk5H
+ J9vudhMAcjP/u0hk3/mZbJVSjxT1sHxAo9SEUQGaCkW/8PY74cUXEe88tB5oT92sxfb+
+ VJ7ECMpeTWbJhh+f5My8TGshB1OeIByoMfkGJL59rSg2trZNGchw9XzqTQSR+vuATNSD
+ dygQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jqlIL+knClEttLSROwT1k3lb/7eehqPXjGV+EH/wzF4=;
+ b=CNAjlX02CPj91cIMxrvG6mDVwrFDLEwjhm7+vuVz9oBnLSFNNCbKy/SANPWSOvwp9c
+ Niga9y+LvsXo26zW6lcDl7U7rgrNeh4+kvLzuM3SEqSDE1cTHhbXdgbBEunfKPk7IPVI
+ Xx9RytDutdBZ3GoyIVAW1TEDvNmdfoUSzl6vGhCbDZ8ZE2KbNxVOpEiYAk5n2VLsA/HB
+ ASzU6VksYr3bWac+DIWFb6q3ox754GlHPS/1SVuVX+VJ2UAVdLEXKZckT7M6jGy63Si4
+ 8FztR5faqMud5HcgneM+V/NLo9tId9dwRy7eNE+1ZmdLu6dNzWPvBEJDBtn6eW1npHzs
+ 3QcQ==
+X-Gm-Message-State: AOAM532mP8C1e0qRXgD3Lgfqf+eS+/WDcl5yLNkDXooDtneeDAvdOwoZ
+ pwq9ee3NPCLlfV4m1X2I2D0=
+X-Google-Smtp-Source: ABdhPJz2LJAOZAS6edT6MONggIMxjosF8o17uemHjHwRdkqycgo13GCd7AwZe4usXEyrMe8Etd/gRg==
+X-Received: by 2002:adf:ee8f:: with SMTP id b15mr10797578wro.126.1633073955854; 
+ Fri, 01 Oct 2021 00:39:15 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id e18sm4878455wrp.53.2021.10.01.00.39.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Oct 2021 00:39:15 -0700 (PDT)
+Message-ID: <769a612c-9a78-6fc8-0893-43ce2c173957@amsat.org>
+Date: Fri, 1 Oct 2021 09:39:13 +0200
 MIME-Version: 1.0
-In-Reply-To: <f1898bf0-dadb-4e2e-a45a-9087d2c63678@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: Moving QEMU downloads to GitLab Releases?
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, michael.roth@amd.com
+References: <YVW+ZGmIs+repvj4@stefanha-x1.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <YVW+ZGmIs+repvj4@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.127,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,110 +89,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Libvirt <libvir-list@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Jiri Denemark <jdenemar@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 30, 2021 at 16:17:44 -0400, Laine Stump wrote:
-> On 9/30/21 1:09 PM, Laurent Vivier wrote:
-> > If we want to save a snapshot of a VM to a file, we used to follow the
-> > following steps:
-> > 
-> > 1- stop the VM:
-> >     (qemu) stop
-> > 
-> > 2- migrate the VM to a file:
-> >     (qemu) migrate "exec:cat > snapshot"
-> > 
-> > 3- resume the VM:
-> >     (qemu) cont
-> > 
-> > After that we can restore the snapshot with:
-> >    qemu-system-x86_64 ... -incoming "exec:cat snapshot"
-> >    (qemu) cont
+On 9/30/21 15:40, Stefan Hajnoczi wrote:
+> Hi Mike,
+> QEMU downloads are currently hosted on qemu.org's Apache web server.
+> Paolo and I were discussing ways to reduce qemu.org network traffic to
+> save money and eventually turn off the qemu.org server since there is no
+> full-time sysadmin for it. I'd like to discuss moving QEMU downloads to
+> GitLab Releases.
 > 
-> This is the basics of what libvirt does for a snapshot, and steps 1+2 are
-> what it does for a "managedsave" (where it saves the snapshot to disk and
-> then terminates the qemu process, for later re-animation).
+> Since you create and sign QEMU releases I wanted to see what you think
+> about the idea. GitLab Releases has two ways of creating release assets:
+> archiving a git tree and attaching arbitrary binaries. The
+> scripts/make-release script fetches submodules and generates version
+> files, so it may be necessary to treat QEMU tarballs as arbitrary
+> binaries instead of simply letting GitLab create git tree archives:
+> https://docs.gitlab.com/ee/user/project/releases/#use-a-generic-package-for-attaching-binaries
 > 
-> In those cases, it seems like this new parameter could work for us - instead
-> of explicitly pausing the guest prior to migrating it to disk, we would set
-> this new parameter to on, then directly migrate-to-disk (relying on qemu to
-> do the pause). Care will need to be taken to assure that error recovery
-> behaves the same though.
+> Releases can be uploaded via the GitLab API from your local machine or
+> deployed as a GitLab CI job. Uploading from your local machine would be
+> the closest to the current workflow.
+> 
+> In the long term we could have a CI job that automatically publishes
+> QEMU releases when a new qemu.git tag is pushed. The release process
+> could be fully automated so that manual steps are no longer necessary,
+> although we'd have to trust GitLab with QEMU GPG signing keys.
 
-Yup, see below ...
+Before having to trust a SaaS for GPG signing, could this work?
 
-> There are a couple of cases when libvirt apparently *doesn't* pause the
-> guest during the migrate-to-disk, both having to do with saving a coredump
-> of the guest. Since I really have no idea of how common/important that is
+- make-release script should produce a reproducible tarball in a
+  gitlab job, along with a file containing the tarball hash.
 
-In most cases when doing a coredump the guest is paused because of an
-emulation/guest error.
+- Mike (or whoever is responsible of releases) keeps doing a local
+  manual build
 
-One example where the VM is not paused is a 'live' snapshot. It wastes
-disk space and is not commonly used thoug.
+- Mike checks the local hash matches the Gitlab artifact hash
 
-Where it might become interesting is with the 'background-snapshot'
-migration flag. Ideally failover will be fixed to properly work with
-that one too. In such case we don't want to pause the VM (but we have to
-AFAIK, the backround-snapshot migration can't be done as part of
-'transacetion' yet, so we need to pause the VM to kick off the migration
-(memory-snapshot) and then snapshot the disks).
+- Mike signs its local build/hash and uses the GitLab API to upload
+  that .sig to job artifacts
 
-> (or even if my assessment of the code is correct), I'm Cc'ing this patch to
-> libvir-list to make sure it catches the attention of someone who knows the
-> answers and implications.
+- we can have an extra manual job that checks the tarball.sig
+  (hash and pubkey) and on success deploys updating the download
+  page, adding the new release
 
-Well cc-ing relevant patches to libvirt is always good. Especially if
-we'll need to adapt the code to support the new feature.
+Regards,
 
-> > But when failover is configured, it doesn't work anymore.
-> > 
-> > As the failover needs to ask the guest OS to unplug the card
-> > the machine cannot be paused.
-> > 
-> > This patch introduces a new migration parameter, "pause-vm", that
-> > asks the migration to pause the VM during the migration startup
-> > phase after the the card is unplugged.
-
-Is there a time limit to this? If guest interaction is required it might
-take unbounded time.
-
-In case of snapshots the expectation from the user is that the state
-capture happens "reasonably" immediately after issuing the command. If
-we introduce an possibly unbounded wait time, it will need an
-re-imagining of the snapshot workflow and the feature will need to be an
-opt-in.
-
-> > 
-> > Once the migration is done, we only need to resume the VM with
-> > "cont" and the card is plugged back:
-> > 
-> > 1- set the parameter:
-> >     (qemu) migrate_set_parameter pause-vm on
-> > 
-> > 2- migrate the VM to a file:
-> >     (qemu) migrate "exec:cat > snapshot"
-> > 
-> >     The primary failover card (VFIO) is unplugged and the VM is paused.
-> > 
-> > 3- resume the VM:
-> >     (qemu) cont
-> > 
-> >     The VM restarts and the primary failover card is plugged back
-> > 
-> > The VM state sent in the migration stream is "paused", it means
-> > when the snapshot is loaded or if the stream is sent to a destination
-> > QEMU, the VM needs to be resumed manually.
-
-This is not a problem, libvirt is already dealing with this internally
-anyways.
-
+Phil.
 
