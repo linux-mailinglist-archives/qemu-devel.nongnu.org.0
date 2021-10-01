@@ -2,49 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D54541EC53
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 13:37:29 +0200 (CEST)
-Received: from localhost ([::1]:40682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6D141EC80
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 13:47:18 +0200 (CEST)
+Received: from localhost ([::1]:46472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWGr2-00080R-4u
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 07:37:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60100)
+	id 1mWH0W-0004Wu-LC
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 07:47:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mWGpY-0006a5-UM
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 07:35:56 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:48686)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mWGui-0001oG-QW
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 07:41:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mWGpV-0000Cm-Ts
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 07:35:56 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6F5E6748F56;
- Fri,  1 Oct 2021 13:35:49 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4B30A746398; Fri,  1 Oct 2021 13:35:49 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 4967B746399;
- Fri,  1 Oct 2021 13:35:49 +0200 (CEST)
-Date: Fri, 1 Oct 2021 13:35:49 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: OHCI/usb pass through
-In-Reply-To: <20211001043943.2cxyxjfgmr5duicl@sirius.home.kraxel.org>
-Message-ID: <81cbbb94-c4dd-dde2-d98a-7487269169cf@eik.bme.hu>
-References: <771189a-95c4-5144-ba7-478d28dfd5ef@eik.bme.hu>
- <20211001043943.2cxyxjfgmr5duicl@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mWGuf-0004gq-B8
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 07:41:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633088471;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Xfrex0QI7hpVzPgFFWdo8jVGIG7esty/IttIpU+pckc=;
+ b=JpZHP7WvLgk+5CYYUXn9jys2s8MaJrOVq6rIVXNieTj2wZczGS0tSEEVCafvsuGJgkjoVI
+ u+MaVEdcJYtHQyB9HM3ZzQVEi5e9SH62KYx16UCSOXuNhoJewox8tjhZksWmYWQ8wduT2M
+ VrE4mzjMM2MfPG3EaPQmRJroJHdpdwc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-iCU4q3phO8aOvpZddDvIyA-1; Fri, 01 Oct 2021 07:41:08 -0400
+X-MC-Unique: iCU4q3phO8aOvpZddDvIyA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n17-20020a7bc5d1000000b0030d4041f73eso1231539wmk.4
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 04:41:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Xfrex0QI7hpVzPgFFWdo8jVGIG7esty/IttIpU+pckc=;
+ b=RLQQ3qnGNTdD5CmOm7WuA00ghdnkQm1M/2wopRRJ56gUiLo1FRdD6kO/hx5MHLjUOd
+ H3fmgu9m2GMENdm75R8TcwhBdbQQaKGrtSh1eTkm6ORn+1j0tEkYny1uEWq+1r50i5+J
+ kqx3B5kPeVrafDwOmyp2Mi1xDaUDBdpGmguBSE5uI2clC5EPMHFz0ClXNLnpOdLlEp9+
+ f3hgrutYiTB90pNoxjXGZ5NYRjbZzu0WB1GYxjY4pp19K69GhjNJJEC9soqrc/GMO3Uz
+ q9WY4d5Bi8lV7yU7z1BazjlxFGeKkTZDzMKcBdrqMa2lTMr2AsQD+eRWerVjiGSFxVPl
+ sMlg==
+X-Gm-Message-State: AOAM533VR6C/ohW9xgPhrvuwlKQOYYV7Vvj3/6Z6f7J5Xbm97HCfOshy
+ cYWJQskR5fzJX9oeKwlxWe6CZ159QRY6YvaFUnTeA7R4+5rSYNZ7V3u1qOoH9MCg6VcCLaXgsew
+ ZAgr+JIs/KjRxWJM=
+X-Received: by 2002:adf:dd42:: with SMTP id u2mr11729463wrm.39.1633088467168; 
+ Fri, 01 Oct 2021 04:41:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzW15DGrz6c7gTXdKXbRFGbrV8kTzBjtPYPcKJEDXOs5Ud/ISBkSQJNuSRC7O4Pr1JADfTg2A==
+X-Received: by 2002:adf:dd42:: with SMTP id u2mr11729446wrm.39.1633088466953; 
+ Fri, 01 Oct 2021 04:41:06 -0700 (PDT)
+Received: from thuth.remote.csb (tmo-097-75.customers.d1-online.com.
+ [80.187.97.75])
+ by smtp.gmail.com with ESMTPSA id v10sm5795718wrm.71.2021.10.01.04.41.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Oct 2021 04:41:06 -0700 (PDT)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210827120901.150276-1-thuth@redhat.com>
+ <20210827120901.150276-4-thuth@redhat.com>
+ <7004c933-5262-3119-80f5-722a8e858046@redhat.com>
+ <YVbQERWD9fY0kxxW@redhat.com>
+ <CAFEAcA8PdNEHU2YMGT56bCwezf9i+BGxijwevLJakrR_N1Yjhw@mail.gmail.com>
+ <YVbYavVeV/OmYON6@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 3/3] dtc: Update to version 1.6.1
+Message-ID: <9e3620ce-4a79-da2c-aaf1-20832622c576@redhat.com>
+Date: Fri, 1 Oct 2021 13:41:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YVbYavVeV/OmYON6@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.127,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SORBS_WEB=1.5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,71 +103,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: Greg Kurz <groug@kaod.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
-
-On Fri, 1 Oct 2021, Gerd Hoffmann wrote:
->> [...]
->>     /* Active packets.  */
->>     uint32_t old_ctl;
->>     USBPacket usb_packet;
->>     uint8_t usb_buf[8192];
->>     uint32_t async_td;
->>     bool async_complete;
+On 01/10/2021 11.44, Daniel P. Berrangé wrote:
+> On Fri, Oct 01, 2021 at 10:37:51AM +0100, Peter Maydell wrote:
+>> On Fri, 1 Oct 2021 at 10:10, Daniel P. Berrangé <berrange@redhat.com> wrote:
+>>>
+>>> On Thu, Sep 30, 2021 at 09:10:12AM +0200, Thomas Huth wrote:
+>>>> On 27/08/2021 14.09, Thomas Huth wrote:
+>>>>> The dtc submodule is currently pointing to non-release commit. It's nicer
+>>>>> if submodules point to release versions instead and since dtc 1.6.1 is
+>>>>> available now, let's update to that version.
 >>
->>     void (*ohci_die)(struct OHCIState *ohci);
->> } OHCIState;
->>
->> Then everything in hcd-ohci seems to reuse ohci->usb_packet and I wonder if
->> it can happen that it's overwritten while an async packet is still using it.
->
-> Plausible theory.  That also nicely explains why you need traffic on two
-> endpoints at the same time to trigger it.
+>>> Most of our supported platforms don't have version 1.6.1 available.
+>>>
+>>> As a general goal IMHO we should be seeking to eliminate bundling of
+>>> 3rd party modules that are commonly available in distros. We've
+>>> carried dtc for a hell of a long time, and if we keep updating our
+>>> submodule we'll keep relyin on new features, and never be able to
+>>> drop it because it will always be newer than what's in the distros.
+>>>
+>>> So personally I think we should never again update dtc and capstone
+>>> modules. If we want to take adbantage of new features, then do that
+>>> through conditional compilation, as we do for any of the other 3rd
+>>> party libraries consumed.
 
-We've added an assert to check this and Howard could trigger it at least 
-once (hope he'll answer with details) so I think that proves this but 
-there may be other problems too as it does not work even when the assert 
-is not triggered but maybe that's becuase not allowing traffic while an 
-async packet is pending. It looks like it starts an interrupt transfer on 
-an endpoint while sends iso data to another. I don't know usb audio 
-protocol but maybe it's waiting for the iso transfer to finish which won't 
-as those packets are now rejected due to too many waiting. Howard has some 
-logs but I've only seen excerpts and did not reproduce it myself so I 
-don't know exactly. In any case, fixing both of this possible breakage of 
-ohci->usb_packet and emulating multiple pending packets correctly should 
-improve the OHCI model and maybe get us further or at least prove we have 
-more problems to look for.
+I basically agree, especially for capstone. But for dtc, that also means 
+that we cannot compile certain target boards if its not available ... that's 
+somewhat more ugly than if there is just a missing backend feature ... but I 
+guess it's still ok. Users could always install a recent libfdt first.
 
->> In any case to both fix the device model and to avoid this possible problem
->> described above it seems we would need to ditch the packet and async_td
->> fields from OHCIState and move them to the endpoint to allow one active
->> packet per endpoint.
->
-> Either that, or maintain a linked list of packets.
+>> I agree in general, but (per the commit message here) our dtc
+>> submodule is currently pointing at some random not-a-release
+>> commit in upstream dtc. We should at least move forward to
+>> whatever the next released dtc after that is, before we say
+>> "no more dtc updates".
+> 
+> Yep, if we want to fix it onto an official version tag, that's
+> OK, just not jumping right to very latest version.
 
-I'd like to avoid duplicating state and keep everyting attached to the 
-endpoint so we don't need to keep track of it in ohci. We'd need a packet 
-for each endpoint and also make async_td an array then so if instead we 
-can get this info from the endpoint that we already have a pointer to, we 
-could use that and remove both of these duplicate values from OHCIState so 
-I'd try that as it looks less error prone.
+That was the intention here. Accidentally, the first release tag after the 
+commit that we are currently using, is version 1.6.1, which also happens to 
+be the latest version, too.
 
->> We can get the endpoint from a packet and from ohci so
->> I wonder if we can get the active packet from ep->queue (and how to do that)
->
-> I think ohci never looks beyond the active td so there should never be
-> more than one packet on the list.
+> We might want
+> to move it backwards to better align with what we're targetting
+> in the support
 
-OK, how to get the packet from that QTAILQ list? If there are multiple 
-packets is the active one first or last? How to get that? I could try to 
-find the answers in the code but I realy did not want to spend much time 
-with it just trying to help Howard so I'd like to ask for some help with 
-this.
+We shouldn't use an older versions as submodule since there was a problem in 
+libfdt on Sparc hosts on older versions. All other hosts should be fine with 
+version 1.5.1 though (which is what we're indirectly checking in meson.build)
 
-Regards,
-BALATON Zoltan
+> Best I can tell the distros currently have these versions:
+> 
+>       - Alpine 3.14 - 1.6.1
+>       - CentOS 8 - 1.6.0
+>       - Debian 10 - 1.4.7
+>       - Fedora 33 - 1.6.0
+>       - OpenSUSE Leap 15.3 - 1.5.1
+>       - Ubuntu 18.04 - 1.4.5
+>       - FreeBSD Ports - 1.6.0
+>       - OpenBSD Ports - 1.6.0
+>       - macOS HomeBrew - 1.6.1
+>       - Windows MSys2 - 1.6.0
+
+Thanks! I was just about to collect the same information, too.
+
+So I'd suggest: Update the submodule to v1.6.1 now, so that it points to a 
+proper release tag.
+
+Then wait until Debian 10 and Ubuntu 18.04 are EOL (sometime in 2022), then 
+we can finally get rid of the dtc submodule an rely on the system fdt 
+instead (assuming that versions that are older than 1.6.1 will be fixed by 
+the distros on Sparc hosts).
+
+  Thomas
+
 
