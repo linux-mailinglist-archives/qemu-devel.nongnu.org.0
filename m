@@ -2,96 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6D141EC80
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 13:47:18 +0200 (CEST)
-Received: from localhost ([::1]:46472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81B5241EE44
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 15:11:23 +0200 (CEST)
+Received: from localhost ([::1]:58486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWH0W-0004Wu-LC
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 07:47:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32790)
+	id 1mWIJu-0007lr-Gi
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 09:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mWGui-0001oG-QW
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 07:41:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32342)
+ (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
+ id 1mWEcu-0001nQ-SB; Fri, 01 Oct 2021 05:14:44 -0400
+Received: from pegase2.c-s.fr ([93.17.235.10]:59091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mWGuf-0004gq-B8
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 07:41:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633088471;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Xfrex0QI7hpVzPgFFWdo8jVGIG7esty/IttIpU+pckc=;
- b=JpZHP7WvLgk+5CYYUXn9jys2s8MaJrOVq6rIVXNieTj2wZczGS0tSEEVCafvsuGJgkjoVI
- u+MaVEdcJYtHQyB9HM3ZzQVEi5e9SH62KYx16UCSOXuNhoJewox8tjhZksWmYWQ8wduT2M
- VrE4mzjMM2MfPG3EaPQmRJroJHdpdwc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-iCU4q3phO8aOvpZddDvIyA-1; Fri, 01 Oct 2021 07:41:08 -0400
-X-MC-Unique: iCU4q3phO8aOvpZddDvIyA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n17-20020a7bc5d1000000b0030d4041f73eso1231539wmk.4
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 04:41:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Xfrex0QI7hpVzPgFFWdo8jVGIG7esty/IttIpU+pckc=;
- b=RLQQ3qnGNTdD5CmOm7WuA00ghdnkQm1M/2wopRRJ56gUiLo1FRdD6kO/hx5MHLjUOd
- H3fmgu9m2GMENdm75R8TcwhBdbQQaKGrtSh1eTkm6ORn+1j0tEkYny1uEWq+1r50i5+J
- kqx3B5kPeVrafDwOmyp2Mi1xDaUDBdpGmguBSE5uI2clC5EPMHFz0ClXNLnpOdLlEp9+
- f3hgrutYiTB90pNoxjXGZ5NYRjbZzu0WB1GYxjY4pp19K69GhjNJJEC9soqrc/GMO3Uz
- q9WY4d5Bi8lV7yU7z1BazjlxFGeKkTZDzMKcBdrqMa2lTMr2AsQD+eRWerVjiGSFxVPl
- sMlg==
-X-Gm-Message-State: AOAM533VR6C/ohW9xgPhrvuwlKQOYYV7Vvj3/6Z6f7J5Xbm97HCfOshy
- cYWJQskR5fzJX9oeKwlxWe6CZ159QRY6YvaFUnTeA7R4+5rSYNZ7V3u1qOoH9MCg6VcCLaXgsew
- ZAgr+JIs/KjRxWJM=
-X-Received: by 2002:adf:dd42:: with SMTP id u2mr11729463wrm.39.1633088467168; 
- Fri, 01 Oct 2021 04:41:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzW15DGrz6c7gTXdKXbRFGbrV8kTzBjtPYPcKJEDXOs5Ud/ISBkSQJNuSRC7O4Pr1JADfTg2A==
-X-Received: by 2002:adf:dd42:: with SMTP id u2mr11729446wrm.39.1633088466953; 
- Fri, 01 Oct 2021 04:41:06 -0700 (PDT)
-Received: from thuth.remote.csb (tmo-097-75.customers.d1-online.com.
- [80.187.97.75])
- by smtp.gmail.com with ESMTPSA id v10sm5795718wrm.71.2021.10.01.04.41.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Oct 2021 04:41:06 -0700 (PDT)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210827120901.150276-1-thuth@redhat.com>
- <20210827120901.150276-4-thuth@redhat.com>
- <7004c933-5262-3119-80f5-722a8e858046@redhat.com>
- <YVbQERWD9fY0kxxW@redhat.com>
- <CAFEAcA8PdNEHU2YMGT56bCwezf9i+BGxijwevLJakrR_N1Yjhw@mail.gmail.com>
- <YVbYavVeV/OmYON6@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 3/3] dtc: Update to version 1.6.1
-Message-ID: <9e3620ce-4a79-da2c-aaf1-20832622c576@redhat.com>
-Date: Fri, 1 Oct 2021 13:41:04 +0200
+ (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
+ id 1mWEcs-0007if-UA; Fri, 01 Oct 2021 05:14:44 -0400
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4HLPZQ65Pkz9sWX;
+ Fri,  1 Oct 2021 11:14:38 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bivhiOkB7601; Fri,  1 Oct 2021 11:14:38 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4HLPZQ4zMYz9sS1;
+ Fri,  1 Oct 2021 11:14:38 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 8FCAB8B77D;
+ Fri,  1 Oct 2021 11:14:38 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id YQa8VPbam3Qg; Fri,  1 Oct 2021 11:14:38 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.203.170])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 57DE98B763;
+ Fri,  1 Oct 2021 11:14:37 +0200 (CEST)
+Subject: Re: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
+ MAINTAINERS: Orphan obscure ppc platforms)
+To: Thomas Huth <thuth@redhat.com>, David Gibson
+ <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ <20210927044808.73391-5-david@gibson.dropbear.id.au>
+ <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
+Date: Fri, 1 Oct 2021 11:14:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YVbYavVeV/OmYON6@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Language: fr-FR
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.127,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SORBS_WEB=1.5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=93.17.235.10;
+ envelope-from=christophe.leroy@csgroup.eu; helo=pegase2.c-s.fr
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.127,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 01 Oct 2021 09:08:27 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,85 +74,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>, peter.maydell@linaro.org,
+ dbarboza@redhat.com, aik@ozlabs.ru, mark.cave-ayland@ilande.co.uk,
+ groug@kaod.org, wainersm@redhat.com, Alexander Graf <agraf@csgraf.de>,
+ hpoussin@reactos.org, clg@kaod.org, crosa@redhat.com,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/10/2021 11.44, Daniel P. Berrangé wrote:
-> On Fri, Oct 01, 2021 at 10:37:51AM +0100, Peter Maydell wrote:
->> On Fri, 1 Oct 2021 at 10:10, Daniel P. Berrangé <berrange@redhat.com> wrote:
->>>
->>> On Thu, Sep 30, 2021 at 09:10:12AM +0200, Thomas Huth wrote:
->>>> On 27/08/2021 14.09, Thomas Huth wrote:
->>>>> The dtc submodule is currently pointing to non-release commit. It's nicer
->>>>> if submodules point to release versions instead and since dtc 1.6.1 is
->>>>> available now, let's update to that version.
+
+
+Le 01/10/2021 à 10:35, Thomas Huth a écrit :
+> On 27/09/2021 06.48, David Gibson wrote:
+>> There are a nunber of old embedded ppc machine types which have been 
+>> little
+>> changed and in "Odd Fixes" state for a long time.  With both myself and
+>> Greg Kurz moving toward other areas, we no longer have the capacity to
+>> keep reviewing and maintaining even the rare patches that come in for 
+>> those
+>> platforms.
 >>
->>> Most of our supported platforms don't have version 1.6.1 available.
->>>
->>> As a general goal IMHO we should be seeking to eliminate bundling of
->>> 3rd party modules that are commonly available in distros. We've
->>> carried dtc for a hell of a long time, and if we keep updating our
->>> submodule we'll keep relyin on new features, and never be able to
->>> drop it because it will always be newer than what's in the distros.
->>>
->>> So personally I think we should never again update dtc and capstone
->>> modules. If we want to take adbantage of new features, then do that
->>> through conditional compilation, as we do for any of the other 3rd
->>> party libraries consumed.
-
-I basically agree, especially for capstone. But for dtc, that also means 
-that we cannot compile certain target boards if its not available ... that's 
-somewhat more ugly than if there is just a missing backend feature ... but I 
-guess it's still ok. Users could always install a recent libfdt first.
-
->> I agree in general, but (per the commit message here) our dtc
->> submodule is currently pointing at some random not-a-release
->> commit in upstream dtc. We should at least move forward to
->> whatever the next released dtc after that is, before we say
->> "no more dtc updates".
+>> Therefore, remove our names as reviewers and mark these platforms as
+>> orphaned.
+>>
+>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+>> Reviewed-by: Greg Kurz <groug@kaod.org>
+>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   MAINTAINERS | 19 +++++--------------
+>>   1 file changed, 5 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index f2060b46f9..1ecb5716c8 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -1236,24 +1236,18 @@ F: hw/openrisc/openrisc_sim.c
+>>   PowerPC Machines
+>>   ----------------
+>>   405
+>> -M: David Gibson <david@gibson.dropbear.id.au>
+>> -M: Greg Kurz <groug@kaod.org>
+>>   L: qemu-ppc@nongnu.org
+>> -S: Odd Fixes
+>> +S: Orphan
+>>   F: hw/ppc/ppc405_boards.c
 > 
-> Yep, if we want to fix it onto an official version tag, that's
-> OK, just not jumping right to very latest version.
-
-That was the intention here. Accidentally, the first release tag after the 
-commit that we are currently using, is version 1.6.1, which also happens to 
-be the latest version, too.
-
-> We might want
-> to move it backwards to better align with what we're targetting
-> in the support
-
-We shouldn't use an older versions as submodule since there was a problem in 
-libfdt on Sparc hosts on older versions. All other hosts should be fine with 
-version 1.5.1 though (which is what we're indirectly checking in meson.build)
-
-> Best I can tell the distros currently have these versions:
+> Related question: Does *anybody* know how to still use the ref405ep or 
+> taihu board in QEMU? We just got another ticket asking for the related 
+> firmware image:
 > 
->       - Alpine 3.14 - 1.6.1
->       - CentOS 8 - 1.6.0
->       - Debian 10 - 1.4.7
->       - Fedora 33 - 1.6.0
->       - OpenSUSE Leap 15.3 - 1.5.1
->       - Ubuntu 18.04 - 1.4.5
->       - FreeBSD Ports - 1.6.0
->       - OpenBSD Ports - 1.6.0
->       - macOS HomeBrew - 1.6.1
->       - Windows MSys2 - 1.6.0
+>   https://gitlab.com/qemu-project/qemu/-/issues/651
+> 
+> And if you google for 'ppc405_rom.bin', I only find pages where people 
+> are asking basically the same question, e.g.:
+> 
+>   https://lists.nongnu.org/archive/html/qemu-devel/2007-08/msg00252.html 
+> (in 2007 already! And no answer)
+> 
+>   https://github.com/Xilinx/qemu/issues/36 (in 2019, no answer)
+> 
+>   https://lists.libreplanet.org/archive/html/qemu-ppc/2019-12/msg00263.html (in 2019, no answer about bios location)
+> 
+>   https://lkml.org/lkml/2020/4/25/61 (in 2020, no answer)
+> 
+> 
+> Seems like the Linux kernel removed support for the 405ep board here:
+> 
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=548f5244f1064c9facb19c5e9 
+> 
 
-Thanks! I was just about to collect the same information, too.
+The EP405 board was removed because it was apparently based on the buggy 
+405GP processor (It was selecting option CONFIG_405GP).
 
-So I'd suggest: Update the submodule to v1.6.1 now, so that it points to a 
-proper release tag.
+AFAIU the EP405 board is different from the ref405ep. The ref405ep has a 
+405EP processor which is still supported, see 
+https://elixir.bootlin.com/linux/v5.15-rc3/source/arch/powerpc/kernel/cputable.c#L1300
 
-Then wait until Debian 10 and Ubuntu 18.04 are EOL (sometime in 2022), then 
-we can finally get rid of the dtc submodule an rely on the system fdt 
-instead (assuming that versions that are older than 1.6.1 will be fixed by 
-the distros on Sparc hosts).
+Christophe
 
-  Thomas
 
+> 
+> ... to me this all sounds like these 405 boards are pretty dead code in 
+> QEMU right now, so if nobody has a clue how to use them, I'd suggest to 
+> mark them as deprecated and remove them in a couple of releases?
+> 
 
