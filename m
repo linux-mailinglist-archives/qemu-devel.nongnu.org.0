@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B92341F448
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 20:02:56 +0200 (CEST)
-Received: from localhost ([::1]:59936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1206741F45B
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 20:08:35 +0200 (CEST)
+Received: from localhost ([::1]:47272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWMs3-0005M4-1m
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 14:02:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60704)
+	id 1mWMxW-0007Sq-R9
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 14:08:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mWMUG-0000XP-1G
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:38:22 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:41561)
+ id 1mWMUI-0000Yr-EH
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:38:24 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:54259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mWMUD-0000jC-7P
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:38:19 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- g19-20020a1c9d13000000b003075062d4daso7288599wme.0
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:38:16 -0700 (PDT)
+ id 1mWMUF-0000kw-P7
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:38:22 -0400
+Received: by mail-wm1-x336.google.com with SMTP id z2so7769991wmc.3
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ezcbvk/+kLD6i+tf1SI+n2SWS5P4d5inXJz75DvTmhM=;
- b=ybZ9ULUbYc9FQ/tepxzqHXkP07aCwVxeouYzulmVK3/AMQ1oqtjSM4CziQ5LM+xCFo
- +2nVqlfhP9Ktj4iIv1I4iqBuB5AKLNt0WsMLcZKl9DwENLZCxER4X97euLpjomDwX+Xo
- XAR6iU6RQhAsBGeK3YHa1ku0KCDFPei5+X7mvlP3nV1aQG0GASk/2sY+YWVZsOgW9iTB
- RSMvJWQCtcDPqMmrNFnOnk+PmiYlznL7J1+xvEBepKnsV15TRW7z7gP7Movy9hfjNSOR
- 4cGs88bLTehDlLwrJsX59A/WhzwAkTTMHKBC39dS2D0QteV8GfVYYLJonVvhEoksD4ZB
- UvaQ==
+ bh=cdHPQI9tRbF9oA3co/8E8LRH7+4LnLYtNbcNQWk0r9Y=;
+ b=B6uF6YCkgVF8BWzc6Hp8qYtX/8ubIaAe2PgfOsKlYkTC/sI0R8Qq1vZo+gxvE6a6QO
+ ahbhdu6Dh1vymqaSMJhv3KiXcGD9cBT/jDSuTdViWTGO+Xt1niaY+FK8xq12ZE/WB2UP
+ E00vvzJLUOlvoSosXAI67rDLUu/qBrmeUtcOrhEWQDKcQh1HyNH0uftSg80ZLVSIajmA
+ jeCiKGOHOCIKPwQzJ+MN5vjKeskUKwn53+yY7sf/zuMrLrzHNYQQizDHFeYvLkpSAF8x
+ GpEe8zVMLpl7lFj+tOYkoOwSDFozuCjK+1WNmeyu1oQOjsJT0BThBjR4DVEH2XXGV6DH
+ 9myg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ezcbvk/+kLD6i+tf1SI+n2SWS5P4d5inXJz75DvTmhM=;
- b=gVRJ5mACik3mr0I60B+DixSoxb76qa7Y+JNK7r39MlMmFyW3L6edI65gSb4Jo2io20
- bjaRDwajR0nf5kD/VcAa7Va/B7Fk1eFA92LGhckQUS75YAx2BatohUx99XKakdTUmkoC
- CZTqLkS9PTNkmJnwArnfPxfEtfLYYyV0kHklY+lAJn8EkZouO+lbOnJxcLZNzxtM78q1
- et93fLPY5U8RV9RHFdYvfIVH5y4CyCeuLVAFl3UB3kSAs8IqyAN4H1mwrhcoUeF7dSyF
- 1MQA19/Bc69DjHq3v1/q0csvNCzOrBls9uwSc/ySxmi15JJmifIccTS21GCztugXGXI3
- 9tmw==
-X-Gm-Message-State: AOAM532S/EvgtdZNan+F5Qup1GRImBoPPG2Fts5LhDsIkstryvdRjPGy
- lzMCqlJZviQA/HAUgAJVrRWQPw==
-X-Google-Smtp-Source: ABdhPJy8He/O+mO6L3RXYlWzWb0oPE7IRFLlcF/1w3sD9hqt12yXuufVh0XDo46/OP6+MnjZhsNowA==
-X-Received: by 2002:a1c:1d92:: with SMTP id d140mr6071526wmd.17.1633109895826; 
- Fri, 01 Oct 2021 10:38:15 -0700 (PDT)
+ bh=cdHPQI9tRbF9oA3co/8E8LRH7+4LnLYtNbcNQWk0r9Y=;
+ b=vex5rinpHk9UCniQv47IneHqUtFRBcVVUX+huN+WjmlA2/itsTovqd2TN9GD1OTp2k
+ G7rSbakSlqi14PWr3AnVFI6dfSGHqFmcAjUbKmTTOtJulGxTx8jQCYG39U8DCBJMnOqi
+ plgVm98f+ZdhuS/Nv5pl73qr+2GccYTbHUL9xpPasdPSwcXnMaSRYW2lELmazLHEZcba
+ PxA/o8O2m6R9N+LYpbJKRMQIrlUOxiAF57ZGIQm/ngxHyuSsrwQ6Vmr60NtfWb1p8Vd6
+ HSuCspymnbVEE98PA1XxZ05t+UWerFlQdqnmvwzwu9qepP6Wl7ebtXYTkhGRuunGAooP
+ t4TQ==
+X-Gm-Message-State: AOAM5311qMFwSFEWO8ipWg23vXTnTFX7Y85eyoYI4J9g94hS7dDxZSOp
+ H0yJ2ihIIQcy4Iln60iW6r+UMQ==
+X-Google-Smtp-Source: ABdhPJwPejX9wVHaIicRPNfeEuCk6GJR4b/FycJDX7ieoBddivZylonLmUj0V9L/kiJykU9a6cX0QA==
+X-Received: by 2002:a05:600c:214c:: with SMTP id
+ v12mr5888474wml.179.1633109896927; 
+ Fri, 01 Oct 2021 10:38:16 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id k9sm6186592wrz.22.2021.10.01.10.38.14
+ by smtp.gmail.com with ESMTPSA id k9sm6186592wrz.22.2021.10.01.10.38.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 10:38:15 -0700 (PDT)
+ Fri, 01 Oct 2021 10:38:16 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: eric.auger@redhat.com,
 	imammedo@redhat.com
-Subject: [PATCH v4 05/11] hw/arm/virt: Use object_property_set instead of
- qdev_prop_set
-Date: Fri,  1 Oct 2021 18:33:53 +0100
-Message-Id: <20211001173358.863017-6-jean-philippe@linaro.org>
+Subject: [PATCH v4 06/11] hw/i386: Move vIOMMU uniqueness check into pc.c
+Date: Fri,  1 Oct 2021 18:33:54 +0100
+Message-Id: <20211001173358.863017-7-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211001173358.863017-1-jean-philippe@linaro.org>
 References: <20211001173358.863017-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,32 +92,62 @@ Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To propagate errors to the caller of the pre_plug callback, use the
-object_poperty_set*() functions directly instead of the qdev_prop_set*()
-helpers.
+We're about to need this check for a third vIOMMU, virtio-iommu, which
+doesn't inherit X86IOMMUState as it doesn't support IRQ remapping and is
+a virtio device. Move the check into the pre_plug callback to be shared
+by all three vIOMMUs.
 
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- hw/arm/virt.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/i386/pc.c        | 10 +++++++++-
+ hw/i386/x86-iommu.c |  6 ------
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 36f0261ef4..ac307b6030 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2465,8 +2465,9 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                                         db_start, db_end,
-                                         VIRTIO_IOMMU_RESV_MEM_T_MSI);
- 
--        qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
--        qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
-+        object_property_set_uint(OBJECT(dev), "len-reserved-regions", 1, errp);
-+        object_property_set_str(OBJECT(dev), "reserved-regions[0]",
-+                                resv_prop_str, errp);
-         g_free(resv_prop_str);
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 557d49c9f8..789ccb6ef4 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1367,6 +1367,13 @@ static void pc_virtio_md_pci_unplug(HotplugHandler *hotplug_dev,
+ static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+                                           DeviceState *dev, Error **errp)
+ {
++    if (object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) &&
++        x86_iommu_get_default()) {
++        error_setg(errp, "QEMU does not support multiple vIOMMUs "
++                   "for x86 yet.");
++        return;
++    }
++
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+         pc_memory_pre_plug(hotplug_dev, dev, errp);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
+@@ -1428,7 +1435,8 @@ static HotplugHandler *pc_get_hotplug_handler(MachineState *machine,
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
+         object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
+         object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
+-        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
++        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI) ||
++        object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
+         return HOTPLUG_HANDLER(machine);
      }
+ 
+diff --git a/hw/i386/x86-iommu.c b/hw/i386/x86-iommu.c
+index 86ad03972e..550e551993 100644
+--- a/hw/i386/x86-iommu.c
++++ b/hw/i386/x86-iommu.c
+@@ -84,12 +84,6 @@ static void x86_iommu_set_default(X86IOMMUState *x86_iommu)
+ {
+     assert(x86_iommu);
+ 
+-    if (x86_iommu_default) {
+-        error_report("QEMU does not support multiple vIOMMUs "
+-                     "for x86 yet.");
+-        exit(1);
+-    }
+-
+     x86_iommu_default = x86_iommu;
  }
+ 
 -- 
 2.33.0
 
