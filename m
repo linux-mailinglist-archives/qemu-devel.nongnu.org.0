@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FBD41EDC5
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 14:48:18 +0200 (CEST)
-Received: from localhost ([::1]:59670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415A441EDDD
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 14:52:56 +0200 (CEST)
+Received: from localhost ([::1]:37026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWHxZ-0004z3-5M
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 08:48:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47198)
+	id 1mWI23-0000W4-1h
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 08:52:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mWHwe-00046X-3n
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:47:20 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mWHwc-0007uV-1f
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:47:19 -0400
-Received: by mail-wr1-x433.google.com with SMTP id s21so15275062wra.7
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 05:47:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wlX5Rum6kPlLsB5+W+kIcc3NvpkK0BqwIAZHzSayr9k=;
- b=CwCLWpP/8YwtEWiiPvHAuvWtA53TDWAA/lBmB4MzYVLHFmQmy7ZfFakSyQjg+H2oav
- rPVG4ax1Q/MY0i53YN6mVMQ26e5K8qoJDrJrB/Dyvaa/2F+aHK+UGInk1ZkOwvZKj+sL
- /0e4l5sJSnWTt0/PGJO03MjR1+dd1MY/M4oNbsSVUpkv99oZTUAXcLtdAuiq/fSlYyaK
- KgsXBHtLsu49ZGiybj/D7jLFlINgYxhrYU6xyngemckURKtB1uFuhPvPP86kgxvHA1sG
- LtYyi8lEba/6rmy5mzctc/MvBIqm/HPhArgA5Mlr3+qoU9tgaWBCPArIj9zYr/Uwxh9d
- tvZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wlX5Rum6kPlLsB5+W+kIcc3NvpkK0BqwIAZHzSayr9k=;
- b=68HkkrEkhgGGtgheZlrcgCYRsC127lSnVFjEv+z4LSkQ7KHcJ6NoB92KgGYuG8eL8a
- DPsd3oBwUGCGmAc/IUk6c3HnYWslJP0SEuVjAm2Zonthhrt4BSWl4Pw5KpwErbEfwV2e
- TI0D8zEOLaJWxwMEpYTm+cscJcmHnjU2gDKzg1suRr8UTue587o0MnHh7DdmZzkHAXNN
- xcVC52KGDX0VYl2ZopmnXdNGhtbdhj2JBGoGlCqNK3bolIXDYe4hnraWUF926JFxOYpv
- y8Fuw4pvuvD6u05BJnleOfa7bqvZg3BMfxXwFBjWBzrNI3cAOvfjdQHujCDO4ZSrrGbi
- fvgA==
-X-Gm-Message-State: AOAM532qMQ+rkrst2IcsqxrrpKq6+x0WGEMaHIB5niVOxUHOdfjzOzMB
- BAuN1dhD6cnKq8fXOAdv5WGb6ln1Whufe94WckOiKQ==
-X-Google-Smtp-Source: ABdhPJzf46VDiUt4wG1PnjV54Hi2asNp4xS1y7RPwHDPGVV3iN1si70R6ER/NBM3IslN395vzBc8+4tBQLY9OnCce3k=
-X-Received: by 2002:a5d:6b07:: with SMTP id v7mr11908053wrw.376.1633092436321; 
- Fri, 01 Oct 2021 05:47:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mWHyy-0006jj-6h
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:49:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32993)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mWHyu-0000zZ-BG
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 08:49:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633092579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=k25JVQvjnq/SDeAVeBZMaIPrNf6dtlGlCxevbWGzBMA=;
+ b=fc9DHMLx1oalPio/N2o3BV3qvq3N6HBfouv0cjTKKOz1pJtVXAeaGHphlHLOaj2Zr0y1Os
+ iPFDDf1odTqkn7prCKePjH31/aPMa1dYtui7CUNXSvfUJhqzKPm/XyWZAyvjl6Zi4SbgU4
+ Po96T8KQ2RF30K9LHIlDkGMgNbd+e58=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-vAUxzkd8PPW1ybzSLkw0HA-1; Fri, 01 Oct 2021 08:49:38 -0400
+X-MC-Unique: vAUxzkd8PPW1ybzSLkw0HA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C164B1084685;
+ Fri,  1 Oct 2021 12:49:37 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83ED85F4E1;
+ Fri,  1 Oct 2021 12:49:37 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id A721E18007AC; Fri,  1 Oct 2021 14:49:35 +0200 (CEST)
+Date: Fri, 1 Oct 2021 14:49:35 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH v3] failover: fix unplug pending detection
+Message-ID: <20211001124935.qal55li6aozocan3@sirius.home.kraxel.org>
+References: <20211001082502.1342878-1-lvivier@redhat.com>
+ <20211001104514.46bhlpenx4rz2qnm@sirius.home.kraxel.org>
+ <0eeefb15-1b41-076c-7dd4-ca5fc78eefa9@redhat.com>
 MIME-Version: 1.0
-References: <20211001121943.1016447-1-thuth@redhat.com>
-In-Reply-To: <20211001121943.1016447-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Oct 2021 13:46:22 +0100
-Message-ID: <CAFEAcA_Vjvi8JvELyG1DghCoHbUR1fzodPoaU2n-QPcf9bGwCg@mail.gmail.com>
-Subject: Re: [PATCH] hw/ppc: Deprecate the ref405ep and taihu machines and the
- 405 CPU models
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <0eeefb15-1b41-076c-7dd4-ca5fc78eefa9@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,94 +79,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 1 Oct 2021 at 13:22, Thomas Huth <thuth@redhat.com> wrote:
->
-> These machines need a firmware image called 'ppc405_rom.bin', and nobody
-> seems to have such a firmware image left for testing, so the machines are
-> currently unusable. There used to be support in U-Boot, but it has been
-> removed a couple of year ago already.
-> Thus let's mark these boards and the 405 CPU as deprecated now, so that we
-> could remove them in a couple of releases (unless somebody speaks up and
-> says that these are still usefull for them).
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  docs/about/deprecated.rst | 15 +++++++++++++++
->  hw/ppc/ppc405_boards.c    |  2 ++
->  2 files changed, 17 insertions(+)
->
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index 2f7db9a98d..27c03ef624 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -238,6 +238,11 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
->  (the ISA has never been upstreamed to a compiler toolchain). Therefore
->  this CPU is also deprecated.
->
-> +PPC 405 CPU models (since 6.2)
-> +''''''''''''''''''''''''''''''
-> +
-> +The related boards ``ref405ep`` and ``taihu`` are marked as deprecated, too.
-> +
+  Hi,
 
-What is this "too" a reference to? The immediately preceding section
-in the document is about the MIPS I7200 CPU model.
+> > So, in case the first time didn't work (for example due to the guest not
+> > listening because grub just doesn't do that), you can try a second time
+> > once the linux kernel is up'n'running.
+> > 
+> > I suspect this patch will break that (didn't actually test though).
+> 
+> I think the solution to this problem is to not check for
+> pending_deleted_event value in qmp_device_del().
+> 
+> But this has been explicitly added by:
+> 
+> commit cce8944cc9efab47d4bf29cfffb3470371c3541b
+> Author: Julia Suvorova <jusual@redhat.com>
+> Date:   Thu Feb 20 17:55:56 2020 +0100
+> 
+>     qdev-monitor: Forbid repeated device_del
+> 
+>     [ ... ]
+> 
+> So do you mean ACPI differs from PCIe Native hotplug in this case?
 
-The not-being-deprecated sam460ex board also uses the ppc405 CPU
-I think, so I don't think we can drop the CPU models.
+Yes.
 
->  QEMU API (QAPI) events
->  ----------------------
-> @@ -258,6 +263,16 @@ This machine is deprecated because we have enough AST2500 based OpenPOWER
->  machines. It can be easily replaced by the ``witherspoon-bmc`` or the
->  ``romulus-bmc`` machines.
->
-> +``ref405ep`` and ``taihu`` machines (since 6.2)
-> +'''''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +These machines need a firmware image called 'ppc405_rom.bin', and nobody seems
-> +to have a working copy of such a firmware image anymore. `Support in U-Boot
+It's one of the issues I'm trying to address with the
 
-"any more".
+  https://gitlab.com/kraxel/qemu/-/commits/sirius/pcie-hotplug
 
-> +<https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdfdba62c069>`__
-> +has been removed a couple of years ago, too, so it is very unlikely that
-> +anybody is still using this code at all.
+series.  See this commit:
 
-(I'm not sure whether anybody ever actually successfully booted a
-u-boot binary on QEMU's taihu/ref405ep boards.)
+  https://gitlab.com/kraxel/qemu/-/commit/675d9257d794c9d59ea7c80f48fe176a2aa3f8ba
 
-> +
-> +
->  Backend options
->  ---------------
->
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 972a7a4a3e..1578c0dac8 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -317,6 +317,7 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
->      mc->init = ref405ep_init;
->      mc->default_ram_size = 0x08000000;
->      mc->default_ram_id = "ef405ep.ram";
-> +    mc->deprecation_reason = "ppc405 CPU is deprecated";
->  }
->
->  static const TypeInfo ref405ep_type = {
-> @@ -547,6 +548,7 @@ static void taihu_class_init(ObjectClass *oc, void *data)
->      mc->init = taihu_405ep_init;
->      mc->default_ram_size = 0x08000000;
->      mc->default_ram_id = "taihu_405ep.ram";
-> +    mc->deprecation_reason = "ppc405 CPU is deprecated";
->  }
+So, yes, I think acpi and pcie hotplug should show consistent behavior
+here.  And I think we need some way to recover in case the guest didn't
+respond to an unplug event.  Just allowing to send device_del multiple
+times looks like a sensible approach to me, and given OpenStack already
+does that it looks like the most sensible way forward.
 
-We're not deprecating the machine types because we're deprecating
-the CPU types. We're deprecating them because we believe that
-nobody's using them.
+take care,
+  Gerd
 
--- PMM
 
