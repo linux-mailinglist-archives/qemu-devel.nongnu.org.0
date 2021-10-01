@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED5741E7A0
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 08:34:02 +0200 (CEST)
-Received: from localhost ([::1]:41282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A8E41E7C6
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 08:50:47 +0200 (CEST)
+Received: from localhost ([::1]:46944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWC7N-0002pL-86
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 02:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56762)
+	id 1mWCNZ-0008MX-N5
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 02:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mWC5q-00024R-BP
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 02:32:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52623)
+ id 1mWCLB-0007Z0-VE
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 02:48:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mWC5m-0004n4-5u
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 02:32:25 -0400
+ id 1mWCL6-0001LM-FL
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 02:48:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633069939;
+ s=mimecast20190719; t=1633070890;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LwgGN5Brqan7ZpXF5mRuRA3Yx4O/iyPE3kwKOR5o4gY=;
- b=X7fDQ5EJACMikrswX6mxwTdGCFpCHnp+kTr2yDotcHA9jJTbFoHeDTY57YIzZ3TKx4HPBh
- 8D34FTAXRfUQCx4F8IXUnZS6b/KjoI3B25dGS2aE/YGows49pp3HCyEbjjL7d6zcq3tCrv
- fg38uitV5ej7b8DqMTSuk+5a5A8Tinw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-CytPv1oEPEScB1k9WBeu-w-1; Fri, 01 Oct 2021 02:32:16 -0400
-X-MC-Unique: CytPv1oEPEScB1k9WBeu-w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z194-20020a1c7ecb000000b0030b7ccea080so5504114wmc.8
- for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 23:32:16 -0700 (PDT)
+ bh=ff/2YViCFxJW2ajFTUw2nG/ZiWCfbIiCwhdQhQi8I9U=;
+ b=NOrARB7ZgeCee37JFsJM7f9/kQtDkX8ErthNAQ4Yi9jKa3GOn0Qv1ZCCnp+5pDsytlFiP0
+ J6tJvvLwTF4B8yOFPOJBBtGYImYPQLDiGrkCwu7ms2hGaTHm1KdxZGIj1mg4kMaTagACFW
+ 4FaN3Muh6CKLCxI0tycmNvhUM+tCBlY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-547-mh6oI7clN16MP-mwPeb_mg-1; Fri, 01 Oct 2021 02:48:09 -0400
+X-MC-Unique: mh6oI7clN16MP-mwPeb_mg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ d12-20020a1c730c000000b0030b4e0ecf5dso2782813wmb.9
+ for <qemu-devel@nongnu.org>; Thu, 30 Sep 2021 23:48:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=LwgGN5Brqan7ZpXF5mRuRA3Yx4O/iyPE3kwKOR5o4gY=;
- b=sBtgoLBAen//R6RXOQLuYd/AJiWWbl0pNZo0duPfT5Mqs0b6G9gtzjNTF5HlAmnBzs
- FUebLwBqxiuA3lC12V0vXyKN1ohup/o/Ak4TrRYyUN9m6CyeAntttET/ubbl6kjn+l2e
- dWu8x9CIrE7Vz1R4PFZ3I9aWDbW6dHwA7L9ayX/xEQKJgt2DGZVYzeZza+S+YgvcZm9/
- mwVlz90L9u9KZOZ71TFke3WomBekoBdQ4EGkGcMz2Rpdst8kz7hcLmz87o5uyfxHCEYw
- S7LnxRs49s+LzXU0eAYdrZPG1cxpSeDaWXzF4/r4AuAjxZqCiz87XuMj03BUHjNcN4wy
- j2wQ==
-X-Gm-Message-State: AOAM531orFLjvRj0VX4cnWZLQDqpihU5X4mnUs5PbzOlrardDqQGNclC
- pMHLLx0aXD9O+g/8EoSE+RcVveJZ7g/yh8jeFNpepqWfYivf28JfChwUjRqF4EHdqXWY6hsGv1E
- xhR26GiWv5ualJUQ=
-X-Received: by 2002:a7b:ce98:: with SMTP id q24mr2688104wmj.33.1633069935702; 
- Thu, 30 Sep 2021 23:32:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwodUJjJPWFHzYjxNP8tvyiFmV88jvwgOPuiNUS3DX/p/3s1Nta0t+hyYuyLasJ1yX0gCPauA==
-X-Received: by 2002:a7b:ce98:: with SMTP id q24mr2688081wmj.33.1633069935431; 
- Thu, 30 Sep 2021 23:32:15 -0700 (PDT)
+ bh=ff/2YViCFxJW2ajFTUw2nG/ZiWCfbIiCwhdQhQi8I9U=;
+ b=fNeJdHr17TOeeluIFd1HossqUpLqdqj4cnBl8IT7Tzq2McdTWTM+iQXPkgdw60DFaq
+ SpHG9ZHZsyKwICPhhNA0Bqm5MBSzRKV3oMyCwRd4uiL2oS0Z6wujDsTBCzZHV320vJVW
+ odjswZ48PQSkCouxpJY5FW7hhlI0S7qCqdSImbD4edQDIpoXaJkuLg/NJOFjo/MI7co4
+ VCDpyDqr2FDGKaiMX80Nm2SsBPUbyNrbmJ0UApsEwfrra/Zx1mrU0rnoWiKPBIVHlyLF
+ TNscdzANbjrOZI6KCvpj6+ZbHu/RiiBAChuADKgQr4zUUyD0ZuK8H1fY8mSLY9M018KO
+ iTfQ==
+X-Gm-Message-State: AOAM533fPIvymLSvaER8C7PXPnwwe2u7HIj9RZVJGGOCgHBhBtHroxlS
+ /oMS2y7ADhtQtQDrbbR03Z9anWOqT4e9IvP+gyZzHY5tyYsYIjn3K4TW4tLHB4NwU8S6Sa2vfO6
+ jynZz+Ep2lq45HFY=
+X-Received: by 2002:adf:d1c5:: with SMTP id b5mr10568645wrd.252.1633070888238; 
+ Thu, 30 Sep 2021 23:48:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzeMH+WlUcC2HfgSbtgHhU9U8Paodca7yv/+fBhBLjyp0HF+b0wGA9gcSgvZxHrzP9K6qKQjA==
+X-Received: by 2002:adf:d1c5:: with SMTP id b5mr10568615wrd.252.1633070887986; 
+ Thu, 30 Sep 2021 23:48:07 -0700 (PDT)
 Received: from [192.168.100.42] ([82.142.21.142])
- by smtp.gmail.com with ESMTPSA id r9sm4997169wru.2.2021.09.30.23.32.14
+ by smtp.gmail.com with ESMTPSA id m5sm5851758wms.41.2021.09.30.23.48.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Sep 2021 23:32:15 -0700 (PDT)
-Message-ID: <2440584b-07db-0851-e25d-0f304075053f@redhat.com>
-Date: Fri, 1 Oct 2021 08:32:13 +0200
+ Thu, 30 Sep 2021 23:48:07 -0700 (PDT)
+Message-ID: <d66ef0ad-5913-6514-59a9-5274ca1ae76e@redhat.com>
+Date: Fri, 1 Oct 2021 08:48:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH] failover: fix unplug pending detection
-To: Ani Sinha <ani@anisinha.ca>
-References: <20210930082032.1237812-1-lvivier@redhat.com>
- <alpine.DEB.2.22.394.2109301450580.579856@anisinha-lenovo>
- <ec216e3a-71a3-c7a5-628f-1871d063d2a2@redhat.com>
- <alpine.DEB.2.22.394.2110011046060.579856@anisinha-lenovo>
+Subject: Re: [PATCH] failover: allow to pause the VM during the migration
+To: Laine Stump <laine@redhat.com>, qemu-devel@nongnu.org
+References: <20210930170926.1298118-1-lvivier@redhat.com>
+ <f1898bf0-dadb-4e2e-a45a-9087d2c63678@redhat.com>
 From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <alpine.DEB.2.22.394.2110011046060.579856@anisinha-lenovo>
+In-Reply-To: <f1898bf0-dadb-4e2e-a45a-9087d2c63678@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -38
@@ -101,78 +99,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jens Freimann <jfreimann@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Krempa <pkrempa@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Libvirt <libvir-list@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Jiri Denemark <jdenemar@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/10/2021 07:19, Ani Sinha wrote:
-> 
-> 
-> On Thu, 30 Sep 2021, Laurent Vivier wrote:
-> 
->> On 30/09/2021 11:24, Ani Sinha wrote:
->>>
->>>
->>> On Thu, 30 Sep 2021, Laurent Vivier wrote:
->>>
->>>> Failover needs to detect the end of the PCI unplug to start migration
->>>> after the VFIO card has been unplugged.
->>>>
->>>> To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and reset
->>>> in
->>>> pcie_unplug_device().
->>>>
->>>> But since
->>>>       17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on
->>>> Q35")
->>>> we have switched to ACPI unplug and these functions are not called anymore
->>>> and the flag not set. So failover migration is not able to detect if card
->>>> is really unplugged and acts as it's done as soon as it's started. So it
->>>> doesn't wait the end of the unplug to start the migration. We don't see
->>>> any
->>>> problem when we test that because ACPI unplug is faster than PCIe native
->>>> hotplug and when the migration really starts the unplug operation is
->>>> already done.
->>>>
->>>> See c000a9bd06ea ("pci: mark device having guest unplug request pending")
->>>>       a99c4da9fc2a ("pci: mark devices partially unplugged")
->>>
->>> Ok so I have a basic question about partially_hotplugged flag in the
->>> device struct (there were no comments added in a99c4da9fc2a39847
->>> explaining it). It seems we return early from pcie_unplug_device() when
->>> this flag is set from failover_unplug_primary() in virtio-net. What is the
->>> purpose of this flag? It seems we are not doing a full unplug of the
->>> primary device?
+On 30/09/2021 22:17, Laine Stump wrote:
+> On 9/30/21 1:09 PM, Laurent Vivier wrote:
+>> If we want to save a snapshot of a VM to a file, we used to follow the
+>> following steps:
 >>
->> Yes, to be able to plug it back in case of migration failure we must keep all
->> the data structures.
+>> 1- stop the VM:
+>>     (qemu) stop
+>>
+>> 2- migrate the VM to a file:
+>>     (qemu) migrate "exec:cat > snapshot"
+>>
+>> 3- resume the VM:
+>>     (qemu) cont
+>>
+>> After that we can restore the snapshot with:
+>>    qemu-system-x86_64 ... -incoming "exec:cat snapshot"
+>>    (qemu) cont
 > 
-> Ok so two things here:
-> (a) could you please add a comment to PCIDevice struct in pci.h to clarify
-> what the flag actually means, why it is there and what it is supposed to
-> do.
-
-Will be in v3.
-
-> (b) the naming of the variable could be something like do_partial_unplug
-> or some such. This could be a separate patch.
-
-OK, I'll do that on a separate patch: I'm already working on a patch series moving most of 
-the failover code to PCI files (hotplug is a PCI feature not a virtio one).
-
-https://patchew.org/QEMU/20210820142002.152994-1-lvivier@redhat.com/
-
->   >
->> But reading the code again it seems this part should be in
->> acpi_pcihp_eject_slot() rather than in acpi_pcihp_device_unplug_cb() to
->> prevent the hotplug_handler_unplug()/object_unparent()  rather than the
->> qdev_unrealize() (to be like in pcie.c).
+> This is the basics of what libvirt does for a snapshot, and steps 1+2 are what it does for 
+> a "managedsave" (where it saves the snapshot to disk and then terminates the qemu process, 
+> for later re-animation).
 > 
-> Correct. You need to place the check earlier so as to be equivalent to
-> what the native hotplug code does.
+> In those cases, it seems like this new parameter could work for us - instead of explicitly 
+> pausing the guest prior to migrating it to disk, we would set this new parameter to on, 
+> then directly migrate-to-disk (relying on qemu to do the pause). Care will need to be 
+> taken to assure that error recovery behaves the same though.
+
+In case of error, the VM is restarted like it's done for a standard migration. I can 
+change that if you need.
+
+An other point is the VM state sent to the migration stream is "paused", it means that 
+machine needs to be resumed after the stream is loaded (from the file or on destination in 
+the case of a real migration), but it can be also changed to be "running" so the machine 
+will be resumed automatically at the end of the file loading (or real migration)
+
+> There are a couple of cases when libvirt apparently *doesn't* pause the guest during the 
+> migrate-to-disk, both having to do with saving a coredump of the guest. Since I really 
+> have no idea of how common/important that is (or even if my assessment of the code is 
+> correct), I'm Cc'ing this patch to libvir-list to make sure it catches the attention of 
+> someone who knows the answers and implications.
+
+It's an interesting point I need to test and think about: in case of a coredump I guess 
+the machine is crashed and doesn't answer to the unplug request and so the failover unplug 
+cannot be done. For the moment the migration will hang until it is canceled. IT can be 
+annoying if we want to debug the cause of the crash...
+
 > 
+>> But when failover is configured, it doesn't work anymore.
+>>
+>> As the failover needs to ask the guest OS to unplug the card
+>> the machine cannot be paused.
+>>
+>> This patch introduces a new migration parameter, "pause-vm", that
+>> asks the migration to pause the VM during the migration startup
+>> phase after the the card is unplugged.
+>>
+>> Once the migration is done, we only need to resume the VM with
+>> "cont" and the card is plugged back:
+>>
+>> 1- set the parameter:
+>>     (qemu) migrate_set_parameter pause-vm on
+>>
+>> 2- migrate the VM to a file:
+>>     (qemu) migrate "exec:cat > snapshot"
+>>
+>>     The primary failover card (VFIO) is unplugged and the VM is paused.
+>>
+>> 3- resume the VM:
+>>     (qemu) cont
+>>
+>>     The VM restarts and the primary failover card is plugged back
+>>
+>> The VM state sent in the migration stream is "paused", it means
+>> when the snapshot is loaded or if the stream is sent to a destination
+>> QEMU, the VM needs to be resumed manually.
+>>
+>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>> ---
+>>   qapi/migration.json            | 20 +++++++++++++++---
+>>   include/hw/virtio/virtio-net.h |  1 +
+>>   hw/net/virtio-net.c            | 33 ++++++++++++++++++++++++++++++
+>>   migration/migration.c          | 37 +++++++++++++++++++++++++++++++++-
+>>   monitor/hmp-cmds.c             |  8 ++++++++
+>>   5 files changed, 95 insertions(+), 4 deletions(-)
+>>
+...
 
 Thanks,
 Laurent
