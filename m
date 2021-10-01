@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1498041EF2C
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 16:12:40 +0200 (CEST)
-Received: from localhost ([::1]:52962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38B7C41EF33
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 16:13:10 +0200 (CEST)
+Received: from localhost ([::1]:54192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWJHC-0005bn-Jp
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 10:12:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39330)
+	id 1mWJHh-0006QS-AW
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 10:13:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWJG1-0004f8-6M
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 10:11:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31807)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWJGK-00054d-9V
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 10:11:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38093)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWJFx-0006lL-Bj
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 10:11:24 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWJGI-00071x-Sk
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 10:11:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633097478;
+ s=mimecast20190719; t=1633097502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8cVQ7Sh6X9bjloJ0u0J2iOLVqwX8to3vB80VyStJaVQ=;
- b=bfJ/seobm8/Gpq6i0SL1iFHRcvTez7tFIhUMUz1xC0tRE7iA0MhENv8P1F1niAfOdmLM0I
- DA3Qh0pCLm8CHH0caYxSoM8F1memLW4ihxfJ0q2mh5/5XoUfk8V38gME62Fvdk8klyymYZ
- yKkMd4V4NYE9jDMTmVAA9TpEqbHZGnw=
+ bh=tKmmiiqnQZhnx8fffEmBzAJdHnMNDt2F1cftaIJS834=;
+ b=S02hgPLW4/oY97elGlZG44WPQve41fjZl61upGBPVZmD9iZ6We7ehxUt6gUMTzus84maEW
+ HTjILXwyb4x2rgNROp0Y2RyejtYPluFDLzu8q4w+iu1fm3gO+dOX+yshw/Q0MVFWuwxgQk
+ vwmzJgX2F5/+rwY2gfGtDC45bKHtJTM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-lFHysh1-MqG4aXzV3z1Z6A-1; Fri, 01 Oct 2021 10:11:16 -0400
-X-MC-Unique: lFHysh1-MqG4aXzV3z1Z6A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-240-Aj42yr2WMHuulIUUV8AmzA-1; Fri, 01 Oct 2021 10:11:40 -0400
+X-MC-Unique: Aj42yr2WMHuulIUUV8AmzA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D8D4A40C1;
- Fri,  1 Oct 2021 14:11:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DD5CA40C0;
+ Fri,  1 Oct 2021 14:11:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3CBA81972E;
- Fri,  1 Oct 2021 14:11:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F10910023AE;
+ Fri,  1 Oct 2021 14:11:26 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CC5B1113865F; Fri,  1 Oct 2021 16:11:06 +0200 (CEST)
+ id E2C42113865F; Fri,  1 Oct 2021 16:11:24 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 03/13] qapi/parser: fix unused check_args_section
- arguments
+Subject: Re: [PATCH v4 00/13] qapi: static typing conversion, pt5b
 References: <20210930205716.1148693-1-jsnow@redhat.com>
- <20210930205716.1148693-4-jsnow@redhat.com>
-Date: Fri, 01 Oct 2021 16:11:06 +0200
-In-Reply-To: <20210930205716.1148693-4-jsnow@redhat.com> (John Snow's message
- of "Thu, 30 Sep 2021 16:57:06 -0400")
-Message-ID: <87h7e0vnr9.fsf@dusky.pond.sub.org>
+Date: Fri, 01 Oct 2021 16:11:24 +0200
+In-Reply-To: <20210930205716.1148693-1-jsnow@redhat.com> (John Snow's message
+ of "Thu, 30 Sep 2021 16:57:03 -0400")
+Message-ID: <87czoovnqr.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -89,22 +87,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 John Snow <jsnow@redhat.com> writes:
 
-> Pylint informs us we're not using these arguments. Oops, it's
-> right. Correct the error message and remove the remaining unused
-> parameter.
->
-> Fix test output now that the error message is improved.
-> Fixes: e151941d1b
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> Hello darkness my old friend; This is part five (b), and focuses on
+> QAPIDoc in parser.py.
 
-In v3, the blank line was where it belongs:
-
-  Fix test output now that the error message is improved.
-
-  Fixes: e151941d1b
-  Signed-off-by: John Snow <jsnow@redhat.com>
-
-The change looks accidental.  Can tidy up in my tree.
+Series:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
