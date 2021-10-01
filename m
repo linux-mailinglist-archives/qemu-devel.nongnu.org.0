@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE6841E854
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 09:29:23 +0200 (CEST)
-Received: from localhost ([::1]:35692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE1541E84F
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 09:26:34 +0200 (CEST)
+Received: from localhost ([::1]:55810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWCyw-00022b-Ed
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 03:29:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36776)
+	id 1mWCwD-0004oe-Jd
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 03:26:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mWCjP-0005X5-6p
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:13:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20155)
+ id 1mWCjS-0005df-BN
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:13:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mWCjN-0005st-35
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:13:18 -0400
+ id 1mWCjQ-0005vm-Is
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 03:13:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633072396;
+ s=mimecast20190719; t=1633072400;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CByrwRYklfGYjTqDhPlmZaxXos/A5kFvAs3larfYmKM=;
- b=F83HZQEAypW3SjLyz2UX9Ty0PMEmVdb/C+XWq4EV+cnExofdpEjf+6ogIiGjD7cInzWY1D
- G5Ai8n+RP3xwi/IGVy+WcPyiogyb3MA+xHuKdzVWSAKlRzxzt5ebfm2fPSSIjcZ7+GHNkc
- rTg9wZelaFKSK1EuuLCUMbcDTKaEMzc=
+ bh=3ijz1uGxJNfAOPp7OTbE3hzeXRghB2rBlM3NdVAU5g8=;
+ b=A6wGdxePAhLmxqhQCm8LrwWP8zlTlAKPfBldDk5bL5Ko1MN77vobA2NsFI7Oenl0CNwzez
+ OA7Mf/VJlGgT2MWciLR+F31uHhBalCrcDRvY62yPqTs4SQwx9tFIeXrUf91Rt8Y5Z3ropW
+ DkU+4y2TVx7R930J8PcWpEzoW2BKGNQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-yHXUKOIZPlKfNCnM_MbwFw-1; Fri, 01 Oct 2021 03:13:15 -0400
-X-MC-Unique: yHXUKOIZPlKfNCnM_MbwFw-1
+ us-mta-334-o688-fhbPV-e_6AtC9NjVg-1; Fri, 01 Oct 2021 03:13:18 -0400
+X-MC-Unique: o688-fhbPV-e_6AtC9NjVg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EB7F100C630;
- Fri,  1 Oct 2021 07:13:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8960819067E0;
+ Fri,  1 Oct 2021 07:13:17 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C1BB652B8;
- Fri,  1 Oct 2021 07:13:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 94D9C1980E;
+ Fri,  1 Oct 2021 07:13:14 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v4 18/20] vhost: Add VhostIOVATree
-Date: Fri,  1 Oct 2021 09:06:01 +0200
-Message-Id: <20211001070603.307037-19-eperezma@redhat.com>
+Subject: [RFC PATCH v4 19/20] vhost: Use a tree to store memory mappings
+Date: Fri,  1 Oct 2021 09:06:02 +0200
+Message-Id: <20211001070603.307037-20-eperezma@redhat.com>
 In-Reply-To: <20211001070603.307037-1-eperezma@redhat.com>
 References: <20211001070603.307037-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -89,332 +89,152 @@ Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tree is able to look for a translated address from an IOVA address.
+Track memory translations of devices with IOMMU (all vhost-vdpa
+devices at the moment). It does not work if device has restrictions in
+its iova range at the moment.
 
-At first glance is similar to util/iova-tree. However, SVQ working on
-devices with limited IOVA space need more capabilities, like allocating
-IOVA chunks or perform reverse translations (qemu addresses to iova).
-
-The allocation capability, as "assign a free IOVA address to this chunk
-of memory in qemu's address space" allows shadow virtqueue to create a
-new address space that is not restricted by guest's addressable one, so
-we can allocate shadow vqs vrings outside of its reachability, nor
-qemu's one. At the moment, the allocation is just done growing, not
-allowing deletion.
-
-A different name could be used, but ordered searchable array is a
-little bit long though.
-
-It duplicates the array so it can search efficiently both directions,
-and it will signal overlap if iova or the translated address is
-present in it's each array.
-
-Use of array will be changed to util-iova-tree in future series.
+Updates to tree are protected by BQL, each one always run from main
+event loop context.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-iova-tree.h |  40 +++++++
- hw/virtio/vhost-iova-tree.c | 230 ++++++++++++++++++++++++++++++++++++
- hw/virtio/meson.build       |   2 +-
- 3 files changed, 271 insertions(+), 1 deletion(-)
- create mode 100644 hw/virtio/vhost-iova-tree.h
- create mode 100644 hw/virtio/vhost-iova-tree.c
+ include/hw/virtio/vhost-vdpa.h |  3 ++
+ hw/virtio/vhost-vdpa.c         | 59 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
 
-diff --git a/hw/virtio/vhost-iova-tree.h b/hw/virtio/vhost-iova-tree.h
-new file mode 100644
-index 0000000000..d163a88905
---- /dev/null
-+++ b/hw/virtio/vhost-iova-tree.h
-@@ -0,0 +1,40 @@
-+/*
-+ * vhost software live migration ring
-+ *
-+ * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-+ * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef HW_VIRTIO_VHOST_IOVA_TREE_H
-+#define HW_VIRTIO_VHOST_IOVA_TREE_H
-+
-+#include "exec/memory.h"
-+
-+typedef struct VhostDMAMap {
-+    void *translated_addr;
-+    hwaddr iova;
-+    hwaddr size;                /* Inclusive */
-+    IOMMUAccessFlags perm;
-+} VhostDMAMap;
-+
-+typedef enum VhostDMAMapNewRC {
-+    VHOST_DMA_MAP_NO_SPACE = -3,
-+    VHOST_DMA_MAP_OVERLAP = -2,
-+    VHOST_DMA_MAP_INVALID = -1,
-+    VHOST_DMA_MAP_OK = 0,
-+} VhostDMAMapNewRC;
-+
-+typedef struct VhostIOVATree VhostIOVATree;
-+
-+VhostIOVATree *vhost_iova_tree_new(void);
-+void vhost_iova_tree_unref(VhostIOVATree *iova_rm);
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(VhostIOVATree, vhost_iova_tree_unref);
-+
-+const VhostDMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *iova_rm,
-+                                             const VhostDMAMap *map);
-+VhostDMAMapNewRC vhost_iova_tree_alloc(VhostIOVATree *iova_rm,
-+                                       VhostDMAMap *map);
-+
-+#endif
-diff --git a/hw/virtio/vhost-iova-tree.c b/hw/virtio/vhost-iova-tree.c
-new file mode 100644
-index 0000000000..c284e27607
---- /dev/null
-+++ b/hw/virtio/vhost-iova-tree.c
-@@ -0,0 +1,230 @@
-+/*
-+ * vhost software live migration ring
-+ *
-+ * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-+ * SPDX-FileContributor: Author: Eugenio Pérez <eperezma@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "vhost-iova-tree.h"
-+
-+#define G_ARRAY_NOT_ZERO_TERMINATED false
-+#define G_ARRAY_NOT_CLEAR_ON_ALLOC false
-+
-+#define iova_min qemu_real_host_page_size
-+
-+/**
-+ * VhostIOVATree, able to:
-+ * - Translate iova address
-+ * - Reverse translate iova address (from translated to iova)
-+ * - Allocate IOVA regions for translated range (potentially slow operation)
-+ *
-+ * Note that it cannot remove nodes.
-+ */
-+struct VhostIOVATree {
-+    /* Ordered array of reverse translations, IOVA address to qemu memory. */
-+    GArray *iova_taddr_map;
-+
-+    /*
-+     * Ordered array of translations from qemu virtual memory address to iova
-+     */
-+    GArray *taddr_iova_map;
-+};
-+
-+/**
-+ * Inserts an element after an existing one in garray.
-+ *
-+ * @array      The array
-+ * @prev_elem  The previous element of array of NULL if prepending
-+ * @map        The DMA map
-+ *
-+ * It provides the aditional advantage of being type safe over
-+ * g_array_insert_val, which accepts a reference pointer instead of a value
-+ * with no complains.
-+ */
-+static void vhost_iova_tree_insert_after(GArray *array,
-+                                         const VhostDMAMap *prev_elem,
-+                                         const VhostDMAMap *map)
-+{
-+    size_t pos;
-+
-+    if (!prev_elem) {
-+        pos = 0;
-+    } else {
-+        pos = prev_elem - &g_array_index(array, typeof(*prev_elem), 0) + 1;
-+    }
-+
-+    g_array_insert_val(array, pos, *map);
-+}
-+
-+static gint vhost_iova_tree_cmp_taddr(gconstpointer a, gconstpointer b)
-+{
-+    const VhostDMAMap *m1 = a, *m2 = b;
-+
-+    if (m1->translated_addr > m2->translated_addr + m2->size) {
-+        return 1;
-+    }
-+
-+    if (m1->translated_addr + m1->size < m2->translated_addr) {
-+        return -1;
-+    }
-+
-+    /* Overlapped */
-+    return 0;
-+}
-+
-+/**
-+ * Find the previous node to a given iova
-+ *
-+ * @array  The ascending ordered-by-translated-addr array of VhostDMAMap
-+ * @map    The map to insert
-+ * @prev   Returned location of the previous map
-+ *
-+ * Return VHOST_DMA_MAP_OK if everything went well, or VHOST_DMA_MAP_OVERLAP if
-+ * it already exists. It is ok to use this function to check if a given range
-+ * exists, but it will use a linear search.
-+ *
-+ * TODO: We can use bsearch to locate the entry if we save the state in the
-+ * needle, knowing that the needle is always the first argument to
-+ * compare_func.
-+ */
-+static VhostDMAMapNewRC vhost_iova_tree_find_prev(const GArray *array,
-+                                                  GCompareFunc compare_func,
-+                                                  const VhostDMAMap *map,
-+                                                  const VhostDMAMap **prev)
-+{
-+    size_t i;
-+    int r;
-+
-+    *prev = NULL;
-+    for (i = 0; i < array->len; ++i) {
-+        r = compare_func(map, &g_array_index(array, typeof(*map), i));
-+        if (r == 0) {
-+            return VHOST_DMA_MAP_OVERLAP;
-+        }
-+        if (r < 0) {
-+            return VHOST_DMA_MAP_OK;
-+        }
-+
-+        *prev = &g_array_index(array, typeof(**prev), i);
-+    }
-+
-+    return VHOST_DMA_MAP_OK;
-+}
-+
-+/**
-+ * Create a new IOVA tree
-+ *
-+ * Returns the new IOVA tree
-+ */
-+VhostIOVATree *vhost_iova_tree_new(void)
-+{
-+    VhostIOVATree *tree = g_new(VhostIOVATree, 1);
-+    tree->iova_taddr_map = g_array_new(G_ARRAY_NOT_ZERO_TERMINATED,
-+                                       G_ARRAY_NOT_CLEAR_ON_ALLOC,
-+                                       sizeof(VhostDMAMap));
-+    tree->taddr_iova_map = g_array_new(G_ARRAY_NOT_ZERO_TERMINATED,
-+                                       G_ARRAY_NOT_CLEAR_ON_ALLOC,
-+                                       sizeof(VhostDMAMap));
-+    return tree;
-+}
-+
-+/**
-+ * Destroy an IOVA tree
-+ *
-+ * @tree  The iova tree
-+ */
-+void vhost_iova_tree_unref(VhostIOVATree *tree)
-+{
-+    g_array_unref(g_steal_pointer(&tree->iova_taddr_map));
-+    g_array_unref(g_steal_pointer(&tree->taddr_iova_map));
-+}
-+
-+/**
-+ * Find the IOVA address stored from a memory address
-+ *
-+ * @tree     The iova tree
-+ * @map      The map with the memory address
-+ *
-+ * Return the stored mapping, or NULL if not found.
-+ */
-+const VhostDMAMap *vhost_iova_tree_find_iova(const VhostIOVATree *tree,
-+                                             const VhostDMAMap *map)
-+{
-+    /*
-+     * This can be replaced with g_array_binary_search (Since glib 2.62) when
-+     * that version become common enough.
-+     */
-+    return bsearch(map, tree->taddr_iova_map->data, tree->taddr_iova_map->len,
-+                   sizeof(*map), vhost_iova_tree_cmp_taddr);
-+}
-+
-+static bool vhost_iova_tree_find_iova_hole(const GArray *iova_map,
-+                                           const VhostDMAMap *map,
-+                                           const VhostDMAMap **prev_elem)
-+{
-+    size_t i;
-+    hwaddr iova = iova_min;
-+
-+    *prev_elem = NULL;
-+    for (i = 0; i < iova_map->len; i++) {
-+        const VhostDMAMap *next = &g_array_index(iova_map, typeof(*next), i);
-+        hwaddr hole_end = next->iova;
-+        if (map->size < hole_end - iova) {
-+            return true;
-+        }
-+
-+        iova = next->iova + next->size + 1;
-+        *prev_elem = next;
-+    }
-+
-+    return ((hwaddr)-1 - iova) > iova_map->len;
-+}
-+
-+/**
-+ * Allocate a new mapping
-+ *
-+ * @tree  The iova tree
-+ * @map   The iova map
-+ *
-+ * Returns:
-+ * - VHOST_DMA_MAP_OK if the map fits in the container
-+ * - VHOST_DMA_MAP_INVALID if the map does not make sense (like size overflow)
-+ * - VHOST_DMA_MAP_OVERLAP if the tree already contains that map
-+ * - VHOST_DMA_MAP_NO_SPACE if iova_rm cannot allocate more space.
-+ *
-+ * It returns assignated iova in map->iova if return value is VHOST_DMA_MAP_OK.
-+ */
-+VhostDMAMapNewRC vhost_iova_tree_alloc(VhostIOVATree *tree,
-+                                       VhostDMAMap *map)
-+{
-+    const VhostDMAMap *qemu_prev, *iova_prev;
-+    int find_prev_rc;
-+    bool fit;
-+
-+    if (map->translated_addr + map->size < map->translated_addr ||
-+        map->iova + map->size < map->iova || map->perm == IOMMU_NONE) {
-+        return VHOST_DMA_MAP_INVALID;
-+    }
-+
-+    /* Search for a hole in iova space big enough */
-+    fit = vhost_iova_tree_find_iova_hole(tree->iova_taddr_map, map,
-+                                         &iova_prev);
-+    if (!fit) {
-+        return VHOST_DMA_MAP_NO_SPACE;
-+    }
-+
-+    map->iova = iova_prev ? (iova_prev->iova + iova_prev->size) + 1 : iova_min;
-+    find_prev_rc = vhost_iova_tree_find_prev(tree->taddr_iova_map,
-+                                             vhost_iova_tree_cmp_taddr, map,
-+                                             &qemu_prev);
-+    if (find_prev_rc == VHOST_DMA_MAP_OVERLAP) {
-+        return VHOST_DMA_MAP_OVERLAP;
-+    }
-+
-+    vhost_iova_tree_insert_after(tree->iova_taddr_map, iova_prev, map);
-+    vhost_iova_tree_insert_after(tree->taddr_iova_map, qemu_prev, map);
-+    return VHOST_DMA_MAP_OK;
-+}
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 8b5a0225fe..cb306b83c6 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
+diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+index 9044ae694b..7353e36884 100644
+--- a/include/hw/virtio/vhost-vdpa.h
++++ b/include/hw/virtio/vhost-vdpa.h
+@@ -15,6 +15,7 @@
+ #include <gmodule.h>
  
- virtio_ss = ss.source_set()
- virtio_ss.add(files('virtio.c'))
--virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-shadow-virtqueue.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c', 'vhost-shadow-virtqueue.c', 'vhost-iova-tree.c'))
- virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
- virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
- virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-balloon.c'))
+ #include "qemu/queue.h"
++#include "hw/virtio/vhost-iova-tree.h"
+ #include "hw/virtio/virtio.h"
+ 
+ typedef struct VhostVDPAHostNotifier {
+@@ -29,6 +30,8 @@ typedef struct vhost_vdpa {
+     uint64_t host_features;
+     uint64_t guest_features;
+     bool shadow_vqs_enabled;
++    /* IOVA mapping used by Shadow Virtqueue */
++    VhostIOVATree *iova_map;
+     GPtrArray *shadow_vqs;
+     struct vhost_dev *dev;
+     QLIST_ENTRY(vhost_vdpa) entry;
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index bb7010ddb5..a9c680b487 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -395,6 +395,7 @@ static void vhost_vdpa_svq_cleanup(struct vhost_dev *dev)
+         vhost_svq_stop(dev, idx, g_ptr_array_index(v->shadow_vqs, idx));
+     }
+     g_ptr_array_free(v->shadow_vqs, true);
++    g_clear_pointer(&v->iova_map, vhost_iova_tree_unref);
+ }
+ 
+ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
+@@ -753,6 +754,22 @@ static bool  vhost_vdpa_force_iommu(struct vhost_dev *dev)
+     return true;
+ }
+ 
++/**
++ * Maps QEMU vaddr memory to device in a suitable way for shadow virtqueue:
++ * - It always reference qemu memory address, not guest's memory.
++ * - TODO It's always in range of device.
++ *
++ * It returns the translated address
++ */
++static int vhost_vdpa_svq_map(struct vhost_vdpa *v, VhostDMAMap *map)
++{
++    int r = vhost_iova_tree_alloc(v->iova_map, map);
++    assert(r == VHOST_DMA_MAP_OK);
++
++    return vhost_vdpa_dma_map(v, map->iova, map->size, map->translated_addr,
++                              false);
++}
++
+ static int vhost_vdpa_vring_pause(struct vhost_dev *dev)
+ {
+     int r;
+@@ -771,6 +788,7 @@ static int vhost_vdpa_vring_pause(struct vhost_dev *dev)
+  */
+ static bool vhost_vdpa_svq_start_vq(struct vhost_dev *dev, unsigned idx)
+ {
++    VhostDMAMap device_region, driver_region;
+     struct vhost_vdpa *v = dev->opaque;
+     VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, idx);
+     EventNotifier *vhost_call_notifier = vhost_svq_get_svq_call_notifier(svq);
+@@ -789,6 +807,33 @@ static bool vhost_vdpa_svq_start_vq(struct vhost_dev *dev, unsigned idx)
+     bool b;
+ 
+     vhost_svq_get_vring_addr(svq, &addr);
++    driver_region = (VhostDMAMap) {
++        .translated_addr = (void *)addr.desc_user_addr,
++
++        /*
++         * DMAMAp.size include the last byte included in the range, while
++         * sizeof marks one past it. Substract one byte to make them match.
++         */
++        .size = vhost_svq_driver_area_size(svq) - 1,
++        .perm = VHOST_ACCESS_RO,
++    };
++    device_region = (VhostDMAMap) {
++        .translated_addr = (void *)addr.used_user_addr,
++        .size = vhost_svq_device_area_size(svq) - 1,
++        .perm = VHOST_ACCESS_RW,
++    };
++
++    r = vhost_vdpa_svq_map(v, &driver_region);
++    assert(r == 0);
++    r = vhost_vdpa_svq_map(v, &device_region);
++    assert(r == 0);
++
++    /* Expose IOVA addresses to vDPA device */
++    addr.avail_user_addr = driver_region.iova + addr.avail_user_addr
++                           - addr.desc_user_addr;
++    addr.desc_user_addr = driver_region.iova;
++    addr.used_user_addr = device_region.iova;
++
+     r = vhost_vdpa_set_vring_addr(dev, &addr);
+     if (unlikely(r)) {
+         error_report("vhost_set_vring_addr for shadow vq failed");
+@@ -822,6 +867,17 @@ static bool vhost_vdpa_svq_start_vq(struct vhost_dev *dev, unsigned idx)
+     return true;
+ }
+ 
++/**
++ * Enable or disable shadow virtqueue in a vhost vdpa device.
++ *
++ * This function is idempotent, to call it many times with the same value for
++ * enable_svq will simply return success.
++ *
++ * @v       The vhost vdpa device
++ * @enable  The value of shadow virtqueue we want.
++ *
++ * Returns the number of queues changed.
++ */
+ static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *v, bool enable)
+ {
+     struct vhost_dev *hdev = v->dev;
+@@ -833,6 +889,8 @@ static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *v, bool enable)
+     }
+ 
+     if (enable) {
++        v->iova_map = vhost_iova_tree_new();
++
+         /* Allocate resources */
+         assert(v->shadow_vqs->len == 0);
+         for (n = 0; n < hdev->nvqs; ++n) {
+@@ -907,6 +965,7 @@ static unsigned vhost_vdpa_enable_svq(struct vhost_vdpa *v, bool enable)
+     if (!enable) {
+         /* Resources cleanup */
+         g_ptr_array_set_size(v->shadow_vqs, 0);
++        g_clear_pointer(&v->iova_map, vhost_iova_tree_unref);
+     }
+ 
+     return n;
 -- 
 2.27.0
 
