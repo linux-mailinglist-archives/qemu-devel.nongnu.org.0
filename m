@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E1D441EE40
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 15:07:54 +0200 (CEST)
-Received: from localhost ([::1]:51852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A02F441EE45
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 15:11:23 +0200 (CEST)
+Received: from localhost ([::1]:58490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWIGX-00039P-2E
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 09:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51664)
+	id 1mWIJu-0007lv-Fa
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 09:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1mWIDG-0000IL-T0; Fri, 01 Oct 2021 09:04:32 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:33698)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1mWIDE-0002rv-HD; Fri, 01 Oct 2021 09:04:30 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id
- d12-20020a05683025cc00b0054d8486c6b8so11448890otu.0; 
- Fri, 01 Oct 2021 06:04:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1pEjhzod8KyDXjZmqcJnYQWCNQss8/wgABk2YIvtLRY=;
- b=QCeo3rzey7an0e625o5biBzt/Dx4XqWT6VX49TWSMyy+cZ/IRx5hsmi3KwrE3ryexg
- RXl4rD5sb+JD/5d6J1dEhS5hgAgtAia9I7TTwLdxMWmCHk6AJKBChHFMlBfGNLfspT4/
- jUAXzLso+xV9kwKPpAtqoV1w2cyQ+Ke1QQZEIbCmDlAKttBjIyUO1JXtOTcFtDB9adhe
- rdxsN0x9a9Swm45XAHbsDOs/KMhJ9UPE2ZNwkZKpkkT/qYVR1BO2LLRMsAZ9bX6e+R7R
- b21oaaEMXsMOjfb6ogtgSlB0VIluLx/hwaXywRrmtgWp3suew/7wX7G3Tk8mW/GkVWVe
- kgXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=1pEjhzod8KyDXjZmqcJnYQWCNQss8/wgABk2YIvtLRY=;
- b=I9rRY/Y9T8xWD/OY/fCbC7gN4erH8fGdUgIYXddb00P8Dx3QklNnc6XLzKLZJlK7Ko
- /QFxWidg21eC+mT2zxRaSAOh1xNHWPT8ppx/J5XOaHbK78OLqqewi9wgn4kTy9tE5CB3
- +8SEJSqDAh4EXt/U8C50TqJHc4PbbDGss/TspRrsjR9xNsQyt4PG4Vn+zTYYcN8nagTN
- flBmZAK92lixBmq4Ac4T8AnPkTCTKIakYM6xzU1JL6zPGe0IDsW/uxwZNb4HVf4zVCK3
- jr/KH1YzU2IDRITCBHlaLPe+mbcn/3Nl1QvXs5A/gg81r1T73eIbVodfJaPIMkGpLxlT
- /ztQ==
-X-Gm-Message-State: AOAM533AvFmz7CKmtGch6Yj+Ge0tKdwGwU78rpiW7GjcccmLCIiFHbsA
- 6YX8a/v3eyc83O8ZkL83xDY=
-X-Google-Smtp-Source: ABdhPJxEva5SIHYceATrGNRkkQBkGXBRAxilzFovP24tekb/3hQ/fDYdnlILUxDiZTnnS+RO1PRfUg==
-X-Received: by 2002:a9d:67cf:: with SMTP id c15mr10286049otn.232.1633093465962; 
- Fri, 01 Oct 2021 06:04:25 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- bf15sm1247344oib.4.2021.10.01.06.04.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 06:04:25 -0700 (PDT)
-Date: Fri, 1 Oct 2021 06:04:23 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH] hw/ssi: imx_spi: Improve chip select handling
-Message-ID: <20211001130423.GA549865@roeck-us.net>
-References: <e08467c0-bd69-81d3-93d3-13b8fc812453@roeck-us.net>
- <CAEUhbmX9JxE+VxSL8BWGd_XKD-WJ0r5d5MKsbdVgPiJkZd5Y3w@mail.gmail.com>
- <CAEUhbmVfFRdbtu7yWUauO6sd0QNhoH6tuTAFA2PMxZp5P7+awA@mail.gmail.com>
- <PH0PR11MB5205AE78D6C5DFFFA767183B97D49@PH0PR11MB5205.namprd11.prod.outlook.com>
- <8b86d434-a2e6-8122-0a88-dc9a15fbfe87@roeck-us.net>
- <PH0PR11MB5205684F9CDEC890187D09D997DC9@PH0PR11MB5205.namprd11.prod.outlook.com>
- <20210916142140.GA252836@roeck-us.net>
- <PH0PR11MB52058E0462672E61797758B997DE9@PH0PR11MB5205.namprd11.prod.outlook.com>
- <2cd83a88-952c-6f86-74b2-8c0da3ce4394@roeck-us.net>
- <CAEUhbmVVjXKUxa95+GPPZSU5=isgTs7EMnN7gxgYn9Lkg+a0Xg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
+ id 1mWIDM-0000Kq-Ft; Fri, 01 Oct 2021 09:04:36 -0400
+Received: from pegase2.c-s.fr ([93.17.235.10]:39355)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <christophe.leroy@csgroup.eu>)
+ id 1mWIDI-0002uw-U9; Fri, 01 Oct 2021 09:04:36 -0400
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4HLVgd4Hvqz9sV9;
+ Fri,  1 Oct 2021 15:04:29 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6zNHoL1jQrBJ; Fri,  1 Oct 2021 15:04:29 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4HLVgd3DR7z9sSp;
+ Fri,  1 Oct 2021 15:04:29 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 5690E8B8BB;
+ Fri,  1 Oct 2021 15:04:29 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id 8Z-05pCDT3P7; Fri,  1 Oct 2021 15:04:29 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.203.170])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 1C3FC8B87D;
+ Fri,  1 Oct 2021 15:04:28 +0200 (CEST)
+Subject: Re: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
+ MAINTAINERS: Orphan obscure ppc platforms)
+To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ <20210927044808.73391-5-david@gibson.dropbear.id.au>
+ <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
+ <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
+ <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
+ <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
+ <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
+Date: Fri, 1 Oct 2021 15:04:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEUhbmVVjXKUxa95+GPPZSU5=isgTs7EMnN7gxgYn9Lkg+a0Xg@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=groeck7@gmail.com; helo=mail-ot1-x32c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr-FR
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=93.17.235.10;
+ envelope-from=christophe.leroy@csgroup.eu; helo=pegase2.c-s.fr
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.127,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 01 Oct 2021 09:08:27 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,47 +77,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, "Cheng,
- Xuzhou" <Xuzhou.Cheng@windriver.com>,
- Alistair Francis <alistair@alistair23.me>,
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>, dbarboza@redhat.com,
+ Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>, Jean-Christophe Dubois <jcd@tribudubois.net>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 26, 2021 at 10:49:53AM +0800, Bin Meng wrote:
-> On Sat, Sep 18, 2021 at 12:19 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> >
-> > On 9/17/21 8:09 PM, Cheng, Xuzhou wrote:
-> > >>> I got some free time in the past days to investigate this issue. Guenter is right, the Linux imx-spi driver does not work on QEMU.
-> > >>>
-> > >>> The reason is that the state of m25p80 machine loops in STATE_READING_DATA state after receiving RDSR command, the new command is ignored. Before sending a new command, the CS line should be pulled to high, this make the state of m25p80 back to IDLE.
-> > >>>
-> > >>> I have same point with Guenter, it's that set CS to 1 when burst is zero. But i don't think it is necessary to set CS to 0 in imx_spi_flush_txfifo(). I will send a new patch to fix this issue.
-> > >>>
-> > >>
-> > >> Thanks a lot for looking into this. If you have a better solution than mine, by all means, please go for it. As I mentioned in my patch, I didn't really like it, but I was unable to find a better solution.
-> > > I am doing some experiment to verify that the new patch is reasonable, so the new patch will be delayed few days.
-> > >
-> >
-> > No problem. Note that I'll be traveling for the next 2-3 weeks, and I won't be able
-> > to test any patches during that time.
-> >
+
+
+Le 01/10/2021 à 14:04, Thomas Huth a écrit :
+> On 01/10/2021 13.12, Peter Maydell wrote:
+>> On Fri, 1 Oct 2021 at 10:43, Thomas Huth <thuth@redhat.com> wrote:
+>>> Nevertheless, as long as nobody has a hint where to find that
+>>> ppc405_rom.bin, I think both boards are pretty useless in QEMU (as 
+>>> far as I
+>>> can see, they do not work without the bios at all, so it's also not 
+>>> possible
+>>> to use a Linux image with the "-kernel" CLI option directly).
+>>
+>> It is at least in theory possible to run bare-metal code on
+>> either board, by passing either a pflash or a bios argument.
 > 
-> I have some updates to share, as I have been working with Xuzhou
-> internally on this issue for the past days:
+> True. I did some more research, and seems like there was once support 
+> for those boards in u-boot, but it got removed there a couple of years 
+> ago already:
 > 
-> Current mods using BURST_LEN to determine the timing to pull up the CS
-> line in the SPI controller codes is a workaround. Hardware does not do
-> this. To understand what real hardware behavior is, Xuzhou used an
-> oscilloscope to verify our guess.
+> https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdf
 > 
-> It turns out the root cause is elsewhere, and a proper fix will be
-> sent out soon.
+> https://gitlab.com/qemu-project/u-boot/-/commit/b147ff2f37d5b
+> 
+> https://gitlab.com/qemu-project/u-boot/-/commit/7514037bcdc37
+> 
+>> But I agree that there seem to be no signs of anybody actually
+>> successfully using these boards for anything, so we should
+>> deprecate-and-delete them.
+> 
+> Yes, let's mark them as deprecated now ... if someone still uses them 
+> and speaks up, we can still revert the deprecation again.
 > 
 
-Thanks a lot for tracking this down!
 
-Guenter
+I really would like to be able to use them to validate Linux Kernel 
+changes, hence looking for that missing BIOS.
+
+If we remove ppc405 from QEMU, we won't be able to do any regression 
+tests of Linux Kernel on those processors.
+
+Christophe
 
