@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E1041F528
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 20:46:16 +0200 (CEST)
-Received: from localhost ([::1]:57996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAED41F53A
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 20:57:38 +0200 (CEST)
+Received: from localhost ([::1]:38660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWNXy-0002Iz-NX
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 14:46:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48266)
+	id 1mWNiy-00011z-SU
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 14:57:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
- id 1mWNUh-0007iq-A0
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 14:42:51 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:33758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
- id 1mWNUb-0004Ng-Nd
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 14:42:49 -0400
-Received: by mail-pl1-x632.google.com with SMTP id t4so6907842plo.0
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 11:42:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Hd6K+SgOQkT3bEJ7q+uzVipVp/2FZApeUYJaVyBum0w=;
- b=KrC5jo7kOwjboHa7bE6VcU63Gkf9InE2DhZ0PlhRVMIeB8X6Hl1NtnsrloK/VJe/9x
- OP3mCldiZUijAEcSc1XOFB49erbl+FKGClJorkrPSfArIk0vMQNBtrLiwhJYOgOvguRE
- INvlml/Syfqh/ztKA4UVCTy1r0wlCR0JnuDubtuQheoG0JEDXJnneq8/TMmswfbBSrU9
- gEqbvMIMD+p+hG4kPgZCrpwxwUnhHp3yY3yG7z7I4fmEwJfIh2n7EZJFvAeKwMfuKtBP
- MZ09a3uSVWQT+r1rPFIiITvr/QODuPmZ4/YBITE4bmBSuqF3JqdDmV5KGDGZ8LUKs5AK
- +j4w==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mWNh4-0000Bk-IN
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 14:55:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35074)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mWNh0-0006xA-CQ
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 14:55:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633114532;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=I8/95pGUFW4XMGmRBztQ+fhhXEIGU38wQT0ajK8lbF8=;
+ b=WyvWnrgc7bMy9T2lcw+7ejjjEoEQQCcpUqtcPF58XtSBX5THDMsuwGNS3W+NLbxMXrunMO
+ ACrdqMA/K1fidtMg9YONSACk3elY54zjf+vmKaKGwd5ScyDAEattpa4KoN4Ws8VOr1ulbY
+ NVxMZUDXXr4Gr0k6eEjqB7GA622aAVI=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-544-2gcTLnqfNX2ZwZnH-4w12Q-1; Fri, 01 Oct 2021 14:55:31 -0400
+X-MC-Unique: 2gcTLnqfNX2ZwZnH-4w12Q-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ 63-20020a9f2445000000b002c4023afb53so5130652uaq.17
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 11:55:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Hd6K+SgOQkT3bEJ7q+uzVipVp/2FZApeUYJaVyBum0w=;
- b=afuviMq7WKoe1t4Jz7OXlTzxfLDA6mpRtWw9eY3DQsTheY1425Rd72Uj+7TCltj45S
- ZRSXjIUUAefLpSRBrZSR55MwVor3Ex2jqtH0Eph1NJy+XmmqIirF55e46E83mGZiR5TJ
- 4McF1SxOU0dPldskAXc1Tu/wqWyBhrhG3JV2i1tgSgKvxbmDpBAjOXOx5U8Q4Ry7WngF
- bEFgADJPxyJgIoZ2O2xw3Goq+TiFwracQ2Vafikq1Va/i1Zvma2cJE/BRyGZqQC5MmZ0
- HnzFXpT9eqnAtLi1rt2xH6w6gst+x2yhqP3+dYN6bYCSr+8o+ooqwvwC7MYLApzx19Tj
- u5pg==
-X-Gm-Message-State: AOAM532pJZ/tPvGUgTmeCI2E8gAtGqfe76auxtE2byhtDULf/WnO9jaU
- eNQSHaBgbDju9oHdN4tTeqz6XhJbWXNAxQ==
-X-Google-Smtp-Source: ABdhPJxoZgHObc8DuOP+h7W8O4CkD8i7fOwx7rrHTBLGG7MdzaimByIHIjin0f4FJuIce1zR+X2LQA==
-X-Received: by 2002:a17:90b:38cf:: with SMTP id
- nn15mr21666417pjb.81.1633113762299; 
- Fri, 01 Oct 2021 11:42:42 -0700 (PDT)
-Received: from ip-10-124-121-13.byted.org
- (ec2-54-241-92-238.us-west-1.compute.amazonaws.com. [54.241.92.238])
- by smtp.gmail.com with ESMTPSA id u22sm3968904pje.10.2021.10.01.11.42.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 11:42:41 -0700 (PDT)
-From: Jiang Wang <jiang.wang@bytedance.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1] vsock: don't send messages when vsock device is not started
-Date: Fri,  1 Oct 2021 18:42:23 +0000
-Message-Id: <20211001184223.3600083-1-jiang.wang@bytedance.com>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=I8/95pGUFW4XMGmRBztQ+fhhXEIGU38wQT0ajK8lbF8=;
+ b=ccpvilwAZn2bK1qwXoQIhRgeZBnL7j05PmOcypyALYZ/LoakyqGn92aw8HQpY3UA/C
+ yYPqxffHOTAPeHBZRHIoFmwmW0pT2wet70iLqGYXjIz6kfDfzH+ZoU3gPBuEka5Yoi5q
+ aVQp6whhtosl2CQSOUWcSn3zaYNOzxMR3sNUzk5pHaTgEtBejM5sPxcec5iOq0+dbcO5
+ 3m85p1sY0bGPDXFgpjxF+fuxr2yFdj9FBvpsZ+aEgjpNYVRnZsyrrQgFDrJhbZK2eTT+
+ HytGkf3kF5EEohKlFEn0ahvUr1KVXBGMkkK4qnqInQn10zpDRGvImgotC4OmgATP4p2O
+ h82g==
+X-Gm-Message-State: AOAM533u0yKDAZOxPmYZKsa7U5KBJb1C58/BSum70JziBfCcIXrfDAhE
+ PCH75j0Psuv1zNzuxUed80HSrvPE5gVTm7RVU37oPHlpiwNr+AsZ/wvJuOl7FoM4oAzdNHw4w0y
+ YHqT+MumY8X+TnZ+XwXErS4DI8IQTHYA=
+X-Received: by 2002:ab0:5684:: with SMTP id a4mr11891511uab.79.1633114530852; 
+ Fri, 01 Oct 2021 11:55:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyRqjQ1ykoji7mls102mZHNIeXcV42SJYKIEYdW9Kwkg0z7oFMgbTUEj4eSmAi1HPhx8wb18o5MHZPfGD1J84A=
+X-Received: by 2002:ab0:5684:: with SMTP id a4mr11891488uab.79.1633114530680; 
+ Fri, 01 Oct 2021 11:55:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=jiang.wang@bytedance.com; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210930205716.1148693-1-jsnow@redhat.com>
+ <20210930205716.1148693-4-jsnow@redhat.com>
+ <87h7e0vnr9.fsf@dusky.pond.sub.org>
+In-Reply-To: <87h7e0vnr9.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 1 Oct 2021 14:55:20 -0400
+Message-ID: <CAFn=p-YWF3PyZw=EUgFrym5EqSFDPmYJnoHh84msmJfiY2tzfQ@mail.gmail.com>
+Subject: Re: [PATCH v4 03/13] qapi/parser: fix unused check_args_section
+ arguments
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000007aa4b805cd4f1b0d"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,38 +89,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sgarzare@redhat.com
+Cc: Michael Roth <michael.roth@amd.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added a check in vhost_vsock_common_send_transport_reset,
-and only send messages on event queue when the vsock host
-device is started.
+--0000000000007aa4b805cd4f1b0d
+Content-Type: text/plain; charset="UTF-8"
 
-Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
----
- hw/virtio/vhost-vsock-common.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On Fri, Oct 1, 2021 at 10:11 AM Markus Armbruster <armbru@redhat.com> wrote:
 
-diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
-index 4ad6e234ad..64425719a2 100644
---- a/hw/virtio/vhost-vsock-common.c
-+++ b/hw/virtio/vhost-vsock-common.c
-@@ -138,8 +138,10 @@ static void vhost_vsock_common_send_transport_reset(VHostVSockCommon *vvc)
-         goto out;
-     }
- 
--    virtqueue_push(vq, elem, sizeof(event));
--    virtio_notify(VIRTIO_DEVICE(vvc), vq);
-+    if (vvc->vhost_dev.started) {
-+        virtqueue_push(vq, elem, sizeof(event));
-+        virtio_notify(VIRTIO_DEVICE(vvc), vq);
-+    }
- 
- out:
-     g_free(elem);
--- 
-2.20.1
+> John Snow <jsnow@redhat.com> writes:
+>
+> > Pylint informs us we're not using these arguments. Oops, it's
+> > right. Correct the error message and remove the remaining unused
+> > parameter.
+> >
+> > Fix test output now that the error message is improved.
+> > Fixes: e151941d1b
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+>
+> In v3, the blank line was where it belongs:
+>
+>   Fix test output now that the error message is improved.
+>
+>   Fixes: e151941d1b
+>   Signed-off-by: John Snow <jsnow@redhat.com>
+>
+> The change looks accidental.  Can tidy up in my tree.
+>
+
+Yes please, thank you :)
+
+--0000000000007aa4b805cd4f1b0d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 1, 2021 at 10:11 AM Marku=
+s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">John=
+ Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsnow@redha=
+t.com</a>&gt; writes:<br>
+<br>
+&gt; Pylint informs us we&#39;re not using these arguments. Oops, it&#39;s<=
+br>
+&gt; right. Correct the error message and remove the remaining unused<br>
+&gt; parameter.<br>
+&gt;<br>
+&gt; Fix test output now that the error message is improved.<br>
+&gt; Fixes: e151941d1b<br>
+&gt;<br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+<br>
+In v3, the blank line was where it belongs:<br>
+<br>
+=C2=A0 Fix test output now that the error message is improved.<br>
+<br>
+=C2=A0 Fixes: e151941d1b<br>
+=C2=A0 Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" tar=
+get=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+<br>
+The change looks accidental.=C2=A0 Can tidy up in my tree.<br></blockquote>=
+<div><br></div><div>Yes please, thank you :) <br></div></div></div>
+
+--0000000000007aa4b805cd4f1b0d--
 
 
