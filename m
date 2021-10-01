@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12CD41F3EE
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:54:05 +0200 (CEST)
-Received: from localhost ([::1]:35676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4832741F435
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Oct 2021 19:59:38 +0200 (CEST)
+Received: from localhost ([::1]:53506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWMjU-0005oB-MJ
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55102)
+	id 1mWMor-0000xP-Bg
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 13:59:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWM5D-0005C6-ON
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:29 -0400
-Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:33573)
+ id 1mWM5I-0005Fp-9y
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:35 -0400
+Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:40669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWM5B-0005JN-N1
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:27 -0400
-Received: by mail-qv1-xf2e.google.com with SMTP id a9so6024843qvf.0
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:12:25 -0700 (PDT)
+ id 1mWM5D-0005Kz-CU
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 13:12:32 -0400
+Received: by mail-qt1-x82e.google.com with SMTP id b16so9624701qtt.7
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 10:12:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ed7k7oV00Ud53qqbt9Yos8IyOCfVvxLg7PyS2NKYTH0=;
- b=YqPuSya7aCdRIEKhEZod8HGV9ua3R+yxBLeyblsT5laePgT52MagP+1aAx17IaONM9
- vvNdRwRvsL0SdcZAqB337o1VBULjbYB494ZiUxkyKlL60FX3mFClWhTPJFZSiQu1OQ0I
- 17iVJL1IVZ/5jdQtYRBulvsYqUu+O+N2svS+z3tGlnfaVaszRdMEAylMMxczYfF69glu
- EtJcQWCC7mK8QW5Vp6JFlMspjKrei4w4myat7peXhO59dZKaTIEQkYcjgE9bGDYV4AL9
- W28IYjK10PdkF6ppl4pfD/dsvfCZ8BfWx0l58hx9sXjl7pYYfvRp7pcx/unid5AcdxK6
- W69w==
+ bh=jEmAGke+Q2SF6dInMRgXkKJGhuJtK6GWTLvXnPINEiA=;
+ b=g22jRRh55mZ5K8H4u4kGvD3IkpvkvmwQDSYSIbTxkIX18IMGlxIcUclxX9JedDNm7J
+ e72Bu3fT10hpvk18l1cGIivyM77+qTK9/UoUvSbKGzpPmp0lstvlKbKJxI+jQyf/T7mR
+ IO2cgwHEJtkW7ShIBIrkj/9S/p9XGZGoAmhfGjH5l+ULWBoV28j5x7jIPZXldoQngSS7
+ emXc43CtTY3KVTgEv9mwX8jlTOb2938cpDMt4qVKH2QgKjkfi3nhQT4/nJ5Pc05t2U+S
+ vjuw/tuP/UbH72iiAFLSp3mXxKBJWABVyh9qCML/1uOpkEehZZOBXF/qoqmyME+53vg4
+ mLMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ed7k7oV00Ud53qqbt9Yos8IyOCfVvxLg7PyS2NKYTH0=;
- b=5B7/VNLaESzsj9kN6nosLcTracZqsYxhLB0dI80tTCtZv6oS+Vk4DwvL7bcXp7mEcO
- 5IEcrD7pOSKdn0OflGbqIEUu2o3Y3tUfgpwAvIwjDDBnwFiM3RvqNfPEIywUc4IdyUqu
- eMz+fIjsU/1W3b0KztWacBWGQQPexZnVNkR/Pg+0Tr+q5pYC9NmJSlRSVACrKqKybauJ
- lrNNSjyY9T1ss98kTyE0LkBb60hNyIfFS28YIvG5H5YcZA8hoZiyVGB5ig6/M1YbMWTh
- eSjm5/xJm32d26KhHrd3EK9RlasJY8pLeI0mNROoAd/VKobkVq7kqEq+jplhlpyxvnwG
- IUdQ==
-X-Gm-Message-State: AOAM530o6GKjshfJbfa3xByADe1d11GnkJ6huUf54EWCAZh8UokOwCfZ
- v6tKHzISJx3VRmsiVlr8SzzjGR6r4GzFuw==
-X-Google-Smtp-Source: ABdhPJxjwVr0EjcSMMkLvLGBJz+8OvgSZzyOjRvNf6R8FKMqMj5vJKAPIPk9eNYd6/xQeG/mvHeqWg==
-X-Received: by 2002:a0c:df0c:: with SMTP id g12mr11460642qvl.25.1633108344711; 
- Fri, 01 Oct 2021 10:12:24 -0700 (PDT)
+ bh=jEmAGke+Q2SF6dInMRgXkKJGhuJtK6GWTLvXnPINEiA=;
+ b=wU8Y9UaGoBuqlyBYOMRO00YNrsBPZCLOcKXUDZ8vsRSlRrLWmbZEnO1XskADZpN2Ri
+ XTUZtF5GeK3sIefVzJHkbG7qylxVUlfsyKNsAMbwzpsNJ8avC4H/aEBO/YwD/f1NleoL
+ wev0FhLF827tX4pQ/ojeDJgmXXdloq4vSEBNKcMdwvslHd9Tlev/jii/xeFzucLtb9ox
+ CFrRwsx0dE3AbEYpfuq6/R9ZAapn1BiWQcYn/72t3PL4WUMqBfdFaBSAqSmq2oyTCPjK
+ 4C2ydHILqfwxFoNJiFsNlvA03gDELdQRQJnSYYYTa1fh/KiYP67SiwjjqlEShX9ROnOb
+ Hjdg==
+X-Gm-Message-State: AOAM531ePWKxuF9BuClQKDtV0ngeR3EYTaCTQctXT+hhkAflN3ZSpSjW
+ WgKVTmj+byIY9I+QILj4AdFoR+f3qnHDGA==
+X-Google-Smtp-Source: ABdhPJyx8msEYtKOem4n9zEb9mHs0l3oY2YfTrqbU+6p78QibKTYVFilCLaDBRteIEVkFT4GNpiqyw==
+X-Received: by 2002:ac8:434d:: with SMTP id a13mr14325274qtn.91.1633108345528; 
+ Fri, 01 Oct 2021 10:12:25 -0700 (PDT)
 Received: from localhost.localdomain (c-67-174-166-185.hsd1.ga.comcast.net.
  [67.174.166.185])
  by smtp.gmail.com with ESMTPSA id y15sm3557250qko.78.2021.10.01.10.12.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 10:12:24 -0700 (PDT)
+ Fri, 01 Oct 2021 10:12:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 36/41] target/s390x: Use probe_access_flags in
- s390_probe_access
-Date: Fri,  1 Oct 2021 13:11:46 -0400
-Message-Id: <20211001171151.1739472-37-richard.henderson@linaro.org>
+Subject: [PATCH v3 37/41] target/s390x: Implement s390_cpu_record_sigsegv
+Date: Fri,  1 Oct 2021 13:11:47 -0400
+Message-Id: <20211001171151.1739472-38-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211001171151.1739472-1-richard.henderson@linaro.org>
 References: <20211001171151.1739472-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82e.google.com
 X-Spam_score_int: -1
 X-Spam_score: -0.2
 X-Spam_bar: /
 X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,60 +83,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, alex.bennee@linaro.org, laurent@vivier.eu
+Cc: qemu-s390x@nongnu.org, alex.bennee@linaro.org, laurent@vivier.eu,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not sure why the user-only code wasn't rewritten to use
-probe_access_flags at the same time that the sysemu code
-was converted.  For the purpose of user-only, this is an
-exact replacement.
+Move the masking of the address from cpu_loop into
+s390_cpu_record_sigsegv -- this is governed by hw, not linux.
+This does mean we have to raise our own exception, rather
+than return to the fallback.
+
+Use maperr to choose between PGM_PROTECTION and PGM_ADDRESSING.
+Use the appropriate si_code for each in cpu_loop.
 
 Cc: qemu-s390x@nongnu.org
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/tcg/mem_helper.c | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
+ target/s390x/s390x-internal.h  | 13 ++++++++++---
+ linux-user/s390x/cpu_loop.c    | 13 ++++++-------
+ target/s390x/cpu.c             |  6 ++++--
+ target/s390x/tcg/excp_helper.c | 18 +++++++++++-------
+ 4 files changed, 31 insertions(+), 19 deletions(-)
 
-diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
-index 0bf775a37d..596270e45d 100644
---- a/target/s390x/tcg/mem_helper.c
-+++ b/target/s390x/tcg/mem_helper.c
-@@ -142,20 +142,12 @@ static int s390_probe_access(CPUArchState *env, target_ulong addr, int size,
-                              MMUAccessType access_type, int mmu_idx,
-                              bool nonfault, void **phost, uintptr_t ra)
- {
-+#if defined(CONFIG_USER_ONLY)
-+    return probe_access_flags(env, addr, access_type, mmu_idx,
-+                              nonfault, phost, ra);
-+#else
-     int flags;
+diff --git a/target/s390x/s390x-internal.h b/target/s390x/s390x-internal.h
+index 27d4a03ca1..163aa4f94a 100644
+--- a/target/s390x/s390x-internal.h
++++ b/target/s390x/s390x-internal.h
+@@ -270,13 +270,20 @@ ObjectClass *s390_cpu_class_by_name(const char *name);
+ void s390x_cpu_debug_excp_handler(CPUState *cs);
+ void s390_cpu_do_interrupt(CPUState *cpu);
+ bool s390_cpu_exec_interrupt(CPUState *cpu, int int_req);
+-bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                       MMUAccessType access_type, int mmu_idx,
+-                       bool probe, uintptr_t retaddr);
+ void s390x_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                                    MMUAccessType access_type, int mmu_idx,
+                                    uintptr_t retaddr) QEMU_NORETURN;
  
--#if defined(CONFIG_USER_ONLY)
--    flags = page_get_flags(addr);
--    if (!(flags & (access_type == MMU_DATA_LOAD ?  PAGE_READ : PAGE_WRITE_ORG))) {
--        env->__excp_addr = addr;
--        flags = (flags & PAGE_VALID) ? PGM_PROTECTION : PGM_ADDRESSING;
--        if (nonfault) {
--            return flags;
--        }
--        tcg_s390_program_interrupt(env, flags, ra);
--    }
--    *phost = g2h(env_cpu(env), addr);
--#else
-     /*
-      * For !CONFIG_USER_ONLY, we cannot rely on TLB_INVALID_MASK or haddr==NULL
-      * to detect if there was an exception during tlb_fill().
-@@ -174,8 +166,8 @@ static int s390_probe_access(CPUArchState *env, target_ulong addr, int size,
-                              (access_type == MMU_DATA_STORE
-                               ? BP_MEM_WRITE : BP_MEM_READ), ra);
-     }
--#endif
-     return 0;
++#ifdef CONFIG_USER_ONLY
++void s390_cpu_record_sigsegv(CPUState *cs, vaddr address,
++                             MMUAccessType access_type,
++                             bool maperr, uintptr_t retaddr);
++#else
++bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                       MMUAccessType access_type, int mmu_idx,
++                       bool probe, uintptr_t retaddr);
 +#endif
++
+ 
+ /* fpu_helper.c */
+ uint32_t set_cc_nz_f32(float32 v);
+diff --git a/linux-user/s390x/cpu_loop.c b/linux-user/s390x/cpu_loop.c
+index 69b69981f6..d089c8417e 100644
+--- a/linux-user/s390x/cpu_loop.c
++++ b/linux-user/s390x/cpu_loop.c
+@@ -24,8 +24,6 @@
+ #include "cpu_loop-common.h"
+ #include "signal-common.h"
+ 
+-/* s390x masks the fault address it reports in si_addr for SIGSEGV and SIGBUS */
+-#define S390X_FAIL_ADDR_MASK -4096LL
+ 
+ static int get_pgm_data_si_code(int dxc_code)
+ {
+@@ -111,12 +109,13 @@ void cpu_loop(CPUS390XState *env)
+                 n = TARGET_ILL_ILLOPC;
+                 goto do_signal_pc;
+             case PGM_PROTECTION:
++                force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_ACCERR,
++                                env->__excp_addr);
++                break;
+             case PGM_ADDRESSING:
+-                sig = TARGET_SIGSEGV;
+-                /* XXX: check env->error_code */
+-                n = TARGET_SEGV_MAPERR;
+-                addr = env->__excp_addr & S390X_FAIL_ADDR_MASK;
+-                goto do_signal;
++                force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR,
++                                env->__excp_addr);
++                break;
+             case PGM_EXECUTE:
+             case PGM_SPECIFICATION:
+             case PGM_SPECIAL_OP:
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 7b7b05f1d3..593dda75c4 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -266,9 +266,11 @@ static void s390_cpu_reset_full(DeviceState *dev)
+ 
+ static const struct TCGCPUOps s390_tcg_ops = {
+     .initialize = s390x_translate_init,
+-    .tlb_fill = s390_cpu_tlb_fill,
+ 
+-#if !defined(CONFIG_USER_ONLY)
++#ifdef CONFIG_USER_ONLY
++    .record_sigsegv = s390_cpu_record_sigsegv,
++#else
++    .tlb_fill = s390_cpu_tlb_fill,
+     .cpu_exec_interrupt = s390_cpu_exec_interrupt,
+     .do_interrupt = s390_cpu_do_interrupt,
+     .debug_excp_handler = s390x_cpu_debug_excp_handler,
+diff --git a/target/s390x/tcg/excp_helper.c b/target/s390x/tcg/excp_helper.c
+index 3d6662a53c..b923d080fc 100644
+--- a/target/s390x/tcg/excp_helper.c
++++ b/target/s390x/tcg/excp_helper.c
+@@ -89,16 +89,20 @@ void s390_cpu_do_interrupt(CPUState *cs)
+     cs->exception_index = -1;
  }
  
- static int access_prepare_nf(S390Access *access, CPUS390XState *env,
+-bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                       MMUAccessType access_type, int mmu_idx,
+-                       bool probe, uintptr_t retaddr)
++void s390_cpu_record_sigsegv(CPUState *cs, vaddr address,
++                             MMUAccessType access_type,
++                             bool maperr, uintptr_t retaddr)
+ {
+     S390CPU *cpu = S390_CPU(cs);
+ 
+-    trigger_pgm_exception(&cpu->env, PGM_ADDRESSING);
+-    /* On real machines this value is dropped into LowMem.  Since this
+-       is userland, simply put this someplace that cpu_loop can find it.  */
+-    cpu->env.__excp_addr = address;
++    trigger_pgm_exception(&cpu->env, maperr ? PGM_ADDRESSING : PGM_PROTECTION);
++    /*
++     * On real machines this value is dropped into LowMem. Since this
++     * is userland, simply put this someplace that cpu_loop can find it.
++     * S390 only gives the page of the fault, not the exact address.
++     * C.f. the construction of TEC in mmu_translate().
++     */
++    cpu->env.__excp_addr = address & TARGET_PAGE_MASK;
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+ 
 -- 
 2.25.1
 
