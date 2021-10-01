@@ -2,131 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F3B941F77F
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 00:41:15 +0200 (CEST)
-Received: from localhost ([::1]:44182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DAE641F80B
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 01:07:52 +0200 (CEST)
+Received: from localhost ([::1]:34558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWRDO-0001RJ-8b
-	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 18:41:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35556)
+	id 1mWRd9-0007OI-0r
+	for lists+qemu-devel@lfdr.de; Fri, 01 Oct 2021 19:07:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1mWRAu-0007Wu-Fd
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 18:38:43 -0400
-Received: from esa.hc3962-90.iphmx.com ([216.71.140.77]:52200)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1mWRZh-0004sz-Sk
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 19:04:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1mWRAs-0005oS-9V
- for qemu-devel@nongnu.org; Fri, 01 Oct 2021 18:38:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1633127917; x=1633732717;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=/SHQX2Jy0liNrS8Stn1NUfOSXn3flhsNcSPbND2baS0=;
- b=OILp4XIOZWN/D6co2fLEZg2kZoEPDvzLwdcmwPFJ69eaZTBHBd974xaB
- U1ZyG07UtK06t2P8KvoiAdewulhZeJ3XWHZM/unGsjnBYQJHRw+YoZ0Sg
- NxpBrN/hXkhtZseXRRLsqsHKH2fSIGDR7Dwmyg3/uhZcVgPSrHToGVTw8 4=;
-Received: from mail-dm6nam10lp2107.outbound.protection.outlook.com (HELO
- NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.107])
- by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2021 22:38:31 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KNbDqVNfzHIpqfpH7TrSddUgWyIHeC7RO0n7bHx4DtNeCSWr8+HO51gtobBdPSibTo/6j6xuIleY16U4srF7Ow/hi31a9G61MdRRuTEQbMhiMgjtIKV3yOF12Oe9O4+Cis7lWIWuXyGx1R79t6eJO9iAb+pwwJ87D9Kh111crxWZGGRxy5kdqhJhXB1Il+C6IGM4dddMkz1JCXVwrxhipFfcQY/cK+7/NhDewcKToE7FfERIxWyjf51I2qxs5DP1vqwvMegXN3I4OPJpwdA6pFxsoHEgYyDIA35ftJ2ii9uRNGPhfSRrtB90BEyimzPEpoBaSTkxjCpYw5XmItEfXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/SHQX2Jy0liNrS8Stn1NUfOSXn3flhsNcSPbND2baS0=;
- b=ocLXmg0GzPx0MU9sQ3TLHWRlPNFL4Na29HS8HRU98yWwiTg+lmSjaok+eFSo6BC6tj12omW8ebYmKuPZ/qXHz7Ckw9AlsvqtJPXDP4rsOyUtVPlaByQTYic6Yp6QeZqe+QOxElfxjOQzfwgOmf0ho/eBqZKeNfz9/5+q9rULgNKO2nLQnJC1Uc5ebzPD+o8rF0ee8qR3IDZTuYvfBUDmmVps8wWBn0sqv1o1o0F7Fm0S32NQzNQnKQO5wgIDAXuum+TAIFm1s1Ye0FEo53pq7d5fNGfsLzFInqUTeIFzcsiU6+Fy/7vBAi7cRYrpPJJdtyDnArDh1mYITqp8b7J8gw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by SA1PR02MB8541.namprd02.prod.outlook.com
- (2603:10b6:806:1f8::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.16; Fri, 1 Oct
- 2021 22:38:30 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::280a:7736:7222:e289]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::280a:7736:7222:e289%7]) with mapi id 15.20.4544.025; Fri, 1 Oct 2021
- 22:38:30 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v3 25/41] target/hexagon: Remove hexagon_cpu_tlb_fill
-Thread-Topic: [PATCH v3 25/41] target/hexagon: Remove hexagon_cpu_tlb_fill
-Thread-Index: AQHXtuehSWtk/fVh106dcb0usyN7fau+tsoA
-Date: Fri, 1 Oct 2021 22:38:30 +0000
-Message-ID: <SN4PR0201MB880857D69DEA0CD230DEEC18DEAB9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20211001171151.1739472-1-richard.henderson@linaro.org>
- <20211001171151.1739472-26-richard.henderson@linaro.org>
-In-Reply-To: <20211001171151.1739472-26-richard.henderson@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=quicinc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 04fe12dc-63a7-470f-fb17-08d9852c3185
-x-ms-traffictypediagnostic: SA1PR02MB8541:
-x-microsoft-antispam-prvs: <SA1PR02MB85418BF75CACCD1467916381DEAB9@SA1PR02MB8541.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:619;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5oD12/FwM7VlyQqJgJDh/lrQ9oLcXHnDIT4oCl5uHuk7iXUBJN6nIIE0dESkHG33xW9mTCzOkZyi8O/YYSOqC8uRmiyYbPGvUa4QxT2w0GUogd4BgFW+MvzBcmOUlTTXrOPQ860CHsVP0m7oSqBdjq3dAjw477MbF/HGrIOXbyUbuq+wz1rRn0Egfa/As0j+F0JcVxXEDiS8Q3YGmnRVhNbVocWzkcgV9nmNlq1jvneBUY02C2nM+nyfNEr2o1qhbLfPEICda3Mc/ibGVs7a/sl/OI2hTS8V2KRgIsGEAEHkd9wGcuEKNvHQ7dgbeVxU/c6/OOcMCSzhLMtzXjgwk9E4fOa4YvmD3+o2TDU3Dc/qD1ZOEJ4ete2r8/YrHCCqPRFOU8NLwsUagOUyv12rqnOWlYxYuTfZQPmpc+CXfewUNwtiE3IgIakZSP2xv3iPcG7ta7gtOdIm2C5VT4Ok7NRjcOD8uhcc7AO34WhmyLBCMSEpdyU3qeiVFIYwXZU+F43DYBMPlFwKpJSDJo3aFN8S9KqhAVjVKDdW1uYz4IRcJsTmSyMD7nnWiaRf31Flum0XUv8Joqizd7l+M4UQPItrTh6S5AS02Nem76f7CmR66eXSGIz2O8jBxsh4klYhOi9KrihRpch2flkvqNr4LvOousSaj8qpQJEmlQnBRZGz5CO/vJlJbKDXcTCDcI/haJiirVccoc83NOThEyCdgw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(9686003)(64756008)(2906002)(66446008)(316002)(4744005)(122000001)(66556008)(38100700002)(86362001)(83380400001)(8936002)(71200400001)(54906003)(7696005)(66476007)(5660300002)(52536014)(4326008)(6506007)(110136005)(508600001)(76116006)(66946007)(33656002)(26005)(8676002)(53546011)(55016002)(38070700005)(186003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?AZj03iHWBKV8zOkEhPgqPhHW5gdm0W8JEg6p7D3wqbsb+Fc2x0fFQbKaPcX3?=
- =?us-ascii?Q?BOICW3bkbnzzCAS6fl5aJwLEwbxxiAyZxH3vi59XK1myaO8bVOIYM7l7+y09?=
- =?us-ascii?Q?qMVBwAUw2n2iRPkJr26gYrskrcPAi8S8N7E4AjPHcjulJIIecInwCI9UYakw?=
- =?us-ascii?Q?ra0VNj88gnPPpeQdLtJU2YCcy0X55Q3X1Mpr0YtO/s+CXXpSvNidLnje/Fao?=
- =?us-ascii?Q?t+T2wcxCd/4a3RKFJKwOpT0yqeQM1xequ1frj2ey0D5Y6Sv/JiHmcFmoboJA?=
- =?us-ascii?Q?jSJOHhQ3V5D/b9rdXTBq6cs3+hIr5/ltv2NpYdi0cYPvmBPdFrIVYEvrblL6?=
- =?us-ascii?Q?CBLy2omAqVEZtbMNEzrqNih7ZYlRmiGROnySXP4XBsVg3SRhVMxiRYUBOb9x?=
- =?us-ascii?Q?t2wLKvCWgofDFxGdR8k96IRNAz553MHW5tNx+mk86RdJHmoNaf+OCY2qBGnf?=
- =?us-ascii?Q?RepCk2r9H0MbBrZuUEDjM+F1clLy5EdofCpXdQljh0B+ZJ1n7Dr+mzB5yMPP?=
- =?us-ascii?Q?/MNpvl6ZlnbWtjgzfBWVOtkVGA2qx9G6E4COgC+05LjinC3NblzV/wkSbpU5?=
- =?us-ascii?Q?05KlRV+WlqUpfwoIc966YE4aVdsJ8CJytico3AZxGguV3SBnCxr2x8UImG4W?=
- =?us-ascii?Q?4tEDriKP33UHQ1RPDSHLbQJCAtG0wjJekw9L/tb2eHY8cX5iBd4E5VjVbJAE?=
- =?us-ascii?Q?6J7lb3iLD51DCUlE5R/nj7ffNuLBJWD8zHAfOa9KaluK7ea4Fppa32DiksDP?=
- =?us-ascii?Q?BKUuNYqkb0nPe98DClxRD4vrQv2aW3QBD7zjCOqcozVGIdcX/x3yc9I84trL?=
- =?us-ascii?Q?7jjaJ1bfsP66JhvNEMxvy/PMSOLqCOMrjk1m3NMR2M61Np6gj6URs5iPqreD?=
- =?us-ascii?Q?tUBBVHI2edi9qDAiaXAYRKjeSR6aOj+fr1UNuov4JBVt9V4ZefFXiNSdHa57?=
- =?us-ascii?Q?VOzm8Jenv5L5MuuyspR++kqexDDVSnk03Kxovk3eBB/XNlFE8RE9+rjabeC7?=
- =?us-ascii?Q?R25lPgemOX4cCiN3sAP93bduCd/uxHkXM9zexlnFaEhDHkcBagkf+CjlgIc+?=
- =?us-ascii?Q?U5SgR8SovI+s2maD+FyJwn+PoE59YrDrSQxLbYckLjcU7i6rh+s+PD3TQ5tK?=
- =?us-ascii?Q?D3X5C2AmztHWD4PVYnQZZEzYBW+uWbYoqystuRmCqlhBlUawAp7X6GDQBh85?=
- =?us-ascii?Q?4ZNrChkTttSbvkqKgoROr1vSvkvfKkwYmHkg4qyhpPWGPrdDpulV25s7Ow+4?=
- =?us-ascii?Q?r9W3pvVqHfQUAOp8maEphwd+Ao8LUHqbJEtugW2Ug15/A6IEHhR86aommIJV?=
- =?us-ascii?Q?wbXKOjT7JmZWfj+EOpBCB4q3?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1mWRZe-0001LP-Hr
+ for qemu-devel@nongnu.org; Fri, 01 Oct 2021 19:04:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633129450;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ra1lHhjZUOTCnmEE8WM3NAbcqn1BizoBSiNbor47Qa4=;
+ b=DDBwJXAebSG+2edx7ETGJtbVGBxImdGprk4GGzLv95YSMyaZLeM1tJHPGkfynFdpj9pqiF
+ iRCk/7szM/6f3CKSMsZszxi6TlbDiLaUlHRC5FtNsmMeImwzyOm/ncZvI9XqEXQ39nOtye
+ f1MaxJqROIfEqyjDyaSwn7HGF+0w8DY=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410-EukDonprM5a6dwef2e3D0w-1; Fri, 01 Oct 2021 19:04:09 -0400
+X-MC-Unique: EukDonprM5a6dwef2e3D0w-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ m12-20020a0568301e6c00b005469f1a7d70so7573183otr.15
+ for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 16:04:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Ra1lHhjZUOTCnmEE8WM3NAbcqn1BizoBSiNbor47Qa4=;
+ b=GljKs5ykn/QGmnhKak9HcuC2WwaRIhzoJUQdY7Z5p/fuPKM4IzZLNud30pgG0y2GC1
+ EE2DDFCSfropioxqgBCvFXj//Hlz0in02OVohY1swbw7F1xkZYSnAxm9jyTgfnUQPTPb
+ UUL/qoCtH8KrIwKdKfZFRbLJ0ReAVLQq9LybM4jGowa1mNq6TuPskxMOovabDcQlOZil
+ XvOfUP+kPMWE3BNLFSw2ziPN31M4qoiu3rBoFvFr3CS7ZV6ukcJ8USkbpPWC0SIYIWoo
+ bg4R+jSrQlZBnHo/xxIagNDnlui+LZW3dfIBx8ti7YJCKyNu00Q8nSsTr255+TkTKlco
+ CCtA==
+X-Gm-Message-State: AOAM532Ys8fl8a9FP1wSVVe86pIDXWdjElYpnGJ1wwy9NYuvcbxnGXrL
+ 56ObReBXGlNX4tyr6yIPekOSzckoOWMdP8qxWiaYOEGmjGgFHLxZLUKCZRL1pnYQkeTZ/zmOUGa
+ VqrmvUZbQa5DbKC0=
+X-Received: by 2002:a9d:655a:: with SMTP id q26mr393777otl.130.1633129448478; 
+ Fri, 01 Oct 2021 16:04:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwCZXZGPRMlxePPZjmoVfEFhSy5zNu2c79PsRqoKEvj5+Fh8FD/36m2qguTS9f/CkYt4aGVZg==
+X-Received: by 2002:a9d:655a:: with SMTP id q26mr393764otl.130.1633129448261; 
+ Fri, 01 Oct 2021 16:04:08 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+ by smtp.gmail.com with ESMTPSA id g12sm1423797oof.6.2021.10.01.16.04.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Oct 2021 16:04:07 -0700 (PDT)
+Date: Fri, 1 Oct 2021 17:04:05 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Subject: Re: [PATCH v3 4/9] msix: simplify the conditional in
+ msix_set/unset_vector_notifiers
+Message-ID: <20211001170405.085fa9e1.alex.williamson@redhat.com>
+In-Reply-To: <20210920230202.1439-5-longpeng2@huawei.com>
+References: <20210920230202.1439-1-longpeng2@huawei.com>
+ <20210920230202.1439-5-longpeng2@huawei.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04fe12dc-63a7-470f-fb17-08d9852c3185
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Oct 2021 22:38:30.3663 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: D3IiaUXttSA2bUhvq7Hmd0OIuREJMT8Pr6lTxCvT6oKe695tyo2ovZdGU5lZaKenPCX0/SMvf3KJoYpqYbxImQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR02MB8541
-Received-SPF: pass client-ip=216.71.140.77; envelope-from=tsimpson@quicinc.com;
- helo=esa.hc3962-90.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -140,32 +98,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- "laurent@vivier.eu" <laurent@vivier.eu>
+Cc: chenjiashang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
+ arei.gonglei@huawei.com, pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Richard Henderson <richard.henderson@linaro.org>
-> Sent: Friday, October 1, 2021 12:12 PM
-> To: qemu-devel@nongnu.org
-> Cc: laurent@vivier.eu; alex.bennee@linaro.org; Taylor Simpson
-> <tsimpson@quicinc.com>
-> Subject: [PATCH v3 25/41] target/hexagon: Remove hexagon_cpu_tlb_fill
->=20
-> The fallback code in raise_sigsegv is sufficient for hexagon.
-> Remove the code from cpu_loop that raises SIGSEGV.
->=20
-> Cc: Taylor Simpson <tsimpson@quicinc.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, 21 Sep 2021 07:01:57 +0800
+"Longpeng(Mike)" <longpeng2@huawei.com> wrote:
+
+> 'msix_function_masked' is synchronized with the device's config,
+> we can use it to replace the complex conditional statementis in
+> msix_set/unset_vector_notifiers.
+> 
+> Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
 > ---
->  linux-user/hexagon/cpu_loop.c | 24 +-----------------------
->  target/hexagon/cpu.c          | 23 -----------------------
->  2 files changed, 1 insertion(+), 46 deletions(-)
+>  hw/pci/msix.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+> index ae9331cd0b..67682289af 100644
+> --- a/hw/pci/msix.c
+> +++ b/hw/pci/msix.c
+> @@ -592,8 +592,7 @@ int msix_set_vector_notifiers(PCIDevice *dev,
+>      dev->msix_vector_release_notifier = release_notifier;
+>      dev->msix_vector_poll_notifier = poll_notifier;
+>  
+> -    if ((dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] &
+> -        (MSIX_ENABLE_MASK | MSIX_MASKALL_MASK)) == MSIX_ENABLE_MASK) {
+> +    if (!dev->msix_function_masked) {
+>          for (vector = 0; vector < dev->msix_entries_nr; vector++) {
+>              ret = msix_set_notifier_for_vector(dev, vector);
+>              if (ret < 0) {
+> @@ -622,8 +621,7 @@ void msix_unset_vector_notifiers(PCIDevice *dev)
+>      assert(dev->msix_vector_use_notifier &&
+>             dev->msix_vector_release_notifier);
+>  
+> -    if ((dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] &
+> -        (MSIX_ENABLE_MASK | MSIX_MASKALL_MASK)) == MSIX_ENABLE_MASK) {
+> +    if (!dev->msix_function_masked) {
+>          for (vector = 0; vector < dev->msix_entries_nr; vector++) {
+>              msix_unset_notifier_for_vector(dev, vector);
+>          }
 
-You should update the commit comment because raise_sigsegv was changed to c=
-pu_loop_exit_segv in v3 of the patch series.
+This appears to be a cleanup that's not required for the functionality
+of this series.  I'd suggest proposing it separately.  Same for the
+patch 5/9 in this series.  If it makes a functional difference it
+should be described in the commit log.  Thanks,
 
-Otherwise,
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+Alex
+
 
