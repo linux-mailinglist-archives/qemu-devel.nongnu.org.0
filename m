@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC9F41FC7A
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 16:21:19 +0200 (CEST)
-Received: from localhost ([::1]:37046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF7C41FC7D
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 16:23:22 +0200 (CEST)
+Received: from localhost ([::1]:41518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWft8-0003qi-Lv
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 10:21:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45798)
+	id 1mWfv7-0006tU-3q
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 10:23:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mWfqY-00008a-Vv
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 10:18:39 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37559)
+ id 1mWfs8-0002Iv-Mj
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 10:20:16 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mWfqX-0005S4-JQ
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 10:18:38 -0400
-Received: by mail-wr1-x436.google.com with SMTP id e12so130800wra.4
- for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 07:18:37 -0700 (PDT)
+ id 1mWfs5-0006Uj-QS
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 10:20:15 -0400
+Received: by mail-wr1-x429.google.com with SMTP id d26so20351110wrb.6
+ for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 07:20:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rFMB4vQepRRyDpCy0wGYflnZkLJO5xKZ1ZyzF40S3UM=;
- b=ACqIP717AuAbs1m9zYWo38flRF3vO4sp88zmoynqNMc47MnJxQNToJw9F6oFO1CRSy
- L+WiLrF/wgHnhG4C56AiIXuPv0fts61Fgnhy/47QnIL8h9bgkcYHM5hYmzQqdSUE4Uik
- Z4Muzg9zpDuxgJW0eGC3wMCnIUzR6r068SEMxCiFVYXmOc4vItgj9Z7eGMs3iUY2JUgl
- jt26q2AhrbzecIY7v8QtJm0AMLnbn2y4DV+MnGsNKgMFZ16sLTbHRHJVTyPAV1nocKCw
- ApSKenYyKjTMnrmYgT1w42sAN+vAR1iVgDt75mOTjAqcSAAOXkPL2L7bwVF1NPFGMs91
- 3J6Q==
+ bh=/swOekF6tM4WBugjUvYA9uUp4k92EJMLd6+6/yuBUtk=;
+ b=EYQ55yUwhu96YChcwGkB5WR5xBPrmPlX3KPa6kBa42nK4qeShEcvoj31Z+jioyKij3
+ WBeoG4RZryRLjDhGp/91zcn+I2NDfj6wkFfJDUPiDDPVpII6JfNUEMc62DBzAdr7atPH
+ qJEJsaiqh3gv9U/5jFLm1aXD6GU88nlakep9om0O7zwNmZwqRy/HmWL3uu6aQ7qrx+2v
+ z1D8ycfTarKi6Irh2Rc35gEeKfqDqhcf+SDrlADgs75nT1E0ejfs+CIREtL1SYmv6FTF
+ A+RwgguyOO24f9yLJ81zoGxG97wSvkY6DJzU/Ib7OTBxV48UntcgjeIDohWipeirgjgD
+ crJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rFMB4vQepRRyDpCy0wGYflnZkLJO5xKZ1ZyzF40S3UM=;
- b=8JVOxKDpeC9YhSPBjjSG44+uwOQrzNV4xbsUt4NVJn5Xj/OMh1XsFEZcr7U5zIFVEg
- R276CglfRUUQlbx7wS7GDT75UzEWMZv4T3QFXEeLypdh2uAzZp8RTRklj7L1fT6HS7e1
- S3VHmPZ+FkIAJin7n3UEMUXcqINV/eG3fqE2SHtK1uDbUNxCkAU7vhyF4uMGm+0o3iWd
- Y60EVafXDCcIAg/GaQN9dgyu23NZUNplq4uIeHd/1c97L8rOjiFwdyXns2KYkKSNaLhg
- 6lkjMnOZIFuU4mkPqVq4bwmcFouuay7DciBQZkt7U4J0XS2WaTfWel30cmu3idetIMil
- V7JA==
-X-Gm-Message-State: AOAM530RV7YCUU05ftfAoE6lv4zilHjbMgeFyDoNWPmDc786/61qv3N5
- G0UsH9RV1PdXunl2fJGaA9QuS/upYTs=
-X-Google-Smtp-Source: ABdhPJzQ0T9n8oO1uOz65qjrdBgebc7NUKt87pbMq+K7b3HwuHMI37ts1Cm0LRCpzjNKQOMGWdEy9Q==
-X-Received: by 2002:a5d:6da5:: with SMTP id u5mr3671105wrs.11.1633184316169;
- Sat, 02 Oct 2021 07:18:36 -0700 (PDT)
+ bh=/swOekF6tM4WBugjUvYA9uUp4k92EJMLd6+6/yuBUtk=;
+ b=U/8mXW3+rjYHzFjHH/IUJ3msDJHpsjqdc8ADtrwP1T+h2YSzUyelJR2A+iduLr4104
+ ORNkju3cyio8cpu9j0QU5Pz1qMjNm10LS8qQ1Pwk89qxAfmpozT5IBLL9dK2u8FTYKf+
+ Kon5srk23DK4foSPMfz7qxAeSgfpe8rek5ZJR8LwhhIMdbad5IYsqU3ZJT2V2IdwQNsp
+ kPIyRgntTcQkD0FI4FkP7YRAZ4d4AUtA52OY3Y+HxiaF6zmt6pZNyJORwerqY/iObOoH
+ wVTKSuoFpiNdfDgvAJv7GSeUxOrKO29no8Nz6WB7eS2s7f0dcB6nxLdRgtXw7byQcE6D
+ +U0g==
+X-Gm-Message-State: AOAM532hKj8fhry7ccQG9GX/s/otJDotmD6W8Jys5+VfXnJqo1QgjPL0
+ 3GvUFv0ZH1+AmnaXbhJvWfU=
+X-Google-Smtp-Source: ABdhPJydoUSWdQxWwp3QQu7XRT3wTVlm9j3r+5fouywZ1X5AYOi1QLvELrLCYpPqsd7yHwg6QUfhcA==
+X-Received: by 2002:a5d:6b07:: with SMTP id v7mr3541477wrw.376.1633184409555; 
+ Sat, 02 Oct 2021 07:20:09 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id o26sm10829384wmc.17.2021.10.02.07.18.34
+ by smtp.gmail.com with ESMTPSA id t13sm8886311wro.76.2021.10.02.07.20.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Oct 2021 07:18:35 -0700 (PDT)
-Message-ID: <8b582ac7-6521-d4a7-ea1b-873e367a50af@amsat.org>
-Date: Sat, 2 Oct 2021 16:18:32 +0200
+ Sat, 02 Oct 2021 07:20:08 -0700 (PDT)
+Message-ID: <dddec9ed-51ff-357e-95c6-383bfb01f723@amsat.org>
+Date: Sat, 2 Oct 2021 16:20:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v3 21/41] target/alpha: Make alpha_cpu_tlb_fill sysemu only
+Subject: Re: [PATCH v3 22/41] target/arm: Use cpu_loop_exit_segv for mte tag
+ lookup
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211001171151.1739472-1-richard.henderson@linaro.org>
- <20211001171151.1739472-22-richard.henderson@linaro.org>
+ <20211001171151.1739472-23-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211001171151.1739472-22-richard.henderson@linaro.org>
+In-Reply-To: <20211001171151.1739472-23-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
@@ -95,20 +96,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/1/21 19:11, Richard Henderson wrote:
-> The fallback code in raise_sigsegv is sufficient for alpha-linux-user.
-
-Renamed to TCGCPUOps.record_sigsegv in patch #19 of this series.
-
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> Remove the code from cpu_loop that handled EXCP_MMFAULT.
+> Use the new os interface for raising the exception,
+> rather than calling arm_cpu_tlb_fill directly.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/alpha/cpu.h          |  7 ++++---
->  linux-user/alpha/cpu_loop.c |  8 --------
->  target/alpha/cpu.c          |  2 +-
->  target/alpha/helper.c       | 13 +------------
->  4 files changed, 6 insertions(+), 24 deletions(-)
+>  target/arm/mte_helper.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
