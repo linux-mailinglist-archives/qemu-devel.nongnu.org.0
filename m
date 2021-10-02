@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ADBC41FAE8
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 12:36:46 +0200 (CEST)
-Received: from localhost ([::1]:39964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A9841FAEA
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 12:41:52 +0200 (CEST)
+Received: from localhost ([::1]:45048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWcNp-00054X-7O
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 06:36:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40100)
+	id 1mWcSk-0000Dk-SA
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 06:41:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mWcLt-0002sd-3s
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:34:45 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42621)
+ id 1mWcRr-0007R1-KQ
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:40:55 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mWcLr-0003YQ-Gw
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:34:44 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id v17so19546390wrv.9
- for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 03:34:43 -0700 (PDT)
+ id 1mWcRp-0003YE-Ds
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:40:55 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ l18-20020a05600c4f1200b002f8cf606262so13293553wmq.1
+ for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 03:40:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ARS8Q92xAZvkeeFc95ExZ8YifJ/nV0bAlY9bUVIrYHg=;
- b=BQUR4DKNxqcpVkWCaTUrpKQ6xB/xdXZgG9rlPosevMJR7LAyDHPU2H0uFaB+k8iuBm
- gIIVz5+CyRQOH+aWpT8POcF6PKVsvXD0C8KBVuy049PLx3tO/KzYURMb9tAlxSCv5tjJ
- kqG43qgK5evz0/j1n8iAf9szP/UdrWFpmVC9yGZB5Oey6yZgmjy4AEr2IpacovUe4m/u
- 90UVz/6JDk/1r2ILrTv7TY6THKqz2SNPeNmrmFsz9PiHB68TuRUYbVuma1lKMgc0fbRf
- WcF5balQ4UG54ROgymL94k2PzL0qVgH6mhEklP2K0Yl9eU0jF7n+/6UPKIKD5Nyewn4g
- wvoQ==
+ :cc:content-transfer-encoding;
+ bh=RcaVKLRK/WpAUu93Kd4bgPtSbqLLGOigzCIf6JDMp/U=;
+ b=bDNyPOxFC0ohji65B18o5JRf9z7K8L8BTwc/dhe8mnYZglXSgn2Z3KQDw11MA8Qirr
+ KNlUiMzWmxOiUQjyecCTSrwri4C2T17VUgtmVXturw9N3l+0mW2BNqUfqtilNxI9+rL6
+ vfj2XJpEj0DkWsY2Gt3lVRK80eqn59xBww73X90NzItESKCIAIzEKevea7pWfbgc1C/a
+ DZkcGF/g30UFBTQJX6LnWA6ijdIaPFPctOQYmkGF2hDFiXYF74wfoqr61/xNc70lyuSW
+ 2kyeHrrhbzj7xjD+IL7FcpAhX/UBqKE5+IIm7CLdbb5ua0jGZlFrzUVwv5R8ubi0PBQ7
+ KNQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ARS8Q92xAZvkeeFc95ExZ8YifJ/nV0bAlY9bUVIrYHg=;
- b=pG2LDdAvytTSTVRnYae8JIg/iAqcC5QXFFmV//AZFYoFCT94vWL5eJ3JV1r2zpN4AM
- pFt7u47+1e5K1NIzHgRzvMZ8wrH1Jwh5ib8LbaSSIDjA2atDdrm/vk3XON/p1Ie5R1id
- 4F3gzK0wf+Ojern4rrrend1DRz0uUIagsS7PMfiZ5PaF31gj0+43QoVLrJM6SBSm92cx
- vvs5lJp2w6CHY1CzOKFoNnlNYz7nbcIockft1oiYLNBJBu+0hQ/mY7n/vgxa36PhEgWL
- 69qdEfHpS7elFf6w1UhDlvyT8OW8h5kWJURyroz8DJdtpTdh8fK6iKy3Z1p7FoKBlTwL
- +OyA==
-X-Gm-Message-State: AOAM532XnTa6Ho9xqld114Z6Jzqj5N5vRROt3oZb8xphY+8lz/HkrisE
- daiW7UZN7Ew/TWBA5G7x0XcMsG/la/TmtHBLrRZ/9w==
-X-Google-Smtp-Source: ABdhPJwwDi8dDt7VAX0bUTzbnOAAmZr73j7VQP7bD6g79yslG+Kld+PTI65bSSVJZyvHMpfGpSUvATfCYKyxEiAHSOo=
-X-Received: by 2002:adf:8b98:: with SMTP id o24mr2864797wra.302.1633170881913; 
- Sat, 02 Oct 2021 03:34:41 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RcaVKLRK/WpAUu93Kd4bgPtSbqLLGOigzCIf6JDMp/U=;
+ b=6oKx2xVbbL0HpH8tHvYx5alZpRJpw7iyJ67atbSdUXCaiX1CSqLiGX0Jg53VcxWU+0
+ ONQ8ojlSbNsk05ltWOl+TJ5qT4fPnSRXLeJXXQwDo2iDYvW6QvH4Zwu4X9hCew52aRox
+ T7E+ebPzyN6fVzpiXnXpbnjAY85Wex7RcnObc/TJoIbn+dyf9DmFYKGQoZsIgQ9U9J8l
+ j0HivpOSVOHLp8j+Lku9ijtsLuh/2I7z4jx+B1lTWZ/Nx2B0P1ppu9exuzw+kU3kdI3f
+ 40SrkovDWWmntVoOCyK6AldnK8uP64RWfFLlOw7UZWfrF6B3kJSpQ93YensXl5MOlaIw
+ rteA==
+X-Gm-Message-State: AOAM533exzjgr/lruhBgJZx7LoHSU/F7JZcSB6IG75ohX5Hgl4foDCqn
+ 014ODai6RQaea80VQkDwEkM9U1SCZ8SlmfGtMLjIzw==
+X-Google-Smtp-Source: ABdhPJzMVbeqnVwFfIFCajCNFrKfbV/F7CfSMW2A09Z7Uku4hOq7z1eKSQlU8UG4ZdhKvUMN3XZIBFtnAfbGpNnjkbU=
+X-Received: by 2002:a1c:9d42:: with SMTP id g63mr8583013wme.32.1633171251359; 
+ Sat, 02 Oct 2021 03:40:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210929092843.2686234-1-laurent@vivier.eu>
- <20210929092843.2686234-4-laurent@vivier.eu>
-In-Reply-To: <20210929092843.2686234-4-laurent@vivier.eu>
+References: <20210930054426.357344-1-david@gibson.dropbear.id.au>
+ <20210930054426.357344-34-david@gibson.dropbear.id.au>
+In-Reply-To: <20210930054426.357344-34-david@gibson.dropbear.id.au>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 2 Oct 2021 11:33:47 +0100
-Message-ID: <CAFEAcA8528uFsvUU3+z-wiE7jz_g80ff4U=XaBifoYZbGBC5nA@mail.gmail.com>
-Subject: Re: [PULL 03/20] nubus-device: expose separate super slot memory
- region
-To: Laurent Vivier <laurent@vivier.eu>
+Date: Sat, 2 Oct 2021 11:39:57 +0100
+Message-ID: <CAFEAcA8AxuMRRjxpya3_H+57SmrduD1dVqg7vjSOadV1pCQaSQ@mail.gmail.com>
+Subject: Re: [PULL 33/44] target/ppc: Fix 64-bit decrementer
+To: David Gibson <david@gibson.dropbear.id.au>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,45 +81,64 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Sept 2021 at 10:49, Laurent Vivier <laurent@vivier.eu> wrote:
+On Thu, 30 Sept 2021 at 06:44, David Gibson <david@gibson.dropbear.id.au> w=
+rote:
 >
-> From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> From: C=C3=A9dric Le Goater <clg@kaod.org>
 >
-> According to "Designing Cards and Drivers for the Macintosh Family" each physical
-> nubus slot can access 2 separate address ranges: a super slot memory region which
-> is 256MB and a standard slot memory region which is 16MB.
+> The current way the mask is built can overflow with a 64-bit decrementer.
+> Use sextract64() to extract the signed values and remove the logic to
+> handle negative values which has become useless.
 >
-> Currently a Nubus device uses the physical slot number to determine whether it is
-> using a standard slot memory region or a super slot memory region rather than
-> exposing both memory regions for use as required.
+> Cc: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
+> Fixes: a8dafa525181 ("target/ppc: Implement large decrementer support for=
+ TCG")
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Message-Id: <20210920061203.989563-5-clg@kaod.org>
+> Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+
+Hi; Coverity complains about dead code here (CID 1464061):
 
 
-> +    /* Super */
-> +    slot_offset = nd->slot * NUBUS_SUPER_SLOT_SIZE;
 
-Hi; Coverity thinks this multiply might overflow, because
-we're calculating a hw_addr (64-bits) but the multiply is only
-done at 32-bits. Adding an explicit cast or using 'ULL' in the
-constant #define rather than just 'U' would fix this.
-This is CID 1464070.
+>       * On MSB edge based DEC implementations the MSB going from 0 -> 1 t=
+riggers
+>       * an edge interrupt, so raise it here too.
+>       */
+> -    if ((value < 3) ||
+> -        ((tb_env->flags & PPC_DECR_UNDERFLOW_LEVEL) && negative) ||
+> -        ((tb_env->flags & PPC_DECR_UNDERFLOW_TRIGGERED) && negative
+> -          && !(decr & (1ULL << (nr_bits - 1))))) {
+> +    if ((signed_value < 3) ||
+> +        ((tb_env->flags & PPC_DECR_UNDERFLOW_LEVEL) && signed_value < 0)=
+ ||
+> +        ((tb_env->flags & PPC_DECR_UNDERFLOW_TRIGGERED) && signed_value =
+< 0
+> +          && signed_decr >=3D 0)) {
+>          (*raise_excp)(cpu);
+>          return;
+>      }
 
-> +
-> +    name = g_strdup_printf("nubus-super-slot-%x", nd->slot);
-> +    memory_region_init(&nd->super_slot_mem, OBJECT(dev), name,
-> +                       NUBUS_SUPER_SLOT_SIZE);
-> +    memory_region_add_subregion(&nubus->super_slot_io, slot_offset,
-> +                                &nd->super_slot_mem);
-> +    g_free(name);
-> +
-> +    /* Normal */
-> +    slot_offset = nd->slot * NUBUS_SLOT_SIZE;
+If signed_value < 3 then the first clause of the || evaluates as true,
+and so we will definitely take the if() clause. So if we're evaluating
+the second operand to the || then we know that signed_value > 3,
+which means that 'signed_value < 0' is always false and in turn that
+neither of the other two '||' options can be true. The whole expression
+is equivalent to just "if (signed_value < 3)".
 
-Same with this one.
+What was intended here? If this was supposed to be a no-behaviour-change
+commit (apart from fixing the 64-bit case) then the condition should
+have stayed as "(value < 3)", I think.
 
 thanks
 -- PMM
