@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A8741FC10
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 15:09:26 +0200 (CEST)
-Received: from localhost ([::1]:33190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F14F41FC07
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 15:05:36 +0200 (CEST)
+Received: from localhost ([::1]:47866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWelY-0007J2-6L
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 09:09:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33120)
+	id 1mWehp-0006fB-Uc
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 09:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mWeWW-0000tc-MZ
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 08:53:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30005)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mWeWZ-0000yT-JS
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 08:53:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48273)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mWeWV-0000gG-BC
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 08:53:52 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mWeWY-0000iF-5T
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 08:53:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633179230;
+ s=mimecast20190719; t=1633179233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T1NIBoSE4LuxR67pjfbeheswmOYBoIBhIFI0FnH33UA=;
- b=IOcMGwkJaSie4BtFLBt0Z/Xorv3SZb4wZPHhI2EMIWEbAzDO8J48K1EoBIXy9peerEPMny
- sUaDd1KxPY8DXnkOo0Oc21Blr2537jvtvCpIV4tPBPlQH6KqPkAQnCF/jZUW+r7ALnRHxx
- fNU35CuymihCxT3FUTds8HBgKOTiQus=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-J3rk7O8aPQOfOGVv1YFSbA-1; Sat, 02 Oct 2021 08:53:49 -0400
-X-MC-Unique: J3rk7O8aPQOfOGVv1YFSbA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- c2-20020adfa302000000b0015e4260febdso3488903wrb.20
- for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 05:53:49 -0700 (PDT)
+ bh=J6Nu9xcD/1mLwA45H6T/mwE1HK3rKCkbuT6P4bJEEQ4=;
+ b=WOzXIdZrMDUAtoo9o7MEfWUtNCtab60BP9qO4YEiZuIuEK82TskcazDOibkAZ0KkFnByaV
+ J/idG34SH18tBH807TrZnHE/0ILZGiJwtFU9EcKQ+is8xja3/lLCKFzcBkP+4jPDxvuBR5
+ gbduzBxjASGFsz+DHjdyPHKn/Op9ZMc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-22-XeUS17jDMGa7tRB5LPmQuA-1; Sat, 02 Oct 2021 08:53:52 -0400
+X-MC-Unique: XeUS17jDMGa7tRB5LPmQuA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ t2-20020adf97c2000000b001608326aa2fso2763248wrb.8
+ for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 05:53:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T1NIBoSE4LuxR67pjfbeheswmOYBoIBhIFI0FnH33UA=;
- b=gnx8Y70v/kOtLpe3o/wrj5lxgEOc0kZ5pUvOCQl25W1hHo8bpM8tcdIkRasNkFMngS
- 3eRJ3tOT0Mr3DwHGA8KZIKLTa4Wtd5FgYmJhs7SgFRupAjq4c30QdiBfY3BX5IHvFoQ2
- k/JxDtzKmXwcdy6ssPzBejXdVhZZAuXv7xZM3sg/BbbxGT2+TqJNnHDd+CXqrRac1b1f
- wjK8pdRtCnjB3B3cfEcjXcLeNM914kVF8KaeWhkdaj19CEOUOSaGQTRhNFXrNxb2fqLA
- LhjdOWpvSp5GFUTMcdmIS8at+eDQuuCuzki9lWe/D+Lt1LN+tJjjJEJyCeWyJbHl58zP
- +cMQ==
-X-Gm-Message-State: AOAM530eso2SolZiLEbI+EA8uZNA+cIZfOQPFrJfkCVDMycKtPc+5qtg
- h5MkkMDCS3pHCoE6bQ0/cRwu16E6BmGJKOdihT40xQfu7oekbZ9z0ZeJ8vVbcUTDGHreCqPoyAJ
- Xvq7MKZqpzFi+rx1P04N4IFDUZFLAoGzrddB6J3FDhSxxFGsE5dJskzTYNxt5dxgQ
-X-Received: by 2002:a05:6000:c3:: with SMTP id
- q3mr3272640wrx.361.1633179226541; 
- Sat, 02 Oct 2021 05:53:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSb9fTK6/UuOYq5MO4Gn39GE9tLudrOZsgwLInKNkYdtRvDdV88QT0skDGxAwXecnl0DrCeA==
-X-Received: by 2002:a05:6000:c3:: with SMTP id
- q3mr3272609wrx.361.1633179226312; 
- Sat, 02 Oct 2021 05:53:46 -0700 (PDT)
+ bh=J6Nu9xcD/1mLwA45H6T/mwE1HK3rKCkbuT6P4bJEEQ4=;
+ b=2St41/BKZfJpbUP7dlN/BZtBrWtfP3IvAuCluHFAIBC+pjE7zKQalT8Y3c2EWKkN0f
+ OjF8DzwXOmtu+I7Ry+LH6x8mOa24chGmboBtgimz9fkAK2rq9oxi0whUolVwhUV8InAK
+ ggOjVicbZgX2KOPq3+ajB0RjKszfA+mFP2gH4Q8sre6gh02dsl85NkEibfxn3g7YUCwN
+ p4IsR2CqyHj6mKc29wS8FJBAhaAFGReOCko/pLVpSgbqXiDp8NlbjFPV5NOHGttccZ0c
+ oBMV+DS1QufttQfaL3q7lAh2y9XN+qWcH6LaoUwKWSZK/Y8zGVBqLpHuLKMJRCxYAqUv
+ L6+Q==
+X-Gm-Message-State: AOAM533hpBpBIcubIBhcImf1gyn8VM16pttVzqxhGxblMzx65Mcy1/dl
+ O93IsXS1/zk1411inta4WhvcyCOTbLORs9wTcSDdFomBIW3DWw4v/Ks9xPYSGbqm6KHMNE7ed2t
+ 2jOnpItxtKUpIRBgjNSt6MCPpoK0B5AzfQSowCdi6AfDYg2IvE8F3jY84VOuMv+Ud
+X-Received: by 2002:adf:97cc:: with SMTP id t12mr1334728wrb.189.1633179230928; 
+ Sat, 02 Oct 2021 05:53:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzEX2HQVvG0eH4EoV9kXNFJrMMQBJdc9DWwXnuA0OfpprIlXkRMpruuO+nx+/QeCu4EKQakjA==
+X-Received: by 2002:adf:97cc:: with SMTP id t12mr1334706wrb.189.1633179230756; 
+ Sat, 02 Oct 2021 05:53:50 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- l26sm10571166wmi.25.2021.10.02.05.53.45
+ f18sm4106229wrj.30.2021.10.02.05.53.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Oct 2021 05:53:46 -0700 (PDT)
+ Sat, 02 Oct 2021 05:53:50 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/22] target/i386/cpu: Add missing 'qapi/error.h' header
-Date: Sat,  2 Oct 2021 14:53:01 +0200
-Message-Id: <20211002125317.3418648-7-philmd@redhat.com>
+Subject: [PATCH v3 07/22] target/i386/sev_i386.h: Remove unused headers
+Date: Sat,  2 Oct 2021 14:53:02 +0200
+Message-Id: <20211002125317.3418648-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211002125317.3418648-1-philmd@redhat.com>
 References: <20211002125317.3418648-1-philmd@redhat.com>
@@ -108,28 +106,43 @@ Cc: Brijesh Singh <brijesh.singh@amd.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 00b81053244 ("target-i386: Remove assert_no_error usage")
-forgot to add the "qapi/error.h" for &error_abort, add it now.
+Declarations don't require these headers, remove them.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- target/i386/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/i386/sev_i386.h | 4 ----
+ target/i386/sev-stub.c | 1 +
+ 2 files changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index cacec605bf1..e169a01713d 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -27,6 +27,7 @@
- #include "sysemu/hvf.h"
- #include "kvm/kvm_i386.h"
- #include "sev_i386.h"
+diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+index ae6d8404787..f4223f1febf 100644
+--- a/target/i386/sev_i386.h
++++ b/target/i386/sev_i386.h
+@@ -14,11 +14,7 @@
+ #ifndef QEMU_SEV_I386_H
+ #define QEMU_SEV_I386_H
+ 
+-#include "qom/object.h"
+-#include "qapi/error.h"
+-#include "sysemu/kvm.h"
+ #include "sysemu/sev.h"
+-#include "qemu/error-report.h"
+ #include "qapi/qapi-types-misc-target.h"
+ 
+ #define SEV_POLICY_NODBG        0x1
+diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+index 0227cb51778..d91c2ece784 100644
+--- a/target/i386/sev-stub.c
++++ b/target/i386/sev-stub.c
+@@ -12,6 +12,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
 +#include "qapi/error.h"
- #include "qapi/qapi-visit-machine.h"
- #include "qapi/qmp/qerror.h"
- #include "qapi/qapi-commands-machine-target.h"
+ #include "sev_i386.h"
+ 
+ SevInfo *sev_get_info(void)
 -- 
 2.31.1
 
