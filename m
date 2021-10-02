@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110A141FAE4
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 12:31:57 +0200 (CEST)
-Received: from localhost ([::1]:58490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E2A441FAE5
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 12:33:44 +0200 (CEST)
+Received: from localhost ([::1]:33734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWcJ9-0006mE-6f
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 06:31:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39430)
+	id 1mWcKt-0000nb-L1
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 06:33:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mWcGh-0005LW-Et
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:29:23 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:38866)
+ id 1mWcIu-0007d4-Im
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:31:40 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:43786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mWcGf-0004xw-MR
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:29:23 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- g193-20020a1c20ca000000b0030d55f1d984so2011226wmg.3
- for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 03:29:21 -0700 (PDT)
+ id 1mWcIs-0007Ti-UF
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:31:40 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ a131-20020a1c7f89000000b0030d4c90fa87so3282988wmd.2
+ for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 03:31:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SFMap3G+EpBtt31KvkYXdQyiSgMTHW+iMzpfTzswHDw=;
- b=IGT61OtNjNtQAFXabXAvIVueeUeKJCOCB3fU4UhMelbMdqqOUdcAWGL3FpECvPMMC2
- 8dY1g3CFdoBKONWvNpRhvj0hsSA655CMapIcen9R8p08cuVLGdrHWnfrsH4OXDqPchaU
- FVNfOXFb0G0f/FfULEXNvDy0gsOGgLYH7SlZGtps0elpaY2kz8GEVqwiogFIkdh2UzXt
- T19/c8GADcbrr1VvcL9XNbPMNd+jRD2U6flklbjZ1o28f4PqlrfsU7LuenLx1dpffuEz
- GnrQb1+VV6xcN7CLbr7lMNxUjxBX//TGsa5pevUxm92K5n57j+9lTmPAvclrK/YFTIsB
- hooQ==
+ :cc; bh=pZaRY5KmOeLehmHXKtttyvmihqvIvXWxNSugh0F3NMY=;
+ b=w4atiU1qYchG7iKwJXnOtx+oMZfdaBMgNEIMdXpFAnoK7Bbv1cU+VhBF3p0C0bRt2X
+ 6EBqkXNGH+iVDHhfa4QkoNZZboUEJwnhes+3eQ+O4TPwst0cgRn+nHELRLuIHlKDu2QD
+ 6687haLgl4buzIETiB9hCnPqrUPI6G4ciDLol80Jwq0o6RQSHP0D/0+5A2CuGUUfX1Ck
+ J146v0AzGVvx3tjBoA0aAkhrtq5oyAlVdoXa/g1IdpRhotMPyZzh9qGOk2nF9b19c982
+ yD15pvo4dazRhlwx6ZJiYM4X0Vd68ToTAJGJkrYCtn5k5KShYAnDmHBR4l6LWaZVDn07
+ CQpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=SFMap3G+EpBtt31KvkYXdQyiSgMTHW+iMzpfTzswHDw=;
- b=YsSMObeJnz+UVNXNu/nw7+gSvumZi088HpaxGdkJj2GPB4ZD32ZaNqB1Vq4H+LCXL2
- /GjHzOU9jGZUyeqvtyF4/dL4qlNP3+rI3DVNRBWBgOs93BMcPVc9vAYaFhaW3QAqxvmz
- m8L71YpyOlhnt03W+grdldbxOWDnVuRlBbXPbLFby+9Rs4EXVmgJolQ+J5MOdkADDRUC
- gCdNpWV+q4QF0eqMRpHratZXJ6tbHFw5SHHR+RB/sKGpPv0s8/R/lUQLkH+ubewxHYBV
- lXtFIEIGj9f/YG04GwuO39pa5jsldz4/Do9+JU70DqAuSgvixIZ1YpF7vaCV5NhAUhJZ
- GZ8w==
-X-Gm-Message-State: AOAM530zcX408GSiKERvKueptngR/jZekHVw6pGpULERIRU6uLzJ2BSj
- XsR1C1HzN6GFhHxd++ZCH0HD2GCYgezhVcC8r7J/vA==
-X-Google-Smtp-Source: ABdhPJzsi3xF1K5GNeK/ZDHuRloXZ+T7KZA8uDnACuqXR57Vdw6FORLwfpwZ4h/gUYt3Gv2kE5bTrmn19hiCEzxDzDU=
-X-Received: by 2002:a05:600c:d6:: with SMTP id
- u22mr8888179wmm.133.1633170559896; 
- Sat, 02 Oct 2021 03:29:19 -0700 (PDT)
+ bh=pZaRY5KmOeLehmHXKtttyvmihqvIvXWxNSugh0F3NMY=;
+ b=zz2TORRQPTH92zE0c3qVZtCAJz2sQUH1TGPAxr5BoX0LGLgyzg8LYycsKkHMabGgL1
+ JX1TRdtrOZMLuYJ2n2EnowmmKN5gqyF+5tdSVAyCxbpj5PxAuzm29M0Vqv5/PjzpzVEl
+ VGk1Ot4nkCfhK5ndtBZ17xhZ3DlFnoPU7hzb3vJ/6xKl7TuGJtkc4qcgjVUh1PiFSa7y
+ w21PutiRDRiLOAtJXgQFdv9PP4W3uXZo476GSN0CZOxxRtLkWZRp72sAoZ49BRSHb6AT
+ irhVNfwaL7sSBG3x+ze4PmMnMt7bpvtdK33DSIjEwilZU/ZEmxGUOIuRtQoxHPVY/q9T
+ wmNg==
+X-Gm-Message-State: AOAM5310d+fbJERWJ5gh01WnanxHHpcPaFXO2wovUcRLcd8s6T3MUMcL
+ iSAhQknGKF1zUY7VugYcl/4OSKm1q0PdNTvQ0PJcDg==
+X-Google-Smtp-Source: ABdhPJyZLJdvI3i2OXweXgrOe16TqQhBjPuR6D0Dpz5p9obOvOtXQ1Wh8D4i+SRcXPCNtd0S9Pm4ZCQs/ITWuZzpBJ4=
+X-Received: by 2002:a1c:9d42:: with SMTP id g63mr8553519wme.32.1633170697157; 
+ Sat, 02 Oct 2021 03:31:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210917052400.1249094-1-tong.ho@xilinx.com>
-In-Reply-To: <20210917052400.1249094-1-tong.ho@xilinx.com>
+References: <20210929092843.2686234-1-laurent@vivier.eu>
+ <20210929092843.2686234-12-laurent@vivier.eu>
+In-Reply-To: <20210929092843.2686234-12-laurent@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 2 Oct 2021 11:28:25 +0100
-Message-ID: <CAFEAcA9_nVnW3DnvomvytX8xH53KM24xfn5rCSywa3WWCwEZ4g@mail.gmail.com>
-Subject: Re: [PATCH v3 0/9] hw/nvram: hw/arm: Introduce Xilinx eFUSE and BBRAM
-To: Tong Ho <tong.ho@xilinx.com>
+Date: Sat, 2 Oct 2021 11:30:43 +0100
+Message-ID: <CAFEAcA__kwF8fLeLPFKayZn_xU+tOypAx7oHZY99SJLRTWtKgA@mail.gmail.com>
+Subject: Re: [PULL 11/20] nubus-device: add romfile property for loading
+ declaration ROMs
+To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,60 +79,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Sept 2021 at 06:24, Tong Ho <tong.ho@xilinx.com> wrote:
+On Wed, 29 Sept 2021 at 10:53, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> This series implements the Xilinx eFUSE and BBRAM devices for
-> the Versal and ZynqMP product families.
+> From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 >
-> Furthermore, both new devices are connected to the xlnx-versal-virt
-> board and the xlnx-zcu102 board.
+> The declaration ROM is located at the top-most address of the standard slot
+> space.
 >
-> See changes in docs/system/arm/xlnx-versal-virt.rst for detail.
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Message-Id: <20210924073808.1041-12-mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 
-Hi -- now this has landed upstream, Coverity points out a
-lot of memory leaks on error or logging paths, where
-the code does things like:
+Coverity spots a memory leak here: CID 1464062
 
-*** CID 1464071:  Resource leaks  (RESOURCE_LEAK)
-/qemu/hw/nvram/xlnx-versal-efuse-ctrl.c: 628 in efuse_ctrl_reg_write()
-622         dev = reg_array->mem.owner;
-623         assert(dev);
-624
-625         s = XLNX_VERSAL_EFUSE_CTRL(dev);
-626
-627         if (addr != A_WR_LOCK && s->regs[R_WR_LOCK]) {
->>>     CID 1464071:  Resource leaks  (RESOURCE_LEAK)
->>>     Failing to save or free storage allocated by "object_get_canonical_path((Object *)s)" leaks it.
-628             qemu_log_mask(LOG_GUEST_ERROR,
-629                           "%s[reg_0x%02lx]: Attempt to write
-locked register.\n",
-630                           object_get_canonical_path(OBJECT(s)), (long)addr);
-631         } else {
-632             register_write_memory(opaque, addr, data, size);
-633         }
+> +        name = g_strdup_printf("nubus-slot-%x-declaration-rom", nd->slot);
+> +        memory_region_init_rom(&nd->decl_rom, OBJECT(dev), name, size,
+> +                               &error_abort);
+> +        ret = load_image_mr(path, &nd->decl_rom);
+> +        g_free(path);
+> +        if (ret < 0) {
+> +            error_setg(errp, "could not load romfile \"%s\"", nd->romfile);
+> +            return;
+> +        }
+> +        memory_region_add_subregion(&nd->slot_mem, NUBUS_SLOT_SIZE - size,
+> +                                    &nd->decl_rom);
 
-You need to free the memory here. A good pattern is how it's
-done in xlnx-zynqmp-can.c with g_autofree:
+'name' is allocated, but never freed.
 
-    if (ARRAY_FIELD_EX32(s->regs, SOFTWARE_RESET_REGISTER, SRST)) {
-        g_autofree char *path = object_get_canonical_path(OBJECT(s));
-
-        qemu_log_mask(LOG_GUEST_ERROR, "%s: Attempting to transfer data while"
-                      " data while controller is in reset mode.\n",
-                      path);
-        return false;
-    }
-
-Could somebody send some followup patches that fix all of these,
-please? (There are 10 coverity issues, covering probably all of
-the places where object_get_canonical_path() is used in this series.)
-
-thanks
 -- PMM
 
