@@ -2,81 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C324841FE1D
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3B941FE1E
 	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 22:54:09 +0200 (CEST)
-Received: from localhost ([::1]:40620 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:40826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWm1I-0001Iw-BN
+	id 1mWm1I-0001Qw-JW
 	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 16:54:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37746)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWlzI-0008N7-H6
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 16:52:04 -0400
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:40787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mWlzG-0006n6-Pf
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 16:52:04 -0400
-Received: by mail-qk1-x736.google.com with SMTP id 72so12662631qkk.7
- for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 13:52:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cFIwRhWGX1lXEgIcRz+DPIBOWznev3PQHLvgo6Hsunk=;
- b=XnG2qbOygQ3FL9fI6rc9wp1cNPhtQmbOjxw5291xoXbNf/F+CTxMaEyB+w4xno2uqO
- siOhcM097KcCZGHIfcKciSK2/QJGBCgqbCD/MNk9Qo17oV7FAgs4tQZmsd/YVdWyfO/9
- BHxtkDeWhdo7q2cWxeJK5vdl9rQJnIs4NnYm4LJhZZHORKB8Q7xglGRSotQXFCix/JHP
- 55TmoyhV8shLZzB1m8Nu8pdIHFL6mM254Ynu+JG9iDGiwUhWLKz3ks6fzCgd5zJDFL7h
- w5gCsKBZeS1nsuN44BtHUEsphvSOTujdIL+4/EZ6MXmJ9AJDzROQ6Qr8aFPo9fsoUihk
- zQtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cFIwRhWGX1lXEgIcRz+DPIBOWznev3PQHLvgo6Hsunk=;
- b=YbsGJ03RwuUPNQPlIoE5Ue7K9ANp0ky/x0gyDtYzML5QWZcWia5j4ROvRnprDjlJ+5
- yEXZ4r45rQrJ2pq2sBjm17xguY9RtRu/cdJtLUTLsjXNInkzdxy3Srq6ROYYP8yhIUHX
- kunHcm0FeoJefLezrqQBPSBHCmy+eqjlUMf+W9iMHvSaAwiKOSEUG2tJJg4d39Xt+r+7
- tNuVLJ9tqfY+zAgiHkMg62QuRCUtc8SCYKlh5cAsXv+5mR5z3txlRgi/B6rm2o/dH1th
- 5TJJxxlbPwXx1JO4iCAYtNF4bMX2GZUNWhdnShWSVBifdarvvS+VlRjHSkrWi5G6dDpI
- ajdg==
-X-Gm-Message-State: AOAM532LUv7S7U1CrZzkz5Y4Xii65wuCoxAE/YoWORBJX/wyj7GfAz27
- DD1tJTUqpCGSdhlxLXA7l10C8g==
-X-Google-Smtp-Source: ABdhPJx8BQ3v5ggQma7qUkqHOQtMZoLc0F8C7exPP7moTvEOgmu8ahgZBKfcy+MqkF+I68f52TiQmg==
-X-Received: by 2002:a37:6558:: with SMTP id z85mr3843241qkb.310.1633207921256; 
- Sat, 02 Oct 2021 13:52:01 -0700 (PDT)
-Received: from [192.168.3.43] (c-67-174-166-185.hsd1.ga.comcast.net.
- [67.174.166.185])
- by smtp.gmail.com with ESMTPSA id l3sm5971425qtu.47.2021.10.02.13.52.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Oct 2021 13:52:00 -0700 (PDT)
-Subject: Re: [PATCH] target/mips: remove gen_mfc0_load64() and use
- tcg_gen_ld32s_tl()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20211002133753.3432668-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b6c20416-46cf-b927-4d97-f5e040572d80@linaro.org>
-Date: Sat, 2 Oct 2021 16:51:58 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mWlzm-00005d-83
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 16:52:34 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:41434)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mWlzZ-00071W-La
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 16:52:33 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id B84C9746398;
+ Sat,  2 Oct 2021 22:52:17 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 882507462D3; Sat,  2 Oct 2021 22:52:17 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 861397457EE;
+ Sat,  2 Oct 2021 22:52:17 +0200 (CEST)
+Date: Sat, 2 Oct 2021 22:52:17 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH 0/4] Misc OHCI patches
+In-Reply-To: <0abb3f2-2267-662c-b13e-3c8248f441dc@eik.bme.hu>
+Message-ID: <3085da30-802f-e85e-1f7-924cc234c68@eik.bme.hu>
+References: <cover.1633122670.git.balaton@eik.bme.hu>
+ <0abb3f2-2267-662c-b13e-3c8248f441dc@eik.bme.hu>
 MIME-Version: 1.0
-In-Reply-To: <20211002133753.3432668-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x736.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.413,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 10%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,35 +57,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Leon Alrae <leon.alrae@imgtec.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/2/21 9:37 AM, Philippe Mathieu-Daudé wrote:
-> From: Leon Alrae<leon.alrae@imgtec.com>
-> 
-> Remove misleading gen_mfc0_load64() which actually loads 32 or 64 bits
-> depending whether MIPS32 or MIPS64 and also replace the pair of
-> tcg_gen_ld_tl() + tcg_gen_ext32s_tl() with single tcg_gen_ld32s_tl().
-> 
-> Patch partly generated using the following spatch script:
-> 
->      @@
->      expression reg, env, ofs;
->      @@
->      -tcg_gen_ld_tl(reg, env, ofs);
->      -tcg_gen_ext32s_tl(reg, reg);
->      +tcg_gen_ld32s_tl(reg, env, ofs);
-> 
-> Signed-off-by: Leon Alrae<leon.alrae@imgtec.com>
-> [PMD: Rebased and used Coccinelle spatch to complete]
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   target/mips/tcg/translate.c | 68 ++++++++++++++++---------------------
->   1 file changed, 29 insertions(+), 39 deletions(-)
+On Sat, 2 Oct 2021, BALATON Zoltan wrote:
+> Interestingly on pegasos2 which has UHCI instead of OHCI MorphOS does not 
+> even correctly detect the emulated usb-audio device and trying to get info 
+> makes it freeze so looks like the UHCI model may also have some problems of 
+> its own.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+So it's not the UHCI model but a problem with IRQ routing with vt8231. 
+I've noticed that it sends USB requests to the usb-audio device but the 
+replies come back very slowly. This lead me to think the interrupts may 
+not be handled correctly. What happens is that vt82c686-uhci-pci that 
+models the USB function of the VT82xx super-southbridge chips is 
+implemented as a PCIDevice (it's a subclass of TYPE_UHCI) and hcd-uhci is 
+using pci_set_irq() to comminicate interrupts which will generate PCI 
+interrupts. But the docs of both VT82c686b and vt8231 say that the 
+interrupt line PCI config register (0x3c) of most sub functions of this 
+chip selects which ISA IRQ that function is routed to. (This is also 
+mentioned at https://wiki.osdev.org/PCI so probably this is generally true 
+for such multifunction bridge chips while other PCI cards plugged in the 
+PCI bus provided by these bridge chips use normal PCI interrupts.) On the 
+other hand some of these functions may also exist as separate PCI cards 
+where using the PCI interrupt is correct. If for testing I change 
+uhci_update_irq() to set the appropriate ISA IRQ instead of pci_set_irq() 
+then it works on pegasos2 and gets the same result as with mac99 and 
+sam460ex but I wonder what would be a good way to model this? (Especially 
+because in case of usb-uhci we can't cahnge it easily as that's also used 
+by other devices.)
 
-r~
+This is similar problem we've seen with the via-ide device (although 
+that's a bit more complex due to that also disregards the PCI config 
+register despite what the docs say and always uses ISA IRQ 14+15). We have 
+that call qemu_set_irq(isa_get_irq()) now as it's only used as part of the 
+VT82xx chips. We'll have the same problem when implementing via-audio so 
+eventually we should come up with a solution for this.
+
+What I can think of is maybe have these devices somehow detect if they are 
+a standalone PCI device or a sub function of a bridge chip and use either 
+pci_set_irq or isa_get_irq() accordingly which could work but if anybody 
+has a better idea (that does not involve rewriting and QOM'ifying the 
+whole ISA mess because I won't have time for that) please share.
+
+Regards,
+BALATON Zoltan
 
