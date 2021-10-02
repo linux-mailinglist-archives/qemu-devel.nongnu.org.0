@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D4941FC62
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 15:53:52 +0200 (CEST)
-Received: from localhost ([::1]:34166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5434D41FC66
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 16:01:33 +0200 (CEST)
+Received: from localhost ([::1]:39236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWfSZ-0006Ye-FE
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 09:53:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42040)
+	id 1mWfZz-00021B-Rz
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 10:01:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mWfQl-0005BF-Sn
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 09:52:01 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55946)
+ id 1mWfYA-0001Ey-Ux
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 09:59:38 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:46802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mWfQk-0000AT-FQ
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 09:51:59 -0400
-Received: by mail-wm1-x334.google.com with SMTP id v127so9281774wme.5
- for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 06:51:58 -0700 (PDT)
+ id 1mWfY5-0000Mm-G3
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 09:59:34 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ o4-20020a05600c510400b0030d55d6449fso2132637wms.5
+ for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 06:59:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=2iYaLqrUJZ/0oTffguliLgFMJPTC8J9XdhaknmpRTK8=;
- b=bL9F9z2wptfq3cIWxTmDyz0k1kD91qvIDk0j4LyfXHbGY+92DbtxXcAai8+nJUaH/e
- AAPqXHUcdhwyH3oiI3+7xTJ6O5NmZ2rFW28vrthMRd2Z+vCGjqWtindsPejnfw8V2gFh
- HbUEV0N4MwE1zQ4NfUSdhQR5zPfVssVVbas+3d+V/CHvuKqY/qiELOUmB2aRU3kYp03K
- K3ACKaVWDz1acI1Cv5mGYE3J3Eoz90/26yjT1dEt7RcWpT59wN7OY3vTR7v+Ui+LsxGB
- pZzLeRFblZdHpxqxPzq5sSK0AkEoW97wgxluO/zRNT/inj/1teFnxnZ8o+i9RlhJkPjU
- pgDg==
+ bh=21tf+Mo65Jau/x14mvWof3x+ZeuDEJY0oMlL39A2dKY=;
+ b=pZY48Itnqr94bNZ1cwS8I7lIdg+wtlFRALPtnQY4NVal0jj0OiGEMRNboUvX21I6Vb
+ K49HEZWpl5K/dkfqmVKkf9bQAf5mzjbApPnnbIVF1FlJRVnPeTOi0kjTPrL9hgY+kk74
+ arf8QUjTrjFGxwXA6TfG5flr5MDOjWql3vtP/YKEvYXvOos0mXEblGi6FZInD8+NvjgC
+ kJ07SjmK2unBaYN9P+X5Z/qgYqer9Qv08K/eHpDrmaULRpn9GslPzWxhQixA8lIOTjIB
+ 5YGPVbuCUmNCHHVP31MjUeRmcjx3jC2BTWgIq1WjfhFzh4APFBXtZ/czDNXjeW4pPyTF
+ H4/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=2iYaLqrUJZ/0oTffguliLgFMJPTC8J9XdhaknmpRTK8=;
- b=0k8EJIWrMvkgcLAIasV9soZVz/YDewybdUjim433zwarUlzG+9wMUyAcisuaGQoTSc
- bjCIr2ywmHEfk+wQQ0pmiI9Oox5/CyLrtdc3zK+CY62KeiM0SBkasLnqrK1qlRYfWuJf
- ZmAoXCcytvCrcj9A01BzqryjUq8urg2ZSly0iM4F9LfBgDtTLuR7emys7nyEqd7tFMii
- CO2bdH3LjPY1CD2mo/r5zUJPOzxanrd9/xiSjCqLYUp5qLNEduVpSJ8NYdySf9SjzL2L
- Tf/VSEsau1dBRAjJRI5WJJBPvlAyab2+5a7P4naBvVlpyLabsZYBmxoBYCoUr2Nvi8i9
- 0PFQ==
-X-Gm-Message-State: AOAM533b47xiXTPcNu6P6td1XrhOFtkoModmN1NqNhnYOQY2hGK3DqpQ
- R0gWZDcPBdXiK6duJa4HMBs=
-X-Google-Smtp-Source: ABdhPJyzAAZd1El+XVNrt0dimPnGeN1IZiyoEnreb1XSzlo9qVaiZ5EBQe2tapN6QuZ2ISKNZQ4Qgg==
-X-Received: by 2002:a05:600c:3ba4:: with SMTP id
- n36mr9773337wms.35.1633182717077; 
- Sat, 02 Oct 2021 06:51:57 -0700 (PDT)
+ bh=21tf+Mo65Jau/x14mvWof3x+ZeuDEJY0oMlL39A2dKY=;
+ b=NDxj4dKDR89KilrFcFNPaROJTmYRLpo3A+SWlDjMMPpn/SqgOCdNx1pn/jxqrvufl9
+ e5uP6aJx24A63T1FfB18g/YnIlAOuSDB3DlaWvh6R5Md7JlNS7I7mYn36p9lEzNRBgVV
+ aBppsWbkCmDREH2AUczo5CSS2SN44iK+qsXFc9u6pd6XWOtxRTspImGtYRBVKvajcNcH
+ OecTZyzwc7lyg+Mv3y+xK/p2OiWKYcoXuEd0LuA/L2a4jPEq+SH4G/s5JbLkI4t+Xymb
+ dkN6y3YYpF0Jc7pk19I8OG+X68juwvmT7IApZNFW4tMiE/k8gW4eug9aWyajwxUiR0Kz
+ b/UQ==
+X-Gm-Message-State: AOAM532NUvA/aGJaqoQvpRKwfgIjyTbYbm1p/TiCsZH6k9/FFnj0g/td
+ SiFQsMtRur+70PXh6lBR/gk=
+X-Google-Smtp-Source: ABdhPJwG2T3aMz8RXC7d3WeA/U4144hnEACkZqXH/vHqBImxR+7WHpnJwfR0mWpdyd1wBzN7ldCAvQ==
+X-Received: by 2002:a1c:2358:: with SMTP id j85mr2271428wmj.1.1633183171814;
+ Sat, 02 Oct 2021 06:59:31 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id y11sm10534990wrg.18.2021.10.02.06.51.56
+ by smtp.gmail.com with ESMTPSA id 196sm478768wme.20.2021.10.02.06.59.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Oct 2021 06:51:56 -0700 (PDT)
-Message-ID: <123e873f-ff5a-2671-41d5-4000ac9fc9ec@amsat.org>
-Date: Sat, 2 Oct 2021 15:51:55 +0200
+ Sat, 02 Oct 2021 06:59:31 -0700 (PDT)
+Message-ID: <19526d2b-dbe3-9aac-472a-e46eafcc89c5@amsat.org>
+Date: Sat, 2 Oct 2021 15:59:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 02/12] macfb: fix invalid object reference in
- macfb_common_realize()
+Subject: Re: [PATCH 04/12] macfb: use memory_region_init_ram() in
+ macfb_common_realize() for the framebuffer
 Content-Language: en-US
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  laurent@vivier.eu
 References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
- <20211002110007.30825-3-mark.cave-ayland@ilande.co.uk>
+ <20211002110007.30825-5-mark.cave-ayland@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211002110007.30825-3-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20211002110007.30825-5-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
@@ -97,19 +97,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/2/21 12:59, Mark Cave-Ayland wrote:
-> During realize memory_region_init_ram_nomigrate() is used to initialise the RAM
-> memory region used for the framebuffer but the owner object reference is
-> incorrect since MacFbState is a typedef and not a QOM type.
+> Currently macfb_common_realize() defines the framebuffer RAM memory region as
+> being non-migrateable but then immediately registers it for migration. Replace
+> memory_region_init_ram_nomigrate() with memory_region_init_ram() which is clearer
+> and does exactly the same thing.
 > 
-> Change the memory region owner to be the corresponding DeviceState to fix the
-> issue and prevent random crashes during macfb_common_realize().
-> 
-
-Fixes: 8ac919a0654 ("hw/m68k: add Nubus macfb video card")
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/display/macfb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/display/macfb.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
