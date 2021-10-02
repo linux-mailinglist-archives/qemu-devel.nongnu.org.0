@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A18441FA25
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 08:43:08 +0200 (CEST)
-Received: from localhost ([::1]:51050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10BF41FAB7
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 11:57:36 +0200 (CEST)
+Received: from localhost ([::1]:57864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWYjj-0005iA-KK
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 02:43:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40316)
+	id 1mWblv-0000t8-8s
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 05:57:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mWYi2-0004SD-Eq
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 02:41:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35660)
+ id 1mWbk0-00005a-NS
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 05:55:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mWYhy-0003vW-PU
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 02:41:22 -0400
+ id 1mWbju-0002y9-AY
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 05:55:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633156877;
+ s=mimecast20190719; t=1633168524;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k3YwzyCfrWdbxV2jLlz9OuKZz7WRdWtIr5Uc/2COSU0=;
- b=I83KwTrWFxQ+g7uKSXg+aqlar7Uk0EHzC0PGCy3ooV8Bnb/VsnF7mC3ZvYACSYaIm/vvg+
- Zej+Kus1tczxL+uCyq3uO14jQOIaMejSvzeJc2knyrTwoOY4qGMW3+M0QNwTwR1RhPaoWW
- EX80c8GdrNSMBoZzFQgwqzORRMvrv88=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-8CnzhfKTNpefzxqN4XkojQ-1; Sat, 02 Oct 2021 02:41:15 -0400
-X-MC-Unique: 8CnzhfKTNpefzxqN4XkojQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- 2-20020a508e02000000b003d871759f5dso12438457edw.10
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 23:41:15 -0700 (PDT)
+ bh=XW3vtIp0MC2VSpT2XN2O3jjXVJ90Z7SE3i24RosfquU=;
+ b=h/ktgI2ngC65PvvCf+qTf4y6ipZ0/3K7gNpAYUA46BtA0yhMzOyh8neWYvBLDincrn5X7S
+ k2b9H7UrU0QFaeils8IUOT7nh9BfF9bNTB9Vo9n5s34DxrA4gqwOwnr78i+l0uycWPGlgN
+ m+cUepuZO8DqIipk4epagHzK+Sc2ems=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-rlrSolyZMbC7pPlAmIEqxg-1; Sat, 02 Oct 2021 05:55:23 -0400
+X-MC-Unique: rlrSolyZMbC7pPlAmIEqxg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ b7-20020a50e787000000b003d59cb1a923so12648755edn.5
+ for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 02:55:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=k3YwzyCfrWdbxV2jLlz9OuKZz7WRdWtIr5Uc/2COSU0=;
- b=yGRdeEpZODrMiJ1bmxMn7fBPlAYNuXoJhwcTuWelS+eju+21pi7qvtXhczOlQL3pr3
- h4VJQ+vaWqJh6LpMe0zXCGFij5EbG21BYnlNCxYtB4h6vPOu8kvqYnzrn8QNLB8eJaG3
- cnuLzgQ4gdQBgZ3ggpU0J1borCjgTt/QWphzox953zxm6ygZB7IsQwz4NDBKjTJzLSFt
- FlLeQAi12MVCYfmp4+Y3KbPk3DInmccebYxpXmlIHesSef2OmRrfJil3n6ARne9Dh9wu
- UZdim6tAlwlKRga8Ry9SPQrZF6/f/7qpe/OGiynY5RuFWC20/054kbjysQSp91jzThEl
- m3WQ==
-X-Gm-Message-State: AOAM531JtmdSdBhkTvRl7Y7KrdNvpklXrua006EXzvHxuhcvJ7hpiof3
- XxPF9OzXR+i47gEN8hfGLLPUzz7RUtK6EZeSisNFBdLcThYZ2tOs9ErqU5an6DEz5GD50Fcphqy
- vs+YbOfQCKd2vzJI=
-X-Received: by 2002:a17:906:aad9:: with SMTP id
- kt25mr2494528ejb.516.1633156874497; 
- Fri, 01 Oct 2021 23:41:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwy/wRufJq2rNJbw84V6fTp/EOIA9DQeQWdlXxVpkihutUSBRsNQJU/lQlUGMSE4o2lQArvfw==
-X-Received: by 2002:a17:906:aad9:: with SMTP id
- kt25mr2494512ejb.516.1633156874311; 
- Fri, 01 Oct 2021 23:41:14 -0700 (PDT)
+ bh=XW3vtIp0MC2VSpT2XN2O3jjXVJ90Z7SE3i24RosfquU=;
+ b=cdhryaNgqlo3/Acck+JJq9bdSjg9Uf+uBqytDRCx3DmBJkdheASCoyKv4egsertSEr
+ zXutzzQRJZ2rjVSLDeuQ2wdN0V84+mQRoZLXzM7AJrga8RnC9SuXZ8mQ9iPvqiKLpdNI
+ VNKMPKRttzdx64Mlbd27pvil1+CNUnr16KhJ7oVSMf0XXXjyItUQ4iA2LinZjLg9eeO4
+ OZfWv439+QRFfliwWuFcGkEtJj/U8CSmBl4AHZ93mV5CDQwk2HygXl/kdI2KPHKq5tu2
+ 9rTZvs+bpVzUOcMQ985hrCKVWVjHzEf3ygh0Z+xNYN7VeqaF+SMOJOWSqIOt5IP2vN7U
+ ll5A==
+X-Gm-Message-State: AOAM530qcGgTSfADk8amlHJTO1EptFQqcZjw71KujQsBxkTFcwNwafur
+ HNQ6tuiQRhXxvclmzakxpKwDKlgu28BUnKJbEFjOBm88x1YSPZofRCT1sWXfUbGVh657TkHM7Hw
+ GB9YJaHSzwElbKTI=
+X-Received: by 2002:a05:6402:5252:: with SMTP id
+ t18mr2964184edd.13.1633168522633; 
+ Sat, 02 Oct 2021 02:55:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzqcGZdb4m/xa/3X3ulNKx328HLC0Mj79nj6BW3QBx1dUCG93VqJkplAIOA11OWJbjoHHWTUQ==
+X-Received: by 2002:a05:6402:5252:: with SMTP id
+ t18mr2964154edd.13.1633168522328; 
+ Sat, 02 Oct 2021 02:55:22 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
  ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id k19sm1175977ejg.13.2021.10.01.23.40.52
+ by smtp.gmail.com with ESMTPSA id y11sm3999755ejb.8.2021.10.02.02.55.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Oct 2021 23:41:13 -0700 (PDT)
-Message-ID: <afa63e10-2999-4073-e440-a5d87fd6da49@redhat.com>
-Date: Sat, 2 Oct 2021 08:40:46 +0200
+ Sat, 02 Oct 2021 02:55:21 -0700 (PDT)
+Message-ID: <15636272-1702-93c7-2c7d-59d889168350@redhat.com>
+Date: Sat, 2 Oct 2021 11:55:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v12 16/16] machine: Make smp_parse return a boolean
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210929025816.21076-1-wangyanan55@huawei.com>
- <20210929025816.21076-17-wangyanan55@huawei.com>
- <0343d17f-bb46-a266-7ba4-20bdf30631d0@redhat.com>
- <YVdCRYvRHIio6MZe@redhat.com>
+Subject: Re: [PATCH v4 0/4] softmmu/memory_mapping: optimize dump/tpm for
+ virtio-mem
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210727082545.17934-1-david@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YVdCRYvRHIio6MZe@redhat.com>
+In-Reply-To: <20210727082545.17934-1-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -38
@@ -104,95 +102,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, wanghaibin.wang@huawei.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/10/21 19:15, Daniel P. Berrangé wrote:
-> On Fri, Oct 01, 2021 at 07:08:51PM +0200, Paolo Bonzini wrote:
->> On 29/09/21 04:58, Yanan Wang wrote:
->>> @@ -933,8 +935,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
->>>            return;
->>>        }
->>> -    smp_parse(ms, config, errp);
->>> -    if (*errp) {
->>> +    if (!smp_parse(ms, config, errp)) {
->>>            qapi_free_SMPConfiguration(config);
->>>        }
->>>    }
->>>
->>
->> This is actually a leak, so I'm replacing this patch with
+On 27/07/21 10:25, David Hildenbrand wrote:
+> Minor fixes and cleanups, followed by an optimization for virtio-mem
+> regarding guest dumps and tpm.
 > 
-> This patch isn't adding a leak, as there's no change in
-> control flow / exit paths.  AFAICT, the leak was introduced
-> in patch 15 instead, so the code below shoudl be squashed
-> into that, and this patch left as-is.
+> virtio-mem logically plugs/unplugs memory within a sparse memory region
+> and notifies via the RamDiscardMgr interface when parts become
+> plugged (populated) or unplugged (discarded).
+> 
+> Currently, guest_phys_blocks_append() appends the whole (sparse)
+> virtio-mem managed region and therefore tpm code might zero the hole
+> region and dump code will dump the whole region. Let's only add logically
+> plugged (populated) parts of that region, skipping over logically
+> unplugged (discarded) parts by reusing the RamDiscardMgr infrastructure
+> introduced to handle virtio-mem + VFIO properly.
 
-Yes, even better make it a separate patch and fix the conflict in patch
-15.  But I'm still not sure of the wisdom of this patch.
-
-At this point smp_parse has exactly one caller and it doesn't care about
-the return value.  The "return a boolean" rule adds some complexity (and
-a possibility for things to be wrong/inconsistent) to the function for
-the benefit of the callers.  If there is only one caller, as is the case
-here or for virtual functions, the benefit can well be zero (this case)
-or negative (virtual functions).
+Queued, thanks.
 
 Paolo
 
----------------- 8< ----------------
- From e7f944bb94a375e8ee7469ffa535ea6e11ce59e1 Mon Sep 17 00:00:00 2001
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 1 Oct 2021 19:04:03 +0200
-Subject: [PATCH] machine: Use g_autoptr in machine_set_smp
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
-  hw/core/machine.c | 7 ++-----
-  1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 54f04a5ac6..d49ebc24e2 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -897,7 +897,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
-  {
-      MachineClass *mc = MACHINE_GET_CLASS(obj);
-      MachineState *ms = MACHINE(obj);
--    SMPConfiguration *config;
-+    g_autoptr(SMPConfiguration) config = NULL;
-      ERRP_GUARD();
-  
-      if (!visit_type_SMPConfiguration(v, name, &config, errp)) {
-@@ -920,7 +920,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
-  
-      smp_parse(ms, config, errp);
-      if (*errp) {
--        goto out_free;
-+        return;
-      }
-  
-      /* sanity-check smp_cpus and max_cpus against mc */
-@@ -935,9 +935,6 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
-                     ms->smp.max_cpus,
-                     mc->name, mc->max_cpus);
-      }
--
--out_free:
--    qapi_free_SMPConfiguration(config);
-  }
-  
-  static void machine_class_init(ObjectClass *oc, void *data)
--- 
-2.31.1
+> v3 -> v4:
+> - "tpm: mark correct memory region range dirty when clearing RAM"
+> -- Finally get it right :) I tried triggering that code without luck. So
+>     I ended up forcing that call path, verifying that the offset into
+>     memory regions is now correct.
+> 
+> v2 -> v3:
+> - "tpm: mark correct memory region range dirty when clearing RAM"
+> -- Fix calculation of offset into memory region (thanks Peter!)
+> - "softmmu/memory_mapping: reuse qemu_get_guest_simple_memory_mapping()"
+> -- Dropped
+> 
+> v1 -> v2:
+> - "softmmu/memory_mapping: factor out adding physical memory ranges"
+> -- Simplify based on RamDiscardManager changes: add using a
+>     MemoryRegionSection
+> - "softmmu/memory_mapping: optimize for RamDiscardManager sections"
+> -- Simplify based on RamDiscardManager changes
+> 
+> David Hildenbrand (4):
+>    tpm: mark correct memory region range dirty when clearing RAM
+>    softmmu/memory_mapping: never merge ranges accross memory regions
+>    softmmu/memory_mapping: factor out adding physical memory ranges
+>    softmmu/memory_mapping: optimize for RamDiscardManager sections
+> 
+>   hw/tpm/tpm_ppi.c         |  5 +++-
+>   softmmu/memory_mapping.c | 64 ++++++++++++++++++++++++++--------------
+>   2 files changed, 46 insertions(+), 23 deletions(-)
+> 
 
 
