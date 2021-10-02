@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7668641FE51
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 23:52:52 +0200 (CEST)
-Received: from localhost ([::1]:40392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64C841FEA6
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 01:33:39 +0200 (CEST)
+Received: from localhost ([::1]:55930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWmw7-00070f-Ez
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 17:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42646)
+	id 1mWoVe-0000Ut-Fx
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 19:33:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=99090ed790=pdel@fb.com>)
- id 1mWmoT-0002FN-BF
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 17:44:57 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:60492)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=99090ed790=pdel@fb.com>)
- id 1mWmoR-0006ei-IQ
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 17:44:56 -0400
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 192JP06w012076
- for <qemu-devel@nongnu.org>; Sat, 2 Oct 2021 14:44:54 -0700
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 3bewj48eru-4
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 14:44:54 -0700
-Received: from intmgw003.48.prn1.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::4) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.14; Sat, 2 Oct 2021 14:44:22 -0700
-Received: by devvm660.prn0.facebook.com (Postfix, from userid 385188)
- id 6AFE851973DD; Sat,  2 Oct 2021 14:44:15 -0700 (PDT)
-From: <pdel@fbc.om>
-To: 
-Subject: [PATCH 2/2] hw/arm: Integrate ADC model into Aspeed SoC
-Date: Sat, 2 Oct 2021 14:44:14 -0700
-Message-ID: <20211002214414.2858382-3-pdel@fbc.om>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211002214414.2858382-1-pdel@fbc.om>
-References: <20211002214414.2858382-1-pdel@fbc.om>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mWoT7-0006zS-JM
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 19:31:04 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mWoT6-00033D-4J
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 19:31:01 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id d6so22042776wrc.11
+ for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 16:30:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=829ysH2Ytjy0VWw9cHVz/PDYE3QZu3TaG/oEq5KtAwY=;
+ b=JOMJnZ+ZSBHSVmsWsX1qRx1BMSMYOY2iEpSBbx1thBrehr/wAuhmV7Ayz0JNeCYs1W
+ hs1x9jhigb2uXuJIPCYHRxjoUPLPKNxhYSfXONTKH7T9tDFQwMr6jYajaMp67Tzixd20
+ I+ffQSn788i6Esb2l3bPCPFmvwuWwGq42B/XT+L4f2HmuqP2OpMslmKi7SdkrEnGVUCe
+ L1WxBei37TID+TJUQZkHjifzyIQT1PmzfBzqStB8PNDgtKzraGwX+pgufLZ7O7XrM/jr
+ 1rOxxwzD9NyMyTTiHYEi2Q5nlDIgXA24Gks1jQ9YGwzo1g51ZfWNi+lH4jTt30NzXNNi
+ ZOag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=829ysH2Ytjy0VWw9cHVz/PDYE3QZu3TaG/oEq5KtAwY=;
+ b=xHIXsuec6VTx7zkPd3kA+4YRpFPC2oSrswOpgU0mmrRDTIxtxS39QanuNoVpkTscZn
+ dcRkUXs5D/pzxQFM+focM0OsaWzlnnXbs/e2GRUj2XpTkgVy01PL8wKhwoy39k+B0agv
+ zUInVIukJIaSCUFWStGpn7r8b7wh/itqdLWwR69lmXyzycJ2rZ155aS1avphXDOp1XUM
+ NKf2o+aSVjMIoPTdvNuZltqG151kx9o1slPGU8YC8N8SpT/VVHuii+wh7ez05DU95pVf
+ 2+ErtmL84iuii7PiJxOEtP4qhCyqpOKcUmqerauW8+hCiZlLLIHXlw2jGts3M/A6CL9x
+ sfIg==
+X-Gm-Message-State: AOAM530gcn52NhmxGDdwGHp46FzagdP1DW3ATXSGG8FF7Ehph9xRi02m
+ dLjc1rQQTJVsF3OLnQFUb74B1QRnAAI=
+X-Google-Smtp-Source: ABdhPJwL1t4ta6Fv9Ena17KT60CoxrGJYjyz2SxtsLZa82DEXsz7co/j4zoLN1Iq/oAFEX0PXxXqnw==
+X-Received: by 2002:adf:b185:: with SMTP id q5mr3311642wra.213.1633217457223; 
+ Sat, 02 Oct 2021 16:30:57 -0700 (PDT)
+Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id
+ q3sm9585181wmc.25.2021.10.02.16.30.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 02 Oct 2021 16:30:56 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] target/nios2: Use tcg_constant_*
+Date: Sun,  3 Oct 2021 01:30:51 +0200
+Message-Id: <20211002233054.3575646-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-X-FB-Source: Intern
-X-Proofpoint-ORIG-GUID: vY-Q-50-oufood8kG3X4iMPpLCO_nTRp
-X-Proofpoint-GUID: vY-Q-50-oufood8kG3X4iMPpLCO_nTRp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-10-02_07,2021-10-01_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- impostorscore=0
- mlxscore=0 bulkscore=0 spamscore=0 clxscore=1034 phishscore=0
- lowpriorityscore=0 adultscore=0 mlxlogscore=906 priorityscore=1501
- suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2109230001 definitions=main-2110020158
-X-FB-Internal: deliver
-Received-SPF: pass client-ip=67.231.145.42;
- envelope-from=prvs=99090ed790=pdel@fb.com; helo=mx0a-00082601.pphosted.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_NXDOMAIN=0.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 02 Oct 2021 17:49:27 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,106 +83,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, andrew@aj.id.au, alistair@alistair23.me,
- qemu-devel@nongnu.org, patrick@stwcx.xyz, qemu-arm@nongnu.org, clg@kaod.org,
- Peter Delevoryas <pdel@fb.com>, zhdaniel@fb.com, joel@jms.id.au
+Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Jeffery <andrew@aj.id.au>
-
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Signed-off-by: Peter Delevoryas <pdel@fb.com>
----
- hw/arm/aspeed_ast2600.c     | 11 +++++++++++
- hw/arm/aspeed_soc.c         | 11 +++++++++++
- include/hw/arm/aspeed_soc.h |  2 ++
- 3 files changed, 24 insertions(+)
-
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 9d70e8e060..d553ee2388 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -148,6 +148,9 @@ static void aspeed_soc_ast2600_init(Object *obj)
-     snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
-     object_initialize_child(obj, "timerctrl", &s->timerctrl, typename);
-=20
-+    snprintf(typename, sizeof(typename), "aspeed.adc-%s", socname);
-+    object_initialize_child(obj, "adc", &s->adc, typename);
-+
-     snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
-     object_initialize_child(obj, "i2c", &s->i2c, typename);
-=20
-@@ -322,6 +325,14 @@ static void aspeed_soc_ast2600_realize(DeviceState *=
-dev, Error **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
-     }
-=20
-+    /* ADC */
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->adc), errp)) {
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->adc), 0, sc->memmap[ASPEED_DEV_AD=
-C]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->adc), 0,
-+                       aspeed_soc_get_irq(s, ASPEED_DEV_ADC));
-+
-     /* UART - attach an 8250 to the IO space as our UART */
-     serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
-                    aspeed_soc_get_irq(s, s->uart_default), 38400,
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index ed84502e23..aaec2bba38 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -162,6 +162,9 @@ static void aspeed_soc_init(Object *obj)
-     snprintf(typename, sizeof(typename), "aspeed.timer-%s", socname);
-     object_initialize_child(obj, "timerctrl", &s->timerctrl, typename);
-=20
-+    snprintf(typename, sizeof(typename), "aspeed.adc-%s", socname);
-+    object_initialize_child(obj, "adc", &s->adc, typename);
-+
-     snprintf(typename, sizeof(typename), "aspeed.i2c-%s", socname);
-     object_initialize_child(obj, "i2c", &s->i2c, typename);
-=20
-@@ -287,6 +290,14 @@ static void aspeed_soc_realize(DeviceState *dev, Err=
-or **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
-     }
-=20
-+    /* ADC */
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->adc), errp)) {
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->adc), 0, sc->memmap[ASPEED_DEV_AD=
-C]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->adc), 0,
-+                       aspeed_soc_get_irq(s, ASPEED_DEV_ADC));
-+
-     /* UART - attach an 8250 to the IO space as our UART */
-     serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
-                    aspeed_soc_get_irq(s, s->uart_default), 38400,
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 87d76c9259..8139358549 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -15,6 +15,7 @@
- #include "hw/cpu/a15mpcore.h"
- #include "hw/intc/aspeed_vic.h"
- #include "hw/misc/aspeed_scu.h"
-+#include "hw/adc/aspeed_adc.h"
- #include "hw/misc/aspeed_sdmc.h"
- #include "hw/misc/aspeed_xdma.h"
- #include "hw/timer/aspeed_timer.h"
-@@ -53,6 +54,7 @@ struct AspeedSoCState {
-     AspeedSCUState scu;
-     AspeedHACEState hace;
-     AspeedXDMAState xdma;
-+    AspeedADCState adc;
-     AspeedSMCState fmc;
-     AspeedSMCState spi[ASPEED_SPIS_NUM];
-     EHCISysBusState ehci[ASPEED_EHCIS_NUM];
---=20
-2.30.2
-
+Replace temporary TCG registers by tcg_constant_*() when possible.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  target/nios2: Replace load_zero() by zero constant in DisasContext=0D
+  target/nios2: Use DisasContext::zero constant instead of temporary=0D
+  target/nios2: Use tcg_constant_*=0D
+=0D
+ target/nios2/translate.c | 33 ++++++---------------------------=0D
+ 1 file changed, 6 insertions(+), 27 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
