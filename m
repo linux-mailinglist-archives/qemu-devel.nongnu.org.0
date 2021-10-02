@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C8341FB27
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 13:37:27 +0200 (CEST)
-Received: from localhost ([::1]:57834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B647E41FB2B
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 13:41:32 +0200 (CEST)
+Received: from localhost ([::1]:60626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWdKY-0000Bs-B0
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 07:37:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50634)
+	id 1mWdOV-0002Ao-Qf
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 07:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mWdJK-0007qe-H0
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 07:36:10 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:29374)
+ id 1mWdLM-000137-Gi
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 07:38:16 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:49535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mWdJF-0005pr-5f
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 07:36:09 -0400
+ id 1mWdLK-0007r6-Sg
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 07:38:16 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 02A5F7462D3;
- Sat,  2 Oct 2021 13:36:01 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 3A0857462D3;
+ Sat,  2 Oct 2021 13:38:13 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id D6B7D745953; Sat,  2 Oct 2021 13:36:00 +0200 (CEST)
+ id 19524745953; Sat,  2 Oct 2021 13:38:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id D54A47457EE;
- Sat,  2 Oct 2021 13:36:00 +0200 (CEST)
-Date: Sat, 2 Oct 2021 13:36:00 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 17B147457EE;
+ Sat,  2 Oct 2021 13:38:13 +0200 (CEST)
+Date: Sat, 2 Oct 2021 13:38:13 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 01/12] macfb: handle errors that occur during realize
-In-Reply-To: <20211002110007.30825-2-mark.cave-ayland@ilande.co.uk>
-Message-ID: <2d85248a-bddd-c390-d0a2-356d57627786@eik.bme.hu>
+Subject: Re: [PATCH 02/12] macfb: fix invalid object reference in
+ macfb_common_realize()
+In-Reply-To: <20211002110007.30825-3-mark.cave-ayland@ilande.co.uk>
+Message-ID: <97f3558a-491-a53-4737-d86bc1954884@eik.bme.hu>
 References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
- <20211002110007.30825-2-mark.cave-ayland@ilande.co.uk>
+ <20211002110007.30825-3-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 8%
@@ -62,55 +63,33 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sat, 2 Oct 2021, Mark Cave-Ayland wrote:
-> Make sure any errors that occur within the macfb realize chain are detected
-> and handled correctly to prevent crashes and to ensure that error messages are
-> reported back to the user.
+> During realize memory_region_init_ram_nomigrate() is used to initialise the RAM
+> memory region used for the framebuffer but the owner object reference is
+> incorrect since MacFbState is a typedef and not a QOM type.
+>
+> Change the memory region owner to be the corresponding DeviceState to fix the
+> issue and prevent random crashes during macfb_common_realize().
 >
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
-> hw/display/macfb.c | 11 +++++++++++
-> 1 file changed, 11 insertions(+)
->
-> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-> index 76808b69cc..2b747a8de8 100644
-> --- a/hw/display/macfb.c
-> +++ b/hw/display/macfb.c
-
-There's one more in macfb_common_realize() after:
-
-memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram", MACFB_VRAM_SIZE, errp);
-
-otherwise
 
 Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 
-
-> @@ -379,6 +379,10 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
->     MacfbState *ms = &s->macfb;
+> ---
+> hw/display/macfb.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
 >
->     macfb_common_realize(dev, ms, errp);
-> +    if (*errp) {
-> +        return;
-> +    }
-> +
->     sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_ctrl);
->     sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
-> }
-> @@ -391,8 +395,15 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
->     MacfbState *ms = &s->macfb;
+> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+> index 2b747a8de8..815870f2fe 100644
+> --- a/hw/display/macfb.c
+> +++ b/hw/display/macfb.c
+> @@ -365,7 +365,7 @@ static void macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
+>     memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &macfb_ctrl_ops, s,
+>                           "macfb-ctrl", 0x1000);
 >
->     ndc->parent_realize(dev, errp);
-> +    if (*errp) {
-> +        return;
-> +    }
->
->     macfb_common_realize(dev, ms, errp);
-> +    if (*errp) {
-> +        return;
-> +    }
-> +
->     memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
->     memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
-> }
+> -    memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram",
+> +    memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(dev), "macfb-vram",
+>                                      MACFB_VRAM_SIZE, errp);
+>     s->vram = memory_region_get_ram_ptr(&s->mem_vram);
+>     s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
 >
 
