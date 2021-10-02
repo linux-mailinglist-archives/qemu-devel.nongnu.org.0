@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E103041FAC7
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 12:06:20 +0200 (CEST)
-Received: from localhost ([::1]:54210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 940EF41FAC1
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 12:03:10 +0200 (CEST)
+Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWbuN-0000gZ-U5
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 06:06:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34196)
+	id 1mWbrJ-0003Tt-JY
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 06:03:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWblY-00019d-KZ
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 05:57:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44462)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWblU-00017W-NQ
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 05:57:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWblQ-0004SC-MI
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 05:57:10 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWblP-0004SD-7J
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 05:57:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1633168622;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bQbKQBZrFbkbxLwMArF7uiik853Y4FbAwNCHn6ru5t0=;
- b=CsuwZRuMKZWesgoPZbx7+yZWUjO0wRDRsfQ+U2kT6A+Oax5Q+f8ruhrx/btyFfkNERHI8/
- Y4ql024dP2IrGiU6d57bh0QqOPoCSa//LgI2BmdzbYY7oyZVX6chKMb9iqgiB05dIIgyUP
- bNRA5wS9JjgM9oXYpwAb29ZwFQuihoc=
+ bh=7XHzKA2CTLUHr3dhrrgSVEspESfureMf19CZpwqFzxA=;
+ b=JftkRfa9qvq6aN9puVeaJySSI61Ihck88mhTUdcYzacRogttR2adHRqDPZUb1hs/r6w3ri
+ XGVBoJW6aRwwlXvH7x0nuPDwPUZmqsviet5pC3dlxHvFglfSFuea0iDVwPm7WckWo9Ip5n
+ LDrcaY0WMto0ApcnVY5vV+KoDsQ9sS0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-HlL55dmiNgeDZHCPT36jpw-1; Sat, 02 Oct 2021 05:56:59 -0400
-X-MC-Unique: HlL55dmiNgeDZHCPT36jpw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-232-AHw2LroNP1eSXX_HyzYlMQ-1; Sat, 02 Oct 2021 05:57:01 -0400
+X-MC-Unique: AHw2LroNP1eSXX_HyzYlMQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BC9D800053;
- Sat,  2 Oct 2021 09:56:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F0DF800053;
+ Sat,  2 Oct 2021 09:57:00 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 40D2260C81;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4481B5F4E7;
  Sat,  2 Oct 2021 09:56:58 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8DCAD1138467; Sat,  2 Oct 2021 11:56:55 +0200 (CEST)
+ id 913411138468; Sat,  2 Oct 2021 11:56:55 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/13] qapi/parser: Add FIXME for consolidating JSON-related
- types
-Date: Sat,  2 Oct 2021 11:56:52 +0200
-Message-Id: <20211002095655.1944970-11-armbru@redhat.com>
+Subject: [PULL 11/13] qapi/parser: enable mypy checks
+Date: Sat,  2 Oct 2021 11:56:53 +0200
+Message-Id: <20211002095655.1944970-12-armbru@redhat.com>
 In-Reply-To: <20211002095655.1944970-1-armbru@redhat.com>
 References: <20211002095655.1944970-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,38 +85,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-The fix for this comment is forthcoming in a future commit, but this
-will keep me honest. The linting configuration in ./python/setup.cfg
-prohibits 'FIXME' comments. A goal of this long-running series is to
-move ./scripts/qapi to ./python/qemu/qapi so that the QAPI generator is
-regularly type-checked by GitLab CI.
-
-This comment is a time-bomb to force me to address this issue prior to
-that step.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210930205716.1148693-11-jsnow@redhat.com>
+
+Message-Id: <20210930205716.1148693-12-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/parser.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/qapi/mypy.ini | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 73c1c4ef59..0265b47b95 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -43,6 +43,10 @@
- # Return value alias for get_expr().
- _ExprValue = Union[List[object], Dict[str, object], str, bool]
+diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
+index 54ca4483d6..6625356429 100644
+--- a/scripts/qapi/mypy.ini
++++ b/scripts/qapi/mypy.ini
+@@ -3,11 +3,6 @@ strict = True
+ disallow_untyped_calls = False
+ python_version = 3.6
  
-+# FIXME: Consolidate and centralize definitions for TopLevelExpr,
-+# _ExprValue, _JSONValue, and _JSONObject; currently scattered across
-+# several modules.
-+
- 
- class QAPIParseError(QAPISourceError):
-     """Error class for all QAPI schema parsing errors."""
+-[mypy-qapi.parser]
+-disallow_untyped_defs = False
+-disallow_incomplete_defs = False
+-check_untyped_defs = False
+-
+ [mypy-qapi.schema]
+ disallow_untyped_defs = False
+ disallow_incomplete_defs = False
 -- 
 2.31.1
 
