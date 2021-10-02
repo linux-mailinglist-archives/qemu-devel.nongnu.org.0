@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E3B41FABF
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 12:02:26 +0200 (CEST)
-Received: from localhost ([::1]:42584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B8541FAD7
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 12:12:24 +0200 (CEST)
+Received: from localhost ([::1]:43376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWbqb-00017e-3x
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 06:02:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34170)
+	id 1mWc0F-00048y-8e
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 06:12:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWblU-00017a-PW
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 05:57:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44667)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWblQ-0004Sk-LP
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 05:57:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633168622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mPxya/GwezsjBUFS3MoXaKBld+mVWE2AFjBhCgBEpXY=;
- b=BMZo6XnliQPfX0cw15yJfzItS3OIkeG84w3aUutb5fjfdyG0Z1pqKVd5dkv1I+bXMwfaPz
- 9BvqL7lH/vsKbzxLZE68pZvFUCbe5zxS8b7zzaLlIhOo1xP437j9UFlV6UbVmY1ceprO7N
- HLC8QPJmO2IV4avi7pleGBxD34CfxH4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-OqL5cCvqPESRALHNfSO0tA-1; Sat, 02 Oct 2021 05:56:59 -0400
-X-MC-Unique: OqL5cCvqPESRALHNfSO0tA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7345E1084684;
- Sat,  2 Oct 2021 09:56:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48562100AE2C;
- Sat,  2 Oct 2021 09:56:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9488E1138469; Sat,  2 Oct 2021 11:56:55 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 12/13] qapi/parser: Silence too-few-public-methods warning
-Date: Sat,  2 Oct 2021 11:56:54 +0200
-Message-Id: <20211002095655.1944970-13-armbru@redhat.com>
-In-Reply-To: <20211002095655.1944970-1-armbru@redhat.com>
-References: <20211002095655.1944970-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mWbxp-000209-Lx
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:09:55 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:40644)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mWbxn-0002g4-Ux
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:09:53 -0400
+Received: by mail-wr1-x436.google.com with SMTP id s21so19464211wra.7
+ for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 03:09:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wiXxzVgA47evwYnq/Poh8j21xWNIdYK8xGPtm8ZNWJo=;
+ b=fY5j36TkNz4LRb73P8YWfm0F4kcAJy9bjyymj/0xMcgW2q7uIHSirduqRykMW2tTz8
+ 40T6SAMzrvco4nABPaTlJg3PzaOX7hj5Cf9l0xAtvVEcewl3Edzy+/WeQsAytMwKW0BX
+ zKknRa0KqTIagdHwA5idhOry10pwrrG5sWO1yCRooyZdOmfYRA6YiFGHsyVIRKXvBHcI
+ qF72RMcAq0J4AaEvLf02LQqe3cTOgclqGbIkIo89uviZSUxG5nhISM892HpqxEFeq6FW
+ sw28p0WU0H+MeEZSJZaJlJ4TAHBLY/labzNI4+Rs/5k7nudfqZQ48Z3ipOA/EgnTdD1u
+ JgZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wiXxzVgA47evwYnq/Poh8j21xWNIdYK8xGPtm8ZNWJo=;
+ b=7wIO3pTYj7zlom/vm0V7aqSysxmd9ChfRnhfGPe5ypD5ozB2pr+yrD3j8wp646szjp
+ EYvqVhZ7JBCKNJJIu2Pr1hmdcthwmkO0N/1Dl67NWAieqqdctP27irE3Ja9+NeOvX5xG
+ 9tFEXh1SjRneYJKhCZpt/HtAlBG48LDaRKsr1ugOfUO/HFcZh31ai3DBv9oOtVqvH3wr
+ AEJqJpvDxry6ckGlXOYfmhN/h5Uv+3DZUQQdYQ3aFDlSJx1flBWmCll00wjBUE+OxDOA
+ TIdX4cAPKbrr81GDuUu7awq1RjwGnT+LUznvIGaOrihjlv0zNZTDc3XwKsF7G+CtXsQ1
+ avgA==
+X-Gm-Message-State: AOAM533qKmG3Grim0r4xEHWQJciJbxxW5aCA2V27fQCWnNt4lumJcDuI
+ H5wTqKPGfBzWbnN0I/7FBTtJ1XJC8pofIgWFHqjoBQ==
+X-Google-Smtp-Source: ABdhPJy8xB4L3qOP961T4/8I9Fc2gn5LcvOaEcDB0NZM1JoNVNtWnQ6M8n+2Oi58je1uu6O+T2K/3WN3yqid1ZuAzV8=
+X-Received: by 2002:a5d:6b07:: with SMTP id v7mr2614175wrw.376.1633169389404; 
+ Sat, 02 Oct 2021 03:09:49 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210930145722.184577-1-pbonzini@redhat.com>
+ <f10773b7-6c69-413b-2865-da802d9c0953@linaro.org>
+In-Reply-To: <f10773b7-6c69-413b-2865-da802d9c0953@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 2 Oct 2021 11:09:37 +0100
+Message-ID: <CAFEAcA-eYB31+Xf7ZRQMkwz3kTOoWgSzr2vdceoR5WQWpgoEdA@mail.gmail.com>
+Subject: Re: [PULL v2 00/33] x86 and misc changes for 2021-09-28
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,46 +77,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, John Snow <jsnow@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+On Sat, 2 Oct 2021 at 01:41, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 9/30/21 10:57 AM, Paolo Bonzini wrote:
+> > The following changes since commit ba0fa56bc06e563de68d2a2bf3ddb0cfea1be4f9:
+> >
+> >    Merge remote-tracking branch 'remotes/vivier/tags/q800-for-6.2-pull-request' into staging (2021-09-29 21:20:49 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >    https://gitlab.com/bonzini/qemu.git  tags/for-upstream
+> >
+> > for you to fetch changes up to c1de5858bd39b299d3d8baec38b0376bed7f19e8:
+> >
+> >    meson_options.txt: Switch the default value for the vnc option to 'auto' (2021-09-30 15:30:25 +0200)
+>
+> Applied, thanks
 
-Eh. Not worth the fuss today. There are bigger fish to fry.
+Uh, I'd already done this one :-)
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210930205716.1148693-13-jsnow@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- scripts/qapi/parser.py | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 0265b47b95..1b006cdc13 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -461,8 +461,10 @@ class QAPIDoc:
-     """
- 
-     class Section:
-+        # pylint: disable=too-few-public-methods
-         def __init__(self, parser: QAPISchemaParser,
-                      name: Optional[str] = None, indent: int = 0):
-+
-             # parser, for error messages about indentation
-             self._parser = parser
-             # optional section name (argument/member or section name)
-@@ -498,6 +500,7 @@ class NullSection(Section):
-         """
-         Immutable dummy section for use at the end of a doc block.
-         """
-+        # pylint: disable=too-few-public-methods
-         def append(self, line: str) -> None:
-             assert False, "Text appended after end_comment() called."
- 
--- 
-2.31.1
-
+-- PMM
 
