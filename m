@@ -2,49 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A8B841FC70
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 16:12:02 +0200 (CEST)
-Received: from localhost ([::1]:51840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC1941FC72
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 16:16:22 +0200 (CEST)
+Received: from localhost ([::1]:54932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWfk9-0002m9-Gu
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 10:12:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44720)
+	id 1mWfoL-0004yX-Hm
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 10:16:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mWfj7-00021z-PB
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 10:10:58 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:37206)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mWfj4-0000MN-Be
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 10:10:56 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id DD7157462D3;
- Sat,  2 Oct 2021 16:10:50 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A466F745953; Sat,  2 Oct 2021 16:10:50 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A18E87457EE;
- Sat,  2 Oct 2021 16:10:50 +0200 (CEST)
-Date: Sat, 2 Oct 2021 16:10:50 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-Subject: Re: [RFC PATCH 0/4] Misc OHCI patches
-In-Reply-To: <CABLmASG_Coop-fMRdv_PvBorO1fQUrhY3h+-PGts_ixhhkaADA@mail.gmail.com>
-Message-ID: <ec83e981-8830-683-ae96-e8aef68c23e6@eik.bme.hu>
-References: <cover.1633122670.git.balaton@eik.bme.hu>
- <CABLmASG_Coop-fMRdv_PvBorO1fQUrhY3h+-PGts_ixhhkaADA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mWfmS-00047j-8i
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 10:14:24 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43619)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mWfmQ-0002Zw-Rg
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 10:14:24 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id r7so4842973wrc.10
+ for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 07:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bsihsifsxwVcsHx0LdNv8RcFti4uG/OVFFYFJR5TlIc=;
+ b=HefwOfBcr7uySJI31ICE/NH3OapLpJV1ITr0mocN6DQ2+3V9+vB4OTa2/UDVkJimjx
+ Q8wU5LMyo7UPehkj0QW/eneOe4W4/lKGPVkt3ayOOPVTwHv12w1Lgxkjc4hytc34Ht+8
+ tH3gX+6bMlxg1Y0SuLyTJgAhcFQMRwNLMaAyCM1vCoJemyjw6j8Y8ebDot+OrMmxiEbE
+ /PLfbS/82uacSAR1KIuSTqTgtd41Z9XNPlNZ+9YCiZvc9k4GaQFIx6jGL74bpM770j1w
+ sVowx6KHr1EpFGxb5FHjWAceGy4iu28TnSnHhSJHDloUxAAxcK4x5XeIfz4O0JqgiRUQ
+ XQYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bsihsifsxwVcsHx0LdNv8RcFti4uG/OVFFYFJR5TlIc=;
+ b=okftiTLWkaKbFvykkdeiBa1h9kdbZIRVqUaERhSMIZr5+EYdBRsJ8BCRU5jaxI3Er1
+ dnYdgb76qE2L85sQevuB+CJ8ifiq22W8j9mX74yADnYGwAeLQ/DALzOrwdYgClZxKoOA
+ BAY0wwkF7wChRLQBlj9oufs85JzAl5KLnSiy0OPQA++bVz3tT1dJQ7woStgcoOdag2ue
+ KlnbSH8kyUZnCtqj835wkIx3L1IFwubYg6agZeQFT1kK+BGrsMkWuK6dgCZRxQz9x4cD
+ eLEVlJrzEmP7MRHVOpyiPLFdWFe2zAxbphIiN245aH4iq+AbzeaZXckig+udE6sx0OKM
+ C4+Q==
+X-Gm-Message-State: AOAM530QY51OMZDZZ0k8KlTVwjfQozJKy0T4Qe4mLNoZ9oka0O8VrD9A
+ vpwH9dqe6mI7NzcmEegdklA=
+X-Google-Smtp-Source: ABdhPJwlNqc3zj+xkmiadeSSwsz7QpBtcr5hbgsZJ/bRQ9lLt/V0o7R7dP5iUTcXuOP4UbgBWiB1zw==
+X-Received: by 2002:adf:97d0:: with SMTP id t16mr497627wrb.124.1633184061110; 
+ Sat, 02 Oct 2021 07:14:21 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id d129sm11536113wmd.23.2021.10.02.07.14.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 02 Oct 2021 07:14:19 -0700 (PDT)
+Message-ID: <16eec147-b4ee-bfec-b014-539ccbe50a0f@amsat.org>
+Date: Sat, 2 Oct 2021 16:14:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v3 10/41] linux-user/host/sparc: Populate host_signal.h
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211001171151.1739472-1-richard.henderson@linaro.org>
+ <20211001171151.1739472-11-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211001171151.1739472-11-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.413,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,189 +90,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 2 Oct 2021, Howard Spoelstra wrote:
-> Hi all,
->
-> I've booted Fedora12 and MacOS 9.2/OSX10.4 ppc with these patches applied.
-> All boot OK.
-> (Fedora12 requires -mac99,via=pmu. Here there seems to be some interference
-> with the kbd, due to via=pmu presenting usb mouse and kdb to the guest. So
-> I could not test this further.).
-> All tests done in Fedora 34 host with current master and patched build.
->
-> ./qemu-system-ppc-ohcipatch02102021 \
-> -M mac99 \
-> -L pc-bios \
-> -display gtk \
-> -m 512 \
-> -boot c \
-> -hda /home/hsp/Mac-disks/10.4.qcow2 \
-> -device
-> usb-host,loglevel=4,vendorid=0x046d,productid=0x0a37,pcap=ohci-usb1headset-usb1port-ohcipatchV1-macos104.pcap
-> \
-> -trace "usb_*" -D ohci-usb1headset-usb1port-ohcipatchV1-macos104.txt
->
-> Endpoint 4 is the interrupt-based hid device, endpoint 1 would be the
-> isochronous audio stream if it showed up.
-> Each test consisted of booting to the desktop, opening the system
-> profiler/system report to check of the presence of the usb device, push the
-> various buttons on the headset, attempt to play a sound, unplug-replug and
-> attempt to play a sound again. Then shut down.
->
-> Both succesfully open the usb device:
-> usb_ohci_init_time usb_bit_time=1000000 usb_frame_time=83
-> usb_port_claim bus 0, port 1
-> usb_host_auto_scan_enabled
-> usb_ohci_reset pci-ohci
-> usb_ohci_stop pci-ohci: USB Suspended
-> usb_ohci_stop pci-ohci: USB Suspended
-> usb_host_open_started dev 3:29
-> usb_host_detach_kernel dev 3:29, if 0
-> usb_host_detach_kernel dev 3:29, if 1
-> usb_host_detach_kernel dev 3:29, if 2
-> usb_host_detach_kernel dev 3:29, if 3
-> usb_host_parse_config dev 3:29, value 1, active 1
-> usb_host_parse_interface dev 3:29, num 0, alt 0, active 1
-> usb_host_parse_interface dev 3:29, num 1, alt 0, active 1
-> usb_host_parse_interface dev 3:29, num 2, alt 0, active 1
-> usb_host_parse_interface dev 3:29, num 3, alt 0, active 1
-> usb_host_parse_endpoint dev 3:29, ep 4, in, int, active 1
-> usb_port_attach bus 0, port 1, devspeed full, portspeed full
-> usb_ohci_port_attach port #0
-> usb_host_open_success dev 3:29
->
-> Master with Mac OS 9.2:
-> usb_ohci_ed_pkt ED @ 0x00152920 h=0 c=0
->  head=0x00164000 tailp=0x00164030 next=0x00152020
-> usb_ohci_ed_pkt_flags fa=37 en=4 d=2 s=0 k=0 f=0 mps=37
-> usb_ohci_td_skip_async
+On 10/1/21 19:11, Richard Henderson wrote:
+> Split host_signal_pc and host_signal_write out of user-exec.c.
+> Drop the *BSD code, to be re-created under bsd-user/ later.
+> Drop the Solais code as completely unused.
 
-Maybe we need to look a bit before this when the async packet still 
-waiting here is submitted and see what is that and why it's not 
-completing. At this point we only have everything waiting for that.
+Typo 'Solaris'.
 
-> usb_ohci_ed_pkt ED @ 0x00152900 h=0 c=0
->  head=0x001645a0 tailp=0x00164660 next=0x001528a0
-> usb_ohci_ed_pkt_flags fa=37 en=0 d=0 s=0 k=0 f=0 mps=64
-> usb_ohci_td_pkt_hdr  TD @ 0x001645a0 8 of 8 bytes setup r=1 cbp=0x01661b90
-> be=0x01661b97
-> usb_ohci_td_pkt_full OUT data:  01 0b 00 00 01 00 00 00
-> usb_ohci_td_too_many_pending
-> usb_ohci_ed_pkt ED @ 0x00152920 h=0 c=0
->  head=0x00164000 tailp=0x00164030 next=0x00152020
-> usb_ohci_ed_pkt_flags fa=37 en=4 d=2 s=0 k=0 f=0 mps=37
-> usb_ohci_td_skip_async
-> usb_ohci_ed_pkt ED @ 0x00152900 h=0 c=0
->  head=0x001645a0 tailp=0x00164660 next=0x001528a0
-> usb_ohci_ed_pkt_flags fa=37 en=0 d=0 s=0 k=0 f=0 mps=64
-> usb_ohci_td_pkt_hdr  TD @ 0x001645a0 8 of 8 bytes setup r=1 cbp=0x01661b90
-> be=0x01661b97
-> usb_ohci_td_pkt_full OUT data:  01 0b 00 00 01 00 00 00
-> usb_ohci_td_too_many_pending
-> usb_ohci_ed_pkt ED @ 0x00152920 h=0 c=0
->  head=0x00164000 tailp=0x00164030 next=0x00152020
-> usb_ohci_ed_pkt_flags fa=37 en=4 d=2 s=0 k=0 f=0 mps=37
-> usb_ohci_td_skip_async
-> usb_ohci_ed_pkt ED @ 0x00152900 h=0 c=0
->  head=0x001645a0 tailp=0x00164660 next=0x001528a0
-> usb_ohci_ed_pkt_flags fa=37 en=0 d=0 s=0 k=0 f=0 mps=64
-> usb_ohci_td_pkt_hdr  TD @ 0x001645a0 8 of 8 bytes setup r=1 cbp=0x01661b90
-> be=0x01661b97
-> usb_ohci_td_pkt_full OUT data:  01 0b 00 00 01 00 00 00
-> usb_ohci_td_too_many_pending
-> usb_ohci_ed_pkt ED @ 0x00152920 h=0 c=0
->  head=0x00164000 tailp=0x00164030 next=0x00152020
-> usb_ohci_ed_pkt_flags fa=37 en=4 d=2 s=0 k=0 f=0 mps=37
-> usb_ohci_td_skip_async
-> usb_ohci_ed_pkt ED @ 0x00152900 h=0 c=0
->  head=0x001645a0 tailp=0x00164660 next=0x001528a0
-> usb_ohci_ed_pkt_flags fa=37 en=0 d=0 s=0 k=0 f=0 mps=64
-> usb_ohci_td_pkt_hdr  TD @ 0x001645a0 8 of 8 bytes setup r=1 cbp=0x01661b90
-> be=0x01661b97
-> usb_ohci_td_pkt_full OUT data:  01 0b 00 00 01 00 00 00
-> usb_ohci_td_too_many_pending
-> usb_ohci_ed_pkt ED @ 0x00152920 h=0 c=0
->  head=0x00164000 tailp=0x00164030 next=0x00152020
-> usb_ohci_ed_pkt_flags fa=37 en=4 d=2 s=0 k=0 f=0 mps=37
-> usb_ohci_td_skip_async
->
-> OHCI patch with MacOS 9.2:
-> usb_ohci_ed_pkt ED @ 0x001528e0 h=0 c=0
->  head=0x001609c0 tailp=0x001609f0 next=0x00152020
-> usb_ohci_ed_pkt_flags fa=41 en=4 d=2 s=0 k=0 f=0 mps=37
-> usb_ohci_td_skip_async
-> usb_ohci_ed_pkt ED @ 0x001528c0 h=0 c=0
->  head=0x00161030 tailp=0x001610c0 next=0x001528a0
-> usb_ohci_ed_pkt_flags fa=41 en=0 d=0 s=0 k=0 f=0 mps=64
-> usb_ohci_td_pkt_hdr  TD @ 0x00161030 8 of 8 bytes setup r=1 cbp=0x01587b08
-> be=0x01587b0f
-> usb_ohci_td_pkt_full OUT data:  80 06 00 02 00 00 0a 00
-> usb_ohci_td_too_many_pending
-
-This does not seem to have changed with the patch so maybe the iso 
-transfer is not the cause as what the patch does is making the iso 
-transfers independent of other traffic so a waiting async packet will not 
-cause those iso packets rejected but this does not seem to change this so 
-the question is still what's the waiting async packet and why it's not 
-completing. I don't know how to read these traces so can't really tell 
-which endpoint these are for and what these packets could be related to.
-
-Regards,
-BALATON Zoltan
-
-> usb_ohci_ed_pkt ED @ 0x001528e0 h=0 c=0
->  head=0x001609c0 tailp=0x001609f0 next=0x00152020
-> usb_ohci_ed_pkt_flags fa=41 en=4 d=2 s=0 k=0 f=0 mps=37
-> usb_ohci_td_skip_async
-> usb_ohci_ed_pkt ED @ 0x001528c0 h=0 c=0
->  head=0x00161030 tailp=0x001610c0 next=0x001528a0
-> usb_ohci_ed_pkt_flags fa=41 en=0 d=0 s=0 k=0 f=0 mps=64
-> usb_ohci_td_pkt_hdr  TD @ 0x00161030 8 of 8 bytes setup r=1 cbp=0x01587b08
-> be=0x01587b0f
-> usb_ohci_td_pkt_full OUT data:  80 06 00 02 00 00 0a 00
-> usb_ohci_td_too_many_pending
-> usb_ohci_ed_pkt ED @ 0x001528e0 h=0 c=0
->  head=0x001609c0 tailp=0x001609f0 next=0x00152020
-> usb_ohci_ed_pkt_flags fa=41 en=4 d=2 s=0 k=0 f=0 mps=37
-> usb_ohci_td_skip_async
-> usb_ohci_ed_pkt ED @ 0x001528c0 h=0 c=0
->  head=0x00161030 tailp=0x001610c0 next=0x001528a0
-> usb_ohci_ed_pkt_flags fa=41 en=0 d=0 s=0 k=0 f=0 mps=64
-> usb_ohci_td_pkt_hdr  TD @ 0x00161030 8 of 8 bytes setup r=1 cbp=0x01587b08
-> be=0x01587b0f
-> usb_ohci_td_pkt_full OUT data:  80 06 00 02 00 00 0a 00
-> usb_ohci_td_too_many_pending
-> usb_ohci_ed_pkt ED @ 0x001528e0 h=0 c=0
->  head=0x001609c0 tailp=0x001609f0 next=0x00152020
-> usb_ohci_ed_pkt_flags fa=41 en=4 d=2 s=0 k=0 f=0 mps=37
-> usb_ohci_td_skip_async
-> usb_ohci_ed_pkt ED @ 0x001528c0 h=0 c=0
->  head=0x00161030 tailp=0x001610c0 next=0x001528a0
-> usb_ohci_ed_pkt_flags fa=41 en=0 d=0 s=0 k=0 f=0 mps=64
-> usb_ohci_td_pkt_hdr  TD @ 0x00161030 8 of 8 bytes setup r=1 cbp=0x01587b08
-> be=0x01587b0f
-> usb_ohci_td_pkt_full OUT data:  80 06 00 02 00 00 0a 00
-> usb_ohci_td_too_many_pending
->
-> Both have issues communicating with endpoint 4 (the hid controls volume
-> up/down and mute).
-> Endpoint 1 should receive the isochronous audio stream, but never does.
->
-> After some experimentation with unplugging/plugging the headset and probing
-> the usb stack (using the usb prober from the mac usb ddk for Mac OS 9.2) at
-> some point endpoint 4 communication works for both guests tested. Only once
-> was I able to get sound out and in working in Mac OS 9.2. For OSX I could
-> only once get audio in working.
->
-> Pcap and text logs for both MacOS 9.2 and OSX 10.4 tests included...
->
-> Best,
-> Howard
->
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/host/sparc/host-signal.h   | 54 ++++++++++++++++++++++-
+>  linux-user/host/sparc64/host-signal.h |  2 +-
+>  accel/tcg/user-exec.c                 | 62 +--------------------------
+>  3 files changed, 55 insertions(+), 63 deletions(-)
 
