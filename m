@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA63C41FAC4
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 12:04:57 +0200 (CEST)
-Received: from localhost ([::1]:51128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E13741FAD6
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 12:09:08 +0200 (CEST)
+Received: from localhost ([::1]:37188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWbt2-00073l-DA
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 06:04:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34086)
+	id 1mWbx5-0008Hg-7H
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 06:09:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWblR-00016G-63
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 05:57:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43091)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWbla-0001A5-Iu
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 05:57:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWblN-0004K9-2j
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 05:57:04 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWblS-0004Vn-Ir
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 05:57:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633168619;
+ s=mimecast20190719; t=1633168626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4iiRC/Mtke44PdD+JXKYGB3o1c4BdkEOFvSH10/yXj0=;
- b=hvpD9aoNZAxxwovxLZfIzUWBjSoAWrUHyRn/0Ho2EG05xixoaq2xKmNUGHJpsfWvksVtFn
- 3ch2az0y49M6EZnmnDvOd1TGq0sifELQiWiTTOhOrdudu5WGOe/9J0Y9lXI0O8ftHkLwQ0
- TusPOU/Ov4SlYPrj7bQ+Bi9bG2MZKCg=
+ bh=BqmFVoiTVjs8tvTiE9gE/QJL+B7YMW9/oO7UhH+jNvg=;
+ b=WEyfUh+0L47FOI3gaka60dZ8kZpNLyvzZL+fw2e9H6s3KvYRLZ0QoT+/9IxYElGZCPaypy
+ KvoqkOYexralnF3t9VNJIHr8qoy0HKO5REbvZR4rRbpQJs621Qqwl4byfIK1ctfwgbrx2t
+ mgjkBArveWL4JRWTGxxqboUgsMprJrQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-538-qLv3Pk_fOSuv6sONOehoZQ-1; Sat, 02 Oct 2021 05:56:57 -0400
-X-MC-Unique: qLv3Pk_fOSuv6sONOehoZQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-539-rNrez117N-67MslsDNmKvg-1; Sat, 02 Oct 2021 05:57:02 -0400
+X-MC-Unique: rNrez117N-67MslsDNmKvg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05E681808313;
- Sat,  2 Oct 2021 09:56:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0E711006AA7;
+ Sat,  2 Oct 2021 09:57:01 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CCEF719D9B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB5B76060F;
  Sat,  2 Oct 2021 09:56:56 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6AED2113861E; Sat,  2 Oct 2021 11:56:55 +0200 (CEST)
+ id 760FF11385C3; Sat,  2 Oct 2021 11:56:55 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/13] qapi/pylintrc: ignore 'consider-using-f-string' warning
-Date: Sat,  2 Oct 2021 11:56:43 +0200
-Message-Id: <20211002095655.1944970-2-armbru@redhat.com>
+Subject: [PULL 03/13] qapi/parser: fix unused check_args_section arguments
+Date: Sat,  2 Oct 2021 11:56:45 +0200
+Message-Id: <20211002095655.1944970-4-armbru@redhat.com>
 In-Reply-To: <20211002095655.1944970-1-armbru@redhat.com>
 References: <20211002095655.1944970-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,29 +85,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Pylint 2.11.x adds this warning. We're not yet ready to pursue that
-conversion, so silence it for now.
+Pylint informs us we're not using these arguments. Oops, it's
+right. Correct the error message and remove the remaining unused
+parameter.
 
+Fix test output now that the error message is improved.
+
+Fixes: e151941d1b
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210930205716.1148693-2-jsnow@redhat.com>
+Message-Id: <20210930205716.1148693-4-jsnow@redhat.com>
+[Commit message formatting tweaked]
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/pylintrc | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/qapi/parser.py                | 16 +++++++++-------
+ tests/qapi-schema/doc-bad-feature.err |  2 +-
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
-index c5275d5f59..5b7dbc58ad 100644
---- a/scripts/qapi/pylintrc
-+++ b/scripts/qapi/pylintrc
-@@ -23,6 +23,7 @@ disable=fixme,
-         too-many-branches,
-         too-many-statements,
-         too-many-instance-attributes,
-+        consider-using-f-string,
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index f03ba2cfec..bfd2dbfd9a 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -753,16 +753,18 @@ def check_expr(self, expr):
  
- [REPORTS]
+     def check(self):
  
+-        def check_args_section(args, info, what):
++        def check_args_section(args, what):
+             bogus = [name for name, section in args.items()
+                      if not section.member]
+             if bogus:
+                 raise QAPISemError(
+                     self.info,
+-                    "documented member%s '%s' %s not exist"
+-                    % ("s" if len(bogus) > 1 else "",
+-                       "', '".join(bogus),
+-                       "do" if len(bogus) > 1 else "does"))
++                    "documented %s%s '%s' %s not exist" % (
++                        what,
++                        "s" if len(bogus) > 1 else "",
++                        "', '".join(bogus),
++                        "do" if len(bogus) > 1 else "does"
++                    ))
+ 
+-        check_args_section(self.args, self.info, 'members')
+-        check_args_section(self.features, self.info, 'features')
++        check_args_section(self.args, 'member')
++        check_args_section(self.features, 'feature')
+diff --git a/tests/qapi-schema/doc-bad-feature.err b/tests/qapi-schema/doc-bad-feature.err
+index e4c62adfa3..49d1746c3d 100644
+--- a/tests/qapi-schema/doc-bad-feature.err
++++ b/tests/qapi-schema/doc-bad-feature.err
+@@ -1 +1 @@
+-doc-bad-feature.json:3: documented member 'a' does not exist
++doc-bad-feature.json:3: documented feature 'a' does not exist
 -- 
 2.31.1
 
