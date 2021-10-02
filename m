@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275CC41F9DA
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 06:37:31 +0200 (CEST)
-Received: from localhost ([::1]:59310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C77E41F9F0
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 07:28:05 +0200 (CEST)
+Received: from localhost ([::1]:39718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWWm9-00078v-P9
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 00:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55080)
+	id 1mWXZ6-0000aE-3W
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 01:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1mWWib-0004iZ-QU
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 00:33:49 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:33421)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1mWWia-0006MU-8G
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 00:33:49 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id p13so13675489edw.0
- for <qemu-devel@nongnu.org>; Fri, 01 Oct 2021 21:33:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=S+r1MqQzeJ/petG1H+7UvIZSfhmbpPCl6FfP4B8MYKU=;
- b=GoColk1mrBckll8ExFsXvTRqNfs4ZWwQybOVKts1r/8Yb0zffTfdzWZelzOw5k2YKd
- gWgE0nHLHDQNjBWzLVgWyo4Yr7aNOTHsgwJVELQOfxj7OzSw8pT4UbtzpC/1l/vFR7Hr
- 0FgHXr8QoUFqQJILEPiIAQmyPliEK7nnh9u5cfS0piPVWDav7J+ARES5Hw4fHmmyReOV
- LSk7Z3BNLDFpDVLAXaJ3ymGlGLyBWLrDfFcfGZrz6H7HrBQKmwEgHpF4olRMdQTjNA1x
- JVKjh8t1OTj0a9t2DizEITi9tglXe2Q+clUJFHNP10jHJYIVQlJh/TUTvpYRjo5t7xbC
- SwBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=S+r1MqQzeJ/petG1H+7UvIZSfhmbpPCl6FfP4B8MYKU=;
- b=IYazRgugJIBsUWW4Qu1QfPKm50DV3NkfHGIKF3ZdhpDqeYyUu1bSYb9flBGMI7C7ny
- 24KaTonLHLQGiZVRTEPQdF90cC+L2ZbZoE8az0XtkWrHWZmYyLQf4r15ljLnHoi7CwJW
- RifXiCBYVsvGNMo6HIwGmQTdpSlkh+lDA2cDYkbX0cXjWyKyDsWBsJNeheVDFaJm6Wlt
- xWDLRsd+rWvo/aB2a45jdDEc8k3d9p6E3nhEFYAou9DeYg2/FVwmLOkKkFP/3X9wUs/t
- zAiuugKzoWkBBV8hdbbTFMB4CWX4qikgPhUjNKBA4MCEZt5/IxrQI1O1kroMnQU4wYQG
- uN6g==
-X-Gm-Message-State: AOAM5304CWAwK6/iiQ0iAvQhDsT4JKrMLwnrTBMkyg3M+nNjoZwD4n8V
- wa41UgV+eXdHsA6XtbgQ0omYgbXEgpHFgoJr6yU=
-X-Google-Smtp-Source: ABdhPJz9TQDLZvtJ91Zd+WsQ2rssWXD8ui7aAW3Rg1HLSxHIS9FvgNuSWsHlO3mOHU0pP5xWLLbnQErI+m/h2yZlQUo=
-X-Received: by 2002:a50:8206:: with SMTP id 6mr1835361edf.220.1633149226294;
- Fri, 01 Oct 2021 21:33:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWXXv-0007jL-Qu
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 01:26:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41387)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mWXXs-0005Ba-H3
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 01:26:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633152406;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2V/f0qutokajm2zgKzaPiLwaSKGgpNtTKcUsTEMTJ5o=;
+ b=bWDKV0GUy62/k4pW5QIJjeCkQOxogWkQxnCaXzBsC5aQxMAFmvpktan2DPucKGCfvFyzSs
+ kDj95zht3dJIOvxbORfk6+Gf8waVN0S05eTZZE8m0lSiQYb5FW202uGbXfT8y3BbxNc36D
+ X8M8JnZYgVEntzcqbrdT/SZ9s27aCOg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-179-KAyH7OIVP-2V47fmjOzlIQ-1; Sat, 02 Oct 2021 01:26:44 -0400
+X-MC-Unique: KAyH7OIVP-2V47fmjOzlIQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F6F55074C;
+ Sat,  2 Oct 2021 05:26:42 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9A3A652A4;
+ Sat,  2 Oct 2021 05:26:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4501F113865F; Sat,  2 Oct 2021 07:26:37 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v12 16/16] machine: Make smp_parse return a boolean
+References: <20210929025816.21076-1-wangyanan55@huawei.com>
+ <20210929025816.21076-17-wangyanan55@huawei.com>
+ <0343d17f-bb46-a266-7ba4-20bdf30631d0@redhat.com>
+ <YVdCRYvRHIio6MZe@redhat.com>
+Date: Sat, 02 Oct 2021 07:26:37 +0200
+In-Reply-To: <YVdCRYvRHIio6MZe@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Fri, 1 Oct 2021 18:15:49 +0100")
+Message-ID: <87ilygq9o2.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Fri, 1 Oct 2021 21:33:34 -0700
-Message-ID: <CAMo8BfLnjCQfjotBR4QoqwT_8WnBt9rX3oBKkLMKO5SkveU6gg@mail.gmail.com>
-Subject: running TCG tests for xtensaeb
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,51 +85,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-ppc@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Yanan Wang <wangyanan55@huawei.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-I've tried to use
+> On Fri, Oct 01, 2021 at 07:08:51PM +0200, Paolo Bonzini wrote:
+>> On 29/09/21 04:58, Yanan Wang wrote:
+>> > @@ -933,8 +935,7 @@ static void machine_set_smp(Object *obj, Visitor *=
+v, const char *name,
+>> >           return;
+>> >       }
+>> > -    smp_parse(ms, config, errp);
+>> > -    if (*errp) {
+>> > +    if (!smp_parse(ms, config, errp)) {
+>> >           qapi_free_SMPConfiguration(config);
+>> >       }
+>> >   }
+>> >=20
+>>=20
+>> This is actually a leak, so I'm replacing this patch with
+>
+> This patch isn't adding a leak, as there's no change in
+> control flow / exit paths.  AFAICT, the leak was introduced
+> in patch 15 instead, so the code below shoudl be squashed
+> into that, and this patch left as-is.
 
-  make check-tcg CORE=test_kc705_be CROSS_CC_GUEST=xtensa-test_kc705_be-elf-gcc
+Concur.
 
-to run TCG tests for a big-endian xtensa core. I thought the following change
-would be sufficient to do it:
-
----8<---
-diff --git a/tests/tcg/xtensa/Makefile.softmmu-target
-b/tests/tcg/xtensa/Makefile.softmmu-target
-index 9530cac2ad95..6588388967d9 100644
---- a/tests/tcg/xtensa/Makefile.softmmu-target
-+++ b/tests/tcg/xtensa/Makefile.softmmu-target
-@@ -2,7 +2,7 @@
-# Xtensa softmmu tests
-#
-
--ifneq ($(TARGET_WORDS_BIGENDIAN),y)
-+ifneq ($(shell $(QEMU) -cpu help | grep -w $(CORE)),)
-
-XTENSA_SRC = $(SRC_PATH)/tests/tcg/xtensa
-XTENSA_ALL = $(filter-out $(XTENSA_SRC)/linker.ld.S,$(wildcard
-$(XTENSA_SRC)/*.S))
----8<---
-
-but it turns out that tests/tcg/Makefile.target uses the following
-code to load target-specific bits:
-
--include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.softmmu-target
-
-and for big-endian xtensa TARGET_NAME is xtensaeb.
-However all xtensa tests are under tests/tcg/xtensa, so
-Makefile.softmmu-target isn't getting loaded at all.
-If I replace '$(TARGET_NAME)' with 'xtensa' in the above
-line everything works as expected.
-
-What do you think would be the best way to fix it?
-
--- 
-Thanks.
--- Max
 
