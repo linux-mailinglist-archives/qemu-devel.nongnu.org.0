@@ -2,84 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2667841FDC7
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 20:49:35 +0200 (CEST)
-Received: from localhost ([::1]:35022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B22F741FDD2
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 20:53:22 +0200 (CEST)
+Received: from localhost ([::1]:42314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWk4k-0001Xa-5T
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 14:49:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52278)
+	id 1mWk8P-0006S5-Q9
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 14:53:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mWk1M-0007Hp-A6
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 14:46:04 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:39281)
+ id 1mWk6U-0004yG-Jd
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 14:51:22 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:39859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mWk1I-0006jy-PY
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 14:46:04 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id D47195C00AF;
- Sat,  2 Oct 2021 14:45:59 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Sat, 02 Oct 2021 14:45:59 -0400
+ id 1mWk6S-00038N-Pi
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 14:51:22 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 546C85C009F;
+ Sat,  2 Oct 2021 14:51:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Sat, 02 Oct 2021 14:51:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=OoAZOydEtauKt
- auDZ8XoaAh08//n33xGy6R1YggnQ2Y=; b=LcLXzkVlb1adiP9/FVau7/r2AL4tf
- YWXuUDexDGxibZIX1bS3p5W6gym7BSSpJ1wfpz4nfW5F5kQPjlQk4WnarPJ+3X6n
- mE20wERRxVx3aivI/yneeDoCjWJRYfaSjYgZ7BUmf7gJG/9V9ABwvVzNMUW7+32r
- 3o8a1DJrwaRKm33TiAqspywYi3i5ahxlqhW6UQtXZiEGenEuqwjGTNAHWaioRceW
- R6ltg4BKEFIakU4fO9kxZX05DbrSj3Z960BrEFTFQf1KAQ1J5nyhd23pyci0qJEu
- ruZye7UJlESMHo5sRAbcE6STdMKHMITEX4Dx6MlVO0DwY1OeMdzd0/6Sg==
+ message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=V
+ 9qyZXk1Mp8MAdVhTceRiFCqaPExR/hP+MCRRA/bTPI=; b=hGZ/D8+Ue8OojyZF8
+ 3CUu84NJ3EXWO3WNa7FpRPocvSU6iQ4gTTk6n/3G9g0zwEZAI3AHt6Z3iWtrezNU
+ B8K+gMCixz1hhWWs5xj/ZO9yl/nS4nQl7K2r1OjzFxkv1Og5G7wcnFc1GNrEqmik
+ q6zruwOOJvjBxbrbbWjLHxivA5irmgwg572tssJ0EbV31mcflzQWfh7WpXDHMIdF
+ OcxU5VPYwihsv7tB7EuWuM8xmBm0mMLsCGsA5JuC0/tLuHgGeP5/DChNPcYwi1Du
+ fIbseNUHXX+sZchTmQAIbBvZKe9qMorkh1tjIr6wAAKUjIsjOLeKOAR5LcUwyF+4
+ RjiNg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=OoAZOydEtauKtauDZ8XoaAh08//n33xGy6R1YggnQ2Y=; b=TLHPxt3o
- KyXHj4DghJaL2hgLr6S5IN4WbwKEzJYfIRgZapiZc9jUERTCSj8B1I4l+lytTO8w
- +h5W4j5aSVmoi9dP8lhY87s+YKUmZjhP8Oglf9y34sTFPsjVPkn7IQqAEtSI9Q09
- dF1e8L0HqzaY14MotIZzCALz3nQchOS/RKMIER1fm0FM9QsOUA5GEJ6LZeCNtJEw
- 2MaiL4E8Y5+nSl7AEmxSdGayCUbNlkin8BIHumnNfMOCvFPrzyGRf+P6uEBUzC0f
- LI7j10ukFfb5XRKR7mbQFFAJqtxvXbAsusiMidPMaykT6zRED7xyQJpVhGDEbDTT
- hlgj7yXzvmPNvA==
-X-ME-Sender: <xms:56hYYfYTwPsCAEMch1flJlxOdBU9jmfmaXtEGI1rbJz7TzYPr4r8iw>
- <xme:56hYYeafdcWR4iOqS4b7EnQcx05gIJXMAN2SYi851WFPkVQrvMgPV-vWrquzpHFFw
- zS7El9zRhMIunqiIME>
-X-ME-Received: <xmr:56hYYR8RJpQPwgaCodjNnziVJDX8l_ngSHCTyD9TEYzRfZv4fcMRXHZuzWvpdW6ojjY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekkedguddvkecutefuodetggdotefrod
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=V9qyZXk1Mp8MAdVhTceRiFCqaPExR/hP+MCRRA/bT
+ PI=; b=MPxUkqA1C6HMyWDE3LzBsmBgslx77K7X/5elAqZOt6HRiUE8DpIu8Y8Hf
+ yuRKVyW7SSwDePQZeaCbW+AGmWQEMTSs1KFoHKUVssHQEA4dfUnlDk09xU7H5dZs
+ 9OqkN7LAKuVTVc1CuolWnb19LV1lL3DgiE18Lj7F5aqUcMpeVVBVLHYj3+A6yP98
+ 8Sz+iuDrMgBoE/JsJ9k9zlq2wEh6SFqpiUZIKIyfONbfZTG7po6GNPdmgnTgSz1p
+ LdckU+xxf0GR1J/XKDKBeSGfZPE2OTGYWkhhMZVE8vWpCqoEomIy0OUWKZtqKxso
+ /qPxyXUaWuR903lkSi+HYYW6Kg1zQ==
+X-ME-Sender: <xms:KKpYYTPU2VKIX9HUrMjj_vso6pSKBhShI80Lk-fLRTSP7lXKhfbb5Q>
+ <xme:KKpYYd9HXxyQrWnRD6phdGQry8U2SR8hRmwklVt4iMgsQpk8EYSJstCkMGRk_81v2
+ nFUkx9BPlxXjgeVw-o>
+X-ME-Received: <xmr:KKpYYSRMGErIEZI3BJA6z8dKDKxZQkWkH_H-n7DLOPU5bXtDNsWODSkEj_i3C5w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekkedguddvlecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
- ertdertddtnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghn
- ghesfhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepjeeihffgteelkeelff
- dukedtheevudejvdegkeekjeefhffhhfetudetgfdtffeunecuvehluhhsthgvrhfuihii
- vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhi
- hgohgrthdrtghomh
-X-ME-Proxy: <xmx:56hYYVqQDjdenrvxUgD-l1a8GRB5zeYFqZpu--FuCiL5QCya37ztWA>
- <xmx:56hYYaoWIOIKevEUOXMyxDAmLymjAveOGBHGwNiwh3__2KuyEsMTYw>
- <xmx:56hYYbT-pO2ozjWt-Z0WwiLLYellBq3w4su3JTc8kS4J_XOYKkoJZw>
- <xmx:56hYYTnm_Kf4gIqj14aFxC_ehAAJSpAkZn1wRJk1sro1b62WXqEKpw>
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefkffggfgfuvfhfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgr
+ gihunhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
+ cuggftrfgrthhtvghrnhepheeiuddvvefhkeejfedttdekieethfdukedvieeuueelgfel
+ ieejgeehvdekudelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+ hfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:KKpYYXsv1A7Tdh_PbHDTfnN5k8tdPdPGbaVNnFhd8dV32SDPtA9Uxw>
+ <xmx:KKpYYbd9qJ62dhdgwSGx-88VjewMJSSmbSR70TdImirQ9IMDTxRGCA>
+ <xmx:KKpYYT2NSgYCnvoLyTcEK3cCL83jnsARAGddjz_JWNEzxlDWF72QTg>
+ <xmx:KKpYYS5CZkz4VgbUvJSoCnRhhwINN1OEDOLtnWd1Wj4huHLdqCyX3w>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 2 Oct 2021 14:45:58 -0400 (EDT)
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/3] hw/mips/boston: Add FDT generator
-Date: Sat,  2 Oct 2021 19:45:39 +0100
-Message-Id: <20211002184539.169-4-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211002184539.169-1-jiaxun.yang@flygoat.com>
-References: <20211002184539.169-1-jiaxun.yang@flygoat.com>
+ 2 Oct 2021 14:51:19 -0400 (EDT)
+Message-ID: <fa43f81a-ca61-20f0-41a3-6b2442dbd08b@flygoat.com>
+Date: Sat, 2 Oct 2021 19:51:13 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.2
+Subject: Re: [PATCH] target/mips: remove gen_mfc0_load64() and use
+ tcg_gen_ld32s_tl()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20211002133753.3432668-1-f4bug@amsat.org>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <20211002133753.3432668-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.27; envelope-from=jiaxun.yang@flygoat.com;
  helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.413,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,287 +98,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@syrmia.com, f4bug@amsat.org, paulburton@kernel.org
+Cc: Leon Alrae <leon.alrae@imgtec.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generate FDT on our own if no dtb argument supplied.
-Avoid introducing unused device in FDT with user supplied dtb.
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
---
-v2: Address f4bug cmments (Thanks!)
----
- hw/mips/boston.c | 234 +++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 226 insertions(+), 8 deletions(-)
 
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index e6d5cc2d22..d0935dbc79 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -49,6 +49,15 @@ typedef struct BostonState BostonState;
- DECLARE_INSTANCE_CHECKER(BostonState, BOSTON,
-                          TYPE_BOSTON)
- 
-+#define FDT_IRQ_TYPE_NONE       0
-+#define FDT_IRQ_TYPE_LEVEL_HIGH 4
-+#define FDT_GIC_SHARED          0
-+#define FDT_GIC_LOCAL           1
-+#define FDT_BOSTON_CLK_SYS      1
-+#define FDT_BOSTON_CLK_CPU      2
-+#define FDT_PCI_IRQ_MAP_PINS    4
-+#define FDT_PCI_IRQ_MAP_DESCS   6
-+
- struct BostonState {
-     SysBusDevice parent_obj;
- 
-@@ -435,6 +444,213 @@ xilinx_pcie_init(MemoryRegion *sys_mem, uint32_t bus_nr,
-     return XILINX_PCIE_HOST(dev);
- }
- 
-+
-+static void fdt_create_pcie(void *fdt, int gic_ph, int irq, hwaddr reg_base,
-+                            hwaddr reg_size, hwaddr mmio_base, hwaddr mmio_size)
-+{
-+    int i;
-+    char *name, *intc_name;
-+    uint32_t intc_ph;
-+    uint32_t interrupt_map[FDT_PCI_IRQ_MAP_PINS][FDT_PCI_IRQ_MAP_DESCS];
-+
-+    intc_ph = qemu_fdt_alloc_phandle(fdt);
-+    name = g_strdup_printf("/soc/pci@%" HWADDR_PRIx, reg_base);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "xlnx,axi-pcie-host-1.00.a");
-+    qemu_fdt_setprop_string(fdt, name, "device_type", "pci");
-+    qemu_fdt_setprop_cells(fdt, name, "reg", reg_base, reg_size);
-+
-+    qemu_fdt_setprop_cell(fdt, name, "#address-cells", 3);
-+    qemu_fdt_setprop_cell(fdt, name, "#size-cells", 2);
-+    qemu_fdt_setprop_cell(fdt, name, "#interrupt-cells", 1);
-+
-+    qemu_fdt_setprop_cell(fdt, name, "interrupt-parent", gic_ph);
-+    qemu_fdt_setprop_cells(fdt, name, "interrupts", FDT_GIC_SHARED, irq,
-+                            FDT_IRQ_TYPE_LEVEL_HIGH);
-+
-+    qemu_fdt_setprop_cells(fdt, name, "ranges", 0x02000000, 0, mmio_base,
-+                            mmio_base, 0, mmio_size);
-+    qemu_fdt_setprop_cells(fdt, name, "bus-range", 0x00, 0xff);
-+
-+
-+
-+    intc_name = g_strdup_printf("%s/interrupt-controller", name);
-+    qemu_fdt_add_subnode(fdt, intc_name);
-+    qemu_fdt_setprop(fdt, intc_name, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop_cell(fdt, intc_name, "#address-cells", 0);
-+    qemu_fdt_setprop_cell(fdt, intc_name, "#interrupt-cells", 1);
-+    qemu_fdt_setprop_cell(fdt, intc_name, "phandle", intc_ph);
-+
-+    qemu_fdt_setprop_cells(fdt, name, "interrupt-map-mask", 0, 0, 0, 7);
-+    for (i = 0; i < FDT_PCI_IRQ_MAP_PINS; i++) {
-+        uint32_t *irqmap = interrupt_map[i];
-+
-+        irqmap[0] = cpu_to_be32(0);
-+        irqmap[1] = cpu_to_be32(0);
-+        irqmap[2] = cpu_to_be32(0);
-+        irqmap[3] = cpu_to_be32(i + 1);
-+        irqmap[4] = cpu_to_be32(intc_ph);
-+        irqmap[5] = cpu_to_be32(i + 1);
-+    }
-+    qemu_fdt_setprop(fdt, name, "interrupt-map", &interrupt_map, sizeof(interrupt_map));
-+
-+    g_free(intc_name);
-+    g_free(name);
-+}
-+
-+static const void *create_fdt(BostonState *s, const MemMapEntry *memmap, int *dt_size)
-+{
-+    void *fdt;
-+    int cpu;
-+    MachineState *mc = s->mach;
-+    uint32_t platreg_ph, gic_ph, clk_ph;
-+    char *name, *gic_name, *platreg_name, *stdout_name;
-+    static const char * const syscon_compat[2] = {"img,boston-platform-regs", "syscon"};
-+
-+    fdt = create_device_tree(dt_size);
-+    if (!fdt) {
-+        error_report("create_device_tree() failed");
-+        exit(1);
-+    }
-+
-+    platreg_ph = qemu_fdt_alloc_phandle(fdt);
-+    gic_ph = qemu_fdt_alloc_phandle(fdt);
-+    clk_ph = qemu_fdt_alloc_phandle(fdt);
-+
-+    qemu_fdt_setprop_string(fdt, "/", "model", "img,boston");
-+    qemu_fdt_setprop_string(fdt, "/", "compatible", "img,boston");
-+    qemu_fdt_setprop_cell(fdt, "/", "#size-cells", 0x1);
-+    qemu_fdt_setprop_cell(fdt, "/", "#address-cells", 0x1);
-+
-+
-+    qemu_fdt_add_subnode(fdt, "/cpus");
-+    qemu_fdt_setprop_cell(fdt, "/cpus", "#size-cells", 0x0);
-+    qemu_fdt_setprop_cell(fdt, "/cpus", "#address-cells", 0x1);
-+
-+    for (cpu = 0; cpu < mc->smp.cpus; cpu++) {
-+        name = g_strdup_printf("/cpus/cpu@%d", cpu);
-+        qemu_fdt_add_subnode(fdt, name);
-+        qemu_fdt_setprop_string(fdt, name, "compatible", "img,mips");
-+        qemu_fdt_setprop_string(fdt, name, "status", "okay");
-+        qemu_fdt_setprop_cell(fdt, name, "reg", cpu);
-+        qemu_fdt_setprop_string(fdt, name, "device_type", "cpu");
-+        qemu_fdt_setprop_cells(fdt, name, "clocks", clk_ph, FDT_BOSTON_CLK_CPU);
-+        g_free(name);
-+    }
-+
-+    qemu_fdt_add_subnode(fdt, "/soc");
-+    qemu_fdt_setprop(fdt, "/soc", "ranges", NULL, 0);
-+    qemu_fdt_setprop_string(fdt, "/soc", "compatible", "simple-bus");
-+    qemu_fdt_setprop_cell(fdt, "/soc", "#size-cells", 0x1);
-+    qemu_fdt_setprop_cell(fdt, "/soc", "#address-cells", 0x1);
-+
-+    fdt_create_pcie(fdt, gic_ph, 2, memmap[BOSTON_PCIE0].base, memmap[BOSTON_PCIE0].size,
-+                    memmap[BOSTON_PCIE0_MMIO].base, memmap[BOSTON_PCIE0_MMIO].size);
-+
-+    fdt_create_pcie(fdt, gic_ph, 1, memmap[BOSTON_PCIE1].base, memmap[BOSTON_PCIE1].size,
-+                    memmap[BOSTON_PCIE1_MMIO].base, memmap[BOSTON_PCIE1_MMIO].size);
-+
-+    fdt_create_pcie(fdt, gic_ph, 0, memmap[BOSTON_PCIE2].base, memmap[BOSTON_PCIE2].size,
-+                    memmap[BOSTON_PCIE2_MMIO].base, memmap[BOSTON_PCIE2_MMIO].size);
-+
-+    /* GIC with it's timer node */
-+    gic_name = g_strdup_printf("/soc/interrupt-controller@%" HWADDR_PRIx,
-+                                memmap[BOSTON_GIC].base);
-+    qemu_fdt_add_subnode(fdt, gic_name);
-+    qemu_fdt_setprop_string(fdt, gic_name, "compatible", "mti,gic");
-+    qemu_fdt_setprop_cells(fdt, gic_name, "reg", memmap[BOSTON_GIC].base,
-+                            memmap[BOSTON_GIC].size);
-+    qemu_fdt_setprop(fdt, gic_name, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop_cell(fdt, gic_name, "#interrupt-cells", 3);
-+    qemu_fdt_setprop_cell(fdt, gic_name, "phandle", gic_ph);
-+
-+    name = g_strdup_printf("%s/timer", gic_name);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "mti,gic-timer");
-+    qemu_fdt_setprop_cells(fdt, name, "interrupts", FDT_GIC_LOCAL, 1,
-+                            FDT_IRQ_TYPE_NONE);
-+    qemu_fdt_setprop_cells(fdt, name, "clocks", clk_ph, FDT_BOSTON_CLK_CPU);
-+    g_free(name);
-+    g_free(gic_name);
-+
-+    /* CDMM node */
-+    name = g_strdup_printf("/soc/cdmm@%" HWADDR_PRIx, memmap[BOSTON_CDMM].base);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "mti,mips-cdmm");
-+    qemu_fdt_setprop_cells(fdt, name, "reg", memmap[BOSTON_CDMM].base,
-+                            memmap[BOSTON_CDMM].size);
-+    g_free(name);
-+
-+    /* CPC node */
-+    name = g_strdup_printf("/soc/cpc@%" HWADDR_PRIx, memmap[BOSTON_CPC].base);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "mti,mips-cpc");
-+    qemu_fdt_setprop_cells(fdt, name, "reg", memmap[BOSTON_CPC].base,
-+                            memmap[BOSTON_CPC].size);
-+    g_free(name);
-+
-+    /* platreg and it's clk node */
-+    platreg_name = g_strdup_printf("/soc/system-controller@%" HWADDR_PRIx,
-+                                    memmap[BOSTON_PLATREG].base);
-+    qemu_fdt_add_subnode(fdt, platreg_name);
-+    qemu_fdt_setprop_string_array(fdt, platreg_name, "compatible",
-+                                 (char **)&syscon_compat,
-+                                 ARRAY_SIZE(syscon_compat));
-+    qemu_fdt_setprop_cells(fdt, platreg_name, "reg", memmap[BOSTON_PLATREG].base,
-+                            memmap[BOSTON_PLATREG].size);
-+    qemu_fdt_setprop_cell(fdt, platreg_name, "phandle", platreg_ph);
-+
-+    name = g_strdup_printf("%s/clock", platreg_name);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "img,boston-clock");
-+    qemu_fdt_setprop_cell(fdt, name, "#clock-cells", 1);
-+    qemu_fdt_setprop_cell(fdt, name, "phandle", clk_ph);
-+    g_free(name);
-+    g_free(platreg_name);
-+
-+    /* reboot node */
-+    name = g_strdup_printf("/soc/reboot");
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "syscon-reboot");
-+    qemu_fdt_setprop_cell(fdt, name, "regmap", platreg_ph);
-+    qemu_fdt_setprop_cell(fdt, name, "offset", 0x10);
-+    qemu_fdt_setprop_cell(fdt, name, "mask", 0x10);
-+    g_free(name);
-+
-+    /* uart node */
-+    name = g_strdup_printf("/soc/uart@%" HWADDR_PRIx, memmap[BOSTON_UART].base);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "ns16550a");
-+    qemu_fdt_setprop_cells(fdt, name, "reg", memmap[BOSTON_UART].base,
-+                            memmap[BOSTON_UART].size);
-+    qemu_fdt_setprop_cell(fdt, name, "reg-shift", 0x2);
-+    qemu_fdt_setprop_cell(fdt, name, "interrupt-parent", gic_ph);
-+    qemu_fdt_setprop_cells(fdt, name, "interrupts", FDT_GIC_SHARED, 3,
-+                            FDT_IRQ_TYPE_LEVEL_HIGH);
-+    qemu_fdt_setprop_cells(fdt, name, "clocks", clk_ph, FDT_BOSTON_CLK_SYS);
-+
-+    qemu_fdt_add_subnode(fdt, "/chosen");
-+    stdout_name = g_strdup_printf("%s:115200", name);
-+    qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", stdout_name);
-+    g_free(stdout_name);
-+    g_free(name);
-+
-+    /* lcd node */
-+    name = g_strdup_printf("/soc/lcd@%" HWADDR_PRIx, memmap[BOSTON_LCD].base);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "img,boston-lcd");
-+    qemu_fdt_setprop_cells(fdt, name, "reg", memmap[BOSTON_LCD].base,
-+                            memmap[BOSTON_LCD].size);
-+    g_free(name);
-+
-+    name = g_strdup_printf("/memory@0");
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "device_type", "memory");
-+    g_free(name);
-+
-+    return fdt;
-+}
-+
- static void boston_mach_init(MachineState *machine)
- {
-     DeviceState *dev;
-@@ -555,21 +771,23 @@ static void boston_mach_init(MachineState *machine)
-                            NULL, 0, EM_MIPS, 1, 0);
- 
-         if (kernel_size) {
-+            int dt_size;
-+            g_autofree const void *dtb_file_data, *dtb_load_data;
-             hwaddr dtb_paddr = QEMU_ALIGN_UP(kernel_high, 64 * KiB);
-             hwaddr dtb_vaddr = cpu_mips_phys_to_kseg0(NULL, dtb_paddr);
- 
-             s->kernel_entry = kernel_entry;
-             if (machine->dtb) {
--                int dt_size;
--                g_autofree const void *dtb_file_data, *dtb_load_data;
--
-                 dtb_file_data = load_device_tree(machine->dtb, &dt_size);
--                dtb_load_data = boston_fdt_filter(s, dtb_file_data, NULL, &dtb_vaddr);
--
--                /* Calculate real fdt size after filter */
--                dt_size = fdt_totalsize(dtb_load_data);
--                rom_add_blob_fixed("dtb", dtb_load_data, dt_size, dtb_paddr);
-+            } else {
-+                dtb_file_data = create_fdt(s, boston_memmap, &dt_size);
-             }
-+
-+            dtb_load_data = boston_fdt_filter(s, dtb_file_data, NULL, &dtb_vaddr);
-+
-+            /* Calculate real fdt size after filter */
-+            dt_size = fdt_totalsize(dtb_load_data);
-+            rom_add_blob_fixed("dtb", dtb_load_data, dt_size, dtb_paddr);
-         } else {
-             /* Try to load file as FIT */
-             fit_err = load_fit(&boston_fit_loader, machine->kernel_filename, s);
--- 
-2.30.2
+在 2021/10/2 14:37, Philippe Mathieu-Daudé 写道:
+> From: Leon Alrae <leon.alrae@imgtec.com>
+>
+> Remove misleading gen_mfc0_load64() which actually loads 32 or 64 bits
+> depending whether MIPS32 or MIPS64 and also replace the pair of
+> tcg_gen_ld_tl() + tcg_gen_ext32s_tl() with single tcg_gen_ld32s_tl().
+>
+> Patch partly generated using the following spatch script:
+>
+>      @@
+>      expression reg, env, ofs;
+>      @@
+>      -tcg_gen_ld_tl(reg, env, ofs);
+>      -tcg_gen_ext32s_tl(reg, reg);
+>      +tcg_gen_ld32s_tl(reg, env, ofs);
+>
+> Signed-off-by: Leon Alrae <leon.alrae@imgtec.com>
+> [PMD: Rebased and used Coccinelle spatch to complete]
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+
+That seems much more clear!
+Thanks.
+
+- Jiaxun
+> ---
+>   target/mips/tcg/translate.c | 68 ++++++++++++++++---------------------
+>   1 file changed, 29 insertions(+), 39 deletions(-)
+>
+> diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+> index 148afec9dc0..40b350d6e17 100644
+> --- a/target/mips/tcg/translate.c
+> +++ b/target/mips/tcg/translate.c
+> @@ -5382,12 +5382,6 @@ static inline void gen_mfc0_load32(TCGv arg, target_ulong off)
+>       tcg_temp_free_i32(t0);
+>   }
+>   
+> -static inline void gen_mfc0_load64(TCGv arg, target_ulong off)
+> -{
+> -    tcg_gen_ld_tl(arg, cpu_env, off);
+> -    tcg_gen_ext32s_tl(arg, arg);
+> -}
+> -
+>   static inline void gen_mtc0_store32(TCGv arg, target_ulong off)
+>   {
+>       TCGv_i32 t0 = tcg_temp_new_i32();
+> @@ -5679,17 +5673,19 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+>               break;
+>           case CP0_REG01__YQMASK:
+>               CP0_CHECK(ctx->insn_flags & ASE_MT);
+> -            gen_mfc0_load64(arg, offsetof(CPUMIPSState, CP0_YQMask));
+> +            tcg_gen_ld32s_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_YQMask));
+>               register_name = "YQMask";
+>               break;
+>           case CP0_REG01__VPESCHEDULE:
+>               CP0_CHECK(ctx->insn_flags & ASE_MT);
+> -            gen_mfc0_load64(arg, offsetof(CPUMIPSState, CP0_VPESchedule));
+> +            tcg_gen_ld32s_tl(arg, cpu_env,
+> +                             offsetof(CPUMIPSState, CP0_VPESchedule));
+>               register_name = "VPESchedule";
+>               break;
+>           case CP0_REG01__VPESCHEFBACK:
+>               CP0_CHECK(ctx->insn_flags & ASE_MT);
+> -            gen_mfc0_load64(arg, offsetof(CPUMIPSState, CP0_VPEScheFBack));
+> +            tcg_gen_ld32s_tl(arg, cpu_env,
+> +                             offsetof(CPUMIPSState, CP0_VPEScheFBack));
+>               register_name = "VPEScheFBack";
+>               break;
+>           case CP0_REG01__VPEOPT:
+> @@ -5790,8 +5786,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+>       case CP0_REGISTER_04:
+>           switch (sel) {
+>           case CP0_REG04__CONTEXT:
+> -            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_Context));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_Context));
+>               register_name = "Context";
+>               break;
+>           case CP0_REG04__CONTEXTCONFIG:
+> @@ -5801,9 +5796,8 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+>               goto cp0_unimplemented;
+>           case CP0_REG04__USERLOCAL:
+>               CP0_CHECK(ctx->ulri);
+> -            tcg_gen_ld_tl(arg, cpu_env,
+> -                          offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env,
+> +                             offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
+>               register_name = "UserLocal";
+>               break;
+>           case CP0_REG04__MMID:
+> @@ -5828,20 +5822,20 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+>               break;
+>           case CP0_REG05__SEGCTL0:
+>               CP0_CHECK(ctx->sc);
+> -            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_SegCtl0));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env,
+> +                             offsetof(CPUMIPSState, CP0_SegCtl0));
+>               register_name = "SegCtl0";
+>               break;
+>           case CP0_REG05__SEGCTL1:
+>               CP0_CHECK(ctx->sc);
+> -            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_SegCtl1));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env,
+> +                             offsetof(CPUMIPSState, CP0_SegCtl1));
+>               register_name = "SegCtl1";
+>               break;
+>           case CP0_REG05__SEGCTL2:
+>               CP0_CHECK(ctx->sc);
+> -            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_SegCtl2));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env,
+> +                             offsetof(CPUMIPSState, CP0_SegCtl2));
+>               register_name = "SegCtl2";
+>               break;
+>           case CP0_REG05__PWBASE:
+> @@ -5917,8 +5911,8 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+>       case CP0_REGISTER_08:
+>           switch (sel) {
+>           case CP0_REG08__BADVADDR:
+> -            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_BadVAddr));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env,
+> +                             offsetof(CPUMIPSState, CP0_BadVAddr));
+>               register_name = "BadVAddr";
+>               break;
+>           case CP0_REG08__BADINSTR:
+> @@ -5975,8 +5969,8 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+>       case CP0_REGISTER_10:
+>           switch (sel) {
+>           case CP0_REG10__ENTRYHI:
+> -            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_EntryHi));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env,
+> +                             offsetof(CPUMIPSState, CP0_EntryHi));
+>               register_name = "EntryHi";
+>               break;
+>           default:
+> @@ -6032,8 +6026,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+>       case CP0_REGISTER_14:
+>           switch (sel) {
+>           case CP0_REG14__EPC:
+> -            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_EPC));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_EPC));
+>               register_name = "EPC";
+>               break;
+>           default:
+> @@ -6048,15 +6041,14 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+>               break;
+>           case CP0_REG15__EBASE:
+>               check_insn(ctx, ISA_MIPS_R2);
+> -            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_EBase));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_EBase));
+>               register_name = "EBase";
+>               break;
+>           case CP0_REG15__CMGCRBASE:
+>               check_insn(ctx, ISA_MIPS_R2);
+>               CP0_CHECK(ctx->cmgcr);
+> -            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_CMGCRBase));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env,
+> +                             offsetof(CPUMIPSState, CP0_CMGCRBase));
+>               register_name = "CMGCRBase";
+>               break;
+>           default:
+> @@ -6163,8 +6155,8 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+>           case CP0_REG20__XCONTEXT:
+>   #if defined(TARGET_MIPS64)
+>               check_insn(ctx, ISA_MIPS3);
+> -            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_XContext));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env,
+> +                             offsetof(CPUMIPSState, CP0_XContext));
+>               register_name = "XContext";
+>               break;
+>   #endif
+> @@ -6227,8 +6219,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+>           switch (sel) {
+>           case CP0_REG24__DEPC:
+>               /* EJTAG support */
+> -            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_DEPC));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_DEPC));
+>               register_name = "DEPC";
+>               break;
+>           default:
+> @@ -6341,8 +6332,8 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+>       case CP0_REGISTER_30:
+>           switch (sel) {
+>           case CP0_REG30__ERROREPC:
+> -            tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_ErrorEPC));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env,
+> +                             offsetof(CPUMIPSState, CP0_ErrorEPC));
+>               register_name = "ErrorEPC";
+>               break;
+>           default:
+> @@ -6363,9 +6354,8 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+>           case CP0_REG31__KSCRATCH5:
+>           case CP0_REG31__KSCRATCH6:
+>               CP0_CHECK(ctx->kscrexist & (1 << sel));
+> -            tcg_gen_ld_tl(arg, cpu_env,
+> -                          offsetof(CPUMIPSState, CP0_KScratch[sel - 2]));
+> -            tcg_gen_ext32s_tl(arg, arg);
+> +            tcg_gen_ld32s_tl(arg, cpu_env,
+> +                             offsetof(CPUMIPSState, CP0_KScratch[sel - 2]));
+>               register_name = "KScratch";
+>               break;
+>           default:
 
 
