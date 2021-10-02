@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F61D41FB0F
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 13:14:37 +0200 (CEST)
-Received: from localhost ([::1]:34372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6029D41FB0B
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 13:12:34 +0200 (CEST)
+Received: from localhost ([::1]:55186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWcyS-0008R7-Ao
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 07:14:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45402)
+	id 1mWcwT-0003Nx-B2
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 07:12:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mWckx-0004rU-9C
+ id 1mWcl2-0004v0-Gg
  for qemu-devel@nongnu.org; Sat, 02 Oct 2021 07:00:48 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33180
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33186
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mWckv-0004vu-1Q
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 07:00:38 -0400
+ id 1mWckz-0004yT-6Q
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 07:00:42 -0400
 Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mWckh-00020j-88; Sat, 02 Oct 2021 12:00:27 +0100
+ id 1mWckl-00020j-Ez; Sat, 02 Oct 2021 12:00:31 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Sat,  2 Oct 2021 12:00:01 +0100
-Message-Id: <20211002110007.30825-7-mark.cave-ayland@ilande.co.uk>
+Date: Sat,  2 Oct 2021 12:00:02 +0100
+Message-Id: <20211002110007.30825-8-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
 References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 06/12] macfb: implement mode sense to allow display type to be
- detected
+Subject: [PATCH 07/12] macfb: add qdev property to specify display type
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,227 +63,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MacOS toolbox ROM uses the monitor sense to detect the display type and then
-offer a fixed set of resolutions and colour depths accordingly. Implement the
-monitor sense using information found in Apple Technical Note HW26: "Macintosh
-Quadra Built-In Video" along with some local experiments.
+Since the available resolutions and colour depths are determined by the attached
+display type, add a qdev property to allow the display type to be specified.
 
-Since the default configuration is 640 x 480 with 8-bit colour then hardcode
-the sense register to return MACFB_DISPLAY_VGA for now.
+The main resolutions of interest are high resolution 1152x870 with 8-bit colour
+and SVGA resolution up to 800x600 with 32-bit colour so update the q800 machine
+to allow high resolution mode if specified and otherwise fall back to SVGA.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/display/macfb.c         | 117 ++++++++++++++++++++++++++++++++++++-
- hw/display/trace-events    |   2 +
- include/hw/display/macfb.h |  20 +++++++
- 3 files changed, 137 insertions(+), 2 deletions(-)
+ hw/display/macfb.c         | 6 +++++-
+ hw/m68k/q800.c             | 5 +++++
+ include/hw/display/macfb.h | 1 +
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 62c2727a5b..5c95aa4a11 100644
+index 5c95aa4a11..023d1f0cd1 100644
 --- a/hw/display/macfb.c
 +++ b/hw/display/macfb.c
-@@ -28,8 +28,66 @@
- #define MACFB_PAGE_SIZE 4096
- #define MACFB_VRAM_SIZE (4 * MiB)
+@@ -316,7 +316,7 @@ static uint32_t macfb_sense_read(MacfbState *s)
+     MacFbSense *macfb_sense;
+     uint8_t sense;
  
--#define DAFB_RESET      0x200
--#define DAFB_LUT        0x213
-+#define DAFB_MODE_SENSE     0x1c
-+#define DAFB_RESET          0x200
-+#define DAFB_LUT            0x213
-+
-+
-+/*
-+ * Quadra sense codes taken from Apple Technical Note HW26:
-+ * "Macintosh Quadra Built-In Video". The sense codes and
-+ * extended sense codes have different meanings:
-+ *
-+ * Sense:
-+ *    bit 2: SENSE2 (pin 10)
-+ *    bit 1: SENSE1 (pin 7)
-+ *    bit 0: SENSE0 (pin 4)
-+ *
-+ * 0 = pin tied to ground
-+ * 1 = pin unconnected
-+ *
-+ * Extended Sense:
-+ *    bit 2: pins 4-10
-+ *    bit 1: pins 10-7
-+ *    bit 0: pins 7-4
-+ *
-+ * 0 = pins tied together
-+ * 1 = pins unconnected
-+ *
-+ * Reads from the sense register appear to be active low, i.e. a 1 indicates
-+ * that the pin is tied to ground, a 0 indicates the pin is disconnected.
-+ *
-+ * Writes to the sense register appear to activate pulldowns i.e. a 1 enables
-+ * a pulldown on a particular pin.
-+ *
-+ * The MacOS toolbox appears to use a series of reads and writes to first
-+ * determine if extended sense is to be used, and then check which pins are
-+ * tied together in order to determine the display type.
-+ */
-+
-+typedef struct MacFbSense {
-+    uint8_t type;
-+    uint8_t sense;
-+    uint8_t ext_sense;
-+} MacFbSense;
-+
-+static MacFbSense macfb_sense_table[] = {
-+    { MACFB_DISPLAY_APPLE_21_COLOR, 0x0, 0 },
-+    { MACFB_DISPLAY_APPLE_PORTRAIT, 0x1, 0 },
-+    { MACFB_DISPLAY_APPLE_12_RGB, 0x2, 0 },
-+    { MACFB_DISPLAY_APPLE_2PAGE_MONO, 0x3, 0 },
-+    { MACFB_DISPLAY_NTSC_UNDERSCAN, 0x4, 0 },
-+    { MACFB_DISPLAY_NTSC_OVERSCAN, 0x4, 0 },
-+    { MACFB_DISPLAY_APPLE_12_MONO, 0x6, 0 },
-+    { MACFB_DISPLAY_APPLE_13_RGB, 0x6, 0 },
-+    { MACFB_DISPLAY_16_COLOR, 0x7, 0x3 },
-+    { MACFB_DISPLAY_PAL1_UNDERSCAN, 0x7, 0x0 },
-+    { MACFB_DISPLAY_PAL1_OVERSCAN, 0x7, 0x0 },
-+    { MACFB_DISPLAY_PAL2_UNDERSCAN, 0x7, 0x6 },
-+    { MACFB_DISPLAY_PAL2_OVERSCAN, 0x7, 0x6 },
-+    { MACFB_DISPLAY_VGA, 0x7, 0x5 },
-+    { MACFB_DISPLAY_SVGA, 0x7, 0x5 },
-+};
- 
- 
- typedef void macfb_draw_line_func(MacfbState *s, uint8_t *d, uint32_t addr,
-@@ -253,6 +311,50 @@ static void macfb_invalidate_display(void *opaque)
-     memory_region_set_dirty(&s->mem_vram, 0, MACFB_VRAM_SIZE);
- }
- 
-+static uint32_t macfb_sense_read(MacfbState *s)
-+{
-+    MacFbSense *macfb_sense;
-+    uint8_t sense;
-+
-+    macfb_sense = &macfb_sense_table[MACFB_DISPLAY_VGA];
-+    if (macfb_sense->sense == 0x7) {
-+        /* Extended sense */
-+        sense = 0;
-+        if (!(macfb_sense->ext_sense & 1)) {
-+            /* Pins 7-4 together */
-+            if (~s->sense & 3) {
-+                sense = (~s->sense & 7) | 3;
-+            }
-+        }
-+        if (!(macfb_sense->ext_sense & 2)) {
-+            /* Pins 10-7 together */
-+            if (~s->sense & 6) {
-+                sense = (~s->sense & 7) | 6;
-+            }
-+        }
-+        if (!(macfb_sense->ext_sense & 4)) {
-+            /* Pins 4-10 together */
-+            if (~s->sense & 5) {
-+                sense = (~s->sense & 7) | 5;
-+            }
-+        }
-+    } else {
-+        /* Normal sense */
-+        sense = (~macfb_sense->sense & 7) | (~s->sense & 7);
-+    }
-+
-+    trace_macfb_sense_read(sense);
-+    return sense;
-+}
-+
-+static void macfb_sense_write(MacfbState *s, uint32_t val)
-+{
-+    s->sense = val;
-+
-+    trace_macfb_sense_write(val);
-+    return;
-+}
-+
- static void macfb_update_display(void *opaque)
- {
-     MacfbState *s = opaque;
-@@ -290,8 +392,15 @@ static uint64_t macfb_ctrl_read(void *opaque,
-                                 hwaddr addr,
-                                 unsigned int size)
- {
-+    MacfbState *s = opaque;
-     uint64_t val = 0;
- 
-+    switch (addr) {
-+    case DAFB_MODE_SENSE:
-+        val = macfb_sense_read(s);
-+        break;
-+    }
-+
-     trace_macfb_ctrl_read(addr, val, size);
-     return val;
- }
-@@ -303,6 +412,9 @@ static void macfb_ctrl_write(void *opaque,
- {
-     MacfbState *s = opaque;
-     switch (addr) {
-+    case DAFB_MODE_SENSE:
-+        macfb_sense_write(s, val);
-+        break;
-     case DAFB_RESET:
-         s->palette_current = 0;
-         break;
-@@ -343,6 +455,7 @@ static const VMStateDescription vmstate_macfb = {
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT8_ARRAY(color_palette, MacfbState, 256 * 3),
-         VMSTATE_UINT32(palette_current, MacfbState),
-+        VMSTATE_UINT32(sense, MacfbState),
-         VMSTATE_END_OF_LIST()
-     }
+-    macfb_sense = &macfb_sense_table[MACFB_DISPLAY_VGA];
++    macfb_sense = &macfb_sense_table[s->type];
+     if (macfb_sense->sense == 0x7) {
+         /* Extended sense */
+         sense = 0;
+@@ -545,6 +545,8 @@ static Property macfb_sysbus_properties[] = {
+     DEFINE_PROP_UINT32("width", MacfbSysBusState, macfb.width, 640),
+     DEFINE_PROP_UINT32("height", MacfbSysBusState, macfb.height, 480),
+     DEFINE_PROP_UINT8("depth", MacfbSysBusState, macfb.depth, 8),
++    DEFINE_PROP_UINT8("display", MacfbSysBusState, macfb.type,
++                      MACFB_DISPLAY_VGA),
+     DEFINE_PROP_END_OF_LIST(),
  };
-diff --git a/hw/display/trace-events b/hw/display/trace-events
-index be1353e8e7..6e378036ab 100644
---- a/hw/display/trace-events
-+++ b/hw/display/trace-events
-@@ -171,3 +171,5 @@ sm501_2d_engine_write(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
- # macfb.c
- macfb_ctrl_read(uint64_t addr, uint64_t value, int size) "addr 0x%"PRIx64 " value 0x%"PRIx64 " size %d"
- macfb_ctrl_write(uint64_t addr, uint64_t value, int size) "addr 0x%"PRIx64 " value 0x%"PRIx64 " size %d"
-+macfb_sense_read(uint32_t value) "video sense: 0x%"PRIx32
-+macfb_sense_write(uint32_t value) "video sense: 0x%"PRIx32
+ 
+@@ -552,6 +554,8 @@ static Property macfb_nubus_properties[] = {
+     DEFINE_PROP_UINT32("width", MacfbNubusState, macfb.width, 640),
+     DEFINE_PROP_UINT32("height", MacfbNubusState, macfb.height, 480),
+     DEFINE_PROP_UINT8("depth", MacfbNubusState, macfb.depth, 8),
++    DEFINE_PROP_UINT8("display", MacfbNubusState, macfb.type,
++                      MACFB_DISPLAY_VGA),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 09b3366024..5223b880bc 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -421,6 +421,11 @@ static void q800_init(MachineState *machine)
+     qdev_prop_set_uint32(dev, "width", graphic_width);
+     qdev_prop_set_uint32(dev, "height", graphic_height);
+     qdev_prop_set_uint8(dev, "depth", graphic_depth);
++    if (graphic_width == 1152 && graphic_height == 870 && graphic_depth == 8) {
++        qdev_prop_set_uint8(dev, "display", MACFB_DISPLAY_APPLE_21_COLOR);
++    } else {
++        qdev_prop_set_uint8(dev, "display", MACFB_DISPLAY_VGA);
++    }
+     qdev_realize_and_unref(dev, BUS(nubus), &error_fatal);
+ 
+     cs = CPU(cpu);
 diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
-index 80806b0306..febf4ce0e8 100644
+index febf4ce0e8..e95a97ebdc 100644
 --- a/include/hw/display/macfb.h
 +++ b/include/hw/display/macfb.h
-@@ -17,6 +17,24 @@
- #include "ui/console.h"
- #include "qom/object.h"
- 
-+typedef enum  {
-+    MACFB_DISPLAY_APPLE_21_COLOR = 0,
-+    MACFB_DISPLAY_APPLE_PORTRAIT = 1,
-+    MACFB_DISPLAY_APPLE_12_RGB = 2,
-+    MACFB_DISPLAY_APPLE_2PAGE_MONO = 3,
-+    MACFB_DISPLAY_NTSC_UNDERSCAN = 4,
-+    MACFB_DISPLAY_NTSC_OVERSCAN = 5,
-+    MACFB_DISPLAY_APPLE_12_MONO = 6,
-+    MACFB_DISPLAY_APPLE_13_RGB = 7,
-+    MACFB_DISPLAY_16_COLOR = 8,
-+    MACFB_DISPLAY_PAL1_UNDERSCAN = 9,
-+    MACFB_DISPLAY_PAL1_OVERSCAN = 10,
-+    MACFB_DISPLAY_PAL2_UNDERSCAN = 11,
-+    MACFB_DISPLAY_PAL2_OVERSCAN = 12,
-+    MACFB_DISPLAY_VGA = 13,
-+    MACFB_DISPLAY_SVGA = 14,
-+} MacfbDisplayType;
-+
- typedef struct MacfbState {
-     MemoryRegion mem_vram;
-     MemoryRegion mem_ctrl;
-@@ -28,6 +46,8 @@ typedef struct MacfbState {
+@@ -46,6 +46,7 @@ typedef struct MacfbState {
      uint8_t color_palette[256 * 3];
      uint32_t width, height; /* in pixels */
      uint8_t depth;
-+
-+    uint32_t sense;
- } MacfbState;
++    uint8_t type;
  
- #define TYPE_MACFB "sysbus-macfb"
+     uint32_t sense;
+ } MacfbState;
 -- 
 2.20.1
 
