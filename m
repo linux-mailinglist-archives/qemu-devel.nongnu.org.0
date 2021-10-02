@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2A441FAE5
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 12:33:44 +0200 (CEST)
-Received: from localhost ([::1]:33734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADBC41FAE8
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Oct 2021 12:36:46 +0200 (CEST)
+Received: from localhost ([::1]:39964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWcKt-0000nb-L1
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 06:33:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39678)
+	id 1mWcNp-00054X-7O
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 06:36:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mWcIu-0007d4-Im
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:31:40 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:43786)
+ id 1mWcLt-0002sd-3s
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:34:45 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mWcIs-0007Ti-UF
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:31:40 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- a131-20020a1c7f89000000b0030d4c90fa87so3282988wmd.2
- for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 03:31:38 -0700 (PDT)
+ id 1mWcLr-0003YQ-Gw
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 06:34:44 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id v17so19546390wrv.9
+ for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 03:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pZaRY5KmOeLehmHXKtttyvmihqvIvXWxNSugh0F3NMY=;
- b=w4atiU1qYchG7iKwJXnOtx+oMZfdaBMgNEIMdXpFAnoK7Bbv1cU+VhBF3p0C0bRt2X
- 6EBqkXNGH+iVDHhfa4QkoNZZboUEJwnhes+3eQ+O4TPwst0cgRn+nHELRLuIHlKDu2QD
- 6687haLgl4buzIETiB9hCnPqrUPI6G4ciDLol80Jwq0o6RQSHP0D/0+5A2CuGUUfX1Ck
- J146v0AzGVvx3tjBoA0aAkhrtq5oyAlVdoXa/g1IdpRhotMPyZzh9qGOk2nF9b19c982
- yD15pvo4dazRhlwx6ZJiYM4X0Vd68ToTAJGJkrYCtn5k5KShYAnDmHBR4l6LWaZVDn07
- CQpw==
+ :cc; bh=ARS8Q92xAZvkeeFc95ExZ8YifJ/nV0bAlY9bUVIrYHg=;
+ b=BQUR4DKNxqcpVkWCaTUrpKQ6xB/xdXZgG9rlPosevMJR7LAyDHPU2H0uFaB+k8iuBm
+ gIIVz5+CyRQOH+aWpT8POcF6PKVsvXD0C8KBVuy049PLx3tO/KzYURMb9tAlxSCv5tjJ
+ kqG43qgK5evz0/j1n8iAf9szP/UdrWFpmVC9yGZB5Oey6yZgmjy4AEr2IpacovUe4m/u
+ 90UVz/6JDk/1r2ILrTv7TY6THKqz2SNPeNmrmFsz9PiHB68TuRUYbVuma1lKMgc0fbRf
+ WcF5balQ4UG54ROgymL94k2PzL0qVgH6mhEklP2K0Yl9eU0jF7n+/6UPKIKD5Nyewn4g
+ wvoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pZaRY5KmOeLehmHXKtttyvmihqvIvXWxNSugh0F3NMY=;
- b=zz2TORRQPTH92zE0c3qVZtCAJz2sQUH1TGPAxr5BoX0LGLgyzg8LYycsKkHMabGgL1
- JX1TRdtrOZMLuYJ2n2EnowmmKN5gqyF+5tdSVAyCxbpj5PxAuzm29M0Vqv5/PjzpzVEl
- VGk1Ot4nkCfhK5ndtBZ17xhZ3DlFnoPU7hzb3vJ/6xKl7TuGJtkc4qcgjVUh1PiFSa7y
- w21PutiRDRiLOAtJXgQFdv9PP4W3uXZo476GSN0CZOxxRtLkWZRp72sAoZ49BRSHb6AT
- irhVNfwaL7sSBG3x+ze4PmMnMt7bpvtdK33DSIjEwilZU/ZEmxGUOIuRtQoxHPVY/q9T
- wmNg==
-X-Gm-Message-State: AOAM5310d+fbJERWJ5gh01WnanxHHpcPaFXO2wovUcRLcd8s6T3MUMcL
- iSAhQknGKF1zUY7VugYcl/4OSKm1q0PdNTvQ0PJcDg==
-X-Google-Smtp-Source: ABdhPJyZLJdvI3i2OXweXgrOe16TqQhBjPuR6D0Dpz5p9obOvOtXQ1Wh8D4i+SRcXPCNtd0S9Pm4ZCQs/ITWuZzpBJ4=
-X-Received: by 2002:a1c:9d42:: with SMTP id g63mr8553519wme.32.1633170697157; 
- Sat, 02 Oct 2021 03:31:37 -0700 (PDT)
+ bh=ARS8Q92xAZvkeeFc95ExZ8YifJ/nV0bAlY9bUVIrYHg=;
+ b=pG2LDdAvytTSTVRnYae8JIg/iAqcC5QXFFmV//AZFYoFCT94vWL5eJ3JV1r2zpN4AM
+ pFt7u47+1e5K1NIzHgRzvMZ8wrH1Jwh5ib8LbaSSIDjA2atDdrm/vk3XON/p1Ie5R1id
+ 4F3gzK0wf+Ojern4rrrend1DRz0uUIagsS7PMfiZ5PaF31gj0+43QoVLrJM6SBSm92cx
+ vvs5lJp2w6CHY1CzOKFoNnlNYz7nbcIockft1oiYLNBJBu+0hQ/mY7n/vgxa36PhEgWL
+ 69qdEfHpS7elFf6w1UhDlvyT8OW8h5kWJURyroz8DJdtpTdh8fK6iKy3Z1p7FoKBlTwL
+ +OyA==
+X-Gm-Message-State: AOAM532XnTa6Ho9xqld114Z6Jzqj5N5vRROt3oZb8xphY+8lz/HkrisE
+ daiW7UZN7Ew/TWBA5G7x0XcMsG/la/TmtHBLrRZ/9w==
+X-Google-Smtp-Source: ABdhPJwwDi8dDt7VAX0bUTzbnOAAmZr73j7VQP7bD6g79yslG+Kld+PTI65bSSVJZyvHMpfGpSUvATfCYKyxEiAHSOo=
+X-Received: by 2002:adf:8b98:: with SMTP id o24mr2864797wra.302.1633170881913; 
+ Sat, 02 Oct 2021 03:34:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210929092843.2686234-1-laurent@vivier.eu>
- <20210929092843.2686234-12-laurent@vivier.eu>
-In-Reply-To: <20210929092843.2686234-12-laurent@vivier.eu>
+ <20210929092843.2686234-4-laurent@vivier.eu>
+In-Reply-To: <20210929092843.2686234-4-laurent@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 2 Oct 2021 11:30:43 +0100
-Message-ID: <CAFEAcA__kwF8fLeLPFKayZn_xU+tOypAx7oHZY99SJLRTWtKgA@mail.gmail.com>
-Subject: Re: [PULL 11/20] nubus-device: add romfile property for loading
- declaration ROMs
+Date: Sat, 2 Oct 2021 11:33:47 +0100
+Message-ID: <CAFEAcA8528uFsvUU3+z-wiE7jz_g80ff4U=XaBifoYZbGBC5nA@mail.gmail.com>
+Subject: Re: [PULL 03/20] nubus-device: expose separate super slot memory
+ region
 To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,37 +79,46 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Sept 2021 at 10:53, Laurent Vivier <laurent@vivier.eu> wrote:
+On Wed, 29 Sept 2021 at 10:49, Laurent Vivier <laurent@vivier.eu> wrote:
 >
 > From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 >
-> The declaration ROM is located at the top-most address of the standard slot
-> space.
+> According to "Designing Cards and Drivers for the Macintosh Family" each physical
+> nubus slot can access 2 separate address ranges: a super slot memory region which
+> is 256MB and a standard slot memory region which is 16MB.
 >
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> Message-Id: <20210924073808.1041-12-mark.cave-ayland@ilande.co.uk>
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> Currently a Nubus device uses the physical slot number to determine whether it is
+> using a standard slot memory region or a super slot memory region rather than
+> exposing both memory regions for use as required.
 
-Coverity spots a memory leak here: CID 1464062
 
-> +        name = g_strdup_printf("nubus-slot-%x-declaration-rom", nd->slot);
-> +        memory_region_init_rom(&nd->decl_rom, OBJECT(dev), name, size,
-> +                               &error_abort);
-> +        ret = load_image_mr(path, &nd->decl_rom);
-> +        g_free(path);
-> +        if (ret < 0) {
-> +            error_setg(errp, "could not load romfile \"%s\"", nd->romfile);
-> +            return;
-> +        }
-> +        memory_region_add_subregion(&nd->slot_mem, NUBUS_SLOT_SIZE - size,
-> +                                    &nd->decl_rom);
+> +    /* Super */
+> +    slot_offset = nd->slot * NUBUS_SUPER_SLOT_SIZE;
 
-'name' is allocated, but never freed.
+Hi; Coverity thinks this multiply might overflow, because
+we're calculating a hw_addr (64-bits) but the multiply is only
+done at 32-bits. Adding an explicit cast or using 'ULL' in the
+constant #define rather than just 'U' would fix this.
+This is CID 1464070.
 
+> +
+> +    name = g_strdup_printf("nubus-super-slot-%x", nd->slot);
+> +    memory_region_init(&nd->super_slot_mem, OBJECT(dev), name,
+> +                       NUBUS_SUPER_SLOT_SIZE);
+> +    memory_region_add_subregion(&nubus->super_slot_io, slot_offset,
+> +                                &nd->super_slot_mem);
+> +    g_free(name);
+> +
+> +    /* Normal */
+> +    slot_offset = nd->slot * NUBUS_SLOT_SIZE;
+
+Same with this one.
+
+thanks
 -- PMM
 
