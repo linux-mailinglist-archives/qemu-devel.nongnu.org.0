@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0964201DE
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 16:03:57 +0200 (CEST)
-Received: from localhost ([::1]:60882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C446C4201DF
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 16:04:26 +0200 (CEST)
+Received: from localhost ([::1]:33480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mX25s-0006pS-2W
-	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 10:03:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52110)
+	id 1mX26L-0007R4-SQ
+	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 10:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mX225-0005ME-Sz
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 10:00:01 -0400
-Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:41906)
+ id 1mX22w-0005lV-VK
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 10:00:55 -0400
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:40821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mX224-0001TE-AC
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 10:00:01 -0400
-Received: by mail-qk1-x72b.google.com with SMTP id m7so13937440qke.8
- for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 06:59:59 -0700 (PDT)
+ id 1mX22t-00020G-Pr
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 10:00:54 -0400
+Received: by mail-qt1-x82b.google.com with SMTP id b16so13608214qtt.7
+ for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 07:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1B/JeqDp4KezkxVwQoVPC1F9zEeGw82H2NXfFbHBMJY=;
- b=w8UE+zwC6y0rt1FEEDqy0h4LoCkZG2+hasgduYHgxX23TzihSEYjReqFncP4fYYSpe
- FVroM4VkjgMwqtBf3AYMM51as3kU3QYyhZOiWlejSApQ9m9C9ZAxDgHfRMB22pRUCD08
- qIHDZbdzLZ3ytsLsa/SiiWX4mu+VC4B/XeIsBbKHUdZnjZeFhgiyYb9pWcx3EPMQui7I
- o+gLU90m5vXvHInpT8CkhHvFDbgcgPUa15mf2R9dUSph8LaKYTZvC3C8EJFuoATe0fmj
- 5ywDwO73IqM6mlmxzfK/J4R9WOUEzek9G4lITKf+g13YlzjW9FWANTWN0zS/hVSPm9MR
- M3BQ==
+ bh=5vO8UqptapbNyCkal1cuPHTIh2qYiCkyOpgxpQpEn0M=;
+ b=CiKxcqkcatHpAFxyXXpYJz+fTIGhkI1HQ1FHtZDtBRcPwzUSqc/VkGDs7s82FIyND2
+ iXmROHRI+cKQKgXa87/mxpjSncCsz5UXIP5G8blM7zG4zkt6okLL/tgCwJ4UvhBaKDGU
+ BI4h+OIST2MhM74+S2OO7PlkKGM0efHpGSiXpgTHB8LbYuO1E7oRfi4NTqLdfYg0UWlm
+ mwAZdREccMICh9X7TX2iot7aHpM2jaamlOptDOnh1pFFZEQgTGSRt/SXA9EzJdCQWQLT
+ ndhVtAhOi0rpcWRZgeYdMEKYmPO4XZen35ZzYxkgcEXhchTr9UmfcxlxGtMjW4oO4rx8
+ QXhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1B/JeqDp4KezkxVwQoVPC1F9zEeGw82H2NXfFbHBMJY=;
- b=pTkpvREVVgv6kafgCczR/7Y+7hmPpKLAxEPCCJVzOMEkKN059XjsU7LuKB0CekRAhT
- L4sK+JY/kC1BdcbSZ3RnHjFmACgV//aUrMWunOLLNPE9EAifu9zpO39cxQ94D4ReE1m9
- hIUbhD6Wr7asrLXm4/Bhqd3UgrI7RMzoF8msugT5z+b5EjCxjfu0wN7mw5bZ3rKl5im/
- EUB8UzUOHN8Tn+ow3dQ2gbYjdvWUPiu3aaluwWBfEOlyyYR0D9jVZN0rPJ6casAZCGAG
- BsAmaZXslvwAjULgFYgl2jZhkRS6E7G35hJjh1njF76e9/DUqg9NDqYOx6tSIM5zkUan
- TLrg==
-X-Gm-Message-State: AOAM530BFZZ6EuAbXSs9JM33sf6LPt+MyCa2RkpthqTKDGg6qd6L8h2G
- wbs1bDwBTiL2mkvUQgC+GjhmEg==
-X-Google-Smtp-Source: ABdhPJzYwT2RYDSw+xhupWJpl3/JKbwX/8dJbnuOTuwxWV1DoLlp+bVh2RGoMOHWmIx8QxlaJGQ+Xg==
-X-Received: by 2002:a37:4050:: with SMTP id n77mr5970841qka.267.1633269598995; 
- Sun, 03 Oct 2021 06:59:58 -0700 (PDT)
+ bh=5vO8UqptapbNyCkal1cuPHTIh2qYiCkyOpgxpQpEn0M=;
+ b=Ny/6E/Xoh//V525HuNtVoifwZBMDlEajZDE4jOYODHW4oYJPFh0QAjz+vMf9d2Wnno
+ vNhb93/HaOhXDXY6n2VcAuunMRYISRhnFlSg7GPdY334skJ0wfow6JE1GQIJAE1OQkFw
+ Pf6E578von8PQ2t3nvexDjiAM6RFWx2571Hzrlfq2eY3k5TteFwMpR4DCDJnufFoomQp
+ oIc+pHz4aHkBnlLXLvjnfupuqwL+nsJ7Iq1PcIbt/hcNxv3145ku+SucYCoAWtrerNp0
+ wR1wj1tixYVPJJ4WE2zMoB3EdHtEMzatmDbq2SfsKStDVBWizh1MDiJf2VOy57tAcsei
+ n5yA==
+X-Gm-Message-State: AOAM531zazFkIJi4qUmCkZr9nSBIdshFx7+r34uNBEuE0JFRE4qRiD1A
+ FQ8nf9YpQX7MSRWXzJzTaGkT3Q==
+X-Google-Smtp-Source: ABdhPJwWcbv0uFOXmQxR33IBm1yaFWZ5Aa0jvUmsGzg9mSp3PkpzpIuiK9YKNtDFAJ7b9IKXnnDs3g==
+X-Received: by 2002:ac8:4589:: with SMTP id l9mr8462267qtn.338.1633269650873; 
+ Sun, 03 Oct 2021 07:00:50 -0700 (PDT)
 Received: from [192.168.3.43] (c-67-174-166-185.hsd1.ga.comcast.net.
  [67.174.166.185])
- by smtp.gmail.com with ESMTPSA id l19sm6031832qkk.12.2021.10.03.06.59.58
+ by smtp.gmail.com with ESMTPSA id 205sm6052910qkf.19.2021.10.03.07.00.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 03 Oct 2021 06:59:58 -0700 (PDT)
-Subject: Re: [PATCH 2/2] target/hexagon: Use tcg_constant_*
+ Sun, 03 Oct 2021 07:00:50 -0700 (PDT)
+Subject: Re: [PATCH 1/2] target/hexagon: Remove unused TCG temporary from
+ predicated loads
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20211003004750.3608983-1-f4bug@amsat.org>
- <20211003004750.3608983-3-f4bug@amsat.org>
+ <20211003004750.3608983-2-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b8400fee-57f7-3195-7cdf-61aec501a9bd@linaro.org>
-Date: Sun, 3 Oct 2021 09:59:56 -0400
+Message-ID: <df776df0-8853-7615-c3df-f8f959c1636d@linaro.org>
+Date: Sun, 3 Oct 2021 10:00:48 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211003004750.3608983-3-f4bug@amsat.org>
+In-Reply-To: <20211003004750.3608983-2-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,17 +95,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/2/21 8:47 PM, Philippe Mathieu-Daudé wrote:
-> Replace uses of tcg_const_* with the allocate and free close together.
+> The gen_pred_cancel() function, introduced in commit a646e99cb90
+> (Hexagon macros) doesn't use the 'one' TCG temporary; remove it.
 > 
-> Inspired-by: Richard Henderson<richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/hexagon/gen_tcg.h        |  6 ++---
->   target/hexagon/macros.h         |  3 +--
->   target/hexagon/genptr.c         | 39 +++++++++++----------------------
->   target/hexagon/translate.c      | 26 +++++++---------------
->   target/hexagon/gen_tcg_funcs.py |  4 +---
->   5 files changed, 25 insertions(+), 53 deletions(-)
+>   target/hexagon/macros.h | 2 --
+>   1 file changed, 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
