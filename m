@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D90420232
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 17:26:54 +0200 (CEST)
-Received: from localhost ([::1]:59596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C514420249
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 17:33:39 +0200 (CEST)
+Received: from localhost ([::1]:42802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mX3O9-0001sq-BL
-	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 11:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34734)
+	id 1mX3Ug-0001hC-01
+	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 11:33:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mX3Lw-0000Vw-Bj
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 11:24:36 -0400
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:33725)
+ id 1mX3Rz-0007dj-I8
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 11:30:52 -0400
+Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:35774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mX3Lu-0003V7-B9
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 11:24:35 -0400
-Received: by mail-qk1-x72f.google.com with SMTP id d207so3533327qkg.0
- for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 08:24:33 -0700 (PDT)
+ id 1mX3Rw-0001Uy-Ma
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 11:30:51 -0400
+Received: by mail-qv1-xf36.google.com with SMTP id dk4so8614264qvb.2
+ for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 08:30:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0H6Up4kS6Ftgwm8g6zca7UGXa7VQPLQap0biuMbzs4E=;
- b=nWcgUqOaRavyFt6UFRQNCPJE+FNn2AUP/7zNAwsbGvrCYn7cWjAart3iL+5LgWYOGK
- it9aNW1N5FzwmmZsIM03DhAzHHCO2HsLifVPoahJzavuOf+BgcIGs+5XAxKLiT6BsRwl
- 0f+MVsgZJUln1/JCfpNfo6drh9jy4j/3X8LTy3L7Np6gGjxuytkFl9UymOHoZPQfJeIZ
- eCu6XUrXuMTTYAhXcoU7jGJeYs11+GY896QeZ+LhiKuCH0hg7HKHMOArPkpLNhqzJqut
- Y5hAPZZqTPgnnpu4JXqYFErkMJT+b1n1BLdz20F9pqLDG2Aebzf/Vqb4bHKEo7gv6d03
- XVaA==
+ bh=F3i5BSL4N5+JnC1TKy7PotGXjz64v5zuWydrRYfeTrI=;
+ b=SFqAnC7yYbt0mVjmV7czkVpDzjlDebiMJEb7CHbqk/tsqjt3Kkis2p8MqGMtgd2IU0
+ IUqB/of+RJndB9wfrhNVq8Iz9jjOGmCBlFntB8PwCXTfMO/Yxlpt1gUGOoyebf9r1QGx
+ GpKMRIhzUk6bhU3pzvNK0whX1kAi6gkk0fhATQXlndXTAep8eyF+ltA3Iq5EYeXBhp3g
+ MZ8GE/iJ99UePOjs5fTrOja2qKBaWJ0gk1Hts/9af4e6YwPIZP8XbyUfX6qtp92KO1kT
+ y+0AqWPmb6RIpz0KGxYGtRIUV/LrK/9coBezbncMiJNGN3luvS8oLeIQM7O+3cKXxiGL
+ gS+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0H6Up4kS6Ftgwm8g6zca7UGXa7VQPLQap0biuMbzs4E=;
- b=FrX6rx8uLzp7ptBmA0Ug6+ipxTGTDrbhR6pW9aeS6Ly02j75HcWqrCwhL6TXYMAfRh
- YaKsGTnbxqbPh16DDgAYkWQlB76zmP1C6e4NqNg8tyPpRtkdhnZ9h1emxkRtHr3s2iw7
- pHT3EZyDuttnJ4ySTIfHm0cGB0QvdDCCkWMA5PEa3P3Zsd1p2/lRWI2ePinjsNgZnWUZ
- BRqZT0h1ch3W3k1Szsa2nRaSJ7xwSR5gLl2jzMbw8diBUyIPck4up+T7NI/zx30EAVV4
- qrflGYuPRnpNMLwr72EB468Y3aDH7MuqeU4IZz/hyFJj+CiE2kKfzQ8Y2hhrWSRP15vp
- O6SQ==
-X-Gm-Message-State: AOAM532p9biEQFyjVYvyrk5uUdKs1dZda7KVXYSeZZiow8AVvZ0uwvXM
- FaIf06JNCEEBw14j7c9IguL5Lg==
-X-Google-Smtp-Source: ABdhPJweUk7wwUImp1zem+Y/cfmIgyA6kPZTBpMdrmpK96EwP+j/IC22c3XAdIBMCP/aNA/DFBh9QQ==
-X-Received: by 2002:a37:270f:: with SMTP id n15mr6320544qkn.203.1633274673353; 
- Sun, 03 Oct 2021 08:24:33 -0700 (PDT)
+ bh=F3i5BSL4N5+JnC1TKy7PotGXjz64v5zuWydrRYfeTrI=;
+ b=2/jVMKQCr/O3eshgBBYIWmDnTM2N+8mVjbcI77VCmt3qVxQTuXrBTzfhZZMVje3pGq
+ 8VQCyZWc8VGcGBgryMGAVwee0Y+TZKvTnx3atQAbuG4Gt+HU/sEbbR20qOJeg3gAQZuJ
+ ZBh1rYK27cqQzZkTCYMYRY2S3UwCnBPk95e5p39/gTAmbhOT6qmoM05V4ghsoLO3+Htd
+ rbBA8ITOEfojBrIweVyyhOXVu/EnAT9bzmUD154B1lRVmQvpWb0E8lbM0RhCpoWWiLBq
+ DjvEyY+tX29M6z4dKLmglFcNPnYMgLQRhMepR9oIe6uWHEK5O7xPP30zV+rEefK8RzVN
+ U8Jg==
+X-Gm-Message-State: AOAM5313B+mJT4tcrMLYUN6RXy6iQP0W5Yfhb4U99g7j4NjHFoerQLtl
+ VokuwYwhcZRxXAh3iFqyZdBpcA==
+X-Google-Smtp-Source: ABdhPJyjrDbKaX9REwDuiqxJPQuD1xmHHEGBKcAq4kNJ+rBc/NqHz7JXdL//VbwiaLJuNb/cGtDqmg==
+X-Received: by 2002:a05:6214:12ac:: with SMTP id
+ w12mr18121241qvu.44.1633275047616; 
+ Sun, 03 Oct 2021 08:30:47 -0700 (PDT)
 Received: from [192.168.3.43] (c-67-174-166-185.hsd1.ga.comcast.net.
  [67.174.166.185])
- by smtp.gmail.com with ESMTPSA id u6sm391385qke.78.2021.10.03.08.24.32
+ by smtp.gmail.com with ESMTPSA id d24sm6103151qka.7.2021.10.03.08.30.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 03 Oct 2021 08:24:33 -0700 (PDT)
-Subject: Re: [PATCH] target/avr: Optimize various functions using extract
+ Sun, 03 Oct 2021 08:30:47 -0700 (PDT)
+Subject: Re: [PATCH] target/m68k: Optimize shift_mem() using extract() TCG
  opcode
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20211003142142.3674844-1-f4bug@amsat.org>
+References: <20211003142428.3676092-1-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f366b3e5-cf3d-d2b7-b7ef-3ec79568a164@linaro.org>
-Date: Sun, 3 Oct 2021 11:24:31 -0400
+Message-ID: <f7f14d9b-d952-beff-e4be-d4a6a6ef5e0e@linaro.org>
+Date: Sun, 3 Oct 2021 11:30:45 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211003142142.3674844-1-f4bug@amsat.org>
+In-Reply-To: <20211003142428.3676092-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,27 +90,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Rolnik <mrolnik@gmail.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/3/21 10:21 AM, Philippe Mathieu-Daudé wrote:
+On 10/3/21 10:24 AM, Philippe Mathieu-Daudé wrote:
 > When running the scripts/coccinelle/tcg_gen_extract.cocci
-> Coccinelle semantic patch on target/avr/, we get:
+> Coccinelle semantic patch on target/m68k/, we get:
 > 
->    [DBG] candidate at target/avr/translate.c:228
->    [DBG] candidate at target/avr/translate.c:266
->    [DBG] candidate at target/avr/translate.c:885
->    [DBG] candidate at target/avr/translate.c:924
->    [DBG] candidate at target/avr/translate.c:962
+>      [DBG] candidate at target/m68k/translate.c:3668
 > 
 > Manually inspect and replace combinations of (shri, andi)
-> opcodes by the extract opcode.
+> and (movi, andi) opcodes by the extract opcode.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/avr/translate.c | 16 +++++-----------
->   1 file changed, 5 insertions(+), 11 deletions(-)
+>   target/m68k/translate.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
