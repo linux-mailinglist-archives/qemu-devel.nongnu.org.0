@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175B0420088
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 09:51:04 +0200 (CEST)
-Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EE742008B
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 09:53:00 +0200 (CEST)
+Received: from localhost ([::1]:43632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWwH1-0005Ap-4E
-	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 03:51:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36718)
+	id 1mWwIt-00010N-2p
+	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 03:52:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mWw9E-0003Du-Hs
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:00 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:36731)
+ id 1mWw9F-0003Gh-AL
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:01 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:33744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mWw9D-0000nq-4P
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:00 -0400
-Received: by mail-ed1-x536.google.com with SMTP id l7so28172044edq.3
- for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 00:42:58 -0700 (PDT)
+ id 1mWw9D-0000oj-Q9
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:01 -0400
+Received: by mail-ed1-x535.google.com with SMTP id p13so23616814edw.0
+ for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 00:42:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FWjVtE1T0s2M/PhRXdlUzw1YZjKSI7qerdNFlVrMk9c=;
- b=QIKAUVqzhvP/1EiWHZhaNMAde2GBescSgYQSmUX35jhV5VhB/k9t/ElEgnaQGCtK3A
- 2VKcYjbMR4pU9LVkAt75+Cjf2inYwDDrEEc/TztCWbJ0j90k4skpa/KA4gXa7oMjFJ6j
- HVBwnotYNTMbzioYohCac7L3Yq3Iau0vn/iYLrLKBKeHLGdVl04EkRZ1h50p7WJsl+mt
- /uqVI3q3b+Ku2DqVOMLmviQaKPM5U8rixyCcN8HNkr1bHyg4qCdSOKaYos5JuzDEHEwy
- U2QFp592dPbXk3ydCeeHhINuxn07JOwCLKgUnULRVdU6/bBEw4GF1GJKWsp/XeM9A9y/
- /uJQ==
+ bh=K6TQCFQzXuXQd9NucqfZ6yW3PdHeHGmJiGpTXeBzS4s=;
+ b=CzlzJX/YKjdTF1nRiuiPY1d2bwtqAhjYcaRu7nUoBizvJSvou2+Fgj5Ci5db4lzzmw
+ KA3NK0VOd8tNoUO1cxJpJFVBAvS4WAkltUmUOm/qXaGb3abAR/9cMM4xQOb92en320ok
+ vO0XRlpFgaAhqBK+kqlKDNrCqvj9j7Qp47WeTx7aVglcPURZGCQ6KwNf6VvqCOURTnPI
+ FO/zsyO+FMKSpoYuvcNPiLB5x5yTBWm6/arOQ/bDjwY9aYG8lAgOot7vH51F54N1SRw6
+ s7azPfwOpreRYQ0qrUCSP+hqrGLCqwB7juyq7kOmXD2Vjj2xpKOW1j0ORGAAgtZ3WqVQ
+ 14nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FWjVtE1T0s2M/PhRXdlUzw1YZjKSI7qerdNFlVrMk9c=;
- b=rAlvpEEqvdEuzC4Q4q2IYoERywnzrOOpBi9bGw5J24NO94UMc9tjOYaRG9NHvrZc/r
- OdlxpbH6xMipYnjWjPN1G3oYPbMCDwQTqXuIiROQqGnocMztP57hXIvmHjMNiw4ZUwaO
- SQah7QVLxMGo9HNQfuj50SvDKjmsu6ppQOre2qK03rwOGBzbijzQQ0wKBwOPGV9Vq9NU
- GHIlGiU2G982URXo4dkgyISK463IUXz630DAVOj76IEzLQ1d7xetF+/IAHv2pfg1abDw
- O1EaRyZKvAMdwa9WwPI3HaJ2zFNn/I8q/gbCwnhOb/wEX8J1BJbO32BWty/XW0nA8Mk1
- xUGQ==
-X-Gm-Message-State: AOAM531xtR3/WXDam2If6Mggi/Alzz7geGAimk2wgewLS/UCuyGKbnbo
- kVY4CUxrKX13+Sy7l03kL06fdU3iBDU=
-X-Google-Smtp-Source: ABdhPJwsB6HQpCEkAl5mTOY6aRsm/brDO2sauYJ3rPU1AITEHe9GKvQjnu6Ov3FWgfHD7/CMSsMYHg==
-X-Received: by 2002:a05:6402:5252:: with SMTP id
- t18mr9329144edd.13.1633246977804; 
- Sun, 03 Oct 2021 00:42:57 -0700 (PDT)
+ bh=K6TQCFQzXuXQd9NucqfZ6yW3PdHeHGmJiGpTXeBzS4s=;
+ b=ksZeqkxrYY2fsdzG1923YvAz2wC0hmE7VvODoNNv5R/UvpXB4vJvuGD7YohX5tuz4w
+ sfeCYGyWsA+Jcft8uI7MaRsOahHgPp1m6tLeaFIxoxf2Rpww8LMvKxKHsuPkUX897und
+ YBiSgLcEtfU7mH8Hcjg2x7zlN9Xd+j2qo2XgodEGIPw9NlSn2/N2Mw7g2wyA8f2R/7fO
+ /LA0YU5iEBaVvu9NG34rzoTg1SxPfVPQthdSMexui5wQuA6je6T9llksDi30eQTMPY1L
+ AKXlxFAst1mxZ72PdX6NP/zO7eVDMyqT2MFWVV/jvF5pRRkeUraKe0+y+vLjfqXTbtK6
+ oPoA==
+X-Gm-Message-State: AOAM530R2fGeQYcKVBnPeHaDDxjGexMtO8UUa2B7bmIpEzqFQIx3n5DU
+ A7eISjc0W2sLRGFEOwcqgz59IL+hhy4=
+X-Google-Smtp-Source: ABdhPJwKvMqPnjPANoCr/J3s8oEEm1S+57zLLHJjHL+ulmNe0DdzfVNIW61DTPzdvvhQxmrgskjK/Q==
+X-Received: by 2002:a17:906:2bc7:: with SMTP id
+ n7mr8746342ejg.238.1633246978568; 
+ Sun, 03 Oct 2021 00:42:58 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id n6sm5560856eds.10.2021.10.03.00.42.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Oct 2021 00:42:57 -0700 (PDT)
+ Sun, 03 Oct 2021 00:42:58 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/30] qtest/numa-test: Use detailed -smp CLIs in
- pc_dynamic_cpu_cfg
-Date: Sun,  3 Oct 2021 09:42:27 +0200
-Message-Id: <20211003074250.60869-8-pbonzini@redhat.com>
+Subject: [PULL 08/30] qtest/numa-test: Use detailed -smp CLIs in
+ test_def_cpu_split
+Date: Sun,  3 Oct 2021 09:42:28 +0200
+Message-Id: <20211003074250.60869-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211003074250.60869-1-pbonzini@redhat.com>
 References: <20211003074250.60869-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,37 +98,41 @@ From: Yanan Wang <wangyanan55@huawei.com>
 Since commit 80d7835749 (qemu-options: rewrite help for -smp options),
 the preference of sockets/cores in -smp parsing is considered liable
 to change, and actually we are going to change it in a coming commit.
-So it'll be more stable to use detailed -smp CLIs in testing if we
-have strong dependency on the parsing results.
+So it'll be more stable to use detailed -smp CLIs in the testcases
+that have strong dependency on the parsing results.
 
-pc_dynamic_cpu_cfg currently assumes/needs that there will be 2 CPU
-sockets with "-smp 2". To avoid breaking the test because of parsing
-logic change, now explicitly use "-smp 2,sockets=2".
+Currently, test_def_cpu_split use "-smp 8" and will get 8 CPU sockets
+based on current parsing rule. But if we change to prefer cores over
+sockets we will get one CPU socket with 8 cores, and this testcase
+will not get expected numa set by default on x86_64 (Ok on aarch64).
+
+So now explicitly use "-smp 8,sockets=8" to avoid affect from parsing
+logic change.
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210929025816.21076-8-wangyanan55@huawei.com>
+Message-Id: <20210929025816.21076-9-wangyanan55@huawei.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
  tests/qtest/numa-test.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-index c677cd63c4..fd7a2e80a0 100644
+index fd7a2e80a0..90bf68a5b3 100644
 --- a/tests/qtest/numa-test.c
 +++ b/tests/qtest/numa-test.c
-@@ -265,7 +265,8 @@ static void pc_dynamic_cpu_cfg(const void *data)
-     QTestState *qs;
+@@ -42,7 +42,8 @@ static void test_def_cpu_split(const void *data)
+     g_autofree char *s = NULL;
      g_autofree char *cli = NULL;
  
--    cli = make_cli(data, "-nodefaults --preconfig -machine smp.cpus=2");
-+    cli = make_cli(data, "-nodefaults --preconfig "
-+                         "-machine smp.cpus=2,smp.sockets=2");
-     qs = qtest_init(cli);
+-    cli = make_cli(data, "-machine smp.cpus=8 -numa node,memdev=ram -numa node");
++    cli = make_cli(data, "-machine smp.cpus=8,smp.sockets=8 "
++                         "-numa node,memdev=ram -numa node");
+     qts = qtest_init(cli);
  
-     /* create 2 numa nodes */
+     s = qtest_hmp(qts, "info numa");
 -- 
 2.31.1
 
