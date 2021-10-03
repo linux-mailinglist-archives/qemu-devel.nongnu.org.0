@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109124200B0
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 10:11:15 +0200 (CEST)
-Received: from localhost ([::1]:58926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F7D4200AC
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 10:08:22 +0200 (CEST)
+Received: from localhost ([::1]:52168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWwaY-0005XO-4n
-	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 04:11:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36982)
+	id 1mWwXl-0000nX-Iv
+	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 04:08:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mWw9U-0004EW-8i
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:16 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:40739)
+ id 1mWw9V-0004I0-9y
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:17 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:46677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mWw9S-00011k-NK
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:15 -0400
-Received: by mail-ed1-x529.google.com with SMTP id g8so51965798edt.7
- for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 00:43:14 -0700 (PDT)
+ id 1mWw9T-00012Z-Lz
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:17 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id z20so468533edc.13
+ for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 00:43:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/ujUSnNBKpCXdL3RYZdQBq1D09EmZbvIdkpR1zAPinc=;
- b=WvxNoc2NLXgV0ihjuxNB9befRhx2GKvz0LEq9rc7R41KJ2TELoYZY+kPf2huWzG9GL
- G0GDCMzyqb6O4NdPzG2v0GnZo9Gukufbt6hwHcsIk/BSQTWNVSwUG9whQbTsZAsqsQDH
- 6sM7Zz+l/epRSou/EpJMJZjKvWiPk1XuTAmszHsnC91wuvLvZQqYikuvvhKfUiXM9MgY
- TANW6LJtXaaTbeUCI7DnT6Qe00XGhmGFSO626HiZU0a+tIm1mrLaxz+wugEXlwiJg4pe
- d6VuwxnNVtJywgJOn096vwQTHLZ/694UokoNCtKt1DBHfE1y8rOGHI+spW00Xz4g2vRJ
- g1sA==
+ bh=Iazzme8gW0iiwChNe0S4mE4gEWXWyIgyzE45wOse0ek=;
+ b=QoAds/7SxGuQX7UN2AyLGGzlyeMhBTlgKf/MrYKvDYgvqV1kYY66LB+LS1DOJXUv0i
+ 4b8CNP4U6RBv3cZ51XwESWKgqIt8FMwBQb4kJcBzpU+IZWlBkgJUuUkjJcunLIoHGjFZ
+ 183NKv1KrIKyjcq3gi5Q8O1qx90eJpdKF1FFWdJc7+9TKXjwp3db7h+UlK8sNceCP1D0
+ yO3TW2g3bsQ69YZWg5AHEKSEJKnsxpBsDP21yJpnPZ0ueFK3tKmPwEaD0Njv+q/WJGI8
+ fodK93HLOpM0v33zlF8DsrJ/XPQ5GUmInimsxQ8Y8JSei2HBF3+WQRycJKqIL09jray9
+ edrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/ujUSnNBKpCXdL3RYZdQBq1D09EmZbvIdkpR1zAPinc=;
- b=xjeHOqM2rY0KrYpmfwd/XyMyemQNETEjXuhzGluFlM2JXjdsuJ7mX35Fi24SI8hE3u
- qNdZG6JhTL+qTlwB0DdNJvKhn+fNQsT4zBAzlYblCXu7HrLWCSc4VdJX36TpJC0wF9Yj
- GIoe0WcuTUMZ8JrEYBKiUvNv2dcSdYTFsuzcakAs1XnuhnN13iB8QfUSn5VgiIuxO06O
- C2vmm+S0u3onz+hZgv/6UqE8HgT9gZ/OnrYAgRCRV6w6kB4M/Hk+SHrlu+5LIFvjJkx3
- 3hAV4crR51Q4XpnFaH/jZSxkRxumQ9hMpKk9NXRiRqqMdZQY661i71mpICfopvDyg57E
- WZhg==
-X-Gm-Message-State: AOAM532JZy/WRfnFuONQ1oza5OzzZrLlRN16a+pwhYcW3WflmnJZuXrf
- vWNduaAWapVvzo+odPK2WLBkl0H8Jn4=
-X-Google-Smtp-Source: ABdhPJzsXQoNMnXgYxHUtfjUGRrol7SMqJ6bGpsQOGOVfzj/UqNz8wke6jY3xE3LplPmC/0nyMyrLA==
-X-Received: by 2002:a17:906:15cf:: with SMTP id
- l15mr9019193ejd.568.1633246993370; 
- Sun, 03 Oct 2021 00:43:13 -0700 (PDT)
+ bh=Iazzme8gW0iiwChNe0S4mE4gEWXWyIgyzE45wOse0ek=;
+ b=njVZDVoI+4uSi4v+a+4NaMXO9adW+pD7fVGl5F72RNkZfP1b2aj1+75OMMqUxr6btj
+ OikCnzLMDUOw1k6XAwmlNDsu9Tokx244R3QsyJpsBZyi5geIojRnmJORlSAI0dgBKORB
+ m0tmyhBlTmRWaQyiw7zEr8jnkSaKQ/VKUHq+VpfwUj6Ny+CFgmxFTwej8oWHqN7hhOx6
+ LwAWrVL21XgBwI+fBVYDAxpSyQ45+zLL3cycikAAs2Z26COVUpsyTl/ul4uFAqiO2Pop
+ Zl19Lked5ht00Id2XVkMi6Nj8Pmq4hJRyWK/HB4GrDbj+llEbUShoAuIf90OiDCkDUMv
+ G9dQ==
+X-Gm-Message-State: AOAM530P8TwImMhrth3CnFsnC3tqHqxphIJqA26DCKdBtF7FTzwqmv3F
+ ZqniGWGSQxPSL1sCDuSCcYhzWWH4uHA=
+X-Google-Smtp-Source: ABdhPJyxZN9AtNHAbvzajZc/7f58G0I4Xz1Kw/9gLYhsN0d6vt5OHAuMDn7evg/TMOXteRoFzmE69w==
+X-Received: by 2002:a17:906:39cd:: with SMTP id
+ i13mr8665730eje.227.1633246994397; 
+ Sun, 03 Oct 2021 00:43:14 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n6sm5560856eds.10.2021.10.03.00.43.12
+ by smtp.gmail.com with ESMTPSA id n6sm5560856eds.10.2021.10.03.00.43.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Oct 2021 00:43:13 -0700 (PDT)
+ Sun, 03 Oct 2021 00:43:14 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/30] softmmu/memory_mapping: never merge ranges accross
- memory regions
-Date: Sun,  3 Oct 2021 09:42:48 +0200
-Message-Id: <20211003074250.60869-29-pbonzini@redhat.com>
+Subject: [PULL 29/30] softmmu/memory_mapping: factor out adding physical
+ memory ranges
+Date: Sun,  3 Oct 2021 09:42:49 +0200
+Message-Id: <20211003074250.60869-30-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211003074250.60869-1-pbonzini@redhat.com>
 References: <20211003074250.60869-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -100,10 +100,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's make sure to not merge when different memory regions are involved.
-Unlikely, but theoretically possible.
+Let's factor out adding a MemoryRegionSection to the list, to be reused in
+RamDiscardManager context next.
 
-Acked-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -119,26 +119,73 @@ Cc: Peter Xu <peterx@redhat.com>
 Cc: Laurent Vivier <lvivier@redhat.com>
 Cc: Stefan Berger <stefanb@linux.ibm.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210727082545.17934-3-david@redhat.com>
+Message-Id: <20210727082545.17934-4-david@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/memory_mapping.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ softmmu/memory_mapping.c | 41 ++++++++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 21 deletions(-)
 
 diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
-index e7af276546..d401ca7e31 100644
+index d401ca7e31..a2af02c41c 100644
 --- a/softmmu/memory_mapping.c
 +++ b/softmmu/memory_mapping.c
-@@ -229,7 +229,8 @@ static void guest_phys_blocks_region_add(MemoryListener *listener,
+@@ -193,29 +193,14 @@ typedef struct GuestPhysListener {
+     MemoryListener listener;
+ } GuestPhysListener;
  
-         /* we want continuity in both guest-physical and host-virtual memory */
-         if (predecessor->target_end < target_start ||
--            predecessor->host_addr + predecessor_size != host_addr) {
-+            predecessor->host_addr + predecessor_size != host_addr ||
-+            predecessor->mr != section->mr) {
-             predecessor = NULL;
-         }
-     }
+-static void guest_phys_blocks_region_add(MemoryListener *listener,
++static void guest_phys_block_add_section(GuestPhysListener *g,
+                                          MemoryRegionSection *section)
+ {
+-    GuestPhysListener *g;
+-    uint64_t section_size;
+-    hwaddr target_start, target_end;
+-    uint8_t *host_addr;
+-    GuestPhysBlock *predecessor;
+-
+-    /* we only care about RAM */
+-    if (!memory_region_is_ram(section->mr) ||
+-        memory_region_is_ram_device(section->mr) ||
+-        memory_region_is_nonvolatile(section->mr)) {
+-        return;
+-    }
+-
+-    g            = container_of(listener, GuestPhysListener, listener);
+-    section_size = int128_get64(section->size);
+-    target_start = section->offset_within_address_space;
+-    target_end   = target_start + section_size;
+-    host_addr    = memory_region_get_ram_ptr(section->mr) +
+-                   section->offset_within_region;
+-    predecessor  = NULL;
++    const hwaddr target_start = section->offset_within_address_space;
++    const hwaddr target_end = target_start + int128_get64(section->size);
++    uint8_t *host_addr = memory_region_get_ram_ptr(section->mr) +
++                         section->offset_within_region;
++    GuestPhysBlock *predecessor = NULL;
+ 
+     /* find continuity in guest physical address space */
+     if (!QTAILQ_EMPTY(&g->list->head)) {
+@@ -261,6 +246,20 @@ static void guest_phys_blocks_region_add(MemoryListener *listener,
+ #endif
+ }
+ 
++static void guest_phys_blocks_region_add(MemoryListener *listener,
++                                         MemoryRegionSection *section)
++{
++    GuestPhysListener *g = container_of(listener, GuestPhysListener, listener);
++
++    /* we only care about RAM */
++    if (!memory_region_is_ram(section->mr) ||
++        memory_region_is_ram_device(section->mr) ||
++        memory_region_is_nonvolatile(section->mr)) {
++        return;
++    }
++    guest_phys_block_add_section(g, section);
++}
++
+ void guest_phys_blocks_append(GuestPhysBlockList *list)
+ {
+     GuestPhysListener g = { 0 };
 -- 
 2.31.1
 
