@@ -2,82 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2195420276
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 17:54:19 +0200 (CEST)
-Received: from localhost ([::1]:35750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E2842029F
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 18:18:16 +0200 (CEST)
+Received: from localhost ([::1]:34728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mX3oh-0000KZ-1N
-	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 11:54:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38202)
+	id 1mX4Bq-0003Cz-Lk
+	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 12:18:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mX3mc-0007BG-Kk; Sun, 03 Oct 2021 11:52:10 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43733)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mX3mb-0002mB-67; Sun, 03 Oct 2021 11:52:10 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id r7so10195911wrc.10;
- Sun, 03 Oct 2021 08:52:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GrljlbyY6tla5jUqlP1QNdPaZPzSb5mbpaF/Zs2PVuA=;
- b=lucb1tME0x5XBuP/BF5EBNIzdgIYY1B++Ql/mJSGKu44M0tcs57Je4hwlvitLJdPqJ
- TecyJ8i3ziKuyU/T42OUdKN4P/lPP88kqB+pRpmbcaqb02MUFj73aoOupeXpRIV+W+l4
- REeNHIysIeDSMYWuHHU8449lQqz5ehNbHaF14V2ZZjgRqOfAqvcCB4krdBctW7i2lRLE
- gUvmPOnP65LqOR/r4qPcK7KXaReycoEB9Y717Zdpe2nuWbDk3AACVsFDptoFF0R8/un8
- VhlkJM3PCR5EeUqTPnBl0RiiX1fS2qXSHHO9pK1B9kQcSHNN2jnmbQg0CUZ9Qul34eo8
- 7XVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GrljlbyY6tla5jUqlP1QNdPaZPzSb5mbpaF/Zs2PVuA=;
- b=npdwEz4msAt7YG12vcqsvr7EnpldCkfW292u/NNuVlRHYEqiCBtWrPZCeHjFWX7k8U
- j1dJ4hT0P6+FeyW7DqIHonGQdsWJUyukw/dbtPH9tKzyw/jLHhuTySOGU8lc4ZeO+XMo
- d3wYPy9rwzR8lQ4EirC6Eb9fih0c9cys78P1sE/Ta2Gg808xCFHw5KeLrL6R9TBpVDfQ
- 7oasy2bKSctYBMv/lpqmTr4jMAtvc0Rb/9gI0hsNHxlj3O4T63D1QPzHlJRNETsoB9ep
- Vy5+EC9Id/PeW1l7QUKQ97TWQ6EkWwI44SeiCs/gtNxazFsch/E/fhUIhoep07/5e4gG
- xkbA==
-X-Gm-Message-State: AOAM530JDQh43ctyUkKZ5XXIWTqnY9vaRa2NuTaumHdNnwl3xdv+ZEiv
- gj4GwuGvlHu6rcXmvkL0oJs=
-X-Google-Smtp-Source: ABdhPJw0UDh7inrC61fFSxGRratJCNABUvbVmtuxgKFTE1EQ1m2QWXmUsfhanV/aJqpwrs3kBJwMzA==
-X-Received: by 2002:adf:a4c8:: with SMTP id h8mr4309578wrb.227.1633276327332; 
- Sun, 03 Oct 2021 08:52:07 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id p18sm489171wrt.96.2021.10.03.08.52.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 03 Oct 2021 08:52:06 -0700 (PDT)
-Message-ID: <b29ac0be-3761-1550-9b86-a3f4f7475764@amsat.org>
-Date: Sun, 3 Oct 2021 17:52:06 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mX4AI-0002Fu-Az
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 12:16:39 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:17768)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mX4AF-0002rs-7B
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 12:16:37 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 8497C7462D3;
+ Sun,  3 Oct 2021 18:16:29 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 614BA745953; Sun,  3 Oct 2021 18:16:29 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI interrupts
+Date: Sun, 03 Oct 2021 18:12:25 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 2/3] target/arm: Introduce store_cpu_field_constant()
- helper
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211003143901.3681356-1-f4bug@amsat.org>
- <20211003143901.3681356-3-f4bug@amsat.org>
- <bf1c7cfa-6a0a-586c-58a2-8886402952a2@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <bf1c7cfa-6a0a-586c-58a2-8886402952a2@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+To: qemu-devel@nongnu.org
+Message-Id: <20211003161629.614BA745953@zero.eik.bme.hu>
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,32 +52,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
+Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Philippe M-D <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/3/21 17:35, Richard Henderson wrote:
-> On 10/3/21 10:39 AM, Philippe Mathieu-Daudé wrote:
->> -static inline void store_cpu_offset(TCGv_i32 var, int offset)
->> +static inline void store_cpu_offset(TCGv_i32 var, int offset, bool
->> is_temp)
->>   {
->>       tcg_gen_st_i32(var, cpu_env, offset);
->> -    tcg_temp_free_i32(var);
->> +    if (is_temp) {
->> +        tcg_temp_free_i32(var);
->> +    }
->>   }
->>     #define store_cpu_field(var, name) \
->> -    store_cpu_offset(var, offsetof(CPUARMState, name))
->> +    store_cpu_offset(var, offsetof(CPUARMState, name), true)
->> +
->> +#define store_cpu_field_constant(val, name) \
->> +    store_cpu_offset(tcg_const_i32(val), offsetof(CPUARMState, name),
->> false)
->>   
-> 
-> You missed out on using tcg_constant_i32 in the end.
+This device is part of a sperio/ISA bridge chip and IRQs from it are
+routed to an ISA interrupt set by the Interrupt Line PCI config
+register. Change uhci_update_irq() to allow this and use it from
+vt82c686-uhci-pci.
 
-Oops... thanks :)
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+Maybe bit of a hack but fixes USB interrupts on pegasos2 until
+somebody has a better idea. I'm not sure about fuloong2e but the
+VT82C686B docs say it also does the same routing IRQs to ISA PIC like
+VT8231 used on pegasos2.
+
+ hw/usb/hcd-uhci.c          | 12 +++++++++---
+ hw/usb/hcd-uhci.h          |  1 +
+ hw/usb/vt82c686-uhci-pci.c |  1 +
+ 3 files changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
+index 0cb02a6432..8f28241f70 100644
+--- a/hw/usb/hcd-uhci.c
++++ b/hw/usb/hcd-uhci.c
+@@ -31,6 +31,7 @@
+ #include "hw/usb/uhci-regs.h"
+ #include "migration/vmstate.h"
+ #include "hw/pci/pci.h"
++#include "hw/irq.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+ #include "qemu/timer.h"
+@@ -290,7 +291,7 @@ static UHCIAsync *uhci_async_find_td(UHCIState *s, uint32_t td_addr)
+ 
+ static void uhci_update_irq(UHCIState *s)
+ {
+-    int level;
++    int level = 0;
+     if (((s->status2 & 1) && (s->intr & (1 << 2))) ||
+         ((s->status2 & 2) && (s->intr & (1 << 3))) ||
+         ((s->status & UHCI_STS_USBERR) && (s->intr & (1 << 0))) ||
+@@ -298,10 +299,15 @@ static void uhci_update_irq(UHCIState *s)
+         (s->status & UHCI_STS_HSERR) ||
+         (s->status & UHCI_STS_HCPERR)) {
+         level = 1;
++    }
++    if (s->isa_irqs) {
++        uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
++        if (irq < ISA_NUM_IRQS) {
++            qemu_set_irq(isa_get_irq(NULL, irq), level);
++        }
+     } else {
+-        level = 0;
++        pci_set_irq(&s->dev, level);
+     }
+-    pci_set_irq(&s->dev, level);
+ }
+ 
+ static void uhci_reset(DeviceState *dev)
+diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
+index e61d8fcb19..c91805a65e 100644
+--- a/hw/usb/hcd-uhci.h
++++ b/hw/usb/hcd-uhci.h
+@@ -59,6 +59,7 @@ typedef struct UHCIState {
+     uint32_t frame_bytes;
+     uint32_t frame_bandwidth;
+     bool completions_only;
++    bool isa_irqs;
+     UHCIPort ports[NB_PORTS];
+ 
+     /* Interrupts that should be raised at the end of the current frame.  */
+diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
+index b109c21603..5c79e293ef 100644
+--- a/hw/usb/vt82c686-uhci-pci.c
++++ b/hw/usb/vt82c686-uhci-pci.c
+@@ -13,6 +13,7 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+     /* USB legacy support  */
+     pci_set_long(pci_conf + 0xc0, 0x00002000);
+ 
++    s->isa_irqs = true;
+     usb_uhci_common_realize(dev, errp);
+ }
+ 
+-- 
+2.21.4
+
 
