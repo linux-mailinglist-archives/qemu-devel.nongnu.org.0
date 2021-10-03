@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8997241FEF9
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 02:49:17 +0200 (CEST)
-Received: from localhost ([::1]:47540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF56841FEFB
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 02:51:52 +0200 (CEST)
+Received: from localhost ([::1]:51168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWpgq-000290-4I
-	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 20:49:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34540)
+	id 1mWpjM-0004hE-1c
+	for lists+qemu-devel@lfdr.de; Sat, 02 Oct 2021 20:51:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mWpfY-00011U-TH
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 20:47:56 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:42975)
+ id 1mWpfb-00013d-Qx
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 20:47:59 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mWpfW-00068e-Gc
- for qemu-devel@nongnu.org; Sat, 02 Oct 2021 20:47:56 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- s198-20020a1ca9cf000000b0030d6986ea9fso194612wme.1
- for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 17:47:54 -0700 (PDT)
+ id 1mWpfa-0006BD-Ee
+ for qemu-devel@nongnu.org; Sat, 02 Oct 2021 20:47:59 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id s24so10132008wmh.4
+ for <qemu-devel@nongnu.org>; Sat, 02 Oct 2021 17:47:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PYwTkdwi9uruSw6WWjeNt+cV+scw9CC/fFSZHMdhO0c=;
- b=donwaHu8tccjKf09y6KS+1TQUfM/Xt9gPlnYboIGe445uoNHA4MUoSaT3yGuPthVub
- ZxZdyiKmqJzpRiDNsQIBIDnxBf9JG+Wic/lz/GA4ISMRovYvfofqol1iY+kfMKF/lHWf
- IMjI9MZo0tO2w1hidstPSgLSL63nKoyp/c+aLm1HDzNwPWL/1duJ6DfWhNy46wYH0sYA
- FXCzEmdYdHUuMg4hXbrld0hY8Hwsr4QzToVJStnXLx7SaJJ5PCA/4B8IUW9xp+6lOxaA
- jfGurN7YuuY5sehrvwjx7cnGSOxF9xvQ5adJRJRJZqR2qUk4rmrl20NrGXrPU6egHlEe
- lR0g==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=bo8NwHPIZJi76xNaPQPetSv6WEjzS6D8SX6zEURGAP0=;
+ b=E8BxfYJSg/sFYsfi+SqSDmfGlKcf0ghBF20ztCcR3TrgfSTMXzPcy992MBnSmVIjQF
+ PMSbOF+dn84rMtlYM4DXZKCFcwNZpeuY9gxz+IAH/nkavwxu7sVT8Hy8BGq3Xx1f2XQF
+ 3bc7NKD13c8Pxp+2HZFzpAy9GayvttuRxMZcy4bWRr+65GbjokogPgi2TXfsQy/rXXny
+ EZGtWZ7DmnFR4CyNndBUDhFnKZ4bvaXl0o0BDI2eziwZJzSJ5eEkubmA9gi1agzkYR4/
+ iztwNjdaTjP2boxYgjHnmiKEvFdYEx+6pWbcMwXOBto0tYkxv4CC7XqcUcMK2swhgu3g
+ Pq4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=PYwTkdwi9uruSw6WWjeNt+cV+scw9CC/fFSZHMdhO0c=;
- b=AWFQ95ISgm1wFen6u2w24uR79CJLQvatP3vLOUHsOqGSXhVZAJtMEf7akYLa/MngEk
- QhzZfIRMm7ed0jqAzD5tOd3423s/k4fe0RZu9HHyjKVhIYCwqrWznR2oyo9W6VWuK0EP
- yjI2IC4OJXXrayiSPuc/b8jdEdi201H8zgI0faPrFcDMwRCSvfNW1CBfNbuZ1eba+Nb7
- 4fEwi2G6brMhFKPsggYQJPpLiOcy7NX74B0Sy5Ur8ckPUO5jxT0a9P8FwYaHlB8nWcLV
- Kd9vxQbTWAwuPXYGWaCGp/Pdb1H1/vijjdHN6dwtjTkrDQ9gXaoWvpLaKwXs2vmzYi5F
- zneQ==
-X-Gm-Message-State: AOAM532IKFtSaZ+6U6Pw5fFvXl2dAjwg2XEq6xjT60HAUdPSWSy9I4oT
- vyMuE2EEBRsrtKF+75uHC+Uxwq/y+z8=
-X-Google-Smtp-Source: ABdhPJy7xw8HuYFq17cDL9GoohhMvB5vtSm/zwLEJhWzs047nUm+WibC8uXCuWbYVWx4dZZCrsWp7A==
-X-Received: by 2002:a1c:22d7:: with SMTP id i206mr1832634wmi.122.1633222072254; 
- Sat, 02 Oct 2021 17:47:52 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=bo8NwHPIZJi76xNaPQPetSv6WEjzS6D8SX6zEURGAP0=;
+ b=vZ2S004pAcfc0Nah4+rPhEYdlRDrbrFUI6SD1ntV0clViiHz0hOds2zS/vkn/J4L/s
+ C2amguST0x07VkWxtQ76rGJItV3fGGzS/PgFhpKpdjmAqlwLDMWV52D0Fz5KGtEyHpK6
+ nPVqhWAGaYum8f8RfPd60Dyf9M7H5hN+pKL3D5MqUAFcmRxNKtMTS7m0L56Ntio7cdnM
+ mGfYY/HNQOIb68Z4zwTq+lw1L5BWwXkaNZRDfzyHWFGMzu/Tkd53Ni30M6/CzRyawztZ
+ 3BSYk3l72Qt0A5WCsh+cY20V5NRFj1AD0KiBz+AF60su6rYJ8XAnWTPdvSMJj6ObLESz
+ VZHQ==
+X-Gm-Message-State: AOAM533E3i0paWCpcX7Jcm77l5lWiuTLJsN7MTkaeAbShybDoEklxhux
+ G1MjRzJfbaXYGVLBPtnyvvPuGXvomPE=
+X-Google-Smtp-Source: ABdhPJw2OSdljxFzYr9fwciGkDrQZvmtoABBQWkHhR0V8mBm8QIVpa4VQiUn7L4XOFP8z8c1sq3Biw==
+X-Received: by 2002:a1c:7508:: with SMTP id o8mr11485169wmc.104.1633222076854; 
+ Sat, 02 Oct 2021 17:47:56 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- t16sm13191070wmi.33.2021.10.02.17.47.50
+ g78sm9101686wme.14.2021.10.02.17.47.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Oct 2021 17:47:51 -0700 (PDT)
+ Sat, 02 Oct 2021 17:47:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] target/hexagon: Use tcg_constant_*
-Date: Sun,  3 Oct 2021 02:47:48 +0200
-Message-Id: <20211003004750.3608983-1-f4bug@amsat.org>
+Subject: [PATCH 1/2] target/hexagon: Remove unused TCG temporary from
+ predicated loads
+Date: Sun,  3 Oct 2021 02:47:49 +0200
+Message-Id: <20211003004750.3608983-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211003004750.3608983-1-f4bug@amsat.org>
+References: <20211003004750.3608983-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,20 +92,35 @@ Cc: Taylor Simpson <tsimpson@quicinc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace temporary TCG registers by tcg_constant_*() when possible.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  target/hexagon: Remove unused TCG temporary from predicated loads=0D
-  target/hexagon: Use tcg_constant_*=0D
-=0D
- target/hexagon/gen_tcg.h        |  6 ++---=0D
- target/hexagon/macros.h         |  5 +----=0D
- target/hexagon/genptr.c         | 39 +++++++++++----------------------=0D
- target/hexagon/translate.c      | 26 +++++++---------------=0D
- target/hexagon/gen_tcg_funcs.py |  4 +---=0D
- 5 files changed, 25 insertions(+), 55 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+The gen_pred_cancel() function, introduced in commit a646e99cb90
+(Hexagon macros) doesn't use the 'one' TCG temporary; remove it.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/hexagon/macros.h | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/target/hexagon/macros.h b/target/hexagon/macros.h
+index 094b8dabb5a..ae6663c09fe 100644
+--- a/target/hexagon/macros.h
++++ b/target/hexagon/macros.h
+@@ -190,7 +190,6 @@ static inline void gen_pred_cancel(TCGv pred, int slot_num)
+     TCGv slot_mask = tcg_const_tl(1 << slot_num);
+     TCGv tmp = tcg_temp_new();
+     TCGv zero = tcg_const_tl(0);
+-    TCGv one = tcg_const_tl(1);
+     tcg_gen_or_tl(slot_mask, hex_slot_cancelled, slot_mask);
+     tcg_gen_andi_tl(tmp, pred, 1);
+     tcg_gen_movcond_tl(TCG_COND_EQ, hex_slot_cancelled, tmp, zero,
+@@ -198,7 +197,6 @@ static inline void gen_pred_cancel(TCGv pred, int slot_num)
+     tcg_temp_free(slot_mask);
+     tcg_temp_free(tmp);
+     tcg_temp_free(zero);
+-    tcg_temp_free(one);
+ }
+ #define PRED_LOAD_CANCEL(PRED, EA) \
+     gen_pred_cancel(PRED, insn->is_endloop ? 4 : insn->slot)
+-- 
+2.31.1
+
 
