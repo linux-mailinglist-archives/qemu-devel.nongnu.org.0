@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B382420098
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 09:58:38 +0200 (CEST)
-Received: from localhost ([::1]:60108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4704200A0
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 10:01:58 +0200 (CEST)
+Received: from localhost ([::1]:40842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWwOL-0003jb-Jt
-	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 03:58:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36946)
+	id 1mWwRZ-0001Hg-Tf
+	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 04:01:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mWw9R-00043q-Lm
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:13 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:37837)
+ id 1mWw9M-0003jy-VJ
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:08 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:40749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mWw9Q-0000yz-0H
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:13 -0400
-Received: by mail-ed1-x536.google.com with SMTP id ba1so51824217edb.4
- for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 00:43:11 -0700 (PDT)
+ id 1mWw9L-0000v0-60
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:08 -0400
+Received: by mail-ed1-x535.google.com with SMTP id g8so51965085edt.7
+ for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 00:43:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m3Y5hCRoZxoZcQML796y/BIVxhl18IJOQWKwSNYcpos=;
- b=d5a+djjuAeQwkYT9I820dvbEEDKiKWo8bkz9cyO++9WqRMQomfa+CbPR/ILB9Lihbe
- a339urxaG6o/lfbyjkgJYLUUOwV3UDjbq5WpS+ua/bytPwjqbHBipFANGeAAY8XmO9UW
- dHWeQ5aArOOgO4+YRf74eKXCZsu1kZgEChWssDBkJ7/OWoGpVNe4UuDCzjaPO/3jqRtu
- UjR91hsSLtuFFietULdM7SadRZDaENQO9/LkB1PQxeaf0HnI7ZVlc+jNlcAhF0ADc7hC
- QXpNW+RzQ/shXvb+/LfWZUmj3CF/vlMCpc/csqNEtecj1bIVU+V1W4l1S7oEKVUq1/Wd
- IJcw==
+ bh=WoWiryGI2T3SkhDO1+fsiuderDI9swQzYrgJaWsDXkM=;
+ b=FjMIYvqm3kSpKey+bTtF81Iv2jo9pAYmjh1VPmRzoLOqmLby3QVWDOq9WAzvjokLcQ
+ tIOxiqldqumEhg6dVmXmvb5rVWTKej6lTknaDLiq+0wcIE+BlHAjl4qyG1oGHka59uWk
+ zANxmCMA6YO8STt+GisSi+Y0VJgz7PIA1+i8hPirnK7hNWBiE/EQnaqciZh4+H6Pt99e
+ 7Gc7wwiYoMs5eid0wegtD4Ub3/cBI5HjNFejbhDaOMhiXiiGIFzXP9YABmytUsWY7q4p
+ SIp/QHqLLkIz80pL1OYwtovlpOLlLZWWu5HFDqHo/WaxCmbyKiJB8o8J2uDQX6MussLk
+ Jl8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=m3Y5hCRoZxoZcQML796y/BIVxhl18IJOQWKwSNYcpos=;
- b=TPMkEeM0QWoUNNfFPmc99jYYNYn+KtzTtjd4emVpxceW99/z9UmCbIaHR25i6lL+Y3
- zk7rJAHX/MwojWF44dDE6cwB8fRqD+CGTgKW0oj5nJAVRMAR+vjFv6Ilili5WKJTqwWS
- iFr6en+6/p/2YDCAJNRBEvoidcLl9nQsX04AjLhLsb8511qWliewRg8Ql66mnpZBSCGc
- X4nfOyNw401mxnulmdijzkOIUJ5tAABUUsQk+NqaAfMLvKh6yL097Nz6d4N2QFVka3lO
- Tneh7+lt+tMOWiIrBr8kHz15ZwLeq4NAXWLGUcec9VPty6S6jsNL91VKXRpfxdwANY5j
- CoTg==
-X-Gm-Message-State: AOAM533zIKmm8wzJG2DWonHFNSb97IhOIUdXZd5AbLq7u63ujoGePNvD
- 7bR230Q0K8+nmM0eM6YPKUwWF9ixVhE=
-X-Google-Smtp-Source: ABdhPJzkh3CkRinMoN5Sn9bKTDGRX036kMK2ewSpuopjEO3n9nK5dVnN4/bIis2MUkZv9bFWyKD8Tw==
-X-Received: by 2002:a17:906:c015:: with SMTP id
- e21mr8945822ejz.113.1633246990622; 
- Sun, 03 Oct 2021 00:43:10 -0700 (PDT)
+ bh=WoWiryGI2T3SkhDO1+fsiuderDI9swQzYrgJaWsDXkM=;
+ b=Ci6JTWfy0fgqZsTEeGAleV1UWUt3qm7wM4pcfJYAt+rYRv14t63dDjg1VUC39062Hk
+ 6JUUshHJLYBYHdir6XA8dgiDNLmCxnGHeZDMs8KWDQj8/PdrylxAeiak8RIsvssUJAvn
+ +410sm1aICF667ngWMer43Kc8b6KeV3h8dDE9hC2KL5R/zW1yUdcII288YgaX/Qclanw
+ FVZpdAm1OVlzkOP1MfTDzlsJ1Y/8d/OUUMC1q+rTJMfdVtdXvp1QgD/53i0dvTNFj6Gn
+ tI6+e0lRJEy+bZn6+Ibzpmb+wMP7hdqbXhomoq6k4tFwJ7nxt5WzsnPI2WA03HUgYEhW
+ zjhA==
+X-Gm-Message-State: AOAM531J2Yco33UVhg23wu4e0AshE6fz/JYjgkqzDY8GN+KE34WypRbQ
+ vHM+Z/X79pziVE+HQxy6PQJyBiBMI2E=
+X-Google-Smtp-Source: ABdhPJzagyFzJGKh8lMe7N6vclUmobooAVdzrLUV4TEyeen/nv5VsBq0M94wDE9ocVTE1igvUQwNVQ==
+X-Received: by 2002:a05:6402:713:: with SMTP id
+ w19mr9719440edx.366.1633246985887; 
+ Sun, 03 Oct 2021 00:43:05 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n6sm5560856eds.10.2021.10.03.00.43.09
+ by smtp.gmail.com with ESMTPSA id n6sm5560856eds.10.2021.10.03.00.43.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Oct 2021 00:43:10 -0700 (PDT)
+ Sun, 03 Oct 2021 00:43:05 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/30] qapi: Include qom-path in MEMORY_DEVICE_SIZE_CHANGE qapi
- events
-Date: Sun,  3 Oct 2021 09:42:45 +0200
-Message-Id: <20211003074250.60869-26-pbonzini@redhat.com>
+Subject: [PULL 18/30] i386: Support KVM_CAP_HYPERV_ENFORCE_CPUID
+Date: Sun,  3 Oct 2021 09:42:38 +0200
+Message-Id: <20211003074250.60869-19-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211003074250.60869-1-pbonzini@redhat.com>
 References: <20211003074250.60869-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,71 +84,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-As we might not always have a device id, it is impossible to always
-match MEMORY_DEVICE_SIZE_CHANGE events to an actual device. Let's
-include the qom-path in the event, which allows for reliable mapping of
-events to devices.
+By default, KVM allows the guest to use all currently supported Hyper-V
+enlightenments when Hyper-V CPUID interface was exposed, regardless of if
+some features were not announced in guest visible CPUIDs. hv-enforce-cpuid
+feature alters this behavior and only allows the guest to use exposed
+Hyper-V enlightenments. The feature is supported by Linux >= 5.14 and is
+not enabled by default in QEMU.
 
-Fixes: 722a3c783ef4 ("virtio-pci: Send qapi events when the virtio-mem size changes")
-Suggested-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210929162445.64060-3-david@redhat.com>
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Message-Id: <20210902093530.345756-5-vkuznets@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/virtio/virtio-mem-pci.c | 5 ++++-
- qapi/machine.json          | 5 ++++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ docs/hyperv.txt       | 17 ++++++++++++++---
+ target/i386/cpu.c     |  1 +
+ target/i386/cpu.h     |  1 +
+ target/i386/kvm/kvm.c |  9 +++++++++
+ 4 files changed, 25 insertions(+), 3 deletions(-)
 
-diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
-index 7e384b7397..be2383b0c5 100644
---- a/hw/virtio/virtio-mem-pci.c
-+++ b/hw/virtio/virtio-mem-pci.c
-@@ -87,9 +87,12 @@ static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *data)
-     VirtIOMEMPCI *pci_mem = container_of(notifier, VirtIOMEMPCI,
-                                          size_change_notifier);
-     DeviceState *dev = DEVICE(pci_mem);
-+    char *qom_path = object_get_canonical_path(OBJECT(dev));
-     const uint64_t * const size_p = data;
+diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+index 000638a2fd..072709a68f 100644
+--- a/docs/hyperv.txt
++++ b/docs/hyperv.txt
+@@ -203,8 +203,11 @@ When the option is set to 'on' QEMU will always enable the feature, regardless
+ of host setup. To keep guests secure, this can only be used in conjunction with
+ exposing correct vCPU topology and vCPU pinning.
  
--    qapi_event_send_memory_device_size_change(!!dev->id, dev->id, *size_p);
-+    qapi_event_send_memory_device_size_change(!!dev->id, dev->id, *size_p,
-+                                              qom_path);
-+    g_free(qom_path);
+-4. Development features
+-========================
++4. Supplementary features
++=========================
++
++4.1. hv-passthrough
++===================
+ In some cases (e.g. during development) it may make sense to use QEMU in
+ 'pass-through' mode and give Windows guests all enlightenments currently
+ supported by KVM. This pass-through mode is enabled by "hv-passthrough" CPU
+@@ -215,8 +218,16 @@ values from KVM to QEMU. "hv-passthrough" overrides all other "hv-*" settings on
+ the command line. Also, enabling this flag effectively prevents migration as the
+ list of enabled enlightenments may differ between target and destination hosts.
+ 
++4.2. hv-enforce-cpuid
++=====================
++By default, KVM allows the guest to use all currently supported Hyper-V
++enlightenments when Hyper-V CPUID interface was exposed, regardless of if
++some features were not announced in guest visible CPUIDs. 'hv-enforce-cpuid'
++feature alters this behavior and only allows the guest to use exposed Hyper-V
++enlightenments.
+ 
+-4. Useful links
++
++5. Useful links
+ ================
+ Hyper-V Top Level Functional specification and other information:
+ https://github.com/MicrosoftDocs/Virtualization-Documentation
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 598019de12..2a19eba56d 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6834,6 +6834,7 @@ static Property x86_cpu_properties[] = {
+     DEFINE_PROP_ON_OFF_AUTO("hv-no-nonarch-coresharing", X86CPU,
+                             hyperv_no_nonarch_cs, ON_OFF_AUTO_OFF),
+     DEFINE_PROP_BOOL("hv-passthrough", X86CPU, hyperv_passthrough, false),
++    DEFINE_PROP_BOOL("hv-enforce-cpuid", X86CPU, hyperv_enforce_cpuid, false),
+ 
+     DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
+     DEFINE_PROP_BOOL("enforce", X86CPU, enforce_cpuid, false),
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index c990150373..8a7209bbf2 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1719,6 +1719,7 @@ struct X86CPU {
+     uint32_t hyperv_version_id[4];
+     uint32_t hyperv_limits[3];
+     uint32_t hyperv_nested[4];
++    bool hyperv_enforce_cpuid;
+ 
+     bool check_cpuid;
+     bool enforce_cpuid;
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index d6a70c27e5..fbe6b7ac72 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -1531,6 +1531,15 @@ static int hyperv_init_vcpu(X86CPU *cpu)
+         cpu->hyperv_nested[0] = evmcs_version;
+     }
+ 
++    if (cpu->hyperv_enforce_cpuid) {
++        ret = kvm_vcpu_enable_cap(cs, KVM_CAP_HYPERV_ENFORCE_CPUID, 0, 1);
++        if (ret < 0) {
++            error_report("failed to enable KVM_CAP_HYPERV_ENFORCE_CPUID: %s",
++                         strerror(-ret));
++            return ret;
++        }
++    }
++
+     return 0;
  }
  
- static void virtio_mem_pci_class_init(ObjectClass *klass, void *data)
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 0e91a57a76..5db54df298 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1336,8 +1336,11 @@
- # action).
- #
- # @id: device's ID
-+#
- # @size: the new size of memory that the device provides
- #
-+# @qom-path: path to the device object in the QOM tree (since 6.2)
-+#
- # Note: this event is rate-limited.
- #
- # Since: 5.1
-@@ -1350,7 +1353,7 @@
- #
- ##
- { 'event': 'MEMORY_DEVICE_SIZE_CHANGE',
--  'data': { '*id': 'str', 'size': 'size' } }
-+  'data': { '*id': 'str', 'size': 'size', 'qom-path' : 'str'} }
- 
- 
- ##
 -- 
 2.31.1
 
