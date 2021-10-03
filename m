@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609AE420085
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 09:49:28 +0200 (CEST)
-Received: from localhost ([::1]:34878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B53A6420083
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 09:45:53 +0200 (CEST)
+Received: from localhost ([::1]:54844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWwFT-0003LD-Dx
-	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 03:49:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36676)
+	id 1mWwC0-0005xq-Nz
+	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 03:45:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mWw9C-000395-Fv
+ id 1mWw9C-00039B-Ng
  for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:42:58 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34446)
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:46683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mWw99-0000kC-Fu
+ id 1mWw9A-0000l4-6m
  for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:42:58 -0400
-Received: by mail-ed1-x531.google.com with SMTP id g7so50878211edv.1
+Received: by mail-ed1-x535.google.com with SMTP id z20so466494edc.13
  for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 00:42:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8xHug5FjGPs5JZhes9WoDYRkpuVcomb9e+VGlwSX9NE=;
- b=nsxEFFoTyLjDO3ihdbuCtH81r35P9DK2Z/uD09T3YJTlypVI4CBhJtNLP3l9uLK8sf
- qRWDOSyqXoMIiKT7ZyeKw6WkYDKEqxbbf35qopEavB1PvzP8/azWXYl1olxnII8i0OQQ
- IhUrXyztllreTP+PpR0IwwXSifHT6Zg9WN64FUr3HzfMqMSoqRFQ5vtNKOp1GxvniMXo
- JKubzLjVo4HPPsjJxOBCz/id3OHEw41/66T6i/yNM0RJWkN9XvGvrWJH0SRBO4M4BuRW
- s3JjkDeQElJUNsrwpA6BLUXWIXiAqcxVjSHj/9V3GJQt6EWH63UPDSPGd8TXuD99xF+I
- Sdcw==
+ bh=zDzcsXFs2FnCddJFWE6HMcr+FeF5rfRj7mIGSwEkPOI=;
+ b=N4TbO8yBTBQhgC1fwWOpLumioYnqRspac7JVKY7DDQeiEniC/T7tQyFgr1GkvBaiTf
+ KL6QtRG86SsLmgOQLpc1UgDq2VL9ssmHjoymua2sfj2dTMCrt7tk75z2oNlhy/T66HX0
+ zN0Ok3B2Eliyc6TGUa2zicL1W9Z5ZZEfnJMTOUtTv4EUiQsQTGBR1IvFbFrzRz0mhUXX
+ TU2CN/uFRB69BCRgLQWUNmQRv7LznI3xhSTwrPzxVi7O9k3gVHs0FPu1/sA9PBhguYu6
+ e0dUx+r37ZYXbspMlAtGYKBwJiNO4occq5a+G2/7xT/swxUQVLFjzy/nIdtw2peM8EXn
+ gHJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8xHug5FjGPs5JZhes9WoDYRkpuVcomb9e+VGlwSX9NE=;
- b=OKpvkJce3t7Ybod8DnG9waHLgm03P1JwqlzwyzWqv1RohycKvlMoYN65ofLudhIRhi
- WfaBUvm640qQOkN2CCnux9ah0RLDSmkBH1RHd8OJvXqXwCxIfj83jMdCP2/Vi0GNtnhP
- yJMmc7gEo2KtlwfQssraFXI/WhgPemVPZE5GaL9W7TbqF3cZUDmfqXRsuhWEPk36sjwA
- JXyrcqSCFJhkFO2rVkjgWj2bTLRlgn1kI6HdD1vhOjCDhpqcn3u7VqhWSNAFSAT2FpiF
- oo2jEiD01nXOFJb5GVTyshu4iodbFbMkDccVmKxRmT7l4i8mR/WrkZ7B7bzMs46VFspi
- ha4A==
-X-Gm-Message-State: AOAM532XmV6XKLsmqrw9d/62pAohlEculsZ65SrKO+xAEdUAczd2NLoI
- oqRiEEmFMHFLEUhUcSGaHzUsufIPs9A=
-X-Google-Smtp-Source: ABdhPJwTTScNNOlXLfMm8RaDTrV/81pPbf2I2ORFKk2IBhGc3nBfzbz3UHkqHwGsVxVvccAu1Ec27g==
-X-Received: by 2002:aa7:c988:: with SMTP id c8mr1394261edt.94.1633246974084;
+ bh=zDzcsXFs2FnCddJFWE6HMcr+FeF5rfRj7mIGSwEkPOI=;
+ b=mEdF7LHJI0M7MWHzL0MWYexHkX8LHNxbXjhxHmoruehiAqbb/7/PsDLQUCDKDsBdla
+ iQqJ6HFRNjnfCU+wvH7qgiTDVZ4facaSuiPpI50GoAhe5mt7lMCgwNtoPK7SUdVRIq5H
+ qs35eRKH0irBDkzLVqzWwXROlrx4EKjAK8slmWTj9Cqo/0QNfEFNWyCPYKqHORAI3o4P
+ jIMG7W2mGqOTLYn2M2W2W+7zfcRWEqaZe2Vlu/McdsPtIY/DLYR4VznbbjVmPQyQIt6X
+ O/WBBHojLnVGbOqqiTVPwSynYWIN/BL8RCS0vRklj2ekhqkTQvDZ6W9wM9KjeE+Hbpdr
+ i1Xg==
+X-Gm-Message-State: AOAM532wSLRHtfAmwVJzXcS3pO5ImDle+1Ni2jyy8fCppdpLg2YxsEj8
+ gqFPVVGciTigsLij08SFSgPxpSxad1Y=
+X-Google-Smtp-Source: ABdhPJxwhblVHKhFZKkkeG5PjstxsfPCKnFH85N8sn353uTJahOzVZ9DbAsx8Sc0GPRv61LHZ5lPrg==
+X-Received: by 2002:a17:906:9501:: with SMTP id
+ u1mr8964076ejx.496.1633246974872; 
  Sun, 03 Oct 2021 00:42:54 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n6sm5560856eds.10.2021.10.03.00.42.53
+ by smtp.gmail.com with ESMTPSA id n6sm5560856eds.10.2021.10.03.00.42.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Oct 2021 00:42:53 -0700 (PDT)
+ Sun, 03 Oct 2021 00:42:54 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/30] machine: Deprecate "parameter=0" SMP configurations
-Date: Sun,  3 Oct 2021 09:42:22 +0200
-Message-Id: <20211003074250.60869-3-pbonzini@redhat.com>
+Subject: [PULL 03/30] machine: Minor refactor/fix for the smp parsers
+Date: Sun,  3 Oct 2021 09:42:23 +0200
+Message-Id: <20211003074250.60869-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211003074250.60869-1-pbonzini@redhat.com>
 References: <20211003074250.60869-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,108 +85,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yanan Wang <wangyanan55@huawei.com>, Cornelia Huck <cohuck@redhat.com>,
+Cc: Yanan Wang <wangyanan55@huawei.com>, Andrew Jones <drjones@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yanan Wang <wangyanan55@huawei.com>
 
-In the SMP configuration, we should either provide a topology
-parameter with a reasonable value (greater than zero) or just
-omit it and QEMU will compute the missing value.
+To pave the way for the functional improvement in later patches,
+make some refactor/cleanup for the smp parsers, including using
+local maxcpus instead of ms->smp.max_cpus in the calculation,
+defaulting dies to 0 initially like other members, cleanup the
+sanity check for dies.
 
-The users shouldn't provide a configuration with any parameter
-of it specified as zero (e.g. -smp 8,sockets=0) which could
-possibly cause unexpected results in the -smp parsing. So we
-deprecate this kind of configurations since 6.2 by adding the
-explicit sanity check.
+We actually also fix a hidden defect by avoiding directly using
+the provided *zero value* in the calculation, which could cause
+a segment fault (e.g. using dies=0 in the calculation).
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210929025816.21076-3-wangyanan55@huawei.com>
+Message-Id: <20210929025816.21076-4-wangyanan55@huawei.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/about/deprecated.rst | 15 +++++++++++++++
- hw/core/machine.c         | 14 ++++++++++++++
- qemu-options.hx           | 12 +++++++-----
- 3 files changed, 36 insertions(+), 5 deletions(-)
+ hw/core/machine.c | 18 ++++++++++--------
+ hw/i386/pc.c      | 23 ++++++++++++++---------
+ 2 files changed, 24 insertions(+), 17 deletions(-)
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 2f7db9a98d..0bed6ecb1d 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -160,6 +160,21 @@ Use ``-display sdl`` instead.
- 
- Use ``-display curses`` instead.
- 
-+``-smp`` ("parameter=0" SMP configurations) (since 6.2)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Specified CPU topology parameters must be greater than zero.
-+
-+In the SMP configuration, users should either provide a CPU topology
-+parameter with a reasonable value (greater than zero) or just omit it
-+and QEMU will compute the missing value.
-+
-+However, historically it was implicitly allowed for users to provide
-+a parameter with zero value, which is meaningless and could also possibly
-+cause unexpected results in the -smp parsing. So support for this kind of
-+configurations (e.g. -smp 8,sockets=0) is deprecated since 6.2 and will
-+be removed in the near future, users have to ensure that all the topology
-+members described with -smp are greater than zero.
- 
- Plugin argument passing through ``arg=<string>`` (since 6.1)
- ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 067f42b528..4e409261c9 100644
+index 4e409261c9..8e719e2932 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -835,6 +835,20 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+@@ -752,8 +752,9 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+     unsigned sockets = config->has_sockets ? config->sockets : 0;
+     unsigned cores   = config->has_cores ? config->cores : 0;
+     unsigned threads = config->has_threads ? config->threads : 0;
++    unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
+ 
+-    if (config->has_dies && config->dies != 0 && config->dies != 1) {
++    if (config->has_dies && config->dies > 1) {
+         error_setg(errp, "dies not supported by this machine's CPU topology");
+         return;
+     }
+@@ -766,8 +767,8 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+             sockets = sockets > 0 ? sockets : 1;
+             cpus = cores * threads * sockets;
+         } else {
+-            ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
+-            sockets = ms->smp.max_cpus / (cores * threads);
++            maxcpus = maxcpus > 0 ? maxcpus : cpus;
++            sockets = maxcpus / (cores * threads);
+         }
+     } else if (cores == 0) {
+         threads = threads > 0 ? threads : 1;
+@@ -784,26 +785,27 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
          return;
      }
  
-+    /*
-+     * Specified CPU topology parameters must be greater than zero,
-+     * explicit configuration like "cpus=0" is not allowed.
-+     */
-+    if ((config->has_cpus && config->cpus == 0) ||
-+        (config->has_sockets && config->sockets == 0) ||
-+        (config->has_dies && config->dies == 0) ||
-+        (config->has_cores && config->cores == 0) ||
-+        (config->has_threads && config->threads == 0) ||
-+        (config->has_maxcpus && config->maxcpus == 0)) {
-+        warn_report("Deprecated CPU topology (considered invalid): "
-+                    "CPU topology parameters must be greater than zero");
-+    }
+-    ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
++    maxcpus = maxcpus > 0 ? maxcpus : cpus;
+ 
+-    if (ms->smp.max_cpus < cpus) {
++    if (maxcpus < cpus) {
+         error_setg(errp, "maxcpus must be equal to or greater than smp");
+         return;
+     }
+ 
+-    if (sockets * cores * threads != ms->smp.max_cpus) {
++    if (sockets * cores * threads != maxcpus) {
+         error_setg(errp, "Invalid CPU topology: "
+                    "sockets (%u) * cores (%u) * threads (%u) "
+                    "!= maxcpus (%u)",
+                    sockets, cores, threads,
+-                   ms->smp.max_cpus);
++                   maxcpus);
+         return;
+     }
+ 
+     ms->smp.cpus = cpus;
++    ms->smp.sockets = sockets;
+     ms->smp.cores = cores;
+     ms->smp.threads = threads;
+-    ms->smp.sockets = sockets;
++    ms->smp.max_cpus = maxcpus;
+ }
+ 
+ static void machine_get_smp(Object *obj, Visitor *v, const char *name,
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index df457eceba..92c78d9933 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -718,9 +718,13 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
+ {
+     unsigned cpus    = config->has_cpus ? config->cpus : 0;
+     unsigned sockets = config->has_sockets ? config->sockets : 0;
+-    unsigned dies    = config->has_dies ? config->dies : 1;
++    unsigned dies    = config->has_dies ? config->dies : 0;
+     unsigned cores   = config->has_cores ? config->cores : 0;
+     unsigned threads = config->has_threads ? config->threads : 0;
++    unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
 +
-     mc->smp_parse(ms, config, errp);
-     if (*errp) {
-         goto out_free;
-diff --git a/qemu-options.hx b/qemu-options.hx
-index ceca52818a..4a092a092a 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -233,11 +233,13 @@ SRST
-     of computing the CPU maximum count.
++    /* directly default dies to 1 if it's omitted */
++    dies = dies > 0 ? dies : 1;
  
-     Either the initial CPU count, or at least one of the topology parameters
--    must be specified. Values for any omitted parameters will be computed
--    from those which are given. Historically preference was given to the
--    coarsest topology parameters when computing missing values (ie sockets
--    preferred over cores, which were preferred over threads), however, this
--    behaviour is considered liable to change.
-+    must be specified. The specified parameters must be greater than zero,
-+    explicit configuration like "cpus=0" is not allowed. Values for any
-+    omitted parameters will be computed from those which are given.
-+    Historically preference was given to the coarsest topology parameters
-+    when computing missing values (ie sockets preferred over cores, which
-+    were preferred over threads), however, this behaviour is considered
-+    liable to change.
- ERST
+     /* compute missing values, prefer sockets over cores over threads */
+     if (cpus == 0 || sockets == 0) {
+@@ -730,8 +734,8 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
+             sockets = sockets > 0 ? sockets : 1;
+             cpus = cores * threads * dies * sockets;
+         } else {
+-            ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
+-            sockets = ms->smp.max_cpus / (cores * threads * dies);
++            maxcpus = maxcpus > 0 ? maxcpus : cpus;
++            sockets = maxcpus / (dies * cores * threads);
+         }
+     } else if (cores == 0) {
+         threads = threads > 0 ? threads : 1;
+@@ -748,27 +752,28 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
+         return;
+     }
  
- DEF("numa", HAS_ARG, QEMU_OPTION_numa,
+-    ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
++    maxcpus = maxcpus > 0 ? maxcpus : cpus;
+ 
+-    if (ms->smp.max_cpus < cpus) {
++    if (maxcpus < cpus) {
+         error_setg(errp, "maxcpus must be equal to or greater than smp");
+         return;
+     }
+ 
+-    if (sockets * dies * cores * threads != ms->smp.max_cpus) {
++    if (sockets * dies * cores * threads != maxcpus) {
+         error_setg(errp, "Invalid CPU topology deprecated: "
+                    "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
+                    "!= maxcpus (%u)",
+                    sockets, dies, cores, threads,
+-                   ms->smp.max_cpus);
++                   maxcpus);
+         return;
+     }
+ 
+     ms->smp.cpus = cpus;
+-    ms->smp.cores = cores;
+-    ms->smp.threads = threads;
+     ms->smp.sockets = sockets;
+     ms->smp.dies = dies;
++    ms->smp.cores = cores;
++    ms->smp.threads = threads;
++    ms->smp.max_cpus = maxcpus;
+ }
+ 
+ static
 -- 
 2.31.1
 
