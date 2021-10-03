@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C06B4200B2
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 10:14:32 +0200 (CEST)
-Received: from localhost ([::1]:37922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C76154200A3
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 10:03:21 +0200 (CEST)
+Received: from localhost ([::1]:43784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWwdj-000296-Dy
-	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 04:14:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36938)
+	id 1mWwSu-0003MI-Oe
+	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 04:03:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mWw9R-00041y-9z; Sun, 03 Oct 2021 03:43:13 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:37833)
+ id 1mWw9S-00046N-7j
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:14 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:44567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mWw9P-0000yK-PP; Sun, 03 Oct 2021 03:43:12 -0400
-Received: by mail-ed1-x532.google.com with SMTP id ba1so51824131edb.4;
- Sun, 03 Oct 2021 00:43:10 -0700 (PDT)
+ id 1mWw9Q-00010B-L9
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:13 -0400
+Received: by mail-ed1-x532.google.com with SMTP id v18so50892741edc.11
+ for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 00:43:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BgpdyLnyiPwHCME2fmRt2m1yxap5kM3KZz3BIBf/qMo=;
- b=ocxpYwH1lxNTij3aQwGMpgMXBMS+Y6N0bbdd6GJ4Ot5HM/Gjg6+NDU7TtQynLCKjCo
- uO8pQNjNNX0mNCBrzLpxGDrJywpUKAB3TTrjDWVz+2cSwNG8kOiOc+btkEJfCj2PKkaI
- MlrjWreKRRa8WT0GGWKdiApS1K+rkTbgCR10cH7yl/VvLZLFSd1yVY1MUCRuYBDGL/Bx
- DdRy1vxxdwVqPq/EI+8WAwblHVOSZ7+Zmx+Mp+id/t1I+OuWe/49Hhb8dcKKJs1JLRhg
- D/enadQPREa66FUmRBjlHeR58er4tqdjnd3081QxM92D9YL1p7zAX50iwe8M+JYms7OT
- ajHA==
+ bh=svEcy2fQeXi6q4rkfuuA5NEXM1FDvAAdImtJmYURyR8=;
+ b=ihIyc8o4PAX2E4Wv3Alah3VQt/bXnrSlA9jO7yo3ayhfNFN4gmxURiWIgzUahjILbX
+ ytVjP03xyKCFQ/dwTsEvxKdVcgLg/NlDFrRrYYHdXa1RGthizCoJ2yqrrrlCg4mgl7Q5
+ gnhpmuTbtcS0SHo0ctLDy8c/Ff2oXyxQ1rShy3wGcq6EUsMaRw/Y1yW6+8YJUNd/V6TZ
+ gcUouuWDC4gTWIYQhKZEsxRuRaM+EVJR3zOmekVGieJWVjl56BqSRsSrOb+nSAlJ4OZh
+ xDIodtQ61Q2ujNJvu32IrdS+LUvUwF4RIVh75OChYhKikZYYkd3vPgRKhdq4qT2M+8t3
+ LCLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BgpdyLnyiPwHCME2fmRt2m1yxap5kM3KZz3BIBf/qMo=;
- b=Q9LifEGajoE73de+GqNL7spLHJy7W4zwXgT/6abzgAJwdtbsNXvB5oJIdylI83wQDo
- WPrJo0CWzJwrxDQgosQjnkhKEoUEoxCasIw66hEJqPFOg6Q6r1efACQClpEIn1PGL2YS
- nkjZ7L3W/WHZ8jiYcURpSQlQ0etVgtwOxdrZcUCwaLuPvHQcJ0wPmyqYyoMzZgRTZeul
- XL3zgyWoB1wAtWo170jKSi0E5YjrqJKy0crolmx2zftwZkRTzzF8cfzcoXT+QXZnmnr1
- VVqGsPA38ItFezKpHMhSstu8tM5OgsOtE1krwdjg9O9Nj4gxHhhMvIvXihY9UBoNCxR8
- tAyg==
-X-Gm-Message-State: AOAM530pCFbHx4F/YRUS+syLqDWBnRJUqI1r+rmFkGKKbvj930jiaX55
- j7I0NfPQPIT1XLC5CbbXeeSv9r8vGVs=
-X-Google-Smtp-Source: ABdhPJxl8QQGHSGdtFiUUmQkNb8bCwfAUCeZBxt9kRoObQHKMFHR2l6Im6KuhYtlTHdW377xuFIMGA==
-X-Received: by 2002:a17:906:ce2c:: with SMTP id
- sd12mr8961198ejb.488.1633246989920; 
- Sun, 03 Oct 2021 00:43:09 -0700 (PDT)
+ bh=svEcy2fQeXi6q4rkfuuA5NEXM1FDvAAdImtJmYURyR8=;
+ b=N3GZr/B7ObLrhclJOHYcVlSgbMYW2l+H4DNUXw0DeKShyOeM6XG8YW61loj44IeOEi
+ kHrl+rVng7TVyWHb+T39niCKLj0XcfBEhD7mmL1+FOvZmvuR7huip/nJ1HLFsZHqmaxY
+ 1V9p06JPG3rGHMjQwizWyEecZ6bxqm30A9xhCcNIU6q82JMEKFoYTlcy8MGeCWyU6IsR
+ DlnbRbBd9PWSkerEkwM1pfwKTjtIVrdPpNwapNxykosvV/8GMuTIO8/QSGj6BeqKjxcb
+ SduyB0lgyiCrcIivA9oAyAL3A98iag9Uk5ed4b0abaY5yVsQATGB8IgVl6ArrVz7Bkay
+ 81bw==
+X-Gm-Message-State: AOAM531dG7lYZiEwjluGRqnqQd0zgNQbW2LMCjHIBb5nhJW5JT87Bj5M
+ Zw0dlSQimPUUommYj7jo9dvHa+qqylo=
+X-Google-Smtp-Source: ABdhPJwrRZFreOA799SzNtq23mDfDoB1C7IYFL7PfalSUdfOknUyTdQDfdN2ylbkP19vEP/deTaHFw==
+X-Received: by 2002:a17:906:848b:: with SMTP id
+ m11mr9126096ejx.270.1633246991351; 
+ Sun, 03 Oct 2021 00:43:11 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n6sm5560856eds.10.2021.10.03.00.43.09
+ by smtp.gmail.com with ESMTPSA id n6sm5560856eds.10.2021.10.03.00.43.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Oct 2021 00:43:09 -0700 (PDT)
+ Sun, 03 Oct 2021 00:43:11 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/30] virtio-mem-pci: Fix memory leak when creating
- MEMORY_DEVICE_SIZE_CHANGE event
-Date: Sun,  3 Oct 2021 09:42:44 +0200
-Message-Id: <20211003074250.60869-25-pbonzini@redhat.com>
+Subject: [PULL 26/30] monitor: Rate-limit MEMORY_DEVICE_SIZE_CHANGE qapi
+ events per device
+Date: Sun,  3 Oct 2021 09:42:46 +0200
+Message-Id: <20211003074250.60869-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211003074250.60869-1-pbonzini@redhat.com>
 References: <20211003074250.60869-1-pbonzini@redhat.com>
@@ -83,44 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-stable@nongnu.org,
- David Hildenbrand <david@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Apparently, we don't have to duplicate the string.
+We want to rate-limit MEMORY_DEVICE_SIZE_CHANGE events per device,
+otherwise we can lose some events for devices. We can now use the
+qom-path to reliably map an event to a device and make rate-limiting
+device-aware.
+
+This was noticed by starting a VM with two virtio-mem devices that each
+have a requested size > 0. The Linux guest will initialize both devices
+in parallel, resulting in losing MEMORY_DEVICE_SIZE_CHANGE events for
+one of the devices.
 
 Fixes: 722a3c783ef4 ("virtio-pci: Send qapi events when the virtio-mem size changes")
-Cc: qemu-stable@nongnu.org
-Signed-off-by: David Hildenbrand <david@redhat.com>
+Suggested-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20210929162445.64060-2-david@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20210929162445.64060-4-david@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/virtio/virtio-mem-pci.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ monitor/monitor.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
-index fa5395cd88..7e384b7397 100644
---- a/hw/virtio/virtio-mem-pci.c
-+++ b/hw/virtio/virtio-mem-pci.c
-@@ -88,13 +88,8 @@ static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *data)
-                                          size_change_notifier);
-     DeviceState *dev = DEVICE(pci_mem);
-     const uint64_t * const size_p = data;
--    const char *id = NULL;
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index 46a171bca6..21c7a68758 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -474,6 +474,10 @@ static unsigned int qapi_event_throttle_hash(const void *key)
+         hash += g_str_hash(qdict_get_str(evstate->data, "node-name"));
+     }
  
--    if (dev->id) {
--        id = g_strdup(dev->id);
--    }
--
--    qapi_event_send_memory_device_size_change(!!id, id, *size_p);
-+    qapi_event_send_memory_device_size_change(!!dev->id, dev->id, *size_p);
++    if (evstate->event == QAPI_EVENT_MEMORY_DEVICE_SIZE_CHANGE) {
++        hash += g_str_hash(qdict_get_str(evstate->data, "qom-path"));
++    }
++
+     return hash;
  }
  
- static void virtio_mem_pci_class_init(ObjectClass *klass, void *data)
+@@ -496,6 +500,11 @@ static gboolean qapi_event_throttle_equal(const void *a, const void *b)
+                        qdict_get_str(evb->data, "node-name"));
+     }
+ 
++    if (eva->event == QAPI_EVENT_MEMORY_DEVICE_SIZE_CHANGE) {
++        return !strcmp(qdict_get_str(eva->data, "qom-path"),
++                       qdict_get_str(evb->data, "qom-path"));
++    }
++
+     return TRUE;
+ }
+ 
 -- 
 2.31.1
 
