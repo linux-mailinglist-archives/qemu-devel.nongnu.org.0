@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358B1420087
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 09:49:36 +0200 (CEST)
-Received: from localhost ([::1]:35098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 175B0420088
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 09:51:04 +0200 (CEST)
+Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mWwFb-0003U2-8M
-	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 03:49:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36710)
+	id 1mWwH1-0005Ap-4E
+	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 03:51:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mWw9D-0003Bj-Ux
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:42:59 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:39878)
+ id 1mWw9E-0003Du-Hs
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:00 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:36731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mWw9C-0000n9-CN
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:42:59 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id x7so50488374edd.6
- for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 00:42:57 -0700 (PDT)
+ id 1mWw9D-0000nq-4P
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 03:43:00 -0400
+Received: by mail-ed1-x536.google.com with SMTP id l7so28172044edq.3
+ for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 00:42:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yqw/945/MMuiqJfE7USyGnzWaaT3DCE0yzcYLl8IjNI=;
- b=LrpJNFbO/D7P3/sXQ/2dfENmCKnlkytzD96FFFyNpmeyodzhfaA9kljUQHtdyTWxvH
- mfH85JDfBKqkcsKxm1I50Pjzt2i1Y+oHn3gV5WoMWz/UojTHIu97dYYwGvJ9soomuBu+
- aH7JmJL7PGMwUl4O5fqpiWlc8R1oKhMXcaV6yn+8qtxBt1gMM8KXxNUhK+dfG5aO7a/H
- hdXzOmFRHetByKi7wDh7glVinoNlJad1lkzZ0pL6qqZBP9HMyXwV4MX53QiojZYINjoe
- XNZtjsMDB+7lTUG3/ra4jtq4z1Q5GplLufTyPcQl+awEHXAQn4MHVuxE8+YrH/MFeZsb
- hrIg==
+ bh=FWjVtE1T0s2M/PhRXdlUzw1YZjKSI7qerdNFlVrMk9c=;
+ b=QIKAUVqzhvP/1EiWHZhaNMAde2GBescSgYQSmUX35jhV5VhB/k9t/ElEgnaQGCtK3A
+ 2VKcYjbMR4pU9LVkAt75+Cjf2inYwDDrEEc/TztCWbJ0j90k4skpa/KA4gXa7oMjFJ6j
+ HVBwnotYNTMbzioYohCac7L3Yq3Iau0vn/iYLrLKBKeHLGdVl04EkRZ1h50p7WJsl+mt
+ /uqVI3q3b+Ku2DqVOMLmviQaKPM5U8rixyCcN8HNkr1bHyg4qCdSOKaYos5JuzDEHEwy
+ U2QFp592dPbXk3ydCeeHhINuxn07JOwCLKgUnULRVdU6/bBEw4GF1GJKWsp/XeM9A9y/
+ /uJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yqw/945/MMuiqJfE7USyGnzWaaT3DCE0yzcYLl8IjNI=;
- b=IgIc7gP0C5Dwh3CsrS5ruUr+8/bIvDwpakz8xbjqmayVJFdrM9EtsIXCUzBO9BTDsC
- 5SX4pZHBr+GZeLiziOpzJTPUxg02GTImw0XY/TGe0cwxMmlStoU912rfVF0eko91TgDO
- H0SOTQV9Vqt5IdLysF5Sgz7gwk0IozbBpSrl9mk8lvWxHUmCHeKF1pAnD25mo8a0nAw+
- FVPwgGLkdgvecWRhV5wKKXagnec3IBAQCRXzdz0K1zP53UE5MIZ6Cf23HU0t4jWdY2zT
- /fNnVL+dl0AwCAmqMV537USaMeDia/jd6owKKR2KRhpLEWbEAZ2WZimhlfwtjKW+R6c9
- 9u9Q==
-X-Gm-Message-State: AOAM533WwffM9RNo48Ux9bLpZ1VBTOoh7Oqrg6c8yiJZJc05YEFc1vR9
- /E0uWljro9S0CPsvHlqtJ5Cuq5STt/Y=
-X-Google-Smtp-Source: ABdhPJwZwqgxyMJ+k52ae2XE0La2RFYoC5m+C2pHjYswTwQRiBk6Vfz+vEwu8fbk5XyALUplga9Dkg==
-X-Received: by 2002:a05:6402:50cc:: with SMTP id
- h12mr9704254edb.112.1633246977077; 
+ bh=FWjVtE1T0s2M/PhRXdlUzw1YZjKSI7qerdNFlVrMk9c=;
+ b=rAlvpEEqvdEuzC4Q4q2IYoERywnzrOOpBi9bGw5J24NO94UMc9tjOYaRG9NHvrZc/r
+ OdlxpbH6xMipYnjWjPN1G3oYPbMCDwQTqXuIiROQqGnocMztP57hXIvmHjMNiw4ZUwaO
+ SQah7QVLxMGo9HNQfuj50SvDKjmsu6ppQOre2qK03rwOGBzbijzQQ0wKBwOPGV9Vq9NU
+ GHIlGiU2G982URXo4dkgyISK463IUXz630DAVOj76IEzLQ1d7xetF+/IAHv2pfg1abDw
+ O1EaRyZKvAMdwa9WwPI3HaJ2zFNn/I8q/gbCwnhOb/wEX8J1BJbO32BWty/XW0nA8Mk1
+ xUGQ==
+X-Gm-Message-State: AOAM531xtR3/WXDam2If6Mggi/Alzz7geGAimk2wgewLS/UCuyGKbnbo
+ kVY4CUxrKX13+Sy7l03kL06fdU3iBDU=
+X-Google-Smtp-Source: ABdhPJwsB6HQpCEkAl5mTOY6aRsm/brDO2sauYJ3rPU1AITEHe9GKvQjnu6Ov3FWgfHD7/CMSsMYHg==
+X-Received: by 2002:a05:6402:5252:: with SMTP id
+ t18mr9329144edd.13.1633246977804; 
  Sun, 03 Oct 2021 00:42:57 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n6sm5560856eds.10.2021.10.03.00.42.56
+ by smtp.gmail.com with ESMTPSA id n6sm5560856eds.10.2021.10.03.00.42.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Oct 2021 00:42:56 -0700 (PDT)
+ Sun, 03 Oct 2021 00:42:57 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/30] machine: Improve the error reporting of smp parsing
-Date: Sun,  3 Oct 2021 09:42:26 +0200
-Message-Id: <20211003074250.60869-7-pbonzini@redhat.com>
+Subject: [PULL 07/30] qtest/numa-test: Use detailed -smp CLIs in
+ pc_dynamic_cpu_cfg
+Date: Sun,  3 Oct 2021 09:42:27 +0200
+Message-Id: <20211003074250.60869-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211003074250.60869-1-pbonzini@redhat.com>
 References: <20211003074250.60869-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,115 +89,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Yanan Wang <wangyanan55@huawei.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Andrew Jones <drjones@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Pankaj Gupta <pankaj.gupta@ionos.com>
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yanan Wang <wangyanan55@huawei.com>
 
-We have two requirements for a valid SMP configuration:
-the product of "sockets * cores * threads" must represent all the
-possible cpus, i.e., max_cpus, and then must include the initially
-present cpus, i.e., smp_cpus.
+Since commit 80d7835749 (qemu-options: rewrite help for -smp options),
+the preference of sockets/cores in -smp parsing is considered liable
+to change, and actually we are going to change it in a coming commit.
+So it'll be more stable to use detailed -smp CLIs in testing if we
+have strong dependency on the parsing results.
 
-So we only need to ensure 1) "sockets * cores * threads == maxcpus"
-at first and then ensure 2) "maxcpus >= cpus". With a reasonable
-order of the sanity check, we can simplify the error reporting code.
-When reporting an error message we also report the exact value of
-each topology member to make users easily see what's going on.
+pc_dynamic_cpu_cfg currently assumes/needs that there will be 2 CPU
+sockets with "-smp 2". To avoid breaking the test because of parsing
+logic change, now explicitly use "-smp 2,sockets=2".
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210929025816.21076-7-wangyanan55@huawei.com>
+Message-Id: <20210929025816.21076-8-wangyanan55@huawei.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine.c | 22 +++++++++-------------
- hw/i386/pc.c      | 24 ++++++++++--------------
- 2 files changed, 19 insertions(+), 27 deletions(-)
+ tests/qtest/numa-test.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index d8f458db60..e38ab760e6 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -782,25 +782,21 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     maxcpus = maxcpus > 0 ? maxcpus : sockets * cores * threads;
-     cpus = cpus > 0 ? cpus : maxcpus;
+diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
+index c677cd63c4..fd7a2e80a0 100644
+--- a/tests/qtest/numa-test.c
++++ b/tests/qtest/numa-test.c
+@@ -265,7 +265,8 @@ static void pc_dynamic_cpu_cfg(const void *data)
+     QTestState *qs;
+     g_autofree char *cli = NULL;
  
--    if (sockets * cores * threads < cpus) {
--        error_setg(errp, "cpu topology: "
--                   "sockets (%u) * cores (%u) * threads (%u) < "
--                   "smp_cpus (%u)",
--                   sockets, cores, threads, cpus);
-+    if (sockets * cores * threads != maxcpus) {
-+        error_setg(errp, "Invalid CPU topology: "
-+                   "product of the hierarchy must match maxcpus: "
-+                   "sockets (%u) * cores (%u) * threads (%u) "
-+                   "!= maxcpus (%u)",
-+                   sockets, cores, threads, maxcpus);
-         return;
-     }
+-    cli = make_cli(data, "-nodefaults --preconfig -machine smp.cpus=2");
++    cli = make_cli(data, "-nodefaults --preconfig "
++                         "-machine smp.cpus=2,smp.sockets=2");
+     qs = qtest_init(cli);
  
-     if (maxcpus < cpus) {
--        error_setg(errp, "maxcpus must be equal to or greater than smp");
--        return;
--    }
--
--    if (sockets * cores * threads != maxcpus) {
-         error_setg(errp, "Invalid CPU topology: "
-+                   "maxcpus must be equal to or greater than smp: "
-                    "sockets (%u) * cores (%u) * threads (%u) "
--                   "!= maxcpus (%u)",
--                   sockets, cores, threads,
--                   maxcpus);
-+                   "== maxcpus (%u) < smp_cpus (%u)",
-+                   sockets, cores, threads, maxcpus, cpus);
-         return;
-     }
- 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index f24a1d72ad..9216ad163d 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -749,25 +749,21 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
-     maxcpus = maxcpus > 0 ? maxcpus : sockets * dies * cores * threads;
-     cpus = cpus > 0 ? cpus : maxcpus;
- 
--    if (sockets * dies * cores * threads < cpus) {
--        error_setg(errp, "cpu topology: "
--                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
--                   "smp_cpus (%u)",
--                   sockets, dies, cores, threads, cpus);
-+    if (sockets * dies * cores * threads != maxcpus) {
-+        error_setg(errp, "Invalid CPU topology: "
-+                   "product of the hierarchy must match maxcpus: "
-+                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
-+                   "!= maxcpus (%u)",
-+                   sockets, dies, cores, threads, maxcpus);
-         return;
-     }
- 
-     if (maxcpus < cpus) {
--        error_setg(errp, "maxcpus must be equal to or greater than smp");
--        return;
--    }
--
--    if (sockets * dies * cores * threads != maxcpus) {
--        error_setg(errp, "Invalid CPU topology deprecated: "
-+        error_setg(errp, "Invalid CPU topology: "
-+                   "maxcpus must be equal to or greater than smp: "
-                    "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
--                   "!= maxcpus (%u)",
--                   sockets, dies, cores, threads,
--                   maxcpus);
-+                   "== maxcpus (%u) < smp_cpus (%u)",
-+                   sockets, dies, cores, threads, maxcpus, cpus);
-         return;
-     }
- 
+     /* create 2 numa nodes */
 -- 
 2.31.1
 
