@@ -2,90 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1411F4203E5
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 22:21:48 +0200 (CEST)
-Received: from localhost ([::1]:48782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F74F4203E6
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Oct 2021 22:28:40 +0200 (CEST)
+Received: from localhost ([::1]:51350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mX7zW-000267-M7
-	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 16:21:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46816)
+	id 1mX86B-0004Mr-B0
+	for lists+qemu-devel@lfdr.de; Sun, 03 Oct 2021 16:28:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mX7y5-00013G-KQ
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 16:20:18 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:37421)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mX84u-0003hE-3p
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 16:27:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mX7y3-00017l-In
- for qemu-devel@nongnu.org; Sun, 03 Oct 2021 16:20:16 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 61CF95C0125;
- Sun,  3 Oct 2021 16:20:12 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Sun, 03 Oct 2021 16:20:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=u
- 2bxOz2svgK/AFHl5pt/vSJs4zUaOruoMWi0Pvqh0W0=; b=EoU9dN0wGwPrShi08
- VidflLQCWTKHo7iXBwv1v/5GLSnja1ibbJNAHgZFrV5v45yszpbMdmJeGQmupfaE
- Eny7dOmKzlS8v6l3VYB/J04cs87boM3V7dIYfMKwlUQeT9ppaHkn48zPQBUugh7r
- cxLE+NI9n++bZ7NEzZ4ztkRHzzNPFtRJu3xK2Or+4G61+eE41inKMtDZUvqR3a+w
- d/2XGepHF+i7golHSFKP4cEI/yVLLU8tL5In4CYE/IWqwlEhLpWWX3ShPR2nSsGs
- W/inQdo7RpwOoMzpwFR4GE9Jd4AHSmfmoEUhFTChIii1ZyfcdrqzBQZ2pqb/i1CI
- 6drMw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=u2bxOz2svgK/AFHl5pt/vSJs4zUaOruoMWi0Pvqh0
- W0=; b=S1X3w5c3hfpX1B+6Yx/b9RUr+vf6fvxaYdEu/PFH30qucgoWXKazVYCLM
- hkpJfqsqYLXCqBA0grAKxe3WphbGjBXbpS49srn49QTPSrtSYMWnRRICvUWnO/si
- p96HgC5XJoJ8t3YNV4MsgQvHqmuBKK2Gs+8x4PgeRRt8dDoAcle350wB/XHPGEQJ
- SctKG23kgaDvY2BTXiOUsbW7gYCRzB5D4nOO2CAsdZxbsfsQ8ViauD5CVFQ5BoS+
- dSxHOpVCKEu49zVE8ZanO42IlwWXPGx+L1N3e9hagSKpT0gi/38pSK/PBI9XHqkZ
- Br8ZJ0gec/aypQeAP+IY5xcNY5hOQ==
-X-ME-Sender: <xms:fBBaYSCcN4htRey6eH8Gg8Tx2TAJMMwFBLThmw75sJck7lKFHNgGnw>
- <xme:fBBaYchVaOv8jGP-Mit_CwUYxucSMDLi6U8IppuS71Il7De96FIqfdWW7OI_wg_iI
- BSZxqFKWcd_j5D4N7E>
-X-ME-Received: <xmr:fBBaYVmOPnQaUJ-buOhiN5aIg7RksRm-E9h-VQwWJE5go1cOA_0k12iGKyKtbms>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeltddgudegiecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepkfffgggfuffvfhfhjggtgfesth
- ekredttdefjeenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigr
- nhhgsehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpeehieduvdevhfekje
- eftddtkeeitefhudekvdeiueeulefgleeijeeghedvkeduleenucevlhhushhtvghrufhi
- iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflh
- ihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:fBBaYQz-dV8iWTAfSUhbJ_yRbx2blvZ4eEqglYxRdB8-VGLsguFIJQ>
- <xmx:fBBaYXS3z37Dm51j9OCfAI9NrouLnJysU6iS9MVJUhGZj6TpsLfPAw>
- <xmx:fBBaYbbwGdXzsCK2ifMlY_jU_aUkpDk93U4NmhnBo_S9Ki2xgN08rQ>
- <xmx:fBBaYSe_RqgRw0Pk3gwaf5fNWUMjrML3CUOO5pHHI7BlfBBIWCeGbA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 3 Oct 2021 16:20:11 -0400 (EDT)
-Message-ID: <b6b86f6f-b707-05e8-2bae-e09b98324d79@flygoat.com>
-Date: Sun, 3 Oct 2021 21:20:03 +0100
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mX84p-0007H0-Dn
+ for qemu-devel@nongnu.org; Sun, 03 Oct 2021 16:27:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633292832;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OvaB66/4WeE1yRlI3V8sHGXySU73cYChRyFwjaOiV2A=;
+ b=cFhSwCl4p28ZM+CHSGpFof3AblzGNR5zOzadxDX2IDbnKZySq4ErVF3Np+XSCy/m4tIRdx
+ qSK++EzusskoYb8mT87wlJyYvvq3KBK7t3bJOW3IDctJWWalCJlRGAS+vHTqPSrc7hMayF
+ i00RhhCUGkeIuc0SY9Rssy4sRyJOQZo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-uk29Tm3nP0igrnT7qy3nzA-1; Sun, 03 Oct 2021 16:27:08 -0400
+X-MC-Unique: uk29Tm3nP0igrnT7qy3nzA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ 1-20020a508741000000b003da559ba1eeso15175601edv.13
+ for <qemu-devel@nongnu.org>; Sun, 03 Oct 2021 13:27:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OvaB66/4WeE1yRlI3V8sHGXySU73cYChRyFwjaOiV2A=;
+ b=J9Jrlu0GpmQa2EpvrEhBY8OXya9QpjltHoGo5cl35YOqd3WtgIxZsTGs76zxRl7+xt
+ 0ooc3SgkTmS1krvJcgjZNsQGryXRxD+qK+VKJIG94/KVslIXsGA6ms7bssXWacItol9T
+ hUyoBfQdWK6aMOEVAYOeTs9iBy/sgLSccMuTXcMCkXy5MAVewM6e9eKHEZcQrLbB/5l8
+ Peamc2DZ6Xx7bK9BI8DccGv8jCTGTDQWaDf2GJ6GzBhScjYAhT95Z1QZWCGYzUq0/q4l
+ apB/IUBzt/ziJ8vtWm4E/+3obYOmD16zefO/UyMX5XyyHxoLBxMm9kGmOWrIc/sHu/42
+ 9ntA==
+X-Gm-Message-State: AOAM531FJziXOSPMg8sABqC7Nt3WTsR7k6/PKrPk8QUf/yQcFjMoa/MY
+ SU80OEj/xikh4DEcE6/YOCZ82pybGtFcCnjyQ7WAoxV3R8F/CA5LBBAfYJC3IgqNSXiHSJAm5o7
+ 9dyB/kUurdqvJwVk=
+X-Received: by 2002:a17:906:848b:: with SMTP id
+ m11mr12848234ejx.270.1633292827356; 
+ Sun, 03 Oct 2021 13:27:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzUFYAjyjnHwE8x4fpRr4BLFqIjyvA8itpTw8toMXzSWSyyD7fPNk/aKhQGVR/0iD7+Ofzm1Q==
+X-Received: by 2002:a17:906:848b:: with SMTP id
+ m11mr12848207ejx.270.1633292827034; 
+ Sun, 03 Oct 2021 13:27:07 -0700 (PDT)
+Received: from redhat.com ([2.55.134.94])
+ by smtp.gmail.com with ESMTPSA id nd22sm5619196ejc.98.2021.10.03.13.27.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 03 Oct 2021 13:27:06 -0700 (PDT)
+Date: Sun, 3 Oct 2021 16:27:03 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: virtio 4M limit
+Message-ID: <20211003162341-mutt-send-email-mst@kernel.org>
+References: <2311207.AWRhmksWK6@silver>
+ <9125826.uuVAOS58fx@silver>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: [PATCH v3 3/3] hw/mips/boston: Add FDT generator
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20211002184539.169-1-jiaxun.yang@flygoat.com>
- <20211002184539.169-4-jiaxun.yang@flygoat.com>
- <7e001a0a-c7e4-ac60-d9b7-bfc018a9f9fe@amsat.org>
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <7e001a0a-c7e4-ac60-d9b7-bfc018a9f9fe@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=jiaxun.yang@flygoat.com;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <9125826.uuVAOS58fx@silver>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,69 +94,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@syrmia.com, paulburton@kernel.org
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, Oct 03, 2021 at 08:14:55PM +0200, Christian Schoenebeck wrote:
+> On Freitag, 1. Oktober 2021 13:21:23 CEST Christian Schoenebeck wrote:
+> > Hi Michael,
+> > 
+> > while testing the following kernel patches I realized there is currently a
+> > size limitation of 4 MB with virtio on QEMU side:
+> > https://lore.kernel.org/netdev/cover.1632327421.git.linux_oss@crudebyte.com/
+> > 
+> > So with those kernel patches applied I can mount 9pfs on Linux guest with
+> > the 9p 'msize' (maximum message size) option with a value of up to 4186112
+> > successfully. If I try to go higher with 'msize' then the system would hang
+> > with the following QEMU error:
+> > 
+> >   qemu-system-x86_64: virtio: too many write descriptors in indirect table
+> > 
+> > Which apparently is due to the amount of scatter gather lists on QEMU virtio
+> > side currently being hard coded to 1024 (i.e. multiplied by 4k page size =>
+> > 4 MB):
+> > 
+> >   ./include/hw/virtio/virtio.h:
+> >   #define VIRTQUEUE_MAX_SIZE 1024
+> > 
+> > Is that hard coded limit carved into stone for some reason or would it be OK
+> > if I change that into a runtime variable?
+> 
+> After reviewing the code and protocol specs, it seems that this value is
+> simply too small. I will therefore send a patch suggsting to raise this value
+> to 32768, as this is the maximum possible value according to the virtio specs.
+> 
+> https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#x1-240006
 
+I think it's too aggressive to change it for all devices.
+Pls find a way to only have it affect 9pfs.
 
-在 2021/10/3 18:45, Philippe Mathieu-Daudé 写道:
-> On 10/2/21 20:45, Jiaxun Yang wrote:
->> Generate FDT on our own if no dtb argument supplied.
->> Avoid introducing unused device in FDT with user supplied dtb.
->>
->> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> --
->> v2: Address f4bug cmments (Thanks!)
->> ---
->>   hw/mips/boston.c | 234 +++++++++++++++++++++++++++++++++++++++++++++--
->>   1 file changed, 226 insertions(+), 8 deletions(-)
->>   static void boston_mach_init(MachineState *machine)
->>   {
->>       DeviceState *dev;
->> @@ -555,21 +771,23 @@ static void boston_mach_init(MachineState *machine)
->>                              NULL, 0, EM_MIPS, 1, 0);
->>   
->>           if (kernel_size) {
->> +            int dt_size;
->> +            g_autofree const void *dtb_file_data, *dtb_load_data;
->>               hwaddr dtb_paddr = QEMU_ALIGN_UP(kernel_high, 64 * KiB);
->>               hwaddr dtb_vaddr = cpu_mips_phys_to_kseg0(NULL, dtb_paddr);
->>   
->>               s->kernel_entry = kernel_entry;
->>               if (machine->dtb) {
->> -                int dt_size;
->> -                g_autofree const void *dtb_file_data, *dtb_load_data;
->> -
->>                   dtb_file_data = load_device_tree(machine->dtb, &dt_size);
->> -                dtb_load_data = boston_fdt_filter(s, dtb_file_data, NULL, &dtb_vaddr);
-> Isn't it better to let boston_fdt_filter() here, ...
->
->> -
->> -                /* Calculate real fdt size after filter */
->> -                dt_size = fdt_totalsize(dtb_load_data);
->> -                rom_add_blob_fixed("dtb", dtb_load_data, dt_size, dtb_paddr);
->> +            } else {
->> +                dtb_file_data = create_fdt(s, boston_memmap, &dt_size);
-> ... and pass kernel_cmdline & machine->ram_size to create_fdt(),
-> filling the bootargs & memory nodes?
-That will be done in boston_fdt_filter, which shares between FDT 
-generator path
-and dtb file path.
-
-Thanks.
-- Jiaxun
->
->>               }
->> +
->> +            dtb_load_data = boston_fdt_filter(s, dtb_file_data, NULL, &dtb_vaddr);
->> +
->> +            /* Calculate real fdt size after filter */
->> +            dt_size = fdt_totalsize(dtb_load_data);
->> +            rom_add_blob_fixed("dtb", dtb_load_data, dt_size, dtb_paddr);
->>           } else {
->>               /* Try to load file as FIT */
->>               fit_err = load_fit(&boston_fit_loader, machine->kernel_filename, s);
->>
+> > If that would be Ok, maybe something similar that I did with those kernel
+> > patches, i.e. retaining 1024 as an initial default value and if indicated
+> > from guest side that more is needed, increasing the SG list amount
+> > subsequently according to whatever is needed by guest?
+> 
+> Further changes are probably not necessary.
+> 
+> The only thing I have spotted that probably should be changed is that at some
+> few locations, a local array is allocated on the stack with VIRTQUEUE_MAX_SIZE
+> as array size, e.g.:
+> 
+> static void *virtqueue_split_pop(VirtQueue *vq, size_t sz)
+> {
+>     ...
+>     hwaddr addr[VIRTQUEUE_MAX_SIZE];
+>     struct iovec iov[VIRTQUEUE_MAX_SIZE];
+>     ...
+> }
+> 
+> > And as I am not too familiar with the virtio protocol, is that current limit
+> > already visible to guest side? Because obviously it would make sense if I
+> > change my kernel patches so that they automatically limit to whatever QEMU
+> > supports instead of causing a hang.
+> 
+> Apparently the value of VIRTQUEUE_MAX_SIZE (the maximum amount of scatter
+> gather lists or the maximum queue size ever possible) is not visible to guest.
+> 
+> I thought about making a hack to make the guest Linux kernel aware whether
+> host side has the old limit of 1024 or rather the correct value 32768, but
+> probably not worth it.
+> 
+> Best regards,
+> Christian Schoenebeck
+> 
 
 
