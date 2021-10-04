@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE15420A9E
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 14:07:09 +0200 (CEST)
-Received: from localhost ([::1]:56990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0667420A9C
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 14:06:30 +0200 (CEST)
+Received: from localhost ([::1]:55098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXMkO-00060p-RY
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 08:07:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44100)
+	id 1mXMjl-0004a8-SW
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 08:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mXMgE-0001hg-37
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 08:02:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47976)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mXMgF-0001j8-OZ
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 08:02:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mXMgA-0006BW-NL
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 08:02:49 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mXMgD-0006C9-Pm
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 08:02:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633348966;
+ s=mimecast20190719; t=1633348967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NMOA9kQbOGwFqcPMc+ilA6kpME97Hs3N/G+0b3k1Sx0=;
- b=B3a4p7EbMY9MoGCqVYn6/8IMjbgiSnpyIOc6aqm8hoWP1utnljUrKF5VgO96LQWx2joUDl
- w4+U2Rz21MuhTNfAPtp5fThjVQtISqZjFm2H6PML8UVj1NL8NUSS7FXtNtDzKhm88wzLd9
- eUzBDZAuTuC3TLgEYV2i3gWoYwEzme0=
+ bh=FuqDVk/VmU0BGNDYQ+fzVu3fCHn52LEbJwMF35lPkRA=;
+ b=fmCy6vuybfWXSJ2wuQgxcflSKXBSbSHb3qyChEH01UyR6WebTfTr67viqpuEKSIarNGOtQ
+ gJ5DTVXC7jOLW83cIRZ2VaUUI54P7gZ+LgUWfmqcZDR4EmX2O/qF0rD0qzAFc/ccb1h58Y
+ e8ppD+bRsvR5C7IDAIwSGqX3pAQtEEs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-cDSeACuYPTiHbdW7CNNb4A-1; Mon, 04 Oct 2021 08:02:42 -0400
-X-MC-Unique: cDSeACuYPTiHbdW7CNNb4A-1
+ us-mta-317-PaM-FWZBO2-vi4SL1QECIg-1; Mon, 04 Oct 2021 08:02:46 -0400
+X-MC-Unique: PaM-FWZBO2-vi4SL1QECIg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D9AD802947;
- Mon,  4 Oct 2021 12:02:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D54356B47;
+ Mon,  4 Oct 2021 12:02:45 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.194.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE27F19C59;
- Mon,  4 Oct 2021 12:02:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B7DB19C59;
+ Mon,  4 Oct 2021 12:02:42 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/7] util/oslib-posix: Let touch_all_pages() return an error
-Date: Mon,  4 Oct 2021 14:02:02 +0200
-Message-Id: <20211004120208.7409-2-david@redhat.com>
+Subject: [PATCH v4 2/7] util/oslib-posix: Support MADV_POPULATE_WRITE for
+ os_mem_prealloc()
+Date: Mon,  4 Oct 2021 14:02:03 +0200
+Message-Id: <20211004120208.7409-3-david@redhat.com>
 In-Reply-To: <20211004120208.7409-1-david@redhat.com>
 References: <20211004120208.7409-1-david@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,120 +82,221 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  David Hildenbrand <david@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Pankaj Gupta <pankaj.gupta@ionos.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's prepare touch_all_pages() for returning differing errors. Return
-an error from the thread and report the last processed error.
+Let's sense support and use it for preallocation. MADV_POPULATE_WRITE
+does not require a SIGBUS handler, doesn't actually touch page content,
+and avoids context switches; it is, therefore, faster and easier to handle
+than our current approach.
 
-Translate SIGBUS to -EFAULT, as a SIGBUS can mean all different kind of
-things (memory error, read error, out of memory). When allocating memory
-fails via the current SIGBUS-based mechanism, we'll get:
-    os_mem_prealloc: preallocating memory failed: Bad address
+While MADV_POPULATE_WRITE is, in general, faster than manual
+prefaulting, and especially faster with 4k pages, there is still value in
+prefaulting using multiple threads to speed up preallocation.
 
+More details on MADV_POPULATE_WRITE can be found in the Linux commits
+4ca9b3859dac ("mm/madvise: introduce MADV_POPULATE_(READ|WRITE) to prefault
+page tables") and eb2faa513c24 ("mm/madvise: report SIGBUS as -EFAULT for
+MADV_POPULATE_(READ|WRITE)"), and in the man page proposal [1].
+
+This resolves the TODO in do_touch_pages().
+
+In the future, we might want to look into using fallocate(), eventually
+combined with MADV_POPULATE_READ, when dealing with shared file/fd
+mappings and not caring about memory bindings.
+
+[1] https://lkml.kernel.org/r/20210816081922.5155-1-david@redhat.com
+
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- util/oslib-posix.c | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ include/qemu/osdep.h |  7 ++++
+ util/oslib-posix.c   | 83 +++++++++++++++++++++++++++++++++-----------
+ 2 files changed, 69 insertions(+), 21 deletions(-)
 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 60718fc342..d1660d67fa 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -471,6 +471,11 @@ static inline void qemu_cleanup_generic_vfree(void *p)
+ #else
+ #define QEMU_MADV_REMOVE QEMU_MADV_DONTNEED
+ #endif
++#ifdef MADV_POPULATE_WRITE
++#define QEMU_MADV_POPULATE_WRITE MADV_POPULATE_WRITE
++#else
++#define QEMU_MADV_POPULATE_WRITE QEMU_MADV_INVALID
++#endif
+ 
+ #elif defined(CONFIG_POSIX_MADVISE)
+ 
+@@ -484,6 +489,7 @@ static inline void qemu_cleanup_generic_vfree(void *p)
+ #define QEMU_MADV_HUGEPAGE  QEMU_MADV_INVALID
+ #define QEMU_MADV_NOHUGEPAGE  QEMU_MADV_INVALID
+ #define QEMU_MADV_REMOVE QEMU_MADV_DONTNEED
++#define QEMU_MADV_POPULATE_WRITE QEMU_MADV_INVALID
+ 
+ #else /* no-op */
+ 
+@@ -497,6 +503,7 @@ static inline void qemu_cleanup_generic_vfree(void *p)
+ #define QEMU_MADV_HUGEPAGE  QEMU_MADV_INVALID
+ #define QEMU_MADV_NOHUGEPAGE  QEMU_MADV_INVALID
+ #define QEMU_MADV_REMOVE QEMU_MADV_INVALID
++#define QEMU_MADV_POPULATE_WRITE QEMU_MADV_INVALID
+ 
+ #endif
+ 
 diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index e8bdb02e1d..b146beef78 100644
+index b146beef78..cb89e07770 100644
 --- a/util/oslib-posix.c
 +++ b/util/oslib-posix.c
-@@ -84,7 +84,6 @@ typedef struct MemsetThread MemsetThread;
+@@ -484,10 +484,6 @@ static void *do_touch_pages(void *arg)
+              *
+              * 'volatile' to stop compiler optimizing this away
+              * to a no-op
+-             *
+-             * TODO: get a better solution from kernel so we
+-             * don't need to write at all so we don't cause
+-             * wear on the storage backing the region...
+              */
+             *(volatile char *)addr = *addr;
+             addr += hpagesize;
+@@ -497,6 +493,26 @@ static void *do_touch_pages(void *arg)
+     return (void *)(uintptr_t)ret;
+ }
  
- static MemsetThread *memset_thread;
- static int memset_num_threads;
--static bool memset_thread_failed;
- 
- static QemuMutex page_mutex;
- static QemuCond page_cond;
-@@ -452,6 +451,7 @@ static void *do_touch_pages(void *arg)
- {
-     MemsetThread *memset_args = (MemsetThread *)arg;
-     sigset_t set, oldset;
++static void *do_madv_populate_write_pages(void *arg)
++{
++    MemsetThread *memset_args = (MemsetThread *)arg;
++    const size_t size = memset_args->numpages * memset_args->hpagesize;
++    char * const addr = memset_args->addr;
 +    int ret = 0;
- 
-     /*
-      * On Linux, the page faults from the loop below can cause mmap_sem
-@@ -470,7 +470,7 @@ static void *do_touch_pages(void *arg)
-     pthread_sigmask(SIG_UNBLOCK, &set, &oldset);
- 
-     if (sigsetjmp(memset_args->env, 1)) {
--        memset_thread_failed = true;
-+        ret = -EFAULT;
-     } else {
-         char *addr = memset_args->addr;
-         size_t numpages = memset_args->numpages;
-@@ -494,7 +494,7 @@ static void *do_touch_pages(void *arg)
-         }
-     }
-     pthread_sigmask(SIG_SETMASK, &oldset, NULL);
--    return NULL;
++
++    /* See do_touch_pages(). */
++    qemu_mutex_lock(&page_mutex);
++    while (!threads_created_flag) {
++        qemu_cond_wait(&page_cond, &page_mutex);
++    }
++    qemu_mutex_unlock(&page_mutex);
++
++    if (size && qemu_madvise(addr, size, QEMU_MADV_POPULATE_WRITE)) {
++        ret = -errno;
++    }
 +    return (void *)(uintptr_t)ret;
- }
- 
++}
++
  static inline int get_memset_num_threads(int smp_cpus)
-@@ -509,13 +509,13 @@ static inline int get_memset_num_threads(int smp_cpus)
-     return ret;
+ {
+     long host_procs = sysconf(_SC_NPROCESSORS_ONLN);
+@@ -510,10 +526,11 @@ static inline int get_memset_num_threads(int smp_cpus)
  }
  
--static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
--                            int smp_cpus)
-+static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-+                           int smp_cpus)
+ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+-                           int smp_cpus)
++                           int smp_cpus, bool use_madv_populate_write)
  {
      static gsize initialized = 0;
      size_t numpages_per_thread, leftover;
-+    int ret = 0, i = 0;
++    void *(*touch_fn)(void *);
+     int ret = 0, i = 0;
      char *addr = area;
--    int i = 0;
  
-     if (g_once_init_enter(&initialized)) {
-         qemu_mutex_init(&page_mutex);
-@@ -523,7 +523,6 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+@@ -523,6 +540,12 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
          g_once_init_leave(&initialized, 1);
      }
  
--    memset_thread_failed = false;
++    if (use_madv_populate_write) {
++        touch_fn = do_madv_populate_write_pages;
++    } else {
++        touch_fn = do_touch_pages;
++    }
++
      threads_created_flag = false;
      memset_num_threads = get_memset_num_threads(smp_cpus);
      memset_thread = g_new0(MemsetThread, memset_num_threads);
-@@ -545,12 +544,16 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-     qemu_mutex_unlock(&page_mutex);
- 
-     for (i = 0; i < memset_num_threads; i++) {
--        qemu_thread_join(&memset_thread[i].pgthread);
-+        int tmp = (uintptr_t)qemu_thread_join(&memset_thread[i].pgthread);
-+
-+        if (tmp) {
-+            ret = tmp;
-+        }
+@@ -533,7 +556,7 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+         memset_thread[i].numpages = numpages_per_thread + (i < leftover);
+         memset_thread[i].hpagesize = hpagesize;
+         qemu_thread_create(&memset_thread[i].pgthread, "touch_pages",
+-                           do_touch_pages, &memset_thread[i],
++                           touch_fn, &memset_thread[i],
+                            QEMU_THREAD_JOINABLE);
+         addr += memset_thread[i].numpages * hpagesize;
      }
-     g_free(memset_thread);
-     memset_thread = NULL;
- 
--    return memset_thread_failed;
-+    return ret;
+@@ -556,6 +579,12 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+     return ret;
  }
  
++static bool madv_populate_write_possible(char *area, size_t pagesize)
++{
++    return !qemu_madvise(area, pagesize, QEMU_MADV_POPULATE_WRITE) ||
++           errno != EINVAL;
++}
++
  void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
-@@ -573,9 +576,10 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+                      Error **errp)
+ {
+@@ -563,30 +592,42 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+     struct sigaction act, oldact;
+     size_t hpagesize = qemu_fd_getpagesize(fd);
+     size_t numpages = DIV_ROUND_UP(memory, hpagesize);
++    bool use_madv_populate_write;
+ 
+-    memset(&act, 0, sizeof(act));
+-    act.sa_handler = &sigbus_handler;
+-    act.sa_flags = 0;
+-
+-    ret = sigaction(SIGBUS, &act, &oldact);
+-    if (ret) {
+-        error_setg_errno(errp, errno,
+-            "os_mem_prealloc: failed to install signal handler");
+-        return;
++    /*
++     * Sense on every invocation, as MADV_POPULATE_WRITE cannot be used for
++     * some special mappings, such as mapping /dev/mem.
++     */
++    use_madv_populate_write = madv_populate_write_possible(area, hpagesize);
++
++    if (!use_madv_populate_write) {
++        memset(&act, 0, sizeof(act));
++        act.sa_handler = &sigbus_handler;
++        act.sa_flags = 0;
++
++        ret = sigaction(SIGBUS, &act, &oldact);
++        if (ret) {
++            error_setg_errno(errp, errno,
++                "os_mem_prealloc: failed to install signal handler");
++            return;
++        }
      }
  
      /* touch pages simultaneously */
--    if (touch_all_pages(area, hpagesize, numpages, smp_cpus)) {
--        error_setg(errp, "os_mem_prealloc: Insufficient free host memory "
--            "pages available to allocate guest RAM");
-+    ret = touch_all_pages(area, hpagesize, numpages, smp_cpus);
-+    if (ret) {
-+        error_setg_errno(errp, -ret,
-+                         "os_mem_prealloc: preallocating memory failed");
+-    ret = touch_all_pages(area, hpagesize, numpages, smp_cpus);
++    ret = touch_all_pages(area, hpagesize, numpages, smp_cpus,
++                          use_madv_populate_write);
+     if (ret) {
+         error_setg_errno(errp, -ret,
+                          "os_mem_prealloc: preallocating memory failed");
      }
  
-     ret = sigaction(SIGBUS, &oldact, NULL);
+-    ret = sigaction(SIGBUS, &oldact, NULL);
+-    if (ret) {
+-        /* Terminate QEMU since it can't recover from error */
+-        perror("os_mem_prealloc: failed to reinstall signal handler");
+-        exit(1);
++    if (!use_madv_populate_write) {
++        ret = sigaction(SIGBUS, &oldact, NULL);
++        if (ret) {
++            /* Terminate QEMU since it can't recover from error */
++            perror("os_mem_prealloc: failed to reinstall signal handler");
++            exit(1);
++        }
+     }
+ }
+ 
 -- 
 2.31.1
 
