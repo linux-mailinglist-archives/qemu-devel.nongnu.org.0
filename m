@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3FBB420748
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:26:23 +0200 (CEST)
-Received: from localhost ([::1]:59058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A438420756
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:30:01 +0200 (CEST)
+Received: from localhost ([::1]:39528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXJIk-0008HW-II
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48462)
+	id 1mXJMG-0005tg-HC
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:30:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mXIzO-0007i5-LX
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:06:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39590)
+ id 1mXIzz-0008AD-3a
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:06:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mXIzM-0004M5-6g
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:06:22 -0400
+ id 1mXIzv-0004r6-Kp
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:06:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633334778;
+ s=mimecast20190719; t=1633334811;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NaecXq8hUt75hzJc1rXTl5u5ap4zeFZ5kxrq2jxmrrw=;
- b=FJ0kgKS8Q1XhAoBeIL4tUl7EcT8ztwR/RYXP+z340NhOTuR+xJSIPNKZ0HeOxw5R1F/7rw
- P+PVUdmjceKd5IdnyXyzqEVDR/VydI7yToHqvDjXra9R4QzyKfa5Ecr1JXhiVbxa41dAcS
- tpKIwiI7FLjc33dvYgXXKsWaSWpseIs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-VSRNbkAkNFyMMTzZq3FsmQ-1; Mon, 04 Oct 2021 04:06:15 -0400
-X-MC-Unique: VSRNbkAkNFyMMTzZq3FsmQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- d23-20020a50f697000000b003daf215e1efso2018584edn.23
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 01:06:15 -0700 (PDT)
+ bh=jJXy9qbxdg2C9dmRq5ZlX/rnrXy4McozWIE5caJXRxA=;
+ b=A64NoceB+iQ3Lgj7w++WwIRp9G/gZCNAYxRLOo2yjrsQZ2D1fECK4vrSLJHUtD5faMjIQa
+ q9QPWURjXoff843oZ7/TKmccRQC4XlDKN7Bzny4MFOKEhrTrDarmKZxP2ldhSrBCnByDXM
+ L6OIyrBgNMc6HuuUKkSpdDF8ZeyUDDI=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-412-KePOCSRrPwyFSbqrSaNd-g-1; Mon, 04 Oct 2021 04:06:50 -0400
+X-MC-Unique: KePOCSRrPwyFSbqrSaNd-g-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ n19-20020a509353000000b003dad185759bso8434340eda.6
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 01:06:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NaecXq8hUt75hzJc1rXTl5u5ap4zeFZ5kxrq2jxmrrw=;
- b=Se0qVaEfrgvwQ8fw6c7wnRFNjn9rfDGJUBYG+qe4Ut+ERghU7nzs20J/hBAM0f7GBG
- XjyueScFxqZnuG12xUrPFjIh1XC+x4hMjBDFb6gJTYgF664bjwcSP5KV/drQnnJ9kv30
- P5b22W5BZOhdUgTGYObwASFxQ3XO94fevPgfr0Z067Ue/ph1BNEkXcCHilFAsDRPRdHU
- pITUJ1xIcVHS5m/HH/+mzpYyTnCIxUCJQ53EJDVpsv04BhTUC5QDA2TuXrpJjBmO2C9g
- Y0jRhPXvYPDQgMws6ZoGajTUrYFC33kWOb8Yt12/G8TWNvO20yZmjfcWndHjGN+gTXjI
- u3Yw==
-X-Gm-Message-State: AOAM5327Wcj6PKrd8xKt9pRZk2iTu3I3yYI5+SKrtA4j13xmog7ZoSe5
- hjy1YeaRepw2IFg43Ja9pQ6Rc+uuP0jdBfgQj1TowMnSBJGmQq/95sRALznSuGiUo1CpKooFWA7
- rOKODfyV1Wr1d0ww=
-X-Received: by 2002:aa7:d802:: with SMTP id v2mr13077968edq.271.1633334774260; 
- Mon, 04 Oct 2021 01:06:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzRap4GsemYDe+jkC9FNA31zg4spvFSlq5R7Ec4FD2PjRhZOOGlg+Xoy68MiO2XlqhngDUFZA==
-X-Received: by 2002:aa7:d802:: with SMTP id v2mr13077946edq.271.1633334774074; 
- Mon, 04 Oct 2021 01:06:14 -0700 (PDT)
+ bh=jJXy9qbxdg2C9dmRq5ZlX/rnrXy4McozWIE5caJXRxA=;
+ b=E+0zhfHzpDYAqGwHrx9lNCTsf1/COJs3P8V4JPxK/RCgSabp8jIcOxKmQ1J0UUrTGV
+ M8Ok6XYTS0jDnqSYIm068N0s6E7q+HckUmVc6F/rCBufmC3e2mDUubHGYA9Rao+h1Y35
+ sy4svbUzfpiEWyVEpNrI832qBt8wviu0A6JhumEeKM/NvzL15ne52ysPiTZxmzKKs6t2
+ jBVFhD3gvs2hkqOtlQqt173MVf4LRbi/0fJAxisC5y8/C6kkYsI6ukB2o+Si7o+XPdWd
+ xenvpRPbBRxpTBpRGIEb2P5A7RRXc1n3JJf9xqmhDxjj9bn+QF5kZyYcJhWQssx8tCmv
+ FxDw==
+X-Gm-Message-State: AOAM531wPxTun+GW4R2vayn7duh53cCR5eAc1mZ2Wdw5SYWdwn8Vvkem
+ wMiLEHdri3Dm+M6tJzfcZpLtJPNqDYOWmsvE84hErloMfDUX1E4TNx+nJcfub0hsUGEN8kphU6g
+ SV0XbeLtm/dG8rRQ=
+X-Received: by 2002:a17:906:f243:: with SMTP id
+ gy3mr16135275ejb.327.1633334809287; 
+ Mon, 04 Oct 2021 01:06:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzIdzjTETW0eIAZHOkvEUoCw26rTuKoDHhEwXT7qa+YxQdbudEEtT1b0Ob2PmkGUciWfWArWQ==
+X-Received: by 2002:a17:906:f243:: with SMTP id
+ gy3mr16135251ejb.327.1633334809109; 
+ Mon, 04 Oct 2021 01:06:49 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id j3sm1933542ejy.65.2021.10.04.01.06.11
+ by smtp.gmail.com with ESMTPSA id z5sm6980558edm.82.2021.10.04.01.06.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Oct 2021 01:06:13 -0700 (PDT)
-Message-ID: <66641be2-04c7-7c48-1ba9-46efff6f84da@redhat.com>
-Date: Mon, 4 Oct 2021 10:06:10 +0200
+ Mon, 04 Oct 2021 01:06:48 -0700 (PDT)
+Message-ID: <6e9b4ea1-177e-00e6-d43a-0d316222be6e@redhat.com>
+Date: Mon, 4 Oct 2021 10:06:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v3 03/22] target/i386/kvm: Introduce i386_softmmu_kvm
- Meson source set
+Subject: Re: [PATCH v3 04/22] target/i386/kvm: Restrict SEV stubs to x86
+ architecture
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20211002125317.3418648-1-philmd@redhat.com>
- <20211002125317.3418648-4-philmd@redhat.com>
+ <20211002125317.3418648-5-philmd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211002125317.3418648-4-philmd@redhat.com>
+In-Reply-To: <20211002125317.3418648-5-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +83,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -112,32 +114,45 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 02/10/21 14:52, Philippe Mathieu-Daudé wrote:
-> Introduce the i386_softmmu_kvm Meson source set to be able to
-> add features dependent on CONFIG_KVM.
+> SEV is x86-specific, no need to add its stub to other
+> architectures. Move the stub file to target/i386/kvm/.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->   target/i386/kvm/meson.build | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+>   {accel => target/i386}/kvm/sev-stub.c | 0
+>   accel/kvm/meson.build                 | 1 -
+>   target/i386/kvm/meson.build           | 2 ++
+>   3 files changed, 2 insertions(+), 1 deletion(-)
+>   rename {accel => target/i386}/kvm/sev-stub.c (100%)
 > 
+> diff --git a/accel/kvm/sev-stub.c b/target/i386/kvm/sev-stub.c
+> similarity index 100%
+> rename from accel/kvm/sev-stub.c
+> rename to target/i386/kvm/sev-stub.c
+> diff --git a/accel/kvm/meson.build b/accel/kvm/meson.build
+> index 8d219bea507..397a1fe1fd1 100644
+> --- a/accel/kvm/meson.build
+> +++ b/accel/kvm/meson.build
+> @@ -3,6 +3,5 @@
+>     'kvm-all.c',
+>     'kvm-accel-ops.c',
+>   ))
+> -kvm_ss.add(when: 'CONFIG_SEV', if_false: files('sev-stub.c'))
+>   
+>   specific_ss.add_all(when: 'CONFIG_KVM', if_true: kvm_ss)
 > diff --git a/target/i386/kvm/meson.build b/target/i386/kvm/meson.build
-> index 0a533411cab..b1c76957c76 100644
+> index b1c76957c76..736df8b72e3 100644
 > --- a/target/i386/kvm/meson.build
 > +++ b/target/i386/kvm/meson.build
-> @@ -1,8 +1,12 @@
->   i386_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
->   
-> -i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files(
-> +i386_softmmu_kvm_ss = ss.source_set()
-> +
-> +i386_softmmu_kvm_ss.add(files(
->     'kvm.c',
+> @@ -7,6 +7,8 @@
 >     'kvm-cpu.c',
 >   ))
 >   
->   i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
+> +i386_softmmu_kvm_ss.add(when: 'CONFIG_SEV', if_false: files('sev-stub.c'))
 > +
-> +i386_softmmu_ss.add_all(when: 'CONFIG_KVM', if_true: i386_softmmu_kvm_ss)
+>   i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
+>   
+>   i386_softmmu_ss.add_all(when: 'CONFIG_KVM', if_true: i386_softmmu_kvm_ss)
 > 
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
