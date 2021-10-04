@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E360421195
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 16:38:39 +0200 (CEST)
-Received: from localhost ([::1]:42454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6793D421198
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 16:40:39 +0200 (CEST)
+Received: from localhost ([::1]:47148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXP70-0000De-11
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 10:38:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52424)
+	id 1mXP8w-0003Vl-FG
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 10:40:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mXP2m-0004Fi-UB
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:34:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23947)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXP6V-00011C-3N
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:38:08 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:58031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mXP2l-0008ED-7i
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:34:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633358053;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hjkZ1/Gdg3GU1XO2srUGOewTQibFC6WAY9UaD04TsFE=;
- b=SDDYK7/LclnCQBIqQdhkTV31eQRPjhk6NcrwH8GczVakCOO8Aq6FhmPfFdF4xioFHBIQ4J
- qvHpSk7Hs0yNcFkpEtrFfwUxKOtnbYyOss/cvqq8egJa5KpinHqHNbnG8PHl2g/UzUxpRi
- ZIbNM3E8c8s8ehueaYiEXL9l2xMi7iw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-JHiE3a9PONm2BmZ23hercg-1; Mon, 04 Oct 2021 10:34:10 -0400
-X-MC-Unique: JHiE3a9PONm2BmZ23hercg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78B4FCC63D;
- Mon,  4 Oct 2021 14:34:09 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.243])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B257F60CC9;
- Mon,  4 Oct 2021 14:33:48 +0000 (UTC)
-Date: Mon, 4 Oct 2021 15:33:47 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH 09/13] virtiofsd: Specify size of notification buffer
- using config space
-Message-ID: <YVsQyxaPHyChcOel@stefanha-x1.localdomain>
-References: <20210930153037.1194279-1-vgoyal@redhat.com>
- <20210930153037.1194279-10-vgoyal@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXP6T-0004si-7M
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:38:06 -0400
+Received: from [192.168.42.227] ([37.173.140.50]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.184]) with ESMTPSA (Nemesis) id
+ 1MGz5h-1mazsn1SeR-00E6Lv; Mon, 04 Oct 2021 16:38:02 +0200
+Message-ID: <ff644f9a-3799-02da-d9b2-dc0f305bc6b4@vivier.eu>
+Date: Mon, 4 Oct 2021 16:38:01 +0200
 MIME-Version: 1.0
-In-Reply-To: <20210930153037.1194279-10-vgoyal@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WPlcQ8i1nUBRp1hu"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 07/12] macfb: add qdev property to specify display type
+Content-Language: en-US
+From: Laurent Vivier <laurent@vivier.eu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
+ <20211002110007.30825-8-mark.cave-ayland@ilande.co.uk>
+ <a0cc2ea6-306d-34b9-09e9-b6acb6e9876b@vivier.eu>
+In-Reply-To: <a0cc2ea6-306d-34b9-09e9-b6acb6e9876b@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:8ai+CKQcdvjxXj8ZMa9LAOt9+zs6fwU3TnX1BK5X2FyQqpElBTR
+ jjheHGo3uD3IPXshpeVgaAYBIksnRPvtS3U2nGx+HpcTsq8+e8xyL9Fz39oNfzX9xLm8QL4
+ UVrcs7lI9smKvI3rcirRdDkEXmjR2DmQqS/WfpDtw8sRv3p8vUik0vpmqfAUx25skiIysNy
+ QJci/7yh1qAJTk8RwWJqQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:teZF9qsKrww=:QUkMwd2IA0+kbdDl8bd7VR
+ PyjPj5gJnQwDhDv0UZSQvd3p/g+g5zC2zCHiFCJpLbxwGMF/tezJqQjXobi3T/I4zBPtoo6+j
+ s/nba1NuttiIpEgDj/tf1xSk8fB375xLQwAcxdbXF+WPdu0VJ9Xl/m4FzbhnSVxZMD4l7iUkr
+ n0PRU+Gz8cnEpWobyQaZ4lbu1zQ2waOKDmGEmFsLtEAqpSgsbJ67vfpey5NXYbiykTJD8UAj2
+ ojd67um6oI87aIMYnD7zLzyQFlj3UCDwSDI9RuvtLskpAI3tVuo0YHYvHZhWKXWosFmhVlNfc
+ Wlgm2zW6U4OB0mgetFs9VTOTM2d2+TvMCiEJSR02KWqW/2zJpJgDMYQ/uEsL8aSRP/7Z/3g8G
+ E82g16TLmwwaIoPJUr+yIH3XFawxE9SAav277Yuu6HJdpeVXMd0BlGxDeN+b71MzkWF2D7d+H
+ YN3q5nMmlUNYCImUnsdAof2pJxf7b6NYjVt+0YIThhhDawb5s22EyC8Q8hpeLjCRkv2lefaHT
+ 5C8cgz7iy9Wtck8TDPvLxu7OBoBFUxx28p4/L+3dbZxnFLKUBD3FhKqXVdnNPw03+b4YJ3vfc
+ QiqhbzGnCMQ7vlRc+SyoBbVswUS7kFOadE4L8MRGklodsOcShwdDNW4zwkhlbaQkHz/KmKg1p
+ 3Qv2x6/4n81F2FJhNfLEitn+Ji8Yp+01uSKy9UaoahwCqE9XHPOvfbMXr4vg+fVOHpsPYvJG2
+ b/1O22KoUy4UGRNwRwhrR67uv0zrMPgrlyS2QA==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,179 +71,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: miklos@szeredi.hu, qemu-devel@nongnu.org, iangelak@redhat.com,
- dgilbert@redhat.com, virtio-fs@redhat.com, jaggel@bu.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---WPlcQ8i1nUBRp1hu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 04/10/2021 11:24, Laurent Vivier wrote:
+> Le 02/10/2021 à 13:00, Mark Cave-Ayland a écrit :
+>> Since the available resolutions and colour depths are determined by the attached
+>> display type, add a qdev property to allow the display type to be specified.
+>>
+>> The main resolutions of interest are high resolution 1152x870 with 8-bit colour
+>> and SVGA resolution up to 800x600 with 32-bit colour so update the q800 machine
+>> to allow high resolution mode if specified and otherwise fall back to SVGA.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>>   hw/display/macfb.c         | 6 +++++-
+>>   hw/m68k/q800.c             | 5 +++++
+>>   include/hw/display/macfb.h | 1 +
+>>   3 files changed, 11 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+>> index 5c95aa4a11..023d1f0cd1 100644
+>> --- a/hw/display/macfb.c
+>> +++ b/hw/display/macfb.c
+>> @@ -316,7 +316,7 @@ static uint32_t macfb_sense_read(MacfbState *s)
+>>       MacFbSense *macfb_sense;
+>>       uint8_t sense;
+>>   
+>> -    macfb_sense = &macfb_sense_table[MACFB_DISPLAY_VGA];
+>> +    macfb_sense = &macfb_sense_table[s->type];
+>>       if (macfb_sense->sense == 0x7) {
+>>           /* Extended sense */
+>>           sense = 0;
+>> @@ -545,6 +545,8 @@ static Property macfb_sysbus_properties[] = {
+>>       DEFINE_PROP_UINT32("width", MacfbSysBusState, macfb.width, 640),
+>>       DEFINE_PROP_UINT32("height", MacfbSysBusState, macfb.height, 480),
+>>       DEFINE_PROP_UINT8("depth", MacfbSysBusState, macfb.depth, 8),
+>> +    DEFINE_PROP_UINT8("display", MacfbSysBusState, macfb.type,
+>> +                      MACFB_DISPLAY_VGA),
+>>       DEFINE_PROP_END_OF_LIST(),
+>>   };
+>>   
+>> @@ -552,6 +554,8 @@ static Property macfb_nubus_properties[] = {
+>>       DEFINE_PROP_UINT32("width", MacfbNubusState, macfb.width, 640),
+>>       DEFINE_PROP_UINT32("height", MacfbNubusState, macfb.height, 480),
+>>       DEFINE_PROP_UINT8("depth", MacfbNubusState, macfb.depth, 8),
+>> +    DEFINE_PROP_UINT8("display", MacfbNubusState, macfb.type,
+>> +                      MACFB_DISPLAY_VGA),
+>>       DEFINE_PROP_END_OF_LIST(),
+>>   };
+>>   
+>> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+>> index 09b3366024..5223b880bc 100644
+>> --- a/hw/m68k/q800.c
+>> +++ b/hw/m68k/q800.c
+>> @@ -421,6 +421,11 @@ static void q800_init(MachineState *machine)
+>>       qdev_prop_set_uint32(dev, "width", graphic_width);
+>>       qdev_prop_set_uint32(dev, "height", graphic_height);
+>>       qdev_prop_set_uint8(dev, "depth", graphic_depth);
+>> +    if (graphic_width == 1152 && graphic_height == 870 && graphic_depth == 8) {
+>> +        qdev_prop_set_uint8(dev, "display", MACFB_DISPLAY_APPLE_21_COLOR);
+>> +    } else {
+>> +        qdev_prop_set_uint8(dev, "display", MACFB_DISPLAY_VGA);
+>> +    }
+>>       qdev_realize_and_unref(dev, BUS(nubus), &error_fatal);
+>>   
+>>       cs = CPU(cpu);
+>> diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
+>> index febf4ce0e8..e95a97ebdc 100644
+>> --- a/include/hw/display/macfb.h
+>> +++ b/include/hw/display/macfb.h
+>> @@ -46,6 +46,7 @@ typedef struct MacfbState {
+>>       uint8_t color_palette[256 * 3];
+>>       uint32_t width, height; /* in pixels */
+>>       uint8_t depth;
+>> +    uint8_t type;
+>>   
+>>       uint32_t sense;
+>>   } MacfbState;
+>>
+> 
+> I think the display modes should be documentend somewhere to be directly usable by the user and get
+> ride of the graphic_XXX variables (and -g).
 
-On Thu, Sep 30, 2021 at 11:30:33AM -0400, Vivek Goyal wrote:
-> Daemon specifies size of notification buffer needed and that should be
-> done using config space.
->=20
-> Only ->notify_buf_size value of config space comes from daemon. Rest of
-> it is filled by qemu device emulation code.
->=20
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> Signed-off-by: Ioannis Angelakopoulos <iangelak@redhat.com>
-> ---
->  hw/virtio/vhost-user-fs.c                  | 27 +++++++++++++++++++
->  include/hw/virtio/vhost-user-fs.h          |  2 ++
->  include/standard-headers/linux/virtio_fs.h |  2 ++
->  tools/virtiofsd/fuse_virtio.c              | 31 ++++++++++++++++++++++
->  4 files changed, 62 insertions(+)
->=20
-> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> index 6bafcf0243..68a94708b4 100644
-> --- a/hw/virtio/vhost-user-fs.c
-> +++ b/hw/virtio/vhost-user-fs.c
-> @@ -36,15 +36,41 @@ static const int user_feature_bits[] =3D {
->      VHOST_INVALID_FEATURE_BIT
->  };
-> =20
-> +static int vhost_user_fs_handle_config_change(struct vhost_dev *dev)
-> +{
-> +    return 0;
-> +}
-> +
-> +const VhostDevConfigOps fs_ops =3D {
-> +    .vhost_dev_config_notifier =3D vhost_user_fs_handle_config_change,
-> +};
-> +
->  static void vuf_get_config(VirtIODevice *vdev, uint8_t *config)
->  {
->      VHostUserFS *fs =3D VHOST_USER_FS(vdev);
->      struct virtio_fs_config fscfg =3D {};
-> +    Error *local_err =3D NULL;
-> +    int ret;
-> +
-> +    /*
-> +     * As of now we only get notification buffer size from device. And t=
-hat's
-> +     * needed only if notification queue is enabled.
-> +     */
-> +    if (fs->notify_enabled) {
-> +        ret =3D vhost_dev_get_config(&fs->vhost_dev, (uint8_t *)&fs->fsc=
-fg,
-> +                                   sizeof(struct virtio_fs_config),
-> +                                   &local_err);
-> +        if (ret) {
-> +            error_report_err(local_err);
-> +            return;
-> +        }
-> +    }
-> =20
->      memcpy((char *)fscfg.tag, fs->conf.tag,
->             MIN(strlen(fs->conf.tag) + 1, sizeof(fscfg.tag)));
-> =20
->      virtio_stl_p(vdev, &fscfg.num_request_queues, fs->conf.num_request_q=
-ueues);
-> +    virtio_stl_p(vdev, &fscfg.notify_buf_size, fs->fscfg.notify_buf_size=
-);
-> =20
->      memcpy(config, &fscfg, sizeof(fscfg));
->  }
-> @@ -316,6 +342,7 @@ static void vuf_device_realize(DeviceState *dev, Erro=
-r **errp)
->                  sizeof(struct virtio_fs_config));
-> =20
->      vuf_create_vqs(vdev, true);
-> +    vhost_dev_set_config_notifier(&fs->vhost_dev, &fs_ops);
->      ret =3D vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
->                           VHOST_BACKEND_TYPE_USER, 0, errp);
->      if (ret < 0) {
-> diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-=
-user-fs.h
-> index 95dc0dd402..3b114ee260 100644
-> --- a/include/hw/virtio/vhost-user-fs.h
-> +++ b/include/hw/virtio/vhost-user-fs.h
-> @@ -14,6 +14,7 @@
->  #ifndef _QEMU_VHOST_USER_FS_H
->  #define _QEMU_VHOST_USER_FS_H
-> =20
-> +#include "standard-headers/linux/virtio_fs.h"
->  #include "hw/virtio/virtio.h"
->  #include "hw/virtio/vhost.h"
->  #include "hw/virtio/vhost-user.h"
-> @@ -37,6 +38,7 @@ struct VHostUserFS {
->      struct vhost_virtqueue *vhost_vqs;
->      struct vhost_dev vhost_dev;
->      VhostUserState vhost_user;
-> +    struct virtio_fs_config fscfg;
->      VirtQueue **req_vqs;
->      VirtQueue *hiprio_vq;
->      VirtQueue *notification_vq;
-> diff --git a/include/standard-headers/linux/virtio_fs.h b/include/standar=
-d-headers/linux/virtio_fs.h
-> index b7f015186e..867d18acf6 100644
-> --- a/include/standard-headers/linux/virtio_fs.h
-> +++ b/include/standard-headers/linux/virtio_fs.h
-> @@ -17,6 +17,8 @@ struct virtio_fs_config {
-> =20
->  =09/* Number of request queues */
->  =09uint32_t num_request_queues;
-> +=09/* Size of notification buffer */
-> +=09uint32_t notify_buf_size;
->  } QEMU_PACKED;
-> =20
->  /* For the id field in virtio_pci_shm_cap */
+By reading following patch I can see it's not really needed anymore, so:
 
-Please put all the include/standard-headers/linux/ changes into a single
-commit that imports these changes from linux.git. Changes to this header
-shouldn't be hand-written, use scripts/update-linux-headers.sh instead.
-
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.=
-c
-> index f5b87a508a..3b720c5d4a 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -856,6 +856,35 @@ static bool fv_queue_order(VuDev *dev, int qidx)
->      return false;
->  }
-> =20
-> +static uint64_t fv_get_protocol_features(VuDev *dev)
-> +{
-> +    return 1ull << VHOST_USER_PROTOCOL_F_CONFIG;
-> +}
-> +
-> +static int fv_get_config(VuDev *dev, uint8_t *config, uint32_t len)
-> +{
-> +    struct virtio_fs_config fscfg =3D {};
-> +    unsigned notify_size, roundto =3D 64;
-> +    union fuse_notify_union {
-> +        struct fuse_notify_poll_wakeup_out  wakeup_out;
-> +        struct fuse_notify_inval_inode_out  inode_out;
-> +        struct fuse_notify_inval_entry_out  entry_out;
-> +        struct fuse_notify_delete_out       delete_out;
-> +        struct fuse_notify_store_out        store_out;
-> +        struct fuse_notify_retrieve_out     retrieve_out;
-> +    };
-> +
-> +    notify_size =3D sizeof(struct fuse_out_header) +
-> +              sizeof(union fuse_notify_union);
-> +    notify_size =3D ((notify_size + roundto) / roundto) * roundto;
-
-Why is the size rounded to 64 bytes?
-
---WPlcQ8i1nUBRp1hu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFbEMsACgkQnKSrs4Gr
-c8hyBggAwOxF2L640Vklsmwx/tmQjBMHiL2GL1r8KLwwJGcMo+f6ZkKE/K7TkA50
-3Ipifu2xCd+vbaH/qpud8YPWANwFEUxMOrx3uqXWCHP2OUGz/XCcXLkyQQRdXMQu
-O7UGzD0ac2imfl4yrAykpjwjvhLtTgKIs6Ul+D1UgQaVdu1RpIfcTShwerhp9iN+
-SvN5oX6UqbQiRZUBhVvAXnUB3G90HAJ+dzPted+9sW+OF/438OBZAt3APMNw99/p
-QMAL+BJMCA3otw35ZuOWxrs6/rDm/4yvsCk+tWPy8ch/J3EKyx/xhPnCOFEX4FcQ
-9ByvvlLRACl8Z0+RYTTL1KcV3QCsDQ==
-=prAC
------END PGP SIGNATURE-----
-
---WPlcQ8i1nUBRp1hu--
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
