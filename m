@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5FD42071E
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:14:06 +0200 (CEST)
-Received: from localhost ([::1]:36150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFA74206FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:06:24 +0200 (CEST)
+Received: from localhost ([::1]:46764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXJ6r-0000my-TH
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:14:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44252)
+	id 1mXIzM-0005QS-VH
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:06:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeT-0004LI-Pk
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:45 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:43651)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeO-0004D0-2y
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:40 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:46337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeO-0004ud-RG
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:44 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeK-0004po-LP
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:39 -0400
 Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MaHOX-1mLUvj3iBp-00WCBR; Mon, 04
- Oct 2021 09:44:31 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MkW10-1nDUQb3uKE-00m4Ew; Mon, 04
+ Oct 2021 09:44:32 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/26] linux-user/microblaze: Implement setup_sigtramp
-Date: Mon,  4 Oct 2021 09:44:08 +0200
-Message-Id: <20211004074421.3141222-14-laurent@vivier.eu>
+Subject: [PULL 15/26] linux-user/mips: Implement setup_sigtramp
+Date: Mon,  4 Oct 2021 09:44:10 +0200
+Message-Id: <20211004074421.3141222-16-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211004074421.3141222-1-laurent@vivier.eu>
 References: <20211004074421.3141222-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:4l7eGtcRveYhX4odyEQivFKvdbJIzUWFifdlAqmvuB2neBA0v/d
- GVU4W/P9LZ29soWEb2EFWa1QwQXqSD9ITVIOUs1b8oQ/hY54BGTcOLqxwf838k0h7gxRaun
- tNF5kWbi1qzvgJ9GdngQxSLayJY5s56LqOmvR9l4TJtMOKgZ/RnXUsNWrAMrwr2DMzwO372
- jRvSMb6CDWdJda9QdffWg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IpcpzYlwy5Y=:6F48JdVxwBB7HPWNs5D4Ki
- yfcPQH6pukA7IxPTE2ZMYIiOXMDyy+EMkUWgtOlik6bGfbOJdTw2oErCY9qsMRVR1WJ3r8odd
- fG1+GBF82xkJmYYfaXRBELHIAJy/FX3M6VhF96XRWyVOjnYzoZMRikckmmqbJX1N4OSmjQCEu
- BQEsnowl1SMU7/MfiWeEOkaUGSOFxincBRFD48zjqvpOA5OFNNCoc71bGbWF3YX3y7ir/UYi3
- cZjfOiH/HZ8yGEH/bFdGByYUP4v6h8ZYANZoOkEZ9t6RZiS7gPdcuPW9kuuZut7PLL0Oiodnz
- Df02qi4NcE8gprF5CPUV2693R4zy+mttBtN6RzPnDXsZokGSV2YIlIxblsLXHTA5weZIE2bbW
- sC4befQc4WgtA8l695RskwB5uewzlrxLNHSttMp/U2Lzm48kihdfup0ogEeAaMqd7wTSFtfNQ
- 6OJ6lGwp7PPyqpyalhNd2aJKUUNF9jP9DRePg4dsU5oXl6d2ufJ8buMYXSrT0aLezfkL+fcL/
- 7TC3WGGBRaVoli/ieUSdTAbdAgR5C1SxP8ISp2pa4FT5a/Iq3nQ/vsWuXhakFrxo4+GPbMwmP
- 73EzAnMJqOuB6qCZNqZ/Jx8c0mSjt92Ce1qnFiT37r+9/y1qN2TubOhRculsyYe6ElOERX3fh
- Fhc3MzbwT/lvIoqLfGDiXyVAAelPKZ1BejR5TwC3cLw+mdEWDXUSijdYS5+IwbMzf/yFckoG7
- iEQYsQF24NpHSN7NuiCD9SORZ9dw+meXX80a9A==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:xvvdkEmr98B5CPc7SE/Er3pcIEah+YIIYdmvPXFXP/b2CE7FMsW
+ YwjgEwjUp1Y3LZNJNuyzXvL5Xz6S9SQVhaXxTE/CCMY4w6JqW64SMsc+JCpTZUlK0KdhF/u
+ C2PoCke7CWpS0uOeiEBuFFL3GRZjeqTxYjlGziUeZi81zn2KX+S6gGzxRldcr3CZF2UpLv+
+ 2CS41U8Cg+jD/XvQVNZNg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OVEiW1ipNe4=:JsTg7sjQtGGIsHiJrUAAj0
+ xhX1MJgbBcLy4Rrv+N5gRKvAKf/oNT27gRwvq1hXlQzN965Gnu4dH6eyLFgOIZwKntoi08I9c
+ bb+Y0kFq7x4uKvat6gZFhVJEPVPIGoHZB3R0Ajs+OjhPp3UShj/doloHnkiHWaHcKvjlIHdkD
+ cIknS6WRXOYD9MYsYLi0kxFJMh0f+3tC3oyHIBtnhKUDrnmkNa110B+U/mTglJQ+Ad6uApV5g
+ ImHky8H/1VsjmOkqaujey7WgvaeiqeiB94kNxEXvYtuV1kDjUqIT7zXH55hEiyLfHwCXp7F8t
+ T41IZZO8OeW5+Vt2QXJ8J2Ahr5ljWEfUqELRypJ/bWE69qNaRK/F9NDTD7JCn1HyM61KyLdVH
+ vxU/s5avE/xYdNBxeYytVDaivKjtZ9xTGNQt9+CJGPFo/vII6tzdAKv14tTvdhEvF2u1KNyaO
+ 7KeyIdNvhwVqVent38dMXYZRTfXex34OyEKxkrPEetFgmr58ORTsJMrJrqamET+/ixKDrMU1t
+ 8Bpo/Lx+vH6PB/s3XQWZFL5pIeZHRToddgdTdlJ/5I6ZFa97fubnRhfYBlC1Ph0xLVpXFbWcf
+ w6jgN8ysOofwZOq2L0URiPHhlG8IMTT4HgOqSdlga86y6XLSzernjN8bG9A6IEs7Sj3icxtJb
+ XYqNOJctN5O8JWYog3202Ji1OhYlt76cY8wu18X21j+DOs7Z/sj3kaMCfml6QroURfCyN0DWq
+ eSrkuouRcwsEXtl9agRnNX891okY/TXbLbTA4g==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,8 +67,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -76,72 +75,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Create and record the rt signal trampoline.
+Create and record the two signal trampolines.
 
-Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210929130553.121567-14-richard.henderson@linaro.org>
+Message-Id: <20210929130553.121567-16-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/microblaze/signal.c        | 24 +++++++++++++++++-------
- linux-user/microblaze/target_signal.h |  2 ++
- 2 files changed, 19 insertions(+), 7 deletions(-)
+ linux-user/mips/signal.c          | 34 ++++++++++++++++++++++---------
+ linux-user/mips/target_signal.h   |  1 +
+ linux-user/mips64/target_signal.h |  2 ++
+ 3 files changed, 27 insertions(+), 10 deletions(-)
 
-diff --git a/linux-user/microblaze/signal.c b/linux-user/microblaze/signal.c
-index b822679d1805..8ebb6a1b7dfe 100644
---- a/linux-user/microblaze/signal.c
-+++ b/linux-user/microblaze/signal.c
-@@ -161,17 +161,11 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+diff --git a/linux-user/mips/signal.c b/linux-user/mips/signal.c
+index 64072779b94a..8f79e405ecb7 100644
+--- a/linux-user/mips/signal.c
++++ b/linux-user/mips/signal.c
+@@ -209,8 +209,6 @@ void setup_frame(int sig, struct target_sigaction * ka,
+         goto give_sigsegv;
+     }
  
-     /* Kernel does not use SA_RESTORER. */
- 
--    /* addi r12, r0, __NR_sigreturn */
--    __put_user(0x31800000U | TARGET_NR_rt_sigreturn, frame->tramp + 0);
--    /* brki r14, 0x8 */
--    __put_user(0xb9cc0008U, frame->tramp + 1);
+-    install_sigtramp(frame->sf_code, TARGET_NR_sigreturn);
 -
-     /*
-      * Return from sighandler will jump to the tramp.
-      * Negative 8 offset because return is rtsd r15, 8
-      */
--    env->regs[15] =
--        frame_addr + offsetof(struct target_rt_sigframe, tramp) - 8;
-+    env->regs[15] = default_rt_sigreturn - 8;
+     setup_sigcontext(regs, &frame->sf_sc);
  
-     /* Set up registers for signal handler */
-     env->regs[1] = frame_addr;
-@@ -220,3 +214,19 @@ long do_rt_sigreturn(CPUMBState *env)
+     for(i = 0; i < TARGET_NSIG_WORDS; i++) {
+@@ -231,7 +229,7 @@ void setup_frame(int sig, struct target_sigaction * ka,
+     regs->active_tc.gpr[ 5] = 0;
+     regs->active_tc.gpr[ 6] = frame_addr + offsetof(struct sigframe, sf_sc);
+     regs->active_tc.gpr[29] = frame_addr;
+-    regs->active_tc.gpr[31] = frame_addr + offsetof(struct sigframe, sf_code);
++    regs->active_tc.gpr[31] = default_sigreturn;
+     /* The original kernel code sets CP0_EPC to the handler
+     * since it returns to userland using eret
+     * we cannot do this here, and we must set PC directly */
+@@ -305,8 +303,6 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+         goto give_sigsegv;
+     }
+ 
+-    install_sigtramp(frame->rs_code, TARGET_NR_rt_sigreturn);
+-
+     tswap_siginfo(&frame->rs_info, info);
+ 
+     __put_user(0, &frame->rs_uc.tuc_flags);
+@@ -335,11 +331,13 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     env->active_tc.gpr[ 6] = frame_addr
+                              + offsetof(struct target_rt_sigframe, rs_uc);
+     env->active_tc.gpr[29] = frame_addr;
+-    env->active_tc.gpr[31] = frame_addr
+-                             + offsetof(struct target_rt_sigframe, rs_code);
+-    /* The original kernel code sets CP0_EPC to the handler
+-    * since it returns to userland using eret
+-    * we cannot do this here, and we must set PC directly */
++    env->active_tc.gpr[31] = default_rt_sigreturn;
++
++    /*
++     * The original kernel code sets CP0_EPC to the handler
++     * since it returns to userland using eret
++     * we cannot do this here, and we must set PC directly
++     */
+     env->active_tc.PC = env->active_tc.gpr[25] = ka->_sa_handler;
+     mips_set_hflags_isa_mode_from_pc(env);
+     unlock_user_struct(frame, frame_addr, 1);
+@@ -379,3 +377,19 @@ badframe:
      force_sig(TARGET_SIGSEGV);
      return -TARGET_QEMU_ESIGRETURN;
  }
 +
 +void setup_sigtramp(abi_ulong sigtramp_page)
 +{
-+    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 8, 0);
++    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 2 * 8, 0);
 +    assert(tramp != NULL);
 +
-+    /*
-+     * addi r12, r0, __NR_rt_sigreturn
-+     * brki r14, 0x8
-+     */
-+    __put_user(0x31800000U | TARGET_NR_rt_sigreturn, tramp);
-+    __put_user(0xb9cc0008U, tramp + 1);
++#ifdef TARGET_ARCH_HAS_SETUP_FRAME
++    default_sigreturn = sigtramp_page;
++    install_sigtramp(tramp, TARGET_NR_sigreturn);
++#endif
 +
-+    default_rt_sigreturn = sigtramp_page;
-+    unlock_user(tramp, sigtramp_page, 8);
++    default_rt_sigreturn = sigtramp_page + 8;
++    install_sigtramp(tramp + 2, TARGET_NR_rt_sigreturn);
++
++    unlock_user(tramp, sigtramp_page, 2 * 8);
 +}
-diff --git a/linux-user/microblaze/target_signal.h b/linux-user/microblaze/target_signal.h
-index 1c326296de42..e8b510f6b182 100644
---- a/linux-user/microblaze/target_signal.h
-+++ b/linux-user/microblaze/target_signal.h
-@@ -21,4 +21,6 @@ typedef struct target_sigaltstack {
+diff --git a/linux-user/mips/target_signal.h b/linux-user/mips/target_signal.h
+index d521765f6b2c..780a4ddf29de 100644
+--- a/linux-user/mips/target_signal.h
++++ b/linux-user/mips/target_signal.h
+@@ -73,6 +73,7 @@ typedef struct target_sigaltstack {
+ /* compare linux/arch/mips/kernel/signal.c:setup_frame() */
+ #define TARGET_ARCH_HAS_SETUP_FRAME
+ #endif
++#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
  
- #include "../generic/signal.h"
- 
+ /* bit-flags */
+ #define TARGET_SS_AUTODISARM (1U << 31) /* disable sas during sighandling */
+diff --git a/linux-user/mips64/target_signal.h b/linux-user/mips64/target_signal.h
+index d857c55e4c6c..275e9b7f9a2a 100644
+--- a/linux-user/mips64/target_signal.h
++++ b/linux-user/mips64/target_signal.h
+@@ -76,4 +76,6 @@ typedef struct target_sigaltstack {
+ /* compare linux/arch/mips/kernel/signal.c:setup_frame() */
+ #define TARGET_ARCH_HAS_SETUP_FRAME
+ #endif
 +#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
 +
- #endif /* MICROBLAZE_TARGET_SIGNAL_H */
+ #endif /* MIPS64_TARGET_SIGNAL_H */
 -- 
 2.31.1
 
