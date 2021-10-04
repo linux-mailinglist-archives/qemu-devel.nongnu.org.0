@@ -2,132 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134FD421521
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 19:25:34 +0200 (CEST)
-Received: from localhost ([::1]:58018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B49BD421399
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 18:06:07 +0200 (CEST)
+Received: from localhost ([::1]:46492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXRiX-0001Pb-1S
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 13:25:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45796)
+	id 1mXQTe-00080s-2o
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 12:06:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tongh@xilinx.com>)
- id 1mXQIJ-0001FH-Lw; Mon, 04 Oct 2021 11:54:23 -0400
-Received: from mail-co1nam11on2083.outbound.protection.outlook.com
- ([40.107.220.83]:53180 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mXQKc-0003AO-Ri; Mon, 04 Oct 2021 11:56:47 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:39594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tongh@xilinx.com>)
- id 1mXQIE-00019w-4B; Mon, 04 Oct 2021 11:54:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CgjQheGQmcw2IlilDtXxwUwwmkApnqpAH1ImO76pcjw6vLC/I0owCwsip07BNMCkOKctb9DhCVuXVG+l03qFOgSIenU5yG8ls/qxK1zwNVX2K3LCwoDDFhUATKQ2v/eArThHANCsn1icCcftDYMTSuznw/8ekOzl6+3Yirb1b7+JnCH02wzubdH0zLwDiEU/48lIb8GAtugFyO2CaxP3+rK0xf3F8onhX5GzML8dbGimwLf+EW/OF9YC8mkdu2fWmkj+sAc9PuqKDdeGAG5P3jzgvKRcDKW2W2n+gw/zIsbtPDKpd6eYSf03IqedNU8WfBbanWmt0n8MHQhJdbLVsA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yd7rzeM7G4Y8aFV1P+/1MwhkfhEYbsceaj7yqWx8grs=;
- b=HXls/CsHv9/rHN4z9mB6OPWe/pm/4558qKQ+xBMeJIroym1b43vFaE4bQdZXSwgl6GD8BdcGxb/hdp2JJ0BT07XUIPt//QhAq/9xqVZJX1pCiuHXd4s2aGffYs67lZzlOyuf6gyxkXozmdCpD+e6J5iPUxlW+TPlOHT4pUs879Si6XU9/PInHQzyCF0V/Aet4Ogr1AG1CAyqCHzP80gAJHchJvJf88d/ERF5PmKuoYucdE1+3c5DsRh/WI//Kaz5v67TSk0qM5Kp3qh+VZbWcyj03E+K4rfWy+imQsg7YmWi7VlE786rAlwdIicl+c9mDsXSBpYN5TafCNkYcH4uNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yd7rzeM7G4Y8aFV1P+/1MwhkfhEYbsceaj7yqWx8grs=;
- b=E/eLGz8LMf56d+4Coez8u85r4K19PKSZl7yDst0vKqUSDPlu0V2AbbeRkCQX7DCvPru3XpOxyvP42xOwnaRDD3NF/DaHu94iYelGvTJfL8A9R8JdhT/kruCqIeVqcX2tucn0f08ZHvPMPxs2AqC61bn2Gtu60HPkGEeSXcvrCyA=
-Received: from BYAPR02MB4038.namprd02.prod.outlook.com (2603:10b6:a02:fc::28)
- by SJ0PR02MB7632.namprd02.prod.outlook.com (2603:10b6:a03:321::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.13; Mon, 4 Oct
- 2021 15:54:13 +0000
-Received: from BYAPR02MB4038.namprd02.prod.outlook.com
- ([fe80::90b3:8e6a:7d06:dcad]) by BYAPR02MB4038.namprd02.prod.outlook.com
- ([fe80::90b3:8e6a:7d06:dcad%3]) with mapi id 15.20.4566.022; Mon, 4 Oct 2021
- 15:54:13 +0000
-From: Tong Ho <tongh@xilinx.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: RE: [PATCH v3 0/9] hw/nvram: hw/arm: Introduce Xilinx eFUSE and BBRAM
-Thread-Topic: [PATCH v3 0/9] hw/nvram: hw/arm: Introduce Xilinx eFUSE and BBRAM
-Thread-Index: AQHXt3g7C97p19NJBEq4q/XFlVrfh6vDAJ6Q
-Date: Mon, 4 Oct 2021 15:54:12 +0000
-Message-ID: <BYAPR02MB40381A62103A15406DB2132BCDAE9@BYAPR02MB4038.namprd02.prod.outlook.com>
-References: <20210917052400.1249094-1-tong.ho@xilinx.com>
- <CAFEAcA9_nVnW3DnvomvytX8xH53KM24xfn5rCSywa3WWCwEZ4g@mail.gmail.com>
-In-Reply-To: <CAFEAcA9_nVnW3DnvomvytX8xH53KM24xfn5rCSywa3WWCwEZ4g@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=xilinx.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e9d31e4b-6a0c-4dc7-aba8-08d9874f362a
-x-ms-traffictypediagnostic: SJ0PR02MB7632:
-x-microsoft-antispam-prvs: <SJ0PR02MB7632CCD4F6ABDC4BBCE689C8CDAE9@SJ0PR02MB7632.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1824;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: h7ojeCvPHGk+iGTSDt8lcwvtZwGe8yfjuc+p3py3aGsxT/Ut6j1VJ83q+70gB845yU7tz/cCIQnPY3bfGnNl2YnCRlndEDLZ7MWqXkX47CXGvCwpVD1xFLT74DSozT2una/eL8hE4FED9Qi6g5O5xfRHUTG6k0+G0oHE99YPk0YJwlgw9W0vKaWNrBZG/HxcjQMK8vPp3UO0/ayCpYTgs6sz/SJ3ym3+0afArTMpZS7Zuq9MslgQMSy5hzQZLVrdQbDFCUoVtC6q//hcJzkAZucknvB3CBzlaCmYq/eLLfTlUVULQCS0tw7SZHowFfLkqjktgxfgi764AYFueVHjNn3jDMXyshrltvjFC2iJmRvOiKiii0pw36DPAH6NNJYr8QCRd6OtHaU7WbXv0smBmyewH1AVsIXyqjuI791ZHB3lN3JxO8C3qrWni6NvhxmmuZ6rosLLUkjVxgPIa62lJpcYm69Nf0RfGxP1i4Kgkk3nnNsr76QLuOv14bk6KxNj/WUog4qN1m0Hh1PjQ3HNyhYVwm9KnZoDlwfiC2Nk4Li+1AdzzxqQi57n2+sJAWjn3eVytgxJhsnjT8bJC/R4+u//0zZ3nM0sZvmLndAWFCUv8Di9rYhmoYRKC2nKsacW4ipC6A3/drlmrHSzlGvsyxhaOD4pV8nzXsTN2spnMW7Q/yYYVnyPmqklYmzLl1b2FaR4Vt04ZiGrFN6lxLPDbg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4038.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(33656002)(66556008)(64756008)(83380400001)(66946007)(66476007)(53546011)(6506007)(8676002)(5660300002)(26005)(66446008)(52536014)(38070700005)(2906002)(6916009)(186003)(76116006)(54906003)(508600001)(4326008)(316002)(55016002)(38100700002)(44832011)(7696005)(71200400001)(9686003)(122000001)(8936002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?b1VEOEtHdURVSDdZOTRsR3RLZGE0QjZYOWR0ZGNXNmFXaHEwQW5YZHlHZnVJ?=
- =?utf-8?B?VmtTa283R2FRc2Jra0I5NExBZEZJZ3YxdUl6dWFBV3NWRHFwVmorWjNFT3pI?=
- =?utf-8?B?ZkhHVUFwUmpZekpoaDFCeXUyL3VRM2ljaVdVcUVBeXhSZ2NIc0VVYWV0eUlC?=
- =?utf-8?B?KzZxTk1NMWtrZUp5b05QTWVYQXV6M0djVHM2QllNbEFIS05IbTlCV1g3Y01l?=
- =?utf-8?B?QjdIY3dQeEd4ZXliemtJdCtWcUpqRnFCenpLdUhZNnQ1YzA1UmxCVyt1Um1a?=
- =?utf-8?B?b24xOEtTeWtyQ3E3NklDMU91UkRyU0RDbzBUZFRESGY4YTE5c0hoa1hqNXlD?=
- =?utf-8?B?ME1lNlAvcCs2d2VKSFpuTW5vK01FeCs5bmJkWDBxRGRTVmFmdnJSMDJkeGM3?=
- =?utf-8?B?MXdYVFJSTDNFR1NLV3I4R0RhaU5ubnRuNmdobmd3azNMVWxzU2VZOWcrQUQ3?=
- =?utf-8?B?RlB3eUhIRjc2ak5kYVFyMWp4YnBFc3JrdTVXcHlMRzE1T01nVFZlWGJHam9R?=
- =?utf-8?B?L3lielk1SU1Tazg5MTZZWmc0SWlJbllFUGh3VVVrWXlMYmVLeXc3enpYZytG?=
- =?utf-8?B?dTNvTkFKRllPZGdxOHBIWlZteDlhNHRYMUNEOWNjRDVwZ3JDVWJHZEh5U2Zm?=
- =?utf-8?B?Z0pVa3c0TWlHTGZCRGFlTGhycHNjQnJhT1BudGR6TTRwQ2FjNGZxL3hNYUht?=
- =?utf-8?B?QVJWU1NubU03elFCN2Q1ZjFXWk1EZm5LalhseFJtbWdJbnQ3NXlwbTlJdlFp?=
- =?utf-8?B?aFBJRHhMOEJmcG12YU5sdHhXdXJLQ096N3lFVGptcjFFWnVyb2E0YU9xTFJQ?=
- =?utf-8?B?L3BXdnFBS2V2Y0U4YmoxU2plTTdlRmJta0I5NzNLVTZ4aldBbG1wbGpBT0lv?=
- =?utf-8?B?ZVM3ODZqcnhSZGc3QS92M25QL0lWL3U0eWZuOUxGK3duU1Y4d3lNVnNtbnpC?=
- =?utf-8?B?WkxTUjZHMG92VHJQT0NWSitCVWUyRDRQSHNKNExSdzRJdUJVT0RiZkxlYjg1?=
- =?utf-8?B?RlFkRUd5V2dOVjlGbDMrNCtzUWR1RlFQUVh4ekdCL0E4ekRQZkE1RVRqMFZ3?=
- =?utf-8?B?LzdFUmJUVDZRb1hHVHNwOFNHczFKeGYrTkYrbFdiTXlwL0ROVzlrM050VmlR?=
- =?utf-8?B?STNpUytWWHVlcFVXcmc4WHpKVGwyVFlibU92b0VEQ0dGWkpJMUZuNExocVBT?=
- =?utf-8?B?d002d3JmT1JMaW44Nk04UTlCb1lSRWxYc2hkRm8yVVE0d2t1OTF5YkpTWklS?=
- =?utf-8?B?WmtyQkIxZzh0S3pnbWdRRHc1cWdhSjAzR3lhVno5ZXR5OFd2UFljL1VrbmtH?=
- =?utf-8?B?RGtzb3FIUU1LVlVHby9GeVFMUkNuYlJXblNHTVQ2dHFMakxFcnZ2U2lkZVJ5?=
- =?utf-8?B?ZkI4Z0FHdS9Kb1hTd3Z3cUxvR2dPdmVINHhVcXB1RWRqYzR3WlBGczFUaVNn?=
- =?utf-8?B?V3duNTFVRWxPQk5QNFFyQU5wQURBNDRWU2NFQktKczlBSkE0eWFhTFBCUjBB?=
- =?utf-8?B?SjNWeVFOd2JESXZ2bWJzcHNPdkQzbisvQ0puVVZzYit5MFdRRjFEemJwa2JC?=
- =?utf-8?B?bUJWUU05a1JOYVJWaVdZSEhIeFlWR3YxMUd0TS9nN21ZM3FRRUROWHMzMnVs?=
- =?utf-8?B?cEFtSC83NmpBdUVDMnBPRWllc28vc1JXdHJzRmpFNG4xdXdGSm5kazFhS21j?=
- =?utf-8?B?Yi9jZ213NEtMU09sUzVKSWQ3UWxNVTNLZ25RY1pYWTA0ZDg3clhnMkN5a3Av?=
- =?utf-8?Q?XF4SoQQ+qfHAYFVj20=3D?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mXQKZ-0003UJ-BA; Mon, 04 Oct 2021 11:56:46 -0400
+Received: from [192.168.15.181] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 9EA69208A1;
+ Mon,  4 Oct 2021 15:56:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1633362999;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iW9CkzSuzFakm6dIMJ0sNZe5+RrBD4UyGJTesU86nTs=;
+ b=a2cCLUvTKZXBLhv9F9vzjODrDddU+GRb/bGgbfYX1V67qNfIyX2cw/OZgoF/aKX24W6ybD
+ FNXCOc8NsqQBgH48p0sW6ehRGMq8ptmJ8fhWhIyHRQPJjXwoGvEqqDH7EBJJf97Jpo5tsU
+ do+k4yCJpn9ox7UUcKfLuS0Bcthgddc=
+Message-ID: <2ba3a11b-9022-e537-d713-4aa173020a87@greensocs.com>
+Date: Mon, 4 Oct 2021 17:56:36 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4038.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9d31e4b-6a0c-4dc7-aba8-08d9874f362a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2021 15:54:12.8679 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CkYX/cM1/np77x6VM1BG12sPtulyJbTluiGPZPQh6QoBdcffrs56rxesTwTC0PtOPcxLbaGevcIlgT8qT3RO4g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7632
-Received-SPF: pass client-ip=40.107.220.83; envelope-from=tongh@xilinx.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.2
+Subject: Re: [RFC PATCH v2 00/16] Initial support for machine creation via QMP
+Content-Language: en-US-large
+To: qemu-devel@nongnu.org
+References: <20210922161405.140018-1-damien.hedde@greensocs.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+In-Reply-To: <20210922161405.140018-1-damien.hedde@greensocs.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 04 Oct 2021 13:21:29 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -139,55 +63,300 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Peter Xu <peterx@redhat.com>, mirela.grujic@greensocs.com,
+ Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Eric Blake <eblake@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org, John Snow <jsnow@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ mark.burton@greensocs.com, edgari@xilinx.com,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgUGV0ZXIsDQoNCkkgd2lsbCBmb2xsb3cgdXAgd2l0aCBwYXRjaGVzIHRvIGZpeCB0aGUgbWVt
-b3J5IGxlYWtzLg0KDQpXaGVyZSBjYW4gSSBnZXQgYSBjb3B5IG9mIHRoZSBDb3Zlcml0eSByZXBv
-cnRzIHRoYXQgaGF2ZSB0aGUgMTAgaXNzdWVzIHlvdSBpbmRpY2F0ZWQ/DQoNClRoYW5rcywNClRv
-bmcNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFBldGVyIE1heWRlbGwgPHBl
-dGVyLm1heWRlbGxAbGluYXJvLm9yZz4gDQpTZW50OiBTYXR1cmRheSwgT2N0b2JlciAyLCAyMDIx
-IDM6MjggQU0NClRvOiBUb25nIEhvIDx0b25naEB4aWxpbnguY29tPg0KQ2M6IHFlbXUtYXJtIDxx
-ZW11LWFybUBub25nbnUub3JnPjsgUUVNVSBEZXZlbG9wZXJzIDxxZW11LWRldmVsQG5vbmdudS5v
-cmc+OyBBbGlzdGFpciBGcmFuY2lzIDxhbGlzdGFpckBhbGlzdGFpcjIzLm1lPjsgRWRnYXIgRS4g
-SWdsZXNpYXMgPGVkZ2FyLmlnbGVzaWFzQGdtYWlsLmNvbT4NClN1YmplY3Q6IFJlOiBbUEFUQ0gg
-djMgMC85XSBody9udnJhbTogaHcvYXJtOiBJbnRyb2R1Y2UgWGlsaW54IGVGVVNFIGFuZCBCQlJB
-TQ0KDQpPbiBGcmksIDE3IFNlcHQgMjAyMSBhdCAwNjoyNCwgVG9uZyBIbyA8dG9uZy5ob0B4aWxp
-bnguY29tPiB3cm90ZToNCj4NCj4gVGhpcyBzZXJpZXMgaW1wbGVtZW50cyB0aGUgWGlsaW54IGVG
-VVNFIGFuZCBCQlJBTSBkZXZpY2VzIGZvciB0aGUgDQo+IFZlcnNhbCBhbmQgWnlucU1QIHByb2R1
-Y3QgZmFtaWxpZXMuDQo+DQo+IEZ1cnRoZXJtb3JlLCBib3RoIG5ldyBkZXZpY2VzIGFyZSBjb25u
-ZWN0ZWQgdG8gdGhlIHhsbngtdmVyc2FsLXZpcnQgDQo+IGJvYXJkIGFuZCB0aGUgeGxueC16Y3Ux
-MDIgYm9hcmQuDQo+DQo+IFNlZSBjaGFuZ2VzIGluIGRvY3Mvc3lzdGVtL2FybS94bG54LXZlcnNh
-bC12aXJ0LnJzdCBmb3IgZGV0YWlsLg0KDQpIaSAtLSBub3cgdGhpcyBoYXMgbGFuZGVkIHVwc3Ry
-ZWFtLCBDb3Zlcml0eSBwb2ludHMgb3V0IGEgbG90IG9mIG1lbW9yeSBsZWFrcyBvbiBlcnJvciBv
-ciBsb2dnaW5nIHBhdGhzLCB3aGVyZSB0aGUgY29kZSBkb2VzIHRoaW5ncyBsaWtlOg0KDQoqKiog
-Q0lEIDE0NjQwNzE6ICBSZXNvdXJjZSBsZWFrcyAgKFJFU09VUkNFX0xFQUspDQovcWVtdS9ody9u
-dnJhbS94bG54LXZlcnNhbC1lZnVzZS1jdHJsLmM6IDYyOCBpbiBlZnVzZV9jdHJsX3JlZ193cml0
-ZSgpDQo2MjIgICAgICAgICBkZXYgPSByZWdfYXJyYXktPm1lbS5vd25lcjsNCjYyMyAgICAgICAg
-IGFzc2VydChkZXYpOw0KNjI0DQo2MjUgICAgICAgICBzID0gWExOWF9WRVJTQUxfRUZVU0VfQ1RS
-TChkZXYpOw0KNjI2DQo2MjcgICAgICAgICBpZiAoYWRkciAhPSBBX1dSX0xPQ0sgJiYgcy0+cmVn
-c1tSX1dSX0xPQ0tdKSB7DQo+Pj4gICAgIENJRCAxNDY0MDcxOiAgUmVzb3VyY2UgbGVha3MgIChS
-RVNPVVJDRV9MRUFLKQ0KPj4+ICAgICBGYWlsaW5nIHRvIHNhdmUgb3IgZnJlZSBzdG9yYWdlIGFs
-bG9jYXRlZCBieSAib2JqZWN0X2dldF9jYW5vbmljYWxfcGF0aCgoT2JqZWN0ICopcykiIGxlYWtz
-IGl0Lg0KNjI4ICAgICAgICAgICAgIHFlbXVfbG9nX21hc2soTE9HX0dVRVNUX0VSUk9SLA0KNjI5
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIiVzW3JlZ18weCUwMmx4XTogQXR0ZW1wdCB0byB3
-cml0ZQ0KbG9ja2VkIHJlZ2lzdGVyLlxuIiwNCjYzMCAgICAgICAgICAgICAgICAgICAgICAgICAg
-IG9iamVjdF9nZXRfY2Fub25pY2FsX3BhdGgoT0JKRUNUKHMpKSwgKGxvbmcpYWRkcik7DQo2MzEg
-ICAgICAgICB9IGVsc2Ugew0KNjMyICAgICAgICAgICAgIHJlZ2lzdGVyX3dyaXRlX21lbW9yeShv
-cGFxdWUsIGFkZHIsIGRhdGEsIHNpemUpOw0KNjMzICAgICAgICAgfQ0KDQpZb3UgbmVlZCB0byBm
-cmVlIHRoZSBtZW1vcnkgaGVyZS4gQSBnb29kIHBhdHRlcm4gaXMgaG93IGl0J3MgZG9uZSBpbiB4
-bG54LXp5bnFtcC1jYW4uYyB3aXRoIGdfYXV0b2ZyZWU6DQoNCiAgICBpZiAoQVJSQVlfRklFTERf
-RVgzMihzLT5yZWdzLCBTT0ZUV0FSRV9SRVNFVF9SRUdJU1RFUiwgU1JTVCkpIHsNCiAgICAgICAg
-Z19hdXRvZnJlZSBjaGFyICpwYXRoID0gb2JqZWN0X2dldF9jYW5vbmljYWxfcGF0aChPQkpFQ1Qo
-cykpOw0KDQogICAgICAgIHFlbXVfbG9nX21hc2soTE9HX0dVRVNUX0VSUk9SLCAiJXM6IEF0dGVt
-cHRpbmcgdG8gdHJhbnNmZXIgZGF0YSB3aGlsZSINCiAgICAgICAgICAgICAgICAgICAgICAiIGRh
-dGEgd2hpbGUgY29udHJvbGxlciBpcyBpbiByZXNldCBtb2RlLlxuIiwNCiAgICAgICAgICAgICAg
-ICAgICAgICBwYXRoKTsNCiAgICAgICAgcmV0dXJuIGZhbHNlOw0KICAgIH0NCg0KQ291bGQgc29t
-ZWJvZHkgc2VuZCBzb21lIGZvbGxvd3VwIHBhdGNoZXMgdGhhdCBmaXggYWxsIG9mIHRoZXNlLCBw
-bGVhc2U/IChUaGVyZSBhcmUgMTAgY292ZXJpdHkgaXNzdWVzLCBjb3ZlcmluZyBwcm9iYWJseSBh
-bGwgb2YgdGhlIHBsYWNlcyB3aGVyZSBvYmplY3RfZ2V0X2Nhbm9uaWNhbF9wYXRoKCkgaXMgdXNl
-ZCBpbiB0aGlzIHNlcmllcy4pDQoNCnRoYW5rcw0KLS0gUE1NDQo=
+Hi,
+
+This is both a ping and a small update. It would be great to have some 
+feedback about patches 1 and 3.
+
+Right now the device part of this series conflicts with Kevin 's work 
+about replacing the QemuOpts by a QemuDict in device_add:
+https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg06136.html
+
+So I'll have at least to rebase on top of his series, remove and rework 
+some of the patches.
+
+Maybe this series is too big and we should split it anyway ? We could 
+for example target 3 smaller series:
+  1. -> about stopping during the machine 'initialized' phase
+  2. -> about enabling using device_add QMP commands during this phase
+  3. -> about the sysbus device case (some of the patches are even 
+independent)
+
+Thanks,
+Damien
+
+On 9/22/21 18:13, Damien Hedde wrote:
+> Hi,
+> 
+> The goal of this work is to bring dynamic machine creation to QEMU:
+> we want to setup a machine without compiling a specific machine C
+> code. It would ease supporting highly configurable platforms (for
+> example resulting from an automated design flow). The requirements
+> for such configuration include begin able to specify the number of
+> cores, available peripherals, emmory mapping, IRQ mapping, etc.
+> 
+> This series focuses on the first step: populating a machine with
+> devices during its creation. We propose patches to support this
+> using QMP commands. This is a working set of patches and improves
+> over the earlier rfc (posted in May):
+> https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg03706.html
+> 
+> Although it is working and could be merged, it is tag as an RFC:
+> we probably need to discuss the conditions for allowing a device to
+> be created at an early stage. Patches 6, 10 and 13, 15 and 16 depend
+> on such conditions and are subject to change. Other patches are
+> unrelated to this point.
+> 
+> We address several issues in this series. They are detailed below.
+> 
+> ## 1. Stoping QEMU to populate the machine with devices
+> 
+> QEMU goes through several steps (called _machine phases_) when
+> creating the machine: 'no-machine', 'machine-created',
+> 'accel-created', 'initialized', and finally 'ready'. At 'ready'
+> phase, QEMU is ready to start (see Paolo's page
+> https://wiki.qemu.org/User:Paolo_Bonzini/Machine_init_sequence for
+> more details).
+> 
+> Using the -preconfig CLI option, QEMU can be stopped today during
+> the 'accel-created' phase. Then the 'x-exit-preconfig' QMP command
+> triggers QEMU moving forwards to the completion of the machine
+> creation ('ready' phase).
+> 
+> The devices are created during the 'initialized' phase.
+> In this phase the machine init() method has been executed and thus
+> machine properties have been handled. Although the sysbus exists and
+> the machine may have been populated by the init(),
+> _machine_init_done_ notifiers have not been called yet. At this point
+> we can add more devices to a machine.
+> 
+> We propose to add 2 QMP commands:
+> + The 'query-machine-phase' command would return the current machine
+>    phase.
+> + The 'x-machine-init' command would advance the machine phase to
+>    'initialized'. 'x-exit-preconfig' could then still be used to
+>    advance to the last phase.
+> 
+> ## 2. Adding devices
+> 
+> Right now, the user can create devices in 2 ways: using '-device' CLI
+> option or 'device_add' QMP command. Both are executed after the
+> machine is ready: such devices are hot-plugged. We propose to allow
+> 'device_add' QMP command to be used during the 'initialized' phase.
+> 
+> In this series, we keep the constraint that the device must be
+> 'user-creatable' (this is a device class flag). We do not see any
+> reason why a device the user can hot-plug could not be created at an
+> earlier stage.
+> 
+> This part is still RFC because, as Peter mentioned it (in this thread
+> https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg01933.html),
+> we may want additional or distinct conditions for:
+> + device we can hot-plug
+> + device we can add in '-preconfig' (cold-plug)
+> We are open to suggestions. We could for example add a
+> 'preconfig-creatable' or 'init-creatable' flag to device class, which
+> can identify a set of devices we can create this way.
+> 
+> The main addition is how we handle the case of sysbus devices. Sysbus
+> devices are particular because unlike, for example, pci devices, you
+> have to manually handle the memory mapping and interrupts wiring. So
+> right now, a sysbus device is dynamically creatable (using -device
+> CLI option or device_add QMP command) only if:
+> + it is 'user_creatable' (like any other device),
+> + and it is in the current machine sysbus device allow list.
+> 
+> In this series, we propose to relax the second constraint during the
+> earlier phases of machine creation so that when using -preconfig we
+> can create any 'user-creatable' sysbus device. When the machine
+> progresses to the 'ready' phase, sysbus devices creation will come
+> back to the legacy behavior: it will be possible only based on the
+> per-machine authorization basis.
+> 
+> For sysbus devices, wiring interrupts is not a problem as we can use
+> the 'qom-set' QMP command, but memory mapping is.
+> 
+> ## 3. Memory mapping
+> 
+> There is no point allowing the creation sysbus devices if we cannot
+> map them onto the memory bus (the 'sysbus').
+> 
+> As far as we know, right now, there is no way to add memory mapping
+> for sysbus device using QMP commands. We propose a 'x-sysbus-mmio-map'
+> command to do this. This command would only be allowed during the
+> 'initialized' phase when using -preconfig.
+> 
+> ## 4. Working example
+> 
+> The last patches of the series add and modify devices in order to
+> build a working machine starting from the 'none' machine.
+> 
+> We add a new sysbus device modeling a simple memory (ram or rom). We
+> also set 'user-creatable' flag of some sysbus devices. These are
+> trivial patches, but they depends on the conditions we choose to allow
+> creating devices with -preconfig. Therefore, there is really no need
+> to review them until we settled on the device conditions first.
+> 
+> With these devices (memory, ibex_uart, ibex_plic) we can dynamically
+> configure a part (we did not add the timer, but we could) the
+> opentitan machine very easily and run firmwares which demonstrates
+> interrupts and memory-mapping are working.
+> 
+> We use the existing qmp-shell script to issue machine devices
+> from a qmp commands script file which contains qmp commands listed in
+> a file.
+> 
+> The following qmp commands add some memories, an interrupt controller
+> and an uart with an interrupt.
+> 
+> cat > opentitan.qmp <<EOF
+> x-machine-init
+> 
+> # ROM 0x00008000
+> device_add        driver=sysbus-memory id=rom size=0x4000 readonly=true
+> x-sysbus-mmio-map device=rom addr=32768
+> 
+> # FLASH 0x20000000
+> device_add        driver=sysbus-memory id=flash size=0x80000 readonly=true
+> x-sysbus-mmio-map device=flash addr=536870912
+> 
+> # RAM 0x10000000
+> device_add        driver=sysbus-memory id=ram size=0x10000
+> x-sysbus-mmio-map device=ram addr=268435456
+> 
+> # PLIC 0x41010000
+> device_add        driver=ibex-plic id=plic
+> x-sysbus-mmio-map device=plic addr=1090584576
+> 
+> # UART 0x40000000
+> device_add        driver=ibex-uart id=uart chardev=serial0
+> x-sysbus-mmio-map device=uart addr=1073741824
+> qom-set path=uart property=sysbus-irq[1] value=plic/unnamed-gpio-in[2]
+> 
+> x-exit-preconfig
+> EOF
+> 
+> We've put the opentitan.qmp and a firmware opentitan-echo.elf here
+> (among some other qmp machine files we are working on):
+> https://github.com/GreenSocs/qemu-qmp-machines
+> This firmware is just a small interrupt-based program echoing back
+> whatever is sent in the uart.
+> 
+> QEMU should be run using the following command:
+> qemu-system-riscv32 -preconfig -qmp unix:/tmp/qmp-socket,server \
+>      -display none \
+>      -M none -cpu lowrisc-ibex \
+>      -serial mon:stdio \
+>      -device loader,addr=0x8090,cpu-num=0 \
+>      -device loader,file=opentitan-hello.elf \
+> 
+> and in other terminal to do the configuration (grep is just here to
+> remove comments):
+> grep -v -e '^#' opentitan.qmp | qmp-shell -v /tmp/qmp-socket
+> 
+> Alternatively we can load the firmware on the existing machine and
+> observe the same behavior:
+> qemu-system-riscv32 -display none \
+>       -M opentitan \
+>       -serial mon:stdio \
+>       -kernel opentitan-echo.elf
+> 
+> We chose this example because it is very simple and does not need a
+> lot of devices.
+> 
+> This work has still a lot of limitations. Cpus config is done the
+> normal way (the C machine does that): in our example we used the
+> 'none' machine. We have work to do for handling backend
+> connection (for example net/nic are complicated) because the way it
+> is done in machine C code does not translate easily in QMP commands.
+> Firmware loading is also a bit tricky. We plan to work on this in
+> follow-up series.
+> 
+> The series is organized as follows:
+> - Patches 1 to 3 add qmp support to stop QEMU at an early phase
+>    to populate the machine with devices.
+> - Patches 4 to 6 prepare and allow issuing device_add during this phase.
+> - Patches 7 to 10 prepare and allow creating sysbus device during this phase.
+> - Patches 11 and 12 add the x-sysbus-mmio-map QMP command
+> - Patch 13 add the memory sysbus device to model ram and rom
+> - Patch 14 adds some documentation
+> - Patches 15 and 16 set 'user_creatable' flag of ibex_uart and ibex_plic.
+> 
+> This work is supported by Greensocs, Sifive and Xilinx.
+> 
+> Thanks,
+> --
+> Damien
+> 
+> Damien Hedde (12):
+>    softmmu/qdev-monitor: add error handling in qdev_set_id
+>    qdev-monitor: prevent conflicts between qmp/device_add and cli/-device
+>    hw/core/machine: add machine_class_is_dynamic_sysbus_dev_allowed
+>    qdev-monitor: Check sysbus device type before creating it
+>    hw/core/machine: Remove the dynamic sysbus devices type check
+>    qdev-monitor: allow adding any sysbus device before machine is ready
+>    softmmu/memory: add memory_region_try_add_subregion function
+>    add x-sysbus-mmio-map qmp command
+>    hw/mem/system-memory: add a memory sysbus device
+>    docs/system: add doc about the initialized machine phase and an
+>      example
+>    hw/char/ibex_uart: set user_creatable
+>    hw/intc/ibex_plic: set user_creatable
+> 
+> Mirela Grujic (4):
+>    rename MachineInitPhase enum constants for QAPI compatibility
+>    qapi: Implement query-machine-phase QMP command
+>    qapi: Implement x-machine-init QMP command
+>    qapi: Allow device_add to execute in machine initialized phase
+> 
+>   docs/system/managed-startup.rst | 77 +++++++++++++++++++++++++++++
+>   qapi/machine.json               | 79 ++++++++++++++++++++++++++++++
+>   qapi/qdev.json                  | 24 ++++++++-
+>   include/exec/memory.h           | 22 +++++++++
+>   include/hw/boards.h             | 18 ++++++-
+>   include/hw/mem/sysbus-memory.h  | 32 ++++++++++++
+>   include/hw/qdev-core.h          | 30 +-----------
+>   include/monitor/qdev.h          | 25 +++++++++-
+>   hw/char/ibex_uart.c             |  1 +
+>   hw/core/machine-qmp-cmds.c      | 11 ++++-
+>   hw/core/machine.c               | 48 ++++++------------
+>   hw/core/qdev.c                  |  7 ++-
+>   hw/core/sysbus.c                | 41 ++++++++++++++++
+>   hw/intc/ibex_plic.c             |  1 +
+>   hw/mem/sysbus-memory.c          | 83 +++++++++++++++++++++++++++++++
+>   hw/pci/pci.c                    |  2 +-
+>   hw/usb/core.c                   |  2 +-
+>   hw/virtio/virtio-iommu.c        |  2 +-
+>   hw/xen/xen-legacy-backend.c     |  3 +-
+>   monitor/hmp.c                   |  2 +-
+>   monitor/misc.c                  |  2 +-
+>   softmmu/memory.c                | 22 ++++++---
+>   softmmu/qdev-monitor.c          | 86 +++++++++++++++++++++++++++------
+>   softmmu/vl.c                    | 23 ++++++---
+>   ui/console.c                    |  3 +-
+>   hw/mem/meson.build              |  2 +
+>   26 files changed, 547 insertions(+), 101 deletions(-)
+>   create mode 100644 include/hw/mem/sysbus-memory.h
+>   create mode 100644 hw/mem/sysbus-memory.c
+> 
 
