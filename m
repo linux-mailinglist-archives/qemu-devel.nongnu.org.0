@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D714206EB
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:00:38 +0200 (CEST)
-Received: from localhost ([::1]:38274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAABB4206CC
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 09:47:49 +0200 (CEST)
+Received: from localhost ([::1]:41796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXItp-0007mv-CS
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:00:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44138)
+	id 1mXIhR-0006bQ-0f
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 03:47:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeO-0004Cl-0D
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:40 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:50015)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeF-0003xW-Sz
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:31 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:39501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeK-0004pp-Jl
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:39 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeD-0004jP-PO
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:31 -0400
 Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MbTCr-1n4RbU3kj3-00bvDd; Mon, 04
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MIKs0-1mckhS2EGi-00EOBQ; Mon, 04
  Oct 2021 09:44:26 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/26] linux-user/arm: Drop "_v2" from symbols in signal.c
-Date: Mon,  4 Oct 2021 09:43:59 +0200
-Message-Id: <20211004074421.3141222-5-laurent@vivier.eu>
+Subject: [PULL 05/26] linux-user/arm: Implement setup_sigtramp
+Date: Mon,  4 Oct 2021 09:44:00 +0200
+Message-Id: <20211004074421.3141222-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211004074421.3141222-1-laurent@vivier.eu>
 References: <20211004074421.3141222-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ftPMbVF9cQjNs4HTRnOplBPNQXMkSWgTHlt6TYrmpzw7t6keMzi
- LQKs1q0xJ9QZlNxgPtL6ZvnuUN0ctcrfAhh13uXuT4TlgKMEZJ34WuabeCab3EqnJyMwMSp
- N7C8LlD1lcybcS5sAGHEodZlwmwIWzzSHyK5ATwjCwXX0X2ytccaI8c9XXqR1Qx4M090I7m
- /oJuyRLQlKQnQNxamscWg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Fzrn2R16ljs=:hc+mD4NWEvctGvX7sQ231w
- Kpi1PnKU27u4yV5jIwDwhnRmqvaCRiwS/DfS5J6hVC6KDTjM2KfP8tSE729Se4SqqJceU5MEG
- g5wblxtd4rN7YCGJzTPQgH6rrzdPUVP77s1NR08rgfBJAq+ZhsGIBqpUBHlLSklYztTvluhR0
- VlQVPgDq0IbZHHSxQRpmIHtij8vyCltJVbCBKH1Vbf6dttVZSscjVfFhh/swXz4rcTBjXQWDi
- 3U0uM3iwA596X/2Vn68kCIndR/zq5CcF+QeDjoH/A5bFuf03ocHkd7aSp8sooDIotyhB2eIR5
- LM/5e/m/Of1XsKeNeTMnUzUjF61BCth1abPjUM+IanAhzkdFghSWS3xZbLRlGB/1KrSwcsn+u
- xr4T3jd00I2BJgTlJSTuEyVUoJDvVooPTAmuFr7kizg1WR1LYLeZAgRdBnyuIRPKRu4wSBcEM
- 69YgbEUkSgOPzxOZVmknRzQGvMFTZ5gj/GUEm5tw3fJN3hyND8F9/ksV30NKhJu74g8KMbrNZ
- S1DKgR+cirg4XyUryJY06eeDI5Bvonl6rhwhUSJzdO4OSbH8z7P/d9nxp7f03hMRZNgKNm6R+
- ja4oXPbtb4DrELncGIoyt2WA/Qz4xld70VZa/1fqtQcYbIw1cNsnoZ54JB2QjnPzpxfmMMs2Y
- GTYMUE7bWMVkdWI6hJU0F6EoUHtZuc69i5KwGAXIvDU2DS/oyLLVyqZ6XOn3KWjNMa67eJpuc
- Wif7hn98cLMyGHalFnGFGYr+uGhH8o22FeUMvA==
+X-Provags-ID: V03:K1:BpMV7MYJ3KBTrwRhXxI8g4uWlxW009SvsHQmydTkkL/8Y5Aytzl
+ BLMesy5q86ZatZMKlmVV/QsiBCIGwW7hNcHsBCXYZcZIPIQHR1iTL7ijyFRjsbXq1B457mU
+ C3OvNKcpA4/co9wFVWeAmb+q4hN7ZeViG6K5RiRtUX51NPLcnQdvUvsWcSyhRqVe4CqDEtG
+ Xn3ZY1e1Bz6Zu90jQsxuw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Yt/O+VDPuPs=:6c1PjHiI5yxwafdn8LEQCM
+ GxUlxSfLTYR+L8DZ7gpJh7rgvt3e9+wTH2nwHEIAL87Kzlb89lMMbK4400iZwjQr3bF/fAhFC
+ HEIWfWLjI5t8OZ7RUT7GhbXxfhodfSVtH7RSc0/HumAHdTNlTKY+3v94l53xgiLolkIqSyo5W
+ DyyIOK7tYpWzYUV1x4K5Uve3XDE5QGiYW/UOdYrJX0yC92kAO22rzTTeptL+qNz5siYyJPR4y
+ ZRvjeBx7MMn6d9V+OCxC0oDrUMVyaiTfn8s3byGtDnPlaF4ZOKt1ZS6USvdkQ9Sc8mYR8seWN
+ T52hfQyIlW7P89WXBTVqMre4k9HxfOVImBmcJAkHNJQzuiBgECDj/Y9XTSduHbhMyqeOZ3lEv
+ 0aLZUzbYfinTm3vT6dhVyiX/5Bd3wZOGx773YRdKAL5YkNr9Pi3L1MprxxgkcuN5U43tn2Hie
+ WR3/y1GSeG5NJVH1aGM6SIjttQ7eDV3oWwGw3LsRF3s3QgXAEIv11I0S5isSt6hw/pd5Yuq/W
+ RjQUUM4LF4a3RQ8uYQMAvMP/2zd/uiKifz2OAGtoP18UGbhOORhwdQdGhMcRizqL05X5mumDn
+ wBin6yrSDHNLG94VcyNBhY/Z1BjQzZ7yG5znsbtLbT92BuduyxsB0DFf5Vu3mMEGGUnKLfe05
+ rlLtlJqTho0meEjU/kLWuoZIzjUK+tcVaUtYIXc4Ds7cZ92oSJOAGMeCPtftdlVgl9UJm1nUN
+ hhxJSs16EfByM5aK8+9++bzW2TD55PAFonENMg==
 Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -67,316 +66,303 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Since we no longer support "v1", there's no need to distinguish "v2".
+Mirror what the kernel does in arch/arm/kernel/signal.h,
+using the old sigframe struct in the rt sigframe struct.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Update the trampoline code to match the kernel: this uses
+sp-relative accesses rather than pc-relative.
+
+Copy the code into frame->retcode from the trampoline page.
+This minimises the different cases wrt arm vs thumb vs fdpic.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210929130553.121567-5-richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20210929130553.121567-6-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/arm/signal.c | 115 ++++++++++++++++------------------------
- 1 file changed, 45 insertions(+), 70 deletions(-)
+ linux-user/arm/signal.c        | 179 ++++++++++++++++++++-------------
+ linux-user/arm/target_signal.h |   2 +
+ 2 files changed, 110 insertions(+), 71 deletions(-)
 
 diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
-index d0940bab479c..ed7d1d80bb9c 100644
+index ed7d1d80bb9c..df9f8e8eb200 100644
 --- a/linux-user/arm/signal.c
 +++ b/linux-user/arm/signal.c
-@@ -46,7 +46,7 @@ struct target_sigcontext {
-     abi_ulong fault_address;
- };
- 
--struct target_ucontext_v2 {
-+struct target_ucontext {
-     abi_ulong tuc_flags;
-     abi_ulong tuc_link;
-     target_stack_t tuc_stack;
-@@ -90,16 +90,16 @@ struct target_iwmmxt_sigframe {
- #define TARGET_VFP_MAGIC 0x56465001
- #define TARGET_IWMMXT_MAGIC 0x12ef842a
- 
--struct sigframe_v2
-+struct sigframe
- {
--    struct target_ucontext_v2 uc;
-+    struct target_ucontext uc;
-     abi_ulong retcode[4];
- };
- 
--struct rt_sigframe_v2
-+struct rt_sigframe
+@@ -99,43 +99,21 @@ struct sigframe
+ struct rt_sigframe
  {
      struct target_siginfo info;
--    struct target_ucontext_v2 uc;
-+    struct target_ucontext uc;
-     abi_ulong retcode[4];
+-    struct target_ucontext uc;
+-    abi_ulong retcode[4];
++    struct sigframe sig;
  };
  
-@@ -270,7 +270,7 @@ setup_return(CPUARMState *env, struct target_sigaction *ka,
-     return 0;
- }
- 
--static abi_ulong *setup_sigframe_v2_vfp(abi_ulong *regspace, CPUARMState *env)
-+static abi_ulong *setup_sigframe_vfp(abi_ulong *regspace, CPUARMState *env)
- {
-     int i;
-     struct target_vfp_sigframe *vfpframe;
-@@ -287,8 +287,7 @@ static abi_ulong *setup_sigframe_v2_vfp(abi_ulong *regspace, CPUARMState *env)
-     return (abi_ulong*)(vfpframe+1);
- }
- 
--static abi_ulong *setup_sigframe_v2_iwmmxt(abi_ulong *regspace,
--                                           CPUARMState *env)
-+static abi_ulong *setup_sigframe_iwmmxt(abi_ulong *regspace, CPUARMState *env)
- {
-     int i;
-     struct target_iwmmxt_sigframe *iwmmxtframe;
-@@ -307,15 +306,15 @@ static abi_ulong *setup_sigframe_v2_iwmmxt(abi_ulong *regspace,
-     return (abi_ulong*)(iwmmxtframe+1);
- }
- 
--static void setup_sigframe_v2(struct target_ucontext_v2 *uc,
--                              target_sigset_t *set, CPUARMState *env)
-+static void setup_sigframe(struct target_ucontext *uc,
-+                           target_sigset_t *set, CPUARMState *env)
- {
-     struct target_sigaltstack stack;
-     int i;
-     abi_ulong *regspace;
- 
-     /* Clear all the bits of the ucontext we don't use.  */
--    memset(uc, 0, offsetof(struct target_ucontext_v2, tuc_mcontext));
-+    memset(uc, 0, offsetof(struct target_ucontext, tuc_mcontext));
- 
-     memset(&stack, 0, sizeof(stack));
-     target_save_altstack(&stack, env);
-@@ -325,10 +324,10 @@ static void setup_sigframe_v2(struct target_ucontext_v2 *uc,
-     /* Save coprocessor signal frame.  */
-     regspace = uc->tuc_regspace;
-     if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))) {
--        regspace = setup_sigframe_v2_vfp(regspace, env);
-+        regspace = setup_sigframe_vfp(regspace, env);
-     }
-     if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
--        regspace = setup_sigframe_v2_iwmmxt(regspace, env);
-+        regspace = setup_sigframe_iwmmxt(regspace, env);
-     }
- 
-     /* Write terminating magic word */
-@@ -339,10 +338,10 @@ static void setup_sigframe_v2(struct target_ucontext_v2 *uc,
-     }
- }
- 
--static void setup_frame_v2(int usig, struct target_sigaction *ka,
--                           target_sigset_t *set, CPUARMState *regs)
-+void setup_frame(int usig, struct target_sigaction *ka,
-+                 target_sigset_t *set, CPUARMState *regs)
- {
--    struct sigframe_v2 *frame;
-+    struct sigframe *frame;
-     abi_ulong frame_addr = get_sigframe(ka, regs, sizeof(*frame));
- 
-     trace_user_setup_frame(regs, frame_addr);
-@@ -350,10 +349,10 @@ static void setup_frame_v2(int usig, struct target_sigaction *ka,
-         goto sigsegv;
-     }
- 
--    setup_sigframe_v2(&frame->uc, set, regs);
-+    setup_sigframe(&frame->uc, set, regs);
- 
-     if (setup_return(regs, ka, frame->retcode, frame_addr, usig,
--                     frame_addr + offsetof(struct sigframe_v2, retcode))) {
-+                     frame_addr + offsetof(struct sigframe, retcode))) {
-         goto sigsegv;
-     }
- 
-@@ -364,17 +363,11 @@ sigsegv:
-     force_sigsegv(usig);
- }
- 
--void setup_frame(int usig, struct target_sigaction *ka,
--                 target_sigset_t *set, CPUARMState *regs)
--{
--    setup_frame_v2(usig, ka, set, regs);
--}
+-/*
+- * For ARM syscalls, we encode the syscall number into the instruction.
+- */
+-#define SWI_SYS_SIGRETURN       (0xef000000|(TARGET_NR_sigreturn + ARM_SYSCALL_BASE))
+-#define SWI_SYS_RT_SIGRETURN    (0xef000000|(TARGET_NR_rt_sigreturn + ARM_SYSCALL_BASE))
 -
--static void setup_rt_frame_v2(int usig, struct target_sigaction *ka,
--                              target_siginfo_t *info,
--                              target_sigset_t *set, CPUARMState *env)
-+void setup_rt_frame(int usig, struct target_sigaction *ka,
-+                    target_siginfo_t *info,
-+                    target_sigset_t *set, CPUARMState *env)
+-/*
+- * For Thumb syscalls, we pass the syscall number via r7.  We therefore
+- * need two 16-bit instructions.
+- */
+-#define SWI_THUMB_SIGRETURN     (0xdf00 << 16 | 0x2700 | (TARGET_NR_sigreturn))
+-#define SWI_THUMB_RT_SIGRETURN  (0xdf00 << 16 | 0x2700 | (TARGET_NR_rt_sigreturn))
+-
+-static const abi_ulong retcodes[4] = {
+-        SWI_SYS_SIGRETURN,      SWI_THUMB_SIGRETURN,
+-        SWI_SYS_RT_SIGRETURN,   SWI_THUMB_RT_SIGRETURN
+-};
++static abi_ptr sigreturn_fdpic_tramp;
+ 
+ /*
+- * Stub needed to make sure the FD register (r9) contains the right
+- * value.
++ * Up to 3 words of 'retcode' in the sigframe are code,
++ * with retcode[3] being used by fdpic for the function descriptor.
++ * This code is not actually executed, but is retained for ABI compat.
++ *
++ * We will create a table of 8 retcode variants in the sigtramp page.
++ * Let each table entry use 3 words.
+  */
+-static const unsigned long sigreturn_fdpic_codes[3] = {
+-    0xe59fc004, /* ldr r12, [pc, #4] to read function descriptor */
+-    0xe59c9004, /* ldr r9, [r12, #4] to setup GOT */
+-    0xe59cf000  /* ldr pc, [r12] to jump into restorer */
+-};
+-
+-static const unsigned long sigreturn_fdpic_thumb_codes[3] = {
+-    0xc008f8df, /* ldr r12, [pc, #8] to read function descriptor */
+-    0x9004f8dc, /* ldr r9, [r12, #4] to setup GOT */
+-    0xf000f8dc  /* ldr pc, [r12] to jump into restorer */
+-};
++#define RETCODE_WORDS  3
++#define RETCODE_BYTES  (RETCODE_WORDS * 4)
+ 
+ static inline int valid_user_regs(CPUARMState *regs)
  {
--    struct rt_sigframe_v2 *frame;
-+    struct rt_sigframe *frame;
-     abi_ulong frame_addr = get_sigframe(ka, env, sizeof(*frame));
-     abi_ulong info_addr, uc_addr;
- 
-@@ -383,14 +376,14 @@ static void setup_rt_frame_v2(int usig, struct target_sigaction *ka,
-         goto sigsegv;
-     }
- 
--    info_addr = frame_addr + offsetof(struct rt_sigframe_v2, info);
--    uc_addr = frame_addr + offsetof(struct rt_sigframe_v2, uc);
-+    info_addr = frame_addr + offsetof(struct rt_sigframe, info);
-+    uc_addr = frame_addr + offsetof(struct rt_sigframe, uc);
-     tswap_siginfo(&frame->info, info);
- 
--    setup_sigframe_v2(&frame->uc, set, env);
-+    setup_sigframe(&frame->uc, set, env);
- 
-     if (setup_return(env, ka, frame->retcode, frame_addr, usig,
--                     frame_addr + offsetof(struct rt_sigframe_v2, retcode))) {
-+                     frame_addr + offsetof(struct rt_sigframe, retcode))) {
-         goto sigsegv;
-     }
- 
-@@ -404,13 +397,6 @@ sigsegv:
-     force_sigsegv(usig);
+@@ -183,15 +161,15 @@ get_sigframe(struct target_sigaction *ka, CPUARMState *regs, int framesize)
  }
  
--void setup_rt_frame(int usig, struct target_sigaction *ka,
--                    target_siginfo_t *info,
--                    target_sigset_t *set, CPUARMState *env)
--{
--    setup_rt_frame_v2(usig, ka, info, set, env);
--}
--
  static int
- restore_sigcontext(CPUARMState *env, struct target_sigcontext *sc)
+-setup_return(CPUARMState *env, struct target_sigaction *ka,
+-             abi_ulong *rc, abi_ulong frame_addr, int usig, abi_ulong rc_addr)
++setup_return(CPUARMState *env, struct target_sigaction *ka, int usig,
++             struct sigframe *frame, abi_ulong sp_addr)
  {
-@@ -441,7 +427,7 @@ restore_sigcontext(CPUARMState *env, struct target_sigcontext *sc)
-     return err;
- }
+     abi_ulong handler = 0;
+     abi_ulong handler_fdpic_GOT = 0;
+     abi_ulong retcode;
+-
+-    int thumb;
++    int thumb, retcode_idx;
+     int is_fdpic = info_is_fdpic(((TaskState *)thread_cpu->opaque)->info);
++    bool copy_retcode;
  
--static abi_ulong *restore_sigframe_v2_vfp(CPUARMState *env, abi_ulong *regspace)
-+static abi_ulong *restore_sigframe_vfp(CPUARMState *env, abi_ulong *regspace)
- {
-     int i;
-     abi_ulong magic, sz;
-@@ -471,8 +457,8 @@ static abi_ulong *restore_sigframe_v2_vfp(CPUARMState *env, abi_ulong *regspace)
-     return (abi_ulong*)(vfpframe + 1);
- }
+     if (is_fdpic) {
+         /* In FDPIC mode, ka->_sa_handler points to a function
+@@ -208,6 +186,7 @@ setup_return(CPUARMState *env, struct target_sigaction *ka,
+     }
  
--static abi_ulong *restore_sigframe_v2_iwmmxt(CPUARMState *env,
--                                             abi_ulong *regspace)
-+static abi_ulong *restore_sigframe_iwmmxt(CPUARMState *env,
-+                                          abi_ulong *regspace)
- {
-     int i;
-     abi_ulong magic, sz;
-@@ -496,9 +482,9 @@ static abi_ulong *restore_sigframe_v2_iwmmxt(CPUARMState *env,
-     return (abi_ulong*)(iwmmxtframe + 1);
- }
+     thumb = handler & 1;
++    retcode_idx = thumb + (ka->sa_flags & TARGET_SA_SIGINFO ? 2 : 0);
  
--static int do_sigframe_return_v2(CPUARMState *env,
--                                 target_ulong context_addr,
--                                 struct target_ucontext_v2 *uc)
-+static int do_sigframe_return(CPUARMState *env,
-+                              target_ulong context_addr,
-+                              struct target_ucontext *uc)
- {
-     sigset_t host_set;
-     abi_ulong *regspace;
-@@ -506,19 +492,20 @@ static int do_sigframe_return_v2(CPUARMState *env,
-     target_to_host_sigset(&host_set, &uc->tuc_sigmask);
-     set_sigmask(&host_set);
+     uint32_t cpsr = cpsr_read(env);
  
--    if (restore_sigcontext(env, &uc->tuc_mcontext))
-+    if (restore_sigcontext(env, &uc->tuc_mcontext)) {
-         return 1;
+@@ -225,44 +204,29 @@ setup_return(CPUARMState *env, struct target_sigaction *ka,
+ 
+     if (ka->sa_flags & TARGET_SA_RESTORER) {
+         if (is_fdpic) {
+-            /* For FDPIC we ensure that the restorer is called with a
+-             * correct r9 value.  For that we need to write code on
+-             * the stack that sets r9 and jumps back to restorer
+-             * value.
+-             */
+-            if (thumb) {
+-                __put_user(sigreturn_fdpic_thumb_codes[0], rc);
+-                __put_user(sigreturn_fdpic_thumb_codes[1], rc + 1);
+-                __put_user(sigreturn_fdpic_thumb_codes[2], rc + 2);
+-                __put_user((abi_ulong)ka->sa_restorer, rc + 3);
+-            } else {
+-                __put_user(sigreturn_fdpic_codes[0], rc);
+-                __put_user(sigreturn_fdpic_codes[1], rc + 1);
+-                __put_user(sigreturn_fdpic_codes[2], rc + 2);
+-                __put_user((abi_ulong)ka->sa_restorer, rc + 3);
+-            }
+-
+-            retcode = rc_addr + thumb;
++            __put_user((abi_ulong)ka->sa_restorer, &frame->retcode[3]);
++            retcode = (sigreturn_fdpic_tramp +
++                       retcode_idx * RETCODE_BYTES + thumb);
++            copy_retcode = true;
+         } else {
+             retcode = ka->sa_restorer;
++            copy_retcode = false;
+         }
+     } else {
+-        unsigned int idx = thumb;
+-
+-        if (ka->sa_flags & TARGET_SA_SIGINFO) {
+-            idx += 2;
+-        }
+-
+-        __put_user(retcodes[idx], rc);
++        retcode = default_sigreturn + retcode_idx * RETCODE_BYTES + thumb;
++        copy_retcode = true;
 +    }
  
-     /* Restore coprocessor signal frame */
-     regspace = uc->tuc_regspace;
-     if (cpu_isar_feature(aa32_vfp_simd, env_archcpu(env))) {
--        regspace = restore_sigframe_v2_vfp(env, regspace);
-+        regspace = restore_sigframe_vfp(env, regspace);
-         if (!regspace) {
-             return 1;
-         }
+-        retcode = rc_addr + thumb;
++    /* Copy the code to the stack slot for ABI compatibility. */
++    if (copy_retcode) {
++        memcpy(frame->retcode, g2h_untagged(retcode & ~1), RETCODE_BYTES);
      }
-     if (arm_feature(env, ARM_FEATURE_IWMMXT)) {
--        regspace = restore_sigframe_v2_iwmmxt(env, regspace);
-+        regspace = restore_sigframe_iwmmxt(env, regspace);
-         if (!regspace) {
-             return 1;
-         }
-@@ -535,10 +522,10 @@ static int do_sigframe_return_v2(CPUARMState *env,
-     return 0;
- }
  
--static long do_sigreturn_v2(CPUARMState *env)
-+long do_sigreturn(CPUARMState *env)
- {
-     abi_ulong frame_addr;
--    struct sigframe_v2 *frame = NULL;
-+    struct sigframe *frame = NULL;
+     env->regs[0] = usig;
+     if (is_fdpic) {
+         env->regs[9] = handler_fdpic_GOT;
+     }
+-    env->regs[13] = frame_addr;
++    env->regs[13] = sp_addr;
+     env->regs[14] = retcode;
+     env->regs[15] = handler & (thumb ? ~1 : ~3);
+     cpsr_write(env, cpsr, CPSR_IT | CPSR_T | CPSR_E, CPSRWriteByInstr);
+@@ -351,8 +315,7 @@ void setup_frame(int usig, struct target_sigaction *ka,
  
-     /*
-      * Since we stacked the signal on a 64-bit boundary,
-@@ -555,10 +542,9 @@ static long do_sigreturn_v2(CPUARMState *env)
+     setup_sigframe(&frame->uc, set, regs);
+ 
+-    if (setup_return(regs, ka, frame->retcode, frame_addr, usig,
+-                     frame_addr + offsetof(struct sigframe, retcode))) {
++    if (setup_return(regs, ka, usig, frame, frame_addr)) {
+         goto sigsegv;
+     }
+ 
+@@ -377,13 +340,12 @@ void setup_rt_frame(int usig, struct target_sigaction *ka,
+     }
+ 
+     info_addr = frame_addr + offsetof(struct rt_sigframe, info);
+-    uc_addr = frame_addr + offsetof(struct rt_sigframe, uc);
++    uc_addr = frame_addr + offsetof(struct rt_sigframe, sig.uc);
+     tswap_siginfo(&frame->info, info);
+ 
+-    setup_sigframe(&frame->uc, set, env);
++    setup_sigframe(&frame->sig.uc, set, env);
+ 
+-    if (setup_return(env, ka, frame->retcode, frame_addr, usig,
+-                     frame_addr + offsetof(struct rt_sigframe, retcode))) {
++    if (setup_return(env, ka, usig, &frame->sig, frame_addr)) {
+         goto sigsegv;
+     }
+ 
+@@ -578,8 +540,8 @@ long do_rt_sigreturn(CPUARMState *env)
+     }
+ 
+     if (do_sigframe_return(env,
+-                           frame_addr + offsetof(struct rt_sigframe, uc),
+-                           &frame->uc)) {
++                           frame_addr + offsetof(struct rt_sigframe, sig.uc),
++                           &frame->sig.uc)) {
          goto badframe;
      }
  
--    if (do_sigframe_return_v2(env,
--                              frame_addr
--                              + offsetof(struct sigframe_v2, uc),
--                              &frame->uc)) {
-+    if (do_sigframe_return(env,
-+                           frame_addr + offsetof(struct sigframe, uc),
-+                           &frame->uc)) {
-         goto badframe;
-     }
- 
-@@ -571,15 +557,10 @@ badframe:
-     return -TARGET_QEMU_ESIGRETURN;
- }
- 
--long do_sigreturn(CPUARMState *env)
--{
--    return do_sigreturn_v2(env);
--}
--
--static long do_rt_sigreturn_v2(CPUARMState *env)
-+long do_rt_sigreturn(CPUARMState *env)
- {
-     abi_ulong frame_addr;
--    struct rt_sigframe_v2 *frame = NULL;
-+    struct rt_sigframe *frame = NULL;
- 
-     /*
-      * Since we stacked the signal on a 64-bit boundary,
-@@ -596,10 +577,9 @@ static long do_rt_sigreturn_v2(CPUARMState *env)
-         goto badframe;
-     }
- 
--    if (do_sigframe_return_v2(env,
--                              frame_addr
--                              + offsetof(struct rt_sigframe_v2, uc),
--                              &frame->uc)) {
-+    if (do_sigframe_return(env,
-+                           frame_addr + offsetof(struct rt_sigframe, uc),
-+                           &frame->uc)) {
-         goto badframe;
-     }
- 
-@@ -611,8 +591,3 @@ badframe:
+@@ -591,3 +553,78 @@ badframe:
      force_sig(TARGET_SIGSEGV);
      return -TARGET_QEMU_ESIGRETURN;
  }
--
--long do_rt_sigreturn(CPUARMState *env)
--{
--    return do_rt_sigreturn_v2(env);
--}
++
++/*
++ * EABI syscalls pass the number via r7.
++ * Note that the kernel still adds the OABI syscall number to the trap,
++ * presumably for backward ABI compatibility with unwinders.
++ */
++#define ARM_MOV_R7_IMM(X)       (0xe3a07000 | (X))
++#define ARM_SWI_SYS(X)          (0xef000000 | (X) | ARM_SYSCALL_BASE)
++
++#define THUMB_MOVS_R7_IMM(X)    (0x2700 | (X))
++#define THUMB_SWI_SYS           0xdf00
++
++static void write_arm_sigreturn(uint32_t *rc, int syscall)
++{
++    __put_user(ARM_MOV_R7_IMM(syscall), rc);
++    __put_user(ARM_SWI_SYS(syscall), rc + 1);
++    /* Wrote 8 of 12 bytes */
++}
++
++static void write_thm_sigreturn(uint32_t *rc, int syscall)
++{
++    __put_user(THUMB_SWI_SYS << 16 | THUMB_MOVS_R7_IMM(syscall), rc);
++    /* Wrote 4 of 12 bytes */
++}
++
++/*
++ * Stub needed to make sure the FD register (r9) contains the right value.
++ * Use the same instruction sequence as the kernel.
++ */
++static void write_arm_fdpic_sigreturn(uint32_t *rc, int ofs)
++{
++    assert(ofs <= 0xfff);
++    __put_user(0xe59d3000 | ofs, rc + 0);   /* ldr r3, [sp, #ofs] */
++    __put_user(0xe8930908, rc + 1);         /* ldm r3, { r3, r9 } */
++    __put_user(0xe12fff13, rc + 2);         /* bx  r3 */
++    /* Wrote 12 of 12 bytes */
++}
++
++static void write_thm_fdpic_sigreturn(void *vrc, int ofs)
++{
++    uint16_t *rc = vrc;
++
++    assert((ofs & ~0x3fc) == 0);
++    __put_user(0x9b00 | (ofs >> 2), rc + 0);      /* ldr r3, [sp, #ofs] */
++    __put_user(0xcb0c, rc + 1);                   /* ldm r3, { r2, r3 } */
++    __put_user(0x4699, rc + 2);                   /* mov r9, r3 */
++    __put_user(0x4710, rc + 3);                   /* bx  r2 */
++    /* Wrote 8 of 12 bytes */
++}
++
++void setup_sigtramp(abi_ulong sigtramp_page)
++{
++    uint32_t total_size = 8 * RETCODE_BYTES;
++    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, total_size, 0);
++
++    assert(tramp != NULL);
++
++    default_sigreturn = sigtramp_page;
++    write_arm_sigreturn(&tramp[0 * RETCODE_WORDS], TARGET_NR_sigreturn);
++    write_thm_sigreturn(&tramp[1 * RETCODE_WORDS], TARGET_NR_sigreturn);
++    write_arm_sigreturn(&tramp[2 * RETCODE_WORDS], TARGET_NR_rt_sigreturn);
++    write_thm_sigreturn(&tramp[3 * RETCODE_WORDS], TARGET_NR_rt_sigreturn);
++
++    sigreturn_fdpic_tramp = sigtramp_page + 4 * RETCODE_BYTES;
++    write_arm_fdpic_sigreturn(tramp + 4 * RETCODE_WORDS,
++                              offsetof(struct sigframe, retcode[3]));
++    write_thm_fdpic_sigreturn(tramp + 5 * RETCODE_WORDS,
++                                offsetof(struct sigframe, retcode[3]));
++    write_arm_fdpic_sigreturn(tramp + 6 * RETCODE_WORDS,
++                              offsetof(struct rt_sigframe, sig.retcode[3]));
++    write_thm_fdpic_sigreturn(tramp + 7 * RETCODE_WORDS,
++                              offsetof(struct rt_sigframe, sig.retcode[3]));
++
++    unlock_user(tramp, sigtramp_page, total_size);
++}
+diff --git a/linux-user/arm/target_signal.h b/linux-user/arm/target_signal.h
+index 0998dd6dfa75..1e7fb0cecbdd 100644
+--- a/linux-user/arm/target_signal.h
++++ b/linux-user/arm/target_signal.h
+@@ -22,4 +22,6 @@ typedef struct target_sigaltstack {
+ #include "../generic/signal.h"
+ 
+ #define TARGET_ARCH_HAS_SETUP_FRAME
++#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
++
+ #endif /* ARM_TARGET_SIGNAL_H */
 -- 
 2.31.1
 
