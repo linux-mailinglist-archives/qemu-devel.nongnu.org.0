@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0793D42110D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 16:12:04 +0200 (CEST)
-Received: from localhost ([::1]:58516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8D54210EF
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 16:07:40 +0200 (CEST)
+Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXOhH-0004w8-3J
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 10:12:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42770)
+	id 1mXOd0-00058m-GF
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 10:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXOXW-0001Xn-S1
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:02:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21483)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1mXOaL-00034c-Ms
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:04:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXOXT-0002IO-Hc
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:01:58 -0400
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1mXOaJ-0004Xn-LG
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:04:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633356113;
+ s=mimecast20190719; t=1633356290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I3/hKPNiynaaU9fk28u8RuIbHNMqGoTYSy4MgVsqQOc=;
- b=HEUDh0rVhB5mTOOjCoJ42y//AlILvoNaCiH3Qwpf8TtQx9ZvjWSLJ+kpJSDAzlWz5RfWSn
- KzeyB36jEwJSceZ9tLDM/xpU6EQHm8IMg9PF3JPZasbjLxgq7YzaqZZxcQPUkIIQE0OU/5
- zjG5gnRSPPfXY60WHTOvn7z0KR7cnYw=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0oddRFTjgC8wMF4YjBkr/MMEDiG1UVXt9ILG/PBATM0=;
+ b=KmjcspXQPlQBeZr+Zslp1tXFESlvDVGPJmrgPrxsM1vth/gzkV6rjf4pqjXUuiG63pMX+t
+ JFngejZ35c2XypZ/b3bsB4LP4SRCpSpMScIvkIHL/HUsc3/a3Y44u/qU1IuVrN1dy16ZJX
+ 4DhW6m/LYlY4YEvJvcjHJfoA7tSCrLg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-JGKMR30HNx2pR5dhLG7nHg-1; Mon, 04 Oct 2021 10:01:51 -0400
-X-MC-Unique: JGKMR30HNx2pR5dhLG7nHg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-363-vYNiK0O2MjCFDPEGTellOg-1; Mon, 04 Oct 2021 10:04:49 -0400
+X-MC-Unique: vYNiK0O2MjCFDPEGTellOg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 944351023F56;
- Mon,  4 Oct 2021 14:01:50 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.17.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A57B5D9DE;
- Mon,  4 Oct 2021 14:01:25 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 0FF0B220BDB; Mon,  4 Oct 2021 10:01:25 -0400 (EDT)
-Date: Mon, 4 Oct 2021 10:01:24 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 02/13] virtiofsd: fuse.h header file changes for lock
- notification
-Message-ID: <YVsJNDJxsy1NAhHE@redhat.com>
-References: <20210930153037.1194279-1-vgoyal@redhat.com>
- <20210930153037.1194279-3-vgoyal@redhat.com>
- <YVr+oqwYRx11MBug@stefanha-x1.localdomain>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BF12802C8A
+ for <qemu-devel@nongnu.org>; Mon,  4 Oct 2021 14:04:48 +0000 (UTC)
+Received: from vitty.brq.redhat.com (unknown [10.40.194.218])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA03B5D740;
+ Mon,  4 Oct 2021 14:04:46 +0000 (UTC)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v3] i386: docs: Briefly describe KVM PV features
+Date: Mon,  4 Oct 2021 16:04:45 +0200
+Message-Id: <20211004140445.624875-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YVr+oqwYRx11MBug@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,87 +76,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: miklos@szeredi.hu, qemu-devel@nongnu.org, iangelak@redhat.com,
- dgilbert@redhat.com, virtio-fs@redhat.com, jaggel@bu.edu
+Cc: Igor Mammedov <imammedo@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 04, 2021 at 02:16:18PM +0100, Stefan Hajnoczi wrote:
-> On Thu, Sep 30, 2021 at 11:30:26AM -0400, Vivek Goyal wrote:
-> > This change comes from fuse.h kernel header file udpate. Hence keeping
-> > it in a separate patch.
-> 
-> QEMU syncs include/standard-headers/linux/ from linux.git. Please
-> indicate the status of this fuse.h change:
-> - Is it already in a Linux release?
-> - Or is it already in linux.git?
-> - Or is it awaiting review from the kernel FUSE maintainer?
+KVM PV features don't seem to be documented anywhere, in particular, the
+fact that some of the features are enabled by default and some are not can
+only be figured out from the code.
 
-This is awaiting review from kernel FUSE maintainer.
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+Changes since "[PATCH v2 0/8] i386: Assorted KVM PV and Hyper-V feature
+ improvements" [Paolo Bonzini]:
+- Convert to 'rst' and move to docs/system/i386/kvm-pv.rst.
+- Add information about the version of Linux that introduced the particular
+  PV feature.
+---
+ docs/system/i386/kvm-pv.rst | 100 ++++++++++++++++++++++++++++++++++++
+ docs/system/target-i386.rst |   1 +
+ 2 files changed, 101 insertions(+)
+ create mode 100644 docs/system/i386/kvm-pv.rst
 
-I have posted kernel patches here.
-
-https://lore.kernel.org/linux-fsdevel/20210930143850.1188628-1-vgoyal@redhat.com/
-
-Vivek
-
-> 
-> We need to wait for the kernel change to get into linux.git before
-> merging this patch in QEMU. This ensures that QEMU uses actual released
-> kernel interfaces that are guaranteed to be stable.
-> 
-> > 
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > ---
-> >  include/standard-headers/linux/fuse.h | 11 ++++++++++-
-> >  1 file changed, 10 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/include/standard-headers/linux/fuse.h b/include/standard-headers/linux/fuse.h
-> > index cce105bfba..0b6218d569 100644
-> > --- a/include/standard-headers/linux/fuse.h
-> > +++ b/include/standard-headers/linux/fuse.h
-> > @@ -181,6 +181,8 @@
-> >   *  - add FUSE_OPEN_KILL_SUIDGID
-> >   *  - extend fuse_setxattr_in, add FUSE_SETXATTR_EXT
-> >   *  - add FUSE_SETXATTR_ACL_KILL_SGID
-> > + *  7.35
-> > + *  - add FUSE_NOTIFY_LOCK
-> >   */
-> >  
-> >  #ifndef _LINUX_FUSE_H
-> > @@ -212,7 +214,7 @@
-> >  #define FUSE_KERNEL_VERSION 7
-> >  
-> >  /** Minor version number of this interface */
-> > -#define FUSE_KERNEL_MINOR_VERSION 33
-> > +#define FUSE_KERNEL_MINOR_VERSION 35
-> >  
-> >  /** The node ID of the root inode */
-> >  #define FUSE_ROOT_ID 1
-> > @@ -521,6 +523,7 @@ enum fuse_notify_code {
-> >  	FUSE_NOTIFY_STORE = 4,
-> >  	FUSE_NOTIFY_RETRIEVE = 5,
-> >  	FUSE_NOTIFY_DELETE = 6,
-> > +	FUSE_NOTIFY_LOCK = 7,
-> >  	FUSE_NOTIFY_CODE_MAX,
-> >  };
-> >  
-> > @@ -912,6 +915,12 @@ struct fuse_notify_retrieve_in {
-> >  	uint64_t	dummy4;
-> >  };
-> >  
-> > +struct fuse_notify_lock_out {
-> > +	uint64_t	unique;
-> > +	int32_t		error;
-> > +	int32_t		padding;
-> > +};
-> > +
-> >  /* Device ioctls: */
-> >  #define FUSE_DEV_IOC_MAGIC		229
-> >  #define FUSE_DEV_IOC_CLONE		_IOR(FUSE_DEV_IOC_MAGIC, 0, uint32_t)
-> > -- 
-> > 2.31.1
-> > 
-
+diff --git a/docs/system/i386/kvm-pv.rst b/docs/system/i386/kvm-pv.rst
+new file mode 100644
+index 000000000000..1e5a9923ef45
+--- /dev/null
++++ b/docs/system/i386/kvm-pv.rst
+@@ -0,0 +1,100 @@
++Paravirtualized KVM features
++============================
++
++Description
++-----------
++
++In some cases when implementing hardware interfaces in software is slow, ``KVM``
++implements its own paravirtualized interfaces.
++
++Setup
++-----
++
++Paravirtualized ``KVM`` features are represented as CPU flags. The following
++features are enabled by default for any CPU model when ``KVM`` acceleration is
++enabled:
++
++- ``kvmclock``
++- ``kvm-nopiodelay``
++- ``kvm-asyncpf``
++- ``kvm-steal-time``
++- ``kvm-pv-eoi``
++- ``kvmclock-stable-bit``
++
++``kvm-msi-ext-dest-id`` feature is enabled by default in x2apic mode with split
++irqchip (e.g. "-machine ...,kernel-irqchip=split -cpu ...,x2apic").
++
++Note: when CPU model ``host`` is used, QEMU passes through all supported
++paravirtualized ``KVM`` features to the guest.
++
++Existing features
++-----------------
++
++``kvmclock``
++  Expose a ``KVM`` specific paravirtualized clocksource to the guest. Supported
++  since Linux v2.6.26.
++
++``kvm-nopiodelay``
++  The guest doesn't need to perform delays on PIO operations. Supported since
++  Linux v2.6.26.
++
++``kvm-mmu``
++  This feature is deprecated.
++
++``kvm-asyncpf``
++  Enable asynchronous page fault mechanism. Supported since Linux v2.6.38.
++  Note: since Linux v5.10 the feature is deprecated and not enabled by ``KVM``.
++  Use ``kvm-asyncpf-int`` instead.
++
++``kvm-steal-time``
++  Enable stolen (when guest vCPU is not running) time accounting. Supported
++  since Linux v3.1.
++
++``kvm-pv-eoi``
++  Enable paravirtualized end-of-interrupt signaling. Supported since Linux
++  v3.10.
++
++``kvm-pv-unhalt``
++  Enable paravirtualized spinlocks support. Supported since Linux v3.12.
++
++``kvm-pv-tlb-flush``
++  Enable paravirtualized TLB flush mechanism. Supported since Linux v4.16.
++
++``kvm-pv-ipi``
++  Enable paravirtualized IPI mechanism. Supported since Linux v4.19.
++
++``kvm-poll-control``
++  Enable host-side polling on HLT control from the guest. Supported since Linux
++  v5.10.
++
++``kvm-pv-sched-yield``
++  Enable paravirtualized sched yield feature. Supported since Linux v5.10.
++
++``kvm-asyncpf-int``
++  Enable interrupt based asynchronous page fault mechanism. Supported since Linux
++  v5.10.
++
++``kvm-msi-ext-dest-id``
++  Support 'Extended Destination ID' for external interrupts. The feature allows
++  to use up to 32768 CPUs without IRQ remapping (but other limits may apply making
++  the number of supported vCPUs for a given configuration lower). Supported since
++  Linux v5.10.
++
++``kvmclock-stable-bit``
++  Tell the guest that guest visible TSC value can be fully trusted for kvmclock
++  computations and no warps are expected. Supported since Linux v2.6.35.
++
++Supplementary features
++----------------------
++
++``kvm-pv-enforce-cpuid``
++  Limit the supported paravirtualized feature set to the exposed features only.
++  Note, by default, ``KVM`` allows the guest to use all currently supported
++  paravirtualized features even when they were not announced in guest visible
++  CPUIDs. Supported since Linux v5.10.
++
++
++Useful links
++------------
++
++Please refer to Documentation/virt/kvm in Linux for additional details.
+diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
+index 6a86d638633a..4daa53c35d8f 100644
+--- a/docs/system/target-i386.rst
++++ b/docs/system/target-i386.rst
+@@ -26,6 +26,7 @@ Architectural features
+    :maxdepth: 1
+ 
+    i386/cpu
++   i386/kvm-pv
+    i386/sgx
+ 
+ .. _pcsys_005freq:
+-- 
+2.31.1
 
 
