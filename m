@@ -2,62 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433E4421431
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 18:36:05 +0200 (CEST)
-Received: from localhost ([::1]:39660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF7D421467
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 18:49:42 +0200 (CEST)
+Received: from localhost ([::1]:56408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXQwe-0000tf-1Y
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 12:36:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55396)
+	id 1mXR9o-0004HZ-PS
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 12:49:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXQtU-0007UQ-0Q
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 12:32:48 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:44815)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mXR7R-0002aV-57
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 12:47:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXQtS-00037I-1R
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 12:32:47 -0400
-Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MiZof-1n2eui1nSJ-00fktv; Mon, 04 Oct 2021 18:32:43 +0200
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
- <20211002110007.30825-12-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH 11/12] macfb: add vertical blank interrupt
-Message-ID: <94532455-2a7b-8ad2-1b6f-a6c4fc9d971f@vivier.eu>
-Date: Mon, 4 Oct 2021 18:32:42 +0200
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mXR7O-0006jA-4K
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 12:47:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633366029;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ym+poDTcszjKCvp1Fth/QsmfonZlJkBsJ1CQnYdTsy4=;
+ b=iM2R/Zzfk4XM4s+h/yDXNfxZyf9EGj0SRJdUO/wNG7V0xnereX7zYqeXDd2O0rO1ihYtuT
+ UGs68X/vB4ujBdbdl5GWVyC10cJhRWrT61BWIoXncoddbDASxKR9+BqGRU3N60nXpY72tk
+ 8qg19odgG6fBnh5XC03fOH8iFAQo8PI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-406-HN8Rp4OjMwy6QufdtSyd3g-1; Mon, 04 Oct 2021 12:47:04 -0400
+X-MC-Unique: HN8Rp4OjMwy6QufdtSyd3g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m2-20020a05600c3b0200b0030cd1310631so154961wms.7
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 09:47:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Ym+poDTcszjKCvp1Fth/QsmfonZlJkBsJ1CQnYdTsy4=;
+ b=gfpw+FKMDjf69fc/FYxFYrRQDmwkK1MYEHyn3HaYul4oqVVmA4JiW3EFAipSq3crs4
+ cKXqLLDuSkBM7Tqn3uLV5kQczG0kTcItraN3MTzjZLTsuEQsFCn7letx84Ubx7YSm10d
+ WTKIurh3x8K84lGvdC1XynAKcysqBKBRIqj8cfZCEPJbOCi7jUvESapcYn2rILi5O2sh
+ CYZJbpy96rhc733n+jApa0RFI/YNhrDtakNfrcqCl704WJIq72X3/+vcL5+B7c/wUW/V
+ IIipKR2dQpZPd9XBcqUnl74ns7sJwotoTHXZR6qd9eWLRLuOb1Mc0RvBARCf8EdsYkvo
+ H6BQ==
+X-Gm-Message-State: AOAM532u6IH6GvXn9LR1ReytxnJkBTF4UXBKfMIh0zLSAj/lyuWlW8QI
+ BJvef/NEYmx+ILBBUVnWxAf9fgoGc7FnLhX0VvfC+srTvV2DmHDOuzjo1WUBxH5h2o55oq2qGd7
+ Day7cB4clp2Ti3h8=
+X-Received: by 2002:adf:a415:: with SMTP id d21mr10241825wra.236.1633366023225; 
+ Mon, 04 Oct 2021 09:47:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxA4aXJa0aZGo4WhxpegGKo+dh5QQCuhokyNIgh3o5IuFz5QJktXLOQ+1ZdXO3X8SCxWLCViA==
+X-Received: by 2002:adf:a415:: with SMTP id d21mr10241785wra.236.1633366022874; 
+ Mon, 04 Oct 2021 09:47:02 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id d8sm7840056wrz.84.2021.10.04.09.47.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Oct 2021 09:47:02 -0700 (PDT)
+Subject: Re: [PULL 00/12] jobs: mirror: Handle errors after READY cancel
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
+References: <20210921102017.273679-1-vsementsov@virtuozzo.com>
+ <4a51243d-5746-260d-3045-b48650aa5047@linaro.org>
+ <46b96d63-e6f4-5dc3-a4ab-ade47ab5f553@virtuozzo.com>
+ <085e9e5a-56b5-21ce-e1af-0500acd39937@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <dedd1e5a-bb91-1ba7-5cd4-06f03dce37a3@redhat.com>
+Date: Mon, 4 Oct 2021 18:47:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20211002110007.30825-12-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+In-Reply-To: <085e9e5a-56b5-21ce-e1af-0500acd39937@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:83vas2U/RXNuF59rfbkvXalLYxbW2jik37Xhxz7wgYAzB4B+q7u
- 98xZkG4KmTVg4FF7c6EaukxKHy/DGwYPnO/hfjNSMzOmpp7N6oFaL6lvUY1T0/ObpTJ8rL1
- 2SIucj3DnG2/1K4rN2Hjp5SI9r6T2Ew65kIUz2CBHBJ6byzurm4R/69z8AClIfOg8d5l0Lp
- BGflHYC5WnBC+lvETMXMA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:82GR1VKNIVg=:U3IzH+zxPudwtC/XJwR9uH
- GuMW1Pixr0pA8RqNv7L0KY0p0J30Q3fU6qDe7Ib/dg4IW3C/E8tuU1Rzu0Gyv+EQmgs9zQiMl
- GlI6pcnOc4OeTaaPbSI9PTPdq18K0IvYHruELYdJg8ma0OfpFrsYLxrr2utIwrBfYuTW6J/M4
- sN501/n7iKuv6cBuSdWTLIfR4cS9yuzE7c92HcPnekkm6Mh4yDcyLgUwFCKXmFJZw8YLo4z3/
- u7pNzrU6AljGSIP8tMyeNWsrzhZhpCfg/ZuxxPuJ5CrIOqlKIRcer+2obIt5KPGRz6Zt9F5yO
- T1gxHmyQLmHOJ4RASCKsHVwHH17KXQoCEViTp741LzKyWzuvV0XKbWfNJrwRphrFSsPfQrfvb
- Qz8e4a4jkz9x9VW3FvzpCyoiFWHw7gfYKq2t280Rb3PgR8GLR5qE97Y5dOuuiUJ91ak+/HfYO
- lhhGlc8Sau8KpP2egDHuuVN/OQTs+9fTGmsR0QG80toj7YC+wyMbA675ShNY2YnNcDLXkJjY2
- mw87teN6Ti+zIZlWTsDB1lS/oG3tXZB3yA3nuvWWeMUhRhP9bAVHxXLsmfYKrvwv21cAmCbeH
- d45gzsbZY8QWS7FnPn0Pg7/Xg92W89Ovr4nh4EcoFY1lmxQx8YV/2Ajr8uXJbr+bi4SzVVYx5
- w7FkwvmTaeMAEtdWrNATuwrP8cJkjDtNAdBeYHgtO7Wrk+enV03OvEQjj/m6gGMse42t9gdXT
- gjLKJY3cKynUwhLE9bKMo+eEp+akLF1QDM7urw==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,211 +101,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, jsnow@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/10/2021 à 13:00, Mark Cave-Ayland a écrit :
-> The MacOS driver expects a 60.15Hz vertical blank interrupt to be generated by
-> the framebuffer which in turn schedules the mouse driver via the Vertical Retrace
-> Manager.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/display/macfb.c         | 81 ++++++++++++++++++++++++++++++++++++++
->  include/hw/display/macfb.h |  8 ++++
->  2 files changed, 89 insertions(+)
-> 
-> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-> index 29f6ad8eba..60a203e67b 100644
-> --- a/hw/display/macfb.c
-> +++ b/hw/display/macfb.c
-> @@ -33,9 +33,16 @@
->  #define DAFB_MODE_CTRL1     0x8
->  #define DAFB_MODE_CTRL2     0xc
->  #define DAFB_MODE_SENSE     0x1c
-> +#define DAFB_INTR_MASK      0x104
-> +#define DAFB_INTR_STAT      0x108
-> +#define DAFB_INTR_CLEAR     0x10c
->  #define DAFB_RESET          0x200
->  #define DAFB_LUT            0x213
->  
-> +#define DAFB_INTR_VBL   0x4
-> +
-> +/* Vertical Blank period (60.15Hz) */
-> +#define DAFB_INTR_VBL_PERIOD_NS 16625800
->  
->  /*
->   * Quadra sense codes taken from Apple Technical Note HW26:
-> @@ -449,6 +456,32 @@ static void macfb_update_display(void *opaque)
->      macfb_draw_graphic(s);
->  }
->  
-> +static void macfb_update_irq(MacfbState *s)
-> +{
-> +    uint32_t irq_state = s->irq_state & s->irq_mask;
-> +
-> +    if (irq_state) {
-> +        qemu_irq_raise(s->irq);
-> +    } else {
-> +        qemu_irq_lower(s->irq);
-> +    }
-> +}
-> +
-> +static void macfb_vbl_timer(void *opaque)
-> +{
-> +    MacfbState *s = opaque;
-> +    int64_t next_vbl;
-> +
-> +    s->irq_state |= DAFB_INTR_VBL;
-> +    macfb_update_irq(s);
-> +
-> +    /* 60 Hz irq */
-> +    next_vbl = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-> +                DAFB_INTR_VBL_PERIOD_NS) /
-> +                DAFB_INTR_VBL_PERIOD_NS * DAFB_INTR_VBL_PERIOD_NS;
-> +    timer_mod(s->vbl_timer, next_vbl);
+On 24.09.21 00:01, Vladimir Sementsov-Ogievskiy wrote:
+> 22.09.2021 22:19, Vladimir Sementsov-Ogievskiy wrote:
+>> 22.09.2021 19:05, Richard Henderson wrote:
+>>> On 9/21/21 3:20 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>>> The following changes since commit 
+>>>> 326ff8dd09556fc2e257196c49f35009700794ac:
+>>>>
+>>>>    Merge remote-tracking branch 
+>>>> 'remotes/jasowang/tags/net-pull-request' into staging (2021-09-20 
+>>>> 16:17:05 +0100)
+>>>>
+>>>> are available in the Git repository at:
+>>>>
+>>>>    https://src.openvz.org/scm/~vsementsov/qemu.git 
+>>>> tags/pull-jobs-2021-09-21
+>>>>
+>>>> for you to fetch changes up to 
+>>>> c9489c04319cac75c76af8fc27c254f46e10214c:
+>>>>
+>>>>    iotests: Add mirror-ready-cancel-error test (2021-09-21 11:56:11 
+>>>> +0300)
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> mirror: Handle errors after READY cancel
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> Hanna Reitz (12):
+>>>>        job: Context changes in job_completed_txn_abort()
+>>>>        mirror: Keep s->synced on error
+>>>>        mirror: Drop s->synced
+>>>>        job: Force-cancel jobs in a failed transaction
+>>>>        job: @force parameter for job_cancel_sync()
+>>>>        jobs: Give Job.force_cancel more meaning
+>>>>        job: Add job_cancel_requested()
+>>>>        mirror: Use job_is_cancelled()
+>>>>        mirror: Check job_is_cancelled() earlier
+>>>>        mirror: Stop active mirroring after force-cancel
+>>>>        mirror: Do not clear .cancelled
+>>>>        iotests: Add mirror-ready-cancel-error test
+>>>
+>>> This fails testing with errors like so:
+>>>
+>>> Running test test-replication
+>>> test-replication: ../job.c:186: job_state_transition: Assertion 
+>>> `JobSTT[s0][s1]' failed.
+>>> ERROR test-replication - too few tests run (expected 13, got 8)
+>>> make: *** [Makefile.mtest:816: run-test-100] Error 1
+>>> Cleaning up project directory and file based variables
+>>> ERROR: Job failed: exit code 1
+>>>
+>>> https://gitlab.com/qemu-project/qemu/-/pipelines/375324015/failures
+>>>
+>>
+>>
+>> Interesting :(
+>>
+>> I've reproduced, starting test-replication in several parallel loops. 
+>> (it doesn't reproduce for me if just start in one loop). So, that's 
+>> some racy bug..
+>>
+>> Hmm, and seems it doesn't reproduce so simple on master. I'll try to 
+>> bisect the series tomorrow.
+>>
+>> ====
+>>
+>> (gdb) bt
+>> #0  0x00007f034a3d09d5 in raise () from /lib64/libc.so.6
+>> #1  0x00007f034a3b9954 in abort () from /lib64/libc.so.6
+>> #2  0x00007f034a3b9789 in __assert_fail_base.cold () from 
+>> /lib64/libc.so.6
+>> #3  0x00007f034a3c9026 in __assert_fail () from /lib64/libc.so.6
+>> #4  0x000055d3b503d670 in job_state_transition (job=0x55d3b5e67020, 
+>> s1=JOB_STATUS_CONCLUDED) at ../job.c:186
+>> #5  0x000055d3b503e7c2 in job_conclude (job=0x55d3b5e67020) at 
+>> ../job.c:652
+>> #6  0x000055d3b503eaa1 in job_finalize_single (job=0x55d3b5e67020) at 
+>> ../job.c:722
+>> #7  0x000055d3b503ecd1 in job_completed_txn_abort 
+>> (job=0x55d3b5e67020) at ../job.c:801
+>> #8  0x000055d3b503f2ea in job_cancel (job=0x55d3b5e67020, 
+>> force=false) at ../job.c:973
+>> #9  0x000055d3b503f360 in job_cancel_err (job=0x55d3b5e67020, 
+>> errp=0x7fffcc997a80) at ../job.c:992
+>> #10 0x000055d3b503f576 in job_finish_sync (job=0x55d3b5e67020, 
+>> finish=0x55d3b503f33f <job_cancel_err>, errp=0x0) at ../job.c:1054
+>> #11 0x000055d3b503f3d0 in job_cancel_sync (job=0x55d3b5e67020, 
+>> force=false) at ../job.c:1008
+>> #12 0x000055d3b4ff14a3 in replication_close (bs=0x55d3b5e6ef80) at 
+>> ../block/replication.c:152
+>> #13 0x000055d3b50277fc in bdrv_close (bs=0x55d3b5e6ef80) at 
+>> ../block.c:4677
+>> #14 0x000055d3b50286cf in bdrv_delete (bs=0x55d3b5e6ef80) at 
+>> ../block.c:5100
+>> #15 0x000055d3b502ae3a in bdrv_unref (bs=0x55d3b5e6ef80) at 
+>> ../block.c:6495
+>> #16 0x000055d3b5023a38 in bdrv_root_unref_child 
+>> (child=0x55d3b5e4c690) at ../block.c:3010
+>> #17 0x000055d3b5047998 in blk_remove_bs (blk=0x55d3b5e73b40) at 
+>> ../block/block-backend.c:845
+>> #18 0x000055d3b5046e38 in blk_delete (blk=0x55d3b5e73b40) at 
+>> ../block/block-backend.c:461
+>> #19 0x000055d3b50470dc in blk_unref (blk=0x55d3b5e73b40) at 
+>> ../block/block-backend.c:516
+>> #20 0x000055d3b4fdb20a in teardown_secondary () at 
+>> ../tests/unit/test-replication.c:367
+>> #21 0x000055d3b4fdb632 in test_secondary_continuous_replication () at 
+>> ../tests/unit/test-replication.c:504
+>> #22 0x00007f034b26979e in g_test_run_suite_internal () from 
+>> /lib64/libglib-2.0.so.0
+>> #23 0x00007f034b26959b in g_test_run_suite_internal () from 
+>> /lib64/libglib-2.0.so.0
+>> #24 0x00007f034b26959b in g_test_run_suite_internal () from 
+>> /lib64/libglib-2.0.so.0
+>> #25 0x00007f034b269c8a in g_test_run_suite () from 
+>> /lib64/libglib-2.0.so.0
+>> #26 0x00007f034b269ca5 in g_test_run () from /lib64/libglib-2.0.so.0
+>> #27 0x000055d3b4fdb9c0 in main (argc=1, argv=0x7fffcc998138) at 
+>> ../tests/unit/test-replication.c:613
+>> (gdb) fr 4
+>> #4  0x000055d3b503d670 in job_state_transition (job=0x55d3b5e67020, 
+>> s1=JOB_STATUS_CONCLUDED) at ../job.c:186
+>> 186         assert(JobSTT[s0][s1]);
+>> (gdb) list
+>> 181         JobStatus s0 = job->status;
+>> 182         assert(s1 >= 0 && s1 < JOB_STATUS__MAX);
+>> 183         trace_job_state_transition(job, job->ret,
+>> 184                                    JobSTT[s0][s1] ? "allowed" : 
+>> "disallowed",
+>> 185                                    JobStatus_str(s0), 
+>> JobStatus_str(s1));
+>> 186         assert(JobSTT[s0][s1]);
+>> 187         job->status = s1;
+>> 188
+>> 189         if (!job_is_internal(job) && s1 != s0) {
+>> 190             qapi_event_send_job_status_change(job->id, job->status);
+>> (gdb) p s0
+>> $1 = JOB_STATUS_NULL
+>> (gdb) p s1
+>> $2 = JOB_STATUS_CONCLUDED
+>>
+>>
+>>
+>
+>
+> bisect points to "job: Add job_cancel_requested()"
+>
+> And "bisecting" within this commit shows that the following helps:
+>
+> diff --git a/job.c b/job.c
+> index be878ca5fc..bb52a1b58f 100644
+> --- a/job.c
+> +++ b/job.c
+> @@ -655,7 +655,7 @@ static void job_conclude(Job *job)
+>
+>  static void job_update_rc(Job *job)
+>  {
+> -    if (!job->ret && job_is_cancelled(job)) {
+> +    if (!job->ret && job_cancel_requested(job)) {
+>          job->ret = -ECANCELED;
+>      }
+>      if (job->ret) {
+>
+>
+> - this returns job_update_rc to pre-patch behavior.
+>
+> But why, I don't know:) More investigation is needed. probably 
+> replication code is doing something wrong..
 
-perhaps you can move this to a function and call it here and below?
+ From what I can tell, this is what happens:
 
-> +}
-> +
->  static void macfb_reset(MacfbState *s)
->  {
->      int i;
-> @@ -477,6 +510,9 @@ static uint64_t macfb_ctrl_read(void *opaque,
->      case DAFB_MODE_CTRL2:
->          val = s->regs[addr >> 2];
->          break;
-> +    case DAFB_INTR_STAT:
-> +        val = s->irq_state;
-> +        break;
->      case DAFB_MODE_SENSE:
->          val = macfb_sense_read(s);
->          break;
-> @@ -492,6 +528,8 @@ static void macfb_ctrl_write(void *opaque,
->                               unsigned int size)
->  {
->      MacfbState *s = opaque;
-> +    int64_t next_vbl;
-> +
->      switch (addr) {
->      case DAFB_MODE_VADDR1:
->      case DAFB_MODE_VADDR2:
-> @@ -507,8 +545,25 @@ static void macfb_ctrl_write(void *opaque,
->      case DAFB_MODE_SENSE:
->          macfb_sense_write(s, val);
->          break;
-> +    case DAFB_INTR_MASK:
-> +        s->irq_mask = val;
-> +        if (val & DAFB_INTR_VBL) {
-> +            next_vbl = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-> +                        DAFB_INTR_VBL_PERIOD_NS) /
-> +                        DAFB_INTR_VBL_PERIOD_NS * DAFB_INTR_VBL_PERIOD_NS;
-> +            timer_mod(s->vbl_timer, next_vbl);
-> +        } else {
-> +            timer_del(s->vbl_timer);
-> +        }
-> +        break;
-> +    case DAFB_INTR_CLEAR:
-> +        s->irq_state &= ~DAFB_INTR_VBL;
-> +        macfb_update_irq(s);
-> +        break;
->      case DAFB_RESET:
->          s->palette_current = 0;
-> +        s->irq_state &= ~DAFB_INTR_VBL;
-> +        macfb_update_irq(s);
->          break;
->      case DAFB_LUT:
->          s->color_palette[s->palette_current++] = val;
-> @@ -586,6 +641,7 @@ static void macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
->      s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
->      memory_region_set_coalescing(&s->mem_vram);
->  
-> +    s->vbl_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, macfb_vbl_timer, s);
->      macfb_update_mode(s);
->  }
->  
-> @@ -601,6 +657,16 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
->  
->      sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_ctrl);
->      sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
-> +
-> +    qdev_init_gpio_out(dev, &ms->irq, 1);
-> +}
-> +
-> +static void macfb_nubus_set_irq(void *opaque, int n, int level)
-> +{
-> +    MacfbNubusState *s = NUBUS_MACFB(opaque);
-> +    NubusDevice *nd = NUBUS_DEVICE(s);
-> +
-> +    nubus_set_irq(nd, level);
->  }
->  
->  static void macfb_nubus_realize(DeviceState *dev, Error **errp)
-> @@ -622,6 +688,19 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
->  
->      memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
->      memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
-> +
-> +    ms->irq = qemu_allocate_irq(macfb_nubus_set_irq, s, 0);
-> +}
-> +
-> +static void macfb_nubus_unrealize(DeviceState *dev)
-> +{
-> +    MacfbNubusState *s = NUBUS_MACFB(dev);
-> +    MacfbNubusDeviceClass *ndc = NUBUS_MACFB_GET_CLASS(dev);
-> +    MacfbState *ms = &s->macfb;
-> +
-> +    ndc->parent_unrealize(dev);
-> +
-> +    qemu_free_irq(ms->irq);
->  }
->  
->  static void macfb_sysbus_reset(DeviceState *d)
-> @@ -672,6 +751,8 @@ static void macfb_nubus_class_init(ObjectClass *klass, void *data)
->  
->      device_class_set_parent_realize(dc, macfb_nubus_realize,
->                                      &ndc->parent_realize);
-> +    device_class_set_parent_unrealize(dc, macfb_nubus_unrealize,
-> +                                      &ndc->parent_unrealize);
->      dc->desc = "Nubus Macintosh framebuffer";
->      dc->reset = macfb_nubus_reset;
->      dc->vmsd = &vmstate_macfb;
-> diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
-> index 0aff0d84d2..e52775aa21 100644
-> --- a/include/hw/display/macfb.h
-> +++ b/include/hw/display/macfb.h
-> @@ -14,7 +14,9 @@
->  #define MACFB_H
->  
->  #include "exec/memory.h"
-> +#include "hw/irq.h"
->  #include "ui/console.h"
-> +#include "qemu/timer.h"
->  #include "qom/object.h"
->  
->  typedef enum  {
-> @@ -63,6 +65,11 @@ typedef struct MacfbState {
->  
->      uint32_t regs[MACFB_NUM_REGS];
->      MacFbMode *mode;
-> +
-> +    uint32_t irq_state;
-> +    uint32_t irq_mask;
-> +    QEMUTimer *vbl_timer;
-> +    qemu_irq irq;
->  } MacfbState;
->  
->  #define TYPE_MACFB "sysbus-macfb"
-> @@ -81,6 +88,7 @@ struct MacfbNubusDeviceClass {
->      DeviceClass parent_class;
->  
->      DeviceRealize parent_realize;
-> +    DeviceUnrealize parent_unrealize;
->  };
->  
->  
-> 
+(1) The mirror job completes, we go to job_co_entry(), and schedule 
+job_exit().  It doesn’t run yet, though.
+(2) replication_close() cancels the job.
+(3) We get to job_completed_txn_abort().
+(4) The job isn’t completed yet, so we invoke job_finish_sync().
+(5) Now job_exit() finally gets to run, and this is how we end up in a 
+situation where .cancelled is true, but .force_cancel is false: Yes, 
+mirror clears .cancelled before exiting its main loop, but if the job is 
+cancelled between it having been deferred to the main loop and 
+job_exit() running, it may become true again.
+(6) job_exit() leads to job_completed(), which invokes job_update_rc(), 
+which however leaves job->ret == 0.
+(7) job_completed() also calls job_completed_txn_success(), which is 
+weird, because we still have job_completed_txn_abort() running 
+concurrently...
+(8) job_completed_txn_success() invokes job_do_finalize(), which goes to 
+job_finalize_single(), which leaves the job in status null.
+(9) job_finish_sync() is done, so we land back in 
+job_completed_txn_abort(): We call job_finalize_single(), which tries to 
+conclude the job, and that gives us the failed assertion (attempted 
+transition from null to concluded).
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+(When everything works, it seems like the job is completed before 
+replication_close() can cancel it.  Cancelling is then a no-op and 
+nothing breaks.)
+
+So now we could say the problem is that once a job completes and is 
+deferred to the main loop, non-force cancel should do nothing. 
+job_cancel_async() should not set job->cancelled to true if `!force && 
+job->deferred_to_main_loop`.  job_cancel() should invoke 
+job_completed_txn_abort() not if `job->deferred_to_main_loop`, but if 
+`job->deferred_to_main_loop && job_is_cancelled(job)`. (Doing this seems 
+to fix the bug for me.)
+
+That I think would conform to the reasoning laid out in patch 7’s commit 
+message, namely that some functions are called after the job has been 
+deferred to the main loop, and because mirror clears .cancelled when it 
+has been soft-cancelled, it’d be impossible to observe 
+`.deferred_to_main_loop == true && .cancelled == true && 
+.force_cancelled == false`.
+
+
+Or we continue having soft-cancelled jobs still be -ECANCELED, which 
+seems like the safe choice?  But it goes against what we’ve decided for 
+patch 7, namely that soft-cancelled jobs should be treated like they’d 
+complete as normal.
+
+Hanna
+
 
