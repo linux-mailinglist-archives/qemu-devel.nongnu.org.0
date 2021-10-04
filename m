@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9787421215
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 16:54:46 +0200 (CEST)
-Received: from localhost ([::1]:36734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 702DC42121E
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 16:57:03 +0200 (CEST)
+Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXPMb-0008Dx-6s
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 10:54:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57264)
+	id 1mXPOo-00020B-Ed
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 10:57:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1mXPKU-0007BK-On
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:52:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60154)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mXPMg-0000bN-57
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:54:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1mXPKR-0003O1-Nj
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:52:33 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mXPMe-0005wD-Du
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:54:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633359145;
+ s=mimecast20190719; t=1633359287;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aqxSBttWW0zEEqQiNJEEav1wh09doIx9kEdchuvZ9Zs=;
- b=gD+orj6R2TAh0frUGYeFSGXBxa9PclTgmc0L7M26zohACZ9YaSleMPr44mVUUB+E1WAGon
- gsfraqZKgbPae+AQOGiLvx3OHMaDRPyK033Ld91Hn2X8b/Z9Tp+/iIzY6271xDe4DTyx62
- Sm3wxqNwEZZACkOyA4dMNtYUD6fcXRE=
+ bh=gXCadVxY5s3oUF7aLJbkP2tSSY3h2TvKcXoHow6YzXo=;
+ b=bFSWP6h5x4q0qHxfWQ6hbR2N5BXZ4vm26kX4Vo1ICU1oQVu5Ub7vEhQCxRFgV05BKGmvNk
+ Rh8+od412cLjsh3v8vhCK2jZ7jNRMFChS8+un+qnOOPMDxn5UU62Sq+WePfrUV5z8SD7zx
+ 20qkmbsCKC9Nqzmd7u+0VSPf6EfLXKc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-c37ib5rnMTOjhNLnWz9KEw-1; Mon, 04 Oct 2021 10:51:05 -0400
-X-MC-Unique: c37ib5rnMTOjhNLnWz9KEw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-556-ENvexLuJO8ytwxn64WJG8w-1; Mon, 04 Oct 2021 10:54:46 -0400
+X-MC-Unique: ENvexLuJO8ytwxn64WJG8w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 441C91019988;
- Mon,  4 Oct 2021 14:51:04 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.22.10.140])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 77AC519D9B;
- Mon,  4 Oct 2021 14:50:53 +0000 (UTC)
-Subject: Re: [PATCH 0/1] vmx: Fix <genid/> mapping
-To: "Richard W.M. Jones" <rjones@redhat.com>,
- =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>
-References: <cover.1632900578.git.mprivozn@redhat.com>
- <20210929092044.GE3361@redhat.com> <YVQy9yiU1RPxCcM8@redhat.com>
- <20210929095719.GH3361@redhat.com> <YVQ7my3BHi1On/JK@redhat.com>
- <20210929103400.GJ3361@redhat.com> <20210930073348.GL7596@redhat.com>
- <YVV5hZmEs2NmbiiI@redhat.com> <20210930091620.GX3361@redhat.com>
- <20211004095912.GP7596@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <ecfdc6cc-c411-851f-afb6-ac301d722d99@redhat.com>
-Date: Mon, 4 Oct 2021 16:50:51 +0200
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 709F8DF8AD;
+ Mon,  4 Oct 2021 14:54:45 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.243])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 05CB460843;
+ Mon,  4 Oct 2021 14:54:32 +0000 (UTC)
+Date: Mon, 4 Oct 2021 15:54:31 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH 10/13] virtiofsd: Custom threadpool for remote blocking
+ posix locks requests
+Message-ID: <YVsVp4rPILhz+/Eh@stefanha-x1.localdomain>
+References: <20210930153037.1194279-1-vgoyal@redhat.com>
+ <20210930153037.1194279-11-vgoyal@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211004095912.GP7596@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210930153037.1194279-11-vgoyal@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Z+FomQ254OgZIFhd"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,56 +80,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Michal Privoznik <mprivozn@redhat.com>,
- acatan@amazon.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: miklos@szeredi.hu, qemu-devel@nongnu.org, iangelak@redhat.com,
+ dgilbert@redhat.com, virtio-fs@redhat.com, jaggel@bu.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/04/21 11:59, Richard W.M. Jones wrote:
-> It turns out that changing the qemu implementation is painful,
-> particularly if we wish to maintain backwards compatibility of the
-> command line and live migration.
->
-> Instead I opted to document comprehensively what all the
-> different hypervisors do:
->
->   https://github.com/libguestfs/virt-v2v/blob/master/docs/vm-generation-id-across-hypervisors.txt
+--Z+FomQ254OgZIFhd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Unfortunately QEMU made a significant mistake when implementing this
-> feature.  Because the string is 128 bits wrong, they decided it must
-                                  ^^^^^^^^^^^^^^
+On Thu, Sep 30, 2021 at 11:30:34AM -0400, Vivek Goyal wrote:
+> Add a new custom threadpool using posix threads that specifically
+> service locking requests.
+>=20
+> In the case of a fcntl(SETLKW) request, if the guest is waiting
+> for a lock or locks and issues a hard-reboot through SYSRQ then virtiofsd
+> unblocks the blocked threads by sending a signal to them and waking
+> them up.
+>=20
+> The current threadpool (GThreadPool) is not adequate to service the
+> locking requests that result in a thread blocking. That is because
+> GLib does not provide an API to cancel the request while it is
+> serviced by a thread. In addition, a user might be running virtiofsd
+> without a threadpool (--thread-pool-size=3D0), thus a locking request
+> that blocks, will block the main virtqueue thread that services requests
+> from servicing any other requests.
+>=20
+> The only exception occurs when the lock is of type F_UNLCK. In this case
+> the request is serviced by the main virtqueue thread or a GThreadPool
+> thread to avoid a deadlock, when all the threads in the custom threadpool
+> are blocked.
+>=20
+> Then virtiofsd proceeds to cleanup the state of the threads, release
+> them back to the system and re-initialize.
 
-Haha, that's a great typo :)
+Is there another way to cancel SETLKW without resorting to a new thread
+pool? Since this only matters when shutting down or restarting, can we
+close all plock->fd file descriptors to kick the GThreadPool workers out
+of fnctl()?
 
-> be a UUID (as you can see above there is no evidence that Microsoft
-> who wrote the original spec thought it was).  Following from this
-> incorrect assumption, they stated that the "UUID" must be supplied to
-> qemu in big endian format and must be byteswapped when writing it to
-> guest memory.  Their documentation says that they only do this for
-> little endian guests, but this is not true of their implementation
-> which byte swaps it for all guests.
+>=20
+> Signed-off-by: Ioannis Angelakopoulos <iangelak@redhat.com>
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> ---
+>  tools/virtiofsd/fuse_virtio.c         |  90 ++++++-
+>  tools/virtiofsd/meson.build           |   1 +
+>  tools/virtiofsd/passthrough_seccomp.c |   1 +
+>  tools/virtiofsd/tpool.c               | 331 ++++++++++++++++++++++++++
+>  tools/virtiofsd/tpool.h               |  18 ++
+>  5 files changed, 440 insertions(+), 1 deletion(-)
+>  create mode 100644 tools/virtiofsd/tpool.c
+>  create mode 100644 tools/virtiofsd/tpool.h
+>=20
+> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.=
+c
+> index 3b720c5d4a..c67c2e0e7a 100644
+> --- a/tools/virtiofsd/fuse_virtio.c
+> +++ b/tools/virtiofsd/fuse_virtio.c
+> @@ -20,6 +20,7 @@
+>  #include "fuse_misc.h"
+>  #include "fuse_opt.h"
+>  #include "fuse_virtio.h"
+> +#include "tpool.h"
+> =20
+>  #include <sys/eventfd.h>
+>  #include <sys/socket.h>
+> @@ -612,6 +613,60 @@ out:
+>      free(req);
+>  }
+> =20
+> +/*
+> + * If the request is a locking request, use a custom locking thread pool=
+.
+> + */
+> +static bool use_lock_tpool(gpointer data, gpointer user_data)
+> +{
+> +    struct fv_QueueInfo *qi =3D user_data;
+> +    struct fuse_session *se =3D qi->virtio_dev->se;
+> +    FVRequest *req =3D data;
+> +    VuVirtqElement *elem =3D &req->elem;
+> +    struct fuse_buf fbuf =3D {};
+> +    struct fuse_in_header *inhp;
+> +    struct fuse_lk_in *lkinp;
+> +    size_t lk_req_len;
+> +    /* The 'out' part of the elem is from qemu */
+> +    unsigned int out_num =3D elem->out_num;
+> +    struct iovec *out_sg =3D elem->out_sg;
+> +    size_t out_len =3D iov_size(out_sg, out_num);
+> +    bool use_custom_tpool =3D false;
+> +
+> +    /*
+> +     * If notifications are not enabled, no point in using cusotm lock
+> +     * thread pool.
+> +     */
+> +    if (!se->notify_enabled) {
+> +        return false;
+> +    }
+> +
+> +    assert(se->bufsize > sizeof(struct fuse_in_header));
+> +    lk_req_len =3D sizeof(struct fuse_in_header) + sizeof(struct fuse_lk=
+_in);
+> +
+> +    if (out_len < lk_req_len) {
+> +        return false;
+> +    }
+> +
+> +    fbuf.mem =3D g_malloc(se->bufsize);
+> +    copy_from_iov(&fbuf, out_num, out_sg, lk_req_len);
 
-I don't think this is what section "Endian-ness Considerations" in
-"docs/specs/vmgenid.txt" says. That text says that the *device* uses
-little-endian format. That's independent of the endianness of *CPU* of
-the particular guest architecture.
+This looks inefficient: for every FUSE request we now malloc se->bufsize
+and then copy lk_req_len bytes, only to free the memory again.
 
-So the byte-swapping in the QEMU code occurs unconditionally because
-QEMU's UUID type is inherently big endian, and the device model in
-question is fixed little endian. The guest CPU's endianness is
-irrelevant as far as the device is concerned.
+Is it possible to keep lk_req_len bytes on the stack instead?
 
-If a BE guest CPU intends to read the generation ID and to interpret it
-as a set of integers, then the guest CPU is supposed to byte-swap the
-appropriate fields itself.
+--Z+FomQ254OgZIFhd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> References
+-----BEGIN PGP SIGNATURE-----
 
-I suggest adding two links in this section, namely to:
-- docs/specs/vmgenid.txt
-- hw/acpi/vmgenid.c
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFbFacACgkQnKSrs4Gr
+c8gBBgf/SjkAY3cbcX+VAOrCSPviGcgx7hxVc6MFQDC3AqygPX/X/MAHncPoXxYq
+ug/wH6P/4ls/Fzf06KX0EwaWKlTr9+HdGA1nYbGXmxEJ5BsYhPcj/ipGuiGDEcap
+BKVxyD/Qtd1sCaqYR0P3AGua22wYIhrD3O9RUINrDoL9MdWB5aIhThnabQ2/6NFO
+S6UL3EaknNQAT8mpdgTcnWPVqrCcNWHCjdfxPO8QL/6Be5LAYJzLKWJkX6AIEnv1
+JEM/T3jT2GijYHPBBMLl3qV3CCARdOBkM+OFf7xWr5YlD003n5rSUovuTRV7mcBf
+LrhCsPN3vd5wpuz949rAlc5zH7x8qg==
+=2V8P
+-----END PGP SIGNATURE-----
 
-Thanks,
-Laszlo
+--Z+FomQ254OgZIFhd--
 
 
