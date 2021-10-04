@@ -2,49 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6004E420941
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:19:30 +0200 (CEST)
-Received: from localhost ([::1]:38648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93754420942
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:19:40 +0200 (CEST)
+Received: from localhost ([::1]:39368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXL4D-0003KM-EZ
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:19:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49404)
+	id 1mXL4N-0003p6-Lc
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mXKy9-0003Ky-TR
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:13:15 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:36852)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mXKz6-000588-TH
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:14:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mXKy3-0003EQ-M0
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:13:11 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 346D77463B7;
- Mon,  4 Oct 2021 12:13:04 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0ED9D748F4E; Mon,  4 Oct 2021 12:13:04 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 0D489746398;
- Mon,  4 Oct 2021 12:13:04 +0200 (CEST)
-Date: Mon, 4 Oct 2021 12:13:04 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
- interrupts
-In-Reply-To: <20211003161629.614BA745953@zero.eik.bme.hu>
-Message-ID: <873f926c-e059-52a4-252e-5dbd7e03bee@eik.bme.hu>
-References: <20211003161629.614BA745953@zero.eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mXKz1-00043D-SV
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:14:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633342447;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DQy3hcmEG7f8p0XG7+HQIaO0VC6GZhQxwlTyx9Ls2o8=;
+ b=DcTMgRFP0aJ6s8KATFUTjUECkBE8aVOY1rdWWhX60kvLcZ8iECMkGdvPV83ePvU4cIOjbj
+ z4fNQwL5lOgANoBQCM8MtVpFZVNUlpA+UhmoXA4UZ1fDLf9p+JCUF8B4qqZ3lz/3/EZCqO
+ 1MVQKaFHy3EGfoaqm3K3HHJr3xLO5Zc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-ZYvMQBgJOneAfqzggzZeqQ-1; Mon, 04 Oct 2021 06:14:06 -0400
+X-MC-Unique: ZYvMQBgJOneAfqzggzZeqQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ a10-20020a5d508a000000b00160723ce588so4452003wrt.23
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 03:14:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DQy3hcmEG7f8p0XG7+HQIaO0VC6GZhQxwlTyx9Ls2o8=;
+ b=TmG7DJa0reLNtmsC5M4esTJGCHQ4C9dwc17KqYktNZyZtrIlvZQrDgzHuroiyRevFr
+ GWYhVbxIoN/kY6ZaWU9w+UaC+3Amf1BxFXTuIVE2UsqopOLZIe5mcAsEd7pNl5rGsJyP
+ 6X/jw9VUnJQV0ZOdD2dm9AiOKOERB0jFlpXal6t9TgE2yL/afdIyylNiKhZYRT57gLd1
+ ccOiM7KShx/mjTx8s32wP0o718FziUDHTGF4v9awT03l2VBXO1VfiYLomseZ+b+btPqX
+ oDfLiySKTQP8Ik4rYOiZyqFKCbw3ZAkaYCoBSQbqRuCl7rSAclj9hfwNzTq4FtCyLKn0
+ oGKw==
+X-Gm-Message-State: AOAM530GNJLV0PtUs07NJXaIr/wunKy83iWWo1PbfCNuIiEjICXf8gmX
+ 8asDtY8PYO48zVAHnOydWv08HvbEeQAmJOUgOgXXPqFZ0O8BFu7FjBaX21LNpxrGZ/GmQoGP9lh
+ vM16qQaSeiM/2/c8=
+X-Received: by 2002:adf:9bc9:: with SMTP id e9mr7896345wrc.388.1633342445247; 
+ Mon, 04 Oct 2021 03:14:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw6xmecZPd8EJ7UEjc/MNxBc0yktAFhzsCIEptziVSR332G2Q0OLjV37vXubMNa2VB7PxiVzw==
+X-Received: by 2002:adf:9bc9:: with SMTP id e9mr7896330wrc.388.1633342445124; 
+ Mon, 04 Oct 2021 03:14:05 -0700 (PDT)
+Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
+ by smtp.gmail.com with ESMTPSA id l21sm7802830wmg.18.2021.10.04.03.14.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Oct 2021 03:14:04 -0700 (PDT)
+Date: Mon, 4 Oct 2021 12:14:03 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH v2 2/5] hw/arm/virt: Add a control for the the highmem
+ redistributors
+Message-ID: <20211004101403.i65r26cc22a5ktqi@gator>
+References: <20211003164605.3116450-1-maz@kernel.org>
+ <20211003164605.3116450-3-maz@kernel.org>
+ <20211004094408.xfftmls7h6bbypuk@gator>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211004094408.xfftmls7h6bbypuk@gator>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,101 +96,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Philippe M-D <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
+ qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ kernel-team@android.com, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 3 Oct 2021, BALATON Zoltan wrote:
-> This device is part of a sperio/ISA bridge chip and IRQs from it are
-> routed to an ISA interrupt set by the Interrupt Line PCI config
-> register. Change uhci_update_irq() to allow this and use it from
-> vt82c686-uhci-pci.
->
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
-> Maybe bit of a hack but fixes USB interrupts on pegasos2 until
-> somebody has a better idea. I'm not sure about fuloong2e but the
-> VT82C686B docs say it also does the same routing IRQs to ISA PIC like
-> VT8231 used on pegasos2.
+On Mon, Oct 04, 2021 at 11:44:08AM +0200, Andrew Jones wrote:
+> On Sun, Oct 03, 2021 at 05:46:02PM +0100, Marc Zyngier wrote:
+...
+> >  
+> > -    return MACHINE(vms)->smp.cpus > redist0_capacity ? 2 : 1;
+> > +    return (MACHINE(vms)->smp.cpus > redist0_capacity &&
+> > +            vms->highmem_redists) ? 2 : 1;
+> 
+> Wouldn't it be equivalent to just use vms->highmem here?
 
-I've found this breaks compilation for machines that have UHCI but no ISA 
-so I'll have to cahnge it a bit to put a set_irq method in UHCIState 
-instead that subclasses can set then implement the ISA irq mapping in 
-vt82c686-uhci-pci.c which depends on VT82C686B which depends on ISA but 
-the idea is the same unless somebody comes up with a better one. I'll send 
-a v2 later.
+OK, I see in the last patch that we may disable highmem_redists
+but not highmem.
 
-Regards,
-BALATON Zoltan
+In that case,
 
-> hw/usb/hcd-uhci.c          | 12 +++++++++---
-> hw/usb/hcd-uhci.h          |  1 +
-> hw/usb/vt82c686-uhci-pci.c |  1 +
-> 3 files changed, 11 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
-> index 0cb02a6432..8f28241f70 100644
-> --- a/hw/usb/hcd-uhci.c
-> +++ b/hw/usb/hcd-uhci.c
-> @@ -31,6 +31,7 @@
-> #include "hw/usb/uhci-regs.h"
-> #include "migration/vmstate.h"
-> #include "hw/pci/pci.h"
-> +#include "hw/irq.h"
-> #include "hw/qdev-properties.h"
-> #include "qapi/error.h"
-> #include "qemu/timer.h"
-> @@ -290,7 +291,7 @@ static UHCIAsync *uhci_async_find_td(UHCIState *s, uint32_t td_addr)
->
-> static void uhci_update_irq(UHCIState *s)
-> {
-> -    int level;
-> +    int level = 0;
->     if (((s->status2 & 1) && (s->intr & (1 << 2))) ||
->         ((s->status2 & 2) && (s->intr & (1 << 3))) ||
->         ((s->status & UHCI_STS_USBERR) && (s->intr & (1 << 0))) ||
-> @@ -298,10 +299,15 @@ static void uhci_update_irq(UHCIState *s)
->         (s->status & UHCI_STS_HSERR) ||
->         (s->status & UHCI_STS_HCPERR)) {
->         level = 1;
-> +    }
-> +    if (s->isa_irqs) {
-> +        uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
-> +        if (irq < ISA_NUM_IRQS) {
-> +            qemu_set_irq(isa_get_irq(NULL, irq), level);
-> +        }
->     } else {
-> -        level = 0;
-> +        pci_set_irq(&s->dev, level);
->     }
-> -    pci_set_irq(&s->dev, level);
-> }
->
-> static void uhci_reset(DeviceState *dev)
-> diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
-> index e61d8fcb19..c91805a65e 100644
-> --- a/hw/usb/hcd-uhci.h
-> +++ b/hw/usb/hcd-uhci.h
-> @@ -59,6 +59,7 @@ typedef struct UHCIState {
->     uint32_t frame_bytes;
->     uint32_t frame_bandwidth;
->     bool completions_only;
-> +    bool isa_irqs;
->     UHCIPort ports[NB_PORTS];
->
->     /* Interrupts that should be raised at the end of the current frame.  */
-> diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
-> index b109c21603..5c79e293ef 100644
-> --- a/hw/usb/vt82c686-uhci-pci.c
-> +++ b/hw/usb/vt82c686-uhci-pci.c
-> @@ -13,6 +13,7 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
->     /* USB legacy support  */
->     pci_set_long(pci_conf + 0xc0, 0x00002000);
->
-> +    s->isa_irqs = true;
->     usb_uhci_common_realize(dev, errp);
-> }
->
->
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+
+Thanks,
+drew
+
 
