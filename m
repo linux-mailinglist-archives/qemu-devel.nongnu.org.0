@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D81842180F
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 21:59:30 +0200 (CEST)
-Received: from localhost ([::1]:52378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E56B4421842
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 22:13:49 +0200 (CEST)
+Received: from localhost ([::1]:43892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXU7U-0006lS-RB
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 15:59:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41474)
+	id 1mXULM-0003uC-NM
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 16:13:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXU6O-00065g-1A
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 15:58:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30099)
+ (Exim 4.90_1)
+ (envelope-from <ae0464f653ef20292e335ba3de0d62ab3ce8c72c@lizzy.crudebyte.com>)
+ id 1mXUFz-0005fe-Oa; Mon, 04 Oct 2021 16:08:15 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:47225)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXU6J-0001YT-8E
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 15:58:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633377492;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uxlqTrRwZTkeI8U/zws5ajse6SB18QMMQ7qQkcUllZM=;
- b=NJoKVrNToDtWvYHpN5GciV2ZabvUJIQu7ndwg4VzMlYSivsH9eZkujhcOMaTtFw+/zJENR
- Yf1j5G/OTfFjDOs/L//CDlQPqnkuyiajeSGj/UdS3HF3dC1iXndMmN9AVkA8TapI4Abf0r
- K/101ekQsXqXaGWVPwd/U8Ha3rAbkjM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-qDZBMdtFMmC3qF-w60tZxA-1; Mon, 04 Oct 2021 15:58:11 -0400
-X-MC-Unique: qDZBMdtFMmC3qF-w60tZxA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3699A802B9E;
- Mon,  4 Oct 2021 19:58:10 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.17.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E16095D9DE;
- Mon,  4 Oct 2021 19:58:09 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 64887220BDB; Mon,  4 Oct 2021 15:58:09 -0400 (EDT)
-Date: Mon, 4 Oct 2021 15:58:09 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 06/13] vhost-user-fs: Use helpers to create/cleanup
- virtqueue
-Message-ID: <YVtc0UMWQtAaCNog@redhat.com>
-References: <20210930153037.1194279-1-vgoyal@redhat.com>
- <20210930153037.1194279-7-vgoyal@redhat.com>
- <YVsHifrJdRtVyERb@stefanha-x1.localdomain>
-MIME-Version: 1.0
-In-Reply-To: <YVsHifrJdRtVyERb@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+ (Exim 4.90_1)
+ (envelope-from <ae0464f653ef20292e335ba3de0d62ab3ce8c72c@lizzy.crudebyte.com>)
+ id 1mXUFx-00019T-8v; Mon, 04 Oct 2021 16:08:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=WLafEToa0pRZAOaZ33ttmtTNXix/ukq0+Ud6g4Kwog8=; b=Y8g39
+ FcwlCG0LAADLEUoQanvWxbFJ7uPsVT9VHZiIf3kTyVgYkbJOS+vBuJKg1o6HQOpfzTYIqaY90/f7E
+ 1ELsGqE8AD9LJmE/p6k6lyTNHzF0mOhT8Dsvjp9tSGJiQcNfTbGU2GO6EwJrcpZUD8oMhsI3BNPTm
+ HAXHWZ7q2IJvT7mk8R5WJWdrcvqoMjE4cdPAarE+Hg9hnvpU5KkxM8Khs+UDa91Qrn07JkLogqjFe
+ FwPiBBHzFwcJllzK/g3DkkvVhZMGh6oCf0GQXHt9llvPdrvQiTzgX89NwcSif4qr7g6p+2OJLRjtx
+ uFajbQQGhLGu4eeyzvJ6H2KQxhTNQ==;
+Message-Id: <cover.1633376313.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Mon, 4 Oct 2021 21:38:00 +0200
+Subject: [PATCH v2 0/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+    Greg Kurz <groug@kaod.org>,
+    Raphael Norwitz <raphael.norwitz@nutanix.com>,
+    Kevin Wolf <kwolf@redhat.com>,
+    Hanna Reitz <hreitz@redhat.com>,
+    Stefan Hajnoczi <stefanha@redhat.com>,
+    Laurent Vivier <lvivier@redhat.com>,
+    Amit Shah <amit@kernel.org>,
+    "Marc-André Lureau" <marcandre.lureau@redhat.com>,
+    Paolo Bonzini <pbonzini@redhat.com>,
+    Gerd Hoffmann <kraxel@redhat.com>,
+    Jason Wang <jasowang@redhat.com>,
+    Fam Zheng <fam@euphon.net>,
+    "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+    David Hildenbrand <david@redhat.com>,
+    "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+    Eric Auger <eric.auger@redhat.com>,
+    qemu-block@nongnu.org,
+    virtio-fs@redhat.com
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=ae0464f653ef20292e335ba3de0d62ab3ce8c72c@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,82 +73,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: miklos@szeredi.hu, qemu-devel@nongnu.org, iangelak@redhat.com,
- dgilbert@redhat.com, virtio-fs@redhat.com, jaggel@bu.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 04, 2021 at 02:54:17PM +0100, Stefan Hajnoczi wrote:
-> On Thu, Sep 30, 2021 at 11:30:30AM -0400, Vivek Goyal wrote:
-> > Add helpers to create/cleanup virtuqueues and use those helpers. I will
-> 
-> s/virtuqueues/virtqueues/
-> 
-> > need to reconfigure queues in later patches and using helpers will allow
-> > reusing the code.
-> > 
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > ---
-> >  hw/virtio/vhost-user-fs.c | 87 +++++++++++++++++++++++----------------
-> >  1 file changed, 52 insertions(+), 35 deletions(-)
-> > 
-> > diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> > index c595957983..d1efbc5b18 100644
-> > --- a/hw/virtio/vhost-user-fs.c
-> > +++ b/hw/virtio/vhost-user-fs.c
-> > @@ -139,6 +139,55 @@ static void vuf_set_status(VirtIODevice *vdev, uint8_t status)
-> >      }
-> >  }
-> >  
-> > +static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-> > +{
-> > +    /*
-> > +     * Not normally called; it's the daemon that handles the queue;
-> > +     * however virtio's cleanup path can call this.
-> > +     */
-> > +}
-> > +
-> > +static void vuf_create_vqs(VirtIODevice *vdev)
-> > +{
-> > +    VHostUserFS *fs = VHOST_USER_FS(vdev);
-> > +    unsigned int i;
-> > +
-> > +    /* Hiprio queue */
-> > +    fs->hiprio_vq = virtio_add_queue(vdev, fs->conf.queue_size,
-> > +                                     vuf_handle_output);
-> > +
-> > +    /* Request queues */
-> > +    fs->req_vqs = g_new(VirtQueue *, fs->conf.num_request_queues);
-> > +    for (i = 0; i < fs->conf.num_request_queues; i++) {
-> > +        fs->req_vqs[i] = virtio_add_queue(vdev, fs->conf.queue_size,
-> > +                                          vuf_handle_output);
-> > +    }
-> > +
-> > +    /* 1 high prio queue, plus the number configured */
-> > +    fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
-> > +    fs->vhost_dev.vqs = g_new0(struct vhost_virtqueue, fs->vhost_dev.nvqs);
-> 
-> These two lines prepare for vhost_dev_init(), so moving them here is
-> debatable. If a caller is going to use this function again in the future
-> then they need to be sure to also call vhost_dev_init(). For now it
-> looks safe, so I guess it's okay.
+At the moment the maximum transfer size with virtio is limited to 4M
+(1024 * PAGE_SIZE). This series raises this limit to its maximum
+theoretical possible transfer size of 128M (32k pages) according to the
+virtio specs:
 
-Hmm..., I do call this function later from vuf_set_features() and
-reconfigure the queues. I see that I don't call vhost_dev_init()
-in that path. I am not even sure if I should be calling
-vhost_dev_init() from inside vuf_set_features().
+https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#x1-240006
 
-So core reuirement is that at the time of first creating device
-I have no idea if driver supports notification queue or not. So
-I do create device with notification queue. But later if driver
-(and possibly vhost device) does not support notifiation queue,
-then we need to reconfigure queues. What's the correct way to
-do that?
+Maintainers: if you don't care about allowing users to go beyond 4M then no
+action is required on your side for now. This series preserves the old value
+of 1k for now by using VIRTQUEUE_LEGACY_MAX_SIZE on your end.
 
-Thanks
-Vivek
-> 
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+If you do want to support 128M however, then replace
+VIRTQUEUE_LEGACY_MAX_SIZE by VIRTQUEUE_MAX_SIZE on your end (see patch 3 as
+example for 9pfs being the first virtio user supporting it) and make sure
+that this new transfer size limit is actually supported by you.
 
+Changes v1 -> v2:
+
+  * Instead of simply raising VIRTQUEUE_MAX_SIZE to 32k for all virtio
+    users, preserve the old value of 1k for all virtio users unless they
+    explicitly opted in:
+    https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg00056.html
+
+Christian Schoenebeck (3):
+  virtio: turn VIRTQUEUE_MAX_SIZE into a variable
+  virtio: increase VIRTQUEUE_MAX_SIZE to 32k
+  virtio-9p-device: switch to 32k max. transfer size
+
+ hw/9pfs/virtio-9p-device.c     |  3 ++-
+ hw/block/vhost-user-blk.c      |  6 +++---
+ hw/block/virtio-blk.c          |  7 ++++---
+ hw/char/virtio-serial-bus.c    |  2 +-
+ hw/display/virtio-gpu-base.c   |  2 +-
+ hw/input/virtio-input.c        |  2 +-
+ hw/net/virtio-net.c            | 25 ++++++++++++------------
+ hw/scsi/virtio-scsi.c          |  2 +-
+ hw/virtio/vhost-user-fs.c      |  6 +++---
+ hw/virtio/vhost-user-i2c.c     |  3 ++-
+ hw/virtio/vhost-vsock-common.c |  2 +-
+ hw/virtio/virtio-balloon.c     |  4 ++--
+ hw/virtio/virtio-crypto.c      |  3 ++-
+ hw/virtio/virtio-iommu.c       |  2 +-
+ hw/virtio/virtio-mem.c         |  2 +-
+ hw/virtio/virtio-mmio.c        |  4 ++--
+ hw/virtio/virtio-pmem.c        |  2 +-
+ hw/virtio/virtio-rng.c         |  3 ++-
+ hw/virtio/virtio.c             | 35 +++++++++++++++++++++++-----------
+ include/hw/virtio/virtio.h     | 25 ++++++++++++++++++++++--
+ 20 files changed, 90 insertions(+), 50 deletions(-)
+
+-- 
+2.20.1
 
 
