@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A043B420986
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:52:26 +0200 (CEST)
-Received: from localhost ([::1]:51968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B29420A27
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 13:37:21 +0200 (CEST)
+Received: from localhost ([::1]:58298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXLa3-0008C0-Fp
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:52:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57156)
+	id 1mXMHW-0002Cs-Td
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 07:37:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXLXt-0007ER-BN
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:50:09 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:46799)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXLXr-0007hC-Ic
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:50:09 -0400
-Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N5W0q-1mqOrm204I-016wNt; Mon, 04 Oct 2021 12:50:04 +0200
-Subject: Re: [PATCH 06/12] macfb: implement mode sense to allow display type
- to be detected
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
- <20211002110007.30825-7-mark.cave-ayland@ilande.co.uk>
- <c92f20ba-14af-f5de-75a0-aba0c48eb6ed@vivier.eu>
- <22e95f4f-83e0-d165-4649-9cd2de6e8f9@eik.bme.hu>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <65691d54-e705-93aa-1d13-764bcf5fb9f6@vivier.eu>
-Date: Mon, 4 Oct 2021 12:50:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mXMEg-0008Kh-M0
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 07:34:22 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:43678)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mXMEf-0000t8-3o
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 07:34:22 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id p11so10418690edy.10
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 04:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6y14qz4eKQbd3GW9nG9syVa0hT8qoI2u7WXU+GdOoGc=;
+ b=5JLlsgIJqjZnidQ6gHqRVsnIxWy+HxusoZUsczfjwQ67QvN85mAh88qXtAXda/OLYH
+ RbREnLIsCJFTZhLCQky7HMjYmMnjyOVqWpPids5vTrweEMymTiLBFX0lBnQC+ECPMlP5
+ uQ0Jm7pL9eQXu2SJmKg6/7N0JLHHIcjB9zIesLsKHkKWAUiGu4Np+B6Jaa69TkuDvput
+ GzgigM5fJiQM8DIO+uKG1KaJP+5lk3tIZPTqdmqTgYvz2fuXa78H5ntbohF7A5YPs7Av
+ vXLrFYdBN2OSzrkg4PKZc5pt25YxiQIzJ+AaYHbks6fOA0taGFsYUwqt/Vb0Do/XkGZU
+ 0dnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6y14qz4eKQbd3GW9nG9syVa0hT8qoI2u7WXU+GdOoGc=;
+ b=o2ZUmCVx9KvQcFV0Aba0rFXKccN4kosFob8AL8q3oxQXOa4lLhcjOFr4pIejex33ju
+ nhn6EDto1c1sxDNjTpH6tadQ6GUEmauhDE9AyOvtmck1DSFPx0gicSC9vi/h1mJ3dKhA
+ Or5VIsKPvu9UsQpN7LqNuiYufQ2Gve3AOptH5VTbrQiLD7a6UfLngEuI4LlFgqYewLX/
+ S66lrad6WGjSrpPCldLs/zZoyQaRuerAubS10ZlTjzr/usrMhEkKOm/baK5dsyFD/u0h
+ WW/S4O/O2LO7rt3NqJsjOWSpPX933oIg11kwq+JdK7MRJ1lSogGEHecnrUrYC3FWqBGR
+ 7sOg==
+X-Gm-Message-State: AOAM533BFAZHZgaXwJmSudhWvdDnJp3e+g9cjNERujSLTDoH9KNnsOD/
+ PYA5YrRrAhZzz4z0Sd6L0725s0bkS2W1L2XwH/iJFqwx7p8=
+X-Google-Smtp-Source: ABdhPJz+XSYEK1zlAM+9xIlHTAO8Dw7BylCoElZfu4LHwa7YRPeHJQqFrQmjPJGiUu96/vPBiWMd8gdS+ZT449569xY=
+X-Received: by 2002:a50:bf4a:: with SMTP id g10mr17689774edk.11.1633347258124; 
+ Mon, 04 Oct 2021 04:34:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <22e95f4f-83e0-d165-4649-9cd2de6e8f9@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9A2inTPf0jGCBnHeaH5HxpBd7hp9auQztpGuTs8+adYAoImDcct
- +NZOe9baSPLB3h0gFJgbB2rcmSDSxahS5avv5Ntu/MM1FcEkz7NSLszGFceQSyf8pJ6ICiy
- s5MPmbuagrZR3JbkaJR+iyaXo1YOD5Je5j2tWiDzqaqpbT9fWKWQEvvH7/HtQDEnp4wKflt
- D2SdKeSCTt9FsbvT9KzFg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MeV+44HGmLQ=:WLf2QZdXrnNnS0H/pN+kBi
- h8rMJogK7NL53gDNvS4nREE1Susey3FA0OMj4LOSQzGdSz9NCWyAqp6xS+z2z/UwEm8YLFStc
- 5hnzYBWn5xUHZrjIXQPXeJPvJD+2P80y8kIADAEt/7UhLsyH4KZ3K8YIGAplijgYrlKLLCDdv
- 2P99ENcGqMIoRn1Gdv8zV6kq3NDdFv8sweXFqjCJq7VXQBy5lCiBLHxGoULzG1bj9pvzBPuZ4
- yLaJxzxpMgR5Byw+FzG3PDb7pIM3BbSWU3aabfU6Qn0rBlmELaUH8ezJAZ4SGuUZDVBupwNy/
- R6gKkj3MYG5tiQbbmy92aPrlUHefumzjkOHkGbvyR4vuBSi0JRIZMQFltHCqQhyMxvQ2CH3pQ
- QMEm0jmvSo13Pxm0yVAPrTWxd9lKhjPSbnxTH8G+5H+U9ezjaecffxc3auH31qaqI09PkoPxg
- 9CjCykM2ayA/nmT7hh09HglSr/xcG0FY30PLe6IREiYMmpeMdgKkGU747TRt6qD5TSkHATNW/
- SidKY+6BrZbpshCzUzcEx9XvoXuKYPq6ecxuV4fYl5FxBqq+5huCUmEsFQyXJKjGq80T17pdM
- Ldz9u460KuxgaDxH5bC3apHKJTe+PbBhXu/St/Zs0dnwERLMu2nnpeUzfBkSd2O0Nh5onjpvs
- 3/p1lN9jIhJGD5d4k9gkz/Sti05y05CDzsa6DnH4XjPd2fMpNsjLK5HObtrvRlLyzqJEJX9ZM
- 4gHiYCw/Ut1bajLcTmQYa41jGIm+Ka355ZKWag==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+References: <20210920070047.3937292-1-ani@anisinha.ca>
+ <20210920070047.3937292-2-ani@anisinha.ca>
+In-Reply-To: <20210920070047.3937292-2-ani@anisinha.ca>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Mon, 4 Oct 2021 17:04:07 +0530
+Message-ID: <CAARzgwxVY5KFS9LPea3H_9aFNb4Gff8kA-M41O7kzs2HLD_Wqg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] tests/acpi/bios-tables-test: add and allow changes
+ to a new q35 DSDT table blob
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::52e;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,58 +76,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: imammedo@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 04/10/2021 à 12:32, BALATON Zoltan a écrit :
-> On Mon, 4 Oct 2021, Laurent Vivier wrote:
->> Le 02/10/2021 à 13:00, Mark Cave-Ayland a écrit :
->>> The MacOS toolbox ROM uses the monitor sense to detect the display type and then
->>> offer a fixed set of resolutions and colour depths accordingly. Implement the
->>> monitor sense using information found in Apple Technical Note HW26: "Macintosh
->>> Quadra Built-In Video" along with some local experiments.
->>>
->>> Since the default configuration is 640 x 480 with 8-bit colour then hardcode
->>> the sense register to return MACFB_DISPLAY_VGA for now.
->>>
->>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> ---
->>>  hw/display/macfb.c         | 117 ++++++++++++++++++++++++++++++++++++-
->>>  hw/display/trace-events    |   2 +
->>>  include/hw/display/macfb.h |  20 +++++++
->>>  3 files changed, 137 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
->>> index 62c2727a5b..5c95aa4a11 100644
->>> --- a/hw/display/macfb.c
->>> +++ b/hw/display/macfb.c
->>> @@ -28,8 +28,66 @@
->>>  #define MACFB_PAGE_SIZE 4096
->>>  #define MACFB_VRAM_SIZE (4 * MiB)
->>>
->>> -#define DAFB_RESET      0x200
->>> -#define DAFB_LUT        0x213
->>> +#define DAFB_MODE_SENSE     0x1c
->>> +#define DAFB_RESET          0x200
->>> +#define DAFB_LUT            0x213
->>> +
->>> +
->>> +/*
->>> + * Quadra sense codes taken from Apple Technical Note HW26:
->>> + * "Macintosh Quadra Built-In Video". The sense codes and
->>
->> https://developer.apple.com/library/archive/technotes/hw/hw_26.html
-> 
-> URLs may change or go away so I think it's better to reference by title in comments, then one can
-> find it by that whereas a stale URL is not much help a few years from now.
+ping ...
 
-This URL is very stable (hosted by Apple for 30 years now...) and providing it could help to find a
-copy of the document in an internet archive. I had some difficulties to find it using the title or
-the TN number.
-
-Thanks,
-Laurent
-
-
+On Mon, Sep 20, 2021 at 12:31 PM Ani Sinha <ani@anisinha.ca> wrote:
+>
+> We are adding a new unit test to cover the acpi hotplug support in q35 for
+> multi-function bridges. This test uses a new table DSDT.multi-bridge.
+> We need to allow changes in DSDT acpi table for addition of this new
+> unit test.
+>
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> ---
+>  tests/data/acpi/q35/DSDT.multi-bridge       | 0
+>  tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+>  2 files changed, 1 insertion(+)
+>  create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
+>
+> diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index dfb8523c8b..dabc024f53 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1 +1,2 @@
+>  /* List of comma-separated changed AML files to ignore */
+> +"tests/data/acpi/q35/DSDT.multi-bridge",
+> --
+> 2.25.1
+>
 
