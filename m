@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7D84218E9
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 23:04:34 +0200 (CEST)
-Received: from localhost ([::1]:53378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE724218EE
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 23:05:30 +0200 (CEST)
+Received: from localhost ([::1]:54884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXV8S-0006Ia-T6
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 17:04:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53832)
+	id 1mXV9O-0007LD-0n
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 17:05:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXV5c-0004vf-TD
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 17:01:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32535)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mXV5y-0005FQ-3M
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 17:01:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXV5W-00035w-T1
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 17:01:35 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mXV5s-0003Mv-7w
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 17:01:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633381289;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LmKFc0T3ZU2xiNYEUu2If+Sn8gvxg90ird9O2Y3bnnk=;
- b=Aj3x3YjHNOLMBraHH6+W3hym84XzYMKGiFEJqdPpLedBza/AHuIFbmKmreRpt9X1wg4yc7
- nxOqDVyao3BI61F/6ldLNSfsk6K28DPDt4Fnn/v0hPh5MMclRCzb5A5nxDKi0Li7PuTYl8
- B/4OA8zhmE+vwr+t+715kOj6uvPV3v4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-wVuXxJJGNTSe9cLdDOn26g-1; Mon, 04 Oct 2021 17:01:26 -0400
-X-MC-Unique: wVuXxJJGNTSe9cLdDOn26g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE78B100C660;
- Mon,  4 Oct 2021 21:01:25 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.17.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1354360843;
- Mon,  4 Oct 2021 21:01:08 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 8EA91220BDB; Mon,  4 Oct 2021 17:01:07 -0400 (EDT)
-Date: Mon, 4 Oct 2021 17:01:07 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 08/13] virtiofsd: Create a notification queue
-Message-ID: <YVtrk6/sWwoUfXs+@redhat.com>
-References: <20210930153037.1194279-1-vgoyal@redhat.com>
- <20210930153037.1194279-9-vgoyal@redhat.com>
- <YVsQDkoNPyvC/Uoo@stefanha-x1.localdomain>
+ s=mimecast20190719; t=1633381311;
+ h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=4OH/qVvL0J4jpjOQE10ulVdZjIOwTo+FxqnIThQBiO0=;
+ b=Y3jk3VtQ+uROooK2LloGWVpcJcvz87b0Ib01BxZKQ4+VlvGSq+wtTmexqZ4kxw2oi7Rfer
+ VuqX0Wg6V/ucpN4MeMXteipeG8896PjjS6SANecUl9C6noU6PxEkS1WIkITVMeMz37Cm43
+ 1Ei0Z7YJwViT7JBvElYs7t+hbrOHIYc=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-egQDh8E3Phy3yQht4WDlRw-1; Mon, 04 Oct 2021 17:01:47 -0400
+X-MC-Unique: egQDh8E3Phy3yQht4WDlRw-1
+Received: by mail-il1-f198.google.com with SMTP id
+ j10-20020a056e02154a00b002589ce2af7dso11476134ilu.13
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 14:01:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:reply-to:sender:message-id:date
+ :subject:from:to;
+ bh=uWur9HYWs4hJSybv3ma+NINco1A5/nctStwRNVQpByU=;
+ b=QpxLPS+jeW4LGiLNXuRfz2IM6IyeQBbiFQm2PQeFDENDRbQW7fn2hRDqsbL9phhWfe
+ K7FzQJEe1lkqXfw/eK4Cr5k7PBhl+YxwDobIF2rvA6bICwJyJdHjHtTIrMBxK8g7pwof
+ tyJYRn1yYTfiuwidBU+X2e62pGkrvzzPLVWFJMnYcB00YSMetfZ8hVzEAUe835QchiBH
+ PeZvn3REVn6APxsJ0RGvGMLeFSuaJzpd0uTvrX5ghHk50elar5Q6bMZwySGv8T6KRF7h
+ X0aapG4Wi8cupWdq5tr7QI/KI54dpi+WMMUvzdYYqV/atOim0D1oE0q0a/QmojhHcP40
+ WaoA==
+X-Gm-Message-State: AOAM532mEKkxRLPWqeDGrxoMSY9UorCTskGkOgfDGi9aX9JU48SVHzno
+ 5vAUvxre97VHOfTPkRvpDx1vy4PwnwlL8XUAxEMfjyFZyyWBXdSHWBmcJkEFAvqojSj2swYemB4
+ gKKvg4xJur4EkZQa6Gq7qCopV0fZmXzZQN12pcg2v0lsOaRvcvU4zK0hEpP/2r1137mIak72Q19
+ n655nP
+X-Received: by 2002:a05:6e02:893:: with SMTP id
+ z19mr184140ils.224.1633381307077; 
+ Mon, 04 Oct 2021 14:01:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwM/Oo0QK+NeI+GKHnMsoTeGRa65qdk/afx9ZRZJzAtPUn7cFDhAdulZ632pX2GDPBxAWX1GJgtXyvRYiseDIoL
 MIME-Version: 1.0
-In-Reply-To: <YVsQDkoNPyvC/Uoo@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Received: by 2002:a05:6e02:893:: with SMTP id
+ z19mr184122ils.224.1633381306820; 
+ Mon, 04 Oct 2021 14:01:46 -0700 (PDT)
+Message-ID: <00000000000093852d05cd8d38f6@google.com>
+Date: Mon, 04 Oct 2021 21:01:46 +0000
+Subject: Invitation: QAPI Sync meeting @ Thu Oct 7,
+ 2021 9am - 10am (EDT) (qemu-devel@nongnu.org)
+From: jsnow@redhat.com
+To: qemu-devel@nongnu.org, berrange@redhat.com, pbonzini@redhat.com, 
+ armbru@redhat.com, damien.hedde@greensocs.com, marcandre.lureau@redhat.com, 
+ kwolf@redhat.com
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+Content-Type: multipart/mixed; boundary="00000000000093850d05cd8d38f5"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ HTTPS_HTTP_MISMATCH=0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,390 +89,443 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: miklos@szeredi.hu, qemu-devel@nongnu.org, iangelak@redhat.com,
- dgilbert@redhat.com, virtio-fs@redhat.com, jaggel@bu.edu
+Reply-To: jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 04, 2021 at 03:30:38PM +0100, Stefan Hajnoczi wrote:
-> On Thu, Sep 30, 2021 at 11:30:32AM -0400, Vivek Goyal wrote:
-> > Add a notification queue which will be used to send async notifications
-> > for file lock availability.
-> > 
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > Signed-off-by: Ioannis Angelakopoulos <iangelak@redhat.com>
-> > ---
-> >  hw/virtio/vhost-user-fs-pci.c     |  4 +-
-> >  hw/virtio/vhost-user-fs.c         | 62 +++++++++++++++++++++++++--
-> >  include/hw/virtio/vhost-user-fs.h |  2 +
-> >  tools/virtiofsd/fuse_i.h          |  1 +
-> >  tools/virtiofsd/fuse_virtio.c     | 70 +++++++++++++++++++++++--------
-> >  5 files changed, 116 insertions(+), 23 deletions(-)
-> > 
-> > diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
-> > index 2ed8492b3f..cdb9471088 100644
-> > --- a/hw/virtio/vhost-user-fs-pci.c
-> > +++ b/hw/virtio/vhost-user-fs-pci.c
-> > @@ -41,8 +41,8 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-> >      DeviceState *vdev = DEVICE(&dev->vdev);
-> >  
-> >      if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
-> > -        /* Also reserve config change and hiprio queue vectors */
-> > -        vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 2;
-> > +        /* Also reserve config change, hiprio and notification queue vectors */
-> > +        vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 3;
-> >      }
-> >  
-> >      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-> > diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> > index d1efbc5b18..6bafcf0243 100644
-> > --- a/hw/virtio/vhost-user-fs.c
-> > +++ b/hw/virtio/vhost-user-fs.c
-> > @@ -31,6 +31,7 @@ static const int user_feature_bits[] = {
-> >      VIRTIO_F_NOTIFY_ON_EMPTY,
-> >      VIRTIO_F_RING_PACKED,
-> >      VIRTIO_F_IOMMU_PLATFORM,
-> > +    VIRTIO_FS_F_NOTIFICATION,
-> >  
-> >      VHOST_INVALID_FEATURE_BIT
-> >  };
-> > @@ -147,7 +148,7 @@ static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-> >       */
-> >  }
-> >  
-> > -static void vuf_create_vqs(VirtIODevice *vdev)
-> > +static void vuf_create_vqs(VirtIODevice *vdev, bool notification_vq)
-> >  {
-> >      VHostUserFS *fs = VHOST_USER_FS(vdev);
-> >      unsigned int i;
-> > @@ -155,6 +156,15 @@ static void vuf_create_vqs(VirtIODevice *vdev)
-> >      /* Hiprio queue */
-> >      fs->hiprio_vq = virtio_add_queue(vdev, fs->conf.queue_size,
-> >                                       vuf_handle_output);
-> > +    /*
-> > +     * Notification queue. Feature negotiation happens later. So at this
-> > +     * point of time we don't know if driver will use notification queue
-> > +     * or not.
-> > +     */
-> > +    if (notification_vq) {
-> > +        fs->notification_vq = virtio_add_queue(vdev, fs->conf.queue_size,
-> > +                                               vuf_handle_output);
-> > +    }
-> >  
-> >      /* Request queues */
-> >      fs->req_vqs = g_new(VirtQueue *, fs->conf.num_request_queues);
-> > @@ -163,8 +173,12 @@ static void vuf_create_vqs(VirtIODevice *vdev)
-> >                                            vuf_handle_output);
-> >      }
-> >  
-> > -    /* 1 high prio queue, plus the number configured */
-> > -    fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
-> > +    /* 1 high prio queue, 1 notification queue plus the number configured */
-> > +    if (notification_vq) {
-> > +        fs->vhost_dev.nvqs = 2 + fs->conf.num_request_queues;
-> > +    } else {
-> > +        fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
-> > +    }
-> >      fs->vhost_dev.vqs = g_new0(struct vhost_virtqueue, fs->vhost_dev.nvqs);
-> >  }
-> >  
-> > @@ -176,6 +190,11 @@ static void vuf_cleanup_vqs(VirtIODevice *vdev)
-> >      virtio_delete_queue(fs->hiprio_vq);
-> >      fs->hiprio_vq = NULL;
-> >  
-> > +    if (fs->notification_vq) {
-> > +        virtio_delete_queue(fs->notification_vq);
-> > +    }
-> > +    fs->notification_vq = NULL;
-> > +
-> >      for (i = 0; i < fs->conf.num_request_queues; i++) {
-> >          virtio_delete_queue(fs->req_vqs[i]);
-> >      }
-> > @@ -194,9 +213,43 @@ static uint64_t vuf_get_features(VirtIODevice *vdev,
-> >  {
-> >      VHostUserFS *fs = VHOST_USER_FS(vdev);
-> >  
-> > +    virtio_add_feature(&features, VIRTIO_FS_F_NOTIFICATION);
-> > +
-> >      return vhost_get_features(&fs->vhost_dev, user_feature_bits, features);
-> >  }
-> >  
-> > +static void vuf_set_features(VirtIODevice *vdev, uint64_t features)
-> > +{
-> > +    VHostUserFS *fs = VHOST_USER_FS(vdev);
-> > +
-> > +    if (virtio_has_feature(features, VIRTIO_FS_F_NOTIFICATION)) {
-> > +        fs->notify_enabled = true;
-> > +        /*
-> > +         * If guest first booted with no notification queue support and
-> > +         * later rebooted with kernel which supports notification, we
-> > +         * can end up here
-> > +         */
-> > +        if (!fs->notification_vq) {
-> > +            vuf_cleanup_vqs(vdev);
-> > +            vuf_create_vqs(vdev, true);
-> > +        }
-> 
-> I would simplify things by unconditionally creating the notification vq
-> for the device and letting the vhost-user device backend decide whether
-> it wants to handle the vq or not.
-> If the backend doesn't implement the
-> vq then it also won't advertise VIRTIO_FS_F_NOTIFICATION so the guest
-> driver won't submit virtqueue buffers.
+--00000000000093850d05cd8d38f5
+Content-Type: multipart/alternative; boundary="00000000000093850a05cd8d38f3"
 
-I think I am did not understand the idea. This code deals with that
-both qemu and vhost-user device can deal with notification queue. But
-driver can't deal with it. 
+--00000000000093850a05cd8d38f3
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Transfer-Encoding: base64
 
-So if we first booted into a guest kernel which does not support
-notification queue, then we will not have instantiated notification
-queue. But later we reboot guest into a newer kernel and now it
-has capability to deal with notification queues, so we create it
-now.
+WW91IGhhdmUgYmVlbiBpbnZpdGVkIHRvIHRoZSBmb2xsb3dpbmcgZXZlbnQuDQoNClRpdGxlOiBR
+QVBJIFN5bmMgbWVldGluZw0KTGV0J3MgZGlzY3VzcyBvdXIgb25nb2luZyBhbmQgZnV0dXJlIHdv
+cmsgb24gdGhlIFFBUEkgZ2VuZXJhdG9yIGFuZCBjbG9zZWx5ICANCnJlbGF0ZWQgaW50ZXJmYWNl
+cyBmb3IgUUVNVS4NCg0KUGxlYXNlIHByZXBhcmUgZm9yIHRoZSBtZWV0aW5nIGJ5IHdyaXRpbmcg
+YSBzbWFsbCBvdmVydmlldyBvZiB5b3VyIHBlbmRpbmcgIA0KYW5kIGZ1dHVyZSB3b3JrLCBhbmQg
+dGhlIGdvYWxzIHRoYXQgbW90aXZhdGUgdGhvc2Ugd29ya3MuIElmIHlvdSBzZW5kIHRoaXMgIA0K
+c3VtbWFyeSB0byB0aGUgbWFpbGluZyBsaXN0IGJlZm9yZWhhbmQsIHdlJ2xsIGhhdmUgdGhlIG9w
+cG9ydHVuaXR5IHRvIHNraW0gIA0KaXQgcHJpb3IgdG8gdGhlIG1lZXRpbmcuDQoNCkkgYW0gc3Vn
+Z2VzdGluZyB3ZSB1c2UgYSBwdWJsaWMgZXRoZXJwYWQgaW5zdGFuY2UgdG8ga2VlcCBub3RlcyBk
+dXJpbmcgdGhlICANCm1lZXRpbmc6IGh0dHBzOi8vZXRoZXJwYWQud2lraW1lZGlhLm9yZy9wL3Fh
+cGktc3luYw0KDQpEdXJpbmcgdGhpcyBtZWV0aW5nLCBJJ2QgbGlrZSB0byBhc3NlbWJsZSBhIGxp
+c3Qgb2YgYWxsIG9uZ29pbmcgUUFQSSB3b3JrICANCmFuZCBiZWdpbiB3b3JrIG9uIGNyYWZ0aW5n
+IGEgcm9hZG1hcCB0aGF0IGhlbHBzIGRlc2NyaWJlIHRoYXQgd29yay4NCg0KSSBkb24ndCBzdXNw
+ZWN0IHdlJ2xsIGZpbmlzaCBpbiBhIHNpbmdsZSBtZWV0aW5nLCBidXQgaXQgbWF5IGJlIGEgaGVs
+cGZ1bCAgDQpwcmltZXIgZm9yIGZvbGxvdy11cCBkaXNjdXNzaW9ucyBvbiB0aGUgTUwuDQpXaGVu
+OiBUaHUgT2N0IDcsIDIwMjEgOWFtIOKAkyAxMGFtIEVhc3Rlcm4gVGltZSAtIE5ldyBZb3JrDQoN
+CkpvaW5pbmcgaW5mbzogSm9pbiB3aXRoIEdvb2dsZSBNZWV0DQpodHRwczovL21lZXQuZ29vZ2xl
+LmNvbS94cWktdGlxcy14cno/aHM9MjI0DQoNCkpvaW4gYnkgcGhvbmUNCihVUykgKzEgOTI5LTI0
+OS00ODU0IChQSU46IDYzNzM3OTI0MCkNCg0KSm9pbiB1c2luZyBTSVANCjY3NzkwNjcwMjMxMDVA
+Z21lZXQucmVkaGF0LmNvbSAoSUQ6IDY3NzkwNjcwMjMxMDUpDQoNCk1vcmUgam9pbmluZyBvcHRp
+b25zOiBodHRwczovL3RlbC5tZWV0L3hxaS10aXFzLXhyej9waW49Njc3OTA2NzAyMzEwNSZocz0w
+DQoNCkNhbGVuZGFyOiBxZW11LWRldmVsQG5vbmdudS5vcmcNCldobzoNCiAgICAgKiBqc25vd0By
+ZWRoYXQuY29tIC0gb3JnYW5pemVyDQogICAgICogYmVycmFuZ2VAcmVkaGF0LmNvbQ0KICAgICAq
+IHBib256aW5pQHJlZGhhdC5jb20NCiAgICAgKiBhcm1icnVAcmVkaGF0LmNvbQ0KICAgICAqIGRh
+bWllbi5oZWRkZUBncmVlbnNvY3MuY29tDQogICAgICogbWFyY2FuZHJlLmx1cmVhdUByZWRoYXQu
+Y29tDQogICAgICoga3dvbGZAcmVkaGF0LmNvbQ0KICAgICAqIHFlbXUtZGV2ZWxAbm9uZ251Lm9y
+Zw0KDQpFdmVudCBkZXRhaWxzOiAgDQpodHRwczovL2NhbGVuZGFyLmdvb2dsZS5jb20vY2FsZW5k
+YXIvZXZlbnQ/YWN0aW9uPVZJRVcmZWlkPU56SndZWFk0WVRscFlqQnRORGxyT0hGeU9XaHFhV0pu
+WnpjZ2NXVnRkUzFrWlhabGJFQnViMjVuYm5VdWIzSm4mdG9rPU1UWWphbk51YjNkQWNtVmthR0Yw
+TG1OdmJUQXhZVE5rTlRrME5UUXlPV05rTkRrNFl6Z3hZVFkxWkRkaE1UYzNPRE0zTnpBeU9UZzBN
+ek0mY3R6PUFtZXJpY2ElMkZOZXdfWW9yayZobD1lbiZlcz0wDQoNCkludml0YXRpb24gZnJvbSBH
+b29nbGUgQ2FsZW5kYXI6IGh0dHBzOi8vY2FsZW5kYXIuZ29vZ2xlLmNvbS9jYWxlbmRhci8NCg0K
+WW91IGFyZSByZWNlaXZpbmcgdGhpcyBjb3VydGVzeSBlbWFpbCBhdCB0aGUgYWNjb3VudCBxZW11
+LWRldmVsQG5vbmdudS5vcmcgIA0KYmVjYXVzZSB5b3UgYXJlIGFuIGF0dGVuZGVlIG9mIHRoaXMg
+ZXZlbnQuDQoNClRvIHN0b3AgcmVjZWl2aW5nIGZ1dHVyZSB1cGRhdGVzIGZvciB0aGlzIGV2ZW50
+LCBkZWNsaW5lIHRoaXMgZXZlbnQuICANCkFsdGVybmF0aXZlbHkgeW91IGNhbiBzaWduIHVwIGZv
+ciBhIEdvb2dsZSBhY2NvdW50IGF0ICANCmh0dHBzOi8vY2FsZW5kYXIuZ29vZ2xlLmNvbS9jYWxl
+bmRhci8gYW5kIGNvbnRyb2wgeW91ciBub3RpZmljYXRpb24gIA0Kc2V0dGluZ3MgZm9yIHlvdXIg
+ZW50aXJlIGNhbGVuZGFyLg0KDQpGb3J3YXJkaW5nIHRoaXMgaW52aXRhdGlvbiBjb3VsZCBhbGxv
+dyBhbnkgcmVjaXBpZW50IHRvIHNlbmQgYSByZXNwb25zZSB0byAgDQp0aGUgb3JnYW5pemVyIGFu
+ZCBiZSBhZGRlZCB0byB0aGUgZ3Vlc3QgbGlzdCwgb3IgaW52aXRlIG90aGVycyByZWdhcmRsZXNz
+ICANCm9mIHRoZWlyIG93biBpbnZpdGF0aW9uIHN0YXR1cywgb3IgdG8gbW9kaWZ5IHlvdXIgUlNW
+UC4gTGVhcm4gbW9yZSBhdCAgDQpodHRwczovL3N1cHBvcnQuZ29vZ2xlLmNvbS9jYWxlbmRhci9h
+bnN3ZXIvMzcxMzUjZm9yd2FyZGluZw0K
+--00000000000093850a05cd8d38f3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-IIUC, you are suggesting that somehow keep notification queue
-instantiated even if guest driver does not support notifications, so
-that we will not have to get into the exercise of cleaning up queues
-and re-instantiating these?
+<span itemscope itemtype=3D"http://schema.org/InformAction"><span style=3D"=
+display:none" itemprop=3D"about" itemscope itemtype=3D"http://schema.org/Pe=
+rson"><meta itemprop=3D"description" content=3D"Invitation from jsnow@redha=
+t.com"/></span><span itemprop=3D"object" itemscope itemtype=3D"http://schem=
+a.org/Event"><div style=3D""><table cellspacing=3D"0" cellpadding=3D"8" bor=
+der=3D"0" summary=3D"" style=3D"width:100%;font-family:Arial,Sans-serif;bor=
+der:1px Solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr=
+><td><meta itemprop=3D"eventStatus" content=3D"http://schema.org/EventSched=
+uled"/><h4 style=3D"padding:6px 0;margin:0 0 4px 0;font-family:Arial,Sans-s=
+erif;font-size:13px;line-height:1.4;border:1px Solid #fff;background:#fff;c=
+olor:#090;font-weight:normal"><strong>You have been invited to the followin=
+g event.</strong></h4><div style=3D"padding:2px"><span itemprop=3D"publishe=
+r" itemscope itemtype=3D"http://schema.org/Organization"><meta itemprop=3D"=
+name" content=3D"Google Calendar"/></span><meta itemprop=3D"eventId/googleC=
+alendar" content=3D"72pav8a9ib0m49k8qr9hjibgg7"/><h3 style=3D"padding:0 0 6=
+px 0;margin:0;font-family:Arial,Sans-serif;font-size:16px;font-weight:bold;=
+color:#222"><span itemprop=3D"name">QAPI Sync meeting</span></h3><table sty=
+le=3D"display:inline-table" cellpadding=3D"0" cellspacing=3D"0" border=3D"0=
+" summary=3D"Event details"><tr><td style=3D"padding:0 1em 10px 0;font-fami=
+ly:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap;width:90px=
+" valign=3D"top"><div><i style=3D"font-style:normal">When</i></div></td><td=
+ style=3D"padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;c=
+olor:#222" valign=3D"top"><div style=3D"text-indent:-1px"><time itemprop=3D=
+"startDate" datetime=3D"20211007T130000Z"></time><time itemprop=3D"endDate"=
+ datetime=3D"20211007T140000Z"></time>Thu Oct 7, 2021 9am =E2=80=93 10am <s=
+pan style=3D"color:#888">Eastern Time - New York</span></div></td></tr><tr>=
+<td style=3D"padding:0 1em 4px 0;font-family:Arial,Sans-serif;font-size:13p=
+x;color:#888;white-space:nowrap;width:90px" valign=3D"top"><div><i style=3D=
+"font-style:normal">Joining info</i></div></td><td style=3D"padding-bottom:=
+4px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign=3D"top">=
+<div style=3D"text-indent:-1px">Join with Google Meet</div></td></tr><tr><t=
+d style=3D"padding:0 1em 10px 0;font-family:Arial,Sans-serif;font-size:13px=
+;color:#888;white-space:nowrap;width:90px"></td><td style=3D"padding-bottom=
+:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222" valign=3D"top=
+"><div style=3D"text-indent:-1px"><div style=3D"text-indent:-1px"><span ite=
+mprop=3D"potentialaction" itemscope itemtype=3D"http://schema.org/JoinActio=
+n"><span itemprop=3D"name" content=3D"meet.google.com/xqi-tiqs-xrz"><span i=
+temprop=3D"target" itemscope itemtype=3D"http://schema.org/EntryPoint"><spa=
+n itemprop=3D"url" content=3D"https://meet.google.com/xqi-tiqs-xrz?hs=3D224=
+"><span itemprop=3D"httpMethod" content=3D"GET"><a href=3D"https://meet.goo=
+gle.com/xqi-tiqs-xrz?hs=3D224" style=3D"color:#20c;white-space:nowrap" targ=
+et=3D"_blank">meet.google.com/xqi-tiqs-xrz</a></span></span></span></span><=
+/span> </div></div></td></tr><tr><td style=3D"padding:0 1em 10px 0;font-fam=
+ily:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap;width:90p=
+x"></td><td style=3D"padding-bottom:10px;font-family:Arial,Sans-serif;font-=
+size:13px;color:#222" valign=3D"top"></td></tr><td style=3D"padding:0 1em 4=
+px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:now=
+rap;width:90px"></td><td style=3D"padding-bottom:4px;font-family:Arial,Sans=
+-serif;font-size:13px;color:#222" valign=3D"top"><div style=3D"text-indent:=
+-1px">Join by phone</div></td><tr><td style=3D"padding:0 1em 10px 0;font-fa=
+mily:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap;width:90=
+px"></td><td style=3D"padding-bottom:10px;font-family:Arial,Sans-serif;font=
+-size:13px;color:#222" valign=3D"top"><div style=3D"text-indent:-1px"><div =
+style=3D"text-indent:-1px"><span style=3D"color:#888">(US) </span><a href=
+=3D"tel:+1-929-249-4854;637379240#" style=3D"color:#20c;white-space:nowrap"=
+ target=3D"_blank">+1 929-249-4854</a> <span style=3D"color:#888">(PIN: 637=
+379240)</span></div></div></td></tr><tr><td style=3D"padding:0 1em 10px 0;f=
+ont-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap;wi=
+dth:90px"></td><td style=3D"padding-bottom:10px;font-family:Arial,Sans-seri=
+f;font-size:13px;color:#222" valign=3D"top"></td></tr><td style=3D"padding:=
+0 1em 4px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-sp=
+ace:nowrap;width:90px"></td><td style=3D"padding-bottom:4px;font-family:Ari=
+al,Sans-serif;font-size:13px;color:#222" valign=3D"top"><div style=3D"text-=
+indent:-1px">Join using SIP</div></td><tr><td style=3D"padding:0 1em 10px 0=
+;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap;=
+width:90px"></td><td style=3D"padding-bottom:10px;font-family:Arial,Sans-se=
+rif;font-size:13px;color:#222" valign=3D"top"><div style=3D"text-indent:-1p=
+x"><div style=3D"text-indent:-1px"><a href=3D"sip:6779067023105@gmeet.redha=
+t.com" style=3D"color:#20c;white-space:nowrap" target=3D"_blank">6779067023=
+105@gmeet.redhat.com</a> <span style=3D"color:#888">(ID: 6779067023105)</sp=
+an></div></div></td></tr><tr><td style=3D"padding:0 1em 10px 0;font-family:=
+Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap;width:90px"><=
+/td><td style=3D"padding-bottom:10px;font-family:Arial,Sans-serif;font-size=
+:13px;color:#222" valign=3D"top"></td></tr><tr><td style=3D"padding:0 1em 1=
+0px 0;font-family:Arial,Sans-serif;font-size:13px;color:#888;white-space:no=
+wrap;width:90px"></td><td style=3D"padding-bottom:10px;font-family:Arial,Sa=
+ns-serif;font-size:13px;color:#222" valign=3D"top"><div style=3D"text-inden=
+t:-1px"><a href=3D"https://tel.meet/xqi-tiqs-xrz?pin=3D6779067023105&amp;hs=
+=3D0" style=3D"color:#20c;white-space:nowrap" target=3D"_blank">More joinin=
+g options</a></div></td></tr><tr><td style=3D"padding:0 1em 10px 0;font-fam=
+ily:Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap;width:90p=
+x" valign=3D"top"><div><i style=3D"font-style:normal">Calendar</i></div></t=
+d><td style=3D"padding-bottom:10px;font-family:Arial,Sans-serif;font-size:1=
+3px;color:#222" valign=3D"top"><div style=3D"text-indent:-1px">qemu-devel@n=
+ongnu.org</div></td></tr><tr><td style=3D"padding:0 1em 10px 0;font-family:=
+Arial,Sans-serif;font-size:13px;color:#888;white-space:nowrap;width:90px" v=
+align=3D"top"><div><i style=3D"font-style:normal">Who</i></div></td><td sty=
+le=3D"padding-bottom:10px;font-family:Arial,Sans-serif;font-size:13px;color=
+:#222" valign=3D"top"><table cellspacing=3D"0" cellpadding=3D"0"><tr><td st=
+yle=3D"padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color=
+:#222;width:10px"><div style=3D"text-indent:-1px"><span style=3D"font-famil=
+y:Courier New,monospace">&#x2022;</span></div></td><td style=3D"padding-rig=
+ht:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222"><div style=
+=3D"text-indent:-1px"><div><div style=3D"margin:0 0 0.3em 0"><span itemprop=
+=3D"attendee" itemscope itemtype=3D"http://schema.org/Person"><span itempro=
+p=3D"name" class=3D"notranslate">jsnow@redhat.com</span><meta itemprop=3D"e=
+mail" content=3D"jsnow@redhat.com"/></span><span itemprop=3D"organizer" ite=
+mscope itemtype=3D"http://schema.org/Person"><meta itemprop=3D"name" conten=
+t=3D"jsnow@redhat.com"/><meta itemprop=3D"email" content=3D"jsnow@redhat.co=
+m"/></span><span style=3D"font-size:11px;color:#888"> - organizer</span></d=
+iv></div></div></td></tr><tr><td style=3D"padding-right:10px;font-family:Ar=
+ial,Sans-serif;font-size:13px;color:#222;width:10px"><div style=3D"text-ind=
+ent:-1px"><span style=3D"font-family:Courier New,monospace">&#x2022;</span>=
+</div></td><td style=3D"padding-right:10px;font-family:Arial,Sans-serif;fon=
+t-size:13px;color:#222"><div style=3D"text-indent:-1px"><div><div style=3D"=
+margin:0 0 0.3em 0"><span itemprop=3D"attendee" itemscope itemtype=3D"http:=
+//schema.org/Person"><span itemprop=3D"name" class=3D"notranslate">berrange=
+@redhat.com</span><meta itemprop=3D"email" content=3D"berrange@redhat.com"/=
+></span></div></div></div></td></tr><tr><td style=3D"padding-right:10px;fon=
+t-family:Arial,Sans-serif;font-size:13px;color:#222;width:10px"><div style=
+=3D"text-indent:-1px"><span style=3D"font-family:Courier New,monospace">&#x=
+2022;</span></div></td><td style=3D"padding-right:10px;font-family:Arial,Sa=
+ns-serif;font-size:13px;color:#222"><div style=3D"text-indent:-1px"><div><d=
+iv style=3D"margin:0 0 0.3em 0"><span itemprop=3D"attendee" itemscope itemt=
+ype=3D"http://schema.org/Person"><span itemprop=3D"name" class=3D"notransla=
+te">pbonzini@redhat.com</span><meta itemprop=3D"email" content=3D"pbonzini@=
+redhat.com"/></span></div></div></div></td></tr><tr><td style=3D"padding-ri=
+ght:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222;width:10px"=
+><div style=3D"text-indent:-1px"><span style=3D"font-family:Courier New,mon=
+ospace">&#x2022;</span></div></td><td style=3D"padding-right:10px;font-fami=
+ly:Arial,Sans-serif;font-size:13px;color:#222"><div style=3D"text-indent:-1=
+px"><div><div style=3D"margin:0 0 0.3em 0"><span itemprop=3D"attendee" item=
+scope itemtype=3D"http://schema.org/Person"><span itemprop=3D"name" class=
+=3D"notranslate">armbru@redhat.com</span><meta itemprop=3D"email" content=
+=3D"armbru@redhat.com"/></span></div></div></div></td></tr><tr><td style=3D=
+"padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;color:#222;=
+width:10px"><div style=3D"text-indent:-1px"><span style=3D"font-family:Cour=
+ier New,monospace">&#x2022;</span></div></td><td style=3D"padding-right:10p=
+x;font-family:Arial,Sans-serif;font-size:13px;color:#222"><div style=3D"tex=
+t-indent:-1px"><div><div style=3D"margin:0 0 0.3em 0"><span itemprop=3D"att=
+endee" itemscope itemtype=3D"http://schema.org/Person"><span itemprop=3D"na=
+me" class=3D"notranslate">damien.hedde@greensocs.com</span><meta itemprop=
+=3D"email" content=3D"damien.hedde@greensocs.com"/></span></div></div></div=
+></td></tr><tr><td style=3D"padding-right:10px;font-family:Arial,Sans-serif=
+;font-size:13px;color:#222;width:10px"><div style=3D"text-indent:-1px"><spa=
+n style=3D"font-family:Courier New,monospace">&#x2022;</span></div></td><td=
+ style=3D"padding-right:10px;font-family:Arial,Sans-serif;font-size:13px;co=
+lor:#222"><div style=3D"text-indent:-1px"><div><div style=3D"margin:0 0 0.3=
+em 0"><span itemprop=3D"attendee" itemscope itemtype=3D"http://schema.org/P=
+erson"><span itemprop=3D"name" class=3D"notranslate">marcandre.lureau@redha=
+t.com</span><meta itemprop=3D"email" content=3D"marcandre.lureau@redhat.com=
+"/></span></div></div></div></td></tr><tr><td style=3D"padding-right:10px;f=
+ont-family:Arial,Sans-serif;font-size:13px;color:#222;width:10px"><div styl=
+e=3D"text-indent:-1px"><span style=3D"font-family:Courier New,monospace">&#=
+x2022;</span></div></td><td style=3D"padding-right:10px;font-family:Arial,S=
+ans-serif;font-size:13px;color:#222"><div style=3D"text-indent:-1px"><div><=
+div style=3D"margin:0 0 0.3em 0"><span itemprop=3D"attendee" itemscope item=
+type=3D"http://schema.org/Person"><span itemprop=3D"name" class=3D"notransl=
+ate">kwolf@redhat.com</span><meta itemprop=3D"email" content=3D"kwolf@redha=
+t.com"/></span></div></div></div></td></tr><tr><td style=3D"padding-right:1=
+0px;font-family:Arial,Sans-serif;font-size:13px;color:#222;width:10px"><div=
+ style=3D"text-indent:-1px"><span style=3D"font-family:Courier New,monospac=
+e">&#x2022;</span></div></td><td style=3D"padding-right:10px;font-family:Ar=
+ial,Sans-serif;font-size:13px;color:#222"><div style=3D"text-indent:-1px"><=
+div><div style=3D"margin:0 0 0.3em 0"><span itemprop=3D"attendee" itemscope=
+ itemtype=3D"http://schema.org/Person"><span itemprop=3D"name" class=3D"not=
+ranslate">qemu-devel@nongnu.org</span><meta itemprop=3D"email" content=3D"q=
+emu-devel@nongnu.org"/></span></div></div></div></td></tr></table></td></tr=
+></table><div style=3D"float:right;font-weight:bold;font-size:13px"> <a hre=
+f=3D"https://calendar.google.com/calendar/event?action=3DVIEW&amp;eid=3DNzJ=
+wYXY4YTlpYjBtNDlrOHFyOWhqaWJnZzcgcWVtdS1kZXZlbEBub25nbnUub3Jn&amp;tok=3DMTY=
+janNub3dAcmVkaGF0LmNvbTAxYTNkNTk0NTQyOWNkNDk4YzgxYTY1ZDdhMTc3ODM3NzAyOTg0Mz=
+M&amp;ctz=3DAmerica%2FNew_York&amp;hl=3Den&amp;es=3D0" style=3D"color:#20c;=
+white-space:nowrap" itemprop=3D"url">more details &raquo;</a><br></div><div=
+ style=3D"padding-bottom:15px;font-family:Arial,Sans-serif;font-size:13px;c=
+olor:#222;white-space:pre-wrap!important;white-space:-moz-pre-wrap!importan=
+t;white-space:-pre-wrap!important;white-space:-o-pre-wrap!important;white-s=
+pace:pre;word-wrap:break-word"><span>Let&#39;s discuss our ongoing and futu=
+re work on the QAPI generator and closely related interfaces for QEMU.<p>Pl=
+ease prepare for the meeting by writing a small overview of your pending an=
+d future work, and the goals that motivate those works. If you send this su=
+mmary to the mailing list beforehand, we&#39;ll have the opportunity to ski=
+m it prior to the meeting.</p><p>I am suggesting we use a public etherpad i=
+nstance to keep notes during the meeting: <a href=3D"https://www.google.com=
+/url?q=3Dhttps%3A%2F%2Fetherpad.wikimedia.org%2Fp%2Fqapi-sync&amp;sa=3DD&am=
+p;ust=3D1633813306801000&amp;usg=3DAOvVaw2HpiQ7_lM8xUA6hYR3Uqcy" target=3D"=
+_blank">https://etherpad.wikimedia.org/p/qapi-sync</a></p><p>During this me=
+eting, I&#39;d like to assemble a list of all ongoing QAPI work and begin w=
+ork on crafting a roadmap that helps describe that work.</p><p>I don&#39;t =
+suspect we&#39;ll finish in a single meeting, but it may be a helpful prime=
+r for follow-up discussions on the ML.</p></span><meta itemprop=3D"descript=
+ion" content=3D"Let&#39;s discuss our ongoing and future work on the QAPI g=
+enerator and closely related interfaces for QEMU.
 
-But I think we can't keep notification queue around if driver does
-not support it. Because it changes queue index. queue index 1 will
-belong to request queue if notifications are not enabled otherwise
-it will belong to notification queue. So If I always instantiate
-notification queue, then guest and qemu/virtiofsd will have
-different understanding of which queue index belongs to what
-queue.
+Please prepare for the meeting by writing a small overview of your pending =
+and future work, and the goals that motivate those works. If you send this =
+summary to the mailing list beforehand, we&#39;ll have the opportunity to s=
+kim it prior to the meeting.
 
-I probably have misunderstood what you are suggesting. If you can
-explain a little bit more in detail, that will help.
+I am suggesting we use a public etherpad instance to keep notes during the =
+meeting: https://etherpad.wikimedia.org/p/qapi-sync
 
-Thanks
-Vivek
+During this meeting, I&#39;d like to assemble a list of all ongoing QAPI wo=
+rk and begin work on crafting a roadmap that helps describe that work.
 
-> 
-> I'm not 100% sure if that approach works. It should be tested with a
-> virtiofsd that doesn't implement the notification vq, for example. But I
-> think it's worth exploring that because the code will be simpler than
-> worrying about whether notifications are enabled or disabled.
-> 
-> > +        return;
-> > +    }
-> > +
-> > +    fs->notify_enabled = false;
-> > +    if (!fs->notification_vq) {
-> > +        return;
-> > +    }
-> > +    /*
-> > +     * Driver does not support notification queue. Reconfigure queues
-> > +     * and do not create notification queue.
-> > +     */
-> > +    vuf_cleanup_vqs(vdev);
-> > +
-> > +    /* Create queues again */
-> > +    vuf_create_vqs(vdev, false);
-> > +}
-> > +
-> >  static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx,
-> >                                              bool mask)
-> >  {
-> > @@ -262,7 +315,7 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
-> >      virtio_init(vdev, "vhost-user-fs", VIRTIO_ID_FS,
-> >                  sizeof(struct virtio_fs_config));
-> >  
-> > -    vuf_create_vqs(vdev);
-> > +    vuf_create_vqs(vdev, true);
-> >      ret = vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
-> >                           VHOST_BACKEND_TYPE_USER, 0, errp);
-> >      if (ret < 0) {
-> > @@ -327,6 +380,7 @@ static void vuf_class_init(ObjectClass *klass, void *data)
-> >      vdc->realize = vuf_device_realize;
-> >      vdc->unrealize = vuf_device_unrealize;
-> >      vdc->get_features = vuf_get_features;
-> > +    vdc->set_features = vuf_set_features;
-> >      vdc->get_config = vuf_get_config;
-> >      vdc->set_status = vuf_set_status;
-> >      vdc->guest_notifier_mask = vuf_guest_notifier_mask;
-> > diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
-> > index 0d62834c25..95dc0dd402 100644
-> > --- a/include/hw/virtio/vhost-user-fs.h
-> > +++ b/include/hw/virtio/vhost-user-fs.h
-> > @@ -39,7 +39,9 @@ struct VHostUserFS {
-> >      VhostUserState vhost_user;
-> >      VirtQueue **req_vqs;
-> >      VirtQueue *hiprio_vq;
-> > +    VirtQueue *notification_vq;
-> >      int32_t bootindex;
-> > +    bool notify_enabled;
-> >  
-> >      /*< public >*/
-> >  };
-> > diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
-> > index 492e002181..4942d080da 100644
-> > --- a/tools/virtiofsd/fuse_i.h
-> > +++ b/tools/virtiofsd/fuse_i.h
-> > @@ -73,6 +73,7 @@ struct fuse_session {
-> >      int   vu_socketfd;
-> >      struct fv_VuDev *virtio_dev;
-> >      int thread_pool_size;
-> > +    bool notify_enabled;
-> >  };
-> >  
-> >  struct fuse_chan {
-> > diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> > index baead08b28..f5b87a508a 100644
-> > --- a/tools/virtiofsd/fuse_virtio.c
-> > +++ b/tools/virtiofsd/fuse_virtio.c
-> > @@ -14,6 +14,7 @@
-> >  #include "qemu/osdep.h"
-> >  #include "qemu/iov.h"
-> >  #include "qapi/error.h"
-> > +#include "standard-headers/linux/virtio_fs.h"
-> >  #include "fuse_i.h"
-> >  #include "standard-headers/linux/fuse.h"
-> >  #include "fuse_misc.h"
-> > @@ -85,12 +86,25 @@ struct fv_VuDev {
-> >  /* Callback from libvhost-user */
-> >  static uint64_t fv_get_features(VuDev *dev)
-> >  {
-> > -    return 1ULL << VIRTIO_F_VERSION_1;
-> > +    uint64_t features;
-> > +
-> > +    features = 1ull << VIRTIO_F_VERSION_1 |
-> > +               1ull << VIRTIO_FS_F_NOTIFICATION;
-> > +
-> > +    return features;
-> >  }
-> >  
-> >  /* Callback from libvhost-user */
-> >  static void fv_set_features(VuDev *dev, uint64_t features)
-> >  {
-> > +    struct fv_VuDev *vud = container_of(dev, struct fv_VuDev, dev);
-> > +    struct fuse_session *se = vud->se;
-> > +
-> > +    if ((1ull << VIRTIO_FS_F_NOTIFICATION) & features) {
-> > +        se->notify_enabled = true;
-> > +    } else {
-> > +        se->notify_enabled = false;
-> > +    }
-> >  }
-> >  
-> >  /*
-> > @@ -719,22 +733,25 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vud, int qidx)
-> >  {
-> >      int ret;
-> >      struct fv_QueueInfo *ourqi;
-> > +    struct fuse_session *se = vud->se;
-> >  
-> >      assert(qidx < vud->nqueues);
-> >      ourqi = vud->qi[qidx];
-> >  
-> > -    /* Kill the thread */
-> > -    if (eventfd_write(ourqi->kill_fd, 1)) {
-> > -        fuse_log(FUSE_LOG_ERR, "Eventfd_write for queue %d: %s\n",
-> > -                 qidx, strerror(errno));
-> > -    }
-> > -    ret = pthread_join(ourqi->thread, NULL);
-> > -    if (ret) {
-> > -        fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d err %d\n",
-> > -                 __func__, qidx, ret);
-> > +    /* qidx == 1 is the notification queue if notifications are enabled */
-> > +    if (!se->notify_enabled || qidx != 1) {
-> > +        /* Kill the thread */
-> > +        if (eventfd_write(ourqi->kill_fd, 1)) {
-> > +            fuse_log(FUSE_LOG_ERR, "Eventfd_read for queue: %m\n");
-> > +        }
-> > +        ret = pthread_join(ourqi->thread, NULL);
-> > +        if (ret) {
-> > +            fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d err"
-> > +                     " %d\n", __func__, qidx, ret);
-> > +        }
-> > +        close(ourqi->kill_fd);
-> >      }
-> >      pthread_mutex_destroy(&ourqi->vq_lock);
-> > -    close(ourqi->kill_fd);
-> >      ourqi->kick_fd = -1;
-> >      g_free(vud->qi[qidx]);
-> >      vud->qi[qidx] = NULL;
-> > @@ -757,6 +774,9 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
-> >  {
-> >      struct fv_VuDev *vud = container_of(dev, struct fv_VuDev, dev);
-> >      struct fv_QueueInfo *ourqi;
-> > +    int valid_queues = 2; /* One hiprio queue and one request queue */
-> > +    bool notification_q = false;
-> > +    struct fuse_session *se = vud->se;
-> >  
-> >      fuse_log(FUSE_LOG_INFO, "%s: qidx=%d started=%d\n", __func__, qidx,
-> >               started);
-> > @@ -768,10 +788,19 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
-> >       * well-behaved client in mind and may not protect against all types of
-> >       * races yet.
-> >       */
-> > -    if (qidx > 1) {
-> > -        fuse_log(FUSE_LOG_ERR,
-> > -                 "%s: multiple request queues not yet implemented, please only "
-> > -                 "configure 1 request queue\n",
-> > +    if (se->notify_enabled) {
-> > +        valid_queues++;
-> > +        /*
-> > +         * If notification queue is enabled, then qidx 1 is notificaiton queue.
-> 
-> s/notificaiton/notification/
-> 
-> > +         */
-> > +        if (qidx == 1) {
-> > +            notification_q = true;
-> > +        }
-> > +    }
-> > +
-> > +    if (qidx >= valid_queues) {
-> > +        fuse_log(FUSE_LOG_ERR, "%s: multiple request queues not yet"
-> > +                 "implemented, please only configure 1 request queue\n",
-> >                   __func__);
-> >          exit(EXIT_FAILURE);
-> >      }
-> > @@ -793,11 +822,18 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
-> >              assert(vud->qi[qidx]->kick_fd == -1);
-> >          }
-> >          ourqi = vud->qi[qidx];
-> > +        pthread_mutex_init(&ourqi->vq_lock, NULL);
-> > +        /*
-> > +         * For notification queue, we don't have to start a thread yet.
-> > +         */
-> > +        if (notification_q) {
-> > +            return;
-> > +        }
-> > +
-> >          ourqi->kick_fd = dev->vq[qidx].kick_fd;
-> >  
-> >          ourqi->kill_fd = eventfd(0, EFD_CLOEXEC | EFD_SEMAPHORE);
-> >          assert(ourqi->kill_fd != -1);
-> > -        pthread_mutex_init(&ourqi->vq_lock, NULL);
-> >  
-> >          if (pthread_create(&ourqi->thread, NULL, fv_queue_thread, ourqi)) {
-> >              fuse_log(FUSE_LOG_ERR, "%s: Failed to create thread for queue %d\n",
-> > @@ -1048,7 +1084,7 @@ int virtio_session_mount(struct fuse_session *se)
-> >      se->vu_socketfd = data_sock;
-> >      se->virtio_dev->se = se;
-> >      pthread_rwlock_init(&se->virtio_dev->vu_dispatch_rwlock, NULL);
-> > -    if (!vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, NULL,
-> > +    if (!vu_init(&se->virtio_dev->dev, 3, se->vu_socketfd, fv_panic, NULL,
-> 
-> The guest driver can invoke fv_queue_set_started() with qidx=2 even when
-> VIRTIO_FS_F_NOTIFICATION is off. Luckily the following check protects
-> fv_queue_set_started():
-> 
->   if (qidx >= valid_queues) {
->       fuse_log(FUSE_LOG_ERR, "%s: multiple request queues not yet"
->                "implemented, please only configure 1 request queue\n",
->                __func__);
->       exit(EXIT_FAILURE);
->   }
-> 
-> However, the error message suggests this is related to multiqueue. In
-> fact, we'll need to keep this check even once multiqueue has been
-> implemented. Maybe the error message should be tweaked or at least a
-> comment needs to be added to the code so this check isn't accidentally
-> removed once multiqueue is implemented.
+I don&#39;t suspect we&#39;ll finish in a single meeting, but it may be a h=
+elpful primer for follow-up discussions on the ML."/></div></div><p style=
+=3D"color:#222;font-size:13px;margin:0"><span style=3D"color:#888">Going (q=
+emu-devel@nongnu.org)?&nbsp;&nbsp;&nbsp;</span><wbr><strong><span itemprop=
+=3D"potentialaction" itemscope itemtype=3D"http://schema.org/RsvpAction"><m=
+eta itemprop=3D"attendance" content=3D"http://schema.org/RsvpAttendance/Yes=
+"/><span itemprop=3D"handler" itemscope itemtype=3D"http://schema.org/HttpA=
+ctionHandler"><link itemprop=3D"method" href=3D"http://schema.org/HttpReque=
+stMethod/GET"/><a href=3D"https://calendar.google.com/calendar/event?action=
+=3DRESPOND&amp;eid=3DNzJwYXY4YTlpYjBtNDlrOHFyOWhqaWJnZzcgcWVtdS1kZXZlbEBub2=
+5nbnUub3Jn&amp;rst=3D1&amp;tok=3DMTYjanNub3dAcmVkaGF0LmNvbTAxYTNkNTk0NTQyOW=
+NkNDk4YzgxYTY1ZDdhMTc3ODM3NzAyOTg0MzM&amp;ctz=3DAmerica%2FNew_York&amp;hl=
+=3Den&amp;es=3D0" style=3D"color:#20c;white-space:nowrap" itemprop=3D"url">=
+Yes</a></span></span><span style=3D"margin:0 0.4em;font-weight:normal"> - <=
+/span><span itemprop=3D"potentialaction" itemscope itemtype=3D"http://schem=
+a.org/RsvpAction"><meta itemprop=3D"attendance" content=3D"http://schema.or=
+g/RsvpAttendance/Maybe"/><span itemprop=3D"handler" itemscope itemtype=3D"h=
+ttp://schema.org/HttpActionHandler"><link itemprop=3D"method" href=3D"http:=
+//schema.org/HttpRequestMethod/GET"/><a href=3D"https://calendar.google.com=
+/calendar/event?action=3DRESPOND&amp;eid=3DNzJwYXY4YTlpYjBtNDlrOHFyOWhqaWJn=
+ZzcgcWVtdS1kZXZlbEBub25nbnUub3Jn&amp;rst=3D3&amp;tok=3DMTYjanNub3dAcmVkaGF0=
+LmNvbTAxYTNkNTk0NTQyOWNkNDk4YzgxYTY1ZDdhMTc3ODM3NzAyOTg0MzM&amp;ctz=3DAmeri=
+ca%2FNew_York&amp;hl=3Den&amp;es=3D0" style=3D"color:#20c;white-space:nowra=
+p" itemprop=3D"url">Maybe</a></span></span><span style=3D"margin:0 0.4em;fo=
+nt-weight:normal"> - </span><span itemprop=3D"potentialaction" itemscope it=
+emtype=3D"http://schema.org/RsvpAction"><meta itemprop=3D"attendance" conte=
+nt=3D"http://schema.org/RsvpAttendance/No"/><span itemprop=3D"handler" item=
+scope itemtype=3D"http://schema.org/HttpActionHandler"><link itemprop=3D"me=
+thod" href=3D"http://schema.org/HttpRequestMethod/GET"/><a href=3D"https://=
+calendar.google.com/calendar/event?action=3DRESPOND&amp;eid=3DNzJwYXY4YTlpY=
+jBtNDlrOHFyOWhqaWJnZzcgcWVtdS1kZXZlbEBub25nbnUub3Jn&amp;rst=3D2&amp;tok=3DM=
+TYjanNub3dAcmVkaGF0LmNvbTAxYTNkNTk0NTQyOWNkNDk4YzgxYTY1ZDdhMTc3ODM3NzAyOTg0=
+MzM&amp;ctz=3DAmerica%2FNew_York&amp;hl=3Den&amp;es=3D0" style=3D"color:#20=
+c;white-space:nowrap" itemprop=3D"url">No</a></span></span></strong>&nbsp;&=
+nbsp;&nbsp;&nbsp;<wbr><a href=3D"https://calendar.google.com/calendar/event=
+?action=3DVIEW&amp;eid=3DNzJwYXY4YTlpYjBtNDlrOHFyOWhqaWJnZzcgcWVtdS1kZXZlbE=
+Bub25nbnUub3Jn&amp;tok=3DMTYjanNub3dAcmVkaGF0LmNvbTAxYTNkNTk0NTQyOWNkNDk4Yz=
+gxYTY1ZDdhMTc3ODM3NzAyOTg0MzM&amp;ctz=3DAmerica%2FNew_York&amp;hl=3Den&amp;=
+es=3D0" style=3D"color:#20c;white-space:nowrap" itemprop=3D"url">more optio=
+ns &raquo;</a></p></td></tr><tr><td style=3D"background-color:#f6f6f6;color=
+:#888;border-top:1px Solid #ccc;font-family:Arial,Sans-serif;font-size:11px=
+"><p>Invitation from <a href=3D"https://calendar.google.com/calendar/" targ=
+et=3D"_blank" style=3D"">Google Calendar</a></p><p>You are receiving this c=
+ourtesy email at the account qemu-devel@nongnu.org because you are an atten=
+dee of this event.</p><p>To stop receiving future updates for this event, d=
+ecline this event. Alternatively you can sign up for a Google account at ht=
+tps://calendar.google.com/calendar/ and control your notification settings =
+for your entire calendar.</p><p>Forwarding this invitation could allow any =
+recipient to send a response to the organizer and be added to the guest lis=
+t, or invite others regardless of their own invitation status, or to modify=
+ your RSVP. <a href=3D"https://support.google.com/calendar/answer/37135#for=
+warding">Learn More</a>.</p></td></tr></table></div></span></span>
+--00000000000093850a05cd8d38f3
+Content-Type: text/calendar; charset="UTF-8"; method=REQUEST
+Content-Transfer-Encoding: 7bit
 
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VEVENT
+DTSTART:20211007T130000Z
+DTEND:20211007T140000Z
+DTSTAMP:20211004T210146Z
+ORGANIZER;CN=jsnow@redhat.com:mailto:jsnow@redhat.com
+UID:72pav8a9ib0m49k8qr9hjibgg7@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=berrange@redhat.com;X-NUM-GUESTS=0:mailto:berrange@redhat.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE
+ ;CN=jsnow@redhat.com;X-NUM-GUESTS=0:mailto:jsnow@redhat.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=pbonzini@redhat.com;X-NUM-GUESTS=0:mailto:pbonzini@redhat.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=armbru@redhat.com;X-NUM-GUESTS=0:mailto:armbru@redhat.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE
+ ;CN=damien.hedde@greensocs.com;X-NUM-GUESTS=0:mailto:damien.hedde@greensocs
+ .com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE
+ ;CN=marcandre.lureau@redhat.com;X-NUM-GUESTS=0:mailto:marcandre.lureau@redh
+ at.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=kwolf@redhat.com;X-NUM-GUESTS=0:mailto:kwolf@redhat.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=qemu-devel@nongnu.org;X-NUM-GUESTS=0:mailto:qemu-devel@nongnu.org
+X-MICROSOFT-CDO-OWNERAPPTID:-2106639245
+CREATED:20211001T001809Z
+DESCRIPTION:Let's discuss our ongoing and future work on the QAPI generator
+  and closely related interfaces for QEMU.\n\nPlease prepare for the meeting
+  by writing a small overview of your pending and future work\, and the goal
+ s that motivate those works. If you send this summary to the mailing list b
+ eforehand\, we'll have the opportunity to skim it prior to the meeting.\n\n
+ I am suggesting we use a public etherpad instance to keep notes during the 
+ meeting: https://etherpad.wikimedia.org/p/qapi-sync\n\nDuring this meeting\
+ , I'd like to assemble a list of all ongoing QAPI work and begin work on cr
+ afting a roadmap that helps describe that work.\n\nI don't suspect we'll fi
+ nish in a single meeting\, but it may be a helpful primer for follow-up dis
+ cussions on the ML.\n\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\nDo not edit this section of the descri
+ ption.\n\nThis event has a video call.\nJoin: https://meet.google.com/xqi-t
+ iqs-xrz\n(US) +1 929-249-4854 PIN: 637379240#\n\nJoin using SIP\n6779067023
+ 105@gmeet.redhat.com (ID: 6779067023105)\nView more joining options: https:
+ //tel.meet/xqi-tiqs-xrz?pin=6779067023105&hs=7\n\nView your event at https:
+ //calendar.google.com/calendar/event?action=VIEW&eid=NzJwYXY4YTlpYjBtNDlrOH
+ FyOWhqaWJnZzcgcWVtdS1kZXZlbEBub25nbnUub3Jn&tok=MTYjanNub3dAcmVkaGF0LmNvbTAx
+ YTNkNTk0NTQyOWNkNDk4YzgxYTY1ZDdhMTc3ODM3NzAyOTg0MzM&ctz=America%2FNew_York&
+ hl=en&es=1.\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20211004T210146Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:QAPI Sync meeting
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR
+
+--00000000000093850a05cd8d38f3--
+
+--00000000000093850d05cd8d38f5
+Content-Type: application/ics; name="invite.ics"
+Content-Disposition: attachment; filename="invite.ics"
+Content-Transfer-Encoding: base64
+
+QkVHSU46VkNBTEVOREFSDQpQUk9ESUQ6LS8vR29vZ2xlIEluYy8vR29vZ2xlIENhbGVuZGFyIDcw
+LjkwNTQvL0VODQpWRVJTSU9OOjIuMA0KQ0FMU0NBTEU6R1JFR09SSUFODQpNRVRIT0Q6UkVRVUVT
+VA0KQkVHSU46VkVWRU5UDQpEVFNUQVJUOjIwMjExMDA3VDEzMDAwMFoNCkRURU5EOjIwMjExMDA3
+VDE0MDAwMFoNCkRUU1RBTVA6MjAyMTEwMDRUMjEwMTQ2Wg0KT1JHQU5JWkVSO0NOPWpzbm93QHJl
+ZGhhdC5jb206bWFpbHRvOmpzbm93QHJlZGhhdC5jb20NClVJRDo3MnBhdjhhOWliMG00OWs4cXI5
+aGppYmdnN0Bnb29nbGUuY29tDQpBVFRFTkRFRTtDVVRZUEU9SU5ESVZJRFVBTDtST0xFPVJFUS1Q
+QVJUSUNJUEFOVDtQQVJUU1RBVD1ORUVEUy1BQ1RJT047UlNWUD0NCiBUUlVFO0NOPWJlcnJhbmdl
+QHJlZGhhdC5jb207WC1OVU0tR1VFU1RTPTA6bWFpbHRvOmJlcnJhbmdlQHJlZGhhdC5jb20NCkFU
+VEVOREVFO0NVVFlQRT1JTkRJVklEVUFMO1JPTEU9UkVRLVBBUlRJQ0lQQU5UO1BBUlRTVEFUPUFD
+Q0VQVEVEO1JTVlA9VFJVRQ0KIDtDTj1qc25vd0ByZWRoYXQuY29tO1gtTlVNLUdVRVNUUz0wOm1h
+aWx0bzpqc25vd0ByZWRoYXQuY29tDQpBVFRFTkRFRTtDVVRZUEU9SU5ESVZJRFVBTDtST0xFPVJF
+US1QQVJUSUNJUEFOVDtQQVJUU1RBVD1ORUVEUy1BQ1RJT047UlNWUD0NCiBUUlVFO0NOPXBib256
+aW5pQHJlZGhhdC5jb207WC1OVU0tR1VFU1RTPTA6bWFpbHRvOnBib256aW5pQHJlZGhhdC5jb20N
+CkFUVEVOREVFO0NVVFlQRT1JTkRJVklEVUFMO1JPTEU9UkVRLVBBUlRJQ0lQQU5UO1BBUlRTVEFU
+PU5FRURTLUFDVElPTjtSU1ZQPQ0KIFRSVUU7Q049YXJtYnJ1QHJlZGhhdC5jb207WC1OVU0tR1VF
+U1RTPTA6bWFpbHRvOmFybWJydUByZWRoYXQuY29tDQpBVFRFTkRFRTtDVVRZUEU9SU5ESVZJRFVB
+TDtST0xFPVJFUS1QQVJUSUNJUEFOVDtQQVJUU1RBVD1BQ0NFUFRFRDtSU1ZQPVRSVUUNCiA7Q049
+ZGFtaWVuLmhlZGRlQGdyZWVuc29jcy5jb207WC1OVU0tR1VFU1RTPTA6bWFpbHRvOmRhbWllbi5o
+ZWRkZUBncmVlbnNvY3MNCiAuY29tDQpBVFRFTkRFRTtDVVRZUEU9SU5ESVZJRFVBTDtST0xFPVJF
+US1QQVJUSUNJUEFOVDtQQVJUU1RBVD1BQ0NFUFRFRDtSU1ZQPVRSVUUNCiA7Q049bWFyY2FuZHJl
+Lmx1cmVhdUByZWRoYXQuY29tO1gtTlVNLUdVRVNUUz0wOm1haWx0bzptYXJjYW5kcmUubHVyZWF1
+QHJlZGgNCiBhdC5jb20NCkFUVEVOREVFO0NVVFlQRT1JTkRJVklEVUFMO1JPTEU9UkVRLVBBUlRJ
+Q0lQQU5UO1BBUlRTVEFUPU5FRURTLUFDVElPTjtSU1ZQPQ0KIFRSVUU7Q049a3dvbGZAcmVkaGF0
+LmNvbTtYLU5VTS1HVUVTVFM9MDptYWlsdG86a3dvbGZAcmVkaGF0LmNvbQ0KQVRURU5ERUU7Q1VU
+WVBFPUlORElWSURVQUw7Uk9MRT1SRVEtUEFSVElDSVBBTlQ7UEFSVFNUQVQ9TkVFRFMtQUNUSU9O
+O1JTVlA9DQogVFJVRTtDTj1xZW11LWRldmVsQG5vbmdudS5vcmc7WC1OVU0tR1VFU1RTPTA6bWFp
+bHRvOnFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0KWC1NSUNST1NPRlQtQ0RPLU9XTkVSQVBQVElEOi0y
+MTA2NjM5MjQ1DQpDUkVBVEVEOjIwMjExMDAxVDAwMTgwOVoNCkRFU0NSSVBUSU9OOkxldCdzIGRp
+c2N1c3Mgb3VyIG9uZ29pbmcgYW5kIGZ1dHVyZSB3b3JrIG9uIHRoZSBRQVBJIGdlbmVyYXRvcg0K
+ICBhbmQgY2xvc2VseSByZWxhdGVkIGludGVyZmFjZXMgZm9yIFFFTVUuXG5cblBsZWFzZSBwcmVw
+YXJlIGZvciB0aGUgbWVldGluZw0KICBieSB3cml0aW5nIGEgc21hbGwgb3ZlcnZpZXcgb2YgeW91
+ciBwZW5kaW5nIGFuZCBmdXR1cmUgd29ya1wsIGFuZCB0aGUgZ29hbA0KIHMgdGhhdCBtb3RpdmF0
+ZSB0aG9zZSB3b3Jrcy4gSWYgeW91IHNlbmQgdGhpcyBzdW1tYXJ5IHRvIHRoZSBtYWlsaW5nIGxp
+c3QgYg0KIGVmb3JlaGFuZFwsIHdlJ2xsIGhhdmUgdGhlIG9wcG9ydHVuaXR5IHRvIHNraW0gaXQg
+cHJpb3IgdG8gdGhlIG1lZXRpbmcuXG5cbg0KIEkgYW0gc3VnZ2VzdGluZyB3ZSB1c2UgYSBwdWJs
+aWMgZXRoZXJwYWQgaW5zdGFuY2UgdG8ga2VlcCBub3RlcyBkdXJpbmcgdGhlIA0KIG1lZXRpbmc6
+IGh0dHBzOi8vZXRoZXJwYWQud2lraW1lZGlhLm9yZy9wL3FhcGktc3luY1xuXG5EdXJpbmcgdGhp
+cyBtZWV0aW5nXA0KICwgSSdkIGxpa2UgdG8gYXNzZW1ibGUgYSBsaXN0IG9mIGFsbCBvbmdvaW5n
+IFFBUEkgd29yayBhbmQgYmVnaW4gd29yayBvbiBjcg0KIGFmdGluZyBhIHJvYWRtYXAgdGhhdCBo
+ZWxwcyBkZXNjcmliZSB0aGF0IHdvcmsuXG5cbkkgZG9uJ3Qgc3VzcGVjdCB3ZSdsbCBmaQ0KIG5p
+c2ggaW4gYSBzaW5nbGUgbWVldGluZ1wsIGJ1dCBpdCBtYXkgYmUgYSBoZWxwZnVsIHByaW1lciBm
+b3IgZm9sbG93LXVwIGRpcw0KIGN1c3Npb25zIG9uIHRoZSBNTC5cblxuLTo6fjp+Ojp+On46fjp+
+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+Og0KIH46fjp+On46fjp+On46fjp+
+On46fjp+On46fjo6fjp+OjotXG5EbyBub3QgZWRpdCB0aGlzIHNlY3Rpb24gb2YgdGhlIGRlc2Ny
+aQ0KIHB0aW9uLlxuXG5UaGlzIGV2ZW50IGhhcyBhIHZpZGVvIGNhbGwuXG5Kb2luOiBodHRwczov
+L21lZXQuZ29vZ2xlLmNvbS94cWktdA0KIGlxcy14cnpcbihVUykgKzEgOTI5LTI0OS00ODU0IFBJ
+TjogNjM3Mzc5MjQwI1xuXG5Kb2luIHVzaW5nIFNJUFxuNjc3OTA2NzAyMw0KIDEwNUBnbWVldC5y
+ZWRoYXQuY29tIChJRDogNjc3OTA2NzAyMzEwNSlcblZpZXcgbW9yZSBqb2luaW5nIG9wdGlvbnM6
+IGh0dHBzOg0KIC8vdGVsLm1lZXQveHFpLXRpcXMteHJ6P3Bpbj02Nzc5MDY3MDIzMTA1JmhzPTdc
+blxuVmlldyB5b3VyIGV2ZW50IGF0IGh0dHBzOg0KIC8vY2FsZW5kYXIuZ29vZ2xlLmNvbS9jYWxl
+bmRhci9ldmVudD9hY3Rpb249VklFVyZlaWQ9TnpKd1lYWTRZVGxwWWpCdE5EbHJPSA0KIEZ5T1do
+cWFXSm5aemNnY1dWdGRTMWtaWFpsYkVCdWIyNW5iblV1YjNKbiZ0b2s9TVRZamFuTnViM2RBY21W
+a2FHRjBMbU52YlRBeA0KIFlUTmtOVGswTlRReU9XTmtORGs0WXpneFlUWTFaRGRoTVRjM09ETTNO
+ekF5T1RnME16TSZjdHo9QW1lcmljYSUyRk5ld19Zb3JrJg0KIGhsPWVuJmVzPTEuXG4tOjp+On46
+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+On46fjp+Og0K
+IH46fjp+On46fjp+On46fjp+Ojp+On46Oi0NCkxBU1QtTU9ESUZJRUQ6MjAyMTEwMDRUMjEwMTQ2
+Wg0KTE9DQVRJT046DQpTRVFVRU5DRTowDQpTVEFUVVM6Q09ORklSTUVEDQpTVU1NQVJZOlFBUEkg
+U3luYyBtZWV0aW5nDQpUUkFOU1A6T1BBUVVFDQpFTkQ6VkVWRU5UDQpFTkQ6VkNBTEVOREFSDQo=
+
+--00000000000093850d05cd8d38f5--
 
 
