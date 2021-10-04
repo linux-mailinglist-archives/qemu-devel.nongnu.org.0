@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9EBE42092E
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:14:11 +0200 (CEST)
-Received: from localhost ([::1]:54414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DBB42093F
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:18:24 +0200 (CEST)
+Received: from localhost ([::1]:34412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXKz4-0002vh-Ah
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:14:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42612)
+	id 1mXL39-0000Kl-Ct
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:18:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mXKW6-0000B3-BL
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:44:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35620)
+ id 1mXKWY-0000bd-JX
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:44:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mXKW4-0005mt-On
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:44:14 -0400
+ id 1mXKWS-00068c-Hr
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:44:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633340652;
+ s=mimecast20190719; t=1633340675;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Xj2EuEVOkKsDx8NDBU7nmAb1dXmNr3DxIeN0lCugnx4=;
- b=FVZv1JOXn+VW3Vqk08MTxPUKD5qsI7WBDvUyOGz3xaVTmuqGa0ydPLT9+JAeHRFBNAnsqS
- X7+qByrqgXDwbUYM10fKLQew1z+mVEqDiJeG3v92iBHlKPz+m/zcxMv+LBORxzGkuNSQQP
- ANYKr5rZXy25CJNtnYuRuHs9glCJy+I=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-RHktDO1DP6q6HOba_yzz_w-1; Mon, 04 Oct 2021 05:44:11 -0400
-X-MC-Unique: RHktDO1DP6q6HOba_yzz_w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m9-20020a05600c4f4900b003057c761567so9748008wmq.1
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 02:44:11 -0700 (PDT)
+ bh=SoUkTtOv9XP49TsrzDlI8hEqaw7q+N7J/SxBu7RAHCQ=;
+ b=fHBHGlAQcH7HITOeeZSlw+Af8RP5uM/cjf3Wr82ThRUhaX6roe/OO4zVUFT3q4U9gjVfZ8
+ uLFSbjKMy801VJu4JI9lwHfk1e5ULduBITt5HHWEprWmDnOoC7zAMWK0ve8aRpd0tEPwWR
+ LtaCGYNqH3jl2HlmlYihGg2xAy86dzI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-437-2kGjzbiZMMqfB7M-og96hQ-1; Mon, 04 Oct 2021 05:44:34 -0400
+X-MC-Unique: 2kGjzbiZMMqfB7M-og96hQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d13-20020adfa34d000000b00160aa1cc5f1so750300wrb.14
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 02:44:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Xj2EuEVOkKsDx8NDBU7nmAb1dXmNr3DxIeN0lCugnx4=;
- b=3zZiCciNK5epZeold7tHqDJAbkA0mlVyFtzNrOyA9PhUx1iLWcbDIY0ugtAac2qj8c
- FlJJk6mBgAPYmQRIMyPHuOChARoSxboMyyRcy0aYfk47XsoepnMERcHE4oMcJ0AVBNoF
- +J/inMMroBEX70b7Rn6NTNXO+LUUE9GRuNMMhy6OEPzFypedPaJsfovGn10xEEgojFmx
- J8Zif34qELOSv+ulVXxFTLQLC13VZvHC58DTUjOXWuPZ3EplNbf9YkKRWRPOpiCbTeCP
- 2LGGTz+3UmEmPU/LpRruVZoZkBzH8Jdpk1lz8/ZtHn+RmhEdSwEEWKayn4ISreANLILF
- vTAg==
-X-Gm-Message-State: AOAM531A7jvwIvpn//26yPC71JpwsjFGYQXYw0L5LDOrQ2kqTnYD6qk0
- rKKU64zltU0/aQHM+l/fuQKmb9GPi7qC5ehvp2BUIllfo54oh+T1P3fAanBYV7FH78MQkAimLFA
- ygWTCqeaBhvuS2KU=
-X-Received: by 2002:a1c:7d0c:: with SMTP id y12mr17252400wmc.6.1633340650141; 
- Mon, 04 Oct 2021 02:44:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyJwJXaCcMvmdsIG+SbzkOzsOXG04w26FIdFhGoCqVjymAJqr3ER5/M9rlRA8olgI7/usRnrw==
-X-Received: by 2002:a1c:7d0c:: with SMTP id y12mr17252376wmc.6.1633340649909; 
- Mon, 04 Oct 2021 02:44:09 -0700 (PDT)
+ bh=SoUkTtOv9XP49TsrzDlI8hEqaw7q+N7J/SxBu7RAHCQ=;
+ b=xs0SHPkQWzYM0p29k28leEs2Ft0/2w2LpxA7DMR7URQz33mwpxADgncGzby1yLN4IR
+ ajHM+6tc8ERX/XtxzIDFNywkPfgKSlMkowYgVshdh4miHj0g5l1ksgllIOo1zLEmUoJG
+ UTU7t5sxwsZtrM+cPQcmr1St0mSAlz4MbqcGQv/+9l8JyuI7GU42BFafPlxt9t+cmwHb
+ P52GFKBTjl3vO5jFZAXKP+CKwpVc4AFmgqukLBPs9oHdqpKra+WaNvWr0bKl7mXE3T1p
+ MVeRUmUqO4JyAmemgyBScYrNTDMx27+5mhZ2eaOrptwhFArLXfiUI4fYUch50EJcvwoU
+ 47rQ==
+X-Gm-Message-State: AOAM531iQKGuo2XYyrntrFCXZ1kE8dFQnWEQ8wbwHBenFH5yYZ6CGk0I
+ qnegK/Eob3SIfF5kBqgPf1QVAT1B6Q15APlcZfz+sJlu0A4FlImG5F0AIkovcAQKw8gnFBfIYZf
+ 1cGBKI4Z0IvqgMfQ=
+X-Received: by 2002:adf:9bc4:: with SMTP id e4mr13142417wrc.257.1633340673283; 
+ Mon, 04 Oct 2021 02:44:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2LrCY7HSrjxs2GPwETmmHaFihgfaSnx78iosQ5U6+ikTJPgF0cMge7tL/mMpTCWF7VZGUEw==
+X-Received: by 2002:adf:9bc4:: with SMTP id e4mr13142407wrc.257.1633340673145; 
+ Mon, 04 Oct 2021 02:44:33 -0700 (PDT)
 Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
- by smtp.gmail.com with ESMTPSA id n68sm16106200wmn.13.2021.10.04.02.44.09
+ by smtp.gmail.com with ESMTPSA id n17sm6794152wrw.16.2021.10.04.02.44.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 02:44:09 -0700 (PDT)
-Date: Mon, 4 Oct 2021 11:44:08 +0200
+ Mon, 04 Oct 2021 02:44:32 -0700 (PDT)
+Date: Mon, 4 Oct 2021 11:44:31 +0200
 From: Andrew Jones <drjones@redhat.com>
 To: Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH v2 2/5] hw/arm/virt: Add a control for the the highmem
- redistributors
-Message-ID: <20211004094408.xfftmls7h6bbypuk@gator>
+Subject: Re: [PATCH v2 3/5] hw/arm/virt: Honor highmem setting when computing
+ the memory map
+Message-ID: <20211004094431.2dewqj3hf2vjiil7@gator>
 References: <20211003164605.3116450-1-maz@kernel.org>
- <20211003164605.3116450-3-maz@kernel.org>
+ <20211003164605.3116450-4-maz@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20211003164605.3116450-3-maz@kernel.org>
+In-Reply-To: <20211003164605.3116450-4-maz@kernel.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -101,85 +101,56 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 03, 2021 at 05:46:02PM +0100, Marc Zyngier wrote:
-> Just like we can control the enablement of the highmem PCIe region
-> using highmem_ecam, let's add a control for the highmem GICv3
-> redistributor region.
+On Sun, Oct 03, 2021 at 05:46:03PM +0100, Marc Zyngier wrote:
+> Even when the VM is configured with highmem=off, the highest_gpa
+> field includes devices that are above the 4GiB limit.
+> Similarily, nothing seem to check that the memory is within
+> the limit set by the highmem=off option.
 > 
-> Similarily to highmem_ecam, these redistributors are disabled when
-> highmem is off.
+> This leads to failures in virt_kvm_type() on systems that have
+> a crippled IPA range, as the reported IPA space is larger than
+> what it should be.
+> 
+> Instead, honor the user-specified limit to only use the devices
+> at the lowest end of the spectrum, and fail if we have memory
+> crossing the 4GiB limit.
 > 
 > Signed-off-by: Marc Zyngier <maz@kernel.org>
 > ---
->  hw/arm/virt-acpi-build.c | 2 ++
->  hw/arm/virt.c            | 3 +++
->  include/hw/arm/virt.h    | 4 +++-
->  3 files changed, 8 insertions(+), 1 deletion(-)
+>  hw/arm/virt.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index d7bef0e627..f0d0b662b7 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -792,6 +792,8 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->      acpi_add_table(table_offsets, tables_blob);
->      build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
->  
-> +    vms->highmem_redists &= vms->highmem;
-> +
->      acpi_add_table(table_offsets, tables_blob);
->      build_madt(tables_blob, tables->linker, vms);
->  
 > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 8021d545c3..bcf58f677d 100644
+> index bcf58f677d..9d2abdbd5f 100644
 > --- a/hw/arm/virt.c
 > +++ b/hw/arm/virt.c
-> @@ -2053,6 +2053,8 @@ static void machvirt_init(MachineState *machine)
+> @@ -1628,6 +1628,11 @@ static void virt_set_memmap(VirtMachineState *vms)
+>          exit(EXIT_FAILURE);
+>      }
 >  
->      virt_flash_fdt(vms, sysmem, secure_sysmem ?: sysmem);
->  
-> +    vms->highmem_redists &= vms->highmem;
-> +
->      create_gic(vms, sysmem);
->  
->      virt_cpu_post_init(vms, sysmem);
-> @@ -2750,6 +2752,7 @@ static void virt_instance_init(Object *obj)
->      vms->gic_version = VIRT_GIC_VERSION_NOSEL;
->  
->      vms->highmem_ecam = !vmc->no_highmem_ecam;
-> +    vms->highmem_redists = true;
->  
->      if (vmc->no_its) {
->          vms->its = false;
-> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> index b461b8d261..787cc8a27d 100644
-> --- a/include/hw/arm/virt.h
-> +++ b/include/hw/arm/virt.h
-> @@ -141,6 +141,7 @@ struct VirtMachineState {
->      bool secure;
->      bool highmem;
->      bool highmem_ecam;
-> +    bool highmem_redists;
->      bool its;
->      bool tcg_its;
->      bool virt;
-> @@ -187,7 +188,8 @@ static inline int virt_gicv3_redist_region_count(VirtMachineState *vms)
->  
->      assert(vms->gic_version == VIRT_GIC_VERSION_3);
->  
-> -    return MACHINE(vms)->smp.cpus > redist0_capacity ? 2 : 1;
-> +    return (MACHINE(vms)->smp.cpus > redist0_capacity &&
-> +            vms->highmem_redists) ? 2 : 1;
-
-Wouldn't it be equivalent to just use vms->highmem here?
-
->  }
->  
->  #endif /* QEMU_ARM_VIRT_H */
+> +    if (!vms->highmem &&
+> +        vms->memmap[VIRT_MEM].base + ms->maxram_size > 4 * GiB) {
+> +        error_report("highmem=off, but memory crosses the 4GiB limit\n");
+> +        exit(EXIT_FAILURE);
+> +    }
+>      /*
+>       * We compute the base of the high IO region depending on the
+>       * amount of initial and device memory. The device memory start/size
+> @@ -1657,7 +1662,9 @@ static void virt_set_memmap(VirtMachineState *vms)
+>          vms->memmap[i].size = size;
+>          base += size;
+>      }
+> -    vms->highest_gpa = base - 1;
+> +    vms->highest_gpa = (vms->highmem ?
+> +                        base :
+> +                        vms->memmap[VIRT_MEM].base + ms->maxram_size) - 1;
+>      if (device_memory_size > 0) {
+>          ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
+>          ms->device_memory->base = device_memory_base;
 > -- 
 > 2.30.2
-> 
+>
 
-Thanks,
-drew
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
