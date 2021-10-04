@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FE2420897
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:43:55 +0200 (CEST)
-Received: from localhost ([::1]:56056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 609AB4208A6
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:46:47 +0200 (CEST)
+Received: from localhost ([::1]:60588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXKVm-0006oS-3w
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:43:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37596)
+	id 1mXKYY-0001Vd-Cq
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:46:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mXKE8-0000Xs-Mq
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:25:40 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mXKE6-0008RV-Vp
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:25:40 -0400
-Received: by mail-wr1-x429.google.com with SMTP id k7so29464459wrd.13
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 02:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sqw8p32cW3R+2rJlmWJBHYMa4eW/M+yP4K1wn7vUPXI=;
- b=osZ9v5jSi/9buePdW7pT/+MOnP92wzaAs/8QecX+9H8O86a0PugZxckNzdZTxOQGsJ
- 9OAbe0t8siI/qMoJzWKZoBjCkyCHRSolRfgw8Fka8aB0pBWX+JA0NbsTZ/UYHfFq2e1m
- Ljpri306TJS/eyI9qZ3fGkuwh7kmxzJUZIk/Uy0cuGkcslJsgo3iasG3YG29+yFaVwYq
- Gndxbj66U1nU2JCMozACTMt9KwD1qGRr94xrSPGCheUFbieT6Bcx4RXhk1WVr4IyDwEo
- KkoXmGOTHWP6xX3b+BQBSHGIQj5YSW+5VBcqw6C8Bi9CSP6aTMzQU1/heDuXSbYdCVM1
- hkXg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXKFi-0003K9-9c
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:27:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXKFg-0001Zz-Rn
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:27:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633339636;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K57AEnNbvFK07HbUkC2JPJ2RtmE3uXD5CZ1M+8RrZuY=;
+ b=GD5NliAeoOb0Nl4/KSKBJ2Ew1Ur5Q0p53tKGpbEZocaiQeKUziP/3Qkqc1F9Xc3c8NxunJ
+ rvxIQD3Qjr9Fg0CDBX/c2ePxGqfYgFJswSWRLOWEbU5XTun7hhgfPcb9Wr6jBgZbW1h+Qt
+ 2T42ogUpkBOP4l10fvyUXTD5gTU17Dw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-4dcbSgy9MSaZi2Rbwf_Ldw-1; Mon, 04 Oct 2021 05:27:15 -0400
+X-MC-Unique: 4dcbSgy9MSaZi2Rbwf_Ldw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ d12-20020a1c730c000000b0030b4e0ecf5dso4599242wmb.9
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 02:27:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sqw8p32cW3R+2rJlmWJBHYMa4eW/M+yP4K1wn7vUPXI=;
- b=cY6QTLbDobV2jDYFWpnvh2dG7yboF9K3wJVrGgVfn63VIKkyky1iv17vCuBpFFJBuc
- LDRnOi+rvCroi3syUJmm/JkiJ4AIApF8/01PzLt7NWGAfZqC1ilcNlTJBrKiKbiUcwwV
- ULaOpEnMcKV2lQi40JPAGxpPSCTH8iPfa4T5RhMHoBb+PrrdwxU/sThJ9sNu62APu36S
- bVCZG8+NwzjaZJhCJUDTpWfksf/QEoJ4CzWwGpYFXH2FEa4aDW0mjpcvNLvANxtgjubV
- YorYDWRXBWYrlCRuuaR2pNUmgfBODbWFriS3fvBzm5lprn9ikQhrvPG7aOCCxuLddghW
- sYww==
-X-Gm-Message-State: AOAM533Kvnmog9EkFNsy2yzxz2Vii+zN+KGc5rG8FNO84gNFE7xFPn4O
- yrw5vgBwOXXj/Gigi3owyrZ8fEUzH9w=
-X-Google-Smtp-Source: ABdhPJwJBrBlaSR33iNkkDEffuneFiPoQoqtsUQ2BW/O0XQ9nzeqO/sKe6AvY2csFHI/Xgy8s12xDQ==
-X-Received: by 2002:a5d:6b03:: with SMTP id v3mr12948479wrw.226.1633339537438; 
- Mon, 04 Oct 2021 02:25:37 -0700 (PDT)
-Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=K57AEnNbvFK07HbUkC2JPJ2RtmE3uXD5CZ1M+8RrZuY=;
+ b=4LPxDdk56JlQWyl5BNs0sZF6rKCULfGYVFrdiIyn6wfVfrdgMeAr/afs1ekihkpMa7
+ 93nmlO/Vm7J8657zFR+KEflydrOwx2nL74gwYNm6sHl5XLOAQGmbkb4do+0VzIXQ//UH
+ dNsah3lN3ueNsItVQ+Ws3e8LcKD1cm2xJZmWorlmQxIBvNVsnOgiP8WQO1g/OLcyFo/a
+ rFKr81Ijzn55efGnyCxBvoIf8HO+e2S/RAo+vL5GPzExz1aldt68dGYMJIeN7YK1uS9T
+ jDhLveoUdXePtsUHMfaGS+kBcxTneoGFtK1xAiTN/tVxsPt0vU85MfHOG+cnKImKURUL
+ HU7w==
+X-Gm-Message-State: AOAM531n4Wio68MH/y0eUd2kxw1T6v61mVo+5ps/XVV+1saLOHqZYQjB
+ Q349gKGLSDK3o2+wUzWptNTfLBcJki+VDnsR9zuETkYwYYULcCRuf6bHcExXowO4vT7MUmg3ZEN
+ sa6UScu+tkDS+pw0=
+X-Received: by 2002:adf:8b41:: with SMTP id v1mr9457261wra.255.1633339633989; 
+ Mon, 04 Oct 2021 02:27:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxVepT3FFktgZw/kHcPz8fhtMFHO5BDI7MSuz89B312IKcG1DCV5Vb2Hq+smzNEcMgXx9Ti0Q==
+X-Received: by 2002:adf:8b41:: with SMTP id v1mr9457248wra.255.1633339633817; 
+ Mon, 04 Oct 2021 02:27:13 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id x17sm13891670wrc.51.2021.10.04.02.25.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 02:25:36 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] MAINTAINERS: Agree to maintain nanoMIPS TCG frontend
-Date: Mon,  4 Oct 2021 11:25:15 +0200
-Message-Id: <20211004092515.3819836-5-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211004092515.3819836-1-f4bug@amsat.org>
-References: <20211004092515.3819836-1-f4bug@amsat.org>
+ by smtp.gmail.com with ESMTPSA id y15sm7243884wrp.44.2021.10.04.02.27.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Oct 2021 02:27:13 -0700 (PDT)
+Message-ID: <b761eef0-83b3-ce88-493a-3611f3a7c870@redhat.com>
+Date: Mon, 4 Oct 2021 11:27:12 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v3 2/3] hw/virtio: Acquire RCU read lock in
+ virtqueue_packed_drop_all()
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20210906104318.1569967-1-philmd@redhat.com>
+ <20210906104318.1569967-3-philmd@redhat.com>
+ <YVrIBqT2gXAwhNF3@stefanha-x1.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <YVrIBqT2gXAwhNF3@stefanha-x1.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,47 +100,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paul Burton <paulburton@kernel.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As of this commit, the nanoMIPS toolchains haven't been merged
-in mainstream projects. However MediaTek provides a toolchain:
-https://github.com/MediaTek-Labs/nanomips-gnu-toolchain/releases/tag/nanoMIPS-2021.02-01
+On 10/4/21 11:23, Stefan Hajnoczi wrote:
+> On Mon, Sep 06, 2021 at 12:43:17PM +0200, Philippe Mathieu-Daudé wrote:
+>> vring_get_region_caches() must be called with the RCU read lock
+>> acquired. virtqueue_packed_drop_all() does not, and uses the
+>> 'caches' pointer. Fix that by using the RCU_READ_LOCK_GUARD()
+>> macro.
+> 
+> Is this a bug that has been encountered, is it a latent bug, a code
+> cleanup, etc? The impact of this isn't clear but it sounds a little
+> scary so I wanted to check.
 
-Since I now have spent more time with the ISA, I agree to maintain
-it along with the other MIPS ISA.
+I'll defer to Stefano, but IIUC it is a latent bug discovered
+during code audit.
 
-For historical notes, see commit a60442eb8 ("Deprecate nanoMIPS ISA").
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- MAINTAINERS | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f1d7279a0f2..8ce47417eff 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -237,14 +237,10 @@ R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Odd Fixes
- F: target/mips/
- F: disas/mips.c
-+X: disas/nanomips.*
- F: docs/system/cpu-models-mips.rst.inc
- F: tests/tcg/mips/
- 
--MIPS TCG CPUs (nanoMIPS ISA)
--S: Orphan
--F: disas/nanomips.*
--F: target/mips/tcg/*nanomips*
--
- NiosII TCG CPUs
- M: Chris Wulff <crwulff@gmail.com>
- M: Marek Vasut <marex@denx.de>
--- 
-2.31.1
+> 
+>>
+>> Reported-by: Stefano Garzarella <sgarzare@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  hw/virtio/virtio.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+>> index 97f60017466..7d3bf9091ee 100644
+>> --- a/hw/virtio/virtio.c
+>> +++ b/hw/virtio/virtio.c
+>> @@ -1704,6 +1704,8 @@ static unsigned int virtqueue_packed_drop_all(VirtQueue *vq)
+>>      VirtIODevice *vdev = vq->vdev;
+>>      VRingPackedDesc desc;
+>>  
+>> +    RCU_READ_LOCK_GUARD();
+>> +
+>>      caches = vring_get_region_caches(vq);
+>>      if (!caches) {
+>>          return 0;
+>> -- 
+>> 2.31.1
+>>
 
 
