@@ -2,60 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240BF42079B
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:52:18 +0200 (CEST)
-Received: from localhost ([::1]:59318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC3B4207CE
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:04:37 +0200 (CEST)
+Received: from localhost ([::1]:35496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXJho-0005ag-TA
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:52:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52366)
+	id 1mXJtk-00031v-TS
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:04:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mXJNQ-0000zz-7a; Mon, 04 Oct 2021 04:31:12 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:55057)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mXJNZ-0001GJ-9Y
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:31:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mXJNO-0003T6-F8; Mon, 04 Oct 2021 04:31:11 -0400
-Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MP2zs-1mAGBV14Dk-00PIch; Mon, 04
- Oct 2021 10:31:01 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] hw/remote/proxy: Categorize Wireless devices as 'Network'
- ones
-Date: Mon,  4 Oct 2021 10:30:55 +0200
-Message-Id: <20211004083055.3288583-6-laurent@vivier.eu>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211004083055.3288583-1-laurent@vivier.eu>
-References: <20211004083055.3288583-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mXJNW-0003ZD-CA
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:31:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633336276;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1BEq6HK5UkN6TmUHXpQdGU0S4wof2qQGwO1pymBMWs0=;
+ b=MG1Bis+VzK6Bfs8V9dqykA3dWbLVuawkA8hdW8kZif11VhFmy3aFzco/xWCj8X75jgdmgL
+ IuLavQe8f2EGTiExBlW0jC1YL2m9ZS0tUfQxQp0QfbTAcqyE+uEvhz+T/LyqdzUFDmLdF4
+ C/PzKzdMr1B6POkK77T+UFm6JJwNFu8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-oizoI9hUO5-WLIc5Sqx1cA-1; Mon, 04 Oct 2021 04:31:13 -0400
+X-MC-Unique: oizoI9hUO5-WLIc5Sqx1cA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ d7-20020a1c7307000000b0030d6982305bso1728311wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 01:31:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=1BEq6HK5UkN6TmUHXpQdGU0S4wof2qQGwO1pymBMWs0=;
+ b=wppt3ynGrxKJRF3hnHzfK5DbWadZ5NIha7TDDRIg/LoqFVDgjwE160Y+1p73d5DkKw
+ ZnrWplvikw+ynwg/p2IKwQUIUBxdHRkhhxBZhqfFAC6dR4gjNekDTjALfbkm6rTQf1eZ
+ /Tepa5/H+M0eTV5840eZcSZH1Tux679wkIje8ADJZmlHajQuqRmluuriz0NTMFGDfeor
+ fKTRsUGxGvXOgYzrlLEfJV5lmqa254jUNkKlUSYZFK+IqBKHtQBAkgijHlWe6QTNcHD8
+ om0AhGLZni7rUQcUcaxSDSFCw2SZ7ArEeAcfW5vmlsrT06c1l6K2mJFu9LtQyHi36kff
+ t00g==
+X-Gm-Message-State: AOAM532cRZuHZPG/oD5Nt0meYrjgYCMFZ1uHk3Tf5hgUJoqozA5Uy9oz
+ uxNLOmNbdwqpzJptqs50zxMshvuC/tFEHRHdu/RiLHEyuCzfS//WVPrtgdhUNqoIXbPudSfe1zo
+ GYbMMw4GVAvL5x/I=
+X-Received: by 2002:a5d:55c3:: with SMTP id i3mr12720154wrw.87.1633336271893; 
+ Mon, 04 Oct 2021 01:31:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzGynEsL6McA1MSWrgo6dHqTBHSr7N7beiQ95xxD3Ix8WyxjgmJkUld59PadjqqGqzIy3GQmQ==
+X-Received: by 2002:a5d:55c3:: with SMTP id i3mr12720121wrw.87.1633336271636; 
+ Mon, 04 Oct 2021 01:31:11 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id k22sm13952469wrd.59.2021.10.04.01.31.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Oct 2021 01:31:11 -0700 (PDT)
+Subject: Re: [PATCH v3 14/16] iotests/linters: Add workaround for mypy bug
+ #9852
+To: John Snow <jsnow@redhat.com>
+References: <20210916040955.628560-1-jsnow@redhat.com>
+ <20210916040955.628560-15-jsnow@redhat.com>
+ <78ba9506-5c79-8018-3f73-a2701d313429@redhat.com>
+ <CAFn=p-aAVq6MEHtrsfw3aV0y5eQzN8OpLWJjtZZ6RGXH1geTUQ@mail.gmail.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <096c3dd6-192f-dd84-65e6-44d7bbd05a23@redhat.com>
+Date: Mon, 4 Oct 2021 10:31:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAFn=p-aAVq6MEHtrsfw3aV0y5eQzN8OpLWJjtZZ6RGXH1geTUQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ijj8Jguyg4AO06sBIh6TEiMLxTsX3qu1gUgUmyVRsRntAWq3wf+
- 2cJ4rly7J2y9brIHA1cg9545GvX6CLV8/DGR2ho9wL6f3YzBJO/oxLgKWtv9qiiqc4ev2aj
- PLIHFbSyNLSk9Z5heTsm3f73rYz0Nu2R1p4Rgnab8fsgXR/hZoc2qJPrYIzzq3sMdMN19OR
- ZEsObnODoI/zFzIjNWMoA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:myX44dPtxZc=:xN9SQD+/N6YJD6Qy7+ekal
- Ga3fuHtfnF+xbExoZb4LbsLmZbvtPa4LMBi5/qAcyNkhJdfxD7dgGx7dmbAB64YdDdWFL4YLz
- GGXZXI3lCDWBFD7pyr5A8Yalkv3B2sV7+Y4YToIZ7IMleL9tXwkbmO9WfqYKLM/mLspGJND4p
- y9Vvs/Njwvmo4RePD9POe8dX44EX/E3EyPJCAe7Qyt2HXn8dWYiWVZZxZwnRVu0iam4QSvzma
- xlGkPeVb/Eq9AsLZH/R7aPsUj5+oIdbYXW522iB8YVdfusro97S7cH9FlaW1JMFhuGjWqKYI7
- rPIfnZGQewtVrAux4vud1YCg7gQHlMA/aqn2JLIJc4JsyjhvSkE+1jPXgCIHfopx0/VDX7Gkm
- hiulpWZAxUbZi9U/wwS4k2ikZNsLQu/+aZn6JAJaaJuUEdZzmnpoNEBrvlzVrJFhB2K6wxVEj
- xXwK7a82JTckvATbDhQDdI2Ak9TJDEPvKCKQGloVNJXHmk8vHMqCirEzL6ccz2qrxQ+reoneP
- ijxEyxudnqmN0fCpZP71BJvg2egwTmd3r6+pSlLYdeQC0ZYe13H9Cq4KgqaFLlpqV6gj98w75
- 8WAjuyejlGh39Jl5NCwD15HUC/x4WRrCOEwCXpvUdA7teuguG8fTu/hbjoKFU9WxTF9WbiZNe
- HKPXQ2CXtFlYiUaKTcwm7oE35q4Yc/V3W2VXB47gFe5CFur5Cb3F/vBUXUMcflvwkHDJUUCga
- lrzaWi93kqen+fbKxt+OwR5zQ85wcoqxME2AHQ==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,39 +101,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Jagannathan Raman <jag.raman@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 22.09.21 22:37, John Snow wrote:
+>
+>
+> On Fri, Sep 17, 2021 at 7:16 AM Hanna Reitz <hreitz@redhat.com 
+> <mailto:hreitz@redhat.com>> wrote:
+>
+>     On 16.09.21 06:09, John Snow wrote:
+>     > This one is insidious: if you use the invocation
+>     > "from {namespace} import {subpackage}" as mirror-top-perms does,
+>     > mypy will fail on every-other invocation *if* the package being
+>     > imported is a package.
+>     >
+>     > Now, I could just edit mirror-top-perms to avoid this
+>     invocation, but
+>     > since I tripped on a landmine, I might as well head it off at
+>     the pass
+>     > and make sure nobody else trips on the same landmine.
+>     >
+>     > It seems to have something to do with the order in which files are
+>     > checked as well, meaning the random order in which set(os.listdir())
+>     > produces the list of files to test will cause problems
+>     intermittently.
+>     >
+>     > mypy >= 0.920 isn't released yet, so add this workaround for now.
+>     >
+>     > See also:
+>     > https://github.com/python/mypy/issues/11010
+>     <https://github.com/python/mypy/issues/11010>
+>     > https://github.com/python/mypy/issues/9852
+>     <https://github.com/python/mypy/issues/9852>
+>     >
+>     > Signed-off-by: John Snow <jsnow@redhat.com
+>     <mailto:jsnow@redhat.com>>
+>     > ---
+>     >   tests/qemu-iotests/linters.py | 3 +++
+>     >   1 file changed, 3 insertions(+)
+>     >
+>     > diff --git a/tests/qemu-iotests/linters.py
+>     b/tests/qemu-iotests/linters.py
+>     > index 4df062a973..9c97324e87 100755
+>     > --- a/tests/qemu-iotests/linters.py
+>     > +++ b/tests/qemu-iotests/linters.py
+>     > @@ -100,6 +100,9 @@ def run_linters(
+>     >                   '--warn-unused-ignores',
+>     >                   '--no-implicit-reexport',
+>     >                   '--namespace-packages',
+>     > +                # Until we can use mypy >= 0.920, see
+>     > +                # https://github.com/python/mypy/
+>     <https://github.com/python/mypy/issues/9852>issues
+>     <https://github.com/python/mypy/issues/9852>/9852
+>     <https://github.com/python/mypy/issues/9852>
+>     > +                '--no-incremental',
+>     >                   filename,
+>     >               ),
+>
+>     I’m afraid I still don’t really understand this, but I’m happy
+>     with this
+>     given as the reported workaround and you saying it works.
+>
+>     Reviewed-by: Hanna Reitz <hreitz@redhat.com
+>     <mailto:hreitz@redhat.com>>
+>
+>     Question is, when “can we use” mypy >= 0.920?  Should we check the
+>     version string and append this switch as required?
+>
+>
+> The answer to that question depends on how the block maintainers feel 
+> about what environments they expect this test to be runnable under. I 
+> lightly teased kwolf once about an "ancient" version of pylint they 
+> were running, but felt kind of bad about it in retrospect: the tests I 
+> write should "just work" for everyone without them needing to really 
+> know anything about python or setting up or managing their 
+> dependencies, environments, etc.
+>
+> (1) We can use it the very moment it is released if you're OK with 
+> running 'make check-dev' from the python/ directory. That script sets 
+> up its own virtual environment and manages its own dependencies. If I 
+> set a new minimum version, it will always use it. (Same story for 
+> 'make check-tox', or 'make check-pipenv'. The differences between the 
+> tests are primarily on what other dependencies they have on your 
+> environment -- the details are boring, see python/Makefile for further 
+> reading if desired.)
+>
+> (2) Otherwise, it depends on how people feel about being able to run 
+> this test directly from iotests and what versions of mypy/pylint they 
+> are using. Fedora 33 for instance has 0.782-2.fc33 still, so I can't 
+> really "expect" people to have a bleeding-edge version of mypy unless 
+> they went out of their way to install one themselves. (pip3 install 
+> --user --upgrade mypy, by the way.) Since people are used to running 
+> these python scripts *outside* of a managed environment (using their 
+> OS packages directly), I have largely made every effort to support 
+> versions as old as I reasonably can -- to avoid disruption whenever I 
+> possibly can.
+>
+> So, basically, it kind of depends on if you want to keep 297 or not. 
+> Keeping it implies some additional cost for the sake of maximizing 
+> compatibility. If we ditch it, you can let the scripts in ./python do 
+> their thing and set up their own environments to run tests that should 
+> probably "just work" for everyone.297 could even just be updated to a 
+> bash script that just hopped over to ./python and ran a special 
+> avocado command that ran /only/ the iotest linters, if you wanted. I 
+> just felt that step #1 was to change as little as possible, prove the 
+> new approach worked, and then when folks were comfortable with it drop 
+> the old approach.
 
-QEMU doesn't distinct network devices per link layer (Ethernet,
-Wi-Fi, CAN, ...). Categorize PCI Wireless cards as Network
-devices.
+Hm.  So the gist is, since we apparently want to keep 297, we have to 
+wait for some indefinite time until in some years or so someone 
+remembers this workaround and removes it?
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Jagannathan Raman <jag.raman@oracle.com>
-Message-Id: <20210926201926.1690896-1-f4bug@amsat.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/remote/proxy.c | 1 +
- 1 file changed, 1 insertion(+)
+Doesn’t sound quite ideal, but well...
 
-diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-index 499f540c947d..bad164299dd4 100644
---- a/hw/remote/proxy.c
-+++ b/hw/remote/proxy.c
-@@ -324,6 +324,7 @@ static void probe_pci_info(PCIDevice *dev, Error **errp)
-         set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-         break;
-     case PCI_BASE_CLASS_NETWORK:
-+    case PCI_BASE_CLASS_WIRELESS:
-         set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
-         break;
-     case PCI_BASE_CLASS_INPUT:
--- 
-2.31.1
+Hanna
 
 
