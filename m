@@ -2,171 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31925421896
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 22:42:55 +0200 (CEST)
-Received: from localhost ([::1]:43366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7D84218E9
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 23:04:34 +0200 (CEST)
+Received: from localhost ([::1]:53378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXUnW-0006sw-5S
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 16:42:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49532)
+	id 1mXV8S-0006Ia-T6
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 17:04:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1mXUlb-00065l-G5
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 16:40:55 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:59564)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXV5c-0004vf-TD
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 17:01:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.devolder@oracle.com>)
- id 1mXUlZ-0005HH-0d
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 16:40:55 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 194KUOGU019448; 
- Mon, 4 Oct 2021 20:40:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=moH0R14p658/+U4bnCjuwDye7VnOmK+AmRJyTY+vZSc=;
- b=upYPK+bVG0TaLnaFqGZ7T7euU3RpWK6DEPijdh/z3eAW4NHGIvmnzDeKZ6ni5UVpv3zK
- cQDJeReUlgfCeSOa73iUbREerL3SN5Sy6h1BUQYf1ou+VYxaNnLVU1KgOKS5afjeW2K+
- d+cbuyKfgJYQlabBoIyy7CyqIp9huBc9MleJ6iRyrGYzdLqFdWukZafp++fvwGl00M+7
- +RSdUg//PY6PKtjqK2imcpVHs5AHwNe4wIXDe8Q1X8kGvrEpUBt7jReaHOYmhfYw7zep
- se4VXvL+41uNQUVN2DGez5jH4yDAprTp372DUh35aVFFA+OIiKWTcqiLvTPStm5oJcHp Yw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3bg3p5atrf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 04 Oct 2021 20:40:49 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 194KUcIK086006;
- Mon, 4 Oct 2021 20:40:45 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2103.outbound.protection.outlook.com [104.47.55.103])
- by userp3020.oracle.com with ESMTP id 3bf16s0erq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 04 Oct 2021 20:40:44 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VxTLhOrQHiNAl1xSj4bPl6lIlyMDcf/Kzpvldt6TN71rHwCA7RXoJ3LvRqyUUjX9m069PCg8e4HvCPo9LxpS9TbCtCg2PtMLjTmKRTmlgLTnfIfRvOxqp0mlRWZejUf3ps8JOSOkYp7cUBL2rbUS728M3097evpatwEsU+YZUwZpGYLdLCEswHbAORIIMvbRVjviMYRVTi8XBsDVgmUUc8fJOuqK3bXaVgjy4dgVWxMFN2JXMQH4QqgUIyhf5N0CnSbxUbH6Dy466are6p+ez7W85eRcv00PLrSlx1RRo/wS3SG2WwO1sW0eafgJWwNHfu2JGwP6Z0OEuuCeO1zlpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=moH0R14p658/+U4bnCjuwDye7VnOmK+AmRJyTY+vZSc=;
- b=h8Plnmt+Bc1YGDzk6ZAa3Lk7HKNQVygmvnIA8c5vPz05XQu40iOVx2SIIvSLH2hKN6gpscOmp3Ql8oEgNdijjxFYx+pe5FXimR4FJMtQbtxip8ZZ4Ou4NzZibAJA4/+PT9H91JUbBA42qL4mlBikWfCUw+hOvQHvuKOrXZzA4WOXzUwxHg+FAA9hzr0hpCyHgdnC2GKhglK0sOkonvduQbWEeLnaYO4mnd4SHgiePrW2bxYwINKEykJXFzMiOZQog3s+zyMRTlcImz+6nyZw7VZAqLSimDqj2D6OyY/1opbVWLktOVT1jVDW4jd25ckhI3w1EyraudhvF48CzrCbWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=moH0R14p658/+U4bnCjuwDye7VnOmK+AmRJyTY+vZSc=;
- b=vnCKtoeIaki7giS3e2rk+O1b2nbBN423qqSMjnxfYwm3FWjtegFVErA4DNBvvJw1WGdKIIkw0hQCrZTtkFPmS+DHPB6x0oEPFjIvt0B3YA4rei9qq2Jpoo6oVjRkKAwws2MI+CvKbDpTXRNWNy+rH3DhJU7UfF7mJqi/iOVfcoY=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=oracle.com;
-Received: from CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22)
- by CO6PR10MB5634.namprd10.prod.outlook.com (2603:10b6:303:149::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14; Mon, 4 Oct
- 2021 20:40:42 +0000
-Received: from CO1PR10MB4531.namprd10.prod.outlook.com
- ([fe80::90ef:e061:a4c2:acd6]) by CO1PR10MB4531.namprd10.prod.outlook.com
- ([fe80::90ef:e061:a4c2:acd6%7]) with mapi id 15.20.4566.022; Mon, 4 Oct 2021
- 20:40:42 +0000
-Subject: Re: [PATCH v6 02/10] ACPI ERST: specification for ERST support
-To: Igor Mammedov <imammedo@redhat.com>
-References: <1628202639-16361-1-git-send-email-eric.devolder@oracle.com>
- <1628202639-16361-3-git-send-email-eric.devolder@oracle.com>
- <20210920153825.70bcaf1a@redhat.com>
-From: Eric DeVolder <eric.devolder@oracle.com>
-Message-ID: <84fa8e3c-5794-35ef-f433-312a7de770d8@oracle.com>
-Date: Mon, 4 Oct 2021 15:40:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20210920153825.70bcaf1a@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA0PR11CA0062.namprd11.prod.outlook.com
- (2603:10b6:806:d2::7) To CO1PR10MB4531.namprd10.prod.outlook.com
- (2603:10b6:303:6c::22)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXV5W-00035w-T1
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 17:01:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633381289;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LmKFc0T3ZU2xiNYEUu2If+Sn8gvxg90ird9O2Y3bnnk=;
+ b=Aj3x3YjHNOLMBraHH6+W3hym84XzYMKGiFEJqdPpLedBza/AHuIFbmKmreRpt9X1wg4yc7
+ nxOqDVyao3BI61F/6ldLNSfsk6K28DPDt4Fnn/v0hPh5MMclRCzb5A5nxDKi0Li7PuTYl8
+ B/4OA8zhmE+vwr+t+715kOj6uvPV3v4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-wVuXxJJGNTSe9cLdDOn26g-1; Mon, 04 Oct 2021 17:01:26 -0400
+X-MC-Unique: wVuXxJJGNTSe9cLdDOn26g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE78B100C660;
+ Mon,  4 Oct 2021 21:01:25 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.17.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1354360843;
+ Mon,  4 Oct 2021 21:01:08 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 8EA91220BDB; Mon,  4 Oct 2021 17:01:07 -0400 (EDT)
+Date: Mon, 4 Oct 2021 17:01:07 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 08/13] virtiofsd: Create a notification queue
+Message-ID: <YVtrk6/sWwoUfXs+@redhat.com>
+References: <20210930153037.1194279-1-vgoyal@redhat.com>
+ <20210930153037.1194279-9-vgoyal@redhat.com>
+ <YVsQDkoNPyvC/Uoo@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Received: from [IPv6:2606:b400:414:8061:221:28ff:fea5:27c8]
- (2606:b400:8024:1010::112a) by SA0PR11CA0062.namprd11.prod.outlook.com
- (2603:10b6:806:d2::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
- Transport; Mon, 4 Oct 2021 20:40:41 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d488354f-7cc9-4726-259b-08d987773bd7
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5634:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO6PR10MB5634E0A4F1D6638F58DDBF7E97AE9@CO6PR10MB5634.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WQIp/OBYmadQ0dOeReQkPNn4lQgUqJJrsUoaq23fChmy7lzFWRUn/CSbdvttQEobs1RmfREZDqr7+FdlySC1Dr3JTi0vSXJzedD1o73NE09LmuxTkDhmqPkyD+0y6oALUaQU9GFbd5HCwl0GtEWCU/15ZuF1m8R9XXZxXRGuF4DSJiBodSaJo4a7KxCsGNwURbJg6DzC2KvvZozz1BuoE3F82ZQqo8vWXsnLjKOTuDFmUFZlYDOHcAYVZKyKTNqBJgqP9kaTDZw0tkvyBsMrtb1G9vaoNV1T5/VJ0vAbaoJYZHQDdSAbae6z05yJRfHRyXVoUNfbGGJFgahzqzNXH19dl7gsZPHkD0B1frA8DrUO/Bd1CH4Oe9cW43GteqGvs0ri2iVtdz7P5qLcQBS8Gz3riz/aE+RC+wI7FQUvRCKN9olW5lz3SaAgHiCXY0bgng8qOHrNw3upUeU28RYW7wZFRanCcsrwp3WBOkto9P/VB5fHoKq9aAv9sUzgvYisbR/fshNID3lQP/EoO+IFutPEmEE/9Nn83n5wFr8zeTuwValzv46lOe72CmEUtjyvNZon0Q0piQgCsnVrouskI5g9nJ8j3Gf1re111r3SCQzcVFa6IXPcgyYbQKgiOWNscrmeTQMoEC3H79DvVy5mVEaiBKEaajJbJN1vkZsRDdF9YH8oNahwNc7uF4vcl9x04e+4VyWc9n5p9F5ZgFG6dpt302bM+m8xGG/MIU4VaKZ9zgIGOg+cNPhjrbh3zDaU
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO1PR10MB4531.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(36756003)(8936002)(2616005)(6486002)(8676002)(6916009)(38100700002)(508600001)(53546011)(83380400001)(4326008)(5660300002)(31696002)(66476007)(31686004)(186003)(45080400002)(86362001)(2906002)(66556008)(316002)(66946007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZFdncEVieVk5alIyMGJuQTRpVTVLT0NISy9qdkdZdFRaN0wyUmpaYW0yRVJu?=
- =?utf-8?B?c2IwQ0FGakkzMTVoWWNyOVJVcFVLaEMxVDhoSmxPQXRWNEJpOVk2TjV2dXgv?=
- =?utf-8?B?Mzh5dDVJREdUTW9QU3U1NzdCQkxuVXpOUSsvaFBHZnY3bjA3RDlMM0h5ZXZs?=
- =?utf-8?B?a0NjNXBsWVQ3cGp0YXhuMlNGdkREblZVbUp4V2ZLc2IraHdSSmdUYnBwTGVs?=
- =?utf-8?B?eVBKNGNTcEZ0UlRpeFBZME0yMkU0dDVFZUxIVmhXYXpsQi9SMElURFdxUWN4?=
- =?utf-8?B?Y1VpcE9yQTQ5UkRCUnhnbnJ2Z0tKaFMzOWxpL09ZdVg5K3AxNVB6dDIxaDUy?=
- =?utf-8?B?SnoxWXA4MU9pbkdqeFpjSW95Z2ZpVFlYYUIvK2s5enprVzdsSFdoNVpLSG01?=
- =?utf-8?B?czlQS0F0ZjhTVnRTd1krL3dhdnpDd2pVQmpmUjVycVJGQjNtUTFMbDNBM05Y?=
- =?utf-8?B?ZEs2dVZYZU94bEFCS1dRdHlISGxHWk1rVGRTZU9sWDR2VUxVSyt6RDdDSmxk?=
- =?utf-8?B?SHlhaXdRQVFTZlFkSFRyc1R0M0hpOGF3OEdweEFzRkV1clhhUEFicTJZdVo2?=
- =?utf-8?B?UzloaTE1Y3VzNlBhbkdXNE9oZEhlWDNUNVpPVlZBRXpKSmNxZ2VoNVAreDBp?=
- =?utf-8?B?V3ZYUFpHNTViTnNPN3BjK2RIWDhCcUNQNjVHQnZZdFlueFBoeGxicFBrdWhZ?=
- =?utf-8?B?VHBUcGZWUTF6M3J1cEc5TlVOQm5YTFlwZWhTS2ZaenpVVFRaMkhhS0tjaGJH?=
- =?utf-8?B?cUEzM1dlYVBiSnAvcEFIdFFPRkNEMmJQWERSaXowUmVnWkNkaHBXU2NCdHUx?=
- =?utf-8?B?bUFhZUNWN1p6blVnN3pNNmpLNjhueDRieW5pUHExMjNzUFY5TkJBendQdExX?=
- =?utf-8?B?VmFxM0tuTzNxKythUUdNbjIwN1d3NzB0RXFuNVo1SEpHaFFsRXVpTzNKbmlq?=
- =?utf-8?B?N2FKUTN1WXlGVm91bGZNLzNEMmNKSWwxbG9XM0ZlelVOOEtpYWtiVnI2NWha?=
- =?utf-8?B?MEdiWVBqbjgvYVV5WE80VlQ1OWU1akR3VnZpUjNjZkRoZ0pWZmtLbzBzUzBR?=
- =?utf-8?B?eVgydHdlMmlKdmcrTnM3UkJ1OTJUd0NiSGx6S01CMEVZQXlhNVFTZUpLeE4w?=
- =?utf-8?B?OTVCaUZXS3FwMkRPdUlmcWZlT2p6aUUzcyt3NTkyQjlaRWhGRFpLVDZ3dDVF?=
- =?utf-8?B?MG85M0Q0bi9lWjlyZkpHYkcxZSsxbHZXVFcrTlFZV3ZKZkpZWm85cDN0c2JV?=
- =?utf-8?B?NkJVNEJ4dmNaMkNuOW5wUmJmNnJMRHdSY0o1dnYwMWZNNk00UXFVWUkwQ0M4?=
- =?utf-8?B?aUg3WXB0K0NJbmRyK3ZWanFUczhyYVB0Qzc3Sm1ENzdya2k5dThsNnNTaE5F?=
- =?utf-8?B?NVFMeDdKSXdxaUNXdkxyU0xMc0R3ckRGV3BUdE0xYTdvbTh3WTR1RDMyZGFv?=
- =?utf-8?B?L2xiajc3KzdxN3FxdC9IaUl0NnBUMnpOcWlkZEMwZVZGN3pLVzloL0tnMmZT?=
- =?utf-8?B?WGJyNHFlTXZ2bnJhdUJqc1l5WmVZNEttV3J3bUFWVHR1b1FwTmR6SUpDZzEx?=
- =?utf-8?B?SkxvSnZ0WUp6UmNReUxzb0RxRlBVOHk1ZkZ2U0V5YzBxVGF1Yno4eVE0TWFI?=
- =?utf-8?B?WUQ3YVh1TWVwcllwUkVjbm0vVGRSeDNKMW56cEZzSjJLMkxtbzBKcko3M05o?=
- =?utf-8?B?c3lSWjdVVmR1UVM2QlF6M3lBd042MEVZVXZzajZzK0Z3UUVIOEU4Y2tKb1Vl?=
- =?utf-8?B?VHY5R3hqekZqK3JpWmRZVW9HSWdDOTRQbjE2ZzRkSVVOeW85U3p5MjlFUThr?=
- =?utf-8?Q?zZi2znFiM46qymirB5X3C+qNqDRv6UxheuFyM=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d488354f-7cc9-4726-259b-08d987773bd7
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4531.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2021 20:40:42.6520 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6nYV7uQlrudcPMIteZ02tczdm2OEkA/VlNhr5aGEGSm6Ebgo/vLhpx/WACb6U2qnFicaI+qCgXziIj2AF2m3ehrtSSqen7G7xtxoGPYnwr0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5634
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10127
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0
- phishscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2110040138
-X-Proofpoint-ORIG-GUID: Qb89ZLUfJvhq8Bu5fiWdbhKLZs6evxdR
-X-Proofpoint-GUID: Qb89ZLUfJvhq8Bu5fiWdbhKLZs6evxdR
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=eric.devolder@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <YVsQDkoNPyvC/Uoo@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -180,203 +79,390 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
- eblake@redhat.com, rth@twiddle.net
+Cc: miklos@szeredi.hu, qemu-devel@nongnu.org, iangelak@redhat.com,
+ dgilbert@redhat.com, virtio-fs@redhat.com, jaggel@bu.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 9/20/21 8:38 AM, Igor Mammedov wrote:
-> On Thu,  5 Aug 2021 18:30:31 -0400
-> Eric DeVolder <eric.devolder@oracle.com> wrote:
+On Mon, Oct 04, 2021 at 03:30:38PM +0100, Stefan Hajnoczi wrote:
+> On Thu, Sep 30, 2021 at 11:30:32AM -0400, Vivek Goyal wrote:
+> > Add a notification queue which will be used to send async notifications
+> > for file lock availability.
+> > 
+> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> > Signed-off-by: Ioannis Angelakopoulos <iangelak@redhat.com>
+> > ---
+> >  hw/virtio/vhost-user-fs-pci.c     |  4 +-
+> >  hw/virtio/vhost-user-fs.c         | 62 +++++++++++++++++++++++++--
+> >  include/hw/virtio/vhost-user-fs.h |  2 +
+> >  tools/virtiofsd/fuse_i.h          |  1 +
+> >  tools/virtiofsd/fuse_virtio.c     | 70 +++++++++++++++++++++++--------
+> >  5 files changed, 116 insertions(+), 23 deletions(-)
+> > 
+> > diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
+> > index 2ed8492b3f..cdb9471088 100644
+> > --- a/hw/virtio/vhost-user-fs-pci.c
+> > +++ b/hw/virtio/vhost-user-fs-pci.c
+> > @@ -41,8 +41,8 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+> >      DeviceState *vdev = DEVICE(&dev->vdev);
+> >  
+> >      if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
+> > -        /* Also reserve config change and hiprio queue vectors */
+> > -        vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 2;
+> > +        /* Also reserve config change, hiprio and notification queue vectors */
+> > +        vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 3;
+> >      }
+> >  
+> >      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+> > diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> > index d1efbc5b18..6bafcf0243 100644
+> > --- a/hw/virtio/vhost-user-fs.c
+> > +++ b/hw/virtio/vhost-user-fs.c
+> > @@ -31,6 +31,7 @@ static const int user_feature_bits[] = {
+> >      VIRTIO_F_NOTIFY_ON_EMPTY,
+> >      VIRTIO_F_RING_PACKED,
+> >      VIRTIO_F_IOMMU_PLATFORM,
+> > +    VIRTIO_FS_F_NOTIFICATION,
+> >  
+> >      VHOST_INVALID_FEATURE_BIT
+> >  };
+> > @@ -147,7 +148,7 @@ static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+> >       */
+> >  }
+> >  
+> > -static void vuf_create_vqs(VirtIODevice *vdev)
+> > +static void vuf_create_vqs(VirtIODevice *vdev, bool notification_vq)
+> >  {
+> >      VHostUserFS *fs = VHOST_USER_FS(vdev);
+> >      unsigned int i;
+> > @@ -155,6 +156,15 @@ static void vuf_create_vqs(VirtIODevice *vdev)
+> >      /* Hiprio queue */
+> >      fs->hiprio_vq = virtio_add_queue(vdev, fs->conf.queue_size,
+> >                                       vuf_handle_output);
+> > +    /*
+> > +     * Notification queue. Feature negotiation happens later. So at this
+> > +     * point of time we don't know if driver will use notification queue
+> > +     * or not.
+> > +     */
+> > +    if (notification_vq) {
+> > +        fs->notification_vq = virtio_add_queue(vdev, fs->conf.queue_size,
+> > +                                               vuf_handle_output);
+> > +    }
+> >  
+> >      /* Request queues */
+> >      fs->req_vqs = g_new(VirtQueue *, fs->conf.num_request_queues);
+> > @@ -163,8 +173,12 @@ static void vuf_create_vqs(VirtIODevice *vdev)
+> >                                            vuf_handle_output);
+> >      }
+> >  
+> > -    /* 1 high prio queue, plus the number configured */
+> > -    fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
+> > +    /* 1 high prio queue, 1 notification queue plus the number configured */
+> > +    if (notification_vq) {
+> > +        fs->vhost_dev.nvqs = 2 + fs->conf.num_request_queues;
+> > +    } else {
+> > +        fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
+> > +    }
+> >      fs->vhost_dev.vqs = g_new0(struct vhost_virtqueue, fs->vhost_dev.nvqs);
+> >  }
+> >  
+> > @@ -176,6 +190,11 @@ static void vuf_cleanup_vqs(VirtIODevice *vdev)
+> >      virtio_delete_queue(fs->hiprio_vq);
+> >      fs->hiprio_vq = NULL;
+> >  
+> > +    if (fs->notification_vq) {
+> > +        virtio_delete_queue(fs->notification_vq);
+> > +    }
+> > +    fs->notification_vq = NULL;
+> > +
+> >      for (i = 0; i < fs->conf.num_request_queues; i++) {
+> >          virtio_delete_queue(fs->req_vqs[i]);
+> >      }
+> > @@ -194,9 +213,43 @@ static uint64_t vuf_get_features(VirtIODevice *vdev,
+> >  {
+> >      VHostUserFS *fs = VHOST_USER_FS(vdev);
+> >  
+> > +    virtio_add_feature(&features, VIRTIO_FS_F_NOTIFICATION);
+> > +
+> >      return vhost_get_features(&fs->vhost_dev, user_feature_bits, features);
+> >  }
+> >  
+> > +static void vuf_set_features(VirtIODevice *vdev, uint64_t features)
+> > +{
+> > +    VHostUserFS *fs = VHOST_USER_FS(vdev);
+> > +
+> > +    if (virtio_has_feature(features, VIRTIO_FS_F_NOTIFICATION)) {
+> > +        fs->notify_enabled = true;
+> > +        /*
+> > +         * If guest first booted with no notification queue support and
+> > +         * later rebooted with kernel which supports notification, we
+> > +         * can end up here
+> > +         */
+> > +        if (!fs->notification_vq) {
+> > +            vuf_cleanup_vqs(vdev);
+> > +            vuf_create_vqs(vdev, true);
+> > +        }
 > 
->> Information on the implementation of the ACPI ERST support.
->>
->> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> 
-> modulo missing parts documentation looks good to but
-> I'm tainted at this point (after so many reviews) so
-> libvirt folks (CCed) can take look at it and see if
-> something needs to be changed here.
+> I would simplify things by unconditionally creating the notification vq
+> for the device and letting the vhost-user device backend decide whether
+> it wants to handle the vq or not.
+> If the backend doesn't implement the
+> vq then it also won't advertise VIRTIO_FS_F_NOTIFICATION so the guest
+> driver won't submit virtqueue buffers.
 
-OK. I'll wait for Daniel's feedback before posting v7.
+I think I am did not understand the idea. This code deals with that
+both qemu and vhost-user device can deal with notification queue. But
+driver can't deal with it. 
 
-> 
->> ---
->>   docs/specs/acpi_erst.txt | 147 +++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 147 insertions(+)
->>   create mode 100644 docs/specs/acpi_erst.txt
->>
->> diff --git a/docs/specs/acpi_erst.txt b/docs/specs/acpi_erst.txt
->> new file mode 100644
->> index 0000000..7f7544f
->> --- /dev/null
->> +++ b/docs/specs/acpi_erst.txt
->> @@ -0,0 +1,147 @@
->> +ACPI ERST DEVICE
->> +================
->> +
->> +The ACPI ERST device is utilized to support the ACPI Error Record
->> +Serialization Table, ERST, functionality. This feature is designed for
->> +storing error records in persistent storage for future reference
->> +and/or debugging.
->> +
->> +The ACPI specification[1], in Chapter "ACPI Platform Error Interfaces
->> +(APEI)", and specifically subsection "Error Serialization", outlines a
->> +method for storing error records into persistent storage.
->> +
->> +The format of error records is described in the UEFI specification[2],
->> +in Appendix N "Common Platform Error Record".
->> +
->> +While the ACPI specification allows for an NVRAM "mode" (see
->> +GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES) where non-volatile RAM is
->> +directly exposed for direct access by the OS/guest, this device
->> +implements the non-NVRAM "mode". This non-NVRAM "mode" is what is
->> +implemented by most BIOS (since flash memory requires programming
->> +operations in order to update its contents). Furthermore, as of the
->> +time of this writing, Linux only supports the non-NVRAM "mode".
->> +
->> +
->> +Background/Motivation
->> +---------------------
->> +
->> +Linux uses the persistent storage filesystem, pstore, to record
->> +information (eg. dmesg tail) upon panics and shutdowns.  Pstore is
->> +independent of, and runs before, kdump.  In certain scenarios (ie.
->> +hosts/guests with root filesystems on NFS/iSCSI where networking
->> +software and/or hardware fails), pstore may contain information
->> +available for post-mortem debugging.
->> +
->> +Two common storage backends for the pstore filesystem are ACPI ERST
->> +and UEFI. Most BIOS implement ACPI ERST.  UEFI is not utilized in all
->> +guests. With QEMU supporting ACPI ERST, it becomes a viable pstore
->> +storage backend for virtual machines (as it is now for bare metal
->> +machines).
->> +
->> +Enabling support for ACPI ERST facilitates a consistent method to
->> +capture kernel panic information in a wide range of guests: from
->> +resource-constrained microvms to very large guests, and in particular,
->> +in direct-boot environments (which would lack UEFI run-time services).
->> +
->> +Note that Microsoft Windows also utilizes the ACPI ERST for certain
->> +crash information, if available[3].
->> +
->> +
->> +Configuration|Usage
->> +-------------------
->> +
->> +To use ACPI ERST, a memory-backend-file object and acpi-erst device
->> +can be created, for example:
->> +
->> + qemu ...
->> + -object memory-backend-file,id=erstnvram,mem-path=acpi-erst.backing,size=0x10000,share=on \
->> + -device acpi-erst,memdev=erstnvram
->> +
->> +For proper operation, the ACPI ERST device needs a memory-backend-file
->> +object with the following parameters:
->> +
->> + - id: The id of the memory-backend-file object is used to associate
->> +   this memory with the acpi-erst device.
->> + - size: The size of the ACPI ERST backing storage. This parameter is
->> +   required.
->> + - mem-path: The location of the ACPI ERST backing storage file. This
->> +   parameter is also required.
->> + - share: The share=on parameter is required so that updates to the
->> +   ERST backing store are written to the file.
->> +
->> +and ERST device:
->> +
->> + - memdev: Is the object id of the memory-backend-file.
->> +
->> +
->> +PCI Interface
->> +-------------
->> +
->> +The ERST device is a PCI device with two BARs, one for accessing the
->> +programming registers, and the other for accessing the record exchange
->> +buffer.
->> +
->> +BAR0 contains the programming interface consisting of ACTION and VALUE
->> +64-bit registers.  All ERST actions/operations/side effects happen on
->> +the write to the ACTION, by design. Any data needed by the action must
->> +be placed into VALUE prior to writing ACTION.  Reading the VALUE
->> +simply returns the register contents, which can be updated by a
->> +previous ACTION.
->> +
->> +BAR1 contains the 8KiB record exchange buffer, which is the
->> +implemented maximum record size.
->> +
->> +
->> +Backend Storage Format
->> +----------------------
->> +
->> +The backend storage is divided into fixed size "slots", 8KiB in
->> +length, with each slot storing a single record.  Not all slots need to
->> +be occupied, and they need not be occupied in a contiguous fashion.
->> +The ability to clear/erase specific records allows for the formation
->> +of unoccupied slots.
->> +
->> +Slot 0 is reserved for a backend storage header that identifies the
->> +contents as ERST and also facilitates efficient access to the records.
->> +Depending upon the size of the backend storage, additional slots will
->> +be reserved to be a part of the slot 0 header. For example, at 8KiB,
->> +the slot 0 header can accomodate 1024 records. Thus a storage size
->> +above 8MiB (8KiB * 1024) requires an additional slot. In this
->> +scenario, slot 0 and slot 1 form the backend storage header, and
->> +records can be stored starting at slot 2.
->> +
->> +Below is an example layout of the backend storage format (for storage
->> +size less than 8MiB). The size of the storage is a multiple of 8KiB,
->> +and contains N number of slots to store records. The example below
->> +shows two records (in CPER format) in the backend storage, while the
->> +remaining slots are empty/available.
->> +
->> + Slot   Record
->> +        +--------------------------------------------+
->> +    0   | reserved: storage header                   |
-> 
-> typically reserved means 'not used', so I'd drop mentioning reserved
-> an leave it just as storage header.
-done
+So if we first booted into a guest kernel which does not support
+notification queue, then we will not have instantiated notification
+queue. But later we reboot guest into a newer kernel and now it
+has capability to deal with notification queues, so we create it
+now.
 
-> 
-> Also header format should be described here
-done
+IIUC, you are suggesting that somehow keep notification queue
+instantiated even if guest driver does not support notifications, so
+that we will not have to get into the exercise of cleaning up queues
+and re-instantiating these?
+
+But I think we can't keep notification queue around if driver does
+not support it. Because it changes queue index. queue index 1 will
+belong to request queue if notifications are not enabled otherwise
+it will belong to notification queue. So If I always instantiate
+notification queue, then guest and qemu/virtiofsd will have
+different understanding of which queue index belongs to what
+queue.
+
+I probably have misunderstood what you are suggesting. If you can
+explain a little bit more in detail, that will help.
+
+Thanks
+Vivek
 
 > 
->> +        +--------------------------------------------+
->> +    1   | empty/available                            |
->> +        +--------------------------------------------+
->> +    2   | CPER                                       |
->> +        +--------------------------------------------+
+> I'm not 100% sure if that approach works. It should be tested with a
+> virtiofsd that doesn't implement the notification vq, for example. But I
+> think it's worth exploring that because the code will be simpler than
+> worrying about whether notifications are enabled or disabled.
 > 
-> how can one distinguish empty vs used slots (i.e define empty somewhere here)
-done; explained in v7.
+> > +        return;
+> > +    }
+> > +
+> > +    fs->notify_enabled = false;
+> > +    if (!fs->notification_vq) {
+> > +        return;
+> > +    }
+> > +    /*
+> > +     * Driver does not support notification queue. Reconfigure queues
+> > +     * and do not create notification queue.
+> > +     */
+> > +    vuf_cleanup_vqs(vdev);
+> > +
+> > +    /* Create queues again */
+> > +    vuf_create_vqs(vdev, false);
+> > +}
+> > +
+> >  static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx,
+> >                                              bool mask)
+> >  {
+> > @@ -262,7 +315,7 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
+> >      virtio_init(vdev, "vhost-user-fs", VIRTIO_ID_FS,
+> >                  sizeof(struct virtio_fs_config));
+> >  
+> > -    vuf_create_vqs(vdev);
+> > +    vuf_create_vqs(vdev, true);
+> >      ret = vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
+> >                           VHOST_BACKEND_TYPE_USER, 0, errp);
+> >      if (ret < 0) {
+> > @@ -327,6 +380,7 @@ static void vuf_class_init(ObjectClass *klass, void *data)
+> >      vdc->realize = vuf_device_realize;
+> >      vdc->unrealize = vuf_device_unrealize;
+> >      vdc->get_features = vuf_get_features;
+> > +    vdc->set_features = vuf_set_features;
+> >      vdc->get_config = vuf_get_config;
+> >      vdc->set_status = vuf_set_status;
+> >      vdc->guest_notifier_mask = vuf_guest_notifier_mask;
+> > diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
+> > index 0d62834c25..95dc0dd402 100644
+> > --- a/include/hw/virtio/vhost-user-fs.h
+> > +++ b/include/hw/virtio/vhost-user-fs.h
+> > @@ -39,7 +39,9 @@ struct VHostUserFS {
+> >      VhostUserState vhost_user;
+> >      VirtQueue **req_vqs;
+> >      VirtQueue *hiprio_vq;
+> > +    VirtQueue *notification_vq;
+> >      int32_t bootindex;
+> > +    bool notify_enabled;
+> >  
+> >      /*< public >*/
+> >  };
+> > diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+> > index 492e002181..4942d080da 100644
+> > --- a/tools/virtiofsd/fuse_i.h
+> > +++ b/tools/virtiofsd/fuse_i.h
+> > @@ -73,6 +73,7 @@ struct fuse_session {
+> >      int   vu_socketfd;
+> >      struct fv_VuDev *virtio_dev;
+> >      int thread_pool_size;
+> > +    bool notify_enabled;
+> >  };
+> >  
+> >  struct fuse_chan {
+> > diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+> > index baead08b28..f5b87a508a 100644
+> > --- a/tools/virtiofsd/fuse_virtio.c
+> > +++ b/tools/virtiofsd/fuse_virtio.c
+> > @@ -14,6 +14,7 @@
+> >  #include "qemu/osdep.h"
+> >  #include "qemu/iov.h"
+> >  #include "qapi/error.h"
+> > +#include "standard-headers/linux/virtio_fs.h"
+> >  #include "fuse_i.h"
+> >  #include "standard-headers/linux/fuse.h"
+> >  #include "fuse_misc.h"
+> > @@ -85,12 +86,25 @@ struct fv_VuDev {
+> >  /* Callback from libvhost-user */
+> >  static uint64_t fv_get_features(VuDev *dev)
+> >  {
+> > -    return 1ULL << VIRTIO_F_VERSION_1;
+> > +    uint64_t features;
+> > +
+> > +    features = 1ull << VIRTIO_F_VERSION_1 |
+> > +               1ull << VIRTIO_FS_F_NOTIFICATION;
+> > +
+> > +    return features;
+> >  }
+> >  
+> >  /* Callback from libvhost-user */
+> >  static void fv_set_features(VuDev *dev, uint64_t features)
+> >  {
+> > +    struct fv_VuDev *vud = container_of(dev, struct fv_VuDev, dev);
+> > +    struct fuse_session *se = vud->se;
+> > +
+> > +    if ((1ull << VIRTIO_FS_F_NOTIFICATION) & features) {
+> > +        se->notify_enabled = true;
+> > +    } else {
+> > +        se->notify_enabled = false;
+> > +    }
+> >  }
+> >  
+> >  /*
+> > @@ -719,22 +733,25 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vud, int qidx)
+> >  {
+> >      int ret;
+> >      struct fv_QueueInfo *ourqi;
+> > +    struct fuse_session *se = vud->se;
+> >  
+> >      assert(qidx < vud->nqueues);
+> >      ourqi = vud->qi[qidx];
+> >  
+> > -    /* Kill the thread */
+> > -    if (eventfd_write(ourqi->kill_fd, 1)) {
+> > -        fuse_log(FUSE_LOG_ERR, "Eventfd_write for queue %d: %s\n",
+> > -                 qidx, strerror(errno));
+> > -    }
+> > -    ret = pthread_join(ourqi->thread, NULL);
+> > -    if (ret) {
+> > -        fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d err %d\n",
+> > -                 __func__, qidx, ret);
+> > +    /* qidx == 1 is the notification queue if notifications are enabled */
+> > +    if (!se->notify_enabled || qidx != 1) {
+> > +        /* Kill the thread */
+> > +        if (eventfd_write(ourqi->kill_fd, 1)) {
+> > +            fuse_log(FUSE_LOG_ERR, "Eventfd_read for queue: %m\n");
+> > +        }
+> > +        ret = pthread_join(ourqi->thread, NULL);
+> > +        if (ret) {
+> > +            fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d err"
+> > +                     " %d\n", __func__, qidx, ret);
+> > +        }
+> > +        close(ourqi->kill_fd);
+> >      }
+> >      pthread_mutex_destroy(&ourqi->vq_lock);
+> > -    close(ourqi->kill_fd);
+> >      ourqi->kick_fd = -1;
+> >      g_free(vud->qi[qidx]);
+> >      vud->qi[qidx] = NULL;
+> > @@ -757,6 +774,9 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
+> >  {
+> >      struct fv_VuDev *vud = container_of(dev, struct fv_VuDev, dev);
+> >      struct fv_QueueInfo *ourqi;
+> > +    int valid_queues = 2; /* One hiprio queue and one request queue */
+> > +    bool notification_q = false;
+> > +    struct fuse_session *se = vud->se;
+> >  
+> >      fuse_log(FUSE_LOG_INFO, "%s: qidx=%d started=%d\n", __func__, qidx,
+> >               started);
+> > @@ -768,10 +788,19 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
+> >       * well-behaved client in mind and may not protect against all types of
+> >       * races yet.
+> >       */
+> > -    if (qidx > 1) {
+> > -        fuse_log(FUSE_LOG_ERR,
+> > -                 "%s: multiple request queues not yet implemented, please only "
+> > -                 "configure 1 request queue\n",
+> > +    if (se->notify_enabled) {
+> > +        valid_queues++;
+> > +        /*
+> > +         * If notification queue is enabled, then qidx 1 is notificaiton queue.
+> 
+> s/notificaiton/notification/
+> 
+> > +         */
+> > +        if (qidx == 1) {
+> > +            notification_q = true;
+> > +        }
+> > +    }
+> > +
+> > +    if (qidx >= valid_queues) {
+> > +        fuse_log(FUSE_LOG_ERR, "%s: multiple request queues not yet"
+> > +                 "implemented, please only configure 1 request queue\n",
+> >                   __func__);
+> >          exit(EXIT_FAILURE);
+> >      }
+> > @@ -793,11 +822,18 @@ static void fv_queue_set_started(VuDev *dev, int qidx, bool started)
+> >              assert(vud->qi[qidx]->kick_fd == -1);
+> >          }
+> >          ourqi = vud->qi[qidx];
+> > +        pthread_mutex_init(&ourqi->vq_lock, NULL);
+> > +        /*
+> > +         * For notification queue, we don't have to start a thread yet.
+> > +         */
+> > +        if (notification_q) {
+> > +            return;
+> > +        }
+> > +
+> >          ourqi->kick_fd = dev->vq[qidx].kick_fd;
+> >  
+> >          ourqi->kill_fd = eventfd(0, EFD_CLOEXEC | EFD_SEMAPHORE);
+> >          assert(ourqi->kill_fd != -1);
+> > -        pthread_mutex_init(&ourqi->vq_lock, NULL);
+> >  
+> >          if (pthread_create(&ourqi->thread, NULL, fv_queue_thread, ourqi)) {
+> >              fuse_log(FUSE_LOG_ERR, "%s: Failed to create thread for queue %d\n",
+> > @@ -1048,7 +1084,7 @@ int virtio_session_mount(struct fuse_session *se)
+> >      se->vu_socketfd = data_sock;
+> >      se->virtio_dev->se = se;
+> >      pthread_rwlock_init(&se->virtio_dev->vu_dispatch_rwlock, NULL);
+> > -    if (!vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, NULL,
+> > +    if (!vu_init(&se->virtio_dev->dev, 3, se->vu_socketfd, fv_panic, NULL,
+> 
+> The guest driver can invoke fv_queue_set_started() with qidx=2 even when
+> VIRTIO_FS_F_NOTIFICATION is off. Luckily the following check protects
+> fv_queue_set_started():
+> 
+>   if (qidx >= valid_queues) {
+>       fuse_log(FUSE_LOG_ERR, "%s: multiple request queues not yet"
+>                "implemented, please only configure 1 request queue\n",
+>                __func__);
+>       exit(EXIT_FAILURE);
+>   }
+> 
+> However, the error message suggests this is related to multiqueue. In
+> fact, we'll need to keep this check even once multiqueue has been
+> implemented. Maybe the error message should be tweaked or at least a
+> comment needs to be added to the code so this check isn't accidentally
+> removed once multiqueue is implemented.
 
-> 
->> +    3   | CPER                                       |
->> +        +--------------------------------------------+
->> +  ...   |                                            |
->> +        +--------------------------------------------+
->> +    N   | empty/available                            |
->> +        +--------------------------------------------+
->> +        <------------------ 8KiB -------------------->
->> +
->> +
->> +
->> +References
->> +----------
->> +
->> +[1] "Advanced Configuration and Power Interface Specification",
->> +    version 4.0, June 2009.
->> +
->> +[2] "Unified Extensible Firmware Interface Specification",
->> +    version 2.1, October 2008.
->> +
->> +[3] "Windows Hardware Error Architecture", specfically
->> +    "Error Record Persistence Mechanism".
-> 
+
 
