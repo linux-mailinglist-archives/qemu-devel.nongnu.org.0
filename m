@@ -2,83 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C84D4206CF
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 09:48:55 +0200 (CEST)
-Received: from localhost ([::1]:43762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6552D4206D6
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 09:53:14 +0200 (CEST)
+Received: from localhost ([::1]:50956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXIiU-0007wK-5l
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 03:48:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43900)
+	id 1mXImf-0004oJ-G3
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 03:53:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mXIdB-00029t-8l
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:43:25 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37440)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mXIdA-0003uG-05
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:43:25 -0400
-Received: by mail-wr1-x434.google.com with SMTP id e12so8866248wra.4
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 00:43:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mvF639fOwbp7uKFCrevdZwzxxeX7M6gkJ8H0h6QMyOs=;
- b=Ks9xPpVThhv2vhCQVf934h96DHdm1VWIL8yxs7Bf7YR1IekdsSu0D3Vgez4grkve/H
- 8r0i36lkqHtZ5488cVQ6wTi9JluEEnV8w0GN7QroLoeH65uI+cPc6Gez7cOKFPvq4glT
- tJYOCyaA+0QePR892Ad8R2hia0tBHBqt/mpuUTJNZaC1/2zQXS4Wx4V7O1nEAs0a2ngh
- jnQd8s6fEIgntw3f2vg4sDsjWpmY11wV7qu4UxGnfc3U8J+8U43xWAsw7dob1BgjBNT5
- QSpsaZiBSuDpknSEE/RR66xrsWNhl+on+NREK06FaNAuqsLG5UQqn2YtCHLaZxaf4r8A
- 8lRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mvF639fOwbp7uKFCrevdZwzxxeX7M6gkJ8H0h6QMyOs=;
- b=g66QWb12ZE5JBbCudblPnYd/aacy1L7V+eSy1qGeZJsViIExYLa4rZb2uMbtTQFGZ4
- yTH1wtV/NdFO/QhFP3EFmGZm6rM3Q2uZ6rgpoOczVz4Uiii0s/jY40T9KYY6bNo3rfFZ
- QQbYYSSiujzWQTjJiUUmsA68zNl2xxMq8nD9aEfPoC7ogMaQi8oVshm052at6lu6msX+
- aV6mtYBNmGY5rDYpInm21X6OqGi2Y9xqvav4a8rqx9bCFHI4L/2RU1G7XPhB4FIpO35w
- DmpPGgn7mFyc/t6K75EYK+dY9e3RQLOgbb51uF4KjxpZ2JoBq/mYnRyg1ljswSklhCHP
- /wiQ==
-X-Gm-Message-State: AOAM533sRBAvUh1LVd3ga6AGsl5Wiw88xjBuAOv7sHkjiFbay2EoKEok
- ppD9PsEW+4NlM2UahDu6JOc=
-X-Google-Smtp-Source: ABdhPJwmwjCuDDPXgJzagEDJFZvL9bsKDRshD+vKC4U9PvRCInmAa+Uloli+oh8LbnFvspWjHpqkuw==
-X-Received: by 2002:adf:ee8f:: with SMTP id b15mr12586188wro.126.1633333402699; 
- Mon, 04 Oct 2021 00:43:22 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id c185sm14083470wma.8.2021.10.04.00.43.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Oct 2021 00:43:22 -0700 (PDT)
-Message-ID: <157566b7-f04c-10f6-cd14-f5ae1f59c026@amsat.org>
-Date: Mon, 4 Oct 2021 09:43:21 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeB-0003qW-VE
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:44479)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeA-0004h1-1N
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:27 -0400
+Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue012
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MkW10-1nDUQj2B2M-00m4Ew; Mon, 04
+ Oct 2021 09:44:23 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/26] Linux user for 6.2 patches
+Date: Mon,  4 Oct 2021 09:43:55 +0200
+Message-Id: <20211004074421.3141222-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2 2/2] target/riscv: Use dup_const_tl in orc.b to
- legalise truncation of constant
-Content-Language: en-US
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
-References: <20211003214243.3813425-1-philipp.tomsich@vrull.eu>
- <20211003214243.3813425-2-philipp.tomsich@vrull.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211003214243.3813425-2-philipp.tomsich@vrull.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ACEoZpXTXp69evQAtqT6UPPdCZWDURcK1NBKAkB6GeXKnKnclvy
+ CVwfC3B6Hgxy7EWJBcX30XMlA1PSDiQVFLmiekKatliHweBQNwZeRIA5BGCaLREFvYPo3FW
+ 3SOt2EgB6LYvZPQYQDGVlCSAw+2xl9rAcIRXLoRROC8Y2DCQxFSvpHqGoYBH4nDP0MCla9A
+ 0FDrjJ8uu3Ay5PtTZOlBg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VG3l4Cyzr8k=:FQcR4mIT8cGcXhJGEBU2Bs
+ oUTsjAtCltsAYf/6pEiBqmxO8rTWM5RLNeS1VXD9nB9IL/TdU8AcU+Ku/sMLjMHwmrLcDWwle
+ 0GH13Enm9moApk2g9z8tNOqXpJbFlbsvh4ZlwbCZTGxRBBhq8fYZKdZPIRTdY4pMokXyQXkl+
+ 9GizLbzCrNX5Ytu0W/qtwNz0QhC/9QCsx5uUqea7m3Dwy8i+6awvaOyJZTR7MeZiZRziJB3Cp
+ /LiWsjiE8m+EE34ZbDpFuqa7F/bZ6BN+hlFQq6ujqVdk6GPuNxNTLrIJ0f2+ZbDQrhOC1viyE
+ W2DQ7MebIgwUL5EF8c4rc9QVGUkWTg53erTrxL/DnAOOnFkqSaWXZbJ8xfVdycIOZNLuGNdjI
+ yBIqdtHctl865d0Bdw8IHkMVnnvsw1m/0yrxOQemwbTkjlLUYpuBB+ILiKPAbTiQaHDX7o8T/
+ KrqUs02/GApGFUxq2WMAz1/SFmrcPd+rvBaM/QW/YZAagPgG7X/8OHTzHsqfh2Sk1deZ03RIZ
+ ZRR6exgAl1I1V73rlnuak1FVNfSHPb13yniQbiVSVMxUBwakDnf89ODNgt4Gdgn/FnoEljnuX
+ +RLppGy93OCLwJI9zTatekfnNxRtrK5cDPRBBpbU5pXN4OknaRmA5A8afkWgJA1V9DYQABXWz
+ 4GZTpycEL/FLRGVsOoYGMj2lFdysUY1vWA3ss/7zIcfszflhy0fRaXhh4RzQR5L4ofUgPIGii
+ CtZaQKZVA8q/nb8m9nr4DRirj87Hu4mZWKYoeQ==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,23 +65,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/3/21 23:42, Philipp Tomsich wrote:
-> We need to use the newly introduced dup_const_tl in orc.b to legalise
-> the truncation (to target_long) of the constant generated with dup_const.
-> 
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> 
-> (no changes since v1)
-> 
->  target/riscv/insn_trans/trans_rvb.c.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The following changes since commit bb4aa8f59e18412cff0d69f14aee7abba153161a=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210=
+930' into staging (2021-09-30 21:16:54 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/linux-user-for-6.2-pull-request=0D
+=0D
+for you to fetch changes up to efee71c8ca181d4f5b2211736b38a74a2a223375:=0D
+=0D
+  tests/tcg/multiarch: Re-enable signals test for most guests (2021-10-01 1=
+2:03:48 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+Pull request linux-user 20211004=0D
+=0D
+Move signal trampolines to new page=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Richard Henderson (26):=0D
+  linux-user: Add infrastructure for a signal trampoline page=0D
+  linux-user/aarch64: Implement setup_sigtramp=0D
+  linux-user/arm: Drop v1 signal frames=0D
+  linux-user/arm: Drop "_v2" from symbols in signal.c=0D
+  linux-user/arm: Implement setup_sigtramp=0D
+  linux-user/alpha: Implement setup_sigtramp=0D
+  linux-user/cris: Implement setup_sigtramp=0D
+  linux-user/hexagon: Implement setup_sigtramp=0D
+  linux-user/hppa: Document non-use of setup_sigtramp=0D
+  linux-user/i386: Implement setup_sigtramp=0D
+  linux-user/x86_64: Raise SIGSEGV if SA_RESTORER not set=0D
+  linux-user/m68k: Implement setup_sigtramp=0D
+  linux-user/microblaze: Implement setup_sigtramp=0D
+  linux-user/mips: Tidy install_sigtramp=0D
+  linux-user/mips: Implement setup_sigtramp=0D
+  linux-user/nios2: Document non-use of setup_sigtramp=0D
+  linux-user/openrisc: Implement setup_sigtramp=0D
+  linux-user/ppc: Simplify encode_trampoline=0D
+  linux-user/ppc: Implement setup_sigtramp=0D
+  linux-user/riscv: Implement setup_sigtramp=0D
+  linux-user/s390x: Implement setup_sigtramp=0D
+  linux-user/sh4: Implement setup_sigtramp=0D
+  linux-user/sparc: Implement setup_sigtramp=0D
+  linux-user/xtensa: Implement setup_sigtramp=0D
+  linux-user: Remove default for TARGET_ARCH_HAS_SIGTRAMP_PAGE=0D
+  tests/tcg/multiarch: Re-enable signals test for most guests=0D
+=0D
+ linux-user/aarch64/signal.c           |  34 +-=0D
+ linux-user/aarch64/target_signal.h    |   2 +=0D
+ linux-user/alpha/signal.c             |  34 +-=0D
+ linux-user/alpha/target_signal.h      |   1 +=0D
+ linux-user/arm/signal.c               | 472 ++++++++------------------=0D
+ linux-user/arm/target_signal.h        |   2 +=0D
+ linux-user/cris/signal.c              |  29 +-=0D
+ linux-user/cris/target_signal.h       |   2 +=0D
+ linux-user/elfload.c                  |  14 +=0D
+ linux-user/hexagon/signal.c           |  19 +-=0D
+ linux-user/hexagon/target_signal.h    |   2 +=0D
+ linux-user/hppa/target_signal.h       |  14 +=0D
+ linux-user/i386/signal.c              |  65 ++--=0D
+ linux-user/i386/target_signal.h       |   2 +=0D
+ linux-user/m68k/signal.c              |  47 ++-=0D
+ linux-user/m68k/target_signal.h       |   2 +=0D
+ linux-user/microblaze/signal.c        |  24 +-=0D
+ linux-user/microblaze/target_signal.h |   2 +=0D
+ linux-user/mips/signal.c              |  39 ++-=0D
+ linux-user/mips/target_signal.h       |   1 +=0D
+ linux-user/mips64/target_signal.h     |   2 +=0D
+ linux-user/nios2/target_signal.h      |   3 +=0D
+ linux-user/openrisc/signal.c          |  22 +-=0D
+ linux-user/openrisc/target_signal.h   |   2 +=0D
+ linux-user/ppc/signal.c               |  40 +--=0D
+ linux-user/ppc/target_signal.h        |   2 +=0D
+ linux-user/riscv/signal.c             |  22 +-=0D
+ linux-user/riscv/target_signal.h      |   2 +=0D
+ linux-user/s390x/signal.c             |  24 +-=0D
+ linux-user/s390x/target_signal.h      |   2 +=0D
+ linux-user/sh4/signal.c               |  40 ++-=0D
+ linux-user/sh4/target_signal.h        |   2 +=0D
+ linux-user/signal-common.h            |   6 +=0D
+ linux-user/signal.c                   |   3 +=0D
+ linux-user/sparc/signal.c             |  40 ++-=0D
+ linux-user/sparc/target_signal.h      |   4 +=0D
+ linux-user/x86_64/target_signal.h     |   3 +=0D
+ linux-user/xtensa/signal.c            |  56 +--=0D
+ linux-user/xtensa/target_signal.h     |   2 +=0D
+ tests/tcg/hppa/Makefile.target        |   7 +=0D
+ tests/tcg/i386/Makefile.target        |   3 -=0D
+ tests/tcg/multiarch/Makefile.target   |   8 -=0D
+ tests/tcg/sh4/Makefile.target         |   7 +=0D
+ 43 files changed, 559 insertions(+), 550 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
