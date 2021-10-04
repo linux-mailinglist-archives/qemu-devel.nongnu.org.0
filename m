@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB702420692
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 09:23:02 +0200 (CEST)
-Received: from localhost ([::1]:51386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7104206C0
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 09:41:54 +0200 (CEST)
+Received: from localhost ([::1]:33634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXIJQ-0000cZ-CG
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 03:23:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39874)
+	id 1mXIbh-0000Yd-2y
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 03:41:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXIHl-0007IV-94
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:21:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51941)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mXIZV-0008ES-6e
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:39:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXIHh-0003oi-QX
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:21:16 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mXIZQ-0000l6-Em
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:39:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633332072;
+ s=mimecast20190719; t=1633333169;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p9K8OTMY03m8Iu5Te9RkzF+98t7fPX2UHOA1snMUmnc=;
- b=AtBvcQttlx8Tz+wYxKXxZfz2o6o3GrGqhamAuz7Dw1pyQJtciHWSWl9eAo3sr7bP2bXaiH
- 2V3DYCyA+O1yZnffmCYShZ/Y7vsX5CiJDBbK5E7aZLqeTV+HkBtIiHABb/7Qp7wXMtDaV1
- YBKzIB8yHh2vYj4174AeDdetxAM+9zk=
+ bh=IWkEiC6WNKstEOHRcB+d0O4vO81lbVoid+4qNY3k1pU=;
+ b=EVV/r0/tNlVzkoS4tyxr3hKp3gLhuWIBPzQN9SZXqx/RjhQpw3BMCP6YehJicSdUywwmZS
+ c07QCaDxEjbRv3WjbWo0EQzIH/TJb+2i8HMpgCw2lt1P7bAYmzdt492O8kgS7W99or1kR0
+ LMjJCe1SLVemDz6Uyyl+J1py7F+xK20=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-W58t0h0fNdCmawLBX8pGzA-1; Mon, 04 Oct 2021 03:21:10 -0400
-X-MC-Unique: W58t0h0fNdCmawLBX8pGzA-1
+ us-mta-595-Q5Bs81NjPSuEZbVfSUl9iw-1; Mon, 04 Oct 2021 03:39:25 -0400
+X-MC-Unique: Q5Bs81NjPSuEZbVfSUl9iw-1
 Received: by mail-wr1-f69.google.com with SMTP id
- j19-20020adfb313000000b00160a9de13b3so673132wrd.8
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 00:21:10 -0700 (PDT)
+ e12-20020a056000178c00b001606927de88so4314085wrg.10
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 00:39:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=p9K8OTMY03m8Iu5Te9RkzF+98t7fPX2UHOA1snMUmnc=;
- b=nFz5cpy8ofoT7Bl6WfKv1L8S16lJ6635FuP5YRw1Eox/6y+7IaNJ6A+ktUMjBfVj6s
- TK5OufzXnEqcxsgEuJg+5Kjim/+YBTBeg+U9S2N9rVH9m8EGd+8ytVqmXMIdR8d6bmyz
- xTP8ObmdjP/pAX1eeujZppseFKVmKFmwPNDtCe61vax/VTeX4zHvw9BvTC8+9+lYkTjJ
- JI5rTxHT6i/kGzTuBE+WcpzcCQZVQuAWQ+RpPG1BOeObuBTMDRVeTziFT7gKdEQF7dmH
- s0tvkTd1H2BTM0mvYk8c2bjaQjcm6X3VRHnELrIrxJQC0HaadhaIJl4Baunl1v66muNl
- go7w==
-X-Gm-Message-State: AOAM530/zbxfw5gvBmak92SHNy+j938yNhUPEf9tlBPXfYfzC6QOaBSm
- bxZRJRxiilBspgUqEExFzfk2tFaAuEgRFJ8blqZdqmQtSbyZdGG1boDzUVGmWcTAouVJrtcsDLz
- ZovsaY1TwwaBsiHc=
-X-Received: by 2002:a1c:411:: with SMTP id 17mr4000385wme.158.1633332069566;
- Mon, 04 Oct 2021 00:21:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyTHhlvN55PINCcBQgZNJcKpHPhFlRRyiFgBG6ZgXNt91WbKUAj+72nIw7Z4Hd0GeykM8wNdw==
-X-Received: by 2002:a1c:411:: with SMTP id 17mr4000365wme.158.1633332069373;
- Mon, 04 Oct 2021 00:21:09 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id y15sm6866060wrp.44.2021.10.04.00.21.08
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=IWkEiC6WNKstEOHRcB+d0O4vO81lbVoid+4qNY3k1pU=;
+ b=1s57BC+jtofBlIb3X9dghZYjC0kJ+kb5K+jQ5N8vfPqU8VbayPDoIe7ldHd6V8Nnwk
+ 7t/ZtY9ng1zzzPPa0jujMjprB0MbxhS/kO9qbvKGvPNXmdWeZhqkAv4wkXWHWwI2BFgI
+ 5+Iwq2xb79jxyTt/xrFnPIvPsnfrk/tpVQ5QS+OK1kK9xiP5PzcG9xy3mP+GCoNkE/OL
+ TOc0oXqlWqghWxNfvWVf9QjuTwaonlOB235L1Bxr/BlmJf5xvzMo5hS9kyjLMOuPkvxB
+ BRS04FapSNQMVQ18I8qY88uLqhTg4k5mzW5bHXEQCWjQjrLpKV2ltGmRnATtgcxfsyyv
+ GP/g==
+X-Gm-Message-State: AOAM532Dc3HjYtb2mbjt6OCbUk0JYb1NyQhnGNiBfnKKca/KT1EY4Xaf
+ eMtFRBjfNsF+dEeN7bBBEFo03su03pwx2tn80WJwuUqNkAtZ3mngOX1eY087rjErzfwo1PM7AQy
+ /wzJTyzMpIMtZuTE=
+X-Received: by 2002:a5d:528a:: with SMTP id c10mr12609427wrv.101.1633333164490; 
+ Mon, 04 Oct 2021 00:39:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzl5xADYiNZXFxi97wluQQm721rf9BL2rjw6xawpK5PLuuNi89Ou2gb0WJPwAycnyrq1ZM6BA==
+X-Received: by 2002:a5d:528a:: with SMTP id c10mr12609403wrv.101.1633333164319; 
+ Mon, 04 Oct 2021 00:39:24 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6672.dip0.t-ipconnect.de. [91.12.102.114])
+ by smtp.gmail.com with ESMTPSA id l2sm14952851wmi.1.2021.10.04.00.39.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Oct 2021 00:21:08 -0700 (PDT)
-Message-ID: <b9bf79a0-1b5c-ac12-2450-7058b3fc1c5d@redhat.com>
-Date: Mon, 4 Oct 2021 09:21:07 +0200
+ Mon, 04 Oct 2021 00:39:23 -0700 (PDT)
+Subject: Re: [PATCH v4 0/4] softmmu/memory_mapping: optimize dump/tpm for
+ virtio-mem
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210727082545.17934-1-david@redhat.com>
+ <15636272-1702-93c7-2c7d-59d889168350@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <0d816d53-b882-5d46-1e4b-e2ce9787aeeb@redhat.com>
+Date: Mon, 4 Oct 2021 09:39:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] docs: build-system: rename "default-configs" to "configs"
-To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
-References: <20211004071203.2092017-1-kchamart@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211004071203.2092017-1-kchamart@redhat.com>
+In-Reply-To: <15636272-1702-93c7-2c7d-59d889168350@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,22 +99,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/4/21 09:12, Kashyap Chamarthy wrote:
-> Commit 812b31d3f9 (configs: rename default-configs to configs and
-> reorganise, 2021-07-07) did the rename.
+On 02.10.21 11:55, Paolo Bonzini wrote:
+> On 27/07/21 10:25, David Hildenbrand wrote:
+>> Minor fixes and cleanups, followed by an optimization for virtio-mem
+>> regarding guest dumps and tpm.
+>>
+>> virtio-mem logically plugs/unplugs memory within a sparse memory region
+>> and notifies via the RamDiscardMgr interface when parts become
+>> plugged (populated) or unplugged (discarded).
+>>
+>> Currently, guest_phys_blocks_append() appends the whole (sparse)
+>> virtio-mem managed region and therefore tpm code might zero the hole
+>> region and dump code will dump the whole region. Let's only add logically
+>> plugged (populated) parts of that region, skipping over logically
+>> unplugged (discarded) parts by reusing the RamDiscardMgr infrastructure
+>> introduced to handle virtio-mem + VFIO properly.
 > 
-> Reflect that update also in the documentation.
+> Queued, thanks.
 > 
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> ---
->  docs/devel/build-system.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Thanks Paolo!
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
