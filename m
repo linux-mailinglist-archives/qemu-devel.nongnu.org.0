@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E854206E3
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 09:58:58 +0200 (CEST)
-Received: from localhost ([::1]:35434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFEE04206F7
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:01:56 +0200 (CEST)
+Received: from localhost ([::1]:39512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXIsD-0005pS-CL
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 03:58:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44250)
+	id 1mXIv5-0000CT-PJ
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:01:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeT-0004LH-Oi
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:45 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:51831)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeP-0004GJ-7Y
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:41 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:36269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeP-0004vW-D9
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:44 -0400
-Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MV5rK-1mP5gf0ztW-00S7ie; Mon, 04
- Oct 2021 09:44:39 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeL-0004qo-HM
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:40 -0400
+Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue012
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MAchM-1mdsEF0VVg-00B4nI; Mon, 04
+ Oct 2021 09:44:27 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/26] tests/tcg/multiarch: Re-enable signals test for most
- guests
-Date: Mon,  4 Oct 2021 09:44:21 +0200
-Message-Id: <20211004074421.3141222-27-laurent@vivier.eu>
+Subject: [PULL 06/26] linux-user/alpha: Implement setup_sigtramp
+Date: Mon,  4 Oct 2021 09:44:01 +0200
+Message-Id: <20211004074421.3141222-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211004074421.3141222-1-laurent@vivier.eu>
 References: <20211004074421.3141222-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Tcu0udpoESPKie4FDxActY0GmyegS0o83Lu4WhRX0+qwW8ZPWZd
- 3oybT9Qa4LHuaG8q8Y7RjNKHafaPpq7MliasJUGmox9r2lOKP2/06+eU9LqtcT2YbU6A/q9
- I7+RopQaXWrTeZBzeOCRcX7oHwaXxNw6D/TXoVfCeEtH36wX+q/6nuE3Ae6xQZn3pKw7cXm
- Yp8zYQ4G8OqWHy9/VoqLQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fyGM0cK832M=:rcibrdgDs3LF5Zzhpy8oMR
- Bam7Dk1PdCTnAWsoXsooeXhCvl2+mCkyAUoHVotAZAY2ttcxQpe4h4WWQ0GmrXiX7W6aj0UyT
- qCrXJBUXw8TiDPySLiZlyPxmi5+XoBpMlsOJ9dFNtZ/K0tD7EIVdM8Dzn1v5bxtgUT1kkU9vT
- YnU47zpXs5Re5Uw1/ZTxclfb5+GfS6Ue8xYr98hltzTTeKlXtoHfh1YCLLF8UVs2TQxHmIKOo
- lGD+9X8fgXvSo7kUPJahr0zx0pzUTcMt0XoGZ6m7EX9+YpOw8LBCE4ZqdymKN20X7i0La/cKi
- P8ZkUmYKBdXM/anxMCi1hOFch4C86k0QYfvhsdZ+e8BEouW25MYAjrIdU4avJ8ivVazQfDrI7
- G02O3NHqNUH2ILrgwKX9cXV6+hCw/8jUlCHqF8yyFU0NO1fHuTCC60IFM6imJv83pF4lvKAxC
- 8J1maaCXwYXnxKV/DKTutGGsp7j6sweAHDzscM3H4i3Hcj39B/dy4efXvhxbJT4PU/mYnTOYJ
- aEpJnj1bGEIDKQW17sI/Pq7/HXIloLdSm1Vx4vDdUwZUArCr9NbFvxW571LE8rOqd2EfURQui
- A3iX15Ykf+ysHRcLAducfFesubwWICsKc2pjhePseTzjxv7Ph8XuxyNg0wBxfOytj3S2sCjVD
- 3M3VxkP6gjn13qXXMFIJpeH7WJGkns+lbKokm3QHl/WamMCz7Iedhy5T6sPcxiA/gZVxUNPxM
- C3xxFK5n0BqrC5npDCmwM8J60+1R146d0fvxFw==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:XVeBUSeOwZnzOlG+IEND3rgkvbLJ6109GbKVXTYia06403FDWPD
+ B+U4UPe4XFgcBQr0kOGVCYG+VciCuNVvFM0TL5CxXHVvXTiq5IXhRDVzsOqGKUhmBrbLIf4
+ xdpcOCK91V0H+04KeKLal7mCtxUZVwkuMZM4wUJFkxML07hWnQcqb/CzeDpSK+YTqWkbE2q
+ 2UfFgkCfl7gAX1qhAH3sg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FSkllQucq2U=:YUaKR6QqyjVtDtZE+bvL/b
+ oB3eMiVamvxxrHmhMWTmfHuVtdDDdCb/mJMggLToZFaoNrnphe9Gx4ZrMH1T3Gse0rrap0Pl7
+ pxcD6HGFgrGs2NqRi2FWsI6j98QMA3XnyD9c4sk2foif7YL00vZOmhpokzWwo95nCUvcRvEe/
+ IuB3PCKwtAIFW+wUFdNHC0W8Sb+EdJL61G9aOO5jkNSBtfwLnTUUUowOhxp4KidTdTtiYp1HL
+ pgtZ4AXSnH5tdfdkoSx9wxEB2fCX5bOqgqXOGy1P/C4UAtETSnC+Ct6X49g/eG9nIrAid8XWE
+ bGydb69DaWQ+nFRuZofkraBFoWmA9wzVkbOy8TT+11uONWcFBduV6CuL/Vgl5H3vEqcmBuyGz
+ KeYmxPoUINwfulRQoPfG15hbYVbN5oYv5fxj/4mKMbPc3h2TOdiSBrLDa8OA2/f7EP7RBUq9+
+ yV6tyvdMoui6Q6hMPC3r2BRrf29TV/aINEtlCiJdYY8sUEiBVmEGHqw9Ujor0XI3PahyDhNvn
+ rLE60uqGu5ZSD5lNbQpkuy8xsDAm7WG36OpGG6B0ran6zBywlueAgc7xXivI6y/8H9WB3AzGz
+ aC9YLv5xv/i0SLSoL6ueWvBtFzmncv4cFdUw8Bf2SdVgf2Qx8qv4zFzCCu4QgZVWkya+ECzZT
+ SPynbyTYwGbUghfzLnmtVWJVx2byDgjHiB2MmHQcp8iUEyaGwGwfEdmxYg2LxmBP8xgV6clep
+ GvOzTKxIs1IgY/h89xa8EZLlN33mcXnZf2DFgQ==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,91 +68,105 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-With signal trampolines safely off the stack for all
-guests besides hppa, we can re-enable this test.
+Create and record the two signal trampolines.
+Use them when the guest does not use ka_restorer.
 
-It does show up a problem with sh4 (unrelated?),
-so leave that test disabled for now.
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210929130553.121567-27-richard.henderson@linaro.org>
+Message-Id: <20210929130553.121567-7-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/tcg/hppa/Makefile.target      | 7 +++++++
- tests/tcg/i386/Makefile.target      | 3 ---
- tests/tcg/multiarch/Makefile.target | 8 --------
- tests/tcg/sh4/Makefile.target       | 7 +++++++
- 4 files changed, 14 insertions(+), 11 deletions(-)
+ linux-user/alpha/signal.c        | 34 +++++++++++++++++++-------------
+ linux-user/alpha/target_signal.h |  1 +
+ 2 files changed, 21 insertions(+), 14 deletions(-)
 
-diff --git a/tests/tcg/hppa/Makefile.target b/tests/tcg/hppa/Makefile.target
-index 473864d1d468..d0d5e0e25761 100644
---- a/tests/tcg/hppa/Makefile.target
-+++ b/tests/tcg/hppa/Makefile.target
-@@ -5,3 +5,10 @@
- # On parisc Linux supports 4K/16K/64K (but currently only 4k works)
- EXTRA_RUNS+=run-test-mmap-4096 # run-test-mmap-16384 run-test-mmap-65536
+diff --git a/linux-user/alpha/signal.c b/linux-user/alpha/signal.c
+index 3a820f616b3f..bbe3dd175a7c 100644
+--- a/linux-user/alpha/signal.c
++++ b/linux-user/alpha/signal.c
+@@ -55,13 +55,11 @@ struct target_ucontext {
  
-+# This triggers failures for hppa-linux about 1% of the time
-+# HPPA is the odd target that can't use the sigtramp page;
-+# it requires the full vdso with dwarf2 unwind info.
-+run-signals: signals
-+	$(call skip-test, $<, "BROKEN awaiting vdso support")
-+run-plugin-signals-with-%:
-+	$(call skip-test, $<, "BROKEN awaiting vdso support")
-diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
-index a053ca3f1532..38c10379af0f 100644
---- a/tests/tcg/i386/Makefile.target
-+++ b/tests/tcg/i386/Makefile.target
-@@ -65,9 +65,6 @@ run-plugin-%-with-libinsn.so:
- 	       -d plugin -D $*-with-libinsn.so.pout $*, \
- 		"$* (inline) on $(TARGET_NAME)")
+ struct target_sigframe {
+     struct target_sigcontext sc;
+-    unsigned int retcode[3];
+ };
  
--run-plugin-signals-with-libinsn.so:
--	$(call skip-test, $<, "BROKEN awaiting sigframe clean-ups and vdso support")
--
- # Update TESTS
- I386_TESTS:=$(filter-out $(SKIP_I386_TESTS), $(ALL_X86_TESTS))
- TESTS=$(MULTIARCH_TESTS) $(I386_TESTS)
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index 85a6fb7a2ea0..3f283eabe6da 100644
---- a/tests/tcg/multiarch/Makefile.target
-+++ b/tests/tcg/multiarch/Makefile.target
-@@ -32,14 +32,6 @@ threadcount: LDFLAGS+=-lpthread
+ struct target_rt_sigframe {
+     target_siginfo_t info;
+     struct target_ucontext uc;
+-    unsigned int retcode[3];
+ };
  
- signals: LDFLAGS+=-lrt -lpthread
+ #define INSN_MOV_R30_R16        0x47fe0410
+@@ -142,12 +140,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     if (ka->ka_restorer) {
+         r26 = ka->ka_restorer;
+     } else {
+-        __put_user(INSN_MOV_R30_R16, &frame->retcode[0]);
+-        __put_user(INSN_LDI_R0 + TARGET_NR_sigreturn,
+-                   &frame->retcode[1]);
+-        __put_user(INSN_CALLSYS, &frame->retcode[2]);
+-        /* imb() */
+-        r26 = frame_addr + offsetof(struct target_sigframe, retcode);
++        r26 = default_sigreturn;
+     }
  
--# This triggers failures on s390x hosts about 4% of the time
--# This triggers failures for hppa-linux about 1% of the time
--run-signals: signals
--	$(call skip-test, $<, "BROKEN awaiting sigframe clean-ups and vdso support")
--
--run-plugin-signals-with-%:
--	$(call skip-test, $<, "BROKEN awaiting sigframe clean-ups and vdso support")
--
- # We define the runner for test-mmap after the individual
- # architectures have defined their supported pages sizes. If no
- # additional page sizes are defined we only run the default test.
-diff --git a/tests/tcg/sh4/Makefile.target b/tests/tcg/sh4/Makefile.target
-index 9d18d44612e1..47c39a44b690 100644
---- a/tests/tcg/sh4/Makefile.target
-+++ b/tests/tcg/sh4/Makefile.target
-@@ -5,3 +5,10 @@
+     unlock_user_struct(frame, frame_addr, 1);
+@@ -196,12 +189,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     if (ka->ka_restorer) {
+         r26 = ka->ka_restorer;
+     } else {
+-        __put_user(INSN_MOV_R30_R16, &frame->retcode[0]);
+-        __put_user(INSN_LDI_R0 + TARGET_NR_rt_sigreturn,
+-                   &frame->retcode[1]);
+-        __put_user(INSN_CALLSYS, &frame->retcode[2]);
+-        /* imb(); */
+-        r26 = frame_addr + offsetof(struct target_rt_sigframe, retcode);
++        r26 = default_rt_sigreturn;
+     }
  
- # On sh Linux supports 4k, 8k, 16k and 64k pages (but only 4k currently works)
- EXTRA_RUNS+=run-test-mmap-4096 # run-test-mmap-8192 run-test-mmap-16384 run-test-mmap-65536
+     if (err) {
+@@ -269,3 +257,21 @@ badframe:
+     force_sig(TARGET_SIGSEGV);
+     return -TARGET_QEMU_ESIGRETURN;
+ }
 +
-+# This triggers failures for sh4-linux about 10% of the time.
-+# Random SIGSEGV at unpredictable guest address, cause unknown.
-+run-signals: signals
-+	$(call skip-test, $<, "BROKEN")
-+run-plugin-signals-with-%:
-+	$(call skip-test, $<, "BROKEN")
++void setup_sigtramp(abi_ulong sigtramp_page)
++{
++    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 6 * 4, 0);
++    assert(tramp != NULL);
++
++    default_sigreturn = sigtramp_page;
++    __put_user(INSN_MOV_R30_R16, &tramp[0]);
++    __put_user(INSN_LDI_R0 + TARGET_NR_sigreturn, &tramp[1]);
++    __put_user(INSN_CALLSYS, &tramp[2]);
++
++    default_rt_sigreturn = sigtramp_page + 3 * 4;
++    __put_user(INSN_MOV_R30_R16, &tramp[3]);
++    __put_user(INSN_LDI_R0 + TARGET_NR_rt_sigreturn, &tramp[4]);
++    __put_user(INSN_CALLSYS, &tramp[5]);
++
++    unlock_user(tramp, sigtramp_page, 6 * 4);
++}
+diff --git a/linux-user/alpha/target_signal.h b/linux-user/alpha/target_signal.h
+index 250642913e2a..0b6a39de6576 100644
+--- a/linux-user/alpha/target_signal.h
++++ b/linux-user/alpha/target_signal.h
+@@ -93,6 +93,7 @@ typedef struct target_sigaltstack {
+ 
+ #define TARGET_ARCH_HAS_SETUP_FRAME
+ #define TARGET_ARCH_HAS_KA_RESTORER
++#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
+ 
+ /* bit-flags */
+ #define TARGET_SS_AUTODISARM (1U << 31) /* disable sas during sighandling */
 -- 
 2.31.1
 
