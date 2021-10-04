@@ -2,68 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4DA421983
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 23:57:06 +0200 (CEST)
-Received: from localhost ([::1]:49264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C59421A69
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 01:04:09 +0200 (CEST)
+Received: from localhost ([::1]:60044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXVxI-0005ia-Mz
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 17:57:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34846)
+	id 1mXX0C-0001pj-4W
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 19:04:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mXVtU-0001wN-RT
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 17:53:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53049)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mXWwe-0000lh-Gp
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 19:00:29 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:46799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mXVtT-0002iV-Dw
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 17:53:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633384386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oHXSUIxtfz/N0mOXr+UcOqcE37P10kVy94LmMow+R6M=;
- b=hXXpbUz4FFnPfRirCLfirZS0OXyKaKYXs8tS+jQkU3jSCkZ9i1+7bB4ogXoS5Usy4vG6xB
- 0HiX6MNL8qiuBEpEFritsc0/IAI/I62ywErTvpUyLcFeeIyhRjLTsnB4M2q2yXHYMqr6WK
- CtrIBIhk6h+7L9PCYAR+1wPa9t/gsdo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-xxrXFs0LOU6FULG6xxe8sg-1; Mon, 04 Oct 2021 17:52:49 -0400
-X-MC-Unique: xxrXFs0LOU6FULG6xxe8sg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9419F18D6A25;
- Mon,  4 Oct 2021 21:52:48 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82BE119C59;
- Mon,  4 Oct 2021 21:52:46 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/3] docs/sphinx: change default role to "any"
-Date: Mon,  4 Oct 2021 17:52:38 -0400
-Message-Id: <20211004215238.1523082-4-jsnow@redhat.com>
-In-Reply-To: <20211004215238.1523082-1-jsnow@redhat.com>
-References: <20211004215238.1523082-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mXWwb-0001Zc-24
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 19:00:28 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4HNblc6PL6z4xbb; Tue,  5 Oct 2021 10:00:12 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1633388412;
+ bh=iLuVpV1RnidjNyGIhUg/Pl7i3ZTpgdRuq/LeLfrLG44=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LwSrf0oqsiRs7PzKj5NJunlP1MVobrB/c/w0r9C3gcewiyYJSIzX0CrJiKOupfKGu
+ CmJ0L0oGoZ980+lPc5nRBQsFRY9+H++2zi+N0fkjZrgBLxUto9TmVfUymGXF7iEUDF
+ X9RW4hFPST8K1DSNgCXMSC8YGwdJlTYFbBQL9dEk=
+Date: Mon, 4 Oct 2021 17:01:54 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Rust in Qemu BoF followup 2: Rust toolchain availability
+Message-ID: <YVqY0iYZeQ5BSZjF@yekko>
+References: <YVUaDrf5BXPkZu5r@yekko>
+ <CAFEAcA_ibRiKmXvo3CDOvLundowVWr3uPKWbkegh95U+d-zfMQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="BqNTYKRE9bnLxehG"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_ibRiKmXvo3CDOvLundowVWr3uPKWbkegh95U+d-zfMQ@mail.gmail.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,47 +61,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- John Snow <jsnow@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>, Eric Blake <eblake@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Ed Maste <emaste@freebsd.org>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Brad <brad@comstyle.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Warner Losh <imp@bsdimp.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This interprets single-backtick syntax in all of our Sphinx docs as a
-cross-reference to *something*, including Python symbols.
 
-From here on out, new uses of `backticks` will cause a build failure if
-the target cannot be referenced.
+--BqNTYKRE9bnLxehG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/conf.py | 5 +++++
- 1 file changed, 5 insertions(+)
+On Thu, Sep 30, 2021 at 11:30:20AM +0100, Peter Maydell wrote:
+> On Thu, 30 Sept 2021 at 03:21, David Gibson <david@gibson.dropbear.id.au>=
+ wrote:
+> >
+> > Hi again all,
+> >
+> > I've now done.. or at least started... the second part of my followup
+> > from the KVM Forum BoF on Rust in Qemu.
+> >
+> > I've extended the page at https://wiki.qemu.org/RustInQemu with
+> > information on Rust toolchain availability.  However, I found I had a
+> > lot more open questions on this one, so there are quite a lot of gaps.
+>=20
+> Thanks for doing this work.
+>=20
+> I note that we have a new host architecture loongarch64 currently
+> circling to land. It looks like this is in the "Rust does not have
+> support for this target" category at the moment.
 
-diff --git a/docs/conf.py b/docs/conf.py
-index ff6e92c6e2e..4d9f56601fc 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -85,6 +85,11 @@
- # The master toctree document.
- master_doc = 'index'
- 
-+# Interpret `single-backticks` to be a cross-reference to any kind of
-+# referenceable object. Unresolvable or ambiguous references will emit a
-+# warning at build time.
-+default_role = 'any'
-+
- # General information about the project.
- project = u'QEMU'
- copyright = u'2021, The QEMU Project Developers'
--- 
-2.31.1
+AIUI this would be the new Loongson which is no longer MIPS
+compatible, yes?  If so, then yes it appears not to have Rust support
+at this time.
 
+> > In particular:
+> >  * I haven't so far figured out how to definitively check package
+> >    information for RHEL & SLES (they're not covered by repology, and
+> >    RHEL module structure confuses me, even as a RedHatter)
+> >  * I'm not at all sure what criteria to use to consider something as
+> >    having "good enough" rustup support, so that information is all
+> >    blank so far
+>=20
+> I guess the answer here is probably "if it has at least the
+> glibc and kernel minimum versions that are documented as
+> required for the target-triple in the lists at
+> https://doc.rust-lang.org/rustc/platform-support.html then
+> that's 'good enough'".
+
+Seems reasonable.  I've updated by table based on that criterion,
+though for now I haven't considered architectures - basically if the
+distro matches the criterion for any architecture I've marked it as ok.
+
+> >  * I've taken a bit of a stab in the dark about what Rust version is
+> >    recent enough for our purposes (1.31.0).  I strongly suspect we're
+> >    going to want to move that to something more recent, but I don't
+> >    know what, which will mean revising a bunch of stuff
+>=20
+> Hmm. The more we feel we need features that are from a new
+> version of Rust the more nervous I get about whether this is
+> really something we want to jump to just yet. 1.31 is less than
+> 3 years old, which is pretty recent in the context of QEMU's
+> own distro support policy.
+
+That's a fair point.  I could be wrong about that.  I'm pretty sure
+we'll want Rust 2018 edition support, which is why I used 1.31.0 as
+the cutoff.  I know there are a bunch of things that have been
+stabilized since then, but I don't know off hand of anything specific
+we'll definitely want.
+
+> >  * I'm not really convinced that the way I've formatted it is
+> >     particularly good, but I haven't though of a better alternative.
+>=20
+> I guess we might also care about the CPU architecture per distro,
+> in that even if old version X of the distro supports architecture Y
+> and rust today supports architecture Y, that doesn't mean that
+> distro version X's shipped rust supported architecture Y.
+> But we can probably reasonably say "use rustup" if there are
+> corner cases like that.
+
+Yeah.. that's where it starts to get very confusing.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--BqNTYKRE9bnLxehG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFamM8ACgkQbDjKyiDZ
+s5L5DBAAlqMtV494wkCfNJ1Ep3uILiI3gwz8GK5HL9MxeU/S+tHJuBBjXjZ+p9oq
+LCCvY+NteEsMOiT8MUtgjk0sNOhlpUQ+fngMLzdvlMj9aUx6v+KP13ANtibZYmBG
+VK9oHkrr0lHo99uyLVp9OkzPhALsMRKQNtdGu4MuGVnb8fq/anGcNvw0LNDhtAaC
+IVU+WZUezkTPXcEdXS9wV0bVRNg+GsP/6i0bhL7buEjfFLNK3rcRVGVUPzyiaPLv
+IExqfIKZNfaKgqT11ShQThVi6hLyxeoYLwYl3Zg9EZLRAgiknoQNhZGCN3pbjjmi
+nsK/Ir/O0q7B1dAFi8hQzeguhootUqJ35VnAcQSwdWN/AMieW3ZEEuT8qGVVBgZk
+JC7wN9MZEpI2LUOSF9yiBj/z4s8pY4vEyLkJJotyrF9A0mT1DWAp46FI36H4DTif
+5tjeKN6JpCvGR1tqXsbqA1aIPX32YGGUo5CnQRHRl6z06bBLYByFnxXwBH/YwOxp
+pnAQVLrFT/HjuAI1u8dusUIKRxdz+rC8V2wHRzibbPGJNZfT291b7Mr6raCcO7ep
+KOGOtVQR6Zg6KNE6IcYJb0M+tD6L82Pe13H39r93kNtsgr6dh/dncBzCANsa6105
+Hqd2RkX5EScHXmoD9hhmSVYkdwSG4KljEStxiJ7XxMkOBsHcenI=
+=kTLt
+-----END PGP SIGNATURE-----
+
+--BqNTYKRE9bnLxehG--
 
