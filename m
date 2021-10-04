@@ -2,77 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DAC4208F2
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:04:39 +0200 (CEST)
-Received: from localhost ([::1]:41038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E5D4208F8
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:07:08 +0200 (CEST)
+Received: from localhost ([::1]:45236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXKpq-0001w2-BM
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:04:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39680)
+	id 1mXKsF-0004up-CV
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:07:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mXKKU-0001M3-Qd
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:32:16 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:44741)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mXKKS-0007mt-IV
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:32:14 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id v18so61335790edc.11
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 02:32:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=UArhIR2Xzaj04yqObEvMGnbWPul/JgDRnUvix747Vb0=;
- b=YEHX6z3jYLlwMbQnpL7rnTmf4ttGHMXngGK3oaqLMcaRM+kWqzN21dxvyyH+FFm5gp
- VmraJXU9dy+mhkITBhdo6an7xpGU/SSvjHuJv3TKuMjuAqDUXwF7phX4lg+n3GJ/REGv
- t1hSpSSW0nb3c2V7KeQ8kvlOqEU63UqJtNakzs52iwuDC88k6mJQC4zL8gt5DVcdV2it
- xP1rOos/2usMkSWwO1BsD/ZibduseaAKJEuEIpnGvEjkZFNqhKYT6XglTU6KQDu7YBpX
- ndWgmxwwPuIvIpa3EZ//wVPcZzy5b+0RhQOPr9l9VWwf7JigPORYkCarq7rGgvgKsVG6
- X9xQ==
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mXKTL-00053k-8n
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:41:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23527)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mXKTG-0002mS-3p
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:41:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633340476;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dxfVhJVrqy9SilnYUxM4IeGNxJd1tbk2Hh41DGObvxE=;
+ b=Zn34M2LHw4dab01WvAtoXBcNCsYSB7dmo+r2zU5Nae6KzhD8kMU6ggIdPLE8x9Do/3kb1H
+ AQItDN6NtxmjKxsy+WiKjq0DHd0pEPh8zl+QQA/qvIbYRVp/253OyMVLALavTxukWmNRwa
+ lQ6qd2Ux/HmyceMsmZoVQXdqYj2aD0s=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-564-tD2EojQ7PcuBlk4bzF7Kng-1; Mon, 04 Oct 2021 05:41:14 -0400
+X-MC-Unique: tD2EojQ7PcuBlk4bzF7Kng-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ d7-20020a1c7307000000b0030d6982305bso1799295wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 02:41:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UArhIR2Xzaj04yqObEvMGnbWPul/JgDRnUvix747Vb0=;
- b=eExjS6avoRA+RSA9atSLkfFTWFEAzEKa/ijXWWUBVWiboWxEkY1o6CEFhEcjHnV3fB
- fLPs1DLSCMIWJqqVYpZP6hjtW7/Oe12tTIekeEVwvKn44Owc9iS3NGDyJBDKXulpklx8
- 2xAls5/rAjCIvWF/RfncQlfLBujOhv7wacCZIENLEa4WZTl2UteTQhOXRMplBilAb1ev
- u+pGxShMxvIkAu3X4KyShN5hNnxALqgR0/EucXO5VuJqw2YIT85Qvxz0YfyVZpJr1HYn
- XrCxhotBzO40CVQ4KvF7sdxObJQMkPYl3rYUmtXaoxqv0vKrrnTD2RA8sNIDkM/ZTVZm
- am3A==
-X-Gm-Message-State: AOAM5318PLgn7oLeJA5kbJ3fhijYE5YC4fivrIIRm2vURBoD9kv08ekp
- qaKQtsEeVgfWWmdW4WprXR0j1+29VDc=
-X-Google-Smtp-Source: ABdhPJx2CbFCaHBPzMDidwyIdNU52Th47N5fwrvINDIcJRPH2q+wvR/fFQEBUOwDL8hE5wgot1T8/A==
-X-Received: by 2002:a17:906:1749:: with SMTP id
- d9mr15252796eje.178.1633339928725; 
- Mon, 04 Oct 2021 02:32:08 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id d21sm5007143edp.27.2021.10.04.02.32.00
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=dxfVhJVrqy9SilnYUxM4IeGNxJd1tbk2Hh41DGObvxE=;
+ b=fRLc06NP+7j/CvtEH+jlQcRIPSRTbOrAzOnBZXxNar+zw9dkCC++/9kZJfLoxgScyg
+ AB0xoj1KY27QTapNkB/48O4BhXL8yuKrzjXmq2k6cns+86HTESbjfqYoXugrroHVft48
+ EB8m/9Umo+Yvep1y3U1KVP7lrLNJlZxjnMK9lUAZ/qV60sJ7FsGjmXVeCluFU6NhrByo
+ ZxNxQmkYgJhrwa4qA+EbqXFFp7AGMdS954DcJqr4IEaYdUIQMS+CoS2GY72M91jmriRX
+ mybf70CLJu998rIZiJUYel71096dyJ799GlQinDZlNeYy3yVFDzYYFdEVaVDWvrCcD+S
+ KZhQ==
+X-Gm-Message-State: AOAM5317rf1Q52/rkIynmfOw7YKDxXtDgYlWLQ26mC5T+bmn9p2VB+qU
+ ChJsbyMTpQBkAIIHflNq9jVxFB+lg5aSD6/NgNTs7qPMyMaGdHX5q+WZoePKbs3PNmyXebbDcYh
+ H2WzA8Y+bHQ+ln0I=
+X-Received: by 2002:adf:8b17:: with SMTP id n23mr11450053wra.290.1633340473754; 
+ Mon, 04 Oct 2021 02:41:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxJKWagXir+Cur7XWqj46gpIlntXbexRxFlKwV6Z5cdcFb0pk6YR7WGxNsnbwzxcb78pAGg9g==
+X-Received: by 2002:adf:8b17:: with SMTP id n23mr11450026wra.290.1633340473501; 
+ Mon, 04 Oct 2021 02:41:13 -0700 (PDT)
+Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
+ by smtp.gmail.com with ESMTPSA id o8sm7202183wme.38.2021.10.04.02.41.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 02:32:08 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] target/xtensa: list cores in a text file
-Date: Mon,  4 Oct 2021 11:30:52 +0200
-Message-Id: <20211004093053.87883-5-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211004093053.87883-1-pbonzini@redhat.com>
-References: <20211004093053.87883-1-pbonzini@redhat.com>
+ Mon, 04 Oct 2021 02:41:13 -0700 (PDT)
+Date: Mon, 4 Oct 2021 11:41:11 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH v2 1/5] hw/arm/virt: Key enablement of highmem PCIe on
+ highmem_ecam
+Message-ID: <20211004094111.2762nq634e24j4rn@gator>
+References: <20211003164605.3116450-1-maz@kernel.org>
+ <20211003164605.3116450-2-maz@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211003164605.3116450-2-maz@kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,65 +95,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
+ qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ kernel-team@android.com, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid that leftover files affect the build; instead, use the same
-mechanism that was in place before the Meson transition of updating
-a file from import_core.sh.  Starting with Meson 0.57, the file
-can be easily read from the filesystem module, so do that instead
-of using run_command.
+On Sun, Oct 03, 2021 at 05:46:01PM +0100, Marc Zyngier wrote:
+> Currently, the highmem PCIe region is oddly keyed on the highmem
+> attribute instead of highmem_ecam. Move the enablement of this PCIe
+> region over to highmem_ecam.
+> 
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> ---
+>  hw/arm/virt-acpi-build.c | 10 ++++------
+>  hw/arm/virt.c            |  4 ++--
+>  2 files changed, 6 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 037cc1fd82..d7bef0e627 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -157,10 +157,9 @@ static void acpi_dsdt_add_virtio(Aml *scope,
+>  }
+>  
+>  static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+> -                              uint32_t irq, bool use_highmem, bool highmem_ecam,
+> -                              VirtMachineState *vms)
+> +                              uint32_t irq, VirtMachineState *vms)
+>  {
+> -    int ecam_id = VIRT_ECAM_ID(highmem_ecam);
+> +    int ecam_id = VIRT_ECAM_ID(vms->highmem_ecam);
+>      struct GPEXConfig cfg = {
+>          .mmio32 = memmap[VIRT_PCIE_MMIO],
+>          .pio    = memmap[VIRT_PCIE_PIO],
+> @@ -169,7 +168,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+>          .bus    = vms->bus,
+>      };
+>  
+> -    if (use_highmem) {
+> +    if (vms->highmem_ecam) {
+>          cfg.mmio64 = memmap[VIRT_HIGH_PCIE_MMIO];
+>      }
+>  
+> @@ -712,8 +711,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>      acpi_dsdt_add_fw_cfg(scope, &memmap[VIRT_FW_CFG]);
+>      acpi_dsdt_add_virtio(scope, &memmap[VIRT_MMIO],
+>                      (irqmap[VIRT_MMIO] + ARM_SPI_BASE), NUM_VIRTIO_TRANSPORTS);
+> -    acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] + ARM_SPI_BASE),
+> -                      vms->highmem, vms->highmem_ecam, vms);
+> +    acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] + ARM_SPI_BASE), vms);
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/xtensa/cores.list     | 9 +++++++++
- target/xtensa/import_core.sh | 3 +++
- target/xtensa/meson.build    | 4 ++--
- 3 files changed, 14 insertions(+), 2 deletions(-)
- create mode 100644 target/xtensa/cores.list
+While tidying this interface, could also remove the superfluous ().
 
-diff --git a/target/xtensa/cores.list b/target/xtensa/cores.list
-new file mode 100644
-index 0000000000..5772a00ab2
---- /dev/null
-+++ b/target/xtensa/cores.list
-@@ -0,0 +1,9 @@
-+core-dc232b.c
-+core-dc233c.c
-+core-de212.c
-+core-de233_fpu.c
-+core-dsp3400.c
-+core-fsf.c
-+core-sample_controller.c
-+core-test_kc705_be.c
-+core-test_mmuhifi_c3.c
-diff --git a/target/xtensa/import_core.sh b/target/xtensa/import_core.sh
-index 396b264be9..df66d09393 100755
---- a/target/xtensa/import_core.sh
-+++ b/target/xtensa/import_core.sh
-@@ -66,3 +66,6 @@ static XtensaConfig $NAME __attribute__((unused)) = {
- 
- REGISTER_CORE($NAME)
- EOF
-+
-+grep -qxf core-${NAME}.c "$BASE"/cores.list || \
-+    echo core-${NAME}.c >> "$BASE"/cores.list
-diff --git a/target/xtensa/meson.build b/target/xtensa/meson.build
-index 7c4efa6c62..20bbf9b335 100644
---- a/target/xtensa/meson.build
-+++ b/target/xtensa/meson.build
-@@ -1,7 +1,7 @@
- xtensa_ss = ss.source_set()
- 
--xtensa_cores = run_command('sh', '-c', 'cd $MESON_SOURCE_ROOT/$MESON_SUBDIR ; ls -1 core-*.c')
--xtensa_ss.add(files(xtensa_cores.stdout().strip().split('\n')))
-+xtensa_cores = fs.read('cores.list')
-+xtensa_ss.add(files(xtensa_cores.strip().split('\n')))
- 
- xtensa_ss.add(files(
-   'cpu.c',
--- 
-2.31.1
+>      if (vms->acpi_dev) {
+>          build_ged_aml(scope, "\\_SB."GED_DEVICE,
+>                        HOTPLUG_HANDLER(vms->acpi_dev),
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 7170aaacd5..8021d545c3 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1362,7 +1362,7 @@ static void create_pcie(VirtMachineState *vms)
+>                               mmio_reg, base_mmio, size_mmio);
+>      memory_region_add_subregion(get_system_memory(), base_mmio, mmio_alias);
+>  
+> -    if (vms->highmem) {
+> +    if (vms->highmem_ecam) {
+>          /* Map high MMIO space */
+>          MemoryRegion *high_mmio_alias = g_new0(MemoryRegion, 1);
+>  
+> @@ -1416,7 +1416,7 @@ static void create_pcie(VirtMachineState *vms)
+>      qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
+>                                   2, base_ecam, 2, size_ecam);
+>  
+> -    if (vms->highmem) {
+> +    if (vms->highmem_ecam) {
+>          qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "ranges",
+>                                       1, FDT_PCI_RANGE_IOPORT, 2, 0,
+>                                       2, base_pio, 2, size_pio,
+> -- 
+> 2.30.2
+> 
 
+
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+
+Thanks,
+drew
 
 
