@@ -2,87 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA7A420954
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:31:13 +0200 (CEST)
-Received: from localhost ([::1]:58958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F01420934
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:15:53 +0200 (CEST)
+Received: from localhost ([::1]:58506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXLFX-0000jq-Qv
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:31:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
+	id 1mXL0i-0005nX-D2
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:15:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mXKwJ-0001Uh-Hh
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:11:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53791)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mXKxh-0002va-I3
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:12:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mXKwH-0001l0-8Q
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:11:19 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mXKxf-0002wg-QA
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:12:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633342275;
+ s=mimecast20190719; t=1633342361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7vrwkiYNmH9gme5GZD+IE0TvO4gorlXeNfmKqQOUQ2A=;
- b=TR2WaA+qUVsOG0nnh6lPkR7gdKo1UqNrrlO8AHalFwGjF3/0vWctP6omRxeNXnKzmor7k6
- z1+ygRcHtgEiDTAo9PImbjk23z1FTH+6ptwhdIo5KGR+9dgUY5ql4Eem5usSUfTwkskoO/
- Ek8B85W5S3ijyXvHMOxw3pYiOHYw0vw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-1AKiqph3MryJ17jSzC5u9A-1; Mon, 04 Oct 2021 06:11:13 -0400
-X-MC-Unique: 1AKiqph3MryJ17jSzC5u9A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- z194-20020a1c7ecb000000b0030b7ccea080so9747433wmc.8
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 03:11:13 -0700 (PDT)
+ bh=Hw7RMRnS34Ncr8ykyhOnTLjuy8lu1yVenpbZ/ndbXNQ=;
+ b=M2dmxLx6/TLRbd2mNkSRcQFeUk7+NGznrdPZ37R5aT0YtJS7HGljJt7ZOHEa+n9IMSsZBv
+ Vak7cqXWYZsyJPTifDA8e1To0b+14HhY2zf4ERvSZ5d3Az/jXyeuYqxSkq+7zMAG5vvQB6
+ /xXW3IcyHnJPOsTSJ3NVjEnQtxfR5pQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-RCmsCT7GM3eyy-DwlXtgGA-1; Mon, 04 Oct 2021 06:12:40 -0400
+X-MC-Unique: RCmsCT7GM3eyy-DwlXtgGA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ w2-20020a5d5442000000b0016061c95fb7so4466025wrv.12
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 03:12:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7vrwkiYNmH9gme5GZD+IE0TvO4gorlXeNfmKqQOUQ2A=;
- b=OVfuASFJanhmnvH4AXcQCQ73HBx3rEQ1co9H9Vqd104okULROxq7bEv8ElbBCcDS2g
- VFtJ9tY9StytLF9QU2O63iIRpUYSolwWUgaM49wdpyKuQp8XFnrtO/fE1FKTaZKiy/cG
- Mx+fHSRP5mLtY2mkzkLsyC3wp/iGbXX+PLFJY7e5t4FaFVTZRBZlFR3MXdgQBqNicXY7
- 3+3KG+hfY8aeIsU/z6QwRYgDKcooOhaWPLiM0cC9IS8a1NSoeywCnTrs9j8oO1BHCrJM
- T/4yNJfOCjs6VihXja3aL9uUf5CHM5y9stvqAjemN8mw6LzHXY2VS1fdwdSTBnoH1xov
- kpAQ==
-X-Gm-Message-State: AOAM5335Br8rjIKT8r+/ZMzlKwCNd3Ytf1RTKA4y3YfHXEYR/SMpiMge
- 84QcI5Gt6ayYO6M8l0OGRyqof/5oqJZ3V6oGLk0fNrMSr1TuGNUiNj3IR48rea5PthsPZ1XTg6u
- 36GlvBZPxifeQQGY=
-X-Received: by 2002:adf:a30b:: with SMTP id c11mr12974080wrb.289.1633342272562; 
- Mon, 04 Oct 2021 03:11:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzq2FZ3CpAT5XH1tlJ1e5mgY4TiPIO/pbY6WYKk/ugWs9aFSuDXGQ1ktJJSgRf+gzBqButoyw==
-X-Received: by 2002:adf:a30b:: with SMTP id c11mr12974021wrb.289.1633342272059; 
- Mon, 04 Oct 2021 03:11:12 -0700 (PDT)
-Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
- by smtp.gmail.com with ESMTPSA id t11sm13810480wrz.65.2021.10.04.03.11.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 03:11:11 -0700 (PDT)
-Date: Mon, 4 Oct 2021 12:11:10 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH v2 4/5] hw/arm/virt: Use the PA range to compute the
- memory map
-Message-ID: <20211004101110.imtfcufnrdwhneev@gator>
-References: <20211003164605.3116450-1-maz@kernel.org>
- <20211003164605.3116450-5-maz@kernel.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Hw7RMRnS34Ncr8ykyhOnTLjuy8lu1yVenpbZ/ndbXNQ=;
+ b=D0md7XkGVY+ItUV7ZqhfWYOgG0oH19JqO0RkLtSCf75ucrWGU1Drq2a2PSmBIjWMO8
+ Low1XrP5/USD9jfOxjECwNzyJ7ibA9gpA8xytBy5b/2qjzvH0+ZnRLz6UMmIFEKyCQFw
+ by+tpHLc9BO6Zmz/zycUQ5vNILxvr7LZDvvk086yAHNwZ1X4S18J+90W6lt56SUaMfKf
+ 562eRAzClINMhjM2kuxQnKuzGCJmWdKHgslDCD4d4CDYn9cIZH8ELPST1ZaglABh0PfY
+ R2irRc0TtQKPTPdk0yZzn+TIQAUV4cqm50y35zA4D5kp8EW6Jokhdxb+qWp6tHy9gCpI
+ Gk/Q==
+X-Gm-Message-State: AOAM5318r30VJfLOBL3eiX3TYarRmTYYZPgRNhYg7w9cQ+h3z5SC+s89
+ e92D44PRXtg+ImUYst+KicLOb7FncXBKZVURYhACeB/mYS+5a6Hg1XqV/T7bNxspMTW7ldKsIH3
+ /qvfY+Z8or+lwsIw=
+X-Received: by 2002:adf:b304:: with SMTP id j4mr13433236wrd.160.1633342359284; 
+ Mon, 04 Oct 2021 03:12:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx61T5iIsONN/icIfYULAFFg/XHwnhPutVg6yIgyd+p2tiVOdtKFfIAu57N3W49/JV5OUdlEg==
+X-Received: by 2002:adf:b304:: with SMTP id j4mr13433209wrd.160.1633342359051; 
+ Mon, 04 Oct 2021 03:12:39 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id g25sm13763949wrc.88.2021.10.04.03.12.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Oct 2021 03:12:38 -0700 (PDT)
+Subject: Re: [PATCH 12/15] iotests: Disable AQMP logging under non-debug modes
+To: John Snow <jsnow@redhat.com>
+References: <20210917054047.2042843-1-jsnow@redhat.com>
+ <20210917054047.2042843-13-jsnow@redhat.com>
+ <e885ae38-5e31-8a89-96d2-10ffab69e373@redhat.com>
+ <CAFn=p-aaU8OK99R8u21SGb0kyOz=RtNy_aZoYnLwoOu6d4WE6A@mail.gmail.com>
+ <CAFn=p-bTtRWdLhMuaQdH=pSy26KytrfXcidO4RePBunXxwUbSA@mail.gmail.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <372c86ac-0061-2d9a-b366-72260d91bd75@redhat.com>
+Date: Mon, 4 Oct 2021 12:12:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20211003164605.3116450-5-maz@kernel.org>
+In-Reply-To: <CAFn=p-bTtRWdLhMuaQdH=pSy26KytrfXcidO4RePBunXxwUbSA@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,148 +101,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
- qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- kernel-team@android.com, kvmarm@lists.cs.columbia.edu
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 03, 2021 at 05:46:04PM +0100, Marc Zyngier wrote:
-> The highmem attribute is nothing but another way to express the
-> PA range of a VM. To support HW that has a smaller PA range then
-> what QEMU assumes, pass this PA range to the virt_set_memmap()
-> function, allowing it to correctly exclude highmem devices
-> if they are outside of the PA range.
-> 
-> Signed-off-by: Marc Zyngier <maz@kernel.org>
-> ---
->  hw/arm/virt.c | 46 +++++++++++++++++++++++++++++++++++-----------
->  1 file changed, 35 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 9d2abdbd5f..a572e0c9d9 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1610,10 +1610,10 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
->      return arm_cpu_mp_affinity(idx, clustersz);
->  }
->  
-> -static void virt_set_memmap(VirtMachineState *vms)
-> +static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
->  {
->      MachineState *ms = MACHINE(vms);
-> -    hwaddr base, device_memory_base, device_memory_size;
-> +    hwaddr base, device_memory_base, device_memory_size, memtop;
->      int i;
->  
->      vms->memmap = extended_memmap;
-> @@ -1628,9 +1628,12 @@ static void virt_set_memmap(VirtMachineState *vms)
->          exit(EXIT_FAILURE);
->      }
->  
-> -    if (!vms->highmem &&
-> -        vms->memmap[VIRT_MEM].base + ms->maxram_size > 4 * GiB) {
-> -        error_report("highmem=off, but memory crosses the 4GiB limit\n");
-> +    if (!vms->highmem)
-> +	    pa_bits = 32;
-> +
-> +    if (vms->memmap[VIRT_MEM].base + ms->maxram_size > BIT_ULL(pa_bits)) {
-> +	    error_report("Addressing limited to %d bits, but memory exceeds it by %llu bytes\n",
-> +			 pa_bits, vms->memmap[VIRT_MEM].base + ms->maxram_size - BIT_ULL(pa_bits));
->          exit(EXIT_FAILURE);
->      }
->      /*
-> @@ -1645,7 +1648,7 @@ static void virt_set_memmap(VirtMachineState *vms)
->      device_memory_size = ms->maxram_size - ms->ram_size + ms->ram_slots * GiB;
->  
->      /* Base address of the high IO region */
-> -    base = device_memory_base + ROUND_UP(device_memory_size, GiB);
-> +    memtop = base = device_memory_base + ROUND_UP(device_memory_size, GiB);
->      if (base < device_memory_base) {
->          error_report("maxmem/slots too huge");
->          exit(EXIT_FAILURE);
-> @@ -1662,9 +1665,17 @@ static void virt_set_memmap(VirtMachineState *vms)
->          vms->memmap[i].size = size;
->          base += size;
->      }
-> -    vms->highest_gpa = (vms->highmem ?
-> -                        base :
-> -                        vms->memmap[VIRT_MEM].base + ms->maxram_size) - 1;
-> +
-> +    /*
-> +     * If base fits within pa_bits, all good. If it doesn't, limit it
-> +     * to the end of RAM, which is guaranteed to fit within pa_bits.
+On 18.09.21 04:14, John Snow wrote:
+>
+>
+> On Fri, Sep 17, 2021 at 8:58 PM John Snow <jsnow@redhat.com 
+> <mailto:jsnow@redhat.com>> wrote:
+>
+>
+>
+>     On Fri, Sep 17, 2021 at 10:30 AM Hanna Reitz <hreitz@redhat.com
+>     <mailto:hreitz@redhat.com>> wrote:
+>
+>         On 17.09.21 07:40, John Snow wrote:
+>         > Disable the aqmp logger, which likes to (at the moment)
+>         print out
+>         > intermediate warnings and errors that cause session
+>         termination; disable
+>         > them so they don't interfere with the job output.
+>         >
+>         > Leave any "CRITICAL" warnings enabled though, those are ones
+>         that we
+>         > should never see, no matter what.
+>
+>         I mean, looks OK to me, but from what I understand (i.e. little),
+>         qmp_client doesn’t log CRITICAL messages, at least I can’t see
+>         any. Only
+>         ERRORs.
+>
+>
+>     There's *one* critical message in protocol.py, used for a
+>     circumstance that I *think* should be impossible. I do not think I
+>     currently use any WARNING level statements.
+>
+>         I guess I’m missing some CRITICAL messages in external
+>         functions called
+>         from qmp_client.py, but shouldn’t we still keep ERRORs?
+>
+>
+>     ...Mayyyyyybe?
+>
+>     The errors logged by AQMP are *almost always* raised as Exceptions
+>     somewhere else, eventually. Sometimes when we encounter them in
+>     one context, we need to save them and then re-raise them in a
+>     different execution context. There's one good exception to this:
+>     My pal, EOFError.
+>
+>     If the reader context encounters EOF, it raises EOFError and this
+>     causes a disconnect to be scheduled asynchronously. *Any*
+>     Exception that causes a disconnect to be scheduled asynchronously
+>     is dutifully logged as an ERROR. At this point in the code, we
+>     don't really know if the user of the library considers this an
+>     "error" yet or not. I've waffled a lot on how exactly to treat
+>     this circumstance. ...Hm, I guess that's really the only case
+>     where I have an error that really ought to be suppressed. I
+>     suppose what I will do here is: if the exception happens to be an
+>     EOFError I will drop the severity of the log message down to INFO.
+>     I don't know why it takes being challenged on this stuff to start
+>     thinking clearly about it, but here we are. Thank you for your
+>     feedback :~)
+>
+>     --js
+>
+>
+> Oh, CI testing reminds me of why I am a liar here.
+>
+> the mirror-top-perms test intentionally expects not to be able to 
+> connect, but we're treated to these two additional lines of output:
+>
+> +ERROR:qemu.aqmp.qmp_client.qemub-2536319:Negotiation failed: EOFError
+> +ERROR:qemu.aqmp.qmp_client.qemub-2536319:Failed to establish session: 
+> EOFError
+>
+> Uh. I guess a temporary suppression in mirror-top-perms, then ...?
 
-We tested that
+Sounds right to me, if that’s simple enough.
 
-  vms->memmap[VIRT_MEM].base + ms->maxram_size
+(By the way, I understand it right that you want to lower the severity 
+of EOFErrors to INFO only on disconnect, right?  Which is why they’re 
+still logged as ERRORs here, because they aren’t occurring on disconnects?)
 
-fits within pa_bits, but here we're setting highest_gpa to
+> In most other cases I rather imagine we do want to see this kind of 
+> output to help give more information about how things have failed -- 
+> they ARE errors. We just happen to not care about them right here.
 
-  ROUND_UP(vms->memmap[VIRT_MEM].base + ms->ram_size, GiB) +
-  ROUND_UP(ms->maxram_size - ms->ram_size + ms->ram_slots * GiB, GiB)
+Well, in fact we do expect them here, so we could even log them, but 
+first I don’t know whether they’re stable enough for that, and second 
+this would break the “choose the AQMP or legacy QMP back-end via an 
+environment variable” thing.
 
-which will be larger. Shouldn't we test memtop instead to make this
-guarantee?
+> The only thing I don't exactly like about this is that it requires 
+> some knowledge by the caller to know to disable it. It makes writing 
+> negative tests a bit more annoying because the library leans so 
+> heavily on yelling loudly when it encounters problems.
 
+Yeah.  I’m afraid I don’t have a good idea on how to convey test writers 
+how to suppress these errors, even if it were a simple one-liner (like 
+`self.vm_b.set_log_threshold(logging.CRITICAL)`)...
 
-> +     */
-> +    if (base <= BIT_ULL(pa_bits)) {
-> +        vms->highest_gpa = base -1;
-> +    } else {
-> +        vms->highest_gpa = memtop - 1;
-> +    }
-> +
->      if (device_memory_size > 0) {
->          ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
->          ms->device_memory->base = device_memory_base;
-> @@ -1860,7 +1871,20 @@ static void machvirt_init(MachineState *machine)
->       * to create a VM with the right number of IPA bits.
->       */
->      if (!vms->memmap) {
-> -        virt_set_memmap(vms);
-> +        ARMCPU *armcpu = ARM_CPU(first_cpu);
+We could start an “iotests tips and tricks” document, but do we want to?
 
-
-I think it's too early to use first_cpu here (although, I'll admit I'm
-always confused as to what gets initialized when...) Assuming we need to
-realize the cpus first, then we don't do that until a bit further down
-in this function. I wonder if it's possible to delay this memmap setup
-until after cpu realization. I see the memmap getting used prior when
-calculating virt_max_cpus, but that looks like it needs to be updated
-anyway to take highmem into account as to whether or not we should
-consider the high gicv3 redist region in the calculation.
-
-> +        int pa_bits;
-> +
-> +        if (object_property_get_bool(OBJECT(first_cpu), "aarch64", NULL)) {
-> +            pa_bits = arm_pamax(armcpu);
-> +        } else if (arm_feature(&armcpu->env, ARM_FEATURE_LPAE)) {
-> +            /* v7 with LPAE */
-> +            pa_bits = 40;
-> +        } else {
-> +            /* Anything else */
-> +            pa_bits = 32;
-> +        }
-> +
-> +        virt_set_memmap(vms, pa_bits);
->      }
->  
->      /* We can probe only here because during property set
-> @@ -2596,7 +2620,7 @@ static int virt_kvm_type(MachineState *ms, const char *type_str)
->      max_vm_pa_size = kvm_arm_get_max_vm_ipa_size(ms, &fixed_ipa);
->  
->      /* we freeze the memory map to compute the highest gpa */
-> -    virt_set_memmap(vms);
-> +    virt_set_memmap(vms, max_vm_pa_size);
->  
->      requested_pa_size = 64 - clz64(vms->highest_gpa);
->  
-> -- 
-> 2.30.2
-> 
-
-Thanks,
-drew
+Hanna
 
 
