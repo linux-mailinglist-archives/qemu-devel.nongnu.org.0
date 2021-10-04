@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B8D54210EF
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 16:07:40 +0200 (CEST)
-Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9986E421109
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 16:10:26 +0200 (CEST)
+Received: from localhost ([::1]:53796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXOd0-00058m-GF
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 10:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43618)
+	id 1mXOfg-0001aO-Df
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 10:10:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1mXOaL-00034c-Ms
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:04:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49182)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mXOdA-0007a6-Kn
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:07:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1mXOaJ-0004Xn-LG
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:04:53 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mXOd6-0006yx-DV
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:07:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633356290;
+ s=mimecast20190719; t=1633356463;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=0oddRFTjgC8wMF4YjBkr/MMEDiG1UVXt9ILG/PBATM0=;
- b=KmjcspXQPlQBeZr+Zslp1tXFESlvDVGPJmrgPrxsM1vth/gzkV6rjf4pqjXUuiG63pMX+t
- JFngejZ35c2XypZ/b3bsB4LP4SRCpSpMScIvkIHL/HUsc3/a3Y44u/qU1IuVrN1dy16ZJX
- 4DhW6m/LYlY4YEvJvcjHJfoA7tSCrLg=
+ in-reply-to:in-reply-to:references:references;
+ bh=M6tr4gP8/4b0wgPof0xpJ58nhrT+wfAV/InySzDTRJ4=;
+ b=PkPBZwfl+gHrC8xOK3WCfzVKD3UfMLmJYCCiLaMWxaRamcklAZT5PXojERclTbUMxu/Osb
+ Qb/HQq0XGMI2goMLTYYCZQqoKe3dcpxwIdBI2Cnida/GhZw8aRlqge3XSBZc8/hFdSxjMT
+ pncZc/LxUHCpsPblQafF/tSCwyaUXBo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-vYNiK0O2MjCFDPEGTellOg-1; Mon, 04 Oct 2021 10:04:49 -0400
-X-MC-Unique: vYNiK0O2MjCFDPEGTellOg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-280-eFQ0ncHwNL6JSSu6Ra-UGw-1; Mon, 04 Oct 2021 10:07:42 -0400
+X-MC-Unique: eFQ0ncHwNL6JSSu6Ra-UGw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BF12802C8A
- for <qemu-devel@nongnu.org>; Mon,  4 Oct 2021 14:04:48 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.194.218])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA03B5D740;
- Mon,  4 Oct 2021 14:04:46 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3] i386: docs: Briefly describe KVM PV features
-Date: Mon,  4 Oct 2021 16:04:45 +0200
-Message-Id: <20211004140445.624875-1-vkuznets@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25ACD100CCC8
+ for <qemu-devel@nongnu.org>; Mon,  4 Oct 2021 14:07:41 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 168DD5BAE7;
+ Mon,  4 Oct 2021 14:07:34 +0000 (UTC)
+Date: Mon, 4 Oct 2021 16:07:32 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 6/6] tests/qapi-schema: Test cases for aliases
+Message-ID: <YVsKpClmGgq5ki7r@redhat.com>
+References: <20210812161131.92017-7-kwolf@redhat.com>
+ <878s09d8pe.fsf@dusky.pond.sub.org> <YTt0G1cs+BweXOMD@redhat.com>
+ <87bl4vedma.fsf@dusky.pond.sub.org> <YUB0BcZUwwwecrFl@redhat.com>
+ <87k0jj8evk.fsf@dusky.pond.sub.org> <YUG71uATYCwpRyQH@redhat.com>
+ <8735q3y5db.fsf@dusky.pond.sub.org> <YUSuThJtW9ar2wCY@redhat.com>
+ <87a6jrimaf.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <87a6jrimaf.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.066, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,147 +80,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM PV features don't seem to be documented anywhere, in particular, the
-fact that some of the features are enabled by default and some are not can
-only be figured out from the code.
+Am 02.10.2021 um 15:33 hat Markus Armbruster geschrieben:
+> I apologize for this wall of text.  It's a desparate attempt to cut
+> through the complexity and my confusion, and make sense of the actual
+> problems we're trying to solve.
+> 
+> So, what problems exactly are we trying to solve?
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
-Changes since "[PATCH v2 0/8] i386: Assorted KVM PV and Hyper-V feature
- improvements" [Paolo Bonzini]:
-- Convert to 'rst' and move to docs/system/i386/kvm-pv.rst.
-- Add information about the version of Linux that introduced the particular
-  PV feature.
----
- docs/system/i386/kvm-pv.rst | 100 ++++++++++++++++++++++++++++++++++++
- docs/system/target-i386.rst |   1 +
- 2 files changed, 101 insertions(+)
- create mode 100644 docs/system/i386/kvm-pv.rst
+I'll start with replying to your final question because I think it's
+more helpful to start with the big picture than with details.
 
-diff --git a/docs/system/i386/kvm-pv.rst b/docs/system/i386/kvm-pv.rst
-new file mode 100644
-index 000000000000..1e5a9923ef45
---- /dev/null
-+++ b/docs/system/i386/kvm-pv.rst
-@@ -0,0 +1,100 @@
-+Paravirtualized KVM features
-+============================
-+
-+Description
-+-----------
-+
-+In some cases when implementing hardware interfaces in software is slow, ``KVM``
-+implements its own paravirtualized interfaces.
-+
-+Setup
-+-----
-+
-+Paravirtualized ``KVM`` features are represented as CPU flags. The following
-+features are enabled by default for any CPU model when ``KVM`` acceleration is
-+enabled:
-+
-+- ``kvmclock``
-+- ``kvm-nopiodelay``
-+- ``kvm-asyncpf``
-+- ``kvm-steal-time``
-+- ``kvm-pv-eoi``
-+- ``kvmclock-stable-bit``
-+
-+``kvm-msi-ext-dest-id`` feature is enabled by default in x2apic mode with split
-+irqchip (e.g. "-machine ...,kernel-irqchip=split -cpu ...,x2apic").
-+
-+Note: when CPU model ``host`` is used, QEMU passes through all supported
-+paravirtualized ``KVM`` features to the guest.
-+
-+Existing features
-+-----------------
-+
-+``kvmclock``
-+  Expose a ``KVM`` specific paravirtualized clocksource to the guest. Supported
-+  since Linux v2.6.26.
-+
-+``kvm-nopiodelay``
-+  The guest doesn't need to perform delays on PIO operations. Supported since
-+  Linux v2.6.26.
-+
-+``kvm-mmu``
-+  This feature is deprecated.
-+
-+``kvm-asyncpf``
-+  Enable asynchronous page fault mechanism. Supported since Linux v2.6.38.
-+  Note: since Linux v5.10 the feature is deprecated and not enabled by ``KVM``.
-+  Use ``kvm-asyncpf-int`` instead.
-+
-+``kvm-steal-time``
-+  Enable stolen (when guest vCPU is not running) time accounting. Supported
-+  since Linux v3.1.
-+
-+``kvm-pv-eoi``
-+  Enable paravirtualized end-of-interrupt signaling. Supported since Linux
-+  v3.10.
-+
-+``kvm-pv-unhalt``
-+  Enable paravirtualized spinlocks support. Supported since Linux v3.12.
-+
-+``kvm-pv-tlb-flush``
-+  Enable paravirtualized TLB flush mechanism. Supported since Linux v4.16.
-+
-+``kvm-pv-ipi``
-+  Enable paravirtualized IPI mechanism. Supported since Linux v4.19.
-+
-+``kvm-poll-control``
-+  Enable host-side polling on HLT control from the guest. Supported since Linux
-+  v5.10.
-+
-+``kvm-pv-sched-yield``
-+  Enable paravirtualized sched yield feature. Supported since Linux v5.10.
-+
-+``kvm-asyncpf-int``
-+  Enable interrupt based asynchronous page fault mechanism. Supported since Linux
-+  v5.10.
-+
-+``kvm-msi-ext-dest-id``
-+  Support 'Extended Destination ID' for external interrupts. The feature allows
-+  to use up to 32768 CPUs without IRQ remapping (but other limits may apply making
-+  the number of supported vCPUs for a given configuration lower). Supported since
-+  Linux v5.10.
-+
-+``kvmclock-stable-bit``
-+  Tell the guest that guest visible TSC value can be fully trusted for kvmclock
-+  computations and no warps are expected. Supported since Linux v2.6.35.
-+
-+Supplementary features
-+----------------------
-+
-+``kvm-pv-enforce-cpuid``
-+  Limit the supported paravirtualized feature set to the exposed features only.
-+  Note, by default, ``KVM`` allows the guest to use all currently supported
-+  paravirtualized features even when they were not announced in guest visible
-+  CPUIDs. Supported since Linux v5.10.
-+
-+
-+Useful links
-+------------
-+
-+Please refer to Documentation/virt/kvm in Linux for additional details.
-diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
-index 6a86d638633a..4daa53c35d8f 100644
---- a/docs/system/target-i386.rst
-+++ b/docs/system/target-i386.rst
-@@ -26,6 +26,7 @@ Architectural features
-    :maxdepth: 1
- 
-    i386/cpu
-+   i386/kvm-pv
-    i386/sgx
- 
- .. _pcsys_005freq:
--- 
-2.31.1
+So tools like libvirt want to have a single consistent interface to
+configure things on startup and at runtime. We also intend to support
+configuration files that should this time support all of the options and
+not just a few chosen ones.
+
+The hypothesis is that QAPIfying the command line is the correct
+solution for both of these problems, i.e. all available command line
+options must be present in the QAPI schema and will be processed by a
+single parser shared with QMP to make sure they are consistent.
+
+Adding QAPIfied versions of individual command line options are steps
+towards this goal. As soon as they exist for every option, the final
+conversion from an open coded getopt() loop (or in fact a hand crafted
+parser in the case of vl.c) to something generated from the QAPI schema
+should be reasonably easy.
+
+You're right that adding a second JSON-based command line interface for
+every option can already achieve the goal of providing a unified
+external interface, at the cost of (interface and code) duplication. Is
+this duplication desirable? Certainly no. Is it acceptable? You might
+get different opinions on this one.
+
+In my opinion, we should try to get rid of hand crafted parsers where
+it's reasonably possible, and take advantage of the single unified
+option structure that QAPI provides. -chardev specifically has a hand
+crafted parser that essentially duplicates the automatically generated
+QAPI visitor code, except for the nesting and some differences in option
+names.
+
+Aliases are one tool that can help bridge these differences in a generic
+way with minimal effort in the individual case. They are not _necessary_
+to solve the problem; we could instead just use manually written code to
+manipulate input QDicts so that QAPI visitors accept them. Even with
+aliases, there are a few things left in the chardev code that are
+converted this way. Aliases just greatly reduce the amount of this code
+and make the conversion declarative instead.
+
+Now a key point in the previous paragraph is that aliases add a generic
+way to do this. So even if they are immediately motivated by -chardev,
+it might be worth looking at other cases they could enable if you think
+that -chardev alone isn't sufficient justification to have this tool.
+I guess this is the point where things become a bit less clear because
+people are just hand waving with vague ideas for additional uses.
+
+Do we need to invest more thought on these other cases? We probably do
+if it makes a difference for the answer to the question whether we want
+to add aliases to our toolbox. Does it?
+
+> But what about the dotted keys argument?
+> 
+> One point of view is the difference between the JSON and the dotted keys
+> argument should be concrete syntax only.  Fine print: there may be
+> arguments dotted keys can't express, but let's ignore that here.
+> 
+> Another point of view is that dotted keys arguments are to JSON
+> arguments what HMP is to QMP: a (hopefully) human-friendly layer on top,
+> where we have a certain degree of freedom to improve on the
+> machine-friendly interface for human use.
+
+This doesn't feel unreasonable because with HMP, there is precedence.
+But this is not all what we have used dotted key syntax for so far. I'm
+not against making a change there if we feel it makes sense, but we
+should be clear that it is a change.
+
+I think we all agree that -blockdev isn't human-friendly. Dotted key
+syntax makes it humanly possible to use it on the command line, but
+friendly is something else entirely. It is still a 1:1 mapping of QMP to
+the command line, and this is how we advertised it, too. This has some
+important advantages, like we don't have a separate parser for a
+human-friendly syntax, but the generic keyval parser covers it.
+
+HMP in contrast means separate code for every command, or translated to
+the CLI for each command line option. HMP is not defined in QAPI, it's
+a separate thing that just happens to call into QAPI-based QMP code in
+the common case.
+
+Is this what you have in mind for non-JSON command line options?
+
+What I had in mind was using the schema to generate the necessary code,
+using the generic keyval parser everywhere, and just providing a hook
+where the QDict could be modified after the keyval parser and before the
+visitor. Most command line options would not have any explicit code for
+parsing input, only the declarative schema and the final option handler
+getting a QAPI type (which could actually be the corresponding QMP
+command handler in the common case).
+
+I think these are very different ideas. If we want HMP-like, then all
+the keyval based code paths we've built so far don't make much sense.
+
+> Both -chardev and QMP chardev-add use the same helpers (there are minor
+> differences that don't matter here).  The former basically translates
+> its flat argument into the latter's arguments.  HMP chardev-add is just
+> like -chardev.
+> 
+> The quickest way to QAPIfy existing -chardev is probably the one we
+> chose for -object: if the argument is JSON, use the new, QAPI-based
+> interface, else use the old interface.
+
+-chardev doesn't quite translate into chardev-add arguments. Converting
+into the input of a QMP command normally means providing a QDict that
+can be accepted by the QAPI-generated visitor code, and then using that
+QAPI parser to create the C object. What -chardev does instead is using
+an entirely separate parser to create the C object directly, without
+going through any QAPI code.
+
+After QAPIfication, both code paths go through the QAPI code and undergo
+the same validations etc.
+
+If we still have code paths that completely bypass QAPI, it's hard to
+call the command line option fully QAPIfied. Of course, if you don't
+care about duplication and inconsistencies between the interfaces,
+though, and just want to achieve the initially stated goal of providing
+at least one interface consistent between QMP and CLI (besides others)
+and a config file, then it might be QAPIfied enough.
+
+> Now the question that matters for this series: how can QAPI aliases
+> help us with the things discussed above?
+
+The translation needs to be implemented somehow. The obvious way is just
+writing, reviewing and maintaining code that manually translates. (We
+don't have this code yet for a fully QAPIfied -chardev. We only have
+code that bypasses QAPI, i.e. translates to the wrong target format.)
+
+Aliases help because they allow reducing the amount of code in favour of
+data, the alias declarations in the schema.
+
+> If we use the flat variation just internally, say for -chardev's dotted
+> keys argument, then introspection is not needed.  We'd use "with
+> aliases" just for translating -chardev's dotted keys argument.
+
+Note that we're doing more translations that just flattening with
+aliases, some options have different names in QMP and the CLI.
+
+But either way, yes, alias support could be optional so that you need to
+explicitly enable it when creating a visitor, and then only the CLI code
+could actually enable it.
+
+Limits the possible future uses for the new tool in our toolbox, but is
+sufficient for -chardev. We can always extend support for it later
+if/when we actually want to make use of it outside of the CLI.
+
+> Valid argument.  CLI with JSON argument should match QMP.  Even when
+> that means both are excessively nested.
+> 
+> CLI with dotted keys is a different matter, in my opinion.
+
+I'm skipping quite a bit of text here, mainly because I think we need an
+answer first if we really want to switch the keyval options to be
+HMP-like in more than just the support status (see above).
+
+Obviously, the other relevant question would then be if it also ends up
+like HMP in that most interesting functionality isn't even available and
+you're forced to use QMP/JSON when you're serious.
+
+I guess I can go into more details once we have answered these
+fundamental questions.
+
+(We could and should have talked about them and about whether you want
+to have aliases at all a year ago, before going into detailed code
+review and making error messages perfect in code that we might throw
+away anyway...)
+
+Kevin
 
 
