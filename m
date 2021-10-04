@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1FD742078D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:47:20 +0200 (CEST)
-Received: from localhost ([::1]:50312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A2C42080E
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:14:59 +0200 (CEST)
+Received: from localhost ([::1]:58012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXJd1-0007e7-QD
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:47:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52364)
+	id 1mXK3k-0001ss-SO
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:14:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mXJNP-0000y3-Oj; Mon, 04 Oct 2021 04:31:11 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:57977)
+ id 1mXJNL-0000kz-Qd; Mon, 04 Oct 2021 04:31:07 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:51613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mXJNN-0003Sz-VX; Mon, 04 Oct 2021 04:31:11 -0400
+ id 1mXJNJ-0003PL-Rc; Mon, 04 Oct 2021 04:31:07 -0400
 Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N8n8I-1mtk1N2rLS-015pRt; Mon, 04
- Oct 2021 10:30:59 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MidPj-1n2mRf24Ix-00fjqG; Mon, 04
+ Oct 2021 10:31:00 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] qemu-options: Add missing "sockets=2,
- maxcpus=2" to CLI "-smp 2"
-Date: Mon,  4 Oct 2021 10:30:53 +0200
-Message-Id: <20211004083055.3288583-4-laurent@vivier.eu>
+Subject: [PULL 4/5] target/sh4: Use lookup_symbol in sh4_tr_disas_log
+Date: Mon,  4 Oct 2021 10:30:54 +0200
+Message-Id: <20211004083055.3288583-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211004083055.3288583-1-laurent@vivier.eu>
 References: <20211004083055.3288583-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+znkSTmwQK7jrUENj3wTiCxx+HnY6rkxtDVH2yuFsyrGiTlxdTL
- JogxXdvf2SUwG2q6H9oNMi7KlBfj9eRvsOnuLvXxTxuOYMlELcPpuBaBttsEjFTf1mmLGoI
- bmw7ke5swDN6mSNvAQQLECzgAbfzhQUqZWehhw3ZGOmjWVUJdRHRpj3F68u2OCpW/VRmK68
- 4My20gLsAB1NOCc9IxW3Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XVfK7VzuVrY=:B0FDukSSKCIDQCJHw6m/IO
- 3QODWu9UOFKVkteg0MxFWTG7yTngU+krxYIR6Oi7ypLqhTLq4mM8zNZOoxPT7ulyjPeiANBNV
- n3rBwXMkCwxKmIPZybST6zR4Fp9K87mMvk3ML5NY43TuWXZXyQT5YrluRi0ZOkO9DUH7h8s/y
- EkUDNuvAk+sBZvYlQ6NtsbHzhLbNMklQwKT5I/JFfPtVpgB9nxcb9PUKKgA5zlVcPQ0VePgsZ
- h6ndHF+JssgGs5cUfjm9//bXe8y3UnMWJmc/Ggpn9CYzII+PbOJEDLrvzqszN0o6eHZ1Z+D52
- im9gy3j3QUA9i/n9mVHA0YZaNkv3/oJtJSpZ+0j3XznokmpJ62vIiJJ2mdY3bNCURXBYFXwiL
- fvhS7S62DyeEbqIbIXV2Fj4CqZcijq8eznJd29zqkmpEmX4AIgWydCA3vKgpYlYcJoUWMgxdo
- fJI0t701ciuKR+yPPou4WkzBXT7qpq1OHLtUB2qTYijwL0cnR7ag4PWotOjKDqEwuwBM/9NnY
- k+Df5IwxP9QaNC6ynzU0nKfv5xibyL41fgeFmoom5w3oQky0DVlqJSabCLUmj/UUWdWWJr5Aw
- nBHIKgKfGMBsiLSfwKHozscBEwk/rleSW1rijezybwoRTkQ7TkoLE80YWhlhfBG9uuyVIeLHH
- 8xls08xXuSnRMVzu25We0hQ+HYnMR01Rc0ZqMcN9DHt6noz8fFlconHZ6cXz08CY7Z5yZb3oE
- od3+/lD+k90F3KiLpYJozuj3kyYXJP7F4H+cdg==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:4uI2WHJk9zyqMIbJrZ9W7KItDwGSsCuYd+MssQ7tlhIWre6M5AV
+ FxGokRYjXOUJN8IkIp/ubMvF/qTtcyH/HkcNauBoLSpAXR6VpCB5WmVQykDawu1Cg+amK6B
+ gEAWYIN3nbtZ3A3bcj2vurkcag/6lI9ZEed6IgWQW6YXI3ALbAd5q/dPLpfdeSTlIEfDgyU
+ OSBI6P/blIaN8IyAX/Lew==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wJoxhJ4bvkU=:NxIgQnvRuxUVZq94gkj/3R
+ 1s0uyMuwgdup0L2dl7CuE3UQZeKvfNkF4r9Srp4zkrd/uDPpweRuF5ctzZjHjMCUyn/wDVRw2
+ RNZI6Ad+XAa9uB+6fUYfttfe79WmG6014RCGThZ57vMsSXn6M0YSGM0gy9CMxBhgM9ykc7dRE
+ 5cnwRCcDnU+RJnrZNWZFcMKGI78CaTDKoolChrGGDxFN4kghT6F1/CbceCjMUr5o4U9HjP4pU
+ 4QnOiSnbUtqRn9xhnLH9eN+eb5WKMvpWJeS/2I8fIupFIeeFwMZjquIUdKmQlfs11saBngvXD
+ aSarjtRPKEd/clzYyvvnR8YX+DqukgEFlA0R0J6ycEILRPDk+84dplcqHDeFcS5HCXi823a3B
+ jO/smKItspJpnke5d4gi+iZ60HNErc430HTqIGhrcxvD+FPvlJfrRNNrYhTNF+7L6dVDH5CEs
+ m0CaoqZxKPN/naxkzgmhWpG4FnwkoujZ8nHvHJr2VBryAQp3UoWvqqIkRErwFznHufEUfJl1q
+ tUOy1mVAumCFmhle67kFGDncoeCmTHA+lIPQdhEAPz0ThaNCjaDqvuiwK8hnCx/rB1wZ/4Hpb
+ UV5o9I4ULsYph5R7F8jxdkrPJFaiQkTd1Vp2SFSnUMgKFSHlZ52F1YOPj0/YB9Stoc/pqxtpu
+ nCsEUipIo3qQZvT5UZtU/5OmsqeseTvqkK9xjvdE/Z5gIFxqhkFChIH8Tg4GJUgeasLEuF9BB
+ 3+UI03p46bDeaJjuKobxGoJcP6WzfuOmQHP4Vw==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: 0
+X-Spam_score: -0.0
+X-Spam_bar: /
+X-Spam_report: (-0.0 / 5.0 requ) RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,49 +67,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Yanan Wang <wangyanan55@huawei.com>,
- Philippe Mathieu-Daude <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yanan Wang <wangyanan55@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-There is one numa config example in qemu-options.hx currently
-using "-smp 2" and assuming that there will be 2 sockets and
-2 cpus totally. However now the actual calculation logic of
-missing sockets and cores is not immutable and is considered
-liable to change. Although we will get maxcpus=2 finally based
-on current parser, it's always stable to specify it explicitly.
+The correct thing to do has been present but commented
+out since the initial commit of the sh4 translator.
 
-So "-smp 2,sockets=2,maxcpus=2" will be optimal when we expect
-multiple sockets and 2 cpus totally.
-
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-Reviewed-by: Philippe Mathieu-Daude <philmd@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Message-Id: <20210928121134.21064-3-wangyanan55@huawei.com>
+Fixes: fdf9b3e831e
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210929130316.121330-1-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- qemu-options.hx | 2 +-
+ target/sh4/translate.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index bba1ef973fec..5f375bbfa666 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -401,7 +401,7 @@ SRST
-         -m 2G \
-         -object memory-backend-ram,size=1G,id=m0 \
-         -object memory-backend-ram,size=1G,id=m1 \
--        -smp 2 \
-+        -smp 2,sockets=2,maxcpus=2 \
-         -numa node,nodeid=0,memdev=m0 \
-         -numa node,nodeid=1,memdev=m1,initiator=0 \
-         -numa cpu,node-id=0,socket-id=0 \
+diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+index cf5fe9243d6c..d36305027240 100644
+--- a/target/sh4/translate.c
++++ b/target/sh4/translate.c
+@@ -2344,7 +2344,7 @@ static void sh4_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+ 
+ static void sh4_tr_disas_log(const DisasContextBase *dcbase, CPUState *cs)
+ {
+-    qemu_log("IN:\n");  /* , lookup_symbol(dcbase->pc_first)); */
++    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
+     log_target_disas(cs, dcbase->pc_first, dcbase->tb->size);
+ }
+ 
 -- 
 2.31.1
 
