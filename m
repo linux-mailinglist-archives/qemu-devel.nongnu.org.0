@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D41C4207CF
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:04:47 +0200 (CEST)
-Received: from localhost ([::1]:36340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A184207F3
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:11:58 +0200 (CEST)
+Received: from localhost ([::1]:50978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXJtu-0003bI-3e
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:04:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56552)
+	id 1mXK0r-0005Tb-Lu
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:11:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXJjS-0002ru-K3
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:54:00 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:33181)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXJmb-0001dm-14
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:57:13 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:34133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXJjM-00034K-J0
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:53:54 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXJmY-00016Z-QJ
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:57:12 -0400
 Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MNbtF-1m8nn30wYt-00P44e; Mon, 04 Oct 2021 10:53:50 +0200
-Subject: Re: [PATCH 04/12] macfb: use memory_region_init_ram() in
- macfb_common_realize() for the framebuffer
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MY6TD-1mJHw14ApR-00YQ4P; Mon, 04 Oct 2021 10:57:09 +0200
+Subject: Re: [PATCH 05/12] macfb: add trace events for reading and writing the
+ control registers
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
- <20211002110007.30825-5-mark.cave-ayland@ilande.co.uk>
+ <20211002110007.30825-6-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <19376047-965a-fb88-f29e-3e4ee6deef50@vivier.eu>
-Date: Mon, 4 Oct 2021 10:53:49 +0200
+Message-ID: <950e797e-f791-eec1-718f-79e6b2f3793a@vivier.eu>
+Date: Mon, 4 Oct 2021 10:57:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20211002110007.30825-5-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20211002110007.30825-6-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:twxSEGXxoKdnY2wdoyhHjoBbN0MjAh8miaKs/BMWbqqiQvaEkjP
- DMsGrGVM2eQxqLcAkysmDmNqiUiVvjSqM6My3x24xRHgZpGvPavEDIC8l84xJWvbBKOq/0c
- 0R74y6BpCmQjZOMDGxtPUXbqcVtzk8WjMbyzXi0fWWqwJJ2Q6wOZ/4jaLrghmW7eCUiZCfV
- giAg4uJeiEWw8/jZPn2Uw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bg8EY5ZTDzI=:CJq+jAC6w9qPMPDQWErJPL
- nD1zWujqEjKSIUKVnO9NayfZ/Ws6reLXvmcCBMxb6/93R59drkv0eFvk8Phsja1Xma9Nj3sC4
- 8t6lzgx+rTqEwnkJT2c/xxgWPQL4T83ZwHtVpNaR7p5K8qTGOE4ICQaO7bQoHJ8AvPGiibtB9
- DsIATsQRidH5Iz0V0onAGJjlIXd8GkZ1C9CYxVLpcpvD41woXZ3wtEM0w9y4T10M6KMA12O9D
- p9Y+DhIjRBsQMiz1YUkpvs2+P7QgO2cBroEFFuk8egfCGzfkb80pkHI44XQO4zzKcwn6F8ySi
- 6q4vwBP8fr+StrkhPiBAiDglJXyacHveewJc1nJr+mS2ZVt4PVVnKU8AOIt9YBnlm2o/56Gu/
- H9W4Co0ZoZ383tMm2sdxCcbhhhbL9vnpVLySZfRF5yMWPI7fmUrreKJBRgeyi3NMoj61fd2vr
- XAUw37bZdRi93R1OeBmLSxnHC32dF7kuXQt+/Hj8hZHcHahm/lrcEmO8/3G9Ap4gy5Vjjig/f
- NhCKSAOWmQiP+Mkql2XNO6fbhqjNq6iGU4n3dj7H4jxATnswAErhKbp//9OIcap6mxp5uCQXQ
- KQ1RGq97RpTFUyglNvYRcj3gXvUGzlhS6bBrgyC6AoBjvWmYEL+rvXs1tQGeIV1KLV6Jb5b2c
- wCnK/LLv9vGxNaCvJ/ml7HWaBueGDA+rffLASzGTcPWO2M7g91D19MfCux70M6ThyZPx4oDBs
- MCUP+yAJMolf7O+8BC6slEudi/tqeoN5xQFZLg==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:3Ty1+ei0LTk561a0vtj6B3INdsaVBJIIC3ZgJcgbFzp3Sl6G8UV
+ JvC79An3NXOroIRFbWorgLEKAO/JsvpZtfVIGoDgudJYqsAiGZtMo7yUtOJ/uhMMOhV5F9J
+ eA7KMcKNyBsgAOBgN6PXgh+xxAxUAlIfKhrr3W6ufdiFU5cw3famNy3+L1KY2WoHuSSPpj6
+ JbsATpgnj3XexcKq0jcGg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pdVh5ViafFk=:6HKPMrWXw7xDDu4TQ+Hc6B
+ YkxGu8q0ZxSjJAYQijhkH6O1cbdIQ42dfs/yTLGr2rmADqgOPfd2OSYYqDa1O++itEZHvvqw8
+ t2GSKfKtu9mhSKLtctSo7uR1v2jXk3YdfIA2y5ZzLwvYJQDldwTn4CvKP8It09CQ61ApHNFfk
+ LK32EXO7+CAicrMTv350aB3+iskJA6q07TqPqQmZRMPG9AE0MwZz+/yPFO8/R5j2nMoWjxCz0
+ 1Wu4iLKieUfZi2aYPAVz/3kee9DMHxAaB40v1ZwtVC0+31pbIcW3fqwrGzibXhRIjc6vWjQ5f
+ 0Ub2XkWlmyjFZlCnErgsx92CNOUzo0TVTd0hbSGgD6JQ0c9dLeyJVs/420+/q7xAU2DNP0QNF
+ 8+NXpUa/swnL+BuCUW5rjMOkq9hre4Yh3HPOUEHVnXaMZDXQ5wqylacl+uqUireKtEecwSplz
+ D/0n+L2zNMK/pz1nnwGXvDSNWBeymjlYnD29EDy1LdSCOViabijX8sfLcZ9MqtmerDPq8kUur
+ H6ufNfRLZ/ASDW6HoP1PCsrVW3w3y0DgqcLLC/9Kj4Kl3jPXnHAVUB0zq3YgRtlKWQz0rjOt5
+ adEsadx7liyHWgD3H0wqM+hmUHCtGPPW0NkSJjHVppEFo1fZpCDS3V9gFVEjFRuNy/Bd64/jb
+ 3F2puBaKOs/oDmhXIYn8Sss1Cb6R9hOMdCPfCf5z/8UUoY/7dZuaKdXEMHzynM3u5H1dlF9iM
+ YLu3XdoxGf6VqIBtVgL0VClX1Wd8XApd863iYQ==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,36 +74,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/10/2021 à 12:59, Mark Cave-Ayland a écrit :
-> Currently macfb_common_realize() defines the framebuffer RAM memory region as
-> being non-migrateable but then immediately registers it for migration. Replace
-> memory_region_init_ram_nomigrate() with memory_region_init_ram() which is clearer
-> and does exactly the same thing.
-> 
+Le 02/10/2021 à 13:00, Mark Cave-Ayland a écrit :
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/display/macfb.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  hw/display/macfb.c      | 8 +++++++-
+>  hw/display/trace-events | 4 ++++
+>  2 files changed, 11 insertions(+), 1 deletion(-)
 > 
 > diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-> index f4e789d0d7..e86fbbbb64 100644
+> index e86fbbbb64..62c2727a5b 100644
 > --- a/hw/display/macfb.c
 > +++ b/hw/display/macfb.c
-> @@ -368,11 +368,10 @@ static void macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
->      memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &macfb_ctrl_ops, s,
->                            "macfb-ctrl", 0x1000);
+> @@ -20,6 +20,7 @@
+>  #include "qapi/error.h"
+>  #include "hw/qdev-properties.h"
+>  #include "migration/vmstate.h"
+> +#include "trace.h"
 >  
-> -    memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(dev), "macfb-vram",
-> -                                     MACFB_VRAM_SIZE, errp);
-> +    memory_region_init_ram(&s->mem_vram, OBJECT(dev), "macfb-vram",
-> +                           MACFB_VRAM_SIZE, errp);
->      s->vram = memory_region_get_ram_ptr(&s->mem_vram);
->      s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
-> -    vmstate_register_ram(&s->mem_vram, dev);
->      memory_region_set_coalescing(&s->mem_vram);
+>  #define VIDEO_BASE 0x00001000
+>  #define DAFB_BASE  0x00800000
+> @@ -289,7 +290,10 @@ static uint64_t macfb_ctrl_read(void *opaque,
+>                                  hwaddr addr,
+>                                  unsigned int size)
+>  {
+> -    return 0;
+> +    uint64_t val = 0;
+> +
+> +    trace_macfb_ctrl_read(addr, val, size);
+> +    return val;
 >  }
 >  
+>  static void macfb_ctrl_write(void *opaque,
+> @@ -312,6 +316,8 @@ static void macfb_ctrl_write(void *opaque,
+>          }
+>          break;
+>      }
+> +
+> +    trace_macfb_ctrl_write(addr, val, size);
+>  }
+>  
+>  static const MemoryRegionOps macfb_ctrl_ops = {
+> diff --git a/hw/display/trace-events b/hw/display/trace-events
+> index f03f6655bc..be1353e8e7 100644
+> --- a/hw/display/trace-events
+> +++ b/hw/display/trace-events
+> @@ -167,3 +167,7 @@ sm501_disp_ctrl_read(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
+>  sm501_disp_ctrl_write(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
+>  sm501_2d_engine_read(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
+>  sm501_2d_engine_write(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
+> +
+> +# macfb.c
+> +macfb_ctrl_read(uint64_t addr, uint64_t value, int size) "addr 0x%"PRIx64 " value 0x%"PRIx64 " size %d"
+> +macfb_ctrl_write(uint64_t addr, uint64_t value, int size) "addr 0x%"PRIx64 " value 0x%"PRIx64 " size %d"
 > 
+
+As suggested by Philippe: size is unsigned
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
