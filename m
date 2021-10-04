@@ -2,92 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C93844208DE
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:58:44 +0200 (CEST)
-Received: from localhost ([::1]:60506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9AC4208C7
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:52:44 +0200 (CEST)
+Received: from localhost ([::1]:43098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXKk7-0004DG-Ra
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42576)
+	id 1mXKeJ-0000kT-Em
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:52:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mXKVs-000852-1y
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:44:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47119)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mXKVq-0005aT-3w
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:43:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633340636;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0w39iwZL8gvicgyPooaD5FpALkAwpdEE4DsuepooYI8=;
- b=XZ9tkyxVSoK2bVNJKblETrQn+CaM+OMDeZJyN2Jk3pJ5ynymtlg66oY+juyhPs+4sBstwd
- 4TTU1Xp+baqm6+aBRM57xerR43LdGHV9L9uUAOrnJi110IChs297gkZqS2Q2OU7c9DSbeD
- nFh90jdZMqt6LfuYnQSYLTyP98tbDEE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-544-5dz0IwL9OLeUsZhEtLThQg-1; Mon, 04 Oct 2021 05:43:55 -0400
-X-MC-Unique: 5dz0IwL9OLeUsZhEtLThQg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 129-20020a1c1987000000b0030cd1616fbfso9726336wmz.3
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 02:43:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mXKbV-0006O1-VJ
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:49:50 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:36652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mXKbT-0001wG-0W
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:49:49 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id l7so38856115edq.3
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 02:49:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Wx/PjAyfkj4ohI4PJ7Vi/Y2903RdRJzTnW/zD2NVT8Q=;
+ b=HJCf+LZcSdCACyZOwcljutk4YkhhN1Ul94AVr+2ARfJWDa3wZdXZu7dbaGrpfEetVn
+ xprfl/USgA5W+DQSUyKDqRM+NOXaqCwOFJAyfOaAViZUe0NFv0Vc16SfS+2M1s1Ho1v/
+ S+XXtux7+Wj3VkTXvD5I+oNMEjisJc6ykyeDAY8reNfaFH5j9dahC2iJqULN9fZLZcXr
+ mlhx0AHqUjgpvVYya16TtwkyAf/zVcB41MqFdx0lpX6VBcfevu6AaXbCjJ8YYPmYg0ZZ
+ MG38SHIDK53ztqT2YevpAEqOj1Ldztsvltp0gcN1K9pH2qw1OirB7vnmaq1F0re7y+H0
+ hGCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=0w39iwZL8gvicgyPooaD5FpALkAwpdEE4DsuepooYI8=;
- b=W5xH/tlnELiJrfJJROEyWrE39CIck1AYzRK3HCU2W1rbl+XIB4YlxkZo50MWh0paEL
- c+HPXzT/P3ZPlkEzwKKdG74ybKSMBXF81l+m7ILVG/SFSOpmg85Op4UxoZNGr/hCFVSD
- 68WfYjLuTIrhKkY/nUdhfJC1I+67/RHoEpGQ+mu9u+7PDpD/RRkUQFV63bq3E5ahgyz3
- FFAlXL+aF6tOk6e9kQW2X6WJ+6+dVuxY9HutSWFPliaNYTYlEb6CrQm3F1RV1eIP866l
- VqaWSDfeQqZc5zi6K9mk2zSY5UAqpmKbg5LkhRjfGokvXJPlfq/ijxZYiP4mc1zciTOk
- W/iw==
-X-Gm-Message-State: AOAM532ZE8b0kw3net+V4p4QTbg+9FXRfql/efhVywPvlWD3unWsCWWX
- Gppu52SBXOPnDVwzA4ZnOfT8XQZLt6xcuy3WG484aOPpdyBOZ7VI5j8j0ehPzLGwmUVNMviydKI
- VPhu+mOXptmf9Pe4=
-X-Received: by 2002:a5d:64cd:: with SMTP id f13mr12864239wri.419.1633340634232; 
- Mon, 04 Oct 2021 02:43:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx2toZeFchBC5qKp08MtJRtNypaWbeyJUVEMyu8wR7I9yJlYdOyd8qHTMNjXS2cZxvIADy/qQ==
-X-Received: by 2002:a5d:64cd:: with SMTP id f13mr12864224wri.419.1633340633976; 
- Mon, 04 Oct 2021 02:43:53 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
- by smtp.gmail.com with ESMTPSA id z17sm13937428wrr.49.2021.10.04.02.43.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Oct 2021 02:43:53 -0700 (PDT)
-Subject: Re: [PATCH 10/15] python/machine: Add support for AQMP backend
-To: John Snow <jsnow@redhat.com>
-References: <20210917054047.2042843-1-jsnow@redhat.com>
- <20210917054047.2042843-11-jsnow@redhat.com>
- <4c307fd7-850f-908e-0a51-d5a5bb99a04f@redhat.com>
- <CAFn=p-apQ9GkJhfuJRNeyAvzqS9snz=g3T9Lkh_=_oEh+XEtUA@mail.gmail.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <32707468-2abe-d0af-2ff5-261bfdba2dcc@redhat.com>
-Date: Mon, 4 Oct 2021 11:43:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=Wx/PjAyfkj4ohI4PJ7Vi/Y2903RdRJzTnW/zD2NVT8Q=;
+ b=a1T22rNmfWO5VdOVM3ZhT3X9V4SQ3fRyUyIfgPx59YrtWIPQm3xA3V/2RtDXREPQZM
+ RRhTSZlTonoelNEF1vMk7h4eYj8H0beFii7PHwuRA/qI/ESmS4MSX36RlN7qYrptV7Wc
+ LfDhmC7jwQLPO+PJq2yA2eqdEb8aqH+EIvZaehUeKZOkJwuYlEPImFKLC7RU9dzfOE+I
+ hUBfQxt+qDqIQ5hzmX8Sx6XYUlh6T+jNCd0hEDe40LK0CMFKIbQd+ZObO+eyhG1S5C0k
+ HkA8I/bL6CidUK+pHZYPvZMaJErYdRpKvg6I7DD00KVeuyg/pCqF3vp4pgtDZunLFe44
+ H8UQ==
+X-Gm-Message-State: AOAM533WOpPPi74o/zZcbUP98QbcaXag40vKddlDSbc+koXfYUDkk4GX
+ RKw4Y4efkXaJTKI53xgVsLNfJ/rQAA8=
+X-Google-Smtp-Source: ABdhPJxpJuRMcOdCNyOZpe2pNEMNWCOj5uOuD9x+EFiKpV0u84SiT4ZTiP14FyiZJR3msavbRtRHWQ==
+X-Received: by 2002:a17:906:d196:: with SMTP id
+ c22mr15810788ejz.231.1633340985432; 
+ Mon, 04 Oct 2021 02:49:45 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id f4sm6264768ejf.61.2021.10.04.02.49.43
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Oct 2021 02:49:45 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 5/5] meson: show library versions in the summary
+Date: Mon,  4 Oct 2021 11:49:43 +0200
+Message-Id: <20211004094943.92925-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211004093053.87883-1-pbonzini@redhat.com>
+References: <20211004093053.87883-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFn=p-apQ9GkJhfuJRNeyAvzqS9snz=g3T9Lkh_=_oEh+XEtUA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,191 +85,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18.09.21 01:48, John Snow wrote:
->
->
-> On Fri, Sep 17, 2021 at 10:16 AM Hanna Reitz <hreitz@redhat.com 
-> <mailto:hreitz@redhat.com>> wrote:
->
->     On 17.09.21 07:40, John Snow wrote:
->     > To use the AQMP backend, Machine just needs to be a little more
->     diligent
->     > about what happens when closing a QMP connection. The operation
->     is no
->     > longer a freebie in the async world.
->     >
->     > Because async QMP continues to check for messages
->     asynchronously, it's
->     > almost certainly likely that the loop will have exited due to
->     EOF after
->     > issuing the last 'quit' command. That error will ultimately be
->     bubbled
->     > up when attempting to close the QMP connection. The manager
->     class here
->     > then is free to discard it if it was expected.
->     >
->     > Signed-off-by: John Snow <jsnow@redhat.com
->     <mailto:jsnow@redhat.com>>
->     >
->     > ---
->     >
->     > Yes, I regret that this class has become quite a dumping ground for
->     > complexity around the exit path. It's in need of a refactor to help
->     > separate out the exception handling and cleanup mechanisms from the
->     > VM-related stuff, but it's not a priority to do that just yet -- but
->     > it's on the list.
->     >
->     > ---
->     >   python/qemu/machine/machine.py | 51
->     ++++++++++++++++++++++++++++++----
->     >   1 file changed, 46 insertions(+), 5 deletions(-)
->     >
->     > diff --git a/python/qemu/machine/machine.py
->     b/python/qemu/machine/machine.py
->     > index 6e58d2f951..8f5a6649e5 100644
->     > --- a/python/qemu/machine/machine.py
->     > +++ b/python/qemu/machine/machine.py
->     > @@ -342,9 +342,15 @@ def _post_shutdown(self) -> None:
->     >           # Comprehensive reset for the failed launch case:
->     >           self._early_cleanup()
->     >
->     > -        if self._qmp_connection:
->     > -            self._qmp.close()
->     > -            self._qmp_connection = None
->     > +        try:
->     > +            self._close_qmp_connection()
->     > +        except Exception as err:  # pylint: disable=broad-except
->     > +            LOG.warning(
->     > +                "Exception closing QMP connection: %s",
->     > +                str(err) if str(err) else type(err).__name__
->     > +            )
->     > +        finally:
->     > +            assert self._qmp_connection is None
->     >
->     >           self._close_qemu_log_file()
->     >
->     > @@ -420,6 +426,31 @@ def _launch(self) -> None:
->     > close_fds=False)
->     >           self._post_launch()
->     >
->     > +    def _close_qmp_connection(self) -> None:
->     > +        """
->     > +        Close the underlying QMP connection, if any.
->     > +
->     > +        Dutifully report errors that occurred while closing,
->     but assume
->     > +        that any error encountered indicates an abnormal
->     termination
->     > +        process and not a failure to close.
->     > +        """
->     > +        if self._qmp_connection is None:
->     > +            return
->     > +
->     > +        try:
->     > +            self._qmp.close()
->     > +        except EOFError:
->     > +            # EOF can occur as an Exception here when using the
->     Async
->     > +            # QMP backend. It indicates that the server closed the
->     > +            # stream. If we successfully issued 'quit' at any
->     point,
->     > +            # then this was expected. If the remote went away
->     without
->     > +            # our permission, it's worth reporting that as an
->     abnormal
->     > +            # shutdown case.
->     > +            if not self._has_quit:
->     > +                raise
->     > +        finally:
->     > +            self._qmp_connection = None
->     > +
->     >       def _early_cleanup(self) -> None:
->     >           """
->     >           Perform any cleanup that needs to happen before the VM
->     exits.
->     > @@ -461,8 +492,18 @@ def _soft_shutdown(self, timeout:
->     Optional[int]) -> None:
->     >
->     >           if self._qmp_connection:
->     >               if not self._has_quit:
->     > -                # Might raise ConnectionReset
->     > -                self.qmp('quit')
->     > +                try:
->     > +                    # May raise ExecInterruptedError or
->     StateError if the
->     > +                    # connection dies or has already died.
->     > +                    self.qmp('quit')
->     > +                finally:
->     > +                    # If 'quit' fails, we'll still want to call
->     close(),
->     > +                    # which will raise any final errors that
->     may have
->     > +                    # occurred while trying to send 'quit'.
->     > +                    self._close_qmp_connection()
->     > +            else:
->     > +                # Regardless, we want to tidy up the socket.
->     > +                self._close_qmp_connection()
->
->     Why can’t we wait for _post_shutdown to do that?  Has it something
->     to do
->     with this operation being “no longer a freeby” (I’m not quite sure
->     what
->     this refers to, execution time, or the set of possible exceptions, or
->     perhaps something else entirely), and so we want to do it in the
->     already-not-instantaneous _soft_shutdown?
->
->     Hanna
->
->
-> I wrote that commit message too casually.
->
-> By "freebie", I meant that closing a simple sync socket does not have 
-> any potential for raising an error, so we don't really have to worry 
-> about that operation failing. The async machinery, by comparison, uses 
-> the disconnection point as its synchronization point where it gathers 
-> the final results from its various execution contexts (the reader, 
-> writer, and disconnection tasks).
->
-> The likeliest error to see here would be something like EOFError for 
-> QEMU hanging up before disconnect() was called. Other possible errors 
-> would be stuff from deep in the internals of AQMP that very likely 
-> means there's a bug I need to resolve -- so I was afraid of just 
-> wholesale silencing such things. (Hence the logged warning in the 
-> _post_shutdown method. I genuinely don't expect to see anything there, 
-> but I am paranoid and wanted to be rock-solid sure that any problems 
-> are visible.) It is also possible that if QEMU were to send a garbled 
-> and unprompted message after 'quit' succeeded (For example, a 
-> malformed SHUTDOWN event) that this would also enqueue an error to be 
-> shown here at this point.
->
-> One of the design points of AQMP is that calling 
-> QMPClient.disconnect() is necessary to reset the client to a fully 
-> IDLE state to where it can be re-used for a subsequent connection. It 
-> serves double-duty as both disconnect *and* results gathering. So I 
-> wanted to make sure to call it here while we still had the opportunity 
-> to report an "Abnormal Shutdown" instead of potentially choking later 
-> during the post-shutdown and failing to do resource cleanup.
->
-> Good: if shutdown() succeeds, you can rest well knowing that 
-> definitely nothing weird happened.
-> Bad: There's a lot of complexity inherent in promising that.
->
-> Clear as mud?
+Meson 0.57 allows passing external programs and dependency objects
+to summary().  Use this to show library versions and paths in the
+summary.
 
-Yep, that makes sense.  Thanks!
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build | 112 +++++++++++++++++++++++++---------------------------
+ 1 file changed, 54 insertions(+), 58 deletions(-)
 
-(Seems like you intend to send a v2, so I think I’ll refrain from giving 
-a rather haphazard R-b now, because two weeks later I forgot whether I 
-was originally confident enough to give one were it now for that bit 
-here...)
-
-Hanna
+diff --git a/meson.build b/meson.build
+index 17e77fe4ef..7b596fdcd9 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2859,13 +2859,13 @@ summary_info = {}
+ summary_info += {'git':               config_host['GIT']}
+ summary_info += {'make':              config_host['MAKE']}
+ summary_info += {'python':            '@0@ (version: @1@)'.format(python.full_path(), python.language_version())}
+-summary_info += {'sphinx-build':      sphinx_build.found()}
++summary_info += {'sphinx-build':      sphinx_build}
+ if config_host.has_key('HAVE_GDB_BIN')
+   summary_info += {'gdb':             config_host['HAVE_GDB_BIN']}
+ endif
+ summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
+ if targetos == 'windows' and config_host.has_key('CONFIG_GUEST_AGENT')
+-  summary_info += {'wixl':            wixl.found() ? wixl.full_path() : false}
++  summary_info += {'wixl':            wixl}
+ endif
+ if slirp_opt != 'disabled' and 'CONFIG_SLIRP_SMBD' in config_host
+   summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
+@@ -2956,7 +2956,7 @@ if get_option('cfi')
+   summary_info += {'CFI debug support': get_option('cfi_debug')}
+ endif
+ summary_info += {'strip binaries':    get_option('strip')}
+-summary_info += {'sparse':            sparse.found() ? sparse.full_path() : false}
++summary_info += {'sparse':            sparse}
+ summary_info += {'mingw32 support':   targetos == 'windows'}
+ 
+ # snarf the cross-compilation information for tests
+@@ -3028,19 +3028,19 @@ if have_block
+   summary_info += {'vvfat support':     config_host.has_key('CONFIG_VVFAT')}
+   summary_info += {'qed support':       config_host.has_key('CONFIG_QED')}
+   summary_info += {'parallels support': config_host.has_key('CONFIG_PARALLELS')}
+-  summary_info += {'FUSE exports':      fuse.found()}
++  summary_info += {'FUSE exports':      fuse}
+ endif
+ summary(summary_info, bool_yn: true, section: 'Block layer support')
+ 
+ # Crypto
+ summary_info = {}
+ summary_info += {'TLS priority':      config_host['CONFIG_TLS_PRIORITY']}
+-summary_info += {'GNUTLS support':    gnutls.found()}
+-summary_info += {'GNUTLS crypto':     gnutls_crypto.found()}
+-# TODO: add back version
+-summary_info += {'libgcrypt':         gcrypt.found()}
+-# TODO: add back version
+-summary_info += {'nettle':            nettle.found()}
++summary_info += {'GNUTLS support':    gnutls}
++if gnutls.found()
++  summary_info += {'  GNUTLS crypto':   gnutls_crypto.found()}
++endif
++summary_info += {'libgcrypt':         gcrypt}
++summary_info += {'nettle':            nettle}
+ if nettle.found()
+    summary_info += {'  XTS':             xts != 'private'}
+ endif
+@@ -3052,76 +3052,72 @@ summary(summary_info, bool_yn: true, section: 'Crypto')
+ # Libraries
+ summary_info = {}
+ if targetos == 'darwin'
+-  summary_info += {'Cocoa support':   cocoa.found()}
++  summary_info += {'Cocoa support':   cocoa}
+ endif
+-# TODO: add back version
+-summary_info += {'SDL support':       sdl.found()}
+-summary_info += {'SDL image support': sdl_image.found()}
+-# TODO: add back version
+-summary_info += {'GTK support':       gtk.found()}
+-summary_info += {'pixman':            pixman.found()}
+-# TODO: add back version
+-summary_info += {'VTE support':       vte.found()}
+-# TODO: add back version
+-summary_info += {'slirp support':     slirp_opt == 'disabled' ? false : slirp_opt}
+-summary_info += {'libtasn1':          tasn1.found()}
+-summary_info += {'PAM':               pam.found()}
+-summary_info += {'iconv support':     iconv.found()}
+-summary_info += {'curses support':    curses.found()}
+-# TODO: add back version
+-summary_info += {'virgl support':     virgl.found()}
+-summary_info += {'curl support':      curl.found()}
+-summary_info += {'Multipath support': mpathpersist.found()}
+-summary_info += {'VNC support':       vnc.found()}
++summary_info += {'SDL support':       sdl}
++summary_info += {'SDL image support': sdl_image}
++summary_info += {'GTK support':       gtk}
++summary_info += {'pixman':            pixman}
++summary_info += {'VTE support':       vte}
++summary_info += {'slirp support':     slirp_opt == 'internal' ? slirp_opt : slirp}
++summary_info += {'libtasn1':          tasn1}
++summary_info += {'PAM':               pam}
++summary_info += {'iconv support':     iconv}
++summary_info += {'curses support':    curses}
++summary_info += {'virgl support':     virgl}
++summary_info += {'curl support':      curl}
++summary_info += {'Multipath support': mpathpersist}
++summary_info += {'VNC support':       vnc}
+ if vnc.found()
+-  summary_info += {'VNC SASL support':  sasl.found()}
+-  summary_info += {'VNC JPEG support':  jpeg.found()}
+-  summary_info += {'VNC PNG support':   png.found()}
++  summary_info += {'VNC SASL support':  sasl}
++  summary_info += {'VNC JPEG support':  jpeg}
++  summary_info += {'VNC PNG support':   png}
+ endif
+-summary_info += {'brlapi support':    brlapi.found()}
++summary_info += {'brlapi support':    brlapi}
+ summary_info += {'vde support':       config_host.has_key('CONFIG_VDE')}
+ summary_info += {'netmap support':    config_host.has_key('CONFIG_NETMAP')}
+ summary_info += {'Linux AIO support': config_host.has_key('CONFIG_LINUX_AIO')}
+-summary_info += {'Linux io_uring support': linux_io_uring.found()}
+-summary_info += {'ATTR/XATTR support': libattr.found()}
++summary_info += {'Linux io_uring support': linux_io_uring}
++summary_info += {'ATTR/XATTR support': libattr}
+ summary_info += {'RDMA support':      config_host.has_key('CONFIG_RDMA')}
+ summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
+ summary_info += {'fdt support':       fdt_opt == 'disabled' ? false : fdt_opt}
+-summary_info += {'libcap-ng support': libcap_ng.found()}
+-summary_info += {'bpf support': libbpf.found()}
++summary_info += {'libcap-ng support': libcap_ng}
++summary_info += {'bpf support':       libbpf}
+ # TODO: add back protocol and server version
+ summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
+-summary_info += {'rbd support':       rbd.found()}
++summary_info += {'rbd support':       rbd}
+ summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
+-summary_info += {'smartcard support': cacard.found()}
+-summary_info += {'U2F support':       u2f.found()}
+-summary_info += {'libusb':            libusb.found()}
+-summary_info += {'usb net redir':     usbredir.found()}
++summary_info += {'smartcard support': cacard}
++summary_info += {'U2F support':       u2f}
++summary_info += {'libusb':            libusb}
++summary_info += {'usb net redir':     usbredir}
+ summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
+-summary_info += {'GBM':               gbm.found()}
+-summary_info += {'libiscsi support':  libiscsi.found()}
+-summary_info += {'libnfs support':    libnfs.found()}
++summary_info += {'GBM':               gbm}
++summary_info += {'libiscsi support':  libiscsi}
++summary_info += {'libnfs support':    libnfs}
+ if targetos == 'windows'
+   if config_host.has_key('CONFIG_GUEST_AGENT')
+     summary_info += {'QGA VSS support':   config_host.has_key('CONFIG_QGA_VSS')}
+     summary_info += {'QGA w32 disk info': config_host.has_key('CONFIG_QGA_NTDDSCSI')}
+   endif
+ endif
+-summary_info += {'seccomp support':   seccomp.found()}
+-summary_info += {'GlusterFS support': glusterfs.found()}
++summary_info += {'seccomp support':   seccomp}
++summary_info += {'GlusterFS support': glusterfs}
+ summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
+ summary_info += {'libssh support':    config_host.has_key('CONFIG_LIBSSH')}
+-summary_info += {'lzo support':       lzo.found()}
+-summary_info += {'snappy support':    snappy.found()}
+-summary_info += {'bzip2 support':     libbzip2.found()}
+-summary_info += {'lzfse support':     liblzfse.found()}
+-summary_info += {'zstd support':      zstd.found()}
++summary_info += {'lzo support':       lzo}
++summary_info += {'snappy support':    snappy}
++summary_info += {'bzip2 support':     libbzip2}
++summary_info += {'lzfse support':     liblzfse}
++summary_info += {'zstd support':      zstd}
+ summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
+-summary_info += {'libxml2':           libxml2.found()}
+-summary_info += {'capstone':          capstone_opt == 'disabled' ? false : capstone_opt}
+-summary_info += {'libpmem support':   libpmem.found()}
+-summary_info += {'libdaxctl support': libdaxctl.found()}
+-summary_info += {'libudev':           libudev.found()}
++summary_info += {'libxml2':           libxml2}
++summary_info += {'capstone':          capstone_opt == 'internal' ? capstone_opt : capstone}
++summary_info += {'libpmem support':   libpmem}
++summary_info += {'libdaxctl support': libdaxctl}
++summary_info += {'libudev':           libudev}
++# Dummy dependency, keep .found()
+ summary_info += {'FUSE lseek':        fuse_lseek.found()}
+ summary(summary_info, bool_yn: true, section: 'Dependencies')
+ 
+-- 
+2.31.1
 
 
