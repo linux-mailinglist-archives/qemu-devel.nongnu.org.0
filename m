@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE60C4211BF
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 16:43:43 +0200 (CEST)
-Received: from localhost ([::1]:53874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9787421215
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 16:54:46 +0200 (CEST)
+Received: from localhost ([::1]:36734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXPBu-0008TB-VG
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 10:43:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54298)
+	id 1mXPMb-0008Dx-6s
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 10:54:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXP9S-0006K7-2U
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:41:10 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:45805)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1mXPKU-0007BK-On
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:52:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXP9P-0008K2-Po
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:41:09 -0400
-Received: from [192.168.42.227] ([37.173.140.50]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.184]) with ESMTPSA (Nemesis) id
- 1M3DBb-1mW2m70FJt-003hXc; Mon, 04 Oct 2021 16:41:06 +0200
-Message-ID: <16de4082-e69a-aa7c-d409-6b644d60d6ff@vivier.eu>
-Date: Mon, 4 Oct 2021 16:41:05 +0200
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1mXPKR-0003O1-Nj
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 10:52:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633359145;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aqxSBttWW0zEEqQiNJEEav1wh09doIx9kEdchuvZ9Zs=;
+ b=gD+orj6R2TAh0frUGYeFSGXBxa9PclTgmc0L7M26zohACZ9YaSleMPr44mVUUB+E1WAGon
+ gsfraqZKgbPae+AQOGiLvx3OHMaDRPyK033Ld91Hn2X8b/Z9Tp+/iIzY6271xDe4DTyx62
+ Sm3wxqNwEZZACkOyA4dMNtYUD6fcXRE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-42-c37ib5rnMTOjhNLnWz9KEw-1; Mon, 04 Oct 2021 10:51:05 -0400
+X-MC-Unique: c37ib5rnMTOjhNLnWz9KEw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 441C91019988;
+ Mon,  4 Oct 2021 14:51:04 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (unknown [10.22.10.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 77AC519D9B;
+ Mon,  4 Oct 2021 14:50:53 +0000 (UTC)
+Subject: Re: [PATCH 0/1] vmx: Fix <genid/> mapping
+To: "Richard W.M. Jones" <rjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>
+References: <cover.1632900578.git.mprivozn@redhat.com>
+ <20210929092044.GE3361@redhat.com> <YVQy9yiU1RPxCcM8@redhat.com>
+ <20210929095719.GH3361@redhat.com> <YVQ7my3BHi1On/JK@redhat.com>
+ <20210929103400.GJ3361@redhat.com> <20210930073348.GL7596@redhat.com>
+ <YVV5hZmEs2NmbiiI@redhat.com> <20210930091620.GX3361@redhat.com>
+ <20211004095912.GP7596@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <ecfdc6cc-c411-851f-afb6-ac301d722d99@redhat.com>
+Date: Mon, 4 Oct 2021 16:50:51 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 10/12] macfb: fix 24-bit RGB pixel encoding
+In-Reply-To: <20211004095912.GP7596@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
- <20211002110007.30825-11-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211002110007.30825-11-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:Pp9YrKa0TexR5IMgq7kN3Y0RjzHbjLmcbof4i0x9bhPfxABWpAF
- KkHfSWf60jX2sQAyoi3x6xm+9n/s07nKDS2k5AbWqdYFhkprzvbJC3A1fBFSQtoAEdNtY0A
- vLk6QHVHO2AEVUBpwr4yJnAHqilQ+j35dGpiS2Qyc9tCW2kS1yiC4d9YG1DyPL8EriQ6inX
- rmh3kWiT1Fem1A/vUlb+A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:78DRcD0Ckb0=:Lrpko61LlCm0dVjE9ciqP7
- KFt/PP8Wbq5l0hr/z6rdX8kIyJiBSAE303ye2qJXUEXYlRkRqVljPplw1PWnslkVoHiZN7XDK
- pSO/6L2d6Dx701MVWaKgJ2xYK4YPJHTVeK6TWQRrUUN8tAK5vFRhPLL4pIF+SSxRpEW+Nb5vH
- Mtqh2pw7ua7138IqUip5yCAPVjX1PMGY+gyNBIcZXXneAdAOSostYRwr7eUNxTr+dnxt+uJx/
- y+mn+x453h/xsTu8qIeZwrFgOsBgr/QqyHe5X4V7bwwWZvAFiFh5bWSA2GVWwcbFgm4SkSJDn
- Gx0YQwy4+CS9+5ZRRPzSx2VZEKGUutBJS5yOaVZ9BKy9mglf6dyIDPppwfJjGDfm2QsrTCBgF
- fzx8DlUlEDERinshLEv14MPGSqDr8Se0V9KRtfp8OEbx3Pgh2TAfZuSgu+6f+1GQOH1VLdUQn
- zhZuSYB1NGU1/CpURXix7Z+nBVYwssBRkWo5fQCCGw+3ziYeMTjTaenXXMZ5ncQF9xJUxrH1n
- 8LjV/wSecyFggm+Qw/zlrOzYdwKVEkz7KkfZMleKw7fNnSn9fTPNa37Q3oE7aPVhxO7/wcS+o
- +yU1v3A5mKH25f/vK58Kz93HGz/k92v+Y4/1OAMxwTe1qW6Es2HpA8OntPVhG0r7P/HM7bVmq
- Lr9+HaumOpnuIieUH0p6uY/r3jyEX6hIrxAuKI9yUlGQ6D/7W5GdytYSkr08I8DX2R3/7/vjq
- s+B5vDcrWC3Q0bOwT2KNJAg+4oWXDGMtW/bOEA==
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,40 +83,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: libvir-list@redhat.com, Michal Privoznik <mprivozn@redhat.com>,
+ acatan@amazon.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/10/2021 13:00, Mark Cave-Ayland wrote:
-> According to Apple Technical Note HW26: "Macintosh Quadra Built-In Video" the
-> in-built framebuffer encodes each 24-bit pixel into 4 bytes. Adjust the 24-bit
-> RGB pixel encoding accordingly which agrees with the encoding expected by MacOS
-> when changing into 24-bit colour mode.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->   hw/display/macfb.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-> index 0c9e181b9b..29f6ad8eba 100644
-> --- a/hw/display/macfb.c
-> +++ b/hw/display/macfb.c
-> @@ -224,10 +224,10 @@ static void macfb_draw_line24(MacfbState *s, uint8_t *d, uint32_t addr,
->       int x;
->   
->       for (x = 0; x < width; x++) {
-> -        r = macfb_read_byte(s, addr);
-> -        g = macfb_read_byte(s, addr + 1);
-> -        b = macfb_read_byte(s, addr + 2);
-> -        addr += 3;
-> +        r = macfb_read_byte(s, addr + 1);
-> +        g = macfb_read_byte(s, addr + 2);
-> +        b = macfb_read_byte(s, addr + 3);
-> +        addr += 4;
->   
->           *(uint32_t *)d = rgb_to_pixel32(r, g, b);
->           d += 4;
-> 
+On 10/04/21 11:59, Richard W.M. Jones wrote:
+> It turns out that changing the qemu implementation is painful,
+> particularly if we wish to maintain backwards compatibility of the
+> command line and live migration.
+>
+> Instead I opted to document comprehensively what all the
+> different hypervisors do:
+>
+>   https://github.com/libguestfs/virt-v2v/blob/master/docs/vm-generation-id-across-hypervisors.txt
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Unfortunately QEMU made a significant mistake when implementing this
+> feature.  Because the string is 128 bits wrong, they decided it must
+                                  ^^^^^^^^^^^^^^
+
+Haha, that's a great typo :)
+
+> be a UUID (as you can see above there is no evidence that Microsoft
+> who wrote the original spec thought it was).  Following from this
+> incorrect assumption, they stated that the "UUID" must be supplied to
+> qemu in big endian format and must be byteswapped when writing it to
+> guest memory.  Their documentation says that they only do this for
+> little endian guests, but this is not true of their implementation
+> which byte swaps it for all guests.
+
+I don't think this is what section "Endian-ness Considerations" in
+"docs/specs/vmgenid.txt" says. That text says that the *device* uses
+little-endian format. That's independent of the endianness of *CPU* of
+the particular guest architecture.
+
+So the byte-swapping in the QEMU code occurs unconditionally because
+QEMU's UUID type is inherently big endian, and the device model in
+question is fixed little endian. The guest CPU's endianness is
+irrelevant as far as the device is concerned.
+
+If a BE guest CPU intends to read the generation ID and to interpret it
+as a set of integers, then the guest CPU is supposed to byte-swap the
+appropriate fields itself.
+
+> References
+
+I suggest adding two links in this section, namely to:
+- docs/specs/vmgenid.txt
+- hw/acpi/vmgenid.c
+
+Thanks,
+Laszlo
+
 
