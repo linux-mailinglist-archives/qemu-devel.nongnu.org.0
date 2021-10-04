@@ -2,89 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414004207E5
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:09:55 +0200 (CEST)
-Received: from localhost ([::1]:46886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E653F42080A
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:13:18 +0200 (CEST)
+Received: from localhost ([::1]:54150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXJyr-0002ai-VW
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:09:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60386)
+	id 1mXK29-0007dc-Vk
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXJwR-0008Tm-Iu
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:07:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36429)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mXJwz-0000VE-8i
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:07:57 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:41793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXJwP-0001Cv-MB
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:07:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633338441;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KUYZD9Kgpaky1z7hVZXMbU8Alpvzhtxgb9yTTSNBD4U=;
- b=gWfKDOze4pY/KzMy1skF9g2MvpJeXM5lfyt4t1S5JJ9epzWa18YtNYor+0RBf+Z86RfhuO
- E5iIMFHkeYI7IPPVyNYY1xxoHPwgdR3i+jRugd4pi5vlJRZckAQ9JPgX5BF/bDoNO/PLXL
- iA8i7BXnhSQzABA0RXn78B0w5I9jl6E=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-U3__jdxMM9mFwVhFc7l0SQ-1; Mon, 04 Oct 2021 05:07:20 -0400
-X-MC-Unique: U3__jdxMM9mFwVhFc7l0SQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o22-20020a1c7516000000b0030d6f9c7f5fso652898wmc.1
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 02:07:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KUYZD9Kgpaky1z7hVZXMbU8Alpvzhtxgb9yTTSNBD4U=;
- b=y2j9V/2Cccoo/BwboSbCsVAcfr4eZdP0m/dodMKFlG/OUFOsNjZxZus2yOsWTb4rG+
- iM832nRhMwpgbFwQ8rNwl+kVBnvU1hUCubMOBOhktO8WoEkscvj1UTUth8iRawFaDlsP
- UKZBRlIN9+JjMzHFMnLo4ehFenFfvERBQSvYD2O+Lhfc14qlSqCBx3EvS042DX2Zq41W
- GnGEdPH7dHYJ+uBu9JtJ/8nFgAkHoP+c1zz/lpOkYjuAcBulIR3whK/yQWpILCU6pugj
- RoK0ETJO7gxikjMJj/c/2R+4kKV24rAd/KsFrHnGe13CLEn1xOoB7Beiq6E+iyA11LH2
- ZdrQ==
-X-Gm-Message-State: AOAM532ClsKTs4iZsyNC5lXtgr+cdAWGclw2GJagj7i1vS1MvyQHmDOq
- W5Txxo9/J/AVY8Iy7cW6WbMrt9rIFyO1zHKe8whFmV4//hLstKqmmQvDVtDQiV9x4QTipIm0FEt
- pLT9qzp2YNp6csLQ=
-X-Received: by 2002:adf:e309:: with SMTP id b9mr12638349wrj.81.1633338438601; 
- Mon, 04 Oct 2021 02:07:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxetp1mwKHklXMBwe56BuI1PQiGNQTpk0T6hYH6FfLDl0lEWTgrKFExLyVwgcM3KL58TXci1w==
-X-Received: by 2002:adf:e309:: with SMTP id b9mr12638322wrj.81.1633338438386; 
- Mon, 04 Oct 2021 02:07:18 -0700 (PDT)
-Received: from redhat.com ([2.55.134.94])
- by smtp.gmail.com with ESMTPSA id t15sm4510863wru.6.2021.10.04.02.07.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 02:07:17 -0700 (PDT)
-Date: Mon, 4 Oct 2021 05:07:13 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [RFC PATCH 1/1] virtio: write back features before verify
-Message-ID: <20211004040937-mutt-send-email-mst@kernel.org>
-References: <20210930012049.3780865-1-pasic@linux.ibm.com>
- <87r1d64dl4.fsf@redhat.com>
- <20210930130350.0cdc7c65.pasic@linux.ibm.com>
- <87ilyi47wn.fsf@redhat.com>
- <20211001162213.18d7375e.pasic@linux.ibm.com>
- <87v92g3h9l.fsf@redhat.com>
- <20211002082128-mutt-send-email-mst@kernel.org>
- <20211004042323.730c6a5e.pasic@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mXJwu-0001aI-9G
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:07:57 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.124])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 93750C209725;
+ Mon,  4 Oct 2021 11:07:48 +0200 (CEST)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 4 Oct
+ 2021 11:07:48 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G0059a49ebfd-d287-4bdf-9cf1-603c69014d32,
+ 6052322A053A64D32F912485F446DEADD4740C2E) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <c1d2a714-1073-310b-e75c-2f6b5b5a025f@kaod.org>
+Date: Mon, 4 Oct 2021 11:07:45 +0200
 MIME-Version: 1.0
-In-Reply-To: <20211004042323.730c6a5e.pasic@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 1/1] hw: aspeed_gpio: Fix GPIO array indexing
+Content-Language: en-US
+To: <pdel@fb.com>
+References: <20210928034356.3280959-1-pdel@fb.com>
+ <20210928034356.3280959-2-pdel@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20210928034356.3280959-2-pdel@fb.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: fa4b4662-d651-425f-b928-3392d482c144
+X-Ovh-Tracer-Id: 14151435931626867494
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudelvddguddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,189 +70,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
- Xie Yongji <xieyongji@bytedance.com>, stefanha@redhat.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: patrick@stwcx.xyz, rashmica.g@gmail.com, f4bug@amsat.org, joel@jms.id.au,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 04, 2021 at 04:23:23AM +0200, Halil Pasic wrote:
-> On Sat, 2 Oct 2021 14:13:37 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+On 9/28/21 05:43, pdel@fb.com wrote:
+> From: Peter Delevoryas <pdel@fb.com>
 > 
-> > > Anyone else have an idea? This is a nasty regression; we could revert the
-> > > patch, which would remove the symptoms and give us some time, but that
-> > > doesn't really feel right, I'd do that only as a last resort.  
-> > 
-> > Well we have Halil's hack (except I would limit it
-> > to only apply to BE, only do devices with validate,
-> > and only in modern mode), and we will fix QEMU to be spec compliant.
-> > Between these why do we need any conditional compiles?
+> The gpio array is declared as a dense array:
 > 
-> We don't. As I stated before, this hack is flawed because it
-> effectively breaks fencing features by the driver with QEMU. Some
-> features can not be unset after once set, because we tend to try to
-> enable the corresponding functionality whenever we see a write
-> features operation with the feature bit set, and we don't disable, if a
-> subsequent features write operation stores the feature bit as not set.
-
-Something to fix in QEMU too, I think.
-
-> But it looks like VIRTIO_1 is fine to get cleared afterwards.
-
-We'd never clear it though - why would we?
-
-> So my hack
-> should actually look like posted below, modulo conditions.
-
-
-Looking at it some more, I see that vhost-user actually
-does not send features to the backend until FEATURES_OK.
-However, the code in contrib for vhost-user-blk at least seems
-broken wrt endian-ness ATM. What about other backends though?
-Hard to be sure right?
-Cc Raphael and Stefan so they can take a look.
-And I guess it's time we CC'd qemu-devel too.
-
-For now I am beginning to think we should either revert or just limit
-validation to LE and think about all this some more. And I am inclining
-to do a revert. These are all hypervisors that shipped for a long time.
-Do we need a flag for early config space access then?
-
-
-
+>    qemu_irq gpios[ASPEED_GPIO_NR_PINS];
 > 
-> Regarding the conditions I guess checking that driver_features has
-> F_VERSION_1 already satisfies "only modern mode", or?
-
-Right.
-
-> For now
-> I've deliberately omitted the has verify and the is big endian
-> conditions so we have a better chance to see if something breaks
-> (i.e. the approach does not work). I can add in those extra conditions
-> later.
-
-Or maybe if we will go down that road just the verify check (for
-performance). I'm a bit unhappy we have the extra exit but consistency
-seems more important.
-
+> (AST2500 has 228, AST2400 has 216, AST2600 has 208)
 > 
-> --------------------------8<---------------------
+> However, this array is used like a matrix of GPIO sets
+> (e.g. gpio[NR_SETS][NR_PINS_PER_SET] = gpio[8][32])
 > 
-> From: Halil Pasic <pasic@linux.ibm.com>
-> Date: Thu, 30 Sep 2021 02:38:47 +0200
-> Subject: [PATCH] virtio: write back feature VERSION_1 before verify
+>    size_t offset = set * GPIOS_PER_SET + gpio;
+>    qemu_set_irq(s->gpios[offset], !!(new & mask));
 > 
-> This patch fixes a regression introduced by commit 82e89ea077b9
-> ("virtio-blk: Add validation for block size in config space") and
-> enables similar checks in verify() on big endian platforms.
+> This can result in an out-of-bounds access to "s->gpios" because the
+> gpio sets do _not_ have the same length. Some of the groups (e.g.
+> GPIOAB) only have 4 pins. 228 != 8 * 32 == 256.
 > 
-> The problem with checking multi-byte config fields in the verify
-> callback, on big endian platforms, and with a possibly transitional
-> device is the following. The verify() callback is called between
-> config->get_features() and virtio_finalize_features(). That we have a
-> device that offered F_VERSION_1 then we have the following options
-> either the device is transitional, and then it has to present the legacy
-> interface, i.e. a big endian config space until F_VERSION_1 is
-> negotiated, or we have a non-transitional device, which makes
-> F_VERSION_1 mandatory, and only implements the non-legacy interface and
-> thus presents a little endian config space. Because at this point we
-> can't know if the device is transitional or non-transitional, we can't
-> know do we need to byte swap or not.
-
-Well we established that we can know. Here's an alternative explanation:
-
-	The virtio specification virtio-v1.1-cs01 states:
-
-	Transitional devices MUST detect Legacy drivers by detecting that
-	VIRTIO_F_VERSION_1 has not been acknowledged by the driver.
-	This is exactly what QEMU as of 6.1 has done relying solely
-	on VIRTIO_F_VERSION_1 for detecting that.
-
-	However, the specification also says:
-	driver MAY read (but MUST NOT write) the device-specific
-	configuration fields to check that it can support the device before
-	accepting it.
-
-	In that case, any device relying solely on VIRTIO_F_VERSION_1
-	for detecting legacy drivers will return data in legacy format.
-	In particular, this implies that it is in big endian format
-	for big endian guests. This naturally confuses the driver
-	which expects little endian in the modern mode.
-
-	It is probably a good idea to amend the spec to clarify that
-	VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
-	is complete. However, we already have regression so let's
-	try to address it.
-
-
+> To fix this, I converted the gpio array from dense to sparse, to match
+> both the hardware layout and this existing indexing code.
 > 
-> The virtio spec explicitly states that the driver MAY read config
-> between reading and writing the features so saying that first accessing
-> the config before feature negotiation is done is not an option. The
-> specification ain't clear about setting the features multiple times
-> before FEATURES_OK, so I guess that should be fine to set F_VERSION_1
-> since at this point we already know that we are about to negotiate
-> F_VERSION_1.
-> 
-> I don't consider this patch super clean, but frankly I don't think we
-> have a ton of options. Another option that may or man not be cleaner,
-> but is also IMHO much uglier is to figure out whether the device is
-> transitional by rejecting _F_VERSION_1, then resetting it and proceeding
-> according tho what we have figured out, hoping that the characteristics
-> of the device didn't change.
+> Fixes: 4b7f956862dc2db4c5c ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
 
-An empty line before tags.
 
-> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in config space")
-> Reported-by: markver@us.ibm.com
+This patch is raising an error in qtest-arm/qom-test when compiled
+with clang :
 
-Let's add more commits that are affected. E.g. virtio-net with MTU
-feature bit set is affected too.
+Running test qtest-arm/qom-test
+Unexpected error in object_property_try_add() at ../qom/object.c:1224:
+qemu-system-arm: attempt to add duplicate property 'gpio0' to object (type 'aspeed.gpio-ast2600-1_8v')
+Broken pipe
+ERROR qtest-arm/qom-test - too few tests run (expected 78, got 0)
+make: *** [Makefile.mtest:24: run-test-1] Error 1
 
-So let's add Fixes tag for:
-commit 14de9d114a82a564b94388c95af79a701dc93134
-Author: Aaron Conole <aconole@redhat.com>
-Date:   Fri Jun 3 16:57:12 2016 -0400
+Thanks,
 
-    virtio-net: Add initial MTU advice feature
-    
-I think that's all, but pls double check me.
+C.
 
 
 > ---
->  drivers/virtio/virtio.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>   hw/gpio/aspeed_gpio.c         | 72 ++++++++++++++---------------------
+>   include/hw/gpio/aspeed_gpio.h |  5 +--
+>   2 files changed, 31 insertions(+), 46 deletions(-)
 > 
-> diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-> index 0a5b54034d4b..2b9358f2e22a 100644
-> --- a/drivers/virtio/virtio.c
-> +++ b/drivers/virtio/virtio.c
-> @@ -239,6 +239,12 @@ static int virtio_dev_probe(struct device *_d)
->  		driver_features_legacy = driver_features;
->  	}
->  
-> +	/* Write F_VERSION_1 feature to pin down endianness */
-> +	if (device_features & (1ULL << VIRTIO_F_VERSION_1) & driver_features) {
-> +		dev->features = (1ULL << VIRTIO_F_VERSION_1);
-> +		dev->config->finalize_features(dev);
-> +	}
+> diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+> index dfa6d6cb40..f04d4a454c 100644
+> --- a/hw/gpio/aspeed_gpio.c
+> +++ b/hw/gpio/aspeed_gpio.c
+> @@ -16,11 +16,7 @@
+>   #include "hw/irq.h"
+>   #include "migration/vmstate.h"
+>   
+> -#define GPIOS_PER_REG 32
+> -#define GPIOS_PER_SET GPIOS_PER_REG
+> -#define GPIO_PIN_GAP_SIZE 4
+>   #define GPIOS_PER_GROUP 8
+> -#define GPIO_GROUP_SHIFT 3
+>   
+>   /* GPIO Source Types */
+>   #define ASPEED_CMD_SRC_MASK         0x01010101
+> @@ -259,7 +255,7 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+>   
+>       diff = old ^ new;
+>       if (diff) {
+> -        for (gpio = 0; gpio < GPIOS_PER_REG; gpio++) {
+> +        for (gpio = 0; gpio < ASPEED_GPIOS_PER_SET; gpio++) {
+>               uint32_t mask = 1 << gpio;
+>   
+>               /* If the gpio needs to be updated... */
+> @@ -283,8 +279,7 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+>               if (direction & mask) {
+>                   /* ...trigger the line-state IRQ */
+>                   ptrdiff_t set = aspeed_gpio_set_idx(s, regs);
+> -                size_t offset = set * GPIOS_PER_SET + gpio;
+> -                qemu_set_irq(s->gpios[offset], !!(new & mask));
+> +                qemu_set_irq(s->gpios[set][gpio], !!(new & mask));
+>               } else {
+>                   /* ...otherwise if we meet the line's current IRQ policy... */
+>                   if (aspeed_evaluate_irq(regs, old & mask, gpio)) {
+> @@ -297,21 +292,6 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+>       qemu_set_irq(s->irq, !!(s->pending));
+>   }
+>   
+> -static uint32_t aspeed_adjust_pin(AspeedGPIOState *s, uint32_t pin)
+> -{
+> -    AspeedGPIOClass *agc = ASPEED_GPIO_GET_CLASS(s);
+> -    /*
+> -     * The 2500 has a 4 pin gap in group AB and the 2400 has a 4 pin
+> -     * gap in group Y (and only four pins in AB but this is the last group so
+> -     * it doesn't matter).
+> -     */
+> -    if (agc->gap && pin >= agc->gap) {
+> -        pin += GPIO_PIN_GAP_SIZE;
+> -    }
+> -
+> -    return pin;
+> -}
+> -
+>   static bool aspeed_gpio_get_pin_level(AspeedGPIOState *s, uint32_t set_idx,
+>                                         uint32_t pin)
+>   {
+> @@ -367,7 +347,7 @@ static uint32_t update_value_control_source(GPIOSets *regs, uint32_t old_value,
+>       uint32_t new_value = 0;
+>   
+>       /* for each group in set */
+> -    for (i = 0; i < GPIOS_PER_REG; i += GPIOS_PER_GROUP) {
+> +    for (i = 0; i < ASPEED_GPIOS_PER_SET; i += GPIOS_PER_GROUP) {
+>           cmd_source = extract32(regs->cmd_source_0, i, 1)
+>                   | (extract32(regs->cmd_source_1, i, 1) << 1);
+>   
+> @@ -637,7 +617,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+>            *   bidirectional  |   1       |   1        |  data
+>            *   input only     |   1       |   0        |   0
+>            *   output only    |   0       |   1        |   1
+> -         *   no pin / gap   |   0       |   0        |   0
+> +         *   no pin         |   0       |   0        |   0
+>            *
+>            *  which is captured by:
+>            *  data = ( data | ~input) & output;
+> @@ -836,14 +816,20 @@ static void aspeed_gpio_realize(DeviceState *dev, Error **errp)
+>       AspeedGPIOState *s = ASPEED_GPIO(dev);
+>       SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+>       AspeedGPIOClass *agc = ASPEED_GPIO_GET_CLASS(s);
+> -    int pin;
+>   
+>       /* Interrupt parent line */
+>       sysbus_init_irq(sbd, &s->irq);
+>   
+>       /* Individual GPIOs */
+> -    for (pin = 0; pin < agc->nr_gpio_pins; pin++) {
+> -        sysbus_init_irq(sbd, &s->gpios[pin]);
+> +    for (int i = 0; i < ASPEED_GPIO_MAX_NR_SETS; i++) {
+> +        const GPIOSetProperties *props = &agc->props[i];
+> +        uint32_t skip = ~(props->input | props->output);
+> +        for (int j = 0; j < ASPEED_GPIOS_PER_SET; j++) {
+> +            if (skip >> j & 1) {
+> +                continue;
+> +            }
+> +            sysbus_init_irq(sbd, &s->gpios[i][j]);
+> +        }
+>       }
+>   
+>       memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_gpio_ops, s,
+> @@ -856,20 +842,22 @@ static void aspeed_gpio_init(Object *obj)
+>   {
+>       AspeedGPIOState *s = ASPEED_GPIO(obj);
+>       AspeedGPIOClass *agc = ASPEED_GPIO_GET_CLASS(s);
+> -    int pin;
+> -
+> -    for (pin = 0; pin < agc->nr_gpio_pins; pin++) {
+> -        char *name;
+> -        int set_idx = pin / GPIOS_PER_SET;
+> -        int pin_idx = aspeed_adjust_pin(s, pin) - (set_idx * GPIOS_PER_SET);
+> -        int group_idx = pin_idx >> GPIO_GROUP_SHIFT;
+> -        const GPIOSetProperties *props = &agc->props[set_idx];
+> -
+> -        name = g_strdup_printf("gpio%s%d", props->group_label[group_idx],
+> -                               pin_idx % GPIOS_PER_GROUP);
+> -        object_property_add(obj, name, "bool", aspeed_gpio_get_pin,
+> -                            aspeed_gpio_set_pin, NULL, NULL);
+> -        g_free(name);
 > +
->  	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
->  		dev->features = driver_features & device_features;
->  	else
-> -- 
-> 2.31.1
+> +    for (int i = 0; i < ASPEED_GPIO_MAX_NR_SETS; i++) {
+> +        const GPIOSetProperties *props = &agc->props[i];
+> +        uint32_t skip = ~(props->input | props->output);
+> +        for (int j = 0; j < ASPEED_GPIOS_PER_SET; j++) {
+> +            if (skip >> j & 1) {
+> +                continue;
+> +            }
+> +            int group_idx = j / GPIOS_PER_GROUP;
+> +            int pin_idx = j % GPIOS_PER_GROUP;
+> +            const char *group = &props->group_label[group_idx][0];
+> +            char *name = g_strdup_printf("gpio%s%d", group, pin_idx);
+> +            object_property_add(obj, name, "bool", aspeed_gpio_get_pin,
+> +                                aspeed_gpio_set_pin, NULL, NULL);
+> +            g_free(name);
+> +        }
+>       }
+>   }
+>   
+> @@ -926,7 +914,6 @@ static void aspeed_gpio_ast2400_class_init(ObjectClass *klass, void *data)
+>       agc->props = ast2400_set_props;
+>       agc->nr_gpio_pins = 216;
+>       agc->nr_gpio_sets = 7;
+> -    agc->gap = 196;
+>       agc->reg_table = aspeed_3_3v_gpios;
+>   }
+>   
+> @@ -937,7 +924,6 @@ static void aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
+>       agc->props = ast2500_set_props;
+>       agc->nr_gpio_pins = 228;
+>       agc->nr_gpio_sets = 8;
+> -    agc->gap = 220;
+>       agc->reg_table = aspeed_3_3v_gpios;
+>   }
+>   
+> diff --git a/include/hw/gpio/aspeed_gpio.h b/include/hw/gpio/aspeed_gpio.h
+> index e1636ce7fe..801846befb 100644
+> --- a/include/hw/gpio/aspeed_gpio.h
+> +++ b/include/hw/gpio/aspeed_gpio.h
+> @@ -17,9 +17,9 @@
+>   OBJECT_DECLARE_TYPE(AspeedGPIOState, AspeedGPIOClass, ASPEED_GPIO)
+>   
+>   #define ASPEED_GPIO_MAX_NR_SETS 8
+> +#define ASPEED_GPIOS_PER_SET 32
+>   #define ASPEED_REGS_PER_BANK 14
+>   #define ASPEED_GPIO_MAX_NR_REGS (ASPEED_REGS_PER_BANK * ASPEED_GPIO_MAX_NR_SETS)
+> -#define ASPEED_GPIO_NR_PINS 228
+>   #define ASPEED_GROUPS_PER_SET 4
+>   #define ASPEED_GPIO_NR_DEBOUNCE_REGS 3
+>   #define ASPEED_CHARS_PER_GROUP_LABEL 4
+> @@ -60,7 +60,6 @@ struct AspeedGPIOClass {
+>       const GPIOSetProperties *props;
+>       uint32_t nr_gpio_pins;
+>       uint32_t nr_gpio_sets;
+> -    uint32_t gap;
+>       const AspeedGPIOReg *reg_table;
+>   };
+>   
+> @@ -72,7 +71,7 @@ struct AspeedGPIOState {
+>       MemoryRegion iomem;
+>       int pending;
+>       qemu_irq irq;
+> -    qemu_irq gpios[ASPEED_GPIO_NR_PINS];
+> +    qemu_irq gpios[ASPEED_GPIO_MAX_NR_SETS][ASPEED_GPIOS_PER_SET];
+>   
+>   /* Parallel GPIO Registers */
+>       uint32_t debounce_regs[ASPEED_GPIO_NR_DEBOUNCE_REGS];
 > 
-> 
-> 
-> 
-> 
->  
 
 
