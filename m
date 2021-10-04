@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8CD42078A
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:46:57 +0200 (CEST)
-Received: from localhost ([::1]:48038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A0E4207BE
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:03:09 +0200 (CEST)
+Received: from localhost ([::1]:60024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXJce-0005zR-Da
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:46:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51390)
+	id 1mXJsK-0000Ug-Oa
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mXJHb-00081c-2W
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:25:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30148)
+ id 1mXJJ5-0002Ht-07
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:26:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mXJHV-00047y-I2
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:25:09 -0400
+ id 1mXJJ3-0007dJ-9D
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:26:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633335904;
+ s=mimecast20190719; t=1633336000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5p0WShUJO7CqPDKHOUTKSobWwa9C6tme/99NhNxiCzc=;
- b=aIxW4VMZy50O17NbZijmkFr8b5te0L2zZxko7xkQIvUaoocv4Hw9VJrcNpyatkCtqgTQhC
- 86uVpnGjOHqRaKE3kGiw3Q1BQUSwPbTGSHZjYCidgk6H/yCm135318ISiAGqz27vEexdQR
- 937AJ3fCwgBnauRSYfHWzq3Ue84/AVA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-NdkAoA2hNyGFX8mNozvrag-1; Mon, 04 Oct 2021 04:25:03 -0400
-X-MC-Unique: NdkAoA2hNyGFX8mNozvrag-1
-Received: by mail-ed1-f70.google.com with SMTP id
- z6-20020a50cd06000000b003d2c2e38f1fso16416025edi.1
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 01:25:02 -0700 (PDT)
+ bh=btG2jGUoWy2nT5ZM3BSZ7Cn5M3SntGDJo8lfgebe/EI=;
+ b=J2Tu/B8HaqA/Pqup9yFmorSt5bEehzaqrG6SdehLRX7+Cd/LCABY9igDB3/SHEafJLGSJi
+ vn9BTrj5hTdewf+DTiFbS9FYVYfFGaxBrvTxHs6FMMYkWIxMIRV3mPaaZSD2pujK/U5FC1
+ ZNJigIm+MhwFIbO88xfnWOz/RltuKYU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-GEdlXRXHOEe9NxHHLMwd4Q-1; Mon, 04 Oct 2021 04:26:37 -0400
+X-MC-Unique: GEdlXRXHOEe9NxHHLMwd4Q-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ m20-20020aa7c2d4000000b003d1add00b8aso16485186edp.0
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 01:26:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=5p0WShUJO7CqPDKHOUTKSobWwa9C6tme/99NhNxiCzc=;
- b=kqma9tO0lSEPLPIOMuNXuGKnUXwuqBFx1WLdy6zTd9kZU+BEtM7tOL0cGffCbxbIvb
- DieAgu3OY523IFbh9pkFQcDRuNOWNUnkVkf1X6Izbl4VbRVDKRuRz7X8YNG8scXbBNEJ
- zLEPxzwW7nteIazCtdYNL45gDTgCPhulEE3WF83vdtHRxTpFIxsUDx4ZpeP8SR/zoCOk
- 0Z2VsH/mNxdOv5Odn3W57j/Yem6JzMzsmU5tzOAIycfTfkJUxR0l48e0DwLtovE14418
- q4oLj3g1qaJlnQFGE/fD0u1zny1xfL6VbA84Biw/NmXaLDYpd2IM6GqkJxFv6grTFoqK
- ZDWw==
-X-Gm-Message-State: AOAM532sTiEKCRiWGOYl8MyctbiuP0uU4JKfujrkRNswdknTeDCUqzn9
- 8skIo3MzNUlf6lAwfSSQqjIYo/JeQO05akllW92QJiZUPjWisNE5f7YAUblA7NjKMU8Bm4lJDjj
- ZAYTNaAZYRlOoIZE=
-X-Received: by 2002:a17:906:4346:: with SMTP id
- z6mr16073292ejm.403.1633335901903; 
- Mon, 04 Oct 2021 01:25:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxmvtTKKQjQI/M/2BONIWDf/ukyBxYzgH+RMfeVzgyCawpny7gazi+i24s0XQViwue6mXE8NA==
-X-Received: by 2002:a17:906:4346:: with SMTP id
- z6mr16073261ejm.403.1633335901655; 
- Mon, 04 Oct 2021 01:25:01 -0700 (PDT)
+ bh=btG2jGUoWy2nT5ZM3BSZ7Cn5M3SntGDJo8lfgebe/EI=;
+ b=YEPjppVeObIlu2h2OVTHL9TEPqmAFijwGwqKncRs43thQ/x3Gcr/Lc+6olLsmkU0pS
+ GsgEwZMw2UlFnPEmo1giTEc4xEmqhEbouvLc8wOTGu7vlPNcJI7bbXnx3mDyrJ6J/paj
+ 3aE+gTm01DxlTW0nTL3BtXQnWzOykrNCqt5PG7DXEUpooynrwRCclM+mS0NvXv+bF+ee
+ UZ5s1K0MgwZO07xnEpPMme0DAGp60tqMOy9ciIZ91keqjG8/A96Wc+zXpdDyarH2Za1g
+ jEc8FX2hw9jlrFAGvb4xbE6E2U+Dyqg5lTVmG7GCU/kD5nNNzb+aIEka7Jx89X3w+zKg
+ QuBw==
+X-Gm-Message-State: AOAM532Dcq8DrnIau+Af6xNZyQZMuocXU4e5QRi0+3XWnspWh33BLd1Y
+ v8qFPqHsxgZA+Cb4ODF+L13zBBQqcukvyWIliDCyKXEbV7+M3vSu6IzgPTRIVdAyCK/dEHjeZTY
+ dY9sU3G7nAzGlqj0=
+X-Received: by 2002:a17:906:2441:: with SMTP id
+ a1mr15633968ejb.414.1633335996389; 
+ Mon, 04 Oct 2021 01:26:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyRoeSW+V0+V2SCoZEw8TibTIzZQeXEges4N9UaSGdTRKC9mpRFxypKJ3npveIPfv+B2z22Zg==
+X-Received: by 2002:a17:906:2441:: with SMTP id
+ a1mr15633943ejb.414.1633335996161; 
+ Mon, 04 Oct 2021 01:26:36 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l16sm6870373eds.46.2021.10.04.01.24.59
+ by smtp.gmail.com with ESMTPSA id x16sm1639516ejj.8.2021.10.04.01.26.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Oct 2021 01:25:00 -0700 (PDT)
-Message-ID: <a8bcc533-8432-c5a0-a00a-77f78fe23768@redhat.com>
-Date: Mon, 4 Oct 2021 10:24:56 +0200
+ Mon, 04 Oct 2021 01:26:35 -0700 (PDT)
+Message-ID: <5c1652ac-8a71-8d23-ed31-b84ce07596e8@redhat.com>
+Date: Mon, 4 Oct 2021 10:26:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v3 18/22] target/i386/sev: Move qmp_query_sev() &
- hmp_info_sev() to sev.c
+Subject: Re: [PATCH v3 19/22] monitor: Restrict 'info sev' to x86 targets
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20211002125317.3418648-1-philmd@redhat.com>
- <20211002125317.3418648-19-philmd@redhat.com>
+ <20211002125317.3418648-20-philmd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211002125317.3418648-19-philmd@redhat.com>
+In-Reply-To: <20211002125317.3418648-20-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,7 +82,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -114,198 +113,76 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 02/10/21 14:53, Philippe Mathieu-Daudé wrote:
-> Move qmp_query_sev() & hmp_info_sev()() from monitor.c to sev.c
-> and make sev_get_info() static. We don't need the stub anymore,
-> remove it. Add a stub for hmp_info_sev().
-> 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->   target/i386/sev_i386.h        |  3 ---
->   target/i386/monitor.c         | 38 +---------------------------------
->   target/i386/sev-sysemu-stub.c | 10 ++++++++-
->   target/i386/sev.c             | 39 +++++++++++++++++++++++++++++++++--
->   4 files changed, 47 insertions(+), 43 deletions(-)
+>   include/monitor/hmp-target.h  | 1 +
+>   include/monitor/hmp.h         | 1 -
+>   target/i386/sev-sysemu-stub.c | 2 +-
+>   target/i386/sev.c             | 2 +-
+>   4 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
-> index 1699376ad87..15a959d6174 100644
-> --- a/target/i386/sev_i386.h
-> +++ b/target/i386/sev_i386.h
-> @@ -15,7 +15,6 @@
->   #define QEMU_SEV_I386_H
+> diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
+> index dc53add7eef..96956d0fc41 100644
+> --- a/include/monitor/hmp-target.h
+> +++ b/include/monitor/hmp-target.h
+> @@ -49,6 +49,7 @@ void hmp_info_tlb(Monitor *mon, const QDict *qdict);
+>   void hmp_mce(Monitor *mon, const QDict *qdict);
+>   void hmp_info_local_apic(Monitor *mon, const QDict *qdict);
+>   void hmp_info_io_apic(Monitor *mon, const QDict *qdict);
+> +void hmp_info_sev(Monitor *mon, const QDict *qdict);
+>   void hmp_info_sgx(Monitor *mon, const QDict *qdict);
 >   
->   #include "sysemu/sev.h"
-> -#include "qapi/qapi-types-misc-target.h"
->   
->   #define SEV_POLICY_NODBG        0x1
->   #define SEV_POLICY_NOKS         0x2
-> @@ -24,8 +23,6 @@
->   #define SEV_POLICY_DOMAIN       0x10
->   #define SEV_POLICY_SEV          0x20
->   
-> -extern SevInfo *sev_get_info(void);
-> -
->   int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
->   int sev_inject_launch_secret(const char *hdr, const char *secret,
->                                uint64_t gpa, Error **errp);
-> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-> index 0b38e970c73..890870b252d 100644
-> --- a/target/i386/monitor.c
-> +++ b/target/i386/monitor.c
-> @@ -28,11 +28,9 @@
->   #include "monitor/hmp-target.h"
->   #include "monitor/hmp.h"
->   #include "qapi/qmp/qdict.h"
-> -#include "qapi/qmp/qerror.h"
-> +//#include "qapi/qmp/qerror.h"
->   #include "sysemu/kvm.h"
-> -#include "sysemu/sev.h"
->   #include "qapi/error.h"
-> -#include "sev_i386.h"
->   #include "qapi/qapi-commands-misc-target.h"
->   #include "qapi/qapi-commands-misc.h"
->   #include "hw/i386/pc.h"
-> @@ -677,40 +675,6 @@ void hmp_info_io_apic(Monitor *mon, const QDict *qdict)
->                      "removed soon. Please use 'info pic' instead.\n");
->   }
->   
-> -SevInfo *qmp_query_sev(Error **errp)
-> -{
-> -    SevInfo *info;
-> -
-> -    info = sev_get_info();
-> -    if (!info) {
-> -        error_setg(errp, "SEV feature is not available");
-> -        return NULL;
-> -    }
-> -
-> -    return info;
-> -}
-> -
-> -void hmp_info_sev(Monitor *mon, const QDict *qdict)
-> -{
-> -    SevInfo *info = sev_get_info();
-> -
-> -    if (info && info->enabled) {
-> -        monitor_printf(mon, "handle: %d\n", info->handle);
-> -        monitor_printf(mon, "state: %s\n", SevState_str(info->state));
-> -        monitor_printf(mon, "build: %d\n", info->build_id);
-> -        monitor_printf(mon, "api version: %d.%d\n",
-> -                       info->api_major, info->api_minor);
-> -        monitor_printf(mon, "debug: %s\n",
-> -                       info->policy & SEV_POLICY_NODBG ? "off" : "on");
-> -        monitor_printf(mon, "key-sharing: %s\n",
-> -                       info->policy & SEV_POLICY_NOKS ? "off" : "on");
-> -    } else {
-> -        monitor_printf(mon, "SEV is not enabled\n");
-> -    }
-> -
-> -    qapi_free_SevInfo(info);
-> -}
-> -
->   SGXInfo *qmp_query_sgx(Error **errp)
->   {
->       return sgx_get_info(errp);
+>   #endif /* MONITOR_HMP_TARGET_H */
+> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+> index 3baa1058e2c..6bc27639e01 100644
+> --- a/include/monitor/hmp.h
+> +++ b/include/monitor/hmp.h
+> @@ -124,7 +124,6 @@ void hmp_info_ramblock(Monitor *mon, const QDict *qdict);
+>   void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict);
+>   void hmp_info_vm_generation_id(Monitor *mon, const QDict *qdict);
+>   void hmp_info_memory_size_summary(Monitor *mon, const QDict *qdict);
+> -void hmp_info_sev(Monitor *mon, const QDict *qdict);
+>   void hmp_info_replay(Monitor *mon, const QDict *qdict);
+>   void hmp_replay_break(Monitor *mon, const QDict *qdict);
+>   void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
 > diff --git a/target/i386/sev-sysemu-stub.c b/target/i386/sev-sysemu-stub.c
-> index 355391c16c4..1836b32e4fc 100644
+> index 1836b32e4fc..b2a4033a030 100644
 > --- a/target/i386/sev-sysemu-stub.c
 > +++ b/target/i386/sev-sysemu-stub.c
-> @@ -12,13 +12,16 @@
->    */
+> @@ -13,7 +13,7 @@
 >   
 >   #include "qemu/osdep.h"
-> +#include "monitor/monitor.h"
-> +#include "monitor/hmp.h"
+>   #include "monitor/monitor.h"
+> -#include "monitor/hmp.h"
+> +#include "monitor/hmp-target.h"
 >   #include "qapi/qapi-commands-misc-target.h"
 >   #include "qapi/qmp/qerror.h"
 >   #include "qapi/error.h"
->   #include "sev_i386.h"
->   
-> -SevInfo *sev_get_info(void)
-> +SevInfo *qmp_query_sev(Error **errp)
->   {
-> +    error_setg(errp, QERR_UNSUPPORTED);
->       return NULL;
->   }
->   
-> @@ -60,3 +63,8 @@ SevAttestationReport *qmp_query_sev_attestation_report(const char *mnonce,
->       error_setg(errp, QERR_UNSUPPORTED);
->       return NULL;
->   }
-> +
-> +void hmp_info_sev(Monitor *mon, const QDict *qdict)
-> +{
-> +    monitor_printf(mon, "SEV is not available in this QEMU\n");
-> +}
 > diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 8e9cce62196..7caaa117ff7 100644
+> index 7caaa117ff7..c6d8fc52eb2 100644
 > --- a/target/i386/sev.c
 > +++ b/target/i386/sev.c
-> @@ -27,10 +27,12 @@
->   #include "sev_i386.h"
->   #include "sysemu/sysemu.h"
->   #include "sysemu/runstate.h"
-> +#include "sysemu/sev.h"
->   #include "trace.h"
+> @@ -32,7 +32,7 @@
 >   #include "migration/blocker.h"
 >   #include "qom/object.h"
 >   #include "monitor/monitor.h"
-> +#include "monitor/hmp.h"
+> -#include "monitor/hmp.h"
+> +#include "monitor/hmp-target.h"
 >   #include "qapi/qapi-commands-misc-target.h"
 >   #include "qapi/qmp/qerror.h"
 >   #include "exec/confidential-guest-support.h"
-> @@ -375,8 +377,7 @@ sev_get_reduced_phys_bits(void)
->       return sev_guest ? sev_guest->reduced_phys_bits : 0;
->   }
->   
-> -SevInfo *
-> -sev_get_info(void)
-> +static SevInfo *sev_get_info(void)
->   {
->       SevInfo *info;
->   
-> @@ -395,6 +396,40 @@ sev_get_info(void)
->       return info;
->   }
->   
-> +SevInfo *qmp_query_sev(Error **errp)
-> +{
-> +    SevInfo *info;
-> +
-> +    info = sev_get_info();
-> +    if (!info) {
-> +        error_setg(errp, "SEV feature is not available");
-> +        return NULL;
-> +    }
-> +
-> +    return info;
-> +}
-> +
-> +void hmp_info_sev(Monitor *mon, const QDict *qdict)
-> +{
-> +    SevInfo *info = sev_get_info();
-> +
-> +    if (info && info->enabled) {
-> +        monitor_printf(mon, "handle: %d\n", info->handle);
-> +        monitor_printf(mon, "state: %s\n", SevState_str(info->state));
-> +        monitor_printf(mon, "build: %d\n", info->build_id);
-> +        monitor_printf(mon, "api version: %d.%d\n",
-> +                       info->api_major, info->api_minor);
-> +        monitor_printf(mon, "debug: %s\n",
-> +                       info->policy & SEV_POLICY_NODBG ? "off" : "on");
-> +        monitor_printf(mon, "key-sharing: %s\n",
-> +                       info->policy & SEV_POLICY_NOKS ? "off" : "on");
-> +    } else {
-> +        monitor_printf(mon, "SEV is not enabled\n");
-> +    }
-> +
-> +    qapi_free_SevInfo(info);
-> +}
-> +
->   static int
->   sev_get_pdh_info(int fd, guchar **pdh, size_t *pdh_len, guchar **cert_chain,
->                    size_t *cert_chain_len, Error **errp)
 > 
 
+
+This is only a cleanup, isn't it?  The #ifdef is already in 
+hmp-commands-info.hx.
+
+Anyway,
+
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+
+but please adjust the commit message in v4.
+
+Paolo
 
 
