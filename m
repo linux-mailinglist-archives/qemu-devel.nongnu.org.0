@@ -2,63 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF614420A5C
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 13:47:54 +0200 (CEST)
-Received: from localhost ([::1]:40038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7099420A91
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 14:05:45 +0200 (CEST)
+Received: from localhost ([::1]:53624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXMRl-0001g3-IM
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 07:47:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39348)
+	id 1mXMj2-0003Zr-Ca
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 08:05:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mXMNs-0007ie-E1
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 07:43:52 -0400
-Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:47883)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mXMe3-0000aV-Qo
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 08:00:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mXMNo-0007Kn-I1
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 07:43:52 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.21])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id E7C3423439;
- Mon,  4 Oct 2021 11:43:44 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 4 Oct
- 2021 13:43:44 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G00263bc85e0-c94e-415e-b958-45a0d2325f02,
- 6052322A053A64D32F912485F446DEADD4740C2E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <74fefbb4-af1c-a95e-a747-74866a8ad44c@kaod.org>
-Date: Mon, 4 Oct 2021 13:43:44 +0200
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mXMdx-0003sX-V6
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 08:00:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633348825;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Szh1sZdd2NA++7VzE8dfvZgPCeKZLBpLUKEMevzbR2c=;
+ b=OCh2rWS6JEVzBAEPP2cpylcumjxb6M93vOCxnLT5WKf7qVoijo7QPI07rU+3SxJ0+CykDd
+ NYge2UQc5KCaQqKrLrZyip2metEE75hZGZhmwWJEMdEAXPJdHxF2pHoTV8Vo6Ks7qfWY6X
+ LJaGiTbxHxzDAFYiHSNM1wgOW3+S2Bs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-509-iZmJpRgSP52pZQYFGZXb6g-1; Mon, 04 Oct 2021 08:00:24 -0400
+X-MC-Unique: iZmJpRgSP52pZQYFGZXb6g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r15-20020adfce8f000000b0015df1098ccbso4587141wrn.4
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 05:00:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=Szh1sZdd2NA++7VzE8dfvZgPCeKZLBpLUKEMevzbR2c=;
+ b=ZHRuvUVUHigoapbu0b2jFzG1OV/XRhE9cjCy/IhldLD10DpRPMBUP63Ry48q8YLgY3
+ 7pvMjc9xEGABQDegay2kx/5D+GfevG68QhNLjHELPapF8zhoy7+8cARnUfU+ZJ9qI0nX
+ Ko+SuuQoH2SgTvw9H86IGKF/QGJxz2LILGAgr/B9DnqV7ERnQC/zSzlZ/lZLRHOWItS9
+ eoPVGBoYhpkg6YOmxDcVqDTbYGlMBOpQzxpgXf3MZdoqlr5MUfmzv2fvOq57mt+HDtz2
+ zpX2qj6IwBEKjUL7rNqzZyxrXxmGvrnUaPIgu7Bhi4UkMRMRP4aT04zzMHrm4JSwXvZV
+ jESw==
+X-Gm-Message-State: AOAM530srCabnHZg0Qhbng5GTBJh4aodnL/1qxVaFRl0/z/krAvM9Kn/
+ OV+tQ1HG6jsOVo4nxCDZGYaQ/bktTV2Haxr/mKYyVmYV3V7mJrGL097ykXqph/cCdWjNMHRYdHg
+ 9OqsjU1Mk2ayy+00=
+X-Received: by 2002:adf:a45e:: with SMTP id e30mr12058144wra.269.1633348823465; 
+ Mon, 04 Oct 2021 05:00:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxHUUsSuliMbaWMUJfOxhomX+YqGVSB+h6Tbvc9XMFwkt9wv5ln2ZOsJjF3r/t46K2PWn19YQ==
+X-Received: by 2002:adf:a45e:: with SMTP id e30mr12058101wra.269.1633348823180; 
+ Mon, 04 Oct 2021 05:00:23 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id j27sm16609782wms.6.2021.10.04.05.00.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Oct 2021 05:00:22 -0700 (PDT)
+Subject: Re: [PATCH v2 1/5] hw/arm/virt: Key enablement of highmem PCIe on
+ highmem_ecam
+To: Marc Zyngier <maz@kernel.org>, qemu-devel@nongnu.org
+References: <20211003164605.3116450-1-maz@kernel.org>
+ <20211003164605.3116450-2-maz@kernel.org>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <dbe883ca-880e-7f2b-1de7-4b2d3361545d@redhat.com>
+Date: Mon, 4 Oct 2021 14:00:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 1/1] hw: aspeed_gpio: Fix GPIO array indexing
+In-Reply-To: <20211003164605.3116450-2-maz@kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-To: <pdel@fb.com>
-References: <20210928034356.3280959-1-pdel@fb.com>
- <20210928034356.3280959-2-pdel@fb.com>
- <c1d2a714-1073-310b-e75c-2f6b5b5a025f@kaod.org>
-In-Reply-To: <c1d2a714-1073-310b-e75c-2f6b5b5a025f@kaod.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 41c74580-7ea3-4155-83aa-f40b85daba26
-X-Ovh-Tracer-Id: 16784915812297378598
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudelvddggeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefkffggfgfuhffvfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeihfefffffgedtkeegtdekffevudeggfegffethfffhefhhfevhfdtudejhfdvieenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehfgegsuhhgsegrmhhsrghtrdhorhhg
-Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
- helo=10.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,68 +102,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: patrick@stwcx.xyz, rashmica.g@gmail.com, f4bug@amsat.org, joel@jms.id.au,
- qemu-devel@nongnu.org
+Reply-To: eric.auger@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kernel-team@android.com, kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/4/21 11:07, Cédric Le Goater wrote:
-> On 9/28/21 05:43, pdel@fb.com wrote:
->> From: Peter Delevoryas <pdel@fb.com>
->>
->> The gpio array is declared as a dense array:
->>
->>    qemu_irq gpios[ASPEED_GPIO_NR_PINS];
->>
->> (AST2500 has 228, AST2400 has 216, AST2600 has 208)
->>
->> However, this array is used like a matrix of GPIO sets
->> (e.g. gpio[NR_SETS][NR_PINS_PER_SET] = gpio[8][32])
->>
->>    size_t offset = set * GPIOS_PER_SET + gpio;
->>    qemu_set_irq(s->gpios[offset], !!(new & mask));
->>
->> This can result in an out-of-bounds access to "s->gpios" because the
->> gpio sets do _not_ have the same length. Some of the groups (e.g.
->> GPIOAB) only have 4 pins. 228 != 8 * 32 == 256.
->>
->> To fix this, I converted the gpio array from dense to sparse, to match
->> both the hardware layout and this existing indexing code.
->>
->> Fixes: 4b7f956862dc2db4c5c ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
->> Signed-off-by: Peter Delevoryas <pdel@fb.com>
-> 
-> 
-> This patch is raising an error in qtest-arm/qom-test when compiled
-> with clang :
-> 
-> Running test qtest-arm/qom-test
-> Unexpected error in object_property_try_add() at ../qom/object.c:1224:
-> qemu-system-arm: attempt to add duplicate property 'gpio0' to object (type 'aspeed.gpio-ast2600-1_8v')
-> Broken pipe
-> ERROR qtest-arm/qom-test - too few tests run (expected 78, got 0)
-> make: *** [Makefile.mtest:24: run-test-1] Error 1
+Hi Marc,
 
-The GPIOSetProperties arrary is smaller for the ast2600_1_8v model :
+On 10/3/21 6:46 PM, Marc Zyngier wrote:
+> Currently, the highmem PCIe region is oddly keyed on the highmem
+> attribute instead of highmem_ecam. Move the enablement of this PCIe
+> region over to highmem_ecam.
+>
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> ---
+>  hw/arm/virt-acpi-build.c | 10 ++++------
+>  hw/arm/virt.c            |  4 ++--
+>  2 files changed, 6 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 037cc1fd82..d7bef0e627 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -157,10 +157,9 @@ static void acpi_dsdt_add_virtio(Aml *scope,
+>  }
+>  
+>  static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+> -                              uint32_t irq, bool use_highmem, bool highmem_ecam,
+> -                              VirtMachineState *vms)
+> +                              uint32_t irq, VirtMachineState *vms)
+>  {
+> -    int ecam_id = VIRT_ECAM_ID(highmem_ecam);
+> +    int ecam_id = VIRT_ECAM_ID(vms->highmem_ecam);
+>      struct GPEXConfig cfg = {
+>          .mmio32 = memmap[VIRT_PCIE_MMIO],
+>          .pio    = memmap[VIRT_PCIE_PIO],
+> @@ -169,7 +168,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+>          .bus    = vms->bus,
+>      };
+>  
+> -    if (use_highmem) {
+> +    if (vms->highmem_ecam) {
+highmem_ecam is more restrictive than use_highmem:
+vms->highmem_ecam &= vms->highmem && (!firmware_loaded || aarch64);
 
-   static GPIOSetProperties ast2600_1_8v_set_props[] = {
-       [0] = {0xffffffff,  0xffffffff,  {"18A", "18B", "18C", "18D"} },
-       [1] = {0x0000000f,  0x0000000f,  {"18E"} },
-   };
+If I remember correctly there was a problem using highmem ECAM with 32b
+AAVMF FW.
 
-and in aspeed_gpio_init() :
+However 5125f9cd2532 ("hw/arm/virt: Add high MMIO PCI region, 512G in
+size") introduced high MMIO PCI region without this constraint.
 
-     for (int i = 0; i < ASPEED_GPIO_MAX_NR_SETS; i++) {
+So to me we should keep vms->highmem here
 
-we loop beyond.
+Eric
 
-To configure compilation with clang, use the configure option :
+>          cfg.mmio64 = memmap[VIRT_HIGH_PCIE_MMIO];
+>      }
+>  
+> @@ -712,8 +711,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>      acpi_dsdt_add_fw_cfg(scope, &memmap[VIRT_FW_CFG]);
+>      acpi_dsdt_add_virtio(scope, &memmap[VIRT_MMIO],
+>                      (irqmap[VIRT_MMIO] + ARM_SPI_BASE), NUM_VIRTIO_TRANSPORTS);
+> -    acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] + ARM_SPI_BASE),
+> -                      vms->highmem, vms->highmem_ecam, vms);
+> +    acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] + ARM_SPI_BASE), vms);
+>      if (vms->acpi_dev) {
+>          build_ged_aml(scope, "\\_SB."GED_DEVICE,
+>                        HOTPLUG_HANDLER(vms->acpi_dev),
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 7170aaacd5..8021d545c3 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1362,7 +1362,7 @@ static void create_pcie(VirtMachineState *vms)
+>                               mmio_reg, base_mmio, size_mmio);
+>      memory_region_add_subregion(get_system_memory(), base_mmio, mmio_alias);
+>  
+> -    if (vms->highmem) {
+> +    if (vms->highmem_ecam) {
+>          /* Map high MMIO space */
+>          MemoryRegion *high_mmio_alias = g_new0(MemoryRegion, 1);
+>  
+> @@ -1416,7 +1416,7 @@ static void create_pcie(VirtMachineState *vms)
+>      qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
+>                                   2, base_ecam, 2, size_ecam);
+>  
+> -    if (vms->highmem) {
+> +    if (vms->highmem_ecam) {
+>          qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "ranges",
+>                                       1, FDT_PCI_RANGE_IOPORT, 2, 0,
+>                                       2, base_pio, 2, size_pio,
 
-   --cc=clang
-
-and simply run 'make check-qtest-arm'
-
-Thanks
-
-C.
 
