@@ -2,53 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8361A420952
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:28:41 +0200 (CEST)
-Received: from localhost ([::1]:54214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D6542092F
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:14:14 +0200 (CEST)
+Received: from localhost ([::1]:54606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXLD6-0005xT-4J
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48510)
+	id 1mXKz7-00035g-SB
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:14:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mXKte-0006gm-4K
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:08:35 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:45386)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXKwF-0001OJ-Po
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:11:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mXKta-0007tv-Aq
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:08:33 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A9E8D7462D3;
- Mon,  4 Oct 2021 12:08:27 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 83EC7745953; Mon,  4 Oct 2021 12:08:27 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 8203A7457EE;
- Mon,  4 Oct 2021 12:08:27 +0200 (CEST)
-Date: Mon, 4 Oct 2021 12:08:27 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-Subject: Re: [RFC PATCH 0/4] Misc OHCI patches
-In-Reply-To: <CABLmASHcv95aKY+5mJ9rbEFPvXQrT3YOjOcO5QtV0=WR4kqmLw@mail.gmail.com>
-Message-ID: <f5991243-dce5-a1c6-e6c4-ccdc61b6a8db@eik.bme.hu>
-References: <cover.1633122670.git.balaton@eik.bme.hu>
- <CABLmASG_Coop-fMRdv_PvBorO1fQUrhY3h+-PGts_ixhhkaADA@mail.gmail.com>
- <6c2830fe-70d5-3c1a-ba17-85f3d252d860@eik.bme.hu>
- <CABLmASGkZ3kuGPF=d0jWPyryepcM-Hpd_VcgL=Z4qpmk07E-1A@mail.gmail.com>
- <c541324-ed75-e6d2-d9b8-2742baed30da@eik.bme.hu>
- <CABLmASHZqTrON_MG_tw9D6C_eo++8VZEJduce3WRfPY0u=+9rQ@mail.gmail.com>
- <CABLmASHcv95aKY+5mJ9rbEFPvXQrT3YOjOcO5QtV0=WR4kqmLw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXKwB-0001fA-SQ
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:11:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633342269;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zu8sEWH4FsQFacwZ4S/EkrrjoXHQ0nXDtvd+ns0lDeI=;
+ b=LfEYCTERIs5TXFjpz0en27T50w0eM8HP6NxjyZlubfSiixgHY0GIMhQsrrlB5uBj9jtRCt
+ QDMY1wKLKWYDKusWwZ6qaeDEYNE64Hd7rVDjvfv7sLUzDyJodkO8ftZgRgQnxpO5kfSStV
+ rgB1zCM17HnRuoTfKjQHfhqlBf8Z5mY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-309-YN-Hv5NgPaSt-vfmZ8Ms1g-1; Mon, 04 Oct 2021 06:11:02 -0400
+X-MC-Unique: YN-Hv5NgPaSt-vfmZ8Ms1g-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ f10-20020a7bcd0a000000b0030d2def848dso3441937wmj.0
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 03:11:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=zu8sEWH4FsQFacwZ4S/EkrrjoXHQ0nXDtvd+ns0lDeI=;
+ b=c3HGrqRTcMG0UapnV7BFmqj+/8tglrLfqL/uBvDoXezFYeoBQWhYA8bDOiN5DoaSKO
+ yzFaOvfIx2CUOk563kSsk1QXjrbmwjYM5kZ73+tthIbk/AaMkMjUc0zfo5UqGj7s4NoL
+ sIQdMrgpxlqsNjnqapM6wGorlgS05N65x+DFvtgy3Hp+CeHh07tUyYM/kyN6Py3ax4hs
+ Wa97uPUCmAh26Arv8YL62NTMRExreMdK9MCL5G+C4tNqZ1y4dTU1m03NT9jfZGF/HoT/
+ SKilWUIHWuQ/9AB6pB6PYWXiTpw4cGfMuP3M80dFaN8GTIBOwXDcmztmqS4eBIvl4XSe
+ C07g==
+X-Gm-Message-State: AOAM533WToNVNPfHANakR1JF9M3uNYyzor8+EmkvvfpyGq1fGzqEticd
+ JhKxtrgAXzZk84KpdTmVIrLlWYI5SGbZmVbxn0zxqEdGdujjxVBgEERSx48ffzq+EWNWkn5ylmX
+ p2zV8PfWSjdZa+ak=
+X-Received: by 2002:a5d:64e2:: with SMTP id g2mr13292931wri.20.1633342261815; 
+ Mon, 04 Oct 2021 03:11:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx6MJI5/rNG+t8CCmTFUONQxiO7SWXj+VjW653elXVO/QjqhryQoKffb3QZfPbHpeR9WRQ7Cg==
+X-Received: by 2002:a5d:64e2:: with SMTP id g2mr13292921wri.20.1633342261637; 
+ Mon, 04 Oct 2021 03:11:01 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id c7sm17635516wmq.13.2021.10.04.03.11.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Oct 2021 03:11:01 -0700 (PDT)
+Message-ID: <475b055d-b3b4-a98f-c4da-94b47e80afbf@redhat.com>
+Date: Mon, 4 Oct 2021 12:11:00 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 5/5] meson: show library versions in the summary
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211004093053.87883-1-pbonzini@redhat.com>
+ <20211004094943.92925-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211004094943.92925-1-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,49 +98,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 Oct 2021, Howard Spoelstra wrote:
-> Hi all,
->
-> One more observation: When running Mac OS  guests with -mac99,via=pmu, the
-> guest is presented with a usb-mouse and usb-kbd, while -mac99 provides cuda
-> mouse/kbd.
->
-> If I run with via=pmu, the mouse/kbd will not work when passing through the
-> usb headset.
-> Only when I keep interrupting by pressing a volume button on the headset,
-> the mouse moves. So it seems Qemu does not iterate getting interrupts over
-> multiple devices.
+On 10/4/21 11:49, Paolo Bonzini wrote:
+> Meson 0.57 allows passing external programs and dependency objects
+> to summary().  Use this to show library versions and paths in the
+> summary.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  meson.build | 112 +++++++++++++++++++++++++---------------------------
+>  1 file changed, 54 insertions(+), 58 deletions(-)
 
-It the MacOS HID driver works by always keeping a request pending to 
-receive any events that become an async packet waiting on your usb headset 
-ep 4, this currently blocks all of OHCI and no other packets go through 
-until this async packet completes (when you press a button on the HID 
-device). So the comment in code not only means that different endpoints 
-block each other but one endpoint blocks the whole controller which is 
-clearly wrong. I think this confirms the theory that we'd need to fix 
-this.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-I've tried removing the async_id from OHCIState but I'm lost between all 
-these callbacks. Maybe somebody who knows more about QEMU USB and OHCI 
-could take a look or are there some docs about what callbacks are called 
-when in QEMU when something happens? I'm interested in the child detach, 
-detach and async complete callbacks (which handle pending packets in 
-hcd-ohci) and if they can be called while ohci_service_td is running 
-(which submits packets and also called for handling completed async 
-packets). Maybe ohci_service_td should be split into two parts: submitting 
-and handling returns, so only the completion part is called from 
-ohci_async_complete_packet callback but that needs to find the OHCI struct 
-for the packet to put results in so now it just triggers a complete 
-processing of all requests and handles completion if it finds the packet. 
-I'm lost in the possible interactions between these callbacks so some info 
-on that might help.
-
-Regards,
-BALATON Zoltan
 
