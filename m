@@ -2,81 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85ED42130F
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 17:50:59 +0200 (CEST)
-Received: from localhost ([::1]:56284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 464CE42136C
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 18:02:10 +0200 (CEST)
+Received: from localhost ([::1]:45924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXQF0-0003Zs-Pb
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 11:50:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43998)
+	id 1mXQPo-0007bu-68
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 12:02:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mXQ9C-0007q2-9F
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 11:44:58 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35336)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mXQ9A-00087s-M3
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 11:44:58 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- z184-20020a1c7ec1000000b003065f0bc631so20083047wmc.0
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 08:44:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=5AoZSg4INhB2bpnoJjW/yhP7o2j/E30FHaLCM8tX7UQ=;
- b=KmHC2Rpv0SlB35fBmVxCKS2+T/rPQCcNq+qYCcpKUYEvsjCTMe7V+Gjb1i9UiR0Z6B
- P4+EbKUj9YLtKXoTyaNb9oLiBr8/8jgGJb+yc0yYj7NBSGUA84pfzmkfcqhov+hqsQ36
- ZDH6EOGCr0HcW5dsGBlxIaEkGz/i9M2FwyMrfVWgK6kiOFuok9LSYA/FjfMbVVtykZjq
- G+Sas/Ap5pMgaTfxIjetESP+wTjYTcFoB/1HFeY96JjyhscXqVQ+3nSzUtLeMLnl2yO+
- TRGnPO5y1chtNkPTGR+fu6TNRYEjoCUHKU+NxMgkDlbvHjFmTGZ4tJ5df7wCx7965VgJ
- XbiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=5AoZSg4INhB2bpnoJjW/yhP7o2j/E30FHaLCM8tX7UQ=;
- b=Nm4hTuYeEpb1wpTOd7Io8nX+Gq0/GWij/cFVaa11qf4gWAB7OT+vWSBrYBz438dSGa
- 04iAjKJsrN3NFAAPSl8DnDklnwfo/a0o/CGbIEN+k2mM2HxgN4DkAZZ1umaX+1ieyAp2
- sQCKWy99J6BcApbpyPbrFkzTMAW/NVVaIkN5vAAuaNofGZ4QEnQi9ALIHJlihy6vQ7L8
- Xy7G4r4IowklEkshvAUCTbrRr8yRNHX81Et4hd3CmT5vtdOu6tRqooxJBAstZwvE/fFW
- S91P6l1+0C3K5estyZd/DnK6+2IHLCykx5TsogwJA7O+NfGDjPkyxPiXB8bfC1/prq65
- 1s5w==
-X-Gm-Message-State: AOAM533ZpRgQ0dGjstUhouEuGVw20BVvmnTGdQmOsCJpDEatVEger1kV
- hL93F8TUCT2hpXl2YKASj2T4kw==
-X-Google-Smtp-Source: ABdhPJwEf97holPDf8KXlNA8Vuz+z+k3B79o20UtRK5b1lVAlKZ4zpU/A/6iZQ5IGWVEKM3pUqWfUA==
-X-Received: by 2002:a05:600c:4f8e:: with SMTP id
- n14mr19377335wmq.63.1633362295305; 
- Mon, 04 Oct 2021 08:44:55 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d2sm14877035wrc.32.2021.10.04.08.44.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 08:44:54 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 756981FF96;
- Mon,  4 Oct 2021 16:44:53 +0100 (BST)
-References: <20211004134742.2044280-1-alex.bennee@linaro.org>
- <20211004134742.2044280-6-alex.bennee@linaro.org>
-User-agent: mu4e 1.7.0; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 5/7] hw/arm/bcm2836: Add the BCM2711 which uses a GICv2
-Date: Mon, 04 Oct 2021 16:43:50 +0100
-In-reply-to: <20211004134742.2044280-6-alex.bennee@linaro.org>
-Message-ID: <87ilycg5fu.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mXQB4-0001K5-1f
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 11:46:54 -0400
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:43995)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mXQAy-0001Ca-Ex
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 11:46:53 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.17])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id D414321ABC;
+ Mon,  4 Oct 2021 15:46:36 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 4 Oct
+ 2021 17:46:36 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002a91b2e3d-af22-4da8-8225-9874c57d7b9a,
+ 32296DFA07ABF8CFA5B750E6C0B5925FEAD98EF4) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH 0/4] aspeed/smc: Improve support for the alternate boot
+ function
+Date: Mon, 4 Oct 2021 17:46:31 +0200
+Message-ID: <20211004154635.394258-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: b76390c4-a03e-4caf-a19e-0f37c5433b23
+X-Ovh-Tracer-Id: 2439825100510563110
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudelvddgledtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedvuedtvdeikeekuefhkedujeejgffggffhtefglefgveevfeeghfdvgedtleevnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,52 +66,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello,
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+The Aspeed SoCs have a dual boot function for firmware fail-over
+recovery. The system auto-reboots from the second flash if the main
+flash does not boot successfully within a certain amount of time. This
+function is called alternate boot (ABR) in the FMC controllers.
 
-> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> The BCM2711 is improvement of the BCM2837:
-> - Cortex-A72 instead of the A53
-> - peripheral block and local soc controller are mapped differently,
-> - GICv2
-> - PCIe block
-> - exhanced MMU to address over 4GiB of SDRAM
->
-<snip>
-> ---
-> vAJB:
-<snip>
->   - move peri_base/ctrl to locations pointed to by DTB (0x7e000000/0x4000=
-0000)
-<snip>
-> +
-> +static void bcm2711_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
-> +    BCM283XClass *bc =3D BCM283X_CLASS(oc);
-> +
-> +    bc->cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a72");
-> +    bc->core_count =3D BCM283X_NCPUS;
-> +    bc->peri_base =3D 0x7e000000;
-> +    bc->ctrl_base =3D 0x40000000;
-> +    bc->clusterid =3D 0x0;
-> +    bc->gic_base =3D 0x40000,
-> +    dc->realize =3D bcm2836_realize;
-> +}
+On the AST2600, the ABR registers controlling the 2nd watchdog timer
+were moved from the watchdog register to the FMC controller. To
+control WDT2 through the FMC model register set, this series creates a
+local address space on top of WDT2 memory region.
 
-It turns out I was misreading the way you calculate addresses from DTS
-files. Reverted to:
+To test on the fuji-bmc machine, run :
 
-    bc->peri_base =3D 0xfe000000;
-    bc->ctrl_base =3D 0xff800000;
+    devmem 0x1e620064
+    devmem 0x1e78504C 
 
---=20
-Alex Benn=C3=A9e
+    devmem 0x1e620064 32 0xffffffff
+    devmem 0x1e620064
+    devmem 0x1e78504C
+    
+Thanks
+
+C.
+
+
+Cédric Le Goater (4):
+  aspeed/wdt: Add trace events
+  aspeed/smc: Dump address offset in trace events
+  aspeed/wdt: Add an alias for the MMIO region
+  aspeed/smc: Improve support for the alternate boot function
+
+ include/hw/ssi/aspeed_smc.h      |  3 ++
+ include/hw/watchdog/wdt_aspeed.h |  1 +
+ hw/arm/aspeed_ast2600.c          |  2 +
+ hw/ssi/aspeed_smc.c              | 84 ++++++++++++++++++++++++++++++--
+ hw/watchdog/wdt_aspeed.c         | 20 ++++++--
+ hw/ssi/trace-events              |  1 +
+ hw/watchdog/trace-events         |  4 ++
+ 7 files changed, 107 insertions(+), 8 deletions(-)
+
+-- 
+2.31.1
+
 
