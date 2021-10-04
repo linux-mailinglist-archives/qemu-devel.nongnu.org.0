@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6598E4216A3
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 20:37:25 +0200 (CEST)
-Received: from localhost ([::1]:45598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D3A4216AF
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 20:39:27 +0200 (CEST)
+Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXSq3-0000wx-TU
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 14:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54934)
+	id 1mXSs2-0004SB-7k
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 14:39:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mXSmZ-0007aJ-Rn
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:33:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46207)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mXSqr-000399-JN
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:38:13 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35622
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mXSmX-0001kF-6h
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:33:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633372422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/xNVKdUos6liFfMJJ0lsyAz5sgIiiDz0vp+jryFLI64=;
- b=T11Ba17/0YEWyUdUgsuqdv8lIti8VKQjkADxy7nMRMdDsyWYy7u4ks1ts9ymftSYuKAfFZ
- F/vojyV/1GPSyDdV0+FQoz15ylL7JhDIozG09j6fyRPWblb4gi+X+HN0fq0a54zPX2UC8l
- zhgbv55gxrVCt9D4qgiSkyZ5O4cz/64=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-3QWMS5SJO8Wn9qKEw0h-WA-1; Mon, 04 Oct 2021 14:33:40 -0400
-X-MC-Unique: 3QWMS5SJO8Wn9qKEw0h-WA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3F931084681;
- Mon,  4 Oct 2021 18:33:38 +0000 (UTC)
-Received: from redhat.com (ovpn-113-32.phx2.redhat.com [10.3.113.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ADA7F5D9D5;
- Mon,  4 Oct 2021 18:33:29 +0000 (UTC)
-Date: Mon, 4 Oct 2021 13:33:28 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v3 05/19] docs/devel: document expectations for HMP
- commands in the future
-Message-ID: <20211004183328.gztwyr3knr7o2zqq@redhat.com>
-References: <20210930132349.3601823-1-berrange@redhat.com>
- <20210930132349.3601823-6-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mXSqq-0005WN-1s
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:38:13 -0400
+Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mXSqZ-0007n3-7n; Mon, 04 Oct 2021 19:37:59 +0100
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
+ <20211002110007.30825-2-mark.cave-ayland@ilande.co.uk>
+ <2d85248a-bddd-c390-d0a2-356d57627786@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <57e06bdc-7e31-8aae-79d0-9d71c9778455@ilande.co.uk>
+Date: Mon, 4 Oct 2021 19:38:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20210930132349.3601823-6-berrange@redhat.com>
-User-Agent: NeoMutt/20210205-804-7958fd
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <2d85248a-bddd-c390-d0a2-356d57627786@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 01/12] macfb: handle errors that occur during realize
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,38 +64,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Cornelia Huck <cohuck@redhat.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 30, 2021 at 02:23:35PM +0100, Daniel P. Berrangé wrote:
-> We no longer wish to have commands implemented in HMP only. All commands
-> should start with a QMP implementation and the HMP merely be a shim
-> around this. To reduce the burden of implementing QMP commands where
-> there is low expectation of machine usage, requirements for QAPI
-> modelling are relaxed provided the command is under the "x-" name
-> prefix.
+On 02/10/2021 12:36, BALATON Zoltan wrote:
+
+> On Sat, 2 Oct 2021, Mark Cave-Ayland wrote:
+>> Make sure any errors that occur within the macfb realize chain are detected
+>> and handled correctly to prevent crashes and to ensure that error messages are
+>> reported back to the user.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>> hw/display/macfb.c | 11 +++++++++++
+>> 1 file changed, 11 insertions(+)
+>>
+>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+>> index 76808b69cc..2b747a8de8 100644
+>> --- a/hw/display/macfb.c
+>> +++ b/hw/display/macfb.c
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  docs/devel/writing-monitor-commands.rst | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> There's one more in macfb_common_realize() after:
 > 
+> memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram", 
+> MACFB_VRAM_SIZE, errp);
+> 
+> otherwise
+> 
+> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Ah yes, IIRC from the last patchset the outcome of the discussion with Markus was 
+that these functions should use &error_abort. I'll make the same change here for v2.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
 
+ATB,
+
+Mark.
 
