@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75FA42070D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:11:29 +0200 (CEST)
-Received: from localhost ([::1]:56382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3222742071A
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:13:32 +0200 (CEST)
+Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXJ4J-0003jE-EU
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:11:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44248)
+	id 1mXJ6J-0007P5-7A
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:13:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeT-0004LG-Ox
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:45 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:47725)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mXIeR-0004K7-TH; Mon, 04 Oct 2021 03:44:43 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:36429)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXIeQ-0004wU-Rl
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:44:45 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mXIeO-0004uM-MJ; Mon, 04 Oct 2021 03:44:43 -0400
 Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MNc1T-1m8tDM3WGJ-00P9aT; Mon, 04
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MysmQ-1mjrew1vjG-00w0V6; Mon, 04
  Oct 2021 09:44:36 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/26] linux-user/riscv: Implement setup_sigtramp
-Date: Mon,  4 Oct 2021 09:44:15 +0200
-Message-Id: <20211004074421.3141222-21-laurent@vivier.eu>
+Subject: [PULL 21/26] linux-user/s390x: Implement setup_sigtramp
+Date: Mon,  4 Oct 2021 09:44:16 +0200
+Message-Id: <20211004074421.3141222-22-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211004074421.3141222-1-laurent@vivier.eu>
 References: <20211004074421.3141222-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:AAF27IW3lRIldQ+uE/IG01kCk2OyRCNFh3Xk17b48cO69mqRLTO
- Eh6RTxhIbvn1ABVjs7W/AoHN8TqQm2mhFEUMKmaS+56iNHGqHJbT1RLaBw5kmaYt1zaWLi7
- ZlMLkHJce3c2SYh4HNJz48wh1/Xo38VWLpRM64tAsp5u1IV8nodHyvkOxxJo20PqXLY1zdO
- AwZzFJPwN+Papmv47pUPQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wjxzRMMCZkw=:PHlWAiIXd+SUXl7/b/bzca
- 6anktjQ1IQoqRT/sTDZhl9jDiXtSkckfSIazjAPxx1vqbmt1/CH33GwubMb5+kjDsKKxKgipj
- liRmOqwpfJu3XNwSDq37jxy/3frxDtpdBIqdZf9Qf7k1oQ4xpt8VkVyEgSyw9M61/+LjeBQv3
- ssEjVaVtvvG0vJIrrtLnTwtB+kLV81X9nBSW5O1uXglH8/rOcKRYZE9qKPPZglEAQRR7XWf9N
- zDHWXhTJ3YUQiGfVWVFaB1cEsXtB5eNjg5dXwRooZaX8xQxXsBNLCNPg3Z6cHFo5JcVsKG0lO
- 310qysyanZfnbk+QVzkmeTe4WJSMHuFgX217r0RHwnq0VhsSzWdGy4Zxl1X6/tZa+//MJ2IQs
- 8DcrKxv50Z3Ng3nkHLfi1ez5GmmoGkd1QTK6OVFkBS7yexXhtwJ7HQyDcItQUiMHoKvQWwhSU
- noqkbVKUS0f/xrKSOYoNQWzmwFbIPYv0lw2cZKAHH4dNe2ryI0OuQNAdIpcYVSSOr3qSwvNr1
- gMFZ3GRtW65iI8QrSwJURltGFMkRH1gsbU1G1zX3vlxQ/IlPC7mIP5RJ6s6z8sW+YXvcp69e4
- P7I34h2UskGn7p08WgrH5OIBI+X9rO39F5Y6qZMibNPIDx560ky/GKHf4G2B26ozwtFkMWuHP
- qhSmF1ULuzrnEjoh3r+Uo/YrmZIHBZLJiM7XBu060LwmEi30lWHPTTro6xfYwCzX2qgxCIiZV
- nF2OT0HO1935+hB+sw8whzkUjJAxUQdnsMvUsA==
+X-Provags-ID: V03:K1:c30x3yUmnq8Umz5Jiv9UEsmawYcGms+lxlyFGWhYKfqkKjvF5i/
+ b/0UJNaHtB2njBXLFQIt0RmodO/UaOLE9MHwetgL7sAq+T61qPXQ0qDrKoQHQzvQY9+WYmO
+ zyMnO+g4IKofj/x2wzj7lNn6/bYHdC+VRhUaL8LO5iu/I6Q8khcHSsd2YGRIsGS8GRptME3
+ w3miAhemiy06MZoq2bV8A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NIgMMTv4LDg=:l6bhVuCLN/AH4Dv9D4GxmF
+ Z2BreH4FdN5pCnTLTmK5H+AHCP7eFOB04IkLLPC16Vt8wZB94Cwq69GRwOWEf/WX7PmRzZL9o
+ nbs7DXizH4EkDkzd/CQv+tkx9xTLlDhoN3eGeqKSjiqX5+drf44yENUeBUErFftnHS1fp6j/v
+ 4K1oD88DnPojqzz95/vALdfj6znpkfwUzgkHQjMT5h80ZuViWxEXCLFPuDZLYXGaXCzTzD67l
+ 8kIb8G6TIh/3cFDQpU3sH4LmRZo9+nD4apNECu1AiaDknSKe9mMZbUaV4+5VA8B/3q3rsj7V5
+ yAz+9LWiElUW5C3V+0zR+w7tN0HjEQ1ZqVvZjszuznFHDcIWBbsZwlWxVetpF80kgB0jDnkQl
+ nIcgYtN6p7U2RYot50Ra5tDzHSmzOH+j1isEvycz8uAPr9d4Oma8GDU4uMvxUuNizTzZXLkxX
+ RGWJYJPjwhwSlcX5lbQ/fepUS5gpZntnCdzo9deM7qx7jWxtNYeFeETZ4ESS4+hUv5Xm/6KZ4
+ f+ihI/9NYC3KmLqLjPf/WTLTeHbirHE6HgGngulzb9pBxk5ThQOCDQC+AMsqnd3wNSLxjoWEe
+ EciuYlyYz+p7iKZKB3N02G1D1YmsX8eBA/LQRO5dyAKwB2jOvJMnAKDwAeI7rFdNa0wKPBfEt
+ U1dIAfX1GpQCO3kEC+8UQAqPYzB/uFKeg7o/iokfzqT/0phKcZamGWhPw/wDiQEUFcP8jgpYs
+ j4uyGQfsnUA/hG+du2LYCPCZK4QCf/cMHbzN2w==
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -67,8 +67,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -76,92 +76,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Create and record the rt signal trampoline.
+Create and record the two signal trampolines.
+Use them when the guest does not use SA_RESTORER.
 
-This fixes a bug wrt libgcc fallback unwinding.  It expects
-the stack pointer to point to the siginfo_t, whereas we had
-inexplicably placed our private signal trampoline at the start
-of the signal frame instead of the end.  Now moot because we
-have removed it from the stack frame entirely.
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu-s390x@nongnu.org
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210929130553.121567-21-richard.henderson@linaro.org>
+Message-Id: <20210929130553.121567-22-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/riscv/signal.c        | 22 +++++++++++++---------
- linux-user/riscv/target_signal.h |  2 ++
- 2 files changed, 15 insertions(+), 9 deletions(-)
+ linux-user/s390x/signal.c        | 24 ++++++++++++++++--------
+ linux-user/s390x/target_signal.h |  2 ++
+ 2 files changed, 18 insertions(+), 8 deletions(-)
 
-diff --git a/linux-user/riscv/signal.c b/linux-user/riscv/signal.c
-index f7f33bc90aed..a0f9542ce39a 100644
---- a/linux-user/riscv/signal.c
-+++ b/linux-user/riscv/signal.c
-@@ -47,7 +47,6 @@ struct target_ucontext {
- };
+diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+index 80f34086d7b5..676b94814769 100644
+--- a/linux-user/s390x/signal.c
++++ b/linux-user/s390x/signal.c
+@@ -68,7 +68,6 @@ typedef struct {
+     target_sigregs sregs;
+     int signo;
+     target_sigregs_ext sregs_ext;
+-    uint16_t retcode;
+ } sigframe;
  
- struct target_rt_sigframe {
--    uint32_t tramp[2]; /* not in kernel, which uses VDSO instead */
+ #define TARGET_UC_VXRS 2
+@@ -85,7 +84,6 @@ struct target_ucontext {
+ 
+ typedef struct {
+     uint8_t callee_used_stack[__SIGNAL_FRAMESIZE];
+-    uint16_t retcode;
      struct target_siginfo info;
      struct target_ucontext uc;
- };
-@@ -105,12 +104,6 @@ static void setup_ucontext(struct target_ucontext *uc,
-     setup_sigcontext(&uc->uc_mcontext, env);
- }
+ } rt_sigframe;
+@@ -209,9 +207,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     if (ka->sa_flags & TARGET_SA_RESTORER) {
+         restorer = ka->sa_restorer;
+     } else {
+-        restorer = frame_addr + offsetof(sigframe, retcode);
+-        __put_user(S390_SYSCALL_OPCODE | TARGET_NR_sigreturn,
+-                   &frame->retcode);
++        restorer = default_sigreturn;
+     }
  
--static inline void install_sigtramp(uint32_t *tramp)
--{
--    __put_user(0x08b00893, tramp + 0);  /* li a7, 139 = __NR_rt_sigreturn */
--    __put_user(0x00000073, tramp + 1);  /* ecall */
--}
--
- void setup_rt_frame(int sig, struct target_sigaction *ka,
-                     target_siginfo_t *info,
-                     target_sigset_t *set, CPURISCVState *env)
-@@ -127,14 +120,13 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     /* Set up registers for signal handler */
+@@ -262,9 +258,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     if (ka->sa_flags & TARGET_SA_RESTORER) {
+         restorer = ka->sa_restorer;
+     } else {
+-        restorer = frame_addr + offsetof(typeof(*frame), retcode);
+-        __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn,
+-                   &frame->retcode);
++        restorer = default_rt_sigreturn;
+     }
  
-     setup_ucontext(&frame->uc, env, set);
-     tswap_siginfo(&frame->info, info);
--    install_sigtramp(frame->tramp);
- 
-     env->pc = ka->_sa_handler;
-     env->gpr[xSP] = frame_addr;
-     env->gpr[xA0] = sig;
-     env->gpr[xA1] = frame_addr + offsetof(struct target_rt_sigframe, info);
-     env->gpr[xA2] = frame_addr + offsetof(struct target_rt_sigframe, uc);
--    env->gpr[xRA] = frame_addr + offsetof(struct target_rt_sigframe, tramp);
-+    env->gpr[xRA] = default_rt_sigreturn;
- 
-     return;
- 
-@@ -203,3 +195,15 @@ badframe:
-     force_sig(TARGET_SIGSEGV);
-     return 0;
+     /* Create siginfo on the signal stack. */
+@@ -405,3 +399,17 @@ long do_rt_sigreturn(CPUS390XState *env)
+     unlock_user_struct(frame, frame_addr, 0);
+     return -TARGET_QEMU_ESIGRETURN;
  }
 +
 +void setup_sigtramp(abi_ulong sigtramp_page)
 +{
-+    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 8, 0);
++    uint16_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 2 + 2, 0);
 +    assert(tramp != NULL);
 +
-+    __put_user(0x08b00893, tramp + 0);  /* li a7, 139 = __NR_rt_sigreturn */
-+    __put_user(0x00000073, tramp + 1);  /* ecall */
++    default_sigreturn = sigtramp_page;
++    __put_user(S390_SYSCALL_OPCODE | TARGET_NR_sigreturn, &tramp[0]);
 +
-+    default_rt_sigreturn = sigtramp_page;
-+    unlock_user(tramp, sigtramp_page, 8);
++    default_rt_sigreturn = sigtramp_page + 2;
++    __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn, &tramp[1]);
++
++    unlock_user(tramp, sigtramp_page, 2 + 2);
 +}
-diff --git a/linux-user/riscv/target_signal.h b/linux-user/riscv/target_signal.h
-index f113ba9a55f6..3e36fddc9dbb 100644
---- a/linux-user/riscv/target_signal.h
-+++ b/linux-user/riscv/target_signal.h
-@@ -15,4 +15,6 @@ typedef struct target_sigaltstack {
- 
+diff --git a/linux-user/s390x/target_signal.h b/linux-user/s390x/target_signal.h
+index bbfc464d4417..64f5f422010f 100644
+--- a/linux-user/s390x/target_signal.h
++++ b/linux-user/s390x/target_signal.h
+@@ -19,4 +19,6 @@ typedef struct target_sigaltstack {
  #include "../generic/signal.h"
  
+ #define TARGET_ARCH_HAS_SETUP_FRAME
 +#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
 +
- #endif /* RISCV_TARGET_SIGNAL_H */
+ #endif /* S390X_TARGET_SIGNAL_H */
 -- 
 2.31.1
 
