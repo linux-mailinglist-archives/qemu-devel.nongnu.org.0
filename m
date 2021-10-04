@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF27420B01
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 14:41:45 +0200 (CEST)
-Received: from localhost ([::1]:50178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324FF420D8E
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 15:14:46 +0200 (CEST)
+Received: from localhost ([::1]:48674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXNHr-0000A8-DH
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 08:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49926)
+	id 1mXNno-00046L-0b
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 09:14:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mXN8p-0003K5-Ns
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 08:32:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47291)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXNkV-0001T9-Sd
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 09:11:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mXN8m-0004bh-F9
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 08:32:22 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXNkQ-00055e-Ok
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 09:11:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633350739;
+ s=mimecast20190719; t=1633353073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FsfnuBQshJu1RbQNamHuIfNWlgV7YMhqQF4wztloXDk=;
- b=PLqY1lP5fcEJi47cEe3kJaLAqT5OLV2w8Mkd7kovg9qJm1dWmVH72ioZrU5/5dMU+tPiQA
- BB7iAUQC6rAsYx6RKItgIUAMbfftWfE87zzrVAsjwRhBecYp7UOClUoniaKE3XjfC2uq/w
- PxUMc725GmurKBIfCSlGpYbvU4wazq8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-5en1vwHGPHyG-Ql3TvQkyA-1; Mon, 04 Oct 2021 08:32:18 -0400
-X-MC-Unique: 5en1vwHGPHyG-Ql3TvQkyA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- k6-20020a05600c0b4600b0030d2a0a259eso6770414wmr.6
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 05:32:18 -0700 (PDT)
+ bh=gJ8uD8KGtyPPl9fPzzKl5NSX78fI1kIzy833DRlhopA=;
+ b=EcM/mp6plBrwmKNINx0/+0UFgpTglcAcKSviQY2oOt8GMjbAxYA2G2/Lxn/+JKsXop7JBc
+ zPxNSkdkZcBBq7iYFuxhg8/Zbxb8PpgB4HTqmmOiiqPhOdhtxoOIeshACfaN2e8eAB1Fus
+ hQXA5ST4cOAiAM8GYM1wwpHk6RhrY30=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-t34M4-pVNZqf57dulGansQ-1; Mon, 04 Oct 2021 09:11:12 -0400
+X-MC-Unique: t34M4-pVNZqf57dulGansQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r16-20020adfbb10000000b00160958ed8acso2880639wrg.16
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 06:11:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=FsfnuBQshJu1RbQNamHuIfNWlgV7YMhqQF4wztloXDk=;
- b=eXjjPoOro3CyUD76snWAVxjEkjgtIzLBbVaBD4T4iCsNgA8fkKe+6GDHpK6Pd9vV18
- OTeG2m2p3NjDyd+3HGMSZOw0E9xar2TRy1tCO4YUwF75pQ/lqEwS888f0wSWrpM2/qJ6
- ShRXunSuCr8hKvJKfYnoSD16F2L3/EaqmUHrgP9YMxI4vFqx6lv5q4h5QxCffYOnBi6b
- wE7TAguyN8LUX28GTMUCSgD43YgYH9+RQ6XJn1P+DKch02NwqNObniiTLhtR85uy4quY
- c+56xTrt2wV65zYtjO0GhgH+ofTQtH/eROoOivnxUPBgpHzVv53D5bdG0bse6ZVVY1Cp
- kcoA==
-X-Gm-Message-State: AOAM5332SKW9M4PpFYmfqOdA6N4vda9H0pAtXLXG21ktsvDGy5Nwx/Yo
- GVvh/fG0iz4iFjKv9WzR5koGEZkQk1lSvaBBBr2pmwgPt54mTTau8Twcm72Zlg1hXMRFk1LUutm
- lTQ6aBUvzoXF3aYM=
-X-Received: by 2002:a7b:c442:: with SMTP id l2mr18777554wmi.131.1633350737041; 
- Mon, 04 Oct 2021 05:32:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZsReheXuFAbE9PrnvPWhJcYmtfoOMD21NcdszUsus8K94tPmiK0Dk/JHD/x3NwXId+zqtnw==
-X-Received: by 2002:a7b:c442:: with SMTP id l2mr18777499wmi.131.1633350736725; 
- Mon, 04 Oct 2021 05:32:16 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id t15sm5082052wru.6.2021.10.04.05.32.15
+ :mime-version:content-disposition:in-reply-to;
+ bh=gJ8uD8KGtyPPl9fPzzKl5NSX78fI1kIzy833DRlhopA=;
+ b=DRnIJMI0xBglMZ5RN6HJHdZJDD3Ep6blD2SFNRfDAehcDPnkh36H9luYDYF55tlBp9
+ 24R5g4pW2YwULhcGpsNiANNBpIMZkJNFv28W4HPr8zQ7GsFk2G9svv+V5sLTd8Kn5lvh
+ Z/83SCjvUm0SL0zm6J4DPtkGh2dWWtq8gk9FSk0zCRX833Ddpi2FojiMbUWPD/gmbVj5
+ nNlvMDaOXpX4VtuPszGGIqApgJE68CI81zH0LmqAI2Qp0eu10Vy7+uEmBRl8ExZqlh+4
+ ESt+1FN05g3awKKu4CTW/IBhVt81QFYbeka9laE+OdGl3N+w8/5gE1NZjwloGYj8ueSx
+ APSA==
+X-Gm-Message-State: AOAM5308yioeIrds0L0j6Wc14bRUeAKEzOMMoUs/oyShzvaSK23Jw/YW
+ MNMK093W1CodE+91e4iYLdl/DeYmsAENQg0vN2JNg7xDY9Ecnl+PU2Ob9oZwYe5EMVvRzexOrOX
+ f7JhRXpCl+4H4dDg=
+X-Received: by 2002:adf:b7c1:: with SMTP id t1mr13849610wre.387.1633353070707; 
+ Mon, 04 Oct 2021 06:11:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzZvYf+VMC4Tiq195Wdu1f4UR7aD4zUUtGSveBANC153CIfNm6xHmaKVfbT3y2gMzaLHqaWkw==
+X-Received: by 2002:adf:b7c1:: with SMTP id t1mr13849547wre.387.1633353070291; 
+ Mon, 04 Oct 2021 06:11:10 -0700 (PDT)
+Received: from redhat.com ([2.55.134.94])
+ by smtp.gmail.com with ESMTPSA id p3sm7750728wmp.43.2021.10.04.06.11.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 05:32:16 -0700 (PDT)
-Date: Mon, 4 Oct 2021 13:32:14 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v3 07/19] qapi: introduce x-query-roms QMP command
-Message-ID: <YVr0TufQdOS59bta@work-vm>
-References: <20210930132349.3601823-1-berrange@redhat.com>
- <20210930132349.3601823-8-berrange@redhat.com>
+ Mon, 04 Oct 2021 06:11:09 -0700 (PDT)
+Date: Mon, 4 Oct 2021 09:11:04 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [RFC PATCH 1/1] virtio: write back features before verify
+Message-ID: <20211004090018-mutt-send-email-mst@kernel.org>
+References: <20210930012049.3780865-1-pasic@linux.ibm.com>
+ <20210930070444-mutt-send-email-mst@kernel.org>
+ <20211001092125.64fef348.pasic@linux.ibm.com>
+ <20211002055605-mutt-send-email-mst@kernel.org>
+ <87bl452d90.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210930132349.3601823-8-berrange@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+In-Reply-To: <87bl452d90.fsf@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -99,250 +95,263 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Cornelia Huck <cohuck@redhat.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Blake <eblake@redhat.com>
+Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, Halil Pasic <pasic@linux.ibm.com>,
+ Xie Yongji <xieyongji@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> This is a counterpart to the HMP "info roms" command. It is being
-> added with an "x-" prefix because this QMP command is intended as an
-> adhoc debugging tool and will thus not be modelled in QAPI as fully
-> structured data, nor will it have long term guaranteed stability.
-> The existing HMP command is rewritten to call the QMP command.
+On Mon, Oct 04, 2021 at 02:19:55PM +0200, Cornelia Huck wrote:
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  hw/core/loader.c            | 53 +++++++++++++++++++++++++------------
->  hw/core/machine-qmp-cmds.c  |  1 +
->  include/qapi/type-helpers.h | 14 ++++++++++
->  qapi/common.json            | 11 ++++++++
->  qapi/machine.json           | 12 +++++++++
->  qapi/meson.build            |  3 +++
->  qapi/qapi-type-helpers.c    | 23 ++++++++++++++++
->  7 files changed, 100 insertions(+), 17 deletions(-)
->  create mode 100644 include/qapi/type-helpers.h
->  create mode 100644 qapi/qapi-type-helpers.c
+> [cc:qemu-devel]
 > 
-> diff --git a/hw/core/loader.c b/hw/core/loader.c
-> index c623318b73..5ebdca3087 100644
-> --- a/hw/core/loader.c
-> +++ b/hw/core/loader.c
-> @@ -46,6 +46,8 @@
->  #include "qemu-common.h"
->  #include "qemu/datadir.h"
->  #include "qapi/error.h"
-> +#include "qapi/qapi-commands-machine.h"
-> +#include "qapi/type-helpers.h"
->  #include "trace.h"
->  #include "hw/hw.h"
->  #include "disas/disas.h"
-> @@ -1472,32 +1474,49 @@ void *rom_ptr_for_as(AddressSpace *as, hwaddr addr, size_t size)
->      return cbdata.rom;
->  }
->  
-> -void hmp_info_roms(Monitor *mon, const QDict *qdict)
-> +HumanReadableText *qmp_x_query_roms(Error **errp)
->  {
->      Rom *rom;
-> +    g_autoptr(GString) buf = g_string_new("");
->  
->      QTAILQ_FOREACH(rom, &roms, next) {
->          if (rom->mr) {
-> -            monitor_printf(mon, "%s"
-> -                           " size=0x%06zx name=\"%s\"\n",
-> -                           memory_region_name(rom->mr),
-> -                           rom->romsize,
-> -                           rom->name);
-> +            g_string_append_printf(buf, "%s"
-> +                                   " size=0x%06zx name=\"%s\"\n",
-> +                                   memory_region_name(rom->mr),
-> +                                   rom->romsize,
-> +                                   rom->name);
->          } else if (!rom->fw_file) {
-> -            monitor_printf(mon, "addr=" TARGET_FMT_plx
-> -                           " size=0x%06zx mem=%s name=\"%s\"\n",
-> -                           rom->addr, rom->romsize,
-> -                           rom->isrom ? "rom" : "ram",
-> -                           rom->name);
-> +            g_string_append_printf(buf, "addr=" TARGET_FMT_plx
-> +                                   " size=0x%06zx mem=%s name=\"%s\"\n",
-> +                                   rom->addr, rom->romsize,
-> +                                   rom->isrom ? "rom" : "ram",
-> +                                   rom->name);
->          } else {
-> -            monitor_printf(mon, "fw=%s/%s"
-> -                           " size=0x%06zx name=\"%s\"\n",
-> -                           rom->fw_dir,
-> -                           rom->fw_file,
-> -                           rom->romsize,
-> -                           rom->name);
-> +            g_string_append_printf(buf, "fw=%s/%s"
-> +                                   " size=0x%06zx name=\"%s\"\n",
-> +                                   rom->fw_dir,
-> +                                   rom->fw_file,
-> +                                   rom->romsize,
-> +                                   rom->name);
->          }
->      }
-> +
-> +    return human_readable_text_from_str(buf);
-> +}
-> +
-> +
-> +void hmp_info_roms(Monitor *mon, const QDict *qdict)
-> +{
-> +    Error *err = NULL;
-> +    g_autoptr(HumanReadableText) info = qmp_x_query_roms(&err);
-> +
-> +    if (err) {
-> +        error_report_err(err);
-> +        return;
-> +    }
-> +
-> +    monitor_printf(mon, "%s", info->human_readable_text);
-
-This is getting copied in each one of these; it looks like you need
-either:
-  a) A helper function like:
-       void hmp_info_from_qmp(Monitor *mon, HumanReadableText *(void)func) 
-       {
-           ...
-       }
-
-  b) Or teach the hmp parser to do the calls?
-
-Dave
-
->  }
->  
->  typedef enum HexRecord HexRecord;
-> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-> index 216fdfaf3a..76f2b84d81 100644
-> --- a/hw/core/machine-qmp-cmds.c
-> +++ b/hw/core/machine-qmp-cmds.c
-> @@ -15,6 +15,7 @@
->  #include "qapi/qmp/qerror.h"
->  #include "qapi/qmp/qobject.h"
->  #include "qapi/qobject-input-visitor.h"
-> +#include "qapi/type-helpers.h"
->  #include "qemu/main-loop.h"
->  #include "qom/qom-qobject.h"
->  #include "sysemu/hostmem.h"
-> diff --git a/include/qapi/type-helpers.h b/include/qapi/type-helpers.h
-> new file mode 100644
-> index 0000000000..be1f181526
-> --- /dev/null
-> +++ b/include/qapi/type-helpers.h
-> @@ -0,0 +1,14 @@
-> +/*
-> + * QAPI common helper functions
-> + *
-> + * This file provides helper functions related to types defined
-> + * in the QAPI schema.
-> + *
-> + * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
-> + * See the COPYING.LIB file in the top-level directory.
-> + *
-> + */
-> +
-> +#include "qapi/qapi-types-common.h"
-> +
-> +HumanReadableText *human_readable_text_from_str(GString *str);
-> diff --git a/qapi/common.json b/qapi/common.json
-> index 7c976296f0..412cc4f5ae 100644
-> --- a/qapi/common.json
-> +++ b/qapi/common.json
-> @@ -197,3 +197,14 @@
->  { 'enum': 'GrabToggleKeys',
->    'data': [ 'ctrl-ctrl', 'alt-alt', 'shift-shift','meta-meta', 'scrolllock',
->              'ctrl-scrolllock' ] }
-> +
-> +##
-> +# @HumanReadableText:
-> +#
-> +# @human-readable-text: Formatted output intended for humans.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'struct': 'HumanReadableText',
-> +  'data': { 'human-readable-text': 'str' } }
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 32d47f4e35..4c18904521 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1346,3 +1346,15 @@
->       '*cores': 'int',
->       '*threads': 'int',
->       '*maxcpus': 'int' } }
-> +
-> +##
-> +# @x-query-roms:
-> +#
-> +# Query information on the registered ROMS
-> +#
-> +# Returns: registered ROMs
-> +#
-> +# Since: 6.2
-> +##
-> +{ 'command': 'x-query-roms',
-> +  'returns': 'HumanReadableText' }
-> diff --git a/qapi/meson.build b/qapi/meson.build
-> index c356a385e3..c0c49c15e4 100644
-> --- a/qapi/meson.build
-> +++ b/qapi/meson.build
-> @@ -10,6 +10,9 @@ util_ss.add(files(
->    'string-input-visitor.c',
->    'string-output-visitor.c',
->  ))
-> +if have_system
-> +  util_ss.add(files('qapi-type-helpers.c'))
-> +endif
->  if have_system or have_tools
->    util_ss.add(files(
->      'qmp-dispatch.c',
-> diff --git a/qapi/qapi-type-helpers.c b/qapi/qapi-type-helpers.c
-> new file mode 100644
-> index 0000000000..f76b34f647
-> --- /dev/null
-> +++ b/qapi/qapi-type-helpers.c
-> @@ -0,0 +1,23 @@
-> +/*
-> + * QAPI common helper functions
-> + *
-> + * This file provides helper functions related to types defined
-> + * in the QAPI schema.
-> + *
-> + * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
-> + * See the COPYING.LIB file in the top-level directory.
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "qapi/type-helpers.h"
-> +
-> +HumanReadableText *human_readable_text_from_str(GString *str)
-> +{
-> +    HumanReadableText *ret = g_new0(HumanReadableText, 1);
-> +
-> +    ret->human_readable_text = g_steal_pointer(&str->str);
-> +
-> +    return ret;
-> +}
-> -- 
-> 2.31.1
+> On Sat, Oct 02 2021, "Michael S. Tsirkin" <mst@redhat.com> wrote:
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > On Fri, Oct 01, 2021 at 09:21:25AM +0200, Halil Pasic wrote:
+> >> On Thu, 30 Sep 2021 07:12:21 -0400
+> >> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >> 
+> >> > On Thu, Sep 30, 2021 at 03:20:49AM +0200, Halil Pasic wrote:
+> >> > > This patch fixes a regression introduced by commit 82e89ea077b9
+> >> > > ("virtio-blk: Add validation for block size in config space") and
+> >> > > enables similar checks in verify() on big endian platforms.
+> >> > > 
+> >> > > The problem with checking multi-byte config fields in the verify
+> >> > > callback, on big endian platforms, and with a possibly transitional
+> >> > > device is the following. The verify() callback is called between
+> >> > > config->get_features() and virtio_finalize_features(). That we have a
+> >> > > device that offered F_VERSION_1 then we have the following options
+> >> > > either the device is transitional, and then it has to present the legacy
+> >> > > interface, i.e. a big endian config space until F_VERSION_1 is
+> >> > > negotiated, or we have a non-transitional device, which makes
+> >> > > F_VERSION_1 mandatory, and only implements the non-legacy interface and
+> >> > > thus presents a little endian config space. Because at this point we
+> >> > > can't know if the device is transitional or non-transitional, we can't
+> >> > > know do we need to byte swap or not.  
+> >> > 
+> >> > Hmm which transport does this refer to?
+> >> 
+> >> It is the same with virtio-ccw and virtio-pci. I see the same problem
+> >> with both on s390x. I didn't try with virtio-blk-pci-non-transitional
+> >> yet (have to figure out how to do that with libvirt) for pci I used
+> >> virtio-blk-pci.
+> >> 
+> >> > Distinguishing between legacy and modern drivers is transport
+> >> > specific.  PCI presents
+> >> > legacy and modern at separate addresses so distinguishing
+> >> > between these two should be no trouble.
+> >> 
+> >> You mean the device id? Yes that is bolted down in the spec, but
+> >> currently we don't exploit that information. Furthermore there
+> >> is a fat chance that with QEMU even the allegedly non-transitional
+> >> devices only present a little endian config space after VERSION_1
+> >> was negotiated. Namely get_config for virtio-blk is implemented in
+> >> virtio_blk_update_config() which does virtio_stl_p(vdev,
+> >> &blkcfg.blk_size, blk_size) and in there we don't care
+> >> about transitional or not:
+> >> 
+> >> static inline bool virtio_access_is_big_endian(VirtIODevice *vdev)
+> >> {
+> >> #if defined(LEGACY_VIRTIO_IS_BIENDIAN)
+> >>     return virtio_is_big_endian(vdev);
+> >> #elif defined(TARGET_WORDS_BIGENDIAN)
+> >>     if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+> >>         /* Devices conforming to VIRTIO 1.0 or later are always LE. */
+> >>         return false;
+> >>     }
+> >>     return true;
+> >> #else
+> >>     return false;
+> >> #endif
+> >> }
+> >> 
+> >
+> > ok so that's a QEMU bug. Any virtio 1.0 and up
+> > compatible device must use LE.
+> > It can also present a legacy config space where the
+> > endian depends on the guest.
+> 
+> So, how is the virtio core supposed to determine this? A
+> transport-specific callback?
+
+I'd say a field in VirtIODevice is easiest.
+
+> >
+> >> > Channel i/o has versioning so same thing?
+> >> >
+> >> 
+> >> Don't think so. Both a transitional and a non-transitional device
+> >> would have to accept revisions higher than 0 if the driver tried to
+> >> negotiate those (and we do in our case).
+> >
+> > Yes, the modern driver does. And that one is known to be LE.
+> > legacy driver doesn't.
+> >
+> >> > > The virtio spec explicitly states that the driver MAY read config
+> >> > > between reading and writing the features so saying that first accessing
+> >> > > the config before feature negotiation is done is not an option. The
+> >> > > specification ain't clear about setting the features multiple times
+> >> > > before FEATURES_OK, so I guess that should be fine.
+> >> > > 
+> >> > > I don't consider this patch super clean, but frankly I don't think we
+> >> > > have a ton of options. Another option that may or man not be cleaner,
+> >> > > but is also IMHO much uglier is to figure out whether the device is
+> >> > > transitional by rejecting _F_VERSION_1, then resetting it and proceeding
+> >> > > according tho what we have figured out, hoping that the characteristics
+> >> > > of the device didn't change.  
+> >> > 
+> >> > I am confused here. So is the problem at the device or at the driver level?
+> >> 
+> >> We have a driver regression. Since the 82e89ea077b9 ("virtio-blk: Add
+> >> validation for block size in config space") virtio-blk is broken on
+> >> s390.
+> >
+> > Because of a qemu bug. I agree. It's worth working around in the driver
+> > since the qemu bug has been around for a very long time.
+> 
+> Yes, since we introduced virtio 1 support, I guess...
+> 
+> >
+> >
+> >> The deeper problem is in the spec. We stated that the driver may read
+> >> config space before the feature negotiation is finalized, but we didn't
+> >> think enough about what happens when native endiannes is not little
+> >> endian in the different cases.
+> >
+> > Because the spec is very clear that endian-ness is LE.
+> > I don't see a spec issue yet here, just an implementation issue.
+> 
+> Maybe not really a bug in the spec, but probably an issue, as this seems
+> to have been unclear to most people so far.
+> 
+> >
+> >> I believe, for non-transitional devices we have a problem in the host as
+> >> well (i.e. in QEMU).
+> >
+> > Because QEMU ignores the spec and instead relies on the feature
+> > negotiation.
+> >
+> >> 
+> >> > I suspect it's actually the host that has the issue, not
+> >> > the guest?
+> >> 
+> >> I tend to say we have a problem both in the host and in the guest. I'm
+> >> more concerned about the problem in the guest, because that is a really
+> >> nasty regression.
+> >
+> > The problem is in the guest. The bug is in the host ;)
+> >
+> >> For the host. I think for legacy we don't have a
+> >> problem, because both sides would operate on the assumption no
+> >> _F_VERSION_1, IMHO the implementation for the transitional devices is
+> >> correct.
+> >
+> > Well no, the point of transitional is really to be 1.0 compliant
+> > *and* also expose a legacy interface.
+> 
+> Worth noting that PCI and CCW are a tad different here: PCI exposes an
+> additional interface, while CCW uses a revision negotiation mechanism
+> (for CCW, legacy and standard-compliant are much closer on the transport
+> side as for PCI.) MMIO does not do transitional, if I'm not wrong.
+
+Right. It probably still uses VIRTIO_F_VERSION_1 and we need to
+fix that.
+
+> >
+> >> For non-transitional flavor, it depends on the device. For
+> >> example virtio-net and virtio-blk is broken, because we use primitives
+> >> like virtio_stl_p() and those don't do the right thing before feature
+> >> negotiation is completed. On the other hand virtio-crypto.c as a truly
+> >> non-transitional device uses stl_le_p() and IMHO does the right thing.
+> >> 
+> >> Thanks for your comments! I hope I managed to answer your questions. I
+> >> need some guidance on how do we want to move forward on this.
+> >> 
+> >> Regards,
+> >> Halil
+> >
+> > OK so. I don't have a problem with the patch itself,
+> > assuming it's enough to work around all buggy hosts.
+> > I am especially worried about things like vhost/vhost-user,
+> > I suspect they might have a bug like this too, and
+> > I am not sure whether your work around is enough for these.
+> > Can you check please?
+> >
+> > If not we'll have to move all validate code to after FEATURES_OK
+> > is set.
+> 
+> What is supposed to happen for validate after FEATURES_OK? The driver
+> cannot change any features at that point in time, it can only fail to
+> use the device.
+
+Fail to use the device. Need to tread carefully here of course,
+we don't want to break working setups.
+
+> >
+> > We do however want to document that this API can be called
+> > multiple times since that was not the case
+> > previously.
+> >
+> > Also, I would limit this to when
+> > - the validate callback exists
+> > - the guest endian-ness is not LE
+> >
+> > We also want to document the QEMU bug in a comment here,
+> > e.g. 
+> >
+> > /*
+> >  * QEMU before version 6.2 incorrectly uses driver features with guest
+> >  * endian-ness to set endian-ness for config space instead of just using
+> >  * LE for the modern interface as per spec.
+> >  * This breaks reading config in the validate callback.
+> >  * To work around that, when device is 1.0 (so supposed to be LE)
+> >  * but guest is not LE, then send the features to device one extra
+> >  * time before validation.
+> >  */
+> 
+> Do we need to consider migration, or do we not need to be bug-compatible
+> in this case?
+
+I suspect we don't need to be bug compatible, any driver
+accessing config before FEATURES_OK is already broken ...
+
+> >
+> > Finally I'd like to see the QEMU bug fix before I merge this one,
+> > since it will be harder to test with a fix.
+> >
+> >
+> >
+> >
+> >> > 
+> >> > 
+> >> > > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> >> > > Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in config space")
+> >> > > Reported-by: markver@us.ibm.com
+> >> > > ---
+> >> > >  drivers/virtio/virtio.c | 4 ++++
+> >> > >  1 file changed, 4 insertions(+)
+> >> > > 
+> >> > > diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+> >> > > index 0a5b54034d4b..9dc3cfa17b1c 100644
+> >> > > --- a/drivers/virtio/virtio.c
+> >> > > +++ b/drivers/virtio/virtio.c
+> >> > > @@ -249,6 +249,10 @@ static int virtio_dev_probe(struct device *_d)
+> >> > >  		if (device_features & (1ULL << i))
+> >> > >  			__virtio_set_bit(dev, i);
+> >> > >  
+> >> > > +	/* Write back features before validate to know endianness */
+> >> > > +	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
+> >> > > +		dev->config->finalize_features(dev);
+> >> > > +
+> >> > >  	if (drv->validate) {
+> >> > >  		err = drv->validate(dev);
+> >> > >  		if (err)
+> >> > > 
+> >> > > base-commit: 02d5e016800d082058b3d3b7c3ede136cdc6ddcb
+> >> > > -- 
+> >> > > 2.25.1  
+> >> > 
 
 
