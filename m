@@ -2,56 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A086421954
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 23:33:59 +0200 (CEST)
-Received: from localhost ([::1]:42474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F218142195D
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 23:37:32 +0200 (CEST)
+Received: from localhost ([::1]:50066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXVaw-0006Nv-4D
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 17:33:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57256)
+	id 1mXVeO-00039v-1f
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 17:37:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mXVPD-0003y5-MJ
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 17:21:53 -0400
-Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:60397)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mXVUK-0006Ts-Kw
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 17:27:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mXVP9-0006bm-AM
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 17:21:50 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.76])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id EB8CB202D5;
- Mon,  4 Oct 2021 21:21:44 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 4 Oct
- 2021 23:21:44 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002693f802b-27cd-4eb4-b5c5-4aae9dceb83c,
- 6052322A053A64D32F912485F446DEADD4740C2E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-Subject: [PATCH] spapr/xive: Add source status helpers
-Date: Mon, 4 Oct 2021 23:21:41 +0200
-Message-ID: <20211004212141.432954-1-clg@kaod.org>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mXVUH-0005fy-2q
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 17:27:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633382824;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=k+XjGJLPnJEF8pYT2tlN26i72z3lhfyhTo/51gpl94M=;
+ b=AlXDv0hlQK+zql6kDSGz5WRWCXxPMDN30VUmjfN76NY5KFsQX2Vl1/1enQlWSkEr2jE5mE
+ h4azX/OX0Gu8UY31fM8qcjIcgoFP1Ls65Ma1kNaVcPVQoACDxuvfPZFXPEH8kgGG4+3lwp
+ 85ztT2rfFOUhp9N1H71zDjSO1AmRd/k=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-362-iHnmdq10NWqhCHqdK9GFeg-1; Mon, 04 Oct 2021 17:27:02 -0400
+X-MC-Unique: iHnmdq10NWqhCHqdK9GFeg-1
+Received: by mail-vs1-f71.google.com with SMTP id
+ e13-20020a67b64d000000b002d834de4dd7so1848142vsm.21
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 14:27:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=k+XjGJLPnJEF8pYT2tlN26i72z3lhfyhTo/51gpl94M=;
+ b=sihDtKsqEanSGS65mkvvJsSOLf4WKi423XaDLiYbDbwvcReyDAZzcLCJZrJo+R/Qer
+ /6pvEaMO444yq1x2hOE3jdiu7Uj+l1hLGPpdLzqVNSbZ36bmHAolmPpH5ed/d+bt394l
+ GdLdoRR8DRMdNQ29qaJ270Q01cpZxgFHhmU1E4XeYPlGyBwoyxFNJkCpD59z7amYDpGP
+ 61i8g+vKCB/YX4EKKOslP5bILkFIE/yxGviwiS7YUo9C6Nlre5b2mbtq/2H+hllkkUJ5
+ WD8xyGLlpZAWxeOnypfFW0wBKWm45lj6wMtnIRshauM7lG3017H5gmQswOwY2iBlGCEc
+ vTqQ==
+X-Gm-Message-State: AOAM531bYG1UQ30AZWFuLaCn2yeCQ/Am/tTFhuqLhazffTlLjfcSuWEt
+ 7yutoMh1B1kTlbq+J7U87eo7s35BH4IqGJhYTbf4wU75kqKf7UMQCpCcAYdXxJHZH57W0HleTT1
+ Fnn58loAv2cH23GVDa7JSwPw9RRZ9GXg=
+X-Received: by 2002:ab0:3c89:: with SMTP id a9mr9890590uax.32.1633382821742;
+ Mon, 04 Oct 2021 14:27:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHBYEPliaHn9GaN8oz7cozRGuUF1L0w3wxnbXaKEIw5mWRe1CSwPuDdnzgCZm6MSfxJxRuves+DbnhB9JykHc=
+X-Received: by 2002:ab0:3c89:: with SMTP id a9mr9890560uax.32.1633382821484;
+ Mon, 04 Oct 2021 14:27:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: f41f4685-9ff4-4d3a-8393-8b36f832ea71
-X-Ovh-Tracer-Id: 8099723932010580899
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudelvddgudehjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefvdeutddvieekkeeuhfekudejjefggffghfetgfelgfevveefgefhvdegtdelveenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
- helo=2.mo548.mail-out.ovh.net
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210917054047.2042843-1-jsnow@redhat.com>
+ <20210917054047.2042843-13-jsnow@redhat.com>
+ <e885ae38-5e31-8a89-96d2-10ffab69e373@redhat.com>
+ <CAFn=p-aaU8OK99R8u21SGb0kyOz=RtNy_aZoYnLwoOu6d4WE6A@mail.gmail.com>
+ <CAFn=p-bTtRWdLhMuaQdH=pSy26KytrfXcidO4RePBunXxwUbSA@mail.gmail.com>
+ <372c86ac-0061-2d9a-b366-72260d91bd75@redhat.com>
+ <CAFn=p-bLmHQRK9UT6H2F4C46tjZe6HnO=cYJJdB7z-j1uChk-Q@mail.gmail.com>
+In-Reply-To: <CAFn=p-bLmHQRK9UT6H2F4C46tjZe6HnO=cYJJdB7z-j1uChk-Q@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 4 Oct 2021 17:26:50 -0400
+Message-ID: <CAFn=p-Y+LYq73kf9d96OA70Bs+E4hEhJAJ+O9RG0m25pjNNeZg@mail.gmail.com>
+Subject: Re: [PATCH 12/15] iotests: Disable AQMP logging under non-debug modes
+To: Hanna Reitz <hreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000db70ee05cd8d9269"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,145 +92,413 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-and use them to set and test the ASSERTED bit of LSI sources.
+--000000000000db70ee05cd8d9269
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- include/hw/ppc/xive.h    | 24 ++++++++++++++++++++++++
- hw/intc/spapr_xive.c     |  2 +-
- hw/intc/spapr_xive_kvm.c | 10 +++-------
- hw/intc/xive.c           |  8 ++++----
- 4 files changed, 32 insertions(+), 12 deletions(-)
+On Mon, Oct 4, 2021 at 2:32 PM John Snow <jsnow@redhat.com> wrote:
 
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 252c58a1d691..b8ab0bf7490f 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -286,6 +286,30 @@ uint8_t xive_esb_set(uint8_t *pq, uint8_t value);
- uint8_t xive_source_esb_get(XiveSource *xsrc, uint32_t srcno);
- uint8_t xive_source_esb_set(XiveSource *xsrc, uint32_t srcno, uint8_t pq);
- 
-+/*
-+ * Source status helpers
-+ */
-+static inline void xive_source_set_status(XiveSource *xsrc, uint32_t srcno,
-+                                          uint8_t status, bool enable)
-+{
-+    if (enable) {
-+        xsrc->status[srcno] |= status;
-+    } else {
-+        xsrc->status[srcno] &= ~status;
-+    }
-+}
-+
-+static inline void xive_source_set_asserted(XiveSource *xsrc, uint32_t srcno,
-+                                            bool enable)
-+{
-+    xive_source_set_status(xsrc, srcno, XIVE_STATUS_ASSERTED, enable);
-+}
-+
-+static inline bool xive_source_is_asserted(XiveSource *xsrc, uint32_t srcno)
-+{
-+    return xsrc->status[srcno] & XIVE_STATUS_ASSERTED;
-+}
-+
- void xive_source_pic_print_info(XiveSource *xsrc, uint32_t offset,
-                                 Monitor *mon);
- 
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 89cfa018f598..4ec659b93e13 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -185,7 +185,7 @@ static void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon)
-                        xive_source_irq_is_lsi(xsrc, i) ? "LSI" : "MSI",
-                        pq & XIVE_ESB_VAL_P ? 'P' : '-',
-                        pq & XIVE_ESB_VAL_Q ? 'Q' : '-',
--                       xsrc->status[i] & XIVE_STATUS_ASSERTED ? 'A' : ' ',
-+                       xive_source_is_asserted(xsrc, i) ? 'A' : ' ',
-                        xive_eas_is_masked(eas) ? "M" : " ",
-                        (int) xive_get_field64(EAS_END_DATA, eas->w));
- 
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 6d4909d0a856..be94cff14837 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -242,7 +242,7 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
- 
-     if (xive_source_irq_is_lsi(xsrc, srcno)) {
-         state |= KVM_XIVE_LEVEL_SENSITIVE;
--        if (xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
-+        if (xive_source_is_asserted(xsrc, srcno)) {
-             state |= KVM_XIVE_LEVEL_ASSERTED;
-         }
-     }
-@@ -321,7 +321,7 @@ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int srcno, uint32_t offset,
-     if (xive_source_irq_is_lsi(xsrc, srcno) &&
-         offset == XIVE_ESB_LOAD_EOI) {
-         xive_esb_read(xsrc, srcno, XIVE_ESB_SET_PQ_00);
--        if (xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
-+        if (xive_source_is_asserted(xsrc, srcno)) {
-             kvmppc_xive_esb_trigger(xsrc, srcno);
-         }
-         return 0;
-@@ -359,11 +359,7 @@ void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val)
-             return;
-         }
-     } else {
--        if (val) {
--            xsrc->status[srcno] |= XIVE_STATUS_ASSERTED;
--        } else {
--            xsrc->status[srcno] &= ~XIVE_STATUS_ASSERTED;
--        }
-+        xive_source_set_asserted(xsrc, srcno, val);
-     }
- 
-     kvmppc_xive_esb_trigger(xsrc, srcno);
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 6c82326ec768..190194d27f84 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -875,7 +875,7 @@ static bool xive_source_lsi_trigger(XiveSource *xsrc, uint32_t srcno)
- {
-     uint8_t old_pq = xive_source_esb_get(xsrc, srcno);
- 
--    xsrc->status[srcno] |= XIVE_STATUS_ASSERTED;
-+    xive_source_set_asserted(xsrc, srcno, true);
- 
-     switch (old_pq) {
-     case XIVE_ESB_RESET:
-@@ -923,7 +923,7 @@ static bool xive_source_esb_eoi(XiveSource *xsrc, uint32_t srcno)
-      * notification
-      */
-     if (xive_source_irq_is_lsi(xsrc, srcno) &&
--        xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
-+        xive_source_is_asserted(xsrc, srcno)) {
-         ret = xive_source_lsi_trigger(xsrc, srcno);
-     }
- 
-@@ -1104,7 +1104,7 @@ void xive_source_set_irq(void *opaque, int srcno, int val)
-         if (val) {
-             notify = xive_source_lsi_trigger(xsrc, srcno);
-         } else {
--            xsrc->status[srcno] &= ~XIVE_STATUS_ASSERTED;
-+            xive_source_set_asserted(xsrc, srcno, false);
-         }
-     } else {
-         if (val) {
-@@ -1133,7 +1133,7 @@ void xive_source_pic_print_info(XiveSource *xsrc, uint32_t offset, Monitor *mon)
-                        xive_source_irq_is_lsi(xsrc, i) ? "LSI" : "MSI",
-                        pq & XIVE_ESB_VAL_P ? 'P' : '-',
-                        pq & XIVE_ESB_VAL_Q ? 'Q' : '-',
--                       xsrc->status[i] & XIVE_STATUS_ASSERTED ? 'A' : ' ');
-+                       xive_source_is_asserted(xsrc, i) ? 'A' : ' ');
-     }
- }
- 
--- 
-2.31.1
+>
+>
+> On Mon, Oct 4, 2021 at 6:12 AM Hanna Reitz <hreitz@redhat.com> wrote:
+>
+>> On 18.09.21 04:14, John Snow wrote:
+>> >
+>> >
+>> > On Fri, Sep 17, 2021 at 8:58 PM John Snow <jsnow@redhat.com
+>> > <mailto:jsnow@redhat.com>> wrote:
+>> >
+>> >
+>> >
+>> >     On Fri, Sep 17, 2021 at 10:30 AM Hanna Reitz <hreitz@redhat.com
+>> >     <mailto:hreitz@redhat.com>> wrote:
+>> >
+>> >         On 17.09.21 07:40, John Snow wrote:
+>> >         > Disable the aqmp logger, which likes to (at the moment)
+>> >         print out
+>> >         > intermediate warnings and errors that cause session
+>> >         termination; disable
+>> >         > them so they don't interfere with the job output.
+>> >         >
+>> >         > Leave any "CRITICAL" warnings enabled though, those are ones
+>> >         that we
+>> >         > should never see, no matter what.
+>> >
+>> >         I mean, looks OK to me, but from what I understand (i.e.
+>> little),
+>> >         qmp_client doesn=E2=80=99t log CRITICAL messages, at least I c=
+an=E2=80=99t see
+>> >         any. Only
+>> >         ERRORs.
+>> >
+>> >
+>> >     There's *one* critical message in protocol.py, used for a
+>> >     circumstance that I *think* should be impossible. I do not think I
+>> >     currently use any WARNING level statements.
+>> >
+>> >         I guess I=E2=80=99m missing some CRITICAL messages in external
+>> >         functions called
+>> >         from qmp_client.py, but shouldn=E2=80=99t we still keep ERRORs=
+?
+>> >
+>> >
+>> >     ...Mayyyyyybe?
+>> >
+>> >     The errors logged by AQMP are *almost always* raised as Exceptions
+>> >     somewhere else, eventually. Sometimes when we encounter them in
+>> >     one context, we need to save them and then re-raise them in a
+>> >     different execution context. There's one good exception to this:
+>> >     My pal, EOFError.
+>> >
+>> >     If the reader context encounters EOF, it raises EOFError and this
+>> >     causes a disconnect to be scheduled asynchronously. *Any*
+>> >     Exception that causes a disconnect to be scheduled asynchronously
+>> >     is dutifully logged as an ERROR. At this point in the code, we
+>> >     don't really know if the user of the library considers this an
+>> >     "error" yet or not. I've waffled a lot on how exactly to treat
+>> >     this circumstance. ...Hm, I guess that's really the only case
+>> >     where I have an error that really ought to be suppressed. I
+>> >     suppose what I will do here is: if the exception happens to be an
+>> >     EOFError I will drop the severity of the log message down to INFO.
+>> >     I don't know why it takes being challenged on this stuff to start
+>> >     thinking clearly about it, but here we are. Thank you for your
+>> >     feedback :~)
+>> >
+>> >     --js
+>> >
+>> >
+>> > Oh, CI testing reminds me of why I am a liar here.
+>> >
+>> > the mirror-top-perms test intentionally expects not to be able to
+>> > connect, but we're treated to these two additional lines of output:
+>> >
+>> > +ERROR:qemu.aqmp.qmp_client.qemub-2536319:Negotiation failed: EOFError
+>> > +ERROR:qemu.aqmp.qmp_client.qemub-2536319:Failed to establish session:
+>> > EOFError
+>> >
+>> > Uh. I guess a temporary suppression in mirror-top-perms, then ...?
+>>
+>> Sounds right to me, if that=E2=80=99s simple enough.
+>>
+>> (By the way, I understand it right that you want to lower the severity
+>> of EOFErrors to INFO only on disconnect, right?  Which is why they=E2=80=
+=99re
+>> still logged as ERRORs here, because they aren=E2=80=99t occurring on
+>> disconnects?)
+>>
+>>
+> More or less, yeah.
+>
+> When an EOFError causes the reader coroutine to halt (because it can't
+> read the next message), I decided (in v2) to drop that one particular
+> logging message down to "INFO", because it might -- or might not be -- an
+> expected occurrence from the point of view of whoever is managing the QMP
+> connection. Maybe it was expected (The test used qemu-guest-agent or
+> something else to make the guest shutdown, taking QEMU down with it witho=
+ut
+> the knowledge of the QMP library layer) or maybe it was unexpected (the Q=
+MP
+> remote really just disappeared from us on a whim). There's no way to know=
+,
+> so it probably isn't right to consider it an error.
+>
+> In the connection case, I left it as an ERROR because the caller asked us
+> to connect to an endpoint and we were unable to, which feels unambiguous.
+> It will be ultimately reported via Exceptions as qemu.aqmp.ConnectError,
+> with additional information available in fields of that exception object.
+> Even though the exception is reported to the caller, I decided to log the
+> occurrence anyway, because I felt like it should be the job of the librar=
+y
+> to make a good log and not the caller's responsibility to catch the
+> exception and then log it themselves.
+>
+> That does leave us with this atypical case though: the caller is
+> intentionally causing problems :)
+>
+> (Well, atypical for a user of the library who is using it to make a tool
+> they expect to work. Quite a typical case for tests in the abstract, thou=
+gh
+> we only seem to have precisely one usage of this pattern in iotests so fa=
+r.)
+>
+>
+>> > In most other cases I rather imagine we do want to see this kind of
+>> > output to help give more information about how things have failed --
+>> > they ARE errors. We just happen to not care about them right here.
+>>
+>> Well, in fact we do expect them here, so we could even log them, but
+>> first I don=E2=80=99t know whether they=E2=80=99re stable enough for tha=
+t, and second
+>> this would break the =E2=80=9Cchoose the AQMP or legacy QMP back-end via=
+ an
+>> environment variable=E2=80=9D thing.
+>>
+>>
+> Yeah, that's the other half of it, I came to realize. Just logging the
+> expected failure feels the most idiomatic, but it requires a new logging
+> filter (I have to filter out the PID from the logger name to make it work
+> consistently) and breaks the ability to switch.
+>
+> So I suppose "for now" just disabling the logger output for a critical
+> section and leaving a comment that states that once we're feeling confide=
+nt
+> about the new library (maybe after the next release when everything has
+> really gone through the testing wash cycle) we can remove the suppression
+> and just log the errors the normal way.
+>
+>
+>> > The only thing I don't exactly like about this is that it requires
+>> > some knowledge by the caller to know to disable it. It makes writing
+>> > negative tests a bit more annoying because the library leans so
+>> > heavily on yelling loudly when it encounters problems.
+>>
+>> Yeah.  I=E2=80=99m afraid I don=E2=80=99t have a good idea on how to con=
+vey test writers
+>> how to suppress these errors, even if it were a simple one-liner (like
+>> `self.vm_b.set_log_threshold(logging.CRITICAL)`)...
+>>
+>> We could start an =E2=80=9Ciotests tips and tricks=E2=80=9D document, bu=
+t do we want to?
+>>
+>> Hanna
+>>
+>>
+> Hm, not just yet. More chances for un-checked stuff to bitrot. There's
+> only this one caller that poses a problem here, so it's probably not goin=
+g
+> to be too difficult to just update tests to expect the error logs.
+>
+> V2 soon. I already respun it, but it's been a week, so I will need to
+> scrub it down with a good proof-reading pass. Thanks for your patience, a=
+nd
+> I hope you enjoyed your PTO :~)
+>
+>
+Oh, uh, I got confused and I actually already sent V2 for this series.
+Apologies for the confusion.
+
+--js
+
+--000000000000db70ee05cd8d9269
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 4, 2021 at 2:32 PM John S=
+now &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr=
+"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
+" class=3D"gmail_attr">On Mon, Oct 4, 2021 at 6:12 AM Hanna Reitz &lt;<a hr=
+ef=3D"mailto:hreitz@redhat.com" target=3D"_blank">hreitz@redhat.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 18.09=
+.21 04:14, John Snow wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt; On Fri, Sep 17, 2021 at 8:58 PM John Snow &lt;<a href=3D"mailto:jsnow@=
+redhat.com" target=3D"_blank">jsnow@redhat.com</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsnow=
+@redhat.com</a>&gt;&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0On Fri, Sep 17, 2021 at 10:30 AM Hanna Reitz &lt;<a=
+ href=3D"mailto:hreitz@redhat.com" target=3D"_blank">hreitz@redhat.com</a><=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:hreitz@redhat.com" tar=
+get=3D"_blank">hreitz@redhat.com</a>&gt;&gt; wrote:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0On 17.09.21 07:40, John Snow wrote:<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&gt; Disable the aqmp logger, which l=
+ikes to (at the moment)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0print out<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&gt; intermediate warnings and errors=
+ that cause session<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0termination; disable<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&gt; them so they don&#39;t interfere=
+ with the job output.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&gt; Leave any &quot;CRITICAL&quot; w=
+arnings enabled though, those are ones<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0that we<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&gt; should never see, no matter what=
+.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0I mean, looks OK to me, but from what=
+ I understand (i.e. little),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qmp_client doesn=E2=80=99t log CRITIC=
+AL messages, at least I can=E2=80=99t see<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0any. Only<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ERRORs.<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0There&#39;s *one* critical message in protocol.py, =
+used for a<br>
+&gt;=C2=A0 =C2=A0 =C2=A0circumstance that I *think* should be impossible. I=
+ do not think I<br>
+&gt;=C2=A0 =C2=A0 =C2=A0currently use any WARNING level statements.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0I guess I=E2=80=99m missing some CRIT=
+ICAL messages in external<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0functions called<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from qmp_client.py, but shouldn=E2=80=
+=99t we still keep ERRORs?<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0...Mayyyyyybe?<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0The errors logged by AQMP are *almost always* raise=
+d as Exceptions<br>
+&gt;=C2=A0 =C2=A0 =C2=A0somewhere else, eventually. Sometimes when we encou=
+nter them in<br>
+&gt;=C2=A0 =C2=A0 =C2=A0one context, we need to save them and then re-raise=
+ them in a<br>
+&gt;=C2=A0 =C2=A0 =C2=A0different execution context. There&#39;s one good e=
+xception to this:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0My pal, EOFError.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0If the reader context encounters EOF, it raises EOF=
+Error and this<br>
+&gt;=C2=A0 =C2=A0 =C2=A0causes a disconnect to be scheduled asynchronously.=
+ *Any*<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Exception that causes a disconnect to be scheduled =
+asynchronously<br>
+&gt;=C2=A0 =C2=A0 =C2=A0is dutifully logged as an ERROR. At this point in t=
+he code, we<br>
+&gt;=C2=A0 =C2=A0 =C2=A0don&#39;t really know if the user of the library co=
+nsiders this an<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&quot;error&quot; yet or not. I&#39;ve waffled a lo=
+t on how exactly to treat<br>
+&gt;=C2=A0 =C2=A0 =C2=A0this circumstance. ...Hm, I guess that&#39;s really=
+ the only case<br>
+&gt;=C2=A0 =C2=A0 =C2=A0where I have an error that really ought to be suppr=
+essed. I<br>
+&gt;=C2=A0 =C2=A0 =C2=A0suppose what I will do here is: if the exception ha=
+ppens to be an<br>
+&gt;=C2=A0 =C2=A0 =C2=A0EOFError I will drop the severity of the log messag=
+e down to INFO.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0I don&#39;t know why it takes being challenged on t=
+his stuff to start<br>
+&gt;=C2=A0 =C2=A0 =C2=A0thinking clearly about it, but here we are. Thank y=
+ou for your<br>
+&gt;=C2=A0 =C2=A0 =C2=A0feedback :~)<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0--js<br>
+&gt;<br>
+&gt;<br>
+&gt; Oh, CI testing reminds me of why I am a liar here.<br>
+&gt;<br>
+&gt; the mirror-top-perms test intentionally expects not to be able to <br>
+&gt; connect, but we&#39;re treated to these two additional lines of output=
+:<br>
+&gt;<br>
+&gt; +ERROR:qemu.aqmp.qmp_client.qemub-2536319:Negotiation failed: EOFError=
+<br>
+&gt; +ERROR:qemu.aqmp.qmp_client.qemub-2536319:Failed to establish session:=
+ <br>
+&gt; EOFError<br>
+&gt;<br>
+&gt; Uh. I guess a temporary suppression in mirror-top-perms, then ...?<br>
+<br>
+Sounds right to me, if that=E2=80=99s simple enough.<br>
+<br></blockquote></div><div></div><div class=3D"gmail_quote"><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
+(By the way, I understand it right that you want to lower the severity <br>
+of EOFErrors to INFO only on disconnect, right?=C2=A0 Which is why they=E2=
+=80=99re <br>
+still logged as ERRORs here, because they aren=E2=80=99t occurring on disco=
+nnects?)<br>
+<br></blockquote></div><div class=3D"gmail_quote"><br></div><div class=3D"g=
+mail_quote">More or less, yeah.<br></div><div class=3D"gmail_quote"><br></d=
+iv><div class=3D"gmail_quote">When an EOFError causes the reader coroutine =
+to halt (because it can&#39;t read the next message), I decided (in v2) to =
+drop that one particular logging message down to &quot;INFO&quot;, because =
+it might -- or might not be -- an expected occurrence from the point of vie=
+w of whoever is managing the QMP connection. Maybe it was expected (The tes=
+t used qemu-guest-agent or something else to make the guest shutdown, takin=
+g QEMU down with it without the knowledge of the QMP library layer) or mayb=
+e it was unexpected (the QMP remote really just disappeared from us on a wh=
+im). There&#39;s no way to know, so it probably isn&#39;t right to consider=
+ it an error.</div><div class=3D"gmail_quote"><br></div><div class=3D"gmail=
+_quote">In the connection case, I left it as an ERROR because the caller as=
+ked us to connect to an endpoint and we were unable to, which feels unambig=
+uous. It will be ultimately reported via Exceptions as qemu.aqmp.ConnectErr=
+or, with additional information available in fields of that exception objec=
+t. Even though the exception is reported to the caller, I decided to log th=
+e occurrence anyway, because I felt like it should be the job of the librar=
+y to make a good log and not the caller&#39;s responsibility to catch the e=
+xception and then log it themselves.</div><div class=3D"gmail_quote"><br></=
+div><div class=3D"gmail_quote">That does leave us with this atypical case t=
+hough: the caller is intentionally causing problems :)</div><div class=3D"g=
+mail_quote"><br></div><div class=3D"gmail_quote">(Well, atypical for a user=
+ of the library who is using it to make a tool they expect to work. Quite a=
+ typical case for tests in the abstract, though we only seem to have precis=
+ely one usage of this pattern in iotests so far.)<br></div><div class=3D"gm=
+ail_quote"></div>=C2=A0<div class=3D"gmail_quote"><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">
+&gt; In most other cases I rather imagine we do want to see this kind of <b=
+r>
+&gt; output to help give more information about how things have failed -- <=
+br>
+&gt; they ARE errors. We just happen to not care about them right here.<br>
+<br>
+Well, in fact we do expect them here, so we could even log them, but <br>
+first I don=E2=80=99t know whether they=E2=80=99re stable enough for that, =
+and second <br>
+this would break the =E2=80=9Cchoose the AQMP or legacy QMP back-end via an=
+ <br>
+environment variable=E2=80=9D thing.<br>
+<br></blockquote><div><br></div><div>Yeah, that&#39;s the other half of it,=
+ I came to realize. Just logging the expected failure feels the most idioma=
+tic, but it requires a new logging filter (I have to filter out the PID fro=
+m the logger name to make it work consistently) and breaks the ability to s=
+witch.</div><div><br></div><div>So I suppose &quot;for now&quot; just disab=
+ling the logger output for a critical section and leaving a comment that st=
+ates that once we&#39;re feeling confident about the new library (maybe aft=
+er the next release when everything has really gone through the testing was=
+h cycle) we can remove the suppression and just log the errors the normal w=
+ay.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">
+&gt; The only thing I don&#39;t exactly like about this is that it requires=
+ <br>
+&gt; some knowledge by the caller to know to disable it. It makes writing <=
+br>
+&gt; negative tests a bit more annoying because the library leans so <br>
+&gt; heavily on yelling loudly when it encounters problems.<br>
+<br>
+Yeah.=C2=A0 I=E2=80=99m afraid I don=E2=80=99t have a good idea on how to c=
+onvey test writers <br>
+how to suppress these errors, even if it were a simple one-liner (like <br>
+`self.vm_b.set_log_threshold(logging.CRITICAL)`)...<br>
+<br>
+We could start an =E2=80=9Ciotests tips and tricks=E2=80=9D document, but d=
+o we want to?<br>
+<br>
+Hanna<br>
+<br></blockquote></div><div class=3D"gmail_quote"><br></div><div class=3D"g=
+mail_quote">Hm, not just yet. More chances for un-checked stuff to bitrot. =
+There&#39;s only this one caller that poses a problem here, so it&#39;s pro=
+bably not going to be too difficult to just update tests to expect the erro=
+r logs.<br></div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_q=
+uote">V2 soon. I already respun it, but it&#39;s been a week, so I will nee=
+d to scrub it down with a good proof-reading pass. Thanks for your patience=
+, and I hope you enjoyed your PTO :~)</div><br></div></blockquote><div><br>=
+</div><div>Oh, uh, I got confused and I actually already sent V2 for this s=
+eries. Apologies for the confusion.</div><div><br></div><div>--js<br></div>=
+</div></div>
+
+--000000000000db70ee05cd8d9269--
 
 
