@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C76421832
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 22:09:52 +0200 (CEST)
-Received: from localhost ([::1]:35708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19F23421844
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 22:16:17 +0200 (CEST)
+Received: from localhost ([::1]:50202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXUHX-0006ac-E7
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 16:09:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43498)
+	id 1mXUNk-0008Ci-2Y
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 16:16:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mXUFH-0004kV-6J
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 16:07:31 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:38445)
+ id 1mXUGK-00066w-KI
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 16:08:39 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:55207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mXUFD-0002J8-1K
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 16:07:30 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 4808F5C01A0;
- Mon,  4 Oct 2021 16:07:26 -0400 (EDT)
+ id 1mXUGG-0003bE-1k
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 16:08:36 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 1AA865C01B1;
+ Mon,  4 Oct 2021 16:08:31 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 04 Oct 2021 16:07:26 -0400
+ by compute3.internal (MEProxy); Mon, 04 Oct 2021 16:08:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  message-id:date:mime-version:subject:to:cc:references:from
- :in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=9
- LVWUjr2hZrIigLqcAfoV8gqfUKbvtrSIb5rZ6/k+X4=; b=JSUSEi5nQujWVd24B
- QXxhwSZCensRDmRAHPDoRqZSPE6OLJPdO6xoGTZFUBa0fQvRFeGZF93/bWiZpceR
- Ge52QnZLuaRnlxAZeoCoHdfFqtQaULwP2UX+vG6ymicgTiXaOfmgi5rsAZ4MXh1h
- UAR9mIz/IP67oAO4LcFdEdPSfVDCMJHJbBEnlt+ny9VwYdZCEdl5bUHM665VPLRs
- CCUoBHTFjZLMKFnH0mRfW0Q4CSagnGjrPDLEAxI0IL7aw+2onBT6pcgvyskejk3P
- Sr2aKlLsZ2lJw6Mw51HJ76YwyYM/nE5DqUV2dH04GZZ79ypNN04e7IVhRl0FZgmH
- vIpiw==
+ :in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=0
+ P3vA2+33AqAQ2Hz4QqLZLvOyazSqhUXbkc2h3b+xjg=; b=FMeOp6jgEGejvwvrs
+ rr5GmJDY3FAWpMCUamb2aepkFlXc1HXbdiRTToagvhc+05vEoJrWZca5TByUfF0H
+ 3VidESwYnPuR/jKa2TE7F+L5cvqNYvl1S4mKUVwPRfoBgPFF5BDkZvSJ+/EiZo8E
+ yAfhVY0jwkaDAJnNBOyCjSENory4l9ttm354Ma/kRlnvbcJJinidYj3zS+E5vYDm
+ kWk4p4+cUeZ7dI+AWpmAjmyqvvKzQOGhd44HEqR8o8w1lHXG6LSxeUKRLHWGYqUb
+ 5i87l9ETYi/DtTMvNF+Q3eYYb7uxa/LhOPw8adQ5IB0AR7xfAB19BqEE9ypak2rr
+ /99YQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=9LVWUjr2hZrIigLqcAfoV8gqfUKbvtrSIb5rZ6/k+
- X4=; b=SHygpMXiK8rgE3PK28iS2+bzhlY2YycnegsImPFzzbLj090zzJSjETi64
- 1G43Td8de4IaiJ+ZPfWPLAloHoxUjTG0mOcR45iBcYkf89ID6va+TxKzJ+fC0cL5
- se3aI9SIugMUiE2vtD+MhTN9ETr6f4VlFmcXzqEh1JYtiMRw6KnOf9PLW7oBG8+B
- hJHzDOdOOObFH5fuObGQP+uPqxglVJQmeYJGhR0pNpSDLPERs0yfVw0vIkFqVe9o
- V/FJKhquSkM4fiusSLwScfFlDmiLwAcufxQbvmbhTXelZZbsQGfeIM/Tw/2JeKc1
- ZRBFUCRYwWFQEbMB6+QYLhZgKtqzQ==
-X-ME-Sender: <xms:_V5bYbBwSU__uni71h6d_sMhe5pdFbrBmjvx5YeWNppnYtzCs3jT0g>
- <xme:_V5bYRg3uYcQt3FybILaejqe_gPzTQpuStw2Dbr0PAWdYF1HFZGfKgh7ccP-8EjlQ
- rQ-A1cM1GgiLjfnhLU>
-X-ME-Received: <xmr:_V5bYWld3MKZJ9qtXMTYSWBCzKMLnl5fEAo1iFlhAiHFIu9eo8Nbl9KqFunPhpI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelvddgudegvdcutefuodetggdotefrod
+ :x-sasl-enc; s=fm1; bh=0P3vA2+33AqAQ2Hz4QqLZLvOyazSqhUXbkc2h3b+x
+ jg=; b=iyYzyDxe9Ycv1LyzGWG2Zk/9yAXIC/HzRmG5mmsR8qjwhrWuTkk9Oj6SN
+ sNpqOUn8W/dtJzseBtZ8hjmK7wzKBnjB4ZvuToPdTGa5k+9E4cCQcafreROB9D4x
+ wlV2+GozkKRTX3EAgRgQB88PZObk/N3ftHwcptGqO6Dj41I0G160PEDeaTA7xQ66
+ ZoJzb7nvwUcmzsHTYWMZeTx2cXd4ItTSUgPhxnttm87NADuQ1PyI4LS3vZf6njZh
+ 2jGGtO9Q3qAVnRt+WH/SlYcgAtjA5H9oRx5/Wm6hfFMZr3DfVnXfU4NIeV/yJQaY
+ zP2zlZHWkrfL8zTdpfpQtni3CKf4w==
+X-ME-Sender: <xms:Pl9bYcxCPIWWz48aor2vUZeWZtWNAxGrx5mF5vJf17nIBMtSByDXqA>
+ <xme:Pl9bYQTVsaL4hd2oBS1ZnOeBfS1UwmRu8CI0LjgJ8BecC7evdFUcFSN7T1_XF4Zkb
+ YuZBPDVc3lydW7hElg>
+X-ME-Received: <xmr:Pl9bYeWiKdoaP6Qu-0_PMkaUiiW8lk3mYuNc5fe6V1zwBnXRRnBJdKmMXSU4zPQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelvddgudegudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefkffggfgfuvfhfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgr
@@ -58,25 +58,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelvddgudegvdcutefuodetgg
  gefhtefhieetvdfhnecuffhomhgrihhnpehrshhtrdhinhgtnecuvehluhhsthgvrhfuih
  iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhl
  hihgohgrthdrtghomh
-X-ME-Proxy: <xmx:_l5bYdyHb2MXZmYuiXg7CZq5vMgNVFuERWO9_LTTMNMFs1h_NJRHBg>
- <xmx:_l5bYQRFoM1oHTJz1Xqy0op1oC8_po8TidbtXk-s5bn-dbt7nG2xdg>
- <xmx:_l5bYQaX1SOQSzXOAQxmxUWsW5khD5Wad7bCn3TqHFuOByteWpR20w>
- <xmx:_l5bYbdu5T4i9vWdbIaNAyy31pXON2ItBHBe2IbkgxZ8XGE3ywLhLg>
+X-ME-Proxy: <xmx:Pl9bYaiFE1JyKYxTvoPFTK9h8x8aRrjaZHIVAGspqmF-f1NW90_jIw>
+ <xmx:Pl9bYeCciJ_Ym_t1vuovpEvXhhukSWUARK0iUQamHcVTWs3ClO0gEg>
+ <xmx:Pl9bYbKnggnbfjRyA5wwMPWdGyRFqjIk9Gxe4PyHvpBf5ston60XCQ>
+ <xmx:P19bYRNmNvOrumiuZdKuPz64T7a7fQs3PR_9j9bJC419hFL0puI5hQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 4 Oct 2021 16:07:25 -0400 (EDT)
-Message-ID: <bd4056df-dd19-5748-6b16-45df0010548b@flygoat.com>
-Date: Mon, 4 Oct 2021 21:07:14 +0100
+ 4 Oct 2021 16:08:30 -0400 (EDT)
+Message-ID: <335bad6f-36f7-c691-e110-e47876a293a3@flygoat.com>
+Date: Mon, 4 Oct 2021 21:08:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.2
-Subject: Re: [PATCH 2/4] MAINTAINERS: Add entries to cover MIPS CPS / GIC
- hardware
+Subject: Re: [PATCH 3/4] MAINTAINERS: Split MIPS TCG frontend vs MIPS
+ machines/hardware
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20211004092515.3819836-1-f4bug@amsat.org>
- <20211004092515.3819836-3-f4bug@amsat.org>
+ <20211004092515.3819836-4-f4bug@amsat.org>
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <20211004092515.3819836-3-f4bug@amsat.org>
+In-Reply-To: <20211004092515.3819836-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.28; envelope-from=jiaxun.yang@flygoat.com;
@@ -87,7 +87,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,60 +108,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 在 2021/10/4 10:25, Philippe Mathieu-Daudé 写道:
-> MIPS CPS and GIC models are unrelated to the TCG frontend.
-> Move them as new sections under the 'Devices' group.
+> Hardware emulated models don't belong to the TCG MAINTAINERS
+> section. Move them to a new 'Overall MIPS Machines' section
+> in the 'MIPS Machines' group.
 >
-> Cc: Paul Burton <paulburton@kernel.org>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
 Thanks.
 - Jiaxun
 > ---
->   MAINTAINERS | 22 ++++++++++++++++------
->   1 file changed, 16 insertions(+), 6 deletions(-)
+>   MAINTAINERS | 10 +++++++---
+>   1 file changed, 7 insertions(+), 3 deletions(-)
 >
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index cfee52a3046..a5268ad0651 100644
+> index a5268ad0651..f1d7279a0f2 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -239,14 +239,8 @@ F: target/mips/
->   F: configs/devices/mips*/*
+> @@ -236,11 +236,8 @@ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>   R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+>   S: Odd Fixes
+>   F: target/mips/
+> -F: configs/devices/mips*/*
 >   F: disas/mips.c
 >   F: docs/system/cpu-models-mips.rst.inc
-> -F: hw/intc/mips_gic.c
->   F: hw/mips/
-> -F: hw/misc/mips_*
-> -F: hw/timer/mips_gictimer.c
-> -F: include/hw/intc/mips_gic.h
->   F: include/hw/mips/
-> -F: include/hw/misc/mips_*
-> -F: include/hw/timer/mips_gictimer.h
+> -F: hw/mips/
+> -F: include/hw/mips/
 >   F: tests/tcg/mips/
 >   
 >   MIPS TCG CPUs (nanoMIPS ISA)
-> @@ -2271,6 +2265,22 @@ S: Odd Fixes
->   F: hw/intc/openpic.c
->   F: include/hw/ppc/openpic.h
+> @@ -1168,6 +1165,13 @@ F: hw/microblaze/petalogix_ml605_mmu.c
 >   
-> +MIPS CPS
-> +M: Paul Burton <paulburton@kernel.org>
+>   MIPS Machines
+>   -------------
+> +Overall MIPS Machines
 > +M: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > +S: Odd Fixes
-> +F: hw/misc/mips_*
-> +F: include/hw/misc/mips_*
+> +F: configs/devices/mips*/*
+> +F: hw/mips/
+> +F: include/hw/mips/
 > +
-> +MIPS GIC
-> +M: Paul Burton <paulburton@kernel.org>
-> +M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> +S: Odd Fixes
-> +F: hw/intc/mips_gic.c
-> +F: hw/timer/mips_gictimer.c
-> +F: include/hw/intc/mips_gic.h
-> +F: include/hw/timer/mips_gictimer.h
-> +
->   Subsystems
->   ----------
->   Overall Audio backends
+>   Jazz
+>   M: Hervé Poussineau <hpoussin@reactos.org>
+>   R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
 
 
