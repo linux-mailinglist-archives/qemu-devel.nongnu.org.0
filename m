@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39FF4210B9
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 15:51:05 +0200 (CEST)
-Received: from localhost ([::1]:45816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8D54210C0
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 15:53:34 +0200 (CEST)
+Received: from localhost ([::1]:53310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXOMy-0001NI-Np
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 09:51:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38670)
+	id 1mXOPN-0006W9-P9
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 09:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mXOJr-00067F-C8
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 09:47:51 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40654)
+ id 1mXOJp-00062Q-3q
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 09:47:49 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:37583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mXOJm-0007CM-8V
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 09:47:51 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- t16-20020a1c7710000000b003049690d882so19666702wmi.5
+ id 1mXOJm-0007Az-8Y
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 09:47:48 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id e12so10657202wra.4
  for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 06:47:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7s+jokOdadsrB9ImtjPpK01MtYEBGF9XKyEbrtLXIJU=;
- b=j9aJLF2kSwRc0fXUpDhq2He5bQeWCY8wysIn9cp1CaKpNh4BLSLW1TpxV69PLGhiMX
- 2mmI2Q/KZSNDkdIov0NsjdRpVopFk6uvIb8vXbmOCIUNBABEhvaDpI/lgUbji+mhvthJ
- dcpjvGr1jOdwtKjIpmHaRKadwUFYg9+0GwfFUA6VOohssvC38hAcP4leBk3eBcAYzkLF
- EAYBtgimLi9+xIwEZJN6amvR1F83qJSkORNK5OtjzKWOxhyiErKG1Htz3yFYjNWXrihR
- 27350BaJEoml+RdtNv8PM7AHQY7LzBAuObgBbHiE8NE3eoRUlIKCyDi8352M3N/AuOGG
- 4EYA==
+ bh=lIR/QX1UEyMaEQkzlnv0koPsuyPpzDzqnJZkMaWnDRw=;
+ b=MpHMUEsJ982icNkG1XQ1Gfu47udzGozksirRt3xXnr1w2t+Yj7ahjkG6wdr5oCob6l
+ PVIvV5NQAFMgTvqb0SCYSEppUmKTFZX/Iv89AsXBmYRW9S/GwLFturOIdwnsbSMw5EK/
+ QFldFLW52dm4oqucRRghu5MAX05C7CF8MYJiFZqqhx0Uw4js0+ol1hE+wt3+LR8RpIgo
+ WEkLCt/UXFUXm3eFAcFPPF+yzFpVf8uifzYdQw44tqF6IYpp7wiDaiBVQJZW8GOBMTg4
+ ZVlPD6kJiYjrT5yh3bXvY3uwR5NVsfHPJQxFAsgiX78eH4FFRZg9matQbuzvowCD8JGW
+ V7/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7s+jokOdadsrB9ImtjPpK01MtYEBGF9XKyEbrtLXIJU=;
- b=AkWF+GDStVWvDC1d3P6ni+F622VImeldWJqP5yAVb3SWPgx3Fr91fmGaelXJYJgFIw
- tHA1pIu81JZVgmrH6HHIy5dk9a5D9QuetpzVmmn8gLxFbrVTHL+4UBHXovoSxjcVURXJ
- V/i+Eh2OIHibNg6nF3UkoRBPalnj/Ni8ghVaTjGSUqNUFAK3OQgN9KDMTUjmEI6aAQpY
- knJqxBGhLvzPzHKwLMAptdSbJ+Bk7IeOQjgTcYX9RCsBQYJ8yiFWJtEXbSlZP4BHFtSs
- hkkw48dNixh97FVybx+dJ+X5XhgXTiqxYSIiTeswL6mCCF7H/v4MWBkQi2LD9fc111O8
- 0qxw==
-X-Gm-Message-State: AOAM532H7ZmH7RXxQxxG6nMxSFIsT6qMsX3Cdvdl2LC/wKLJvIUAu0cM
- 1AZeiqobQDtmFXKAVhFujxqyCw==
-X-Google-Smtp-Source: ABdhPJwwU5D1q8fJIL9eAP6ZqSydshC/uY0GQOdbPxJu+U0z0H9s5Xx/D7IAs+KHzLqIqjLMFnTvDw==
-X-Received: by 2002:a7b:c048:: with SMTP id u8mr18426941wmc.113.1633355264418; 
- Mon, 04 Oct 2021 06:47:44 -0700 (PDT)
+ bh=lIR/QX1UEyMaEQkzlnv0koPsuyPpzDzqnJZkMaWnDRw=;
+ b=UD86s0A4/QOzlBFK6x/fC+dIg+P7zCbaPgRfZVJCOSkGk9w7l6TExIfBdNdwI6f6Mf
+ kZeSL527mxlf36wbCYhdQ2qlfNBDjCUX9l9FKNE+1tlIiF9OHWdE80zFB6ljdckLqnYe
+ /6IoJ4dBM9bNkjpy1pg9btQtmMgSIQLSVxyAl0yLqEcJodxFSruJnw2fyYOSnII3XnjF
+ PeGiIiCzbW2drzCMXcl3YzSc1JOI4MZfqC/C6fU8yBvCErdy8cG/17ma+CVT13tRmnlq
+ +NYwpxTZCjiW7xswUgN0TibM8CAZrn/nRICc8GxHQw6BJ2/hAhf2DKBzRtL3o3BNY5Kj
+ TH8w==
+X-Gm-Message-State: AOAM530SaoMZhW11lRrYyyikSbDrzXL/+4RMmvvHYEIPjkk2GPEwGAIn
+ Wfp0S+ms9pF4qz8r6isPxL152A==
+X-Google-Smtp-Source: ABdhPJz3u1mwtgIktsGzOfWqz9dioVktdfiWiIiJ1X6oaeMvdZhwe5zgtuxZQ+2DNfXQa8CUFS4TVg==
+X-Received: by 2002:adf:c70b:: with SMTP id k11mr13947426wrg.154.1633355263744; 
+ Mon, 04 Oct 2021 06:47:43 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s3sm14457226wrm.40.2021.10.04.06.47.42
+ by smtp.gmail.com with ESMTPSA id q10sm14357977wmq.12.2021.10.04.06.47.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 04 Oct 2021 06:47:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 16AD61FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 2CE6F1FF99;
  Mon,  4 Oct 2021 14:47:42 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/7] hw/misc/bcm2835_property: Add FIXME comment for
- uninitialized memory
-Date: Mon,  4 Oct 2021 14:47:35 +0100
-Message-Id: <20211004134742.2044280-2-alex.bennee@linaro.org>
+Subject: [PATCH v1 2/7] hw/misc/bcm2835_property: Handle the 'domain state'
+ property
+Date: Mon,  4 Oct 2021 14:47:36 +0100
+Message-Id: <20211004134742.2044280-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211004134742.2044280-1-alex.bennee@linaro.org>
 References: <20211004134742.2044280-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,35 +95,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-We are returning unintialized memory, this is probably unsafe.
+The kernel is happy with this change, so we don't need
+to do anything more sophisticated.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/misc/bcm2835_property.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/misc/bcm2835_property.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/hw/misc/bcm2835_property.c b/hw/misc/bcm2835_property.c
-index 73941bdae9..791c7554ec 100644
+index 791c7554ec..b089e47584 100644
 --- a/hw/misc/bcm2835_property.c
 +++ b/hw/misc/bcm2835_property.c
-@@ -61,6 +61,7 @@ static void bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
-             qemu_log_mask(LOG_UNIMP,
-                           "bcm2835_property: 0x%08x get board model NYI\n",
-                           tag);
-+            /* FIXME returning uninitialized memory */
-             resplen = 4;
-             break;
-         case 0x00010002: /* Get board revision */
-@@ -75,6 +76,7 @@ static void bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
-             qemu_log_mask(LOG_UNIMP,
-                           "bcm2835_property: 0x%08x get board serial NYI\n",
-                           tag);
-+            /* FIXME returning uninitialized memory */
+@@ -133,6 +133,14 @@ static void bcm2835_property_mbox_push(BCM2835PropertyState *s, uint32_t value)
              resplen = 8;
              break;
-         case 0x00010005: /* Get ARM memory */
+ 
++        case 0x00030030: /* Get domain state */
++            qemu_log_mask(LOG_UNIMP,
++                          "bcm2835_property: 0x%08x get domain state NYI\n",
++                          tag);
++            /* FIXME returning uninitialized memory */
++            resplen = 8;
++            break;
++
+         case 0x00038002: /* Set clock rate */
+         case 0x00038004: /* Set max clock rate */
+         case 0x00038007: /* Set min clock rate */
 -- 
 2.30.2
 
