@@ -2,67 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832EC42067A
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 09:13:49 +0200 (CEST)
-Received: from localhost ([::1]:42336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB702420692
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 09:23:02 +0200 (CEST)
+Received: from localhost ([::1]:51386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXIAW-0002YV-2m
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 03:13:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38776)
+	id 1mXIJQ-0000cZ-CG
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 03:23:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mXI94-0001AS-Kh
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:12:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57996)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXIHl-0007IV-94
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:21:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1mXI8z-0003XD-4t
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:12:16 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXIHh-0003oi-QX
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 03:21:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633331530;
+ s=mimecast20190719; t=1633332072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9Fydxiyn+n8+RrdmF8Le5uP2WgQDFiNV58KmWLoHDgM=;
- b=QESsh5FgG2bQmh/UbBa/vQ1lTtmROOY5j+g7/pGZOePyR3vTRH80TZndrbLksQ/z008JSc
- oluAmnAh0evhN/INR4e/Mwlim5w01LLawvqlZjl7DELyzJ8LKr/AD3V4t2IRY9Oa/wC/we
- OOQyOwFGK22Fb6fERy8JxS/ecR7kOG0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-JM-d7tOaMS-AzSAS3gYchQ-1; Mon, 04 Oct 2021 03:12:09 -0400
-X-MC-Unique: JM-d7tOaMS-AzSAS3gYchQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BDB519067F3;
- Mon,  4 Oct 2021 07:12:08 +0000 (UTC)
-Received: from paraplu.home (unknown [10.39.193.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 123BA60BF4;
- Mon,  4 Oct 2021 07:12:04 +0000 (UTC)
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] docs: build-system: rename "default-configs" to "configs"
-Date: Mon,  4 Oct 2021 09:12:03 +0200
-Message-Id: <20211004071203.2092017-1-kchamart@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p9K8OTMY03m8Iu5Te9RkzF+98t7fPX2UHOA1snMUmnc=;
+ b=AtBvcQttlx8Tz+wYxKXxZfz2o6o3GrGqhamAuz7Dw1pyQJtciHWSWl9eAo3sr7bP2bXaiH
+ 2V3DYCyA+O1yZnffmCYShZ/Y7vsX5CiJDBbK5E7aZLqeTV+HkBtIiHABb/7Qp7wXMtDaV1
+ YBKzIB8yHh2vYj4174AeDdetxAM+9zk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-78-W58t0h0fNdCmawLBX8pGzA-1; Mon, 04 Oct 2021 03:21:10 -0400
+X-MC-Unique: W58t0h0fNdCmawLBX8pGzA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ j19-20020adfb313000000b00160a9de13b3so673132wrd.8
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 00:21:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=p9K8OTMY03m8Iu5Te9RkzF+98t7fPX2UHOA1snMUmnc=;
+ b=nFz5cpy8ofoT7Bl6WfKv1L8S16lJ6635FuP5YRw1Eox/6y+7IaNJ6A+ktUMjBfVj6s
+ TK5OufzXnEqcxsgEuJg+5Kjim/+YBTBeg+U9S2N9rVH9m8EGd+8ytVqmXMIdR8d6bmyz
+ xTP8ObmdjP/pAX1eeujZppseFKVmKFmwPNDtCe61vax/VTeX4zHvw9BvTC8+9+lYkTjJ
+ JI5rTxHT6i/kGzTuBE+WcpzcCQZVQuAWQ+RpPG1BOeObuBTMDRVeTziFT7gKdEQF7dmH
+ s0tvkTd1H2BTM0mvYk8c2bjaQjcm6X3VRHnELrIrxJQC0HaadhaIJl4Baunl1v66muNl
+ go7w==
+X-Gm-Message-State: AOAM530/zbxfw5gvBmak92SHNy+j938yNhUPEf9tlBPXfYfzC6QOaBSm
+ bxZRJRxiilBspgUqEExFzfk2tFaAuEgRFJ8blqZdqmQtSbyZdGG1boDzUVGmWcTAouVJrtcsDLz
+ ZovsaY1TwwaBsiHc=
+X-Received: by 2002:a1c:411:: with SMTP id 17mr4000385wme.158.1633332069566;
+ Mon, 04 Oct 2021 00:21:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyTHhlvN55PINCcBQgZNJcKpHPhFlRRyiFgBG6ZgXNt91WbKUAj+72nIw7Z4Hd0GeykM8wNdw==
+X-Received: by 2002:a1c:411:: with SMTP id 17mr4000365wme.158.1633332069373;
+ Mon, 04 Oct 2021 00:21:09 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id y15sm6866060wrp.44.2021.10.04.00.21.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Oct 2021 00:21:08 -0700 (PDT)
+Message-ID: <b9bf79a0-1b5c-ac12-2450-7058b3fc1c5d@redhat.com>
+Date: Mon, 4 Oct 2021 09:21:07 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] docs: build-system: rename "default-configs" to "configs"
+To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
+References: <20211004071203.2092017-1-kchamart@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211004071203.2092017-1-kchamart@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,69 +98,21 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: pbonzini@redhat.com, alex.bennee@linaro.org,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 812b31d3f9 (configs: rename default-configs to configs and
-reorganise, 2021-07-07) did the rename.
+On 10/4/21 09:12, Kashyap Chamarthy wrote:
+> Commit 812b31d3f9 (configs: rename default-configs to configs and
+> reorganise, 2021-07-07) did the rename.
+> 
+> Reflect that update also in the documentation.
+> 
+> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+> ---
+>  docs/devel/build-system.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 
-Reflect that update also in the documentation.
-
-Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
----
- docs/devel/build-system.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 0f636d620e..bfa5250802 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -250,7 +250,7 @@ Target-dependent emulator sourcesets:
-   Each emulator also includes sources for files in the ``hw/`` and ``target/``
-   subdirectories.  The subdirectory used for each emulator comes
-   from the target's definition of ``TARGET_BASE_ARCH`` or (if missing)
--  ``TARGET_ARCH``, as found in ``default-configs/targets/*.mak``.
-+  ``TARGET_ARCH``, as found in ``configs/targets/*.mak``.
- 
-   Each subdirectory in ``hw/`` adds one sourceset to the ``hw_arch`` dictionary,
-   for example::
-@@ -307,8 +307,8 @@ Utility sourcesets:
- The following files concur in the definition of which files are linked
- into each emulator:
- 
--``default-configs/devices/*.mak``
--  The files under ``default-configs/devices/`` control the boards and devices
-+``configs/devices/*.mak``
-+  The files under ``configs/devices/`` control the boards and devices
-   that are built into each QEMU system emulation targets. They merely contain
-   a list of config variable definitions such as::
- 
-@@ -317,11 +317,11 @@ into each emulator:
-     CONFIG_XLNX_VERSAL=y
- 
- ``*/Kconfig``
--  These files are processed together with ``default-configs/devices/*.mak`` and
-+  These files are processed together with ``configs/devices/*.mak`` and
-   describe the dependencies between various features, subsystems and
-   device models.  They are described in :ref:`kconfig`
- 
--``default-configs/targets/*.mak``
-+``configs/targets/*.mak``
-   These files mostly define symbols that appear in the ``*-config-target.h``
-   file for each emulator [#cfgtarget]_.  However, the ``TARGET_ARCH``
-   and ``TARGET_BASE_ARCH`` will also be used to select the ``hw/`` and
-@@ -460,7 +460,7 @@ Built by Meson:
-   TARGET-NAME is again the name of a system or userspace emulator. The
-   config-devices.mak file is automatically generated by make using the
-   scripts/make_device_config.sh program, feeding it the
--  default-configs/$TARGET-NAME file as input.
-+  configs/$TARGET-NAME file as input.
- 
- ``config-host.h``, ``$TARGET-NAME/config-target.h``, ``$TARGET-NAME/config-devices.h``
-   These files are used by source code to determine what features
--- 
-2.31.1
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
