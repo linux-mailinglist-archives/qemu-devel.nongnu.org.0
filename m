@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA694212EE
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 17:44:35 +0200 (CEST)
-Received: from localhost ([::1]:49260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85ED42130F
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 17:50:59 +0200 (CEST)
+Received: from localhost ([::1]:56284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXQ8n-0006uJ-Py
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 11:44:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43694)
+	id 1mXQF0-0003Zs-Pb
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 11:50:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mXQ7d-00069E-EA
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 11:43:21 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35643)
+ id 1mXQ9C-0007q2-9F
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 11:44:58 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mXQ7b-0006pn-Br
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 11:43:21 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id v25so20846021wra.2
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 08:43:18 -0700 (PDT)
+ id 1mXQ9A-00087s-M3
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 11:44:58 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ z184-20020a1c7ec1000000b003065f0bc631so20083047wmc.0
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 08:44:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FxcFivdb7ldKb1vbf9bOgm40w2gpba3W+6g6SxQS9Cw=;
- b=KVZpStamR2MZFLrqcHzs4yUU72WtftB1IuqIzuKQbc4E/uR3M6Q9oR7fX+0k7c8oik
- G0ofHXLXoNNXimf9p7FycWeMUAgqwHWRZnneqUZJu45sCa3lxlCKMZ14X+VmwQ3bbcWV
- 5rn/hdtGPqzpLTkAzgV9wrNA2CdW9RhCTpTvLJgzlR3h/4BFaGT3ciXk/WZhPMfa0qW+
- cZJtKMtNbz7B1MXlqobxAlQz++9m8jsEW+GPAPuzVN8Yfj+VEGOuJJvW9DzqeI+zed3V
- 9irV1bWa0wVjiMeLXyA/OUo6FQGEonZIuuOqOwhJ/N/hnU2f6mj3jcx82BsKaYzPqrfk
- UCPA==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=5AoZSg4INhB2bpnoJjW/yhP7o2j/E30FHaLCM8tX7UQ=;
+ b=KmHC2Rpv0SlB35fBmVxCKS2+T/rPQCcNq+qYCcpKUYEvsjCTMe7V+Gjb1i9UiR0Z6B
+ P4+EbKUj9YLtKXoTyaNb9oLiBr8/8jgGJb+yc0yYj7NBSGUA84pfzmkfcqhov+hqsQ36
+ ZDH6EOGCr0HcW5dsGBlxIaEkGz/i9M2FwyMrfVWgK6kiOFuok9LSYA/FjfMbVVtykZjq
+ G+Sas/Ap5pMgaTfxIjetESP+wTjYTcFoB/1HFeY96JjyhscXqVQ+3nSzUtLeMLnl2yO+
+ TRGnPO5y1chtNkPTGR+fu6TNRYEjoCUHKU+NxMgkDlbvHjFmTGZ4tJ5df7wCx7965VgJ
+ XbiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FxcFivdb7ldKb1vbf9bOgm40w2gpba3W+6g6SxQS9Cw=;
- b=3fpdCW1sVY1z1jaYbpnGJOXI+RDKFHfe25C4j+R2Nhy/lIQlxbAJ53XFmTxpLrLtDM
- ikMsyJNxR3TUhF+UZrcvkHdsECxMRQ2SAn8T+U2qci/MHO1C7VnqsjziSCEYkddPixi8
- kdmF0yYgAwOeLtMODku+8e1tzGz6Az8Z+LV5zbGjQlbIdQ6ZOsXIWz9ACW9ZzFP0buiB
- A+YGcLOTrORwERwObvNTjKQm38q06Udiia4DbXKO1eBzhV8fYj8cio3YOWLN45JrA+zf
- ar++WEPLpc3mR11tKSydro2eIq0VBcbtZVYbV+dZZz4hI9VmgkmboHudSQU2iAa6+ALd
- Wpjw==
-X-Gm-Message-State: AOAM531T/rNu7H65eyK5qLEbqMS+Xgs5Z/Mv2+whe06IC7LUtVGDTIbc
- iZNp+hxLW/GkraVqk5jiToVCcg==
-X-Google-Smtp-Source: ABdhPJwqg+38nJYroCleWXRoSgIq50CZiVQ3sqNIrCl8BGipCzAy4Y4EsD2HF5/8tmzyg8C0d8iGNA==
-X-Received: by 2002:a05:6000:162f:: with SMTP id
- v15mr15441265wrb.118.1633362197536; 
- Mon, 04 Oct 2021 08:43:17 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=5AoZSg4INhB2bpnoJjW/yhP7o2j/E30FHaLCM8tX7UQ=;
+ b=Nm4hTuYeEpb1wpTOd7Io8nX+Gq0/GWij/cFVaa11qf4gWAB7OT+vWSBrYBz438dSGa
+ 04iAjKJsrN3NFAAPSl8DnDklnwfo/a0o/CGbIEN+k2mM2HxgN4DkAZZ1umaX+1ieyAp2
+ sQCKWy99J6BcApbpyPbrFkzTMAW/NVVaIkN5vAAuaNofGZ4QEnQi9ALIHJlihy6vQ7L8
+ Xy7G4r4IowklEkshvAUCTbrRr8yRNHX81Et4hd3CmT5vtdOu6tRqooxJBAstZwvE/fFW
+ S91P6l1+0C3K5estyZd/DnK6+2IHLCykx5TsogwJA7O+NfGDjPkyxPiXB8bfC1/prq65
+ 1s5w==
+X-Gm-Message-State: AOAM533ZpRgQ0dGjstUhouEuGVw20BVvmnTGdQmOsCJpDEatVEger1kV
+ hL93F8TUCT2hpXl2YKASj2T4kw==
+X-Google-Smtp-Source: ABdhPJwEf97holPDf8KXlNA8Vuz+z+k3B79o20UtRK5b1lVAlKZ4zpU/A/6iZQ5IGWVEKM3pUqWfUA==
+X-Received: by 2002:a05:600c:4f8e:: with SMTP id
+ n14mr19377335wmq.63.1633362295305; 
+ Mon, 04 Oct 2021 08:44:55 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y5sm11896508wma.5.2021.10.04.08.43.16
+ by smtp.gmail.com with ESMTPSA id d2sm14877035wrc.32.2021.10.04.08.44.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 08:43:16 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B65CD1FF96;
- Mon,  4 Oct 2021 16:43:15 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Mon, 04 Oct 2021 08:44:54 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 756981FF96;
+ Mon,  4 Oct 2021 16:44:53 +0100 (BST)
+References: <20211004134742.2044280-1-alex.bennee@linaro.org>
+ <20211004134742.2044280-6-alex.bennee@linaro.org>
+User-agent: mu4e 1.7.0; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] .github: move repo lockdown to the v2 configuration
-Date: Mon,  4 Oct 2021 16:43:08 +0100
-Message-Id: <20211004154308.2114870-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Subject: Re: [PATCH v1 5/7] hw/arm/bcm2836: Add the BCM2711 which uses a GICv2
+Date: Mon, 04 Oct 2021 16:43:50 +0100
+In-reply-to: <20211004134742.2044280-6-alex.bennee@linaro.org>
+Message-ID: <87ilycg5fu.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,122 +89,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I was getting prompted by GitHub for new permissions but it turns out
-per https://github.com/dessant/repo-lockdown/issues/6:
 
-  Repo Lockdown has been rewritten for GitHub Actions, offering new
-  features and better control over your automation presets. The legacy
-  GitHub App has been deprecated, and the public instance of the app
-  has been shut down.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-So this is what I've done.
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> The BCM2711 is improvement of the BCM2837:
+> - Cortex-A72 instead of the A53
+> - peripheral block and local soc controller are mapped differently,
+> - GICv2
+> - PCIe block
+> - exhanced MMU to address over 4GiB of SDRAM
+>
+<snip>
+> ---
+> vAJB:
+<snip>
+>   - move peri_base/ctrl to locations pointed to by DTB (0x7e000000/0x4000=
+0000)
+<snip>
+> +
+> +static void bcm2711_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
+> +    BCM283XClass *bc =3D BCM283X_CLASS(oc);
+> +
+> +    bc->cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a72");
+> +    bc->core_count =3D BCM283X_NCPUS;
+> +    bc->peri_base =3D 0x7e000000;
+> +    bc->ctrl_base =3D 0x40000000;
+> +    bc->clusterid =3D 0x0;
+> +    bc->gic_base =3D 0x40000,
+> +    dc->realize =3D bcm2836_realize;
+> +}
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .github/lockdown.yml           | 34 ------------------------
- .github/workflows/lockdown.yml | 47 ++++++++++++++++++++++++++++++++++
- 2 files changed, 47 insertions(+), 34 deletions(-)
- delete mode 100644 .github/lockdown.yml
- create mode 100644 .github/workflows/lockdown.yml
+It turns out I was misreading the way you calculate addresses from DTS
+files. Reverted to:
 
-diff --git a/.github/lockdown.yml b/.github/lockdown.yml
-deleted file mode 100644
-index d3546bd2bc..0000000000
---- a/.github/lockdown.yml
-+++ /dev/null
-@@ -1,34 +0,0 @@
--# Configuration for Repo Lockdown - https://github.com/dessant/repo-lockdown
--
--# Close issues and pull requests
--close: true
--
--# Lock issues and pull requests
--lock: true
--
--issues:
--  comment: |
--    Thank you for your interest in the QEMU project.
--
--    This repository is a read-only mirror of the project's repostories hosted
--    at https://gitlab.com/qemu-project/qemu.git.
--    The project does not process issues filed on GitHub.
--
--    The project issues are tracked on GitLab:
--    https://gitlab.com/qemu-project/qemu/-/issues
--
--    QEMU welcomes bug report contributions. You can file new ones on:
--    https://gitlab.com/qemu-project/qemu/-/issues/new
--
--pulls:
--  comment: |
--    Thank you for your interest in the QEMU project.
--
--    This repository is a read-only mirror of the project's repostories hosted
--    on https://gitlab.com/qemu-project/qemu.git.
--    The project does not process merge requests filed on GitHub.
--
--    QEMU welcomes contributions of code (either fixing bugs or adding new
--    functionality). However, we get a lot of patches, and so we have some
--    guidelines about contributing on the project website:
--    https://www.qemu.org/contribute/
-diff --git a/.github/workflows/lockdown.yml b/.github/workflows/lockdown.yml
-new file mode 100644
-index 0000000000..20e6208487
---- /dev/null
-+++ b/.github/workflows/lockdown.yml
-@@ -0,0 +1,47 @@
-+# Configuration for Repo Lockdown - https://github.com/dessant/repo-lockdown
-+
-+name: 'Repo Lockdown'
-+
-+on:
-+  issues:
-+    types: opened
-+  pull_request_target:
-+    types: opened
-+
-+permissions:
-+  issues: write
-+  pull-requests: write
-+
-+jobs:
-+  action:
-+    runs-on: ubuntu-latest
-+    steps:
-+      - uses: dessant/repo-lockdown@v2
-+        with:
-+          issue-comment: |
-+            Thank you for your interest in the QEMU project.
-+
-+            This repository is a read-only mirror of the project's repostories hosted
-+            at https://gitlab.com/qemu-project/qemu.git.
-+            The project does not process issues filed on GitHub.
-+
-+            The project issues are tracked on GitLab:
-+            https://gitlab.com/qemu-project/qemu/-/issues
-+
-+            QEMU welcomes bug report contributions. You can file new ones on:
-+            https://gitlab.com/qemu-project/qemu/-/issues/new
-+          lock-issue: true
-+          close-issue: true
-+          pull-comment: |
-+            Thank you for your interest in the QEMU project.
-+
-+            This repository is a read-only mirror of the project's repostories hosted
-+            on https://gitlab.com/qemu-project/qemu.git.
-+            The project does not process merge requests filed on GitHub.
-+
-+            QEMU welcomes contributions of code (either fixing bugs or adding new
-+            functionality). However, we get a lot of patches, and so we have some
-+            guidelines about contributing on the project website:
-+            https://www.qemu.org/contribute/
-+          lock-pull: true
-+          close-pull: true
--- 
-2.30.2
+    bc->peri_base =3D 0xfe000000;
+    bc->ctrl_base =3D 0xff800000;
 
+--=20
+Alex Benn=C3=A9e
 
