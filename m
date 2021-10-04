@@ -2,77 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9AC4208C7
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:52:44 +0200 (CEST)
-Received: from localhost ([::1]:43098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0EF4208E3
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:00:22 +0200 (CEST)
+Received: from localhost ([::1]:34792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXKeJ-0000kT-Em
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:52:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43824)
+	id 1mXKlg-0005vb-Tw
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:00:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mXKbV-0006O1-VJ
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:49:50 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:36652)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mXKbT-0001wG-0W
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:49:49 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id l7so38856115edq.3
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 02:49:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Wx/PjAyfkj4ohI4PJ7Vi/Y2903RdRJzTnW/zD2NVT8Q=;
- b=HJCf+LZcSdCACyZOwcljutk4YkhhN1Ul94AVr+2ARfJWDa3wZdXZu7dbaGrpfEetVn
- xprfl/USgA5W+DQSUyKDqRM+NOXaqCwOFJAyfOaAViZUe0NFv0Vc16SfS+2M1s1Ho1v/
- S+XXtux7+Wj3VkTXvD5I+oNMEjisJc6ykyeDAY8reNfaFH5j9dahC2iJqULN9fZLZcXr
- mlhx0AHqUjgpvVYya16TtwkyAf/zVcB41MqFdx0lpX6VBcfevu6AaXbCjJ8YYPmYg0ZZ
- MG38SHIDK53ztqT2YevpAEqOj1Ldztsvltp0gcN1K9pH2qw1OirB7vnmaq1F0re7y+H0
- hGCw==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mXKiz-0003q7-5d
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:57:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50200)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mXKij-0007AP-7F
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:57:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633341435;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uN4kK1pXQZANYm2HaFwo6QaP04q5hMTYTuZqmJHwjTY=;
+ b=G0iTypB70q3sflzQM7R+1mHu82+8NPUzaRbBKIDGGD5Zd+6qCAmfSto2O6G0+DTNBt/ooq
+ b0/bj+TKaOkFrOVhnfYlGEPfwk4ScDOFFaDnoi+0P2DFDToRGQ74bD7uP3R90yxAKmZK/B
+ 203JdLSI1//jK9Obw0LAzZh5rBZkzcU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-485-yRIZpt9oPjqfQdV_ZtVw3g-1; Mon, 04 Oct 2021 05:57:14 -0400
+X-MC-Unique: yRIZpt9oPjqfQdV_ZtVw3g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ v15-20020adfa1cf000000b00160940b17a2so2967365wrv.19
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 02:57:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Wx/PjAyfkj4ohI4PJ7Vi/Y2903RdRJzTnW/zD2NVT8Q=;
- b=a1T22rNmfWO5VdOVM3ZhT3X9V4SQ3fRyUyIfgPx59YrtWIPQm3xA3V/2RtDXREPQZM
- RRhTSZlTonoelNEF1vMk7h4eYj8H0beFii7PHwuRA/qI/ESmS4MSX36RlN7qYrptV7Wc
- LfDhmC7jwQLPO+PJq2yA2eqdEb8aqH+EIvZaehUeKZOkJwuYlEPImFKLC7RU9dzfOE+I
- hUBfQxt+qDqIQ5hzmX8Sx6XYUlh6T+jNCd0hEDe40LK0CMFKIbQd+ZObO+eyhG1S5C0k
- HkA8I/bL6CidUK+pHZYPvZMaJErYdRpKvg6I7DD00KVeuyg/pCqF3vp4pgtDZunLFe44
- H8UQ==
-X-Gm-Message-State: AOAM533WOpPPi74o/zZcbUP98QbcaXag40vKddlDSbc+koXfYUDkk4GX
- RKw4Y4efkXaJTKI53xgVsLNfJ/rQAA8=
-X-Google-Smtp-Source: ABdhPJxpJuRMcOdCNyOZpe2pNEMNWCOj5uOuD9x+EFiKpV0u84SiT4ZTiP14FyiZJR3msavbRtRHWQ==
-X-Received: by 2002:a17:906:d196:: with SMTP id
- c22mr15810788ejz.231.1633340985432; 
- Mon, 04 Oct 2021 02:49:45 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id f4sm6264768ejf.61.2021.10.04.02.49.43
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=uN4kK1pXQZANYm2HaFwo6QaP04q5hMTYTuZqmJHwjTY=;
+ b=W4guoW9KsWIQ1Swdf033FQdY8EV0QZlJjheJtSb6YMwWB8rOI0MN9+oss/ha/Ws59q
+ NJPFG20lQ44gyZCsuoJ1gkFdSwkX+PgU4TjR8tNXpZynOTKermg60Xb2dmbtIOyQMHFn
+ 0cCVYFywmEQgg8Xtv3EnqLWJIOiRNGvOSi9Ic3+Yz0/dbfbh81Re9yrU+PP2MvSiQUwh
+ bIgzo1jtuCOCFo9ZipPwTiedDIesZG/4L7QroJqcgCSv3FzlF0i49gGRhSfrng+YFEG4
+ M2UNNj4ktstaKBWzMOf1L9+90V4u0tGGlJ+KYMF0TUEpwHe47cwN0tJJ09YHS+ZYt+7i
+ 1I0g==
+X-Gm-Message-State: AOAM531ivm4mCsSrrxLpx4N8bac3SqYHWUhgwF53hXfmqwKxA0GRKTZO
+ zZiKeKK3WOStuNQYQ7piuYrZzv7xiYqbn+WwCPwydcmagOYjKdrEFLzr8aTcBdpZb00p9SqMf1E
+ 9VMxLfqvnawicfLo=
+X-Received: by 2002:adf:8b98:: with SMTP id o24mr13372072wra.302.1633341433472; 
+ Mon, 04 Oct 2021 02:57:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzpWd/y8XqYfgDbtRv96Gzc0e4logE1MVVZzrOjkYgjzLmgLB8e4N0CQwcq7o26faMqWhKBmQ==
+X-Received: by 2002:adf:8b98:: with SMTP id o24mr13372042wra.302.1633341433218; 
+ Mon, 04 Oct 2021 02:57:13 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id n186sm16112484wme.31.2021.10.04.02.57.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 02:49:45 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] meson: show library versions in the summary
-Date: Mon,  4 Oct 2021 11:49:43 +0200
-Message-Id: <20211004094943.92925-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211004093053.87883-1-pbonzini@redhat.com>
-References: <20211004093053.87883-1-pbonzini@redhat.com>
+ Mon, 04 Oct 2021 02:57:12 -0700 (PDT)
+Date: Mon, 4 Oct 2021 10:57:10 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 14/22] target/i386/sev: Move
+ qmp_query_sev_attestation_report() to sev.c
+Message-ID: <YVrP9sGcUNuRuXm6@work-vm>
+References: <20211002125317.3418648-1-philmd@redhat.com>
+ <20211002125317.3418648-15-philmd@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20211002125317.3418648-15-philmd@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,196 +99,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Brijesh Singh <brijesh.singh@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>, qemu-devel@nongnu.org,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, kvm@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Meson 0.57 allows passing external programs and dependency objects
-to summary().  Use this to show library versions and paths in the
-summary.
+* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
+> Move qmp_query_sev_attestation_report() from monitor.c to sev.c
+> and make sev_get_attestation_report() static. We don't need the
+> stub anymore, remove it.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  target/i386/sev_i386.h        |  2 --
+>  target/i386/monitor.c         |  6 ------
+>  target/i386/sev-sysemu-stub.c |  7 ++++---
+>  target/i386/sev.c             | 12 ++++++++++--
+>  4 files changed, 14 insertions(+), 13 deletions(-)
+> 
+> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+> index 2d9a1a0112e..5f367f78eb7 100644
+> --- a/target/i386/sev_i386.h
+> +++ b/target/i386/sev_i386.h
+> @@ -27,8 +27,6 @@
+>  extern SevInfo *sev_get_info(void);
+>  extern char *sev_get_launch_measurement(void);
+>  extern SevCapability *sev_get_capabilities(Error **errp);
+> -extern SevAttestationReport *
+> -sev_get_attestation_report(const char *mnonce, Error **errp);
+>  
+>  int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
+>  int sev_inject_launch_secret(const char *hdr, const char *secret,
+> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+> index a9f85acd473..c05d70252a2 100644
+> --- a/target/i386/monitor.c
+> +++ b/target/i386/monitor.c
+> @@ -764,12 +764,6 @@ void qmp_sev_inject_launch_secret(const char *packet_hdr,
+>      sev_inject_launch_secret(packet_hdr, secret, gpa, errp);
+>  }
+>  
+> -SevAttestationReport *
+> -qmp_query_sev_attestation_report(const char *mnonce, Error **errp)
+> -{
+> -    return sev_get_attestation_report(mnonce, errp);
+> -}
+> -
+>  SGXInfo *qmp_query_sgx(Error **errp)
+>  {
+>      return sgx_get_info(errp);
+> diff --git a/target/i386/sev-sysemu-stub.c b/target/i386/sev-sysemu-stub.c
+> index d556b4f091f..813b9a6a03b 100644
+> --- a/target/i386/sev-sysemu-stub.c
+> +++ b/target/i386/sev-sysemu-stub.c
+> @@ -13,6 +13,7 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "qapi/qapi-commands-misc-target.h"
+> +#include "qapi/qmp/qerror.h"
+>  #include "qapi/error.h"
+>  #include "sev_i386.h"
+>  
+> @@ -52,9 +53,9 @@ int sev_es_save_reset_vector(void *flash_ptr, uint64_t flash_size)
+>      g_assert_not_reached();
+>  }
+>  
+> -SevAttestationReport *sev_get_attestation_report(const char *mnonce,
+> -                                                 Error **errp)
+> +SevAttestationReport *qmp_query_sev_attestation_report(const char *mnonce,
+> +                                                       Error **errp)
+>  {
+> -    error_setg(errp, "SEV is not available in this QEMU");
+> +    error_setg(errp, QERR_UNSUPPORTED);
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 112 +++++++++++++++++++++++++---------------------------
- 1 file changed, 54 insertions(+), 58 deletions(-)
+I did like that message making it clear the reason it was unsupported
+was this build, rather than lack of host support or not enabling it.
 
-diff --git a/meson.build b/meson.build
-index 17e77fe4ef..7b596fdcd9 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2859,13 +2859,13 @@ summary_info = {}
- summary_info += {'git':               config_host['GIT']}
- summary_info += {'make':              config_host['MAKE']}
- summary_info += {'python':            '@0@ (version: @1@)'.format(python.full_path(), python.language_version())}
--summary_info += {'sphinx-build':      sphinx_build.found()}
-+summary_info += {'sphinx-build':      sphinx_build}
- if config_host.has_key('HAVE_GDB_BIN')
-   summary_info += {'gdb':             config_host['HAVE_GDB_BIN']}
- endif
- summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
- if targetos == 'windows' and config_host.has_key('CONFIG_GUEST_AGENT')
--  summary_info += {'wixl':            wixl.found() ? wixl.full_path() : false}
-+  summary_info += {'wixl':            wixl}
- endif
- if slirp_opt != 'disabled' and 'CONFIG_SLIRP_SMBD' in config_host
-   summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
-@@ -2956,7 +2956,7 @@ if get_option('cfi')
-   summary_info += {'CFI debug support': get_option('cfi_debug')}
- endif
- summary_info += {'strip binaries':    get_option('strip')}
--summary_info += {'sparse':            sparse.found() ? sparse.full_path() : false}
-+summary_info += {'sparse':            sparse}
- summary_info += {'mingw32 support':   targetos == 'windows'}
- 
- # snarf the cross-compilation information for tests
-@@ -3028,19 +3028,19 @@ if have_block
-   summary_info += {'vvfat support':     config_host.has_key('CONFIG_VVFAT')}
-   summary_info += {'qed support':       config_host.has_key('CONFIG_QED')}
-   summary_info += {'parallels support': config_host.has_key('CONFIG_PARALLELS')}
--  summary_info += {'FUSE exports':      fuse.found()}
-+  summary_info += {'FUSE exports':      fuse}
- endif
- summary(summary_info, bool_yn: true, section: 'Block layer support')
- 
- # Crypto
- summary_info = {}
- summary_info += {'TLS priority':      config_host['CONFIG_TLS_PRIORITY']}
--summary_info += {'GNUTLS support':    gnutls.found()}
--summary_info += {'GNUTLS crypto':     gnutls_crypto.found()}
--# TODO: add back version
--summary_info += {'libgcrypt':         gcrypt.found()}
--# TODO: add back version
--summary_info += {'nettle':            nettle.found()}
-+summary_info += {'GNUTLS support':    gnutls}
-+if gnutls.found()
-+  summary_info += {'  GNUTLS crypto':   gnutls_crypto.found()}
-+endif
-+summary_info += {'libgcrypt':         gcrypt}
-+summary_info += {'nettle':            nettle}
- if nettle.found()
-    summary_info += {'  XTS':             xts != 'private'}
- endif
-@@ -3052,76 +3052,72 @@ summary(summary_info, bool_yn: true, section: 'Crypto')
- # Libraries
- summary_info = {}
- if targetos == 'darwin'
--  summary_info += {'Cocoa support':   cocoa.found()}
-+  summary_info += {'Cocoa support':   cocoa}
- endif
--# TODO: add back version
--summary_info += {'SDL support':       sdl.found()}
--summary_info += {'SDL image support': sdl_image.found()}
--# TODO: add back version
--summary_info += {'GTK support':       gtk.found()}
--summary_info += {'pixman':            pixman.found()}
--# TODO: add back version
--summary_info += {'VTE support':       vte.found()}
--# TODO: add back version
--summary_info += {'slirp support':     slirp_opt == 'disabled' ? false : slirp_opt}
--summary_info += {'libtasn1':          tasn1.found()}
--summary_info += {'PAM':               pam.found()}
--summary_info += {'iconv support':     iconv.found()}
--summary_info += {'curses support':    curses.found()}
--# TODO: add back version
--summary_info += {'virgl support':     virgl.found()}
--summary_info += {'curl support':      curl.found()}
--summary_info += {'Multipath support': mpathpersist.found()}
--summary_info += {'VNC support':       vnc.found()}
-+summary_info += {'SDL support':       sdl}
-+summary_info += {'SDL image support': sdl_image}
-+summary_info += {'GTK support':       gtk}
-+summary_info += {'pixman':            pixman}
-+summary_info += {'VTE support':       vte}
-+summary_info += {'slirp support':     slirp_opt == 'internal' ? slirp_opt : slirp}
-+summary_info += {'libtasn1':          tasn1}
-+summary_info += {'PAM':               pam}
-+summary_info += {'iconv support':     iconv}
-+summary_info += {'curses support':    curses}
-+summary_info += {'virgl support':     virgl}
-+summary_info += {'curl support':      curl}
-+summary_info += {'Multipath support': mpathpersist}
-+summary_info += {'VNC support':       vnc}
- if vnc.found()
--  summary_info += {'VNC SASL support':  sasl.found()}
--  summary_info += {'VNC JPEG support':  jpeg.found()}
--  summary_info += {'VNC PNG support':   png.found()}
-+  summary_info += {'VNC SASL support':  sasl}
-+  summary_info += {'VNC JPEG support':  jpeg}
-+  summary_info += {'VNC PNG support':   png}
- endif
--summary_info += {'brlapi support':    brlapi.found()}
-+summary_info += {'brlapi support':    brlapi}
- summary_info += {'vde support':       config_host.has_key('CONFIG_VDE')}
- summary_info += {'netmap support':    config_host.has_key('CONFIG_NETMAP')}
- summary_info += {'Linux AIO support': config_host.has_key('CONFIG_LINUX_AIO')}
--summary_info += {'Linux io_uring support': linux_io_uring.found()}
--summary_info += {'ATTR/XATTR support': libattr.found()}
-+summary_info += {'Linux io_uring support': linux_io_uring}
-+summary_info += {'ATTR/XATTR support': libattr}
- summary_info += {'RDMA support':      config_host.has_key('CONFIG_RDMA')}
- summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
- summary_info += {'fdt support':       fdt_opt == 'disabled' ? false : fdt_opt}
--summary_info += {'libcap-ng support': libcap_ng.found()}
--summary_info += {'bpf support': libbpf.found()}
-+summary_info += {'libcap-ng support': libcap_ng}
-+summary_info += {'bpf support':       libbpf}
- # TODO: add back protocol and server version
- summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
--summary_info += {'rbd support':       rbd.found()}
-+summary_info += {'rbd support':       rbd}
- summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
--summary_info += {'smartcard support': cacard.found()}
--summary_info += {'U2F support':       u2f.found()}
--summary_info += {'libusb':            libusb.found()}
--summary_info += {'usb net redir':     usbredir.found()}
-+summary_info += {'smartcard support': cacard}
-+summary_info += {'U2F support':       u2f}
-+summary_info += {'libusb':            libusb}
-+summary_info += {'usb net redir':     usbredir}
- summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
--summary_info += {'GBM':               gbm.found()}
--summary_info += {'libiscsi support':  libiscsi.found()}
--summary_info += {'libnfs support':    libnfs.found()}
-+summary_info += {'GBM':               gbm}
-+summary_info += {'libiscsi support':  libiscsi}
-+summary_info += {'libnfs support':    libnfs}
- if targetos == 'windows'
-   if config_host.has_key('CONFIG_GUEST_AGENT')
-     summary_info += {'QGA VSS support':   config_host.has_key('CONFIG_QGA_VSS')}
-     summary_info += {'QGA w32 disk info': config_host.has_key('CONFIG_QGA_NTDDSCSI')}
-   endif
- endif
--summary_info += {'seccomp support':   seccomp.found()}
--summary_info += {'GlusterFS support': glusterfs.found()}
-+summary_info += {'seccomp support':   seccomp}
-+summary_info += {'GlusterFS support': glusterfs}
- summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
- summary_info += {'libssh support':    config_host.has_key('CONFIG_LIBSSH')}
--summary_info += {'lzo support':       lzo.found()}
--summary_info += {'snappy support':    snappy.found()}
--summary_info += {'bzip2 support':     libbzip2.found()}
--summary_info += {'lzfse support':     liblzfse.found()}
--summary_info += {'zstd support':      zstd.found()}
-+summary_info += {'lzo support':       lzo}
-+summary_info += {'snappy support':    snappy}
-+summary_info += {'bzip2 support':     libbzip2}
-+summary_info += {'lzfse support':     liblzfse}
-+summary_info += {'zstd support':      zstd}
- summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
--summary_info += {'libxml2':           libxml2.found()}
--summary_info += {'capstone':          capstone_opt == 'disabled' ? false : capstone_opt}
--summary_info += {'libpmem support':   libpmem.found()}
--summary_info += {'libdaxctl support': libdaxctl.found()}
--summary_info += {'libudev':           libudev.found()}
-+summary_info += {'libxml2':           libxml2}
-+summary_info += {'capstone':          capstone_opt == 'internal' ? capstone_opt : capstone}
-+summary_info += {'libpmem support':   libpmem}
-+summary_info += {'libdaxctl support': libdaxctl}
-+summary_info += {'libudev':           libudev}
-+# Dummy dependency, keep .found()
- summary_info += {'FUSE lseek':        fuse_lseek.found()}
- summary(summary_info, bool_yn: true, section: 'Dependencies')
- 
+Dave
+
+>      return NULL;
+>  }
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index aefbef4bb63..91a217bbb85 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -31,6 +31,8 @@
+>  #include "migration/blocker.h"
+>  #include "qom/object.h"
+>  #include "monitor/monitor.h"
+> +#include "qapi/qapi-commands-misc-target.h"
+> +#include "qapi/qmp/qerror.h"
+>  #include "exec/confidential-guest-support.h"
+>  #include "hw/i386/pc.h"
+>  
+> @@ -487,8 +489,8 @@ out:
+>      return cap;
+>  }
+>  
+> -SevAttestationReport *
+> -sev_get_attestation_report(const char *mnonce, Error **errp)
+> +static SevAttestationReport *sev_get_attestation_report(const char *mnonce,
+> +                                                        Error **errp)
+>  {
+>      struct kvm_sev_attestation_report input = {};
+>      SevAttestationReport *report = NULL;
+> @@ -549,6 +551,12 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
+>      return report;
+>  }
+>  
+> +SevAttestationReport *qmp_query_sev_attestation_report(const char *mnonce,
+> +                                                       Error **errp)
+> +{
+> +    return sev_get_attestation_report(mnonce, errp);
+> +}
+> +
+>  static int
+>  sev_read_file_base64(const char *filename, guchar **data, gsize *len)
+>  {
+> -- 
+> 2.31.1
+> 
 -- 
-2.31.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
