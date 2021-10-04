@@ -2,87 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DE33420949
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:24:26 +0200 (CEST)
-Received: from localhost ([::1]:49064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF48420951
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 12:28:23 +0200 (CEST)
+Received: from localhost ([::1]:53836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXL8y-00029z-Ml
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:24:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49726)
+	id 1mXLCo-0005gl-Oo
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 06:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mXL0L-0007rt-8o
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:15:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24517)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mXL1L-0000iM-T5
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:16:31 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:12344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mXL0G-00055h-Nr
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:15:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633342524;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yDF1c1dqYgH2Cwme9oa02nYdGNUhXjuRR+mKl+EbFaI=;
- b=SuJS+ZUXF3ebZRXrn9KzAkGZZ6JJja6fCJgFJ2x7DtH3byWZcNMyhqeFU3R6jmEqN14lca
- Xwc86DLw5F160QUyeGJStDq0UJYojVqmmUQ1HIQPZEdI7ABAEmNzhb91mPeiG7wulbanLk
- cwbmo/ZUh6YJKitP7AQtj+Yw1ZxBgRc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-1by_EVCBNqWgekhWFB-TXg-1; Mon, 04 Oct 2021 06:15:23 -0400
-X-MC-Unique: 1by_EVCBNqWgekhWFB-TXg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- e11-20020a5d500b000000b001609d035ea5so1605151wrt.22
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 03:15:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=yDF1c1dqYgH2Cwme9oa02nYdGNUhXjuRR+mKl+EbFaI=;
- b=MmOZ/4n9KnKlA4zDsCX7ZUiheOGuSL43/y6v0q6bGVlWSEsHU3Xb7fdd1pBxb09Th0
- /Cw/+p7Q4ZTqbmWas1AcbF3BS1wbqQsemwUAv+AzbmL7vkn1+f7LSkmpeVgH3EFcq1PT
- INOXPVAtY18vHDYPysLm6cFy5H3hSH7ks9MOf6lWinjHnCMpf0tL0CNmMZHP0wTB/5o+
- 0XYwjusu9Ep3FBqPFxD8FTZlobdvmBcTmrQpGC10h4JeByjnncSlRVO8mEN5t23oLOKE
- hdwvS/Yf3uvLdWYaNu6s8PSf3eTovub1Q3wI9ZxfGWWME/fxf3qWNViqPodx4S7iQLtK
- L8wA==
-X-Gm-Message-State: AOAM533mhwfAG+kOukF/Ci8N2XDvOZwXRGhSVuxkc8G4O2h+IlVsCog3
- LqcGTt6dccH3y84+F0/fDdEJJ4+lj4vPqkWefpEBz7HwryPReyzeVM/tRz1DIXPd5xtQLUslNSq
- z687m0KhV8lXb/6c=
-X-Received: by 2002:adf:8b41:: with SMTP id v1mr9713728wra.255.1633342522129; 
- Mon, 04 Oct 2021 03:15:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzRStbmwZwWa77a0AnUFnuhdU26j6wRpa9Rnhj7K3iPzyC6wV10RHSZQFJAaQQey6pPDse5KA==
-X-Received: by 2002:adf:8b41:: with SMTP id v1mr9713703wra.255.1633342521934; 
- Mon, 04 Oct 2021 03:15:21 -0700 (PDT)
-Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
- by smtp.gmail.com with ESMTPSA id v23sm13920203wmj.4.2021.10.04.03.15.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 03:15:21 -0700 (PDT)
-Date: Mon, 4 Oct 2021 12:15:20 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH v2 4/5] hw/arm/virt: Use the PA range to compute the
- memory map
-Message-ID: <20211004101520.6sqx2jubmqd6djhb@gator>
-References: <20211003164605.3116450-1-maz@kernel.org>
- <20211003164605.3116450-5-maz@kernel.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mXL1J-0005uZ-9a
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 06:16:31 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 64B467463B7;
+ Mon,  4 Oct 2021 12:16:27 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 3EFB7746398; Mon,  4 Oct 2021 12:16:27 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 3D6D97462D3;
+ Mon,  4 Oct 2021 12:16:27 +0200 (CEST)
+Date: Mon, 4 Oct 2021 12:16:27 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PULL 03/20] nubus-device: expose separate super slot memory
+ region
+In-Reply-To: <07339e4c-4b8c-1c8d-5126-99c36f9559e9@vivier.eu>
+Message-ID: <94e6784a-6db7-ddda-9736-2c3c5b5b4136@eik.bme.hu>
+References: <20210929092843.2686234-1-laurent@vivier.eu>
+ <20210929092843.2686234-4-laurent@vivier.eu>
+ <CAFEAcA8528uFsvUU3+z-wiE7jz_g80ff4U=XaBifoYZbGBC5nA@mail.gmail.com>
+ <07339e4c-4b8c-1c8d-5126-99c36f9559e9@vivier.eu>
 MIME-Version: 1.0
-In-Reply-To: <20211003164605.3116450-5-maz@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.055, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ BOUNDARY="3866299591-1176981280-1633342427=:36040"
+Content-ID: <f6c2226c-3993-e8cd-7961-17e618f4c0b0@eik.bme.hu>
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,39 +62,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
- qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- kernel-team@android.com, kvmarm@lists.cs.columbia.edu
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 03, 2021 at 05:46:04PM +0100, Marc Zyngier wrote:
-...
-> @@ -1662,9 +1665,17 @@ static void virt_set_memmap(VirtMachineState *vms)
->          vms->memmap[i].size = size;
->          base += size;
->      }
-> -    vms->highest_gpa = (vms->highmem ?
-> -                        base :
-> -                        vms->memmap[VIRT_MEM].base + ms->maxram_size) - 1;
-> +
-> +    /*
-> +     * If base fits within pa_bits, all good. If it doesn't, limit it
-> +     * to the end of RAM, which is guaranteed to fit within pa_bits.
-> +     */
-> +    if (base <= BIT_ULL(pa_bits)) {
-> +        vms->highest_gpa = base -1;
-                                    ^ missing space here
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> +    } else {
-> +        vms->highest_gpa = memtop - 1;
-> +    }
-> +
->      if (device_memory_size > 0) {
->          ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
->          ms->device_memory->base = device_memory_base;
+--3866299591-1176981280-1633342427=:36040
+Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
+Content-Transfer-Encoding: 8BIT
+Content-ID: <2aedec85-482d-bc7a-4f2d-9a8181e26578@eik.bme.hu>
 
-Thanks,
-drew
+On Mon, 4 Oct 2021, Laurent Vivier wrote:
+> Le 02/10/2021 à 12:33, Peter Maydell a écrit :
+>> On Wed, 29 Sept 2021 at 10:49, Laurent Vivier <laurent@vivier.eu> wrote:
+>>>
+>>> From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>
+>>> According to "Designing Cards and Drivers for the Macintosh Family" each physical
+>>> nubus slot can access 2 separate address ranges: a super slot memory region which
+>>> is 256MB and a standard slot memory region which is 16MB.
+>>>
+>>> Currently a Nubus device uses the physical slot number to determine whether it is
+>>> using a standard slot memory region or a super slot memory region rather than
+>>> exposing both memory regions for use as required.
+>>
+>>
+>>> +    /* Super */
+>>> +    slot_offset = nd->slot * NUBUS_SUPER_SLOT_SIZE;
+>>
+>> Hi; Coverity thinks this multiply might overflow, because
+>> we're calculating a hw_addr (64-bits) but the multiply is only
+>> done at 32-bits. Adding an explicit cast or using 'ULL' in the
+>> constant #define rather than just 'U' would fix this.
+>> This is CID 1464070.
+>>
+>
+> I'm wondering if adding "assert(nd->slot < NUBUS_SUPER_SLOT_NB)" would help coverity to avoid the
+> error without using 64bit arithmetic?
 
+Using ULL in constant is simpler and better, assert is an unnecessary 
+condition evaluation in cases where it can't happen (that's not a 
+performance problem here but could be in some frequently called code).
+
+Regards,
+BALATON Zoltan
+
+>
+>>> +
+>>> +    name = g_strdup_printf("nubus-super-slot-%x", nd->slot);
+>>> +    memory_region_init(&nd->super_slot_mem, OBJECT(dev), name,
+>>> +                       NUBUS_SUPER_SLOT_SIZE);
+>>> +    memory_region_add_subregion(&nubus->super_slot_io, slot_offset,
+>>> +                                &nd->super_slot_mem);
+>>> +    g_free(name);
+>>> +
+>>> +    /* Normal */
+>>> +    slot_offset = nd->slot * NUBUS_SLOT_SIZE;
+>>
+>> Same with this one.
+>
+> assert(nb->slot < NUBUS_SLOT_NB)
+>
+>> thanks
+>> -- PMM
+>>
+>
+> Laurent
+>
+>
+>
+--3866299591-1176981280-1633342427=:36040--
 
