@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A8F420ABA
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 14:18:30 +0200 (CEST)
-Received: from localhost ([::1]:51610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE15420A9E
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 14:07:09 +0200 (CEST)
+Received: from localhost ([::1]:56990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXMvN-0004rO-Je
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 08:18:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44666)
+	id 1mXMkO-00060p-RY
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 08:07:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mXMia-0005M1-R8
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 08:05:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37073)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mXMgE-0001hg-37
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 08:02:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mXMiU-0003ep-K6
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 08:05:16 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mXMgA-0006BW-NL
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 08:02:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633349109;
+ s=mimecast20190719; t=1633348966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SwGglNhxnTLcc5/PppeelRryuMPL/0bJYyozPFFiLg8=;
- b=NGf7yLumpNGorBCuozUjjnDLjdUFwoWoWDQmUf72X3FNZdJTLS2hMvm4FpLPfvrWc+VRWD
- YzhvJNQ0gRgEM50AAUj4/iatMgv2fyndV1ETMMGZNPeINGr6lQHM2VQapvgOf2sOJ/AW5c
- QmgW/uUmJtWdxrCSit+qMV4SPGfQWfk=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NMOA9kQbOGwFqcPMc+ilA6kpME97Hs3N/G+0b3k1Sx0=;
+ b=B3a4p7EbMY9MoGCqVYn6/8IMjbgiSnpyIOc6aqm8hoWP1utnljUrKF5VgO96LQWx2joUDl
+ w4+U2Rz21MuhTNfAPtp5fThjVQtISqZjFm2H6PML8UVj1NL8NUSS7FXtNtDzKhm88wzLd9
+ eUzBDZAuTuC3TLgEYV2i3gWoYwEzme0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-XV5VBneqPsqxb44V8gTMrw-1; Mon, 04 Oct 2021 08:02:39 -0400
-X-MC-Unique: XV5VBneqPsqxb44V8gTMrw-1
+ us-mta-46-cDSeACuYPTiHbdW7CNNb4A-1; Mon, 04 Oct 2021 08:02:42 -0400
+X-MC-Unique: cDSeACuYPTiHbdW7CNNb4A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FD861084696;
- Mon,  4 Oct 2021 12:02:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D9AD802947;
+ Mon,  4 Oct 2021 12:02:42 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.194.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F2161F422;
- Mon,  4 Oct 2021 12:02:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE27F19C59;
+ Mon,  4 Oct 2021 12:02:38 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/7] util/oslib-posix: Support MADV_POPULATE_WRITE for
- os_mem_prealloc()
-Date: Mon,  4 Oct 2021 14:02:01 +0200
-Message-Id: <20211004120208.7409-1-david@redhat.com>
+Subject: [PATCH v4 1/7] util/oslib-posix: Let touch_all_pages() return an error
+Date: Mon,  4 Oct 2021 14:02:02 +0200
+Message-Id: <20211004120208.7409-2-david@redhat.com>
+In-Reply-To: <20211004120208.7409-1-david@redhat.com>
+References: <20211004120208.7409-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
@@ -53,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -83,75 +85,116 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-#1 is a preparation for improved error reporting, #2 adds support for
-MADV_POPULATE_WRITE, #3 cleans up the code to avoid global variables and
-prepare for concurrency, #4 and #5 optimize thread handling, #6 makes
-os_mem_prealloc() safe to be called from multiple threads concurrently and
-#7 makes the SIGBUS handler coexist cleanly with the MCE SIGBUS handler
-under Linux.
+Let's prepare touch_all_pages() for returning differing errors. Return
+an error from the thread and report the last processed error.
 
-Details regarding MADV_POPULATE_WRITE can be found in introducing upstream
-Linux commits 4ca9b3859dac ("mm/madvise: introduce
-MADV_POPULATE_(READ|WRITE) to prefault page tables") and eb2faa513c24
-("mm/madvise: report SIGBUS as -EFAULT for MADV_POPULATE_(READ|WRITE)"),
-and in the man page update [1].
+Translate SIGBUS to -EFAULT, as a SIGBUS can mean all different kind of
+things (memory error, read error, out of memory). When allocating memory
+fails via the current SIGBUS-based mechanism, we'll get:
+    os_mem_prealloc: preallocating memory failed: Bad address
 
-v3 -> v4:
-- Added ACKs
-- "util/oslib-posix: Support concurrent os_mem_prealloc() invocation"
--- Remove stale comment from patch description
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ util/oslib-posix.c | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
-v2 -> v3:
-- "util/oslib-posix: Let touch_all_pages() return an error"
--- Added
-- Added ACKs/RBs
-- "util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()"
--- Set error code accordingly
-
-v1 -> v2:
-- "util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()"
--- Handle thread with no data to initialize
--- Always set use_madv_populate_write properly
--- Add comment regarding future fallocate() optimization
-- "util/oslib-posix: Don't create too many threads with small memory or
-   little pages"
--- Added
-- "util/oslib-posix: Avoid creating a single thread with
-   MADV_POPULATE_WRITE"
--- Added
-- "util/oslib-posix: Support concurrent os_mem_prealloc() invocation"
--- Add missing g_once_init_leave()
--- Move g_once_init_enter() to the place where it is actually needed
-- "util/oslib-posix: Forward SIGBUS to MCE handler under Linux"
--- Added
-
-[1] https://lkml.kernel.org/r/20210823120645.8223-1-david@redhat.com
-
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-
-David Hildenbrand (7):
-  util/oslib-posix: Let touch_all_pages() return an error
-  util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()
-  util/oslib-posix: Introduce and use MemsetContext for
-    touch_all_pages()
-  util/oslib-posix: Don't create too many threads with small memory or
-    little pages
-  util/oslib-posix: Avoid creating a single thread with
-    MADV_POPULATE_WRITE
-  util/oslib-posix: Support concurrent os_mem_prealloc() invocation
-  util/oslib-posix: Forward SIGBUS to MCE handler under Linux
-
- include/qemu/osdep.h |   7 ++
- softmmu/cpus.c       |   4 +
- util/oslib-posix.c   | 231 ++++++++++++++++++++++++++++++++-----------
- 3 files changed, 187 insertions(+), 55 deletions(-)
-
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index e8bdb02e1d..b146beef78 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -84,7 +84,6 @@ typedef struct MemsetThread MemsetThread;
+ 
+ static MemsetThread *memset_thread;
+ static int memset_num_threads;
+-static bool memset_thread_failed;
+ 
+ static QemuMutex page_mutex;
+ static QemuCond page_cond;
+@@ -452,6 +451,7 @@ static void *do_touch_pages(void *arg)
+ {
+     MemsetThread *memset_args = (MemsetThread *)arg;
+     sigset_t set, oldset;
++    int ret = 0;
+ 
+     /*
+      * On Linux, the page faults from the loop below can cause mmap_sem
+@@ -470,7 +470,7 @@ static void *do_touch_pages(void *arg)
+     pthread_sigmask(SIG_UNBLOCK, &set, &oldset);
+ 
+     if (sigsetjmp(memset_args->env, 1)) {
+-        memset_thread_failed = true;
++        ret = -EFAULT;
+     } else {
+         char *addr = memset_args->addr;
+         size_t numpages = memset_args->numpages;
+@@ -494,7 +494,7 @@ static void *do_touch_pages(void *arg)
+         }
+     }
+     pthread_sigmask(SIG_SETMASK, &oldset, NULL);
+-    return NULL;
++    return (void *)(uintptr_t)ret;
+ }
+ 
+ static inline int get_memset_num_threads(int smp_cpus)
+@@ -509,13 +509,13 @@ static inline int get_memset_num_threads(int smp_cpus)
+     return ret;
+ }
+ 
+-static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+-                            int smp_cpus)
++static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
++                           int smp_cpus)
+ {
+     static gsize initialized = 0;
+     size_t numpages_per_thread, leftover;
++    int ret = 0, i = 0;
+     char *addr = area;
+-    int i = 0;
+ 
+     if (g_once_init_enter(&initialized)) {
+         qemu_mutex_init(&page_mutex);
+@@ -523,7 +523,6 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+         g_once_init_leave(&initialized, 1);
+     }
+ 
+-    memset_thread_failed = false;
+     threads_created_flag = false;
+     memset_num_threads = get_memset_num_threads(smp_cpus);
+     memset_thread = g_new0(MemsetThread, memset_num_threads);
+@@ -545,12 +544,16 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+     qemu_mutex_unlock(&page_mutex);
+ 
+     for (i = 0; i < memset_num_threads; i++) {
+-        qemu_thread_join(&memset_thread[i].pgthread);
++        int tmp = (uintptr_t)qemu_thread_join(&memset_thread[i].pgthread);
++
++        if (tmp) {
++            ret = tmp;
++        }
+     }
+     g_free(memset_thread);
+     memset_thread = NULL;
+ 
+-    return memset_thread_failed;
++    return ret;
+ }
+ 
+ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+@@ -573,9 +576,10 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+     }
+ 
+     /* touch pages simultaneously */
+-    if (touch_all_pages(area, hpagesize, numpages, smp_cpus)) {
+-        error_setg(errp, "os_mem_prealloc: Insufficient free host memory "
+-            "pages available to allocate guest RAM");
++    ret = touch_all_pages(area, hpagesize, numpages, smp_cpus);
++    if (ret) {
++        error_setg_errno(errp, -ret,
++                         "os_mem_prealloc: preallocating memory failed");
+     }
+ 
+     ret = sigaction(SIGBUS, &oldact, NULL);
 -- 
 2.31.1
 
