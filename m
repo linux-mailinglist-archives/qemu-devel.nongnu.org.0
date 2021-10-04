@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE254210C5
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 15:54:13 +0200 (CEST)
-Received: from localhost ([::1]:55512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424424210B7
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 15:51:03 +0200 (CEST)
+Received: from localhost ([::1]:45660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXOQ0-000810-S0
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 09:54:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38808)
+	id 1mXOMv-0001GX-Nd
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 09:51:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mXOJz-0006Lq-AF
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 09:47:59 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45615)
+ id 1mXOJy-0006Ge-3q
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 09:47:58 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:55820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mXOJw-0007K9-ID
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 09:47:59 -0400
-Received: by mail-wr1-x432.google.com with SMTP id r10so14419072wra.12
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 06:47:54 -0700 (PDT)
+ id 1mXOJs-0007Ik-PD
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 09:47:57 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id v127so13493033wme.5
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 06:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1v9TqC347QTL0iy7WAjvcLe/L9RSHF/zcwT3VIh2fdQ=;
- b=njtQ0dVf5j3EEH+pgtVEKnkijA0Oct5X3sPFi+01MybE4XtM8Mcx4c9BmRyc57QA99
- cPAC1pgcuD7LG7ex2A33qPvv9AnQ3ieGBOY6cZq4L8zKtWbeikkLeQS1T0Hol1R6Scfm
- 4KrCYHIN28lJzn6TWaAUfSiak96V5cyd1leFjlPPWusaqXjXgyx5P4aeog647lDkhJHN
- mu7MDmziS+NPI51qClZ1TX+43nSeDgjsRXpJxZOIhzZLmOZVEO0yaC/vPFMViBUkPaUi
- HMLvL/QX0f1rDS+b33qeDT+PaWpBDqHld/F/SaCVVeZBJcRiGKgRfeBEIvN8XMPra4TI
- FLxQ==
+ bh=2XKksSNJpzNeevRjjy+0RRvABj/O0e/8A0w+HPwQEvE=;
+ b=f7tmgdThQJhz/46AoxeZAdAwLhUtYZHGEyLZq6KVONi5FNORKwuEXJ/EnGMb5fDf8o
+ QEhe1lt9tAPwVGAofqzFQdXDSKbpCxudOpH7xt0i3YOItlBTVe8DSd+HZ4aycSBVW9DM
+ gLIai21BOTecgVMnWPPmapFOaEqO542CO8spxanY+7v6t6Uk9xgBga6KG+cAFHduWb8t
+ 0kCjYF/TnXZssJlsqUC0DCLGxzVOZunaWf6SY4kN04hBVW+Qdw/nRkGHCdBycm96s04M
+ 9XxET0o9Tc0lyjFz+YIut+ZDyBl9GhSCG2+O2ic4Q+rZEbp44bAlocBzNiSlv5hHTPy5
+ V5jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1v9TqC347QTL0iy7WAjvcLe/L9RSHF/zcwT3VIh2fdQ=;
- b=PJ0Ryca2v2VjzcZIZ4DDAYAB0JtdSoDdPar5MOz4dMaN+f9jWJ3u/iA+0D42qeOXEd
- IQbBnQeNnqs+nmPJNOQepzN9xxZXnMn7WjNmPqY9I7GWr4QaItiedFV3Xln2RtLClZur
- aFT7g/pbsThHvFLNcrBFyltPeqsVUpw8pIgzrWyse1yaii498/k9+d1yLq0oqT12KvCo
- 5nY/aQpY1jYwgCioXAdEybAuZ3P/yOxJ0NsHubYXemiZe0sfDg7uZFYGcgxOvQ0mqJc5
- azhUgC+HfQdrAd4sAtrrbRbkbf3nAg3+D9QNh1lLRq3k+nbBXI//28/oilYZPDvUBvaA
- kRjQ==
-X-Gm-Message-State: AOAM5325LW7Bcrt9b4F5m4lH4fOolnD/MzMsRNXP0wnd+FUqB26+GJqf
- xUHP9xQKXXFH1hfBbmv5nm8Alg==
-X-Google-Smtp-Source: ABdhPJw05pktVn2n60MZQ+QZ/7HTbSBWTqXukzDSvbWGczNieeBFFvhp8SVm15RKbne83GzFewThtg==
-X-Received: by 2002:adf:f4c6:: with SMTP id h6mr15086947wrp.397.1633355273021; 
- Mon, 04 Oct 2021 06:47:53 -0700 (PDT)
+ bh=2XKksSNJpzNeevRjjy+0RRvABj/O0e/8A0w+HPwQEvE=;
+ b=mRJlkeIyRclo9sXYDGkYJ7GZTj5TxYpZamsUD/GWqWHQ/nUlcp8ADNaR3zUg0LqaIu
+ j19g+RMoVbHgdypPzxnTFodp6KBp+5GjC3zcF9nKwI1YGvoQsWmWZtS32r+CltLVG9Hz
+ LeJhvY3C5UmQC4dkIXtqi74MXDYldOP2f7kgwF0k+5tmek2LQhtxpSY9giXiMd7lEbTU
+ InpfG2IosLsypeTWHNc+IE0qac3UoIW0NYQwhAvLFnAxQTqrdqc/fohEV961ZIPVG0zL
+ 40iSTBzoRgjBaOD2DOm21oDob0frVdnCh4Ie+6UQ47O1bjt6XmkinbdCq/rB23UTzWwA
+ ey2g==
+X-Gm-Message-State: AOAM53140+KRTtk2nJMbwM8PI4Ta33OYSGaKJ6Xps5DgKEH3jifWJIar
+ FNyzthrVv/eg4XW3MwLEqE/zhg==
+X-Google-Smtp-Source: ABdhPJxT+tN8C4WJJ2mxvtayiHaCFfGTYyhA8z6LYwqP1faz9rNM61m6/B6crrwm+vVJHqdrahpEFQ==
+X-Received: by 2002:a1c:f402:: with SMTP id z2mr18783275wma.53.1633355270873; 
+ Mon, 04 Oct 2021 06:47:50 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l2sm15890463wmi.1.2021.10.04.06.47.44
+ by smtp.gmail.com with ESMTPSA id l2sm15890484wmi.1.2021.10.04.06.47.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 04 Oct 2021 06:47:46 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8AFBE1FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id 9660D1FF9E;
  Mon,  4 Oct 2021 14:47:42 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 6/7] hw/arm/bcm2838: Map the PCIe memory space
-Date: Mon,  4 Oct 2021 14:47:40 +0100
-Message-Id: <20211004134742.2044280-7-alex.bennee@linaro.org>
+Subject: [PATCH  v1 7/7] hw/arm/raspi: Add the Raspberry Pi 4B board
+Date: Mon,  4 Oct 2021 14:47:41 +0100
+Message-Id: <20211004134742.2044280-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211004134742.2044280-1-alex.bennee@linaro.org>
 References: <20211004134742.2044280-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,55 +94,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The BCM2711 has a BCM54213 Gigabit Ethernet block mapped in the PCIe
-range.
+The Raspberry Pi 4 uses a BCM2711 SoC (based on a BCM2838).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 ---
-FIXME: create the bcm54213-geth in raspi.c?
 vAJB:
-  - fix for move of gic_base to bc
+  - use 8gb version
 ---
- hw/arm/bcm2836.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/arm/raspi.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index 99dc15e6e4..ff62e741ce 100644
---- a/hw/arm/bcm2836.c
-+++ b/hw/arm/bcm2836.c
-@@ -15,6 +15,7 @@
- #include "hw/arm/bcm2836.h"
- #include "hw/arm/raspi_platform.h"
- #include "hw/sysbus.h"
-+#include "hw/misc/unimp.h"
- 
- typedef struct BCM283XClass {
-     /*< private >*/
-@@ -46,6 +47,8 @@ static Property bcm2836_enabled_cores_property =
- #define GIC_VIFACE_OTHER_OFS(cpu)  (0x5000 + (cpu) * 0x200)
- #define GIC_VCPU_OFS                0x6000
- 
-+#define PCIE_BASE                   0x7d500000
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 03f54887f4..0342aeab03 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -369,6 +369,15 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
+     rmc->board_rev = 0xa02082;
+     raspi_machine_class_common_init(mc, rmc->board_rev);
+ };
 +
- static void bcm2836_init(Object *obj)
- {
-     BCM283XState *s = BCM283X(obj);
-@@ -227,6 +230,13 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
-         qdev_connect_gpio_out(DEVICE(&s->cpu[n].core), GTIMER_SEC,
-                 qdev_get_gpio_in_named(DEVICE(&s->control), "cntpsirq", n));
-     }
++static void raspi4b_machine_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++    RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
 +
-+    /* bcm2838 kludge to easily create PCIe */
-+    if (bc->gic_base) {
-+        create_unimplemented_device("bcm2838-pcie", PCIE_BASE, 0x100000);
-+        create_unimplemented_device("bcm54213-geth",
-+                                    PCIE_BASE + 0x80000, 0x10000);
-+    }
- }
++    rmc->board_rev = 0xd03114;
++    raspi_machine_class_common_init(mc, rmc->board_rev);
++};
+ #endif /* TARGET_AARCH64 */
  
- static void bcm283x_class_init(ObjectClass *oc, void *data)
+ static const TypeInfo raspi_machine_types[] = {
+@@ -393,6 +402,10 @@ static const TypeInfo raspi_machine_types[] = {
+         .name           = MACHINE_TYPE_NAME("raspi3b"),
+         .parent         = TYPE_RASPI_MACHINE,
+         .class_init     = raspi3b_machine_class_init,
++    }, {
++        .name           = MACHINE_TYPE_NAME("raspi4b"),
++        .parent         = TYPE_RASPI_MACHINE,
++        .class_init     = raspi4b_machine_class_init,
+ #endif
+     }, {
+         .name           = TYPE_RASPI_MACHINE,
 -- 
 2.30.2
 
