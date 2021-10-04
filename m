@@ -2,92 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609AB4208A6
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:46:47 +0200 (CEST)
-Received: from localhost ([::1]:60588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F02594208D7
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 11:57:01 +0200 (CEST)
+Received: from localhost ([::1]:55192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXKYY-0001Vd-Cq
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:46:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38526)
+	id 1mXKiS-0000dS-NV
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 05:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXKFi-0003K9-9c
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:27:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38651)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXKGs-0004yI-F6
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:28:31 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:42987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXKFg-0001Zz-Rn
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:27:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633339636;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K57AEnNbvFK07HbUkC2JPJ2RtmE3uXD5CZ1M+8RrZuY=;
- b=GD5NliAeoOb0Nl4/KSKBJ2Ew1Ur5Q0p53tKGpbEZocaiQeKUziP/3Qkqc1F9Xc3c8NxunJ
- rvxIQD3Qjr9Fg0CDBX/c2ePxGqfYgFJswSWRLOWEbU5XTun7hhgfPcb9Wr6jBgZbW1h+Qt
- 2T42ogUpkBOP4l10fvyUXTD5gTU17Dw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-4dcbSgy9MSaZi2Rbwf_Ldw-1; Mon, 04 Oct 2021 05:27:15 -0400
-X-MC-Unique: 4dcbSgy9MSaZi2Rbwf_Ldw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- d12-20020a1c730c000000b0030b4e0ecf5dso4599242wmb.9
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 02:27:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=K57AEnNbvFK07HbUkC2JPJ2RtmE3uXD5CZ1M+8RrZuY=;
- b=4LPxDdk56JlQWyl5BNs0sZF6rKCULfGYVFrdiIyn6wfVfrdgMeAr/afs1ekihkpMa7
- 93nmlO/Vm7J8657zFR+KEflydrOwx2nL74gwYNm6sHl5XLOAQGmbkb4do+0VzIXQ//UH
- dNsah3lN3ueNsItVQ+Ws3e8LcKD1cm2xJZmWorlmQxIBvNVsnOgiP8WQO1g/OLcyFo/a
- rFKr81Ijzn55efGnyCxBvoIf8HO+e2S/RAo+vL5GPzExz1aldt68dGYMJIeN7YK1uS9T
- jDhLveoUdXePtsUHMfaGS+kBcxTneoGFtK1xAiTN/tVxsPt0vU85MfHOG+cnKImKURUL
- HU7w==
-X-Gm-Message-State: AOAM531n4Wio68MH/y0eUd2kxw1T6v61mVo+5ps/XVV+1saLOHqZYQjB
- Q349gKGLSDK3o2+wUzWptNTfLBcJki+VDnsR9zuETkYwYYULcCRuf6bHcExXowO4vT7MUmg3ZEN
- sa6UScu+tkDS+pw0=
-X-Received: by 2002:adf:8b41:: with SMTP id v1mr9457261wra.255.1633339633989; 
- Mon, 04 Oct 2021 02:27:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVepT3FFktgZw/kHcPz8fhtMFHO5BDI7MSuz89B312IKcG1DCV5Vb2Hq+smzNEcMgXx9Ti0Q==
-X-Received: by 2002:adf:8b41:: with SMTP id v1mr9457248wra.255.1633339633817; 
- Mon, 04 Oct 2021 02:27:13 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id y15sm7243884wrp.44.2021.10.04.02.27.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Oct 2021 02:27:13 -0700 (PDT)
-Message-ID: <b761eef0-83b3-ce88-493a-3611f3a7c870@redhat.com>
-Date: Mon, 4 Oct 2021 11:27:12 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXKGq-0002kV-9m
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 05:28:30 -0400
+Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MvbO4-1mpHA72ccA-00seR9; Mon, 04 Oct 2021 11:28:25 +0200
+Subject: Re: [PATCH 12/12] q800: wire macfb IRQ to separate video interrupt on
+ VIA2
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
+ <20211002110007.30825-13-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <dd154c1c-2b27-2f24-3bda-811e13d7dbbe@vivier.eu>
+Date: Mon, 4 Oct 2021 11:28:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3 2/3] hw/virtio: Acquire RCU read lock in
- virtqueue_packed_drop_all()
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20210906104318.1569967-1-philmd@redhat.com>
- <20210906104318.1569967-3-philmd@redhat.com>
- <YVrIBqT2gXAwhNF3@stefanha-x1.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <YVrIBqT2gXAwhNF3@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20211002110007.30825-13-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:C+dKj6FWDz6Hrb6YPlDGKup6CIdJRc2AWs2FIHfpogjCApbxhwT
+ KLYA3FxYLebfHOh7IbVhkT8o/bqwIEOUP+lO5AfU/nDx9FdnWhAptR9mjfCSd+Ol+YVi3Z4
+ lBpHbIMUUd8CBSXuzoHYxbV/Me7ybaqpUCFml5etDCPdmt5obG7+9/YP4DMUADqtQO7W1/8
+ Be+U95hS7fOEuwpuV8Inw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:O6LxHyIX3WU=:X6LWcK2q1RM6j4ZCb3kEK6
+ VQs6ZI4xtt0oAW+q2yzii5sFdwoUO7MyN+HtR1xyI8voHERVmE3YFTX9M6LyZaqDsYc9lnJdL
+ 1hK56L0Qpnsf9LOhn0mdI1abfuNGAbfdnIWYk3sv7nCoeur2b8EpJ16edTx2G6HKnuSLUwss2
+ lQmT8QA1vWqPssyRFl2iMlwie8jxHT6mLLQkzA7V4J+bCb3ZL4QRVWIBbpETnAPj2ATuSpFw0
+ w0GIUEIEHqXR/RV3XZH353An8GbzuShPSAFkq4SqC74QaPJnG9s7UFum4SLvRlcASG3USCMVB
+ 8qfvaxKAP6ElbibcQmra3kbDfCwLgSalKeaxdgVXxjUFBIaebfg+wPLX4uTEOTEm/Pc/8k3E6
+ y3rfYbwcmVJq9zbFk6zDcoBIQeGGGMq9gTQ26aAwFaJSlydqT7neFGk7PeoY9YOe4ym/kLYSr
+ o1ytdimkvNQO3PUhcelbCY54F3ahJlFyrmRQobSWipA6h2odoJDfvRtXAXL9BQCIuyXbMeJ1B
+ 1jYV2bDakToeA2KgFBArjhPOU10/xJ1uiCyFxzk4JfVBxcVsSTabV/zteHTYHcOpWQrhPWa42
+ eaiYT5GzOEcV57lcwDaTB89JSf8BClctVI+3I8wMyomYMjExDHj4sbOM+jK/W3C02/tzQxEHM
+ uudqFB/l8SbGbVi80In7lIvfsZ9AJN2ZjzYTbyW6XwqI/x5FYKq/DNfsOo4WeJRyhldc2Jd2X
+ 5716GcbVeYMozOwVps14WKRCz2mPLzO9veS6zw==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,49 +71,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/4/21 11:23, Stefan Hajnoczi wrote:
-> On Mon, Sep 06, 2021 at 12:43:17PM +0200, Philippe Mathieu-Daudé wrote:
->> vring_get_region_caches() must be called with the RCU read lock
->> acquired. virtqueue_packed_drop_all() does not, and uses the
->> 'caches' pointer. Fix that by using the RCU_READ_LOCK_GUARD()
->> macro.
+Le 02/10/2021 à 13:00, Mark Cave-Ayland a écrit :
+> Whilst the in-built Quadra 800 framebuffer exists within the Nubus address
+> space for slot 9, it has its own dedicated interrupt on VIA2. Force the
+> macfb device to occupy slot 9 in the q800 machine and wire its IRQ to the
+> separate video interrupt since this is what is expected by the MacOS
+> interrupt handler.
 > 
-> Is this a bug that has been encountered, is it a latent bug, a code
-> cleanup, etc? The impact of this isn't clear but it sounds a little
-> scary so I wanted to check.
-
-I'll defer to Stefano, but IIUC it is a latent bug discovered
-during code audit.
-
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hw/m68k/q800.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
->>
->> Reported-by: Stefano Garzarella <sgarzare@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  hw/virtio/virtio.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
->> index 97f60017466..7d3bf9091ee 100644
->> --- a/hw/virtio/virtio.c
->> +++ b/hw/virtio/virtio.c
->> @@ -1704,6 +1704,8 @@ static unsigned int virtqueue_packed_drop_all(VirtQueue *vq)
->>      VirtIODevice *vdev = vq->vdev;
->>      VRingPackedDesc desc;
->>  
->> +    RCU_READ_LOCK_GUARD();
->> +
->>      caches = vring_get_region_caches(vq);
->>      if (!caches) {
->>          return 0;
->> -- 
->> 2.31.1
->>
+> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+> index df3fd3711e..fd4855047e 100644
+> --- a/hw/m68k/q800.c
+> +++ b/hw/m68k/q800.c
+> @@ -407,8 +407,10 @@ static void q800_init(MachineState *machine)
+>                      MAC_NUBUS_FIRST_SLOT * NUBUS_SUPER_SLOT_SIZE);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 1, NUBUS_SLOT_BASE +
+>                      MAC_NUBUS_FIRST_SLOT * NUBUS_SLOT_SIZE);
+> -
+> -    for (i = 0; i < VIA2_NUBUS_IRQ_NB; i++) {
+> +    qdev_connect_gpio_out(dev, 9,
+> +                          qdev_get_gpio_in_named(via2_dev, "nubus-irq",
+> +                          VIA2_NUBUS_IRQ_INTVIDEO));
+> +    for (i = 1; i < VIA2_NUBUS_IRQ_NB; i++) {
+>          qdev_connect_gpio_out(dev, 9 + i,
+>                                qdev_get_gpio_in_named(via2_dev, "nubus-irq",
+>                                                       VIA2_NUBUS_IRQ_9 + i));
+> @@ -419,6 +421,7 @@ static void q800_init(MachineState *machine)
+>      /* framebuffer in nubus slot #9 */
+>  
+>      dev = qdev_new(TYPE_NUBUS_MACFB);
+> +    qdev_prop_set_uint32(dev, "slot", 9);
+>      qdev_prop_set_uint32(dev, "width", graphic_width);
+>      qdev_prop_set_uint32(dev, "height", graphic_height);
+>      qdev_prop_set_uint8(dev, "depth", graphic_depth);
+> 
 
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
