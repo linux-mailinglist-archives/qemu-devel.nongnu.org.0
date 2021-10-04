@@ -2,56 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8834216D2
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 20:54:06 +0200 (CEST)
-Received: from localhost ([::1]:41590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C344216E7
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 21:02:40 +0200 (CEST)
+Received: from localhost ([::1]:52076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXT6C-0000zV-OA
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 14:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57860)
+	id 1mXTEU-0008LO-I9
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 15:02:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mXT56-00084A-02
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:52:56 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35672
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mXTBh-0006cU-Fx
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:59:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mXT53-0002EZ-UU
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:52:55 -0400
-Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mXT4o-0007uO-Gu; Mon, 04 Oct 2021 19:52:42 +0100
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
- <20211002110007.30825-12-mark.cave-ayland@ilande.co.uk>
- <94532455-2a7b-8ad2-1b6f-a6c4fc9d971f@vivier.eu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <e7b63f9c-5c20-a26a-48f8-e1f3bfbc0353@ilande.co.uk>
-Date: Mon, 4 Oct 2021 19:52:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mXTBc-0008KI-Uj
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:59:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633373979;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hUiIpspDawKbv7Zcdn5JDIiFXZB15CWKBkAz7+UbeCg=;
+ b=Nb0wwL2gPpjRfYiJwU+xlOrLfJdn84MNUjirDPNttgzMZDNo8sXALYFRRniN+qF3qPJgQX
+ He1IkZQFhpQXdxcn8Li0A8jh1isDFr2HiyOOqdO1bMbGwE66M+IE05VXN/OC51BgP9Yu1u
+ KeW3l46x6Or4XZZxfGxcG0NKaGP383U=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-243-EJm9rpNGMnS13l8hhk8TEg-1; Mon, 04 Oct 2021 14:59:36 -0400
+X-MC-Unique: EJm9rpNGMnS13l8hhk8TEg-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ i26-20020a9f3b1a000000b002c4f75690f5so9359545uah.22
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 11:59:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hUiIpspDawKbv7Zcdn5JDIiFXZB15CWKBkAz7+UbeCg=;
+ b=GQSgP8JVSGEUne6DVQzF3bgevyHTIdb2JQg0SSIAIDQMjeAtpQwn/YmZU00hbT6zdW
+ DQe75FmggjcD30xwsiMWN9pycsweVBz4M370lq7gpvBTXMyU9m8eX4zJTSj/QWHUWtr/
+ iD7FkphlJugFP6axbNycrH2kd59XqKKor+FecMvD6McuHlhRUZbi8+f5MyyIeepfh90F
+ HNpqE3hWqSHn2FOZQ2QSyPrRi55opsauj2VJ2UQvUwBT/mKFLtQj/saoAoI6XBp9f+kg
+ BRT8+OfSz6dmp4dfblx156z8EAyeV9pzmq1GyZlL4LTnj8790mRB8WHgHuVaklWAtrFd
+ y/kQ==
+X-Gm-Message-State: AOAM53148mOyEGfsiKRfOY3mIMQ05+2fvph3RESudJVmk3inkm+Pj9vk
+ WIWT/X2+DwB6RJUZURibSrSnFFN8U6GzUh3CXkb8I8ygYe4dirVmVpCZStM8ORlE2VqayL5NPBl
+ N8cRCQEyb+0qJqcQCiPXVTZyPZ4cN2Sk=
+X-Received: by 2002:ab0:5e9a:: with SMTP id y26mr8202362uag.87.1633373976075; 
+ Mon, 04 Oct 2021 11:59:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqqDxEJSNfQiq3NQD99HsPxrX0X/4ioinJsAH+AVw95DDx4iX/6Tm7GFEScFuuknRSF2qqrnHTCtYtdaCeEUo=
+X-Received: by 2002:ab0:5e9a:: with SMTP id y26mr8202326uag.87.1633373975778; 
+ Mon, 04 Oct 2021 11:59:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <94532455-2a7b-8ad2-1b6f-a6c4fc9d971f@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 11/12] macfb: add vertical blank interrupt
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210916040955.628560-1-jsnow@redhat.com>
+ <20210916040955.628560-8-jsnow@redhat.com>
+ <374eff9f-0e9e-a2da-19ab-1c39a63191b0@redhat.com>
+ <CAFn=p-aVEvHXwZWroz2DitNw6-f0YdfJqsqkxBfKNfHzrB4DOw@mail.gmail.com>
+ <58254219-d4a5-c4c2-20ab-21e33e034ce5@redhat.com>
+In-Reply-To: <58254219-d4a5-c4c2-20ab-21e33e034ce5@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 4 Oct 2021 14:59:24 -0400
+Message-ID: <CAFn=p-bgfkYYpnP6q5E2mxsCsK3tJS6sQFzSXfWFerk9qf1hRQ@mail.gmail.com>
+Subject: Re: [PATCH v3 07/16] iotests/297: Don't rely on distro-specific
+ linter binaries
+To: Hanna Reitz <hreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000009caa3905cd8b8342"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,220 +91,327 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/10/2021 17:32, Laurent Vivier wrote:
+--0000000000009caa3905cd8b8342
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Le 02/10/2021 à 13:00, Mark Cave-Ayland a écrit :
->> The MacOS driver expects a 60.15Hz vertical blank interrupt to be generated by
->> the framebuffer which in turn schedules the mouse driver via the Vertical Retrace
->> Manager.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hw/display/macfb.c         | 81 ++++++++++++++++++++++++++++++++++++++
->>   include/hw/display/macfb.h |  8 ++++
->>   2 files changed, 89 insertions(+)
->>
->> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
->> index 29f6ad8eba..60a203e67b 100644
->> --- a/hw/display/macfb.c
->> +++ b/hw/display/macfb.c
->> @@ -33,9 +33,16 @@
->>   #define DAFB_MODE_CTRL1     0x8
->>   #define DAFB_MODE_CTRL2     0xc
->>   #define DAFB_MODE_SENSE     0x1c
->> +#define DAFB_INTR_MASK      0x104
->> +#define DAFB_INTR_STAT      0x108
->> +#define DAFB_INTR_CLEAR     0x10c
->>   #define DAFB_RESET          0x200
->>   #define DAFB_LUT            0x213
->>   
->> +#define DAFB_INTR_VBL   0x4
->> +
->> +/* Vertical Blank period (60.15Hz) */
->> +#define DAFB_INTR_VBL_PERIOD_NS 16625800
->>   
->>   /*
->>    * Quadra sense codes taken from Apple Technical Note HW26:
->> @@ -449,6 +456,32 @@ static void macfb_update_display(void *opaque)
->>       macfb_draw_graphic(s);
->>   }
->>   
->> +static void macfb_update_irq(MacfbState *s)
->> +{
->> +    uint32_t irq_state = s->irq_state & s->irq_mask;
->> +
->> +    if (irq_state) {
->> +        qemu_irq_raise(s->irq);
->> +    } else {
->> +        qemu_irq_lower(s->irq);
->> +    }
->> +}
->> +
->> +static void macfb_vbl_timer(void *opaque)
->> +{
->> +    MacfbState *s = opaque;
->> +    int64_t next_vbl;
->> +
->> +    s->irq_state |= DAFB_INTR_VBL;
->> +    macfb_update_irq(s);
->> +
->> +    /* 60 Hz irq */
->> +    next_vbl = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
->> +                DAFB_INTR_VBL_PERIOD_NS) /
->> +                DAFB_INTR_VBL_PERIOD_NS * DAFB_INTR_VBL_PERIOD_NS;
->> +    timer_mod(s->vbl_timer, next_vbl);
-> 
-> perhaps you can move this to a function and call it here and below?
+On Mon, Oct 4, 2021 at 4:17 AM Hanna Reitz <hreitz@redhat.com> wrote:
 
-I'd like to keep the timer_mod() outside of the function but I agree it is nicer to 
-keep the next_vbl logci in a single place.
+> On 22.09.21 21:53, John Snow wrote:
+> > (This email just explains python packaging stuff. No action items in
+> > here. Skim away.)
+> >
+> > On Fri, Sep 17, 2021 at 5:43 AM Hanna Reitz <hreitz@redhat.com
+> > <mailto:hreitz@redhat.com>> wrote:
+> >
+> >     On 16.09.21 06:09, John Snow wrote:
+> >     > 'pylint-3' is another Fedora-ism. Use "python3 -m pylint" or
+> >     "python3 -m
+> >     > mypy" to access these scripts instead. This style of invocation
+> will
+> >     > prefer the "correct" tool when run in a virtual environment.
+> >     >
+> >     > Note that we still check for "pylint-3" before the test begins
+> >     -- this
+> >     > check is now "overly strict", but shouldn't cause anything that w=
+as
+> >     > already running correctly to start failing.
+> >     >
+> >     > Signed-off-by: John Snow <jsnow@redhat.com
+> >     <mailto:jsnow@redhat.com>>
+> >     > Reviewed-by: Vladimir Sementsov-Ogievskiy
+> >     <vsementsov@virtuozzo.com <mailto:vsementsov@virtuozzo.com>>
+> >     > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com
+> >     <mailto:philmd@redhat.com>>
+> >     > ---
+> >     >   tests/qemu-iotests/297 | 45
+> >     ++++++++++++++++++++++++------------------
+> >     >   1 file changed, 26 insertions(+), 19 deletions(-)
+> >
+> >     I know it sounds silly, but to be honest I have no idea if replacin=
+g
+> >     `mypy` by `python3 -m mypy` is correct, because no mypy documentati=
+on
+> >     seems to suggest it.
+> >
+> >
+> > Right, I don't think it's necessarily documented that you can do this.
+> > It just happens to be a very convenient way to invoke the same script
+> > without needing to know *where* mypy is. You let python figure out
+> > where it's going to import mypy from, and it handles the rest.
+> >
+> > (This also makes it easier to use things like mypy, pylint etc with an
+> > explicitly specified PYTHON interpreter. I don't happen to do that in
+> > this patch, but ... we could.)
+> >
+> >      From what I understand, that=E2=80=99s generally how Python =E2=80=
+=9Cbinaries=E2=80=9D work,
+> >     though (i.e., installed as a module invokable with `python -m`,
+> >     and then
+> >     providing some stub binary that, well, effectively does this, but
+> >     kind
+> >     of in a weird way, I just don=E2=80=99t understand it), and none of=
+ the
+> >     parameters seem to be hurt in this conversion, so:
+> >
+> >
+> > Right. Technically, any python package can ask for any number of
+> > executables to be installed, but the setuptools packaging ecosystem
+> > provides a way to "generate" these based on package configuration. I
+> > use a few in our own Python packages. If you look in python/setup.cfg,
+> > you'll see stuff like this:
+> >
+> > [options.entry_points]
+> > console_scripts =3D
+> >     qom =3D qemu.qmp.qom:main
+> >     qom-set =3D qemu.qmp.qom:QOMSet.entry_point
+> >     qom-get =3D qemu.qmp.qom:QOMGet.entry_point
+> >     qom-list =3D qemu.qmp.qom:QOMList.entry_point
+> >     qom-tree =3D qemu.qmp.qom:QOMTree.entry_point
+> >     qom-fuse =3D qemu.qmp.qom_fuse:QOMFuse.entry_point [fuse]
+> >     qemu-ga-client =3D qemu.qmp.qemu_ga_client:main
+> >     qmp-shell =3D qemu.qmp.qmp_shell:main
+> >
+> > These entries cause those weird little binary wrapper scripts to be
+> > generated for you when the package is *installed*. So our packages
+> > will put 'qmp-shell' and 'qom-tree' into your $PATH*.The stuff to the
+> > right of the equals sign is just a pointer to a function that can be
+> > executed that implements the CLI command. qemu.qmp.qmp_shell points to
+> > the module to import, and ':main' points to the function to run.
+> >
+> > The last bit of this is that many, though not all (and there's zero
+> > requirement this has to be true), python packages that implement CLI
+> > commands will often have a stanza in their __init__.py module that
+> > says something like this:
+> >
+> > if __name__ =3D=3D '__main__':
+> >     do_the_command_line_stuff()
+> >
+> > Alternatively, a package can include a literal __main__.py file that
+> > python knows to check for, and this module is the one that gets
+> > executed for `python3 -m mypackage` invocations. This is what mypy does=
+.
+> >
+> > Those are the magical blurbs that allow you to execute a module as if
+> > it were a script by running "python3 -m mymodule" -- that hooks
+> > directly into that little execution stanza. For python code
+> > distributed as packages, that's the real reason to have that little
+> > magic stanza -- it provides a convenient way to run stuff without
+> > needing to write the incredibly more tedious:
+> >
+> > python3 -c "from mypy.__main__ import console_entry; console_entry();"
+> >
+> > ... which is quite a bit more porcelain too, depending on how they
+> > re/factor the code inside of the package.
+> >
+> > Seeing as how mypy explicitly includes a __main__.py file:
+> > https://github.com/python/mypy/blob/master/mypy/__main__.py
+> > <https://github.com/python/mypy/blob/master/mypy/__main__.py>, I am
+> > taking it as a given that they are fully aware of invoking mypy in
+> > this fashion, and believe it safe to rely on.
+>
+> Wow, thanks a lot for this detailed explanation!
+> > There will be a quiz later.
+> > (There will not be a quiz.)
+>
+> I=E2=80=99m ready to fail any test on Python so one day I can get a =E2=
+=80=9COfficially
+> knows nothing about Python=E2=80=9D badge.
+>
+>
+I can respect that ;)
 
->> +}
->> +
->>   static void macfb_reset(MacfbState *s)
->>   {
->>       int i;
->> @@ -477,6 +510,9 @@ static uint64_t macfb_ctrl_read(void *opaque,
->>       case DAFB_MODE_CTRL2:
->>           val = s->regs[addr >> 2];
->>           break;
->> +    case DAFB_INTR_STAT:
->> +        val = s->irq_state;
->> +        break;
->>       case DAFB_MODE_SENSE:
->>           val = macfb_sense_read(s);
->>           break;
->> @@ -492,6 +528,8 @@ static void macfb_ctrl_write(void *opaque,
->>                                unsigned int size)
->>   {
->>       MacfbState *s = opaque;
->> +    int64_t next_vbl;
->> +
->>       switch (addr) {
->>       case DAFB_MODE_VADDR1:
->>       case DAFB_MODE_VADDR2:
->> @@ -507,8 +545,25 @@ static void macfb_ctrl_write(void *opaque,
->>       case DAFB_MODE_SENSE:
->>           macfb_sense_write(s, val);
->>           break;
->> +    case DAFB_INTR_MASK:
->> +        s->irq_mask = val;
->> +        if (val & DAFB_INTR_VBL) {
->> +            next_vbl = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
->> +                        DAFB_INTR_VBL_PERIOD_NS) /
->> +                        DAFB_INTR_VBL_PERIOD_NS * DAFB_INTR_VBL_PERIOD_NS;
->> +            timer_mod(s->vbl_timer, next_vbl);
->> +        } else {
->> +            timer_del(s->vbl_timer);
->> +        }
->> +        break;
->> +    case DAFB_INTR_CLEAR:
->> +        s->irq_state &= ~DAFB_INTR_VBL;
->> +        macfb_update_irq(s);
->> +        break;
->>       case DAFB_RESET:
->>           s->palette_current = 0;
->> +        s->irq_state &= ~DAFB_INTR_VBL;
->> +        macfb_update_irq(s);
->>           break;
->>       case DAFB_LUT:
->>           s->color_palette[s->palette_current++] = val;
->> @@ -586,6 +641,7 @@ static void macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
->>       s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
->>       memory_region_set_coalescing(&s->mem_vram);
->>   
->> +    s->vbl_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, macfb_vbl_timer, s);
->>       macfb_update_mode(s);
->>   }
->>   
->> @@ -601,6 +657,16 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
->>   
->>       sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_ctrl);
->>       sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
->> +
->> +    qdev_init_gpio_out(dev, &ms->irq, 1);
->> +}
->> +
->> +static void macfb_nubus_set_irq(void *opaque, int n, int level)
->> +{
->> +    MacfbNubusState *s = NUBUS_MACFB(opaque);
->> +    NubusDevice *nd = NUBUS_DEVICE(s);
->> +
->> +    nubus_set_irq(nd, level);
->>   }
->>   
->>   static void macfb_nubus_realize(DeviceState *dev, Error **errp)
->> @@ -622,6 +688,19 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
->>   
->>       memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
->>       memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
->> +
->> +    ms->irq = qemu_allocate_irq(macfb_nubus_set_irq, s, 0);
->> +}
->> +
->> +static void macfb_nubus_unrealize(DeviceState *dev)
->> +{
->> +    MacfbNubusState *s = NUBUS_MACFB(dev);
->> +    MacfbNubusDeviceClass *ndc = NUBUS_MACFB_GET_CLASS(dev);
->> +    MacfbState *ms = &s->macfb;
->> +
->> +    ndc->parent_unrealize(dev);
->> +
->> +    qemu_free_irq(ms->irq);
->>   }
->>   
->>   static void macfb_sysbus_reset(DeviceState *d)
->> @@ -672,6 +751,8 @@ static void macfb_nubus_class_init(ObjectClass *klass, void *data)
->>   
->>       device_class_set_parent_realize(dc, macfb_nubus_realize,
->>                                       &ndc->parent_realize);
->> +    device_class_set_parent_unrealize(dc, macfb_nubus_unrealize,
->> +                                      &ndc->parent_unrealize);
->>       dc->desc = "Nubus Macintosh framebuffer";
->>       dc->reset = macfb_nubus_reset;
->>       dc->vmsd = &vmstate_macfb;
->> diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
->> index 0aff0d84d2..e52775aa21 100644
->> --- a/include/hw/display/macfb.h
->> +++ b/include/hw/display/macfb.h
->> @@ -14,7 +14,9 @@
->>   #define MACFB_H
->>   
->>   #include "exec/memory.h"
->> +#include "hw/irq.h"
->>   #include "ui/console.h"
->> +#include "qemu/timer.h"
->>   #include "qom/object.h"
->>   
->>   typedef enum  {
->> @@ -63,6 +65,11 @@ typedef struct MacfbState {
->>   
->>       uint32_t regs[MACFB_NUM_REGS];
->>       MacFbMode *mode;
->> +
->> +    uint32_t irq_state;
->> +    uint32_t irq_mask;
->> +    QEMUTimer *vbl_timer;
->> +    qemu_irq irq;
->>   } MacfbState;
->>   
->>   #define TYPE_MACFB "sysbus-macfb"
->> @@ -81,6 +88,7 @@ struct MacfbNubusDeviceClass {
->>       DeviceClass parent_class;
->>   
->>       DeviceRealize parent_realize;
->> +    DeviceUnrealize parent_unrealize;
->>   };
->>   
->>   
->>
-> 
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+--js
 
-ATB,
+--0000000000009caa3905cd8b8342
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Mark.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 4, 2021 at 4:17 AM Hanna =
+Reitz &lt;<a href=3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 22.09.21=
+ 21:53, John Snow wrote:<br>
+&gt; (This email just explains python packaging stuff. No action items in <=
+br>
+&gt; here. Skim away.)<br>
+&gt;<br>
+&gt; On Fri, Sep 17, 2021 at 5:43 AM Hanna Reitz &lt;<a href=3D"mailto:hrei=
+tz@redhat.com" target=3D"_blank">hreitz@redhat.com</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:hreitz@redhat.com" target=3D"_blank">hrei=
+tz@redhat.com</a>&gt;&gt; wrote:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0On 16.09.21 06:09, John Snow wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &#39;pylint-3&#39; is another Fedora-ism. Use =
+&quot;python3 -m pylint&quot; or<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&quot;python3 -m<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; mypy&quot; to access these scripts instead. Th=
+is style of invocation will<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; prefer the &quot;correct&quot; tool when run i=
+n a virtual environment.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Note that we still check for &quot;pylint-3&qu=
+ot; before the test begins<br>
+&gt;=C2=A0 =C2=A0 =C2=A0-- this<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; check is now &quot;overly strict&quot;, but sh=
+ouldn&#39;t cause anything that was<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; already running correctly to start failing.<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto=
+:jsnow@redhat.com" target=3D"_blank">jsnow@redhat.com</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:jsnow@redhat.com" targ=
+et=3D"_blank">jsnow@redhat.com</a>&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Reviewed-by: Vladimir Sementsov-Ogievskiy<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"mailto:vsementsov@virtuozzo.com" tar=
+get=3D"_blank">vsementsov@virtuozzo.com</a> &lt;mailto:<a href=3D"mailto:vs=
+ementsov@virtuozzo.com" target=3D"_blank">vsementsov@virtuozzo.com</a>&gt;&=
+gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<=
+a href=3D"mailto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a>=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:philmd@redhat.com" tar=
+get=3D"_blank">philmd@redhat.com</a>&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; ---<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0tests/qemu-iotests/297 | 45<br>
+&gt;=C2=A0 =C2=A0 =C2=A0++++++++++++++++++++++++------------------<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A01 file changed, 26 insertions(+), =
+19 deletions(-)<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0I know it sounds silly, but to be honest I have no =
+idea if replacing<br>
+&gt;=C2=A0 =C2=A0 =C2=A0`mypy` by `python3 -m mypy` is correct, because no =
+mypy documentation<br>
+&gt;=C2=A0 =C2=A0 =C2=A0seems to suggest it.<br>
+&gt;<br>
+&gt;<br>
+&gt; Right, I don&#39;t think it&#39;s necessarily documented that you can =
+do this. <br>
+&gt; It just happens to be a very convenient way to invoke the same script =
+<br>
+&gt; without needing to know *where* mypy is. You let python figure out <br=
+>
+&gt; where it&#39;s going to import mypy from, and it handles the rest.<br>
+&gt;<br>
+&gt; (This also makes it easier to use things like mypy, pylint etc with an=
+ <br>
+&gt; explicitly specified PYTHON interpreter. I don&#39;t happen to do that=
+ in <br>
+&gt; this patch, but ... we could.)<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0From what I understand, that=E2=80=99s genera=
+lly how Python =E2=80=9Cbinaries=E2=80=9D work,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0though (i.e., installed as a module invokable with =
+`python -m`,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0and then<br>
+&gt;=C2=A0 =C2=A0 =C2=A0providing some stub binary that, well, effectively =
+does this, but<br>
+&gt;=C2=A0 =C2=A0 =C2=A0kind<br>
+&gt;=C2=A0 =C2=A0 =C2=A0of in a weird way, I just don=E2=80=99t understand =
+it), and none of the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0parameters seem to be hurt in this conversion, so:<=
+br>
+&gt;<br>
+&gt;<br>
+&gt; Right. Technically, any python package can ask for any number of <br>
+&gt; executables to be installed, but the setuptools packaging ecosystem <b=
+r>
+&gt; provides a way to &quot;generate&quot; these based on package configur=
+ation. I <br>
+&gt; use a few in our own Python packages. If you look in python/setup.cfg,=
+ <br>
+&gt; you&#39;ll see stuff like this:<br>
+&gt;<br>
+&gt; [options.entry_points]<br>
+&gt; console_scripts =3D<br>
+&gt; =C2=A0 =C2=A0 qom =3D qemu.qmp.qom:main<br>
+&gt; =C2=A0 =C2=A0 qom-set =3D qemu.qmp.qom:QOMSet.entry_point<br>
+&gt; =C2=A0 =C2=A0 qom-get =3D qemu.qmp.qom:QOMGet.entry_point<br>
+&gt; =C2=A0 =C2=A0 qom-list =3D qemu.qmp.qom:QOMList.entry_point<br>
+&gt; =C2=A0 =C2=A0 qom-tree =3D qemu.qmp.qom:QOMTree.entry_point<br>
+&gt; =C2=A0 =C2=A0 qom-fuse =3D qemu.qmp.qom_fuse:QOMFuse.entry_point [fuse=
+]<br>
+&gt; =C2=A0 =C2=A0 qemu-ga-client =3D qemu.qmp.qemu_ga_client:main<br>
+&gt; =C2=A0 =C2=A0 qmp-shell =3D qemu.qmp.qmp_shell:main<br>
+&gt;<br>
+&gt; These entries cause those weird little binary wrapper scripts to be <b=
+r>
+&gt; generated for you when the package is *installed*. So our packages <br=
+>
+&gt; will put &#39;qmp-shell&#39; and &#39;qom-tree&#39; into your $PATH*.T=
+he stuff to the <br>
+&gt; right of the equals sign is just a pointer to a function that can be <=
+br>
+&gt; executed that implements the CLI command. qemu.qmp.qmp_shell points to=
+ <br>
+&gt; the module to import, and &#39;:main&#39; points to the function to ru=
+n.<br>
+&gt;<br>
+&gt; The last bit of this is that many, though not all (and there&#39;s zer=
+o <br>
+&gt; requirement this has to be true), python packages that implement CLI <=
+br>
+&gt; commands will often have a stanza in their __init__.py module that <br=
+>
+&gt; says something like this:<br>
+&gt;<br>
+&gt; if __name__ =3D=3D &#39;__main__&#39;:<br>
+&gt; =C2=A0=C2=A0=C2=A0 do_the_command_line_stuff()<br>
+&gt;<br>
+&gt; Alternatively, a package can include a literal __main__.py file that <=
+br>
+&gt; python knows to check for, and this module is the one that gets <br>
+&gt; executed for `python3 -m mypackage` invocations. This is what mypy doe=
+s.<br>
+&gt;<br>
+&gt; Those are the magical blurbs that allow you to execute a module as if =
+<br>
+&gt; it were a script by running &quot;python3 -m mymodule&quot; -- that ho=
+oks <br>
+&gt; directly into that little execution stanza. For python code <br>
+&gt; distributed as packages, that&#39;s the real reason to have that littl=
+e <br>
+&gt; magic stanza -- it provides a convenient way to run stuff without <br>
+&gt; needing to write the incredibly more tedious:<br>
+&gt;<br>
+&gt; python3 -c &quot;from mypy.__main__ import console_entry; console_entr=
+y();&quot;<br>
+&gt;<br>
+&gt; ... which is quite a bit more porcelain too, depending on how they <br=
+>
+&gt; re/factor the code inside of the package.<br>
+&gt;<br>
+&gt; Seeing as how mypy explicitly includes a __main__.py file: <br>
+&gt; <a href=3D"https://github.com/python/mypy/blob/master/mypy/__main__.py=
+" rel=3D"noreferrer" target=3D"_blank">https://github.com/python/mypy/blob/=
+master/mypy/__main__.py</a> <br>
+&gt; &lt;<a href=3D"https://github.com/python/mypy/blob/master/mypy/__main_=
+_.py" rel=3D"noreferrer" target=3D"_blank">https://github.com/python/mypy/b=
+lob/master/mypy/__main__.py</a>&gt;, I am <br>
+&gt; taking it as a given that they are fully aware of invoking mypy in <br=
+>
+&gt; this fashion, and believe it safe to rely on.<br>
+<br>
+Wow, thanks a lot for this detailed explanation!<br>
+&gt; There will be a quiz later.<br>
+&gt; (There will not be a quiz.)<br>
+<br>
+I=E2=80=99m ready to fail any test on Python so one day I can get a =E2=80=
+=9COfficially <br>
+knows nothing about Python=E2=80=9D badge.<br>
+<br></blockquote><div><br></div><div>I can respect that ;)</div><div><br></=
+div><div>--js<br></div></div></div>
+
+--0000000000009caa3905cd8b8342--
+
 
