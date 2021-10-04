@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A16420A32
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 13:39:39 +0200 (CEST)
-Received: from localhost ([::1]:33670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF614420A5C
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 13:47:54 +0200 (CEST)
+Received: from localhost ([::1]:40038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXMJm-0004rj-8r
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 07:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38216)
+	id 1mXMRl-0001g3-IM
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 07:47:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mXMG7-0002jA-Kg
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 07:35:53 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:40703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mXMG5-00024L-FH
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 07:35:50 -0400
-Received: by mail-ed1-x530.google.com with SMTP id g8so63745052edt.7
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 04:35:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cDoFl1ZY7CPKwOWATCIxKgINldL76VPBxWNcsfnF1X8=;
- b=qsN9+dtAL51sjzhH93bqwU9V2aX/D25LHwW4OBIPcLPylwLzcWy2PYxWUPVHnIrmeB
- fx42PZo27TnYxnXPw2COKPZJEd94o/t29IXnNTmmSMvX65YCCJg8JKi8Wa0ay7Ly0hh0
- f+4OV/JbMy9Yr8OwjJf+TRVjjN2zNQv4iYsqylIZEKGDz2L36/h5SKFNzkuFx9M2TbSL
- 8budrnjVGZ8u5Wa5vN0LboaNdKQglzcDTV/T6eX3pEQ2hn06TqdcssoPA9xnWXgPF9A9
- 1fIR/fF94Ffw3YjtdGYqPMp/oQzAsO9qPNNZsD8bZPfdhNh0c4P0E/+FcCw8bKkpbkyv
- LnaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cDoFl1ZY7CPKwOWATCIxKgINldL76VPBxWNcsfnF1X8=;
- b=h1vJD9hLLKlgJBiGLaI9OsuzCr0I0CpqsFDKHHgwoEreyvKY5Wttpyu52iAmqLVTpo
- rEV9FQl4WezslhMiptcnw026yYtG/oWcLVIbysKB9PZgBgmgz+GbhnF0pkh5mXw1NdYD
- UymuXKy2mc+/G/fmtd+12aTHViIN97VR6X+RWckkfampu2xO1tBQ+ktL59ylY6bz/0Fs
- cXSXqtqsb29hqE1wQlA8NNZzBadLMgHPaL7kJ+V2X+LxIiuI7E8Ob9JiTTUcWmPV6GkL
- 5djIO8Ot1QKk6eQ6ophef+SwL8W51Nbh9vxPRI2Z09lRlVnCoYP3KUMRVxBejHQ+WB/Z
- F/Mg==
-X-Gm-Message-State: AOAM5314FXN8NzmFujP1Mf4HRL7MDYSqHGPqw2F5MzoQqE/k2Upb9D8h
- hNiVHJVPajhhy33pNgaHMKxkf42GB77tFwQfeSRrjcMTW9s=
-X-Google-Smtp-Source: ABdhPJwoux5Uo+8bs6jFThxBNg2G4c7sVmpdyK75XfcE5kQo3I8fpzO3qCiPvuBb+c3t4d3kkHGJK0bCooO/ab2+ljg=
-X-Received: by 2002:a17:906:2bd0:: with SMTP id
- n16mr17112173ejg.132.1633347347299; 
- Mon, 04 Oct 2021 04:35:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mXMNs-0007ie-E1
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 07:43:52 -0400
+Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:47883)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mXMNo-0007Kn-I1
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 07:43:52 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.21])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id E7C3423439;
+ Mon,  4 Oct 2021 11:43:44 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 4 Oct
+ 2021 13:43:44 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G00263bc85e0-c94e-415e-b958-45a0d2325f02,
+ 6052322A053A64D32F912485F446DEADD4740C2E) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <74fefbb4-af1c-a95e-a747-74866a8ad44c@kaod.org>
+Date: Mon, 4 Oct 2021 13:43:44 +0200
 MIME-Version: 1.0
-References: <20210920070047.3937292-1-ani@anisinha.ca>
- <alpine.DEB.2.22.394.2109231244190.630@anisinha-lenovo>
-In-Reply-To: <alpine.DEB.2.22.394.2109231244190.630@anisinha-lenovo>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 4 Oct 2021 17:05:36 +0530
-Message-ID: <CAARzgwzpjBy9gKyHVoz8dC=BxKWxgMNgUC1iPp0c6HkkYqTgoA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] tests/acpi/pcihp: add unit tests for hotplug on
- multifunction bridges for q35
-To: Ani Sinha <ani@anisinha.ca>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::530;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x530.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 1/1] hw: aspeed_gpio: Fix GPIO array indexing
+Content-Language: en-US
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+To: <pdel@fb.com>
+References: <20210928034356.3280959-1-pdel@fb.com>
+ <20210928034356.3280959-2-pdel@fb.com>
+ <c1d2a714-1073-310b-e75c-2f6b5b5a025f@kaod.org>
+In-Reply-To: <c1d2a714-1073-310b-e75c-2f6b5b5a025f@kaod.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 41c74580-7ea3-4155-83aa-f40b85daba26
+X-Ovh-Tracer-Id: 16784915812297378598
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudelvddggeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefkffggfgfuhffvfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeihfefffffgedtkeegtdekffevudeggfegffethfffhefhhfevhfdtudejhfdvieenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehfgegsuhhgsegrmhhsrghtrdhorhhg
+Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
+ helo=10.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,43 +71,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
+Cc: patrick@stwcx.xyz, rashmica.g@gmail.com, f4bug@amsat.org, joel@jms.id.au,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping
+On 10/4/21 11:07, Cédric Le Goater wrote:
+> On 9/28/21 05:43, pdel@fb.com wrote:
+>> From: Peter Delevoryas <pdel@fb.com>
+>>
+>> The gpio array is declared as a dense array:
+>>
+>>    qemu_irq gpios[ASPEED_GPIO_NR_PINS];
+>>
+>> (AST2500 has 228, AST2400 has 216, AST2600 has 208)
+>>
+>> However, this array is used like a matrix of GPIO sets
+>> (e.g. gpio[NR_SETS][NR_PINS_PER_SET] = gpio[8][32])
+>>
+>>    size_t offset = set * GPIOS_PER_SET + gpio;
+>>    qemu_set_irq(s->gpios[offset], !!(new & mask));
+>>
+>> This can result in an out-of-bounds access to "s->gpios" because the
+>> gpio sets do _not_ have the same length. Some of the groups (e.g.
+>> GPIOAB) only have 4 pins. 228 != 8 * 32 == 256.
+>>
+>> To fix this, I converted the gpio array from dense to sparse, to match
+>> both the hardware layout and this existing indexing code.
+>>
+>> Fixes: 4b7f956862dc2db4c5c ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
+>> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+> 
+> 
+> This patch is raising an error in qtest-arm/qom-test when compiled
+> with clang :
+> 
+> Running test qtest-arm/qom-test
+> Unexpected error in object_property_try_add() at ../qom/object.c:1224:
+> qemu-system-arm: attempt to add duplicate property 'gpio0' to object (type 'aspeed.gpio-ast2600-1_8v')
+> Broken pipe
+> ERROR qtest-arm/qom-test - too few tests run (expected 78, got 0)
+> make: *** [Makefile.mtest:24: run-test-1] Error 1
 
-On Thu, Sep 23, 2021 at 12:44 PM Ani Sinha <ani@anisinha.ca> wrote:
->
-> ping ...
->
-> On Mon, 20 Sep 2021, Ani Sinha wrote:
->
-> > This patchset adds a unit test to exercize acpi hotplug support for multifunction
-> > bridges on q35 machines. This support was added with the commit:
-> >
-> > d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
-> >
-> > changelist:
-> > v1 : initial RFC patch.
-> > v2: incorporated some of the feedbacks from Igor.
-> > v3: forgot to add the ASL diff for patch 3 in commit log for v2. Added now.
-> >
-> > Ani Sinha (3):
-> >   tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT
-> >     table blob
-> >   tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges
-> >     for q35
-> >   tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge
-> >     test
-> >
-> >  tests/data/acpi/q35/DSDT.multi-bridge | Bin 0 -> 8435 bytes
-> >  tests/qtest/bios-tables-test.c        |  18 ++++++++++++++++++
-> >  2 files changed, 18 insertions(+)
-> >  create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
-> >
-> > --
-> > 2.25.1
-> >
-> >
+The GPIOSetProperties arrary is smaller for the ast2600_1_8v model :
+
+   static GPIOSetProperties ast2600_1_8v_set_props[] = {
+       [0] = {0xffffffff,  0xffffffff,  {"18A", "18B", "18C", "18D"} },
+       [1] = {0x0000000f,  0x0000000f,  {"18E"} },
+   };
+
+and in aspeed_gpio_init() :
+
+     for (int i = 0; i < ASPEED_GPIO_MAX_NR_SETS; i++) {
+
+we loop beyond.
+
+To configure compilation with clang, use the configure option :
+
+   --cc=clang
+
+and simply run 'make check-qtest-arm'
+
+Thanks
+
+C.
 
