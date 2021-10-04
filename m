@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D3A4216AF
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 20:39:27 +0200 (CEST)
-Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1CC4216BC
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 20:41:57 +0200 (CEST)
+Received: from localhost ([::1]:55076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXSs2-0004SB-7k
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 14:39:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55650)
+	id 1mXSuS-0007bi-OO
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 14:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mXSqr-000399-JN
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:38:13 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35622
+ id 1mXSsP-0005dE-7M
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:39:49 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35636
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mXSqq-0005WN-1s
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:38:13 -0400
+ id 1mXSsN-0006kj-Ms
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:39:48 -0400
 Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1]
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mXSqZ-0007n3-7n; Mon, 04 Oct 2021 19:37:59 +0100
-To: BALATON Zoltan <balaton@eik.bme.hu>
+ id 1mXSs9-0007oU-2w; Mon, 04 Oct 2021 19:39:37 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, laurent@vivier.eu
 References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
  <20211002110007.30825-2-mark.cave-ayland@ilande.co.uk>
- <2d85248a-bddd-c390-d0a2-356d57627786@eik.bme.hu>
+ <68e66972-90da-58c9-8a06-1249f8c69576@amsat.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <57e06bdc-7e31-8aae-79d0-9d71c9778455@ilande.co.uk>
-Date: Mon, 4 Oct 2021 19:38:02 +0100
+Message-ID: <4262be04-61ae-caef-3872-eaa4dc973eae@ilande.co.uk>
+Date: Mon, 4 Oct 2021 19:39:41 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <2d85248a-bddd-c390-d0a2-356d57627786@eik.bme.hu>
+In-Reply-To: <68e66972-90da-58c9-8a06-1249f8c69576@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
 Subject: Re: [PATCH 01/12] macfb: handle errors that occur during realize
@@ -64,38 +65,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/10/2021 12:36, BALATON Zoltan wrote:
+On 02/10/2021 14:47, Philippe Mathieu-Daudé wrote:
 
-> On Sat, 2 Oct 2021, Mark Cave-Ayland wrote:
+> On 10/2/21 12:59, Mark Cave-Ayland wrote:
 >> Make sure any errors that occur within the macfb realize chain are detected
 >> and handled correctly to prevent crashes and to ensure that error messages are
 >> reported back to the user.
 >>
 >> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 >> ---
->> hw/display/macfb.c | 11 +++++++++++
->> 1 file changed, 11 insertions(+)
+>>   hw/display/macfb.c | 11 +++++++++++
+>>   1 file changed, 11 insertions(+)
 >>
 >> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
 >> index 76808b69cc..2b747a8de8 100644
 >> --- a/hw/display/macfb.c
 >> +++ b/hw/display/macfb.c
+>> @@ -379,6 +379,10 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
+>>       MacfbState *ms = &s->macfb;
+>>   
+>>       macfb_common_realize(dev, ms, errp);
+>> +    if (*errp) {
+>> +        return;
+>> +    }
 > 
-> There's one more in macfb_common_realize() after:
-> 
-> memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram", 
-> MACFB_VRAM_SIZE, errp);
-> 
-> otherwise
-> 
-> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+> See a related discussion:
+> https://lore.kernel.org/qemu-devel/87bl47ll9l.fsf@dusky.pond.sub.org/
 
-Ah yes, IIRC from the last patchset the outcome of the discussion with Markus was 
-that these functions should use &error_abort. I'll make the same change here for v2.
+Interesting, thanks for the link. I will update macfb_common_realize() to return a 
+boolean for v2.
 
 
 ATB,
