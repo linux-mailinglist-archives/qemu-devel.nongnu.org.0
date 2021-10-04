@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445C4421320
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 17:54:13 +0200 (CEST)
-Received: from localhost ([::1]:34756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8632421368
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 18:02:07 +0200 (CEST)
+Received: from localhost ([::1]:45794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXQI8-0008BI-0z
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 11:54:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45274)
+	id 1mXQPm-0007WM-Az
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 12:02:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mXQF6-00061i-El
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 11:51:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47979)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mXQM4-00054s-SF
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 11:58:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mXQF4-0005jg-HF
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 11:51:03 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mXQM1-0004ko-Ue
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 11:58:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633362661;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1633363092;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wnNQLEGYyuqtuWKutOrdKZyTyV/siDKuhdgiO+cXLTs=;
- b=MvuVqhcxHVI+Dt9Tu7yVilrRmKA72wNkKX3htNSeMVd4jqwwA4swdnw+gGU2H8rbN3kYwF
- VodTbb7UK8m/BvcOEgc92POr4sSA6t/RbT0qT7XkxU4YqX58ax1sdpwb0oNkGUjh9HYwKM
- WU0nxSv8zdZPi1TBAQpazpKR8JRiZ00=
+ bh=B9p4NCNaYqsxQ/SaXVXA6eWAHXEB9TPH6j1GKwPeayY=;
+ b=Rolw6BlFVMJeXN/q8OVieHwvim8U/k+3g7RPuLSrfHVdrXVuLYOMGRzQqUTn5PzI7EbPe9
+ CLSIy9CAS+/IFSxCjZq+4oC3U4xeSnnCsRmEQXI+f/RbplTQp+tw/1HVy6I08s3DTd5SD7
+ wPCm7vkaRUKiNBF2NWqxcyhfKWZUPOI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-c0t_ZGP3Pt2ItEdpb_iEag-1; Mon, 04 Oct 2021 11:50:58 -0400
-X-MC-Unique: c0t_ZGP3Pt2ItEdpb_iEag-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-1-rrflzrC1PIeFtH2RVEfokA-1; Mon, 04 Oct 2021 11:57:54 -0400
+X-MC-Unique: rrflzrC1PIeFtH2RVEfokA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F25A3824FA6;
- Mon,  4 Oct 2021 15:50:56 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C9BB10016FB;
- Mon,  4 Oct 2021 15:50:45 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [RFC PATCH 1/1] virtio: write back features before verify
-In-Reply-To: <20211004110537-mutt-send-email-mst@kernel.org>
-Organization: Red Hat GmbH
-References: <20210930012049.3780865-1-pasic@linux.ibm.com>
- <20210930070444-mutt-send-email-mst@kernel.org>
- <20211001092125.64fef348.pasic@linux.ibm.com>
- <20211002055605-mutt-send-email-mst@kernel.org>
- <87bl452d90.fsf@redhat.com>
- <20211004090018-mutt-send-email-mst@kernel.org>
- <875yuc3ln2.fsf@redhat.com>
- <20211004110537-mutt-send-email-mst@kernel.org>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Mon, 04 Oct 2021 17:50:44 +0200
-Message-ID: <87wnms23hn.fsf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FC8A1015DA0;
+ Mon,  4 Oct 2021 15:57:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CDE2660BF4;
+ Mon,  4 Oct 2021 15:57:49 +0000 (UTC)
+Date: Mon, 4 Oct 2021 16:57:47 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v3 07/19] qapi: introduce x-query-roms QMP command
+Message-ID: <YVske1SPAu0UTpLY@redhat.com>
+References: <20210930132349.3601823-1-berrange@redhat.com>
+ <20210930132349.3601823-8-berrange@redhat.com>
+ <YVr0TufQdOS59bta@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+In-Reply-To: <YVr0TufQdOS59bta@work-vm>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,113 +83,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, Halil Pasic <pasic@linux.ibm.com>,
- Xie Yongji <xieyongji@bytedance.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Cornelia Huck <cohuck@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 04 2021, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Mon, Oct 04, 2021 at 01:32:14PM +0100, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > This is a counterpart to the HMP "info roms" command. It is being
+> > added with an "x-" prefix because this QMP command is intended as an
+> > adhoc debugging tool and will thus not be modelled in QAPI as fully
+> > structured data, nor will it have long term guaranteed stability.
+> > The existing HMP command is rewritten to call the QMP command.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  hw/core/loader.c            | 53 +++++++++++++++++++++++++------------
+> >  hw/core/machine-qmp-cmds.c  |  1 +
+> >  include/qapi/type-helpers.h | 14 ++++++++++
+> >  qapi/common.json            | 11 ++++++++
+> >  qapi/machine.json           | 12 +++++++++
+> >  qapi/meson.build            |  3 +++
+> >  qapi/qapi-type-helpers.c    | 23 ++++++++++++++++
+> >  7 files changed, 100 insertions(+), 17 deletions(-)
+> >  create mode 100644 include/qapi/type-helpers.h
+> >  create mode 100644 qapi/qapi-type-helpers.c
+> > 
+> > diff --git a/hw/core/loader.c b/hw/core/loader.c
+> > index c623318b73..5ebdca3087 100644
+> > --- a/hw/core/loader.c
+> > +++ b/hw/core/loader.c
+> > @@ -46,6 +46,8 @@
+> >  #include "qemu-common.h"
+> >  #include "qemu/datadir.h"
+> >  #include "qapi/error.h"
+> > +#include "qapi/qapi-commands-machine.h"
+> > +#include "qapi/type-helpers.h"
+> >  #include "trace.h"
+> >  #include "hw/hw.h"
+> >  #include "disas/disas.h"
+> > @@ -1472,32 +1474,49 @@ void *rom_ptr_for_as(AddressSpace *as, hwaddr addr, size_t size)
+> >      return cbdata.rom;
+> >  }
+> >  
+> > -void hmp_info_roms(Monitor *mon, const QDict *qdict)
+> > +HumanReadableText *qmp_x_query_roms(Error **errp)
+> >  {
+> >      Rom *rom;
+> > +    g_autoptr(GString) buf = g_string_new("");
+> >  
+> >      QTAILQ_FOREACH(rom, &roms, next) {
+> >          if (rom->mr) {
+> > -            monitor_printf(mon, "%s"
+> > -                           " size=0x%06zx name=\"%s\"\n",
+> > -                           memory_region_name(rom->mr),
+> > -                           rom->romsize,
+> > -                           rom->name);
+> > +            g_string_append_printf(buf, "%s"
+> > +                                   " size=0x%06zx name=\"%s\"\n",
+> > +                                   memory_region_name(rom->mr),
+> > +                                   rom->romsize,
+> > +                                   rom->name);
+> >          } else if (!rom->fw_file) {
+> > -            monitor_printf(mon, "addr=" TARGET_FMT_plx
+> > -                           " size=0x%06zx mem=%s name=\"%s\"\n",
+> > -                           rom->addr, rom->romsize,
+> > -                           rom->isrom ? "rom" : "ram",
+> > -                           rom->name);
+> > +            g_string_append_printf(buf, "addr=" TARGET_FMT_plx
+> > +                                   " size=0x%06zx mem=%s name=\"%s\"\n",
+> > +                                   rom->addr, rom->romsize,
+> > +                                   rom->isrom ? "rom" : "ram",
+> > +                                   rom->name);
+> >          } else {
+> > -            monitor_printf(mon, "fw=%s/%s"
+> > -                           " size=0x%06zx name=\"%s\"\n",
+> > -                           rom->fw_dir,
+> > -                           rom->fw_file,
+> > -                           rom->romsize,
+> > -                           rom->name);
+> > +            g_string_append_printf(buf, "fw=%s/%s"
+> > +                                   " size=0x%06zx name=\"%s\"\n",
+> > +                                   rom->fw_dir,
+> > +                                   rom->fw_file,
+> > +                                   rom->romsize,
+> > +                                   rom->name);
+> >          }
+> >      }
+> > +
+> > +    return human_readable_text_from_str(buf);
+> > +}
+> > +
+> > +
+> > +void hmp_info_roms(Monitor *mon, const QDict *qdict)
+> > +{
+> > +    Error *err = NULL;
+> > +    g_autoptr(HumanReadableText) info = qmp_x_query_roms(&err);
+> > +
+> > +    if (err) {
+> > +        error_report_err(err);
+> > +        return;
+> > +    }
+> > +
+> > +    monitor_printf(mon, "%s", info->human_readable_text);
+> 
+> This is getting copied in each one of these; it looks like you need
+> either:
+>   a) A helper function like:
+>        void hmp_info_from_qmp(Monitor *mon, HumanReadableText *(void)func) 
+>        {
+>            ...
+>        }
+> 
+>   b) Or teach the hmp parser to do the calls?
 
-> On Mon, Oct 04, 2021 at 04:33:21PM +0200, Cornelia Huck wrote:
->> On Mon, Oct 04 2021, "Michael S. Tsirkin" <mst@redhat.com> wrote:
->> 
->> > On Mon, Oct 04, 2021 at 02:19:55PM +0200, Cornelia Huck wrote:
->> >> 
->> >> [cc:qemu-devel]
->> >> 
->> >> On Sat, Oct 02 2021, "Michael S. Tsirkin" <mst@redhat.com> wrote:
->> >> 
->> >> > On Fri, Oct 01, 2021 at 09:21:25AM +0200, Halil Pasic wrote:
->> >> >> On Thu, 30 Sep 2021 07:12:21 -0400
->> >> >> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->> >> >> 
->> >> >> > On Thu, Sep 30, 2021 at 03:20:49AM +0200, Halil Pasic wrote:
->> >> >> > > This patch fixes a regression introduced by commit 82e89ea077b9
->> >> >> > > ("virtio-blk: Add validation for block size in config space") and
->> >> >> > > enables similar checks in verify() on big endian platforms.
->> >> >> > > 
->> >> >> > > The problem with checking multi-byte config fields in the verify
->> >> >> > > callback, on big endian platforms, and with a possibly transitional
->> >> >> > > device is the following. The verify() callback is called between
->> >> >> > > config->get_features() and virtio_finalize_features(). That we have a
->> >> >> > > device that offered F_VERSION_1 then we have the following options
->> >> >> > > either the device is transitional, and then it has to present the legacy
->> >> >> > > interface, i.e. a big endian config space until F_VERSION_1 is
->> >> >> > > negotiated, or we have a non-transitional device, which makes
->> >> >> > > F_VERSION_1 mandatory, and only implements the non-legacy interface and
->> >> >> > > thus presents a little endian config space. Because at this point we
->> >> >> > > can't know if the device is transitional or non-transitional, we can't
->> >> >> > > know do we need to byte swap or not.  
->> >> >> > 
->> >> >> > Hmm which transport does this refer to?
->> >> >> 
->> >> >> It is the same with virtio-ccw and virtio-pci. I see the same problem
->> >> >> with both on s390x. I didn't try with virtio-blk-pci-non-transitional
->> >> >> yet (have to figure out how to do that with libvirt) for pci I used
->> >> >> virtio-blk-pci.
->> >> >> 
->> >> >> > Distinguishing between legacy and modern drivers is transport
->> >> >> > specific.  PCI presents
->> >> >> > legacy and modern at separate addresses so distinguishing
->> >> >> > between these two should be no trouble.
->> >> >> 
->> >> >> You mean the device id? Yes that is bolted down in the spec, but
->> >> >> currently we don't exploit that information. Furthermore there
->> >> >> is a fat chance that with QEMU even the allegedly non-transitional
->> >> >> devices only present a little endian config space after VERSION_1
->> >> >> was negotiated. Namely get_config for virtio-blk is implemented in
->> >> >> virtio_blk_update_config() which does virtio_stl_p(vdev,
->> >> >> &blkcfg.blk_size, blk_size) and in there we don't care
->> >> >> about transitional or not:
->> >> >> 
->> >> >> static inline bool virtio_access_is_big_endian(VirtIODevice *vdev)
->> >> >> {
->> >> >> #if defined(LEGACY_VIRTIO_IS_BIENDIAN)
->> >> >>     return virtio_is_big_endian(vdev);
->> >> >> #elif defined(TARGET_WORDS_BIGENDIAN)
->> >> >>     if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
->> >> >>         /* Devices conforming to VIRTIO 1.0 or later are always LE. */
->> >> >>         return false;
->> >> >>     }
->> >> >>     return true;
->> >> >> #else
->> >> >>     return false;
->> >> >> #endif
->> >> >> }
->> >> >> 
->> >> >
->> >> > ok so that's a QEMU bug. Any virtio 1.0 and up
->> >> > compatible device must use LE.
->> >> > It can also present a legacy config space where the
->> >> > endian depends on the guest.
->> >> 
->> >> So, how is the virtio core supposed to determine this? A
->> >> transport-specific callback?
->> >
->> > I'd say a field in VirtIODevice is easiest.
->> 
->> The transport needs to set this as soon as it has figured out whether
->> we're using legacy or not.
->
-> Basically on each device config access?
 
-Prior to the first one, I think. It should not change again, should it?
+This pattern is repeated in many, but not all, or the handlers in
+this series, because I started with the easy cases of no-arg 'info'
+commands. There's a few exceptions such as commands which drive off
+the currently selected CPU state.  I'm not convince it is worth
+adding specials to the hmp parser, since it will only be used for
+a subset of the commands lng term. A helper function though could
+do the job, since I've already introduced a helper for the QMP
+side converting GString to HumanReadableText
 
->
->> I guess we also need to fence off any
->> accesses respectively error out the device if the driver tries any
->> read/write operations that would depend on that knowledge?
->> 
->> And using a field in VirtIODevice would probably need some care when
->> migrating. Hm...
->
-> It's just a shorthand to minimize changes. No need to migrate I think.
 
-If we migrate in from an older QEMU, we don't know whether we are
-dealing with legacy or not, until feature negotiation is already
-done... don't we have to ask the transport?
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
