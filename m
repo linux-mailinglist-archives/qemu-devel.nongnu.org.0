@@ -2,85 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBA242075B
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:35:15 +0200 (CEST)
-Received: from localhost ([::1]:47654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E643420770
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:39:43 +0200 (CEST)
+Received: from localhost ([::1]:57926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXJRK-0003B4-0C
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:35:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50160)
+	id 1mXJVd-0001ty-0K
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:39:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mXJ9o-00074h-5t
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:17:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27172)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mXJCT-0000jT-PB
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:19:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60459)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mXJ9l-0004Ub-4Z
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:17:07 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mXJCO-0006PC-Ll
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:19:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633335423;
+ s=mimecast20190719; t=1633335569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n0ZVMZGrbKNv1KZ4Fsnx7t0IVBOodiqHlzCAsKjq/e8=;
- b=CiGrkDq5nHuUuqXhIEJOqtM2xUMJ2NrqcggXFhPj+x1xRcQK7EACDBLNA9iVE18PpSj9ss
- 1ktN62TkByl9wOtoVavzSFDeUNVwSj9RSRqYVVUi3sw/Nvo7ZJ6eQIx0d+t9MYcHvM9dqp
- AALJXkhCVe8Ggm/qIx6lrGSpkD+gO20=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107-RSQ9GkZQMxiUny9QrZhCmA-1; Mon, 04 Oct 2021 04:17:00 -0400
-X-MC-Unique: RSQ9GkZQMxiUny9QrZhCmA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- z194-20020a1c7ecb000000b0030b7ccea080so9630409wmc.8
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 01:16:59 -0700 (PDT)
+ bh=bN5QvHIJyGEQLQUq3qeSzwte5zqrib25h9U6MkoN11c=;
+ b=CYVL9cLFo1yupQgBnAyhnuKzfF3v7qYSKANTvcW+CuiHe/qFsArCWoo70dziqFvDuqVOnB
+ 1lkkCPAGs0d58C8IyWkwf2Q4UD9qhx7AEDAchOoG/ejsa/D5Py1dGJlH7D86gfgKBrs6LD
+ SmeQYfLXIM6IRCm8OTT99IamoSqskrQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-WzcRKNUJOOO78I-d0DD_SA-1; Mon, 04 Oct 2021 04:19:25 -0400
+X-MC-Unique: WzcRKNUJOOO78I-d0DD_SA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ d11-20020a50cd4b000000b003da63711a8aso16336397edj.20
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 01:19:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=n0ZVMZGrbKNv1KZ4Fsnx7t0IVBOodiqHlzCAsKjq/e8=;
- b=TIYkSsC0mNrXu54/0iNHHiq5fOpLEmxnonTFNFdiJJcBUO77UZRnQCku3Px8cPlvrg
- cw8IOpIKfsP59vPkOGgUfdXRFzpRxNlH8MDQ74tT2H5r/c6cYlYVuXAT5VrxFrrzUAzM
- 38JbOerCkU8oPK1Dl86aCx+DFy+KS5Gi4GyFPy2rY44nvEjWcDd9wM/4df6A9V937rpi
- W/LWU94E70XWBBYw7/sRvLtoCFCTOAItLHADTtAaH+UxZZGQkAyKjLiHMevh2D/FxR2W
- E7wPmtuuXuUxmzeXuS9Tw0igm+MyPRHe9xjhZ4lPDblsXJ/0QtU/9nBj/X6P75S4LoUQ
- 4Nuw==
-X-Gm-Message-State: AOAM530+pzzS/kj98JVKy6i9kwpeOg0oFvOIG9gAnwWTcQ9qzlDE5oX4
- tVfF2N8o3HeZbEO0YBQU0+/NYONIgn+sYpqtzANY5zi9O10lTZh7ILhtBzqsus+0q9bZjHn5poV
- tjTT2LUWx0axKBlk=
-X-Received: by 2002:adf:e6d0:: with SMTP id y16mr12454154wrm.181.1633335418851; 
- Mon, 04 Oct 2021 01:16:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxv5bgxEZ+RetnFW8jCAwaHSYyXKxriASjf+orVBrI46hOfqXSflXilz9vnRviQKm28RggMzg==
-X-Received: by 2002:adf:e6d0:: with SMTP id y16mr12454120wrm.181.1633335418519; 
- Mon, 04 Oct 2021 01:16:58 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
- by smtp.gmail.com with ESMTPSA id r18sm7634360wrs.47.2021.10.04.01.16.57
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=bN5QvHIJyGEQLQUq3qeSzwte5zqrib25h9U6MkoN11c=;
+ b=5q0bHY4AQ9ca5MPXpnMCGCSFQ4JDnsE5x124wtLSvTRkm9hLdGCXlEBDSOKwErs6FT
+ wt6fi5xN1XiEJW51j0U0SU+M8LGz1TdU9GXRHWNzfwkMQysLg21461wmaWe8E1q3ExE/
+ Kv9UFlqL/XL/z0+zFvySKDP+muba0nqdU6ztTpdTAOiHF2Q+6zQMQ35z933K6rbdxce3
+ ggNfSBJDasZ3EU11Ui8B4HBCDJCKk9IIc8VRAXZwTg/g487CNcXIuVCt8ULt12q6Ehac
+ 1bVHbpaifNeLKw1iWKbS/MWrUyFz3O56wLTkz3xn94x6VIaKgOgDaC6Umzkwl+iHCRn9
+ kWYg==
+X-Gm-Message-State: AOAM531AkZErghY9x5nHUMYlxBz+6Xnj5vlzogDFoUzFewDTDuJWyBI7
+ OFZV+rIN/SEOwoTyY587ApF4QEAQTDRW+qeTtq7uMUsTutIgtxbu0/zPVffUpSUQe+L6TySejj7
+ HBJqRS2Ms0MfRfHk=
+X-Received: by 2002:a05:6402:3133:: with SMTP id
+ dd19mr16994646edb.172.1633335564509; 
+ Mon, 04 Oct 2021 01:19:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzBhF4FwsUP4iOjbFWBnvAEoKJKpZZrsb6YyGy3NvjZ0mIJUpS1ews6+9+BjKYDpFDl1JzbGQ==
+X-Received: by 2002:a05:6402:3133:: with SMTP id
+ dd19mr16994619edb.172.1633335564242; 
+ Mon, 04 Oct 2021 01:19:24 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id d22sm6204775ejk.5.2021.10.04.01.19.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Oct 2021 01:16:58 -0700 (PDT)
-Subject: Re: [PATCH v3 07/16] iotests/297: Don't rely on distro-specific
- linter binaries
-To: John Snow <jsnow@redhat.com>
-References: <20210916040955.628560-1-jsnow@redhat.com>
- <20210916040955.628560-8-jsnow@redhat.com>
- <374eff9f-0e9e-a2da-19ab-1c39a63191b0@redhat.com>
- <CAFn=p-aVEvHXwZWroz2DitNw6-f0YdfJqsqkxBfKNfHzrB4DOw@mail.gmail.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <58254219-d4a5-c4c2-20ab-21e33e034ce5@redhat.com>
-Date: Mon, 4 Oct 2021 10:16:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Mon, 04 Oct 2021 01:19:23 -0700 (PDT)
+Message-ID: <84e1213b-c6c0-85a4-0d3e-854cd3dc0fa0@redhat.com>
+Date: Mon, 4 Oct 2021 10:19:12 +0200
 MIME-Version: 1.0
-In-Reply-To: <CAFn=p-aVEvHXwZWroz2DitNw6-f0YdfJqsqkxBfKNfHzrB4DOw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v3 13/22] target/i386/sev: Remove stubs by using code
+ elision
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211002125317.3418648-1-philmd@redhat.com>
+ <20211002125317.3418648-14-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20211002125317.3418648-14-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -88,7 +91,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.055,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,128 +104,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Brijesh Singh <brijesh.singh@amd.com>, kvm@vger.kernel.org,
+ Sergio Lopez <slp@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.09.21 21:53, John Snow wrote:
-> (This email just explains python packaging stuff. No action items in 
-> here. Skim away.)
->
-> On Fri, Sep 17, 2021 at 5:43 AM Hanna Reitz <hreitz@redhat.com 
-> <mailto:hreitz@redhat.com>> wrote:
->
->     On 16.09.21 06:09, John Snow wrote:
->     > 'pylint-3' is another Fedora-ism. Use "python3 -m pylint" or
->     "python3 -m
->     > mypy" to access these scripts instead. This style of invocation will
->     > prefer the "correct" tool when run in a virtual environment.
->     >
->     > Note that we still check for "pylint-3" before the test begins
->     -- this
->     > check is now "overly strict", but shouldn't cause anything that was
->     > already running correctly to start failing.
->     >
->     > Signed-off-by: John Snow <jsnow@redhat.com
->     <mailto:jsnow@redhat.com>>
->     > Reviewed-by: Vladimir Sementsov-Ogievskiy
->     <vsementsov@virtuozzo.com <mailto:vsementsov@virtuozzo.com>>
->     > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com
->     <mailto:philmd@redhat.com>>
->     > ---
->     >   tests/qemu-iotests/297 | 45
->     ++++++++++++++++++++++++------------------
->     >   1 file changed, 26 insertions(+), 19 deletions(-)
->
->     I know it sounds silly, but to be honest I have no idea if replacing
->     `mypy` by `python3 -m mypy` is correct, because no mypy documentation
->     seems to suggest it.
->
->
-> Right, I don't think it's necessarily documented that you can do this. 
-> It just happens to be a very convenient way to invoke the same script 
-> without needing to know *where* mypy is. You let python figure out 
-> where it's going to import mypy from, and it handles the rest.
->
-> (This also makes it easier to use things like mypy, pylint etc with an 
-> explicitly specified PYTHON interpreter. I don't happen to do that in 
-> this patch, but ... we could.)
->
->      From what I understand, that’s generally how Python “binaries” work,
->     though (i.e., installed as a module invokable with `python -m`,
->     and then
->     providing some stub binary that, well, effectively does this, but
->     kind
->     of in a weird way, I just don’t understand it), and none of the
->     parameters seem to be hurt in this conversion, so:
->
->
-> Right. Technically, any python package can ask for any number of 
-> executables to be installed, but the setuptools packaging ecosystem 
-> provides a way to "generate" these based on package configuration. I 
-> use a few in our own Python packages. If you look in python/setup.cfg, 
-> you'll see stuff like this:
->
-> [options.entry_points]
-> console_scripts =
->     qom = qemu.qmp.qom:main
->     qom-set = qemu.qmp.qom:QOMSet.entry_point
->     qom-get = qemu.qmp.qom:QOMGet.entry_point
->     qom-list = qemu.qmp.qom:QOMList.entry_point
->     qom-tree = qemu.qmp.qom:QOMTree.entry_point
->     qom-fuse = qemu.qmp.qom_fuse:QOMFuse.entry_point [fuse]
->     qemu-ga-client = qemu.qmp.qemu_ga_client:main
->     qmp-shell = qemu.qmp.qmp_shell:main
->
-> These entries cause those weird little binary wrapper scripts to be 
-> generated for you when the package is *installed*. So our packages 
-> will put 'qmp-shell' and 'qom-tree' into your $PATH*.The stuff to the 
-> right of the equals sign is just a pointer to a function that can be 
-> executed that implements the CLI command. qemu.qmp.qmp_shell points to 
-> the module to import, and ':main' points to the function to run.
->
-> The last bit of this is that many, though not all (and there's zero 
-> requirement this has to be true), python packages that implement CLI 
-> commands will often have a stanza in their __init__.py module that 
-> says something like this:
->
-> if __name__ == '__main__':
->     do_the_command_line_stuff()
->
-> Alternatively, a package can include a literal __main__.py file that 
-> python knows to check for, and this module is the one that gets 
-> executed for `python3 -m mypackage` invocations. This is what mypy does.
->
-> Those are the magical blurbs that allow you to execute a module as if 
-> it were a script by running "python3 -m mymodule" -- that hooks 
-> directly into that little execution stanza. For python code 
-> distributed as packages, that's the real reason to have that little 
-> magic stanza -- it provides a convenient way to run stuff without 
-> needing to write the incredibly more tedious:
->
-> python3 -c "from mypy.__main__ import console_entry; console_entry();"
->
-> ... which is quite a bit more porcelain too, depending on how they 
-> re/factor the code inside of the package.
->
-> Seeing as how mypy explicitly includes a __main__.py file: 
-> https://github.com/python/mypy/blob/master/mypy/__main__.py 
-> <https://github.com/python/mypy/blob/master/mypy/__main__.py>, I am 
-> taking it as a given that they are fully aware of invoking mypy in 
-> this fashion, and believe it safe to rely on.
+On 02/10/21 14:53, Philippe Mathieu-Daudé wrote:
+> Only declare sev_enabled() and sev_es_enabled() when CONFIG_SEV is
+> set, to allow the compiler to elide unused code. Remove unnecessary
+> stubs.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   include/sysemu/sev.h    | 14 +++++++++++++-
+>   target/i386/sev_i386.h  |  3 ---
+>   target/i386/cpu.c       | 16 +++++++++-------
+>   target/i386/sev-stub.c  | 36 ------------------------------------
+>   target/i386/meson.build |  2 +-
+>   5 files changed, 23 insertions(+), 48 deletions(-)
+>   delete mode 100644 target/i386/sev-stub.c
+> 
+> diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
+> index a329ed75c1c..f5c625bb3b3 100644
+> --- a/include/sysemu/sev.h
+> +++ b/include/sysemu/sev.h
+> @@ -14,9 +14,21 @@
+>   #ifndef QEMU_SEV_H
+>   #define QEMU_SEV_H
+>   
+> -#include "sysemu/kvm.h"
+> +#ifndef CONFIG_USER_ONLY
+> +#include CONFIG_DEVICES /* CONFIG_SEV */
+> +#endif
+>   
+> +#ifdef CONFIG_SEV
+>   bool sev_enabled(void);
+> +bool sev_es_enabled(void);
+> +#else
+> +#define sev_enabled() 0
+> +#define sev_es_enabled() 0
+> +#endif
 
-Wow, thanks a lot for this detailed explanation!
-> There will be a quiz later.
-> (There will not be a quiz.)
+This means that sev.h can only be included from target-specific files.
 
-I’m ready to fail any test on Python so one day I can get a “Officially 
-knows nothing about Python” badge.
+An alternative could be:
 
-Hanna
+#ifdef NEED_CPU_H
+# include CONFIG_DEVICES
+#endif
+
+#if defined NEED_CPU_H && !defined CONFIG_SEV
+# define sev_enabled() 0
+# define sev_es_enabled() 0
+#else
+bool sev_enabled(void);
+bool sev_es_enabled(void);
+#endif
+
+... but in fact sysemu/sev.h _is_ only used from x86-specific files. So 
+should it be moved to include/hw/i386, and even merged with 
+target/i386/sev_i386.h?  Do we need two files?
+
+Thanks,
+
+Paolo
+
+> +uint32_t sev_get_cbit_position(void);
+> +uint32_t sev_get_reduced_phys_bits(void);
+> +
+>   int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
+>   
+>   #endif
+> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+> index 0798ab3519a..2d9a1a0112e 100644
+> --- a/target/i386/sev_i386.h
+> +++ b/target/i386/sev_i386.h
+> @@ -24,10 +24,7 @@
+>   #define SEV_POLICY_DOMAIN       0x10
+>   #define SEV_POLICY_SEV          0x20
+>   
+> -extern bool sev_es_enabled(void);
+>   extern SevInfo *sev_get_info(void);
+> -extern uint32_t sev_get_cbit_position(void);
+> -extern uint32_t sev_get_reduced_phys_bits(void);
+>   extern char *sev_get_launch_measurement(void);
+>   extern SevCapability *sev_get_capabilities(Error **errp);
+>   extern SevAttestationReport *
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index e169a01713d..27992bdc9f8 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -25,8 +25,8 @@
+>   #include "tcg/helper-tcg.h"
+>   #include "sysemu/reset.h"
+>   #include "sysemu/hvf.h"
+> +#include "sysemu/sev.h"
+>   #include "kvm/kvm_i386.h"
+> -#include "sev_i386.h"
+>   #include "qapi/error.h"
+>   #include "qapi/qapi-visit-machine.h"
+>   #include "qapi/qmp/qerror.h"
+> @@ -38,6 +38,7 @@
+>   #include "exec/address-spaces.h"
+>   #include "hw/boards.h"
+>   #include "hw/i386/sgx-epc.h"
+> +#include "sev_i386.h"
+>   #endif
+>   
+>   #include "disas/capstone.h"
+> @@ -5764,12 +5765,13 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>           *edx = 0;
+>           break;
+>       case 0x8000001F:
+> -        *eax = sev_enabled() ? 0x2 : 0;
+> -        *eax |= sev_es_enabled() ? 0x8 : 0;
+> -        *ebx = sev_get_cbit_position();
+> -        *ebx |= sev_get_reduced_phys_bits() << 6;
+> -        *ecx = 0;
+> -        *edx = 0;
+> +        *eax = *ebx = *ecx = *edx = 0;
+> +        if (sev_enabled()) {
+> +            *eax = 0x2;
+> +            *eax |= sev_es_enabled() ? 0x8 : 0;
+> +            *ebx = sev_get_cbit_position();
+> +            *ebx |= sev_get_reduced_phys_bits() << 6;
+> +        }
+>           break;
+>       default:
+>           /* reserved values: zero */
+> diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+> deleted file mode 100644
+> index 8eae5d2fa8d..00000000000
+> --- a/target/i386/sev-stub.c
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -/*
+> - * QEMU SEV stub
+> - *
+> - * Copyright Advanced Micro Devices 2018
+> - *
+> - * Authors:
+> - *      Brijesh Singh <brijesh.singh@amd.com>
+> - *
+> - * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> - * See the COPYING file in the top-level directory.
+> - *
+> - */
+> -
+> -#include "qemu/osdep.h"
+> -#include "qapi/error.h"
+> -#include "sev_i386.h"
+> -
+> -bool sev_enabled(void)
+> -{
+> -    return false;
+> -}
+> -
+> -uint32_t sev_get_cbit_position(void)
+> -{
+> -    return 0;
+> -}
+> -
+> -uint32_t sev_get_reduced_phys_bits(void)
+> -{
+> -    return 0;
+> -}
+> -
+> -bool sev_es_enabled(void)
+> -{
+> -    return false;
+> -}
+> diff --git a/target/i386/meson.build b/target/i386/meson.build
+> index a4f45c3ec1d..ae38dc95635 100644
+> --- a/target/i386/meson.build
+> +++ b/target/i386/meson.build
+> @@ -6,7 +6,7 @@
+>     'xsave_helper.c',
+>     'cpu-dump.c',
+>   ))
+> -i386_ss.add(when: 'CONFIG_SEV', if_true: files('host-cpu.c'), if_false: files('sev-stub.c'))
+> +i386_ss.add(when: 'CONFIG_SEV', if_true: files('host-cpu.c'))
+>   
+>   # x86 cpu type
+>   i386_ss.add(when: 'CONFIG_KVM', if_true: files('host-cpu.c'))
+> 
 
 
