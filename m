@@ -2,85 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0324216C9
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 20:45:56 +0200 (CEST)
-Received: from localhost ([::1]:59402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 050B64216CF
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 20:48:56 +0200 (CEST)
+Received: from localhost ([::1]:33664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXSyJ-00028V-Ff
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 14:45:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56774)
+	id 1mXT1D-0003yE-2d
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 14:48:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.machado@linaro.org>)
- id 1mXSwe-0001QS-Vq
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:44:13 -0400
-Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929]:38756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luis.machado@linaro.org>)
- id 1mXSwc-0001pt-PX
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:44:12 -0400
-Received: by mail-ua1-x929.google.com with SMTP id y3so7709037uar.5
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 11:44:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uGMyT1g2kQKrR0bm2s4+62LgS0QVbNZJfpQEO0Ykw3s=;
- b=K257wK7+SV6mJ2Wvyl+NXahS+1BfClgc3Mlx/vQiCVTUQOBXwdjbVrV2xxcrIZQMoz
- utJK1prTcE0Hjc6XM+aSiMPyDlZbpJLuIMm0MpHVNYOBKv3LOsZm3/eOE/vRZU3NAC0+
- JgUE0KJipJbNxZVo7HgQXub1nVfXnsVqY2kaxEHVTI7AqN7g8CtZDFinlt/vCM8Nr6vK
- EHx6wINzAhSlntv8o/HDvqzypRAkJH5Cs+HpkzvL3BiW3V+2uTSSxYTEJrhwaDxV92vS
- +7f5z1udJSjeOsNTqib4IPdvHJFazGJ2YDdBDyIy3P3wApJ66uJ1mpxPKsFq1t0SdPGK
- bv+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uGMyT1g2kQKrR0bm2s4+62LgS0QVbNZJfpQEO0Ykw3s=;
- b=3UaoKRVPX7RAKQFus7cQnZv9tgkgNw78VSEsl6OBkSVUKuOoeE68/3lNvERQL78MEf
- 0Ih+8p2vw33a2Ac67zfd8VmWtF1MpF7/X1DFUfLQeSXHlCcxPG1dz62wWUSkAiFX3XNv
- kxi8+u4Q6flixCAgfUMPLqjlZnQ4TxwmJuLHIV/aLJYqC8xZfmxw5kr8OBehhI96SSCE
- MJ2fP2+PeyE1GSCdZUtjJsoPp5UFp21hQsUlUfFLuUVtIuW2c3Ddfnu2tQ9naQJtvYld
- uei6u2KbuxAQtXi1e4FV2HEQAikqB9OyJUY2UWWSw1scEyLKL0GByhBt6Uy6WDG8FzTP
- ++JA==
-X-Gm-Message-State: AOAM532VIWa09gqN3f9ch/lhsHk2INKxZLCDTV9nzB0TJpTOs4j/9oaT
- zKtbw++K0JNHqyyX99jXqrZYEZqMtB7vXg==
-X-Google-Smtp-Source: ABdhPJzW6HNNBQRlOHutcxXVyggZjg3qP1QBy8uFTg7FeLyCa8MDWlyYh0MfJK0VNKdtwlgWa3aZ7A==
-X-Received: by 2002:a9f:258a:: with SMTP id 10mr3391572uaf.68.1633373048599;
- Mon, 04 Oct 2021 11:44:08 -0700 (PDT)
-Received: from ?IPv6:2804:7f0:4841:3c03:70c5:60d0:496d:7761?
- ([2804:7f0:4841:3c03:70c5:60d0:496d:7761])
- by smtp.gmail.com with ESMTPSA id b17sm7585512vka.27.2021.10.04.11.44.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Oct 2021 11:44:08 -0700 (PDT)
-Subject: Re: [PULL 21/30] target/arm: use official org.gnu.gdb.aarch64.sve
- layout for registers
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210115130828.23968-1-alex.bennee@linaro.org>
- <20210115130828.23968-22-alex.bennee@linaro.org>
- <540354a8-bcba-aa82-814d-7f11dc75f5bf@suse.de> <874kjdugip.fsf@linaro.org>
- <8cb88b76-caa3-ba26-b288-4d87b06f56ec@suse.de> <871regvs0w.fsf@linaro.org>
- <CAFEAcA9FKA9k3ePEVALXnRcfd4ygybMrmpD=ZjV1A==at+w9Uw@mail.gmail.com>
-From: Luis Machado <luis.machado@linaro.org>
-Message-ID: <3c1521e5-5182-18f3-b5bf-9340745ec92f@linaro.org>
-Date: Mon, 4 Oct 2021 15:44:04 -0300
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mXSzU-0003H2-Fe
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:47:08 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35648
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mXSzS-0004J9-Dj
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 14:47:08 -0400
+Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mXSzD-0007rI-4h; Mon, 04 Oct 2021 19:46:55 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, laurent@vivier.eu
+References: <20211002110007.30825-1-mark.cave-ayland@ilande.co.uk>
+ <20211002110007.30825-8-mark.cave-ayland@ilande.co.uk>
+ <7c8f79d6-b4e5-3105-81f7-57636affc9b7@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <f61dfbad-8965-e737-94ea-82fab2245d8b@ilande.co.uk>
+Date: Mon, 4 Oct 2021 19:46:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9FKA9k3ePEVALXnRcfd4ygybMrmpD=ZjV1A==at+w9Uw@mail.gmail.com>
+In-Reply-To: <7c8f79d6-b4e5-3105-81f7-57636affc9b7@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=luis.machado@linaro.org; helo=mail-ua1-x929.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 07/12] macfb: add qdev property to specify display type
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,51 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- Claudio Fontana <cfontana@suse.de>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 02/10/2021 15:04, Philippe Mathieu-Daudé wrote:
 
-On 9/21/21 10:55 AM, Peter Maydell wrote:
-> On Tue, 19 Jan 2021 at 15:57, Alex Bennée <alex.bennee@linaro.org> wrote:
+> On 10/2/21 13:00, Mark Cave-Ayland wrote:
+>> Since the available resolutions and colour depths are determined by the attached
+>> display type, add a qdev property to allow the display type to be specified.
 >>
+>> The main resolutions of interest are high resolution 1152x870 with 8-bit colour
+>> and SVGA resolution up to 800x600 with 32-bit colour so update the q800 machine
+>> to allow high resolution mode if specified and otherwise fall back to SVGA.
 >>
->> Claudio Fontana <cfontana@suse.de> writes:
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>>   hw/display/macfb.c         | 6 +++++-
+>>   hw/m68k/q800.c             | 5 +++++
+>>   include/hw/display/macfb.h | 1 +
+>>   3 files changed, 11 insertions(+), 1 deletion(-)
 >>
->>> On 1/19/21 3:50 PM, Alex Bennée wrote:
->>>>
->>>> Claudio Fontana <cfontana@suse.de> writes:
->>>>> qemu-system-aarch64: -gdb unix:path=/tmp/tmp9ru5tgk8qemu-gdbstub/gdbstub.socket,server: info: QEMU waiting for connection on: disconnected:unix:/tmp/tmp9ru5tgk8qemu-gdbstub/gdbstub.socket,server
->>>>> warning: while parsing target description (at line 47): Vector "svevhf" references undefined type "ieee_half"
->>>>> warning: Could not load XML target description; ignoring
->>>>> qemu-system-aarch64: QEMU: Terminated via GDBstub
->>>>>
->>>>> Seems to indicate it is "ieee_half" -related?
+>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+>> index 5c95aa4a11..023d1f0cd1 100644
+>> --- a/hw/display/macfb.c
+>> +++ b/hw/display/macfb.c
+>> @@ -316,7 +316,7 @@ static uint32_t macfb_sense_read(MacfbState *s)
+>>       MacFbSense *macfb_sense;
+>>       uint8_t sense;
+>>   
 > 
->> So it looks like TDESC_TYPE_IEEE_HALF was only implemented in GDB 9.1
->> and there is no probing possible during the gdbstub connection. I guess
->> I can either go back to stubbing it out (which would break gdb's SVE
->> understanding) or up our minimum GDB version check for running tests.
->> That would mean less people test GDB (or at least until the distros
->> catch up) but considering it was zero people not too long ago maybe
->> that's acceptable?
+> What about:
 > 
-> I just ran into this trying to connect qemu-aarch64 to the
-> Ubuntu gdb-multiarch. I don't care about SVE at all in this
-> case, but the 'max' CPU includes SVE by default, so we report
-> it to gdb even if the guest program being run doesn't use SVE at all.
-> This effectively means that usecases that used to work no longer do :-(
+>         assert(s->type < ARRAY_SIZE(macfb_sense_table));
 > 
-> Luis: do we really have to report to gdb all the possible
-> data types that might be in SVE vector registers? Won't
-> gdb autogenerate pseudoregisters the way it does with
-> Neon d0..d31 ?
+>> -    macfb_sense = &macfb_sense_table[MACFB_DISPLAY_VGA];
+>> +    macfb_sense = &macfb_sense_table[s->type];
 > 
-> thanks
-> -- PMM
-> 
+> Otherwise:
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-I'll check what can be done here.
+Agreed, I will add this in for v2.
+
+
+ATB,
+
+Mark.
 
