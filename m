@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A438420756
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:30:01 +0200 (CEST)
-Received: from localhost ([::1]:39528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAC842075F
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Oct 2021 10:36:46 +0200 (CEST)
+Received: from localhost ([::1]:49812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXJMG-0005tg-HC
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:30:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48502)
+	id 1mXJSo-0004hs-0L
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 04:36:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mXIzz-0008AD-3a
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:06:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20717)
+ id 1mXJ41-0004tm-5r
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:11:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mXIzv-0004r6-Kp
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:06:58 -0400
+ id 1mXJ3y-0008Cg-F9
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 04:11:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633334811;
+ s=mimecast20190719; t=1633335065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jJXy9qbxdg2C9dmRq5ZlX/rnrXy4McozWIE5caJXRxA=;
- b=A64NoceB+iQ3Lgj7w++WwIRp9G/gZCNAYxRLOo2yjrsQZ2D1fECK4vrSLJHUtD5faMjIQa
- q9QPWURjXoff843oZ7/TKmccRQC4XlDKN7Bzny4MFOKEhrTrDarmKZxP2ldhSrBCnByDXM
- L6OIyrBgNMc6HuuUKkSpdDF8ZeyUDDI=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-KePOCSRrPwyFSbqrSaNd-g-1; Mon, 04 Oct 2021 04:06:50 -0400
-X-MC-Unique: KePOCSRrPwyFSbqrSaNd-g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- n19-20020a509353000000b003dad185759bso8434340eda.6
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 01:06:50 -0700 (PDT)
+ bh=vjYU5cz2y0dGq+dhAQVfGWlPOvLqMZPTP1otInh0ROM=;
+ b=dUW5PmEX6oIBRFbLqwF7cp8FW4feiqThA8mi00yAzuLW6XlRvbE9Y/I2tJhnGEzu+SiNeJ
+ vP4PWm+FIIqAxpRlkweNcgZnx4JNRCsdbl9c1zLjcD7QsmvNqXWnUQse2atWE/jwN9Gbr8
+ sCZZu19NlA2BFnH7/ulyGywNswiPuNc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-r-FAHex5M2OpPCAK8YmGsA-1; Mon, 04 Oct 2021 04:11:04 -0400
+X-MC-Unique: r-FAHex5M2OpPCAK8YmGsA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ b7-20020a50e787000000b003d59cb1a923so16355209edn.5
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 01:11:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=jJXy9qbxdg2C9dmRq5ZlX/rnrXy4McozWIE5caJXRxA=;
- b=E+0zhfHzpDYAqGwHrx9lNCTsf1/COJs3P8V4JPxK/RCgSabp8jIcOxKmQ1J0UUrTGV
- M8Ok6XYTS0jDnqSYIm068N0s6E7q+HckUmVc6F/rCBufmC3e2mDUubHGYA9Rao+h1Y35
- sy4svbUzfpiEWyVEpNrI832qBt8wviu0A6JhumEeKM/NvzL15ne52ysPiTZxmzKKs6t2
- jBVFhD3gvs2hkqOtlQqt173MVf4LRbi/0fJAxisC5y8/C6kkYsI6ukB2o+Si7o+XPdWd
- xenvpRPbBRxpTBpRGIEb2P5A7RRXc1n3JJf9xqmhDxjj9bn+QF5kZyYcJhWQssx8tCmv
- FxDw==
-X-Gm-Message-State: AOAM531wPxTun+GW4R2vayn7duh53cCR5eAc1mZ2Wdw5SYWdwn8Vvkem
- wMiLEHdri3Dm+M6tJzfcZpLtJPNqDYOWmsvE84hErloMfDUX1E4TNx+nJcfub0hsUGEN8kphU6g
- SV0XbeLtm/dG8rRQ=
-X-Received: by 2002:a17:906:f243:: with SMTP id
- gy3mr16135275ejb.327.1633334809287; 
- Mon, 04 Oct 2021 01:06:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIdzjTETW0eIAZHOkvEUoCw26rTuKoDHhEwXT7qa+YxQdbudEEtT1b0Ob2PmkGUciWfWArWQ==
-X-Received: by 2002:a17:906:f243:: with SMTP id
- gy3mr16135251ejb.327.1633334809109; 
- Mon, 04 Oct 2021 01:06:49 -0700 (PDT)
+ bh=vjYU5cz2y0dGq+dhAQVfGWlPOvLqMZPTP1otInh0ROM=;
+ b=xose393xs+pN7aF/lKD5mTQCfupnMUyOfqwlZ/Owk590jMLGTTlMmrnEeY+82Vcdnl
+ gHtkLZKOjaAPgVzbJg7J9oETnmqwuxFFduR46aXRGjmliFgnD03b2e12kBt07i9dhoz7
+ uxB29KWhRHIBQXDNxqTtk+xPD6eL4y1qdpYQys2LI2XBeC3ru8D0AJCWyoxdGRSNeHOY
+ IrkvoSjiVLtnZ6mvDLWDAdAlh9GnHYe/rxbI+us38A6NFRQkU8zicG9rwlvWfmKsVy0y
+ jPz/zqzy7NdfMY1k5KpuaGhATpKOFrsazrCBxQQb0soPSHQlkLD6X6vbWiQNOM60z8vM
+ FpEg==
+X-Gm-Message-State: AOAM5339HxRPHKyf+fKCYcA4mRtlvL7q4rjE7HqXbsYKz0orV3GPn4Lh
+ xnpEfKlq5RQ8OJC0yAHjXlvSnm2ynQ06Lsu0L0xTQgSDn+psTvR3IDuVh9AqYn8pzWMrYhdMp6D
+ Lb6d+W2rPusD7n/A=
+X-Received: by 2002:a50:e043:: with SMTP id g3mr16562255edl.196.1633335063409; 
+ Mon, 04 Oct 2021 01:11:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx2M4UpxCwd9nP3JrAdk/nNT86mhc/MztbWHvGMl8hJiRsX757o29T7LWjeqTSjTmOaFOJfKQ==
+X-Received: by 2002:a50:e043:: with SMTP id g3mr16562244edl.196.1633335063217; 
+ Mon, 04 Oct 2021 01:11:03 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id z5sm6980558edm.82.2021.10.04.01.06.46
+ by smtp.gmail.com with ESMTPSA id r10sm1644073edh.61.2021.10.04.01.11.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Oct 2021 01:06:48 -0700 (PDT)
-Message-ID: <6e9b4ea1-177e-00e6-d43a-0d316222be6e@redhat.com>
-Date: Mon, 4 Oct 2021 10:06:44 +0200
+ Mon, 04 Oct 2021 01:11:02 -0700 (PDT)
+Message-ID: <bef20bd5-7760-3fc7-9914-1eddca800825@redhat.com>
+Date: Mon, 4 Oct 2021 10:11:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v3 04/22] target/i386/kvm: Restrict SEV stubs to x86
- architecture
+Subject: Re: [PATCH v3 05/22] target/i386/monitor: Return QMP error when SEV
+ is disabled in build
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20211002125317.3418648-1-philmd@redhat.com>
- <20211002125317.3418648-5-philmd@redhat.com>
+ <20211002125317.3418648-6-philmd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211002125317.3418648-5-philmd@redhat.com>
+In-Reply-To: <20211002125317.3418648-6-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -105,7 +103,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Brijesh Singh <brijesh.singh@amd.com>, kvm@vger.kernel.org,
- Sergio Lopez <slp@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ Sergio Lopez <slp@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Dov Murik <dovmurik@linux.ibm.com>,
  "Daniel P . Berrange" <berrange@redhat.com>,
@@ -113,48 +112,67 @@ Cc: Brijesh Singh <brijesh.singh@amd.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/10/21 14:52, Philippe Mathieu-Daudé wrote:
-> SEV is x86-specific, no need to add its stub to other
-> architectures. Move the stub file to target/i386/kvm/.
+On 02/10/21 14:53, Philippe Mathieu-Daudé wrote:
+> If the management layer tries to inject a secret, it gets an empty
+> response in case the binary built without SEV:
 > 
+>    { "execute": "sev-inject-launch-secret",
+>      "arguments": { "packet-header": "mypkt", "secret": "mypass", "gpa": 4294959104 }
+>    }
+>    {
+>        "return": {
+>        }
+>    }
+> 
+> Make it clearer by returning an error, mentioning the feature is
+> disabled:
+> 
+>    { "execute": "sev-inject-launch-secret",
+>      "arguments": { "packet-header": "mypkt", "secret": "mypass", "gpa": 4294959104 }
+>    }
+>    {
+>        "error": {
+>            "class": "GenericError",
+>            "desc": "this feature or command is not currently supported"
+>        }
+>    }
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->   {accel => target/i386}/kvm/sev-stub.c | 0
->   accel/kvm/meson.build                 | 1 -
->   target/i386/kvm/meson.build           | 2 ++
->   3 files changed, 2 insertions(+), 1 deletion(-)
->   rename {accel => target/i386}/kvm/sev-stub.c (100%)
+>   target/i386/monitor.c | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
-> diff --git a/accel/kvm/sev-stub.c b/target/i386/kvm/sev-stub.c
-> similarity index 100%
-> rename from accel/kvm/sev-stub.c
-> rename to target/i386/kvm/sev-stub.c
-> diff --git a/accel/kvm/meson.build b/accel/kvm/meson.build
-> index 8d219bea507..397a1fe1fd1 100644
-> --- a/accel/kvm/meson.build
-> +++ b/accel/kvm/meson.build
-> @@ -3,6 +3,5 @@
->     'kvm-all.c',
->     'kvm-accel-ops.c',
->   ))
-> -kvm_ss.add(when: 'CONFIG_SEV', if_false: files('sev-stub.c'))
->   
->   specific_ss.add_all(when: 'CONFIG_KVM', if_true: kvm_ss)
-> diff --git a/target/i386/kvm/meson.build b/target/i386/kvm/meson.build
-> index b1c76957c76..736df8b72e3 100644
-> --- a/target/i386/kvm/meson.build
-> +++ b/target/i386/kvm/meson.build
-> @@ -7,6 +7,8 @@
->     'kvm-cpu.c',
->   ))
->   
-> +i386_softmmu_kvm_ss.add(when: 'CONFIG_SEV', if_false: files('sev-stub.c'))
-> +
->   i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
->   
->   i386_softmmu_ss.add_all(when: 'CONFIG_KVM', if_true: i386_softmmu_kvm_ss)
+> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+> index 196c1c9e77f..a9f85acd473 100644
+> --- a/target/i386/monitor.c
+> +++ b/target/i386/monitor.c
+> @@ -28,6 +28,7 @@
+>   #include "monitor/hmp-target.h"
+>   #include "monitor/hmp.h"
+>   #include "qapi/qmp/qdict.h"
+> +#include "qapi/qmp/qerror.h"
+>   #include "sysemu/kvm.h"
+>   #include "sysemu/sev.h"
+>   #include "qapi/error.h"
+> @@ -743,6 +744,10 @@ void qmp_sev_inject_launch_secret(const char *packet_hdr,
+>                                     bool has_gpa, uint64_t gpa,
+>                                     Error **errp)
+>   {
+> +    if (!sev_enabled()) {
+> +        error_setg(errp, QERR_UNSUPPORTED);
+> +        return;
+> +    }
+>       if (!has_gpa) {
+>           uint8_t *data;
+>           struct sev_secret_area *area;
 > 
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+This should be done in the sev_inject_launch_secret stub instead, I 
+think.  Or if you do it here, you can remove the "if (!sev_guest)" 
+conditional in the non-stub version.
+
+Paolo
 
 
