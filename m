@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18FD5422F4E
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 19:36:13 +0200 (CEST)
-Received: from localhost ([::1]:36608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E35422E1E
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:37:41 +0200 (CEST)
+Received: from localhost ([::1]:38568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXoMO-0006PP-4U
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 13:36:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48604)
+	id 1mXnRk-0002GL-4u
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmxH-0002tE-Hj
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:06:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54859)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmuD-0001KF-3y
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:03:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmxB-0000Gv-Ek
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:06:11 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmu7-00064C-M1
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:03:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633449964;
+ s=mimecast20190719; t=1633449775;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=m5WIudgdGV/fTsKWLR/EBdq7ujMlfVtUKhh5wWohWOA=;
- b=ce1yG+ODkeT/adXJq1zXGk20fq6paVgzjvdJH202bsuvP35PWqARoXheII9Y3+E8hS3P+m
- J50wSaBeXhRaP1fIO2VaHir54RE/hwUeUOicoOHj5hL+YaoIPTlbSo8QdwdkjsSuPHR61o
- ONDvrt0IkXFLYghQaeaunYslsuUDILI=
+ bh=O14S/Nap5OwplpMPbE33Eg7WKkAgoaoLhJvZHDTVT6Q=;
+ b=S00wStVOylPwJ4iQl1yMY5NCjfHmt1mpiqzDrGxYjaNvhNTYpyXfQcuw62xul97SwsiY5d
+ ausF73zGPHdJd80UFD/1fZu1tgGfLuiD0m6gXUP/Eeg9SrxT3nBTaj9EGWt5uSU1FVkVE4
+ MnQ9Dlq3xzd9IPaQtBIH2V1jap+5TqE=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-yaACObwfOHyICh2Pm3a2rw-1; Tue, 05 Oct 2021 12:02:42 -0400
-X-MC-Unique: yaACObwfOHyICh2Pm3a2rw-1
+ us-mta-82-JU4Yf8oXM_eomN67LWv2lg-1; Tue, 05 Oct 2021 12:02:54 -0400
+X-MC-Unique: JU4Yf8oXM_eomN67LWv2lg-1
 Received: by mail-wr1-f71.google.com with SMTP id
- r25-20020adfab59000000b001609ddd5579so2868718wrc.21
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:02:41 -0700 (PDT)
+ f11-20020adfc98b000000b0015fedc2a8d4so5923444wrh.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:02:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=m5WIudgdGV/fTsKWLR/EBdq7ujMlfVtUKhh5wWohWOA=;
- b=B16H1y19hzU94YaSqXz96B0VgmlXFXfaO/bIxwoNzsq1/DBdne6hsiBrxUKHRzvhCJ
- bW3B0gTJI1MiDmvZfRmUQ6Frq5CrKpZFbbQ/+li85ltIJQWhu+n+i+2MWjAVuugDPi6x
- 59bsZvqKxuJYEYZdj8C7m0WpB98zuPZx1+PBTf7sPGsEg22w7Elovisor16cMvDthb8F
- L8D9gnQcYQypZ7d8szRkBiJi4HtNednwY6Q/z1a0rFO8UBNvgA4UfgS6bSV4jwkOfm1O
- 828AdiX2iph8nHjU7eKx6VaRF4W257ZWJahvLs/Ech0Bj/PK/L4v3+Q7+VwIfE8IwlUY
- 0nyQ==
-X-Gm-Message-State: AOAM530TXXoo+BnrUuElMxVLSyXFqok+TarkC2ohnFROjdRdywiGBCwt
- ZYXc/wJX0O5tWGKBdYiasa/2C0L7s4NRSzQZ82vi0UJa/GnADYdeL8NQPvnsLsa+4/Pm91q9w3/
- KSYsLRkpqmg+BikfYPMeZSnr/942sD8/+sJ0pt8o25ow3gE7r/qwWQ/tECtXa
-X-Received: by 2002:a7b:c14d:: with SMTP id z13mr4297278wmi.112.1633449760368; 
- Tue, 05 Oct 2021 09:02:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxqiyngSq4m/Ed7H6YjTqVa6nZzscn6vUIIl0a2Blq6CDFs6tVzMLtoNAZoDoJkk4kcIFY+RA==
-X-Received: by 2002:a7b:c14d:: with SMTP id z13mr4297241wmi.112.1633449760093; 
- Tue, 05 Oct 2021 09:02:40 -0700 (PDT)
+ bh=O14S/Nap5OwplpMPbE33Eg7WKkAgoaoLhJvZHDTVT6Q=;
+ b=clMgasPfRHdwol/emn44/rTcyCS8DV72T67+0+zJAt0c4gLCmFkXeV3j10LTqdu8bH
+ fcfmrNiBvsVOp2h9LMVaxAcK+0h+gxozQxit/otxC7I0HM2liCAmzJQ+9l7mnzWIse5i
+ 7wRjsYVa0SCauX0cduZmKasoOCuSe6Sn8pZSupbUf0M+dfevve8ciddWI1Xy5v+UmBKl
+ 4ibtsA+0FIu5s5SPai2judRvyoGB3I5JhL/GFE3aZ2CI2iRNVs7Mamagg13Sh6Fer9lG
+ ZKEue1f+TdEe5h0NsVhNWeSNYnT57+VNsjhlkoz09ACjZFiU1VbLsN6FyoGJUff2fIeP
+ CIXA==
+X-Gm-Message-State: AOAM531wcYwuaPTQ3ok0PxyIfNZ0e09fKRod97Uc+68dRD4/HU5v+cMS
+ 1dmgeaOYtF3oIJ+4a3DswQL8uFi0UgP0UAmtEwSRUrKXA5+bk5j86boaNRGkH8VlsCFfJHajwc+
+ 0fRuybdaUNQ8AU9hzYn8AKW+AKqPImcnGVU2HYvXYwWB/rpN8QreixDrkfYTc
+X-Received: by 2002:adf:9bd3:: with SMTP id e19mr23156062wrc.167.1633449769179; 
+ Tue, 05 Oct 2021 09:02:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwFaRiC1qEA/NELnvelfZlSrZYUUDNymopJiIaBKWOq3W3zulO++wUccNyoKkA5mX4ygMMA3g==
+X-Received: by 2002:adf:9bd3:: with SMTP id e19mr23155634wrc.167.1633449766187; 
+ Tue, 05 Oct 2021 09:02:46 -0700 (PDT)
 Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id n11sm2510331wmq.19.2021.10.05.09.02.34
+ by smtp.gmail.com with ESMTPSA id w1sm2248213wmc.19.2021.10.05.09.02.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 09:02:37 -0700 (PDT)
-Date: Tue, 5 Oct 2021 12:02:32 -0400
+ Tue, 05 Oct 2021 09:02:44 -0700 (PDT)
+Date: Tue, 5 Oct 2021 12:02:40 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/57] acpi: x86: build_dsdt: use
+Subject: [PULL 28/57] acpi: build_hpet: use
  acpi_table_begin()/acpi_table_end() instead of build_header()
-Message-ID: <20211005155946.513818-28-mst@redhat.com>
+Message-ID: <20211005155946.513818-29-mst@redhat.com>
 References: <20211005155946.513818-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211005155946.513818-1-mst@redhat.com>
@@ -73,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,8 +97,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eric Auger <eric.auger@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -108,46 +108,87 @@ it replaces error-prone pointer arithmetic for build_header() API,
 with 2 calls to start and finish table creation,
 which hides offsets magic from API user.
 
+while at it convert build_hpet() to endian agnostic
+build_append_FOO() API
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-Id: <20210924122802.1455362-14-imammedo@redhat.com>
+Message-Id: <20210924122802.1455362-15-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ include/hw/acpi/acpi-defs.h | 13 -------------
+ hw/i386/acpi-build.c        | 26 ++++++++++++++++++--------
+ 2 files changed, 18 insertions(+), 21 deletions(-)
 
+diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+index f6d2ca172b..4d8f8b34b0 100644
+--- a/include/hw/acpi/acpi-defs.h
++++ b/include/hw/acpi/acpi-defs.h
+@@ -358,19 +358,6 @@ struct AcpiGenericTimerTable {
+ } QEMU_PACKED;
+ typedef struct AcpiGenericTimerTable AcpiGenericTimerTable;
+ 
+-/*
+- * HPET Description Table
+- */
+-struct Acpi20Hpet {
+-    ACPI_TABLE_HEADER_DEF                    /* ACPI common table header */
+-    uint32_t           timer_block_id;
+-    struct AcpiGenericAddress addr;
+-    uint8_t            hpet_number;
+-    uint16_t           min_tick;
+-    uint8_t            page_protect;
+-} QEMU_PACKED;
+-typedef struct Acpi20Hpet Acpi20Hpet;
+-
+ /*
+  * SRAT (NUMA topology description) table
+  */
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index f4d6ae3d02..e17451bc6d 100644
+index e17451bc6d..12d743d529 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -1405,12 +1405,12 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
- #endif
-     int i;
-     VMBusBridge *vmbus_bridge = vmbus_bridge_find();
-+    AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
-+                        .oem_table_id = x86ms->oem_table_id };
- 
-+    acpi_table_begin(&table, table_data);
-     dsdt = init_aml_allocator();
- 
--    /* Reserve space for header */
--    acpi_data_push(dsdt->buf, sizeof(AcpiTableHeader));
--
-     build_dbg_aml(dsdt);
-     if (misc->is_piix4) {
-         sb_scope = aml_scope("_SB");
-@@ -1867,9 +1867,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
- 
-     /* copy AML table into ACPI tables blob and patch header there */
-     g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
--    build_header(linker, table_data,
--        (void *)(table_data->data + table_data->len - dsdt->buf->len),
--                 "DSDT", dsdt->buf->len, 1, x86ms->oem_id, x86ms->oem_table_id);
-+    acpi_table_end(linker, &table);
+@@ -1871,22 +1871,32 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
      free_aml_allocator();
  }
  
++/*
++ * IA-PC HPET (High Precision Event Timers) Specification (Revision: 1.0a)
++ * 3.2.4The ACPI 2.0 HPET Description Table (HPET)
++ */
+ static void
+ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+            const char *oem_table_id)
+ {
+-    Acpi20Hpet *hpet;
+-    int hpet_start = table_data->len;
++    AcpiTable table = { .sig = "HPET", .rev = 1,
++                        .oem_id = oem_id, .oem_table_id = oem_table_id };
+ 
+-    hpet = acpi_data_push(table_data, sizeof(*hpet));
++    acpi_table_begin(&table, table_data);
+     /* Note timer_block_id value must be kept in sync with value advertised by
+      * emulated hpet
+      */
+-    hpet->timer_block_id = cpu_to_le32(0x8086a201);
+-    hpet->addr.address = cpu_to_le64(HPET_BASE);
+-    build_header(linker, table_data,
+-                 (void *)(table_data->data + hpet_start),
+-                 "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
++    /* Event Timer Block ID */
++    build_append_int_noprefix(table_data, 0x8086a201, 4);
++    /* BASE_ADDRESS */
++    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 0, 0, 0, HPET_BASE);
++    /* HPET Number */
++    build_append_int_noprefix(table_data, 0, 1);
++    /* Main Counter Minimum Clock_tick in Periodic Mode */
++    build_append_int_noprefix(table_data, 0, 2);
++    /* Page Protection And OEM Attribute */
++    build_append_int_noprefix(table_data, 0, 1);
++    acpi_table_end(linker, &table);
+ }
+ 
+ #ifdef CONFIG_TPM
 -- 
 MST
 
