@@ -2,93 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C56F4225B6
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 13:50:52 +0200 (CEST)
-Received: from localhost ([::1]:34010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6EF74225B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 13:50:55 +0200 (CEST)
+Received: from localhost ([::1]:34132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXiy9-0002xv-Fb
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 07:50:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37712)
+	id 1mXiyE-00032p-Ok
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 07:50:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mXip4-0005CA-8P
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 07:41:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56694)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mXipz-0005zI-LH
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 07:42:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mXip2-000365-Or
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 07:41:26 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mXipy-0003aX-56
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 07:42:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633434084;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1633434140;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TXwwkGgMjylpXN9pMhxDWMzWkSi9fP1askxYcjXc23s=;
- b=a/oVWuyt8OQQQHNUqLLvYF0kNcqXJa5AI+5NPF42Nooz3N3HtjTcYkJJ7+zpEc5siJPwQI
- KrSTk50333qkfRKa386+GRLUVlZWawleRAJtC3Ih+fJdcV1tPm7+a2zv4D929WvInxLmR6
- ohfTu/z5limNc8RIax4CFwqVAKJ40mc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-hiRltyHJOHOkugCQGUqO_Q-1; Tue, 05 Oct 2021 07:41:23 -0400
-X-MC-Unique: hiRltyHJOHOkugCQGUqO_Q-1
-Received: by mail-wr1-f69.google.com with SMTP id
- w2-20020a5d5442000000b0016061c95fb7so5613165wrv.12
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 04:41:22 -0700 (PDT)
+ bh=YlunjfCBH1HV6et4qiimZUSszHGaer0O5miwyMuZpjY=;
+ b=GsxXy89PE3/iXBLDVpL89zuPHyLByXrGazqAWMR5Ca60BkFJO3oaPX6kv/Arnqh40OoxQR
+ aLiu6p087MNIwsjCpv9VcioV7MDCiUpwlk1zc3H4z8G7dVxTq4+zAWM1oSQ/FW5gKHBYG8
+ r5fsKTcLiZNrKYjSMeK6xEZUA7Z3afI=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-339-h_I4cYZPPjWHjn-vU-uuug-1; Tue, 05 Oct 2021 07:42:19 -0400
+X-MC-Unique: h_I4cYZPPjWHjn-vU-uuug-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ b7-20020a50e787000000b003d59cb1a923so20330697edn.5
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 04:42:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=TXwwkGgMjylpXN9pMhxDWMzWkSi9fP1askxYcjXc23s=;
- b=79VD6O5nAHYVrpn+oN2eUSw45WXp/6wb2bT32aL2ttNOmL4aqxPc1b1Nx+jQEhtkbp
- XGa4OdbYYxeo3fT4sPSSjwg2oNUbirfAFUkQVlAH8hv08cW5biMw0TvDAF/1sDy30CYX
- rvcbaAW3G9gpq2Pqu0dcLxILcJ2N7GwdexIs0wpUf2SRENILsPyfmUZzADk5SlXkv7/S
- TV6YzCo12RY/ZPTINuVZytzM+mppdedN2pJ8v8/KFaP4pJMEsK2McRiP5rzh4Yu6GZtm
- ixveQlPrhDbWxcQ2y+6WI+438R03k4xANEBiutWHqm6f3NhJAwM554QtfGdIpADFzKZE
- g5tA==
-X-Gm-Message-State: AOAM533SoFWdvzOCTKLngSWjKb6Ym62zUr6YhZfxdBOEgvGGjHetgjDa
- vLwxZ0u3BYbT+YKWifkLBcA/Qv+acmVk287Jm618rqafkY/tLXyy/G+YVHNL/g91iPiesxS1VgR
- ue2cArdTKkF4UACo=
-X-Received: by 2002:a5d:60c8:: with SMTP id x8mr21051654wrt.293.1633434082009; 
- Tue, 05 Oct 2021 04:41:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwdUZyvE0fpQeyCM2Fh981++EDGFaK/Fh7rL4DDP7jvGLgJAmsoev+zZHCtQ5LWQdA2oiftUQ==
-X-Received: by 2002:a5d:60c8:: with SMTP id x8mr21051614wrt.293.1633434081733; 
- Tue, 05 Oct 2021 04:41:21 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id w1sm1586797wmc.19.2021.10.05.04.41.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 04:41:21 -0700 (PDT)
-Subject: Re: [PATCH v4 06/11] hw/i386: Move vIOMMU uniqueness check into pc.c
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, imammedo@redhat.com
-References: <20211001173358.863017-1-jean-philippe@linaro.org>
- <20211001173358.863017-7-jean-philippe@linaro.org>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <5caaee59-a39f-163f-6741-413d49392d04@redhat.com>
-Date: Tue, 5 Oct 2021 13:41:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=YlunjfCBH1HV6et4qiimZUSszHGaer0O5miwyMuZpjY=;
+ b=nyzdMkA+E/IoWjT0LtBPxIun9lXBlvcu9qYV/qV7I/gGoZ+XjxdgrTjSkBYcW4G9o6
+ 1yzsl0/7B05itRkkmDcwGLm6Jf3dIlZhFe7pdDGtuBD1cg4Vw+vV7MEhaPBR3+J3ZZFg
+ psYWPKSnyP+Iu0Qb/ooUXvVw7rmRe1kenZyzAn56xMaodgMyfgcII9fO3Meiuf9sQiBu
+ NyjMOEniC1aj+7eNrZoU7SgiknH4jkKXLtOxyqp12u/JsexpYGMdc1MJgxvDq/h5XIs5
+ 8XWGOCCvZfI6g0l50BkJNuU57TeY1J954hoa0FdkGrCvr2eoG/9KldF9EmVeQTqeSP+W
+ DAKQ==
+X-Gm-Message-State: AOAM530Rr+vsLq3gjV2He3zqGRlKilg78H+EhTS0VUvKqafLi6ZY67d2
+ cwxBmgE5dEDHOjaAg8idwc9f9LJq1Ot283qRSejC+sLEmMEQcD19zsnvWAOVo+j77LtzEUZ05vL
+ ey3Hy/5ZUXNxkckU=
+X-Received: by 2002:a17:906:a08a:: with SMTP id
+ q10mr23321159ejy.100.1633434138138; 
+ Tue, 05 Oct 2021 04:42:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtPHwwvMkn7XkDD/hcXFxXEztIego4xnKGdlUajUT9v9mp9I1Hdqrev5i2+kHWLX7cGRDxxg==
+X-Received: by 2002:a17:906:a08a:: with SMTP id
+ q10mr23321135ejy.100.1633434137983; 
+ Tue, 05 Oct 2021 04:42:17 -0700 (PDT)
+Received: from steredhat (host-79-34-250-211.business.telecomitalia.it.
+ [79.34.250.211])
+ by smtp.gmail.com with ESMTPSA id bx11sm7910624ejb.107.2021.10.05.04.42.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 04:42:17 -0700 (PDT)
+Date: Tue, 5 Oct 2021 13:42:15 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 2/3] hw/virtio: Acquire RCU read lock in
+ virtqueue_packed_drop_all()
+Message-ID: <20211005114215.4wmjxpcvtdhdh3fe@steredhat>
+References: <20210906104318.1569967-1-philmd@redhat.com>
+ <20210906104318.1569967-3-philmd@redhat.com>
+ <YVrIBqT2gXAwhNF3@stefanha-x1.localdomain>
+ <b761eef0-83b3-ce88-493a-3611f3a7c870@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211001173358.863017-7-jean-philippe@linaro.org>
+In-Reply-To: <b761eef0-83b3-ce88-493a-3611f3a7c870@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,75 +103,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, ani@anisinha.ca, pbonzini@redhat.com
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi jean,
-
-On 10/1/21 7:33 PM, Jean-Philippe Brucker wrote:
-> We're about to need this check for a third vIOMMU, virtio-iommu, which
-> doesn't inherit X86IOMMUState as it doesn't support IRQ remapping and is
-> a virtio device. Move the check into the pre_plug callback to be shared
-> by all three vIOMMUs.
+On Mon, Oct 04, 2021 at 11:27:12AM +0200, Philippe Mathieu-Daudé wrote:
+>On 10/4/21 11:23, Stefan Hajnoczi wrote:
+>> On Mon, Sep 06, 2021 at 12:43:17PM +0200, Philippe Mathieu-Daudé wrote:
+>>> vring_get_region_caches() must be called with the RCU read lock
+>>> acquired. virtqueue_packed_drop_all() does not, and uses the
+>>> 'caches' pointer. Fix that by using the RCU_READ_LOCK_GUARD()
+>>> macro.
+>>
+>> Is this a bug that has been encountered, is it a latent bug, a code
+>> cleanup, etc? The impact of this isn't clear but it sounds a little
+>> scary so I wanted to check.
 >
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Tested-by: Eric Auger <eric.auger@redhat.com>
+>I'll defer to Stefano, but IIUC it is a latent bug discovered
+>during code audit.
 
-Eric
-> ---
->  hw/i386/pc.c        | 10 +++++++++-
->  hw/i386/x86-iommu.c |  6 ------
->  2 files changed, 9 insertions(+), 7 deletions(-)
->
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 557d49c9f8..789ccb6ef4 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1367,6 +1367,13 @@ static void pc_virtio_md_pci_unplug(HotplugHandler *hotplug_dev,
->  static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->                                            DeviceState *dev, Error **errp)
->  {
-> +    if (object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) &&
-> +        x86_iommu_get_default()) {
-> +        error_setg(errp, "QEMU does not support multiple vIOMMUs "
-> +                   "for x86 yet.");
-> +        return;
-> +    }
-> +
->      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
->          pc_memory_pre_plug(hotplug_dev, dev, errp);
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-> @@ -1428,7 +1435,8 @@ static HotplugHandler *pc_get_hotplug_handler(MachineState *machine,
->      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
->          object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
->          object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-> -        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-> +        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI) ||
-> +        object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
->          return HOTPLUG_HANDLER(machine);
->      }
->  
-> diff --git a/hw/i386/x86-iommu.c b/hw/i386/x86-iommu.c
-> index 86ad03972e..550e551993 100644
-> --- a/hw/i386/x86-iommu.c
-> +++ b/hw/i386/x86-iommu.c
-> @@ -84,12 +84,6 @@ static void x86_iommu_set_default(X86IOMMUState *x86_iommu)
->  {
->      assert(x86_iommu);
->  
-> -    if (x86_iommu_default) {
-> -        error_report("QEMU does not support multiple vIOMMUs "
-> -                     "for x86 yet.");
-> -        exit(1);
-> -    }
-> -
->      x86_iommu_default = x86_iommu;
->  }
->  
+Yep, I confirm this. We discovered it by discussing the documentation in 
+a previous series.
+
+Thanks,
+Stefano
 
 
