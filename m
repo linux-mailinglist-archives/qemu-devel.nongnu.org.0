@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288AE422F51
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 19:38:04 +0200 (CEST)
-Received: from localhost ([::1]:42692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61587422F61
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 19:49:44 +0200 (CEST)
+Received: from localhost ([::1]:59840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXoOB-0002Se-6p
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 13:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44958)
+	id 1mXoZT-0006Xb-C2
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 13:49:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mXnY7-0007kR-99
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:44:15 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:33780)
+ id 1mXnYA-0007oF-4e
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:44:18 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:43743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mXnY4-0003s2-V4
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:44:14 -0400
-Received: by mail-ed1-x533.google.com with SMTP id p13so1228527edw.0
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:44:12 -0700 (PDT)
+ id 1mXnY5-0003sj-Nz
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:44:17 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id p11so1202723edy.10
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0sNVCMbj+gifz1DONfXRn0tIE21HuEQwiAG17MYtnsE=;
- b=nXBAv/A36o5r2Dzk/tEEm6A91YvfZhuN16x3Dvty+/ZXs7av+GsWRMXobkCCbyARh8
- iwFwi/13hrNRfppC1ayWU3YijAl7t+2Vujook0CNo8PxkDQsoQ3RsrqF2MfP6mYSwT1J
- Uv/U7b5//zDSqyQXhczXTCXojwfhmbnOgYaOF36c6NzQmXARQc5Zqo4qReK7n2aG4C2J
- cqHRJkd5FwtuovCkVHXPvQ9DmKJTfopNFaoU0KdrcgRpaSiU8ox3m2CuRmu9x5BVMEUw
- MDoEDwTmNn6zppklzr7CzpedN+lKuOoHZfw2UEmt5W5eeTlHTKFHDw7J1SLZ0RbwnH2M
- 5JSw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=6TvpJNG/slIkrin+hkmKbZdjUk1wAScZU5uZgiSk3LM=;
+ b=OY1UkgI1s5xhY025AvIlekdoZMVej7SY/E96hmzpCHROBJGfujvWMIVkQWfMfcOkts
+ q99ITR1WLDzIbj77LCmAomgcCqym379slZmll/w4Aot7Uhdwh5B46KFB2HP+LmSrqLUR
+ skG/+hPfk7EF9FNx2+SRPIbhETbIdqJrR1xRKQNvSTPwYg9BHxYz1r9HSHC49JmjtFaT
+ u2VUvlzIUZiW5/w0R1POp0Kx9VCXoBwnYpWOyYfu9PhFi4X1HPUunJZiDtlMn5cdiuVx
+ kGjfnbRW1xD9YDKuNWPTnQZ/tf81FKBXBPBaCAqFYPY3HqH6PPGUXakWdJgPLN8lWvvR
+ Hapw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=0sNVCMbj+gifz1DONfXRn0tIE21HuEQwiAG17MYtnsE=;
- b=SN41ZDvs1298pWQKW3bUbKxdfBsBDSSlyCnR+6FeEg0f9Lwpc1AFx9a8YHnw1FholS
- rxg1bhr/D55zGVqphDCDSN18Cm+0bj59t+CtPil2DM6Ji3tn7d2WgIOfcRjzxOD9X+L6
- kKZhJCyqRtFlp/ghGgFbQj6kOkaKV6Gm+mCk+lBtvTkFzFVYbLq1IftsBxALeO1XklPo
- zFbQMTuj3B766B+FuY1XHj6BwjcmLEe/CucQUx3r3ZdPt4cbCSwwNM90Ac8KOrJ1Best
- cVLu6bt718AbwbhciwZta4Twz+wkbFgX9oZbmu8o96twnJd/LYMXZ2qEYdd+uugcZW8F
- dTRw==
-X-Gm-Message-State: AOAM533ruIp7ZnWNnhZgaoEjvDpvaHz2rBfutQLDEQWs0ow9BWP/8Dv2
- MhIajyxVb1LTNK8cmlqNPZzTQf3ELMA=
-X-Google-Smtp-Source: ABdhPJyQm+E+8FgnZk29Q5wLbbyEHUhwxa5yYEWXpfKDTGGnE+bbHtcpyl2SEBebbfL87anHWvD2KA==
-X-Received: by 2002:a17:906:3a58:: with SMTP id
- a24mr26790645ejf.67.1633452251035; 
- Tue, 05 Oct 2021 09:44:11 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=6TvpJNG/slIkrin+hkmKbZdjUk1wAScZU5uZgiSk3LM=;
+ b=Te+8M0R658vcPohG6FfT2CwpSA+zsgTUbuvKWALZfo2jskJGy5JcoLto8g51KK1RIa
+ c+YADmYFXUIY3Wv36xldeZTNW3i0qZlktesnLQob7L96Qyl30+Xc/c2KuzGZ7pCFkJkJ
+ ey7jnLGDWZGg+bUsWtkRmdqpUHmncobg/6A2hvInfpSwtESYs41c8zfoHetvZxGAgdM3
+ glFnzCg190jgbejF9uE+XBCdx/8M6i8HuqqqWHj9SJKyrsmQbZH0IqO6jkKcVZt6s2m+
+ xRzv+vtZrg9O0DCPz0vz4u+hklPxw4zc8Qqd2f3gUkC05oRXbLuvVDv/OtO5pdnaiGeB
+ qsbg==
+X-Gm-Message-State: AOAM530fJ6Gh+LGYkG85rdrDKGyMm2MamCvIw5g3XBm0GDwM4r6e7Knn
+ cd3dWY9U/DAOHPSaOrQcHuk+MSaX5rQ=
+X-Google-Smtp-Source: ABdhPJyKUTiej7y/KMy++BFFEV8jzjVHqDl8RDIk0mLgk2WylrVPLzaidoqQaF5AQuQQuUxtB3XLew==
+X-Received: by 2002:aa7:d7d2:: with SMTP id e18mr5880900eds.126.1633452252172; 
+ Tue, 05 Oct 2021 09:44:12 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id x14sm6101392edd.25.2021.10.05.09.44.09
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id x14sm6101392edd.25.2021.10.05.09.44.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 09:44:09 -0700 (PDT)
+ Tue, 05 Oct 2021 09:44:11 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/12] Misc changes for 2021-10-05
-Date: Tue,  5 Oct 2021 18:43:56 +0200
-Message-Id: <20211005164408.288128-1-pbonzini@redhat.com>
+Subject: [PULL 01/12] i386: docs: Briefly describe KVM PV features
+Date: Tue,  5 Oct 2021 18:43:57 +0200
+Message-Id: <20211005164408.288128-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211005164408.288128-1-pbonzini@redhat.com>
+References: <20211005164408.288128-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,79 +83,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9618c5badaa8eed25259cf095ff880efb939fbe7:
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-  Merge remote-tracking branch 'remotes/vivier/tags/trivial-branch-for-6.2-pull-request' into staging (2021-10-04 16:27:35 -0700)
+KVM PV features don't seem to be documented anywhere, in particular, the
+fact that some of the features are enabled by default and some are not can
+only be figured out from the code.
 
-are available in the Git repository at:
-
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to bb647c49b8f1f986d8171dd61db65e8a8d255be0:
-
-  meson: show library versions in the summary (2021-10-05 13:10:29 +0200)
-
-----------------------------------------------------------------
-* Meson version update
-* fix search path when configuring with --cpu
-* support for measured SEV boot with -kernel (Dov)
-* fix missing BQL locks (Emanuele)
-* retrieve applesmc key from the host (Pedro)
-* KVM PV feature documentation (Vitaly)
-
-----------------------------------------------------------------
-Dov Murik (2):
-      sev/i386: Introduce sev_add_kernel_loader_hashes for measured linux boot
-      x86/sev: generate SEV kernel loader hashes in x86_load_linux
-
-Emanuele Giuseppe Esposito (2):
-      migration: block-dirty-bitmap: add missing qemu_mutex_lock_iothread
-      migration: add missing qemu_mutex_lock_iothread in migration_completion
-
-Paolo Bonzini (6):
-      configure, meson: move CPU_CFLAGS out of QEMU_CFLAGS
-      meson: bump submodule to 0.59.2
-      meson: switch minimum meson version to 0.58.2, minimum recommended to 0.59.2
-      hexagon: use env keyword argument to pass PYTHONPATH
-      target/xtensa: list cores in a text file
-      meson: show library versions in the summary
-
-Pedro Tôrres (1):
-      hw/misc: applesmc: use host osk as default on macs
-
-Vitaly Kuznetsov (1):
-      i386: docs: Briefly describe KVM PV features
-
- configure                      |  19 ++--
- docs/meson.build               |  14 +--
- docs/system/i386/kvm-pv.rst    | 100 +++++++++++++++++++++
- docs/system/target-i386.rst    |   1 +
- hw/i386/x86.c                  |  25 +++++-
- hw/misc/applesmc.c             | 192 ++++++++++++++++++++++++++++++++++++++++-
- meson                          |   2 +-
- meson.build                    | 166 +++++++++++++++++------------------
- migration/block-dirty-bitmap.c |   5 +-
- migration/migration.c          |   3 +
- plugins/meson.build            |   4 +-
- scripts/mtest2make.py          |   7 +-
- target/hexagon/meson.build     |   3 +-
- target/i386/sev-stub.c         |   5 ++
- target/i386/sev.c              | 137 +++++++++++++++++++++++++++++
- target/i386/sev_i386.h         |  12 +++
- target/xtensa/cores.list       |   9 ++
- target/xtensa/import_core.sh   |   3 +
- target/xtensa/meson.build      |   4 +-
- tests/qapi-schema/meson.build  |   4 +-
- tests/qtest/meson.build        |   2 +-
- tests/unit/meson.build         |   2 +-
- trace/meson.build              |   4 +-
- 23 files changed, 597 insertions(+), 126 deletions(-)
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Message-Id: <20211004140445.624875-1-vkuznets@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ docs/system/i386/kvm-pv.rst | 100 ++++++++++++++++++++++++++++++++++++
+ docs/system/target-i386.rst |   1 +
+ 2 files changed, 101 insertions(+)
  create mode 100644 docs/system/i386/kvm-pv.rst
- create mode 100644 target/xtensa/cores.list
+
+diff --git a/docs/system/i386/kvm-pv.rst b/docs/system/i386/kvm-pv.rst
+new file mode 100644
+index 0000000000..1e5a9923ef
+--- /dev/null
++++ b/docs/system/i386/kvm-pv.rst
+@@ -0,0 +1,100 @@
++Paravirtualized KVM features
++============================
++
++Description
++-----------
++
++In some cases when implementing hardware interfaces in software is slow, ``KVM``
++implements its own paravirtualized interfaces.
++
++Setup
++-----
++
++Paravirtualized ``KVM`` features are represented as CPU flags. The following
++features are enabled by default for any CPU model when ``KVM`` acceleration is
++enabled:
++
++- ``kvmclock``
++- ``kvm-nopiodelay``
++- ``kvm-asyncpf``
++- ``kvm-steal-time``
++- ``kvm-pv-eoi``
++- ``kvmclock-stable-bit``
++
++``kvm-msi-ext-dest-id`` feature is enabled by default in x2apic mode with split
++irqchip (e.g. "-machine ...,kernel-irqchip=split -cpu ...,x2apic").
++
++Note: when CPU model ``host`` is used, QEMU passes through all supported
++paravirtualized ``KVM`` features to the guest.
++
++Existing features
++-----------------
++
++``kvmclock``
++  Expose a ``KVM`` specific paravirtualized clocksource to the guest. Supported
++  since Linux v2.6.26.
++
++``kvm-nopiodelay``
++  The guest doesn't need to perform delays on PIO operations. Supported since
++  Linux v2.6.26.
++
++``kvm-mmu``
++  This feature is deprecated.
++
++``kvm-asyncpf``
++  Enable asynchronous page fault mechanism. Supported since Linux v2.6.38.
++  Note: since Linux v5.10 the feature is deprecated and not enabled by ``KVM``.
++  Use ``kvm-asyncpf-int`` instead.
++
++``kvm-steal-time``
++  Enable stolen (when guest vCPU is not running) time accounting. Supported
++  since Linux v3.1.
++
++``kvm-pv-eoi``
++  Enable paravirtualized end-of-interrupt signaling. Supported since Linux
++  v3.10.
++
++``kvm-pv-unhalt``
++  Enable paravirtualized spinlocks support. Supported since Linux v3.12.
++
++``kvm-pv-tlb-flush``
++  Enable paravirtualized TLB flush mechanism. Supported since Linux v4.16.
++
++``kvm-pv-ipi``
++  Enable paravirtualized IPI mechanism. Supported since Linux v4.19.
++
++``kvm-poll-control``
++  Enable host-side polling on HLT control from the guest. Supported since Linux
++  v5.10.
++
++``kvm-pv-sched-yield``
++  Enable paravirtualized sched yield feature. Supported since Linux v5.10.
++
++``kvm-asyncpf-int``
++  Enable interrupt based asynchronous page fault mechanism. Supported since Linux
++  v5.10.
++
++``kvm-msi-ext-dest-id``
++  Support 'Extended Destination ID' for external interrupts. The feature allows
++  to use up to 32768 CPUs without IRQ remapping (but other limits may apply making
++  the number of supported vCPUs for a given configuration lower). Supported since
++  Linux v5.10.
++
++``kvmclock-stable-bit``
++  Tell the guest that guest visible TSC value can be fully trusted for kvmclock
++  computations and no warps are expected. Supported since Linux v2.6.35.
++
++Supplementary features
++----------------------
++
++``kvm-pv-enforce-cpuid``
++  Limit the supported paravirtualized feature set to the exposed features only.
++  Note, by default, ``KVM`` allows the guest to use all currently supported
++  paravirtualized features even when they were not announced in guest visible
++  CPUIDs. Supported since Linux v5.10.
++
++
++Useful links
++------------
++
++Please refer to Documentation/virt/kvm in Linux for additional details.
+diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
+index 6a86d63863..4daa53c35d 100644
+--- a/docs/system/target-i386.rst
++++ b/docs/system/target-i386.rst
+@@ -26,6 +26,7 @@ Architectural features
+    :maxdepth: 1
+ 
+    i386/cpu
++   i386/kvm-pv
+    i386/sgx
+ 
+ .. _pcsys_005freq:
 -- 
 2.31.1
+
 
 
