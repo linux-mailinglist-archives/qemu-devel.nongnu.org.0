@@ -2,77 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4057422397
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 12:30:12 +0200 (CEST)
-Received: from localhost ([::1]:45862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 571B64223C8
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 12:44:48 +0200 (CEST)
+Received: from localhost ([::1]:55902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXhi7-0007ch-7e
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 06:30:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50986)
+	id 1mXhwE-0006Vh-Pw
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 06:44:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mXhfV-00062M-Iq
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 06:27:29 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:33735)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mXhfT-0004wV-9h
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 06:27:29 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- cs11-20020a17090af50b00b0019fe3df3dddso1697109pjb.0
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 03:27:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=gmvNn8dpsEMsyigwipfxPxHmgS5i+wmu6qf+EYFE8OA=;
- b=bUO4987++naSloSkYagYtFj1osMfL6og2+pIaSSxK1vvscSw8JICX2Y0X9xPpUooHk
- 2WvQxq8AwJXMOXzM8T2dbbMMoEfxI2Hk3mSNnFZ337c3oxhoNHmy68fNcJFaSHYDj8W7
- 1gsjWpCv3mOl8qF022hMaxVOVoh0GR9t+ej+oYzuZqs9oI6+mgNfOtmYOWme/IGAdYqp
- vnLs45wBJ3Cegn0PcgN++r5QUBFa17thIuRkfZFO8f84jgYgW7xcR3oYLJ6M73JmoPyY
- 1uwJEbGBvfGJ/c/XNyK70Zd2UF1ATpiJIKCw7I9wkkhvSyU3DSncr7aZw7tOT0qBZOjQ
- knGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=gmvNn8dpsEMsyigwipfxPxHmgS5i+wmu6qf+EYFE8OA=;
- b=wi3oV1xNpDza/GASHh2p+bhZXuWfiDuw1dAEZdoz2l82DDMK0nClgxBJSP8oKnVU3V
- T/faJrmb4/rFthLzmRIPfOtPDoGoLXAEUhI9KhwXBhG2Yi5zDnQCdaXOIN4RHQxchuut
- OaBE+6S/pf+Ftk1b/Cm5yXhdqpr9dfmSUnq0xAzvfY5J+QKWpmQ/EiYJTm7cmcqUvqSD
- cpPMXmIpBwjCB33ka5Af6nBnwDEK9DZDHW+BiPV4TQPzfsdSMYAaV+BX6NsP8iP4W0oa
- qeakrrb+eWKCMvWu03GF5ZbpRRIhIOqVsrDxNIu69Kv+Sg5dkAo5g7BgR0NfSZUNjY7z
- P9/g==
-X-Gm-Message-State: AOAM530F5MNDw30xXSStl0b2fEpenvTIz39sGQCXC+0o7NMRi8lnxtpO
- g0g9RGNy1vhHT2ywuZBB3li85g==
-X-Google-Smtp-Source: ABdhPJzwo5ttiHQIgOhCbDFO0CLG1okscSJezdyC4Pa0Yf3Myfaavg0QEfdBeYPd91viHQk1H1AeAA==
-X-Received: by 2002:a17:90a:30b:: with SMTP id
- 11mr2859972pje.136.1633429645849; 
- Tue, 05 Oct 2021 03:27:25 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.152.16])
- by smtp.googlemail.com with ESMTPSA id a28sm5158652pfg.33.2021.10.05.03.27.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 03:27:24 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Tue, 5 Oct 2021 15:57:17 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v4 09/11] tests/acpi: add test cases for VIOT
-In-Reply-To: <20211001173358.863017-10-jean-philippe@linaro.org>
-Message-ID: <alpine.DEB.2.22.394.2110051556270.820442@anisinha-lenovo>
-References: <20211001173358.863017-1-jean-philippe@linaro.org>
- <20211001173358.863017-10-jean-philippe@linaro.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mXhuo-0005pv-Dc
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 06:43:18 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51866)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mXhul-000206-Ox
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 06:43:18 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 195Ag5nD022127; 
+ Tue, 5 Oct 2021 06:43:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=O0ETquogX/CbUx5MWtJl1c2RG0MtCIXZz4D3LkK0Iig=;
+ b=o8MZiF6BI2ADgZUUubwkKG07SVflEpHkKQfZrUdyDiZQL2tZ9v6KUE6eifBUctWl8baq
+ tExFuLp4Jc7dDnDFPj0Q9eO7lv6J+UEnIUI8zBDpJAdRq9l4jceQJB2MIXZL9OM0Hh40
+ BL2q5N/hv2h9m3+4JOXGVoS1ZfPec6bKNyHAu7qq5JvO39OMInhG7cLZ8IoVTVEBa0jj
+ xFWUotfggqj/eLTQuZ5TRcXBSXIDPT3h7VXJYuUb6/3WCFm8bHy5J9fowYbpUdFjov+E
+ F1CQjA6dYC20EKvCxAPZimg0i5u+CzEQsLuATrJHu3H9QCHkZbWgses//fnO7NSLmi2k vw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bgn6580kb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Oct 2021 06:43:12 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 195AgJUI022768;
+ Tue, 5 Oct 2021 06:43:12 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bgn6580jk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Oct 2021 06:43:12 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 195AbB74000895;
+ Tue, 5 Oct 2021 10:43:10 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03ams.nl.ibm.com with ESMTP id 3bef2a16g9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Oct 2021 10:43:10 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 195AboLd57409834
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 5 Oct 2021 10:37:50 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B0F9B11C09D;
+ Tue,  5 Oct 2021 10:43:06 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D02CE11C0A5;
+ Tue,  5 Oct 2021 10:43:05 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.45.119])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue,  5 Oct 2021 10:43:05 +0000 (GMT)
+Date: Tue, 5 Oct 2021 12:43:03 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [RFC PATCH 1/1] virtio: write back features before verify
+Message-ID: <20211005124303.3abf848b.pasic@linux.ibm.com>
+In-Reply-To: <20211004040937-mutt-send-email-mst@kernel.org>
+References: <20210930012049.3780865-1-pasic@linux.ibm.com>
+ <87r1d64dl4.fsf@redhat.com>
+ <20210930130350.0cdc7c65.pasic@linux.ibm.com>
+ <87ilyi47wn.fsf@redhat.com>
+ <20211001162213.18d7375e.pasic@linux.ibm.com>
+ <87v92g3h9l.fsf@redhat.com>
+ <20211002082128-mutt-send-email-mst@kernel.org>
+ <20211004042323.730c6a5e.pasic@linux.ibm.com>
+ <20211004040937-mutt-send-email-mst@kernel.org>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::1036;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: MjXJXIyQ_EBeczd8gnT2-u7kL5Bwnu8J
+X-Proofpoint-GUID: HGrQ7TrKG7fwZWRxJMzNzAYS_onEXAHR
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-10-04_05,2021-10-04_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ clxscore=1011 phishscore=0 suspectscore=0 priorityscore=1501
+ malwarescore=0 impostorscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2110050061
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,96 +121,335 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
- mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
- ani@anisinha.ca, imammedo@redhat.com
+Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
+ Xie Yongji <xieyongji@bytedance.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, linux-kernel@vger.kernel.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, stefanha@redhat.com,
+ virtualization@lists.linux-foundation.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 4 Oct 2021 05:07:13 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
+
+> On Mon, Oct 04, 2021 at 04:23:23AM +0200, Halil Pasic wrote:
+> > On Sat, 2 Oct 2021 14:13:37 -0400
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >   
+> > > > Anyone else have an idea? This is a nasty regression; we could revert the
+> > > > patch, which would remove the symptoms and give us some time, but that
+> > > > doesn't really feel right, I'd do that only as a last resort.    
+> > > 
+> > > Well we have Halil's hack (except I would limit it
+> > > to only apply to BE, only do devices with validate,
+> > > and only in modern mode), and we will fix QEMU to be spec compliant.
+> > > Between these why do we need any conditional compiles?  
+> > 
+> > We don't. As I stated before, this hack is flawed because it
+> > effectively breaks fencing features by the driver with QEMU. Some
+> > features can not be unset after once set, because we tend to try to
+> > enable the corresponding functionality whenever we see a write
+> > features operation with the feature bit set, and we don't disable, if a
+> > subsequent features write operation stores the feature bit as not set.  
+> 
+> Something to fix in QEMU too, I think.
+
+Possibly. But it is the same situation: it probably has a long
+history. And it may even make some sense. The obvious trigger for
+doing the conditional initialization for modern is the setting of
+FEATURES_OK. The problem is, legacy doesn't do FEATURES_OK. So we would
+need a different trigger.
+
+> 
+> > But it looks like VIRTIO_1 is fine to get cleared afterwards.  
+> 
+> We'd never clear it though - why would we?
+> 
+
+Right.
+
+> > So my hack
+> > should actually look like posted below, modulo conditions.  
+> 
+> 
+> Looking at it some more, I see that vhost-user actually
+> does not send features to the backend until FEATURES_OK.
+
+I.e. the hack does not work for transitional vhost-user devices,
+but it doesn't break them either.
+
+Furthermore, I believe there is not much we can do to support
+transitional devices with vhost-user and similar, without extending
+the protocol. The transport specific detection idea would need a new
+vhost-user thingy to tell the device what has been figured
+out, right?
+
+In theory modern only could work, if the backends were paying extra
+attention to endianness, instead of just assuming that the code is
+running little-endian.
+
+> However, the code in contrib for vhost-user-blk at least seems
+> broken wrt endian-ness ATM.
+
+Agree. For example config is native endian ATM AFAICT. 
+
+> What about other backends though?
+
+I think whenever the config is owned and managed by the vhost-backend
+we have a problem with transitional. And we don't have everything in
+the protocol to deal with this problem.
+
+I didn't check modern for the different vhost-user backends. I don't
+think we recommend our users on s390 to use those. My understanding
+of the use-cases is far form complete.
+
+> Hard to be sure right?
+
+I agree.
+
+> Cc Raphael and Stefan so they can take a look.
+> And I guess it's time we CC'd qemu-devel too.
+> 
+> For now I am beginning to think we should either revert or just limit
+> validation to LE and think about all this some more. And I am inclining
+> to do a revert.
+
+I'm fine with either of these as a quick fix, but we will eventually have
+to find a solution. AFAICT this solution works for the s390 setups we
+care about the most, but so would a revert.
 
 
-On Fri, 1 Oct 2021, Jean-Philippe Brucker wrote:
 
-> Add two test cases for VIOT, one on the q35 machine and the other on
-> virt. To test complex topologies the q35 test has two PCIe buses that
-> bypass the IOMMU (and are therefore not described by VIOT), and two
-> buses that are translated by virtio-iommu.
->
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> These are all hypervisors that shipped for a long time.
+> Do we need a flag for early config space access then?
 
-This might be a stupid question but what about virtio-mmio and single mmio
-cases? I see none of your tables has nodes for those and here too you do
-not add test cases for it.
+You mean a feature bit? I think it is a good idea even if
+it weren't strictly necessary. We will have a behavior change
+for some devices, and I think the ability to detect those
+is valuable.
 
-> ---
->  tests/qtest/bios-tables-test.c | 38 ++++++++++++++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
+Your spec change proposal, makes it IMHO pretty clear, that
+we are changing our understanding of how transitional should work.
+Strictly, transitional is not a normative part of the spec AFAIU,
+but still...
+
+
+> 
+> 
+> 
+> > 
+> > Regarding the conditions I guess checking that driver_features has
+> > F_VERSION_1 already satisfies "only modern mode", or?  
+> 
+> Right.
+> 
+> > For now
+> > I've deliberately omitted the has verify and the is big endian
+> > conditions so we have a better chance to see if something breaks
+> > (i.e. the approach does not work). I can add in those extra conditions
+> > later.  
+> 
+> Or maybe if we will go down that road just the verify check (for
+> performance). I'm a bit unhappy we have the extra exit but consistency
+> seems more important.
+> 
+
+I'm fine either way. The extra exit is only for the initialization and
+one per 1 device, I have no feeling if this has a measurable performance
+impact.
+
+
+> > 
+> > --------------------------8<---------------------
+> > 
+> > From: Halil Pasic <pasic@linux.ibm.com>
+> > Date: Thu, 30 Sep 2021 02:38:47 +0200
+> > Subject: [PATCH] virtio: write back feature VERSION_1 before verify
+> > 
+> > This patch fixes a regression introduced by commit 82e89ea077b9
+> > ("virtio-blk: Add validation for block size in config space") and
+> > enables similar checks in verify() on big endian platforms.
+> > 
+> > The problem with checking multi-byte config fields in the verify
+> > callback, on big endian platforms, and with a possibly transitional
+> > device is the following. The verify() callback is called between
+> > config->get_features() and virtio_finalize_features(). That we have a
+> > device that offered F_VERSION_1 then we have the following options
+> > either the device is transitional, and then it has to present the legacy
+> > interface, i.e. a big endian config space until F_VERSION_1 is
+> > negotiated, or we have a non-transitional device, which makes
+> > F_VERSION_1 mandatory, and only implements the non-legacy interface and
+> > thus presents a little endian config space. Because at this point we
+> > can't know if the device is transitional or non-transitional, we can't
+> > know do we need to byte swap or not.  
+> 
+> Well we established that we can know. Here's an alternative explanation:
+
+
+I thin we established how this should be in the future, where a transport
+specific mechanism is used to decide are we operating in legacy mode or
+in modern mode. But with the current QEMU reality, I don't think so.
+Namely currently the switch native-endian config -> little endian config
+happens when the VERSION_1 is negotiated, which may happen whenever
+the VERSION_1 bit is changed, or only when FEATURES_OK is set
+(vhost-user).
+
+This is consistent with device should detect a legacy driver by checking
+for VERSION_1, which is what the spec currently says.
+
+So for transitional we start out with native-endian config. For modern
+only the config is always LE.
+
+The guest can distinguish between a legacy only device and a modern
+capable device after the revision negotiation. A legacy device would
+reject the CCW.
+
+But both a transitional device and a modern only device would accept
+a revision > 0. So the guest does not know for ccw.
+
+
+
+> 
+> 	The virtio specification virtio-v1.1-cs01 states:
+> 
+> 	Transitional devices MUST detect Legacy drivers by detecting that
+> 	VIRTIO_F_VERSION_1 has not been acknowledged by the driver.
+> 	This is exactly what QEMU as of 6.1 has done relying solely
+> 	on VIRTIO_F_VERSION_1 for detecting that.
+> 
+> 	However, the specification also says:
+> 	driver MAY read (but MUST NOT write) the device-specific
+> 	configuration fields to check that it can support the device before
+> 	accepting it.
+
+s/ accepting it/setting FEATURES_OK
+> 
+> 	In that case, any device relying solely on VIRTIO_F_VERSION_1
+
+s/any device/any transitional device/
+
+> 	for detecting legacy drivers will return data in legacy format.
+
+E.g. virtio-crypto does not support legacy, and thus it is always
+providing an LE config space.
+
+> 	In particular, this implies that it is in big endian format
+> 	for big endian guests. This naturally confuses the driver
+> 	which expects little endian in the modern mode.
+> 
+> 	It is probably a good idea to amend the spec to clarify that
+> 	VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
+> 	is complete. However, we already have regression so let's
+> 	try to address it.
+> 
+> 
+
+I can take the new description without any changes if you like. I care
+more about getting a decent fix, than a perfect patch description. Should
+I send out a non-RFC with that implements the proposed changes?
+
+> > 
+> > The virtio spec explicitly states that the driver MAY read config
+> > between reading and writing the features so saying that first accessing
+> > the config before feature negotiation is done is not an option. The
+> > specification ain't clear about setting the features multiple times
+> > before FEATURES_OK, so I guess that should be fine to set F_VERSION_1
+> > since at this point we already know that we are about to negotiate
+> > F_VERSION_1.
+> > 
+> > I don't consider this patch super clean, but frankly I don't think we
+> > have a ton of options. Another option that may or man not be cleaner,
+> > but is also IMHO much uglier is to figure out whether the device is
+> > transitional by rejecting _F_VERSION_1, then resetting it and proceeding
+> > according tho what we have figured out, hoping that the characteristics
+> > of the device didn't change.  
+> 
+> An empty line before tags.
 >
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 4f11d03055..b6cb383bd9 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1403,6 +1403,42 @@ static void test_acpi_virt_tcg(void)
->      free_test_data(&data);
->  }
->
-> +static void test_acpi_q35_viot(void)
-> +{
-> +    test_data data = {
-> +        .machine = MACHINE_Q35,
-> +        .variant = ".viot",
-> +    };
-> +
-> +    /*
-> +     * To keep things interesting, two buses bypass the IOMMU.
-> +     * VIOT should only describes the other two buses.
-> +     */
-> +    test_acpi_one("-machine default_bus_bypass_iommu=on "
-> +                  "-device virtio-iommu "
-> +                  "-device pxb-pcie,bus_nr=0x10,id=pcie.100,bus=pcie.0 "
-> +                  "-device pxb-pcie,bus_nr=0x20,id=pcie.200,bus=pcie.0,bypass_iommu=on "
-> +                  "-device pxb-pcie,bus_nr=0x30,id=pcie.300,bus=pcie.0",
-> +                  &data);
-> +    free_test_data(&data);
-> +}
-> +
-> +static void test_acpi_virt_viot(void)
-> +{
-> +    test_data data = {
-> +        .machine = "virt",
-> +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-> +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-> +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-> +        .ram_start = 0x40000000ULL,
-> +        .scan_len = 128ULL * 1024 * 1024,
-> +    };
-> +
-> +    test_acpi_one("-cpu cortex-a57 "
-> +                  "-device virtio-iommu", &data);
-> +    free_test_data(&data);
-> +}
-> +
->  static void test_oem_fields(test_data *data)
->  {
->      int i;
-> @@ -1567,12 +1603,14 @@ int main(int argc, char *argv[])
->          if (strcmp(arch, "x86_64") == 0) {
->              qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
->          }
-> +        qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
->      } else if (strcmp(arch, "aarch64") == 0) {
->          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
->          qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
->          qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
->          qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
->          qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
-> +        qtest_add_func("acpi/virt/viot", test_acpi_virt_viot);
->      }
->      ret = g_test_run();
->      boot_sector_cleanup(disk);
-> --
-> 2.33.0
->
->
+
+Sure!
+ 
+> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> > Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in config space")
+> > Reported-by: markver@us.ibm.com  
+> 
+> Let's add more commits that are affected. E.g. virtio-net with MTU
+> feature bit set is affected too.
+> 
+> So let's add Fixes tag for:
+> commit 14de9d114a82a564b94388c95af79a701dc93134
+> Author: Aaron Conole <aconole@redhat.com>
+> Date:   Fri Jun 3 16:57:12 2016 -0400
+> 
+>     virtio-net: Add initial MTU advice feature
+>     
+
+I believe  drv->probe(dev) is called after the real finalize, so
+that access should be fine or?
+
+Don't we just have to look out for verify?
+
+Isn't the problematic commit fe36cbe0671e ("virtio_net: clear MTU when
+out of range")?
+
+The problem with commit 14de9d114a82a is that the device won't know,
+the driver didn't take the advice (for the MTU because it deemed its
+value invalid). But that doesn't really hurt us.
+
+On the other hand with fe36cbe0671e we may deem a valid MTU in the
+config space invalid because of the endiannes mess-up. I that case
+we would discard a perfectly good MTU advice.
+
+> I think that's all, but pls double check me.
+
+
+Looks good!
+$ git grep -e '\.validate' -- '*virtio*'
+drivers/block/virtio_blk.c:     .validate                       = virtblk_validate,
+drivers/firmware/arm_scmi/virtio.c:     .validate = scmi_vio_validate,
+drivers/net/virtio_net.c:       .validate =     virtnet_validate,
+drivers/virtio/virtio_balloon.c:        .validate =     virtballoon_validate,
+sound/virtio/virtio_card.c:     .validate = virtsnd_validate,
+
+But only blk and net access config space from validate.
+
+> 
+> 
+> > ---
+> >  drivers/virtio/virtio.c | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+> > index 0a5b54034d4b..2b9358f2e22a 100644
+> > --- a/drivers/virtio/virtio.c
+> > +++ b/drivers/virtio/virtio.c
+> > @@ -239,6 +239,12 @@ static int virtio_dev_probe(struct device *_d)
+> >  		driver_features_legacy = driver_features;
+> >  	}
+> >  
+> > +	/* Write F_VERSION_1 feature to pin down endianness */
+> > +	if (device_features & (1ULL << VIRTIO_F_VERSION_1) & driver_features) {
+> > +		dev->features = (1ULL << VIRTIO_F_VERSION_1);
+> > +		dev->config->finalize_features(dev);
+> > +	}
+> > +
+> >  	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
+> >  		dev->features = driver_features & device_features;
+> >  	else
+> > -- 
+> > 2.31.1
+> > 
+> > 
+> > 
+> > 
+> > 
+> >    
+> 
+> _______________________________________________
+> Virtualization mailing list
+> Virtualization@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/virtualization
+
 
