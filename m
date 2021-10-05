@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C756C422F81
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 19:58:58 +0200 (CEST)
-Received: from localhost ([::1]:58804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E18A422F6D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 19:53:42 +0200 (CEST)
+Received: from localhost ([::1]:40228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXoiP-0008Nq-SE
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 13:58:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45744)
+	id 1mXodJ-0004Mb-8Z
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 13:53:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mXnaH-0001cs-G8; Tue, 05 Oct 2021 12:46:29 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:48745)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXoF2-0002Qd-Na
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 13:28:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mXnaF-0005Qh-87; Tue, 05 Oct 2021 12:46:29 -0400
-Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mgvan-1mzSpO3vO1-00hNKP; Tue, 05 Oct 2021 18:46:00 +0200
-Subject: Re: [PATCH v3] target/i386: Include 'hw/i386/apic.h' locally
-To: "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20210929163124.2523413-1-f4bug@amsat.org>
- <20211005105745-mutt-send-email-mst@kernel.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <fb4d7f19-8bb5-781d-4a41-9641625a2019@vivier.eu>
-Date: Tue, 5 Oct 2021 18:45:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXoEz-0007md-0R
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 13:28:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633454909;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0pah1vYa+J7Q7Qdh0WNOxLsy7Ed1M9MlqjiO8WeUsLw=;
+ b=ivcBJIRjAN2U5m+eU/MiXhUqyNHbZfPQC7d/eO/wiLO5ofD5dhEaJEfUdUz851mb4PPpJu
+ Y4Sg+d9bYq1F0NfGWTvBQpT8mdqK++RDSFGGQTtsdREYk891jwZvOvLyTUhmdKgP3woc+r
+ IJsq+r4pUsKdJFRUSSdCE/3ONnaXuks=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-523-jsBUO3DHNQOTQ6aybYC9Nw-1; Tue, 05 Oct 2021 13:28:28 -0400
+X-MC-Unique: jsBUO3DHNQOTQ6aybYC9Nw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C0B8802C87;
+ Tue,  5 Oct 2021 17:28:27 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.9.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 133335F4E7;
+ Tue,  5 Oct 2021 17:28:22 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id A28B6220BDB; Tue,  5 Oct 2021 13:28:21 -0400 (EDT)
+Date: Tue, 5 Oct 2021 13:28:21 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH 13/13] virtiofsd, seccomp: Add
+ clock_nanosleep() to allow list
+Message-ID: <YVyLNQM8PXO8iDed@redhat.com>
+References: <20210930153037.1194279-1-vgoyal@redhat.com>
+ <20210930153037.1194279-14-vgoyal@redhat.com>
+ <YVxDouMEj3aqTNf3@stefanha-x1.localdomain>
+ <YVxsQg+edz0kFmUl@redhat.com>
+ <YVx0U8Wg7jahdoJD@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20211005105745-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Fh7x502ZHzeM5nANZSLh8iW+6H7qUav5X6hW2rcbV6n2x/xBD2n
- fJ0VhgdKzknLRvH9nRbWiDlENyC5aBF5LClx0+BxGkStOTk4p14lMWqllfm7nH7ENV4vlCM
- t21kN0/JGSSUrLRygLUhe4iuMHSM0V6L39PaVWIGpowwD/U1r2xswHNsZwZw1PsQGsG36mM
- q9VILcqmahY11V2EVabPQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gWfMJSm8NhA=:l8/Y6fPeHQhKTXxfljGzfy
- kfXtEKKsKERmRbhadleijE6MViu+Vb8h/NKiiuspdHiTdaS8MgATrnjDrmp1vnO/R73NOS8fM
- iwPoDrdeYYmxtcfgmRwsF9SywvRbiSAcBEvyl5LG3CYB7Y00txc0Zmllwy0FGTElTnB/58VfM
- 4QfsO4ObTp6RqxrrhQK1azbM6Ww0bXT0m/5i/ToP0olqxsqSbZ7cCcFWcO6fb6Nav2C6mz6sc
- GACG+U9oxj8WJOu2u7EGDgpBSfNqOAcAhyWitrm2JCZP2+7YdUoIk2ZsLdkVLzdtZ3N6RCeEF
- y5mkcub5jzfb4Rl58pz/FLC6OY3BcqfGEIXNYsy/V1F/3AgjgS8jLIlk/ycrM0Tfvm118AL11
- rV8W7BVIdwtPsDDdGBLic5i8fCO2KiILWCzPHhvw1lEXqWKzOsFoTidR2ps+TPBgz1nYLPAUH
- Akjhaj+ayoPpotWCUkO+MqfBz3WAMFcyiNe0r+8WBP1udntczc6hcpvsmF/aHSFu5ruQjnb0X
- tam6iOcpB4/p8rdOWOWDmSblT3gbNcaZlJMT1oiyZLUrLwdwss4zSaJl9xqE63X7X3roqFXfw
- xM6+jZ1Cxqyl48B/Hkl0OpT9VbCfnYN2WJztcx4Z5a04H0ahJFbJb4pf/LarWCYsR7t4GscOC
- xO9G/pjAVO+xuywbbqNFZLxNwwya3ZT4Ol74Rv3w0UhdL9MkeD2Ev6zZll3nKq0zw1LEdmcPN
- MgFmWZewAf5RQCzruI4DasNqB0Ag7jzZoCsk2A==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YVx0U8Wg7jahdoJD@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,244 +82,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- qemu-trivial@nongnu.org, haxm-team@intel.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Kamil Rytarowski <kamil@netbsd.org>,
- Reinoud Zandijk <reinoud@netbsd.org>, Colin Xu <colin.xu@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Wenchao Wang <wenchao.wang@intel.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, miklos@szeredi.hu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 05/10/2021 à 16:57, Michael S. Tsirkin a écrit :
-> On Wed, Sep 29, 2021 at 06:31:24PM +0200, Philippe Mathieu-Daudé wrote:
->> Instead of including a sysemu-specific header in "cpu.h"
->> (which is shared with user-mode emulations), include it
->> locally when required.
->>
->> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Tue, Oct 05, 2021 at 04:50:43PM +0100, Stefan Hajnoczi wrote:
+> On Tue, Oct 05, 2021 at 11:16:18AM -0400, Vivek Goyal wrote:
+> > On Tue, Oct 05, 2021 at 01:22:58PM +0100, Stefan Hajnoczi wrote:
+> > > On Thu, Sep 30, 2021 at 11:30:37AM -0400, Vivek Goyal wrote:
+> > > > g_usleep() calls nanosleep() and that now seems to call clock_nanosleep()
+> > > > syscall. Now these patches are making use of g_usleep(). So add
+> > > > clock_nanosleep() to list of allowed syscalls.
+> > > > 
+> > > > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> > > > ---
+> > > >  tools/virtiofsd/passthrough_seccomp.c | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > > 
+> > > > diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+> > > > index cd24b40b78..03080806c0 100644
+> > > > --- a/tools/virtiofsd/passthrough_seccomp.c
+> > > > +++ b/tools/virtiofsd/passthrough_seccomp.c
+> > > > @@ -117,6 +117,7 @@ static const int syscall_allowlist[] = {
+> > > >      SCMP_SYS(writev),
+> > > >      SCMP_SYS(umask),
+> > > >      SCMP_SYS(nanosleep),
+> > > > +    SCMP_SYS(clock_nanosleep),
+> > > 
+> > > This patch can be dropped once sleep has been replaced by a condvar.
+> > 
+> > There is another sleep in do_pool_destroy() where we are waiting
+> > for all current threads to exit.
+> > 
+> > do_pool_destroy() {
+> >     g_usleep(10000);
+> > }
 > 
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> which tree? trivial I guess?
+> That won't be necessary if there's a way to avoid the thread pool :).
+> See my other reply about closing the OFD instead of using signals to
+> cancel blocking fcntl(2).
 
-Yes, but for me the patch was not correct because there is no need to update target/i386/cpu-dump.c
-But perhaps I misunderstood the answer from Philippe?
+Hi Stefan,
+
+I responded to that email already. man fnctl does not say anything
+about closing fd will unblock the waiter with -EINTR and I had a 
+quick look at kernel code and did not find anything which suggested
+closing fd will unblock current waiters.
+
+So is this something you know works or you want me to try and see
+if it works?
 
 Thanks
-Laurent
-
-> 
->> ---
->>  target/i386/cpu.h                    | 4 ----
->>  hw/i386/kvmvapic.c                   | 1 +
->>  hw/i386/x86.c                        | 1 +
->>  target/i386/cpu-dump.c               | 1 +
->>  target/i386/cpu-sysemu.c             | 1 +
->>  target/i386/cpu.c                    | 1 +
->>  target/i386/gdbstub.c                | 4 ++++
->>  target/i386/hax/hax-all.c            | 1 +
->>  target/i386/helper.c                 | 1 +
->>  target/i386/hvf/hvf.c                | 1 +
->>  target/i386/hvf/x86_emu.c            | 1 +
->>  target/i386/nvmm/nvmm-all.c          | 1 +
->>  target/i386/tcg/sysemu/misc_helper.c | 1 +
->>  target/i386/tcg/sysemu/seg_helper.c  | 1 +
->>  target/i386/whpx/whpx-all.c          | 1 +
->>  15 files changed, 17 insertions(+), 4 deletions(-)
->>
->> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
->> index c2954c71ea0..4411718bb7a 100644
->> --- a/target/i386/cpu.h
->> +++ b/target/i386/cpu.h
->> @@ -2045,10 +2045,6 @@ typedef X86CPU ArchCPU;
->>  #include "exec/cpu-all.h"
->>  #include "svm.h"
->>  
->> -#if !defined(CONFIG_USER_ONLY)
->> -#include "hw/i386/apic.h"
->> -#endif
->> -
->>  static inline void cpu_get_tb_cpu_state(CPUX86State *env, target_ulong *pc,
->>                                          target_ulong *cs_base, uint32_t *flags)
->>  {
->> diff --git a/hw/i386/kvmvapic.c b/hw/i386/kvmvapic.c
->> index 43f8a8f679e..7333818bdd1 100644
->> --- a/hw/i386/kvmvapic.c
->> +++ b/hw/i386/kvmvapic.c
->> @@ -16,6 +16,7 @@
->>  #include "sysemu/hw_accel.h"
->>  #include "sysemu/kvm.h"
->>  #include "sysemu/runstate.h"
->> +#include "hw/i386/apic.h"
->>  #include "hw/i386/apic_internal.h"
->>  #include "hw/sysbus.h"
->>  #include "hw/boards.h"
->> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->> index 00448ed55aa..e0218f8791f 100644
->> --- a/hw/i386/x86.c
->> +++ b/hw/i386/x86.c
->> @@ -43,6 +43,7 @@
->>  #include "target/i386/cpu.h"
->>  #include "hw/i386/topology.h"
->>  #include "hw/i386/fw_cfg.h"
->> +#include "hw/i386/apic.h"
->>  #include "hw/intc/i8259.h"
->>  #include "hw/rtc/mc146818rtc.h"
->>  
->> diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
->> index 02b635a52cf..0158fd2bf28 100644
->> --- a/target/i386/cpu-dump.c
->> +++ b/target/i386/cpu-dump.c
->> @@ -22,6 +22,7 @@
->>  #include "qemu/qemu-print.h"
->>  #ifndef CONFIG_USER_ONLY
->>  #include "hw/i386/apic_internal.h"
->> +#include "hw/i386/apic.h"
->>  #endif
->>  
->>  /***********************************************************/
->> diff --git a/target/i386/cpu-sysemu.c b/target/i386/cpu-sysemu.c
->> index 37b7c562f53..4e8a6973d08 100644
->> --- a/target/i386/cpu-sysemu.c
->> +++ b/target/i386/cpu-sysemu.c
->> @@ -30,6 +30,7 @@
->>  #include "hw/qdev-properties.h"
->>  
->>  #include "exec/address-spaces.h"
->> +#include "hw/i386/apic.h"
->>  #include "hw/i386/apic_internal.h"
->>  
->>  #include "cpu-internal.h"
->> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->> index 6b029f1bdf1..52422cbf21b 100644
->> --- a/target/i386/cpu.c
->> +++ b/target/i386/cpu.c
->> @@ -33,6 +33,7 @@
->>  #include "standard-headers/asm-x86/kvm_para.h"
->>  #include "hw/qdev-properties.h"
->>  #include "hw/i386/topology.h"
->> +#include "hw/i386/apic.h"
->>  #ifndef CONFIG_USER_ONLY
->>  #include "exec/address-spaces.h"
->>  #include "hw/boards.h"
->> diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
->> index 098a2ad15a9..5438229c1a9 100644
->> --- a/target/i386/gdbstub.c
->> +++ b/target/i386/gdbstub.c
->> @@ -21,6 +21,10 @@
->>  #include "cpu.h"
->>  #include "exec/gdbstub.h"
->>  
->> +#ifndef CONFIG_USER_ONLY
->> +#include "hw/i386/apic.h"
->> +#endif
->> +
->>  #ifdef TARGET_X86_64
->>  static const int gpr_map[16] = {
->>      R_EAX, R_EBX, R_ECX, R_EDX, R_ESI, R_EDI, R_EBP, R_ESP,
->> diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
->> index bf65ed6fa92..cd89e3233a9 100644
->> --- a/target/i386/hax/hax-all.c
->> +++ b/target/i386/hax/hax-all.c
->> @@ -32,6 +32,7 @@
->>  #include "sysemu/reset.h"
->>  #include "sysemu/runstate.h"
->>  #include "hw/boards.h"
->> +#include "hw/i386/apic.h"
->>  
->>  #include "hax-accel-ops.h"
->>  
->> diff --git a/target/i386/helper.c b/target/i386/helper.c
->> index 533b29cb91b..874beda98ae 100644
->> --- a/target/i386/helper.c
->> +++ b/target/i386/helper.c
->> @@ -26,6 +26,7 @@
->>  #ifndef CONFIG_USER_ONLY
->>  #include "sysemu/hw_accel.h"
->>  #include "monitor/monitor.h"
->> +#include "hw/i386/apic.h"
->>  #endif
->>  
->>  void cpu_sync_bndcs_hflags(CPUX86State *env)
->> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
->> index 4ba6e82fab3..50058a24f2a 100644
->> --- a/target/i386/hvf/hvf.c
->> +++ b/target/i386/hvf/hvf.c
->> @@ -70,6 +70,7 @@
->>  #include <sys/sysctl.h>
->>  
->>  #include "hw/i386/apic_internal.h"
->> +#include "hw/i386/apic.h"
->>  #include "qemu/main-loop.h"
->>  #include "qemu/accel.h"
->>  #include "target/i386/cpu.h"
->> diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
->> index 7c8203b21fb..fb3e88959d4 100644
->> --- a/target/i386/hvf/x86_emu.c
->> +++ b/target/i386/hvf/x86_emu.c
->> @@ -45,6 +45,7 @@
->>  #include "x86_flags.h"
->>  #include "vmcs.h"
->>  #include "vmx.h"
->> +#include "hw/i386/apic.h"
->>  
->>  void hvf_handle_io(struct CPUState *cpu, uint16_t port, void *data,
->>                     int direction, int size, uint32_t count);
->> diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
->> index a488b00e909..944bdb49663 100644
->> --- a/target/i386/nvmm/nvmm-all.c
->> +++ b/target/i386/nvmm/nvmm-all.c
->> @@ -22,6 +22,7 @@
->>  #include "qemu/queue.h"
->>  #include "migration/blocker.h"
->>  #include "strings.h"
->> +#include "hw/i386/apic.h"
->>  
->>  #include "nvmm-accel-ops.h"
->>  
->> diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
->> index 9ccaa054c4c..b1d3096e9c9 100644
->> --- a/target/i386/tcg/sysemu/misc_helper.c
->> +++ b/target/i386/tcg/sysemu/misc_helper.c
->> @@ -24,6 +24,7 @@
->>  #include "exec/cpu_ldst.h"
->>  #include "exec/address-spaces.h"
->>  #include "tcg/helper-tcg.h"
->> +#include "hw/i386/apic.h"
->>  
->>  void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
->>  {
->> diff --git a/target/i386/tcg/sysemu/seg_helper.c b/target/i386/tcg/sysemu/seg_helper.c
->> index bf3444c26b0..34f2c65d47f 100644
->> --- a/target/i386/tcg/sysemu/seg_helper.c
->> +++ b/target/i386/tcg/sysemu/seg_helper.c
->> @@ -24,6 +24,7 @@
->>  #include "exec/cpu_ldst.h"
->>  #include "tcg/helper-tcg.h"
->>  #include "../seg_helper.h"
->> +#include "hw/i386/apic.h"
->>  
->>  #ifdef TARGET_X86_64
->>  void helper_syscall(CPUX86State *env, int next_eip_addend)
->> diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
->> index 3e925b9da70..9ab844fd05d 100644
->> --- a/target/i386/whpx/whpx-all.c
->> +++ b/target/i386/whpx/whpx-all.c
->> @@ -20,6 +20,7 @@
->>  #include "qemu/main-loop.h"
->>  #include "hw/boards.h"
->>  #include "hw/i386/ioapic.h"
->> +#include "hw/i386/apic.h"
->>  #include "hw/i386/apic_internal.h"
->>  #include "qemu/error-report.h"
->>  #include "qapi/error.h"
->> -- 
->> 2.31.1
-> 
-> 
+Vivek
 
 
