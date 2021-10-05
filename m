@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87496423087
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 21:05:54 +0200 (CEST)
-Received: from localhost ([::1]:33210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D3F42308E
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 21:07:27 +0200 (CEST)
+Received: from localhost ([::1]:37676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXplB-0004PS-Hf
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 15:05:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59930)
+	id 1mXpmg-0007Sz-O1
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 15:07:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXpdv-000476-RK
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 14:58:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37707)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXpe1-0004O6-Bk
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 14:58:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXpds-0004eE-II
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 14:58:23 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXpdx-0004lJ-4j
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 14:58:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633460299;
+ s=mimecast20190719; t=1633460304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/l+iPsFyRbttZ9o4aXnxrKdZE8dURbTJQ5ld8MPAwxM=;
- b=Ks6t+r+0xhweM0DhqwcrEw5e0d9UnAg7QP44SrlDTyNyizkokTXeDm6zdVf7TQhFNXClvg
- UtdWDiyWsNWEUHQBoDaT5zW2rw/4ix4oRwGXSh8Q1yAdUvFi15JUZu62KVKutE3RtQWXA3
- ZwWNhzfl1pu+aThwwaUFicvor/2OUPk=
+ bh=WZHNlTuTnklt4Xwql7kVo/EoV/I/Z/JZGj7l0lQfqyg=;
+ b=bttIkjEFVpM0FVBIqJTggQLAJ1huAGG8duMhBxPYZ/IK1Hcct7Y9CzBOB/MYLWCJlAGhTg
+ jRrlgQRhApujJ8A3T8NsrnxIfQVdupPx1ia0847aly2W7Rp8EJu0xsPhGIvKAeXTmkF0Vk
+ gy0X19nWpLyba3/tnP/lN0G29ibhOuw=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-Z1cQ_Z5VOdKFQbX4s1COLA-1; Tue, 05 Oct 2021 14:58:19 -0400
-X-MC-Unique: Z1cQ_Z5VOdKFQbX4s1COLA-1
+ us-mta-452-un53WkgdO96NsOyDSk7QJA-1; Tue, 05 Oct 2021 14:58:23 -0400
+X-MC-Unique: un53WkgdO96NsOyDSk7QJA-1
 Received: by mail-wr1-f69.google.com with SMTP id
- v15-20020adfa1cf000000b00160940b17a2so69774wrv.19
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 11:58:18 -0700 (PDT)
+ a10-20020a5d508a000000b00160723ce588so68922wrt.23
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 11:58:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/l+iPsFyRbttZ9o4aXnxrKdZE8dURbTJQ5ld8MPAwxM=;
- b=R7A1xRkvzo0Rk2+k6pBD3g+0yF2m2WD4O2+Frem87ivpnuUBTSVvlw5vRfQXRsYSzt
- GLKip3QGRuniZhUbWmXdPnwUwkWH/A4+pvym4BxZF9o7ehHkKJ1JJ8bEnpZA5sCrtUDU
- 715wOPiUXUfUwb4TSIVLnf1AdueSQ1oVe7j+ejwzneLZbZ7yzs8X/EkUje3oxByAglNb
- pla07aeaTt0hijH+og/pwq1Gnv6zXID+a6DQMQQvZWxMXSskZfC+EcAG2C8dS8Byg2dE
- YTrVjK5mCLaiuwJgxBql7TTMF6qN4y2ljqS+zA5FVnS82h/V7VtYN9J2KmSoC8QShut4
- qXMw==
-X-Gm-Message-State: AOAM533gaIG4N3rWRtueZBiHiu210Wj8PE/1NZc+DF/ovzBD6AdoORAL
- sv/f7WldRfeNFe20hxEZ9Rt+98mAppMRhfp+9/QC1k3MKXqk82C735ohQLOqNYsJY1UZSmZ7dR6
- OMOiiYKkbpXmw6OCSm5y9un/dahvW3MWyPMaXHfcNg/UX3gy77An6H3ZXhIB7m1TK
-X-Received: by 2002:a7b:cb49:: with SMTP id v9mr5161655wmj.76.1633460297604;
- Tue, 05 Oct 2021 11:58:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/WOij0B7vKYjkaYr9RjdMJscd/g/HhX+NhQVooN2vCuHpKCTMULPRmmyt2cuPyL5QOyySyg==
-X-Received: by 2002:a7b:cb49:: with SMTP id v9mr5161627wmj.76.1633460297427;
- Tue, 05 Oct 2021 11:58:17 -0700 (PDT)
+ bh=WZHNlTuTnklt4Xwql7kVo/EoV/I/Z/JZGj7l0lQfqyg=;
+ b=KOWkAoE8FH5VYRP6VT6dbAGW00M8KiT7337IIIMkJgue06WYgoyKJEMwQniuSvqrMw
+ tp4FQMY70EWztT+gVpBKLdXNCmTYWUSNtZvwVeRKlKHyEAehsLhtsSek9o84jR57s23t
+ LFwJs9ATU1HHglbLPNv2u9gIZpuVHHSz4HIu8ZUecwJ4P+4hpVEdaDdUIlGMj1M6b80R
+ rGqctXizhUPW5NOx7JYkqQOEv5w8CU2D2CNNlifziycwN076/WXy4lJGQbkaYkCrmzn5
+ UgrB1JXV1TAc1rcQ/F61plGq13DaBd35i5PirWHUeynE4PVO1pvt34YZjLixrXMLhG5i
+ dOhA==
+X-Gm-Message-State: AOAM531KVVwpaW2k+zFQsMWY4vlu23iN4Ag1XLjTYqBa/5wskcGk9/zw
+ xDoL41C/nR945TC8nhVZHTU+QlIx+ry4dM2TVqUTonnzOlrbTEpib5wizxnj1apPTe09tRcFANl
+ ZUgaD8oF3GdvpvwdkXGyPECBiZvzt4XVd1X6NKgQscBKZ1G5yv7d5xV034pOgk0e3
+X-Received: by 2002:a1c:3b06:: with SMTP id i6mr5330300wma.172.1633460302070; 
+ Tue, 05 Oct 2021 11:58:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyV8xwrb2B23Lu4C67s97BE/vo8DdZ5JC2Yvzb8kRL4v6ceSDU53m5SUnUzUxbiru8jpeaWw==
+X-Received: by 2002:a1c:3b06:: with SMTP id i6mr5330274wma.172.1633460301883; 
+ Tue, 05 Oct 2021 11:58:21 -0700 (PDT)
 Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id k128sm3020741wme.41.2021.10.05.11.58.16
+ by smtp.gmail.com with ESMTPSA id h17sm3382759wrx.55.2021.10.05.11.58.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 11:58:17 -0700 (PDT)
+ Tue, 05 Oct 2021 11:58:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/4] hw/scsi/scsi-disk: Use automatic AIO context lock
-Date: Tue,  5 Oct 2021 20:58:05 +0200
-Message-Id: <20211005185807.4134557-3-philmd@redhat.com>
+Subject: [RFC PATCH 3/4] hw/scsi/scsi-generic: Use automatic AIO context lock
+Date: Tue,  5 Oct 2021 20:58:06 +0200
+Message-Id: <20211005185807.4134557-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211005185807.4134557-1-philmd@redhat.com>
 References: <20211005185807.4134557-1-philmd@redhat.com>
@@ -73,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,67 +104,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the automatic AIO context acquire/release in scsi_block_realize().
+Use the automatic AIO context acquire/release in
+scsi_command_complete().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/scsi/scsi-disk.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ hw/scsi/scsi-generic.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index e8a547dbb7d..fa2d8543718 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -2605,7 +2605,6 @@ static int get_device_type(SCSIDiskState *s)
- static void scsi_block_realize(SCSIDevice *dev, Error **errp)
- {
-     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, dev);
--    AioContext *ctx;
-     int sg_version;
-     int rc;
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index 665baf900e4..08ef623c030 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -114,9 +114,9 @@ static void scsi_command_complete(void *opaque, int ret)
+     assert(r->req.aiocb != NULL);
+     r->req.aiocb = NULL;
  
-@@ -2620,8 +2619,7 @@ static void scsi_block_realize(SCSIDevice *dev, Error **errp)
-                           "be removed in a future version");
-     }
- 
--    ctx = blk_get_aio_context(s->qdev.conf.blk);
--    aio_context_acquire(ctx);
-+    AIO_CONTEXT_ACQUIRE_GUARD(blk_get_aio_context(dev->conf.blk));
- 
-     /* check we are using a driver managing SG_IO (version 3 and after) */
-     rc = blk_ioctl(s->qdev.conf.blk, SG_GET_VERSION_NUM, &sg_version);
-@@ -2630,18 +2628,18 @@ static void scsi_block_realize(SCSIDevice *dev, Error **errp)
-         if (rc != -EPERM) {
-             error_append_hint(errp, "Is this a SCSI device?\n");
-         }
--        goto out;
-+        return;
-     }
-     if (sg_version < 30000) {
-         error_setg(errp, "scsi generic interface too old");
--        goto out;
-+        return;
-     }
- 
-     /* get device type from INQUIRY data */
-     rc = get_device_type(s);
-     if (rc < 0) {
-         error_setg(errp, "INQUIRY failed");
--        goto out;
-+        return;
-     }
- 
-     /* Make a guess for the block size, we'll fix it when the guest sends.
-@@ -2661,9 +2659,6 @@ static void scsi_block_realize(SCSIDevice *dev, Error **errp)
- 
-     scsi_realize(&s->qdev, errp);
-     scsi_generic_read_device_inquiry(&s->qdev);
--
--out:
--    aio_context_release(ctx);
+-    aio_context_acquire(blk_get_aio_context(s->conf.blk));
+-    scsi_command_complete_noio(r, ret);
+-    aio_context_release(blk_get_aio_context(s->conf.blk));
++    WITH_AIO_CONTEXT_ACQUIRE_GUARD(blk_get_aio_context(s->conf.blk)) {
++        scsi_command_complete_noio(r, ret);
++    }
  }
  
- typedef struct SCSIBlockReq {
+ static int execute_command(BlockBackend *blk,
 -- 
 2.31.1
 
