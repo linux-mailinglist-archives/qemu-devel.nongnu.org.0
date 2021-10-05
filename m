@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF43422ED4
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 19:13:27 +0200 (CEST)
-Received: from localhost ([::1]:59992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B47AD422F5F
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 19:49:17 +0200 (CEST)
+Received: from localhost ([::1]:57890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXo0L-0007CY-KB
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 13:13:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48808)
+	id 1mXoZ2-0005At-FS
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 13:49:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXmxg-0003R9-CO
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:06:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48886)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mXn1R-000898-QC
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:10:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mXmxe-0000hl-8t
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:06:36 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mXn1N-0003jP-Pg
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:10:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633449993;
+ s=mimecast20190719; t=1633450224;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xtdv0WeoqD6f4KERtqiwxNT30a8w2RWpSE6rNES9ask=;
- b=ZRo3xrGwO/nVI6kgeHYtEREK0xlhCtjy0iwZNB3hxcymup5DkyGj55qAC1jVL7q+ivT8iG
- lovW2ftuFLFqcU0t8+PceHO8cb1YvFrfC/2vYPk6pyyckv8qh1B9z1t61ygQOXbqJPv2Fp
- fIyJQvkqOSUcMNgTD5wY1vtIaYRFb7c=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-s2d6JHuiPPmxvxKEg1kDbg-1; Tue, 05 Oct 2021 12:06:32 -0400
-X-MC-Unique: s2d6JHuiPPmxvxKEg1kDbg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5-20020a1c00050000b02902e67111d9f0so9257305wma.4
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:06:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=xtdv0WeoqD6f4KERtqiwxNT30a8w2RWpSE6rNES9ask=;
- b=vpC3BAOdcBIZxyUnU7AjJq3SjQ6JfNHAEUw5kQvRTtVAcULlT9C6+PzIi4xGKnzwx+
- cV8ggK8oz4nktqlHIWv9o3s/WY/ur4O7l4mDSHGo4FboIUg2xRH34j796ZRcX/FE+lxo
- 7PdvUcxdburZJ7GsZiUIJ+piRiKbWw390yym+KFa2JwRTl2c/3Ptsy/KPyE2UWbAeIhb
- 6kGTQIZK4C2FFJXSuzl4ZEBU3u3trEbZPcC/BOcExhkTHWKHN5Vc7C3gSZ6/UGqem8TN
- OShsvnM0GPohZorbp30ySOAOk+Inn8wLDALrqLmZTBebfTrroKbIo2rsPMjH/K4ItepC
- 9g7w==
-X-Gm-Message-State: AOAM531I2kuXv1YS92EKH4JQVqaKqPMuE9ldpUw4V0Aa558GODOy7l/z
- wIi1WryciUSbc3W7L4hWDJzp75zNNE0CiNJX2U0GJUzZLZ1vZhD27dxDJmYyHfEFLvJoxNo575Y
- 0hvG0edoi5gHtDok=
-X-Received: by 2002:a5d:598f:: with SMTP id n15mr22153259wri.74.1633449991545; 
- Tue, 05 Oct 2021 09:06:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwDhVWNVlZRFJEbTHmgrR5sBBkMMVOICNNiSqSt+ewFGH7wvxEHOEhYGZwVkllytnk5MCosfw==
-X-Received: by 2002:a5d:598f:: with SMTP id n15mr22153217wri.74.1633449991296; 
- Tue, 05 Oct 2021 09:06:31 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id y23sm2517415wmi.16.2021.10.05.09.06.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 09:06:30 -0700 (PDT)
-Message-ID: <d5e44a59-13aa-6bae-3511-2f5b135fbef8@redhat.com>
-Date: Tue, 5 Oct 2021 18:06:29 +0200
+ bh=/jHU1fPYSkgh884EYz9bMT9VIm2vdXxi9WgIE1XOXCk=;
+ b=BhV5lq5uuT6VCAe02lTuzzYU6jW9kGOVDuKHVZ57xnnUo3MCLHXZX2rpKHUUGh0HTxb+XJ
+ OjL9MGViO5PNgpMBF7usI2WefyX/mE5towgzpD4zpI2D5JK7GnO3v2Fs79DHKUywk7jKnx
+ Wyu6714iGEAwE/IQqA+6voYlLT0Bhic=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-83-7vUOvyuVN72Z2AOIWliGxg-1; Tue, 05 Oct 2021 12:10:23 -0400
+X-MC-Unique: 7vUOvyuVN72Z2AOIWliGxg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 314D98015C7;
+ Tue,  5 Oct 2021 16:10:22 +0000 (UTC)
+Received: from localhost (unused-10-15-17-6.yyz.redhat.com [10.15.17.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D95E4779C2;
+ Tue,  5 Oct 2021 16:10:08 +0000 (UTC)
+Date: Tue, 5 Oct 2021 12:10:08 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v0 0/2] virtio-blk and vhost-user-blk cross-device
+ migration
+Message-ID: <20211005161008.iq5ao7t2sdqeo6kc@habkost.net>
+References: <20211004150731.191270-1-den-plotnikov@yandex-team.ru>
+ <20211004110855-mutt-send-email-mst@kernel.org>
+ <YVuL0FRN5ilRN2Pd@rvkaganb.lan>
+ <20211005024754-mutt-send-email-mst@kernel.org>
+ <YVxaodahFBOvANL0@work-vm>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: In-tree docs vs. Wiki [Was: Re: [PATCH 0/3] rSTify SubmitAPatch, 
- TrivialPatches, and SpellCheck wiki pages]
-To: Kashyap Chamarthy <kchamart@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210922121054.1458051-1-kchamart@redhat.com>
- <YVxarQkCtPkhRc4Z@stefanha-x1.localdomain> <YVxdKpks4ARkVHlj@paraplu>
- <YVxgBvQTwfnBgZXI@stefanha-x1.localdomain>
- <e91b1c71-63dc-644c-bdab-308b989d5b94@redhat.com>
- <YVxxTgCxQ39nIQxc@redhat.com> <YVx3bqvVny2wdTEh@paraplu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <YVx3bqvVny2wdTEh@paraplu>
+In-Reply-To: <YVxaodahFBOvANL0@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,65 +82,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: kwolf@redhat.com, Denis Plotnikov <den-plotnikov@yandex-team.ru>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, raphael.norwitz@nutanix.com,
+ Roman Kagan <rvkagan@yandex-team.ru>, yc-core@yandex-team.ru,
+ pbonzini@redhat.com,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/5/21 18:03, Kashyap Chamarthy wrote:
-> On Tue, Oct 05, 2021 at 04:37:50PM +0100, Daniel P. Berrangé wrote:
->> On Tue, Oct 05, 2021 at 05:07:06PM +0200, Philippe Mathieu-Daudé wrote:
+On Tue, Oct 05, 2021 at 03:01:05PM +0100, Dr. David Alan Gilbert wrote:
+> * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > On Tue, Oct 05, 2021 at 02:18:40AM +0300, Roman Kagan wrote:
+> > > On Mon, Oct 04, 2021 at 11:11:00AM -0400, Michael S. Tsirkin wrote:
+> > > > On Mon, Oct 04, 2021 at 06:07:29PM +0300, Denis Plotnikov wrote:
+> > > > > It might be useful for the cases when a slow block layer should be replaced
+> > > > > with a more performant one on running VM without stopping, i.e. with very low
+> > > > > downtime comparable with the one on migration.
+> > > > > 
+> > > > > It's possible to achive that for two reasons:
+> > > > > 
+> > > > > 1.The VMStates of "virtio-blk" and "vhost-user-blk" are almost the same.
+> > > > >   They consist of the identical VMSTATE_VIRTIO_DEVICE and differs from
+> > > > >   each other in the values of migration service fields only.
+> > > > > 2.The device driver used in the guest is the same: virtio-blk
+> > > > > 
+> > > > > In the series cross-migration is achieved by adding a new type.
+> > > > > The new type uses virtio-blk VMState instead of vhost-user-blk specific
+> > > > > VMstate, also it implements migration save/load callbacks to be compatible
+> > > > > with migration stream produced by "virtio-blk" device.
+> > > > > 
+> > > > > Adding the new type instead of modifying the existing one is convenent.
+> > > > > It ease to differ the new virtio-blk-compatible vhost-user-blk
+> > > > > device from the existing non-compatible one using qemu machinery without any
+> > > > > other modifiactions. That gives all the variety of qemu device related
+> > > > > constraints out of box.
+> > > > 
+> > > > Hmm I'm not sure I understand. What is the advantage for the user?
+> > > > What if vhost-user-blk became an alias for vhost-user-virtio-blk?
+> > > > We could add some hacks to make it compatible for old machine types.
+> > > 
+> > > The point is that virtio-blk and vhost-user-blk are not
+> > > migration-compatible ATM.  OTOH they are the same device from the guest
+> > > POV so there's nothing fundamentally preventing the migration between
+> > > the two.  In particular, we see it as a means to switch between the
+> > > storage backend transports via live migration without disrupting the
+> > > guest.
+> > > 
+> > > Migration-wise virtio-blk and vhost-user-blk have in common
+> > > 
+> > > - the content of the VMState -- VMSTATE_VIRTIO_DEVICE
+> > > 
+> > > The two differ in
+> > > 
+> > > - the name and the version of the VMStateDescription
+> > > 
+> > > - virtio-blk has an extra migration section (via .save/.load callbacks
+> > >   on VirtioDeviceClass) containing requests in flight
+> > > 
+> > > It looks like to become migration-compatible with virtio-blk,
+> > > vhost-user-blk has to start using VMStateDescription of virtio-blk and
+> > > provide compatible .save/.load callbacks.  It isn't entirely obvious how
+> > > to make this machine-type-dependent, so we came up with a simpler idea
+> > > of defining a new device that shares most of the implementation with the
+> > > original vhost-user-blk except for the migration stuff.  We're certainly
+> > > open to suggestions on how to reconcile this under a single
+> > > vhost-user-blk device, as this would be more user-friendly indeed.
+> > > 
+> > > We considered using a class property for this and defining the
+> > > respective compat clause, but IIUC the class constructors (where .vmsd
+> > > and .save/.load are defined) are not supposed to depend on class
+> > > properties.
+> > > 
+> > > Thanks,
+> > > Roman.
+> > 
+> > So the question is how to make vmsd depend on machine type.
+> > CC Eduardo who poked at this kind of compat stuff recently,
+> > paolo who looked at qom things most recently and dgilbert
+> > for advice on migration.
 > 
-> [...]
-> 
->>> One point Peter raised on IRC is it is easier to update a Wiki page
->>> than get a patch merged into the repository. IOW we are making things
->>> harder.
->>
->> There are factors to consider beyond ease of contributions.
->>
->> Certain information here is documenting a fundamental part of the
->> QEMU community operation & processes. That ought to have a high
->> trust level and be subject to review of content changes.  I'd say
->> the SubmitAPatch page falls in this category.
->>
->> Other information is essentially random adhoc user written content
->> that isn't critical to the project. This can live with a low trust
->> level and little-to-no review.
->>
->> IMHO, the wiki should only be considered for the latter type of
->> content, with any important project content being subject to
->> review.
->>
->> I also feel like docs in git is more likely to be kept upto date
->> by the regular maintainers, than wikis which can become a bit of
->> outdated mess.
-> 
-> I agree.  Here's an example that proves your point: had I written this
-> huge 'live-block-operations.rst'[1] doc as a Wiki, pretty sure it
-> would've been slowly rotting away.  Now I see 5 other contributors
-> besides me (including Peter, yourself, and Paolo in this thread) that
-> have patched it ... by virtue of it being in-tree.
-> 
-> That makes me even more convinced that having development, interface,
-> and any valuable docs that are in-tree are more well-maintained.
+> I don't think I've seen anyone change vmsd name dependent on machine
+> type; making fields appear/disappear is easy - that just ends up as a
+> property on the device that's checked;  I guess if that property is
+> global (rather than per instance) then you can check it in
+> vhost_user_blk_class_init and swing the dc->vmsd pointer?
 
-This example is very convincing :)
+class_init can be called very early during QEMU initialization,
+so it's too early to make decisions based on machine type.
 
-> (FWIW, I seem to have more motivation to write docs in rST or similar
-> formats that can be iterated over, with in-line reviews like regular
-> patches.  I can't claim the same level of motivation to write Wiki pages
-> somehow.)
-> 
->> It is a shame that our normal contribution workflow doesn't make
->> it easy for simple docs changes to be accepted and merged :-(
-> 
-> Yeah; improving that can be nicer.
-> 
-> [1] https://qemu.readthedocs.io/en/latest/interop/live-block-operations.html
-> 
+Making a specific vmsd appear/disappear based on machine
+configuration or state is "easy", by implementing
+VMStateDescription.needed.  But this would require registering
+both vmsds (one of them would need to be registered manually
+instead of using DeviceClass.vmsd).
+
+I don't remember what are the consequences of not using
+DeviceClass.vmsd to register a vmsd, I only remember it was
+subtle.  See commit b170fce3dd06 ("cpu: Register
+VMStateDescription through CPUState") and related threads.  CCing
+Philippe, who might remember the details here.
+
+If that's an important use case, I would suggest allowing devices
+to implement a DeviceClass.get_vmsd method, which would override
+DeviceClass.vmsd if necessary.  Is the problem we're trying to
+address worth the additional complexity?
+
+-- 
+Eduardo
 
 
