@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0424422B9D
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 16:59:05 +0200 (CEST)
-Received: from localhost ([::1]:41772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05C02422BD6
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:07:55 +0200 (CEST)
+Received: from localhost ([::1]:59126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXluK-0002od-MG
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 10:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53614)
+	id 1mXm2q-0006Pu-Et
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mXlXj-0003tk-4V
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:35:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23466)
+ id 1mXlXk-0003wj-SU
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:35:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mXlXg-0005IS-QY
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:35:42 -0400
+ id 1mXlXj-0005M4-9f
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:35:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633444539;
+ s=mimecast20190719; t=1633444542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h5fyn6RQ+3EvC4o0reBAtVtl8JEqzgXqbdXqGyAKnIo=;
- b=FetxKt3LO2OwuWg321zo/FAfhLoQLI1jxOUmV1MtoexRgK8C9YNMERlvf4mogLjRyWw95C
- ktqrySd2M9sWjpkzvqQ6GzKHCrPts9oWskDF7R74tgD5MPAaA1bhmoM78YZaOBy2Mti7TF
- oVm91F6+WGhU3W3XaQORuXWLnAhRVnM=
+ bh=mF74YFJ6GaBMfDQRmEU5OTTb9vKX/BLdTLRHckXpG18=;
+ b=Ie0p+w+pKRz2sYFHjAF31olNg9mWLfV1Dl5KhVBQrl5umHWfoFCqdaIrYuRqmtILwQpOlJ
+ syYBv1mY76uiDJG5q5GiSZQpe1Nz5aevvqbqVICMD10R6KkMaX2PZ/1eRXzLs303DUcAcp
+ 4c4SmNRX/CXG2rH7/HoH+7FRJDeeRiA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-2YPHD7_hNbqVnhassJ005g-1; Tue, 05 Oct 2021 10:35:38 -0400
-X-MC-Unique: 2YPHD7_hNbqVnhassJ005g-1
+ us-mta-517-eUBzj1T5MQm2AaCtGQ8ynA-1; Tue, 05 Oct 2021 10:35:39 -0400
+X-MC-Unique: eUBzj1T5MQm2AaCtGQ8ynA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21F8D802935;
- Tue,  5 Oct 2021 14:35:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 688E9362FE;
+ Tue,  5 Oct 2021 14:35:38 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E55281042AAA;
- Tue,  5 Oct 2021 14:35:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3882D1042AEB;
+ Tue,  5 Oct 2021 14:35:37 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH v2 16/25] block/backup-top.h: global state API + assertions
-Date: Tue,  5 Oct 2021 10:32:06 -0400
-Message-Id: <20211005143215.29500-17-eesposit@redhat.com>
+Subject: [RFC PATCH v2 17/25] include/block/transactions: global state API +
+ assertions
+Date: Tue,  5 Oct 2021 10:32:07 -0400
+Message-Id: <20211005143215.29500-18-eesposit@redhat.com>
 In-Reply-To: <20211005143215.29500-1-eesposit@redhat.com>
 References: <20211005143215.29500-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -58,13 +59,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.066, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,56 +94,93 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-backup-top functions always run under BQL lock.
+transactions run always under the BQL lock, so they are all
+in the global state API.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/backup-top.c |  2 ++
- block/backup-top.h | 11 +++++++++++
- 2 files changed, 13 insertions(+)
+ include/qemu/transactions.h | 24 ++++++++++++++++++++++++
+ util/transactions.c         |  4 ++++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index 425e3778be..8b58a909f7 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -182,6 +182,7 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
-     bool appended = false;
+diff --git a/include/qemu/transactions.h b/include/qemu/transactions.h
+index 92c5965235..f4a7c473fa 100644
+--- a/include/qemu/transactions.h
++++ b/include/qemu/transactions.h
+@@ -37,6 +37,29 @@
+ #define QEMU_TRANSACTIONS_H
  
-     assert(source->total_sectors == target->total_sectors);
-+    g_assert(qemu_in_main_thread());
- 
-     top = bdrv_new_open_driver(&bdrv_backup_top_filter, filter_node_name,
-                                BDRV_O_RDWR, errp);
-@@ -244,6 +245,7 @@ fail:
- void bdrv_backup_top_drop(BlockDriverState *bs)
- {
-     BDRVBackupTopState *s = bs->opaque;
-+    g_assert(qemu_in_main_thread());
- 
-     bdrv_drop_filter(bs, &error_abort);
- 
-diff --git a/block/backup-top.h b/block/backup-top.h
-index b28b0031c4..8cb6f62869 100644
---- a/block/backup-top.h
-+++ b/block/backup-top.h
-@@ -29,6 +29,17 @@
- #include "block/block_int.h"
- #include "block/block-copy.h"
- 
-+/*
-+ * Graph API. These functions run under the BQL lock.
-+ *
-+ * If a function modifies the graph, it uses drain and/or
-+ * aio_context_acquire/release to be sure it has unique access.
-+ *
-+ * All functions in this header must use this assertion:
-+ * g_assert(qemu_in_main_thread());
-+ * to be sure they belong here.
-+ */
+ #include <gmodule.h>
++#include "qemu/main-loop.h"
 +
- BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
-                                          BlockDriverState *target,
-                                          const char *filter_node_name,
++/*
++ * Global state (GS) API. These functions run under the BQL lock.
++ *
++ * If a function modifies the graph, it also uses drain and/or
++ * aio_context_acquire/release to be sure it has unique access.
++ * aio_context locking is needed together with BQL because of
++ * the thread-safe I/O API that concurrently runs and accesses
++ * the graph without the BQL.
++ *
++ * It is important to note that not all of these functions are
++ * necessarily limited to running under the BQL, but they would
++ * require additional auditing and may small thread-safety changes
++ * to move them into the I/O API. Often it's not worth doing that
++ * work since the APIs are only used with the BQL held at the
++ * moment, so they have been placed in the GS API (for now).
++ *
++ * All functions and function pointers in this header must use
++ * this assertion:
++ * g_assert(qemu_in_main_thread());
++ * to catch when they are accidentally called without the BQL.
++ */
+ 
+ typedef struct TransactionActionDrv {
+     void (*abort)(void *opaque);
+@@ -53,6 +76,7 @@ void tran_commit(Transaction *tran);
+ 
+ static inline void tran_finalize(Transaction *tran, int ret)
+ {
++    g_assert(qemu_in_main_thread());
+     if (ret < 0) {
+         tran_abort(tran);
+     } else {
+diff --git a/util/transactions.c b/util/transactions.c
+index d0bc9a3e73..20c3dafdb8 100644
+--- a/util/transactions.c
++++ b/util/transactions.c
+@@ -23,6 +23,7 @@
+ #include "qemu/osdep.h"
+ 
+ #include "qemu/transactions.h"
++#include "qemu/main-loop.h"
+ #include "qemu/queue.h"
+ 
+ typedef struct TransactionAction {
+@@ -47,6 +48,7 @@ Transaction *tran_new(void)
+ void tran_add(Transaction *tran, TransactionActionDrv *drv, void *opaque)
+ {
+     TransactionAction *act;
++    g_assert(qemu_in_main_thread());
+ 
+     act = g_new(TransactionAction, 1);
+     *act = (TransactionAction) {
+@@ -60,6 +62,7 @@ void tran_add(Transaction *tran, TransactionActionDrv *drv, void *opaque)
+ void tran_abort(Transaction *tran)
+ {
+     TransactionAction *act, *next;
++    g_assert(qemu_in_main_thread());
+ 
+     QSLIST_FOREACH_SAFE(act, &tran->actions, entry, next) {
+         if (act->drv->abort) {
+@@ -79,6 +82,7 @@ void tran_abort(Transaction *tran)
+ void tran_commit(Transaction *tran)
+ {
+     TransactionAction *act, *next;
++    g_assert(qemu_in_main_thread());
+ 
+     QSLIST_FOREACH_SAFE(act, &tran->actions, entry, next) {
+         if (act->drv->commit) {
 -- 
 2.27.0
 
