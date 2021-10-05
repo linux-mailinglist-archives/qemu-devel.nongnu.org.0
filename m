@@ -2,87 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E9C422C90
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:33:43 +0200 (CEST)
-Received: from localhost ([::1]:59894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2840422C26
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:15:37 +0200 (CEST)
+Received: from localhost ([::1]:44802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXmRq-0003Ya-0m
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:33:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58318)
+	id 1mXmAK-0007eL-An
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:15:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXltT-0004t1-CB
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:58:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.153.124]:59111)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mXlyd-0001PI-77
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:03:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXltO-0000Ge-Qj
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:58:09 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mXlyX-0008U3-9Z
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:03:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633445885;
+ s=mimecast20190719; t=1633446204;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rEZND+uRQZ2jXkjYnNViAUBIpQ2vwZb0Yzke1gX91No=;
- b=Qua6q2AeHZKqGBlNmdk9JhS2ba3TMGDxgj1DZJmuyZBbnTwrzhUuc3+sYrmszuXpMe9gHz
- f5Vtc9U+NbTy37ZLyxVZK3tbaL8a3c5NO+DQgw9h8SwpshLR5gZETVRZ+ts+N++YY3X6p8
- MnuXYj74ETqRq1/c8GMHca4Ww1y99Ao=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-t4FGsGJlNMKVzM0WiOnR2g-1; Tue, 05 Oct 2021 10:58:04 -0400
-X-MC-Unique: t4FGsGJlNMKVzM0WiOnR2g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- u23-20020a50a417000000b003db23c7e5e2so196853edb.8
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 07:58:04 -0700 (PDT)
+ bh=q7DNo6j3oTKoz//h/qqu7DwEC2+imBWUEcqW1zZuSgQ=;
+ b=NeJpHihXFNWI3qnZNrSlTZcBWOC/leZ+cNHOR32LFnYUNbE1U5krv0iT+N4ehP5u9un7E3
+ nxJfPNWit2P2PVjyAS/1bZj168OWYPDS1RwHjYg1c0CfoznlnXVW6vqhI/7XkBKKNHLdnY
+ BWlbX1Awt4kLHkcsa5MOQKuhQzXZzVc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-523-MzumV1tiN7SDMlE5FtNpoQ-1; Tue, 05 Oct 2021 11:03:17 -0400
+X-MC-Unique: MzumV1tiN7SDMlE5FtNpoQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ e12-20020a056000178c00b001606927de88so5811307wrg.10
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 08:03:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=rEZND+uRQZ2jXkjYnNViAUBIpQ2vwZb0Yzke1gX91No=;
- b=EIHTxSWx7I1lt1Y1jLEhppS84HBoFB8wGYc6gFl48E4Wx/ubzFOAyUjAbscgj7sduM
- uqU3Z2cFsHlD8uwsRE81+MGf50DNRA4GNUOzj9EuS7In4qMM3FFQZ8GJbCvqQQQwQNFa
- mJ4TaZiM8utIfaCDB9eLNsS9/2who0i9V/dyKCt6BXdC+bHT2V7FZVE005cjhNQgVbdk
- rBWiL0FiukB0v47MO5fatQQow3txf5/KDiQYO23fA9r+sKYWnGvx626nWfaj+h8JfUv0
- aFJOMqgjMnKOMbD2PRJtJO+WQZ0izpq1BRJanj4UtEOaAej0EKUd7IEXcil4QKtmCe4g
- ifaQ==
-X-Gm-Message-State: AOAM530ouSWkpniuKlSMYF6Xyl/FEcBY28x+QWQjszdKNh1f+Q9i5CKA
- gCmQfXRkQLi/2cF4Rhwp9DgBMFVb3geW+Q/TGRqRwZdjlNFV6C0V9Y3UaOF7frTksaiL4+3Luep
- 9vqoaGqFNTbugzOM=
-X-Received: by 2002:a17:906:1ec9:: with SMTP id
- m9mr26468892ejj.115.1633445882994; 
- Tue, 05 Oct 2021 07:58:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2T3tBg98Roz+xgsbi5xVB5eSSYIFuiFIiONsYzlt7erGJu72m+ky0H9IKIL97a2uxUqtXqA==
-X-Received: by 2002:a17:906:1ec9:: with SMTP id
- m9mr26468850ejj.115.1633445882649; 
- Tue, 05 Oct 2021 07:58:02 -0700 (PDT)
-Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id m9sm8256357edl.66.2021.10.05.07.57.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 07:58:02 -0700 (PDT)
-Date: Tue, 5 Oct 2021 10:57:57 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3] target/i386: Include 'hw/i386/apic.h' locally
-Message-ID: <20211005105745-mutt-send-email-mst@kernel.org>
-References: <20210929163124.2523413-1-f4bug@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=q7DNo6j3oTKoz//h/qqu7DwEC2+imBWUEcqW1zZuSgQ=;
+ b=c5zpkU/NHSw/O9nMQx4ohLRK1QAduxSSDYyJQt09lr/L92NW7qP0bEw5R0rtaCDN3J
+ c7kq7QUE1WhpnwSbXwH34Yqu4dinoU6ZshzNxMz8bsQb2bb39WZqQ8PGdu1aIC4C1kw0
+ XE5Wk431NX/p+9Yx98rHJTQABcWdez5Fw+WRQ6Md1aEN2IFqnl/UntMPKlhaDZeSmRIh
+ a5p+q6bvES4rIFbfBRQ+AIiDz67KAup2xpaE9slRma7sA18gckiYEwu3ym8/0TxAv2Ub
+ fBpf3QF4/1aMXrx6Ym62uxeOdpO0JCOaIu5I1zkaPc5gUZ8Y3KGJPd+ak9Ea362Lq8Y6
+ 3qTg==
+X-Gm-Message-State: AOAM532pMBFJ+6/KR56SoE+Iln6Qml/1mr1vFU6gWyeVikuPIYaWkBVF
+ neLBpFUJL2v9bNF500Sf2Mm0i/Q+LmRDVmtpc4QBBBFzLieVLgpVHAmo+5cwF4p8Hrr6T/GRya9
+ 2LmEtmHou4sRh+IA=
+X-Received: by 2002:adf:8bcf:: with SMTP id w15mr23102145wra.144.1633446192472; 
+ Tue, 05 Oct 2021 08:03:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJweio7R/7fUROA9fB6nT0eN5yJzHZlDObSWL9fu0JmzISH0UQgoUjNgzdZkkElIxUnZj/im6A==
+X-Received: by 2002:adf:8bcf:: with SMTP id w15mr23101964wra.144.1633446191169; 
+ Tue, 05 Oct 2021 08:03:11 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id i14sm2449006wmq.29.2021.10.05.08.03.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Oct 2021 08:03:08 -0700 (PDT)
+Subject: Re: [PULL 00/12] jobs: mirror: Handle errors after READY cancel
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org
+References: <20210921102017.273679-1-vsementsov@virtuozzo.com>
+ <4a51243d-5746-260d-3045-b48650aa5047@linaro.org>
+ <46b96d63-e6f4-5dc3-a4ab-ade47ab5f553@virtuozzo.com>
+ <085e9e5a-56b5-21ce-e1af-0500acd39937@virtuozzo.com>
+ <dedd1e5a-bb91-1ba7-5cd4-06f03dce37a3@redhat.com>
+ <8f382e34-60ca-d848-abb3-531ae369d443@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <87f25084-8c5b-2565-95d8-9baa9edceeee@redhat.com>
+Date: Tue, 5 Oct 2021 17:03:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210929163124.2523413-1-f4bug@amsat.org>
+In-Reply-To: <8f382e34-60ca-d848-abb3-531ae369d443@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.153.124; envelope-from=mst@redhat.com;
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,234 +103,243 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
- Kamil Rytarowski <kamil@netbsd.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Reinoud Zandijk <reinoud@netbsd.org>, Colin Xu <colin.xu@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, haxm-team@intel.com,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Wenchao Wang <wenchao.wang@intel.com>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, jsnow@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 29, 2021 at 06:31:24PM +0200, Philippe Mathieu-Daud� wrote:
-> Instead of including a sysemu-specific header in "cpu.h"
-> (which is shared with user-mode emulations), include it
-> locally when required.
-> 
-> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud� <f4bug@amsat.org>
+On 04.10.21 19:59, Vladimir Sementsov-Ogievskiy wrote:
+> 10/4/21 19:47, Hanna Reitz wrote:
+>> On 24.09.21 00:01, Vladimir Sementsov-Ogievskiy wrote:
+>>> 22.09.2021 22:19, Vladimir Sementsov-Ogievskiy wrote:
+>>>> 22.09.2021 19:05, Richard Henderson wrote:
+>>>>> On 9/21/21 3:20 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>>>>> The following changes since commit 
+>>>>>> 326ff8dd09556fc2e257196c49f35009700794ac:
+>>>>>>
+>>>>>>    Merge remote-tracking branch 
+>>>>>> 'remotes/jasowang/tags/net-pull-request' into staging (2021-09-20 
+>>>>>> 16:17:05 +0100)
+>>>>>>
+>>>>>> are available in the Git repository at:
+>>>>>>
+>>>>>>    https://src.openvz.org/scm/~vsementsov/qemu.git 
+>>>>>> tags/pull-jobs-2021-09-21
+>>>>>>
+>>>>>> for you to fetch changes up to 
+>>>>>> c9489c04319cac75c76af8fc27c254f46e10214c:
+>>>>>>
+>>>>>>    iotests: Add mirror-ready-cancel-error test (2021-09-21 
+>>>>>> 11:56:11 +0300)
+>>>>>>
+>>>>>> ----------------------------------------------------------------
+>>>>>> mirror: Handle errors after READY cancel
+>>>>>>
+>>>>>> ----------------------------------------------------------------
+>>>>>> Hanna Reitz (12):
+>>>>>>        job: Context changes in job_completed_txn_abort()
+>>>>>>        mirror: Keep s->synced on error
+>>>>>>        mirror: Drop s->synced
+>>>>>>        job: Force-cancel jobs in a failed transaction
+>>>>>>        job: @force parameter for job_cancel_sync()
+>>>>>>        jobs: Give Job.force_cancel more meaning
+>>>>>>        job: Add job_cancel_requested()
+>>>>>>        mirror: Use job_is_cancelled()
+>>>>>>        mirror: Check job_is_cancelled() earlier
+>>>>>>        mirror: Stop active mirroring after force-cancel
+>>>>>>        mirror: Do not clear .cancelled
+>>>>>>        iotests: Add mirror-ready-cancel-error test
+>>>>>
+>>>>> This fails testing with errors like so:
+>>>>>
+>>>>> Running test test-replication
+>>>>> test-replication: ../job.c:186: job_state_transition: Assertion 
+>>>>> `JobSTT[s0][s1]' failed.
+>>>>> ERROR test-replication - too few tests run (expected 13, got 8)
+>>>>> make: *** [Makefile.mtest:816: run-test-100] Error 1
+>>>>> Cleaning up project directory and file based variables
+>>>>> ERROR: Job failed: exit code 1
+>>>>>
+>>>>> https://gitlab.com/qemu-project/qemu/-/pipelines/375324015/failures
+>>>>>
+>>>>
+>>>>
+>>>> Interesting :(
+>>>>
+>>>> I've reproduced, starting test-replication in several parallel 
+>>>> loops. (it doesn't reproduce for me if just start in one loop). So, 
+>>>> that's some racy bug..
+>>>>
+>>>> Hmm, and seems it doesn't reproduce so simple on master. I'll try 
+>>>> to bisect the series tomorrow.
+>>>>
+>>>> ====
+>>>>
+>>>> (gdb) bt
+>>>> #0  0x00007f034a3d09d5 in raise () from /lib64/libc.so.6
+>>>> #1  0x00007f034a3b9954 in abort () from /lib64/libc.so.6
+>>>> #2  0x00007f034a3b9789 in __assert_fail_base.cold () from 
+>>>> /lib64/libc.so.6
+>>>> #3  0x00007f034a3c9026 in __assert_fail () from /lib64/libc.so.6
+>>>> #4  0x000055d3b503d670 in job_state_transition (job=0x55d3b5e67020, 
+>>>> s1=JOB_STATUS_CONCLUDED) at ../job.c:186
+>>>> #5  0x000055d3b503e7c2 in job_conclude (job=0x55d3b5e67020) at 
+>>>> ../job.c:652
+>>>> #6  0x000055d3b503eaa1 in job_finalize_single (job=0x55d3b5e67020) 
+>>>> at ../job.c:722
+>>>> #7  0x000055d3b503ecd1 in job_completed_txn_abort 
+>>>> (job=0x55d3b5e67020) at ../job.c:801
+>>>> #8  0x000055d3b503f2ea in job_cancel (job=0x55d3b5e67020, 
+>>>> force=false) at ../job.c:973
+>>>> #9  0x000055d3b503f360 in job_cancel_err (job=0x55d3b5e67020, 
+>>>> errp=0x7fffcc997a80) at ../job.c:992
+>>>> #10 0x000055d3b503f576 in job_finish_sync (job=0x55d3b5e67020, 
+>>>> finish=0x55d3b503f33f <job_cancel_err>, errp=0x0) at ../job.c:1054
+>>>> #11 0x000055d3b503f3d0 in job_cancel_sync (job=0x55d3b5e67020, 
+>>>> force=false) at ../job.c:1008
+>>>> #12 0x000055d3b4ff14a3 in replication_close (bs=0x55d3b5e6ef80) at 
+>>>> ../block/replication.c:152
+>>>> #13 0x000055d3b50277fc in bdrv_close (bs=0x55d3b5e6ef80) at 
+>>>> ../block.c:4677
+>>>> #14 0x000055d3b50286cf in bdrv_delete (bs=0x55d3b5e6ef80) at 
+>>>> ../block.c:5100
+>>>> #15 0x000055d3b502ae3a in bdrv_unref (bs=0x55d3b5e6ef80) at 
+>>>> ../block.c:6495
+>>>> #16 0x000055d3b5023a38 in bdrv_root_unref_child 
+>>>> (child=0x55d3b5e4c690) at ../block.c:3010
+>>>> #17 0x000055d3b5047998 in blk_remove_bs (blk=0x55d3b5e73b40) at 
+>>>> ../block/block-backend.c:845
+>>>> #18 0x000055d3b5046e38 in blk_delete (blk=0x55d3b5e73b40) at 
+>>>> ../block/block-backend.c:461
+>>>> #19 0x000055d3b50470dc in blk_unref (blk=0x55d3b5e73b40) at 
+>>>> ../block/block-backend.c:516
+>>>> #20 0x000055d3b4fdb20a in teardown_secondary () at 
+>>>> ../tests/unit/test-replication.c:367
+>>>> #21 0x000055d3b4fdb632 in test_secondary_continuous_replication () 
+>>>> at ../tests/unit/test-replication.c:504
+>>>> #22 0x00007f034b26979e in g_test_run_suite_internal () from 
+>>>> /lib64/libglib-2.0.so.0
+>>>> #23 0x00007f034b26959b in g_test_run_suite_internal () from 
+>>>> /lib64/libglib-2.0.so.0
+>>>> #24 0x00007f034b26959b in g_test_run_suite_internal () from 
+>>>> /lib64/libglib-2.0.so.0
+>>>> #25 0x00007f034b269c8a in g_test_run_suite () from 
+>>>> /lib64/libglib-2.0.so.0
+>>>> #26 0x00007f034b269ca5 in g_test_run () from /lib64/libglib-2.0.so.0
+>>>> #27 0x000055d3b4fdb9c0 in main (argc=1, argv=0x7fffcc998138) at 
+>>>> ../tests/unit/test-replication.c:613
+>>>> (gdb) fr 4
+>>>> #4  0x000055d3b503d670 in job_state_transition (job=0x55d3b5e67020, 
+>>>> s1=JOB_STATUS_CONCLUDED) at ../job.c:186
+>>>> 186         assert(JobSTT[s0][s1]);
+>>>> (gdb) list
+>>>> 181         JobStatus s0 = job->status;
+>>>> 182         assert(s1 >= 0 && s1 < JOB_STATUS__MAX);
+>>>> 183         trace_job_state_transition(job, job->ret,
+>>>> 184                                    JobSTT[s0][s1] ? "allowed" : 
+>>>> "disallowed",
+>>>> 185                                    JobStatus_str(s0), 
+>>>> JobStatus_str(s1));
+>>>> 186         assert(JobSTT[s0][s1]);
+>>>> 187         job->status = s1;
+>>>> 188
+>>>> 189         if (!job_is_internal(job) && s1 != s0) {
+>>>> 190 qapi_event_send_job_status_change(job->id, job->status);
+>>>> (gdb) p s0
+>>>> $1 = JOB_STATUS_NULL
+>>>> (gdb) p s1
+>>>> $2 = JOB_STATUS_CONCLUDED
+>>>>
+>>>>
+>>>>
+>>>
+>>>
+>>> bisect points to "job: Add job_cancel_requested()"
+>>>
+>>> And "bisecting" within this commit shows that the following helps:
+>>>
+>>> diff --git a/job.c b/job.c
+>>> index be878ca5fc..bb52a1b58f 100644
+>>> --- a/job.c
+>>> +++ b/job.c
+>>> @@ -655,7 +655,7 @@ static void job_conclude(Job *job)
+>>>
+>>>  static void job_update_rc(Job *job)
+>>>  {
+>>> -    if (!job->ret && job_is_cancelled(job)) {
+>>> +    if (!job->ret && job_cancel_requested(job)) {
+>>>          job->ret = -ECANCELED;
+>>>      }
+>>>      if (job->ret) {
+>>>
+>>>
+>>> - this returns job_update_rc to pre-patch behavior.
+>>>
+>>> But why, I don't know:) More investigation is needed. probably 
+>>> replication code is doing something wrong..
+>>
+>>  From what I can tell, this is what happens:
+>>
+>> (1) The mirror job completes, we go to job_co_entry(), and schedule 
+>> job_exit().  It doesn’t run yet, though.
+>> (2) replication_close() cancels the job.
+>> (3) We get to job_completed_txn_abort().
+>> (4) The job isn’t completed yet, so we invoke job_finish_sync().
+>> (5) Now job_exit() finally gets to run, and this is how we end up in 
+>> a situation where .cancelled is true, but .force_cancel is false: 
+>> Yes, mirror clears .cancelled before exiting its main loop, but if 
+>> the job is cancelled between it having been deferred to the main loop 
+>> and job_exit() running, it may become true again.
+>> (6) job_exit() leads to job_completed(), which invokes 
+>> job_update_rc(), which however leaves job->ret == 0.
+>> (7) job_completed() also calls job_completed_txn_success(), which is 
+>> weird, because we still have job_completed_txn_abort() running 
+>> concurrently...
+>> (8) job_completed_txn_success() invokes job_do_finalize(), which goes 
+>> to job_finalize_single(), which leaves the job in status null.
+>> (9) job_finish_sync() is done, so we land back in 
+>> job_completed_txn_abort(): We call job_finalize_single(), which tries 
+>> to conclude the job, and that gives us the failed assertion 
+>> (attempted transition from null to concluded).
+>>
+>> (When everything works, it seems like the job is completed before 
+>> replication_close() can cancel it.  Cancelling is then a no-op and 
+>> nothing breaks.)
+>>
+>> So now we could say the problem is that once a job completes and is 
+>> deferred to the main loop, non-force cancel should do nothing. 
+>> job_cancel_async() should not set job->cancelled to true if `!force 
+>> && job->deferred_to_main_loop`. job_cancel() should invoke 
+>> job_completed_txn_abort() not if `job->deferred_to_main_loop`, but if 
+>> `job->deferred_to_main_loop && job_is_cancelled(job)`. (Doing this 
+>> seems to fix the bug for me.)
+>>
+>> That I think would conform to the reasoning laid out in patch 7’s 
+>> commit message, namely that some functions are called after the job 
+>> has been deferred to the main loop, and because mirror clears 
+>> .cancelled when it has been soft-cancelled, it’d be impossible to 
+>> observe `.deferred_to_main_loop == true && .cancelled == true && 
+>> .force_cancelled == false`.
+>>
+>>
+>> Or we continue having soft-cancelled jobs still be -ECANCELED, which 
+>> seems like the safe choice?  But it goes against what we’ve decided 
+>> for patch 7, namely that soft-cancelled jobs should be treated like 
+>> they’d complete as normal.
+>>
+>
+> I think, I can live with either way:)  I still think that best way is 
+> implementing "no graph change" mode for mirror instead of 
+> soft-cancelling and deprecate soft-cancel (together with 
+> block-job-cancel), but that doesn't work in short-term.
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Yes, sure.  When it’s just another completion mode, we won’t have this 
+problem at all anyway, because then we’d skip job_cancel() altogether 
+(and so nothing in the code would get the idea to invoke 
+job_completed_txn_abort()).
 
-which tree? trivial I guess?
+(Btw, I’ll send a new version of the mirror series tomorrow.)
 
-> ---
->  target/i386/cpu.h                    | 4 ----
->  hw/i386/kvmvapic.c                   | 1 +
->  hw/i386/x86.c                        | 1 +
->  target/i386/cpu-dump.c               | 1 +
->  target/i386/cpu-sysemu.c             | 1 +
->  target/i386/cpu.c                    | 1 +
->  target/i386/gdbstub.c                | 4 ++++
->  target/i386/hax/hax-all.c            | 1 +
->  target/i386/helper.c                 | 1 +
->  target/i386/hvf/hvf.c                | 1 +
->  target/i386/hvf/x86_emu.c            | 1 +
->  target/i386/nvmm/nvmm-all.c          | 1 +
->  target/i386/tcg/sysemu/misc_helper.c | 1 +
->  target/i386/tcg/sysemu/seg_helper.c  | 1 +
->  target/i386/whpx/whpx-all.c          | 1 +
->  15 files changed, 17 insertions(+), 4 deletions(-)
-> 
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index c2954c71ea0..4411718bb7a 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -2045,10 +2045,6 @@ typedef X86CPU ArchCPU;
->  #include "exec/cpu-all.h"
->  #include "svm.h"
->  
-> -#if !defined(CONFIG_USER_ONLY)
-> -#include "hw/i386/apic.h"
-> -#endif
-> -
->  static inline void cpu_get_tb_cpu_state(CPUX86State *env, target_ulong *pc,
->                                          target_ulong *cs_base, uint32_t *flags)
->  {
-> diff --git a/hw/i386/kvmvapic.c b/hw/i386/kvmvapic.c
-> index 43f8a8f679e..7333818bdd1 100644
-> --- a/hw/i386/kvmvapic.c
-> +++ b/hw/i386/kvmvapic.c
-> @@ -16,6 +16,7 @@
->  #include "sysemu/hw_accel.h"
->  #include "sysemu/kvm.h"
->  #include "sysemu/runstate.h"
-> +#include "hw/i386/apic.h"
->  #include "hw/i386/apic_internal.h"
->  #include "hw/sysbus.h"
->  #include "hw/boards.h"
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index 00448ed55aa..e0218f8791f 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -43,6 +43,7 @@
->  #include "target/i386/cpu.h"
->  #include "hw/i386/topology.h"
->  #include "hw/i386/fw_cfg.h"
-> +#include "hw/i386/apic.h"
->  #include "hw/intc/i8259.h"
->  #include "hw/rtc/mc146818rtc.h"
->  
-> diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
-> index 02b635a52cf..0158fd2bf28 100644
-> --- a/target/i386/cpu-dump.c
-> +++ b/target/i386/cpu-dump.c
-> @@ -22,6 +22,7 @@
->  #include "qemu/qemu-print.h"
->  #ifndef CONFIG_USER_ONLY
->  #include "hw/i386/apic_internal.h"
-> +#include "hw/i386/apic.h"
->  #endif
->  
->  /***********************************************************/
-> diff --git a/target/i386/cpu-sysemu.c b/target/i386/cpu-sysemu.c
-> index 37b7c562f53..4e8a6973d08 100644
-> --- a/target/i386/cpu-sysemu.c
-> +++ b/target/i386/cpu-sysemu.c
-> @@ -30,6 +30,7 @@
->  #include "hw/qdev-properties.h"
->  
->  #include "exec/address-spaces.h"
-> +#include "hw/i386/apic.h"
->  #include "hw/i386/apic_internal.h"
->  
->  #include "cpu-internal.h"
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 6b029f1bdf1..52422cbf21b 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -33,6 +33,7 @@
->  #include "standard-headers/asm-x86/kvm_para.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/i386/topology.h"
-> +#include "hw/i386/apic.h"
->  #ifndef CONFIG_USER_ONLY
->  #include "exec/address-spaces.h"
->  #include "hw/boards.h"
-> diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-> index 098a2ad15a9..5438229c1a9 100644
-> --- a/target/i386/gdbstub.c
-> +++ b/target/i386/gdbstub.c
-> @@ -21,6 +21,10 @@
->  #include "cpu.h"
->  #include "exec/gdbstub.h"
->  
-> +#ifndef CONFIG_USER_ONLY
-> +#include "hw/i386/apic.h"
-> +#endif
-> +
->  #ifdef TARGET_X86_64
->  static const int gpr_map[16] = {
->      R_EAX, R_EBX, R_ECX, R_EDX, R_ESI, R_EDI, R_EBP, R_ESP,
-> diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
-> index bf65ed6fa92..cd89e3233a9 100644
-> --- a/target/i386/hax/hax-all.c
-> +++ b/target/i386/hax/hax-all.c
-> @@ -32,6 +32,7 @@
->  #include "sysemu/reset.h"
->  #include "sysemu/runstate.h"
->  #include "hw/boards.h"
-> +#include "hw/i386/apic.h"
->  
->  #include "hax-accel-ops.h"
->  
-> diff --git a/target/i386/helper.c b/target/i386/helper.c
-> index 533b29cb91b..874beda98ae 100644
-> --- a/target/i386/helper.c
-> +++ b/target/i386/helper.c
-> @@ -26,6 +26,7 @@
->  #ifndef CONFIG_USER_ONLY
->  #include "sysemu/hw_accel.h"
->  #include "monitor/monitor.h"
-> +#include "hw/i386/apic.h"
->  #endif
->  
->  void cpu_sync_bndcs_hflags(CPUX86State *env)
-> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-> index 4ba6e82fab3..50058a24f2a 100644
-> --- a/target/i386/hvf/hvf.c
-> +++ b/target/i386/hvf/hvf.c
-> @@ -70,6 +70,7 @@
->  #include <sys/sysctl.h>
->  
->  #include "hw/i386/apic_internal.h"
-> +#include "hw/i386/apic.h"
->  #include "qemu/main-loop.h"
->  #include "qemu/accel.h"
->  #include "target/i386/cpu.h"
-> diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
-> index 7c8203b21fb..fb3e88959d4 100644
-> --- a/target/i386/hvf/x86_emu.c
-> +++ b/target/i386/hvf/x86_emu.c
-> @@ -45,6 +45,7 @@
->  #include "x86_flags.h"
->  #include "vmcs.h"
->  #include "vmx.h"
-> +#include "hw/i386/apic.h"
->  
->  void hvf_handle_io(struct CPUState *cpu, uint16_t port, void *data,
->                     int direction, int size, uint32_t count);
-> diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
-> index a488b00e909..944bdb49663 100644
-> --- a/target/i386/nvmm/nvmm-all.c
-> +++ b/target/i386/nvmm/nvmm-all.c
-> @@ -22,6 +22,7 @@
->  #include "qemu/queue.h"
->  #include "migration/blocker.h"
->  #include "strings.h"
-> +#include "hw/i386/apic.h"
->  
->  #include "nvmm-accel-ops.h"
->  
-> diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-> index 9ccaa054c4c..b1d3096e9c9 100644
-> --- a/target/i386/tcg/sysemu/misc_helper.c
-> +++ b/target/i386/tcg/sysemu/misc_helper.c
-> @@ -24,6 +24,7 @@
->  #include "exec/cpu_ldst.h"
->  #include "exec/address-spaces.h"
->  #include "tcg/helper-tcg.h"
-> +#include "hw/i386/apic.h"
->  
->  void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
->  {
-> diff --git a/target/i386/tcg/sysemu/seg_helper.c b/target/i386/tcg/sysemu/seg_helper.c
-> index bf3444c26b0..34f2c65d47f 100644
-> --- a/target/i386/tcg/sysemu/seg_helper.c
-> +++ b/target/i386/tcg/sysemu/seg_helper.c
-> @@ -24,6 +24,7 @@
->  #include "exec/cpu_ldst.h"
->  #include "tcg/helper-tcg.h"
->  #include "../seg_helper.h"
-> +#include "hw/i386/apic.h"
->  
->  #ifdef TARGET_X86_64
->  void helper_syscall(CPUX86State *env, int next_eip_addend)
-> diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
-> index 3e925b9da70..9ab844fd05d 100644
-> --- a/target/i386/whpx/whpx-all.c
-> +++ b/target/i386/whpx/whpx-all.c
-> @@ -20,6 +20,7 @@
->  #include "qemu/main-loop.h"
->  #include "hw/boards.h"
->  #include "hw/i386/ioapic.h"
-> +#include "hw/i386/apic.h"
->  #include "hw/i386/apic_internal.h"
->  #include "qemu/error-report.h"
->  #include "qapi/error.h"
-> -- 
-> 2.31.1
+Hanna
 
 
