@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1673422DE1
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:24:44 +0200 (CEST)
-Received: from localhost ([::1]:38962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB276422DF7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:29:21 +0200 (CEST)
+Received: from localhost ([::1]:47352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXnFD-00007n-Rp
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47394)
+	id 1mXnJg-0005s4-RM
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:29:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmts-0001EG-7z
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmts-0001EF-7z
  for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:02:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25397)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmtj-0005lo-7y
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:02:38 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmto-0005om-5j
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:02:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633449748;
+ s=mimecast20190719; t=1633449755;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RaPq5iLVSqv5CKFO6b2yRg6rjdJgidYZmZppuNmLLzA=;
- b=YMS3jd7DJoAOqvXZ+JH72bVdud+PPZkChwT1SPvF3Iq5puksWO8tmK/ztV+WxTDy2EvK0f
- rgWc64ZDefHNVRaicKB7qqHj95PPEdAJhAb+As8Go7tQpdwTrXHkHgqlmPMRfEM9l4lGmM
- +//O0Z/Q1L2tmKG4JjPhvEFc9eGPMSo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-qFQdpNvjMQqlxCTK7_Y8Gg-1; Tue, 05 Oct 2021 12:02:27 -0400
-X-MC-Unique: qFQdpNvjMQqlxCTK7_Y8Gg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- r15-20020adfce8f000000b0015df1098ccbso5900651wrn.4
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:02:27 -0700 (PDT)
+ bh=n6qYsjx2thlrSC+Rpf1F8d62tJ8rgin8MMtTqkd/rDY=;
+ b=P2zIZk5yiwQ0rwtBC/KAAerEb5C4Y0yq0TYEIvZwsiiyL5cSDXqskaqDHqa8+O+WUB6TJj
+ uNSedOmYhJxO+poAZwyLY1HUH5lLFTLrAZ/3HUrpLsoWvRVkrCK7pZ86uQcjmGU3gftwuS
+ d9expD5AT2KgNJbkwsXmEQqE7kyh2dU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-S3qykfYBM4KOkFO2v_RH8A-1; Tue, 05 Oct 2021 12:02:34 -0400
+X-MC-Unique: S3qykfYBM4KOkFO2v_RH8A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 129-20020a1c1987000000b0030cd1616fbfso1494595wmz.3
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:02:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=RaPq5iLVSqv5CKFO6b2yRg6rjdJgidYZmZppuNmLLzA=;
- b=RKOIQ8JPZbMrpXMTO4clr8I0tUQ+mJsm+MhKW8WJwx4sagpQXEzce/LOgN7DF5ahP+
- ZF/G4C/jwKu6gHLD15owmboQ00Y5/bJsV0aG50TTiB83ApIz8psFCc6nOcK8xFpNgmf6
- rpu+6L8Ji+174okb0EREXJRRWXwuuUjKpzc9hufZffzc2lE51Oc4Ke8fbAeZSLX1VX+z
- ZmtePT+NqG353KwDFcod2gAwtkYXrovXhEpLfGJwXvd+ZG1FV8D2Yn0qS4Vp2g6d9jPd
- 3jtn/Rn8VRquk1sehr2boZfTp94YwIsiiNokJluQxOoMa1TNEGz6X3vEYrwsa41hTluy
- UuuA==
-X-Gm-Message-State: AOAM530990tLI6wE55MjEpsTuN/DH5WqfIn7sqTn0Dg1RRZcFhMfbR5S
- Mo7/yoP0v6kHreJc7Jy2g0ccia/wNcATING9/1L6BjwB+HvYOu2mLZKWDvZSrnjpZz/SV58mHg4
- 72Z2q4nbZn+9gp5BHjRz88OeZ3kvfl/ILKG6voRR/WaaidmJbMLMarTS9w6FW
-X-Received: by 2002:a5d:49c5:: with SMTP id t5mr23168640wrs.295.1633449746017; 
- Tue, 05 Oct 2021 09:02:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEZvx3aGU6gmEznAo7QleslkEM42wt+CwTZFNy9r6S6ApZgasKsHBDM5Scqw/p18JeutjkpQ==
-X-Received: by 2002:a5d:49c5:: with SMTP id t5mr23168607wrs.295.1633449745810; 
- Tue, 05 Oct 2021 09:02:25 -0700 (PDT)
+ bh=n6qYsjx2thlrSC+Rpf1F8d62tJ8rgin8MMtTqkd/rDY=;
+ b=5FnZ1ZbRKYWtck2lXeyuZORTsXIQttjbfCrKEKvThMkotTgdCrjmOHPcDfjhnTAQnR
+ uTKFJ8Z9cN5X6VzjSEdEww0xUZGDP6qmZ5yNMA0miyIUEBl/TvUrviqpVK01JY/wQFDB
+ yLqcx28/efVIg4p5Rj7zzJbNsepMboC3TZax+eLB1MTbXjzu7GnTBZ9b9OahwzeGtg41
+ 7U2b64Nwc7OKyi5u29soPcpagl0R18bVPoTLqtWK5JQHkO4KM/SbQ4HLhmTsegFTg7Ea
+ B375vG0y6Piy1OwRI8lCG6HMt+RiyUJqIv/FKuAGQvOaV+M2bezOe18c5gK864lItx8Z
+ 0rvA==
+X-Gm-Message-State: AOAM532gWyqmmYMB2P95kPVBITafaqRRb+wGUtylkSGZOSANaIiXLLv9
+ zgoHElaCDsNpjhPeYllMrqDoJutYH7rI3Yqp9at5339oVz5/vRfEyYZ51rKUa5byCWY+3M6E8YA
+ EeJojzBzNejZcmjmAkyz6UdTgAi5pVDhLAVm9pWC7JsE2+6A52jeM3AM2TqV0
+X-Received: by 2002:adf:fe0b:: with SMTP id n11mr22849665wrr.371.1633449752959; 
+ Tue, 05 Oct 2021 09:02:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwAz0M7oi8ssmtZaoDdhFuY0Jz5XrtPt9UwhmSJbCAPJlDsRqgltuzA0Lgc+biwmrOvrmldNg==
+X-Received: by 2002:adf:fe0b:: with SMTP id n11mr22849633wrr.371.1633449752757; 
+ Tue, 05 Oct 2021 09:02:32 -0700 (PDT)
 Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id n15sm18787269wrg.58.2021.10.05.09.02.22
+ by smtp.gmail.com with ESMTPSA id u5sm18917658wrg.57.2021.10.05.09.02.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 09:02:24 -0700 (PDT)
-Date: Tue, 5 Oct 2021 12:02:21 -0400
+ Tue, 05 Oct 2021 09:02:29 -0700 (PDT)
+Date: Tue, 5 Oct 2021 12:02:26 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/57] acpi: nvdimm_build_ssdt: use
+Subject: [PULL 26/57] acpi: vmgenid_build_acpi: use
  acpi_table_begin()/acpi_table_end() instead of build_header()
-Message-ID: <20211005155946.513818-26-mst@redhat.com>
+Message-ID: <20211005155946.513818-27-mst@redhat.com>
 References: <20211005155946.513818-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211005155946.513818-1-mst@redhat.com>
@@ -95,7 +95,6 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
  Eric Auger <eric.auger@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -108,62 +107,53 @@ which hides offsets magic from API user.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-Id: <20210924122802.1455362-12-imammedo@redhat.com>
+Message-Id: <20210924122802.1455362-13-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/nvdimm.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ hw/acpi/vmgenid.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 15f6ca82ca..a7539cfe89 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -1274,14 +1274,15 @@ static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
-                               NVDIMMState *nvdimm_state,
-                               uint32_t ram_slots, const char *oem_id)
- {
-+    int mem_addr_offset;
-     Aml *ssdt, *sb_scope, *dev;
--    int mem_addr_offset, nvdimm_ssdt;
+diff --git a/hw/acpi/vmgenid.c b/hw/acpi/vmgenid.c
+index 4f41a13ea0..0c9f158ac9 100644
+--- a/hw/acpi/vmgenid.c
++++ b/hw/acpi/vmgenid.c
+@@ -29,6 +29,8 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
+     Aml *ssdt, *dev, *scope, *method, *addr, *if_ctx;
+     uint32_t vgia_offset;
+     QemuUUID guid_le;
 +    AcpiTable table = { .sig = "SSDT", .rev = 1,
-+                        .oem_id = oem_id, .oem_table_id = "NVDIMM" };
++                        .oem_id = oem_id, .oem_table_id = "VMGENID" };
  
-     acpi_add_table(table_offsets, table_data);
+     /* Fill in the GUID values.  These need to be converted to little-endian
+      * first, since that's what the guest expects
+@@ -42,12 +44,10 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
+     g_array_insert_vals(guid, VMGENID_GUID_OFFSET, guid_le.data,
+                         ARRAY_SIZE(guid_le.data));
  
+-    /* Put this in a separate SSDT table */
++    /* Put VMGNEID into a separate SSDT table */
 +    acpi_table_begin(&table, table_data);
      ssdt = init_aml_allocator();
+ 
+-    /* Reserve space for header */
 -    acpi_data_push(ssdt->buf, sizeof(AcpiTableHeader));
 -
-     sb_scope = aml_scope("\\_SB");
+     /* Storage for the GUID address */
+     vgia_offset = table_data->len +
+         build_append_named_dword(ssdt->buf, "VGIA");
+@@ -116,9 +116,8 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
+         ACPI_BUILD_TABLE_FILE, vgia_offset, sizeof(uint32_t),
+         VMGENID_GUID_FW_CFG_FILE, 0);
  
-     dev = aml_device("NVDR");
-@@ -1310,8 +1311,6 @@ static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
-     aml_append(sb_scope, dev);
-     aml_append(ssdt, sb_scope);
- 
--    nvdimm_ssdt = table_data->len;
--
-     /* copy AML table into ACPI tables blob and patch header there */
-     g_array_append_vals(table_data, ssdt->buf->data, ssdt->buf->len);
-     mem_addr_offset = build_append_named_dword(table_data,
-@@ -1323,10 +1322,13 @@ static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
-     bios_linker_loader_add_pointer(linker,
-         ACPI_BUILD_TABLE_FILE, mem_addr_offset, sizeof(uint32_t),
-         NVDIMM_DSM_MEM_FILE, 0);
 -    build_header(linker, table_data,
--        (void *)(table_data->data + nvdimm_ssdt),
--                 "SSDT", table_data->len - nvdimm_ssdt, 1, oem_id, "NVDIMM");
-     free_aml_allocator();
-+    /*
-+     * must be executed as the last so that pointer patching command above
-+     * would be executed by guest before it recalculated checksum which were
-+     * scheduled by acpi_table_end()
-+     */
+-        (void *)(table_data->data + table_data->len - ssdt->buf->len),
+-        "SSDT", ssdt->buf->len, 1, oem_id, "VMGENID");
++    /* must be called after above command to ensure correct table checksum */
 +    acpi_table_end(linker, &table);
+     free_aml_allocator();
  }
  
- void nvdimm_build_srat(GArray *table_data)
 -- 
 MST
 
