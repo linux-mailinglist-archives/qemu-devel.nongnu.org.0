@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BA14234B9
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 02:01:03 +0200 (CEST)
-Received: from localhost ([::1]:58000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD677423541
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 02:47:51 +0200 (CEST)
+Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXuMn-00078l-O3
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 20:01:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39864)
+	id 1mXv66-0000nL-55
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 20:47:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1mXuKR-0006Do-Ka
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 19:58:35 -0400
-Received: from hera.aquilenet.fr ([2a0c:e300::1]:49748)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mXv0v-0007yb-Nc; Tue, 05 Oct 2021 20:42:30 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:53441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1mXuKP-000284-QQ
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 19:58:35 -0400
-Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id 9A6A8362;
- Wed,  6 Oct 2021 01:58:29 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
- by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6f_ZCyCjiO2Z; Wed,  6 Oct 2021 01:58:28 +0200 (CEST)
-Received: from begin (acaen-652-1-186-147.w86-215.abo.wanadoo.fr
- [86.215.106.147])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id D34459E;
- Wed,  6 Oct 2021 01:58:27 +0200 (CEST)
-Received: from samy by begin with local (Exim 4.95)
- (envelope-from <samuel.thibault@gnu.org>) id 1mXuI9-00GfDj-NU;
- Wed, 06 Oct 2021 01:56:14 +0200
-Date: Wed, 6 Oct 2021 01:56:13 +0200
-From: Samuel Thibault <samuel.thibault@gnu.org>
-To: Nicholas Ngai <nicholas@ngai.me>
-Subject: Re: [PATCH] net/slirp: Use newer slirp_*_hostxfwd API
-Message-ID: <20211005235613.kuwbfixvp74sv5en@begin>
-References: <20210925214820.18078-1-nicholas@ngai.me>
- <8143f015-056c-6362-2d3e-7fed66aaffe7@ngai.me>
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mXv0p-0003j2-Vs; Tue, 05 Oct 2021 20:42:28 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4HPFyr09dnz4xbC; Wed,  6 Oct 2021 11:42:12 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1633480932;
+ bh=q7DFbNBwqchQFzE+LLoKcpg1ORgavd8QEKRnaj/qga4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=l0Nxa2BEu56wDv3ddmt0CiW8RcHwp78DXE9Whm0dXBmDoLTHrZRKXhyolCODShs04
+ rj3HWlHZn8cHVYKWqJ6RlpgnAWQ62y7J2ypI/hwPyEV4gYn+RAJbOwxEsJs+lDSZEy
+ 7tuF2rL6sf9K8piet8eI8BP2WrB29cDgZjbm8lto=
+Date: Tue, 5 Oct 2021 19:46:32 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v2] target/ppc: Fix the test raising the decrementer
+ exception
+Message-ID: <YVwQ6O/vVYdGkFnK@yekko>
+References: <20211005053324.441132-1-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="YdIbZBtMLAdBnFJi"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8143f015-056c-6362-2d3e-7fed66aaffe7@ngai.me>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-X-Spamd-Bar: --
-Authentication-Results: hera.aquilenet.fr
-X-Rspamd-Server: hera
-X-Rspamd-Queue-Id: 9A6A8362
-X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[3]; TO_DN_SOME(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- HAS_ORG_HEADER(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
- RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
- MID_RHS_NOT_FQDN(0.50)[]; BAYES_HAM(-3.00)[100.00%]
-Received-SPF: softfail client-ip=2a0c:e300::1;
- envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <20211005053324.441132-1-clg@kaod.org>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,164 +59,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nicholas Ngai, le sam. 25 sept. 2021 16:22:02 -0700, a ecrit:
-> Sorry for the duplicate email. The cc’s for the maintainers on the email
-> didn’t go through the first time.
-> 
-> Nicholas Ngai
-> 
-> On 9/25/21 2:48 PM, Nicholas Ngai wrote:
-> > libslirp provides a newer slirp_*_hostxfwd API meant for
-> > address-agnostic forwarding instead of the is_udp parameter which is
-> > limited to just TCP/UDP.
-> > 
-> > Signed-off-by: Nicholas Ngai <nicholas@ngai.me>
 
-Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+--YdIbZBtMLAdBnFJi
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > ---
-> >   net/slirp.c | 64 +++++++++++++++++++++++++++++++++++------------------
-> >   1 file changed, 42 insertions(+), 22 deletions(-)
-> > 
-> > diff --git a/net/slirp.c b/net/slirp.c
-> > index ad3a838e0b..49ae01a2f0 100644
-> > --- a/net/slirp.c
-> > +++ b/net/slirp.c
-> > @@ -643,12 +643,17 @@ static SlirpState *slirp_lookup(Monitor *mon, const char *id)
-> >   void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
-> >   {
-> > -    struct in_addr host_addr = { .s_addr = INADDR_ANY };
-> > -    int host_port;
-> > +    struct sockaddr_in host_addr = {
-> > +        .sin_family = AF_INET,
-> > +        .sin_addr = {
-> > +            .s_addr = INADDR_ANY,
-> > +        },
-> > +    };
-> > +    int port;
-> > +    int flags = 0;
-> >       char buf[256];
-> >       const char *src_str, *p;
-> >       SlirpState *s;
-> > -    int is_udp = 0;
-> >       int err;
-> >       const char *arg1 = qdict_get_str(qdict, "arg1");
-> >       const char *arg2 = qdict_get_try_str(qdict, "arg2");
-> > @@ -670,9 +675,9 @@ void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
-> >       }
-> >       if (!strcmp(buf, "tcp") || buf[0] == '\0') {
-> > -        is_udp = 0;
-> > +        /* Do nothing; already TCP. */
-> >       } else if (!strcmp(buf, "udp")) {
-> > -        is_udp = 1;
-> > +        flags |= SLIRP_HOSTFWD_UDP;
-> >       } else {
-> >           goto fail_syntax;
-> >       }
-> > @@ -680,15 +685,17 @@ void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
-> >       if (get_str_sep(buf, sizeof(buf), &p, ':') < 0) {
-> >           goto fail_syntax;
-> >       }
-> > -    if (buf[0] != '\0' && !inet_aton(buf, &host_addr)) {
-> > +    if (buf[0] != '\0' && !inet_aton(buf, &host_addr.sin_addr)) {
-> >           goto fail_syntax;
-> >       }
-> > -    if (qemu_strtoi(p, NULL, 10, &host_port)) {
-> > +    if (qemu_strtoi(p, NULL, 10, &port)) {
-> >           goto fail_syntax;
-> >       }
-> > +    host_addr.sin_port = htons(port);
-> > -    err = slirp_remove_hostfwd(s->slirp, is_udp, host_addr, host_port);
-> > +    err = slirp_remove_hostxfwd(s->slirp, (struct sockaddr *) &host_addr,
-> > +            sizeof(host_addr), flags);
-> >       monitor_printf(mon, "host forwarding rule for %s %s\n", src_str,
-> >                      err ? "not found" : "removed");
-> > @@ -700,12 +707,22 @@ void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
-> >   static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
-> >   {
-> > -    struct in_addr host_addr = { .s_addr = INADDR_ANY };
-> > -    struct in_addr guest_addr = { .s_addr = 0 };
-> > -    int host_port, guest_port;
-> > +    struct sockaddr_in host_addr = {
-> > +        .sin_family = AF_INET,
-> > +        .sin_addr = {
-> > +            .s_addr = INADDR_ANY,
-> > +        },
-> > +    };
-> > +    struct sockaddr_in guest_addr = {
-> > +        .sin_family = AF_INET,
-> > +        .sin_addr = {
-> > +            .s_addr = 0,
-> > +        },
-> > +    };
-> > +    int flags = 0;
-> > +    int port;
-> >       const char *p;
-> >       char buf[256];
-> > -    int is_udp;
-> >       char *end;
-> >       const char *fail_reason = "Unknown reason";
-> > @@ -715,9 +732,9 @@ static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
-> >           goto fail_syntax;
-> >       }
-> >       if (!strcmp(buf, "tcp") || buf[0] == '\0') {
-> > -        is_udp = 0;
-> > +        /* Do nothing; already TCP. */
-> >       } else if (!strcmp(buf, "udp")) {
-> > -        is_udp = 1;
-> > +        flags |= SLIRP_HOSTFWD_UDP;
-> >       } else {
-> >           fail_reason = "Bad protocol name";
-> >           goto fail_syntax;
-> > @@ -727,7 +744,7 @@ static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
-> >           fail_reason = "Missing : separator";
-> >           goto fail_syntax;
-> >       }
-> > -    if (buf[0] != '\0' && !inet_aton(buf, &host_addr)) {
-> > +    if (buf[0] != '\0' && !inet_aton(buf, &host_addr.sin_addr)) {
-> >           fail_reason = "Bad host address";
-> >           goto fail_syntax;
-> >       }
-> > @@ -736,29 +753,32 @@ static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
-> >           fail_reason = "Bad host port separator";
-> >           goto fail_syntax;
-> >       }
-> > -    host_port = strtol(buf, &end, 0);
-> > -    if (*end != '\0' || host_port < 0 || host_port > 65535) {
-> > +    port = strtol(buf, &end, 0);
-> > +    if (*end != '\0' || port < 0 || port > 65535) {
-> >           fail_reason = "Bad host port";
-> >           goto fail_syntax;
-> >       }
-> > +    host_addr.sin_port = htons(port);
-> >       if (get_str_sep(buf, sizeof(buf), &p, ':') < 0) {
-> >           fail_reason = "Missing guest address";
-> >           goto fail_syntax;
-> >       }
-> > -    if (buf[0] != '\0' && !inet_aton(buf, &guest_addr)) {
-> > +    if (buf[0] != '\0' && !inet_aton(buf, &guest_addr.sin_addr)) {
-> >           fail_reason = "Bad guest address";
-> >           goto fail_syntax;
-> >       }
-> > -    guest_port = strtol(p, &end, 0);
-> > -    if (*end != '\0' || guest_port < 1 || guest_port > 65535) {
-> > +    port = strtol(p, &end, 0);
-> > +    if (*end != '\0' || port < 1 || port > 65535) {
-> >           fail_reason = "Bad guest port";
-> >           goto fail_syntax;
-> >       }
-> > +    guest_addr.sin_port = htons(port);
-> > -    if (slirp_add_hostfwd(s->slirp, is_udp, host_addr, host_port, guest_addr,
-> > -                          guest_port) < 0) {
-> > +    if (slirp_add_hostxfwd(s->slirp, (struct sockaddr *) &host_addr,
-> > +                           sizeof(host_addr), (struct sockaddr *) &guest_addr,
-> > +                           sizeof(guest_addr), flags) < 0) {
-> >           error_setg(errp, "Could not set up host forwarding rule '%s'",
-> >                      redir_str);
-> >           return -1;
-> 
+On Tue, Oct 05, 2021 at 07:33:24AM +0200, C=E9dric Le Goater wrote:
+> Commit 4d9b8ef9b5ab ("target/ppc: Fix 64-bit decrementer") introduced
+> new int64t variables and broke the test triggering the decrementer
+> exception. Revert partially the change to evaluate both clause of the
+> if statement.
+>=20
+> Reported-by: Coverity CID 1464061
+> Fixes: 4d9b8ef9b5ab ("target/ppc: Fix 64-bit decrementer")
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+
+Applied to ppc-for-6.2 thanks.
+
+> ---
+>  hw/ppc/ppc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+> index f5d012f860af..a724b0bb5ecb 100644
+> --- a/hw/ppc/ppc.c
+> +++ b/hw/ppc/ppc.c
+> @@ -848,7 +848,7 @@ static void __cpu_ppc_store_decr(PowerPCCPU *cpu, uin=
+t64_t *nextp,
+>       * On MSB edge based DEC implementations the MSB going from 0 -> 1 t=
+riggers
+>       * an edge interrupt, so raise it here too.
+>       */
+> -    if ((signed_value < 3) ||
+> +    if ((value < 3) ||
+>          ((tb_env->flags & PPC_DECR_UNDERFLOW_LEVEL) && signed_value < 0)=
+ ||
+>          ((tb_env->flags & PPC_DECR_UNDERFLOW_TRIGGERED) && signed_value =
+< 0
+>            && signed_decr >=3D 0)) {
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--YdIbZBtMLAdBnFJi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFcEOUACgkQbDjKyiDZ
+s5IVWxAAp4w/tPnQ931DEkZ1XZHlBgUqDLtefNwRj0ZGAl0VFhd0G+ZB0ieqFCLm
+HcM6ZWQhkmaJl6M62vxtodrhRiOYs58Qif965sh/qfehGpG9YFe1wmf2Paa9HUIk
++glZGaM0bLbXVE+kX8s8Po0WC5EIPGn2K9x1axH4UQEtz9NERk/lUtSGiuy/kY3T
+MXp80CDQZVrrdappe+dV8c+flH06bdNmYawvgRMV4x9R4mGE+202fCaeLOqa4TfI
+9wWA6HOOdgbaKYn2LeLtbUO9Fdt7F/MueYoP/YtDh0/f2G0EMih/bOcZK1RLMA7w
+1/C3nZ1RX3ArsJE3IfwZvWICEDQOmdb04Qz2VvSNtc4nEGE3jmQjiEQ0K1yumefO
+NybphmxS5BZCpkVlu6HMLVbPn9uCp2+VW473XCXn8L5HMac7Ud01LeTBchjekm2f
+O51dCmaoU1xdK5ILisn0Ww5DMhJ3ao4OFGXQDWUvPW2btZdY1eFDioNduoa2zwNP
+qPvJRj7uhnYTvFV4MdSrxh/jkGkCTLEpOA1et0VuqKd7GmfNG3vT/D/qkFw+JfNF
+rh9nebH47scgUOnKXAlDyCE9wbcjJ6fwa8SVk11OrUb21K/NJjxykdsP4pZvePuO
+Me5OBOk+khAOTtmAI+WUALo4E3Lol0xUtJtHrSdOBPekE0QBlf0=
+=+/Z9
+-----END PGP SIGNATURE-----
+
+--YdIbZBtMLAdBnFJi--
 
