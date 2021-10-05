@@ -2,85 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED25423358
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 00:18:32 +0200 (CEST)
-Received: from localhost ([::1]:60400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6E942336D
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 00:22:50 +0200 (CEST)
+Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXsla-0001Rq-Kp
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 18:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51164)
+	id 1mXspl-0003Nj-HC
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 18:22:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mXsjn-0008P8-G9
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 18:16:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44099)
+ id 1mXsoN-0002hp-4m
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 18:21:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mXsjj-0008TG-8O
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 18:16:38 -0400
+ id 1mXsoH-000442-0b
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 18:21:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633472194;
+ s=mimecast20190719; t=1633472476;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HtcxNewNO1YYwC2gyzxOYC1wBMx5WkCMMbPwh2WAiwY=;
- b=VxRKoE8I1E3e0Mpho3mw6havqdroqnlsaEbNADEDIltayfvXUuSSSTJ/k3hFC4uHxCTiRp
- MgHDWShjhUjan3p88epsre6TZSXCi/t7t8MB0/jRX2yVX8Z8GpSzRmmEONf1xdIeFWq4nW
- NB/70zlnF+/smnwU3uZQb0UGPGGCRvM=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-wmBNhsgHNC-B62ZtSWzP0A-1; Tue, 05 Oct 2021 18:16:31 -0400
-X-MC-Unique: wmBNhsgHNC-B62ZtSWzP0A-1
-Received: by mail-ed1-f70.google.com with SMTP id
- h12-20020aa7c5cc000000b003dad185759bso679827eds.6
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 15:16:31 -0700 (PDT)
+ bh=DFs/+Vn5VN+/wSs+7IACFGOzN8bPSVX78Iqrou8kB8U=;
+ b=JsKXsudyL+mWBplYLyk8d1CQ5mbjsJcLR+2MjkoRO175ffQTBysmmNwhYSY2MZ978gzFgB
+ tAPnemowBiKh/jY4yE72NcgiXeWGUEhEyIFkU3GOebFcQKvMXWl4H1UE2vqj8lmTDluHGG
+ NQteBB7RKUXq6JW/Ai1ncbwPqj2ubnM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-YVe-5AVGMAaaLUbtYM0PcA-1; Tue, 05 Oct 2021 18:21:14 -0400
+X-MC-Unique: YVe-5AVGMAaaLUbtYM0PcA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ y15-20020a50ce0f000000b003dab997cf7dso682122edi.9
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 15:21:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=HtcxNewNO1YYwC2gyzxOYC1wBMx5WkCMMbPwh2WAiwY=;
- b=xGffVqLUEw8+6qokpkqzp47t5GjdfId0SK7An6AwvdMe1/ghDjYwrfZbal1CYrU6Fl
- pkqTJOMZxiiYqdS4VMsYhO8paIxGj60ZlfYQ5MCyPudPYpVhbkVFVbAXMQv+4ISmSUue
- TEM+ELazhGUCy6JP97O6b7P3jaLOBVPu1RPoyNE+q0iT9RO5NzQP+UwMPuXwP6KBhBTm
- CspeGz84gFP1eRfKImt9Q52LoIkUbjnIExiNIPMrhwg+RdMvGBw+Hr1FZpaUJNb15nZC
- 2wjGf9QlxGQG2UH8v5EKrddUWiKz0RClKvn7Fzyrxks5lB5fA15BUzSmmmF9yJd3QPO1
- j1Wg==
-X-Gm-Message-State: AOAM531hNaVeX2mk2tR/WxN9HM27ofuHaW+mKP7B+njj13KGU69tnRpp
- zzCsbhXPcQX0mk2fOSZOxjHOnM5WM5ICllD4vxifX87lxeVfm1ZZL2G0Y/mmVc9ImlMmFrywYBB
- 1eGyUcuNhvTgiAbM=
-X-Received: by 2002:a05:6402:3128:: with SMTP id
- dd8mr28557963edb.383.1633472190469; 
- Tue, 05 Oct 2021 15:16:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzL+hDN5Lubp1aDJUy+8b/IMIKD1wuATsThSa4pAasZJiz+0+waQyDkI2djzWYcxqnxFv1T1Q==
-X-Received: by 2002:a05:6402:3128:: with SMTP id
- dd8mr28557940edb.383.1633472190266; 
- Tue, 05 Oct 2021 15:16:30 -0700 (PDT)
+ bh=DFs/+Vn5VN+/wSs+7IACFGOzN8bPSVX78Iqrou8kB8U=;
+ b=YssRbYN75nN0rphNYnoFQW7TU43VWI1G1KpBWTlCkjqeZkaT2uOnvRQVtlOOtWguZr
+ kPSVAbF3YfFiCmWhGzyphgdnRTCDoDAcQUElzGQqEc9ExwZJVLynsd8ezAvagznd5YWh
+ HyXPZhhFTJf71A+LYiGy6CydCnLZEJS4dgBw3nedRvC+4R2Ab92Vw1wkhw4CIRKWlbTe
+ g22ko2RODBeKANtuf31n2vLZ/motM7t34IRkm9VUVXH8GliGWzc0Hkah7pIam9oPy/cy
+ 4n2/yJLFwQ6jIrXsVuTwXV7qNXeWMChNhJHHwRzUF7RalFbWon7wUOWQhevmPM7/2kpf
+ NgRw==
+X-Gm-Message-State: AOAM531s+Va9XZGir3+hbqzEVyNSioEX9oUARAV95yQdtJUQgdR4/B92
+ IcWMOoKIARG3zUY36NlSVYLnKghhmTo0vb8VvbYDhQqfKc7pWlWAz3Acr1FsqwehgjGnqrz0iXf
+ rLFu3yJ/Z08r/jkM=
+X-Received: by 2002:a17:906:5010:: with SMTP id
+ s16mr27812519ejj.245.1633472473048; 
+ Tue, 05 Oct 2021 15:21:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyDHdS66RgucX33CHJ1dt4k/1hKx6qI/sHvd6UU0AcChBglxDbW2QZkRpVIVqw3mUu62hcuag==
+X-Received: by 2002:a17:906:5010:: with SMTP id
+ s16mr27812502ejj.245.1633472472851; 
+ Tue, 05 Oct 2021 15:21:12 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
  ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id u4sm428493edj.33.2021.10.05.15.16.29
+ by smtp.gmail.com with ESMTPSA id s21sm6429313eji.3.2021.10.05.15.21.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 15:16:29 -0700 (PDT)
-Message-ID: <2499dfbd-e037-cc31-3004-3517bbbd9b31@redhat.com>
-Date: Wed, 6 Oct 2021 00:16:27 +0200
+ Tue, 05 Oct 2021 15:21:12 -0700 (PDT)
+Message-ID: <2726414d-1952-eb1e-3e74-f12fb0a9a669@redhat.com>
+Date: Wed, 6 Oct 2021 00:21:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH] tests/docker/dockerfiles: Bump fedora-i386-cross to
- fedora 34
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211005205846.153724-1-richard.henderson@linaro.org>
+Subject: Re: [RFC PATCH] meson.build: don't include libbpf in the common
+ source set
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20211005182443.2954499-1-alex.bennee@linaro.org>
+ <236eb940-67bd-c1a0-3fa5-d0449c3ee712@redhat.com>
+ <9eb86a53-de55-a1cc-0497-ed06ad795530@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211005205846.153724-1-richard.henderson@linaro.org>
+In-Reply-To: <9eb86a53-de55-a1cc-0497-ed06ad795530@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -102,54 +105,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/10/21 22:58, Richard Henderson wrote:
-> For unknown and unrepeatable reasons, the cross-i386-tci test has
-> started failing.  "Fix" this by updating the container to use fedora 34.
+On 05/10/21 22:25, Richard Henderson wrote:
+> On 10/5/21 12:27 PM, Paolo Bonzini wrote:
+>> On 05/10/21 20:24, Alex Bennée wrote:
+>>> This library is only needed for the softmmu targets and as such
+>>> break static *-user builds where libbpf is detected and it tries to
+>>> link it into the user binaries.
+>>>
+>>> Fixes: 46627f41b6 ("ebpf: Added eBPF RSS loader.")
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> ---
+>>>   meson.build | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meson.build b/meson.build
+>>> index 60f4f45165..d8bcf13b21 100644
+>>> --- a/meson.build
+>>> +++ b/meson.build
+>>> @@ -2307,7 +2307,7 @@ subdir('bsd-user')
+>>>   subdir('linux-user')
+>>>   subdir('ebpf')
+>>> -common_ss.add(libbpf)
+>>> +softmmu_ss.add(libbpf)
+>>
+>> It should not be needed at all, since ebpf/meson.build has
+>>
+>> softmmu_ss.add(when: libbpf, if_true: files('ebpf_rss.c'), if_false: 
+>> files('ebpf_rss-stub.c'))
+>>
+>> (which already adds libbpf if needed).
 > 
-> Add sysprof-capture-devel as a new dependency of glib2-devel that
-> was not correctly spelled out in the rpm rules.
-> 
-> Use dnf update Just In Case -- there are presently out-of-date
-> packages in the upstream docker registry.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tests/docker/dockerfiles/fedora-i386-cross.docker | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
-> index 820740d5be..f62a71ce22 100644
-> --- a/tests/docker/dockerfiles/fedora-i386-cross.docker
-> +++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
-> @@ -1,4 +1,5 @@
-> -FROM registry.fedoraproject.org/fedora:33
-> +FROM registry.fedoraproject.org/fedora:34
-> +
->   ENV PACKAGES \
->       bzip2 \
->       ccache \
-> @@ -20,10 +21,11 @@ ENV PACKAGES \
->       pcre-devel.i686 \
->       perl-Test-Harness \
->       pixman-devel.i686 \
-> +    sysprof-capture-devel.i686 \
->       zlib-devel.i686
->   
->   ENV QEMU_CONFIGURE_OPTS --cpu=i386 --disable-vhost-user
->   ENV PKG_CONFIG_LIBDIR /usr/lib/pkgconfig
->   
-> -RUN dnf install -y $PACKAGES
-> +RUN dnf update -y && dnf install -y $PACKAGES
->   RUN rpm -q $PACKAGES | sort > /packages.txt
-> 
+> Ooo, magic side effects.  I'll note that the manual doesn't say that it 
+> adds and dependencies from varnames_and_deps, only that it checks them.
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Good point, it's in an example above:
 
-I would say, go ahead and apply it to the tree directly to unbreak CI.
+# Include zlib.c if the zlib dependency was found, and link zlib
+# in the executable
+ss.add(when: zlib, if_true: files('zlib.c'))
 
 Paolo
 
