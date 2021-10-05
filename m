@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F09422EB2
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 19:04:57 +0200 (CEST)
-Received: from localhost ([::1]:43302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CFC8422F43
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 19:33:27 +0200 (CEST)
+Received: from localhost ([::1]:56482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXns8-0003bP-1L
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 13:04:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48296)
+	id 1mXoJi-0000pm-Ir
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 13:33:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmvx-0002RC-5c
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:04:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24444)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmw6-0002Sz-P2
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:05:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmvv-0007ca-Dx
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:04:48 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmw0-0007gE-73
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:04:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633449886;
+ s=mimecast20190719; t=1633449890;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OBdD4BTsDqZ+kiWNNePrFOaPe7shpwKkuU8DhGPxYvA=;
- b=iyaPr66FdhtxKOp8+nILsk8KOG0jjpnwTmxs74HJJ2p0JVm0Js+yLSAzwKOSmKwqT+tBXF
- NayUXB5VJzn6/yL1tnxJwe43f4TFqiLCgK1WHHm+Hush7VThafPOFIsukXlOtt2nf00gDW
- bbp2+E3Uzou5z81bl/qkwfH5deSjvZk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-5obmGbNHMiaTRc44bAtShA-1; Tue, 05 Oct 2021 12:04:45 -0400
-X-MC-Unique: 5obmGbNHMiaTRc44bAtShA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- f11-20020adfc98b000000b0015fedc2a8d4so5925863wrh.0
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:04:45 -0700 (PDT)
+ bh=AWC3XKuAFgu2XB5Lo01m20qnKYTT1H0S1+taYRlAw38=;
+ b=RSYaKQUWT4iLCFU+kzqCnYP/BuUBlfISO6I6pHgsYiU4n3Nn/nFC7tiO2zBpkRmMBQqyhK
+ VOtezlRow/FitoQc4l+TVSqZ07SzTt4QdTXi02YMqWdOmH0qA+Rrpz6pyG09Lkm4uejEfs
+ BkrNwKubqCGuZI9LZ/kt//2hNRrFGM4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-g90h6jhvPvWdijdanyzqHQ-1; Tue, 05 Oct 2021 12:04:49 -0400
+X-MC-Unique: g90h6jhvPvWdijdanyzqHQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ k16-20020a5d6290000000b00160753b430fso5912145wru.11
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:04:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=OBdD4BTsDqZ+kiWNNePrFOaPe7shpwKkuU8DhGPxYvA=;
- b=Kjg9F1TtFcDDMJiWMa42Hqi9fYx6xuS1iAV8YqCrrVCJuVccardKNzE1Yuv7lAuV1x
- W+6CZ0TdKhf7FMOf55qbeDY/PoDfXgEIVfPVTn9hJ50gfFkyEMJCxnerjXSw2tG4ZLiQ
- mM5RmC4zIcQ/inx9iVci7PqRiNXP32JZTx29nh4okbLNdRZjLQ1XCQ0wnyUVbt0xTyFF
- LvYl2EWweLWS52htHT5rTUNYYnyGLXddkXL/1lO2YOOB2JJVPoROigWeASbh4u6TrSS9
- OMCm11g7Yp36d7qWKumbnfezJYGkWowaVHw5nSuMe/Bh9xJMPFi6GHAjEIMy6O0OreRX
- Z00g==
-X-Gm-Message-State: AOAM533yKgK+y5/iJJnQSKTfzm1kfaDcUt3rRJVaJ2eJYrwhuoOX185R
- 6LB2RlYapXBFFgC5GiA+asS1v0PGo53PFK+Xv4iW+galQnii+zEe9Rc8Pivp+EJRI1ty7yzjxPh
- yniW7ExRWHDikwDb5T/d8UX2o4J5BC8KcohkBlL1I1oIXdCna/uozxY3ur7cd
-X-Received: by 2002:adf:b19c:: with SMTP id q28mr22689949wra.348.1633449884001; 
- Tue, 05 Oct 2021 09:04:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz+58O7IBu5nWgU/3KFkuRVy+jRco78nGALhIQdDb03zLkrwFJdF61w7+07Ia8Ot+z1O6TkGw==
-X-Received: by 2002:adf:b19c:: with SMTP id q28mr22689892wra.348.1633449883571; 
- Tue, 05 Oct 2021 09:04:43 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=AWC3XKuAFgu2XB5Lo01m20qnKYTT1H0S1+taYRlAw38=;
+ b=XxxptqSY7rksAOm5c9Lies10vK3vI93jFQMR3sjf5Zme7HYD20qBoSfonLmTlmYyJe
+ g6te4FeZPa52TE+4SVf+t+lx1mmVkP5vuqbcwW6hwUKOrBlOVu1a4OIQzka+TckUNMYQ
+ q1365ZUhGnudWt3YKtHFQZtDXU3GPqPCig/hDX408DTa5MTmEApePa/jVgvMbd5WdJjw
+ VAS6HvT2pW/2T5IXALwTFO3BXss82UOXqsNJBJRo4E+QMuHI+x0UGjJ8HbobCK7yfSNH
+ u6HlNj7NGN4AF/gh1mZH9MIMmPbxafccaxkXrD0MVsFZTBXIQwycvxOeE4h0gVBmrugT
+ 55Sg==
+X-Gm-Message-State: AOAM531JpQTNmIQVBADyxBzzoeMkHgIZuW2wt54i/P5NNbjD4B+1fWFK
+ aA31JoQXFNxXqyK5o8nulEQbKWrKj/ORWSsFD4kCrNiVMI9hSb6Oz5BRSkLHXDor77Y8UyHLtVE
+ lS6RiY/g7KHG6xmus+2VPUSoVsiVt+ruNKdffNOD7j4IHj0njLVWCM5R1C5Ro
+X-Received: by 2002:adf:b348:: with SMTP id k8mr21499685wrd.435.1633449887664; 
+ Tue, 05 Oct 2021 09:04:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxL779pJg6S8zSY/P+AXZWm2EOgp0/uZdVeEkbNfhh8pNw2MQiRB04/Dq7OEmBPMX15juWlrQ==
+X-Received: by 2002:adf:b348:: with SMTP id k8mr21499649wrd.435.1633449887465; 
+ Tue, 05 Oct 2021 09:04:47 -0700 (PDT)
 Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id m14sm2289062wmi.47.2021.10.05.09.04.40
+ by smtp.gmail.com with ESMTPSA id d24sm2229044wmb.35.2021.10.05.09.04.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 09:04:42 -0700 (PDT)
-Date: Tue, 5 Oct 2021 12:04:39 -0400
+ Tue, 05 Oct 2021 09:04:46 -0700 (PDT)
+Date: Tue, 5 Oct 2021 12:04:43 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 54/57] nvdimm: release the correct device list
-Message-ID: <20211005155946.513818-55-mst@redhat.com>
+Subject: [PULL 55/57] hw/i386/amd_iommu: Rename amdviPCI TypeInfo
+Message-ID: <20211005155946.513818-56-mst@redhat.com>
 References: <20211005155946.513818-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211005155946.513818-1-mst@redhat.com>
@@ -70,9 +72,10 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -93,70 +96,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
-Message-Id: <20210624110415.187164-1-lizhijian@cn.fujitsu.com>
+Per 'QEMU Coding Style':
+
+  Naming
+  ======
+  Variables are lower_case_with_underscores; easy to type and read.
+
+Rename amdviPCI variable as amdvi_pci.
+
+amdviPCI_register_types() register more than PCI types:
+TYPE_AMD_IOMMU_DEVICE inherits TYPE_X86_IOMMU_DEVICE which
+itself inherits TYPE_SYS_BUS_DEVICE.
+
+Rename it more generically as amdvi_register_types().
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210926175648.1649075-2-f4bug@amsat.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/acpi/nvdimm.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/i386/amd_iommu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 5f9b552d6a..0d43da19ea 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -339,10 +339,10 @@ nvdimm_build_structure_caps(GArray *structures, uint32_t capabilities)
+diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+index 2801dff97c..0c994facde 100644
+--- a/hw/i386/amd_iommu.c
++++ b/hw/i386/amd_iommu.c
+@@ -1621,7 +1621,7 @@ static const TypeInfo amdvi = {
+     .class_init = amdvi_class_init
+ };
  
- static GArray *nvdimm_build_device_structure(NVDIMMState *state)
+-static const TypeInfo amdviPCI = {
++static const TypeInfo amdvi_pci = {
+     .name = TYPE_AMD_IOMMU_PCI,
+     .parent = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(AMDVIPCIState),
+@@ -1645,11 +1645,11 @@ static const TypeInfo amdvi_iommu_memory_region_info = {
+     .class_init = amdvi_iommu_memory_region_class_init,
+ };
+ 
+-static void amdviPCI_register_types(void)
++static void amdvi_register_types(void)
  {
--    GSList *device_list = nvdimm_get_device_list();
-+    GSList *device_list, *list = nvdimm_get_device_list();
-     GArray *structures = g_array_new(false, true /* clear */, 1);
- 
--    for (; device_list; device_list = device_list->next) {
-+    for (device_list = list; device_list; device_list = device_list->next) {
-         DeviceState *dev = device_list->data;
- 
-         /* build System Physical Address Range Structure. */
-@@ -357,7 +357,7 @@ static GArray *nvdimm_build_device_structure(NVDIMMState *state)
-         /* build NVDIMM Control Region Structure. */
-         nvdimm_build_structure_dcr(structures, dev);
-     }
--    g_slist_free(device_list);
-+    g_slist_free(list);
- 
-     if (state->persistence) {
-         nvdimm_build_structure_caps(structures, state->persistence);
-@@ -1333,9 +1333,9 @@ static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
- 
- void nvdimm_build_srat(GArray *table_data)
- {
--    GSList *device_list = nvdimm_get_device_list();
-+    GSList *device_list, *list = nvdimm_get_device_list();
- 
--    for (; device_list; device_list = device_list->next) {
-+    for (device_list = list; device_list; device_list = device_list->next) {
-         DeviceState *dev = device_list->data;
-         Object *obj = OBJECT(dev);
-         uint64_t addr, size;
-@@ -1348,7 +1348,7 @@ void nvdimm_build_srat(GArray *table_data)
-         build_srat_memory(table_data, addr, size, node,
-                           MEM_AFFINITY_ENABLED | MEM_AFFINITY_NON_VOLATILE);
-     }
--    g_slist_free(device_list);
-+    g_slist_free(list);
+-    type_register_static(&amdviPCI);
++    type_register_static(&amdvi_pci);
+     type_register_static(&amdvi);
+     type_register_static(&amdvi_iommu_memory_region_info);
  }
  
- void nvdimm_build_acpi(GArray *table_offsets, GArray *table_data,
+-type_init(amdviPCI_register_types);
++type_init(amdvi_register_types);
 -- 
 MST
 
