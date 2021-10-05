@@ -2,62 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 928F4423318
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 23:55:02 +0200 (CEST)
-Received: from localhost ([::1]:48120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50017423339
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 00:07:52 +0200 (CEST)
+Received: from localhost ([::1]:51310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXsOr-0000b5-38
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 17:55:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46992)
+	id 1mXsbG-0003KH-UJ
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 18:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mXsNT-00087P-R4; Tue, 05 Oct 2021 17:53:35 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:17358)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXsZz-0002TO-CA
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 18:06:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mXsNQ-0001Bc-LE; Tue, 05 Oct 2021 17:53:35 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 861047462D3;
- Tue,  5 Oct 2021 23:53:26 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4F569745953; Tue,  5 Oct 2021 23:53:26 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 4C5677457EE;
- Tue,  5 Oct 2021 23:53:26 +0200 (CEST)
-Date: Tue, 5 Oct 2021 23:53:26 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: Deprecate the ppc405 boards in QEMU?
-In-Reply-To: <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
-Message-ID: <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
-References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
- <20210927044808.73391-5-david@gibson.dropbear.id.au>
- <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
- <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
- <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
- <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
- <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
- <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
- <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
- <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
- <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
- <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
- <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
- <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
- <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
- <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
- <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXsZt-0006x4-Ez
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 18:06:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633471583;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wHugOYUmmxTiYsvxtnInuiY1XFnwpCeSjjJp3uHpqgM=;
+ b=VGnkh2xTUEFEVy3OhZLIAgJCeW4RLa2Sbgye9QSmnZF+wN77nnyod8x9hkJOVFOBerfOZt
+ GYNKdEj8WkjwPGtZnPtgskoj0O3vaxl7WAznrtmZ4FdTPpk+5AeDD+llHiWsSUeGGLURQf
+ ED8G+SQ0K8JqZoof+SW9pnIu/Da4tfo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-O01MopyaOi-uGgfNB-8iEA-1; Tue, 05 Oct 2021 18:06:20 -0400
+X-MC-Unique: O01MopyaOi-uGgfNB-8iEA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ c8-20020a50d648000000b003daa53c7518so595675edj.21
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 15:06:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wHugOYUmmxTiYsvxtnInuiY1XFnwpCeSjjJp3uHpqgM=;
+ b=psoNRLgXvN2N5X8yGFao996iNtBccJYGOOL1m7VED9MbPIvuwr5Y8XlhqxnIMJmh+k
+ lIfKLAohoKgzMtkxn8LBk8DbkVdTMadyPYCXljOCcFoeWAmMq1WdEaxYN+hWFvndiIyW
+ sXXTrw6RHJxTondrUu5LxDlz1ukszfQGbvfAtcmellnyi8Ur2MmgwTE5JMRQzUft1ErP
+ LDbrOeLkhoiT74+oWlzdXWR2risuqNXbcJND/JS7zIKyHzWBWFjzybxest1mvuNa5gTE
+ dDB23LoP9c0uN6kv93Uc5dm46W656WtgZpP310FbcriLqstodKJB/IHf6Mca0aBSzSxe
+ z0qA==
+X-Gm-Message-State: AOAM531ZldmCtFZqFofTC8f/+2jsT4byh3RDAZFpXoLtY2T5vZQeRsF9
+ 3dYB/sW47d6xUrnQt0R3ch5FQdCbMvGZCxGb/tHKelLQBl2L9OnfXku9ZKEG3eg+9j+b/nRgVNb
+ rsrv3pSl94ITZqoM=
+X-Received: by 2002:a17:907:a411:: with SMTP id
+ sg17mr27956083ejc.412.1633471579590; 
+ Tue, 05 Oct 2021 15:06:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzSC/71d6AaZ99FA/sJhF0iEn+CYc6Z85l/eUlOiTU5prJdsG7v1wSGkHzq/GvrilnbBAU6Jg==
+X-Received: by 2002:a17:907:a411:: with SMTP id
+ sg17mr27956031ejc.412.1633471579264; 
+ Tue, 05 Oct 2021 15:06:19 -0700 (PDT)
+Received: from redhat.com ([2.55.147.134])
+ by smtp.gmail.com with ESMTPSA id 6sm8326134ejx.82.2021.10.05.15.06.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 15:06:18 -0700 (PDT)
+Date: Tue, 5 Oct 2021 18:06:14 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v0 0/2] virtio-blk and vhost-user-blk cross-device
+ migration
+Message-ID: <20211005175503-mutt-send-email-mst@kernel.org>
+References: <20211004150731.191270-1-den-plotnikov@yandex-team.ru>
+ <20211004110855-mutt-send-email-mst@kernel.org>
+ <YVuL0FRN5ilRN2Pd@rvkaganb.lan>
+ <20211005024754-mutt-send-email-mst@kernel.org>
+ <YVxaodahFBOvANL0@work-vm>
+ <20211005161008.iq5ao7t2sdqeo6kc@habkost.net>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1608973684-1633470806=:46203"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211005161008.iq5ao7t2sdqeo6kc@habkost.net>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,179 +99,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
- Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
- Alexey Kardashevskiy <aik@ozlabs.ru>, Greg Kurz <groug@kaod.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
- Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, Denis Plotnikov <den-plotnikov@yandex-team.ru>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, raphael.norwitz@nutanix.com,
+ Roman Kagan <rvkagan@yandex-team.ru>, yc-core@yandex-team.ru,
+ pbonzini@redhat.com,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Tue, Oct 05, 2021 at 12:10:08PM -0400, Eduardo Habkost wrote:
+> On Tue, Oct 05, 2021 at 03:01:05PM +0100, Dr. David Alan Gilbert wrote:
+> > * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > > On Tue, Oct 05, 2021 at 02:18:40AM +0300, Roman Kagan wrote:
+> > > > On Mon, Oct 04, 2021 at 11:11:00AM -0400, Michael S. Tsirkin wrote:
+> > > > > On Mon, Oct 04, 2021 at 06:07:29PM +0300, Denis Plotnikov wrote:
+> > > > > > It might be useful for the cases when a slow block layer should be replaced
+> > > > > > with a more performant one on running VM without stopping, i.e. with very low
+> > > > > > downtime comparable with the one on migration.
+> > > > > > 
+> > > > > > It's possible to achive that for two reasons:
+> > > > > > 
+> > > > > > 1.The VMStates of "virtio-blk" and "vhost-user-blk" are almost the same.
+> > > > > >   They consist of the identical VMSTATE_VIRTIO_DEVICE and differs from
+> > > > > >   each other in the values of migration service fields only.
+> > > > > > 2.The device driver used in the guest is the same: virtio-blk
+> > > > > > 
+> > > > > > In the series cross-migration is achieved by adding a new type.
+> > > > > > The new type uses virtio-blk VMState instead of vhost-user-blk specific
+> > > > > > VMstate, also it implements migration save/load callbacks to be compatible
+> > > > > > with migration stream produced by "virtio-blk" device.
+> > > > > > 
+> > > > > > Adding the new type instead of modifying the existing one is convenent.
+> > > > > > It ease to differ the new virtio-blk-compatible vhost-user-blk
+> > > > > > device from the existing non-compatible one using qemu machinery without any
+> > > > > > other modifiactions. That gives all the variety of qemu device related
+> > > > > > constraints out of box.
+> > > > > 
+> > > > > Hmm I'm not sure I understand. What is the advantage for the user?
+> > > > > What if vhost-user-blk became an alias for vhost-user-virtio-blk?
+> > > > > We could add some hacks to make it compatible for old machine types.
+> > > > 
+> > > > The point is that virtio-blk and vhost-user-blk are not
+> > > > migration-compatible ATM.  OTOH they are the same device from the guest
+> > > > POV so there's nothing fundamentally preventing the migration between
+> > > > the two.  In particular, we see it as a means to switch between the
+> > > > storage backend transports via live migration without disrupting the
+> > > > guest.
+> > > > 
+> > > > Migration-wise virtio-blk and vhost-user-blk have in common
+> > > > 
+> > > > - the content of the VMState -- VMSTATE_VIRTIO_DEVICE
+> > > > 
+> > > > The two differ in
+> > > > 
+> > > > - the name and the version of the VMStateDescription
+> > > > 
+> > > > - virtio-blk has an extra migration section (via .save/.load callbacks
+> > > >   on VirtioDeviceClass) containing requests in flight
+> > > > 
+> > > > It looks like to become migration-compatible with virtio-blk,
+> > > > vhost-user-blk has to start using VMStateDescription of virtio-blk and
+> > > > provide compatible .save/.load callbacks.  It isn't entirely obvious how
+> > > > to make this machine-type-dependent, so we came up with a simpler idea
+> > > > of defining a new device that shares most of the implementation with the
+> > > > original vhost-user-blk except for the migration stuff.  We're certainly
+> > > > open to suggestions on how to reconcile this under a single
+> > > > vhost-user-blk device, as this would be more user-friendly indeed.
+> > > > 
+> > > > We considered using a class property for this and defining the
+> > > > respective compat clause, but IIUC the class constructors (where .vmsd
+> > > > and .save/.load are defined) are not supposed to depend on class
+> > > > properties.
+> > > > 
+> > > > Thanks,
+> > > > Roman.
+> > > 
+> > > So the question is how to make vmsd depend on machine type.
+> > > CC Eduardo who poked at this kind of compat stuff recently,
+> > > paolo who looked at qom things most recently and dgilbert
+> > > for advice on migration.
+> > 
+> > I don't think I've seen anyone change vmsd name dependent on machine
+> > type; making fields appear/disappear is easy - that just ends up as a
+> > property on the device that's checked;  I guess if that property is
+> > global (rather than per instance) then you can check it in
+> > vhost_user_blk_class_init and swing the dc->vmsd pointer?
+> 
+> class_init can be called very early during QEMU initialization,
+> so it's too early to make decisions based on machine type.
+> 
+> Making a specific vmsd appear/disappear based on machine
+> configuration or state is "easy", by implementing
+> VMStateDescription.needed.  But this would require registering
+> both vmsds (one of them would need to be registered manually
+> instead of using DeviceClass.vmsd).
+> 
+> I don't remember what are the consequences of not using
+> DeviceClass.vmsd to register a vmsd, I only remember it was
+> subtle.  See commit b170fce3dd06 ("cpu: Register
+> VMStateDescription through CPUState") and related threads.  CCing
+> Philippe, who might remember the details here.
+> 
+> If that's an important use case, I would suggest allowing devices
+> to implement a DeviceClass.get_vmsd method, which would override
+> DeviceClass.vmsd if necessary.  Is the problem we're trying to
+> address worth the additional complexity?
 
---3866299591-1608973684-1633470806=:46203
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+The tricky part is that we generally dont support migration when
+command line is different on source and destination ...
 
-On Tue, 5 Oct 2021, Thomas Huth wrote:
-> On 05/10/2021 14.17, BALATON Zoltan wrote:
->> On Tue, 5 Oct 2021, Thomas Huth wrote:
->>> On 05/10/2021 10.07, Thomas Huth wrote:
->>>> On 05/10/2021 10.05, Alexey Kardashevskiy wrote:
->>> [...]
->>>>> What is so special about taihu?
->>>> 
->>>> taihu is the other 405 board defined in hw/ppc/ppc405_boards.c (which I 
->>>> suggested to deprecate now)
->>> 
->>> I've now also played with the u-boot sources a little bit, and with some 
->>> bit of tweaking, it's indeed possible to compile the old taihu board 
->>> there. However, it does not really work with QEMU anymore, it immediately 
->>> triggers an assert():
->>> 
->>> $ qemu-system-ppc -M taihu -bios u-boot.bin -serial null -serial mon:stdio
->>> **
->>> ERROR:accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion failed: 
->>> (qemu_mutex_iothread_locked())
->>> Aborted (core dumped)
->> 
->> Maybe it's similar to this: 2025fc6766ab25501e0041c564c44bb0f7389774 The 
->> helper_load_dcr() and helper_store_dcr() in target/ppc/timebase_helper.c 
->> seem to lock/unlock the iothread but I'm not sure if that's necessary. Also 
->> not sure why this does not happen with 460ex but that maybe uses different 
->> code.
->
-> It's rather the other way round, the locking is missing here instead. I can 
-> get the serial output with the current QEMU when I add the following patch 
-> (not sure whether that's the right spot, though):
->
-> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-> index f5d012f860..bb57f1c9ed 100644
-> --- a/hw/ppc/ppc.c
-> +++ b/hw/ppc/ppc.c
-> @@ -336,6 +336,8 @@ void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
-> {
->     PowerPCCPU *cpu = env_archcpu(env);
->
-> +    qemu_mutex_lock_iothread();
-> +
->     switch ((val >> 28) & 0x3) {
->     case 0x0:
->         /* No action */
-> @@ -353,6 +355,8 @@ void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
->         ppc40x_system_reset(cpu);
->         break;
->     }
-> +
-> +    qemu_mutex_unlock_iothread();
-> }
->
-> /* PowerPC 40x internal IRQ controller */
->
->
->>> Going back to QEMU v2.3.0, I can see at least a little bit of output, but 
->>> it then also triggers an assert() during DRAM initialization:
->>> 
->>> $ qemu-system-ppc -M taihu -bios u-boot.bin -serial null -serial mon:stdio
->>> 
->>> Reset PowerPC core
->>> 
->>> U-Boot 2014.10-rc2-00123-g461be2f96e-dirty (Oct 05 2021 - 10:02:56)
->>> 
->>> CPU:   AMCC PowerPC 405EP Rev. B at 770 MHz (PLB=256 OPB=128 EBC=128)
->>>       I2C boot EEPROM disabled
->>>       Internal PCI arbiter enabled
->>>       16 KiB I-Cache 16 KiB D-Cache
->>> Board: Taihu - AMCC PPC405EP Evaluation Board
->>> I2C:   ready
->>> DRAM:  qemu-system-ppc: memory.c:1693: memory_region_del_subregion: 
->>> Assertion `subregion->container == mr' failed.
->>> Aborted (core dumped)
+So maybe the actual answer is that vhost-user-blk should really
+be a drive supplied to a virtio blk device, not a device
+itself?
+This way it's sane, and also matches what we do e.g. for net.
 
-The assert can be avoided with this patch:
+-- 
+MST
 
-diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-index 980c48944f..3a4a094772 100644
---- a/hw/ppc/ppc4xx_devs.c
-+++ b/hw/ppc/ppc4xx_devs.c
-@@ -169,7 +170,8 @@ static target_ulong sdram_size (uint32_t bcr)
-  static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int i,
-                            uint32_t bcr, int enabled)
-  {
--    if (sdram->bcr[i] & 0x00000001) {
-+    if (sdram->bcr[i] & 0x00000001 &&
-+        memory_region_is_mapped(&sdram->containers[i])) {
-          /* Unmap RAM */
-  #ifdef DEBUG_SDRAM
-          printf("%s: unmap RAM area " TARGET_FMT_plx " " TARGET_FMT_lx "\n",
-@@ -220,8 +222,7 @@ static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
-          printf("%s: Unmap RAM area " TARGET_FMT_plx " " TARGET_FMT_lx "\n",
-                 __func__, sdram_base(sdram->bcr[i]), sdram_size(sdram->bcr[i]));
-  #endif
--        memory_region_del_subregion(get_system_memory(),
--                                    &sdram->ram_memories[i]);
-+        sdram_set_bcr(sdram, i, 0x00000000, 0);
-      }
-  }
-
-
-which then detects 128MiB RAM but leaves the controller disabled and thus 
-RAM unmapped then it does not continue (not sure if because of disabled 
-SDRAM controller or some other reason). I get this with #define DEBUG_SDRAM:
-
-Board: Taihu - AMCC PPC405EP Evaluation Board
-I2C:   ready
-DRAM:  dcr_write_sdram: enable SDRAM controller
-sdram_set_bcr: Map RAM area 0000000000000000 04000000
-sdram_set_bcr: Map RAM area 0000000004000000 04000000
-dcr_write_sdram: disable SDRAM controller
-sdram_unmap_bcr: Unmap RAM area 0000000000000000 04000000
-sdram_set_bcr: unmap RAM area 0000000000000000 04000000
-sdram_unmap_bcr: Unmap RAM area 0000000004000000 04000000
-sdram_set_bcr: unmap RAM area 0000000004000000 04000000
-dcr_write_sdram: enable SDRAM controller
-sdram_set_bcr: Map RAM area 0000000000000000 04000000
-sdram_set_bcr: Map RAM area 0000000004000000 04000000
-sdram_set_bcr: unmap RAM area 0000000004000000 04000000
-dcr_write_sdram: disable SDRAM controller
-sdram_unmap_bcr: Unmap RAM area 0000000000000000 04000000
-sdram_set_bcr: unmap RAM area 0000000000000000 04000000
-sdram_unmap_bcr: Unmap RAM area 0000000000000000 00400000
-128 MiB
-
-If this is simliar to the sam460ex u-boot then AFAIR that looks for SPD 
-data from memory modules and sets up RAM according to those at this point 
-(probably the same here as there's an i2c init before DRAM) then also runs 
-some speed calibration routine that may need more registers emulated for 
-the SDRAM controller. We have very similar code for the PPC440 based 460ex 
-in ppc440_uc that I think I've copied from this and modified to work with 
-the sam460ex u-boot. This could be cleaned up to share common code more 
-but these may have slightly different registers and the bcr value is 
-different too which is dependent on the supported memory sizes that are 
-different between the two SoCs.
-
-Maybe these 405 boards in QEMU ran with modified firmware where the memory 
-detection was patched out but it seems to detect the RAM so I wonder where 
-it gets that from. Maybe by reading the SDRAM controller DCRs 
-ppc4xx_sdram_init() sets up. Then I'm not sure what it needs the SPD for, 
-I forgot how this worked on sam460ex. Maybe for the speed calibration, so 
-could be it detects ram by reading DCRs then tries to get SPD data and 
-that's where it stops as i2c is not emulated on taihu. This could be 
-confirmed by checking what it pokes with -d guest_errors that shows 
-accesses to missing devices but don't know where 405 has the i2c 
-controller and if it's the same as newer SoCs. If so that could be reused 
-and an i2c bus could be added with the SPD data like in sam460ex to make 
-u-boot happy or you could skip this in u-boot.
-
-Regards,
-BALATON Zoltan
---3866299591-1608973684-1633470806=:46203--
 
