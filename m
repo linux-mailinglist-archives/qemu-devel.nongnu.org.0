@@ -2,88 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCFD42208C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 10:19:52 +0200 (CEST)
-Received: from localhost ([::1]:37796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E5D4220A8
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 10:26:04 +0200 (CEST)
+Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXffz-00035M-Cp
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 04:19:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48344)
+	id 1mXflz-0003qO-88
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 04:26:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXfcA-0006eN-9n
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 04:15:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38749)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1mXffu-000536-QA; Tue, 05 Oct 2021 04:19:46 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:60238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXfc8-00025w-T9
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 04:15:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633421751;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GWK9jhYHAz16BVu0V3LktixTLTLqMth4byPzqPPXRzM=;
- b=B1iA5uHp6OJjm/guRc9/cDsBW9rsbLJpXkZ9cYJj4ybFfm7PteXn+uy4chlyQkjCTA+muo
- 6eqNUNIOAhnHIQU813JfgkRUWoOCb1zkoTx7lBOXghgmRC2Mv5p9T20xQXLEJRys1MPAfV
- 1m2NcoaGuKyKJ1ZrRNYNf2cxuL1mAyE=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-nZeKZt6vNTm9FGEjcakmKQ-1; Tue, 05 Oct 2021 04:15:48 -0400
-X-MC-Unique: nZeKZt6vNTm9FGEjcakmKQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- y15-20020a50ce0f000000b003dab997cf7dso16356830edi.9
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 01:15:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=GWK9jhYHAz16BVu0V3LktixTLTLqMth4byPzqPPXRzM=;
- b=qVOD/hU8mBHmJk+WTfU0aH1GupAXpZXWUqfP9RX0QihSloeZOh6CDYxeQeQ803p4rF
- EKSTS/r3qxHM828HPq5yOCqf4ied+PUfcetXJpVNnvdzSieN/IYnjJcGZLzxj8prOQet
- RdwKq+PInm2YJridXIH2uv6R6nYEH5z5/BN23pgh25vYIhLQ3J5cKOJk5R4C+XH0EJvZ
- vZiQKfDYv9AVziyne4uBiMsyfnR24BqAegtpMCO5YIvMe2Ibn1Y5+iVrkVCEJNgyreQa
- lNhBk9tVfBzVsSae4YqUd3hBzp+tohHu5LOIn/+Y+jJWR7RZwKLkzFB6vHTOVyI0TrLe
- aQ7A==
-X-Gm-Message-State: AOAM531r4gdZpVohX/PiEpY19mCJR2ISdmaikIkoT15auhj94pyp9Ezm
- BzsBxv8o0WuV6OsbU3/pbNCyd122nX7aDAP+ikCwJrbSc/Nfj5Xe2SjW6TpZ5f3/+qfX9XG4Y/m
- aDvf1/LH+lVAq6eA=
-X-Received: by 2002:a17:906:2506:: with SMTP id
- i6mr22661455ejb.186.1633421747514; 
- Tue, 05 Oct 2021 01:15:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxyp4YSodXDYgZa9apzHQbUL+ooKe4LzYLJ9sj3uKlP/MO0rUF0FZcxHp7ME/b9/xv4DfDqaA==
-X-Received: by 2002:a17:906:2506:: with SMTP id
- i6mr22661442ejb.186.1633421747353; 
- Tue, 05 Oct 2021 01:15:47 -0700 (PDT)
-Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id i10sm8525891edl.15.2021.10.05.01.15.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 01:15:46 -0700 (PDT)
-Date: Tue, 5 Oct 2021 04:15:43 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Subject: Re: [PATCH 2/3] vdpa: Add vhost_vdpa_section_end
-Message-ID: <20211005041429-mutt-send-email-mst@kernel.org>
-References: <20211005080131.408506-1-eperezma@redhat.com>
- <20211005080131.408506-3-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1mXffs-000563-9l; Tue, 05 Oct 2021 04:19:46 -0400
+X-Footer: a2FtcC5kZQ==
+Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
+ by kerio.kamp.de with ESMTPSA
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
+ Tue, 5 Oct 2021 10:19:34 +0200
+Subject: Re: [PATCH V3] block/rbd: implement bdrv_co_block_status
+To: Ilya Dryomov <idryomov@gmail.com>
+References: <20210916122116.802-1-pl@kamp.de>
+ <CAOi1vP8_em_m=orH+5L+164+7EgD+JD_5kmrh=mWBMjZSe79kg@mail.gmail.com>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <8a6c60cb-ef5b-44a9-1872-27937a3a6967@kamp.de>
+Date: Tue, 5 Oct 2021 10:19:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20211005080131.408506-3-eperezma@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <CAOi1vP8_em_m=orH+5L+164+7EgD+JD_5kmrh=mWBMjZSe79kg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,72 +55,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 05, 2021 at 10:01:30AM +0200, Eugenio Pérez wrote:
-> Abstract this operation, that will be reused when validating the region
-> against the iova range that the device supports.
-> 
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Am 05.10.21 um 09:54 schrieb Ilya Dryomov:
+> On Thu, Sep 16, 2021 at 2:21 PM Peter Lieven <pl@kamp.de> wrote:
+>> the qemu rbd driver currently lacks support for bdrv_co_block_status.
+>> This results mainly in incorrect progress during block operations (e.g.
+>> qemu-img convert with an rbd image as source).
+>>
+>> This patch utilizes the rbd_diff_iterate2 call from librbd to detect
+>> allocated and unallocated (all zero areas).
+>>
+>> To avoid querying the ceph OSDs for the answer this is only done if
+>> the image has the fast-diff feature which depends on the object-map and
+>> exclusive-lock features. In this case it is guaranteed that the information
+>> is present in memory in the librbd client and thus very fast.
+>>
+>> If fast-diff is not available all areas are reported to be allocated
+>> which is the current behaviour if bdrv_co_block_status is not implemented.
+>>
+>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>> ---
+>> V2->V3:
+>> - check rbd_flags every time (they can change during runtime) [Ilya]
+>> - also check for fast-diff invalid flag [Ilya]
+>> - *map and *file cant be NULL [Ilya]
+>> - set ret = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID in case of an
+>>    unallocated area [Ilya]
+>> - typo: catched -> caught [Ilya]
+>> - changed wording about fast-diff, object-map and exclusive lock in
+>>    commit msg [Ilya]
+>>
+>> V1->V2:
+>> - add commit comment [Stefano]
+>> - use failed_post_open [Stefano]
+>> - remove redundant assert [Stefano]
+>> - add macro+comment for the magic -9000 value [Stefano]
+>> - always set *file if its non NULL [Stefano]
+>>
+>>   block/rbd.c | 126 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 126 insertions(+)
+>>
+>> diff --git a/block/rbd.c b/block/rbd.c
+>> index dcf82b15b8..3cb24f9981 100644
+>> --- a/block/rbd.c
+>> +++ b/block/rbd.c
+>> @@ -1259,6 +1259,131 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
+>>       return spec_info;
+>>   }
+>>
+>> +typedef struct rbd_diff_req {
+>> +    uint64_t offs;
+>> +    uint64_t bytes;
+>> +    int exists;
+> Hi Peter,
+>
+> Nit: make exists a bool.  The one in the callback has to be an int
+> because of the callback signature but let's not spread that.
+>
+>> +} rbd_diff_req;
+>> +
+>> +/*
+>> + * rbd_diff_iterate2 allows to interrupt the exection by returning a negative
+>> + * value in the callback routine. Choose a value that does not conflict with
+>> + * an existing exitcode and return it if we want to prematurely stop the
+>> + * execution because we detected a change in the allocation status.
+>> + */
+>> +#define QEMU_RBD_EXIT_DIFF_ITERATE2 -9000
+>> +
+>> +static int qemu_rbd_co_block_status_cb(uint64_t offs, size_t len,
+>> +                                       int exists, void *opaque)
+>> +{
+>> +    struct rbd_diff_req *req = opaque;
+>> +
+>> +    assert(req->offs + req->bytes <= offs);
+>> +
+>> +    if (req->exists && offs > req->offs + req->bytes) {
+>> +        /*
+>> +         * we started in an allocated area and jumped over an unallocated area,
+>> +         * req->bytes contains the length of the allocated area before the
+>> +         * unallocated area. stop further processing.
+>> +         */
+>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+>> +    }
+>> +    if (req->exists && !exists) {
+>> +        /*
+>> +         * we started in an allocated area and reached a hole. req->bytes
+>> +         * contains the length of the allocated area before the hole.
+>> +         * stop further processing.
+>> +         */
+>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+> Do you have a test case for when this branch is taken?
 
-Note that as defined end is actually 1 byte beyond end of section.
-As such it can e.g. overflow if cast to u64.
-So be careful to use int128 ops with it.
-Also - document?
 
-> ---
->  hw/virtio/vhost-vdpa.c | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index ea1aa71ad8..a1de6c7c9c 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -24,6 +24,15 @@
->  #include "trace.h"
->  #include "qemu-common.h"
->  
-> +static Int128 vhost_vdpa_section_end(const MemoryRegionSection *section)
-> +{
-> +    Int128 llend = int128_make64(section->offset_within_address_space);
-> +    llend = int128_add(llend, section->size);
-> +    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
-> +
-> +    return llend;
-> +}
-> +
->  static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
->  {
->      return (!memory_region_is_ram(section->mr) &&
-> @@ -160,10 +169,7 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
->      }
->  
->      iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
-> -    llend = int128_make64(section->offset_within_address_space);
-> -    llend = int128_add(llend, section->size);
-> -    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
-> -
-> +    llend = vhost_vdpa_section_end(section);
->      if (int128_ge(int128_make64(iova), llend)) {
->          return;
->      }
-> @@ -221,9 +227,7 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
->      }
->  
->      iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
-> -    llend = int128_make64(section->offset_within_address_space);
-> -    llend = int128_add(llend, section->size);
-> -    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
-> +    llend = vhost_vdpa_section_end(section);
->  
->      trace_vhost_vdpa_listener_region_del(v, iova, int128_get64(llend));
->  
-> -- 
-> 2.27.0
+That would happen if you diff from a snapshot, the question is if it can also happen if the image is a clone from a snapshot?
+
+
+>
+>> +    }
+>> +    if (!req->exists && exists && offs > req->offs) {
+>> +        /*
+>> +         * we started in an unallocated area and hit the first allocated
+>> +         * block. req->bytes must be set to the length of the unallocated area
+>> +         * before the allocated area. stop further processing.
+>> +         */
+>> +        req->bytes = offs - req->offs;
+>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+>> +    }
+>> +
+>> +    /*
+>> +     * assert that we caught all cases above and allocation state has not
+>> +     * changed during callbacks.
+>> +     */
+>> +    assert(exists == req->exists || !req->bytes);
+>> +    req->exists = exists;
+>> +
+>> +    /*
+>> +     * assert that we either return an unallocated block or have got callbacks
+>> +     * for all allocated blocks present.
+>> +     */
+>> +    assert(!req->exists || offs == req->offs + req->bytes);
+>> +    req->bytes = offs + len - req->offs;
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
+>> +                                                 bool want_zero, int64_t offset,
+>> +                                                 int64_t bytes, int64_t *pnum,
+>> +                                                 int64_t *map,
+>> +                                                 BlockDriverState **file)
+>> +{
+>> +    BDRVRBDState *s = bs->opaque;
+>> +    int ret, r;
+> Nit: I would rename ret to status or something like that to make
+> it clear(er) that it is an actual value and never an error.  Or,
+> even better, drop it entirely and return one of the two bitmasks
+> directly.
+>
+>> +    struct rbd_diff_req req = { .offs = offset };
+>> +    uint64_t features, flags;
+>> +
+>> +    assert(offset + bytes <= s->image_size);
+>> +
+>> +    /* default to all sectors allocated */
+>> +    ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
+>> +    *map = offset;
+>> +    *file = bs;
+>> +    *pnum = bytes;
+>> +
+>> +    /* check if RBD image supports fast-diff */
+>> +    r = rbd_get_features(s->image, &features);
+>> +    if (r < 0) {
+>> +        goto out;
+>> +    }
+>> +    if (!(features & RBD_FEATURE_FAST_DIFF)) {
+>> +        goto out;
+>> +    }
+>> +
+>> +    /* check if RBD fast-diff result is valid */
+>> +    r = rbd_get_flags(s->image, &flags);
+>> +    if (r < 0) {
+>> +        goto out;
+>> +    }
+>> +    if (flags & RBD_FLAG_FAST_DIFF_INVALID) {
+>> +        goto out;
+> Nit: I'm not a fan of labels that cover just the return statement.
+> Feel free to ignore this one but I would get rid of it and replace
+> these gotos with returns.
+
+
+That would be return with the bitmask directly coded in if I also
+
+drop the ret variable. I can change that, no problem.
+
+
+>
+>> +    }
+>> +
+>> +    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
+>> +                          qemu_rbd_co_block_status_cb, &req);
+>> +    if (r < 0 && r != QEMU_RBD_EXIT_DIFF_ITERATE2) {
+>> +        goto out;
+>> +    }
+>> +    assert(req.bytes <= bytes);
+>> +    if (!req.exists) {
+>> +        if (r == 0 && !req.bytes) {
+>> +            /*
+>> +             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
+>> +             * except for the case where an overlay has a hole where the parent
+>> +             * has not. This here catches the case where no callback was
+>> +             * invoked at all.
+>> +             */
+> The above is true in the case of diffing against a snapshot, i.e. when
+> the "from" snapshot has some data where the "to" revision (whether HEAD
+> or another snapshot) has a hole.  I don't think it is true for child vs
+> parent (but it has been a while since I looked at the diff code).  As
+> long as NULL is passed for fromsnapname, I would expect the callback to
+> be invoked only for allocated areas.  If I'm right, we could simplify
+> qemu_rbd_co_block_status_cb() considerably.
+
+
+See my comment in the callback. Can you look at the diff code or give
+
+me at least a pointer where I can find it. I am not that familiar with
+
+the librbd code yet.
+
+
+Thanks,
+
+Peter
+
+
 
 
