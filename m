@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63A1422E6E
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:52:14 +0200 (CEST)
-Received: from localhost ([::1]:44758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15573422E95
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:58:07 +0200 (CEST)
+Received: from localhost ([::1]:59948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXnfp-0001M9-V3
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:52:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48414)
+	id 1mXnlW-00038O-40
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:58:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmwC-0002Tq-Eb
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmwC-0002Tp-AX
  for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:05:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47136)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmw6-0007j9-EX
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmwA-0007oX-4d
  for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:05:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633449896;
+ s=mimecast20190719; t=1633449901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=++Qz2MnOf8zg/IFXbMLXXteEF/1jvb/4aDH9kffcAs0=;
- b=YbIN0+cDGI/nYAz13FMKXsW7/ZPAw+gpHZ08TSkWpUZOY/pV0KIlOlsVWoqPt1zB2w5pva
- RVMwEz2Eem2WgygqMF8SE5xDz3SOt2hW3+tixvsMNxsjFVWkoSSacvz/PE5+VaoSxlABKj
- I9omY4h8h6rpolPhBf/5xNO14HBhsBs=
+ bh=bY8TOa5uB6WnEZxzhG2jkPTKURYR/E+YFIiS/+Ed54w=;
+ b=Yr6v+6aARTHh22v4RWVOn5dSO13nJ/2EJSvn2t9dFCRPLqL9qv7P3ouls34Cgnj2woHIs+
+ kLo4rhz2YGO/joq1i2LnLFye66PuFVBQwd/XU0TT70LXf7OEWwUe7AlK5kpKEvfaUV0TXI
+ 0bbROPkCsWJH48f7dZYfY+EgRaF5fic=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-0zl13TizMuyzwGV5DL9lLQ-1; Tue, 05 Oct 2021 12:04:55 -0400
-X-MC-Unique: 0zl13TizMuyzwGV5DL9lLQ-1
+ us-mta-572-fbcEgVYEOfOC9HENTO0eBg-1; Tue, 05 Oct 2021 12:05:00 -0400
+X-MC-Unique: fbcEgVYEOfOC9HENTO0eBg-1
 Received: by mail-wm1-f72.google.com with SMTP id
- h24-20020a7bc938000000b0030d400be5b5so6535133wml.0
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:04:55 -0700 (PDT)
+ x23-20020a05600c21d700b0030d23749278so1505281wmj.2
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:04:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=++Qz2MnOf8zg/IFXbMLXXteEF/1jvb/4aDH9kffcAs0=;
- b=0x7X7pdxrZLYGHW75M2Hnu0oslDs/iq/DUJTyTE5M0HQO+6661gSthwWyh5EGeo5qT
- emkaGu4ZZ8wS1pZLF2q6n01lFNmO1MyVGJb1SOkhvN729/loRo1oOGJHXlYFMnTHYFkK
- rYROTUgqvPJyAkJCw+blKpCZYIRZi+su7cSMVjb2nfCFcX0lZUY9U2Oz2sARjJw4rpuB
- tN8E8f3MrClPW/HOK1pkfeliE9IBTIqhs0Cy2P3WrnyI/5P7AagliJtfy5bTbaj90uLi
- I16aiNtFBXFGSoTNawbAeCtF/d5KXUgsSnEKDlvnckmlDyrsBH/psqeJ2owGt3B3GrfD
- LhFA==
-X-Gm-Message-State: AOAM5306xqbPcsYr1MEwdWaL0h/88b9Q3KXVgjFh/BLZ/geg1HZM8NIR
- fuU3xTjtA3eFzDPhuTqncgQABpd9AIaxTijDhdp8P/KnS9nKVJHwO/6PZoFKgz7MDdsubZ7rJMo
- joFnIKQ/GZ1n2K73uXqdt08KDSEp0KyXEpnolVLGIvTJRZ1AopOAhDau17V4p
-X-Received: by 2002:a1c:21d7:: with SMTP id h206mr4293868wmh.23.1633449893309; 
- Tue, 05 Oct 2021 09:04:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwKURsWXpFTlOk3UwlZ/clIicKn5ewxJNd6B7StKVgNJuHRA0Yz50/Otn/gv/udhcR8CANppQ==
-X-Received: by 2002:a1c:21d7:: with SMTP id h206mr4293729wmh.23.1633449892237; 
- Tue, 05 Oct 2021 09:04:52 -0700 (PDT)
+ bh=bY8TOa5uB6WnEZxzhG2jkPTKURYR/E+YFIiS/+Ed54w=;
+ b=x0BJXaJ2pKGkMg81bLapVpNOsb4WC+HSa/aa4OkEU8/Z+O5fL0HC1w3Pb3I0YPOcZu
+ hDysOpWccqfIWatbr26pqYqfWzSIleF52NCZpDQ9AN3yBG+y9G00axxK60D8m5J2TzPy
+ Jp2EsrBTjaeuC3UXcMdLZyVCXvMd2gkhy+EDhDDA6swBNTJSMcgQhn85E66+C5kci8bJ
+ DqaxsWme4WCZ9GQTFmcDgw0RDw6o686FSuFtalU0MthxEzqAPR1H9RLS7ucoNxwvE+/f
+ gRCYV/0dmbEgOeOxBKVvPiRTtk+DRJ5QG21fDmxKzaKXfGtDlH6GFFdiu9Ee19sUDdXV
+ /Rtw==
+X-Gm-Message-State: AOAM531rnQnqle6M650ikSCdLBz9U6+bJ4zU7tagsnqkLzHNgOhHIOOC
+ ZAUDUGJX6WmWM1DDupiHsbyqCK2e9P8EjA0rw563uiC1EudwTyP0/OHPo3v/sjKErReYspujDuM
+ hxNJlN+dpF5aMZVCW0RfdIwt3VXqYaurNICLVQqpdvklLxu40QosQ2NkBYX1x
+X-Received: by 2002:a05:6000:1864:: with SMTP id
+ d4mr9588350wri.345.1633449898448; 
+ Tue, 05 Oct 2021 09:04:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyTZJkQycmqfISX97OEkTZ3TjKblo/yOV0QasL4fD6jJMgA1MgG/gUi6xdLtlwWWOAH3eiRsg==
+X-Received: by 2002:a05:6000:1864:: with SMTP id
+ d4mr9588311wri.345.1633449898181; 
+ Tue, 05 Oct 2021 09:04:58 -0700 (PDT)
 Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id k26sm3319286wms.39.2021.10.05.09.04.49
+ by smtp.gmail.com with ESMTPSA id 2sm2275726wmf.30.2021.10.05.09.04.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 09:04:51 -0700 (PDT)
-Date: Tue, 5 Oct 2021 12:04:47 -0400
+ Tue, 05 Oct 2021 09:04:57 -0700 (PDT)
+Date: Tue, 5 Oct 2021 12:04:53 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 56/57] hw/i386/amd_iommu: Rename SysBus specific functions as
- amdvi_sysbus_X()
-Message-ID: <20211005155946.513818-57-mst@redhat.com>
+Subject: [PULL 57/57] hw/i386/amd_iommu: Add description/category to
+ TYPE_AMD_IOMMU_PCI
+Message-ID: <20211005155946.513818-58-mst@redhat.com>
 References: <20211005155946.513818-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211005155946.513818-1-mst@redhat.com>
@@ -76,7 +78,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -107,100 +109,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Various functions are SysBus specific. Rename them using the
-consistent amdvi_sysbus_XXX() pattern, to differentiate them
-from PCI specific functions (which we'll add in the next
-commit).
+TYPE_AMD_IOMMU_PCI is user-creatable but not well described.
+Implement its class_init() handler to add it to the 'Misc
+devices' category, and add a description.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210926175648.1649075-3-f4bug@amsat.org>
+Message-Id: <20210926175648.1649075-4-f4bug@amsat.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/amd_iommu.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ hw/i386/amd_iommu.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index 0c994facde..9014690ba3 100644
+index 9014690ba3..9242a0d3ed 100644
 --- a/hw/i386/amd_iommu.c
 +++ b/hw/i386/amd_iommu.c
-@@ -1526,7 +1526,7 @@ static void amdvi_init(AMDVIState *s)
-             AMDVI_MAX_PH_ADDR | AMDVI_MAX_GVA_ADDR | AMDVI_MAX_VA_ADDR);
- }
- 
--static void amdvi_reset(DeviceState *dev)
-+static void amdvi_sysbus_reset(DeviceState *dev)
- {
-     AMDVIState *s = AMD_IOMMU_DEVICE(dev);
- 
-@@ -1534,7 +1534,7 @@ static void amdvi_reset(DeviceState *dev)
-     amdvi_init(s);
- }
- 
--static void amdvi_realize(DeviceState *dev, Error **errp)
-+static void amdvi_sysbus_realize(DeviceState *dev, Error **errp)
- {
-     int ret = 0;
-     AMDVIState *s = AMD_IOMMU_DEVICE(dev);
-@@ -1585,27 +1585,27 @@ static void amdvi_realize(DeviceState *dev, Error **errp)
-     amdvi_init(s);
- }
- 
--static const VMStateDescription vmstate_amdvi = {
-+static const VMStateDescription vmstate_amdvi_sysbus = {
-     .name = "amd-iommu",
-     .unmigratable = 1
+@@ -1621,10 +1621,19 @@ static const TypeInfo amdvi_sysbus = {
+     .class_init = amdvi_sysbus_class_init
  };
  
--static void amdvi_instance_init(Object *klass)
-+static void amdvi_sysbus_instance_init(Object *klass)
- {
-     AMDVIState *s = AMD_IOMMU_DEVICE(klass);
- 
-     object_initialize(&s->pci, sizeof(s->pci), TYPE_AMD_IOMMU_PCI);
- }
- 
--static void amdvi_class_init(ObjectClass *klass, void* data)
-+static void amdvi_sysbus_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     X86IOMMUClass *dc_class = X86_IOMMU_DEVICE_CLASS(klass);
- 
--    dc->reset = amdvi_reset;
--    dc->vmsd = &vmstate_amdvi;
-+    dc->reset = amdvi_sysbus_reset;
-+    dc->vmsd = &vmstate_amdvi_sysbus;
-     dc->hotpluggable = false;
--    dc_class->realize = amdvi_realize;
-+    dc_class->realize = amdvi_sysbus_realize;
-     dc_class->int_remap = amdvi_int_remap;
-     /* Supported by the pc-q35-* machine types */
-     dc->user_creatable = true;
-@@ -1613,12 +1613,12 @@ static void amdvi_class_init(ObjectClass *klass, void* data)
-     dc->desc = "AMD IOMMU (AMD-Vi) DMA Remapping device";
- }
- 
--static const TypeInfo amdvi = {
-+static const TypeInfo amdvi_sysbus = {
-     .name = TYPE_AMD_IOMMU_DEVICE,
-     .parent = TYPE_X86_IOMMU_DEVICE,
-     .instance_size = sizeof(AMDVIState),
--    .instance_init = amdvi_instance_init,
--    .class_init = amdvi_class_init
-+    .instance_init = amdvi_sysbus_instance_init,
-+    .class_init = amdvi_sysbus_class_init
- };
- 
++static void amdvi_pci_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++    dc->desc = "AMD IOMMU (AMD-Vi) DMA Remapping device";
++}
++
  static const TypeInfo amdvi_pci = {
-@@ -1648,7 +1648,7 @@ static const TypeInfo amdvi_iommu_memory_region_info = {
- static void amdvi_register_types(void)
- {
-     type_register_static(&amdvi_pci);
--    type_register_static(&amdvi);
-+    type_register_static(&amdvi_sysbus);
-     type_register_static(&amdvi_iommu_memory_region_info);
- }
- 
+     .name = TYPE_AMD_IOMMU_PCI,
+     .parent = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(AMDVIPCIState),
++    .class_init = amdvi_pci_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+         { },
 -- 
 MST
 
