@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E651E421F8F
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 09:42:37 +0200 (CEST)
-Received: from localhost ([::1]:48838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2DB421FAC
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 09:49:14 +0200 (CEST)
+Received: from localhost ([::1]:53970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXf5x-0004FM-0n
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 03:42:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39910)
+	id 1mXfCK-00081E-Ku
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 03:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mXf2X-0001pS-It
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 03:39:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59665)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mXf2Q-0007KZ-TG
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 03:39:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633419537;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8bIg40p09ZCVFUx3DRVjct5fzGwee/N2Z5DzlQvt6gE=;
- b=CKWKxJBrKYbArvlelr2weqD1LTBPfgVsRHZG0xtsz7jvLX3SYD1akOUCav5zRYJEOEAaZ9
- CPP0mrUvvh7YPXXKqKZModBlthg5x4/dKFMWMNvu8222eMFEpon29YRODXGM4oMbulbbw4
- igYFCSJ2kr+xpb5WsunSMMs4HYlXUHc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-lW7QmouXP9-WhzJSBbmI4g-1; Tue, 05 Oct 2021 03:38:56 -0400
-X-MC-Unique: lW7QmouXP9-WhzJSBbmI4g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- f7-20020a5d50c7000000b0015e288741a4so5410857wrt.9
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 00:38:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <remy.noel@shadow.tech>)
+ id 1mXf9i-0007Ir-FH
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 03:46:30 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33288)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <remy.noel@shadow.tech>)
+ id 1mXf9g-0008W6-3u
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 03:46:30 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id m22so30246086wrb.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 00:46:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=shadow-tech.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=proPMOogsiHlGikXY91al66XUVjTfTzJxK0jukZl3PM=;
+ b=wr9QYryr89BYblVu+SFfNSMZ5vWShR2IfpDRlS2q/5lVh6+ol/i7td+esIqz+uSToE
+ agDz/+lPcB6GdkXw3/5CIjAle6SdmkncHlEObhXCSub3Qju4rlxEp8zZePjOqZLnRU1C
+ koJBHGnYfS5D3cqW3LZ08B1I5haVQ0OG9H2SmcajbLZNKmJ4OTxyK3aUCtyGa9DUW6EQ
+ 9HC0eXGeqWv3wKmZAXW1CQ1Lezg4j4UD1x8w8C3NqubVczOI5R/71RVnDhwEvohbAE0/
+ L1V8EwntkprtwHbi4o7q2Kj6O2ZAMRmpp/gg1RzRJPI3FltSnLeq9eHhIxnjFeMnn0UY
+ 66oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=8bIg40p09ZCVFUx3DRVjct5fzGwee/N2Z5DzlQvt6gE=;
- b=c11qFU4Jkewo5FKpufq+6gy3Akxx3+xgtKG2wsgqxy6IsLoUvDG9BoP8CRI4altIae
- iHFFHH8lmxk8tx3G9+mbnlMwzMj8g6VD8gJhPnTQJ6+jLN3KcAB1fAbKVu9kfOWwtAuI
- CxoFY8avlzalLzS3mlSKV6tln6HNknK2Hjab6Lk1jXMO1UdwQ/b57XMQ+O4MGmJodcml
- H6a46yMES4YvhRlKF0BMorMQA3eYZ4LS+wKxcgnRVHkt3Lqc2osgbss2O8WZ97ipV7tf
- yd7Os7EBZmmO9cfAjRnmN7TW8L98+5xqLZ4QA/KaAp67qbvy+FbxKuJalLsPZKMV4wXS
- fl6A==
-X-Gm-Message-State: AOAM532zPsUPGOqyiug6qu9SDoF2f7WVoS7Hj4/85jYCkeA2IcFAAGa0
- xHr4pMM+T3Cty93yHP2EQfu11X8RvfnFJ5IXZQD7dhHZ+n50t1IY4e8gsh5uM2BSxCyxl/5MG2C
- wb1RHzJ9YTsaSps0=
-X-Received: by 2002:a5d:6481:: with SMTP id o1mr20112082wri.140.1633419535489; 
- Tue, 05 Oct 2021 00:38:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwPdlw1NMM6CLJf4QK6KKdb1PzLD9UTYVgV3gyFru/YtFSdRd1uIkR0H3fvL1VNWJJibxIwtA==
-X-Received: by 2002:a5d:6481:: with SMTP id o1mr20112042wri.140.1633419535216; 
- Tue, 05 Oct 2021 00:38:55 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6741.dip0.t-ipconnect.de. [91.12.103.65])
- by smtp.gmail.com with ESMTPSA id
- o12sm1046196wms.15.2021.10.05.00.38.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 00:38:54 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-References: <cover.1633376313.git.qemu_oss@crudebyte.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <54ce3304-ee62-4e95-eb4c-7ea1a81f30a0@redhat.com>
-Date: Tue, 5 Oct 2021 09:38:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=proPMOogsiHlGikXY91al66XUVjTfTzJxK0jukZl3PM=;
+ b=E3ltmOgVUo5vpGRrR3z+1zZOEqoJvO+dT0iGPaACKDpZQTo4vm46mOchgp43xfp3Z8
+ elePbWdKgimJANmRhatyHepnk/Od4/u7ZXDUS4g3ToDqg29Tk6RKN5CzXyAWc8kpL9MI
+ KMEROb0S0bcxi1q1+x+gfBkM2xnf0P5xk5LFvSpAF+3dOQBgErNgBPLhhmYdVao5nPO4
+ 5WM5VQTAqmILY34t5LSYl26KP2XbAG1JpUf9yMhqqcAoOm9jaYkY02cGdtW72CO3iG8V
+ lU/okIAdOQ37VIP4rWGOj8psbuLNouG77clozSgAQrTmheWCxXHEuW7+pZXxPqG51k82
+ htHw==
+X-Gm-Message-State: AOAM532UYp3TtPqQqa/ey//esKpHlnKTN0frSM0mEiQTuZFiBWr83OPt
+ MrkZzpLbdOJqNzQS4umAZ0mDeA==
+X-Google-Smtp-Source: ABdhPJy9iD+58R6y3e1Q32iL31ZybMBZ+N23/IqiD6BwKuN80M3n3OSB1eZgS1RFtXtJFQFWYA5b3w==
+X-Received: by 2002:a5d:6da9:: with SMTP id u9mr19550027wrs.58.1633419985191; 
+ Tue, 05 Oct 2021 00:46:25 -0700 (PDT)
+Received: from gmail.com ([2001:41d0:fc88:4700:250:b6ff:fe1f:8e7])
+ by smtp.gmail.com with ESMTPSA id c9sm992725wmb.41.2021.10.05.00.46.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 00:46:24 -0700 (PDT)
+Date: Tue, 5 Oct 2021 09:46:23 +0200
+From: Remy Noel <remy.noel@shadow.tech>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: Strange qemu6 regression cauing disabled usb controller.
+Message-ID: <20211005074623.jt2wm7m5sp6kfwq2@gmail.com>
+References: <20210930134844.f4kh72vpeknr2vmk@gmail.com>
+ <YVXSUExueN0MpEDG@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <cover.1633376313.git.qemu_oss@crudebyte.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.066, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YVXSUExueN0MpEDG@redhat.com>
+Received-SPF: permerror client-ip=2a00:1450:4864:20::42a;
+ envelope-from=remy.noel@shadow.tech; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: 11
+X-Spam_score: 1.1
+X-Spam_bar: +
+X-Spam_report: (1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ FSL_HELO_FAKE=2.955, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,34 +85,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Amit Shah <amit@kernel.org>,
- Greg Kurz <groug@kaod.org>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- virtio-fs@redhat.com, Eric Auger <eric.auger@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.10.21 21:38, Christian Schoenebeck wrote:
-> At the moment the maximum transfer size with virtio is limited to 4M
-> (1024 * PAGE_SIZE). This series raises this limit to its maximum
-> theoretical possible transfer size of 128M (32k pages) according to the
-> virtio specs:
-> 
-> https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#x1-240006
-> 
+On Thu, Sep 30, 2021 at 04:05:52PM +0100, Daniel P. Berrangé wrote:
+>Co-incidentally we've just had another bug report filed today that
+>suggests 7bed89958bfbf40df9ca681cefbdca63abdde39d as a buggy commit
+>causing deadlock in QEMU
+>
+>  https://gitlab.com/qemu-project/qemu/-/issues/650
 
-I'm missing the "why do we care". Can you comment on that?
+Is opening a gitlab ticket the prefered way to report issues now ? Should i 
+do that ?
 
+Thanks.
 
--- 
-Thanks,
-
-David / dhildenb
-
+Remy.
 
