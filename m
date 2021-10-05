@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C043422317
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 12:09:15 +0200 (CEST)
-Received: from localhost ([::1]:52040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462C7422329
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 12:12:50 +0200 (CEST)
+Received: from localhost ([::1]:55274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXhNq-0008TT-LM
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 06:09:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47018)
+	id 1mXhRJ-0002NF-Al
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 06:12:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mXhM1-0006Po-Nc
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 06:07:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43468)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mXhLw-000724-Ot
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 06:07:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633428435;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OYae2yiwAMbmoddnDd/+N8S6CedyqQgF0pFGpEEhW0A=;
- b=KUOQrtzv2IZDr0uWBaHRwkCmCgtdaVRlk/xQul7LP/iQxTd8JV+3fLok9AtWZ2guSUB9Rj
- 2veB79FVEmvT1zwu7E3Qp1TO6WhcU/j+2jtm3nEAA4XNORHpUEDYTsEgix9kFDpcBIhwvC
- BYIedDzq8shDkMaT9tarooqFTn56lwk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-5A82fE3ZNgWIVGUPDym7lQ-1; Tue, 05 Oct 2021 06:07:14 -0400
-X-MC-Unique: 5A82fE3ZNgWIVGUPDym7lQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67F3491271;
- Tue,  5 Oct 2021 10:07:12 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.167])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EEA3219D9D;
- Tue,  5 Oct 2021 10:06:59 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [RFC PATCH 1/1] virtio: write back features before verify
-In-Reply-To: <20211004040937-mutt-send-email-mst@kernel.org>
-Organization: Red Hat GmbH
-References: <20210930012049.3780865-1-pasic@linux.ibm.com>
- <87r1d64dl4.fsf@redhat.com> <20210930130350.0cdc7c65.pasic@linux.ibm.com>
- <87ilyi47wn.fsf@redhat.com> <20211001162213.18d7375e.pasic@linux.ibm.com>
- <87v92g3h9l.fsf@redhat.com>
- <20211002082128-mutt-send-email-mst@kernel.org>
- <20211004042323.730c6a5e.pasic@linux.ibm.com>
- <20211004040937-mutt-send-email-mst@kernel.org>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Tue, 05 Oct 2021 12:06:57 +0200
-Message-ID: <87o88323b2.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mXhMi-0007AI-Gq
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 06:08:04 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:46968)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mXhMb-0007Y5-V0
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 06:08:04 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ pi19-20020a17090b1e5300b0019fdd3557d3so2017761pjb.5
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 03:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=84MMT72U7UFfoI3cbdTrBe23CUdJfC3FZTyJvAuZ+Hs=;
+ b=htqxPTsiuDG+329bK8krDRMddAFCnFOe6oCOvnECOR3Pc4Rg1OHkagCOPpWenEJGS9
+ R3Y4Gxu3V/LCUVeK6YA1wIDR9za5KEKZQbp2El92p34qYY3smmIVnQbPizakMLvRJYDa
+ rKsJIy+sFXBCTG1aH67qC7Wv/43OCUwRXKXmoItSnxfotSiHoNHSlJimaOiL98zp5yC4
+ qZ90G+0xhK5L0/5o2QDOmhxT150qYFqjX/D2shsf0E6vhL84e+sPDAfZUAMkOs+O7U7L
+ O3bZMCp5xO2gT5SC3gHDQDNm3NEYpMm/VqGxaUJT6bW8r83rwd2o9YzuCxM9MNvZaHvB
+ 4OCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=84MMT72U7UFfoI3cbdTrBe23CUdJfC3FZTyJvAuZ+Hs=;
+ b=y7oIdiF/SbTOl3WET4jVu2ZjmsAyxMwChPbRZSpT7mD2aSoed6Hsi8PD8wpP4b03Yt
+ 84U5x7h5uBO4RzIXt3bydcvbQUuWPEmajNoC1Onq9o05BE9Lbcn7wA7FOCUY5Pcvjts/
+ P0R5I5nrkIyVrSSZue6hwGGdW37VxYJ+eatOlTD45qh+i8jBZqdnUr0UPUHnsdzc+CcW
+ 7GkAzKsZlxdPB9J9OY822r8Y7cNd/FSvH0bkknA/kFxwZfLWkBAcWZR6gDAg+b0KWGCH
+ 6zZ0Yo/6U3PgYV+dREqwmwyMR23QsPFbuNAnXc+PNGo32sF55S6V5Z8p/bquFo6DGUGI
+ 2LOg==
+X-Gm-Message-State: AOAM532PuYuFIyjqkZ6+NbDOBnxG5scvJFgqpmDrQzXZ4PKTknFEJ63u
+ pI7pI0i1kH/rfcYw04UNvbSh1w==
+X-Google-Smtp-Source: ABdhPJyrzoWUEA+KXZpUqZH71mUrr99EM31raaHCxS7lwudrhrmjpVsiyNa3/YJt/D6XA+s1Tzfjbw==
+X-Received: by 2002:a17:90b:4a07:: with SMTP id
+ kk7mr2746801pjb.37.1633428476192; 
+ Tue, 05 Oct 2021 03:07:56 -0700 (PDT)
+Received: from anisinha-lenovo ([115.96.152.16])
+ by smtp.googlemail.com with ESMTPSA id p23sm1692187pju.1.2021.10.05.03.07.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 03:07:55 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Tue, 5 Oct 2021 15:37:48 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v4 11/11] tests/acpi: add expected blobs for VIOT test
+ on q35 machine
+In-Reply-To: <20211001173358.863017-12-jean-philippe@linaro.org>
+Message-ID: <alpine.DEB.2.22.394.2110051536540.820442@anisinha-lenovo>
+References: <20211001173358.863017-1-jean-philippe@linaro.org>
+ <20211001173358.863017-12-jean-philippe@linaro.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,132 +86,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org,
- Xie Yongji <xieyongji@bytedance.com>, stefanha@redhat.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
+ mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ eric.auger@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
+ ani@anisinha.ca, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 04 2021, "Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-> On Mon, Oct 04, 2021 at 04:23:23AM +0200, Halil Pasic wrote:
->> --------------------------8<---------------------
->> 
->> From: Halil Pasic <pasic@linux.ibm.com>
->> Date: Thu, 30 Sep 2021 02:38:47 +0200
->> Subject: [PATCH] virtio: write back feature VERSION_1 before verify
->> 
->> This patch fixes a regression introduced by commit 82e89ea077b9
->> ("virtio-blk: Add validation for block size in config space") and
->> enables similar checks in verify() on big endian platforms.
->> 
->> The problem with checking multi-byte config fields in the verify
->> callback, on big endian platforms, and with a possibly transitional
->> device is the following. The verify() callback is called between
->> config->get_features() and virtio_finalize_features(). That we have a
->> device that offered F_VERSION_1 then we have the following options
->> either the device is transitional, and then it has to present the legacy
->> interface, i.e. a big endian config space until F_VERSION_1 is
->> negotiated, or we have a non-transitional device, which makes
->> F_VERSION_1 mandatory, and only implements the non-legacy interface and
->> thus presents a little endian config space. Because at this point we
->> can't know if the device is transitional or non-transitional, we can't
->> know do we need to byte swap or not.
->
-> Well we established that we can know. Here's an alternative explanation:
->
-> 	The virtio specification virtio-v1.1-cs01 states:
->
-> 	Transitional devices MUST detect Legacy drivers by detecting that
-> 	VIRTIO_F_VERSION_1 has not been acknowledged by the driver.
-> 	This is exactly what QEMU as of 6.1 has done relying solely
-> 	on VIRTIO_F_VERSION_1 for detecting that.
->
-> 	However, the specification also says:
-> 	driver MAY read (but MUST NOT write) the device-specific
-> 	configuration fields to check that it can support the device before
-> 	accepting it.
->
-> 	In that case, any device relying solely on VIRTIO_F_VERSION_1
-> 	for detecting legacy drivers will return data in legacy format.
-> 	In particular, this implies that it is in big endian format
-> 	for big endian guests. This naturally confuses the driver
-> 	which expects little endian in the modern mode.
->
-> 	It is probably a good idea to amend the spec to clarify that
-> 	VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
-> 	is complete. However, we already have regression so let's
-> 	try to address it.
 
-I prefer that explanation.
+On Fri, 1 Oct 2021, Jean-Philippe Brucker wrote:
 
+> Add expected blobs of the VIOT and DSDT table for the VIOT test on the
+> q35 machine.
 >
->
->> 
->> The virtio spec explicitly states that the driver MAY read config
->> between reading and writing the features so saying that first accessing
->> the config before feature negotiation is done is not an option. The
->> specification ain't clear about setting the features multiple times
->> before FEATURES_OK, so I guess that should be fine to set F_VERSION_1
->> since at this point we already know that we are about to negotiate
->> F_VERSION_1.
->> 
->> I don't consider this patch super clean, but frankly I don't think we
->> have a ton of options. Another option that may or man not be cleaner,
->> but is also IMHO much uglier is to figure out whether the device is
->> transitional by rejecting _F_VERSION_1, then resetting it and proceeding
->> according tho what we have figured out, hoping that the characteristics
->> of the device didn't change.
->
-> An empty line before tags.
->
->> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
->> Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in config space")
->> Reported-by: markver@us.ibm.com
->
-> Let's add more commits that are affected. E.g. virtio-net with MTU
-> feature bit set is affected too.
->
-> So let's add Fixes tag for:
-> commit 14de9d114a82a564b94388c95af79a701dc93134
-> Author: Aaron Conole <aconole@redhat.com>
-> Date:   Fri Jun 3 16:57:12 2016 -0400
->
->     virtio-net: Add initial MTU advice feature
->     
-> I think that's all, but pls double check me.
+> Since the test instantiates a virtio device and two PCIe expander
+> bridges, DSDT.viot has more blocks than the base DSDT (long diff not
+> shown here).
 
-I could not find anything else after a quick check.
+For documentation and bisection of issues in future, I think its better to
+provide the DSDT table ASL diff here as well.
 
+>The VIOT table generated for the q35 test is:
+>
+> [000h 0000   4]                    Signature : "VIOT"    [Virtual I/O Translation Table]
+> [004h 0004   4]                 Table Length : 00000070
+> [008h 0008   1]                     Revision : 00
+> [009h 0009   1]                     Checksum : 3D
+> [00Ah 0010   6]                       Oem ID : "BOCHS "
+> [010h 0016   8]                 Oem Table ID : "BXPC    "
+> [018h 0024   4]                 Oem Revision : 00000001
+> [01Ch 0028   4]              Asl Compiler ID : "BXPC"
+> [020h 0032   4]        Asl Compiler Revision : 00000001
+>
+> [024h 0036   2]                   Node count : 0003
+> [026h 0038   2]                  Node offset : 0030
+> [028h 0040   8]                     Reserved : 0000000000000000
+>
+> [030h 0048   1]                         Type : 03 [VirtIO-PCI IOMMU]
+> [031h 0049   1]                     Reserved : 00
+> [032h 0050   2]                       Length : 0010
+>
+> [034h 0052   2]                  PCI Segment : 0000
+> [036h 0054   2]               PCI BDF number : 0010
+> [038h 0056   8]                     Reserved : 0000000000000000
+>
+> [040h 0064   1]                         Type : 01 [PCI Range]
+> [041h 0065   1]                     Reserved : 00
+> [042h 0066   2]                       Length : 0018
+>
+> [044h 0068   4]               Endpoint start : 00003000
+> [048h 0072   2]            PCI Segment start : 0000
+> [04Ah 0074   2]              PCI Segment end : 0000
+> [04Ch 0076   2]                PCI BDF start : 3000
+> [04Eh 0078   2]                  PCI BDF end : 30FF
+> [050h 0080   2]                  Output node : 0030
+> [052h 0082   6]                     Reserved : 000000000000
+>
+> [058h 0088   1]                         Type : 01 [PCI Range]
+> [059h 0089   1]                     Reserved : 00
+> [05Ah 0090   2]                       Length : 0018
+>
+> [05Ch 0092   4]               Endpoint start : 00001000
+> [060h 0096   2]            PCI Segment start : 0000
+> [062h 0098   2]              PCI Segment end : 0000
+> [064h 0100   2]                PCI BDF start : 1000
+> [066h 0102   2]                  PCI BDF end : 10FF
+> [068h 0104   2]                  Output node : 0030
+> [06Ah 0106   6]                     Reserved : 000000000000
+>
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> ---
+>  tests/qtest/bios-tables-test-allowed-diff.h |   2 --
+>  tests/data/acpi/q35/DSDT.viot               | Bin 0 -> 9398 bytes
+>  tests/data/acpi/q35/VIOT.viot               | Bin 0 -> 112 bytes
+>  3 files changed, 2 deletions(-)
+>
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index fa213e4738..dfb8523c8b 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1,3 +1 @@
+>  /* List of comma-separated changed AML files to ignore */
+> -"tests/data/acpi/q35/DSDT.viot",
+> -"tests/data/acpi/q35/VIOT.viot",
+> diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
+> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..b41270ff6d63493c2ae379ddd1d3e28f190a6c01 100644
+> GIT binary patch
+> literal 9398
+> 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
+> F{{VUX)Oi2^
+>
+> literal 0
+> HcmV?d00001
+>
+> diff --git a/tests/data/acpi/q35/VIOT.viot b/tests/data/acpi/q35/VIOT.viot
+> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..9b179266ccbf84f1c250ee646812d17e27987764 100644
+> GIT binary patch
+> literal 112
+> zcmWIZ^baXu00LVle`k+i1*eDrX9XZ&1PX!JAex!M0Hgv8m>C3sGzdcgBZCA3T-xBj
+> Q0Zb)W9Hva*zW_`e0M!8s0RR91
+>
+> literal 0
+> HcmV?d00001
+>
+> --
+> 2.33.0
 >
 >
->> ---
->>  drivers/virtio/virtio.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->> 
->> diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
->> index 0a5b54034d4b..2b9358f2e22a 100644
->> --- a/drivers/virtio/virtio.c
->> +++ b/drivers/virtio/virtio.c
->> @@ -239,6 +239,12 @@ static int virtio_dev_probe(struct device *_d)
->>  		driver_features_legacy = driver_features;
->>  	}
->>  
->> +	/* Write F_VERSION_1 feature to pin down endianness */
->> +	if (device_features & (1ULL << VIRTIO_F_VERSION_1) & driver_features) {
->> +		dev->features = (1ULL << VIRTIO_F_VERSION_1);
->> +		dev->config->finalize_features(dev);
->> +	}
->> +
->>  	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
->>  		dev->features = driver_features & device_features;
->>  	else
->> -- 
->> 2.31.1
-
-I think we should go with this just to fix the nasty regression for now.
-
 
