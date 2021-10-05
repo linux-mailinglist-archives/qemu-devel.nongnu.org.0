@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E451422107
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 10:43:27 +0200 (CEST)
-Received: from localhost ([::1]:49792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 690EF422150
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 10:52:36 +0200 (CEST)
+Received: from localhost ([::1]:33436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXg2o-0005bU-Ab
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 04:43:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54490)
+	id 1mXgBf-0005MG-CX
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 04:52:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mXfyy-0000yY-W3
+ id 1mXfyz-00010r-Vq
  for qemu-devel@nongnu.org; Tue, 05 Oct 2021 04:39:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20698)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mXfyv-0003c4-GC
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 04:39:27 -0400
+ id 1mXfyy-0003eC-Ac
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 04:39:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633423164;
+ s=mimecast20190719; t=1633423167;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3HAzS1T0oxRxDeyhnV3WEZL9f2LVbCbJb67+BdX+b8A=;
- b=jVXU1YY5Ey/VR5fdSakLNHFRBIEDiSRLMMNVj75y0/IvjlIJKmuTHe1Tce3Aq7ibg6+KKt
- SBvEOBJPFhq1Gss9lp39KDEzBuJoZj05ISTTf4VMlO4EEQMrbaMzzqDZuxUpvJLVaddC8/
- je8BRtzHaSyg1iXi/6j5m2eYEL6IcxU=
+ bh=xxbcbYrr8mcdxhldwuyCdBQ0jl3AR8YOgHyhEkx2LDE=;
+ b=BV5SJIgHHc1kTUAUFaOCu/5XKBGdV/F9j1ckXo4l3w3DpQCmwu5PrAVvlD4knxys6/iv9G
+ UGxBJR/U5WBX7/pr3KUo4dvtQSFvrgJ3yf77TBJCjiODVF+mTKKHmO7j1YrGPDeGw1T/vi
+ i4e1JXfnE1HFEnfCAvEbpDOqR67dee8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-ASbekT0JOx-NX4nmbfMbCg-1; Tue, 05 Oct 2021 04:39:23 -0400
-X-MC-Unique: ASbekT0JOx-NX4nmbfMbCg-1
+ us-mta-18-o6Ij7X4ZPSec8FE8QWRYtA-1; Tue, 05 Oct 2021 04:39:26 -0400
+X-MC-Unique: o6Ij7X4ZPSec8FE8QWRYtA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A19011084686;
- Tue,  5 Oct 2021 08:39:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 515E1802935;
+ Tue,  5 Oct 2021 08:39:25 +0000 (UTC)
 Received: from laptop.redhat.com (unknown [10.39.192.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B88786788C;
- Tue,  5 Oct 2021 08:39:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 039239AA20;
+ Tue,  5 Oct 2021 08:39:22 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, imammedo@redhat.com,
  philmd@redhat.com, peter.maydell@linaro.org, shannon.zhaosl@gmail.com,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org, drjones@redhat.com
-Subject: [PATCH v2 2/3] hw/arm/virt-acpi-build: IORT upgrade up to revision E.b
-Date: Tue,  5 Oct 2021 10:38:04 +0200
-Message-Id: <20211005083805.493456-3-eric.auger@redhat.com>
+Subject: [PATCH v2 3/3] tests/acpi: Generate reference blob for IORT rev E.b
+Date: Tue,  5 Oct 2021 10:38:05 +0200
+Message-Id: <20211005083805.493456-4-eric.auger@redhat.com>
 In-Reply-To: <20211005083805.493456-1-eric.auger@redhat.com>
 References: <20211005083805.493456-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -84,161 +84,68 @@ Cc: gshan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Upgrade the IORT table from B to E.b specification
-revision (ARM DEN 0049E.b).
+Re-generate reference blobs with rebuild-expected-aml.sh.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
 ---
+ tests/qtest/bios-tables-test-allowed-diff.h |   1 -
+ tests/data/acpi/virt/IORT                   | Bin 124 -> 128 bytes
+ tests/data/acpi/virt/IORT.memhp             | Bin 124 -> 128 bytes
+ tests/data/acpi/virt/IORT.numamem           | Bin 124 -> 128 bytes
+ tests/data/acpi/virt/IORT.pxb               | Bin 124 -> 128 bytes
+ 5 files changed, 1 deletion(-)
 
-v1 -> v2:
-- Fix Revision value for ITS node and SMMUv3 node
-- increment an identifier
----
- hw/arm/virt-acpi-build.c | 48 ++++++++++++++++++++++++----------------
- 1 file changed, 29 insertions(+), 19 deletions(-)
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 9a5a923d6b..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,2 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/virt/IORT",
+diff --git a/tests/data/acpi/virt/IORT b/tests/data/acpi/virt/IORT
+index 521acefe9ba66706c5607321a82d330586f3f280..7efd0ce8a6b3928efa7e1373f688ab4c5f50543b 100644
+GIT binary patch
+literal 128
+zcmebD4+?2uU|?Y0?Bwt45v<@85#X!<1dKp25F11@0kHuPgMkDCNC*yK93~3}W)K^M
+VRiHGGVg_O`aDdYP|3ers^8jQz3IPBB
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 257d0fee17..789bac3134 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -241,19 +241,20 @@ static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
- #endif
- 
- #define ID_MAPPING_ENTRY_SIZE 20
--#define SMMU_V3_ENTRY_SIZE 60
--#define ROOT_COMPLEX_ENTRY_SIZE 32
-+#define SMMU_V3_ENTRY_SIZE 68
-+#define ROOT_COMPLEX_ENTRY_SIZE 36
- #define IORT_NODE_OFFSET 48
- 
- static void build_iort_id_mapping(GArray *table_data, uint32_t input_base,
-                                   uint32_t id_count, uint32_t out_ref)
- {
--    /* Identity RID mapping covering the whole input RID range */
-+    /* Table 4 ID mapping format */
-     build_append_int_noprefix(table_data, input_base, 4); /* Input base */
-     build_append_int_noprefix(table_data, id_count, 4); /* Number of IDs */
-     build_append_int_noprefix(table_data, input_base, 4); /* Output base */
-     build_append_int_noprefix(table_data, out_ref, 4); /* Output Reference */
--    build_append_int_noprefix(table_data, 0, 4); /* Flags */
-+    /* Flags */
-+    build_append_int_noprefix(table_data, 0 /* Single mapping */, 4);
- }
- 
- struct AcpiIortIdMapping {
-@@ -298,7 +299,7 @@ static int iort_idmap_compare(gconstpointer a, gconstpointer b)
- /*
-  * Input Output Remapping Table (IORT)
-  * Conforms to "IO Remapping Table System Software on ARM Platforms",
-- * Document number: ARM DEN 0049B, October 2015
-+ * Document number: ARM DEN 0049E, Feb 2021
-  */
- static void
- build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-@@ -307,10 +308,11 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     const uint32_t iort_node_offset = IORT_NODE_OFFSET;
-     size_t node_size, smmu_offset = 0;
-     AcpiIortIdMapping *idmap;
-+    uint32_t id = 0;
-     GArray *smmu_idmaps = g_array_new(false, true, sizeof(AcpiIortIdMapping));
-     GArray *its_idmaps = g_array_new(false, true, sizeof(AcpiIortIdMapping));
- 
--    AcpiTable table = { .sig = "IORT", .rev = 0, .oem_id = vms->oem_id,
-+    AcpiTable table = { .sig = "IORT", .rev = 3, .oem_id = vms->oem_id,
-                         .oem_table_id = vms->oem_table_id };
-     /* Table 2 The IORT */
-     acpi_table_begin(&table, table_data);
-@@ -358,12 +360,12 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     build_append_int_noprefix(table_data, IORT_NODE_OFFSET, 4);
-     build_append_int_noprefix(table_data, 0, 4); /* Reserved */
- 
--    /* 3.1.1.3 ITS group node */
-+    /* Table 12 ITS Group Format */
-     build_append_int_noprefix(table_data, 0 /* ITS Group */, 1); /* Type */
-     node_size =  20 /* fixed header size */ + 4 /* 1 GIC ITS Identifier */;
-     build_append_int_noprefix(table_data, node_size, 2); /* Length */
--    build_append_int_noprefix(table_data, 0, 1); /* Revision */
--    build_append_int_noprefix(table_data, 0, 4); /* Reserved */
-+    build_append_int_noprefix(table_data, 1, 1); /* Revision */
-+    build_append_int_noprefix(table_data, id++, 4); /* Identifier */
-     build_append_int_noprefix(table_data, 0, 4); /* Number of ID mappings */
-     build_append_int_noprefix(table_data, 0, 4); /* Reference to ID Array */
-     build_append_int_noprefix(table_data, 1, 4); /* Number of ITSs */
-@@ -374,19 +376,19 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-         int irq =  vms->irqmap[VIRT_SMMU] + ARM_SPI_BASE;
- 
-         smmu_offset = table_data->len - table.table_offset;
--        /* 3.1.1.2 SMMUv3 */
-+        /* Table 9 SMMUv3 Format */
-         build_append_int_noprefix(table_data, 4 /* SMMUv3 */, 1); /* Type */
-         node_size =  SMMU_V3_ENTRY_SIZE + ID_MAPPING_ENTRY_SIZE;
-         build_append_int_noprefix(table_data, node_size, 2); /* Length */
--        build_append_int_noprefix(table_data, 0, 1); /* Revision */
--        build_append_int_noprefix(table_data, 0, 4); /* Reserved */
-+        build_append_int_noprefix(table_data, 4, 1); /* Revision */
-+        build_append_int_noprefix(table_data, id++, 4); /* Identifier */
-         build_append_int_noprefix(table_data, 1, 4); /* Number of ID mappings */
-         /* Reference to ID Array */
-         build_append_int_noprefix(table_data, SMMU_V3_ENTRY_SIZE, 4);
-         /* Base address */
-         build_append_int_noprefix(table_data, vms->memmap[VIRT_SMMU].base, 8);
-         /* Flags */
--        build_append_int_noprefix(table_data, 1 /* COHACC OverrideNote */, 4);
-+        build_append_int_noprefix(table_data, 1 /* COHACC Override */, 4);
-         build_append_int_noprefix(table_data, 0, 4); /* Reserved */
-         build_append_int_noprefix(table_data, 0, 8); /* VATOS address */
-         /* Model */
-@@ -395,35 +397,43 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-         build_append_int_noprefix(table_data, irq + 1, 4); /* PRI */
-         build_append_int_noprefix(table_data, irq + 3, 4); /* GERR */
-         build_append_int_noprefix(table_data, irq + 2, 4); /* Sync */
-+        build_append_int_noprefix(table_data, 0, 4); /* Proximity domain */
-+        /* DeviceID mapping index (ignored since interrupts are GSIV based) */
-+        build_append_int_noprefix(table_data, 0, 4);
- 
-         /* output IORT node is the ITS group node (the first node) */
-         build_iort_id_mapping(table_data, 0, 0xFFFF, IORT_NODE_OFFSET);
-     }
- 
--    /* Table 16 Root Complex Node */
-+    /* Table 17 Root Complex Node */
-     build_append_int_noprefix(table_data, 2 /* Root complex */, 1); /* Type */
-     node_size =  ROOT_COMPLEX_ENTRY_SIZE +
-                  ID_MAPPING_ENTRY_SIZE * rc_mapping_count;
-     build_append_int_noprefix(table_data, node_size, 2); /* Length */
--    build_append_int_noprefix(table_data, 0, 1); /* Revision */
--    build_append_int_noprefix(table_data, 0, 4); /* Reserved */
-+    build_append_int_noprefix(table_data, 3, 1); /* Revision */
-+    build_append_int_noprefix(table_data, id++, 4); /* Identifier */
-     /* Number of ID mappings */
-     build_append_int_noprefix(table_data, rc_mapping_count, 4);
-     /* Reference to ID Array */
-     build_append_int_noprefix(table_data, ROOT_COMPLEX_ENTRY_SIZE, 4);
- 
--    /* Table 13 Memory access properties */
-+    /* Table 14 Memory access properties */
-     /* CCA: Cache Coherent Attribute */
-     build_append_int_noprefix(table_data, 1 /* fully coherent */, 4);
-     build_append_int_noprefix(table_data, 0, 1); /* AH: Note Allocation Hints */
-     build_append_int_noprefix(table_data, 0, 2); /* Reserved */
--    /* MAF: Note Memory Access Flags */
--    build_append_int_noprefix(table_data, 0x3 /* CCA = CPM = DCAS = 1 */, 1);
-+    /* Table 15 Memory Access Flags */
-+    build_append_int_noprefix(table_data, 0x3 /* CCA = CPM = DACS = 1 */, 1);
- 
-     build_append_int_noprefix(table_data, 0, 4); /* ATS Attribute */
-     /* MCFG pci_segment */
-     build_append_int_noprefix(table_data, 0, 4); /* PCI Segment number */
- 
-+    /* Memory address size limit */
-+    build_append_int_noprefix(table_data, 64, 1);
-+
-+    build_append_int_noprefix(table_data, 0, 3); /* Reserved */
-+
-     /* Output Reference */
-     if (vms->iommu == VIRT_IOMMU_SMMUV3) {
-         AcpiIortIdMapping *range;
+literal 124
+zcmebD4+^Pa00MR=e`k+i1*eDrX9XZ&1PX!JAesq?4S*O7Bw!2(4Uz`|CKCt^;wu0#
+QRGb+i3L*dhhtM#y0PN=p0RR91
+
+diff --git a/tests/data/acpi/virt/IORT.memhp b/tests/data/acpi/virt/IORT.memhp
+index 521acefe9ba66706c5607321a82d330586f3f280..7efd0ce8a6b3928efa7e1373f688ab4c5f50543b 100644
+GIT binary patch
+literal 128
+zcmebD4+?2uU|?Y0?Bwt45v<@85#X!<1dKp25F11@0kHuPgMkDCNC*yK93~3}W)K^M
+VRiHGGVg_O`aDdYP|3ers^8jQz3IPBB
+
+literal 124
+zcmebD4+^Pa00MR=e`k+i1*eDrX9XZ&1PX!JAesq?4S*O7Bw!2(4Uz`|CKCt^;wu0#
+QRGb+i3L*dhhtM#y0PN=p0RR91
+
+diff --git a/tests/data/acpi/virt/IORT.numamem b/tests/data/acpi/virt/IORT.numamem
+index 521acefe9ba66706c5607321a82d330586f3f280..7efd0ce8a6b3928efa7e1373f688ab4c5f50543b 100644
+GIT binary patch
+literal 128
+zcmebD4+?2uU|?Y0?Bwt45v<@85#X!<1dKp25F11@0kHuPgMkDCNC*yK93~3}W)K^M
+VRiHGGVg_O`aDdYP|3ers^8jQz3IPBB
+
+literal 124
+zcmebD4+^Pa00MR=e`k+i1*eDrX9XZ&1PX!JAesq?4S*O7Bw!2(4Uz`|CKCt^;wu0#
+QRGb+i3L*dhhtM#y0PN=p0RR91
+
+diff --git a/tests/data/acpi/virt/IORT.pxb b/tests/data/acpi/virt/IORT.pxb
+index 521acefe9ba66706c5607321a82d330586f3f280..7efd0ce8a6b3928efa7e1373f688ab4c5f50543b 100644
+GIT binary patch
+literal 128
+zcmebD4+?2uU|?Y0?Bwt45v<@85#X!<1dKp25F11@0kHuPgMkDCNC*yK93~3}W)K^M
+VRiHGGVg_O`aDdYP|3ers^8jQz3IPBB
+
+literal 124
+zcmebD4+^Pa00MR=e`k+i1*eDrX9XZ&1PX!JAesq?4S*O7Bw!2(4Uz`|CKCt^;wu0#
+QRGb+i3L*dhhtM#y0PN=p0RR91
+
 -- 
 2.26.3
 
