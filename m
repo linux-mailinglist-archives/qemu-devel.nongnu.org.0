@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3228A422D95
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:13:43 +0200 (CEST)
-Received: from localhost ([::1]:43780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48CAA422DB7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:18:03 +0200 (CEST)
+Received: from localhost ([::1]:52088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXn4X-0000sQ-PI
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:13:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46914)
+	id 1mXn8k-0006pD-8a
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:18:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsm-0000AE-Oc
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42155)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsp-0000B3-Eb
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsi-0004us-R1
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:31 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsl-0004ye-Jp
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633449686;
+ s=mimecast20190719; t=1633449690;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=E/2AbBIxr8gJIB7YiiNV6HX7OyqnjUd6KvubBiO23Xo=;
- b=ZXbiViFg7PT5eWPcVFiS+5+0hOEH4H0PUDZDcTOhTDNbZaK6Ikneo2vn9I9j/Qfx47Gsqy
- O13SFyfP29ZyUiqLmuhb/Px66mdlSN7qm09JHMoLv4kRQDiXKTDA3qwQGcC7DVT2CYno7T
- a3lsXyGAXVi8Xo7q+CCS/NnH+tim08M=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-jhwAf8ACP1SFFvXfJJtGmw-1; Tue, 05 Oct 2021 12:01:25 -0400
-X-MC-Unique: jhwAf8ACP1SFFvXfJJtGmw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- f11-20020adfc98b000000b0015fedc2a8d4so5921795wrh.0
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:01:25 -0700 (PDT)
+ bh=hX3b5CaKP1VVugxs36uHglvddVRMuC85IYkRRxHHhEk=;
+ b=Ar7OJwddF+vRiMBm5zAOJkiagVa6Xn3zq5oue20pMsMjKesFHJufAjvT7V+bbCUBH+M0fk
+ xsr3cTi9hSBiP+DdxRku7DnJ6dwWRgKuH9MPx0JheE/Tgcqdl0TuUmcPJZpK9ULsBCQuli
+ sXGNk9D8s50IQe1nrfFnKHZ0GV0f9e8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-qUOJN0hwNfmzMETjGnYdkg-1; Tue, 05 Oct 2021 12:01:29 -0400
+X-MC-Unique: qUOJN0hwNfmzMETjGnYdkg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ z22-20020a7bc7d6000000b0030d5c26120fso1221368wmk.1
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:01:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=E/2AbBIxr8gJIB7YiiNV6HX7OyqnjUd6KvubBiO23Xo=;
- b=qMmEsA1qePk+bvM/YMAudSjIrL1N0wvIFz08Xv/ZfXwYNyJaemiSk6HGqxaL6JZibj
- iIauzNKzct3sxR5AYkyDsswnQEzkJoRXH+3AQX/VMrl8KfkobGlw3MlPqU/GCwEz8Twr
- TTtOAXAxfY/Pf1pN35fUcCjQ5uvEPJnZ9dNjxGrD++HQTOCLIRRLbizJEX2bfVctEIl9
- Gm5EhPBxzBLaC8p9K/r4Q0/0i000FpIubieQotqaUK3Ja75HuP91d+aKgHk0C0Sl7JHn
- safY0b9VtkErkfrI+WP3/KbYdpFo9v3Xgs2JV7aR/Q6qcGnAyGJ5/a3wVzUn/sKSgplP
- ybSg==
-X-Gm-Message-State: AOAM533jaidz2/kb2LEX2l8TJAm8Hr38RQqpObIe3ZEVjbhE2Km+B5o8
- ObDHKPJfP9BHWlx0TU8mqoSLS8CoXhtgHTq28OfZTeuQdQHobmT1PsgNi5M0bO8FLwDD6W444SI
- SmeJFtW3S+/f5Il9vy4PBujCLQx3m5ljFYLQYgpqhcdGelwx02atCs8wQR/KK
-X-Received: by 2002:a1c:43c3:: with SMTP id q186mr4218967wma.143.1633449683519; 
- Tue, 05 Oct 2021 09:01:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzvDYisFhozDkxlqSWshcqezbP5c8oMJhq+JguusiNSjzMFVO4EAvdwTbzxTfL2iqn+p0muGw==
-X-Received: by 2002:a1c:43c3:: with SMTP id q186mr4218933wma.143.1633449683285; 
- Tue, 05 Oct 2021 09:01:23 -0700 (PDT)
+ bh=hX3b5CaKP1VVugxs36uHglvddVRMuC85IYkRRxHHhEk=;
+ b=GwRzK4wDq/wHOUDQaxAO57AbD1yABmRV72tnzP2A2pZDQLzlnvw40FurPLas9mIMv4
+ KSk05vXK2CU5KNysjE1qHCFr6y95MeURdduLisGI7Il1XOkvHPrLNFL+wWtcrGCZGSAr
+ hiJ+sFA6fyQF1eLOvjMrPfxST3Y+ijo1cm6xB65HliO3BzAs2/5M30rWCQZq/szXm29m
+ 1VywkrloRZWCFFf8xr+KtAGeN0VZot8SLxxVy3EFqCtvhdlRRIDk+KL2vWVITHGbxBno
+ u3a5AltO3n7FxwP0X3OmW1frrfW8rOqGAZCEkcjOd3xwIPORU0Zpt8nCPWVLbdIRDDhV
+ GqrA==
+X-Gm-Message-State: AOAM532l6oiCkZm9HcPKtRD867U1LS3qYkugDohTaUZm1jDcsE/NMT7B
+ thiV0EaEo+xMe0h4enenefvx8m6J4vzaomfqozvyBljPb/MBTXWL1Fh4A72weXfUKIpPk5rChNO
+ u4QeJ/WzdIjPf5jBt/dbYivKpUqQpNdu45ql218dmtX8Su7HEsIxZD1vxdMrH
+X-Received: by 2002:a05:600c:4fc3:: with SMTP id
+ o3mr203653wmq.158.1633449687131; 
+ Tue, 05 Oct 2021 09:01:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzZy5hHeKlvleZe78zO8dW2PSCwXhbF3xk+juPEz+6RDCarvJfFCCwoF7Cv8vGZEffoLjmH+Q==
+X-Received: by 2002:a05:600c:4fc3:: with SMTP id
+ o3mr203618wmq.158.1633449686801; 
+ Tue, 05 Oct 2021 09:01:26 -0700 (PDT)
 Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id d16sm2238699wmb.2.2021.10.05.09.01.21
+ by smtp.gmail.com with ESMTPSA id f3sm2305698wmb.12.2021.10.05.09.01.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 09:01:22 -0700 (PDT)
-Date: Tue, 5 Oct 2021 12:01:20 -0400
+ Tue, 05 Oct 2021 09:01:26 -0700 (PDT)
+Date: Tue, 5 Oct 2021 12:01:23 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/57] virtio-net: vhost control virtqueue support
-Message-ID: <20211005155946.513818-12-mst@redhat.com>
+Subject: [PULL 12/57] vhost-vdpa: multiqueue support
+Message-ID: <20211005155946.513818-13-mst@redhat.com>
 References: <20211005155946.513818-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211005155946.513818-1-mst@redhat.com>
@@ -72,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -99,101 +101,206 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jason Wang <jasowang@redhat.com>
 
-This patch implements the control virtqueue support for vhost. This
-requires virtio-net to figure out the datapath queue pairs and control
-virtqueue via is_datapath and pass the number of those two types
-of virtqueues to vhost_net_start()/vhost_net_stop().
+This patch implements the multiqueue support for vhost-vdpa. This is
+done simply by reading the number of queue pairs from the config space
+and initialize the datapath and control path net client.
 
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20210907090322.1756-10-jasowang@redhat.com>
+Message-Id: <20210907090322.1756-11-jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/virtio-net.h |  1 +
- hw/net/vhost_net.c             |  2 +-
- hw/net/virtio-net.c            | 23 +++++++++++++++++++----
- 3 files changed, 21 insertions(+), 5 deletions(-)
+ hw/virtio/vhost-vdpa.c |   2 +-
+ net/vhost-vdpa.c       | 105 +++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 97 insertions(+), 10 deletions(-)
 
-diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-index 71cbdc26d7..08ee6dea39 100644
---- a/include/hw/virtio/virtio-net.h
-+++ b/include/hw/virtio/virtio-net.h
-@@ -196,6 +196,7 @@ struct VirtIONet {
-     int multiqueue;
-     uint16_t max_queue_pairs;
-     uint16_t curr_queue_pairs;
-+    uint16_t max_ncs;
-     size_t config_size;
-     char *netclient_name;
-     char *netclient_type;
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 3aabab06ea..0d888f29a6 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -326,7 +326,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-     VirtIONet *n = VIRTIO_NET(dev);
-     int nvhosts = data_queue_pairs + cvq;
-     struct vhost_net *net;
--    int r, e, i, last_index = data_qps * 2;
-+    int r, e, i, last_index = data_queue_pairs * 2;
-     NetClientState *peer;
- 
-     if (!cvq) {
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 2ade019b22..57a0cbc6cd 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -244,6 +244,7 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
-     VirtIODevice *vdev = VIRTIO_DEVICE(n);
-     NetClientState *nc = qemu_get_queue(n->nic);
-     int queue_pairs = n->multiqueue ? n->max_queue_pairs : 1;
-+    int cvq = n->max_ncs - n->max_queue_pairs;
- 
-     if (!get_vhost_net(nc->peer)) {
-         return;
-@@ -285,14 +286,14 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
-         }
- 
-         n->vhost_started = 1;
--        r = vhost_net_start(vdev, n->nic->ncs, queue_pairs, 0);
-+        r = vhost_net_start(vdev, n->nic->ncs, queue_pairs, cvq);
-         if (r < 0) {
-             error_report("unable to start vhost net: %d: "
-                          "falling back on userspace virtio", -r);
-             n->vhost_started = 0;
-         }
-     } else {
--        vhost_net_stop(vdev, n->nic->ncs, queue_pairs, 0);
-+        vhost_net_stop(vdev, n->nic->ncs, queue_pairs, cvq);
-         n->vhost_started = 0;
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 8587d30918..f9acfe9bdb 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -590,7 +590,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+         vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
      }
+ 
+-    if (vhost_vdpa_one_time_request(dev)) {
++    if (dev->vq_index + dev->nvqs != dev->last_index) {
+         return 0;
+     }
+ 
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 834dab28dd..533b15ae8c 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -18,6 +18,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/option.h"
+ #include "qapi/error.h"
++#include <linux/vhost.h>
+ #include <sys/ioctl.h>
+ #include <err.h>
+ #include "standard-headers/linux/virtio_net.h"
+@@ -51,6 +52,14 @@ const int vdpa_feature_bits[] = {
+     VIRTIO_NET_F_HOST_UFO,
+     VIRTIO_NET_F_MRG_RXBUF,
+     VIRTIO_NET_F_MTU,
++    VIRTIO_NET_F_CTRL_RX,
++    VIRTIO_NET_F_CTRL_RX_EXTRA,
++    VIRTIO_NET_F_CTRL_VLAN,
++    VIRTIO_NET_F_GUEST_ANNOUNCE,
++    VIRTIO_NET_F_CTRL_MAC_ADDR,
++    VIRTIO_NET_F_RSS,
++    VIRTIO_NET_F_MQ,
++    VIRTIO_NET_F_CTRL_VQ,
+     VIRTIO_F_IOMMU_PLATFORM,
+     VIRTIO_F_RING_PACKED,
+     VIRTIO_NET_F_RSS,
+@@ -81,7 +90,8 @@ static int vhost_vdpa_net_check_device_id(struct vhost_net *net)
+     return ret;
  }
-@@ -3393,9 +3394,23 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
-         return;
+ 
+-static int vhost_vdpa_add(NetClientState *ncs, void *be)
++static int vhost_vdpa_add(NetClientState *ncs, void *be,
++                          int queue_pair_index, int nvqs)
+ {
+     VhostNetOptions options;
+     struct vhost_net *net = NULL;
+@@ -94,7 +104,7 @@ static int vhost_vdpa_add(NetClientState *ncs, void *be)
+     options.net_backend = ncs;
+     options.opaque      = be;
+     options.busyloop_timeout = 0;
+-    options.nvqs = 2;
++    options.nvqs = nvqs;
+ 
+     net = vhost_net_init(&options);
+     if (!net) {
+@@ -158,18 +168,28 @@ static NetClientInfo net_vhost_vdpa_info = {
+ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+                                            const char *device,
+                                            const char *name,
+-                                           int vdpa_device_fd)
++                                           int vdpa_device_fd,
++                                           int queue_pair_index,
++                                           int nvqs,
++                                           bool is_datapath)
+ {
+     NetClientState *nc = NULL;
+     VhostVDPAState *s;
+     int ret = 0;
+     assert(name);
+-    nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
++    if (is_datapath) {
++        nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device,
++                                 name);
++    } else {
++        nc = qemu_new_net_control_client(&net_vhost_vdpa_info, peer,
++                                         device, name);
++    }
+     snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
+     s = DO_UPCAST(VhostVDPAState, nc, nc);
+ 
+     s->vhost_vdpa.device_fd = vdpa_device_fd;
+-    ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
++    s->vhost_vdpa.index = queue_pair_index;
++    ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
+     if (ret) {
+         qemu_del_net_client(nc);
+         return NULL;
+@@ -195,12 +215,52 @@ static int net_vhost_check_net(void *opaque, QemuOpts *opts, Error **errp)
+     return 0;
+ }
+ 
++static int vhost_vdpa_get_max_queue_pairs(int fd, int *has_cvq, Error **errp)
++{
++    unsigned long config_size = offsetof(struct vhost_vdpa_config, buf);
++    struct vhost_vdpa_config *config;
++    __virtio16 *max_queue_pairs;
++    uint64_t features;
++    int ret;
++
++    ret = ioctl(fd, VHOST_GET_FEATURES, &features);
++    if (ret) {
++        error_setg(errp, "Fail to query features from vhost-vDPA device");
++        return ret;
++    }
++
++    if (features & (1 << VIRTIO_NET_F_CTRL_VQ)) {
++        *has_cvq = 1;
++    } else {
++        *has_cvq = 0;
++    }
++
++    if (features & (1 << VIRTIO_NET_F_MQ)) {
++        config = g_malloc0(config_size + sizeof(*max_queue_pairs));
++        config->off = offsetof(struct virtio_net_config, max_virtqueue_pairs);
++        config->len = sizeof(*max_queue_pairs);
++
++        ret = ioctl(fd, VHOST_VDPA_GET_CONFIG, config);
++        if (ret) {
++            error_setg(errp, "Fail to get config from vhost-vDPA device");
++            return -ret;
++        }
++
++        max_queue_pairs = (__virtio16 *)&config->buf;
++
++        return lduw_le_p(max_queue_pairs);
++    }
++
++    return 1;
++}
++
+ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+                         NetClientState *peer, Error **errp)
+ {
+     const NetdevVhostVDPAOptions *opts;
+     int vdpa_device_fd;
+-    NetClientState *nc;
++    NetClientState **ncs, *nc;
++    int queue_pairs, i, has_cvq = 0;
+ 
+     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+     opts = &netdev->u.vhost_vdpa;
+@@ -215,11 +275,38 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+         return -errno;
      }
  
--    n->max_queue_pairs = MAX(n->nic_conf.peers.queues, 1);
-+    n->max_ncs = MAX(n->nic_conf.peers.queues, 1);
+-    nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, vdpa_device_fd);
+-    if (!nc) {
++    queue_pairs = vhost_vdpa_get_max_queue_pairs(vdpa_device_fd,
++                                                 &has_cvq, errp);
++    if (queue_pairs < 0) {
+         qemu_close(vdpa_device_fd);
+-        return -1;
++        return queue_pairs;
+     }
+ 
++    ncs = g_malloc0(sizeof(*ncs) * queue_pairs);
 +
-+    /*
-+     * Figure out the datapath queue pairs since the backend could
-+     * provide control queue via peers as well.
-+     */
-+    if (n->nic_conf.peers.queues) {
-+        for (i = 0; i < n->max_ncs; i++) {
-+            if (n->nic_conf.peers.ncs[i]->is_datapath) {
-+                ++n->max_queue_pairs;
-+            }
-+        }
++    for (i = 0; i < queue_pairs; i++) {
++        ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
++                                     vdpa_device_fd, i, 2, true);
++        if (!ncs[i])
++            goto err;
 +    }
-+    n->max_queue_pairs = MAX(n->max_queue_pairs, 1);
 +
-     if (n->max_queue_pairs * 2 + 1 > VIRTIO_QUEUE_MAX) {
--        error_setg(errp, "Invalid number of queue_pairs (= %" PRIu32 "), "
-+        error_setg(errp, "Invalid number of queue pairs (= %" PRIu32 "), "
-                    "must be a positive integer less than %d.",
-                    n->max_queue_pairs, (VIRTIO_QUEUE_MAX - 1) / 2);
-         virtio_cleanup(vdev);
++    if (has_cvq) {
++        nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
++                                 vdpa_device_fd, i, 1, false);
++        if (!nc)
++            goto err;
++    }
++
++    g_free(ncs);
+     return 0;
++
++err:
++    if (i) {
++        qemu_del_net_client(ncs[0]);
++    }
++    qemu_close(vdpa_device_fd);
++    g_free(ncs);
++
++    return -1;
+ }
 -- 
 MST
 
