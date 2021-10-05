@@ -2,73 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC2F4226EA
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 14:39:59 +0200 (CEST)
-Received: from localhost ([::1]:41898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DA64226E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 14:37:46 +0200 (CEST)
+Received: from localhost ([::1]:37600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXjji-0000Gy-49
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 08:39:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48200)
+	id 1mXjhZ-0005kn-82
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 08:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXjby-0001BJ-AS
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 08:32:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38415)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mXjfq-0003m7-Rt
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 08:35:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXjbw-0007Oj-9N
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 08:31:58 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mXjfl-000898-W4
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 08:35:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633437115;
+ s=mimecast20190719; t=1633437352;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SASpVioujqbx2i6GpsWhjUe7lMzPIPi3ANU0cnew+LA=;
- b=SpSz/6aZXB1gKCgecCNGwbK72oBH5zU7mwcp/URl2tmsHW4wS3cyZVaSoJchUcg0gkW5eD
- t9t7HGusOeOGHzrOPmDHk2HysYMkSH7oZIJGnBOPTkGeteSTplqKrRqUuFB+uE517cn/MJ
- IG8uz5XNImwrWLcVrsa4+N+OGDg0jlY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-Ob7vW6JeOWSptvOn2Y0-5Q-1; Tue, 05 Oct 2021 08:31:54 -0400
-X-MC-Unique: Ob7vW6JeOWSptvOn2Y0-5Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4440456FA7;
- Tue,  5 Oct 2021 12:31:52 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.9.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C3389AA2B;
- Tue,  5 Oct 2021 12:31:52 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 6D28D220BDB; Tue,  5 Oct 2021 08:31:51 -0400 (EDT)
-Date: Tue, 5 Oct 2021 08:31:51 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 08/13] virtiofsd: Create a notification queue
-Message-ID: <YVxFt3MFgSWOJe35@redhat.com>
-References: <20210930153037.1194279-1-vgoyal@redhat.com>
- <20210930153037.1194279-9-vgoyal@redhat.com>
- <YVsQDkoNPyvC/Uoo@stefanha-x1.localdomain>
- <YVtrk6/sWwoUfXs+@redhat.com>
- <YVwJVlRFUaw+W+lo@stefanha-x1.localdomain>
+ bh=ScFMAWFso1WPvSDp1yQAoPu30GKQRk29RIeda4Rhl9U=;
+ b=bNmb9yEbY+5KK/KTOsNsT3TD0xt26yj2C1s9mQ+AvQlnQpjs4H5xrMsA1gnfAO0vIK9qr4
+ 59KlCIQHLaBwIhu5BRFduaCuGDet78LKl9bcs/3O5vkJcPgBoauna76dv1ge0kLlnq8EZz
+ 5d7l+QAiFjU3L8zSan3/t1HMdD6zTtU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-XzJ9XiDhPzCZ631F4bv-8w-1; Tue, 05 Oct 2021 08:35:49 -0400
+X-MC-Unique: XzJ9XiDhPzCZ631F4bv-8w-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ n18-20020adff092000000b001609d9081d4so2698724wro.18
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 05:35:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ScFMAWFso1WPvSDp1yQAoPu30GKQRk29RIeda4Rhl9U=;
+ b=KEZBLtYZOwCI+2weLF2NQaYfABOHOlQ4+e7plZTIX2ppbOKoq9gRIx25X7r02irhPZ
+ QjfYi/aSgnhOoFIGSG4K/NrmA9MzHUaIpp+HK83ZqtKFyi+dAwRRXFCwBWjr8UE7ljIK
+ O/Vp4XydZDSro+BNswQ+bTMBYElFjAXGtPoGjCg+ysswR2bDVVomxUK1e2rclWbjVQe/
+ lR7VP25NhjoLXcnge3gi2XE4xWuiEbDaalsVtKy/NAWBn1hDfE7KWlUHFpgtlbLGEEU1
+ DeWUbMzTsfSLvkRpvqb/ZvRIZgbMeTDvez/+EKgql3aMAJ6vVFeHhUZGs3ahewrhXRLv
+ ifqg==
+X-Gm-Message-State: AOAM531lwjIu6SCK5jjjp6pIHp4p30SwYxBUUuP1Sf3XVdFzNiSMouBX
+ cvhZwGGGf+bgBHyq8xqmwx85rVxrObsqM/5RICtfMz7ZZjyLVUVMR8xePZ7dvo6Upu6RMXWq5EE
+ yshZJWZhSUgddmzI=
+X-Received: by 2002:adf:8b9a:: with SMTP id o26mr10299401wra.109.1633437347938; 
+ Tue, 05 Oct 2021 05:35:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx665y8hHsrIJlpZJCND0CyEv70CFtirWlrPLpH/vCcQIl13MgzvKrzPUmmhp9HBLegkWytbA==
+X-Received: by 2002:adf:8b9a:: with SMTP id o26mr10299367wra.109.1633437347717; 
+ Tue, 05 Oct 2021 05:35:47 -0700 (PDT)
+Received: from thuth.remote.csb (p549bb2bd.dip0.t-ipconnect.de.
+ [84.155.178.189])
+ by smtp.gmail.com with ESMTPSA id p6sm13010905wrj.95.2021.10.05.05.35.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Oct 2021 05:35:47 -0700 (PDT)
+Subject: Re: Deprecate the ppc405 boards in QEMU?
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ <20210927044808.73391-5-david@gibson.dropbear.id.au>
+ <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
+ <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
+ <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
+ <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
+ <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
+ <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
+ <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
+ <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
+ <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
+ <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
+ <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
+ <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
+ <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
+Date: Tue, 5 Oct 2021 14:35:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <YVwJVlRFUaw+W+lo@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,185 +112,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: miklos@szeredi.hu, qemu-devel@nongnu.org, iangelak@redhat.com,
- dgilbert@redhat.com, virtio-fs@redhat.com, jaggel@bu.edu
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
+ Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, Greg Kurz <groug@kaod.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 05, 2021 at 09:14:14AM +0100, Stefan Hajnoczi wrote:
-> On Mon, Oct 04, 2021 at 05:01:07PM -0400, Vivek Goyal wrote:
-> > On Mon, Oct 04, 2021 at 03:30:38PM +0100, Stefan Hajnoczi wrote:
-> > > On Thu, Sep 30, 2021 at 11:30:32AM -0400, Vivek Goyal wrote:
-> > > > Add a notification queue which will be used to send async notifications
-> > > > for file lock availability.
-> > > > 
-> > > > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > > > Signed-off-by: Ioannis Angelakopoulos <iangelak@redhat.com>
-> > > > ---
-> > > >  hw/virtio/vhost-user-fs-pci.c     |  4 +-
-> > > >  hw/virtio/vhost-user-fs.c         | 62 +++++++++++++++++++++++++--
-> > > >  include/hw/virtio/vhost-user-fs.h |  2 +
-> > > >  tools/virtiofsd/fuse_i.h          |  1 +
-> > > >  tools/virtiofsd/fuse_virtio.c     | 70 +++++++++++++++++++++++--------
-> > > >  5 files changed, 116 insertions(+), 23 deletions(-)
-> > > > 
-> > > > diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
-> > > > index 2ed8492b3f..cdb9471088 100644
-> > > > --- a/hw/virtio/vhost-user-fs-pci.c
-> > > > +++ b/hw/virtio/vhost-user-fs-pci.c
-> > > > @@ -41,8 +41,8 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-> > > >      DeviceState *vdev = DEVICE(&dev->vdev);
-> > > >  
-> > > >      if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
-> > > > -        /* Also reserve config change and hiprio queue vectors */
-> > > > -        vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 2;
-> > > > +        /* Also reserve config change, hiprio and notification queue vectors */
-> > > > +        vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 3;
-> > > >      }
-> > > >  
-> > > >      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-> > > > diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> > > > index d1efbc5b18..6bafcf0243 100644
-> > > > --- a/hw/virtio/vhost-user-fs.c
-> > > > +++ b/hw/virtio/vhost-user-fs.c
-> > > > @@ -31,6 +31,7 @@ static const int user_feature_bits[] = {
-> > > >      VIRTIO_F_NOTIFY_ON_EMPTY,
-> > > >      VIRTIO_F_RING_PACKED,
-> > > >      VIRTIO_F_IOMMU_PLATFORM,
-> > > > +    VIRTIO_FS_F_NOTIFICATION,
-> > > >  
-> > > >      VHOST_INVALID_FEATURE_BIT
-> > > >  };
-> > > > @@ -147,7 +148,7 @@ static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-> > > >       */
-> > > >  }
-> > > >  
-> > > > -static void vuf_create_vqs(VirtIODevice *vdev)
-> > > > +static void vuf_create_vqs(VirtIODevice *vdev, bool notification_vq)
-> > > >  {
-> > > >      VHostUserFS *fs = VHOST_USER_FS(vdev);
-> > > >      unsigned int i;
-> > > > @@ -155,6 +156,15 @@ static void vuf_create_vqs(VirtIODevice *vdev)
-> > > >      /* Hiprio queue */
-> > > >      fs->hiprio_vq = virtio_add_queue(vdev, fs->conf.queue_size,
-> > > >                                       vuf_handle_output);
-> > > > +    /*
-> > > > +     * Notification queue. Feature negotiation happens later. So at this
-> > > > +     * point of time we don't know if driver will use notification queue
-> > > > +     * or not.
-> > > > +     */
-> > > > +    if (notification_vq) {
-> > > > +        fs->notification_vq = virtio_add_queue(vdev, fs->conf.queue_size,
-> > > > +                                               vuf_handle_output);
-> > > > +    }
-> > > >  
-> > > >      /* Request queues */
-> > > >      fs->req_vqs = g_new(VirtQueue *, fs->conf.num_request_queues);
-> > > > @@ -163,8 +173,12 @@ static void vuf_create_vqs(VirtIODevice *vdev)
-> > > >                                            vuf_handle_output);
-> > > >      }
-> > > >  
-> > > > -    /* 1 high prio queue, plus the number configured */
-> > > > -    fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
-> > > > +    /* 1 high prio queue, 1 notification queue plus the number configured */
-> > > > +    if (notification_vq) {
-> > > > +        fs->vhost_dev.nvqs = 2 + fs->conf.num_request_queues;
-> > > > +    } else {
-> > > > +        fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
-> > > > +    }
-> > > >      fs->vhost_dev.vqs = g_new0(struct vhost_virtqueue, fs->vhost_dev.nvqs);
-> > > >  }
-> > > >  
-> > > > @@ -176,6 +190,11 @@ static void vuf_cleanup_vqs(VirtIODevice *vdev)
-> > > >      virtio_delete_queue(fs->hiprio_vq);
-> > > >      fs->hiprio_vq = NULL;
-> > > >  
-> > > > +    if (fs->notification_vq) {
-> > > > +        virtio_delete_queue(fs->notification_vq);
-> > > > +    }
-> > > > +    fs->notification_vq = NULL;
-> > > > +
-> > > >      for (i = 0; i < fs->conf.num_request_queues; i++) {
-> > > >          virtio_delete_queue(fs->req_vqs[i]);
-> > > >      }
-> > > > @@ -194,9 +213,43 @@ static uint64_t vuf_get_features(VirtIODevice *vdev,
-> > > >  {
-> > > >      VHostUserFS *fs = VHOST_USER_FS(vdev);
-> > > >  
-> > > > +    virtio_add_feature(&features, VIRTIO_FS_F_NOTIFICATION);
-> > > > +
-> > > >      return vhost_get_features(&fs->vhost_dev, user_feature_bits, features);
-> > > >  }
-> > > >  
-> > > > +static void vuf_set_features(VirtIODevice *vdev, uint64_t features)
-> > > > +{
-> > > > +    VHostUserFS *fs = VHOST_USER_FS(vdev);
-> > > > +
-> > > > +    if (virtio_has_feature(features, VIRTIO_FS_F_NOTIFICATION)) {
-> > > > +        fs->notify_enabled = true;
-> > > > +        /*
-> > > > +         * If guest first booted with no notification queue support and
-> > > > +         * later rebooted with kernel which supports notification, we
-> > > > +         * can end up here
-> > > > +         */
-> > > > +        if (!fs->notification_vq) {
-> > > > +            vuf_cleanup_vqs(vdev);
-> > > > +            vuf_create_vqs(vdev, true);
-> > > > +        }
-> > > 
-> > > I would simplify things by unconditionally creating the notification vq
-> > > for the device and letting the vhost-user device backend decide whether
-> > > it wants to handle the vq or not.
-> > > If the backend doesn't implement the
-> > > vq then it also won't advertise VIRTIO_FS_F_NOTIFICATION so the guest
-> > > driver won't submit virtqueue buffers.
-> > 
-> > I think I am did not understand the idea. This code deals with that
-> > both qemu and vhost-user device can deal with notification queue. But
-> > driver can't deal with it. 
-> > 
-> > So if we first booted into a guest kernel which does not support
-> > notification queue, then we will not have instantiated notification
-> > queue. But later we reboot guest into a newer kernel and now it
-> > has capability to deal with notification queues, so we create it
-> > now.
-> > 
-> > IIUC, you are suggesting that somehow keep notification queue
-> > instantiated even if guest driver does not support notifications, so
-> > that we will not have to get into the exercise of cleaning up queues
-> > and re-instantiating these?
+On 05/10/2021 14.17, BALATON Zoltan wrote:
+> On Tue, 5 Oct 2021, Thomas Huth wrote:
+>> On 05/10/2021 10.07, Thomas Huth wrote:
+>>> On 05/10/2021 10.05, Alexey Kardashevskiy wrote:
+>> [...]
+>>>> What is so special about taihu?
+>>>
+>>> taihu is the other 405 board defined in hw/ppc/ppc405_boards.c (which I 
+>>> suggested to deprecate now)
+>>
+>> I've now also played with the u-boot sources a little bit, and with some 
+>> bit of tweaking, it's indeed possible to compile the old taihu board 
+>> there. However, it does not really work with QEMU anymore, it immediately 
+>> triggers an assert():
+>>
+>> $ qemu-system-ppc -M taihu -bios u-boot.bin -serial null -serial mon:stdio
+>> **
+>> ERROR:accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion failed: 
+>> (qemu_mutex_iothread_locked())
+>> Aborted (core dumped)
 > 
-> Yes.
+> Maybe it's similar to this: 2025fc6766ab25501e0041c564c44bb0f7389774 The 
+> helper_load_dcr() and helper_store_dcr() in target/ppc/timebase_helper.c 
+> seem to lock/unlock the iothread but I'm not sure if that's necessary. Also 
+> not sure why this does not happen with 460ex but that maybe uses different 
+> code.
+
+It's rather the other way round, the locking is missing here instead. I can 
+get the serial output with the current QEMU when I add the following patch 
+(not sure whether that's the right spot, though):
+
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index f5d012f860..bb57f1c9ed 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -336,6 +336,8 @@ void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
+  {
+      PowerPCCPU *cpu = env_archcpu(env);
+
++    qemu_mutex_lock_iothread();
++
+      switch ((val >> 28) & 0x3) {
+      case 0x0:
+          /* No action */
+@@ -353,6 +355,8 @@ void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
+          ppc40x_system_reset(cpu);
+          break;
+      }
++
++    qemu_mutex_unlock_iothread();
+  }
+
+  /* PowerPC 40x internal IRQ controller */
+
+
+>> Going back to QEMU v2.3.0, I can see at least a little bit of output, but 
+>> it then also triggers an assert() during DRAM initialization:
+>>
+>> $ qemu-system-ppc -M taihu -bios u-boot.bin -serial null -serial mon:stdio
+>>
+>> Reset PowerPC core
+>>
+>> U-Boot 2014.10-rc2-00123-g461be2f96e-dirty (Oct 05 2021 - 10:02:56)
+>>
+>> CPU:   AMCC PowerPC 405EP Rev. B at 770 MHz (PLB=256 OPB=128 EBC=128)
+>>       I2C boot EEPROM disabled
+>>       Internal PCI arbiter enabled
+>>       16 KiB I-Cache 16 KiB D-Cache
+>> Board: Taihu - AMCC PPC405EP Evaluation Board
+>> I2C:   ready
+>> DRAM:  qemu-system-ppc: memory.c:1693: memory_region_del_subregion: 
+>> Assertion `subregion->container == mr' failed.
+>> Aborted (core dumped)
+>>
+>> Not sure if this ever worked in QEMU, maybe in the early 0.15 time, but 
+>> that version of QEMU also does not compile easily anymore on modern 
+>> systems. So I'm afraid, getting this into a workable shape again will take 
+>> a lot of time. At least I'll stop my efforts here now.
 > 
-> > But I think we can't keep notification queue around if driver does
-> > not support it. Because it changes queue index. queue index 1 will
-> > belong to request queue if notifications are not enabled otherwise
-> > it will belong to notification queue. So If I always instantiate
-> > notification queue, then guest and qemu/virtiofsd will have
-> > different understanding of which queue index belongs to what
-> > queue.
-> 
-> The meaning of the virtqueue doesn't matter. That only matters to
-> virtiofsd when processing virtqueues. Since QEMU's -device
-> vhost-user-fs doesn't process virtqueues there's no difference between
-> hipri, request, and notification virtqueues.
+> Do you have this u-boot binary somewhere just for others who want to try it?
 
-Ok, I will think more about it and look at the code and see if this
-is feasible. First question I have is that vhost-user device will
-have to know whether driver supports notification or not so that
-it can adjust its internal view of virtqueue mapping.
+FWIW:
+http://people.redhat.com/~thuth/data/u-boot-taihu.bin
 
-BTW, complexity aside, is my current implementation of reconfiguring
-queues broken?
-
-Vivek
-
-> 
-> I'm not 100% sure that the vhost-user code is set up to work smoothly in
-> this fashion, but I think it should be possible to make this work and
-> the end result will be simpler.
-> 
-> Stefan
-
+  Thomas
 
 
