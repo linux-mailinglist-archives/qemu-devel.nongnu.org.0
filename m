@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796BD422C1C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:14:30 +0200 (CEST)
-Received: from localhost ([::1]:43236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E9C422C90
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:33:43 +0200 (CEST)
+Received: from localhost ([::1]:59894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXm9F-0006Zl-6r
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:14:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54840)
+	id 1mXmRq-0003Ya-0m
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:33:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXlcQ-0002UN-4G
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:40:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39850)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXltT-0004t1-CB
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:58:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.153.124]:59111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXlcO-0000tz-Hm
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:40:33 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXltO-0000Ge-Qj
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:58:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633444831;
+ s=mimecast20190719; t=1633445885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iOjTd9S61ut/P05qmmBp8xhn5E1imt1QuNXKhaiKgso=;
- b=SwZvxbMxWRCFwhUdudz5Nd/xuD+nWmJrMaaaSVpB+N2ABpD6sHlpC/CGcbXKSlNe/fn2Sr
- fcpm9FJLTljh3dR7zxLIdgQP11v3qSVYeQn79uvWk6j+m467Vfk+uCw0K+jWyeraRELfII
- 8XcYxWBUvbrxm0aEriPE/07jyCADMTE=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-wSsZ1qFNPSm3t1wAXAFMBA-1; Tue, 05 Oct 2021 10:40:29 -0400
-X-MC-Unique: wSsZ1qFNPSm3t1wAXAFMBA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- n19-20020a509353000000b003dad185759bso12913864eda.6
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 07:40:29 -0700 (PDT)
+ bh=rEZND+uRQZ2jXkjYnNViAUBIpQ2vwZb0Yzke1gX91No=;
+ b=Qua6q2AeHZKqGBlNmdk9JhS2ba3TMGDxgj1DZJmuyZBbnTwrzhUuc3+sYrmszuXpMe9gHz
+ f5Vtc9U+NbTy37ZLyxVZK3tbaL8a3c5NO+DQgw9h8SwpshLR5gZETVRZ+ts+N++YY3X6p8
+ MnuXYj74ETqRq1/c8GMHca4Ww1y99Ao=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-t4FGsGJlNMKVzM0WiOnR2g-1; Tue, 05 Oct 2021 10:58:04 -0400
+X-MC-Unique: t4FGsGJlNMKVzM0WiOnR2g-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ u23-20020a50a417000000b003db23c7e5e2so196853edb.8
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 07:58:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iOjTd9S61ut/P05qmmBp8xhn5E1imt1QuNXKhaiKgso=;
- b=idQLE09C+CzCoMTYlQcy0RUe2nER6VRJdRNaMMxNET/fKaZEdsM7KyNvxn/d2FTHNB
- iMGT6njDxadsMQXtLkT2DWgUAjxoctD0YZDRpmRSW86b2R/nw4ZnmFy4yQXQd3rWgbrC
- l5ZsvOyh2Wj+ypFDs6nxrtmnM1HicqC87QsFFEa6xiFnURQJS4QfhbBB7Ei8WPewWGpV
- +OZ+ZlYtNghXR2n5408dycijiYYYcJuQkem7ddrsIZbriGSVWDOr7PVn/A3MJSekSIyY
- FhJVrl/MhmCg+jYzkc7Iy5nW+w7NAUlSfzrs/YNs2QfZl4fFMoT7bRAs/YFOHArn3lP9
- 8H7Q==
-X-Gm-Message-State: AOAM5324iyCfHAJq0u5wZFVvAgApqN+FDm3RlQwcYLEtx6OeoytMvDYH
- ULDcmF8K7lT1mKF4x48mccLFmLwyi1vdiAb4voCfn5/66dy8AoT9pBFIEHQiDVJLYjUqy/iiy5+
- FC8o4dSJmOWyktRA=
-X-Received: by 2002:a05:6402:270e:: with SMTP id
- y14mr23176953edd.212.1633444828676; 
- Tue, 05 Oct 2021 07:40:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFhfGJGalcuTJLczRqH/k5ic3OnNBLs1IYY1xUfOfrfB1xAexvMFx2a8D5M2GGDb2dkN5KLg==
-X-Received: by 2002:a05:6402:270e:: with SMTP id
- y14mr23176933edd.212.1633444828432; 
- Tue, 05 Oct 2021 07:40:28 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=rEZND+uRQZ2jXkjYnNViAUBIpQ2vwZb0Yzke1gX91No=;
+ b=EIHTxSWx7I1lt1Y1jLEhppS84HBoFB8wGYc6gFl48E4Wx/ubzFOAyUjAbscgj7sduM
+ uqU3Z2cFsHlD8uwsRE81+MGf50DNRA4GNUOzj9EuS7In4qMM3FFQZ8GJbCvqQQQwQNFa
+ mJ4TaZiM8utIfaCDB9eLNsS9/2who0i9V/dyKCt6BXdC+bHT2V7FZVE005cjhNQgVbdk
+ rBWiL0FiukB0v47MO5fatQQow3txf5/KDiQYO23fA9r+sKYWnGvx626nWfaj+h8JfUv0
+ aFJOMqgjMnKOMbD2PRJtJO+WQZ0izpq1BRJanj4UtEOaAej0EKUd7IEXcil4QKtmCe4g
+ ifaQ==
+X-Gm-Message-State: AOAM530ouSWkpniuKlSMYF6Xyl/FEcBY28x+QWQjszdKNh1f+Q9i5CKA
+ gCmQfXRkQLi/2cF4Rhwp9DgBMFVb3geW+Q/TGRqRwZdjlNFV6C0V9Y3UaOF7frTksaiL4+3Luep
+ 9vqoaGqFNTbugzOM=
+X-Received: by 2002:a17:906:1ec9:: with SMTP id
+ m9mr26468892ejj.115.1633445882994; 
+ Tue, 05 Oct 2021 07:58:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2T3tBg98Roz+xgsbi5xVB5eSSYIFuiFIiONsYzlt7erGJu72m+ky0H9IKIL97a2uxUqtXqA==
+X-Received: by 2002:a17:906:1ec9:: with SMTP id
+ m9mr26468850ejj.115.1633445882649; 
+ Tue, 05 Oct 2021 07:58:02 -0700 (PDT)
 Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id bq4sm7931208ejb.43.2021.10.05.07.40.26
+ by smtp.gmail.com with ESMTPSA id m9sm8256357edl.66.2021.10.05.07.57.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 07:40:27 -0700 (PDT)
-Date: Tue, 5 Oct 2021 10:40:24 -0400
+ Tue, 05 Oct 2021 07:58:02 -0700 (PDT)
+Date: Tue, 5 Oct 2021 10:57:57 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Xueming Li <xuemingl@nvidia.com>
-Subject: Re: [PATCH v2 1/2] vhost-user: fix VirtQ notifier cleanup
-Message-ID: <20211005103916-mutt-send-email-mst@kernel.org>
-References: <20210912162014.106704-1-xuemingl@nvidia.com>
- <20210917122616.6067-1-xuemingl@nvidia.com>
- <20210917122616.6067-2-xuemingl@nvidia.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3] target/i386: Include 'hw/i386/apic.h' locally
+Message-ID: <20211005105745-mutt-send-email-mst@kernel.org>
+References: <20210929163124.2523413-1-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210917122616.6067-2-xuemingl@nvidia.com>
+In-Reply-To: <20210929163124.2523413-1-f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.153.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,94 +95,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>, qemu-devel@nongnu.org,
- tiwei.bie@intel.com, qemu-stable@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Reinoud Zandijk <reinoud@netbsd.org>, Colin Xu <colin.xu@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, haxm-team@intel.com,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Wenchao Wang <wenchao.wang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 17, 2021 at 08:26:15PM +0800, Xueming Li wrote:
-> When vhost-user device stop and unmmap notifier address, vCPU thread
-> that writing the notifier via old flatview failed with accessing invalid
-> address.
+On Wed, Sep 29, 2021 at 06:31:24PM +0200, Philippe Mathieu-Daudé wrote:
+> Instead of including a sysemu-specific header in "cpu.h"
+> (which is shared with user-mode emulations), include it
+> locally when required.
 > 
-> To avoid this concurrent issue, wait memory flatview update by draining
-> rcu callbacks before unmaping notifiers.
-> 
-> Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
-> Cc: tiwei.bie@intel.com
-> Cc: qemu-stable@nongnu.org
-> Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
-> Signed-off-by: Xueming Li <xuemingl@nvidia.com>
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-Pls post v2 as a new thread, with changelog in the cover letter.
+which tree? trivial I guess?
 
 > ---
->  hw/virtio/vhost-user.c | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
+>  target/i386/cpu.h                    | 4 ----
+>  hw/i386/kvmvapic.c                   | 1 +
+>  hw/i386/x86.c                        | 1 +
+>  target/i386/cpu-dump.c               | 1 +
+>  target/i386/cpu-sysemu.c             | 1 +
+>  target/i386/cpu.c                    | 1 +
+>  target/i386/gdbstub.c                | 4 ++++
+>  target/i386/hax/hax-all.c            | 1 +
+>  target/i386/helper.c                 | 1 +
+>  target/i386/hvf/hvf.c                | 1 +
+>  target/i386/hvf/x86_emu.c            | 1 +
+>  target/i386/nvmm/nvmm-all.c          | 1 +
+>  target/i386/tcg/sysemu/misc_helper.c | 1 +
+>  target/i386/tcg/sysemu/seg_helper.c  | 1 +
+>  target/i386/whpx/whpx-all.c          | 1 +
+>  15 files changed, 17 insertions(+), 4 deletions(-)
 > 
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index 2c8556237f..08581e6711 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -1165,6 +1165,11 @@ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index c2954c71ea0..4411718bb7a 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -2045,10 +2045,6 @@ typedef X86CPU ArchCPU;
+>  #include "exec/cpu-all.h"
+>  #include "svm.h"
 >  
->      if (n->addr && n->set) {
->          virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-> +        if (!qemu_in_vcpu_thread())
-> +            /* Wait vCPU threads accessing notifier via old flatview. */
-
-Wait VM - Wait for VM
-
-> +            drain_call_rcu();
-
-okay.
-but this has a coding style violation:
-should use {} in if.
-
-
-> +        munmap(n->addr, qemu_real_host_page_size);
-> +        n->addr = NULL;
->          n->set = false;
->      }
->  }
-> @@ -1502,12 +1507,7 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+> -#if !defined(CONFIG_USER_ONLY)
+> -#include "hw/i386/apic.h"
+> -#endif
+> -
+>  static inline void cpu_get_tb_cpu_state(CPUX86State *env, target_ulong *pc,
+>                                          target_ulong *cs_base, uint32_t *flags)
+>  {
+> diff --git a/hw/i386/kvmvapic.c b/hw/i386/kvmvapic.c
+> index 43f8a8f679e..7333818bdd1 100644
+> --- a/hw/i386/kvmvapic.c
+> +++ b/hw/i386/kvmvapic.c
+> @@ -16,6 +16,7 @@
+>  #include "sysemu/hw_accel.h"
+>  #include "sysemu/kvm.h"
+>  #include "sysemu/runstate.h"
+> +#include "hw/i386/apic.h"
+>  #include "hw/i386/apic_internal.h"
+>  #include "hw/sysbus.h"
+>  #include "hw/boards.h"
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 00448ed55aa..e0218f8791f 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -43,6 +43,7 @@
+>  #include "target/i386/cpu.h"
+>  #include "hw/i386/topology.h"
+>  #include "hw/i386/fw_cfg.h"
+> +#include "hw/i386/apic.h"
+>  #include "hw/intc/i8259.h"
+>  #include "hw/rtc/mc146818rtc.h"
 >  
->      n = &user->notifier[queue_idx];
+> diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
+> index 02b635a52cf..0158fd2bf28 100644
+> --- a/target/i386/cpu-dump.c
+> +++ b/target/i386/cpu-dump.c
+> @@ -22,6 +22,7 @@
+>  #include "qemu/qemu-print.h"
+>  #ifndef CONFIG_USER_ONLY
+>  #include "hw/i386/apic_internal.h"
+> +#include "hw/i386/apic.h"
+>  #endif
 >  
-> -    if (n->addr) {
-> -        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-> -        object_unparent(OBJECT(&n->mr));
-> -        munmap(n->addr, page_size);
-> -        n->addr = NULL;
-> -    }
-> +    vhost_user_host_notifier_remove(dev, queue_idx);
+>  /***********************************************************/
+> diff --git a/target/i386/cpu-sysemu.c b/target/i386/cpu-sysemu.c
+> index 37b7c562f53..4e8a6973d08 100644
+> --- a/target/i386/cpu-sysemu.c
+> +++ b/target/i386/cpu-sysemu.c
+> @@ -30,6 +30,7 @@
+>  #include "hw/qdev-properties.h"
 >  
->      if (area->u64 & VHOST_USER_VRING_NOFD_MASK) {
->          return 0;
-> @@ -2484,11 +2484,17 @@ void vhost_user_cleanup(VhostUserState *user)
->      for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
->          if (user->notifier[i].addr) {
->              object_unparent(OBJECT(&user->notifier[i].mr));
-> +        }
-> +    }
-> +    memory_region_transaction_commit();
-> +    /* Wait VM threads accessing old flatview which contains notifier. */
-
-Wait VM - Wait for VM
-
-> +    drain_call_rcu();
-> +    for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-> +        if (user->notifier[i].addr) {
->              munmap(user->notifier[i].addr, qemu_real_host_page_size);
->              user->notifier[i].addr = NULL;
->          }
->      }
-> -    memory_region_transaction_commit();
->      user->chr = NULL;
->  }
+>  #include "exec/address-spaces.h"
+> +#include "hw/i386/apic.h"
+>  #include "hw/i386/apic_internal.h"
 >  
+>  #include "cpu-internal.h"
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 6b029f1bdf1..52422cbf21b 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -33,6 +33,7 @@
+>  #include "standard-headers/asm-x86/kvm_para.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/i386/topology.h"
+> +#include "hw/i386/apic.h"
+>  #ifndef CONFIG_USER_ONLY
+>  #include "exec/address-spaces.h"
+>  #include "hw/boards.h"
+> diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+> index 098a2ad15a9..5438229c1a9 100644
+> --- a/target/i386/gdbstub.c
+> +++ b/target/i386/gdbstub.c
+> @@ -21,6 +21,10 @@
+>  #include "cpu.h"
+>  #include "exec/gdbstub.h"
+>  
+> +#ifndef CONFIG_USER_ONLY
+> +#include "hw/i386/apic.h"
+> +#endif
+> +
+>  #ifdef TARGET_X86_64
+>  static const int gpr_map[16] = {
+>      R_EAX, R_EBX, R_ECX, R_EDX, R_ESI, R_EDI, R_EBP, R_ESP,
+> diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
+> index bf65ed6fa92..cd89e3233a9 100644
+> --- a/target/i386/hax/hax-all.c
+> +++ b/target/i386/hax/hax-all.c
+> @@ -32,6 +32,7 @@
+>  #include "sysemu/reset.h"
+>  #include "sysemu/runstate.h"
+>  #include "hw/boards.h"
+> +#include "hw/i386/apic.h"
+>  
+>  #include "hax-accel-ops.h"
+>  
+> diff --git a/target/i386/helper.c b/target/i386/helper.c
+> index 533b29cb91b..874beda98ae 100644
+> --- a/target/i386/helper.c
+> +++ b/target/i386/helper.c
+> @@ -26,6 +26,7 @@
+>  #ifndef CONFIG_USER_ONLY
+>  #include "sysemu/hw_accel.h"
+>  #include "monitor/monitor.h"
+> +#include "hw/i386/apic.h"
+>  #endif
+>  
+>  void cpu_sync_bndcs_hflags(CPUX86State *env)
+> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+> index 4ba6e82fab3..50058a24f2a 100644
+> --- a/target/i386/hvf/hvf.c
+> +++ b/target/i386/hvf/hvf.c
+> @@ -70,6 +70,7 @@
+>  #include <sys/sysctl.h>
+>  
+>  #include "hw/i386/apic_internal.h"
+> +#include "hw/i386/apic.h"
+>  #include "qemu/main-loop.h"
+>  #include "qemu/accel.h"
+>  #include "target/i386/cpu.h"
+> diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
+> index 7c8203b21fb..fb3e88959d4 100644
+> --- a/target/i386/hvf/x86_emu.c
+> +++ b/target/i386/hvf/x86_emu.c
+> @@ -45,6 +45,7 @@
+>  #include "x86_flags.h"
+>  #include "vmcs.h"
+>  #include "vmx.h"
+> +#include "hw/i386/apic.h"
+>  
+>  void hvf_handle_io(struct CPUState *cpu, uint16_t port, void *data,
+>                     int direction, int size, uint32_t count);
+> diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
+> index a488b00e909..944bdb49663 100644
+> --- a/target/i386/nvmm/nvmm-all.c
+> +++ b/target/i386/nvmm/nvmm-all.c
+> @@ -22,6 +22,7 @@
+>  #include "qemu/queue.h"
+>  #include "migration/blocker.h"
+>  #include "strings.h"
+> +#include "hw/i386/apic.h"
+>  
+>  #include "nvmm-accel-ops.h"
+>  
+> diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
+> index 9ccaa054c4c..b1d3096e9c9 100644
+> --- a/target/i386/tcg/sysemu/misc_helper.c
+> +++ b/target/i386/tcg/sysemu/misc_helper.c
+> @@ -24,6 +24,7 @@
+>  #include "exec/cpu_ldst.h"
+>  #include "exec/address-spaces.h"
+>  #include "tcg/helper-tcg.h"
+> +#include "hw/i386/apic.h"
+>  
+>  void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
+>  {
+> diff --git a/target/i386/tcg/sysemu/seg_helper.c b/target/i386/tcg/sysemu/seg_helper.c
+> index bf3444c26b0..34f2c65d47f 100644
+> --- a/target/i386/tcg/sysemu/seg_helper.c
+> +++ b/target/i386/tcg/sysemu/seg_helper.c
+> @@ -24,6 +24,7 @@
+>  #include "exec/cpu_ldst.h"
+>  #include "tcg/helper-tcg.h"
+>  #include "../seg_helper.h"
+> +#include "hw/i386/apic.h"
+>  
+>  #ifdef TARGET_X86_64
+>  void helper_syscall(CPUX86State *env, int next_eip_addend)
+> diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+> index 3e925b9da70..9ab844fd05d 100644
+> --- a/target/i386/whpx/whpx-all.c
+> +++ b/target/i386/whpx/whpx-all.c
+> @@ -20,6 +20,7 @@
+>  #include "qemu/main-loop.h"
+>  #include "hw/boards.h"
+>  #include "hw/i386/ioapic.h"
+> +#include "hw/i386/apic.h"
+>  #include "hw/i386/apic_internal.h"
+>  #include "qemu/error-report.h"
+>  #include "qapi/error.h"
 > -- 
-> 2.33.0
+> 2.31.1
 
 
