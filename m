@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CE3422760
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 15:07:58 +0200 (CEST)
-Received: from localhost ([::1]:41572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6C6422781
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 15:13:13 +0200 (CEST)
+Received: from localhost ([::1]:45246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXkAn-00047I-1V
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 09:07:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59176)
+	id 1mXkFr-0006rY-TT
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 09:13:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXk9f-0003PT-ML
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:06:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50559)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mXkDO-0005bM-Ml
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:10:46 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXk9Y-0004Np-Fs
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:06:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633439198;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K99TBHylgYE+9gr8abVn/wQ8PYE1BluLv4AQlpqbwCY=;
- b=IIj2JXDi0ICMoZLrJMVvRz7V5hWurR4AjeOpYjzya97R5ZIliJNsaLshQE2PdFW7jD38gS
- Avcnr1X4//lFgOdKBNJgIbgj2ObarLcT/5yGayviAhqxQ2gNIj6spwPxearWurREPTU/FU
- X+OFa69X5qAuRdbXD8yw+VxX0Cf7k9A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-540-kD22XSOoOZyfvCtG57nKhA-1; Tue, 05 Oct 2021 09:06:37 -0400
-X-MC-Unique: kD22XSOoOZyfvCtG57nKhA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70C1A100CCC0;
- Tue,  5 Oct 2021 13:06:36 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.9.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1EBCE5F4EA;
- Tue,  5 Oct 2021 13:06:36 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id A8ECC220BDB; Tue,  5 Oct 2021 09:06:35 -0400 (EDT)
-Date: Tue, 5 Oct 2021 09:06:35 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 10/13] virtiofsd: Custom threadpool for remote blocking
- posix locks requests
-Message-ID: <YVxN21sNt4U8cO64@redhat.com>
-References: <20210930153037.1194279-1-vgoyal@redhat.com>
- <20210930153037.1194279-11-vgoyal@redhat.com>
- <YVsVp4rPILhz+/Eh@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mXkDL-0005Ks-EU
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:10:38 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HNyWY6sJ3zR5d4;
+ Tue,  5 Oct 2021 21:06:01 +0800 (CST)
+Received: from dggpemm100010.china.huawei.com (7.185.36.24) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Tue, 5 Oct 2021 21:10:24 +0800
+Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
+ dggpemm100010.china.huawei.com (7.185.36.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Tue, 5 Oct 2021 21:10:23 +0800
+Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
+ dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.008;
+ Tue, 5 Oct 2021 21:10:23 +0800
+From: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: RE: [PATCH v3 9/9] vfio: defer to commit kvm irq routing when enable
+ msi/msix
+Thread-Topic: [PATCH v3 9/9] vfio: defer to commit kvm irq routing when enable
+ msi/msix
+Thread-Index: AQHXrnONHiKCXIwRCUOphlOy9vZqwqu+TnUAgASlXOA=
+Date: Tue, 5 Oct 2021 13:10:23 +0000
+Message-ID: <db9632eb7ce3440c9cea55eacfdd7f42@huawei.com>
+References: <20210920230202.1439-1-longpeng2@huawei.com>
+ <20210920230202.1439-10-longpeng2@huawei.com>
+ <20211001170450.0a46c4a0.alex.williamson@redhat.com>
+In-Reply-To: <20211001170450.0a46c4a0.alex.williamson@redhat.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.148.223]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <YVsVp4rPILhz+/Eh@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,150 +76,264 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: miklos@szeredi.hu, qemu-devel@nongnu.org, iangelak@redhat.com,
- dgilbert@redhat.com, virtio-fs@redhat.com, jaggel@bu.edu
+Cc: chenjiashang <chenjiashang@huawei.com>, "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 04, 2021 at 03:54:31PM +0100, Stefan Hajnoczi wrote:
-> On Thu, Sep 30, 2021 at 11:30:34AM -0400, Vivek Goyal wrote:
-> > Add a new custom threadpool using posix threads that specifically
-> > service locking requests.
-> > 
-> > In the case of a fcntl(SETLKW) request, if the guest is waiting
-> > for a lock or locks and issues a hard-reboot through SYSRQ then virtiofsd
-> > unblocks the blocked threads by sending a signal to them and waking
-> > them up.
-> > 
-> > The current threadpool (GThreadPool) is not adequate to service the
-> > locking requests that result in a thread blocking. That is because
-> > GLib does not provide an API to cancel the request while it is
-> > serviced by a thread. In addition, a user might be running virtiofsd
-> > without a threadpool (--thread-pool-size=0), thus a locking request
-> > that blocks, will block the main virtqueue thread that services requests
-> > from servicing any other requests.
-> > 
-> > The only exception occurs when the lock is of type F_UNLCK. In this case
-> > the request is serviced by the main virtqueue thread or a GThreadPool
-> > thread to avoid a deadlock, when all the threads in the custom threadpool
-> > are blocked.
-> > 
-> > Then virtiofsd proceeds to cleanup the state of the threads, release
-> > them back to the system and re-initialize.
-> 
-> Is there another way to cancel SETLKW without resorting to a new thread
-> pool? Since this only matters when shutting down or restarting, can we
-> close all plock->fd file descriptors to kick the GThreadPool workers out
-> of fnctl()?
 
-I don't think that closing plock->fd will unblock fcntl().  
 
-SYSCALL_DEFINE3(fcntl, unsigned int, fd, unsigned int, cmd, unsigned long, arg)
-{
-        struct fd f = fdget_raw(fd);
-}
+> -----Original Message-----
+> From: Alex Williamson [mailto:alex.williamson@redhat.com]
+> Sent: Saturday, October 2, 2021 7:05 AM
+> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+> <longpeng2@huawei.com>
+> Cc: philmd@redhat.com; pbonzini@redhat.com; marcel.apfelbaum@gmail.com;
+> mst@redhat.com; qemu-devel@nongnu.org; Gonglei (Arei)
+> <arei.gonglei@huawei.com>; chenjiashang <chenjiashang@huawei.com>
+> Subject: Re: [PATCH v3 9/9] vfio: defer to commit kvm irq routing when en=
+able
+> msi/msix
+>=20
+> On Tue, 21 Sep 2021 07:02:02 +0800
+> "Longpeng(Mike)" <longpeng2@huawei.com> wrote:
+>=20
+> > In migration resume phase, all unmasked msix vectors need to be
+> > setup when load the VF state. However, the setup operation would
+>=20
+> s/load/loading/
+>=20
+> > take longer if the VM has more VFs and each VF has more unmasked
+> > vectors.
+> >
+> > The hot spot is kvm_irqchip_commit_routes, it'll scan and update
+> > all irqfds that already assigned each invocation, so more vectors
+>=20
+> s/that/that are/
+>=20
+> > means need more time to process them.
+> >
+> > vfio_pci_load_config
+> >   vfio_msix_enable
+> >     msix_set_vector_notifiers
+> >       for (vector =3D 0; vector < dev->msix_entries_nr; vector++) {
+> >         vfio_msix_vector_do_use
+> >           vfio_add_kvm_msi_virq
+> >             kvm_irqchip_commit_routes <-- expensive
+> >       }
+> >
+> > We can reduce the cost by only commit once outside the loop. The
+>=20
+> s/commit/committing/
+>=20
 
-IIUC, fdget_raw() will take a reference on associated "struct file" and
-after that rest of the code will work with that "struct file".
+OK, will fix in the next version, thanks.
 
-static int do_lock_file_wait(struct file *filp, unsigned int cmd,
-                             struct file_lock *fl)
-{
-..
-..
-                error = wait_event_interruptible(fl->fl_wait,
-                                        list_empty(&fl->fl_blocked_member));
+> > routes is cached in kvm_state, we commit them first and then bind
+>=20
+> s/is/are/
+>=20
 
-..
-..
-}
+OK.
 
-And this shoudl break upon receiving signal. And man page says the
-same thing.
+> > irqfd for each vector.
+> >
+> > The test VM has 128 vcpus and 8 VF (each one has 65 vectors),
+> > we measure the cost of the vfio_msix_enable for each VF, and
+> > we can see 90+% costs can be reduce.
+> >
+> > VF      Count of irqfds[*]  Original        With this patch
+> >
+> > 1st           65            8               2
+> > 2nd           130           15              2
+> > 3rd           195           22              2
+> > 4th           260           24              3
+> > 5th           325           36              2
+> > 6th           390           44              3
+> > 7th           455           51              3
+> > 8th           520           58              4
+> > Total                       258ms           21ms
+> >
+> > [*] Count of irqfds
+> > How many irqfds that already assigned and need to process in this
+> > round.
+> >
+> > The optimition can be applied to msi type too.
+>=20
+> s/optimition/optimization/
+>=20
 
-       F_OFD_SETLKW (struct flock *)
-              As for F_OFD_SETLK, but if a conflicting lock  is  held  on  the
-              file,  then  wait  for that lock to be released.  If a signal is
-              caught while waiting, then the call is  interrupted  and  (after
-              the  signal  handler has returned) returns immediately (with re‐
-              turn value -1 and errno set to EINTR; see signal(7)).
+OK, thanks.
 
-It would be nice if we don't have to implement our own custom threadpool
-just for locking. Would have been better if glib thread pool provided
-some facility for this.
-
-[..]
-> > diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> > index 3b720c5d4a..c67c2e0e7a 100644
-> > --- a/tools/virtiofsd/fuse_virtio.c
-> > +++ b/tools/virtiofsd/fuse_virtio.c
-> > @@ -20,6 +20,7 @@
-> >  #include "fuse_misc.h"
-> >  #include "fuse_opt.h"
-> >  #include "fuse_virtio.h"
-> > +#include "tpool.h"
-> >  
-> >  #include <sys/eventfd.h>
-> >  #include <sys/socket.h>
-> > @@ -612,6 +613,60 @@ out:
-> >      free(req);
+> >
+> > Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
+> > ---
+> >  hw/vfio/pci.c | 36 ++++++++++++++++++++++++++++--------
+> >  1 file changed, 28 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> > index 2de1cc5425..b26129bddf 100644
+> > --- a/hw/vfio/pci.c
+> > +++ b/hw/vfio/pci.c
+> > @@ -513,11 +513,13 @@ static int vfio_msix_vector_do_use(PCIDevice *pde=
+v,
+> unsigned int nr,
+> >       * increase them as needed.
+> >       */
+> >      if (vdev->nr_vectors < nr + 1) {
+> > -        vfio_disable_irqindex(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX=
+);
+> >          vdev->nr_vectors =3D nr + 1;
+> > -        ret =3D vfio_enable_vectors(vdev, true);
+> > -        if (ret) {
+> > -            error_report("vfio: failed to enable vectors, %d", ret);
+> > +        if (!vdev->defer_kvm_irq_routing) {
+> > +            vfio_disable_irqindex(&vdev->vbasedev,
+> VFIO_PCI_MSIX_IRQ_INDEX);
+> > +            ret =3D vfio_enable_vectors(vdev, true);
+> > +            if (ret) {
+> > +                error_report("vfio: failed to enable vectors, %d", ret=
+);
+> > +            }
+> >          }
+> >      } else {
+> >          Error *err =3D NULL;
+> > @@ -579,8 +581,7 @@ static void vfio_msix_vector_release(PCIDevice *pde=
+v,
+> unsigned int nr)
+> >      }
 > >  }
-> >  
-> > +/*
-> > + * If the request is a locking request, use a custom locking thread pool.
-> > + */
-> > +static bool use_lock_tpool(gpointer data, gpointer user_data)
-> > +{
-> > +    struct fv_QueueInfo *qi = user_data;
-> > +    struct fuse_session *se = qi->virtio_dev->se;
-> > +    FVRequest *req = data;
-> > +    VuVirtqElement *elem = &req->elem;
-> > +    struct fuse_buf fbuf = {};
-> > +    struct fuse_in_header *inhp;
-> > +    struct fuse_lk_in *lkinp;
-> > +    size_t lk_req_len;
-> > +    /* The 'out' part of the elem is from qemu */
-> > +    unsigned int out_num = elem->out_num;
-> > +    struct iovec *out_sg = elem->out_sg;
-> > +    size_t out_len = iov_size(out_sg, out_num);
-> > +    bool use_custom_tpool = false;
+> >
+> > -/* TODO: invoked when enclabe msi/msix vectors */
+> > -static __attribute__((unused)) void vfio_commit_kvm_msi_virq(VFIOPCIDe=
+vice
+> *vdev)
+> > +static void vfio_commit_kvm_msi_virq(VFIOPCIDevice *vdev)
+> >  {
+> >      int i;
+> >      VFIOMSIVector *vector;
+> > @@ -610,6 +611,9 @@ static __attribute__((unused)) void
+> vfio_commit_kvm_msi_virq(VFIOPCIDevice *vdev
+> >
+> >  static void vfio_msix_enable(VFIOPCIDevice *vdev)
+> >  {
+> > +    PCIDevice *pdev =3D &vdev->pdev;
+> > +    int ret;
 > > +
-> > +    /*
-> > +     * If notifications are not enabled, no point in using cusotm lock
-> > +     * thread pool.
-> > +     */
-> > +    if (!se->notify_enabled) {
-> > +        return false;
-> > +    }
+> >      vfio_disable_interrupts(vdev);
+> >
+> >      vdev->msi_vectors =3D g_new0(VFIOMSIVector, vdev->msix->entries);
+> > @@ -632,11 +636,22 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
+> >      vfio_msix_vector_do_use(&vdev->pdev, 0, NULL, NULL);
+> >      vfio_msix_vector_release(&vdev->pdev, 0);
+> >
+> > -    if (msix_set_vector_notifiers(&vdev->pdev, vfio_msix_vector_use,
+> > -                                  vfio_msix_vector_release, NULL)) {
+>=20
+> A comment would be useful here, maybe something like:
+>=20
+>     /*
+>      * Setting vector notifiers triggers synchronous vector-use
+>      * callbacks for each active vector.  Deferring to commit the KVM
+>      * routes once rather than per vector provides a substantial
+>      * performance improvement.
+>      */
+>=20
+
+Will add in the next version.
+
+> > +    vdev->defer_kvm_irq_routing =3D true;
 > > +
-> > +    assert(se->bufsize > sizeof(struct fuse_in_header));
-> > +    lk_req_len = sizeof(struct fuse_in_header) + sizeof(struct fuse_lk_in);
+> > +    ret =3D msix_set_vector_notifiers(&vdev->pdev, vfio_msix_vector_us=
+e,
+> > +                                    vfio_msix_vector_release, NULL);
+> > +    if (ret < 0) {
+> >          error_report("vfio: msix_set_vector_notifiers failed");
+> > +    } else if (!pdev->msix_function_masked) {
+> > +        vfio_commit_kvm_msi_virq(vdev);
+> > +        vfio_disable_irqindex(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX=
+);
+>=20
+> Couldn't we also optimize the do_use/release on vector 0 above to avoid
+> this gratuitous disable here? We only want to make sure MSIX is always
+
+The disable here seems can be removed directly, because we already disable
+interrupts at the beginning of the vfio_msix_enable() ?
+
+> enabled on the device when we exit this function, so maybe that code
+> becomes an "else" branch below?
+>=20
+
+Do you mean something like:
+
+if (ret < 0) {
+    ....
+} else if (!pdev->msix_function_masked) {
+    ....
+    ret =3D vfio_enable_vectors(vdev, true);
+    ....
+} else {
+    /* do_use/release on vector 0 */
+}
+
+We'll get '-EINVAL' if invoke vfio_enable_vectors with vdev->nr_vectors=3D0=
+,
+this cannot happen before but it can now in this way. So maybe the "else if=
+"
+conditional expression should be convert to
+"!pdev->msix_function_masked && vdev->nr_vectors" ?
+
+
+> > +        ret =3D vfio_enable_vectors(vdev, true);
+> > +        if (ret) {
+> > +            error_report("vfio: failed to enable vectors, %d", ret);
+> > +        }
+> >      }
+> >
+> > +    vdev->defer_kvm_irq_routing =3D false;
+> >      trace_vfio_msix_enable(vdev->vbasedev.name);
+> >  }
+> >
+> > @@ -645,6 +660,7 @@ static void vfio_msi_enable(VFIOPCIDevice *vdev)
+> >      int ret, i;
+> >
+> >      vfio_disable_interrupts(vdev);
+> > +    vdev->defer_kvm_irq_routing =3D true;
+> >
+> >      vdev->nr_vectors =3D msi_nr_vectors_allocated(&vdev->pdev);
+> >  retry:
+> > @@ -671,6 +687,8 @@ retry:
+> >          vfio_add_kvm_msi_virq(vdev, vector, i, false);
+> >      }
+> >
+> > +    vfio_commit_kvm_msi_virq(vdev);
 > > +
-> > +    if (out_len < lk_req_len) {
-> > +        return false;
-> > +    }
-> > +
-> > +    fbuf.mem = g_malloc(se->bufsize);
-> > +    copy_from_iov(&fbuf, out_num, out_sg, lk_req_len);
-> 
-> This looks inefficient: for every FUSE request we now malloc se->bufsize
-> and then copy lk_req_len bytes, only to free the memory again.
-> 
-> Is it possible to keep lk_req_len bytes on the stack instead?
-
-I guess it should be possible. se->bufsize is variable but lk_req_len
-is known at compile time.
-
-lk_req_len = sizeof(struct fuse_in_header) + sizeof(struct fuse_lk_in);
-
-So we should be able to allocate this much space on stack and point
-fbuf.mem to it.
-
-char buf[sizeof(struct fuse_in_header) + sizeof(struct fuse_lk_in)];
-fbuf.mem = buf;
-
-Will give it a try.
-
-Vivek
+> >      /* Set interrupt type prior to possible interrupts */
+> >      vdev->interrupt =3D VFIO_INT_MSI;
+> >
+> > @@ -697,9 +715,11 @@ retry:
+> >           */
+> >          error_report("vfio: Error: Failed to enable MSI");
+> >
+> > +        vdev->defer_kvm_irq_routing =3D false;
+> >          return;
+> >      }
+> >
+> > +    vdev->defer_kvm_irq_routing =3D false;
+>=20
+> Why wouldn't we clear the flag in vfio_commit_kvm_msi_virq()?  It
+> almost feels like there should be a vfio_prepare_kvm_msi_virq_batch()
+> that enables the flag and an unconditional
+> vfio_commit_kvm_msi_virq_batch() that clears the flag and decides if
+> further work is necessary.  Thanks,
+>=20
+> Alex
+>=20
+> >      trace_vfio_msi_enable(vdev->vbasedev.name, vdev->nr_vectors);
+> >  }
+> >
 
 
