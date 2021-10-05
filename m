@@ -2,85 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07084224F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 13:24:53 +0200 (CEST)
-Received: from localhost ([::1]:58448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8884224D3
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 13:17:53 +0200 (CEST)
+Received: from localhost ([::1]:45780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXiZ2-00057k-M4
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 07:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59622)
+	id 1mXiSG-0004UD-G8
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 07:17:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXiMJ-0001kb-3Q
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 07:11:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20477)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mXiOT-00035l-Aj
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 07:13:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXiMG-0006iG-Dn
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 07:11:42 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mXiOR-0007K4-SY
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 07:13:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633432299;
+ s=mimecast20190719; t=1633432435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=eeArBAcS9Q84SLX+oAxukLYME3k/d29Rm/s+++jGKPE=;
- b=ZcCuFqMVf7URhd8RcB7JNygzxhK70C+piChv456ImybACHPAUOrnnsuILbVvNeBBBjiugQ
- xcJTb33i7KpJZ5yza+lC6tWfyICx9Yiabvg2JH+b76RI8LX4mzT8C0zXYrYKfmzP+8er2q
- 0MGLSwos/0eof98r/50QdY3QUzq10fw=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-EhYB4OPjPOGkxnclLAWxAg-1; Tue, 05 Oct 2021 07:11:38 -0400
-X-MC-Unique: EhYB4OPjPOGkxnclLAWxAg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- c7-20020a05640227c700b003d27f41f1d4so20244715ede.16
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 04:11:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=eeArBAcS9Q84SLX+oAxukLYME3k/d29Rm/s+++jGKPE=;
- b=LGYfhkM4OSoZmpn//6YXN0Ymq6RYqxaUyBDdIk4llzCu4OLrG2RZak+3UtCzDFgKHM
- LwR03/csVIoOcPDBu7feyjnOx9i4hJOZFPOMhyg8FIIyp+zFSs2k0Am11/VbTZZ5I5Ka
- J/d+sR+ym9XpX8Z+9R3H1+tjD49fmXlSDDby5an+hnVfF2TkSR3gUMhqvIRf49KIUSV2
- 4Pu0/2Xo9h7//Wyg+mQLtVUuAphUB4FCCXH1nR2H0bx85iex7vZgCM8bJTrXRpsXJvn5
- xif11li6HqnfmAq5nY35Rdh0qONuMHz+nWxJ6FlFivHwda+pAuCt8z9VSaN0OMH1Ez3k
- wA2w==
-X-Gm-Message-State: AOAM532DKoVI4C0wRWtniA/w4CD9nsY5wa7AHNGm8uTE8C9xeKCwRWwH
- hUJlbyjWOMXKyEWL34GtuFeXfQNeKhjoqdGcmesGBSKpx9kHi6Z5OYR5jCzoH8q/sZyliv88Ivo
- tArGOKFKFEjKi0bo=
-X-Received: by 2002:a17:906:81da:: with SMTP id
- e26mr23837031ejx.296.1633432297531; 
- Tue, 05 Oct 2021 04:11:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxcsiNXEPQdBdUK3S2sCQgXB8aTeyms7C9ktkEXECdOiZs9AxXkmtcIiymlmiwW6qydZSPVfw==
-X-Received: by 2002:a17:906:81da:: with SMTP id
- e26mr23837003ejx.296.1633432297372; 
- Tue, 05 Oct 2021 04:11:37 -0700 (PDT)
-Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id q6sm7451568ejm.106.2021.10.05.04.11.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 04:11:36 -0700 (PDT)
-Date: Tue, 5 Oct 2021 07:11:32 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
+ bh=l9NIjeIAQCFxtj6GGh0Whhg4tP/fsFPSi3algChPtGc=;
+ b=MQr7hp8zB8W55b6ANOCl0DCKrGIAwn3eJN415O+lwsL3juWdkuEHsKX1jnN0I5zXUFECeU
+ ngnXFjU8hOe8HYVDN9JTUnxOZoJ2IuoHNX1Ao7lWYuD4e55BpLtzHuSbawKhn7gtEbORq8
+ ZP20suMnu416OdipnnlMrW+45yaDoZQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-164-SJRXkDwFOOWPwxdT0Az79Q-1; Tue, 05 Oct 2021 07:13:54 -0400
+X-MC-Unique: SJRXkDwFOOWPwxdT0Az79Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C86271006AA2;
+ Tue,  5 Oct 2021 11:13:52 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.167])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CA34B1036B32;
+ Tue,  5 Oct 2021 11:13:38 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Subject: Re: [RFC PATCH 1/1] virtio: write back features before verify
-Message-ID: <20211005071128-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211005124303.3abf848b.pasic@linux.ibm.com>
+Organization: Red Hat GmbH
 References: <20210930012049.3780865-1-pasic@linux.ibm.com>
- <20210930070444-mutt-send-email-mst@kernel.org>
- <20211001092125.64fef348.pasic@linux.ibm.com>
- <20211002055605-mutt-send-email-mst@kernel.org>
- <87bl452d90.fsf@redhat.com>
- <20211004090018-mutt-send-email-mst@kernel.org>
- <20211005092539.145c9cc4.pasic@linux.ibm.com>
- <20211005035014-mutt-send-email-mst@kernel.org>
- <20211005124634.2a774796.pasic@linux.ibm.com>
+ <87r1d64dl4.fsf@redhat.com> <20210930130350.0cdc7c65.pasic@linux.ibm.com>
+ <87ilyi47wn.fsf@redhat.com> <20211001162213.18d7375e.pasic@linux.ibm.com>
+ <87v92g3h9l.fsf@redhat.com>
+ <20211002082128-mutt-send-email-mst@kernel.org>
+ <20211004042323.730c6a5e.pasic@linux.ibm.com>
+ <20211004040937-mutt-send-email-mst@kernel.org>
+ <20211005124303.3abf848b.pasic@linux.ibm.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Tue, 05 Oct 2021 13:13:31 +0200
+Message-ID: <87lf372084.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211005124634.2a774796.pasic@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -102,41 +80,49 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
- Xie Yongji <xieyongji@bytedance.com>, Jason Wang <jasowang@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- linux-kernel@vger.kernel.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- virtualization@lists.linux-foundation.org
+ Xie Yongji <xieyongji@bytedance.com>, linux-kernel@vger.kernel.org,
+ qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, stefanha@redhat.com,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 05, 2021 at 12:46:34PM +0200, Halil Pasic wrote:
-> On Tue, 5 Oct 2021 03:53:17 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
-> > > Wouldn't a call from transport code into virtio core
-> > > be more handy? What I have in mind is stuff like vhost-user and vdpa. My
-> > > understanding is, that for vhost setups where the config is outside qemu,
-> > > we probably need a new  command that tells the vhost backend what
-> > > endiannes to use for config. I don't think we can use
-> > > VHOST_USER_SET_VRING_ENDIAN because  that one is on a virtqueue basis
-> > > according to the doc. So for vhost-user and similar we would fire that
-> > > command and probably also set the filed, while for devices for which
-> > > control plane is handled by QEMU we would just set the field.
-> > > 
-> > > Does that sound about right?  
-> > 
-> > I'm fine either way, but when would you invoke this?
-> > With my idea backends can check the field when get_config
-> > is invoked.
-> > 
-> > As for using this in VHOST, can we maybe re-use SET_FEATURES?
-> > 
-> > Kind of hacky but nice in that it will actually make existing backends
-> > work...
-> 
-> Basically the equivalent of this patch, just on the vhost interface,
-> right? Could work I have to look into it :)
+On Tue, Oct 05 2021, Halil Pasic <pasic@linux.ibm.com> wrote:
 
-yep
+> On Mon, 4 Oct 2021 05:07:13 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+>> Well we established that we can know. Here's an alternative explanation:
+>
+>
+> I thin we established how this should be in the future, where a transport
+> specific mechanism is used to decide are we operating in legacy mode or
+> in modern mode. But with the current QEMU reality, I don't think so.
+> Namely currently the switch native-endian config -> little endian config
+> happens when the VERSION_1 is negotiated, which may happen whenever
+> the VERSION_1 bit is changed, or only when FEATURES_OK is set
+> (vhost-user).
+>
+> This is consistent with device should detect a legacy driver by checking
+> for VERSION_1, which is what the spec currently says.
+>
+> So for transitional we start out with native-endian config. For modern
+> only the config is always LE.
+>
+> The guest can distinguish between a legacy only device and a modern
+> capable device after the revision negotiation. A legacy device would
+> reject the CCW.
+>
+> But both a transitional device and a modern only device would accept
+> a revision > 0. So the guest does not know for ccw.
+
+Well, for pci I think the driver knows that it is using either legacy or
+modern, no?
+
+And for ccw, the driver knows at that point in time which revision it
+negotiated, so it should know that a revision > 0 will use LE (and the
+device will obviously know that as well.)
+
+Or am I misunderstanding what you're getting at?
 
 
