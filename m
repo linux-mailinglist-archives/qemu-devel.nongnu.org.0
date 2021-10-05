@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89934228E5
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 15:53:02 +0200 (CEST)
-Received: from localhost ([::1]:39032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415BF4228DB
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 15:52:58 +0200 (CEST)
+Received: from localhost ([::1]:39036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXksP-0000Ve-Um
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 09:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41680)
+	id 1mXksK-0000Vi-P6
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 09:52:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mXkob-0006rh-MT
+ id 1mXkob-0006rd-M6
  for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:49:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59066)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1mXkoY-0001LU-1p
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:49:05 -0400
+ id 1mXkoY-0001N2-E3
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:49:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633441739;
+ s=mimecast20190719; t=1633441741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+FD9dXhkIG0BGxIyz9ToEW5yjewJlNJwvM+KjLIbG7A=;
- b=XIwM+L2JtWMmA8NnMeoBfTdifvWvHx2Lw9tQqpROvYMica9AE4cSFpaXCykM+vkKifauok
- K3dVLt63eyDH5YgHDKFLXBbU99A7lp84WMg2lkEMRAdE6o30amOJ3YXXsFW42stIOATCi7
- wNZM+fpS7OaR4KJ8NMhVQ0wO7G60Ick=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fd9E2vlOyKFfCTOowmisLiSg73kL7/5ysAUnJgM/Zb4=;
+ b=TANaNSJFrpSBCouHANafX1ucBwa0OfN+SC5KqTZC9XIbsh//e9c/eLVSmfdUQfsnFH1UWx
+ ARHVCYj7OlwJ1vV+daS/02sSOUyXzIO0vaOah40Ud6V7SXwnGDSpGyKcPZuUPzqMFk9cSv
+ z1aXtExfxZMCXTBZOZvAs0vjLURO3ac=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-orrr1RGnNNaBHV3Cc1g92w-1; Tue, 05 Oct 2021 09:48:57 -0400
-X-MC-Unique: orrr1RGnNNaBHV3Cc1g92w-1
+ us-mta-239-RJItEwsnPBmQvoqvlilBqg-1; Tue, 05 Oct 2021 09:49:01 -0400
+X-MC-Unique: RJItEwsnPBmQvoqvlilBqg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 632EF1023F51;
- Tue,  5 Oct 2021 13:48:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF5DB100CCCF;
+ Tue,  5 Oct 2021 13:48:59 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7646C1F42C;
- Tue,  5 Oct 2021 13:48:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC5331F42C;
+ Tue,  5 Oct 2021 13:48:56 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] vdpa: Check iova range on memory regions ops
-Date: Tue,  5 Oct 2021 15:48:40 +0200
-Message-Id: <20211005134843.439050-1-eperezma@redhat.com>
+Subject: [PATCH v2 1/3] vdpa: Skip protected ram IOMMU mappings
+Date: Tue,  5 Oct 2021 15:48:41 +0200
+Message-Id: <20211005134843.439050-2-eperezma@redhat.com>
+In-Reply-To: <20211005134843.439050-1-eperezma@redhat.com>
+References: <20211005134843.439050-1-eperezma@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -82,30 +85,28 @@ Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At this moment vdpa will not send memory regions bigger than 1<<63.=0D
-However, actual iova range could be way more restrictive than that.=0D
-=0D
-Since we can obtain the range through vdpa ioctl call, just save it=0D
-from the beginning of the operation and check against it.=0D
-=0D
-Changes from v1:=0D
-* Use of int128_gt instead of plain uint64_t < comparison on memory=0D
-  range end.=0D
-* Document vhost_vdpa_section_end's return value so it's clear that=0D
-  it returns "one past end".=0D
-=0D
-Eugenio P=C3=A9rez (3):=0D
-  vdpa: Skip protected ram IOMMU mappings=0D
-  vdpa: Add vhost_vdpa_section_end=0D
-  vdpa: Check for iova range at mappings changes=0D
-=0D
- include/hw/virtio/vhost-vdpa.h |  2 +=0D
- hw/virtio/vhost-vdpa.c         | 87 ++++++++++++++++++++++++++--------=0D
- hw/virtio/trace-events         |  1 +=0D
- 3 files changed, 69 insertions(+), 21 deletions(-)=0D
-=0D
---=20=0D
-2.27.0=0D
-=0D
+Following the logic of commit 56918a126ae ("memory: Add RAM_PROTECTED
+flag to skip IOMMU mappings") with VFIO, skip memory sections
+inaccessible via normal mechanisms, including DMA.
+
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/virtio/vhost-vdpa.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 47d7a5a23d..ea1aa71ad8 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -28,6 +28,7 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section)
+ {
+     return (!memory_region_is_ram(section->mr) &&
+             !memory_region_is_iommu(section->mr)) ||
++            memory_region_is_protected(section->mr) ||
+            /* vhost-vDPA doesn't allow MMIO to be mapped  */
+             memory_region_is_ram_device(section->mr) ||
+            /*
+-- 
+2.27.0
 
 
