@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB626422B8E
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 16:55:43 +0200 (CEST)
-Received: from localhost ([::1]:33550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C007422C2F
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:17:37 +0200 (CEST)
+Received: from localhost ([::1]:48488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXlr4-0005b4-TR
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 10:55:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53702)
+	id 1mXmCG-0001n3-Ij
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:17:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mXlXo-00044K-FO
+ id 1mXlXo-00045S-RE
  for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:35:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49182)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mXlXm-0005OF-EM
+ id 1mXlXm-0005Og-G8
  for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:35:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1633444545;
@@ -25,30 +25,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XegxrQvMqE5LLG+rOEGYDsoO0LTAKgfA2zllJ1BTf3M=;
- b=bb5gCxhFOA2Z4it56oSXfOP7HIbV+yB7HAbsbBG0GwXgHcdu55XC53Nwbwy2DrqPypDY3/
- ITddq5LbByFAdoXA8LkSYEUhtgtX2vqX1+ptCw6VtVge0OiwYDk3kseZlSSTgTMmiGkqZh
- hbJZceDGN6GG7hLUI4a0K05IPLY4Zac=
+ bh=nlwhWrcnpLUlX3V8AoH80tX6/zijmmqi9P7+qNrTHXA=;
+ b=AGAvDd/AIDl83Lrkn/5SiZeAN4pN2r/c0MwJc7VxvIPCuJ3Svk6zO4txW1o40nCiuAoRI7
+ FpwSrkwE4K/AI2u4F1A7VKum0xVqOR57lsb2Hwp/K+eOvLfeLQH05Sc0v0mgyo8yFJupCy
+ Uhnq8oUSoNo6ayfO645qMgNNIE6GSoM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-AnTwjP4uM-Wvrim2fo0PEQ-1; Tue, 05 Oct 2021 10:35:43 -0400
-X-MC-Unique: AnTwjP4uM-Wvrim2fo0PEQ-1
+ us-mta-26-queWiDcLM_qrBipa4TFIQg-1; Tue, 05 Oct 2021 10:35:44 -0400
+X-MC-Unique: queWiDcLM_qrBipa4TFIQg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50261802935;
- Tue,  5 Oct 2021 14:35:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A8A418D6A25;
+ Tue,  5 Oct 2021 14:35:43 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 205811042AAA;
- Tue,  5 Oct 2021 14:35:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 683251043260;
+ Tue,  5 Oct 2021 14:35:42 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH v2 20/25] block_int-common.h: assertion in the callers of
- BlockDriver function pointers
-Date: Tue,  5 Oct 2021 10:32:10 -0400
-Message-Id: <20211005143215.29500-21-eesposit@redhat.com>
+Subject: [RFC PATCH v2 21/25] block_int-common.h: split function pointers in
+ BdrvChildClass
+Date: Tue,  5 Oct 2021 10:32:11 -0400
+Message-Id: <20211005143215.29500-22-eesposit@redhat.com>
 In-Reply-To: <20211005143215.29500-1-eesposit@redhat.com>
 References: <20211005143215.29500-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -96,134 +96,103 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ include/block/block_int-common.h | 65 ++++++++++++++++++++++----------
+ 1 file changed, 46 insertions(+), 19 deletions(-)
 
-diff --git a/block.c b/block.c
-index 7d1eb847a4..a921066d4d 100644
---- a/block.c
-+++ b/block.c
-@@ -1069,6 +1069,7 @@ int refresh_total_sectors(BlockDriverState *bs, int64_t hint)
- static void bdrv_join_options(BlockDriverState *bs, QDict *options,
-                               QDict *old_options)
- {
-+    g_assert(qemu_in_main_thread());
-     if (bs->drv && bs->drv->bdrv_join_options) {
-         bs->drv->bdrv_join_options(options, old_options);
-     } else {
-@@ -1561,6 +1562,7 @@ static int bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv,
- {
-     Error *local_err = NULL;
-     int i, ret;
-+    g_assert(qemu_in_main_thread());
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 184cfab2d6..a6ea824b64 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -798,12 +798,31 @@ struct BdrvChildClass {
+      */
+     bool parent_is_bds;
  
-     bdrv_assign_node_name(bs, node_name, &local_err);
-     if (local_err) {
-@@ -1932,6 +1934,8 @@ static int bdrv_fill_options(QDict **options, const char *filename,
-     BlockDriver *drv = NULL;
-     Error *local_err = NULL;
++    /*
++     * Global state (GS) API. These functions run under the BQL lock.
++     *
++     * If a function modifies the graph, it also uses drain and/or
++     * aio_context_acquire/release to be sure it has unique access.
++     * aio_context locking is needed together with BQL because of
++     * the thread-safe I/O API that concurrently runs and accesses
++     * the graph without the BQL.
++     *
++     * It is important to note that not all of these functions are
++     * necessarily limited to running under the BQL, but they would
++     * require additional auditing and may small thread-safety changes
++     * to move them into the I/O API. Often it's not worth doing that
++     * work since the APIs are only used with the BQL held at the
++     * moment, so they have been placed in the GS API (for now).
++     *
++     * All callers that use these function pointers must
++     * use this assertion:
++     * g_assert(qemu_in_main_thread());
++     * to catch when they are accidentally called without the BQL.
++     */
+     void (*inherit_options)(BdrvChildRole role, bool parent_is_format,
+                             int *child_flags, QDict *child_options,
+                             int parent_flags, QDict *parent_options);
+-
+     void (*change_media)(BdrvChild *child, bool load);
+-    void (*resize)(BdrvChild *child);
  
-+    g_assert(qemu_in_main_thread());
+     /*
+      * Returns a name that is supposedly more useful for human users than the
+@@ -820,6 +839,31 @@ struct BdrvChildClass {
+      */
+     char *(*get_parent_desc)(BdrvChild *child);
+ 
++    void (*attach)(BdrvChild *child);
++    void (*detach)(BdrvChild *child);
++
++    /*
++     * Notifies the parent that the filename of its child has changed (e.g.
++     * because the direct child was removed from the backing chain), so that it
++     * can update its reference.
++     */
++    int (*update_filename)(BdrvChild *child, BlockDriverState *new_base,
++                           const char *filename, Error **errp);
++
++    bool (*can_set_aio_ctx)(BdrvChild *child, AioContext *ctx,
++                        GSList **ignore, Error **errp);
++    void (*set_aio_ctx)(BdrvChild *child, AioContext *ctx, GSList **ignore);
++
++    AioContext *(*get_parent_aio_context)(BdrvChild *child);
++
++    /*
++     * I/O API functions. These functions are thread-safe, and therefore
++     * can run in any thread as long as they have called
++     * aio_context_acquire/release().
++     */
++
++    void (*resize)(BdrvChild *child);
 +
      /*
-      * Caution: while qdict_get_try_str() is fine, getting non-string
-      * types would require more care.  When @options come from
-@@ -2125,6 +2129,7 @@ static void bdrv_child_perm(BlockDriverState *bs, BlockDriverState *child_bs,
-                             uint64_t *nperm, uint64_t *nshared)
- {
-     assert(bs->drv && bs->drv->bdrv_child_perm);
-+    g_assert(qemu_in_main_thread());
-     bs->drv->bdrv_child_perm(bs, c, role, reopen_queue,
-                              parent_perm, parent_shared,
-                              nperm, nshared);
-@@ -2208,6 +2213,7 @@ static void bdrv_drv_set_perm_commit(void *opaque)
- {
-     BlockDriverState *bs = opaque;
-     uint64_t cumulative_perms, cumulative_shared_perms;
-+    g_assert(qemu_in_main_thread());
+      * If this pair of functions is implemented, the parent doesn't issue new
+      * requests after returning from .drained_begin() until .drained_end() is
+@@ -852,23 +896,6 @@ struct BdrvChildClass {
+      */
+     void (*activate)(BdrvChild *child, Error **errp);
+     int (*inactivate)(BdrvChild *child);
+-
+-    void (*attach)(BdrvChild *child);
+-    void (*detach)(BdrvChild *child);
+-
+-    /*
+-     * Notifies the parent that the filename of its child has changed (e.g.
+-     * because the direct child was removed from the backing chain), so that it
+-     * can update its reference.
+-     */
+-    int (*update_filename)(BdrvChild *child, BlockDriverState *new_base,
+-                           const char *filename, Error **errp);
+-
+-    bool (*can_set_aio_ctx)(BdrvChild *child, AioContext *ctx,
+-                            GSList **ignore, Error **errp);
+-    void (*set_aio_ctx)(BdrvChild *child, AioContext *ctx, GSList **ignore);
+-
+-    AioContext *(*get_parent_aio_context)(BdrvChild *child);
+ };
  
-     if (bs->drv->bdrv_set_perm) {
-         bdrv_get_cumulative_perm(bs, &cumulative_perms,
-@@ -2219,6 +2225,7 @@ static void bdrv_drv_set_perm_commit(void *opaque)
- static void bdrv_drv_set_perm_abort(void *opaque)
- {
-     BlockDriverState *bs = opaque;
-+    g_assert(qemu_in_main_thread());
- 
-     if (bs->drv->bdrv_abort_perm_update) {
-         bs->drv->bdrv_abort_perm_update(bs);
-@@ -2234,6 +2241,7 @@ static int bdrv_drv_set_perm(BlockDriverState *bs, uint64_t perm,
-                              uint64_t shared_perm, Transaction *tran,
-                              Error **errp)
- {
-+    g_assert(qemu_in_main_thread());
-     if (!bs->drv) {
-         return 0;
-     }
-@@ -4198,6 +4206,7 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
- 
-     assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-     assert(bs_queue != NULL);
-+    g_assert(qemu_in_main_thread());
- 
-     QTAILQ_FOREACH(bs_entry, bs_queue, entry) {
-         ctx = bdrv_get_aio_context(bs_entry->state.bs);
-@@ -4461,6 +4470,7 @@ static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
- 
-     assert(reopen_state != NULL);
-     assert(reopen_state->bs->drv != NULL);
-+    g_assert(qemu_in_main_thread());
-     drv = reopen_state->bs->drv;
- 
-     /* This function and each driver's bdrv_reopen_prepare() remove
-@@ -4671,6 +4681,7 @@ static void bdrv_reopen_commit(BDRVReopenState *reopen_state)
-     bs = reopen_state->bs;
-     drv = bs->drv;
-     assert(drv != NULL);
-+    g_assert(qemu_in_main_thread());
- 
-     /* If there are any driver level actions to take */
-     if (drv->bdrv_reopen_commit) {
-@@ -4712,6 +4723,7 @@ static void bdrv_reopen_abort(BDRVReopenState *reopen_state)
-     assert(reopen_state != NULL);
-     drv = reopen_state->bs->drv;
-     assert(drv != NULL);
-+    g_assert(qemu_in_main_thread());
- 
-     if (drv->bdrv_reopen_abort) {
-         drv->bdrv_reopen_abort(reopen_state);
-@@ -4725,6 +4737,7 @@ static void bdrv_close(BlockDriverState *bs)
-     BdrvChild *child, *next;
- 
-     assert(!bs->refcnt);
-+    g_assert(qemu_in_main_thread());
- 
-     bdrv_drained_begin(bs); /* complete I/O */
-     bdrv_flush(bs);
-@@ -6409,6 +6422,7 @@ static int bdrv_inactivate_recurse(BlockDriverState *bs)
- {
-     BdrvChild *child, *parent;
-     int ret;
-+    g_assert(qemu_in_main_thread());
- 
-     if (!bs->drv) {
-         return -ENOMEDIUM;
-@@ -6911,6 +6925,7 @@ static void bdrv_detach_aio_context(BlockDriverState *bs)
-     BdrvAioNotifier *baf, *baf_tmp;
- 
-     assert(!bs->walking_aio_notifiers);
-+    g_assert(qemu_in_main_thread());
-     bs->walking_aio_notifiers = true;
-     QLIST_FOREACH_SAFE(baf, &bs->aio_notifiers, list, baf_tmp) {
-         if (baf->deleted) {
-@@ -6938,6 +6953,7 @@ static void bdrv_attach_aio_context(BlockDriverState *bs,
-                                     AioContext *new_context)
- {
-     BdrvAioNotifier *ban, *ban_tmp;
-+    g_assert(qemu_in_main_thread());
- 
-     if (bs->quiesce_counter) {
-         aio_disable_external(new_context);
+ extern const BdrvChildClass child_of_bds;
 -- 
 2.27.0
 
