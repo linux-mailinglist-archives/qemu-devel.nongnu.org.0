@@ -2,94 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED64742224E
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 11:29:12 +0200 (CEST)
-Received: from localhost ([::1]:43170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7FB422299
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 11:46:05 +0200 (CEST)
+Received: from localhost ([::1]:53248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXgl4-0007Dh-Lw
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 05:29:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37704)
+	id 1mXh1Q-0006Gs-3I
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 05:46:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mXgjx-0006Jb-UX
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 05:28:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23678)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mXgzb-0005aj-Vo
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 05:44:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mXgju-00007i-Qq
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 05:28:00 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mXgzY-0005Vx-6Y
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 05:44:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633426077;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1633427045;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NutA/OaEonlKr73NV3VU75H2S44oeu7nLXQVMYkp6qQ=;
- b=QkaIJdUXzltw+wi1RlCvkJQv4nbfY8QSPZoZ2QsOSgqehpOZlvBPiK1Hwjw+qzwsOLli0p
- wEXRUnM3o08DZTw22eG6BbL8C64RyCU5SGo0xoUw3JFGmlXFyh823ljPJRTR+hRYUvW57U
- 3w068kwkiwrsgh1dDNqy/qfi5WSqeSg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-v2v6CaJ8PoW7M9dX_uK_Pw-1; Tue, 05 Oct 2021 05:27:56 -0400
-X-MC-Unique: v2v6CaJ8PoW7M9dX_uK_Pw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n17-20020a7bc5d1000000b0030d4041f73eso855005wmk.4
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 02:27:56 -0700 (PDT)
+ bh=7IzfpkZAW4vaGGdzY8nDR/3jx97k1RmFrML3Ke19BNA=;
+ b=Nj18IlyJghEWMx5k/iduyplHzy4OKDYTrG38Cb15Rp5XfynU14YcNlBpKqQGiHXIZ8e1U6
+ DlxYTNzPrgokn1QZKETvl5wuVWyZlcVZzdshwjfiDBsuxPnS2CuVzX1GGUS14AkaDITcND
+ nDhc5xjt8LdL94iZxfZnATxxqdXYFPc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-335-Qgo9kDdgOG2v9xtROjdvXg-1; Tue, 05 Oct 2021 05:44:02 -0400
+X-MC-Unique: Qgo9kDdgOG2v9xtROjdvXg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ f12-20020a1c6a0c000000b0030d696e37b7so1061880wmc.4
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 02:44:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=NutA/OaEonlKr73NV3VU75H2S44oeu7nLXQVMYkp6qQ=;
- b=feEQOOshTaV1aaqcsgFllbaz8GgZD52LfnyxLWniJRaoH28WdYV91BGODwoP4tR0s0
- DjuP/IBnqIVNroozUT+pn0e8QrGpZy3bugCPchEyZ9GBm/yAbTeBo4e6qphbJ/PvOu0f
- MRe5F9Fozf9I2Zd37dtnnxZBOSZ+3XyPq+X4psJOSD31jKiERgf432oDSIp3WEDfYAIf
- GrrUOMMY6TuBxogGKW+c/YZWY65C6jZ/RjAubwc8ZGa+KB2R7jANQg+FN+oL0fPfkH2/
- 2ji7flo/uFzg/UmAq4ZzU8nm0fubHwPZssQLyGhiDdOI5jy9MfoGbwCPdwROz1QVx4ck
- 2ljg==
-X-Gm-Message-State: AOAM533TUpuFmJldwP79fTk0x+qYSyUeZ5MexNn+J3c/+ZPRGDYN1Dq0
- XY1/UFpR+9m0Ud5KRGADlIhnT01IateVuoYH7/ocH+aHcYTPxEingnCTKA/qNlpKL4CMvwzh6Cb
- U8LDDmnENJBQZVOo=
-X-Received: by 2002:adf:a48f:: with SMTP id g15mr16630355wrb.259.1633426075164; 
- Tue, 05 Oct 2021 02:27:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxauG+8DvP0FgohJLbAN5/cxH5f/ziPRVm5WDpVMHriaQrcHwDhaPIS6ZXsqjW/WMi16VwL2g==
-X-Received: by 2002:adf:a48f:: with SMTP id g15mr16630318wrb.259.1633426074857; 
- Tue, 05 Oct 2021 02:27:54 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id 61sm17092542wrl.94.2021.10.05.02.27.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 02:27:54 -0700 (PDT)
-Subject: Re: [PATCH v4 05/11] hw/arm/virt: Use object_property_set instead of
- qdev_prop_set
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, imammedo@redhat.com
-References: <20211001173358.863017-1-jean-philippe@linaro.org>
- <20211001173358.863017-6-jean-philippe@linaro.org>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <6ac00f79-57b9-0fd5-0652-1f0a01a39d4c@redhat.com>
-Date: Tue, 5 Oct 2021 11:27:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=7IzfpkZAW4vaGGdzY8nDR/3jx97k1RmFrML3Ke19BNA=;
+ b=RWfMKZNLffjaH8yR8niJG/hb2JauFEC36+VuM1T13//BjF5Dnwxbg7WREAO9iBZxTF
+ 1d+96GXlaoDLEpZwbCA7yRb+VgThJ3zavgUvTlmHgblpfWJ+90XmNwKLJM4INPxCUFtN
+ LXiWwwz0DrQrTeSTfWWjGn39lcswu/PULtwOjNV5RoVdTUIMrhhJZ2+1XQkzG8U+y+rg
+ RyQ5/b18TBxgy59T85uwHtbFam0jAYN2op1VVFPaSrr1nFx4DAYFrNZq738eRjN1NOd+
+ a0kskS/sC2DICTU9BdDamAcHEVB/Hc5aIIBj+HRsQ8dvLNDiSdFKrh6gX9O49CmebS/y
+ YVBQ==
+X-Gm-Message-State: AOAM531mx0+LgvRdxf4P+6XMoyJCFr5ccFLMz2ynLiCk/OFyRoZIEGvL
+ 4hpIoUZZ2vB51roS5AVHNsIPjHFyC5bd/iDZR9xzv5eJTD3OyRDP2TjBPPd+6/ZuamnkfPhRtGR
+ JMWXiBKgZZFAl6AU=
+X-Received: by 2002:adf:fb0a:: with SMTP id c10mr21065352wrr.354.1633427041441; 
+ Tue, 05 Oct 2021 02:44:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzBHt82RhcawSYYOYrIbR+Ft8Tf6MMsZc2YpRcJGb440TS5/ZuVQft3Dp56PclOnglbTgGwRA==
+X-Received: by 2002:adf:fb0a:: with SMTP id c10mr21065325wrr.354.1633427041161; 
+ Tue, 05 Oct 2021 02:44:01 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id 1sm1396817wms.0.2021.10.05.02.44.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 02:44:00 -0700 (PDT)
+Date: Tue, 5 Oct 2021 10:43:58 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH] virtiofsd: xattr mapping add a new type "unsupported"
+Message-ID: <YVweXhsYK9V6oH1Q@work-vm>
+References: <YUt9qbmgAfCFfg5t@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211001173358.863017-6-jean-philippe@linaro.org>
+In-Reply-To: <YUt9qbmgAfCFfg5t@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,44 +95,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, ani@anisinha.ca, pbonzini@redhat.com
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> Right now for xattr remapping, we support types of "prefix", "ok" or "bad".
+> Type "bad" returns -EPERM on setxattr and hides xattr in listxattr. For
+> getxattr, mapping code returns -EPERM but getxattr code converts it to -ENODATA.
+> 
+> I need a new semantics where if an xattr is unsupported, then
+> getxattr()/setxattr() return -ENOTSUP and listxattr() should hide the xattr.
+> This is needed to simulate that security.selinux is not supported by
+> virtiofs filesystem and in that case client falls back to some default
+> label specified by policy.
+> 
+> So add a new type "unsupported" which returns -ENOTSUP on getxattr() and
+> setxattr() and hides xattrs in listxattr().
+> 
+> For example, one can use following mapping rule to not support
+> security.selinux xattr and allow others.
+> 
+> "-o xattrmap=/unsupported/all/security.selinux/security.selinux//ok/all///"
+> 
+> Suggested-by: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+
+Yes, that's nice and simple.
 
 
-On 10/1/21 7:33 PM, Jean-Philippe Brucker wrote:
-> To propagate errors to the caller of the pre_plug callback, use the
-> object_poperty_set*() functions directly instead of the qdev_prop_set*()
-> helpers.
->
-> Suggested-by: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Eric
 > ---
->  hw/arm/virt.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 36f0261ef4..ac307b6030 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2465,8 +2465,9 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->                                          db_start, db_end,
->                                          VIRTIO_IOMMU_RESV_MEM_T_MSI);
+>  docs/tools/virtiofsd.rst         |    6 ++++++
+>  tools/virtiofsd/passthrough_ll.c |   17 ++++++++++++++---
+>  2 files changed, 20 insertions(+), 3 deletions(-)
+> 
+> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
+> ===================================================================
+> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2021-09-22 08:37:16.070377732 -0400
+> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2021-09-22 14:17:09.543016250 -0400
+> @@ -2465,6 +2465,11 @@ static void lo_flock(fuse_req_t req, fus
+>   * Automatically reversed on read
+>   */
+>  #define XATTR_MAP_FLAG_PREFIX  (1 <<  2)
+> +/*
+> + * The attribute is unsupported;
+> + * ENOTSUP on write, hidden on read.
+> + */
+> +#define XATTR_MAP_FLAG_UNSUPPORTED     (1 <<  3)
 >  
-> -        qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
-> -        qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
-> +        object_property_set_uint(OBJECT(dev), "len-reserved-regions", 1, errp);
-> +        object_property_set_str(OBJECT(dev), "reserved-regions[0]",
-> +                                resv_prop_str, errp);
->          g_free(resv_prop_str);
->      }
->  }
+>  /* scopes */
+>  /* Apply rule to get/set/remove */
+> @@ -2636,6 +2641,8 @@ static void parse_xattrmap(struct lo_dat
+>              tmp_entry.flags |= XATTR_MAP_FLAG_OK;
+>          } else if (strstart(map, "bad", &map)) {
+>              tmp_entry.flags |= XATTR_MAP_FLAG_BAD;
+> +        } else if (strstart(map, "unsupported", &map)) {
+> +            tmp_entry.flags |= XATTR_MAP_FLAG_UNSUPPORTED;
+>          } else if (strstart(map, "map", &map)) {
+>              /*
+>               * map is sugar that adds a number of rules, and must be
+> @@ -2646,8 +2653,8 @@ static void parse_xattrmap(struct lo_dat
+>          } else {
+>              fuse_log(FUSE_LOG_ERR,
+>                       "%s: Unexpected type;"
+> -                     "Expecting 'prefix', 'ok', 'bad' or 'map' in rule %zu\n",
+> -                     __func__, lo->xattr_map_nentries);
+> +                     "Expecting 'prefix', 'ok', 'bad', 'unsupported' or 'map'"
+> +                     " in rule %zu\n", __func__, lo->xattr_map_nentries);
+>              exit(1);
+>          }
+>  
+> @@ -2749,6 +2756,9 @@ static int xattr_map_client(const struct
+>              if (cur_entry->flags & XATTR_MAP_FLAG_BAD) {
+>                  return -EPERM;
+>              }
+> +            if (cur_entry->flags & XATTR_MAP_FLAG_UNSUPPORTED) {
+> +                return -ENOTSUP;
+> +            }
+>              if (cur_entry->flags & XATTR_MAP_FLAG_OK) {
+>                  /* Unmodified name */
+>                  return 0;
+> @@ -2788,7 +2798,8 @@ static int xattr_map_server(const struct
+>  
+>          if ((cur_entry->flags & XATTR_MAP_FLAG_SERVER) &&
+>              (strstart(server_name, cur_entry->prepend, &end))) {
+> -            if (cur_entry->flags & XATTR_MAP_FLAG_BAD) {
+> +            if (cur_entry->flags & XATTR_MAP_FLAG_BAD ||
+> +                cur_entry->flags & XATTR_MAP_FLAG_UNSUPPORTED) {
+>                  return -ENODATA;
+>              }
+>              if (cur_entry->flags & XATTR_MAP_FLAG_OK) {
+> Index: rhvgoyal-qemu/docs/tools/virtiofsd.rst
+> ===================================================================
+> --- rhvgoyal-qemu.orig/docs/tools/virtiofsd.rst	2021-09-22 08:37:15.938372097 -0400
+> +++ rhvgoyal-qemu/docs/tools/virtiofsd.rst	2021-09-22 14:44:09.814188712 -0400
+> @@ -183,6 +183,12 @@ Using ':' as the separator a rule is of
+>    'ok' as either an explicit terminator or for special handling of certain
+>    patterns.
+>  
+> +- 'unsupported' - If a client tries to use a name matching 'key' it's
+> +  denied using ENOTSUP; when the server passes an attribute
+> +  name matching 'prepend' it's hidden.  In many ways it's use is very like
+> +  'ok' as either an explicit terminator or for special handling of certain
+> +  patterns.
+> +
+>  **key** is a string tested as a prefix on an attribute name originating
+>  on the client.  It maybe empty in which case a 'client' rule
+>  will always match on client names.
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
