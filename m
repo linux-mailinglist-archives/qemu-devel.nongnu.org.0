@@ -2,95 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3885C4230A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 21:18:25 +0200 (CEST)
-Received: from localhost ([::1]:49930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD73B4230AC
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 21:19:44 +0200 (CEST)
+Received: from localhost ([::1]:52266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXpxH-0008GI-Mp
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 15:18:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38844)
+	id 1mXpyZ-0001RE-R1
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 15:19:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mXpvV-0007E5-C9
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 15:16:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44323)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mXpxb-0000gB-OZ
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 15:18:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mXpvR-0005KB-Ak
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 15:16:31 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mXpxZ-0000pz-Tl
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 15:18:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633461387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1633461520;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XSX000wYKTrORxaxvWHBWfzhvR60Rd21ZXYdn21m63A=;
- b=DArmNil8p0j71oFdZa2F9pBw9yXgkNNNh2I/uIkkSsK8y54xGm8hv3LoGuCrFYe5w6W7zf
- lq3FQA00kPVDQYLX+hT8vZa2Tea0yNkRniKIKGD+m0+61CqGc8ltVi7+fiu7/AydHc5JpI
- pjM10SrLvGdUex1qvyAPquKkXx+o6Xc=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-icbuJBPBOq23LKXake4yNA-1; Tue, 05 Oct 2021 15:16:22 -0400
-X-MC-Unique: icbuJBPBOq23LKXake4yNA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- 14-20020a508e4e000000b003d84544f33eso242412edx.2
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 12:16:21 -0700 (PDT)
+ bh=CmwlctZXa9SRLLOF5HoyKuIr8xuKkHYDWtZbzov85pg=;
+ b=OHGe+7VUxMxQlsiAXzDCza1uld2Hx35fXFTVFA41yjr20G4gMIHu0ajUijx+O0MMrGahs/
+ BfxrbExrtOy6dGoZFxlImPWrTjxhC91QMrh9OK0VwJ+9RHilhQ3DvZU/EoM6ORnybCy6v3
+ rmUtE6Kh4oUw40IE/k/NlbatpK32t3M=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-UqvCCm6bOx-sr_yeAAJQ7A-1; Tue, 05 Oct 2021 15:18:39 -0400
+X-MC-Unique: UqvCCm6bOx-sr_yeAAJQ7A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ k2-20020adfc702000000b0016006b2da9bso123519wrg.1
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 12:18:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=THl8aVPS6F1uabbI6Sv1L2nIDyNjKGvJ0IwK6/NADE0=;
- b=ULNc4xkJLLRXFLOyaM8W29eqKgfOu90fIlGXgddADyt0klt52fezpYeyV1aXaJPC20
- hUBdz5AWak/UqhAn6xZRfZ5Gx2iCS4VKpHMESdkrU2fop1D54ciXevR3U4YWuwFjP7ix
- n93zpOLH+qFXC4H3RSFDBfIyfEJJxh/HdKHa7O5AQvPzj58U/5qvGqfGgA7OmWZC+LhV
- 6Pe9/Xz4+BsBiWL8AyFhX5Id2ykEIEYmHQemEiCXBqbeEOpoE3WL9WTi1WfALNqZihmX
- Fm/CfKup9SeIsT2Pqj6QaNDa/9vybcBOvhHeW8TqyHCsHfMJc06NXmo1eSiji1gWnOLW
- BlMw==
-X-Gm-Message-State: AOAM53333yAcqA2pYuIDFzGxLZSC/20lfX8a8iTqaKRNtBz0tbnXPsyj
- iHrfaI/R+9OknEIJFfGYuQwDg1nBC26oIBqxU3fu8ajAEh5tMMRPFcsMB9g3PXosCVON8m5y3mg
- ewH3SLD2GCvfweUE=
-X-Received: by 2002:a50:e006:: with SMTP id e6mr27655756edl.302.1633461380885; 
- Tue, 05 Oct 2021 12:16:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJznJNZ9FNHvj/wl0tQMYHz9WOykI1XhpZrbuwQa1FUQHWRQ/sOr0IWO9TTAFmm2WEvmvKQl+A==
-X-Received: by 2002:a50:e006:: with SMTP id e6mr27655711edl.302.1633461380538; 
- Tue, 05 Oct 2021 12:16:20 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n1sm1501250edr.64.2021.10.05.12.16.19
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=CmwlctZXa9SRLLOF5HoyKuIr8xuKkHYDWtZbzov85pg=;
+ b=GEdCzy01gMGaYIK8QwB9hZO1MO7ggeF3DcJm2DaeABXJSzlSrLlJ6gAddW25WTeTra
+ 84ZJsddr8o2DON3Hzdm0XmwgWMBMMcxvZ9ggAeHAYiWZATku09jXIxvZTuw6pfSIMYzs
+ QmWERB0WEKBZJOYkPgpQuH4knz+Ni2o4/5CI9UdSMB6AVILRlZwcIFM8Z78OyclzHyC8
+ m5gmZq6I30Wo56VJdaarQbtXpFFC5SpNNdg/J98n/lNJwVfvqUmz2JjZONDFqj/Uj8PC
+ W+wUcCDMjnKzoo9nooBqEPWJl4tfGaY7ZsqStWpzM6FMS2eBwpayi9AmmJA0pkBuEodq
+ 2Ytg==
+X-Gm-Message-State: AOAM532CEAhNdUSM3TjB33T75dRwqGenHu42lCpzHPZFHq9ayw61CRPw
+ TGlSLBiBVcL4qE/XNa5XJcIMMTJmyqOEygyNH/qr8ufOrKlnMezChjhqSvgNk0ZOzfMFH0h0PU6
+ xYmtGE/nZTtpDihE=
+X-Received: by 2002:a7b:c932:: with SMTP id h18mr5429573wml.41.1633461518381; 
+ Tue, 05 Oct 2021 12:18:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxZKHwQ7qCG7dN6UeI8ZNmftHcFHXR2lD0OUPX3dj7Z8qh8ogknahj3SSl+ggYU0iFI1cO0TQ==
+X-Received: by 2002:a7b:c932:: with SMTP id h18mr5429552wml.41.1633461518140; 
+ Tue, 05 Oct 2021 12:18:38 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id z19sm1319937wmf.39.2021.10.05.12.18.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 12:16:19 -0700 (PDT)
-Message-ID: <e1340bf2-90f8-27a2-21bd-c537904f7740@redhat.com>
-Date: Tue, 5 Oct 2021 21:16:18 +0200
+ Tue, 05 Oct 2021 12:18:37 -0700 (PDT)
+Subject: Re: [PATCH v4 07/11] pc: Allow instantiating a virtio-iommu device
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>, imammedo@redhat.com
+References: <20211001173358.863017-1-jean-philippe@linaro.org>
+ <20211001173358.863017-8-jean-philippe@linaro.org>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <25937aae-18de-4198-978e-c799ff79c5f6@redhat.com>
+Date: Tue, 5 Oct 2021 21:18:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 1/2] bsd-user: Only process meson rules on BSD host
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210926220103.1721355-1-f4bug@amsat.org>
- <20210926220103.1721355-2-f4bug@amsat.org>
- <e43cf822-c23d-1ddf-398e-71f78ea05b43@linaro.org>
- <4dcb518e-dd69-ed75-1d57-7fcf76c5cb69@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <4dcb518e-dd69-ed75-1d57-7fcf76c5cb69@amsat.org>
+In-Reply-To: <20211001173358.863017-8-jean-philippe@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,31 +102,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@freebsd.org>,
- Laurent Vivier <laurent@vivier.eu>, Warner Losh <imp@bsdimp.com>
+Reply-To: eric.auger@redhat.com
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, ani@anisinha.ca, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/09/21 07:24, Philippe Mathieu-Daudé wrote:
->> Why here and not in the parent meson.build?
-> This is what Paolo recommended me to do last time I added a
-> conditional inclusion.
-> 
-> Personally I prefer having it in the call site rather than
-> the callee (no need to read the callee to notice it isn't
-> called). I guess this is for readability, to not clutter
-> meson.build? files more...
+Hi Jean,
+On 10/1/21 7:33 PM, Jean-Philippe Brucker wrote:
+> Allow instantiating a virtio-iommu device by adding an ACPI Virtual I/O
+> Translation table (VIOT), which describes the relation between the
+> virtio-iommu and the endpoints it manages.
+>
+> Add a hotplug handler for virtio-iommu on x86 and set the necessary
+> reserved region property. On x86, the [0xfee00000, 0xfeefffff] DMA
+> region is reserved for MSIs. DMA transactions to this range either
+> trigger IRQ remapping in the IOMMU or bypasses IOMMU translation.
+>
+> Although virtio-iommu does not support IRQ remapping it must be informed
+> of the reserved region so that it can forward DMA transactions targeting
+> this region.
+>
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-Yes, pretty much.  In this case it's quite obvious that bsd-user is 
-BSD-only, but I prefer it if dir/meson.build has the knowledge of what 
-goes on in dir/.
+tested by a protecting a virtio-net-pci device plugged onto a pxb-pcie
+and setting
+default-bus-bypass-iommu=true on pcie.0.
 
-That said, we're not terribly consistent, see have_block and have_tools, 
-so either will be okay.
+As described in the cover letter,
+without [PATCH 0/3] virtio-iommu: Support VIRTIO_IOMMU_F_BYPASS_CONFIG
+the ahci emits some failure if it is protected by the virtio-iommu:
 
-Paolo
+qemu-system-x86_64: virtio_iommu_translate sid=250 is not known!!
+qemu-system-x86_64: no buffer available in event queue to report event
+qemu-system-x86_64: AHCI: Failed to start FIS receive engine: bad FIS
+receive buffer address
+../..
+Invalid access at addr 0x7FFA6900, size 4, region '(null)', reason: rejected
 
-> Paolo, what is your preference?
-> 
+But this is expected.
+
+So feel free to add
+Tested-by: Eric Auger <eric.auger@redhat.com>
+
+Thanks
+
+Eric
+
+> ---
+>  include/hw/i386/pc.h |  2 ++
+>  hw/i386/acpi-build.c |  5 +++++
+>  hw/i386/pc.c         | 24 ++++++++++++++++++++++--
+>  hw/i386/Kconfig      |  1 +
+>  4 files changed, 30 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 82cf7b7e30..f3ba1ee4c0 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -45,6 +45,8 @@ typedef struct PCMachineState {
+>      bool pit_enabled;
+>      bool hpet_enabled;
+>      bool default_bus_bypass_iommu;
+> +    bool virtio_iommu;
+> +    uint16_t virtio_iommu_bdf;
+>      uint64_t max_fw_size;
+>  
+>      /* ACPI Memory hotplug IO base address */
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index d1c28440f4..4e46585709 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -71,6 +71,7 @@
+>  
+>  #include "hw/acpi/ipmi.h"
+>  #include "hw/acpi/hmat.h"
+> +#include "hw/acpi/viot.h"
+>  
+>  /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
+>   * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
+> @@ -2593,6 +2594,10 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>              build_dmar_q35(tables_blob, tables->linker, x86ms->oem_id,
+>                             x86ms->oem_table_id);
+>          }
+> +    } else if (pcms->virtio_iommu) {
+> +        acpi_add_table(table_offsets, tables_blob);
+> +        build_viot(machine, tables_blob, tables->linker, pcms->virtio_iommu_bdf,
+> +                   x86ms->oem_id, x86ms->oem_table_id);
+>      }
+>      if (machine->nvdimms_state->is_enabled) {
+>          nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 789ccb6ef4..31710bc4fb 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -83,6 +83,7 @@
+>  #include "hw/i386/intel_iommu.h"
+>  #include "hw/net/ne2000-isa.h"
+>  #include "standard-headers/asm-x86/bootparam.h"
+> +#include "hw/virtio/virtio-iommu.h"
+>  #include "hw/virtio/virtio-pmem-pci.h"
+>  #include "hw/virtio/virtio-mem-pci.h"
+>  #include "hw/mem/memory-device.h"
+> @@ -1367,8 +1368,11 @@ static void pc_virtio_md_pci_unplug(HotplugHandler *hotplug_dev,
+>  static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+>                                            DeviceState *dev, Error **errp)
+>  {
+> -    if (object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) &&
+> -        x86_iommu_get_default()) {
+> +    PCMachineState *pcms = PC_MACHINE(hotplug_dev);
+> +
+> +    if ((object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) ||
+> +         object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) &&
+> +        (x86_iommu_get_default() || pcms->virtio_iommu)) {
+>          error_setg(errp, "QEMU does not support multiple vIOMMUs "
+>                     "for x86 yet.");
+>          return;
+> @@ -1381,6 +1385,15 @@ static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+>      } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
+>                 object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
+>          pc_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
+> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+> +        /* Declare the APIC range as the reserved MSI region */
+> +        char *resv_prop_str = g_strdup_printf("0xfee00000:0xfeefffff:%d",
+> +                                              VIRTIO_IOMMU_RESV_MEM_T_MSI);
+> +
+> +        object_property_set_uint(OBJECT(dev), "len-reserved-regions", 1, errp);
+> +        object_property_set_str(OBJECT(dev), "reserved-regions[0]",
+> +                                resv_prop_str, errp);
+> +        g_free(resv_prop_str);
+>      }
+>  }
+>  
+> @@ -1394,6 +1407,12 @@ static void pc_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+>      } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
+>                 object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
+>          pc_virtio_md_pci_plug(hotplug_dev, dev, errp);
+> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+> +        PCMachineState *pcms = PC_MACHINE(hotplug_dev);
+> +        PCIDevice *pdev = PCI_DEVICE(dev);
+> +
+> +        pcms->virtio_iommu = true;
+> +        pcms->virtio_iommu_bdf = pci_get_bdf(pdev);
+>      }
+>  }
+>  
+> @@ -1436,6 +1455,7 @@ static HotplugHandler *pc_get_hotplug_handler(MachineState *machine,
+>          object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
+>          object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
+>          object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI) ||
+> +        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI) ||
+>          object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
+>          return HOTPLUG_HANDLER(machine);
+>      }
+> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+> index ddedcef0b2..13db05d557 100644
+> --- a/hw/i386/Kconfig
+> +++ b/hw/i386/Kconfig
+> @@ -54,6 +54,7 @@ config PC_ACPI
+>      select ACPI_X86
+>      select ACPI_CPU_HOTPLUG
+>      select ACPI_MEMORY_HOTPLUG
+> +    select ACPI_VIOT
+>      select SMBUS_EEPROM
+>      select PFLASH_CFI01
+>      depends on ACPI_SMBUS
 
 
