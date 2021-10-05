@@ -2,65 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B536422EF7
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 19:18:13 +0200 (CEST)
-Received: from localhost ([::1]:41874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870EA422F0E
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 19:21:27 +0200 (CEST)
+Received: from localhost ([::1]:51888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXo4y-0005kP-Fn
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 13:18:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54318)
+	id 1mXo86-00042k-Iy
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 13:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mXnNG-0005IX-K8; Tue, 05 Oct 2021 12:33:02 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:50909)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mXnSh-0006va-EL; Tue, 05 Oct 2021 12:38:39 -0400
+Received: from mail-eopbgr70121.outbound.protection.outlook.com
+ ([40.107.7.121]:4994 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mXnN9-0003cP-GT; Tue, 05 Oct 2021 12:33:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=XGnubg1z6SJECPfGa6yLaeJYnINmKmj6A98aD9Fyh80=; b=N2/itdEsWL195rL7rXJ5pXzC+G
- KJpFuSG5nYSFepBpzWMvzPv0cRyKBWvplic7k/G5NdvWfVqIpNr5Z3PlJvnyM2/uxJB/XxtuBtp9/
- Zo9X6FiF7xqg1bp9KWiuNAFvvOCI/LNkU7ElEovbdEY+j8SPEed0iGuCKh2R9Q9qLC1+UxfLeEyRi
- 2zyI04vqdoRk8l/gZAQQwQIXCEjks/p3ihssAc+U4eIIfPZszLeuX1ToIh9/MyxyZkmgqYnDjKQtm
- UBPcim+HujFsxpApadefkCZk+9u4/oR2Wv5Icu94+qbBUQ6+SmE8+nxwvMyCyvrUMzEzdP22gyABB
- nHp6cCVb6B74aA+OPHnXkZSC5ZXZy8Q2NfzOfBrQrTjpQVyJPYi5a3idTlL4+r7suRcKDtM1qPRSo
- a7WkeCgrAfndoYCQt0ZpkvLY0JC5UlM7/jsNey91fQqsYCxe8VRFd6TzB6yJhsQcu8QCpB1ueF1Cs
- d/Q9ypRiUCeJMzDgs09699W3JmRfxtlqEkjaZqKLy+/5Y3d74o+yEq30AVleICP4XGY6zIlVaPRj+
- niogYx3a6Jlagg5UoSIz3pmJcGd8bBf7hWNSdNhLuK65Tp0zFBRoy0AbrKzVmrr1d/r4HIHiEYdnQ
- iDpSK0lXOk2etmWs78JYrjPaf13Lx2SMqdj0jAugI=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Amit Shah <amit@kernel.org>, David Hildenbrand <david@redhat.com>,
- Greg Kurz <groug@kaod.org>, virtio-fs@redhat.com,
- Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 1/3] virtio: turn VIRTQUEUE_MAX_SIZE into a variable
-Date: Tue, 05 Oct 2021 18:32:46 +0200
-Message-ID: <1950551.Wq8TZpmmRU@silver>
-In-Reply-To: <YVxq8EwB8uXouiEj@stefanha-x1.localdomain>
-References: <cover.1633376313.git.qemu_oss@crudebyte.com>
- <14205148.YOBg3JvQBA@silver> <YVxq8EwB8uXouiEj@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mXnSe-0005Jp-8t; Tue, 05 Oct 2021 12:38:39 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jyuhll3NI7lQU2yOSQVzrm83BYqpw2ipXmHyUzcMpNNY7gYOKGIxn5gxgr0c6m7ugk+jAD2qeu851MtZH0ouWtZwevTUzIBwUi+qJesB3Gt/G4Wg2BsNX2/Yc20uOB1LojimETPnxZh4ttTRUWnbCK8kBLQOb/dtKT8XDfPonILZY/YnGfhkZISgrOFIqwWxzLpSfl6qjbZ62S1TK97iOLVh4j8fpK44oZR/Nm8xs4/sMmoqzQLhR9YB1H4JLySHi4JpRl81oyzst79A77YHaipKZHBqGSLDRA3syNTuOwCNIOGXZ/vcjSbQs0qV6pxRvcyzMvSF2h3yElycCWE9Gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=60RDM8ki8wxK/+kY4Ka8KaN+kg5VF527JyrFbNwqLAw=;
+ b=BO9fK3dBukHI16I2QGX4WwQ5zAOknO7trVXpDk/S1WccuMQC68p63Ji63LoS7afbITafHGK9avdxDrfQLGHI+m/FpavzD8g2JITT33VKKw89ilUQ53PajCKAOp8XWrMGqE0GQBiwncHQ9L7dTX3FqVxdN3T3oGIG5LQmVi6e808rueTwm1qzU6dn9H8p2FZ7OuobTs9shIYEyS+4bGSs62DYQajbVIPvlUKJSB83w/eM+1v30ezI6uOmpIUJrMSA5FRx44zlfUc7M3eN+HBRl9gG/BSbBfw8VunP9QHz77xsSUY1mrDEEJ6fNKzy8ll+zoZLiG/FpqDFy6ILP6zbhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=60RDM8ki8wxK/+kY4Ka8KaN+kg5VF527JyrFbNwqLAw=;
+ b=dTjEDT2qccrl25O7W64oAAxlOk6qUPFaC7dC/DMU/V5p22N3GFPAsMbmxKyTN1j7PXL+kPyvR/Selu9hxaGGdT4w/uQtMJKOpS9pKvNzQMmI4NfZNBhfozgEcf9AZOxI4XxjuLrBRI+nn2/Xd6OYUlKqRzEwP6A7q/GvfStvNpI=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4470.eurprd08.prod.outlook.com (2603:10a6:20b:b5::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.22; Tue, 5 Oct
+ 2021 16:38:32 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a994:9f7c:53a5:84bc%4]) with mapi id 15.20.4566.022; Tue, 5 Oct 2021
+ 16:38:32 +0000
+Message-ID: <49511519-9976-a34e-394c-dee2ea8b5e3a@virtuozzo.com>
+Date: Tue, 5 Oct 2021 19:38:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 0/2] block: avoid integer overflow of `max-workers` and
+ assert `max_busy_tasks`
+Content-Language: en-US
+To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
+Cc: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+References: <20211005161157.282396-1-sgarzare@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <20211005161157.282396-1-sgarzare@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM6PR0202CA0049.eurprd02.prod.outlook.com
+ (2603:10a6:20b:3a::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+Received: from [192.168.100.10] (185.215.60.207) by
+ AM6PR0202CA0049.eurprd02.prod.outlook.com (2603:10a6:20b:3a::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
+ Transport; Tue, 5 Oct 2021 16:38:31 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 097268b5-34b3-4ebb-df5f-08d9881e91a1
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4470:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4470409CDAA1058E4919F233C1AF9@AM6PR08MB4470.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hKdKy2p3luKLosNyjdZfglXQuTH4AK/lSYxFgiZgdVOlR8w7geQ7EuZnuGCfls3M5gJYiOV7jn30jthebSMPQEvxZNvzqCrAONnQpc9TWB6++5BjUG9JyKfKy9AJgMOT0CpZTRB3Begl65Mc5j29LAD8H+lu2KOOHLtUWbaAUNA6kNA10+JGc2F+w97c1mb6lcFQpYnhf++7UzH7VRDnnmbcAsOM/3lS7nsp+FHgiibYPf9iFvwzu9QpjKZOYD5B7NQGAIlTQpkLiwHcZtHhs62/yjsD4YigqdFaIuHe7JU6KLSftdAEBbSCTzFD9vRriCanBlKFNjptyf/5CC0A1bu6I2BCp0xYDhtPQExKhY0tCFKe/yDWDGiRUboYa16kPBf2tbJuvw1clqp2RJPFxkubGW2kbPuvjHmwJUg8REgBG4VBAf97R2L3aKq/e0fh4IXpgrFX3TVeqCb2iS+mFQBblqu/tzi7OFqM78BVnfFmj1zZH4xUPabQprV90dMtYy3cL6x7g+zN1Xr6KMBrndSIixjyYUqu54EHkQGjB3/aOtLLEUkecdw2o9wN74qBmvYLUR3XRYnfUqEXMo8QBWpANxhXa716ZZ2vrswbG+UdB+3Xy1oY8SkqUiFa3utax1kkz494fXA6yksg9oAlRKb8E8ji+X7VzCUHCSX9Gusm0nxMrTH40yvU7mmSNTl8zr640avCMDmACiwhn4j3O3avKlerFOIZTbe5f3sFpcZmZGaebPwctlI54W2R9EV4CxmSq7ShLeFQeepgIFcsAe914wjqwpr4IQD+fz/Fcgcu3Fv7PuiflCK5fZlMMMVBGDvaqkJmJ7tAha8g4Y013pxmy3Rn/F5lgnE95jmoq/qOKjVsDMaivfqJ8EimsJlJ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(36756003)(966005)(54906003)(38350700002)(508600001)(26005)(38100700002)(16576012)(5660300002)(186003)(316002)(31686004)(86362001)(4326008)(66946007)(8676002)(31696002)(8936002)(83380400001)(6486002)(52116002)(2616005)(66476007)(66556008)(4744005)(2906002)(956004)(81973001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eWpKWE9RejlhS2FrVTdZTDY5Rm40bTg1MHgrT2E3MXUvVW1tcllKeHJkcTdl?=
+ =?utf-8?B?ZWZlczhCZW1EcTY2UytveFg5NnloVndVZU5qZUdQck1Ed05QcGcwRXZlQWph?=
+ =?utf-8?B?Vm9xT3VzK05lcjlDTjZPWVJJbmhVZjdOMVROc3d5eDdDbUdzc3I3eEVFRFVx?=
+ =?utf-8?B?UDVQYjlPa1MxNW9WeGd2TkpvVnc3SHJISGNMRFQrc3d2Q0VZN1JFMmVwL0Zk?=
+ =?utf-8?B?TFJQWmVzV2VNVVIycmNBVmdiWnF3SG50TmpRL0RWSG1LcU1aOTdSK3hsMlNO?=
+ =?utf-8?B?RGp0bkNFazNRV3Y3cTlldUNUU3FMdlRLOExOT3YrdnZqOUcwd2JTdWdYY3pq?=
+ =?utf-8?B?WldkNGtrbStoNDRjQkNCcFZSdllRWGw3WUtwOElhbWZ2aHFZK05QaDZuOHVP?=
+ =?utf-8?B?bmZLQUovWmlGVmV4RXZSUG9nK0tSZzNscDFCRkNCY0FNNlZLL045WnZWQ2Mw?=
+ =?utf-8?B?ZHhNSENVOUxDdm0xWWwyS2FVa1F6TE1ZUzhRK3RiZkttT1Z5cTEvYi9qNHNh?=
+ =?utf-8?B?ekw4U25TeUVIL1pFMkdMY29ybnpWWDNzYmM2SGZqeFBSZXVrT1Q4NVBUTVJF?=
+ =?utf-8?B?c0dwSEhXWUdML3FVRmQzbitGZFlJZGRJYXFNYmZjM0NXK21CN2JDbjFQb1Qy?=
+ =?utf-8?B?eS9ZckNZOERQK2N1NlpiODFvWmtUbUsvd09sK3pVNHRNTDgrWDRuVDZLZ0I5?=
+ =?utf-8?B?d2ZuRlEzVkNnMEpua00rMXRRM2dzMkJMOFpqYmVoUjlHamc1U3RCRVZWYzZY?=
+ =?utf-8?B?KzhDMUJ4TDZ6R2VTT1UxOEt6L2tCQjRRVVgwU1ZLQ1JFMHZvcG9FbTRqcE1P?=
+ =?utf-8?B?R3haajAyL1VzSW15OFBHck5YUXVXaWVSMHgyZFZvMWZXeDdaTHNpQVhxcmJM?=
+ =?utf-8?B?ZERSRmxDTkJmdnhoTkZsdXZBbGIvVzBYUlNTMExmYzcrcXlSdHFYMVhrREtu?=
+ =?utf-8?B?TVdSK0lJVlFPRmFsZzExN2dWV0x6ZHhIUEIwRTAwVER4V1J5a2NxVSsrWlha?=
+ =?utf-8?B?ejJubFdDWGdRY3psWnZ3QnBpdDQwNHpBbmZMODF3MytlcEMzTDcxUExhZW5S?=
+ =?utf-8?B?SjhtS2tISkpIRlJHVURkeWMyM08yR0hGMXU4TGxBOXdjdGlqYlFYM3pWemxR?=
+ =?utf-8?B?eE9SK0UwY1VWM0MvbDI1cnVPQUd3M2pGVU4vRm5aVlZWaDlOaHRTRGIwWWpX?=
+ =?utf-8?B?RTBWZytjQ3V0TjNBZnQvc2Flc1dlSnBlUVV3SWRsa3B4MWlXUy9wZE1lZ3I1?=
+ =?utf-8?B?ZjlkNXpNNjE4VjI0T1BmdnZBRmY1aTN3NUtuWWdwaSswSG1JM09VMjVkMTAy?=
+ =?utf-8?B?M2pqS1lzd0xySEpkbFord3NYdDBCdDdOTXBHZkVCTnk3K2NYNmR1Rlg3YzJT?=
+ =?utf-8?B?RjN5NFErS2VCamg2cy8wT1VXVkV5N3AxU1lNaFlrTHRXTzVrRFZNV2NmY2lk?=
+ =?utf-8?B?a3JDQXY3R2dTR0JEb2lMWU8yTWlrOG1TdG93Si9KVXZpWnQxQmNkaXN2NnJN?=
+ =?utf-8?B?N0ZocjdoNWU2SE1JYm5NTlNTOUJ1UTdFbnNaRStYZ1NnaDFGQmt4c1VYSno3?=
+ =?utf-8?B?cmFWM0ZEUTVteWt6K2JBTGdseXg3cXQ4T2c3U0tsdkd4aGRsM0t6NitnUmti?=
+ =?utf-8?B?TEdzZ1NPUGx0SjFaVFdsd3RSbVpDN1dzWWdKaHRwM3kvQUVSNHVvU1gzZWNY?=
+ =?utf-8?B?TGNseFlraWFwT2I2aHVPbW1XeUcyZ2NxUURxeEJXdGdZcHBidWQzdEJDMUNt?=
+ =?utf-8?Q?m7pNV4lH4P29OH04/VyXIapXQpTGvQLEpKBS3sC?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 097268b5-34b3-4ebb-df5f-08d9881e91a1
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2021 16:38:32.4332 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hJEmnYztJvtIwURaAsKLmdxGhFRXo44MY3nIZDquWEmBu/oLzHFAkrcwNV8IloJ8gqguo90of3u/kpeeHKVtwB8WUOMYSNlJyRSFSmYStjA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4470
+Received-SPF: pass client-ip=40.107.7.121;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,178 +148,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 5. Oktober 2021 17:10:40 CEST Stefan Hajnoczi wrote:
-> On Tue, Oct 05, 2021 at 03:15:26PM +0200, Christian Schoenebeck wrote:
-> > On Dienstag, 5. Oktober 2021 14:45:56 CEST Stefan Hajnoczi wrote:
-> > > On Mon, Oct 04, 2021 at 09:38:04PM +0200, Christian Schoenebeck wrote:
-> > > > Refactor VIRTQUEUE_MAX_SIZE to effectively become a runtime
-> > > > variable per virtio user.
-> > > 
-> > > virtio user == virtio device model?
-> > 
-> > Yes
-> > 
-> > > > Reasons:
-> > > > 
-> > > > (1) VIRTQUEUE_MAX_SIZE should reflect the absolute theoretical
-> > > > 
-> > > >     maximum queue size possible. Which is actually the maximum
-> > > >     queue size allowed by the virtio protocol. The appropriate
-> > > >     value for VIRTQUEUE_MAX_SIZE would therefore be 32768:
-> > > >     
-> > > >     https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs
-> > > >     01.h
-> > > >     tml#x1-240006
-> > > >     
-> > > >     Apparently VIRTQUEUE_MAX_SIZE was instead defined with a
-> > > >     more or less arbitrary value of 1024 in the past, which
-> > > >     limits the maximum transfer size with virtio to 4M
-> > > >     (more precise: 1024 * PAGE_SIZE, with the latter typically
-> > > >     being 4k).
-> > > 
-> > > Being equal to IOV_MAX is a likely reason. Buffers with more iovecs than
-> > > that cannot be passed to host system calls (sendmsg(2), pwritev(2),
-> > > etc).
-> > 
-> > Yes, that's use case dependent. Hence the solution to opt-in if it is
-> > desired and feasible.
-> > 
-> > > > (2) Additionally the current value of 1024 poses a hidden limit,
-> > > > 
-> > > >     invisible to guest, which causes a system hang with the
-> > > >     following QEMU error if guest tries to exceed it:
-> > > >     
-> > > >     virtio: too many write descriptors in indirect table
-> > > 
-> > > I don't understand this point. 2.6.5 The Virtqueue Descriptor Table 
-says:
-> > >   The number of descriptors in the table is defined by the queue size
-> > >   for
-> > > 
-> > > this virtqueue: this is the maximum possible descriptor chain length.
-> > > 
-> > > and 2.6.5.3.1 Driver Requirements: Indirect Descriptors says:
-> > >   A driver MUST NOT create a descriptor chain longer than the Queue Size
-> > >   of
-> > > 
-> > > the device.
-> > > 
-> > > Do you mean a broken/malicious guest driver that is violating the spec?
-> > > That's not a hidden limit, it's defined by the spec.
-> > 
-> > https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg00781.html
-> > https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg00788.html
-> > 
-> > You can already go beyond that queue size at runtime with the indirection
-> > table. The only actual limit is the currently hard coded value of 1k
-> > pages.
-> > Hence the suggestion to turn that into a variable.
+10/5/21 19:11, Stefano Garzarella wrote:
+> This series contains a patch that avoids an integer overflow of
+> `max-workers` (struct BackupPerf) by adding a check and a patch
+> that asserts this condition where the problem occurs.
 > 
-> Exceeding Queue Size is a VIRTIO spec violation. Drivers that operate
-> outsided the spec do so at their own risk. They may not be compatible
-> with all device implementations.
-
-Yes, I am ware about that. And still, this practice is already done, which 
-apparently is not limited to 9pfs.
-
-> The limit is not hidden, it's Queue Size as defined by the spec :).
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2009310
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 > 
-> If you have a driver that is exceeding the limit, then please fix the
-> driver.
-
-I absolutely understand your position, but I hope you also understand that 
-this violation of the specs is a theoretical issue, it is not a real-life 
-problem right now, and due to lack of man power unfortunately I have to 
-prioritize real-life problems over theoretical ones ATM. Keep in mind that 
-right now I am the only person working on 9pfs actively, I do this voluntarily 
-whenever I find a free time slice, and I am not paid for it either.
-
-I don't see any reasonable way with reasonable effort to do what you are 
-asking for here in 9pfs, and Greg may correct me here if I am saying anything 
-wrong. If you are seeing any specific real-life issue here, then please tell 
-me which one, otherwise I have to postpone that "specs violation" issue.
-
-There is still a long list of real problems that I need to hunt down in 9pfs, 
-afterwards I can continue with theoretical ones if you want, but right now I 
-simply can't, sorry.
-
-> > > > (3) Unfortunately not all virtio users in QEMU would currently
-> > > > 
-> > > >     work correctly with the new value of 32768.
-> > > > 
-> > > > So let's turn this hard coded global value into a runtime
-> > > > variable as a first step in this commit, configurable for each
-> > > > virtio user by passing a corresponding value with virtio_init()
-> > > > call.
-> > > 
-> > > virtio_add_queue() already has an int queue_size argument, why isn't
-> > > that enough to deal with the maximum queue size? There's probably a good
-> > > reason for it, but please include it in the commit description.
-> > 
-> > [...]
-> > 
-> > > Can you make this value per-vq instead of per-vdev since virtqueues can
-> > > have different queue sizes?
-> > > 
-> > > The same applies to the rest of this patch. Anything using
-> > > vdev->queue_max_size should probably use vq->vring.num instead.
-> > 
-> > I would like to avoid that and keep it per device. The maximum size stored
-> > there is the maximum size supported by virtio user (or vortio device
-> > model,
-> > however you want to call it). So that's really a limit per device, not per
-> > queue, as no queue of the device would ever exceed that limit.
-> > 
-> > Plus a lot more code would need to be refactored, which I think is
-> > unnecessary.
+> Stefano Garzarella (2):
+>    block/backup: avoid integer overflow of `max-workers`
+>    block/aio_task: assert `max_busy_tasks` is greater than 0
 > 
-> I'm against a per-device limit because it's a concept that cannot
-> accurately describe reality. Some devices have multiple classes of
-
-It describes current reality, because VIRTQUEUE_MAX_SIZE obviously is not per 
-queue either ATM, and nobody ever cared.
-
-All this series does, is allowing to override that currently project-wide 
-compile-time constant to a per-driver-model compile-time constant. Which makes 
-sense, because that's what it is: some drivers could cope with any transfer 
-size, and some drivers are constrained to a certain maximum application 
-specific transfer size (e.g. IOV_MAX).
-
-> virtqueues and they are sized differently, so a per-device limit is
-> insufficient. virtio-net has separate rx_queue_size and tx_queue_size
-> parameters (plus a control vq hardcoded to 64 descriptors).
-
-I simply find this overkill. This value semantically means "my driver model 
-supports at any time and at any coincidence at the very most x * PAGE_SIZE = 
-max_transfer_size". Do you see any driver that might want a more fine graded 
-control over this?
-
-As far as I can see, no other driver maintainer even seems to care to 
-transition to 32k. So I simply doubt that anybody would even want a more 
-fained graded control over this in practice, but anyway ...
-
-> The specification already gives us Queue Size (vring.num in QEMU). The
-> variable exists in QEMU and just needs to be used.
+>   block/aio_task.c | 2 ++
+>   block/backup.c   | 4 ++--
+>   2 files changed, 4 insertions(+), 2 deletions(-)
 > 
-> If per-vq limits require a lot of work, please describe why. I think
-> replacing the variable from this patch with virtio_queue_get_num()
-> should be fairly straightforward, but maybe I'm missing something? (If
-> you prefer VirtQueue *vq instead of the index-based
-> virtio_queue_get_num() API, you can introduce a virtqueue_get_num()
-> API.)
-> 
-> Stefan
 
-... I leave that up to Michael or whoever might be in charge to decide. I 
-still find this overkill, but I will adapt this to whatever the decision 
-eventually will be in v3.
+Thanks for fixing, I'm applying it to my jobs branch.
 
-But then please tell me the precise representation that you find appropriate, 
-i.e. whether you want a new function for that, or rather an additional 
-argument to virtio_add_queue(). Your call.
-
+-- 
 Best regards,
-Christian Schoenebeck
-
-
+Vladimir
 
