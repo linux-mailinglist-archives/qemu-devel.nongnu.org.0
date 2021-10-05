@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE375422BCD
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:06:01 +0200 (CEST)
-Received: from localhost ([::1]:53880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF21D422C45
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:21:49 +0200 (CEST)
+Received: from localhost ([::1]:60340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXm12-0002og-Qb
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:06:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54436)
+	id 1mXmGK-0001Ob-KD
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:21:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mXlaA-00005S-LN
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:38:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48767)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1mXlbp-0002D2-HT
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:39:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mXla8-0007PK-Lz
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:38:14 -0400
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1mXlbn-0000KB-SA
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 10:39:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633444691;
+ s=mimecast20190719; t=1633444795;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=w3qBCN3qgXQmu2+h2E+UziQNNWRxZWvrSOkNo/LO4tM=;
- b=Z4t5WJrj9abamRjgqID3dqh5YsudKEvD0JPTMESdg7sK6U29eWg0Y6nPeyS/xUiR/XkXAC
- Tci8AkhpDs46wlmxdcqw4PHgGsTValDIZN+HY6/IOIndiDnwBB2vhUba3OwKL9/blWzsA9
- QMS5dGWN0KvZgGWMPdyeSLflLubJOhQ=
+ bh=VidIBuO1CTbySRXvSeuF1GATOcBGYfvYVfZhJU4ewP0=;
+ b=CvqNn9V1V3avlH5bvU2+i8itVsiTurAoHZC/L+oYjWAzLdvpbnXmUAzELgtXlIC3Gk47k4
+ TJizoEKuvg8FOhjjXcuNOu/tfYgDeTIAvn1p8AF7L6o/zFA/84MMwiIhrUGGqMZRRd1Dst
+ WaFf8r53uX6XNq4tLXt5AeGU2qVTW9M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-k7imYVoXOd2wXRrWpZ-PJA-1; Tue, 05 Oct 2021 10:37:56 -0400
-X-MC-Unique: k7imYVoXOd2wXRrWpZ-PJA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-510-PmL0CAqaMmObQndz8PKRAQ-1; Tue, 05 Oct 2021 10:39:51 -0400
+X-MC-Unique: PmL0CAqaMmObQndz8PKRAQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8ED18064A5;
- Tue,  5 Oct 2021 14:37:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DDADF1F451;
- Tue,  5 Oct 2021 14:37:34 +0000 (UTC)
-Date: Tue, 5 Oct 2021 16:37:33 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Damien Hedde <damien.hedde@greensocs.com>
-Subject: Re: [PATCH 09/11] qdev: Avoid QemuOpts in QMP device_add
-Message-ID: <YVxjLf9vJlBqeKKh@redhat.com>
-References: <20210924090427.9218-1-kwolf@redhat.com>
- <20210924090427.9218-10-kwolf@redhat.com>
- <89bbeed4-dec6-007a-175e-38a12e5bbfa1@greensocs.com>
- <YVGtXMq+JGKIIUrQ@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 368FD19253C3;
+ Tue,  5 Oct 2021 14:39:50 +0000 (UTC)
+Received: from paraplu (unknown [10.39.195.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCDBE5F4E7;
+ Tue,  5 Oct 2021 14:39:47 +0000 (UTC)
+Date: Tue, 5 Oct 2021 16:39:43 +0200
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 0/3] rSTify SubmitAPatch, TrivialPatches, and SpellCheck
+ wiki pages
+Message-ID: <YVxjr7Vn0SqjDWsg@paraplu>
+References: <20210922121054.1458051-1-kchamart@redhat.com>
+ <YVxarQkCtPkhRc4Z@stefanha-x1.localdomain>
+ <YVxdKpks4ARkVHlj@paraplu>
+ <YVxgBvQTwfnBgZXI@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <YVGtXMq+JGKIIUrQ@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <YVxgBvQTwfnBgZXI@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,130 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
- libvir-list@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, its@irrelevant.dk, pbonzini@redhat.com,
- jfreimann@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ John Snow <jsnow@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.09.2021 um 13:39 hat Kevin Wolf geschrieben:
-> Am 27.09.2021 um 13:06 hat Damien Hedde geschrieben:
-> > On 9/24/21 11:04, Kevin Wolf wrote:
-> > > Directly call qdev_device_add_from_qdict() for QMP device_add instead of
-> > > first going through QemuOpts and converting back to QDict.
-> > > 
-> > > Note that this changes the behaviour of device_add, though in ways that
-> > > should be considered bug fixes:
-> > > 
-> > > QemuOpts ignores differences between data types, so you could
-> > > successfully pass a string "123" for an integer property, or a string
-> > > "on" for a boolean property (and vice versa).  After this change, the
-> > > correct data type for the property must be used in the JSON input.
-> > > 
-> > > qemu_opts_from_qdict() also silently ignores any options whose value is
-> > > a QDict, QList or QNull.
-> > > 
-> > > To illustrate, the following QMP command was accepted before and is now
-> > > rejected for both reasons:
-> > > 
-> > > { "execute": "device_add",
-> > >    "arguments": { "driver": "scsi-cd",
-> > >                   "drive": { "completely": "invalid" },
-> > >                   "physical_block_size": "4096" } }
-> > > 
-> > > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > > ---
-> > >   softmmu/qdev-monitor.c | 18 +++++++++++-------
-> > >   1 file changed, 11 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> > > index c09b7430eb..8622ccade6 100644
-> > > --- a/softmmu/qdev-monitor.c
-> > > +++ b/softmmu/qdev-monitor.c
-> > > @@ -812,7 +812,8 @@ void hmp_info_qdm(Monitor *mon, const QDict *qdict)
-> > >       qdev_print_devinfos(true);
-> > >   }
-> > > -void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
-> > > +static void monitor_device_add(QDict *qdict, QObject **ret_data,
-> > > +                               bool from_json, Error **errp)
-> > >   {
-> > >       QemuOpts *opts;
-> > >       DeviceState *dev;
-> > > @@ -825,7 +826,9 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
-> > >           qemu_opts_del(opts);
-> > >           return;
-> > >       }
-> > > -    dev = qdev_device_add(opts, errp);
-> > > +    qemu_opts_del(opts);
-> > > +
-> > > +    dev = qdev_device_add_from_qdict(qdict, from_json, errp);
-> > 
-> > Hi Kevin,
-> > 
-> > I'm wandering if deleting the opts (which remove it from the "device" opts
-> > list) is really a no-op ?
+On Tue, Oct 05, 2021 at 03:24:06PM +0100, Stefan Hajnoczi wrote:
+> On Tue, Oct 05, 2021 at 04:11:54PM +0200, Kashyap Chamarthy wrote:
+
+[...]
+
+> > They were linked to from the SubmitAPatch page.  I thought having one
+> > doc in qemu.git and the other two related docs on the Wiki was clunky.
+> > I can leave them on the Wiki as-is.  But I thought upstream is wants to
+> > move away from the Wiki to in-tree docs where it makes sense.
 > 
-> It's not exactly a no-op. Previously, the QemuOpts would only be freed
-> when the device is destroying, now we delete it immediately after
-> creating the device. This could matter in some cases.
-> 
-> The one case I was aware of is that QemuOpts used to be responsible for
-> checking for duplicate IDs. Obviously, it can't do this job any more
-> when we call qemu_opts_del() right after creating the device. This is
-> the reason for patch 6.
-> 
-> > The opts list is, eg, traversed in hw/net/virtio-net.c in the function
-> > failover_find_primary_device_id() which may be called during the
-> > virtio_net_set_features() (a TYPE_VIRTIO_NET method).
-> > I do not have the knowledge to tell when this method is called. But If this
-> > is after we create the devices. Then the list will be empty at this point
-> > now.
-> > 
-> > It seems, there are 2 other calling sites of
-> > "qemu_opts_foreach(qemu_find_opts("device"), [...]" in net/vhost-user.c and
-> > net/vhost-vdpa.c
-> 
-> Yes, you are right. These callers probably need to be changed. Going
-> through the command line options rather than looking at the actual
-> device objects that exist doesn't feel entirely clean anyway.
+> I meant SubmitAPatch too :). I may have forgotten or missed the IRC
+> discussion so I wanted to understand the reason.
 
-So I tried to have a look at the virtio-net case, and ended up very
-confused.
+I converted it based on ththe following chat with Peter on #qemu, OFTC.
+This was on 22Sep2021 (if you have the IRC log archives).  I agree with
+Peter, SubmitAPatch doc should be in-tree:
 
-Obviously looking at command line options (even of a differrent device)
-from within a device is very unclean. With a non-broken, i.e. type safe,
-device-add (as well as with the JSON CLI option introduced by this
-series), we can't have a QemuOpts any more that is by definition unsafe.
-So this code needs a replacement.
+  ...
+  <pm215> (we absolutely do have stuff on the wiki that should be in
+          the docs, eg the networking page)
+  <pm215> the "how to contribute a patch" page ought to be in
+          docs/devel/
+  <danpb> all the platform specific build guides should be too
+  ...
 
-My naive idea was that we just need to look at runtime state instead.
-Don't search the options for a device with a matching 'failover_pair_id'
-(which, by the way, would fail as soon as any other device introduces a
-property with the same name), but search for actual PCIDevices in qdev
-that have pci_dev->failover_pair_id set accordingly.
+Then, Peter and DanPB pointed more sources of unmaintained docs: 
 
-However, the logic in failover_add_primary() suggests that we can have a
-state where QemuOpts for a device exist, but the device doesn't, and
-then it hotplugs the device from the command line options. How would we
-ever get into such an inconsistent state where QemuOpts contains a
-device that doesn't exist? Normally devices get their QemuOpts when they
-are created and device_finalize() deletes the QemuOpts again.
+  - All the pages under https://wiki.qemu.org/Documentation - Peter
+    suggests to incorporate them information into the actual
+    documentation in docs/.  
+  
+  - The "Feature" pages:
+    https://wiki.qemu.org/Special:AllPages.  DanPB asked how many of
+    them are actually accurate.  As some of them go back to 10 years.
 
-Any suggestions how to get rid of the QemuOpts abuse in the failover
-code?
+  - Then there are the "lonely pages (pointed out by Peter):
+    https://wiki.qemu.org/Special:LonelyPages - these are
+    unreachable.  DanPB noted that there are 151 "lonely pages".  This
+    doesn't mean they're obsolete, though - some of them were written in
+    2021.
 
-If this is a device that we previously managed to rip out without
-deleting its QemuOpts, can we store its dev->opts (which is a type safe
-QDict after this series) somewhere locally instead of looking at global
-state? Preferably I would even like to get rid of dev->opts because we
-really should look at live state rather than command line options after
-device creation, but I guess one step at a time.
-
-(Actually, I'm half tempted to just break it because no test cases seem
-to exist, so apparently nobody is really interested in it.)
-
-Kevin
+-- 
+/kashyap
 
 
