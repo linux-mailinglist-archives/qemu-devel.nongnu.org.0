@@ -2,77 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D79C4224E8
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 13:22:59 +0200 (CEST)
-Received: from localhost ([::1]:54604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC184224F7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 13:26:13 +0200 (CEST)
+Received: from localhost ([::1]:60382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXiXC-0002YZ-Mq
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 07:22:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32842)
+	id 1mXiaK-0006Rb-9U
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 07:26:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXiUF-0007Wp-Mh
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 07:19:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42050)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXiUs-000860-Jo
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 07:20:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59227)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXiUB-0001m1-VS
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 07:19:55 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXiUq-0002FJ-AS
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 07:20:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633432791;
+ s=mimecast20190719; t=1633432831;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=jSEoGefmUeGkSybYMs4wv84kOLOkJayuJH9HK8KPy34=;
- b=W0d1HTb7ZyI2GtnLlYJVAVf2ZSlO/YKqVKTapdAbO09jSIiYVn64n55Bj/0pZkuJGiSCdJ
- wyFu7BtWYURFdGHQv7fMQiDt+tn26CgSzy+fUDGTlB2PWSmAvQMYc9hPCq17HkgwAKZCZT
- BMYyXI2L2njOTiuWqsb0GMy1XOm4+sg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-I-eR-54lM2mF3PCFuGrihw-1; Tue, 05 Oct 2021 07:19:49 -0400
-X-MC-Unique: I-eR-54lM2mF3PCFuGrihw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- u17-20020a50d511000000b003daa3828c13so20280055edi.12
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 04:19:49 -0700 (PDT)
+ bh=8DxNvJPCW0wWRkzK7is2TKN8eqfqYzj6jjWzgoTSkB0=;
+ b=O3J0BYrh/6MyaVfuUIqwey05Wno9o4wV0wIYo5hPl+Dg7K8+IoUWXk+oz71QwbFYYmMYZg
+ JWgDGlkU60YzTP7uFwK9xiLYYsIc4wtgk8vRUKRL9uAQyfqx4HJoXnX2R8Tdpymo+qrDEH
+ yTJW/mJv9z/eX6w4y7JScjJ1SWg4mWc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-VbDaKcMoPQC-3KXezNGPFA-1; Tue, 05 Oct 2021 07:20:26 -0400
+X-MC-Unique: VbDaKcMoPQC-3KXezNGPFA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ t28-20020a508d5c000000b003dad7fc5caeso10386310edt.11
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 04:20:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=jSEoGefmUeGkSybYMs4wv84kOLOkJayuJH9HK8KPy34=;
- b=VPNssCBozKH+iajXJLRVt1RNbT1RZkIvdfBe5j5UpvW4lp21TOEeMmeGJPYuNUB1b/
- sW0ba8wmSYfJybpe54BBbpX1V8WWRZYF3P5j1SimnyJWiHr0SogNc7mw0/P9WkR9cwf5
- AuT5HtPIfp54lDL6/M0cLP51HRG96kLM7rfjWt9civkku5Ynulc2wi/qIE7AJLP5XOJ8
- rCal2imGTSiYtDnWteLHUYmeIT/xmioE+ovwJOYPsJswlZZIq/wPivqL45VAi9cFTJlr
- F2jEsUIaHy4pXJ8g4qRwFzoIwmpVQC36Uhr8AmFoapaofSowJir7+KuPjGdEf2xQguH5
- Sl2Q==
-X-Gm-Message-State: AOAM532vuEU5syCWr6ZZ8xxqlRCMXkYsU/DiI3oVlSC3BbQ+iJqm5Kj2
- khfB7ctRkqIORFoZ0fNX0fJkGLpKkiGtZYWRnmX0W+RIJ/gktC0bsUEH+vkrtAawuEAVSTXow4u
- g4S3I8EfNzCvaxok=
-X-Received: by 2002:aa7:c4d4:: with SMTP id p20mr10747481edr.210.1633432788330; 
- Tue, 05 Oct 2021 04:19:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwdRoEkyNnwry05skb7AJ3fWoGhxqSrSrshv/yXG/o9u89199lpUCJr5EeCpKGubkYacImhpA==
-X-Received: by 2002:aa7:c4d4:: with SMTP id p20mr10747435edr.210.1633432788107; 
- Tue, 05 Oct 2021 04:19:48 -0700 (PDT)
+ bh=8DxNvJPCW0wWRkzK7is2TKN8eqfqYzj6jjWzgoTSkB0=;
+ b=T3QDc+VIhJD4j7dKFwqw0EJ8k6LDAMCkIsGu4p4eeAwu4rsxG5wamSeGk12tkuxpLh
+ oHWkqmlmj4W12TShBI+xZ+G2fPTxFDRV5GQQLGSdcPY8dtMRrmeeo7LeMMUwTd2V9gEw
+ uZlyKkt6KmiReaOkxgxN4CEVmt90TwhhS3Ndkzjz0R6CUW+rT6xXPhbB3+Kb0SizAC6c
+ LZweQgnCxSYkHTIH0s/tnaN0vklyQabu8zg0IlTZZG92fNdh8iEEzBtuZmYRijPaYwK6
+ yP/z5gWoVixw4ryqaZttOctnIQDHYZB8+/4GO6Akd2Gd1ndpVFCEH2UH2cKLfl1UgmQ0
+ 5SQA==
+X-Gm-Message-State: AOAM531Aotba4NJH4iXpC39p2uB87xAIW2FGk3jiBq1299nyOvkZag7p
+ 9ItUwevh7W5dW1Q0yQ1RKcw9UrP4YB/fL1ft01aiADFcycWWh/SRn9ADxPUy8ivQQxvhBl1n5rh
+ esSh50DYNk2EelfI=
+X-Received: by 2002:a17:906:3a0a:: with SMTP id
+ z10mr12655461eje.111.1633432825654; 
+ Tue, 05 Oct 2021 04:20:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwX7CkJhv+B6EpESQjJAlERsSi/L6SFxie1MuYGz7XrNTrZeHjtBwjO3hp8O2z35qxUHeEJOQ==
+X-Received: by 2002:a17:906:3a0a:: with SMTP id
+ z10mr12655428eje.111.1633432825464; 
+ Tue, 05 Oct 2021 04:20:25 -0700 (PDT)
 Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id t14sm7679086ejf.24.2021.10.05.04.19.45
+ by smtp.gmail.com with ESMTPSA id b2sm8650876edv.73.2021.10.05.04.20.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 04:19:47 -0700 (PDT)
-Date: Tue, 5 Oct 2021 07:19:43 -0400
+ Tue, 05 Oct 2021 04:20:24 -0700 (PDT)
+Date: Tue, 5 Oct 2021 07:20:20 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 0/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
-Message-ID: <20211005071300-mutt-send-email-mst@kernel.org>
-References: <cover.1633376313.git.qemu_oss@crudebyte.com>
- <54ce3304-ee62-4e95-eb4c-7ea1a81f30a0@redhat.com>
- <3198289.vhBqKWSW6W@silver>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [RFC PATCH 1/1] virtio: write back features before verify
+Message-ID: <20211005072006-mutt-send-email-mst@kernel.org>
+References: <87r1d64dl4.fsf@redhat.com>
+ <20210930130350.0cdc7c65.pasic@linux.ibm.com>
+ <87ilyi47wn.fsf@redhat.com>
+ <20211001162213.18d7375e.pasic@linux.ibm.com>
+ <87v92g3h9l.fsf@redhat.com>
+ <20211002082128-mutt-send-email-mst@kernel.org>
+ <20211004042323.730c6a5e.pasic@linux.ibm.com>
+ <20211004040937-mutt-send-email-mst@kernel.org>
+ <20211005124303.3abf848b.pasic@linux.ibm.com>
+ <87lf372084.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <3198289.vhBqKWSW6W@silver>
+In-Reply-To: <87lf372084.fsf@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -93,70 +102,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Amit Shah <amit@kernel.org>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, virtio-fs@redhat.com,
- Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
+ Xie Yongji <xieyongji@bytedance.com>, qemu-devel@nongnu.org,
+ linux-kernel@vger.kernel.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, stefanha@redhat.com,
+ virtualization@lists.linux-foundation.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 05, 2021 at 01:10:56PM +0200, Christian Schoenebeck wrote:
-> On Dienstag, 5. Oktober 2021 09:38:53 CEST David Hildenbrand wrote:
-> > On 04.10.21 21:38, Christian Schoenebeck wrote:
-> > > At the moment the maximum transfer size with virtio is limited to 4M
-> > > (1024 * PAGE_SIZE). This series raises this limit to its maximum
-> > > theoretical possible transfer size of 128M (32k pages) according to the
-> > > virtio specs:
-> > > 
-> > > https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#
-> > > x1-240006
-> > I'm missing the "why do we care". Can you comment on that?
+On Tue, Oct 05, 2021 at 01:13:31PM +0200, Cornelia Huck wrote:
+> On Tue, Oct 05 2021, Halil Pasic <pasic@linux.ibm.com> wrote:
 > 
-> Primary motivation is the possibility of improved performance, e.g. in case of 
-> 9pfs, people can raise the maximum transfer size with the Linux 9p client's 
-> 'msize' option on guest side (and only on guest side actually). If guest 
-> performs large chunk I/O, e.g. consider something "useful" like this one on 
-> guest side:
+> > On Mon, 4 Oct 2021 05:07:13 -0400
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >> Well we established that we can know. Here's an alternative explanation:
+> >
+> >
+> > I thin we established how this should be in the future, where a transport
+> > specific mechanism is used to decide are we operating in legacy mode or
+> > in modern mode. But with the current QEMU reality, I don't think so.
+> > Namely currently the switch native-endian config -> little endian config
+> > happens when the VERSION_1 is negotiated, which may happen whenever
+> > the VERSION_1 bit is changed, or only when FEATURES_OK is set
+> > (vhost-user).
+> >
+> > This is consistent with device should detect a legacy driver by checking
+> > for VERSION_1, which is what the spec currently says.
+> >
+> > So for transitional we start out with native-endian config. For modern
+> > only the config is always LE.
+> >
+> > The guest can distinguish between a legacy only device and a modern
+> > capable device after the revision negotiation. A legacy device would
+> > reject the CCW.
+> >
+> > But both a transitional device and a modern only device would accept
+> > a revision > 0. So the guest does not know for ccw.
 > 
->   time cat large_file_on_9pfs.dat > /dev/null
+> Well, for pci I think the driver knows that it is using either legacy or
+> modern, no?
 > 
-> Then there is a noticable performance increase with higher transfer size 
-> values. That performance gain is continuous with rising transfer size values, 
-> but the performance increase obviously shrinks with rising transfer sizes as 
-> well, as with similar concepts in general like cache sizes, etc.
+> And for ccw, the driver knows at that point in time which revision it
+> negotiated, so it should know that a revision > 0 will use LE (and the
+> device will obviously know that as well.)
 > 
-> Then a secondary motivation is described in reason (2) of patch 2: if the 
-> transfer size is configurable on guest side (like it is the case with the 9pfs 
-> 'msize' option), then there is the unpleasant side effect that the current 
-> virtio limit of 4M is invisible to guest; as this value of 4M is simply an 
-> arbitrarily limit set on QEMU side in the past (probably just implementation 
-> motivated on QEMU side at that point), i.e. it is not a limit specified by the 
-> virtio protocol,
+> Or am I misunderstanding what you're getting at?
 
-According to the spec it's specified, sure enough: vq size limits the
-size of indirect descriptors too.
-However, ever since commit 44ed8089e991a60d614abe0ee4b9057a28b364e4 we
-do not enforce it in the driver ...
-
-> nor is this limit be made aware to guest via virtio protocol 
-> at all. The consequence with 9pfs would be if user tries to go higher than 4M, 
-> then the system would simply hang with this QEMU error:
-> 
->   virtio: too many write descriptors in indirect table
-> 
-> Now whether this is an issue or not for individual virtio users, depends on 
-> whether the individual virtio user already had its own limitation <= 4M 
-> enforced on its side.
-> 
-> Best regards,
-> Christian Schoenebeck
-> 
+Exactly what I'm saying.
 
 
