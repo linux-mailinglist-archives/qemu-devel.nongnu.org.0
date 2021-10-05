@@ -2,93 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175F9422DFD
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:30:20 +0200 (CEST)
-Received: from localhost ([::1]:50144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB76422E0C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:34:50 +0200 (CEST)
+Received: from localhost ([::1]:58904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXnKc-0007k3-HU
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:30:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46890)
+	id 1mXnOz-0005FW-Ah
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:34:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mXmse-00009D-AN
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51135)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsp-0000B4-EP
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mXmsY-0004nc-TI
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:24 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsl-0004xe-Jf
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633449677;
+ s=mimecast20190719; t=1633449689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7vXOOANnQt1mGj7GjQ0KPc66Uy0U2FpTCet+Ux1qkgg=;
- b=HqQtlj9j7cnDJrejAicVo80mUvYoS2le8NYHj30sUFtqn4RktNgkiY+hR6XlE4ifHDCUPi
- L8IWpl/STwzhbTlz1L5uXgwypbq0TY6Y0kimBQid73a/+8Qg+MKhgtfWop9hGJLXLh/Jaa
- wN9B1TQ5cHDJ/7FMkkoOR4zsF+siQD8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-XGmTx2w1Mmeo5ndTCGjy2Q-1; Tue, 05 Oct 2021 12:01:16 -0400
-X-MC-Unique: XGmTx2w1Mmeo5ndTCGjy2Q-1
-Received: by mail-wr1-f69.google.com with SMTP id
- v15-20020adfa1cf000000b00160940b17a2so4398851wrv.19
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:01:16 -0700 (PDT)
+ bh=d/UhAX8qqzFfBbaE8CkU4RYO+sribXdFP+HxFT6ht6I=;
+ b=IqqASnyorCUDzL7BmN1VZuAFdKMd7/8B8GwCFVcC6ad6R2cIgDW3Oj5JbW+hT5qk37lkGB
+ fCLqhMzkA3XW4T+0QuSAAYsqPBHqosGzJSa4w9fzR2oob8OpBfoW5qfI46wXeRl6CDtEOL
+ 4t42E917IKczIisc5DENGAW6pOwk9oA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-494-BhFGMh-NMJyvX0ngxTh6YA-1; Tue, 05 Oct 2021 12:01:27 -0400
+X-MC-Unique: BhFGMh-NMJyvX0ngxTh6YA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d13-20020adfa34d000000b00160aa1cc5f1so2191510wrb.14
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:01:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=7vXOOANnQt1mGj7GjQ0KPc66Uy0U2FpTCet+Ux1qkgg=;
- b=1d+8jId8455rH+3RV2Gc/6HMMcGK7ydTWN4lQ9pjV/pP1DXXsCVEqeyBDLS9leH3YR
- BxlEJrx5AQpNZZNEbXD9SguD57z+nD32PwQNIFRwd+XNdSn2u7SAopvEFGENOrV6Ilrf
- ovACRRJEthzv2NzilZ0To3nwwO2Y4RC29XUa7K70TlsIoEcbrmag2m2F26YVC/c8PMX0
- HyXV3trhYCgDt9Byk2ynylD+bqCZWPZ+bLBJwrHSw7/x0a+FAgriWIg6yDKnTNzr75OC
- Hxjbprv0kDEfBm+eyOXFKm8kCuDMbj960t8MuuxvvPVOnIPQHVPJbyhxolZzS46kU9BC
- QOMw==
-X-Gm-Message-State: AOAM530YxU9dN9xkLToHR4vwJOGpwMgu5ZjIlSwXOBi4+68WM+yVcAxU
- ksORZiT40CbRl+1a4/o1ubwKYJzEpyo1LrRQH9Vkm/gnq2SWqYfBnFFpUoPHSZygOuTBQ5BAK9h
- wPe2iNv8luXNpWFo=
-X-Received: by 2002:a05:600c:4e86:: with SMTP id
- f6mr4329710wmq.166.1633449675474; 
- Tue, 05 Oct 2021 09:01:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyVhEi8l7NR2j4E/5ZQ4dbX7VHSOBNyjhXAkX/IcdZnFOwXI2qGS799TR/IXJJ65VcvLJ3kAg==
-X-Received: by 2002:a05:600c:4e86:: with SMTP id
- f6mr4329679wmq.166.1633449675256; 
- Tue, 05 Oct 2021 09:01:15 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.3.114])
- by smtp.gmail.com with ESMTPSA id c14sm17870023wrd.50.2021.10.05.09.01.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 09:01:14 -0700 (PDT)
-Message-ID: <5b30770b-ef21-b3e7-96d4-92bb22f3aa2a@redhat.com>
-Date: Tue, 5 Oct 2021 18:01:13 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=d/UhAX8qqzFfBbaE8CkU4RYO+sribXdFP+HxFT6ht6I=;
+ b=o/on5erBez5GRyF/nT0oEchdXyTUXyO8niVF5rTYwXnPy8kkNkf0B3Ud5YaSv/j6/0
+ QgaGNy1mDDlyQuhxt4LtfrlwhIHAuvUfdlXEkQ4DfWd8JxfidKCnFZ2J7qZ0F9VhV42R
+ fZ+FcngdGwM/6Aj7oQyo2noMPlKZrPdQJtRrw4+WfqpKMaYiEX3yCAgBdAq4lO+n1VJ0
+ 2FFobOvo03KChVjyfe3IoZyQEdRg9YUHquOopd2ylPr7wDDN+hlNuse4pDlKL6mgcrI+
+ NznbAAqLzIlfMV+Xda8CzCalcg4So/QmNd9E6nWZG5gZQcTZttxXON5xLTlcS9vZfhGD
+ UZVw==
+X-Gm-Message-State: AOAM533UnO7iQOVlWYVZ7Y9kWuqeDML+0LTXhPZi0NSvlT6V7PN5pK5Y
+ 1fQOQfGDHc7y40JxSufvOPRHFmvBUA31L700lsOHihT5xEpEwQ+XI4PaEjW/Fy6DWZYV7Mvfyd+
+ VGwZH5o7+jTrPlySoK/YhTkOuBKvcIUex3sRGv4N4q3Ihsbq/yWjBrdolb6eR
+X-Received: by 2002:adf:9c02:: with SMTP id f2mr22811452wrc.329.1633449682669; 
+ Tue, 05 Oct 2021 09:01:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxDzUe2ztA8MzCq8L1earx//op71m8Suoy8MFnQ+ITQ9GbWM4SGUVebmgi9Bxy7iAzb/vLX7A==
+X-Received: by 2002:adf:9c02:: with SMTP id f2mr22810906wrc.329.1633449678762; 
+ Tue, 05 Oct 2021 09:01:18 -0700 (PDT)
+Received: from redhat.com ([2.55.147.134])
+ by smtp.gmail.com with ESMTPSA id r9sm18084430wru.2.2021.10.05.09.01.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 09:01:18 -0700 (PDT)
+Date: Tue, 5 Oct 2021 12:01:15 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 10/57] vhost: record the last virtqueue index for the virtio
+ device
+Message-ID: <20211005155946.513818-11-mst@redhat.com>
+References: <20211005155946.513818-1-mst@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3] failover: fix unplug pending detection
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20211001082502.1342878-1-lvivier@redhat.com>
- <20211005111401-mutt-send-email-mst@kernel.org>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <20211005111401-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211005155946.513818-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,46 +94,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- Jens Freimann <jfreimann@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/10/2021 17:14, Michael S. Tsirkin wrote:
-> On Fri, Oct 01, 2021 at 10:25:02AM +0200, Laurent Vivier wrote:
->> Failover needs to detect the end of the PCI unplug to start migration
->> after the VFIO card has been unplugged.
->>
->> To do that, a flag is set in pcie_cap_slot_unplug_request_cb() and reset in
->> pcie_unplug_device().
->>
->> But since
->>      17858a169508 ("hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35")
->> we have switched to ACPI unplug and these functions are not called anymore
->> and the flag not set. So failover migration is not able to detect if card
->> is really unplugged and acts as it's done as soon as it's started. So it
->> doesn't wait the end of the unplug to start the migration. We don't see any
->> problem when we test that because ACPI unplug is faster than PCIe native
->> hotplug and when the migration really starts the unplug operation is
->> already done.
->>
->> See c000a9bd06ea ("pci: mark device having guest unplug request pending")
->>      a99c4da9fc2a ("pci: mark devices partially unplugged")
->>
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> Reviewed-by: Ani Sinha <ani@anisinha.ca>
-> 
-> Laurent, are you thinking of addressing Gerd's comment?
+From: Jason Wang <jasowang@redhat.com>
 
-No, because as said by Ani, it's not the scope of this patch. The patch only aligns ACPI 
-to PCIe Native to be able to manage failover.
+This patch introduces a new field in the vhost_dev structure to record
+the last virtqueue index for the virtio device. This will be useful
+for the vhost backends with 1:N model to start or stop the device
+after all the vhost_dev structures were started or stopped.
 
-The problem reported by Gerd and Daniel has been introduced by another patch, globally.
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20210907090322.1756-9-jasowang@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ include/hw/virtio/vhost.h |  2 ++
+ hw/net/vhost_net.c        | 12 +++++++++---
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
-Except if you think it's really required I will not send a new version.
-
-Thanks,
-Laurent
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 1a9fc65089..3fa0b554ef 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -74,6 +74,8 @@ struct vhost_dev {
+     unsigned int nvqs;
+     /* the first virtqueue which would be used by this vhost dev */
+     int vq_index;
++    /* the last vq index for the virtio device (not vhost) */
++    int last_index;
+     /* if non-zero, minimum required value for max_queues */
+     int num_queues;
+     uint64_t features;
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 2b594b4642..3aabab06ea 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -231,9 +231,11 @@ fail:
+     return NULL;
+ }
+ 
+-static void vhost_net_set_vq_index(struct vhost_net *net, int vq_index)
++static void vhost_net_set_vq_index(struct vhost_net *net, int vq_index,
++                                   int last_index)
+ {
+     net->dev.vq_index = vq_index;
++    net->dev.last_index = last_index;
+ }
+ 
+ static int vhost_net_start_one(struct vhost_net *net,
+@@ -324,9 +326,13 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+     VirtIONet *n = VIRTIO_NET(dev);
+     int nvhosts = data_queue_pairs + cvq;
+     struct vhost_net *net;
+-    int r, e, i;
++    int r, e, i, last_index = data_qps * 2;
+     NetClientState *peer;
+ 
++    if (!cvq) {
++        last_index -= 1;
++    }
++
+     if (!k->set_guest_notifiers) {
+         error_report("binding does not support guest notifiers");
+         return -ENOSYS;
+@@ -341,7 +347,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+         }
+ 
+         net = get_vhost_net(peer);
+-        vhost_net_set_vq_index(net, i * 2);
++        vhost_net_set_vq_index(net, i * 2, last_index);
+ 
+         /* Suppress the masking guest notifiers on vhost user
+          * because vhost user doesn't interrupt masking/unmasking
+-- 
+MST
 
 
