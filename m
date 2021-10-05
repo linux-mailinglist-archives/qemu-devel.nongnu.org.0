@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBB9422E2C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:41:30 +0200 (CEST)
-Received: from localhost ([::1]:48026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00771422E3A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:44:54 +0200 (CEST)
+Received: from localhost ([::1]:56564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXnVR-0000La-AY
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47814)
+	id 1mXnYj-0006IW-1I
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:44:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmuv-0001uJ-2X
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:03:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33340)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmuy-0001zZ-E0
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:03:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmuq-0006iK-51
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:03:44 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmuw-0006nE-4s
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:03:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633449819;
+ s=mimecast20190719; t=1633449825;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ALs3jGGOQlHPAzn+Qwvy3twsZGp1E3tRIkmyfM0wCks=;
- b=dGd0Yj03/larKYKKGSlWaExTJpkD3JK63plicfYgrr+liDJpYVXGQIJIK5rWCjnlEddxG3
- 2JS0lJLLXOownIPSs/b2zYH8sTp19A6emAvycEfLp0Ums/7xfGij6ZVzPD1IgSBUYDMgtW
- MsLIQSkoqTTRjQo6iFzLXpKSUI99HPc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-F-VkFqMrPEaFMupD3Ph6Sw-1; Tue, 05 Oct 2021 12:03:37 -0400
-X-MC-Unique: F-VkFqMrPEaFMupD3Ph6Sw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- m17-20020adffa11000000b00160c1ac74e9so195195wrr.9
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:03:37 -0700 (PDT)
+ bh=jcVjkn40dXJnt0SRinvAbwQ4Tsn9n9c0MB6NMS/GVJc=;
+ b=JYwJM71d03RcUVXLkBSNI/Ex1i97Aia6Km7YVQ4m4H1EbHr49dMFKyAoZpFjb9H59p1oT7
+ BhMPK94IRyj8s31JiuNfXDiEn4YiY8EJgHIpvBqFdfxDWtRXUT82wowAOwVSUD1Z+G0Q8S
+ k9cNBnzENwM0JfEhHXIETkm09K5L5o4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-247-LJKvgy8RNy-Z3IlcVYiJyA-1; Tue, 05 Oct 2021 12:03:41 -0400
+X-MC-Unique: LJKvgy8RNy-Z3IlcVYiJyA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ x23-20020a05600c21d700b0030d23749278so1503173wmj.2
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:03:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ALs3jGGOQlHPAzn+Qwvy3twsZGp1E3tRIkmyfM0wCks=;
- b=qWNd9h5zNyE6ZksRSbdFqO8h0ZWDlca+idTJRCj3UgCPjiRlyBDOaTpIS4NIJSlLls
- f0DEPx0NMNMTHO9fl7F5yk3Lrea6sxyefkuZ30U9w6aPIhAsY7tfuKbSk02Hfb4Di/1D
- vB95CTEJbFl1PaNmVh/+D9m/+WyWFWT5n56vGhfPj2MSFkJosLsPk5C7TRfTzQEDE8SQ
- kDtY60YWV7G4+EcnbYB8YP+lOkz3ZDU5Clt6Gsq9MRGxRNne+oGYdNXzE39H/NItJUch
- QeuojjB5xuTNL7NaTKkCVh6+aEoWjhmyPz9o3McvLwJ+AiOiJX54mNzqtCNEJHIiAcM7
- gx5w==
-X-Gm-Message-State: AOAM531NILXiHVgLjxt1le7q0Lxpc7ivqkO2099+jRr6MV4CamZdLws0
- zcGrxHTJ9IZxpkXcUyQ+PkYlqwA1ePq4unfWBz8X+GKcqAjTLvtP+bM7znMhEQL5QtPMAD/eMgd
- gdYs3G+rSBZLZGwEENkJwSyBi3cY4riqN1jG+jr2LTeCkPYwl+WOR+bmDavc0
-X-Received: by 2002:a05:600c:1553:: with SMTP id
- f19mr4382213wmg.66.1633449815863; 
- Tue, 05 Oct 2021 09:03:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy28zU+S4Owa4IGmD5UpyyO5TkHmvOeXzUhMyCZjjkOGwqo/TRk1Tn8Abg2/94LEBl7wRcnag==
-X-Received: by 2002:a05:600c:1553:: with SMTP id
- f19mr4382162wmg.66.1633449815519; 
- Tue, 05 Oct 2021 09:03:35 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=jcVjkn40dXJnt0SRinvAbwQ4Tsn9n9c0MB6NMS/GVJc=;
+ b=1nBhRcW2V+KTGyPe2+5NVVx2sgpt42N8hOrRCCnfsYOwRXPor3RJLjorOnJXRQp2uX
+ azQpOHegPENJSkwrfO6pfk6px1VjRuZ/BB77gH5IW46i8H65xsxeAw0Ljp8ZLVAdYCb0
+ z+KfekzqHHRvGpv3VDrgNWiPtYVmIuv0gIB2axzAwMAZE7AsIru/qTmXRO59ocQJMIFS
+ Kg/1ex/XOsLNc1Lu3ZmjoUx22li61jbJHt+ICTeLNx8fY04MxMkdWt5FIMWJK2RLIX9l
+ 7D5SDaFWpNrWENJCErEXxswHVaM5KWEY1kKsO+IBNLPt32ocn2bEYMvuUDpYKWlYY7Kh
+ PJuw==
+X-Gm-Message-State: AOAM531hSTBQWc15n+HbLyzAVG04V166bsZjyLdU919Z2G6OcGDC9pzX
+ 1o1WzXJxuz81EenCVU2h6zmN4RZr7jqrs+t154dxrlcuUt2OO99RT9OGPHCwo4hBIHZu8KJQ9VA
+ UjMOiNBYDg2/PhkVoBsPpb78Qdu6yblxa0PhAqnRiVdefWeUWTg1Pz0VRv1o4
+X-Received: by 2002:adf:f486:: with SMTP id l6mr21736343wro.375.1633449819371; 
+ Tue, 05 Oct 2021 09:03:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQfgXOdNutJDq2MPdBvvcpQ59k8sx6aEI3bDCw90pWoC6/k+BGIgfJgnGDSQ3x2ouYenwYPw==
+X-Received: by 2002:adf:f486:: with SMTP id l6mr21736297wro.375.1633449819042; 
+ Tue, 05 Oct 2021 09:03:39 -0700 (PDT)
 Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id c7sm3145881wmq.13.2021.10.05.09.03.33
+ by smtp.gmail.com with ESMTPSA id o1sm18106059wru.91.2021.10.05.09.03.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 09:03:34 -0700 (PDT)
-Date: Tue, 5 Oct 2021 12:03:31 -0400
+ Tue, 05 Oct 2021 09:03:38 -0700 (PDT)
+Date: Tue, 5 Oct 2021 12:03:35 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/57] acpi: x86: set enabled when composing _MAT entries
-Message-ID: <20211005155946.513818-38-mst@redhat.com>
+Subject: [PULL 38/57] acpi: x86: madt: use build_append_int_noprefix() API to
+ compose MADT table
+Message-ID: <20211005155946.513818-39-mst@redhat.com>
 References: <20211005155946.513818-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211005155946.513818-1-mst@redhat.com>
@@ -72,17 +73,18 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,152 +107,285 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-Instead of composing disabled _MAT entry and then later on
-patching it to enabled for hotpluggbale CPUs in DSDT,
-set it to enabled at the time _MAT entry is built.
-
-It will allow to drop usage of packed structures in
-following patches when build_madt() is switched to use
-build_append_int_noprefix() API.
+Drop usage of packed structures and explicit endian conversions
+when building MADT table for arm/x86 and use endian agnostic
+build_append_int_noprefix() API to build it.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-Id: <20210924122802.1455362-24-imammedo@redhat.com>
+Message-Id: <20210924122802.1455362-25-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/acpi/acpi_dev_interface.h |  3 ++-
- include/hw/i386/pc.h                 |  6 +++---
- hw/acpi/acpi-x86-stub.c              |  3 ++-
- hw/acpi/cpu.c                        | 17 ++---------------
- hw/i386/acpi-common.c                | 18 ++++++------------
- 5 files changed, 15 insertions(+), 32 deletions(-)
+ include/hw/acpi/acpi-defs.h |  64 ------------------
+ hw/i386/acpi-common.c       | 129 +++++++++++++++++++-----------------
+ 2 files changed, 67 insertions(+), 126 deletions(-)
 
-diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_dev_interface.h
-index 769ff55c7e..ea6056ab92 100644
---- a/include/hw/acpi/acpi_dev_interface.h
-+++ b/include/hw/acpi/acpi_dev_interface.h
-@@ -53,6 +53,7 @@ struct AcpiDeviceIfClass {
-     void (*ospm_status)(AcpiDeviceIf *adev, ACPIOSTInfoList ***list);
-     void (*send_event)(AcpiDeviceIf *adev, AcpiEventStatusBits ev);
-     void (*madt_cpu)(AcpiDeviceIf *adev, int uid,
--                     const CPUArchIdList *apic_ids, GArray *entry);
-+                     const CPUArchIdList *apic_ids, GArray *entry,
-+                     bool force_enabled);
- };
- #endif
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 5748d7c55f..11426e26dc 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -190,10 +190,10 @@ bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
-                                int *data_len);
- void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size);
+diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+index af4fa412a5..3f174ba208 100644
+--- a/include/hw/acpi/acpi-defs.h
++++ b/include/hw/acpi/acpi-defs.h
+@@ -165,17 +165,6 @@ typedef struct AcpiFacsDescriptorRev1 AcpiFacsDescriptorRev1;
  
+ /* Values for Type in APIC sub-headers */
+ 
+-#define ACPI_APIC_PROCESSOR          0
+-#define ACPI_APIC_IO                 1
+-#define ACPI_APIC_XRUPT_OVERRIDE     2
+-#define ACPI_APIC_NMI                3
+-#define ACPI_APIC_LOCAL_NMI          4
+-#define ACPI_APIC_ADDRESS_OVERRIDE   5
+-#define ACPI_APIC_IO_SAPIC           6
+-#define ACPI_APIC_LOCAL_SAPIC        7
+-#define ACPI_APIC_XRUPT_SOURCE       8
+-#define ACPI_APIC_LOCAL_X2APIC       9
+-#define ACPI_APIC_LOCAL_X2APIC_NMI      10
+ #define ACPI_APIC_GENERIC_CPU_INTERFACE 11
+ #define ACPI_APIC_GENERIC_DISTRIBUTOR   12
+ #define ACPI_APIC_GENERIC_MSI_FRAME     13
+@@ -192,59 +181,6 @@ typedef struct AcpiFacsDescriptorRev1 AcpiFacsDescriptorRev1;
+ 
+ /* Sub-structures for MADT */
+ 
+-struct AcpiMadtProcessorApic {
+-    ACPI_SUB_HEADER_DEF
+-    uint8_t  processor_id;           /* ACPI processor id */
+-    uint8_t  local_apic_id;          /* Processor's local APIC id */
+-    uint32_t flags;
+-} QEMU_PACKED;
+-typedef struct AcpiMadtProcessorApic AcpiMadtProcessorApic;
 -
--/* acpi-build.c */
-+/* hw/i386/acpi-common.c */
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
--                       const CPUArchIdList *apic_ids, GArray *entry);
-+                       const CPUArchIdList *apic_ids, GArray *entry,
-+                       bool force_enabled);
- 
- /* sgx.c */
- void pc_machine_init_sgx_epc(PCMachineState *pcms);
-diff --git a/hw/acpi/acpi-x86-stub.c b/hw/acpi/acpi-x86-stub.c
-index e9e46c5c5f..3df1e090f4 100644
---- a/hw/acpi/acpi-x86-stub.c
-+++ b/hw/acpi/acpi-x86-stub.c
-@@ -3,7 +3,8 @@
- #include "hw/i386/acpi-build.h"
- 
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
--                       const CPUArchIdList *apic_ids, GArray *entry)
-+                       const CPUArchIdList *apic_ids, GArray *entry,
-+                       bool force_enabled)
- {
- }
- 
-diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-index f82e9512fd..b20903ea30 100644
---- a/hw/acpi/cpu.c
-+++ b/hw/acpi/cpu.c
-@@ -669,21 +669,8 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
- 
-             /* build _MAT object */
-             assert(adevc && adevc->madt_cpu);
--            adevc->madt_cpu(adev, i, arch_ids, madt_buf);
--            switch (madt_buf->data[0]) {
--            case ACPI_APIC_PROCESSOR: {
--                AcpiMadtProcessorApic *apic = (void *)madt_buf->data;
--                apic->flags = cpu_to_le32(1);
--                break;
--            }
--            case ACPI_APIC_LOCAL_X2APIC: {
--                AcpiMadtProcessorX2Apic *apic = (void *)madt_buf->data;
--                apic->flags = cpu_to_le32(1);
--                break;
--            }
--            default:
--                assert(0);
--            }
-+            adevc->madt_cpu(adev, i, arch_ids, madt_buf,
-+                            true); /* set enabled flag */
-             aml_append(dev, aml_name_decl("_MAT",
-                 aml_buffer(madt_buf->len, (uint8_t *)madt_buf->data)));
-             g_array_free(madt_buf, true);
+-struct AcpiMadtIoApic {
+-    ACPI_SUB_HEADER_DEF
+-    uint8_t  io_apic_id;             /* I/O APIC ID */
+-    uint8_t  reserved;               /* Reserved - must be zero */
+-    uint32_t address;                /* APIC physical address */
+-    uint32_t interrupt;              /* Global system interrupt where INTI
+-                                 * lines start */
+-} QEMU_PACKED;
+-typedef struct AcpiMadtIoApic AcpiMadtIoApic;
+-
+-struct AcpiMadtIntsrcovr {
+-    ACPI_SUB_HEADER_DEF
+-    uint8_t  bus;
+-    uint8_t  source;
+-    uint32_t gsi;
+-    uint16_t flags;
+-} QEMU_PACKED;
+-typedef struct AcpiMadtIntsrcovr AcpiMadtIntsrcovr;
+-
+-struct AcpiMadtLocalNmi {
+-    ACPI_SUB_HEADER_DEF
+-    uint8_t  processor_id;           /* ACPI processor id */
+-    uint16_t flags;                  /* MPS INTI flags */
+-    uint8_t  lint;                   /* Local APIC LINT# */
+-} QEMU_PACKED;
+-typedef struct AcpiMadtLocalNmi AcpiMadtLocalNmi;
+-
+-struct AcpiMadtProcessorX2Apic {
+-    ACPI_SUB_HEADER_DEF
+-    uint16_t reserved;
+-    uint32_t x2apic_id;              /* Processor's local x2APIC ID */
+-    uint32_t flags;
+-    uint32_t uid;                    /* Processor object _UID */
+-} QEMU_PACKED;
+-typedef struct AcpiMadtProcessorX2Apic AcpiMadtProcessorX2Apic;
+-
+-struct AcpiMadtLocalX2ApicNmi {
+-    ACPI_SUB_HEADER_DEF
+-    uint16_t flags;                  /* MPS INTI flags */
+-    uint32_t uid;                    /* Processor object _UID */
+-    uint8_t  lint;                   /* Local APIC LINT# */
+-    uint8_t  reserved[3];            /* Local APIC LINT# */
+-} QEMU_PACKED;
+-typedef struct AcpiMadtLocalX2ApicNmi AcpiMadtLocalX2ApicNmi;
+-
+ struct AcpiMadtGenericCpuInterface {
+     ACPI_SUB_HEADER_DEF
+     uint16_t reserved;
 diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-index a0cde1d874..7983a13a93 100644
+index 7983a13a93..4aaafbdd7b 100644
 --- a/hw/i386/acpi-common.c
 +++ b/hw/i386/acpi-common.c
-@@ -34,9 +34,11 @@
- #include "acpi-common.h"
- 
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
--                       const CPUArchIdList *apic_ids, GArray *entry)
-+                       const CPUArchIdList *apic_ids, GArray *entry,
-+                       bool force_enabled)
+@@ -38,7 +38,9 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+                        bool force_enabled)
  {
      uint32_t apic_id = apic_ids->cpus[uid].arch_id;
-+    uint32_t flags = apic_ids->cpus[uid].cpu != NULL || force_enabled ? 1 : 0;
+-    uint32_t flags = apic_ids->cpus[uid].cpu != NULL || force_enabled ? 1 : 0;
++    /* Flags – Local APIC Flags */
++    uint32_t flags = apic_ids->cpus[uid].cpu != NULL || force_enabled ?
++                     1 /* Enabled */ : 0;
  
      /* ACPI spec says that LAPIC entry for non present
       * CPU may be omitted from MADT or it must be marked
-@@ -51,11 +53,7 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-         apic->length = sizeof(*apic);
-         apic->processor_id = uid;
-         apic->local_apic_id = apic_id;
--        if (apic_ids->cpus[uid].cpu != NULL) {
--            apic->flags = cpu_to_le32(1);
--        } else {
--            apic->flags = cpu_to_le32(0);
--        }
-+        apic->flags = cpu_to_le32(flags);
+@@ -47,24 +49,47 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+      * should be put in MADT but kept disabled.
+      */
+     if (apic_id < 255) {
+-        AcpiMadtProcessorApic *apic = acpi_data_push(entry, sizeof *apic);
+-
+-        apic->type = ACPI_APIC_PROCESSOR;
+-        apic->length = sizeof(*apic);
+-        apic->processor_id = uid;
+-        apic->local_apic_id = apic_id;
+-        apic->flags = cpu_to_le32(flags);
++        /* Rev 1.0b, Table 5-13 Processor Local APIC Structure */
++        build_append_int_noprefix(entry, 0, 1);       /* Type */
++        build_append_int_noprefix(entry, 8, 1);       /* Length */
++        build_append_int_noprefix(entry, uid, 1);     /* ACPI Processor ID */
++        build_append_int_noprefix(entry, apic_id, 1); /* APIC ID */
++        build_append_int_noprefix(entry, flags, 4); /* Flags */
      } else {
-         AcpiMadtProcessorX2Apic *apic = acpi_data_push(entry, sizeof *apic);
- 
-@@ -63,11 +61,7 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-         apic->length = sizeof(*apic);
-         apic->uid = cpu_to_le32(uid);
-         apic->x2apic_id = cpu_to_le32(apic_id);
--        if (apic_ids->cpus[uid].cpu != NULL) {
--            apic->flags = cpu_to_le32(1);
--        } else {
--            apic->flags = cpu_to_le32(0);
--        }
-+        apic->flags = cpu_to_le32(flags);
+-        AcpiMadtProcessorX2Apic *apic = acpi_data_push(entry, sizeof *apic);
+-
+-        apic->type = ACPI_APIC_LOCAL_X2APIC;
+-        apic->length = sizeof(*apic);
+-        apic->uid = cpu_to_le32(uid);
+-        apic->x2apic_id = cpu_to_le32(apic_id);
+-        apic->flags = cpu_to_le32(flags);
++        /* Rev 4.0, 5.2.12.12 Processor Local x2APIC Structure */
++        build_append_int_noprefix(entry, 9, 1);       /* Type */
++        build_append_int_noprefix(entry, 16, 1);      /* Length */
++        build_append_int_noprefix(entry, 0, 2);       /* Reserved */
++        build_append_int_noprefix(entry, apic_id, 4); /* X2APIC ID */
++        build_append_int_noprefix(entry, flags, 4);   /* Flags */
++        build_append_int_noprefix(entry, uid, 4);     /* ACPI Processor UID */
      }
  }
  
-@@ -96,7 +90,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
-     build_append_int_noprefix(table_data, 1 /* PCAT_COMPAT */, 4); /* Flags */
++static void build_ioapic(GArray *entry, uint8_t id, uint32_t addr, uint32_t irq)
++{
++    /* Rev 1.0b, 5.2.8.2 IO APIC */
++    build_append_int_noprefix(entry, 1, 1);    /* Type */
++    build_append_int_noprefix(entry, 12, 1);   /* Length */
++    build_append_int_noprefix(entry, id, 1);   /* IO APIC ID */
++    build_append_int_noprefix(entry, 0, 1);    /* Reserved */
++    build_append_int_noprefix(entry, addr, 4); /* IO APIC Address */
++    build_append_int_noprefix(entry, irq, 4);  /* System Vector Base */
++}
++
++static void
++build_xrupt_override(GArray *entry, uint8_t src, uint32_t gsi, uint16_t flags)
++{
++    /* Rev 1.0b, 5.2.8.3.1 Interrupt Source Overrides */
++    build_append_int_noprefix(entry, 2, 1);  /* Type */
++    build_append_int_noprefix(entry, 10, 1); /* Length */
++    build_append_int_noprefix(entry, 0, 1);  /* Bus */
++    build_append_int_noprefix(entry, src, 1);  /* Source */
++    /* Global System Interrupt Vector */
++    build_append_int_noprefix(entry, gsi, 4);
++    build_append_int_noprefix(entry, flags, 2);  /* Flags */
++}
++
+ /*
+  * ACPI spec, Revision 1.0b
+  * 5.2.8 Multiple APIC Description Table
+@@ -73,14 +98,11 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+                      X86MachineState *x86ms, AcpiDeviceIf *adev,
+                      const char *oem_id, const char *oem_table_id)
+ {
++    int i;
++    bool x2apic_mode = false;
+     MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+     const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(x86ms));
+     AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_GET_CLASS(adev);
+-    bool x2apic_mode = false;
+-
+-    AcpiMadtIoApic *io_apic;
+-    AcpiMadtIntsrcovr *intsrcovr;
+-    int i;
+     AcpiTable table = { .sig = "APIC", .rev = 1, .oem_id = oem_id,
+                         .oem_table_id = oem_table_id };
  
-     for (i = 0; i < apic_ids->len; i++) {
--        adevc->madt_cpu(adev, i, apic_ids, table_data);
-+        adevc->madt_cpu(adev, i, apic_ids, table_data, false);
-         if (apic_ids->cpus[i].arch_id > 254) {
-             x2apic_mode = true;
+@@ -96,30 +118,15 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
          }
+     }
+ 
+-    io_apic = acpi_data_push(table_data, sizeof *io_apic);
+-    io_apic->type = ACPI_APIC_IO;
+-    io_apic->length = sizeof(*io_apic);
+-    io_apic->io_apic_id = ACPI_BUILD_IOAPIC_ID;
+-    io_apic->address = cpu_to_le32(IO_APIC_DEFAULT_ADDRESS);
+-    io_apic->interrupt = cpu_to_le32(0);
+-
++    build_ioapic(table_data, ACPI_BUILD_IOAPIC_ID, IO_APIC_DEFAULT_ADDRESS, 0);
+     if (x86ms->ioapic2) {
+-        AcpiMadtIoApic *io_apic2;
+-        io_apic2 = acpi_data_push(table_data, sizeof *io_apic);
+-        io_apic2->type = ACPI_APIC_IO;
+-        io_apic2->length = sizeof(*io_apic);
+-        io_apic2->io_apic_id = ACPI_BUILD_IOAPIC_ID + 1;
+-        io_apic2->address = cpu_to_le32(IO_APIC_SECONDARY_ADDRESS);
+-        io_apic2->interrupt = cpu_to_le32(IO_APIC_SECONDARY_IRQBASE);
++        build_ioapic(table_data, ACPI_BUILD_IOAPIC_ID + 1,
++                     IO_APIC_SECONDARY_ADDRESS, IO_APIC_SECONDARY_IRQBASE);
+     }
+ 
+     if (x86ms->apic_xrupt_override) {
+-        intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
+-        intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
+-        intsrcovr->length = sizeof(*intsrcovr);
+-        intsrcovr->source = 0;
+-        intsrcovr->gsi    = cpu_to_le32(2);
+-        intsrcovr->flags  = cpu_to_le16(0); /* conforms to bus specifications */
++        build_xrupt_override(table_data, 0, 2,
++            0 /* Flags: Conforms to the specifications of the bus */);
+     }
+ 
+     for (i = 1; i < 16; i++) {
+@@ -127,32 +134,30 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+             /* No need for a INT source override structure. */
+             continue;
+         }
+-        intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
+-        intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
+-        intsrcovr->length = sizeof(*intsrcovr);
+-        intsrcovr->source = i;
+-        intsrcovr->gsi    = cpu_to_le32(i);
+-        intsrcovr->flags  = cpu_to_le16(0xd); /* active high, level triggered */
++        build_xrupt_override(table_data, i, i,
++            0xd /* Flags: Active high, Level Triggered */);
+     }
+ 
+     if (x2apic_mode) {
+-        AcpiMadtLocalX2ApicNmi *local_nmi;
+-
+-        local_nmi = acpi_data_push(table_data, sizeof *local_nmi);
+-        local_nmi->type   = ACPI_APIC_LOCAL_X2APIC_NMI;
+-        local_nmi->length = sizeof(*local_nmi);
+-        local_nmi->uid    = 0xFFFFFFFF; /* all processors */
+-        local_nmi->flags  = cpu_to_le16(0);
+-        local_nmi->lint   = 1; /* ACPI_LINT1 */
++        /* Rev 4.0, 5.2.12.13 Local x2APIC NMI Structure*/
++        build_append_int_noprefix(table_data, 0xA, 1); /* Type */
++        build_append_int_noprefix(table_data, 12, 1);  /* Length */
++        build_append_int_noprefix(table_data, 0, 2);   /* Flags */
++        /* ACPI Processor UID */
++        build_append_int_noprefix(table_data, 0xFFFFFFFF /* all processors */,
++                                  4);
++        /* Local x2APIC LINT# */
++        build_append_int_noprefix(table_data, 1 /* ACPI_LINT1 */, 1);
++        build_append_int_noprefix(table_data, 0, 3); /* Reserved */
+     } else {
+-        AcpiMadtLocalNmi *local_nmi;
+-
+-        local_nmi = acpi_data_push(table_data, sizeof *local_nmi);
+-        local_nmi->type         = ACPI_APIC_LOCAL_NMI;
+-        local_nmi->length       = sizeof(*local_nmi);
+-        local_nmi->processor_id = 0xff; /* all processors */
+-        local_nmi->flags        = cpu_to_le16(0);
+-        local_nmi->lint         = 1; /* ACPI_LINT1 */
++        /* Rev 1.0b, 5.2.8.3.3 Local APIC NMI */
++        build_append_int_noprefix(table_data, 4, 1);  /* Type */
++        build_append_int_noprefix(table_data, 6, 1);  /* Length */
++        /* ACPI Processor ID */
++        build_append_int_noprefix(table_data, 0xFF /* all processors */, 1);
++        build_append_int_noprefix(table_data, 0, 2);  /* Flags */
++        /* Local APIC INTI# */
++        build_append_int_noprefix(table_data, 1 /* ACPI_LINT1 */, 1);
+     }
+ 
+     acpi_table_end(linker, &table);
 -- 
 MST
 
