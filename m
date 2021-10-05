@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DECA422208
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 11:19:58 +0200 (CEST)
-Received: from localhost ([::1]:37082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CF042225B
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 11:33:35 +0200 (CEST)
+Received: from localhost ([::1]:46434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXgc8-0002kP-E2
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 05:19:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34200)
+	id 1mXgpJ-0001DK-Op
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 05:33:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1mXgYc-0000wk-2d; Tue, 05 Oct 2021 05:16:18 -0400
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:35374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1mXgYa-0008NS-JD; Tue, 05 Oct 2021 05:16:17 -0400
-Received: by mail-lf1-x12c.google.com with SMTP id m3so82432622lfu.2;
- Tue, 05 Oct 2021 02:16:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=tvCajuaXkS7r7YZiB0IsE8TdCOQe9GnICH+CpFxWoFw=;
- b=DsTlbaU5NMDT0LkGawR5nYONA9qB5Deh8TUwniDaTZ8hany0ZDWWHVEX7SJtXOuN/Z
- yIyPwF+QLbzC3lG0VM5Gkx3ZykgmJ0P7KzIXX6kADP/8YQt7wFS8E/sUBbHXdx3QvXh4
- hVw4l09VWSnOKAEbgs8ta+P7Djn4t+8NwSwOVHud6FLYQAysRZJpb6S9yCCQx/aiqyV+
- u897Js8UxzDd8YA8OPbS1m69tYhYrPhjaqPvRRanP2F7fLmEVVIMw2wuNs20D4mGzgNM
- 2y2xgzxqGDeWyAjS/rJG7R/Hjc8Pw6o3Xssx/In41LP3H9DReNyBrJX+EHXLMl+XciSE
- YMJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=tvCajuaXkS7r7YZiB0IsE8TdCOQe9GnICH+CpFxWoFw=;
- b=Xw1p4uM8f0ineIHnho+7kimTAdqbXJkk1YIT3qaE0qTNW1pGvlU7mXEUDf8oUOsF0Z
- ps9Nhl95jIY7XQtEYGNIaUzUNEmnLI4NqMK1kaySKO2SxM90WDtOC8LFgS0lqBzawdY5
- NBCPrUEaTojwdLK7lutUBFIcugqRSN/rVEC1gIfSQieLkP0N5ui742s4lSeGDC3vbVXg
- ZiG6lMLPGxAKGp0+BOWkGgfw+FGxILcGgndPpnMV8QRWzZVSbqyCPoFXXAb5xYih94h1
- 0fZUg+TdK5nT3iurSPKJ1Ja1JoZaU1dGOdU8Nvtfg68unvWveo8l/OdSHxCjNbB5rpYT
- bHhw==
-X-Gm-Message-State: AOAM530Dk4mGevyidgngIqdztOOxj+XmM8AOTbMWwbKo70ooVR2SXJ08
- H04DQ5d97Hxzl9mNn+Fbnxg=
-X-Google-Smtp-Source: ABdhPJzPPJuf6QR489ME1XeBt+X5pK03N8W6jw80XO2EbDGlTA+r/JMHw5+oa/42CyRcGBKxaGBGqQ==
-X-Received: by 2002:ac2:5e86:: with SMTP id b6mr2309145lfq.108.1633425374235; 
- Tue, 05 Oct 2021 02:16:14 -0700 (PDT)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- t22sm1899968ljk.8.2021.10.05.02.16.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 02:16:13 -0700 (PDT)
-Date: Tue, 5 Oct 2021 11:16:12 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 1/4] aspeed/wdt: Add trace events
-Message-ID: <20211005091611.GB23846@fralle-msi>
-References: <20211004154635.394258-1-clg@kaod.org>
- <20211004154635.394258-2-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mXgmt-0000Hd-3q
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 05:31:03 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:43328)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mXgmp-0002h1-Fs
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 05:31:01 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 6365C3F5F3
+ for <qemu-devel@nongnu.org>; Tue,  5 Oct 2021 09:30:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1633426254;
+ bh=odkAypL2ezmYlGiDDyhwunZnFlpeMzywHbs6PBRvUzA=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=TXDTFEuvi8f/IE+tgBzNS4quaPORiAKJECPxxwPMSI+5LLFAkUALo17ifD6eQhAzQ
+ b+7T33DmCETgUOXj3k3yQMHK/+IVh1lq8B6PXXup0EYKwo5gZ7LcaHjmPvEg4vyxao
+ gIbN0Y75tQeRBXwmWfrtlu9d1pQsVul7QyHObVFAdz0V7HjllKcXmbfYPplDYEKazh
+ BBsP50BN2rN8CpWj1RpveSa7sbWBuP5NFxk9WojJdBCFBoiMoE0U9Hf64/2nSLY6cB
+ 58T/0yFWevDv83A3huqE/SVUscYtYrRZo17JeB10QQLIzKULZe9W/JPLGsweyrn2cu
+ MvsqlCcL1NV2Q==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5E8632E816E
+ for <qemu-devel@nongnu.org>; Tue,  5 Oct 2021 09:30:54 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211004154635.394258-2-clg@kaod.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x12c.google.com
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 05 Oct 2021 09:20:36 -0000
+From: Waheed <1884169@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Opinion; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: judahh schoenebeck waheedi
+X-Launchpad-Bug-Reporter: Judah Holanda Correia Lima (judahh)
+X-Launchpad-Bug-Modifier: Waheed (waheedi)
+References: <159252498136.16858.459210330047675680.malonedeb@chaenomeles.canonical.com>
+Message-Id: <163342563704.17036.4334250264582521461.malone@chaenomeles.canonical.com>
+Subject: [Bug 1884169] Re: There is no option group 'fsdev' for OSX
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d41d323cd49b34518b2141c77ec7b2f852e5f261"; Instance="production"
+X-Launchpad-Hash: 60075ee01ed73090e8e6a006e3ae87d4ef4b1c46
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,65 +83,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
+Reply-To: Bug 1884169 <1884169@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On [2021 Oct 04] Mon 17:46:32, Cédric Le Goater wrote:
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+But actually OS X (macOS) supports 9pfs and it does have its own
+AppleVirtIO9PVFS which makes things a bit strange, would not that be a
+good workaround, to use the AppleVirtIO9PVFS?
 
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+All my best,
 
-> ---
->  hw/watchdog/wdt_aspeed.c | 5 +++++
->  hw/watchdog/trace-events | 4 ++++
->  2 files changed, 9 insertions(+)
-> 
-> diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-> index 69c37af9a6e9..146ffcd71301 100644
-> --- a/hw/watchdog/wdt_aspeed.c
-> +++ b/hw/watchdog/wdt_aspeed.c
-> @@ -19,6 +19,7 @@
->  #include "hw/sysbus.h"
->  #include "hw/watchdog/wdt_aspeed.h"
->  #include "migration/vmstate.h"
-> +#include "trace.h"
->  
->  #define WDT_STATUS                      (0x00 / 4)
->  #define WDT_RELOAD_VALUE                (0x04 / 4)
-> @@ -60,6 +61,8 @@ static uint64_t aspeed_wdt_read(void *opaque, hwaddr offset, unsigned size)
->  {
->      AspeedWDTState *s = ASPEED_WDT(opaque);
->  
-> +    trace_aspeed_wdt_read(offset, size);
-> +
->      offset >>= 2;
->  
->      switch (offset) {
-> @@ -140,6 +143,8 @@ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
->      AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(s);
->      bool enable;
->  
-> +    trace_aspeed_wdt_write(offset, size, data);
-> +
->      offset >>= 2;
->  
->      switch (offset) {
-> diff --git a/hw/watchdog/trace-events b/hw/watchdog/trace-events
-> index c3bafbffa911..e7523e22aaf2 100644
-> --- a/hw/watchdog/trace-events
-> +++ b/hw/watchdog/trace-events
-> @@ -5,3 +5,7 @@ cmsdk_apb_watchdog_read(uint64_t offset, uint64_t data, unsigned size) "CMSDK AP
->  cmsdk_apb_watchdog_write(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB watchdog write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
->  cmsdk_apb_watchdog_reset(void) "CMSDK APB watchdog: reset"
->  cmsdk_apb_watchdog_lock(uint32_t lock) "CMSDK APB watchdog: lock %" PRIu32
-> +
-> +# wdt-aspeed.c
-> +aspeed_wdt_read(uint64_t addr, uint32_t size) "@0x%" PRIx64 " size=%d"
-> +aspeed_wdt_write(uint64_t addr, uint32_t size, uint64_t data) "@0x%" PRIx64 " size=%d value=0x%"PRIx64
-> -- 
-> 2.31.1
-> 
-> 
+Waheed
+
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1884169
+
+Title:
+  There is no option group 'fsdev' for OSX
+
+Status in QEMU:
+  Opinion
+
+Bug description:
+  When I try to use -fsoption on OSX I receive this error:
+
+  -fsdev local,security_model=3Dmapped,id=3Dfsdev0,path=3Ddevel/dmos-exampl=
+e:
+  There is no option group 'fsdev'
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1884169/+subscriptions
+
 
