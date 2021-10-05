@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FF0422FC8
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B26422FC7
 	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 20:13:41 +0200 (CEST)
-Received: from localhost ([::1]:34206 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:34166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXowe-0005K2-Ct
+	id 1mXowe-0005Ic-7x
 	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 14:13:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51596)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mXnsX-0006Rz-Iw
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 13:05:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52653)
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mXnw2-0003td-SR
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 13:08:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mXnsN-00019J-Q0
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 13:05:16 -0400
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mXnw0-0007tR-Cu
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 13:08:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633453510;
+ s=mimecast20190719; t=1633453735;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=01/iqVrlmGNGjTs/MDk51h7Ec8EBHcUCJSH58ltOJas=;
- b=DHsy2QD9HAIOHvfECNytzmk4y3TngrIZiWdEPbiiU3mN8QYGYvUzMwBAbDlsL/E8hqR8r8
- y3CUEAAniIo5zeDFx2C9l4+KO9T7fa8TwucuhMx4XIanTktgsBtt8tyqUYvwlegLfd9MXY
- 4KIPCuV9Y4QKKWb4FKpoyN7euAmdYzI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-wipWCjgDPDa6RWSeHot64w-1; Tue, 05 Oct 2021 13:05:09 -0400
-X-MC-Unique: wipWCjgDPDa6RWSeHot64w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15B165074C
- for <qemu-devel@nongnu.org>; Tue,  5 Oct 2021 17:05:08 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA35A1972E;
- Tue,  5 Oct 2021 17:05:06 +0000 (UTC)
-Date: Tue, 5 Oct 2021 19:05:05 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 6/6] tests/qapi-schema: Test cases for aliases
-Message-ID: <YVyFwWHY7a7CKMxN@redhat.com>
-References: <YTt0G1cs+BweXOMD@redhat.com> <87bl4vedma.fsf@dusky.pond.sub.org>
- <YUB0BcZUwwwecrFl@redhat.com> <87k0jj8evk.fsf@dusky.pond.sub.org>
- <YUG71uATYCwpRyQH@redhat.com> <8735q3y5db.fsf@dusky.pond.sub.org>
- <YUSuThJtW9ar2wCY@redhat.com> <87a6jrimaf.fsf@dusky.pond.sub.org>
- <YVsKpClmGgq5ki7r@redhat.com> <87mtnnvay7.fsf@dusky.pond.sub.org>
+ bh=AUFfLEoR+6FwsuRrEmojDIbIHovZCSSHeqdovpmAtrg=;
+ b=AUskfqP3N7iSPNSXwa8cdABxHCr6vWkrIPs/aY3RrR6xhA6SivzStSWsLoEn5rTlwNwUBG
+ jmmxZ4yU+5ZKjDw7IXpYnigSvzSlCk4H8LGqnnZcYugvTn5mN0IXyyghL+3s7vGkVnjNwC
+ DKBu0nbfLlHrjWcNXDWyJgUa80t7CDE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-T1cbkJDWNyGQ0Y7w-zP0rg-1; Tue, 05 Oct 2021 13:08:54 -0400
+X-MC-Unique: T1cbkJDWNyGQ0Y7w-zP0rg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 200-20020a1c00d1000000b0030b3dce20e1so1593415wma.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 10:08:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AUFfLEoR+6FwsuRrEmojDIbIHovZCSSHeqdovpmAtrg=;
+ b=qPwLmDl8+ccS6CH6Dploe/5EKrk2LNUMfuGmD9vQEMpAZZJL+ZDmu1sYjD+OPWgGpe
+ Lwt4XZZORev4x88kR1RJa6pbbCtC0DwVzjK0aQU91WOE/59bOj877F5W1PFFTcxkuzon
+ yJlQLosMZbnznS6kgVQsJwfD94VuTjesbKphGtalq6dSLR6PRRXc9rhaN3KMqyVJhGu8
+ s9OWZk7eT76G0uXpOyvSYX260yebR3lSzSOU0iZj4if8mY14XOQVz8U2l4lpSXFg4QNX
+ tvCha2YhgJrPuAXqoC+dJJIpuzjmCAbHnfOBkPxjyH6bF0vbAHeyaKn6c/3rF30nViXi
+ etIg==
+X-Gm-Message-State: AOAM53374AIuVm/SbgUIjnZRNaDRhJKYADtglPgGNyVQo+k7zCck7y/W
+ YGmKx6aYq8Hg4RiYbxOrZYTKTTX9MdICftFlUKH6sKeUW7gHHU9ymIOc/KKxTlGdSuiocfTET9I
+ orLTrziB+Ru1zk04Sqf141XD1py3UqXw3r/tDnkDx+6ixIuxgzhlaQOlFYTRkP3ra
+X-Received: by 2002:a1c:7e04:: with SMTP id z4mr4741709wmc.95.1633453732412;
+ Tue, 05 Oct 2021 10:08:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyvYtpyR6ep3Etv4zdcbMWlhK+O886ongW98v+gFhBx4YYyV/pUK+YcKenTHD/YXgbBTDUNlQ==
+X-Received: by 2002:a1c:7e04:: with SMTP id z4mr4741669wmc.95.1633453732130;
+ Tue, 05 Oct 2021 10:08:52 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id d8sm11048017wrz.84.2021.10.05.10.08.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Oct 2021 10:08:51 -0700 (PDT)
+Subject: Re: [PATCH 2/2] hw/i386: Rename default_bus_bypass_iommu
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>, pbonzini@redhat.com
+References: <20210811085842.2511545-1-jean-philippe@linaro.org>
+ <20210811085842.2511545-2-jean-philippe@linaro.org>
+From: Eric Auger <eauger@redhat.com>
+Message-ID: <abc497bd-e15e-5d61-b8ee-4666f5197fae@redhat.com>
+Date: Tue, 5 Oct 2021 19:08:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <87mtnnvay7.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210811085842.2511545-2-jean-philippe@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eauger@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,507 +98,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: armbru@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 05.10.2021 um 15:49 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
-> 
-> > Am 02.10.2021 um 15:33 hat Markus Armbruster geschrieben:
-> >> I apologize for this wall of text.  It's a desparate attempt to cut
-> >> through the complexity and my confusion, and make sense of the actual
-> >> problems we're trying to solve.
-> >> 
-> >> So, what problems exactly are we trying to solve?
-> >
-> > I'll start with replying to your final question because I think it's
-> > more helpful to start with the big picture than with details.
-> >
-> > So tools like libvirt want to have a single consistent interface to
-> > configure things on startup and at runtime. We also intend to support
-> > configuration files that should this time support all of the options and
-> > not just a few chosen ones.
-> 
-> Yes.
-> 
-> > The hypothesis is that QAPIfying the command line is the correct
-> > solution for both of these problems, i.e. all available command line
-> > options must be present in the QAPI schema and will be processed by a
-> > single parser shared with QMP to make sure they are consistent.
-> 
-> Yes.
-> 
-> This leads us to JSON option arguments and configuration files.
-> Well-suited for management applications that already use QMP.
-> 
-> > Adding QAPIfied versions of individual command line options are steps
-> > towards this goal. As soon as they exist for every option, the final
-> > conversion from an open coded getopt() loop (or in fact a hand crafted
-> > parser in the case of vl.c) to something generated from the QAPI schema
-> > should be reasonably easy.
-> 
-> Yes.
-> 
-> > You're right that adding a second JSON-based command line interface for
-> > every option can already achieve the goal of providing a unified
-> > external interface, at the cost of (interface and code) duplication. Is
-> > this duplication desirable? Certainly no. Is it acceptable? You might
-> > get different opinions on this one.
-> 
-> We'd certainly prefer CLI options to match corresponding QMP commands
-> exactly.
-> 
-> Unfortunately, existing CLI options deviate from corresponding QMP
-> commands, and existing CLI options without corresponding QMP commands
-> may violate QMP design rules.
-> 
-> Note: these issues pertain to human-friendly option syntax.  The
-> machine-friendly option syntax is still limited to just a few options,
-> and it does match QMP there.
-
-On the other hand, we only have a handful of existing options that are
-very complex. Most of them aren't even structured and just take a single
-scalar value. So I'm relatively sure that we know the big ones, and
-we're working on them.
-
-Another point here is that I would argue that there is a difference
-between existing options and human-friendly options. Not all existing
-options are human-friendly just because they aren't machine friendly
-either, and there is probably potential for human-friendly syntax that
-doesn't exist yet.
-
-So I would treat support for existing options (i.e. compatibility) and
-support for human-friendly options (i.e. usability) as two separate
-problems.
-
-> > In my opinion, we should try to get rid of hand crafted parsers where
-> > it's reasonably possible, and take advantage of the single unified
-> > option structure that QAPI provides. -chardev specifically has a hand
-> > crafted parser that essentially duplicates the automatically generated
-> > QAPI visitor code, except for the nesting and some differences in option
-> > names.
-> 
-> We should definitely parse JSON option arguments with the QAPI
-> machinery, and nothing more.
-
-Yes, no doubt. (And we don't even consistently do that yet, like
-device-add going through QemuOpts after going through QAPI and throwing
-away all type information and silently ignoring anything it doesn't know
-to handle.)
-
-> Parsing human-friendly arguments with it is desirable, but the need for
-> backward compatibility can make it difficult.  Even where compatibility
-> is of no concern, simply swapping concrete JSON syntax for dotted keys
-> may result in human interfaces that are less than friendly.
-> 
-> Are we in agreement that this is the problem at hand?
-
-As far as I am concerned, compatibility is the problem at hand,
-usability isn't.
-
-This doesn't mean that I'm opposed to having actually human friendly
-options, quite the opposite. But getting machine friendly options is
-already a big project. Making human interfaces friendlier would be
-adding another project of similar size, and I don't feel like tackling
-a second project at the same time when the first one is already hard.
-
-> > Aliases are one tool that can help bridge these differences in a generic
-> > way with minimal effort in the individual case. They are not _necessary_
-> > to solve the problem; we could instead just use manually written code to
-> > manipulate input QDicts so that QAPI visitors accept them. Even with
-> > aliases, there are a few things left in the chardev code that are
-> > converted this way. Aliases just greatly reduce the amount of this code
-> > and make the conversion declarative instead.
-> 
-> Understood.
-> 
-> > Now a key point in the previous paragraph is that aliases add a generic
-> > way to do this. So even if they are immediately motivated by -chardev,
-> > it might be worth looking at other cases they could enable if you think
-> > that -chardev alone isn't sufficient justification to have this tool.
-> > I guess this is the point where things become a bit less clear because
-> > people are just hand waving with vague ideas for additional uses.
-> >
-> > Do we need to invest more thought on these other cases? We probably do
-> > if it makes a difference for the answer to the question whether we want
-> > to add aliases to our toolbox. Does it?
-> 
-> I hope we can make a case for aliases without looking beyond CLI
-> QAPIfication.  That's a wide field already, with enough opportunity to
-> get lost in details.
-> 
-> If we later put aliases to other uses, we might have to adapt them some.
-> That's okay.  Designing for one problem we have and understand has a
-> much better chance of success than trying to design for all problems we
-> might have.
-> 
-> There are many CLI options to be QAPIfied.  -chardev is one of the more
-> thornier ones, which makes it a useful example.
-
-Good, I agree.
-
-> >> But what about the dotted keys argument?
-> >> 
-> >> One point of view is the difference between the JSON and the dotted keys
-> >> argument should be concrete syntax only.  Fine print: there may be
-> >> arguments dotted keys can't express, but let's ignore that here.
-> >> 
-> >> Another point of view is that dotted keys arguments are to JSON
-> >> arguments what HMP is to QMP: a (hopefully) human-friendly layer on top,
-> >> where we have a certain degree of freedom to improve on the
-> >> machine-friendly interface for human use.
-> >
-> > This doesn't feel unreasonable because with HMP, there is precedence.
-> > But this is not all what we have used dotted key syntax for so far. I'm
-> > not against making a change there if we feel it makes sense, but we
-> > should be clear that it is a change.
-> 
-> Our first uses of dotted keys were green fields.  Sticking to QAPI/QMP's
-> abstract syntax was simplest.
-> 
-> > I think we all agree that -blockdev isn't human-friendly. Dotted key
-> > syntax makes it humanly possible to use it on the command line, but
-> > friendly is something else entirely. It is still a 1:1 mapping of QMP to
-> > the command line, and this is how we advertised it, too.
-> 
-> Yes.
-> 
-> >                                                          This has some
-> > important advantages, like we don't have a separate parser for a
-> > human-friendly syntax, but the generic keyval parser covers it.
-> 
-> There are two generic parts in play: the keyval parser, and the QAPI
-> input visitor.
-
-Fair point.
-
-> Using identical abstract syntax both for JSON and dotted keys arguments
-> makes use of both parts simple: pass the argument to
-> qobject_input_visitor_new_str() to create a visitor, then visit the QAPI
-> type with it.
-> 
-> When abstract syntax differs, using the keyval parser is still simple,
-> but to use the QAPI input visitor, we need separate QAPI types.  Massive
-> code duplication in the QAPI schema.
-> 
-> To avoid the duplication, we can instead translate the parse tree
-> produced for the dotted keys argument.  Plenty of boring code.
-> 
-> In short: yes, using the same abstract syntax for both has advantages.
-
-Even with duplication in the schema, you still have to translate unless
-you want to duplicate all of the logic, too. The difference is just that
-instead of translating between QObjects, you would be translating
-between C structs.
-
-So yes, using different abstract syntax means translation, which in turn
-can mean plenty of boring code (hopefully - might also be buggy rather
-than boring) if we don't support ways to automate the conversion.
-
-> > HMP in contrast means separate code for every command, or translated to
-> > the CLI for each command line option. HMP is not defined in QAPI, it's
-> > a separate thing that just happens to call into QAPI-based QMP code in
-> > the common case.
-> >
-> > Is this what you have in mind for non-JSON command line options?
-> 
-> We should separate the idea "HMP wraps around QMP" from its
-> implementation as handwritten, boilerplate-heavy code.
-> 
-> All but the latest, QAPI-based CLI options work pretty much like HMP: a
-> bit of code generation (hxtool), a mix of common and ad hoc parsers,
-> boring handwritten code to translate from parse tree to internal C
-> interfaces (which are often QMP command handlers), and to stitch it all
-> together.
-> 
-> Reducing the amount of boring handwritten code is equally desirable for
-> HMP and CLI.
-> 
-> So is specifying the interface in QAPI instead of older, less powerful
-> schema languages like hxtool and QemuOpts.
-> 
-> There are at least three problems:
-> 
-> 1. Specifying CLI in QAPI hasn't progressed beyond the proof-of-concept
-> stage.
-> 
-> 2. Backward compatibility issues and doubts have defeated attempts to
-> replace gnarly stuff, in particular QemuOpts.
-> 
-> 3. How to best bridge abstract syntax differences has been unclear.
-> Whether the differences are historical accidents or intentional for ease
-> of human use doesn't matter.
-> 
-> Aliases feel like a contribution towards solving 3.
-> 
-> I don't think 1. is particularly difficult.  It's just a big chunk of
-> work that isn't really useful without solutions for 2. and 3.
-> 
-> To me, 2. feels intractable head on.  Perhaps we better bypass the
-> problem by weakening the compatibility promise like we did for HMP.
-
-Can we define 2 in a bit more specific terms? I feel the biggest part
-of 2 is actually 3.
-
-You mention QemuOpts, but how commonly are the potentially problematic
-features of it even used? Short booleans are deprecated and could be
-dropped in 6.2. merge_lists may or may not have to be replicated.
-I know building lists from repeated keys is said to be a thing, where
-does it happen? I've worked on some of the big ones (blockdev, chardev,
-object, device) and haven't come across it yet.
-
-Can we have an intermediate state where CLI parsing involves both QAPI
-generated options and manually written ones? So that we can actually put
-the QAPIfication work already done to use instead of just having a
-promise that it will make things possible eventually, in a few years?
-
-> > What I had in mind was using the schema to generate the necessary code,
-> > using the generic keyval parser everywhere, and just providing a hook
-> > where the QDict could be modified after the keyval parser and before the
-> > visitor. Most command line options would not have any explicit code for
-> > parsing input, only the declarative schema and the final option handler
-> > getting a QAPI type (which could actually be the corresponding QMP
-> > command handler in the common case).
-> >
-> > I think these are very different ideas. If we want HMP-like, then all
-> > the keyval based code paths we've built so far don't make much sense.
-> 
-> I'm not sure the differences are "very" :)
-> 
-> I think you start at "human-friendly and machine-friendly should use the
-> abstract syntax defined in the QAPI schema, except where human-friendly
-> has to differ, say for backward compatibility".
-> 
-> This approach considers differences a blemish.  The "standard" abstract
-> syntax (the one defined in the QAPI schema) should be accepted in
-> addition to the "alternate" one whenever possible, so "modern" use can
-> avoid the blemishes, and blemishes can be removed once they have fallen
-> out of use.
-> 
-> "Alternate" should not be limited to human-friendly.  Not limiting keeps
-> things consistent, which is good, because differences are bad.
-> 
-> Is that a fair description?
-
-Hm, yes and no.
 
 
-I do think that making the overlap between "standard" and "alternate"
-abstract syntax as big as possible is a good thing because it means less
-translation has to go on between them, and ultimately the interfaces are
-more consistent with each other which actually improves the human
-friendliness for people who get in touch with both syntaxes.
-
-The -chardev conversion mostly deals with differences that I do consider
-a blemish: There is no real reason why options need to have different
-names on both interfaces, and there is also a lot of nesting in QMP for
-which there is no real reason.
-
-The reason why we need to accept both is compatibility, not usability.
-
-
-There are also some differences that are justified by friendliness.
-Having "addr" as a nested struct in QMP just makes sense, and on the
-command line having it flattened makes more sense.
-
-So accepting "path" for "device" in ChardevHostdev is probably a case
-where switching both QMP and CLI to "modern" use and remove the
-"blemish" eventually makes sense to me. The nesting for "addr" isn't.
-
-We may even add more differences to make things human friendly. My
-standard for this is whether the difference serves only for
-compatibility (should go away eventually) or usability (should stay).
-
-
-Now with this, it's still open whether the "standard" syntax should only
-be supported in QMP or also in the CLI, and whether "alternate" syntax
-should only be supported in the CLI or also in QMP.
-
-Is usability actually improved by rejecting the "standard" syntax on the
-command line, or by rejecting "alternate" syntax in QMP? Hardly so. It's
-also not compatibility. So what is the justification for the difference?
-Maintainability? I honestly don't see the improvement there either.
-
-So I don't really see a reason for differences, but at the same time
-it's also not a very important question to me. If you prefer restricting
-things, so be it.
-
-> I start at "human-friendly syntax should be as friendly as we can make
-> it, except where we have to compromise, say for backward compatibility".
+On 8/11/21 10:58 AM, Jean-Philippe Brucker wrote:
+> Since commit d8fb7d0969d5 ("vl: switch -M parsing to keyval"), machine
+> parameter definitions cannot use underscores, because keyval_dashify()
+> transforms them to dashes and the parser doesn't find the parameter.
 > 
-> This approach embraces differences.  Mind, not differences just for
-> differences sake, only where they help users.
+> This affects option default_bus_bypass_iommu which was introduced in the
+> same release:
 > 
-> Additionally accepting the "standard" abstract syntax is useful only
-> where it helps users.
+> $ qemu-system-x86_64 -M q35,default_bus_bypass_iommu=on
+> qemu-system-x86_64: Property 'pc-q35-6.1-machine.default-bus-bypass-iommu' not found
 > 
-> "Alternate" should be limited to human-friendly.
-
-I think there is a small inconsistency in this reasoning: You say that
-differences must help users, but then this is not the measuring stick
-you use in the next paragraph. If it were, you would be asking whether
-rejecting "standard" abstract syntax helps users, rather than whether
-adding it does. (Even more so because rejecting it is more work! Not
-much more work, but it adds a little bit of complexity.)
-
-So it seems that in practice your approach is more like "different by
-default, making it the same needs justification", whereas I am leaning
-more towards "same by default, making it different needs justification".
-
-Your idea of "human-friendly syntax should be as friendly as we can make
-it" isn't in conflict with either approach. The thing that the idea
-might actually conflict with is our time budget.
-
-> Different approaches, without doubt.  Yet both have to deal with
-> differences, and both could use similar techniques and machinery for
-> that.  You're proposing to do the bulk of the work with aliases, and to
-> have a tree-transforming hook for the remainder.  Makes sense to me.
-> However, in sufficiently gnarly cases, we might have to bypass all this
-> and keep using handwritten code until the backward compatibility promise
-> is history: see 2. above.
-
-Possibly. I honestly can't tell how many of these cases we will have.
-In all of -object, we had exactly one problematic option. This could
-easily be handled in a tree-transforming hook.
-
-> In addition each approach has its own, special needs.
+> Rename the parameter to "default-bus-bypass-iommu". Passing
+> "default_bus_bypass_iommu" is still valid since the underscore are
+> transformed automatically.
 > 
-> Yours adds "alternate" syntax to QMP.  This poses documentation and
-> introspection problems.  The introspection solutions will then
-> necessitate management application updates.
+> Fixes: c9e96b04fc19 ("hw/i386: Add a default_bus_bypass_iommu pc machine option")
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Tested-by: Eric Auger <eric.auger@redhat.com>
+
+
+Eric
+
+> ---
+>  hw/i386/pc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Mine trades these problems for others, namely how to generate parsers
-> for two different syntaxes from one QAPI schema.
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index fb24f000e7..ce4756ad59 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1779,7 +1779,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+>      object_class_property_add_bool(oc, "hpet",
+>          pc_machine_get_hpet, pc_machine_set_hpet);
+>  
+> -    object_class_property_add_bool(oc, "default_bus_bypass_iommu",
+> +    object_class_property_add_bool(oc, "default-bus-bypass-iommu",
+>          pc_machine_get_default_bus_bypass_iommu,
+>          pc_machine_set_default_bus_bypass_iommu);
+>  
 > 
-> Do I make sense?
-
-In the long run, won't we need documentation and introspection even for
-things that are limited to the command line? Introspection is one of the
-big features enabled by CLI QAPIfication.
-
-But otherwise yes.
-
-> >> Both -chardev and QMP chardev-add use the same helpers (there are minor
-> >> differences that don't matter here).  The former basically translates
-> >> its flat argument into the latter's arguments.  HMP chardev-add is just
-> >> like -chardev.
-> >> 
-> >> The quickest way to QAPIfy existing -chardev is probably the one we
-> >> chose for -object: if the argument is JSON, use the new, QAPI-based
-> >> interface, else use the old interface.
-> >
-> > -chardev doesn't quite translate into chardev-add arguments. Converting
-> > into the input of a QMP command normally means providing a QDict that
-> > can be accepted by the QAPI-generated visitor code, and then using that
-> > QAPI parser to create the C object. What -chardev does instead is using
-> > an entirely separate parser to create the C object directly, without
-> > going through any QAPI code.
-> 
-> Yes, and that's quite some extra code, with plenty of opportunity for
-> inconsistency.
-
-Needless to say, opportunity that we happily made use of.
-
-> > After QAPIfication, both code paths go through the QAPI code and undergo
-> > the same validations etc.
-> >
-> > If we still have code paths that completely bypass QAPI, it's hard to
-> > call the command line option fully QAPIfied. Of course, if you don't
-> > care about duplication and inconsistencies between the interfaces,
-> > though, and just want to achieve the initially stated goal of providing
-> > at least one interface consistent between QMP and CLI (besides others)
-> > and a config file, then it might be QAPIfied enough.
-> 
-> Reworking human-friendly -chardev to target QMP instead of a C interface
-> shared with QMP would be nice.  Just because prior attempts to replace
-> gnarly stuff compatibly have failed doesn't mean this one must fail.
-
-I mean, for -chardev specifically, you don't even have to take a guess.
-The patches exist, a git tag with them is mentioned in the cover letter
-of this series, and they have just been waiting for about a year for
-their dependency (QAPI aliases) to be merged.
-
-If we don't do aliases, I'll have to rework them to do everything in
-code instead. It's doable, even if the chardev code wouldn't shrink as
-nicely as with the current patches. I just need to know whether it has
-to be done or not.
-
-> >> Now the question that matters for this series: how can QAPI aliases
-> >> help us with the things discussed above?
-> >
-> > The translation needs to be implemented somehow. The obvious way is just
-> > writing, reviewing and maintaining code that manually translates. (We
-> > don't have this code yet for a fully QAPIfied -chardev. We only have
-> > code that bypasses QAPI, i.e. translates to the wrong target format.)
-> >
-> > Aliases help because they allow reducing the amount of code in favour of
-> > data, the alias declarations in the schema.
-> 
-> Understood.
-> 
-> >> If we use the flat variation just internally, say for -chardev's dotted
-> >> keys argument, then introspection is not needed.  We'd use "with
-> >> aliases" just for translating -chardev's dotted keys argument.
-> >
-> > Note that we're doing more translations that just flattening with
-> > aliases, some options have different names in QMP and the CLI.
-> >
-> > But either way, yes, alias support could be optional so that you need to
-> > explicitly enable it when creating a visitor, and then only the CLI code
-> > could actually enable it.
-> >
-> > Limits the possible future uses for the new tool in our toolbox, but is
-> > sufficient for -chardev. We can always extend support for it later
-> > if/when we actually want to make use of it outside of the CLI.
-> 
-> Yes.
-> 
-> >> Valid argument.  CLI with JSON argument should match QMP.  Even when
-> >> that means both are excessively nested.
-> >> 
-> >> CLI with dotted keys is a different matter, in my opinion.
-> >
-> > I'm skipping quite a bit of text here, mainly because I think we need an
-> > answer first if we really want to switch the keyval options to be
-> > HMP-like in more than just the support status (see above).
-> >
-> > Obviously, the other relevant question would then be if it also ends up
-> > like HMP in that most interesting functionality isn't even available and
-> > you're forced to use QMP/JSON when you're serious.
-> 
-> I figure this is because we have let "QMP first" degenerate into "QMP
-> first, HMP never" sometimes, and we did so mostly because HMP is extra
-> work that was hard to justify.
-> 
-> What if you could get the 1:1 HMP command basically for free?  It may
-> not be the most human-friendly command possible.  But it should be a
-> start.
-
-How would you do this?
-
-The obvious way is mapping QMP 1:1 like we do for some of the command
-line options. But you just argued that this is not what you would prefer
-for the command line, so it's probably not what you have in mind for HMP
-either?
-
-> > I guess I can go into more details once we have answered these
-> > fundamental questions.
-> >
-> > (We could and should have talked about them and about whether you want
-> > to have aliases at all a year ago, before going into detailed code
-> > review and making error messages perfect in code that we might throw
-> > away anyway...)
-> 
-> I doubt you could possibly be more right than that!
-
-So what questions need to be answered before we can make a decision?
-
-You talked a lot about how you like QMP to be different from the command
-line. So is restricting aliases to the command line enough to make them
-acceptable? Or do we need larger changes? Should I just throw them away
-and write translation code for -chardev manually?
-
-Kevin
 
 
