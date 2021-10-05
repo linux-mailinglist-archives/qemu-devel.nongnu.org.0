@@ -2,59 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CEF422CF4
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:51:43 +0200 (CEST)
-Received: from localhost ([::1]:40086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 003E2422CD7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:44:17 +0200 (CEST)
+Received: from localhost ([::1]:52990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXmjH-0003lc-24
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38598)
+	id 1mXmc3-0001YC-3r
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mXmRR-0004qm-1r
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:33:20 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:36866
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mXmRM-0006vr-Np
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:33:16 -0400
-Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mXmR4-0001il-H1; Tue, 05 Oct 2021 16:32:58 +0100
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20211004211928.15803-1-mark.cave-ayland@ilande.co.uk>
- <20211004211928.15803-9-mark.cave-ayland@ilande.co.uk>
- <7994e73e-cbda-1bd1-68c4-250dd951ed51@vivier.eu>
- <66384935-4c8f-8220-8593-bfde37d05e1d@ilande.co.uk>
- <15fba2fe-77b0-78f4-ea55-9438ce976c18@vivier.eu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <52fe2fc5-b4fb-8888-9b80-0e362c52ebb5@ilande.co.uk>
-Date: Tue, 5 Oct 2021 16:33:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mXmSO-0005k0-6I
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:34:16 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:55944)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mXmSJ-0007jZ-CT
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:34:14 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id v127so16727645wme.5
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 08:34:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=SxZheTVv17BCKQLqE/5L3PlPXSRScFm50fqFxzm203M=;
+ b=FGTP4GPAgF7z4rrM1zfPImsGnI58KyEThiYjpYeEYchwGYvsCt1WUd6UvIUFbhbdG1
+ rNnOZdVUj7OLs4L0Q7mg+9P4HKwTWkJN9S754EZum+MUtLIEIJ//O4eQMVV//nmx1Rg2
+ ZcfFk6dcfVvg3ODsEcyQxa/xLi8gjk9tKY5o4zW7RYUZdN1MDk9aBvwm5SisvVY2KZn/
+ BjEVSwaMkRkNtJFmacF9bDN7H+0ZPZOHKikXlhlVtfwe6qy0yVQHdQOvgsflzkijHmWj
+ NLbXYGcuMSU9LPn/3ijXQ/2IHArc8+VOYiPpD0Ca4ws24bxB70yacqoerrPdZPzczpt7
+ 4AHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=SxZheTVv17BCKQLqE/5L3PlPXSRScFm50fqFxzm203M=;
+ b=eWguwvCPGiI6bIE4h7OSeXS9OjB8fHirbABPcTan0+JcQOk66cowqGRY8uVq1uBBXy
+ nGwlmrdr2GFJW7PkEGNSi6HBguQ08H9w9yYQjTrHZCLW46Jem+5/2R35oV/jLCaMMGgs
+ U7XHN1I6Y63mUn4NAy9uGHmb2ZjBRa13oHQ7uUlWkxgud+3IeLhdCxMuOQhAnk1mhb5O
+ 0WARsKw+tGHFZ8DFukhzc/rA38++OqP0m7phX2mJflXtp0tPCAHtDnxlZxqF+BKrouyJ
+ 97rdv+Y1pLV4JYVC4Y/jK+whsLHAuwhUy4vheQVnnjUQf1JgXvlUb9XdEAKU3u5CJo8Q
+ VqNQ==
+X-Gm-Message-State: AOAM5324wrvg28qaEr8XLCoL9z0dTxAr/Al8whj2q/xP55ynwcMHYZOp
+ yPqyMy8Q9F4OhzEegXW2t6Q=
+X-Google-Smtp-Source: ABdhPJwntgOuU0ZQVkd9LnlTJUcXnsxZSMlRhd1qWFG+NkXtZa2Zgwm2qiHD8jhOr72A7898ygptMw==
+X-Received: by 2002:a05:600c:ac2:: with SMTP id
+ c2mr4141461wmr.118.1633448047182; 
+ Tue, 05 Oct 2021 08:34:07 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id h18sm17506834wrs.75.2021.10.05.08.34.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Oct 2021 08:34:06 -0700 (PDT)
+Message-ID: <80c5aac2-4e95-dac2-3144-e652a7a6aa8d@amsat.org>
+Date: Tue, 5 Oct 2021 17:34:05 +0200
 MIME-Version: 1.0
-In-Reply-To: <15fba2fe-77b0-78f4-ea55-9438ce976c18@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v2 01/12] macfb: handle errors that occur during realize
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 08/12] macfb: add common monitor modes supported by the
- MacOS toolbox ROM
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ laurent@vivier.eu
+References: <20211004211928.15803-1-mark.cave-ayland@ilande.co.uk>
+ <20211004211928.15803-2-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211004211928.15803-2-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.826,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,128 +96,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/10/2021 16:08, Laurent Vivier wrote:
-
-> Le 05/10/2021 à 13:38, Mark Cave-Ayland a écrit :
->> On 05/10/2021 10:50, Laurent Vivier wrote:
->>
->>> Le 04/10/2021 à 23:19, Mark Cave-Ayland a écrit :
->>>> The monitor modes table is found by experimenting with the Monitors Control
->>>> Panel in MacOS and analysing the reads/writes. From this it can be found that
->>>> the mode is controlled by writes to the DAFB_MODE_CTRL1 and DAFB_MODE_CTRL2
->>>> registers.
->>>>
->>>> Implement the first block of DAFB registers as a register array including the
->>>> existing sense register, the newly discovered control registers above, and also
->>>> the DAFB_MODE_VADDR1 and DAFB_MODE_VADDR2 registers which are used by NetBSD to
->>>> determine the current video mode.
->>>>
->>>> These experiments also show that the offset of the start of video RAM and the
->>>> stride can change depending upon the monitor mode, so update macfb_draw_graphic()
->>>> and both the BI_MAC_VADDR and BI_MAC_VROW bootinfo for the q800 machine
->>>> accordingly.
->>>>
->>>> Finally update macfb_common_realize() so that only the resolution and depth
->>>> supported by the display type can be specified on the command line.
->>>>
->>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
->>>> ---
->>>>    hw/display/macfb.c         | 124 ++++++++++++++++++++++++++++++++-----
->>>>    hw/display/trace-events    |   1 +
->>>>    hw/m68k/q800.c             |  11 ++--
->>>>    include/hw/display/macfb.h |  16 ++++-
->>>>    4 files changed, 131 insertions(+), 21 deletions(-)
->>>>
->>>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
->>>> index f98bcdec2d..357fe18be5 100644
->>>> --- a/hw/display/macfb.c
->>>> +++ b/hw/display/macfb.c
->>>>
->>> ...
->>>> +static MacFbMode *macfb_find_mode(MacfbDisplayType display_type,
->>>> +                                  uint16_t width, uint16_t height,
->>>> +                                  uint8_t depth)
->>>> +{
->>>> +    MacFbMode *macfb_mode;
->>>> +    int i;
->>>> +
->>>> +    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
->>>> +        macfb_mode = &macfb_mode_table[i];
->>>> +
->>>> +        if (display_type == macfb_mode->type && width == macfb_mode->width &&
->>>> +                height == macfb_mode->height && depth == macfb_mode->depth) {
->>>> +            return macfb_mode;
->>>> +        }
->>>> +    }
->>>> +
->>>> +    return NULL;
->>>> +}
->>>> +
->>>
->>> I misunderstood this part when I reviewed v1...
->>>
->>> It means you have to provide the monitor type to QEMU to switch from the default mode?
->>
->> Not as such: both the MacOS toolbox ROM and MacOS itself offer a fixed set of resolutions and depths
->> based upon the display type. What I've done for now is default the display type to VGA since it
->> offers both 640x480 and 800x600 in 1, 2, 4, 8, 16 and 24-bit colour which should cover the most
->> common use of cases of people wanting to boot using the MacOS toolbox ROM.
->>
->> Even if you specify a default on the command line, MacOS still only cares about the display type and
->> will allow you to change the resolution and depth dynamically, remembering the last resolution and
->> depth across reboots.
->>
->> During testing I found that having access to the 1152x870 resolution offered by the Apple 21"
->> monitor display type was useful to allow larger screen sizes, although only up to 8-bit depth so I
->> added a bit of code that will switch from a VGA display type to a 21" display type if the graphics
->> resolution is set to 1152x870x8.
->>
->> Finally if you boot a Linux kernel directly using -kernel then the provided XxYxD is placed directly
->> into the relevant bootinfo fields with a VGA display type, unless a resolution of 1152x870x8 is
->> specified in which case the 21" display type is used as above.
->>
->>> But, as a user, how do we know which modes are allowed with which resolution?
->>>
->>> Is possible to try to set internally the type here according to the resolution?
->>>
->>> Could you provide an command line example how to start the q800 with the 1152x870 resolution?
->>
->> Sure - simply add "-g 1152x870x8" to your command line. If the -g parameter is omitted then the
->> display type will default to VGA.
->>
+On 10/4/21 23:19, Mark Cave-Ayland wrote:
+> Make sure any errors that occur within the macfb realize chain are detected
+> and handled correctly to prevent crashes and to ensure that error messages are
+> reported back to the user.
 > 
-> Thank you for the explanation.
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>  hw/display/macfb.c | 23 +++++++++++++++++------
+>  1 file changed, 17 insertions(+), 6 deletions(-)
+
+> @@ -391,8 +396,14 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
+>      MacfbState *ms = &s->macfb;
+>  
+>      ndc->parent_realize(dev, errp);
+> +    if (*errp) {
+> +        return;
+> +    }
+
+Sorry for being picky, but this is one fix (one patch),
+
+> +    if (!macfb_common_realize(dev, ms, errp)) {
+> +        return;
+> +    }
+
+and this is another fix (another patch, including the bool).
+
+>  
+> -    macfb_common_realize(dev, ms, errp);
+>      memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
+>      memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
+>  }
 > 
-> Perhaps you can add in the error message the list of the available mode and depth?
-> (it's not a blocker for the series, it can be added later)
-> 
-> As an user, it's hard to know what are the allowed values.
 
-This is where it becomes a bit trickier, since technically booting Linux with -kernel 
-you can use any supported values as long as everything fits in the video RAM which is 
-why there isn't currently a hard-coded list :)
-
-If you would prefer a fixed set of resolutions for both MacOS and Linux booted with 
--kernel then I think we should aim for VGA (640x480) in 1, 2, 4, 8, 16 and 24-bit 
-depths, SVGA (800x600) in 1, 2, 4, 8, 16 and 24-bit depths and 21" (1152x870) in 1, 
-2, 4 and 8-bit depths. Do other emulated displays show supported resolutions in the 
-error message, or do they rely on including this in the documentation?
-
-One other point to note is that when MacOS detects a VGA display type, it defaults to 
-640x480 until you go into the Control Panel and select 800x600 to enable it. It seems 
-this was a precaution to prevent damaging VGA monitors that couldn't sync with an 
-SVGA signal, since the cable doesn't allow you to distinguish between a VGA and an 
-SVGA-capable monitor.
-
-Finally after the initial boot MacOS always boots into the last resolution/depth set 
-successfully in the Control Panel for the detected display type. So you could specify 
-640x480x8 on the command line, but if you changed this to 800x600x4 before the last 
-reboot then MacOS would reprogram the macfb registers with the same values again, 
-effectively overriding the -g parameter and making it a no-op...
-
-
-ATB,
-
-Mark.
+I'd rather split this in 2, but I'd be OK if you just reword
+the description, either split or reworded:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
