@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C1B4230D3
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 21:33:15 +0200 (CEST)
-Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D664230CE
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 21:31:56 +0200 (CEST)
+Received: from localhost ([::1]:39692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXqBe-0006UU-Vo
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 15:33:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43596)
+	id 1mXqAN-0003tw-39
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 15:31:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mXq63-0000DW-2j
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 15:27:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57142)
+ id 1mXq6u-0001Ya-OJ
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 15:28:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mXq60-0003eN-Ce
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 15:27:26 -0400
+ id 1mXq6t-0004Jd-0m
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 15:28:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633462043;
+ s=mimecast20190719; t=1633462098;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PFYIXMzHYdki8UWUKlBIrzEmda3Dm/+ETqLmP0GmN+E=;
- b=Lq40uo1V32U/4VnE+IigaCdQ4xc8Vdcw4n3qRGELxBl5W90UKzBaxxPS1DFxr8yEeJZbCF
- G6rdBT1VAml3DQlX9e6XziS2Qowlkm33848PDPab94pL5DkJNem++j4K4oXBJX+DaALc4+
- TE7MqS/6oJEJ4RERc0w2EB+A6SDU32Q=
+ bh=jC+1kiktBG3er4ykHLKgAl6S2jt3Yf8Jwr0nc0CkQGQ=;
+ b=NhWK7aR3jtfP6wEh4BxMjDOlabPcxeAyuVuquu18QX52RyPZZTURNwrhMhf75asc/NMuKo
+ 1vqM1KQEC0ENd0U22ofOuV7N4ezCqZG7UqaS0t9boWh/WZqJnVrYkgTonAZg/wQ/whk08X
+ nD8ZyTH3MRre0VeAbJb40BP3oKd7LZA=
 Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
  [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-KdsJmkx0PfmatfodwCSb3g-1; Tue, 05 Oct 2021 15:27:22 -0400
-X-MC-Unique: KdsJmkx0PfmatfodwCSb3g-1
+ us-mta-488-_ndcDVvnP06jhNMjhFnFfA-1; Tue, 05 Oct 2021 15:28:16 -0400
+X-MC-Unique: _ndcDVvnP06jhNMjhFnFfA-1
 Received: by mail-ed1-f69.google.com with SMTP id
- c8-20020a50d648000000b003daa53c7518so188911edj.21
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 12:27:22 -0700 (PDT)
+ t28-20020a508d5c000000b003dad7fc5caeso233678edt.11
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 12:28:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PFYIXMzHYdki8UWUKlBIrzEmda3Dm/+ETqLmP0GmN+E=;
- b=wNX0ouMny53Jo+11eauiPmQFj2bQeoDVXBhBZJHOUhpPpp+qsVzzGQuYuqH+9h2tQz
- kkagvVpH9fH7E78FGXxCzYF7I2p6dJRGsGr5hqVcnwDzHKO6c6huxND5gLWxSCWMWfYU
- wfHIXL7UKDS3Iwv853V6S6yGJbuAXkFDygGHiRjhZxM/BnIcCYverf0sGfnXDHQbKGOD
- XKI1ya/3DjAMGCfau3YC6EuCzK50f+8LQd7mry2+RjLZfz6cr+rlcCzUEpsBbrQHDOHy
- BP2P36ZrULYpUluIOA+HFcYMLbTUWJW0QFgOIXJmytn/H+5VAVIbHj4EsO5Y3LwnXl1j
- AvvQ==
-X-Gm-Message-State: AOAM533/sfNvXkkjd5Oz7EZEGYsQdXX93e35TE6ZDuUsuYM7v9uoJfgU
- uuICnU1ch6i/tfb3p3rxtGJNywG2GI4qXf7SsYcLAbXgPQYh+dubYS6j/8dDu6Ab16VeqbxIT31
- F6TFRUl4jOSGzyeM=
-X-Received: by 2002:aa7:c948:: with SMTP id h8mr2872126edt.380.1633462041421; 
- Tue, 05 Oct 2021 12:27:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUo9IW1vrC8lH6wEi8OQImF5pZ7mN3WLnGr8YOn4Kw6ljAlzK4/U8SFtTvSgFPBmLgtSxBKQ==
-X-Received: by 2002:aa7:c948:: with SMTP id h8mr2872103edt.380.1633462041249; 
- Tue, 05 Oct 2021 12:27:21 -0700 (PDT)
+ bh=jC+1kiktBG3er4ykHLKgAl6S2jt3Yf8Jwr0nc0CkQGQ=;
+ b=F4VuTDBQ4nAc7zczeC5qWIIWjp7tU7PN2NWFPbGX1YG3bLRjF0ha3JcRd5rSgCfHWr
+ ywfsMXeyQPdfna2n960ugkflmVbNTNdx0TXu1wlVH76//nvhtmXS8MS4nDLVmsZRaqp0
+ oXcww5PwZ1h7QSt/wldTl/7DBSv/QldIW2L9StUlsvXI7N0OTF93+0aFnQqZ2SW/xnDI
+ 7sL7zHgEXRR4kgFicl02GWe352OEsvGsz9m1Gez36JULVz2WrHsmEEE/i5rG4hLTbC8B
+ a8CvfnxkIlve6l5PbcHy3DHzd0GuYIH3e6saeZNf8v96+Yao3rXKuXx0nIwvU45mspAK
+ L9HA==
+X-Gm-Message-State: AOAM530rFuW2ArIL5VyrNh3MukVxDvfljHYIOgsqk34aRgZuR2w5ineC
+ cR/Ut3zm3eUM+dMvBy0KJL09KroJ5teyV+dXwAbCyyethjyvS1IR2lVmQpZuQ5ajGRzP17S10Rv
+ lebk8GKBQLHjRCtI=
+X-Received: by 2002:a50:d803:: with SMTP id o3mr27932272edj.91.1633462094922; 
+ Tue, 05 Oct 2021 12:28:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzOrAULIiwXve0cUEmuFFJG2pxv9ZC7AS3OaNaTELXqScywUDguUU7FlgGijEXOx81IaQE1VQ==
+X-Received: by 2002:a50:d803:: with SMTP id o3mr27932259edj.91.1633462094737; 
+ Tue, 05 Oct 2021 12:28:14 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id z19sm1609128ejp.97.2021.10.05.12.27.20
+ by smtp.gmail.com with ESMTPSA id l23sm8070531ejn.15.2021.10.05.12.28.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 12:27:20 -0700 (PDT)
-Message-ID: <236eb940-67bd-c1a0-3fa5-d0449c3ee712@redhat.com>
-Date: Tue, 5 Oct 2021 21:27:19 +0200
+ Tue, 05 Oct 2021 12:28:14 -0700 (PDT)
+Message-ID: <ac94f409-266a-5be6-a016-1940edfb05be@redhat.com>
+Date: Tue, 5 Oct 2021 21:28:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
 Subject: Re: [RFC PATCH] meson.build: don't include libbpf in the common
  source set
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 References: <20211005182443.2954499-1-alex.bennee@linaro.org>
+ <2f0c158c-9f1e-0ab6-168d-24ec033931fd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211005182443.2954499-1-alex.bennee@linaro.org>
+In-Reply-To: <2f0c158c-9f1e-0ab6-168d-24ec033931fd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,34 +105,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/10/21 20:24, Alex Bennée wrote:
-> This library is only needed for the softmmu targets and as such
-> break static *-user builds where libbpf is detected and it tries to
-> link it into the user binaries.
+On 05/10/21 21:00, Philippe Mathieu-Daudé wrote:
+> On 10/5/21 20:24, Alex Bennée wrote:
+>> This library is only needed for the softmmu targets and as such
+>> break static *-user builds where libbpf is detected and it tries to
+>> link it into the user binaries.
+>>
+>> Fixes: 46627f41b6 ("ebpf: Added eBPF RSS loader.")
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>> ---
+>>   meson.build | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meson.build b/meson.build
+>> index 60f4f45165..d8bcf13b21 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -2307,7 +2307,7 @@ subdir('bsd-user')
+>>   subdir('linux-user')
+>>   subdir('ebpf')
+>>   
+>> -common_ss.add(libbpf)
+>> +softmmu_ss.add(libbpf)
+>>   
+>>   bsd_user_ss.add(files('gdbstub.c'))
+>>   specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
+>>
 > 
-> Fixes: 46627f41b6 ("ebpf: Added eBPF RSS loader.")
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   meson.build | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index 60f4f45165..d8bcf13b21 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2307,7 +2307,7 @@ subdir('bsd-user')
->   subdir('linux-user')
->   subdir('ebpf')
->   
-> -common_ss.add(libbpf)
-> +softmmu_ss.add(libbpf)
+> Patch already pending on the list:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg834876.html
 
-It should not be needed at all, since ebpf/meson.build has
-
-softmmu_ss.add(when: libbpf, if_true: files('ebpf_rss.c'), if_false: 
-files('ebpf_rss-stub.c'))
-
-(which already adds libbpf if needed).
+Not the same patch, that one is already in.
 
 Paolo
 
