@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A365422DB8
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:18:08 +0200 (CEST)
-Received: from localhost ([::1]:52324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C00DE422DF3
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:29:05 +0200 (CEST)
+Received: from localhost ([::1]:46030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXn8o-0006yC-VM
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:18:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46708)
+	id 1mXnJQ-0004zN-HJ
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsK-0008Mx-3z
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25252)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsP-0008Po-Fu
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsD-0004VP-TC
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:00:59 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsJ-0004Yj-4l
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633449655;
+ s=mimecast20190719; t=1633449659;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q07SOpmoWMqQkr35xa7p8RNS09DTdrXyjxTlsEer860=;
- b=Draewtqr08KKmN3TeWagnjXB3VVgf+e1e3+nT8KWgRPN8tkqAVzWdjU2b/LbFOTsTES7q2
- WYh/ZWxNEetWyMapTUieaKU3CK4o32aUYBk2lhwJnwwSBY69nfGKodA+Oa+SvZVvMVoT96
- pm5WStLZBrpJmuIS20bj6eVVZvPR3HI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-qGpp_669Mfm8DrRlw6lFxQ-1; Tue, 05 Oct 2021 12:00:54 -0400
-X-MC-Unique: qGpp_669Mfm8DrRlw6lFxQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 10-20020a05600c240a00b0030d403f24e2so1481770wmp.9
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:00:53 -0700 (PDT)
+ bh=/2tyMA4ubaOTmCnsG3GSjYJgJRE9OF4GDfIrA22J2bo=;
+ b=Tc5CWlP3XSS/pAzFNH1Kmm7qMMMQCbhNX+qCpzvD8WreGU17/qxptc6dLLpCUNapB3V7I/
+ h51/vQ5Y8uqxuV/xPU1dVkHcLgA/IlxRMBeKRzOpWBONPryfRaVW3tjuar9Alf3aL3d8Iz
+ 85E8bTeDFcV5ymWirbRTlJVk+4pKSnA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235--BqDjZ0TP3uHTOQDoBPxzA-1; Tue, 05 Oct 2021 12:00:58 -0400
+X-MC-Unique: -BqDjZ0TP3uHTOQDoBPxzA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ h24-20020a7bc938000000b0030d400be5b5so6530237wml.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:00:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Q07SOpmoWMqQkr35xa7p8RNS09DTdrXyjxTlsEer860=;
- b=6irRwOlFvKlPTY0oNqYDkbDZXrpFSakkLzn8FDGKLoxLOny2pneR6OTAYAfjvnwGR8
- rBa/Ij4UUvt/HVKZlKRTlerE4SSxdSdXLyfSQ1IfCunnmYbx6KLU9DXw7dblvNoUWXBv
- nm6/B1uno45XhX1WwkCVv82eGbenRRjvGeTrMpbPeX4CquxSvMqUc//WG4uSvrDEcGad
- 1eyxaGFPpcpUr22CKTSCpHxslZyKuw88Y4gg0E0912evZM7mrEGTymlnTbB05CJuvHHP
- EqtmhAsr4ulQeNcvKAyr9tKC9+yYaO7mJk+/9/3LzoXO1jyGaytLgPKLSwFLOt3OPXIU
- a39Q==
-X-Gm-Message-State: AOAM531MEmVrpNsKoTbaA4x4cneZAqHGBz0vCCXU2xyjJk2TjPi/qdcK
- aSqbfSRNRXcwwmUdwvmS3wa04jDBqDhLYGo65yGQx6Y0YAFPBMTEayt84vPjx9lV2uV6vTkCDCT
- 2pmRVylFhyzXTxwJJMYmQgh2oMvT0Yo2lt756ImpZlywfhoI3bRruOjF7cdkH
-X-Received: by 2002:a7b:c048:: with SMTP id u8mr4250612wmc.113.1633449652345; 
- Tue, 05 Oct 2021 09:00:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz7+3CLrpx7AdXXsn8wIlHw9N4N81vuYyusbvLmwYiKFT9TTzDCoQiFrOBDtoKVchki5QGg7g==
-X-Received: by 2002:a7b:c048:: with SMTP id u8mr4250585wmc.113.1633449652059; 
- Tue, 05 Oct 2021 09:00:52 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=/2tyMA4ubaOTmCnsG3GSjYJgJRE9OF4GDfIrA22J2bo=;
+ b=q5aNbBpGMztbv9u1TJhHzt1qN7Xif2Pr7Elmq6/kJrdhKb8ea0jTutAVEvwyVfg4RR
+ vm45R0M5I3BpOiH7hakT/eylvykTgn5Ll4ZDeTOP7mpFkz/6/3+ExBdOjzw+SyMv0Ecx
+ K6XTXnveQ0KhBqqa5qSvsaDT/xdJyHcw4+cPoc1kZKiQO1Xd1zNW8vDw4K17pxdYQxEO
+ Djt+wdQTH/7BtqIFVPoxsxnwaTadB/5JdcUJg7uYkKxhScvOyUjgy9H3BwDcc3aF1SMa
+ a1kxi0lNfr7TPcZtFSYNnJABKp+gwMvnrHu0EF3ovBbbWiRdmD7L4pWRtsNiLboFEFQ1
+ v4dQ==
+X-Gm-Message-State: AOAM531LzL0QuKaxUKr04YchQe8zJpTuRbPE/zYp8/JTIHSG3/euJDHw
+ LZNY6jfRDd+AK15VHaeiBL4xog4BRm0gDApwjeXc+if/3KY+ru9aOQOMZeQ7tuuDhERHiHdRdDo
+ UY9qjtJz/QhOg97HKy31pGXJBoS2buiKRuEz+Prk/U088s5oy7EQYT/gERZ1B
+X-Received: by 2002:a05:6000:1866:: with SMTP id
+ d6mr22016648wri.205.1633449655506; 
+ Tue, 05 Oct 2021 09:00:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzJlyJqdWdEnIrLseRw3VwrK3XxkvGTm/ZgAyeTSTmji6PNQ4mf5+ykKko8wgq1lyr511TM+w==
+X-Received: by 2002:a05:6000:1866:: with SMTP id
+ d6mr22016612wri.205.1633449655279; 
+ Tue, 05 Oct 2021 09:00:55 -0700 (PDT)
 Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id z17sm2279396wml.24.2021.10.05.09.00.50
+ by smtp.gmail.com with ESMTPSA id q3sm2192119wmc.25.2021.10.05.09.00.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 09:00:51 -0700 (PDT)
-Date: Tue, 5 Oct 2021 12:00:48 -0400
+ Tue, 05 Oct 2021 09:00:54 -0700 (PDT)
+Date: Tue, 5 Oct 2021 12:00:52 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/57] hw/virtio: Have virtqueue_get_avail_bytes() pass caches
- arg to callees
-Message-ID: <20211005155946.513818-3-mst@redhat.com>
+Subject: [PULL 03/57] vhost-vdpa: open device fd in net_init_vhost_vdpa()
+Message-ID: <20211005155946.513818-4-mst@redhat.com>
 References: <20211005155946.513818-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211005155946.513818-1-mst@redhat.com>
@@ -73,10 +72,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,126 +95,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
 
-Both virtqueue_packed_get_avail_bytes() and
-virtqueue_split_get_avail_bytes() access the region cache, but
-their caller also does. Simplify by having virtqueue_get_avail_bytes
-calling both with RCU lock held, and passing the caches as argument.
+This patch switches to open device fd in net_init_vhost_vpda(). This is
+used to prepare for the multiqueue support.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210906104318.1569967-4-philmd@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20210907090322.1756-2-jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- hw/virtio/virtio.c | 29 ++++++++++++-----------------
- 1 file changed, 12 insertions(+), 17 deletions(-)
+ net/vhost-vdpa.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index dd0ab433b8..cc69a9b881 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -984,28 +984,23 @@ static int virtqueue_split_read_next_desc(VirtIODevice *vdev, VRingDesc *desc,
-     return VIRTQUEUE_READ_DESC_MORE;
- }
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 912686457c..73d29a74ef 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -156,24 +156,19 @@ static NetClientInfo net_vhost_vdpa_info = {
+ };
  
-+/* Called within rcu_read_lock().  */
- static void virtqueue_split_get_avail_bytes(VirtQueue *vq,
-                             unsigned int *in_bytes, unsigned int *out_bytes,
--                            unsigned max_in_bytes, unsigned max_out_bytes)
-+                            unsigned max_in_bytes, unsigned max_out_bytes,
-+                            VRingMemoryRegionCaches *caches)
+ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
+-                               const char *name, const char *vhostdev)
++                               const char *name, int vdpa_device_fd)
  {
-     VirtIODevice *vdev = vq->vdev;
-     unsigned int max, idx;
-     unsigned int total_bufs, in_total, out_total;
--    VRingMemoryRegionCaches *caches;
-     MemoryRegionCache indirect_desc_cache = MEMORY_REGION_CACHE_INVALID;
-     int64_t len = 0;
-     int rc;
- 
--    RCU_READ_LOCK_GUARD();
--
-     idx = vq->last_avail_idx;
-     total_bufs = in_total = out_total = 0;
- 
-     max = vq->vring.num;
--    caches = vring_get_region_caches(vq);
--    if (!caches) {
--        goto err;
+     NetClientState *nc = NULL;
+     VhostVDPAState *s;
+-    int vdpa_device_fd = -1;
+     int ret = 0;
+     assert(name);
+     nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
+     snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
+     s = DO_UPCAST(VhostVDPAState, nc, nc);
+-    vdpa_device_fd = qemu_open_old(vhostdev, O_RDWR);
+-    if (vdpa_device_fd == -1) {
+-        return -errno;
 -    }
- 
-     while ((rc = virtqueue_num_heads(vq, idx)) > 0) {
-         MemoryRegionCache *desc_cache = &caches->desc;
-@@ -1124,32 +1119,28 @@ static int virtqueue_packed_read_next_desc(VirtQueue *vq,
-     return VIRTQUEUE_READ_DESC_MORE;
- }
- 
-+/* Called within rcu_read_lock().  */
- static void virtqueue_packed_get_avail_bytes(VirtQueue *vq,
-                                              unsigned int *in_bytes,
-                                              unsigned int *out_bytes,
-                                              unsigned max_in_bytes,
--                                             unsigned max_out_bytes)
-+                                             unsigned max_out_bytes,
-+                                             VRingMemoryRegionCaches *caches)
- {
-     VirtIODevice *vdev = vq->vdev;
-     unsigned int max, idx;
-     unsigned int total_bufs, in_total, out_total;
-     MemoryRegionCache *desc_cache;
--    VRingMemoryRegionCaches *caches;
-     MemoryRegionCache indirect_desc_cache = MEMORY_REGION_CACHE_INVALID;
-     int64_t len = 0;
-     VRingPackedDesc desc;
-     bool wrap_counter;
- 
--    RCU_READ_LOCK_GUARD();
-     idx = vq->last_avail_idx;
-     wrap_counter = vq->last_avail_wrap_counter;
-     total_bufs = in_total = out_total = 0;
- 
-     max = vq->vring.num;
--    caches = vring_get_region_caches(vq);
--    if (!caches) {
--        goto err;
--    }
- 
-     for (;;) {
-         unsigned int num_bufs = total_bufs;
-@@ -1250,6 +1241,8 @@ void virtqueue_get_avail_bytes(VirtQueue *vq, unsigned int *in_bytes,
-     uint16_t desc_size;
-     VRingMemoryRegionCaches *caches;
- 
-+    RCU_READ_LOCK_GUARD();
 +
-     if (unlikely(!vq->vring.desc)) {
-         goto err;
+     s->vhost_vdpa.device_fd = vdpa_device_fd;
+     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
+     if (ret) {
+-        qemu_close(vdpa_device_fd);
+         qemu_del_net_client(nc);
      }
-@@ -1268,10 +1261,12 @@ void virtqueue_get_avail_bytes(VirtQueue *vq, unsigned int *in_bytes,
+     return ret;
+@@ -201,6 +196,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+                         NetClientState *peer, Error **errp)
+ {
+     const NetdevVhostVDPAOptions *opts;
++    int vdpa_device_fd, ret;
  
-     if (virtio_vdev_has_feature(vq->vdev, VIRTIO_F_RING_PACKED)) {
-         virtqueue_packed_get_avail_bytes(vq, in_bytes, out_bytes,
--                                         max_in_bytes, max_out_bytes);
-+                                         max_in_bytes, max_out_bytes,
-+                                         caches);
-     } else {
-         virtqueue_split_get_avail_bytes(vq, in_bytes, out_bytes,
--                                        max_in_bytes, max_out_bytes);
-+                                        max_in_bytes, max_out_bytes,
-+                                        caches);
+     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+     opts = &netdev->u.vhost_vdpa;
+@@ -209,5 +205,16 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+                           (char *)name, errp)) {
+         return -1;
      }
- 
-     return;
+-    return net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, opts->vhostdev);
++
++    vdpa_device_fd = qemu_open_old(opts->vhostdev, O_RDWR);
++    if (vdpa_device_fd == -1) {
++        return -errno;
++    }
++
++    ret = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, vdpa_device_fd);
++    if (ret) {
++        qemu_close(vdpa_device_fd);
++    }
++
++    return ret;
+ }
 -- 
 MST
 
