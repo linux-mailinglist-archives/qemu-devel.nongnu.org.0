@@ -2,155 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D00422F9C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 20:05:01 +0200 (CEST)
-Received: from localhost ([::1]:44674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4FF0422FC8
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 20:13:41 +0200 (CEST)
+Received: from localhost ([::1]:34206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXooG-0000xa-12
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 14:05:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46068)
+	id 1mXowe-0005K2-Ct
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 14:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1mXnbB-0003gc-Ib; Tue, 05 Oct 2021 12:47:25 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:24470)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mXnsX-0006Rz-Iw
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 13:05:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonah.palmer@oracle.com>)
- id 1mXnb7-00065v-Rt; Tue, 05 Oct 2021 12:47:25 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 195FvInC019448; 
- Tue, 5 Oct 2021 16:47:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2021-07-09;
- bh=mikdf42moPKdwmIKwyFvM1p5+S6NORMP6il3v5RFB1w=;
- b=ZafQ9XcvAsqgKR/ihY/a9388OsAv8hpExf//P2EMDm4BPH/DVWlH3ZYxC5nZb8hkLAZ/
- yC8pXYz74OfdMNX0daLgWZJIh9jSlz8SRd5lN+gdYSV+yki85w62pGY2XVP0/D8WI4SP
- p1uYDSSaqOyi7knAiDr2+bI+wW/IyswiqoTIXP3b7DyRbPdhpzQ6ic6EGA/QYqV95kso
- xmQjHYeVbjZ326s/E0wGxEB6eIq+pUAKH0ZBwys++BE3FWob+ocR8CPAmWxfIZ2QAjgq
- mcY1G0noN2W6rjmS1Hg5gdxjkQYLws1LKnsbzHlw5AE+1kJ3i2cugdpCQBzpsfS7q3ec uQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3bg3p5hcxy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 05 Oct 2021 16:47:09 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 195Gig9j158848;
- Tue, 5 Oct 2021 16:46:43 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com
- (mail-sn1anam02lp2046.outbound.protection.outlook.com [104.47.57.46])
- by userp3020.oracle.com with ESMTP id 3bf16tbcwh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 05 Oct 2021 16:46:43 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BaIFL6G76bMihec2XacS7B0cFu0Jiek1rIgAub1bAl6TiGo7i6ook4O6B7D1T6oE3EA81FevK6qDFUTz2MwTx1IuOTUngwMeY5Z9UFXegz3EgNzV790emrlKBNy05svxSPr/IZEMBIi4rC8jQbuavrbWLFoEpI7IcWHLmHMqmj7hWvIm2git6vQJmaGuQwunbui69BwcoV/ZKsxNvoeBjQZOabSnv4pnAb7nChuliQ68Wjl5uX97o5F91b71hZZyTDY6+3ChibprDG3y3jOdFzc3LRwe3yxxmCedYCy8EfVLJXROeStg1Xr94EgSxuuOjCuVR0mrKt1lLDO++xGM+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mikdf42moPKdwmIKwyFvM1p5+S6NORMP6il3v5RFB1w=;
- b=LhPS0U75WduNDZioJLFBdC2q/6XcQ+BICrDWxJRvlgYVJ8Wiz04+2+yMNd1gyIQdpveRAhtzC/UxUIoSV1MBdhamJOjqxKXDrEE0VbQ6pq197KXW9vipVsfEENINGBCs7s/TahlpGb95Ij+mgs+PXd3AjKkZ/CG4MG9D9BwQoeZHQi0Snk6GVL8pDxcgZ8n26NRbCY236K17N42y4hFNDoOZXdR166RDhfrlfROMtYYMLdgDboAQXfrWVD7gI3LQ3vM9dTAgkcgKfnkqLZCHQsAgJXrCqquUcU4t8d+6hFldqZCEjQIwedSXzCgJndMLQNWpV004m9oZltmDrq1Drg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mikdf42moPKdwmIKwyFvM1p5+S6NORMP6il3v5RFB1w=;
- b=LAelimrOkuZfOg8oi0SGziTclOWBvbYglRJW8V5HSdSIJV80vAkGEW8BaTkG6w5yjmdNbLoZ2c8R2Tp0q/r950AYHxFsj47NOow/sDBSv68zvBDaqIPMxDfclo9CzGQOMIc+ZIRq1iii0i5G7zArJQzFJbfOBETPnG7GOCScV3w=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
-Received: from SA2PR10MB4667.namprd10.prod.outlook.com (2603:10b6:806:111::21)
- by SN6PR10MB2942.namprd10.prod.outlook.com (2603:10b6:805:d7::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Tue, 5 Oct
- 2021 16:46:41 +0000
-Received: from SA2PR10MB4667.namprd10.prod.outlook.com
- ([fe80::95e7:72:edfe:3da9]) by SA2PR10MB4667.namprd10.prod.outlook.com
- ([fe80::95e7:72:edfe:3da9%8]) with mapi id 15.20.4566.022; Tue, 5 Oct 2021
- 16:46:41 +0000
-From: Jonah Palmer <jonah.palmer@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 6/8] qmp: add QMP commands for virtio/vhost queue-status
-Date: Tue,  5 Oct 2021 12:45:51 -0400
-Message-Id: <1633452353-7169-7-git-send-email-jonah.palmer@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1633452353-7169-1-git-send-email-jonah.palmer@oracle.com>
-References: <1633452353-7169-1-git-send-email-jonah.palmer@oracle.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SN7PR04CA0095.namprd04.prod.outlook.com
- (2603:10b6:806:122::10) To SA2PR10MB4667.namprd10.prod.outlook.com
- (2603:10b6:806:111::21)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mXnsN-00019J-Q0
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 13:05:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633453510;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=01/iqVrlmGNGjTs/MDk51h7Ec8EBHcUCJSH58ltOJas=;
+ b=DHsy2QD9HAIOHvfECNytzmk4y3TngrIZiWdEPbiiU3mN8QYGYvUzMwBAbDlsL/E8hqR8r8
+ y3CUEAAniIo5zeDFx2C9l4+KO9T7fa8TwucuhMx4XIanTktgsBtt8tyqUYvwlegLfd9MXY
+ 4KIPCuV9Y4QKKWb4FKpoyN7euAmdYzI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-293-wipWCjgDPDa6RWSeHot64w-1; Tue, 05 Oct 2021 13:05:09 -0400
+X-MC-Unique: wipWCjgDPDa6RWSeHot64w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15B165074C
+ for <qemu-devel@nongnu.org>; Tue,  5 Oct 2021 17:05:08 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AA35A1972E;
+ Tue,  5 Oct 2021 17:05:06 +0000 (UTC)
+Date: Tue, 5 Oct 2021 19:05:05 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 6/6] tests/qapi-schema: Test cases for aliases
+Message-ID: <YVyFwWHY7a7CKMxN@redhat.com>
+References: <YTt0G1cs+BweXOMD@redhat.com> <87bl4vedma.fsf@dusky.pond.sub.org>
+ <YUB0BcZUwwwecrFl@redhat.com> <87k0jj8evk.fsf@dusky.pond.sub.org>
+ <YUG71uATYCwpRyQH@redhat.com> <8735q3y5db.fsf@dusky.pond.sub.org>
+ <YUSuThJtW9ar2wCY@redhat.com> <87a6jrimaf.fsf@dusky.pond.sub.org>
+ <YVsKpClmGgq5ki7r@redhat.com> <87mtnnvay7.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Received: from jonpalme-lnx.us.oracle.com (209.17.40.39) by
- SN7PR04CA0095.namprd04.prod.outlook.com (2603:10b6:806:122::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18 via Frontend
- Transport; Tue, 5 Oct 2021 16:46:38 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f4bc135c-5734-463f-857b-08d9881fb4ba
-X-MS-TrafficTypeDiagnostic: SN6PR10MB2942:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR10MB2942D4F01543A4D5A129C976E8AF9@SN6PR10MB2942.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:227;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: D7DCHYb1LnnK45O3+OxWKNqyKI8Deg9A2NiMJSBnYhuK+kzU/XHuH5OraovJIQSSZt3Rj4Bij8WF3wTzwc83GFq55vv1ZxozbtCh6Klw3QnhDv3OYg90QFqss+JwM/Pfk20WVahEsmxbJL3dzHtVnM0ZgiBJlyq6mtbKLDeuxsYlIbJoXlfcurzM3CoeKVgQoKvoDJDJmbNLOsMRGVz295jU8BfE5GBnTu0LjYSae60ZiigDhqtxtKzH1EJFTJNjkIl52qEkZuF8e/wukf+zDEXdOXQZAstp9Op12TijuaBAxKsC8x5ap1L5Al6FEOhDQ/tlyWkgvq5fwIGHwA6focmWXJ+aMKVjmE8xvKldC0vRm8/n3umYdusvGj1g4SqYUvg8fODkTRakZwTWyIjpBEMiqD7LtWX/FFPNPuXzgxxC8V6n62i7kHDU4tsJypD/aKF9SZRA/FytWeiU16Rl5QTLkVlFkU6oVPWFLzuchTptRzkDo/5V0rmC4lM/5SJU7JkDzadcAlZE9/XtgkHriK4jUaj/cqOntGWp52I4D/6c6UMY+rI8Rn11ByHYD9U+BQs2dawGzcvsRkIwO3SEP5nCSX/GI05GPVAMoM2Ch9hJj5pHRsJoJPQqhcu0XjmnOs0p+mYFxR1v/k7tY8R6OtZHG1NVngiTPh4PbDnlWny1U8nGibJHXpn2pvNHKtsvNOAL4aGFSoy/N9sNUagfpg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA2PR10MB4667.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(6666004)(5660300002)(66476007)(66556008)(6486002)(508600001)(6916009)(4326008)(66946007)(8936002)(7416002)(86362001)(956004)(2616005)(26005)(316002)(7696005)(52116002)(44832011)(2906002)(8676002)(36756003)(38350700002)(38100700002)(186003)(30864003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9mic3rf3yfql9OZ8pheYi0UGpDtrA1G0rTTJShBTDaNj4x5PgO3ugIylFirb?=
- =?us-ascii?Q?CM7qqd9ZfLWk7J1FyyUqkuNg1CZlt3jmqETXuzYcwXFrABLa7/ja/fJNE4p1?=
- =?us-ascii?Q?gTeRIO5N7CGSf5FUpwlEazKFWU9zt2dqmNhlKDK+NbLliucCOk9zdXKXVZS0?=
- =?us-ascii?Q?da7pyhYe4C+o3R7OZZHh5+wiOtdVAqCtY+E5q8PSsl6QXHTj2AfnQIVty1fc?=
- =?us-ascii?Q?jcE2u/UzXVcxCG5vq8Px4gqVbvUIwNak1gJn4GCxjIB1UDAr1MwPp0wxhcOr?=
- =?us-ascii?Q?vhuQP9eF2ZBRaoK/dLR6piHUw7PxhNTCUtZ4n7Vs+GccSU9MGq5O9Jns8CpU?=
- =?us-ascii?Q?a/TYQ8Hg1gCPMyRhRkCSJFOJjZpcOqNqLd8gLLTnadWB2lWYSlJCwC5A3vCi?=
- =?us-ascii?Q?LHSovdSkNou5gNfsktQ9HMKt9YdEzh1hOpkQcJoKnNPu9u53YHGYKv2hosf1?=
- =?us-ascii?Q?kzeJbhjoBycOurjLyFDOf4ubsq8CcfVRDvaFr1oiJRNiR/aaVWDKUpyEfZsC?=
- =?us-ascii?Q?aQou4xkvv5QwtO9T1sSB6gE1KrPYmk1TBseoZvh1ienZs2pYFB78MB3BEBZl?=
- =?us-ascii?Q?BmdZI+kaMw9bLXt/qXek52YYLLdV7dh1twbXurqKpg4yDgEMn2oG8u2LOwBN?=
- =?us-ascii?Q?e9yaZYHUNEvyQv81AR9MeQzuMvuPzctmSDEeaRrNNjE9Iwz9IqPZTOMM8ihp?=
- =?us-ascii?Q?sXwzmA1Wfvqr+e1p+/YYznb2KoyZ0zJk6ZVSBvqCT11kl2M3Wbn7SFEF7RTj?=
- =?us-ascii?Q?se+PSOEwa4Qe+tP6xHsWKFOwCTh8Re3UXsZM3bXGhuR8tY/u6Uo4c9ITg1QI?=
- =?us-ascii?Q?PUwlkNtptpjfSxk/+tAAL06TZ2RVMfFVNuNLbRe4jpWG5KjC626uz3TBfaqZ?=
- =?us-ascii?Q?QLRniIfCNnzSZojYXFLjR3s94jtFMrdfw/tfuDeLH50rwYZhcwV71C7U2D+f?=
- =?us-ascii?Q?9b7N/oRbCOi+VB3w980pBXOtvxKUM6g1K57D3MjZbxXoBE/YUE+LnV9tzjGc?=
- =?us-ascii?Q?sI5LbzcLaIhYFJ9ljZ57FbzsewenxLYHao+fiNazF+vfu8DCEteyT+rcLfBw?=
- =?us-ascii?Q?toLY7ECrjjdhTJgLMvr8+0gCG1rl7n4snxiG3U5IpC2iI5tJGzP4uLxSdNPL?=
- =?us-ascii?Q?uwQ/ZsN2eZzfzWnfRIjvTbaz8mUx2gtpmJ2SPrjFnz+jcF4RmnPMBYO0qKah?=
- =?us-ascii?Q?jBdPvKvOoI7A4EAwHb31FU/3l3h2ESoNS5ZqEFSLR3sNio2hdX+jHV+1miI/?=
- =?us-ascii?Q?S7Aez+/6Lqkscv5eRhCzqHvTLqEaTvid5J5l/ua02OPHoQd6YKwr3YOqJX0Z?=
- =?us-ascii?Q?wfY6g2TOTeN+GAp0zmhmx/VX?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4bc135c-5734-463f-857b-08d9881fb4ba
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR10MB4667.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2021 16:46:40.8655 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LrHqeHDN+p2OPHGqCzjgGSxPfhPL6A8U9ucWCvYEyBtsSLAwCoEvI7UQfy0fYPJPYn5a8PhH+4WFjT9Gse87Lg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR10MB2942
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10128
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0
- phishscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2110050100
-X-Proofpoint-ORIG-GUID: 4gqtAOuYZ0tRCbRxta8XSN9bHLNR_KvX
-X-Proofpoint-GUID: 4gqtAOuYZ0tRCbRxta8XSN9bHLNR_KvX
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=jonah.palmer@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <87mtnnvay7.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -164,444 +79,507 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, mst@redhat.com, kraxel@redhat.com, si-wei.liu@oracle.com,
- joao.m.martins@oracle.com, raphael.norwitz@nutanix.com, qemu-block@nongnu.org,
- david@redhat.com, armbru@redhat.com, marcandre.lureau@redhat.com,
- thuth@redhat.com, amit@kernel.org, michael.roth@amd.com, dgilbert@redhat.com,
- eric.auger@redhat.com, dmitrii.stepanov@cloud.ionos.com, stefanha@redhat.com,
- boris.ostrovsky@oracle.com, kwolf@redhat.com, laurent@vivier.eu,
- mreitz@redhat.com, jasonwang@redhat.com, pbonzini@redhat.com
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+Am 05.10.2021 um 15:49 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > Am 02.10.2021 um 15:33 hat Markus Armbruster geschrieben:
+> >> I apologize for this wall of text.  It's a desparate attempt to cut
+> >> through the complexity and my confusion, and make sense of the actual
+> >> problems we're trying to solve.
+> >> 
+> >> So, what problems exactly are we trying to solve?
+> >
+> > I'll start with replying to your final question because I think it's
+> > more helpful to start with the big picture than with details.
+> >
+> > So tools like libvirt want to have a single consistent interface to
+> > configure things on startup and at runtime. We also intend to support
+> > configuration files that should this time support all of the options and
+> > not just a few chosen ones.
+> 
+> Yes.
+> 
+> > The hypothesis is that QAPIfying the command line is the correct
+> > solution for both of these problems, i.e. all available command line
+> > options must be present in the QAPI schema and will be processed by a
+> > single parser shared with QMP to make sure they are consistent.
+> 
+> Yes.
+> 
+> This leads us to JSON option arguments and configuration files.
+> Well-suited for management applications that already use QMP.
+> 
+> > Adding QAPIfied versions of individual command line options are steps
+> > towards this goal. As soon as they exist for every option, the final
+> > conversion from an open coded getopt() loop (or in fact a hand crafted
+> > parser in the case of vl.c) to something generated from the QAPI schema
+> > should be reasonably easy.
+> 
+> Yes.
+> 
+> > You're right that adding a second JSON-based command line interface for
+> > every option can already achieve the goal of providing a unified
+> > external interface, at the cost of (interface and code) duplication. Is
+> > this duplication desirable? Certainly no. Is it acceptable? You might
+> > get different opinions on this one.
+> 
+> We'd certainly prefer CLI options to match corresponding QMP commands
+> exactly.
+> 
+> Unfortunately, existing CLI options deviate from corresponding QMP
+> commands, and existing CLI options without corresponding QMP commands
+> may violate QMP design rules.
+> 
+> Note: these issues pertain to human-friendly option syntax.  The
+> machine-friendly option syntax is still limited to just a few options,
+> and it does match QMP there.
 
-These new commands show the internal status of a VirtIODevice's
-VirtQueue and a vhost device's vhost_virtqueue (if active).
+On the other hand, we only have a handful of existing options that are
+very complex. Most of them aren't even structured and just take a single
+scalar value. So I'm relatively sure that we know the big ones, and
+we're working on them.
 
-Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
----
- hw/virtio/virtio-stub.c |  14 +++
- hw/virtio/virtio.c      | 103 +++++++++++++++++++
- qapi/virtio.json        | 262 ++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 379 insertions(+)
+Another point here is that I would argue that there is a difference
+between existing options and human-friendly options. Not all existing
+options are human-friendly just because they aren't machine friendly
+either, and there is probably potential for human-friendly syntax that
+doesn't exist yet.
 
- [Jonah: Added vhost support for qmp_x_debug_virtio_queue_status such
-  that if a VirtIODevice's vhost device is active, shadow_avail_idx
-  is hidden and last_avail_idx is retrieved from the vhost op
-  vhost_get_vring_base().
+So I would treat support for existing options (i.e. compatibility) and
+support for human-friendly options (i.e. usability) as two separate
+problems.
 
-  Also added a new QMP command qmp_x_debug_virtio_vhost_queue_status
-  that shows the interal status of a VirtIODevice's vhost device if
-  it's active.]
+> > In my opinion, we should try to get rid of hand crafted parsers where
+> > it's reasonably possible, and take advantage of the single unified
+> > option structure that QAPI provides. -chardev specifically has a hand
+> > crafted parser that essentially duplicates the automatically generated
+> > QAPI visitor code, except for the nesting and some differences in option
+> > names.
+> 
+> We should definitely parse JSON option arguments with the QAPI
+> machinery, and nothing more.
 
-diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
-index ddb592f..387803d 100644
---- a/hw/virtio/virtio-stub.c
-+++ b/hw/virtio/virtio-stub.c
-@@ -17,3 +17,17 @@ VirtioStatus *qmp_x_debug_virtio_status(const char* path, Error **errp)
- {
-     return qmp_virtio_unsupported(errp);
- }
-+
-+VirtVhostQueueStatus *qmp_x_debug_virtio_vhost_queue_status(const char *path,
-+                                                            uint16_t queue,
-+                                                            Error **errp)
-+{
-+    return qmp_virtio_unsupported(errp);
-+}
-+
-+VirtQueueStatus *qmp_x_debug_virtio_queue_status(const char *path,
-+                                                 uint16_t queue,
-+                                                 Error **errp)
-+{
-+    return qmp_virtio_unsupported(errp);
-+}
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index f0e2b40..8d74dbf 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -4284,6 +4284,109 @@ VirtioStatus *qmp_x_debug_virtio_status(const char *path, Error **errp)
-     return status;
- }
- 
-+VirtVhostQueueStatus *qmp_x_debug_virtio_vhost_queue_status(const char *path,
-+                                                            uint16_t queue,
-+                                                            Error **errp)
-+{
-+    VirtIODevice *vdev;
-+    VirtVhostQueueStatus *status;
-+
-+    vdev = virtio_device_find(path);
-+    if (vdev == NULL) {
-+        error_setg(errp, "Path %s is not a VirtIODevice", path);
-+        return NULL;
-+    }
-+
-+    if (!vdev->vhost_started) {
-+        error_setg(errp, "Error: vhost device has not started yet");
-+        return NULL;
-+    }
-+
-+    VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    struct vhost_dev *hdev = vdc->get_vhost(vdev);
-+
-+    if (queue < hdev->vq_index || queue >= hdev->vq_index + hdev->nvqs) {
-+        error_setg(errp, "Invalid vhost virtqueue number %d", queue);
-+        return NULL;
-+    }
-+
-+    status = g_new0(VirtVhostQueueStatus, 1);
-+    status->device_name = g_strdup(vdev->name);
-+    status->kick = hdev->vqs[queue].kick;
-+    status->call = hdev->vqs[queue].call;
-+    status->desc = (uint64_t)(unsigned long)hdev->vqs[queue].desc;
-+    status->avail = (uint64_t)(unsigned long)hdev->vqs[queue].avail;
-+    status->used = (uint64_t)(unsigned long)hdev->vqs[queue].used;
-+    status->num = hdev->vqs[queue].num;
-+    status->desc_phys = hdev->vqs[queue].desc_phys;
-+    status->desc_size = hdev->vqs[queue].desc_size;
-+    status->avail_phys = hdev->vqs[queue].avail_phys;
-+    status->avail_size = hdev->vqs[queue].avail_size;
-+    status->used_phys = hdev->vqs[queue].used_phys;
-+    status->used_size = hdev->vqs[queue].used_size;
-+
-+    return status;
-+}
-+
-+VirtQueueStatus *qmp_x_debug_virtio_queue_status(const char *path,
-+                                                 uint16_t queue,
-+                                                 Error **errp)
-+{
-+    VirtIODevice *vdev;
-+    VirtQueueStatus *status;
-+
-+    vdev = virtio_device_find(path);
-+    if (vdev == NULL) {
-+        error_setg(errp, "Path %s is not a VirtIODevice", path);
-+        return NULL;
-+    }
-+
-+    if (queue >= VIRTIO_QUEUE_MAX || !virtio_queue_get_num(vdev, queue)) {
-+        error_setg(errp, "Invalid virtqueue number %d", queue);
-+        return NULL;
-+    }
-+
-+    status = g_new0(VirtQueueStatus, 1);
-+    status->device_name = g_strdup(vdev->name);
-+    status->queue_index = vdev->vq[queue].queue_index;
-+    status->inuse = vdev->vq[queue].inuse;
-+    status->vring_num = vdev->vq[queue].vring.num;
-+    status->vring_num_default = vdev->vq[queue].vring.num_default;
-+    status->vring_align = vdev->vq[queue].vring.align;
-+    status->vring_desc = vdev->vq[queue].vring.desc;
-+    status->vring_avail = vdev->vq[queue].vring.avail;
-+    status->vring_used = vdev->vq[queue].vring.used;
-+    status->used_idx = vdev->vq[queue].used_idx;
-+    status->signalled_used = vdev->vq[queue].signalled_used;
-+    status->signalled_used_valid = vdev->vq[queue].signalled_used_valid;
-+
-+    if (vdev->vhost_started) {
-+        VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
-+        struct vhost_dev *hdev = vdc->get_vhost(vdev);
-+
-+        /* check if vq index exists for vhost as well  */
-+        if (queue >= hdev->vq_index && queue < hdev->vq_index + hdev->nvqs) {
-+            status->has_last_avail_idx = true;
-+
-+            int vhost_vq_index =
-+                hdev->vhost_ops->vhost_get_vq_index(hdev, queue);
-+            struct vhost_vring_state state = {
-+                .index = vhost_vq_index,
-+            };
-+
-+            status->last_avail_idx =
-+                hdev->vhost_ops->vhost_get_vring_base(hdev, &state);
-+        }
-+    } else {
-+        status->has_shadow_avail_idx = true;
-+        status->has_last_avail_idx = true;
-+        status->last_avail_idx = vdev->vq[queue].last_avail_idx;
-+        status->shadow_avail_idx = vdev->vq[queue].shadow_avail_idx;
-+    }
-+
-+    return status;
-+}
-+
- static const TypeInfo virtio_device_info = {
-     .name = TYPE_VIRTIO_DEVICE,
-     .parent = TYPE_DEVICE,
-diff --git a/qapi/virtio.json b/qapi/virtio.json
-index 678bfe8..de09d0e 100644
---- a/qapi/virtio.json
-+++ b/qapi/virtio.json
-@@ -815,3 +815,265 @@
-   'data': { 'path': 'str' },
-   'returns': 'VirtioStatus'
- }
-+
-+##
-+# @VirtQueueStatus:
-+#
-+# Status of a VirtIODevice VirtQueue
-+#
-+# @device-name: VirtIODevice name
-+#
-+# @queue-index: VirtQueue queue_index
-+#
-+# @inuse: VirtQueue inuse
-+#
-+# @vring-num: VirtQueue vring.num
-+#
-+# @vring-num-default: VirtQueue vring.num_default
-+#
-+# @vring-align: VirtQueue vring.align
-+#
-+# @vring-desc: VirtQueue vring.desc
-+#
-+# @vring-avail: VirtQueue vring.avail
-+#
-+# @vring-used: VirtQueue vring.used
-+#
-+# @last-avail-idx: VirtQueue last_avail_idx or return of vhost_dev
-+#                  vhost_get_vring_base (if vhost active)
-+#
-+# @shadow-avail-idx: VirtQueue shadow_avail_idx
-+#
-+# @used-idx: VirtQueue used_idx
-+#
-+# @signalled-used: VirtQueue signalled_used
-+#
-+# @signalled-used-valid: VirtQueue signalled_used_valid
-+#
-+# Since: 6.2
-+#
-+##
-+
-+{ 'struct': 'VirtQueueStatus',
-+    'data': {
-+      'device-name': 'str',
-+      'queue-index': 'uint16',
-+      'inuse': 'uint32',
-+      'vring-num': 'uint32',
-+      'vring-num-default': 'uint32',
-+      'vring-align': 'uint32',
-+      'vring-desc': 'uint64',
-+      'vring-avail': 'uint64',
-+      'vring-used': 'uint64',
-+      '*last-avail-idx': 'uint16',
-+      '*shadow-avail-idx': 'uint16',
-+      'used-idx': 'uint16',
-+      'signalled-used': 'uint16',
-+      'signalled-used-valid': 'bool'
-+    }
-+}
-+
-+##
-+# @x-debug-virtio-queue-status:
-+#
-+# Return the status of a given VirtIODevice VirtQueue
-+#
-+# @path: VirtIO device canonical QOM path
-+#
-+# @queue: VirtQueue number to examine
-+#
-+# Returns: Status of the VirtQueue
-+#
-+# Notes: last_avail_idx will not be displayed in the case where
-+#        the selected VirtIODevice has a running vhost device
-+#        and the VirtIODevice VirtQueue index (queue) does not
-+#        exist for the corresponding vhost device vhost_virtqueue.
-+#        Also, shadow_avail_idx will not be displayed in the case
-+#        where the selected VirtIODevice has a running vhost device.
-+#
-+# Since: 6.2
-+#
-+# Examples:
-+#
-+# 1. Get VirtQueue status for virtio-vsock (vhost-vsock running)
-+#
-+# -> { "execute": "x-debug-virtio-queue-status",
-+#      "arguments": {
-+#          "path": "/machine/peripheral/vsock0/virtio-backend",
-+#          "queue": 1
-+#      }
-+#    }
-+# <- { "return": {
-+#          "signalled-used": 0,
-+#          "inuse": 0,
-+#          "vring-align": 4096,
-+#          "vring-desc": 5217370112,
-+#          "signalled-used-valid": false,
-+#          "vring-num-default": 128,
-+#          "vring-avail": 5217372160,
-+#          "queue-index": 1,
-+#          "last-avail-idx": 0,
-+#          "vring-used": 5217372480,
-+#          "used-idx": 0,
-+#          "device-name": "vhost-vsock",
-+#          "vring-num": 128
-+#      }
-+#    }
-+#
-+# 2. Get VirtQueue status for virtio-serial (no vhost)
-+#
-+# -> { "execute": "x-debug-virtio-queue-status",
-+#      "arguments": {
-+#          "path": "/machine/peripheral-anon/device[0]/virtio-backend",
-+#          "queue": 20
-+#       }
-+#    }
-+# <- { "return": {
-+#          "signalled-used": 0,
-+#          "inuse": 0,
-+#          "vring-align": 4096,
-+#          "vring-desc": 5182074880,
-+#          "signalled-used-valid": false,
-+#          "vring-num-default": 128,
-+#          "vring-avail": 5182076928,
-+#          "queue-index": 20,
-+#          "last-avail-idx": 0,
-+#          "vring-used": 5182077248,
-+#          "used-idx": 0,
-+#          "device-name": "virtio-serial",
-+#          "shadow-avail-idx": 0,
-+#          "vring-num": 128
-+#      }
-+#    }
-+#
-+##
-+
-+{ 'command': 'x-debug-virtio-queue-status',
-+  'data': { 'path': 'str', 'queue': 'uint16' },
-+  'returns': 'VirtQueueStatus'
-+}
-+
-+##
-+# @VirtVhostQueueStatus:
-+#
-+# Status of a vhost device vhost_virtqueue
-+#
-+# @device-name: VirtIODevice name
-+#
-+# @kick: vhost_virtqueue kick
-+#
-+# @call: vhost_virtqueue call
-+#
-+# @desc: vhost_virtqueue desc
-+#
-+# @avail: vhost_virtqueue avail
-+#
-+# @used: vhost_virtqueue used
-+#
-+# @num: vhost_virtqueue num
-+#
-+# @desc-phys: vhost_virtqueue desc_phys
-+#
-+# @desc-size: vhost_virtqueue desc_size
-+#
-+# @avail-phys: vhost_virtqueue avail_phys
-+#
-+# @avail-size: vhost_virtqueue avail_size
-+#
-+# @used-phys: vhost_virtqueue used_phys
-+#
-+# @used-size: vhost_virtqueue used_size
-+#
-+# Since: 6.2
-+#
-+##
-+
-+{ 'struct': 'VirtVhostQueueStatus',
-+    'data': {
-+      'device-name': 'str',
-+      'kick': 'int',
-+      'call': 'int',
-+      'desc': 'uint64',
-+      'avail': 'uint64',
-+      'used': 'uint64',
-+      'num': 'int',
-+      'desc-phys': 'uint64',
-+      'desc-size': 'uint32',
-+      'avail-phys': 'uint64',
-+      'avail-size': 'uint32',
-+      'used-phys': 'uint64',
-+      'used-size': 'uint32'
-+    }
-+}
-+
-+##
-+# @x-debug-virtio-vhost-queue-status:
-+#
-+# Return the status of a given vhost device vhost_virtqueue
-+#
-+# @path: VirtIO device canonical QOM path
-+#
-+# @queue: vhost_virtqueue number to examine
-+#
-+# Returns: Status of the vhost_virtqueue
-+#
-+# Since: 6.2
-+#
-+# Examples:
-+#
-+# 1. Get vhost_virtqueue status for vhost-crypto
-+#
-+# -> { "execute": "x-debug-virtio-vhost-queue-status",
-+#      "arguments": {
-+#          "path": "/machine/peripheral/crypto0/virtio-backend",
-+#          "queue": 0
-+#      }
-+#    }
-+# <- { "return": {
-+#          "avail-phys": 5216124928,
-+#          "used-phys": 5216127040,
-+#          "avail-size": 2054,
-+#          "desc-size": 16384,
-+#          "used-size": 8198,
-+#          "desc": 140141447430144,
-+#          "num": 1024,
-+#          "device-name": "virtio-crypto",
-+#          "call": 0,
-+#          "avail": 140141447446528,
-+#          "desc-phys": 5216108544,
-+#          "used": 140141447448640,
-+#          "kick": 0
-+#      }
-+#    }
-+#
-+# 2. Get vhost_virtqueue status for vhost-vsock
-+#
-+# -> { "execute": "x-debug-virtio-vhost-queue-status",
-+#      "arguments": {
-+#          "path": "/machine/peripheral/vsock0/virtio-backend",
-+#          "queue": 0
-+#      }
-+#    }
-+# <- { "return": {
-+#          "avail-phys": 5182261248,
-+#          "used-phys": 5182261568,
-+#          "avail-size": 262,
-+#          "desc-size": 2048,
-+#          "used-size": 1030,
-+#          "desc": 140141413580800,
-+#          "num": 128,
-+#          "device-name": "vhost-vsock",
-+#          "call": 0,
-+#          "avail": 140141413582848,
-+#          "desc-phys": 5182259200,
-+#          "used": 140141413583168,
-+#          "kick": 0
-+#      }
-+#    }
-+#
-+##
-+
-+{ 'command': 'x-debug-virtio-vhost-queue-status',
-+  'data': { 'path': 'str', 'queue': 'uint16' },
-+  'returns': 'VirtVhostQueueStatus'
-+}
--- 
-1.8.3.1
+Yes, no doubt. (And we don't even consistently do that yet, like
+device-add going through QemuOpts after going through QAPI and throwing
+away all type information and silently ignoring anything it doesn't know
+to handle.)
+
+> Parsing human-friendly arguments with it is desirable, but the need for
+> backward compatibility can make it difficult.  Even where compatibility
+> is of no concern, simply swapping concrete JSON syntax for dotted keys
+> may result in human interfaces that are less than friendly.
+> 
+> Are we in agreement that this is the problem at hand?
+
+As far as I am concerned, compatibility is the problem at hand,
+usability isn't.
+
+This doesn't mean that I'm opposed to having actually human friendly
+options, quite the opposite. But getting machine friendly options is
+already a big project. Making human interfaces friendlier would be
+adding another project of similar size, and I don't feel like tackling
+a second project at the same time when the first one is already hard.
+
+> > Aliases are one tool that can help bridge these differences in a generic
+> > way with minimal effort in the individual case. They are not _necessary_
+> > to solve the problem; we could instead just use manually written code to
+> > manipulate input QDicts so that QAPI visitors accept them. Even with
+> > aliases, there are a few things left in the chardev code that are
+> > converted this way. Aliases just greatly reduce the amount of this code
+> > and make the conversion declarative instead.
+> 
+> Understood.
+> 
+> > Now a key point in the previous paragraph is that aliases add a generic
+> > way to do this. So even if they are immediately motivated by -chardev,
+> > it might be worth looking at other cases they could enable if you think
+> > that -chardev alone isn't sufficient justification to have this tool.
+> > I guess this is the point where things become a bit less clear because
+> > people are just hand waving with vague ideas for additional uses.
+> >
+> > Do we need to invest more thought on these other cases? We probably do
+> > if it makes a difference for the answer to the question whether we want
+> > to add aliases to our toolbox. Does it?
+> 
+> I hope we can make a case for aliases without looking beyond CLI
+> QAPIfication.  That's a wide field already, with enough opportunity to
+> get lost in details.
+> 
+> If we later put aliases to other uses, we might have to adapt them some.
+> That's okay.  Designing for one problem we have and understand has a
+> much better chance of success than trying to design for all problems we
+> might have.
+> 
+> There are many CLI options to be QAPIfied.  -chardev is one of the more
+> thornier ones, which makes it a useful example.
+
+Good, I agree.
+
+> >> But what about the dotted keys argument?
+> >> 
+> >> One point of view is the difference between the JSON and the dotted keys
+> >> argument should be concrete syntax only.  Fine print: there may be
+> >> arguments dotted keys can't express, but let's ignore that here.
+> >> 
+> >> Another point of view is that dotted keys arguments are to JSON
+> >> arguments what HMP is to QMP: a (hopefully) human-friendly layer on top,
+> >> where we have a certain degree of freedom to improve on the
+> >> machine-friendly interface for human use.
+> >
+> > This doesn't feel unreasonable because with HMP, there is precedence.
+> > But this is not all what we have used dotted key syntax for so far. I'm
+> > not against making a change there if we feel it makes sense, but we
+> > should be clear that it is a change.
+> 
+> Our first uses of dotted keys were green fields.  Sticking to QAPI/QMP's
+> abstract syntax was simplest.
+> 
+> > I think we all agree that -blockdev isn't human-friendly. Dotted key
+> > syntax makes it humanly possible to use it on the command line, but
+> > friendly is something else entirely. It is still a 1:1 mapping of QMP to
+> > the command line, and this is how we advertised it, too.
+> 
+> Yes.
+> 
+> >                                                          This has some
+> > important advantages, like we don't have a separate parser for a
+> > human-friendly syntax, but the generic keyval parser covers it.
+> 
+> There are two generic parts in play: the keyval parser, and the QAPI
+> input visitor.
+
+Fair point.
+
+> Using identical abstract syntax both for JSON and dotted keys arguments
+> makes use of both parts simple: pass the argument to
+> qobject_input_visitor_new_str() to create a visitor, then visit the QAPI
+> type with it.
+> 
+> When abstract syntax differs, using the keyval parser is still simple,
+> but to use the QAPI input visitor, we need separate QAPI types.  Massive
+> code duplication in the QAPI schema.
+> 
+> To avoid the duplication, we can instead translate the parse tree
+> produced for the dotted keys argument.  Plenty of boring code.
+> 
+> In short: yes, using the same abstract syntax for both has advantages.
+
+Even with duplication in the schema, you still have to translate unless
+you want to duplicate all of the logic, too. The difference is just that
+instead of translating between QObjects, you would be translating
+between C structs.
+
+So yes, using different abstract syntax means translation, which in turn
+can mean plenty of boring code (hopefully - might also be buggy rather
+than boring) if we don't support ways to automate the conversion.
+
+> > HMP in contrast means separate code for every command, or translated to
+> > the CLI for each command line option. HMP is not defined in QAPI, it's
+> > a separate thing that just happens to call into QAPI-based QMP code in
+> > the common case.
+> >
+> > Is this what you have in mind for non-JSON command line options?
+> 
+> We should separate the idea "HMP wraps around QMP" from its
+> implementation as handwritten, boilerplate-heavy code.
+> 
+> All but the latest, QAPI-based CLI options work pretty much like HMP: a
+> bit of code generation (hxtool), a mix of common and ad hoc parsers,
+> boring handwritten code to translate from parse tree to internal C
+> interfaces (which are often QMP command handlers), and to stitch it all
+> together.
+> 
+> Reducing the amount of boring handwritten code is equally desirable for
+> HMP and CLI.
+> 
+> So is specifying the interface in QAPI instead of older, less powerful
+> schema languages like hxtool and QemuOpts.
+> 
+> There are at least three problems:
+> 
+> 1. Specifying CLI in QAPI hasn't progressed beyond the proof-of-concept
+> stage.
+> 
+> 2. Backward compatibility issues and doubts have defeated attempts to
+> replace gnarly stuff, in particular QemuOpts.
+> 
+> 3. How to best bridge abstract syntax differences has been unclear.
+> Whether the differences are historical accidents or intentional for ease
+> of human use doesn't matter.
+> 
+> Aliases feel like a contribution towards solving 3.
+> 
+> I don't think 1. is particularly difficult.  It's just a big chunk of
+> work that isn't really useful without solutions for 2. and 3.
+> 
+> To me, 2. feels intractable head on.  Perhaps we better bypass the
+> problem by weakening the compatibility promise like we did for HMP.
+
+Can we define 2 in a bit more specific terms? I feel the biggest part
+of 2 is actually 3.
+
+You mention QemuOpts, but how commonly are the potentially problematic
+features of it even used? Short booleans are deprecated and could be
+dropped in 6.2. merge_lists may or may not have to be replicated.
+I know building lists from repeated keys is said to be a thing, where
+does it happen? I've worked on some of the big ones (blockdev, chardev,
+object, device) and haven't come across it yet.
+
+Can we have an intermediate state where CLI parsing involves both QAPI
+generated options and manually written ones? So that we can actually put
+the QAPIfication work already done to use instead of just having a
+promise that it will make things possible eventually, in a few years?
+
+> > What I had in mind was using the schema to generate the necessary code,
+> > using the generic keyval parser everywhere, and just providing a hook
+> > where the QDict could be modified after the keyval parser and before the
+> > visitor. Most command line options would not have any explicit code for
+> > parsing input, only the declarative schema and the final option handler
+> > getting a QAPI type (which could actually be the corresponding QMP
+> > command handler in the common case).
+> >
+> > I think these are very different ideas. If we want HMP-like, then all
+> > the keyval based code paths we've built so far don't make much sense.
+> 
+> I'm not sure the differences are "very" :)
+> 
+> I think you start at "human-friendly and machine-friendly should use the
+> abstract syntax defined in the QAPI schema, except where human-friendly
+> has to differ, say for backward compatibility".
+> 
+> This approach considers differences a blemish.  The "standard" abstract
+> syntax (the one defined in the QAPI schema) should be accepted in
+> addition to the "alternate" one whenever possible, so "modern" use can
+> avoid the blemishes, and blemishes can be removed once they have fallen
+> out of use.
+> 
+> "Alternate" should not be limited to human-friendly.  Not limiting keeps
+> things consistent, which is good, because differences are bad.
+> 
+> Is that a fair description?
+
+Hm, yes and no.
+
+
+I do think that making the overlap between "standard" and "alternate"
+abstract syntax as big as possible is a good thing because it means less
+translation has to go on between them, and ultimately the interfaces are
+more consistent with each other which actually improves the human
+friendliness for people who get in touch with both syntaxes.
+
+The -chardev conversion mostly deals with differences that I do consider
+a blemish: There is no real reason why options need to have different
+names on both interfaces, and there is also a lot of nesting in QMP for
+which there is no real reason.
+
+The reason why we need to accept both is compatibility, not usability.
+
+
+There are also some differences that are justified by friendliness.
+Having "addr" as a nested struct in QMP just makes sense, and on the
+command line having it flattened makes more sense.
+
+So accepting "path" for "device" in ChardevHostdev is probably a case
+where switching both QMP and CLI to "modern" use and remove the
+"blemish" eventually makes sense to me. The nesting for "addr" isn't.
+
+We may even add more differences to make things human friendly. My
+standard for this is whether the difference serves only for
+compatibility (should go away eventually) or usability (should stay).
+
+
+Now with this, it's still open whether the "standard" syntax should only
+be supported in QMP or also in the CLI, and whether "alternate" syntax
+should only be supported in the CLI or also in QMP.
+
+Is usability actually improved by rejecting the "standard" syntax on the
+command line, or by rejecting "alternate" syntax in QMP? Hardly so. It's
+also not compatibility. So what is the justification for the difference?
+Maintainability? I honestly don't see the improvement there either.
+
+So I don't really see a reason for differences, but at the same time
+it's also not a very important question to me. If you prefer restricting
+things, so be it.
+
+> I start at "human-friendly syntax should be as friendly as we can make
+> it, except where we have to compromise, say for backward compatibility".
+> 
+> This approach embraces differences.  Mind, not differences just for
+> differences sake, only where they help users.
+> 
+> Additionally accepting the "standard" abstract syntax is useful only
+> where it helps users.
+> 
+> "Alternate" should be limited to human-friendly.
+
+I think there is a small inconsistency in this reasoning: You say that
+differences must help users, but then this is not the measuring stick
+you use in the next paragraph. If it were, you would be asking whether
+rejecting "standard" abstract syntax helps users, rather than whether
+adding it does. (Even more so because rejecting it is more work! Not
+much more work, but it adds a little bit of complexity.)
+
+So it seems that in practice your approach is more like "different by
+default, making it the same needs justification", whereas I am leaning
+more towards "same by default, making it different needs justification".
+
+Your idea of "human-friendly syntax should be as friendly as we can make
+it" isn't in conflict with either approach. The thing that the idea
+might actually conflict with is our time budget.
+
+> Different approaches, without doubt.  Yet both have to deal with
+> differences, and both could use similar techniques and machinery for
+> that.  You're proposing to do the bulk of the work with aliases, and to
+> have a tree-transforming hook for the remainder.  Makes sense to me.
+> However, in sufficiently gnarly cases, we might have to bypass all this
+> and keep using handwritten code until the backward compatibility promise
+> is history: see 2. above.
+
+Possibly. I honestly can't tell how many of these cases we will have.
+In all of -object, we had exactly one problematic option. This could
+easily be handled in a tree-transforming hook.
+
+> In addition each approach has its own, special needs.
+> 
+> Yours adds "alternate" syntax to QMP.  This poses documentation and
+> introspection problems.  The introspection solutions will then
+> necessitate management application updates.
+> 
+> Mine trades these problems for others, namely how to generate parsers
+> for two different syntaxes from one QAPI schema.
+> 
+> Do I make sense?
+
+In the long run, won't we need documentation and introspection even for
+things that are limited to the command line? Introspection is one of the
+big features enabled by CLI QAPIfication.
+
+But otherwise yes.
+
+> >> Both -chardev and QMP chardev-add use the same helpers (there are minor
+> >> differences that don't matter here).  The former basically translates
+> >> its flat argument into the latter's arguments.  HMP chardev-add is just
+> >> like -chardev.
+> >> 
+> >> The quickest way to QAPIfy existing -chardev is probably the one we
+> >> chose for -object: if the argument is JSON, use the new, QAPI-based
+> >> interface, else use the old interface.
+> >
+> > -chardev doesn't quite translate into chardev-add arguments. Converting
+> > into the input of a QMP command normally means providing a QDict that
+> > can be accepted by the QAPI-generated visitor code, and then using that
+> > QAPI parser to create the C object. What -chardev does instead is using
+> > an entirely separate parser to create the C object directly, without
+> > going through any QAPI code.
+> 
+> Yes, and that's quite some extra code, with plenty of opportunity for
+> inconsistency.
+
+Needless to say, opportunity that we happily made use of.
+
+> > After QAPIfication, both code paths go through the QAPI code and undergo
+> > the same validations etc.
+> >
+> > If we still have code paths that completely bypass QAPI, it's hard to
+> > call the command line option fully QAPIfied. Of course, if you don't
+> > care about duplication and inconsistencies between the interfaces,
+> > though, and just want to achieve the initially stated goal of providing
+> > at least one interface consistent between QMP and CLI (besides others)
+> > and a config file, then it might be QAPIfied enough.
+> 
+> Reworking human-friendly -chardev to target QMP instead of a C interface
+> shared with QMP would be nice.  Just because prior attempts to replace
+> gnarly stuff compatibly have failed doesn't mean this one must fail.
+
+I mean, for -chardev specifically, you don't even have to take a guess.
+The patches exist, a git tag with them is mentioned in the cover letter
+of this series, and they have just been waiting for about a year for
+their dependency (QAPI aliases) to be merged.
+
+If we don't do aliases, I'll have to rework them to do everything in
+code instead. It's doable, even if the chardev code wouldn't shrink as
+nicely as with the current patches. I just need to know whether it has
+to be done or not.
+
+> >> Now the question that matters for this series: how can QAPI aliases
+> >> help us with the things discussed above?
+> >
+> > The translation needs to be implemented somehow. The obvious way is just
+> > writing, reviewing and maintaining code that manually translates. (We
+> > don't have this code yet for a fully QAPIfied -chardev. We only have
+> > code that bypasses QAPI, i.e. translates to the wrong target format.)
+> >
+> > Aliases help because they allow reducing the amount of code in favour of
+> > data, the alias declarations in the schema.
+> 
+> Understood.
+> 
+> >> If we use the flat variation just internally, say for -chardev's dotted
+> >> keys argument, then introspection is not needed.  We'd use "with
+> >> aliases" just for translating -chardev's dotted keys argument.
+> >
+> > Note that we're doing more translations that just flattening with
+> > aliases, some options have different names in QMP and the CLI.
+> >
+> > But either way, yes, alias support could be optional so that you need to
+> > explicitly enable it when creating a visitor, and then only the CLI code
+> > could actually enable it.
+> >
+> > Limits the possible future uses for the new tool in our toolbox, but is
+> > sufficient for -chardev. We can always extend support for it later
+> > if/when we actually want to make use of it outside of the CLI.
+> 
+> Yes.
+> 
+> >> Valid argument.  CLI with JSON argument should match QMP.  Even when
+> >> that means both are excessively nested.
+> >> 
+> >> CLI with dotted keys is a different matter, in my opinion.
+> >
+> > I'm skipping quite a bit of text here, mainly because I think we need an
+> > answer first if we really want to switch the keyval options to be
+> > HMP-like in more than just the support status (see above).
+> >
+> > Obviously, the other relevant question would then be if it also ends up
+> > like HMP in that most interesting functionality isn't even available and
+> > you're forced to use QMP/JSON when you're serious.
+> 
+> I figure this is because we have let "QMP first" degenerate into "QMP
+> first, HMP never" sometimes, and we did so mostly because HMP is extra
+> work that was hard to justify.
+> 
+> What if you could get the 1:1 HMP command basically for free?  It may
+> not be the most human-friendly command possible.  But it should be a
+> start.
+
+How would you do this?
+
+The obvious way is mapping QMP 1:1 like we do for some of the command
+line options. But you just argued that this is not what you would prefer
+for the command line, so it's probably not what you have in mind for HMP
+either?
+
+> > I guess I can go into more details once we have answered these
+> > fundamental questions.
+> >
+> > (We could and should have talked about them and about whether you want
+> > to have aliases at all a year ago, before going into detailed code
+> > review and making error messages perfect in code that we might throw
+> > away anyway...)
+> 
+> I doubt you could possibly be more right than that!
+
+So what questions need to be answered before we can make a decision?
+
+You talked a lot about how you like QMP to be different from the command
+line. So is restricting aliases to the command line enough to make them
+acceptable? Or do we need larger changes? Should I just throw them away
+and write translation code for -chardev manually?
+
+Kevin
 
 
