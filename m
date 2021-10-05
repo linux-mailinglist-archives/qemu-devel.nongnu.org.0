@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB40E422D26
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:58:11 +0200 (CEST)
-Received: from localhost ([::1]:54700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC922422CF1
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:51:21 +0200 (CEST)
+Received: from localhost ([::1]:39086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXmpW-0005K7-UD
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:58:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40176)
+	id 1mXmiu-00034R-Jn
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:51:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXmXQ-0005IZ-73
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:39:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30259)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmdf-0006EE-VT
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:45:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mXmXI-0004D9-GC
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:39:23 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmdb-0001bJ-SD
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:45:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633448359;
+ s=mimecast20190719; t=1633448750;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0+TK9mhjdoOWwFPBplB37CYUmIAVfhFOI3BUKSm8Qzw=;
- b=HIFHqAE4mJn30tsmhRCzSAtdQobE/QBe+q6U6pLCDplv1aKeD7Ig3mb6zTaKbZi1GAIr1L
- GldRE7Lq3sKpE2pBSnWexjGSxT50uAUhAbjiNFj3xStVVvDV2qDsNv98sATrRLJwj49C4+
- 4MQGh434r7aTBIkRBUlT5IK7Z2fWEz4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-GcX-wLGDPaCYvMY7q2pVlQ-1; Tue, 05 Oct 2021 11:39:18 -0400
-X-MC-Unique: GcX-wLGDPaCYvMY7q2pVlQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3B7B1006AA2;
- Tue,  5 Oct 2021 15:39:17 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.9.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 978755F4ED;
- Tue,  5 Oct 2021 15:38:47 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 34B6E220BDB; Tue,  5 Oct 2021 11:38:47 -0400 (EDT)
-Date: Tue, 5 Oct 2021 11:38:47 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Christophe de Dinechin <dinechin@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH 07/13] virtiofsd: Release file locks using
- F_UNLCK
-Message-ID: <YVxxh/9fKIGnjK/W@redhat.com>
-References: <20210930153037.1194279-1-vgoyal@redhat.com>
- <20210930153037.1194279-8-vgoyal@redhat.com>
- <lytuhv617w.fsf@redhat.com>
+ bh=YeGWMzpYiDgYXqrgn9Sgx25jaiFx5oLxnDy4NLLQTaA=;
+ b=A1hTX3qFrGbukmmEkciQn87R19xW/tPnkIkQqLwUE32QiNWgiWhBE8pD7N7h9Wk/j+jEQd
+ Q3u0MESisjtjMdUhly8kwuLO357f1A+QpgOgmIKv365bGsmlpj/BlrGMpVCUcnJu/mu4K8
+ qOHX6Skh8MLd28WxQwsonqwSQjvN/iQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-560-ySlOd_utMiCuF3uX1khLeg-1; Tue, 05 Oct 2021 11:45:49 -0400
+X-MC-Unique: ySlOd_utMiCuF3uX1khLeg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ i7-20020a50d747000000b003db0225d219so3856010edj.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 08:45:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=YeGWMzpYiDgYXqrgn9Sgx25jaiFx5oLxnDy4NLLQTaA=;
+ b=RVWg/VmmchdD8uMcwR6XQFWfNObb3F3tFsa4H6dk6M7lB9uzCAMrYeRrjhPkNx57jx
+ hhpsvfDscuyDe0fUwWr1IzaLTTVzWY4UnCjyQJizye/g38WhHHGJ17RrJgSv6lGiGCVI
+ dAStzxwd+UnoxrvGKpNnNJlVXfFZkfwyvopv5H8qr5P7O3Sjxx7iLh9k9TLfVDBgceo5
+ Yof9PhraJ7rGiBg89MQps0UJlMcEGJXN3dma9BoJBGsFkmgs6c3hLlKhsTzhMLVWTnCL
+ vpCfsP+L8Ml2NC1PSNDKEpghsGNJDWruTGt7GhN3lAyum73DiX0s4RS/GLlkboPXhYAw
+ Ccug==
+X-Gm-Message-State: AOAM5327XiCNHUKLTtmYwYR9RzrICg3kEtZelEpQhFV4C3+XZ5T4qn7m
+ 7c6iSh/UgP2PiRnxvb6goXTZDTaAoIaNngK31pb7Gpwv0I3d4LUw/vVmCSZnq0n9HmFlz/IXYGB
+ Sb0ppkLVyy8ZabEA=
+X-Received: by 2002:a05:6402:1d49:: with SMTP id
+ dz9mr13834525edb.55.1633448748392; 
+ Tue, 05 Oct 2021 08:45:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJytOcwE1lVpa7SDWWFTGM472iz0i07sVXmNAzqK+Ucum86Hl5cOlRvdHZowB4fxAYri9cZ32g==
+X-Received: by 2002:a05:6402:1d49:: with SMTP id
+ dz9mr13834491edb.55.1633448748165; 
+ Tue, 05 Oct 2021 08:45:48 -0700 (PDT)
+Received: from redhat.com ([2.55.147.134])
+ by smtp.gmail.com with ESMTPSA id e15sm6549570ejr.58.2021.10.05.08.45.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 08:45:47 -0700 (PDT)
+Date: Tue, 5 Oct 2021 11:45:42 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v4 00/11] virtio-iommu: Add ACPI support
+Message-ID: <20211005113719-mutt-send-email-mst@kernel.org>
+References: <20211001173358.863017-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <lytuhv617w.fsf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20211001173358.863017-1-jean-philippe@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -80,112 +93,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- miklos@szeredi.hu
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ qemu-arm@nongnu.org, imammedo@redhat.com, ani@anisinha.ca, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 05, 2021 at 03:37:17PM +0200, Christophe de Dinechin wrote:
-> 
-> On 2021-09-30 at 11:30 -04, Vivek Goyal <vgoyal@redhat.com> wrote...
-> > We are emulating posix locks for guest using open file description locks
-> > in virtiofsd. When any of the fd is closed in guest, we find associated
-> > OFD lock fd (if there is one) and close it to release all the locks.
-> >
-> > Assumption here is that there is no other thread using lo_inode_plock
-> > structure or plock->fd, hence it is safe to do so.
-> >
-> > But now we are about to introduce blocking variant of locks (SETLKW),
-> > and that means we might be waiting to a lock to be available and
-> > using plock->fd. And that means there are still users of plock
-> > structure.
-> >
-> > So release locks using fcntl(SETLK, F_UNLCK) instead of closing fd
-> > and plock will be freed later when lo_inode is being freed.
-> >
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > Signed-off-by: Ioannis Angelakopoulos <iangelak@redhat.com>
-> > ---
-> >  tools/virtiofsd/passthrough_ll.c | 21 +++++++++++++++++----
-> >  1 file changed, 17 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > index 38b2af8599..6928662e22 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -1557,9 +1557,6 @@ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64_t n)
-> >          lo_map_remove(&lo->ino_map, inode->fuse_ino);
-> >          g_hash_table_remove(lo->inodes, &inode->key);
-> >          if (lo->posix_lock) {
-> > -            if (g_hash_table_size(inode->posix_locks)) {
-> > -                fuse_log(FUSE_LOG_WARNING, "Hash table is not empty\n");
-> > -            }
-> >              g_hash_table_destroy(inode->posix_locks);
-> >              pthread_mutex_destroy(&inode->plock_mutex);
-> >          }
-> > @@ -2266,6 +2263,8 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
-> >      (void)ino;
-> >      struct lo_inode *inode;
-> >      struct lo_data *lo = lo_data(req);
-> > +    struct lo_inode_plock *plock;
-> > +    struct flock flock;
-> >
-> >      inode = lo_inode(req, ino);
-> >      if (!inode) {
-> > @@ -2282,8 +2281,22 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
-> >      /* An fd is going away. Cleanup associated posix locks */
-> >      if (lo->posix_lock) {
-> >          pthread_mutex_lock(&inode->plock_mutex);
-> > -        g_hash_table_remove(inode->posix_locks,
-> 
-> I'm curious why the g_hash_table_remove above is not in the 'if' below?
+Looks like this can not be applied yet because the bypass bit
+isn't in yet. what's up with that?
 
-Because now we are not removing plock from hash table when file is
-closed. We leave it in place and it will be cleaned up when inode
-is going away.
-
-unref_inode() {
-    g_hash_table_destroy(inode->posix_locks)
-}
-
-Now it is possible that some thread is waiting for a lock and
-using plock->fd. So it probably is not a good idea to close(plock->fd)
-and cleanup plock yet. It could be racy too.
-
-So instead cleanup it up when inode is going away and that time we
-are sure that no thread could be waiting on a lock on this file/inode.
-
-IOW, previously we were cleaning up plock and plock->fd in lo_flush()
-and now that has been delayed to unref_inode().
-
-Thanks
-Vivek
-
-> 
-> > +        plock = g_hash_table_lookup(inode->posix_locks,
-> >              GUINT_TO_POINTER(fi->lock_owner));
-> > +
-> > +        if (plock) {
-> > +            /*
-> > +             * An fd is being closed. For posix locks, this means
-> > +             * drop all the associated locks.
-> > +             */
-> > +            memset(&flock, 0, sizeof(struct flock));
-> > +            flock.l_type = F_UNLCK;
-> > +            flock.l_whence = SEEK_SET;
-> > +            /* Unlock whole file */
-> > +            flock.l_start = flock.l_len = 0;
-> > +            fcntl(plock->fd, F_OFD_SETLK, &flock);
-> > +        }
-> > +
-> >          pthread_mutex_unlock(&inode->plock_mutex);
-> >      }
-> >      res = close(dup(lo_fi_fd(req, fi)));
-> 
-> 
-> --
-> Cheers,
-> Christophe de Dinechin (IRC c3d)
-> 
+-- 
+MST
 
 
