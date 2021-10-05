@@ -2,58 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28CC0422D5F
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:07:23 +0200 (CEST)
-Received: from localhost ([::1]:58266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A78422D68
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:08:57 +0200 (CEST)
+Received: from localhost ([::1]:36346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXmyO-0007nF-10
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44382)
+	id 1mXmzw-00049c-Mf
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:08:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mXmk6-0006Rs-Hr; Tue, 05 Oct 2021 11:52:34 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:48434)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsK-0008Mw-4X
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39454)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mXmk3-0002K4-2i; Tue, 05 Oct 2021 11:52:34 -0400
-Received: from [192.168.15.208] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id C215F2076B;
- Tue,  5 Oct 2021 15:52:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1633449144;
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXms7-0004Ow-Ly
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:00:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633449648;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ECjeQGWxPsPAipUPtt+bwRwuekW3mp4OqBZ1lbSp50k=;
- b=lETzDrptr5hqmDCzJ6ZWjw2Ok7TRboVCvQht/xZv66bhYPWRsyuLItFNFJSx0EFqzZBk7h
- qu4SVm032n+ia6PsHbKe3SJxmpVCQTC50Kpl+XJ/w+gpWHUkwwrB9IKVA1mUKUsSsuEVIT
- i43OV6Z5p5yu68cnvpqQz2KRRqh+JqU=
-Message-ID: <ea36ef56-4892-5b29-e660-964e6018e154@greensocs.com>
-Date: Tue, 5 Oct 2021 17:52:22 +0200
+ content-transfer-encoding:content-transfer-encoding;
+ bh=S1BvvgJuLkFfAlsK+yWDsovVf5Xk606c5rR6CCuAWnU=;
+ b=LhBZOfhL/fx4m57fSIAmW0BVCxHZQ8l48MzS7HHtIC/xk+WdixSrlASAG9SBeIV+o5ZJzy
+ 8Pw3JDJYXbnhO+GBsrhba5y08AlytuYnM7PU91K3VgELK2KpeZdGXakNhsHlImX+v4LXjv
+ OnNaMVBor1dA5FqzsSLeo2jGmM00vWY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-jdEsxaBOMzuggmMlGmLxkw-1; Tue, 05 Oct 2021 12:00:47 -0400
+X-MC-Unique: jdEsxaBOMzuggmMlGmLxkw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m2-20020a05600c3b0200b0030cd1310631so1215328wms.7
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:00:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=S1BvvgJuLkFfAlsK+yWDsovVf5Xk606c5rR6CCuAWnU=;
+ b=b4LpEVhbh4jGdf6pF460dIzmF6zV8+NGMX8CfiLVRCxM/p9+RQUevazfFinlvOQ4go
+ oKSunj/e1FT2Nba0NVj+0/w/oLwXIeGpp/t3HpGbB4aaGq+BY1tdlfdvHlP9apzUZurd
+ HqRVQo22tz4UgsfJ0Tcp/hVKjw7Cxg4dbRSsrIfZfPWB8zGSQJz9uh1pQKpF+5rdcJ0o
+ lAlbKgONH1RUAqPJV47oN3nvxez9XtCOK41/CwjfrUpgvv2BDIKIybPmX8HanymSYlq7
+ VaXySnoBd5tzooCFC13GyS8e1SGLHO8ML+oxHVxq2lJpD80QoaSg8t6PRwBXh6up/yf+
+ DovA==
+X-Gm-Message-State: AOAM531TJvQFs9u90eKsFMy99UgRTraEuvAnkGtcC0ZC69P16sabeLjI
+ CNB12XHsawENc4q6fjmdEFNXQgNXsSvBd2gbwUuq0fQ7tCfZlZrtK1b2wCaTjc10WzWLZA92mS3
+ E5rj2NI9EJ/opKaEn5FRonaEIPsZt010q4ewxtqe7A4CB4GB1CQ8UJkduTunL
+X-Received: by 2002:a05:600c:1552:: with SMTP id
+ f18mr4206690wmg.184.1633449645304; 
+ Tue, 05 Oct 2021 09:00:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw9gQLbo8CUKrIfq31REKccYHR2w/wRUhEXBAUEuB/CYvF4+jsFCEkGLcpWNEdKTouckoyixA==
+X-Received: by 2002:a05:600c:1552:: with SMTP id
+ f18mr4206641wmg.184.1633449644954; 
+ Tue, 05 Oct 2021 09:00:44 -0700 (PDT)
+Received: from redhat.com ([2.55.147.134])
+ by smtp.gmail.com with ESMTPSA id s24sm2163360wmh.34.2021.10.05.09.00.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 09:00:44 -0700 (PDT)
+Date: Tue, 5 Oct 2021 12:00:41 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/57] pc,pci,virtio: features, fixes
+Message-ID: <20211005155946.513818-1-mst@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: [PATCH 09/11] qdev: Avoid QemuOpts in QMP device_add
-Content-Language: en-US-large
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20210924090427.9218-1-kwolf@redhat.com>
- <20210924090427.9218-10-kwolf@redhat.com>
- <89bbeed4-dec6-007a-175e-38a12e5bbfa1@greensocs.com>
- <YVGtXMq+JGKIIUrQ@redhat.com> <YVxjLf9vJlBqeKKh@redhat.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <YVxjLf9vJlBqeKKh@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,167 +94,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
- libvir-list@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, its@irrelevant.dk, pbonzini@redhat.com,
- jfreimann@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 9618c5badaa8eed25259cf095ff880efb939fbe7:
 
+  Merge remote-tracking branch 'remotes/vivier/tags/trivial-branch-for-6.2-pull-request' into staging (2021-10-04 16:27:35 -0700)
 
-On 10/5/21 16:37, Kevin Wolf wrote:
-> Am 27.09.2021 um 13:39 hat Kevin Wolf geschrieben:
->> Am 27.09.2021 um 13:06 hat Damien Hedde geschrieben:
->>> On 9/24/21 11:04, Kevin Wolf wrote:
->>>> Directly call qdev_device_add_from_qdict() for QMP device_add instead of
->>>> first going through QemuOpts and converting back to QDict.
->>>>
->>>> Note that this changes the behaviour of device_add, though in ways that
->>>> should be considered bug fixes:
->>>>
->>>> QemuOpts ignores differences between data types, so you could
->>>> successfully pass a string "123" for an integer property, or a string
->>>> "on" for a boolean property (and vice versa).  After this change, the
->>>> correct data type for the property must be used in the JSON input.
->>>>
->>>> qemu_opts_from_qdict() also silently ignores any options whose value is
->>>> a QDict, QList or QNull.
->>>>
->>>> To illustrate, the following QMP command was accepted before and is now
->>>> rejected for both reasons:
->>>>
->>>> { "execute": "device_add",
->>>>     "arguments": { "driver": "scsi-cd",
->>>>                    "drive": { "completely": "invalid" },
->>>>                    "physical_block_size": "4096" } }
->>>>
->>>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>>> ---
->>>>    softmmu/qdev-monitor.c | 18 +++++++++++-------
->>>>    1 file changed, 11 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
->>>> index c09b7430eb..8622ccade6 100644
->>>> --- a/softmmu/qdev-monitor.c
->>>> +++ b/softmmu/qdev-monitor.c
->>>> @@ -812,7 +812,8 @@ void hmp_info_qdm(Monitor *mon, const QDict *qdict)
->>>>        qdev_print_devinfos(true);
->>>>    }
->>>> -void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
->>>> +static void monitor_device_add(QDict *qdict, QObject **ret_data,
->>>> +                               bool from_json, Error **errp)
->>>>    {
->>>>        QemuOpts *opts;
->>>>        DeviceState *dev;
->>>> @@ -825,7 +826,9 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
->>>>            qemu_opts_del(opts);
->>>>            return;
->>>>        }
->>>> -    dev = qdev_device_add(opts, errp);
->>>> +    qemu_opts_del(opts);
->>>> +
->>>> +    dev = qdev_device_add_from_qdict(qdict, from_json, errp);
->>>
->>> Hi Kevin,
->>>
->>> I'm wandering if deleting the opts (which remove it from the "device" opts
->>> list) is really a no-op ?
->>
->> It's not exactly a no-op. Previously, the QemuOpts would only be freed
->> when the device is destroying, now we delete it immediately after
->> creating the device. This could matter in some cases.
->>
->> The one case I was aware of is that QemuOpts used to be responsible for
->> checking for duplicate IDs. Obviously, it can't do this job any more
->> when we call qemu_opts_del() right after creating the device. This is
->> the reason for patch 6.
->>
->>> The opts list is, eg, traversed in hw/net/virtio-net.c in the function
->>> failover_find_primary_device_id() which may be called during the
->>> virtio_net_set_features() (a TYPE_VIRTIO_NET method).
->>> I do not have the knowledge to tell when this method is called. But If this
->>> is after we create the devices. Then the list will be empty at this point
->>> now.
->>>
->>> It seems, there are 2 other calling sites of
->>> "qemu_opts_foreach(qemu_find_opts("device"), [...]" in net/vhost-user.c and
->>> net/vhost-vdpa.c
->>
->> Yes, you are right. These callers probably need to be changed. Going
->> through the command line options rather than looking at the actual
->> device objects that exist doesn't feel entirely clean anyway.
-> 
-> So I tried to have a look at the virtio-net case, and ended up very
-> confused.
-> 
-> Obviously looking at command line options (even of a differrent device)
-> from within a device is very unclean. With a non-broken, i.e. type safe,
-> device-add (as well as with the JSON CLI option introduced by this
-> series), we can't have a QemuOpts any more that is by definition unsafe.
-> So this code needs a replacement.
-> 
-> My naive idea was that we just need to look at runtime state instead.
-> Don't search the options for a device with a matching 'failover_pair_id'
-> (which, by the way, would fail as soon as any other device introduces a
-> property with the same name), but search for actual PCIDevices in qdev
-> that have pci_dev->failover_pair_id set accordingly.
-> 
-> However, the logic in failover_add_primary() suggests that we can have a
-> state where QemuOpts for a device exist, but the device doesn't, and
-> then it hotplugs the device from the command line options. How would we
-> ever get into such an inconsistent state where QemuOpts contains a
-> device that doesn't exist? Normally devices get their QemuOpts when they
-> are created and device_finalize() deletes the QemuOpts again. >
+are available in the Git repository at:
 
-Just read the following from docs/system/virtio-net-failover.rst
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
- > Usage
- > -----
- >
- > The primary device can be hotplugged or be part of the startup
- > configuration
- >
- >   -device virtio-net-pci,netdev=hostnet1,id=net1,
- >           mac=52:54:00:6f:55:cc,bus=root2,failover=on
- >
- > With the parameter failover=on the VIRTIO_NET_F_STANDBY feature
- > will be enabled.
- >
- > -device vfio-pci,host=5e:00.2,id=hostdev0,bus=root1,
- >         failover_pair_id=net1
- >
- > failover_pair_id references the id of the virtio-net standby device.
- > This is only for pairing the devices within QEMU. The guest kernel
- > module net_failover will match devices with identical MAC addresses.
- >
- > Hotplug
- > -------
- >
- > Both primary and standby device can be hotplugged via the QEMU
- > monitor.  Note that if the virtio-net device is plugged first a
- > warning will be issued that it couldn't find the primary device.
+for you to fetch changes up to c7d2f59cf940b8c8c52c29d5fa25613fe662f7b6:
 
-So maybe this whole primary device lookup can happen during the -device 
-CLI option creation loop. And we can indeed have un-created devices 
-still in the list ?
+  hw/i386/amd_iommu: Add description/category to TYPE_AMD_IOMMU_PCI (2021-10-05 11:46:45 -0400)
 
-Damien
+----------------------------------------------------------------
+pc,pci,virtio: features, fixes
 
-> Any suggestions how to get rid of the QemuOpts abuse in the failover
-> code?
-> 
-> If this is a device that we previously managed to rip out without
-> deleting its QemuOpts, can we store its dev->opts (which is a type safe
-> QDict after this series) somewhere locally instead of looking at global
-> state? Preferably I would even like to get rid of dev->opts because we
-> really should look at live state rather than command line options after
-> device creation, but I guess one step at a time.
-> 
-> (Actually, I'm half tempted to just break it because no test cases seem
-> to exist, so apparently nobody is really interested in it.)
-> 
-> Kevin
-> 
+VDPA multiqueue support.
+A huge acpi refactoring.
+Fixes, cleanups all over the place.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Ani Sinha (3):
+      bios-tables-test: allow changes in DSDT ACPI tables for q35
+      hw/i386/acpi: fix conflicting IO address range for acpi pci hotplug in q35
+      bios-tables-test: Update ACPI DSDT table golden blobs for q35
+
+Dr. David Alan Gilbert (1):
+      virtio-balloon: Fix page-poison subsection name
+
+Igor Mammedov (35):
+      acpi: add helper routines to initialize ACPI tables
+      acpi: build_rsdt: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: build_xsdt: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: build_slit: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: build_fadt: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: build_tpm2: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: acpi_build_hest: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: build_mcfg: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: build_hmat: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: nvdimm_build_nfit: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: nvdimm_build_ssdt: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: vmgenid_build_acpi: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: x86: build_dsdt: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: build_hpet: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: build_tpm_tcpa: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: arm/x86: build_srat: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: use build_append_int_noprefix() API to compose SRAT table
+      acpi: build_dmar_q35: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: build_waet: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: build_amd_iommu: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: madt: arm/x86: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: x86: remove dead code
+      acpi: x86: set enabled when composing _MAT entries
+      acpi: x86: madt: use build_append_int_noprefix() API to compose MADT table
+      acpi: arm/virt: madt: use build_append_int_noprefix() API to compose MADT table
+      acpi: build_dsdt_microvm: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: arm: virt: build_dsdt: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: arm: virt: build_iort: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: arm/virt: convert build_iort() to endian agnostic build_append_FOO() API
+      acpi: arm/virt: build_spcr: fix invalid cast
+      acpi: arm/virt: build_spcr: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: arm/virt: build_gtdt: use acpi_table_begin()/acpi_table_end() instead of build_header()
+      acpi: build_facs: use build_append_int_noprefix() API to compose table
+      acpi: remove no longer used build_header()
+      acpi: AcpiGenericAddress no longer used to map/access fields of MMIO, drop packed attribute
+
+Jason Wang (10):
+      vhost-vdpa: open device fd in net_init_vhost_vdpa()
+      vhost-vdpa: classify one time request
+      vhost-vdpa: prepare for the multiqueue support
+      vhost-vdpa: let net_vhost_vdpa_init() returns NetClientState *
+      net: introduce control client
+      vhost-net: control virtqueue support
+      virtio-net: use "queue_pairs" instead of "queues" when possible
+      vhost: record the last virtqueue index for the virtio device
+      virtio-net: vhost control virtqueue support
+      vhost-vdpa: multiqueue support
+
+Li Zhijian (1):
+      nvdimm: release the correct device list
+
+Philippe Mathieu-Daudé (5):
+      hw/virtio: Acquire RCU read lock in virtqueue_packed_drop_all()
+      hw/virtio: Have virtqueue_get_avail_bytes() pass caches arg to callees
+      hw/i386/amd_iommu: Rename amdviPCI TypeInfo
+      hw/i386/amd_iommu: Rename SysBus specific functions as amdvi_sysbus_X()
+      hw/i386/amd_iommu: Add description/category to TYPE_AMD_IOMMU_PCI
+
+Stefano Garzarella (2):
+      vhost-vsock: fix migration issue when seqpacket is supported
+      vhost-vsock: handle common features in vhost-vsock-common
+
+ include/hw/acpi/acpi-defs.h            | 528 +------------------------------
+ include/hw/acpi/acpi_dev_interface.h   |   3 +-
+ include/hw/acpi/aml-build.h            |  37 ++-
+ include/hw/acpi/ich9.h                 |   2 +-
+ include/hw/i386/pc.h                   |   6 +-
+ include/hw/virtio/vhost-vdpa.h         |   1 +
+ include/hw/virtio/vhost-vsock-common.h |   5 +
+ include/hw/virtio/vhost.h              |   2 +
+ include/hw/virtio/virtio-net.h         |   5 +-
+ include/net/net.h                      |   5 +
+ include/net/vhost_net.h                |   6 +-
+ hw/acpi/acpi-x86-stub.c                |   3 +-
+ hw/acpi/aml-build.c                    | 193 +++++++-----
+ hw/acpi/cpu.c                          |  17 +-
+ hw/acpi/ghes.c                         |  10 +-
+ hw/acpi/hmat.c                         |  14 +-
+ hw/acpi/nvdimm.c                       |  76 ++---
+ hw/acpi/pci.c                          |  18 +-
+ hw/acpi/vmgenid.c                      |  13 +-
+ hw/arm/virt-acpi-build.c               | 553 +++++++++++++++++++--------------
+ hw/core/machine.c                      |   5 +-
+ hw/i386/acpi-build.c                   | 292 +++++++++--------
+ hw/i386/acpi-common.c                  | 160 +++++-----
+ hw/i386/acpi-microvm.c                 |  13 +-
+ hw/i386/amd_iommu.c                    |  41 ++-
+ hw/net/vhost_net.c                     |  55 +++-
+ hw/net/virtio-net.c                    | 165 +++++-----
+ hw/virtio/vhost-user-vsock.c           |   4 +-
+ hw/virtio/vhost-vdpa.c                 |  56 +++-
+ hw/virtio/vhost-vsock-common.c         |  31 ++
+ hw/virtio/vhost-vsock.c                |  11 +-
+ hw/virtio/virtio-balloon.c             |   2 +-
+ hw/virtio/virtio.c                     |  31 +-
+ net/net.c                              |  24 +-
+ net/vhost-vdpa.c                       | 127 +++++++-
+ tests/data/acpi/q35/DSDT               | Bin 8289 -> 8289 bytes
+ tests/data/acpi/q35/DSDT.acpihmat      | Bin 9614 -> 9614 bytes
+ tests/data/acpi/q35/DSDT.bridge        | Bin 11003 -> 11003 bytes
+ tests/data/acpi/q35/DSDT.cphp          | Bin 8753 -> 8753 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm       | Bin 9943 -> 9943 bytes
+ tests/data/acpi/q35/DSDT.ipmibt        | Bin 8364 -> 8364 bytes
+ tests/data/acpi/q35/DSDT.memhp         | Bin 9648 -> 9648 bytes
+ tests/data/acpi/q35/DSDT.mmio64        | Bin 9419 -> 9419 bytes
+ tests/data/acpi/q35/DSDT.nohpet        | Bin 8147 -> 8147 bytes
+ tests/data/acpi/q35/DSDT.numamem       | Bin 8295 -> 8295 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm12     | Bin 8894 -> 8894 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm2      | Bin 8894 -> 8894 bytes
+ 47 files changed, 1202 insertions(+), 1312 deletions(-)
+
 
