@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D51422DCD
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:22:39 +0200 (CEST)
-Received: from localhost ([::1]:60894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68573422DC7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:21:21 +0200 (CEST)
+Received: from localhost ([::1]:57486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXnDC-0004LP-IY
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:22:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46980)
+	id 1mXnBw-0001yc-ET
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:21:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsw-0000F1-RA
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37883)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmt5-0000TO-5P
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsu-00058A-5B
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:42 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmt2-0005F3-2i
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633449698;
+ s=mimecast20190719; t=1633449707;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=dLqgegjxL7pN0HDxyZfbuN/wY/nTKcbE0sqdZS/D2ns=;
- b=ERKiT1TEvy47vKg5GhTp4ipg4W6dys9KT/oius/4RHlDjL1vbiMqmWPTi/ovbmq1ACfGYb
- vMY9Y3rpgpvYmdNrv8y9RsGc2utgPQkbO4x/p8ZQp27UlMHnjQ/9iIjON6/wUr5kFM2EV9
- t9bxlMHMrsOpdnKlxWgM5Y5LeNClQoU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-TqYtCYOcOeqmAv1_KQhdlw-1; Tue, 05 Oct 2021 12:01:37 -0400
-X-MC-Unique: TqYtCYOcOeqmAv1_KQhdlw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- d13-20020adf9b8d000000b00160a94c235aso2296109wrc.2
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:01:37 -0700 (PDT)
+ bh=GewG1EB37GBDRhgQ1Kl9yzLGlVVtEVSTzhe6jW3BaLE=;
+ b=WteKGAvS3LscAfhovCTbndd7VhvXEAMahtOiZyfl8RBEgJuHU1Ctt7aHP/qu4xscyzf44O
+ uevbF9crdjetZpeW7YsFMJHO11HGykdxPYEfbMujAPTirQ/+Co3TFXaYq6tSV5ejYHS9Nl
+ qyozhyD9tcmJ7w+TiTbhYPZm0sqNfVU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-309-4YcHcSEDNiG8-HQXjN7tlw-1; Tue, 05 Oct 2021 12:01:41 -0400
+X-MC-Unique: 4YcHcSEDNiG8-HQXjN7tlw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ n18-20020adff092000000b001609d9081d4so2919538wro.18
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:01:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=dLqgegjxL7pN0HDxyZfbuN/wY/nTKcbE0sqdZS/D2ns=;
- b=4SxRwINC1uGy+FLKP6tsdEoZH9F0YfL4ysWsYWG4WvjZLDxTWYJeHea0GB/dBhQNvs
- wi2bPPSPRlcSQxuF17yYnHnsqyJ0h+5SzmA9NdrHAX2RAxkHiupk+xONFINvBEdDFYr8
- k+BjnMt2Az0R62fxyjqqSsJjSg13GBaqZJ70wo4La+SuxJNNcX1RekP3xXrLq+wmUg6G
- jwvx5UG2F1uOzzy/elyNf+6JcPW9vEHZ03EYU25JE85BL6JmTBfSQ37Q+hvtl4s1PZlt
- BXGrwfMnHkBWV/ft+aoajqB562ydarVnLWe+6VbQh3KIrgy6ub+66pVRvQMbiprZxq8y
- y/Hw==
-X-Gm-Message-State: AOAM530aA2CeqmH/j23kVDGVcPsCCX3yL7AaBHncUMnkWBU2ZeafstcY
- x7PzGa1WZbhSwu4GwZu067ygSRQ1CTzV7G9uS6asOIBRIjMZ8McTqeLO7anJS1MuyVMNnvtQNw9
- m/6QLu2abwkG/HV0PglmK2dMceGS+LuOX7BaWtFpiILfL+kR+PFjOZYz6TsND
-X-Received: by 2002:adf:a3da:: with SMTP id m26mr2806918wrb.336.1633449695611; 
- Tue, 05 Oct 2021 09:01:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyizjBrO0BBuFhhC9BZp7QlEj3t0qktPjfuXlzrIil1UjAc/GNsJdhrEN+24Hl3gheHiJQ4Fw==
-X-Received: by 2002:adf:a3da:: with SMTP id m26mr2806885wrb.336.1633449695381; 
- Tue, 05 Oct 2021 09:01:35 -0700 (PDT)
+ bh=GewG1EB37GBDRhgQ1Kl9yzLGlVVtEVSTzhe6jW3BaLE=;
+ b=ernQmdOhROb9Dqtljm5Tz0nM1f4jnkVkj0tcxiYRhj0cd00+OKiFKFkE6N1+NnnrZR
+ +5FjNwU7VXAORbwyogouW4r4OOpjVEm0TwlB67beiRHTSTgrA/FKxNHJg709lxdF3DJ9
+ SXtFBSyh0jICBFUrTo68q3mXK415K/dUiV82HG57dMTKxgnU328N+vJ+gmXMpytkoBHp
+ m3JeoTP8bPNrSq3iWE3mIPxQQfmvTa98jUvKlvLY2lV9kNcANwg38uJuAGBOeotRAGBM
+ A32u4JfxB/AuFRxfzJ6yzvO3zYJXhEslplTPGn99BIbmWlbY55OVDpZsS9A4mH7SnicT
+ iUmA==
+X-Gm-Message-State: AOAM532h5dB7VzjRVvF/0K8Wra+nRZiDDh3OSLeVmByt4Cwvf/Be5Jq4
+ SSjzYw1BMMBSvf/w4UoGdDcpY66AvnX/IWKmn/Pp8113vtp2qilv/Z/hF3Pz36VmxAfCjVUCg+C
+ ISKii9BNjaNa5O6lP2OcQR7OdEm7miKbbvcySZ4Fxv8xVX+9VnVVh9meEpW6A
+X-Received: by 2002:adf:e6d0:: with SMTP id y16mr22571106wrm.181.1633449699118; 
+ Tue, 05 Oct 2021 09:01:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/d6sl5bo0zuNf0CKoWSQNUFhGEtor1u2LVmVB8619MzHeYpmpkkxvEfmzYVFB9czCYHZ5JQ==
+X-Received: by 2002:adf:e6d0:: with SMTP id y16mr22571054wrm.181.1633449698837; 
+ Tue, 05 Oct 2021 09:01:38 -0700 (PDT)
 Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id m21sm2590940wmq.37.2021.10.05.09.01.33
+ by smtp.gmail.com with ESMTPSA id d129sm2670136wmd.23.2021.10.05.09.01.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 09:01:34 -0700 (PDT)
-Date: Tue, 5 Oct 2021 12:01:32 -0400
+ Tue, 05 Oct 2021 09:01:38 -0700 (PDT)
+Date: Tue, 5 Oct 2021 12:01:35 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/57] vhost-vsock: handle common features in vhost-vsock-common
-Message-ID: <20211005155946.513818-15-mst@redhat.com>
+Subject: [PULL 15/57] acpi: add helper routines to initialize ACPI tables
+Message-ID: <20211005155946.513818-16-mst@redhat.com>
 References: <20211005155946.513818-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211005155946.513818-1-mst@redhat.com>
@@ -72,13 +72,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.066, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,207 +94,164 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+ Yanan Wang <wangyanan55@huawei.com>, Eric Auger <eric.auger@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefano Garzarella <sgarzare@redhat.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-virtio-vsock features, like VIRTIO_VSOCK_F_SEQPACKET, can be handled
-by vhost-vsock-common parent class. In this way, we can reuse the
-same code for all virtio-vsock backends (i.e. vhost-vsock,
-vhost-user-vsock).
+Patch introduces acpi_table_begin()/ acpi_table_end() API
+that hides pointer/offset arithmetic from user as opposed
+to build_header(), to prevent errors caused by it [1].
 
-Let's move `seqpacket` property to vhost-vsock-common class, add
-vhost_vsock_common_get_features() used by children, and disable
-`seqpacket` for vhost-user-vsock device for machine types < 6.2.
+ acpi_table_begin():
+     initializes table header and keeps track of
+     table data/offsets
+ acpi_table_end():
+     sets actual table length and tells bios loader
+     where table is for the later initialization on
+     guest side.
 
-The behavior of vhost-vsock device doesn't change; vhost-user-vsock
-device now supports `seqpacket` property.
+1) commits
+   bb9feea43179 x86: acpi: use offset instead of pointer when using build_header()
+   4d027afeb3a9 Virt: ACPI: fix qemu assert due to re-assigned table data address
 
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20210921161642.206461-3-sgarzare@redhat.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Message-Id: <20210924122802.1455362-2-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Tested-by: Stefan Berger <stefanb@linux.ibm.com>
+Tested-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- include/hw/virtio/vhost-vsock-common.h |  5 +++++
- include/hw/virtio/vhost-vsock.h        |  3 ---
- hw/core/machine.c                      |  4 +++-
- hw/virtio/vhost-user-vsock.c           |  4 +++-
- hw/virtio/vhost-vsock-common.c         | 31 ++++++++++++++++++++++++++
- hw/virtio/vhost-vsock.c                | 24 +-------------------
- 6 files changed, 43 insertions(+), 28 deletions(-)
+ include/hw/acpi/aml-build.h | 31 +++++++++++++++++++
+ hw/acpi/aml-build.c         | 62 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 93 insertions(+)
 
-diff --git a/include/hw/virtio/vhost-vsock-common.h b/include/hw/virtio/vhost-vsock-common.h
-index e412b5ee98..d8b565b4da 100644
---- a/include/hw/virtio/vhost-vsock-common.h
-+++ b/include/hw/virtio/vhost-vsock-common.h
-@@ -35,6 +35,9 @@ struct VHostVSockCommon {
-     VirtQueue *trans_vq;
+diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+index 471266d739..4242382399 100644
+--- a/include/hw/acpi/aml-build.h
++++ b/include/hw/acpi/aml-build.h
+@@ -413,6 +413,37 @@ Aml *aml_concatenate(Aml *source1, Aml *source2, Aml *target);
+ Aml *aml_object_type(Aml *object);
  
-     QEMUTimer *post_load_timer;
+ void build_append_int_noprefix(GArray *table, uint64_t value, int size);
 +
-+    /* features */
-+    OnOffAuto seqpacket;
- };
- 
- int vhost_vsock_common_start(VirtIODevice *vdev);
-@@ -43,5 +46,7 @@ int vhost_vsock_common_pre_save(void *opaque);
- int vhost_vsock_common_post_load(void *opaque, int version_id);
- void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name);
- void vhost_vsock_common_unrealize(VirtIODevice *vdev);
-+uint64_t vhost_vsock_common_get_features(VirtIODevice *vdev, uint64_t features,
-+                                         Error **errp);
- 
- #endif /* _QEMU_VHOST_VSOCK_COMMON_H */
-diff --git a/include/hw/virtio/vhost-vsock.h b/include/hw/virtio/vhost-vsock.h
-index 3f121a624f..84f4e727c7 100644
---- a/include/hw/virtio/vhost-vsock.h
-+++ b/include/hw/virtio/vhost-vsock.h
-@@ -30,9 +30,6 @@ struct VHostVSock {
-     VHostVSockCommon parent;
-     VHostVSockConf conf;
- 
--    /* features */
--    OnOffAuto seqpacket;
--
-     /*< public >*/
- };
- 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 74f2a9a984..b8d95eec32 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -37,7 +37,9 @@
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-pci.h"
- 
--GlobalProperty hw_compat_6_1[] = {};
-+GlobalProperty hw_compat_6_1[] = {
-+    { "vhost-user-vsock-device", "seqpacket", "off" },
-+};
- const size_t hw_compat_6_1_len = G_N_ELEMENTS(hw_compat_6_1);
- 
- GlobalProperty hw_compat_6_0[] = {
-diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
-index 6095ed7349..52bd682c34 100644
---- a/hw/virtio/vhost-user-vsock.c
-+++ b/hw/virtio/vhost-user-vsock.c
-@@ -81,7 +81,9 @@ static uint64_t vuv_get_features(VirtIODevice *vdev,
- {
-     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
- 
--    return vhost_get_features(&vvc->vhost_dev, user_feature_bits, features);
-+    features = vhost_get_features(&vvc->vhost_dev, user_feature_bits, features);
++typedef struct AcpiTable {
++    const char *sig;
++    const uint8_t rev;
++    const char *oem_id;
++    const char *oem_table_id;
++    /* private vars tracking table state */
++    GArray *array;
++    unsigned table_offset;
++} AcpiTable;
 +
-+    return vhost_vsock_common_get_features(vdev, features, errp);
++/**
++ * acpi_table_begin:
++ * initializes table header and keeps track of
++ * table data/offsets
++ * @desc: ACPI table descriptor
++ * @array: blob where the ACPI table will be composed/stored.
++ */
++void acpi_table_begin(AcpiTable *desc, GArray *array);
++
++/**
++ * acpi_table_end:
++ * sets actual table length and tells bios loader
++ * where table is for the later initialization on
++ * guest side.
++ * @linker: reference to BIOSLinker object to use for the table
++ * @table: ACPI table descriptor that was used with @acpi_table_begin
++ * counterpart
++ */
++void acpi_table_end(BIOSLinker *linker, AcpiTable *table);
++
+ void
+ build_header(BIOSLinker *linker, GArray *table_data,
+              AcpiTableHeader *h, const char *sig, int len, uint8_t rev,
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index d5103e6d7b..229a3eb654 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -52,6 +52,19 @@ static void build_append_byte(GArray *array, uint8_t val)
+     g_array_append_val(array, val);
  }
  
- static const VMStateDescription vuv_vmstate = {
-diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
-index 4ad6e234ad..3f3771274e 100644
---- a/hw/virtio/vhost-vsock-common.c
-+++ b/hw/virtio/vhost-vsock-common.c
-@@ -18,6 +18,30 @@
- #include "qemu/iov.h"
- #include "monitor/monitor.h"
- 
-+const int feature_bits[] = {
-+    VIRTIO_VSOCK_F_SEQPACKET,
-+    VHOST_INVALID_FEATURE_BIT
-+};
-+
-+uint64_t vhost_vsock_common_get_features(VirtIODevice *vdev, uint64_t features,
-+                                         Error **errp)
++static void build_append_padded_str(GArray *array, const char *str,
++                                    size_t maxlen, char pad)
 +{
-+    VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
++    size_t i;
++    size_t len = strlen(str);
 +
-+    if (vvc->seqpacket != ON_OFF_AUTO_OFF) {
-+        virtio_add_feature(&features, VIRTIO_VSOCK_F_SEQPACKET);
++    g_assert(len <= maxlen);
++    g_array_append_vals(array, str, len);
++    for (i = maxlen - len; i > 0; i--) {
++        g_array_append_val(array, pad);
 +    }
-+
-+    features = vhost_get_features(&vvc->vhost_dev, feature_bits, features);
-+
-+    if (vvc->seqpacket == ON_OFF_AUTO_ON &&
-+        !virtio_has_feature(features, VIRTIO_VSOCK_F_SEQPACKET)) {
-+        error_setg(errp, "vhost-vsock backend doesn't support seqpacket");
-+    }
-+
-+    return features;
 +}
 +
- int vhost_vsock_common_start(VirtIODevice *vdev)
+ static void build_append_array(GArray *array, GArray *val)
  {
-     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
-@@ -231,11 +255,18 @@ void vhost_vsock_common_unrealize(VirtIODevice *vdev)
-     virtio_cleanup(vdev);
+     g_array_append_vals(array, val->data, val->len);
+@@ -1692,6 +1705,55 @@ Aml *aml_object_type(Aml *object)
+     return var;
  }
  
-+static Property vhost_vsock_common_properties[] = {
-+    DEFINE_PROP_ON_OFF_AUTO("seqpacket", VHostVSockCommon, seqpacket,
-+                            ON_OFF_AUTO_AUTO),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
++void acpi_table_begin(AcpiTable *desc, GArray *array)
++{
 +
- static void vhost_vsock_common_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
- 
-+    device_class_set_props(dc, vhost_vsock_common_properties);
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     vdc->guest_notifier_mask = vhost_vsock_common_guest_notifier_mask;
-     vdc->guest_notifier_pending = vhost_vsock_common_guest_notifier_pending;
-diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-index dade0da031..478c0c9a87 100644
---- a/hw/virtio/vhost-vsock.c
-+++ b/hw/virtio/vhost-vsock.c
-@@ -21,11 +21,6 @@
- #include "hw/virtio/vhost-vsock.h"
- #include "monitor/monitor.h"
- 
--const int feature_bits[] = {
--    VIRTIO_VSOCK_F_SEQPACKET,
--    VHOST_INVALID_FEATURE_BIT
--};
--
- static void vhost_vsock_get_config(VirtIODevice *vdev, uint8_t *config)
- {
-     VHostVSock *vsock = VHOST_VSOCK(vdev);
-@@ -113,22 +108,7 @@ static uint64_t vhost_vsock_get_features(VirtIODevice *vdev,
-                                          uint64_t requested_features,
-                                          Error **errp)
- {
--    VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
--    VHostVSock *vsock = VHOST_VSOCK(vdev);
--
--    if (vsock->seqpacket != ON_OFF_AUTO_OFF) {
--        virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_SEQPACKET);
--    }
--
--    requested_features = vhost_get_features(&vvc->vhost_dev, feature_bits,
--                                            requested_features);
--
--    if (vsock->seqpacket == ON_OFF_AUTO_ON &&
--        !virtio_has_feature(requested_features, VIRTIO_VSOCK_F_SEQPACKET)) {
--        error_setg(errp, "vhost-vsock backend doesn't support seqpacket");
--    }
--
--    return requested_features;
-+    return vhost_vsock_common_get_features(vdev, requested_features, errp);
- }
- 
- static const VMStateDescription vmstate_virtio_vhost_vsock = {
-@@ -229,8 +209,6 @@ static void vhost_vsock_device_unrealize(DeviceState *dev)
- static Property vhost_vsock_properties[] = {
-     DEFINE_PROP_UINT64("guest-cid", VHostVSock, conf.guest_cid, 0),
-     DEFINE_PROP_STRING("vhostfd", VHostVSock, conf.vhostfd),
--    DEFINE_PROP_ON_OFF_AUTO("seqpacket", VHostVSock, seqpacket,
--                            ON_OFF_AUTO_AUTO),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
++    desc->array = array;
++    desc->table_offset = array->len;
++
++    /*
++     * ACPI spec 1.0b
++     * 5.2.3 System Description Table Header
++     */
++    g_assert(strlen(desc->sig) == 4);
++    g_array_append_vals(array, desc->sig, 4); /* Signature */
++    /*
++     * reserve space for Length field, which will be patched by
++     * acpi_table_end() when the table creation is finished.
++     */
++    build_append_int_noprefix(array, 0, 4); /* Length */
++    build_append_int_noprefix(array, desc->rev, 1); /* Revision */
++    build_append_int_noprefix(array, 0, 1); /* Checksum */
++    build_append_padded_str(array, desc->oem_id, 6, ' '); /* OEMID */
++    /* OEM Table ID */
++    build_append_padded_str(array, desc->oem_table_id, 8, ' ');
++    build_append_int_noprefix(array, 1, 4); /* OEM Revision */
++    g_array_append_vals(array, ACPI_BUILD_APPNAME8, 4); /* Creator ID */
++    build_append_int_noprefix(array, 1, 4); /* Creator Revision */
++}
++
++void acpi_table_end(BIOSLinker *linker, AcpiTable *desc)
++{
++    /*
++     * ACPI spec 1.0b
++     * 5.2.3 System Description Table Header
++     * Table 5-2 DESCRIPTION_HEADER Fields
++     */
++    const unsigned checksum_offset = 9;
++    uint32_t table_len = desc->array->len - desc->table_offset;
++    uint32_t table_len_le = cpu_to_le32(table_len);
++    gchar *len_ptr = &desc->array->data[desc->table_offset + 4];
++
++    /* patch "Length" field that has been reserved by acpi_table_begin()
++     * to the actual length, i.e. accumulated table length from
++     * acpi_table_begin() till acpi_table_end()
++     */
++    memcpy(len_ptr, &table_len_le, sizeof table_len_le);
++
++    bios_linker_loader_add_checksum(linker, ACPI_BUILD_TABLE_FILE,
++        desc->table_offset, table_len, desc->table_offset + checksum_offset);
++}
++
+ void
+ build_header(BIOSLinker *linker, GArray *table_data,
+              AcpiTableHeader *h, const char *sig, int len, uint8_t rev,
 -- 
 MST
 
