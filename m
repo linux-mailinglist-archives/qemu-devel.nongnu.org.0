@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C44422601
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 14:10:49 +0200 (CEST)
-Received: from localhost ([::1]:37268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B42D422648
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 14:20:36 +0200 (CEST)
+Received: from localhost ([::1]:42770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXjHT-0008Is-Al
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 08:10:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41418)
+	id 1mXjQw-000559-Kg
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 08:20:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mXj8F-0000GD-Cr; Tue, 05 Oct 2021 08:01:22 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:49907)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mXjOE-0003QS-FE; Tue, 05 Oct 2021 08:17:46 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:29580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mXj8C-0003nN-53; Tue, 05 Oct 2021 08:01:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=oReEq7Yo56DFtHntIV6d5KmDT6OgjuS82n4nCjQNi8U=; b=oMlAqIAaW90Iv4PJ5eCPyC9Dvp
- w9Uly/n8xSkO5kWhjEilimFdvL9Uvss7JxkDpfdIneox3t9oaA5dWcetKUEBfYZ424fktxRIzAOmp
- DW/1aX5izX4gyViUA15NDwzKZ/E0eKYlM/5fwy9hxHbeH8nHzDIgFoVNO1KZUAqwcGAtx1d+I7/H0
- TLK4f3I5cUJUWHHlPiftBswh272KJujAwNIYN/JzPJUoa8VHijqpOZcrT98seurG2y/SnyPK8VE3Y
- anUSIuXafsmZil83WVeP1lzL3mRT5pLqG3FFAGeRkwqyJ9CTfnP/Ku43gx2IxYrsr83wIbNLiPnRn
- aj1yMaawGPbHtg01pfP6g1dqclLdLML9H/lEVHwSXILQs2mf/86KLn2xORE8c/qepzFp6vfaIO5VF
- k+ZcbXFIo51yJ3uRJL8OaP7D+NDw8QPLmIXD17OE4JM1m2JGsjXe7/m2OM2JXLNhTteskxzV+b0Zh
- PSGiTd/48oamd+grBEbNhzdxQLYFNnTAOekt7rWf1rYZ3rs3NvkEhA7P8NvMiFLThfjRhVjXaA5dj
- nNDV7soxy/BcNGsbwbhncZA289zIly9X5SBy66z1NhsAlWlnuCLfFx0PFHrUrQBO05yEuoH1HBh67
- JS4ua0mhbh/5lH5BXxJVBBukVtIwYsp6ogHf9PDAk=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, qemu-block@nongnu.org,
- Amit Shah <amit@kernel.org>, Jason Wang <jasowang@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, virtio-fs@redhat.com,
- Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 2/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
-Date: Tue, 05 Oct 2021 14:01:00 +0200
-Message-ID: <3198295.vc1OghKV7D@silver>
-In-Reply-To: <20211005072243-mutt-send-email-mst@kernel.org>
-References: <cover.1633376313.git.qemu_oss@crudebyte.com>
- <2365616.UHP9OR3mgr@silver> <20211005072243-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mXjO9-0003hN-2P; Tue, 05 Oct 2021 08:17:45 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 0EAEF748F51;
+ Tue,  5 Oct 2021 14:17:37 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id DBCE2748F4B; Tue,  5 Oct 2021 14:17:36 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id D8AEF746398;
+ Tue,  5 Oct 2021 14:17:36 +0200 (CEST)
+Date: Tue, 5 Oct 2021 14:17:36 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: Deprecate the ppc405 boards in QEMU?
+In-Reply-To: <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
+Message-ID: <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
+References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ <20210927044808.73391-5-david@gibson.dropbear.id.au>
+ <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
+ <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
+ <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
+ <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
+ <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
+ <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
+ <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
+ <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
+ <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
+ <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
+ <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
+ <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,55 +68,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
+ Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, Greg Kurz <groug@kaod.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
+ Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 5. Oktober 2021 13:24:36 CEST Michael S. Tsirkin wrote:
-> On Tue, Oct 05, 2021 at 01:17:59PM +0200, Christian Schoenebeck wrote:
-> > On Dienstag, 5. Oktober 2021 09:16:07 CEST Michael S. Tsirkin wrote:
-> > > On Mon, Oct 04, 2021 at 09:38:08PM +0200, Christian Schoenebeck wrote:
-> > > > Raise the maximum possible virtio transfer size to 128M
-> > > > (more precisely: 32k * PAGE_SIZE). See previous commit for a
-> > > > more detailed explanation for the reasons of this change.
-> > > > 
-> > > > For not breaking any virtio user, all virtio users transition
-> > > > to using the new macro VIRTQUEUE_LEGACY_MAX_SIZE instead of
-> > > > VIRTQUEUE_MAX_SIZE, so they are all still using the old value
-> > > > of 1k with this commit.
-> > > > 
-> > > > On the long-term, each virtio user should subsequently either
-> > > > switch from VIRTQUEUE_LEGACY_MAX_SIZE to VIRTQUEUE_MAX_SIZE
-> > > > after checking that they support the new value of 32k, or
-> > > > otherwise they should replace the VIRTQUEUE_LEGACY_MAX_SIZE
-> > > > macro by an appropriate value supported by them.
-> > > > 
-> > > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > 
-> > > I don't think we need this. Legacy isn't descriptive either.  Just leave
-> > > VIRTQUEUE_MAX_SIZE alone, and come up with a new name for 32k.
-> > 
-> > Does this mean you disagree that on the long-term all virtio users should
-> > transition either to the new upper limit of 32k max queue size or
-> > introduce
-> > their own limit at their end?
-> 
-> depends. if 9pfs is the only one unhappy, we can keep 4k as
-> the default. it's sure a safe one.
-> 
-> > Independent of the name, and I would appreciate for suggestions for an
-> > adequate macro name here, I still think this new limit should be placed in
-> > the shared virtio.h file. Because this value is not something invented on
-> > virtio user side. It rather reflects the theoretical upper limited
-> > possible with the virtio protocol, which is and will be common for all
-> > virtio users.
-> We can add this to the linux uapi headers, sure.
+On Tue, 5 Oct 2021, Thomas Huth wrote:
+> On 05/10/2021 10.07, Thomas Huth wrote:
+>> On 05/10/2021 10.05, Alexey Kardashevskiy wrote:
+> [...]
+>>> What is so special about taihu?
+>> 
+>> taihu is the other 405 board defined in hw/ppc/ppc405_boards.c (which I 
+>> suggested to deprecate now)
+>
+> I've now also played with the u-boot sources a little bit, and with some bit 
+> of tweaking, it's indeed possible to compile the old taihu board there. 
+> However, it does not really work with QEMU anymore, it immediately triggers 
+> an assert():
+>
+> $ qemu-system-ppc -M taihu -bios u-boot.bin -serial null -serial mon:stdio
+> **
+> ERROR:accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion failed: 
+> (qemu_mutex_iothread_locked())
+> Aborted (core dumped)
 
-Well, then I wait for few days, and if nobody else cares about this issue, 
-then I just hard code 32k on 9pfs side exclusively in v3 for now and that's 
-it.
+Maybe it's similar to this: 2025fc6766ab25501e0041c564c44bb0f7389774 The 
+helper_load_dcr() and helper_store_dcr() in target/ppc/timebase_helper.c 
+seem to lock/unlock the iothread but I'm not sure if that's necessary. 
+Also not sure why this does not happen with 460ex but that maybe uses 
+different code.
 
-Best regards,
-Christian Schoenebeck
+> Going back to QEMU v2.3.0, I can see at least a little bit of output, but it 
+> then also triggers an assert() during DRAM initialization:
+>
+> $ qemu-system-ppc -M taihu -bios u-boot.bin -serial null -serial mon:stdio
+>
+> Reset PowerPC core
+>
+> U-Boot 2014.10-rc2-00123-g461be2f96e-dirty (Oct 05 2021 - 10:02:56)
+>
+> CPU:   AMCC PowerPC 405EP Rev. B at 770 MHz (PLB=256 OPB=128 EBC=128)
+>       I2C boot EEPROM disabled
+>       Internal PCI arbiter enabled
+>       16 KiB I-Cache 16 KiB D-Cache
+> Board: Taihu - AMCC PPC405EP Evaluation Board
+> I2C:   ready
+> DRAM:  qemu-system-ppc: memory.c:1693: memory_region_del_subregion: Assertion 
+> `subregion->container == mr' failed.
+> Aborted (core dumped)
+>
+> Not sure if this ever worked in QEMU, maybe in the early 0.15 time, but that 
+> version of QEMU also does not compile easily anymore on modern systems. So 
+> I'm afraid, getting this into a workable shape again will take a lot of time. 
+> At least I'll stop my efforts here now.
 
+Do you have this u-boot binary somewhere just for others who want to try it?
 
+Regards,
+BALATON Zoltan
 
