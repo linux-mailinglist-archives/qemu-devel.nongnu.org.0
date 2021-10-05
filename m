@@ -2,76 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9B1422062
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 10:14:16 +0200 (CEST)
-Received: from localhost ([::1]:52182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927C9422065
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 10:14:48 +0200 (CEST)
+Received: from localhost ([::1]:53854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXfaZ-0001rn-MH
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 04:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46166)
+	id 1mXfb5-00033a-KN
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 04:14:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1mXfTo-0003oQ-9G
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 04:07:16 -0400
-Received: from mout.gmx.net ([212.227.17.22]:41041)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mXfUH-0004Sc-Jw
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 04:07:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1mXfTi-0003B0-QT
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 04:07:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1633421218;
- bh=kmLWD9FuE2oTt3Jyj7b1NX2D8UoVt/LkKtGjRbl5LLo=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=NO0vBHL5hOvtW1j1+3G88o3xwPENLc/jiOXRstQBjUekIq3a5N1lIuVIPiSbfErEV
- AWoLA4Aphclho0b3DkXqa6Kd/OpWiNQxZEv2ZOeBfFr/BCyF2NthGvjrKIka11BpcY
- LsZRNoxRXSEYVwn5itYpyVVReB60BnoCEYQ4zN6k=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.189.35]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MgesG-1mzKCE06Ie-00h9jW; Tue, 05
- Oct 2021 10:06:58 +0200
-Message-ID: <eb37d456-f796-7d83-886d-3fe0dd5a2f19@gmx.de>
-Date: Tue, 5 Oct 2021 10:06:42 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mXfUB-0003aT-VB
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 04:07:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633421259;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z8FE5nZK1UhiBdXaqM+Fam9rAD6Lmt/g3WS3TYUh7qw=;
+ b=QFoomKk4c0UFtOYvDXdLdbVZRztA8nGEFYea8uoqFoHzz68U7sNYzex+pFlJG34pFtdrlT
+ sSJKO1x1BMkMQFdp0ayOAT8f7d/IgJasKkBr2IS/dDwM0+OUp0DsHxZhcXW1bE4TYNcYNL
+ 5Mvzi4Jkn7xW8+mRwGKVVcKCydFNlQ4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-521-2j7mmCLEO3W2esXgNz-mNg-1; Tue, 05 Oct 2021 04:07:36 -0400
+X-MC-Unique: 2j7mmCLEO3W2esXgNz-mNg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ w2-20020a5d5442000000b0016061c95fb7so5440170wrv.12
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 01:07:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=z8FE5nZK1UhiBdXaqM+Fam9rAD6Lmt/g3WS3TYUh7qw=;
+ b=dbpxx/rgq+DdIQQ8YLdg4cS7jSWC1VTpI3jwNWRfJlrMiMB81Vlj3AHGJb/gq3gVY9
+ Qu/fPGWKOhRK0wP+lvQta7S+6sNrL/VxcxzmDArZqYPcLH0W1EFcLVDTjzGVopTEAHYO
+ /V3RqbL46TfdDjAk5SougJ5gcSirCx0OayCRWNPyXyL+nxfIm4o3GHVjEfZOkllnQ/ht
+ 2ZnbcNlY78VkptXKv8RmeB+egqEAQeAFbE3LlxUNIK/LynwZpE4N/8819rtHvgXvxk8u
+ OVbEdWdTC8HuMGcxMEEFBeORhi9hk6PYeKsxvKDs87/XQ7IrK9Jvk7F3h2tuDn4QJYH8
+ 42+w==
+X-Gm-Message-State: AOAM533e76oqJkIP6lb9vHX3K3BrQalzPRurLn+8AFVLEC95FXbNbrlu
+ SnpKKmFeTYW744x2kIXi8lyGLBtHgayYkXtGl3ZXqWJzMYBuGcE9vjwIl2xWH5MQ9ovDbT3o/wo
+ 5iLdBZKz4KnXfYew=
+X-Received: by 2002:adf:8b41:: with SMTP id v1mr16444652wra.255.1633421255703; 
+ Tue, 05 Oct 2021 01:07:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwE4xP+WZeR0QOuMbxUscf9nHB+Lptda9ULkHvHR5FHsnrZ3uY9HgvHeAXPyykxELHa//gJcA==
+X-Received: by 2002:adf:8b41:: with SMTP id v1mr16444609wra.255.1633421255401; 
+ Tue, 05 Oct 2021 01:07:35 -0700 (PDT)
+Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id 1sm733607wmb.24.2021.10.05.01.07.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Oct 2021 01:07:34 -0700 (PDT)
+Subject: Re: Deprecate the ppc405 boards in QEMU? (was: [PATCH v3 4/7]
+ MAINTAINERS: Orphan obscure ppc platforms)
+To: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ <20210927044808.73391-5-david@gibson.dropbear.id.au>
+ <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
+ <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
+ <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
+ <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
+ <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
+ <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
+ <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
+ <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
+ <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
+ <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
+Date: Tue, 5 Oct 2021 10:07:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] MAINTAINERS: Split HPPA TCG vs HPPA machines/hardware
+In-Reply-To: <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20211004083835.3802961-1-f4bug@amsat.org>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20211004083835.3802961-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QZjx65W9VBidwnWMBcJfLTvv3BfbxT8F457QBZ/BA8du1emQ7cy
- 6sYTAU20LYs5ALydUF2bTUdpBfBwT36hwmtKuVk97qaQEHiNNPpGMKuEHV/+i+hXZe6G4xa
- N4+K1NKWX905vRJSWu667H5fewFnlya6g9WyoMYrALPUO230ewkdQ9dITuCfipsZUpafY1z
- +EgxPS+pZCaKLsc//AdQA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:d4Vn2u/+J4E=:eYJ9tGdXB3TgK8JzP3B9QF
- sF/78qu2o1RwwDm5bOvuwQEJADdS8ezcwlduyT39wOr1eBomdGtzeBGzKc2TJBrdvI+wp7+Dg
- xMn8uDk1opYxh/t0P43SOgXHDGcMG30baS+VWdIRTTgilib4MK9ChsN0lFh8GYCTFFcx7UU81
- NuVzu4YIqRVOECJbUGw/aBAnJ5qVGoSqdfQ159PLUwYKJ9oAqyjMgm2KDFbt9ywqfC3wJSL0o
- xDXS0vCHMKRIb07QtDKObNUjS8BDuZ12TPc3WyNlW3QW2WhsXnakfHeQ2jTQynJKffmbsME2n
- ie3spGp15qogbzEbWGP9c66jZQ5SI+hex9cIVQ/VeSyes7NUHOFfDGDRDZkIzDZV7Eb1m2QLl
- Qdkl98i4FdBMM02Z9VaH378dCwlLB6cJME17XWU45cq7WWzpBztTF95Rfn8ePvpmaHAhkG+Cn
- RUywWvuaO3FJPZVkmZV6HzHTImm5Rh7xw1f5zpnSF6LEXz0pqHg08D3igNnZDDoNVTonDjIsA
- xnz4Dk31qFMdMDmjxeaC1vpAdS7PXcT+Lg8jQ8TCF/Ine9AJEWLQZA3yMexmLN4InYE35trs8
- k2MOfSI5STVSquLmw+UTlp0V8EBMsDV95qfnkXM7ske0B/JeC/RaA/Z5LIM+ptM8RpiZh4gsC
- ZgFkegldUQyFu1vH2msHf6MFSZTV8t6nlIbgOiMciHyeFsihjy58AuIxMF0xb2K7o+IcSK98k
- a5VK9j1/fBG3+PQOyZNyybxPftbO9ClEpzCDOVhMfmdKkwqtbiUgxnX6orx4vnJU2fP+9PCUw
- ktuvom8w9S5Wt5o+qkGZ6OSF+l+xnaxAMOLgSbzQXfDtpdpmfoWc5fZgG/J7T5C4QXOLOVf70
- KHZyBUqXdTaEkXmuffXN+f2eTPIXSSi0WsaG6ArHTHGIP6m0IHcXO4UaaiX6BbT+D6aEEn2Oc
- wZTphGf6T9T2Uo9dic623nge//8gybNe/D0qnUS5be9/joIr7dJIs/mtNr7Pge+4gd+ZSXiSg
- X+ajruhseJoMlSI5SoJy0qJhUhCQv+/mRVWdsp54k/hXwY0Du+uUq4CSBRs6oO88SpD5V8k/I
- AXztikw76bQ4QE=
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,46 +111,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
+ Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Graf <agraf@csgraf.de>,
+ qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/4/21 10:38, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hardware emulated models don't belong to the TCG MAINTAINERS
-> section. Move them to the 'HP-PARISC Machines' section.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On 05/10/2021 10.05, Alexey Kardashevskiy wrote:
+> 
+> 
+> On 05/10/2021 17:42, Thomas Huth wrote:
+>> On 05/10/2021 08.18, Alexey Kardashevskiy wrote:
+>>>
+>>>
+>>> On 05/10/2021 15:44, Christophe Leroy wrote:
+>>>>
+>>>>
+>>>> Le 05/10/2021 à 02:48, David Gibson a écrit :
+>>>>> On Fri, Oct 01, 2021 at 04:18:49PM +0200, Thomas Huth wrote:
+>>>>>> On 01/10/2021 15.04, Christophe Leroy wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> Le 01/10/2021 à 14:04, Thomas Huth a écrit :
+>>>>>>>> On 01/10/2021 13.12, Peter Maydell wrote:
+>>>>>>>>> On Fri, 1 Oct 2021 at 10:43, Thomas Huth <thuth@redhat.com> wrote:
+>>>>>>>>>> Nevertheless, as long as nobody has a hint where to find that
+>>>>>>>>>> ppc405_rom.bin, I think both boards are pretty useless in QEMU (as 
+>>>>>>>>>> far as I
+>>>>>>>>>> can see, they do not work without the bios at all, so it's
+>>>>>>>>>> also not possible
+>>>>>>>>>> to use a Linux image with the "-kernel" CLI option directly).
+>>>>>>>>>
+>>>>>>>>> It is at least in theory possible to run bare-metal code on
+>>>>>>>>> either board, by passing either a pflash or a bios argument.
+>>>>>>>>
+>>>>>>>> True. I did some more research, and seems like there was once
+>>>>>>>> support for those boards in u-boot, but it got removed there a
+>>>>>>>> couple of years ago already:
+>>>>>>>>
+>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/98f705c9cefdf
+>>>>>>>>
+>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/b147ff2f37d5b
+>>>>>>>>
+>>>>>>>> https://gitlab.com/qemu-project/u-boot/-/commit/7514037bcdc37
+>>>>>>>>
+>>>>>>>>> But I agree that there seem to be no signs of anybody actually
+>>>>>>>>> successfully using these boards for anything, so we should
+>>>>>>>>> deprecate-and-delete them.
+>>>>>>>>
+>>>>>>>> Yes, let's mark them as deprecated now ... if someone still uses
+>>>>>>>> them and speaks up, we can still revert the deprecation again.
+>>>>>>>
+>>>>>>> I really would like to be able to use them to validate Linux Kernel
+>>>>>>> changes, hence looking for that missing BIOS.
+>>>>>>>
+>>>>>>> If we remove ppc405 from QEMU, we won't be able to do any regression
+>>>>>>> tests of Linux Kernel on those processors.
+>>>>>>
+>>>>>> If you/someone managed to compile an old version of u-boot for one of 
+>>>>>> these
+>>>>>> two boards, so that we would finally have something for regression 
+>>>>>> testing,
+>>>>>> we can of course also keep the boards in QEMU...
+>>>>>
+>>>>> I can see that it would be usefor for some cases, but unless someone
+>>>>> volunteers to track down the necessary firmware and look after it, I
+>>>>> think we do need to deprecate it - I certainly don't have the capacity
+>>>>> to look into this.
+>>>>>
+>>>>
+>>>> I will look at it, please allow me a few weeks though.
+>>>
+>>> Well, building it was not hard but now I'd like to know what board QEMU 
+>>> actually emulates, there are way too many codenames and PVRs.
+>>>
+>>> Here is what I was building:
+>>> https://github.com/aik/u-boot/tree/ppc4xx-qemu
+>>>
+>>> CONFIG_SYS_ARCH="powerpc"
+>>> CONFIG_SYS_CPU="ppc4xx"
+>>> CONFIG_SYS_VENDOR="esd"
+>>> CONFIG_SYS_BOARD="pmc405de"
+>>> CONFIG_SYS_CONFIG_NAME="PMC405DE"
+>>>
+>>> Is this any use?
+>>
+>> If I've got u-boot commit 98f705c9cefdfdba62c069821bbba10273a0a8
+>> right, there used to be SYS_BOARD="405ep" config before that removal, so 
+>> that sounds like a promising match for the ref405ep of QEMU?
+> 
+> Tricky. The board can be 405ep if 
+> TARGET_IO/TARGET_DLVISION/TARGET_DLVISION_10G selected. Neither compiles at 
+> 98f705c9cefdfdba62c^ due to missing CONFIG_SYS_PCI_PTM1PCI :-/
+> 
+>>
+>> The support for "taihu" even got removed earlier, in u-boot commit 
+>> 123b6cd7a4f75536734a7bff97db6eebce614bd1 , and the commit message says 
+>> that it did not compile anymore at the end, so you might need to check out 
+>> an even older version for that one.
+> 
+> 
+> What is so special about taihu?
 
-Reviewed-by: Helge Deller <deller@gmx.de>
+taihu is the other 405 board defined in hw/ppc/ppc405_boards.c (which I 
+suggested to deprecate now)
 
-> ---
->  MAINTAINERS | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 50435b8d2f5..002620c6cad 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -205,10 +205,7 @@ HPPA (PA-RISC) TCG CPUs
->  M: Richard Henderson <richard.henderson@linaro.org>
->  S: Maintained
->  F: target/hppa/
-> -F: hw/hppa/
->  F: disas/hppa.c
-> -F: hw/net/*i82596*
-> -F: include/hw/net/lasi_82596.h
->
->  M68K TCG CPUs
->  M: Laurent Vivier <laurent@vivier.eu>
-> @@ -1098,6 +1095,8 @@ R: Helge Deller <deller@gmx.de>
->  S: Odd Fixes
->  F: configs/devices/hppa-softmmu/default.mak
->  F: hw/hppa/
-> +F: hw/net/*i82596*
-> +F: include/hw/net/lasi_82596.h
->  F: pc-bios/hppa-firmware.img
->
->  M68K Machines
->
+  Thomas
 
 
