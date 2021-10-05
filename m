@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B68422CB4
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:39:28 +0200 (CEST)
-Received: from localhost ([::1]:44078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02CEF422CF4
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:51:43 +0200 (CEST)
+Received: from localhost ([::1]:40086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXmXP-0003gp-HE
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:39:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37154)
+	id 1mXmjH-0003lc-24
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:51:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mXmKD-0001o7-Tl
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:25:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58126)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mXmRR-0004qm-1r
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:33:20 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:36866
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mXmKC-00064A-J0
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:25:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633447547;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kFyOXULNG37B2RXyMjh+ETk1npKEA5EyN+8as2bm268=;
- b=ZbNIhl0pRENQ97/cWykO6HHfxmdcvqdMNrf9ZmwOnbta49WtsYPbLBD7XCXGp5dt2/QIEN
- PGBCgkmTmVw5IT2bQmBbeObNkAIsyiYOZUApU1FG5fgvCERfzWYXyM105lCGCeQcseTaBx
- Xpiv1KrLFi2Jva2WHMpLqUyBJOyX1gY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-APCPKKKXMWSVumbKwVQo8w-1; Tue, 05 Oct 2021 11:25:44 -0400
-X-MC-Unique: APCPKKKXMWSVumbKwVQo8w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8E029F939;
- Tue,  5 Oct 2021 15:25:42 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.167])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E82885F4F6;
- Tue,  5 Oct 2021 15:25:33 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [RFC PATCH 1/1] virtio: write back features before verify
-In-Reply-To: <20211005135909.2b8ab021.pasic@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20210930012049.3780865-1-pasic@linux.ibm.com>
- <87r1d64dl4.fsf@redhat.com> <20210930130350.0cdc7c65.pasic@linux.ibm.com>
- <87ilyi47wn.fsf@redhat.com> <20211001162213.18d7375e.pasic@linux.ibm.com>
- <87v92g3h9l.fsf@redhat.com>
- <20211002082128-mutt-send-email-mst@kernel.org>
- <20211004042323.730c6a5e.pasic@linux.ibm.com>
- <20211004040937-mutt-send-email-mst@kernel.org>
- <20211005124303.3abf848b.pasic@linux.ibm.com> <87lf372084.fsf@redhat.com>
- <20211005135909.2b8ab021.pasic@linux.ibm.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Tue, 05 Oct 2021 17:25:32 +0200
-Message-ID: <87czoj1ok3.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mXmRM-0006vr-Np
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:33:16 -0400
+Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mXmR4-0001il-H1; Tue, 05 Oct 2021 16:32:58 +0100
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20211004211928.15803-1-mark.cave-ayland@ilande.co.uk>
+ <20211004211928.15803-9-mark.cave-ayland@ilande.co.uk>
+ <7994e73e-cbda-1bd1-68c4-250dd951ed51@vivier.eu>
+ <66384935-4c8f-8220-8593-bfde37d05e1d@ilande.co.uk>
+ <15fba2fe-77b0-78f4-ea55-9438ce976c18@vivier.eu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <52fe2fc5-b4fb-8888-9b80-0e362c52ebb5@ilande.co.uk>
+Date: Tue, 5 Oct 2021 16:33:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <15fba2fe-77b0-78f4-ea55-9438ce976c18@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 08/12] macfb: add common monitor modes supported by the
+ MacOS toolbox ROM
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,32 +67,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
- "Michael S. Tsirkin" <mst@redhat.com>, Xie Yongji <xieyongji@bytedance.com>,
- qemu-devel@nongnu.org, linux-kernel@vger.kernel.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, stefanha@redhat.com,
- virtualization@lists.linux-foundation.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 05 2021, Halil Pasic <pasic@linux.ibm.com> wrote:
+On 05/10/2021 16:08, Laurent Vivier wrote:
 
-> On Tue, 05 Oct 2021 13:13:31 +0200
-> Cornelia Huck <cohuck@redhat.com> wrote:
->> Or am I misunderstanding what you're getting at?
->> 
->
-> Probably. I'm talking about pre- "do transport specific legacy detection
-> in the device instead of looking at VERSION_1" you are probably talking
-> about the post-state. If we had this new behavior for all relevant
-> hypervisors then we wouldn't need to do a thing in the guest. The current
-> code would work like charm.
+> Le 05/10/2021 à 13:38, Mark Cave-Ayland a écrit :
+>> On 05/10/2021 10:50, Laurent Vivier wrote:
+>>
+>>> Le 04/10/2021 à 23:19, Mark Cave-Ayland a écrit :
+>>>> The monitor modes table is found by experimenting with the Monitors Control
+>>>> Panel in MacOS and analysing the reads/writes. From this it can be found that
+>>>> the mode is controlled by writes to the DAFB_MODE_CTRL1 and DAFB_MODE_CTRL2
+>>>> registers.
+>>>>
+>>>> Implement the first block of DAFB registers as a register array including the
+>>>> existing sense register, the newly discovered control registers above, and also
+>>>> the DAFB_MODE_VADDR1 and DAFB_MODE_VADDR2 registers which are used by NetBSD to
+>>>> determine the current video mode.
+>>>>
+>>>> These experiments also show that the offset of the start of video RAM and the
+>>>> stride can change depending upon the monitor mode, so update macfb_draw_graphic()
+>>>> and both the BI_MAC_VADDR and BI_MAC_VROW bootinfo for the q800 machine
+>>>> accordingly.
+>>>>
+>>>> Finally update macfb_common_realize() so that only the resolution and depth
+>>>> supported by the display type can be specified on the command line.
+>>>>
+>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+>>>> ---
+>>>>    hw/display/macfb.c         | 124 ++++++++++++++++++++++++++++++++-----
+>>>>    hw/display/trace-events    |   1 +
+>>>>    hw/m68k/q800.c             |  11 ++--
+>>>>    include/hw/display/macfb.h |  16 ++++-
+>>>>    4 files changed, 131 insertions(+), 21 deletions(-)
+>>>>
+>>>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+>>>> index f98bcdec2d..357fe18be5 100644
+>>>> --- a/hw/display/macfb.c
+>>>> +++ b/hw/display/macfb.c
+>>>>
+>>> ...
+>>>> +static MacFbMode *macfb_find_mode(MacfbDisplayType display_type,
+>>>> +                                  uint16_t width, uint16_t height,
+>>>> +                                  uint8_t depth)
+>>>> +{
+>>>> +    MacFbMode *macfb_mode;
+>>>> +    int i;
+>>>> +
+>>>> +    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
+>>>> +        macfb_mode = &macfb_mode_table[i];
+>>>> +
+>>>> +        if (display_type == macfb_mode->type && width == macfb_mode->width &&
+>>>> +                height == macfb_mode->height && depth == macfb_mode->depth) {
+>>>> +            return macfb_mode;
+>>>> +        }
+>>>> +    }
+>>>> +
+>>>> +    return NULL;
+>>>> +}
+>>>> +
+>>>
+>>> I misunderstood this part when I reviewed v1...
+>>>
+>>> It means you have to provide the monitor type to QEMU to switch from the default mode?
+>>
+>> Not as such: both the MacOS toolbox ROM and MacOS itself offer a fixed set of resolutions and depths
+>> based upon the display type. What I've done for now is default the display type to VGA since it
+>> offers both 640x480 and 800x600 in 1, 2, 4, 8, 16 and 24-bit colour which should cover the most
+>> common use of cases of people wanting to boot using the MacOS toolbox ROM.
+>>
+>> Even if you specify a default on the command line, MacOS still only cares about the display type and
+>> will allow you to change the resolution and depth dynamically, remembering the last resolution and
+>> depth across reboots.
+>>
+>> During testing I found that having access to the 1152x870 resolution offered by the Apple 21"
+>> monitor display type was useful to allow larger screen sizes, although only up to 8-bit depth so I
+>> added a bit of code that will switch from a VGA display type to a 21" display type if the graphics
+>> resolution is set to 1152x870x8.
+>>
+>> Finally if you boot a Linux kernel directly using -kernel then the provided XxYxD is placed directly
+>> into the relevant bootinfo fields with a VGA display type, unless a resolution of 1152x870x8 is
+>> specified in which case the 21" display type is used as above.
+>>
+>>> But, as a user, how do we know which modes are allowed with which resolution?
+>>>
+>>> Is possible to try to set internally the type here according to the resolution?
+>>>
+>>> Could you provide an command line example how to start the q800 with the 1152x870 resolution?
+>>
+>> Sure - simply add "-g 1152x870x8" to your command line. If the -g parameter is omitted then the
+>> display type will default to VGA.
+>>
+> 
+> Thank you for the explanation.
+> 
+> Perhaps you can add in the error message the list of the available mode and depth?
+> (it's not a blocker for the series, it can be added later)
+> 
+> As an user, it's hard to know what are the allowed values.
 
-Yeah, I was thinking more about the desired state. We need to both fix
-QEMU (and other VMMs or devices should check whether they are doing the
-right thing) and add a workaround on the driver side to make it work
-with existing QEMUs.
+This is where it becomes a bit trickier, since technically booting Linux with -kernel 
+you can use any supported values as long as everything fits in the video RAM which is 
+why there isn't currently a hard-coded list :)
 
+If you would prefer a fixed set of resolutions for both MacOS and Linux booted with 
+-kernel then I think we should aim for VGA (640x480) in 1, 2, 4, 8, 16 and 24-bit 
+depths, SVGA (800x600) in 1, 2, 4, 8, 16 and 24-bit depths and 21" (1152x870) in 1, 
+2, 4 and 8-bit depths. Do other emulated displays show supported resolutions in the 
+error message, or do they rely on including this in the documentation?
+
+One other point to note is that when MacOS detects a VGA display type, it defaults to 
+640x480 until you go into the Control Panel and select 800x600 to enable it. It seems 
+this was a precaution to prevent damaging VGA monitors that couldn't sync with an 
+SVGA signal, since the cable doesn't allow you to distinguish between a VGA and an 
+SVGA-capable monitor.
+
+Finally after the initial boot MacOS always boots into the last resolution/depth set 
+successfully in the Control Panel for the detected display type. So you could specify 
+640x480x8 on the command line, but if you changed this to 800x600x4 before the last 
+reboot then MacOS would reprogram the macfb registers with the same values again, 
+effectively overriding the -g parameter and making it a no-op...
+
+
+ATB,
+
+Mark.
 
