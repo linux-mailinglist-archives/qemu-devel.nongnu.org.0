@@ -2,65 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10379422C48
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:22:19 +0200 (CEST)
-Received: from localhost ([::1]:34514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA6C422C91
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 17:33:44 +0200 (CEST)
+Received: from localhost ([::1]:59866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXmGo-00035N-30
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:22:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60902)
+	id 1mXmRq-0003XT-Ow
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 11:33:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXm3r-00013e-B4
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:08:55 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:53189)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXm3v-0001Hf-2M
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:08:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXm3l-0005Rv-8A
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:08:54 -0400
-Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MpUQm-1n8Bj10ODs-00pqkI; Tue, 05 Oct 2021 17:08:47 +0200
-Subject: Re: [PATCH v2 08/12] macfb: add common monitor modes supported by the
- MacOS toolbox ROM
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20211004211928.15803-1-mark.cave-ayland@ilande.co.uk>
- <20211004211928.15803-9-mark.cave-ayland@ilande.co.uk>
- <7994e73e-cbda-1bd1-68c4-250dd951ed51@vivier.eu>
- <66384935-4c8f-8220-8593-bfde37d05e1d@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <15fba2fe-77b0-78f4-ea55-9438ce976c18@vivier.eu>
-Date: Tue, 5 Oct 2021 17:08:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXm3t-0005Xe-Bd
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 11:08:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633446536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=E7ckrzHsn4jfi18xHbyGJ35f/6LWrfmPSLonsi9z9PA=;
+ b=KhMxrDNNsngcywl0HzcmxFrWHHclhiy53JoTpKMSC7BduL4QgqfFzGN7aRAtZLr+0ZYYGz
+ BjQdT4OKfjmZKtQZ/DeH+4GwaJ+KoecQuw6Zneba5P2zk4QEwvepHB6dZPJktKCwH/kDVI
+ Ori6Zks+azqceF3+l+lRBHfFmuw7Zl0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-118-n8xnMVCcN9CkE3q6qB5ebg-1; Tue, 05 Oct 2021 11:08:53 -0400
+X-MC-Unique: n8xnMVCcN9CkE3q6qB5ebg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ c8-20020a50d648000000b003daa53c7518so20628099edj.21
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 08:08:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=E7ckrzHsn4jfi18xHbyGJ35f/6LWrfmPSLonsi9z9PA=;
+ b=oQjSDcBZIP2kgIlOMVW97V3+QSV5o5QtMraT9i5svFxQ7Z1Qm3W6jXKLct4gZJ+EZ0
+ 56Ekk5dqOjmHIOPk5uzFz1vFb/1vSLeqQ0Ys7BWyU0+KJBIZvbYrMGCf3lZl1YMjfRLb
+ Mxq91Lpm49tSK+XjWWxyJj9AqoKuyJH9s1KiT723wWTIACcSaKGs6QzR9ZvqMXAfW24M
+ rnVNgi1PriXPP/BOKjokQuhNUHM//YZ6KeUGNPCECDVpB8f7owRqh+ODrYCEM8DJiokk
+ FVTJmuGWfbfpGlC8aaSSVhdyoA6bs/sycSeQJIDXjz5w/x7rZvMZA5/83CkzwzqJjTgy
+ Fp/A==
+X-Gm-Message-State: AOAM533CJx+aYppd1YcwWZHmi0LBFGVPvYT/FfBKZhDRtPR7+P9Iq8Bc
+ GjEJ21w1B2zcKgMtJh16xVKpqW+Wgfi2O0gI5VOKTrWW+jyDOPz3bYG5oL52+oOh71qZM5tTaoZ
+ v74/4E7XODH75n30=
+X-Received: by 2002:a17:906:354a:: with SMTP id
+ s10mr26628385eja.475.1633446532360; 
+ Tue, 05 Oct 2021 08:08:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx+0IG4DO6rBfGkxrIf5KpBkslje0qSDbPsfUo/KO+sDR/WJmqPA5FWphKk/4/53Bioy3uIIw==
+X-Received: by 2002:a17:906:354a:: with SMTP id
+ s10mr26628356eja.475.1633446532148; 
+ Tue, 05 Oct 2021 08:08:52 -0700 (PDT)
+Received: from redhat.com ([2.55.147.134])
+ by smtp.gmail.com with ESMTPSA id d18sm3769781ejo.80.2021.10.05.08.08.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 08:08:51 -0700 (PDT)
+Date: Tue, 5 Oct 2021 11:08:47 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v3 0/3] hw/arm/virt_acpi_build: Generate DBG2 table
+Message-ID: <20211005110838-mutt-send-email-mst@kernel.org>
+References: <20210927131732.63801-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <66384935-4c8f-8220-8593-bfde37d05e1d@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:huh5tk6W9BZ/TXhgWk8vxBk4mOkwjL/H7r/BRYqVm0XxfNLPkAf
- OsmNJrEFcuxGLSS3CLZP5ryK1PSKc3gzKf4Blaf8mX80CHvBAVillw68GytvQlsdNA/oMa4
- ef867rIFXeqO4EzjVTbtgiQ33EjloWmel9jcSPVFdlIn/Zw7lI3wfOl3fakgakCBPU9witj
- Mv0/4NKlVLnzgQnftImew==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YGeUwas0HBU=:SaSiBRTNpZDG1YcfChfbqp
- RD+FLS3NAWgzHfCDm9XRA7zvtWegOhdAY+6tClYpd4XAg7/1NoodafzKCr4iOyesbB6b6A+td
- 18eBTgmZ9BBoj1gy+Z9WrW90ObvxxvIXf3iedBcmYiMbpE4u+xy179D9oFQQfyfb4hLogS+dX
- 7mVrxj+ljQUSv4qGaccxE5W6uSkka/y761p1uPaZFV6OO0AloJXwNiTWjNYcBADR/sykSrjl5
- Xo2sQkOz1BgGJBmGBHpk6a6bPBmulXqNM5AW1BqcDKK03DaYIc67YBK2+tdzlscLxzFZ2Esuh
- ImnMLUljybqKnbS4tvhf1u0rBuyxtcofBySn9YVkyZMC4cQ+RriRJ6dgJT5z+/7bTXPuCEKvM
- QGJYeefRiFOVhM41R6ZqKtjOI9zJBLcb9bTW7MT32bHWMykZ1rWKcAlhkfopLL7NoHsac5v3l
- 2pD6v6uEzxhJ+B0CbYoBAaPLxt3008UueXiU1aX0MHdZsHnljarqpcjo2Lpq/OthefmKfGwkU
- yuj2Xz2CVhEVv2P0u4ikj8tYtPpRBnbqBM18KnsGKYvhopPAen1oRCKuQzBT5wJ2H1bG0WSZC
- Zp9e9kFqaPdPJpBwoYW2ENVHUtTaqQQRl6qxLnaMe6uxSUbpiwCZJ5GcUz1kv+ILAqL5NlJEp
- gbIZexlnnhr9Z6Nu9L5UqPie6El1r4bqY/om93/TwvHCrhDAK3wRWUx6CeXTaG42oWVyiC0Or
- k72wwQPm5FwZOXKEeUUHWANojZW438yaNsaQmA==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210927131732.63801-1-eric.auger@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,105 +93,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, gshan@redhat.com,
+ qemu-devel@nongnu.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+ imammedo@redhat.com, philmd@redhat.com, ardb@kernel.org,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 05/10/2021 à 13:38, Mark Cave-Ayland a écrit :
-> On 05/10/2021 10:50, Laurent Vivier wrote:
+On Mon, Sep 27, 2021 at 03:17:29PM +0200, Eric Auger wrote:
+> This series generates the ACPI DBG2 table along with machvirt.
+> It applies on top of Igor's
+> [PATCH v4 00/35] acpi: refactor error prone build_header() and
+> packed structures usage in ACPI tables
 > 
->> Le 04/10/2021 à 23:19, Mark Cave-Ayland a écrit :
->>> The monitor modes table is found by experimenting with the Monitors Control
->>> Panel in MacOS and analysing the reads/writes. From this it can be found that
->>> the mode is controlled by writes to the DAFB_MODE_CTRL1 and DAFB_MODE_CTRL2
->>> registers.
->>>
->>> Implement the first block of DAFB registers as a register array including the
->>> existing sense register, the newly discovered control registers above, and also
->>> the DAFB_MODE_VADDR1 and DAFB_MODE_VADDR2 registers which are used by NetBSD to
->>> determine the current video mode.
->>>
->>> These experiments also show that the offset of the start of video RAM and the
->>> stride can change depending upon the monitor mode, so update macfb_draw_graphic()
->>> and both the BI_MAC_VADDR and BI_MAC_VROW bootinfo for the q800 machine
->>> accordingly.
->>>
->>> Finally update macfb_common_realize() so that only the resolution and depth
->>> supported by the display type can be specified on the command line.
->>>
->>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
->>> ---
->>>   hw/display/macfb.c         | 124 ++++++++++++++++++++++++++++++++-----
->>>   hw/display/trace-events    |   1 +
->>>   hw/m68k/q800.c             |  11 ++--
->>>   include/hw/display/macfb.h |  16 ++++-
->>>   4 files changed, 131 insertions(+), 21 deletions(-)
->>>
->>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
->>> index f98bcdec2d..357fe18be5 100644
->>> --- a/hw/display/macfb.c
->>> +++ b/hw/display/macfb.c
->>>
->> ...
->>> +static MacFbMode *macfb_find_mode(MacfbDisplayType display_type,
->>> +                                  uint16_t width, uint16_t height,
->>> +                                  uint8_t depth)
->>> +{
->>> +    MacFbMode *macfb_mode;
->>> +    int i;
->>> +
->>> +    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
->>> +        macfb_mode = &macfb_mode_table[i];
->>> +
->>> +        if (display_type == macfb_mode->type && width == macfb_mode->width &&
->>> +                height == macfb_mode->height && depth == macfb_mode->depth) {
->>> +            return macfb_mode;
->>> +        }
->>> +    }
->>> +
->>> +    return NULL;
->>> +}
->>> +
->>
->> I misunderstood this part when I reviewed v1...
->>
->> It means you have to provide the monitor type to QEMU to switch from the default mode?
+> The DBG2 specification can be found at
+> https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table.
 > 
-> Not as such: both the MacOS toolbox ROM and MacOS itself offer a fixed set of resolutions and depths
-> based upon the display type. What I've done for now is default the display type to VGA since it
-> offers both 640x480 and 800x600 in 1, 2, 4, 8, 16 and 24-bit colour which should cover the most
-> common use of cases of people wanting to boot using the MacOS toolbox ROM.
+> DBG2 is mandated by ARM SBBR since its v1.0 release (the rationale
+> behind is Windows requires it on all systems).
 > 
-> Even if you specify a default on the command line, MacOS still only cares about the display type and
-> will allow you to change the resolution and depth dynamically, remembering the last resolution and
-> depth across reboots.
+> The DBG2 is used to describe a debug port, used by the kernel debugger.
 > 
-> During testing I found that having access to the 1152x870 resolution offered by the Apple 21"
-> monitor display type was useful to allow larger screen sizes, although only up to 8-bit depth so I
-> added a bit of code that will switch from a VGA display type to a 21" display type if the graphics
-> resolution is set to 1152x870x8.
-> 
-> Finally if you boot a Linux kernel directly using -kernel then the provided XxYxD is placed directly
-> into the relevant bootinfo fields with a VGA display type, unless a resolution of 1152x870x8 is
-> specified in which case the 21" display type is used as above.
-> 
->> But, as a user, how do we know which modes are allowed with which resolution?
->>
->> Is possible to try to set internally the type here according to the resolution?
->>
->> Could you provide an command line example how to start the q800 with the 1152x870 resolution?
-> 
-> Sure - simply add "-g 1152x870x8" to your command line. If the -g parameter is omitted then the
-> display type will default to VGA.
-> 
+> This series and its dependency can be found at
+> https://github.com/eauger/qemu.git
+> branch: igor_acpi_refactoring_v4_dbg2_v3
 
-Thank you for the explanation.
 
-Perhaps you can add in the error message the list of the available mode and depth?
-(it's not a blocker for the series, it can be added later)
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-As an user, it's hard to know what are the allowed values.
 
-Thanks,
-Laurent
+> History:
+> v2 -> v3:
+> - addressed all comments from Igor on v2:
+>   patches 2/3 swapped
+>   style adjustments in "hw/arm/virt_acpi_build: Generate DBG2 table"
+>   + more precision on spec references
+> 
+> v1 -> v2:
+> - rebase on top of Igor's series and use acpi_init_table/acpi_table_composed
+>   and build_append_int_noprefix()
+> 
+> 
+> Eric Auger (3):
+>   tests/acpi: Add void table for virt/DBG2 bios-tables-test
+>   hw/arm/virt_acpi_build: Generate DBG2 table
+>   bios-tables-test: Generate reference table for virt/DBG2
+> 
+>  hw/arm/virt-acpi-build.c  |  62 +++++++++++++++++++++++++++++++++++++-
+>  tests/data/acpi/virt/DBG2 | Bin 0 -> 87 bytes
+>  2 files changed, 61 insertions(+), 1 deletion(-)
+>  create mode 100644 tests/data/acpi/virt/DBG2
+> 
+> -- 
+> 2.26.3
+
 
