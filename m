@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36304421BA2
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 03:16:01 +0200 (CEST)
-Received: from localhost ([::1]:59748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0B3421B6E
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 03:09:11 +0200 (CEST)
+Received: from localhost ([::1]:56254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXZ3o-0003Ce-6o
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 21:16:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33936)
+	id 1mXYxC-0000aV-A8
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 21:09:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mXYtd-0007IF-PL; Mon, 04 Oct 2021 21:05:30 -0400
-Received: from gandalf.ozlabs.org ([2404:9400:2:0:216:3eff:fee2:21ea]:60529)
+ id 1mXYtc-0007HX-9z; Mon, 04 Oct 2021 21:05:28 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:55439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1mXYtX-0003XR-5C; Mon, 04 Oct 2021 21:05:28 -0400
+ id 1mXYtX-0003XQ-4q; Mon, 04 Oct 2021 21:05:26 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4HNfWx1YQbz4xbZ; Tue,  5 Oct 2021 12:05:17 +1100 (AEDT)
+ id 4HNfWx1jSrz4xbb; Tue,  5 Oct 2021 12:05:17 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1633395917;
- bh=AJzyWfUQbn3fmbBIa28aBR/a5AQ0TzRhGSo6OJ9Uu2Q=;
+ bh=VQNh4thgyu/XEVs4OYnOrRN3mtZIynWu4ytpmCt7jJY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jcnqKYOGTQ4FdE6xSpnVLEq8GIB7q1rBFOKgdGU/bqb6kE9q5VXni5dqLu/Tu0w1C
- IwZTw/+P/vmtjBscLkoMpe4e/B8a7EOeGU3ocndIwVi0ZNzdaccRuTMzZE66MzTGJF
- 8InUzBNgoMCb8ZYJE9w/qlaV5fjjShvYj/MdLEv0=
-Date: Tue, 5 Oct 2021 11:42:48 +1100
+ b=Qge04Rw7jt9NjNW4FEAc3BcOrFAM5rgjSwvcYpyccY1c7YjX7uydhUnS8oobw1lUO
+ 76/cWg5XDrIww8io9ux7PaNc8uvK2cFIxPJsf2NHi8mS2XWb/dbFtt8opGXpjTJF3I
+ lmtyDBlxwWoWp2tchmF7XiMsjWnRl3v/71RqXX3k=
+Date: Tue, 5 Oct 2021 11:46:02 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] spapr/xive: Add source status helpers
-Message-ID: <YVufiJNLZah1hUnM@yekko>
-References: <20211004212141.432954-1-clg@kaod.org>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 1/2] target/ppc: Use tcg_constant_i32() in gen_setb()
+Message-ID: <YVugSuz+LtDYYvD1@yekko>
+References: <20211003141711.3673181-1-f4bug@amsat.org>
+ <20211003141711.3673181-2-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mr6VDNyaSkJbz/xk"
+ protocol="application/pgp-signature"; boundary="ZFTqTEp9tajDdmWP"
 Content-Disposition: inline
-In-Reply-To: <20211004212141.432954-1-clg@kaod.org>
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
+In-Reply-To: <20211003141711.3673181-2-f4bug@amsat.org>
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,166 +58,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---mr6VDNyaSkJbz/xk
+--ZFTqTEp9tajDdmWP
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 04, 2021 at 11:21:41PM +0200, C=E9dric Le Goater wrote:
-> and use them to set and test the ASSERTED bit of LSI sources.
+On Sun, Oct 03, 2021 at 04:17:10PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Avoid using TCG temporaries for the -1 and 8 constant values.
 >=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 
-Applied to ppc-for-6.2, thanks.
+Both patches applied to ppc-for-6.2, thanks.
 
 > ---
->  include/hw/ppc/xive.h    | 24 ++++++++++++++++++++++++
->  hw/intc/spapr_xive.c     |  2 +-
->  hw/intc/spapr_xive_kvm.c | 10 +++-------
->  hw/intc/xive.c           |  8 ++++----
->  4 files changed, 32 insertions(+), 12 deletions(-)
+>  target/ppc/translate.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-> index 252c58a1d691..b8ab0bf7490f 100644
-> --- a/include/hw/ppc/xive.h
-> +++ b/include/hw/ppc/xive.h
-> @@ -286,6 +286,30 @@ uint8_t xive_esb_set(uint8_t *pq, uint8_t value);
->  uint8_t xive_source_esb_get(XiveSource *xsrc, uint32_t srcno);
->  uint8_t xive_source_esb_set(XiveSource *xsrc, uint32_t srcno, uint8_t pq=
-);
-> =20
-> +/*
-> + * Source status helpers
-> + */
-> +static inline void xive_source_set_status(XiveSource *xsrc, uint32_t src=
-no,
-> +                                          uint8_t status, bool enable)
-> +{
-> +    if (enable) {
-> +        xsrc->status[srcno] |=3D status;
-> +    } else {
-> +        xsrc->status[srcno] &=3D ~status;
-> +    }
-> +}
-> +
-> +static inline void xive_source_set_asserted(XiveSource *xsrc, uint32_t s=
-rcno,
-> +                                            bool enable)
-> +{
-> +    xive_source_set_status(xsrc, srcno, XIVE_STATUS_ASSERTED, enable);
-> +}
-> +
-> +static inline bool xive_source_is_asserted(XiveSource *xsrc, uint32_t sr=
-cno)
-> +{
-> +    return xsrc->status[srcno] & XIVE_STATUS_ASSERTED;
-> +}
-> +
->  void xive_source_pic_print_info(XiveSource *xsrc, uint32_t offset,
->                                  Monitor *mon);
-> =20
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index 89cfa018f598..4ec659b93e13 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -185,7 +185,7 @@ static void spapr_xive_pic_print_info(SpaprXive *xive=
-, Monitor *mon)
->                         xive_source_irq_is_lsi(xsrc, i) ? "LSI" : "MSI",
->                         pq & XIVE_ESB_VAL_P ? 'P' : '-',
->                         pq & XIVE_ESB_VAL_Q ? 'Q' : '-',
-> -                       xsrc->status[i] & XIVE_STATUS_ASSERTED ? 'A' : ' =
-',
-> +                       xive_source_is_asserted(xsrc, i) ? 'A' : ' ',
->                         xive_eas_is_masked(eas) ? "M" : " ",
->                         (int) xive_get_field64(EAS_END_DATA, eas->w));
-> =20
-> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-> index 6d4909d0a856..be94cff14837 100644
-> --- a/hw/intc/spapr_xive_kvm.c
-> +++ b/hw/intc/spapr_xive_kvm.c
-> @@ -242,7 +242,7 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, in=
-t srcno, Error **errp)
-> =20
->      if (xive_source_irq_is_lsi(xsrc, srcno)) {
->          state |=3D KVM_XIVE_LEVEL_SENSITIVE;
-> -        if (xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
-> +        if (xive_source_is_asserted(xsrc, srcno)) {
->              state |=3D KVM_XIVE_LEVEL_ASSERTED;
->          }
->      }
-> @@ -321,7 +321,7 @@ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int src=
-no, uint32_t offset,
->      if (xive_source_irq_is_lsi(xsrc, srcno) &&
->          offset =3D=3D XIVE_ESB_LOAD_EOI) {
->          xive_esb_read(xsrc, srcno, XIVE_ESB_SET_PQ_00);
-> -        if (xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
-> +        if (xive_source_is_asserted(xsrc, srcno)) {
->              kvmppc_xive_esb_trigger(xsrc, srcno);
->          }
->          return 0;
-> @@ -359,11 +359,7 @@ void kvmppc_xive_source_set_irq(void *opaque, int sr=
-cno, int val)
->              return;
->          }
->      } else {
-> -        if (val) {
-> -            xsrc->status[srcno] |=3D XIVE_STATUS_ASSERTED;
-> -        } else {
-> -            xsrc->status[srcno] &=3D ~XIVE_STATUS_ASSERTED;
-> -        }
-> +        xive_source_set_asserted(xsrc, srcno, val);
->      }
-> =20
->      kvmppc_xive_esb_trigger(xsrc, srcno);
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index 6c82326ec768..190194d27f84 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -875,7 +875,7 @@ static bool xive_source_lsi_trigger(XiveSource *xsrc,=
- uint32_t srcno)
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index b985e9e55bc..193d8e89152 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -5074,19 +5074,15 @@ static void gen_mtspr(DisasContext *ctx)
+>  static void gen_setb(DisasContext *ctx)
 >  {
->      uint8_t old_pq =3D xive_source_esb_get(xsrc, srcno);
+>      TCGv_i32 t0 =3D tcg_temp_new_i32();
+> -    TCGv_i32 t8 =3D tcg_temp_new_i32();
+> -    TCGv_i32 tm1 =3D tcg_temp_new_i32();
+> +    TCGv_i32 t8 =3D tcg_constant_i32(8);
+> +    TCGv_i32 tm1 =3D tcg_constant_i32(-1);
+>      int crf =3D crfS(ctx->opcode);
 > =20
-> -    xsrc->status[srcno] |=3D XIVE_STATUS_ASSERTED;
-> +    xive_source_set_asserted(xsrc, srcno, true);
+>      tcg_gen_setcondi_i32(TCG_COND_GEU, t0, cpu_crf[crf], 4);
+> -    tcg_gen_movi_i32(t8, 8);
+> -    tcg_gen_movi_i32(tm1, -1);
+>      tcg_gen_movcond_i32(TCG_COND_GEU, t0, cpu_crf[crf], t8, tm1, t0);
+>      tcg_gen_ext_i32_tl(cpu_gpr[rD(ctx->opcode)], t0);
 > =20
->      switch (old_pq) {
->      case XIVE_ESB_RESET:
-> @@ -923,7 +923,7 @@ static bool xive_source_esb_eoi(XiveSource *xsrc, uin=
-t32_t srcno)
->       * notification
->       */
->      if (xive_source_irq_is_lsi(xsrc, srcno) &&
-> -        xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
-> +        xive_source_is_asserted(xsrc, srcno)) {
->          ret =3D xive_source_lsi_trigger(xsrc, srcno);
->      }
-> =20
-> @@ -1104,7 +1104,7 @@ void xive_source_set_irq(void *opaque, int srcno, i=
-nt val)
->          if (val) {
->              notify =3D xive_source_lsi_trigger(xsrc, srcno);
->          } else {
-> -            xsrc->status[srcno] &=3D ~XIVE_STATUS_ASSERTED;
-> +            xive_source_set_asserted(xsrc, srcno, false);
->          }
->      } else {
->          if (val) {
-> @@ -1133,7 +1133,7 @@ void xive_source_pic_print_info(XiveSource *xsrc, u=
-int32_t offset, Monitor *mon)
->                         xive_source_irq_is_lsi(xsrc, i) ? "LSI" : "MSI",
->                         pq & XIVE_ESB_VAL_P ? 'P' : '-',
->                         pq & XIVE_ESB_VAL_Q ? 'Q' : '-',
-> -                       xsrc->status[i] & XIVE_STATUS_ASSERTED ? 'A' : ' =
-');
-> +                       xive_source_is_asserted(xsrc, i) ? 'A' : ' ');
->      }
+>      tcg_temp_free_i32(t0);
+> -    tcg_temp_free_i32(t8);
+> -    tcg_temp_free_i32(tm1);
 >  }
+>  #endif
 > =20
 
 --=20
@@ -225,25 +113,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---mr6VDNyaSkJbz/xk
+--ZFTqTEp9tajDdmWP
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFbn4YACgkQbDjKyiDZ
-s5JOIBAA1EIWY2jnQnZbYOwAms8nRXAXOO7d8Torq3OB5CWCMZw+evIHXFmJVJAz
-6S/gl1av4N8xQKNFPy9EZ5xUKDjn2J3wefEsmn6rrVVzT0aD3N7jZkq0tbZ533ou
-/4rFyidFj/73JPzd8g4E072cAHUFP3xryNAmV+k8tVpkUCZxcRnBeU5JsB/yACpe
-AgLKxf4mFaWU+REQ7MTRMdYl6PVrKlaF+bbmUv1WakU1ZH6XaW7yTyUMBBmXIdXK
-rnnk/1rU9NaybrM+DYTY6oxTSJUCbhipz3XqGMA82Vf/DTUhxj8wyrRR/PefqFvx
-VJ272jpiUpXy44QBIk/wO7X1sFwWXtyQLBlf7KTE4hFEtiEcbx4wCKYTpVOOzyaH
-cxhgBJrmiYyQ5Iv30tlvP0bt/Ndk8w5iwMAMu86XbUbwXEO9DF6ZbUzyJjLK+N3f
-9CRt5z5sT2GJlHb8dJJi3u3yzWj4iTjkZFU7DHqvbQrG83XBwNhIS3I4/HWbmL7u
-sUMdqXnjxHYo2VZMbkG1VSqiAxFUVyLT68y2R5DpdB43cMDbSawfFZa4Ql22tUWD
-oQErK6iX/7HwuZxiC4bAxh6RFLceyWco+J9K16Dj7h0d1DZFChskwbR3VlpaFyoR
-9ZtxTlBQgLfCdqQGl5ziS128wwnSV3KwLWbO2nztvz3H+ogYa7c=
-=L3BD
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFboEoACgkQbDjKyiDZ
+s5IZaRAAvUfvDp9NgUv9B6nlf/Cufr+QvzxbAKg0f5mgUR4RLqiNZYf1xZzFFHt8
+OQMgL5qjjV2zJpw7vLf9QB6YowcUyjsfXps54W7p8g0xMWjm/nL4cGcTFrPfBMxR
+O/OM1JWcN26v0ON5BYZiRKRRo8zEyow/E7SN/8sXfofL5kJwOmfzCl66IjtL5Lfq
+km6qgLxWXQupvlScbclv8Rhj8wBITAkSIPmk2jzNhlqyKPXLf3Px9qxwyM6t/L6N
+Xp5XHw1HqhuQAghtvm2FN+8ddsOWSu/hL5fyzrszoFKI1Tewjqz0LzjkkQb7BgCx
+TTtYlGpVb+DCgRvrb24lJ2o6/C7jRJtL4gJn4aJiELQHlw4+Tt8vrA0kAvUD8Vtu
+7SUrJxfgzPbFB60zId6r8qHmvhk25dutieaINT5jfd0uJ2Xd8fyOUIvT0AKZPJmA
+51CLEVQOos7wFh6lhGRKPf+robCIhc6YaA+XhF5wJOj7w0vObtXvYq8CqlL0rwr8
+eRZbAlFESkGwtbqj7/eLaMa+ScJ7TXE1fhfIUmPwZ09EZCIDDVfnB23ApEArvuwG
+seLNpjEFKwM5PbRBJpjWI5gPHRAdFfxiUj+y7Ae+keuH5+V8nB7Aq3KNeuFroh7g
+nZWK4/sXgh1oXw2DPi0D1odjpyZbgCJg6zUOOFhj4HQTPkSui90=
+=xpqs
 -----END PGP SIGNATURE-----
 
---mr6VDNyaSkJbz/xk--
+--ZFTqTEp9tajDdmWP--
 
