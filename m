@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00DE422DF3
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:29:05 +0200 (CEST)
-Received: from localhost ([::1]:46030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE24422DC6
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 18:21:11 +0200 (CEST)
+Received: from localhost ([::1]:57004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXnJQ-0004zN-HJ
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:29:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46788)
+	id 1mXnBm-0001dn-6d
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 12:21:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsP-0008Po-Fu
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30014)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsJ-0004Yj-4l
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsN-0008O2-GF
  for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44089)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXmsJ-0004bK-LA
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 12:01:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633449659;
+ s=mimecast20190719; t=1633449662;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/2tyMA4ubaOTmCnsG3GSjYJgJRE9OF4GDfIrA22J2bo=;
- b=Tc5CWlP3XSS/pAzFNH1Kmm7qMMMQCbhNX+qCpzvD8WreGU17/qxptc6dLLpCUNapB3V7I/
- h51/vQ5Y8uqxuV/xPU1dVkHcLgA/IlxRMBeKRzOpWBONPryfRaVW3tjuar9Alf3aL3d8Iz
- 85E8bTeDFcV5ymWirbRTlJVk+4pKSnA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235--BqDjZ0TP3uHTOQDoBPxzA-1; Tue, 05 Oct 2021 12:00:58 -0400
-X-MC-Unique: -BqDjZ0TP3uHTOQDoBPxzA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h24-20020a7bc938000000b0030d400be5b5so6530237wml.0
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:00:56 -0700 (PDT)
+ bh=fh2VpJXcxJxzBAVFO9OEfTC6q1W7DfmN4tRkON1Y0l0=;
+ b=gWigkoRY88lRG9EY3+JM9eXNGNgVuARhbCgcsaUkbn8izrjqgFnJDZWtqI4zuSC1KCRjrz
+ XtpViXfNXReyC1VTOC/H/k7VWweVKNNYIBJmzogAGc93/fmG9MdL9ibbAS89iBVnUpbpgj
+ 8wQquBGGs7zHfuDUDCAd628QsyIbv+A=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-507-XpsgrE3sP1-H_pTJyA4mXg-1; Tue, 05 Oct 2021 12:01:00 -0400
+X-MC-Unique: XpsgrE3sP1-H_pTJyA4mXg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 75-20020a1c004e000000b00307b9b32cc9so1118435wma.1
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 09:01:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=/2tyMA4ubaOTmCnsG3GSjYJgJRE9OF4GDfIrA22J2bo=;
- b=q5aNbBpGMztbv9u1TJhHzt1qN7Xif2Pr7Elmq6/kJrdhKb8ea0jTutAVEvwyVfg4RR
- vm45R0M5I3BpOiH7hakT/eylvykTgn5Ll4ZDeTOP7mpFkz/6/3+ExBdOjzw+SyMv0Ecx
- K6XTXnveQ0KhBqqa5qSvsaDT/xdJyHcw4+cPoc1kZKiQO1Xd1zNW8vDw4K17pxdYQxEO
- Djt+wdQTH/7BtqIFVPoxsxnwaTadB/5JdcUJg7uYkKxhScvOyUjgy9H3BwDcc3aF1SMa
- a1kxi0lNfr7TPcZtFSYNnJABKp+gwMvnrHu0EF3ovBbbWiRdmD7L4pWRtsNiLboFEFQ1
- v4dQ==
-X-Gm-Message-State: AOAM531LzL0QuKaxUKr04YchQe8zJpTuRbPE/zYp8/JTIHSG3/euJDHw
- LZNY6jfRDd+AK15VHaeiBL4xog4BRm0gDApwjeXc+if/3KY+ru9aOQOMZeQ7tuuDhERHiHdRdDo
- UY9qjtJz/QhOg97HKy31pGXJBoS2buiKRuEz+Prk/U088s5oy7EQYT/gERZ1B
-X-Received: by 2002:a05:6000:1866:: with SMTP id
- d6mr22016648wri.205.1633449655506; 
- Tue, 05 Oct 2021 09:00:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzJlyJqdWdEnIrLseRw3VwrK3XxkvGTm/ZgAyeTSTmji6PNQ4mf5+ykKko8wgq1lyr511TM+w==
-X-Received: by 2002:a05:6000:1866:: with SMTP id
- d6mr22016612wri.205.1633449655279; 
- Tue, 05 Oct 2021 09:00:55 -0700 (PDT)
+ bh=fh2VpJXcxJxzBAVFO9OEfTC6q1W7DfmN4tRkON1Y0l0=;
+ b=yE6m5pUIGzo4kezeLJsZCeLmJa0CaZmlEvdbqdwSj4ZsiP2yMP3w4XQXzxwiMrijYv
+ EvDYNtRI1kZfYBDPQ6cFMiqz/ZTvPr/8kfws1i2bXhqjLU/ED9lFzwsZBsyYkCXPONEn
+ Gv6Tmb4otyKKuWQ26ioYdwUd4FnGeTE275lNQ3mxnfGtCDjaJbkcKbveDQbE9AWA5cDl
+ WJ2i5O22gITPKNPk89mdPs4ML9W7dWgbaclCXdNnHFi7lPgoe6enCup3aMW5EbwttsJA
+ TtciOKBRhNATnulV2Xtgq7CJr0VQpwdwhhbElxZNfRRdZcyq1FT2j7xUi5nEEWgYXPXq
+ CFeA==
+X-Gm-Message-State: AOAM533hrD+TM6B0U9dqNnPAboRqD7dx+j5apj1DyH7p9iGIF7w1hidX
+ aPFQjeoG5m4QV3jlWwCQBEL+qDPN9L3xJl6v6EJqmmfuXSaQqwTnoVySGezoFc+0ADS1LGjvRpk
+ CdkSITqfcwKxQKjPTf1IrOBxfe8TmYhzYWOhZBdLBnCb/yUE5tOMb0Wdkbc45
+X-Received: by 2002:a05:600c:1553:: with SMTP id
+ f19mr4364147wmg.66.1633449658826; 
+ Tue, 05 Oct 2021 09:00:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxl5yHJwhofQS9dq0CCX8L+VKJiWobW9rsU0NzAXMJmT6zS/EkcE7PDezTnrizjd6rF8uvfHQ==
+X-Received: by 2002:a05:600c:1553:: with SMTP id
+ f19mr4364125wmg.66.1633449658626; 
+ Tue, 05 Oct 2021 09:00:58 -0700 (PDT)
 Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id q3sm2192119wmc.25.2021.10.05.09.00.53
+ by smtp.gmail.com with ESMTPSA id y6sm7157068wro.63.2021.10.05.09.00.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 09:00:54 -0700 (PDT)
-Date: Tue, 5 Oct 2021 12:00:52 -0400
+ Tue, 05 Oct 2021 09:00:57 -0700 (PDT)
+Date: Tue, 5 Oct 2021 12:00:55 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/57] vhost-vdpa: open device fd in net_init_vhost_vdpa()
-Message-ID: <20211005155946.513818-4-mst@redhat.com>
+Subject: [PULL 04/57] vhost-vdpa: classify one time request
+Message-ID: <20211005155946.513818-5-mst@redhat.com>
 References: <20211005155946.513818-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20211005155946.513818-1-mst@redhat.com>
@@ -95,81 +95,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jason Wang <jasowang@redhat.com>
 
-This patch switches to open device fd in net_init_vhost_vpda(). This is
-used to prepare for the multiqueue support.
+Vhost-vdpa uses one device multiqueue queue (pairs) model. So we need
+to classify the one time request (e.g SET_OWNER) and make sure those
+request were only called once per device.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+This is used for multiqueue support.
+
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20210907090322.1756-2-jasowang@redhat.com>
+Message-Id: <20210907090322.1756-3-jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- net/vhost-vdpa.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ include/hw/virtio/vhost-vdpa.h |  1 +
+ hw/virtio/vhost-vdpa.c         | 52 ++++++++++++++++++++++++++++++----
+ 2 files changed, 47 insertions(+), 6 deletions(-)
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 912686457c..73d29a74ef 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -156,24 +156,19 @@ static NetClientInfo net_vhost_vdpa_info = {
- };
+diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+index a8963da2d9..6b9288fef8 100644
+--- a/include/hw/virtio/vhost-vdpa.h
++++ b/include/hw/virtio/vhost-vdpa.h
+@@ -21,6 +21,7 @@ typedef struct VhostVDPAHostNotifier {
  
- static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
--                               const char *name, const char *vhostdev)
-+                               const char *name, int vdpa_device_fd)
- {
-     NetClientState *nc = NULL;
-     VhostVDPAState *s;
--    int vdpa_device_fd = -1;
-     int ret = 0;
-     assert(name);
-     nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
-     snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
-     s = DO_UPCAST(VhostVDPAState, nc, nc);
--    vdpa_device_fd = qemu_open_old(vhostdev, O_RDWR);
--    if (vdpa_device_fd == -1) {
--        return -errno;
--    }
-+
-     s->vhost_vdpa.device_fd = vdpa_device_fd;
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
-     if (ret) {
--        qemu_close(vdpa_device_fd);
-         qemu_del_net_client(nc);
-     }
-     return ret;
-@@ -201,6 +196,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                         NetClientState *peer, Error **errp)
- {
-     const NetdevVhostVDPAOptions *opts;
-+    int vdpa_device_fd, ret;
+ typedef struct vhost_vdpa {
+     int device_fd;
++    int index;
+     uint32_t msg_type;
+     bool iotlb_batch_begin_sent;
+     MemoryListener listener;
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 47d7a5a23d..edac4017da 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -279,6 +279,13 @@ static void vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
+     vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &s);
+ }
  
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-     opts = &netdev->u.vhost_vdpa;
-@@ -209,5 +205,16 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                           (char *)name, errp)) {
-         return -1;
-     }
--    return net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, opts->vhostdev);
++static bool vhost_vdpa_one_time_request(struct vhost_dev *dev)
++{
++    struct vhost_vdpa *v = dev->opaque;
 +
-+    vdpa_device_fd = qemu_open_old(opts->vhostdev, O_RDWR);
-+    if (vdpa_device_fd == -1) {
-+        return -errno;
++    return v->index != 0;
++}
++
+ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+ {
+     struct vhost_vdpa *v;
+@@ -291,6 +298,10 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+     v->listener = vhost_vdpa_memory_listener;
+     v->msg_type = VHOST_IOTLB_MSG_V2;
+ 
++    if (vhost_vdpa_one_time_request(dev)) {
++        return 0;
 +    }
 +
-+    ret = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, vdpa_device_fd);
-+    if (ret) {
-+        qemu_close(vdpa_device_fd);
+     vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+                                VIRTIO_CONFIG_S_DRIVER);
+ 
+@@ -401,6 +412,10 @@ static int vhost_vdpa_memslots_limit(struct vhost_dev *dev)
+ static int vhost_vdpa_set_mem_table(struct vhost_dev *dev,
+                                     struct vhost_memory *mem)
+ {
++    if (vhost_vdpa_one_time_request(dev)) {
++        return 0;
 +    }
 +
-+    return ret;
+     trace_vhost_vdpa_set_mem_table(dev, mem->nregions, mem->padding);
+     if (trace_event_get_state_backends(TRACE_VHOST_VDPA_SET_MEM_TABLE) &&
+         trace_event_get_state_backends(TRACE_VHOST_VDPA_DUMP_REGIONS)) {
+@@ -424,6 +439,11 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
+                                    uint64_t features)
+ {
+     int ret;
++
++    if (vhost_vdpa_one_time_request(dev)) {
++        return 0;
++    }
++
+     trace_vhost_vdpa_set_features(dev, features);
+     ret = vhost_vdpa_call(dev, VHOST_SET_FEATURES, &features);
+     uint8_t status = 0;
+@@ -448,9 +468,12 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
+     }
+ 
+     features &= f;
+-    r = vhost_vdpa_call(dev, VHOST_SET_BACKEND_FEATURES, &features);
+-    if (r) {
+-        return -EFAULT;
++
++    if (vhost_vdpa_one_time_request(dev)) {
++        r = vhost_vdpa_call(dev, VHOST_SET_BACKEND_FEATURES, &features);
++        if (r) {
++            return -EFAULT;
++        }
+     }
+ 
+     dev->backend_cap = features;
+@@ -559,11 +582,21 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+ {
+     struct vhost_vdpa *v = dev->opaque;
+     trace_vhost_vdpa_dev_start(dev, started);
++
++    if (started) {
++        vhost_vdpa_host_notifiers_init(dev);
++        vhost_vdpa_set_vring_ready(dev);
++    } else {
++        vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
++    }
++
++    if (vhost_vdpa_one_time_request(dev)) {
++        return 0;
++    }
++
+     if (started) {
+         uint8_t status = 0;
+         memory_listener_register(&v->listener, &address_space_memory);
+-        vhost_vdpa_host_notifiers_init(dev);
+-        vhost_vdpa_set_vring_ready(dev);
+         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+         vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
+ 
+@@ -572,7 +605,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+         vhost_vdpa_reset_device(dev);
+         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+                                    VIRTIO_CONFIG_S_DRIVER);
+-        vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+         memory_listener_unregister(&v->listener);
+ 
+         return 0;
+@@ -582,6 +614,10 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+ static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
+                                      struct vhost_log *log)
+ {
++    if (vhost_vdpa_one_time_request(dev)) {
++        return 0;
++    }
++
+     trace_vhost_vdpa_set_log_base(dev, base, log->size, log->refcnt, log->fd,
+                                   log->log);
+     return vhost_vdpa_call(dev, VHOST_SET_LOG_BASE, &base);
+@@ -647,6 +683,10 @@ static int vhost_vdpa_get_features(struct vhost_dev *dev,
+ 
+ static int vhost_vdpa_set_owner(struct vhost_dev *dev)
+ {
++    if (vhost_vdpa_one_time_request(dev)) {
++        return 0;
++    }
++
+     trace_vhost_vdpa_set_owner(dev);
+     return vhost_vdpa_call(dev, VHOST_SET_OWNER, NULL);
  }
 -- 
 MST
