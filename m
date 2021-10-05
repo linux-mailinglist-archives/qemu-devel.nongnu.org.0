@@ -2,63 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1E34222CC
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 11:54:09 +0200 (CEST)
-Received: from localhost ([::1]:33544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F02D94222DF
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 11:56:34 +0200 (CEST)
+Received: from localhost ([::1]:38194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXh9E-0003s7-4y
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 05:54:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
+	id 1mXhBZ-0006zh-P4
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 05:56:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXh69-000292-Uk
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 05:50:57 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:40977)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mXh8S-0004Tq-Lw
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 05:53:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mXh67-0003Ta-IB
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 05:50:57 -0400
-Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MAOVx-1mf8nw3Ya3-00BvQI; Tue, 05 Oct 2021 11:50:51 +0200
-Subject: Re: [PATCH v2 08/12] macfb: add common monitor modes supported by the
- MacOS toolbox ROM
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20211004211928.15803-1-mark.cave-ayland@ilande.co.uk>
- <20211004211928.15803-9-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <7994e73e-cbda-1bd1-68c4-250dd951ed51@vivier.eu>
-Date: Tue, 5 Oct 2021 11:50:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mXh8N-00066b-DU
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 05:53:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633427594;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j3IA3WKmvNlPDXR0zxqt4xLeYpduDrvMVwoIyXkju78=;
+ b=Lz8UkOdJd8kcjEljg1223aKPV4BKxxGgefuunrxNESqSE+/OpcSvVwzd+9xBnYRqt9kwNF
+ 4GdF+eolfkuz4uezGSMe2BmmejP9udZQFc6IGNXyzw+YL0tAk7XWTj6sm0twzoZyLetwe8
+ GIsLcEfLg1WGAdYU/gmKmTCNnBRUEJs=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-200-ur48VwiYNLqbmJ-KSKacdA-1; Tue, 05 Oct 2021 05:53:13 -0400
+X-MC-Unique: ur48VwiYNLqbmJ-KSKacdA-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ gi5-20020a056214248500b00382f7a7c7e6so2932289qvb.21
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 02:53:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=j3IA3WKmvNlPDXR0zxqt4xLeYpduDrvMVwoIyXkju78=;
+ b=IbIqY22XKTeGpFpvVwdJI69vV5idc7ra+mIU95qzXgTitddNEV4eK7ZFwmPb7yNOBF
+ Zf0DScUdv6D4NQJd/bM5NBc9oB1YtyDFNEl8YqEdpUGh7wXR6Xam+kxB/7CKjXCYMukK
+ Alps3EnfTANKePk1cThdcXJub/EkQq2BcgWjLZl8r1NHhPalGjgBlI/p18pMR2+YYW79
+ ah9I5DrLpbj3wdEeaxOOfnxH5LkTCJDcZM2JMBAsrR76Tc1Gcav67Lj4dY7pV6oOADjw
+ 6Og8Ags8wpx/31m/0g1zJ/tsfexTNf7M+5xM5hR0/f6sM9B3QNs1cUWDzzU9fprC6y0f
+ hyIA==
+X-Gm-Message-State: AOAM532dIWJGW783i0oZUC+xIyybNqtrgvk9wI31emaWYWEJv6E9I7yG
+ 0apfsr9xWZQ/SlmLjLtjekayoNbgLoMHyXH9YyWHfi+NtWvx30Ixnijfr8UwKBGzDg0V+rJ2+cQ
+ bkQO04sAumfbXXqLLECcQAsh4ocSLgDA=
+X-Received: by 2002:aed:3022:: with SMTP id 31mr18782324qte.322.1633427593292; 
+ Tue, 05 Oct 2021 02:53:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwPzzzhD6ejVLQcgkzyNhP1jrmqTRsraWxsxIcG5MdDmF3F9dQy6MCOkYqU/xQBad41iVJeMsK1UdmpWDt2Gpk=
+X-Received: by 2002:aed:3022:: with SMTP id 31mr18782307qte.322.1633427593087; 
+ Tue, 05 Oct 2021 02:53:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211004211928.15803-9-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qclRKxPwpxwzJPjdAcGWVdiPm5vBcMgrbQcGi78NyzIyS7dW6TL
- 4QuyVWWgn8RDsQLdBvUMJwyNSH04l6OlMH7D6rms40mNIzT2NCQhZNzI3ZNH8H+dtgIQOHF
- oJNeEUiIlK/z20FI7K5zj4PAjfdyqMp8bGwKXtbR/XMk1iJNwwbLniaS+76fmPqZZFmbImW
- FmNahtd+k6HooE5XW+UPQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VCCeH3vyFnk=:oqqIqN3fT8EMyYYI/03Ec7
- bYkPp0jOBSz57yiDL0H355+MeggVc3702lGjo75Y88/xz+XAFQmVpXJDOloXK0CkLYfZL0P/6
- YvmPWbHD5XZFGKynEkIeIR6o9PDm1nlwyWRnq6x+5cXdYC301iXGJZR6OpclTnjMkfv4t+dpb
- D712Obx8/V7h+DDMR7ALjG3e0VJCp5r4QEPPLPJjR9aPtuhoNNFFYnrdW28FZJ8idts60q2Bf
- NRPeO9i4CRmitaUsQqTI/iWjUNPtnN4P3cSWnanleGGt6AuW4OXdXRl2uroYL0AqFkgStMHwG
- q7B4ZWyQh5Xw49Eww5AdFaXPZ/xI5KBFDCmkeNoww30ept5ToQdyV7wow6RpOZNjeGxYKojJY
- zc6bAF5cCxBYJyYOLcyGYSczDoOpE4ZSnCCz7DtUulErPLUZb1L4DooHTFeJdNVvP5md+z0aK
- QhOubPSpsaGqqSUw8ezuN5w+HqEg6nB/iPO5QKIf2CPVWa24l4a9eUWDtu1eU+Juq/pfwXoGc
- 0qGKgx/qq8B1iShBIvMTAOERHB+oG5BstoHz9U/OO/Au7PwIFKgIbDcwL3mI4f/Fo+ODsUESX
- 72JobhqoLzeodvRNCkCcat4KHMqzNV4pSjuxDGDczf2Gyl98rmZGMwkql8GY/2fgZXgl2cQa6
- vLRDDbTxBSk8pwG9GhaFk7XfLLRzT1xfVOAwt1AmwXM728prYln0g1JWMOjgCAbToMQFJV29U
- kLQ42XoEdcdQemaNbZhSU8Hlj+diwG+05qBK4Q==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20211005080131.408506-1-eperezma@redhat.com>
+ <20211005080131.408506-3-eperezma@redhat.com>
+ <20211005041429-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211005041429-mutt-send-email-mst@kernel.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 5 Oct 2021 11:52:37 +0200
+Message-ID: <CAJaqyWfa8DLkLjmcOYd-av1ZsTDFyr++_+1omomtS=-Qq=Y9zw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] vdpa: Add vhost_vdpa_section_end
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,74 +92,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Parav Pandit <parav@mellanox.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, virtualization@lists.linux-foundation.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 04/10/2021 à 23:19, Mark Cave-Ayland a écrit :
-> The monitor modes table is found by experimenting with the Monitors Control
-> Panel in MacOS and analysing the reads/writes. From this it can be found that
-> the mode is controlled by writes to the DAFB_MODE_CTRL1 and DAFB_MODE_CTRL2
-> registers.
-> 
-> Implement the first block of DAFB registers as a register array including the
-> existing sense register, the newly discovered control registers above, and also
-> the DAFB_MODE_VADDR1 and DAFB_MODE_VADDR2 registers which are used by NetBSD to
-> determine the current video mode.
-> 
-> These experiments also show that the offset of the start of video RAM and the
-> stride can change depending upon the monitor mode, so update macfb_draw_graphic()
-> and both the BI_MAC_VADDR and BI_MAC_VROW bootinfo for the q800 machine
-> accordingly.
-> 
-> Finally update macfb_common_realize() so that only the resolution and depth
-> supported by the display type can be specified on the command line.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->  hw/display/macfb.c         | 124 ++++++++++++++++++++++++++++++++-----
->  hw/display/trace-events    |   1 +
->  hw/m68k/q800.c             |  11 ++--
->  include/hw/display/macfb.h |  16 ++++-
->  4 files changed, 131 insertions(+), 21 deletions(-)
-> 
-> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-> index f98bcdec2d..357fe18be5 100644
-> --- a/hw/display/macfb.c
-> +++ b/hw/display/macfb.c
+On Tue, Oct 5, 2021 at 10:15 AM Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-...
-> +static MacFbMode *macfb_find_mode(MacfbDisplayType display_type,
-> +                                  uint16_t width, uint16_t height,
-> +                                  uint8_t depth)
-> +{
-> +    MacFbMode *macfb_mode;
-> +    int i;
-> +
-> +    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
-> +        macfb_mode = &macfb_mode_table[i];
-> +
-> +        if (display_type == macfb_mode->type && width == macfb_mode->width &&
-> +                height == macfb_mode->height && depth == macfb_mode->depth) {
-> +            return macfb_mode;
-> +        }
-> +    }
-> +
-> +    return NULL;
-> +}
-> +
+> On Tue, Oct 05, 2021 at 10:01:30AM +0200, Eugenio P=C3=A9rez wrote:
+> > Abstract this operation, that will be reused when validating the region
+> > against the iova range that the device supports.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+>
+> Note that as defined end is actually 1 byte beyond end of section.
+> As such it can e.g. overflow if cast to u64.
+> So be careful to use int128 ops with it.
 
-I misunderstood this part when I reviewed v1...
+You are right, but this is only the result of extracting "llend"
+calculation in its own function, since it is going to be used a third
+time in the next commit. This next commit contains a mistake because
+of this, as you pointed out.
 
-It means you have to provide the monitor type to QEMU to switch from the default mode?
+Since "last" would be a very misleading name, do you think we could
+give a better name / type to it?
 
-But, as a user, how do we know which modes are allowed with which resolution?
+> Also - document?
 
-Is possible to try to set internally the type here according to the resolution?
+It will be documented with that ("It returns one byte beyond end of
+section" or similar) too.
 
-Could you provide an command line example how to start the q800 with the 1152x870 resolution?
+Thanks!
 
-Thanks,
-Laurent
+>
+> > ---
+> >  hw/virtio/vhost-vdpa.c | 18 +++++++++++-------
+> >  1 file changed, 11 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index ea1aa71ad8..a1de6c7c9c 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -24,6 +24,15 @@
+> >  #include "trace.h"
+> >  #include "qemu-common.h"
+> >
+> > +static Int128 vhost_vdpa_section_end(const MemoryRegionSection *sectio=
+n)
+> > +{
+> > +    Int128 llend =3D int128_make64(section->offset_within_address_spac=
+e);
+> > +    llend =3D int128_add(llend, section->size);
+> > +    llend =3D int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
+> > +
+> > +    return llend;
+> > +}
+> > +
+> >  static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *s=
+ection)
+> >  {
+> >      return (!memory_region_is_ram(section->mr) &&
+> > @@ -160,10 +169,7 @@ static void vhost_vdpa_listener_region_add(MemoryL=
+istener *listener,
+> >      }
+> >
+> >      iova =3D TARGET_PAGE_ALIGN(section->offset_within_address_space);
+> > -    llend =3D int128_make64(section->offset_within_address_space);
+> > -    llend =3D int128_add(llend, section->size);
+> > -    llend =3D int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
+> > -
+> > +    llend =3D vhost_vdpa_section_end(section);
+> >      if (int128_ge(int128_make64(iova), llend)) {
+> >          return;
+> >      }
+> > @@ -221,9 +227,7 @@ static void vhost_vdpa_listener_region_del(MemoryLi=
+stener *listener,
+> >      }
+> >
+> >      iova =3D TARGET_PAGE_ALIGN(section->offset_within_address_space);
+> > -    llend =3D int128_make64(section->offset_within_address_space);
+> > -    llend =3D int128_add(llend, section->size);
+> > -    llend =3D int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
+> > +    llend =3D vhost_vdpa_section_end(section);
+> >
+> >      trace_vhost_vdpa_listener_region_del(v, iova, int128_get64(llend))=
+;
+> >
+> > --
+> > 2.27.0
+>
 
 
