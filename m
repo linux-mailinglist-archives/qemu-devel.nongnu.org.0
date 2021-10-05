@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB96E423486
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 01:38:25 +0200 (CEST)
-Received: from localhost ([::1]:52800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BA14234B9
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 02:01:03 +0200 (CEST)
+Received: from localhost ([::1]:58000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXu0t-0002Wc-1L
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 19:38:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35988)
+	id 1mXuMn-00078l-O3
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 20:01:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mXtzG-0001Ma-Is
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 19:36:42 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:52856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mXtzE-0001te-TT
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 19:36:42 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id oa4so93971pjb.2
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 16:36:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uvDN5+3ZzSFYabHVnSetB1KqRwhB2ghl6nOu+76kQrI=;
- b=m4sktw3aLLRtE1CPHPtMuJdQANH/CFzVzHPa6xxNVqoD+lZTDQjKrTDw2lzBdysN+B
- /UIS9+6qnsUkIDDBx4rZ2F2Hx13NWgGqCkp88/2qpHdMmVrxVICebodshhKCEAOYB5Uw
- K51m4h6NnDhFydVDzbCKKNnv8caN3VmIvAq/YmAHLH7s0VFeKtbmmPlI5e8k7dGblVoC
- cW2JJDnWCtf7VJgoiwMDoZOIvPJf5yR4mkc/VHrd1ESClUy7Rfz/yJCfYnggg3dXTOxZ
- D3BAG9/VeOC/pG3dx59G88T47rxYsqNWUCaE5VqvnrtKJYAxLYVX+2moQ9HJkxjXUeSM
- JX0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uvDN5+3ZzSFYabHVnSetB1KqRwhB2ghl6nOu+76kQrI=;
- b=fzLhxNWxxluRteyE76O/m0crWTIXwyXKeGOII/p3g5l+2IVMA7l6/u8Mk3Typs1iZL
- X1CuVOQZXpviU5uiukNDouasQeuLj8+hSEmObphc1+3vQptjGXcxTwt5KhM07eyzvRFf
- dAsBm4/lK5TBjoazHcYEoLRTwl0TdBkhmbYaA1wvMlGpG63Esz3wb+LlpqP9x624YCHc
- fEpdGfMAXSTwfpsnDqKC4hk549UXGVBYHAHPTXJbNXzb1Kk3shxVvsAEkip6b2Q+axbG
- AHSBfWs3WynD+pCqEU0+00BmrQf50LoRlrPtY7oFRouX5ySA4Z5XPW3sy1/gndJEvtof
- rLFg==
-X-Gm-Message-State: AOAM532Hjk//r1LOkJ5LG4tQcWskOXablVeTYuKv9ttuGacFc+0eBzoF
- 0AOh6C2oLsGGBdJ01TW+AyVd+g==
-X-Google-Smtp-Source: ABdhPJwSvzEs7WGa7Y2e29GKGxsCVv2PJsgu1+fd/WLtatuyPp/rGNo18a7W4kP6iNrA69caTyCUfQ==
-X-Received: by 2002:a17:90b:17cc:: with SMTP id
- me12mr7074137pjb.147.1633476998855; 
- Tue, 05 Oct 2021 16:36:38 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id e12sm3232656pfl.67.2021.10.05.16.36.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 16:36:36 -0700 (PDT)
-Subject: Re: [PULL 00/57] pc,pci,virtio: features, fixes
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20211005155946.513818-1-mst@redhat.com>
- <20fc357d-586f-5178-6d2d-d44769f0a233@linaro.org>
- <20211005173128-mutt-send-email-mst@kernel.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <23392012-022a-ecd4-46a2-1ffa2f7a53be@linaro.org>
-Date: Tue, 5 Oct 2021 16:36:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1mXuKR-0006Do-Ka
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 19:58:35 -0400
+Received: from hera.aquilenet.fr ([2a0c:e300::1]:49748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1mXuKP-000284-QQ
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 19:58:35 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id 9A6A8362;
+ Wed,  6 Oct 2021 01:58:29 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6f_ZCyCjiO2Z; Wed,  6 Oct 2021 01:58:28 +0200 (CEST)
+Received: from begin (acaen-652-1-186-147.w86-215.abo.wanadoo.fr
+ [86.215.106.147])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id D34459E;
+ Wed,  6 Oct 2021 01:58:27 +0200 (CEST)
+Received: from samy by begin with local (Exim 4.95)
+ (envelope-from <samuel.thibault@gnu.org>) id 1mXuI9-00GfDj-NU;
+ Wed, 06 Oct 2021 01:56:14 +0200
+Date: Wed, 6 Oct 2021 01:56:13 +0200
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Nicholas Ngai <nicholas@ngai.me>
+Subject: Re: [PATCH] net/slirp: Use newer slirp_*_hostxfwd API
+Message-ID: <20211005235613.kuwbfixvp74sv5en@begin>
+References: <20210925214820.18078-1-nicholas@ngai.me>
+ <8143f015-056c-6362-2d3e-7fed66aaffe7@ngai.me>
 MIME-Version: 1.0
-In-Reply-To: <20211005173128-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <8143f015-056c-6362-2d3e-7fed66aaffe7@ngai.me>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Spamd-Bar: --
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Server: hera
+X-Rspamd-Queue-Id: 9A6A8362
+X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_THREE(0.00)[3]; TO_DN_SOME(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ HAS_ORG_HEADER(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MID_RHS_NOT_FQDN(0.50)[]; BAYES_HAM(-3.00)[100.00%]
+Received-SPF: softfail client-ip=2a0c:e300::1;
+ envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,53 +77,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/5/21 2:32 PM, Michael S. Tsirkin wrote:
-> On Tue, Oct 05, 2021 at 10:21:43AM -0700, Richard Henderson wrote:
->> On 10/5/21 9:00 AM, Michael S. Tsirkin wrote:
->>> The following changes since commit 9618c5badaa8eed25259cf095ff880efb939fbe7:
->>>
->>>     Merge remote-tracking branch 'remotes/vivier/tags/trivial-branch-for-6.2-pull-request' into staging (2021-10-04 16:27:35 -0700)
->>>
->>> are available in the Git repository at:
->>>
->>>     git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->>>
->>> for you to fetch changes up to c7d2f59cf940b8c8c52c29d5fa25613fe662f7b6:
->>>
->>>     hw/i386/amd_iommu: Add description/category to TYPE_AMD_IOMMU_PCI (2021-10-05 11:46:45 -0400)
->>>
->>> ----------------------------------------------------------------
-...
->> You missed updating the stub version of these functions:
->>
->> ../src/hw/net/vhost_net-stub.c:34:5: error: conflicting types for ‘vhost_net_start’
->>     34 | int vhost_net_start(VirtIODevice *dev,
->>        |     ^~~~~~~~~~~~~~~
->> In file included from ../src/hw/net/vhost_net-stub.c:19:
->> /home/rth/qemu-publish/src/include/net/vhost_net.h:24:5: note: previous
->> declaration of ‘vhost_net_start’ was here
->>     24 | int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
->>        |     ^~~~~~~~~~~~~~~
->> ../src/hw/net/vhost_net-stub.c:40:6: error: conflicting types for ‘vhost_net_stop’
->>     40 | void vhost_net_stop(VirtIODevice *dev,
->>        |      ^~~~~~~~~~~~~~
->> In file included from ../src/hw/net/vhost_net-stub.c:19:
->> /home/rth/qemu-publish/src/include/net/vhost_net.h:26:6: note: previous
->> declaration of ‘vhost_net_stop’ was here
->>     26 | void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
->>        |      ^~~~~~~~~~~~~~
->>
->>
+Nicholas Ngai, le sam. 25 sept. 2021 16:22:02 -0700, a ecrit:
+> Sorry for the duplicate email. The cc’s for the maintainers on the email
+> didn’t go through the first time.
 > 
-> Indeed. I dropped these patches for now.
-> Could you refetch from same tag and confirm it's ok?
+> Nicholas Ngai
+> 
+> On 9/25/21 2:48 PM, Nicholas Ngai wrote:
+> > libslirp provides a newer slirp_*_hostxfwd API meant for
+> > address-agnostic forwarding instead of the is_udp parameter which is
+> > limited to just TCP/UDP.
+> > 
+> > Signed-off-by: Nicholas Ngai <nicholas@ngai.me>
 
-Yes, that works. Applied, thanks.
+Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
-r~
+> > ---
+> >   net/slirp.c | 64 +++++++++++++++++++++++++++++++++++------------------
+> >   1 file changed, 42 insertions(+), 22 deletions(-)
+> > 
+> > diff --git a/net/slirp.c b/net/slirp.c
+> > index ad3a838e0b..49ae01a2f0 100644
+> > --- a/net/slirp.c
+> > +++ b/net/slirp.c
+> > @@ -643,12 +643,17 @@ static SlirpState *slirp_lookup(Monitor *mon, const char *id)
+> >   void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
+> >   {
+> > -    struct in_addr host_addr = { .s_addr = INADDR_ANY };
+> > -    int host_port;
+> > +    struct sockaddr_in host_addr = {
+> > +        .sin_family = AF_INET,
+> > +        .sin_addr = {
+> > +            .s_addr = INADDR_ANY,
+> > +        },
+> > +    };
+> > +    int port;
+> > +    int flags = 0;
+> >       char buf[256];
+> >       const char *src_str, *p;
+> >       SlirpState *s;
+> > -    int is_udp = 0;
+> >       int err;
+> >       const char *arg1 = qdict_get_str(qdict, "arg1");
+> >       const char *arg2 = qdict_get_try_str(qdict, "arg2");
+> > @@ -670,9 +675,9 @@ void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
+> >       }
+> >       if (!strcmp(buf, "tcp") || buf[0] == '\0') {
+> > -        is_udp = 0;
+> > +        /* Do nothing; already TCP. */
+> >       } else if (!strcmp(buf, "udp")) {
+> > -        is_udp = 1;
+> > +        flags |= SLIRP_HOSTFWD_UDP;
+> >       } else {
+> >           goto fail_syntax;
+> >       }
+> > @@ -680,15 +685,17 @@ void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
+> >       if (get_str_sep(buf, sizeof(buf), &p, ':') < 0) {
+> >           goto fail_syntax;
+> >       }
+> > -    if (buf[0] != '\0' && !inet_aton(buf, &host_addr)) {
+> > +    if (buf[0] != '\0' && !inet_aton(buf, &host_addr.sin_addr)) {
+> >           goto fail_syntax;
+> >       }
+> > -    if (qemu_strtoi(p, NULL, 10, &host_port)) {
+> > +    if (qemu_strtoi(p, NULL, 10, &port)) {
+> >           goto fail_syntax;
+> >       }
+> > +    host_addr.sin_port = htons(port);
+> > -    err = slirp_remove_hostfwd(s->slirp, is_udp, host_addr, host_port);
+> > +    err = slirp_remove_hostxfwd(s->slirp, (struct sockaddr *) &host_addr,
+> > +            sizeof(host_addr), flags);
+> >       monitor_printf(mon, "host forwarding rule for %s %s\n", src_str,
+> >                      err ? "not found" : "removed");
+> > @@ -700,12 +707,22 @@ void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
+> >   static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
+> >   {
+> > -    struct in_addr host_addr = { .s_addr = INADDR_ANY };
+> > -    struct in_addr guest_addr = { .s_addr = 0 };
+> > -    int host_port, guest_port;
+> > +    struct sockaddr_in host_addr = {
+> > +        .sin_family = AF_INET,
+> > +        .sin_addr = {
+> > +            .s_addr = INADDR_ANY,
+> > +        },
+> > +    };
+> > +    struct sockaddr_in guest_addr = {
+> > +        .sin_family = AF_INET,
+> > +        .sin_addr = {
+> > +            .s_addr = 0,
+> > +        },
+> > +    };
+> > +    int flags = 0;
+> > +    int port;
+> >       const char *p;
+> >       char buf[256];
+> > -    int is_udp;
+> >       char *end;
+> >       const char *fail_reason = "Unknown reason";
+> > @@ -715,9 +732,9 @@ static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
+> >           goto fail_syntax;
+> >       }
+> >       if (!strcmp(buf, "tcp") || buf[0] == '\0') {
+> > -        is_udp = 0;
+> > +        /* Do nothing; already TCP. */
+> >       } else if (!strcmp(buf, "udp")) {
+> > -        is_udp = 1;
+> > +        flags |= SLIRP_HOSTFWD_UDP;
+> >       } else {
+> >           fail_reason = "Bad protocol name";
+> >           goto fail_syntax;
+> > @@ -727,7 +744,7 @@ static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
+> >           fail_reason = "Missing : separator";
+> >           goto fail_syntax;
+> >       }
+> > -    if (buf[0] != '\0' && !inet_aton(buf, &host_addr)) {
+> > +    if (buf[0] != '\0' && !inet_aton(buf, &host_addr.sin_addr)) {
+> >           fail_reason = "Bad host address";
+> >           goto fail_syntax;
+> >       }
+> > @@ -736,29 +753,32 @@ static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
+> >           fail_reason = "Bad host port separator";
+> >           goto fail_syntax;
+> >       }
+> > -    host_port = strtol(buf, &end, 0);
+> > -    if (*end != '\0' || host_port < 0 || host_port > 65535) {
+> > +    port = strtol(buf, &end, 0);
+> > +    if (*end != '\0' || port < 0 || port > 65535) {
+> >           fail_reason = "Bad host port";
+> >           goto fail_syntax;
+> >       }
+> > +    host_addr.sin_port = htons(port);
+> >       if (get_str_sep(buf, sizeof(buf), &p, ':') < 0) {
+> >           fail_reason = "Missing guest address";
+> >           goto fail_syntax;
+> >       }
+> > -    if (buf[0] != '\0' && !inet_aton(buf, &guest_addr)) {
+> > +    if (buf[0] != '\0' && !inet_aton(buf, &guest_addr.sin_addr)) {
+> >           fail_reason = "Bad guest address";
+> >           goto fail_syntax;
+> >       }
+> > -    guest_port = strtol(p, &end, 0);
+> > -    if (*end != '\0' || guest_port < 1 || guest_port > 65535) {
+> > +    port = strtol(p, &end, 0);
+> > +    if (*end != '\0' || port < 1 || port > 65535) {
+> >           fail_reason = "Bad guest port";
+> >           goto fail_syntax;
+> >       }
+> > +    guest_addr.sin_port = htons(port);
+> > -    if (slirp_add_hostfwd(s->slirp, is_udp, host_addr, host_port, guest_addr,
+> > -                          guest_port) < 0) {
+> > +    if (slirp_add_hostxfwd(s->slirp, (struct sockaddr *) &host_addr,
+> > +                           sizeof(host_addr), (struct sockaddr *) &guest_addr,
+> > +                           sizeof(guest_addr), flags) < 0) {
+> >           error_setg(errp, "Could not set up host forwarding rule '%s'",
+> >                      redir_str);
+> >           return -1;
+> 
 
