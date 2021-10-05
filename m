@@ -2,91 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF46421FC8
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 09:54:50 +0200 (CEST)
-Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8279421FF7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 09:57:52 +0200 (CEST)
+Received: from localhost ([::1]:33994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXfHk-0002vl-VZ
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 03:54:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
+	id 1mXfKh-0005dN-MZ
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 03:57:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXfGT-0002Ez-3M
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 03:53:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36964)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mXfGP-0008GU-Tt
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 03:53:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633420403;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8MQQUBfg6gmlUyb1M/tqnYV/yKo2UEgU362rTr4iyf0=;
- b=BFBKEOpsNDaRGKjh7P5EZ57QM1trx5aQbj5F0mvCSlBBPZKLdoXKih9GIdRra1Jj/g87K6
- 6vP+ZlWah7pLHaa2ZBWKzO1bhspO9h3YR5gfTQpdLATlQPphI0Rj0rvxH0lRw0dsn4l9zH
- 7ewcxTACYB2Pk7MFSb1Wxl6J2DfR6KU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-7O_jNNolPZK4MIMYE5_sag-1; Tue, 05 Oct 2021 03:53:22 -0400
-X-MC-Unique: 7O_jNNolPZK4MIMYE5_sag-1
-Received: by mail-ed1-f69.google.com with SMTP id
- n19-20020a509353000000b003dad185759bso11882344eda.6
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 00:53:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1mXfID-0003kE-5H; Tue, 05 Oct 2021 03:55:17 -0400
+Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32]:34419)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1mXfIB-0002Xe-5K; Tue, 05 Oct 2021 03:55:16 -0400
+Received: by mail-vs1-xe32.google.com with SMTP id d18so9717vsh.1;
+ Tue, 05 Oct 2021 00:55:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lgBoLvsZUf4w87NdDDRB8saOOvEAkvDANxObQKdSVsw=;
+ b=qCppVQ+st/vUUR94qkMBFwCVbUyA2rFPssvUAX+N05m/0O0riL9Z/mOpQ4nxh9z9H7
+ wHgsBxGECcbENrAVGRbInc5dTDNvGiWG9NavZ7TkPsolpR7gbc4Lwco4Wp24QKuSJNgv
+ /6FzSzWE5bencgkFa/uOh3xP4U/Ltwqb0C0Wl1TL4052evlNgGxhfVGi0O7iqGeaLQbG
+ VwnW9fkkuTRmsFxO+d2szYU67ePRfcKpstZxuGGclfXCnEwxOb76eB2PwNBepPdh198s
+ fQNnPS5d28jd2h8NJ50E3zoi7Vk4cEZImmr+1asgr41DHTru4BSiXBoRSx5OuK/a+z5i
+ Ua+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8MQQUBfg6gmlUyb1M/tqnYV/yKo2UEgU362rTr4iyf0=;
- b=dcTVZ4d0E6jLhydENLQVSjRoxEC7ApgGkpjb4a6pF0PvVFY4BeFtv2vhgwNTFcFzsZ
- r3Xo52p4kpM49qGRaOF5JoOG/HZh9wVMnBEf8nD5s3PU1EydDIZQntJO8NMP4AGmMK3y
- IU+HHUZw5IyDSxJIrQxtuPhFJtiQ90GUK5M+nnfFgG75S6BISXoC4X5FV37mdI87jB0v
- egZA4ksujpUsZbO9Ys4AmbNu1jhLw7wKCf/MgxQEadyTHiGiXRjAiYeHTWCi51gLNnPZ
- eq6t4TBGoZtCb9Px+12ltn7m7YsQwtntrvi7YNiv9AG6eVlwv9yHP9bq8sLORG8qwrHd
- TTeA==
-X-Gm-Message-State: AOAM533nuA7eMnHNuFj7le/dSS37Ev91QTJEcnOhUTYWIGdVM/HBFPgB
- XBZeIQ/FUtG7jxUcffjG975gKgm7b/aU9qztVG+aGhDN70IqWEY/jmBRLkMK+AJRduI04q2+KUW
- hARFEPKrXw+wy6iw=
-X-Received: by 2002:a05:6402:35cb:: with SMTP id
- z11mr14610273edc.252.1633420401512; 
- Tue, 05 Oct 2021 00:53:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxOHxXYAke10DbjPKeGoglSdZPOuPMBgTSaN3r5HKwcc031+p/zWsEEMu11Yvb7QTyz4BzKrw==
-X-Received: by 2002:a05:6402:35cb:: with SMTP id
- z11mr14610244edc.252.1633420401312; 
- Tue, 05 Oct 2021 00:53:21 -0700 (PDT)
-Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id u6sm8260227edt.30.2021.10.05.00.53.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 00:53:20 -0700 (PDT)
-Date: Tue, 5 Oct 2021 03:53:17 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [RFC PATCH 1/1] virtio: write back features before verify
-Message-ID: <20211005035014-mutt-send-email-mst@kernel.org>
-References: <20210930012049.3780865-1-pasic@linux.ibm.com>
- <20210930070444-mutt-send-email-mst@kernel.org>
- <20211001092125.64fef348.pasic@linux.ibm.com>
- <20211002055605-mutt-send-email-mst@kernel.org>
- <87bl452d90.fsf@redhat.com>
- <20211004090018-mutt-send-email-mst@kernel.org>
- <20211005092539.145c9cc4.pasic@linux.ibm.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lgBoLvsZUf4w87NdDDRB8saOOvEAkvDANxObQKdSVsw=;
+ b=sKafpFUAfp6TmsNetIhrjtKGTJ01cCtGIjHsARPvgNdG7Y24Mf3rR5CSCcnKxjUVew
+ dA07CuY75ecLKoprIYt9/vpWPwQ+g0Gx3soVkHqnET2CmdhAns/K6L08xdGzXV4QfdYu
+ mjAomTRI73vPZfXBpulXgH25yrzce9JAr6t+mlfhNHW1hrF8stniY5hS65c8Wo000QTz
+ s4LVoIaAZAApMnI+UZx+43IvHDdLlhljdDirG50KgjpZV4Dhoqe3slQKmfascP/eA7yh
+ u4v/8XORkKQ/Vs4dBugvpwG2lYFZw7s9/TXQV9Y1l3Kj6+TMm0z1/wp/MJrMEvsEMESQ
+ Q8nQ==
+X-Gm-Message-State: AOAM532MJois+TSePTo6gCpj0RWHfoI3rdrxmKFWYmixuvER9JOqiC6u
+ H9kGGjlk08rlVU3+tQ6I4+KlkUmeHG0EERpiZP4=
+X-Google-Smtp-Source: ABdhPJwe6R6yJmwFYJtyoILfK2b8fRUwj63nKb4UU2l9nry0jXPDiKTIwVFNN1jpWlEeNKZVZCykytC3aAllS9UZufI=
+X-Received: by 2002:a67:f7c4:: with SMTP id a4mr17067609vsp.35.1633420513170; 
+ Tue, 05 Oct 2021 00:55:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211005092539.145c9cc4.pasic@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20210916122116.802-1-pl@kamp.de>
+In-Reply-To: <20210916122116.802-1-pl@kamp.de>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Tue, 5 Oct 2021 09:54:41 +0200
+Message-ID: <CAOi1vP8_em_m=orH+5L+164+7EgD+JD_5kmrh=mWBMjZSe79kg@mail.gmail.com>
+Subject: Re: [PATCH V3] block/rbd: implement bdrv_co_block_status
+To: Peter Lieven <pl@kamp.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
+ envelope-from=idryomov@gmail.com; helo=mail-vs1-xe32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,66 +74,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
- Xie Yongji <xieyongji@bytedance.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 05, 2021 at 09:25:39AM +0200, Halil Pasic wrote:
-> On Mon, 4 Oct 2021 09:11:04 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
-> > > >> static inline bool virtio_access_is_big_endian(VirtIODevice *vdev)
-> > > >> {
-> > > >> #if defined(LEGACY_VIRTIO_IS_BIENDIAN)
-> > > >>     return virtio_is_big_endian(vdev);
-> > > >> #elif defined(TARGET_WORDS_BIGENDIAN)
-> > > >>     if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-> > > >>         /* Devices conforming to VIRTIO 1.0 or later are always LE. */
-> > > >>         return false;
-> > > >>     }
-> > > >>     return true;
-> > > >> #else
-> > > >>     return false;
-> > > >> #endif
-> > > >> }
-> > > >>   
-> > > >
-> > > > ok so that's a QEMU bug. Any virtio 1.0 and up
-> > > > compatible device must use LE.
-> > > > It can also present a legacy config space where the
-> > > > endian depends on the guest.  
-> > > 
-> > > So, how is the virtio core supposed to determine this? A
-> > > transport-specific callback?  
-> > 
-> > I'd say a field in VirtIODevice is easiest.
-> 
-> Wouldn't a call from transport code into virtio core
-> be more handy? What I have in mind is stuff like vhost-user and vdpa. My
-> understanding is, that for vhost setups where the config is outside qemu,
-> we probably need a new  command that tells the vhost backend what
-> endiannes to use for config. I don't think we can use
-> VHOST_USER_SET_VRING_ENDIAN because  that one is on a virtqueue basis
-> according to the doc. So for vhost-user and similar we would fire that
-> command and probably also set the filed, while for devices for which
-> control plane is handled by QEMU we would just set the field.
-> 
-> Does that sound about right?
+On Thu, Sep 16, 2021 at 2:21 PM Peter Lieven <pl@kamp.de> wrote:
+>
+> the qemu rbd driver currently lacks support for bdrv_co_block_status.
+> This results mainly in incorrect progress during block operations (e.g.
+> qemu-img convert with an rbd image as source).
+>
+> This patch utilizes the rbd_diff_iterate2 call from librbd to detect
+> allocated and unallocated (all zero areas).
+>
+> To avoid querying the ceph OSDs for the answer this is only done if
+> the image has the fast-diff feature which depends on the object-map and
+> exclusive-lock features. In this case it is guaranteed that the information
+> is present in memory in the librbd client and thus very fast.
+>
+> If fast-diff is not available all areas are reported to be allocated
+> which is the current behaviour if bdrv_co_block_status is not implemented.
+>
+> Signed-off-by: Peter Lieven <pl@kamp.de>
+> ---
+> V2->V3:
+> - check rbd_flags every time (they can change during runtime) [Ilya]
+> - also check for fast-diff invalid flag [Ilya]
+> - *map and *file cant be NULL [Ilya]
+> - set ret = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID in case of an
+>   unallocated area [Ilya]
+> - typo: catched -> caught [Ilya]
+> - changed wording about fast-diff, object-map and exclusive lock in
+>   commit msg [Ilya]
+>
+> V1->V2:
+> - add commit comment [Stefano]
+> - use failed_post_open [Stefano]
+> - remove redundant assert [Stefano]
+> - add macro+comment for the magic -9000 value [Stefano]
+> - always set *file if its non NULL [Stefano]
+>
+>  block/rbd.c | 126 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 126 insertions(+)
+>
+> diff --git a/block/rbd.c b/block/rbd.c
+> index dcf82b15b8..3cb24f9981 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -1259,6 +1259,131 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
+>      return spec_info;
+>  }
+>
+> +typedef struct rbd_diff_req {
+> +    uint64_t offs;
+> +    uint64_t bytes;
+> +    int exists;
 
-I'm fine either way, but when would you invoke this?
-With my idea backends can check the field when get_config
-is invoked.
+Hi Peter,
 
-As for using this in VHOST, can we maybe re-use SET_FEATURES?
+Nit: make exists a bool.  The one in the callback has to be an int
+because of the callback signature but let's not spread that.
 
-Kind of hacky but nice in that it will actually make existing backends
-work...
+> +} rbd_diff_req;
+> +
+> +/*
+> + * rbd_diff_iterate2 allows to interrupt the exection by returning a negative
+> + * value in the callback routine. Choose a value that does not conflict with
+> + * an existing exitcode and return it if we want to prematurely stop the
+> + * execution because we detected a change in the allocation status.
+> + */
+> +#define QEMU_RBD_EXIT_DIFF_ITERATE2 -9000
+> +
+> +static int qemu_rbd_co_block_status_cb(uint64_t offs, size_t len,
+> +                                       int exists, void *opaque)
+> +{
+> +    struct rbd_diff_req *req = opaque;
+> +
+> +    assert(req->offs + req->bytes <= offs);
+> +
+> +    if (req->exists && offs > req->offs + req->bytes) {
+> +        /*
+> +         * we started in an allocated area and jumped over an unallocated area,
+> +         * req->bytes contains the length of the allocated area before the
+> +         * unallocated area. stop further processing.
+> +         */
+> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+> +    }
+> +    if (req->exists && !exists) {
+> +        /*
+> +         * we started in an allocated area and reached a hole. req->bytes
+> +         * contains the length of the allocated area before the hole.
+> +         * stop further processing.
+> +         */
+> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
 
--- 
-MST
+Do you have a test case for when this branch is taken?
 
+> +    }
+> +    if (!req->exists && exists && offs > req->offs) {
+> +        /*
+> +         * we started in an unallocated area and hit the first allocated
+> +         * block. req->bytes must be set to the length of the unallocated area
+> +         * before the allocated area. stop further processing.
+> +         */
+> +        req->bytes = offs - req->offs;
+> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+> +    }
+> +
+> +    /*
+> +     * assert that we caught all cases above and allocation state has not
+> +     * changed during callbacks.
+> +     */
+> +    assert(exists == req->exists || !req->bytes);
+> +    req->exists = exists;
+> +
+> +    /*
+> +     * assert that we either return an unallocated block or have got callbacks
+> +     * for all allocated blocks present.
+> +     */
+> +    assert(!req->exists || offs == req->offs + req->bytes);
+> +    req->bytes = offs + len - req->offs;
+> +
+> +    return 0;
+> +}
+> +
+> +static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
+> +                                                 bool want_zero, int64_t offset,
+> +                                                 int64_t bytes, int64_t *pnum,
+> +                                                 int64_t *map,
+> +                                                 BlockDriverState **file)
+> +{
+> +    BDRVRBDState *s = bs->opaque;
+> +    int ret, r;
+
+Nit: I would rename ret to status or something like that to make
+it clear(er) that it is an actual value and never an error.  Or,
+even better, drop it entirely and return one of the two bitmasks
+directly.
+
+> +    struct rbd_diff_req req = { .offs = offset };
+> +    uint64_t features, flags;
+> +
+> +    assert(offset + bytes <= s->image_size);
+> +
+> +    /* default to all sectors allocated */
+> +    ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
+> +    *map = offset;
+> +    *file = bs;
+> +    *pnum = bytes;
+> +
+> +    /* check if RBD image supports fast-diff */
+> +    r = rbd_get_features(s->image, &features);
+> +    if (r < 0) {
+> +        goto out;
+> +    }
+> +    if (!(features & RBD_FEATURE_FAST_DIFF)) {
+> +        goto out;
+> +    }
+> +
+> +    /* check if RBD fast-diff result is valid */
+> +    r = rbd_get_flags(s->image, &flags);
+> +    if (r < 0) {
+> +        goto out;
+> +    }
+> +    if (flags & RBD_FLAG_FAST_DIFF_INVALID) {
+> +        goto out;
+
+Nit: I'm not a fan of labels that cover just the return statement.
+Feel free to ignore this one but I would get rid of it and replace
+these gotos with returns.
+
+> +    }
+> +
+> +    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
+> +                          qemu_rbd_co_block_status_cb, &req);
+> +    if (r < 0 && r != QEMU_RBD_EXIT_DIFF_ITERATE2) {
+> +        goto out;
+> +    }
+> +    assert(req.bytes <= bytes);
+> +    if (!req.exists) {
+> +        if (r == 0 && !req.bytes) {
+> +            /*
+> +             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
+> +             * except for the case where an overlay has a hole where the parent
+> +             * has not. This here catches the case where no callback was
+> +             * invoked at all.
+> +             */
+
+The above is true in the case of diffing against a snapshot, i.e. when
+the "from" snapshot has some data where the "to" revision (whether HEAD
+or another snapshot) has a hole.  I don't think it is true for child vs
+parent (but it has been a while since I looked at the diff code).  As
+long as NULL is passed for fromsnapname, I would expect the callback to
+be invoked only for allocated areas.  If I'm right, we could simplify
+qemu_rbd_co_block_status_cb() considerably.
+
+Thanks,
+
+                Ilya
 
