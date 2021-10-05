@@ -2,67 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6C6422781
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 15:13:13 +0200 (CEST)
-Received: from localhost ([::1]:45246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F9594227FB
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 15:34:52 +0200 (CEST)
+Received: from localhost ([::1]:46786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXkFr-0006rY-TT
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 09:13:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60110)
+	id 1mXkap-0002mz-9y
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 09:34:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1mXkDO-0005bM-Ml
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:10:46 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2817)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mXkNG-0005aP-GC
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:20:50 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:45600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1mXkDL-0005Ks-EU
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:10:38 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HNyWY6sJ3zR5d4;
- Tue,  5 Oct 2021 21:06:01 +0800 (CST)
-Received: from dggpemm100010.china.huawei.com (7.185.36.24) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Tue, 5 Oct 2021 21:10:24 +0800
-Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
- dggpemm100010.china.huawei.com (7.185.36.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Tue, 5 Oct 2021 21:10:23 +0800
-Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
- dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.008;
- Tue, 5 Oct 2021 21:10:23 +0800
-From: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: RE: [PATCH v3 9/9] vfio: defer to commit kvm irq routing when enable
- msi/msix
-Thread-Topic: [PATCH v3 9/9] vfio: defer to commit kvm irq routing when enable
- msi/msix
-Thread-Index: AQHXrnONHiKCXIwRCUOphlOy9vZqwqu+TnUAgASlXOA=
-Date: Tue, 5 Oct 2021 13:10:23 +0000
-Message-ID: <db9632eb7ce3440c9cea55eacfdd7f42@huawei.com>
-References: <20210920230202.1439-1-longpeng2@huawei.com>
- <20210920230202.1439-10-longpeng2@huawei.com>
- <20211001170450.0a46c4a0.alex.williamson@redhat.com>
-In-Reply-To: <20211001170450.0a46c4a0.alex.williamson@redhat.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.148.223]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mXkNC-0000vj-GL
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:20:49 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E3D7B7462D3;
+ Tue,  5 Oct 2021 15:20:41 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B884E745953; Tue,  5 Oct 2021 15:20:41 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v2] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI interrupts
+Date: Tue, 05 Oct 2021 15:12:05 +0200
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
- helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: qemu-devel@nongnu.org
+Message-Id: <20211005132041.B884E745953@zero.eik.bme.hu>
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,264 +52,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenjiashang <chenjiashang@huawei.com>, "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "philmd@redhat.com" <philmd@redhat.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Philippe M-D <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This device is part of a superio/ISA bridge chip and IRQs from it are
+routed to an ISA interrupt set by the Interrupt Line PCI config
+register. Change uhci_update_irq() to allow this and use it from
+vt82c686-uhci-pci.
 
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+v2: Do it differently to confine isa reference to vt82c686-uhci-pci as
+hcd-uhci is also used on machines that don't have isa. Left Jiaxun's
+R-b there as he checked it's the same for VT82C686B and gave R-b for
+the approach which still holds but speak up if you tink otherwise.
 
-> -----Original Message-----
-> From: Alex Williamson [mailto:alex.williamson@redhat.com]
-> Sent: Saturday, October 2, 2021 7:05 AM
-> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> <longpeng2@huawei.com>
-> Cc: philmd@redhat.com; pbonzini@redhat.com; marcel.apfelbaum@gmail.com;
-> mst@redhat.com; qemu-devel@nongnu.org; Gonglei (Arei)
-> <arei.gonglei@huawei.com>; chenjiashang <chenjiashang@huawei.com>
-> Subject: Re: [PATCH v3 9/9] vfio: defer to commit kvm irq routing when en=
-able
-> msi/msix
->=20
-> On Tue, 21 Sep 2021 07:02:02 +0800
-> "Longpeng(Mike)" <longpeng2@huawei.com> wrote:
->=20
-> > In migration resume phase, all unmasked msix vectors need to be
-> > setup when load the VF state. However, the setup operation would
->=20
-> s/load/loading/
->=20
-> > take longer if the VM has more VFs and each VF has more unmasked
-> > vectors.
-> >
-> > The hot spot is kvm_irqchip_commit_routes, it'll scan and update
-> > all irqfds that already assigned each invocation, so more vectors
->=20
-> s/that/that are/
->=20
-> > means need more time to process them.
-> >
-> > vfio_pci_load_config
-> >   vfio_msix_enable
-> >     msix_set_vector_notifiers
-> >       for (vector =3D 0; vector < dev->msix_entries_nr; vector++) {
-> >         vfio_msix_vector_do_use
-> >           vfio_add_kvm_msi_virq
-> >             kvm_irqchip_commit_routes <-- expensive
-> >       }
-> >
-> > We can reduce the cost by only commit once outside the loop. The
->=20
-> s/commit/committing/
->=20
+ hw/usb/hcd-uhci.c          | 15 +++++++++------
+ hw/usb/hcd-uhci.h          |  8 +++++---
+ hw/usb/vt82c686-uhci-pci.c | 10 ++++++++++
+ 3 files changed, 24 insertions(+), 9 deletions(-)
 
-OK, will fix in the next version, thanks.
-
-> > routes is cached in kvm_state, we commit them first and then bind
->=20
-> s/is/are/
->=20
-
-OK.
-
-> > irqfd for each vector.
-> >
-> > The test VM has 128 vcpus and 8 VF (each one has 65 vectors),
-> > we measure the cost of the vfio_msix_enable for each VF, and
-> > we can see 90+% costs can be reduce.
-> >
-> > VF      Count of irqfds[*]  Original        With this patch
-> >
-> > 1st           65            8               2
-> > 2nd           130           15              2
-> > 3rd           195           22              2
-> > 4th           260           24              3
-> > 5th           325           36              2
-> > 6th           390           44              3
-> > 7th           455           51              3
-> > 8th           520           58              4
-> > Total                       258ms           21ms
-> >
-> > [*] Count of irqfds
-> > How many irqfds that already assigned and need to process in this
-> > round.
-> >
-> > The optimition can be applied to msi type too.
->=20
-> s/optimition/optimization/
->=20
-
-OK, thanks.
-
-> >
-> > Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
-> > ---
-> >  hw/vfio/pci.c | 36 ++++++++++++++++++++++++++++--------
-> >  1 file changed, 28 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> > index 2de1cc5425..b26129bddf 100644
-> > --- a/hw/vfio/pci.c
-> > +++ b/hw/vfio/pci.c
-> > @@ -513,11 +513,13 @@ static int vfio_msix_vector_do_use(PCIDevice *pde=
-v,
-> unsigned int nr,
-> >       * increase them as needed.
-> >       */
-> >      if (vdev->nr_vectors < nr + 1) {
-> > -        vfio_disable_irqindex(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX=
-);
-> >          vdev->nr_vectors =3D nr + 1;
-> > -        ret =3D vfio_enable_vectors(vdev, true);
-> > -        if (ret) {
-> > -            error_report("vfio: failed to enable vectors, %d", ret);
-> > +        if (!vdev->defer_kvm_irq_routing) {
-> > +            vfio_disable_irqindex(&vdev->vbasedev,
-> VFIO_PCI_MSIX_IRQ_INDEX);
-> > +            ret =3D vfio_enable_vectors(vdev, true);
-> > +            if (ret) {
-> > +                error_report("vfio: failed to enable vectors, %d", ret=
-);
-> > +            }
-> >          }
-> >      } else {
-> >          Error *err =3D NULL;
-> > @@ -579,8 +581,7 @@ static void vfio_msix_vector_release(PCIDevice *pde=
-v,
-> unsigned int nr)
-> >      }
-> >  }
-> >
-> > -/* TODO: invoked when enclabe msi/msix vectors */
-> > -static __attribute__((unused)) void vfio_commit_kvm_msi_virq(VFIOPCIDe=
-vice
-> *vdev)
-> > +static void vfio_commit_kvm_msi_virq(VFIOPCIDevice *vdev)
-> >  {
-> >      int i;
-> >      VFIOMSIVector *vector;
-> > @@ -610,6 +611,9 @@ static __attribute__((unused)) void
-> vfio_commit_kvm_msi_virq(VFIOPCIDevice *vdev
-> >
-> >  static void vfio_msix_enable(VFIOPCIDevice *vdev)
-> >  {
-> > +    PCIDevice *pdev =3D &vdev->pdev;
-> > +    int ret;
-> > +
-> >      vfio_disable_interrupts(vdev);
-> >
-> >      vdev->msi_vectors =3D g_new0(VFIOMSIVector, vdev->msix->entries);
-> > @@ -632,11 +636,22 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
-> >      vfio_msix_vector_do_use(&vdev->pdev, 0, NULL, NULL);
-> >      vfio_msix_vector_release(&vdev->pdev, 0);
-> >
-> > -    if (msix_set_vector_notifiers(&vdev->pdev, vfio_msix_vector_use,
-> > -                                  vfio_msix_vector_release, NULL)) {
->=20
-> A comment would be useful here, maybe something like:
->=20
->     /*
->      * Setting vector notifiers triggers synchronous vector-use
->      * callbacks for each active vector.  Deferring to commit the KVM
->      * routes once rather than per vector provides a substantial
->      * performance improvement.
->      */
->=20
-
-Will add in the next version.
-
-> > +    vdev->defer_kvm_irq_routing =3D true;
-> > +
-> > +    ret =3D msix_set_vector_notifiers(&vdev->pdev, vfio_msix_vector_us=
-e,
-> > +                                    vfio_msix_vector_release, NULL);
-> > +    if (ret < 0) {
-> >          error_report("vfio: msix_set_vector_notifiers failed");
-> > +    } else if (!pdev->msix_function_masked) {
-> > +        vfio_commit_kvm_msi_virq(vdev);
-> > +        vfio_disable_irqindex(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX=
-);
->=20
-> Couldn't we also optimize the do_use/release on vector 0 above to avoid
-> this gratuitous disable here? We only want to make sure MSIX is always
-
-The disable here seems can be removed directly, because we already disable
-interrupts at the beginning of the vfio_msix_enable() ?
-
-> enabled on the device when we exit this function, so maybe that code
-> becomes an "else" branch below?
->=20
-
-Do you mean something like:
-
-if (ret < 0) {
-    ....
-} else if (!pdev->msix_function_masked) {
-    ....
-    ret =3D vfio_enable_vectors(vdev, true);
-    ....
-} else {
-    /* do_use/release on vector 0 */
-}
-
-We'll get '-EINVAL' if invoke vfio_enable_vectors with vdev->nr_vectors=3D0=
-,
-this cannot happen before but it can now in this way. So maybe the "else if=
-"
-conditional expression should be convert to
-"!pdev->msix_function_masked && vdev->nr_vectors" ?
-
-
-> > +        ret =3D vfio_enable_vectors(vdev, true);
-> > +        if (ret) {
-> > +            error_report("vfio: failed to enable vectors, %d", ret);
-> > +        }
-> >      }
-> >
-> > +    vdev->defer_kvm_irq_routing =3D false;
-> >      trace_vfio_msix_enable(vdev->vbasedev.name);
-> >  }
-> >
-> > @@ -645,6 +660,7 @@ static void vfio_msi_enable(VFIOPCIDevice *vdev)
-> >      int ret, i;
-> >
-> >      vfio_disable_interrupts(vdev);
-> > +    vdev->defer_kvm_irq_routing =3D true;
-> >
-> >      vdev->nr_vectors =3D msi_nr_vectors_allocated(&vdev->pdev);
-> >  retry:
-> > @@ -671,6 +687,8 @@ retry:
-> >          vfio_add_kvm_msi_virq(vdev, vector, i, false);
-> >      }
-> >
-> > +    vfio_commit_kvm_msi_virq(vdev);
-> > +
-> >      /* Set interrupt type prior to possible interrupts */
-> >      vdev->interrupt =3D VFIO_INT_MSI;
-> >
-> > @@ -697,9 +715,11 @@ retry:
-> >           */
-> >          error_report("vfio: Error: Failed to enable MSI");
-> >
-> > +        vdev->defer_kvm_irq_routing =3D false;
-> >          return;
-> >      }
-> >
-> > +    vdev->defer_kvm_irq_routing =3D false;
->=20
-> Why wouldn't we clear the flag in vfio_commit_kvm_msi_virq()?  It
-> almost feels like there should be a vfio_prepare_kvm_msi_virq_batch()
-> that enables the flag and an unconditional
-> vfio_commit_kvm_msi_virq_batch() that clears the flag and decides if
-> further work is necessary.  Thanks,
->=20
-> Alex
->=20
-> >      trace_vfio_msi_enable(vdev->vbasedev.name, vdev->nr_vectors);
-> >  }
-> >
+diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
+index 0cb02a6432..7924cfffdb 100644
+--- a/hw/usb/hcd-uhci.c
++++ b/hw/usb/hcd-uhci.c
+@@ -288,9 +288,14 @@ static UHCIAsync *uhci_async_find_td(UHCIState *s, uint32_t td_addr)
+     return NULL;
+ }
+ 
++static void uhci_pci_set_irq(UHCIState *s, int level)
++{
++    pci_set_irq(&s->dev, level);
++}
++
+ static void uhci_update_irq(UHCIState *s)
+ {
+-    int level;
++    int level = 0;
+     if (((s->status2 & 1) && (s->intr & (1 << 2))) ||
+         ((s->status2 & 2) && (s->intr & (1 << 3))) ||
+         ((s->status & UHCI_STS_USBERR) && (s->intr & (1 << 0))) ||
+@@ -298,10 +303,8 @@ static void uhci_update_irq(UHCIState *s)
+         (s->status & UHCI_STS_HSERR) ||
+         (s->status & UHCI_STS_HCPERR)) {
+         level = 1;
+-    } else {
+-        level = 0;
+     }
+-    pci_set_irq(&s->dev, level);
++    s->set_irq(s, level);
+ }
+ 
+ static void uhci_reset(DeviceState *dev)
+@@ -1170,9 +1173,9 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
+ 
+     pci_conf[PCI_CLASS_PROG] = 0x00;
+     /* TODO: reset value should be 0. */
+-    pci_conf[USB_SBRN] = USB_RELEASE_1; // release number
+-
++    pci_conf[USB_SBRN] = USB_RELEASE_1; /* release number */
+     pci_config_set_interrupt_pin(pci_conf, u->info.irq_pin + 1);
++    s->set_irq = uhci_pci_set_irq;
+ 
+     if (s->masterbus) {
+         USBPort *ports[NB_PORTS];
+diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
+index e61d8fcb19..ecd19762d6 100644
+--- a/hw/usb/hcd-uhci.h
++++ b/hw/usb/hcd-uhci.h
+@@ -42,7 +42,9 @@ typedef struct UHCIPort {
+     uint16_t ctrl;
+ } UHCIPort;
+ 
+-typedef struct UHCIState {
++typedef struct UHCIState UHCIState;
++
++struct UHCIState {
+     PCIDevice dev;
+     MemoryRegion io_bar;
+     USBBus bus; /* Note unused when we're a companion controller */
+@@ -60,7 +62,7 @@ typedef struct UHCIState {
+     uint32_t frame_bandwidth;
+     bool completions_only;
+     UHCIPort ports[NB_PORTS];
+-
++    void (*set_irq)(UHCIState *s, int level);
+     /* Interrupts that should be raised at the end of the current frame.  */
+     uint32_t pending_int_mask;
+ 
+@@ -72,7 +74,7 @@ typedef struct UHCIState {
+     char *masterbus;
+     uint32_t firstport;
+     uint32_t maxframes;
+-} UHCIState;
++};
+ 
+ #define TYPE_UHCI "pci-uhci-usb"
+ DECLARE_INSTANCE_CHECKER(UHCIState, UHCI, TYPE_UHCI)
+diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
+index b109c21603..f6bae704be 100644
+--- a/hw/usb/vt82c686-uhci-pci.c
++++ b/hw/usb/vt82c686-uhci-pci.c
+@@ -1,6 +1,15 @@
+ #include "qemu/osdep.h"
++#include "hw/irq.h"
+ #include "hcd-uhci.h"
+ 
++static void uhci_isa_set_irq(UHCIState *s, int level)
++{
++    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
++    if (irq > 0 && irq < 15) {
++        qemu_set_irq(isa_get_irq(NULL, irq), level);
++    }
++}
++
+ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+ {
+     UHCIState *s = UHCI(dev);
+@@ -14,6 +23,7 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+     pci_set_long(pci_conf + 0xc0, 0x00002000);
+ 
+     usb_uhci_common_realize(dev, errp);
++    s->set_irq = uhci_isa_set_irq;
+ }
+ 
+ static UHCIInfo uhci_info[] = {
+-- 
+2.21.4
 
 
