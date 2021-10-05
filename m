@@ -2,43 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9594227FB
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 15:34:52 +0200 (CEST)
-Received: from localhost ([::1]:46786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDAE4227A0
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 15:18:38 +0200 (CEST)
+Received: from localhost ([::1]:49756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXkap-0002mz-9y
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 09:34:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34124)
+	id 1mXkL7-0001kf-85
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 09:18:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mXkNG-0005aP-GC
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:20:50 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:45600)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mXkHn-0007yR-Ev
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:15:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mXkNC-0000vj-GL
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:20:49 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E3D7B7462D3;
- Tue,  5 Oct 2021 15:20:41 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B884E745953; Tue,  5 Oct 2021 15:20:41 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI interrupts
-Date: Tue, 05 Oct 2021 15:12:05 +0200
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1mXkHk-00077Y-GG
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 09:15:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633439706;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5VuyWVupjgVPbvj4WYMIv8TpJvFkCM6pIWlhaJw9oTQ=;
+ b=K1uefeOXHUb47VhnXEPo26xkDHxThzCY1frPXOR9QtgGRh79SM3eT7RorH06rTN0zUtAvo
+ whLV9Ctgxh7OAhH+ewlrUIkRWDuOI+Mo3YRYG/93LEljnkBS8AWA53RXruNV9Lgv3iUzl8
+ 6rI8ygSoA0eL0u49IZCDiPH18PSFH+0=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-461-pGAPDoxFO3eOkuDLm1ur-A-1; Tue, 05 Oct 2021 09:15:05 -0400
+X-MC-Unique: pGAPDoxFO3eOkuDLm1ur-A-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ u13-20020ad45aad000000b003829b9760b8so13902908qvg.18
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 06:15:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5VuyWVupjgVPbvj4WYMIv8TpJvFkCM6pIWlhaJw9oTQ=;
+ b=pZwpRB2s8PlLICP7xD3ad+4bQfP1CR2K9/WJTHKGR10EDaaaPEOJFDUR4G63bCd/W4
+ Su9Omzt+1BheX7Gp1AqtU6RCRTWb/9F/04UCC32kDi7JF9GXYxWN+iEagTpVC46BuDR8
+ bs2fmoQ6U75LhIjxwwvsWnNxr7Q2g0OWLh40WSTdquXAZrBBEXNQEYc0/jknsKjC1jZe
+ u2O987RQJxh64QFzTHx40zC9x82I3fSMcfFKOmAVvoSQhoCwYYe+hF5P70AICUN6R0YB
+ frIlTB1QYPT7hnIoPMrn6zbCiRD1+sfuIrcIlGOJqipc+uHgR7VaLNlzf7YDTRZ/EWLx
+ 59mw==
+X-Gm-Message-State: AOAM532lesEOCT79f6iCYGMdGPHLu0hyPfteHsOWcdn7fHOXUeUvpJzj
+ VC+XeQJ3Ovm7iLV9LW3TX0vONqXR6+0mt7iCxiurDltgnvRb94KoL6kaAIxOg3N/Fvw0UGw/RBM
+ p1aD+q8H4VqdnsB991cNbrosT+pnczsw=
+X-Received: by 2002:a37:6646:: with SMTP id a67mr14463133qkc.87.1633439704983; 
+ Tue, 05 Oct 2021 06:15:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzXNjgLt0ULC+09Ep1nImdNYBEJTiYO42IaOHfhWOtu3NQNH5Euq3YFQGHNyjtiJPNp8LTyuSRYNilotJEKGU4=
+X-Received: by 2002:a37:6646:: with SMTP id a67mr14463106qkc.87.1633439704718; 
+ Tue, 05 Oct 2021 06:15:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org
-Message-Id: <20211005132041.B884E745953@zero.eik.bme.hu>
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20211005080131.408506-1-eperezma@redhat.com>
+ <20211005080131.408506-3-eperezma@redhat.com>
+ <20211005041429-mutt-send-email-mst@kernel.org>
+ <CAJaqyWfa8DLkLjmcOYd-av1ZsTDFyr++_+1omomtS=-Qq=Y9zw@mail.gmail.com>
+ <20211005064646-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211005064646-mutt-send-email-mst@kernel.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 5 Oct 2021 15:14:28 +0200
+Message-ID: <CAJaqyWdrJn8JSxCAkWc8xRh=6hg9xBOCX9BXs-bZk=6F39+Myw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] vdpa: Add vhost_vdpa_section_end
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -52,135 +94,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Philippe M-D <f4bug@amsat.org>
+Cc: Parav Pandit <parav@mellanox.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, virtualization@lists.linux-foundation.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This device is part of a superio/ISA bridge chip and IRQs from it are
-routed to an ISA interrupt set by the Interrupt Line PCI config
-register. Change uhci_update_irq() to allow this and use it from
-vt82c686-uhci-pci.
+On Tue, Oct 5, 2021 at 12:47 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Tue, Oct 05, 2021 at 11:52:37AM +0200, Eugenio Perez Martin wrote:
+> > On Tue, Oct 5, 2021 at 10:15 AM Michael S. Tsirkin <mst@redhat.com> wro=
+te:
+> > >
+> > > On Tue, Oct 05, 2021 at 10:01:30AM +0200, Eugenio P=C3=A9rez wrote:
+> > > > Abstract this operation, that will be reused when validating the re=
+gion
+> > > > against the iova range that the device supports.
+> > > >
+> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > >
+> > > Note that as defined end is actually 1 byte beyond end of section.
+> > > As such it can e.g. overflow if cast to u64.
+> > > So be careful to use int128 ops with it.
+> >
+> > You are right, but this is only the result of extracting "llend"
+> > calculation in its own function, since it is going to be used a third
+> > time in the next commit. This next commit contains a mistake because
+> > of this, as you pointed out.
+> >
+> > Since "last" would be a very misleading name, do you think we could
+> > give a better name / type to it?
+> >
+> > > Also - document?
+> >
+> > It will be documented with that ("It returns one byte beyond end of
+> > section" or similar) too.
+> >
+> > Thanks!
+>
+> that's how c++ containers work so maybe it's not too bad as long
+> as we document this carefully.
+>
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
-v2: Do it differently to confine isa reference to vt82c686-uhci-pci as
-hcd-uhci is also used on machines that don't have isa. Left Jiaxun's
-R-b there as he checked it's the same for VT82C686B and gave R-b for
-the approach which still holds but speak up if you tink otherwise.
+I tend to see it that way except when the name is "last", that I read
+as "last one addressable/valid", as discussed in the
+VHOST_VDPA_GET_IOVA_RANGE call mail thread. So end =3D past range, last
+=3D last one valid.
 
- hw/usb/hcd-uhci.c          | 15 +++++++++------
- hw/usb/hcd-uhci.h          |  8 +++++---
- hw/usb/vt82c686-uhci-pci.c | 10 ++++++++++
- 3 files changed, 24 insertions(+), 9 deletions(-)
+It would be great to have something like void * / hwaddr, or c++
+chrono time_point<second> vs time_point<millisecond>, that moves to
+type system the verification of not mixing different range types. But
+this may be overthinking at this moment.
 
-diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
-index 0cb02a6432..7924cfffdb 100644
---- a/hw/usb/hcd-uhci.c
-+++ b/hw/usb/hcd-uhci.c
-@@ -288,9 +288,14 @@ static UHCIAsync *uhci_async_find_td(UHCIState *s, uint32_t td_addr)
-     return NULL;
- }
- 
-+static void uhci_pci_set_irq(UHCIState *s, int level)
-+{
-+    pci_set_irq(&s->dev, level);
-+}
-+
- static void uhci_update_irq(UHCIState *s)
- {
--    int level;
-+    int level = 0;
-     if (((s->status2 & 1) && (s->intr & (1 << 2))) ||
-         ((s->status2 & 2) && (s->intr & (1 << 3))) ||
-         ((s->status & UHCI_STS_USBERR) && (s->intr & (1 << 0))) ||
-@@ -298,10 +303,8 @@ static void uhci_update_irq(UHCIState *s)
-         (s->status & UHCI_STS_HSERR) ||
-         (s->status & UHCI_STS_HCPERR)) {
-         level = 1;
--    } else {
--        level = 0;
-     }
--    pci_set_irq(&s->dev, level);
-+    s->set_irq(s, level);
- }
- 
- static void uhci_reset(DeviceState *dev)
-@@ -1170,9 +1173,9 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
- 
-     pci_conf[PCI_CLASS_PROG] = 0x00;
-     /* TODO: reset value should be 0. */
--    pci_conf[USB_SBRN] = USB_RELEASE_1; // release number
--
-+    pci_conf[USB_SBRN] = USB_RELEASE_1; /* release number */
-     pci_config_set_interrupt_pin(pci_conf, u->info.irq_pin + 1);
-+    s->set_irq = uhci_pci_set_irq;
- 
-     if (s->masterbus) {
-         USBPort *ports[NB_PORTS];
-diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
-index e61d8fcb19..ecd19762d6 100644
---- a/hw/usb/hcd-uhci.h
-+++ b/hw/usb/hcd-uhci.h
-@@ -42,7 +42,9 @@ typedef struct UHCIPort {
-     uint16_t ctrl;
- } UHCIPort;
- 
--typedef struct UHCIState {
-+typedef struct UHCIState UHCIState;
-+
-+struct UHCIState {
-     PCIDevice dev;
-     MemoryRegion io_bar;
-     USBBus bus; /* Note unused when we're a companion controller */
-@@ -60,7 +62,7 @@ typedef struct UHCIState {
-     uint32_t frame_bandwidth;
-     bool completions_only;
-     UHCIPort ports[NB_PORTS];
--
-+    void (*set_irq)(UHCIState *s, int level);
-     /* Interrupts that should be raised at the end of the current frame.  */
-     uint32_t pending_int_mask;
- 
-@@ -72,7 +74,7 @@ typedef struct UHCIState {
-     char *masterbus;
-     uint32_t firstport;
-     uint32_t maxframes;
--} UHCIState;
-+};
- 
- #define TYPE_UHCI "pci-uhci-usb"
- DECLARE_INSTANCE_CHECKER(UHCIState, UHCI, TYPE_UHCI)
-diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
-index b109c21603..f6bae704be 100644
---- a/hw/usb/vt82c686-uhci-pci.c
-+++ b/hw/usb/vt82c686-uhci-pci.c
-@@ -1,6 +1,15 @@
- #include "qemu/osdep.h"
-+#include "hw/irq.h"
- #include "hcd-uhci.h"
- 
-+static void uhci_isa_set_irq(UHCIState *s, int level)
-+{
-+    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
-+    if (irq > 0 && irq < 15) {
-+        qemu_set_irq(isa_get_irq(NULL, irq), level);
-+    }
-+}
-+
- static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
- {
-     UHCIState *s = UHCI(dev);
-@@ -14,6 +23,7 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
-     pci_set_long(pci_conf + 0xc0, 0x00002000);
- 
-     usb_uhci_common_realize(dev, errp);
-+    s->set_irq = uhci_isa_set_irq;
- }
- 
- static UHCIInfo uhci_info[] = {
--- 
-2.21.4
+Thanks!
+
+> > >
+> > > > ---
+> > > >  hw/virtio/vhost-vdpa.c | 18 +++++++++++-------
+> > > >  1 file changed, 11 insertions(+), 7 deletions(-)
+> > > >
+> > > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > > > index ea1aa71ad8..a1de6c7c9c 100644
+> > > > --- a/hw/virtio/vhost-vdpa.c
+> > > > +++ b/hw/virtio/vhost-vdpa.c
+> > > > @@ -24,6 +24,15 @@
+> > > >  #include "trace.h"
+> > > >  #include "qemu-common.h"
+> > > >
+> > > > +static Int128 vhost_vdpa_section_end(const MemoryRegionSection *se=
+ction)
+> > > > +{
+> > > > +    Int128 llend =3D int128_make64(section->offset_within_address_=
+space);
+> > > > +    llend =3D int128_add(llend, section->size);
+> > > > +    llend =3D int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
+> > > > +
+> > > > +    return llend;
+> > > > +}
+> > > > +
+> > > >  static bool vhost_vdpa_listener_skipped_section(MemoryRegionSectio=
+n *section)
+> > > >  {
+> > > >      return (!memory_region_is_ram(section->mr) &&
+> > > > @@ -160,10 +169,7 @@ static void vhost_vdpa_listener_region_add(Mem=
+oryListener *listener,
+> > > >      }
+> > > >
+> > > >      iova =3D TARGET_PAGE_ALIGN(section->offset_within_address_spac=
+e);
+> > > > -    llend =3D int128_make64(section->offset_within_address_space);
+> > > > -    llend =3D int128_add(llend, section->size);
+> > > > -    llend =3D int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
+> > > > -
+> > > > +    llend =3D vhost_vdpa_section_end(section);
+> > > >      if (int128_ge(int128_make64(iova), llend)) {
+> > > >          return;
+> > > >      }
+> > > > @@ -221,9 +227,7 @@ static void vhost_vdpa_listener_region_del(Memo=
+ryListener *listener,
+> > > >      }
+> > > >
+> > > >      iova =3D TARGET_PAGE_ALIGN(section->offset_within_address_spac=
+e);
+> > > > -    llend =3D int128_make64(section->offset_within_address_space);
+> > > > -    llend =3D int128_add(llend, section->size);
+> > > > -    llend =3D int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
+> > > > +    llend =3D vhost_vdpa_section_end(section);
+> > > >
+> > > >      trace_vhost_vdpa_listener_region_del(v, iova, int128_get64(lle=
+nd));
+> > > >
+> > > > --
+> > > > 2.27.0
+> > >
+>
 
 
