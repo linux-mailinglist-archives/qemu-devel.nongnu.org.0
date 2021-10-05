@@ -2,92 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8E6423001
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 20:27:22 +0200 (CEST)
-Received: from localhost ([::1]:56924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F680423027
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 20:41:06 +0200 (CEST)
+Received: from localhost ([::1]:50494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXp9t-0004Rb-0P
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 14:27:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36614)
+	id 1mXpN5-0002Ev-Gn
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 14:40:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mXoO9-0004ZQ-LT
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 13:38:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49075)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mXoO6-0006rf-Ki
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 13:38:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633455477;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PN6teGn2Aze5GuaEtlrg30b6lsf8nrcc6ar48PJXOL4=;
- b=NWTBBEYqWkY9Eb8dIZJ8I+SGAv58hGNfNMRSfReDmWH5SpNP2zfGw8Q4NfXME3W5KJDJDh
- cQzwi3bPgyUIzP1Lud9s2252b2vB+A3spJP7JPL6GXT0z1+b/aMDHXDTnPyNX0TGTHnKth
- 8iOUA+n8x95jwIgZ3dSrdtna/ESDNAE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-WRYMBQb2PX-k7hr48mM9vg-1; Tue, 05 Oct 2021 13:37:57 -0400
-X-MC-Unique: WRYMBQb2PX-k7hr48mM9vg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k5-20020a7bc3050000b02901e081f69d80so14588wmj.8
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 10:37:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mXp7X-0003aS-Cq
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 14:24:56 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:35543)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mXp7V-00029J-OU
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 14:24:55 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ z184-20020a1c7ec1000000b003065f0bc631so4111691wmc.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 11:24:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Q5fQGiY++cLu4Z5iM93f5bjjyZZNCiZiglC82xP6Hgo=;
+ b=Yd5HOdaHMX66YcTSRLlsZaCIwwbyUIkm8J6aH/PU9FylZZYbsJ6WT+w4djijpST/O4
+ zcvYQ8MB48i9BAwX5tESuYrs5Y0idx1UgyE5yn788YAOkp6Wzpje+piTVdFpl3ehfb9X
+ lW+0uDXXZnFWYWxXAkt+FdqNMIgBqJgP91xy/9FDxk9fD6IMVg6Loid8rJu3+bLAzVQC
+ x13ogVMTb9ir0ftx9nKH9O6zrdqXeKStkOL1O3J1kHvtnCuEgD0SQFsDguoCaImFOhoF
+ 1BABy/3fr83kZXxEStjoXRGgjVuYRGnr+tGpkDo5i/9trRqT1ByVr7og5LxPNOemyMfo
+ 0wIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=PN6teGn2Aze5GuaEtlrg30b6lsf8nrcc6ar48PJXOL4=;
- b=R2rPTVVYOdIWFuLbBkLOvT2Mok6ISRXrq7auJnzkDU45RTA2IaDkQdI5ZdvpW6CtRA
- /ivwEBnVu9FSHZalFcsm3Q6wZy2hD2b/nzoZSTElmkk+EmYkgYsH04aUNPc/f7KZW40Q
- JF/DxvuPQ6uo9r1bf2BxJ2Idq4QnZsjrM93zoLI0/PmG6r1LMMcwBIdCaflxG8JVWUEp
- Utwpaj7Zt742rHDcsdVwEERLkep5ewyL+yHi6Q9yl1HkE/bxP7efGDlOkcgEvOFMT+LF
- tgHi/mNKXHJhb3OnoUPSHmzpj5d75rlmWoikld3gJiR681ZjgNZszPqGtcvqzxdAnaUA
- koBA==
-X-Gm-Message-State: AOAM5325HwegXj5UrwF6b1uFUAYbEB8eFObGfqkXo+tC5fdHyefETJkW
- Piu23xsyjU7L1nm13eUrAbFbAlsx9KsC6DIfAO3Bs4AHqNDvAX90J73A8Hel+EuZWBZSZPcfDPW
- VedodKJTW3nVvjg4XjRuTvnP1Z+nVk6421X294Z7NKaFdUw0W/kyBrIcPvEsEM7Fv
-X-Received: by 2002:a5d:6da9:: with SMTP id u9mr23045091wrs.58.1633455475108; 
- Tue, 05 Oct 2021 10:37:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzRWKSG2Iz3FK66EPj2G1AO3c+3BIyBweB2Ipbvm9N/16tyLLH7iBhLPcIOr/NVJ4MWWk+TA==
-X-Received: by 2002:a5d:6da9:: with SMTP id u9mr23045070wrs.58.1633455474861; 
- Tue, 05 Oct 2021 10:37:54 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id r27sm17901026wrr.70.2021.10.05.10.37.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 10:37:54 -0700 (PDT)
-Subject: Re: [PATCH 1/2] hw/arm/virt: Rename default_bus_bypass_iommu
-To: Markus Armbruster <armbru@redhat.com>, pbonzini@redhat.com,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210811085842.2511545-1-jean-philippe@linaro.org>
- <87o89nnus1.fsf@dusky.pond.sub.org> <87o89m7zai.fsf@dusky.pond.sub.org>
- <87ee94q9hr.fsf@dusky.pond.sub.org>
-From: Eric Auger <eauger@redhat.com>
-Message-ID: <630cb326-dd99-7f11-b6f3-292747467af8@redhat.com>
-Date: Tue, 5 Oct 2021 19:37:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=Q5fQGiY++cLu4Z5iM93f5bjjyZZNCiZiglC82xP6Hgo=;
+ b=e0hzn6vdhrYBIb9a9krh/CSKp3Lbk8JVsAgmtdwC3FqumbUZGGCxuA9POkLrPEAegh
+ PyfEuyAeQANmASmwqzYIzDGgyObe9tTGMGtXw/IOgvP+NwQC7K6QtkWWbiqhOmao3nwA
+ W3EibhOOnz+MkpRK0uiVrOpdfnyFNnd9JpanpzXVYQ7nBSmG4zm14wkGmuvi+yf07E2R
+ Au+ybFeb/eGbfGJ+27ami6TfcuCRmlfL3Cq0uYtEyLun1Ay9FIewr3G+cs427FFLBeUH
+ AGCC+RK4ytqs04tUrRY/bXCxWEsE8MNZdq7RL7djE5i/qazgDTYI77pgo2llQU48qpMe
+ 6glA==
+X-Gm-Message-State: AOAM5312BDT33DYV5Qa+z4vVrWig2Z1UwtaESYKDOx8su4C73oSvvzDF
+ Wn8MiR3g28yzm8FMfhNh2lOZdg==
+X-Google-Smtp-Source: ABdhPJzeCNbK52pcK+p2G6OYudliNZE/qBf8PLKTKvhZOFIh0pR1loTzYSMh4CqlFJOzTR0RNeqz8g==
+X-Received: by 2002:a1c:7d91:: with SMTP id y139mr5326228wmc.57.1633458291007; 
+ Tue, 05 Oct 2021 11:24:51 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g188sm3013025wmg.46.2021.10.05.11.24.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 11:24:50 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 27A5E1FF96;
+ Tue,  5 Oct 2021 19:24:49 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] meson.build: don't include libbpf in the common source set
+Date: Tue,  5 Oct 2021 19:24:43 +0100
+Message-Id: <20211005182443.2954499-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <87ee94q9hr.fsf@dusky.pond.sub.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eauger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,74 +85,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo, Peter,
+This library is only needed for the softmmu targets and as such
+break static *-user builds where libbpf is detected and it tries to
+link it into the user binaries.
 
-On 10/2/21 7:30 AM, Markus Armbruster wrote:
-> Markus Armbruster <armbru@redhat.com> writes:
-> 
->> Markus Armbruster <armbru@redhat.com> writes:
->>
->>> Did this series fall through the cracks for 6.1?
->>
->> Missed 6.1.  What now?
-> 
-> If I understand this correctly, it's a regression in 6.1.  Paolo, please
-> advise on what should be done.
+Fixes: 46627f41b6 ("ebpf: Added eBPF RSS loader.")
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Can we get those 2 fixes merged?
-
-Maybe we should also add
-Cc: qemu-stable@nongnu.org
-
-If so is there a chance the fix gets backported to 6.1?
-
-Thanks
-
-Eric
-> 
->>> Jean-Philippe Brucker <jean-philippe@linaro.org> writes:
->>>
->>>> Since commit d8fb7d0969d5 ("vl: switch -M parsing to keyval"), machine
->>>> parameter definitions cannot use underscores, because keyval_dashify()
->>>> transforms them to dashes and the parser doesn't find the parameter.
->>>>
->>>> This affects option default_bus_bypass_iommu which was introduced in the
->>>> same release:
->>>>
->>>> $ qemu-system-aarch64 -M virt,default_bus_bypass_iommu=on
->>>> qemu-system-aarch64: Property 'virt-6.1-machine.default-bus-bypass-iommu' not found
->>>>
->>>> Rename the parameter to "default-bus-bypass-iommu". Passing
->>>> "default_bus_bypass_iommu" is still valid since the underscore are
->>>> transformed automatically.
->>>>
->>>> Fixes: 6d7a85483a06 ("hw/arm/virt: Add default_bus_bypass_iommu machine option")
->>>> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
->>>> ---
->>>>  hw/arm/virt.c | 4 ++--
->>>>  1 file changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->>>> index b4598d3fe6..7075cdc15e 100644
->>>> --- a/hw/arm/virt.c
->>>> +++ b/hw/arm/virt.c
->>>> @@ -2671,10 +2671,10 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
->>>>                                            "Set the IOMMU type. "
->>>>                                            "Valid values are none and smmuv3");
->>>>  
->>>> -    object_class_property_add_bool(oc, "default_bus_bypass_iommu",
->>>> +    object_class_property_add_bool(oc, "default-bus-bypass-iommu",
->>>>                                     virt_get_default_bus_bypass_iommu,
->>>>                                     virt_set_default_bus_bypass_iommu);
->>>> -    object_class_property_set_description(oc, "default_bus_bypass_iommu",
->>>> +    object_class_property_set_description(oc, "default-bus-bypass-iommu",
->>>>                                            "Set on/off to enable/disable "
->>>>                                            "bypass_iommu for default root bus");
-> 
-> 
+diff --git a/meson.build b/meson.build
+index 60f4f45165..d8bcf13b21 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2307,7 +2307,7 @@ subdir('bsd-user')
+ subdir('linux-user')
+ subdir('ebpf')
+ 
+-common_ss.add(libbpf)
++softmmu_ss.add(libbpf)
+ 
+ bsd_user_ss.add(files('gdbstub.c'))
+ specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
+-- 
+2.30.2
 
 
