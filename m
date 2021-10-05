@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F54D422315
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 12:07:29 +0200 (CEST)
-Received: from localhost ([::1]:48474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C043422317
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 12:09:15 +0200 (CEST)
+Received: from localhost ([::1]:52040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXhM7-00061W-I0
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 06:07:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46754)
+	id 1mXhNq-0008TT-LM
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 06:09:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mXhJu-0004FR-Mk
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 06:05:10 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:39932)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mXhJr-0002pq-FE
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 06:05:10 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- ls18-20020a17090b351200b001a00250584aso1109956pjb.4
- for <qemu-devel@nongnu.org>; Tue, 05 Oct 2021 03:05:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=a1vHYLY5twFAmZBKNedaciRmK7RKmJ5u6FUYDR8ubDA=;
- b=N9nYM9THzKb/cCqV/r4aQrhdZj8r4uiz29A1z4nrMN6Klo+tN/6MO02l+F20+38Qlx
- 4OdBOwGMOjUQ5uW7BMJY2pAWzaBlevcE3VKt3Y8a+ckS9TNx7wHrP2Dh9YRQfZjfXzfD
- GJtoLAolN7ppvZ2L2QkHBPgx9SfQ7xSFWa/7ut/ruvHyoVo/bMycbejeQGpZqUmAFBUm
- FHjQ7zbI1XDW5mLTtlG2OhCT9BSjf3d5VL8/Oz4lW8pxjmeAMmHgZzIjWXq6PgnHq2j6
- dDJ0XLJolDOnjjmOwXS7XaXSsF55X5pGi4q6APDNRk/W6lTep8FwpZfMcoiWcgfJwDSN
- ij9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=a1vHYLY5twFAmZBKNedaciRmK7RKmJ5u6FUYDR8ubDA=;
- b=1ow/7IY22qeFrJoKkOaGoppb2lxUY/+4Rw5A4AgVDQOK4gvBRurk9DEe43HtPK6Ks4
- TwtLlCEgyITMbLOEtDhgp4mH0/asUlmRko/UHOuYt5sFPA8PXjnlXTzfDetAbouWMOOo
- w61PySsC3QLDdi5XzVsrs+Ho9RgT04y/+ayPBLsEuJRgcGZybvRmkEDmZfjjLC1OREb/
- OU7s17rEoNhfWBqUNqYL5nFVYUQiaxm0BB4Fp9i8yhrxZDB6V0QQNehk4b+cENVOB/IC
- 6e1uHzIMW9KXbZ2pPi3NMYSoX62bij5tKGAxiIQu8LMUZjfvUWmY7WHzNlFz9kjHj1Fq
- FupQ==
-X-Gm-Message-State: AOAM531jchryTQlesIHfKCaDT4xYyXhQwA7Z53PEqE1qITJTQGKIbq36
- 0iLpufXVWVww7lu+0sw2AQhzlQ==
-X-Google-Smtp-Source: ABdhPJyZB/towdFNidYBPnP3zT4WgeUawYtzG2379mEHnKS124tdYQhDdu+Mt1nvRy9chI/m5+DFUg==
-X-Received: by 2002:a17:90b:4a82:: with SMTP id
- lp2mr2736515pjb.57.1633428305674; 
- Tue, 05 Oct 2021 03:05:05 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.152.16])
- by smtp.googlemail.com with ESMTPSA id 21sm1530083pjg.57.2021.10.05.03.05.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 03:05:04 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Tue, 5 Oct 2021 15:34:57 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v4 10/11] tests/acpi: add expected blob for VIOT test on
- virt machine
-In-Reply-To: <20211001173358.863017-11-jean-philippe@linaro.org>
-Message-ID: <alpine.DEB.2.22.394.2110051532450.820442@anisinha-lenovo>
-References: <20211001173358.863017-1-jean-philippe@linaro.org>
- <20211001173358.863017-11-jean-philippe@linaro.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mXhM1-0006Po-Nc
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 06:07:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43468)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mXhLw-000724-Ot
+ for qemu-devel@nongnu.org; Tue, 05 Oct 2021 06:07:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633428435;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OYae2yiwAMbmoddnDd/+N8S6CedyqQgF0pFGpEEhW0A=;
+ b=KUOQrtzv2IZDr0uWBaHRwkCmCgtdaVRlk/xQul7LP/iQxTd8JV+3fLok9AtWZ2guSUB9Rj
+ 2veB79FVEmvT1zwu7E3Qp1TO6WhcU/j+2jtm3nEAA4XNORHpUEDYTsEgix9kFDpcBIhwvC
+ BYIedDzq8shDkMaT9tarooqFTn56lwk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-53-5A82fE3ZNgWIVGUPDym7lQ-1; Tue, 05 Oct 2021 06:07:14 -0400
+X-MC-Unique: 5A82fE3ZNgWIVGUPDym7lQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67F3491271;
+ Tue,  5 Oct 2021 10:07:12 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.167])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EEA3219D9D;
+ Tue,  5 Oct 2021 10:06:59 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [RFC PATCH 1/1] virtio: write back features before verify
+In-Reply-To: <20211004040937-mutt-send-email-mst@kernel.org>
+Organization: Red Hat GmbH
+References: <20210930012049.3780865-1-pasic@linux.ibm.com>
+ <87r1d64dl4.fsf@redhat.com> <20210930130350.0cdc7c65.pasic@linux.ibm.com>
+ <87ilyi47wn.fsf@redhat.com> <20211001162213.18d7375e.pasic@linux.ibm.com>
+ <87v92g3h9l.fsf@redhat.com>
+ <20211002082128-mutt-send-email-mst@kernel.org>
+ <20211004042323.730c6a5e.pasic@linux.ibm.com>
+ <20211004040937-mutt-send-email-mst@kernel.org>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Tue, 05 Oct 2021 12:06:57 +0200
+Message-ID: <87o88323b2.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::102d;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,88 +78,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
- mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
- ani@anisinha.ca, imammedo@redhat.com
+Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org,
+ Xie Yongji <xieyongji@bytedance.com>, stefanha@redhat.com,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Oct 04 2021, "Michael S. Tsirkin" <mst@redhat.com> wrote:
 
+> On Mon, Oct 04, 2021 at 04:23:23AM +0200, Halil Pasic wrote:
+>> --------------------------8<---------------------
+>> 
+>> From: Halil Pasic <pasic@linux.ibm.com>
+>> Date: Thu, 30 Sep 2021 02:38:47 +0200
+>> Subject: [PATCH] virtio: write back feature VERSION_1 before verify
+>> 
+>> This patch fixes a regression introduced by commit 82e89ea077b9
+>> ("virtio-blk: Add validation for block size in config space") and
+>> enables similar checks in verify() on big endian platforms.
+>> 
+>> The problem with checking multi-byte config fields in the verify
+>> callback, on big endian platforms, and with a possibly transitional
+>> device is the following. The verify() callback is called between
+>> config->get_features() and virtio_finalize_features(). That we have a
+>> device that offered F_VERSION_1 then we have the following options
+>> either the device is transitional, and then it has to present the legacy
+>> interface, i.e. a big endian config space until F_VERSION_1 is
+>> negotiated, or we have a non-transitional device, which makes
+>> F_VERSION_1 mandatory, and only implements the non-legacy interface and
+>> thus presents a little endian config space. Because at this point we
+>> can't know if the device is transitional or non-transitional, we can't
+>> know do we need to byte swap or not.
+>
+> Well we established that we can know. Here's an alternative explanation:
+>
+> 	The virtio specification virtio-v1.1-cs01 states:
+>
+> 	Transitional devices MUST detect Legacy drivers by detecting that
+> 	VIRTIO_F_VERSION_1 has not been acknowledged by the driver.
+> 	This is exactly what QEMU as of 6.1 has done relying solely
+> 	on VIRTIO_F_VERSION_1 for detecting that.
+>
+> 	However, the specification also says:
+> 	driver MAY read (but MUST NOT write) the device-specific
+> 	configuration fields to check that it can support the device before
+> 	accepting it.
+>
+> 	In that case, any device relying solely on VIRTIO_F_VERSION_1
+> 	for detecting legacy drivers will return data in legacy format.
+> 	In particular, this implies that it is in big endian format
+> 	for big endian guests. This naturally confuses the driver
+> 	which expects little endian in the modern mode.
+>
+> 	It is probably a good idea to amend the spec to clarify that
+> 	VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
+> 	is complete. However, we already have regression so let's
+> 	try to address it.
 
-On Fri, 1 Oct 2021, Jean-Philippe Brucker wrote:
+I prefer that explanation.
 
-> The VIOT blob contains the following:
 >
-> [000h 0000   4]                    Signature : "VIOT"    [Virtual I/O Translation Table]
-> [004h 0004   4]                 Table Length : 00000058
-> [008h 0008   1]                     Revision : 00
-> [009h 0009   1]                     Checksum : 66
-> [00Ah 0010   6]                       Oem ID : "BOCHS "
-> [010h 0016   8]                 Oem Table ID : "BXPC    "
-> [018h 0024   4]                 Oem Revision : 00000001
-> [01Ch 0028   4]              Asl Compiler ID : "BXPC"
-> [020h 0032   4]        Asl Compiler Revision : 00000001
 >
-> [024h 0036   2]                   Node count : 0002
-> [026h 0038   2]                  Node offset : 0030
-> [028h 0040   8]                     Reserved : 0000000000000000
+>> 
+>> The virtio spec explicitly states that the driver MAY read config
+>> between reading and writing the features so saying that first accessing
+>> the config before feature negotiation is done is not an option. The
+>> specification ain't clear about setting the features multiple times
+>> before FEATURES_OK, so I guess that should be fine to set F_VERSION_1
+>> since at this point we already know that we are about to negotiate
+>> F_VERSION_1.
+>> 
+>> I don't consider this patch super clean, but frankly I don't think we
+>> have a ton of options. Another option that may or man not be cleaner,
+>> but is also IMHO much uglier is to figure out whether the device is
+>> transitional by rejecting _F_VERSION_1, then resetting it and proceeding
+>> according tho what we have figured out, hoping that the characteristics
+>> of the device didn't change.
 >
-> [030h 0048   1]                         Type : 03 [VirtIO-PCI IOMMU]
-> [031h 0049   1]                     Reserved : 00
-> [032h 0050   2]                       Length : 0010
+> An empty line before tags.
 >
-> [034h 0052   2]                  PCI Segment : 0000
-> [036h 0054   2]               PCI BDF number : 0008
-> [038h 0056   8]                     Reserved : 0000000000000000
+>> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+>> Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in config space")
+>> Reported-by: markver@us.ibm.com
 >
-> [040h 0064   1]                         Type : 01 [PCI Range]
-> [041h 0065   1]                     Reserved : 00
-> [042h 0066   2]                       Length : 0018
+> Let's add more commits that are affected. E.g. virtio-net with MTU
+> feature bit set is affected too.
 >
-> [044h 0068   4]               Endpoint start : 00000000
-> [048h 0072   2]            PCI Segment start : 0000
-> [04Ah 0074   2]              PCI Segment end : 0000
-> [04Ch 0076   2]                PCI BDF start : 0000
-> [04Eh 0078   2]                  PCI BDF end : 00FF
-> [050h 0080   2]                  Output node : 0030
-> [052h 0082   6]                     Reserved : 000000000000
+> So let's add Fixes tag for:
+> commit 14de9d114a82a564b94388c95af79a701dc93134
+> Author: Aaron Conole <aconole@redhat.com>
+> Date:   Fri Jun 3 16:57:12 2016 -0400
 >
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+>     virtio-net: Add initial MTU advice feature
+>     
+> I think that's all, but pls double check me.
 
-Acked-by: Ani Sinha <ani@anisinha.ca>
+I could not find anything else after a quick check.
 
-Without looking at the other patches, the disassembly looks good (with
-latest iasl from upstream git).
-One suggestion : maybe also add the raw table data as well of length 88.
+>
+>
+>> ---
+>>  drivers/virtio/virtio.c | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>> 
+>> diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+>> index 0a5b54034d4b..2b9358f2e22a 100644
+>> --- a/drivers/virtio/virtio.c
+>> +++ b/drivers/virtio/virtio.c
+>> @@ -239,6 +239,12 @@ static int virtio_dev_probe(struct device *_d)
+>>  		driver_features_legacy = driver_features;
+>>  	}
+>>  
+>> +	/* Write F_VERSION_1 feature to pin down endianness */
+>> +	if (device_features & (1ULL << VIRTIO_F_VERSION_1) & driver_features) {
+>> +		dev->features = (1ULL << VIRTIO_F_VERSION_1);
+>> +		dev->config->finalize_features(dev);
+>> +	}
+>> +
+>>  	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
+>>  		dev->features = driver_features & device_features;
+>>  	else
+>> -- 
+>> 2.31.1
 
+I think we should go with this just to fix the nasty regression for now.
 
-> ---
->  tests/qtest/bios-tables-test-allowed-diff.h |   1 -
->  tests/data/acpi/virt/VIOT                   | Bin 0 -> 88 bytes
->  2 files changed, 1 deletion(-)
->
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index 29b5b1eabc..fa213e4738 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1,4 +1,3 @@
->  /* List of comma-separated changed AML files to ignore */
-> -"tests/data/acpi/virt/VIOT",
->  "tests/data/acpi/q35/DSDT.viot",
->  "tests/data/acpi/q35/VIOT.viot",
-> diff --git a/tests/data/acpi/virt/VIOT b/tests/data/acpi/virt/VIOT
-> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..921f40d88c28ba2171a4d664e119914335309e7d 100644
-> GIT binary patch
-> literal 88
-> zcmWIZ^bd((0D?3pe`k+i1*eDrX9XZ&1PX!JAexE60Hgv8m>C3sGzXN&z`)2L0cSHX
-> I{D-Rq0Q5fy0RR91
->
-> literal 0
-> HcmV?d00001
->
-> --
-> 2.33.0
->
->
 
