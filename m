@@ -2,70 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02229422F80
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 19:58:44 +0200 (CEST)
-Received: from localhost ([::1]:57356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909F1422F92
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 20:02:28 +0200 (CEST)
+Received: from localhost ([::1]:37558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXoiB-0007Rr-1Q
-	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 13:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35938)
+	id 1mXoln-0004a5-Kz
+	for lists+qemu-devel@lfdr.de; Tue, 05 Oct 2021 14:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mXoKX-0004T8-D3
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 13:34:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52554)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mXnGC-0003LB-Nu; Tue, 05 Oct 2021 12:25:46 -0400
+Received: from mail-eopbgr70118.outbound.protection.outlook.com
+ ([40.107.7.118]:26247 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mXoKT-0003Cb-FO
- for qemu-devel@nongnu.org; Tue, 05 Oct 2021 13:34:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633455252;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jrDNSNU2nFg/Ma5skYUzLExrt97Xcn72cuFEJOUo46o=;
- b=SLbdcT/mdwTnkkoBvAB/hST3p3QjonXfPJA0P3XEv9xQTZiZbCnWxDyLcvU201yAxeqZ6B
- kKEdqCkBNngKBm1GLhdZHv5qSW8OU9ANS3ypYrZNKBxemY7+iEMUsNY4kSfbv/af2MYhUb
- AKwHPrXqXbgDcZRUi0k0fj4gxfTXg/M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-fFPMKahLO8GT_v4V9PA6_g-1; Tue, 05 Oct 2021 13:34:11 -0400
-X-MC-Unique: fFPMKahLO8GT_v4V9PA6_g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1295802C8A;
- Tue,  5 Oct 2021 17:34:09 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B5805F4E7;
- Tue,  5 Oct 2021 17:33:52 +0000 (UTC)
-Date: Tue, 5 Oct 2021 19:33:51 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Damien Hedde <damien.hedde@greensocs.com>
-Subject: Re: [PATCH 09/11] qdev: Avoid QemuOpts in QMP device_add
-Message-ID: <YVyMf7HCXGBXZQxI@redhat.com>
-References: <20210924090427.9218-1-kwolf@redhat.com>
- <20210924090427.9218-10-kwolf@redhat.com>
- <89bbeed4-dec6-007a-175e-38a12e5bbfa1@greensocs.com>
- <YVGtXMq+JGKIIUrQ@redhat.com> <YVxjLf9vJlBqeKKh@redhat.com>
- <ea36ef56-4892-5b29-e660-964e6018e154@greensocs.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mXnG8-0001qr-FN; Tue, 05 Oct 2021 12:25:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TrpIsZDNdXyGJiK+dz99zW/YFKMunkQU3vvDF6wrZquCyzEcPR+b78LOkZNCJq1faFjB/I8l/5MeXWZx79bpEcFQhco7aaI7n6GnlY7kiSUhDIBdUpXa/SDFPu6LvvIx5PSj68BwRWJ9Wxm33dtEd7hkMwQVs9nD8yejrY/XY+lwld0Z5FCBTA0ovXnkrgJzFMUKLjT0baE1H+NATx6IOb3Zdz9828Rg25FrymrakBFRhgt0bU3jGKbMrUWeqlxn3KzUo2sYuPlAPx9Ue7cUPluWWZOqh/xdx//Gj/G4canLDgv5fUVrsCUTs1GIdxLwhAoBhP5K0vlYbO1PHuSc9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ykH7KdN1299MYoh8nmrvnMIikAGyklQOYaKmWsuiXCI=;
+ b=ahOrtWvffgGRlxziEIcA4DoGDZp8wRHXgXzdTw0iGkxSHetlhoZNx77BLavmI2CkVsBtmXDwVn12VwxZwPoO0zkGJqEaJbn01mBx+97LSL+6JKoFxT6KIo5CBuNnGRoqcznauVQ6qpdF57CyCbkm4ylAlmSgVBoFW5fWO6FJ0NdDDOt2Ds0zvKUfobx3CQOZhaj7TwYr2MB2/gNf3h/x3Vurasgx7SOwgBFYlvdSar1xVBFtcypkOzYfTigg1+rbSFvDs5geBjoFdcKbUNsDa7XQtmFfrQYEiukECFDan6Q4HXxIJqbk4pcxXdn7WB4O0RUDBGC5h6s3RzzttXJs8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ykH7KdN1299MYoh8nmrvnMIikAGyklQOYaKmWsuiXCI=;
+ b=RJUa3m/8c6fjzBNY65zMDgZn/bvYBwg6KsAHpiAOQe/JtSuWr1I7Y0aWJB7lKCKSvp9wR/ICEUwdiOk93Y3IdHya+9qfwjocQ/7kbYFnsllsugl5Bd8i0a6yGEOVOQF1JZB/pgRfqVph3veICO6jE3nMSywgcqjY++qIQXEOhh0=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5206.eurprd08.prod.outlook.com (2603:10a6:20b:e9::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.22; Tue, 5 Oct
+ 2021 16:25:36 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a994:9f7c:53a5:84bc%4]) with mapi id 15.20.4566.022; Tue, 5 Oct 2021
+ 16:25:36 +0000
+Message-ID: <ab53f4f8-da8a-df72-37b7-36714bd17f43@virtuozzo.com>
+Date: Tue, 5 Oct 2021 19:25:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 1/2] block/backup: avoid integer overflow of `max-workers`
+Content-Language: en-US
+To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
+Cc: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+References: <20211005161157.282396-1-sgarzare@redhat.com>
+ <20211005161157.282396-2-sgarzare@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <20211005161157.282396-2-sgarzare@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS8P189CA0007.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:31f::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <ea36ef56-4892-5b29-e660-964e6018e154@greensocs.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received: from [192.168.100.10] (185.215.60.207) by
+ AS8P189CA0007.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:31f::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4566.15 via Frontend Transport; Tue, 5 Oct 2021 16:25:35 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4bd886c8-2dc7-48f2-e213-08d9881cc2f6
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5206:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB5206990567D533425FA8851EC1AF9@AM6PR08MB5206.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LA8buvCcLhCquaImExMX6BlhxoVlq7fbKSUzkjzHbiW5xCPCpAVo6RPMK18VX+ZEScQTidQUF//nDk1zWiWLT09fB8Nx9bgLxFWeqiVCfdkcUJ8Z9lq6yzxCpYnrAn6rDiQTtZQ/XtQeC8sIm1xjiqfyKSfC22u5KPp0rKY2gtVe8aXIBo//FqlgYHzYdMttuL/KRClF6ZKDVrp9xkmt3f6MQbAjmHkOK7AHfzJnBHcbSgkparmHnlz3SwAShU9o9oZtbZ8kJLje5tBOnim92yZdsL+UcAWRbQWFmynRe7mRq5YNiq07fugllAN2v2jbd49tPxEE/lUvi/slbAncTTKpBhSiCylHks3Tbl9hIAIny8MFKIqtPeVvTIcfE57IMcnh2/0iusvVFUFwpRxy2BIJsCrTLt174swtAG3zrsB6f9D8U0I8vRm0jWTJ1j4Jj0gEy+TX7K7oNasNyxP27TjVqdQ9mP2CXdaMQp1hGJnNZJaH+l1Ucbga5KjSlvNK169zLnX1BPwd44ZcpB3ke2Z712SaLNujxmr9UtSUMp6v/5yHkYtY3cjP+RWtCXzA2UI8cr+sQOhD6n+kougTGy5Oh3t/tfsPFt3o1gmJCtE7wL2uQoDP99wvhT0EFN98HMn9qMLoI2ZUxYR8ghAGg+s+ibfzsaaKSLukp0UtSJbgkulAmjL4YiXJns20kKx2h/jWKg3iu/2UVu18BC83k8DrgePoKyfYHZr5/oCTUIcC2gN8ui9Jy9hl3aH1D6AS2TllW6SHZyKrSBKlPlrckEHvFTxeOTWyorhv/wkA3/eJXO8WbhNBlsgqI0rTy4KrqdVWFfCeDFwYYupHo3/2Ot73cNQBZBFgAya6RT0ueBRw4bZeEn4hbLcFs0vYYfDu
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(36756003)(4326008)(508600001)(86362001)(66946007)(83380400001)(2616005)(966005)(66476007)(8676002)(186003)(31696002)(31686004)(38350700002)(38100700002)(66556008)(54906003)(6486002)(16576012)(8936002)(316002)(5660300002)(2906002)(52116002)(26005)(956004)(81973001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SC9KdUxIQ2VFNURwem5FK0NEbTkrU2VkdjNlTFVDYlg5cnRaKzFFbjJUaEo1?=
+ =?utf-8?B?NTR4cUw5N2hYZE9UeFRmMjhpOE44cC83ZW0vU01hNUpxMHVPWXJrb2EzL2Js?=
+ =?utf-8?B?WTRTMm1GVWw3M1V1YytiRkZLQmNhUlBOVkNOYXVVZ1V5L1pzM056am5XUnF3?=
+ =?utf-8?B?NVBoYUw4ODM3SWQwcjZlYUlyaFM1RXhxYjVIcWl1Nmg2MnRremNWMW5TOVZT?=
+ =?utf-8?B?bFEyU2xyS3VpSEJEbmRWUkJiMGxWY2lYZ0diMWljYTQ2ZDVQNS9objh3RlZF?=
+ =?utf-8?B?YWs5cjlKWHVoYmxRdkNRaGZIOTlvcmxjenFYYks4T3VMY1ZsNzFqRG44Slpu?=
+ =?utf-8?B?dXZZbVFGSDlDYmdFbXUwbGwrbWNpbmtIR1JRSHNmN3Y4ckNNT1Ywa2ZVUDhE?=
+ =?utf-8?B?RG9lYzc0WHMwckVxK0ppUzI3OFhvUEhLZmNwb3hEOStXYUxTcmtMQStIZEVL?=
+ =?utf-8?B?UjhtTmo2RTZFVkFiYjRlRXFGcy9kNUR2NHQrZTh4SUZBTHhqM0M5NEdwTTI4?=
+ =?utf-8?B?NzRVMUpFRElQcCtQMzVKR1JRMjgwVjA3VDVkSXM3ZFh6MjdES0p4NXlzcDNO?=
+ =?utf-8?B?VUR4R1VrOUZ6MlNndjFBZktmNnpVenNNRjcxaEl5WVQ4enRLWXF5a01obmt3?=
+ =?utf-8?B?aTd5UjFvTXNpQVZKWGVKZDVXdmdFdUFLYmtaOUpGRVEwRjdqRVBKSDBHUEZY?=
+ =?utf-8?B?YnlLeVpiZUdCMi9uWnB2aG95cXBEaHRneXlMVFpJa2l0bjFZa1IwM21tY1dL?=
+ =?utf-8?B?dFY0Rnd1S3QrbDlQb2JJbUw3YWtZNmpuTlpBSGhkbXUrUlBrWGEzeTN2dWdu?=
+ =?utf-8?B?VjB1bzdqNjhsMXN0cEtFMEdqemhoWkQzTU1zazNvZXp0RkluUXNoMVhQSHpQ?=
+ =?utf-8?B?RGwzbDkzaG9LbEtlZWF2TFkwM1FWUVU4T1pWbTZncElHc0twUldGM1NZUEln?=
+ =?utf-8?B?bGdIUnB0QTF0TkE0MFQ0UU1ZMFRDMzdRMUE4TzZ3eDJBUWdLYlpCSm05QzB4?=
+ =?utf-8?B?VnN3WWg1Zy9rYWFWaHJqcXFjQUptOWswKzl3VlRzb0xTWXgvcjZFbTZkNEZn?=
+ =?utf-8?B?NGJ1dXdjcC9YekZSdkt1UnpBdnVpRlp6YU9wbHBpNVcwZ3lwYTJMZHBPeXB6?=
+ =?utf-8?B?aTlUZFNlSktzWTdmYzQxenloTEhZVGlHZ2kyL21Uc3BLYldISXdWeGVmazhP?=
+ =?utf-8?B?RlhubVlrVUIwK2NWcitwUmpsRG1hUDNtbUtJamY1eVpUQUlrUFh4S3pGVStl?=
+ =?utf-8?B?ZmJqdmhhcW1sTktkWXlSMzRUdURIUGZ2WmFYelZlcEk0YUgyckZKdWV4OWJL?=
+ =?utf-8?B?ckNQa1k5U2JyZlpXTVZFZURGL2x3M0NKVk5mQ2w4Wnp4RzlqeXl6M3JuWnVZ?=
+ =?utf-8?B?K1RDVXRiVytObUFiWlRyK09NTHp5RE0vNnpabkR5Mk5hUUp3TjlyV0hsbzZ1?=
+ =?utf-8?B?b1RzOU90aWlEcUNlSFZGYUloY3BtR0J5QWRZQTg1am9PZVI3b0U2Mk5SSHpw?=
+ =?utf-8?B?UDlqQ0V3cThjaGowdGFRV0ZKVkdTUlpYRWJyTXpnVlY0RS8rMzl0U0JYMHNx?=
+ =?utf-8?B?eW9ITDloZ2pYaGlNU0l0Nkg1U3drbWVjQlJlaEh2REVwMGxJSGxMU3FpNDZl?=
+ =?utf-8?B?M0xwQWVLZXVLVEh1azdQdVFkMWRzOVVHTGswekVmTEMxS2NXU2QyT1Nuckx6?=
+ =?utf-8?B?dmsyK21sUWRsbWpjTGVhM2pqb1VtbGlQc2ZIbnZ3dzVDRXRrR0VUOGU1cVVH?=
+ =?utf-8?Q?zSfI3TDOQDzTiEvMq0BDph6otZL/18g/LP/C/28?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4bd886c8-2dc7-48f2-e213-08d9881cc2f6
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2021 16:25:36.3357 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I5IiQXTW5dGsELmWks1jfQmBfu4zVR9TFq0fJVx1b8Zb16pvmoGjECTxqrPRk9JguwxhO5SQirMH+KE7l39a6pU3szxauTVshhM2YxqOfSc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5206
+Received-SPF: pass client-ip=40.107.7.118;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,181 +144,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
- libvir-list@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com, its@irrelevant.dk, pbonzini@redhat.com,
- jfreimann@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 05.10.2021 um 17:52 hat Damien Hedde geschrieben:
+10/5/21 19:11, Stefano Garzarella wrote:
+> QAPI generates `struct BackupPerf` where `max-workers` value is stored
+> in an `int64_t` variable.
+> But block_copy_async(), and the underlying code, uses an `int` parameter.
 > 
+> At the end that variable is used to initialize `max_busy_tasks` in
+> block/aio_task.c causing the following assertion failure if a value
+> greater than INT_MAX(2147483647) is used:
 > 
-> On 10/5/21 16:37, Kevin Wolf wrote:
-> > Am 27.09.2021 um 13:39 hat Kevin Wolf geschrieben:
-> > > Am 27.09.2021 um 13:06 hat Damien Hedde geschrieben:
-> > > > On 9/24/21 11:04, Kevin Wolf wrote:
-> > > > > Directly call qdev_device_add_from_qdict() for QMP device_add instead of
-> > > > > first going through QemuOpts and converting back to QDict.
-> > > > > 
-> > > > > Note that this changes the behaviour of device_add, though in ways that
-> > > > > should be considered bug fixes:
-> > > > > 
-> > > > > QemuOpts ignores differences between data types, so you could
-> > > > > successfully pass a string "123" for an integer property, or a string
-> > > > > "on" for a boolean property (and vice versa).  After this change, the
-> > > > > correct data type for the property must be used in the JSON input.
-> > > > > 
-> > > > > qemu_opts_from_qdict() also silently ignores any options whose value is
-> > > > > a QDict, QList or QNull.
-> > > > > 
-> > > > > To illustrate, the following QMP command was accepted before and is now
-> > > > > rejected for both reasons:
-> > > > > 
-> > > > > { "execute": "device_add",
-> > > > >     "arguments": { "driver": "scsi-cd",
-> > > > >                    "drive": { "completely": "invalid" },
-> > > > >                    "physical_block_size": "4096" } }
-> > > > > 
-> > > > > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > > > > ---
-> > > > >    softmmu/qdev-monitor.c | 18 +++++++++++-------
-> > > > >    1 file changed, 11 insertions(+), 7 deletions(-)
-> > > > > 
-> > > > > diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> > > > > index c09b7430eb..8622ccade6 100644
-> > > > > --- a/softmmu/qdev-monitor.c
-> > > > > +++ b/softmmu/qdev-monitor.c
-> > > > > @@ -812,7 +812,8 @@ void hmp_info_qdm(Monitor *mon, const QDict *qdict)
-> > > > >        qdev_print_devinfos(true);
-> > > > >    }
-> > > > > -void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
-> > > > > +static void monitor_device_add(QDict *qdict, QObject **ret_data,
-> > > > > +                               bool from_json, Error **errp)
-> > > > >    {
-> > > > >        QemuOpts *opts;
-> > > > >        DeviceState *dev;
-> > > > > @@ -825,7 +826,9 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
-> > > > >            qemu_opts_del(opts);
-> > > > >            return;
-> > > > >        }
-> > > > > -    dev = qdev_device_add(opts, errp);
-> > > > > +    qemu_opts_del(opts);
-> > > > > +
-> > > > > +    dev = qdev_device_add_from_qdict(qdict, from_json, errp);
-> > > > 
-> > > > Hi Kevin,
-> > > > 
-> > > > I'm wandering if deleting the opts (which remove it from the "device" opts
-> > > > list) is really a no-op ?
-> > > 
-> > > It's not exactly a no-op. Previously, the QemuOpts would only be freed
-> > > when the device is destroying, now we delete it immediately after
-> > > creating the device. This could matter in some cases.
-> > > 
-> > > The one case I was aware of is that QemuOpts used to be responsible for
-> > > checking for duplicate IDs. Obviously, it can't do this job any more
-> > > when we call qemu_opts_del() right after creating the device. This is
-> > > the reason for patch 6.
-> > > 
-> > > > The opts list is, eg, traversed in hw/net/virtio-net.c in the function
-> > > > failover_find_primary_device_id() which may be called during the
-> > > > virtio_net_set_features() (a TYPE_VIRTIO_NET method).
-> > > > I do not have the knowledge to tell when this method is called. But If this
-> > > > is after we create the devices. Then the list will be empty at this point
-> > > > now.
-> > > > 
-> > > > It seems, there are 2 other calling sites of
-> > > > "qemu_opts_foreach(qemu_find_opts("device"), [...]" in net/vhost-user.c and
-> > > > net/vhost-vdpa.c
-> > > 
-> > > Yes, you are right. These callers probably need to be changed. Going
-> > > through the command line options rather than looking at the actual
-> > > device objects that exist doesn't feel entirely clean anyway.
-> > 
-> > So I tried to have a look at the virtio-net case, and ended up very
-> > confused.
-> > 
-> > Obviously looking at command line options (even of a differrent device)
-> > from within a device is very unclean. With a non-broken, i.e. type safe,
-> > device-add (as well as with the JSON CLI option introduced by this
-> > series), we can't have a QemuOpts any more that is by definition unsafe.
-> > So this code needs a replacement.
-> > 
-> > My naive idea was that we just need to look at runtime state instead.
-> > Don't search the options for a device with a matching 'failover_pair_id'
-> > (which, by the way, would fail as soon as any other device introduces a
-> > property with the same name), but search for actual PCIDevices in qdev
-> > that have pci_dev->failover_pair_id set accordingly.
-> > 
-> > However, the logic in failover_add_primary() suggests that we can have a
-> > state where QemuOpts for a device exist, but the device doesn't, and
-> > then it hotplugs the device from the command line options. How would we
-> > ever get into such an inconsistent state where QemuOpts contains a
-> > device that doesn't exist? Normally devices get their QemuOpts when they
-> > are created and device_finalize() deletes the QemuOpts again. >
+>    ../block/aio_task.c:63: aio_task_pool_wait_one: Assertion `pool->busy_tasks > 0' failed.
 > 
-> Just read the following from docs/system/virtio-net-failover.rst
+> Let's check that `max-workers` doesn't exceed INT_MAX and print an
+> error in that case.
 > 
-> > Usage
-> > -----
-> >
-> > The primary device can be hotplugged or be part of the startup
-> > configuration
-> >
-> >   -device virtio-net-pci,netdev=hostnet1,id=net1,
-> >           mac=52:54:00:6f:55:cc,bus=root2,failover=on
-> >
-> > With the parameter failover=on the VIRTIO_NET_F_STANDBY feature
-> > will be enabled.
-> >
-> > -device vfio-pci,host=5e:00.2,id=hostdev0,bus=root1,
-> >         failover_pair_id=net1
-> >
-> > failover_pair_id references the id of the virtio-net standby device.
-> > This is only for pairing the devices within QEMU. The guest kernel
-> > module net_failover will match devices with identical MAC addresses.
-> >
-> > Hotplug
-> > -------
-> >
-> > Both primary and standby device can be hotplugged via the QEMU
-> > monitor.  Note that if the virtio-net device is plugged first a
-> > warning will be issued that it couldn't find the primary device.
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2009310
+
+I glad to see that someone experiments with my experimental API :)
+
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+> ---
+>   block/backup.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> So maybe this whole primary device lookup can happen during the -device CLI
-> option creation loop. And we can indeed have un-created devices still in the
-> list ?
-
-Yes, that's the only case for which I could imagine for an inconsistency
-between the qdev tree and QemuOpts, but failover_add_primary() is only
-called after feature negotiation with the guest driver, so we can be
-sure that the -device loop has completed long ago.
-
-And even if it hadn't completed yet, the paragraph also says that even
-hotplugging the device later is supported, so creating devices in the
-wrong order should still succeed.
-
-I hope that some of the people I added to CC have some more hints.
-
-Kevin
-
-> > Any suggestions how to get rid of the QemuOpts abuse in the failover
-> > code?
-> > 
-> > If this is a device that we previously managed to rip out without
-> > deleting its QemuOpts, can we store its dev->opts (which is a type safe
-> > QDict after this series) somewhere locally instead of looking at global
-> > state? Preferably I would even like to get rid of dev->opts because we
-> > really should look at live state rather than command line options after
-> > device creation, but I guess one step at a time.
-> > 
-> > (Actually, I'm half tempted to just break it because no test cases seem
-> > to exist, so apparently nobody is really interested in it.)
-> > 
-> > Kevin
-> > 
+> diff --git a/block/backup.c b/block/backup.c
+> index 687d2882bc..8b072db5d9 100644
+> --- a/block/backup.c
+> +++ b/block/backup.c
+> @@ -407,8 +407,8 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+>           return NULL;
+>       }
+>   
+> -    if (perf->max_workers < 1) {
+> -        error_setg(errp, "max-workers must be greater than zero");
+> +    if (perf->max_workers < 1 || perf->max_workers > INT_MAX) {
+> +        error_setg(errp, "max-workers must be between 1 and %d", INT_MAX);
+>           return NULL;
+>       }
+>   
 > 
 
+
+-- 
+Best regards,
+Vladimir
 
