@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12117421C3B
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 03:54:00 +0200 (CEST)
-Received: from localhost ([::1]:47758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1B4421C76
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Oct 2021 04:13:09 +0200 (CEST)
+Received: from localhost ([::1]:52586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mXZeY-0007mM-Sh
-	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 21:53:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38932)
+	id 1mXZx6-0003db-Dr
+	for lists+qemu-devel@lfdr.de; Mon, 04 Oct 2021 22:13:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mXZcH-0005jO-UB
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 21:51:38 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:40717)
+ id 1mXZvt-0002n6-Tt
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 22:11:53 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:35418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mXZcF-0008Nk-GQ
- for qemu-devel@nongnu.org; Mon, 04 Oct 2021 21:51:37 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id m5so3288484pfk.7
- for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 18:51:35 -0700 (PDT)
+ id 1mXZvs-00017j-F9
+ for qemu-devel@nongnu.org; Mon, 04 Oct 2021 22:11:53 -0400
+Received: by mail-pg1-x531.google.com with SMTP id e7so18364210pgk.2
+ for <qemu-devel@nongnu.org>; Mon, 04 Oct 2021 19:11:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=//DnrnfEnsbx9YcZSoyOGuuCto6VmrDgEVE2aTy/Pg8=;
- b=zgTRvpLhJO84jvzObQl3dN196kZY4eMKNrctxIz4fAaUDNqYo71hgs/H0O1/ZvkPUA
- xJf48iQPDebUUcMCfNYHDPYMLvqXIP+gd/3txBRD2cEXFgcjOQK9yH6BcMGcxdfZzKbN
- /OwNLhYCEcc1/KFapHzQJe2rk73og1Qj+Rw5YiKNXWrW6o1bqamZluOhmR7a/6RXo9RF
- cngq+1fLRQPe+uA+WuTz+miwBBa9UMpkkViTsUckNde6aFtgsADNygbre/KOkYqc1+NA
- o85+oAS7ZGwlbEbkv8/A6bhwPF9XSUX3GlYqjimGjKmLHKCSr48Q3kT8JDZ6JYTgHCZb
- vlSg==
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=WxKHVOeYBjd/aLonSickU5PG46ru71Q4oFUJ5fIQa+k=;
+ b=RdUcWq5tX9859OMYPRyW+7G2x68xanQ2tKedkyKBOcuIpY6aj3XIK8yitnLanymXgG
+ Ax5BtmOEkesTsM2kPOU4IuImwAcGvwW44Xbj7CkAE9s6/XU4c7OXlHNYlNOvMpQD5P/Z
+ pnshaQwzwuFQgjpUGZwcgrOyNuEReMwRP1ZrNFseeyeHEQjB51+cZQGJyT08HRrRHJ/L
+ /rSTXjA3jlgG48s8uxixXe7foCGu9E5L9IQN8spaKXlDbvaeCHKikGgAXd4UKWUHjFg0
+ OI2l8Bcf3bWkDnCeVpgfzksSFqhWfT6yBwUTQtZBFjFAFHmlKqo/JCaFSd2/rpOEZTei
+ 6adA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=//DnrnfEnsbx9YcZSoyOGuuCto6VmrDgEVE2aTy/Pg8=;
- b=TCia0sgW2nGBD1hD6iG1q3RHPEz/kL2sxzJZl4AsHTe/3IDGC3s5hlJbFWuukWS4wG
- 614T7gcGvEVdQIM0CwqflE5RJAc1YyQRaDXkB4Tnjb6ZWq/c5NNOoCKIFY5YtSkf4/1k
- SzsNL2frMkk0921jJv51Ovz1wx4qeHWC5LfQ1ENWEzRnyx632DepblVBRwDNbp3y0I7q
- hkPyIODaxyrvAyaeKLvjGwvJ08RAubNT6JMqUeA3egSGcptPIqbWpqkqfFCJvNZ6wXe/
- 9ReGSi4SHHaq69hoHLgg8BUWhauZpe13qNldlr3gdOGK/JtV7624nLbvjNQrHHvRDXuL
- Zymg==
-X-Gm-Message-State: AOAM53244xwzoS/Hjo4PD4Plspl2AAqFbW6Kknswon/J/uGvWpgOq4/v
- s56s854JfHFgB5McdVU0zw+mXsRkpgpyUQ==
-X-Google-Smtp-Source: ABdhPJz7JBnr5btyFMjAzWCcq+L0+uOw1LUiZvVxIXbTMnjrG/r+tbQphKBgzFW+Fu+JkG0vs1CboA==
-X-Received: by 2002:aa7:8116:0:b0:44b:e0d1:25e9 with SMTP id
- b22-20020aa78116000000b0044be0d125e9mr29037489pfi.53.1633398693780; 
- Mon, 04 Oct 2021 18:51:33 -0700 (PDT)
+ bh=WxKHVOeYBjd/aLonSickU5PG46ru71Q4oFUJ5fIQa+k=;
+ b=IZ8y6b1x1LiQs1mlIKHCY/2eZjsRnW6ymciFQyGMmGh02oXT1VuWz1qY/fhtmcHUaW
+ JHRTF6PPj5PrLJ4d841XZQUMszphEb9HDjpmG5ilj3q6GLKZCbSHw/YaH5QSnVSlWVbF
+ 7tkKYuoNDTPiBbo6cGmHU/kXICCTKJyjcM4r3EjLKAtwukZr7YLDiWM/pRs6kB3GOZxc
+ bY9Q5/ttcokp772NvzbgOGJ5hD74i4DvfbAM5Vg0dYuelBJiENv/ZrTc3/5iuHRKAhjj
+ Ga8dptblXPp1Tiw8Ykvc32nW9qDYrSypX0on+ESMaZeK1PHvJTRTBVNklQBTYRgypqOO
+ 1nTw==
+X-Gm-Message-State: AOAM533iPRj62siojwW3iJycPx0XulTObt6N83sYSZgatmObYroh3dmt
+ HEnEftPyIrE4r7cFsRE264WaKC2Dv6wR4g==
+X-Google-Smtp-Source: ABdhPJwR14Lm3JkquuIzi0F5o4QAehntjLcBboiEI4StevfZ9Qw5OHNYdK1dicpvjZOncAkFToMY7A==
+X-Received: by 2002:a63:e64a:: with SMTP id p10mr13825537pgj.263.1633399910057; 
+ Mon, 04 Oct 2021 19:11:50 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id q17sm6746639pfs.118.2021.10.04.18.51.33
+ by smtp.gmail.com with ESMTPSA id n185sm16282557pfn.171.2021.10.04.19.11.49
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Oct 2021 18:51:33 -0700 (PDT)
-Subject: Re: [PATCH] MAINTAINERS: Split HPPA TCG vs HPPA machines/hardware
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20211004083835.3802961-1-f4bug@amsat.org>
+ Mon, 04 Oct 2021 19:11:49 -0700 (PDT)
+Subject: Re: [PATCH 0/2] tests/docker: Fix fedora-i386-cross
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <91342bc9-ff06-ed7e-2735-0fdfe740c7a8@linaro.org>
-Date: Mon, 4 Oct 2021 18:51:32 -0700
+To: qemu-devel@nongnu.org
+References: <20210930163636.721311-1-richard.henderson@linaro.org>
+Message-ID: <5f5f5fd2-102e-1f35-e610-fa94c175053d@linaro.org>
+Date: Mon, 4 Oct 2021 19:11:47 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211004083835.3802961-1-f4bug@amsat.org>
+In-Reply-To: <20210930163636.721311-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,20 +87,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/4/21 1:38 AM, Philippe Mathieu-Daudé wrote:
-> Hardware emulated models don't belong to the TCG MAINTAINERS
-> section. Move them to the 'HP-PARISC Machines' section.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   MAINTAINERS | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+On 9/30/21 9:36 AM, Richard Henderson wrote:
+> Richard Henderson (2):
+>    tests/docker: Remove fedora-i386-cross from DOCKER_PARTIAL_IMAGES
+>    tests/docker: Fix fedora-i386-cross
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Queuing to tcg-next, just because I'm preparing a PR.
+
 
 r~
 
