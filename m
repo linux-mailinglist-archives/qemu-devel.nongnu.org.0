@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD834241DE
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 17:53:23 +0200 (CEST)
-Received: from localhost ([::1]:47996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3E34241F5
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 17:57:47 +0200 (CEST)
+Received: from localhost ([::1]:60810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY9EN-0006Oy-Nz
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 11:53:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49124)
+	id 1mY9Ig-0006cT-Rm
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 11:57:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mY8nR-0003Ux-P6
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:25:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53949)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mY97t-0006Wn-7T
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:46:37 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:42073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mY8nQ-0003Ju-6m
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:25:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633533926;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6yFUaEDWl2L5ZZDVfxVMIe3qDi59mEQxFLMwAqn4YT0=;
- b=IDYXEkKF3l/TZD9M9wGN65C8RvDqcOtPRSok2sQiA7ytmv6OCxP05+O+ByVLVEE2+vXHYA
- MVqY7IGighVTHofHR6EsJaN0mXBDv8LfocU+gYuoolNq6Tcfzqq22cfV/LDnPc6nAAGH6a
- 4h536Y2UxFbZMVVFc9iJlfCZJAY+nlc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-aVZNrCfuOv60Fr63VyINfw-1; Wed, 06 Oct 2021 11:25:21 -0400
-X-MC-Unique: aVZNrCfuOv60Fr63VyINfw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 163581006AA9;
- Wed,  6 Oct 2021 15:25:20 +0000 (UTC)
-Received: from redhat.com (ovpn-113-79.phx2.redhat.com [10.3.113.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 741805F4E8;
- Wed,  6 Oct 2021 15:25:19 +0000 (UTC)
-Date: Wed, 6 Oct 2021 10:25:17 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 03/12] block-backend: convert blk_co_pwritev_part to
- int64_t bytes
-Message-ID: <20211006152517.pubo7bocf6encscy@redhat.com>
-References: <20211006131718.214235-1-vsementsov@virtuozzo.com>
- <20211006131718.214235-4-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mY97r-0000Yq-5S
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:46:36 -0400
+Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MtOSu-1mmnKQ3njy-00un83; Wed, 06 Oct 2021 17:46:33 +0200
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20211004211928.15803-1-mark.cave-ayland@ilande.co.uk>
+ <20211004211928.15803-9-mark.cave-ayland@ilande.co.uk>
+ <7994e73e-cbda-1bd1-68c4-250dd951ed51@vivier.eu>
+ <66384935-4c8f-8220-8593-bfde37d05e1d@ilande.co.uk>
+ <15fba2fe-77b0-78f4-ea55-9438ce976c18@vivier.eu>
+ <52fe2fc5-b4fb-8888-9b80-0e362c52ebb5@ilande.co.uk>
+ <3a798740-d39e-f2b8-8b3c-1a4814f184ea@vivier.eu>
+ <f8d64bc7-fc6e-dd14-4ed5-a55a947ef8cb@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v2 08/12] macfb: add common monitor modes supported by the
+ MacOS toolbox ROM
+Message-ID: <fc202c89-cbbc-9d87-b3e2-fcba8a82b495@vivier.eu>
+Date: Wed, 6 Oct 2021 17:46:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20211006131718.214235-4-vsementsov@virtuozzo.com>
-User-Agent: NeoMutt/20210205-815-1dd940
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <f8d64bc7-fc6e-dd14-4ed5-a55a947ef8cb@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:u4vWoDtYawiNptHuMaZvzbt3Zpo60/5qAjwFzDxstw3kZH4rDPX
+ Il5Oya7nF2TDvzKJvvW9r18K88M211V1+5QwgYK4uAjw5kbeuHc9V+dWOb0foX5S3TUTfpQ
+ IgC8T00+d9iOKBBJZKXEIZq8mSdVUC5R56C0mWE9nFKHCj6PU2MCwzGcH0EfnPfRCBkuAE+
+ gdpcthcupJT9rZcuSf9yg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BWJPvQqnt7w=:ai4RDDvc9RdwFgMbp0vXaL
+ UPhnOpxYkf+XXQaVYNANjOmuIWEUbRCRVAiLFQAiP2uVFOZs12omzrUXdUUH3JiZOXZ2urvTg
+ 2daHQ9AMzKzcD4oJ+Kpu9cZPjp8QQ98VABLoELsaA0ksIbn4QftE5IhIP8JOjsOL02AbXXAk2
+ hghl0vr+/S28l54u3yb7llqi285NYVHWOM0LNYgeuKOKGZbPqx7LwJeunHqhe9EZ78o93LiaM
+ XRH8lz6gv/mOcHVdpGScjhWuz4DERqo6jPx8iVaI7YypE6cWw1YCvoSXsGY13cjAypI94ApAd
+ ExRNX0gJ3aiZb4K/bi9HZY5JfXqm8AoJ3eKGwmglouV0qz+XK9PRc886yOqUH8Sluv3H5b9za
+ I1KCjVNYr/4mxQ5KcaFkG/AhcDzEKReEFvNABV06OkKi26tFAxB+4aUu76rjr0dad7MyRr3RD
+ ZRtJzHt/IC+Ysee/qvu527NNYYKQmIPFr0ujDL+s6+F+RJ/xAUGH9LDZGt7zUiqRw8jkrqQH8
+ NRNveGqZr3qd2Niu+fZRciuj2KQqBnAWtY9OGy3uma1i38mnzPasSy4uqT0Bhyh/L6VtF6u9R
+ jJ3WSUK0cZAjvtx+ihmBF5LFi9aquSdAM3KbY86MxM+IPvefTUUgzeai7Jj87qodHVMCvdslk
+ 42lwzNHw0++Wjw0moGMBKKafI1MtH80ILw+oiJ32CJtJMlOBOHVVfh6JUkmTNMIvcOBN0azoq
+ fTu61ZVIqngbuMRAP+LJgChX6JCIXk0OyUbRWQ==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.964,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,42 +77,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, hreitz@redhat.com, stefanha@redhat.com,
- crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 06, 2021 at 03:17:09PM +0200, Vladimir Sementsov-Ogievskiy wrote:
-> We convert blk_do_pwritev_part() and some wrappers:
-> blk_co_pwritev_part(), blk_co_pwritev(), blk_co_pwrite_zeroes().
+Le 06/10/2021 à 15:54, Mark Cave-Ayland a écrit :
+> On 06/10/2021 13:24, Laurent Vivier wrote:
 > 
-> All functions are converted so that parameter type becomes wider, so
-> all callers should be OK with it.
+>>> This is where it becomes a bit trickier, since technically booting Linux with -kernel you can use
+>>> any supported values as long as everything fits in the video RAM which is why there isn't currently
+>>> a hard-coded list :)
+>>>
+>>
+>> We need the list of "supported values". I don't want to read the code or try values combination
+>> until it works.
+>>
+>> In a perfect world, I would like to be able to use any value I want with "-kernel".
+>>
+>> For instance I was using "-g 1200x800x24" and it was working fine.
+>>
+>> Now I have:
+>>
+>> qemu-system-m68k: unknown display mode: width 1200, height 800, depth 24
+>>
+>> If it's not possible (because the original hardware cannot provide it, and we don't know the base
+>> address or things like that), we don't need the list of the display id, but the list of available
+>> modes: (width,height,depth).
+>>
+>> Rougly, something like:
+>>
+>> qemu-system-m68k: unknown display mode: width 1200, height 800, depth 24
+>> Available modes:
+>>      1152x870x8
+>>      1152x870x4
+>>      1152x870x2
+>>      1152x870x1
+>>      800x600x24
+>>      800x600x8
+>>      800x600x4
+>>      800x600x2
+>>      800x600x1
+>>      640x480x24
+>>      640x480x8
+>>      640x480x4
+>>      640x480x2
+>>      640x480x1
+>>
+>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+>> index 5b8812e9e7d8..4b352eb89c3f 100644
+>> --- a/hw/display/macfb.c
+>> +++ b/hw/display/macfb.c
+>> @@ -438,6 +438,26 @@ static MacFbMode *macfb_find_mode(MacfbDisplayType display_type,
+>>       return NULL;
+>>   }
+>>
+>> +static gchar *macfb_mode_list(void)
+>> +{
+>> +    gchar *list = NULL;
+>> +    gchar *mode;
+>> +    MacFbMode *macfb_mode;
+>> +    int i;
+>> +
+>> +    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
+>> +        macfb_mode = &macfb_mode_table[i];
+>> +
+>> +        mode = g_strdup_printf("    %dx%dx%d\n", macfb_mode->width,
+>> +                               macfb_mode->height, macfb_mode->depth);
+>> +        list = g_strconcat(mode, list, NULL);
+>> +        g_free(mode);
+>> +    }
+>> +
+>> +    return list;
+>> +}
+>> +
+>> +
+>>   static void macfb_update_display(void *opaque)
+>>   {
+>>       MacfbState *s = opaque;
+>> @@ -620,8 +640,13 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
+>>
+>>       s->mode = macfb_find_mode(s->type, s->width, s->height, s->depth);
+>>       if (!s->mode) {
+>> +        gchar *list;
+>>           error_setg(errp, "unknown display mode: width %d, height %d, depth %d",
+>>                      s->width, s->height, s->depth);
+>> +        list =  macfb_mode_list();
+>> +        error_append_hint(errp, "Available modes:\n%s", list);
+>> +        g_free(list);
+>> +
+>>           return false;
+>>       }
 > 
-> Look at blk_do_pwritev_part() body:
-> bytes is passed to:
+> Hi Laurent,
 > 
->  - trace_blk_co_pwritev (we update it here)
->  - blk_check_byte_request, throttle_group_co_io_limits_intercept,
->    bdrv_co_pwritev_part - all already has int64_t argument.
-> 
-> Note that requests exceeding INT_MAX are still restricted by
-> blk_check_byte_request().
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/sysemu/block-backend.h | 6 +++---
->  block/block-backend.c          | 8 ++++----
->  block/trace-events             | 2 +-
->  3 files changed, 8 insertions(+), 8 deletions(-)
+> Thanks for the example - I can certainly squash this into patch 8.
+
+yes, please.
+
+> As for allowing extra resolutions via -kernel, since the check is being done in
+> macfb_common_realize() then it would be possible to add a qdev property that only gets set when
+> -kernel is used on the command line which bypasses the mode check if you prefer?
 >
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+I think it can wait and be done by a patch later. For the moment we can focus on MacOS.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+> I'm not sure that your existing example of "-g 1200x800x24" (or indeed any resolution with 24-bit
+> depth) with -kernel will still work after this patchset given that the 24-bit encoding scheme has
+> changed. Presumably this would also need a corresponding change in the bootinfo/kernel framebuffer/X
+> configuration somewhere?
 
+The kernel framebuffer should be easy to fix, if needed, normally we pass the needed information via
+the bootinfo structure.
+
+My X configuration is broken for a while. With debian/sid I've never been able to start X (even on a
+real q800, I think), and with debian/etch we need a special kernel as the ADB stack has been broken
+with old kernel. I was not able to start X for a while now...
+
+And GNOME desktop is not available on debian/sid m68k (some packages are missing). Perhaps I should
+try Xfce.
+
+So, don't worry about that...
+
+Thanks,
+Laurent
 
