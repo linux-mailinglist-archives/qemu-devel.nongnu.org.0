@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987F4424644
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 20:48:38 +0200 (CEST)
-Received: from localhost ([::1]:50884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F421424645
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 20:50:04 +0200 (CEST)
+Received: from localhost ([::1]:53100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYBy1-0000wZ-E5
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 14:48:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38360)
+	id 1mYBzP-0002RN-8d
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 14:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYBwM-0000AY-Bu
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 14:46:55 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:39508)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYBwK-0000t3-2z
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 14:46:53 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- ls18-20020a17090b351200b001a00250584aso4614043pjb.4
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 11:46:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=9X21bm4vNL4f45nwvW+L7jhSOfBVkZNaJXafWz8U1Uk=;
- b=S8yhp5DpXT6z3yNBP03J2MMmb/3MvpNc6Wei5NJb0XU/uiMhqMje495mPsRNpYi6jM
- IW3mKCT4etusGub/wcy0jBAXpj1tzY8xJt5cW/qulglrZhr0WPYANZgiscUHkXS3SAWt
- KKUbS8kOjG34SsYB1IXsvCm/NAL7xmGwvCuU94i0vZV/Se+PSvy8Hrsl+3vsl0nbFaRk
- olPWhcY/f/EVFWSAwztALXlxc9ZgijnLtR8WXDExvlEMPJQK57lQa7RvHb5j5XhFg52T
- ktBCOVH8D/cGMy2n3YjxkCMRva+r6oiFbaWGb/0dcESBCRr87qiOMFRMdaiPqBDQrliE
- mlzw==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mYBxK-00011G-W0
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 14:47:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20919)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mYBxH-0003XI-Vo
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 14:47:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633546071;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qGk7CiIi+oCoyHRQuOh6RZOgSn59Mj3AS3gC9olKMIs=;
+ b=YWT0Du9nT8XRctH8VgAht+HQqDg637LPPcIL35NriJQldBfh8dGq2PSh8J1eH8UMdVuukI
+ nTEjEaWwaqyPJO79CxU2pzJjPH8sfgZ6khqEu7o16+/O2JWVKVHXjFkBLbwGQp0+JPNtKj
+ qt+rCUcPkXRD1bgdTwunfaLkEJMhmuU=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-340-KqTjt82wOsmu6Ex42_tF9Q-1; Wed, 06 Oct 2021 14:47:50 -0400
+X-MC-Unique: KqTjt82wOsmu6Ex42_tF9Q-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ b5-20020a6541c5000000b002661347cfbcso2072335pgq.1
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 11:47:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9X21bm4vNL4f45nwvW+L7jhSOfBVkZNaJXafWz8U1Uk=;
- b=sWTjK2ww7Ck0Vai2Ru2fyB1Fs3dx1I9R3Eyf6ICl5f8omsRXHC49WtKmPWyAocJR9Y
- xiBPQ7ykMcHadevGISA91xJyCrbiGXf78Rsj82OTn0VYaYmyZuLbvjpmCXzjpRAjqctm
- dsSM5fN/zDwnZT/9UrIJcxsApHQE+y3lpAIj+/FNlIBVp5aFUChIBY8URrecWQZ05njN
- WCCDdsjinE3EXuc3yNM0KaAZzoLXN4NNoyZi8HuOysj8LsmmdIQVFkTJuaEUFdQTS4Vw
- V/wF4fRMQbET+HRsSBjFK6Zv/v0EnEDqdjQ6p+m/KQdnes/cyZoV67JcnYAatU8a58Qs
- PUfg==
-X-Gm-Message-State: AOAM533EUBjPT4++CwKruAzx8LdHJ1pzpk22uua2giE5OgD/5ldBGdGE
- jKBY+kzMj1VoGK6Fx48N11YbIIM4KI3euw==
-X-Google-Smtp-Source: ABdhPJy0bxGWaLQ7VxIsRHg/AORSaLjmhq8QansQGLbachJ/gnnztDGYUxOnNEmldjFB+6IQj9HnNg==
-X-Received: by 2002:a17:90b:3254:: with SMTP id
- jy20mr361379pjb.43.1633546010230; 
- Wed, 06 Oct 2021 11:46:50 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id m6sm5819272pjl.46.2021.10.06.11.46.49
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Oct 2021 11:46:49 -0700 (PDT)
-Subject: Re: [PULL 00/28] tcg patch queue
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20211006152014.741026-1-richard.henderson@linaro.org>
-Message-ID: <e93b3d98-b0e6-083f-df47-303bbc715a2f@linaro.org>
-Date: Wed, 6 Oct 2021 11:46:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qGk7CiIi+oCoyHRQuOh6RZOgSn59Mj3AS3gC9olKMIs=;
+ b=iETHzvFGyrc7pjPqib8suPDAMDzo9Ji32GIYgx+lDLP3PWL8P2PAs65Y5vJwaKRabf
+ w6K4emGa5LhhvnXGA9RLFTj2f3u0i1z2680MA6HrB49RNfoKTEpYJ/2UVxSqVssvu99z
+ R6sGt9YxoHtWFrtaMW2+xV3ckfw5Laqd/5sQH5FETCojYeXYwWTJPjTV7nWu2CkrAQKT
+ Aae1HH3hAoo46a+Ne/21zpDUksuBxx5+spcX4i18xwMhoh59CvW8qbN0OVuZ8xEEHzwN
+ M+KtWsa/XYj2ouUGTwRitBBKUk7ZlIq4j3J82IVi2Y4sK3Ajln7wjnZeOj5MsO84bvah
+ xLUQ==
+X-Gm-Message-State: AOAM533ZVdLYNOs+Ii+G4mBckaijBqVMPoPQHaiSu9pMm1oKghV4suIz
+ cF72fEJXD2ovCtmxnyzH56PKVgLu+ZzyaxVX3v/cPcZUODH/wc2iw0opxxGM5OHz8pZT/qS/FbJ
+ V/ZYDutw5NFfMlDKZN0OeZdZbvqNf9+4=
+X-Received: by 2002:a17:90b:4c86:: with SMTP id
+ my6mr238045pjb.203.1633546068819; 
+ Wed, 06 Oct 2021 11:47:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnuxMkL02mmSm+dd5EolT9zBFvUx8rsL5fcD+eh/EP9YFTRxdc8kUdq2LZGYEDSHxq/oWe/VIdhCyKdDa7X+M=
+X-Received: by 2002:a17:90b:4c86:: with SMTP id
+ my6mr238004pjb.203.1633546068510; 
+ Wed, 06 Oct 2021 11:47:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211006152014.741026-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.964,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210924185506.2542588-1-crosa@redhat.com>
+ <20210924185506.2542588-4-crosa@redhat.com>
+In-Reply-To: <20210924185506.2542588-4-crosa@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Wed, 6 Oct 2021 15:47:22 -0300
+Message-ID: <CAKJDGDZOVo+RhaD80ZEiNW3Y7=94CWQNd_qHqTkyfP6hYaj93A@mail.gmail.com>
+Subject: Re: [PATCH 03/16] Acceptance Tests: add mechanism for listing tests
+To: Cleber Rosa <crosa@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.05, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,116 +91,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Auger Eric <eric.auger@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>, Ryo ONODERA <ryoon@netbsd.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/6/21 8:19 AM, Richard Henderson wrote:
-> The following changes since commit e3acc2c1961cbe22ca474cd5da4163b7bbf7cea3:
-> 
->    tests/docker/dockerfiles: Bump fedora-i386-cross to fedora 34 (2021-10-05 16:40:39 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20211006
-> 
-> for you to fetch changes up to ea3f2af8f1b87d7bced9b75ef2e788b66ec49961:
-> 
->    tcg/s390x: Implement TCG_TARGET_HAS_cmpsel_vec (2021-10-05 16:53:17 -0700)
-> 
-> ----------------------------------------------------------------
-> More fixes for fedora-i386-cross
-> Add dup_const_tl
-> Expand MemOp MO_SIZE
-> Move MemOpIdx out of tcg.h
-> Vector support for tcg/s390x
-> 
-> ----------------------------------------------------------------
-> Philipp Tomsich (1):
->        tcg: add dup_const_tl wrapper
-> 
-> Richard Henderson (27):
->        tests/docker: Remove fedora-i386-cross from DOCKER_PARTIAL_IMAGES
->        tests/docker: Fix fedora-i386-cross cross-compilation
->        accel/tcg: Drop signness in tracing in cputlb.c
->        tcg: Expand MO_SIZE to 3 bits
->        tcg: Rename TCGMemOpIdx to MemOpIdx
->        tcg: Split out MemOpIdx to exec/memopidx.h
->        trace/mem: Pass MemOpIdx to trace_mem_get_info
->        accel/tcg: Pass MemOpIdx to atomic_trace_*_post
->        plugins: Reorg arguments to qemu_plugin_vcpu_mem_cb
->        trace: Split guest_mem_before
->        hw/core/cpu: Re-sort the non-pointers to the end of CPUClass
->        tcg: Expand usadd/ussub with umin/umax
->        tcg/s390x: Rename from tcg/s390
->        tcg/s390x: Change FACILITY representation
->        tcg/s390x: Merge TCG_AREG0 and TCG_REG_CALL_STACK into TCGReg
->        tcg/s390x: Add host vector framework
->        tcg/s390x: Implement tcg_out_ld/st for vector types
->        tcg/s390x: Implement tcg_out_mov for vector types
->        tcg/s390x: Implement tcg_out_dup*_vec
->        tcg/s390x: Implement minimal vector operations
->        tcg/s390x: Implement andc, orc, abs, neg, not vector operations
->        tcg/s390x: Implement TCG_TARGET_HAS_mul_vec
->        tcg/s390x: Implement vector shift operations
->        tcg/s390x: Implement TCG_TARGET_HAS_minmax_vec
->        tcg/s390x: Implement TCG_TARGET_HAS_sat_vec
->        tcg/s390x: Implement TCG_TARGET_HAS_bitsel_vec
->        tcg/s390x: Implement TCG_TARGET_HAS_cmpsel_vec
-> 
->   meson.build                                       |   2 -
->   accel/tcg/atomic_template.h                       |  73 +-
->   include/exec/memop.h                              |  14 +-
->   include/exec/memopidx.h                           |  55 ++
->   include/hw/core/cpu.h                             |  11 +-
->   include/qemu/plugin.h                             |  26 +-
->   include/tcg/tcg.h                                 | 117 ++-
->   tcg/{s390 => s390x}/tcg-target-con-set.h          |   7 +
->   tcg/{s390 => s390x}/tcg-target-con-str.h          |   1 +
->   tcg/{s390 => s390x}/tcg-target.h                  |  91 ++-
->   tcg/s390x/tcg-target.opc.h                        |  15 +
->   trace/mem.h                                       |  63 --
->   accel/tcg/cputlb.c                                | 103 ++-
->   accel/tcg/plugin-gen.c                            |   5 +-
->   accel/tcg/user-exec.c                             | 133 ++-
->   plugins/api.c                                     |  19 +-
->   plugins/core.c                                    |  10 +-
->   target/arm/helper-a64.c                           |  16 +-
->   target/arm/m_helper.c                             |   2 +-
->   target/arm/translate-a64.c                        |   2 +-
->   target/i386/tcg/mem_helper.c                      |   4 +-
->   target/m68k/op_helper.c                           |   2 +-
->   target/mips/tcg/msa_helper.c                      |   6 +-
->   target/s390x/tcg/mem_helper.c                     |  20 +-
->   target/sparc/ldst_helper.c                        |   2 +-
->   tcg/optimize.c                                    |   2 +-
->   tcg/tcg-op-vec.c                                  |  37 +-
->   tcg/tcg-op.c                                      |  60 +-
->   tcg/tcg.c                                         |   2 +-
->   tcg/tci.c                                         |  14 +-
->   accel/tcg/atomic_common.c.inc                     |  43 +-
->   target/s390x/tcg/translate_vx.c.inc               |   2 +-
->   tcg/aarch64/tcg-target.c.inc                      |  18 +-
->   tcg/arm/tcg-target.c.inc                          |  14 +-
->   tcg/i386/tcg-target.c.inc                         |  14 +-
->   tcg/mips/tcg-target.c.inc                         |  16 +-
->   tcg/ppc/tcg-target.c.inc                          |  18 +-
->   tcg/riscv/tcg-target.c.inc                        |  20 +-
->   tcg/{s390 => s390x}/tcg-target.c.inc              | 949 ++++++++++++++++++++--
->   tcg/sparc/tcg-target.c.inc                        |  20 +-
->   tcg/tcg-ldst.c.inc                                |   2 +-
->   tests/docker/Makefile.include                     |   2 +-
->   tests/docker/dockerfiles/fedora-i386-cross.docker |   5 +-
->   trace-events                                      |  18 +-
->   44 files changed, 1445 insertions(+), 610 deletions(-)
->   create mode 100644 include/exec/memopidx.h
->   rename tcg/{s390 => s390x}/tcg-target-con-set.h (86%)
->   rename tcg/{s390 => s390x}/tcg-target-con-str.h (96%)
->   rename tcg/{s390 => s390x}/tcg-target.h (66%)
->   create mode 100644 tcg/s390x/tcg-target.opc.h
->   delete mode 100644 trace/mem.h
->   rename tcg/{s390 => s390x}/tcg-target.c.inc (73%)
+On Fri, Sep 24, 2021 at 3:57 PM Cleber Rosa <crosa@redhat.com> wrote:
+>
+> It is helpful to know the tests that would be executed with a "make
+> check-acceptance" without executing them.  Let's introduce a "make
+> list-acceptance" rule for that purpose.
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  tests/Makefile.include | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 2c03256ae8..d1f90572a7 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -17,6 +17,7 @@ ifneq ($(filter $(all-check-targets), check-softfloat),)
+>         @echo " $(MAKE) check-softfloat      Run FPU emulation tests"
+>  endif
+>         @echo " $(MAKE) check-acceptance     Run acceptance (functional) tests for currently configured targets"
+> +       @echo " $(MAKE) check-acceptance     List acceptance (functional) tests for currently configured targets"
 
-Applied, thanks.
+s/check-acceptance/list-acceptance/
 
-r~
+>         @echo
+>         @echo " $(MAKE) check-report.tap     Generates an aggregated TAP test report"
+>         @echo " $(MAKE) check-venv           Creates a Python venv for tests"
+> @@ -135,6 +136,13 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+>              $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
+>              "AVOCADO", "tests/acceptance")
+>
+> +list-acceptance: check-venv
+> +       $(call quiet-command, \
+> +            $(TESTS_VENV_DIR)/bin/python -m avocado list \
+> +            --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
+> +            $(AVOCADO_TAGS) tests/acceptance, \
+
+It would be interesting to adjust the command to use the
+$(AVOCADO_CMDLINE_TAGS) and allow users to restrict the tests listed
+by its tags.
+
+> +            "AVOCADO", "list tests/acceptance")
+> +
+>  # Consolidated targets
+>
+>  .PHONY: check-block check check-clean get-vm-images
+> --
+> 2.31.1
+>
+
 
