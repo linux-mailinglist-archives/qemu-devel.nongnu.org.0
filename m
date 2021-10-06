@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472FD424189
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 17:43:53 +0200 (CEST)
-Received: from localhost ([::1]:54758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AA0F4241D4
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 17:50:49 +0200 (CEST)
+Received: from localhost ([::1]:41172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY95D-0008Li-Rr
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 11:43:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47340)
+	id 1mY9Bw-0001hT-Dp
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 11:50:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mY8j5-0002do-Oo
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:21:00 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:41870)
+ id 1mY8j1-0002bU-UV
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:20:56 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:33290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mY8ip-0007rw-0o
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:20:59 -0400
-Received: by mail-pg1-x530.google.com with SMTP id v11so2748760pgb.8
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 08:20:34 -0700 (PDT)
+ id 1mY8in-0007sN-DW
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:20:55 -0400
+Received: by mail-pg1-x536.google.com with SMTP id a73so2817618pge.0
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 08:20:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jDEFrOuF5vzpvLt/BuSnZw7aY6SBxJIsD/hC5MysJfc=;
- b=jPXh3vA/2y8ZFfvws5q/V/TVfH73DRD/4xBU6gGniVyjlt6Tm2ReDsl5PjrRGVWn0L
- LUp9tVsZJiEVNefIhnjHhorUifTomJx0nDge4jV8+K/CIiwUnhog3xMeXuezTFLmrBTM
- LNf6P97QBkOG0HSODQjZwXpKu0fL1kKePiOCCG3qGMbPiUWSbb/2FpjeEIm0VWiXo8/U
- LNCwrisfZL/glCM8WLSSI15zHFL2ybdJV4bJmpdhRmZXQHglocokA8u2LGRlfpAjm239
- QBHfaBLmuHFaqWQMAdIrs3ffYlZiTEKRaQhLMrAcYZoP6QRb8Doh6ivKPK5f3lkzej7R
- UkHg==
+ bh=yURJ1ik0GjEsSALeYUz5nTAUu5MSO+3zBmZXX/TnoxY=;
+ b=GWc4P77JyhAsYS/kQHL9P8JhFS+vNSTGmyzKjy/8dn5GVHIPjqFpbcyJnFdyEN6HK/
+ rLMLM2BXaYg7j6P+pT6WEpynd/Yxx99nh6gIU/twLpXPB9NoYYbrEBlCVMYW0P7V+oOj
+ criz5upAkITfQhoDfQxyjKP/VnnBx7hJ8aGgGSiM1m5gMBNCl+eeAKA2nlehWxAeGWiq
+ 7WUPJmP1dSKighbqEiZv5GNTL2dR/++Itx8XnOmW42jPRyjwVkPsD/wTODY3kSk9hgEU
+ V034MeR6fxHPc7YIN+9x7tGBlyuULAfTS5+SA5P4/sJSncpVFPZshQQbdZVaTC1izeUi
+ V85g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jDEFrOuF5vzpvLt/BuSnZw7aY6SBxJIsD/hC5MysJfc=;
- b=fwCLtv30KRzOt1ReI3T1exQX3k+zxWQ6JqKIP6P5T3Gh7iWL0AyU9LD+8sxbsl2wZE
- EGiGCNREJYmA/rAFCz7YVeEz3PObm6zxd1JLRguXgagW9SYbEclrGuNZhhlv/rNhKfl3
- f5Lu5n84cR0HV+FIgjB8IMcbJqRQMxA7dam4pxkyeF1BFzz31MvOc56PzUcuMfVI9GB+
- vh8Q/obpP1kb+8I97FRGRYoJpqgaukkxon/jfx07AOtafVrTKfB/M87xqb3QTUe0/kD8
- DFcjj58QdfKN+GSS86vAx5oaOh+GaJ5KrQ5vlQZlZSGsvpRqBgXM0Jbck8CYsJo2x5gq
- iRtA==
-X-Gm-Message-State: AOAM530UsJKvz95FqX70x2eeNXtebUio320UI3k9jyR+VBvewgCT84fI
- vRYRRtpRv480m9LKwjEe571zqzDUE0TytA==
-X-Google-Smtp-Source: ABdhPJw6d+F637B7BlqSW+RMvz39rj4J3k6SLZD8d0AMVTgwIKK0tl+VZK96Tn9wXt5x31V7KDZ2Gw==
-X-Received: by 2002:aa7:8116:0:b0:44b:e0d1:25e9 with SMTP id
- b22-20020aa78116000000b0044be0d125e9mr38273882pfi.53.1633533633296; 
- Wed, 06 Oct 2021 08:20:33 -0700 (PDT)
+ bh=yURJ1ik0GjEsSALeYUz5nTAUu5MSO+3zBmZXX/TnoxY=;
+ b=k9j62YWFWTuz7rMapLSgxmTKFIQJDGOLbI1vNwExwZ+YE+nFSF6tbKjiDwrC1QsTTf
+ frmAR7YkRBCph96zKtip0bJ2785cygl3j0OgllGDfXvwdFsCvFYi7sEAsKLPe9tkikme
+ MA3A/DVY4tZxL65ukhbxQaUwizOgr01JEheFGZoTVimCbeUQIeNCnDCUgbxOA5483RlX
+ 7i4sJDl4NLdUyeM5ME0VFX2FzQzMQfi3JMP4R/keLd4BcsgBNScz6dLlDeklgKWbbKJI
+ Fa0uXEGcMfpFtR1eztY1D2ZeVNgvzk/Vhp8PUq6uIE5cGJ3Omav/1hRqCM8evvvtMKBz
+ 4AAw==
+X-Gm-Message-State: AOAM530Fev8UT5ceSkYElv0mkce6POGFIHyB1VdZYNUiRxDvK9Eg4llD
+ Z3CrTQIu1wiCkd2H2aPIrlE8P2foq0saig==
+X-Google-Smtp-Source: ABdhPJzzbWH5GudptrVw1+2li/dG8fhRviN2YYtCzIdUazxfruhHq4S19OP8b9nq2FFah8Mm/uUznQ==
+X-Received: by 2002:a05:6a00:1344:b0:44c:4cd7:4d4b with SMTP id
+ k4-20020a056a00134400b0044c4cd74d4bmr22583773pfu.50.1633533635831; 
+ Wed, 06 Oct 2021 08:20:35 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id 130sm22239256pfz.77.2021.10.06.08.20.32
+ by smtp.gmail.com with ESMTPSA id 130sm22239256pfz.77.2021.10.06.08.20.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 08:20:32 -0700 (PDT)
+ Wed, 06 Oct 2021 08:20:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/28] tcg/s390x: Implement tcg_out_mov for vector types
-Date: Wed,  6 Oct 2021 08:20:05 -0700
-Message-Id: <20211006152014.741026-20-richard.henderson@linaro.org>
+Subject: [PULL 22/28] tcg/s390x: Implement andc, orc, abs, neg,
+ not vector operations
+Date: Wed,  6 Oct 2021 08:20:08 -0700
+Message-Id: <20211006152014.741026-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211006152014.741026-1-richard.henderson@linaro.org>
 References: <20211006152014.741026-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,111 +88,145 @@ Cc: David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These logical and arithmetic operations are optional but trivial.
+
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.c.inc | 72 +++++++++++++++++++++++++++++++++++---
- 1 file changed, 68 insertions(+), 4 deletions(-)
+ tcg/s390x/tcg-target-con-set.h |  1 +
+ tcg/s390x/tcg-target.h         | 11 ++++++-----
+ tcg/s390x/tcg-target.c.inc     | 32 ++++++++++++++++++++++++++++++++
+ 3 files changed, 39 insertions(+), 5 deletions(-)
 
+diff --git a/tcg/s390x/tcg-target-con-set.h b/tcg/s390x/tcg-target-con-set.h
+index ce9432cfe3..cb953896d5 100644
+--- a/tcg/s390x/tcg-target-con-set.h
++++ b/tcg/s390x/tcg-target-con-set.h
+@@ -17,6 +17,7 @@ C_O0_I2(v, r)
+ C_O1_I1(r, L)
+ C_O1_I1(r, r)
+ C_O1_I1(v, r)
++C_O1_I1(v, v)
+ C_O1_I1(v, vr)
+ C_O1_I2(r, 0, ri)
+ C_O1_I2(r, 0, rI)
+diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
+index 5a03c5f2f4..a42074e451 100644
+--- a/tcg/s390x/tcg-target.h
++++ b/tcg/s390x/tcg-target.h
+@@ -64,6 +64,7 @@ typedef enum TCGReg {
+ #define FACILITY_DISTINCT_OPS         FACILITY_LOAD_ON_COND
+ #define FACILITY_LOAD_ON_COND2        53
+ #define FACILITY_VECTOR               129
++#define FACILITY_VECTOR_ENH1          135
+ 
+ extern uint64_t s390_facilities[3];
+ 
+@@ -142,11 +143,11 @@ extern uint64_t s390_facilities[3];
+ #define TCG_TARGET_HAS_v128           HAVE_FACILITY(VECTOR)
+ #define TCG_TARGET_HAS_v256           0
+ 
+-#define TCG_TARGET_HAS_andc_vec       0
+-#define TCG_TARGET_HAS_orc_vec        0
+-#define TCG_TARGET_HAS_not_vec        0
+-#define TCG_TARGET_HAS_neg_vec        0
+-#define TCG_TARGET_HAS_abs_vec        0
++#define TCG_TARGET_HAS_andc_vec       1
++#define TCG_TARGET_HAS_orc_vec        HAVE_FACILITY(VECTOR_ENH1)
++#define TCG_TARGET_HAS_not_vec        1
++#define TCG_TARGET_HAS_neg_vec        1
++#define TCG_TARGET_HAS_abs_vec        1
+ #define TCG_TARGET_HAS_roti_vec       0
+ #define TCG_TARGET_HAS_rots_vec       0
+ #define TCG_TARGET_HAS_rotv_vec       0
 diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index d80f25e48e..586a4b5587 100644
+index 063f720199..cbad88271a 100644
 --- a/tcg/s390x/tcg-target.c.inc
 +++ b/tcg/s390x/tcg-target.c.inc
-@@ -265,6 +265,11 @@ typedef enum S390Opcode {
-     RX_STC      = 0x42,
-     RX_STH      = 0x40,
+@@ -270,13 +270,18 @@ typedef enum S390Opcode {
+     VRIb_VGM    = 0xe746,
+     VRIc_VREP   = 0xe74d,
  
-+    VRRa_VLR    = 0xe756,
-+
-+    VRSb_VLVG   = 0xe722,
-+    VRSc_VLGV   = 0xe721,
-+
-     VRX_VL      = 0xe706,
-     VRX_VLLEZ   = 0xe704,
-     VRX_VST     = 0xe70e,
-@@ -558,6 +563,39 @@ static int RXB(TCGReg v1, TCGReg v2, TCGReg v3, TCGReg v4)
-          | ((v4 & 0x10) << (4 + 0));
- }
++    VRRa_VLC    = 0xe7de,
++    VRRa_VLP    = 0xe7df,
+     VRRa_VLR    = 0xe756,
+     VRRc_VA     = 0xe7f3,
+     VRRc_VCEQ   = 0xe7f8,   /* we leave the m5 cs field 0 */
+     VRRc_VCH    = 0xe7fb,   /* " */
+     VRRc_VCHL   = 0xe7f9,   /* " */
+     VRRc_VN     = 0xe768,
++    VRRc_VNC    = 0xe769,
++    VRRc_VNO    = 0xe76b,
+     VRRc_VO     = 0xe76a,
++    VRRc_VOC    = 0xe76f,
+     VRRc_VS     = 0xe7f7,
+     VRRc_VX     = 0xe76d,
+     VRRf_VLVGP  = 0xe762,
+@@ -2669,6 +2674,16 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+         tcg_out_dupm_vec(s, type, vece, a0, a1, a2);
+         break;
  
-+static void tcg_out_insn_VRRa(TCGContext *s, S390Opcode op,
-+                              TCGReg v1, TCGReg v2, int m3)
-+{
-+    tcg_debug_assert(is_vector_reg(v1));
-+    tcg_debug_assert(is_vector_reg(v2));
-+    tcg_out16(s, (op & 0xff00) | ((v1 & 0xf) << 4) | (v2 & 0xf));
-+    tcg_out32(s, (op & 0x00ff) | RXB(v1, v2, 0, 0) | (m3 << 12));
-+}
-+
-+static void tcg_out_insn_VRSb(TCGContext *s, S390Opcode op, TCGReg v1,
-+                              intptr_t d2, TCGReg b2, TCGReg r3, int m4)
-+{
-+    tcg_debug_assert(is_vector_reg(v1));
-+    tcg_debug_assert(d2 >= 0 && d2 <= 0xfff);
-+    tcg_debug_assert(is_general_reg(b2));
-+    tcg_debug_assert(is_general_reg(r3));
-+    tcg_out16(s, (op & 0xff00) | ((v1 & 0xf) << 4) | r3);
-+    tcg_out16(s, b2 << 12 | d2);
-+    tcg_out16(s, (op & 0x00ff) | RXB(v1, 0, 0, 0) | (m4 << 12));
-+}
-+
-+static void tcg_out_insn_VRSc(TCGContext *s, S390Opcode op, TCGReg r1,
-+                              intptr_t d2, TCGReg b2, TCGReg v3, int m4)
-+{
-+    tcg_debug_assert(is_general_reg(r1));
-+    tcg_debug_assert(d2 >= 0 && d2 <= 0xfff);
-+    tcg_debug_assert(is_general_reg(b2));
-+    tcg_debug_assert(is_vector_reg(v3));
-+    tcg_out16(s, (op & 0xff00) | (r1 << 4) | (v3 & 0xf));
-+    tcg_out16(s, b2 << 12 | d2);
-+    tcg_out16(s, (op & 0x00ff) | RXB(0, 0, v3, 0) | (m4 << 12));
-+}
-+
- static void tcg_out_insn_VRX(TCGContext *s, S390Opcode op, TCGReg v1,
-                              TCGReg b2, TCGReg x2, intptr_t d2, int m3)
- {
-@@ -591,12 +629,38 @@ static void tcg_out_sh32(TCGContext* s, S390Opcode op, TCGReg dest,
- 
- static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg dst, TCGReg src)
- {
--    if (src != dst) {
--        if (type == TCG_TYPE_I32) {
-+    if (src == dst) {
-+        return true;
-+    }
-+    switch (type) {
-+    case TCG_TYPE_I32:
-+        if (likely(is_general_reg(dst) && is_general_reg(src))) {
-             tcg_out_insn(s, RR, LR, dst, src);
--        } else {
--            tcg_out_insn(s, RRE, LGR, dst, src);
-+            break;
-         }
-+        /* fallthru */
-+
-+    case TCG_TYPE_I64:
-+        if (likely(is_general_reg(dst))) {
-+            if (likely(is_general_reg(src))) {
-+                tcg_out_insn(s, RRE, LGR, dst, src);
-+            } else {
-+                tcg_out_insn(s, VRSc, VLGV, dst, 0, 0, src, 3);
-+            }
-+            break;
-+        } else if (is_general_reg(src)) {
-+            tcg_out_insn(s, VRSb, VLVG, dst, 0, 0, src, 3);
-+            break;
-+        }
-+        /* fallthru */
-+
-+    case TCG_TYPE_V64:
-+    case TCG_TYPE_V128:
-+        tcg_out_insn(s, VRRa, VLR, dst, src, 0);
++    case INDEX_op_abs_vec:
++        tcg_out_insn(s, VRRa, VLP, a0, a1, vece);
++        break;
++    case INDEX_op_neg_vec:
++        tcg_out_insn(s, VRRa, VLC, a0, a1, vece);
++        break;
++    case INDEX_op_not_vec:
++        tcg_out_insn(s, VRRc, VNO, a0, a1, a1, 0);
 +        break;
 +
-+    default:
-+        g_assert_not_reached();
-     }
-     return true;
- }
+     case INDEX_op_add_vec:
+         tcg_out_insn(s, VRRc, VA, a0, a1, a2, vece);
+         break;
+@@ -2678,9 +2693,15 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+     case INDEX_op_and_vec:
+         tcg_out_insn(s, VRRc, VN, a0, a1, a2, 0);
+         break;
++    case INDEX_op_andc_vec:
++        tcg_out_insn(s, VRRc, VNC, a0, a1, a2, 0);
++        break;
+     case INDEX_op_or_vec:
+         tcg_out_insn(s, VRRc, VO, a0, a1, a2, 0);
+         break;
++    case INDEX_op_orc_vec:
++        tcg_out_insn(s, VRRc, VOC, a0, a1, a2, 0);
++        break;
+     case INDEX_op_xor_vec:
+         tcg_out_insn(s, VRRc, VX, a0, a1, a2, 0);
+         break;
+@@ -2711,9 +2732,14 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
+ {
+     switch (opc) {
++    case INDEX_op_abs_vec:
+     case INDEX_op_add_vec:
+     case INDEX_op_and_vec:
++    case INDEX_op_andc_vec:
++    case INDEX_op_neg_vec:
++    case INDEX_op_not_vec:
+     case INDEX_op_or_vec:
++    case INDEX_op_orc_vec:
+     case INDEX_op_sub_vec:
+     case INDEX_op_xor_vec:
+         return 1;
+@@ -2943,10 +2969,16 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+         return C_O1_I1(v, r);
+     case INDEX_op_dup_vec:
+         return C_O1_I1(v, vr);
++    case INDEX_op_abs_vec:
++    case INDEX_op_neg_vec:
++    case INDEX_op_not_vec:
++        return C_O1_I1(v, v);
+     case INDEX_op_add_vec:
+     case INDEX_op_sub_vec:
+     case INDEX_op_and_vec:
++    case INDEX_op_andc_vec:
+     case INDEX_op_or_vec:
++    case INDEX_op_orc_vec:
+     case INDEX_op_xor_vec:
+     case INDEX_op_cmp_vec:
+         return C_O1_I2(v, v, v);
 -- 
 2.25.1
 
