@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639C6424235
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 18:08:37 +0200 (CEST)
-Received: from localhost ([::1]:49360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 508BC424272
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 18:19:23 +0200 (CEST)
+Received: from localhost ([::1]:44612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY9T9-0001NH-VM
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 12:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53834)
+	id 1mY9da-0000zT-CJ
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 12:19:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mY9Au-0002ib-Qt
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:49:44 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:41849)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mY9Ar-0003PF-VM
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:49:43 -0400
-Received: by mail-pl1-x634.google.com with SMTP id x8so1915237plv.8
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 08:49:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YG1imy3G2FWFh8UjonAZVctTKww3Tatoe480K92Az5w=;
- b=TMuqVVvP15BE8XWvwt5B7tgc/Zq5tlCVPpR7kaPgxoZ20lr/wN037cp9uUzU844JEO
- rjj6+TZd60GplVGFyXVgCxR+r2PV1PSdgfadfANXV9qkj2hu1zPG9zRp0WzfNaszrh46
- DPELK407cZ4uhshwSPVjT58v/VjpnFVxFZAirSDZ5McHCh7XQonZo8ute4hro3zVh1nL
- MtyDbpILHY9xCUI3AerDzn2asK+btSBc5dokHUCWIkq/6GSp7kgjkDOAr5Evt00KdSl9
- NuJ/b6cZ8KuV3DmoFET/WQXheM94OcSTySn9tsi/VqcQsGUbvGb52Ktip5SQRW96CCLG
- FMOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YG1imy3G2FWFh8UjonAZVctTKww3Tatoe480K92Az5w=;
- b=f1seF15tmQQ2c1KJ+kE4AzbSjJwwIM7LeLc1CNo5CJ2eNzX59Xr+Y71HDHJn2/nrXt
- j69iK6San/LB9NkpsRozobpJXtxVWqq6YoN2xQ8CM8RVZgxHtS3MzmAbceoIB6OfI058
- I4RNPlsDEKIps+cAG7axa4zB0KcPUluDD4COtq9xHq0bf0T2IAymcQEyRkjcoApUH3XU
- FN8EU8zQECaERPr7bviE+65JXBs18csuf7+IV8RxIvO+DW2BlcOpRMyronrZNLERajI2
- SSXMEl+kjO8O1NWdPgTK2M3oIJ7IAlrwkvynDsgh/RoTPBgiy8TkWtO0YgwzHi+EqjD2
- g1Eg==
-X-Gm-Message-State: AOAM533XgJMvp+pi0b/ezBdEJbVRl7Xoe8zrS2xBHYHWF/ZAP8o9N+Rp
- VpFYHGcb4W1dbrGlPl7G7/JUPBC3CpgOZA==
-X-Google-Smtp-Source: ABdhPJznIJILUl5huMKYOHKd+Vb5PAnmx17ne7LMKBz7FoFNiiebAA2v2m4OCDEUg9IwDw5n1cMr9g==
-X-Received: by 2002:a17:90a:d3cb:: with SMTP id
- d11mr11821060pjw.109.1633535380317; 
- Wed, 06 Oct 2021 08:49:40 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id b8sm3375699pfm.65.2021.10.06.08.49.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Oct 2021 08:49:39 -0700 (PDT)
-Subject: Re: [PULL 00/13] Block layer patches
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20211006105923.223549-1-kwolf@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ef0abcab-393d-cad6-3d1a-77d4104420d2@linaro.org>
-Date: Wed, 6 Oct 2021 08:49:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mY9K7-0002ek-LI
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:59:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22926)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mY9K4-0002ek-1n
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:59:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633535951;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=X4qLtUjj7LUFXzjZxMXpwpXX99MFt5Lp9BBFMTTUH7U=;
+ b=hORTdcMhsdRqG9uDC+cJgJ56EEHXp9bOeCPlhmmNhu91Hqqoq/JFhHogGswDGs9mpbKppC
+ asXRBUR+ehI0f94jMnWZakdADKk8dZ3dnnQUqGzNCEn727puIWW52dBfce2eRryuZ1gBik
+ RBPs1VcQ49oUY37HSDjxWdS/ixbjMHA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-p-2oG3ibM6-UQi7gDpqZ0g-1; Wed, 06 Oct 2021 11:59:07 -0400
+X-MC-Unique: p-2oG3ibM6-UQi7gDpqZ0g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6830D180830F;
+ Wed,  6 Oct 2021 15:59:06 +0000 (UTC)
+Received: from redhat.com (ovpn-113-79.phx2.redhat.com [10.3.113.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4083660853;
+ Wed,  6 Oct 2021 15:59:03 +0000 (UTC)
+Date: Wed, 6 Oct 2021 10:59:01 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 04/12] block-backend: convert blk_co_pdiscard to int64_t
+ bytes
+Message-ID: <20211006155901.kcko2ycnd5vtt7un@redhat.com>
+References: <20211006131718.214235-1-vsementsov@virtuozzo.com>
+ <20211006131718.214235-5-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20211006105923.223549-1-kwolf@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.964,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211006131718.214235-5-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20210205-815-1dd940
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,78 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, hreitz@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/6/21 3:59 AM, Kevin Wolf wrote:
-> The following changes since commit e3acc2c1961cbe22ca474cd5da4163b7bbf7cea3:
+On Wed, Oct 06, 2021 at 03:17:10PM +0200, Vladimir Sementsov-Ogievskiy wrote:
+> We updated blk_do_pdiscard() and its wrapper blk_co_pdiscard(). Both
+> functions are updated so that parameter type becomes wider, so all
+> callers should be OK with it.
 > 
->    tests/docker/dockerfiles: Bump fedora-i386-cross to fedora 34 (2021-10-05 16:40:39 -0700)
+> Look at blk_do_pdiscard(): bytes passed only to
+> blk_check_byte_request() and bdrv_co_pdiscard(), which already has
+> int64_t bytes parameter, so we are OK.
 > 
-> are available in the Git repository at:
+> Note that requests exceeding INT_MAX are still restricted by
+> blk_check_byte_request().
 > 
->    git://repo.or.cz/qemu/kevin.git tags/for-upstream
-> 
-> for you to fetch changes up to 3765315d4c84f9c0799744f43a314169baaccc05:
-> 
->    iotests: Update for pylint 2.11.1 (2021-10-06 10:25:55 +0200)
-> 
-> ----------------------------------------------------------------
-> Block layer patches
-> 
-> - Fix I/O errors because of incorrectly detected max_iov
-> - Fix not white-listed copy-before-write
-> - qemu-storage-daemon: Only display FUSE help when FUSE is built-in
-> - iotests: update environment and linting configuration
-> 
-> ----------------------------------------------------------------
-> Emanuele Giuseppe Esposito (1):
->        include/block.h: remove outdated comment
-> 
-> John Snow (5):
->        iotests: add 'qemu' package location to PYTHONPATH in testenv
->        iotests/linters: check mypy files all at once
->        iotests/mirror-top-perms: Adjust imports
->        iotests/migrate-bitmaps-test: delint
->        iotests: Update for pylint 2.11.1
-> 
-> Paolo Bonzini (1):
->        block: introduce max_hw_iov for use in scsi-generic
-> 
-> Philippe Mathieu-Daudé (1):
->        qemu-storage-daemon: Only display FUSE help when FUSE is built-in
-> 
-> Vladimir Sementsov-Ogievskiy (5):
->        block: implement bdrv_new_open_driver_opts()
->        block: bdrv_insert_node(): fix and improve error handling
->        block: bdrv_insert_node(): doc and style
->        block: bdrv_insert_node(): don't use bdrv_open()
->        iotests/image-fleecing: declare requirement of copy-before-write
-> 
->   include/block/block.h                         |  8 ++-
->   include/block/block_int.h                     |  7 +++
->   include/sysemu/block-backend.h                |  1 +
->   block.c                                       | 79 ++++++++++++++++++++++-----
->   block/block-backend.c                         |  6 ++
->   block/file-posix.c                            |  2 +-
->   block/io.c                                    |  1 +
->   hw/scsi/scsi-generic.c                        |  2 +-
->   storage-daemon/qemu-storage-daemon.c          |  2 +
->   tests/qemu-iotests/iotests.py                 |  2 -
->   tests/qemu-iotests/testenv.py                 | 15 +++--
->   tests/qemu-iotests/testrunner.py              |  7 ++-
->   tests/qemu-iotests/235                        |  2 -
->   tests/qemu-iotests/297                        | 52 +++++++-----------
->   tests/qemu-iotests/300                        |  5 +-
->   tests/qemu-iotests/pylintrc                   |  6 +-
->   tests/qemu-iotests/tests/image-fleecing       |  1 +
->   tests/qemu-iotests/tests/migrate-bitmaps-test | 50 +++++++++--------
->   tests/qemu-iotests/tests/mirror-top-perms     | 12 ++--
->   19 files changed, 164 insertions(+), 96 deletions(-)
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/sysemu/block-backend.h | 3 ++-
+>  block/block-backend.c          | 5 +++--
+>  2 files changed, 5 insertions(+), 3 deletions(-)
 
-Applied, thanks.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-r~
+> 
+> diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+> index 844bb039c5..398e7abb02 100644
+> --- a/include/sysemu/block-backend.h
+> +++ b/include/sysemu/block-backend.h
+> @@ -181,7 +181,8 @@ void blk_aio_cancel_async(BlockAIOCB *acb);
+>  int blk_ioctl(BlockBackend *blk, unsigned long int req, void *buf);
+>  BlockAIOCB *blk_aio_ioctl(BlockBackend *blk, unsigned long int req, void *buf,
+>                            BlockCompletionFunc *cb, void *opaque);
+> -int blk_co_pdiscard(BlockBackend *blk, int64_t offset, int bytes);
+> +int coroutine_fn blk_co_pdiscard(BlockBackend *blk, int64_t offset,
+> +                                 int64_t bytes);
+
+Commit message didn't mention the addition of this label, but it looks
+correct.
+
+>  int blk_co_flush(BlockBackend *blk);
+
+I guess fixing blk_co_flush to have the coroutine_fn label would be a
+separate patch.  Or, you could rearrange the patches to add the label
+on multiple functions independently from type changes.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
