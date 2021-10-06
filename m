@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B07D424665
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 20:59:17 +0200 (CEST)
-Received: from localhost ([::1]:37944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E9A424666
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 20:59:47 +0200 (CEST)
+Received: from localhost ([::1]:38442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYC8K-0003HX-MZ
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 14:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41506)
+	id 1mYC8o-0003c8-9P
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 14:59:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mYC63-0008GF-Mu
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 14:56:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20142)
+ id 1mYC75-0001R9-Jg
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 14:58:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mYC5y-0002jC-W4
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 14:56:55 -0400
+ id 1mYC73-0003cL-Mv
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 14:57:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633546609;
+ s=mimecast20190719; t=1633546677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=WutILPmU2/76w5AOIRDVfvExKhGvbGWuOoFY24RWIdY=;
- b=So56Rz/p3+iWmqEnPH+HAvvpGNJIMZJ46ifcxVXK7rZ6abRtMklNQPBJI36m/CCHXgZBG9
- /XKppIOuufIG9iSaFB0ObAtB/7T18HXEkQoXF+FlOPhGl/rqgBJCC+ahAynOXQp9Eo3HEG
- 7TggD+uO+3mUA05+RH2sPiThz3+lMG4=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-JdO-0G7DP9iXfjAqvY-Euw-1; Wed, 06 Oct 2021 14:56:48 -0400
-X-MC-Unique: JdO-0G7DP9iXfjAqvY-Euw-1
-Received: by mail-pj1-f69.google.com with SMTP id
- o15-20020a17090ac08f00b0019fafa34327so4125868pjs.3
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 11:56:48 -0700 (PDT)
+ bh=faTNEitwbtVbS2lUFvx56Mw/nUfdEeJhjMRwJmmrcE0=;
+ b=QAtedLQyI47zV7leHeTZnGAKOfJ72f7daYIcnPGhlkVnbHwSkjgZje35erq8Os+8GEq78t
+ V7ybuYFL59Cmnt3shdLmxw+SiWtHPHwc5D53ftFU4qTOnZ6Je2Y/VljJp1UR/qyTrAOdFf
+ NndtawxxlAaiczW6vXYrpnthI1HUvyQ=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-400-G9XinGyANWuWZxecG1UHMg-1; Wed, 06 Oct 2021 14:57:56 -0400
+X-MC-Unique: G9XinGyANWuWZxecG1UHMg-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ l12-20020a170903120c00b0013eb930584fso1911956plh.22
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 11:57:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=WutILPmU2/76w5AOIRDVfvExKhGvbGWuOoFY24RWIdY=;
- b=yBTUTmjU6kDamXvQtimTgrpAc3JSmQmtz7KMS7qSldGZM6zwv5mnOYcJg5lW1sJUNy
- Z8w5CCIx0ImfwDQ5UVEGd4un7+mNVHnbjX6ej0th4QOWW9DcGYig5PiQYr4VSR7HuaIJ
- TNmtOkk/i3SZJR+XL6a3LoGDXhFp/yZ2bWKD52kCEvDv9jrhi/cBl7ddwcjaKz8MIqVA
- eYZnM2Wao4Q0sgqq2gFjZ7bwo1xuODVEPb4Lp9/XwG0yskVcplhR99q/oliMpM1nEjP0
- N/OQ4BrdJ6UQWTNhgvYJx70Q6xpzNbVuZfs9oP6+gNCzxs9blFxTvwg6KHGYjF5ufHxt
- HSRA==
-X-Gm-Message-State: AOAM530lCUqz/yVwuoxavOaL7oWxdJQHA7XtbywlE5eoWQuRW08YfnxJ
- QrJF8liCt9pDN9AiVDqLAC4pmG9JByTgn2rfqR46UbHciycCYDK+9SO4IpYYPVu7skVmqe0k56W
- oA1xWczlZi93WrweEpf0TeAzabJFQk/k=
-X-Received: by 2002:a63:9d4c:: with SMTP id i73mr306942pgd.216.1633546607824; 
- Wed, 06 Oct 2021 11:56:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwiqG1xtFvSv02wSNjrboytFwnLCN8ojgLq9Klvl20XwrVuOzhnpydJBmI9Wb4FTNzNf8iOgpT7Tf2OkISGtbU=
-X-Received: by 2002:a63:9d4c:: with SMTP id i73mr306921pgd.216.1633546607599; 
- Wed, 06 Oct 2021 11:56:47 -0700 (PDT)
+ bh=faTNEitwbtVbS2lUFvx56Mw/nUfdEeJhjMRwJmmrcE0=;
+ b=hnSHyvYGI6K6V7+AOv6PY3+9aPEHQ/Xbd/pR4eqOkVHvxvj8tfjnNrMi/FVXEKdlMy
+ ouPKKJz0lg3vLu2cEFf1OzTiRiTID90zEUzWLD7Ln5z898F/r0P4+RYZzDg+MgzoHXvC
+ fIjIIeabVBTHPxIyR9BbH/qvAf2EX9QmgvFuxFXUjjGM4Nz0Br6TGjq74mbPBUNuIdAv
+ t2V7r8boaaNNwKoD5k8ru7z+3db6q755FRvVYtHpwxnWJetrVL31aj91bibZLihaqu0s
+ QKPf+1eSFl8F+xxMBnozBBEnRZZaU9ULqFCrznK33YugQH/L3CWLoiqaTZ5USHx9tovK
+ tYLQ==
+X-Gm-Message-State: AOAM531wGqV80s3mUa6jRh6dgCkAoFyHxMFKgX081mTv1e8438F8MPoO
+ EXYQDTaN3MeTxCnGvwX7I6c9udjcvMUxnSeFxp+sncf4s3ry4vQcdOvmnB6ZYxfmJ8yVUritZE9
+ S3OImMxuE4Y18bSzCMiLgleFdLazjlG4=
+X-Received: by 2002:a17:90b:4c86:: with SMTP id
+ my6mr287830pjb.203.1633546675140; 
+ Wed, 06 Oct 2021 11:57:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzHrVJP6cad2YqApYJucbQTdi29c0rROApe1tMhy8cz/JYmBggZH4QojE1+ltSJXXWt+CjfaRF/AgYm8UnceeQ=
+X-Received: by 2002:a17:90b:4c86:: with SMTP id
+ my6mr287792pjb.203.1633546674940; 
+ Wed, 06 Oct 2021 11:57:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210924185506.2542588-1-crosa@redhat.com>
- <20210924185506.2542588-11-crosa@redhat.com>
-In-Reply-To: <20210924185506.2542588-11-crosa@redhat.com>
+ <20210924185506.2542588-10-crosa@redhat.com>
+In-Reply-To: <20210924185506.2542588-10-crosa@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 6 Oct 2021 15:56:21 -0300
-Message-ID: <CAKJDGDardVBwdNSQeGwsX6ZaptfZ-xH5YNE=AgcOK_DKp6A+WQ@mail.gmail.com>
-Subject: Re: [PATCH 10/16] tests/acceptance/boot_xen.py: unify tags
+Date: Wed, 6 Oct 2021 15:57:29 -0300
+Message-ID: <CAKJDGDb7TkOH930=W+qW=iRevZa3OV+UQS9x1a65y430M_9yuw@mail.gmail.com>
+Subject: Re: [PATCH 09/16] tests/acceptance/boot_xen.py: merge base classes
 To: Cleber Rosa <crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -108,13 +110,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Sep 24, 2021 at 3:58 PM Cleber Rosa <crosa@redhat.com> wrote:
 >
-> Because all tests share the same tags, it's possible to have all of
-> them at the class level.
+> While it's a good practice to have reusable base classes, in this
+> specific case there's no other user of the BootXenBase class.
+>
+> By unifying the class used in this test, we can improve readability
+> and have the opportunity to add some future improvements in a clearer
+> fashion.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  tests/acceptance/boot_xen.py | 26 +++++---------------------
->  1 file changed, 5 insertions(+), 21 deletions(-)
+>  tests/acceptance/boot_xen.py | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
