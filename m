@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4B4424251
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 18:13:38 +0200 (CEST)
-Received: from localhost ([::1]:60330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 010FA4242BF
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 18:33:54 +0200 (CEST)
+Received: from localhost ([::1]:52240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY9Y1-0000Zh-UK
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 12:13:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55446)
+	id 1mY9rc-0008Rp-DB
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 12:33:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1mY9JU-0001i0-TB
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:58:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50296)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1mY9JQ-0002AM-Jj
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:58:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633535911;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dAYLGeSoxtrfc4Ej+va/7A3mAca27voB3uhtgI+AnZs=;
- b=KgE4p85wq3XoWllMwnFbBsgq+vFlcCDHc/ffRAeWGXvnfPcGJUtFNcB3YIFPURoJYTQedL
- CEIthIg4mAUrWXcEF1qTxcXWL6HNrVA9imUdZZRSEG7P6y9Kxt45VosMEJRJxu4xQ7TeTN
- kpR5qMn6Sk5wSn1WhjMHOzWREJwNx3o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-DyTzkPhuPa2v21uyrIYkyA-1; Wed, 06 Oct 2021 11:58:30 -0400
-X-MC-Unique: DyTzkPhuPa2v21uyrIYkyA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7400C362F8;
- Wed,  6 Oct 2021 15:58:29 +0000 (UTC)
-Received: from titinator (unknown [10.39.194.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 20ABE6091B;
- Wed,  6 Oct 2021 15:58:15 +0000 (UTC)
-References: <20210930153037.1194279-1-vgoyal@redhat.com>
- <20210930153037.1194279-13-vgoyal@redhat.com>
-User-agent: mu4e 1.5.13; emacs 27.2
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH 12/13] virtiofsd: Implement blocking posix
- locks
-Date: Wed, 06 Oct 2021 17:34:59 +0200
-In-reply-to: <20210930153037.1194279-13-vgoyal@redhat.com>
-Message-ID: <lyr1cyi1re.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mY92y-00060x-04
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:41:33 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mY92w-0002Pl-5x
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:41:31 -0400
+Received: by mail-wr1-x436.google.com with SMTP id u18so10170765wrg.5
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 08:41:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=h/Lqj065YfqKwbujctIvu5yd/z5N/fbVnCvI/nNpLQI=;
+ b=g6HKbsEsRvnSb7PBEAOZrKyImXVWJVNuE9ikkQJE6BK2sJL+H/T5mmnerc3M4RV1TU
+ b3mMOarx9yQEt8qvnPguNC8OPMuOhY2OXeeeeimxT8aueAw4SERlKQq8X+wL74eplCoA
+ vcdxXXoyqWa2WGH4LBvGFLO8Ols4nWjcCUSNzLAOROjyvx4zZ9QgC7y8cGhMrw8eeOTz
+ 78OMOvH+CncEvLZCrpSea6KfBtvyz0TxQH3QxwEYjOgU3isIbdPof4+NkHRZI5vaCq2b
+ o4D9wTf3PWJl32fvfVUiNOv9eYh4ewfP3Sx9JwC66qTk9p3LluNh2yI4v7nAb1/9Y1pO
+ Y+CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=h/Lqj065YfqKwbujctIvu5yd/z5N/fbVnCvI/nNpLQI=;
+ b=U7TS5xaN8EyaW0w6SAaAWOYbYiBZC0GeNxC86FdILsDRTxcKlzNr0NMW+tkdNPMI3B
+ 1CGKlaXvSq0HhzfaVsGa0NKRQmNqTlr1shegJuSgVoheTk3r/++wO0Ss/T6eqfTLRcZI
+ G7xxzxHzLx063o6Mb5by5g5A2QMcKhebx1PazR5PbO7KruuAN5IsRBLXnBg2vMqdxOEw
+ tskTTvdTNrvWtHNmlRKVz0cux2lgakjy2VsgEqdxmoEotdp2gsh9uH8BMFiq1Zpa7Dyq
+ XyZqOM7wGWap6J/V5QyOqK1vgnCL3deE7tseR6uHTk33pznA2+Xw7fFxqZMdIflmDFRk
+ ZdpA==
+X-Gm-Message-State: AOAM530e/Nzm1tyZ4xmU8AzrRkjiD23vZphpNJLMv6cm7oisTykDLcOm
+ GrCra13wnc5rGj65nH0RWSb7bw==
+X-Google-Smtp-Source: ABdhPJxn6jy0KKB0D0uheFqhsU7QZXiZvmA1Qyr5VpcTvOKoi6B1l1YHC1kES5wXZbHj0+xYV1TXag==
+X-Received: by 2002:a05:6000:1446:: with SMTP id
+ v6mr30280811wrx.427.1633534888571; 
+ Wed, 06 Oct 2021 08:41:28 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s186sm6550554wme.14.2021.10.06.08.41.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Oct 2021 08:41:27 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0352C1FF96;
+ Wed,  6 Oct 2021 16:41:27 +0100 (BST)
+References: <20211006113707.96907-1-damien.hedde@greensocs.com>
+ <03e1e2d6-d974-272b-9d25-805914ec0026@redhat.com>
+ <4fd0ab8a-7edb-a855-09ce-312ab2057325@greensocs.com>
+User-agent: mu4e 1.7.0; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Damien Hedde <damien.hedde@greensocs.com>
+Subject: Re: [PATCH] generic-loader: remove the ram_size limit when a
+ loading binary file
+Date: Wed, 06 Oct 2021 16:40:32 +0100
+In-reply-to: <4fd0ab8a-7edb-a855-09ce-312ab2057325@greensocs.com>
+Message-ID: <871r4yf9eh.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dinechin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,360 +90,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- miklos@szeredi.hu
+Cc: Alistair Francis <alistair@alistair23.me>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2021-09-30 at 11:30 -04, Vivek Goyal <vgoyal@redhat.com> wrote...
-> As of now we don't support fcntl(F_SETLKW) and if we see one, we return
-> -EOPNOTSUPP.
->
-> Change that by accepting these requests and returning a reply
-> immediately asking caller to wait. Once lock is available, send a
-> notification to the waiter indicating lock is available.
->
-> In response to lock request, we are returning error value as "1", which
-> signals to client to queue the lock request internally and later client
-> will get a notification which will signal lock is taken (or error). And
-> then fuse client should wake up the guest process.
->
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> Signed-off-by: Ioannis Angelakopoulos <iangelak@redhat.com>
-> ---
->  tools/virtiofsd/fuse_lowlevel.c  | 37 ++++++++++++++++-
->  tools/virtiofsd/fuse_lowlevel.h  | 26 ++++++++++++
->  tools/virtiofsd/fuse_virtio.c    | 50 ++++++++++++++++++++---
->  tools/virtiofsd/passthrough_ll.c | 70 ++++++++++++++++++++++++++++----
->  4 files changed, 167 insertions(+), 16 deletions(-)
->
-> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-> index e4679c73ab..2e7f4b786d 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.c
-> +++ b/tools/virtiofsd/fuse_lowlevel.c
-> @@ -179,8 +179,8 @@ int fuse_send_reply_iov_nofree(fuse_req_t req, int error, struct iovec *iov,
->          .unique = req->unique,
->          .error = error,
->      };
-> -
-> -    if (error <= -1000 || error > 0) {
-> +    /* error = 1 has been used to signal client to wait for notificaiton */
-> +    if (error <= -1000 || error > 1) {
+Damien Hedde <damien.hedde@greensocs.com> writes:
 
-What about adding a #define for that special value 1?
+> On 10/6/21 13:49, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 10/6/21 13:37, Damien Hedde wrote:
+>>> Right now, we cannot load some binary file if it is bigger than the
+>>> machine's ram size. This limitation only occurs when loading a
+>>> binary file: we can load a corresponding elf file without this
+>>> limitation.
+>>>
+>>> This is an issue for machines that have small ram or do not use the
+>>> ram_size feature at all.
+>>>
+>>> Also get rid of "hw/boards.h" include, since we needed it only
+>>> to access `current_machine`.
+>>>
+>>> Fixes: e481a1f63c9 ("generic-loader: Add a generic loader")
+>>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+>>> ---
+>>>
+>>> Hi Alistair,
+>>>
+>>> I found this while experimenting with a ram_size=3D0 machine.
+>
+>
+>
+>> Where are you loading your file?
+>>=20
+>
+> In a rom.
+>
+> The loader does not check at all that we are loading to the machine's
+> ram. It just check the size for the raw binary file format.
 
-(and while we are at it, the -1000 does not look too good either, that could
-be a separate cleanup patch)
+It does beg the question of why you don't just construct your ROM file
+with the image in place there? Is this just a development convenience?
 
->          fuse_log(FUSE_LOG_ERR, "fuse: bad error value: %i\n", error);
->          out.error = -ERANGE;
->      }
-> @@ -290,6 +290,11 @@ int fuse_reply_err(fuse_req_t req, int err)
->      return send_reply(req, -err, NULL, 0);
->  }
->
-> +int fuse_reply_wait(fuse_req_t req)
-> +{
-> +    return send_reply(req, 1, NULL, 0);
-
-... to be used here too.
-
-> +}
-> +
->  void fuse_reply_none(fuse_req_t req)
->  {
->      fuse_free_req(req);
-> @@ -2165,6 +2170,34 @@ static void do_destroy(fuse_req_t req, fuse_ino_t nodeid,
->      send_reply_ok(req, NULL, 0);
->  }
->
-> +static int send_notify_iov(struct fuse_session *se, int notify_code,
-> +                           struct iovec *iov, int count)
-> +{
-> +    struct fuse_out_header out;
-> +    if (!se->got_init) {
-> +        return -ENOTCONN;
-> +    }
-> +    out.unique = 0;
-> +    out.error = notify_code;
-> +    iov[0].iov_base = &out;
-> +    iov[0].iov_len = sizeof(struct fuse_out_header);
-> +    return fuse_send_msg(se, NULL, iov, count);
-> +}
-> +
-> +int fuse_lowlevel_notify_lock(struct fuse_session *se, uint64_t unique,
-> +                  int32_t error)
-> +{
-> +    struct fuse_notify_lock_out outarg = {0};
-> +    struct iovec iov[2];
-> +
-> +    outarg.unique = unique;
-> +    outarg.error = -error;
-> +
-> +    iov[1].iov_base = &outarg;
-> +    iov[1].iov_len = sizeof(outarg);
-> +    return send_notify_iov(se, FUSE_NOTIFY_LOCK, iov, 2);
-> +}
-
-This may be just me, but I find it odd that you fill iov[0] and iov[1] in
-two separate functions, one of them being static and AFAICT only used once.
-I understand that you are trying to split the notify logic from the lock.
-But the logic is not fully isolated, e.g. the caller needs to know to add
-one to the count, start filling at 1, etc.
-
-Just a matter of taste, I guess ;-)
-
-> +
->  int fuse_lowlevel_notify_store(struct fuse_session *se, fuse_ino_t ino,
->                                 off_t offset, struct fuse_bufvec *bufv)
->  {
-> diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
-> index c55c0ca2fc..64624b48dc 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.h
-> +++ b/tools/virtiofsd/fuse_lowlevel.h
-> @@ -1251,6 +1251,22 @@ struct fuse_lowlevel_ops {
->   */
->  int fuse_reply_err(fuse_req_t req, int err);
->
-> +/**
-> + * Ask caller to wait for lock.
-> + *
-> + * Possible requests:
-> + *   setlkw
-> + *
-> + * If caller sends a blocking lock request (setlkw), then reply to caller
-> + * that wait for lock to be available. Once lock is available caller will
-> + * receive a notification with request's unique id. Notification will
-> + * carry info whether lock was successfully obtained or not.
-> + *
-> + * @param req request handle
-> + * @return zero for success, -errno for failure to send reply
-> + */
-> +int fuse_reply_wait(fuse_req_t req);
-> +
->  /**
->   * Don't send reply
->   *
-> @@ -1685,6 +1701,16 @@ int fuse_lowlevel_notify_delete(struct fuse_session *se, fuse_ino_t parent,
->  int fuse_lowlevel_notify_store(struct fuse_session *se, fuse_ino_t ino,
->                                 off_t offset, struct fuse_bufvec *bufv);
->
-> +/**
-> + * Notify event related to previous lock request
-> + *
-> + * @param se the session object
-> + * @param unique the unique id of the request which requested setlkw
-> + * @param error zero for success, -errno for the failure
-> + */
-> +int fuse_lowlevel_notify_lock(struct fuse_session *se, uint64_t unique,
-> +                              int32_t error);
-> +
->  /*
->   * Utility functions
->   */
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index a87e88e286..bb2d4456fc 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -273,6 +273,23 @@ static void vq_send_element(struct fv_QueueInfo *qi, VuVirtqElement *elem,
->      vu_dispatch_unlock(qi->virtio_dev);
->  }
->
-> +/* Returns NULL if queue is empty */
-> +static FVRequest *vq_pop_notify_elem(struct fv_QueueInfo *qi)
-> +{
-> +    struct fuse_session *se = qi->virtio_dev->se;
-> +    VuDev *dev = &se->virtio_dev->dev;
-> +    VuVirtq *q = vu_get_queue(dev, qi->qidx);
-> +    FVRequest *req;
-> +
-> +    vu_dispatch_rdlock(qi->virtio_dev);
-> +    pthread_mutex_lock(&qi->vq_lock);
-> +    /* Pop an element from queue */
-> +    req = vu_queue_pop(dev, q, sizeof(FVRequest));
-> +    pthread_mutex_unlock(&qi->vq_lock);
-> +    vu_dispatch_unlock(qi->virtio_dev);
-> +    return req;
-> +}
-> +
->  /*
->   * Called back by ll whenever it wants to send a reply/message back
->   * The 1st element of the iov starts with the fuse_out_header
-> @@ -281,9 +298,9 @@ static void vq_send_element(struct fv_QueueInfo *qi, VuVirtqElement *elem,
->  int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
->                      struct iovec *iov, int count)
->  {
-> -    FVRequest *req = container_of(ch, FVRequest, ch);
-> -    struct fv_QueueInfo *qi = ch->qi;
-> -    VuVirtqElement *elem = &req->elem;
-> +    FVRequest *req;
-> +    struct fv_QueueInfo *qi;
-> +    VuVirtqElement *elem;
->      int ret = 0;
->
->      assert(count >= 1);
-> @@ -294,8 +311,30 @@ int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
->
->      size_t tosend_len = iov_size(iov, count);
->
-> -    /* unique == 0 is notification, which we don't support */
-> -    assert(out->unique);
-> +    /* unique == 0 is notification */
-> +    if (!out->unique) {
-> +        if (!se->notify_enabled) {
-> +            return -EOPNOTSUPP;
-> +        }
-> +        /* If notifications are enabled, queue index 1 is notification queue */
-> +        qi = se->virtio_dev->qi[1];
-> +        req = vq_pop_notify_elem(qi);
-> +        if (!req) {
-> +            /*
-> +             * TODO: Implement some sort of ring buffer and queue notifications
-> +             * on that and send these later when notification queue has space
-> +             * available.
-> +             */
-
-Maybe add a trace / message here to debug more easily if we hit that case?
-
-> +            return -ENOSPC;
-> +        }
-> +        req->reply_sent = false;
-> +    } else {
-> +        assert(ch);
-> +        req = container_of(ch, FVRequest, ch);
-> +        qi = ch->qi;
-> +    }
-> +
-> +    elem = &req->elem;
->      assert(!req->reply_sent);
->
->      /* The 'in' part of the elem is to qemu */
-> @@ -985,6 +1024,7 @@ static int fv_get_config(VuDev *dev, uint8_t *config, uint32_t len)
->          struct fuse_notify_delete_out       delete_out;
->          struct fuse_notify_store_out        store_out;
->          struct fuse_notify_retrieve_out     retrieve_out;
-> +        struct fuse_notify_lock_out         lock_out;
->      };
->
->      notify_size = sizeof(struct fuse_out_header) +
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 6928662e22..277f74762b 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -2131,13 +2131,35 @@ out:
->      }
->  }
->
-> +static void setlk_send_notification(struct fuse_session *se, uint64_t unique,
-> +                                    int saverr)
-> +{
-> +    int ret;
-> +
-> +    do {
-> +        ret = fuse_lowlevel_notify_lock(se, unique, saverr);
-> +        /*
-> +         * Retry sending notification if notification queue does not have
-> +         * free descriptor yet, otherwise break out of loop. Either we
-> +         * successfully sent notifiation or some other error occurred.
-> +         */
-> +        if (ret != -ENOSPC) {
-> +            break;
-> +        }
-> +        usleep(10000);
-> +    } while (1);
-> +}
-> +
->  static void lo_setlk(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi,
->                       struct flock *lock, int sleep)
->  {
->      struct lo_data *lo = lo_data(req);
->      struct lo_inode *inode;
->      struct lo_inode_plock *plock;
-> -    int ret, saverr = 0;
-> +    int ret, saverr = 0, ofd;
-> +    uint64_t unique;
-> +    struct fuse_session *se = req->se;
-> +    bool blocking_lock = false;
->
->      fuse_log(FUSE_LOG_DEBUG,
->               "lo_setlk(ino=%" PRIu64 ", flags=%d)"
-> @@ -2151,11 +2173,6 @@ static void lo_setlk(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi,
->          return;
->      }
->
-> -    if (sleep) {
-> -        fuse_reply_err(req, EOPNOTSUPP);
-> -        return;
-> -    }
-> -
->      inode = lo_inode(req, ino);
->      if (!inode) {
->          fuse_reply_err(req, EBADF);
-> @@ -2168,21 +2185,56 @@ static void lo_setlk(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi,
->
->      if (!plock) {
->          saverr = ret;
-> +        pthread_mutex_unlock(&inode->plock_mutex);
->          goto out;
->      }
->
-> +    /*
-> +     * plock is now released when inode is going away. We already have
-> +     * a reference on inode, so it is guaranteed that plock->fd is
-> +     * still around even after dropping inode->plock_mutex lock
-> +     */
-> +    ofd = plock->fd;
-> +    pthread_mutex_unlock(&inode->plock_mutex);
-> +
-> +    /*
-> +     * If this lock request can block, request caller to wait for
-> +     * notification. Do not access req after this. Once lock is
-> +     * available, send a notification instead.
-> +     */
-> +    if (sleep && lock->l_type != F_UNLCK) {
-> +        /*
-> +         * If notification queue is not enabled, can't support async
-> +         * locks.
-> +         */
-> +        if (!se->notify_enabled) {
-> +            saverr = EOPNOTSUPP;
-> +            goto out;
-> +        }
-> +        blocking_lock = true;
-> +        unique = req->unique;
-> +        fuse_reply_wait(req);
-> +    }
-> +
->      /* TODO: Is it alright to modify flock? */
->      lock->l_pid = 0;
-> -    ret = fcntl(plock->fd, F_OFD_SETLK, lock);
-> +    if (blocking_lock) {
-> +        ret = fcntl(ofd, F_OFD_SETLKW, lock);
-> +    } else {
-> +        ret = fcntl(ofd, F_OFD_SETLK, lock);
-> +    }
->      if (ret == -1) {
->          saverr = errno;
->      }
->
->  out:
-> -    pthread_mutex_unlock(&inode->plock_mutex);
->      lo_inode_put(lo, &inode);
->
-> -    fuse_reply_err(req, saverr);
-> +    if (!blocking_lock) {
-> +        fuse_reply_err(req, saverr);
-> +    } else {
-> +        setlk_send_notification(se, unique, saverr);
-> +    }
->  }
->
->  static void lo_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
-
-
---
-Cheers,
-Christophe de Dinechin (IRC c3d)
-
+--=20
+Alex Benn=C3=A9e
 
