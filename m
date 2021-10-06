@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 826BB424964
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 00:02:18 +0200 (CEST)
-Received: from localhost ([::1]:33636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A57342497B
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 00:07:58 +0200 (CEST)
+Received: from localhost ([::1]:48420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYEzR-0006Yr-Fo
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 18:02:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49874)
+	id 1mYF4u-0008CV-U3
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 18:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mYEUd-0000Kx-JR; Wed, 06 Oct 2021 17:30:31 -0400
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:44136)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mYEUZ-0008SF-9z; Wed, 06 Oct 2021 17:30:26 -0400
-Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 7398841F28;
- Wed,  6 Oct 2021 23:29:47 +0200 (CEST)
-Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 5DA0560066;
- Wed,  6 Oct 2021 23:29:47 +0200 (CEST)
-Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 26D3314005C;
- Wed,  6 Oct 2021 23:29:47 +0200 (CEST)
-From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2 27/27] target/riscv: support for 128-bit satp
-Date: Wed,  6 Oct 2021 23:28:33 +0200
-Message-Id: <20211006212833.108706-28-frederic.petrot@univ-grenoble-alpes.fr>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211006212833.108706-1-frederic.petrot@univ-grenoble-alpes.fr>
-References: <20211006212833.108706-1-frederic.petrot@univ-grenoble-alpes.fr>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mYEY2-0003lm-OZ; Wed, 06 Oct 2021 17:33:59 -0400
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:43957)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mYEY0-0003FS-WB; Wed, 06 Oct 2021 17:33:58 -0400
+Received: by mail-il1-x132.google.com with SMTP id j2so4266671ilo.10;
+ Wed, 06 Oct 2021 14:33:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HGRiIuJM7xYb3tv7DWrv8cBPYp4kL+yoync+/010XVI=;
+ b=Y2JV4NDaAtLw/KBsSmHnS94hql29ocsOGSjSch36ab6XUIjP4zgtFNIxYuyhJkCPoH
+ UhfH43MrvKpo/vYrxlO83FgJ6RIZoqWdSlmfCHZLaPgwI0phYtKRepOls754w8Q+RRxp
+ 84S8CXNwCNaE3bMYcpXySwpEygh58hI+Lvbx89d4yMNgQr1+5Yk7HJe03/rIRvpOu01U
+ qAfLMUfUxZCY5+Homylc41lXbTguCHTflqBDE+S6A/Hgdw8DIduTAmsQZJ3u0kW+k/DD
+ sR9Rroq71AxzKB68jbc1krsLw3D7D5VTqar80i4IF14vEsHC0Xaz3P402lVxWJ4t8hss
+ MutQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HGRiIuJM7xYb3tv7DWrv8cBPYp4kL+yoync+/010XVI=;
+ b=63SMIOCyVGQTg4Cypeuo3DK5DLlTfVBdmRKskyTiajzI/wKcaa0ahQGyApoWXMwjdg
+ PeJ1NeP1lBfh+qD17T+4lUDGtJrvJQmtOl5nOAxjr28RB30OrksXXhqk4GRqPQO2IHf6
+ qncHwckI0lSO71ZsBNA6rWVAdaF4FgbgFQQMoJdHxaDW6WVrssQKng0xZEO5FpEoLxui
+ VbEmpdqN0FOyzc0DTzNQR58vGA2CsSfPabnlsOwSeSPHDJlMb4dKkmKdvoR4Bj0G0s7+
+ ZQVjjxUdwOwbpqhUALQbrIdojgTpJSocxrYFp8cDYxvz5uCT0A8bIyQCrTQTzrgK78uz
+ bpSA==
+X-Gm-Message-State: AOAM530NnTwX4fQhOZogNNRRsUMCBkIRraEHVreHtPMIyv7GVS2By1Rp
+ fSHoVsB0jPIkxY16wpfK62UPcT97Pa2s8L/Ncbs=
+X-Google-Smtp-Source: ABdhPJysAPqwg+Avjrv0kLUoo9P99vSmJvknFLazRXKykOUVFKAmT5ja/m1gLDp2ZJowEMw74bNX7WlW/vvjRzEHF/Y=
+X-Received: by 2002:a05:6e02:15c6:: with SMTP id
+ q6mr337253ilu.221.1633556034274; 
+ Wed, 06 Oct 2021 14:33:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (41)
-X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20211006172307.780893-1-richard.henderson@linaro.org>
+ <20211006172307.780893-16-richard.henderson@linaro.org>
+In-Reply-To: <20211006172307.780893-16-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 7 Oct 2021 07:33:28 +1000
+Message-ID: <CAKmqyKPrLMsPcuf6wr+71jffnaUiapM29UdtiKkmZeiyDEF=dQ@mail.gmail.com>
+Subject: Re: [PATCH v4 15/41] linux-user/host/riscv: Populate host_signal.h
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,355 +77,274 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
- alistair.francis@wdc.com, fabien.portas@grenoble-inp.org, palmer@dabbelt.com,
- =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
- <frederic.petrot@univ-grenoble-alpes.fr>, philmd@redhat.com
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support for a 128-bit satp. This is a bit more involved than necessary
-because we took the opportunity to increase the page size to 16kB, and
-change the page table geometry, which makes the page walk a bit more
-parametrizable (variables instead of defines).
-Note that is anyway a necessary step for the merging of the 32-bit and
-64-bit riscv versions in a single executable.
+On Thu, Oct 7, 2021 at 3:31 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Split host_signal_pc and host_signal_write out of user-exec.c.
+>
+> Cc: qemu-riscv@nongnu.org
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
-Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
----
- target/riscv/cpu-param.h  |  9 ++++-
- target/riscv/cpu_bits.h   | 10 +++++
- target/riscv/cpu_helper.c | 54 +++++++++++++++++++--------
- target/riscv/csr.c        | 77 +++++++++++++++++++++++++++++++++++++--
- 4 files changed, 130 insertions(+), 20 deletions(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/target/riscv/cpu-param.h b/target/riscv/cpu-param.h
-index c10459b56f..78f0916403 100644
---- a/target/riscv/cpu-param.h
-+++ b/target/riscv/cpu-param.h
-@@ -19,10 +19,15 @@
- #else
- /* 64-bit target, since QEMU isn't built to have TARGET_LONG_BITS over 64 */
- # define TARGET_LONG_BITS 64
--# define TARGET_PHYS_ADDR_SPACE_BITS 56 /* 44-bit PPN */
--# define TARGET_VIRT_ADDR_SPACE_BITS 48 /* sv48 */
-+# define TARGET_PHYS_ADDR_SPACE_BITS 64 /* 54-bit PPN */
-+# define TARGET_VIRT_ADDR_SPACE_BITS 44 /* sv44 */
- #endif
-+
-+#if defined(TARGET_RISCV32) || defined(TARGET_RISCV64)
- #define TARGET_PAGE_BITS 12 /* 4 KiB Pages */
-+#else
-+#define TARGET_PAGE_BITS 14 /* 16 KiB pages for RV128 */
-+#endif
- /*
-  * The current MMU Modes are:
-  *  - U mode 0b000
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 553b0a3d71..a4f6ba927f 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -428,6 +428,11 @@
- #define SATP64_ASID         0x0FFFF00000000000ULL
- #define SATP64_PPN          0x00000FFFFFFFFFFFULL
- 
-+/* RV128 satp CSR field masks (H/L for high/low dword) */
-+#define SATP128_HMODE       0xFF00000000000000ULL
-+#define SATP128_HASID       0x00FFFFFFFF000000ULL
-+#define SATP128_LPPN        0x0003FFFFFFFFFFFFULL
-+
- /* VM modes (mstatus.vm) privileged ISA 1.9.1 */
- #define VM_1_09_MBARE       0
- #define VM_1_09_MBB         1
-@@ -443,6 +448,9 @@
- #define VM_1_10_SV48        9
- #define VM_1_10_SV57        10
- #define VM_1_10_SV64        11
-+#define VM_1_10_SV44        12
-+#define VM_1_10_SV54        13
-+
- 
- /* Page table entry (PTE) fields */
- #define PTE_V               0x001 /* Valid */
-@@ -460,6 +468,8 @@
- 
- /* Leaf page shift amount */
- #define PGSHIFT             12
-+/* For now, pages in RV128 are 16 KiB. */
-+#define PGSHIFT128          14
- 
- /* Default Reset Vector adress */
- #define DEFAULT_RSTVEC      0x1000
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index d41d5cd27c..55dea1f58b 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -391,7 +391,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-     *prot = 0;
- 
-     hwaddr base;
--    int levels, ptidxbits, ptesize, vm, sum, mxr, widened;
-+    int levels, ptidxbits, ptesize, vm, sum, mxr, widened, pgshift;
- 
-     if (first_stage == true) {
-         mxr = get_field(env->mstatus, MSTATUS_MXR);
-@@ -404,17 +404,25 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-             if (riscv_cpu_is_32bit(env)) {
-                 base = (hwaddr)get_field(env->vsatp, SATP32_PPN) << PGSHIFT;
-                 vm = get_field(env->vsatp, SATP32_MODE);
--            } else {
-+            } else if (riscv_cpu_is_64bit(env)) {
-                 base = (hwaddr)get_field(env->vsatp, SATP64_PPN) << PGSHIFT;
-                 vm = get_field(env->vsatp, SATP64_MODE);
-+            } else {
-+                /* TODO : Hypervisor extension not supported yet in RV128. */
-+                g_assert_not_reached();
-             }
-         } else {
-             if (riscv_cpu_is_32bit(env)) {
-                 base = (hwaddr)get_field(env->satp, SATP32_PPN) << PGSHIFT;
-                 vm = get_field(env->satp, SATP32_MODE);
--            } else {
-+            } else if (riscv_cpu_is_64bit(env)) {
-                 base = (hwaddr)get_field(env->satp, SATP64_PPN) << PGSHIFT;
-                 vm = get_field(env->satp, SATP64_MODE);
-+            } else if (riscv_cpu_is_128bit(env)) {
-+                base = (hwaddr)get_field(env->satp, SATP128_LPPN) << PGSHIFT128;
-+                vm = get_field(env->satph, SATP128_HMODE);
-+            } else {
-+                g_assert_not_reached();
-             }
-         }
-         widened = 0;
-@@ -422,9 +430,15 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-         if (riscv_cpu_is_32bit(env)) {
-             base = (hwaddr)get_field(env->hgatp, SATP32_PPN) << PGSHIFT;
-             vm = get_field(env->hgatp, SATP32_MODE);
--        } else {
-+        } else if (riscv_cpu_is_64bit(env)) {
-             base = (hwaddr)get_field(env->hgatp, SATP64_PPN) << PGSHIFT;
-             vm = get_field(env->hgatp, SATP64_MODE);
-+        } else {
-+            /*
-+             * TODO : Hypervisor extension not supported yet in RV128,
-+             * so there shouldn't be any two-stage address lookups.
-+             */
-+            g_assert_not_reached();
-         }
-         widened = 2;
-     }
-@@ -432,13 +446,17 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-     sum = get_field(env->mstatus, MSTATUS_SUM) || use_background || is_debug;
-     switch (vm) {
-     case VM_1_10_SV32:
--      levels = 2; ptidxbits = 10; ptesize = 4; break;
-+      levels = 2; ptidxbits = 10; ptesize = 4; pgshift = 12; break;
-     case VM_1_10_SV39:
--      levels = 3; ptidxbits = 9; ptesize = 8; break;
-+      levels = 3; ptidxbits = 9; ptesize = 8; pgshift = 12; break;
-     case VM_1_10_SV48:
--      levels = 4; ptidxbits = 9; ptesize = 8; break;
-+      levels = 4; ptidxbits = 9; ptesize = 8; pgshift = 12; break;
-     case VM_1_10_SV57:
--      levels = 5; ptidxbits = 9; ptesize = 8; break;
-+      levels = 5; ptidxbits = 9; ptesize = 8; pgshift = 12; break;
-+    case VM_1_10_SV44:
-+      levels = 3; ptidxbits = 10; ptesize = 16; pgshift = 14; break;
-+    case VM_1_10_SV54:
-+      levels = 4; ptidxbits = 10; ptesize = 16;  pgshift = 14; break;
-     case VM_1_10_MBARE:
-         *physical = addr;
-         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-@@ -448,7 +466,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-     }
- 
-     CPUState *cs = env_cpu(env);
--    int va_bits = PGSHIFT + levels * ptidxbits + widened;
-+    int va_bits = pgshift + levels * ptidxbits + widened;
-     target_ulong mask, masked_msbs;
- 
-     if (TARGET_LONG_BITS > (va_bits - 1)) {
-@@ -463,6 +481,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-     }
- 
-     int ptshift = (levels - 1) * ptidxbits;
-+    uint64_t pgoff_mask = (1ULL << pgshift) - 1;
-     int i;
- 
- #if !TCG_OVERSIZED_GUEST
-@@ -471,10 +490,10 @@ restart:
-     for (i = 0; i < levels; i++, ptshift -= ptidxbits) {
-         target_ulong idx;
-         if (i == 0) {
--            idx = (addr >> (PGSHIFT + ptshift)) &
-+            idx = (addr >> (pgshift + ptshift)) &
-                            ((1 << (ptidxbits + widened)) - 1);
-         } else {
--            idx = (addr >> (PGSHIFT + ptshift)) &
-+            idx = (addr >> (pgshift + ptshift)) &
-                            ((1 << ptidxbits) - 1);
-         }
- 
-@@ -482,6 +501,7 @@ restart:
-         hwaddr pte_addr;
- 
-         if (two_stage && first_stage) {
-+            /* TODO : Two-stage translation for RV128 */
-             int vbase_prot;
-             hwaddr vbase;
- 
-@@ -515,6 +535,10 @@ restart:
-         if (riscv_cpu_is_32bit(env)) {
-             pte = address_space_ldl(cs->as, pte_addr, attrs, &res);
-         } else {
-+            /*
-+             * For RV128, load only lower 64 bits as only those
-+             * are used for now
-+             */
-             pte = address_space_ldq(cs->as, pte_addr, attrs, &res);
-         }
- 
-@@ -529,7 +553,7 @@ restart:
-             return TRANSLATE_FAIL;
-         } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
-             /* Inner PTE, continue walking */
--            base = ppn << PGSHIFT;
-+            base = ppn << pgshift;
-         } else if ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) {
-             /* Reserved leaf PTE flags: PTE_W */
-             return TRANSLATE_FAIL;
-@@ -601,9 +625,9 @@ restart:
- 
-             /* for superpage mappings, make a fake leaf PTE for the TLB's
-                benefit. */
--            target_ulong vpn = addr >> PGSHIFT;
--            *physical = ((ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT) |
--                        (addr & ~TARGET_PAGE_MASK);
-+            target_ulong vpn = addr >> pgshift;
-+            *physical = ((ppn | (vpn & ((1L << ptshift) - 1))) << pgshift) |
-+                        (addr & pgoff_mask);
- 
-             /* set permissions on the TLB entry */
-             if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index a9146a4496..3a6bc02571 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -461,6 +461,12 @@ static const char valid_vm_1_10_64[16] = {
-     [VM_1_10_SV57] = 1
- };
- 
-+static const bool valid_vm_1_10_128[16] = {
-+    [VM_1_10_MBARE] = 1,
-+    [VM_1_10_SV44] = 1,
-+    [VM_1_10_SV54] = 1
-+};
-+
- /* Machine Information Registers */
- static RISCVException read_zero_i128(CPURISCVState *env, int csrno,
-                                     Int128 *val)
-@@ -557,8 +563,12 @@ static int validate_vm(CPURISCVState *env, target_ulong vm)
- {
-     if (riscv_cpu_is_32bit(env)) {
-         return valid_vm_1_10_32[vm & 0xf];
--    } else {
-+    } else if (riscv_cpu_is_64bit(env)) {
-         return valid_vm_1_10_64[vm & 0xf];
-+    } else if (riscv_cpu_is_128bit(env)) {
-+        return valid_vm_1_10_128[vm & 0xf];
-+    } else {
-+        return 0;
-     }
- }
- 
-@@ -1090,6 +1100,67 @@ static RISCVException rmw_sip(CPURISCVState *env, int csrno,
- }
- 
- /* Supervisor Protection and Translation */
-+static RISCVException read_satp_i128(CPURISCVState *env, int csrno,
-+                                    Int128 *val)
-+{
-+    if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
-+        *val = int128_zero();
-+        return RISCV_EXCP_NONE;
-+    }
-+
-+    if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    } else {
-+        *val = int128_make128(env->satp, env->satph);
-+    }
-+
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException write_satp_i128(CPURISCVState *env, int csrno,
-+                                     Int128 val)
-+{
-+    uint32_t asid;
-+    bool vm_ok;
-+    Int128 mask;
-+
-+    if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
-+        return RISCV_EXCP_NONE;
-+    }
-+
-+    if (riscv_cpu_is_32bit(env)) {
-+        vm_ok = validate_vm(env, get_field(int128_getlo(val), SATP32_MODE));
-+        mask = int128_make64((int128_getlo(val) ^ env->satp)
-+                           & (SATP32_MODE | SATP32_ASID | SATP32_PPN));
-+        asid = (int128_getlo(val) ^ env->satp) & SATP32_ASID;
-+    } else if (riscv_cpu_is_64bit(env)) {
-+        vm_ok = validate_vm(env, get_field(int128_getlo(val), SATP64_MODE));
-+        mask = int128_make64((int128_getlo(val) ^ env->satp)
-+                           & (SATP64_MODE | SATP64_ASID | SATP64_PPN));
-+        asid = (int128_getlo(val) ^ env->satp) & SATP64_ASID;
-+    } else {
-+        vm_ok = validate_vm(env, get_field(int128_gethi(val), SATP128_HMODE));
-+        mask = int128_and(
-+                   int128_xor(val, int128_make128(env->satp, env->satph)),
-+                   int128_make128(SATP128_LPPN, SATP128_HMODE | SATP128_HASID));
-+        asid = (int128_gethi(val) ^ env->satph) & SATP128_HASID;
-+    }
-+
-+
-+    if (vm_ok && int128_nz(mask)) {
-+        if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-+            return RISCV_EXCP_ILLEGAL_INST;
-+        } else {
-+            if (asid) {
-+                tlb_flush(env_cpu(env));
-+            }
-+            env->satp = int128_getlo(val);
-+            env->satph = int128_gethi(val);
-+        }
-+    }
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_satp(CPURISCVState *env, int csrno,
-                                 target_ulong *val)
- {
-@@ -1624,7 +1695,7 @@ static inline RISCVException riscv_csrrw_check_i128(CPURISCVState *env,
-     /* check privileges and return -1 if check fails */
- #if !defined(CONFIG_USER_ONLY)
-     int effective_priv = env->priv;
--    int read_only = get_field(csrno, 0xc00) == 3;
-+    int read_only = get_field(csrno, 0xC00) == 3;
- 
-     if (riscv_has_ext(env, RVH) &&
-         env->priv == PRV_S &&
-@@ -1765,7 +1836,7 @@ riscv_csr_operations128 csr_ops_128[CSR_TABLE_SIZE] = {
-     [CSR_MSCRATCH]   = { read_mscratch_i128, write_mscratch_i128 },
-     [CSR_MEPC]       = { read_mepc_i128,     write_mepc_i128     },
- 
--    [CSR_SATP]       = { read_zero_i128    },
-+    [CSR_SATP]       = { read_satp_i128,     write_satp_i128     },
- #endif
- };
- 
--- 
-2.33.0
+Alistair
 
+> ---
+>  linux-user/host/riscv/host-signal.h |  85 +++++++++++++++++-
+>  accel/tcg/user-exec.c               | 134 ----------------------------
+>  2 files changed, 84 insertions(+), 135 deletions(-)
+>
+> diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/host/riscv/host-signal.h
+> index f4b4d65031..5860dce7d7 100644
+> --- a/linux-user/host/riscv/host-signal.h
+> +++ b/linux-user/host/riscv/host-signal.h
+> @@ -1 +1,84 @@
+> -#define HOST_SIGNAL_PLACEHOLDER
+> +/*
+> + * host-signal.h: signal info dependent on the host architecture
+> + *
+> + * Copyright (C) 2021 Linaro Limited
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef RISCV_HOST_SIGNAL_H
+> +#define RISCV_HOST_SIGNAL_H
+> +
+> +static inline uintptr_t host_signal_pc(ucontext_t *uc)
+> +{
+> +    return uc->uc_mcontext.__gregs[REG_PC];
+> +}
+> +
+> +static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+> +{
+> +    uint32_t insn = *(uint32_t *)host_signal_pc(uc);
+> +
+> +    /*
+> +     * Detect store by reading the instruction at the program
+> +     * counter. Note: we currently only generate 32-bit
+> +     * instructions so we thus only detect 32-bit stores
+> +     */
+> +    switch (((insn >> 0) & 0b11)) {
+> +    case 3:
+> +        switch (((insn >> 2) & 0b11111)) {
+> +        case 8:
+> +            switch (((insn >> 12) & 0b111)) {
+> +            case 0: /* sb */
+> +            case 1: /* sh */
+> +            case 2: /* sw */
+> +            case 3: /* sd */
+> +            case 4: /* sq */
+> +                return true;
+> +            default:
+> +                break;
+> +            }
+> +            break;
+> +        case 9:
+> +            switch (((insn >> 12) & 0b111)) {
+> +            case 2: /* fsw */
+> +            case 3: /* fsd */
+> +            case 4: /* fsq */
+> +                return true;
+> +            default:
+> +                break;
+> +            }
+> +            break;
+> +        default:
+> +            break;
+> +        }
+> +    }
+> +
+> +    /* Check for compressed instructions */
+> +    switch (((insn >> 13) & 0b111)) {
+> +    case 7:
+> +        switch (insn & 0b11) {
+> +        case 0: /*c.sd */
+> +        case 2: /* c.sdsp */
+> +            return true;
+> +        default:
+> +            break;
+> +        }
+> +        break;
+> +    case 6:
+> +        switch (insn & 0b11) {
+> +        case 0: /* c.sw */
+> +        case 3: /* c.swsp */
+> +            return true;
+> +        default:
+> +            break;
+> +        }
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+> +    return false;
+> +}
+> +
+> +#endif
+> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+> index fe3a3ce6e2..de8e106b68 100644
+> --- a/accel/tcg/user-exec.c
+> +++ b/accel/tcg/user-exec.c
+> @@ -139,64 +139,6 @@ bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
+>      }
+>  }
+>
+> -/*
+> - * 'pc' is the host PC at which the exception was raised.
+> - * 'address' is the effective address of the memory exception.
+> - * 'is_write' is 1 if a write caused the exception and otherwise 0.
+> - * 'old_set' is the signal set which should be restored.
+> - */
+> -static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+> -                                    int is_write, sigset_t *old_set)
+> -{
+> -    CPUState *cpu = current_cpu;
+> -    CPUClass *cc;
+> -    unsigned long host_addr = (unsigned long)info->si_addr;
+> -    MMUAccessType access_type = adjust_signal_pc(&pc, is_write);
+> -    abi_ptr guest_addr;
+> -
+> -    /* For synchronous signals we expect to be coming from the vCPU
+> -     * thread (so current_cpu should be valid) and either from running
+> -     * code or during translation which can fault as we cross pages.
+> -     *
+> -     * If neither is true then something has gone wrong and we should
+> -     * abort rather than try and restart the vCPU execution.
+> -     */
+> -    if (!cpu || !cpu->running) {
+> -        printf("qemu:%s received signal outside vCPU context @ pc=0x%"
+> -               PRIxPTR "\n",  __func__, pc);
+> -        abort();
+> -    }
+> -
+> -#if defined(DEBUG_SIGNAL)
+> -    printf("qemu: SIGSEGV pc=0x%08lx address=%08lx w=%d oldset=0x%08lx\n",
+> -           pc, host_addr, is_write, *(unsigned long *)old_set);
+> -#endif
+> -
+> -    /* Convert forcefully to guest address space, invalid addresses
+> -       are still valid segv ones */
+> -    guest_addr = h2g_nocheck(host_addr);
+> -
+> -    /* XXX: locking issue */
+> -    if (is_write &&
+> -        info->si_signo == SIGSEGV &&
+> -        info->si_code == SEGV_ACCERR &&
+> -        h2g_valid(host_addr) &&
+> -        handle_sigsegv_accerr_write(cpu, old_set, pc, guest_addr)) {
+> -        return 1;
+> -    }
+> -
+> -    /*
+> -     * There is no way the target can handle this other than raising
+> -     * an exception.  Undo signal and retaddr state prior to longjmp.
+> -     */
+> -    sigprocmask(SIG_SETMASK, old_set, NULL);
+> -
+> -    cc = CPU_GET_CLASS(cpu);
+> -    cc->tcg_ops->tlb_fill(cpu, guest_addr, 0, access_type,
+> -                          MMU_USER_IDX, false, pc);
+> -    g_assert_not_reached();
+> -}
+> -
+>  static int probe_access_internal(CPUArchState *env, target_ulong addr,
+>                                   int fault_size, MMUAccessType access_type,
+>                                   bool nonfault, uintptr_t ra)
+> @@ -255,82 +197,6 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+>      return size ? g2h(env_cpu(env), addr) : NULL;
+>  }
+>
+> -#if defined(__riscv)
+> -
+> -int cpu_signal_handler(int host_signum, void *pinfo,
+> -                       void *puc)
+> -{
+> -    siginfo_t *info = pinfo;
+> -    ucontext_t *uc = puc;
+> -    greg_t pc = uc->uc_mcontext.__gregs[REG_PC];
+> -    uint32_t insn = *(uint32_t *)pc;
+> -    int is_write = 0;
+> -
+> -    /* Detect store by reading the instruction at the program
+> -       counter. Note: we currently only generate 32-bit
+> -       instructions so we thus only detect 32-bit stores */
+> -    switch (((insn >> 0) & 0b11)) {
+> -    case 3:
+> -        switch (((insn >> 2) & 0b11111)) {
+> -        case 8:
+> -            switch (((insn >> 12) & 0b111)) {
+> -            case 0: /* sb */
+> -            case 1: /* sh */
+> -            case 2: /* sw */
+> -            case 3: /* sd */
+> -            case 4: /* sq */
+> -                is_write = 1;
+> -                break;
+> -            default:
+> -                break;
+> -            }
+> -            break;
+> -        case 9:
+> -            switch (((insn >> 12) & 0b111)) {
+> -            case 2: /* fsw */
+> -            case 3: /* fsd */
+> -            case 4: /* fsq */
+> -                is_write = 1;
+> -                break;
+> -            default:
+> -                break;
+> -            }
+> -            break;
+> -        default:
+> -            break;
+> -        }
+> -    }
+> -
+> -    /* Check for compressed instructions */
+> -    switch (((insn >> 13) & 0b111)) {
+> -    case 7:
+> -        switch (insn & 0b11) {
+> -        case 0: /*c.sd */
+> -        case 2: /* c.sdsp */
+> -            is_write = 1;
+> -            break;
+> -        default:
+> -            break;
+> -        }
+> -        break;
+> -    case 6:
+> -        switch (insn & 0b11) {
+> -        case 0: /* c.sw */
+> -        case 3: /* c.swsp */
+> -            is_write = 1;
+> -            break;
+> -        default:
+> -            break;
+> -        }
+> -        break;
+> -    default:
+> -        break;
+> -    }
+> -
+> -    return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
+> -}
+> -#endif
+> -
+>  /* The softmmu versions of these helpers are in cputlb.c.  */
+>
+>  uint32_t cpu_ldub_data(CPUArchState *env, abi_ptr ptr)
+> --
+> 2.25.1
+>
+>
 
