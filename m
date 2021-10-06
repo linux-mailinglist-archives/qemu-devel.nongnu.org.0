@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F344241F3
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 17:57:13 +0200 (CEST)
-Received: from localhost ([::1]:58466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B60424167
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 17:33:37 +0200 (CEST)
+Received: from localhost ([::1]:54932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY9I8-00052o-RY
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 11:57:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47296)
+	id 1mY8vI-00061f-0V
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 11:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mY8j2-0002c2-Lw
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:20:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21827)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mY8in-0007qM-Da
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:20:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633533631;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7Va6dthAJ4ryg39yemtQOXF6nFMezl1sVaWdFx2t7eg=;
- b=FPVOI/Oel8sEDDFjFT5P5OL4v2ZHkCTmCU0zSFTWgytn9WPSnpd7Muw8kUxwi+trQf0EDt
- ErqAJ8dFjE2NYfSuZ3aAyarpTyeEJOOHFWVCi+duIG1DoyfVsEC87UErHh4e/steFskT7C
- 0zrE4gLs5UelxA8mS2R8+uruE1ySzsg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-zGmTp94xMeSONZnjodyYCA-1; Wed, 06 Oct 2021 11:20:30 -0400
-X-MC-Unique: zGmTp94xMeSONZnjodyYCA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 963EC107B0EF;
- Wed,  6 Oct 2021 15:20:29 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B04360854;
- Wed,  6 Oct 2021 15:20:28 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v5 13/13] iotests: Add mirror-ready-cancel-error test
-Date: Wed,  6 Oct 2021 17:19:40 +0200
-Message-Id: <20211006151940.214590-14-hreitz@redhat.com>
-In-Reply-To: <20211006151940.214590-1-hreitz@redhat.com>
-References: <20211006151940.214590-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mY8iU-0002GB-KN
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:20:24 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:36747)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mY8iP-0007aJ-6B
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:20:22 -0400
+Received: by mail-pf1-x430.google.com with SMTP id m26so2663755pff.3
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 08:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0MP9butdVflUHBkLe2mhaMFuxyg3Qrs9vbKHsDiLipI=;
+ b=hL+zIuJ9nqbVgJ3V+tSLK4QifYlJ9kd4Wf0G+mPij57VZH84yyIToUEIBbU4QsB1+N
+ F2MUtfCke1FU22BXAE0rNofb9b184xu18bidEOmBM9PvBjxdC8HKTMKEiGFLyTYlxtl/
+ BCMCBbxobJRmjar6t4dUF1tAzfV0K0lGEl21cNktpfHMFgvNTEkpG87NDXqCYm4perxs
+ nRI3PRtrarScLFDSgtAboIbuUqxypC84la3dK1xcMXzQE8nGAgMNZWWd4Qk6n7MCzVSc
+ EpFU0QwSoF92XtCv9pEr0VuqqbndfxNvRFM+QUMX0R9h2Ru2sgx+x8tSTHBcprPPcPFt
+ 2UUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0MP9butdVflUHBkLe2mhaMFuxyg3Qrs9vbKHsDiLipI=;
+ b=Htdp/FrUr09jo5qCYJaLD2U2/jsFFmnMXCWwi18bJITacIpHtPe+R+C3QsIXY7Y3Qr
+ 2SqLx9guNo8idv3KKeYd98tv++Pzr1Bb9ZIarQGifEZIKIptiQTjcOKcoJ/yBRHq16NA
+ KLilvZzspFrrG0BiyF8DTmUjOP6ulsG2/2mjVaW3UYNCvjCZjJxVlBClgdAAZgO8asqv
+ rm4qweXLov5hsFR7jiLAXnME6gWbbkDec8SjZmK+svCtiu+zkMGVptFmaTi4stXNYfuB
+ ArxWRvIcG5bfI2kX4PgtTDlXoPKVWVya9LKUjRysI2tVPTDm+h+GGOnQT9PryqSWpNtB
+ JoIA==
+X-Gm-Message-State: AOAM530TcJHEM8sKiZSq3suZ4ppMawTXmfm/1lwI+l4URNBwVJJ5H5vV
+ AgjbZVl9mKfSANmVT8di+wWMyncwZLe3Fg==
+X-Google-Smtp-Source: ABdhPJx1f06W1KysRDwOLRjrTsygF32KVqUE6fXdKHyGwnR/kfHlX5yG68AYUI/x1l42n8iJ4EeCwQ==
+X-Received: by 2002:aa7:80d1:0:b029:399:ce3a:d617 with SMTP id
+ a17-20020aa780d10000b0290399ce3ad617mr38286617pfn.16.1633533615343; 
+ Wed, 06 Oct 2021 08:20:15 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id 130sm22239256pfz.77.2021.10.06.08.20.14
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Oct 2021 08:20:14 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/28] tcg patch queue
+Date: Wed,  6 Oct 2021 08:19:46 -0700
+Message-Id: <20211006152014.741026-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,186 +83,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test what happens when there is an I/O error after a mirror job in the
-READY phase has been cancelled.
+The following changes since commit e3acc2c1961cbe22ca474cd5da4163b7bbf7cea3:
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- .../tests/mirror-ready-cancel-error           | 143 ++++++++++++++++++
- .../tests/mirror-ready-cancel-error.out       |   5 +
- 2 files changed, 148 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/mirror-ready-cancel-error
- create mode 100644 tests/qemu-iotests/tests/mirror-ready-cancel-error.out
+  tests/docker/dockerfiles: Bump fedora-i386-cross to fedora 34 (2021-10-05 16:40:39 -0700)
 
-diff --git a/tests/qemu-iotests/tests/mirror-ready-cancel-error b/tests/qemu-iotests/tests/mirror-ready-cancel-error
-new file mode 100755
-index 0000000000..f2dc88881f
---- /dev/null
-+++ b/tests/qemu-iotests/tests/mirror-ready-cancel-error
-@@ -0,0 +1,143 @@
-+#!/usr/bin/env python3
-+# group: rw quick
-+#
-+# Test what happens when errors occur to a mirror job after it has
-+# been cancelled in the READY phase
-+#
-+# Copyright (C) 2021 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+import iotests
-+
-+
-+image_size = 1 * 1024 * 1024
-+source = os.path.join(iotests.test_dir, 'source.img')
-+target = os.path.join(iotests.test_dir, 'target.img')
-+
-+
-+class TestMirrorReadyCancelError(iotests.QMPTestCase):
-+    def setUp(self) -> None:
-+        assert iotests.qemu_img_create('-f', iotests.imgfmt, source,
-+                                       str(image_size)) == 0
-+        assert iotests.qemu_img_create('-f', iotests.imgfmt, target,
-+                                       str(image_size)) == 0
-+
-+        self.vm = iotests.VM()
-+        self.vm.launch()
-+
-+    def tearDown(self) -> None:
-+        self.vm.shutdown()
-+        os.remove(source)
-+        os.remove(target)
-+
-+    def add_blockdevs(self, once: bool) -> None:
-+        res = self.vm.qmp('blockdev-add',
-+                          **{'node-name': 'source',
-+                             'driver': iotests.imgfmt,
-+                             'file': {
-+                                 'driver': 'file',
-+                                 'filename': source
-+                             }})
-+        self.assert_qmp(res, 'return', {})
-+
-+        # blkdebug notes:
-+        # Enter state 2 on the first flush, which happens before the
-+        # job enters the READY state.  The second flush will happen
-+        # when the job is about to complete, and we want that one to
-+        # fail.
-+        res = self.vm.qmp('blockdev-add',
-+                          **{'node-name': 'target',
-+                             'driver': iotests.imgfmt,
-+                             'file': {
-+                                 'driver': 'blkdebug',
-+                                 'image': {
-+                                     'driver': 'file',
-+                                     'filename': target
-+                                 },
-+                                 'set-state': [{
-+                                     'event': 'flush_to_disk',
-+                                     'state': 1,
-+                                     'new_state': 2
-+                                 }],
-+                                 'inject-error': [{
-+                                     'event': 'flush_to_disk',
-+                                     'once': once,
-+                                     'immediately': True,
-+                                     'state': 2
-+                                 }]}})
-+        self.assert_qmp(res, 'return', {})
-+
-+    def start_mirror(self) -> None:
-+        res = self.vm.qmp('blockdev-mirror',
-+                          job_id='mirror',
-+                          device='source',
-+                          target='target',
-+                          filter_node_name='mirror-top',
-+                          sync='full',
-+                          on_target_error='stop')
-+        self.assert_qmp(res, 'return', {})
-+
-+    def cancel_mirror_with_error(self) -> None:
-+        self.vm.event_wait('BLOCK_JOB_READY')
-+
-+        # Write something so will not leave the job immediately, but
-+        # flush first (which will fail, thanks to blkdebug)
-+        res = self.vm.qmp('human-monitor-command',
-+                          command_line='qemu-io mirror-top "write 0 64k"')
-+        self.assert_qmp(res, 'return', '')
-+
-+        # Drain status change events
-+        while self.vm.event_wait('JOB_STATUS_CHANGE', timeout=0.0) is not None:
-+            pass
-+
-+        res = self.vm.qmp('block-job-cancel', device='mirror')
-+        self.assert_qmp(res, 'return', {})
-+
-+        self.vm.event_wait('BLOCK_JOB_ERROR')
-+
-+    def test_transient_error(self) -> None:
-+        self.add_blockdevs(True)
-+        self.start_mirror()
-+        self.cancel_mirror_with_error()
-+
-+        while True:
-+            e = self.vm.event_wait('JOB_STATUS_CHANGE')
-+            if e['data']['status'] == 'standby':
-+                # Transient error, try again
-+                self.vm.qmp('block-job-resume', device='mirror')
-+            elif e['data']['status'] == 'null':
-+                break
-+
-+    def test_persistent_error(self) -> None:
-+        self.add_blockdevs(False)
-+        self.start_mirror()
-+        self.cancel_mirror_with_error()
-+
-+        while True:
-+            e = self.vm.event_wait('JOB_STATUS_CHANGE')
-+            if e['data']['status'] == 'standby':
-+                # Persistent error, no point in continuing
-+                self.vm.qmp('block-job-cancel', device='mirror', force=True)
-+            elif e['data']['status'] == 'null':
-+                break
-+
-+
-+if __name__ == '__main__':
-+    # LUKS would require special key-secret handling in add_blockdevs()
-+    iotests.main(supported_fmts=['generic'],
-+                 unsupported_fmts=['luks'],
-+                 supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/tests/mirror-ready-cancel-error.out b/tests/qemu-iotests/tests/mirror-ready-cancel-error.out
-new file mode 100644
-index 0000000000..fbc63e62f8
---- /dev/null
-+++ b/tests/qemu-iotests/tests/mirror-ready-cancel-error.out
-@@ -0,0 +1,5 @@
-+..
-+----------------------------------------------------------------------
-+Ran 2 tests
-+
-+OK
--- 
-2.31.1
+are available in the Git repository at:
 
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20211006
+
+for you to fetch changes up to ea3f2af8f1b87d7bced9b75ef2e788b66ec49961:
+
+  tcg/s390x: Implement TCG_TARGET_HAS_cmpsel_vec (2021-10-05 16:53:17 -0700)
+
+----------------------------------------------------------------
+More fixes for fedora-i386-cross
+Add dup_const_tl
+Expand MemOp MO_SIZE
+Move MemOpIdx out of tcg.h
+Vector support for tcg/s390x
+
+----------------------------------------------------------------
+Philipp Tomsich (1):
+      tcg: add dup_const_tl wrapper
+
+Richard Henderson (27):
+      tests/docker: Remove fedora-i386-cross from DOCKER_PARTIAL_IMAGES
+      tests/docker: Fix fedora-i386-cross cross-compilation
+      accel/tcg: Drop signness in tracing in cputlb.c
+      tcg: Expand MO_SIZE to 3 bits
+      tcg: Rename TCGMemOpIdx to MemOpIdx
+      tcg: Split out MemOpIdx to exec/memopidx.h
+      trace/mem: Pass MemOpIdx to trace_mem_get_info
+      accel/tcg: Pass MemOpIdx to atomic_trace_*_post
+      plugins: Reorg arguments to qemu_plugin_vcpu_mem_cb
+      trace: Split guest_mem_before
+      hw/core/cpu: Re-sort the non-pointers to the end of CPUClass
+      tcg: Expand usadd/ussub with umin/umax
+      tcg/s390x: Rename from tcg/s390
+      tcg/s390x: Change FACILITY representation
+      tcg/s390x: Merge TCG_AREG0 and TCG_REG_CALL_STACK into TCGReg
+      tcg/s390x: Add host vector framework
+      tcg/s390x: Implement tcg_out_ld/st for vector types
+      tcg/s390x: Implement tcg_out_mov for vector types
+      tcg/s390x: Implement tcg_out_dup*_vec
+      tcg/s390x: Implement minimal vector operations
+      tcg/s390x: Implement andc, orc, abs, neg, not vector operations
+      tcg/s390x: Implement TCG_TARGET_HAS_mul_vec
+      tcg/s390x: Implement vector shift operations
+      tcg/s390x: Implement TCG_TARGET_HAS_minmax_vec
+      tcg/s390x: Implement TCG_TARGET_HAS_sat_vec
+      tcg/s390x: Implement TCG_TARGET_HAS_bitsel_vec
+      tcg/s390x: Implement TCG_TARGET_HAS_cmpsel_vec
+
+ meson.build                                       |   2 -
+ accel/tcg/atomic_template.h                       |  73 +-
+ include/exec/memop.h                              |  14 +-
+ include/exec/memopidx.h                           |  55 ++
+ include/hw/core/cpu.h                             |  11 +-
+ include/qemu/plugin.h                             |  26 +-
+ include/tcg/tcg.h                                 | 117 ++-
+ tcg/{s390 => s390x}/tcg-target-con-set.h          |   7 +
+ tcg/{s390 => s390x}/tcg-target-con-str.h          |   1 +
+ tcg/{s390 => s390x}/tcg-target.h                  |  91 ++-
+ tcg/s390x/tcg-target.opc.h                        |  15 +
+ trace/mem.h                                       |  63 --
+ accel/tcg/cputlb.c                                | 103 ++-
+ accel/tcg/plugin-gen.c                            |   5 +-
+ accel/tcg/user-exec.c                             | 133 ++-
+ plugins/api.c                                     |  19 +-
+ plugins/core.c                                    |  10 +-
+ target/arm/helper-a64.c                           |  16 +-
+ target/arm/m_helper.c                             |   2 +-
+ target/arm/translate-a64.c                        |   2 +-
+ target/i386/tcg/mem_helper.c                      |   4 +-
+ target/m68k/op_helper.c                           |   2 +-
+ target/mips/tcg/msa_helper.c                      |   6 +-
+ target/s390x/tcg/mem_helper.c                     |  20 +-
+ target/sparc/ldst_helper.c                        |   2 +-
+ tcg/optimize.c                                    |   2 +-
+ tcg/tcg-op-vec.c                                  |  37 +-
+ tcg/tcg-op.c                                      |  60 +-
+ tcg/tcg.c                                         |   2 +-
+ tcg/tci.c                                         |  14 +-
+ accel/tcg/atomic_common.c.inc                     |  43 +-
+ target/s390x/tcg/translate_vx.c.inc               |   2 +-
+ tcg/aarch64/tcg-target.c.inc                      |  18 +-
+ tcg/arm/tcg-target.c.inc                          |  14 +-
+ tcg/i386/tcg-target.c.inc                         |  14 +-
+ tcg/mips/tcg-target.c.inc                         |  16 +-
+ tcg/ppc/tcg-target.c.inc                          |  18 +-
+ tcg/riscv/tcg-target.c.inc                        |  20 +-
+ tcg/{s390 => s390x}/tcg-target.c.inc              | 949 ++++++++++++++++++++--
+ tcg/sparc/tcg-target.c.inc                        |  20 +-
+ tcg/tcg-ldst.c.inc                                |   2 +-
+ tests/docker/Makefile.include                     |   2 +-
+ tests/docker/dockerfiles/fedora-i386-cross.docker |   5 +-
+ trace-events                                      |  18 +-
+ 44 files changed, 1445 insertions(+), 610 deletions(-)
+ create mode 100644 include/exec/memopidx.h
+ rename tcg/{s390 => s390x}/tcg-target-con-set.h (86%)
+ rename tcg/{s390 => s390x}/tcg-target-con-str.h (96%)
+ rename tcg/{s390 => s390x}/tcg-target.h (66%)
+ create mode 100644 tcg/s390x/tcg-target.opc.h
+ delete mode 100644 trace/mem.h
+ rename tcg/{s390 => s390x}/tcg-target.c.inc (73%)
 
