@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9FE4246AF
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 21:31:53 +0200 (CEST)
-Received: from localhost ([::1]:37168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6244247B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 22:07:35 +0200 (CEST)
+Received: from localhost ([::1]:51218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYCds-0006B0-WB
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 15:31:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47700)
+	id 1mYDCP-0000MD-QP
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 16:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1mYCbD-0004wP-K7
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 15:29:07 -0400
-Received: from mxout.security-mail.net ([85.31.212.48]:45140
- helo=fx304.security-mail.net)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mYDA3-000792-4q
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 16:05:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60609)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1mYCb9-0001K8-1f
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 15:29:07 -0400
-Received: from localhost (localhost [127.0.0.1])
- by fx304.security-mail.net (Postfix) with ESMTP id A767362998
- for <qemu-devel@nongnu.org>; Wed,  6 Oct 2021 21:28:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
- s=sec-sig-email; t=1633548538;
- bh=wF2hjLs3owZZJYvFUlszdy0PQ9kWrk7g7aCkrB7jYCI=;
- h=From:To:Cc:Subject:Date;
- b=BH7W7gQZEhymmoPvu/c1SZrz9xO+UQBYYmGodjpPU51Ee935J5SHx9876GoAwIEeO
- ImIFceAyUWr0Uu95zsI4e4H6z4E83HL9kdZXmhSXuSI0lef/HDvhmSaFqR/PIXjOZz
- Bcy5PkxXqMnzRw4jCm0qDOmOWxk7M+Qme+32FvGA=
-Received: from fx304 (localhost [127.0.0.1])
- by fx304.security-mail.net (Postfix) with ESMTP id 49C5462981;
- Wed,  6 Oct 2021 21:28:58 +0200 (CEST)
-X-Virus-Scanned: E-securemail
-Secumail-id: <16536.615df8f9.df313.0>
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
- by fx304.security-mail.net (Postfix) with ESMTPS id E25136291C;
- Wed,  6 Oct 2021 21:28:57 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTPS id C2A5227E032E;
- Wed,  6 Oct 2021 21:28:57 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zimbra2.kalray.eu (Postfix) with ESMTP id A8D1427E0333;
- Wed,  6 Oct 2021 21:28:57 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu A8D1427E0333
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
- s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1633548537;
- bh=T5LOwMKy1yvdCbj4AZHWJpTwKEtU2ee2FmjQ/yh5IBc=;
- h=From:To:Date:Message-Id;
- b=CSlAn3jARePAXk1bfjm/XlFQk5/fGrgr+dpAJ4aN/xk3pHgneBuQHu7BNIw2nW57K
- owEJReg4J7CzDu5zDLQ5SJWtUC4YESWeVEzc51qcU7LdwpKGbYv2K+bmXgWGZUR9Iy
- rU406r79AfFIvIoek5WfYK3hncBdxvXTpWlKjcNs=
-Received: from zimbra2.kalray.eu ([127.0.0.1])
- by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id q-4nz5QVinlO; Wed,  6 Oct 2021 21:28:57 +0200 (CEST)
-Received: from ws2101.lin.mbt.kalray.eu (unknown [192.168.36.68])
- by zimbra2.kalray.eu (Postfix) with ESMTPSA id 8948027E032E;
- Wed,  6 Oct 2021 21:28:57 +0200 (CEST)
-From: Luc Michel <lmichel@kalray.eu>
-To: qemu-devel@nongnu.org
-Cc: Luc Michel <lmichel@kalray.eu>, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Stefano Garzarella <sgarzare@redhat.com>
-Subject: [PATCH] hw/elf_ops.h: switch to ssize_t for elf loader return type
-Date: Wed,  6 Oct 2021 21:28:39 +0200
-Message-Id: <20211006192839.17720-1-lmichel@kalray.eu>
-X-Mailer: git-send-email 2.17.1
-X-Virus-Scanned: by Secumail
-Received-SPF: pass client-ip=85.31.212.48; envelope-from=lmichel@kalray.eu;
- helo=fx304.security-mail.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mYDA0-00062v-Be
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 16:05:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633550703;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hxQ4RBn4tIF80PWy8ct9yaGcSPTebwVdVOhIZlgnAuw=;
+ b=YLsVRRCCp/xHsbL24AWxaV2nJCkf6nBRpAaod7ylSOxU1Of0JSCBQ+J9NHoecAV9fMa+8Z
+ KuaLU6ia1bxThTB9aOLEFkh0PQoSmloE7BraVX1JpYmbRNpV31cytg9vHa3RgXfBw8EzBe
+ 6yg4tQMx6w2yNGSAHAfFnjP8bTUhXFM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-HoJhcECvN0-P005hoMAbww-1; Wed, 06 Oct 2021 16:04:57 -0400
+X-MC-Unique: HoJhcECvN0-P005hoMAbww-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 870F8108468B;
+ Wed,  6 Oct 2021 20:04:56 +0000 (UTC)
+Received: from redhat.com (ovpn-113-79.phx2.redhat.com [10.3.113.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 25C6017001;
+ Wed,  6 Oct 2021 20:04:52 +0000 (UTC)
+Date: Wed, 6 Oct 2021 15:04:51 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 09/12] block-backend: convert blk_co_copy_range to
+ int64_t bytes
+Message-ID: <20211006200451.lz6rmiyva5jr2xtk@redhat.com>
+References: <20211006131718.214235-1-vsementsov@virtuozzo.com>
+ <20211006131718.214235-10-vsementsov@virtuozzo.com>
+MIME-Version: 1.0
+In-Reply-To: <20211006131718.214235-10-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20210205-815-1dd940
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,287 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, hreitz@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Until now, int was used as the return type for all the ELF
-loader related functions. The returned value is the sum of all loaded
-program headers "MemSize" fields.
+On Wed, Oct 06, 2021 at 03:17:15PM +0200, Vladimir Sementsov-Ogievskiy wrote:
+> Function is updated so that parameter type becomes wider, so all
+> callers should be OK with it.
+> 
+> Look at blk_co_copy_range() itself: bytes passed only to
+> blk_check_byte_request() and bdrv_co_copy_range(), which already has
+> int64_t bytes parameter, so we are OK.
+> 
+> Note that requests exceeding INT_MAX are still restricted by
+> blk_check_byte_request().
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/sysemu/block-backend.h | 2 +-
+>  block/block-backend.c          | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
 
-Because of the overflow check in elf_ops.h, trying to load an ELF bigger
-than INT_MAX will fail. Switch to ssize_t to remove this limitation.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Signed-off-by: Luc Michel <lmichel@kalray.eu>
----
- include/hw/elf_ops.h | 25 +++++++++---------
- include/hw/loader.h  | 60 ++++++++++++++++++++++----------------------
- hw/core/loader.c     | 60 +++++++++++++++++++++++---------------------
- 3 files changed, 74 insertions(+), 71 deletions(-)
-
-diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-index 1c37cec4ae..5c2ea0339e 100644
---- a/include/hw/elf_ops.h
-+++ b/include/hw/elf_ops.h
-@@ -310,24 +310,25 @@ static struct elf_note *glue(get_elf_note_type, SZ)(struct elf_note *nhdr,
-     }
- 
-     return nhdr;
- }
- 
--static int glue(load_elf, SZ)(const char *name, int fd,
--                              uint64_t (*elf_note_fn)(void *, void *, bool),
--                              uint64_t (*translate_fn)(void *, uint64_t),
--                              void *translate_opaque,
--                              int must_swab, uint64_t *pentry,
--                              uint64_t *lowaddr, uint64_t *highaddr,
--                              uint32_t *pflags, int elf_machine,
--                              int clear_lsb, int data_swab,
--                              AddressSpace *as, bool load_rom,
--                              symbol_fn_t sym_cb)
-+static ssize_t glue(load_elf, SZ)(const char *name, int fd,
-+                                  uint64_t (*elf_note_fn)(void *, void *, bool),
-+                                  uint64_t (*translate_fn)(void *, uint64_t),
-+                                  void *translate_opaque,
-+                                  int must_swab, uint64_t *pentry,
-+                                  uint64_t *lowaddr, uint64_t *highaddr,
-+                                  uint32_t *pflags, int elf_machine,
-+                                  int clear_lsb, int data_swab,
-+                                  AddressSpace *as, bool load_rom,
-+                                  symbol_fn_t sym_cb)
- {
-     struct elfhdr ehdr;
-     struct elf_phdr *phdr = NULL, *ph;
--    int size, i, total_size;
-+    int size, i;
-+    ssize_t total_size;
-     elf_word mem_size, file_size, data_offset;
-     uint64_t addr, low = (uint64_t)-1, high = 0;
-     GMappedFile *mapped_file = NULL;
-     uint8_t *data = NULL;
-     int ret = ELF_LOAD_FAILED;
-@@ -480,11 +481,11 @@ static int glue(load_elf, SZ)(const char *name, int fd,
-                         }
-                     }
-                 }
-             }
- 
--            if (mem_size > INT_MAX - total_size) {
-+            if (mem_size > SSIZE_MAX - total_size) {
-                 ret = ELF_LOAD_TOO_BIG;
-                 goto fail;
-             }
- 
-             /* address_offset is hack for kernel images that are
-diff --git a/include/hw/loader.h b/include/hw/loader.h
-index 81104cb02f..4fa485bd61 100644
---- a/include/hw/loader.h
-+++ b/include/hw/loader.h
-@@ -88,11 +88,11 @@ int load_image_gzipped(const char *filename, hwaddr addr, uint64_t max_sz);
- #define ELF_LOAD_FAILED       -1
- #define ELF_LOAD_NOT_ELF      -2
- #define ELF_LOAD_WRONG_ARCH   -3
- #define ELF_LOAD_WRONG_ENDIAN -4
- #define ELF_LOAD_TOO_BIG      -5
--const char *load_elf_strerror(int error);
-+const char *load_elf_strerror(ssize_t error);
- 
- /** load_elf_ram_sym:
-  * @filename: Path of ELF file
-  * @elf_note_fn: optional function to parse ELF Note type
-  *               passed via @translate_opaque
-@@ -126,52 +126,52 @@ const char *load_elf_strerror(int error);
-  * ELF header and no checks will be carried out against the machine type.
-  */
- typedef void (*symbol_fn_t)(const char *st_name, int st_info,
-                             uint64_t st_value, uint64_t st_size);
- 
--int load_elf_ram_sym(const char *filename,
-+ssize_t load_elf_ram_sym(const char *filename,
-+                         uint64_t (*elf_note_fn)(void *, void *, bool),
-+                         uint64_t (*translate_fn)(void *, uint64_t),
-+                         void *translate_opaque, uint64_t *pentry,
-+                         uint64_t *lowaddr, uint64_t *highaddr,
-+                         uint32_t *pflags, int big_endian, int elf_machine,
-+                         int clear_lsb, int data_swab,
-+                         AddressSpace *as, bool load_rom, symbol_fn_t sym_cb);
-+
-+/** load_elf_ram:
-+ * Same as load_elf_ram_sym(), but doesn't allow the caller to specify a
-+ * symbol callback function
-+ */
-+ssize_t load_elf_ram(const char *filename,
-                      uint64_t (*elf_note_fn)(void *, void *, bool),
-                      uint64_t (*translate_fn)(void *, uint64_t),
-                      void *translate_opaque, uint64_t *pentry,
-                      uint64_t *lowaddr, uint64_t *highaddr, uint32_t *pflags,
--                     int big_endian, int elf_machine,
--                     int clear_lsb, int data_swab,
--                     AddressSpace *as, bool load_rom, symbol_fn_t sym_cb);
--
--/** load_elf_ram:
-- * Same as load_elf_ram_sym(), but doesn't allow the caller to specify a
-- * symbol callback function
-- */
--int load_elf_ram(const char *filename,
--                 uint64_t (*elf_note_fn)(void *, void *, bool),
--                 uint64_t (*translate_fn)(void *, uint64_t),
--                 void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
--                 uint64_t *highaddr, uint32_t *pflags, int big_endian,
--                 int elf_machine, int clear_lsb, int data_swab,
--                 AddressSpace *as, bool load_rom);
-+                     int big_endian, int elf_machine, int clear_lsb,
-+                     int data_swab, AddressSpace *as, bool load_rom);
- 
- /** load_elf_as:
-  * Same as load_elf_ram(), but always loads the elf as ROM
-  */
--int load_elf_as(const char *filename,
--                uint64_t (*elf_note_fn)(void *, void *, bool),
--                uint64_t (*translate_fn)(void *, uint64_t),
--                void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
--                uint64_t *highaddr, uint32_t *pflags, int big_endian,
--                int elf_machine, int clear_lsb, int data_swab,
--                AddressSpace *as);
-+ssize_t load_elf_as(const char *filename,
-+                    uint64_t (*elf_note_fn)(void *, void *, bool),
-+                    uint64_t (*translate_fn)(void *, uint64_t),
-+                    void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
-+                    uint64_t *highaddr, uint32_t *pflags, int big_endian,
-+                    int elf_machine, int clear_lsb, int data_swab,
-+                    AddressSpace *as);
- 
- /** load_elf:
-  * Same as load_elf_as(), but doesn't allow the caller to specify an
-  * AddressSpace.
-  */
--int load_elf(const char *filename,
--             uint64_t (*elf_note_fn)(void *, void *, bool),
--             uint64_t (*translate_fn)(void *, uint64_t),
--             void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
--             uint64_t *highaddr, uint32_t *pflags, int big_endian,
--             int elf_machine, int clear_lsb, int data_swab);
-+ssize_t load_elf(const char *filename,
-+                 uint64_t (*elf_note_fn)(void *, void *, bool),
-+                 uint64_t (*translate_fn)(void *, uint64_t),
-+                 void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
-+                 uint64_t *highaddr, uint32_t *pflags, int big_endian,
-+                 int elf_machine, int clear_lsb, int data_swab);
- 
- /** load_elf_hdr:
-  * @filename: Path of ELF file
-  * @hdr: Buffer to populate with header data. Header data will not be
-  * filled if set to NULL.
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index c623318b73..c7f97fdce8 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -324,11 +324,11 @@ static void *load_at(int fd, off_t offset, size_t size)
- #define elf_sword        int64_t
- #define bswapSZs	bswap64s
- #define SZ		64
- #include "hw/elf_ops.h"
- 
--const char *load_elf_strerror(int error)
-+const char *load_elf_strerror(ssize_t error)
- {
-     switch (error) {
-     case 0:
-         return "No error";
-     case ELF_LOAD_FAILED:
-@@ -400,62 +400,64 @@ void load_elf_hdr(const char *filename, void *hdr, bool *is64, Error **errp)
- fail:
-     close(fd);
- }
- 
- /* return < 0 if error, otherwise the number of bytes loaded in memory */
--int load_elf(const char *filename,
--             uint64_t (*elf_note_fn)(void *, void *, bool),
--             uint64_t (*translate_fn)(void *, uint64_t),
--             void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
--             uint64_t *highaddr, uint32_t *pflags, int big_endian,
--             int elf_machine, int clear_lsb, int data_swab)
-+ssize_t load_elf(const char *filename,
-+                 uint64_t (*elf_note_fn)(void *, void *, bool),
-+                 uint64_t (*translate_fn)(void *, uint64_t),
-+                 void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
-+                 uint64_t *highaddr, uint32_t *pflags, int big_endian,
-+                 int elf_machine, int clear_lsb, int data_swab)
- {
-     return load_elf_as(filename, elf_note_fn, translate_fn, translate_opaque,
-                        pentry, lowaddr, highaddr, pflags, big_endian,
-                        elf_machine, clear_lsb, data_swab, NULL);
- }
- 
- /* return < 0 if error, otherwise the number of bytes loaded in memory */
--int load_elf_as(const char *filename,
--                uint64_t (*elf_note_fn)(void *, void *, bool),
--                uint64_t (*translate_fn)(void *, uint64_t),
--                void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
--                uint64_t *highaddr, uint32_t *pflags, int big_endian,
--                int elf_machine, int clear_lsb, int data_swab, AddressSpace *as)
-+ssize_t load_elf_as(const char *filename,
-+                    uint64_t (*elf_note_fn)(void *, void *, bool),
-+                    uint64_t (*translate_fn)(void *, uint64_t),
-+                    void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
-+                    uint64_t *highaddr, uint32_t *pflags, int big_endian,
-+                    int elf_machine, int clear_lsb, int data_swab,
-+                    AddressSpace *as)
- {
-     return load_elf_ram(filename, elf_note_fn, translate_fn, translate_opaque,
-                         pentry, lowaddr, highaddr, pflags, big_endian,
-                         elf_machine, clear_lsb, data_swab, as, true);
- }
- 
- /* return < 0 if error, otherwise the number of bytes loaded in memory */
--int load_elf_ram(const char *filename,
--                 uint64_t (*elf_note_fn)(void *, void *, bool),
--                 uint64_t (*translate_fn)(void *, uint64_t),
--                 void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
--                 uint64_t *highaddr, uint32_t *pflags, int big_endian,
--                 int elf_machine, int clear_lsb, int data_swab,
--                 AddressSpace *as, bool load_rom)
-+ssize_t load_elf_ram(const char *filename,
-+                     uint64_t (*elf_note_fn)(void *, void *, bool),
-+                     uint64_t (*translate_fn)(void *, uint64_t),
-+                     void *translate_opaque, uint64_t *pentry,
-+                     uint64_t *lowaddr, uint64_t *highaddr, uint32_t *pflags,
-+                     int big_endian, int elf_machine, int clear_lsb,
-+                     int data_swab, AddressSpace *as, bool load_rom)
- {
-     return load_elf_ram_sym(filename, elf_note_fn,
-                             translate_fn, translate_opaque,
-                             pentry, lowaddr, highaddr, pflags, big_endian,
-                             elf_machine, clear_lsb, data_swab, as,
-                             load_rom, NULL);
- }
- 
- /* return < 0 if error, otherwise the number of bytes loaded in memory */
--int load_elf_ram_sym(const char *filename,
--                     uint64_t (*elf_note_fn)(void *, void *, bool),
--                     uint64_t (*translate_fn)(void *, uint64_t),
--                     void *translate_opaque, uint64_t *pentry,
--                     uint64_t *lowaddr, uint64_t *highaddr, uint32_t *pflags,
--                     int big_endian, int elf_machine,
--                     int clear_lsb, int data_swab,
--                     AddressSpace *as, bool load_rom, symbol_fn_t sym_cb)
-+ssize_t load_elf_ram_sym(const char *filename,
-+                         uint64_t (*elf_note_fn)(void *, void *, bool),
-+                         uint64_t (*translate_fn)(void *, uint64_t),
-+                         void *translate_opaque, uint64_t *pentry,
-+                         uint64_t *lowaddr, uint64_t *highaddr,
-+                         uint32_t *pflags, int big_endian, int elf_machine,
-+                         int clear_lsb, int data_swab,
-+                         AddressSpace *as, bool load_rom, symbol_fn_t sym_cb)
- {
--    int fd, data_order, target_data_order, must_swab, ret = ELF_LOAD_FAILED;
-+    int fd, data_order, target_data_order, must_swab;
-+    ssize_t ret = ELF_LOAD_FAILED;
-     uint8_t e_ident[EI_NIDENT];
- 
-     fd = open(filename, O_RDONLY | O_BINARY);
-     if (fd < 0) {
-         perror(filename);
 -- 
-2.17.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
