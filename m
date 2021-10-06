@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081FB42436E
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 18:54:47 +0200 (CEST)
-Received: from localhost ([::1]:33680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFCD942438F
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 18:58:28 +0200 (CEST)
+Received: from localhost ([::1]:42712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYABq-0000lp-2m
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 12:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40366)
+	id 1mYAFP-0006og-Vk
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 12:58:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYA6s-0003vV-GN
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 12:49:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45083)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYA6w-0003x2-DK
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 12:49:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYA6q-0007Fc-0v
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 12:49:38 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYA6u-0007JM-SB
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 12:49:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633538975;
+ s=mimecast20190719; t=1633538980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=i6kw/g/pO0yUtJh+IN6ttJd4uN8mWRjPMYmGQpzDwkw=;
- b=cbqE0MskSHOesB2FA2/+miyt0A/rqzlCOHceN1yNfXcgbwmEA8GDV+Qo146vkWogmTAbAO
- LwEpwROLXv2uoiaxzvxy1LBCLKubo8pVhBKDeG6dy6kgs9lc4pKUftlHrqaKZuvRkEBTXD
- WdLIxOLdACWViggcxITfqDf72hK6JdM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=d0wXTRVmpQOHIPz9zqGtnv0qzZsKc85iVogQEdlDyD0=;
+ b=dGInn6gUbzoblTcuLsF2syeJ1pKn0SDYPr3j57xw7cwMnXWzPY/n9U+3QD8KDhAHG8Hbuh
+ 5JsvqJQxMELwbGXZDWcdvivcmvxSxvHyXIjvCaUk6tRaFp2zVrjX/Fi+JJzAOeJfz7BBEd
+ IIVpcwH/oH5kDtDMqeVZxLlDMRMQuVw=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-v1oFGkknOWmWI4ocTyzCeQ-1; Wed, 06 Oct 2021 12:49:34 -0400
-X-MC-Unique: v1oFGkknOWmWI4ocTyzCeQ-1
+ us-mta-443-WGtz2m8uMx6MVBpLle1ogA-1; Wed, 06 Oct 2021 12:49:39 -0400
+X-MC-Unique: WGtz2m8uMx6MVBpLle1ogA-1
 Received: by mail-wr1-f71.google.com with SMTP id
- h11-20020adfa4cb000000b00160c791a550so2375205wrb.6
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 09:49:34 -0700 (PDT)
+ d13-20020adfa34d000000b00160aa1cc5f1so2546614wrb.14
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 09:49:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aEMYrKuemVXhzKX2eczIqtkSQChXwsWeDrX3XqfMYjM=;
- b=QD/V32/4oeryAHrKJY167U9icArO6baXNpiNsTkbD8AWENc70YlEC+9yRWdWebc73O
- NTmm+pIcbyi82INowXaEZtAEvdTMoVaE4s2OFzzE/QmVQtGrto+HL8uUL59URBNS8Mr8
- ANpnvvfpBNsFDgN/YQeodM9eWwSo3ojjcDWsPyzQdKfDqwsAzbp/NbTWc7Z4rmRTpHJ5
- XYXX4QuFBBCuM91wfHBTAOR7K9ZupOvaTKViJMb97RV6k1YBeb/XCZI4kCr5qSaXnjwL
- wLwm7ylgYv26jrnZpFdodx+11RXXZMsOkgKu1EftjPHogq/ecXLoRhirqd9U+g9WNeH1
- 9eYQ==
-X-Gm-Message-State: AOAM531kEEhIB+/+oa53zlbwL1PSOntAiv1207mO8WZ1AJannY/AxadC
- 0xfRcWvchN/21GvaFpzxNjq97uCj/siZIAQzTIOfEKImkrxE93Nev4kVYZKdsXNEhaRll3mOs0N
- DaXB1oswR1i6kLey3GWNEYiiaf+DNliFmS+0ydW9zesOZ+x+uFaG7IOXUXYG00CbH
-X-Received: by 2002:a5d:47cb:: with SMTP id o11mr5459177wrc.184.1633538973199; 
- Wed, 06 Oct 2021 09:49:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx0dZlE5GL4/2Z6tK5zWHX/fQMjkWaDnABuNEiPMj0TCJhEEe50EfyBVeGXpY/UB+GV8krfGw==
-X-Received: by 2002:a5d:47cb:: with SMTP id o11mr5459147wrc.184.1633538972933; 
- Wed, 06 Oct 2021 09:49:32 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=d0wXTRVmpQOHIPz9zqGtnv0qzZsKc85iVogQEdlDyD0=;
+ b=XGFfK/CmdLu1JoJu++LrV/2mTbi/bYAxzWHbjnoONrOC13VRjQkA+hifPZgt9OVNep
+ wfP5rLmHhQDO24TWUBIWhLKLr8hUdwls8Oy74IdxKwq5KgNYHIKeoTT7WEDpyWz1ZmbA
+ 2lpv/HeCbZppFg/QRH3EMnbnGgDx32KqEuPdSbeDU2hkCQaUO+C79xEWZT6Op4aCsf3k
+ hqQEIPX1OCFZzNTmvOr5g4WFavva7BhpaQWRO9oKSwrSiIGr43PkuGnGrHX697u4sX0+
+ YlAmg7eEa33Qi+JF44hxqkXjp2NS+SRLKw7qprD6oAwGCDQTJiCIfHaR1Z2x5NGoZdH2
+ 6cWg==
+X-Gm-Message-State: AOAM531a7wDl8LULqPdL3c/pmRMSj0WIYC2IizjPI9LxOBUU8PuHhCbd
+ 8YgLYZfqf+miS0XN09bi1EGivhfCa0oCi2oRz9W9ACXv0pgQyuICVzDel7lcPb1pb0Wtuoa7dSm
+ 0axNuSAlCX/A2CaDODDxnZWGie856lxMTvdGBzbx+cLf2HOT3sqpQji6dnzu7Rddb
+X-Received: by 2002:a1c:f402:: with SMTP id z2mr11082191wma.53.1633538977737; 
+ Wed, 06 Oct 2021 09:49:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJydeu1JlGJw2kKXfKAKwoIL9nQM05DbKetFZYl2QntNWdBATWFh+MyLoMXbF+gdHWtDcjzPMg==
+X-Received: by 2002:a1c:f402:: with SMTP id z2mr11082166wma.53.1633538977538; 
+ Wed, 06 Oct 2021 09:49:37 -0700 (PDT)
 Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id z17sm5666397wml.24.2021.10.06.09.49.32
+ by smtp.gmail.com with ESMTPSA id x26sm2286144wmi.30.2021.10.06.09.49.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 09:49:32 -0700 (PDT)
+ Wed, 06 Oct 2021 09:49:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] block/nvme: Fix a memory leak in nvme_free_queue_pair()
-Date: Wed,  6 Oct 2021 18:49:26 +0200
-Message-Id: <20211006164931.172349-1-philmd@redhat.com>
+Subject: [PATCH 1/5] block/nvme: Automatically free qemu_memalign() with
+ QEMU_AUTO_VFREE
+Date: Wed,  6 Oct 2021 18:49:27 +0200
+Message-Id: <20211006164931.172349-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211006164931.172349-1-philmd@redhat.com>
+References: <20211006164931.172349-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -98,26 +102,75 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-While searching for a memory corruption in the NVMe block driver,=0D
-Valgrind revealed one leak. It is not what I'm looking for, but=0D
-worth fixing (at least one warning removed from the huge valgrind=0D
-report).=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (5):=0D
-  block/nvme: Automatically free qemu_memalign() with QEMU_AUTO_VFREE=0D
-  block/nvme: Display CQ/SQ pointer in nvme_free_queue_pair()=0D
-  block/nvme: Extract nvme_free_queue() from nvme_free_queue_pair()=0D
-  block/nvme: Pass BDRVNVMeState* handle to nvme_free_queue_pair()=0D
-  block/nvme: Fix memory leak from nvme_init_queue()=0D
-=0D
- block/nvme.c       | 31 +++++++++++++++++--------------=0D
- block/trace-events |  2 +-=0D
- 2 files changed, 18 insertions(+), 15 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Since commit 4d324c0bf65 ("introduce QEMU_AUTO_VFREE") buffers
+allocated by qemu_memalign() can automatically freed when using
+the QEMU_AUTO_VFREE macro. Use it to simplify a bit.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ block/nvme.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
+
+diff --git a/block/nvme.c b/block/nvme.c
+index 1cc7b62bb4b..fefcc04abe6 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -514,10 +514,10 @@ static bool nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+ {
+     BDRVNVMeState *s = bs->opaque;
+     bool ret = false;
+-    union {
++    QEMU_AUTO_VFREE union {
+         NvmeIdCtrl ctrl;
+         NvmeIdNs ns;
+-    } *id;
++    } *id = NULL;
+     NvmeLBAF *lbaf;
+     uint16_t oncs;
+     int r;
+@@ -595,7 +595,6 @@ static bool nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+     s->blkshift = lbaf->ds;
+ out:
+     qemu_vfio_dma_unmap(s->vfio, id);
+-    qemu_vfree(id);
+ 
+     return ret;
+ }
+@@ -1219,7 +1218,7 @@ static int nvme_co_prw(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+ {
+     BDRVNVMeState *s = bs->opaque;
+     int r;
+-    uint8_t *buf = NULL;
++    QEMU_AUTO_VFREE uint8_t *buf = NULL;
+     QEMUIOVector local_qiov;
+     size_t len = QEMU_ALIGN_UP(bytes, qemu_real_host_page_size);
+     assert(QEMU_IS_ALIGNED(offset, s->page_size));
+@@ -1246,7 +1245,6 @@ static int nvme_co_prw(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+     if (!r && !is_write) {
+         qemu_iovec_from_buf(qiov, 0, buf, bytes);
+     }
+-    qemu_vfree(buf);
+     return r;
+ }
+ 
+@@ -1365,7 +1363,7 @@ static int coroutine_fn nvme_co_pdiscard(BlockDriverState *bs,
+     BDRVNVMeState *s = bs->opaque;
+     NVMeQueuePair *ioq = s->queues[INDEX_IO(0)];
+     NVMeRequest *req;
+-    NvmeDsmRange *buf;
++    QEMU_AUTO_VFREE NvmeDsmRange *buf = NULL;
+     QEMUIOVector local_qiov;
+     int ret;
+ 
+@@ -1440,7 +1438,6 @@ static int coroutine_fn nvme_co_pdiscard(BlockDriverState *bs,
+     trace_nvme_dsm_done(s, offset, bytes, ret);
+ out:
+     qemu_iovec_destroy(&local_qiov);
+-    qemu_vfree(buf);
+     return ret;
+ 
+ }
+-- 
+2.31.1
 
 
