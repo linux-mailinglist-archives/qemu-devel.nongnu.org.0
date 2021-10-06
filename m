@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B465424586
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 20:02:18 +0200 (CEST)
-Received: from localhost ([::1]:44730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A16C2424588
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 20:02:51 +0200 (CEST)
+Received: from localhost ([::1]:46514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYBFB-0000qk-6J
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 14:02:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54996)
+	id 1mYBFi-0002BN-Nb
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 14:02:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYB9Q-0001Og-SZ
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:56:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44551)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYB9N-0006qP-Go
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:56:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633542975;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W1a97zqpCRLEL1on+OkV5whv6NZ1TtJkecqO8K7C2RQ=;
- b=ZJELcXulJ/YqcZp3MGBwWLpPEno6l8Jq7fPXVQ6H37tUMTq020TBGLZmM7MtD+dLlovY0o
- SDlCXqV1czRQgh1Qk8QJmDmqGGmY82Il/k98pE54wkwq5eu87RbVDGBnYqiT3iZ66ANb0P
- FwCBe9j8H+w7yo7VcQ3MlU4wMn7ofus=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-PxXCRg8vO3-VzfP24YlE5A-1; Wed, 06 Oct 2021 13:56:14 -0400
-X-MC-Unique: PxXCRg8vO3-VzfP24YlE5A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- k2-20020adfc702000000b0016006b2da9bso2686508wrg.1
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 10:56:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mYAdk-0007OS-Fk
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:23:36 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:35574)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mYAdh-0008F8-S0
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:23:36 -0400
+Received: by mail-pf1-x435.google.com with SMTP id c29so2984675pfp.2
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 10:23:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YhPxcjX9C92fdBuTOUcy5hI4xkueqmtVuHt+rQj+PNs=;
+ b=uQAvwXQoDul6RR/zyzQV5KsCFFNnNK3tN80v+2qAsVxnOhemwlPZRK9puWScex9EFE
+ eoP39vLaZz/s1ywWP2+dQVXU42gZjSaL6Eja3DLOuJngPqNkCRt4VaxiLTx3hcwodH5E
+ A4MU8h5bhpGyLS0cyQRhP9ybTxT5Odrnpazw/swDcVWOrX+BuCt0ze+hu455mYupROal
+ b9gdXk7KMZbA/X9+GmK40bFjS2oOH43KLcOQ0/sqsXxf5GPoBX1ZLyDIxW1S8KqYEx+z
+ 32OesThrHv7H/uajbBUHHissbRtNWlwC4j0meOZTtlfW21QSvkVg1je9cMh9hADE06N7
+ AJ4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=W1a97zqpCRLEL1on+OkV5whv6NZ1TtJkecqO8K7C2RQ=;
- b=oG1fAYV8NvEqTSOG1+dgA2SMBnSludkhymr1LiQ0xmA1S7zKYLqB0L/v06CEE70ZYj
- 5gclUwFFkizPGilWrTEC73dkZ4vUl+EihWQRqKQMYc5e44HA3DrhR6G5vM2UqrNfq8ff
- RXEfL7DrRwdkh2HhBV0Xmxkliczu/BmjK8MI2FUF7pLeijY/hYjhRoTzhRTMVQ0OS1DU
- t1DNZNP96QsmMlp757KXBQy59XzFmdII6HAxMy0j6SyiBmVsIl7NZeDmKkemcVLWNfvA
- Imc+L0WoSLcitQZqJNOi6eA2PYHGmHJXXK5DHSfXSWi24CdS3ApIQqcE8uM1NdSci7ON
- to4w==
-X-Gm-Message-State: AOAM530wy8UTa4/N1UsbKNZTScix4FsrwRiWOFMdWdghFzwLHMkgyK+e
- x86Y1ZlOfq3EytLnD1wfubuYwrN2fQLmwdXn5/iQujLs4F1Chu26+eOxIFAfKf0hV8YfunSf7ot
- PlN1YSEpvPWU5h1g=
-X-Received: by 2002:adf:aa92:: with SMTP id h18mr17888416wrc.372.1633542972294; 
- Wed, 06 Oct 2021 10:56:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzSUrDTXChJz9B2If+5Zh3ukqyULHZBAO0a4U3TX5LESEsgYWvCaGBHEYnJN6uZnBaUcrgWoA==
-X-Received: by 2002:adf:aa92:: with SMTP id h18mr17888391wrc.372.1633542972087; 
- Wed, 06 Oct 2021 10:56:12 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id a127sm4438283wme.40.2021.10.06.10.56.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Oct 2021 10:56:11 -0700 (PDT)
-Message-ID: <f5a98954-4a10-ced5-c9bd-d71b6bb7006e@redhat.com>
-Date: Wed, 6 Oct 2021 19:56:10 +0200
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=YhPxcjX9C92fdBuTOUcy5hI4xkueqmtVuHt+rQj+PNs=;
+ b=rIdBdDruAqClb4dUx+Ex8cdmTXZc5hcloalb/rGT+zDH5YVAxr0lTReXAq47aF2jI7
+ igjzW2yzN8adFJyl1XshIOsoPOpZD6t+/Ee9wWp1coPT3/5ccuH+TZtHMqwbI1giA0sV
+ cc4XREDEEaysES1RcK7souN9lub0UkjhtTW4Gmg90SAOsc/j+bo8ah5nHTTTVaRLhyJo
+ iPPy0iu7kL9kw9vXpaz5iUH2gNBRLaQouc2BSZBj0avcMGvsWVGAJAHtFwh7ngJEY3ub
+ uot4s5+Ej2KuuRIa+r0334kF/GUaPurFRdio/ev1Ro/bDeMMDYryMW84G/99dQENGmb6
+ ChUQ==
+X-Gm-Message-State: AOAM530oALJMtjvU/VJwhPvZjboc6ZQYBJzF4vFW5aNB+5DQEWH9zjHZ
+ 6g+gjjazKAnZysJlJ1pxC5ZjKXqG3x0B7w==
+X-Google-Smtp-Source: ABdhPJz2QX+70wdBg/cmXX7ZmPSN/YnOD0eznNgd5G+EM8EzahWuMp6r/lOdNy1I+ci1SMOpXE9GGQ==
+X-Received: by 2002:a65:51c7:: with SMTP id i7mr21648079pgq.300.1633541012646; 
+ Wed, 06 Oct 2021 10:23:32 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id w7sm21606929pfj.189.2021.10.06.10.23.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Oct 2021 10:23:32 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 29/41] target/microblaze: Make mb_cpu_tlb_fill sysemu only
+Date: Wed,  6 Oct 2021 10:22:55 -0700
+Message-Id: <20211006172307.780893-30-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211006172307.780893-1-richard.henderson@linaro.org>
+References: <20211006172307.780893-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PULL 12/12] meson: show library versions in the summary
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211005164408.288128-1-pbonzini@redhat.com>
- <20211005164408.288128-13-pbonzini@redhat.com>
- <2fe71843-bcbe-cbc7-dfed-d9beb60e9f2b@redhat.com>
- <658443a3-35ea-67ad-64f5-eb25059a454b@linaro.org>
- <8a067352-a8d5-6afb-6584-79604a0377a5@redhat.com>
- <face0d36-da9d-1ad1-4045-7de3e341f7d0@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <face0d36-da9d-1ad1-4045-7de3e341f7d0@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,33 +82,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>, alex.bennee@linaro.org,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/6/21 19:16, Paolo Bonzini wrote:
-> On 06/10/21 18:55, Philippe Mathieu-Daudé wrote:
->> So something doesn't work, because my system has 0.59.1 and it is used
->> instead of the submodule...
-> 
-> How do you run "./configure"?  If you passed explicitly
-> "--meson=/usr/bin/meson" or something like that, then you're asking for
-> the broken version (which works fine except for the summary).
+The fallback code in cpu_loop_exit_sigsegv is sufficient
+for microblaze linux-user.
 
-Yes you are right, this build dir had --meson=. Sorry for the noise.
+Remove the code from cpu_loop that handled the unnamed 0xaa exception.
 
-> For example, on CI the various containers have
-> 
-> alpine   0.59.0 https://gitlab.com/bonzini/qemu/-/jobs/1571377952
-> centos   0.58.2 https://gitlab.com/bonzini/qemu/-/jobs/1571377957
-> Debian   0.58.2 https://gitlab.com/bonzini/qemu/-/jobs/1571377954
-> Fedora   0.59.0 https://gitlab.com/bonzini/qemu/-/jobs/1571377956
-> OpenSUSE 0.58.2 https://gitlab.com/bonzini/qemu/-/jobs/1571377958
-> Ubuntu   0.58.2 https://gitlab.com/bonzini/qemu/-/jobs/1571377953
-> 
-> and they are all upgraded to the in-tree 0.59.2 now
-> (https://gitlab.com/bonzini/qemu/-/pipelines/382687127).
-> 
-> Paolo
-> 
+Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/microblaze/cpu.h          |  8 ++++----
+ linux-user/microblaze/cpu_loop.c | 10 ----------
+ target/microblaze/cpu.c          |  2 +-
+ target/microblaze/helper.c       | 13 +------------
+ 4 files changed, 6 insertions(+), 27 deletions(-)
+
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index b7a848bbae..e9cd0b88de 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -394,10 +394,6 @@ void mb_tcg_init(void);
+ #define MMU_USER_IDX    2
+ /* See NB_MMU_MODES further up the file.  */
+ 
+-bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                     MMUAccessType access_type, int mmu_idx,
+-                     bool probe, uintptr_t retaddr);
+-
+ typedef CPUMBState CPUArchState;
+ typedef MicroBlazeCPU ArchCPU;
+ 
+@@ -415,6 +411,10 @@ static inline void cpu_get_tb_cpu_state(CPUMBState *env, target_ulong *pc,
+ }
+ 
+ #if !defined(CONFIG_USER_ONLY)
++bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                     MMUAccessType access_type, int mmu_idx,
++                     bool probe, uintptr_t retaddr);
++
+ void mb_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+                                unsigned size, MMUAccessType access_type,
+                                int mmu_idx, MemTxAttrs attrs,
+diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
+index 52222eb93f..a94467dd2d 100644
+--- a/linux-user/microblaze/cpu_loop.c
++++ b/linux-user/microblaze/cpu_loop.c
+@@ -37,16 +37,6 @@ void cpu_loop(CPUMBState *env)
+         process_queued_cpu_work(cs);
+ 
+         switch (trapnr) {
+-        case 0xaa:
+-            {
+-                info.si_signo = TARGET_SIGSEGV;
+-                info.si_errno = 0;
+-                /* XXX: check env->error_code */
+-                info.si_code = TARGET_SEGV_MAPERR;
+-                info._sifields._sigfault._addr = 0;
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-            }
+-            break;
+         case EXCP_INTERRUPT:
+           /* just indicate that signals should be handled asap */
+           break;
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index 15db277925..b9c888b87e 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -365,9 +365,9 @@ static const struct SysemuCPUOps mb_sysemu_ops = {
+ static const struct TCGCPUOps mb_tcg_ops = {
+     .initialize = mb_tcg_init,
+     .synchronize_from_tb = mb_cpu_synchronize_from_tb,
+-    .tlb_fill = mb_cpu_tlb_fill,
+ 
+ #ifndef CONFIG_USER_ONLY
++    .tlb_fill = mb_cpu_tlb_fill,
+     .cpu_exec_interrupt = mb_cpu_exec_interrupt,
+     .do_interrupt = mb_cpu_do_interrupt,
+     .do_transaction_failed = mb_cpu_transaction_failed,
+diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
+index dd2aecd1d5..a607fe68e5 100644
+--- a/target/microblaze/helper.c
++++ b/target/microblaze/helper.c
+@@ -24,18 +24,7 @@
+ #include "qemu/host-utils.h"
+ #include "exec/log.h"
+ 
+-#if defined(CONFIG_USER_ONLY)
+-
+-bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                     MMUAccessType access_type, int mmu_idx,
+-                     bool probe, uintptr_t retaddr)
+-{
+-    cs->exception_index = 0xaa;
+-    cpu_loop_exit_restore(cs, retaddr);
+-}
+-
+-#else /* !CONFIG_USER_ONLY */
+-
++#ifndef CONFIG_USER_ONLY
+ static bool mb_cpu_access_is_secure(MicroBlazeCPU *cpu,
+                                     MMUAccessType access_type)
+ {
+-- 
+2.25.1
 
 
