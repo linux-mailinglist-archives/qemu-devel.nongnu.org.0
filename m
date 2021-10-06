@@ -2,83 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADFA4243B2
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 19:09:56 +0200 (CEST)
-Received: from localhost ([::1]:59260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 244484243D8
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 19:18:04 +0200 (CEST)
+Received: from localhost ([::1]:34134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYAQU-0001S7-BO
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 13:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44946)
+	id 1mYAYM-0003xt-Hm
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 13:18:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYAOo-0000UB-Ct
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:08:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21309)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mYAWt-0003I6-ST
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:16:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYAOl-0002qt-8E
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:08:09 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mYAWq-00021C-QM
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:16:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633540086;
+ s=mimecast20190719; t=1633540587;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=CFbVGe9eX9tRB5LbQy+xdlj6wpfh1SEhjkhLlewRII0=;
- b=FVU7VAaJWcMs/P+csJ0BAMJFfa3UzWH+rkp6q6+9VXOXE0jQxFIVJIs4omF+1PbS8cHYnS
- 67xC4eG9moYjeb+9R6EG/nnxGxhon9+gv06WLW5SBzPlRU72uyS5zPvWPhNf+t9DVo3StU
- Vnvk0EXE+omOyHcmjOOvkq+X9sx1Jz8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-4TZG7Kt4OEGwF6yD0gCJ_Q-1; Wed, 06 Oct 2021 13:08:04 -0400
-X-MC-Unique: 4TZG7Kt4OEGwF6yD0gCJ_Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- d13-20020adf9b8d000000b00160a94c235aso2598137wrc.2
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 10:08:04 -0700 (PDT)
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DpU963GpnW0rhqMm4FNugO4WNkgkh9dbUFFuC0EejI4=;
+ b=Q5GptOblP/nLXhSXv093e85Y2JtXQCg1yadsjtRKWWMETgnkxe2AoBHcXecNJf8EbEZVN9
+ /iivkfMluwPefUikAiZg0xkzHjkuVL0YAm9jN/g/vFc/82XfsRcUvB2pl5ddZQmmbOxQsS
+ +jLC0rbIXNnCFZdqySTgtnsHJ7U21Og=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-iudwCvl9MNa3keKg-2grpA-1; Wed, 06 Oct 2021 13:16:26 -0400
+X-MC-Unique: iudwCvl9MNa3keKg-2grpA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ p12-20020adfc38c000000b00160d6a7e293so117864wrf.18
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 10:16:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=CFbVGe9eX9tRB5LbQy+xdlj6wpfh1SEhjkhLlewRII0=;
- b=LYqiHNmMvssW3LJR6fejvvzEsQNfDpn80xosb5kBIXS7Lj5SJPCacposH56DbT2w9Y
- vdXoplguxzl8MiI77jysHcwj43lmcUjRu2eHGRQsHPJydsg4rE1v2kk2xaM+E03finnW
- 9zb8f6InaXJWXgOTh82j5W9iXcPCaIqTz8gfYsBQ+rv+H1li5zf+iiPsvPfRzYAq7PZy
- z/ToSKw5lb7VlP1K3HAHLR7IQWdMrnBBtp8K53fQ5ftn4PwL6FP2x6UCUjOO3zigQ5b4
- 1eBhEmvUfkAaupI8Pf/B6uTz3fdttk65Slt0LEYf5ZPecqJo/lsXXZKBknZOojKpaKud
- 9Qhg==
-X-Gm-Message-State: AOAM533roDC+h/Ff1oRIlKiK4E1w20P1Xea+bF/gcLERHv/ixLVTd7Ip
- vfIC7q6hZwmPM+1at0aOCUF0mJnz7Q22DQfz7Ctocrbcbk4k+Er5ZnSWCtxXOU8uucPbCVbEbzk
- zpJwbfC0ySGHkQ8nlSkGW+odx84LiJJLVmv6Puy47N4YLPVQklHGTxfEAJVPsN9Ea
-X-Received: by 2002:adf:ab43:: with SMTP id r3mr13264134wrc.225.1633540083139; 
- Wed, 06 Oct 2021 10:08:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw8Q10+JOVNjEOOYI+G6nmefa/nbweUHz65hVSQwcQSjJRnaLN2zwSSIYFWBRyUF2qzXpW2Zg==
-X-Received: by 2002:adf:ab43:: with SMTP id r3mr13264096wrc.225.1633540082843; 
- Wed, 06 Oct 2021 10:08:02 -0700 (PDT)
-Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id o12sm7164868wms.15.2021.10.06.10.08.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 10:08:02 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/ppc/spapr_softmmu: Reduce include list
-Date: Wed,  6 Oct 2021 19:08:01 +0200
-Message-Id: <20211006170801.178023-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ bh=DpU963GpnW0rhqMm4FNugO4WNkgkh9dbUFFuC0EejI4=;
+ b=wVmjTmRnSY1BaElLE2Vg4eIaFoHKCHYacLP8tPgnx2LSfOdimhbO5vCk9sWwbb8T1I
+ Z6CYVIyvIMh3XwCWJbogZ4k5Yw7BgQXyt71eEZ2lAdMAs13h+2BeOjqoOO+443Pj8Rsg
+ Xgcj4uZsAf/4MZqx27jCi7Jbv6vwiKsuwDrEQVcDarlbYXJa0QsJAzyLNACNe5tepJYW
+ RBnzw66YHB8kA22Qb2rZa+7DsBqfeOqpaNZ7tWe4dUab/rse3LGCnYDyBxhR1ITRw7ee
+ XJZDb1ChAhmPoUl7uE9/iACpoAypG0cP8Bs+8e4QCBOR+HPikT/aM3e7o17gVS+97KNf
+ 867A==
+X-Gm-Message-State: AOAM532j97rI0vJH77rxnGSsMS+lDqD5qFWy6N+IIbxuyNoC8s2tBlaL
+ +TYuqKNaZfXvOAdJvmTyIr7BWHxdiReiH669cYS2jPNQp3KwMshDUkNVbqEYvTaPxQxqlrMvmzi
+ WgZFux7zFkzXh4O8=
+X-Received: by 2002:a1c:a9d3:: with SMTP id
+ s202mr11211596wme.128.1633540584541; 
+ Wed, 06 Oct 2021 10:16:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxkbl2jotLk24THUo9vSeLVZ23mEBhkpcOKUfWw3wxB75y1IMvdnI6Cxie9m5vyfLjLMaMGUA==
+X-Received: by 2002:a1c:a9d3:: with SMTP id
+ s202mr11211570wme.128.1633540584245; 
+ Wed, 06 Oct 2021 10:16:24 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id n186sm6040547wme.31.2021.10.06.10.16.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Oct 2021 10:16:23 -0700 (PDT)
+Message-ID: <face0d36-da9d-1ad1-4045-7de3e341f7d0@redhat.com>
+Date: Wed, 6 Oct 2021 19:16:19 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PULL 12/12] meson: show library versions in the summary
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211005164408.288128-1-pbonzini@redhat.com>
+ <20211005164408.288128-13-pbonzini@redhat.com>
+ <2fe71843-bcbe-cbc7-dfed-d9beb60e9f2b@redhat.com>
+ <658443a3-35ea-67ad-64f5-eb25059a454b@linaro.org>
+ <8a067352-a8d5-6afb-6584-79604a0377a5@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <8a067352-a8d5-6afb-6584-79604a0377a5@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,51 +106,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Lucas Mateus Castro <lucas.araujo@eldorado.org.br>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 962104f0448 ("hw/ppc: moved hcalls that depend on softmmu")
-introduced a lot of unnecessary #include directives. Remove them.
+On 06/10/21 18:55, Philippe Mathieu-Daudé wrote:
+> So something doesn't work, because my system has 0.59.1 and it is used
+> instead of the submodule...
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/ppc/spapr_softmmu.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+How do you run "./configure"?  If you passed explicitly 
+"--meson=/usr/bin/meson" or something like that, then you're asking for 
+the broken version (which works fine except for the summary).
 
-diff --git a/hw/ppc/spapr_softmmu.c b/hw/ppc/spapr_softmmu.c
-index 6c6b86dd3c6..f8924270eff 100644
---- a/hw/ppc/spapr_softmmu.c
-+++ b/hw/ppc/spapr_softmmu.c
-@@ -1,25 +1,10 @@
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
--#include "qapi/error.h"
--#include "sysemu/hw_accel.h"
--#include "sysemu/runstate.h"
--#include "qemu/log.h"
--#include "qemu/main-loop.h"
--#include "qemu/module.h"
--#include "qemu/error-report.h"
- #include "cpu.h"
--#include "exec/exec-all.h"
- #include "helper_regs.h"
- #include "hw/ppc/spapr.h"
--#include "hw/ppc/spapr_cpu_core.h"
- #include "mmu-hash64.h"
--#include "cpu-models.h"
--#include "trace.h"
--#include "kvm_ppc.h"
--#include "hw/ppc/fdt.h"
--#include "hw/ppc/spapr_ovec.h"
- #include "mmu-book3s-v3.h"
--#include "hw/mem/memory-device.h"
- 
- static inline bool valid_ptex(PowerPCCPU *cpu, target_ulong ptex)
- {
--- 
-2.31.1
+For example, on CI the various containers have
+
+alpine   0.59.0 https://gitlab.com/bonzini/qemu/-/jobs/1571377952
+centos   0.58.2 https://gitlab.com/bonzini/qemu/-/jobs/1571377957
+Debian   0.58.2 https://gitlab.com/bonzini/qemu/-/jobs/1571377954
+Fedora   0.59.0 https://gitlab.com/bonzini/qemu/-/jobs/1571377956
+OpenSUSE 0.58.2 https://gitlab.com/bonzini/qemu/-/jobs/1571377958
+Ubuntu   0.58.2 https://gitlab.com/bonzini/qemu/-/jobs/1571377953
+
+and they are all upgraded to the in-tree 0.59.2 now 
+(https://gitlab.com/bonzini/qemu/-/pipelines/382687127).
+
+Paolo
 
 
