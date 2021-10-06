@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74348423B16
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 11:53:55 +0200 (CEST)
-Received: from localhost ([::1]:46252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46983423B28
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 11:59:27 +0200 (CEST)
+Received: from localhost ([::1]:49162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY3cY-0007Tn-2l
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 05:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52268)
+	id 1mY3hu-0001Bn-C0
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 05:59:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1mY3au-0006Ro-Ua
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 05:52:13 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:36461)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1mY3as-0006sn-98
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 05:52:12 -0400
-Received: by mail-pf1-x429.google.com with SMTP id m26so1904290pff.3
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 02:52:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/TEy7Ltq8ohpp7GM/CKfVFgOP5X/5LUgJytR/YkGnVA=;
- b=ArBGzSolETdiRbgkF6BN8N4xe7zryhKxB0hL792vYGvLUTzft7F2ySxANy9osyjGzV
- 0Lp1hU1Z1+YVucYYCvlYmvq8XbYoNm2iV/UIetPKz3oQ3vkPs1qytp9vjZacrGqVsSTB
- K2Fs7YdLNwq7+7toT1cBHFpKrXscW0jYppN6Bx3rT94HPn/CnQSzYP61a7DfbegZgDio
- 7vR4j2UMblru++Zvgw1lLjExeQE2FySFGQtW0T2UmaQSLA0ozr9vry/ZXwNlourAHZsr
- 4Z6S3PFHTDTA4d1Ftp9PSwDD36IlKjl7hHMnf29ydg5YWfj6zWhTi5RCSjyWyjSRnuWx
- 1whA==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mY3fr-0008Tz-Ol
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 05:57:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40282)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mY3fn-0002cr-Ap
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 05:57:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633514234;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=im7iisH1JM9hcrIx/MPICO8FM1i0cmVFlkDGzzTtGys=;
+ b=KX68tTMlZzvM1/Hb1OsJIqYWFy+BK44YCJgcAJXu3ePR5Sa+E7XZLik4sluCCTEe1izsdR
+ 6qFLav2/dY28crQyUqSzIAJcPypKF6Di63cE0oM5nNujsjPQRQFrX/3nfY98sJoZaqrnV9
+ xNIt3HJ1ngBO4i3ULqPSQOEijCG6jEg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-56-dGwI6Q9-PlGAXkKL_8n4Pg-1; Wed, 06 Oct 2021 05:57:11 -0400
+X-MC-Unique: dGwI6Q9-PlGAXkKL_8n4Pg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ o2-20020a5d4a82000000b00160c6b7622aso1486121wrq.12
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 02:57:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/TEy7Ltq8ohpp7GM/CKfVFgOP5X/5LUgJytR/YkGnVA=;
- b=uzi201HV0ybKpQmpYp+h9QcSlY74nNzFIyQhY4c2CxbSdlMNJq4OhQmnP2FwZgHMEX
- qNnLK0Gh+mrvsQCKwz6Yo8ga1rRxN2CSefcCvOpfk0bfUptMQzyG76S1hr4dSAp5I+N7
- OpopN5USRsLQTs2HbFi73sMK+EkPjyuJwAzah2/SxDXw4RMlk2/c6a++hHOOsHAJxAbC
- 4XZz3kqvN/QFfnPEyBSbPzqfM1xcnSmZopbvhHUe0EySShTW8A9CPwyoMR/gwWR7nh1k
- JVivIlxfFe5OiFdwnHeU+4MVJ5MksCmSkga4ged9xOoi3j59WAIYs+re6Z4LPHGxIMjS
- +nqw==
-X-Gm-Message-State: AOAM5310RW6UjYFX608AMViqQdNlmkZj6DmqbEnVYOMEHsCt5RkhvZux
- 0CC/hvPOFJKH0cv2uBM8PEHgqg==
-X-Google-Smtp-Source: ABdhPJw6nqSaFcYQO3lWVJvGXltAC24ZzoSKXtQcOh/AnJ86iYEmgRjl+uT8ZIRck/xYle2XqDlR2Q==
-X-Received: by 2002:a65:6213:: with SMTP id d19mr19934940pgv.110.1633513927193; 
- Wed, 06 Oct 2021 02:52:07 -0700 (PDT)
-Received: from [192.168.10.23] (124-171-108-209.dyn.iinet.net.au.
- [124.171.108.209])
- by smtp.gmail.com with ESMTPSA id j9sm20293642pfi.121.2021.10.06.02.52.01
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=im7iisH1JM9hcrIx/MPICO8FM1i0cmVFlkDGzzTtGys=;
+ b=h5nhWlUJco5Pqd1oM9PpaAfu6VdzHkBV8b6Sue5FSGazZkySNFrjwlrSbL3VOqLcdz
+ Vu6yTuAjW09VxjTSsFeUyNG5qnl63VauhoDRulVotuwBdFPu0bSJ1LcyLNg7qM2USe+E
+ XmSlbSE0G0qIi+9C08789fJaMzv2/bjnlEizkuJ8lgTbgKW1xwKO/btMYHo+B5Sa8mQe
+ FSFm47CKsmzlI6pW2CCLIhkveRjZ1svoCzn6g+oXifqGUVKQ3QwnS356EcUSy5H8TW+n
+ qyDEtCgaBiOhk+AJseKPkZ8WCbxQP4pSIeogGu66lO9s8NvRGdUbhBBudws5SRLw/R4i
+ zD4w==
+X-Gm-Message-State: AOAM531kptFqiawx1duW8SgQk4NiG83w0zlqUjXRQYS9U2fK1cue9Rjq
+ TyhfbMCqStAmhjMgqxZkZH76K/e0+wEzDEUhq+Asx17xJ+iZ4bLoTThN2Smx/AqOf7BvZggJiGf
+ 4WNIvH83VQM2hU2s=
+X-Received: by 2002:a5d:648f:: with SMTP id o15mr2367375wri.3.1633514230231;
+ Wed, 06 Oct 2021 02:57:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJypLb12VjbYTduFQCR7TzFGtFH1To89YkVPuDfej659JFTLp7l4brzMSrmhzcjrz0a/FeC9mw==
+X-Received: by 2002:a5d:648f:: with SMTP id o15mr2367342wri.3.1633514229984;
+ Wed, 06 Oct 2021 02:57:09 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id e11sm8513483wro.4.2021.10.06.02.57.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Oct 2021 02:52:06 -0700 (PDT)
-Message-ID: <20dda3d9-7830-a67a-3a9f-caa69634dea4@ozlabs.ru>
-Date: Wed, 6 Oct 2021 20:52:00 +1100
+ Wed, 06 Oct 2021 02:57:09 -0700 (PDT)
+Subject: Re: [PATCH v3 2/3] hw/arm/virt_acpi_build: Generate DBG2 table
+To: Andrew Jones <drjones@redhat.com>
+References: <20210927131732.63801-1-eric.auger@redhat.com>
+ <20210927131732.63801-3-eric.auger@redhat.com>
+ <20211006091523.qaub5xg3kxuwjmlh@gator.home>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <2b284309-1dd6-6d73-225d-f83ad4af8657@redhat.com>
+Date: Wed, 6 Oct 2021 11:57:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:93.0) Gecko/20100101
- Thunderbird/93.0
-Subject: Re: [PATCH v3 0/7] Reduce load on ppc target maintainers
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
- <YVUPrnvWT80f7IxR@yekko>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <YVUPrnvWT80f7IxR@yekko>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20211006091523.qaub5xg3kxuwjmlh@gator.home>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=aik@ozlabs.ru; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,63 +102,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- dbarboza@redhat.com, mark.cave-ayland@ilande.co.uk, groug@kaod.org,
- wainersm@redhat.com, hpoussin@reactos.org, clg@kaod.org, crosa@redhat.com,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, philmd@redhat.com
+Reply-To: eric.auger@redhat.com
+Cc: peter.maydell@linaro.org, gshan@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+ imammedo@redhat.com, philmd@redhat.com, ardb@kernel.org,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-
-On 30/09/2021 11:15, David Gibson wrote:
-> On Mon, Sep 27, 2021 at 02:48:01PM +1000, David Gibson wrote:
->> Greg Kurz and myself have been co-maintainers for the ppc and ppc64
->> targets for some time now.  However, both our day job responsibilities
->> and interests are leading us towards other areas, so we have less time
->> to devote to this any more.
+On 10/6/21 11:15 AM, Andrew Jones wrote:
+> On Mon, Sep 27, 2021 at 03:17:31PM +0200, Eric Auger wrote:
+>> ARM SBBR specification mandates DBG2 table (Debug Port Table 2)
+>> since v1.0 (ARM DEN0044F 8.3.1.7 DBG2).
 >>
->> Therefore, here's a bunch of updates to MAINTAINERS, intended to
->> reduce the load on us.  Mostly this is marking fairly obscure
->> platforms as orphaned (if someone wants to take over maintainership,
->> let me know ASAP).  Bigger changes may be coming, but we haven't
->> decided exactly what that's going to look like yet.
-> 
-> Thanks for the feedback and acks on this.  I'm now merging v3 into
-> ppc-for-6.2 to go into a pull request shortly.
-> 
+>> The DBG2 table allows to describe one or more debug ports.
 >>
->> Changes since v2:
->>  * Clarified overly broad TCG CPUs entry
->> Changes since v1:
->>  * Reworked how OpenPIC is listed
+>> Generate an DBG2 table featuring a single debug port, the PL011.
 >>
->> David Gibson (7):
->>   qemu: Split machine_ppc.py acceptance tests
->>   MAINTAINERS: Remove machine specific files from ppc TCG CPUs entry
->>   MAINTAINERS: Remove David & Greg as reviewers for a number of boards
->>   MAINTAINERS: Orphan obscure ppc platforms
->>   MAINTAINERS: Remove David & Greg as reviewers/co-maintainers of
->>     powernv
->>   MAINTAINERS: Add information for OpenPIC
->>   MAINTAINERS: Demote sPAPR from "Supported" to "Maintained"
+>> The DBG2 specification can be found at
+>> "Microsoft Debug Port Table 2 (DBG2)"
+>> https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table?redirectedfrom=MSDN
 >>
->>  MAINTAINERS                          | 51 ++++++++------------
->>  tests/acceptance/machine_ppc.py      | 69 ----------------------------
->>  tests/acceptance/ppc_mpc8544ds.py    | 32 +++++++++++++
->>  tests/acceptance/ppc_pseries.py      | 35 ++++++++++++++
->>  tests/acceptance/ppc_virtex_ml507.py | 34 ++++++++++++++
->>  5 files changed, 121 insertions(+), 100 deletions(-)
->>  delete mode 100644 tests/acceptance/machine_ppc.py
->>  create mode 100644 tests/acceptance/ppc_mpc8544ds.py
->>  create mode 100644 tests/acceptance/ppc_pseries.py
->>  create mode 100644 tests/acceptance/ppc_virtex_ml507.py
-I have a bunch of small patches for SLOF - what do I do with those now?
-Still send pull requests to you and Greg as usual? Thanks,
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>
+>> ---
+>>
+>> v2 -> v3:
+>> Took into account all comments from Igor on v2:
+>> mostly style adjustment, revision references
+>>
+>> v1 -> v2:
+>> - rebased on Igor's refactoring
+>> ---
+>>  hw/arm/virt-acpi-build.c | 62 +++++++++++++++++++++++++++++++++++++++-
+>>  1 file changed, 61 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+>> index 6cec97352b..257d0fee17 100644
+>> --- a/hw/arm/virt-acpi-build.c
+>> +++ b/hw/arm/virt-acpi-build.c
+>> @@ -616,6 +616,63 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>>      acpi_table_end(linker, &table);
+>>  }
+>>  
+>> +/* Debug Port Table 2 (DBG2) */
+>> +static void
+>> +build_dbg2(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+> nit: I didn't think QEMU liked this style, i.e. QEMU prefers
+>
+>  static void build_dbg2(GArray *table_data, BIOSLinker *linker,
+>                         VirtMachineState *vms)
+>
+> Eh, I see that hw/arm/virt-acpi-build.c is full of the format you have
+> here, so never mind.
+>
+>> +{
+>> +    AcpiTable table = { .sig = "DBG2", .rev = 3, .oem_id = vms->oem_id,
+> Can you explain where the .rev = 3 comes from? The spec says "For this
+> version of the specification, this value is 0."
+The above revision field belongs to the acpi table header. Not to be
+mixed with the Revision field of the DBG2 table
+which is set below (set to 0):
 
++    build_append_int_noprefix(table_data, 0, 1); /* Revision */
 
+Besides that's a good question. I have rev=3 here but that must come from a copy/paste. when googling I
+found
 
+https://lists.denx.de/pipermail/u-boot/2015-June/217134.html
+/header->revision = 1; /* ACPI 1.0/2.0: 1, ACPI 3.0: 2, ACPI 4.0: 3 */
+Not sure if 3 is the right value though? Igor, please could you advise?
+Thanks Eric /
 
--- 
-Alexey
+>
+>
+>> +                        .oem_table_id = vms->oem_table_id };
+>> +    int dbg2devicelength;
+>> +    const char name[] = "COM0";
+>> +    const int namespace_length = sizeof(name);
+>> +
+>> +    acpi_table_begin(&table, table_data);
+>> +
+>> +    dbg2devicelength = 22 /* BaseAddressRegister[] offset */ +
+>> +                       12 /* BaseAddressRegister[] */ +
+>> +                       4 /* AddressSize[] */ +
+> I'd personally prefer the '+' before the comment, but maybe Igor has a
+> special ACPI code format preference here.
+>
+>> +                       namespace_length /* NamespaceString[] */;
+>> +
+>> +    /* OffsetDbgDeviceInfo */
+>> +    build_append_int_noprefix(table_data, 44, 4);
+>> +    /* NumberDbgDeviceInfo */
+>> +    build_append_int_noprefix(table_data, 1, 4);
+>> +
+>> +    /* Table 2. Debug Device Information structure format */
+>> +    build_append_int_noprefix(table_data, 0, 1); /* Revision */
+>> +    build_append_int_noprefix(table_data, dbg2devicelength, 2); /* Length */
+>> +    /* NumberofGenericAddressRegisters */
+>> +    build_append_int_noprefix(table_data, 1, 1);
+>> +    /* NameSpaceStringLength */
+>> +    build_append_int_noprefix(table_data, namespace_length, 2);
+>> +    build_append_int_noprefix(table_data, 38, 2); /* NameSpaceStringOffset */
+>> +    build_append_int_noprefix(table_data, 0, 2); /* OemDataLength */
+>> +    /* OemDataOffset (0 means no OEM data) */
+>> +    build_append_int_noprefix(table_data, 0, 2);
+>> +
+>> +    /* Port Type */
+>> +    build_append_int_noprefix(table_data, 0x8000 /* Serial */, 2);
+>> +    /* Port Subtype */
+>> +    build_append_int_noprefix(table_data, 0x3 /* ARM PL011 UART */, 2);
+>> +    build_append_int_noprefix(table_data, 0, 2); /* Reserved */
+>> +    /* BaseAddressRegisterOffset */
+>> +    build_append_int_noprefix(table_data, 22, 2);
+>> +    /* AddressSizeOffset */
+>> +    build_append_int_noprefix(table_data, 34, 2);
+>> +
+>> +    /* BaseAddressRegister[] */
+>> +    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 8, 0, 1,
+>> +                     vms->memmap[VIRT_UART].base);
+>> +
+>> +    /* AddressSize[] */
+>> +    build_append_int_noprefix(table_data, 0x1000 /* Register Space */, 4);
+>> +
+>> +    /* NamespaceString[] */
+>> +    g_array_append_vals(table_data, name, namespace_length);
+>> +
+>> +    acpi_table_end(linker, &table);
+>> +};
+>> +
+>>  /*
+>>   * ACPI spec, Revision 5.1 Errata A
+>>   * 5.2.12 Multiple APIC Description Table (MADT)
+>> @@ -875,7 +932,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>>      dsdt = tables_blob->len;
+>>      build_dsdt(tables_blob, tables->linker, vms);
+>>  
+>> -    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
+>> +    /* FADT MADT GTDT MCFG SPCR DBG2 pointed to by RSDT */
+>>      acpi_add_table(table_offsets, tables_blob);
+>>      build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
+>>  
+>> @@ -898,6 +955,9 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>>      acpi_add_table(table_offsets, tables_blob);
+>>      build_spcr(tables_blob, tables->linker, vms);
+>>  
+>> +    acpi_add_table(table_offsets, tables_blob);
+>> +    build_dbg2(tables_blob, tables->linker, vms);
+>> +
+>>      if (vms->ras) {
+>>          build_ghes_error_table(tables->hardware_errors, tables->linker);
+>>          acpi_add_table(table_offsets, tables_blob);
+>> -- 
+>> 2.26.3
+>>
+> Thanks,
+> drew 
+>
+
 
