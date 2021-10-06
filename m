@@ -2,87 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B621423994
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 10:18:03 +0200 (CEST)
-Received: from localhost ([::1]:41654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98E14239A1
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 10:20:42 +0200 (CEST)
+Received: from localhost ([::1]:46048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY27m-0002m2-3V
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 04:18:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55654)
+	id 1mY2AL-0005kj-Ff
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 04:20:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mY252-00013O-RJ
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 04:15:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20355)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mY25T-0001Fk-RJ; Wed, 06 Oct 2021 04:15:45 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:45629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mY24o-0000hP-3m
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 04:15:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633508097;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BvGgk6twj7rWkkyp7QC6vvWZWx3oesWLXmbukEbEECU=;
- b=EWxhPbktICpEvzgUX/XavnE3YqTauvAjWkKMe4biXvjVxJluSluceCd8YRL6q0sDvUyuwM
- zQQ1OzMFyFaKmip0MEJ71ES9URuqGryCvzlGYLFGhkLuDW1qRPjYp5vfguM9TWmuoWB9Sj
- OsgBzkcS6dqg2igF0LhoRHhU5gdkjs8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-r-qaGR6gOzCvT53bbqhgtQ-1; Wed, 06 Oct 2021 04:14:56 -0400
-X-MC-Unique: r-qaGR6gOzCvT53bbqhgtQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- r21-20020adfa155000000b001608162e16dso1356337wrr.15
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 01:14:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BvGgk6twj7rWkkyp7QC6vvWZWx3oesWLXmbukEbEECU=;
- b=Nq1tRvI7NRljpRNWLvNsEXsOwDy5fOe4jaagrLMg1bAzWHU+Aai8G7MaaF2fFLnsXc
- JgWvmm0TCSwW+o7oYo43GBG2PS/oSMtzQLZ3Dm/8pk9gIHPu0saBMUY3aHyM45HMxeLG
- 5SWW+I0V0KATR3WaUHFdJC7LEPKV3d6J9f1dDp3MVhXlC7mRXNJ7ZZ3kkQlAazmRX8m7
- SdWHrEAbx54zsjIF+ifdfqzbVx0z+dUcNZGPiQx6ExIXqiE/6FaupRMBieCD1WFJFZtE
- 6Qlhm/MSIFK7n0DPRDi0Iq41uXrclVlu67Pk8XyfcGwDe1yVA5xcl/yb/dBGE6A7wqG1
- ZWWw==
-X-Gm-Message-State: AOAM530OnAGXEXRUCQAT8YdWgJu17a0KsLDnkwrQeeAhHUk9tjF6hVgY
- JjTAcmAdS97FRSYFT9C4w6i+5IXk5+owygT+yPPACgzDaMDNF3MO4r8I4+uGe+Assceqy0ys+ve
- 10yS33XdpJWQHykU=
-X-Received: by 2002:a7b:c20f:: with SMTP id x15mr8427395wmi.10.1633508095284; 
- Wed, 06 Oct 2021 01:14:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/mmc4WJWHgyaYO4AoDPO89uT0I01tcCQD3ZW9rW22W4C9Jrsn+y9Xpt1TuIgevmgjYutQ2Q==
-X-Received: by 2002:a7b:c20f:: with SMTP id x15mr8427368wmi.10.1633508095085; 
- Wed, 06 Oct 2021 01:14:55 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id o15sm4294850wmc.21.2021.10.06.01.14.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 01:14:54 -0700 (PDT)
-Date: Wed, 6 Oct 2021 10:14:53 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v4 09/11] tests/acpi: add test cases for VIOT
-Message-ID: <20211006101453.62de5e54@redhat.com>
-In-Reply-To: <20211001173358.863017-10-jean-philippe@linaro.org>
-References: <20211001173358.863017-1-jean-philippe@linaro.org>
- <20211001173358.863017-10-jean-philippe@linaro.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mY25P-000148-E5; Wed, 06 Oct 2021 04:15:38 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.249])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 9643AC292CBC;
+ Wed,  6 Oct 2021 10:15:22 +0200 (CEST)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 6 Oct
+ 2021 10:15:21 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R00338db3139-b484-4e87-af15-56ff0a4984cc,
+ 5A4A34E2598F7A0FA378A7207C32B8AA1DF96388) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <673d7ff6-6a5a-b672-7182-0d1a39ad83e1@kaod.org>
+Date: Wed, 6 Oct 2021 10:15:16 +0200
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] hw/ppc: Fix iothread locking in the 405 code
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, <qemu-devel@nongnu.org>
+References: <20211006071140.565952-1-thuth@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211006071140.565952-1-thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 229cd1a6-930a-4dde-9808-c9bee712a516
+X-Ovh-Tracer-Id: 6564559407383874467
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,90 +69,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
- mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, ani@anisinha.ca,
- pbonzini@redhat.com
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  1 Oct 2021 18:33:57 +0100
-Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
-
-> Add two test cases for VIOT, one on the q35 machine and the other on
-> virt. To test complex topologies the q35 test has two PCIe buses that
-> bypass the IOMMU (and are therefore not described by VIOT), and two
-> buses that are translated by virtio-iommu.
+On 10/6/21 09:11, Thomas Huth wrote:
+> When using u-boot as firmware with the taihu board, QEMU aborts with
+> this assertion:
 > 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+>   ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion failed:
+>    (qemu_mutex_iothread_locked())
+> 
+> Running QEMU with "-d in_asm" shows that the crash happens when writing
+> to SPR 0x3f2, so we are missing to lock the iothread in the code path
+> here.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Tested-by: Cédric Le Goater <clg@kaod.org>
+
+Thanks,
+
+C.
 
 > ---
->  tests/qtest/bios-tables-test.c | 38 ++++++++++++++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
+>   hw/ppc/ppc.c | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 4f11d03055..b6cb383bd9 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1403,6 +1403,42 @@ static void test_acpi_virt_tcg(void)
->      free_test_data(&data);
->  }
->  
-> +static void test_acpi_q35_viot(void)
-> +{
-> +    test_data data = {
-> +        .machine = MACHINE_Q35,
-> +        .variant = ".viot",
-> +    };
+> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+> index f5d012f860..bb57f1c9ed 100644
+> --- a/hw/ppc/ppc.c
+> +++ b/hw/ppc/ppc.c
+> @@ -336,6 +336,8 @@ void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
+>   {
+>       PowerPCCPU *cpu = env_archcpu(env);
+>   
+> +    qemu_mutex_lock_iothread();
 > +
-> +    /*
-> +     * To keep things interesting, two buses bypass the IOMMU.
-> +     * VIOT should only describes the other two buses.
-> +     */
-> +    test_acpi_one("-machine default_bus_bypass_iommu=on "
-> +                  "-device virtio-iommu "
-> +                  "-device pxb-pcie,bus_nr=0x10,id=pcie.100,bus=pcie.0 "
-> +                  "-device pxb-pcie,bus_nr=0x20,id=pcie.200,bus=pcie.0,bypass_iommu=on "
-> +                  "-device pxb-pcie,bus_nr=0x30,id=pcie.300,bus=pcie.0",
-> +                  &data);
-> +    free_test_data(&data);
-> +}
+>       switch ((val >> 28) & 0x3) {
+>       case 0x0:
+>           /* No action */
+> @@ -353,6 +355,8 @@ void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
+>           ppc40x_system_reset(cpu);
+>           break;
+>       }
 > +
-> +static void test_acpi_virt_viot(void)
-> +{
-> +    test_data data = {
-> +        .machine = "virt",
-> +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-> +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-> +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-> +        .ram_start = 0x40000000ULL,
-> +        .scan_len = 128ULL * 1024 * 1024,
-> +    };
-> +
-> +    test_acpi_one("-cpu cortex-a57 "
-> +                  "-device virtio-iommu", &data);
-> +    free_test_data(&data);
-> +}
-> +
->  static void test_oem_fields(test_data *data)
->  {
->      int i;
-> @@ -1567,12 +1603,14 @@ int main(int argc, char *argv[])
->          if (strcmp(arch, "x86_64") == 0) {
->              qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
->          }
-> +        qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
->      } else if (strcmp(arch, "aarch64") == 0) {
->          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
->          qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
->          qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
->          qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
->          qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
-> +        qtest_add_func("acpi/virt/viot", test_acpi_virt_viot);
->      }
->      ret = g_test_run();
->      boot_sector_cleanup(disk);
+> +    qemu_mutex_unlock_iothread();
+>   }
+>   
+>   /* PowerPC 40x internal IRQ controller */
+> 
 
 
