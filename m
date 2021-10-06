@@ -2,91 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29A1423D55
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 13:51:31 +0200 (CEST)
-Received: from localhost ([::1]:41980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED59423D5F
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 13:59:55 +0200 (CEST)
+Received: from localhost ([::1]:48940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY5SL-0001sp-Kp
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 07:51:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47444)
+	id 1mY5aU-0007SV-FE
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 07:59:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mY5QI-00008O-Ih
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 07:49:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39158)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mY5ZR-0006Ze-T9
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 07:58:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mY5QF-0002fm-Eb
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 07:49:20 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mY5XU-0007mW-P0
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 07:58:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633520958;
+ s=mimecast20190719; t=1633521407;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pWZTOedo2k0AkSWTMVtBabKptViDfwHVzzjHlO4fVdg=;
- b=DZ5BK+USqMQOFtKdm5JQUpWeVfAg0Gv59xINC3iDyKAP+k6BWRAGCLL/2xFrvogU+cp9YY
- vC5y1VNG/BnuiA6TDMABcy2StwgomY9AND25jPnrvCtzIVgG6NjG/ddvnIlo4743AbYjuX
- tfXlKz1H+TIIdwCnI5Qf/dEBPNB8blE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-E1U3dS8yNiO0JJNFeWAsxA-1; Wed, 06 Oct 2021 07:49:16 -0400
-X-MC-Unique: E1U3dS8yNiO0JJNFeWAsxA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- j19-20020adfb313000000b00160a9de13b3so1809550wrd.8
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 04:49:15 -0700 (PDT)
+ bh=hlDcCTOKOHqELQG0J9ELx1bzgh5+4e7b57/RbQy+ZIk=;
+ b=Ut7Ck/VV6l7ebvtqsn0vsp+4lSk1FzhCPDCFDOiSzfoJGs3RR7cImKtZLWDFBvqxAzhDD3
+ X0jnMxgV6hBO2MerndnNwwXsEk3jSgzuMsu86VIdXjVVF41v/rUXtGXyTBjgBgQJ09EwJQ
+ 8CHOdji7V0vImHH3hUxRhT+Bis9wyOk=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-153-bnGfEAR2PDmriwt-y22MAw-1; Wed, 06 Oct 2021 07:56:46 -0400
+X-MC-Unique: bnGfEAR2PDmriwt-y22MAw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ t28-20020a508d5c000000b003dad7fc5caeso2392957edt.11
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 04:56:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=pWZTOedo2k0AkSWTMVtBabKptViDfwHVzzjHlO4fVdg=;
- b=ajY80ec6IcqIGlzHWsOTDgaTpJQ5+Ga0lQKPqP2FspfKAhWwOCX9u+p6Bhj/4XG7MM
- r16Y6KCLCKjE01PSEVvZmcCAalYJoevhRDUBchvDiE3XfpsxkyRPP0TXr5ZrGMT/aKEq
- WNjDRaqNz84PwaAtSV77O1NAHpdh/8fZqfIJMh5Nqu3kVDnLoL5AE9Pc7DQRTdLOm2Tl
- xR0ShjfoZvtL46ucIfNonfKTau2yH/TA3/wJR0JVKJ2Bsm8wqOefBoC476XzDvEEAGgB
- VCWP5gQ+JHy12mo4+SWSEnAUW7hXCeBdriwN76IkAd0eLmtu99QzzhqIvH5JwZfc9Oh/
- Wvzg==
-X-Gm-Message-State: AOAM5309hlPq5P2FCH2P4dMcP1VuHybvUuSwz3johsj+jaalpXIt6B4a
- VScFlat+quAYzuE++ZsFcPtglkkIz+Y2gH1VHUL/O2foSo816/TlEJHJPBMY209mn3blt/j2elc
- 15LnTVS9GA2CKVIU=
-X-Received: by 2002:adf:9c11:: with SMTP id f17mr5530019wrc.147.1633520954806; 
- Wed, 06 Oct 2021 04:49:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYxtFBpnIhpRNknjFJ7gnbz36Q77Yl69Ed5IXOoNv5crw3jZhGww1TYJLiyLs5tNwqrdr6Zg==
-X-Received: by 2002:adf:9c11:: with SMTP id f17mr5529997wrc.147.1633520954603; 
- Wed, 06 Oct 2021 04:49:14 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id z6sm7861288wmp.1.2021.10.06.04.49.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Oct 2021 04:49:14 -0700 (PDT)
-Message-ID: <03e1e2d6-d974-272b-9d25-805914ec0026@redhat.com>
-Date: Wed, 6 Oct 2021 13:49:13 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hlDcCTOKOHqELQG0J9ELx1bzgh5+4e7b57/RbQy+ZIk=;
+ b=Uy0U1tsHGsnqtFz50sVYKIWL4JjvE5J82YDNHsqMMBw7LLIvjAm6gHz4ogL9Co1rGr
+ Lo4pA4ukomSXDOFq1Gas4PllEy9Zldr2g8PutKNFK4QE9yLR/8m0WQlkrB4+xAXBN2wq
+ M47vnQWco3pDC7+/F66HDEeSo/igbLmjSMPFsUe2ejWWUR9kcI2B+9xHIzblnuJGqv0A
+ XssbSHGMkLohypMoD0UAc6s/SfFa1n0NtABuAszQpAljHGazXKSuJMtjyruveTQDjCE4
+ JO5ILn+9R24KS+SSeuFNV7GocsuF2/lERQZujavmSxAoJtjBrDsZEOyHnbp5JT3KEv/w
+ D6eA==
+X-Gm-Message-State: AOAM531tCYrSt1NblHYXx6iCBN9BaPJaXT7n0p07iNjxNSI+bigRhbVR
+ +Hy3AlxIqfwceVXDXhCfQEMbWfADcyQ/5xjmsTcltHH1b9O4uFMrTn7lR+zzDYMLG7D1xeb6QAr
+ lKi/0u4ZEJg6ksxI=
+X-Received: by 2002:a17:906:3192:: with SMTP id
+ 18mr31645997ejy.246.1633521405433; 
+ Wed, 06 Oct 2021 04:56:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwL+iDoZ82r/GI0RzMcDDPJNrgvi03m31af7tW5cf9WgYE9YrRfRSkTymWmuHD6ah4yIoZvQQ==
+X-Received: by 2002:a17:906:3192:: with SMTP id
+ 18mr31645971ejy.246.1633521405190; 
+ Wed, 06 Oct 2021 04:56:45 -0700 (PDT)
+Received: from gator.home (cst2-174-28.cust.vodafone.cz. [31.30.174.28])
+ by smtp.gmail.com with ESMTPSA id l16sm8749479eje.67.2021.10.06.04.56.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Oct 2021 04:56:44 -0700 (PDT)
+Date: Wed, 6 Oct 2021 13:56:43 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH 1/2] numa: Set default distance map if needed
+Message-ID: <20211006115643.p5b2qcoi4eagluqc@gator.home>
+References: <20211006102209.6989-1-gshan@redhat.com>
+ <20211006102209.6989-2-gshan@redhat.com>
+ <20211006103529.25vjtmkmijmomq4u@gator.home>
+ <688560f5-19a4-7a08-41ec-132266f76725@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] generic-loader: remove the ram_size limit when a loading
- binary file
-To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
-References: <20211006113707.96907-1-damien.hedde@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211006113707.96907-1-damien.hedde@greensocs.com>
+In-Reply-To: <688560f5-19a4-7a08-41ec-132266f76725@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
-X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,70 +90,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ shan.gavin@gmail.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/6/21 13:37, Damien Hedde wrote:
-> Right now, we cannot load some binary file if it is bigger than the
-> machine's ram size. This limitation only occurs when loading a
-> binary file: we can load a corresponding elf file without this
-> limitation.
+On Wed, Oct 06, 2021 at 10:03:25PM +1100, Gavin Shan wrote:
+> Hi Drew,
 > 
-> This is an issue for machines that have small ram or do not use the
-> ram_size feature at all.
+> On 10/6/21 9:35 PM, Andrew Jones wrote:
+> > On Wed, Oct 06, 2021 at 06:22:08PM +0800, Gavin Shan wrote:
+> > > The following option is used to specify the distance map. It's
+> > > possible the option isn't provided by user. In this case, the
+> > > distance map isn't populated and exposed to platform. On the
+> > > other hand, the empty NUMA node, where no memory resides, is
+> > > allowed on ARM64 virt platform. For these empty NUMA nodes,
+> > > their corresponding device-tree nodes aren't populated, but
+> > > their NUMA IDs should be included in the "/distance-map"
+> > > device-tree node, so that kernel can probe them properly if
+> > > device-tree is used.
+> > > 
+> > >    -numa,dist,src=<numa_id>,dst=<numa_id>,val=<distance>
+> > > 
+> > > So when user doesn't specify distance map, we need to generate
+> > > the default distance map, where the local and remote distances
+> > > are 10 and 20 separately. This adds an extra parameter to the
+> > > exiting complete_init_numa_distance() to generate the default
+> > > distance map for this case.
+> > > 
+> > > Signed-off-by: Gavin Shan <gshan@redhat.com>
+> > > ---
+> > >   hw/core/numa.c | 13 +++++++++++--
+> > >   1 file changed, 11 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/hw/core/numa.c b/hw/core/numa.c
+> > > index 510d096a88..fdb3a4aeca 100644
+> > > --- a/hw/core/numa.c
+> > > +++ b/hw/core/numa.c
+> > > @@ -594,7 +594,7 @@ static void validate_numa_distance(MachineState *ms)
+> > >       }
+> > >   }
+> > > -static void complete_init_numa_distance(MachineState *ms)
+> > > +static void complete_init_numa_distance(MachineState *ms, bool is_default)
+> > >   {
+> > >       int src, dst;
+> > >       NodeInfo *numa_info = ms->numa_state->nodes;
+> > > @@ -609,6 +609,8 @@ static void complete_init_numa_distance(MachineState *ms)
+> > >               if (numa_info[src].distance[dst] == 0) {
+> > >                   if (src == dst) {
+> > >                       numa_info[src].distance[dst] = NUMA_DISTANCE_MIN;
+> > > +                } else if (is_default) {
+> > > +                    numa_info[src].distance[dst] = NUMA_DISTANCE_DEFAULT;
+> > >                   } else {
+> > >                       numa_info[src].distance[dst] = numa_info[dst].distance[src];
+> > >                   }
+> > > @@ -716,13 +718,20 @@ void numa_complete_configuration(MachineState *ms)
+> > >            * A->B != distance B->A, then that means the distance table is
+> > >            * asymmetric. In this case, the distances for both directions
+> > >            * of all node pairs are required.
+> > > +         *
+> > > +         * The default node pair distances, which are 10 and 20 for the
+> > > +         * local and remote nodes separatly, are provided if user doesn't
+> > > +         * specify any node pair distances.
+> > >            */
+> > >           if (ms->numa_state->have_numa_distance) {
+> > >               /* Validate enough NUMA distance information was provided. */
+> > >               validate_numa_distance(ms);
+> > >               /* Validation succeeded, now fill in any missing distances. */
+> > > -            complete_init_numa_distance(ms);
+> > > +            complete_init_numa_distance(ms, false);
+> > > +        } else {
+> > > +            complete_init_numa_distance(ms, true);
+> > > +            ms->numa_state->have_numa_distance = true;
+> > >           }
+> > >       }
+> > >   }
+> > > -- 
+> > > 2.23.0
+> > > 
+> > 
+> > With this patch we'll always generate a distance map when there's a numa
+> > config now. Is there any reason a user would not want to do that? I.e.
+> > should we still give the user the choice of presenting a distance map?
+> > Also, does the addition of a distance map in DTs for compat machine types
+> > matter?
+> > 
+> > Otherwise patch looks good to me.
+> > 
 > 
-> Also get rid of "hw/boards.h" include, since we needed it only
-> to access `current_machine`.
+> Users needn't specify the distance map when the default one in kernel,
+> whose distances are 10 and 20 for local and remote nodes in linux for
+> all architectures and machines, is used. The following option is still
+> usable to specify the distance map.
 > 
-> Fixes: e481a1f63c9 ("generic-loader: Add a generic loader")
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> ---
+>   -numa,dist,src=<numa_id>,dst=<numa_id>,val=<distance>
 > 
-> Hi Alistair,
-> 
-> I found this while experimenting with a ram_size=0 machine.
+> When the empty NUMA nodes are concerned, the distance map is mandatory
+> because their NUMA IDs are identified from there. So we always generate
+> the distance map as this patch does :)
+>
 
-Where are you loading your file?
+Yup, I knew all that already :-) I'm asking if we want to ensure the user
+can still control whether or not this distance map is generated at all. If
+a user doesn't want empty numa nodes or a distance map, then, with this
+patch, they cannot avoid the map's generation. That configurability
+question also relates to machine compatibility. Do we want to start
+generating this distance map on old, numa configured machine types? This
+patch will do that too.
 
-> 
-> I checked the original discussion: it seems to me there was no
-> intention to specifically limit to the ram size but we had to
-> put some limit.
-> 
-> See this:
-> https://lists.gnu.org/archive/html/qemu-devel/2016-02/msg04668.html
-> https://lists.gnu.org/archive/html/qemu-devel/2016-02/msg04681.html
-> 
-> Thanks for your feedback,
-> Damien
-> ---
->  hw/core/generic-loader.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
-> index d14f932eea..102605c07b 100644
-> --- a/hw/core/generic-loader.c
-> +++ b/hw/core/generic-loader.c
-> @@ -34,7 +34,6 @@
->  #include "hw/core/cpu.h"
->  #include "sysemu/dma.h"
->  #include "sysemu/reset.h"
-> -#include "hw/boards.h"
->  #include "hw/loader.h"
->  #include "hw/qdev-properties.h"
->  #include "qapi/error.h"
-> @@ -153,8 +152,8 @@ static void generic_loader_realize(DeviceState *dev, Error **errp)
->          }
->  
->          if (size < 0 || s->force_raw) {
-> -            /* Default to the maximum size being the machine's ram size */
-> -            size = load_image_targphys_as(s->file, s->addr, current_machine->ram_size, as);
-> +            /* Do not limit the file size */
-> +            size = load_image_targphys_as(s->file, s->addr, -1, as);
->          } else {
->              s->addr = entry;
->          }
-> 
+But, it might be OK to just start generating this new DT node for all numa
+configured machine types and not allow the user to opt out. I do know that
+we allow hardware descriptions to be changed without compat code.  Also, a
+disable-auto-distance-map option may be considered useless and therefore
+not worth maintaining. The conservative in me says it's worth debating
+these things first though.
+
+(Note, empty numa nodes have never worked with QEMU, so it's OK to start
+ erroring out when empty numa nodes and a disable-auto-distance-map option
+ are given together.)
+
+Thanks,
+drew
 
 
