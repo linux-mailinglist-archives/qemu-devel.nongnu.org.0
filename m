@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46983423B28
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 11:59:27 +0200 (CEST)
-Received: from localhost ([::1]:49162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32CB423B68
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 12:22:44 +0200 (CEST)
+Received: from localhost ([::1]:35872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY3hu-0001Bn-C0
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 05:59:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53150)
+	id 1mY44R-0003WR-CB
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 06:22:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mY3fr-0008Tz-Ol
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 05:57:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40282)
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1mY42q-0002nz-FE
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 06:21:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mY3fn-0002cr-Ap
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 05:57:18 -0400
+ (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
+ id 1mY42n-0002S7-CR
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 06:21:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633514234;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1633515660;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=im7iisH1JM9hcrIx/MPICO8FM1i0cmVFlkDGzzTtGys=;
- b=KX68tTMlZzvM1/Hb1OsJIqYWFy+BK44YCJgcAJXu3ePR5Sa+E7XZLik4sluCCTEe1izsdR
- 6qFLav2/dY28crQyUqSzIAJcPypKF6Di63cE0oM5nNujsjPQRQFrX/3nfY98sJoZaqrnV9
- xNIt3HJ1ngBO4i3ULqPSQOEijCG6jEg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-dGwI6Q9-PlGAXkKL_8n4Pg-1; Wed, 06 Oct 2021 05:57:11 -0400
-X-MC-Unique: dGwI6Q9-PlGAXkKL_8n4Pg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- o2-20020a5d4a82000000b00160c6b7622aso1486121wrq.12
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 02:57:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=im7iisH1JM9hcrIx/MPICO8FM1i0cmVFlkDGzzTtGys=;
- b=h5nhWlUJco5Pqd1oM9PpaAfu6VdzHkBV8b6Sue5FSGazZkySNFrjwlrSbL3VOqLcdz
- Vu6yTuAjW09VxjTSsFeUyNG5qnl63VauhoDRulVotuwBdFPu0bSJ1LcyLNg7qM2USe+E
- XmSlbSE0G0qIi+9C08789fJaMzv2/bjnlEizkuJ8lgTbgKW1xwKO/btMYHo+B5Sa8mQe
- FSFm47CKsmzlI6pW2CCLIhkveRjZ1svoCzn6g+oXifqGUVKQ3QwnS356EcUSy5H8TW+n
- qyDEtCgaBiOhk+AJseKPkZ8WCbxQP4pSIeogGu66lO9s8NvRGdUbhBBudws5SRLw/R4i
- zD4w==
-X-Gm-Message-State: AOAM531kptFqiawx1duW8SgQk4NiG83w0zlqUjXRQYS9U2fK1cue9Rjq
- TyhfbMCqStAmhjMgqxZkZH76K/e0+wEzDEUhq+Asx17xJ+iZ4bLoTThN2Smx/AqOf7BvZggJiGf
- 4WNIvH83VQM2hU2s=
-X-Received: by 2002:a5d:648f:: with SMTP id o15mr2367375wri.3.1633514230231;
- Wed, 06 Oct 2021 02:57:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJypLb12VjbYTduFQCR7TzFGtFH1To89YkVPuDfej659JFTLp7l4brzMSrmhzcjrz0a/FeC9mw==
-X-Received: by 2002:a5d:648f:: with SMTP id o15mr2367342wri.3.1633514229984;
- Wed, 06 Oct 2021 02:57:09 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id e11sm8513483wro.4.2021.10.06.02.57.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Oct 2021 02:57:09 -0700 (PDT)
-Subject: Re: [PATCH v3 2/3] hw/arm/virt_acpi_build: Generate DBG2 table
-To: Andrew Jones <drjones@redhat.com>
-References: <20210927131732.63801-1-eric.auger@redhat.com>
- <20210927131732.63801-3-eric.auger@redhat.com>
- <20211006091523.qaub5xg3kxuwjmlh@gator.home>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <2b284309-1dd6-6d73-225d-f83ad4af8657@redhat.com>
-Date: Wed, 6 Oct 2021 11:57:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=N5B27zJi2vPUwk5B5ARqkByx37x/CNCs7ie8cvno+i4=;
+ b=NsvcKU2/Msh/cOMg11hcC3h8AP7HDCD3Miw7DVt2Il0/FyU0dDT0yECtkVvNQuiUYJY31n
+ 05QstgSFKAcKDflImZ5KZKQQxTrCfmonzNbCfqnw+ZVedKH+Pht/tFT1AO8GC52UAsxX+A
+ p69amNwO+cYi8fK7uESs7yV8PfItESI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-F9JBb6BfOKyWnFqvEL1R0w-1; Wed, 06 Oct 2021 06:20:57 -0400
+X-MC-Unique: F9JBb6BfOKyWnFqvEL1R0w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44A721006AA3;
+ Wed,  6 Oct 2021 10:20:56 +0000 (UTC)
+Received: from titinator (unknown [10.39.194.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E7C6604CC;
+ Wed,  6 Oct 2021 10:20:46 +0000 (UTC)
+References: <20210930153037.1194279-1-vgoyal@redhat.com>
+ <20210930153037.1194279-10-vgoyal@redhat.com>
+User-agent: mu4e 1.5.13; emacs 27.2
+From: Christophe de Dinechin <dinechin@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH 09/13] virtiofsd: Specify size of
+ notification buffer using config space
+Date: Wed, 06 Oct 2021 12:05:20 +0200
+In-reply-to: <20210930153037.1194279-10-vgoyal@redhat.com>
+Message-ID: <lyzgrmihdv.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211006091523.qaub5xg3kxuwjmlh@gator.home>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dinechin@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.066, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,164 +79,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: peter.maydell@linaro.org, gshan@redhat.com, mst@redhat.com,
- qemu-devel@nongnu.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- imammedo@redhat.com, philmd@redhat.com, ardb@kernel.org,
- eric.auger.pro@gmail.com
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ miklos@szeredi.hu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-On 10/6/21 11:15 AM, Andrew Jones wrote:
-> On Mon, Sep 27, 2021 at 03:17:31PM +0200, Eric Auger wrote:
->> ARM SBBR specification mandates DBG2 table (Debug Port Table 2)
->> since v1.0 (ARM DEN0044F 8.3.1.7 DBG2).
->>
->> The DBG2 table allows to describe one or more debug ports.
->>
->> Generate an DBG2 table featuring a single debug port, the PL011.
->>
->> The DBG2 specification can be found at
->> "Microsoft Debug Port Table 2 (DBG2)"
->> https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table?redirectedfrom=MSDN
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>
->> ---
->>
->> v2 -> v3:
->> Took into account all comments from Igor on v2:
->> mostly style adjustment, revision references
->>
->> v1 -> v2:
->> - rebased on Igor's refactoring
->> ---
->>  hw/arm/virt-acpi-build.c | 62 +++++++++++++++++++++++++++++++++++++++-
->>  1 file changed, 61 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
->> index 6cec97352b..257d0fee17 100644
->> --- a/hw/arm/virt-acpi-build.c
->> +++ b/hw/arm/virt-acpi-build.c
->> @@ -616,6 +616,63 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->>      acpi_table_end(linker, &table);
->>  }
->>  
->> +/* Debug Port Table 2 (DBG2) */
->> +static void
->> +build_dbg2(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> nit: I didn't think QEMU liked this style, i.e. QEMU prefers
+On 2021-09-30 at 11:30 -04, Vivek Goyal <vgoyal@redhat.com> wrote...
+> Daemon specifies size of notification buffer needed and that should be
+> done using config space.
 >
->  static void build_dbg2(GArray *table_data, BIOSLinker *linker,
->                         VirtMachineState *vms)
+> Only ->notify_buf_size value of config space comes from daemon. Rest of
+> it is filled by qemu device emulation code.
 >
-> Eh, I see that hw/arm/virt-acpi-build.c is full of the format you have
-> here, so never mind.
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> Signed-off-by: Ioannis Angelakopoulos <iangelak@redhat.com>
+> ---
+>  hw/virtio/vhost-user-fs.c                  | 27 +++++++++++++++++++
+>  include/hw/virtio/vhost-user-fs.h          |  2 ++
+>  include/standard-headers/linux/virtio_fs.h |  2 ++
+>  tools/virtiofsd/fuse_virtio.c              | 31 ++++++++++++++++++++++
+>  4 files changed, 62 insertions(+)
 >
->> +{
->> +    AcpiTable table = { .sig = "DBG2", .rev = 3, .oem_id = vms->oem_id,
-> Can you explain where the .rev = 3 comes from? The spec says "For this
-> version of the specification, this value is 0."
-The above revision field belongs to the acpi table header. Not to be
-mixed with the Revision field of the DBG2 table
-which is set below (set to 0):
+> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> index 6bafcf0243..68a94708b4 100644
+> --- a/hw/virtio/vhost-user-fs.c
+> +++ b/hw/virtio/vhost-user-fs.c
+> @@ -36,15 +36,41 @@ static const int user_feature_bits[] = {
+>      VHOST_INVALID_FEATURE_BIT
+>  };
+>
+> +static int vhost_user_fs_handle_config_change(struct vhost_dev *dev)
+> +{
+> +    return 0;
+> +}
+> +
+> +const VhostDevConfigOps fs_ops = {
+> +    .vhost_dev_config_notifier = vhost_user_fs_handle_config_change,
+> +};
+> +
+>  static void vuf_get_config(VirtIODevice *vdev, uint8_t *config)
+>  {
+>      VHostUserFS *fs = VHOST_USER_FS(vdev);
+>      struct virtio_fs_config fscfg = {};
+> +    Error *local_err = NULL;
+> +    int ret;
+> +
+> +    /*
+> +     * As of now we only get notification buffer size from device. And that's
+> +     * needed only if notification queue is enabled.
+> +     */
+> +    if (fs->notify_enabled) {
+> +        ret = vhost_dev_get_config(&fs->vhost_dev, (uint8_t *)&fs->fscfg,
+> +                                   sizeof(struct virtio_fs_config),
+> +                                   &local_err);
+> +        if (ret) {
+> +            error_report_err(local_err);
+> +            return;
+> +        }
+> +    }
 
-+    build_append_int_noprefix(table_data, 0, 1); /* Revision */
+I was a bit puzzled by this form of error reporting from the config
+callback. It looks like this is not a first, the same pattern exists in
+vhost-user-input, vhost-user-gpu, vhost-user-gpu.
 
-Besides that's a good question. I have rev=3 here but that must come from a copy/paste. when googling I
-found
+However, in all these other cases, there is a memset of the config data to
+zero before returning, so you don't leave it uninitialized. Only
+vhost-user-blk follows a similar pattern as the code above. Apparently,
+vhost_dev_get_config itself does not zero the config either.
 
-https://lists.denx.de/pipermail/u-boot/2015-June/217134.html
-/header->revision = 1; /* ACPI 1.0/2.0: 1, ACPI 3.0: 2, ACPI 4.0: 3 */
-Not sure if 3 is the right value though? Igor, please could you advise?
-Thanks Eric /
+Would it be worth adding the following to the error path?
+
+    memset(config, 0, sizeof(fscfg));
 
 >
+>      memcpy((char *)fscfg.tag, fs->conf.tag,
+>             MIN(strlen(fs->conf.tag) + 1, sizeof(fscfg.tag)));
 >
->> +                        .oem_table_id = vms->oem_table_id };
->> +    int dbg2devicelength;
->> +    const char name[] = "COM0";
->> +    const int namespace_length = sizeof(name);
->> +
->> +    acpi_table_begin(&table, table_data);
->> +
->> +    dbg2devicelength = 22 /* BaseAddressRegister[] offset */ +
->> +                       12 /* BaseAddressRegister[] */ +
->> +                       4 /* AddressSize[] */ +
-> I'd personally prefer the '+' before the comment, but maybe Igor has a
-> special ACPI code format preference here.
+>      virtio_stl_p(vdev, &fscfg.num_request_queues, fs->conf.num_request_queues);
+> +    virtio_stl_p(vdev, &fscfg.notify_buf_size, fs->fscfg.notify_buf_size);
 >
->> +                       namespace_length /* NamespaceString[] */;
->> +
->> +    /* OffsetDbgDeviceInfo */
->> +    build_append_int_noprefix(table_data, 44, 4);
->> +    /* NumberDbgDeviceInfo */
->> +    build_append_int_noprefix(table_data, 1, 4);
->> +
->> +    /* Table 2. Debug Device Information structure format */
->> +    build_append_int_noprefix(table_data, 0, 1); /* Revision */
->> +    build_append_int_noprefix(table_data, dbg2devicelength, 2); /* Length */
->> +    /* NumberofGenericAddressRegisters */
->> +    build_append_int_noprefix(table_data, 1, 1);
->> +    /* NameSpaceStringLength */
->> +    build_append_int_noprefix(table_data, namespace_length, 2);
->> +    build_append_int_noprefix(table_data, 38, 2); /* NameSpaceStringOffset */
->> +    build_append_int_noprefix(table_data, 0, 2); /* OemDataLength */
->> +    /* OemDataOffset (0 means no OEM data) */
->> +    build_append_int_noprefix(table_data, 0, 2);
->> +
->> +    /* Port Type */
->> +    build_append_int_noprefix(table_data, 0x8000 /* Serial */, 2);
->> +    /* Port Subtype */
->> +    build_append_int_noprefix(table_data, 0x3 /* ARM PL011 UART */, 2);
->> +    build_append_int_noprefix(table_data, 0, 2); /* Reserved */
->> +    /* BaseAddressRegisterOffset */
->> +    build_append_int_noprefix(table_data, 22, 2);
->> +    /* AddressSizeOffset */
->> +    build_append_int_noprefix(table_data, 34, 2);
->> +
->> +    /* BaseAddressRegister[] */
->> +    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 8, 0, 1,
->> +                     vms->memmap[VIRT_UART].base);
->> +
->> +    /* AddressSize[] */
->> +    build_append_int_noprefix(table_data, 0x1000 /* Register Space */, 4);
->> +
->> +    /* NamespaceString[] */
->> +    g_array_append_vals(table_data, name, namespace_length);
->> +
->> +    acpi_table_end(linker, &table);
->> +};
->> +
->>  /*
->>   * ACPI spec, Revision 5.1 Errata A
->>   * 5.2.12 Multiple APIC Description Table (MADT)
->> @@ -875,7 +932,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->>      dsdt = tables_blob->len;
->>      build_dsdt(tables_blob, tables->linker, vms);
->>  
->> -    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
->> +    /* FADT MADT GTDT MCFG SPCR DBG2 pointed to by RSDT */
->>      acpi_add_table(table_offsets, tables_blob);
->>      build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
->>  
->> @@ -898,6 +955,9 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->>      acpi_add_table(table_offsets, tables_blob);
->>      build_spcr(tables_blob, tables->linker, vms);
->>  
->> +    acpi_add_table(table_offsets, tables_blob);
->> +    build_dbg2(tables_blob, tables->linker, vms);
->> +
->>      if (vms->ras) {
->>          build_ghes_error_table(tables->hardware_errors, tables->linker);
->>          acpi_add_table(table_offsets, tables_blob);
->> -- 
->> 2.26.3
->>
-> Thanks,
-> drew 
+>      memcpy(config, &fscfg, sizeof(fscfg));
+>  }
+> @@ -316,6 +342,7 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
+>                  sizeof(struct virtio_fs_config));
 >
+>      vuf_create_vqs(vdev, true);
+> +    vhost_dev_set_config_notifier(&fs->vhost_dev, &fs_ops);
+>      ret = vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
+>                           VHOST_BACKEND_TYPE_USER, 0, errp);
+>      if (ret < 0) {
+> diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
+> index 95dc0dd402..3b114ee260 100644
+> --- a/include/hw/virtio/vhost-user-fs.h
+> +++ b/include/hw/virtio/vhost-user-fs.h
+> @@ -14,6 +14,7 @@
+>  #ifndef _QEMU_VHOST_USER_FS_H
+>  #define _QEMU_VHOST_USER_FS_H
+>
+> +#include "standard-headers/linux/virtio_fs.h"
+>  #include "hw/virtio/virtio.h"
+>  #include "hw/virtio/vhost.h"
+>  #include "hw/virtio/vhost-user.h"
+> @@ -37,6 +38,7 @@ struct VHostUserFS {
+>      struct vhost_virtqueue *vhost_vqs;
+>      struct vhost_dev vhost_dev;
+>      VhostUserState vhost_user;
+> +    struct virtio_fs_config fscfg;
+>      VirtQueue **req_vqs;
+>      VirtQueue *hiprio_vq;
+>      VirtQueue *notification_vq;
+> diff --git a/include/standard-headers/linux/virtio_fs.h b/include/standard-headers/linux/virtio_fs.h
+> index b7f015186e..867d18acf6 100644
+> --- a/include/standard-headers/linux/virtio_fs.h
+> +++ b/include/standard-headers/linux/virtio_fs.h
+> @@ -17,6 +17,8 @@ struct virtio_fs_config {
+>
+>  	/* Number of request queues */
+>  	uint32_t num_request_queues;
+> +	/* Size of notification buffer */
+> +	uint32_t notify_buf_size;
+>  } QEMU_PACKED;
+>
+>  /* For the id field in virtio_pci_shm_cap */
+> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+> index f5b87a508a..3b720c5d4a 100644
+> --- a/tools/virtiofsd/fuse_virtio.c
+> +++ b/tools/virtiofsd/fuse_virtio.c
+> @@ -856,6 +856,35 @@ static bool fv_queue_order(VuDev *dev, int qidx)
+>      return false;
+>  }
+>
+> +static uint64_t fv_get_protocol_features(VuDev *dev)
+> +{
+> +    return 1ull << VHOST_USER_PROTOCOL_F_CONFIG;
+> +}
+> +
+> +static int fv_get_config(VuDev *dev, uint8_t *config, uint32_t len)
+> +{
+> +    struct virtio_fs_config fscfg = {};
+> +    unsigned notify_size, roundto = 64;
+> +    union fuse_notify_union {
+> +        struct fuse_notify_poll_wakeup_out  wakeup_out;
+> +        struct fuse_notify_inval_inode_out  inode_out;
+> +        struct fuse_notify_inval_entry_out  entry_out;
+> +        struct fuse_notify_delete_out       delete_out;
+> +        struct fuse_notify_store_out        store_out;
+> +        struct fuse_notify_retrieve_out     retrieve_out;
+> +    };
+> +
+> +    notify_size = sizeof(struct fuse_out_header) +
+> +              sizeof(union fuse_notify_union);
+> +    notify_size = ((notify_size + roundto) / roundto) * roundto;
+> +
+> +    fscfg.notify_buf_size = notify_size;
+> +    memcpy(config, &fscfg, len);
+> +    fuse_log(FUSE_LOG_DEBUG, "%s:Setting notify_buf_size=%d\n", __func__,
+> +             fscfg.notify_buf_size);
+> +    return 0;
+> +}
+> +
+>  static const VuDevIface fv_iface = {
+>      .get_features = fv_get_features,
+>      .set_features = fv_set_features,
+> @@ -864,6 +893,8 @@ static const VuDevIface fv_iface = {
+>      .queue_set_started = fv_queue_set_started,
+>
+>      .queue_is_processed_in_order = fv_queue_order,
+> +    .get_protocol_features = fv_get_protocol_features,
+> +    .get_config = fv_get_config,
+>  };
+>
+>  /*
+
+
+--
+Cheers,
+Christophe de Dinechin (IRC c3d)
 
 
