@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF954246AB
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 21:27:57 +0200 (CEST)
-Received: from localhost ([::1]:33924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9FE4246AF
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 21:31:53 +0200 (CEST)
+Received: from localhost ([::1]:37168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYCa4-0003qh-9w
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 15:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47118)
+	id 1mYCds-0006B0-WB
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 15:31:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYCXC-0000Q2-GB
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 15:24:58 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:46429)
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1mYCbD-0004wP-K7
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 15:29:07 -0400
+Received: from mxout.security-mail.net ([85.31.212.48]:45140
+ helo=fx304.security-mail.net)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYCXA-0006Fx-Bs
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 15:24:58 -0400
-Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mgebs-1mzXbe1PkS-00h2PB; Wed, 06 Oct 2021 21:24:54 +0200
-Subject: Re: [PATCH v2 08/12] macfb: add common monitor modes supported by the
- MacOS toolbox ROM
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20211004211928.15803-1-mark.cave-ayland@ilande.co.uk>
- <20211004211928.15803-9-mark.cave-ayland@ilande.co.uk>
- <7994e73e-cbda-1bd1-68c4-250dd951ed51@vivier.eu>
- <66384935-4c8f-8220-8593-bfde37d05e1d@ilande.co.uk>
- <15fba2fe-77b0-78f4-ea55-9438ce976c18@vivier.eu>
- <52fe2fc5-b4fb-8888-9b80-0e362c52ebb5@ilande.co.uk>
- <3a798740-d39e-f2b8-8b3c-1a4814f184ea@vivier.eu>
- <f8d64bc7-fc6e-dd14-4ed5-a55a947ef8cb@ilande.co.uk>
- <fc202c89-cbbc-9d87-b3e2-fcba8a82b495@vivier.eu>
- <20607ac1-a061-e102-0652-33440f13504b@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <07079a9e-f607-f6df-e1f4-70bdffb1e39f@vivier.eu>
-Date: Wed, 6 Oct 2021 21:24:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20607ac1-a061-e102-0652-33440f13504b@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XNThpJcWXwNbEIt/Yuv0V2XWLkapdvkvueamQt5aVdwvdDxbSs6
- raSX78FRrODu9dSfubTPwBK99heEwwVdu2LN7hQAPShQRb1LpaBgBY0mtqKvocV9ry+UxAq
- JOjViwNiaKp7A3uI2P5Cgnt4zSIZjqKWjeLEOXg94pOnQXMRPx5AbfgLsJkXcmL/IwwMZSr
- vT85SS8TDM/4xEaQ3SOTA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:o4uSvMQ8Gok=:dLKfHmtaVJvom1h5QoOkNn
- d7VkJRHYruF93lHfJpyO8vGdFB1aNBth2R7yo6FC7RvSfnKF144gmey4GUV698bUmPs7TQgRU
- yhdkjwncIvh2PGJT88s0YvGwYdDKT1GUuPvmQFo9XuCB7pakRc4hsedohFHq4vxGw4jZIzepa
- 6EaoNRacXagR5zu21nisIT5HTRSwh49eXbSEqk5pbemObVA3SqYn9Z1OFiZeQ3aGH6iw3TddB
- vC2LAfpsfsEXwwRkyKAa+dpg+FbinSwSbFwigMVGyBz+qF/TtSA0zGkfLgFPobqtqFjW1ghEA
- jlnq/008h+mHsvf+OznpKpPOQdFHs4q1VZ/WDSzrTc6Sv1AWuGoNjhWj3SX4tCiHxs7z3z3HN
- QdU57Xsvk72WwOEj7+DuGw3bco9Q053FMso7tR9WpWP/pbNtd6aivyd7qy8J7ZPupV1Yn+HL9
- yvCKGmiSPATatlYIoWaS8H5yWFDKyj/O57NvOrRwgC5GR8XlbCbQrYfZ8cRfjEkstnHWrnY9W
- w3Ppq3zDk4VdLZHzFekDeczaz/WFT+4YDFO4E7xzwS9ZtRA727clDAlCg7khcXDO45WcjIMGy
- 0J2JdwcnVACfRbvthf5jcsVQ7HPkjcdi9b1FLjabfzUNh6j19Mms+H9NYaaxALy6sdzPQhWzn
- oC99TPQPmDhgZEbKXFkbG+oYjEqG/cM0RV5Qv9APFYUPC6dnnRDwif0CPcji/DuGB8Td9FaEZ
- OWo1Ahm5MNoP3Z6RBRDzZosR6RSANvOYgC95VA==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.964,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <lmichel@kalray.eu>) id 1mYCb9-0001K8-1f
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 15:29:07 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by fx304.security-mail.net (Postfix) with ESMTP id A767362998
+ for <qemu-devel@nongnu.org>; Wed,  6 Oct 2021 21:28:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+ s=sec-sig-email; t=1633548538;
+ bh=wF2hjLs3owZZJYvFUlszdy0PQ9kWrk7g7aCkrB7jYCI=;
+ h=From:To:Cc:Subject:Date;
+ b=BH7W7gQZEhymmoPvu/c1SZrz9xO+UQBYYmGodjpPU51Ee935J5SHx9876GoAwIEeO
+ ImIFceAyUWr0Uu95zsI4e4H6z4E83HL9kdZXmhSXuSI0lef/HDvhmSaFqR/PIXjOZz
+ Bcy5PkxXqMnzRw4jCm0qDOmOWxk7M+Qme+32FvGA=
+Received: from fx304 (localhost [127.0.0.1])
+ by fx304.security-mail.net (Postfix) with ESMTP id 49C5462981;
+ Wed,  6 Oct 2021 21:28:58 +0200 (CEST)
+X-Virus-Scanned: E-securemail
+Secumail-id: <16536.615df8f9.df313.0>
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
+ by fx304.security-mail.net (Postfix) with ESMTPS id E25136291C;
+ Wed,  6 Oct 2021 21:28:57 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
+ by zimbra2.kalray.eu (Postfix) with ESMTPS id C2A5227E032E;
+ Wed,  6 Oct 2021 21:28:57 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zimbra2.kalray.eu (Postfix) with ESMTP id A8D1427E0333;
+ Wed,  6 Oct 2021 21:28:57 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu A8D1427E0333
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1633548537;
+ bh=T5LOwMKy1yvdCbj4AZHWJpTwKEtU2ee2FmjQ/yh5IBc=;
+ h=From:To:Date:Message-Id;
+ b=CSlAn3jARePAXk1bfjm/XlFQk5/fGrgr+dpAJ4aN/xk3pHgneBuQHu7BNIw2nW57K
+ owEJReg4J7CzDu5zDLQ5SJWtUC4YESWeVEzc51qcU7LdwpKGbYv2K+bmXgWGZUR9Iy
+ rU406r79AfFIvIoek5WfYK3hncBdxvXTpWlKjcNs=
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+ by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id q-4nz5QVinlO; Wed,  6 Oct 2021 21:28:57 +0200 (CEST)
+Received: from ws2101.lin.mbt.kalray.eu (unknown [192.168.36.68])
+ by zimbra2.kalray.eu (Postfix) with ESMTPSA id 8948027E032E;
+ Wed,  6 Oct 2021 21:28:57 +0200 (CEST)
+From: Luc Michel <lmichel@kalray.eu>
+To: qemu-devel@nongnu.org
+Cc: Luc Michel <lmichel@kalray.eu>, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Stefano Garzarella <sgarzare@redhat.com>
+Subject: [PATCH] hw/elf_ops.h: switch to ssize_t for elf loader return type
+Date: Wed,  6 Oct 2021 21:28:39 +0200
+Message-Id: <20211006192839.17720-1-lmichel@kalray.eu>
+X-Mailer: git-send-email 2.17.1
+X-Virus-Scanned: by Secumail
+Received-SPF: pass client-ip=85.31.212.48; envelope-from=lmichel@kalray.eu;
+ helo=fx304.security-mail.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,138 +91,284 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/10/2021 à 18:09, Mark Cave-Ayland a écrit :
-> On 06/10/2021 16:46, Laurent Vivier wrote:
->> Le 06/10/2021 à 15:54, Mark Cave-Ayland a écrit :
->>> On 06/10/2021 13:24, Laurent Vivier wrote:
->>>
->>>>> This is where it becomes a bit trickier, since technically booting Linux with -kernel you can use
->>>>> any supported values as long as everything fits in the video RAM which is why there isn't
->>>>> currently
->>>>> a hard-coded list :)
->>>>>
->>>>
->>>> We need the list of "supported values". I don't want to read the code or try values combination
->>>> until it works.
->>>>
->>>> In a perfect world, I would like to be able to use any value I want with "-kernel".
->>>>
->>>> For instance I was using "-g 1200x800x24" and it was working fine.
->>>>
->>>> Now I have:
->>>>
->>>> qemu-system-m68k: unknown display mode: width 1200, height 800, depth 24
->>>>
->>>> If it's not possible (because the original hardware cannot provide it, and we don't know the base
->>>> address or things like that), we don't need the list of the display id, but the list of available
->>>> modes: (width,height,depth).
->>>>
->>>> Rougly, something like:
->>>>
->>>> qemu-system-m68k: unknown display mode: width 1200, height 800, depth 24
->>>> Available modes:
->>>>       1152x870x8
->>>>       1152x870x4
->>>>       1152x870x2
->>>>       1152x870x1
->>>>       800x600x24
->>>>       800x600x8
->>>>       800x600x4
->>>>       800x600x2
->>>>       800x600x1
->>>>       640x480x24
->>>>       640x480x8
->>>>       640x480x4
->>>>       640x480x2
->>>>       640x480x1
->>>>
->>>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
->>>> index 5b8812e9e7d8..4b352eb89c3f 100644
->>>> --- a/hw/display/macfb.c
->>>> +++ b/hw/display/macfb.c
->>>> @@ -438,6 +438,26 @@ static MacFbMode *macfb_find_mode(MacfbDisplayType display_type,
->>>>        return NULL;
->>>>    }
->>>>
->>>> +static gchar *macfb_mode_list(void)
->>>> +{
->>>> +    gchar *list = NULL;
->>>> +    gchar *mode;
->>>> +    MacFbMode *macfb_mode;
->>>> +    int i;
->>>> +
->>>> +    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
->>>> +        macfb_mode = &macfb_mode_table[i];
->>>> +
->>>> +        mode = g_strdup_printf("    %dx%dx%d\n", macfb_mode->width,
->>>> +                               macfb_mode->height, macfb_mode->depth);
->>>> +        list = g_strconcat(mode, list, NULL);
->>>> +        g_free(mode);
->>>> +    }
->>>> +
->>>> +    return list;
->>>> +}
->>>> +
->>>> +
->>>>    static void macfb_update_display(void *opaque)
->>>>    {
->>>>        MacfbState *s = opaque;
->>>> @@ -620,8 +640,13 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error
->>>> **errp)
->>>>
->>>>        s->mode = macfb_find_mode(s->type, s->width, s->height, s->depth);
->>>>        if (!s->mode) {
->>>> +        gchar *list;
->>>>            error_setg(errp, "unknown display mode: width %d, height %d, depth %d",
->>>>                       s->width, s->height, s->depth);
->>>> +        list =  macfb_mode_list();
->>>> +        error_append_hint(errp, "Available modes:\n%s", list);
->>>> +        g_free(list);
->>>> +
->>>>            return false;
->>>>        }
->>>
->>> Hi Laurent,
->>>
->>> Thanks for the example - I can certainly squash this into patch 8.
->>
->> yes, please.
-> 
-> Okay I'll do that for a v3 (and also split the 1st patch that Phil suggested).
-> 
->>> As for allowing extra resolutions via -kernel, since the check is being done in
->>> macfb_common_realize() then it would be possible to add a qdev property that only gets set when
->>> -kernel is used on the command line which bypasses the mode check if you prefer?
->>>
->>
->> I think it can wait and be done by a patch later. For the moment we can focus on MacOS.
->>
->>> I'm not sure that your existing example of "-g 1200x800x24" (or indeed any resolution with 24-bit
->>> depth) with -kernel will still work after this patchset given that the 24-bit encoding scheme has
->>> changed. Presumably this would also need a corresponding change in the bootinfo/kernel framebuffer/X
->>> configuration somewhere?
->>
->> The kernel framebuffer should be easy to fix, if needed, normally we pass the needed information via
->> the bootinfo structure.
->>
->> My X configuration is broken for a while. With debian/sid I've never been able to start X (even on a
->> real q800, I think), and with debian/etch we need a special kernel as the ADB stack has been broken
->> with old kernel. I was not able to start X for a while now...
-> 
-> FWIW I found that the last set of ADB fixes in mac_via.c actually fixed ADB on old kernels again (I
-> was able to use keyboard and mouse on the 4.15 kernel you used for the original patches), so you may
-> be able to get debian/etch working in QEMU. I'd expect forcing EMILE into a 24-bit depth on a real
-> Quadra 800 would also show the same issue here.
-> 
+Until now, int was used as the return type for all the ELF
+loader related functions. The returned value is the sum of all loaded
+program headers "MemSize" fields.
 
-In fact, I was trying the etch kernel, 2.6.32 that was never able to boot before because VBL
-interrupt was not implemented. Now, with your series it boots (congratulation) but there is some
-other issues in ADB but I don't think it's related to the changes in QEMU.
+Because of the overflow check in elf_ops.h, trying to load an ELF bigger
+than INT_MAX will fail. Switch to ssize_t to remove this limitation.
 
-I've found another kernel on my disk (4.1.39) and I'm able to start a gnome-session with 1152x870x8
-mode. ADB works well. There is an issue with gdm that doesn't take characters from the keyboard but
-if I start X manually and then gnome-sessions I'm able to play with it.
+Signed-off-by: Luc Michel <lmichel@kalray.eu>
+---
+ include/hw/elf_ops.h | 25 +++++++++---------
+ include/hw/loader.h  | 60 ++++++++++++++++++++++----------------------
+ hw/core/loader.c     | 60 +++++++++++++++++++++++---------------------
+ 3 files changed, 74 insertions(+), 71 deletions(-)
 
-Thanks,
-Laurent
+diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+index 1c37cec4ae..5c2ea0339e 100644
+--- a/include/hw/elf_ops.h
++++ b/include/hw/elf_ops.h
+@@ -310,24 +310,25 @@ static struct elf_note *glue(get_elf_note_type, SZ)(struct elf_note *nhdr,
+     }
+ 
+     return nhdr;
+ }
+ 
+-static int glue(load_elf, SZ)(const char *name, int fd,
+-                              uint64_t (*elf_note_fn)(void *, void *, bool),
+-                              uint64_t (*translate_fn)(void *, uint64_t),
+-                              void *translate_opaque,
+-                              int must_swab, uint64_t *pentry,
+-                              uint64_t *lowaddr, uint64_t *highaddr,
+-                              uint32_t *pflags, int elf_machine,
+-                              int clear_lsb, int data_swab,
+-                              AddressSpace *as, bool load_rom,
+-                              symbol_fn_t sym_cb)
++static ssize_t glue(load_elf, SZ)(const char *name, int fd,
++                                  uint64_t (*elf_note_fn)(void *, void *, bool),
++                                  uint64_t (*translate_fn)(void *, uint64_t),
++                                  void *translate_opaque,
++                                  int must_swab, uint64_t *pentry,
++                                  uint64_t *lowaddr, uint64_t *highaddr,
++                                  uint32_t *pflags, int elf_machine,
++                                  int clear_lsb, int data_swab,
++                                  AddressSpace *as, bool load_rom,
++                                  symbol_fn_t sym_cb)
+ {
+     struct elfhdr ehdr;
+     struct elf_phdr *phdr = NULL, *ph;
+-    int size, i, total_size;
++    int size, i;
++    ssize_t total_size;
+     elf_word mem_size, file_size, data_offset;
+     uint64_t addr, low = (uint64_t)-1, high = 0;
+     GMappedFile *mapped_file = NULL;
+     uint8_t *data = NULL;
+     int ret = ELF_LOAD_FAILED;
+@@ -480,11 +481,11 @@ static int glue(load_elf, SZ)(const char *name, int fd,
+                         }
+                     }
+                 }
+             }
+ 
+-            if (mem_size > INT_MAX - total_size) {
++            if (mem_size > SSIZE_MAX - total_size) {
+                 ret = ELF_LOAD_TOO_BIG;
+                 goto fail;
+             }
+ 
+             /* address_offset is hack for kernel images that are
+diff --git a/include/hw/loader.h b/include/hw/loader.h
+index 81104cb02f..4fa485bd61 100644
+--- a/include/hw/loader.h
++++ b/include/hw/loader.h
+@@ -88,11 +88,11 @@ int load_image_gzipped(const char *filename, hwaddr addr, uint64_t max_sz);
+ #define ELF_LOAD_FAILED       -1
+ #define ELF_LOAD_NOT_ELF      -2
+ #define ELF_LOAD_WRONG_ARCH   -3
+ #define ELF_LOAD_WRONG_ENDIAN -4
+ #define ELF_LOAD_TOO_BIG      -5
+-const char *load_elf_strerror(int error);
++const char *load_elf_strerror(ssize_t error);
+ 
+ /** load_elf_ram_sym:
+  * @filename: Path of ELF file
+  * @elf_note_fn: optional function to parse ELF Note type
+  *               passed via @translate_opaque
+@@ -126,52 +126,52 @@ const char *load_elf_strerror(int error);
+  * ELF header and no checks will be carried out against the machine type.
+  */
+ typedef void (*symbol_fn_t)(const char *st_name, int st_info,
+                             uint64_t st_value, uint64_t st_size);
+ 
+-int load_elf_ram_sym(const char *filename,
++ssize_t load_elf_ram_sym(const char *filename,
++                         uint64_t (*elf_note_fn)(void *, void *, bool),
++                         uint64_t (*translate_fn)(void *, uint64_t),
++                         void *translate_opaque, uint64_t *pentry,
++                         uint64_t *lowaddr, uint64_t *highaddr,
++                         uint32_t *pflags, int big_endian, int elf_machine,
++                         int clear_lsb, int data_swab,
++                         AddressSpace *as, bool load_rom, symbol_fn_t sym_cb);
++
++/** load_elf_ram:
++ * Same as load_elf_ram_sym(), but doesn't allow the caller to specify a
++ * symbol callback function
++ */
++ssize_t load_elf_ram(const char *filename,
+                      uint64_t (*elf_note_fn)(void *, void *, bool),
+                      uint64_t (*translate_fn)(void *, uint64_t),
+                      void *translate_opaque, uint64_t *pentry,
+                      uint64_t *lowaddr, uint64_t *highaddr, uint32_t *pflags,
+-                     int big_endian, int elf_machine,
+-                     int clear_lsb, int data_swab,
+-                     AddressSpace *as, bool load_rom, symbol_fn_t sym_cb);
+-
+-/** load_elf_ram:
+- * Same as load_elf_ram_sym(), but doesn't allow the caller to specify a
+- * symbol callback function
+- */
+-int load_elf_ram(const char *filename,
+-                 uint64_t (*elf_note_fn)(void *, void *, bool),
+-                 uint64_t (*translate_fn)(void *, uint64_t),
+-                 void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
+-                 uint64_t *highaddr, uint32_t *pflags, int big_endian,
+-                 int elf_machine, int clear_lsb, int data_swab,
+-                 AddressSpace *as, bool load_rom);
++                     int big_endian, int elf_machine, int clear_lsb,
++                     int data_swab, AddressSpace *as, bool load_rom);
+ 
+ /** load_elf_as:
+  * Same as load_elf_ram(), but always loads the elf as ROM
+  */
+-int load_elf_as(const char *filename,
+-                uint64_t (*elf_note_fn)(void *, void *, bool),
+-                uint64_t (*translate_fn)(void *, uint64_t),
+-                void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
+-                uint64_t *highaddr, uint32_t *pflags, int big_endian,
+-                int elf_machine, int clear_lsb, int data_swab,
+-                AddressSpace *as);
++ssize_t load_elf_as(const char *filename,
++                    uint64_t (*elf_note_fn)(void *, void *, bool),
++                    uint64_t (*translate_fn)(void *, uint64_t),
++                    void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
++                    uint64_t *highaddr, uint32_t *pflags, int big_endian,
++                    int elf_machine, int clear_lsb, int data_swab,
++                    AddressSpace *as);
+ 
+ /** load_elf:
+  * Same as load_elf_as(), but doesn't allow the caller to specify an
+  * AddressSpace.
+  */
+-int load_elf(const char *filename,
+-             uint64_t (*elf_note_fn)(void *, void *, bool),
+-             uint64_t (*translate_fn)(void *, uint64_t),
+-             void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
+-             uint64_t *highaddr, uint32_t *pflags, int big_endian,
+-             int elf_machine, int clear_lsb, int data_swab);
++ssize_t load_elf(const char *filename,
++                 uint64_t (*elf_note_fn)(void *, void *, bool),
++                 uint64_t (*translate_fn)(void *, uint64_t),
++                 void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
++                 uint64_t *highaddr, uint32_t *pflags, int big_endian,
++                 int elf_machine, int clear_lsb, int data_swab);
+ 
+ /** load_elf_hdr:
+  * @filename: Path of ELF file
+  * @hdr: Buffer to populate with header data. Header data will not be
+  * filled if set to NULL.
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index c623318b73..c7f97fdce8 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -324,11 +324,11 @@ static void *load_at(int fd, off_t offset, size_t size)
+ #define elf_sword        int64_t
+ #define bswapSZs	bswap64s
+ #define SZ		64
+ #include "hw/elf_ops.h"
+ 
+-const char *load_elf_strerror(int error)
++const char *load_elf_strerror(ssize_t error)
+ {
+     switch (error) {
+     case 0:
+         return "No error";
+     case ELF_LOAD_FAILED:
+@@ -400,62 +400,64 @@ void load_elf_hdr(const char *filename, void *hdr, bool *is64, Error **errp)
+ fail:
+     close(fd);
+ }
+ 
+ /* return < 0 if error, otherwise the number of bytes loaded in memory */
+-int load_elf(const char *filename,
+-             uint64_t (*elf_note_fn)(void *, void *, bool),
+-             uint64_t (*translate_fn)(void *, uint64_t),
+-             void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
+-             uint64_t *highaddr, uint32_t *pflags, int big_endian,
+-             int elf_machine, int clear_lsb, int data_swab)
++ssize_t load_elf(const char *filename,
++                 uint64_t (*elf_note_fn)(void *, void *, bool),
++                 uint64_t (*translate_fn)(void *, uint64_t),
++                 void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
++                 uint64_t *highaddr, uint32_t *pflags, int big_endian,
++                 int elf_machine, int clear_lsb, int data_swab)
+ {
+     return load_elf_as(filename, elf_note_fn, translate_fn, translate_opaque,
+                        pentry, lowaddr, highaddr, pflags, big_endian,
+                        elf_machine, clear_lsb, data_swab, NULL);
+ }
+ 
+ /* return < 0 if error, otherwise the number of bytes loaded in memory */
+-int load_elf_as(const char *filename,
+-                uint64_t (*elf_note_fn)(void *, void *, bool),
+-                uint64_t (*translate_fn)(void *, uint64_t),
+-                void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
+-                uint64_t *highaddr, uint32_t *pflags, int big_endian,
+-                int elf_machine, int clear_lsb, int data_swab, AddressSpace *as)
++ssize_t load_elf_as(const char *filename,
++                    uint64_t (*elf_note_fn)(void *, void *, bool),
++                    uint64_t (*translate_fn)(void *, uint64_t),
++                    void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
++                    uint64_t *highaddr, uint32_t *pflags, int big_endian,
++                    int elf_machine, int clear_lsb, int data_swab,
++                    AddressSpace *as)
+ {
+     return load_elf_ram(filename, elf_note_fn, translate_fn, translate_opaque,
+                         pentry, lowaddr, highaddr, pflags, big_endian,
+                         elf_machine, clear_lsb, data_swab, as, true);
+ }
+ 
+ /* return < 0 if error, otherwise the number of bytes loaded in memory */
+-int load_elf_ram(const char *filename,
+-                 uint64_t (*elf_note_fn)(void *, void *, bool),
+-                 uint64_t (*translate_fn)(void *, uint64_t),
+-                 void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr,
+-                 uint64_t *highaddr, uint32_t *pflags, int big_endian,
+-                 int elf_machine, int clear_lsb, int data_swab,
+-                 AddressSpace *as, bool load_rom)
++ssize_t load_elf_ram(const char *filename,
++                     uint64_t (*elf_note_fn)(void *, void *, bool),
++                     uint64_t (*translate_fn)(void *, uint64_t),
++                     void *translate_opaque, uint64_t *pentry,
++                     uint64_t *lowaddr, uint64_t *highaddr, uint32_t *pflags,
++                     int big_endian, int elf_machine, int clear_lsb,
++                     int data_swab, AddressSpace *as, bool load_rom)
+ {
+     return load_elf_ram_sym(filename, elf_note_fn,
+                             translate_fn, translate_opaque,
+                             pentry, lowaddr, highaddr, pflags, big_endian,
+                             elf_machine, clear_lsb, data_swab, as,
+                             load_rom, NULL);
+ }
+ 
+ /* return < 0 if error, otherwise the number of bytes loaded in memory */
+-int load_elf_ram_sym(const char *filename,
+-                     uint64_t (*elf_note_fn)(void *, void *, bool),
+-                     uint64_t (*translate_fn)(void *, uint64_t),
+-                     void *translate_opaque, uint64_t *pentry,
+-                     uint64_t *lowaddr, uint64_t *highaddr, uint32_t *pflags,
+-                     int big_endian, int elf_machine,
+-                     int clear_lsb, int data_swab,
+-                     AddressSpace *as, bool load_rom, symbol_fn_t sym_cb)
++ssize_t load_elf_ram_sym(const char *filename,
++                         uint64_t (*elf_note_fn)(void *, void *, bool),
++                         uint64_t (*translate_fn)(void *, uint64_t),
++                         void *translate_opaque, uint64_t *pentry,
++                         uint64_t *lowaddr, uint64_t *highaddr,
++                         uint32_t *pflags, int big_endian, int elf_machine,
++                         int clear_lsb, int data_swab,
++                         AddressSpace *as, bool load_rom, symbol_fn_t sym_cb)
+ {
+-    int fd, data_order, target_data_order, must_swab, ret = ELF_LOAD_FAILED;
++    int fd, data_order, target_data_order, must_swab;
++    ssize_t ret = ELF_LOAD_FAILED;
+     uint8_t e_ident[EI_NIDENT];
+ 
+     fd = open(filename, O_RDONLY | O_BINARY);
+     if (fd < 0) {
+         perror(filename);
+-- 
+2.17.1
+
 
