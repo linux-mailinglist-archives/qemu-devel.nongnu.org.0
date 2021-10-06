@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFD54248F8
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 23:34:22 +0200 (CEST)
-Received: from localhost ([::1]:35228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D95424923
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 23:44:10 +0200 (CEST)
+Received: from localhost ([::1]:52154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYEYN-0002kX-GB
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 17:34:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49502)
+	id 1mYEht-00063y-FB
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 17:44:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mYETd-0007xD-Di; Wed, 06 Oct 2021 17:29:26 -0400
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:43610)
+ id 1mYETe-0007xc-EP; Wed, 06 Oct 2021 17:29:27 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:43632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mYETb-0007w2-NZ; Wed, 06 Oct 2021 17:29:25 -0400
+ id 1mYETc-0007x1-NA; Wed, 06 Oct 2021 17:29:26 -0400
 Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 39B484100B;
- Wed,  6 Oct 2021 23:29:22 +0200 (CEST)
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 376DB4101C;
+ Wed,  6 Oct 2021 23:29:23 +0200 (CEST)
 Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 228D060066;
- Wed,  6 Oct 2021 23:29:22 +0200 (CEST)
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 1FB8F60066;
+ Wed,  6 Oct 2021 23:29:23 +0200 (CEST)
 Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id DB8B614005C;
- Wed,  6 Oct 2021 23:29:21 +0200 (CEST)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id E067714005C;
+ Wed,  6 Oct 2021 23:29:22 +0200 (CEST)
 From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
  <frederic.petrot@univ-grenoble-alpes.fr>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 03/27] target/riscv: adding upper 64 bits for misa
-Date: Wed,  6 Oct 2021 23:28:09 +0200
-Message-Id: <20211006212833.108706-4-frederic.petrot@univ-grenoble-alpes.fr>
+Subject: [PATCH v2 04/27] target/riscv: array for the 64 upper bits of 128-bit
+ registers
+Date: Wed,  6 Oct 2021 23:28:10 +0200
+Message-Id: <20211006212833.108706-5-frederic.petrot@univ-grenoble-alpes.fr>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211006212833.108706-1-frederic.petrot@univ-grenoble-alpes.fr>
 References: <20211006212833.108706-1-frederic.petrot@univ-grenoble-alpes.fr>
@@ -75,126 +76,72 @@ Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Addition of misah, upper part of misa in the 128-bit extension.
-This is required for the is_64bit and is_128bit macros that we
-introduce in addition to the existing is_32bit one to know which
-register size the processor uses.
+The upper 64-bit of the 128-bit registers have now a place inside
+the cpu state structure, and are created as globals for future use.
 
 Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
 Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
 ---
- target/riscv/cpu.h       | 11 +++++++++++
- target/riscv/cpu.c       |  2 ++
- target/riscv/translate.c | 21 ++++++++++++++++++++-
- 3 files changed, 33 insertions(+), 1 deletion(-)
+ target/riscv/cpu.h       | 3 +++
+ target/riscv/translate.c | 6 +++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 5896aca346..0c41b60b25 100644
+index 0c41b60b25..1de9a1286b 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -37,6 +37,7 @@
- #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
- #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
- #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
-+#define TYPE_RISCV_CPU_BASE128          RISCV_CPU_TYPE_NAME("rv128")
- #define TYPE_RISCV_CPU_IBEX             RISCV_CPU_TYPE_NAME("lowrisc-ibex")
- #define TYPE_RISCV_CPU_SHAKTI_C         RISCV_CPU_TYPE_NAME("shakti-c")
- #define TYPE_RISCV_CPU_SIFIVE_E31       RISCV_CPU_TYPE_NAME("sifive-e31")
-@@ -49,10 +50,16 @@
- # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE32
- #elif defined(TARGET_RISCV64)
- # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE64
-+#else
-+# define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE128
- #endif
+@@ -120,6 +120,7 @@ FIELD(VTYPE, VILL, sizeof(target_ulong) * 8 - 1, 1)
  
-+/* Mask for the MXLEN flag in the misa CSR */
-+#define MXLEN_MASK ((target_ulong)3 << (TARGET_LONG_BITS - 2))
- #define RV32 ((target_ulong)1 << (TARGET_LONG_BITS - 2))
- #define RV64 ((target_ulong)2 << (TARGET_LONG_BITS - 2))
-+/* To be used on misah, the upper part of misa */
-+#define RV128 ((target_ulong)3 << (TARGET_LONG_BITS - 2))
+ struct CPURISCVState {
+     target_ulong gpr[32];
++    target_ulong gprh[32]; /* 64 top bits of the 128-bit registers */
+     uint64_t fpr[32]; /* assume both F and D extensions */
  
- #define RV(x) ((target_ulong)1 << (x - 'A'))
+     /* vector coprocessor state. */
+@@ -405,6 +406,8 @@ FIELD(TB_FLAGS, VILL, 8, 1)
+ FIELD(TB_FLAGS, HLSX, 9, 1)
  
-@@ -187,6 +194,10 @@ struct CPURISCVState {
-     target_ulong hgatp;
-     uint64_t htimedelta;
+ bool riscv_cpu_is_32bit(CPURISCVState *env);
++bool riscv_cpu_is_64bit(CPURISCVState *env);
++bool riscv_cpu_is_128bit(CPURISCVState *env);
  
-+    /* Upper 64-bits of 128-bit misa CSR */
-+    uint64_t misah;
-+    uint64_t misah_mask;
-+
-     /* Virtual CSRs */
-     /*
-      * For RV32 this is 32-bit vsstatus and 32-bit vsstatush.
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 7c626d89cd..02417be926 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -154,8 +154,10 @@ static void riscv_any_cpu_init(Object *obj)
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
- #if defined(TARGET_RISCV32)
-     set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-+    set_misah(env, 0);
- #elif defined(TARGET_RISCV64)
-     set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-+    set_misah(env, 0);
- #endif
-     set_priv_version(env, PRIV_VERSION_1_11_0);
- }
+ /*
+  * A simplification for VLMAX
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 74b33fa3c9..c04430805e 100644
+index c04430805e..3c929ce960 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -56,6 +56,7 @@ typedef struct DisasContext {
+@@ -32,7 +32,7 @@
+ #include "instmap.h"
+ 
+ /* global register indices */
+-static TCGv cpu_gpr[32], cpu_pc, cpu_vl;
++static TCGv cpu_gpr[32], cpu_gprh[32], cpu_pc, cpu_vl;
+ static TCGv_i64 cpu_fpr[32]; /* assume F and D extensions */
+ static TCGv load_res;
+ static TCGv load_val;
+@@ -55,6 +55,7 @@ typedef struct DisasContext {
+     /* pc_succ_insn points to the instruction following base.pc_next */
      target_ulong pc_succ_insn;
      target_ulong priv_ver;
++    /* Type of csrs should be MXLEN, that might be dynamically settable */
      target_ulong misa;
-+    uint64_t misah;
+     uint64_t misah;
      uint32_t opcode;
-     uint32_t mstatus_fs;
-     uint32_t mem_idx;
-@@ -90,13 +91,30 @@ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+@@ -658,10 +659,13 @@ void riscv_translate_init(void)
+      * unless you specifically block reads/writes to reg 0.
+      */
+     cpu_gpr[0] = NULL;
++    cpu_gprh[0] = NULL;
  
- #ifdef TARGET_RISCV32
- # define is_32bit(ctx)  true
-+# define is_64bit(ctx)  false
-+# define is_128bit(ctx) false
- #elif defined(CONFIG_USER_ONLY)
- # define is_32bit(ctx)  false
-+# define is_64_bit(ctx) true
-+# define is_128_bit(ctx) false
- #else
- static inline bool is_32bit(DisasContext *ctx)
- {
--    return (ctx->misa & RV32) == RV32;
-+    return (ctx->misa & MXLEN_MASK) == RV32;
- }
-+
-+static inline bool is_64bit(DisasContext *ctx)
-+{
-+    return (ctx->misa & MXLEN_MASK) == RV64;
-+}
-+#if !defined(TARGET_RISCV64)
-+static inline bool is_128bit(DisasContext *ctx)
-+{
-+    return (ctx->misah & MXLEN_MASK) == RV128;
-+}
-+#else
-+# define is_128bit(ctx) false
-+#endif
- #endif
+     for (i = 1; i < 32; i++) {
+         cpu_gpr[i] = tcg_global_mem_new(cpu_env,
+             offsetof(CPURISCVState, gpr[i]), riscv_int_regnames[i]);
++        cpu_gprh[i] = tcg_global_mem_new(cpu_env,
++            offsetof(CPURISCVState, gprh[i]), riscv_int_regnames[i]);
+     }
  
- /* The word size for this operation. */
-@@ -530,6 +548,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->virt_enabled = false;
- #endif
-     ctx->misa = env->misa;
-+    ctx->misah = env->misah;
-     ctx->frm = -1;  /* unknown rounding mode */
-     ctx->ext_ifencei = cpu->cfg.ext_ifencei;
-     ctx->vlen = cpu->cfg.vlen;
+     for (i = 0; i < 32; i++) {
 -- 
 2.33.0
 
