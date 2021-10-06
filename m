@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA79C423E63
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 15:06:04 +0200 (CEST)
-Received: from localhost ([::1]:50204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FD7423E64
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 15:06:28 +0200 (CEST)
+Received: from localhost ([::1]:51578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY6cV-0007Yp-D6
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 09:06:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40222)
+	id 1mY6ct-0008VQ-I7
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 09:06:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mY6YT-0004k5-Gw
+ id 1mY6YT-0004lE-H4
  for qemu-devel@nongnu.org; Wed, 06 Oct 2021 09:01:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50179)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mY6YP-000582-76
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 09:01:52 -0400
+ id 1mY6YP-00058P-OQ
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 09:01:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633525307;
+ s=mimecast20190719; t=1633525308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bXNEwykMTDGPFt6dadB+Th/PiAnZ7tumi7NUnf5OWFA=;
- b=KKyGQHRt/syhWOSKlNiTOaSp+quolbq+b1wEy6rBX1ZReKAf52F4EfUIyCfe4rFsMOB38T
- v4Eq7+qemjmoQpgmokIrDluiKBpepj5/rSYKZ1SnRkNILutsGG/zLQYehOrotTYFcCN8jP
- F13ccFkf0XDhZ1R+AFbLn6mnaN8NEL8=
+ bh=3Y3nLX6CO4IW3BVz2wG2uQOPDJRPzSW+K+iLfFDrg3E=;
+ b=bc/DILN0UnVOgI6E4eIS4DvGCu6Y8x5E9Q6RbOmwuCBeuL34IWYgduanofcwWgnYpUoD59
+ qfL/HrwS1Iz5KbAsKe+4FoHkdZhbZ+8ko62O9x7SG03VOTbf7ElpBWOihZg1L8svpiLCvk
+ R4JKLWtnrC1bi4bkUmQGlnlYw2DtHQY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-Kv4WGgAQNoe_84jNlmKbCA-1; Wed, 06 Oct 2021 09:01:46 -0400
-X-MC-Unique: Kv4WGgAQNoe_84jNlmKbCA-1
+ us-mta-81-0YTXZYsMO0-x1yha3eRHpQ-1; Wed, 06 Oct 2021 09:01:47 -0400
+X-MC-Unique: 0YTXZYsMO0-x1yha3eRHpQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 687B1802C91;
- Wed,  6 Oct 2021 13:01:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38D6E101AFAB;
+ Wed,  6 Oct 2021 13:01:46 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 93B6060C4A;
- Wed,  6 Oct 2021 13:01:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 81C3F60C9F;
+ Wed,  6 Oct 2021 13:01:45 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/2] pylint: fix errors and warnings from qemu-tests test 297
-Date: Wed,  6 Oct 2021 09:00:59 -0400
-Message-Id: <20211006130100.389521-2-eesposit@redhat.com>
+Subject: [PATCH 2/2] qemu-iotests: fix image-fleecing pylint errors
+Date: Wed,  6 Oct 2021 09:01:00 -0400
+Message-Id: <20211006130100.389521-3-eesposit@redhat.com>
 In-Reply-To: <20211006130100.389521-1-eesposit@redhat.com>
 References: <20211006130100.389521-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -58,13 +58,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.05, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,154 +85,113 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test 297 in qemu-iotests folder currently fails: pylint has
-learned new things to check, or we simply missed them.
+The problem here is that some variables are formatted with
+unnecessary spaces to make it prettier and easier to read.
 
-All fixes in this patch are related to additional spaces used
-or wrong indentation.
+However, pylint complains about those additional spaces.
+A solution is to transform them as string with arbitrary spaces,
+and then convert it back into a tuple.
 
-No functional change intended.
+Removing the spaces makes it a little bit ugly, and directly
+using the string forces us to change the test reference output
+accordingly, which will 1) contain ugly weird formatted strings,
+2) is not portable if somebody changes the formatting in the test
+string.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- tests/qemu-iotests/129                  |  9 +++++----
- tests/qemu-iotests/310                  | 16 ++++++++--------
- tests/qemu-iotests/check                | 11 ++++++-----
- tests/qemu-iotests/iotests.py           |  7 ++++---
- tests/qemu-iotests/tests/image-fleecing |  4 ++--
- 5 files changed, 25 insertions(+), 22 deletions(-)
+ tests/qemu-iotests/tests/image-fleecing | 43 +++++++++++++++----------
+ 1 file changed, 26 insertions(+), 17 deletions(-)
 
-diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
-index 5251e2669e..21df239597 100755
---- a/tests/qemu-iotests/129
-+++ b/tests/qemu-iotests/129
-@@ -77,8 +77,8 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-         self.do_test_stop("drive-backup", device="drive0",
-                           target=self.target_img, format=iotests.imgfmt,
-                           sync="full",
--                          x_perf={ 'max-chunk': 65536,
--                                   'max-workers': 8 })
-+                          x_perf={'max-chunk': 65536,
-+                                  'max-workers': 8})
- 
-     def test_block_commit(self):
-         # Add overlay above the source node so that we actually use a
-@@ -87,13 +87,14 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-         iotests.qemu_img('create', '-f', iotests.imgfmt, self.overlay_img,
-                          '1G')
- 
--        result = self.vm.qmp('blockdev-add', **{
-+        result = self.vm.qmp('blockdev-add',
-+                             **{
-                                  'node-name': 'overlay',
-                                  'driver': iotests.imgfmt,
-                                  'file': {
-                                      'driver': 'file',
-                                      'filename': self.overlay_img
--                                 }
-+                                     }
-                              })
-         self.assert_qmp(result, 'return', {})
- 
-diff --git a/tests/qemu-iotests/310 b/tests/qemu-iotests/310
-index 9d9c928c4b..33c3411869 100755
---- a/tests/qemu-iotests/310
-+++ b/tests/qemu-iotests/310
-@@ -48,11 +48,11 @@ with iotests.FilePath('base.img') as base_img_path, \
-     assert qemu_io_silent(base_img_path, '-c', 'write -P 1 3M 1M') == 0
-     assert qemu_img('create', '-f', iotests.imgfmt, '-b', base_img_path,
-                     '-F', iotests.imgfmt, mid_img_path) == 0
--    assert qemu_io_silent(mid_img_path,  '-c', 'write -P 3 2M 1M') == 0
--    assert qemu_io_silent(mid_img_path,  '-c', 'write -P 3 4M 1M') == 0
-+    assert qemu_io_silent(mid_img_path, '-c', 'write -P 3 2M 1M') == 0
-+    assert qemu_io_silent(mid_img_path, '-c', 'write -P 3 4M 1M') == 0
-     assert qemu_img('create', '-f', iotests.imgfmt, '-b', mid_img_path,
-                     '-F', iotests.imgfmt, top_img_path) == 0
--    assert qemu_io_silent(top_img_path,  '-c', 'write -P 2 1M 1M') == 0
-+    assert qemu_io_silent(top_img_path, '-c', 'write -P 2 1M 1M') == 0
- 
- #      0 1 2 3 4
- # top    2
-@@ -108,10 +108,10 @@ with iotests.FilePath('base.img') as base_img_path, \
-     assert qemu_img('rebase', '-u', '-b', '', '-f', iotests.imgfmt,
-                     top_img_path) == 0
- 
--    assert qemu_io_silent(top_img_path,  '-c', 'read -P 0 0 1M') == 0
--    assert qemu_io_silent(top_img_path,  '-c', 'read -P 2 1M 1M') == 0
--    assert qemu_io_silent(top_img_path,  '-c', 'read -P 3 2M 1M') == 0
--    assert qemu_io_silent(top_img_path,  '-c', 'read -P 0 3M 1M') == 0
--    assert qemu_io_silent(top_img_path,  '-c', 'read -P 3 4M 1M') == 0
-+    assert qemu_io_silent(top_img_path, '-c', 'read -P 0 0 1M') == 0
-+    assert qemu_io_silent(top_img_path, '-c', 'read -P 2 1M 1M') == 0
-+    assert qemu_io_silent(top_img_path, '-c', 'read -P 3 2M 1M') == 0
-+    assert qemu_io_silent(top_img_path, '-c', 'read -P 0 3M 1M') == 0
-+    assert qemu_io_silent(top_img_path, '-c', 'read -P 3 4M 1M') == 0
- 
-     log('Done')
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index da1bfb839e..43a4b694cc 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -37,13 +37,14 @@ def make_argparser() -> argparse.ArgumentParser:
- 
-     p.add_argument('-d', dest='debug', action='store_true', help='debug')
-     p.add_argument('-p', dest='print', action='store_true',
--                help='redirects qemu\'s stdout and stderr to the test output')
-+                   help='redirects qemu\'s stdout and stderr to '
-+                        'the test output')
-     p.add_argument('-gdb', action='store_true',
--                   help="start gdbserver with $GDB_OPTIONS options \
--                        ('localhost:12345' if $GDB_OPTIONS is empty)")
-+                   help="start gdbserver with $GDB_OPTIONS options "
-+                        "('localhost:12345' if $GDB_OPTIONS is empty)")
-     p.add_argument('-valgrind', action='store_true',
--                    help='use valgrind, sets VALGRIND_QEMU environment '
--                    'variable')
-+                   help='use valgrind, sets VALGRIND_QEMU environment '
-+                        'variable')
- 
-     p.add_argument('-misalign', action='store_true',
-                    help='misalign memory allocations')
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index ce06cf5630..168cc5736a 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -608,7 +608,7 @@ def _post_shutdown(self) -> None:
-         super()._post_shutdown()
-         if not qemu_valgrind or not self._popen:
-             return
--        valgrind_filename =  f"{test_dir}/{self._popen.pid}.valgrind"
-+        valgrind_filename = f"{test_dir}/{self._popen.pid}.valgrind"
-         if self.exitcode() == 99:
-             with open(valgrind_filename, encoding='utf-8') as f:
-                 print(f.read())
-@@ -1350,8 +1350,9 @@ def write(self, arg=None):
- 
- class ReproducibleTestRunner(unittest.TextTestRunner):
-     def __init__(self, stream: Optional[TextIO] = None,
--             resultclass: Type[unittest.TestResult] = ReproducibleTestResult,
--             **kwargs: Any) -> None:
-+                 resultclass: Type[unittest.TestResult] =
-+                 ReproducibleTestResult,
-+                 **kwargs: Any) -> None:
-         rstream = ReproducibleStreamWrapper(stream or sys.stdout)
-         super().__init__(stream=rstream,           # type: ignore
-                          descriptions=True,
 diff --git a/tests/qemu-iotests/tests/image-fleecing b/tests/qemu-iotests/tests/image-fleecing
-index f6318492c6..8c5472f421 100755
+index 8c5472f421..9709ecbba1 100755
 --- a/tests/qemu-iotests/tests/image-fleecing
 +++ b/tests/qemu-iotests/tests/image-fleecing
-@@ -114,8 +114,8 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+@@ -30,23 +30,27 @@ iotests.script_initialize(
+     supported_platforms=['linux'],
+ )
  
-     nbd_uri = 'nbd+unix:///%s?socket=%s' % (tmp_node, nbd_sock_path)
-     log(vm.qmp('nbd-server-start',
--               {'addr': { 'type': 'unix',
--                          'data': { 'path': nbd_sock_path } } }))
-+               {'addr': {'type': 'unix',
-+                         'data': {'path': nbd_sock_path}}}))
+-patterns = [('0x5d', '0',         '64k'),
+-            ('0xd5', '1M',        '64k'),
+-            ('0xdc', '32M',       '64k'),
+-            ('0xcd', '0x3ff0000', '64k')]  # 64M - 64K
+-
+-overwrite = [('0xab', '0',         '64k'), # Full overwrite
+-             ('0xad', '0x00f8000', '64k'), # Partial-left (1M-32K)
+-             ('0x1d', '0x2008000', '64k'), # Partial-right (32M+32K)
+-             ('0xea', '0x3fe0000', '64k')] # Adjacent-left (64M - 128K)
+-
+-zeroes = [('0', '0x00f8000', '32k'), # Left-end of partial-left (1M-32K)
+-          ('0', '0x2010000', '32k'), # Right-end of partial-right (32M+64K)
+-          ('0', '0x3fe0000', '64k')] # overwrite[3]
+-
+-remainder = [('0xd5', '0x108000',  '32k'), # Right-end of partial-left [1]
+-             ('0xdc', '32M',       '32k'), # Left-end of partial-right [2]
+-             ('0xcd', '0x3ff0000', '64k')] # patterns[3]
++# Each string in patterns, overwrite and remainder is formatted in such way
++# for readability. Using a 3-tuple will make pylint trigger
++# "bad-whitespace" when we try to format it in the same way
++# The testing code will take care of splitting it properly.
++patterns = ['0x5d 0         64k',
++            '0xd5 1M        64k',
++            '0xdc 32M       64k',
++            '0xcd 0x3ff0000 64k']  # 64M - 64K
++
++overwrite = ['0xab 0         64k', # Full overwrite
++             '0xad 0x00f8000 64k', # Partial-left (1M-32K)
++             '0x1d 0x2008000 64k', # Partial-right (32M+32K)
++             '0xea 0x3fe0000 64k'] # Adjacent-left (64M - 128K)
++
++zeroes = ['0 0x00f8000 32k', # Left-end of partial-left (1M-32K)
++          '0 0x2010000 32k', # Right-end of partial-right (32M+64K)
++          '0 0x3fe0000 64k'] # overwrite[3]
++
++remainder = ['0xd5 0x108000  32k', # Right-end of partial-left [1]
++             '0xdc 32M       32k', # Left-end of partial-right [2]
++             '0xcd 0x3ff0000 64k'] # patterns[3]
  
-     log(vm.qmp('nbd-server-add', device=tmp_node))
+ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+     log('--- Setting up images ---')
+@@ -56,6 +60,7 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+     assert qemu_img('create', '-f', 'qcow2', fleece_img_path, '64M') == 0
  
+     for p in patterns:
++        p = tuple(p.split())
+         qemu_io('-f', iotests.imgfmt,
+                 '-c', 'write -P%s %s %s' % p, base_img_path)
+ 
+@@ -124,6 +129,7 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+     log('')
+ 
+     for p in patterns + zeroes:
++        p = tuple(p.split())
+         cmd = 'read -P%s %s %s' % p
+         log(cmd)
+         assert qemu_io_silent('-r', '-f', 'raw', '-c', cmd, nbd_uri) == 0
+@@ -133,6 +139,7 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+     log('')
+ 
+     for p in overwrite:
++        p = tuple(p.split())
+         cmd = 'write -P%s %s %s' % p
+         log(cmd)
+         log(vm.hmp_qemu_io(qom_path, cmd, qdev=True))
+@@ -142,6 +149,7 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+     log('')
+ 
+     for p in patterns + zeroes:
++        p = tuple(p.split())
+         cmd = 'read -P%s %s %s' % p
+         log(cmd)
+         assert qemu_io_silent('-r', '-f', 'raw', '-c', cmd, nbd_uri) == 0
+@@ -168,6 +176,7 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+     log('')
+ 
+     for p in overwrite + remainder:
++        p = tuple(p.split())
+         cmd = 'read -P%s %s %s' % p
+         log(cmd)
+         assert qemu_io_silent(base_img_path, '-c', cmd) == 0
 -- 
 2.27.0
 
