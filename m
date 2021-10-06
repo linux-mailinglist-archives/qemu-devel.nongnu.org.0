@@ -2,88 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40E8423A6B
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 11:17:47 +0200 (CEST)
-Received: from localhost ([::1]:39134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C886E423A78
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 11:21:55 +0200 (CEST)
+Received: from localhost ([::1]:42860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY33a-0007Ox-BM
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 05:17:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39702)
+	id 1mY37a-0001nD-KA
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 05:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mY31T-00060M-KZ
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 05:15:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43553)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mY36H-00010h-La
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 05:20:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mY31P-0002xz-Bp
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 05:15:35 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mY36E-0007H5-T2
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 05:20:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633511728;
+ s=mimecast20190719; t=1633512030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pOwd2fwHlalGwz4/ydMPMXtNe7WE4CbgIn3yWBztgqw=;
- b=VYqv36VrcS8IxhY2baf2qHq/gIqZiarDPoVvka3z4vePo7P0GYq45jHmSG0P966CCM+f33
- hpxZS/3xcVJMM4Jk1Y2ezcYZmqQ4jkmwkebADWRTH4PoEog4pjbRSsHIcctSmuIwyf184M
- oO4RpK4gMvgsRv8NUZxty0sXghGwTGA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-lgwiaS09PjKaW4-qdsjVMg-1; Wed, 06 Oct 2021 05:15:27 -0400
-X-MC-Unique: lgwiaS09PjKaW4-qdsjVMg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- g28-20020a50d0dc000000b003dae69dfe3aso2041362edf.7
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 02:15:27 -0700 (PDT)
+ bh=69+4YI6GBNvIYXNfLnwYz58BkMR4j8WtHUGNv2Rrj78=;
+ b=JvnZQ7kLEJlPtnC9KTiKPugU42AkSf9fJ0m6VLIcUVtpfndz5+m9et2nry91IPxIT6EUP0
+ IEaOWMfers2IMLVpgGa7tLQWptV6oepXQkcXEa9jO28nz3NugL9nMN2WjTyWTikmBIef4v
+ fynq9WVpbnrm9RyB6bR+MA5zb9yHMCI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-601-_02YHa_ePqK3FbOqy639lQ-1; Wed, 06 Oct 2021 05:20:27 -0400
+X-MC-Unique: _02YHa_ePqK3FbOqy639lQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ k2-20020adfc702000000b0016006b2da9bso1505359wrg.1
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 02:20:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=pOwd2fwHlalGwz4/ydMPMXtNe7WE4CbgIn3yWBztgqw=;
- b=zX9zlUl7TtLx/zv/IRI+G0k7vZ8eNDagiKUGWcJQyJEHadRBFTzYvALz9p9uZVRzCY
- dNx2P7p/bhDzPbSHQlDX+1sqwrqZog6gCzqvJ1T5t+A1maIlVpQisw4pzfIgtMOSnZ88
- onJW6PosjF/iVMp5G8IV7qiV6kn83RhnYuzzhITLn7xy7rHfI8RkNdJgxCNfo2VtN5CH
- Qn6FJUp73T7U58L7Ew9hq1eebgDhBgFhNhkj47fib1+eGmhVp2itScpiXg/JB7qzJcXA
- 6ZMgIDFchLhr1GjVrwx/pAtdobDQAde+QwzQiwLJlLtD2l70KOMk3mFHnJdOhMyOl9tz
- YoTw==
-X-Gm-Message-State: AOAM532z+oAOYnoDHgKUZ17KVkp8lCOXdVtGV71PbwHwmB0l9RmhnR6r
- xxFyUObDe8fhewbkquQ5fwsvcPOkk4d1tdkZv2worH0yDxaybFe6+KWl8sJf1dmKr7mW8w8+1sr
- pUydofajueD+Jh7o=
-X-Received: by 2002:a17:906:3805:: with SMTP id
- v5mr30243737ejc.440.1633511726105; 
- Wed, 06 Oct 2021 02:15:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz67tnJN8Bw56Bl+1Zi11+m8UrmvI9MNUUlK50OQWe99+1+Iyxg40jswSKcWQvkDDQnyxUVfg==
-X-Received: by 2002:a17:906:3805:: with SMTP id
- v5mr30243694ejc.440.1633511725701; 
- Wed, 06 Oct 2021 02:15:25 -0700 (PDT)
-Received: from gator.home (cst2-174-28.cust.vodafone.cz. [31.30.174.28])
- by smtp.gmail.com with ESMTPSA id r19sm9776468edt.54.2021.10.06.02.15.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 02:15:25 -0700 (PDT)
-Date: Wed, 6 Oct 2021 11:15:23 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v3 2/3] hw/arm/virt_acpi_build: Generate DBG2 table
-Message-ID: <20211006091523.qaub5xg3kxuwjmlh@gator.home>
-References: <20210927131732.63801-1-eric.auger@redhat.com>
- <20210927131732.63801-3-eric.auger@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=69+4YI6GBNvIYXNfLnwYz58BkMR4j8WtHUGNv2Rrj78=;
+ b=Ib/pDFOjE+6tga6/y+ZX1iZn7wPsf1nQiPXXwgnpkJp5Qxer7NDpUmcCNlMzYgQHHF
+ NBKVvW38+BSwwTekpDzPD2Lgpa3PEP6r0s4g6h2qgj/m8ZtZyG5A3oUhXPFFmPWUvgp1
+ 8+ci57x2JqdkOyC8Co9uU+krw/OUW7w88T5clIMWLNd91CvaHAYJvkZ3Q6j8/dCmLn/c
+ NX349hlzlwuGYdH0aGFRaXQgtmFnTY2heKfCEPtT6dxmNAzxIciphpzrHhPlnwDChBmB
+ OTnOkLggTSxhe1je+xP/sQLWI4/xCKiZS8XjYzZ+PRYVhd5xTHTfdBhQGNYYshw0k+0K
+ Bmpw==
+X-Gm-Message-State: AOAM532N2mfChr2cB9kHIYlqydEj5vdBBP5A63Txn7mJOwKzIZz7XlZ9
+ YNnmnF2VgFJDIK9Bp3EGcbXSRfkzSzpB0pIEjVSH9qugIChR2UuHsHuXAcgREMNZIRlTPER87+g
+ +wNGttvW91xo9Z50=
+X-Received: by 2002:adf:a3da:: with SMTP id m26mr7423789wrb.336.1633512026688; 
+ Wed, 06 Oct 2021 02:20:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxDHx74AkDcLUB4Uygr4FFOxmwsKcL1HENgivvAwXoxaoaRPkSrzzxDjMW5MP5Ruesl9FssWA==
+X-Received: by 2002:adf:a3da:: with SMTP id m26mr7423755wrb.336.1633512026417; 
+ Wed, 06 Oct 2021 02:20:26 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.3.114])
+ by smtp.gmail.com with ESMTPSA id l6sm1546152wrm.17.2021.10.06.02.20.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Oct 2021 02:20:25 -0700 (PDT)
+Message-ID: <09d60929-4669-e3ac-2292-bff5c83ebe24@redhat.com>
+Date: Wed, 6 Oct 2021 11:20:23 +0200
 MIME-Version: 1.0
-In-Reply-To: <20210927131732.63801-3-eric.auger@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 09/11] qdev: Avoid QemuOpts in QMP device_add
+To: quintela@redhat.com, Kevin Wolf <kwolf@redhat.com>
+References: <20210924090427.9218-1-kwolf@redhat.com>
+ <20210924090427.9218-10-kwolf@redhat.com>
+ <89bbeed4-dec6-007a-175e-38a12e5bbfa1@greensocs.com>
+ <YVGtXMq+JGKIIUrQ@redhat.com> <YVxjLf9vJlBqeKKh@redhat.com>
+ <ea36ef56-4892-5b29-e660-964e6018e154@greensocs.com>
+ <YVyMf7HCXGBXZQxI@redhat.com> <87v92ak1hb.fsf@secure.mitica>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <87v92ak1hb.fsf@secure.mitica>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,149 +103,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, gshan@redhat.com, mst@redhat.com,
- qemu-devel@nongnu.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- imammedo@redhat.com, philmd@redhat.com, ardb@kernel.org,
- eric.auger.pro@gmail.com
+Cc: Damien Hedde <damien.hedde@greensocs.com>, pkrempa@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ mst@redhat.com, libvir-list@redhat.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, its@irrelevant.dk, pbonzini@redhat.com,
+ jfreimann@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 27, 2021 at 03:17:31PM +0200, Eric Auger wrote:
-> ARM SBBR specification mandates DBG2 table (Debug Port Table 2)
-> since v1.0 (ARM DEN0044F 8.3.1.7 DBG2).
+On 06/10/2021 10:21, Juan Quintela wrote:
+> Kevin Wolf <kwolf@redhat.com> wrote:
+>> Am 05.10.2021 um 17:52 hat Damien Hedde geschrieben:
 > 
-> The DBG2 table allows to describe one or more debug ports.
+> Hi
 > 
-> Generate an DBG2 table featuring a single debug port, the PL011.
+>>>> Usage
+>>>> -----
+>>>>
+>>>> The primary device can be hotplugged or be part of the startup
+>>>> configuration
+>>>>
+>>>>    -device virtio-net-pci,netdev=hostnet1,id=net1,
+>>>>            mac=52:54:00:6f:55:cc,bus=root2,failover=on
+>>>>
+>>>> With the parameter failover=on the VIRTIO_NET_F_STANDBY feature
+>>>> will be enabled.
+>>>>
+>>>> -device vfio-pci,host=5e:00.2,id=hostdev0,bus=root1,
+>>>>          failover_pair_id=net1
+>>>>
+>>>> failover_pair_id references the id of the virtio-net standby device.
+>>>> This is only for pairing the devices within QEMU. The guest kernel
+>>>> module net_failover will match devices with identical MAC addresses.
+>>>>
+>>>> Hotplug
+>>>> -------
+>>>>
+>>>> Both primary and standby device can be hotplugged via the QEMU
+>>>> monitor.  Note that if the virtio-net device is plugged first a
+>>>> warning will be issued that it couldn't find the primary device.
+>>>
+>>> So maybe this whole primary device lookup can happen during the -device CLI
+>>> option creation loop. And we can indeed have un-created devices still in the
+>>> list ?
+>>
+>> Yes, that's the only case for which I could imagine for an inconsistency
+>> between the qdev tree and QemuOpts, but failover_add_primary() is only
+>> called after feature negotiation with the guest driver, so we can be
+>> sure that the -device loop has completed long ago.
+>>
+>> And even if it hadn't completed yet, the paragraph also says that even
+>> hotplugging the device later is supported, so creating devices in the
+>> wrong order should still succeed.
+>>
+>> I hope that some of the people I added to CC have some more hints.
 > 
-> The DBG2 specification can be found at
-> "Microsoft Debug Port Table 2 (DBG2)"
-> https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table?redirectedfrom=MSDN
+> Failover is ... interesting.
 > 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> You have two devices: primary and seconday.
+> seconday is virtio-net, primary can be vfio and some other emulated
+> devices.
 > 
-> ---
+> In the command line, devices can appear on any order, primary then
+> secondary, secondary then primary, or only one of them.
+> You can add (any of them) later in the toplevel.
 > 
-> v2 -> v3:
-> Took into account all comments from Igor on v2:
-> mostly style adjustment, revision references
+> And now, what all this mess is about.  We only enable the primary if the
+> guest knows about failover.  Otherwise we use only the virtio device
+> (*).  The important bit here is that we need to wait until the guest is
+> booted, and the virtio-net driver is loaded, and then it tells us if it
+> understands failover (or not).  At that point we decide if we want to
+> "really" create the primary.
 > 
-> v1 -> v2:
-> - rebased on Igor's refactoring
-> ---
->  hw/arm/virt-acpi-build.c | 62 +++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 61 insertions(+), 1 deletion(-)
+> I know that it abuses device_add() as much as it can be, but I can't see
+> any better way to handle it.  We need to be able to "create" a device
+> without showing it to the guest.  And later, when we create a different
+> device, and depending of driver support on the guest, we "finish" the
+> creation of the primary device.
 > 
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 6cec97352b..257d0fee17 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -616,6 +616,63 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->      acpi_table_end(linker, &table);
->  }
->  
-> +/* Debug Port Table 2 (DBG2) */
-> +static void
-> +build_dbg2(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+> Any good idea?
 
-nit: I didn't think QEMU liked this style, i.e. QEMU prefers
+I don't know if it can help the discussion, but I'm reformatting the failover code to move 
+all the PCI stuff to pci files.
 
- static void build_dbg2(GArray *table_data, BIOSLinker *linker,
-                        VirtMachineState *vms)
+And there is a lot of inconsistencies regarding the device_add and --device option so I've 
+been in the end to add a list of of hidden devices rather than relying on the command line.
 
-Eh, I see that hw/arm/virt-acpi-build.c is full of the format you have
-here, so never mind.
+See PATCH 8 of series "[RFC PATCH v2 0/8] virtio-net failover cleanup and new features"
 
-> +{
-> +    AcpiTable table = { .sig = "DBG2", .rev = 3, .oem_id = vms->oem_id,
-
-Can you explain where the .rev = 3 comes from? The spec says "For this
-version of the specification, this value is 0."
-
-
-> +                        .oem_table_id = vms->oem_table_id };
-> +    int dbg2devicelength;
-> +    const char name[] = "COM0";
-> +    const int namespace_length = sizeof(name);
-> +
-> +    acpi_table_begin(&table, table_data);
-> +
-> +    dbg2devicelength = 22 /* BaseAddressRegister[] offset */ +
-> +                       12 /* BaseAddressRegister[] */ +
-> +                       4 /* AddressSize[] */ +
-
-I'd personally prefer the '+' before the comment, but maybe Igor has a
-special ACPI code format preference here.
-
-> +                       namespace_length /* NamespaceString[] */;
-> +
-> +    /* OffsetDbgDeviceInfo */
-> +    build_append_int_noprefix(table_data, 44, 4);
-> +    /* NumberDbgDeviceInfo */
-> +    build_append_int_noprefix(table_data, 1, 4);
-> +
-> +    /* Table 2. Debug Device Information structure format */
-> +    build_append_int_noprefix(table_data, 0, 1); /* Revision */
-> +    build_append_int_noprefix(table_data, dbg2devicelength, 2); /* Length */
-> +    /* NumberofGenericAddressRegisters */
-> +    build_append_int_noprefix(table_data, 1, 1);
-> +    /* NameSpaceStringLength */
-> +    build_append_int_noprefix(table_data, namespace_length, 2);
-> +    build_append_int_noprefix(table_data, 38, 2); /* NameSpaceStringOffset */
-> +    build_append_int_noprefix(table_data, 0, 2); /* OemDataLength */
-> +    /* OemDataOffset (0 means no OEM data) */
-> +    build_append_int_noprefix(table_data, 0, 2);
-> +
-> +    /* Port Type */
-> +    build_append_int_noprefix(table_data, 0x8000 /* Serial */, 2);
-> +    /* Port Subtype */
-> +    build_append_int_noprefix(table_data, 0x3 /* ARM PL011 UART */, 2);
-> +    build_append_int_noprefix(table_data, 0, 2); /* Reserved */
-> +    /* BaseAddressRegisterOffset */
-> +    build_append_int_noprefix(table_data, 22, 2);
-> +    /* AddressSizeOffset */
-> +    build_append_int_noprefix(table_data, 34, 2);
-> +
-> +    /* BaseAddressRegister[] */
-> +    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 8, 0, 1,
-> +                     vms->memmap[VIRT_UART].base);
-> +
-> +    /* AddressSize[] */
-> +    build_append_int_noprefix(table_data, 0x1000 /* Register Space */, 4);
-> +
-> +    /* NamespaceString[] */
-> +    g_array_append_vals(table_data, name, namespace_length);
-> +
-> +    acpi_table_end(linker, &table);
-> +};
-> +
->  /*
->   * ACPI spec, Revision 5.1 Errata A
->   * 5.2.12 Multiple APIC Description Table (MADT)
-> @@ -875,7 +932,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->      dsdt = tables_blob->len;
->      build_dsdt(tables_blob, tables->linker, vms);
->  
-> -    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
-> +    /* FADT MADT GTDT MCFG SPCR DBG2 pointed to by RSDT */
->      acpi_add_table(table_offsets, tables_blob);
->      build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
->  
-> @@ -898,6 +955,9 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->      acpi_add_table(table_offsets, tables_blob);
->      build_spcr(tables_blob, tables->linker, vms);
->  
-> +    acpi_add_table(table_offsets, tables_blob);
-> +    build_dbg2(tables_blob, tables->linker, vms);
-> +
->      if (vms->ras) {
->          build_ghes_error_table(tables->hardware_errors, tables->linker);
->          acpi_add_table(table_offsets, tables_blob);
-> -- 
-> 2.26.3
->
+https://patchew.org/QEMU/20210820142002.152994-1-lvivier@redhat.com/
 
 Thanks,
-drew 
+Laurent
 
 
