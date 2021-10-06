@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B9F423878
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 09:02:56 +0200 (CEST)
-Received: from localhost ([::1]:60670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3FF423896
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 09:13:06 +0200 (CEST)
+Received: from localhost ([::1]:36562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY0x4-0008D0-Vw
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 03:02:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41330)
+	id 1mY16v-0002wd-E4
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 03:13:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mY0uR-0007KE-BU
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 03:00:11 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:46067)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mY0uP-0004Eg-Sn
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 03:00:11 -0400
-Received: by mail-pg1-x535.google.com with SMTP id q201so1616528pgq.12
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 00:00:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=Yi/qDc8nnn5gW18TqgmTptwOuPDsZkDNGWtnoO548GM=;
- b=aCx7EvzzAwAGo+LhEm0IdT6pw98y98p2LK7OM30SNFBnicAJes0yzgh3QgIfMCXWU5
- LS8Sh2KlZglljLE6KqMJ3X7j6Y9DIm2cpNoq4XWHiJCTKYIy/iRtBYjF2aPlU7w7Ly+2
- b//LSLpSZ9+R+Rw4ftdEaD5QsCSGmmyaWMjRFQgaxnBpcdb/s6cCggY5MXnr58Wt0kgm
- hMtGJIu3rXDqv7n/7DWrRnSNL93cfUrfEiP6ODSBDg7wsjWFt6AykWAP5hlQbNyKN3+9
- iadb0gBkg/cvVrA57xEeC0aJ+Ds8IKiltM+eFAQfiWi5w9Xr/rR6XlXr7Awb2CXqb3xi
- NFRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=Yi/qDc8nnn5gW18TqgmTptwOuPDsZkDNGWtnoO548GM=;
- b=bnzeK0qgVDi+VWdTamDryGaVayZGL+UjyWLfC7HMI9vlcwdB4FqY/5MHpvSkyqflUb
- oWZGs9/qaTxAyA2hM6VjqBDToixKpSEM47HEUJ8I5WcFL+sVZZt5PcjvQXcwhT+J0mgd
- 2ETMiWTkJsJETl5jgFuuzgPIMjiN5pi6iQiD9qv44ir8cgq0Ud5jna7Z2zB5NogIWJeo
- iWpXwoC4F5mtbYNNjAt51AhXfRaaVc2SO40BuLxT9HOsIxRkVKBu/Qtw0izYijRXB3kL
- 7bQ8YO3gLRVuU4HVzEk8LpfAYXrvL2zgd8hGTTTb6LE4ddpqp1lMYvc9i+ZwTfeWfa+5
- HbFQ==
-X-Gm-Message-State: AOAM53171wuRJJlJd2VvdnemJBPmrsxOpbmjpMxFhJl4SHtU4l8Pk3Au
- XMvLeuSreIKPVVhtRvzOR/kkNg==
-X-Google-Smtp-Source: ABdhPJw9/FACuLvj6xDi1ehzGJBTRKrpwB/ylKFmqN7jVpQWMxtFj8jdIHqbDgxQIxAqU5/oWvigAw==
-X-Received: by 2002:aa7:8882:0:b0:44c:9270:1cba with SMTP id
- z2-20020aa78882000000b0044c92701cbamr3516864pfe.26.1633503608629; 
- Wed, 06 Oct 2021 00:00:08 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.129.122])
- by smtp.googlemail.com with ESMTPSA id u12sm19151292pgi.21.2021.10.06.00.00.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 00:00:08 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Wed, 6 Oct 2021 12:30:01 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH] ACPI ERST: specification for ERST support
-In-Reply-To: <20211006065808.1054102-1-ani@anisinha.ca>
-Message-ID: <alpine.DEB.2.22.394.2110061229270.820442@anisinha-lenovo>
-References: <1628202639-16361-3-git-send-email-eric.devolder@oracle.com>
- <20211006065808.1054102-1-ani@anisinha.ca>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mY15k-0001fZ-JU
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 03:11:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58818)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mY15i-00033R-Rf
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 03:11:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633504310;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LmFNslIIzF0gTI9vUlkVKyUj12/jxE5LkxOKLETFT88=;
+ b=PTRQT8jx2OYCPOv1+1x/OTLQT6vFvPltqoG3zC7L2v5t7Brv69IrxoE0BRlszfkWRyEt7q
+ UmkfKwrY9ZI5xevPFqUii5XMkEHp7/Nk1QQY9pWjHk76MUys5UsR5mFmABKa6llb3h3w41
+ 0yGj31RWoG06ZN9rmCi58KWJKWVpGzU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-144-oMu-lar9OWezaUuORKNBaA-1; Wed, 06 Oct 2021 03:11:45 -0400
+X-MC-Unique: oMu-lar9OWezaUuORKNBaA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86EF3824FAA;
+ Wed,  6 Oct 2021 07:11:43 +0000 (UTC)
+Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D55D9604CC;
+ Wed,  6 Oct 2021 07:11:41 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/ppc: Fix iothread locking in the 405 code
+Date: Wed,  6 Oct 2021 09:11:40 +0200
+Message-Id: <20211006071140.565952-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::535;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,26 +73,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, imammedo@redhat.com,
- boris.ostrovsky@oracle.com, eric.devolder@oracle.com, rth@twiddle.net
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When using u-boot as firmware with the taihu board, QEMU aborts with
+this assertion:
 
+ ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion failed:
+  (qemu_mutex_iothread_locked())
 
-On Wed, 6 Oct 2021, Ani Sinha wrote:
+Running QEMU with "-d in_asm" shows that the crash happens when writing
+to SPR 0x3f2, so we are missing to lock the iothread in the code path
+here.
 
-> From: Eric DeVolder <eric.devolder@oracle.com>
->
-> >---
-> > docs/specs/acpi_erst.txt | 147 +++++++++++++++++++++++++++++++++++++++
-> > 1 file changed, 147 insertions(+)
-> > create mode 100644 docs/specs/acpi_erst.txt
-> >
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ hw/ppc/ppc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-OK it did not come out the way I wanted. But
-
-Acked-by: Ani Sinha <ani@anisinha.ca>
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index f5d012f860..bb57f1c9ed 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -336,6 +336,8 @@ void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
+ {
+     PowerPCCPU *cpu = env_archcpu(env);
+ 
++    qemu_mutex_lock_iothread();
++
+     switch ((val >> 28) & 0x3) {
+     case 0x0:
+         /* No action */
+@@ -353,6 +355,8 @@ void store_40x_dbcr0(CPUPPCState *env, uint32_t val)
+         ppc40x_system_reset(cpu);
+         break;
+     }
++
++    qemu_mutex_unlock_iothread();
+ }
+ 
+ /* PowerPC 40x internal IRQ controller */
+-- 
+2.27.0
 
 
