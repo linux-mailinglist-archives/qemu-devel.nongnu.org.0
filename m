@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A64C4248F7
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 23:34:20 +0200 (CEST)
-Received: from localhost ([::1]:35006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AFD54248F8
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 23:34:22 +0200 (CEST)
+Received: from localhost ([::1]:35228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYEYN-0002aQ-Fp
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 17:34:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49514)
+	id 1mYEYN-0002kX-GB
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 17:34:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mYETe-0007xT-8y; Wed, 06 Oct 2021 17:29:27 -0400
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:43592)
+ id 1mYETd-0007xD-Di; Wed, 06 Oct 2021 17:29:26 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:43610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mYETc-0007w1-5g; Wed, 06 Oct 2021 17:29:26 -0400
+ id 1mYETb-0007w2-NZ; Wed, 06 Oct 2021 17:29:25 -0400
 Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 19CEC40FF2;
- Wed,  6 Oct 2021 23:29:21 +0200 (CEST)
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 39B484100B;
+ Wed,  6 Oct 2021 23:29:22 +0200 (CEST)
 Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 0170360066;
- Wed,  6 Oct 2021 23:29:20 +0200 (CEST)
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 228D060066;
+ Wed,  6 Oct 2021 23:29:22 +0200 (CEST)
 Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id A5C4114005C;
- Wed,  6 Oct 2021 23:29:20 +0200 (CEST)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id DB8B614005C;
+ Wed,  6 Oct 2021 23:29:21 +0200 (CEST)
 From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
  <frederic.petrot@univ-grenoble-alpes.fr>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 02/27] Int128.h: addition of a few 128-bit operations
-Date: Wed,  6 Oct 2021 23:28:08 +0200
-Message-Id: <20211006212833.108706-3-frederic.petrot@univ-grenoble-alpes.fr>
+Subject: [PATCH v2 03/27] target/riscv: adding upper 64 bits for misa
+Date: Wed,  6 Oct 2021 23:28:09 +0200
+Message-Id: <20211006212833.108706-4-frederic.petrot@univ-grenoble-alpes.fr>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211006212833.108706-1-frederic.petrot@univ-grenoble-alpes.fr>
 References: <20211006212833.108706-1-frederic.petrot@univ-grenoble-alpes.fr>
@@ -75,331 +75,126 @@ Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Addition of not, xor, div and rem on 128-bit integers, used in particular
-within div/rem and csr helpers for computations on 128-bit registers.
-These will be used by the 128-bit riscv version.
+Addition of misah, upper part of misa in the 128-bit extension.
+This is required for the is_64bit and is_128bit macros that we
+introduce in addition to the existing is_32bit one to know which
+register size the processor uses.
 
 Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
 Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
 ---
- include/qemu/int128.h | 264 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 264 insertions(+)
+ target/riscv/cpu.h       | 11 +++++++++++
+ target/riscv/cpu.c       |  2 ++
+ target/riscv/translate.c | 21 ++++++++++++++++++++-
+ 3 files changed, 33 insertions(+), 1 deletion(-)
 
-diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-index 2ac0746426..b3236d85ad 100644
---- a/include/qemu/int128.h
-+++ b/include/qemu/int128.h
-@@ -58,6 +58,11 @@ static inline Int128 int128_exts64(int64_t a)
-     return a;
- }
- 
-+static inline Int128 int128_not(Int128 a)
-+{
-+    return ~a;
-+}
-+
- static inline Int128 int128_and(Int128 a, Int128 b)
- {
-     return a & b;
-@@ -68,6 +73,11 @@ static inline Int128 int128_or(Int128 a, Int128 b)
-     return a | b;
- }
- 
-+static inline Int128 int128_xor(Int128 a, Int128 b)
-+{
-+    return a ^ b;
-+}
-+
- static inline Int128 int128_rshift(Int128 a, int n)
- {
-     return a >> n;
-@@ -162,6 +172,26 @@ static inline Int128 bswap128(Int128 a)
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 5896aca346..0c41b60b25 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -37,6 +37,7 @@
+ #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
+ #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
+ #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
++#define TYPE_RISCV_CPU_BASE128          RISCV_CPU_TYPE_NAME("rv128")
+ #define TYPE_RISCV_CPU_IBEX             RISCV_CPU_TYPE_NAME("lowrisc-ibex")
+ #define TYPE_RISCV_CPU_SHAKTI_C         RISCV_CPU_TYPE_NAME("shakti-c")
+ #define TYPE_RISCV_CPU_SIFIVE_E31       RISCV_CPU_TYPE_NAME("sifive-e31")
+@@ -49,10 +50,16 @@
+ # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE32
+ #elif defined(TARGET_RISCV64)
+ # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE64
++#else
++# define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE128
  #endif
+ 
++/* Mask for the MXLEN flag in the misa CSR */
++#define MXLEN_MASK ((target_ulong)3 << (TARGET_LONG_BITS - 2))
+ #define RV32 ((target_ulong)1 << (TARGET_LONG_BITS - 2))
+ #define RV64 ((target_ulong)2 << (TARGET_LONG_BITS - 2))
++/* To be used on misah, the upper part of misa */
++#define RV128 ((target_ulong)3 << (TARGET_LONG_BITS - 2))
+ 
+ #define RV(x) ((target_ulong)1 << (x - 'A'))
+ 
+@@ -187,6 +194,10 @@ struct CPURISCVState {
+     target_ulong hgatp;
+     uint64_t htimedelta;
+ 
++    /* Upper 64-bits of 128-bit misa CSR */
++    uint64_t misah;
++    uint64_t misah_mask;
++
+     /* Virtual CSRs */
+     /*
+      * For RV32 this is 32-bit vsstatus and 32-bit vsstatush.
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 7c626d89cd..02417be926 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -154,8 +154,10 @@ static void riscv_any_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+ #if defined(TARGET_RISCV32)
+     set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
++    set_misah(env, 0);
+ #elif defined(TARGET_RISCV64)
+     set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
++    set_misah(env, 0);
+ #endif
+     set_priv_version(env, PRIV_VERSION_1_11_0);
  }
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 74b33fa3c9..c04430805e 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -56,6 +56,7 @@ typedef struct DisasContext {
+     target_ulong pc_succ_insn;
+     target_ulong priv_ver;
+     target_ulong misa;
++    uint64_t misah;
+     uint32_t opcode;
+     uint32_t mstatus_fs;
+     uint32_t mem_idx;
+@@ -90,13 +91,30 @@ static inline bool has_ext(DisasContext *ctx, uint32_t ext)
  
-+static inline Int128 int128_divu(Int128 a, Int128 b)
-+{
-+    return (__uint128_t)a / (__uint128_t)b;
-+}
-+
-+static inline Int128 int128_remu(Int128 a, Int128 b)
-+{
-+    return (__uint128_t)a % (__uint128_t)b;
-+}
-+
-+static inline Int128 int128_divs(Int128 a, Int128 b)
-+{
-+    return a / b;
-+}
-+
-+static inline Int128 int128_rems(Int128 a, Int128 b)
-+{
-+    return a % b;
-+}
-+
- #else /* !CONFIG_INT128 */
- 
- typedef struct Int128 Int128;
-@@ -235,6 +265,11 @@ static inline Int128 int128_exts64(int64_t a)
-     return int128_make128(a, (a < 0) ? -1 : 0);
- }
- 
-+static inline Int128 int128_not(Int128 a)
-+{
-+    return int128_make128(~a.lo, ~a.hi);
-+}
-+
- static inline Int128 int128_and(Int128 a, Int128 b)
+ #ifdef TARGET_RISCV32
+ # define is_32bit(ctx)  true
++# define is_64bit(ctx)  false
++# define is_128bit(ctx) false
+ #elif defined(CONFIG_USER_ONLY)
+ # define is_32bit(ctx)  false
++# define is_64_bit(ctx) true
++# define is_128_bit(ctx) false
+ #else
+ static inline bool is_32bit(DisasContext *ctx)
  {
-     return int128_make128(a.lo & b.lo, a.hi & b.hi);
-@@ -245,6 +280,11 @@ static inline Int128 int128_or(Int128 a, Int128 b)
-     return int128_make128(a.lo | b.lo, a.hi | b.hi);
+-    return (ctx->misa & RV32) == RV32;
++    return (ctx->misa & MXLEN_MASK) == RV32;
  }
++
++static inline bool is_64bit(DisasContext *ctx)
++{
++    return (ctx->misa & MXLEN_MASK) == RV64;
++}
++#if !defined(TARGET_RISCV64)
++static inline bool is_128bit(DisasContext *ctx)
++{
++    return (ctx->misah & MXLEN_MASK) == RV128;
++}
++#else
++# define is_128bit(ctx) false
++#endif
+ #endif
  
-+static inline Int128 int128_xor(Int128 a, Int128 b)
-+{
-+    return int128_make128(a.lo ^ b.lo, a.hi ^ b.hi);
-+}
-+
- static inline Int128 int128_rshift(Int128 a, int n)
- {
-     int64_t h;
-@@ -359,6 +399,228 @@ static inline Int128 bswap128(Int128 a)
-     return int128_make128(bswap64(a.hi), bswap64(a.lo));
- }
- 
-+#include "qemu/host-utils.h"
-+/*
-+ * Division and remainder algorithms for 128-bit.
-+ * Naïve implementation of Knuth Algorithm D, can be optimized quite a bit if
-+ * it becomes a bootleneck.
-+ * Precondition: function never called with v equals to 0, has to be dealt
-+ *               with beforehand.
-+ */
-+static inline void divrem128(uint64_t ul, uint64_t uh,
-+                             uint64_t vl, uint64_t vh,
-+                             uint64_t *ql, uint64_t *qh,
-+                             uint64_t *rl, uint64_t *rh)
-+{
-+    const uint64_t b = ((uint64_t) 1) << 32;
-+    const int m = 4;
-+    uint64_t qhat, rhat, p;
-+    int n, s, i;
-+    int64_t j, t, k;
-+
-+    /* Build arrays of 32-bit words for u and v */
-+    uint32_t u[4] = {ul & 0xffffffff, (ul >> 32) & 0xffffffff,
-+                     uh & 0xffffffff, (uh >> 32) & 0xffffffff};
-+    uint32_t v[4] = {vl & 0xffffffff, (vl >> 32) & 0xffffffff,
-+                     vh & 0xffffffff, (vh >> 32) & 0xffffffff};
-+
-+    uint32_t q[4] = {0}, r[4] = {0}, un[5] = {0}, vn[4] = {0};
-+
-+    if (v[3]) {
-+        n = 4;
-+    } else if (v[2]) {
-+        n = 3;
-+    } else if (v[1]) {
-+        n = 2;
-+    } else if (v[0]) {
-+        n = 1;
-+    } else {
-+        /* never happens, but makes gcc shy */
-+        n = 0;
-+    }
-+
-+    if (n == 1) {
-+        /* Take care of the case of a single-digit divisor here */
-+        k = 0;
-+        for (j = m - 1; j >= 0; j--) {
-+            q[j] = (k * b + u[j]) / v[0];
-+            k = (k * b + u[j]) - q[j] * v[0];
-+        }
-+        if (r != NULL) {
-+            r[0] = k;
-+        }
-+    } else {
-+        s = clz32(v[n - 1]); /* 0 <= s <= 32 */
-+        if (s != 0) {
-+            for (i = n - 1; i > 0; i--) {
-+                vn[i] = ((v[i] << s) | (v[i - 1] >> (32 - s)));
-+            }
-+            vn[0] = v[0] << s;
-+
-+            un[m] = u[m - 1] >> (32 - s);
-+            for (i = m - 1; i > 0; i--) {
-+                un[i] = (u[i] << s) | (u[i - 1] >> (32 - s));
-+            }
-+            un[0] = u[0] << s;
-+        } else {
-+            for (i = 0; i < n; i++) {
-+                vn[i] = v[i];
-+            }
-+
-+            for (i = 0; i < m; i++) {
-+                un[i] = u[i];
-+            }
-+            un[m] = 0;
-+        }
-+
-+        /* Step D2 : loop on j */
-+        for (j = m - n; j >= 0; j--) { /* Main loop */
-+            /* Step D3 : Compute estimate qhat of q[j] */
-+            qhat = (un[j + n] * b + un[j + n - 1]) / vn[n - 1];
-+            /* Optimized mod vn[n -1 ] */
-+            rhat = (un[j + n] * b + un[j + n - 1]) - qhat * vn[n - 1];
-+
-+            while (true) {
-+                if (qhat == b
-+                    || qhat * vn[n - 2] > b * rhat + un[j + n - 2]) {
-+                    qhat = qhat - 1;
-+                    rhat = rhat + vn[n - 1];
-+                    if (rhat < b) {
-+                        continue;
-+                    }
-+                }
-+                break;
-+            }
-+
-+            /* Step D4 : Multiply and subtract */
-+            k = 0;
-+            for (i = 0; i < n; i++) {
-+                p = qhat * vn[i];
-+                t = un[i + j] - k - (p & 0xffffffff);
-+                un[i + j] = t;
-+                k = (p >> 32) - (t >> 32);
-+            }
-+            t = un[j + n] - k;
-+            un[j + n] = t;
-+
-+            /* Step D5 */
-+            q[j] = qhat;         /* Store quotient digit */
-+            /* Step D6 */
-+            if (t < 0) {         /* If we subtracted too much, add back */
-+                q[j] = q[j] - 1;
-+                k = 0;
-+                for (i = 0; i < n; i++) {
-+                    t = un[i + j] + vn[i] + k;
-+                    un[i + j] = t;
-+                    k = t >> 32;
-+                }
-+                un[j + n] = un[j + n] + k;
-+            }
-+        } /* D7 Loop */
-+
-+        /* Step D8 : Unnormalize */
-+        if (rl && rh) {
-+            if (s != 0) {
-+                for (i = 0; i < n; i++) {
-+                    r[i] = (un[i] >> s) | (un[i + 1] << (32 - s));
-+                }
-+            } else {
-+                for (i = 0; i < n; i++) {
-+                    r[i] = un[i];
-+                }
-+            }
-+        }
-+    }
-+
-+    if (ql && qh) {
-+        *ql = q[0] | ((uint64_t)q[1] << 32);
-+        *qh = q[2] | ((uint64_t)q[3] << 32);
-+    }
-+
-+    if (rl && rh) {
-+        *rl = r[0] | ((uint64_t)r[1] << 32);
-+        *rh = r[2] | ((uint64_t)r[3] << 32);
-+    }
-+}
-+
-+static inline Int128 int128_divu(Int128 a, Int128 b)
-+{
-+    uint64_t qh, ql;
-+
-+    divrem128(int128_getlo(a), int128_gethi(a),
-+              int128_getlo(b), int128_gethi(b),
-+              &ql, &qh,
-+              NULL, NULL);
-+
-+    return int128_make128(ql, qh);
-+}
-+
-+static inline Int128 int128_remu(Int128 a, Int128 b)
-+{
-+    uint64_t rh, rl;
-+
-+    divrem128(int128_getlo(a), int128_gethi(a),
-+              int128_getlo(b), int128_gethi(b),
-+              NULL, NULL,
-+              &rl, &rh);
-+
-+    return int128_make128(rl, rh);
-+}
-+
-+static inline Int128 int128_divs(Int128 a, Int128 b)
-+{
-+    uint64_t qh, ql;
-+    bool sgna = !int128_nonneg(a),
-+         sgnb = !int128_nonneg(b);
-+
-+    if (sgna) {
-+        a = int128_neg(a);
-+    }
-+
-+    if (sgnb) {
-+        b = int128_neg(b);
-+    }
-+
-+    divrem128(int128_getlo(a), int128_gethi(a),
-+              int128_getlo(b), int128_gethi(b),
-+              &ql, &qh,
-+              NULL, NULL);
-+    Int128 q = int128_make128(ql, qh);
-+
-+    if (sgna != sgnb) {
-+        q = int128_neg(q);
-+    }
-+
-+    return q;
-+}
-+
-+static inline Int128 int128_rems(Int128 a, Int128 b)
-+{
-+    uint64_t rh, rl;
-+    bool sgna = !int128_nonneg(a),
-+         sgnb = !int128_nonneg(b);
-+
-+    if (sgna) {
-+        a = int128_neg(a);
-+    }
-+
-+    if (sgnb) {
-+        b = int128_neg(b);
-+    }
-+
-+    divrem128(int128_getlo(a), int128_gethi(a),
-+              int128_getlo(b), int128_gethi(b),
-+              NULL, NULL,
-+              &rl, &rh);
-+    Int128 r = int128_make128(rl, rh);
-+
-+    if (sgna) {
-+        r = int128_neg(r);
-+    }
-+
-+    return r;
-+}
-+
- #endif /* CONFIG_INT128 */
- 
- static inline void bswap128s(Int128 *s)
-@@ -366,4 +628,6 @@ static inline void bswap128s(Int128 *s)
-     *s = bswap128(*s);
- }
- 
-+#define UINT128_MAX int128_make128(~0LL, ~0LL)
-+
- #endif /* INT128_H */
+ /* The word size for this operation. */
+@@ -530,6 +548,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->virt_enabled = false;
+ #endif
+     ctx->misa = env->misa;
++    ctx->misah = env->misah;
+     ctx->frm = -1;  /* unknown rounding mode */
+     ctx->ext_ifencei = cpu->cfg.ext_ifencei;
+     ctx->vlen = cpu->cfg.vlen;
 -- 
 2.33.0
 
