@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0A1423981
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 10:14:15 +0200 (CEST)
-Received: from localhost ([::1]:36712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B621423994
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 10:18:03 +0200 (CEST)
+Received: from localhost ([::1]:41654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY245-0007kk-PP
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 04:14:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55320)
+	id 1mY27m-0002m2-3V
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 04:18:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mY22a-00068c-7p
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 04:12:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29391)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mY252-00013O-RJ
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 04:15:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mY22Y-0007Nc-QY
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 04:12:39 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mY24o-0000hP-3m
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 04:15:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633507957;
+ s=mimecast20190719; t=1633508097;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HnGTjAZRaen9r2AJg6UG5NHDvNf7qVOPyp55+zNHlNQ=;
- b=XDO9DtAV+yUPE+vqWzOzWWiezLKrNMpLYnn4Hfm/s5LsOUGaLxEjfk1Qfblte0mLGFkmV3
- AlLqbQFlzpA1OHWFMyMLWs0ibHzfF1b0kZ5kw5xKwcDuvkJ0jCJr7m46sIMhnFcrFDFXRn
- LL7z5hNuXPeFsXrIQfPHeKARlSxx76k=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-f7MSUs6uPa6CbtCVPEszmg-1; Wed, 06 Oct 2021 04:12:36 -0400
-X-MC-Unique: f7MSUs6uPa6CbtCVPEszmg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- e12-20020a056000178c00b001606927de88so1354799wrg.10
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 01:12:36 -0700 (PDT)
+ bh=BvGgk6twj7rWkkyp7QC6vvWZWx3oesWLXmbukEbEECU=;
+ b=EWxhPbktICpEvzgUX/XavnE3YqTauvAjWkKMe4biXvjVxJluSluceCd8YRL6q0sDvUyuwM
+ zQQ1OzMFyFaKmip0MEJ71ES9URuqGryCvzlGYLFGhkLuDW1qRPjYp5vfguM9TWmuoWB9Sj
+ OsgBzkcS6dqg2igF0LhoRHhU5gdkjs8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-r-qaGR6gOzCvT53bbqhgtQ-1; Wed, 06 Oct 2021 04:14:56 -0400
+X-MC-Unique: r-qaGR6gOzCvT53bbqhgtQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r21-20020adfa155000000b001608162e16dso1356337wrr.15
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 01:14:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=HnGTjAZRaen9r2AJg6UG5NHDvNf7qVOPyp55+zNHlNQ=;
- b=gqf4fN4UPiMuVRzVbKXqQGhewFyUrMYk6Nj5RNa7EjBpy9/sYq+j3rqbyHS/xBMUl/
- PMtXx7mAdT9dWWqZNTVNzCIeBZqKz53WgRxoKZdvpB27b3KUUgbZQseYzXTGndKxDSeY
- +B1JZEJDDGPLigoOlMIT76rD3r0f3cGHUXdT+ZVItaJK/tE5rzbad7iVwerry2PT0MhG
- xPM2BiK1jfn2UvtLXtUb2TiXHkTbfbcWzO1bIDOLxAhQReboJ7aTFoqGvkz5MAbuog5v
- CyFC7epteC4svdm0xT75E4arR39FT+nK/KLvY8FgSh35weqM4Bn675/7VPkRMeSHjPjR
- 4f1g==
-X-Gm-Message-State: AOAM533ITqY0eNUMHvTIviPgoBLgJkzCsZ7hgfGJJwg6nopxjnm0R2NZ
- 9jwtRIc42RdrOyMLCa6qlezm9bhs/5weXCIE4lSUHEtgWzBV3UtEL1RppFrJr+Vvl+QIGDWAB6C
- dCEXdJAWGb9JtilM=
-X-Received: by 2002:a1c:f008:: with SMTP id a8mr8387257wmb.140.1633507955159; 
- Wed, 06 Oct 2021 01:12:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJymZh4G98oG7y6Nt+H35D6n/wffuaKMR4t4jXmrLfKTJ77aR5Ac8c0vu5dtIVnN6FmFtODWLA==
-X-Received: by 2002:a1c:f008:: with SMTP id a8mr8387237wmb.140.1633507954949; 
- Wed, 06 Oct 2021 01:12:34 -0700 (PDT)
-Received: from redhat.com ([188.120.128.46])
- by smtp.gmail.com with ESMTPSA id l21sm5179274wmg.18.2021.10.06.01.12.33
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=BvGgk6twj7rWkkyp7QC6vvWZWx3oesWLXmbukEbEECU=;
+ b=Nq1tRvI7NRljpRNWLvNsEXsOwDy5fOe4jaagrLMg1bAzWHU+Aai8G7MaaF2fFLnsXc
+ JgWvmm0TCSwW+o7oYo43GBG2PS/oSMtzQLZ3Dm/8pk9gIHPu0saBMUY3aHyM45HMxeLG
+ 5SWW+I0V0KATR3WaUHFdJC7LEPKV3d6J9f1dDp3MVhXlC7mRXNJ7ZZ3kkQlAazmRX8m7
+ SdWHrEAbx54zsjIF+ifdfqzbVx0z+dUcNZGPiQx6ExIXqiE/6FaupRMBieCD1WFJFZtE
+ 6Qlhm/MSIFK7n0DPRDi0Iq41uXrclVlu67Pk8XyfcGwDe1yVA5xcl/yb/dBGE6A7wqG1
+ ZWWw==
+X-Gm-Message-State: AOAM530OnAGXEXRUCQAT8YdWgJu17a0KsLDnkwrQeeAhHUk9tjF6hVgY
+ JjTAcmAdS97FRSYFT9C4w6i+5IXk5+owygT+yPPACgzDaMDNF3MO4r8I4+uGe+Assceqy0ys+ve
+ 10yS33XdpJWQHykU=
+X-Received: by 2002:a7b:c20f:: with SMTP id x15mr8427395wmi.10.1633508095284; 
+ Wed, 06 Oct 2021 01:14:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz/mmc4WJWHgyaYO4AoDPO89uT0I01tcCQD3ZW9rW22W4C9Jrsn+y9Xpt1TuIgevmgjYutQ2Q==
+X-Received: by 2002:a7b:c20f:: with SMTP id x15mr8427368wmi.10.1633508095085; 
+ Wed, 06 Oct 2021 01:14:55 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id o15sm4294850wmc.21.2021.10.06.01.14.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 01:12:34 -0700 (PDT)
-Date: Wed, 6 Oct 2021 04:12:31 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v6 02/10] ACPI ERST: specification for ERST support
-Message-ID: <20211006041132-mutt-send-email-mst@kernel.org>
-References: <1628202639-16361-1-git-send-email-eric.devolder@oracle.com>
- <1628202639-16361-3-git-send-email-eric.devolder@oracle.com>
+ Wed, 06 Oct 2021 01:14:54 -0700 (PDT)
+Date: Wed, 6 Oct 2021 10:14:53 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v4 09/11] tests/acpi: add test cases for VIOT
+Message-ID: <20211006101453.62de5e54@redhat.com>
+In-Reply-To: <20211001173358.863017-10-jean-philippe@linaro.org>
+References: <20211001173358.863017-1-jean-philippe@linaro.org>
+ <20211001173358.863017-10-jean-philippe@linaro.org>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <1628202639-16361-3-git-send-email-eric.devolder@oracle.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,25 +96,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, konrad.wilk@oracle.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, imammedo@redhat.com, boris.ostrovsky@oracle.com,
- rth@twiddle.net
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
+ mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ eric.auger@redhat.com, qemu-arm@nongnu.org, ani@anisinha.ca,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 05, 2021 at 06:30:31PM -0400, Eric DeVolder wrote:
-> Information on the implementation of the ACPI ERST support.
+On Fri,  1 Oct 2021 18:33:57 +0100
+Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+
+> Add two test cases for VIOT, one on the q35 machine and the other on
+> virt. To test complex topologies the q35 test has two PCIe buses that
+> bypass the IOMMU (and are therefore not described by VIOT), and two
+> buses that are translated by virtio-iommu.
 > 
-> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
 > ---
->  docs/specs/acpi_erst.txt | 147 +++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 147 insertions(+)
->  create mode 100644 docs/specs/acpi_erst.txt
-
-It's probably a good idea to have new documents in the rst
-format.
-
--- 
-MST
+>  tests/qtest/bios-tables-test.c | 38 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+> 
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index 4f11d03055..b6cb383bd9 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -1403,6 +1403,42 @@ static void test_acpi_virt_tcg(void)
+>      free_test_data(&data);
+>  }
+>  
+> +static void test_acpi_q35_viot(void)
+> +{
+> +    test_data data = {
+> +        .machine = MACHINE_Q35,
+> +        .variant = ".viot",
+> +    };
+> +
+> +    /*
+> +     * To keep things interesting, two buses bypass the IOMMU.
+> +     * VIOT should only describes the other two buses.
+> +     */
+> +    test_acpi_one("-machine default_bus_bypass_iommu=on "
+> +                  "-device virtio-iommu "
+> +                  "-device pxb-pcie,bus_nr=0x10,id=pcie.100,bus=pcie.0 "
+> +                  "-device pxb-pcie,bus_nr=0x20,id=pcie.200,bus=pcie.0,bypass_iommu=on "
+> +                  "-device pxb-pcie,bus_nr=0x30,id=pcie.300,bus=pcie.0",
+> +                  &data);
+> +    free_test_data(&data);
+> +}
+> +
+> +static void test_acpi_virt_viot(void)
+> +{
+> +    test_data data = {
+> +        .machine = "virt",
+> +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
+> +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
+> +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
+> +        .ram_start = 0x40000000ULL,
+> +        .scan_len = 128ULL * 1024 * 1024,
+> +    };
+> +
+> +    test_acpi_one("-cpu cortex-a57 "
+> +                  "-device virtio-iommu", &data);
+> +    free_test_data(&data);
+> +}
+> +
+>  static void test_oem_fields(test_data *data)
+>  {
+>      int i;
+> @@ -1567,12 +1603,14 @@ int main(int argc, char *argv[])
+>          if (strcmp(arch, "x86_64") == 0) {
+>              qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
+>          }
+> +        qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
+>      } else if (strcmp(arch, "aarch64") == 0) {
+>          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+>          qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+>          qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+>          qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
+>          qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
+> +        qtest_add_func("acpi/virt/viot", test_acpi_virt_viot);
+>      }
+>      ret = g_test_run();
+>      boot_sector_cleanup(disk);
 
 
