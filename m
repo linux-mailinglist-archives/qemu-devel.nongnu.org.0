@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE27E42413A
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 17:23:10 +0200 (CEST)
-Received: from localhost ([::1]:56220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1C5424143
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 17:26:10 +0200 (CEST)
+Received: from localhost ([::1]:36718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY8lA-0004Qw-I1
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 11:23:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46506)
+	id 1mY8o5-000232-Ld
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 11:26:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mY8i0-0001Gi-FI
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:19:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32116)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mY8i4-0001Kl-Ke
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:19:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mY8hy-0007Dt-7f
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:19:52 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mY8i2-0007Hv-IP
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 11:19:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633533589;
+ s=mimecast20190719; t=1633533594;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aTCu1mGAFGli2ebXtAt3zej7bIkcxTpc3A8QIy2XQbc=;
- b=S8JzEgDDAy7UbXOWkYoPeqwLX2klEVQWareyVZomsC85PGA6Tf9lnbzezyvHGdffZkLDqC
- +s2ojzEKQMvoM4c8gMKtK3WDcl+ctF4/skYv7hN32G5ElUgAW6IdvjEilGhUjdI24fVS5W
- YLzH+xVKESyqMA1spUd2tzvr5WWRVH0=
+ bh=FZFNMdyBoIFfE6GFH5aVoLY9vW1bHxnJTqIyfRbh1AY=;
+ b=Cei3VhHOA0QqN7nnXYNVdqAQHZc7Si0bo4tmpg4j3qQum1LZs+hq5s4P8Z9/oet22Z+Nl/
+ rF3PYEgYSyjueyicXObpdDgrAX+KgchjwXMpzW9dZMN7E5eTci/H3m1t47FagVmgG1k96B
+ caQqHtpQ2z3p44tBBsNqKG1U9NB4hJc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-sGDppADWPbqeHvQUN7mTIg-1; Wed, 06 Oct 2021 11:19:48 -0400
-X-MC-Unique: sGDppADWPbqeHvQUN7mTIg-1
+ us-mta-538-9199ZKmmOA2BppFaLa-Jbw-1; Wed, 06 Oct 2021 11:19:50 -0400
+X-MC-Unique: 9199ZKmmOA2BppFaLa-Jbw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF97B835DE5;
- Wed,  6 Oct 2021 15:19:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF7B110168CB;
+ Wed,  6 Oct 2021 15:19:49 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 58FDB5D9C6;
- Wed,  6 Oct 2021 15:19:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 97C505D9C6;
+ Wed,  6 Oct 2021 15:19:49 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 02/13] mirror: Keep s->synced on error
-Date: Wed,  6 Oct 2021 17:19:29 +0200
-Message-Id: <20211006151940.214590-3-hreitz@redhat.com>
+Subject: [PATCH v5 03/13] mirror: Drop s->synced
+Date: Wed,  6 Oct 2021 17:19:30 +0200
+Message-Id: <20211006151940.214590-4-hreitz@redhat.com>
 In-Reply-To: <20211006151940.214590-1-hreitz@redhat.com>
 References: <20211006151940.214590-1-hreitz@redhat.com>
 MIME-Version: 1.0
@@ -82,36 +82,95 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An error does not take us out of the READY phase, which is what
-s->synced signifies.  It does of course mean that source and target are
-no longer in sync, but that is what s->actively_sync is for -- s->synced
-never meant that source and target are in sync, only that they were at
-some point (and at that point we transitioned into the READY phase).
+As of HEAD^, there is no meaning to s->synced other than whether the job
+is READY or not.  job_is_ready() gives us that information, too.
 
-The tangible problem is that we transition to READY once we are in sync
-and s->synced is false.  By resetting s->synced here, we will transition
-from READY to READY once the error is resolved (if the job keeps
-running), and that transition is not allowed.
-
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/mirror.c | 1 -
- 1 file changed, 1 deletion(-)
+ block/mirror.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
 diff --git a/block/mirror.c b/block/mirror.c
-index c962e8b471..b367b29324 100644
+index b367b29324..035106bbb4 100644
 --- a/block/mirror.c
 +++ b/block/mirror.c
-@@ -121,7 +121,6 @@ typedef enum MirrorMethod {
- static BlockErrorAction mirror_error_action(MirrorBlockJob *s, bool read,
-                                             int error)
+@@ -56,7 +56,6 @@ typedef struct MirrorBlockJob {
+     bool zero_target;
+     MirrorCopyMode copy_mode;
+     BlockdevOnError on_source_error, on_target_error;
+-    bool synced;
+     /* Set when the target is synced (dirty bitmap is clean, nothing
+      * in flight) and the job is running in active mode */
+     bool actively_synced;
+@@ -943,7 +942,6 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+     if (s->bdev_length == 0) {
+         /* Transition to the READY state and wait for complete. */
+         job_transition_to_ready(&s->common.job);
+-        s->synced = true;
+         s->actively_synced = true;
+         while (!job_is_cancelled(&s->common.job) && !s->should_complete) {
+             job_yield(&s->common.job);
+@@ -1035,7 +1033,7 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+         should_complete = false;
+         if (s->in_flight == 0 && cnt == 0) {
+             trace_mirror_before_flush(s);
+-            if (!s->synced) {
++            if (!job_is_ready(&s->common.job)) {
+                 if (mirror_flush(s) < 0) {
+                     /* Go check s->ret.  */
+                     continue;
+@@ -1046,7 +1044,6 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+                  * the target in a consistent state.
+                  */
+                 job_transition_to_ready(&s->common.job);
+-                s->synced = true;
+                 if (s->copy_mode != MIRROR_COPY_MODE_BACKGROUND) {
+                     s->actively_synced = true;
+                 }
+@@ -1090,14 +1087,15 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+ 
+         ret = 0;
+ 
+-        if (s->synced && !should_complete) {
++        if (job_is_ready(&s->common.job) && !should_complete) {
+             delay_ns = (s->in_flight == 0 &&
+                         cnt == 0 ? BLOCK_JOB_SLICE_TIME : 0);
+         }
+-        trace_mirror_before_sleep(s, cnt, s->synced, delay_ns);
++        trace_mirror_before_sleep(s, cnt, job_is_ready(&s->common.job),
++                                  delay_ns);
+         job_sleep_ns(&s->common.job, delay_ns);
+         if (job_is_cancelled(&s->common.job) &&
+-            (!s->synced || s->common.job.force_cancel))
++            (!job_is_ready(&s->common.job) || s->common.job.force_cancel))
+         {
+             break;
+         }
+@@ -1110,8 +1108,9 @@ immediate_exit:
+          * or it was cancelled prematurely so that we do not guarantee that
+          * the target is a copy of the source.
+          */
+-        assert(ret < 0 || ((s->common.job.force_cancel || !s->synced) &&
+-               job_is_cancelled(&s->common.job)));
++        assert(ret < 0 ||
++               ((s->common.job.force_cancel || !job_is_ready(&s->common.job)) &&
++                job_is_cancelled(&s->common.job)));
+         assert(need_drain);
+         mirror_wait_for_all_io(s);
+     }
+@@ -1134,7 +1133,7 @@ static void mirror_complete(Job *job, Error **errp)
  {
--    s->synced = false;
-     s->actively_synced = false;
-     if (read) {
-         return block_job_error_action(&s->common, s->on_source_error,
+     MirrorBlockJob *s = container_of(job, MirrorBlockJob, common.job);
+ 
+-    if (!s->synced) {
++    if (!job_is_ready(job)) {
+         error_setg(errp, "The active block job '%s' cannot be completed",
+                    job->id);
+         return;
 -- 
 2.31.1
 
