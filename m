@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0FA4424981
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 00:12:02 +0200 (CEST)
-Received: from localhost ([::1]:54536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A02694249AF
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 00:28:27 +0200 (CEST)
+Received: from localhost ([::1]:38352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYF8r-0003ty-I0
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 18:12:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50868)
+	id 1mYFOk-0004Sb-6k
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 18:28:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mYEbS-0008GV-8a; Wed, 06 Oct 2021 17:37:30 -0400
-Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:45577)
+ id 1mYFNd-0003mc-Lr
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 18:27:17 -0400
+Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:39556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mYEbN-0006v2-2j; Wed, 06 Oct 2021 17:37:30 -0400
-Received: by mail-il1-x130.google.com with SMTP id i11so3272918ila.12;
- Wed, 06 Oct 2021 14:37:24 -0700 (PDT)
+ id 1mYFNc-00069T-7r
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 18:27:17 -0400
+Received: by mail-il1-x12b.google.com with SMTP id w11so1146725ilv.6
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 15:27:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=iKJXez/Q0CMTHQ+bygFWb0XN6B02VccNJAecW5dBrhI=;
- b=foLN+ctHJ/FS5+Do7x8BRiKSsB1/Zn4g0NyUo7bus8EQuVtkRSgE5lYERTb+HuS8yi
- 1JUNoa6NKF9Sc2TRSDrETQiIAMD/0R3szpAUR8jHDvH0ZvKC4+jCp3Kzyt9IDx31F7Ww
- AxYPdB6orp2VqP37TC3kO0iqvCooDSQ82ZzPpbv3aBcnZRwdK6ddVv64aEb73RNvMgA0
- izF4knjlizZJAMHL99lmZSWpDeDzkXixaA4jG4xa8CyFRGxY1qOsRom12AMD97+w74Pg
- ng2YSByBeO2NETL7gAABM+LyXz32jIp+UEbbi8chuuBu9ETFufMAoXEpicqfEE08E4lt
- 8R8Q==
+ :cc; bh=6V3NZIZyy2AbHYf0J/t74Qhnz2zCJmCu9KGMPvtCn90=;
+ b=h7/IgR6c5//SS35iVVXdiTBUjvMBxgU7SYpDIXCpHAaM2SCqDKzqo4FJ0NFyci5WA0
+ 70OCzpVvLycXNlbH7ymTAXYEftciEDmBopHDVE+7qc85DMufMdYMf3l5iAfgglLVR5C7
+ hAXe1iHhcgB77aqO3Pbju7TdU4OtZBJFLqTffoXXOcnz37tKU1Y/In416R2roco9YdCT
+ ZzpKFphggiFOXu7Ggx/jmrGOeS1Sb0toqPlHRMU1J/UPUXh2woDh/0QkFiOMU1ji7iGv
+ PROJK3Pl5tepet2vFizxDy5gUOTndeXtqzTaZbah6u8Ajcn2FNAqPT1nULtW4OGY9CcH
+ ibuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iKJXez/Q0CMTHQ+bygFWb0XN6B02VccNJAecW5dBrhI=;
- b=7WGEyL7V18Nn5cMG1WoYgtbg+0TJFBh/VKT9hLhTDamUgE21zbs3QIk/LI0ebgzftQ
- RI1NjQc+IqZiAKvzFkTe3Ap8aIHwEMPBYJlReRRl+NykfbGJcgM8Fwhx21520MWdiPeL
- 9bsEF9EvPef/DdZOsTqEJq7KvGW31PUB2z8fzuZLtf2EhH5INeG9vnqPXpNonpGU52Ie
- hH7F3Zo8Y2gwD5n0cbPTXriToa5BgW9F93izsRprdQbgZusXbFrci+lo+U2E8aaCcFy2
- dwy9SR9999VVXBIJyRgVgBpPr6vtqvetVMJBVvvPR+cqcA8dKm/RjpPiru/nZqP1fUs/
- wPaw==
-X-Gm-Message-State: AOAM532XRchDRW3WI+H9WsE1TjHjPLOepFqQbAhlSsYnHlrRQYLMejqA
- pMYV6cmrWbTYj22PYZDFE8guY1ZXJgLWCHDIJEoi2bUO1RLauQ==
-X-Google-Smtp-Source: ABdhPJwM9s3QhSwgLh73EvqfSYFrc1I4KENFHWw0rFy0hzVc7ouAhUC+UrLzMWV1pKVxmgaHp+rl9HC+J1Tsw7qR++o=
-X-Received: by 2002:a92:1a43:: with SMTP id z3mr395164ill.46.1633556242648;
- Wed, 06 Oct 2021 14:37:22 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=6V3NZIZyy2AbHYf0J/t74Qhnz2zCJmCu9KGMPvtCn90=;
+ b=1YhPDc+y+NmllJGZRAHHiPcb806rtVMEnxK72gfNBGFQf8cdFr+CupHLwmDfxteABG
+ 6ki+3m8ncO7vi+33osniKsYtXR1xQero9S8H8zp7uQaT9nqPCAh8A2ub3Y28PnglYlOh
+ ou/Z2+z96kYY4UvCRYjxRw02m/1yRhynKbpgd1LG45wgaSLrjbY6iTz40HMSNnQDC+Gt
+ X94M1rgXSkIlWFq4rlbjnNF27fO3nYNwF3ogetr0bhlp6X7x0l8jhKQyTeKTEZ63fpby
+ ICMIeqbd5RdztU+Jd6b+xiDB79RY70MgrBauVwEam0I6xHo2HoQJJIFZV4VqkYl9VzVi
+ mS9A==
+X-Gm-Message-State: AOAM532NQorj6MqSMIJSSOK70trgZHnqj+J2BwmC25TprN8+MGC0AR7B
+ vZG/2Y9j1W+2LCgwZ7rp0vge/9y51KaqRPrpKAo=
+X-Google-Smtp-Source: ABdhPJzCUcfQg0Do75u7pi1hClGOKTA3KBEvgtmmDxar9vifJ+Szy8bfquxhErpgiwAnLChWJjKd8+wWcVpoBgaCReE=
+X-Received: by 2002:a05:6e02:164a:: with SMTP id
+ v10mr505637ilu.74.1633559235258; 
+ Wed, 06 Oct 2021 15:27:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211006172307.780893-1-richard.henderson@linaro.org>
- <20211006172307.780893-36-richard.henderson@linaro.org>
-In-Reply-To: <20211006172307.780893-36-richard.henderson@linaro.org>
+References: <20211003214243.3813425-1-philipp.tomsich@vrull.eu>
+ <20211003214243.3813425-2-philipp.tomsich@vrull.eu>
+In-Reply-To: <20211003214243.3813425-2-philipp.tomsich@vrull.eu>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 7 Oct 2021 07:36:56 +1000
-Message-ID: <CAKmqyKNr4T-KhNnzD4FJFT61rV7vACMah+MzWSH4M-FrLhLh6w@mail.gmail.com>
-Subject: Re: [PATCH v4 35/41] target/riscv: Make riscv_cpu_tlb_fill sysemu only
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 7 Oct 2021 08:26:49 +1000
+Message-ID: <CAKmqyKO+k7OtQ_G+eSqGzYJZrfLQh3NAJAT08UO0aWcKrCiaFw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] target/riscv: Use dup_const_tl in orc.b to
+ legalise truncation of constant
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x130.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -78,120 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 7, 2021 at 4:12 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Mon, Oct 4, 2021 at 7:44 AM Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
 >
-> The fallback code in cpu_loop_exit_sigsegv is sufficient
-> for riscv linux-user.
+> We need to use the newly introduced dup_const_tl in orc.b to legalise
+> the truncation (to target_long) of the constant generated with dup_const.
 >
-> Remove the code from cpu_loop that raised SIGSEGV.
->
-> Cc: qemu-riscv@nongnu.org
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  linux-user/riscv/cpu_loop.c |  7 -------
->  target/riscv/cpu.c          |  2 +-
->  target/riscv/cpu_helper.c   | 21 +--------------------
->  3 files changed, 2 insertions(+), 28 deletions(-)
 >
-> diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-> index 9859a366e4..aef019b1c8 100644
-> --- a/linux-user/riscv/cpu_loop.c
-> +++ b/linux-user/riscv/cpu_loop.c
-> @@ -87,13 +87,6 @@ void cpu_loop(CPURISCVState *env)
->              sigcode =3D TARGET_TRAP_BRKPT;
->              sigaddr =3D env->pc;
->              break;
-> -        case RISCV_EXCP_INST_PAGE_FAULT:
-> -        case RISCV_EXCP_LOAD_PAGE_FAULT:
-> -        case RISCV_EXCP_STORE_PAGE_FAULT:
-> -            signum =3D TARGET_SIGSEGV;
-> -            sigcode =3D TARGET_SEGV_MAPERR;
-> -            sigaddr =3D env->badaddr;
-> -            break;
->          case RISCV_EXCP_SEMIHOST:
->              env->gpr[xA0] =3D do_common_semihosting(cs);
->              env->pc +=3D 4;
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 7c626d89cd..0292a72feb 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -675,9 +675,9 @@ static const struct SysemuCPUOps riscv_sysemu_ops =3D=
- {
->  static const struct TCGCPUOps riscv_tcg_ops =3D {
->      .initialize =3D riscv_translate_init,
->      .synchronize_from_tb =3D riscv_cpu_synchronize_from_tb,
-> -    .tlb_fill =3D riscv_cpu_tlb_fill,
+> (no changes since v1)
 >
->  #ifndef CONFIG_USER_ONLY
-> +    .tlb_fill =3D riscv_cpu_tlb_fill,
->      .cpu_exec_interrupt =3D riscv_cpu_exec_interrupt,
->      .do_interrupt =3D riscv_cpu_do_interrupt,
->      .do_transaction_failed =3D riscv_cpu_do_transaction_failed,
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index d41d5cd27c..b520d6fc78 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -748,7 +748,6 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vadd=
-r addr,
->                              riscv_cpu_two_stage_lookup(mmu_idx);
->      riscv_raise_exception(env, cs->exception_index, retaddr);
->  }
-> -#endif /* !CONFIG_USER_ONLY */
+>  target/riscv/insn_trans/trans_rvb.c.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->  bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->                          MMUAccessType access_type, int mmu_idx,
-> @@ -756,7 +755,6 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, =
-int size,
+> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+> index 2927353d9b..185c3e9a60 100644
+> --- a/target/riscv/insn_trans/trans_rvb.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
+> @@ -249,7 +249,7 @@ static bool trans_rev8_64(DisasContext *ctx, arg_rev8_64 *a)
+>  static void gen_orc_b(TCGv ret, TCGv source1)
 >  {
->      RISCVCPU *cpu =3D RISCV_CPU(cs);
->      CPURISCVState *env =3D &cpu->env;
-> -#ifndef CONFIG_USER_ONLY
->      vaddr im_address;
->      hwaddr pa =3D 0;
->      int prot, prot2, prot_pmp;
-> @@ -888,25 +886,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address,=
- int size,
->      }
+>      TCGv  tmp = tcg_temp_new();
+> -    TCGv  ones = tcg_constant_tl(dup_const(MO_8, 0x01));
+> +    TCGv  ones = tcg_constant_tl(dup_const_tl(MO_8, 0x01));
 >
->      return true;
-> -
-> -#else
-> -    switch (access_type) {
-> -    case MMU_INST_FETCH:
-> -        cs->exception_index =3D RISCV_EXCP_INST_PAGE_FAULT;
-> -        break;
-> -    case MMU_DATA_LOAD:
-> -        cs->exception_index =3D RISCV_EXCP_LOAD_PAGE_FAULT;
-> -        break;
-> -    case MMU_DATA_STORE:
-> -        cs->exception_index =3D RISCV_EXCP_STORE_PAGE_FAULT;
-> -        break;
-> -    default:
-> -        g_assert_not_reached();
-> -    }
-> -    env->badaddr =3D address;
-> -    cpu_loop_exit_restore(cs, retaddr);
-> -#endif
->  }
-> +#endif /* !CONFIG_USER_ONLY */
->
->  /*
->   * Handle Traps
+>      /* Set lsb in each byte if the byte was zero. */
+>      tcg_gen_sub_tl(tmp, source1, ones);
 > --
 > 2.25.1
 >
