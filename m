@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC350423E68
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 15:06:52 +0200 (CEST)
-Received: from localhost ([::1]:52618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7643A423E70
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 15:12:02 +0200 (CEST)
+Received: from localhost ([::1]:60720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY6dI-0000oj-0q
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 09:06:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41076)
+	id 1mY6iH-0006ZZ-3m
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 09:12:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mY6as-000733-Dy
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 09:04:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59622)
+ id 1mY6gq-0005Ra-Pq
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 09:10:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mY6aq-0006EZ-LU
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 09:04:22 -0400
+ id 1mY6gm-0000xx-7G
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 09:10:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633525460;
+ s=mimecast20190719; t=1633525826;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B9HnXuE02AWOMpgbvkN6gXtebkmF8deZmDQ05Gf/mlQ=;
- b=Qo9oAnNGsnRurQxOf6U3Rb273WnRt64JbgjEuwWbp6GF0PBYo3xHj/YVNjJV8afkutGaP7
- oA1v0EDgIP/EnSD1f8tIVrISfsJ+oLYqSkHZhsiTGQnm7ry90pS1idWBn+QiE1/3NiDCyC
- UsL+EMdSXU7Ecb9iQlxJaAwgWYYH8pk=
+ bh=q9voh/KcOwcEExQ1nJsQDviAGkaMicobNss0oMSxLNc=;
+ b=RLgV6Mbd+Hc+K87BHjnK2sQQDhdUnUH7fuKz+gDqGPMPmx2TViJlVz2H+XUmF77T5JQ5aq
+ jaOuVGQ5oyYC6mgYNke1CSbumDfaWm1qLhen+3hXPeBIZRWaOtn9XYkjmqXZUMrslfhAmy
+ LBEMvyDOrcxuaib33sMNk+R5uOrkVnM=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-MCj39GPcNe2M5Lni8FNBSA-1; Wed, 06 Oct 2021 09:04:19 -0400
-X-MC-Unique: MCj39GPcNe2M5Lni8FNBSA-1
+ us-mta-237-56vkwetbOv6Wpe7Z4KUgIg-1; Wed, 06 Oct 2021 09:10:25 -0400
+X-MC-Unique: 56vkwetbOv6Wpe7Z4KUgIg-1
 Received: by mail-wr1-f72.google.com with SMTP id
- d13-20020adf9b8d000000b00160a94c235aso1985454wrc.2
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 06:04:18 -0700 (PDT)
+ m17-20020adffa11000000b00160c1ac74e9so1996033wrr.9
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 06:10:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:reply-to:subject:to:cc:references:from
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-transfer-encoding:content-language;
- bh=B9HnXuE02AWOMpgbvkN6gXtebkmF8deZmDQ05Gf/mlQ=;
- b=1YAS7CXrgXBof+yricO6dzVd9I5+UHa/TCOaHTpfefOdTldMRB888JDy2eOluYZT1L
- 4mIYXLcODxtWOi+j2VDGQnfaTf/A3g+4Xsr6tkOiLhfQVDAL1MYsbO76JGa8BoX8BONk
- 7yosi9ws/ODFkpemXnTebSoQkuEJuD8pruRVL49ffN9kq4ge1+9bfUBUqYR31lHjcaaO
- 92Wj4lD8qerVfDH1+qKysNp4RI95xrjQdXMGbHYikPAEhSiCxG6xxQSGbjOuJlV6NF2b
- TgVB/MVxf1HR0LAIVKi5qPrp3MEezQB8aHOkenmDWT4TNTDYN9R9x7L3RU5kY5UxJXjp
- hEGg==
-X-Gm-Message-State: AOAM5325KAHY5lXd4f289NbaKmDVSk+m5q9z2mHOgUEhO/+RQrZwSciD
- pCyhVyxHulZJU/eoc9HWZGiCwj5WyAuOEMbIBKHbbfOonnZzOvvWutIhn9V35xd7O8t5Gxj9CEo
- Zi5V02DcUm2WEPfQ=
-X-Received: by 2002:a7b:cf24:: with SMTP id m4mr9772341wmg.133.1633525457862; 
- Wed, 06 Oct 2021 06:04:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzhPoiBK5ldACDaVfC8ERStD/3k/I6xiEnGdTg++ywUvHbMExAQ4i5iQQFy4oZj+5sRwQasPA==
-X-Received: by 2002:a7b:cf24:: with SMTP id m4mr9772298wmg.133.1633525457580; 
- Wed, 06 Oct 2021 06:04:17 -0700 (PDT)
+ bh=q9voh/KcOwcEExQ1nJsQDviAGkaMicobNss0oMSxLNc=;
+ b=eoX6aw1ucLLHbg6uitPYEbB9JG1IWS8kaAEDZpsqpx31W6lkT1ZY/7M5d7OXstoGc7
+ qeAAG7NEs1mqiAw0GwpqgI803uAjtCScQLdQBKYFPJh7O70K8b2apKzMU3cg/1qkYA8S
+ 2JvdxYOk/aHnTH3dtHD5X+jOY9LxM+CtLPoAsHKOUIHduHZPZN2kv7HRrihtgYSRxmHE
+ Af4lJL3pVhkBufEDagD2P3JnxzhpedsxS9wsc/8xuJabX/3TXQZ0BfD8uzii6I50pLRp
+ tMqWBgdfduPXF5Xi/HwtFBX3YOHpkOP28ne8LuY4cH0x38oV3igDOoD92DCyaoFPxXaA
+ r3BA==
+X-Gm-Message-State: AOAM533Gt1dTFszPthShoE0QfsJOtQla0jKjUpnqIXtltFT9DL7z9mw5
+ EGoLNxn4PZ7yWO0dvwF3f9uHWhTAK6zRTkyzDqzfRpEIqmTxP2q9W7RpXN/DzgDAAVWkwCxQCAz
+ Ac8Rid6cgjlISp9w=
+X-Received: by 2002:a1c:1dcb:: with SMTP id d194mr9434724wmd.161.1633525824575; 
+ Wed, 06 Oct 2021 06:10:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyKk8ZMd9Y94CALhG/xVfapKKIDwcQEEUGi6cas0mUWSudZjVnhCz2IPmgBh5j9OKutpCHUHQ==
+X-Received: by 2002:a1c:1dcb:: with SMTP id d194mr9434699wmd.161.1633525824309; 
+ Wed, 06 Oct 2021 06:10:24 -0700 (PDT)
 Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
  ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id y11sm25123303wrg.18.2021.10.06.06.04.16
+ by smtp.gmail.com with ESMTPSA id l26sm5057254wmp.9.2021.10.06.06.10.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Oct 2021 06:04:17 -0700 (PDT)
-Subject: Re: [PATCH 2/3] virtio-iommu: Default to bypass during boot
+ Wed, 06 Oct 2021 06:10:23 -0700 (PDT)
+Subject: Re: [PATCH 3/3] virtio-iommu: Support bypass domain
 To: Jean-Philippe Brucker <jean-philippe@linaro.org>
 References: <20210930185050.262759-1-jean-philippe@linaro.org>
- <20210930185050.262759-3-jean-philippe@linaro.org>
+ <20210930185050.262759-4-jean-philippe@linaro.org>
 From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <8fc7acc5-2ce5-293a-0db3-40ff52b91803@redhat.com>
-Date: Wed, 6 Oct 2021 15:04:15 +0200
+Message-ID: <6efa6f64-d410-9732-15ba-7651c3e9fd76@redhat.com>
+Date: Wed, 6 Oct 2021 15:10:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210930185050.262759-3-jean-philippe@linaro.org>
+In-Reply-To: <20210930185050.262759-4-jean-philippe@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,13 +82,13 @@ Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.05, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.964,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,138 +109,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Hi jean,
 
 On 9/30/21 8:50 PM, Jean-Philippe Brucker wrote:
-> Currently the virtio-iommu device must be programmed before it allows
-> DMA from any PCI device. This can make the VM entirely unusable when a
-> virtio-iommu driver isn't present, for example in a bootloader that
-> loads the OS from storage.
->
-> Similarly to the other vIOMMU implementations, default to DMA bypassing
-> the IOMMU during boot. Add a "boot-bypass" option that lets users change
-> this behavior.
-s/option/property
-set to true by default.
-
-Also mention this deprecates the legacy VIRTIO_IOMMU_F_BYPASS feature
+> The driver can create a bypass domain by passing the
+> VIRTIO_IOMMU_ATTACH_F_BYPASS flag on the ATTACH request. Bypass domains
+> perform slightly better than domains with identity mappings since they
+> skip translation.
 >
 > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 > ---
->  include/hw/virtio/virtio-iommu.h |  1 +
->  hw/virtio/virtio-iommu.c         | 28 +++++++++++++++++++++++-----
->  hw/virtio/trace-events           |  4 ++--
->  3 files changed, 26 insertions(+), 7 deletions(-)
+>  hw/virtio/virtio-iommu.c | 32 ++++++++++++++++++++++++++++++--
+>  1 file changed, 30 insertions(+), 2 deletions(-)
 >
-> diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-iommu.h
-> index 273e35c04b..4c66989ca4 100644
-> --- a/include/hw/virtio/virtio-iommu.h
-> +++ b/include/hw/virtio/virtio-iommu.h
-> @@ -58,6 +58,7 @@ struct VirtIOIOMMU {
->      GTree *domains;
->      QemuMutex mutex;
->      GTree *endpoints;
-> +    bool boot_bypass;
->  };
->  
->  #endif
 > diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-> index 1b23e8e18c..82edeaa101 100644
+> index 82edeaa101..4f0207a3eb 100644
 > --- a/hw/virtio/virtio-iommu.c
 > +++ b/hw/virtio/virtio-iommu.c
-> @@ -728,8 +728,7 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->          .perm = IOMMU_NONE,
->      };
+> @@ -42,6 +42,7 @@
 >  
-> -    bypass_allowed = virtio_vdev_has_feature(&s->parent_obj,
-> -                                             VIRTIO_IOMMU_F_BYPASS);
-> +    bypass_allowed = s->config.bypass;
->  
->      sid = virtio_iommu_get_bdf(sdev);
->  
-> @@ -828,7 +827,8 @@ static void virtio_iommu_get_config(VirtIODevice *vdev, uint8_t *config_data)
->                                    config->input_range.start,
->                                    config->input_range.end,
->                                    config->domain_range.end,
-> -                                  config->probe_size);
-> +                                  config->probe_size,
-> +                                  config->bypass);
->      memcpy(config_data, &dev->config, sizeof(struct virtio_iommu_config));
+>  typedef struct VirtIOIOMMUDomain {
+>      uint32_t id;
+> +    bool bypass;
+>      GTree *mappings;
+>      QLIST_HEAD(, VirtIOIOMMUEndpoint) endpoint_list;
+>  } VirtIOIOMMUDomain;
+> @@ -257,12 +258,16 @@ static void virtio_iommu_put_endpoint(gpointer data)
 >  }
 >  
-> @@ -836,13 +836,29 @@ static void virtio_iommu_set_config(VirtIODevice *vdev,
->                                        const uint8_t *config_data)
+>  static VirtIOIOMMUDomain *virtio_iommu_get_domain(VirtIOIOMMU *s,
+> -                                                  uint32_t domain_id)
+> +                                                  uint32_t domain_id,
+> +                                                  bool bypass)
 >  {
->      struct virtio_iommu_config config;
-> +    VirtIOIOMMU *dev = VIRTIO_IOMMU(vdev);
+>      VirtIOIOMMUDomain *domain;
 >  
->      memcpy(&config, config_data, sizeof(struct virtio_iommu_config));
-> +
-> +    if (config.bypass != dev->config.bypass) {
-> +        if (!virtio_vdev_has_feature(vdev, VIRTIO_IOMMU_F_BYPASS_CONFIG)) {
-> +            virtio_error(vdev, "cannot set config.bypass");
-> +            return;
+>      domain = g_tree_lookup(s->domains, GUINT_TO_POINTER(domain_id));
+>      if (domain) {
+> +        if (domain->bypass != bypass) {
+> +            return NULL;
 > +        }
-> +        if (config.bypass != 0 && config.bypass != 1) {
-> +            warn_report("invalid config.bypass value '%d'", config.bypass);
-> +            dev->config.bypass = 0;
-Shouldn't we leave the old value instead. The spec proposal says it
-takes 0 though.
-> +            return;
-> +        }
-> +        dev->config.bypass = config.bypass;
+>          return domain;
+>      }
+>      domain = g_malloc0(sizeof(*domain));
+> @@ -270,6 +275,7 @@ static VirtIOIOMMUDomain *virtio_iommu_get_domain(VirtIOIOMMU *s,
+>      domain->mappings = g_tree_new_full((GCompareDataFunc)interval_cmp,
+>                                     NULL, (GDestroyNotify)g_free,
+>                                     (GDestroyNotify)g_free);
+> +    domain->bypass = bypass;
+>      g_tree_insert(s->domains, GUINT_TO_POINTER(domain_id), domain);
+>      QLIST_INIT(&domain->endpoint_list);
+>      trace_virtio_iommu_get_domain(domain_id);
+> @@ -333,11 +339,16 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
+>  {
+>      uint32_t domain_id = le32_to_cpu(req->domain);
+>      uint32_t ep_id = le32_to_cpu(req->endpoint);
+> +    uint32_t flags = le32_to_cpu(req->flags);
+>      VirtIOIOMMUDomain *domain;
+>      VirtIOIOMMUEndpoint *ep;
+>  
+>      trace_virtio_iommu_attach(domain_id, ep_id);
+>  
+> +    if (flags & ~VIRTIO_IOMMU_ATTACH_F_BYPASS) {
+> +        return VIRTIO_IOMMU_S_INVAL;
 > +    }
 > +
->      trace_virtio_iommu_set_config(config.page_size_mask,
->                                    config.input_range.start,
->                                    config.input_range.end,
->                                    config.domain_range.end,
-> -                                  config.probe_size);
-> +                                  config.probe_size,
-> +                                  config.bypass);
->  }
+>      ep = virtio_iommu_get_endpoint(s, ep_id);
+>      if (!ep) {
+>          return VIRTIO_IOMMU_S_NOENT;
+> @@ -355,7 +366,12 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
+>          }
+>      }
 >  
->  static uint64_t virtio_iommu_get_features(VirtIODevice *vdev, uint64_t f,
-> @@ -986,6 +1002,7 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
->      s->config.input_range.end = -1UL;
->      s->config.domain_range.end = 32;
->      s->config.probe_size = VIOMMU_PROBE_SIZE;
-> +    s->config.bypass = s->boot_bypass;
+> -    domain = virtio_iommu_get_domain(s, domain_id);
+> +    domain = virtio_iommu_get_domain(s, domain_id,
+> +                                     flags & VIRTIO_IOMMU_ATTACH_F_BYPASS);
+> +    if (!domain) {
+> +        /* Incompatible flags */
+Incompatible bypass flag
+> +        return VIRTIO_IOMMU_S_INVAL;
+> +    }
+>      QLIST_INSERT_HEAD(&domain->endpoint_list, ep, next);
 >  
->      virtio_add_feature(&s->features, VIRTIO_RING_F_EVENT_IDX);
->      virtio_add_feature(&s->features, VIRTIO_RING_F_INDIRECT_DESC);
-> @@ -993,9 +1010,9 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
->      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_INPUT_RANGE);
->      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_DOMAIN_RANGE);
->      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MAP_UNMAP);
-> -    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS);
->      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MMIO);
->      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_PROBE);
-> +    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS_CONFIG);
+>      ep->domain = domain;
+> @@ -418,6 +434,10 @@ static int virtio_iommu_map(VirtIOIOMMU *s,
+>          return VIRTIO_IOMMU_S_NOENT;
+>      }
 >  
->      qemu_mutex_init(&s->mutex);
+> +    if (domain->bypass) {
+> +        return VIRTIO_IOMMU_S_INVAL;
+> +    }
+> +
+>      interval = g_malloc0(sizeof(*interval));
 >  
-> @@ -1169,6 +1186,7 @@ static const VMStateDescription vmstate_virtio_iommu = {
+>      interval->low = virt_start;
+> @@ -463,6 +483,11 @@ static int virtio_iommu_unmap(VirtIOIOMMU *s,
+>      if (!domain) {
+>          return VIRTIO_IOMMU_S_NOENT;
+>      }
+> +
+> +    if (domain->bypass) {
+> +        return VIRTIO_IOMMU_S_INVAL;
+> +    }
+> +
+>      interval.low = virt_start;
+>      interval.high = virt_end;
 >  
->  static Property virtio_iommu_properties[] = {
->      DEFINE_PROP_LINK("primary-bus", VirtIOIOMMU, primary_bus, "PCI", PCIBus *),
-> +    DEFINE_PROP_BOOL("boot-bypass", VirtIOIOMMU, boot_bypass, true),
->      DEFINE_PROP_END_OF_LIST(),
->  };
+> @@ -779,6 +804,9 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
+>              entry.perm = flag;
+>          }
+>          goto unlock;
+> +    } else if (ep->domain->bypass) {
+> +        entry.perm = flag;
+> +        goto unlock;
+>      }
 >  
-> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> index 8ed19e9d0c..6bc3821ba3 100644
-> --- a/hw/virtio/trace-events
-> +++ b/hw/virtio/trace-events
-> @@ -90,8 +90,8 @@ virtio_mmio_setting_irq(int level) "virtio_mmio setting IRQ %d"
->  virtio_iommu_device_reset(void) "reset!"
->  virtio_iommu_get_features(uint64_t features) "device supports features=0x%"PRIx64
->  virtio_iommu_device_status(uint8_t status) "driver status = %d"
-> -virtio_iommu_get_config(uint64_t page_size_mask, uint64_t start, uint64_t end, uint32_t domain_range, uint32_t probe_size) "page_size_mask=0x%"PRIx64" start=0x%"PRIx64" end=0x%"PRIx64" domain_range=%d probe_size=0x%x"
-> -virtio_iommu_set_config(uint64_t page_size_mask, uint64_t start, uint64_t end, uint32_t domain_range, uint32_t probe_size) "page_size_mask=0x%"PRIx64" start=0x%"PRIx64" end=0x%"PRIx64" domain_bits=%d probe_size=0x%x"
-> +virtio_iommu_get_config(uint64_t page_size_mask, uint64_t start, uint64_t end, uint32_t domain_range, uint32_t probe_size, uint8_t bypass) "page_size_mask=0x%"PRIx64" start=0x%"PRIx64" end=0x%"PRIx64" domain_range=%d probe_size=0x%x bypass=0x%x"
-> +virtio_iommu_set_config(uint64_t page_size_mask, uint64_t start, uint64_t end, uint32_t domain_range, uint32_t probe_size, uint8_t bypass) "page_size_mask=0x%"PRIx64" start=0x%"PRIx64" end=0x%"PRIx64" domain_bits=%d probe_size=0x%x bypass=0x%x"
->  virtio_iommu_attach(uint32_t domain_id, uint32_t ep_id) "domain=%d endpoint=%d"
->  virtio_iommu_detach(uint32_t domain_id, uint32_t ep_id) "domain=%d endpoint=%d"
->  virtio_iommu_map(uint32_t domain_id, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start, uint32_t flags) "domain=%d virt_start=0x%"PRIx64" virt_end=0x%"PRIx64 " phys_start=0x%"PRIx64" flags=%d"
-Thanks
+>      found = g_tree_lookup_extended(ep->domain->mappings, (gpointer)(&interval),
+Otherwise looks good to me.
 
 Eric
 
