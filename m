@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B4C4243A5
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 19:02:40 +0200 (CEST)
-Received: from localhost ([::1]:54088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B49642436F
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 18:54:49 +0200 (CEST)
+Received: from localhost ([::1]:34150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYAJT-00063a-Mx
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 13:02:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40666)
+	id 1mYABs-00015W-5g
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 12:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYA7F-0004RO-Fk
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 12:50:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23468)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYA8e-0006kg-Cm
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 12:51:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYA7C-0007ab-Ph
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 12:50:01 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYA8c-0000Ro-Uf
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 12:51:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633538998;
+ s=mimecast20190719; t=1633539086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d3SY8kt+0eUr16xiO6WRv5UUaNaOH2E74e2h2BTlxRY=;
- b=RBuZldxpt2+H8VjqJj4puyGxU/7Es5yOPD4FU4N4GKJc//omfMXbpSMoN9JNhbbZAy5EKf
- 93d3/cviQK/G5JBPUc1VGSilgnNf1zbHJo1CLKC5egJkJkK5dG8msqWdveLySDGPXCQQ7Y
- khG4DQzTYg3394gsYVIYzq8OMq/TdT8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-aaKbAiqeM4mRfsOKcDCgeg-1; Wed, 06 Oct 2021 12:49:57 -0400
-X-MC-Unique: aaKbAiqeM4mRfsOKcDCgeg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d13-20020adfa34d000000b00160aa1cc5f1so2547211wrb.14
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 09:49:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=d3SY8kt+0eUr16xiO6WRv5UUaNaOH2E74e2h2BTlxRY=;
- b=o87He0HME8O9T07Bku/qmXECDkGv38ZqdXEFs99+bSNsJl/u2/I/JEV9jvE+jkD220
- gjaER/Vk4PD63WgrDwPfUn2dBpznSsUcrtWWB7ujmFALeYRFAEzdoFIebE6lZT7+hKRC
- yZEK48OKuGzSXtXLbIf69w2cXjLuAKWBcnACSbH83v+Pm9fOxSK5eIMLtgDQhEqbaSNb
- SYEHCGHKYXt3uVJNy1kPQBUKlfxEP01ryy3LX9zUBA1i5CTVjvL0dz8a0smq0OcR/nsb
- Tfwk4pgL82yuPRFdIneCz4OMwovEeA2xX6PfHuSOKAeAcZh5/6Zc9KbVScrosZGwB2Bu
- Rtag==
-X-Gm-Message-State: AOAM530t+RRHrsRmxxGepVuuApyzGJ9zddFqqiJhgArwQCsrwVQXmQLQ
- 071ZTxP2dkxSNKp5CuDjjp1fekNb4ADeQcaiOpwfw0IRDsfHTmePcIr6XhSM6gH4Z+ea1ziMVRR
- KIDUju+yVR6NnVXjZQDirzksm14KzW6H9i08nQ61zftE+2mOl0ROn3dIFMaVK+6ce
-X-Received: by 2002:a1c:158:: with SMTP id 85mr10873941wmb.187.1633538995662; 
- Wed, 06 Oct 2021 09:49:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzYXrWDPsnysXoTslg9CNi8EtDOIX+tHxKAHzrlnJ6h+EnzldDiVm9QAyPTkus4yIScFH6FPg==
-X-Received: by 2002:a1c:158:: with SMTP id 85mr10873911wmb.187.1633538995379; 
- Wed, 06 Oct 2021 09:49:55 -0700 (PDT)
-Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id k22sm21875271wrd.59.2021.10.06.09.49.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 09:49:54 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] block/nvme: Fix memory leak from nvme_init_queue()
-Date: Wed,  6 Oct 2021 18:49:31 +0200
-Message-Id: <20211006164931.172349-6-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211006164931.172349-1-philmd@redhat.com>
-References: <20211006164931.172349-1-philmd@redhat.com>
+ bh=5dLKFFWhkJkrgt/40flhoRbuf39WeCvRZc/YokmXB9c=;
+ b=WlZ4oosVTOvTnk2dHft2W8MYK3ybqfYX3J//h0ikpNEIyX7nWtFY1DtxVFirILIoePKXNx
+ TNzLtcbliORQrOICs3wo5DRDUQ43dVVpANdz60M3D7yVz0RYm/H1i8lh53HRRfJOV2GN6B
+ xsJMdlO9HMh6qHDU4Hp7XkwJhe6/+Ns=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-7jblIf9MM8ylQbsa0IVu5A-1; Wed, 06 Oct 2021 12:51:25 -0400
+X-MC-Unique: 7jblIf9MM8ylQbsa0IVu5A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73FE219251A8;
+ Wed,  6 Oct 2021 16:51:24 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6CD9960853;
+ Wed,  6 Oct 2021 16:51:23 +0000 (UTC)
+Date: Wed, 6 Oct 2021 18:51:21 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH 2/2] qemu-iotests: fix image-fleecing pylint errors
+Message-ID: <YV3UCaO5oJU2TeIR@redhat.com>
+References: <20211006130100.389521-1-eesposit@redhat.com>
+ <20211006130100.389521-3-eesposit@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20211006130100.389521-3-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.05, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,52 +76,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-nvme_create_queue_pair() allocates resources with qemu_vfio_dma_map(),
-but we never release them. Do it in nvme_free_queue() which is called
-from nvme_free_queue_pair().
+Am 06.10.2021 um 15:01 hat Emanuele Giuseppe Esposito geschrieben:
+> The problem here is that some variables are formatted with
+> unnecessary spaces to make it prettier and easier to read.
+> 
+> However, pylint complains about those additional spaces.
+> A solution is to transform them as string with arbitrary spaces,
+> and then convert it back into a tuple.
+> 
+> Removing the spaces makes it a little bit ugly, and directly
+> using the string forces us to change the test reference output
+> accordingly, which will 1) contain ugly weird formatted strings,
+> 2) is not portable if somebody changes the formatting in the test
+> string.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Reported by valgrind:
+Changing our logic because of a style checker feels wrong. I'd rather
+stick in a line like this before the definitions:
 
-  ==252858== 520,192 bytes in 1 blocks are still reachable in loss record 8,293 of 8,302
-  ==252858==    at 0x4846803: memalign (vg_replace_malloc.c:1265)
-  ==252858==    by 0x484691F: posix_memalign (vg_replace_malloc.c:1429)
-  ==252858==    by 0xB8AFE4: qemu_try_memalign (oslib-posix.c:210)
-  ==252858==    by 0xA9E315: nvme_create_queue_pair (nvme.c:229)
-  ==252858==    by 0xAA0125: nvme_init (nvme.c:799)
-  ==252858==    by 0xAA081C: nvme_file_open (nvme.c:953)
-  ==252858==    by 0xA23DDD: bdrv_open_driver (block.c:1550)
-  ==252858==    by 0xA24806: bdrv_open_common (block.c:1827)
-  ==252858==    by 0xA2889B: bdrv_open_inherit (block.c:3747)
-  ==252858==    by 0xA28DE4: bdrv_open (block.c:3840)
-  ==252858==    by 0x9E0F8E: bds_tree_init (blockdev.c:675)
-  ==252858==    by 0x9E7C74: qmp_blockdev_add (blockdev.c:3551)
+# pylint: disable=bad-whitespace
 
-Fixes: bdd6a90a9e5 ("block: Add VFIO based NVMe driver")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- block/nvme.c | 1 +
- 1 file changed, 1 insertion(+)
+(Not sure if the syntax of this is entirely correct, but from the
+comment in your patch and existing uses in iotests, I think this would
+be the line.)
 
-diff --git a/block/nvme.c b/block/nvme.c
-index 6e476f54b9f..903c8ffa060 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -185,6 +185,7 @@ static bool nvme_init_queue(BDRVNVMeState *s, NVMeQueue *q,
- 
- static void nvme_free_queue(BDRVNVMeState *s, NVMeQueue *q)
- {
-+    qemu_vfio_dma_unmap(s->vfio, q->queue);
-     qemu_vfree(q->queue);
- }
- 
--- 
-2.31.1
+Kevin
 
 
