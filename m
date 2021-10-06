@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C762424633
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 20:43:01 +0200 (CEST)
-Received: from localhost ([::1]:47094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987F4424644
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 20:48:38 +0200 (CEST)
+Received: from localhost ([::1]:50884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYBsZ-0006Zk-7C
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 14:42:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37142)
+	id 1mYBy1-0000wZ-E5
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 14:48:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mYBqH-0005E7-Mn
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 14:40:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mYBqB-0001rr-IJ
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 14:40:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633545630;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Lstt+Pz4bOZvRVt5dNRZMoquSClJeUeQL4BcHrf2QRs=;
- b=NQKNXJr1mBjg9Ecc7tO7yzSJdaNUX1HWP19kMyKOIsjEPM1X02QAdM1Et04+KfHTm043ZO
- Z3QeP8ZVJo9SotsIsDEJ2/BLh7nJPe+PzFoHNdhmtFCpMadMUPjFhtUI2MBWseMNWKbtYe
- LpqP1AG2t7KAIaL/WEvmdqCsFSWKO00=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-mdGaimwqOd6VJOHnJFBFHg-1; Wed, 06 Oct 2021 14:40:27 -0400
-X-MC-Unique: mdGaimwqOd6VJOHnJFBFHg-1
-Received: by mail-pf1-f199.google.com with SMTP id
- z22-20020aa79596000000b0044c8c01b7a9so1835869pfj.5
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 11:40:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mYBwM-0000AY-Bu
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 14:46:55 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:39508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mYBwK-0000t3-2z
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 14:46:53 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ ls18-20020a17090b351200b001a00250584aso4614043pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 11:46:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=9X21bm4vNL4f45nwvW+L7jhSOfBVkZNaJXafWz8U1Uk=;
+ b=S8yhp5DpXT6z3yNBP03J2MMmb/3MvpNc6Wei5NJb0XU/uiMhqMje495mPsRNpYi6jM
+ IW3mKCT4etusGub/wcy0jBAXpj1tzY8xJt5cW/qulglrZhr0WPYANZgiscUHkXS3SAWt
+ KKUbS8kOjG34SsYB1IXsvCm/NAL7xmGwvCuU94i0vZV/Se+PSvy8Hrsl+3vsl0nbFaRk
+ olPWhcY/f/EVFWSAwztALXlxc9ZgijnLtR8WXDExvlEMPJQK57lQa7RvHb5j5XhFg52T
+ ktBCOVH8D/cGMy2n3YjxkCMRva+r6oiFbaWGb/0dcESBCRr87qiOMFRMdaiPqBDQrliE
+ mlzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Lstt+Pz4bOZvRVt5dNRZMoquSClJeUeQL4BcHrf2QRs=;
- b=3Oiot9GvtLys/8e0tIQ1H1fUdJ4AhSdpZI3MQ3IWPcgzIOOm/tFIQMMLHf+K7pZx05
- TVuwGeIZYET0AcL0RtioH+Yjl0SFT8CnVUN+7gydTURf/3XEzcSX4dzIYuTOoQSVR+7J
- skjX+c2w/09THhwil5D6AvR3iXZEdejvYwO+rv/X0UO4dcx+aH0EHQojbqcdWH5PnFXX
- b8QHz/ZYBSxOOe54HrJoXXsFUZlrEuFBxNeRCOPile006vRSuMz/z5lNznkayfEM54hF
- p5jCGRu9FHt4KWGuHcO5HQ1JVt/9T1WQB1oV3KyKnnvnChardcPukvtOo25En5bAfi08
- Jv+Q==
-X-Gm-Message-State: AOAM532O8+nW7IrQUpeZWWKrmExkHmtMCxyul+wzUfxN/4GthESPs/IS
- 0ciXsm+vcbjwZnW8I4MODWTY+fGqLcPGK7CwUcg0rhgb1sbH8BXHmoyKKrguW4Vb8e+T3amvvpW
- dnKVvsribSlR9iw0dw9PWpjQKlWTs8FA=
-X-Received: by 2002:a17:90a:8a18:: with SMTP id
- w24mr308192pjn.123.1633545625832; 
- Wed, 06 Oct 2021 11:40:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwR65s/LHlMII84R9VplNt9bqEFbRvJDkEtnsdWd0Pu/Jl5BaRAPMxmLlJS66cHWB0kSo9s6F6BUX/PXLSNBuI=
-X-Received: by 2002:a17:90a:8a18:: with SMTP id
- w24mr308165pjn.123.1633545625531; 
- Wed, 06 Oct 2021 11:40:25 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9X21bm4vNL4f45nwvW+L7jhSOfBVkZNaJXafWz8U1Uk=;
+ b=sWTjK2ww7Ck0Vai2Ru2fyB1Fs3dx1I9R3Eyf6ICl5f8omsRXHC49WtKmPWyAocJR9Y
+ xiBPQ7ykMcHadevGISA91xJyCrbiGXf78Rsj82OTn0VYaYmyZuLbvjpmCXzjpRAjqctm
+ dsSM5fN/zDwnZT/9UrIJcxsApHQE+y3lpAIj+/FNlIBVp5aFUChIBY8URrecWQZ05njN
+ WCCDdsjinE3EXuc3yNM0KaAZzoLXN4NNoyZi8HuOysj8LsmmdIQVFkTJuaEUFdQTS4Vw
+ V/wF4fRMQbET+HRsSBjFK6Zv/v0EnEDqdjQ6p+m/KQdnes/cyZoV67JcnYAatU8a58Qs
+ PUfg==
+X-Gm-Message-State: AOAM533EUBjPT4++CwKruAzx8LdHJ1pzpk22uua2giE5OgD/5ldBGdGE
+ jKBY+kzMj1VoGK6Fx48N11YbIIM4KI3euw==
+X-Google-Smtp-Source: ABdhPJy0bxGWaLQ7VxIsRHg/AORSaLjmhq8QansQGLbachJ/gnnztDGYUxOnNEmldjFB+6IQj9HnNg==
+X-Received: by 2002:a17:90b:3254:: with SMTP id
+ jy20mr361379pjb.43.1633546010230; 
+ Wed, 06 Oct 2021 11:46:50 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id m6sm5819272pjl.46.2021.10.06.11.46.49
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Oct 2021 11:46:49 -0700 (PDT)
+Subject: Re: [PULL 00/28] tcg patch queue
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20211006152014.741026-1-richard.henderson@linaro.org>
+Message-ID: <e93b3d98-b0e6-083f-df47-303bbc715a2f@linaro.org>
+Date: Wed, 6 Oct 2021 11:46:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210924185506.2542588-1-crosa@redhat.com>
- <20210924185506.2542588-2-crosa@redhat.com>
-In-Reply-To: <20210924185506.2542588-2-crosa@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 6 Oct 2021 15:39:59 -0300
-Message-ID: <CAKJDGDagReANLxsA5tnqQ0sjU6qrx=LiMbB4Jq2LUc-UtHpdMA@mail.gmail.com>
-Subject: Re: [PATCH 01/16] Acceptance Tests: bump Avocado requirement to 91.0
-To: Cleber Rosa <crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20211006152014.741026-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.964,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,114 +89,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
- Auger Eric <eric.auger@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>, Ryo ONODERA <ryoon@netbsd.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 24, 2021 at 3:57 PM Cleber Rosa <crosa@redhat.com> wrote:
->
-> Avocado 91.0, brings, among other changes, a switch to a new runner
-> implementation, known as "nrunner".  While my personal testing shows
-> that it's suitable for running the QEMU tests, there are some
-> considerations that should be addressed before the change.
->
-> For instance, the "nrunner" implementation will run tests in parallel
-> by default.  With more tests running, and resources shared, some tests
-> may fail with timeouts on some environments.
->
-> So, for now, let's bump the Avocado version to allow for the other
-> features to be used.  And the "nrunner" implementation to be used by
-> those that choose to do so.
->
-> More information can be found at the release notes at:
->    https://avocado-framework.readthedocs.io/en/latest/releases/91_0.html
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  docs/devel/testing.rst | 12 ++++++++++++
->  tests/Makefile.include |  2 ++
->  tests/requirements.txt |  2 +-
->  3 files changed, 15 insertions(+), 1 deletion(-)
->
-> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-> index 4a0abbf23d..2818c58ff8 100644
-> --- a/docs/devel/testing.rst
-> +++ b/docs/devel/testing.rst
-> @@ -740,6 +740,18 @@ may be invoked by running:
->
->    tests/venv/bin/avocado run $OPTION1 $OPTION2 tests/acceptance/
->
-> +Running tests in parallel
-> +-------------------------
-> +
-> +The current ``make check-acceptance`` target continues to use the
-> +Avocado runner implementation simply known as "runner".  But, it's now
-> +possible to opt-in and choose the "nrunner" implementation, which,
-> +among other things, allows for parallel execution of tests:
-> +
-> +.. code::
-> +
-> +  make AVOCADO_RUNNER=nrunner check-acceptance
+On 10/6/21 8:19 AM, Richard Henderson wrote:
+> The following changes since commit e3acc2c1961cbe22ca474cd5da4163b7bbf7cea3:
+> 
+>    tests/docker/dockerfiles: Bump fedora-i386-cross to fedora 34 (2021-10-05 16:40:39 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20211006
+> 
+> for you to fetch changes up to ea3f2af8f1b87d7bced9b75ef2e788b66ec49961:
+> 
+>    tcg/s390x: Implement TCG_TARGET_HAS_cmpsel_vec (2021-10-05 16:53:17 -0700)
+> 
+> ----------------------------------------------------------------
+> More fixes for fedora-i386-cross
+> Add dup_const_tl
+> Expand MemOp MO_SIZE
+> Move MemOpIdx out of tcg.h
+> Vector support for tcg/s390x
+> 
+> ----------------------------------------------------------------
+> Philipp Tomsich (1):
+>        tcg: add dup_const_tl wrapper
+> 
+> Richard Henderson (27):
+>        tests/docker: Remove fedora-i386-cross from DOCKER_PARTIAL_IMAGES
+>        tests/docker: Fix fedora-i386-cross cross-compilation
+>        accel/tcg: Drop signness in tracing in cputlb.c
+>        tcg: Expand MO_SIZE to 3 bits
+>        tcg: Rename TCGMemOpIdx to MemOpIdx
+>        tcg: Split out MemOpIdx to exec/memopidx.h
+>        trace/mem: Pass MemOpIdx to trace_mem_get_info
+>        accel/tcg: Pass MemOpIdx to atomic_trace_*_post
+>        plugins: Reorg arguments to qemu_plugin_vcpu_mem_cb
+>        trace: Split guest_mem_before
+>        hw/core/cpu: Re-sort the non-pointers to the end of CPUClass
+>        tcg: Expand usadd/ussub with umin/umax
+>        tcg/s390x: Rename from tcg/s390
+>        tcg/s390x: Change FACILITY representation
+>        tcg/s390x: Merge TCG_AREG0 and TCG_REG_CALL_STACK into TCGReg
+>        tcg/s390x: Add host vector framework
+>        tcg/s390x: Implement tcg_out_ld/st for vector types
+>        tcg/s390x: Implement tcg_out_mov for vector types
+>        tcg/s390x: Implement tcg_out_dup*_vec
+>        tcg/s390x: Implement minimal vector operations
+>        tcg/s390x: Implement andc, orc, abs, neg, not vector operations
+>        tcg/s390x: Implement TCG_TARGET_HAS_mul_vec
+>        tcg/s390x: Implement vector shift operations
+>        tcg/s390x: Implement TCG_TARGET_HAS_minmax_vec
+>        tcg/s390x: Implement TCG_TARGET_HAS_sat_vec
+>        tcg/s390x: Implement TCG_TARGET_HAS_bitsel_vec
+>        tcg/s390x: Implement TCG_TARGET_HAS_cmpsel_vec
+> 
+>   meson.build                                       |   2 -
+>   accel/tcg/atomic_template.h                       |  73 +-
+>   include/exec/memop.h                              |  14 +-
+>   include/exec/memopidx.h                           |  55 ++
+>   include/hw/core/cpu.h                             |  11 +-
+>   include/qemu/plugin.h                             |  26 +-
+>   include/tcg/tcg.h                                 | 117 ++-
+>   tcg/{s390 => s390x}/tcg-target-con-set.h          |   7 +
+>   tcg/{s390 => s390x}/tcg-target-con-str.h          |   1 +
+>   tcg/{s390 => s390x}/tcg-target.h                  |  91 ++-
+>   tcg/s390x/tcg-target.opc.h                        |  15 +
+>   trace/mem.h                                       |  63 --
+>   accel/tcg/cputlb.c                                | 103 ++-
+>   accel/tcg/plugin-gen.c                            |   5 +-
+>   accel/tcg/user-exec.c                             | 133 ++-
+>   plugins/api.c                                     |  19 +-
+>   plugins/core.c                                    |  10 +-
+>   target/arm/helper-a64.c                           |  16 +-
+>   target/arm/m_helper.c                             |   2 +-
+>   target/arm/translate-a64.c                        |   2 +-
+>   target/i386/tcg/mem_helper.c                      |   4 +-
+>   target/m68k/op_helper.c                           |   2 +-
+>   target/mips/tcg/msa_helper.c                      |   6 +-
+>   target/s390x/tcg/mem_helper.c                     |  20 +-
+>   target/sparc/ldst_helper.c                        |   2 +-
+>   tcg/optimize.c                                    |   2 +-
+>   tcg/tcg-op-vec.c                                  |  37 +-
+>   tcg/tcg-op.c                                      |  60 +-
+>   tcg/tcg.c                                         |   2 +-
+>   tcg/tci.c                                         |  14 +-
+>   accel/tcg/atomic_common.c.inc                     |  43 +-
+>   target/s390x/tcg/translate_vx.c.inc               |   2 +-
+>   tcg/aarch64/tcg-target.c.inc                      |  18 +-
+>   tcg/arm/tcg-target.c.inc                          |  14 +-
+>   tcg/i386/tcg-target.c.inc                         |  14 +-
+>   tcg/mips/tcg-target.c.inc                         |  16 +-
+>   tcg/ppc/tcg-target.c.inc                          |  18 +-
+>   tcg/riscv/tcg-target.c.inc                        |  20 +-
+>   tcg/{s390 => s390x}/tcg-target.c.inc              | 949 ++++++++++++++++++++--
+>   tcg/sparc/tcg-target.c.inc                        |  20 +-
+>   tcg/tcg-ldst.c.inc                                |   2 +-
+>   tests/docker/Makefile.include                     |   2 +-
+>   tests/docker/dockerfiles/fedora-i386-cross.docker |   5 +-
+>   trace-events                                      |  18 +-
+>   44 files changed, 1445 insertions(+), 610 deletions(-)
+>   create mode 100644 include/exec/memopidx.h
+>   rename tcg/{s390 => s390x}/tcg-target-con-set.h (86%)
+>   rename tcg/{s390 => s390x}/tcg-target-con-str.h (96%)
+>   rename tcg/{s390 => s390x}/tcg-target.h (66%)
+>   create mode 100644 tcg/s390x/tcg-target.opc.h
+>   delete mode 100644 trace/mem.h
+>   rename tcg/{s390 => s390x}/tcg-target.c.inc (73%)
 
-The examples in the documentation are all setting the environment
-variable at the end of the `make` command. For consistency, I would
-move the definition of the AVOCADO_RUNNER to the end of the command.
+Applied, thanks.
 
-> +
->  Manual Installation
->  -------------------
->
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 6e16c05f10..ac289a2e41 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -92,6 +92,7 @@ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
->  # Any number of command separated loggers are accepted.  For more
->  # information please refer to "avocado --help".
->  AVOCADO_SHOW=app
-> +AVOCADO_RUNNER=runner
->  AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGETS)))
->
->  $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
-> @@ -128,6 +129,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
->         $(call quiet-command, \
->              $(TESTS_VENV_DIR)/bin/python -m avocado \
->              --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
-> +            --test-runner=$(AVOCADO_RUNNER) \
->              --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
->              $(AVOCADO_TAGS) \
->              $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
-> diff --git a/tests/requirements.txt b/tests/requirements.txt
-> index a21b59b443..40af24c664 100644
-> --- a/tests/requirements.txt
-> +++ b/tests/requirements.txt
-> @@ -1,5 +1,5 @@
->  # Add Python module requirements, one per line, to be installed
->  # in the tests/venv Python virtual environment. For more info,
->  # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
-> -avocado-framework==88.1
-> +avocado-framework==91.0
->  pycdlib==1.11.0
-> --
-> 2.31.1
->
-
-Apart from a tiny documentation change, the code is welcome as it
-allows using the new Avocado runner.
-
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-
+r~
 
