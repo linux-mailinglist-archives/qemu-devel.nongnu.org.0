@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D324244D0
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 19:41:16 +0200 (CEST)
-Received: from localhost ([::1]:49176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79FAA424467
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 19:35:53 +0200 (CEST)
+Received: from localhost ([::1]:40320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYAup-00081J-Vk
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 13:41:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48520)
+	id 1mYApc-00022G-Fl
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 13:35:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYAde-0007F8-Ho
+ id 1mYAde-0007FA-8c
  for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:23:30 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:44933)
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:44935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYAdb-00088K-Po
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:23:29 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- oa12-20020a17090b1bcc00b0019f715462a8so2896489pjb.3
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 10:23:26 -0700 (PDT)
+ id 1mYAdc-00089E-3e
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:23:30 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ oa12-20020a17090b1bcc00b0019f715462a8so2896526pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 10:23:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9+X2LKa5dfRs3QXGafYGnRy0Nujo7pyvdpcMGoKpk3Q=;
- b=S1F5zxa7rJKLWTP7RCvCGnmLmgI+BFy6X+5IHgihZ4DsQQyb+zWwtS/GyDveIFuE68
- eRN+KE7HChqZKlPOM9Vql3DeELq34VseSVnl9gyml5t3RiO9W7ev33QkNVChG1OrHGt1
- vThKrNgsCGWrLu/dEwPrOgYCugpi+ZVEKK4pQSBk/4HNEvb5AssEAg1rpj9XjllPHM2h
- EomtR2OQAUkf5uSZAwC1uQfiOHA5nLdKKfBbHG5K16E6BTBcNvZZnpFd8wa++aukPW/i
- r91lSYksxlc1rDUg3ZorprjI6s9DxYqRKfQJqrciFFAAts1F52h1LyAFXKatxSxhpgjJ
- s87g==
+ bh=gDo26nxZuCe6knbSSj4pxxnp0xROgd5wgByOtwEaQmw=;
+ b=s/c35FQExy9xRKX4l99eqzFOGhsybjQrbLCBzKrgbA4FHc2Uai8Ue+XZ3vYWZzv9rC
+ SFk28WSxTQ3zK7vp2fX9p5Z/ZIG1Sizzm4rixw6UCuCuo95O3CkGyVQF2R1fXEnqhXss
+ 6EMSZRyEJxorVeMMrZLm3K8kEk7dXB04ibWGnA9dUscSTDIuWKzZaac+a1fFsAREHz7F
+ jDn4HkvmF4/65EU34Nb31lErkUNi3/eRCYdQVPFStlncfNOqMo1c2t5cQbyWwBpuQEjC
+ KpZGutAdEXapD5Z+nUDIV8GtNDxViPpa4uF+fQiCAIL0EyUpB3/Ugv0p4ZHPsaPhCTxd
+ TJjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9+X2LKa5dfRs3QXGafYGnRy0Nujo7pyvdpcMGoKpk3Q=;
- b=VGJdPWtbU0QO4+O5nAXkeRl/Ym5AQyEUgSgDu4U2X5OpCHAT8EIBWQjWJ6GiR1hxUQ
- ImCOY9WEptB2vlBdNxCzHQiVKW9U3qL9xcqT1c3oPV6VTQ8U64c1l5NgVvttNtZP6Ulk
- 4jIKCVa8hPje4JWQ5f2TNlQ65SGn+D4tEVAR5DEcGPTDClXy09LooP+UJziifIQKM5li
- 3djMiQvxpiyQtmJDJY1vFrens3/qil4klkth1Djzb/mC3dW2WOdXId1iANIRFdeeEkGz
- iqbhjXpd/v/yfhRu4LdAiJ6yuvhplaqKrO29Pn504V26PyRSrtdg9Dq3oBLfTa7nMVxd
- dnPQ==
-X-Gm-Message-State: AOAM533fBI0bDhzc22V4udeD0HjnMi8nEpwZDZK34iIqrXKMlxT65qvY
- ToaWx+5/G9jQTzNtqOISAgIkV67WSjI1XA==
-X-Google-Smtp-Source: ABdhPJyAD1jLuSLiTU3Dy0KsaO2v92LhjRGUffD0EfG0nCwZbkaqZLc+6ecXjpRDEcGhH6/+F8uEZw==
-X-Received: by 2002:a17:902:6e02:b0:13a:41f5:1666 with SMTP id
- u2-20020a1709026e0200b0013a41f51666mr12198701plk.39.1633541005907; 
- Wed, 06 Oct 2021 10:23:25 -0700 (PDT)
+ bh=gDo26nxZuCe6knbSSj4pxxnp0xROgd5wgByOtwEaQmw=;
+ b=f4Ym2NMFPZXv9zOw5jPMhA6BUyl8N4waQ61Fl1OSQhT88CffZGPXx/VvHhynLXmpcW
+ fU9+lhGCe5z/dyROGfVoDahrg3qho4f79bxAOptIsIKLFxAglwZWTTW1nZOo8RghVOYz
+ yGnTqPsZIdOXAjurb5kFn67ZK9uy+/i2p1mv7Q21nZtztdNpHmD918uB/u8nBIwoMlMt
+ dxanAXEnAnw6eRbcRXMCjJRo0izOhtoeTtQXAAVnyz3JQkYFBZi8LGuoGQ6hF1PHf6+8
+ sPmz2Gph/m3GyAKt5Obr+kIwKl3UC5Yj0ToKa956XMGMnKGOZnWJwebYRaVLjyCG4YNl
+ ukQw==
+X-Gm-Message-State: AOAM531WvfgI3SRkblfiCgTrPve/dxo+znUPLfWrjdPOHgvzM/kOJWy+
+ DiKUrtcCcBX6pPxI3AWxDY2/f8uklUw94A==
+X-Google-Smtp-Source: ABdhPJzUnSJa0cEFrkFkMggcAAM5uLK/h0nwpMJ90w9HEY3771VqY4H43ne79+e528AvFGIQUc4KHQ==
+X-Received: by 2002:a17:902:ab4b:b0:13e:932e:f65 with SMTP id
+ ij11-20020a170902ab4b00b0013e932e0f65mr11958681plb.58.1633541006787; 
+ Wed, 06 Oct 2021 10:23:26 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id w7sm21606929pfj.189.2021.10.06.10.23.25
+ by smtp.gmail.com with ESMTPSA id w7sm21606929pfj.189.2021.10.06.10.23.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 10:23:25 -0700 (PDT)
+ Wed, 06 Oct 2021 10:23:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 21/41] target/alpha: Implement alpha_cpu_record_sigsegv
-Date: Wed,  6 Oct 2021 10:22:47 -0700
-Message-Id: <20211006172307.780893-22-richard.henderson@linaro.org>
+Subject: [PATCH v4 22/41] target/arm: Use cpu_loop_exit_sigsegv for mte tag
+ lookup
+Date: Wed,  6 Oct 2021 10:22:48 -0700
+Message-Id: <20211006172307.780893-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211006172307.780893-1-richard.henderson@linaro.org>
 References: <20211006172307.780893-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,126 +86,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
+Cc: alex.bennee@linaro.org, laurent@vivier.eu,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Record trap_arg{0,1,2} for the linux-user signal frame.
+Use the new os interface for raising the exception,
+rather than calling arm_cpu_tlb_fill directly.
 
-Fill in the stores to trap_arg{1,2} that were missing
-from the previous user-only alpha_cpu_tlb_fill function.
-Use maperr to simplify computation of trap_arg1.
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/alpha/cpu.h    | 13 +++++++++----
- target/alpha/cpu.c    |  6 ++++--
- target/alpha/helper.c | 39 ++++++++++++++++++++++++++++++++++-----
- 3 files changed, 47 insertions(+), 11 deletions(-)
+ target/arm/mte_helper.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-index 772828cc26..d49cc36d07 100644
---- a/target/alpha/cpu.h
-+++ b/target/alpha/cpu.h
-@@ -439,9 +439,6 @@ void alpha_translate_init(void);
- #define CPU_RESOLVING_TYPE TYPE_ALPHA_CPU
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 724175210b..e09b7e46a2 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -84,10 +84,8 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
+     uintptr_t index;
  
- void alpha_cpu_list(void);
--bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                        MMUAccessType access_type, int mmu_idx,
--                        bool probe, uintptr_t retaddr);
- void QEMU_NORETURN dynamic_excp(CPUAlphaState *, uintptr_t, int, int);
- void QEMU_NORETURN arith_excp(CPUAlphaState *, uintptr_t, int, uint64_t);
+     if (!(flags & (ptr_access == MMU_DATA_STORE ? PAGE_WRITE_ORG : PAGE_READ))) {
+-        /* SIGSEGV */
+-        arm_cpu_tlb_fill(env_cpu(env), ptr, ptr_size, ptr_access,
+-                         ptr_mmu_idx, false, ra);
+-        g_assert_not_reached();
++        cpu_loop_exit_sigsegv(env_cpu(env), ptr, ptr_access,
++                              !(flags & PAGE_VALID), ra);
+     }
  
-@@ -449,7 +446,15 @@ uint64_t cpu_alpha_load_fpcr (CPUAlphaState *env);
- void cpu_alpha_store_fpcr (CPUAlphaState *env, uint64_t val);
- uint64_t cpu_alpha_load_gr(CPUAlphaState *env, unsigned reg);
- void cpu_alpha_store_gr(CPUAlphaState *env, unsigned reg, uint64_t val);
--#ifndef CONFIG_USER_ONLY
-+
-+#ifdef CONFIG_USER_ONLY
-+void alpha_cpu_record_sigsegv(CPUState *cs, vaddr address,
-+                              MMUAccessType access_type,
-+                              bool maperr, uintptr_t retaddr);
-+#else
-+bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                        MMUAccessType access_type, int mmu_idx,
-+                        bool probe, uintptr_t retaddr);
- void alpha_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-                                      vaddr addr, unsigned size,
-                                      MMUAccessType access_type,
-diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
-index 93e16a2ffb..69f32c3078 100644
---- a/target/alpha/cpu.c
-+++ b/target/alpha/cpu.c
-@@ -218,9 +218,11 @@ static const struct SysemuCPUOps alpha_sysemu_ops = {
- 
- static const struct TCGCPUOps alpha_tcg_ops = {
-     .initialize = alpha_translate_init,
--    .tlb_fill = alpha_cpu_tlb_fill,
- 
--#ifndef CONFIG_USER_ONLY
-+#ifdef CONFIG_USER_ONLY
-+    .record_sigsegv = alpha_cpu_record_sigsegv,
-+#else
-+    .tlb_fill = alpha_cpu_tlb_fill,
-     .cpu_exec_interrupt = alpha_cpu_exec_interrupt,
-     .do_interrupt = alpha_cpu_do_interrupt,
-     .do_transaction_failed = alpha_cpu_do_transaction_failed,
-diff --git a/target/alpha/helper.c b/target/alpha/helper.c
-index 81550d9e2f..b7e7f73b15 100644
---- a/target/alpha/helper.c
-+++ b/target/alpha/helper.c
-@@ -120,15 +120,44 @@ void cpu_alpha_store_gr(CPUAlphaState *env, unsigned reg, uint64_t val)
- }
- 
- #if defined(CONFIG_USER_ONLY)
--bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                        MMUAccessType access_type, int mmu_idx,
--                        bool probe, uintptr_t retaddr)
-+void alpha_cpu_record_sigsegv(CPUState *cs, vaddr address,
-+                              MMUAccessType access_type,
-+                              bool maperr, uintptr_t retaddr)
- {
-     AlphaCPU *cpu = ALPHA_CPU(cs);
-+    target_ulong mmcsr, cause;
- 
--    cs->exception_index = EXCP_MMFAULT;
-+    /* Assuming !maperr, infer the missing protection. */
-+    switch (access_type) {
-+    case MMU_DATA_LOAD:
-+        mmcsr = MM_K_FOR;
-+        cause = 0;
-+        break;
-+    case MMU_DATA_STORE:
-+        mmcsr = MM_K_FOW;
-+        cause = 1;
-+        break;
-+    case MMU_INST_FETCH:
-+        mmcsr = MM_K_FOE;
-+        cause = -1;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+    if (maperr) {
-+        if (address < BIT_ULL(TARGET_VIRT_ADDR_SPACE_BITS - 1)) {
-+            /* Userspace address, therefore page not mapped. */
-+            mmcsr = MM_K_TNV;
-+        } else {
-+            /* Kernel or invalid address. */
-+            mmcsr = MM_K_ACV;
-+        }
-+    }
-+
-+    /* Record the arguments that PALcode would give to the kernel. */
-     cpu->env.trap_arg0 = address;
--    cpu_loop_exit_restore(cs, retaddr);
-+    cpu->env.trap_arg1 = mmcsr;
-+    cpu->env.trap_arg2 = cause;
- }
- #else
- /* Returns the OSF/1 entMM failure indication, or -1 on success.  */
+     /* Require both MAP_ANON and PROT_MTE for the page. */
 -- 
 2.25.1
 
