@@ -2,79 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43F2242400C
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 16:26:32 +0200 (CEST)
-Received: from localhost ([::1]:34726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BA7424011
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 16:27:49 +0200 (CEST)
+Received: from localhost ([::1]:36970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY7sM-0000YS-SO
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 10:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35452)
+	id 1mY7tc-0002Bc-5l
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 10:27:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mY7qS-00089F-9e
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 10:24:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29762)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mY7rn-0000oa-0E
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 10:25:56 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mY7qP-0007n8-8z
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 10:24:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633530267;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VjJ8zrF9NH1qVhpxJahFLXn0PsFzr27ehYmerNKzqmI=;
- b=CJUU4Y6SraZbcvsaRsZN5WLDGt7DwiN3N6ravkJ3HWu3G6b2vehiCMcIYMkwSTE3zNHKu2
- Nc3yo/bPF0r/ssjyNlGZKi8BOtcraH5H+4ubSiI1q6V4l+Ip+6Rj4OatWSu35umF9J8LN8
- ZNGTHtBeb5QqLYdTsT6nHs9IlZX0FtU=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-DvvEYxPuPHC-nhLv24OrXw-1; Wed, 06 Oct 2021 10:24:25 -0400
-X-MC-Unique: DvvEYxPuPHC-nhLv24OrXw-1
-Received: by mail-ua1-f71.google.com with SMTP id
- o4-20020ab05944000000b002c9c4d839d1so1440456uad.13
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 07:24:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VjJ8zrF9NH1qVhpxJahFLXn0PsFzr27ehYmerNKzqmI=;
- b=DfIwgv+fQLvbll7IgaZl3aJrLMC12xEIHlj/Jsp7Scplyh+/lwKiJ++msR1Iq1KAm+
- LWFcI2hr0Py1yglMk/dscVZ5E2W2Ms1HlyOZcFrg8KWFd+JawsTVavX2qxPVLrKBIr27
- PFgv54VriKQ3VvYYjAvfeOIh1AtsEOGIJ7KBoaSFypHlSOUsq68ksgUjSwzk3YXk4RVJ
- ej7tWf9OQgfnY78opUYs6F/DVXXlC/Imd89oY7ALeUBiI5CPhKKV8HARJkAWaRaY0WV9
- rT80myoUVkF2vzMwuBIrJA2DuwvlLIJQ07atYkn3OCFtiEgPFDebneQ7DbALFhD+f/Yq
- /oVA==
-X-Gm-Message-State: AOAM533GRLZfi8B5gZ17qHXrDrZTfk97SdEoXp3FyjtM2JaMWvVChFgs
- r39pLvx8vk+ffWpeY1QiMorlZCtTq1RDC1e8uQA1lV4cDh5PgLhzbEVhXUO9uyrXrNIxtxcygLw
- nA42cm0lSWjnaEJbw2BWU4wkNKXrOvjg=
-X-Received: by 2002:a67:e10f:: with SMTP id d15mr5964887vsl.40.1633530264663; 
- Wed, 06 Oct 2021 07:24:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwx2AZSOg+3WmMZYRKWRJF725QtYxOUwPEa+uUTIFMFyyyxis1mG4bFJ/SxvkZz+MUbKaULLXXymKfI/N4/LtA=
-X-Received: by 2002:a67:e10f:: with SMTP id d15mr5964860vsl.40.1633530264447; 
- Wed, 06 Oct 2021 07:24:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mY7rj-0000dl-KX
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 10:25:54 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 196DSp9d001008; 
+ Wed, 6 Oct 2021 10:25:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=rzPMALKGA6XMuv435p9x/PS4RHZse9EyIaUy6qjVuL0=;
+ b=NkfdQ8sQZSmHF5RPIQ9VvK0KzNLhHdfbXxWCrbVPoPzqs4vp0/SEFdK6CuU1x+TnMojB
+ Mlq+hGZH6pCferJ+3S4aewQ73XJnwwLOr5BvMobiXcCHeKa8n9hZgk5Y7CLsMXymJivx
+ 5FDHi5vRGwaz/zPxBNX9s8J7MTJKfrfEJQQEfxHCwkWWgbP98OFTppFiY7p4Oeb+5vLy
+ zli5w0qgpHc6bKJ9FznTcUBnUBROp3SaGkWJhojdL+CJhePJ5mnDGqrWVQw358UOkV9f
+ ngXbtarz8Ryo7orsKtTDyNYHKXv8IsaF3IV3MN+mnPAUs/B4FYOSE+O3etA/6NAyre7l hA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bhcqk9g4t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 06 Oct 2021 10:25:46 -0400
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 196DTA6Z002572;
+ Wed, 6 Oct 2021 10:25:45 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bhcqk9g3f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 06 Oct 2021 10:25:45 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 196ECDng030410;
+ Wed, 6 Oct 2021 14:25:42 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma05fra.de.ibm.com with ESMTP id 3bef2a3r8u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 06 Oct 2021 14:25:42 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 196EKJnC55312836
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 6 Oct 2021 14:20:19 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3512311C05B;
+ Wed,  6 Oct 2021 14:25:38 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9A4D711C052;
+ Wed,  6 Oct 2021 14:25:37 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  6 Oct 2021 14:25:37 +0000 (GMT)
+From: Halil Pasic <pasic@linux.ibm.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xie Yongji <xieyongji@bytedance.com>,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] virtio: write back F_VERSION_1 before validate
+Date: Wed,  6 Oct 2021 16:25:33 +0200
+Message-Id: <20211006142533.2735019-1-pasic@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210923004938.3999963-1-jsnow@redhat.com>
- <20210923004938.3999963-16-jsnow@redhat.com>
- <aea93f68-68ff-b1d0-4966-869c89e7f707@redhat.com>
-In-Reply-To: <aea93f68-68ff-b1d0-4966-869c89e7f707@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 6 Oct 2021 10:24:13 -0400
-Message-ID: <CAFn=p-YT_QNNyWc5D5GKoBZncgX-C4a6wULnNerKURL7chTGzw@mail.gmail.com>
-Subject: Re: [PATCH v2 15/17] python/aqmp: Create sync QMP wrapper for iotests
-To: Paolo Bonzini <pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000024846705cdafe7d8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 6SJN1e6Wk8CcV1EJ_v0Cs0lygJFuRqfD
+X-Proofpoint-GUID: 6Ww4Q-dWxjfZ_JKOOMojtbiksYxrUCgh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-10-06_03,2021-10-06_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0
+ malwarescore=0 bulkscore=0 adultscore=0 clxscore=1015 priorityscore=1501
+ suspectscore=0 phishscore=0 lowpriorityscore=0 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2110060089
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,103 +108,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000024846705cdafe7d8
-Content-Type: text/plain; charset="UTF-8"
+The virtio specification virtio-v1.1-cs01 states: Transitional devices
+MUST detect Legacy drivers by detecting that VIRTIO_F_VERSION_1 has not
+been acknowledged by the driver.  This is exactly what QEMU as of 6.1
+has done relying solely on VIRTIO_F_VERSION_1 for detecting that.
 
-On Wed, Oct 6, 2021 at 6:13 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+However, the specification also says: driver MAY read (but MUST NOT
+write) the device-specific configuration fields to check that it can
+support the device before setting FEATURES_OK.
 
-> On 23/09/21 02:49, John Snow wrote:
-> > This is a wrapper around the async QMPClient that mimics the old,
-> > synchronous QEMUMonitorProtocol class. It is designed to be
-> > interchangeable with the old implementation.
-> >
-> > It does not, however, attempt to mimic Exception compatibility.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > Acked-by: Hanna Reitz <hreitz@redhat.com>
->
-> I don't like the name (of course).  qemu-iotests shows that there is a
-> use for sync wrappers so, with similar reasoning to patch 16, there's no
-> need to scare people away.  Why not just qemu.aqmp.sync?
->
-> Paolo
->
->
-I had plans at one point to make a sync.py, but with an interface that
-matched async QMP itself more closely. I spent some time trying to research
-how to make a "magic" sync wrapper around async QMP, and hit a few trouble
-spots. I've still got the patch, but I felt some pressure to try and switch
-iotests over as fast as possible to get more trial-by-fire time this
-release cycle. I named them "sync.py" and "legacy.py" in my branch
-accordingly. Of course, I made a beeline straight for the iotests version,
-so now it looks odd. I may yet try to clean up the other version, possibly
-converting legacy.py to work in terms of sync.py, and then converting users
-in iotests so that I can drop legacy.py.
+In that case, any transitional device relying solely on
+VIRTIO_F_VERSION_1 for detecting legacy drivers will return data in
+legacy format.  In particular, this implies that it is in big endian
+format for big endian guests. This naturally confuses the driver which
+expects little endian in the modern mode.
 
-(Mayyyybe. I am not heavily committed to any one particular approach here,
-other than being very motivated to get AQMP tested widely a good bit before
-rc0 to have a chance to smooth over any lingering problems that might
-exist.)
+It is probably a good idea to amend the spec to clarify that
+VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
+is complete. However, we already have regression so let's try to address
+it.
 
-Thanks for taking a look! I am more than happy to stage 1-9 myself, but I
-will wait for Hanna's approval on 10-14 in particular.
+Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in config space")
+Fixes: fe36cbe0671e ("virtio_net: clear MTU when out of range")
+Reported-by: markver@us.ibm.com
+---
+ drivers/virtio/virtio.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
---js
+diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+index 0a5b54034d4b..494cfecd3376 100644
+--- a/drivers/virtio/virtio.c
++++ b/drivers/virtio/virtio.c
+@@ -239,6 +239,16 @@ static int virtio_dev_probe(struct device *_d)
+ 		driver_features_legacy = driver_features;
+ 	}
+ 
++	/*
++	 * Some devices detect legacy solely via F_VERSION_1. Write
++	 * F_VERSION_1 to force LE for these when needed.
++	 */
++	if (drv->validate && !virtio_legacy_is_little_endian()
++			  && BIT_ULL(VIRTIO_F_VERSION_1) & device_features) {
++		dev->features = BIT_ULL(VIRTIO_F_VERSION_1);
++		dev->config->finalize_features(dev);
++	}
++
+ 	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
+ 		dev->features = driver_features & device_features;
+ 	else
 
---00000000000024846705cdafe7d8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 6, 2021 at 6:13 AM Paolo =
-Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 23=
-/09/21 02:49, John Snow wrote:<br>
-&gt; This is a wrapper around the async QMPClient that mimics the old,<br>
-&gt; synchronous QEMUMonitorProtocol class. It is designed to be<br>
-&gt; interchangeable with the old implementation.<br>
-&gt; <br>
-&gt; It does not, however, attempt to mimic Exception compatibility.<br>
-&gt; <br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; Acked-by: Hanna Reitz &lt;<a href=3D"mailto:hreitz@redhat.com" target=
-=3D"_blank">hreitz@redhat.com</a>&gt;<br>
-<br>
-I don&#39;t like the name (of course).=C2=A0 qemu-iotests shows that there =
-is a <br>
-use for sync wrappers so, with similar reasoning to patch 16, there&#39;s n=
-o <br>
-need to scare people away.=C2=A0 Why not just qemu.aqmp.sync?<br>
-<br>
-Paolo<br>
-<br></blockquote><div><br></div><div>I had plans at one point to make a syn=
-c.py, but with an interface that matched async QMP itself more closely. I s=
-pent some time trying to research how to make a &quot;magic&quot; sync wrap=
-per around async QMP, and hit a few trouble spots. I&#39;ve still got the p=
-atch, but I felt some pressure to try and switch iotests over as fast as po=
-ssible to get more trial-by-fire time this release cycle. I named them &quo=
-t;sync.py&quot; and &quot;legacy.py&quot; in my branch accordingly. Of cour=
-se, I made a beeline straight for the iotests version, so now it looks odd.=
- I may yet try to clean up the other version, possibly converting legacy.py=
- to work in terms of sync.py, and then converting users in iotests so that =
-I can drop legacy.py.</div><div><br></div><div>(Mayyyybe. I am not heavily =
-committed to any one particular approach here, other than being very motiva=
-ted to get AQMP tested widely a good bit before rc0 to have a chance to smo=
-oth over any lingering problems that might exist.)<br></div><div><br></div>=
-<div>Thanks for taking a look! I am more than happy to stage 1-9 myself, bu=
-t I will wait for Hanna&#39;s approval on 10-14 in particular.</div><div><b=
-r></div><div>--js<br></div><div></div></div></div>
-
---00000000000024846705cdafe7d8--
+base-commit: 60a9483534ed0d99090a2ee1d4bb0b8179195f51
+-- 
+2.25.1
 
 
