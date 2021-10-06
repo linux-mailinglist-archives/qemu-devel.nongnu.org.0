@@ -2,95 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC505423D9C
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 14:19:58 +0200 (CEST)
-Received: from localhost ([::1]:39560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B4D423DB4
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 14:27:18 +0200 (CEST)
+Received: from localhost ([::1]:44506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY5tt-0004A7-Rk
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 08:19:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56806)
+	id 1mY60z-0007nI-Jl
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 08:27:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mY5sP-0002lN-Od
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 08:18:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44062)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mY5yg-0006zJ-E3
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 08:24:54 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:52765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mY5sI-00060c-Cj
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 08:18:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633522694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ndtV10lme76yIJHfG48XPmluFB/9wzsVi20W0MsJ23k=;
- b=LCg0s/5Vig2obga2tv585xmdj6P5O9TYpEsVptgtyiPpB2DniefKYSMZBa2YPpB8Z9qSfu
- 4B9/qduBHgMohPz2K3DmaOzsjunxz+s81IrRR7boTARxMdNP+5eAD+6z5S0kSV2mIdgNpJ
- BDFpUg86yc5BaR3UHZm7TYURiJAT3T8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-wNnIaGf-P5WOVLzvFBPVIQ-1; Wed, 06 Oct 2021 08:18:12 -0400
-X-MC-Unique: wNnIaGf-P5WOVLzvFBPVIQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- h12-20020aa7c5cc000000b003dad185759bso2471675eds.6
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 05:18:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ndtV10lme76yIJHfG48XPmluFB/9wzsVi20W0MsJ23k=;
- b=6mvbr6H9BNhpFfzKmKY0eTqzU2gyiSWCUlttx3jOny5ryrvFJTYXmX+F3BstLVkha6
- G03rP4QafLtGiGUswCZlY+DumOLuRESGqWMPB/vIv6MmfPz/5k/lNQtyeM+jwF3fYu4N
- KtzfY7axgYVJ27+hJGGYLLdCwwaj9cj3262YwDcUCRXlBHr5xZYqXgQrYEf3JDj1UFyj
- AG+R5LS7+SO272EC4Eo1+s73neWAeSH6MLcmBDBREftyzAMH6EdyLMK37U9z4BL0qI1b
- Z7U+swtRFa17dkp6/nYFAZK+PrgPmrCFa7DWWx4TVl0GWQ/wlWMGSW0G4kLNX2LTlnc7
- pv9Q==
-X-Gm-Message-State: AOAM5305d4XVKPhUDDiTzRXlfJxg9a/OF3g5K6YhV5zXX2AeXVuxiwaX
- feU0tszbGAXNJu+xCQA9tEZSjJdj6cGZ68yQjWT2F28q9AS3mZgZBVXo/BC3xvMHSOHd3UE8dd0
- HEWUID9I8DLjSxOA=
-X-Received: by 2002:a17:906:36d6:: with SMTP id
- b22mr31352079ejc.387.1633522691768; 
- Wed, 06 Oct 2021 05:18:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxktqJKZIpXstigKimI2gYdnAhJ/pWX+StA0nj5y1cJnc9fqnm5lKjCVu6XH+RlLtACfix5BA==
-X-Received: by 2002:a17:906:36d6:: with SMTP id
- b22mr31352051ejc.387.1633522691555; 
- Wed, 06 Oct 2021 05:18:11 -0700 (PDT)
-Received: from redhat.com ([2.55.147.134])
- by smtp.gmail.com with ESMTPSA id eg31sm688363edb.38.2021.10.06.05.18.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 05:18:09 -0700 (PDT)
-Date: Wed, 6 Oct 2021 08:18:06 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v0 0/2] virtio-blk and vhost-user-blk cross-device
- migration
-Message-ID: <20211006081653-mutt-send-email-mst@kernel.org>
-References: <YVuL0FRN5ilRN2Pd@rvkaganb.lan>
- <20211005024754-mutt-send-email-mst@kernel.org>
- <YVxaodahFBOvANL0@work-vm>
- <20211005161008.iq5ao7t2sdqeo6kc@habkost.net>
- <20211005175503-mutt-send-email-mst@kernel.org>
- <YV1ZuizhQ5gO9nd6@work-vm>
- <20211006041419-mutt-send-email-mst@kernel.org>
- <YV1eQmM/+HXZy06C@work-vm>
- <20211006043314-mutt-send-email-mst@kernel.org>
- <YV1hyB4oeRDNbFjw@work-vm>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mY5yQ-0007JZ-4C
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 08:24:50 -0400
+Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MeTHG-1n63DI2XGm-00aVtQ; Wed, 06 Oct 2021 14:24:32 +0200
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20211004211928.15803-1-mark.cave-ayland@ilande.co.uk>
+ <20211004211928.15803-9-mark.cave-ayland@ilande.co.uk>
+ <7994e73e-cbda-1bd1-68c4-250dd951ed51@vivier.eu>
+ <66384935-4c8f-8220-8593-bfde37d05e1d@ilande.co.uk>
+ <15fba2fe-77b0-78f4-ea55-9438ce976c18@vivier.eu>
+ <52fe2fc5-b4fb-8888-9b80-0e362c52ebb5@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v2 08/12] macfb: add common monitor modes supported by the
+ MacOS toolbox ROM
+Message-ID: <3a798740-d39e-f2b8-8b3c-1a4814f184ea@vivier.eu>
+Date: Wed, 6 Oct 2021 14:24:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YV1hyB4oeRDNbFjw@work-vm>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <52fe2fc5-b4fb-8888-9b80-0e362c52ebb5@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:BANymFVwcLuHN7EznIo02RGbB2srq9Ngx+AiOFjxTvhqQ/iv6O/
+ nyC4k0i+g9wUJkv1Ga12RcQSotCJrfUe6ejoVpMzjQJ0tSA/uE+WRPLwCi7ft6KBw2p3KvA
+ 9OA3mo5v4Zng57tkvs2Pcwxw4pjwSpKTHz6cKxOe/7YAnN+AxkoJQI3KzHVJAeAZDW8ztdg
+ eqnCgF8Eav5X890OJGTSQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EzI+SmYvGuc=:EE8+1Cy8PiM9LaUBJGvk+b
+ rmBFUmPD6WuhbhgnDigT3ahB7PZPJSkPVYCdI+FCmhhJXuLCflgABXpt6WLtY0oeXoe2OkEKP
+ UFFgLirznjZsbX5JodR//SYo/RR2vJ97q5rcPuU7m/DyjQiFzEKDI3AVfGjSUsitJLCnn/lcR
+ bAODWPJkxUJTnjRciRRjcM8ZuiMgXBO7qU0e7SzmINEMrcjIjgkycNcOXsOUst78BZRQZq48t
+ 1K3fPDEN5sCIy1jvL9O1EwjUzQq63TcyEEHfuwqz2U+ZvdAPimTkEt8rsJ86eZR7QN5hHtXP+
+ T+OmdXc9McFLH+iBYkIq/rmtgs7HeF25lvGABa6gOVp0P7YY2mTsU2pqKe/ck0T1MuP20+wiU
+ SN7SZJO5RCyDFc3J0aKwwtK3fRKaViRdhle+cZ24eBFMU+yzg+gMTW/5HyOnw117H476aZR9B
+ f/QhqiVxzBSGQIJLAUUU7XZUoUauMoHu7NE8NGwBTG7WSNk6+PvfUbETWj+B36GC/InO7Qsx+
+ BCqQUtF8C3/GUbYWCmASG5irj4BpPK0K2kGbgTZmfmhDAuukUHvt2BhHVQxBGcVM4ncc36vog
+ hCe3NSPdxWEhbsxfBLDG1OBqEMaypl6fdRJYTQg56DLPUW817C5cOH2jvf0AHTsBsCCABch5u
+ HEYeJrhLVG1Ar50KF+s12HN43l3QnVP3Bf8r4O9m1uGwuSRbAijVoeBAfa4Rv8L+nNsAUPio/
+ M+G/6415/jjjppOnS4RCvVyl2uOoJJS0FHdKWA==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) NICE_REPLY_A=-1.964,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,65 +75,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Denis Plotnikov <den-plotnikov@yandex-team.ru>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, raphael.norwitz@nutanix.com,
- Roman Kagan <rvkagan@yandex-team.ru>, yc-core@yandex-team.ru,
- pbonzini@redhat.com,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 06, 2021 at 09:43:52AM +0100, Dr. David Alan Gilbert wrote:
-> * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > On Wed, Oct 06, 2021 at 09:28:50AM +0100, Dr. David Alan Gilbert wrote:
-> > > To me it feels the same as the distinction between vhost-kernel and qemu
-> > > backended virtio that we get in net and others - in principal it's just 
-> > > another implementation.
-> > 
-> > In net it's actually like this. Same -device, a different netdev.
-> > 
-> > > A tricky part is guaranteeing the set of visible virtio features between
-> > > implementations; we have that problem when we use vhost-kernel and run
-> > > on a newer/older kernel and gain virtio features; the same will be true
-> > > with vhost-user implementations.
-> > 
-> > That's not new but yes we need to work on this.
-> > 
-> > > But this would make the structure of a vhost-user implementation quite
-> > > different.
-> > > 
-> > > Dave
-> > 
-> > Right. That's why I'm reluctant to just add a new device type that
-> > has special compatibility requirements.
+Le 05/10/2021 à 17:33, Mark Cave-Ayland a écrit :
+> On 05/10/2021 16:08, Laurent Vivier wrote:
 > 
-> Hmm but there's already another layer of hack^Wabstraction in there isn't there -
-> there's already:
->     virtio-blk-pci
->     virtio-blk-device
+>> Le 05/10/2021 à 13:38, Mark Cave-Ayland a écrit :
+>>> On 05/10/2021 10:50, Laurent Vivier wrote:
+>>>
+>>>> Le 04/10/2021 à 23:19, Mark Cave-Ayland a écrit :
+>>>>> The monitor modes table is found by experimenting with the Monitors Control
+>>>>> Panel in MacOS and analysing the reads/writes. From this it can be found that
+>>>>> the mode is controlled by writes to the DAFB_MODE_CTRL1 and DAFB_MODE_CTRL2
+>>>>> registers.
+>>>>>
+>>>>> Implement the first block of DAFB registers as a register array including the
+>>>>> existing sense register, the newly discovered control registers above, and also
+>>>>> the DAFB_MODE_VADDR1 and DAFB_MODE_VADDR2 registers which are used by NetBSD to
+>>>>> determine the current video mode.
+>>>>>
+>>>>> These experiments also show that the offset of the start of video RAM and the
+>>>>> stride can change depending upon the monitor mode, so update macfb_draw_graphic()
+>>>>> and both the BI_MAC_VADDR and BI_MAC_VROW bootinfo for the q800 machine
+>>>>> accordingly.
+>>>>>
+>>>>> Finally update macfb_common_realize() so that only the resolution and depth
+>>>>> supported by the display type can be specified on the command line.
+>>>>>
+>>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+>>>>> ---
+>>>>>    hw/display/macfb.c         | 124 ++++++++++++++++++++++++++++++++-----
+>>>>>    hw/display/trace-events    |   1 +
+>>>>>    hw/m68k/q800.c             |  11 ++--
+>>>>>    include/hw/display/macfb.h |  16 ++++-
+>>>>>    4 files changed, 131 insertions(+), 21 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+>>>>> index f98bcdec2d..357fe18be5 100644
+>>>>> --- a/hw/display/macfb.c
+>>>>> +++ b/hw/display/macfb.c
+>>>>>
+>>>> ...
+>>>>> +static MacFbMode *macfb_find_mode(MacfbDisplayType display_type,
+>>>>> +                                  uint16_t width, uint16_t height,
+>>>>> +                                  uint8_t depth)
+>>>>> +{
+>>>>> +    MacFbMode *macfb_mode;
+>>>>> +    int i;
+>>>>> +
+>>>>> +    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
+>>>>> +        macfb_mode = &macfb_mode_table[i];
+>>>>> +
+>>>>> +        if (display_type == macfb_mode->type && width == macfb_mode->width &&
+>>>>> +                height == macfb_mode->height && depth == macfb_mode->depth) {
+>>>>> +            return macfb_mode;
+>>>>> +        }
+>>>>> +    }
+>>>>> +
+>>>>> +    return NULL;
+>>>>> +}
+>>>>> +
+>>>>
+>>>> I misunderstood this part when I reviewed v1...
+>>>>
+>>>> It means you have to provide the monitor type to QEMU to switch from the default mode?
+>>>
+>>> Not as such: both the MacOS toolbox ROM and MacOS itself offer a fixed set of resolutions and depths
+>>> based upon the display type. What I've done for now is default the display type to VGA since it
+>>> offers both 640x480 and 800x600 in 1, 2, 4, 8, 16 and 24-bit colour which should cover the most
+>>> common use of cases of people wanting to boot using the MacOS toolbox ROM.
+>>>
+>>> Even if you specify a default on the command line, MacOS still only cares about the display type and
+>>> will allow you to change the resolution and depth dynamically, remembering the last resolution and
+>>> depth across reboots.
+>>>
+>>> During testing I found that having access to the 1152x870 resolution offered by the Apple 21"
+>>> monitor display type was useful to allow larger screen sizes, although only up to 8-bit depth so I
+>>> added a bit of code that will switch from a VGA display type to a 21" display type if the graphics
+>>> resolution is set to 1152x870x8.
+>>>
+>>> Finally if you boot a Linux kernel directly using -kernel then the provided XxYxD is placed directly
+>>> into the relevant bootinfo fields with a VGA display type, unless a resolution of 1152x870x8 is
+>>> specified in which case the 21" display type is used as above.
+>>>
+>>>> But, as a user, how do we know which modes are allowed with which resolution?
+>>>>
+>>>> Is possible to try to set internally the type here according to the resolution?
+>>>>
+>>>> Could you provide an command line example how to start the q800 with the 1152x870 resolution?
+>>>
+>>> Sure - simply add "-g 1152x870x8" to your command line. If the -g parameter is omitted then the
+>>> display type will default to VGA.
+>>>
+>>
+>> Thank you for the explanation.
+>>
+>> Perhaps you can add in the error message the list of the available mode and depth?
+>> (it's not a blocker for the series, it can be added later)
+>>
+>> As an user, it's hard to know what are the allowed values.
 > 
-> created when the user specifies a virtio-blk device?
+> This is where it becomes a bit trickier, since technically booting Linux with -kernel you can use
+> any supported values as long as everything fits in the video RAM which is why there isn't currently
+> a hard-coded list :)
 > 
-> Dave
 
-virtio-*-pci is there because it was felt these devices look
-differently from e.g. virtio-ccw so should have a different name.
-virtio-blk-device is an internal thingy, users and guests have no idea.
+We need the list of "supported values". I don't want to read the code or try values combination
+until it works.
+
+In a perfect world, I would like to be able to use any value I want with "-kernel".
+
+For instance I was using "-g 1200x800x24" and it was working fine.
+
+Now I have:
+
+qemu-system-m68k: unknown display mode: width 1200, height 800, depth 24
+
+If it's not possible (because the original hardware cannot provide it, and we don't know the base
+address or things like that), we don't need the list of the display id, but the list of available
+modes: (width,height,depth).
+
+Rougly, something like:
+
+qemu-system-m68k: unknown display mode: width 1200, height 800, depth 24
+Available modes:
+    1152x870x8
+    1152x870x4
+    1152x870x2
+    1152x870x1
+    800x600x24
+    800x600x8
+    800x600x4
+    800x600x2
+    800x600x1
+    640x480x24
+    640x480x8
+    640x480x4
+    640x480x2
+    640x480x1
+
+diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+index 5b8812e9e7d8..4b352eb89c3f 100644
+--- a/hw/display/macfb.c
++++ b/hw/display/macfb.c
+@@ -438,6 +438,26 @@ static MacFbMode *macfb_find_mode(MacfbDisplayType display_type,
+     return NULL;
+ }
+
++static gchar *macfb_mode_list(void)
++{
++    gchar *list = NULL;
++    gchar *mode;
++    MacFbMode *macfb_mode;
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
++        macfb_mode = &macfb_mode_table[i];
++
++        mode = g_strdup_printf("    %dx%dx%d\n", macfb_mode->width,
++                               macfb_mode->height, macfb_mode->depth);
++        list = g_strconcat(mode, list, NULL);
++        g_free(mode);
++    }
++
++    return list;
++}
++
++
+ static void macfb_update_display(void *opaque)
+ {
+     MacfbState *s = opaque;
+@@ -620,8 +640,13 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
+
+     s->mode = macfb_find_mode(s->type, s->width, s->height, s->depth);
+     if (!s->mode) {
++        gchar *list;
+         error_setg(errp, "unknown display mode: width %d, height %d, depth %d",
+                    s->width, s->height, s->depth);
++        list =  macfb_mode_list();
++        error_append_hint(errp, "Available modes:\n%s", list);
++        g_free(list);
++
+         return false;
+     }
 
 
-> 
-> > > > 
-> > > > > > -- 
-> > > > > > MST
-> > > > > > 
-> > > > > -- 
-> > > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > > > 
-> > > -- 
-> > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > 
-> -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Thanks,
+Laurent
 
 
