@@ -2,90 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B795E4238C4
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 09:23:09 +0200 (CEST)
-Received: from localhost ([::1]:40082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0BB44238D7
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 09:28:02 +0200 (CEST)
+Received: from localhost ([::1]:45476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mY1Ge-0005fp-G1
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 03:23:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44550)
+	id 1mY1LN-0001AD-HK
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 03:28:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mY1De-0004hi-Lm
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 03:20:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47497)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mY1JH-00087u-7y
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 03:25:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mY1Dc-0001W6-5o
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 03:20:02 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mY1JE-0006dO-5w
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 03:25:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633504798;
+ s=mimecast20190719; t=1633505146;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6ZZ2h0iPrzfJBHIpihTgNbWuUDfm3yIdfpScTfpp7G4=;
- b=Pff1LMAnSSyyMX9bxJCd9wC5BWCqzlJifclh/JpHh3NCCSVLnl1UG267raFSl5jnDrZM0H
- CcbRYG022SSMnwlEAk9WovuVwNJTbW8jncN2HfW1uJn5rC5YLHhIP35aAHKuUuRcw6+Xys
- 82RGSxCLm98BwtZPKK4JWZP6KcNmiog=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-QG0VJw0iOVGjz7iz6Zpy8g-1; Wed, 06 Oct 2021 03:19:57 -0400
-X-MC-Unique: QG0VJw0iOVGjz7iz6Zpy8g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- n18-20020adff092000000b001609d9081d4so1240404wro.18
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 00:19:57 -0700 (PDT)
+ bh=yWJs9AbMHikhLW+bErlBY0viTXTRUDzOyZyuamie+Ns=;
+ b=Xd401q04XMrtTpuvvPP/ck3WsbEN/phgYv5zL8u94pas+Vt7VgGS7wqv98kckc0WXTZvT3
+ pCQNaosySdRXMUMg1o0yHgqO49E6QFUP/HdYxyqVYvqX2+ZE7JWcqRXifAdl7AHZNwA7vy
+ zAaA6szeZ8LxtodEVokecnEVN5HZnl8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-143-SZym8Vj1PuquywNbyd_ABA-1; Wed, 06 Oct 2021 03:25:42 -0400
+X-MC-Unique: SZym8Vj1PuquywNbyd_ABA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ k2-20020adfc702000000b0016006b2da9bso1261068wrg.1
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 00:25:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6ZZ2h0iPrzfJBHIpihTgNbWuUDfm3yIdfpScTfpp7G4=;
- b=REcK6MdvNdGzyVIj1moE9gaLosp9yscqNHVVhPYZc2sDJnxIzQyTU9fSlf3Q3j/siI
- a4myoUGf1eewXmFkzfP5W0kEsjZ7NOJQY6dyQWfe/spux/8v3n/Kd7Y89JF8uu+Z725i
- Tk3CJMkTeohEFeXGC7OeuDPRPIXd4hM78To7BslETuXKmBPPYnSv6aKCXhpnFyQ3JFta
- 0fL4aDemA2q6jJtgiSSs5Malf+UCUHmGcjXe6/x3o/R9WPFJFFgcTCn8RsmyKwXhvyKb
- cWDxUTnoXqPz+s6enG/5H5QnMYb31cfC3pMMmbHLQjJ7ix1x+zH9DyF5Z7g/wB1u9Emy
- GLsQ==
-X-Gm-Message-State: AOAM5324d1x/bNvBverOvsuEkYYjYp/RWR8HQl4E87oVzX5zXsWnju4/
- z2b36IteAFHWWHFB7CaARfL3tMcCK2Facid93gyl+fxgDDQzCeX0380a3xmBQt3Q3GBUfevaVw+
- wHHVRbxoXF40fkP8=
-X-Received: by 2002:a05:600c:c3:: with SMTP id
- u3mr8037076wmm.137.1633504796649; 
- Wed, 06 Oct 2021 00:19:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy2tbLfb1nYmgR8JEyWVYSD1mGuhazmy1pWjvNhhWdPQfaQDT0dsV3boLAWZHK6KCW6KpwPOg==
-X-Received: by 2002:a05:600c:c3:: with SMTP id
- u3mr8037040wmm.137.1633504796379; 
- Wed, 06 Oct 2021 00:19:56 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id n11sm4601771wmq.19.2021.10.06.00.19.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 00:19:56 -0700 (PDT)
-Date: Wed, 6 Oct 2021 09:19:54 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v4 07/11] pc: Allow instantiating a virtio-iommu device
-Message-ID: <20211006091954.79fd0a8d@redhat.com>
-In-Reply-To: <20211001173358.863017-8-jean-philippe@linaro.org>
-References: <20211001173358.863017-1-jean-philippe@linaro.org>
- <20211001173358.863017-8-jean-philippe@linaro.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language;
+ bh=sAadFN34IVUwk+R+CU0k4vYjZd0WUaO5GnewcEAYmPo=;
+ b=5pK0kgilT3DlPCN/u6vDgOWX6AdeGGTNtxmkTYppVssDH1QaPuuQDwW1tU6JRX37PZ
+ 453YGoiv94Rro9A9frm1+Q3I7dIRcIYMnTd9og+ExkjKV1oEqR9lot1kYasZGdyCnoC+
+ xzJo9UF9SCvSRo1jQvEN3k/gtnq0SmYNgMw8M4113kckFNbQ5rAAWFn92xR/AwU9wZN5
+ itrSd+ZXiZo0uBpbo6fQWrmN8FrKUp4iN27CeDyVrX5CWdfWRRaeqCIsuDudZ6ro4FkU
+ oNfh3KSaC3gNwJLSh0I1E8ISmgGPNdkMMjZUgpTcixitWfIW1wvcxsOnlH1Tavfkj3vr
+ 6IQg==
+X-Gm-Message-State: AOAM531nSTFUYH6mTNpuii0xgEIU5FPNxoh0YiF3yITJiqF8wiRD8s44
+ oIMpLM6e9sDUih0uev6MPxzK5llayLVWoRCRSCw8MIut9xK/JNPpI6NNJ/LY8ulqC+uC72ARr6e
+ m6fm8lEynw/MypUE=
+X-Received: by 2002:a7b:c314:: with SMTP id k20mr8175522wmj.50.1633505141660; 
+ Wed, 06 Oct 2021 00:25:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyi7g4UW1m2q128nDx6pMPvGlznpt4R/W+ujiBRb4SlUnN6qDytKa5DrYZQho2geP5aQPQP6Q==
+X-Received: by 2002:a7b:c314:: with SMTP id k20mr8175487wmj.50.1633505141273; 
+ Wed, 06 Oct 2021 00:25:41 -0700 (PDT)
+Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id o13sm619250wmh.30.2021.10.06.00.25.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Oct 2021 00:25:40 -0700 (PDT)
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>
+References: <20210927044808.73391-1-david@gibson.dropbear.id.au>
+ <20210927044808.73391-5-david@gibson.dropbear.id.au>
+ <18fa56ee-956e-ee2f-9270-82aa96dfde09@redhat.com>
+ <df767942-be5f-c920-2924-a5221e9db2b3@csgroup.eu>
+ <40cdb137-60c9-43fd-7b48-4858cbd9307c@redhat.com>
+ <CAFEAcA82L5JiHXUmc0vt7EgiiyrYHyJ+qQ7pFHp+CsvJCPyKqA@mail.gmail.com>
+ <6c2ff4e6-4bf4-d310-5e26-c8d2741177bc@redhat.com>
+ <42e5a8c2-b8fa-b9e2-71f1-c8e5cd7f5cef@csgroup.eu>
+ <1397f18f-f187-6f48-ed6c-13c0b77abed9@redhat.com> <YVug7l8LWl3e+DN5@yekko>
+ <9aeb7010-0a17-864a-cfac-ea5d90356085@csgroup.eu>
+ <f0871969-190a-d15e-50d8-e6c1b1043652@ozlabs.ru>
+ <0beb4744-5421-2cec-1fe4-6a8b7353d932@redhat.com>
+ <cdbfbb3c-2e79-7853-afe0-fe8a65683db1@ozlabs.ru>
+ <3b1570d3-56f5-1184-239a-72791fc8ef83@redhat.com>
+ <881242de-fec8-3296-ffb4-36d2a551d21f@redhat.com>
+ <e551634d-c6e7-c57-5b7f-b9ad8621824@eik.bme.hu>
+ <119bc1c7-22e0-c455-9f34-57a7424f0c52@redhat.com>
+ <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: Deprecate the ppc405 boards in QEMU?
+Message-ID: <7526ae07-0054-69df-c71f-8751858ef0db@redhat.com>
+Date: Wed, 6 Oct 2021 09:25:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <a60b6ad-801c-6783-a81d-1d2b8ed97e34@eik.bme.hu>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: multipart/mixed; boundary="------------CA77DA10B53657D6D05DCDA7"
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.066,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,167 +112,427 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
- mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, ani@anisinha.ca,
- pbonzini@redhat.com
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
+ Peter Maydell <peter.maydell@linaro.org>, dbarboza@redhat.com,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  1 Oct 2021 18:33:55 +0100
-Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+This is a multi-part message in MIME format.
+--------------CA77DA10B53657D6D05DCDA7
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> Allow instantiating a virtio-iommu device by adding an ACPI Virtual I/O
-> Translation table (VIOT), which describes the relation between the
-> virtio-iommu and the endpoints it manages.
-> 
-> Add a hotplug handler for virtio-iommu on x86 and set the necessary
-> reserved region property. On x86, the [0xfee00000, 0xfeefffff] DMA
-> region is reserved for MSIs. DMA transactions to this range either
-> trigger IRQ remapping in the IOMMU or bypasses IOMMU translation.
-> 
-> Although virtio-iommu does not support IRQ remapping it must be informed
-> of the reserved region so that it can forward DMA transactions targeting
-> this region.
-> 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->  include/hw/i386/pc.h |  2 ++
->  hw/i386/acpi-build.c |  5 +++++
->  hw/i386/pc.c         | 24 ++++++++++++++++++++++--
->  hw/i386/Kconfig      |  1 +
->  4 files changed, 30 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 82cf7b7e30..f3ba1ee4c0 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -45,6 +45,8 @@ typedef struct PCMachineState {
->      bool pit_enabled;
->      bool hpet_enabled;
->      bool default_bus_bypass_iommu;
-> +    bool virtio_iommu;
-> +    uint16_t virtio_iommu_bdf;
->      uint64_t max_fw_size;
->  
->      /* ACPI Memory hotplug IO base address */
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index d1c28440f4..4e46585709 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -71,6 +71,7 @@
->  
->  #include "hw/acpi/ipmi.h"
->  #include "hw/acpi/hmat.h"
-> +#include "hw/acpi/viot.h"
->  
->  /* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
->   * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
-> @@ -2593,6 +2594,10 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
->              build_dmar_q35(tables_blob, tables->linker, x86ms->oem_id,
->                             x86ms->oem_table_id);
->          }
-> +    } else if (pcms->virtio_iommu) {
-> +        acpi_add_table(table_offsets, tables_blob);
-> +        build_viot(machine, tables_blob, tables->linker, pcms->virtio_iommu_bdf,
-I'd drop PCMachineState::virtio_iommu_bdf and s/pcms->virtio_iommu_bdf/pci_get_bdf(iommu)/
+On 05/10/2021 23.53, BALATON Zoltan wrote:
+[...]
+> Maybe these 405 boards in QEMU ran with modified firmware where the memory 
+> detection was patched out but it seems to detect the RAM so I wonder where 
+> it gets that from. Maybe by reading the SDRAM controller DCRs 
+> ppc4xx_sdram_init() sets up. Then I'm not sure what it needs the SPD for, I 
+> forgot how this worked on sam460ex. Maybe for the speed calibration, so 
+> could be it detects ram by reading DCRs then tries to get SPD data and 
+> that's where it stops as i2c is not emulated on taihu. This could be 
+> confirmed by checking what it pokes with -d guest_errors that shows accesses 
+> to missing devices but don't know where 405 has the i2c controller and if 
+> it's the same as newer SoCs. If so that could be reused and an i2c bus could 
+> be added with the SPD data like in sam460ex to make u-boot happy or you 
+> could skip this in u-boot.
 
-> +                   x86ms->oem_id, x86ms->oem_table_id);
->      }
->      if (machine->nvdimms_state->is_enabled) {
->          nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 789ccb6ef4..31710bc4fb 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -83,6 +83,7 @@
->  #include "hw/i386/intel_iommu.h"
->  #include "hw/net/ne2000-isa.h"
->  #include "standard-headers/asm-x86/bootparam.h"
-> +#include "hw/virtio/virtio-iommu.h"
->  #include "hw/virtio/virtio-pmem-pci.h"
->  #include "hw/virtio/virtio-mem-pci.h"
->  #include "hw/mem/memory-device.h"
-> @@ -1367,8 +1368,11 @@ static void pc_virtio_md_pci_unplug(HotplugHandler *hotplug_dev,
->  static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->                                            DeviceState *dev, Error **errp)
->  {
-> -    if (object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) &&
-> -        x86_iommu_get_default()) {
-> +    PCMachineState *pcms = PC_MACHINE(hotplug_dev);
-> +
-> +    if ((object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) ||
-> +         object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) &&
-> +        (x86_iommu_get_default() || pcms->virtio_iommu)) {
+FWIW, I've just tried the latter (skipping the sdram init in u-boot), and 
+indeed, I can get to the u-boot prompt now. Binary can be found here:
 
-this check is getting uglier,
-may be instead of introducing pcms->virtio_iommu boolean, better approach
-would be adding 'Device* PCMachineState::iommu' and setting it to IOMMU
-so the check would reduce to:
-      if ((object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) ||
-           object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)))
-      {
-          if (pcms->iommu)
-            err
-          else set pcms->iommu in plug handler or here
-      }
-      
-that also will let to cleanup/get rid of x86_iommu_[s|g]et_default()
-and x86_iommu_default 'global'.
-Maybe replace previous patch with one that would remove
-x86_iommu_[s|g]et_default().
+  http://people.redhat.com/~thuth/data/u-boot-taihu-skip-sdram.bin
 
->          error_setg(errp, "QEMU does not support multiple vIOMMUs "
->                     "for x86 yet.");
->          return;
-> @@ -1381,6 +1385,15 @@ static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
->                 object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
->          pc_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
-> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-> +        /* Declare the APIC range as the reserved MSI region */
-> +        char *resv_prop_str = g_strdup_printf("0xfee00000:0xfeefffff:%d",
-> +                                              VIRTIO_IOMMU_RESV_MEM_T_MSI);
-> +
-> +        object_property_set_uint(OBJECT(dev), "len-reserved-regions", 1, errp);
-> +        object_property_set_str(OBJECT(dev), "reserved-regions[0]",
-> +                                resv_prop_str, errp);
-> +        g_free(resv_prop_str);
->      }
->  }
->  
-> @@ -1394,6 +1407,12 @@ static void pc_machine_device_plug_cb(HotplugHandler *hotplug_dev,
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
->                 object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
->          pc_virtio_md_pci_plug(hotplug_dev, dev, errp);
-> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-> +        PCMachineState *pcms = PC_MACHINE(hotplug_dev);
-> +        PCIDevice *pdev = PCI_DEVICE(dev);
-> +
-> +        pcms->virtio_iommu = true;
-> +        pcms->virtio_iommu_bdf = pci_get_bdf(pdev);
->      }
->  }
->  
-> @@ -1436,6 +1455,7 @@ static HotplugHandler *pc_get_hotplug_handler(MachineState *machine,
->          object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
->          object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
->          object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI) ||
-> +        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI) ||
->          object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE)) {
->          return HOTPLUG_HANDLER(machine);
->      }
-> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-> index ddedcef0b2..13db05d557 100644
-> --- a/hw/i386/Kconfig
-> +++ b/hw/i386/Kconfig
-> @@ -54,6 +54,7 @@ config PC_ACPI
->      select ACPI_X86
->      select ACPI_CPU_HOTPLUG
->      select ACPI_MEMORY_HOTPLUG
-> +    select ACPI_VIOT
->      select SMBUS_EEPROM
->      select PFLASH_CFI01
->      depends on ACPI_SMBUS
+Christophe, maybe that's already enough for you to boot a Linux kernel with 
+the "taihu" board? (or do you need the ref405ep board instead?)
+
+I've also attached the patch with my modifications to u-boot.
+
+To build the u-boot firmware:
+
+  git clone git://git.denx.de/u-boot.git
+  cd u-boot
+  git checkout 123b6cd7a4f75536734a7bff97db6eebce614bd1~1
+  patch -p1 -i .../u-boot-taihu.patch
+  make taihu_defconfig CROSS_COMPILE=powerpc-...
+  make CROSS_COMPILE=powerpc-...
+
+... if the linker complains at the end, remove some features from the 
+".config" file, like CONFIG_CMD_NFS, and run make again.
+
+  Thomas
+
+--------------CA77DA10B53657D6D05DCDA7
+Content-Type: text/x-patch; charset=UTF-8;
+ name="u-boot-taihu.patch"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="u-boot-taihu.patch"
+
+diff --git a/arch/powerpc/cpu/ppc4xx/sdram.c b/arch/powerpc/cpu/ppc4xx/sdra=
+m.c
+index d4ef36d39f..729f69f5c2 100644
+--- a/arch/powerpc/cpu/ppc4xx/sdram.c
++++ b/arch/powerpc/cpu/ppc4xx/sdram.c
+@@ -172,14 +172,13 @@ phys_size_t initdram(int board_type)
+ =09=09/*
+ =09=09 * Disable memory controller.
+ =09=09 */
+-=09=09mtsdram(SDRAM0_CFG, 0x00000000);
+-
++//=09=09mtsdram(SDRAM0_CFG, 0x00000000);
+ =09=09/*
+ =09=09 * Set MB0CF for bank 0.
+ =09=09 */
+-=09=09mtsdram(SDRAM0_B0CR, mb0cf[i].reg);
+-=09=09mtsdram(SDRAM0_TR, sdtr1);
+-=09=09mtsdram(SDRAM0_RTR, compute_rtr(speed, mb0cf[i].rows, 64));
++//=09=09mtsdram(SDRAM0_B0CR, mb0cf[i].reg);
++//=09=09mtsdram(SDRAM0_TR, sdtr1);
++//=09=09mtsdram(SDRAM0_RTR, compute_rtr(speed, mb0cf[i].rows, 64));
+=20
+ =09=09udelay(200);
+=20
+@@ -199,7 +198,7 @@ phys_size_t initdram(int board_type)
+ =09=09=09 * OK, size detected.  Enable second bank if
+ =09=09=09 * defined (assumes same type as bank 0)
+ =09=09=09 */
+-#ifdef CONFIG_SDRAM_BANK1
++#if 0 //def CONFIG_SDRAM_BANK1
+ =09=09=09mtsdram(SDRAM0_CFG, 0x00000000);
+ =09=09=09mtsdram(SDRAM0_B1CR, mb0cf[i].size | mb0cf[i].reg);
+ =09=09=09mtsdram(SDRAM0_CFG, 0x80800000);
+@@ -230,7 +229,7 @@ phys_size_t initdram(int board_type)
+ =09=09}
+ =09}
+=20
+-=09return 0;
++=09return 128*1024*1024; /* Hack */
+ }
+=20
+ #else /* CONFIG_440 */
+diff --git a/arch/powerpc/cpu/ppc4xx/u-boot.lds b/arch/powerpc/cpu/ppc4xx/u=
+-boot.lds
+index 198050853a..55dd4e1300 100644
+--- a/arch/powerpc/cpu/ppc4xx/u-boot.lds
++++ b/arch/powerpc/cpu/ppc4xx/u-boot.lds
+@@ -46,7 +46,6 @@ SECTIONS
+     _GOT2_TABLE_ =3D .;
+     KEEP(*(.got2))
+     KEEP(*(.got))
+-    PROVIDE(_GLOBAL_OFFSET_TABLE_ =3D . + 4);
+     _FIXUP_TABLE_ =3D .;
+     KEEP(*(.fixup))
+   }
+diff --git a/arch/powerpc/include/asm/bitops.h b/arch/powerpc/include/asm/b=
+itops.h
+index a6bcf3c3fe..4aba02a031 100644
+--- a/arch/powerpc/include/asm/bitops.h
++++ b/arch/powerpc/include/asm/bitops.h
+@@ -7,12 +7,14 @@
+=20
+ #include <asm/byteorder.h>
+=20
++/*
+ extern void set_bit(int nr, volatile void *addr);
+ extern void clear_bit(int nr, volatile void *addr);
+ extern void change_bit(int nr, volatile void *addr);
+ extern int test_and_set_bit(int nr, volatile void *addr);
+ extern int test_and_clear_bit(int nr, volatile void *addr);
+ extern int test_and_change_bit(int nr, volatile void *addr);
++*/
+=20
+ /*
+  * Arguably these bit operations don't imply any memory barrier or
+@@ -34,7 +36,7 @@ extern int test_and_change_bit(int nr, volatile void *add=
+r);
+  * These used to be if'd out here because using : "cc" as a constraint
+  * resulted in errors from egcs.  Things may be OK with gcc-2.95.
+  */
+-extern __inline__ void set_bit(int nr, volatile void * addr)
++static __inline__ void set_bit(int nr, volatile void * addr)
+ {
+ =09unsigned long old;
+ =09unsigned long mask =3D 1 << (nr & 0x1f);
+@@ -51,7 +53,7 @@ extern __inline__ void set_bit(int nr, volatile void * ad=
+dr)
+ =09: "cc" );
+ }
+=20
+-extern __inline__ void clear_bit(int nr, volatile void *addr)
++static __inline__ void clear_bit(int nr, volatile void *addr)
+ {
+ =09unsigned long old;
+ =09unsigned long mask =3D 1 << (nr & 0x1f);
+@@ -68,7 +70,7 @@ extern __inline__ void clear_bit(int nr, volatile void *a=
+ddr)
+ =09: "cc");
+ }
+=20
+-extern __inline__ void change_bit(int nr, volatile void *addr)
++static __inline__ void change_bit(int nr, volatile void *addr)
+ {
+ =09unsigned long old;
+ =09unsigned long mask =3D 1 << (nr & 0x1f);
+@@ -85,7 +87,7 @@ extern __inline__ void change_bit(int nr, volatile void *=
+addr)
+ =09: "cc");
+ }
+=20
+-extern __inline__ int test_and_set_bit(int nr, volatile void *addr)
++static __inline__  int test_and_set_bit(int nr, volatile void *addr)
+ {
+ =09unsigned int old, t;
+ =09unsigned int mask =3D 1 << (nr & 0x1f);
+@@ -104,7 +106,7 @@ extern __inline__ int test_and_set_bit(int nr, volatile=
+ void *addr)
+ =09return (old & mask) !=3D 0;
+ }
+=20
+-extern __inline__ int test_and_clear_bit(int nr, volatile void *addr)
++static __inline__  int test_and_clear_bit(int nr, volatile void *addr)
+ {
+ =09unsigned int old, t;
+ =09unsigned int mask =3D 1 << (nr & 0x1f);
+@@ -123,7 +125,7 @@ extern __inline__ int test_and_clear_bit(int nr, volati=
+le void *addr)
+ =09return (old & mask) !=3D 0;
+ }
+=20
+-extern __inline__ int test_and_change_bit(int nr, volatile void *addr)
++static __inline__  int test_and_change_bit(int nr, volatile void *addr)
+ {
+ =09unsigned int old, t;
+ =09unsigned int mask =3D 1 << (nr & 0x1f);
+@@ -143,7 +145,7 @@ extern __inline__ int test_and_change_bit(int nr, volat=
+ile void *addr)
+ }
+ #endif /* __INLINE_BITOPS */
+=20
+-extern __inline__ int test_bit(int nr, __const__ volatile void *addr)
++static __inline__  int test_bit(int nr, __const__ volatile void *addr)
+ {
+ =09__const__ unsigned int *p =3D (__const__ unsigned int *) addr;
+=20
+@@ -152,7 +154,7 @@ extern __inline__ int test_bit(int nr, __const__ volati=
+le void *addr)
+=20
+ /* Return the bit position of the most significant 1 bit in a word */
+ /* - the result is undefined when x =3D=3D 0 */
+-extern __inline__ int __ilog2(unsigned int x)
++static __inline__  int __ilog2(unsigned int x)
+ {
+ =09int lz;
+=20
+@@ -160,7 +162,7 @@ extern __inline__ int __ilog2(unsigned int x)
+ =09return 31 - lz;
+ }
+=20
+-extern __inline__ int ffz(unsigned int x)
++static __inline__  int ffz(unsigned int x)
+ {
+ =09if ((x =3D ~x) =3D=3D 0)
+ =09=09return 32;
+@@ -226,7 +228,7 @@ static inline int ffs64(u64 x)
+  * the libc and compiler builtin ffs routines, therefore
+  * differs in spirit from the above ffz (man ffs).
+  */
+-extern __inline__ int ffs(int x)
++static __inline__  int ffs(int x)
+ {
+ =09return __ilog2(x & -x) + 1;
+ }
+@@ -250,7 +252,7 @@ extern __inline__ int ffs(int x)
+ #define find_first_zero_bit(addr, size) \
+ =09find_next_zero_bit((addr), (size), 0)
+=20
+-extern __inline__ unsigned long find_next_zero_bit(void * addr,
++static __inline__  unsigned long find_next_zero_bit(void * addr,
+ =09unsigned long size, unsigned long offset)
+ {
+ =09unsigned int * p =3D ((unsigned int *) addr) + (offset >> 5);
+@@ -298,7 +300,7 @@ found_middle:
+ #define ext2_clear_bit(nr, addr)=09test_and_clear_bit((nr) ^ 0x18, addr)
+=20
+ #else
+-extern __inline__ int ext2_set_bit(int nr, void * addr)
++static __inline__  int ext2_set_bit(int nr, void * addr)
+ {
+ =09int=09=09mask;
+ =09unsigned char=09*ADDR =3D (unsigned char *) addr;
+@@ -311,7 +313,7 @@ extern __inline__ int ext2_set_bit(int nr, void * addr)
+ =09return oldbit;
+ }
+=20
+-extern __inline__ int ext2_clear_bit(int nr, void * addr)
++static __inline__  int ext2_clear_bit(int nr, void * addr)
+ {
+ =09int=09=09mask;
+ =09unsigned char=09*ADDR =3D (unsigned char *) addr;
+@@ -325,7 +327,7 @@ extern __inline__ int ext2_clear_bit(int nr, void * add=
+r)
+ }
+ #endif=09/* __KERNEL__ */
+=20
+-extern __inline__ int ext2_test_bit(int nr, __const__ void * addr)
++static __inline__  int ext2_test_bit(int nr, __const__ void * addr)
+ {
+ =09__const__ unsigned char=09*ADDR =3D (__const__ unsigned char *) addr;
+=20
+diff --git a/arch/powerpc/include/asm/byteorder.h b/arch/powerpc/include/as=
+m/byteorder.h
+index 3f5bcf63a1..5f57a08d39 100644
+--- a/arch/powerpc/include/asm/byteorder.h
++++ b/arch/powerpc/include/asm/byteorder.h
+@@ -5,7 +5,7 @@
+=20
+ #ifdef __GNUC__
+=20
+-extern __inline__ unsigned ld_le16(const volatile unsigned short *addr)
++static __inline__  unsigned ld_le16(const volatile unsigned short *addr)
+ {
+ =09unsigned val;
+=20
+@@ -13,12 +13,12 @@ extern __inline__ unsigned ld_le16(const volatile unsig=
+ned short *addr)
+ =09return val;
+ }
+=20
+-extern __inline__ void st_le16(volatile unsigned short *addr, const unsign=
+ed val)
++static __inline__  void st_le16(volatile unsigned short *addr, const unsig=
+ned val)
+ {
+ =09__asm__ __volatile__ ("sthbrx %1,0,%2" : "=3Dm" (*addr) : "r" (val), "r=
+" (addr));
+ }
+=20
+-extern __inline__ unsigned ld_le32(const volatile unsigned *addr)
++static __inline__  unsigned ld_le32(const volatile unsigned *addr)
+ {
+ =09unsigned val;
+=20
+@@ -26,7 +26,7 @@ extern __inline__ unsigned ld_le32(const volatile unsigne=
+d *addr)
+ =09return val;
+ }
+=20
+-extern __inline__ void st_le32(volatile unsigned *addr, const unsigned val=
+)
++static __inline__  void st_le32(volatile unsigned *addr, const unsigned va=
+l)
+ {
+ =09__asm__ __volatile__ ("stwbrx %1,0,%2" : "=3Dm" (*addr) : "r" (val), "r=
+" (addr));
+ }
+diff --git a/arch/powerpc/include/asm/io.h b/arch/powerpc/include/asm/io.h
+index a5257e9b62..a54fc468d5 100644
+--- a/arch/powerpc/include/asm/io.h
++++ b/arch/powerpc/include/asm/io.h
+@@ -163,7 +163,7 @@ static inline void __raw_writel(unsigned int v, volatil=
+e void __iomem *addr)
+  * is actually performed (i.e. the data has come back) before we start
+  * executing any following instructions.
+  */
+-extern inline u8 in_8(const volatile unsigned char __iomem *addr)
++static inline u8 in_8(const volatile unsigned char __iomem *addr)
+ {
+ =09u8 ret;
+=20
+@@ -174,7 +174,7 @@ extern inline u8 in_8(const volatile unsigned char __io=
+mem *addr)
+ =09return ret;
+ }
+=20
+-extern inline void out_8(volatile unsigned char __iomem *addr, u8 val)
++static inline void out_8(volatile unsigned char __iomem *addr, u8 val)
+ {
+ =09__asm__ __volatile__("sync;\n"
+ =09=09=09     "stb%U0%X0 %1,%0;\n"
+@@ -182,7 +182,7 @@ extern inline void out_8(volatile unsigned char __iomem=
+ *addr, u8 val)
+ =09=09=09     : "r" (val));
+ }
+=20
+-extern inline u16 in_le16(const volatile unsigned short __iomem *addr)
++static inline u16 in_le16(const volatile unsigned short __iomem *addr)
+ {
+ =09u16 ret;
+=20
+@@ -193,7 +193,7 @@ extern inline u16 in_le16(const volatile unsigned short=
+ __iomem *addr)
+ =09return ret;
+ }
+=20
+-extern inline u16 in_be16(const volatile unsigned short __iomem *addr)
++static inline u16 in_be16(const volatile unsigned short __iomem *addr)
+ {
+ =09u16 ret;
+=20
+@@ -203,18 +203,18 @@ extern inline u16 in_be16(const volatile unsigned sho=
+rt __iomem *addr)
+ =09return ret;
+ }
+=20
+-extern inline void out_le16(volatile unsigned short __iomem *addr, u16 val=
+)
++static inline void out_le16(volatile unsigned short __iomem *addr, u16 val=
+)
+ {
+ =09__asm__ __volatile__("sync; sthbrx %1,0,%2" : "=3Dm" (*addr) :
+ =09=09=09      "r" (val), "r" (addr));
+ }
+=20
+-extern inline void out_be16(volatile unsigned short __iomem *addr, u16 val=
+)
++static inline void out_be16(volatile unsigned short __iomem *addr, u16 val=
+)
+ {
+ =09__asm__ __volatile__("sync; sth%U0%X0 %1,%0" : "=3Dm" (*addr) : "r" (va=
+l));
+ }
+=20
+-extern inline u32 in_le32(const volatile unsigned __iomem *addr)
++static inline u32 in_le32(const volatile unsigned __iomem *addr)
+ {
+ =09u32 ret;
+=20
+@@ -225,7 +225,7 @@ extern inline u32 in_le32(const volatile unsigned __iom=
+em *addr)
+ =09return ret;
+ }
+=20
+-extern inline u32 in_be32(const volatile unsigned __iomem *addr)
++static inline u32 in_be32(const volatile unsigned __iomem *addr)
+ {
+ =09u32 ret;
+=20
+@@ -235,13 +235,13 @@ extern inline u32 in_be32(const volatile unsigned __i=
+omem *addr)
+ =09return ret;
+ }
+=20
+-extern inline void out_le32(volatile unsigned __iomem *addr, u32 val)
++static inline void out_le32(volatile unsigned __iomem *addr, u32 val)
+ {
+ =09__asm__ __volatile__("sync; stwbrx %1,0,%2" : "=3Dm" (*addr) :
+ =09=09=09     "r" (val), "r" (addr));
+ }
+=20
+-extern inline void out_be32(volatile unsigned __iomem *addr, u32 val)
++static inline void out_be32(volatile unsigned __iomem *addr, u32 val)
+ {
+ =09__asm__ __volatile__("sync; stw%U0%X0 %1,%0" : "=3Dm" (*addr) : "r" (va=
+l));
+ }
+
+--------------CA77DA10B53657D6D05DCDA7--
 
 
