@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 757274246A2
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 21:22:04 +0200 (CEST)
-Received: from localhost ([::1]:53912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF954246AB
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 21:27:57 +0200 (CEST)
+Received: from localhost ([::1]:33924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYCUN-0006Uz-Gk
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 15:22:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45818)
+	id 1mYCa4-0003qh-9w
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 15:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mYCSW-0004y1-1d
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 15:20:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59386)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYCXC-0000Q2-GB
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 15:24:58 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:46429)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mYCSU-0003oF-Ff
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 15:20:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633548005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=13xLELdS/DGjDGN54f9Q/qdNp7kdVyMKf8NsbeVgb08=;
- b=jJJQ/HCSCUPsbT9OG6MqTPFKmBuB5MC/HiFBmIAClmgzHWG94WASRf9KFItHgfOrqMCGdJ
- BG1XrngY2hQraloalIFypbeFPbsGkCaEKOoDgQYjHVX5oNJY6Mh/pvgnHBlNJzMlBEtKcV
- k/vnEvnJ468/cWFQ1uS18WjKJDK+OR8=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-32UwBn4mMs6TdbVaqwO3sQ-1; Wed, 06 Oct 2021 15:20:04 -0400
-X-MC-Unique: 32UwBn4mMs6TdbVaqwO3sQ-1
-Received: by mail-pf1-f197.google.com with SMTP id
- 142-20020a621694000000b0044c801e5befso1874617pfw.11
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 12:20:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=13xLELdS/DGjDGN54f9Q/qdNp7kdVyMKf8NsbeVgb08=;
- b=cgoXWPF7HeQwLmzZFimVeYBRy2FpOKflOYLVX3byclEMQsLOD5cCOGs4Lln8bDTPEo
- dvsM3I53ZqyH+frJZS7AeS3RxWGCJ8HwBA5ToaBA2YJHcEQHvrrga0zapY1+8TSUZkH1
- nJyqO+AEAPT65vuLTQGLPQXjFjshfdzkF7kknz27+RrRISgKMiOB3KSSFEcx1P32ncnD
- rPyp/9Eu6NrWXZBFyfaY7FWBmc1uVd2L5Mx5HP2hXaNnwuYaBMO8kjjzxvOvZE3WxdHL
- DLp30S0uGaHDG8v1jyAEIMrhLh/kFRp3TtwondbKUDOh6oRBbB2zVLQCfLajt/e+piLj
- wKUA==
-X-Gm-Message-State: AOAM532U0J1cdVWrf8JScH3m/eECHlDJhwybMwe4jy+PSUvUYp2Rg1nG
- LBMNGxPg6cud2oaEyMRoBIK4ZryydlGU5GOXDzY0TyHGDPPzCzYl19lD0UdLaT7ZtIdQzIPz9mM
- yW0lGZlsKDEgl1FjggipqzhEueBMFB7w=
-X-Received: by 2002:a17:90a:fa4f:: with SMTP id
- dt15mr51218pjb.10.1633548002855; 
- Wed, 06 Oct 2021 12:20:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx0tWJku0IPI+GFQcma2ieH4J5Cavg5uPFuyt1O5HYYj0VYDYXhqdHCiKtWQEeTSeeAS5dI+i0ahqGnV5tbdNk=
-X-Received: by 2002:a17:90a:fa4f:: with SMTP id
- dt15mr51176pjb.10.1633548002617; 
- Wed, 06 Oct 2021 12:20:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYCXA-0006Fx-Bs
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 15:24:58 -0400
+Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1Mgebs-1mzXbe1PkS-00h2PB; Wed, 06 Oct 2021 21:24:54 +0200
+Subject: Re: [PATCH v2 08/12] macfb: add common monitor modes supported by the
+ MacOS toolbox ROM
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20211004211928.15803-1-mark.cave-ayland@ilande.co.uk>
+ <20211004211928.15803-9-mark.cave-ayland@ilande.co.uk>
+ <7994e73e-cbda-1bd1-68c4-250dd951ed51@vivier.eu>
+ <66384935-4c8f-8220-8593-bfde37d05e1d@ilande.co.uk>
+ <15fba2fe-77b0-78f4-ea55-9438ce976c18@vivier.eu>
+ <52fe2fc5-b4fb-8888-9b80-0e362c52ebb5@ilande.co.uk>
+ <3a798740-d39e-f2b8-8b3c-1a4814f184ea@vivier.eu>
+ <f8d64bc7-fc6e-dd14-4ed5-a55a947ef8cb@ilande.co.uk>
+ <fc202c89-cbbc-9d87-b3e2-fcba8a82b495@vivier.eu>
+ <20607ac1-a061-e102-0652-33440f13504b@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <07079a9e-f607-f6df-e1f4-70bdffb1e39f@vivier.eu>
+Date: Wed, 6 Oct 2021 21:24:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210924185506.2542588-1-crosa@redhat.com>
- <20210924185506.2542588-17-crosa@redhat.com>
- <CAKJDGDZ0wXko+34sQujsd7iLKNRtm3BhZ=DFpD6nXtvZVF2uRg@mail.gmail.com>
-In-Reply-To: <CAKJDGDZ0wXko+34sQujsd7iLKNRtm3BhZ=DFpD6nXtvZVF2uRg@mail.gmail.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 6 Oct 2021 16:19:36 -0300
-Message-ID: <CAKJDGDaer7Vf0jowqZJBqow9nVB8JbL_6O1_7sa=qPtJ=0VMfg@mail.gmail.com>
-Subject: Re: [PATCH 16/16] tests/acceptance/ppc_prep_40p.py: unify tags
-To: Cleber Rosa <crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20607ac1-a061-e102-0652-33440f13504b@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:XNThpJcWXwNbEIt/Yuv0V2XWLkapdvkvueamQt5aVdwvdDxbSs6
+ raSX78FRrODu9dSfubTPwBK99heEwwVdu2LN7hQAPShQRb1LpaBgBY0mtqKvocV9ry+UxAq
+ JOjViwNiaKp7A3uI2P5Cgnt4zSIZjqKWjeLEOXg94pOnQXMRPx5AbfgLsJkXcmL/IwwMZSr
+ vT85SS8TDM/4xEaQ3SOTA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:o4uSvMQ8Gok=:dLKfHmtaVJvom1h5QoOkNn
+ d7VkJRHYruF93lHfJpyO8vGdFB1aNBth2R7yo6FC7RvSfnKF144gmey4GUV698bUmPs7TQgRU
+ yhdkjwncIvh2PGJT88s0YvGwYdDKT1GUuPvmQFo9XuCB7pakRc4hsedohFHq4vxGw4jZIzepa
+ 6EaoNRacXagR5zu21nisIT5HTRSwh49eXbSEqk5pbemObVA3SqYn9Z1OFiZeQ3aGH6iw3TddB
+ vC2LAfpsfsEXwwRkyKAa+dpg+FbinSwSbFwigMVGyBz+qF/TtSA0zGkfLgFPobqtqFjW1ghEA
+ jlnq/008h+mHsvf+OznpKpPOQdFHs4q1VZ/WDSzrTc6Sv1AWuGoNjhWj3SX4tCiHxs7z3z3HN
+ QdU57Xsvk72WwOEj7+DuGw3bco9Q053FMso7tR9WpWP/pbNtd6aivyd7qy8J7ZPupV1Yn+HL9
+ yvCKGmiSPATatlYIoWaS8H5yWFDKyj/O57NvOrRwgC5GR8XlbCbQrYfZ8cRfjEkstnHWrnY9W
+ w3Ppq3zDk4VdLZHzFekDeczaz/WFT+4YDFO4E7xzwS9ZtRA727clDAlCg7khcXDO45WcjIMGy
+ 0J2JdwcnVACfRbvthf5jcsVQ7HPkjcdi9b1FLjabfzUNh6j19Mms+H9NYaaxALy6sdzPQhWzn
+ oC99TPQPmDhgZEbKXFkbG+oYjEqG/cM0RV5Qv9APFYUPC6dnnRDwif0CPcji/DuGB8Td9FaEZ
+ OWo1Ahm5MNoP3Z6RBRDzZosR6RSANvOYgC95VA==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.964,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,39 +79,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
- Auger Eric <eric.auger@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>, Ryo ONODERA <ryoon@netbsd.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 6, 2021 at 4:17 PM Willian Rampazzo <wrampazz@redhat.com> wrote:
->
-> On Fri, Sep 24, 2021 at 4:01 PM Cleber Rosa <crosa@redhat.com> wrote:
-> >
-> > The arch and machine tags apply to all tests, so let's define them
-> > only once.
-> >
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > ---
-> >  tests/acceptance/ppc_prep_40p.py | 12 ++++--------
-> >  1 file changed, 4 insertions(+), 8 deletions(-)
-> >
->
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Le 06/10/2021 à 18:09, Mark Cave-Ayland a écrit :
+> On 06/10/2021 16:46, Laurent Vivier wrote:
+>> Le 06/10/2021 à 15:54, Mark Cave-Ayland a écrit :
+>>> On 06/10/2021 13:24, Laurent Vivier wrote:
+>>>
+>>>>> This is where it becomes a bit trickier, since technically booting Linux with -kernel you can use
+>>>>> any supported values as long as everything fits in the video RAM which is why there isn't
+>>>>> currently
+>>>>> a hard-coded list :)
+>>>>>
+>>>>
+>>>> We need the list of "supported values". I don't want to read the code or try values combination
+>>>> until it works.
+>>>>
+>>>> In a perfect world, I would like to be able to use any value I want with "-kernel".
+>>>>
+>>>> For instance I was using "-g 1200x800x24" and it was working fine.
+>>>>
+>>>> Now I have:
+>>>>
+>>>> qemu-system-m68k: unknown display mode: width 1200, height 800, depth 24
+>>>>
+>>>> If it's not possible (because the original hardware cannot provide it, and we don't know the base
+>>>> address or things like that), we don't need the list of the display id, but the list of available
+>>>> modes: (width,height,depth).
+>>>>
+>>>> Rougly, something like:
+>>>>
+>>>> qemu-system-m68k: unknown display mode: width 1200, height 800, depth 24
+>>>> Available modes:
+>>>>       1152x870x8
+>>>>       1152x870x4
+>>>>       1152x870x2
+>>>>       1152x870x1
+>>>>       800x600x24
+>>>>       800x600x8
+>>>>       800x600x4
+>>>>       800x600x2
+>>>>       800x600x1
+>>>>       640x480x24
+>>>>       640x480x8
+>>>>       640x480x4
+>>>>       640x480x2
+>>>>       640x480x1
+>>>>
+>>>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+>>>> index 5b8812e9e7d8..4b352eb89c3f 100644
+>>>> --- a/hw/display/macfb.c
+>>>> +++ b/hw/display/macfb.c
+>>>> @@ -438,6 +438,26 @@ static MacFbMode *macfb_find_mode(MacfbDisplayType display_type,
+>>>>        return NULL;
+>>>>    }
+>>>>
+>>>> +static gchar *macfb_mode_list(void)
+>>>> +{
+>>>> +    gchar *list = NULL;
+>>>> +    gchar *mode;
+>>>> +    MacFbMode *macfb_mode;
+>>>> +    int i;
+>>>> +
+>>>> +    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
+>>>> +        macfb_mode = &macfb_mode_table[i];
+>>>> +
+>>>> +        mode = g_strdup_printf("    %dx%dx%d\n", macfb_mode->width,
+>>>> +                               macfb_mode->height, macfb_mode->depth);
+>>>> +        list = g_strconcat(mode, list, NULL);
+>>>> +        g_free(mode);
+>>>> +    }
+>>>> +
+>>>> +    return list;
+>>>> +}
+>>>> +
+>>>> +
+>>>>    static void macfb_update_display(void *opaque)
+>>>>    {
+>>>>        MacfbState *s = opaque;
+>>>> @@ -620,8 +640,13 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error
+>>>> **errp)
+>>>>
+>>>>        s->mode = macfb_find_mode(s->type, s->width, s->height, s->depth);
+>>>>        if (!s->mode) {
+>>>> +        gchar *list;
+>>>>            error_setg(errp, "unknown display mode: width %d, height %d, depth %d",
+>>>>                       s->width, s->height, s->depth);
+>>>> +        list =  macfb_mode_list();
+>>>> +        error_append_hint(errp, "Available modes:\n%s", list);
+>>>> +        g_free(list);
+>>>> +
+>>>>            return false;
+>>>>        }
+>>>
+>>> Hi Laurent,
+>>>
+>>> Thanks for the example - I can certainly squash this into patch 8.
+>>
+>> yes, please.
+> 
+> Okay I'll do that for a v3 (and also split the 1st patch that Phil suggested).
+> 
+>>> As for allowing extra resolutions via -kernel, since the check is being done in
+>>> macfb_common_realize() then it would be possible to add a qdev property that only gets set when
+>>> -kernel is used on the command line which bypasses the mode check if you prefer?
+>>>
+>>
+>> I think it can wait and be done by a patch later. For the moment we can focus on MacOS.
+>>
+>>> I'm not sure that your existing example of "-g 1200x800x24" (or indeed any resolution with 24-bit
+>>> depth) with -kernel will still work after this patchset given that the 24-bit encoding scheme has
+>>> changed. Presumably this would also need a corresponding change in the bootinfo/kernel framebuffer/X
+>>> configuration somewhere?
+>>
+>> The kernel framebuffer should be easy to fix, if needed, normally we pass the needed information via
+>> the bootinfo structure.
+>>
+>> My X configuration is broken for a while. With debian/sid I've never been able to start X (even on a
+>> real q800, I think), and with debian/etch we need a special kernel as the ADB stack has been broken
+>> with old kernel. I was not able to start X for a while now...
+> 
+> FWIW I found that the last set of ADB fixes in mac_via.c actually fixed ADB on old kernels again (I
+> was able to use keyboard and mouse on the 4.15 kernel you used for the original patches), so you may
+> be able to get debian/etch working in QEMU. I'd expect forcing EMILE into a 24-bit depth on a real
+> Quadra 800 would also show the same issue here.
+> 
 
-Also:
-Tested-by: Willian Rampazzo <willianr@redhat.com>
+In fact, I was trying the etch kernel, 2.6.32 that was never able to boot before because VBL
+interrupt was not implemented. Now, with your series it boots (congratulation) but there is some
+other issues in ADB but I don't think it's related to the changes in QEMU.
 
+I've found another kernel on my disk (4.1.39) and I'm able to start a gnome-session with 1152x870x8
+mode. ADB works well. There is an issue with gdm that doesn't take characters from the keyboard but
+if I start X manually and then gnome-sessions I'm able to play with it.
+
+Thanks,
+Laurent
 
