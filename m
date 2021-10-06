@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8459D424554
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 19:55:04 +0200 (CEST)
-Received: from localhost ([::1]:55322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49EA942456C
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 19:56:07 +0200 (CEST)
+Received: from localhost ([::1]:57796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYB8B-0005sL-8W
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 13:55:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48822)
+	id 1mYB9C-0007Ve-AK
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 13:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYAds-0007rm-2x
+ id 1mYAds-0007sz-CB
  for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:23:44 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:39904)
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:35368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYAdp-0008M5-Jx
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:23:43 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id g2so2970489pfc.6
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 10:23:41 -0700 (PDT)
+ id 1mYAdq-0008Mw-KO
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:23:44 -0400
+Received: by mail-pl1-x629.google.com with SMTP id w14so2157295pll.2
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 10:23:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+wPooOVVd+7W1fIqkSEIV0ksz3zAPabhZeYGfx9EMt4=;
- b=DmRdBiKPZAT2Ye2q+AIGTbqTHQiLD1vdlm7zyEKnNMwMEd1cUTbLJirgNJIUgbw8EW
- TlNMnPBlqdoPG5I3NLfxzEGQz/PmiievL1VRJQX/A8VM9VGZzG4Th1D842DgqlQpzQwM
- fLt+/89ua9G/9oYgH4zyg4FzasexXjkofnGrjJNa4day+atBrh3B+Zc/kkd6HFp07DnX
- 0K1VILnaXLCjB3XxEqOOrgOfDbXNG0ph9xDL1Re8zqEM/35LWKW/yPxJMb+yb67v/E/g
- OnzPA40ZUtaeSRbrgOnU8mOUn4Tvaw6Ikw7jFC3kXR0veD+Yhit6qrDCniolwGblHI4Z
- KxQQ==
+ bh=OFBASZgYo/dnEXgBhwjQsgVMikt4qFVfoC5aZFh8E0o=;
+ b=K0Ex//GvK85mZAxMZnx42r2FlFo04iVAJSFhh+AfXFpqc+TxuCBtQSnlOU/0VJBa/H
+ ZqU0uJhSGxSFs0ejL4AS5NZurb5yoYdJ8lmz5tx4laftqZyl+IlLCr4K8w4eU9gzbb70
+ sI8LUIjv28e6jM/MYEhF3U35R8kGgLv+VcSCa1tCsjTb1ZI/gEQEKosfm0ML9mL6MEav
+ MalRgUfKJ7JVxJ73VwFq2lbn3yHq92+dnKDF3mrApcg2kt+ynBCoMHM3PFtHIwD5QxhC
+ 5k9Mlx2hqRmg/3+TPofiy5nG0EIsUNkucxWTOJ63eXVDePI1UIFnhyV6vP12HxRCYDcG
+ Z4xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+wPooOVVd+7W1fIqkSEIV0ksz3zAPabhZeYGfx9EMt4=;
- b=F6tbSXiTnJCw3src9R9qVf8waDf/vguqt1jWqI9hvh/WYQYzi8SWbZcyoKhH7xYBze
- xXma4rSF5VSqnt+fl92YNdXEmd/L6eC9/GZRHsdR8IXcoJh5zQCTZUWsK6mCbgOQ7P4b
- Vo2lqvCieJXwp8YAfo5vh2ygDg+oKWgLCSdngLqv606P9vlEHP7eezPjjA/gdU2Sxjip
- SlIk8P+tIu9cjGWT23vNhSSQXLQhxm91yxNgGKgMpFUVBgu44k3BdijLRvR3sL+5XF+v
- xbjkNwUdu4y4MtQOH7ZXpYez3aXvJTQAPK/UxHAIhCDPKkSvJB3Rkh7uaYys42FqgMy3
- SpEw==
-X-Gm-Message-State: AOAM533rBZUGUNcFspPErHnY4OPdgnFD5uxRj/nCE4KXNhDq5FBDdI8s
- LjyYiJyKQaUrfKchDK1UzlkxunUW8AEG2w==
-X-Google-Smtp-Source: ABdhPJxQpbXXos9IXAjHInh9B/w6bihZ9lJXdeMSoIN3+GX01vmN0ga7mZ0Aj0s9Z8ypVxCKmy0piw==
-X-Received: by 2002:a62:4e87:0:b0:447:ce02:c32e with SMTP id
- c129-20020a624e87000000b00447ce02c32emr37398771pfb.33.1633541020429; 
- Wed, 06 Oct 2021 10:23:40 -0700 (PDT)
+ bh=OFBASZgYo/dnEXgBhwjQsgVMikt4qFVfoC5aZFh8E0o=;
+ b=EoCcSY8sZKtoMkFhDStwDjzy5EYWOr722MEP76++AP3D4TVvRfGUz7b0hULY2cXm4n
+ 4fWQedyUOx34ZQ6jDIBKfUiWm3QEwYuS3ryWGS/W55ZmmOpx7GakDTka6KoUrpD4AVkh
+ BR/X9V1549G9Jnw/8/03+NbdXH30FHO1orQ4FbTgrjydPyk5nySQWFoYaXLKLXmplFN1
+ M8q0Ht9KFCqOnYM4VQ0iIFZ798nuxDvfwJHEJb5kTbPu+hJThRjG9qJQKnyW3+JPXo5j
+ mq3V1vQvMSdN8P/TAh8TqHKl4Y9Z0khybeFAALJa1Hv4vI0czd0VPyDfcOyurmxyLOWL
+ W2/Q==
+X-Gm-Message-State: AOAM533XKbsVVnIG5cghNuEY9Pc+goZ4Ka0q0ETm09tDg12BXpcj6wbw
+ 1ZHfCi01JGplTvQ1jTR2eE4UTkcSv53oMw==
+X-Google-Smtp-Source: ABdhPJwXlV+hxUVgDgLtaYMlzwlaHbB0WgWH8ARAcLxXpm4h8qcutY0sTouCjulfNiG1PojCbnci3Q==
+X-Received: by 2002:a17:902:708b:b0:13e:1a20:f1b0 with SMTP id
+ z11-20020a170902708b00b0013e1a20f1b0mr12098117plk.51.1633541021194; 
+ Wed, 06 Oct 2021 10:23:41 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id w7sm21606929pfj.189.2021.10.06.10.23.39
+ by smtp.gmail.com with ESMTPSA id w7sm21606929pfj.189.2021.10.06.10.23.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 10:23:39 -0700 (PDT)
+ Wed, 06 Oct 2021 10:23:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 38/41] target/sh4: Make sh4_cpu_tlb_fill sysemu only
-Date: Wed,  6 Oct 2021 10:23:04 -0700
-Message-Id: <20211006172307.780893-39-richard.henderson@linaro.org>
+Subject: [PATCH v4 39/41] target/sparc: Make sparc_cpu_tlb_fill sysemu only
+Date: Wed,  6 Oct 2021 10:23:05 -0700
+Message-Id: <20211006172307.780893-40-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211006172307.780893-1-richard.henderson@linaro.org>
 References: <20211006172307.780893-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,117 +84,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, alex.bennee@linaro.org,
+ laurent@vivier.eu, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The fallback code in cpu_loop_exit_sigsegv is sufficient
-for sh4 linux-user.
+for sparc linux-user.
 
-Remove the code from cpu_loop that raised SIGSEGV.
+This makes all of the code in mmu_helper.c sysemu only, so remove
+the ifdefs and move the file to sparc_softmmu_ss.  Remove the code
+from cpu_loop that handled TT_DFAULT and TT_TFAULT.
 
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sh4/cpu.h          | 6 +++---
- linux-user/sh4/cpu_loop.c | 8 --------
- target/sh4/cpu.c          | 2 +-
- target/sh4/helper.c       | 9 +--------
- 4 files changed, 5 insertions(+), 20 deletions(-)
+ linux-user/sparc/cpu_loop.c | 25 -------------------------
+ target/sparc/cpu.c          |  2 +-
+ target/sparc/mmu_helper.c   | 25 -------------------------
+ target/sparc/meson.build    |  2 +-
+ 4 files changed, 2 insertions(+), 52 deletions(-)
 
-diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-index dc81406646..4cfb109f56 100644
---- a/target/sh4/cpu.h
-+++ b/target/sh4/cpu.h
-@@ -213,12 +213,12 @@ void superh_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
-                                     uintptr_t retaddr) QEMU_NORETURN;
- 
- void sh4_translate_init(void);
-+void sh4_cpu_list(void);
-+
-+#if !defined(CONFIG_USER_ONLY)
- bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                          MMUAccessType access_type, int mmu_idx,
-                          bool probe, uintptr_t retaddr);
--
--void sh4_cpu_list(void);
--#if !defined(CONFIG_USER_ONLY)
- void superh_cpu_do_interrupt(CPUState *cpu);
- bool superh_cpu_exec_interrupt(CPUState *cpu, int int_req);
- void cpu_sh4_invalidate_tlb(CPUSH4State *s);
-diff --git a/linux-user/sh4/cpu_loop.c b/linux-user/sh4/cpu_loop.c
-index 65b8972e3c..ac9b01840c 100644
---- a/linux-user/sh4/cpu_loop.c
-+++ b/linux-user/sh4/cpu_loop.c
-@@ -65,14 +65,6 @@ void cpu_loop(CPUSH4State *env)
-             info.si_code = TARGET_TRAP_BRKPT;
-             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
+index ad29b4eb6a..0ba65e431c 100644
+--- a/linux-user/sparc/cpu_loop.c
++++ b/linux-user/sparc/cpu_loop.c
+@@ -219,17 +219,6 @@ void cpu_loop (CPUSPARCState *env)
+         case TT_WIN_UNF: /* window underflow */
+             restore_window(env);
              break;
--        case 0xa0:
--        case 0xc0:
--            info.si_signo = TARGET_SIGSEGV;
--            info.si_errno = 0;
--            info.si_code = TARGET_SEGV_MAPERR;
--            info._sifields._sigfault._addr = env->tea;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-        case TT_TFAULT:
+-        case TT_DFAULT:
+-            {
+-                info.si_signo = TARGET_SIGSEGV;
+-                info.si_errno = 0;
+-                /* XXX: check env->error_code */
+-                info.si_code = TARGET_SEGV_MAPERR;
+-                info._sifields._sigfault._addr = env->mmuregs[4];
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-            }
 -            break;
-         case EXCP_ATOMIC:
-             cpu_exec_step_atomic(cs);
-             arch_interrupt = false;
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 2047742d03..06b2691dc4 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -236,9 +236,9 @@ static const struct SysemuCPUOps sh4_sysemu_ops = {
- static const struct TCGCPUOps superh_tcg_ops = {
-     .initialize = sh4_translate_init,
-     .synchronize_from_tb = superh_cpu_synchronize_from_tb,
--    .tlb_fill = superh_cpu_tlb_fill,
+ #else
+         case TT_SPILL: /* window overflow */
+             save_window(env);
+@@ -237,20 +226,6 @@ void cpu_loop (CPUSPARCState *env)
+         case TT_FILL: /* window underflow */
+             restore_window(env);
+             break;
+-        case TT_TFAULT:
+-        case TT_DFAULT:
+-            {
+-                info.si_signo = TARGET_SIGSEGV;
+-                info.si_errno = 0;
+-                /* XXX: check env->error_code */
+-                info.si_code = TARGET_SEGV_MAPERR;
+-                if (trapnr == TT_DFAULT)
+-                    info._sifields._sigfault._addr = env->dmmu.mmuregs[4];
+-                else
+-                    info._sifields._sigfault._addr = cpu_tsptr(env)->tpc;
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-            }
+-            break;
+ #ifndef TARGET_ABI32
+         case 0x16e:
+             flush_windows(env);
+diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+index 21dd27796d..55268ed2a1 100644
+--- a/target/sparc/cpu.c
++++ b/target/sparc/cpu.c
+@@ -865,9 +865,9 @@ static const struct SysemuCPUOps sparc_sysemu_ops = {
+ static const struct TCGCPUOps sparc_tcg_ops = {
+     .initialize = sparc_tcg_init,
+     .synchronize_from_tb = sparc_cpu_synchronize_from_tb,
+-    .tlb_fill = sparc_cpu_tlb_fill,
  
  #ifndef CONFIG_USER_ONLY
-+    .tlb_fill = superh_cpu_tlb_fill,
-     .cpu_exec_interrupt = superh_cpu_exec_interrupt,
-     .do_interrupt = superh_cpu_do_interrupt,
-     .do_unaligned_access = superh_cpu_do_unaligned_access,
-diff --git a/target/sh4/helper.c b/target/sh4/helper.c
-index 53cb9c3b63..6a620e36fc 100644
---- a/target/sh4/helper.c
-+++ b/target/sh4/helper.c
-@@ -796,8 +796,6 @@ bool superh_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     return false;
- }
++    .tlb_fill = sparc_cpu_tlb_fill,
+     .cpu_exec_interrupt = sparc_cpu_exec_interrupt,
+     .do_interrupt = sparc_cpu_do_interrupt,
+     .do_transaction_failed = sparc_cpu_do_transaction_failed,
+diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
+index a44473a1c7..2ad47391d0 100644
+--- a/target/sparc/mmu_helper.c
++++ b/target/sparc/mmu_helper.c
+@@ -25,30 +25,6 @@
  
--#endif /* !CONFIG_USER_ONLY */
+ /* Sparc MMU emulation */
+ 
+-#if defined(CONFIG_USER_ONLY)
 -
- bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                          MMUAccessType access_type, int mmu_idx,
-                          bool probe, uintptr_t retaddr)
-@@ -806,11 +804,6 @@ bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     CPUSH4State *env = &cpu->env;
-     int ret;
- 
--#ifdef CONFIG_USER_ONLY
--    ret = (access_type == MMU_DATA_STORE ? MMU_DTLB_VIOLATION_WRITE :
--           access_type == MMU_INST_FETCH ? MMU_ITLB_VIOLATION :
--           MMU_DTLB_VIOLATION_READ);
+-bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                        MMUAccessType access_type, int mmu_idx,
+-                        bool probe, uintptr_t retaddr)
+-{
+-    SPARCCPU *cpu = SPARC_CPU(cs);
+-    CPUSPARCState *env = &cpu->env;
+-
+-    if (access_type == MMU_INST_FETCH) {
+-        cs->exception_index = TT_TFAULT;
+-    } else {
+-        cs->exception_index = TT_DFAULT;
+-#ifdef TARGET_SPARC64
+-        env->dmmu.mmuregs[4] = address;
 -#else
-     target_ulong physical;
-     int prot;
- 
-@@ -829,7 +822,6 @@ bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     if (ret != MMU_DTLB_MULTIPLE && ret != MMU_ITLB_MULTIPLE) {
-         env->pteh = (env->pteh & PTEH_ASID_MASK) | (address & PTEH_VPN_MASK);
-     }
+-        env->mmuregs[4] = address;
 -#endif
- 
-     env->tea = address;
-     switch (ret) {
-@@ -868,3 +860,4 @@ bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-    }
+-    cpu_loop_exit_restore(cs, retaddr);
+-}
+-
+-#else
+-
+ #ifndef TARGET_SPARC64
+ /*
+  * Sparc V8 Reference MMU (SRMMU)
+@@ -926,4 +902,3 @@ hwaddr sparc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
      }
-     cpu_loop_exit_restore(cs, retaddr);
+     return phys_addr;
  }
-+#endif /* !CONFIG_USER_ONLY */
+-#endif
+diff --git a/target/sparc/meson.build b/target/sparc/meson.build
+index a3638b9503..a801802ee2 100644
+--- a/target/sparc/meson.build
++++ b/target/sparc/meson.build
+@@ -6,7 +6,6 @@ sparc_ss.add(files(
+   'gdbstub.c',
+   'helper.c',
+   'ldst_helper.c',
+-  'mmu_helper.c',
+   'translate.c',
+   'win_helper.c',
+ ))
+@@ -16,6 +15,7 @@ sparc_ss.add(when: 'TARGET_SPARC64', if_true: files('int64_helper.c', 'vis_helpe
+ sparc_softmmu_ss = ss.source_set()
+ sparc_softmmu_ss.add(files(
+   'machine.c',
++  'mmu_helper.c',
+   'monitor.c',
+ ))
+ 
 -- 
 2.25.1
 
