@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61DE14243A6
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 19:03:09 +0200 (CEST)
-Received: from localhost ([::1]:54954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADFA4243B2
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Oct 2021 19:09:56 +0200 (CEST)
+Received: from localhost ([::1]:59260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYAJw-0006cG-FH
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 13:03:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42486)
+	id 1mYAQU-0001S7-BO
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 13:09:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYAFf-0001Sa-Hk
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 12:58:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56214)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYAOo-0000UB-Ct
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:08:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYAFd-0006ht-QJ
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 12:58:43 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYAOl-0002qt-8E
+ for qemu-devel@nongnu.org; Wed, 06 Oct 2021 13:08:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633539521;
+ s=mimecast20190719; t=1633540086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ulIcCg8fpZ74K00PA87QdoZ5T60cfaYFxfRptTv10Xk=;
- b=fbgowAaj7eL6tU3Ufo4GtWEQfdIoUyXUVbfB6B/j/nRXkTZf96+sFC1Vq5WQ9lu6eCg6ZU
- LIzatX4OcdKWeV2jgKVXUMQsNtmbgrp8aBA7489t3SmJkn47r2+DZVrAnueh7fgh5dhfgd
- WtPMmdfX0hipljWZnFX3L5gfwIpsvFE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-svT3aW0ePHeeXiMC5SApTA-1; Wed, 06 Oct 2021 12:58:40 -0400
-X-MC-Unique: svT3aW0ePHeeXiMC5SApTA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- l6-20020adfa386000000b00160c4c1866eso2566252wrb.4
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 09:58:40 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CFbVGe9eX9tRB5LbQy+xdlj6wpfh1SEhjkhLlewRII0=;
+ b=FVU7VAaJWcMs/P+csJ0BAMJFfa3UzWH+rkp6q6+9VXOXE0jQxFIVJIs4omF+1PbS8cHYnS
+ 67xC4eG9moYjeb+9R6EG/nnxGxhon9+gv06WLW5SBzPlRU72uyS5zPvWPhNf+t9DVo3StU
+ Vnvk0EXE+omOyHcmjOOvkq+X9sx1Jz8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-4TZG7Kt4OEGwF6yD0gCJ_Q-1; Wed, 06 Oct 2021 13:08:04 -0400
+X-MC-Unique: 4TZG7Kt4OEGwF6yD0gCJ_Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d13-20020adf9b8d000000b00160a94c235aso2598137wrc.2
+ for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 10:08:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ulIcCg8fpZ74K00PA87QdoZ5T60cfaYFxfRptTv10Xk=;
- b=mQFMU5K2r/lXHmF0d1AUvS3Fvyn0+4SeYkb1IRL+O/lcS4Q/VFTngE1mv4g1sQmFdp
- cIPg4jqSYG+fOIneiO6wMq7V/zR+sMM1cNPR/Am3xV5kItLONYlYRNeXXglMwQGdUVzb
- N1HuWmpcVt6Rzjxdu2LCyd3h+LIUZdcRss45yEdWZNHX6iuFLFZlFaid5LU/F26xKbO6
- 4mKA480gwbx9n5dIrH5mKJxGY4JfV1BDn3nP6kQEHYTgsxar3QbN6C4+Ly8bnxgNsF//
- IN+W1IlvK8iRhU5mc5SINiSYhX7mveM7jBZtX9Ija9ZVBCA2Thx88IM3lf17oZ3Sd649
- 2iFA==
-X-Gm-Message-State: AOAM530UrawSJhbsksoiXWkTb3TRNnWTsdElJ1SpsEDuQawaWqvzbxaB
- NFuf5qwCcHDWqJidZ5VCUEpmWNQVROqU7dcKQUU8ey2hfZ2mUsqFgb8lJQPFX7xO1w1MeSVJ7b6
- SB7WeBL4gfUkdyDQCquuZ6GHsy+TCRAL2O1bafmCzMVCDlWjIIME2zndFE5EmzqUU
-X-Received: by 2002:a1c:a9d5:: with SMTP id
- s204mr11035643wme.193.1633539518968; 
- Wed, 06 Oct 2021 09:58:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwNX8+cyhfxh93vIquFE1jFSiuMKgmMINnbp/3u+sapA3Vn7mubwIgRyGy1dI8dmRBGCPGAUA==
-X-Received: by 2002:a1c:a9d5:: with SMTP id
- s204mr11035626wme.193.1633539518821; 
- Wed, 06 Oct 2021 09:58:38 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ bh=CFbVGe9eX9tRB5LbQy+xdlj6wpfh1SEhjkhLlewRII0=;
+ b=LYqiHNmMvssW3LJR6fejvvzEsQNfDpn80xosb5kBIXS7Lj5SJPCacposH56DbT2w9Y
+ vdXoplguxzl8MiI77jysHcwj43lmcUjRu2eHGRQsHPJydsg4rE1v2kk2xaM+E03finnW
+ 9zb8f6InaXJWXgOTh82j5W9iXcPCaIqTz8gfYsBQ+rv+H1li5zf+iiPsvPfRzYAq7PZy
+ z/ToSKw5lb7VlP1K3HAHLR7IQWdMrnBBtp8K53fQ5ftn4PwL6FP2x6UCUjOO3zigQ5b4
+ 1eBhEmvUfkAaupI8Pf/B6uTz3fdttk65Slt0LEYf5ZPecqJo/lsXXZKBknZOojKpaKud
+ 9Qhg==
+X-Gm-Message-State: AOAM533roDC+h/Ff1oRIlKiK4E1w20P1Xea+bF/gcLERHv/ixLVTd7Ip
+ vfIC7q6hZwmPM+1at0aOCUF0mJnz7Q22DQfz7Ctocrbcbk4k+Er5ZnSWCtxXOU8uucPbCVbEbzk
+ zpJwbfC0ySGHkQ8nlSkGW+odx84LiJJLVmv6Puy47N4YLPVQklHGTxfEAJVPsN9Ea
+X-Received: by 2002:adf:ab43:: with SMTP id r3mr13264134wrc.225.1633540083139; 
+ Wed, 06 Oct 2021 10:08:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw8Q10+JOVNjEOOYI+G6nmefa/nbweUHz65hVSQwcQSjJRnaLN2zwSSIYFWBRyUF2qzXpW2Zg==
+X-Received: by 2002:adf:ab43:: with SMTP id r3mr13264096wrc.225.1633540082843; 
+ Wed, 06 Oct 2021 10:08:02 -0700 (PDT)
+Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id z5sm7915485wmp.26.2021.10.06.09.58.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Oct 2021 09:58:38 -0700 (PDT)
-Message-ID: <f834eb51-393a-1f62-1dae-f6ef225128d3@redhat.com>
-Date: Wed, 6 Oct 2021 18:58:37 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 5/5] block/nvme: Fix memory leak from nvme_init_queue()
+ by smtp.gmail.com with ESMTPSA id o12sm7164868wms.15.2021.10.06.10.08.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Oct 2021 10:08:02 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-References: <20211006164931.172349-1-philmd@redhat.com>
- <20211006164931.172349-6-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211006164931.172349-6-philmd@redhat.com>
+Subject: [PATCH] hw/ppc/spapr_softmmu: Reduce include list
+Date: Wed,  6 Oct 2021 19:08:01 +0200
+Message-Id: <20211006170801.178023-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,56 +91,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Lucas Mateus Castro <lucas.araujo@eldorado.org.br>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/6/21 18:49, Philippe Mathieu-Daudé wrote:
-> nvme_create_queue_pair() allocates resources with qemu_vfio_dma_map(),
-> but we never release them. Do it in nvme_free_queue() which is called
-> from nvme_free_queue_pair().
-> 
-> Reported by valgrind:
-> 
->   ==252858== 520,192 bytes in 1 blocks are still reachable in loss record 8,293 of 8,302
+Commit 962104f0448 ("hw/ppc: moved hcalls that depend on softmmu")
+introduced a lot of unnecessary #include directives. Remove them.
 
-BTW the "8302" number is kinda depressing...
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/ppc/spapr_softmmu.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-Good news, with this patch I'm now at 8301.
-
->   ==252858==    at 0x4846803: memalign (vg_replace_malloc.c:1265)
->   ==252858==    by 0x484691F: posix_memalign (vg_replace_malloc.c:1429)
->   ==252858==    by 0xB8AFE4: qemu_try_memalign (oslib-posix.c:210)
->   ==252858==    by 0xA9E315: nvme_create_queue_pair (nvme.c:229)
->   ==252858==    by 0xAA0125: nvme_init (nvme.c:799)
->   ==252858==    by 0xAA081C: nvme_file_open (nvme.c:953)
->   ==252858==    by 0xA23DDD: bdrv_open_driver (block.c:1550)
->   ==252858==    by 0xA24806: bdrv_open_common (block.c:1827)
->   ==252858==    by 0xA2889B: bdrv_open_inherit (block.c:3747)
->   ==252858==    by 0xA28DE4: bdrv_open (block.c:3840)
->   ==252858==    by 0x9E0F8E: bds_tree_init (blockdev.c:675)
->   ==252858==    by 0x9E7C74: qmp_blockdev_add (blockdev.c:3551)
-> 
-> Fixes: bdd6a90a9e5 ("block: Add VFIO based NVMe driver")
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  block/nvme.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/block/nvme.c b/block/nvme.c
-> index 6e476f54b9f..903c8ffa060 100644
-> --- a/block/nvme.c
-> +++ b/block/nvme.c
-> @@ -185,6 +185,7 @@ static bool nvme_init_queue(BDRVNVMeState *s, NVMeQueue *q,
->  
->  static void nvme_free_queue(BDRVNVMeState *s, NVMeQueue *q)
->  {
-> +    qemu_vfio_dma_unmap(s->vfio, q->queue);
->      qemu_vfree(q->queue);
->  }
->  
-> 
+diff --git a/hw/ppc/spapr_softmmu.c b/hw/ppc/spapr_softmmu.c
+index 6c6b86dd3c6..f8924270eff 100644
+--- a/hw/ppc/spapr_softmmu.c
++++ b/hw/ppc/spapr_softmmu.c
+@@ -1,25 +1,10 @@
+ #include "qemu/osdep.h"
+ #include "qemu/cutils.h"
+-#include "qapi/error.h"
+-#include "sysemu/hw_accel.h"
+-#include "sysemu/runstate.h"
+-#include "qemu/log.h"
+-#include "qemu/main-loop.h"
+-#include "qemu/module.h"
+-#include "qemu/error-report.h"
+ #include "cpu.h"
+-#include "exec/exec-all.h"
+ #include "helper_regs.h"
+ #include "hw/ppc/spapr.h"
+-#include "hw/ppc/spapr_cpu_core.h"
+ #include "mmu-hash64.h"
+-#include "cpu-models.h"
+-#include "trace.h"
+-#include "kvm_ppc.h"
+-#include "hw/ppc/fdt.h"
+-#include "hw/ppc/spapr_ovec.h"
+ #include "mmu-book3s-v3.h"
+-#include "hw/mem/memory-device.h"
+ 
+ static inline bool valid_ptex(PowerPCCPU *cpu, target_ulong ptex)
+ {
+-- 
+2.31.1
 
 
