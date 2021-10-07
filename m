@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2861424C18
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 05:11:21 +0200 (CEST)
-Received: from localhost ([::1]:37476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E9C424C16
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 05:10:14 +0200 (CEST)
+Received: from localhost ([::1]:36044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYJoW-0008IL-GV
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 23:11:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51486)
+	id 1mYJnR-0007N0-Cx
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 23:10:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mYJlR-0004gD-3N; Wed, 06 Oct 2021 23:08:09 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3480)
+ id 1mYJlO-0004f1-Uz; Wed, 06 Oct 2021 23:08:06 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mYJlL-00011L-ET; Wed, 06 Oct 2021 23:08:08 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HPx6j17pDzWkcd;
- Thu,  7 Oct 2021 11:06:21 +0800 (CST)
+ id 1mYJlL-00011w-DU; Wed, 06 Oct 2021 23:08:06 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HPx6k6R4Mz1DHVd;
+ Thu,  7 Oct 2021 11:06:22 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Thu, 7 Oct 2021 11:07:50 +0800
+ 15.1.2308.8; Thu, 7 Oct 2021 11:07:51 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Thu, 7 Oct 2021 11:07:49 +0800
+ 15.1.2308.8; Thu, 7 Oct 2021 11:07:50 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
  <imammedo@redhat.com>
-Subject: [PATCH v7 0/8] hw/arm/virt: Introduce cpu topology support
-Date: Thu, 7 Oct 2021 11:07:38 +0800
-Message-ID: <20211007030746.10420-1-wangyanan55@huawei.com>
+Subject: [PATCH v7 1/8] hw/arm/virt: Only describe cpu topology since virt-6.2
+Date: Thu, 7 Oct 2021 11:07:39 +0800
+Message-ID: <20211007030746.10420-2-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
+In-Reply-To: <20211007030746.10420-1-wangyanan55@huawei.com>
+References: <20211007030746.10420-1-wangyanan55@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,99 +71,56 @@ Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On existing older machine types, without cpu topology described
+in ACPI or DT, the guest will populate one by default. With the
+topology described, it will read the information and set up its
+topology as instructed, but that may not be the same as what was
+getting used by default. It's possible that an user application
+has a dependency on the default topology and if the default one
+gets changed it will probably behave differently.
 
-This is a new version rebased on top of master (commit ca61fa4b80).
-Since both the SMP parsing improvement patchset and the ACPI refactoring
-patchset have been merged into master, now it's a proper time to respin
-this series which had some dependency on them. Thanks for reviewing.
+Based on above consideration we'd better only describe topology
+information to the guest on 6.2 and later machine types.
 
-Description of this series:
-Once the view of an accurate virtual cpu topology is provided to guest,
-with a well-designed vCPU pinning to the pCPU we may get a huge benefit,
-e.g., the scheduling performance improvement. See Dario Faggioli's
-research and the related performance tests in [1] for reference.
+Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+---
+ hw/arm/virt.c         | 1 +
+ include/hw/arm/virt.h | 4 +++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-This patch series introduces cpu topology support for Arm platform.
-Both cpu-map in DT and ACPI PPTT table are introduced to store the
-topology information. And we only describe the topology information
-to 6.2 and newer virt machines, considering compatibility.
-
-[1] https://kvmforum2020.sched.com/event/eE1y/virtual-topology-for-virtual-machines
--friend-or-foe-dario-faggioli-suse
-
-Series tested locally on Arm64 machines kunpeng920.
-After booting a Linux guest with "-smp 16,sockets=4,cores=4,threads=1,maxcpus=16",
-through lscpu we will see the information about CPU topology like:
-Architecture:        aarch64
-Byte Order:          Little Endian
-CPU(s):              16
-On-line CPU(s) list: 0-15
-Thread(s) per core:  1
-Core(s) per socket:  4
-Socket(s):           4
-NUMA node(s):        1
-Vendor ID:           0x48
-Model:               0
-Stepping:            0x1
-BogoMIPS:            200.00
-NUMA node0 CPU(s):   0-15
-
-and with "-smp 16" we will see:
-Architecture:        aarch64
-Byte Order:          Little Endian
-CPU(s):              16
-On-line CPU(s) list: 0-15
-Thread(s) per core:  1
-Core(s) per socket:  16
-Socket(s):           1
-NUMA node(s):        1
-Vendor ID:           0x48
-Model:               0
-Stepping:            0x1
-BogoMIPS:            200.00
-NUMA node0 CPU(s):   0-15
-
-Changelog:
-
-v6->v7:
-- rebased on top of master (commit ca61fa4b80)
-- use newly introduced acpi_table_begin/acpi_table_end APIs to build PPTT
-  (patch #5 updated)
-- add reference files for PPTT to fix broken bios-table-test for Aarch64
-  virt machine (patch #6-#8 added)
-- v6: https://lore.kernel.org/qemu-devel/20210824122016.144364-1-wangyanan55@huawei.com/
-
-Andrew Jones (2):
-  hw/arm/virt: Add cpu-map to device tree
-  hw/acpi/aml-build: Add PPTT table
-
-Yanan Wang (6):
-  hw/arm/virt: Only describe cpu topology since virt-6.2
-  device_tree: Add qemu_fdt_add_path
-  hw/acpi/aml-build: Add Processor hierarchy node structure
-  tests/data/acpi/virt: Add empty binary files for PPTT
-  hw/arm/virt-acpi-build: Generate PPTT table
-  tests/data/acpi/virt: Update binary files for PPTT
-
- hw/acpi/aml-build.c               |  86 ++++++++++++++++++++++++++++++
- hw/arm/virt-acpi-build.c          |   8 ++-
- hw/arm/virt.c                     |  71 ++++++++++++++++++++----
- include/hw/acpi/aml-build.h       |   7 +++
- include/hw/arm/virt.h             |   4 +-
- include/sysemu/device_tree.h      |   1 +
- softmmu/device_tree.c             |  44 ++++++++++++++-
- tests/data/acpi/virt/PPTT         | Bin 0 -> 76 bytes
- tests/data/acpi/virt/PPTT.memhp   | Bin 0 -> 76 bytes
- tests/data/acpi/virt/PPTT.numamem | Bin 0 -> 76 bytes
- tests/data/acpi/virt/PPTT.pxb     | Bin 0 -> 76 bytes
- 11 files changed, 207 insertions(+), 14 deletions(-)
- create mode 100644 tests/data/acpi/virt/PPTT
- create mode 100644 tests/data/acpi/virt/PPTT.memhp
- create mode 100644 tests/data/acpi/virt/PPTT.numamem
- create mode 100644 tests/data/acpi/virt/PPTT.pxb
-
---
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 7170aaacd5..d241516523 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2816,6 +2816,7 @@ static void virt_machine_6_1_options(MachineClass *mc)
+     virt_machine_6_2_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+     mc->smp_props.prefer_sockets = true;
++    vmc->no_cpu_topology = true;
+ 
+     /* qemu ITS was introduced with 6.2 */
+     vmc->no_tcg_its = true;
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index b461b8d261..dc6b66ffc8 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -125,11 +125,13 @@ struct VirtMachineClass {
+     bool claim_edge_triggered_timers;
+     bool smbios_old_sys_ver;
+     bool no_highmem_ecam;
+-    bool no_ged;   /* Machines < 4.2 has no support for ACPI GED device */
++    bool no_ged;   /* Machines < 4.2 have no support for ACPI GED device */
+     bool kvm_no_adjvtime;
+     bool no_kvm_steal_time;
+     bool acpi_expose_flash;
+     bool no_secure_gpio;
++    /* Machines < 6.2 have no support for describing cpu topology to guest */
++    bool no_cpu_topology;
+ };
+ 
+ struct VirtMachineState {
+-- 
 2.19.1
 
 
