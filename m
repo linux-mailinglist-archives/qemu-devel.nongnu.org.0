@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3920E425946
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 19:21:05 +0200 (CEST)
-Received: from localhost ([::1]:43610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 491F642594F
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 19:23:01 +0200 (CEST)
+Received: from localhost ([::1]:52108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYX4q-0002ds-7e
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 13:21:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49940)
+	id 1mYX6i-0008LJ-3m
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 13:23:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1mYWL4-0007F8-UF; Thu, 07 Oct 2021 12:33:46 -0400
-Received: from mga06.intel.com ([134.134.136.31]:50281)
+ id 1mYWL7-0007LX-96; Thu, 07 Oct 2021 12:33:49 -0400
+Received: from mga06.intel.com ([134.134.136.31]:50288)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1mYWL3-0002as-60; Thu, 07 Oct 2021 12:33:46 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="287184344"
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="287184344"
+ id 1mYWL4-0002eE-S6; Thu, 07 Oct 2021 12:33:49 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="287184368"
+X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="287184368"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 09:25:53 -0700
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="624325746"
+ 07 Oct 2021 09:25:55 -0700
+X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="624325771"
 Received: from lmaniak-dev.igk.intel.com ([10.55.248.48])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 09:25:51 -0700
+ 07 Oct 2021 09:25:53 -0700
 From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/15] pcie: Add some SR/IOV API documentation in
- docs/pcie_sriov.txt
-Date: Thu,  7 Oct 2021 18:23:54 +0200
-Message-Id: <20211007162406.1920374-4-lukasz.maniak@linux.intel.com>
+Subject: [PATCH 04/15] pcie: Add callback preceding SR-IOV VFs update
+Date: Thu,  7 Oct 2021 18:23:55 +0200
+Message-Id: <20211007162406.1920374-5-lukasz.maniak@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
 References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
@@ -58,145 +57,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>,
- Knut Omang <knut.omang@oracle.com>,
- Lukasz Maniak <lukasz.maniak@linux.intel.com>, Knut Omang <knuto@ifi.uio.no>
+Cc: =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>,
+ Lukasz Maniak <lukasz.maniak@linux.intel.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Knut Omang <knut.omang@oracle.com>
+PCIe devices implementing SR-IOV may need to perform certain actions
+before the VFs are unrealized or vice versa.
 
-Add a small intro + minimal documentation for how to
-implement SR/IOV support for an emulated device.
-
-Signed-off-by: Knut Omang <knuto@ifi.uio.no>
+Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
 ---
- docs/pcie_sriov.txt | 115 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 115 insertions(+)
- create mode 100644 docs/pcie_sriov.txt
+ docs/pcie_sriov.txt         |  2 +-
+ hw/pci/pcie_sriov.c         | 14 +++++++++++++-
+ include/hw/pci/pcie_sriov.h |  8 +++++++-
+ 3 files changed, 21 insertions(+), 3 deletions(-)
 
 diff --git a/docs/pcie_sriov.txt b/docs/pcie_sriov.txt
-new file mode 100644
-index 0000000000..f5e891e1d4
---- /dev/null
+index f5e891e1d4..63ca1a7b8e 100644
+--- a/docs/pcie_sriov.txt
 +++ b/docs/pcie_sriov.txt
-@@ -0,0 +1,115 @@
-+PCI SR/IOV EMULATION SUPPORT
-+============================
+@@ -57,7 +57,7 @@ setting up a BAR for a VF.
+       /* Add and initialize the SR/IOV capability */
+       pcie_sriov_pf_init(d, 0x200, "your_virtual_dev",
+                        vf_devid, initial_vfs, total_vfs,
+-                       fun_offset, stride);
++                       fun_offset, stride, pre_vfs_update_cb);
+ 
+       /* Set up individual VF BARs (parameters as for normal BARs) */
+       pcie_sriov_pf_init_vf_bar( ... )
+diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
+index 501a1ff433..cac2aee061 100644
+--- a/hw/pci/pcie_sriov.c
++++ b/hw/pci/pcie_sriov.c
+@@ -30,7 +30,8 @@ static void unregister_vfs(PCIDevice *dev);
+ void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
+                         const char *vfname, uint16_t vf_dev_id,
+                         uint16_t init_vfs, uint16_t total_vfs,
+-                        uint16_t vf_offset, uint16_t vf_stride)
++                        uint16_t vf_offset, uint16_t vf_stride,
++                        SriovVfsUpdate pre_vfs_update)
+ {
+     uint8_t *cfg = dev->config + offset;
+     uint8_t *wmask;
+@@ -41,6 +42,7 @@ void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
+     dev->exp.sriov_pf.num_vfs = 0;
+     dev->exp.sriov_pf.vfname = g_strdup(vfname);
+     dev->exp.sriov_pf.vf = NULL;
++    dev->exp.sriov_pf.pre_vfs_update = pre_vfs_update;
+ 
+     pci_set_word(cfg + PCI_SRIOV_VF_OFFSET, vf_offset);
+     pci_set_word(cfg + PCI_SRIOV_VF_STRIDE, vf_stride);
+@@ -180,6 +182,11 @@ static void register_vfs(PCIDevice *dev)
+     assert(dev->exp.sriov_pf.vf);
+ 
+     trace_sriov_register_vfs(SRIOV_ID(dev), num_vfs);
 +
-+Description
-+===========
-+SR/IOV (Single Root I/O Virtualization) is an optional extended capability
-+of a PCI Express device. It allows a single physical function (PF) to appear as multiple
-+virtual functions (VFs) for the main purpose of eliminating software
-+overhead in I/O from virtual machines.
++    if (dev->exp.sriov_pf.pre_vfs_update) {
++        dev->exp.sriov_pf.pre_vfs_update(dev, dev->exp.sriov_pf.num_vfs, num_vfs);
++    }
 +
-+Qemu now implements the basic common functionality to enable an emulated device
-+to support SR/IOV. Yet no fully implemented devices exists in Qemu, but a
-+proof-of-concept hack of the Intel igb can be found here:
+     for (i = 0; i < num_vfs; i++) {
+         dev->exp.sriov_pf.vf[i] = register_vf(dev, devfn, dev->exp.sriov_pf.vfname, i);
+         if (!dev->exp.sriov_pf.vf[i]) {
+@@ -198,6 +205,11 @@ static void unregister_vfs(PCIDevice *dev)
+     uint16_t i;
+ 
+     trace_sriov_unregister_vfs(SRIOV_ID(dev), num_vfs);
 +
-+git://github.com/knuto/qemu.git sriov_patches_v5
++    if (dev->exp.sriov_pf.pre_vfs_update) {
++        dev->exp.sriov_pf.pre_vfs_update(dev, dev->exp.sriov_pf.num_vfs, 0);
++    }
 +
-+Implementation
-+==============
-+Implementing emulation of an SR/IOV capable device typically consists of
-+implementing support for two types of device classes; the "normal" physical device
-+(PF) and the virtual device (VF). From Qemu's perspective, the VFs are just
-+like other devices, except that some of their properties are derived from
-+the PF.
+     for (i = 0; i < num_vfs; i++) {
+         PCIDevice *vf = dev->exp.sriov_pf.vf[i];
+         object_property_set_bool(OBJECT(vf), "realized", false, &local_err);
+diff --git a/include/hw/pci/pcie_sriov.h b/include/hw/pci/pcie_sriov.h
+index 0974f00054..9ab48b79c0 100644
+--- a/include/hw/pci/pcie_sriov.h
++++ b/include/hw/pci/pcie_sriov.h
+@@ -13,11 +13,16 @@
+ #ifndef QEMU_PCIE_SRIOV_H
+ #define QEMU_PCIE_SRIOV_H
+ 
++typedef void (*SriovVfsUpdate)(PCIDevice *dev, uint16_t prev_num_vfs,
++                               uint16_t num_vfs);
 +
-+A virtual function is different from a physical function in that the BAR
-+space for all VFs are defined by the BAR registers in the PFs SR/IOV
-+capability. All VFs have the same BARs and BAR sizes.
+ struct PCIESriovPF {
+     uint16_t num_vfs;           /* Number of virtual functions created */
+     uint8_t vf_bar_type[PCI_NUM_REGIONS];  /* Store type for each VF bar */
+     const char *vfname;         /* Reference to the device type used for the VFs */
+     PCIDevice **vf;             /* Pointer to an array of num_vfs VF devices */
 +
-+Accesses to these virtual BARs then is computed as
-+
-+   <VF BAR start> + <VF number> * <BAR sz> + <offset>
-+
-+From our emulation perspective this means that there is a separate call for
-+setting up a BAR for a VF.
-+
-+1) To enable SR/IOV support in the PF, it must be a PCI Express device so
-+   you would need to add a PCI Express capability in the normal PCI
-+   capability list. You might also want to add an ARI (Alternative
-+   Routing-ID Interpretation) capability to indicate that your device
-+   supports functions beyond it's "own" function space (0-7),
-+   which is necessary to support more than 7 functions, or
-+   if functions extends beyond offset 7 because they are placed at an
-+   offset > 1 or have stride > 1.
-+
-+   ...
-+   #include "hw/pci/pcie.h"
-+   #include "hw/pci/pcie_sriov.h"
-+
-+   pci_your_pf_dev_realize( ... )
-+   {
-+      ...
-+      int ret = pcie_endpoint_cap_init(d, 0x70);
-+      ...
-+      pcie_ari_init(d, 0x100, 1);
-+      ...
-+
-+      /* Add and initialize the SR/IOV capability */
-+      pcie_sriov_pf_init(d, 0x200, "your_virtual_dev",
-+                       vf_devid, initial_vfs, total_vfs,
-+                       fun_offset, stride);
-+
-+      /* Set up individual VF BARs (parameters as for normal BARs) */
-+      pcie_sriov_pf_init_vf_bar( ... )
-+      ...
-+   }
-+
-+   For cleanup, you simply call:
-+
-+      pcie_sriov_pf_exit(device);
-+
-+   which will delete all the virtual functions and associated resources.
-+
-+2) Similarly in the implementation of the virtual function, you need to
-+   make it a PCI Express device and add a similar set of capabilities
-+   except for the SR/IOV capability. Then you need to set up the VF BARs as
-+   subregions of the PFs SR/IOV VF BARs by calling
-+   pcie_sriov_vf_register_bar() instead of the normal pci_register_bar() call:
-+
-+   pci_your_vf_dev_realize( ... )
-+   {
-+      ...
-+      int ret = pcie_endpoint_cap_init(d, 0x60);
-+      ...
-+      pcie_ari_init(d, 0x100, 1);
-+      ...
-+      memory_region_init(mr, ... )
-+      pcie_sriov_vf_register_bar(d, bar_nr, mr);
-+      ...
-+   }
-+
-+Testing on Linux guest
-+======================
-+The easiest is if your device driver supports sysfs based SR/IOV
-+enabling. Support for this was added in kernel v.3.8, so not all drivers
-+support it yet.
-+
-+To enable 4 VFs for a device at 01:00.0:
-+
-+	modprobe yourdriver
-+	echo 4 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
-+
-+You should now see 4 VFs with lspci.
-+To turn SR/IOV off again - the standard requires you to turn it off before you can enable
-+another VF count, and the emulation enforces this:
-+
-+	echo 0 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
-+
-+Older drivers typically provide a max_vfs module parameter
-+to enable it at load time:
-+
-+	modprobe yourdriver max_vfs=4
-+
-+To disable the VFs again then, you simply have to unload the driver:
-+
-+	rmmod yourdriver
++    SriovVfsUpdate pre_vfs_update;  /* Callback preceding VFs count change */
+ };
+ 
+ struct PCIESriovVF {
+@@ -28,7 +33,8 @@ struct PCIESriovVF {
+ void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
+                         const char *vfname, uint16_t vf_dev_id,
+                         uint16_t init_vfs, uint16_t total_vfs,
+-                        uint16_t vf_offset, uint16_t vf_stride);
++                        uint16_t vf_offset, uint16_t vf_stride,
++                        SriovVfsUpdate pre_vfs_update);
+ void pcie_sriov_pf_exit(PCIDevice *dev);
+ 
+ /* Set up a VF bar in the SR/IOV bar area */
 -- 
 2.25.1
 
