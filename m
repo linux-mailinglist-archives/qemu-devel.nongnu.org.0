@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314C8424F6D
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 10:48:13 +0200 (CEST)
-Received: from localhost ([::1]:37780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92928424FB8
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 11:07:32 +0200 (CEST)
+Received: from localhost ([::1]:46240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYP4W-0008VY-8q
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 04:48:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54186)
+	id 1mYPND-0006c4-4H
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 05:07:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYP2X-0006xc-2k
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 04:46:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34655)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mYPLm-0005oN-FW
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:06:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYP2U-0001Y6-Ts
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 04:46:08 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mYPLj-0001p9-RD
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:06:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633596366;
+ s=mimecast20190719; t=1633597559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6EL7uuPeYGFdFKFzOuX/YbWGLEY7/c2ZSAAd7jjAni4=;
- b=T44je2J9E4nHxeMv+v4PkMHk4HSzbH+CCl+zoC94F6eEgtA8SKjpgFF3nS7R2Db63rCt2F
- he8RvOVVbyPVkRUIrjA1guJQKPsKsrZlsge+ufFGL7+8kSXf774s/UNS5Y6GcLAXyShkxo
- kCd5Y89IjqPHoLmCQRhyEbBNiJigKoo=
+ bh=KW9AHRNGTudxA+Fmgid5OYa4NwKrKYq6V/dM1L3ehIs=;
+ b=P1+6F/eoSKcYkGzxCL8kFxJ/tUMtIvA0N3YO2Rro6bOJXDeH0CYdlBzgqsCnjDocLb4Esn
+ 2tEVuBJ2/yk142sK8DVaV48u861isSEqIEksKMT05vQ8nNrsMe0mwxN9AhYwDL1BFKg6OF
+ AGp2ZcSc9TIZWqUiC8srH2ZScqIofEs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-WDSK8LjzPRqLtwp2zh_PAw-1; Thu, 07 Oct 2021 04:45:58 -0400
-X-MC-Unique: WDSK8LjzPRqLtwp2zh_PAw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-532-SWzjWfwXOZa6lCoJGQJJPQ-1; Thu, 07 Oct 2021 05:05:45 -0400
+X-MC-Unique: SWzjWfwXOZa6lCoJGQJJPQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 582111926DD1;
- Thu,  7 Oct 2021 08:45:57 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6577A5D9C6;
- Thu,  7 Oct 2021 08:45:56 +0000 (UTC)
-Date: Thu, 7 Oct 2021 10:45:54 +0200
-From: Kevin Wolf <kwolf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA028CC627;
+ Thu,  7 Oct 2021 09:05:43 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A1265F4ED;
+ Thu,  7 Oct 2021 09:05:21 +0000 (UTC)
+Date: Thu, 7 Oct 2021 10:05:20 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 1/2] pylint: fix errors and warnings from qemu-tests test
- 297
-Message-ID: <YV6zwkzPDxgOeIoW@redhat.com>
-References: <20211006130100.389521-1-eesposit@redhat.com>
- <20211006130100.389521-2-eesposit@redhat.com>
- <YV3S9N8SnU4W+aYL@redhat.com>
- <3a143653-582e-5b28-f536-bf24c4e45ac8@redhat.com>
+Subject: Re: [RFC PATCH v2 01/25] main-loop.h: introduce qemu_in_main_thread()
+Message-ID: <YV64UL9vQz7Em8Ci@stefanha-x1.localdomain>
+References: <20211005143215.29500-1-eesposit@redhat.com>
+ <20211005143215.29500-2-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <3a143653-582e-5b28-f536-bf24c4e45ac8@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20211005143215.29500-2-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vLAL1qhktVGOAcjW"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -79,84 +79,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 07.10.2021 um 09:51 hat Emanuele Giuseppe Esposito geschrieben:
-> 
-> 
-> On 06/10/2021 18:46, Kevin Wolf wrote:
-> > Am 06.10.2021 um 15:00 hat Emanuele Giuseppe Esposito geschrieben:
-> > > Test 297 in qemu-iotests folder currently fails: pylint has
-> > > learned new things to check, or we simply missed them.
-> > > 
-> > > All fixes in this patch are related to additional spaces used
-> > > or wrong indentation.
-> > > 
-> > > No functional change intended.
-> > > 
-> > > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> > 
-> > > @@ -87,13 +87,14 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-> > >           iotests.qemu_img('create', '-f', iotests.imgfmt, self.overlay_img,
-> > >                            '1G')
-> > > -        result = self.vm.qmp('blockdev-add', **{
-> > > +        result = self.vm.qmp('blockdev-add',
-> > > +                             **{
-> > >                                    'node-name': 'overlay',
-> > >                                    'driver': iotests.imgfmt,
-> > >                                    'file': {
-> > >                                        'driver': 'file',
-> > >                                        'filename': self.overlay_img
-> > > -                                 }
-> > > +                                     }
-> > >                                })
-> > >           self.assert_qmp(result, 'return', {})
-> > 
-> > Am I the only one to think that the new indentation for the closing
-> > brace there is horrible? PEP-8 explictly allows things like:
-> > 
-> >      my_list = [
-> >          1, 2, 3,
-> >          4, 5, 6,
-> >      ]
-> > 
-> > Some of the other changes in this patch should be made, but at least if
-> > these are behind different switches, I would consider just disabling the
-> > one that complains about nicely formatted dicts.
-> 
-> The error is "C0330: Wrong hanging indentation"
-> so it is not about dicts. I guess we can disable the error, but the problem
-> is that we will disable it for the whole file, which doesn't seem right.
+--vLAL1qhktVGOAcjW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Actually, I would disable it globally in pylintrc because building
-dictionaries for JSON is something that we do a lot.
+On Tue, Oct 05, 2021 at 10:31:51AM -0400, Emanuele Giuseppe Esposito wrote:
+> When invoked from the main loop, this function is the same
+> as qemu_mutex_iothread_locked, and returns true if the BQL is held.
+> When invoked from iothreads or tests, it returns true only
+> if the current AioContext is the Main Loop.
+>=20
+> This essentially just extends qemu_mutex_iothread_locked to work
+> also in unit tests or other users like storage-daemon, that run
+> in the Main Loop but end up using the implementation in
+> stubs/iothread-lock.c.
+>=20
+> Using qemu_mutex_iothread_locked in unit tests defaults to false
+> because they use the implementation in stubs/iothread-lock,
+> making all assertions added in next patches fail despite the
+> AioContext is still the main loop.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  include/qemu/main-loop.h | 13 +++++++++++++
+>  softmmu/cpus.c           |  5 +++++
+>  stubs/iothread-lock.c    |  5 +++++
+>  3 files changed, 23 insertions(+)
 
-But then I'm surprised that this is the only instance that actually
-fails. I wonder what the difference is.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-For example, 129 doesn't seem to be skipped and has this code:
+--vLAL1qhktVGOAcjW
+Content-Type: application/pgp-signature; name="signature.asc"
 
-    result = self.vm.qmp('blockdev-add', **{
-                             'node-name': 'overlay',
-                             'driver': iotests.imgfmt,
-                             'file': {
-                                 'driver': 'file',
-                                 'filename': self.overlay_img
-                             }
-                         })
+-----BEGIN PGP SIGNATURE-----
 
-Yet you don't report a pylint error for this file.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFeuFAACgkQnKSrs4Gr
+c8jVswgAiZx9WeGxHZioSd+mr+OUhYYcUT1iiFMxFW6JYf8brbxVt85p8OYt0fw7
+oEEquryIEYSrWgBAddue6pr4NBC4PCmRyhtGMy3lIpVrHREn7fYnhG8/uvbUC95I
+g0jgRHA98C0lLtK6lyM64lxeQ9ydRlxTQegWgN2L6bJmLhMsjnlLBDjiMRYILKmQ
+tHYhXUBzSRtgigRH32IOyrc81T+z9r7CFfm3vbj78aHqdY+0+mPX+burk2P7fUzA
+zh+hgbWdu9X1KbInRHqvAPn1UwOAS2yJnoeALvSsu/9WKMM2o9A4xAJkKajJXEKp
+7grrh8sToDZP9YjKz8tTuU0pyqPVvQ==
+=fTwH
+-----END PGP SIGNATURE-----
 
-Oooh... I think I do see a difference: The final line is indented by one
-space more in the case that fails for you. It should be vertically
-aligned with the "'" in the first line, but it is actually aligned with
-the "b" of "blockdev-add".
-
-Does removing one space of indentation in the last line fix the report?
-
-Kevin
+--vLAL1qhktVGOAcjW--
 
 
