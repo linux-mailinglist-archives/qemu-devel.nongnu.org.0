@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1FB64252AA
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:09:09 +0200 (CEST)
-Received: from localhost ([::1]:56872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B57A4252BA
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:11:01 +0200 (CEST)
+Received: from localhost ([::1]:32984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYSCy-0002lg-NN
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:09:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43044)
+	id 1mYSEm-0005gy-MM
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:11:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mYS9W-0007r8-Sr
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:05:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24661)
+ id 1mYS9h-000884-RZ
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:05:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mYS9U-0008KE-Fm
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:05:34 -0400
+ id 1mYS9g-0008UN-Al
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:05:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633608330;
+ s=mimecast20190719; t=1633608342;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=8wlsJXr8oi58CoxyFl/DEDYl5DICG+6webUTI7uZ/Ho=;
- b=dIkbaBhR7gt5STqTgWB5NX5PYrKPNHbyBlIdrKWQu7R/cJU8YgvbWiloyIL1mpdouc4C6X
- uDe0McrJ6p/FkxhfXw7zKAWM78KP9FZzYIlfrVfLxYu3n53ioiQVBVxdEHibODXFKDcD2v
- WD2C1mE+oJrm2lTyoUzHo+IAKHgjSDA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-eIA17r-yPxCd33_0gxtElw-1; Thu, 07 Oct 2021 08:05:27 -0400
-X-MC-Unique: eIA17r-yPxCd33_0gxtElw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- l6-20020adfa386000000b00160c4c1866eso4508393wrb.4
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 05:05:27 -0700 (PDT)
+ bh=mxlCl0tgxBmEC8kDB8eHQNmHaUuW5r0PdP61UaR+8P4=;
+ b=T8k/4KhGtdEQObj/gNytZjZQ4I4zJFXem0qQKW6ClP33BF21pYu8Luf3DdGLjnkXTjPEbX
+ E+gfS5gM8PxnVyQAtiZNrUSO7XVsF+du3xhE6m25daMV3WQdqZehMpnN3m52yEcytOqUG+
+ o9oWieBV9bfmSpIs7e9hJcE70OxHHUA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-p6ccTIPfMuqNEggo4R0Jpg-1; Thu, 07 Oct 2021 08:05:38 -0400
+X-MC-Unique: p6ccTIPfMuqNEggo4R0Jpg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ l9-20020adfc789000000b00160111fd4e8so4526433wrg.17
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 05:05:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version;
- bh=8wlsJXr8oi58CoxyFl/DEDYl5DICG+6webUTI7uZ/Ho=;
- b=yivU71AiTQhOhKVGZLHREijx8X4koUP3+5TD5oM8Hb1IgmgJTNqxUvLrs2pc95SoXO
- GydQT21hHGXyWMhbn5LJ8hvm/yftkTXyLDww1EVV51zzUt78OJy2Fm/Wnv3pfalr53iI
- NyVvC0XQp5tOjDdVW76ZqIp2I9di/oCXuLWuJ2iS7NUcpM7wAAJNfMEEDlRHWHwPLXtR
- YXEGHxugTXtIoDcjTeZlL21AR5SyKo3cV+mhsS4EI1AGVek0bixbzXax4meWhZStQ/qi
- W6FuJDJRRw4iHdxPbVITuhBTjC5x8z93t9EzdtdLFFqVnR97a8nAiuvnOlnmDvrQV+3W
- EWpw==
-X-Gm-Message-State: AOAM530CxWhGmm9JjAr4nILKuI0UTonrX+ZdF07ZXqHkCRq8ThA5Dn7A
- wdqmJc2LnzUnIa35DEZkxFVNJAOJIe6zrLL8DArhDI3ErJIoMsZ/Z5g1qPB5AD4MsRkOOw5k2Yt
- EmKsXWMGEHXwrQ88=
-X-Received: by 2002:a5d:6d02:: with SMTP id e2mr4971516wrq.198.1633608326360; 
- Thu, 07 Oct 2021 05:05:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxm9cGfmWaLBPNuX74MGg7LBPI3k54ibsK6OVC0fUrTktgnsexVZt+W0ziQXYVV1phEXuMuEg==
-X-Received: by 2002:a5d:6d02:: with SMTP id e2mr4971480wrq.198.1633608326146; 
- Thu, 07 Oct 2021 05:05:26 -0700 (PDT)
+ bh=mxlCl0tgxBmEC8kDB8eHQNmHaUuW5r0PdP61UaR+8P4=;
+ b=oQL76jITHpHbuQQgRQWieMoLJr3zECpyKHHggFM+sYj04VqVWe7ppiVO/wLxF0Ek9g
+ eFkGqZ9IrtahzK0Dfic43rjh3XSL/uwY4SXytkpJuUxuZiylJQz2CBVQa6ZWrnlwnB33
+ HXuSas1mO0m5x9tAZ+9lmZ5JevbTZN/UaEx8I2QLFuIEITXh5tyDLb+lBzczfwb0tKwr
+ v+1IUXX/rmTRRq3tPQkDWEC4FXb3uDIcwMSlDREYjmMWqrRuf04wCspBtU0CpEjw/0El
+ gla7WHWIfHVe9BBonQuzQj4PqkMxormJYQ8BPVJVmbXw4aF0lRWEU3dpukJjfs833Vn0
+ vjnw==
+X-Gm-Message-State: AOAM5305QNtstV8EzkJVt9M/UrhXtoe/FWZliKFeynF7AX7JpeN7n4/u
+ z+mfeC/EphiZdtssa846fG+dm4w7s6kFT/UDommeffVq8UUSjpjAnXSt0iZW1M4DgYMd7bdazeg
+ txNqfYzCppR0tCVg=
+X-Received: by 2002:a05:600c:3393:: with SMTP id
+ o19mr3812739wmp.66.1633608337196; 
+ Thu, 07 Oct 2021 05:05:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwyiyp0i+zTPA2DJFS+TcQPplu2mqMv64b+BU8Ppfo5fzR0aq2sbG/ZJSzJkCCCS7ZsmKDU9w==
+X-Received: by 2002:a05:600c:3393:: with SMTP id
+ o19mr3812686wmp.66.1633608336791; 
+ Thu, 07 Oct 2021 05:05:36 -0700 (PDT)
 Received: from localhost (static-168-39-62-95.ipcom.comunitel.net.
  [95.62.39.168])
- by smtp.gmail.com with ESMTPSA id z16sm8543964wmk.6.2021.10.07.05.05.25
+ by smtp.gmail.com with ESMTPSA id l17sm23991256wrx.24.2021.10.07.05.05.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 05:05:25 -0700 (PDT)
+ Thu, 07 Oct 2021 05:05:36 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: Re: [PATCH v3 1/2] migration/rdma: Try to register On-Demand Paging
- memory region
-In-Reply-To: <20210910070255.509349-2-lizhijian@cn.fujitsu.com> (Li Zhijian's
- message of "Fri, 10 Sep 2021 15:02:54 +0800")
+Subject: Re: [PATCH v3 2/2] migration/rdma: advise prefetch write for ODP
+ region
+In-Reply-To: <20210910070255.509349-3-lizhijian@cn.fujitsu.com> (Li Zhijian's
+ message of "Fri, 10 Sep 2021 15:02:55 +0800")
 References: <20210910070255.509349-1-lizhijian@cn.fujitsu.com>
- <20210910070255.509349-2-lizhijian@cn.fujitsu.com>
+ <20210910070255.509349-3-lizhijian@cn.fujitsu.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Thu, 07 Oct 2021 14:05:24 +0200
-Message-ID: <87sfxddoqj.fsf@secure.mitica>
+Date: Thu, 07 Oct 2021 14:05:35 +0200
+Message-ID: <87o881doq8.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -103,17 +105,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Li Zhijian <lizhijian@cn.fujitsu.com> wrote:
-> Previously, for the fsdax mem-backend-file, it will register failed with
-> Operation not supported. In this case, we can try to register it with
-> On-Demand Paging[1] like what rpma_mr_reg() does on rpma[2].
+> The responder mr registering with ODP will sent RNR NAK back to
+> the requester in the face of the page fault.
+> ---------
+> ibv_poll_cq wc.status=13 RNR retry counter exceeded!
+> ibv_poll_cq wrid=WRITE RDMA!
+> ---------
+> ibv_advise_mr(3) helps to make pages present before the actual IO is
+> conducted so that the responder does page fault as little as possible.
 >
-> [1]: https://community.mellanox.com/s/article/understanding-on-demand-paging--odp-x
-> [2]: http://pmem.io/rpma/manpages/v0.9.0/rpma_mr_reg.3
->
-> CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 > Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 > Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 >
+> ---
+> V3: Fix FreeBSD compiling errors
+> V2: use IBV_ADVISE_MR_FLAG_FLUSH instead of IB_UVERBS_ADVISE_MR_FLAG_FLUSH
+>     and add Reviewed-by tag. # Marcel
+> ---
+>  meson.build            |  6 ++++++
+>  migration/rdma.c       | 42 ++++++++++++++++++++++++++++++++++++++++++
+>  migration/trace-events |  1 +
+>  3 files changed, 49 insertions(+)
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 
