@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5F24253A5
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:06:02 +0200 (CEST)
-Received: from localhost ([::1]:47538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1ADF4253B2
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:08:34 +0200 (CEST)
+Received: from localhost ([::1]:52978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYT61-0007pm-Bo
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54242)
+	id 1mYT8T-0003Gn-Av
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:08:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYT2E-0005Ax-K2
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:02:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23929)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mYT31-0006Rr-59
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:02:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYT29-0005Vl-EF
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:02:05 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mYT2z-0005xI-40
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:02:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633611720;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wSd8S+h+jpO3RXTtkw1wsX7xi9C1WDCN8TmeM3aRb/c=;
- b=FvgI0eF3lIGm9grNhDLgnEM8+JHGgp8hhpHBzXqK9ViGeBsgmzYkViZKfc36SSzE1mMw7s
- kPv8g3726k6Esd9F4z0PxXHfl1q2I5jmYJjsql8J2frgMbCY4kQwkPsrftoppmRqP2wFN6
- JxiB6LHpxnObdABy1V+QH3m+wWJJyq4=
+ s=mimecast20190719; t=1633611771;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=SNfBvZQRLox7D10eTN6guslCx0Z18YCXoxJ18m0PDuY=;
+ b=K/x9k2sfnfYY4jG0HTtAggIghhT0LdtLeWTw41Gui0ZeNgyUjB88W3OezQm2OYLCLmBT2T
+ x5BdulZGzgmaNx+F5NajXKUrFDZT0Y0xRRCCwH1xc5ExXDnvNhAo08/inR6OTdUh4ejf4K
+ 0toY7v1GbYoerZZXi6KHII4a9jMsgHE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-AlCydyENMk2pUrEPssUtuw-1; Thu, 07 Oct 2021 09:01:57 -0400
-X-MC-Unique: AlCydyENMk2pUrEPssUtuw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-294-4UncS15qNgmI7qulqdKF2A-1; Thu, 07 Oct 2021 09:02:37 -0400
+X-MC-Unique: 4UncS15qNgmI7qulqdKF2A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9634835DE2;
- Thu,  7 Oct 2021 13:01:55 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 014AE5F4FD;
- Thu,  7 Oct 2021 13:01:52 +0000 (UTC)
-Date: Thu, 7 Oct 2021 14:01:52 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [RFC PATCH v2 04/25] include/block/block: split header into I/O
- and global state API
-Message-ID: <YV7vwBNSWTQGXOB6@stefanha-x1.localdomain>
-References: <20211005143215.29500-1-eesposit@redhat.com>
- <20211005143215.29500-5-eesposit@redhat.com>
- <YV7db8LeJfp0v775@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93CE784A607
+ for <qemu-devel@nongnu.org>; Thu,  7 Oct 2021 13:02:36 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A4E96D9AE;
+ Thu,  7 Oct 2021 13:02:35 +0000 (UTC)
+Date: Thu, 7 Oct 2021 14:02:32 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: QAPI sync meeting
+Message-ID: <YV7v6K45m9RcZyBx@redhat.com>
+References: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
+ <YVMeUbGdnsTpwSbD@redhat.com>
+ <CAFn=p-ZG6SAVDz-cOtviekvMvibw+ukhYmSOqH7UTrcH-9fCNA@mail.gmail.com>
+ <87ee97y3q5.fsf@dusky.pond.sub.org> <YV7Fh2DihM65rgnN@redhat.com>
+ <3abc4e8e-5657-14bb-ba89-5b7669c01201@redhat.com>
+ <YV7tv9t7FznwRbdw@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YV7db8LeJfp0v775@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <YV7tv9t7FznwRbdw@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="XM15PMy4DNX7Owol"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,82 +83,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, John Snow <jsnow@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---XM15PMy4DNX7Owol
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Oct 07, 2021 at 02:53:19PM +0200, Kevin Wolf wrote:
+> Am 07.10.2021 um 12:23 hat Paolo Bonzini geschrieben:
+> > On 07/10/21 12:01, Kevin Wolf wrote:
+> > > 
+> > >    * -chardev: I have patches that QAPIfy the option based on aliases,
+> > >      getting rid of the old handwritten parser that is inconsistent with
+> > >      QMP in non-obvious ways and replacing it with translation to QMP
+> > >      (both using aliases and a little C code) that makes the differences
+> > >      obvious.
+> > > 
+> > >      First posted in November 2020, more details in the cover letter:
+> > >      https://patchew.org/QEMU/20201112175905.404472-1-kwolf@redhat.com/
+> > > 
+> > >      Later versions (not yet posted as a series because I'm waiting for
+> > >      aliases) also make -chardev accept JSON syntax, which is what
+> > >      libvirt really wants to use.
+> > 
+> > I'm still not sure about this...  It's an awful lot of code if the aliases
+> > are only used by -chardev, and I'd rather use -object/object-add for
+> > chardevs if that's at all possible.
+> 
+> The important part for me there is getting rid of the second parser that
+> is inconsistent with QAPI - and people add to it without fully realising
+> that it's a separate implementation, so they test -chardev and leave
+> chardev-add behind broken.
+> 
+> My approach keeps the existing command line syntax and still makes sure
+> that inputs from both the CLI and QMP go through a single code path,
+> making sure that they are consistent.
+> 
+> Aliases are a helpful tool to achieve this, but the series can be
+> rewritten a bit if people are fundamentally against having aliases.
+> Aliases do nothing that C code can't do.
+> 
+> I don't think that aliases are a lot of code, or even complicated code.
+> Current v4 looks like a lot of lines of code because Markus made me add
+> big comments everywhere and tons of tests. The actual code additions are
+> rather small. But I also notice that there is resistance against having
+> multiple ways to specify the same thing (which is the essence of
+> aliases), so if people hate them, let's throw them away. The only part I
+> really dislike with this scenario is that I could have been told almost
+> a year ago...
+> 
+> Anyway, your approach provides a different solution to the goal of
+> getting rid of the second parser if you extend it: Add -object support
+> to all chardev backends, then deprecate -chardev wholesale and drop it
+> two releases later. This feels contentious, but I'm not opposed.
 
-On Thu, Oct 07, 2021 at 12:43:43PM +0100, Daniel P. Berrang=E9 wrote:
-> On Tue, Oct 05, 2021 at 10:31:54AM -0400, Emanuele Giuseppe Esposito wrot=
-e:
-> > Similarly to the previous patch, split block.h
-> > in block-io.h and block-global-state.h
-> >=20
-> > block-common.h contains the structures shared between
-> > the two headers, and the functions that can't be categorized as
-> > I/O or global state.
->=20
-> This is nice from a code organization POV, but it doesn't do all
-> that much from a code reviewer / author POV as I doubt anyone
-> will remember which header file the respective APIs/structures/
-> constants are in, without having to look it up each time.
->=20
-> It would make life easier if we had distinct namning conventions
-> for APIs/struct/contsants in the respective headers.
->=20
-> eg instead of  "bdrv_" have "bdrv_state_" and "bdrv_io_" as
-> the two naming conventions for -global-state.h and -io.h
-> respectively, nad only use the bare 'bdrv_' for -common.h
->=20
-> Yes, this would be major code churn, but I think it'd make
-> the code clearer to understand which will be a win over the
-> long term.
->=20
-> NB, I'm not suggesting doing a rename as part of this patch
-> though. Any rename would have to be separate, and likely
-> split over many patches to make it manageable.
+If we were thinking about QEMU from new ignoring existing design,
+I could even imagine that all of -chardev, -netdev, -device, etc
+would actually be -object. So from my POV I don't think it is
+unreasonable to take this direction.
 
-Yes. Taking it one step further, BlockDriverState could be split into
-two struct so that I/O code doesn't even have access to the struct
-needed to invoke GS APIs. This is a type-safe way of enforcing the API
-split.
+> Timeline: My series could be done for 6.2. Yours could have the
+> replacement in 6.2 the earliest if we start working on it right now,
+> then libvirt starts using it, deprecation in 7.0 or 7.1, then drop the
+> old interface two releases later, i.e.  December next year or March
+> 2023.
 
-Unfortunately that's a lot of code churn and I think the separation is
-not very clean. For example, block drivers need to forward requests to
-their children, so they need to traverse the graph (which we think of as
-global state).
+Are the two approaches mutually exclusive rather than complementary ?
+eg is Kevin's work a worthwhile incremental step forward, even if we
+eventually get to replacing -chardev with -object ?
 
-Stefan
-
---XM15PMy4DNX7Owol
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFe78AACgkQnKSrs4Gr
-c8hYiAgAr1gvi2nhl1oSr1FEBJbUYDDEzAsOe4jpqsVh2JKPMbHwzOah3tJQddyA
-+nS0w5koumTAnt5qwaKJ/jn+UXOq9oW45UNGP7+YBBUCTdmhxb6sqFGt49QYgHDE
-+6qw1DoYKHYJe7XhPelpxGouGzr5dY/YCFQVCJKCt0OEInrPoRUm6D8SfSS8a9lX
-HUF+Vh+uH+8imbQnYGXLTh8nMmZzn23UnWeu1WDn0xUdXXVcW3oKpA37c6SATldC
-NgaYNWxRtT10b+GvC3rSLAhMbMqM2B8jslHOwmFWb62olOK1gcEsYzMT8gblQs9Q
-52yY9RVOm+kpfKNRY8D2R1eRWce8Lw==
-=iqew
------END PGP SIGNATURE-----
-
---XM15PMy4DNX7Owol--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
