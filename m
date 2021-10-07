@@ -2,91 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401794254C9
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:52:25 +0200 (CEST)
-Received: from localhost ([::1]:48610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4A5425507
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 16:08:38 +0200 (CEST)
+Received: from localhost ([::1]:43430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYTou-0002s3-9j
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:52:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39436)
+	id 1mYU4b-00027n-Ia
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 10:08:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYTlA-0000C6-I3
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:48:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53097)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYTl8-0005VD-Fr
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:48:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633614509;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mGvyvDl0KeHeIhqeC23e6PYlg+K5X3Y7I4VBhAFiOW4=;
- b=YaB6gWeOtgE9gf+gv10cUlacMviEikVXw68wf+0VN6cvnUb+kXXTbG6VAIjO59dGzIeE6B
- 9bmhiQxRgYhOuPouQwwJF0fpIrpR50XJ1U+yYPy/DZGf0C1k7l0ECD7cz07iMGt1AcNY0+
- Av9LrZZKR/BORtozldMuPaVibBlsx7c=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-uGncY2gFO1unSvw4IIJgJw-1; Thu, 07 Oct 2021 09:48:27 -0400
-X-MC-Unique: uGncY2gFO1unSvw4IIJgJw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h11-20020adfa4cb000000b00160c791a550so4564469wrb.6
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 06:48:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <anders.roxell@linaro.org>)
+ id 1mYSZL-0005YT-5m
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:32:15 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:46646)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anders.roxell@linaro.org>)
+ id 1mYSZJ-0002Jy-As
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:32:14 -0400
+Received: by mail-ed1-x532.google.com with SMTP id z20so22410219edc.13
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 05:32:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=9LqvuRG5278MS0jZ6TrN0Au/Om9Hm8cjhhwJ2Uw2nPo=;
+ b=H2pYsWjPRns8mkH40iawDN4wF6RAbm4jJkTbc1Ji3sHadL8AwE+Qe5imLyPOldoU2O
+ MsL7a841VS5aTTg5vSH+NPIngdjURl9K2uBtPA++ma6HUqZll6SZhbnYizXmJ7tKd7R6
+ ZpXBVgo69I1SY4C2Y3sXcLKllNlOQ7RrERodBkq7/WjxKk+c5iN6yQq+rszXHP0MA2e6
+ nWf4sXpCIqf3+c0JY6Yb5vk8ngJnURarWazm4Ff/WW4W3rdSLFaZ6en9CE7kqZ/ekMdc
+ vn6+tFF8DrWm/jVA6gfw8RqsGCCysAiwLw6miiX3CHLMJ1MuNhHSUIqGlEv6d4OOrsID
+ cIXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mGvyvDl0KeHeIhqeC23e6PYlg+K5X3Y7I4VBhAFiOW4=;
- b=dERBIUzn3PaXNKp8ypkv3RbSS8nb1S5BW6OxufpQSWcupFPBHaIJV/qUftMAZhAorb
- Z8gM/gqOvRddt6+Wy+kln80ejKZBfh3tRYKmkkmKEoQ1WqnanDGhwwMEFaBFqBCMX9CZ
- AJtNXkjd2IL6j8PPskhC8i2Bx5s0B03b3tdE/4VLUvnpn/sOhYI0Y1GiRQNjpKXaxbhd
- Fskfvrexgb9NRbnG2/a9akQktg7PyefMB1OUMoJ65NPNhd6uh6oDXo8GzKNQpVRIqDsk
- BIYDaOcK8bYIE1qafULEIWWalsa3SerZ1LMKTSxWNYhwPqO9lFtfTFxPZ0kf5uBHl/0W
- bndg==
-X-Gm-Message-State: AOAM532pNEWYcKwVHdVsx6G844HcvtRPeq3ktGgBzLiaPfo2LrNdKPAf
- hqQ05ixwvZlIE1L7FdYj49pq9G7CegvoiL9oR0VHxYYxN2YzO9W6xOHTTym4MMwAdSPo2jqO46D
- 2SlI93N86akwJCyo=
-X-Received: by 2002:adf:b34c:: with SMTP id k12mr5473364wrd.1.1633614506433;
- Thu, 07 Oct 2021 06:48:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxxKSv30r2c8OSAFnuskUTOyvNea6QDs/11xOXdZyr3iqyBTSq71nX0t0O7hOkOanzZQMgttA==
-X-Received: by 2002:adf:b34c:: with SMTP id k12mr5473343wrd.1.1633614506256;
- Thu, 07 Oct 2021 06:48:26 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id a17sm1890125wrx.33.2021.10.07.06.48.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Oct 2021 06:48:25 -0700 (PDT)
-Message-ID: <38e51f4b-5d9e-1606-314d-6ea196019f87@redhat.com>
-Date: Thu, 7 Oct 2021 15:48:24 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9LqvuRG5278MS0jZ6TrN0Au/Om9Hm8cjhhwJ2Uw2nPo=;
+ b=OrCgJIS20Akb7uA91XTiG3VIMEab30Yqc0wSKxcbK5RbIw/AJbKOxsMHiemuLiTEqu
+ WtHc/fUDPFkSD4qoqAjE68T4RLYuEuXT0QPcuSjEJ+joFg40CtkSXMZLNpoPgcfYMU6Z
+ JB0r0D5tYotCFyGnWtgtKo2nyJ2f2wdSjcC+b0V/fvIkwnWqkXpodt7sGzbn23d+GnVv
+ bTIVRoqj3t1F0iYqe67kbK6MqYlOZMSxyRJ6glon92o16UUyxY8XFuUWr9DkzSdw6LKR
+ liHEhBByO1Ir4Sz6e8JASYbYAwOJ7KBX7CUSlIfi+IDRRGFya1znCjASw9bodsvSZ6uY
+ /u5Q==
+X-Gm-Message-State: AOAM531mAZd0ezqazL39T+xPW5bCTGpO3QxWQBri2EYQ0Ey4oxiXoDpI
+ 2QyS48iR5No8QNuJx4c53eQpQIvBlhUmOuRzBLOBKQ==
+X-Google-Smtp-Source: ABdhPJzFRU18oeyc8FAktnrW1+LSZgjNhr+IC5q//s3jsYXAyDdGF3ka930c/lKHlHdw13aTtiG3g8cIyZNU+Ryq+6c=
+X-Received: by 2002:a50:d511:: with SMTP id u17mr5931381edi.105.1633609930533; 
+ Thu, 07 Oct 2021 05:32:10 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 06/24] kconfig: split CONFIG_SPARSE_MEM from fuzzing
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211007130630.632028-1-pbonzini@redhat.com>
- <20211007130829.632254-1-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211007130829.632254-1-pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210922151528.2192966-1-alex.bennee@linaro.org>
+In-Reply-To: <20210922151528.2192966-1-alex.bennee@linaro.org>
+From: Anders Roxell <anders.roxell@linaro.org>
+Date: Thu, 7 Oct 2021 14:31:59 +0200
+Message-ID: <CADYN=9+V=Q2hYgGev+HkPP7z7eADAqtAJsydEHAX+H24BFPLdg@mail.gmail.com>
+Subject: Re: [RFC PATCH] tests/docker: add a debian-native image and make
+ available
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=anders.roxell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 07 Oct 2021 10:06:58 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,23 +80,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Oleinik <alxndr@bu.edu>
+Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/21 15:08, Paolo Bonzini wrote:
-> Pass CONFIG_FUZZ via host_kconfig, and use it to select the
-> sparse-mem device.
-> 
-> Cc: Alexander Oleinik <alxndr@bu.edu>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Wed, 22 Sept 2021 at 17:15, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>
+> This image is intended for building whatever the native versions of
+> QEMU are for the host architecture. This will hopefully be an aid for
+> 3rd parties who want to be able to build QEMU themselves without
+> redoing all the dependencies themselves.
+>
+> We disable the registry because we currently don't have multi-arch
+> support there.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Anders Roxell <anders.roxell@linaro.org>
+
+Thank you for doing this Alex,
+
+Tested-by: Anders Roxell <anders.roxell@linaro.org>
+
+Cheers,
+Anders
+
 > ---
->  Kconfig.host       | 4 ++++
->  hw/mem/Kconfig     | 3 +++
->  hw/mem/meson.build | 2 +-
->  meson.build        | 1 +
->  4 files changed, 9 insertions(+), 1 deletion(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
+>  tests/docker/Makefile.include                 |  4 ++
+>  tests/docker/common.rc                        | 10 +++-
+>  tests/docker/dockerfiles/debian-native.docker | 49 +++++++++++++++++++
+>  3 files changed, 61 insertions(+), 2 deletions(-)
+>  create mode 100644 tests/docker/dockerfiles/debian-native.docker
+>
+> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.includ=
+e
+> index 3b03763186..2f276cc4b2 100644
+> --- a/tests/docker/Makefile.include
+> +++ b/tests/docker/Makefile.include
+> @@ -145,6 +145,10 @@ docker-image-debian-s390x-cross: docker-image-debian=
+10
+>  docker-image-debian-sh4-cross: docker-image-debian10
+>  docker-image-debian-sparc64-cross: docker-image-debian10
+>
+> +# The native build should never use the registry
+> +docker-image-debian-native: DOCKER_REGISTRY=3D
+> +
+> +
+>  #
+>  # The build rule for hexagon-cross is special in so far for most of
+>  # the time we don't want to build it. While dockers caching does avoid
+> diff --git a/tests/docker/common.rc b/tests/docker/common.rc
+> index c5cc33d366..e6f8cee0d6 100755
+> --- a/tests/docker/common.rc
+> +++ b/tests/docker/common.rc
+> @@ -12,8 +12,14 @@
+>  # the top-level directory.
+>
+>  # This might be set by ENV of a docker container... it is always
+> -# overriden by TARGET_LIST if the user sets it.
+> -DEF_TARGET_LIST=3D${DEF_TARGET_LIST:-"x86_64-softmmu,aarch64-softmmu"}
+> +# overriden by TARGET_LIST if the user sets it. We special case
+> +# "none" to allow for other options like --disable-tcg to restrict the
+> +# builds we eventually do.
+> +if test "$DEF_TARGET_LIST" =3D "none"; then
+> +    DEF_TARGET_LIST=3D""
+> +else
+> +    DEF_TARGET_LIST=3D${DEF_TARGET_LIST:-"x86_64-softmmu,aarch64-softmmu=
+"}
+> +fi
+>
+>  requires_binary()
+>  {
+> diff --git a/tests/docker/dockerfiles/debian-native.docker b/tests/docker=
+/dockerfiles/debian-native.docker
+> new file mode 100644
+> index 0000000000..efd55cb6e0
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles/debian-native.docker
+> @@ -0,0 +1,49 @@
+> +#
+> +# Docker Debian Native
+> +#
+> +# This this intended to build QEMU on native host systems. Debian is
+> +# chosen due to the broadest range on supported host systems for QEMU.
+> +#
+> +# This docker target is based on the docker.io Debian Bullseye base
+> +# image rather than QEMU's base because we would otherwise confuse the
+> +# build grabbing stuff from the registry built for other
+> +# architectures.
+> +#
+> +FROM docker.io/library/debian:bullseye-slim
+> +MAINTAINER Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> +
+> +# Duplicate deb line as deb-src
+> +RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sou=
+rces.list
+> +
+> +# Install common build utilities
+> +RUN apt update && \
+> +    DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata
+> +
+> +RUN apt update && \
+> +    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+> +    apt build-dep -yy --arch-only qemu
+> +
+> +RUN apt update && \
+> +    DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+> +    apt install -y --no-install-recommends \
+> +        cscope \
+> +        genisoimage \
+> +        exuberant-ctags \
+> +        global \
+> +        libbz2-dev \
+> +        liblzo2-dev \
+> +        libgcrypt20-dev \
+> +        libfdt-dev \
+> +        librdmacm-dev \
+> +        libsasl2-dev \
+> +        libsnappy-dev \
+> +        libvte-dev \
+> +        netcat-openbsd \
+> +        ninja-build \
+> +        openssh-client \
+> +        python3-numpy \
+> +        python3-opencv \
+> +        python3-venv
+> +
+> +ENV QEMU_CONFIGURE_OPTS $QEMU_CONFIGURE_OPTS
+> +ENV DEF_TARGET_LIST "none"
+> --
+> 2.30.2
+>
 
