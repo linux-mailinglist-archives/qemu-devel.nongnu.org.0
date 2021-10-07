@@ -2,74 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A611542534A
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:39:22 +0200 (CEST)
-Received: from localhost ([::1]:33934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4174842534E
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:40:26 +0200 (CEST)
+Received: from localhost ([::1]:35828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYSgD-0003Hu-7B
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:39:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48174)
+	id 1mYShF-0004Yw-6I
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:40:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mYSdq-0001LU-NX
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:36:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52153)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYSdk-0001HK-1b
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:36:48 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:47843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mYSdl-0005aF-Mt
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:36:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633610207;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2CcGPGpziD5kNKYViwUUcx3zPLGr+VsoJRPJNDVh11k=;
- b=I0CwSKje2Bc0+5PJ+NGQIcaMw9fHE+vIsFpOxI3Ynz4oLEN/L+idestB76oBNW6HnH2n8Y
- Aum4K9jMRaOl+3i4TvQDV/EWBF6OjO7Veih0953tPEzvYOmgR1Hilfry2kJ5pEskUkUipr
- 4HvC46r/nXSstgIsFDGxZpPiYy+Yg38=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-YqoWThQxPleA_VD6hJtH7w-1; Thu, 07 Oct 2021 08:36:46 -0400
-X-MC-Unique: YqoWThQxPleA_VD6hJtH7w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5763101F001;
- Thu,  7 Oct 2021 12:36:45 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 582D560583;
- Thu,  7 Oct 2021 12:36:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 97D62113865F; Thu,  7 Oct 2021 14:36:27 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: jsnow@redhat.com
-Subject: Re: Invitation: QAPI Sync meeting @ Thu Oct 7, 2021 9am - 10am
- (EDT) (qemu-devel@nongnu.org)
-References: <00000000000093852d05cd8d38f6@google.com>
-Date: Thu, 07 Oct 2021 14:36:27 +0200
-In-Reply-To: <00000000000093852d05cd8d38f6@google.com> (jsnow@redhat.com's
- message of "Mon, 04 Oct 2021 21:01:46 +0000")
-Message-ID: <87a6jlggfo.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYSdi-0005P0-7g
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:36:47 -0400
+Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MFK8N-1mauPo1EXB-00FnT7; Thu, 07 Oct 2021 14:36:41 +0200
+Subject: Re: [PATCH v3 02/13] macfb: update macfb.c to use the Error API best
+ practices
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20211007093407.3329-1-mark.cave-ayland@ilande.co.uk>
+ <20211007093407.3329-3-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <2514e187-21b3-6b0e-44b5-debd1cd5c114@vivier.eu>
+Date: Thu, 7 Oct 2021 14:36:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211007093407.3329-3-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:K4wp1o7+obBS7p/Pnt7yIQFx3fI8hZQ2XSr+DWKpdFBf8biS6dX
+ mWBujyNPy47XNb4FYCwcF5eUpyk6LR9IwNYn+A+9N3bvIzw+t7ypG0rd2PZhEMCx+hlFuBX
+ hl9oGgLZh4junaHdl14OEhnD0ujAdrY/ssUhrVZXqM/X0URToAn75uf2R4HtHbHal4alWM8
+ X8ucvF35MX/w/tDS6PzWA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0/jXmcWiAZ8=:UqKBOdZIXECumekCtSyvBV
+ FsfLQnmHaIHyjgm201nGzzt9jz0J06Kl5rKshk8r8KZnKi7jDtR4iMlmYc/M1qSlLyz7OXJz3
+ OruZ1R72QLNnsIrDeHvY2Rcxw0No4XcDgrtYf44lIj0j7m/vNiwW6C4B9dNqI+aJOGHX5p6HQ
+ JqUjZ2M9jj/AzCQZ1gl9RX3tkwghr26Ch6WV0IRgS0lHLHH/QVHMFV3fpoPq0rYWunFObiH8/
+ P46ACP+NRdVWMlfgAicgidxFHSnM9NSXT9AAd9a77nLV/HTkoEl0eD98lxPM1HFLLt5zFfqYE
+ 21Ud3zKCdmtXLZcKSnMpya+3qY5UYMjRtHy+Hh0Jx+kLDcUQTd+Vrs8gQRKhkY7lLRft4oQ09
+ +ll1ZQwnuBcnpwfqW13MPUTm5P1MWS+JnyBxfZAV+Su4JN+Y4hC8XkHpWvLzMM8rJMCAsnQtc
+ Uk8lNSx+H8zpjkbLQIJ/mgblfdIJkK0P3nc+tQYNzmte2PvY9tW9eN1OKA6pwhTA32MgwYa87
+ C+x0+030WdJ7IEX/A81zXbQ37mp9jgBh6cVQIZSJPgJaV/509uYN7ilnSZx851ywhJi2ncT5c
+ AIth3scXkrIb8CXtfCzKCTOxVStBrRke3lGzwWq0t4I/xlcABR0a9AxrJXqGaHeECc2TI4NPy
+ G5Xe6/4ImhhhFS0lH3EqOAAyHrZf5karBdhkNM4BrbDCWA1Uh7TyBWGGbujilogdNEoS25t14
+ syRFvg1M66ihggQozoCvjqA2YWFJhL2bamyyTA==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.964,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,48 +71,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, kwolf@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thursday crept up on me...  I just noticed we haven't gotten around to
-circulate a one-page summary of the topics of interest.  In the hope
-that late & crude is better than never, here's mine.  If I misunderstand
-you, please be lenient, and correct me on the call.
+Le 07/10/2021 à 11:33, Mark Cave-Ayland a écrit :
+> As per the current Error API best practices, change macfb_commom_realize() to return
+> a boolean indicating success to reduce errp boiler-plate handling code. Note that
+> memory_region_init_ram_nomigrate() is also updated to use &error_abort to indicate
+> a non-recoverable error, matching the behaviour recommended after similar
+> discussions on memory API failures for the recent nubus changes.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hw/display/macfb.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+> index 2b747a8de8..2ec25c5d6f 100644
+> --- a/hw/display/macfb.c
+> +++ b/hw/display/macfb.c
+> @@ -343,14 +343,14 @@ static const GraphicHwOps macfb_ops = {
+>      .gfx_update = macfb_update_display,
+>  };
+>  
+> -static void macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
+> +static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
+>  {
+>      DisplaySurface *surface;
+>  
+>      if (s->depth != 1 && s->depth != 2 && s->depth != 4 && s->depth != 8 &&
+>          s->depth != 16 && s->depth != 24) {
+>          error_setg(errp, "unknown guest depth %d", s->depth);
+> -        return;
+> +        return false;
+>      }
+>  
+>      s->con = graphic_console_init(dev, 0, &macfb_ops, s);
+> @@ -359,18 +359,20 @@ static void macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
+>      if (surface_bits_per_pixel(surface) != 32) {
+>          error_setg(errp, "unknown host depth %d",
+>                     surface_bits_per_pixel(surface));
+> -        return;
+> +        return false;
+>      }
+>  
+>      memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &macfb_ctrl_ops, s,
+>                            "macfb-ctrl", 0x1000);
+>  
+>      memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram",
+> -                                     MACFB_VRAM_SIZE, errp);
+> +                                     MACFB_VRAM_SIZE, &error_abort);
+>      s->vram = memory_region_get_ram_ptr(&s->mem_vram);
+>      s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
+>      vmstate_register_ram(&s->mem_vram, dev);
+>      memory_region_set_coalescing(&s->mem_vram);
+> +
+> +    return true;
+>  }
+>  
+>  static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
+> @@ -378,8 +380,7 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
+>      MacfbSysBusState *s = MACFB(dev);
+>      MacfbState *ms = &s->macfb;
+>  
+> -    macfb_common_realize(dev, ms, errp);
+> -    if (*errp) {
+> +    if (!macfb_common_realize(dev, ms, errp)) {
+>          return;
+>      }
+>  
+> @@ -399,8 +400,7 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>  
+> -    macfb_common_realize(dev, ms, errp);
+> -    if (*errp) {
+> +    if (!macfb_common_realize(dev, ms, errp)) {
+>          return;
+>      }
+>  
+> 
 
-=3D Technical =3D
-
-Marc-Andr=C3=A9 is interested in language bindings, Rust in particular.  He
-explored this some.  There are problems.
-
-Kevin and Markus are interested in CLI QAPIfication, and QAPI/QOM
-integration.
-
-Daniel is interested in 100% pure QAPI-based QEMU configuration.
-
-For proper CLI QAPIfication, the traditional / "human-friendly"syntax
-should become a wrapper around "machine-friendly", just like HMP is /
-should be a wrapper around QMP.  He's exploring techniques that let us
-avoid writing these wrappers completely by hand.
-
-The external QOM interfaces are not specified in QAPI, and therefore not
-covered by QAPI introspection.  QAPI/QOM integration could fix that, and
-also generate QOM boilerplate.
-
-The way -device / device_add is implemented defeats type checking.  If
-we fix that, users that get the types wrong break.  Libvirt does.
-
-John and Markus are interested in making the QAPI code generator easier
-to maintain.  Type hints, in particular
-
-Markus is interested in extending QAPI special feature flags and -compat
-beyond "deprecated".
-
-=3D Process =3D
-
-How can we make the merging of non-trivial QAPI language work less
-painfully slow?
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
