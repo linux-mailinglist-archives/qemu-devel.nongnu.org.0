@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF164253D9
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:14:30 +0200 (CEST)
-Received: from localhost ([::1]:42094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB73A4253ED
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:22:01 +0200 (CEST)
+Received: from localhost ([::1]:57548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYTED-0006aw-Gf
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:14:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55516)
+	id 1mYTLU-0000L3-Ef
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:22:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mYT6h-0002Ao-IX
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:06:43 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:41854)
+ id 1mYT8c-0005TU-1C
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:08:42 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:43711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mYT6f-0007M7-Kv
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:06:43 -0400
-Received: by mail-ed1-x531.google.com with SMTP id a25so7219408edx.8
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 06:06:40 -0700 (PDT)
+ id 1mYT8Y-0007mz-TT
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:08:41 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id i20so7295407edj.10
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 06:08:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=x6Ie3yL7NYkxjE0ns/nXhQ+jNDpQbZB2Hilw1SZ8aW0=;
- b=cwsUta+ApoC5achuUBwIPwNumJOTBUv7k+LRv63hKZns0uPcNFj4jKcdtEqk/uE+c6
- avkE0J8cHsRA0hxMWeI8wECQSVL/w/Gv2FSMAsnZLDZoo+lV73cpho0A5L9IAK6zruur
- TLNfYHsa/Cze+7pMwolDCfFVWyTTc0W2c2ODFn9Van9Prxww+BKczYvqHiopY/jPmFhL
- vHokDYoNmotbSUwPjVx61MMBoMhFXe/EoifSnsiq8rxUTGGQcwR50iUtf4fINfiDfPHQ
- kJEgc1elvpoZZhOcwo8rnmvdT30nzvfTiKYmQAXMGeoVvucs72CwZWTB2HGKWGmRBkMI
- qrsQ==
+ bh=sVXcDCgvpoipTSD644966o8P2yiX+3lqStOLYb7lTDY=;
+ b=pwnl+YVxc69x9BIxvWHfBWluMvlnvdDfuXTw8NEpwIDOFAhRvi1V0QOrBcZNCDSHo0
+ lDW4m2tYOsZS0k4eQ8JFnhYyKXg+3sS0sS5MetIUCTE+9ysbfkCnlMFlB2+pO+v+41KD
+ qDM3UENvnPJbtCnUsJYp+knv/PIx+wRuPf/ofLVukbnbMT3l5SVWTTsywUbfzS+HJRkO
+ GJ9VjBeM9/wNjraTntLHh8Bt+ycrZwIb/Cn0nuvDc+hEygosm3Xole5nqO/IgpKgeIqy
+ j+iravB+HtEMkUqqeX0AzVnw5HeOC4lkk5UA2ZaMwwrp/WMNdsdbrf08y8FYqStWemC6
+ sj2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=x6Ie3yL7NYkxjE0ns/nXhQ+jNDpQbZB2Hilw1SZ8aW0=;
- b=cwl5XhO+nffirvvk7zDukEJsguT+rkEmf0Xy5x3K/GNrRLLvNabL6uVu2CmuupZc4Z
- SDNMmN3ISitDzob2aqm0PyKcv4hUH+6pgFIlUpEouiVK73U/KotbWCIQVqDCqqhjCmJF
- tmeNqYbvRxtZ4atmnqeLxu6d1colvHlMi7ehdC26uulwnWBtXIQSps3XuskobsuEPs6v
- LD4DwLL4ZRyUcg6hhItPSfHmovyZaeNXPwaos+UjC4WhNyILgIYIqEBEVSoKLFIHqiTF
- gLKfH5/i6K+BjAZF3oOMtPj/Ft7CDKyJSThhWmC4i4oT9IZU+yx+N/EeDNaMoJ6P+VJR
- CllQ==
-X-Gm-Message-State: AOAM531QZ3ZQbkLXREaUryutS8UVmUMDpiuUjr1Q91vdEQVqBYVZXVZO
- LLYvP8oYH93P3v8bxUIuiPug/fKm4Eg=
-X-Google-Smtp-Source: ABdhPJyzTbfzdCul7PdFh42F0ZZNqeqlpFyk7WThJspWgy9Dq1QRtoQW9fysIHjbfEIFTnFkPygOVQ==
-X-Received: by 2002:a17:906:5051:: with SMTP id
- e17mr5455377ejk.481.1633611998164; 
- Thu, 07 Oct 2021 06:06:38 -0700 (PDT)
+ bh=sVXcDCgvpoipTSD644966o8P2yiX+3lqStOLYb7lTDY=;
+ b=kzeOlFOz8GWXCKQ/IiKPldlA8OgVDmRsqngvq/dwV1eiztEPY5L2u70xyGXMnQVwlq
+ Ux1XRD/UWWS/Ox8fj3ukClniuOlWJ20wVMAYue/5izd/iJR73IXsuk+IoT3LMvdMn87F
+ GUACLkJ/Gjpmx2b9ErGkEyCeK/9hAB4yblcQmjYrEptUbRiNgtGCoO5Ux78sYP0CUlhK
+ r4rqbXQzqZm5qJzyKDz3oBNXS3cFRIUWdjhCFokKPHBQ95t0G586Dfl28h+Bbg6UA/dd
+ BcwriV5uk7Xv2kQFcdt9qJEyOjr1LvissWue8cEqPbhZKKPntYn0sE05E4Fkk1rZYRjr
+ RLLg==
+X-Gm-Message-State: AOAM532cGw0PFE3cewQA4x4zTywyLE1KU+9IPIT963/rM8EHgutPUQwq
+ F2HSCyVkmV6IlLZnrAvzOHSYBtZflls=
+X-Google-Smtp-Source: ABdhPJy4AYq/gUd/4W9R9CvHi2WKETs2nEODnBLHz2RnNV2SVqq6KeNSqb3FZbYTgLzuc92qHGlJpw==
+X-Received: by 2002:a17:906:7847:: with SMTP id
+ p7mr5249475ejm.335.1633612110872; 
+ Thu, 07 Oct 2021 06:08:30 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ca4sm10167543ejb.1.2021.10.07.06.06.37
+ by smtp.gmail.com with ESMTPSA id o12sm791254edw.84.2021.10.07.06.08.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 06:06:37 -0700 (PDT)
+ Thu, 07 Oct 2021 06:08:30 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/24] configure: add command line options for audio drivers
-Date: Thu,  7 Oct 2021 15:06:11 +0200
-Message-Id: <20211007130630.632028-6-pbonzini@redhat.com>
+Subject: [PATCH 06/24] kconfig: split CONFIG_SPARSE_MEM from fuzzing
+Date: Thu,  7 Oct 2021 15:08:11 +0200
+Message-Id: <20211007130829.632254-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211007130630.632028-1-pbonzini@redhat.com>
 References: <20211007130630.632028-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,91 +84,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffman <kraxel@redhat.com>
+Cc: Alexander Oleinik <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handle the choice of audio drivers the same as all other dependencies.
+Pass CONFIG_FUZZ via host_kconfig, and use it to select the
+sparse-mem device.
 
-Cc: Gerd Hoffman <kraxel@redhat.com>
-Cc: Volker Rümelin <vr_qemu@t-online.de>
+Cc: Alexander Oleinik <alxndr@bu.edu>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 39 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
+ Kconfig.host       | 4 ++++
+ hw/mem/Kconfig     | 3 +++
+ hw/mem/meson.build | 2 +-
+ meson.build        | 1 +
+ 4 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index fcadcf9577..5541671b58 100755
---- a/configure
-+++ b/configure
-@@ -310,6 +310,12 @@ vnc_sasl="auto"
- vnc_jpeg="auto"
- vnc_png="auto"
- xkbcommon="auto"
-+alsa="auto"
-+coreaudio="auto"
-+dsound="auto"
-+jack="auto"
-+oss="auto"
-+pa="auto"
- xen=${default_feature:+disabled}
- xen_ctrl_version="$default_feature"
- xen_pci_passthrough="auto"
-@@ -1051,6 +1057,30 @@ for opt do
-   ;;
-   --enable-xen-pci-passthrough) xen_pci_passthrough="enabled"
-   ;;
-+  --disable-alsa) alsa="disabled"
-+  ;;
-+  --enable-alsa) alsa="enabled"
-+  ;;
-+  --disable-coreaudio) coreaudio="disabled"
-+  ;;
-+  --enable-coreaudio) coreaudio="enabled"
-+  ;;
-+  --disable-dsound) dsound="disabled"
-+  ;;
-+  --enable-dsound) dsound="enabled"
-+  ;;
-+  --disable-jack) jack="disabled"
-+  ;;
-+  --enable-jack) jack="enabled"
-+  ;;
-+  --disable-oss) oss="disabled"
-+  ;;
-+  --enable-oss) oss="enabled"
-+  ;;
-+  --disable-pa) pa="disabled"
-+  ;;
-+  --enable-pa) pa="enabled"
-+  ;;
-   --disable-brlapi) brlapi="disabled"
-   ;;
-   --enable-brlapi) brlapi="enabled"
-@@ -1849,6 +1879,12 @@ disabled with --disable-FEATURE, default is enabled if available
-   mpath           Multipath persistent reservation passthrough
-   xen             xen backend driver support
-   xen-pci-passthrough    PCI passthrough support for Xen
-+  alsa            ALSA sound support
-+  coreaudio       CoreAudio sound support
-+  dsound          DirectSound sound support
-+  jack            JACK sound support
-+  oss             OSS sound support
-+  pa              PulseAudio sound support
-   brlapi          BrlAPI (Braile)
-   curl            curl connectivity
-   membarrier      membarrier system call (for Linux 4.14+ or Windows)
-@@ -5015,7 +5051,8 @@ if test "$skip_meson" = no; then
-         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
-         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
-         $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
--        -Daudio_drv_list=$audio_drv_list -Dtcg_interpreter=$tcg_interpreter \
-+        -Dalsa=$alsa -Dcoreaudio=$coreaudio -Ddsound=$dsound -Djack=$jack -Doss=$oss \
-+        -Dpa=$pa -Daudio_drv_list=$audio_drv_list -Dtcg_interpreter=$tcg_interpreter \
-         $cross_arg \
-         "$PWD" "$source_path"
+diff --git a/Kconfig.host b/Kconfig.host
+index 24255ef441..60b9c07b5e 100644
+--- a/Kconfig.host
++++ b/Kconfig.host
+@@ -41,3 +41,7 @@ config PVRDMA
+ config MULTIPROCESS_ALLOWED
+     bool
+     imply MULTIPROCESS
++
++config FUZZ
++    bool
++    select SPARSE_MEM
+diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
+index 8b19fdc49f..03dbb3c7df 100644
+--- a/hw/mem/Kconfig
++++ b/hw/mem/Kconfig
+@@ -8,3 +8,6 @@ config MEM_DEVICE
+ config NVDIMM
+     bool
+     select MEM_DEVICE
++
++config SPARSE_MEM
++    bool
+diff --git a/hw/mem/meson.build b/hw/mem/meson.build
+index 3c8fdef9f9..82f86d117e 100644
+--- a/hw/mem/meson.build
++++ b/hw/mem/meson.build
+@@ -6,4 +6,4 @@ mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
  
+ softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
+ 
+-softmmu_ss.add(when: 'CONFIG_FUZZ', if_true: files('sparse-mem.c'))
++softmmu_ss.add(when: 'CONFIG_SPARSE_MEM', if_true: files('sparse-mem.c'))
+diff --git a/meson.build b/meson.build
+index 0e9733a833..f03bfff7a1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1602,6 +1602,7 @@ endif
+ 
+ have_ivshmem = config_host_data.get('CONFIG_EVENTFD')
+ host_kconfig = \
++  ('CONFIG_FUZZ' in config_host ? ['CONFIG_FUZZ=y'] : []) + \
+   ('CONFIG_TPM' in config_host ? ['CONFIG_TPM=y'] : []) + \
+   ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
+   (have_ivshmem ? ['CONFIG_IVSHMEM=y'] : []) + \
 -- 
 2.31.1
 
