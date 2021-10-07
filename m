@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67375425CAD
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 21:53:43 +0200 (CEST)
-Received: from localhost ([::1]:48888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8887F425CB5
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 21:57:27 +0200 (CEST)
+Received: from localhost ([::1]:54858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYZSX-0007MF-OV
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 15:53:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59242)
+	id 1mYZWA-00038A-AK
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 15:57:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mYZQy-0006fr-NE
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 15:52:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mYZQp-0002IC-BT
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 15:52:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633636313;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rSJdnQLBRJZqIYEQXaJkFdiNc92DNWtdQnJhG+HrODQ=;
- b=AeJmiweUz++zP05g2aLKvEtoz4mOzMRdkDNk45zUxvmaZWqtiK2Xh9Ic1/sbErk31xbiQB
- dFPmXEDW8ow3Bk/Qlij3toWdusEVv8uas2YdPAgMYiqvSXUrOWFhj86+7Ysc2kUouU5GNX
- wfiiRRzwfITFCGfPBiwYhoC0fyNgSSI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-8-O3j7ivNHG0-_TYdbmp9A-1; Thu, 07 Oct 2021 15:51:51 -0400
-X-MC-Unique: 8-O3j7ivNHG0-_TYdbmp9A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 231E21922964;
- Thu,  7 Oct 2021 19:51:50 +0000 (UTC)
-Received: from redhat.com (ovpn-113-216.phx2.redhat.com [10.3.113.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1124210016FF;
- Thu,  7 Oct 2021 19:51:12 +0000 (UTC)
-Date: Thu, 7 Oct 2021 14:51:10 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 16/23] target/i386/sev: Remove stubs by using code
- elision
-Message-ID: <20211007195110.tmsawi5vt3vnoo6t@redhat.com>
-References: <20211007161716.453984-1-philmd@redhat.com>
- <20211007161716.453984-17-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mYZTo-0000Ff-Mz
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 15:55:00 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:41582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mYZTn-00071L-0e
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 15:55:00 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ na16-20020a17090b4c1000b0019f5bb661f9so6063625pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 12:54:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NpI6K5prWpNnI/FpBx8xU2+HZDAG7wDrtXBDXtrdrNg=;
+ b=A9MUBCB/EQkeuLww549tN4p8KYcbMPZqi94Pz5bHMFLLucd1hWQfJiN/iNXkPNbtR+
+ H7m7lndl1rb+6ylKEB/6RypPtJ7ZGeeCijLic2SMXhEF41pAUfrH6+FEzpHvUIIwMSJ9
+ CFdU7FUBOYmOIKOESloE/WxGGDRztBjT8DKdZvv9o8dKfof2E7XLMfM8hBsvU7Czd73d
+ ueNCKBSGFJg9+diBzKaHCM/QXmNUJB+FdL9HC0eAYqnPfOfFd1WlsOEt1JQ7U/1F7orW
+ e2oad4AjUV+URIVAaOA3avMnCOw+9UMtrkruNvMa/575l1Y89AhZ8giuA/xQ9BCbIA8e
+ w2bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=NpI6K5prWpNnI/FpBx8xU2+HZDAG7wDrtXBDXtrdrNg=;
+ b=76ocpDQMYb3FdwKq3u7DDWWkYD4lHXsieNhzquUdZGykF7wvOkSHujUHSMtfncKpCs
+ 0AcvR0na2Spo9Z1MMV4dJZQIeEjIa+v1lL9l3ErGhUAByKOJdruW4xPIZ2beZvSkEv0V
+ Cs5IBTSJ086GKju5cgo6rkSgeNG5cei27pEliwUA8w15Ui4lga4gqu6AEHgNwmilfRHM
+ bAWwKaKXgMvD93Z5FN977A3OQ/2irQkrNw9eosPIoe+GVOs8yogxAJLGL/qxlQ0jlzeI
+ YvB99DAAeAg5XxBPdTxLwwgEf8D8M322SKYSxPSHXRpXV6kGhdYddfL/kOCn27TXFda8
+ NELw==
+X-Gm-Message-State: AOAM531lsz6bfLXE5FRthbrNFESbNzhdvg4lXaHYJdyQ8QSQkxpWY7Fy
+ 0InszDhrYlsavLP4dRq/qcGwq9LMmRItFQ==
+X-Google-Smtp-Source: ABdhPJyFEfqM/6Zn0ZvPxLD5OcNc3r8QIorJo+9KIzmd/+SptI7LchmNO3ssJkcF+iOCst2kKedTVw==
+X-Received: by 2002:a17:90a:9306:: with SMTP id
+ p6mr7616997pjo.119.1633636497322; 
+ Thu, 07 Oct 2021 12:54:57 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id y4sm216555pfn.193.2021.10.07.12.54.56
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Oct 2021 12:54:56 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/48] tcg: optimize redundant sign extensions
+Date: Thu,  7 Oct 2021 12:54:08 -0700
+Message-Id: <20211007195456.1168070-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211007161716.453984-17-philmd@redhat.com>
-User-Agent: NeoMutt/20210205-818-e2615c
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,106 +84,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>, kvm@vger.kernel.org,
- Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 07, 2021 at 06:17:09PM +0200, Philippe Mathieu-Daudé wrote:
-> Only declare sev_enabled() and sev_es_enabled() when CONFIG_SEV is
-> set, to allow the compiler to elide unused code. Remove unnecessary
-> stubs.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  target/i386/sev.h       | 14 ++++++++++++--
->  target/i386/cpu.c       | 13 +++++++------
->  target/i386/sev-stub.c  | 41 -----------------------------------------
->  target/i386/meson.build |  2 +-
->  4 files changed, 20 insertions(+), 50 deletions(-)
->  delete mode 100644 target/i386/sev-stub.c
-> 
-> diff --git a/target/i386/sev.h b/target/i386/sev.h
-> index c96072bf78d..d9548e3e642 100644
-> --- a/target/i386/sev.h
-> +++ b/target/i386/sev.h
-> @@ -14,6 +14,10 @@
->  #ifndef QEMU_SEV_I386_H
->  #define QEMU_SEV_I386_H
->  
-> +#ifndef CONFIG_USER_ONLY
-> +#include CONFIG_DEVICES /* CONFIG_SEV */
-> +#endif
-> +
->  #include "exec/confidential-guest-support.h"
->  #include "qapi/qapi-types-misc-target.h"
->  
-> @@ -35,8 +39,14 @@ typedef struct SevKernelLoaderContext {
->      size_t cmdline_size;
->  } SevKernelLoaderContext;
->  
-> -bool sev_enabled(void);
-> -extern bool sev_es_enabled(void);
-> +#ifdef CONFIG_SEV
-> + bool sev_enabled(void);
-> +bool sev_es_enabled(void);
-> +#else
+Currently, we have support for optimizing redundant zero extensions,
+which I think was done with x86 and aarch64 in mind, which zero-extend
+all 32-bit operations into the 64-bit register.
 
-Is that leading space on the sev_enabled() line intentional?
+But targets like Alpha, MIPS, and RISC-V do sign-extensions instead.
+The last 5 patches address this.
 
-> +#define sev_enabled() 0
-> +#define sev_es_enabled() 0
-> +#endif
-> +
+But before that, split the quite massive tcg_optimize function.
 
-This allows an optimizing compiler to elide code, but does not require
-that the elision worked. The real test is whether there is a link
-error when functions that are only called inside what we hope is
-elided have no stub.
+Changes for v2:
+  * Rebase, adjusting MemOpIdx renaming.
+  * Apply r-b and some feedback (f4bug).
 
->  extern SevInfo *sev_get_info(void);
->  extern uint32_t sev_get_cbit_position(void);
->  extern uint32_t sev_get_reduced_phys_bits(void);
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 8289dc87bd5..fc3ed80ef1e 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -5764,12 +5764,13 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->          *edx = 0;
->          break;
->      case 0x8000001F:
-> -        *eax = sev_enabled() ? 0x2 : 0;
-> -        *eax |= sev_es_enabled() ? 0x8 : 0;
-> -        *ebx = sev_get_cbit_position();
-> -        *ebx |= sev_get_reduced_phys_bits() << 6;
-> -        *ecx = 0;
-> -        *edx = 0;
-> +        *eax = *ebx = *ecx = *edx = 0;
-> +        if (sev_enabled()) {
-> +            *eax = 0x2;
-> +            *eax |= sev_es_enabled() ? 0x8 : 0;
-> +            *ebx = sev_get_cbit_position();
-> +            *ebx |= sev_get_reduced_phys_bits() << 6;
-> +        }
 
-As long as this compiles in all of our configurations, then the
-compiler really has elided the calls and we can get rid of the stub.
-But that's merely because we're relying on our particular gcc or clang
-compiler behavior, and NOT because it is standardized behavior.  On
-the other hand, I doubt either compiler would break this assumption,
-as it is probably used in lots of places, even if it is not portable.
+r~
 
-Since you asked for my opinion, I'm okay giving:
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Richard Henderson (48):
+  tcg/optimize: Rename "mask" to "z_mask"
+  tcg/optimize: Split out OptContext
+  tcg/optimize: Remove do_default label
+  tcg/optimize: Change tcg_opt_gen_{mov,movi} interface
+  tcg/optimize: Move prev_mb into OptContext
+  tcg/optimize: Split out init_arguments
+  tcg/optimize: Split out copy_propagate
+  tcg/optimize: Split out fold_call
+  tcg/optimize: Drop nb_oargs, nb_iargs locals
+  tcg/optimize: Change fail return for do_constant_folding_cond*
+  tcg/optimize: Return true from tcg_opt_gen_{mov,movi}
+  tcg/optimize: Split out finish_folding
+  tcg/optimize: Use a boolean to avoid a mass of continues
+  tcg/optimize: Split out fold_mb, fold_qemu_{ld,st}
+  tcg/optimize: Split out fold_const{1,2}
+  tcg/optimize: Split out fold_setcond2
+  tcg/optimize: Split out fold_brcond2
+  tcg/optimize: Split out fold_brcond
+  tcg/optimize: Split out fold_setcond
+  tcg/optimize: Split out fold_mulu2_i32
+  tcg/optimize: Split out fold_addsub2_i32
+  tcg/optimize: Split out fold_movcond
+  tcg/optimize: Split out fold_extract2
+  tcg/optimize: Split out fold_extract, fold_sextract
+  tcg/optimize: Split out fold_deposit
+  tcg/optimize: Split out fold_count_zeros
+  tcg/optimize: Split out fold_bswap
+  tcg/optimize: Split out fold_dup, fold_dup2
+  tcg/optimize: Split out fold_mov
+  tcg/optimize: Split out fold_xx_to_i
+  tcg/optimize: Split out fold_xx_to_x
+  tcg/optimize: Split out fold_xi_to_i
+  tcg/optimize: Add type to OptContext
+  tcg/optimize: Split out fold_to_not
+  tcg/optimize: Split out fold_sub_to_neg
+  tcg/optimize: Split out fold_xi_to_x
+  tcg/optimize: Split out fold_ix_to_i
+  tcg/optimize: Split out fold_masks
+  tcg/optimize: Expand fold_mulu2_i32 to all 4-arg multiplies
+  tcg/optimize: Expand fold_addsub2_i32 to 64-bit ops
+  tcg/optimize: Sink commutative operand swapping into fold functions
+  tcg/optimize: Add more simplifications for orc
+  tcg/optimize: Stop forcing z_mask to "garbage" for 32-bit values
+  tcg/optimize: Optimize sign extensions
+  tcg/optimize: Propagate sign info for logical operations
+  tcg/optimize: Propagate sign info for setcond
+  tcg/optimize: Propagate sign info for bit counting
+  tcg/optimize: Propagate sign info for shifting
+
+ tcg/optimize.c | 2602 +++++++++++++++++++++++++++++-------------------
+ 1 file changed, 1585 insertions(+), 1017 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.25.1
 
 
