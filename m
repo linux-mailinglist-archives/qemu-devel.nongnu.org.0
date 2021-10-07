@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94043425E54
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 22:57:40 +0200 (CEST)
-Received: from localhost ([::1]:41302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE82425E5A
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 22:59:51 +0200 (CEST)
+Received: from localhost ([::1]:48168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYaSR-0007ep-7N
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 16:57:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39354)
+	id 1mYaUY-0003oK-47
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 16:59:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mYaDq-00066p-F8
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 16:42:36 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37815)
+ id 1mYaE4-0006EI-4z
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 16:42:48 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:33666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mYaDo-0006PC-MD
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 16:42:34 -0400
-Received: by mail-wr1-x435.google.com with SMTP id e12so22869103wra.4
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 13:42:32 -0700 (PDT)
+ id 1mYaE1-0006Xo-Oj
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 16:42:47 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id j21so12141248lfe.0
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 13:42:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9fiwBtJIUpYRfkM3frG/REtzgYYtFqPLKzrfgn7vKZc=;
- b=WRwlwBjkURcSsPG/vV7bKsqo7R9W4urg8W7TUqz+p8npTyKlxAvTqSHsv7zWJ+2jIr
- ulSJuPNksgcD5U0Ur5UuQodMZCRbEev5XABzs/8u9p5CnvSMRfbfYHrlTbF5eH8K7bGI
- IV0WaXHzTPfZnnA5UciEeZX/xbbkqQmANNBpLxt0YFWAgX2JVVNrhUg9mb0OjNEAfkPU
- Xnov2+fzpEbAP393XS9n02ZcdBcjAu1fW9SPuEotWewu8PO7J7sCOzmNt8sRlX2fkTZj
- C9u88JM9q7px9jWVc9mJP7qFbO2huCzrpQKF/Ka8V+GsqGwJKfNlNFGqukCpgbbVyfsl
- hYCg==
+ :cc; bh=XLQMAzZcVjaoZB+yhRpA3lk+BPApxxOqg7BkXIVl8iQ=;
+ b=C6SMD8isZUtVY7DzXtlu/OGio5zPdwETwvVo6KBlOZPwCuoA7g4V7ZWB6pRpMwZxFw
+ FnlKvPlIEvkxpocdt+C0EcGD87SqAH4ZWsASNh0IUH8xLKVZ6gsUPe38mupzXCOhs6+C
+ f6CEwmi8KA1T8KjWY/xmLzgMDrjP/czGg8HWF4Gj/ZBzXodAcEXzOPRsFqaArA9WyI68
+ 5B7IproJA5kcPUBclhzGL8TdsTzHmZ06YLcYyD1ZPU+v7x1rgxrwmbZD5i+EsbDNr8hC
+ pn7neYP6EQbtuWCDLDm+7gYcRcRMVu+hV2fIqs5c48c7Fu388DUizNUM6/RIyBGWB9Wh
+ 51Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9fiwBtJIUpYRfkM3frG/REtzgYYtFqPLKzrfgn7vKZc=;
- b=gf+DlvdwIIPPYE2oLGw4CUhTroTwKe3/P5OF7htu7TGRaHtYM8h9a+jjpthOZn9PEb
- GjFPsHfqvgFnxukUGpKOhc2rhnude8oRPEGFKMVHG4Drk9NpQ8W1pwVRQG8GAEx1G273
- MTWDbHKkTv+k71cu9UF6qbaa6x2qi14yvM5JgDNPoZ8n7uKfHe+AS1qn9D/mvmKwrF7t
- iE8D7sex6Ic23Q+QBqbR9mbGulIq2Pfm6cm27JFdQ5gPez/yTzCuqrmPCXvfev1OdShR
- 5HEYxkfXs2lUexdZ+Y+QVFb4zCR5x/i2vkDLWDNLICAiqxTrSYrvzGgMpHl0KiFu08Y4
- QEAg==
-X-Gm-Message-State: AOAM53036uOpNZFyYjtlSGfYzk6rBfo5tPcv7wOov9Iz504kMaHNb0BG
- PAFu0HZKqv+3o1RBxaAayJvd50Pj7NsMv9xj8CU=
-X-Google-Smtp-Source: ABdhPJwCC9S4xQL6hZhQ+5P2SrIDvmw1fmX2GtO6Xo+iKPn8l8Off7f6Mrq2IR1DTmJSchDETWmuVteWNW5TtKXYaT8=
-X-Received: by 2002:adf:a209:: with SMTP id p9mr8103309wra.70.1633639351530;
- Thu, 07 Oct 2021 13:42:31 -0700 (PDT)
+ bh=XLQMAzZcVjaoZB+yhRpA3lk+BPApxxOqg7BkXIVl8iQ=;
+ b=YEkriDjGm1TrBSyXznXe/hlB/H1XsK2R/Dgc3Ah8LJMTuhjL26185wTR5cLs7ntmA2
+ vx8L5mQhWk6Vv6DkZ3GluwOTlGBfGwXkooRVqkY6SCjWZWrFqKdhMEXU4kdtgItx9ma1
+ 8nkf6YRTqkUAF7bP1J4k28LaeT/2Us//y4KsuMgVaa+i1pVUsvKarz0bONPGFYk9f/6X
+ NPPsVQG69HJets81/DCtNMgCS5r9t796PkQU8EJDamLo4TodJh9BN3d5XAiWNdQfKT2x
+ t0H0QKG8lROyyp6219/nlbiasl44Mt1Utub5Xjp3HNtvJ4miydTrKgtRP3f1VYuJmraK
+ bg3g==
+X-Gm-Message-State: AOAM530w+3lxLqAJRsvhKG9pi23Y3n5nKcysjtwrMHBfNS8Rk6XOdNuu
+ TycD6CZSMXNDxvA/x3UWTEJX/FHN4gspcU2AHGs=
+X-Google-Smtp-Source: ABdhPJzKUCgEW3uk3pe7tdsUSHWWdnRbeRcbqa5H/Evo6VT9MRkfPwQ2WJtYjRwjCXUVbKoSR23ykND3oqE2YGt0THs=
+X-Received: by 2002:ac2:57d4:: with SMTP id k20mr6530082lfo.160.1633639363934; 
+ Thu, 07 Oct 2021 13:42:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211007130630.632028-1-pbonzini@redhat.com>
- <20211007130630.632028-3-pbonzini@redhat.com>
-In-Reply-To: <20211007130630.632028-3-pbonzini@redhat.com>
+ <20211007130630.632028-2-pbonzini@redhat.com>
+In-Reply-To: <20211007130630.632028-2-pbonzini@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 8 Oct 2021 00:42:19 +0400
-Message-ID: <CAJ+F1CKfSpPvgdiQEOpV+OeA02jm+5NrKhmqjmYgXZ_UgW9hYA@mail.gmail.com>
-Subject: Re: [PATCH 02/24] audio: remove CONFIG_AUDIO_WIN_INT
+Date: Fri, 8 Oct 2021 00:42:29 +0400
+Message-ID: <CAJ+F1C+j8EqmNZUCZ5DdNwMp+nj_1ZV6fAfV0q0x2QB7iXyjAg@mail.gmail.com>
+Subject: Re: [PATCH 01/24] configure: remove --oss-lib
 To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000003d3c7c05cdc94d34"
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x435.google.com
+Content-Type: multipart/alternative; boundary="000000000000fa7e1a05cdc94db7"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,77 +82,66 @@ Cc: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003d3c7c05cdc94d34
+--000000000000fa7e1a05cdc94db7
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 7, 2021 at 5:09 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+Hi
 
-> Ever since winwaveaudio was removed in 2015, CONFIG_AUDIO_WIN_INT
-> is only set if dsound is in use, so use CONFIG_AUDIO_DSOUND directly.
+On Thu, Oct 7, 2021 at 5:11 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+
+> OSS is a kernel API, so the option should not be needed.  The library
+> is used on NetBSD, where OSS is emulated, so keep the variable.
 >
 > Cc: Gerd Hoffman <kraxel@redhat.com>
 > Cc: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 >
 
+Not just NetBSD. You could --audio-drv-list=3Doss and --oss-lib=3D to speci=
+fy
+the library to link with.
+
+However, I am not sure this is still needed. It was introduced in:
+commit 2f6a1ab038eefd6e5a9cfc8ec49435f6ad025812
+Author: Blue Swirl <blauwirbel@gmail.com>
+Date:   Thu Aug 21 18:00:53 2008 +0000
+
+    Fix OSS on OpenBSD
+
+    git-svn-id: svn://svn.savannah.nongnu.org/qemu/trunk@5045
+c046a42c-6fe2-441c-8c8c-71466251a162
+
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 ---
->  audio/meson.build | 4 ++--
->  configure         | 5 -----
->  2 files changed, 2 insertions(+), 7 deletions(-)
+>  configure | 3 ---
+>  1 file changed, 3 deletions(-)
 >
-> diff --git a/audio/meson.build b/audio/meson.build
-> index 7d53b0f920..9a95c58f18 100644
-> --- a/audio/meson.build
-> +++ b/audio/meson.build
-> @@ -8,8 +8,8 @@ softmmu_ss.add(files(
->  ))
->
->  softmmu_ss.add(when: [coreaudio, 'CONFIG_AUDIO_COREAUDIO'], if_true:
-> files('coreaudio.c'))
-> -softmmu_ss.add(when: [dsound, 'CONFIG_AUDIO_DSOUND'], if_true:
-> files('dsoundaudio.c'))
-> -softmmu_ss.add(when: ['CONFIG_AUDIO_WIN_INT'], if_true:
-> files('audio_win_int.c'))
-> +softmmu_ss.add(when: [dsound, 'CONFIG_AUDIO_DSOUND'],
-> +               if_true: files('dsoundaudio.c', 'audio_win_int.c'))
->
->  audio_modules =3D {}
->  foreach m : [
 > diff --git a/configure b/configure
-> index ab6bc0c994..6a6273ce7b 100755
+> index 877bf3d76a..ab6bc0c994 100755
 > --- a/configure
 > +++ b/configure
-> @@ -245,7 +245,6 @@ block_drv_rw_whitelist=3D""
->  block_drv_ro_whitelist=3D""
->  block_drv_whitelist_tools=3D"no"
->  host_cc=3D"cc"
-> -audio_win_int=3D""
->  libs_qga=3D""
->  debug_info=3D"yes"
->  lto=3D"false"
-> @@ -3075,7 +3074,6 @@ for drv in $audio_drv_list; do
->
->      dsound)
->        dsound_libs=3D"-lole32 -ldxguid"
-> -      audio_win_int=3D"yes"
->      ;;
->
->      oss)
-> @@ -4560,9 +4558,6 @@ if test "$libjack" =3D "yes" ; then
->      echo "CONFIG_LIBJACK=3Dy" >> $config_host_mak
->  fi
->  echo "JACK_LIBS=3D$jack_libs" >> $config_host_mak
-> -if test "$audio_win_int" =3D "yes" ; then
-> -  echo "CONFIG_AUDIO_WIN_INT=3Dy" >> $config_host_mak
-> -fi
->  echo "CONFIG_BDRV_RW_WHITELIST=3D$block_drv_rw_whitelist" >>
-> $config_host_mak
->  echo "CONFIG_BDRV_RO_WHITELIST=3D$block_drv_ro_whitelist" >>
-> $config_host_mak
->  if test "$block_drv_whitelist_tools" =3D "yes" ; then
+> @@ -1007,8 +1007,6 @@ for opt do
+>    ;;
+>    --enable-gettext) gettext=3D"enabled"
+>    ;;
+> -  --oss-lib=3D*) oss_lib=3D"$optarg"
+> -  ;;
+>    --audio-drv-list=3D*) audio_drv_list=3D"$optarg"
+>    ;;
+>    --block-drv-rw-whitelist=3D*|--block-drv-whitelist=3D*)
+> block_drv_rw_whitelist=3D$(echo "$optarg" | sed -e 's/,/ /g')
+> @@ -1815,7 +1813,6 @@ Advanced options (experts only):
+>    --disable-slirp          disable SLIRP userspace network connectivity
+>    --enable-tcg-interpreter enable TCI (TCG with bytecode interpreter,
+> experimental and slow)
+>    --enable-malloc-trim     enable libc malloc_trim() for memory
+> optimization
+> -  --oss-lib                path to OSS library
+>    --cpu=3DCPU                Build for host CPU [$cpu]
+>    --with-coroutine=3DBACKEND coroutine backend. Supported options:
+>                             ucontext, sigaltstack, windows
 > --
 > 2.31.1
 >
@@ -163,18 +152,18 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 --=20
 Marc-Andr=C3=A9 Lureau
 
---0000000000003d3c7c05cdc94d34
+--000000000000fa7e1a05cdc94db7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 7, 2021 at 5:09 PM Paolo =
-Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank">pbonzi=
-ni@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">Ever since winwaveaudio was removed in 2015, CONFIG_AUDIO_WIN_=
-INT<br>
-is only set if dsound is in use, so use CONFIG_AUDIO_DSOUND directly.<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 7, 2021 at 5:11 PM Paol=
+o Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank">pbon=
+zini@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">OSS is a kernel API, so the option should not be needed.=C2=
+=A0 The library<br>
+is used on NetBSD, where OSS is emulated, so keep the variable.<br>
 <br>
 Cc: Gerd Hoffman &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank"=
 >kraxel@redhat.com</a>&gt;<br>
@@ -182,70 +171,54 @@ Cc: Volker R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-online.de" target=
 =3D"_blank">vr_qemu@t-online.de</a>&gt;<br>
 Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
 get=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><=
-div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lur=
-eau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;</div>=
-<div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+div>Not just NetBSD. You could --audio-drv-list=3Doss and --oss-lib=3D to s=
+pecify the library to link with.</div><div><br></div><div>However, I am not=
+ sure this is still needed. It was introduced in:</div><div>commit 2f6a1ab0=
+38eefd6e5a9cfc8ec49435f6ad025812<br>Author: Blue Swirl &lt;<a href=3D"mailt=
+o:blauwirbel@gmail.com" target=3D"_blank">blauwirbel@gmail.com</a>&gt;<br>D=
+ate: =C2=A0 Thu Aug 21 18:00:53 2008 +0000<br><br>=C2=A0 =C2=A0 Fix OSS on =
+OpenBSD<br>=C2=A0 =C2=A0 <br>=C2=A0 =C2=A0 git-svn-id: svn://<a href=3D"htt=
+p://svn.savannah.nongnu.org/qemu/trunk@5045" target=3D"_blank">svn.savannah=
+.nongnu.org/qemu/trunk@5045</a> c046a42c-6fe2-441c-8c8c-71466251a162<br></d=
+iv><div><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"m=
+ailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redha=
+t.com</a>&gt;<br></div><div><br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">
 ---<br>
-=C2=A0audio/meson.build | 4 ++--<br>
-=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 5 -----<br>
-=C2=A02 files changed, 2 insertions(+), 7 deletions(-)<br>
+=C2=A0configure | 3 ---<br>
+=C2=A01 file changed, 3 deletions(-)<br>
 <br>
-diff --git a/audio/meson.build b/audio/meson.build<br>
-index 7d53b0f920..9a95c58f18 100644<br>
---- a/audio/meson.build<br>
-+++ b/audio/meson.build<br>
-@@ -8,8 +8,8 @@ softmmu_ss.add(files(<br>
-=C2=A0))<br>
-<br>
-=C2=A0softmmu_ss.add(when: [coreaudio, &#39;CONFIG_AUDIO_COREAUDIO&#39;], i=
-f_true: files(&#39;coreaudio.c&#39;))<br>
--softmmu_ss.add(when: [dsound, &#39;CONFIG_AUDIO_DSOUND&#39;], if_true: fil=
-es(&#39;dsoundaudio.c&#39;))<br>
--softmmu_ss.add(when: [&#39;CONFIG_AUDIO_WIN_INT&#39;], if_true: files(&#39=
-;audio_win_int.c&#39;))<br>
-+softmmu_ss.add(when: [dsound, &#39;CONFIG_AUDIO_DSOUND&#39;],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if_true: files(&#39=
-;dsoundaudio.c&#39;, &#39;audio_win_int.c&#39;))<br>
-<br>
-=C2=A0audio_modules =3D {}<br>
-=C2=A0foreach m : [<br>
 diff --git a/configure b/configure<br>
-index ab6bc0c994..6a6273ce7b 100755<br>
+index 877bf3d76a..ab6bc0c994 100755<br>
 --- a/configure<br>
 +++ b/configure<br>
-@@ -245,7 +245,6 @@ block_drv_rw_whitelist=3D&quot;&quot;<br>
-=C2=A0block_drv_ro_whitelist=3D&quot;&quot;<br>
-=C2=A0block_drv_whitelist_tools=3D&quot;no&quot;<br>
-=C2=A0host_cc=3D&quot;cc&quot;<br>
--audio_win_int=3D&quot;&quot;<br>
-=C2=A0libs_qga=3D&quot;&quot;<br>
-=C2=A0debug_info=3D&quot;yes&quot;<br>
-=C2=A0lto=3D&quot;false&quot;<br>
-@@ -3075,7 +3074,6 @@ for drv in $audio_drv_list; do<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0dsound)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0dsound_libs=3D&quot;-lole32 -ldxguid&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 audio_win_int=3D&quot;yes&quot;<br>
-=C2=A0 =C2=A0 =C2=A0;;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0oss)<br>
-@@ -4560,9 +4558,6 @@ if test &quot;$libjack&quot; =3D &quot;yes&quot; ; th=
-en<br>
-=C2=A0 =C2=A0 =C2=A0echo &quot;CONFIG_LIBJACK=3Dy&quot; &gt;&gt; $config_ho=
-st_mak<br>
-=C2=A0fi<br>
-=C2=A0echo &quot;JACK_LIBS=3D$jack_libs&quot; &gt;&gt; $config_host_mak<br>
--if test &quot;$audio_win_int&quot; =3D &quot;yes&quot; ; then<br>
--=C2=A0 echo &quot;CONFIG_AUDIO_WIN_INT=3Dy&quot; &gt;&gt; $config_host_mak=
-<br>
--fi<br>
-=C2=A0echo &quot;CONFIG_BDRV_RW_WHITELIST=3D$block_drv_rw_whitelist&quot; &=
-gt;&gt; $config_host_mak<br>
-=C2=A0echo &quot;CONFIG_BDRV_RO_WHITELIST=3D$block_drv_ro_whitelist&quot; &=
-gt;&gt; $config_host_mak<br>
-=C2=A0if test &quot;$block_drv_whitelist_tools&quot; =3D &quot;yes&quot; ; =
-then<br>
+@@ -1007,8 +1007,6 @@ for opt do<br>
+=C2=A0 =C2=A0;;<br>
+=C2=A0 =C2=A0--enable-gettext) gettext=3D&quot;enabled&quot;<br>
+=C2=A0 =C2=A0;;<br>
+-=C2=A0 --oss-lib=3D*) oss_lib=3D&quot;$optarg&quot;<br>
+-=C2=A0 ;;<br>
+=C2=A0 =C2=A0--audio-drv-list=3D*) audio_drv_list=3D&quot;$optarg&quot;<br>
+=C2=A0 =C2=A0;;<br>
+=C2=A0 =C2=A0--block-drv-rw-whitelist=3D*|--block-drv-whitelist=3D*) block_=
+drv_rw_whitelist=3D$(echo &quot;$optarg&quot; | sed -e &#39;s/,/ /g&#39;)<b=
+r>
+@@ -1815,7 +1813,6 @@ Advanced options (experts only):<br>
+=C2=A0 =C2=A0--disable-slirp=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 disable SLIR=
+P userspace network connectivity<br>
+=C2=A0 =C2=A0--enable-tcg-interpreter enable TCI (TCG with bytecode interpr=
+eter, experimental and slow)<br>
+=C2=A0 =C2=A0--enable-malloc-trim=C2=A0 =C2=A0 =C2=A0enable libc malloc_tri=
+m() for memory optimization<br>
+-=C2=A0 --oss-lib=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pa=
+th to OSS library<br>
+=C2=A0 =C2=A0--cpu=3DCPU=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 Build for host CPU [$cpu]<br>
+=C2=A0 =C2=A0--with-coroutine=3DBACKEND coroutine backend. Supported option=
+s:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 ucontext, sigaltstack, windows<br>
 -- <br>
 2.31.1<br>
 <br>
@@ -254,5 +227,5 @@ then<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
 =C3=A9 Lureau<br></div></div>
 
---0000000000003d3c7c05cdc94d34--
+--000000000000fa7e1a05cdc94db7--
 
