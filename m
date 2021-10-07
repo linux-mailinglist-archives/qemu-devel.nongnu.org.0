@@ -2,44 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387C0425FB4
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 00:16:19 +0200 (CEST)
-Received: from localhost ([::1]:54660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC307425FB6
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 00:16:24 +0200 (CEST)
+Received: from localhost ([::1]:54818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYbgY-0005tO-8U
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 18:16:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55964)
+	id 1mYbgd-000602-SV
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 18:16:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mYbdc-0003GQ-FS
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 18:13:16 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41884
+ id 1mYbdh-0003K6-Rb
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 18:13:21 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41890
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mYbdb-0006p2-3v
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 18:13:16 -0400
+ id 1mYbde-0006s5-Pu
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 18:13:21 -0400
 Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mYbdL-0003uC-Rg; Thu, 07 Oct 2021 23:13:03 +0100
+ id 1mYbdP-0003uC-UY; Thu, 07 Oct 2021 23:13:07 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Thu,  7 Oct 2021 23:12:43 +0100
-Message-Id: <20211007221253.29024-4-mark.cave-ayland@ilande.co.uk>
+Date: Thu,  7 Oct 2021 23:12:44 +0100
+Message-Id: <20211007221253.29024-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211007221253.29024-1-mark.cave-ayland@ilande.co.uk>
 References: <20211007221253.29024-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v4 03/13] macfb: fix invalid object reference in
- macfb_common_realize()
+Subject: [PATCH v4 04/13] macfb: fix overflow of color_palette array
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,35 +63,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-During realize memory_region_init_ram_nomigrate() is used to initialise the RAM
-memory region used for the framebuffer but the owner object reference is
-incorrect since MacFbState is a typedef and not a QOM type.
-
-Change the memory region owner to be the corresponding DeviceState to fix the
-issue and prevent random crashes during macfb_common_realize().
+The palette_current index counter has a maximum size of 256 * 3 to cover a full
+color palette of 256 RGB entries. Linux assumes that the palette_current index
+wraps back around to zero after writing 256 RGB entries so ensure that
+palette_current is reset at this point to prevent data corruption within
+MacfbState.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Fixes: 8ac919a0654 ("hw/m68k: add Nubus macfb video card")
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/display/macfb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/display/macfb.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 2ec25c5d6f..b363bab889 100644
+index b363bab889..39dab49026 100644
 --- a/hw/display/macfb.c
 +++ b/hw/display/macfb.c
-@@ -365,7 +365,7 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
-     memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &macfb_ctrl_ops, s,
-                           "macfb-ctrl", 0x1000);
- 
--    memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram",
-+    memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(dev), "macfb-vram",
-                                      MACFB_VRAM_SIZE, &error_abort);
-     s->vram = memory_region_get_ram_ptr(&s->mem_vram);
-     s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
+@@ -303,7 +303,9 @@ static void macfb_ctrl_write(void *opaque,
+         s->palette_current = 0;
+         break;
+     case DAFB_LUT:
+-        s->color_palette[s->palette_current++] = val;
++        s->color_palette[s->palette_current] = val;
++        s->palette_current = (s->palette_current + 1) %
++                             ARRAY_SIZE(s->color_palette);
+         if (s->palette_current % 3) {
+             macfb_invalidate_display(s);
+         }
 -- 
 2.20.1
 
