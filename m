@@ -2,71 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD691424A02
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 00:44:36 +0200 (CEST)
-Received: from localhost ([::1]:41998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F147424B64
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 02:52:56 +0200 (CEST)
+Received: from localhost ([::1]:56026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYFeN-0008Hk-AX
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 18:44:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36158)
+	id 1mYHeY-0008Hl-PY
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 20:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mYFd3-0007Yz-KZ
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 18:43:13 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:45816)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mYFd2-00085W-Cg
- for qemu-devel@nongnu.org; Wed, 06 Oct 2021 18:43:13 -0400
-Received: by mail-io1-xd34.google.com with SMTP id 134so4555414iou.12
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 15:43:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wB2P8hed2rlLuRMqKW2m1CNyPSKIOseKy08zMLQr+Rc=;
- b=Qckaql3uccO9n2hIhbHbYGru4VxuzD/6kBRMdE4/+YA2UHG+L0+3UXH8jXnsWtQKIp
- G+6WYoIFEPAz87NwovMkvksmVkWtlzjV9lQ3kZ7n4cVj2ksBQMWZZTOQ0s7TM7lukUfP
- WzBHWUcbGYDMuAt8I8POO88NF6h05TRfnRqbL4JDz1JIx1cfie+q8+J00bYChY6g2/hP
- kyY1qi08ltyceXwx5NMTg490Nk9zY60+jNJRs9YpVjs9B0sV30HZc1ZwwWzw/s20v0dG
- 56e6eCF/g78ZWxsiKucg3isI5cc/VJUJZawEyodB7MxrcfnELEQJCuT5Iv5143HIeohE
- Cmkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wB2P8hed2rlLuRMqKW2m1CNyPSKIOseKy08zMLQr+Rc=;
- b=h4mzS1ur3VMrBwBmuVJE6pN9aG7ErpsmGI8q/uiYCGy8tvwVpcfPClInJL/Qm7thwP
- /rkR2XIZasy6kcCqtogTaeDGGxbL1Z1y+S2ivX4/FWRjT0EJNxUFu0yQFxFQ5wNRcc25
- ktahI9gpkOjV0gOwlZ+VJwDAdyC3VaamiAZev8BpDkWuoeAKYHnR8KwoaxZ4CDyJLgqT
- MokpmCFV9CLsnUto81HkgVQk2TEC6rM+9NtglcxwaVLYJAuZjDZnPeWlg6pUvrht2Vhu
- ZdcQst8kUwxG3jNi+PP1QcyYoJp8VtP6tCn8aOJM7N9H4MDDeLQHJHndsBxwNHVnps8D
- A8iw==
-X-Gm-Message-State: AOAM530UAOI1auEFkclBa1zvOWzg0NDXKd0r+rMA8TO5b3KMxcgXEm54
- 4VeQhKFusrmvtreOzpyLZ0KyWXd9d/FO88KWEJU=
-X-Google-Smtp-Source: ABdhPJw3Fr5sTvAh12Zui7HdLwtfN2xFdRXq4GdVWoeFuuKsJt2P9RJkZRGlBCdSjxAZ5nzcsm5sEYLie8hQamwmFL0=
-X-Received: by 2002:a02:3407:: with SMTP id x7mr289208jae.18.1633560191201;
- Wed, 06 Oct 2021 15:43:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mYHao-0006K7-0i; Wed, 06 Oct 2021 20:49:02 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:36343)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1mYHal-0005LG-Fs; Wed, 06 Oct 2021 20:49:01 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4HPt3x07GZz4xbG; Thu,  7 Oct 2021 11:48:45 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1633567725;
+ bh=cOzmjXvnUC27qCcrtMEh7WXcCbTK1D9zOmttGSBubag=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OGjAF0dU44LwtQWVRsBnnvR+Wl3HVIewyTXm8ZyhjXmD1rrbTAaeOAb9BKbF0SdoA
+ a52bvcH09uLqWU+Fc7cTjY1UBTyzilC7kH++NsA5vfRExM7IxymkIgWw3t3eV/ZTW8
+ qswXi8Ur+/UHBIxv7ZBsbtN5/6xqD27Yj4Aq+PkM=
+Date: Thu, 7 Oct 2021 11:46:55 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH] hw/ppc/spapr_softmmu: Reduce include list
+Message-ID: <YV5DfyHw8FMTtpBv@yekko>
+References: <20211006170801.178023-1-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20211003214243.3813425-1-philipp.tomsich@vrull.eu>
- <20211003214243.3813425-2-philipp.tomsich@vrull.eu>
-In-Reply-To: <20211003214243.3813425-2-philipp.tomsich@vrull.eu>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 7 Oct 2021 08:42:45 +1000
-Message-ID: <CAKmqyKNCnWSDw8JdRtvZQXaGJ337snkZ6BKboM6DjK2yoX8KBg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] target/riscv: Use dup_const_tl in orc.b to
- legalise truncation of constant
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="52gsmy8EKimSv6pt"
+Content-Disposition: inline
+In-Reply-To: <20211006170801.178023-1-philmd@redhat.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,23 +57,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Lucas Mateus Castro <lucas.araujo@eldorado.org.br>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 4, 2021 at 7:44 AM Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
->
-> We need to use the newly introduced dup_const_tl in orc.b to legalise
-> the truncation (to target_long) of the constant generated with dup_const.
->
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Thanks, I have applied this.
+--52gsmy8EKimSv6pt
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I squashed it into the original commit to ensure there are no build regressions.
+On Wed, Oct 06, 2021 at 07:08:01PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Commit 962104f0448 ("hw/ppc: moved hcalls that depend on softmmu")
+> introduced a lot of unnecessary #include directives. Remove them.
 
-Alistair
+Applied to ppc-for-6.2, thanks.
+
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> ---
+>  hw/ppc/spapr_softmmu.c | 15 ---------------
+>  1 file changed, 15 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_softmmu.c b/hw/ppc/spapr_softmmu.c
+> index 6c6b86dd3c6..f8924270eff 100644
+> --- a/hw/ppc/spapr_softmmu.c
+> +++ b/hw/ppc/spapr_softmmu.c
+> @@ -1,25 +1,10 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/cutils.h"
+> -#include "qapi/error.h"
+> -#include "sysemu/hw_accel.h"
+> -#include "sysemu/runstate.h"
+> -#include "qemu/log.h"
+> -#include "qemu/main-loop.h"
+> -#include "qemu/module.h"
+> -#include "qemu/error-report.h"
+>  #include "cpu.h"
+> -#include "exec/exec-all.h"
+>  #include "helper_regs.h"
+>  #include "hw/ppc/spapr.h"
+> -#include "hw/ppc/spapr_cpu_core.h"
+>  #include "mmu-hash64.h"
+> -#include "cpu-models.h"
+> -#include "trace.h"
+> -#include "kvm_ppc.h"
+> -#include "hw/ppc/fdt.h"
+> -#include "hw/ppc/spapr_ovec.h"
+>  #include "mmu-book3s-v3.h"
+> -#include "hw/mem/memory-device.h"
+> =20
+>  static inline bool valid_ptex(PowerPCCPU *cpu, target_ulong ptex)
+>  {
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--52gsmy8EKimSv6pt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFeQ30ACgkQbDjKyiDZ
+s5LANBAA3938bioAcOFAhjUo1uYBerXX6/cdBUp3YWGJ90zoUkdkoEz77svMjLCj
+Mx/PpKA3RxsCthAs1GifhN2HNr2NgNNUYPP/B8tOLN7a4nR14kosdQdxAHEQrCBm
+X0PcQHcvzL3SojjusZlSE2T1UUmfeSA79GVSVIZ8IAp9TUfKb6b0HW7BfE4/qKrc
+Mjp8BwNGbGYbMwKGBeEuvSSaG//iNn3TEf1rFS41C43XzIKCtj3zQRbc42TBWMbK
+aaPbHZTwKv0WwLvI2i8AuDCBMmVlucTDXe8K2A5feq083YOuA3/8d/m0p65IVf9c
+HlXggDKHHnomGIFen94S7k0hvvy2X5k2/aKIQixqCgaCX+/7LZj/6mciQgeV4+/K
+I93uGuYiPintm4rZQhjQm0jnXVzLKv+eE8I58k4LGHcgyuZriYbWwSQp/T5NaCas
+4o/c0qezuOzs7xqPxsMoFVKOG90o6tk08hwSE5UjXI/edGcApDcKmAABwJu49eSA
+BA2y92VdmNzCN4lwybkkOOdVD7q/kE2qzCAzHnXK3cB9V8pqSsMtKhwTpIRTZsHk
+FaX5dD75JKdr+wFtDYNefRyg/+RZHdA6LW7As4NitOmkjbAEhCh62LBdxMdnAvV5
+/GxraFfemYk19p/Hy0938bI2/gQuCGl9sYQTXPegJlgtN2Im5Cw=
+=1lOk
+-----END PGP SIGNATURE-----
+
+--52gsmy8EKimSv6pt--
 
