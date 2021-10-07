@@ -2,79 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2EA424E0C
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 09:23:23 +0200 (CEST)
-Received: from localhost ([::1]:33734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C04FD424E22
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 09:33:22 +0200 (CEST)
+Received: from localhost ([::1]:45394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYNkP-0003o6-Om
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 03:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37900)
+	id 1mYNu5-000402-S2
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 03:33:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mYNaD-0001MN-Od
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:12:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52772)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mYNqc-0007BM-9Y
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:29:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mYNaB-0002Iz-WB
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:12:49 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mYNqY-000207-PK
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:29:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633590767;
+ s=mimecast20190719; t=1633591781;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nIYg9Hf7gWgxHqxaeuqdywWFpfqJG4aemKy5Bbp+HOs=;
- b=Hk5wmv06d47BHK092G5BW3aPG9qbl5dGB4X8/CVcIkIP3JnNzA7AAqqDj8U1yoAGNKMrjm
- bCtcjsI0rN0ubQSi+624w1Hsu8AIvLmhPyQNCU6KBkKRsZQQmvR21Bx5BOREMu5eaVad7r
- ODze+cm4gHE5Fco3H+Ep6ir7vR5R5S8=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-FQu1fhlJMfut357zSA7hJA-1; Thu, 07 Oct 2021 03:12:44 -0400
-X-MC-Unique: FQu1fhlJMfut357zSA7hJA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- 2-20020a508e02000000b003d871759f5dso4991305edw.10
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 00:12:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nIYg9Hf7gWgxHqxaeuqdywWFpfqJG4aemKy5Bbp+HOs=;
- b=2TyY50mpGYzojBALeReZ8O+4NDJj+mfZQZP6GNTSoGEkT6MusI1sfr8NPlGR5Kso4V
- E3Ahzrxor40QgnaePO/Gk7IR2dwpQ4/axmVZTXiRQ+8LriJUtzY6hW4k/JRaq6KT9NoT
- BP5FFRP0+gQJXq1OgOwbIUO5T/JnJobSiMbiOgjDk95wZJdUn6GGoHFcmiyWhZeGL+Be
- gyA6/a+t5oxu8bZeye8IINEUHcg79/OIPncepJb44gjU12lwIGF2ZWhEHtjvcvRbxmRg
- UjXK2wsII51Wc4y6x1lvoPsw6v0MwWNENm465b1KimfwKR98gS6k+7ghEF0eHbrTTvGp
- 5iKg==
-X-Gm-Message-State: AOAM532Yy9arqPhJFytsosJaFuu1gsgseRkAgNUIXXEFuAHI8hV2fIdI
- eoZfFyWDbqi7ZbUKTo/ieBbf1LkrlrOFbmfOmZA4Uf58FRzSQcwv/MGHcZP0CUWahWo4UTKol/Q
- y3LLcogQOXIFWC5o=
-X-Received: by 2002:a50:d9c9:: with SMTP id x9mr4019839edj.179.1633590763202; 
- Thu, 07 Oct 2021 00:12:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwCbLQ19bweW3Pxs0iNTYsrk2NvktPW6/yHrxFdDnmYJUMADgb170bz2YGW6IDkYRpROglSzw==
-X-Received: by 2002:a50:d9c9:: with SMTP id x9mr4019805edj.179.1633590762982; 
- Thu, 07 Oct 2021 00:12:42 -0700 (PDT)
-Received: from gator.home (cst2-174-28.cust.vodafone.cz. [31.30.174.28])
- by smtp.gmail.com with ESMTPSA id g23sm10963000edt.1.2021.10.07.00.12.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 00:12:42 -0700 (PDT)
-Date: Thu, 7 Oct 2021 09:12:40 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH v7 7/8] hw/arm/virt-acpi-build: Generate PPTT table
-Message-ID: <20211007071240.oguohccws63w6ljs@gator.home>
-References: <20211007030746.10420-1-wangyanan55@huawei.com>
- <20211007030746.10420-8-wangyanan55@huawei.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4JKXEYQUQMK2mP2twiAJT0yRdkmlAABgxQzIZjqJ/q8=;
+ b=AqBjF9mhRxg1dmkgqCs2GJufDTVbIjOLeKCNlp3plfP4ervDR4WzrTgMpUDZ87d+jzF/pe
+ 84D1S1LKbh9S8ztPprauZT+9pppjNi2GYRVWx/xQHXy2g3AwY313lGEd+ghJb74+7qgJze
+ EoagqYo9V76UKkeJRxi5JEtIrW1S5hM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-dTVaEEH7Of6h8SxmL8LX-g-1; Thu, 07 Oct 2021 03:29:37 -0400
+X-MC-Unique: dTVaEEH7Of6h8SxmL8LX-g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09F32101AFB0;
+ Thu,  7 Oct 2021 07:29:36 +0000 (UTC)
+Received: from laptop.redhat.com (unknown [10.39.192.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8321010013C1;
+ Thu,  7 Oct 2021 07:29:24 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, mst@redhat.com,
+ imammedo@redhat.com, philmd@redhat.com, peter.maydell@linaro.org,
+ shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ ardb@kernel.org, drjones@redhat.com
+Subject: [PATCH v4 0/3] hw/arm/virt_acpi_build: Generate DBG2 table
+Date: Thu,  7 Oct 2021 09:29:19 +0200
+Message-Id: <20211007072922.655330-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211007030746.10420-8-wangyanan55@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
@@ -94,52 +78,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, wanghaibin.wang@huawei.com,
- Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: gshan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 07, 2021 at 11:07:45AM +0800, Yanan Wang wrote:
-> Generate PPTT table for Arm virt machines.
-> 
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->  hw/arm/virt-acpi-build.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 6cec97352b..658a0a5d39 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -875,13 +875,19 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->      dsdt = tables_blob->len;
->      build_dsdt(tables_blob, tables->linker, vms);
->  
-> -    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
-> +    /* FADT MADT PPTT GTDT MCFG SPCR pointed to by RSDT */
->      acpi_add_table(table_offsets, tables_blob);
->      build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
->  
->      acpi_add_table(table_offsets, tables_blob);
->      build_madt(tables_blob, tables->linker, vms);
->  
-> +    if (!vmc->no_cpu_topology) {
-> +        acpi_add_table(table_offsets, tables_blob);
-> +        build_pptt(tables_blob, tables->linker, ms,
-> +                   vms->oem_id, vms->oem_table_id);
-> +    }
-> +
->      acpi_add_table(table_offsets, tables_blob);
->      build_gtdt(tables_blob, tables->linker, vms);
->  
-> -- 
-> 2.19.1
->
+This series generates the ACPI DBG2 table along with machvirt.
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+The DBG2 specification can be found at
+https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table.
+
+DBG2 is mandated by ARM SBBR since its v1.0 release (the rationale
+behind is Windows requires it on all systems).
+
+The DBG2 is used to describe a debug port, used by the kernel debugger.
+
+History:
+
+v3 ->v4:
+- fix revision in header (0)
+- added Michael's R-b
+- address 2 minor style issues (Drew, Igor)
+
+v2 -> v3:
+- addressed all comments from Igor on v2:
+  patches 2/3 swapped
+  style adjustments in "hw/arm/virt_acpi_build: Generate DBG2 table"
+  + more precision on spec references
+
+v1 -> v2:
+- rebase on top of Igor's series and use acpi_init_table/acpi_table_composed
+  and build_append_int_noprefix()
+
+
+Eric Auger (3):
+  tests/acpi: Add void table for virt/DBG2 bios-tables-test
+  hw/arm/virt_acpi_build: Generate DBG2 table
+  bios-tables-test: Generate reference table for virt/DBG2
+
+ hw/arm/virt-acpi-build.c  |  63 +++++++++++++++++++++++++++++++++++++-
+ tests/data/acpi/virt/DBG2 | Bin 0 -> 87 bytes
+ 2 files changed, 62 insertions(+), 1 deletion(-)
+ create mode 100644 tests/data/acpi/virt/DBG2
+
+-- 
+2.26.3
 
 
