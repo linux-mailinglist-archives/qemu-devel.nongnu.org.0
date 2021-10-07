@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA7C425350
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:42:41 +0200 (CEST)
-Received: from localhost ([::1]:38620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD183425357
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:44:43 +0200 (CEST)
+Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYSjQ-0006dw-Mw
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:42:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48352)
+	id 1mYSlO-0000lK-T8
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:44:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYSee-0002XT-GI
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:37:46 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:57665)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYSfn-0003cT-Ie
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:38:55 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:45237)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYSea-0007d5-HJ
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:37:44 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYSfk-00011D-Tg
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:38:54 -0400
 Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MAP77-1mek3d3C4R-00Bvo5; Thu, 07 Oct 2021 14:37:38 +0200
-Subject: Re: [PATCH v3 04/13] macfb: fix overflow of color_palette array
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MFKCV-1mauaA0Rqr-00Fk6a; Thu, 07 Oct 2021 14:38:51 +0200
+Subject: Re: [PATCH v3 06/13] macfb: add trace events for reading and writing
+ the control registers
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 References: <20211007093407.3329-1-mark.cave-ayland@ilande.co.uk>
- <20211007093407.3329-5-mark.cave-ayland@ilande.co.uk>
+ <20211007093407.3329-7-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <0bc94045-da38-ffe9-4be2-22b322c1a284@vivier.eu>
-Date: Thu, 7 Oct 2021 14:37:37 +0200
+Message-ID: <f85ab6a9-1911-ef40-420d-69e29f59c5fd@vivier.eu>
+Date: Thu, 7 Oct 2021 14:38:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20211007093407.3329-5-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20211007093407.3329-7-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+JvZkL+a6VbmBGVJGzVFdy5hGoElbkkUZ9oXaYlHlvdSwQt9O2W
- UB4Y5Y4G1gGKPfGqbokBxw3V2HR2FBqzJIz2hMrLdar6qtNKMMZrI2neumD+WvpHmF5cRKq
- ht6s0ugnSOTVnwT/YWBBbEmVLs1n1hqpqXS8goQ6kBbD5VVtSy5rxRCcXsYVOfxBNF+m3ym
- dJ5NBCAvJ2vo5G5OnR9RA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gqglXY2KOao=:eMfNSTwFKjKwYPr9Jh/+OK
- yLEd/jWmH1pnuWOdOk9cn1JB9VJWsDi1DpS/qe+8tYIpPrmmFJngNhkoh4w25Yb6Xp12v82DI
- azjSTMe2tNgMr24KR5qZfY2/7HKlJ1LvMsmcItmW/DhYPwo2QQoGawfYeV0GJ7S2yYXNjfshx
- RAQ6dVgdhvuj+lLb0kWdRkBht5t+b7hhXYMWI9ZzJMeV34ytcvSCfmZpnzV1fuo0n23t9sXbp
- 8j48RMFbwgH1VrenQMCgAIIllmpwv7MFbNM6Ncx3HOwWysmHDabshPNA/Kwg/64Yl6tEhpxp1
- wwrwZQfmWoDPhN2crmBMcxwN+1uyT3RNML5O+W43c8XbPHyuAQkI6tOarA3w15axn/M1vrCBE
- 9hsX9lVo/yKlNV78gbKolDDHDk3nntG34+wt1KWoH/5ezxqosSM/ZCzFXD2EzHNo+BLCv9vY0
- B/TnPppeVShYLdKQdFjc+nt21XZG7ncGWCV1113j7NU8Hzl+TpuRz4+O3Gmeol6N/1WJcF+eZ
- OMlo/yrprprcHb8KDcdtXT9MGZbClwBhV3Vbwzk9UomoXcTlVAgqk3Pk0YOio8PMhz9ade0K7
- YZZB9x17DdEGZEAJ++juzz8+h9hCmuZK/Zv6BKJwEK3CvQlCirpyOdMzpU9Vq6Ct0xMDwTj/b
- xfImWJPwmruxgrBMlQltTCgxd93fMFN8W1RvSWMdtuVSk7M7ZKEDRdQibOV6/c84B3IZS327T
- zDd/i8Q6X39knoBsvC5kyVN+Fy+bXFdGicnkEQ==
+X-Provags-ID: V03:K1:FVWK0sGMGi+0w22guDgyZDHZ2F8EGq9JXX9IXdkEk3SWfugCC+w
+ FSxfjx5aA/m3QQI+dJZGwEcFunC5fTMxjDin/Vu/ud1asgL79wN0rWco2Rq7BT2+NEkZ42T
+ 9Gj1x35ZY8OXPkFalepdnEmbTLStrlNFwTfkcI1pbWmynHHHcv0j9vr2JEw4Wx3oCQVFq5j
+ dhwKpSd1PpXwctHyPGdgw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pRP3aqDEE0s=:4H1hYdF5T9eWwo1zW9RJn5
+ 5aUqG56LQzr3NkH+Mg6Gxj785naQIumV7HY33WZ6mo/la0R/0vgqFAgTVrwIlpnyyJNk1Z3ms
+ ngMAW7MKF6IoIIVi7zKG5icNxR3sODMHOADrwh6zRuCGoO1ulTFDgA1gulYLSFso7Le5vCuzr
+ tHKWzeoIBZluJOB7HlgGJZ/ySY3+WbkT4pLcBZFmlytelSEEPMNP/9y31VyAvqbsLCFyPOb4G
+ VmsuTGxGse0OgXits5+Zq1sxJZkig26SJQTi0QvxuncWxQrRHXtj6WCefXRo+yNA2eAvDJ+Hr
+ rqYRH4dNNS9Js0kD9qMOzfFQ+1j3SjZV5Qvbx6bmzl7BInLpSxVsR/LNxSD91G2kHSRcnvtne
+ uO+/JqqQyyCQzamQYu5LjCAl8OGQy19hce28ttqJwWXKT/EOqASpZrhI+BMlLnzBfxuRWYS/T
+ k3TwTGftCNpbebzL1RCQycLI4hEjNAjycCtNjhJQX15SsjPMW5P1k1OlFCTFBrxWXiNhMVMjF
+ 6cenuYj0l/365JZI9VNRw8bMsp6nyx6bTuKIT3863A8DsDQXTEX/4k6meiE7CyCumwsxkijHp
+ BBOrN20vEDkwQnIpiQignH8Hy2yRvdl37tNpBeEXfed9ruGgQz7/uE4vm53HDLI7nDMOl+nYj
+ E4hU8JLnrfX8xjIqkYwBgV4TqcduznAgXe+CvdB0M1jbPqR7VEAkju860+/xio7PY06zeCOxy
+ z5Pvmmuh27bhjuGqHiuyOm2cRFTy8x7BLg+jgQ==
 Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -38
@@ -73,34 +74,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 07/10/2021 à 11:33, Mark Cave-Ayland a écrit :
-> The palette_current index counter has a maximum size of 256 * 3 to cover a full
-> color palette of 256 RGB entries. Linux assumes that the palette_current index
-> wraps back around to zero after writing 256 RGB entries so ensure that
-> palette_current is reset at this point to prevent data corruption within
-> MacfbState.
-> 
+Le 07/10/2021 à 11:34, Mark Cave-Ayland a écrit :
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > ---
->  hw/display/macfb.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  hw/display/macfb.c      | 8 +++++++-
+>  hw/display/trace-events | 4 ++++
+>  2 files changed, 11 insertions(+), 1 deletion(-)
 > 
 > diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-> index b363bab889..39dab49026 100644
+> index f88f5a6523..1128a51c98 100644
 > --- a/hw/display/macfb.c
 > +++ b/hw/display/macfb.c
-> @@ -303,7 +303,9 @@ static void macfb_ctrl_write(void *opaque,
->          s->palette_current = 0;
->          break;
->      case DAFB_LUT:
-> -        s->color_palette[s->palette_current++] = val;
-> +        s->color_palette[s->palette_current] = val;
-> +        s->palette_current = (s->palette_current + 1) %
-> +                             ARRAY_SIZE(s->color_palette);
->          if (s->palette_current % 3) {
->              macfb_invalidate_display(s);
+> @@ -20,6 +20,7 @@
+>  #include "qapi/error.h"
+>  #include "hw/qdev-properties.h"
+>  #include "migration/vmstate.h"
+> +#include "trace.h"
+>  
+>  #define VIDEO_BASE 0x00001000
+>  #define DAFB_BASE  0x00800000
+> @@ -289,7 +290,10 @@ static uint64_t macfb_ctrl_read(void *opaque,
+>                                  hwaddr addr,
+>                                  unsigned int size)
+>  {
+> -    return 0;
+> +    uint64_t val = 0;
+> +
+> +    trace_macfb_ctrl_read(addr, val, size);
+> +    return val;
+>  }
+>  
+>  static void macfb_ctrl_write(void *opaque,
+> @@ -311,6 +315,8 @@ static void macfb_ctrl_write(void *opaque,
 >          }
-> 
+>          break;
+>      }
+> +
+> +    trace_macfb_ctrl_write(addr, val, size);
+>  }
+>  
+>  static const MemoryRegionOps macfb_ctrl_ops = {
+> diff --git a/hw/display/trace-events b/hw/display/trace-events
+> index f03f6655bc..6c460aaa4c 100644
+> --- a/hw/display/trace-events
+> +++ b/hw/display/trace-events
+> @@ -167,3 +167,7 @@ sm501_disp_ctrl_read(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
+>  sm501_disp_ctrl_write(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
+>  sm501_2d_engine_read(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
+>  sm501_2d_engine_write(uint32_t addr, uint32_t val) "addr=0x%x, val=0x%x"
+> +
+> +# macfb.c
+> +macfb_ctrl_read(uint64_t addr, uint64_t value, unsigned int size) "addr 0x%"PRIx64 " value 0x%"PRIx64 " size %d"
+> +macfb_ctrl_write(uint64_t addr, uint64_t value, unsigned int size) "addr 0x%"PRIx64 " value 0x%"PRIx64 " size %d"
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+You changed the "int" to "unsigned int", you should change the "%d" to "%u"
+
+Thanks,
+Laurent
 
