@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE7B42553E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 16:21:39 +0200 (CEST)
-Received: from localhost ([::1]:51608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEE2425553
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 16:23:39 +0200 (CEST)
+Received: from localhost ([::1]:54492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYUHC-0008HF-3q
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 10:21:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48142)
+	id 1mYUJ8-0001w4-4N
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 10:23:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYUFi-0007Rq-Rn
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:20:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41959)
+ id 1mYUHB-0000RG-Jt
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:21:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYUFh-0003LT-FN
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:20:06 -0400
+ id 1mYUHA-0004RT-3E
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:21:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633616404;
+ s=mimecast20190719; t=1633616495;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4UGWhR7ZlTY+MJQBWYjqqVRL/ibf+HAKZzbZGtutJaE=;
- b=fFNJ9N3vAF7iwN1uW7lPQcQ1RSEEePCfYGoY8NhWhvViUDhPKF9hAjrGVzQRzLCYhrT8nS
- LzPpj0SZqq/RhN76OxTTmF/DFI6B15QQWL/ioTvECyQS9yZnSNwkkqZOajuyUI5W/IDDyQ
- sQbKCJBslPndATPxoXgtykGOH4RgLSQ=
+ bh=1uDCGood37Dqi7tgvB0NmozVjZl8znegMARMu+3skhU=;
+ b=SIveAykDEaKtLbL61NOpFlKMpJHY/DWSm38mAiCmnFZ139+o4oZZLf+sz75c3rzpuHn4B7
+ PAwD3c/QSv2/XocUpfHVEfznG6TcChTX2sZqn5UNopp+LAne4FHmBbClX+Qbug0MDg8qRk
+ a9/sQWsl103ao/xGbz75lVn3SXy+EGg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-a56YH6tHPc-ycuHy1ifTRA-1; Thu, 07 Oct 2021 10:20:01 -0400
-X-MC-Unique: a56YH6tHPc-ycuHy1ifTRA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-520-hY1ZPpIZPGebZ6K8VSuiHg-1; Thu, 07 Oct 2021 10:21:34 -0400
+X-MC-Unique: hY1ZPpIZPGebZ6K8VSuiHg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 866738010ED;
- Thu,  7 Oct 2021 14:20:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18CA8100C623;
+ Thu,  7 Oct 2021 14:21:33 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CA2160C05;
- Thu,  7 Oct 2021 14:19:40 +0000 (UTC)
-Date: Thu, 7 Oct 2021 15:19:39 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B301E6091B;
+ Thu,  7 Oct 2021 14:21:32 +0000 (UTC)
+Date: Thu, 7 Oct 2021 15:21:31 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH v2 07/25] assertions for block_int global state API
-Message-ID: <YV8B+0jxEqlwiQPH@stefanha-x1.localdomain>
+Subject: Re: [RFC PATCH v2 09/25] include/block/blockjob_int.h: split header
+ into I/O and GS API
+Message-ID: <YV8Ca0j/ZUkGkQZo@stefanha-x1.localdomain>
 References: <20211005143215.29500-1-eesposit@redhat.com>
- <20211005143215.29500-8-eesposit@redhat.com>
+ <20211005143215.29500-10-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211005143215.29500-8-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20211005143215.29500-10-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+oLNzSIXXhBd54aV"
+ protocol="application/pgp-signature"; boundary="sgjbpSXTdaE6Lrsg"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -92,43 +93,37 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---+oLNzSIXXhBd54aV
+--sgjbpSXTdaE6Lrsg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 05, 2021 at 10:31:57AM -0400, Emanuele Giuseppe Esposito wrote:
+On Tue, Oct 05, 2021 at 10:31:59AM -0400, Emanuele Giuseppe Esposito wrote:
+> Since the I/O functions are not many, keep a single file.
+> Also split the function pointers in BlockJobDriver.
+>=20
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->  block.c                         | 17 +++++++++++++++++
->  block/backup.c                  |  1 +
->  block/block-backend.c           |  3 +++
->  block/commit.c                  |  2 ++
->  block/dirty-bitmap.c            |  2 ++
->  block/io.c                      |  6 ++++++
->  block/mirror.c                  |  4 ++++
->  block/monitor/bitmap-qmp-cmds.c |  6 ++++++
->  block/stream.c                  |  2 ++
->  blockdev.c                      |  7 +++++++
->  10 files changed, 50 insertions(+)
+>  include/block/blockjob_int.h | 55 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 55 insertions(+)
 
-Except copy_range:
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---+oLNzSIXXhBd54aV
+--sgjbpSXTdaE6Lrsg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFfAfsACgkQnKSrs4Gr
-c8jGtAf+LZrXSb0Fk3cGRfHUrlmDzgxNuUssELVbDfVMKoUJfDnVTZHJapR+Zzq6
-Anzahdyzxnemqn4UXTMFz0szF6t891TTFUdK6VVvepXQAQC6msCnnXNa6pDRsDKP
-Go0/UBUotoXqHEnDPTaOsNP0+F0RE28L9MZyiB3EGFz2qOFJ7g1klkpY+1reKIxR
-rSDAOMSeCKaq3/9CkRCCHWhxR1bOUkf68c+dsPKm08d8VZHLbDlIay6tIUEedXkl
-Qc3KN4v7dSwxB2Upp92oEgQPAgH4fwyQFmcKZC8B0lSDCztMEZn+JUuxAAFn3B8p
-JI98BoLPvqawN48U6cfUn7g4MCIJSQ==
-=BkdS
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFfAmsACgkQnKSrs4Gr
+c8hTpwf9HWZVqhxmFxz7+MZPeSejJ07NEwGl1mrbfs1ZfZnCVqkLhTr1YAcFlUhI
+xOhHmFOvZgv1kcY/YmnW+g4eg2mWtdmiAz+tM8PPlRAwQsfAK9hXSNCi8e3aNHby
+BwijvAQuOPmnjYW8n+6j6z02jg7tRsX5FhXRsufkwwxFdG7HgMSP2hWZas86van8
+Nx+01PFzXORrZLyoWcgMAI3k/YdM2Q7qXEaHr8qWiELZglO4UzpRczeVG7NV/TAF
+72+XFXGuz2hzmJD7xY7OFWKYiFaC7pK3zQq5anZBzqfX1nQyjaskahdq//ROmGTw
+nPFd4YExdF/wGjBj2GPH5TYE1xNP6w==
+=Gn21
 -----END PGP SIGNATURE-----
 
---+oLNzSIXXhBd54aV--
+--sgjbpSXTdaE6Lrsg--
 
 
