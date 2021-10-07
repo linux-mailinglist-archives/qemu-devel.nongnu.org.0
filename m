@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1359425584
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 16:34:00 +0200 (CEST)
-Received: from localhost ([::1]:43274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7AB4255E3
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 16:57:25 +0200 (CEST)
+Received: from localhost ([::1]:38846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYUTA-0005FM-08
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 10:34:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50602)
+	id 1mYUpm-0005BI-V0
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 10:57:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYURn-000348-Ts
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:32:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27772)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYURi-0004AF-2i
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:32:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633617146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=z+ZcbRLB/LMJVM+NW3XI3xhBdpFXVMZ7OtSLMQwQM10=;
- b=a5Cg/a4HRx7n048rpc/DULULUgihLpHeNAwNi4n1yhbNWl0DjWiA68998aHFZb4ZoH60Tg
- 42AAS1csAyREmio9uMmxjHlikxSAfKOi/dGaIimbqgKIrFprumsqKWRdSh/6rbOqdamedR
- GwZstcXBFe/URYuGRC8cTLNi5kLzufs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-W7zhfaH-ObKLDHwwRJ2gtw-1; Thu, 07 Oct 2021 10:32:23 -0400
-X-MC-Unique: W7zhfaH-ObKLDHwwRJ2gtw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DA0984A5E9;
- Thu,  7 Oct 2021 14:32:22 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57C605BAE7;
- Thu,  7 Oct 2021 14:32:12 +0000 (UTC)
-Date: Thu, 7 Oct 2021 15:32:11 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH v2 16/25] block/backup-top.h: global state API +
- assertions
-Message-ID: <YV8E64yOUt+Zf6vh@stefanha-x1.localdomain>
-References: <20211005143215.29500-1-eesposit@redhat.com>
- <20211005143215.29500-17-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mYUlv-0001ps-8I
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:53:24 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38447)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mYUlr-0000MY-So
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:53:23 -0400
+Received: by mail-wr1-x435.google.com with SMTP id u18so19991290wrg.5
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 07:53:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=user-agent:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tglY389SybLIBWyAtBUN1scm2wAIoSuPH7MYUd7LjxM=;
+ b=uBsEFO6yznVFAKVWNWIV08geA2DHo+ZHC2UxYKJViB+8kya/mUFfbyU1ubAoTEfsTe
+ nnCp8vN63N8KCHHTMzl2JyDgAdMcATv+hC464Frq8M5vt1dv/tSzfRqlFXHQVmhMbv9X
+ IY/vBsvwgoHW0X9pPrmrq3r3eAJSSXaHlRm+o0Ha45V9JTEWsyx63kmtL4aNovLmC3/B
+ HFFIBVW/tbEkxcttfEr9INn9iTVpSARN0VKYgaVaKCSDxD62Npo5Ls37J+FqKdho9olr
+ nAk2jeuTLTVNKuESMXpSXBkOUA/ppU4w+TqPzOxMn34yuPHyc87UboiuS2DhTHlQFwLD
+ 4bZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:user-agent:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=tglY389SybLIBWyAtBUN1scm2wAIoSuPH7MYUd7LjxM=;
+ b=aWiJkIcRJwEgGmsL2RkXvgN1s0oaM6m8KX6FiHix8uKRdNlURzM7mMXtw6VnQ/EL5X
+ 3yEVSvDUUtU7WKwsZXb9d9OLV6rD1THf3VESgCA1+RXb3P2Vuyc6Pbs5/8ec50jreDPw
+ 5knoqaa/BitlXgWGCVmf+B9JHNub3wsB3A+JmiKQdra6GcGO08Uz8K2G1kLQbkOHJlgM
+ WxOmHO1d355rFQAZguios/UjsCSS4J+szHpv8sr4dDhL0aY1ECTtY5GkExja0JdU45UJ
+ xlzMKbJgHQ4Rv4WU705c2RNLHw3pHAZIeHed6poboEGxZE3w6jl1dCR8BQ/gUHe272Xz
+ HBhw==
+X-Gm-Message-State: AOAM530lK0YjWw/jTG6x+Epsu7UAWl8E77VnL6ainM70ovJVu3QhNRu6
+ XF/TG5ev40Lu9lKttqTuVYueQg==
+X-Google-Smtp-Source: ABdhPJxaQRUb2pWU1UA3lDShJjkv2dKkSmrN77HxUSXYNW/FMGr24uS7B2XXhL3y1peYkYem34x6NA==
+X-Received: by 2002:a05:600c:354a:: with SMTP id
+ i10mr16829986wmq.70.1633618397669; 
+ Thu, 07 Oct 2021 07:53:17 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g1sm9593418wmk.2.2021.10.07.07.53.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Oct 2021 07:53:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 02AA51FF96;
+ Thu,  7 Oct 2021 15:53:16 +0100 (BST)
+User-agent: mu4e 1.7.0; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Laurent Vivier <laurent@vivier.eu>, Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: Approaches for same-on-same linux-user execve?
+Date: Thu, 07 Oct 2021 15:32:19 +0100
+Message-ID: <877deoevj8.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20211005143215.29500-17-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3R/M+RReYJQH/Ymh"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,50 +86,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: assad.hashmi@linaro.org, qemu-devel@nongnu.org,
+ James Bottomley <James.Bottomley@HansenPartnership.com>, qemu-arm@nongnu.org,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Arnd Bergmann <arnd.bergmann@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---3R/M+RReYJQH/Ymh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Tue, Oct 05, 2021 at 10:32:06AM -0400, Emanuele Giuseppe Esposito wrote:
-> backup-top functions always run under BQL lock.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  block/backup-top.c |  2 ++
->  block/backup-top.h | 11 +++++++++++
->  2 files changed, 13 insertions(+)
+I came across a use-case this week for ARM although this may be also
+applicable to architectures where QEMU's emulation is ahead of the
+hardware currently widely available - for example if you want to
+exercise SVE code on AArch64. When the linux-user architecture is not
+the same as the host architecture then binfmt_misc works perfectly fine.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+However in the case you are running same-on-same you can't use
+binfmt_misc to redirect execution to using QEMU because any attempt to
+trap native binaries will cause your userspace to hang as binfmt_misc
+will be invoked to run the QEMU binary needed to run your application
+and a deadlock ensues.
 
---3R/M+RReYJQH/Ymh
-Content-Type: application/pgp-signature; name="signature.asc"
+There are some hacks you can apply at a local level like tweaking the
+elf header of the binaries you want to run under emulation and adjusting
+the binfmt_mask appropriately. This works but is messy and a faff to
+set-up.
 
------BEGIN PGP SIGNATURE-----
+An ideal setup would be would be for the kernel to catch a SIGILL from a
+failing user space program and then to re-launch the process using QEMU
+with the old processes maps and execution state so it could continue.
+However I suspect there are enough moving parts to make this very
+fragile (e.g. what happens to the results of library feature probing
+code). So two approaches I can think of are:
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFfBOsACgkQnKSrs4Gr
-c8hFCgf/Xn5kHeK7LxCAzfepCEhSFwVDWCcHMgNlVjt/hjJNWcbbMPnYNQhKKs3Z
-fvjTG5jUsdwLckD0U6yTab1swbLAUXSV2vWRM3NTrzXnb+Q1yB65qdCrC1PUsAAS
-/3x+ckFoOvjO7HZvdyPyxsBOlRF5XlSh+oyV3HWyoPtDvqENXebb5GsiIaWdMiDz
-Jgpc5JoXMHK2nHMlR0K30ajNvq9VxFntC6fSl8RwRe+RHY08zZRJOZZRsHGvaUj8
-5T6Eb1SHJf/Fegsdt46WuzRorLoG3n8JDdxGOY5ij0ZNztLHcbapRhaYzPtmU82c
-wvf+W5G3530NnhHMXsAxvPkeAbUCSA==
-=Zo1V
------END PGP SIGNATURE-----
+Trap execve in QEMU linux-user
+------------------------------
 
---3R/M+RReYJQH/Ymh--
+We could add a flag to QEMU so at the point of execve it manually
+invokes the new process with QEMU, passing on the flag to persist this
+behaviour.
 
+
+Add path mask to binfmt_misc
+----------------------------
+
+The other option would be to extend binfmt_misc to have a path mask so
+it only applies it's alternative execution scheme to binaries in a
+particular section of the file-system (or maybe some sort of pattern?).
+
+Are there any other approaches you could take? Which do you think has
+the most merit?
+
+Thanks,
+
+--=20
+Alex Benn=C3=A9e
 
