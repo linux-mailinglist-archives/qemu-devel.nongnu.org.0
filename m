@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248664253F3
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:23:58 +0200 (CEST)
-Received: from localhost ([::1]:35086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4953D4253F0
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:22:56 +0200 (CEST)
+Received: from localhost ([::1]:59472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYTNN-0004aN-51
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:23:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56122)
+	id 1mYTMN-0001ti-8V
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:22:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mYT8Z-0005QH-BF
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:08:40 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:33485)
+ id 1mYT8e-0005Vl-Gl
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:08:45 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:45957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mYT8X-0007lV-Co
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:08:39 -0400
-Received: by mail-ed1-x534.google.com with SMTP id p13so23377053edw.0
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 06:08:36 -0700 (PDT)
+ id 1mYT8Z-0007nL-0u
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:08:44 -0400
+Received: by mail-ed1-x535.google.com with SMTP id r18so22918836edv.12
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 06:08:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xRyXlyE5klILFYU5zwXVDOYm1mI+FCWCDaKsZd6MCNU=;
- b=IGGGSuXID1ie3aQRRZDWloEn636nY7dtkCqazXoqTBcP6qq6eGXWgv8Ty7YcsBoK3i
- ZZdbYF6aVRQ0fva+5e5RGtSWLt946kCJaiGfiEQuQUdC++pnhyYs+LIH7CRC2IoCjwnr
- cgMDqBbNKiEQHnbbOn0fTHtCxDiVM6bJei7iWkUlICWCx/t9X40cHcIEMy0UumJwQOj6
- jRYS8OLpLiPAdlWFalkGd/6odxtvOr01r8waFFUMC7ic/RDpTCfbdiKGm3pP0AOrqYoy
- 3GsfNRZonC05GVlRthz7LwWtYeKrcYKSlyFgiSLt7I3MN0GuvoCu1qwGUJuvuhEuFZSy
- iUUg==
+ bh=Tvj9LX7SxlSUsHCxvULFpWvXGDbOhFLZH7RuuoaYL10=;
+ b=LnvWDSvwSYM4hvvCrS/HWU68oqsoLImEQsITx6xlsQZXarcMxf7ryJdS50QtzkRSiQ
+ QPqVtNLPMXT6R8J389ZdVzu/f3WZuW6SV5T248Cd7YEnOKQzY1nPF9qLNo/34RsJMBzd
+ zEwmpXDddrNthKcH7/iB9n19k77HxDSdfaAIEv4MkEpTmSTzOGpp/4VZd3n1SV2W8yFn
+ Y3Gv2zaPjFY4hyqaOPIagEj2aTHJHseFeEepNFkyBtjpvj9AVmgE8xcvJwuUZQK4Sayk
+ TZW6TCYREwXbU8YOBubo/SrbZ+aKSlZIG1YaRtps/oIg5ztS+WNIztOTknV3aaKMXHso
+ deXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xRyXlyE5klILFYU5zwXVDOYm1mI+FCWCDaKsZd6MCNU=;
- b=oWvrW/CHR8l5+3m4dyovjz+OXQ3ADBWwhLne0cu9iOCDvzLFDRnWr/DjxzOKXq5U9q
- ndMYkHiic3lzzPS44q5k3O0LoHDBFbsvVHA25kOTzMDBQSzcIZmysmcZvjxWEZBJiXAI
- 5BVnrsao+G5NTSwob8kGq0UAsI3h7rJVj5xjz1/anou/Lyhp4nnDdZMEgZRgb4jCNc+8
- BmB+bf7Klh8aAsoPXn7atVcv0heT8l/qqHLPAaZ9nYl8j1wL6qtzSTS3N+E4Wpp92gwv
- 4fpz9R5L9orKLBgaTfoSLQVKNuizYQ/1UhEKg3WHiUqm0iwKVPwTDNZ468YTwNHBDCmk
- 3hzw==
-X-Gm-Message-State: AOAM532/xq9OY9ucN+YJyZPgxs38RcNiOzRT8meay509y8f5pxfgUFWZ
- lzZ785k874UPBZFR69vlXOX8yw5j+M8=
-X-Google-Smtp-Source: ABdhPJypDuSsS+wTUcKRp5qABHdhI2yaH/TVnOXyoNBepJrpYSznMTyrzeuh2zjTm3Ccr6eFbyl+OQ==
-X-Received: by 2002:aa7:dbd2:: with SMTP id v18mr6241495edt.315.1633612115739; 
- Thu, 07 Oct 2021 06:08:35 -0700 (PDT)
+ bh=Tvj9LX7SxlSUsHCxvULFpWvXGDbOhFLZH7RuuoaYL10=;
+ b=iDaeM3TNIRwKN4aMrM79gh6BNEkoATtcthV19bEN2A7GfnlPAWSFZ6w6CG7Pup1CFY
+ atSFnazAmcqNXjZbCILYnZRK1tuawYoW72dfg/K/d8ZsdWPiqivXACoU05IRgDMfXrdw
+ RBkM7JwPj0L+BfY0Feh4/dInkBtJkDqp6s625J/U1vM/8Ncc8BJmiD7iArnyqortkFGP
+ K5QzYlpZwfplR9YYP1Z/BVRF/U5DkLMJYMQSKVFG1YbL4WCZxE7ibLB/8W/NfwevAHbl
+ WB/uY4shVbwDftnrsjYiA5GyZG+zfM5z4+nzheKX6qY5s7N+Nrgb1kvfjev/eWbv5UfR
+ PeHQ==
+X-Gm-Message-State: AOAM532sAAJixKCqzg4KG+Gc380w35DuTehVCDKPjpR4Q9wFcFx1nFML
+ gZfV++K4WNaQ1HVqe2onDp1K8Of0kKk=
+X-Google-Smtp-Source: ABdhPJzonVw+VvdgWwEZeY+ieVMWnO4Pf4C9+Ru4GDfkWFCl0QnrlD7yhVmikfHZW+d7RrBOKEqM1Q==
+X-Received: by 2002:a50:9b06:: with SMTP id o6mr6157397edi.284.1633612116364; 
+ Thu, 07 Oct 2021 06:08:36 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id o12sm791254edw.84.2021.10.07.06.08.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 06:08:35 -0700 (PDT)
+ Thu, 07 Oct 2021 06:08:36 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/24] configure,
- meson: move remaining HAVE_* compiler tests to Meson
-Date: Thu,  7 Oct 2021 15:08:18 +0200
-Message-Id: <20211007130829.632254-8-pbonzini@redhat.com>
+Subject: [PATCH 14/24] configure,
+ meson: move pthread_setname_np checks to Meson
+Date: Thu,  7 Oct 2021 15:08:19 +0200
+Message-Id: <20211007130829.632254-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211007130630.632028-1-pbonzini@redhat.com>
 References: <20211007130630.632028-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,130 +87,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove some special cases by moving them to Meson.
+This makes the pthreads check dead in configure, so remove it
+as well.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   | 37 -------------------------------------
- meson.build | 22 ++++++++++++++++++++--
- 2 files changed, 20 insertions(+), 39 deletions(-)
+ configure                | 78 ----------------------------------------
+ meson.build              | 23 ++++++++++++
+ util/qemu-thread-posix.c |  5 ++-
+ 3 files changed, 25 insertions(+), 81 deletions(-)
 
 diff --git a/configure b/configure
-index 499c84859d..52f89b05d6 100755
+index 52f89b05d6..a1e142d5f8 100755
 --- a/configure
 +++ b/configure
-@@ -2401,18 +2401,6 @@ else
-   l2tpv3=no
- fi
- 
--cat > $TMPC <<EOF
--#include <sys/mman.h>
--int main(int argc, char *argv[]) {
--    return mlockall(MCL_FUTURE);
--}
--EOF
--if compile_prog "" "" ; then
--  have_mlockall=yes
--else
--  have_mlockall=no
--fi
--
- #########################################
- # vhost interdependencies and host support
- 
-@@ -3840,21 +3828,6 @@ if test "$fortify_source" != "no"; then
-   fi
+@@ -3146,71 +3146,6 @@ if test "$modules" = yes; then
+     fi
  fi
  
 -##########################################
--# check if struct fsxattr is available via linux/fs.h
+-# pthread probe
+-PTHREADLIBS_LIST="-pthread -lpthread -lpthreadGC2"
 -
--have_fsxattr=no
+-pthread=no
 -cat > $TMPC << EOF
--#include <linux/fs.h>
--struct fsxattr foo;
+-#include <pthread.h>
+-static void *f(void *p) { return NULL; }
 -int main(void) {
+-  pthread_t thread;
+-  pthread_create(&thread, 0, f, 0);
 -  return 0;
 -}
 -EOF
 -if compile_prog "" "" ; then
--    have_fsxattr=yes
+-  pthread=yes
+-else
+-  for pthread_lib in $PTHREADLIBS_LIST; do
+-    if compile_prog "" "$pthread_lib" ; then
+-      pthread=yes
+-      break
+-    fi
+-  done
+-fi
+-
+-if test "$mingw32" != yes && test "$pthread" = no; then
+-  error_exit "pthread check failed" \
+-      "Make sure to have the pthread libs and headers installed."
+-fi
+-
+-# check for pthread_setname_np with thread id
+-pthread_setname_np_w_tid=no
+-cat > $TMPC << EOF
+-#include <pthread.h>
+-
+-static void *f(void *p) { return NULL; }
+-int main(void)
+-{
+-    pthread_t thread;
+-    pthread_create(&thread, 0, f, 0);
+-    pthread_setname_np(thread, "QEMU");
+-    return 0;
+-}
+-EOF
+-if compile_prog "" "$pthread_lib" ; then
+-  pthread_setname_np_w_tid=yes
+-fi
+-
+-# check for pthread_setname_np without thread id
+-pthread_setname_np_wo_tid=no
+-cat > $TMPC << EOF
+-#include <pthread.h>
+-
+-static void *f(void *p) { pthread_setname_np("QEMU"); return NULL; }
+-int main(void)
+-{
+-    pthread_t thread;
+-    pthread_create(&thread, 0, f, 0);
+-    return 0;
+-}
+-EOF
+-if compile_prog "" "$pthread_lib" ; then
+-  pthread_setname_np_wo_tid=yes
 -fi
 -
  ##########################################
- # check for usable membarrier system call
- if test "$membarrier" = "yes"; then
-@@ -4356,13 +4329,6 @@ if test "$gdbus_codegen" != "" ; then
+ # libssh probe
+ if test "$libssh" != "no" ; then
+@@ -4496,19 +4431,6 @@ if test "$debug_mutex" = "yes" ; then
+   echo "CONFIG_DEBUG_MUTEX=y" >> $config_host_mak
  fi
- echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
  
--# Work around a system header bug with some kernel/XFS header
--# versions where they both try to define 'struct fsxattr':
--# xfs headers will not try to redefine structs from linux headers
--# if this macro is set.
--if test "$have_fsxattr" = "yes" ; then
--    echo "HAVE_FSXATTR=y" >> $config_host_mak
+-# Hold two types of flag:
+-#   CONFIG_THREAD_SETNAME_BYTHREAD  - we've got a way of setting the name on
+-#                                     a thread we have a handle to
+-#   CONFIG_PTHREAD_SETNAME_NP_W_TID - A way of doing it on a particular
+-#                                     platform
+-if test "$pthread_setname_np_w_tid" = "yes" ; then
+-  echo "CONFIG_THREAD_SETNAME_BYTHREAD=y" >> $config_host_mak
+-  echo "CONFIG_PTHREAD_SETNAME_NP_W_TID=y" >> $config_host_mak
+-elif test "$pthread_setname_np_wo_tid" = "yes" ; then
+-  echo "CONFIG_THREAD_SETNAME_BYTHREAD=y" >> $config_host_mak
+-  echo "CONFIG_PTHREAD_SETNAME_NP_WO_TID=y" >> $config_host_mak
 -fi
- if test "$xen" = "enabled" ; then
-   echo "CONFIG_XEN_BACKEND=y" >> $config_host_mak
-   echo "CONFIG_XEN_CTRL_INTERFACE_VERSION=$xen_ctrl_version" >> $config_host_mak
-@@ -4567,9 +4533,6 @@ fi
- if test "$parallels" = "yes" ; then
-   echo "CONFIG_PARALLELS=y" >> $config_host_mak
+-
+ if test "$bochs" = "yes" ; then
+   echo "CONFIG_BOCHS=y" >> $config_host_mak
  fi
--if test "$have_mlockall" = "yes" ; then
--  echo "HAVE_MLOCKALL=y" >> $config_host_mak
--fi
- 
- if test "$plugins" = "yes" ; then
-     echo "CONFIG_PLUGIN=y" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index 2962c24eb5..935a20c198 100644
+index 935a20c198..54b2afdb96 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1604,6 +1604,23 @@ config_host_data.set('CONFIG_SPLICE', cc.links(gnu_source_prefix + '''
-     return 0;
-   }'''))
- 
-+config_host_data.set('HAVE_MLOCKALL', cc.links(gnu_source_prefix + '''
-+  #include <sys/mman.h>
-+  int main(int argc, char *argv[]) {
-+    return mlockall(MCL_FUTURE);
-+  }'''))
+@@ -1586,6 +1586,29 @@ config_host_data.set('CONFIG_POSIX_MADVISE', cc.links(gnu_source_prefix + '''
+   #include <sys/mman.h>
+   #include <stddef.h>
+   int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED); }'''))
 +
-+# Work around a system header bug with some kernel/XFS header
-+# versions where they both try to define 'struct fsxattr':
-+# xfs headers will not try to redefine structs from linux headers
-+# if this macro is set.
-+config_host_data.set('HAVE_FSXATTR', cc.links('''
-+  #include <linux/fs.h>'
-+  struct fsxattr foo;
-+  int main(void) {
++config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_W_TID', cc.links('''
++  #include <pthread.h>
++
++  static void *f(void *p) { return NULL; }
++  int main(void)
++  {
++    pthread_t thread;
++    pthread_create(&thread, 0, f, 0);
++    pthread_setname_np(thread, "QEMU");
 +    return 0;
-+  }'''))
++  }''', dependencies: threads))
++config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_WO_TID', cc.links('''
++  #include <pthread.h>
 +
- # Some versions of Mac OS X incorrectly define SIZE_MAX
- config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
-     #include <stdint.h>
-@@ -1612,7 +1629,8 @@ config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
-         return printf("%zu", SIZE_MAX);
-     }''', args: ['-Werror']))
++  static void *f(void *p) { pthread_setname_np("QEMU"); return NULL; }
++  int main(void)
++  {
++    pthread_t thread;
++    pthread_create(&thread, 0, f, 0);
++    return 0;
++  }''', dependencies: threads))
++
+ config_host_data.set('CONFIG_SIGNALFD', cc.links(gnu_source_prefix + '''
+   #include <unistd.h>
+   #include <sys/syscall.h>
+diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
+index 6c5004220d..e1225b63bd 100644
+--- a/util/qemu-thread-posix.c
++++ b/util/qemu-thread-posix.c
+@@ -23,7 +23,8 @@ void qemu_thread_naming(bool enable)
+ {
+     name_threads = enable;
  
--ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
-+ignored = ['CONFIG_QEMU_INTERP_PREFIX', # actually per-target
-+    'HAVE_GDB_BIN']
- arrays = ['CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
- strings = ['CONFIG_IASL']
- foreach k, v: config_host
-@@ -1627,7 +1645,7 @@ foreach k, v: config_host
-     config_host_data.set('HOST_' + v.to_upper(), 1)
-   elif strings.contains(k)
-     config_host_data.set_quoted(k, v)
--  elif k.startswith('CONFIG_') or k.startswith('HAVE_')
-+  elif k.startswith('CONFIG_')
-     config_host_data.set(k, v == 'y' ? 1 : v)
-   endif
- endforeach
+-#ifndef CONFIG_THREAD_SETNAME_BYTHREAD
++#if !defined CONFIG_PTHREAD_SETNAME_NP_W_TID && \
++    !defined CONFIG_PTHREAD_SETNAME_NP_WO_TID
+     /* This is a debugging option, not fatal */
+     if (enable) {
+         fprintf(stderr, "qemu: thread naming not supported on this host\n");
+@@ -522,7 +523,6 @@ static void *qemu_thread_start(void *args)
+     void *arg = qemu_thread_args->arg;
+     void *r;
+ 
+-#ifdef CONFIG_THREAD_SETNAME_BYTHREAD
+     /* Attempt to set the threads name; note that this is for debug, so
+      * we're not going to fail if we can't set it.
+      */
+@@ -533,7 +533,6 @@ static void *qemu_thread_start(void *args)
+         pthread_setname_np(qemu_thread_args->name);
+ # endif
+     }
+-#endif
+     QEMU_TSAN_ANNOTATE_THREAD_NAME(qemu_thread_args->name);
+     g_free(qemu_thread_args->name);
+     g_free(qemu_thread_args);
 -- 
 2.31.1
 
