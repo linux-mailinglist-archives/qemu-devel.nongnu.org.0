@@ -2,74 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234E0424E25
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 09:36:49 +0200 (CEST)
-Received: from localhost ([::1]:54554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7328E424E58
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 09:53:17 +0200 (CEST)
+Received: from localhost ([::1]:37194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYNxP-0001lp-Tc
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 03:36:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40548)
+	id 1mYODL-0001XN-V6
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 03:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mYNqf-0007Ll-Th
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:29:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22464)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mYOBl-0000gU-B5
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:51:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mYNqe-000264-9B
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:29:49 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mYOBi-0008Ic-Hz
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:51:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633591787;
+ s=mimecast20190719; t=1633593092;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l85TH9vALhSu3lra4HPn6GHLOeLPCI6Zp3E2VbDT0Sc=;
- b=ZXQ7IfgXdA3nafsw1QcBaGY2HJiOIDijCHx/I1dNxy1IN/UWopB0V1XSRg6evU9zPnIb8l
- Ngf4FqZiH3iPbbzz1Bb8fEHqANQYxSS2VGZulcPOts6/xf/CPR2qALowps0TqLv+uysrqT
- Hge6BtHb4WabouYt7Yv+BOm4qaHI8vw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-5M-7KDlCMmO3K3JR201Ifw-1; Thu, 07 Oct 2021 03:29:46 -0400
-X-MC-Unique: 5M-7KDlCMmO3K3JR201Ifw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DA90101F003;
- Thu,  7 Oct 2021 07:29:45 +0000 (UTC)
-Received: from laptop.redhat.com (unknown [10.39.192.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B15E10013C1;
- Thu,  7 Oct 2021 07:29:42 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, mst@redhat.com,
- imammedo@redhat.com, philmd@redhat.com, peter.maydell@linaro.org,
- shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- ardb@kernel.org, drjones@redhat.com
-Subject: [PATCH v4 3/3] bios-tables-test: Generate reference table for
- virt/DBG2
-Date: Thu,  7 Oct 2021 09:29:22 +0200
-Message-Id: <20211007072922.655330-4-eric.auger@redhat.com>
-In-Reply-To: <20211007072922.655330-1-eric.auger@redhat.com>
-References: <20211007072922.655330-1-eric.auger@redhat.com>
+ bh=5HCPdhTc2rEFXdIoI53r+48HOpDipe5FV1PSUrHs+as=;
+ b=guH5IGwqQ7g4FxQ6aD75to8fVr8IuGNdTBZMLIK5fuotUu7Jp+f7WIaHDUb0Tjs5X4ldSj
+ zDcOlvvHZ9zk8Mf05r+Ol6W05e11uyE9WR2RIjOeFnHiXWWk69MmEdOI6aR3fK/opIzB+Z
+ G5h9zV8mzRD7aXiMHrfJ6VJWOzdWA0E=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-465-2rBassP_Pq626xQzgMn1BA-1; Thu, 07 Oct 2021 03:51:31 -0400
+X-MC-Unique: 2rBassP_Pq626xQzgMn1BA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ u23-20020a50a417000000b003db23c7e5e2so5099519edb.8
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 00:51:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5HCPdhTc2rEFXdIoI53r+48HOpDipe5FV1PSUrHs+as=;
+ b=sMb0PXK6NGRwNKdZ97oT2EYrUfT7LdQ0bb5Oa92oe9/sqdu75mutjb2oc8KM/E2Uv2
+ /aNIniBvL++neLZEUqFMCfBPHV8lhtNNZI0VZHYxAmoABzC+Mq7vQCf46YsUG1IfX6SK
+ AfFzcSnVxOtIrpKL//q3KvA59d3X2Z4wuDfiRLgO+qZrJ35i7Fhj8ZojtqtE0yAZOboU
+ abPWP785EArKHBreGdn0tOX7Duvl4v4xa2zebD1EAcOJ39EWTQuV4Ql9k+039sCKNkmt
+ aqqAklYabKlon3zK51oMBLUW/OR5/dFZYRBM1CXVu3exXmEXLinxMbkZsNnry+doedrQ
+ LzGg==
+X-Gm-Message-State: AOAM530EEhoptJnTgZyjxuB+GfsgASx59qZInkL2yCQzKRPFqH7NyRRA
+ pUAZziHGtpJzkrJzGdo7O5JcQdGFAq6p0skvb+qumXRT546oFjCq5MyegEtDC8vjZSCNViVwlHL
+ jGI5TMs5K9DQOVZsDQnKTUWOOJq5xQ7STQHK7XjqVVfCv/bdUILuN0W2ckclO6QsIVEI=
+X-Received: by 2002:aa7:d1c2:: with SMTP id g2mr4169319edp.248.1633593090555; 
+ Thu, 07 Oct 2021 00:51:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx5AclNxx65lBzr4gncAlQ3CtKkhXtKVTRby3Nj0pbWXTQgz5bW6iG6wvzywuG9fG7GMRiCIQ==
+X-Received: by 2002:aa7:d1c2:: with SMTP id g2mr4169301edp.248.1633593090260; 
+ Thu, 07 Oct 2021 00:51:30 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id
+ e7sm11993176edk.3.2021.10.07.00.51.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Oct 2021 00:51:28 -0700 (PDT)
+Subject: Re: [PATCH 1/2] pylint: fix errors and warnings from qemu-tests test
+ 297
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20211006130100.389521-1-eesposit@redhat.com>
+ <20211006130100.389521-2-eesposit@redhat.com> <YV3S9N8SnU4W+aYL@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <3a143653-582e-5b28-f536-bf24c4e45ac8@redhat.com>
+Date: Thu, 7 Oct 2021 09:51:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <YV3S9N8SnU4W+aYL@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,92 +101,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gshan@redhat.com
+Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the DBG2 table generated with
-tests/data/acpi/rebuild-expected-aml.sh
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
----
+On 06/10/2021 18:46, Kevin Wolf wrote:
+> Am 06.10.2021 um 15:00 hat Emanuele Giuseppe Esposito geschrieben:
+>> Test 297 in qemu-iotests folder currently fails: pylint has
+>> learned new things to check, or we simply missed them.
+>>
+>> All fixes in this patch are related to additional spaces used
+>> or wrong indentation.
+>>
+>> No functional change intended.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> 
+>> @@ -87,13 +87,14 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
+>>           iotests.qemu_img('create', '-f', iotests.imgfmt, self.overlay_img,
+>>                            '1G')
+>>   
+>> -        result = self.vm.qmp('blockdev-add', **{
+>> +        result = self.vm.qmp('blockdev-add',
+>> +                             **{
+>>                                    'node-name': 'overlay',
+>>                                    'driver': iotests.imgfmt,
+>>                                    'file': {
+>>                                        'driver': 'file',
+>>                                        'filename': self.overlay_img
+>> -                                 }
+>> +                                     }
+>>                                })
+>>           self.assert_qmp(result, 'return', {})
+> 
+> Am I the only one to think that the new indentation for the closing
+> brace there is horrible? PEP-8 explictly allows things like:
+> 
+>      my_list = [
+>          1, 2, 3,
+>          4, 5, 6,
+>      ]
+> 
+> Some of the other changes in this patch should be made, but at least if
+> these are behind different switches, I would consider just disabling the
+> one that complains about nicely formatted dicts.
 
-v3 -> v4
-- adapted after the change in header revision
-- added Michael's A-b
+The error is "C0330: Wrong hanging indentation"
+so it is not about dicts. I guess we can disable the error, but the 
+problem is that we will disable it for the whole file, which doesn't 
+seem right.
 
-Tested by comparing the content with the table generated
-by EDK2 along with the SBSA-REF machine (code generated by
-DynamicTablesPkg/Library/Acpi/Arm/AcpiDbg2LibArm/Dbg2Generator.c).
+Alternatively, this also works fine:
 
-I reused the Generic Address Structure filled by QEMU in the SPCR, ie.
-bit_width = 8 and byte access. While EDK2 sets bit_width = 32 and
-dword access. Also the name exposed by acpica tools is different:
-'COM0' in my case where '\_SB.COM0' in SBSA-REF case?
+-        result = self.vm.qmp('blockdev-add',
+-                             **{
+-                                 'node-name': 'overlay',
+-                                 'driver': iotests.imgfmt,
+-                                 'file': {
+-                                     'driver': 'file',
+-                                     'filename': self.overlay_img
+-                                     }
+-                             })
++        result = self.vm.qmp('blockdev-add', **{
++            'node-name': 'overlay',
++            'driver': iotests.imgfmt,
++            'file': {
++                'driver': 'file',
++                'filename': self.overlay_img
++            }})
 
-Here is the human readable content:
+What do you think?
 
-[000h 0000   4]                    Signature : "DBG2"    [Debug Port table type 2]
-[004h 0004   4]                 Table Length : 00000057
-[008h 0008   1]                     Revision : 00
-[009h 0009   1]                     Checksum : C8
-[00Ah 0010   6]                       Oem ID : "BOCHS "
-[010h 0016   8]                 Oem Table ID : "BXPC    "
-[018h 0024   4]                 Oem Revision : 00000001
-[01Ch 0028   4]              Asl Compiler ID : "BXPC"
-[020h 0032   4]        Asl Compiler Revision : 00000001
+Otherwise I am happy to disable the error altogether.
 
-[024h 0036   4]                  Info Offset : 0000002C
-[028h 0040   4]                   Info Count : 00000001
-
-[02Ch 0044   1]                     Revision : 00
-[02Dh 0045   2]                       Length : 002B
-[02Fh 0047   1]               Register Count : 01
-[030h 0048   2]              Namepath Length : 0005
-[032h 0050   2]              Namepath Offset : 0026
-[034h 0052   2]              OEM Data Length : 0000 [Optional field not present]
-[036h 0054   2]              OEM Data Offset : 0000 [Optional field not present]
-[038h 0056   2]                    Port Type : 8000
-[03Ah 0058   2]                 Port Subtype : 0003
-[03Ch 0060   2]                     Reserved : 0000
-[03Eh 0062   2]          Base Address Offset : 0016
-[040h 0064   2]          Address Size Offset : 0022
-
-[042h 0066  12]        Base Address Register : [Generic Address Structure]
-[042h 0066   1]                     Space ID : 00 [SystemMemory]
-[043h 0067   1]                    Bit Width : 08
-[044h 0068   1]                   Bit Offset : 00
-[045h 0069   1]         Encoded Access Width : 01 [Byte Access:8]
-[046h 0070   8]                      Address : 0000000009000000
-
-[04Eh 0078   4]                 Address Size : 00001000
-
-[052h 0082   5]                     Namepath : "COM0"
----
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- tests/data/acpi/virt/DBG2                   | Bin 0 -> 87 bytes
- 2 files changed, 1 deletion(-)
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 1910d154c2..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/DBG2",
-diff --git a/tests/data/acpi/virt/DBG2 b/tests/data/acpi/virt/DBG2
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..86e6314f7b0235ef8ed3e0221e09f996c41f5e98 100644
-GIT binary patch
-literal 87
-zcmZ>9ayJTR0D|*Q{>~o33QiFL&I&-l2owUbL9`AKgJ=eA21Zr}H4uw|p@A7lh%qQJ
-TFmQk+Il-a=3=Gcxz6J~c3~mVl
-
-literal 0
-HcmV?d00001
-
--- 
-2.26.3
+Emanuele
 
 
