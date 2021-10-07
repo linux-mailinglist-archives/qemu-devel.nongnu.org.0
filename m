@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C749C425A26
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 19:59:16 +0200 (CEST)
-Received: from localhost ([::1]:54952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 868CE425A69
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 20:11:18 +0200 (CEST)
+Received: from localhost ([::1]:53004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYXfn-0000TF-R9
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 13:59:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39040)
+	id 1mYXrR-0001IL-HX
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 14:11:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYXZp-00064e-JG
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:53:05 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:44909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYXZo-0002q3-3i
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:53:05 -0400
-Received: by mail-pf1-x436.google.com with SMTP id 145so5945339pfz.11
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 10:53:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8qBrST+9sd1tP1NBL1OuDdKGYJvS54xHLBO10eCRpyU=;
- b=bicKQ6CtqUv3NRIwiMwL27Qlh6obTYvPHAE4Y7uQMVU7+wy8Ddrfw7RkFUeovXcCeH
- MhfmkdTTEhOaiklKazPWywhuw2dbt4ZZLiy9bZuSV3U0govQ62v4rqHqWW3HgiBOWeZK
- FNhoQX7AZyCxB6uIfYOojSFNU09YJ9nDPy3qMxKrhw3S9TH1NaiAKgSm2aqZoNZzRWah
- lBbacaIGNDP8zU5bEZ+PPVv1NAiqTE1BKON72Gm5wLXxwgZFyaWGFeaHXC6+MbBw1ODH
- hLfm1D0L8dygtZa7JhXy0LLoWAEvdxcYyIbHEbkTLQrq4iG6arazL9tLL7qVwsHHexoY
- qGyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8qBrST+9sd1tP1NBL1OuDdKGYJvS54xHLBO10eCRpyU=;
- b=dXwBGcJGyYessDIHUuSFss6gyy35AS3kocPfYlUuJaoKHzqZbqmCIbg2BK3ij4PneW
- vEDap8K7bsMRlRTCthMNqUN1kEMvQM8NAsIh9ofFtoIdJSVFBQeUtkiUv0GE11Vu91c8
- +OXOXrSkxE6iWcI0slIA7ktFmkovluuHusjor/1Ws5/YUyfqpd3RkZXRkJZ39U++PYih
- 8HswrzXEA5LPSGXdY2NAieFEjIIn6j6MHxN3I7L/xWOjeLuMPjtABThqpqUaI2ibIzbt
- 5Z64LHd55J4gy/vlPVC78EroWi2al5jaOxzwSRucQ21Pl+y4D10oGYtxreOWJJt/LLZk
- oacw==
-X-Gm-Message-State: AOAM530plt7toeDUJA5ybV67uRFPw05asQiwcxLZzendxxbtQjXKmF2b
- KSFNZr9sw5QTeBcTkAFW4e2ZJQ==
-X-Google-Smtp-Source: ABdhPJxee7uAoi7lV+G1TLJeQNu4CwQoIRS/0htw/1mZhzA810AbcaAe7YfQcPd+5EJ9MNMZ+d1uKg==
-X-Received: by 2002:a63:f40b:: with SMTP id g11mr769333pgi.401.1633629182489; 
- Thu, 07 Oct 2021 10:53:02 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id n202sm74529pfd.160.2021.10.07.10.53.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Oct 2021 10:53:02 -0700 (PDT)
-Subject: Re: [PATCH] target/riscv: Pass the same value to oprsz and maxsz for
- vmv.v.v
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20211007081803.1705656-1-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <89fc02c0-4164-64fa-d265-f350704d3eff@linaro.org>
-Date: Thu, 7 Oct 2021 10:53:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mYXgs-00053X-RO
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 14:00:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20945)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mYXgo-0000KB-VJ
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 14:00:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633629618;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2j/+3pYAFwPuNAK0ZB1JMLS/y35Sb3DH/yoVXynzYl0=;
+ b=d3O6ZQ1stO+HWtAKaPVzxTJ1uXJebEFgRLWhM3zldQwHqCc/0c2hFjnE4As3eekDG9rs0h
+ htPgdBWQg+0c9jenkrhwmrayaLhApLT7DBNuMCebZ7Fx8VxQ7Bn2D7MFIuSaR7IE10GoHy
+ cwSHJfy8UDKOdSspf0dIYB2eMOGRYbw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-Si1Zjk0TPCOTOxR46pgdRQ-1; Thu, 07 Oct 2021 14:00:17 -0400
+X-MC-Unique: Si1Zjk0TPCOTOxR46pgdRQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7C821994DB8;
+ Thu,  7 Oct 2021 17:28:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F53260936;
+ Thu,  7 Oct 2021 17:27:54 +0000 (UTC)
+Date: Thu, 7 Oct 2021 18:27:52 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 16/23] target/i386/sev: Remove stubs by using code
+ elision
+Message-ID: <YV8uGDy4bgS/9UfU@redhat.com>
+References: <20211007161716.453984-1-philmd@redhat.com>
+ <20211007161716.453984-17-philmd@redhat.com>
+ <YV8pS2D8e14qmFBq@work-vm>
+ <6080fa16-66aa-570e-93c8-09be2ced9431@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211007081803.1705656-1-frank.chang@sifive.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.964,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6080fa16-66aa-570e-93c8-09be2ced9431@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,26 +81,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Brijesh Singh <brijesh.singh@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/21 1:17 AM, frank.chang@sifive.com wrote:
-> From: Frank Chang<frank.chang@sifive.com>
+On Thu, Oct 07, 2021 at 07:18:04PM +0200, Philippe Mathieu-Daudé wrote:
+> On 10/7/21 19:07, Dr. David Alan Gilbert wrote:
+> > * Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
+> >> Only declare sev_enabled() and sev_es_enabled() when CONFIG_SEV is
+> >> set, to allow the compiler to elide unused code. Remove unnecessary
+> >> stubs.
+> >>
+> >> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> > 
+> > What makes it allowed to *rely* on the compiler eliding calls?
 > 
-> oprsz and maxsz are passed with the same value in commit: eee2d61e202.
-> However, vmv.v.v was missed in that commit and should pass the same
-> value as well in its tcg_gen_gvec_2_ptr() call.
+> I am not aware of a particular requirement on the compiler for code
+> elision, however we already use this syntax:
+
+Maybe I'm mis-understanding David's question, but I'm not
+sure it matters whether the compiler elides the code or
+not.
+
+IIUC, with the old code using stubs it is unlikely to be
+elided at all. With the new code it will probably be
+elided, but if it isn't, then it is no worse than the
+code its replacing.
+
+Or am I mis-understanding David's question ?
+
+> $ git grep -A4 'ifdef CONFIG_' include/sysemu/
+> ...
+> include/sysemu/tcg.h:11:#ifdef CONFIG_TCG
+> include/sysemu/tcg.h-12-extern bool tcg_allowed;
+> include/sysemu/tcg.h-13-#define tcg_enabled() (tcg_allowed)
+> include/sysemu/tcg.h-14-#else
+> include/sysemu/tcg.h-15-#define tcg_enabled() 0
+> ...
 > 
-> Signed-off-by: Frank Chang<frank.chang@sifive.com>
-> ---
->   target/riscv/insn_trans/trans_rvv.c.inc | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> Cc'ing Richard/Eric/Daniel who have more experience with compiler
+> features in case they can enlighten me here.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I'd say my general view is we are free to use features explicitly
+supported by our designated compilers. We should avoid relying on
+undefined compiler behaviour for funtional results in QEMU.
 
-r~
+We can rely on our designated compilers to optimize certain code
+patterns, as long as its purely for performance benefits, not
+functional benefits, since optimizations are not guaranteed and
+users can turn them off too.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
