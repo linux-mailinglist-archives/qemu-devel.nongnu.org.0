@@ -2,98 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6F242524C
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 13:53:00 +0200 (CEST)
-Received: from localhost ([::1]:37108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FAE4425254
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 13:54:57 +0200 (CEST)
+Received: from localhost ([::1]:40780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYRxL-0005Go-DT
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 07:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40590)
+	id 1mYRzE-0007mV-FM
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 07:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mYRw9-0004RH-Ta
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 07:51:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57952)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mYRxe-0006OS-Vw
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 07:53:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mYRw8-0007Of-AP
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 07:51:45 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mYRxd-0003Hk-Ey
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 07:53:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633607503;
+ s=mimecast20190719; t=1633607596;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=21gdA/9ALXR1z+5TlFrM/UBRaF3NbyiPtGj78/4NIe0=;
- b=P+0GVbLHj7W7m3QCbAkqBAkPudumPlzAcHwpr4dMJFWxibL8V5I7kl2WDY3FnW1XDPtaVr
- IkeI0qpgmDWApoKP0R2bui1M0rsLfprkBHDZiaAPpWHCq9fVJo26M2M+u3oO6bmfnqzjC0
- EqKwHtIW2iUeJpAV91HKXVydAw5yT00=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-R5wMGUdFMDKvpX2qmcksqg-1; Thu, 07 Oct 2021 07:51:36 -0400
-X-MC-Unique: R5wMGUdFMDKvpX2qmcksqg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- i7-20020a50d747000000b003db0225d219so5710115edj.0
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 04:51:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=21gdA/9ALXR1z+5TlFrM/UBRaF3NbyiPtGj78/4NIe0=;
- b=0hGApy3CtqpTYYwAXg73Pq4/LpzrcpGN/xIidTAzfObESiDZ8Q3zxmOZsb+BXDLk2r
- Xh2RKMp33Z4KbKqXiLBE3FHDZmAVlWBn36NQgaxq7quXW+BRKUAOrNz3Nu6moxam9gVX
- ryQiocgh9yw3UaVcP/82bgUrPT7erPZnU/v2CsvQrU7krRCVFgIpEuOxv0IQwzdbTir/
- Z6fc+m4h/KvE3+VrTazlMN44jerwFPg5qi6PeMlSwzVSL5OFrq/QG6mKBzrhDz8Zv3S1
- 4rUM3FUmziNFK8U5cMXzl8z1fp57Ez7BUZvl/c2kqZs2wK6zHcdbEeGS56jkyANT4lW1
- oQmg==
-X-Gm-Message-State: AOAM531asZFycdtux8yNvEQf2D/RfaeR6s8qZjy93WtJ0lOIqP4PJDq0
- JYmp4ZzJFz6P0UMCk2ubSVzn1Ht+Var2iQGQNlU9+1+FUfKz6Y4FTtrhGIceu+vDqoN4jfTW5xX
- KNk/SMDjQkKanAzA=
-X-Received: by 2002:a17:906:b183:: with SMTP id
- w3mr4908392ejy.394.1633607495438; 
- Thu, 07 Oct 2021 04:51:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydI2wW0o6m07v/MINx2v+qI6W7Tu7vHw4jQk01CdNl2UhXZAax63+8R3kkDgyl/x0+XBP/9Q==
-X-Received: by 2002:a17:906:b183:: with SMTP id
- w3mr4908362ejy.394.1633607495263; 
- Thu, 07 Oct 2021 04:51:35 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id x16sm5542955ejj.8.2021.10.07.04.51.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Oct 2021 04:51:34 -0700 (PDT)
-Message-ID: <b3e5840b-0508-ac20-5dbf-32c5c1a29b28@redhat.com>
-Date: Thu, 7 Oct 2021 13:51:33 +0200
+ bh=AZvF8lHSRTx5C1gxLkoYVX71Yos23PQLi8wLibZ0710=;
+ b=CsOuRWmN7r4m+unJ89OFffL8BGavpp7x+CnXtuNBmB4TdbDJf7Tnyl5KNmTm+9O608Z17V
+ QVBYyUmAlWwgvBtkip58JeQ7oYJdJsJgeeHBxnrL5ILAJm9m9Xaosu/poCFI8nzXn5bViT
+ +sOHJeiS/AvPckKap7WaEVHTR94X2eg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-f60KTsS4N0205Zinm8Nj0g-1; Thu, 07 Oct 2021 07:52:49 -0400
+X-MC-Unique: f60KTsS4N0205Zinm8Nj0g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 985AB100CC84;
+ Thu,  7 Oct 2021 11:52:47 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F47D4EC7D;
+ Thu,  7 Oct 2021 11:52:26 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xie Yongji
+ <xieyongji@bytedance.com>, virtualization@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] virtio: write back F_VERSION_1 before validate
+In-Reply-To: <20211006142533.2735019-1-pasic@linux.ibm.com>
+Organization: Red Hat GmbH
+References: <20211006142533.2735019-1-pasic@linux.ibm.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Thu, 07 Oct 2021 13:52:24 +0200
+Message-ID: <875yu9yruv.fsf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [RFC PATCH v2 04/25] include/block/block: split header into I/O
- and global state API
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20211005143215.29500-1-eesposit@redhat.com>
- <20211005143215.29500-5-eesposit@redhat.com>
- <YV6+8+NiBO8uG/GC@stefanha-x1.localdomain>
- <76bbb291-d9bf-ad5e-a4a7-93ee80c281ca@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <76bbb291-d9bf-ad5e-a4a7-93ee80c281ca@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,41 +75,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: linux-s390@vger.kernel.org, markver@us.ibm.com, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/10/21 12:54, Emanuele Giuseppe Esposito wrote:
->>
->>> +int bdrv_block_status(BlockDriverState *bs, int64_t offset,
->>> +                      int64_t bytes, int64_t *pnum, int64_t *map,
->>> +                      BlockDriverState **file);
->>
->> This function just called bdrv_block_status_above(), which is in the I/O
->> API. I think it's safe to move this to the I/O API or else
->> bdrv_block_status_above() shouldn't be there :).
->>
-> 
-> It *seems* that while bdrv_block_status_above() is an I/O, probably 
-> running in some coroutine (from here its internal qemu_in_coroutine 
-> check), bdrv_block_status might be called from the main loop (or 
-> alternatively the function is never invoked in the tests, so the 
-> assertion never triggered).
-> 
-> Maybe bdrv_block_status_above is one of the few functions that are both 
-> I/O and Main loop? I put it in I/O as it can't have the assertion.
+On Wed, Oct 06 2021, Halil Pasic <pasic@linux.ibm.com> wrote:
 
-No, they are both I/O.  Callers of bdrv_block_status are hw/nvme and 
-qemu-img.c; while the latter can be either (it does not have iothreads), 
-hw/nvme is definitely I/O.
+> The virtio specification virtio-v1.1-cs01 states: Transitional devices
+> MUST detect Legacy drivers by detecting that VIRTIO_F_VERSION_1 has not
+> been acknowledged by the driver.  This is exactly what QEMU as of 6.1
+> has done relying solely on VIRTIO_F_VERSION_1 for detecting that.
+>
+> However, the specification also says: driver MAY read (but MUST NOT
+> write) the device-specific configuration fields to check that it can
+> support the device before setting FEATURES_OK.
 
-Paolo
+Suggest to put the citations from the spec into quotes, so that they are
+distinguishable from the rest of the text.
+
+>
+> In that case, any transitional device relying solely on
+> VIRTIO_F_VERSION_1 for detecting legacy drivers will return data in
+> legacy format.  In particular, this implies that it is in big endian
+> format for big endian guests. This naturally confuses the driver which
+> expects little endian in the modern mode.
+>
+> It is probably a good idea to amend the spec to clarify that
+> VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
+> is complete. However, we already have regression so let's try to address
+
+s/regression/a regression/
+
+> it.
+
+Maybe mention what the regression is?
+
+Also mention that we use this workaround for modern on BE only?
+
+>
+> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in config space")
+> Fixes: fe36cbe0671e ("virtio_net: clear MTU when out of range")
+> Reported-by: markver@us.ibm.com
+> ---
+>  drivers/virtio/virtio.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+> index 0a5b54034d4b..494cfecd3376 100644
+> --- a/drivers/virtio/virtio.c
+> +++ b/drivers/virtio/virtio.c
+> @@ -239,6 +239,16 @@ static int virtio_dev_probe(struct device *_d)
+>  		driver_features_legacy = driver_features;
+>  	}
+>  
+> +	/*
+> +	 * Some devices detect legacy solely via F_VERSION_1. Write
+> +	 * F_VERSION_1 to force LE for these when needed.
+
+"...to force LE config space accesses before FEATURES_OK for these when
+needed (BE)."
+
+?
+
+> +	 */
+> +	if (drv->validate && !virtio_legacy_is_little_endian()
+> +			  && BIT_ULL(VIRTIO_F_VERSION_1) & device_features) {
+
+Nit: putting device_features first would read more naturally to me.
+
+> +		dev->features = BIT_ULL(VIRTIO_F_VERSION_1);
+> +		dev->config->finalize_features(dev);
+> +	}
+> +
+>  	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
+>  		dev->features = driver_features & device_features;
+>  	else
+
+Patch LGTM.
 
 
