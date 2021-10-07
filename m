@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562D5425925
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 19:18:18 +0200 (CEST)
-Received: from localhost ([::1]:36178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D471542590F
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 19:14:40 +0200 (CEST)
+Received: from localhost ([::1]:54092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYX29-00069E-C3
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 13:18:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50006)
+	id 1mYWyd-0007cM-Tw
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 13:14:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1mYWLF-0007ZE-LV; Thu, 07 Oct 2021 12:33:57 -0400
-Received: from mga06.intel.com ([134.134.136.31]:50306)
+ id 1mYWQK-00013q-UM; Thu, 07 Oct 2021 12:39:12 -0400
+Received: from mga04.intel.com ([192.55.52.120]:55434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
- id 1mYWLC-0002mP-EN; Thu, 07 Oct 2021 12:33:57 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="287184408"
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="287184408"
+ id 1mYWQF-0008BP-Ck; Thu, 07 Oct 2021 12:39:12 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="225072986"
+X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="225072986"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 09:25:57 -0700
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="624325800"
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2021 09:26:05 -0700
+X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="624325822"
 Received: from lmaniak-dev.igk.intel.com ([10.55.248.48])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 09:25:55 -0700
+ 07 Oct 2021 09:25:58 -0700
 From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/15] hw/nvme: Add support for SR-IOV
-Date: Thu,  7 Oct 2021 18:23:56 +0200
-Message-Id: <20211007162406.1920374-6-lukasz.maniak@linux.intel.com>
+Subject: [PATCH 06/15] hw/nvme: Add support for Primary Controller Capabilities
+Date: Thu,  7 Oct 2021 18:23:57 +0200
+Message-Id: <20211007162406.1920374-7-lukasz.maniak@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
 References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=134.134.136.31;
- envelope-from=lukasz.maniak@linux.intel.com; helo=mga06.intel.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=192.55.52.120;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga04.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_NONE=0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Thu, 07 Oct 2021 13:12:41 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,237 +56,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org,
  =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>,
  Lukasz Maniak <lukasz.maniak@linux.intel.com>,
- Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
+ Klaus Jensen <its@irrelevant.dk>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implements initial support for Single Root I/O Virtualization
-on an NVMe device.
+Implementation of Primary Controller Capabilities data
+structure (Identify command with CNS value of 14h).
 
-Essentially, it allows to define the maximum number of virtual functions
-supported by the NVMe controller via sriov_max_vfs parameter.
-
-Passing a non-zero value to sriov_max_vfs triggers reporting of SR-IOV
-capability by a physical controller and ARI capability by both the
-physical and virtual function devices.
-
-NVMe controllers created via virtual functions mirror functionally
-the physical controller, which may not entirely be the case, thus
-consideration would be needed on the way to limit the capabilities of
-the VF.
-
-NVMe subsystem is required for the use of SR-IOV.
+Currently, the command returns only ID of a primary controller.
+Handling of remaining fields are added in subsequent patches
+implementing virtualization enhancements.
 
 Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
 ---
- hw/nvme/ctrl.c           | 74 ++++++++++++++++++++++++++++++++++++++--
- hw/nvme/nvme.h           |  1 +
- include/hw/pci/pci_ids.h |  1 +
- 3 files changed, 73 insertions(+), 3 deletions(-)
+ hw/nvme/ctrl.c       | 22 +++++++++++++++++-----
+ hw/nvme/nvme.h       |  2 ++
+ hw/nvme/trace-events |  1 +
+ include/block/nvme.h | 23 +++++++++++++++++++++++
+ 4 files changed, 43 insertions(+), 5 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 6a571d18cf..ad79ff0c00 100644
+index ad79ff0c00..d2fde3dd07 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -35,6 +35,7 @@
-  *              mdts=<N[optional]>,vsl=<N[optional]>, \
-  *              zoned.zasl=<N[optional]>, \
-  *              zoned.auto_transition=<on|off[optional]>, \
-+ *              sriov_max_vfs=<N[optional]> \
-  *              subsys=<subsys_id>
-  *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
-  *              zoned=<true|false[optional]>, \
-@@ -106,6 +107,12 @@
-  *   transitioned to zone state closed for resource management purposes.
-  *   Defaults to 'on'.
-  *
-+ * - `sriov_max_vfs`
-+ *   Indicates the maximum number of PCIe virtual functions supported
-+ *   by the controller. The default value is 0. Specifying a non-zero value
-+ *   enables reporting of both SR-IOV and ARI capabilities by the NVMe device.
-+ *   Virtual function controllers will not report SR-IOV capability.
-+ *
-  * nvme namespace device parameters
-  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  * - `shared`
-@@ -160,6 +167,7 @@
- #include "sysemu/block-backend.h"
- #include "sysemu/hostmem.h"
- #include "hw/pci/msix.h"
-+#include "hw/pci/pcie_sriov.h"
- #include "migration/vmstate.h"
- 
- #include "nvme.h"
-@@ -175,6 +183,9 @@
- #define NVME_TEMPERATURE_CRITICAL 0x175
- #define NVME_NUM_FW_SLOTS 1
- #define NVME_DEFAULT_MAX_ZA_SIZE (128 * KiB)
-+#define NVME_MAX_VFS 127
-+#define NVME_VF_OFFSET 0x1
-+#define NVME_VF_STRIDE 1
- 
- #define NVME_GUEST_ERR(trace, fmt, ...) \
-     do { \
-@@ -5583,6 +5594,10 @@ static void nvme_ctrl_reset(NvmeCtrl *n)
-         g_free(event);
-     }
- 
-+    if (!pci_is_vf(&n->parent_obj) && n->params.sriov_max_vfs) {
-+        pcie_sriov_pf_disable_vfs(&n->parent_obj);
-+    }
-+
-     n->aer_queued = 0;
-     n->outstanding_aers = 0;
-     n->qs_created = false;
-@@ -6264,6 +6279,19 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
-         error_setg(errp, "vsl must be non-zero");
-         return;
-     }
-+
-+    if (params->sriov_max_vfs) {
-+        if (!n->subsys) {
-+            error_setg(errp, "subsystem is required for the use of SR-IOV");
-+            return;
-+        }
-+
-+        if (params->sriov_max_vfs > NVME_MAX_VFS) {
-+            error_setg(errp, "sriov_max_vfs must be between 0 and %d",
-+                       NVME_MAX_VFS);
-+            return;
-+        }
-+    }
+@@ -4538,6 +4538,13 @@ static uint16_t nvme_identify_ctrl_list(NvmeCtrl *n, NvmeRequest *req,
+     return nvme_c2h(n, (uint8_t *)list, sizeof(list), req);
  }
  
- static void nvme_init_state(NvmeCtrl *n)
-@@ -6321,6 +6349,20 @@ static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
-     memory_region_set_enabled(&n->pmr.dev->mr, false);
- }
- 
-+static void nvme_init_sriov(NvmeCtrl *n, PCIDevice *pci_dev, uint16_t offset,
-+                            uint64_t bar_size)
++static uint16_t nvme_identify_pri_ctrl_cap(NvmeCtrl *n, NvmeRequest *req)
 +{
-+    uint16_t vf_dev_id = n->params.use_intel_id ?
-+                         PCI_DEVICE_ID_INTEL_NVME : PCI_DEVICE_ID_REDHAT_NVME;
++    trace_pci_nvme_identify_pri_ctrl_cap(le16_to_cpu(n->pri_ctrl_cap.cntlid));
 +
-+    pcie_sriov_pf_init(pci_dev, offset, "nvme", vf_dev_id,
-+                       n->params.sriov_max_vfs, n->params.sriov_max_vfs,
-+                       NVME_VF_OFFSET, NVME_VF_STRIDE, NULL);
-+
-+    pcie_sriov_pf_init_vf_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
-+                              PCI_BASE_ADDRESS_MEM_TYPE_64, bar_size);
++    return nvme_c2h(n, (uint8_t *)&n->pri_ctrl_cap, sizeof(NvmePriCtrlCap), req);
 +}
 +
- static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req,
+                                      bool active)
  {
-     uint8_t *pci_conf = pci_dev->config;
-@@ -6335,7 +6377,7 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+@@ -4756,6 +4763,8 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
+         return nvme_identify_ctrl_list(n, req, true);
+     case NVME_ID_CNS_CTRL_LIST:
+         return nvme_identify_ctrl_list(n, req, false);
++    case NVME_ID_CNS_PRIMARY_CTRL_CAP:
++        return nvme_identify_pri_ctrl_cap(n, req);
+     case NVME_ID_CNS_CS_NS:
+         return nvme_identify_ns_csi(n, req, true);
+     case NVME_ID_CNS_CS_NS_PRESENT:
+@@ -6296,6 +6305,8 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
  
-     if (n->params.use_intel_id) {
-         pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_INTEL);
--        pci_config_set_device_id(pci_conf, 0x5845);
-+        pci_config_set_device_id(pci_conf, PCI_DEVICE_ID_INTEL_NVME);
-     } else {
-         pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_REDHAT);
-         pci_config_set_device_id(pci_conf, PCI_DEVICE_ID_REDHAT_NVME);
-@@ -6343,6 +6385,9 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
- 
-     pci_config_set_class(pci_conf, PCI_CLASS_STORAGE_EXPRESS);
-     pcie_endpoint_cap_init(pci_dev, 0x80);
-+    if (n->params.sriov_max_vfs) {
-+        pcie_ari_init(pci_dev, 0x100, 1);
-+    }
- 
-     bar_size = QEMU_ALIGN_UP(n->reg_size, 4 * KiB);
-     msix_table_offset = bar_size;
-@@ -6361,8 +6406,12 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
-                           n->reg_size);
-     memory_region_add_subregion(&n->bar0, 0, &n->iomem);
- 
--    pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
--                     PCI_BASE_ADDRESS_MEM_TYPE_64, &n->bar0);
-+    if (pci_is_vf(pci_dev)) {
-+        pcie_sriov_vf_register_bar(pci_dev, 0, &n->bar0);
-+    } else {
-+        pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
-+                         PCI_BASE_ADDRESS_MEM_TYPE_64, &n->bar0);
-+    }
-     ret = msix_init(pci_dev, n->params.msix_qsize,
-                     &n->bar0, 0, msix_table_offset,
-                     &n->bar0, 0, msix_pba_offset, 0, &err);
-@@ -6383,6 +6432,10 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
-         nvme_init_pmr(n, pci_dev);
-     }
- 
-+    if (!pci_is_vf(pci_dev) && n->params.sriov_max_vfs) {
-+        nvme_init_sriov(n, pci_dev, 0x120, bar_size);
-+    }
+ static void nvme_init_state(NvmeCtrl *n)
+ {
++    NvmePriCtrlCap *cap = &n->pri_ctrl_cap;
 +
-     return 0;
+     /* add one to max_ioqpairs to account for the admin queue pair */
+     n->reg_size = pow2ceil(sizeof(NvmeBar) +
+                            2 * (n->params.max_ioqpairs + 1) * NVME_DB_SIZE);
+@@ -6305,6 +6316,8 @@ static void nvme_init_state(NvmeCtrl *n)
+     n->features.temp_thresh_hi = NVME_TEMPERATURE_WARNING;
+     n->starttime_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+     n->aer_reqs = g_new0(NvmeRequest *, n->params.aerl + 1);
++
++    cap->cntlid = cpu_to_le16(n->cntlid);
  }
  
-@@ -6532,6 +6585,15 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-     NvmeCtrl *n = NVME(pci_dev);
-     NvmeNamespace *ns;
-     Error *local_err = NULL;
-+    NvmeCtrl *pn = NVME(pcie_sriov_get_pf(pci_dev));
-+
-+    if (pci_is_vf(pci_dev)) {
-+        /* VFs derive settings from the parent. PF's lifespan exceeds
-+         * that of VF's, so it's safe to share params.serial.
-+         */
-+        memcpy(&n->params, &pn->params, sizeof(NvmeParams));
-+        n->subsys = pn->subsys;
-+    }
+ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+@@ -6604,15 +6617,14 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     qbus_init(&n->bus, sizeof(NvmeBus), TYPE_NVME_BUS,
+               &pci_dev->qdev, n->parent_obj.qdev.id);
  
-     nvme_check_constraints(n, &local_err);
-     if (local_err) {
-@@ -6596,6 +6658,11 @@ static void nvme_exit(PCIDevice *pci_dev)
-     if (n->pmr.dev) {
-         host_memory_backend_set_mapped(n->pmr.dev, false);
+-    nvme_init_state(n);
+-    if (nvme_init_pci(n, pci_dev, errp)) {
+-        return;
+-    }
+-
+     if (nvme_init_subsys(n, errp)) {
+         error_propagate(errp, local_err);
+         return;
      }
-+
-+    if (!pci_is_vf(pci_dev) && n->params.sriov_max_vfs) {
-+        pcie_sriov_pf_exit(pci_dev);
++    nvme_init_state(n);
++    if (nvme_init_pci(n, pci_dev, errp)) {
++        return;
 +    }
-+
-     msix_uninit(pci_dev, &n->bar0, &n->bar0);
-     memory_region_del_subregion(&n->bar0, &n->iomem);
- }
-@@ -6620,6 +6687,7 @@ static Property nvme_props[] = {
-     DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
-     DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
-                      params.auto_transition_zones, true),
-+    DEFINE_PROP_UINT8("sriov_max_vfs", NvmeCtrl, params.sriov_max_vfs, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
+     nvme_init_ctrl(n, pci_dev);
  
+     /* setup a namespace if the controller drive property was given */
 diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 83ffabade4..4331f5da1f 100644
+index 4331f5da1f..479817f66e 100644
 --- a/hw/nvme/nvme.h
 +++ b/hw/nvme/nvme.h
-@@ -391,6 +391,7 @@ typedef struct NvmeParams {
-     uint8_t  zasl;
-     bool     auto_transition_zones;
-     bool     legacy_cmb;
-+    uint8_t  sriov_max_vfs;
- } NvmeParams;
+@@ -461,6 +461,8 @@ typedef struct NvmeCtrl {
+         };
+         uint32_t    async_config;
+     } features;
++
++    NvmePriCtrlCap  pri_ctrl_cap;
+ } NvmeCtrl;
  
- typedef struct NvmeCtrl {
-diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
-index 11abe22d46..992426768e 100644
---- a/include/hw/pci/pci_ids.h
-+++ b/include/hw/pci/pci_ids.h
-@@ -237,6 +237,7 @@
- #define PCI_DEVICE_ID_INTEL_82801BA_11   0x244e
- #define PCI_DEVICE_ID_INTEL_82801D       0x24CD
- #define PCI_DEVICE_ID_INTEL_ESB_9        0x25ab
-+#define PCI_DEVICE_ID_INTEL_NVME         0x5845
- #define PCI_DEVICE_ID_INTEL_82371SB_0    0x7000
- #define PCI_DEVICE_ID_INTEL_82371SB_1    0x7010
- #define PCI_DEVICE_ID_INTEL_82371SB_2    0x7020
+ static inline NvmeNamespace *nvme_ns(NvmeCtrl *n, uint32_t nsid)
+diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+index ff6cafd520..1014ebceb6 100644
+--- a/hw/nvme/trace-events
++++ b/hw/nvme/trace-events
+@@ -52,6 +52,7 @@ pci_nvme_identify_ctrl(void) "identify controller"
+ pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
+ pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_ctrl_list(uint8_t cns, uint16_t cntid) "cns 0x%"PRIx8" cntid %"PRIu16""
++pci_nvme_identify_pri_ctrl_cap(uint16_t cntlid) "identify primary controller capabilities cntlid=%"PRIu16""
+ pci_nvme_identify_ns_csi(uint32_t ns, uint8_t csi) "nsid=%"PRIu32", csi=0x%"PRIx8""
+ pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_nslist_csi(uint16_t ns, uint8_t csi) "nsid=%"PRIu16", csi=0x%"PRIx8""
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index e3bd47bf76..f69bd1d14f 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -1017,6 +1017,7 @@ enum NvmeIdCns {
+     NVME_ID_CNS_NS_PRESENT            = 0x11,
+     NVME_ID_CNS_NS_ATTACHED_CTRL_LIST = 0x12,
+     NVME_ID_CNS_CTRL_LIST             = 0x13,
++    NVME_ID_CNS_PRIMARY_CTRL_CAP      = 0x14,
+     NVME_ID_CNS_CS_NS_PRESENT_LIST    = 0x1a,
+     NVME_ID_CNS_CS_NS_PRESENT         = 0x1b,
+     NVME_ID_CNS_IO_COMMAND_SET        = 0x1c,
+@@ -1465,6 +1466,27 @@ typedef enum NvmeZoneState {
+     NVME_ZONE_STATE_OFFLINE          = 0x0f,
+ } NvmeZoneState;
+ 
++typedef struct QEMU_PACKED NvmePriCtrlCap {
++    uint16_t    cntlid;
++    uint16_t    portid;
++    uint8_t     crt;
++    uint8_t     rsvd5[27];
++    uint32_t    vqfrt;
++    uint32_t    vqrfa;
++    uint16_t    vqrfap;
++    uint16_t    vqprt;
++    uint16_t    vqfrsm;
++    uint16_t    vqgran;
++    uint8_t     rsvd48[16];
++    uint32_t    vifrt;
++    uint32_t    virfa;
++    uint16_t    virfap;
++    uint16_t    viprt;
++    uint16_t    vifrsm;
++    uint16_t    vigran;
++    uint8_t     rsvd80[4016];
++} NvmePriCtrlCap;
++
+ static inline void _nvme_check_size(void)
+ {
+     QEMU_BUILD_BUG_ON(sizeof(NvmeBar) != 4096);
+@@ -1497,5 +1519,6 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsDescr) != 4);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeZoneDescr) != 64);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeDifTuple) != 8);
++    QEMU_BUILD_BUG_ON(sizeof(NvmePriCtrlCap) != 4096);
+ }
+ #endif
 -- 
 2.25.1
 
