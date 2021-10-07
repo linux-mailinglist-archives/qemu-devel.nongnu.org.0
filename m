@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C45425A57
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 20:06:07 +0200 (CEST)
-Received: from localhost ([::1]:40636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA22425A3F
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 20:02:53 +0200 (CEST)
+Received: from localhost ([::1]:34490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYXmR-0001O7-0t
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 14:06:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38224)
+	id 1mYXjI-0005jf-05
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 14:02:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYXUX-00043p-9b
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:47:40 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:50762)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYXUS-0006v0-8V
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:47:35 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id k23so5502098pji.0
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 10:47:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5BmUKj5ZFDfEAmKDg/dVXECTi9BNeky+S0S3T1g9RSg=;
- b=cyNp8v5AXOK1MgTlXj5kiGWHUdbfsL0ntCkGQy3J+dCxnsij73eABBNe+bFUIYxH2c
- KVTZ1qgSPMKGQ0ctufRhAFGTt9lPAv+DzUqKxlZNznVFIca3pKNuNPCvcQKkKrt7EihM
- hdvqsQh8KbfX3omoa4tx3BJmCWew3UeNcEQCLaYVw9iEAv5FSNRuwYi1Rtjg58oPw8iy
- JG0I3oG9mzRMXYSlcZjP1e5xtnzgh0VCAzT8OtzsdIkjGNUwG9waVdQo1Kg/rZDUjr6z
- I9bgKSmmm3qU6QCu2OpNBZv9GdKKgyHE90vpKdGkOSJGNLIdp3B5VAoM4fzSc6XCDnlu
- kOJA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mYXcq-0003lh-LE
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:56:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mYXck-0005KI-NN
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:56:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633629365;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vHwXIBByujUL87wadOKCslJADIxWIjFhIAfdkePa9Ic=;
+ b=a/IKpWj2keUa6tlHIvCCi1Fnm8xgGNcwBZvw3AVeswQ6v7riSrPVD5X7krdxR8YjKrqcYq
+ D96VnltK/jzpsb32N+Qa93Qt0uCrUE+ASaGEuefI7kEXCxBKJ5sVP34Vk9kU9g/uuvV8/0
+ WJXf3GOB6fC+dr1Qh3aWiR8JgW75ejo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-fGL7b1gSNUCVD-e2z35kRA-1; Thu, 07 Oct 2021 13:56:00 -0400
+X-MC-Unique: fGL7b1gSNUCVD-e2z35kRA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ r16-20020adfbb10000000b00160958ed8acso5314003wrg.16
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 10:56:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5BmUKj5ZFDfEAmKDg/dVXECTi9BNeky+S0S3T1g9RSg=;
- b=kyGfn+jg1hXVymEkVgw7cffrqXQXlx4kNyn5kcJ21KC0Dzy6XoKikZ8Zcxw0TGKxPt
- dFIcsJzh9l9khDbChwq3Art9E7yGSXM7a3++5aKjODcNkfvLckHVbsgctwVqPa5V3MXC
- K5n6rpRT+c/SXinroXi+7Orkghcr5aKbqKdwrXZ95Uz6t4hSCQYwUqZD/2yRznXdIzU6
- vJzAEw0VQY5c4nC3iszP2Bow24l4t0USSpeVGlTTuJ9KYNBKCEgIOjhPbPC1mVABJRRt
- bwhbQodc+ITEbjVe7MTiWzyWQdvFGai6DXi/KLISB5jkptMtxXonL9U60wWOEhaSy9ox
- VxXw==
-X-Gm-Message-State: AOAM530B2ih+QLyKsmIHkF5isXYAwQuO54ZzTIkn+euOGetDUWtPuDo3
- QG1kkq53BJOHhFMECvJ98QmzbJkSNTb5eA==
-X-Google-Smtp-Source: ABdhPJwLGaKZZGAELYT50QC6x/JpacjtBCtqpu0BPHx8q3UEgOvCF/27ry+YQ6FwUpn/yHNII8kN4Q==
-X-Received: by 2002:a17:902:a710:b029:12b:9b9f:c461 with SMTP id
- w16-20020a170902a710b029012b9b9fc461mr5253246plq.59.1633628850856; 
- Thu, 07 Oct 2021 10:47:30 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id 197sm83318pfv.6.2021.10.07.10.47.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 10:47:30 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 09/13] target/riscv: Replace DisasContext.w with
- DisasContext.ol
-Date: Thu,  7 Oct 2021 10:47:18 -0700
-Message-Id: <20211007174722.929993-10-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211007174722.929993-1-richard.henderson@linaro.org>
-References: <20211007174722.929993-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vHwXIBByujUL87wadOKCslJADIxWIjFhIAfdkePa9Ic=;
+ b=YjHjBoJNGMbLE0tszub/35gr72SFIo5QvKV8eyDGWEtM8afGj1UlhwxLjOJVRXn2r5
+ X1m/gZeLuSHoBsIsFZB3GCBtKJWmQWI7EV5eBqvuvJjFdWbmwwGv7a+7CCf5p0osMBZK
+ CAtz7QTzBRuoOqsxscqiHx9NcaQRSYbiUfINOlNuIppQQ1FxcQ6yLQ/h8l9B9kq7kZug
+ kmlaKS/r1rrVyorM33w7Mhx8Z99S5oNp4+zYMVXc/rxb9M92edkeJNWqB/PD3KmRKVDH
+ 4cpbCKt/IaIAMRYrcibQSItMcyYsl8sOKG/I8SN1n6sNJ5aY2pFcAaqN+XBpSJgsNDoE
+ MffA==
+X-Gm-Message-State: AOAM5324wzDh0SQGBJwt/vImLMBQtel3JuyM0yC9G8xZD93zlM/xo7Cr
+ HAGECGOKASrqFR3o0kFe/DVZSrQF/AZ9f5HxpK/uQ8PDDyke3nPEFEh41l6PSE4XSpRKhzAbM/f
+ 7Q2AFCCmxEVa++yLl/4zUNESe0JMXMZc6Y0QS1ADCunTOZMG3rQ7qAPpVFmQXBqI=
+X-Received: by 2002:adf:8b47:: with SMTP id v7mr7256631wra.321.1633629359080; 
+ Thu, 07 Oct 2021 10:55:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzdUzcYxNf3NF4boAlYP2mlylEMFZ988BAoZr3E4lYQB0Z9uGbNvlWkGtI0DJCQLRcJyBXGg==
+X-Received: by 2002:adf:8b47:: with SMTP id v7mr7256596wra.321.1633629358771; 
+ Thu, 07 Oct 2021 10:55:58 -0700 (PDT)
+Received: from thuth.remote.csb (p549bb2bd.dip0.t-ipconnect.de.
+ [84.155.178.189])
+ by smtp.gmail.com with ESMTPSA id l16sm86863wmj.33.2021.10.07.10.55.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Oct 2021 10:55:58 -0700 (PDT)
+Subject: Re: [PATCH 17/24] configure, meson: move netmap detection to meson
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211007130630.632028-1-pbonzini@redhat.com>
+ <20211007130829.632254-12-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <18b2de5f-740b-58ca-cb68-505014793f39@redhat.com>
+Date: Thu, 7 Oct 2021 19:55:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211007130829.632254-12-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.964,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,341 +98,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, frederic.petrot@univ-grenoble-alpes.fr,
- qemu-riscv@nongnu.org, fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In preparation for RV128, consider more than just "w" for
-operand size modification.  This will be used for the "d"
-insns from RV128 as well.
+On 07/10/2021 15.08, Paolo Bonzini wrote:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   configure         | 40 ++++------------------------------------
+>   meson.build       | 19 ++++++++++++++++++-
+>   meson_options.txt |  2 ++
+>   net/meson.build   |  4 +++-
+>   4 files changed, 27 insertions(+), 38 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index a2b1d54be8..bb3bb3e58f 100755
+> --- a/configure
+> +++ b/configure
+> @@ -292,7 +292,7 @@ iconv="auto"
+>   curses="auto"
+>   docs="auto"
+>   fdt="auto"
+> -netmap="no"
+> +netmap="auto"
+>   sdl="auto"
+>   sdl_image="auto"
+>   virtiofsd="auto"
+> @@ -701,7 +701,6 @@ FreeBSD)
+>     bsd_user="yes"
+>     make="${MAKE-gmake}"
+>     # needed for kinfo_getvmmap(3) in libutil.h
+> -  netmap=""  # enable netmap autodetect
+>   ;;
+>   DragonFly)
+>     bsd="yes"
+> @@ -1026,9 +1025,9 @@ for opt do
+>     ;;
+>     --enable-vde) vde="enabled"
+>     ;;
+> -  --disable-netmap) netmap="no"
+> +  --disable-netmap) netmap="disabled"
+>     ;;
+> -  --enable-netmap) netmap="yes"
+> +  --enable-netmap) netmap="enabled"
+>     ;;
+>     --disable-xen) xen="disabled"
+>     ;;
+> @@ -2901,34 +2900,6 @@ EOF
+>     fi
+>   fi
+>   
+> -##########################################
+> -# netmap support probe
+> -# Apart from looking for netmap headers, we make sure that the host API version
+> -# supports the netmap backend (>=11). The upper bound (15) is meant to simulate
+> -# a minor/major version number. Minor new features will be marked with values up
+> -# to 15, and if something happens that requires a change to the backend we will
+> -# move above 15, submit the backend fixes and modify this two bounds.
+> -if test "$netmap" != "no" ; then
+> -  cat > $TMPC << EOF
+> -#include <inttypes.h>
+> -#include <net/if.h>
+> -#include <net/netmap.h>
+> -#include <net/netmap_user.h>
+> -#if (NETMAP_API < 11) || (NETMAP_API > 15)
+> -#error
+> -#endif
+> -int main(void) { return 0; }
+> -EOF
+> -  if compile_prog "" "" ; then
+> -    netmap=yes
+> -  else
+> -    if test "$netmap" = "yes" ; then
+> -      feature_not_found "netmap"
+> -    fi
+> -    netmap=no
+> -  fi
+> -fi
+> -
+>   ##########################################
+>   # plugin linker support probe
+>   
+> @@ -4173,9 +4144,6 @@ if test "$slirp_smbd" = "yes" ; then
+>     echo "CONFIG_SLIRP_SMBD=y" >> $config_host_mak
+>     echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
+>   fi
+> -if test "$netmap" = "yes" ; then
+> -  echo "CONFIG_NETMAP=y" >> $config_host_mak
+> -fi
+>   if test "$l2tpv3" = "yes" ; then
+>     echo "CONFIG_L2TPV3=y" >> $config_host_mak
+>   fi
+> @@ -4722,7 +4690,7 @@ if test "$skip_meson" = no; then
+>           -Dalsa=$alsa -Dcoreaudio=$coreaudio -Ddsound=$dsound -Djack=$jack -Doss=$oss \
+>           -Dpa=$pa -Daudio_drv_list=$audio_drv_list -Dtcg_interpreter=$tcg_interpreter \
+>           -Dtrace_backends=$trace_backends -Dtrace_file=$trace_file -Dlinux_aio=$linux_aio \
+> -        -Dvde=$vde \
+> +        -Dnetmap=$netmap -Dvde=$vde \
+>           $cross_arg \
+>           "$PWD" "$source_path"
+>   
+> diff --git a/meson.build b/meson.build
+> index 46d8798a19..96f87630f0 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1659,6 +1659,23 @@ config_host_data.set('HAVE_MLOCKALL', cc.links(gnu_source_prefix + '''
+>       return mlockall(MCL_FUTURE);
+>     }'''))
+>   
+> +have_netmap = false
+> +if not get_option('netmap').disabled() and targetos == 'freebsd'
 
-Rename oper_len to get_olen to better match get_xlen.
+The "and targetos == 'freebsd'" seems wrong. netmap is also usable on Linux, 
+and I cannot use --enable-netmap anymore after this patch. It works again 
+once I removed the freebsd check here.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/translate.c                | 71 ++++++++++++++++---------
- target/riscv/insn_trans/trans_rvb.c.inc |  8 +--
- target/riscv/insn_trans/trans_rvi.c.inc | 18 +++----
- target/riscv/insn_trans/trans_rvm.c.inc | 10 ++--
- 4 files changed, 63 insertions(+), 44 deletions(-)
-
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 5724a62bb0..6ab5c6aa58 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -67,7 +67,7 @@ typedef struct DisasContext {
-        to any system register, which includes CSR_FRM, so we do not have
-        to reset this known value.  */
-     int frm;
--    bool w;
-+    RISCVMXL ol;
-     bool virt_enabled;
-     bool ext_ifencei;
-     bool hlsx;
-@@ -103,12 +103,17 @@ static inline int get_xlen(DisasContext *ctx)
-     return 16 << get_xl(ctx);
- }
- 
--/* The word size for this operation. */
--static inline int oper_len(DisasContext *ctx)
--{
--    return ctx->w ? 32 : TARGET_LONG_BITS;
--}
-+/* The operation length, as opposed to the xlen. */
-+#ifdef TARGET_RISCV32
-+#define get_ol(ctx)    MXL_RV32
-+#else
-+#define get_ol(ctx)    ((ctx)->ol)
-+#endif
- 
-+static inline int get_olen(DisasContext *ctx)
-+{
-+    return 16 << get_ol(ctx);
-+}
- 
- /*
-  * RISC-V requires NaN-boxing of narrower width floating point values.
-@@ -221,24 +226,34 @@ static TCGv get_gpr(DisasContext *ctx, int reg_num, DisasExtend ext)
-         return ctx->zero;
-     }
- 
--    switch (ctx->w ? ext : EXT_NONE) {
--    case EXT_NONE:
--        return cpu_gpr[reg_num];
--    case EXT_SIGN:
--        t = temp_new(ctx);
--        tcg_gen_ext32s_tl(t, cpu_gpr[reg_num]);
--        return t;
--    case EXT_ZERO:
--        t = temp_new(ctx);
--        tcg_gen_ext32u_tl(t, cpu_gpr[reg_num]);
--        return t;
-+    switch (get_ol(ctx)) {
-+    case MXL_RV32:
-+        switch (ext) {
-+        case EXT_NONE:
-+            break;
-+        case EXT_SIGN:
-+            t = temp_new(ctx);
-+            tcg_gen_ext32s_tl(t, cpu_gpr[reg_num]);
-+            return t;
-+        case EXT_ZERO:
-+            t = temp_new(ctx);
-+            tcg_gen_ext32u_tl(t, cpu_gpr[reg_num]);
-+            return t;
-+        default:
-+            g_assert_not_reached();
-+        }
-+        break;
-+    case MXL_RV64:
-+        break;
-+    default:
-+        g_assert_not_reached();
-     }
--    g_assert_not_reached();
-+    return cpu_gpr[reg_num];
- }
- 
- static TCGv dest_gpr(DisasContext *ctx, int reg_num)
- {
--    if (reg_num == 0 || ctx->w) {
-+    if (reg_num == 0 || get_olen(ctx) < TARGET_LONG_BITS) {
-         return temp_new(ctx);
-     }
-     return cpu_gpr[reg_num];
-@@ -247,10 +262,15 @@ static TCGv dest_gpr(DisasContext *ctx, int reg_num)
- static void gen_set_gpr(DisasContext *ctx, int reg_num, TCGv t)
- {
-     if (reg_num != 0) {
--        if (ctx->w) {
-+        switch (get_ol(ctx)) {
-+        case MXL_RV32:
-             tcg_gen_ext32s_tl(cpu_gpr[reg_num], t);
--        } else {
-+            break;
-+        case MXL_RV64:
-             tcg_gen_mov_tl(cpu_gpr[reg_num], t);
-+            break;
-+        default:
-+            g_assert_not_reached();
-         }
-     }
- }
-@@ -411,7 +431,7 @@ static bool gen_shift_imm_fn(DisasContext *ctx, arg_shift *a, DisasExtend ext,
-                              void (*func)(TCGv, TCGv, target_long))
- {
-     TCGv dest, src1;
--    int max_len = oper_len(ctx);
-+    int max_len = get_olen(ctx);
- 
-     if (a->shamt >= max_len) {
-         return false;
-@@ -430,7 +450,7 @@ static bool gen_shift_imm_tl(DisasContext *ctx, arg_shift *a, DisasExtend ext,
-                              void (*func)(TCGv, TCGv, TCGv))
- {
-     TCGv dest, src1, src2;
--    int max_len = oper_len(ctx);
-+    int max_len = get_olen(ctx);
- 
-     if (a->shamt >= max_len) {
-         return false;
-@@ -454,7 +474,7 @@ static bool gen_shift(DisasContext *ctx, arg_r *a, DisasExtend ext,
-     TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-     TCGv ext2 = tcg_temp_new();
- 
--    tcg_gen_andi_tl(ext2, src2, oper_len(ctx) - 1);
-+    tcg_gen_andi_tl(ext2, src2, get_olen(ctx) - 1);
-     func(dest, src1, ext2);
- 
-     gen_set_gpr(ctx, a->rd, dest);
-@@ -554,7 +574,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
-     ctx->xl = FIELD_EX32(tb_flags, TB_FLAGS, XL);
-     ctx->cs = cs;
--    ctx->w = false;
-     ctx->ntemp = 0;
-     memset(ctx->temp, 0, sizeof(ctx->temp));
- 
-@@ -578,9 +597,9 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-     CPURISCVState *env = cpu->env_ptr;
-     uint16_t opcode16 = translator_lduw(env, &ctx->base, ctx->base.pc_next);
- 
-+    ctx->ol = ctx->xl;
-     decode_opc(env, ctx, opcode16);
-     ctx->base.pc_next = ctx->pc_succ_insn;
--    ctx->w = false;
- 
-     for (int i = ctx->ntemp - 1; i >= 0; --i) {
-         tcg_temp_free(ctx->temp[i]);
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 185c3e9a60..66dd51de49 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -341,7 +341,7 @@ static bool trans_cpopw(DisasContext *ctx, arg_cpopw *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_ZBB(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_unary(ctx, a, EXT_ZERO, tcg_gen_ctpop_tl);
- }
- 
-@@ -367,7 +367,7 @@ static bool trans_rorw(DisasContext *ctx, arg_rorw *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_ZBB(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_shift(ctx, a, EXT_NONE, gen_rorw);
- }
- 
-@@ -375,7 +375,7 @@ static bool trans_roriw(DisasContext *ctx, arg_roriw *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_ZBB(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_rorw);
- }
- 
-@@ -401,7 +401,7 @@ static bool trans_rolw(DisasContext *ctx, arg_rolw *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_ZBB(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_shift(ctx, a, EXT_NONE, gen_rolw);
- }
- 
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index 920ae0edb3..c0a46d823f 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -333,14 +333,14 @@ static bool trans_and(DisasContext *ctx, arg_and *a)
- static bool trans_addiw(DisasContext *ctx, arg_addiw *a)
- {
-     REQUIRE_64BIT(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_arith_imm_fn(ctx, a, EXT_NONE, tcg_gen_addi_tl);
- }
- 
- static bool trans_slliw(DisasContext *ctx, arg_slliw *a)
- {
-     REQUIRE_64BIT(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_shift_imm_fn(ctx, a, EXT_NONE, tcg_gen_shli_tl);
- }
- 
-@@ -352,7 +352,7 @@ static void gen_srliw(TCGv dst, TCGv src, target_long shamt)
- static bool trans_srliw(DisasContext *ctx, arg_srliw *a)
- {
-     REQUIRE_64BIT(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_srliw);
- }
- 
-@@ -364,42 +364,42 @@ static void gen_sraiw(TCGv dst, TCGv src, target_long shamt)
- static bool trans_sraiw(DisasContext *ctx, arg_sraiw *a)
- {
-     REQUIRE_64BIT(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_sraiw);
- }
- 
- static bool trans_addw(DisasContext *ctx, arg_addw *a)
- {
-     REQUIRE_64BIT(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_NONE, tcg_gen_add_tl);
- }
- 
- static bool trans_subw(DisasContext *ctx, arg_subw *a)
- {
-     REQUIRE_64BIT(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_NONE, tcg_gen_sub_tl);
- }
- 
- static bool trans_sllw(DisasContext *ctx, arg_sllw *a)
- {
-     REQUIRE_64BIT(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_shift(ctx, a, EXT_NONE, tcg_gen_shl_tl);
- }
- 
- static bool trans_srlw(DisasContext *ctx, arg_srlw *a)
- {
-     REQUIRE_64BIT(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_shift(ctx, a, EXT_ZERO, tcg_gen_shr_tl);
- }
- 
- static bool trans_sraw(DisasContext *ctx, arg_sraw *a)
- {
-     REQUIRE_64BIT(ctx);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl);
- }
- 
-diff --git a/target/riscv/insn_trans/trans_rvm.c.inc b/target/riscv/insn_trans/trans_rvm.c.inc
-index b89a85ad3a..9a1fe3c799 100644
---- a/target/riscv/insn_trans/trans_rvm.c.inc
-+++ b/target/riscv/insn_trans/trans_rvm.c.inc
-@@ -214,7 +214,7 @@ static bool trans_mulw(DisasContext *ctx, arg_mulw *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl);
- }
- 
-@@ -222,7 +222,7 @@ static bool trans_divw(DisasContext *ctx, arg_divw *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_SIGN, gen_div);
- }
- 
-@@ -230,7 +230,7 @@ static bool trans_divuw(DisasContext *ctx, arg_divuw *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_ZERO, gen_divu);
- }
- 
-@@ -238,7 +238,7 @@ static bool trans_remw(DisasContext *ctx, arg_remw *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_SIGN, gen_rem);
- }
- 
-@@ -246,6 +246,6 @@ static bool trans_remuw(DisasContext *ctx, arg_remuw *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVM);
--    ctx->w = true;
-+    ctx->ol = MXL_RV32;
-     return gen_arith(ctx, a, EXT_ZERO, gen_remu);
- }
--- 
-2.25.1
+  Thomas
 
 
