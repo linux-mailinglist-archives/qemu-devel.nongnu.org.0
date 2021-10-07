@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82011424E70
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 10:00:59 +0200 (CEST)
-Received: from localhost ([::1]:46788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0743C424F5C
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 10:36:18 +0200 (CEST)
+Received: from localhost ([::1]:53548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYOKo-0008DB-8d
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 04:00:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45686)
+	id 1mYOsy-0008B1-Sg
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 04:36:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYOJC-0007Ww-7E
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:59:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22134)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mYOpS-0002pP-Gw
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 04:32:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYOJA-0006JS-DB
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:59:17 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mYOpO-00056T-E7
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 04:32:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633593555;
+ s=mimecast20190719; t=1633595553;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HF/jRWRHoLDnU/HOUhFRONVVOoO/cy34ZUZn6rnrAIQ=;
- b=BLOurXF5jBgJs2njxjfbXkEze34umUDU1Xym55fIuPj9wxpXM6T4iIP9Z6awXnPR4XTeUR
- wC6h7BJ3ITlt+BsXb3mlQ/JeRMK9NY5CT7O40PtbpRgYvcmRht/CcNtoNq8pROJCzuv7py
- /4aTEcSMNsODZ6+xJ/SPFMewfNo9CqM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-uNmJlBWtN76f4tsXVBU-Hw-1; Thu, 07 Oct 2021 03:59:14 -0400
-X-MC-Unique: uNmJlBWtN76f4tsXVBU-Hw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- y12-20020a056000168c00b00160da4de2c7so911405wrd.5
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 00:59:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HF/jRWRHoLDnU/HOUhFRONVVOoO/cy34ZUZn6rnrAIQ=;
- b=PiXfbs1VLkjFMKBORRbo6cNRGGFMdDWQ63q4rLzPQdyzzfTpfKgJju3t+gWV0Xzz4l
- VM6pJy1Eud1YzEKu1jBEGNcylxOYRQRCjzWeMC4vEY/FIUuClVDKk1SRab8D1G29WzEb
- cMP4kQcqJUBAGO6tD4JsCIQsNj9wj643odz6TD0S0yostBOqSa8NsAcLIO2Pzqg2xDgO
- qZT7JjlxB4PldwNvnjnSxTscH6x/+AtmykhAgzJkythkNVddjxeUQ9inGz9nMfeI6VYQ
- +SSGdtWKtuWDDr4aJQZdFq13TqmA0GV33asJ5pn2CQv71Ujiic2b8BxRxnFVlQo4HHJW
- tlbg==
-X-Gm-Message-State: AOAM5329s76AQh7zw+iVINGReYYBpX6rhal/J1Ga6WF17Zlvykgw+ZxS
- 9Qk/ncem/iPhjdtDFwW/h6KJ8uNqgw+1szzb0sIdeEJuPeCxsheMHo+4enDy+ulY39NpWhVnG/Z
- EkdFtiuwkDWXLkiM=
-X-Received: by 2002:a1c:ac81:: with SMTP id v123mr15203242wme.94.1633593553478; 
- Thu, 07 Oct 2021 00:59:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzeGzdpbTIJrIcOqT09SXmEOL54ylP1Qf3iZHcMuGgps/yAGQkvAmAVPNUmdCMm1kY/DKK+wA==
-X-Received: by 2002:a1c:ac81:: with SMTP id v123mr15203222wme.94.1633593553243; 
- Thu, 07 Oct 2021 00:59:13 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id v13sm20243507wrp.64.2021.10.07.00.59.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Oct 2021 00:59:12 -0700 (PDT)
-Message-ID: <6b919273-ab23-6822-fdeb-66e18009f70a@redhat.com>
-Date: Thu, 7 Oct 2021 09:59:12 +0200
+ bh=G5GTR2dM1AkAO+O8oDPs1d5Me5yvxratZjJs0B4zTQ8=;
+ b=NtI27dMyHH3GYoa0LEOK00eP9EQVh10tOfTawPm/9L4jn8IRzjlqYCBmTkeg9lBmd1G8eT
+ RAB3RGOEcIDK1lhVSMWXV7+/5c78XcUF/yv1cddaWaBEdNffCt/uAN9J2uXunGwKCn4Kuh
+ iDDmpfZZNaMpJv3H852EuBlKAOTTJ20=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-586-rx79p6b_PTiCoy0l-U9HcA-1; Thu, 07 Oct 2021 04:32:28 -0400
+X-MC-Unique: rx79p6b_PTiCoy0l-U9HcA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EBDC101796F;
+ Thu,  7 Oct 2021 08:32:27 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB11160583;
+ Thu,  7 Oct 2021 08:32:26 +0000 (UTC)
+Date: Thu, 7 Oct 2021 06:23:59 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v2 0/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
+Message-ID: <YV6EbwMFmcIEC+za@stefanha-x1.localdomain>
+References: <cover.1633376313.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] generic-loader: remove the ram_size limit when a loading
- binary file
-To: Alistair Francis <alistair23@gmail.com>,
- Damien Hedde <damien.hedde@greensocs.com>
-References: <20211006113707.96907-1-damien.hedde@greensocs.com>
- <03e1e2d6-d974-272b-9d25-805914ec0026@redhat.com>
- <4fd0ab8a-7edb-a855-09ce-312ab2057325@greensocs.com>
- <CAKmqyKPF+91=qpqmd-5OwLvDCTE_8vb083RA_k-NGi+7Bwa51Q@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <CAKmqyKPF+91=qpqmd-5OwLvDCTE_8vb083RA_k-NGi+7Bwa51Q@mail.gmail.com>
+In-Reply-To: <cover.1633376313.git.qemu_oss@crudebyte.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="LLz5XnO6Go+Dl95d"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIMWL_WL_HIGH=-0.05, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,79 +78,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Amit Shah <amit@kernel.org>, David Hildenbrand <david@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ virtio-fs@redhat.com, Eric Auger <eric.auger@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/21 08:41, Alistair Francis wrote:
-> On Wed, Oct 6, 2021 at 10:04 PM Damien Hedde <damien.hedde@greensocs.com> wrote:
->> On 10/6/21 13:49, Philippe Mathieu-Daudé wrote:
->>> On 10/6/21 13:37, Damien Hedde wrote:
->>>> Right now, we cannot load some binary file if it is bigger than the
->>>> machine's ram size. This limitation only occurs when loading a
->>>> binary file: we can load a corresponding elf file without this
->>>> limitation.
->>>>
->>>> This is an issue for machines that have small ram or do not use the
->>>> ram_size feature at all.
->>>>
->>>> Also get rid of "hw/boards.h" include, since we needed it only
->>>> to access `current_machine`.
->>>>
->>>> Fixes: e481a1f63c9 ("generic-loader: Add a generic loader")
->>>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
->>>> ---
->>>>
->>>> Hi Alistair,
->>>>
->>>> I found this while experimenting with a ram_size=0 machine.
->>
->>
->>
->>>
->>> Where are you loading your file?
->>>
->>
->> In a rom.
->>
->> The loader does not check at all that we are loading to the machine's
->> ram. It just check the size for the raw binary file format.
-> 
-> Hmmm... This is probably correct, in that a user might want to load a
-> binary into ROM and doesn't want to be blocked by the ram size.
-> 
-> In general though a user would expect an error if they are loading a
-> file into RAM that is larger then the RAM. So I'm not fully convinced
-> we want this change.
+--LLz5XnO6Go+Dl95d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I agree with Damien using current_machine->ram_size is not ideal,
-for example some machines have the RAM split and mapped at different
-regions, so even if ram_size is enough for the image to load,
-a region might not be big enough and I'd expect load_image_targphys_as()
-to fail.
+On Mon, Oct 04, 2021 at 09:38:00PM +0200, Christian Schoenebeck wrote:
+> At the moment the maximum transfer size with virtio is limited to 4M
+> (1024 * PAGE_SIZE). This series raises this limit to its maximum
+> theoretical possible transfer size of 128M (32k pages) according to the
+> virtio specs:
+>=20
+> https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html=
+#x1-240006
 
-Maybe we can call memory_region_find(s->addr) then on match:
+Hi Christian,
+I took a quick look at the code:
 
- if (memory_region_is_ram*(match)) {
-   size = memory_region_size(match);
- } else {
-   size = -1;
- }
+- The Linux 9p driver restricts descriptor chains to 128 elements
+  (net/9p/trans_virtio.c:VIRTQUEUE_NUM)
 
+- The QEMU 9pfs code passes iovecs directly to preadv(2) and will fail
+  with EINVAL when called with more than IOV_MAX iovecs
+  (hw/9pfs/9p.c:v9fs_read())
 
-> 
-> What error do you get if you try to load a binary that is too large
-> with this patch applied?
-> 
-> Alistair
-> 
->>
->> --
->> Damien
->>
->>
->>
-> 
+Unless I misunderstood the code, neither side can take advantage of the
+new 32k descriptor chain limit?
+
+Thanks,
+Stefan
+
+--LLz5XnO6Go+Dl95d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFehGkACgkQnKSrs4Gr
+c8jj7gf9EP8iLDkVsPB3DsimosA2K+3PrRXVRZWUEysCY3blc2e8dVorH4rww8C/
+vwch1sIXYASWLhrVEWFpMhKFQZCsh29C+t0q2frOrpnsjejrCJHlf+FLStR+FOiD
+Db/ayZJHInR7nb6slwIB9gGPPNILC1xFQ/8WbLB6WjHIsG73Ur8vLK4+UT7/ch09
+Ujos43uYCTYGpETa896a9cVxqAyo7BLzXng3uunl52Npwr77VQEvqzAoHAKGgZ1f
+ByC8/QpNHVbyb/r5U85NOHBsmz7/a4xpAKY3Yhl/UO0fXeAeJ90ulxyLVVXxeeBn
+f9aWXdSM66XYPVv3cMKPfTDpxys6Ag==
+=RoOJ
+-----END PGP SIGNATURE-----
+
+--LLz5XnO6Go+Dl95d--
 
 
