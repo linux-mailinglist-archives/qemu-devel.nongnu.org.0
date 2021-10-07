@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE61425442
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:37:34 +0200 (CEST)
-Received: from localhost ([::1]:44100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A608442542F
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:35:35 +0200 (CEST)
+Received: from localhost ([::1]:38068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYTaX-0005r2-Tr
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:37:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57764)
+	id 1mYTYc-0001hU-Dg
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:35:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYTEw-000202-CZ
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:15:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53716)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mYTIM-00071a-1j
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:18:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYTEq-000116-HR
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:15:13 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mYTII-0003P1-CJ
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:18:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633612507;
+ s=mimecast20190719; t=1633612721;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U1PE3qVdWFtcfc5PEyDCO8mqqyhOtUd0drm9iOVAAAg=;
- b=H47W4NzvJid2ZJ2jO67YWDgzFQHr3azYDAtYx9cBx0dCWrYqH0HeATZY67XlUyiT5owgMf
- QwdFx9ywLLpplmGGM7YX8DeKAn5lSmGPgRKqsgh4sJQSDQ2i0Be+Q/g5cz1QeUENRGCP1W
- /hdFeI1JOplShXcMoLH3INjLHTHQgb8=
+ bh=It+UCJbNpqu1LmT4vmeZJUvoIrlWJ2AQrbACO0Z2i5I=;
+ b=iC4FY9gxjUUK9tro4MxClVP6TCRyfg4VM4632lpzIwSxxjh/mz+CMrc2w9isnc3pQyQxM6
+ xq1bT8mSfFbwmFqpewAs6c5yaou9/aR6xShBefr1t85xAr1I9yh3MemLZ2DSfM4rPfyTOl
+ AAKv7oHK9MLIWgi2HWMqnMo6iKgPDkc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-uhQ3fKJeMJaVsJCvBT674A-1; Thu, 07 Oct 2021 09:15:05 -0400
-X-MC-Unique: uhQ3fKJeMJaVsJCvBT674A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-493-9iG3EJ5dO7a8u5rdxI_C3A-1; Thu, 07 Oct 2021 09:18:33 -0400
+X-MC-Unique: 9iG3EJ5dO7a8u5rdxI_C3A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F47856B41;
- Thu,  7 Oct 2021 13:15:04 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D3EB5C1A3;
- Thu,  7 Oct 2021 13:15:03 +0000 (UTC)
-Date: Thu, 7 Oct 2021 14:15:03 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH 0/4] aio: AIO_CONTEXT_ACQUIRE_GUARD() macro experiment
-Message-ID: <YV7y145FN+Es+Vue@stefanha-x1.localdomain>
-References: <20211005185807.4134557-1-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E0D01054FA8;
+ Thu,  7 Oct 2021 13:18:32 +0000 (UTC)
+Received: from redhat.com (ovpn-113-216.phx2.redhat.com [10.3.113.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A6A026573;
+ Thu,  7 Oct 2021 13:18:31 +0000 (UTC)
+Date: Thu, 7 Oct 2021 08:18:29 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH v2 04/25] include/block/block: split header into I/O
+ and global state API
+Message-ID: <20211007131829.ty3scn2snpwpovah@redhat.com>
+References: <20211005143215.29500-1-eesposit@redhat.com>
+ <20211005143215.29500-5-eesposit@redhat.com>
+ <YV6+8+NiBO8uG/GC@stefanha-x1.localdomain>
+ <76bbb291-d9bf-ad5e-a4a7-93ee80c281ca@redhat.com>
+ <b3e5840b-0508-ac20-5dbf-32c5c1a29b28@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211005185807.4134557-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <b3e5840b-0508-ac20-5dbf-32c5c1a29b28@redhat.com>
+User-Agent: NeoMutt/20210205-818-e2615c
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dgBvWF7K6WL1E/RS"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -65,7 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,66 +83,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ John Snow <jsnow@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---dgBvWF7K6WL1E/RS
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Oct 07, 2021 at 01:51:33PM +0200, Paolo Bonzini wrote:
+> On 07/10/21 12:54, Emanuele Giuseppe Esposito wrote:
+> > > 
+> > > > +int bdrv_block_status(BlockDriverState *bs, int64_t offset,
+> > > > +                      int64_t bytes, int64_t *pnum, int64_t *map,
+> > > > +                      BlockDriverState **file);
+> > > 
+> > > This function just called bdrv_block_status_above(), which is in the I/O
+> > > API. I think it's safe to move this to the I/O API or else
+> > > bdrv_block_status_above() shouldn't be there :).
+> > > 
+> > 
+> > It *seems* that while bdrv_block_status_above() is an I/O, probably
+> > running in some coroutine (from here its internal qemu_in_coroutine
+> > check), bdrv_block_status might be called from the main loop (or
+> > alternatively the function is never invoked in the tests, so the
+> > assertion never triggered).
+> > 
+> > Maybe bdrv_block_status_above is one of the few functions that are both
+> > I/O and Main loop? I put it in I/O as it can't have the assertion.
+> 
+> No, they are both I/O.  Callers of bdrv_block_status are hw/nvme and
+> qemu-img.c; while the latter can be either (it does not have iothreads),
+> hw/nvme is definitely I/O.
 
-On Tue, Oct 05, 2021 at 08:58:03PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Experiment to use glib g_autoptr/autofree features with
-> AIO context.
-> Since this is a RFC, only few examples are provided.
->=20
-> TODO: Document the macros in docs/devel/multiple-iothreads.txt
->=20
-> Philippe Mathieu-Daud=E9 (4):
->   block/aio: Add automatically released aio_context variants
->   hw/scsi/scsi-disk: Use automatic AIO context lock
->   hw/scsi/scsi-generic: Use automatic AIO context lock
->   hw/block/virtio-blk: Use automatic AIO context lock
->=20
->  include/block/aio.h    | 24 ++++++++++++++++++++++++
->  hw/block/virtio-blk.c  | 26 ++++++++++++--------------
->  hw/scsi/scsi-disk.c    | 13 ++++---------
->  hw/scsi/scsi-generic.c |  6 +++---
->  4 files changed, 43 insertions(+), 26 deletions(-)
+nbd/server.c also uses bdrv_block_status_above as part of its I/O path
+to serve NBD_CMD_BLOCK_STATUS.
 
-This is nice. Two things:
-
-1. Emanuele is working on eliminating aio_context_acquire/release(), so
-   a big effort to convert existing code to using guards could be wasted
-   energy and cause conflicts with his patches.
-
-2. A few callers anticipate that the AioContext of their BDS may change
-   between acquire/release. Care needs to be taken when converting to
-   preserve the semantics but most instances should be safe to convert.
-
-Stefan
-
---dgBvWF7K6WL1E/RS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFe8tcACgkQnKSrs4Gr
-c8iLwggAnKTs9ddDDXWAaoCNdfqE/0yhJDdHVpOvAW+9S1bQF7hk0n+krCBINNOk
-LWyiW5gZuSJeJZJVB+LWeiSrXrRf5OtL/LP2rS3m0/x0d9E1ysF8OYozbPQ2tETn
-L2YNap3zUXUkXMW/ArS2L+1kiRojGR8f8loNV2DSh6fPs1CaFLXEYsZ44A3aEnue
-f7d88ZJhbRJuvV8/GwvyIbeRSR4Q3FA3wyJdYLIOx2M9uZuZv+sGtaijpoL13rEy
-OzT06mkrtl1tMxN9lDXA5BlivXShO6HWnbedkhfSWDBI+3HsVsYpfVlAdNTGtf2I
-4GipVijJ69rHe75/5Pymx4ApkTp3fQ==
-=ejtq
------END PGP SIGNATURE-----
-
---dgBvWF7K6WL1E/RS--
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
