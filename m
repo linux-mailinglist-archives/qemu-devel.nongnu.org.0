@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89388425272
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:04:13 +0200 (CEST)
-Received: from localhost ([::1]:46282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926CC42528A
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:08:04 +0200 (CEST)
+Received: from localhost ([::1]:53338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYS8C-0003pF-AG
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:04:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42150)
+	id 1mYSBv-0000Gh-4h
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mYS5c-00023k-RR
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:01:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37678)
+ id 1mYS6x-0003Hb-JZ
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:02:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mYS5U-00038Z-NK
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:01:31 -0400
+ id 1mYS6u-0004Fg-Pk
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:02:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633608082;
+ s=mimecast20190719; t=1633608172;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9Req2CBiecKu07DEdZfui/wjJRXyFApYGvN6Qq2DkWQ=;
- b=ieFm2/1AdHKxaVxi/QNR8P0dvjjO15Uu7eeUc5B9Bx7lPdS4Fhn/8/nvn0kzw6Aubh3mY9
- hA6th4xNwBHvYNUV26OOmp7LTe8CsK/NtLIS9u6ODP2hTkngCPRPoDBgQJeqp4ezDX6aaS
- rXJAsuXIqnqLnWUpb6LZOElQn1sHT4M=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-3xpQLtD5Ngm245B1zwdEwg-1; Thu, 07 Oct 2021 08:01:05 -0400
-X-MC-Unique: 3xpQLtD5Ngm245B1zwdEwg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- c2-20020adfa302000000b0015e4260febdso4475253wrb.20
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 05:01:05 -0700 (PDT)
+ bh=JHW3u7AGavagY2Qou7XRiSadlO0b1LXflj0bdCZwIN4=;
+ b=dH/pk5k1p6NPePPl3RCrF8bw4gv/t0xhCvJJEF+pILTlu6jWvFJsnnBGBBZT0H3+dLV0wI
+ wGoUqgnaSWpBVmUFCfGRD11kHP27surZ4joHdYXzVQbeACWUehY3ff2e7MmhOvR8TbCPRp
+ AC4WXVMirY+GcItnhFZX7KQs7vjqmE8=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-263-dCfkd6AdPh2RJtn5HdyZNg-1; Thu, 07 Oct 2021 08:02:51 -0400
+X-MC-Unique: dCfkd6AdPh2RJtn5HdyZNg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ u17-20020a50d511000000b003daa3828c13so5655745edi.12
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 05:02:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9Req2CBiecKu07DEdZfui/wjJRXyFApYGvN6Qq2DkWQ=;
- b=QvAxdTDuouX+mtFcyjLZlKM0gOAvn8C4cyVkOH3tBkaMR24Zn4u6Yqkp+IOjcMSIby
- WlNhvDVfz7FbQkouIZByIYW8hHCEkx5WvN6IizdFNPhwXLScNvyYJFDBM5TVznvVNbMt
- XsgYHFlpClCx6FnR9/balQeMdh4svgXgPgXvEHd/UQWDf/VI54gcMlE+rrtZk/9ByUEK
- JOqPyWAlewT5LY8409fYDOtkxpC9TPCtNkR8aLNjtEw9IJwtfRzQicW90N9b7/JNsrZL
- IR54/T5tBk1FT3R4S/61bF4evsAyMWMcm+8Z+oI0nNr/065zZHPtD8Rc/9VuQCFY4nJN
- l7uQ==
-X-Gm-Message-State: AOAM530SE2eZK5+m93+KIHc0i7dii7w8qkX3l0y2JfT2BC9wkVKOxRA5
- KItb5ufNb6hzL/djf5MkRr5Vi3vvBJlpOjBuYTX8YCp5fILzHPeX2UOLnYSN4i7BzWVKYkw3Zyc
- /reuotpdmhA9nH24=
-X-Received: by 2002:a1c:2543:: with SMTP id l64mr15949255wml.9.1633608064201; 
- Thu, 07 Oct 2021 05:01:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyLpdh1DyyKefDIhQfh9sNEs3QqzX59e/uKghVcZmgbs7s6bZ6DXQIRfj5Q5FCARldTYZfroQ==
-X-Received: by 2002:a1c:2543:: with SMTP id l64mr15949202wml.9.1633608063866; 
- Thu, 07 Oct 2021 05:01:03 -0700 (PDT)
+ bh=JHW3u7AGavagY2Qou7XRiSadlO0b1LXflj0bdCZwIN4=;
+ b=5HL1Eean/kJGzXPEfgw3HsaO1ClF9H4ab1CDgawAwn0C84FaSz/ldLUlHkUqB1UhmB
+ 86JzgWu88eICUaQg3HZnaahBMt3Y/Zi6yVWa7qIzqHXHfUtaDPo/ho80rg51keTILieH
+ Kb+yJkNjWTAmyzpcgYkPFHL0yR6uWMt2krQnMkeT4s9tj8e8iXDHCB0080j3zZEumB0x
+ VdeWz2lTHKA6L9ItQr/unHsjZ+lSHqT/Rugn8Xi7W4E5M2cip2oGU0PDx7ENW1/Bs4VE
+ /rRPy/Beu8zeTQ+cMaa3BjnVSr5LCxhx3VW7FK0smDuuhyFKL0e0kNT7kMHEyRi+gM4o
+ vs0g==
+X-Gm-Message-State: AOAM533+TjaCkLNsUib6Kf+MSiit2hySTrko5AtLqYDxBogbXIBv9cXx
+ NB4ImegRhahXd92KzUQcAjhQ7lHIfZcYdLtetKlmSFTePxk1n4PvhvtHosxdgBrJqCQR94oIVzX
+ tZKdqr91BcEjokHI=
+X-Received: by 2002:a05:6402:34cc:: with SMTP id
+ w12mr5726678edc.340.1633608169813; 
+ Thu, 07 Oct 2021 05:02:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwy4gDrNt7dIjdO7U886SuvizqYvRvKPcFc8BNOfWZ5Famh1NUEbc8mQgpjiI7Yi3ejXBdysw==
+X-Received: by 2002:a05:6402:34cc:: with SMTP id
+ w12mr5726639edc.340.1633608169596; 
+ Thu, 07 Oct 2021 05:02:49 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id r205sm4723242wma.3.2021.10.07.05.01.02
+ by smtp.gmail.com with ESMTPSA id z4sm2662579edd.46.2021.10.07.05.02.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Oct 2021 05:01:03 -0700 (PDT)
-Message-ID: <e93c5bf3-412c-1031-be38-03385730ea87@redhat.com>
-Date: Thu, 7 Oct 2021 14:01:01 +0200
+ Thu, 07 Oct 2021 05:02:49 -0700 (PDT)
+Message-ID: <9a778b91-d175-8062-6783-740ba42c4321@redhat.com>
+Date: Thu, 7 Oct 2021 14:02:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
@@ -179,6 +181,11 @@ On 05/10/21 16:31, Emanuele Giuseppe Esposito wrote:
 > +{
 > +    g_assert(qatomic_read(&bs->quiesce_counter) > 0 || qemu_in_main_thread());
 > +}
+
+Hmm, wait - I think this should be an "&&", not an OR?
+
+Paolo
+
 > +
 >   /**
 >    * Remove an active request from the tracked requests list
@@ -200,7 +207,5 @@ On 05/10/21 16:31, Emanuele Giuseppe Esposito wrote:
 > +
 > +#endif /* BLOCK_INT_GLOBAL_STATE */
 > 
-
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
 
