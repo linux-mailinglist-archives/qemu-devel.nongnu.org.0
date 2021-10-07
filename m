@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE94425198
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 12:59:18 +0200 (CEST)
-Received: from localhost ([::1]:41788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4DF4251A3
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 13:03:57 +0200 (CEST)
+Received: from localhost ([::1]:44236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYR7N-0000WM-Ii
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 06:59:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54456)
+	id 1mYRBs-0002U9-Gp
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 07:03:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYR5G-0006ND-G5
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 06:57:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37125)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mYR99-0001W5-Fb
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 07:01:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYR59-0007Zv-PR
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 06:57:06 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mYR95-0005T4-7t
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 07:01:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633604219;
+ s=mimecast20190719; t=1633604462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cGwhCZyxDesgr/j48GlHIIzggGA7HC0wIddp39vv9vI=;
- b=Ed8dL/B/UA+KiTjffopmTr2cLjiRr4wOXwayf+V2gwapcezLy2jOWB2+DrcaFkEsXW9Ew2
- tfNE2JiBAotpWcvPiJLObAdoBEFzLv21Qx7W+2hfLJyV18E9dac39ZUczyskoIfno3hUHL
- 53DaAfMqV6IT/lxFcZySR9Ace+FXFOk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-5z89jQg7OJaqfIYNbMtmpw-1; Thu, 07 Oct 2021 06:56:49 -0400
-X-MC-Unique: 5z89jQg7OJaqfIYNbMtmpw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- f11-20020adfc98b000000b0015fedc2a8d4so4384709wrh.0
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 03:56:49 -0700 (PDT)
+ bh=nd2T32WL1YohvSCrZGKnPVXjh4zNlMpmjN69+SRZGpY=;
+ b=C4cOMkv6ZmSuLy4MirPUkjDdozUbpccafmH6k5ZfGPrJf7InPsxCgDI0UF/TMUNUwyZ6EH
+ AxviHfD6d7/fycKfQibI8rSKKZYNj2/E/PFWXkWWAkNr5II0BNzVQxzbSYLhk9SwNGcWO4
+ lU4lpwj872+wu6BFv7juixcgLbUzkR8=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-30-vyh4aiFGO2OURW0WsDDKfw-1; Thu, 07 Oct 2021 07:01:01 -0400
+X-MC-Unique: vyh4aiFGO2OURW0WsDDKfw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ eg14-20020a056402288e00b003db54cde124so794027edb.17
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 04:01:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=cGwhCZyxDesgr/j48GlHIIzggGA7HC0wIddp39vv9vI=;
- b=je20kTW5DMTKquk/i5mObC58tb5FbdrjqarCX36Zftwr9sCn8ziYC2HBTgO9891tMM
- Q8Wz33McIiSDBSsNI1t4VfJzOxofjVA4eqofqUkgByyO+iQCdTqZrFLOIRD0dNEpHU8d
- xTYcYL5vR0zEh/ayXiC7rzZphiUGXJP6thMV8DRhKGka0UoKvqEsZmJGt4+jRuTm/bSN
- g3+e09b7MXeBbbGHVIdPa9thum2hCGoBcdC7gfPPrq8folDmjBYWijs5K9lAgVe++ox4
- 8bz4CYsuY7Tuy2uZbFK3GbXjwzfLH1Jl1j+M4RbEr0cUNyJGmKynku3l0iKXoTfdnQA6
- v9Cg==
-X-Gm-Message-State: AOAM531CzpC2TYGViEAT1PG7wldiYDi93I68otM6awEvb/vE/uo063Tn
- oxg7GweNz49nKx8nJLg45QwP9f1yz8ISascwou6oVv18cbVTm/Ygccs38PUWF28Cvzo1AVONssd
- wko/76PoGWU9VExs=
-X-Received: by 2002:adf:97cd:: with SMTP id t13mr4512223wrb.312.1633604208086; 
- Thu, 07 Oct 2021 03:56:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzNMfD9lZPMBkMdVHYMM4ue/LgGusE1IwGuYiLZI4DdbGJcp6sXNXIYFCT/0EGZLQpTn0qZIA==
-X-Received: by 2002:adf:97cd:: with SMTP id t13mr4512207wrb.312.1633604207938; 
- Thu, 07 Oct 2021 03:56:47 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id z133sm9092929wmc.45.2021.10.07.03.56.46
+ bh=nd2T32WL1YohvSCrZGKnPVXjh4zNlMpmjN69+SRZGpY=;
+ b=jD+mh643CDaaxBdjGE1hduuo4taXmpMEWCR75uUv1KnHg4s5RYtZnkmrGkxwumFbn2
+ 6fZt1W8hXxf0ccLo6maj8yVQf80plJHqmlPjrRDP5/7NE+91RPTIhXY92IlUghUfOp3S
+ etYlVhZLsB376rX+B1HUF4Bfwgy0po9xxWXX7AChScBH+LqfG+YyVtxY7usGPVhKNpgw
+ r1ds4G8ocsTTOK4Je4zjlz5cs/QxAdAoQxaSnFrLeeDR0q6z1Fl6ITKwh/2TuywYaSCv
+ +ECKF+v0/x+ICT/02v87JZrFlCm4uJRXy+venwD/3Gp9I+FPTlVxyRtZs8cUvrfuWaml
+ tQWw==
+X-Gm-Message-State: AOAM530u/yRAbA/6nMIwUW/HBYmTgRqBnSb9Dv+QnYjL4imBXv/262eL
+ obSH6ztlhdpMxM7iH/im1nW+tizaZ2Qu7039wCMus2rd34vSW8htyxVFBPilO+rPO1wIe8Udm1H
+ PNBaqcrAhguX/rMQ=
+X-Received: by 2002:aa7:c741:: with SMTP id c1mr5310312eds.194.1633604460429; 
+ Thu, 07 Oct 2021 04:01:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx8GnCPJpxXxnTSfqMKV6a56slRV5fvt83TtZL42V+KQP6dBX4/VZUDJw4KId//0GsJmar4fg==
+X-Received: by 2002:aa7:c741:: with SMTP id c1mr5310283eds.194.1633604460246; 
+ Thu, 07 Oct 2021 04:01:00 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id n6sm11342418eds.10.2021.10.07.04.00.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Oct 2021 03:56:47 -0700 (PDT)
-Message-ID: <d3d54856-060b-03de-a1ff-8beb1df568b2@redhat.com>
-Date: Thu, 7 Oct 2021 12:56:46 +0200
+ Thu, 07 Oct 2021 04:00:59 -0700 (PDT)
+Message-ID: <848ce438-df0e-f25a-0eca-432825c726f6@redhat.com>
+Date: Thu, 7 Oct 2021 13:00:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH] tests: qtest: Add virtio-iommu test
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- thuth@redhat.com, pbonzini@redhat.com, lvivier@redhat.com,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, jean-philippe@linaro.org
-References: <20211007093438.657198-1-eric.auger@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211007093438.657198-1-eric.auger@redhat.com>
+Subject: Re: [PATCH] build-sys: move Spice configure handling to meson
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20211007102453.978041-1-marcandre.lureau@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20211007102453.978041-1-marcandre.lureau@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -47
 X-Spam_score: -4.8
 X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.964,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,33 +99,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/21 11:34, Eric Auger wrote:
-> Add the framework to test the virtio-iommu-pci device
-> and tests exercising the attach/detach, map/unmap API.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> 
-> ---
+On 07/10/21 12:24, marcandre.lureau@redhat.com wrote:
+> +spice_protocol = dependency('spice-protocol', version: '>=0.12.3',
+> +                            required: get_option('spice_protocol'))
+> +spice = dependency('spice-server', version: '>=0.12.5',
+> +                   required: get_option('spice'))
 
-> +static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
-> +{
-> +    QVirtioIOMMU *v_iommu = obj;
-> +    QVirtioDevice *dev = v_iommu->vdev;
-> +    uint64_t input_range_start = qvirtio_config_readq(dev, 8);
-> +    uint64_t input_range_end = qvirtio_config_readq(dev, 16);
-> +    uint32_t domain_range_start = qvirtio_config_readl(dev, 24);
-> +    uint32_t domain_range_end = qvirtio_config_readl(dev, 28);
-> +
-> +    g_assert_cmpint(input_range_start, ==, 0);
-> +    g_assert_cmphex(input_range_end, ==, 0xFFFFFFFFFFFFFFFF);
+This needs to be:
 
-Maybe explicit ull suffix for for 32-bit hosts?
+spice_protocol = not_found
+if not get_option('spice_protocol').auto() or have_system
+   spice_protocol = ...
+endif
+spice = not_found
+if not get_option('spice_protocol').auto() or have_system
+   spice = ...
+endif
 
-> +    g_assert_cmpint(domain_range_start, ==, 0);
-> +    g_assert_cmpint(domain_range_end, ==, 32);
-> +}
+in order to avoid useless warnings on --disable-user --static builds.
+
+> +if spice.found()
+> +  config_host += { 'CONFIG_SPICE': 'y' } # for audio/meson.build
+> +endif
+
+I have a pending series that removes the need for this, so I'll fold it 
+in my queue.
+
+(I didn't know about partial_dependency - nice one!)
+
+Paolo
 
 
