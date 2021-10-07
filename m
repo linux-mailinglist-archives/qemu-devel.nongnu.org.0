@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DCD2425CD6
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 22:03:09 +0200 (CEST)
-Received: from localhost ([::1]:43698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EEFD425CFA
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 22:10:04 +0200 (CEST)
+Received: from localhost ([::1]:60846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYZbf-00065i-VP
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 16:03:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59804)
+	id 1mYZiN-0000sH-66
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 16:10:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYZTy-0000K2-Oi
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 15:55:10 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:46626)
+ id 1mYZTv-0000HM-Ez
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 15:55:08 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:34650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYZTt-00076f-Qv
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 15:55:10 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- pi19-20020a17090b1e5300b0019fdd3557d3so6005278pjb.5
+ id 1mYZTs-00076s-V9
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 15:55:07 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id 133so842755pgb.1
  for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 12:55:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9LSSL1fK8gHyFxNWGcE8fASpw4qPl5Wv54F/J5LK5dE=;
- b=QOc75qNtBrVszWqmTt0ZYx/Uqjq8YFoyDqtofbhjYsAftsJLidg+bYI2B/Vt7enmCv
- EmO9O91mpjoPE/P930Pv9bIAGCoTrLILij+ZCrC06aZAtu1JUpPXEFXGHk34TolOflzc
- NkhJPBzOzW/JgVR5mLr68KN9ZACyY05Mw+7jIu0kM49kHsKkReFbPA/Bkovqx2ELO/CM
- REQ5pMSNxhtOB4JEM4PV+aL7McR9nUNDv2WaLlvJXHmYTlq1Li7XsBqdVmEpwL2apGSG
- H3nzJoxak0L1UouFyi8TZS1j0wsArkzOi5JJZ3+cNNggfMMUS9UZ9you/yrexrki+rPz
- Ok4w==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=/vbKJTGG/osCQnHCopwdaDi44nUoZOlB0Lh8d456MxE=;
+ b=Nn1aeNWEnBDVFCwL9AjEh6P7uZBIhgVjZ8COfn0356ocFooRzXjslN2vSijm4Ey8Vr
+ sqkrWjgc98mk1vQWLb42NNBBvf1s7AihrFa1EBx/S+j7UIpfjgv4wr8uIvrD0wajTd9q
+ cc2Oph6YdxCWxqUI2MzktrmMFq4O154qwRJyjojD8bdmW+E2O7rUCoamkUzWVYsjgLtd
+ NdDO5b3rbVP2pFCz+RysHSrLOs36/aEhpTljbKTS/10ahURM973Ycg4O+US204dFsmY2
+ lwY2/AzEvB/W+o2R3xNUBaLe4gCM9iCMJ39eo0tja5m3+vgrFZB81eIexLaa/6DOKg6i
+ MVtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9LSSL1fK8gHyFxNWGcE8fASpw4qPl5Wv54F/J5LK5dE=;
- b=KRpRWZmLKjF277XOir8Ms5cgQwxZmZIiMjpldbDRCvIOdU8HpRjDWXnsmSnZ010P3l
- 62imE/0yx0bGobIDoftPogWwyV+ScdVnb6XdjtBdsJZyIYgIpWHlcwqr8N7zJ6WQiEYw
- iVnso3leaFm5QhrFg5AYoUmoAoMBsoFtJ0S+vFlXrffP9tvTNGJvhw2B+jB/mQOh3MYV
- hGrDYqMeEwAI1lqE0mBHpdDon5CTpdOtSzvcDav3qGDeqJEOzA1a7HAJsaSYYM/Vxeii
- 7vdmtzp8LECJwCEJ0NvqOOS6DUAdDZ4XI2zmZGcas0L/pCfaieUE1pmJ/DW7l1zm5XDo
- D8Pg==
-X-Gm-Message-State: AOAM531/WDgGQ/LxgbJYt3Qs2dySCApdRg0Vdpe5UvVe3s4JF9fen4xa
- BgH9zre626HNU+f/BNSVGpWtXN9QOTafGQ==
-X-Google-Smtp-Source: ABdhPJwO4iYHJNxKDip+2Odxztbyr/pOKzq8MrOxjQwHhXQrkqSH6JY25jAiFmwVMxlRe/Qmz9449g==
-X-Received: by 2002:a17:902:bb01:b0:13e:a6e6:9a53 with SMTP id
- im1-20020a170902bb0100b0013ea6e69a53mr5556553plb.4.1633636502803; 
- Thu, 07 Oct 2021 12:55:02 -0700 (PDT)
+ bh=/vbKJTGG/osCQnHCopwdaDi44nUoZOlB0Lh8d456MxE=;
+ b=w1MmguEtWRGFVnLQyQN8YARoPmBdDfsiAOidAkxwAxhiRwWaj6r1KGWXeQ1W6brVto
+ nLVMOVNgY+F9S/8xapTAEjvLmna2kIMjBOqQq40a88lRIVNaue9qzUDxkmdi/P8cjpDB
+ kHvCMpsWguA/+QIBrQafW6Lgm3d+gd1PCgDYk98RS0MWKh6Ro0xB8T1ylTx53DggSUeS
+ /WJ4iIkTstgCfXp7eEMVtDs0Na05sg8hSwwf6DoqBNkBVBNXrHVKAxxmrt6HWbAQaWST
+ wtF3ywBqNqjsX1CGH82r7qwyqN9vhSO8Lz4KwStJPjhadg+uB0E1gGqkqm9TbbQRNSSG
+ 1wng==
+X-Gm-Message-State: AOAM531HDGZ/boum7E1FGB75EpgtT5haEZ7Gnd5bNV+ksMLOQt1fJPzw
+ YYTTqFIBdg7g4rmoJzNfHULeqW4rrKN3uw==
+X-Google-Smtp-Source: ABdhPJy1tykAFk2gjolVALfyfbEeND/L0oIS2TN3VJjj57s73/VU9LSodJ+9xkdKiqKg/A7Lk6aoJw==
+X-Received: by 2002:a05:6a00:14c2:b0:44c:d483:4df3 with SMTP id
+ w2-20020a056a0014c200b0044cd4834df3mr1147028pfu.52.1633636503597; 
+ Thu, 07 Oct 2021 12:55:03 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id y4sm216555pfn.193.2021.10.07.12.55.02
+ by smtp.gmail.com with ESMTPSA id y4sm216555pfn.193.2021.10.07.12.55.03
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 12:55:02 -0700 (PDT)
+ Thu, 07 Oct 2021 12:55:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/48] tcg/optimize: Split out copy_propagate
-Date: Thu,  7 Oct 2021 12:54:15 -0700
-Message-Id: <20211007195456.1168070-8-richard.henderson@linaro.org>
+Subject: [PATCH v2 08/48] tcg/optimize: Split out fold_call
+Date: Thu,  7 Oct 2021 12:54:16 -0700
+Message-Id: <20211007195456.1168070-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211007195456.1168070-1-richard.henderson@linaro.org>
 References: <20211007195456.1168070-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,58 +84,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Continue splitting tcg_optimize.
+Calls are special in that they have a variable number
+of arguments, and need to be able to clobber globals.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ tcg/optimize.c | 63 ++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 41 insertions(+), 22 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 019c5aaf81..fad6f5de1f 100644
+index fad6f5de1f..74b9aa025a 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -611,6 +611,19 @@ static void init_arguments(OptContext *ctx, TCGOp *op, int nb_args)
+@@ -624,10 +624,42 @@ static void copy_propagate(OptContext *ctx, TCGOp *op,
      }
  }
  
-+static void copy_propagate(OptContext *ctx, TCGOp *op,
-+                           int nb_oargs, int nb_iargs)
++static bool fold_call(OptContext *ctx, TCGOp *op)
 +{
 +    TCGContext *s = ctx->tcg;
++    int nb_oargs = TCGOP_CALLO(op);
++    int nb_iargs = TCGOP_CALLI(op);
++    int flags, i;
 +
-+    for (int i = nb_oargs; i < nb_oargs + nb_iargs; i++) {
-+        TCGTemp *ts = arg_temp(op->args[i]);
-+        if (ts && ts_is_copy(ts)) {
-+            op->args[i] = temp_arg(find_better_copy(s, ts));
++    init_arguments(ctx, op, nb_oargs + nb_iargs);
++    copy_propagate(ctx, op, nb_oargs, nb_iargs);
++
++    /* If the function reads or writes globals, reset temp data. */
++    flags = tcg_call_flags(op);
++    if (!(flags & (TCG_CALL_NO_READ_GLOBALS | TCG_CALL_NO_WRITE_GLOBALS))) {
++        int nb_globals = s->nb_globals;
++
++        for (i = 0; i < nb_globals; i++) {
++            if (test_bit(i, ctx->temps_used.l)) {
++                reset_ts(&ctx->tcg->temps[i]);
++            }
 +        }
 +    }
++
++    /* Reset temp data for outputs. */
++    for (i = 0; i < nb_oargs; i++) {
++        reset_temp(op->args[i]);
++    }
++
++    /* Stop optimizing MB across calls. */
++    ctx->prev_mb = NULL;
++    return true;
 +}
 +
  /* Propagate constants and copies, fold constant expressions. */
  void tcg_optimize(TCGContext *s)
  {
-@@ -646,14 +659,7 @@ void tcg_optimize(TCGContext *s)
-             nb_iargs = def->nb_iargs;
-         }
-         init_arguments(&ctx, op, nb_oargs + nb_iargs);
--
--        /* Do copy propagation */
--        for (i = nb_oargs; i < nb_oargs + nb_iargs; i++) {
--            TCGTemp *ts = arg_temp(op->args[i]);
--            if (ts && ts_is_copy(ts)) {
--                op->args[i] = temp_arg(find_better_copy(s, ts));
--            }
--        }
-+        copy_propagate(&ctx, op, nb_oargs, nb_iargs);
+-    int nb_temps, nb_globals, i;
++    int nb_temps, i;
+     TCGOp *op, *op_next;
+     OptContext ctx = { .tcg = s };
  
-         /* For commutative operations make constant second argument */
-         switch (opc) {
+@@ -637,8 +669,6 @@ void tcg_optimize(TCGContext *s)
+        available through the doubly linked circular list. */
+ 
+     nb_temps = s->nb_temps;
+-    nb_globals = s->nb_globals;
+-
+     for (i = 0; i < nb_temps; ++i) {
+         s->temps[i].state_ptr = NULL;
+     }
+@@ -647,17 +677,17 @@ void tcg_optimize(TCGContext *s)
+         uint64_t z_mask, partmask, affected, tmp;
+         int nb_oargs, nb_iargs;
+         TCGOpcode opc = op->opc;
+-        const TCGOpDef *def = &tcg_op_defs[opc];
++        const TCGOpDef *def;
+ 
+-        /* Count the arguments, and initialize the temps that are
+-           going to be used */
++        /* Calls are special. */
+         if (opc == INDEX_op_call) {
+-            nb_oargs = TCGOP_CALLO(op);
+-            nb_iargs = TCGOP_CALLI(op);
+-        } else {
+-            nb_oargs = def->nb_oargs;
+-            nb_iargs = def->nb_iargs;
++            fold_call(&ctx, op);
++            continue;
+         }
++
++        def = &tcg_op_defs[opc];
++        nb_oargs = def->nb_oargs;
++        nb_iargs = def->nb_iargs;
+         init_arguments(&ctx, op, nb_oargs + nb_iargs);
+         copy_propagate(&ctx, op, nb_oargs, nb_iargs);
+ 
+@@ -1549,16 +1579,6 @@ void tcg_optimize(TCGContext *s)
+         if (def->flags & TCG_OPF_BB_END) {
+             memset(&ctx.temps_used, 0, sizeof(ctx.temps_used));
+         } else {
+-            if (opc == INDEX_op_call &&
+-                !(tcg_call_flags(op)
+-                  & (TCG_CALL_NO_READ_GLOBALS | TCG_CALL_NO_WRITE_GLOBALS))) {
+-                for (i = 0; i < nb_globals; i++) {
+-                    if (test_bit(i, ctx.temps_used.l)) {
+-                        reset_ts(&s->temps[i]);
+-                    }
+-                }
+-            }
+-
+             for (i = 0; i < nb_oargs; i++) {
+                 reset_temp(op->args[i]);
+                 /* Save the corresponding known-zero bits mask for the
+@@ -1599,7 +1619,6 @@ void tcg_optimize(TCGContext *s)
+             case INDEX_op_qemu_st_i32:
+             case INDEX_op_qemu_st8_i32:
+             case INDEX_op_qemu_st_i64:
+-            case INDEX_op_call:
+                 /* Opcodes that touch guest memory stop the optimization.  */
+                 ctx.prev_mb = NULL;
+                 break;
 -- 
 2.25.1
 
