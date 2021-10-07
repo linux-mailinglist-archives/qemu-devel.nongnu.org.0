@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F12425071
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 11:51:58 +0200 (CEST)
-Received: from localhost ([::1]:34582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095C1425053
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 11:48:50 +0200 (CEST)
+Received: from localhost ([::1]:52438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYQ4D-0005TM-Ll
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 05:51:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37882)
+	id 1mYQ1B-0006rQ-2S
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 05:48:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mYPvM-0007mI-DD
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:42:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29023)
+ id 1mYPxY-00046S-9Y
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:45:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mYPvK-0000gE-Rb
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:42:48 -0400
+ id 1mYPxW-0002lp-OV
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:45:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633599766;
+ s=mimecast20190719; t=1633599901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GBhJwkIwiBT2/Ui8//Rb3PIMyglL90cAxVd3ak4/zLQ=;
- b=HF5qPTqK5TLCucAR7Lt4iA9o1bXnqUGTj6KjhaZ9hofNPJCzq8Vx9Ow97WRLnasQCSASXD
- tWY0PwTMWSLoQI0NQfDH+4BD8hPqbsjGisJdKWEW6QPKgC02LXPLIinlUArdmVJHKHYqJg
- NnctcuPLuSpaouoZT6/6ucnmP4Iq7T0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-0PmRc4ixMeOiZcsV28NFpg-1; Thu, 07 Oct 2021 05:42:31 -0400
-X-MC-Unique: 0PmRc4ixMeOiZcsV28NFpg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- k16-20020a5d6290000000b00160753b430fso4238215wru.11
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 02:42:30 -0700 (PDT)
+ bh=AJ+w+xZmuWyVT22Ibz0IJ05eFaWqMnSz+pdsdeo6N2o=;
+ b=ZQYonlKJ1xGrQDwmHbAm0KZXEB3IEdRpk+zevZnRg11zXE61/4GU2P25zQf7YvRNr2NwyY
+ w32ZdF012VmCaWEXe9e55RNXO5KTl8ik7XTM7ploQJPafIQEUfE1feuppPY6o2uXUMMwbP
+ 8ttxrO0RXwE9zI8MfkTeN3FuRcjypYw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-438-W7MefLKAPKq0LWzyr5ZEEg-1; Thu, 07 Oct 2021 05:44:54 -0400
+X-MC-Unique: W7MefLKAPKq0LWzyr5ZEEg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r16-20020adfbb10000000b00160958ed8acso4215914wrg.16
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 02:44:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=GBhJwkIwiBT2/Ui8//Rb3PIMyglL90cAxVd3ak4/zLQ=;
- b=v2Lqui1agPLg2OCL8ebGQ154I5I5triGYd3ErdowWceglKPaDOe3h0vx/lFqwYfTZY
- jcaW/1a4x2RlhedNZxnCfMcIts/45qmpqjPfOS4VNzghMGsdiGU5mIcPcRu75069iLwG
- cnxiHnLt3IERcFukU6Qu6ek/lWqjzoqY31l+/wN8x/SO+zHhkNnpgbMsq+pSUhBiirdT
- 1tFdLMno/8SufHabpy8DM0DnOiVmVCdFNP7CM0AgmMc30tZzPfbfqCQ9hWSCAJRhtrgn
- ypkkaSs8aCsFNXiiZJlZpw7v6bZBZx9uLXy208lgIJkxKk1gOeUDNAjFSmB6rYCNj7AN
- CKUg==
-X-Gm-Message-State: AOAM532ElhQ9VWOAjeCvyDiG2dGD0BZ6u16jBPs9T4N7wOlOKDWE+NuP
- 6DT/KdVr8+1GPsDTt/VzFQGYGE5nxrrsCLheKcqSKS+H+mqSkIlmB9WKucX00xPLrSnkUq6RvOk
- Mk5qSl//Pyt0IEYg=
-X-Received: by 2002:a1c:1b90:: with SMTP id b138mr3524950wmb.160.1633599749984; 
- Thu, 07 Oct 2021 02:42:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXpFrflJFtKsI0TFP+uwAMQW212+stpcyPue4ddbboFlzqqPz15V1PbWQctYB9oBUUf1QiCQ==
-X-Received: by 2002:a1c:1b90:: with SMTP id b138mr3524927wmb.160.1633599749739; 
- Thu, 07 Oct 2021 02:42:29 -0700 (PDT)
+ bh=AJ+w+xZmuWyVT22Ibz0IJ05eFaWqMnSz+pdsdeo6N2o=;
+ b=FZ9Nqoh5eBdBT6XPm1AoIkdDFebi8prJLhE6PJZfnGpO3SSdx5NHRXvTgZ8hR2J/df
+ zpCzd3m9BhSyWoAH/q5jCxkw6xMh6QN8zN52nOWj4ST4uwMtHQE8jXpaetJdYOqQ9Q/p
+ vG9L+RDoz9obl9RSZkKsoGp/HucPYDSL3MZowfaIpJAcaWgLQ+953/OgUtR2iBBvUjKL
+ pBN7Bi1HrVPo9HnYlDaiRWSkwR1WYWE0Ittt161QLkT4AZI2H8kgobLCkPy1xuG3B99h
+ r5p5HPi/mSxbP6B8p/DYDhLcwbgGEUJLdf7tLjIz4W+l2qo2Eck9h4U8wy4ilF+xUH13
+ hxhg==
+X-Gm-Message-State: AOAM532+/yYBY1p6NS5K93MuQDDZMOJOt6f9R6uQaz3L6wAbLeON+0lM
+ twMN5DWv4oOuj+ACzRwSD1L2p+742Dpi+HKU0t9ttlSc4UqLJhTY843xuSJba44cgbpnHwCQJu3
+ XQqazYK6DoTisvvM=
+X-Received: by 2002:a05:6000:15c9:: with SMTP id
+ y9mr2349050wry.361.1633599892902; 
+ Thu, 07 Oct 2021 02:44:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx/wgo5wFSWvtOIe54EYu22i1vDpzzxR/0q9lsC3WWwa1rSaekIViRPvoNxnNK6bk+DZLIqsg==
+X-Received: by 2002:a05:6000:15c9:: with SMTP id
+ y9mr2349026wry.361.1633599892727; 
+ Thu, 07 Oct 2021 02:44:52 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id g70sm4197416wme.29.2021.10.07.02.42.27
+ by smtp.gmail.com with ESMTPSA id v16sm1945569wrq.39.2021.10.07.02.44.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Oct 2021 02:42:29 -0700 (PDT)
-Message-ID: <c8f74ca4-f8b8-0fdd-5172-925b43f8e42c@redhat.com>
-Date: Thu, 7 Oct 2021 11:42:24 +0200
+ Thu, 07 Oct 2021 02:44:52 -0700 (PDT)
+Message-ID: <0656624b-7d8d-dffa-a8af-91dee72952b1@redhat.com>
+Date: Thu, 7 Oct 2021 11:44:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PULL 12/12] meson: show library versions in the summary
+Subject: Re: [PATCH] MAINTAINERS: Add myself as reviewer of the 'Memory API'
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211005164408.288128-1-pbonzini@redhat.com>
- <20211005164408.288128-13-pbonzini@redhat.com>
- <2fe71843-bcbe-cbc7-dfed-d9beb60e9f2b@redhat.com>
- <658443a3-35ea-67ad-64f5-eb25059a454b@linaro.org>
- <8a067352-a8d5-6afb-6584-79604a0377a5@redhat.com>
- <face0d36-da9d-1ad1-4045-7de3e341f7d0@redhat.com>
- <f5a98954-4a10-ced5-c9bd-d71b6bb7006e@redhat.com>
+ qemu-devel@nongnu.org
+References: <20211007091949.319404-1-philmd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <f5a98954-4a10-ced5-c9bd-d71b6bb7006e@redhat.com>
+In-Reply-To: <20211007091949.319404-1-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,15 +81,15 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.05, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.964,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,18 +102,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/10/21 19:56, Philippe Mathieu-Daudé wrote:
->> How do you run "./configure"?  If you passed explicitly
->> "--meson=/usr/bin/meson" or something like that, then you're asking for
->> the broken version (which works fine except for the summary).
-> Yes you are right, this build dir had --meson=. Sorry for the noise.
+On 07/10/21 11:19, Philippe Mathieu-Daudé wrote:
+> Having developed interest with the Memory API,
+> volunteer to review the patches.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 50435b8d2f5..32b668e92fc 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2502,6 +2502,7 @@ Memory API
+>   M: Paolo Bonzini <pbonzini@redhat.com>
+>   M: Peter Xu <peterx@redhat.com>
+>   M: David Hildenbrand <david@redhat.com>
+> +R: Philippe Mathieu-Daudé <philmd@redhat.com>
+>   S: Supported
+>   F: include/exec/ioport.h
+>   F: include/exec/memop.h
 > 
 
-Np, you demonstrated that it's better to put it in the release notes.
-
-Paolo
+Queued, thanks.
 
 
