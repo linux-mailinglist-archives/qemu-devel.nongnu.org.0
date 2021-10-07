@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3536242557C
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 16:32:11 +0200 (CEST)
-Received: from localhost ([::1]:37152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98BCF425585
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 16:34:08 +0200 (CEST)
+Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYURN-0001A8-Vx
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 10:32:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49984)
+	id 1mYUTH-0005KQ-M0
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 10:34:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYUOr-0007mW-Pb
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:29:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20941)
+ id 1mYURA-0002TS-Ij
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:31:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYUOq-0001gf-Et
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:29:33 -0400
+ id 1mYUR3-0003gU-KP
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:31:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633616971;
+ s=mimecast20190719; t=1633617108;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=5siIg4KVXi3KkOMs8AbtL27gkJjhu8tH4lAsXEMej1s=;
- b=MJPZGrreQyaitjY4t/b+w+gmeUaVnsvvnTFcZEzeFGQXBrcw064WHlGcC1FBmCXi5WWMTf
- S/ph4vTMXQPBMGJRkrZnLMfIqCQR597aNJOX5y+NHiVEzwLSVx+KctAVEiUbUoO8O2Waeh
- Lln9XpjPf7RfZ2M5xuTNYEjILDD0fek=
+ bh=bEB+SkJnoVTVaJUOTXDv4uGPgWR1jzs5M3llP4x8IOw=;
+ b=MrZynijbnCrE0pbvRoBFhxnfRwWUuz1yNQnJvChOLO7sMujfL7FaLVBG9ZfskoCdNnb+4a
+ G8UF0b0PMuHjH2hMSJzmZXNUfh87xCcVsswGExQqczlFWqKibt+zt5ht5YRYJUt9coir8n
+ CqL12e5IxlBrR6krsU4Zq6FUfqKg3fc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-evKZECB-MdK98gLZUCArng-1; Thu, 07 Oct 2021 10:29:28 -0400
-X-MC-Unique: evKZECB-MdK98gLZUCArng-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-455-tju6VxQeME2z1FJVKVPPyg-1; Thu, 07 Oct 2021 10:31:47 -0400
+X-MC-Unique: tju6VxQeME2z1FJVKVPPyg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E1F6100C612;
- Thu,  7 Oct 2021 14:29:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6336E802B9F;
+ Thu,  7 Oct 2021 14:31:46 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C5CF26379;
- Thu,  7 Oct 2021 14:29:26 +0000 (UTC)
-Date: Thu, 7 Oct 2021 15:29:25 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0929A5C1A3;
+ Thu,  7 Oct 2021 14:31:45 +0000 (UTC)
+Date: Thu, 7 Oct 2021 15:31:44 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH v2 14/25] assertions for blockdev.h global state API
-Message-ID: <YV8ERfMECcWLJ9m+@stefanha-x1.localdomain>
+Subject: Re: [RFC PATCH v2 15/25] include/block/snapshot: global state API +
+ assertions
+Message-ID: <YV8E0FJssM5WbnsK@stefanha-x1.localdomain>
 References: <20211005143215.29500-1-eesposit@redhat.com>
- <20211005143215.29500-15-eesposit@redhat.com>
+ <20211005143215.29500-16-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211005143215.29500-15-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20211005143215.29500-16-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="U/NqqLbZCeczHiOV"
+ protocol="application/pgp-signature"; boundary="TVTY0sJFmUl0J+QP"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -66,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,34 +93,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---U/NqqLbZCeczHiOV
+--TVTY0sJFmUl0J+QP
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 05, 2021 at 10:32:04AM -0400, Emanuele Giuseppe Esposito wrote:
+On Tue, Oct 05, 2021 at 10:32:05AM -0400, Emanuele Giuseppe Esposito wrote:
+> Snapshots run also under the BQL lock, so they all are
+> in the global state API. The aiocontext lock that they hold
+> is currently an overkill and in future could be removed.
+>=20
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->  block/block-backend.c |  2 ++
->  blockdev.c            | 12 ++++++++++++
->  2 files changed, 14 insertions(+)
+>  block/snapshot.c         | 28 ++++++++++++++++++++++++++++
+>  include/block/snapshot.h | 21 +++++++++++++++++++++
+>  migration/savevm.c       |  2 ++
+>  3 files changed, 51 insertions(+)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---U/NqqLbZCeczHiOV
+--TVTY0sJFmUl0J+QP
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFfBEUACgkQnKSrs4Gr
-c8gAjgf/eYNOT+TqQVd/SIIxmebRCVD+rI+CoTd7EQHz77HLB/ikUwlqQHCe709e
-q9RJH8qQGsO/bqrA7bi5GXpM09AbgK2ca93GfulEv1/qWJCcEfTuR6AExwXltg+T
-rFJHNhMdmIlpMZnq352+BPFkf4TY76+OVNjmmUXdI4lJqOGmcsf0BjyjiWY+jnx2
-Vx7+TXUaGD4QOFKXsXzlbFT8AuKqNA4kIzi0QEeZ469T4njOrjQhffN10aibMV2F
-rZykPNBWz1tGUGCD70lFFXV/e7siulIqGI4WTdU9YXraWM3LqAf0JUjgW9LwoQrP
-/QMXAD3wVd7zCrRQdls6Z/8LrnmZBg==
-=v5Wq
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFfBNAACgkQnKSrs4Gr
+c8jYUggAkiQ8mO2ShAlNSyozjgkovpmaPUP1PdqvRHXZ4g+P/fnES0SA1HpN8qrZ
+oouaVcqZGs/hUBMzTwEWm3p8hMAyDMGPP1cpHU/boPk7ErsJM1PeMOt/XpRggf4D
+1D2sokf8Bg3HgXjgGzmEeftJYc9g9EeKJixIIgM3IhVMWBzig3KE20CdpfBV6RIk
+qLmdJZiSkq82ymHfsI2BnChuYhiyoK9jqALl5EfKPWa4ZEUXWqLhnfjr3Wphe1/d
+lhyBCgffG21us19g1foJqREyZUq13k45h2dK2XMMMAfBlctI8evw8WdW3xP4ZEGm
+fvutc2ZOiwT1lV8I3H7rCuHfO05Z/Q==
+=j8jx
 -----END PGP SIGNATURE-----
 
---U/NqqLbZCeczHiOV--
+--TVTY0sJFmUl0J+QP--
 
 
