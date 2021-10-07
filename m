@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32F54258E5
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 19:06:59 +0200 (CEST)
-Received: from localhost ([::1]:45026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0002425808
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 18:34:53 +0200 (CEST)
+Received: from localhost ([::1]:50042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYWrD-0001Ft-14
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 13:06:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57490)
+	id 1mYWM8-0007Jp-UL
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 12:34:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYWpY-0000OE-KX
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:05:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58312)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mYWFJ-00074I-Kz
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:27:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYWpW-00012o-U1
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:05:16 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mYWF9-0006IY-Ue
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:27:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633626314;
+ s=mimecast20190719; t=1633624058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QaQVslBRwEWgg+idMhtsAtnx2KhxqJyAx1p3uJs6yy8=;
- b=hWfgIU6xHMAsTxkSA0JHs75ftu2fle70zq6FkE+S7xMxAKORLLr0jzN4d7bIaBVbAnyOoO
- kLP2OFcWygfcDxBmILRIcCzst4KxQ01SpU0WoBqkS85YCSau93PGfEd32rragD9Kr3/Zfu
- t+zOLbQhmRNsx1GnKss2ntyEttgkd5E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-VfIlT6JVNgyRVoKXkAmQQw-1; Thu, 07 Oct 2021 13:05:08 -0400
-X-MC-Unique: VfIlT6JVNgyRVoKXkAmQQw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3E5C925C71;
- Thu,  7 Oct 2021 16:28:39 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F5F3216C2;
- Thu,  7 Oct 2021 16:25:37 +0000 (UTC)
-Date: Thu, 7 Oct 2021 18:25:36 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [PATCH 1/2] pylint: fix errors and warnings from qemu-tests test
- 297
-Message-ID: <YV8fgDlCuBFwlze3@redhat.com>
-References: <20211006130100.389521-1-eesposit@redhat.com>
- <20211006130100.389521-2-eesposit@redhat.com>
- <YV3S9N8SnU4W+aYL@redhat.com>
- <3a143653-582e-5b28-f536-bf24c4e45ac8@redhat.com>
- <YV6zwkzPDxgOeIoW@redhat.com>
- <6b234a38-1604-ba25-2542-a353e2150c94@redhat.com>
+ bh=nmXvPjP5cVPj4DMm82l7XXfnA+1Rkk6diZ3cwWNoaSI=;
+ b=AYId9CDN9BElGRr+hYWaNb47EhFtJfVLY9HYb0kCgLn/Erd3y4PdIcMgTNE6yiqmg7ZsFA
+ eiCktHqbywDiCojAJrEIKaejYUp2Yz/ZetOFZFbAh1IWqxJKzHZY7FFY1lreAw2GiMXVJR
+ X4p0AJbzooe9sjWDsXlYiZ1Xt+xclYg=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-550-p1pSYT8JOKOqdlmWreEUFw-1; Thu, 07 Oct 2021 12:27:35 -0400
+X-MC-Unique: p1pSYT8JOKOqdlmWreEUFw-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ t14-20020a1faa0e000000b002a26761be40so1580149vke.5
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 09:27:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nmXvPjP5cVPj4DMm82l7XXfnA+1Rkk6diZ3cwWNoaSI=;
+ b=0HkgGeD4/NChNP382/MyoAEZRXalXYpjKUYSs5qHD6eP1xjIQIHy9rTrFrpM2dxjSg
+ c/EictzaE6znxMrOTzf5rB/CU0BG0TjAbdOkgLq4QC7W1wN3LGEatwMkxLSJO01WNqkf
+ /7WKJVQ/TYuAGFzplbbgmmc912reK4BjG4c9IQn7U650VGXgCqXZhRoq4j5/riEzvlXm
+ DdVOVMqjs3QUsYJoKLWIvnL18/oJFm7yt1L6Dxo2MKXdydXut+Bhimo6vEOcDq7zX5T9
+ oomAHsVG2BWZRO4lo6MWkjKTiiKvDEgXMn5ICU8Yi9ua0Am8WH4tfJFQuZmyHvcnuGKN
+ 4Vew==
+X-Gm-Message-State: AOAM5324HckVn+4qIykRofDbqOUuXkbPSzZFJZZvX8+9JHy+L5SDQRM5
+ PsXEBK6y0EuBxYZY+S+Me+J6CiGmUFo6/kxQKU/fz/kPxVtBRlcMA6cUjxIhYekjLHjnJvjWaDs
+ d+IwFxh7oJ3yVi+P8hJYas3kNuAczcow=
+X-Received: by 2002:ab0:6f92:: with SMTP id f18mr5617463uav.50.1633624055449; 
+ Thu, 07 Oct 2021 09:27:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyVJkxuPjOS8xUPNAgL8MTdl2tGgcJmIo1whDT6ZuSPL9Sl27wIDvtnwTNjb/yVkkJxe1k9Co8sKjxdqUbGCVA=
+X-Received: by 2002:ab0:6f92:: with SMTP id f18mr5617439uav.50.1633624055227; 
+ Thu, 07 Oct 2021 09:27:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6b234a38-1604-ba25-2542-a353e2150c94@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20210923004938.3999963-1-jsnow@redhat.com>
+ <20210923004938.3999963-5-jsnow@redhat.com>
+ <20211007145214.ua7db2hwifhtawis@redhat.com>
+In-Reply-To: <20211007145214.ua7db2hwifhtawis@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 7 Oct 2021 12:27:24 -0400
+Message-ID: <CAFn=p-bwAL5ZmGHHR+uC-vbb=AdgdoFoqY3aHCNV6CZdKxjcmA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/17] python/aqmp: add send_fd_scm
+To: Eric Blake <eblake@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: multipart/alternative; boundary="00000000000082387d05cdc5bd76"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,96 +88,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 07.10.2021 um 12:34 hat Emanuele Giuseppe Esposito geschrieben:
-> 
-> > > The error is "C0330: Wrong hanging indentation"
-> > > so it is not about dicts. I guess we can disable the error, but the problem
-> > > is that we will disable it for the whole file, which doesn't seem right.
-> > 
-> > Actually, I would disable it globally in pylintrc because building
-> > dictionaries for JSON is something that we do a lot.
-> > 
-> > But then I'm surprised that this is the only instance that actually
-> > fails. I wonder what the difference is.
-> > 
-> > For example, 129 doesn't seem to be skipped and has this code:
-> 
-> 
-> > 
-> >      result = self.vm.qmp('blockdev-add', **{
-> >                               'node-name': 'overlay',
-> >                               'driver': iotests.imgfmt,
-> >                               'file': {
-> >                                   'driver': 'file',
-> >                                   'filename': self.overlay_img
-> >                               }
-> >                           })
-> > 
-> > Yet you don't report a pylint error for this file.
-> 
-> Well, unless I am misunderstanding something... 129 *is* the file I am
-> reporting. And that is exactly the function where pylint complains.
+--00000000000082387d05cdc5bd76
+Content-Type: text/plain; charset="UTF-8"
 
-Indeed, my bad. I got confused there.
+On Thu, Oct 7, 2021 at 10:52 AM Eric Blake <eblake@redhat.com> wrote:
 
-And the other files that do something similar are all in SKIP_FILES in
-297. So it looks like we don't have another case to copy.
+> On Wed, Sep 22, 2021 at 08:49:25PM -0400, John Snow wrote:
+> > The single space is indeed required to successfully transmit the file
+> > descriptor to QEMU.
+>
+> Sending fds requires a payload of at least one byte, but I don't think
+> that qemu cares which byte.  Thus, while your choice of space is fine,
+> the commit message may be a bit misleading at implying it must be
+> space.
+>
+>
+OK, I'll rephrase. (Space winds up being useful in particular because it
+doesn't mess with the parsing for subsequent JSON objects sent over the
+wire.)
 
-> > 
-> > Oooh... I think I do see a difference: The final line is indented by one
-> > space more in the case that fails for you. It should be vertically
-> > aligned with the "'" in the first line, but it is actually aligned with
-> > the "b" of "blockdev-add"
-> > 
-> > Does removing one space of indentation in the last line fix the report?
-> 
-> It's not only the final line, it's from "**{" till the ending ")".
-> 'node-name' is under "ock" of 'blockdev-add'. It is clearly bad indented,
-> regardless of the new style and pylint new rules.
-> 
-> Pylint itself suggests to move it 4 spaces more than "result =", ie 21
-> spaces before.
-> 
-> Still, applying your suggestion to all the lines and removing 1 space from
-> all lines still does not make pylint happy, as it asks to remove 20 spaces.
-> 
-> To simplify things, this is the error I get:
-> 
->  === pylint ===
-> +************* Module 129
-> +129:91:0: C0330: Wrong hanging indentation (remove 21 spaces).
-> +                                 'node-name': 'overlay',
-> +            |                    ^ (bad-continuation)
-> +129:92:0: C0330: Wrong hanging indentation (remove 21 spaces).
-> +                                 'driver': iotests.imgfmt,
-> +            |                    ^ (bad-continuation)
-> +129:93:0: C0330: Wrong hanging indentation (remove 21 spaces).
-> +                                 'file': {
-> +            |                    ^ (bad-continuation)
-> +129:97:0: C0330: Wrong hanging indentation.
-> +                             })
-> +        |   |                ^ (bad-continuation)
-> 
-> So unless you want to disable it overall, one way of fixing 129 is to follow
-> what pylint suggests, and do like I wrote in the previous email:
-> 
-> Either:
->         result = self.vm.qmp('blockdev-add', **{
->             'node-name': 'overlay', 		<-- 21 spaces less
->             'driver': iotests.imgfmt,		<-- 21 spaces less
->             'file': {				<-- 21 spaces less
->                 'driver': 'file',		<-- 21 spaces less
->                 'filename': self.overlay_img	<-- 21 spaces less
->             }					<-- 21 spaces less
->         })					<-- 21 spaces less
+(Idle curiosity: Is it possible to make QEMU accept an empty payload here?
+I understand that for compatibility reasons it wouldn't change much for the
+python lib even if we did, but I'm curious.)
 
-Yes, this looks reasonble enough.
 
-Kevin
+> >
+> > Python 3.11 removes support for calling sendmsg directly from a
+> > transport's socket. There is no other interface for doing this, our use
+> > case is, I suspect, "quite unique".
+> >
+> > As far as I can tell, this is safe to do -- send_fd_scm is a synchronous
+> > function and we can be guaranteed that the async coroutines will *not* be
+> > running when it is invoked. In testing, it works correctly.
+> >
+> > I investigated quite thoroughly the possibility of creating my own
+> > asyncio Transport (The class that ultimately manages the raw socket
+> > object) so that I could manage the socket myself, but this is so wildly
+> > invasive and unportable I scrapped the idea. It would involve a lot of
+> > copy-pasting of various python utilities and classes just to re-create
+> > the same infrastructure, and for extremely little benefit. Nah.
+> >
+> > Just boldly void the warranty instead, while I try to follow up on
+> > https://bugs.python.org/issue43232
+>
+> Bummer that we have to do that, but at least you are documenting the
+> problems and pursuing a remedy upstream.
+>
+>
+Yeah. I suspect our use case is so niche that it's not likely to get
+traction, but I'll try again. This sort of thing might make it harder to
+use projects like pypy, so it does feel like a defeat. Still, where there's
+a will, there's a way, right? :)
+
+--js
+
+--00000000000082387d05cdc5bd76
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 7, 2021 at 10:52 AM Eric =
+Blake &lt;<a href=3D"mailto:eblake@redhat.com">eblake@redhat.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Sep=
+ 22, 2021 at 08:49:25PM -0400, John Snow wrote:<br>
+&gt; The single space is indeed required to successfully transmit the file<=
+br>
+&gt; descriptor to QEMU.<br>
+<br>
+Sending fds requires a payload of at least one byte, but I don&#39;t think<=
+br>
+that qemu cares which byte.=C2=A0 Thus, while your choice of space is fine,=
+<br>
+the commit message may be a bit misleading at implying it must be<br>
+space.<br>
+<br></blockquote><div><br></div><div>OK, I&#39;ll rephrase. (Space winds up=
+ being useful in particular because it doesn&#39;t mess with the parsing fo=
+r subsequent JSON objects sent over the wire.)<br></div><div><br></div><div=
+>(Idle curiosity: Is it possible to make QEMU accept an empty payload here?=
+ I understand that for compatibility reasons it wouldn&#39;t change much fo=
+r the python lib even if we did, but I&#39;m curious.)<br></div><div>=C2=A0=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; <br>
+&gt; Python 3.11 removes support for calling sendmsg directly from a<br>
+&gt; transport&#39;s socket. There is no other interface for doing this, ou=
+r use<br>
+&gt; case is, I suspect, &quot;quite unique&quot;.<br>
+&gt; <br>
+&gt; As far as I can tell, this is safe to do -- send_fd_scm is a synchrono=
+us<br>
+&gt; function and we can be guaranteed that the async coroutines will *not*=
+ be<br>
+&gt; running when it is invoked. In testing, it works correctly.<br>
+&gt; <br>
+&gt; I investigated quite thoroughly the possibility of creating my own<br>
+&gt; asyncio Transport (The class that ultimately manages the raw socket<br=
+>
+&gt; object) so that I could manage the socket myself, but this is so wildl=
+y<br>
+&gt; invasive and unportable I scrapped the idea. It would involve a lot of=
+<br>
+&gt; copy-pasting of various python utilities and classes just to re-create=
+<br>
+&gt; the same infrastructure, and for extremely little benefit. Nah.<br>
+&gt; <br>
+&gt; Just boldly void the warranty instead, while I try to follow up on<br>
+&gt; <a href=3D"https://bugs.python.org/issue43232" rel=3D"noreferrer" targ=
+et=3D"_blank">https://bugs.python.org/issue43232</a><br>
+<br>
+Bummer that we have to do that, but at least you are documenting the<br>
+problems and pursuing a remedy upstream.<br>
+<br></blockquote><div><br></div><div>Yeah. I suspect our use case is so nic=
+he that it&#39;s not likely to get traction, but I&#39;ll try again. This s=
+ort of thing might make it harder to use projects like pypy, so it does fee=
+l like a defeat. Still, where there&#39;s a will, there&#39;s a way, right?=
+ :)</div><div><br></div><div>--js<br></div><div>=C2=A0</div></div></div>
+
+--00000000000082387d05cdc5bd76--
 
 
