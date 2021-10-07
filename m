@@ -2,101 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2535C424DF0
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 09:12:27 +0200 (CEST)
-Received: from localhost ([::1]:43664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD0E424DF2
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 09:14:09 +0200 (CEST)
+Received: from localhost ([::1]:47200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYNZq-000894-6Y
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 03:12:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34624)
+	id 1mYNbU-00025P-7j
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 03:14:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=907902f29=alistair.francis@opensource.wdc.com>)
- id 1mYNEY-0005IA-1G
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 02:50:29 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:14679)
+ id 1mYNEi-0005Pq-UL
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 02:50:39 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:53991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=907902f29=alistair.francis@opensource.wdc.com>)
- id 1mYNEV-0007Fc-Ne
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 02:50:25 -0400
+ id 1mYNEc-0007Mt-3y
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 02:50:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1633589424; x=1665125424;
+ t=1633589429; x=1665125429;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=pE4cUODrAhWSvvxVxExRTcx6HNb4wfGjorkME61/oFM=;
- b=MvencvjdxcfLihJBYTvAFmdBBZib2/PH2FyC9VCDzUgQuerr4IRM/7QL
- DkvEFnI8zLIz+m6r+D3JT/k675oCpUMrGd4C8+wNKJ+bm7hIqqHP23OBZ
- tus/e1UAzTbRcWSKC4VrxoLzenkp3DbfeSLX5K+JlaonWSYK75trnMWbg
- xKbTBDpFz4P4yntXRG27Hy1KgPbtuyrEi08Rxp66qLeF54HsmflHc55UJ
- f5Ks/FK97q99hbQoc6kBHW9QyAqPJcmqb8QMsMbegUpg0AFjkSAf1qm8N
- 75WWfAIXMHnzxteY4aFfYNxTXETAhdu7TCwkgOMKtEzow45IRm4U0c8EF w==;
-X-IronPort-AV: E=Sophos;i="5.85,352,1624291200"; d="scan'208";a="182849434"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 07 Oct 2021 14:50:22 +0800
-IronPort-SDR: 0JcTHSO+8iNzuvp/j/LMIW3itrtCyATI/NdENS3aKBeRsg3BnGkm5KR9XQQ8wr125iynhYRCaF
- i+1olaexIF1cpopre/dlb53Sh05vSweB8zbmERRWq02tjr4fWBVZUYzs1rgnW2+nEt/4I8eei+
- us1dfBK/U4n6lBjBCxzmSzTVnlYyue2fbQGOso70kDFJH4T6oxwQUXRqgEMyxXWDAsn0GPbdlF
- tQime3bLiF7JHyNsKtbxL9ipnMPIW66uEiRDX7WBgIyEy4mFm2vw0cYSMPnQ819eZt3/cIa2VI
- xd+J7tuaREprK8BCOZbua4D5
+ bh=BTzHRqg3KYihr5V4ei4vw2bJz+NKu62Z4H1nI+eZsMY=;
+ b=VFGyz2Nv3NXXQQ0igDRIDNu8YtzG3lxbcIR9bo6ImmDUjG43HwMHVxrR
+ dO9POYCb+H+yckX2uzeRgfGgwrMmqUGXH5XnfNhQIYBEnEW9sxWPQgFNV
+ T6NSvhqgqJEovB5GtSwLE1WN1TCc3euMcqqX3Kt1oNj/vjBG9DLMTVVBA
+ bdHKc0YrJYmVZ7l3yH0Z5oCSVyFsF6P+eeLbBYQLbTKv85kdUCoBNEFza
+ et6AwHJ5lcgUrjQgkPfva7qyyiiWJLogL3SvfS9ifS4iYsOhs16GhMeSt
+ yODzxt41R9ixFobkgsUeWL1BvXm4IEiMzEyn/tdZQd3H+39bfJNvN2uds w==;
+X-IronPort-AV: E=Sophos;i="5.85,352,1624291200"; d="scan'208";a="293815549"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 07 Oct 2021 14:50:27 +0800
+IronPort-SDR: 8ATTHI86h+NcxroBy4Q5ItQtFqnuq9ONVNf2L3TaINcXxkrUpbdsQmHx+BDHvqZoAXweDfjnYr
+ WVxelBUHHj+1TrsCX/d4e0gwOmi52rJdxj3rWBQT9PHZWk1ixVLjIoITFRSxOsiPVOEx0ngkEa
+ bV4qaHUETgw87pc8cltrLNTLqMIboj7R/W6nDUVcCayNfEhHCAzSsvDDqpkTyySzPK+8r5Zenx
+ WzNNYvmPU+yJcOhZl+zAG+o+R5Mv3HRQoWn81aRIsIeuBEK42a7zOP33zafCGYXCa4QKW5nWdO
+ r2cNmmonMomkPn3sDBqaUCJx
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 23:26:15 -0700
-IronPort-SDR: 1XiIzfeTLlf3UIL1rqp/lw8IU0082PnTtmKnjOt3fcL2kXpCQztt/asTyScBNQifwTGfbKvJvZ
- frOaAk9LuW55JYrdPt/lHsMBGUzVEJMlKPhFMTG4x1ELqhfwmsAdfWVau5lPcEY+5AJZbOpgE+
- 9l6ivb9/19lU7q+0ZWfs5GFRUKmZEvntu27gNJ6vFRbPnlJ8zL6wLAwbFKZjnKBOR/yEssJ+hy
- ao8v8wt9jlB+43nOJBcTpn7k83QiRIEJjslhW3pGv2s5RLxoK3J4EoOT0N5DzO/IZLRYhvV2vy
- 4M0=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2021 23:24:49 -0700
+IronPort-SDR: h/zzGU3P6LTKrjD74OfBJuHqgdGzaCV7G6yiHKOHkBLKKbcXNqnVcxrshbcYj0F65vOd3wX+pX
+ zvD7ng0T/EoNipXcULKJw9MXlWrodiAr2EXq80XYsQyJe7bC0nH8NXrNG9CkMed6TWWuwO3xRb
+ G75XY8aRnx/+x7ch0IMC8J8KR9kDUhSCPyeycVdq1us2HGDJj+gmyNb4xU51pUfDbIJPRap/Nf
+ NFV/BudlhdtNSd9UVx4PtUq8xX9/2jVZ+LZnkKv2aBlF8jyKIpeykNDtAJbTbKz3j/LaengST4
+ fYs=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 23:50:22 -0700
+ 06 Oct 2021 23:50:28 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HQ2585bLZz1RvmL
- for <qemu-devel@nongnu.org>; Wed,  6 Oct 2021 23:50:20 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HQ25H2mjGz1RvmJ
+ for <qemu-devel@nongnu.org>; Wed,  6 Oct 2021 23:50:27 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1633589420; x=1636181421; bh=pE4cUOD
- rAhWSvvxVxExRTcx6HNb4wfGjorkME61/oFM=; b=M4dfMJCOkcjHQ0s949jYiDp
- PZXPO9mX7eAzhu+zfhOb1oWVip8yTGLT4RSnNuan6QlscEAWKPWI/tYFRDLj0x77
- 0TSTbD0jzTgAmjOFv4LUjMqHASb4rG812h71fCKAGhtjpAwrc7c7fwHb26PhgWmC
- wyT/L0DMiJ2ZlM466+mrFwNWhPb3OjFVwckfqBbFoFCf77+5LIA54FEObqTc7GjJ
- PDTiia1qR3WmpxyI2Mof25reuaMulRBuHr4tymJOOlhu9ogMLmZMdn9qWQlneSWg
- IIx663Op+ExmA9lWtTpj1jBDRL5QsnYqqodJd69KdxZqqO8NmcW9m6qj/pvpQpw=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1633589425; x=1636181426; bh=BTzHRqg3KYihr5V4ei
+ 4vw2bJz+NKu62Z4H1nI+eZsMY=; b=uAQ92lc99dxXOlDTt+aTkhr1TAb8XAs2+/
+ h3RNbagSsRISJKbztlsUMDinU+ejmciGUs2zXnEr8rKOPMQz0L91WIzPURUUQJ0z
+ iDSrM0AuU5LRDFByiZCWBnE2/PcvEbb0p+aOemArnWxpfqGOUed+yWNVnIWrQPl1
+ 0OvMtOruSYDM4ClkDkpqi9+1FZEsHPGhOuRh6Apd4J65gaV+v4V73Er6U1OcoRJo
+ WsPWQxV8hzhF/ItgDOEc6ERh3i+t1bF2mu9IYoynSY6pGHmDCoec5swpEe/vMwkP
+ ZoI8tdfqQN/QAMjUQcfIIMyXwNOMiv4BOgKJIynPMD3rm6DoReOQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id QILgMBH4Mu5R for <qemu-devel@nongnu.org>;
- Wed,  6 Oct 2021 23:50:20 -0700 (PDT)
+ port 10026) with ESMTP id Npyxsvx4OKA8 for <qemu-devel@nongnu.org>;
+ Wed,  6 Oct 2021 23:50:25 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.32])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HQ2535S1qz1RvTg;
- Wed,  6 Oct 2021 23:50:15 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HQ2596rQSz1RvTg;
+ Wed,  6 Oct 2021 23:50:20 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: alistair23@gmail.com, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 24/26] hw/dma: sifive_pdma: Fix Control.claim bit detection
-Date: Thu,  7 Oct 2021 16:47:49 +1000
-Message-Id: <20211007064751.608580-25-alistair.francis@opensource.wdc.com>
+Subject: [PULL 25/26] hw/dma: sifive_pdma: Don't run DMA when channel is
+ disclaimed
+Date: Thu,  7 Oct 2021 16:47:50 +1000
+Message-Id: <20211007064751.608580-26-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211007064751.608580-1-alistair.francis@opensource.wdc.com>
 References: <20211007064751.608580-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.45;
+Received-SPF: pass client-ip=68.232.141.245;
  envelope-from=prvs=907902f29=alistair.francis@opensource.wdc.com;
- helo=esa6.hgst.iphmx.com
+ helo=esa1.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -121,41 +119,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bmeng.cn@gmail.com>
 
-At present the codes detect whether the DMA channel is claimed by:
+If Control.run bit is set while not preserving the Control.claim
+bit, the DMA transfer shall not be started.
 
-  claimed =3D !!s->chan[ch].control & CONTROL_CLAIM;
+The following result is PDMA tested in U-Boot on Unleashed board:
 
-As ! has higher precedence over & (bitwise and), this is essentially
+=3D> mw.l 0x3000000 0x0                      <=3D Disclaim channel 0
+=3D> mw.l 0x3000000 0x1                      <=3D Claim channel 0
+=3D> mw.l 0x3000004 0x55000000               <=3D wsize =3D rsize =3D 5 (=
+2^5 =3D 32 bytes)
+=3D> mw.q 0x3000008 0x2                      <=3D NextBytes =3D 2
+=3D> mw.q 0x3000010 0x84000000               <=3D NextDestination =3D 0x8=
+4000000
+=3D> mw.q 0x3000018 0x84001000               <=3D NextSource =3D 0x840010=
+00
+=3D> mw.l 0x84000000 0x87654321              <=3D Fill test data to dst
+=3D> mw.l 0x84001000 0x12345678              <=3D Fill test data to src
+=3D> md.l 0x84000000 1; md.l 0x84001000 1    <=3D Dump src/dst memory con=
+tents
+84000000: 87654321                               !Ce.
+84001000: 12345678                               xV4.
+=3D> md.l 0x3000000 8                        <=3D Dump PDMA status
+03000000: 00000001 55000000 00000002 00000000    .......U........
+03000010: 84000000 00000000 84001000 00000000    ................
+=3D> mw.l 0x3000000 0x2                      <=3D Set channel 0 run bit o=
+nly
+=3D> md.l 0x3000000 8                        <=3D Dump PDMA status
+03000000: 00000000 55000000 00000002 00000000    .......U........
+03000010: 84000000 00000000 84001000 00000000    ................
+=3D> md.l 0x84000000 1; md.l 0x84001000 1    <=3D Dump src/dst memory con=
+tents
+84000000: 87654321                               !Ce.
+84001000: 12345678                               xV4.
 
-  claimed =3D (!!s->chan[ch].control) & CONTROL_CLAIM;
-
-which is wrong, as any non-zero bit set in the control register will
-produce a result of a claimed channel.
-
-Fixes: de7c7988d25d ("hw/dma: sifive_pdma: reset Next* registers when Con=
-trol.claim is set")
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Message-id: 20210927072124.1564129-1-bmeng.cn@gmail.com
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210927072124.1564129-2-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/dma/sifive_pdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/dma/sifive_pdma.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
-index b4fd40573a..b8ec7621f3 100644
+index b8ec7621f3..85fe34f5f3 100644
 --- a/hw/dma/sifive_pdma.c
 +++ b/hw/dma/sifive_pdma.c
-@@ -243,7 +243,7 @@ static void sifive_pdma_write(void *opaque, hwaddr of=
+@@ -232,7 +232,7 @@ static void sifive_pdma_write(void *opaque, hwaddr of=
 fset,
-     offset &=3D 0xfff;
+ {
+     SiFivePDMAState *s =3D opaque;
+     int ch =3D SIFIVE_PDMA_CHAN_NO(offset);
+-    bool claimed;
++    bool claimed, run;
+=20
+     if (ch >=3D SIFIVE_PDMA_CHANS) {
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
+@@ -244,6 +244,7 @@ static void sifive_pdma_write(void *opaque, hwaddr of=
+fset,
      switch (offset) {
      case DMA_CONTROL:
--        claimed =3D !!s->chan[ch].control & CONTROL_CLAIM;
-+        claimed =3D !!(s->chan[ch].control & CONTROL_CLAIM);
+         claimed =3D !!(s->chan[ch].control & CONTROL_CLAIM);
++        run =3D !!(s->chan[ch].control & CONTROL_RUN);
 =20
          if (!claimed && (value & CONTROL_CLAIM)) {
              /* reset Next* registers */
+@@ -254,13 +255,19 @@ static void sifive_pdma_write(void *opaque, hwaddr =
+offset,
+             s->chan[ch].next_src =3D 0;
+         }
+=20
++        /* claim bit can only be cleared when run is low */
++        if (run && !(value & CONTROL_CLAIM)) {
++            value |=3D CONTROL_CLAIM;
++        }
++
+         s->chan[ch].control =3D value;
+=20
+         /*
+          * If channel was not claimed before run bit is set,
++         * or if the channel is disclaimed when run was low,
+          * DMA won't run.
+          */
+-        if (!claimed) {
++        if (!claimed || (!run && !(value & CONTROL_CLAIM))) {
+             s->chan[ch].control &=3D ~CONTROL_RUN;
+             return;
+         }
 --=20
 2.31.1
 
