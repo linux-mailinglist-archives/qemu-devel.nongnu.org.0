@@ -2,91 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C6F42547C
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:41:41 +0200 (CEST)
-Received: from localhost ([::1]:57042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A0042549A
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:47:21 +0200 (CEST)
+Received: from localhost ([::1]:40384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYTeW-00064t-LO
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
+	id 1mYTk0-0005bM-RP
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:47:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYTXX-0001A8-9y
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:34:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57812)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mYTc5-0003Ry-Qp
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:39:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYTXU-0005W0-GN
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:34:26 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mYTc3-0006hu-N2
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:39:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633613663;
+ s=mimecast20190719; t=1633613947;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/j/HHSVtJr6PIJG22FVs1Os873ZgesmCnYbTsB90PtQ=;
- b=PlA3HAYjxGgLcHtNWtRaIQ99TLQMsg5C3aMb4N9hB2SNxDOEbQ/zBc7q7oQpzzilFnVNkJ
- St/WlGN7UtC0dyuFFIsPdF67EbgvzpaMT8peHLFDtp6EDVodVDsSf5VJuEE+Bz+CYdsExr
- Q5NSMlvwRiSST2HRDSf7Ocyb5V8pCP0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-1WltJ2V6NPKvXKw3MBqtzA-1; Thu, 07 Oct 2021 09:34:22 -0400
-X-MC-Unique: 1WltJ2V6NPKvXKw3MBqtzA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- m17-20020adffa11000000b00160c1ac74e9so4709936wrr.9
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 06:34:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/j/HHSVtJr6PIJG22FVs1Os873ZgesmCnYbTsB90PtQ=;
- b=6G9kTLkgL20qGQdCY5D0ydg1qaQBBTx1OkYc1//82RqCkJdVDKUnObKHK1/+DWsl9L
- TuMHSpn6Yd5LZbIz+wh8wucXTTTrxGh6VFP7+lgXP172enwCvxt5Oae2t793uW6rCXG3
- qSPtqwd2lG6JnLyus2FpZmVqRHTBYGiF27Lj79dFmnUoBD+xUFCcQVZvKI993+g9YDPo
- +Ol/iNwoYLocP2eYdhI8cBo7OvfYqPHVNXUJ4olUR2+AQ39u+bT1jeXdK4UOWxCCMnmf
- PRrMGsf4WQXor6Kzt5OgGQQfOwWhSnwjAEAM0AaEvn+1xTg1q+cKPxDCSTw6ZaKpwnq4
- iY+Q==
-X-Gm-Message-State: AOAM533ReoL/wkhrc5RqvHvNQcNkWoPSLSwcMubWd95noK1h5LSlPzim
- iWhxeEpd3bqJzUCqd5vqggZDt+AFtxZR3+pva7Lp8LZFbK4g+KrG6Vm4MGV6f4oTJzRzvKxndQz
- 0J76oJpK9IQCygec=
-X-Received: by 2002:adf:a486:: with SMTP id g6mr5458122wrb.130.1633613661252; 
- Thu, 07 Oct 2021 06:34:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy0IzvfijkkXYl4kIpksiQAFMH/brTu9BhGMhgVas4fGA5ziEDciIF/kS4WmaTWgPNX2fQQ4A==
-X-Received: by 2002:adf:a486:: with SMTP id g6mr5458080wrb.130.1633613660960; 
- Thu, 07 Oct 2021 06:34:20 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id o26sm8824414wmc.17.2021.10.07.06.34.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Oct 2021 06:34:20 -0700 (PDT)
-Message-ID: <19edd050-c09f-2039-0c89-50bcae61321f@redhat.com>
-Date: Thu, 7 Oct 2021 15:34:19 +0200
+ bh=BnRwnIoVvQv5J+xq7AS3hnEx1utUdfYx18Ahb6c+pWo=;
+ b=a0cXYg0WTeku/Jq9VYs2hQypb95dw0woWNmqLYzjjR/Po9yuDgYeNJ6HYVfH1O/fBFuLlV
+ avZERSntenX0uuSGgbyKUCsulDPeXilusCIXzPC+TouLwjPCkkasngP6rJuIEbF7O5y1fU
+ wviE9yWE4nKYssRUJtxsF8wdsH3auLI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-svnanvsfPVqYFTMBip77Ig-1; Thu, 07 Oct 2021 09:39:05 -0400
+X-MC-Unique: svnanvsfPVqYFTMBip77Ig-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52AA312BFB9;
+ Thu,  7 Oct 2021 13:38:40 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC06110013D7;
+ Thu,  7 Oct 2021 13:38:39 +0000 (UTC)
+Date: Thu, 7 Oct 2021 14:38:38 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [RFC PATCH v2 06/25] include/block/block_int: split header into
+ I/O and global state API
+Message-ID: <YV74XrPPIA4cts8V@stefanha-x1.localdomain>
+References: <20211005143215.29500-1-eesposit@redhat.com>
+ <20211005143215.29500-7-eesposit@redhat.com>
+ <YV7Ri5adGVrl0pPQ@stefanha-x1.localdomain>
+ <70405d0c-3f1f-ccfe-a233-fdda9d4b213e@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 5/5] block/nvme: Fix memory leak from nvme_init_queue()
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20211006164931.172349-1-philmd@redhat.com>
- <20211006164931.172349-6-philmd@redhat.com>
- <YV72QsbNN3Eb2kLV@stefanha-x1.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <YV72QsbNN3Eb2kLV@stefanha-x1.localdomain>
+In-Reply-To: <70405d0c-3f1f-ccfe-a233-fdda9d4b213e@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8menEcVH6rdz6anc"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,57 +82,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/21 15:29, Stefan Hajnoczi wrote:
-> On Wed, Oct 06, 2021 at 06:49:31PM +0200, Philippe Mathieu-Daudé wrote:
->> nvme_create_queue_pair() allocates resources with qemu_vfio_dma_map(),
->> but we never release them. Do it in nvme_free_queue() which is called
->> from nvme_free_queue_pair().
->>
->> Reported by valgrind:
->>
->>   ==252858== 520,192 bytes in 1 blocks are still reachable in loss record 8,293 of 8,302
->>   ==252858==    at 0x4846803: memalign (vg_replace_malloc.c:1265)
->>   ==252858==    by 0x484691F: posix_memalign (vg_replace_malloc.c:1429)
->>   ==252858==    by 0xB8AFE4: qemu_try_memalign (oslib-posix.c:210)
->>   ==252858==    by 0xA9E315: nvme_create_queue_pair (nvme.c:229)
->>   ==252858==    by 0xAA0125: nvme_init (nvme.c:799)
->>   ==252858==    by 0xAA081C: nvme_file_open (nvme.c:953)
->>   ==252858==    by 0xA23DDD: bdrv_open_driver (block.c:1550)
->>   ==252858==    by 0xA24806: bdrv_open_common (block.c:1827)
->>   ==252858==    by 0xA2889B: bdrv_open_inherit (block.c:3747)
->>   ==252858==    by 0xA28DE4: bdrv_open (block.c:3840)
->>   ==252858==    by 0x9E0F8E: bds_tree_init (blockdev.c:675)
->>   ==252858==    by 0x9E7C74: qmp_blockdev_add (blockdev.c:3551)
->>
->> Fixes: bdd6a90a9e5 ("block: Add VFIO based NVMe driver")
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  block/nvme.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/block/nvme.c b/block/nvme.c
->> index 6e476f54b9f..903c8ffa060 100644
->> --- a/block/nvme.c
->> +++ b/block/nvme.c
->> @@ -185,6 +185,7 @@ static bool nvme_init_queue(BDRVNVMeState *s, NVMeQueue *q,
->>  
->>  static void nvme_free_queue(BDRVNVMeState *s, NVMeQueue *q)
->>  {
->> +    qemu_vfio_dma_unmap(s->vfio, q->queue);
->>      qemu_vfree(q->queue);
->>  }
-> 
-> I can't figure out the issue. qemu_vfree(q->queue) was already called
-> before this patch. How does adding qemu_vfio_dma_unmap() help with the
-> valgrind report in the commit description?
+--8menEcVH6rdz6anc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You are right, I think I didn't select the correct record
-between the 8302 reported by valgrind. I will revisit, thanks.
+On Thu, Oct 07, 2021 at 01:30:42PM +0200, Emanuele Giuseppe Esposito wrote:
+>=20
+>=20
+> On 07/10/2021 12:52, Stefan Hajnoczi wrote:
+> > On Tue, Oct 05, 2021 at 10:31:56AM -0400, Emanuele Giuseppe Esposito wr=
+ote:
+> > > +int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, int64_t src=
+_offset,
+> > > +                                         BdrvChild *dst, int64_t dst=
+_offset,
+> > > +                                         int64_t bytes,
+> > > +                                         BdrvRequestFlags read_flags=
+,
+> > > +                                         BdrvRequestFlags write_flag=
+s);
+> > > +int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, int64_t src_o=
+ffset,
+> > > +                                       BdrvChild *dst, int64_t dst_o=
+ffset,
+> > > +                                       int64_t bytes,
+> > > +                                       BdrvRequestFlags read_flags,
+> > > +                                       BdrvRequestFlags write_flags)=
+;
+> >=20
+> > These look like I/O APIs to me. Are they in the GS API because only
+> > qemu-img.c call copy_range? I thought SCSI emulation might call it too,
+> > but grep says otherwise.
+>=20
+> SCSI (iscsi.c) implements the function pointer
+> (*bdrv_co_copy_range_from/to), but does not call the function itself.
+> However, later in the patches I put the function pointer as I/O.
+
+I meant the SCSI target emulation in hw/scsi/ where the SCSI commands
+that require copy_range could be handled.
+
+> These two functions are only tested by test-replication and thus are alwa=
+ys
+> under BQL when tested. But after looking at them again, and since they
+> internally use only I/O APIs, I think we can move them to the I/O API.
+
+Okay, great.
+
+Stefan
+
+--8menEcVH6rdz6anc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFe+F4ACgkQnKSrs4Gr
+c8hWfgf+ILEDf6v0ZwDrlvtiQRhoZTR/mGddYRL9jN+oktfWvfuQecxmFxSjjVdK
+V/OdWXDFh+M/4VIgMAPGUuQbu4Sz8tEaVNRCqAR84zs5YvaUIp/WNszp/epmD0B9
+EkgOAqiYHZG3wsCFomQLSjMYrIHoOfVTPizHNBIWTcWaiUKp1ujtIXPhxu4ZNkSi
+49Vqun3kQF9O4eN87ImvCRNS0fYdVIcuTjgIaaDDR5LXCouuriMXW/wndBSAeo8a
+oug3rMyw65N1nu18AXy3tTWD3WoAyKuhQx+28H1B5WLxwZ/vPP4+JkFQsJJY+y8h
+tIc8ZzYBc6bUCZvzNgdkio9M5pWhSw==
+=+8O2
+-----END PGP SIGNATURE-----
+
+--8menEcVH6rdz6anc--
 
 
