@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794C9425869
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 18:50:00 +0200 (CEST)
-Received: from localhost ([::1]:53936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB653425874
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 18:51:57 +0200 (CEST)
+Received: from localhost ([::1]:56204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYWal-0004TR-BF
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 12:49:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49722)
+	id 1mYWcf-0005zw-0o
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 12:51:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mYWJl-0005aD-Eq
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:32:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56817)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mYWLf-0008Iw-HW
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:34:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mYWJj-0001c5-TQ
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:32:25 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mYWLc-00038U-EI
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:34:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633624343;
+ s=mimecast20190719; t=1633624459;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wcPwfok7hlWw1u9zFYAktsrSD7Ftvy7NI8EcJaCkDRQ=;
- b=ZbWrX8BhnuZfcW2MKvWY+TPM3fuHC2B0tKRMdKosGa6YUsbg7sArw8dmbgP5XR3ObPQVWD
- ceh/VihLt3ArYZy/XU+dKjPV4z0KmVYe6D+7zDtr6kssyzKIo/qMwfDR6bxePZxifd9Ce5
- ps41O9IkVFN5VOBQq3rzBEKcXkeXXgk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-NYDYTW3xOsOQFpAoMSVwlQ-1; Thu, 07 Oct 2021 12:32:22 -0400
-X-MC-Unique: NYDYTW3xOsOQFpAoMSVwlQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- 41-20020adf812c000000b00160dfbfe1a2so1482148wrm.3
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 09:32:22 -0700 (PDT)
+ bh=9YmHL30ZVhVfHYGZ2B5KZWremm1v34xMHQFk5YopLo8=;
+ b=ijJE++ZgNvh9BCVg8ws0MCeTOqt/qamLJn0UMbt8k8E4p5/GO3QdNBGA/bKfwYI8ys4ap8
+ Z2AvzY16tjESoY2y9ko0y5OVrZA+dxxst4bx3n1NMjtTA90gdbqfCghrNGDShUI4QP1iPO
+ gElo9JD+Pep7tSvlFSJgYzTVucXcYxc=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-BfmSWzddMcehJVDrAQ_68A-1; Thu, 07 Oct 2021 12:34:18 -0400
+X-MC-Unique: BfmSWzddMcehJVDrAQ_68A-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ o4-20020ab05944000000b002c9c4d839d1so3228158uad.13
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 09:34:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=wcPwfok7hlWw1u9zFYAktsrSD7Ftvy7NI8EcJaCkDRQ=;
- b=fOtRR62fSfBXQ2E8CA9zb6uKqH9aBTix6Rh3SchcMHXxcb6d4aprSzlcAcfEVX5nT9
- 6m+GKonCYVT5ERynNzZ6IbpI+lrmYDGh6SJGmeKpUGzqkLH/CiSckz7XPWO8Hm2vsXBJ
- cGnOZ8GsC9RpXzNruKpmoRhfTwU6ASzbh9jN1AlPZ8q1IRSLDN1I/FPB2Ns+IZSVh6zg
- TZ3j+MY+9WwbNqBIiX3umPJvDssZevVtwzNZC7xt1K4+5gomGklyAYf2doD7rPYxS5ZX
- ue63P3r+t5HhKjpDGabIbep89kQk+gzjNNQneDMlNhMtgp4eqf3vd9spv2zIwxLDHCvK
- 6woA==
-X-Gm-Message-State: AOAM532mOEAiVzf9MVuyI8ZSYRUCGKOXxoY1a2ZFSYg+opDcVLZzZc+g
- geiIGbuvq5iw90TCCC7Qezgf6Z5C/uiiGUedCp3LLqVnzvXh4wcJu5nELiFC+ianeR3qG/GMy/c
- DBhPr+jj2SebrxIE=
-X-Received: by 2002:adf:a294:: with SMTP id s20mr6769435wra.34.1633624341111; 
- Thu, 07 Oct 2021 09:32:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbefLzTot1ul3sotoGqiNbncTZrWTQb+yZf5dmOIwZNZOKtNSfLr3kHeEsTzv/598ehu+SmA==
-X-Received: by 2002:adf:a294:: with SMTP id s20mr6769386wra.34.1633624340838; 
- Thu, 07 Oct 2021 09:32:20 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id j1sm101316wrb.56.2021.10.07.09.32.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 09:32:20 -0700 (PDT)
-Date: Thu, 7 Oct 2021 17:32:18 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 14/23] target/i386/sev: Rename sev_i386.h -> sev.h
-Message-ID: <YV8hEmSI3Yyociat@work-vm>
-References: <20211007161716.453984-1-philmd@redhat.com>
- <20211007161716.453984-15-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9YmHL30ZVhVfHYGZ2B5KZWremm1v34xMHQFk5YopLo8=;
+ b=qwSN0qbXcNNyIyNLeO3cuBEKpVp/3ew35kq3TLc6uxwFxeQqlUjNUoZ3bo5yy/YoYy
+ R2SWy6C0FYqU2DYOlUnJl+hrh1JztnhJs2PAt7TVkZhBB2m5fxkkNbII12g0z05ivdMR
+ yAyJOkyQO+eveZ4c6+79jlKYSodLCf5i0FegPvYsufopgdoYRb6KNtpDpkP/JRlAweEp
+ jc8RHrzi1UOJ2/JKVipQDdmLIuAdaBo0PhZKt8r2hXerqPmBF3ACOM7wNnKGx0uvxBWU
+ 78LDh22HjY6POHeZb7fI4Qej9HdDHyaQZ5guVQ06fRHPXJNn29yBkP0bussHXwIlaSfb
+ 4y7g==
+X-Gm-Message-State: AOAM531LQXPohvLUEdbV0V2/YwQ5tPC9NfBf/XHF+x2wU6oyxnLCk86w
+ CNAEnIiUcQA1MBqYCj51bqcLq0RwybZ7FYaub1YNF3BTPEnEs3YDdYSEr0oRs67JHymlMcJxraD
+ IpY/f1WJbo2ab1hiT9iwvxG5sOuqljnY=
+X-Received: by 2002:a1f:e946:: with SMTP id g67mr4778569vkh.10.1633624456920; 
+ Thu, 07 Oct 2021 09:34:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwlZh9Z7KM91MV2O+f/YsDk8IrNuVBr8smJKoUXsUeLXnk13C3KsN3K5TggnVlD/MGjypALTYnBTzbgbwxlZjI=
+X-Received: by 2002:a1f:e946:: with SMTP id g67mr4778373vkh.10.1633624455246; 
+ Thu, 07 Oct 2021 09:34:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211007161716.453984-15-philmd@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+References: <20210923004938.3999963-1-jsnow@redhat.com>
+ <20210923004938.3999963-13-jsnow@redhat.com>
+ <20211007150751.at6pwvncgwk5koaz@redhat.com>
+In-Reply-To: <20211007150751.at6pwvncgwk5koaz@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 7 Oct 2021 12:34:04 -0400
+Message-ID: <CAFn=p-Zq1TRMd1of0yUU0XuysOKyS2gR8MwxQNu_PVrrGm=+WA@mail.gmail.com>
+Subject: Re: [PATCH v2 12/17] python/machine: Handle QMP errors on close more
+ meticulously
+To: Eric Blake <eblake@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: multipart/alternative; boundary="0000000000005a0a8505cdc5d5f7"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,138 +89,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Sergio Lopez <slp@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, qemu-devel@nongnu.org,
- Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
-> SEV is a x86 specific feature, and the "sev_i386.h" header
-> is already in target/i386/. Rename it as "sev.h" to simplify.
-> 
-> Patch created mechanically using:
-> 
->   $ git mv target/i386/sev_i386.h target/i386/sev.h
->   $ sed -i s/sev_i386.h/sev.h/ $(git grep -l sev_i386.h)
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+--0000000000005a0a8505cdc5d5f7
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On Thu, Oct 7, 2021 at 11:08 AM Eric Blake <eblake@redhat.com> wrote:
 
-> ---
->  target/i386/{sev_i386.h => sev.h} | 0
->  hw/i386/x86.c                     | 2 +-
->  target/i386/cpu.c                 | 2 +-
->  target/i386/kvm/kvm.c             | 2 +-
->  target/i386/monitor.c             | 2 +-
->  target/i386/sev-stub.c            | 2 +-
->  target/i386/sev-sysemu-stub.c     | 2 +-
->  target/i386/sev.c                 | 2 +-
->  8 files changed, 7 insertions(+), 7 deletions(-)
->  rename target/i386/{sev_i386.h => sev.h} (100%)
-> 
-> diff --git a/target/i386/sev_i386.h b/target/i386/sev.h
-> similarity index 100%
-> rename from target/i386/sev_i386.h
-> rename to target/i386/sev.h
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index 0c7c054e3a0..76de7e2265e 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -47,7 +47,7 @@
->  #include "hw/i386/fw_cfg.h"
->  #include "hw/intc/i8259.h"
->  #include "hw/rtc/mc146818rtc.h"
-> -#include "target/i386/sev_i386.h"
-> +#include "target/i386/sev.h"
->  
->  #include "hw/acpi/cpu_hotplug.h"
->  #include "hw/irq.h"
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index b54b98551e9..8289dc87bd5 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -26,7 +26,7 @@
->  #include "sysemu/reset.h"
->  #include "sysemu/hvf.h"
->  #include "kvm/kvm_i386.h"
-> -#include "sev_i386.h"
-> +#include "sev.h"
->  #include "qapi/error.h"
->  #include "qapi/qapi-visit-machine.h"
->  #include "qapi/qmp/qerror.h"
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index f25837f63f4..a5f6ff63c81 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -28,7 +28,7 @@
->  #include "sysemu/kvm_int.h"
->  #include "sysemu/runstate.h"
->  #include "kvm_i386.h"
-> -#include "sev_i386.h"
-> +#include "sev.h"
->  #include "hyperv.h"
->  #include "hyperv-proto.h"
->  
-> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-> index ea836678f51..109e4e61c0a 100644
-> --- a/target/i386/monitor.c
-> +++ b/target/i386/monitor.c
-> @@ -32,7 +32,7 @@
->  #include "sysemu/kvm.h"
->  #include "sysemu/sev.h"
->  #include "qapi/error.h"
-> -#include "sev_i386.h"
-> +#include "sev.h"
->  #include "qapi/qapi-commands-misc-target.h"
->  #include "qapi/qapi-commands-misc.h"
->  #include "hw/i386/pc.h"
-> diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
-> index 170e9f50fee..7e8b6f9a259 100644
-> --- a/target/i386/sev-stub.c
-> +++ b/target/i386/sev-stub.c
-> @@ -13,7 +13,7 @@
->  
->  #include "qemu/osdep.h"
->  #include "qapi/error.h"
-> -#include "sev_i386.h"
-> +#include "sev.h"
->  
->  bool sev_enabled(void)
->  {
-> diff --git a/target/i386/sev-sysemu-stub.c b/target/i386/sev-sysemu-stub.c
-> index d556b4f091f..8082781febf 100644
-> --- a/target/i386/sev-sysemu-stub.c
-> +++ b/target/i386/sev-sysemu-stub.c
-> @@ -14,7 +14,7 @@
->  #include "qemu/osdep.h"
->  #include "qapi/qapi-commands-misc-target.h"
->  #include "qapi/error.h"
-> -#include "sev_i386.h"
-> +#include "sev.h"
->  
->  SevInfo *sev_get_info(void)
->  {
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 5cbbcf0bb93..e43bbf3a17d 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -25,7 +25,7 @@
->  #include "qemu/uuid.h"
->  #include "crypto/hash.h"
->  #include "sysemu/kvm.h"
-> -#include "sev_i386.h"
-> +#include "sev.h"
->  #include "sysemu/sysemu.h"
->  #include "sysemu/runstate.h"
->  #include "trace.h"
-> -- 
-> 2.31.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> On Wed, Sep 22, 2021 at 08:49:33PM -0400, John Snow wrote:
+> > To use the AQMP backend, Machine just needs to be a little more diligent
+> > about what happens when closing a QMP connection. The operation is no
+> > longer a freebie in the async world; it may return errors encountered in
+> > the async bottom half on incoming message receipt, etc.
+> >
+> > (AQMP's disconnect, ultimately, serves as the quiescence point where all
+> > async contexts are gathered together, and any final errors reported at
+> > that point.)
+> >
+> > Because async QMP continues to check for messages asynchronously, it's
+> > almost certainly likely that the loop will have exited due to EOF after
+> > issuing the last 'quit' command. That error will ultimately be bubbled
+> > up when attempting to close the QMP connection. The manager class here
+> > then is free to discard it -- if it was expected.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> >
+> > ---
+> >
+> > Yes, I regret that this class has become quite a dumping ground for
+> > complexity around the exit path. It's in need of a refactor to help
+> > separate out the exception handling and cleanup mechanisms from the
+> > VM-related stuff, but it's not a priority to do that just yet -- but
+> > it's on the list.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+>
+> This second S-o-b won't matter.
+>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+>
+
+Sorry, it's a bug with git-publish I've just not invested time into fixing.
+It happens when I use a '---' to add an additional note for reviewers.
+git-publish likes to add the second line because it doesn't "see" the first
+one anymore. It's harmless, ultimately, but ... it sure does make me look
+like I have no idea what I'm doing ;)
+
+--js
+
+--0000000000005a0a8505cdc5d5f7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 7, 2021 at 11:08 AM Eric =
+Blake &lt;<a href=3D"mailto:eblake@redhat.com">eblake@redhat.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Sep=
+ 22, 2021 at 08:49:33PM -0400, John Snow wrote:<br>
+&gt; To use the AQMP backend, Machine just needs to be a little more dilige=
+nt<br>
+&gt; about what happens when closing a QMP connection. The operation is no<=
+br>
+&gt; longer a freebie in the async world; it may return errors encountered =
+in<br>
+&gt; the async bottom half on incoming message receipt, etc.<br>
+&gt; <br>
+&gt; (AQMP&#39;s disconnect, ultimately, serves as the quiescence point whe=
+re all<br>
+&gt; async contexts are gathered together, and any final errors reported at=
+<br>
+&gt; that point.)<br>
+&gt; <br>
+&gt; Because async QMP continues to check for messages asynchronously, it&#=
+39;s<br>
+&gt; almost certainly likely that the loop will have exited due to EOF afte=
+r<br>
+&gt; issuing the last &#39;quit&#39; command. That error will ultimately be=
+ bubbled<br>
+&gt; up when attempting to close the QMP connection. The manager class here=
+<br>
+&gt; then is free to discard it -- if it was expected.<br>
+&gt; <br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; ---<br>
+&gt; <br>
+&gt; Yes, I regret that this class has become quite a dumping ground for<br=
+>
+&gt; complexity around the exit path. It&#39;s in need of a refactor to hel=
+p<br>
+&gt; separate out the exception handling and cleanup mechanisms from the<br=
+>
+&gt; VM-related stuff, but it&#39;s not a priority to do that just yet -- b=
+ut<br>
+&gt; it&#39;s on the list.<br>
+&gt; <br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+<br>
+This second S-o-b won&#39;t matter.<br>
+<br>
+Reviewed-by: Eric Blake &lt;<a href=3D"mailto:eblake@redhat.com" target=3D"=
+_blank">eblake@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Sorry=
+, it&#39;s a bug with git-publish I&#39;ve just not invested time into fixi=
+ng. It happens when I use a &#39;---&#39; to add an additional note for rev=
+iewers. git-publish likes to add the second line because it doesn&#39;t &qu=
+ot;see&quot; the first one anymore. It&#39;s harmless, ultimately, but ... =
+it sure does make me look like I have no idea what I&#39;m doing ;)</div><d=
+iv><br></div><div>--js<br></div></div></div>
+
+--0000000000005a0a8505cdc5d5f7--
 
 
