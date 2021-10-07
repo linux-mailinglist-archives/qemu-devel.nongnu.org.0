@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7328E424E58
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 09:53:17 +0200 (CEST)
-Received: from localhost ([::1]:37194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9E4424E5B
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 09:54:57 +0200 (CEST)
+Received: from localhost ([::1]:39588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYODL-0001XN-V6
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 03:53:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44738)
+	id 1mYOEy-0003Az-2n
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 03:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mYOBl-0000gU-B5
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:51:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23059)
+ id 1mYODu-0002MD-0J
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:53:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mYOBi-0008Ic-Hz
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:51:37 -0400
+ id 1mYODs-0001k6-Jt
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 03:53:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633593092;
+ s=mimecast20190719; t=1633593228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5HCPdhTc2rEFXdIoI53r+48HOpDipe5FV1PSUrHs+as=;
- b=guH5IGwqQ7g4FxQ6aD75to8fVr8IuGNdTBZMLIK5fuotUu7Jp+f7WIaHDUb0Tjs5X4ldSj
- zDcOlvvHZ9zk8Mf05r+Ol6W05e11uyE9WR2RIjOeFnHiXWWk69MmEdOI6aR3fK/opIzB+Z
- G5h9zV8mzRD7aXiMHrfJ6VJWOzdWA0E=
+ bh=+CvSL59/DcBhv8OwoUwGEbzIMzk2NRbNShKaeWCcQ2Q=;
+ b=ciJ7mvXycq8hyNj/LPFCsPMeyBUPGa85Dg83G4vbXjtTxewtkwI0U72qiOZnOEKfEQ4Mkf
+ a8AfIuhj4AO+hlg5NaJDECmD5i21ZAxIpbPAdtb8anVLLzggwK2ZwO3WNyDY7KWxGw12IJ
+ 3NhVMp9Oxx9JCTfou+2rfE8RZt+eLog=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-2rBassP_Pq626xQzgMn1BA-1; Thu, 07 Oct 2021 03:51:31 -0400
-X-MC-Unique: 2rBassP_Pq626xQzgMn1BA-1
+ us-mta-193-gePPqlzINgC-C04gJzXfkQ-1; Thu, 07 Oct 2021 03:53:47 -0400
+X-MC-Unique: gePPqlzINgC-C04gJzXfkQ-1
 Received: by mail-ed1-f70.google.com with SMTP id
- u23-20020a50a417000000b003db23c7e5e2so5099519edb.8
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 00:51:31 -0700 (PDT)
+ bo2-20020a0564020b2200b003db3540f206so4874801edb.23
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 00:53:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5HCPdhTc2rEFXdIoI53r+48HOpDipe5FV1PSUrHs+as=;
- b=sMb0PXK6NGRwNKdZ97oT2EYrUfT7LdQ0bb5Oa92oe9/sqdu75mutjb2oc8KM/E2Uv2
- /aNIniBvL++neLZEUqFMCfBPHV8lhtNNZI0VZHYxAmoABzC+Mq7vQCf46YsUG1IfX6SK
- AfFzcSnVxOtIrpKL//q3KvA59d3X2Z4wuDfiRLgO+qZrJ35i7Fhj8ZojtqtE0yAZOboU
- abPWP785EArKHBreGdn0tOX7Duvl4v4xa2zebD1EAcOJ39EWTQuV4Ql9k+039sCKNkmt
- aqqAklYabKlon3zK51oMBLUW/OR5/dFZYRBM1CXVu3exXmEXLinxMbkZsNnry+doedrQ
- LzGg==
-X-Gm-Message-State: AOAM530EEhoptJnTgZyjxuB+GfsgASx59qZInkL2yCQzKRPFqH7NyRRA
- pUAZziHGtpJzkrJzGdo7O5JcQdGFAq6p0skvb+qumXRT546oFjCq5MyegEtDC8vjZSCNViVwlHL
- jGI5TMs5K9DQOVZsDQnKTUWOOJq5xQ7STQHK7XjqVVfCv/bdUILuN0W2ckclO6QsIVEI=
-X-Received: by 2002:aa7:d1c2:: with SMTP id g2mr4169319edp.248.1633593090555; 
- Thu, 07 Oct 2021 00:51:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx5AclNxx65lBzr4gncAlQ3CtKkhXtKVTRby3Nj0pbWXTQgz5bW6iG6wvzywuG9fG7GMRiCIQ==
-X-Received: by 2002:aa7:d1c2:: with SMTP id g2mr4169301edp.248.1633593090260; 
- Thu, 07 Oct 2021 00:51:30 -0700 (PDT)
+ bh=+CvSL59/DcBhv8OwoUwGEbzIMzk2NRbNShKaeWCcQ2Q=;
+ b=XOMRUwvY0jMRQZTzepJD7NvUkHZy/n3ZV6zD8DJgAY4+qWC80n39jN2QMtCgIFZslG
+ csHGY0kdA636m2UPbLkoA3kmtwlTrWhEIXS4tPe4t9NmD+p+EP0kTV+BkfGMcz56O5gX
+ b6KrXDwKOB7ytHl2miCs1xOX8XcDL6yV56/O8KRVWopVXvqzLNzanApOzBZzV0b83YSR
+ kaPNDNxPHIOYLt7du3RLo0b/8VSe3XeF9461nkyo+Z0uwFh1SDmMYMAW0m1nl7AP9kZI
+ r/Gr+onPhXdRUvf3E8FOwQCT0Gx8jpkV4ZKuXzIbSlvoZiUDVtIz+kDeVKz0DlfWRoGb
+ tccw==
+X-Gm-Message-State: AOAM531RGXBaxK5djnIhjr/xxfxDCQACqcQJwqL/K38ft7QNLUessLts
+ dTlBd9R7DN+zJJqSBZI6yeDr4tvoBcrYKShv7vCbI59akkXKoRdHRoNRGo+GTFlWxhDfAtdUSPi
+ WAm9p7pJwUCie8B4AV/D+Qi/dOETeYucbCM3bJKawb6zF2eq6YtnYPjZlpmShiyaSScM=
+X-Received: by 2002:a05:6402:3489:: with SMTP id
+ v9mr4320045edc.130.1633593225753; 
+ Thu, 07 Oct 2021 00:53:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzGFNTZNryKQTB1FIyQLBVFEDpas+VjdoEl/fZQGOLqPYd85GZ3yXrsV77Fqr2hoGBsAoOmxw==
+X-Received: by 2002:a05:6402:3489:: with SMTP id
+ v9mr4320019edc.130.1633593225544; 
+ Thu, 07 Oct 2021 00:53:45 -0700 (PDT)
 Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
  by smtp.gmail.com with ESMTPSA id
- e7sm11993176edk.3.2021.10.07.00.51.28
+ jt24sm10036839ejb.59.2021.10.07.00.53.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Oct 2021 00:51:28 -0700 (PDT)
-Subject: Re: [PATCH 1/2] pylint: fix errors and warnings from qemu-tests test
- 297
+ Thu, 07 Oct 2021 00:53:43 -0700 (PDT)
+Subject: Re: [PATCH 2/2] qemu-iotests: fix image-fleecing pylint errors
 To: Kevin Wolf <kwolf@redhat.com>
 References: <20211006130100.389521-1-eesposit@redhat.com>
- <20211006130100.389521-2-eesposit@redhat.com> <YV3S9N8SnU4W+aYL@redhat.com>
+ <20211006130100.389521-3-eesposit@redhat.com> <YV3UCaO5oJU2TeIR@redhat.com>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <3a143653-582e-5b28-f536-bf24c4e45ac8@redhat.com>
-Date: Thu, 7 Oct 2021 09:51:27 +0200
+Message-ID: <ae47932f-4a0c-cfba-d222-8bf30e9da56b@redhat.com>
+Date: Thu, 7 Oct 2021 09:53:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YV3S9N8SnU4W+aYL@redhat.com>
+In-Reply-To: <YV3UCaO5oJU2TeIR@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -108,74 +109,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 06/10/2021 18:46, Kevin Wolf wrote:
-> Am 06.10.2021 um 15:00 hat Emanuele Giuseppe Esposito geschrieben:
->> Test 297 in qemu-iotests folder currently fails: pylint has
->> learned new things to check, or we simply missed them.
+On 06/10/2021 18:51, Kevin Wolf wrote:
+> Am 06.10.2021 um 15:01 hat Emanuele Giuseppe Esposito geschrieben:
+>> The problem here is that some variables are formatted with
+>> unnecessary spaces to make it prettier and easier to read.
 >>
->> All fixes in this patch are related to additional spaces used
->> or wrong indentation.
+>> However, pylint complains about those additional spaces.
+>> A solution is to transform them as string with arbitrary spaces,
+>> and then convert it back into a tuple.
 >>
->> No functional change intended.
+>> Removing the spaces makes it a little bit ugly, and directly
+>> using the string forces us to change the test reference output
+>> accordingly, which will 1) contain ugly weird formatted strings,
+>> 2) is not portable if somebody changes the formatting in the test
+>> string.
 >>
 >> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > 
->> @@ -87,13 +87,14 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
->>           iotests.qemu_img('create', '-f', iotests.imgfmt, self.overlay_img,
->>                            '1G')
->>   
->> -        result = self.vm.qmp('blockdev-add', **{
->> +        result = self.vm.qmp('blockdev-add',
->> +                             **{
->>                                    'node-name': 'overlay',
->>                                    'driver': iotests.imgfmt,
->>                                    'file': {
->>                                        'driver': 'file',
->>                                        'filename': self.overlay_img
->> -                                 }
->> +                                     }
->>                                })
->>           self.assert_qmp(result, 'return', {})
+> Changing our logic because of a style checker feels wrong. I'd rather
+> stick in a line like this before the definitions:
 > 
-> Am I the only one to think that the new indentation for the closing
-> brace there is horrible? PEP-8 explictly allows things like:
+> # pylint: disable=bad-whitespace
 > 
->      my_list = [
->          1, 2, 3,
->          4, 5, 6,
->      ]
-> 
-> Some of the other changes in this patch should be made, but at least if
-> these are behind different switches, I would consider just disabling the
-> one that complains about nicely formatted dicts.
+> (Not sure if the syntax of this is entirely correct, but from the
+> comment in your patch and existing uses in iotests, I think this would
+> be the line.)
 
-The error is "C0330: Wrong hanging indentation"
-so it is not about dicts. I guess we can disable the error, but the 
-problem is that we will disable it for the whole file, which doesn't 
-seem right.
+Ok, I will add the line. Same remarks from the previous patch applies: 
+unfortunately then we disable the warning for the whole file.
 
-Alternatively, this also works fine:
-
--        result = self.vm.qmp('blockdev-add',
--                             **{
--                                 'node-name': 'overlay',
--                                 'driver': iotests.imgfmt,
--                                 'file': {
--                                     'driver': 'file',
--                                     'filename': self.overlay_img
--                                     }
--                             })
-+        result = self.vm.qmp('blockdev-add', **{
-+            'node-name': 'overlay',
-+            'driver': iotests.imgfmt,
-+            'file': {
-+                'driver': 'file',
-+                'filename': self.overlay_img
-+            }})
-
-What do you think?
-
-Otherwise I am happy to disable the error altogether.
+Since here (like the previous patch) the error spans on multiple lines, 
+adding a # pylint: disable= comment on each line is infeasible and ugly.
 
 Emanuele
 
