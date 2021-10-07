@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EDF542564B
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 17:11:01 +0200 (CEST)
-Received: from localhost ([::1]:58438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74ADF425675
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 17:13:38 +0200 (CEST)
+Received: from localhost ([::1]:35316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYV2x-0002CC-FB
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 11:10:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55036)
+	id 1mYV5V-0005mw-HD
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 11:13:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mYUoC-0005TL-5m
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:55:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33809)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mYUvG-0004FL-4O
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 11:03:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mYUo9-0002FY-Eq
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:55:43 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mYUvB-0007sn-NC
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 11:03:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633618538;
+ s=mimecast20190719; t=1633618976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HYcdd5mTmkJfWu6HZEVtiES36FofmFfdP5Bs2D7NZqA=;
- b=fFGwH/mYoKwFBTA9/nRrj0Vuce/7EL0S/IHUZDemDd5i6IxRaTIHSt6ewdDcarwoj9tjBM
- raS0L0TSAlTsOAUcaGjybZalMPi2O0i3r/Ddc5sKjx2Cj5EU4BKpqIIeV9S7/T2NGLFmxT
- BJNNJF3REjG6slCyat/8kZp3PPa3eKI=
+ bh=/H1ivfnHQs97PbDVul2ZuohDEnxb8WnTb7pH2m9FYkg=;
+ b=XSQuJVeoba3+M2PK5P/9huyXFE6QyEWzazX8EOlGHVR5m28NWsLlrK+Ep15ckFUPwiHs0q
+ LBIK+JOccPtfM9xzWDSvF7h/gUf/Ks359mX3R+uGvxgcj8c8BgTy/GUQGSYMOik6Ugbqx2
+ 1kewVEi7FEHXTPh8LHPUm5fvDNhXqHQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-UZivGYFyMuOEr11w3WtkYw-1; Thu, 07 Oct 2021 10:55:34 -0400
-X-MC-Unique: UZivGYFyMuOEr11w3WtkYw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-102-jj-IRPHRPJeQ2jomdJrXDg-1; Thu, 07 Oct 2021 11:02:52 -0400
+X-MC-Unique: jj-IRPHRPJeQ2jomdJrXDg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1150192203C;
- Thu,  7 Oct 2021 14:55:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D7E0101C7D4;
+ Thu,  7 Oct 2021 15:02:52 +0000 (UTC)
 Received: from redhat.com (ovpn-113-216.phx2.redhat.com [10.3.113.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D12135F4EA;
- Thu,  7 Oct 2021 14:55:28 +0000 (UTC)
-Date: Thu, 7 Oct 2021 09:55:27 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B6387B6D6;
+ Thu,  7 Oct 2021 15:02:48 +0000 (UTC)
+Date: Thu, 7 Oct 2021 10:02:46 -0500
 From: Eric Blake <eblake@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 06/17] python/aqmp: Reduce severity of EOFError-caused
- loop terminations
-Message-ID: <20211007145527.zoenjmscdgri3v7u@redhat.com>
+Subject: Re: [PATCH v2 07/17] python/aqmp: Disable logging messages by default
+Message-ID: <20211007150246.az7m7e4e4pmnym6f@redhat.com>
 References: <20210923004938.3999963-1-jsnow@redhat.com>
- <20210923004938.3999963-7-jsnow@redhat.com>
+ <20210923004938.3999963-8-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210923004938.3999963-7-jsnow@redhat.com>
+In-Reply-To: <20210923004938.3999963-8-jsnow@redhat.com>
 User-Agent: NeoMutt/20210205-818-e2615c
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,17 +85,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 22, 2021 at 08:49:27PM -0400, John Snow wrote:
-> When we encounter an EOFError, we don't know if it's an "error" in the
-> perspective of the user of the library yet. Therefore, we should not log
-> it as an error. Reduce the severity of this logging message to "INFO" to
-> indicate that it's something that we expect to occur during the normal
-> operation of the library.
+On Wed, Sep 22, 2021 at 08:49:28PM -0400, John Snow wrote:
+> AQMP is a library, and ideally it should not print error diagnostics
+> unless a user opts into seeing them. By default, Python will print all
+> WARNING, ERROR or CRITICAL messages to screen if no logging
+> configuration has been created by a client application.
+> 
+> In AQMP's case, ERROR logging statements are used to report additional
+> detail about runtime failures that will also eventually be reported to the
+> client library via an Exception, so these messages should not be
+> rendered by default.
+> 
+> (Why bother to have them at all, then? In async contexts, there may be
+> multiple Exceptions and we are only able to report one of them back to
+> the client application. It is not reasonably easy to predict ahead of
+> time if one or more of these Exceptions will be squelched. Therefore,
+> it's useful to log intermediate failures to help make sense of the
+> ultimate, resulting failure.)
+> 
+> Add a NullHandler that will suppress these messages until a client
+> application opts into logging via logging.basicConfig or similar. Note
+> that upon calling basicConfig(), this handler will *not* suppress these
+> messages from being displayed by the client's configuration.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/aqmp/protocol.py | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  python/qemu/aqmp/__init__.py | 4 ++++
+>  1 file changed, 4 insertions(+)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
