@@ -2,80 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B83842535C
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:46:20 +0200 (CEST)
-Received: from localhost ([::1]:44224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A089142536A
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:50:06 +0200 (CEST)
+Received: from localhost ([::1]:50314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYSmx-00024I-4e
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:46:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49618)
+	id 1mYSqb-0006WJ-Cq
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:50:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mYSkQ-0000Gm-6m
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:43:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48297)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mYSkn-000160-8G
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:44:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mYSkL-0006nm-6C
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:43:39 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mYSkh-0007h4-Tg
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:44:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633610615;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1633610639;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1Y76jGLsDNCJwC6apj0s1EkThbQ5RJJZweCHRgcxxzU=;
- b=Q5ypbS/wnRi4Jz3ixK4VQuNXSCmcUvRPg2f1t+DD2v52pSgO65cK1Pt5taR0B4KC1Vvq6H
- wKg39qRBreOuuBNfJn18mPoXMZ6JH2dRTpTM1bdm0aKPxb4U0jAKQABzxyR6sek25aRSuk
- vuf6XthRWFFfsdykEbqzn9g2/YLTHUA=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-x_-x5Cu9NbSESid65kun_g-1; Thu, 07 Oct 2021 08:43:32 -0400
-X-MC-Unique: x_-x5Cu9NbSESid65kun_g-1
-Received: by mail-ua1-f69.google.com with SMTP id
- b20-20020ab05f94000000b002ca067c0203so2935252uaj.16
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 05:43:32 -0700 (PDT)
+ bh=sbKUR/+RivSVntsH78ulnu8MuuZuoSfRXdRvN3+B9gY=;
+ b=KhEtrcO09IElJxvxJoMW1jbExIvjV0gPeeQ094+Us4d1MtQiOh3IHbrEuDWXCAcPsw5Gsm
+ JK5E1ztnbfNDFJ8hQv81zqFOcgd3YdknV1ICNEQ6Yt8j5i0jH+0uqtdLn0mwiUz3GWXFrh
+ TVUbpne6uOYOzjMJPSILefo+s54jguw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-kI0psjnZOPaSwj2bvpkjaQ-1; Thu, 07 Oct 2021 08:43:55 -0400
+X-MC-Unique: kI0psjnZOPaSwj2bvpkjaQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ v15-20020adfa1cf000000b00160940b17a2so4584360wrv.19
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 05:43:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1Y76jGLsDNCJwC6apj0s1EkThbQ5RJJZweCHRgcxxzU=;
- b=aeeDBSZh0yg+7Vnkk0scK6LlLOsJL3a2vl8/6nvnsEqatH2VERj64LBMeQbrantNbB
- svJHHIyx6ru2dD711kFVJZMUWXMi8So320jkVmU/LiI3kMD9+Yxgo34lU1SOorzu0fcW
- lD6N59U2eI5TSxt5NaVoL43SC9vs9TwrjLUWKLXoBtBVTRFu64SYVkZV+xJyQCgUmjKO
- TbUqV5hn9AsJ8N2cWUSk2v++7LfFx+OUzjGA/JeV+/xzCNS3gw8qzCtUltS4RL7q+CwX
- YFcdiS+hZwbiOypRcj7aqF3fxw+NbVhMyfP/yGcyQmZ3f+OisnhgOGO/+i52hCfWDh5u
- 0x8A==
-X-Gm-Message-State: AOAM533Xl+Aj1odRM+Nwh0CUA5boCRTrDT0s12+KGwTghSzFbIQB8N1N
- +Wn6wm5MwqvwYRClSlhYnqDeQ88wabPF48rlDzkqT9cEusOB45VmfxeaXG3pVJcyjKPr9lm4ov5
- 14w5efaR+PZZnJlhZIwLBPTEB8BfcwXk=
-X-Received: by 2002:ab0:1111:: with SMTP id e17mr4078541uab.128.1633610611618; 
- Thu, 07 Oct 2021 05:43:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx8jXJD1DRbUjMTtujGfc7qhBZtg5x4fT/3c3SSWhLJtPnzuS/YLx6DFwy20tYshcyMSMXwvgLyWuUcPnrgiXE=
-X-Received: by 2002:ab0:1111:: with SMTP id e17mr4078478uab.128.1633610611090; 
- Thu, 07 Oct 2021 05:43:31 -0700 (PDT)
+ h=x-gm-message-state:reply-to:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=sbKUR/+RivSVntsH78ulnu8MuuZuoSfRXdRvN3+B9gY=;
+ b=O0Sk9PiN95CAcneX4FUjqiMvaXnC3NfoHQ5At8vGSS27zWba9P1q2onCWAlDwJ4zhC
+ kNHMDt4zYVqnZC200p/55ma8FkgkRMZyctL3lMyWr4mQQBZ13yyOejtzhYqu/vfuHRzQ
+ t0cpdEW723WYg4iDqQbNzAOYr3tR3HrGXGU4d5tAVdDLQD/uS6Af536B6yEOEw+CFKlt
+ LfvQBwzSI6i58IU1BiXfcY5yYZ93oqOsoOOjiyMkkU2wZlB6+ptUGfQGbbcfMJPIi9JR
+ DsWPuXNRl6McpUW+t/Hd7Nu4mEpax32T/yu1Q1BHjzH6RaEtTTFvTJYMlbD0QtXgEvaH
+ iBWg==
+X-Gm-Message-State: AOAM532q5YZyLkozCMrhL1FZxwJEbpzc8y+Df3QgdmSPJJU3zaM/6y4Q
+ enXiHBiGjYIT+cUTus9+eGbL/22u+IrzKbausj3a71Q6K0EoOHNRmBRJODGCIyfXrmecosXiRy9
+ af/BCNgbtodQF6LI=
+X-Received: by 2002:a1c:29c7:: with SMTP id p190mr4348922wmp.65.1633610634304; 
+ Thu, 07 Oct 2021 05:43:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz4aBPSKPdG99XTy0c1dMkF4oAePulg/OoSVtMr2PHSrQu7U3LZoK+eLYfGiWI72bhTYLqhig==
+X-Received: by 2002:a1c:29c7:: with SMTP id p190mr4348883wmp.65.1633610633900; 
+ Thu, 07 Oct 2021 05:43:53 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id y15sm17526559wrp.44.2021.10.07.05.43.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Oct 2021 05:43:53 -0700 (PDT)
+Subject: Re: [PATCH] tests: qtest: Add virtio-iommu test
+To: Thomas Huth <thuth@redhat.com>, eric.auger.pro@gmail.com,
+ pbonzini@redhat.com, lvivier@redhat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, jean-philippe@linaro.org
+References: <20211007093438.657198-1-eric.auger@redhat.com>
+ <2a18df90-dde0-50af-787a-39c13c7cb4a7@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <b2762a29-65e7-74ac-848d-be3f243062cf@redhat.com>
+Date: Thu, 7 Oct 2021 14:43:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
- <YVMeUbGdnsTpwSbD@redhat.com>
- <CAFn=p-ZG6SAVDz-cOtviekvMvibw+ukhYmSOqH7UTrcH-9fCNA@mail.gmail.com>
- <87ee97y3q5.fsf@dusky.pond.sub.org> <YV7Fh2DihM65rgnN@redhat.com>
-In-Reply-To: <YV7Fh2DihM65rgnN@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 7 Oct 2021 08:43:20 -0400
-Message-ID: <CAFn=p-YRJNEApUUU3btkDJbhx=OSRyFyxbANUGZJy+n8QmS1Kw@mail.gmail.com>
-Subject: Re: QAPI sync meeting
-To: Kevin Wolf <kwolf@redhat.com>
+In-Reply-To: <2a18df90-dde0-50af-787a-39c13c7cb4a7@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000002cf9a705cdc29cd9"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,415 +103,694 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002cf9a705cdc29cd9
-Content-Type: text/plain; charset="UTF-8"
+Hi,
 
-On Thu, Oct 7, 2021 at 6:02 AM Kevin Wolf <kwolf@redhat.com> wrote:
+On 10/7/21 2:22 PM, Thomas Huth wrote:
+> On 07/10/2021 11.34, Eric Auger wrote:
+>> Add the framework to test the virtio-iommu-pci device
+>> and tests exercising the attach/detach, map/unmap API.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>
+>> ---
+>>
+>> This applies on top of jean-Philippe's
+>> [PATCH v4 00/11] virtio-iommu: Add ACPI support
+>> branch can be found at:
+>> https://github.com/eauger/qemu.git
+>> branch qtest-virtio-iommu-v1
+>>
+>> To run the tests:
+>> make tests/qtest/qos-test
+>> QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon
+>> QTEST_QEMU_BINARY=x86_64-softmmu/qemu-system-x86_64 
+>> tests/qtest/qos-test
+>> ---
+>>   tests/qtest/libqos/meson.build    |   1 +
+>>   tests/qtest/libqos/virtio-iommu.c | 177 ++++++++++++++++++
+>>   tests/qtest/libqos/virtio-iommu.h |  45 +++++
+>>   tests/qtest/meson.build           |   1 +
+>>   tests/qtest/virtio-iommu-test.c   | 295 ++++++++++++++++++++++++++++++
+>>   5 files changed, 519 insertions(+)
+>>   create mode 100644 tests/qtest/libqos/virtio-iommu.c
+>>   create mode 100644 tests/qtest/libqos/virtio-iommu.h
+>>   create mode 100644 tests/qtest/virtio-iommu-test.c
+>>
+>> diff --git a/tests/qtest/libqos/meson.build
+>> b/tests/qtest/libqos/meson.build
+>> index 1f5c8f10539..ba90bbe2b81 100644
+>> --- a/tests/qtest/libqos/meson.build
+>> +++ b/tests/qtest/libqos/meson.build
+>> @@ -40,6 +40,7 @@ libqos_srcs = files('../libqtest.c',
+>>           'virtio-rng.c',
+>>           'virtio-scsi.c',
+>>           'virtio-serial.c',
+>> +        'virtio-iommu.c',
+>>             # qgraph machines:
+>>           'aarch64-xlnx-zcu102-machine.c',
+>> diff --git a/tests/qtest/libqos/virtio-iommu.c
+>> b/tests/qtest/libqos/virtio-iommu.c
+>> new file mode 100644
+>> index 00000000000..f0858978e5e
+>> --- /dev/null
+>> +++ b/tests/qtest/libqos/virtio-iommu.c
+>> @@ -0,0 +1,177 @@
+>> +/*
+>> + * libqos driver virtio-iommu-pci framework
+>> + *
+>> + * Copyright (c) 2021 Red Hat, Inc.
+>> + *
+>> + * This library is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU Lesser General Public
+>> + * License version 2 as published by the Free Software Foundation.
+>
+> Hmm, where did you copy that license information from? ... that's the
+> bogus version which we already tried to get rid of in the past...
+>
+> It's either:
+>
+> - GNU *Library* General Public License version *2.0*
+>
+> or:
+>
+> - GNU *Lesser* General Public License version *2.1*
+>
+> ... but there was never a "Lesser" version 2 (in the sense of 2.0),
+> since it has been renamed from Library to Lesser with the move from
+> 2.0 to 2.1.
+>
+> Also, do you really want to limit to version 2/2.1 only? Or should
+> this get the "or (at your option) any later version" statement for
+> more flexibility?
+>
+> Anyway, a SPDX identifier for clarification would certainly help here.
 
-> Am 29.09.2021 um 14:18 hat Markus Armbruster geschrieben:
-> > > I'm proposing a one-off here just for some initial discussion and
-> planning.
-> > > (We didn't have a QAPI BoF at KVM Forum and I'd like something similar
-> > > now.) I don't expect we'll really "finish" plotting out a roadmap in a
-> > > single 60 minute meeting, but it will probably give us good, targeted
-> > > discussions on the ML to follow. If more meetings are desired to
-> discuss
-> > > specific topics, I'm not against scheduling them as-needed.
-> >
-> > Let's have one now, and then more as needed.
-> >
-> > Jumping into the meeting unprepared, then spending half of the alloted
-> > time listening to people explaining where they want to take QAPI seems
-> > like a bad use of our time.  Better: write it up and post it, so we can
-> > all read before we meet.  Do not reply, except perhaps to ask for
-> > clarification.  Discuss in the meeting.
-> >
-> > I can see such posts from Marc-Andre, Kevin, and Daniel.  Some of them
-> > could use a bit more detail, perhaps.
+sorry this code was written in 2020 when I developped the virtio-iommu
+device. I will fix the license.
 >
-> To be a bit more specific and give more details about what I'm currently
-> working on:
+>> + * This library is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>> + * Lesser General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU Lesser General Public
+>> + * License along with this library; if not, see
+>> <http://www.gnu.org/licenses/>
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "libqtest.h"
+>> +#include "qemu/module.h"
+>> +#include "qgraph.h"
+>> +#include "virtio-iommu.h"
+>> +#include "hw/virtio/virtio-iommu.h"
+>> +
+>> +static QGuestAllocator *alloc;
+>> +
+>> +/* virtio-iommu-device */
+>> +static void *qvirtio_iommu_get_driver(QVirtioIOMMU *v_iommu,
+>> +                                      const char *interface)
+>> +{
+>> +    if (!g_strcmp0(interface, "virtio-iommu")) {
+>> +        return v_iommu;
+>> +    }
+>> +    if (!g_strcmp0(interface, "virtio")) {
+>> +        return v_iommu->vdev;
+>> +    }
+>> +
+>> +    fprintf(stderr, "%s not present in virtio-iommu-device\n",
+>> interface);
+>> +    g_assert_not_reached();
+>> +}
+>> +
+>> +static void *qvirtio_iommu_device_get_driver(void *object,
+>> +                                             const char *interface)
+>> +{
+>> +    QVirtioIOMMUDevice *v_iommu = object;
+>> +    return qvirtio_iommu_get_driver(&v_iommu->iommu, interface);
+>> +}
+>> +
+>> +static void virtio_iommu_cleanup(QVirtioIOMMU *interface)
+>> +{
+>> +    qvirtqueue_cleanup(interface->vdev->bus, interface->vq, alloc);
+>> +}
+>> +
+>> +static void virtio_iommu_setup(QVirtioIOMMU *interface)
+>> +{
+>> +    QVirtioDevice *vdev = interface->vdev;
+>> +    uint64_t features;
+>> +
+>> +    features = qvirtio_get_features(vdev);
+>> +    features &= ~(QVIRTIO_F_BAD_FEATURE |
+>> +                  (1ull << VIRTIO_RING_F_INDIRECT_DESC) |
+>> +                  (1ull << VIRTIO_RING_F_EVENT_IDX) |
+>> +                  (1ull << VIRTIO_IOMMU_F_BYPASS));
+>> +    qvirtio_set_features(vdev, features);
+>> +    interface->vq = qvirtqueue_setup(interface->vdev, alloc, 0);
+>> +    qvirtio_set_driver_ok(interface->vdev);
+>> +}
+>> +
+>> +static void qvirtio_iommu_device_destructor(QOSGraphObject *obj)
+>> +{
+>> +    QVirtioIOMMUDevice *v_iommu = (QVirtioIOMMUDevice *) obj;
+>> +    QVirtioIOMMU *iommu = &v_iommu->iommu;
+>> +
+>> +    virtio_iommu_cleanup(iommu);
+>> +}
+>> +
+>> +static void qvirtio_iommu_device_start_hw(QOSGraphObject *obj)
+>> +{
+>> +    QVirtioIOMMUDevice *v_iommu = (QVirtioIOMMUDevice *) obj;
+>> +    QVirtioIOMMU *iommu = &v_iommu->iommu;
+>> +
+>> +    virtio_iommu_setup(iommu);
+>> +}
+>> +
+>> +static void *virtio_iommu_device_create(void *virtio_dev,
+>> +                                        QGuestAllocator *t_alloc,
+>> +                                        void *addr)
+>> +{
+>> +    QVirtioIOMMUDevice *virtio_rdevice = g_new0(QVirtioIOMMUDevice, 1);
+>> +    QVirtioIOMMU *interface = &virtio_rdevice->iommu;
+>> +
+>> +    interface->vdev = virtio_dev;
+>> +    alloc = t_alloc;
+>> +
+>> +    virtio_rdevice->obj.get_driver = qvirtio_iommu_device_get_driver;
+>> +    virtio_rdevice->obj.destructor = qvirtio_iommu_device_destructor;
+>> +    virtio_rdevice->obj.start_hw = qvirtio_iommu_device_start_hw;
+>> +
+>> +    return &virtio_rdevice->obj;
+>> +}
+>> +
+>> +/* virtio-iommu-pci */
+>> +static void *qvirtio_iommu_pci_get_driver(void *object, const char
+>> *interface)
+>> +{
+>> +    QVirtioIOMMUPCI *v_iommu = object;
+>> +    if (!g_strcmp0(interface, "pci-device")) {
+>> +        return v_iommu->pci_vdev.pdev;
+>> +    }
+>> +    return qvirtio_iommu_get_driver(&v_iommu->iommu, interface);
+>> +}
+>> +
+>> +static void qvirtio_iommu_pci_destructor(QOSGraphObject *obj)
+>> +{
+>> +    QVirtioIOMMUPCI *iommu_pci = (QVirtioIOMMUPCI *) obj;
+>> +    QVirtioIOMMU *interface = &iommu_pci->iommu;
+>> +    QOSGraphObject *pci_vobj =  &iommu_pci->pci_vdev.obj;
+>> +
+>> +    virtio_iommu_cleanup(interface);
+>> +    qvirtio_pci_destructor(pci_vobj);
+>> +}
+>> +
+>> +static void qvirtio_iommu_pci_start_hw(QOSGraphObject *obj)
+>> +{
+>> +    QVirtioIOMMUPCI *iommu_pci = (QVirtioIOMMUPCI *) obj;
+>> +    QVirtioIOMMU *interface = &iommu_pci->iommu;
+>> +    QOSGraphObject *pci_vobj =  &iommu_pci->pci_vdev.obj;
+>> +
+>> +    qvirtio_pci_start_hw(pci_vobj);
+>> +    virtio_iommu_setup(interface);
+>> +}
+>> +
+>> +
+>> +static void *virtio_iommu_pci_create(void *pci_bus, QGuestAllocator
+>> *t_alloc,
+>> +                                   void *addr)
+>> +{
+>> +    QVirtioIOMMUPCI *virtio_rpci = g_new0(QVirtioIOMMUPCI, 1);
+>> +    QVirtioIOMMU *interface = &virtio_rpci->iommu;
+>> +    QOSGraphObject *obj = &virtio_rpci->pci_vdev.obj;
+>> +
+>> +    virtio_pci_init(&virtio_rpci->pci_vdev, pci_bus, addr);
+>> +    interface->vdev = &virtio_rpci->pci_vdev.vdev;
+>> +    alloc = t_alloc;
+>> +
+>> +    obj->get_driver = qvirtio_iommu_pci_get_driver;
+>> +    obj->start_hw = qvirtio_iommu_pci_start_hw;
+>> +    obj->destructor = qvirtio_iommu_pci_destructor;
+>> +
+>> +    return obj;
+>> +}
+>> +
+>> +static void virtio_iommu_register_nodes(void)
+>> +{
+>> +    QPCIAddress addr = {
+>> +        .devfn = QPCI_DEVFN(4, 0),
+>> +    };
+>> +
+>> +    QOSGraphEdgeOptions opts = {
+>> +        .extra_device_opts = "addr=04.0",
+>> +    };
+>> +
+>> +    /* virtio-iommu-device */
+>> +    qos_node_create_driver("virtio-iommu-device",
+>> virtio_iommu_device_create);
+>> +    qos_node_consumes("virtio-iommu-device", "virtio-bus", NULL);
+>> +    qos_node_produces("virtio-iommu-device", "virtio");
+>> +    qos_node_produces("virtio-iommu-device", "virtio-iommu");
+>> +
+>> +    /* virtio-iommu-pci */
+>> +    add_qpci_address(&opts, &addr);
+>> +    qos_node_create_driver("virtio-iommu-pci",
+>> virtio_iommu_pci_create);
+>> +    qos_node_consumes("virtio-iommu-pci", "pci-bus", &opts);
+>> +    qos_node_produces("virtio-iommu-pci", "pci-device");
+>> +    qos_node_produces("virtio-iommu-pci", "virtio");
+>> +    qos_node_produces("virtio-iommu-pci", "virtio-iommu");
+>> +}
+>> +
+>> +libqos_init(virtio_iommu_register_nodes);
+>> diff --git a/tests/qtest/libqos/virtio-iommu.h
+>> b/tests/qtest/libqos/virtio-iommu.h
+>> new file mode 100644
+>> index 00000000000..047e71cbe16
+>> --- /dev/null
+>> +++ b/tests/qtest/libqos/virtio-iommu.h
+>> @@ -0,0 +1,45 @@
+>> +/*
+>> + * libqos driver virtio-iommu-pci framework
+>> + *
+>> + * Copyright (c) 2021 Red Hat, Inc.
+>> + *
+>> + * This library is free software; you can redistribute it and/or
+>> + * modify it under the terms of the GNU Lesser General Public
+>> + * License version 2 as published by the Free Software Foundation.
 >
-> * The larger theme is command line QAPIfication, with the eventual goals
->   of having introspection and a config file.
+> Please also fix the license statement here.
+sure
 >
-> * Support for member aliases: This provides a way to bridge much of the
->   gap between command line and QMP syntax. Markus tells me that it's
->   unclear yet whether we want this in both QMP and CLI (unlikely for
->   now), just CLI or not at all.
+>> + * This library is distributed in the hope that it will be useful,
+>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>> + * Lesser General Public License for more details.
+>> + *
+>> + * You should have received a copy of the GNU Lesser General Public
+>> + * License along with this library; if not, see
+>> <http://www.gnu.org/licenses/>
+>> + */
+>> +
+>> +#ifndef TESTS_LIBQOS_VIRTIO_IOMMU_H
+>> +#define TESTS_LIBQOS_VIRTIO_IOMMU_H
+>> +
+>> +#include "qgraph.h"
+>> +#include "virtio.h"
+>> +#include "virtio-pci.h"
+>> +
+>> +typedef struct QVirtioIOMMU QVirtioIOMMU;
+>> +typedef struct QVirtioIOMMUPCI QVirtioIOMMUPCI;
+>> +typedef struct QVirtioIOMMUDevice QVirtioIOMMUDevice;
+>> +
+>> +struct QVirtioIOMMU {
+>> +    QVirtioDevice *vdev;
+>> +    QVirtQueue *vq;
+>> +};
+>> +
+>> +struct QVirtioIOMMUPCI {
+>> +    QVirtioPCIDevice pci_vdev;
+>> +    QVirtioIOMMU iommu;
+>> +};
+>> +
+>> +struct QVirtioIOMMUDevice {
+>> +    QOSGraphObject obj;
+>> +    QVirtioIOMMU iommu;
+>> +};
+>> +
+>> +#endif
+>> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+>> index c9d8458062f..982ffb3e38d 100644
+>> --- a/tests/qtest/meson.build
+>> +++ b/tests/qtest/meson.build
+>> @@ -230,6 +230,7 @@ qos_test_ss.add(
+>>     'virtio-rng-test.c',
+>>     'virtio-scsi-test.c',
+>>     'virtio-serial-test.c',
+>> +  'virtio-iommu-test.c',
+>>     'vmxnet3-test.c',
+>>   )
+>>   if have_virtfs
+>> diff --git a/tests/qtest/virtio-iommu-test.c
+>> b/tests/qtest/virtio-iommu-test.c
+>> new file mode 100644
+>> index 00000000000..d257d17d7d3
+>> --- /dev/null
+>> +++ b/tests/qtest/virtio-iommu-test.c
+>> @@ -0,0 +1,295 @@
+>> +/*
+>> + * QTest testcase for VirtIO IOMMU
+>> + *
+>> + * Copyright (c) 2020 Red Hat, Inc.
 >
->   First posted in November 2020, latest version is v4:
->   https://patchew.org/QEMU/20210917161320.201086-1-kwolf@redhat.com/
+> 2021, maybe?
+sure
 >
->   * Does anyone apart from myself have additional uses for aliases that
->     should be considered in the evaluation of the feature?
+>> + * This work is licensed under the terms of the GNU GPL, version 2
+>> or later.
+>> + * See the COPYING file in the top-level directory.
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "libqtest-single.h"
+>> +#include "qemu/module.h"
+>> +#include "libqos/qgraph.h"
+>> +#include "libqos/virtio-iommu.h"
+>> +#include "hw/virtio/virtio-iommu.h"
+>> +
+>> +#define PCI_SLOT_HP             0x06
+>> +#define QVIRTIO_IOMMU_TIMEOUT_US (30 * 1000 * 1000)
+>> +
+>> +static QGuestAllocator *alloc;
+>> +
+>> +static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
+>> +{
+>> +    QVirtioIOMMU *v_iommu = obj;
+>> +    QVirtioDevice *dev = v_iommu->vdev;
+>> +    uint64_t input_range_start = qvirtio_config_readq(dev, 8);
+>> +    uint64_t input_range_end = qvirtio_config_readq(dev, 16);
+>> +    uint32_t domain_range_start = qvirtio_config_readl(dev, 24);
+>> +    uint32_t domain_range_end = qvirtio_config_readl(dev, 28);
+>> +
+>> +    g_assert_cmpint(input_range_start, ==, 0);
+>> +    g_assert_cmphex(input_range_end, ==, 0xFFFFFFFFFFFFFFFF);
 >
->   * -chardev: I have patches that QAPIfy the option based on aliases,
->     getting rid of the old handwritten parser that is inconsistent with
->     QMP in non-obvious ways and replacing it with translation to QMP
->     (both using aliases and a little C code) that makes the differences
->     obvious.
+> I agree with Philippe, this needs an ULL suffix.
+OK
 >
->     First posted in November 2020, more details in the cover letter:
->     https://patchew.org/QEMU/20201112175905.404472-1-kwolf@redhat.com/
+>> +    g_assert_cmpint(domain_range_start, ==, 0);
+>> +    g_assert_cmpint(domain_range_end, ==, 32);
+>> +}
+>> +
+>> +/**
+>> + * send_attach_detach - Send an attach/detach command to the device
+>> + * @type: VIRTIO_IOMMU_T_ATTACH/VIRTIO_IOMMU_T_DETACH
+>> + * @domain: domain the end point is attached to
+>> + * @ep: end-point
+>> + */
+>> +static int send_attach_detach(QTestState *qts, QVirtioIOMMU *v_iommu,
+>> +                              uint8_t type, uint32_t domain,
+>> uint32_t ep)
+>> +{
+>> +    QVirtioDevice *dev = v_iommu->vdev;
+>> +    QVirtQueue *vq = v_iommu->vq;
+>> +    uint64_t ro_addr, wr_addr;
+>> +    uint32_t free_head;
+>> +    struct virtio_iommu_req_attach req; /* same layout as detach */
+>> +    size_t ro_size = sizeof(req) - sizeof(struct
+>> virtio_iommu_req_tail);
+>> +    size_t wr_size = sizeof(struct virtio_iommu_req_tail);
+>> +    char buffer[64];
 >
->     Later versions (not yet posted as a series because I'm waiting for
->     aliases) also make -chardev accept JSON syntax, which is what
->     libvirt really wants to use.
+> Why not simply using a "struct virtio_iommu_req_tail buffer" here?
+yep
 >
->   * Came up during the discussion of the patches:
->     Maybe we should actually start defining some command line options in
->     the schema now, even if many options will still have to defer to the
->     old parsing code. But it would be a start, could set an example for
->     any new options and provides a clear path to incrementally convert
->     everything. If we don't even start, we're sure to never finish it.
+>> +    int ret;
+>> +
+>> +    req.head.type = type;
+>> +    req.domain = domain;
+>> +    req.endpoint = ep;
+>> +
+>> +    ro_addr = guest_alloc(alloc, ro_size);
+>> +    wr_addr = guest_alloc(alloc, wr_size);
+>> +
+>> +    qtest_memwrite(qts, ro_addr, &req, ro_size);
+>> +    free_head = qvirtqueue_add(qts, vq, ro_addr, ro_size, false, true);
+>> +    qvirtqueue_add(qts, vq, wr_addr, wr_size, true, false);
+>> +    qvirtqueue_kick(qts, dev, vq, free_head);
+>> +    qvirtio_wait_used_elem(qts, dev, vq, free_head, NULL,
+>> +                           QVIRTIO_IOMMU_TIMEOUT_US);
+>> +    qtest_memread(qts, wr_addr, buffer, wr_size);
+>> +    ret = ((struct virtio_iommu_req_tail *)buffer)->status;
+>> +    guest_free(alloc, ro_addr);
+>> +    guest_free(alloc, wr_addr);
+>> +    return ret;
+>> +}
+>> +
+>> +/**
+>> + * send_map - Send a map command to the device
+>> + * @domain: domain the new binding is attached to
+>> + * @virt_start: iova start
+>> + * @virt_end: iova end
+>> + * @phys_start: base physical address
+>> + * @flags: mapping flags
+>> + */
+>> +static int send_map(QTestState *qts, QVirtioIOMMU *v_iommu,
+>> +                    uint32_t domain, uint64_t virt_start, uint64_t
+>> virt_end,
+>> +                    uint64_t phys_start, uint32_t flags)
+>> +{
+>> +    QVirtioDevice *dev = v_iommu->vdev;
+>> +    QVirtQueue *vq = v_iommu->vq;
+>> +    uint64_t ro_addr, wr_addr;
+>> +    uint32_t free_head;
+>> +    struct virtio_iommu_req_map req;
+>> +    size_t ro_size = sizeof(req) - sizeof(struct
+>> virtio_iommu_req_tail);
+>> +    size_t wr_size = sizeof(struct virtio_iommu_req_tail);
+>> +    char buffer[64];
 >
-> * -object: First part is done, we have a full QAPI schema of all
->   user-creatable objects. object-add and --object in tools go through
->   pure QAPI paths. System emulator -object is still based on QemuOpts
->   because of compatibility concerns with list hacks (affects one single
->   property of one object), but JSON syntax has been added that goes
->   straight to QAPI.
+> dito?
+ok
 >
->   Next part is actual integration of QOM with QAPI so that the
->   configuration isn't duplicated between QOM code and the schema, but
->   user-creatable QOM classes are defined and QOM boilerplate is
->   generated from the schema. I've started looking into this, but still
->   in an early stage.
+>> +    int ret;
+>> +
+>> +    req.head.type = VIRTIO_IOMMU_T_MAP;
+>> +    req.domain = domain;
+>> +    req.virt_start = virt_start;
+>> +    req.virt_end = virt_end;
+>> +    req.phys_start = phys_start;
+>> +    req.flags = flags;
+>> +
+>> +    ro_addr = guest_alloc(alloc, ro_size);
+>> +    wr_addr = guest_alloc(alloc, wr_size);
+>> +
+>> +    qtest_memwrite(qts, ro_addr, &req, ro_size);
+>> +    free_head = qvirtqueue_add(qts, vq, ro_addr, ro_size, false, true);
+>> +    qvirtqueue_add(qts, vq, wr_addr, wr_size, true, false);
+>> +    qvirtqueue_kick(qts, dev, vq, free_head);
+>> +    qvirtio_wait_used_elem(qts, dev, vq, free_head, NULL,
+>> +                           QVIRTIO_IOMMU_TIMEOUT_US);
+>> +    memread(wr_addr, buffer, wr_size);
 >
-> * -device/device-add: This is in a terrible state all around. Even QMP
->   device-add is based on QemuOpts, and libvirt makes use of this by
->   passes everything as strings instead of the proper types.
+> qtest_memread(), please.
+ok
 >
->   Peter Krempa is working on using the proper types in libvirt.
+>> +    ret = ((struct virtio_iommu_req_tail *)buffer)->status;
+>> +    guest_free(alloc, ro_addr);
+>> +    guest_free(alloc, wr_addr);
+>> +    return ret;
+>> +}
+>> +
+>> +/**
+>> + * send_unmap - Send an unmap command to the device
+>> + * @domain: domain the new binding is attached to
+>> + * @virt_start: iova start
+>> + * @virt_end: iova end
+>> + */
+>> +static int send_unmap(QTestState *qts, QVirtioIOMMU *v_iommu,
+>> +                      uint32_t domain, uint64_t virt_start, uint64_t
+>> virt_end)
+>> +{
+>> +    QVirtioDevice *dev = v_iommu->vdev;
+>> +    QVirtQueue *vq = v_iommu->vq;
+>> +    uint64_t ro_addr, wr_addr;
+>> +    uint32_t free_head;
+>> +    struct virtio_iommu_req_unmap req;
+>> +    size_t ro_size = sizeof(req) - sizeof(struct
+>> virtio_iommu_req_tail);
+>> +    size_t wr_size = sizeof(struct virtio_iommu_req_tail);
+>> +    char buffer[64];
 >
->   I sent patches to at least add a JSON variant for the command line
->   option -device which is a non-QemuOpts code path. It also tried to fix
->   device-add to be type safe, but until libvirt is fixed, we must stay
->   bug compatible. So for this and other reasons this is not ready yet
->   and needs a v2.
->   https://patchew.org/QEMU/20210924090427.9218-1-kwolf@redhat.com/
+> struct virtio_iommu_req_tail buffer ?
 >
->   Full QAPIfication with a schema and introspection will still take a
->   while. The QOM/QAPI integration work mentioned above is a dependency
->   there. A schema like for object-add, with a big union of all possible
->   devices, just doesn't scale.
+>> +    int ret;
+>> +
+>> +    req.head.type = VIRTIO_IOMMU_T_UNMAP;
+>> +    req.domain = domain;
+>> +    req.virt_start = virt_start;
+>> +    req.virt_end = virt_end;
+>> +
+>> +    ro_addr = guest_alloc(alloc, ro_size);
+>> +    wr_addr = guest_alloc(alloc, wr_size);
+>> +
+>> +    qtest_memwrite(qts, ro_addr, &req, ro_size);
+>> +    free_head = qvirtqueue_add(qts, vq, ro_addr, ro_size, false, true);
+>> +    qvirtqueue_add(qts, vq, wr_addr, wr_size, true, false);
+>> +    qvirtqueue_kick(qts, dev, vq, free_head);
+>> +    qvirtio_wait_used_elem(qts, dev, vq, free_head, NULL,
+>> +                           QVIRTIO_IOMMU_TIMEOUT_US);
+>> +    memread(wr_addr, buffer, wr_size);
 >
->   Having JSON CLI and a non-QemuOpts QMP command allow us to make the
->   traditional syntax unstable (HMP-like support) and should be very
->   helpful when we eventually do get to do proper QAPIfication.
+> qtest_memread(), please.
 >
->   * Should we have a general rule that for command line options that
->     accept both JSON and a human format, only JSON is considered a
->     stable API and the human format works more like HMP?
+>> +    ret = ((struct virtio_iommu_req_tail *)buffer)->status;
+>> +    guest_free(alloc, ro_addr);
+>> +    guest_free(alloc, wr_addr);
+>> +    return ret;
+>> +}
+>> +
+>> +/* Test unmap scenari documented in the spec v0.12 */
+>> +static void test_attach_detach(void *obj, void *data,
+>> QGuestAllocator *t_alloc)
+>> +{
+>> +    QVirtioIOMMU *v_iommu = obj;
+>> +    QTestState *qts = global_qtest;
+>> +    int ret;
+>> +
+>> +    alloc = t_alloc;
+>> +
+>> +    /* type, domain, ep */
+>> +
+>> +    /* attach ep0 to domain 0 */
+>> +    ret = send_attach_detach(qts, v_iommu, VIRTIO_IOMMU_T_ATTACH, 0,
+>> 0);
+>> +    g_assert_cmpint(ret, ==, 0);
+>> +
+>> +    /* attach a non existing device (1) */
+>> +    ret = send_attach_detach(qts, v_iommu, VIRTIO_IOMMU_T_ATTACH, 0,
+>> 444);
+>> +    g_assert_cmpint(ret, ==, VIRTIO_IOMMU_S_NOENT);
+>> +
+>> +    /* detach a non existing device (1) */
+>> +    ret = send_attach_detach(qts, v_iommu, VIRTIO_IOMMU_T_DETACH, 0,
+>> 1);
+>> +    g_assert_cmpint(ret, ==, VIRTIO_IOMMU_S_NOENT);
+>> +
+>> +    /* move ep0 from domain 0 to domain 1 */
+>> +    ret = send_attach_detach(qts, v_iommu, VIRTIO_IOMMU_T_ATTACH, 1,
+>> 0);
+>> +    g_assert_cmpint(ret, ==, 0);
+>> +
+>> +    /* detach ep0 to domain 0 */
+>> +    ret = send_attach_detach(qts, v_iommu, VIRTIO_IOMMU_T_DETACH, 0,
+>> 0);
+>> +    g_assert_cmpint(ret, ==, VIRTIO_IOMMU_S_INVAL);
+>> +
+>> +    /* detach ep0 from domain 1 */
+>> +    ret = send_attach_detach(qts, v_iommu, VIRTIO_IOMMU_T_DETACH, 1,
+>> 0);
+>> +    g_assert_cmpint(ret, ==, 0);
+>> +
+>> +    ret = send_attach_detach(qts, v_iommu, VIRTIO_IOMMU_T_ATTACH, 1,
+>> 0);
+>> +    g_assert_cmpint(ret, ==, 0);
+>> +    ret = send_map(qts, v_iommu, 1, 0x0, 0xFFF, 0xa1000,
+>> +                   VIRTIO_IOMMU_MAP_F_READ);
+>> +    g_assert_cmpint(ret, ==, 0);
+>> +    ret = send_map(qts, v_iommu, 1, 0x2000, 0x2FFF, 0xb1000,
+>> +                   VIRTIO_IOMMU_MAP_F_READ);
+>> +    g_assert_cmpint(ret, ==, 0);
+>> +    ret = send_attach_detach(qts, v_iommu, VIRTIO_IOMMU_T_DETACH, 1,
+>> 0);
+>> +    g_assert_cmpint(ret, ==, 0);
+>> +}
+>> +
+>> +static void test_map_unmap(void *obj, void *data, QGuestAllocator
+>> *t_alloc)
+>> +{
+>> +    QVirtioIOMMU *v_iommu = obj;
+>> +    QTestState *qts = global_qtest;
+>> +    int ret;
+>> +
+>> +    alloc = t_alloc;
+>> +
+>> +    /* attach ep0 to domain 1 */
+>> +    ret = send_attach_detach(qts, v_iommu, VIRTIO_IOMMU_T_ATTACH, 1,
+>> 0);
+>> +    g_assert_cmpint(ret, ==, 0);
+>> +
+>> +    ret = send_map(qts, v_iommu, 0, 0, 0xFFF, 0xa1000,
+>> VIRTIO_IOMMU_MAP_F_READ);
+>> +    g_assert_cmpint(ret, ==, VIRTIO_IOMMU_S_NOENT);
+>> +
+>> +    /* domain, virt start, virt end, phys start, flags */
+>> +    ret = send_map(qts, v_iommu, 1, 0, 0xFFF, 0xa1000,
+>> VIRTIO_IOMMU_MAP_F_READ);
+>> +    g_assert_cmpint(ret, ==, 0);
+>> +
+>> +    ret = send_unmap(qts, v_iommu, 4, 0x10, 0xFFF);
+>> +    g_assert_cmpint(ret, ==, VIRTIO_IOMMU_S_NOENT);
+>> +
+>> +    ret = send_unmap(qts, v_iommu, 1, 0x10, 0xFFF);
+>> +    g_assert_cmpint(ret, ==, VIRTIO_IOMMU_S_RANGE);
+>> +
+>> +    ret = send_unmap(qts, v_iommu, 1, 0, 0x1000);
+>> +    g_assert_cmpint(ret, ==, 0); /* unmap everything */
+>> +
+>> +    /* Spec example sequence */
+>> +
+>> +    /* 1 */
+>> +    ret = send_unmap(qts, v_iommu, 1, 0, 4);
+>> +    g_assert_cmpint(ret, ==, 0); /* doesn't unmap anything */
+>> +
+>> +    /* 2 */
+>> +    send_map(qts, v_iommu, 1, 0, 9, 0xa1000, VIRTIO_IOMMU_MAP_F_READ);
+>> +    ret = send_unmap(qts, v_iommu, 1, 0, 9);
+>> +    g_assert_cmpint(ret, ==, 0); /* unmaps [0,9] */
+>> +
+>> +    /* 3 */
+>> +    send_map(qts, v_iommu, 1, 0, 4, 0xb1000, VIRTIO_IOMMU_MAP_F_READ);
+>> +    send_map(qts, v_iommu, 1, 5, 9, 0xb2000, VIRTIO_IOMMU_MAP_F_READ);
+>> +    ret = send_unmap(qts, v_iommu, 1, 0, 9);
+>> +    g_assert_cmpint(ret, ==, 0); /* unmaps [0,4] and [5,9] */
+>> +
+>> +    /* 4 */
+>> +    send_map(qts, v_iommu, 1, 0, 9, 0xc1000, VIRTIO_IOMMU_MAP_F_READ);
+>> +    ret = send_unmap(qts, v_iommu, 1, 0, 4);
+>> +    g_assert_cmpint(ret, ==, VIRTIO_IOMMU_S_RANGE); /* doesn't unmap
+>> anything */
+>> +
+>> +    ret = send_unmap(qts, v_iommu, 1, 0, 10);
+>> +    g_assert_cmpint(ret, ==, 0);
+>> +
+>> +    /* 5 */
+>> +    send_map(qts, v_iommu, 1, 0, 4, 0xd1000, VIRTIO_IOMMU_MAP_F_READ);
+>> +    send_map(qts, v_iommu, 1, 5, 9, 0xd2000, VIRTIO_IOMMU_MAP_F_READ);
+>> +    ret = send_unmap(qts, v_iommu, 1, 0, 4);
+>> +    g_assert_cmpint(ret, ==, 0); /* unmaps [0,4] */
+>> +
+>> +    ret = send_unmap(qts, v_iommu, 1, 5, 9);
+>> +    g_assert_cmpint(ret, ==, 0);
+>> +
+>> +    /* 6 */
+>> +    send_map(qts, v_iommu, 1, 0, 4, 0xe2000, VIRTIO_IOMMU_MAP_F_READ);
+>> +    ret = send_unmap(qts, v_iommu, 1, 0, 9);
+>> +    g_assert_cmpint(ret, ==, 0); /* unmaps [0,4] */
+>> +
+>> +    /* 7 */
+>> +    send_map(qts, v_iommu, 1, 0, 4, 0xf2000, VIRTIO_IOMMU_MAP_F_READ);
+>> +    send_map(qts, v_iommu, 1, 10, 14, 0xf3000,
+>> VIRTIO_IOMMU_MAP_F_READ);
+>> +    ret = send_unmap(qts, v_iommu, 1, 0, 14);
+>> +    g_assert_cmpint(ret, ==, 0); /* unmaps [0,4] and [10,14] */
+>> +
+>> +    send_unmap(qts, v_iommu, 1, 0, 100);
+>> +    send_map(qts, v_iommu, 1, 10, 14, 0xf3000,
+>> VIRTIO_IOMMU_MAP_F_READ);
+>> +    send_map(qts, v_iommu, 1, 0, 4, 0xf2000, VIRTIO_IOMMU_MAP_F_READ);
+>> +    ret = send_unmap(qts, v_iommu, 1, 0, 4);
+>> +    g_assert_cmpint(ret, ==, 0); /* unmaps [0,4] and [10,14] */
+>> +}
+>> +
+>> +static void register_virtio_iommu_test(void)
+>> +{
+>> +    qos_add_test("config", "virtio-iommu", pci_config, NULL);
+>> +    qos_add_test("attach_detach", "virtio-iommu",
+>> test_attach_detach, NULL);
+>> +    qos_add_test("map_unmap", "virtio-iommu", test_map_unmap, NULL);
+>> +}
+>> +
+>> +libqos_init(register_virtio_iommu_test);
+>>
 >
-> Also one non-technical topic that may or may not be worth discussing:
+>  Thomas
 >
-> * Patches to QAPI tend to take a long time to be merged (or rejected).
->   This is understandable as a lot of things are going on and QAPI is an
->   external interface with compatibility promises, so we need to be
->   careful. Can we still still do anything to improve the situation? For
->   example, can the load be spread across more people?
->
-> Kevin
->
->
-I'll drop by and leave an extremely crude summary here; I had a monster
-headache all day yesterday that has still not left me, my apologies for
-this being a bit close to the wire:
+Thanks!
 
-My main motivators for QAPI are:
-
-(1) A QEMU config file that is ultimately backed by the same schema as QMP.
-
-Ideally, this config file would have intellisense syntax support in e.g.
-pycharm/vscode. There is a large repository of "config file schemas" online
-used for auto-complete and intellisense for various YAML/JSON configuration
-files. I started researching this option around last year, for KVM Forum. I
-began by giving a presentation on the state of the CLI as it existed at the
-time, and submitted a demo that involved a very crudely hacked up
-"x-configure" QMP command that re-routed to the CLI parser. It worked only
-because I was fairly aggressive about removing a good number of CLI
-arguments.
-
-I consider this important for ease-of-use and discoverability reasons.
-
-(2) The unification of QAPI and QDEV
-
-There are numerous spots in the API where we stub out to an 'Any' type,
-because the actual type information is in qdev or open-coded in various
-device functions. In order to support the above goal, I see the unification
-of the two dynamic systems as necessary for producing significantly
-improved static schema that will facilitate users in discovering and using
-QEMU's features.
-
-This goal serves primarily as reinforcement for the first.
-
-(3) The generation of an improved QAPI index in the Sphinx ReST docs.
-
-At present, we do not have cross-references for QMP commands, events,
-enums, structs, arguments, etc. I wrote a prototype "QAPI Domain" plugin
-for Sphinx earlier this year, but there is work remaining to integrate it
-to the current QAPIDoc class in the QAPI generator. In essence, I have a
-"new" syntax that works to accomplish this goal, but I don't have a
-translator from the old to new syntax yet. I also do not have much of the
-error checking that we'd want to enforce layout, style, etc.
-
-This will help further bolster the discoverability and ease of use for our
-API. It will allow me to write ReST documents that natively cross-reference
-the exact commands and structures I am talking about elsewhere in the docs.
-It will allow me to reference QMP command documentation from Python
-docstrings, for instance, which would be very nice for a Python SDK ...
-
-(4) Libraries and SDKs for Python, Golang, and rust.
-
-I've been working on the Python angle here, because we already have all of
-the pieces for a python library. I want to package them and release them on
-PyPI as developer tooling and "advanced user" tooling. Not something meant
-to replace libvirt, but instead just well-supported, minimalist FOSS
-tooling that allows you to drive and experiment with cutting-edge features
-of QEMU. The intended audience is power users and developers of other
-software that consumes QEMU. I have noticed many projects that wind up
-relying on QEMU tend to reimplement the same code (sometimes poorly) over
-and over again -- I want to provide a bit more first class support to our
-API.
-
-To this end, I've spent the last year cleaning up our Python code quite a
-bit, including adding documentation and static typing to the QAPI generator
-itself, in the hopes that this will facilitate adding new languages and
-generators. I've also recently checked in a new version of the python QMP
-library; if it tests well this release cycle I am hoping to release it on
-PyPI this year.
-
---0000000000002cf9a705cdc29cd9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 7, 2021 at 6:02 AM Kevin =
-Wolf &lt;<a href=3D"mailto:kwolf@redhat.com">kwolf@redhat.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Am 29.09.2021 =
-um 14:18 hat Markus Armbruster geschrieben:<br>
-&gt; &gt; I&#39;m proposing a one-off here just for some initial discussion=
- and planning.<br>
-&gt; &gt; (We didn&#39;t have a QAPI BoF at KVM Forum and I&#39;d like some=
-thing similar<br>
-&gt; &gt; now.) I don&#39;t expect we&#39;ll really &quot;finish&quot; plot=
-ting out a roadmap in a<br>
-&gt; &gt; single 60 minute meeting, but it will probably give us good, targ=
-eted<br>
-&gt; &gt; discussions on the ML to follow. If more meetings are desired to =
-discuss<br>
-&gt; &gt; specific topics, I&#39;m not against scheduling them as-needed.<b=
-r>
-&gt; <br>
-&gt; Let&#39;s have one now, and then more as needed.<br>
-&gt; <br>
-&gt; Jumping into the meeting unprepared, then spending half of the alloted=
-<br>
-&gt; time listening to people explaining where they want to take QAPI seems=
-<br>
-&gt; like a bad use of our time.=C2=A0 Better: write it up and post it, so =
-we can<br>
-&gt; all read before we meet.=C2=A0 Do not reply, except perhaps to ask for=
-<br>
-&gt; clarification.=C2=A0 Discuss in the meeting.<br>
-&gt; <br>
-&gt; I can see such posts from Marc-Andre, Kevin, and Daniel.=C2=A0 Some of=
- them<br>
-&gt; could use a bit more detail, perhaps.<br>
-<br>
-To be a bit more specific and give more details about what I&#39;m currentl=
-y<br>
-working on:<br>
-<br>
-* The larger theme is command line QAPIfication, with the eventual goals<br=
->
-=C2=A0 of having introspection and a config file.<br>
-<br>
-* Support for member aliases: This provides a way to bridge much of the<br>
-=C2=A0 gap between command line and QMP syntax. Markus tells me that it&#39=
-;s<br>
-=C2=A0 unclear yet whether we want this in both QMP and CLI (unlikely for<b=
-r>
-=C2=A0 now), just CLI or not at all.<br>
-<br>
-=C2=A0 First posted in November 2020, latest version is v4:<br>
-=C2=A0 <a href=3D"https://patchew.org/QEMU/20210917161320.201086-1-kwolf@re=
-dhat.com/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org/QEMU/20=
-210917161320.201086-1-kwolf@redhat.com/</a><br>
-<br>
-=C2=A0 * Does anyone apart from myself have additional uses for aliases tha=
-t<br>
-=C2=A0 =C2=A0 should be considered in the evaluation of the feature?<br>
-<br>
-=C2=A0 * -chardev: I have patches that QAPIfy the option based on aliases,<=
-br>
-=C2=A0 =C2=A0 getting rid of the old handwritten parser that is inconsisten=
-t with<br>
-=C2=A0 =C2=A0 QMP in non-obvious ways and replacing it with translation to =
-QMP<br>
-=C2=A0 =C2=A0 (both using aliases and a little C code) that makes the diffe=
-rences<br>
-=C2=A0 =C2=A0 obvious.<br>
-<br>
-=C2=A0 =C2=A0 First posted in November 2020, more details in the cover lett=
-er:<br>
-=C2=A0 =C2=A0 <a href=3D"https://patchew.org/QEMU/20201112175905.404472-1-k=
-wolf@redhat.com/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org/=
-QEMU/20201112175905.404472-1-kwolf@redhat.com/</a><br>
-<br>
-=C2=A0 =C2=A0 Later versions (not yet posted as a series because I&#39;m wa=
-iting for<br>
-=C2=A0 =C2=A0 aliases) also make -chardev accept JSON syntax, which is what=
-<br>
-=C2=A0 =C2=A0 libvirt really wants to use.<br>
-<br>
-=C2=A0 * Came up during the discussion of the patches:<br>
-=C2=A0 =C2=A0 Maybe we should actually start defining some command line opt=
-ions in<br>
-=C2=A0 =C2=A0 the schema now, even if many options will still have to defer=
- to the<br>
-=C2=A0 =C2=A0 old parsing code. But it would be a start, could set an examp=
-le for<br>
-=C2=A0 =C2=A0 any new options and provides a clear path to incrementally co=
-nvert<br>
-=C2=A0 =C2=A0 everything. If we don&#39;t even start, we&#39;re sure to nev=
-er finish it.<br>
-<br>
-* -object: First part is done, we have a full QAPI schema of all<br>
-=C2=A0 user-creatable objects. object-add and --object in tools go through<=
-br>
-=C2=A0 pure QAPI paths. System emulator -object is still based on QemuOpts<=
-br>
-=C2=A0 because of compatibility concerns with list hacks (affects one singl=
-e<br>
-=C2=A0 property of one object), but JSON syntax has been added that goes<br=
->
-=C2=A0 straight to QAPI.<br>
-<br>
-=C2=A0 Next part is actual integration of QOM with QAPI so that the<br>
-=C2=A0 configuration isn&#39;t duplicated between QOM code and the schema, =
-but<br>
-=C2=A0 user-creatable QOM classes are defined and QOM boilerplate is<br>
-=C2=A0 generated from the schema. I&#39;ve started looking into this, but s=
-till<br>
-=C2=A0 in an early stage.<br>
-<br>
-* -device/device-add: This is in a terrible state all around. Even QMP<br>
-=C2=A0 device-add is based on QemuOpts, and libvirt makes use of this by<br=
->
-=C2=A0 passes everything as strings instead of the proper types.<br>
-<br>
-=C2=A0 Peter Krempa is working on using the proper types in libvirt.<br>
-<br>
-=C2=A0 I sent patches to at least add a JSON variant for the command line<b=
-r>
-=C2=A0 option -device which is a non-QemuOpts code path. It also tried to f=
-ix<br>
-=C2=A0 device-add to be type safe, but until libvirt is fixed, we must stay=
-<br>
-=C2=A0 bug compatible. So for this and other reasons this is not ready yet<=
-br>
-=C2=A0 and needs a v2.<br>
-=C2=A0 <a href=3D"https://patchew.org/QEMU/20210924090427.9218-1-kwolf@redh=
-at.com/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org/QEMU/2021=
-0924090427.9218-1-kwolf@redhat.com/</a><br>
-<br>
-=C2=A0 Full QAPIfication with a schema and introspection will still take a<=
-br>
-=C2=A0 while. The QOM/QAPI integration work mentioned above is a dependency=
-<br>
-=C2=A0 there. A schema like for object-add, with a big union of all possibl=
-e<br>
-=C2=A0 devices, just doesn&#39;t scale.<br>
-<br>
-=C2=A0 Having JSON CLI and a non-QemuOpts QMP command allow us to make the<=
-br>
-=C2=A0 traditional syntax unstable (HMP-like support) and should be very<br=
->
-=C2=A0 helpful when we eventually do get to do proper QAPIfication.<br>
-<br>
-=C2=A0 * Should we have a general rule that for command line options that<b=
-r>
-=C2=A0 =C2=A0 accept both JSON and a human format, only JSON is considered =
-a<br>
-=C2=A0 =C2=A0 stable API and the human format works more like HMP?<br>
-<br>
-Also one non-technical topic that may or may not be worth discussing:<br>
-<br>
-* Patches to QAPI tend to take a long time to be merged (or rejected).<br>
-=C2=A0 This is understandable as a lot of things are going on and QAPI is a=
-n<br>
-=C2=A0 external interface with compatibility promises, so we need to be<br>
-=C2=A0 careful. Can we still still do anything to improve the situation? Fo=
-r<br>
-=C2=A0 example, can the load be spread across more people?<br>
-<br>
-Kevin<br>
-<br></blockquote><div><br></div><div>I&#39;ll drop by and leave an extremel=
-y crude summary here; I had a monster headache all day yesterday that has s=
-till not left me, my apologies for this being a bit close to the wire:<br><=
-/div><div><br></div><div>My main motivators for QAPI are:</div><div><br></d=
-iv><div>(1) A QEMU config file that is ultimately backed by the same schema=
- as QMP.</div><div><br></div><div>Ideally, this config file would have inte=
-llisense syntax support in e.g. pycharm/vscode. There is a large repository=
- of &quot;config file schemas&quot; online used for auto-complete and intel=
-lisense for various YAML/JSON configuration files. I started researching th=
-is option around last year, for KVM Forum. I began by giving a presentation=
- on the state of the CLI as it existed at the time, and submitted a demo th=
-at involved a very crudely hacked up &quot;x-configure&quot; QMP command th=
-at re-routed to the CLI parser. It worked only because I was fairly aggress=
-ive about removing a good number of CLI arguments.</div><div><br></div><div=
->I consider this important for ease-of-use and discoverability reasons.<br>=
-</div><div><br></div><div>(2) The unification of QAPI and QDEV</div><div><b=
-r></div><div>There are numerous spots in the API where we stub out to an &#=
-39;Any&#39; type, because the actual type information is in qdev or open-co=
-ded in various device functions. In order to support the above goal, I see =
-the unification of the two dynamic systems as necessary for producing signi=
-ficantly improved static schema that will facilitate users in discovering a=
-nd using QEMU&#39;s features.</div><div><br></div><div>This goal serves pri=
-marily as reinforcement for the first.<br></div><div><br></div><div>(3) The=
- generation of an improved QAPI index in the Sphinx ReST docs.</div><div><b=
-r></div><div>At present, we do not have cross-references for QMP commands, =
-events, enums, structs, arguments, etc. I wrote a prototype &quot;QAPI Doma=
-in&quot; plugin for Sphinx earlier this year, but there is work remaining t=
-o integrate it to the current QAPIDoc class in the QAPI generator. In essen=
-ce, I have a &quot;new&quot; syntax that works to accomplish this goal, but=
- I don&#39;t have a translator from the old to new syntax yet. I also do no=
-t have much of the error checking that we&#39;d want to enforce layout, sty=
-le, etc.</div><div><br></div><div>This will help further bolster the discov=
-erability and ease of use for our API. It will allow me to write ReST docum=
-ents that natively cross-reference the exact commands and structures I am t=
-alking about elsewhere in the docs. It will allow me to reference QMP comma=
-nd documentation from Python docstrings, for instance, which would be very =
-nice for a Python SDK ...<br></div><div><br></div><div>(4) Libraries and SD=
-Ks for Python, Golang, and rust.</div><div><br></div><div>I&#39;ve been wor=
-king on the Python angle here, because we already have all of the pieces fo=
-r a python library. I want to package them and release them on PyPI as deve=
-loper tooling and &quot;advanced user&quot; tooling. Not something meant to=
- replace libvirt, but instead just well-supported, minimalist FOSS tooling =
-that allows you to drive and experiment with cutting-edge features of QEMU.=
- The intended audience is power users and developers of other software that=
- consumes QEMU. I have noticed many projects that wind up relying on QEMU t=
-end to reimplement the same code (sometimes poorly) over and over again -- =
-I want to provide a bit more first class support to our API.</div><div><br>=
-</div><div>To this end, I&#39;ve spent the last year cleaning up our Python=
- code quite a bit, including adding documentation and static typing to the =
-QAPI generator itself, in the hopes that this will facilitate adding new la=
-nguages and generators. I&#39;ve also recently checked in a new version of =
-the python QMP library; if it tests well this release cycle I am hoping to =
-release it on PyPI this year.</div><div><br></div><div><br></div></div></di=
-v>
-
---0000000000002cf9a705cdc29cd9--
+Eric
 
 
