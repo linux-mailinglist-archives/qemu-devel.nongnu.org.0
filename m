@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645D5425E33
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 22:52:53 +0200 (CEST)
-Received: from localhost ([::1]:54002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B55F0425E28
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 22:50:51 +0200 (CEST)
+Received: from localhost ([::1]:47460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYaNo-0005ak-Dc
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 16:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39128)
+	id 1mYaLq-0001A5-0n
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 16:50:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mYaDH-0005ED-4J
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 16:41:59 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34564)
+ id 1mYaDK-0005Mp-Da
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 16:42:02 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mYaDE-0005wu-KP
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 16:41:58 -0400
-Received: by mail-wr1-x429.google.com with SMTP id t8so23024210wri.1
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 13:41:56 -0700 (PDT)
+ id 1mYaDI-00060z-9H
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 16:42:02 -0400
+Received: by mail-wr1-x435.google.com with SMTP id v17so22853567wrv.9
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 13:41:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YRLoPh/Xbstgr2dVENWUhURrCQrnaxnHz/xSyxqHSHE=;
- b=H+LgYc5jYke5TS9dp/F6jumz9oasghGouTAT6sFJFZ7czosYr3JNja43vyC+k+VByA
- czr0rcrTBkeqF5PZGqYsHecJ7IjhHzpnaY0Sf+pwxmxqlgFmYFbTNwR+gKj7gUHxNsd0
- kwFQunABgKiKZVmWJKCdA69SQaFOF6n57yLaV7UvjcGHPUs2orqKMVxKv4H44e8nRld+
- Rl/7J9XSbgxv0AxTz5amovUNnpdx9swPZgyTzmFsBuwyVlQ4G0oAFuCH0sCLyXY+mYER
- BPbmKgq5dbyVxJ5OMnFepd/R0etT2McsZYY9qbgSX5U32DXDCfc07erLTKgFY9rwlCVX
- RCPQ==
+ :cc; bh=3dMhmHHVf8ciOiXK8t5V+9/8kRBw/WsMdtLT3Yc85Ds=;
+ b=Ahfrwgh61Imeg4FN+04nhyTs6r7Dd0815q6VxySEQzGt3r/fh01DP/kFZHmwwon3jN
+ lDweluYF8TTlozHBPzeJzCAQXF4ev9JMjrLimKRtCvKryxKCdoEwElu3vHmxP/zak0ux
+ CucxvFJ01IF8SmBnc65HF0TkPmz9bwNZbUbxVAUQup0LusLkEv5xXo1DO+0HTOji6/Y2
+ 1lEW3hixJWhYEUtzCTtiU1RE2v0z3EqS6y6JkIzyHgpN5lFk2u9xz/ULfip2qgNXjLpX
+ sUWER5YS82p1bfCpgYdzq6oJrMCDCPQqNXnIz2TbAEV8d6IEj5EPbjd2MZmhY7UX+3Ff
+ ehWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=YRLoPh/Xbstgr2dVENWUhURrCQrnaxnHz/xSyxqHSHE=;
- b=oPWYgzhWFyXKl7KbVYkLjdXA6gHKZBi0Q8OyCGtOlUiWX3ynpbmcPk6EYpvu6WnynF
- V/V3jGpnNylhlipvHih2erxEDAMqDnOWsjwl9En+qlyVpkvEacbHt1h4p3v/tAIbKfME
- pSrmU5jM60zVCjDg2+x7zKw+v7qwR9zjJocGio3pJYLpx0LuIU5zswthI1L1WJoJ5qGJ
- LAEFtJ79yBbuNA/IlaqRpixtbcY06sHf9VMaCmVNGuQ3WrJmZJXjsMH4NgUVVxkGVQE+
- nglOYbd3VbukBKKKqXjQRP/xLUiz+VVexjC7shFLu6tfbowN4+r0+qEftEEypl1y0qBi
- g5gQ==
-X-Gm-Message-State: AOAM533b8BY3DAvmto+uZap+MVW7Lsj19JbxYbArON7wxX7dYjAxDzcV
- oYrtDLgSHhwenxhyPtO5wNhG8jezK+tLVDmaBsw=
-X-Google-Smtp-Source: ABdhPJzUPjdef5GFfqfTU5+L0YxxBU45UdYKatP6dZ76dRbN4ZEIoZYJyE3gcHQUyPOfgDh/XLBGKt7J3STIwgNusmU=
-X-Received: by 2002:a5d:47a4:: with SMTP id 4mr8437238wrb.374.1633639315312;
- Thu, 07 Oct 2021 13:41:55 -0700 (PDT)
+ bh=3dMhmHHVf8ciOiXK8t5V+9/8kRBw/WsMdtLT3Yc85Ds=;
+ b=isnCJqiiVj1Oh274ASCyqPR/lxz1a+GwZ6YXDxydnIrXS2/93zd+lyv1ZqrU5e2o/N
+ nOG1Kc68Y6wxfa68SQ+Mju1BJWjZOFe8w7vas67JXdBGC6EvXhxI2ZokLEe2I/boL8w6
+ DSp8c3xqsPTXNjsDDpATf1f0rddu/Nw2b6XRUmOdT6n0TdAuFRNJdrBgzNF0cOgv+CW0
+ 8qv+V3170q/F6K1L5wwyl7D9UGXMr2R9h5bvYipJqN7lFX4LIuk+M4P/Yv6Oad1XmNom
+ wfgi2zpGqiyAakYwiafPRZ22L3MNvIWFxQZmR4VWmwelYtoSuMPaQMbsfoEMqEYtXn02
+ BWgQ==
+X-Gm-Message-State: AOAM532eS21DHqNRvtK6q+5jvvf4Ywnm7A/aXx+w9hyxHFocZ2hR9Bw6
+ u2QhBJMIWCDoi6pk0Hjap5A4Oh3dZHtKKI5Po/+e1PS5
+X-Google-Smtp-Source: ABdhPJzu8R4rzhb9eSJ9wIZeEmRwO5K7P8r0YTbxMhLMmWIpZ4Q4YBa3Sm6H+rRpCxPtmu2FJs1yC4UjQMS/pFi6Vlo=
+X-Received: by 2002:adf:a78a:: with SMTP id j10mr8253379wrc.231.1633639318783; 
+ Thu, 07 Oct 2021 13:41:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211007130630.632028-1-pbonzini@redhat.com>
- <20211007130829.632254-9-pbonzini@redhat.com>
-In-Reply-To: <20211007130829.632254-9-pbonzini@redhat.com>
+ <20211007130829.632254-8-pbonzini@redhat.com>
+In-Reply-To: <20211007130829.632254-8-pbonzini@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 8 Oct 2021 00:41:40 +0400
-Message-ID: <CAJ+F1C+-LwszmYcz8fsSddLfc5Sj6Ar-nHDOCu_+yX9EdZZ2LA@mail.gmail.com>
-Subject: Re: [PATCH 14/24] configure,
- meson: move pthread_setname_np checks to Meson
+Date: Fri, 8 Oct 2021 00:41:44 +0400
+Message-ID: <CAJ+F1CJakCBvzGFdToGFU+LYx2uCJzy5kR4zoOGnE0HWrOPUWw@mail.gmail.com>
+Subject: Re: [PATCH 13/24] configure, meson: move remaining HAVE_* compiler
+ tests to Meson
 To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000014932d05cdc94bea"
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x429.google.com
+Content-Type: multipart/alternative; boundary="000000000000498b9905cdc94b53"
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,193 +82,144 @@ Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000014932d05cdc94bea
+--000000000000498b9905cdc94b53
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 7, 2021 at 5:19 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Thu, Oct 7, 2021 at 5:23 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> This makes the pthreads check dead in configure, so remove it
-> as well.
+> Remove some special cases by moving them to Meson.
 >
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 >
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-(a shame that g_system_thread_set_name() is not exported imho)
 
----
->  configure                | 78 ----------------------------------------
->  meson.build              | 23 ++++++++++++
->  util/qemu-thread-posix.c |  5 ++-
->  3 files changed, 25 insertions(+), 81 deletions(-)
+> ---
+>  configure   | 37 -------------------------------------
+>  meson.build | 22 ++++++++++++++++++++--
+>  2 files changed, 20 insertions(+), 39 deletions(-)
 >
 > diff --git a/configure b/configure
-> index 52f89b05d6..a1e142d5f8 100755
+> index 499c84859d..52f89b05d6 100755
 > --- a/configure
 > +++ b/configure
-> @@ -3146,71 +3146,6 @@ if test "$modules" =3D yes; then
->      fi
+> @@ -2401,18 +2401,6 @@ else
+>    l2tpv3=3Dno
+>  fi
+>
+> -cat > $TMPC <<EOF
+> -#include <sys/mman.h>
+> -int main(int argc, char *argv[]) {
+> -    return mlockall(MCL_FUTURE);
+> -}
+> -EOF
+> -if compile_prog "" "" ; then
+> -  have_mlockall=3Dyes
+> -else
+> -  have_mlockall=3Dno
+> -fi
+> -
+>  #########################################
+>  # vhost interdependencies and host support
+>
+> @@ -3840,21 +3828,6 @@ if test "$fortify_source" !=3D "no"; then
+>    fi
 >  fi
 >
 > -##########################################
-> -# pthread probe
-> -PTHREADLIBS_LIST=3D"-pthread -lpthread -lpthreadGC2"
+> -# check if struct fsxattr is available via linux/fs.h
 > -
-> -pthread=3Dno
+> -have_fsxattr=3Dno
 > -cat > $TMPC << EOF
-> -#include <pthread.h>
-> -static void *f(void *p) { return NULL; }
+> -#include <linux/fs.h>
+> -struct fsxattr foo;
 > -int main(void) {
-> -  pthread_t thread;
-> -  pthread_create(&thread, 0, f, 0);
 > -  return 0;
 > -}
 > -EOF
 > -if compile_prog "" "" ; then
-> -  pthread=3Dyes
-> -else
-> -  for pthread_lib in $PTHREADLIBS_LIST; do
-> -    if compile_prog "" "$pthread_lib" ; then
-> -      pthread=3Dyes
-> -      break
-> -    fi
-> -  done
-> -fi
-> -
-> -if test "$mingw32" !=3D yes && test "$pthread" =3D no; then
-> -  error_exit "pthread check failed" \
-> -      "Make sure to have the pthread libs and headers installed."
-> -fi
-> -
-> -# check for pthread_setname_np with thread id
-> -pthread_setname_np_w_tid=3Dno
-> -cat > $TMPC << EOF
-> -#include <pthread.h>
-> -
-> -static void *f(void *p) { return NULL; }
-> -int main(void)
-> -{
-> -    pthread_t thread;
-> -    pthread_create(&thread, 0, f, 0);
-> -    pthread_setname_np(thread, "QEMU");
-> -    return 0;
-> -}
-> -EOF
-> -if compile_prog "" "$pthread_lib" ; then
-> -  pthread_setname_np_w_tid=3Dyes
-> -fi
-> -
-> -# check for pthread_setname_np without thread id
-> -pthread_setname_np_wo_tid=3Dno
-> -cat > $TMPC << EOF
-> -#include <pthread.h>
-> -
-> -static void *f(void *p) { pthread_setname_np("QEMU"); return NULL; }
-> -int main(void)
-> -{
-> -    pthread_t thread;
-> -    pthread_create(&thread, 0, f, 0);
-> -    return 0;
-> -}
-> -EOF
-> -if compile_prog "" "$pthread_lib" ; then
-> -  pthread_setname_np_wo_tid=3Dyes
+> -    have_fsxattr=3Dyes
 > -fi
 > -
 >  ##########################################
->  # libssh probe
->  if test "$libssh" !=3D "no" ; then
-> @@ -4496,19 +4431,6 @@ if test "$debug_mutex" =3D "yes" ; then
->    echo "CONFIG_DEBUG_MUTEX=3Dy" >> $config_host_mak
+>  # check for usable membarrier system call
+>  if test "$membarrier" =3D "yes"; then
+> @@ -4356,13 +4329,6 @@ if test "$gdbus_codegen" !=3D "" ; then
 >  fi
+>  echo "CONFIG_TLS_PRIORITY=3D\"$tls_priority\"" >> $config_host_mak
 >
-> -# Hold two types of flag:
-> -#   CONFIG_THREAD_SETNAME_BYTHREAD  - we've got a way of setting the nam=
-e
-> on
-> -#                                     a thread we have a handle to
-> -#   CONFIG_PTHREAD_SETNAME_NP_W_TID - A way of doing it on a particular
-> -#                                     platform
-> -if test "$pthread_setname_np_w_tid" =3D "yes" ; then
-> -  echo "CONFIG_THREAD_SETNAME_BYTHREAD=3Dy" >> $config_host_mak
-> -  echo "CONFIG_PTHREAD_SETNAME_NP_W_TID=3Dy" >> $config_host_mak
-> -elif test "$pthread_setname_np_wo_tid" =3D "yes" ; then
-> -  echo "CONFIG_THREAD_SETNAME_BYTHREAD=3Dy" >> $config_host_mak
-> -  echo "CONFIG_PTHREAD_SETNAME_NP_WO_TID=3Dy" >> $config_host_mak
+> -# Work around a system header bug with some kernel/XFS header
+> -# versions where they both try to define 'struct fsxattr':
+> -# xfs headers will not try to redefine structs from linux headers
+> -# if this macro is set.
+> -if test "$have_fsxattr" =3D "yes" ; then
+> -    echo "HAVE_FSXATTR=3Dy" >> $config_host_mak
 > -fi
-> -
->  if test "$bochs" =3D "yes" ; then
->    echo "CONFIG_BOCHS=3Dy" >> $config_host_mak
+>  if test "$xen" =3D "enabled" ; then
+>    echo "CONFIG_XEN_BACKEND=3Dy" >> $config_host_mak
+>    echo "CONFIG_XEN_CTRL_INTERFACE_VERSION=3D$xen_ctrl_version" >>
+> $config_host_mak
+> @@ -4567,9 +4533,6 @@ fi
+>  if test "$parallels" =3D "yes" ; then
+>    echo "CONFIG_PARALLELS=3Dy" >> $config_host_mak
 >  fi
+> -if test "$have_mlockall" =3D "yes" ; then
+> -  echo "HAVE_MLOCKALL=3Dy" >> $config_host_mak
+> -fi
+>
+>  if test "$plugins" =3D "yes" ; then
+>      echo "CONFIG_PLUGIN=3Dy" >> $config_host_mak
 > diff --git a/meson.build b/meson.build
-> index 935a20c198..54b2afdb96 100644
+> index 2962c24eb5..935a20c198 100644
 > --- a/meson.build
 > +++ b/meson.build
-> @@ -1586,6 +1586,29 @@ config_host_data.set('CONFIG_POSIX_MADVISE',
+> @@ -1604,6 +1604,23 @@ config_host_data.set('CONFIG_SPLICE',
 > cc.links(gnu_source_prefix + '''
->    #include <sys/mman.h>
->    #include <stddef.h>
->    int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED);
-> }'''))
-> +
-> +config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_W_TID', cc.links('''
-> +  #include <pthread.h>
-> +
-> +  static void *f(void *p) { return NULL; }
-> +  int main(void)
-> +  {
-> +    pthread_t thread;
-> +    pthread_create(&thread, 0, f, 0);
-> +    pthread_setname_np(thread, "QEMU");
-> +    return 0;
-> +  }''', dependencies: threads))
-> +config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_WO_TID', cc.links('''
-> +  #include <pthread.h>
-> +
-> +  static void *f(void *p) { pthread_setname_np("QEMU"); return NULL; }
-> +  int main(void)
-> +  {
-> +    pthread_t thread;
-> +    pthread_create(&thread, 0, f, 0);
-> +    return 0;
-> +  }''', dependencies: threads))
-> +
->  config_host_data.set('CONFIG_SIGNALFD', cc.links(gnu_source_prefix + '''
->    #include <unistd.h>
->    #include <sys/syscall.h>
-> diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-> index 6c5004220d..e1225b63bd 100644
-> --- a/util/qemu-thread-posix.c
-> +++ b/util/qemu-thread-posix.c
-> @@ -23,7 +23,8 @@ void qemu_thread_naming(bool enable)
->  {
->      name_threads =3D enable;
+>      return 0;
+>    }'''))
 >
-> -#ifndef CONFIG_THREAD_SETNAME_BYTHREAD
-> +#if !defined CONFIG_PTHREAD_SETNAME_NP_W_TID && \
-> +    !defined CONFIG_PTHREAD_SETNAME_NP_WO_TID
->      /* This is a debugging option, not fatal */
->      if (enable) {
->          fprintf(stderr, "qemu: thread naming not supported on this
-> host\n");
-> @@ -522,7 +523,6 @@ static void *qemu_thread_start(void *args)
->      void *arg =3D qemu_thread_args->arg;
->      void *r;
+> +config_host_data.set('HAVE_MLOCKALL', cc.links(gnu_source_prefix + '''
+> +  #include <sys/mman.h>
+> +  int main(int argc, char *argv[]) {
+> +    return mlockall(MCL_FUTURE);
+> +  }'''))
+> +
+> +# Work around a system header bug with some kernel/XFS header
+> +# versions where they both try to define 'struct fsxattr':
+> +# xfs headers will not try to redefine structs from linux headers
+> +# if this macro is set.
+> +config_host_data.set('HAVE_FSXATTR', cc.links('''
+> +  #include <linux/fs.h>'
+> +  struct fsxattr foo;
+> +  int main(void) {
+> +    return 0;
+> +  }'''))
+> +
+>  # Some versions of Mac OS X incorrectly define SIZE_MAX
+>  config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
+>      #include <stdint.h>
+> @@ -1612,7 +1629,8 @@ config_host_data.set('HAVE_BROKEN_SIZE_MAX', not
+> cc.compiles('''
+>          return printf("%zu", SIZE_MAX);
+>      }''', args: ['-Werror']))
 >
-> -#ifdef CONFIG_THREAD_SETNAME_BYTHREAD
->      /* Attempt to set the threads name; note that this is for debug, so
->       * we're not going to fail if we can't set it.
->       */
-> @@ -533,7 +533,6 @@ static void *qemu_thread_start(void *args)
->          pthread_setname_np(qemu_thread_args->name);
->  # endif
->      }
-> -#endif
->      QEMU_TSAN_ANNOTATE_THREAD_NAME(qemu_thread_args->name);
->      g_free(qemu_thread_args->name);
->      g_free(qemu_thread_args);
+> -ignored =3D ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
+> +ignored =3D ['CONFIG_QEMU_INTERP_PREFIX', # actually per-target
+> +    'HAVE_GDB_BIN']
+>  arrays =3D ['CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
+>  strings =3D ['CONFIG_IASL']
+>  foreach k, v: config_host
+> @@ -1627,7 +1645,7 @@ foreach k, v: config_host
+>      config_host_data.set('HOST_' + v.to_upper(), 1)
+>    elif strings.contains(k)
+>      config_host_data.set_quoted(k, v)
+> -  elif k.startswith('CONFIG_') or k.startswith('HAVE_')
+> +  elif k.startswith('CONFIG_')
+>      config_host_data.set(k, v =3D=3D 'y' ? 1 : v)
+>    endif
+>  endforeach
 > --
 > 2.31.1
 >
@@ -279,224 +230,163 @@ e
 --=20
 Marc-Andr=C3=A9 Lureau
 
---00000000000014932d05cdc94bea
+--000000000000498b9905cdc94b53
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 7, 2021 at 5:19 PM Paolo =
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 7, 2021 at 5:23 PM Paolo =
 Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank">pbonzi=
 ni@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
 le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">This makes the pthreads check dead in configure, so remove it<=
-br>
-as well.<br>
+ng-left:1ex">Remove some special cases by moving them to Meson.<br>
 <br>
 Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
 get=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><=
 div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandr=
 e.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<=
-/div><div><br></div><div>(a shame that g_system_thread_set_name() is not ex=
-ported imho)</div><div><br></div></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">
+/div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 78=
- ----------------------------------------<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 23 ++++=
-++++++++<br>
-=C2=A0util/qemu-thread-posix.c |=C2=A0 5 ++-<br>
-=C2=A03 files changed, 25 insertions(+), 81 deletions(-)<br>
+=C2=A0configure=C2=A0 =C2=A0| 37 -------------------------------------<br>
+=C2=A0meson.build | 22 ++++++++++++++++++++--<br>
+=C2=A02 files changed, 20 insertions(+), 39 deletions(-)<br>
 <br>
 diff --git a/configure b/configure<br>
-index 52f89b05d6..a1e142d5f8 100755<br>
+index 499c84859d..52f89b05d6 100755<br>
 --- a/configure<br>
 +++ b/configure<br>
-@@ -3146,71 +3146,6 @@ if test &quot;$modules&quot; =3D yes; then<br>
-=C2=A0 =C2=A0 =C2=A0fi<br>
+@@ -2401,18 +2401,6 @@ else<br>
+=C2=A0 =C2=A0l2tpv3=3Dno<br>
+=C2=A0fi<br>
+<br>
+-cat &gt; $TMPC &lt;&lt;EOF<br>
+-#include &lt;sys/mman.h&gt;<br>
+-int main(int argc, char *argv[]) {<br>
+-=C2=A0 =C2=A0 return mlockall(MCL_FUTURE);<br>
+-}<br>
+-EOF<br>
+-if compile_prog &quot;&quot; &quot;&quot; ; then<br>
+-=C2=A0 have_mlockall=3Dyes<br>
+-else<br>
+-=C2=A0 have_mlockall=3Dno<br>
+-fi<br>
+-<br>
+=C2=A0#########################################<br>
+=C2=A0# vhost interdependencies and host support<br>
+<br>
+@@ -3840,21 +3828,6 @@ if test &quot;$fortify_source&quot; !=3D &quot;no&qu=
+ot;; then<br>
+=C2=A0 =C2=A0fi<br>
 =C2=A0fi<br>
 <br>
 -##########################################<br>
--# pthread probe<br>
--PTHREADLIBS_LIST=3D&quot;-pthread -lpthread -lpthreadGC2&quot;<br>
+-# check if struct fsxattr is available via linux/fs.h<br>
 -<br>
--pthread=3Dno<br>
+-have_fsxattr=3Dno<br>
 -cat &gt; $TMPC &lt;&lt; EOF<br>
--#include &lt;pthread.h&gt;<br>
--static void *f(void *p) { return NULL; }<br>
+-#include &lt;linux/fs.h&gt;<br>
+-struct fsxattr foo;<br>
 -int main(void) {<br>
--=C2=A0 pthread_t thread;<br>
--=C2=A0 pthread_create(&amp;thread, 0, f, 0);<br>
 -=C2=A0 return 0;<br>
 -}<br>
 -EOF<br>
 -if compile_prog &quot;&quot; &quot;&quot; ; then<br>
--=C2=A0 pthread=3Dyes<br>
--else<br>
--=C2=A0 for pthread_lib in $PTHREADLIBS_LIST; do<br>
--=C2=A0 =C2=A0 if compile_prog &quot;&quot; &quot;$pthread_lib&quot; ; then=
-<br>
--=C2=A0 =C2=A0 =C2=A0 pthread=3Dyes<br>
--=C2=A0 =C2=A0 =C2=A0 break<br>
--=C2=A0 =C2=A0 fi<br>
--=C2=A0 done<br>
--fi<br>
--<br>
--if test &quot;$mingw32&quot; !=3D yes &amp;&amp; test &quot;$pthread&quot;=
- =3D no; then<br>
--=C2=A0 error_exit &quot;pthread check failed&quot; \<br>
--=C2=A0 =C2=A0 =C2=A0 &quot;Make sure to have the pthread libs and headers =
-installed.&quot;<br>
--fi<br>
--<br>
--# check for pthread_setname_np with thread id<br>
--pthread_setname_np_w_tid=3Dno<br>
--cat &gt; $TMPC &lt;&lt; EOF<br>
--#include &lt;pthread.h&gt;<br>
--<br>
--static void *f(void *p) { return NULL; }<br>
--int main(void)<br>
--{<br>
--=C2=A0 =C2=A0 pthread_t thread;<br>
--=C2=A0 =C2=A0 pthread_create(&amp;thread, 0, f, 0);<br>
--=C2=A0 =C2=A0 pthread_setname_np(thread, &quot;QEMU&quot;);<br>
--=C2=A0 =C2=A0 return 0;<br>
--}<br>
--EOF<br>
--if compile_prog &quot;&quot; &quot;$pthread_lib&quot; ; then<br>
--=C2=A0 pthread_setname_np_w_tid=3Dyes<br>
--fi<br>
--<br>
--# check for pthread_setname_np without thread id<br>
--pthread_setname_np_wo_tid=3Dno<br>
--cat &gt; $TMPC &lt;&lt; EOF<br>
--#include &lt;pthread.h&gt;<br>
--<br>
--static void *f(void *p) { pthread_setname_np(&quot;QEMU&quot;); return NUL=
-L; }<br>
--int main(void)<br>
--{<br>
--=C2=A0 =C2=A0 pthread_t thread;<br>
--=C2=A0 =C2=A0 pthread_create(&amp;thread, 0, f, 0);<br>
--=C2=A0 =C2=A0 return 0;<br>
--}<br>
--EOF<br>
--if compile_prog &quot;&quot; &quot;$pthread_lib&quot; ; then<br>
--=C2=A0 pthread_setname_np_wo_tid=3Dyes<br>
+-=C2=A0 =C2=A0 have_fsxattr=3Dyes<br>
 -fi<br>
 -<br>
 =C2=A0##########################################<br>
-=C2=A0# libssh probe<br>
-=C2=A0if test &quot;$libssh&quot; !=3D &quot;no&quot; ; then<br>
-@@ -4496,19 +4431,6 @@ if test &quot;$debug_mutex&quot; =3D &quot;yes&quot;=
+=C2=A0# check for usable membarrier system call<br>
+=C2=A0if test &quot;$membarrier&quot; =3D &quot;yes&quot;; then<br>
+@@ -4356,13 +4329,6 @@ if test &quot;$gdbus_codegen&quot; !=3D &quot;&quot;=
  ; then<br>
-=C2=A0 =C2=A0echo &quot;CONFIG_DEBUG_MUTEX=3Dy&quot; &gt;&gt; $config_host_=
-mak<br>
 =C2=A0fi<br>
+=C2=A0echo &quot;CONFIG_TLS_PRIORITY=3D\&quot;$tls_priority\&quot;&quot; &g=
+t;&gt; $config_host_mak<br>
 <br>
--# Hold two types of flag:<br>
--#=C2=A0 =C2=A0CONFIG_THREAD_SETNAME_BYTHREAD=C2=A0 - we&#39;ve got a way o=
-f setting the name on<br>
--#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0a thread we have=
- a handle to<br>
--#=C2=A0 =C2=A0CONFIG_PTHREAD_SETNAME_NP_W_TID - A way of doing it on a par=
-ticular<br>
--#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0platform<br>
--if test &quot;$pthread_setname_np_w_tid&quot; =3D &quot;yes&quot; ; then<b=
-r>
--=C2=A0 echo &quot;CONFIG_THREAD_SETNAME_BYTHREAD=3Dy&quot; &gt;&gt; $confi=
-g_host_mak<br>
--=C2=A0 echo &quot;CONFIG_PTHREAD_SETNAME_NP_W_TID=3Dy&quot; &gt;&gt; $conf=
-ig_host_mak<br>
--elif test &quot;$pthread_setname_np_wo_tid&quot; =3D &quot;yes&quot; ; the=
-n<br>
--=C2=A0 echo &quot;CONFIG_THREAD_SETNAME_BYTHREAD=3Dy&quot; &gt;&gt; $confi=
-g_host_mak<br>
--=C2=A0 echo &quot;CONFIG_PTHREAD_SETNAME_NP_WO_TID=3Dy&quot; &gt;&gt; $con=
-fig_host_mak<br>
+-# Work around a system header bug with some kernel/XFS header<br>
+-# versions where they both try to define &#39;struct fsxattr&#39;:<br>
+-# xfs headers will not try to redefine structs from linux headers<br>
+-# if this macro is set.<br>
+-if test &quot;$have_fsxattr&quot; =3D &quot;yes&quot; ; then<br>
+-=C2=A0 =C2=A0 echo &quot;HAVE_FSXATTR=3Dy&quot; &gt;&gt; $config_host_mak<=
+br>
 -fi<br>
--<br>
-=C2=A0if test &quot;$bochs&quot; =3D &quot;yes&quot; ; then<br>
-=C2=A0 =C2=A0echo &quot;CONFIG_BOCHS=3Dy&quot; &gt;&gt; $config_host_mak<br=
->
+=C2=A0if test &quot;$xen&quot; =3D &quot;enabled&quot; ; then<br>
+=C2=A0 =C2=A0echo &quot;CONFIG_XEN_BACKEND=3Dy&quot; &gt;&gt; $config_host_=
+mak<br>
+=C2=A0 =C2=A0echo &quot;CONFIG_XEN_CTRL_INTERFACE_VERSION=3D$xen_ctrl_versi=
+on&quot; &gt;&gt; $config_host_mak<br>
+@@ -4567,9 +4533,6 @@ fi<br>
+=C2=A0if test &quot;$parallels&quot; =3D &quot;yes&quot; ; then<br>
+=C2=A0 =C2=A0echo &quot;CONFIG_PARALLELS=3Dy&quot; &gt;&gt; $config_host_ma=
+k<br>
 =C2=A0fi<br>
+-if test &quot;$have_mlockall&quot; =3D &quot;yes&quot; ; then<br>
+-=C2=A0 echo &quot;HAVE_MLOCKALL=3Dy&quot; &gt;&gt; $config_host_mak<br>
+-fi<br>
+<br>
+=C2=A0if test &quot;$plugins&quot; =3D &quot;yes&quot; ; then<br>
+=C2=A0 =C2=A0 =C2=A0echo &quot;CONFIG_PLUGIN=3Dy&quot; &gt;&gt; $config_hos=
+t_mak<br>
 diff --git a/meson.build b/meson.build<br>
-index 935a20c198..54b2afdb96 100644<br>
+index 2962c24eb5..935a20c198 100644<br>
 --- a/meson.build<br>
 +++ b/meson.build<br>
-@@ -1586,6 +1586,29 @@ config_host_data.set(&#39;CONFIG_POSIX_MADVISE&#39;,=
- cc.links(gnu_source_prefix + &#39;&#39;&#39;<br>
-=C2=A0 =C2=A0#include &lt;sys/mman.h&gt;<br>
-=C2=A0 =C2=A0#include &lt;stddef.h&gt;<br>
-=C2=A0 =C2=A0int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONT=
-NEED); }&#39;&#39;&#39;))<br>
+@@ -1604,6 +1604,23 @@ config_host_data.set(&#39;CONFIG_SPLICE&#39;, cc.lin=
+ks(gnu_source_prefix + &#39;&#39;&#39;<br>
+=C2=A0 =C2=A0 =C2=A0return 0;<br>
+=C2=A0 =C2=A0}&#39;&#39;&#39;))<br>
+<br>
++config_host_data.set(&#39;HAVE_MLOCKALL&#39;, cc.links(gnu_source_prefix +=
+ &#39;&#39;&#39;<br>
++=C2=A0 #include &lt;sys/mman.h&gt;<br>
++=C2=A0 int main(int argc, char *argv[]) {<br>
++=C2=A0 =C2=A0 return mlockall(MCL_FUTURE);<br>
++=C2=A0 }&#39;&#39;&#39;))<br>
 +<br>
-+config_host_data.set(&#39;CONFIG_PTHREAD_SETNAME_NP_W_TID&#39;, cc.links(&=
-#39;&#39;&#39;<br>
-+=C2=A0 #include &lt;pthread.h&gt;<br>
-+<br>
-+=C2=A0 static void *f(void *p) { return NULL; }<br>
-+=C2=A0 int main(void)<br>
-+=C2=A0 {<br>
-+=C2=A0 =C2=A0 pthread_t thread;<br>
-+=C2=A0 =C2=A0 pthread_create(&amp;thread, 0, f, 0);<br>
-+=C2=A0 =C2=A0 pthread_setname_np(thread, &quot;QEMU&quot;);<br>
++# Work around a system header bug with some kernel/XFS header<br>
++# versions where they both try to define &#39;struct fsxattr&#39;:<br>
++# xfs headers will not try to redefine structs from linux headers<br>
++# if this macro is set.<br>
++config_host_data.set(&#39;HAVE_FSXATTR&#39;, cc.links(&#39;&#39;&#39;<br>
++=C2=A0 #include &lt;linux/fs.h&gt;&#39;<br>
++=C2=A0 struct fsxattr foo;<br>
++=C2=A0 int main(void) {<br>
 +=C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 }&#39;&#39;&#39;, dependencies: threads))<br>
-+config_host_data.set(&#39;CONFIG_PTHREAD_SETNAME_NP_WO_TID&#39;, cc.links(=
++=C2=A0 }&#39;&#39;&#39;))<br>
++<br>
+=C2=A0# Some versions of Mac OS X incorrectly define SIZE_MAX<br>
+=C2=A0config_host_data.set(&#39;HAVE_BROKEN_SIZE_MAX&#39;, not cc.compiles(=
 &#39;&#39;&#39;<br>
-+=C2=A0 #include &lt;pthread.h&gt;<br>
-+<br>
-+=C2=A0 static void *f(void *p) { pthread_setname_np(&quot;QEMU&quot;); ret=
-urn NULL; }<br>
-+=C2=A0 int main(void)<br>
-+=C2=A0 {<br>
-+=C2=A0 =C2=A0 pthread_t thread;<br>
-+=C2=A0 =C2=A0 pthread_create(&amp;thread, 0, f, 0);<br>
-+=C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 }&#39;&#39;&#39;, dependencies: threads))<br>
-+<br>
-=C2=A0config_host_data.set(&#39;CONFIG_SIGNALFD&#39;, cc.links(gnu_source_p=
-refix + &#39;&#39;&#39;<br>
-=C2=A0 =C2=A0#include &lt;unistd.h&gt;<br>
-=C2=A0 =C2=A0#include &lt;sys/syscall.h&gt;<br>
-diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c<br>
-index 6c5004220d..e1225b63bd 100644<br>
---- a/util/qemu-thread-posix.c<br>
-+++ b/util/qemu-thread-posix.c<br>
-@@ -23,7 +23,8 @@ void qemu_thread_naming(bool enable)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0name_threads =3D enable;<br>
+=C2=A0 =C2=A0 =C2=A0#include &lt;stdint.h&gt;<br>
+@@ -1612,7 +1629,8 @@ config_host_data.set(&#39;HAVE_BROKEN_SIZE_MAX&#39;, =
+not cc.compiles(&#39;&#39;&#39;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return printf(&quot;%zu&quot;, SIZE_MAX);=
 <br>
--#ifndef CONFIG_THREAD_SETNAME_BYTHREAD<br>
-+#if !defined CONFIG_PTHREAD_SETNAME_NP_W_TID &amp;&amp; \<br>
-+=C2=A0 =C2=A0 !defined CONFIG_PTHREAD_SETNAME_NP_WO_TID<br>
-=C2=A0 =C2=A0 =C2=A0/* This is a debugging option, not fatal */<br>
-=C2=A0 =C2=A0 =C2=A0if (enable) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr, &quot;qemu: thread naming=
- not supported on this host\n&quot;);<br>
-@@ -522,7 +523,6 @@ static void *qemu_thread_start(void *args)<br>
-=C2=A0 =C2=A0 =C2=A0void *arg =3D qemu_thread_args-&gt;arg;<br>
-=C2=A0 =C2=A0 =C2=A0void *r;<br>
+=C2=A0 =C2=A0 =C2=A0}&#39;&#39;&#39;, args: [&#39;-Werror&#39;]))<br>
 <br>
--#ifdef CONFIG_THREAD_SETNAME_BYTHREAD<br>
-=C2=A0 =C2=A0 =C2=A0/* Attempt to set the threads name; note that this is f=
-or debug, so<br>
-=C2=A0 =C2=A0 =C2=A0 * we&#39;re not going to fail if we can&#39;t set it.<=
-br>
-=C2=A0 =C2=A0 =C2=A0 */<br>
-@@ -533,7 +533,6 @@ static void *qemu_thread_start(void *args)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pthread_setname_np(qemu_thread_args-&gt;n=
-ame);<br>
-=C2=A0# endif<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--#endif<br>
-=C2=A0 =C2=A0 =C2=A0QEMU_TSAN_ANNOTATE_THREAD_NAME(qemu_thread_args-&gt;nam=
-e);<br>
-=C2=A0 =C2=A0 =C2=A0g_free(qemu_thread_args-&gt;name);<br>
-=C2=A0 =C2=A0 =C2=A0g_free(qemu_thread_args);<br>
+-ignored =3D [&#39;CONFIG_QEMU_INTERP_PREFIX&#39;] # actually per-target<br=
+>
++ignored =3D [&#39;CONFIG_QEMU_INTERP_PREFIX&#39;, # actually per-target<br=
+>
++=C2=A0 =C2=A0 &#39;HAVE_GDB_BIN&#39;]<br>
+=C2=A0arrays =3D [&#39;CONFIG_BDRV_RW_WHITELIST&#39;, &#39;CONFIG_BDRV_RO_W=
+HITELIST&#39;]<br>
+=C2=A0strings =3D [&#39;CONFIG_IASL&#39;]<br>
+=C2=A0foreach k, v: config_host<br>
+@@ -1627,7 +1645,7 @@ foreach k, v: config_host<br>
+=C2=A0 =C2=A0 =C2=A0config_host_data.set(&#39;HOST_&#39; + v.to_upper(), 1)=
+<br>
+=C2=A0 =C2=A0elif strings.contains(k)<br>
+=C2=A0 =C2=A0 =C2=A0config_host_data.set_quoted(k, v)<br>
+-=C2=A0 elif k.startswith(&#39;CONFIG_&#39;) or k.startswith(&#39;HAVE_&#39=
+;)<br>
++=C2=A0 elif k.startswith(&#39;CONFIG_&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0config_host_data.set(k, v =3D=3D &#39;y&#39; ? 1 : v)<b=
+r>
+=C2=A0 =C2=A0endif<br>
+=C2=A0endforeach<br>
 -- <br>
 2.31.1<br>
 <br>
@@ -505,5 +395,5 @@ e);<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
 =C3=A9 Lureau<br></div></div>
 
---00000000000014932d05cdc94bea--
+--000000000000498b9905cdc94b53--
 
