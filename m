@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED20424FF2
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 11:20:10 +0200 (CEST)
-Received: from localhost ([::1]:59684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C08425001
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 11:23:36 +0200 (CEST)
+Received: from localhost ([::1]:35460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYPZR-0007f0-9p
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 05:20:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33804)
+	id 1mYPcl-00021k-E1
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 05:23:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mYPYZ-0006yZ-AC
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:19:15 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40592
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYPZF-00080G-Q3
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:19:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mYPYX-0003bp-7t
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:19:15 -0400
-Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mYPYL-0000px-3D; Thu, 07 Oct 2021 10:19:01 +0100
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20211004211928.15803-1-mark.cave-ayland@ilande.co.uk>
- <20211004211928.15803-9-mark.cave-ayland@ilande.co.uk>
- <7994e73e-cbda-1bd1-68c4-250dd951ed51@vivier.eu>
- <66384935-4c8f-8220-8593-bfde37d05e1d@ilande.co.uk>
- <15fba2fe-77b0-78f4-ea55-9438ce976c18@vivier.eu>
- <52fe2fc5-b4fb-8888-9b80-0e362c52ebb5@ilande.co.uk>
- <3a798740-d39e-f2b8-8b3c-1a4814f184ea@vivier.eu>
- <f8d64bc7-fc6e-dd14-4ed5-a55a947ef8cb@ilande.co.uk>
- <fc202c89-cbbc-9d87-b3e2-fcba8a82b495@vivier.eu>
- <20607ac1-a061-e102-0652-33440f13504b@ilande.co.uk>
- <07079a9e-f607-f6df-e1f4-70bdffb1e39f@vivier.eu>
- <d4b65951-d267-d1ba-d774-39726aebaa91@vivier.eu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <c819ecd9-b62f-c7d1-ea79-90edf816bc5e@ilande.co.uk>
-Date: Thu, 7 Oct 2021 10:19:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYPZD-0004CO-94
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:19:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633598393;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=D8cU27lq5klMAETnyUf7daQLc2+dsGARPgDFfJ3w2IQ=;
+ b=VZEQBGXaHXRuK+6I0HdZzOwm8rm2jPnObAD6gI8V3GPLzHwVvxYFS97TBDQjkgDfQ2shM2
+ UrQjvTrdVFtzP2w66mMV9Nd+P9j0jFmrAZLv5tZDNiQg4ruJBUygvY5JW/pu+7VtQ+B9Ya
+ XK+3a3gWTlsosLOGebSCHblMn8WD4ZM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-531-OZbzcaTbN8K6NscicfsMWg-1; Thu, 07 Oct 2021 05:19:52 -0400
+X-MC-Unique: OZbzcaTbN8K6NscicfsMWg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ e12-20020a056000178c00b001606927de88so4165011wrg.10
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 02:19:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=D8cU27lq5klMAETnyUf7daQLc2+dsGARPgDFfJ3w2IQ=;
+ b=COv25zSoLflM8lLHUtgNUodaadzzBuWNZT9xsfJVXAUEf3eTa9z2FJZmRwBAuCnHYv
+ I1q9MvJG6IO975/uGj7MTrPR8w9Ilth7VDtkUunDMC6ihQhWJ94Vd0kITkmPqPYgyUqA
+ H8hCKgZzNTFE8KuDnWKokJRaT8NA6yZk9t0xVLSNioV1wJpao15NM8wSVH5f47Yk4LYB
+ iUr+K09x+ZntazdjLwo/6SELzsgK/JfWf8SzPUKmmA9/bAzE6olou60y62uAG0WhURuf
+ fwnhPp+eL31X2ZSAvDInfW6/jDQHLeplUXUzja/osD34Jz15tWAHAJHREfG/x9KlWO3s
+ AGsg==
+X-Gm-Message-State: AOAM5323V0sXCHDh2yM3jDTOTNy2X1HTsBagLK9ZWwDqWwxHjmF4R4qr
+ xNuppe68W2eUSdqur8bha6iAD8no+3366wCEe0VmnM0VPMQkq1YE3rx/ScqJi3KmSOg5LvKEHqk
+ kSCCM9w+0XJea+UA+Nc4ZD9vbinBDkMI2WkkPh1Yc846oOJNz2QFIvRrTk7YVp5S3
+X-Received: by 2002:a1c:19c4:: with SMTP id 187mr3338383wmz.149.1633598391513; 
+ Thu, 07 Oct 2021 02:19:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzkhWFwluJccazTpjGz54OjIEM9xAXrw1Z0CsIEsUEhxehwJlKPisTk8X34W7qzHgFxsjQ7wQ==
+X-Received: by 2002:a1c:19c4:: with SMTP id 187mr3338357wmz.149.1633598391174; 
+ Thu, 07 Oct 2021 02:19:51 -0700 (PDT)
+Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id o1sm10435677wmq.26.2021.10.07.02.19.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Oct 2021 02:19:50 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] MAINTAINERS: Add myself as reviewer of the 'Memory API'
+Date: Thu,  7 Oct 2021 11:19:49 +0200
+Message-Id: <20211007091949.319404-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <d4b65951-d267-d1ba-d774-39726aebaa91@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 08/12] macfb: add common monitor modes supported by the
- MacOS toolbox ROM
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.964,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,157 +91,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/10/2021 22:16, Laurent Vivier wrote:
+Having developed interest with the Memory API,
+volunteer to review the patches.
 
-> Le 06/10/2021 à 21:24, Laurent Vivier a écrit :
->> Le 06/10/2021 à 18:09, Mark Cave-Ayland a écrit :
->>> On 06/10/2021 16:46, Laurent Vivier wrote:
->>>> Le 06/10/2021 à 15:54, Mark Cave-Ayland a écrit :
->>>>> On 06/10/2021 13:24, Laurent Vivier wrote:
->>>>>
->>>>>>> This is where it becomes a bit trickier, since technically booting Linux with -kernel you can use
->>>>>>> any supported values as long as everything fits in the video RAM which is why there isn't
->>>>>>> currently
->>>>>>> a hard-coded list :)
->>>>>>>
->>>>>>
->>>>>> We need the list of "supported values". I don't want to read the code or try values combination
->>>>>> until it works.
->>>>>>
->>>>>> In a perfect world, I would like to be able to use any value I want with "-kernel".
->>>>>>
->>>>>> For instance I was using "-g 1200x800x24" and it was working fine.
->>>>>>
->>>>>> Now I have:
->>>>>>
->>>>>> qemu-system-m68k: unknown display mode: width 1200, height 800, depth 24
->>>>>>
->>>>>> If it's not possible (because the original hardware cannot provide it, and we don't know the base
->>>>>> address or things like that), we don't need the list of the display id, but the list of available
->>>>>> modes: (width,height,depth).
->>>>>>
->>>>>> Rougly, something like:
->>>>>>
->>>>>> qemu-system-m68k: unknown display mode: width 1200, height 800, depth 24
->>>>>> Available modes:
->>>>>>        1152x870x8
->>>>>>        1152x870x4
->>>>>>        1152x870x2
->>>>>>        1152x870x1
->>>>>>        800x600x24
->>>>>>        800x600x8
->>>>>>        800x600x4
->>>>>>        800x600x2
->>>>>>        800x600x1
->>>>>>        640x480x24
->>>>>>        640x480x8
->>>>>>        640x480x4
->>>>>>        640x480x2
->>>>>>        640x480x1
->>>>>>
->>>>>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
->>>>>> index 5b8812e9e7d8..4b352eb89c3f 100644
->>>>>> --- a/hw/display/macfb.c
->>>>>> +++ b/hw/display/macfb.c
->>>>>> @@ -438,6 +438,26 @@ static MacFbMode *macfb_find_mode(MacfbDisplayType display_type,
->>>>>>         return NULL;
->>>>>>     }
->>>>>>
->>>>>> +static gchar *macfb_mode_list(void)
->>>>>> +{
->>>>>> +    gchar *list = NULL;
->>>>>> +    gchar *mode;
->>>>>> +    MacFbMode *macfb_mode;
->>>>>> +    int i;
->>>>>> +
->>>>>> +    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
->>>>>> +        macfb_mode = &macfb_mode_table[i];
->>>>>> +
->>>>>> +        mode = g_strdup_printf("    %dx%dx%d\n", macfb_mode->width,
->>>>>> +                               macfb_mode->height, macfb_mode->depth);
->>>>>> +        list = g_strconcat(mode, list, NULL);
->>>>>> +        g_free(mode);
->>>>>> +    }
->>>>>> +
->>>>>> +    return list;
->>>>>> +}
->>>>>> +
->>>>>> +
->>>>>>     static void macfb_update_display(void *opaque)
->>>>>>     {
->>>>>>         MacfbState *s = opaque;
->>>>>> @@ -620,8 +640,13 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error
->>>>>> **errp)
->>>>>>
->>>>>>         s->mode = macfb_find_mode(s->type, s->width, s->height, s->depth);
->>>>>>         if (!s->mode) {
->>>>>> +        gchar *list;
->>>>>>             error_setg(errp, "unknown display mode: width %d, height %d, depth %d",
->>>>>>                        s->width, s->height, s->depth);
->>>>>> +        list =  macfb_mode_list();
->>>>>> +        error_append_hint(errp, "Available modes:\n%s", list);
->>>>>> +        g_free(list);
->>>>>> +
->>>>>>             return false;
->>>>>>         }
->>>>>
->>>>> Hi Laurent,
->>>>>
->>>>> Thanks for the example - I can certainly squash this into patch 8.
->>>>
->>>> yes, please.
->>>
->>> Okay I'll do that for a v3 (and also split the 1st patch that Phil suggested).
->>>
->>>>> As for allowing extra resolutions via -kernel, since the check is being done in
->>>>> macfb_common_realize() then it would be possible to add a qdev property that only gets set when
->>>>> -kernel is used on the command line which bypasses the mode check if you prefer?
->>>>>
->>>>
->>>> I think it can wait and be done by a patch later. For the moment we can focus on MacOS.
->>>>
->>>>> I'm not sure that your existing example of "-g 1200x800x24" (or indeed any resolution with 24-bit
->>>>> depth) with -kernel will still work after this patchset given that the 24-bit encoding scheme has
->>>>> changed. Presumably this would also need a corresponding change in the bootinfo/kernel framebuffer/X
->>>>> configuration somewhere?
->>>>
->>>> The kernel framebuffer should be easy to fix, if needed, normally we pass the needed information via
->>>> the bootinfo structure.
->>>>
->>>> My X configuration is broken for a while. With debian/sid I've never been able to start X (even on a
->>>> real q800, I think), and with debian/etch we need a special kernel as the ADB stack has been broken
->>>> with old kernel. I was not able to start X for a while now...
->>>
->>> FWIW I found that the last set of ADB fixes in mac_via.c actually fixed ADB on old kernels again (I
->>> was able to use keyboard and mouse on the 4.15 kernel you used for the original patches), so you may
->>> be able to get debian/etch working in QEMU. I'd expect forcing EMILE into a 24-bit depth on a real
->>> Quadra 800 would also show the same issue here.
->>>
->>
->> In fact, I was trying the etch kernel, 2.6.32 that was never able to boot before because VBL
->> interrupt was not implemented. Now, with your series it boots (congratulation) but there is some
->> other issues in ADB but I don't think it's related to the changes in QEMU.
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-That's definitely progress! There are a couple of extra ADB fixes in my gitlab 
-q800.upstream branch for NetBSD which may or may not help here?
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 50435b8d2f5..32b668e92fc 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2502,6 +2502,7 @@ Memory API
+ M: Paolo Bonzini <pbonzini@redhat.com>
+ M: Peter Xu <peterx@redhat.com>
+ M: David Hildenbrand <david@redhat.com>
++R: Philippe Mathieu-Daudé <philmd@redhat.com>
+ S: Supported
+ F: include/exec/ioport.h
+ F: include/exec/memop.h
+-- 
+2.31.1
 
->> I've found another kernel on my disk (4.1.39) and I'm able to start a gnome-session with 1152x870x8
->> mode. ADB works well. There is an issue with gdm that doesn't take characters from the keyboard but
->> if I start X manually and then gnome-sessions I'm able to play with it.
-> 
-> And I'm able to run a 800x600x24 session with the attached xorg.conf
-> 
-> To run 1152x870, the DefaultDepth and DefaultFbBpp must be changed to 8.
-
-Excellent - thanks for the example config. Assuming that this is matching the 
-behaviour on the real Quadra 800 then I'm happy these patches are moving the 
-emulation in the right direction :)
-
-
-ATB,
-
-Mark.
 
