@@ -2,83 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45DF4425881
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 18:56:35 +0200 (CEST)
-Received: from localhost ([::1]:36622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CCE54258BB
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 19:01:55 +0200 (CEST)
+Received: from localhost ([::1]:42382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYWh8-0003al-DL
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 12:56:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55598)
+	id 1mYWmI-0007gC-GH
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 13:01:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mYWei-0001ma-K1
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:54:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40040)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mYWjf-0006gC-Vc
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:59:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mYWeg-0007l4-GY
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:54:04 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mYWjc-0003YC-5Z
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:59:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633625641;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1633625946;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R3LIWQsYwame5cMntu1T4M91IxPxy9iCnjxKhMXzzu0=;
- b=VZ9FFs6vmNmPHKsVfyYFfJoHTk0PERK6cu9O/PIHMPCt7h/RaD5oi3/8kjxG3oUTqAUcnS
- MBsete+QFvPlFyvGEnAhBgZ71juE2FycXMfIJ3iokmq/wiYDYE6qOosZg8BNfvdHpxdoNk
- PbRhSP/dE650aTfEhn15E3DoIZ2xQE8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-SO6qPribOVGEC4BOwiQ5NQ-1; Thu, 07 Oct 2021 12:53:57 -0400
-X-MC-Unique: SO6qPribOVGEC4BOwiQ5NQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- 41-20020adf812c000000b00160dfbfe1a2so1524973wrm.3
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 09:53:56 -0700 (PDT)
+ bh=JwZTI2SvUWmWfa0LGOrbnedXPrkPps9Aj2Gc7n24qxU=;
+ b=cDv0R4aQr1J3m5EnFas/5NjFKpXoPkvul8nFd2882dgqSq9Zb17HX0ZtKfSdHWecBQKZa+
+ PXKvhVWKiqM3joiyuaQvjsHDgRd9J+XnjXvBMWIf6uhCm4o7XS4Qzuc6cKRff0A0P4yLnB
+ +2XscypKBO9gCDYU/2Zv07KHZ5ffITo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-567-zqC8t0tuPUWEw1mhaDVZ-g-1; Thu, 07 Oct 2021 12:59:04 -0400
+X-MC-Unique: zqC8t0tuPUWEw1mhaDVZ-g-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ l9-20020adfc789000000b00160111fd4e8so5226354wrg.17
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 09:59:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:to:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=R3LIWQsYwame5cMntu1T4M91IxPxy9iCnjxKhMXzzu0=;
- b=ZCYrZT4ascmYfPJMRGgBtl2HL/4pPbD+1k+dDt4zMhos3B14QmHmf1Y1uyf1dN/ihT
- /eKZUnIKSIqkcZdqnodJC2gEjlHth7PVCNKUhyf+k1mxmpG7rASg3H3gxgVkjKxoERLG
- zxdxFu7CE66gtKuI2V8u+CpdCtrn+DR9S3a0HCbe/1ijPXxYhgnQ/DYhmv8HBY/YWvAB
- slhYjYF8j9ZTZwvG+SImoW/hBPObekrYoJGr51iniTXAeH1Rh91ksN5rXPmKm2rLEeoe
- WHdf4g2b7Y+ouFWnhFBzBLLLPP2BYdi7Bq6xRJaEa9SdmrGSk5Aa6mD84KZ3oXhslroP
- T3QQ==
-X-Gm-Message-State: AOAM530tRbtl6k0/Fix+5hce9/YvNvsYXG0c4uTQfghlExugRIppy+mP
- YvymRuYCGymxYQs3BKw3R82ZfIX38g2FmeFX1uBQCaw1tN10ZWJNGVm5+8qLRNq6AOdiTrIlJ2d
- mS+/KYd7nPtPe/b9fL64DtCvM/3+fLl+DC727ejELWdR3gRime2fSkrtWLiSdSYM=
-X-Received: by 2002:a5d:4b85:: with SMTP id b5mr2927563wrt.362.1633625636004; 
- Thu, 07 Oct 2021 09:53:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyY8U1aHjgejGEMOYcsaGOxaD/tSiNIRxmKzK0iVcKeoOeoF6r3fIRjmVSHE+DZdz82DWOYlg==
-X-Received: by 2002:a5d:4b85:: with SMTP id b5mr2927538wrt.362.1633625635725; 
- Thu, 07 Oct 2021 09:53:55 -0700 (PDT)
-Received: from thuth.remote.csb (p549bb2bd.dip0.t-ipconnect.de.
- [84.155.178.189])
- by smtp.gmail.com with ESMTPSA id k9sm170060wrz.22.2021.10.07.09.53.54
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=JwZTI2SvUWmWfa0LGOrbnedXPrkPps9Aj2Gc7n24qxU=;
+ b=uTqIWGXhTa8vdbqJABKIfNnGm3cL5vY5MFjiE4varGhPi3RUscn/Q3giKhQ2Z32vUl
+ WpFlD2kkn5qA3OGvaSTRjLOF2VCtnI5M427ih5UjgFdoity6us22BTnTdqK08qR1ncVF
+ 90VtDnKq5olwatrhj0L4avmqkdRfLs9tz/pqmihSEay1CG6ISnMusVgaoTCg6z8MEcWT
+ JIeUtv5SR0F/gT+3QBq38Okymst5uz7epWJ+CUN0L6YhdOEViZ+ZnAUrNxIgk0NmEq8J
+ AuIs8O81Q9WLSjBZhISpN8ew1AnQv+YUsu7odstGFydc/0Bk3bmzat8ESmZ8m12N0sCI
+ yyuw==
+X-Gm-Message-State: AOAM530cmFhfZTW1xZCH/h34iPaCO7Gsbu0mx4lYoFgWKctPnBc5H5KV
+ MInlYdnNzd3Oo2y6MhJ/pEIUJB+EaShRfEpTi91g0uzaTYNsTbdg0w5vMW9RTwkbq02y85vFv/0
+ IQ2rvYg54NrSGDSY=
+X-Received: by 2002:adf:c992:: with SMTP id f18mr7110540wrh.138.1633625942973; 
+ Thu, 07 Oct 2021 09:59:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwuBlAPbWxSTNGpOXFBrZIBrsSRYbJUFnudhBBuT0cpM0swCeQdR0t6NOQWQiF3i9SfBxBFlQ==
+X-Received: by 2002:adf:c992:: with SMTP id f18mr7110493wrh.138.1633625942658; 
+ Thu, 07 Oct 2021 09:59:02 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id s14sm156041wro.76.2021.10.07.09.59.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Oct 2021 09:53:55 -0700 (PDT)
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211007130630.632028-1-pbonzini@redhat.com>
- <20211007130829.632254-18-pbonzini@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 23/24] configure: prepare for auto-generated option parsing
-Message-ID: <a1bdcb8f-8f37-a375-465b-a1bd0cc47d30@redhat.com>
-Date: Thu, 7 Oct 2021 18:53:53 +0200
+ Thu, 07 Oct 2021 09:59:01 -0700 (PDT)
+Subject: Re: [RFC v9 15/29] vfio: Set up nested stage mappings
+To: Kunkun Jiang <jiangkunkun@huawei.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, alex.williamson@redhat.com
+References: <20210411120912.15770-1-eric.auger@redhat.com>
+ <20210411120912.15770-16-eric.auger@redhat.com>
+ <cea9fd63-18d6-32c5-bed0-d8783af654ce@huawei.com>
+ <a844b9fa-40e9-6443-b359-60ca7d9661aa@redhat.com>
+ <b5df27a2-5f94-46fd-2c9b-8590fdb8b0a8@huawei.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <7cc527b8-7a78-fc95-be5d-f9e93172339e@redhat.com>
+Date: Thu, 7 Oct 2021 18:58:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20211007130829.632254-18-pbonzini@redhat.com>
+In-Reply-To: <b5df27a2-5f94-46fd-2c9b-8590fdb8b0a8@huawei.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -47
 X-Spam_score: -4.8
 X-Spam_bar: ----
@@ -98,190 +105,420 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
+Cc: peter.maydell@linaro.org, jacob.jun.pan@linux.intel.com,
+ chenxiang66@hisilicon.com, tn@semihalf.com,
+ shameerali.kolothum.thodi@huawei.com, nicoleotsuka@gmail.com,
+ vivek.gautam@arm.com, vdumpa@nvidia.com, yi.l.liu@intel.com, peterx@redhat.com,
+ zhangfei.gao@gmail.com, wanghaibin.wang@huawei.com, yuzenghui@huawei.com,
+ jean-philippe@linaro.org, zhukeqian1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/10/2021 15.08, Paolo Bonzini wrote:
-> Prepare the configure script and Makefile for automatically generated
-> help and parsing.
-> 
-> Because we need to run the script to generate the full help, we
-> cannot rely on the user supplying the path to a Python interpreter
-> with --python; therefore, the introspection output is parsed into
-> shell functions and stored in scripts/.  The converter is written
-> in Python as standard for QEMU, and this commit contains a stub.
+Hi Kunkun,
 
-Looks like a good approach to me! I've just got two questions below...
+On 4/14/21 3:45 AM, Kunkun Jiang wrote:
+> On 2021/4/13 20:57, Auger Eric wrote:
+>> Hi Kunkun,
+>>
+>> On 4/13/21 2:10 PM, Kunkun Jiang wrote:
+>>> Hi Eric,
+>>>
+>>> On 2021/4/11 20:08, Eric Auger wrote:
+>>>> In nested mode, legacy vfio_iommu_map_notify cannot be used as
+>>>> there is no "caching" mode and we do not trap on map.
+>>>>
+>>>> On Intel, vfio_iommu_map_notify was used to DMA map the RAM
+>>>> through the host single stage.
+>>>>
+>>>> With nested mode, we need to setup the stage 2 and the stage 1
+>>>> separately. This patch introduces a prereg_listener to setup
+>>>> the stage 2 mapping.
+>>>>
+>>>> The stage 1 mapping, owned by the guest, is passed to the host
+>>>> when the guest invalidates the stage 1 configuration, through
+>>>> a dedicated PCIPASIDOps callback. Guest IOTLB invalidations
+>>>> are cascaded downto the host through another IOMMU MR UNMAP
+>>>> notifier.
+>>>>
+>>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>>>
+>>>> ---
+>>>>
+>>>> v7 -> v8:
+>>>> - properly handle new IOMMUTLBEntry fields and especially
+>>>>     propagate DOMAIN and PASID based invalidations
+>>>>
+>>>> v6 -> v7:
+>>>> - remove PASID based invalidation
+>>>>
+>>>> v5 -> v6:
+>>>> - add error_report_err()
+>>>> - remove the abort in case of nested stage case
+>>>>
+>>>> v4 -> v5:
+>>>> - use VFIO_IOMMU_SET_PASID_TABLE
+>>>> - use PCIPASIDOps for config notification
+>>>>
+>>>> v3 -> v4:
+>>>> - use iommu_inv_pasid_info for ASID invalidation
+>>>>
+>>>> v2 -> v3:
+>>>> - use VFIO_IOMMU_ATTACH_PASID_TABLE
+>>>> - new user API
+>>>> - handle leaf
+>>>>
+>>>> v1 -> v2:
+>>>> - adapt to uapi changes
+>>>> - pass the asid
+>>>> - pass IOMMU_NOTIFIER_S1_CFG when initializing the config notifier
+>>>> ---
+>>>>    hw/vfio/common.c     | 139
+>>>> +++++++++++++++++++++++++++++++++++++++++--
+>>>>    hw/vfio/pci.c        |  21 +++++++
+>>>>    hw/vfio/trace-events |   2 +
+>>>>    3 files changed, 157 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>>>> index 0cd7ef2139..e369d451e7 100644
+>>>> --- a/hw/vfio/common.c
+>>>> +++ b/hw/vfio/common.c
+>>>> @@ -595,6 +595,73 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry
+>>>> *iotlb, void **vaddr,
+>>>>        return true;
+>>>>    }
+>>>>    +/* Propagate a guest IOTLB invalidation to the host (nested
+>>>> mode) */
+>>>> +static void vfio_iommu_unmap_notify(IOMMUNotifier *n, IOMMUTLBEntry
+>>>> *iotlb)
+>>>> +{
+>>>> +    VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
+>>>> +    struct vfio_iommu_type1_cache_invalidate ustruct = {};
+>>>> +    VFIOContainer *container = giommu->container;
+>>>> +    int ret;
+>>>> +
+>>>> +    assert(iotlb->perm == IOMMU_NONE);
+>>>> +
+>>>> +    ustruct.argsz = sizeof(ustruct);
+>>>> +    ustruct.flags = 0;
+>>>> +    ustruct.info.argsz = sizeof(struct iommu_cache_invalidate_info);
+>>>> +    ustruct.info.version = IOMMU_CACHE_INVALIDATE_INFO_VERSION_1;
+>>>> +    ustruct.info.cache = IOMMU_CACHE_INV_TYPE_IOTLB;
+>>>> +
+>>>> +    switch (iotlb->granularity) {
+>>>> +    case IOMMU_INV_GRAN_DOMAIN:
+>>>> +        ustruct.info.granularity = IOMMU_INV_GRANU_DOMAIN;
+>>>> +        break;
+>>>> +    case IOMMU_INV_GRAN_PASID:
+>>>> +    {
+>>>> +        struct iommu_inv_pasid_info *pasid_info;
+>>>> +        int archid = -1;
+>>>> +
+>>>> +        pasid_info = &ustruct.info.granu.pasid_info;
+>>>> +        ustruct.info.granularity = IOMMU_INV_GRANU_PASID;
+>>>> +        if (iotlb->flags & IOMMU_INV_FLAGS_ARCHID) {
+>>>> +            pasid_info->flags |= IOMMU_INV_ADDR_FLAGS_ARCHID;
+>>>> +            archid = iotlb->arch_id;
+>>>> +        }
+>>>> +        pasid_info->archid = archid;
+>>>> +        trace_vfio_iommu_asid_inv_iotlb(archid);
+>>>> +        break;
+>>>> +    }
+>>>> +    case IOMMU_INV_GRAN_ADDR:
+>>>> +    {
+>>>> +        hwaddr start = iotlb->iova + giommu->iommu_offset;
+>>>> +        struct iommu_inv_addr_info *addr_info;
+>>>> +        size_t size = iotlb->addr_mask + 1;
+>>>> +        int archid = -1;
+>>>> +
+>>>> +        addr_info = &ustruct.info.granu.addr_info;
+>>>> +        ustruct.info.granularity = IOMMU_INV_GRANU_ADDR;
+>>>> +        if (iotlb->leaf) {
+>>>> +            addr_info->flags |= IOMMU_INV_ADDR_FLAGS_LEAF;
+>>>> +        }
+>>>> +        if (iotlb->flags & IOMMU_INV_FLAGS_ARCHID) {
+>>>> +            addr_info->flags |= IOMMU_INV_ADDR_FLAGS_ARCHID;
+>>>> +            archid = iotlb->arch_id;
+>>>> +        }
+>>>> +        addr_info->archid = archid;
+>>>> +        addr_info->addr = start;
+>>>> +        addr_info->granule_size = size;
+>>>> +        addr_info->nb_granules = 1;
+>>>> +        trace_vfio_iommu_addr_inv_iotlb(archid, start, size,
+>>>> +                                        1, iotlb->leaf);
+>>>> +        break;
+>>>> +    }
+>>> Should we pass a size to  host kernel here, even if vSMMU doesn't
+>>> support
+>>> RIL or guest kernel doesn't use RIL?
+>>>
+>>> It will cause TLBI issue in  this scenario: Guest kernel issues a
+>>> TLBI cmd
+>>> without "range" (tg = 0) to invalidate a 2M huge page. Then qemu passed
+>>> the iova and size (4K) to host kernel. Finally, host kernel issues a
+>>> TLBI cmd
+>>> with "range" (4K) which can not invalidate the TLB entry of 2M huge
+>>> page.
+>>> (pSMMU supports RIL)
+>> In that case the guest will loop over all 4K images belonging to the 2M
+>> huge page and invalidate each of them. This should turn into qemu
+>> notifications for each 4kB page, no? This is totally inefficient, hence
+> The guest will not loop over all 4K images belonging to the 2M huge page.
+> The iommu_iotlb_gather->pgsize will be 2M, if a page is 2M huge page. The
+> gather->pgsize will be passed to __arm_smmu_tlb_inv_range as "granule":
+>
+> iommu_iotlb_gather_add_page
+>     iommu_iotlb_sync
+>         domain->ops->iotlb_sync
+>             arm_smmu_iotlb_sync
+>                 arm_smmu_tlb_inv_range_domain
+>                     __arm_smmu_tlb_inv_range
+>
+> In the above mentioned scenario, guest kernel will issue a TLBI cmd
+> only with
+> "iova" (tg = 0).
 
-> diff --git a/configure b/configure
-> index d2f754d5d1..d979476e03 100755
-> --- a/configure
-> +++ b/configure
-> @@ -789,6 +789,18 @@ fi
->   
->   werror=""
->   
-> +. $source_path/scripts/meson-buildoptions.sh
-> +
-> +meson_options=
-> +meson_option_parse() {
-> +  meson_options="$meson_options $(_meson_option_parse "$@")"
-> +  if test $? -eq 1; then
-> +    echo "ERROR: unknown option $1"
-> +    echo "Try '$0 --help' for more information"
-> +    exit 1
-> +  fi
-> +}
+I am currently respinning the SMMU part (the rest depends on
+/dev/iommu). While thinking more about this issue you reported a long
+time ago (sorry), I think a guest not using RIL is problematic wrt vSMMU
+integration. Your case would not work with vhost either because when you
+notify vhost you need to pass an invalidation range. In this specific
+case there is none passed by the guest as the INVAL CMD just contains an
+iova and that's it. Hope I do not miss anything. And I cannot guess the
+range size. I only have the granule size from the CD and the IOVA. So
+how can I properly invalidate in the vhost case beside upgrading the API
+and pass the info telling the addr range is not set and invalidate the
+whole vhost cache in that case.
 
-Why the detour via this wrapper and $(_meson_option_parse) ? Couldn't you 
-simply add the stuff directly to $meson_options in _meson_option_parse() ?
+So I would be inclined to support a RIL only guest for nested and
+globally with vhost. I can't ignore your argument that the detection of
+non interoperability comes late, with the first inval with TG=0. But I
+think the SMMU spec without RIL just is *not* virtualization compatible
+and this was first reported in Aug 2017
+(https://lkml.org/lkml/2017/8/11/428), yeah so much time spent on this
+without outcome :-(. Given the nested feature timeframe, now with this
+/dev/iommu redesign, can't you consider that using a guest kernel >=
+5.7, featuring RIL now is acceptable.
 
->   for opt do
->     optarg=$(expr "x$opt" : 'x[^=]*=\(.*\)')
->     case "$opt" in
-> @@ -1548,6 +1560,8 @@ for opt do
->     ;;
->     --disable-slirp-smbd) slirp_smbd=no
->     ;;
-> +  --enable-* | --disable-*) meson_option_parse "$opt" "$optarg"
-> +  ;;
->     *)
->         echo "ERROR: unknown option $opt"
->         echo "Try '$0 --help' for more information"
-> @@ -1802,11 +1816,9 @@ Advanced options (experts only):
->                              enable plugins via shared library loading
->     --disable-containers     don't use containers for cross-building
->     --gdb=GDB-path           gdb to use for gdbstub tests [$gdb_bin]
-> -
-> -Optional features, enabled with --enable-FEATURE and
-> -disabled with --disable-FEATURE, default is enabled if available
-> -(unless built with --without-default-features):
-> -
-> +EOF
-> +  meson_options_help
-> +cat << EOF
->     system          all system emulation targets
->     user            supported user emulation targets
->     linux-user      all linux usermode emulation targets
-> @@ -4487,7 +4499,8 @@ if test "$skip_meson" = no; then
->     mv $cross config-meson.cross
->   
->     rm -rf meson-private meson-info meson-logs
-> -  NINJA=$ninja $meson setup \
-> +  run_meson() {
-> +    NINJA=$ninja $meson setup \
->           --prefix "$prefix" \
->           --libdir "$libdir" \
->           --libexecdir "$libexecdir" \
-> @@ -4532,9 +4545,9 @@ if test "$skip_meson" = no; then
->           -Dpa=$pa -Daudio_drv_list=$audio_drv_list -Dtcg_interpreter=$tcg_interpreter \
->           -Dtrace_backends=$trace_backends -Dtrace_file=$trace_file -Dlinux_aio=$linux_aio \
->           -Dnetmap=$netmap -Dvde=$vde \
-> -        $cross_arg \
-> -        "$PWD" "$source_path"
-> -
-> +        "$@" $cross_arg "$PWD" "$source_path"
-> +  }
-> +  eval run_meson $meson_options
->     if test "$?" -ne 0 ; then
->         error_exit "meson setup failed"
->     fi
-> diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
-> new file mode 100755
-> index 0000000000..8948c296b7
-> --- /dev/null
-> +++ b/scripts/meson-buildoptions.py
-> @@ -0,0 +1,63 @@
-> +#! /usr/bin/env python3
-> +
-> +# Generate configure command line options handling code, based on Meson's
-> +# user build options introspection data
-> +#
-> +# Copyright (C) 2021 Red Hat, Inc.
-> +#
-> +# Author: Paolo Bonzini <pbonzini@redhat.com>
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation; either version 2, or (at your option)
-> +# any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-> +
-> +import json
-> +import textwrap
-> +import shlex
-> +import sys
-> +
-> +def sh_print(line=""):
-> +    print('  printf "%s\\n"', shlex.quote(line))
-> +
-> +
-> +def load_options(json):
-> +    json = [
-> +        x
-> +        for x in json
-> +        if x["section"] == "user"
-> +        and ":" not in x["name"]
-> +        and x["name"] not in SKIP_OPTIONS
-> +    ]
-> +    return sorted(json, key=lambda x: x["name"])
-> +
-> +
-> +def print_help(options):
-> +    print("meson_options_help() {")
-> +    sh_print()
-> +    sh_print("Optional features, enabled with --enable-FEATURE and")
-> +    sh_print("disabled with --disable-FEATURE, default is enabled if available")
-> +    sh_print("(unless built with --without-default-features):")
-> +    sh_print()
-> +    print("}")
-> +
-> +
-> +def print_parse(options):
-> +    print("_meson_option_parse() {")
-> +    print("  case $1 in")
-> +    print("    *) return 1 ;;")
-> +    print("  esac")
-> +    print("}")
-> +
-> +
-> +options = load_options(json.load(sys.stdin))
+Thanks
 
-Could you maybe print a header line first, à la:
-
-# This file is generated by meson-buildoptions.py, do not edit!
-
-?
-
-> +print_help(options)
-> +print_parse(options)
-> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-> new file mode 100644
-> index 0000000000..3be3058a6c
-> --- /dev/null
-> +++ b/scripts/meson-buildoptions.sh
-> @@ -0,0 +1,12 @@
-> +meson_options_help() {
-> +  printf "%s\n" ''
-> +  printf "%s\n" 'Optional features, enabled with --enable-FEATURE and'
-> +  printf "%s\n" 'disabled with --disable-FEATURE, default is enabled if available'
-> +  printf "%s\n" '(unless built with --without-default-features):'
-> +  printf "%s\n" ''
-> +}
-> +_meson_option_parse() {
-> +  case $1 in
-> +    *) return 1 ;;
-> +  esac
-> +}
-> 
-
-Tested-by: Thomas Huth <thuth@redhat.com>
+Eric
+>
+> Thanks,
+> Kunkun Jiang
+>> the support of RIL on guest side and QEMU device.
+>>
+>> What do I miss?
+>>
+>> Thanks
+>>
+>> Eric
+>>> Thanks,
+>>> Kunkun Jiang
+>>>> +    }
+>>>> +
+>>>> +    ret = ioctl(container->fd, VFIO_IOMMU_CACHE_INVALIDATE,
+>>>> &ustruct);
+>>>> +    if (ret) {
+>>>> +        error_report("%p: failed to invalidate CACHE (%d)",
+>>>> container, ret);
+>>>> +    }
+>>>> +}
+>>>> +
+>>>>    static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry
+>>>> *iotlb)
+>>>>    {
+>>>>        VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
+>>>> @@ -776,6 +843,35 @@ static void
+>>>> vfio_dma_unmap_ram_section(VFIOContainer *container,
+>>>>        }
+>>>>    }
+>>>>    +static void vfio_prereg_listener_region_add(MemoryListener
+>>>> *listener,
+>>>> +                                            MemoryRegionSection
+>>>> *section)
+>>>> +{
+>>>> +    VFIOContainer *container =
+>>>> +        container_of(listener, VFIOContainer, prereg_listener);
+>>>> +    Error *err = NULL;
+>>>> +
+>>>> +    if (!memory_region_is_ram(section->mr)) {
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    vfio_dma_map_ram_section(container, section, &err);
+>>>> +    if (err) {
+>>>> +        error_report_err(err);
+>>>> +    }
+>>>> +}
+>>>> +static void vfio_prereg_listener_region_del(MemoryListener *listener,
+>>>> +                                     MemoryRegionSection *section)
+>>>> +{
+>>>> +    VFIOContainer *container =
+>>>> +        container_of(listener, VFIOContainer, prereg_listener);
+>>>> +
+>>>> +    if (!memory_region_is_ram(section->mr)) {
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    vfio_dma_unmap_ram_section(container, section);
+>>>> +}
+>>>> +
+>>>>    static void vfio_listener_region_add(MemoryListener *listener,
+>>>>                                         MemoryRegionSection *section)
+>>>>    {
+>>>> @@ -879,9 +975,10 @@ static void
+>>>> vfio_listener_region_add(MemoryListener *listener,
+>>>>        memory_region_ref(section->mr);
+>>>>          if (memory_region_is_iommu(section->mr)) {
+>>>> +        IOMMUNotify notify;
+>>>>            VFIOGuestIOMMU *giommu;
+>>>>            IOMMUMemoryRegion *iommu_mr =
+>>>> IOMMU_MEMORY_REGION(section->mr);
+>>>> -        int iommu_idx;
+>>>> +        int iommu_idx, flags;
+>>>>              trace_vfio_listener_region_add_iommu(iova, end);
+>>>>            /*
+>>>> @@ -900,8 +997,18 @@ static void
+>>>> vfio_listener_region_add(MemoryListener *listener,
+>>>>            llend = int128_sub(llend, int128_one());
+>>>>            iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
+>>>>                                                         
+>>>> MEMTXATTRS_UNSPECIFIED);
+>>>> -        iommu_notifier_init(&giommu->n, vfio_iommu_map_notify,
+>>>> -                            IOMMU_NOTIFIER_IOTLB_EVENTS,
+>>>> +
+>>>> +        if (container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
+>>>> +            /* IOTLB unmap notifier to propagate guest IOTLB
+>>>> invalidations */
+>>>> +            flags = IOMMU_NOTIFIER_UNMAP;
+>>>> +            notify = vfio_iommu_unmap_notify;
+>>>> +        } else {
+>>>> +            /* MAP/UNMAP IOTLB notifier */
+>>>> +            flags = IOMMU_NOTIFIER_IOTLB_EVENTS;
+>>>> +            notify = vfio_iommu_map_notify;
+>>>> +        }
+>>>> +
+>>>> +        iommu_notifier_init(&giommu->n, notify, flags,
+>>>>                                section->offset_within_region,
+>>>>                                int128_get64(llend),
+>>>>                                iommu_idx);
+>>>> @@ -921,7 +1028,9 @@ static void
+>>>> vfio_listener_region_add(MemoryListener *listener,
+>>>>                goto fail;
+>>>>            }
+>>>>            QLIST_INSERT_HEAD(&container->giommu_list, giommu,
+>>>> giommu_next);
+>>>> -        memory_region_iommu_replay(giommu->iommu, &giommu->n);
+>>>> +        if (flags & IOMMU_NOTIFIER_MAP) {
+>>>> +            memory_region_iommu_replay(giommu->iommu, &giommu->n);
+>>>> +        }
+>>>>              return;
+>>>>        }
+>>>> @@ -1205,10 +1314,16 @@ static const MemoryListener
+>>>> vfio_memory_listener = {
+>>>>        .log_sync = vfio_listener_log_sync,
+>>>>    };
+>>>>    +static MemoryListener vfio_memory_prereg_listener = {
+>>>> +    .region_add = vfio_prereg_listener_region_add,
+>>>> +    .region_del = vfio_prereg_listener_region_del,
+>>>> +};
+>>>> +
+>>>>    static void vfio_listener_release(VFIOContainer *container)
+>>>>    {
+>>>>        memory_listener_unregister(&container->listener);
+>>>> -    if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU) {
+>>>> +    if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU ||
+>>>> +        container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
+>>>>            memory_listener_unregister(&container->prereg_listener);
+>>>>        }
+>>>>    }
+>>>> @@ -1858,6 +1973,20 @@ static int vfio_connect_container(VFIOGroup
+>>>> *group, AddressSpace *as,
+>>>>                vfio_get_iommu_info_migration(container, info);
+>>>>            }
+>>>>            g_free(info);
+>>>> +
+>>>> +        if (container->iommu_type == VFIO_TYPE1_NESTING_IOMMU) {
+>>>> +            container->prereg_listener = vfio_memory_prereg_listener;
+>>>> +            memory_listener_register(&container->prereg_listener,
+>>>> +                                     &address_space_memory);
+>>>> +            if (container->error) {
+>>>> +               
+>>>> memory_listener_unregister(&container->prereg_listener);
+>>>> +                ret = -1;
+>>>> +                error_propagate_prepend(errp, container->error,
+>>>> +                                    "RAM memory listener
+>>>> initialization failed "
+>>>> +                                    "for container");
+>>>> +                goto free_container_exit;
+>>>> +            }
+>>>> +        }
+>>>>            break;
+>>>>        }
+>>>>        case VFIO_SPAPR_TCE_v2_IOMMU:
+>>>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>>>> index 5c65aa0a98..cad7deec71 100644
+>>>> --- a/hw/vfio/pci.c
+>>>> +++ b/hw/vfio/pci.c
+>>>> @@ -2773,6 +2773,25 @@ static void
+>>>> vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
+>>>>        vdev->req_enabled = false;
+>>>>    }
+>>>>    +static int vfio_iommu_set_pasid_table(PCIBus *bus, int32_t devfn,
+>>>> +                                      IOMMUConfig *config)
+>>>> +{
+>>>> +    PCIDevice *pdev = bus->devices[devfn];
+>>>> +    VFIOPCIDevice *vdev = DO_UPCAST(VFIOPCIDevice, pdev, pdev);
+>>>> +    VFIOContainer *container = vdev->vbasedev.group->container;
+>>>> +    struct vfio_iommu_type1_set_pasid_table info;
+>>>> +
+>>>> +    info.argsz = sizeof(info);
+>>>> +    info.flags = VFIO_PASID_TABLE_FLAG_SET;
+>>>> +    memcpy(&info.config, &config->pasid_cfg,
+>>>> sizeof(config->pasid_cfg));
+>>>> +
+>>>> +    return ioctl(container->fd, VFIO_IOMMU_SET_PASID_TABLE, &info);
+>>>> +}
+>>>> +
+>>>> +static PCIPASIDOps vfio_pci_pasid_ops = {
+>>>> +    .set_pasid_table = vfio_iommu_set_pasid_table,
+>>>> +};
+>>>> +
+>>>>    static void vfio_realize(PCIDevice *pdev, Error **errp)
+>>>>    {
+>>>>        VFIOPCIDevice *vdev = VFIO_PCI(pdev);
+>>>> @@ -3084,6 +3103,8 @@ static void vfio_realize(PCIDevice *pdev, Error
+>>>> **errp)
+>>>>        vfio_register_req_notifier(vdev);
+>>>>        vfio_setup_resetfn_quirk(vdev);
+>>>>    +    pci_setup_pasid_ops(pdev, &vfio_pci_pasid_ops);
+>>>> +
+>>>>        return;
+>>>>      out_deregister:
+>>>> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+>>>> index 936d29d150..43696afc15 100644
+>>>> --- a/hw/vfio/trace-events
+>>>> +++ b/hw/vfio/trace-events
+>>>> @@ -120,6 +120,8 @@ vfio_region_sparse_mmap_header(const char *name,
+>>>> int index, int nr_areas) "Devic
+>>>>    vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned
+>>>> long end) "sparse entry %d [0x%lx - 0x%lx]"
+>>>>    vfio_get_dev_region(const char *name, int index, uint32_t type,
+>>>> uint32_t subtype) "%s index %d, %08x/%0x8"
+>>>>    vfio_dma_unmap_overflow_workaround(void) ""
+>>>> +vfio_iommu_addr_inv_iotlb(int asid, uint64_t addr, uint64_t size,
+>>>> uint64_t nb_granules, bool leaf) "nested IOTLB invalidate asid=%d,
+>>>> addr=0x%"PRIx64" granule_size=0x%"PRIx64" nb_granules=0x%"PRIx64"
+>>>> leaf=%d"
+>>>> +vfio_iommu_asid_inv_iotlb(int asid) "nested IOTLB invalidate asid=%d"
+>>>>      # platform.c
+>>>>    vfio_platform_base_device_init(char *name, int groupid) "%s belongs
+>>>> to group #%d"
+>>>
+>>>
+>> .
+>
+>
 
 
