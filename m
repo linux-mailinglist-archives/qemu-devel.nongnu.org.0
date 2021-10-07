@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7072F4253CD
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:12:49 +0200 (CEST)
-Received: from localhost ([::1]:37388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF164253D9
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:14:30 +0200 (CEST)
+Received: from localhost ([::1]:42094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYTCa-0003TW-63
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:12:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55514)
+	id 1mYTED-0006aw-Gf
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:14:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mYT6h-00029E-4p
+ id 1mYT6h-0002Ao-IX
  for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:06:43 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:36432)
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:41854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mYT6f-0007Mk-94
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:06:42 -0400
-Received: by mail-ed1-x530.google.com with SMTP id l7so23127430edq.3
+ id 1mYT6f-0007M7-Kv
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:06:43 -0400
+Received: by mail-ed1-x531.google.com with SMTP id a25so7219408edx.8
  for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 06:06:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OVlTEKspqDgNLmcgjTl/5S2TMmoesf/a0v+UFUMZ2ao=;
- b=JL/IX28tFpkhEkWWPdC8MI9Q170iw2nL1jaI/gc+u05ZAV/pD4BOvp06Fm7An1zVZu
- /lYyfgvwTsSgRw6B6LrF6tipdTPvf5aGNC30XufCzmTMfVrs4l+TOaHXT05MUwtorPDa
- ox07I5OtT/7tWeXLKaKMcf9KJ7/e/LJWIHUAH89cBkUbH0HZTbniROacjpWl669eZz/y
- qMxQPzg9U2jy9Dp4maKukIjJbTVsorrZq0T5h9l4ZgU1tAEOFFCI/f3Ietsx1hh+ZIx5
- e0cxm4n4kmYcSyr1TUwiOEgENemz5tJV5icL/B/4kax9gBe9UNBq2c5vClXirmhaareF
- DDCg==
+ bh=x6Ie3yL7NYkxjE0ns/nXhQ+jNDpQbZB2Hilw1SZ8aW0=;
+ b=cwsUta+ApoC5achuUBwIPwNumJOTBUv7k+LRv63hKZns0uPcNFj4jKcdtEqk/uE+c6
+ avkE0J8cHsRA0hxMWeI8wECQSVL/w/Gv2FSMAsnZLDZoo+lV73cpho0A5L9IAK6zruur
+ TLNfYHsa/Cze+7pMwolDCfFVWyTTc0W2c2ODFn9Van9Prxww+BKczYvqHiopY/jPmFhL
+ vHokDYoNmotbSUwPjVx61MMBoMhFXe/EoifSnsiq8rxUTGGQcwR50iUtf4fINfiDfPHQ
+ kJEgc1elvpoZZhOcwo8rnmvdT30nzvfTiKYmQAXMGeoVvucs72CwZWTB2HGKWGmRBkMI
+ qrsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OVlTEKspqDgNLmcgjTl/5S2TMmoesf/a0v+UFUMZ2ao=;
- b=8E+yY8zyfvnGCKuHpGVgRg+ojey3cPo8/HWxMnFEYY5z6gilu/CkAkkdCTo2wpdbYc
- r/6jg8TRk2f9u1feC6olKu0/kY/1noHSKu0U4uTMWSIfAsevPKPeipMP/gleCicsmcr1
- WA+pmh2wt8OIDgiwHK3Zp70L7DXeg9QCiY6WL+Djzy/xEJJ49OpEA3LYnPBPO4WWxDny
- if4Mk8OwWUX8gtpwO+D3OXMax3PpjnRYSoCfd48sEy2ggPI20gLRW1nK8iL0Ps2YJJ5T
- vtywsOIW1yxJkgzwx1V5CAsdVfsHXQL4hTLLbXzzUHvz9l0yJn65yhtEwlZENWvfWToC
- vdkw==
-X-Gm-Message-State: AOAM5324HITgyQALiCiE11kzBwAeYB2NGTxbx4vH8DBZfyBeVtgzNXgY
- 7q5qp+XKzwQeF9b4u/zRHUef5B0T0EU=
-X-Google-Smtp-Source: ABdhPJyRjF/ORRTHb9/Qjdx66U/DvIZ0vpiXwZsB4V1uRtPyjkpFP/6w+xLHPJezDdCee7g+EVI+TA==
-X-Received: by 2002:a50:d885:: with SMTP id p5mr6071269edj.255.1633611997475; 
- Thu, 07 Oct 2021 06:06:37 -0700 (PDT)
+ bh=x6Ie3yL7NYkxjE0ns/nXhQ+jNDpQbZB2Hilw1SZ8aW0=;
+ b=cwl5XhO+nffirvvk7zDukEJsguT+rkEmf0Xy5x3K/GNrRLLvNabL6uVu2CmuupZc4Z
+ SDNMmN3ISitDzob2aqm0PyKcv4hUH+6pgFIlUpEouiVK73U/KotbWCIQVqDCqqhjCmJF
+ tmeNqYbvRxtZ4atmnqeLxu6d1colvHlMi7ehdC26uulwnWBtXIQSps3XuskobsuEPs6v
+ LD4DwLL4ZRyUcg6hhItPSfHmovyZaeNXPwaos+UjC4WhNyILgIYIqEBEVSoKLFIHqiTF
+ gLKfH5/i6K+BjAZF3oOMtPj/Ft7CDKyJSThhWmC4i4oT9IZU+yx+N/EeDNaMoJ6P+VJR
+ CllQ==
+X-Gm-Message-State: AOAM531QZ3ZQbkLXREaUryutS8UVmUMDpiuUjr1Q91vdEQVqBYVZXVZO
+ LLYvP8oYH93P3v8bxUIuiPug/fKm4Eg=
+X-Google-Smtp-Source: ABdhPJyzTbfzdCul7PdFh42F0ZZNqeqlpFyk7WThJspWgy9Dq1QRtoQW9fysIHjbfEIFTnFkPygOVQ==
+X-Received: by 2002:a17:906:5051:: with SMTP id
+ e17mr5455377ejk.481.1633611998164; 
+ Thu, 07 Oct 2021 06:06:38 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ca4sm10167543ejb.1.2021.10.07.06.06.36
+ by smtp.gmail.com with ESMTPSA id ca4sm10167543ejb.1.2021.10.07.06.06.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 07 Oct 2021 06:06:37 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/24] meson: define symbols for all available audio drivers
-Date: Thu,  7 Oct 2021 15:06:10 +0200
-Message-Id: <20211007130630.632028-5-pbonzini@redhat.com>
+Subject: [PATCH 05/24] configure: add command line options for audio drivers
+Date: Thu,  7 Oct 2021 15:06:11 +0200
+Message-Id: <20211007130630.632028-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211007130630.632028-1-pbonzini@redhat.com>
 References: <20211007130630.632028-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,44 +90,85 @@ Cc: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All drivers are now built by default if the corresponding libraries
-are available, similar to how all other modules behave;
---audio-drv-list only governs the default choice of the audio driver.
-
-Adjust the CONFIG_AUDIO_* preprocessor symbols so that they are
-based on library availability rather than --audio-drv-list, so that
-the tests and -audiodev help follow the new logic.
+Handle the choice of audio drivers the same as all other dependencies.
 
 Cc: Gerd Hoffman <kraxel@redhat.com>
 Cc: Volker Rümelin <vr_qemu@t-online.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ configure | 39 ++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 38 insertions(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 13b725181a..0e9733a833 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1219,6 +1219,9 @@ if have_system
-     'pa': pulse.found(),
-     'sdl': sdl.found(),
-   }
-+  foreach k, v: audio_drivers_available
-+    config_host_data.set('CONFIG_AUDIO_' + k.to_upper(), v)
-+  endforeach
- 
-   # Default to native drivers first, OSS second, SDL third
-   audio_drivers_priority = \
-@@ -1241,9 +1244,6 @@ if have_system
-     endif
-   endforeach
- endif
--foreach k: audio_drivers_selected
--  config_host_data.set('CONFIG_AUDIO_' + k.to_upper(), true)
--endforeach
- config_host_data.set('CONFIG_AUDIO_DRIVERS',
-                      '"' + '", "'.join(audio_drivers_selected) + '", ')
+diff --git a/configure b/configure
+index fcadcf9577..5541671b58 100755
+--- a/configure
++++ b/configure
+@@ -310,6 +310,12 @@ vnc_sasl="auto"
+ vnc_jpeg="auto"
+ vnc_png="auto"
+ xkbcommon="auto"
++alsa="auto"
++coreaudio="auto"
++dsound="auto"
++jack="auto"
++oss="auto"
++pa="auto"
+ xen=${default_feature:+disabled}
+ xen_ctrl_version="$default_feature"
+ xen_pci_passthrough="auto"
+@@ -1051,6 +1057,30 @@ for opt do
+   ;;
+   --enable-xen-pci-passthrough) xen_pci_passthrough="enabled"
+   ;;
++  --disable-alsa) alsa="disabled"
++  ;;
++  --enable-alsa) alsa="enabled"
++  ;;
++  --disable-coreaudio) coreaudio="disabled"
++  ;;
++  --enable-coreaudio) coreaudio="enabled"
++  ;;
++  --disable-dsound) dsound="disabled"
++  ;;
++  --enable-dsound) dsound="enabled"
++  ;;
++  --disable-jack) jack="disabled"
++  ;;
++  --enable-jack) jack="enabled"
++  ;;
++  --disable-oss) oss="disabled"
++  ;;
++  --enable-oss) oss="enabled"
++  ;;
++  --disable-pa) pa="disabled"
++  ;;
++  --enable-pa) pa="enabled"
++  ;;
+   --disable-brlapi) brlapi="disabled"
+   ;;
+   --enable-brlapi) brlapi="enabled"
+@@ -1849,6 +1879,12 @@ disabled with --disable-FEATURE, default is enabled if available
+   mpath           Multipath persistent reservation passthrough
+   xen             xen backend driver support
+   xen-pci-passthrough    PCI passthrough support for Xen
++  alsa            ALSA sound support
++  coreaudio       CoreAudio sound support
++  dsound          DirectSound sound support
++  jack            JACK sound support
++  oss             OSS sound support
++  pa              PulseAudio sound support
+   brlapi          BrlAPI (Braile)
+   curl            curl connectivity
+   membarrier      membarrier system call (for Linux 4.14+ or Windows)
+@@ -5015,7 +5051,8 @@ if test "$skip_meson" = no; then
+         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
+         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
+         $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
+-        -Daudio_drv_list=$audio_drv_list -Dtcg_interpreter=$tcg_interpreter \
++        -Dalsa=$alsa -Dcoreaudio=$coreaudio -Ddsound=$dsound -Djack=$jack -Doss=$oss \
++        -Dpa=$pa -Daudio_drv_list=$audio_drv_list -Dtcg_interpreter=$tcg_interpreter \
+         $cross_arg \
+         "$PWD" "$source_path"
  
 -- 
 2.31.1
