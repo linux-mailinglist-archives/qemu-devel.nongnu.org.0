@@ -2,73 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED7A0425F8E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 23:54:12 +0200 (CEST)
-Received: from localhost ([::1]:42908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15995425FC4
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 00:19:45 +0200 (CEST)
+Received: from localhost ([::1]:33710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYbL8-00050U-H5
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 17:54:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51894)
+	id 1mYbjr-0002Sp-RW
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 18:19:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mYbKF-0004C6-EC
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 17:53:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31641)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mYbdU-00030w-Kd
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 18:13:08 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41866
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mYbK9-0001oR-9j
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 17:53:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633643586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g7w/TaktYoIddF3PSUMiplSM93gOKY8AkkUY3Cw+0KM=;
- b=YPDVLovh9ifXBBpjPE6wbRNXUfGcsWvWAErbPQhFqbZDaZZ8PSHJXo9iPdasI++Vl+da4z
- 7Vz+u7Uv7sluyRuFAfdlLjfoV8pSCmNyore3vyw9Y3exUkrtN+gARgGJRPXrzEZthpfIXC
- E+EJUKbG+/q8YkGLJyDQOtKY6GnJBFI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-O4pKimztN_iKmEUDdbFCBA-1; Thu, 07 Oct 2021 17:53:03 -0400
-X-MC-Unique: O4pKimztN_iKmEUDdbFCBA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EC8A1760D6;
- Thu,  7 Oct 2021 21:46:38 +0000 (UTC)
-Received: from redhat.com (ovpn-113-216.phx2.redhat.com [10.3.113.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E30D51057F64;
- Thu,  7 Oct 2021 21:46:34 +0000 (UTC)
-Date: Thu, 7 Oct 2021 16:46:33 -0500
-From: Eric Blake <eblake@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 04/17] python/aqmp: add send_fd_scm
-Message-ID: <20211007214606.ia5hob7heugzjoao@redhat.com>
-References: <20210923004938.3999963-1-jsnow@redhat.com>
- <20210923004938.3999963-5-jsnow@redhat.com>
- <20211007145214.ua7db2hwifhtawis@redhat.com>
- <CAFn=p-bwAL5ZmGHHR+uC-vbb=AdgdoFoqY3aHCNV6CZdKxjcmA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mYbdQ-0006gC-IX
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 18:13:08 -0400
+Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1] (helo=kentang.home)
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mYbd8-0003uC-K7; Thu, 07 Oct 2021 23:12:50 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org,
+	laurent@vivier.eu
+Date: Thu,  7 Oct 2021 23:12:40 +0100
+Message-Id: <20211007221253.29024-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAFn=p-bwAL5ZmGHHR+uC-vbb=AdgdoFoqY3aHCNV6CZdKxjcmA@mail.gmail.com>
-User-Agent: NeoMutt/20210205-818-e2615c
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v4 00/13] macfb: fixes for booting MacOS
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,52 +59,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 07, 2021 at 12:27:24PM -0400, John Snow wrote:
-> On Thu, Oct 7, 2021 at 10:52 AM Eric Blake <eblake@redhat.com> wrote:
-> 
-> > On Wed, Sep 22, 2021 at 08:49:25PM -0400, John Snow wrote:
-> > > The single space is indeed required to successfully transmit the file
-> > > descriptor to QEMU.
-> >
-> > Sending fds requires a payload of at least one byte, but I don't think
-> > that qemu cares which byte.  Thus, while your choice of space is fine,
-> > the commit message may be a bit misleading at implying it must be
-> > space.
-> >
-> >
-> OK, I'll rephrase. (Space winds up being useful in particular because it
-> doesn't mess with the parsing for subsequent JSON objects sent over the
-> wire.)
-> 
-> (Idle curiosity: Is it possible to make QEMU accept an empty payload here?
-> I understand that for compatibility reasons it wouldn't change much for the
-> python lib even if we did, but I'm curious.)
+This is the next set of patches to allow users to boot MacOS in QEMU's
+q800 machine.
 
-No, my understanding is that for SCM_RIGHTS to work reliably, you HAVE
-to have a payload to avoid a return value of 0 from recvmsg() which
-would be ambiguous with the peer performing orderly shutdown.  'man 7
-unix' confirms:
+Patches 1 to 4 are fixes for existing bugs that I discovered whilst
+developing the remainder of the patchset whilst patch 5 simplifies the
+registration of the framebuffer RAM.
 
-       At  least  one  byte of real data should be sent when sending ancillary
-       data.  On Linux, this is required to successfully send  ancillary  data
-       over  a  UNIX domain stream socket.  When sending ancillary data over a
-       UNIX domain datagram socket, it is not necessary on Linux to  send  any
-       accompanying real data.  However, portable applications should also in‐
-       clude at least one byte of real data when sending ancillary data over a
-       datagram socket.
+Patch 6 adds trace events to the framebuffer register accesses. The
+framebuffer registers are not officially documented, so the macfb
+device changes here are based upon reading of Linux/NetBSD source code,
+using gdbstub during the MacOS toolbox ROM initialisation, and changing
+the framebuffer size/depth within MacOS itself with these trace events
+enabled.
 
+Patches 7 and 8 implement the mode sense logic documented in Apple
+Technical Note HW26 "Macintosh Quadra Built-In Video" and configure the
+default display type to be VGA.
+
+Patch 9 implements the common monitor modes used for VGA at 640x480 and
+800x600 for 1, 2, 4, 8 and 24-bit depths and also the Apple 21" color
+monitor at 1152x870 with 8-bit depth.
+
+Patches 10 and 11 fix up errors in the 1-bit and 24-bit pixel encodings
+discovered when testing these color depths in MacOS.
+
+Patch 12 adds a timer to implement the 60.15Hz VBL interrupt which is
+required for MacOS to process mouse movements, whilst patch 13 wires the
+same interrupt to a dedicated pin on VIA2 reserved for the video
+interrupt on the Quadra 800.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+v4:
+- Rebase onto master
+- Add R-B tags from Laurent
+- Change %d to %u for the macfb_ctrl_* trace-events size parameter in patch 6
+
+v3:
+- Rebase onto master
+- Add Laurent's code for displaying supported display modes as an error hint in patch 9
+  and update the patch description
+- Fix typo in patch 8 description: 32-bit -> 24-bit
+- Split Error API changes from patch 1 into a new patch 2
+
+v2:
+- Rebase onto master
+- Add R-B tags from Zoltan, Philippe and Laurent
+- Rework macfb_common_realize() to return a bool in patch 1
+- Add Fixes tag to patch 2
+- Use Laurent's suggested change for s->current_palette (slightly modified) in patch 3
+- Change size trace-events parameter to unsigned int in patch 5
+- Add assert() as suggested by Philippe in patch 7
+- Move calculation of next VBL time into a separate macfb_next_vbl() function in patch 11
+
+Mark Cave-Ayland (13):
+  macfb: handle errors that occur during realize
+  macfb: update macfb.c to use the Error API best practices
+  macfb: fix invalid object reference in macfb_common_realize()
+  macfb: fix overflow of color_palette array
+  macfb: use memory_region_init_ram() in macfb_common_realize() for the
+    framebuffer
+  macfb: add trace events for reading and writing the control registers
+  macfb: implement mode sense to allow display type to be detected
+  macfb: add qdev property to specify display type
+  macfb: add common monitor modes supported by the MacOS toolbox ROM
+  macfb: fix up 1-bit pixel encoding
+  macfb: fix 24-bit RGB pixel encoding
+  macfb: add vertical blank interrupt
+  q800: wire macfb IRQ to separate video interrupt on VIA2
+
+ hw/display/macfb.c         | 386 ++++++++++++++++++++++++++++++++++---
+ hw/display/trace-events    |   7 +
+ hw/m68k/q800.c             |  23 ++-
+ include/hw/display/macfb.h |  43 +++++
+ 4 files changed, 429 insertions(+), 30 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.20.1
 
 
