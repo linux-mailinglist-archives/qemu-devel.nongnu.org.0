@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D5242555A
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 16:25:16 +0200 (CEST)
-Received: from localhost ([::1]:59062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A10D4425560
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 16:27:05 +0200 (CEST)
+Received: from localhost ([::1]:33192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYUKh-00050D-Gh
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 10:25:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48878)
+	id 1mYUMS-0006h5-Nz
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 10:27:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYUJU-0003dn-00
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:24:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36036)
+ id 1mYULP-0005sY-Id
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:25:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYUJR-0005vm-VD
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:23:59 -0400
+ id 1mYULO-0007EQ-7n
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:25:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633616637;
+ s=mimecast20190719; t=1633616757;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=hF23QxXLZikjPrjGM+jIhH16XEP+ST6ydi18H4abzmY=;
- b=Wzt3iqccQpHWvCcGOupJ3Zn0tMqAT18lOr77t5e7V+za7yhofhA7VauidtOg6JuVDhnNpz
- RJkomlY5uSBm44pEiFv381u4+qw18HHUhcAHqMYmTe5JY2S9gl+2ht907pB7PH+MMboNWr
- G9i3l//N2CcPDZtXRtUPmK57hwLwvAA=
+ bh=tKq9TotD89CFhKDybGkx1AO7IRTeHvn8lXEBrLgfZ/E=;
+ b=UuP0510WJT2vzA01bk1U2kmB73hA+wYBgo5hK6+IE+XTHW5MHouu98DNANwsgw4vIwX6Y+
+ vjeCEaazpG90ZCEXZVgZv3djPOmHrbnVjJJQFSexh7sgLK02mflcVk806WkdJwHlCDKoDe
+ mzn1DMQVAURsyfQuSae/3aNZH7qY9I0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-JN59DVaPMVWqfmmjwOLC5Q-1; Thu, 07 Oct 2021 10:23:56 -0400
-X-MC-Unique: JN59DVaPMVWqfmmjwOLC5Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-421-y5ZBRU9oMHGm8stiYjJ-0A-1; Thu, 07 Oct 2021 10:25:56 -0400
+X-MC-Unique: y5ZBRU9oMHGm8stiYjJ-0A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01B4B100C664;
- Thu,  7 Oct 2021 14:23:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BA76A0CAB;
+ Thu,  7 Oct 2021 14:25:55 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B6021F464;
- Thu,  7 Oct 2021 14:23:54 +0000 (UTC)
-Date: Thu, 7 Oct 2021 15:23:53 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A6C7C1002388;
+ Thu,  7 Oct 2021 14:25:54 +0000 (UTC)
+Date: Thu, 7 Oct 2021 15:25:53 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH v2 11/25] include/block/blockjob.h: global state API
-Message-ID: <YV8C+W7PQkVI4+gR@stefanha-x1.localdomain>
+Subject: Re: [RFC PATCH v2 12/25] assertions for blockob.h global state API
+Message-ID: <YV8DcWX7pEg4qx6T@stefanha-x1.localdomain>
 References: <20211005143215.29500-1-eesposit@redhat.com>
- <20211005143215.29500-12-eesposit@redhat.com>
+ <20211005143215.29500-13-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211005143215.29500-12-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20211005143215.29500-13-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="brtmjgFuW3S0ITWg"
+ protocol="application/pgp-signature"; boundary="+9iWQhQuGdzPJXFl"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,72 +92,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---brtmjgFuW3S0ITWg
+--+9iWQhQuGdzPJXFl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 05, 2021 at 10:32:01AM -0400, Emanuele Giuseppe Esposito wrote:
-> blockjob functions run always under the BQL lock.
->=20
+On Tue, Oct 05, 2021 at 10:32:02AM -0400, Emanuele Giuseppe Esposito wrote:
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->  include/block/blockjob.h | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
->=20
-> diff --git a/include/block/blockjob.h b/include/block/blockjob.h
-> index d200f33c10..3bf384f8bf 100644
-> --- a/include/block/blockjob.h
-> +++ b/include/block/blockjob.h
-> @@ -77,6 +77,27 @@ typedef struct BlockJob {
->      GSList *nodes;
->  } BlockJob;
-> =20
-> +/*
-> + * Global state (GS) API. These functions run under the BQL lock.
-> + *
-> + * If a function modifies the graph, it also uses drain and/or
-> + * aio_context_acquire/release to be sure it has unique access.
-> + * aio_context locking is needed together with BQL because of
-> + * the thread-safe I/O API that concurrently runs and accesses
-> + * the graph without the BQL.
-> + *
-> + * It is important to note that not all of these functions are
-> + * necessarily limited to running under the BQL, but they would
-> + * require additional auditing and may small thread-safety changes
-> + * to move them into the I/O API. Often it's not worth doing that
-> + * work since the APIs are only used with the BQL held at the
-> + * moment, so they have been placed in the GS API (for now).
-> + *
-> + * All functions below must use this assertion:
-> + * g_assert(qemu_in_main_thread());
-> + * to catch when they are accidentally called without the BQL.
-> + */
+>  blockjob.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 
-This is comment is duplicated in many places. I suggest explaining it in
-one place and using references in the other files:
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-  /*
-   * Global state (GS) API. These functions run under the BQL lock.
-   *
-   * See include/block/block.h for more information about the GS API.
-   */
-
---brtmjgFuW3S0ITWg
+--+9iWQhQuGdzPJXFl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFfAvkACgkQnKSrs4Gr
-c8jy6wf/Vfj2AvkVF2Vk0c49aAapMlmfE/fTmds7yWheIWeFbz+Yc2REONQbo4GT
-AeXBZ7UyqihHn3sHBY2VbonTU63FXSvZj2PXqbeiThcg9wXY0ry8ZXfjr37SeUTs
-UBubuKHpZa5/OyH1lwoJBuG7NaajL5NAcgTStaXEItzaGoKeg70uAOgQB6T02vXr
-KCHQAvwJRJ/upaPxrNxrjSIdc9emjkeUj86Lav+F0r3DwJAyqM5reUVCDptjxBK6
-JnDNtZIYunwh0nO5KKgzVRxEmDbI7ZD5uoYORus+UTBx2kxRwhWz4/gLX1tefPck
-Ph+VoKJ9878ZxuhCYPl010ErCCJq3A==
-=SuOi
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFfA3EACgkQnKSrs4Gr
+c8jDrwf/SiY5dF8x9lzZL2UrXpT8+mMMhUo32+Oc6TlvrB81IdoxnYiMwuH0PjKw
+h6IznjXfQH2FXtZkvX7OGG65BYwDXi6siwbCHgNA6Lh26m0LPDcB52r7TFlnz5wt
+4e5eFz+gU0D8VrWrXBdXpv+tfAR9ll6XjFkAa6GEIDqDmYhIgPev8HYPNvrONjnm
+vBGWBDYgboUpseOZ/gddpHJFC+k1LpGM41yNm5RypqV/GM9A8in2zJyhCNfi2Ezc
+6AoB9C8zS6RRXM0wfHDsA02xL212ZjhW6N/+8D9eALcCtd13+iuvpSNKJPOUUYLg
+UTF1y4A5E1JNhZzUyJf6x0h95oZxww==
+=mDqv
 -----END PGP SIGNATURE-----
 
---brtmjgFuW3S0ITWg--
+--+9iWQhQuGdzPJXFl--
 
 
