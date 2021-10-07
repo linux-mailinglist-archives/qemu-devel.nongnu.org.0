@@ -2,68 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8376B425110
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 12:28:01 +0200 (CEST)
-Received: from localhost ([::1]:58734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04FFC42512A
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 12:36:20 +0200 (CEST)
+Received: from localhost ([::1]:35028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYQd1-0006YB-QZ
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 06:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46952)
+	id 1mYQl8-0001Z9-Sb
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 06:36:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mYQad-0004KH-9H
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 06:25:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58424)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mYQjH-0000kE-TC
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 06:34:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mYQaS-0000lz-V2
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 06:25:25 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mYQjF-0000K5-Lp
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 06:34:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633602309;
+ s=mimecast20190719; t=1633602859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=eM5W8FPykjrcNVBrTjAL2JFAzO3bABsZ1PpFl9oeLyo=;
- b=hhwXlfRnTxoGjZKL/VsauyyUo4CZgXO3/DfXVZvj9rQzmVlI2I5R9oistASYLYHmxGQ5UR
- 3bHcHjbbulUJW3jZaAFjy4XoA2CZuHHghcXmi5dK2p8WtZbvLCsaCWxR1YZrnnS8mOztpk
- imr4eWpyutJvJr7Pf5KQ4+/jQdBIi3E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-zkTtKkYvPtuY3TxszAYIcg-1; Thu, 07 Oct 2021 06:25:05 -0400
-X-MC-Unique: zkTtKkYvPtuY3TxszAYIcg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 971ED1080865
- for <qemu-devel@nongnu.org>; Thu,  7 Oct 2021 10:25:04 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6115F1980E;
- Thu,  7 Oct 2021 10:24:56 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] build-sys: move Spice configure handling to meson
-Date: Thu,  7 Oct 2021 14:24:53 +0400
-Message-Id: <20211007102453.978041-1-marcandre.lureau@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gEkjOwHPW2Qa7IvQufRF8So4ZzmffuQ9FK7jqrrckMc=;
+ b=GN3jvayjhcnKu9zdxJYYwocB59e7ZqXoLvbLP+B3EKoPZS33YoGUys18FMzCa4z+0X4CK5
+ bHQ63fbDHPsbCXcIMdCbZCxdBu7aXTSYwlcNYdjzIAGb1kC5APQLm4kLm+YWATAHHZL7e7
+ +xoKVOsgN0vHDZbM36AtSevRbG4PW50=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-P2se9WIcNeWEK2CEAa5l4Q-1; Thu, 07 Oct 2021 06:34:18 -0400
+X-MC-Unique: P2se9WIcNeWEK2CEAa5l4Q-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ c7-20020a05640227c700b003d27f41f1d4so5422499ede.16
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 03:34:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gEkjOwHPW2Qa7IvQufRF8So4ZzmffuQ9FK7jqrrckMc=;
+ b=DPhVsXA3ycHDJa6BzBeQdklw+bvt4iNvsYgKuV3ObErjfOLLLyW3dReTiaHnAxySzy
+ Gk/Afwmyr06JHm6ZZhAQacKfaT5FjWvGizBZd2EW0c39ag5FCSBSI9dAC4f2d2xWvkIq
+ tUfhpjUOQ8Y+FGEQ+TywXDy2SBTV3Hd9db7YRBB67OaLefovEa7ArM95s0KmO2PeDyI7
+ 7+RHLlxMDBGLWAJcvoQO7qCPEJgLf1ANSoU4Ha+QgWPe2RLe7sfSY8C0U616atdZRZUB
+ V9fRLf7egFy7J9iJ2MvoZ/9S9UfZraE2/RKSxRWk4LiQWfK+1b6u3Gdkrb0HEvyyfbWf
+ oRpQ==
+X-Gm-Message-State: AOAM533uTwU93OX8nTlYiDv29Oo/e9uOwqMDH6EIsN8Hi4P5jn5FqlQ0
+ Z82egaKZKjznwhKDTNA9gnPEVHMjTEPj7EbjkTPrLvA/Hf8X5s7YvZV6wn1NfqJ8D1Nz5heyrXm
+ riaTkCkwd+AlCobnpdudom4axWIFBYDiD2s81QcZ2ZT/eleGfHfzW0nBbG0MLzp3PIZQ=
+X-Received: by 2002:a50:cf4d:: with SMTP id d13mr5218219edk.50.1633602856979; 
+ Thu, 07 Oct 2021 03:34:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwtiGvJzDDSIgjcGpXhj9/FrT+Jn+A9pl+GRdD8oa+ufmum3c6FdX/OwyfiVxGaeULMEo+kQQ==
+X-Received: by 2002:a50:cf4d:: with SMTP id d13mr5218073edk.50.1633602855570; 
+ Thu, 07 Oct 2021 03:34:15 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id
+ bm1sm9982958ejb.38.2021.10.07.03.34.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Oct 2021 03:34:15 -0700 (PDT)
+Subject: Re: [PATCH 1/2] pylint: fix errors and warnings from qemu-tests test
+ 297
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20211006130100.389521-1-eesposit@redhat.com>
+ <20211006130100.389521-2-eesposit@redhat.com> <YV3S9N8SnU4W+aYL@redhat.com>
+ <3a143653-582e-5b28-f536-bf24c4e45ac8@redhat.com>
+ <YV6zwkzPDxgOeIoW@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <6b234a38-1604-ba25-2542-a353e2150c94@redhat.com>
+Date: Thu, 7 Oct 2021 12:34:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <YV6zwkzPDxgOeIoW@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,215 +103,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, kraxel@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Add meson feature options for Spice and Spice protocol, and move
-detection logic out of configure.
+>> The error is "C0330: Wrong hanging indentation"
+>> so it is not about dicts. I guess we can disable the error, but the problem
+>> is that we will disable it for the whole file, which doesn't seem right.
+> 
+> Actually, I would disable it globally in pylintrc because building
+> dictionaries for JSON is something that we do a lot.
+> 
+> But then I'm surprised that this is the only instance that actually
+> fails. I wonder what the difference is.
+> 
+> For example, 129 doesn't seem to be skipped and has this code:
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- configure           | 48 ++-------------------------------------------
- meson.build         | 27 ++++++++++++-------------
- chardev/meson.build |  2 +-
- meson_options.txt   |  4 ++++
- ui/meson.build      |  4 ++--
- 5 files changed, 22 insertions(+), 63 deletions(-)
 
-diff --git a/configure b/configure
-index 877bf3d76a..375cde2b44 100755
---- a/configure
-+++ b/configure
-@@ -372,7 +372,7 @@ pie=""
- qom_cast_debug="yes"
- trace_backends="log"
- trace_file="trace"
--spice="$default_feature"
-+spice="auto"
- spice_protocol="auto"
- rbd="auto"
- smartcard="auto"
-@@ -3525,41 +3525,6 @@ EOF
-   fi
- fi
- 
--##########################################
--# spice probe
--if test "$spice_protocol" != "no" ; then
--  spice_protocol_cflags=$($pkg_config --cflags spice-protocol 2>/dev/null)
--  if $pkg_config --atleast-version=0.12.3 spice-protocol; then
--    spice_protocol="yes"
--  else
--    if test "$spice_protocol" = "yes" ; then
--      feature_not_found "spice_protocol" \
--          "Install spice-protocol(>=0.12.3) devel"
--    fi
--    spice_protocol="no"
--  fi
--fi
--
--if test "$spice" != "no" ; then
--  cat > $TMPC << EOF
--#include <spice.h>
--int main(void) { spice_server_new(); return 0; }
--EOF
--  spice_cflags=$($pkg_config --cflags spice-protocol spice-server 2>/dev/null)
--  spice_libs=$($pkg_config --libs spice-protocol spice-server 2>/dev/null)
--  if $pkg_config --atleast-version=0.12.5 spice-server && \
--     test "$spice_protocol" = "yes" && \
--     compile_prog "$spice_cflags" "$spice_libs" ; then
--    spice="yes"
--  else
--    if test "$spice" = "yes" ; then
--      feature_not_found "spice" \
--          "Install spice-server(>=0.12.5) devel"
--    fi
--    spice="no"
--  fi
--fi
--
- ##########################################
- # check if we have VSS SDK headers for win
- 
-@@ -4659,16 +4624,6 @@ if test "$tcg" = "enabled" -a "$tcg_interpreter" = "true" ; then
-   echo "CONFIG_TCG_INTERPRETER=y" >> $config_host_mak
- fi
- 
--if test "$spice_protocol" = "yes" ; then
--  echo "CONFIG_SPICE_PROTOCOL=y" >> $config_host_mak
--  echo "SPICE_PROTOCOL_CFLAGS=$spice_protocol_cflags" >> $config_host_mak
--fi
--if test "$spice" = "yes" ; then
--  echo "CONFIG_SPICE=y" >> $config_host_mak
--  echo "SPICE_CFLAGS=$spice_cflags $spice_protocol_cflags" >> $config_host_mak
--  echo "SPICE_LIBS=$spice_libs" >> $config_host_mak
--fi
--
- if test "$opengl" = "yes" ; then
-   echo "CONFIG_OPENGL=y" >> $config_host_mak
-   echo "OPENGL_CFLAGS=$opengl_cflags" >> $config_host_mak
-@@ -5202,6 +5157,7 @@ if test "$skip_meson" = no; then
-         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
-         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
-         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
-+        -Dspice=$spice -Dspice_protocol=$spice_protocol \
-         $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
- 	-Dtcg_interpreter=$tcg_interpreter \
-         $cross_arg \
-diff --git a/meson.build b/meson.build
-index 99a0a3e689..fe621413a4 100644
---- a/meson.build
-+++ b/meson.build
-@@ -442,17 +442,14 @@ jack = not_found
- if 'CONFIG_LIBJACK' in config_host
-   jack = declare_dependency(link_args: config_host['JACK_LIBS'].split())
- endif
--spice = not_found
--spice_headers = not_found
--spice_protocol = not_found
--if 'CONFIG_SPICE' in config_host
--  spice = declare_dependency(compile_args: config_host['SPICE_CFLAGS'].split(),
--                             link_args: config_host['SPICE_LIBS'].split())
--  spice_headers = declare_dependency(compile_args: config_host['SPICE_CFLAGS'].split())
--endif
--if 'CONFIG_SPICE_PROTOCOL' in config_host
--  spice_protocol = declare_dependency(compile_args: config_host['SPICE_PROTOCOL_CFLAGS'].split())
--endif
-+spice_protocol = dependency('spice-protocol', version: '>=0.12.3',
-+                            required: get_option('spice_protocol'))
-+spice = dependency('spice-server', version: '>=0.12.5',
-+                   required: get_option('spice'))
-+if spice.found()
-+  config_host += { 'CONFIG_SPICE': 'y' } # for audio/meson.build
-+endif
-+spice_headers = spice.partial_dependency(compile_args: true, includes: true)
- rt = cc.find_library('rt', required: false)
- libdl = not_found
- if 'CONFIG_PLUGIN' in config_host
-@@ -1293,6 +1290,9 @@ config_host_data.set('CONFIG_ZSTD', zstd.found())
- config_host_data.set('CONFIG_FUSE', fuse.found())
- config_host_data.set('CONFIG_FUSE_LSEEK', fuse_lseek.found())
- config_host_data.set('CONFIG_X11', x11.found())
-+config_host_data.set('CONFIG_SPICE_PROTOCOL', spice_protocol.found())
-+config_host_data.set('CONFIG_SPICE', spice.found())
-+config_host_data.set('CONFIG_X11', x11.found())
- config_host_data.set('CONFIG_CFI', get_option('cfi'))
- config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
- config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
-@@ -1516,7 +1516,7 @@ endif
- have_ivshmem = config_host_data.get('CONFIG_EVENTFD')
- host_kconfig = \
-   ('CONFIG_TPM' in config_host ? ['CONFIG_TPM=y'] : []) + \
--  ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
-+  (spice.found() ? ['CONFIG_SPICE=y'] : []) + \
-   (have_ivshmem ? ['CONFIG_IVSHMEM=y'] : []) + \
-   ('CONFIG_OPENGL' in config_host ? ['CONFIG_OPENGL=y'] : []) + \
-   (x11.found() ? ['CONFIG_X11=y'] : []) + \
-@@ -3082,8 +3082,7 @@ summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
- summary_info += {'fdt support':       fdt_opt == 'disabled' ? false : fdt_opt}
- summary_info += {'libcap-ng support': libcap_ng}
- summary_info += {'bpf support':       libbpf}
--# TODO: add back protocol and server version
--summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
-+summary_info += {'spice support':     spice}
- summary_info += {'rbd support':       rbd}
- summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
- summary_info += {'smartcard support': cacard}
-diff --git a/chardev/meson.build b/chardev/meson.build
-index 32377af383..325ba2bdb9 100644
---- a/chardev/meson.build
-+++ b/chardev/meson.build
-@@ -35,7 +35,7 @@ if brlapi.found()
-   chardev_modules += { 'baum': module_ss }
- endif
- 
--if config_host.has_key('CONFIG_SPICE')
-+if spice.found()
-   module_ss = ss.source_set()
-   module_ss.add(when: [spice], if_true: files('spice.c'))
-   chardev_modules += { 'spice': module_ss }
-diff --git a/meson_options.txt b/meson_options.txt
-index 2c89e79e8b..b064b0b46c 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -114,6 +114,10 @@ option('smartcard', type : 'feature', value : 'auto',
-        description: 'CA smartcard emulation support')
- option('snappy', type : 'feature', value : 'auto',
-        description: 'snappy compression support')
-+option('spice', type : 'feature', value : 'auto',
-+       description: 'Spice support')
-+option('spice_protocol', type : 'feature', value : 'auto',
-+       description: 'Spice protocol support')
- option('u2f', type : 'feature', value : 'auto',
-        description: 'U2F emulation support')
- option('usb_redir', type : 'feature', value : 'auto',
-diff --git a/ui/meson.build b/ui/meson.build
-index a73beb0e54..ee8ef27714 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -89,7 +89,7 @@ if sdl.found()
-   ui_modules += {'sdl' : sdl_ss}
- endif
- 
--if config_host.has_key('CONFIG_SPICE')
-+if spice.found()
-   spice_core_ss = ss.source_set()
-   spice_core_ss.add(spice, pixman, files(
-     'spice-core.c',
-@@ -99,7 +99,7 @@ if config_host.has_key('CONFIG_SPICE')
-   ui_modules += {'spice-core' : spice_core_ss}
- endif
- 
--if config_host.has_key('CONFIG_SPICE') and config_host.has_key('CONFIG_GIO')
-+if spice.found() and config_host.has_key('CONFIG_GIO')
-   spice_ss = ss.source_set()
-   spice_ss.add(spice, gio, pixman, files('spice-app.c'))
-   ui_modules += {'spice-app': spice_ss}
--- 
-2.33.0.113.g6c40894d24
+> 
+>      result = self.vm.qmp('blockdev-add', **{
+>                               'node-name': 'overlay',
+>                               'driver': iotests.imgfmt,
+>                               'file': {
+>                                   'driver': 'file',
+>                                   'filename': self.overlay_img
+>                               }
+>                           })
+> 
+> Yet you don't report a pylint error for this file.
+
+Well, unless I am misunderstanding something... 129 *is* the file I am 
+reporting. And that is exactly the function where pylint complains.
+
+> 
+> Oooh... I think I do see a difference: The final line is indented by one
+> space more in the case that fails for you. It should be vertically
+> aligned with the "'" in the first line, but it is actually aligned with
+> the "b" of "blockdev-add"
+> 
+> Does removing one space of indentation in the last line fix the report?
+
+It's not only the final line, it's from "**{" till the ending ")".
+'node-name' is under "ock" of 'blockdev-add'. It is clearly bad 
+indented, regardless of the new style and pylint new rules.
+
+Pylint itself suggests to move it 4 spaces more than "result =", ie 21 
+spaces before.
+
+Still, applying your suggestion to all the lines and removing 1 space 
+from all lines still does not make pylint happy, as it asks to remove 20 
+spaces.
+
+To simplify things, this is the error I get:
+
+  === pylint ===
++************* Module 129
++129:91:0: C0330: Wrong hanging indentation (remove 21 spaces).
++                                 'node-name': 'overlay',
++            |                    ^ (bad-continuation)
++129:92:0: C0330: Wrong hanging indentation (remove 21 spaces).
++                                 'driver': iotests.imgfmt,
++            |                    ^ (bad-continuation)
++129:93:0: C0330: Wrong hanging indentation (remove 21 spaces).
++                                 'file': {
++            |                    ^ (bad-continuation)
++129:97:0: C0330: Wrong hanging indentation.
++                             })
++        |   |                ^ (bad-continuation)
+
+So unless you want to disable it overall, one way of fixing 129 is to 
+follow what pylint suggests, and do like I wrote in the previous email:
+
+Either:
+         result = self.vm.qmp('blockdev-add', **{
+             'node-name': 'overlay', 		<-- 21 spaces less
+             'driver': iotests.imgfmt,		<-- 21 spaces less
+             'file': {				<-- 21 spaces less
+                 'driver': 'file',		<-- 21 spaces less
+                 'filename': self.overlay_img	<-- 21 spaces less
+             }					<-- 21 spaces less
+         })					<-- 21 spaces less
+	
+or (difference is in the last line only):
+         result = self.vm.qmp('blockdev-add', **{
+             'node-name': 'overlay', 		<-- 21 spaces less
+             'driver': iotests.imgfmt,		<-- 21 spaces less
+             'file': {				<-- 21 spaces less
+                 'driver': 'file',		<-- 21 spaces less
+                 'filename': self.overlay_img	<-- 21 spaces less
+             }})					<-- 21 spaces less
+Emanuele
 
 
