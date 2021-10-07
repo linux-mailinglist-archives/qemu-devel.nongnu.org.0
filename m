@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2C842503C
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 11:41:13 +0200 (CEST)
-Received: from localhost ([::1]:33726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F95425033
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 11:36:55 +0200 (CEST)
+Received: from localhost ([::1]:48362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYPto-0002X0-RW
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 05:41:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36524)
+	id 1mYPpd-0001um-7p
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 05:36:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mYPnG-0007uc-R4
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:34:27 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40664
+ id 1mYPnH-0007v8-Jn
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:34:29 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40670
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mYPnB-0007zE-Kl
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:34:25 -0400
+ id 1mYPnF-00082u-RD
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:34:27 -0400
 Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1] (helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mYPmw-0000tc-H5; Thu, 07 Oct 2021 10:34:10 +0100
+ id 1mYPn0-0000tc-O7; Thu, 07 Oct 2021 10:34:14 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Thu,  7 Oct 2021 10:33:56 +0100
-Message-Id: <20211007093407.3329-3-mark.cave-ayland@ilande.co.uk>
+Date: Thu,  7 Oct 2021 10:33:57 +0100
+Message-Id: <20211007093407.3329-4-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211007093407.3329-1-mark.cave-ayland@ilande.co.uk>
 References: <20211007093407.3329-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 02/13] macfb: update macfb.c to use the Error API best
- practices
+Subject: [PATCH v3 03/13] macfb: fix invalid object reference in
+ macfb_common_realize()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,81 +65,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As per the current Error API best practices, change macfb_commom_realize() to return
-a boolean indicating success to reduce errp boiler-plate handling code. Note that
-memory_region_init_ram_nomigrate() is also updated to use &error_abort to indicate
-a non-recoverable error, matching the behaviour recommended after similar
-discussions on memory API failures for the recent nubus changes.
+During realize memory_region_init_ram_nomigrate() is used to initialise the RAM
+memory region used for the framebuffer but the owner object reference is
+incorrect since MacFbState is a typedef and not a QOM type.
+
+Change the memory region owner to be the corresponding DeviceState to fix the
+issue and prevent random crashes during macfb_common_realize().
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Fixes: 8ac919a0654 ("hw/m68k: add Nubus macfb video card")
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/display/macfb.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ hw/display/macfb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 2b747a8de8..2ec25c5d6f 100644
+index 2ec25c5d6f..b363bab889 100644
 --- a/hw/display/macfb.c
 +++ b/hw/display/macfb.c
-@@ -343,14 +343,14 @@ static const GraphicHwOps macfb_ops = {
-     .gfx_update = macfb_update_display,
- };
- 
--static void macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
-+static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
- {
-     DisplaySurface *surface;
- 
-     if (s->depth != 1 && s->depth != 2 && s->depth != 4 && s->depth != 8 &&
-         s->depth != 16 && s->depth != 24) {
-         error_setg(errp, "unknown guest depth %d", s->depth);
--        return;
-+        return false;
-     }
- 
-     s->con = graphic_console_init(dev, 0, &macfb_ops, s);
-@@ -359,18 +359,20 @@ static void macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
-     if (surface_bits_per_pixel(surface) != 32) {
-         error_setg(errp, "unknown host depth %d",
-                    surface_bits_per_pixel(surface));
--        return;
-+        return false;
-     }
- 
+@@ -365,7 +365,7 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
      memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &macfb_ctrl_ops, s,
                            "macfb-ctrl", 0x1000);
  
-     memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram",
--                                     MACFB_VRAM_SIZE, errp);
-+                                     MACFB_VRAM_SIZE, &error_abort);
+-    memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram",
++    memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(dev), "macfb-vram",
+                                      MACFB_VRAM_SIZE, &error_abort);
      s->vram = memory_region_get_ram_ptr(&s->mem_vram);
      s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
-     vmstate_register_ram(&s->mem_vram, dev);
-     memory_region_set_coalescing(&s->mem_vram);
-+
-+    return true;
- }
- 
- static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
-@@ -378,8 +380,7 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
-     MacfbSysBusState *s = MACFB(dev);
-     MacfbState *ms = &s->macfb;
- 
--    macfb_common_realize(dev, ms, errp);
--    if (*errp) {
-+    if (!macfb_common_realize(dev, ms, errp)) {
-         return;
-     }
- 
-@@ -399,8 +400,7 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    macfb_common_realize(dev, ms, errp);
--    if (*errp) {
-+    if (!macfb_common_realize(dev, ms, errp)) {
-         return;
-     }
- 
 -- 
 2.20.1
 
