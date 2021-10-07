@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934834253E2
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:18:01 +0200 (CEST)
-Received: from localhost ([::1]:49068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3404253E0
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 15:16:04 +0200 (CEST)
+Received: from localhost ([::1]:45784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYTHc-00030Q-5Q
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:18:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56168)
+	id 1mYTFj-0000e3-Dk
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 09:16:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mYT8b-0005TT-Qf
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:08:42 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:47075)
+ id 1mYT8Y-0005Oz-Gk
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:08:38 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:37376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mYT8Z-0007nU-5N
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:08:41 -0400
-Received: by mail-ed1-x533.google.com with SMTP id z20so22788655edc.13
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 06:08:38 -0700 (PDT)
+ id 1mYT8W-0007kj-NN
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 09:08:38 -0400
+Received: by mail-ed1-x535.google.com with SMTP id y12so9295255eda.4
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 06:08:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PtPCM/1v4Q1iI3WF6cDEVwQ9iur4Hc5E6IdRJ9YJx90=;
- b=mQWIOojAPIQiKBglen5dLMV7/hTH5cJDXS1MqcFlf4GiDx4nGM9UTW6z1kBynpIlcD
- xiLbTpmHLIxY2sWCyscRNPLfkAX8aDFdneQrV4mUn5hF4F6CRA9SGvdYefubJ420Mswr
- DggngSoCWK26PDvNknuRBE9qG5KIfHwWbCk96mN82BGQiNLY3RZ2QuHQCdIO0a1chrRq
- xpIPT254ntMMF+GSlHZDl1hyIpb9hINRKMnjkRFHT/gTxy79C9VB+FvFT1Xkrez3QyFe
- UQ7tx6RFf6cctbK+9KBhJVwzDdFGu8i1k8AN7VEXst6rshsfIdgyraa0QlN2N2UobzXH
- kIwA==
+ bh=OO2zTRrcL6TBfBs2BC24N1/EtkxgIVETUUd19ExDSoU=;
+ b=AyVcgayCdaNfFlW3j9RXkdJhVc7Tp/yCQ6605iFjA+JckUSCOIBsk3QEgS9Y6Yvs4s
+ Ri+sNdLHsSmiUVSkUFX195VoMJ6Erk64uomOKD9yGhbPOqLycnYI29yOYZSgV2oUIdZY
+ DhkfNw9JK5BTwDZ4kPgH+aIZJK1G8qMwtUpIoDKs/RUL2XU8Wy7hD5NnVZ61hPuQuJcu
+ NdvF0+3sl7PO+j8+atPP+x69/BsZSoAwjEbCi5OiEmWcxm+IyTodggytus243gTI/DdG
+ z33PcJGUvaRSmQ+Cu6N6Xj61lGctQJSkl0p0jqBoCKRB44rKaxaxIXK//n5O3WztT3oj
+ Bl3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PtPCM/1v4Q1iI3WF6cDEVwQ9iur4Hc5E6IdRJ9YJx90=;
- b=FnWXIozw3QToHJKcyb84bWbGX1Y5uRtlUxeSscShLNC3Rtcj+y4ahPbMdkr4UJWoyW
- bT9ID7QPp7UFF0kCtWaur08mrw+baDrjzTu6A+f8GCEcOjZc8YoY9+wF8SVljHmqo990
- lyD75S5hBXyfhYsR2gCja6ItRBGpBjBkFK2WpTHEsDiametVrP+mfGICs/zuuM5g6RIT
- mAVxd9M5zUlafhS6y6iE3O8o1o8yLC+psHB+3kjApSNg3T0+jfIzX/a5x2uzgX8H40UY
- NXYUOPQuOEX3UAsNFjsN56lwS84aMGvXdKOB+Hnf38U9HBtC7haACmBpygtTFzifsjt4
- c4bw==
-X-Gm-Message-State: AOAM531BRIOTwskR8FSyhNnkXsdfTQOIWL4DLMYjCmc/7IqBSZxFWXhD
- u7SNDTMPy+63vYMAdXsD4rL3Sko25rE=
-X-Google-Smtp-Source: ABdhPJy5YZA7722pvSF/MxgaGs3bs9NxoxEdjO/fPOAk9NnWk6/jhdQm3i94v5Y6RDJfHy2gOC5h9w==
-X-Received: by 2002:a50:d84c:: with SMTP id v12mr5943539edj.203.1633612113718; 
- Thu, 07 Oct 2021 06:08:33 -0700 (PDT)
+ bh=OO2zTRrcL6TBfBs2BC24N1/EtkxgIVETUUd19ExDSoU=;
+ b=LBwdQEOw+IdE8kg0hq6WNqpA6HpF9rzsphkJns82/OgEw3llmG1pxklPQ5d/oRalm9
+ +u2495xoFGPT4ShhiFk8jPn7n0xMYunOrEhxExYk54HAaQeFmx7QcFowGv9Dq3Z6ExHe
+ qQlJj/DBGyfi06pf52SMhhmpfnP4ryVVxtgwX8Tf1+fK0EbPMle0Yv4shOnhyjJSeK5X
+ 3M7yP0cP7W/mYlApEsyIPgvNy1jYOqVnb8c9vhGnJONVTCw6HfHUOt77Yc+UDGtl6mGT
+ Y8JP8twiGD+OU4FEbPLKZ7DVxuiqqq1ZQkUJd+w2NIcnzBRr0d3sSfLPx/+mEidxoIL1
+ Gqdw==
+X-Gm-Message-State: AOAM5332JnY4zAkYB6yq7Gpj5dtxRGLXhFnSecPktEOMtEKx6Bi2c6sx
+ cLgjboKNCPW8ZokTO9RCH6cl6YcH4DI=
+X-Google-Smtp-Source: ABdhPJzvVQ+oR1apkBVgm9nVUBhc+zTpb2UWhy2Ue9RDpJq3oYbJpJMnn2So7UiLuPunt1NyJkgzgQ==
+X-Received: by 2002:a05:6402:42d1:: with SMTP id
+ i17mr6127927edc.320.1633612114457; 
+ Thu, 07 Oct 2021 06:08:34 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id o12sm791254edw.84.2021.10.07.06.08.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 06:08:33 -0700 (PDT)
+ Thu, 07 Oct 2021 06:08:34 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/24] configure, meson: move CONFIG_HOST_DSOSUF to Meson
-Date: Thu,  7 Oct 2021 15:08:15 +0200
-Message-Id: <20211007130829.632254-5-pbonzini@redhat.com>
+Subject: [PATCH 11/24] configure,
+ meson: get HOST_WORDS_BIGENDIAN via the machine object
+Date: Thu,  7 Oct 2021 15:08:16 +0200
+Message-Id: <20211007130829.632254-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211007130630.632028-1-pbonzini@redhat.com>
 References: <20211007130630.632028-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,106 +89,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is just a constant string, there is no need to pass it in config-host.mak.
+No need to pass it in config-host.mak.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   |  6 ------
- meson.build | 10 +++++-----
- 2 files changed, 5 insertions(+), 11 deletions(-)
+ configure   | 4 ----
+ meson.build | 3 ++-
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/configure b/configure
-index 4bfc5e350d..f91b8e1f0d 100755
+index f91b8e1f0d..35e25bb960 100755
 --- a/configure
 +++ b/configure
-@@ -351,7 +351,6 @@ bigendian="no"
+@@ -347,7 +347,6 @@ tsan="no"
+ fortify_source="$default_feature"
+ strip_opt="yes"
+ tcg_interpreter="false"
+-bigendian="no"
  mingw32="no"
  gcov="no"
  EXESUF=""
--HOST_DSOSUF=".so"
- modules="no"
- module_upgrades="no"
- prefix="/usr/local"
-@@ -594,9 +593,6 @@ fi
- # cross-compiling to one of these OSes then you'll need to specify
- # the correct CPU with the --cpu option.
- case $targetos in
--Darwin)
--  HOST_DSOSUF=".dylib"
--  ;;
- SunOS)
-   # $(uname -m) returns i86pc even on an x86_64 box, so default based on isainfo
-   if test -z "$cpu" && test "$(isainfo -k)" = "amd64"; then
-@@ -785,7 +781,6 @@ fi
- 
+@@ -4262,9 +4261,6 @@ fi
+ if test "$strip_opt" = "yes" ; then
+   echo "STRIP=${strip}" >> $config_host_mak
+ fi
+-if test "$bigendian" = "yes" ; then
+-  echo "HOST_WORDS_BIGENDIAN=y" >> $config_host_mak
+-fi
  if test "$mingw32" = "yes" ; then
-   EXESUF=".exe"
--  HOST_DSOSUF=".dll"
-   # MinGW needs -mthreads for TLS and macro _MT.
-   CONFIGURE_CFLAGS="-mthreads $CONFIGURE_CFLAGS"
-   write_c_skeleton;
-@@ -4636,7 +4631,6 @@ echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
- echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
- echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_host_mak
- echo "EXESUF=$EXESUF" >> $config_host_mak
--echo "HOST_DSOSUF=$HOST_DSOSUF" >> $config_host_mak
- echo "LIBS_QGA=$libs_qga" >> $config_host_mak
- if test "$gcov" = "yes" ; then
-   echo "CONFIG_GCOV=y" >> $config_host_mak
+   echo "CONFIG_WIN32=y" >> $config_host_mak
+   if test "$guest_agent_with_vss" = "yes" ; then
 diff --git a/meson.build b/meson.build
-index 98fa4b68d9..6842402a60 100644
+index 6842402a60..9bb443387a 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -250,6 +250,7 @@ iokit = []
- emulator_link_args = []
- nvmm =not_found
- hvf = not_found
-+host_dsosuf = '.so'
- if targetos == 'windows'
-   socket = cc.find_library('ws2_32')
-   winmm = cc.find_library('winmm')
-@@ -258,9 +259,11 @@ if targetos == 'windows'
-   version_res = win.compile_resources('version.rc',
-                                       depend_files: files('pc-bios/qemu-nsis.ico'),
-                                       include_directories: include_directories('.'))
-+  host_dsosuf = '.dll'
- elif targetos == 'darwin'
-   coref = dependency('appleframeworks', modules: 'CoreFoundation')
-   iokit = dependency('appleframeworks', modules: 'IOKit', required: false)
-+  host_dsosuf = '.dylib'
- elif targetos == 'sunos'
-   socket = [cc.find_library('socket'),
-             cc.find_library('nsl'),
-@@ -1460,6 +1463,7 @@ config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0]
- config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
- config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2])
+@@ -1465,6 +1465,7 @@ config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2]
  
-+config_host_data.set_quoted('CONFIG_HOST_DSOSUF', host_dsosuf)
+ config_host_data.set_quoted('CONFIG_HOST_DSOSUF', host_dsosuf)
  config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
++config_host_data.set('HOST_WORDS_BIGENDIAN', host_machine.endian() == 'big')
  
  # has_header
-@@ -1606,10 +1610,9 @@ config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
-         return printf("%zu", SIZE_MAX);
-     }''', args: ['-Werror']))
- 
--
- ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
- arrays = ['CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
--strings = ['HOST_DSOSUF', 'CONFIG_IASL']
-+strings = ['CONFIG_IASL']
- foreach k, v: config_host
-   if ignored.contains(k)
-     # do nothing
-@@ -1621,9 +1624,6 @@ foreach k, v: config_host
-   elif k == 'ARCH'
+ config_host_data.set('CONFIG_EPOLL', cc.has_header('sys/epoll.h'))
+@@ -1625,7 +1626,7 @@ foreach k, v: config_host
      config_host_data.set('HOST_' + v.to_upper(), 1)
    elif strings.contains(k)
--    if not k.startswith('CONFIG_')
--      k = 'CONFIG_' + k.to_upper()
--    endif
      config_host_data.set_quoted(k, v)
-   elif k.startswith('CONFIG_') or k.startswith('HAVE_') or k.startswith('HOST_')
+-  elif k.startswith('CONFIG_') or k.startswith('HAVE_') or k.startswith('HOST_')
++  elif k.startswith('CONFIG_') or k.startswith('HAVE_')
      config_host_data.set(k, v == 'y' ? 1 : v)
+   endif
+ endforeach
 -- 
 2.31.1
 
