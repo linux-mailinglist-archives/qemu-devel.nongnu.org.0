@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F624259DB
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 19:49:52 +0200 (CEST)
-Received: from localhost ([::1]:54778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E9E4259FF
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 19:53:06 +0200 (CEST)
+Received: from localhost ([::1]:35016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYXWg-0006dG-OZ
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 13:49:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37926)
+	id 1mYXZp-0003zQ-BV
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 13:53:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYXUN-0003xf-HG
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:47:27 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:39698)
+ id 1mYXUP-0003xt-1E
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:47:29 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:44961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYXUL-0006no-PC
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:47:27 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id g2so5961478pfc.6
+ id 1mYXUM-0006oY-0f
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:47:28 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ oa12-20020a17090b1bcc00b0019f715462a8so5698775pjb.3
  for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 10:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=coQUhGH9KXdwtpAnvMUg39Xtlfm35AEkrkZTiUd9UEw=;
- b=h1d+btJpVqmdUqYWAqb1kzvpWWqePO7Guj6URqzjHXTkB6jVBqjys1zRZ7soBRqjuz
- T4ZVU2l6snFk92GQxybk8ckAnYruKV63x0soVeKFSg20g3cxaPIr4PCkrniijsvxDcsj
- mkcMxLwvgDVDeePRet0X37cJ5S4l0FieiWrg+GWBTetQLaEHdLvDuzG8Xj3gMSVrQSnF
- 00qZRTihJRhHkCfMxpFY0jjM1KsEiCPtYkgqmUkDx801yQGI9jqPbLZSjUJ08pJbKnag
- DV4Bvyi7HqlZ6Fitl8FbwCV5neH7ur7FY5y/gdB0ei7e3ex0DsGAt2cn1HgF/apsEhBr
- Omrg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=7VoTqH6Ab5qBEn7dsfX9wElPM3ZHRNrhLAk52+sFWkc=;
+ b=eBQQOqNftwHqu7X5uxZNh0hwBp0OUBPlFDCWlOwhFQupCe/caqnUDDO54hhZuZCG3S
+ OYPqgDFXW2VH1P3BTMP5mT0cluf9QDueLoiHHh/aKaxgrA8LiJLL9+7Te8ijuL1rg8is
+ efcIuT+Lhw4iiLPM9+6r0YxM0xPB/uV79I9GAfHzrxQzgRMkyGJ0Ghzjc9z0HDrJBKjy
+ HCAx8nv4ZXiYEwFSWn6ELFPhnTcnzlzU/P0UpmdkMV6Yz145F0Q9ZitwuL4NpmmmrWST
+ cS/whTVJht0+tLAF4szG0Bae8LWIxyC/C/qCbGiwH4iwaOenknPXIlgTeLpXxUYXr0nr
+ PKkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=coQUhGH9KXdwtpAnvMUg39Xtlfm35AEkrkZTiUd9UEw=;
- b=Hrx9DQOKimgAdPU4Z9EM2HkW+uXrGRu/J37I5KdWxhWHYrsgthM2NSi2ZcR9/shen8
- V3s8BZaFy9yNiigXpDx4q0Fv3hccC+La/bFVYoGylk1kCtRc01xsI3e/oapwD+qO+aA8
- 1Ma/Y6iXv0tEvKuxpiq3AP2nju79xP/Qpva3GXU2PPE0b9YeXNPq3iOsiu6J9RcYNYYG
- FC3/hvpP2pF9MLbwiqEPCaxks46gA5ytW8tH7YJJnzgXIUyEhgeWU3d/iGPbM6wOrwXD
- uAbojrRYurBXy5IMkENw9+H+vpVVh+4ppGwNCwtpM6rAofZzBJHVtDKSm2Tenp+Cg6gy
- NwyA==
-X-Gm-Message-State: AOAM531Dv71pObhy4NqtOREqjQBcglxs7CD8E4GFX1pqoVix/yKBQZbF
- OrBnPFFU6/ndmkbq90XbzIcn8r3TWrKsig==
-X-Google-Smtp-Source: ABdhPJziLVNRyyF5Kn8fKgrJ7WYwITpC7iGH8V8QvKaqp5/QAMrGtWpqPYXFgD9kEk8KX9GxI/3GiQ==
-X-Received: by 2002:aa7:82d0:0:b0:413:5e93:2f7a with SMTP id
- f16-20020aa782d0000000b004135e932f7amr5693123pfn.16.1633628843962; 
- Thu, 07 Oct 2021 10:47:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=7VoTqH6Ab5qBEn7dsfX9wElPM3ZHRNrhLAk52+sFWkc=;
+ b=roeOqHpn+Y3XR3tbCfuGWfK1Q2sBMDr298b9vLVgHmS7YCt51B/1ujAEL3Wy6H7ekA
+ ULkg55BLpHed2EIMhqdud4BYqf/KNCmayX15rRMOfte0zbzecm5PBjCTGupCdbE25Ief
+ 7WRR5TvAna3wLWmNQn512YvHlULi/kwhpI4PW4Kh15QyUtB+2zc72kCeyLSndYItUs43
+ lp4ZxbIH+8nonA3OjYZc4rshRoRw8J4Twk63LzN1vYFDJhJVF741N/5PtfeTg6e/Kj7Q
+ h0h/FGoPmVpIxiDoroaY6a8nWM5PFuf4FDUJgxo0OryMXxSQdYuPhioFUVd92clIyv4R
+ XTFA==
+X-Gm-Message-State: AOAM531TY6MW8VGcTFAlnkHUxkoTg5B32iap1k/DV8uff/MP3Luw4gLy
+ iW/bxh/VZhI1af7OuL44OMJM1yWylUb3yw==
+X-Google-Smtp-Source: ABdhPJxSjHVfKxv8XGQnOl0bpLPZfNZscuS3WaVSt2+AirRs1YodUeHenly5TU63BBT9muSnBfTvHw==
+X-Received: by 2002:a17:90a:e613:: with SMTP id
+ j19mr6993264pjy.102.1633628844623; 
+ Thu, 07 Oct 2021 10:47:24 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id 197sm83318pfv.6.2021.10.07.10.47.23
+ by smtp.gmail.com with ESMTPSA id 197sm83318pfv.6.2021.10.07.10.47.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 10:47:23 -0700 (PDT)
+ Thu, 07 Oct 2021 10:47:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 00/13] target/riscv: Rationalize XLEN and operand length
-Date: Thu,  7 Oct 2021 10:47:09 -0700
-Message-Id: <20211007174722.929993-1-richard.henderson@linaro.org>
+Subject: [PATCH 01/13] target/riscv: Move cpu_get_tb_cpu_state out of line
+Date: Thu,  7 Oct 2021 10:47:10 -0700
+Message-Id: <20211007174722.929993-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211007174722.929993-1-richard.henderson@linaro.org>
+References: <20211007174722.929993-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,72 +89,129 @@ Cc: alistair.francis@wdc.com, frederic.petrot@univ-grenoble-alpes.fr,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a partial patch set attempting to set things in the
-right direction for both the UXL and RV128 patch sets.
+Move the function to cpu_helper.c, as it is large and growing.
 
-On of the things that struck me while reading the RV128 patches
-is the proliferation of riscv_cpu_is_<size>bits functions.  These
-should be all combined into a single function returning an enum.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/riscv/cpu.h        | 47 ++-------------------------------------
+ target/riscv/cpu_helper.c | 46 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+), 45 deletions(-)
 
-Further, that the current set of tests for misa.mxl is frought
-with peril, because the location of the field within misa varies,
-and that the RV128 patch set gets some of it wrong.  It is much
-easier to split out that field for use within QEMU, and only
-reassemble the full MISA csr upon read.
-
-There are a few changes at the end for pointing the correct
-direction for how it might be best to extend expanders for
-different operand lengths.  I believe the form used in RV128,
-
-static bool gen_arith_imm_fn(DisasContext *ctx, arg_i *a, DisasExtend ext,
-                             void (*fn32)(TCGv, TCGv, target_long),
-                             void (*fn64)(TCGv, TCGv, target_long),
-                             void (*fn128)(TCGv, TCGv, TCGv, TCGv, target_long))
-
-is incorrect, because it assumes that is easy to select the
-fn32 and fn64 functions.  But so long as TARGET_RISCV32 is
-still around, and target_long may be 32, that is not the case.
-Instead, pass f_tl and f_32, where f_32 will only ever be used
-when sizeof(target_ulong) > 4.
-
-
-r~
-
-
-Richard Henderson (13):
-  target/riscv: Move cpu_get_tb_cpu_state out of line
-  target/riscv: Create RISCVMXL enumeration
-  target/riscv: Split misa.mxl and misa.ext
-  target/riscv: Replace riscv_cpu_is_32bit with riscv_cpu_mxl
-  target/riscv: Add MXL/SXL/UXL to TB_FLAGS
-  target/riscv: Use REQUIRE_64BIT in amo_check64
-  target/riscv: Properly check SEW in amo_op
-  target/riscv: Replace is_32bit with get_xl/get_xlen
-  target/riscv: Replace DisasContext.w with DisasContext.ol
-  target/riscv: Use gen_arith_per_ol for RVM
-  target/riscv: Adjust trans_rev8_32 for riscv64
-  target/riscv: Use gen_unary_per_ol for RVB
-  target/riscv: Use gen_shift*_per_ol for RVB, RVI
-
- target/riscv/cpu.h                      |  73 +++-------
- target/riscv/cpu_bits.h                 |   8 +-
- hw/riscv/boot.c                         |   2 +-
- linux-user/elfload.c                    |   2 +-
- linux-user/riscv/cpu_loop.c             |   2 +-
- semihosting/arm-compat-semi.c           |   2 +-
- target/riscv/cpu.c                      |  99 ++++++++------
- target/riscv/cpu_helper.c               |  91 ++++++++++++-
- target/riscv/csr.c                      |  68 ++++++----
- target/riscv/gdbstub.c                  |  10 +-
- target/riscv/machine.c                  |  10 +-
- target/riscv/monitor.c                  |   4 +-
- target/riscv/translate.c                | 170 ++++++++++++++++++------
- target/riscv/insn_trans/trans_rvb.c.inc | 140 ++++++++++---------
- target/riscv/insn_trans/trans_rvi.c.inc |  44 +++---
- target/riscv/insn_trans/trans_rvm.c.inc |  36 +++--
- target/riscv/insn_trans/trans_rvv.c.inc |  29 ++--
- 17 files changed, 498 insertions(+), 292 deletions(-)
-
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 9e55b2f5b1..7084efc452 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -413,51 +413,8 @@ static inline uint32_t vext_get_vlmax(RISCVCPU *cpu, target_ulong vtype)
+     return cpu->cfg.vlen >> (sew + 3 - lmul);
+ }
+ 
+-static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+-                                        target_ulong *cs_base, uint32_t *pflags)
+-{
+-    uint32_t flags = 0;
+-
+-    *pc = env->pc;
+-    *cs_base = 0;
+-
+-    if (riscv_has_ext(env, RVV)) {
+-        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
+-        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl);
+-        flags = FIELD_DP32(flags, TB_FLAGS, VILL,
+-                    FIELD_EX64(env->vtype, VTYPE, VILL));
+-        flags = FIELD_DP32(flags, TB_FLAGS, SEW,
+-                    FIELD_EX64(env->vtype, VTYPE, VSEW));
+-        flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
+-                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
+-        flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
+-    } else {
+-        flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+-    }
+-
+-#ifdef CONFIG_USER_ONLY
+-    flags |= TB_FLAGS_MSTATUS_FS;
+-#else
+-    flags |= cpu_mmu_index(env, 0);
+-    if (riscv_cpu_fp_enabled(env)) {
+-        flags |= env->mstatus & MSTATUS_FS;
+-    }
+-
+-    if (riscv_has_ext(env, RVH)) {
+-        if (env->priv == PRV_M ||
+-            (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
+-            (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
+-                get_field(env->hstatus, HSTATUS_HU))) {
+-            flags = FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
+-        }
+-
+-        flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
+-                           get_field(env->mstatus_hs, MSTATUS_FS));
+-    }
+-#endif
+-
+-    *pflags = flags;
+-}
++void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
++                          target_ulong *cs_base, uint32_t *pflags);
+ 
+ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+                            target_ulong *ret_value,
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index d41d5cd27c..14d1d3cb72 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -35,6 +35,52 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+ #endif
+ }
+ 
++void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
++                          target_ulong *cs_base, uint32_t *pflags)
++{
++    uint32_t flags = 0;
++
++    *pc = env->pc;
++    *cs_base = 0;
++
++    if (riscv_has_ext(env, RVV)) {
++        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
++        bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl);
++        flags = FIELD_DP32(flags, TB_FLAGS, VILL,
++                    FIELD_EX64(env->vtype, VTYPE, VILL));
++        flags = FIELD_DP32(flags, TB_FLAGS, SEW,
++                    FIELD_EX64(env->vtype, VTYPE, VSEW));
++        flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
++                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
++        flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
++    } else {
++        flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
++    }
++
++#ifdef CONFIG_USER_ONLY
++    flags |= TB_FLAGS_MSTATUS_FS;
++#else
++    flags |= cpu_mmu_index(env, 0);
++    if (riscv_cpu_fp_enabled(env)) {
++        flags |= env->mstatus & MSTATUS_FS;
++    }
++
++    if (riscv_has_ext(env, RVH)) {
++        if (env->priv == PRV_M ||
++            (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
++            (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
++                get_field(env->hstatus, HSTATUS_HU))) {
++            flags = FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
++        }
++
++        flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
++                           get_field(env->mstatus_hs, MSTATUS_FS));
++    }
++#endif
++
++    *pflags = flags;
++}
++
+ #ifndef CONFIG_USER_ONLY
+ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+ {
 -- 
 2.25.1
 
