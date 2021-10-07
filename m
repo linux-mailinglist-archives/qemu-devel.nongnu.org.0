@@ -2,135 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23327425827
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 18:40:29 +0200 (CEST)
-Received: from localhost ([::1]:37832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FBCA42580C
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 18:36:06 +0200 (CEST)
+Received: from localhost ([::1]:52870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYWRY-0001TE-4v
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 12:40:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49188)
+	id 1mYWNJ-0000no-HZ
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 12:36:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mYWGi-00016q-7T; Thu, 07 Oct 2021 12:29:16 -0400
-Received: from mail-eopbgr140123.outbound.protection.outlook.com
- ([40.107.14.123]:5792 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1mYWHz-0002rH-UB; Thu, 07 Oct 2021 12:30:35 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:36000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mYWGb-0007Ov-Cv; Thu, 07 Oct 2021 12:29:15 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KIAb21GUziJ3SQDWooDa+q7pBsWCo+suvkWJ7NlHnbFhlm97BOrJ1wGZ5O33Fo+35EGvPgDznRApKuRvc1TyHRnGYAqwkKrlfBJxhEVaE3pZ1Avauj9GvS4Hz5jmEezy1LJkyWfcsqf9+z5nQdUiXDC7Xm4+jrZWZBjfqFuy63BuQO+6XuaYvMmeaZHNUDJuZnaosBhvXnXbbHKXje2QcIxQpfqkYqgF8zfofOvmo+muFU0v6GfTL1+kDVWDXxNZSGTLgIu5RzeDtXa4HwbQ/pgJU/MP8qD6dMTLMIfGPaw3CTR6DnWM+FrNk2Pn82UGqw/n5L8qAoRfUH1j30vVUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jTylAMo8M7WIvcP00FoFkyruA90cfaHaiGINkQPvKmE=;
- b=nw5keZYudmB9hfarqDrrE7rQA8S7x/sVYcQxTRZmHNcxyVkgM6hhnBeswnQSWYBhGCKBTA+CP6tuYipuAwJpDKlSMUiRlfNS48f8w1eFraW9Mr/ECw51ff4+LkWAIvFMgpXrtYXNEQSZDRSl1W0nhA7uZDKQP5Akn2HrbTPJIz71+P832sgEcBL6cqMQ5oVKhu3CrMv6mb0Z80EjBTRqJa8O3iKHrrvVEV3eTV5rZEDnHhp6xxVlszYiOFA1cxMoGCVnG9zFuWQgxg5koEDy4yaU0Nq3w3zeZu7uaX+D+J+HouyXxt756LE4y7X5QltQxfMGIeJHGaEAfWgy74oPhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jTylAMo8M7WIvcP00FoFkyruA90cfaHaiGINkQPvKmE=;
- b=HLGXJvA0R3o8o2fi4YJCVxqloB31CNzqBdzyzymib3y2vJRj7wPCWk3S0wDFmKqsVQ7TWhDn9JdwdTnuVlj81En4rplrMH9LY0H0CokwPb3VrfXxfYvYMhyRJxM8X/B1QpclOfG494OB+mr9MnTqhldvKHEjf97ZCe/09gDh9sQ=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3031.eurprd08.prod.outlook.com (2603:10a6:209:45::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.22; Thu, 7 Oct
- 2021 16:29:05 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::a994:9f7c:53a5:84bc%4]) with mapi id 15.20.4566.023; Thu, 7 Oct 2021
- 16:29:05 +0000
-Message-ID: <4d839852-8939-0536-55d3-12c2e6503f33@virtuozzo.com>
-Date: Thu, 7 Oct 2021 19:29:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3 00/17] iotests: support zstd
-Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, jsnow@redhat.com
-References: <20210914102547.83963-1-vsementsov@virtuozzo.com>
- <b0fb7a33-c273-33e2-fc80-d5488fbce877@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <b0fb7a33-c273-33e2-fc80-d5488fbce877@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0076.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1e::6) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1mYWHw-00008P-PL; Thu, 07 Oct 2021 12:30:35 -0400
+X-Footer: a2FtcC5kZQ==
+Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
+ by kerio.kamp.de with ESMTPSA
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
+ Thu, 7 Oct 2021 18:30:30 +0200
+Subject: Re: [PATCH V3] block/rbd: implement bdrv_co_block_status
+To: Ilya Dryomov <idryomov@gmail.com>
+References: <20210916122116.802-1-pl@kamp.de>
+ <CAOi1vP8_em_m=orH+5L+164+7EgD+JD_5kmrh=mWBMjZSe79kg@mail.gmail.com>
+ <8a6c60cb-ef5b-44a9-1872-27937a3a6967@kamp.de>
+ <CAOi1vP84c5zX7319O8xRXBBJGh1baNpCzK2YU7uJp7Zyqmwe+Q@mail.gmail.com>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <149cd7b7-2288-d0ff-fb39-def75f98cb10@kamp.de>
+Date: Thu, 7 Oct 2021 18:30:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Received: from [192.168.100.10] (185.215.60.207) by
- FR0P281CA0076.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1e::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4608.4 via Frontend Transport; Thu, 7 Oct 2021 16:29:04 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b7e55438-c861-437d-4ae5-08d989af943d
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3031:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB30315BC2EEFDDC148071FF00C1B19@AM6PR08MB3031.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: se48rl3yfHoGksPoK5OiVtmFgVSWIxKd7ba93tqfyuSaC3CfikUYvAJuSmQIfS9qcruhR91+Pgnjm85KvnrPmzlnGmrb/M0HJa828sZpo0JbgaXNxP7G6m1sureQmNeYZ2Xd3n9yXmaVnUEjPUqHwNTl9p4q1ZZ7mdJz9TNuxszrm2wyDuXgvCj/cFPkY9QcsOKp0fymYWOaPMiinPCUxR0J5FS7mV+VbieOm6cGvSU/8cqxhXlfRPOl8Yw42dREwwB9ZYWgIwfG1ptJaRsoJfQkISJIBeDl0dNJ4phmFq/aAIrL5YZOYyxX0lCST7FddyyyefghP5pIBD2nnlc2MJGxW3ONJv4WEN0zo5ZhzGDJkM2je3txM6zXFsICyAlsNHreWBg5kWu6vEQ1M61GI3NMvEB3sxR4luwb2sdCzoiGPyW5mhfbrCrgt3wHH97tBJXxkQ6c9rTibwHafugopoyxektMSw1PLXI+0hvgXeA8rbbiod/iqHvhZ1179piabOp370+p0USltxcS+YnbhV0gjQhk7xn94aN3Tal7L1OrRigHTRxEW0/HYfRBW2v+uZHWxi3SoV6rM9WW2awMvdgBs6hcRIRITPFmxdO9S6pn9wipceOfNUPuG/nWFLREYLRzCsrHTKcMTfIKOsxMYCh3nJu3TLTAzKAUUwdCvGDPBQ4Z1gXQfrvEo3xZURnYaLazrI8mlO6fmGyQhXq8RsBfS6MvK5N+moZbV1YmMovZfHJVnD8EjPVWuyXmGQ0bPxJAaZ+mYjcVa6H23I9p3rZIRMi6NIQBfTp9lUTE/dUPxSbYiJpiJu1kcLGQb/zzy+qn7gIQWQJ1FW7KbEc9bodG/Kk2aiZ7i189Tp5ZOF4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(36756003)(66946007)(966005)(52116002)(66476007)(4326008)(2906002)(66556008)(508600001)(6486002)(5660300002)(38100700002)(38350700002)(86362001)(53546011)(16576012)(316002)(8936002)(83380400001)(956004)(8676002)(31696002)(31686004)(26005)(2616005)(186003)(4744005)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VHk4aWZTNlQ0RmlJNVVwV0hwZlRweXVBRkx2WFRURWUxdlh4cCsyQmlFSTEz?=
- =?utf-8?B?MUV3RHhJVDc5MWpMcXJVc1lTUFdPb05ZYkZ0M2pBZU94bjIzWkZUeTNLYkJJ?=
- =?utf-8?B?TVJCN3VCcmsvNllqUUFOQ3lTZEtPV1kyc25WZ1VrVnU2RlBIeTdhUFdMeDRO?=
- =?utf-8?B?SURBMm8wU0VZb3M0OFBnakYrODZvS05INWZJS2szMEQ5T3MrR2JISzRWN1o3?=
- =?utf-8?B?MDBMT0Fxc21INjg5TFJ3SEpYVGtGYnpqcjFiaEpJUk93N2cxMTEyOEY5OU5u?=
- =?utf-8?B?clVqcGRFUXVUcklxTEIxLytLOFlLV2wzTmFaUEhYcFhCUmF2MFRKeDlVSXM0?=
- =?utf-8?B?UEpBMVlsK2M0bklnclBlcERLN1h1M2lGZEhQZFQrZGx4WW1WL1E3RzV3b1pF?=
- =?utf-8?B?Y1gxdjhhWERpb2ZvWCtSK1dPOEtSbmRsdmpLMHNTY2ZJVlBrWWtMTnE3bzRm?=
- =?utf-8?B?UUx3cFNNeGFEaGsyaE9tL29QU2hJMUNjRzR3bkFNRXdyQ090WEkvM25DZDZ1?=
- =?utf-8?B?N2lqZXIvSzM2cEpoaXlWMmhIeU4xWnR5Y0t1ODBIZzNpN3B1ck03V21NOHpP?=
- =?utf-8?B?Ly9aVVpKUzhkZXduRkdaSVpVbHl4cXNZODB1c2RsZ2NaR29HSEtZYkZyT3Zo?=
- =?utf-8?B?b2VRYzFIOHFHbVprMnVaVGlLMjlnQkIrbDNaVmJIL3Evd2pYV09OVFFUT25L?=
- =?utf-8?B?Q09iYlRFYm9mUWJVdXBzcy9xNk1mdWJTVWp0YUVUMFFwSVhEU3N6VEJaMVB5?=
- =?utf-8?B?N24yTkV1bHk5dWtENTVLNmh0RWo0QjJsYzFON3BQUWw2V2JQRXhDWmROd3l3?=
- =?utf-8?B?NURiRHM1WE5tcnlrQlFZOWhkMWpLOXR3UnJKYXRjVXRBcXVWeVF0aHhBY3B5?=
- =?utf-8?B?ODVLS3IvU1g4RTJ4NzNCdGJ2SlFHL0lXU1lpTkE4SjlXSDdpWW9heTVTS0FZ?=
- =?utf-8?B?QUF6bnZoa3V6aUZGQWZqK29hOHRDbzdxK0VBVWg5czdxaGZCSklGUFpETUVR?=
- =?utf-8?B?eEpKV0FSWkRXektTelh4enNqeThKbGpJeUVlQnZSdWEyVWxiQ3hJL2E4Z1NY?=
- =?utf-8?B?WE1JMmhxbEhleEo3ekR4UFZGalNWNDhSVmgyT1ZROFVoVmlXWWRTeDJBeGZz?=
- =?utf-8?B?cFlUdEpxZVRmNEltMVUxUGFjaUNURmVpNjZ5Z3hVazNGN0ZMQmVHTFpKaUl5?=
- =?utf-8?B?aW5Lb0FFYXBFUFZLc1QwS1ZRU1ZxZFhVU0kzVFFzS0NVSU5oNlJzQnRwQlpD?=
- =?utf-8?B?YWgyY0R2aVh5YTdVMnFvWDczM1FEVUp6ZmJSZ01ycUxtaWh3YWh3Z1d4NDRS?=
- =?utf-8?B?ajNlWlIvODRJd2Y0S05GaHpocUw0OTRDd2ZoMzVjUkh2eHlmd0F3VzBpVGhM?=
- =?utf-8?B?ZU5vdm1qbjVJTWd0WXdyQ2s1THZPVnZ2N2E3U0RHanErd1YzQUkrZGNHK3Jo?=
- =?utf-8?B?dHdVa1M1RWZuSlNCN1J5RDdIVEtqVk4zVmVhQlhqWDVHbW52a0tHZTNncEpJ?=
- =?utf-8?B?b3NpZlJGT2g1dUtFVktZSWRCVmlsK3JwVmZ2UkdKKysyS0R1UlArZkV2a09a?=
- =?utf-8?B?akZJcWtvNmFoUkpzN0NYbUJsK3dNeCtkVDExL2kvTlJnanlWa0VMeTFpYVZs?=
- =?utf-8?B?UXZXYmpxYlpmWmxyWVp1aHVFeFlWbmVJeGgzTmpSSE54cS9kQ3JlUk5Mbk0v?=
- =?utf-8?B?c1IvTEFxVDVLV1VpMUhBWU02V2FaekU0aFNlUnpoUmlHZ1VucDgxK3BTeEFM?=
- =?utf-8?Q?9YSCm/ANkePnNSB5LkNTlqxID5mSjGeO/ZTo+SM?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7e55438-c861-437d-4ae5-08d989af943d
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2021 16:29:05.3034 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CcXbDg0yHnLzhylSQp5BJyUkG1SMCB/7tb1YDZQ5drrGl6gpFDCHiQa87BlJkDyLvHGmCUIgUIoyNco6ZmSYUqtGN+hYQLdtH5Dvb4E+YDo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3031
-Received-SPF: pass client-ip=40.107.14.123;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAOi1vP84c5zX7319O8xRXBBJGh1baNpCzK2YU7uJp7Zyqmwe+Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.964,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -143,36 +57,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-9/14/21 20:08, Hanna Reitz wrote:
-> On 14.09.21 12:25, Vladimir Sementsov-Ogievskiy wrote:
->> These series makes tests pass with
+Am 05.10.21 um 10:36 schrieb Ilya Dryomov:
+> On Tue, Oct 5, 2021 at 10:19 AM Peter Lieven <pl@kamp.de> wrote:
+>> Am 05.10.21 um 09:54 schrieb Ilya Dryomov:
+>>> On Thu, Sep 16, 2021 at 2:21 PM Peter Lieven <pl@kamp.de> wrote:
+>>>> the qemu rbd driver currently lacks support for bdrv_co_block_status.
+>>>> This results mainly in incorrect progress during block operations (e.g.
+>>>> qemu-img convert with an rbd image as source).
+>>>>
+>>>> This patch utilizes the rbd_diff_iterate2 call from librbd to detect
+>>>> allocated and unallocated (all zero areas).
+>>>>
+>>>> To avoid querying the ceph OSDs for the answer this is only done if
+>>>> the image has the fast-diff feature which depends on the object-map and
+>>>> exclusive-lock features. In this case it is guaranteed that the information
+>>>> is present in memory in the librbd client and thus very fast.
+>>>>
+>>>> If fast-diff is not available all areas are reported to be allocated
+>>>> which is the current behaviour if bdrv_co_block_status is not implemented.
+>>>>
+>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>>>> ---
+>>>> V2->V3:
+>>>> - check rbd_flags every time (they can change during runtime) [Ilya]
+>>>> - also check for fast-diff invalid flag [Ilya]
+>>>> - *map and *file cant be NULL [Ilya]
+>>>> - set ret = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID in case of an
+>>>>     unallocated area [Ilya]
+>>>> - typo: catched -> caught [Ilya]
+>>>> - changed wording about fast-diff, object-map and exclusive lock in
+>>>>     commit msg [Ilya]
+>>>>
+>>>> V1->V2:
+>>>> - add commit comment [Stefano]
+>>>> - use failed_post_open [Stefano]
+>>>> - remove redundant assert [Stefano]
+>>>> - add macro+comment for the magic -9000 value [Stefano]
+>>>> - always set *file if its non NULL [Stefano]
+>>>>
+>>>>    block/rbd.c | 126 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>>>    1 file changed, 126 insertions(+)
+>>>>
+>>>> diff --git a/block/rbd.c b/block/rbd.c
+>>>> index dcf82b15b8..3cb24f9981 100644
+>>>> --- a/block/rbd.c
+>>>> +++ b/block/rbd.c
+>>>> @@ -1259,6 +1259,131 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
+>>>>        return spec_info;
+>>>>    }
+>>>>
+>>>> +typedef struct rbd_diff_req {
+>>>> +    uint64_t offs;
+>>>> +    uint64_t bytes;
+>>>> +    int exists;
+>>> Hi Peter,
+>>>
+>>> Nit: make exists a bool.  The one in the callback has to be an int
+>>> because of the callback signature but let's not spread that.
+>>>
+>>>> +} rbd_diff_req;
+>>>> +
+>>>> +/*
+>>>> + * rbd_diff_iterate2 allows to interrupt the exection by returning a negative
+>>>> + * value in the callback routine. Choose a value that does not conflict with
+>>>> + * an existing exitcode and return it if we want to prematurely stop the
+>>>> + * execution because we detected a change in the allocation status.
+>>>> + */
+>>>> +#define QEMU_RBD_EXIT_DIFF_ITERATE2 -9000
+>>>> +
+>>>> +static int qemu_rbd_co_block_status_cb(uint64_t offs, size_t len,
+>>>> +                                       int exists, void *opaque)
+>>>> +{
+>>>> +    struct rbd_diff_req *req = opaque;
+>>>> +
+>>>> +    assert(req->offs + req->bytes <= offs);
+>>>> +
+>>>> +    if (req->exists && offs > req->offs + req->bytes) {
+>>>> +        /*
+>>>> +         * we started in an allocated area and jumped over an unallocated area,
+>>>> +         * req->bytes contains the length of the allocated area before the
+>>>> +         * unallocated area. stop further processing.
+>>>> +         */
+>>>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+>>>> +    }
+>>>> +    if (req->exists && !exists) {
+>>>> +        /*
+>>>> +         * we started in an allocated area and reached a hole. req->bytes
+>>>> +         * contains the length of the allocated area before the hole.
+>>>> +         * stop further processing.
+>>>> +         */
+>>>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+>>> Do you have a test case for when this branch is taken?
 >>
->>     IMGOPTS='compression_type=zstd'
+>> That would happen if you diff from a snapshot, the question is if it can also happen if the image is a clone from a snapshot?
 >>
->> Also, python iotests start to support IMGOPTS (they didn't before).
 >>
->> v3:
->> 02-04,06,08,14,17: add Hanna's r-b
->> 07  iotests.py: filter out successful output of qemu-img create
->>        fix subject
->>        handle 149, 237 and 296 iotests
->>           (note, 149 is handled intuitively, as it fails :(
-> 
-> It was also reviewed intuitively. :)
-> 
-> Thanks, applied to my block branch:
-> 
-> https://github.com/XanClic/qemu/commits/block
-> 
+>>>> +    }
+>>>> +    if (!req->exists && exists && offs > req->offs) {
+>>>> +        /*
+>>>> +         * we started in an unallocated area and hit the first allocated
+>>>> +         * block. req->bytes must be set to the length of the unallocated area
+>>>> +         * before the allocated area. stop further processing.
+>>>> +         */
+>>>> +        req->bytes = offs - req->offs;
+>>>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
+>>>> +    }
+>>>> +
+>>>> +    /*
+>>>> +     * assert that we caught all cases above and allocation state has not
+>>>> +     * changed during callbacks.
+>>>> +     */
+>>>> +    assert(exists == req->exists || !req->bytes);
+>>>> +    req->exists = exists;
+>>>> +
+>>>> +    /*
+>>>> +     * assert that we either return an unallocated block or have got callbacks
+>>>> +     * for all allocated blocks present.
+>>>> +     */
+>>>> +    assert(!req->exists || offs == req->offs + req->bytes);
+>>>> +    req->bytes = offs + len - req->offs;
+>>>> +
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>> +static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
+>>>> +                                                 bool want_zero, int64_t offset,
+>>>> +                                                 int64_t bytes, int64_t *pnum,
+>>>> +                                                 int64_t *map,
+>>>> +                                                 BlockDriverState **file)
+>>>> +{
+>>>> +    BDRVRBDState *s = bs->opaque;
+>>>> +    int ret, r;
+>>> Nit: I would rename ret to status or something like that to make
+>>> it clear(er) that it is an actual value and never an error.  Or,
+>>> even better, drop it entirely and return one of the two bitmasks
+>>> directly.
+>>>
+>>>> +    struct rbd_diff_req req = { .offs = offset };
+>>>> +    uint64_t features, flags;
+>>>> +
+>>>> +    assert(offset + bytes <= s->image_size);
+>>>> +
+>>>> +    /* default to all sectors allocated */
+>>>> +    ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
+>>>> +    *map = offset;
+>>>> +    *file = bs;
+>>>> +    *pnum = bytes;
+>>>> +
+>>>> +    /* check if RBD image supports fast-diff */
+>>>> +    r = rbd_get_features(s->image, &features);
+>>>> +    if (r < 0) {
+>>>> +        goto out;
+>>>> +    }
+>>>> +    if (!(features & RBD_FEATURE_FAST_DIFF)) {
+>>>> +        goto out;
+>>>> +    }
+>>>> +
+>>>> +    /* check if RBD fast-diff result is valid */
+>>>> +    r = rbd_get_flags(s->image, &flags);
+>>>> +    if (r < 0) {
+>>>> +        goto out;
+>>>> +    }
+>>>> +    if (flags & RBD_FLAG_FAST_DIFF_INVALID) {
+>>>> +        goto out;
+>>> Nit: I'm not a fan of labels that cover just the return statement.
+>>> Feel free to ignore this one but I would get rid of it and replace
+>>> these gotos with returns.
+>>
+>> That would be return with the bitmask directly coded in if I also
+>>
+>> drop the ret variable. I can change that, no problem.
+>>
+>>
+>>>> +    }
+>>>> +
+>>>> +    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
+>>>> +                          qemu_rbd_co_block_status_cb, &req);
+>>>> +    if (r < 0 && r != QEMU_RBD_EXIT_DIFF_ITERATE2) {
+>>>> +        goto out;
+>>>> +    }
+>>>> +    assert(req.bytes <= bytes);
+>>>> +    if (!req.exists) {
+>>>> +        if (r == 0 && !req.bytes) {
+>>>> +            /*
+>>>> +             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
+>>>> +             * except for the case where an overlay has a hole where the parent
+>>>> +             * has not. This here catches the case where no callback was
+>>>> +             * invoked at all.
+>>>> +             */
+>>> The above is true in the case of diffing against a snapshot, i.e. when
+>>> the "from" snapshot has some data where the "to" revision (whether HEAD
+>>> or another snapshot) has a hole.  I don't think it is true for child vs
+>>> parent (but it has been a while since I looked at the diff code).  As
+>>> long as NULL is passed for fromsnapname, I would expect the callback to
+>>> be invoked only for allocated areas.  If I'm right, we could simplify
+>>> qemu_rbd_co_block_status_cb() considerably.
+>> See my comment in the callback. Can you look at the diff code or give
+>> me at least a pointer where I can find it. I am not that familiar with
+>> the librbd code yet.
+> I assumed that you added !exists handling because it came up in your
+> testing.  If you don't have a test case then let's proceed under the
+> assumption that it doesn't happen for clones.
+>
+> Thanks,
+>
+>                  Ilya
 
-Hmm, patches are not here neither in master. Aren't they missed somehow?
+
+I just have sent V4. I tested also with thin-clones from a protected snapshot
+
+and do not receive exists == 0 in the callback even after removing big files
+
+from the image and running fstrim or rbd sparsify afterwards.
 
 
+Peter
 
--- 
-Best regards,
-Vladimir
+
 
