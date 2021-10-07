@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E64425B41
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 21:01:29 +0200 (CEST)
-Received: from localhost ([::1]:59734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3C3425B54
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 21:08:05 +0200 (CEST)
+Received: from localhost ([::1]:34962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYYdy-0001Ob-8f
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 15:01:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50682)
+	id 1mYYkO-00045c-6P
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 15:08:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mYYc8-0000fV-R6; Thu, 07 Oct 2021 14:59:32 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:52049)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mYYc6-0006mO-Sd; Thu, 07 Oct 2021 14:59:32 -0400
-Received: from [192.168.100.1] ([82.142.3.114]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N1Oft-1mw2V21q8p-012nGx; Thu, 07 Oct 2021 20:59:03 +0200
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <877deoevj8.fsf@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: Approaches for same-on-same linux-user execve?
-Message-ID: <d8dc40c8-73bf-9d8d-e23b-f7054dc06292@vivier.eu>
-Date: Thu, 7 Oct 2021 20:59:01 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mYYjF-0003JH-1P
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 15:06:53 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:43870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mYYjD-0001ps-Cs
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 15:06:52 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id r2so694175pgl.10
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 12:06:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0ylEbV1re7uQ2XmpbP25RTTwgkCG0jSM2THjiflgIaM=;
+ b=i5VEls0Wlyd4MIymsHiL/n5i4FLcHIIw7Jeyw3+vTbqZdTiSCVKfxLbXBGiw86DppI
+ LmCqo18VUHGQrJtVP47aMjWUfYZUkRpH5YQYroZNfqpQIcuvEPG7vcQEHkdNo6Zm5y21
+ AXr1PMv0aMYBjQcVsNUG/StLp/rO8ZgmHx3Wz1DS5T9OcHBedloLA0qtnQeLXOmDDDhZ
+ PbnYdkIHuMwFCF1XJSrDoMEI6ISmHeoEci+IeWUugUFxrT7ifpuVVMa4pCepMzPtsnRk
+ oVU+6J2IL4/RSmj+J8NfnrNhIe7O8xu7c7BkYwUoi2xgOQhza+/LrW9RYlee0MDOVQlU
+ z5og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0ylEbV1re7uQ2XmpbP25RTTwgkCG0jSM2THjiflgIaM=;
+ b=wJjWv9S08xK7c+6Ikk3wrET364SRMP+E139UgsQ1+utG4XH75ge4hbixuFpEKCQ1wC
+ igvZAQX3EvNauGeSzDItyQBPET6AnlvVggqAsRlpfMi2ZRgfj+xwaL8NCI20XSF8Tfvj
+ P2YM1Qbl3oaIrRYL9Hy9dEBaWvuYYgo5dAo6mc1zX3EzRg3B2umOwHSuMTQ7sbPBDvK9
+ Oc7nrgfN0k7UKwdjFTE/dx3INXkmr3xRlA41fLfb8mQrx2zSf/IbkUndGsTKQ6piOnrp
+ LWzhrclsWeqTJfEaKN5CcbT+FBDvRCGbaTiTgClezOFGTA+vol7mvNCriY2412iihGXR
+ G7+w==
+X-Gm-Message-State: AOAM530qcO3E9buy50ql4EWPebDnnyU2eAbm2pBJD7NL/y5VEmpV1PNA
+ XlC518WN2VLVuuXjSOxg+FId2A==
+X-Google-Smtp-Source: ABdhPJy8w9Iy1MESrkGoL71Sx0vCIIjQXzGZTJVUhbNhsfucmTlNkB3eagpU7mOPcRsAznByo/Yrsg==
+X-Received: by 2002:a62:1e43:0:b0:447:cb0b:4c6e with SMTP id
+ e64-20020a621e43000000b00447cb0b4c6emr5704109pfe.1.1633633609168; 
+ Thu, 07 Oct 2021 12:06:49 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id u17sm49282pjn.30.2021.10.07.12.06.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Oct 2021 12:06:48 -0700 (PDT)
+Subject: Re: [PULL v2 00/15] jobs: mirror: Handle errors after READY cancel
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20211007153904.445009-1-vsementsov@virtuozzo.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <477da178-34b0-4223-c9ff-061478497ae5@linaro.org>
+Date: Thu, 7 Oct 2021 12:06:46 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <877deoevj8.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20211007153904.445009-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:D7ZWfmsf4Dm+3g3vz8Hi00yHHRP7z53LkHrfGGKk/KtPfyZu8eD
- O4jC4X9KeE0XCU0h6Vj+zyHh0/HNIPfmMxSxoZllTvUH2hFTHy5LxSkcWRJWTl2eOgCEKCQ
- Ra9Z+pSg5veKnfFCBC+F4+NwKNjuQkQ2bKmdfzpOEjh/Ns/4Ci5zsfGSt0T64PMoc4tZSog
- Qn3voLVHmGwLCR/MuSA/w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nLovi1u1NII=:OzfrnMsdyUFtYHzV/pVcx3
- Zl2lM+wdAym2VDadmpJSxr4JH2f6TeuXXJmQcet1vzg99Ld2JkF7lWYJ+3EoZosxswOdHaPZ0
- wqkADAthyXKxw4rFZJ2zBsuQfH4s91AkBOs8Pcx77Sh5i0DcrHpn3V9EPQqXGTgixtR2I1XB2
- VD/AlK6U7pezvfTOzPopY/gEQ44MLjElIimXMCuVjhV0U17AugDg3LZ+tFsGPnERjQyurRabB
- 960VaBD29l1dHfVJksAmkLCfkzlLDVH8U+oyl4kpn8ru2BMR8fjQyS7nnr4x68KE6iUgyn7cy
- WE2DvDFh61YGkrOxdcHrXqonBYLlbUR2+t93t0bTrq8IlzxqhCxijzamOT9R0tVDK/PE9zxzU
- Nqz80OYm1pTNE8akRfk5qMnWOFv7Qff4rjFyfzSOD2Eu/pLFMijRjgpqoGzfs5hD6I0k6nQZ9
- 9gAiSv9Qi3Z8U2RD54r0MDq+oTah1X4doQTEy6BChglrxPcD+uUY5A+Y3QZMMGQKfNORTdP1P
- ZPzncGiQtfIWkKXkkm8dRXwWQJuBjGUm1vm1D4go+E964cU6b3j3UPWYmqbsKoSMKHNHe9d/A
- DRI5JzyLGA5bmBurD5tf4zhCQj34SUtJMztjSIqmC08SEdDWeM49yz44dZYJbUoZpyfZQXatD
- YuV62YYuErJkS864mUHFSOGEPSjTnPF+CzdNChhvizUjp2TCB6hkiJuFgOYRnAw3IAukUzb16
- 4vGa8TX/SvdALQtHR8lxgFBe7hK7CqJEayPvFw==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.964,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.964,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,75 +88,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: assad.hashmi@linaro.org, qemu-devel@nongnu.org,
- James Bottomley <James.Bottomley@HansenPartnership.com>, qemu-arm@nongnu.org,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Arnd Bergmann <arnd.bergmann@linaro.org>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, hreitz@redhat.com,
+ jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 07/10/2021 à 16:32, Alex Bennée a écrit :
-> Hi,
+On 10/7/21 8:39 AM, Vladimir Sementsov-Ogievskiy wrote:
+> The following changes since commit 9618c5badaa8eed25259cf095ff880efb939fbe7:
 > 
-> I came across a use-case this week for ARM although this may be also
-> applicable to architectures where QEMU's emulation is ahead of the
-> hardware currently widely available - for example if you want to
-> exercise SVE code on AArch64. When the linux-user architecture is not
-> the same as the host architecture then binfmt_misc works perfectly fine.
+>    Merge remote-tracking branch 'remotes/vivier/tags/trivial-branch-for-6.2-pull-request' into staging (2021-10-04 16:27:35 -0700)
 > 
-> However in the case you are running same-on-same you can't use
-> binfmt_misc to redirect execution to using QEMU because any attempt to
-> trap native binaries will cause your userspace to hang as binfmt_misc
-> will be invoked to run the QEMU binary needed to run your application
-> and a deadlock ensues.
+> are available in the Git repository at:
 > 
-> There are some hacks you can apply at a local level like tweaking the
-> elf header of the binaries you want to run under emulation and adjusting
-> the binfmt_mask appropriately. This works but is messy and a faff to
-> set-up.
+>    https://src.openvz.org/scm/~vsementsov/qemu.git tags/pull-jobs-2021-10-07-v2
 > 
-> An ideal setup would be would be for the kernel to catch a SIGILL from a
-> failing user space program and then to re-launch the process using QEMU
-> with the old processes maps and execution state so it could continue.
-> However I suspect there are enough moving parts to make this very
-> fragile (e.g. what happens to the results of library feature probing
-> code). So two approaches I can think of are:
+> for you to fetch changes up to 2451f72527d8760566a499b7513e17aaceb0f131:
 > 
-> Trap execve in QEMU linux-user
-> ------------------------------
+>    iotests: Add mirror-ready-cancel-error test (2021-10-07 10:42:50 +0200)
 > 
-> We could add a flag to QEMU so at the point of execve it manually
-> invokes the new process with QEMU, passing on the flag to persist this
-> behaviour.
-
-Another approach can be to use ptrace(PTRACE_SYSEMU) to catch syscalls.
-
-We need a wrapper that loads the first target binary and fork, it attach a ptrace() process and
-intercept the syscalls to emulate them as we do in usermode linux.
-
-I was thinking to this solution for instance to execute big-endian program (like ppc64) on
-little-endian system (ppc64le).
-
-But I'm not sure it fits in what you need...
-
-
+> ----------------------------------------------------------------
+> mirror: Handle errors after READY cancel
+> v2: add small fix by Stefano, Hanna's series fixed
 > 
-> Add path mask to binfmt_misc
-> ----------------------------
+> ----------------------------------------------------------------
+> Hanna Reitz (13):
+>        job: Context changes in job_completed_txn_abort()
+>        mirror: Keep s->synced on error
+>        mirror: Drop s->synced
+>        job: Force-cancel jobs in a failed transaction
+>        job: @force parameter for job_cancel_sync()
+>        jobs: Give Job.force_cancel more meaning
+>        job: Do not soft-cancel after a job is done
+>        job: Add job_cancel_requested()
+>        mirror: Use job_is_cancelled()
+>        mirror: Check job_is_cancelled() earlier
+>        mirror: Stop active mirroring after force-cancel
+>        mirror: Do not clear .cancelled
+>        iotests: Add mirror-ready-cancel-error test
 > 
-> The other option would be to extend binfmt_misc to have a path mask so
-> it only applies it's alternative execution scheme to binaries in a
-> particular section of the file-system (or maybe some sort of pattern?).
+> Stefano Garzarella (2):
+>        block/backup: avoid integer overflow of `max-workers`
+>        block/aio_task: assert `max_busy_tasks` is greater than 0
 > 
-> Are there any other approaches you could take? Which do you think has
-> the most merit?
+>   include/qemu/job.h                                     |  29 ++++++---
+>   block/aio_task.c                                       |   2 +
+>   block/backup.c                                         |   7 ++-
+>   block/mirror.c                                         |  56 +++++++++--------
+>   block/replication.c                                    |   4 +-
+>   blockdev.c                                             |   4 +-
+>   job.c                                                  |  94 +++++++++++++++++++++++-----
+>   tests/unit/test-blockjob.c                             |   2 +-
+>   tests/qemu-iotests/109.out                             |  60 ++++++++----------
+>   tests/qemu-iotests/tests/mirror-ready-cancel-error     | 143 +++++++++++++++++++++++++++++++++++++++++++
+>   tests/qemu-iotests/tests/mirror-ready-cancel-error.out |   5 ++
+>   tests/qemu-iotests/tests/qsd-jobs.out                  |   2 +-
+>   12 files changed, 316 insertions(+), 92 deletions(-)
+>   create mode 100755 tests/qemu-iotests/tests/mirror-ready-cancel-error
+>   create mode 100644 tests/qemu-iotests/tests/mirror-ready-cancel-error.out
+> 
 
-I don't know if it can apply to what you want, but I wrote years ago a binfmt namespace that applies
-binfmt configuration only on a container but I didn't finish the work (it seems there can be some
-security issues in what I did):
+Applied, thanks.
 
-https://lore.kernel.org/lkml/20191216091220.465626-2-laurent@vivier.eu/T/
-
-Thanks,
-Laurent
+r~
 
