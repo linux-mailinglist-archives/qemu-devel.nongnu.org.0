@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1A9425292
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:08:24 +0200 (CEST)
-Received: from localhost ([::1]:54656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1FB64252AA
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:09:09 +0200 (CEST)
+Received: from localhost ([::1]:56872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYSCF-0001JJ-Lm
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42794)
+	id 1mYSCy-0002lg-NN
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:09:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mYS8S-0006Uh-4F
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:04:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23266)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mYS9W-0007r8-Sr
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:05:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mYS8N-0005DK-KP
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:04:27 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mYS9U-0008KE-Fm
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:05:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633608262;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G9Curh6WsSagpuhx5vSBnIts8bikvbVOPZIufKLyKo4=;
- b=Hl3gnKc5WzopmD0elC0/wvJ9Vxw/sIbhMQ/XyjGEyaDqqktdA2FqE7H5EOcKOgBCDYmEjA
- madAjhA9NcxyyiY6CzjgyPbXlffK2vpdV7s+mVe2WtALs2nWld52MXvL97bbroTFHv0k31
- AIZDxPE5o863jP574bfuX4fwdUE1hEU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-jKV62tgZMFmjtNTwQDm2iQ-1; Thu, 07 Oct 2021 08:04:21 -0400
-X-MC-Unique: jKV62tgZMFmjtNTwQDm2iQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- q26-20020aa7da9a000000b003db531e7acbso1315319eds.22
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 05:04:20 -0700 (PDT)
+ s=mimecast20190719; t=1633608330;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=8wlsJXr8oi58CoxyFl/DEDYl5DICG+6webUTI7uZ/Ho=;
+ b=dIkbaBhR7gt5STqTgWB5NX5PYrKPNHbyBlIdrKWQu7R/cJU8YgvbWiloyIL1mpdouc4C6X
+ uDe0McrJ6p/FkxhfXw7zKAWM78KP9FZzYIlfrVfLxYu3n53ioiQVBVxdEHibODXFKDcD2v
+ WD2C1mE+oJrm2lTyoUzHo+IAKHgjSDA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-eIA17r-yPxCd33_0gxtElw-1; Thu, 07 Oct 2021 08:05:27 -0400
+X-MC-Unique: eIA17r-yPxCd33_0gxtElw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ l6-20020adfa386000000b00160c4c1866eso4508393wrb.4
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 05:05:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=G9Curh6WsSagpuhx5vSBnIts8bikvbVOPZIufKLyKo4=;
- b=A1xYIQaSmnK+aX8aBSWR89TUhIe3Qwqin041qYLlB2tBuSzoFZEqgvDxcfFXBkhfUZ
- zxox0mgbFpv2HJi5xTW2lfKsLy/ahw0lkQ9UBnVOKIhX89bW3ljKboDsjH9Lc7r09/j6
- HFkb0cMk7Pj4hfQ4jaHv4QpeflGEsDhD1vhjWnyxslUPnVxdC/4xPgkZaxOn4fa67h6p
- SwWjXsqaLkXg2lfUY05nYQO8jzbnikRYLhy5YosKLjs4soDaWOlTgQ3hg26iGzd0sy2+
- fabTnFbjA83qIXA4yycuVxPvd5DhZX8pOwOKLv0Jzmp0IaFwYHdGTJytRhv/hQra26FE
- CJ4w==
-X-Gm-Message-State: AOAM533v8doHauB4fyOIi3nzLJ8ir1TxdZtwCARSa+oI/H7YoUd+KnTH
- ZM9MdEMO7Rg2Nxh1HmfGyGFeSiEZh/Q5diMShSIZiDxJADGEtShz0Jrjg37lE8H1krtBO52UnA3
- eKI8JxpHgpkDeREI=
-X-Received: by 2002:a17:906:eda6:: with SMTP id
- sa6mr5035780ejb.443.1633608259970; 
- Thu, 07 Oct 2021 05:04:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwBBGGaaSs7zALwXeFbdmAh+wa5q0DeHz8AWcNd3JntRLsINdGoafuK25vMIupuVMw8R0JQWQ==
-X-Received: by 2002:a17:906:eda6:: with SMTP id
- sa6mr5035749ejb.443.1633608259732; 
- Thu, 07 Oct 2021 05:04:19 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u6sm11251155edt.30.2021.10.07.05.04.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Oct 2021 05:04:19 -0700 (PDT)
-Message-ID: <4989de6a-8164-5a96-6854-df9bb0dd6a1f@redhat.com>
-Date: Thu, 7 Oct 2021 14:04:17 +0200
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=8wlsJXr8oi58CoxyFl/DEDYl5DICG+6webUTI7uZ/Ho=;
+ b=yivU71AiTQhOhKVGZLHREijx8X4koUP3+5TD5oM8Hb1IgmgJTNqxUvLrs2pc95SoXO
+ GydQT21hHGXyWMhbn5LJ8hvm/yftkTXyLDww1EVV51zzUt78OJy2Fm/Wnv3pfalr53iI
+ NyVvC0XQp5tOjDdVW76ZqIp2I9di/oCXuLWuJ2iS7NUcpM7wAAJNfMEEDlRHWHwPLXtR
+ YXEGHxugTXtIoDcjTeZlL21AR5SyKo3cV+mhsS4EI1AGVek0bixbzXax4meWhZStQ/qi
+ W6FuJDJRRw4iHdxPbVITuhBTjC5x8z93t9EzdtdLFFqVnR97a8nAiuvnOlnmDvrQV+3W
+ EWpw==
+X-Gm-Message-State: AOAM530CxWhGmm9JjAr4nILKuI0UTonrX+ZdF07ZXqHkCRq8ThA5Dn7A
+ wdqmJc2LnzUnIa35DEZkxFVNJAOJIe6zrLL8DArhDI3ErJIoMsZ/Z5g1qPB5AD4MsRkOOw5k2Yt
+ EmKsXWMGEHXwrQ88=
+X-Received: by 2002:a5d:6d02:: with SMTP id e2mr4971516wrq.198.1633608326360; 
+ Thu, 07 Oct 2021 05:05:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxm9cGfmWaLBPNuX74MGg7LBPI3k54ibsK6OVC0fUrTktgnsexVZt+W0ziQXYVV1phEXuMuEg==
+X-Received: by 2002:a5d:6d02:: with SMTP id e2mr4971480wrq.198.1633608326146; 
+ Thu, 07 Oct 2021 05:05:26 -0700 (PDT)
+Received: from localhost (static-168-39-62-95.ipcom.comunitel.net.
+ [95.62.39.168])
+ by smtp.gmail.com with ESMTPSA id z16sm8543964wmk.6.2021.10.07.05.05.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Oct 2021 05:05:25 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Li Zhijian <lizhijian@cn.fujitsu.com>
+Subject: Re: [PATCH v3 1/2] migration/rdma: Try to register On-Demand Paging
+ memory region
+In-Reply-To: <20210910070255.509349-2-lizhijian@cn.fujitsu.com> (Li Zhijian's
+ message of "Fri, 10 Sep 2021 15:02:54 +0800")
+References: <20210910070255.509349-1-lizhijian@cn.fujitsu.com>
+ <20210910070255.509349-2-lizhijian@cn.fujitsu.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Thu, 07 Oct 2021 14:05:24 +0200
+Message-ID: <87sfxddoqj.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [RFC PATCH v2 14/25] assertions for blockdev.h global state API
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211005143215.29500-1-eesposit@redhat.com>
- <20211005143215.29500-15-eesposit@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211005143215.29500-15-eesposit@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.05, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.964,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,112 +97,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: quintela@redhat.com
+Cc: peter.maydell@linaro.org, dgilbert@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/10/21 16:32, Emanuele Giuseppe Esposito wrote:
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   block/block-backend.c |  2 ++
->   blockdev.c            | 12 ++++++++++++
->   2 files changed, 14 insertions(+)
-> 
-> diff --git a/block/block-backend.c b/block/block-backend.c
-> index 9f09245069..18791c4fdc 100644
-> --- a/block/block-backend.c
-> +++ b/block/block-backend.c
-> @@ -805,6 +805,7 @@ DriveInfo *blk_legacy_dinfo(BlockBackend *blk)
->   DriveInfo *blk_set_legacy_dinfo(BlockBackend *blk, DriveInfo *dinfo)
->   {
->       assert(!blk->legacy_dinfo);
-> +    g_assert(qemu_in_main_thread());
->       return blk->legacy_dinfo = dinfo;
->   }
->   
-> @@ -815,6 +816,7 @@ DriveInfo *blk_set_legacy_dinfo(BlockBackend *blk, DriveInfo *dinfo)
->   BlockBackend *blk_by_legacy_dinfo(DriveInfo *dinfo)
->   {
->       BlockBackend *blk = NULL;
-> +    g_assert(qemu_in_main_thread());
->   
->       while ((blk = blk_next(blk)) != NULL) {
->           if (blk->legacy_dinfo == dinfo) {
-> diff --git a/blockdev.c b/blockdev.c
-> index 5608b78f8f..917bcf8cbc 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -114,6 +114,8 @@ void override_max_devs(BlockInterfaceType type, int max_devs)
->       BlockBackend *blk;
->       DriveInfo *dinfo;
->   
-> +    g_assert(qemu_in_main_thread());
-> +
->       if (max_devs <= 0) {
->           return;
->       }
-> @@ -230,6 +232,8 @@ DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit)
->       BlockBackend *blk;
->       DriveInfo *dinfo;
->   
-> +    g_assert(qemu_in_main_thread());
-> +
->       for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
->           dinfo = blk_legacy_dinfo(blk);
->           if (dinfo && dinfo->type == type
-> @@ -252,6 +256,8 @@ void drive_check_orphaned(void)
->       Location loc;
->       bool orphans = false;
->   
-> +    g_assert(qemu_in_main_thread());
-> +
->       for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
->           dinfo = blk_legacy_dinfo(blk);
->           /*
-> @@ -285,6 +291,7 @@ void drive_check_orphaned(void)
->   
->   DriveInfo *drive_get_by_index(BlockInterfaceType type, int index)
->   {
-> +    g_assert(qemu_in_main_thread());
->       return drive_get(type,
->                        drive_index_to_bus_id(type, index),
->                        drive_index_to_unit_id(type, index));
-> @@ -296,6 +303,8 @@ int drive_get_max_bus(BlockInterfaceType type)
->       BlockBackend *blk;
->       DriveInfo *dinfo;
->   
-> +    g_assert(qemu_in_main_thread());
-> +
->       max_bus = -1;
->       for (blk = blk_next(NULL); blk; blk = blk_next(blk)) {
->           dinfo = blk_legacy_dinfo(blk);
-> @@ -312,6 +321,7 @@ int drive_get_max_bus(BlockInterfaceType type)
->   DriveInfo *drive_get_next(BlockInterfaceType type)
->   {
->       static int next_block_unit[IF_COUNT];
-> +    g_assert(qemu_in_main_thread());
->   
->       return drive_get(type, 0, next_block_unit[type]++);
->   }
-> @@ -792,6 +802,8 @@ DriveInfo *drive_new(QemuOpts *all_opts, BlockInterfaceType block_default_type,
->       const char *filename;
->       int i;
->   
-> +    g_assert(qemu_in_main_thread());
-> +
->       /* Change legacy command line options into QMP ones */
->       static const struct {
->           const char *from;
-> 
+Li Zhijian <lizhijian@cn.fujitsu.com> wrote:
+> Previously, for the fsdax mem-backend-file, it will register failed with
+> Operation not supported. In this case, we can try to register it with
+> On-Demand Paging[1] like what rpma_mr_reg() does on rpma[2].
+>
+> [1]: https://community.mellanox.com/s/article/understanding-on-demand-paging--odp-x
+> [2]: http://pmem.io/rpma/manpages/v0.9.0/rpma_mr_reg.3
+>
+> CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+> Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+>
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
