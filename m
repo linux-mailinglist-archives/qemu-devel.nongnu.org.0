@@ -2,73 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A68425681
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 17:23:12 +0200 (CEST)
-Received: from localhost ([::1]:42044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D1342567D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 17:19:23 +0200 (CEST)
+Received: from localhost ([::1]:39590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYVEl-0002HB-Ev
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 11:23:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33760)
+	id 1mYVB4-0000Rr-JV
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 11:19:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYVDM-0001Sm-8W
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 11:21:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46080)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYV9x-0008A7-1W
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 11:18:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYVDJ-0002XP-Fm
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 11:21:44 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYV9t-0003Ir-JI
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 11:18:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633620100;
+ s=mimecast20190719; t=1633619887;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pBlv8bFZsFlHWZ26pEi7ct75DqGnY+SBDuQZJCQcLQA=;
- b=JPRJqYN6k8kXZDq3MYXy1Nmkrvax9ouMPVk1zmqR7Udty5dSgSy+k4C+xVDkxleNSFw1yG
- TIq6QXQO+VXJXdQLSqSuCl8za73XsLCNmf95cfO40eZ3fhIOoaHUKcUev0yaxpVfFI4CfI
- SuJtLGM7oJv/GbD2ZiW6qDMy7q1PR3U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-ZhD0wWRGOsmbUp__Ah5SIg-1; Thu, 07 Oct 2021 11:21:36 -0400
-X-MC-Unique: ZhD0wWRGOsmbUp__Ah5SIg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44098199AB29;
- Thu,  7 Oct 2021 15:18:24 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A9826D98B;
- Thu,  7 Oct 2021 15:18:04 +0000 (UTC)
-Date: Thu, 7 Oct 2021 16:18:03 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 1/3] virtio: turn VIRTQUEUE_MAX_SIZE into a variable
-Message-ID: <YV8Pqwap4oR8fpvc@stefanha-x1.localdomain>
-References: <cover.1633376313.git.qemu_oss@crudebyte.com>
- <6923459.JjrQbDWbmU@silver>
- <YV212nXgIuxtKZmS@stefanha-x1.localdomain>
- <5138892.89BctLniTh@silver>
+ bh=A6vtXIkicFt7VVQ5NHVntrnPXhTSxCgEIYm8aJeHGxA=;
+ b=bUeQnNJik1s3/d8p6LQEot5eTbcdeC7big9mwPxGHlMBRqxIJ9tM/c2dL//K+ToTtcra/x
+ egRUSAf8mLgEg6zsOUJiR8Jn+Tp06YdPngf4+Zr5Mai/TQsgqOTlMfB/SxZ7EH6UJgMxGO
+ d0tDWXQwvYRNFz3QR3IuD6utx7Fsaw0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-99-gWrcO6_VOw-DzVXWTvhwfw-1; Thu, 07 Oct 2021 11:18:06 -0400
+X-MC-Unique: gWrcO6_VOw-DzVXWTvhwfw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ h11-20020adfa4cb000000b00160c791a550so4802976wrb.6
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 08:18:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=A6vtXIkicFt7VVQ5NHVntrnPXhTSxCgEIYm8aJeHGxA=;
+ b=Y9Byvm3C5K7m5hfeF7YHrNVtnZ5iKEq//UJouDE2y3d0MUyqqWisXenRC/9mBCopNL
+ dS/1BdrFtn1u5W5pF2qSo/YdGDWU1CbZBGGt8BUn/PBYHwGWfWfyXjoCJ56gexo7c0Cb
+ dcGmz3p8yGO1Jllt6eJhIVG6hjV9+kAT3E2FpYwvDLkV/kVbtrXfD4tPytcpDsf6ghkf
+ Hub8reQ38leegduVWK0T/M2yuzpiHkvBuq1yY/w7SgH9FPDNGLdlvv4plOhswgl6wJUE
+ 2KFgX0J6tXr0zE6aM2PNRp48VG7ivoWRwH812N3CTCR38B7bpnhhrzZ6tnTBrKTo39/7
+ pbUg==
+X-Gm-Message-State: AOAM533UTlYeOoxXz7+Z5whz/spBQT0LaZsuRa1auZtspkiaDBmdhkMP
+ ON0XY0iWHXrNYBSvl994SFmjystY8Y0zOLGzkBGmX7ar9u2ZcRnurO+TkdDCDu17QymPIINbBnC
+ 4H5zKga72j34b6sI=
+X-Received: by 2002:a5d:59ad:: with SMTP id p13mr6208244wrr.253.1633619885174; 
+ Thu, 07 Oct 2021 08:18:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1chPAauVcmvAUGIu2PpmeGC1NzHHEZTsM8AxFTeGNU0jLdg6eBriMmhAOBKsfKtxtw9g1Zw==
+X-Received: by 2002:a5d:59ad:: with SMTP id p13mr6208209wrr.253.1633619884958; 
+ Thu, 07 Oct 2021 08:18:04 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id n15sm25386369wrg.58.2021.10.07.08.18.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Oct 2021 08:18:04 -0700 (PDT)
+Message-ID: <9f36432b-b1b7-139e-085d-c8af430772fc@redhat.com>
+Date: Thu, 7 Oct 2021 17:18:03 +0200
 MIME-Version: 1.0
-In-Reply-To: <5138892.89BctLniTh@silver>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v3 19/22] monitor: Restrict 'info sev' to x86 targets
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211002125317.3418648-1-philmd@redhat.com>
+ <20211002125317.3418648-20-philmd@redhat.com>
+ <5c1652ac-8a71-8d23-ed31-b84ce07596e8@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <5c1652ac-8a71-8d23-ed31-b84ce07596e8@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LAHpfhj4GA/IJNp6"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,457 +99,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Amit Shah <amit@kernel.org>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, virtio-fs@redhat.com,
- Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Brijesh Singh <brijesh.singh@amd.com>, kvm@vger.kernel.org,
+ Sergio Lopez <slp@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---LAHpfhj4GA/IJNp6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10/4/21 10:26, Paolo Bonzini wrote:
+> On 02/10/21 14:53, Philippe Mathieu-Daudé wrote:
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>   include/monitor/hmp-target.h  | 1 +
+>>   include/monitor/hmp.h         | 1 -
+>>   target/i386/sev-sysemu-stub.c | 2 +-
+>>   target/i386/sev.c             | 2 +-
+>>   4 files changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
+>> index dc53add7eef..96956d0fc41 100644
+>> --- a/include/monitor/hmp-target.h
+>> +++ b/include/monitor/hmp-target.h
+>> @@ -49,6 +49,7 @@ void hmp_info_tlb(Monitor *mon, const QDict *qdict);
+>>   void hmp_mce(Monitor *mon, const QDict *qdict);
+>>   void hmp_info_local_apic(Monitor *mon, const QDict *qdict);
+>>   void hmp_info_io_apic(Monitor *mon, const QDict *qdict);
+>> +void hmp_info_sev(Monitor *mon, const QDict *qdict);
+>>   void hmp_info_sgx(Monitor *mon, const QDict *qdict);
+>>     #endif /* MONITOR_HMP_TARGET_H */
+>> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+>> index 3baa1058e2c..6bc27639e01 100644
+>> --- a/include/monitor/hmp.h
+>> +++ b/include/monitor/hmp.h
+>> @@ -124,7 +124,6 @@ void hmp_info_ramblock(Monitor *mon, const QDict
+>> *qdict);
+>>   void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict);
+>>   void hmp_info_vm_generation_id(Monitor *mon, const QDict *qdict);
+>>   void hmp_info_memory_size_summary(Monitor *mon, const QDict *qdict);
+>> -void hmp_info_sev(Monitor *mon, const QDict *qdict);
+>>   void hmp_info_replay(Monitor *mon, const QDict *qdict);
+>>   void hmp_replay_break(Monitor *mon, const QDict *qdict);
+>>   void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
+>> diff --git a/target/i386/sev-sysemu-stub.c
+>> b/target/i386/sev-sysemu-stub.c
+>> index 1836b32e4fc..b2a4033a030 100644
+>> --- a/target/i386/sev-sysemu-stub.c
+>> +++ b/target/i386/sev-sysemu-stub.c
+>> @@ -13,7 +13,7 @@
+>>     #include "qemu/osdep.h"
+>>   #include "monitor/monitor.h"
+>> -#include "monitor/hmp.h"
+>> +#include "monitor/hmp-target.h"
+>>   #include "qapi/qapi-commands-misc-target.h"
+>>   #include "qapi/qmp/qerror.h"
+>>   #include "qapi/error.h"
+>> diff --git a/target/i386/sev.c b/target/i386/sev.c
+>> index 7caaa117ff7..c6d8fc52eb2 100644
+>> --- a/target/i386/sev.c
+>> +++ b/target/i386/sev.c
+>> @@ -32,7 +32,7 @@
+>>   #include "migration/blocker.h"
+>>   #include "qom/object.h"
+>>   #include "monitor/monitor.h"
+>> -#include "monitor/hmp.h"
+>> +#include "monitor/hmp-target.h"
+>>   #include "qapi/qapi-commands-misc-target.h"
+>>   #include "qapi/qmp/qerror.h"
+>>   #include "exec/confidential-guest-support.h"
+>>
+> 
+> 
+> This is only a cleanup, isn't it?  The #ifdef is already in
+> hmp-commands-info.hx.
 
-On Thu, Oct 07, 2021 at 03:09:16PM +0200, Christian Schoenebeck wrote:
-> On Mittwoch, 6. Oktober 2021 16:42:34 CEST Stefan Hajnoczi wrote:
-> > On Wed, Oct 06, 2021 at 02:50:07PM +0200, Christian Schoenebeck wrote:
-> > > On Mittwoch, 6. Oktober 2021 13:06:55 CEST Stefan Hajnoczi wrote:
-> > > > On Tue, Oct 05, 2021 at 06:32:46PM +0200, Christian Schoenebeck wro=
-te:
-> > > > > On Dienstag, 5. Oktober 2021 17:10:40 CEST Stefan Hajnoczi wrote:
-> > > > > > On Tue, Oct 05, 2021 at 03:15:26PM +0200, Christian Schoenebeck=
-=20
-> wrote:
-> > > > > > > On Dienstag, 5. Oktober 2021 14:45:56 CEST Stefan Hajnoczi wr=
-ote:
-> > > > > > > > On Mon, Oct 04, 2021 at 09:38:04PM +0200, Christian Schoene=
-beck
-> > >=20
-> > > wrote:
-> > > > > > > > > Refactor VIRTQUEUE_MAX_SIZE to effectively become a runti=
-me
-> > > > > > > > > variable per virtio user.
-> > > > > > > >=20
-> > > > > > > > virtio user =3D=3D virtio device model?
-> > > > > > >=20
-> > > > > > > Yes
-> > > > > > >=20
-> > > > > > > > > Reasons:
-> > > > > > > > >=20
-> > > > > > > > > (1) VIRTQUEUE_MAX_SIZE should reflect the absolute theore=
-tical
-> > > > > > > > >=20
-> > > > > > > > >     maximum queue size possible. Which is actually the ma=
-ximum
-> > > > > > > > >     queue size allowed by the virtio protocol. The approp=
-riate
-> > > > > > > > >     value for VIRTQUEUE_MAX_SIZE would therefore be 32768=
-:
-> > > > > > > > >    =20
-> > > > > > > > >     https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/v=
-irtio
-> > > > > > > > >     -v1.
-> > > > > > > > >     1-cs
-> > > > > > > > >     01.h
-> > > > > > > > >     tml#x1-240006
-> > > > > > > > >    =20
-> > > > > > > > >     Apparently VIRTQUEUE_MAX_SIZE was instead defined wit=
-h a
-> > > > > > > > >     more or less arbitrary value of 1024 in the past, whi=
-ch
-> > > > > > > > >     limits the maximum transfer size with virtio to 4M
-> > > > > > > > >     (more precise: 1024 * PAGE_SIZE, with the latter typi=
-cally
-> > > > > > > > >     being 4k).
-> > > > > > > >=20
-> > > > > > > > Being equal to IOV_MAX is a likely reason. Buffers with mor=
-e
-> > > > > > > > iovecs
-> > > > > > > > than
-> > > > > > > > that cannot be passed to host system calls (sendmsg(2),
-> > > > > > > > pwritev(2),
-> > > > > > > > etc).
-> > > > > > >=20
-> > > > > > > Yes, that's use case dependent. Hence the solution to opt-in =
-if it
-> > > > > > > is
-> > > > > > > desired and feasible.
-> > > > > > >=20
-> > > > > > > > > (2) Additionally the current value of 1024 poses a hidden
-> > > > > > > > > limit,
-> > > > > > > > >=20
-> > > > > > > > >     invisible to guest, which causes a system hang with t=
-he
-> > > > > > > > >     following QEMU error if guest tries to exceed it:
-> > > > > > > > >    =20
-> > > > > > > > >     virtio: too many write descriptors in indirect table
-> > > > > > > >=20
-> > > > > > > > I don't understand this point. 2.6.5 The Virtqueue Descript=
-or
-> > > > > > > > Table
-> > > > >=20
-> > > > > says:
-> > > > > > > >   The number of descriptors in the table is defined by the =
-queue
-> > > > > > > >   size
-> > > > > > > >   for
-> > > > > > > >=20
-> > > > > > > > this virtqueue: this is the maximum possible descriptor cha=
-in
-> > > > > > > > length.
-> > > > > > > >=20
-> > > > > > > > and 2.6.5.3.1 Driver Requirements: Indirect Descriptors say=
-s:
-> > > > > > > >   A driver MUST NOT create a descriptor chain longer than t=
-he
-> > > > > > > >   Queue
-> > > > > > > >   Size
-> > > > > > > >   of
-> > > > > > > >=20
-> > > > > > > > the device.
-> > > > > > > >=20
-> > > > > > > > Do you mean a broken/malicious guest driver that is violati=
-ng
-> > > > > > > > the
-> > > > > > > > spec?
-> > > > > > > > That's not a hidden limit, it's defined by the spec.
-> > > > > > >=20
-> > > > > > > https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg0078=
-1.htm
-> > > > > > > l
-> > > > > > > https://lists.gnu.org/archive/html/qemu-devel/2021-10/msg0078=
-8.htm
-> > > > > > > l
-> > > > > > >=20
-> > > > > > > You can already go beyond that queue size at runtime with the
-> > > > > > > indirection
-> > > > > > > table. The only actual limit is the currently hard coded valu=
-e of
-> > > > > > > 1k
-> > > > > > > pages.
-> > > > > > > Hence the suggestion to turn that into a variable.
-> > > > > >=20
-> > > > > > Exceeding Queue Size is a VIRTIO spec violation. Drivers that
-> > > > > > operate
-> > > > > > outsided the spec do so at their own risk. They may not be
-> > > > > > compatible
-> > > > > > with all device implementations.
-> > > > >=20
-> > > > > Yes, I am ware about that. And still, this practice is already do=
-ne,
-> > > > > which
-> > > > > apparently is not limited to 9pfs.
-> > > > >=20
-> > > > > > The limit is not hidden, it's Queue Size as defined by the spec=
- :).
-> > > > > >=20
-> > > > > > If you have a driver that is exceeding the limit, then please f=
-ix
-> > > > > > the
-> > > > > > driver.
-> > > > >=20
-> > > > > I absolutely understand your position, but I hope you also unders=
-tand
-> > > > > that
-> > > > > this violation of the specs is a theoretical issue, it is not a
-> > > > > real-life
-> > > > > problem right now, and due to lack of man power unfortunately I h=
-ave
-> > > > > to
-> > > > > prioritize real-life problems over theoretical ones ATM. Keep in =
-mind
-> > > > > that
-> > > > > right now I am the only person working on 9pfs actively, I do thi=
-s
-> > > > > voluntarily whenever I find a free time slice, and I am not paid =
-for
-> > > > > it
-> > > > > either.
-> > > > >=20
-> > > > > I don't see any reasonable way with reasonable effort to do what =
-you
-> > > > > are
-> > > > > asking for here in 9pfs, and Greg may correct me here if I am say=
-ing
-> > > > > anything wrong. If you are seeing any specific real-life issue he=
-re,
-> > > > > then
-> > > > > please tell me which one, otherwise I have to postpone that "spec=
-s
-> > > > > violation" issue.
-> > > > >=20
-> > > > > There is still a long list of real problems that I need to hunt d=
-own
-> > > > > in
-> > > > > 9pfs, afterwards I can continue with theoretical ones if you want=
-, but
-> > > > > right now I simply can't, sorry.
-> > > >=20
-> > > > I understand. If you don't have time to fix the Linux virtio-9p dri=
-ver
-> > > > then that's fine.
-> > >=20
-> > > I will look at this again, but it might be tricky. On doubt I'll post=
-pone
-> > > it.>=20
-> > > > I still wanted us to agree on the spec position because the commit
-> > > > description says it's a "hidden limit", which is incorrect. It migh=
-t
-> > > > seem pedantic, but my concern is that misconceptions can spread if =
-we
-> > > > let them. That could cause people to write incorrect code later on.
-> > > > Please update the commit description either by dropping 2) or by
-> > > >=20
-> > > > replacing it with something else. For example:
-> > > >   2) The Linux virtio-9p guest driver does not honor the VIRTIO Que=
-ue
-> > > >  =20
-> > > >      Size value and can submit descriptor chains that exceed it. Th=
-at is
-> > > >      a spec violation but is accepted by QEMU's device implementati=
-on.
-> > > >     =20
-> > > >      When the guest creates a descriptor chain larger than 1024 the
-> > > >      following QEMU error is printed and the guest hangs:
-> > > >     =20
-> > > >      virtio: too many write descriptors in indirect table
-> > >=20
-> > > I am fine with both, probably preferring the text block above instead=
- of
-> > > silently dropping the reason, just for clarity.
-> > >=20
-> > > But keep in mind that this might not be limited to virtio-9p as your =
-text
-> > > would suggest, see below.
-> > >=20
-> > > > > > > > > (3) Unfortunately not all virtio users in QEMU would curr=
-ently
-> > > > > > > > >=20
-> > > > > > > > >     work correctly with the new value of 32768.
-> > > > > > > > >=20
-> > > > > > > > > So let's turn this hard coded global value into a runtime
-> > > > > > > > > variable as a first step in this commit, configurable for=
- each
-> > > > > > > > > virtio user by passing a corresponding value with
-> > > > > > > > > virtio_init()
-> > > > > > > > > call.
-> > > > > > > >=20
-> > > > > > > > virtio_add_queue() already has an int queue_size argument, =
-why
-> > > > > > > > isn't
-> > > > > > > > that enough to deal with the maximum queue size? There's
-> > > > > > > > probably a
-> > > > > > > > good
-> > > > > > > > reason for it, but please include it in the commit descript=
-ion.
-> > > > > > >=20
-> > > > > > > [...]
-> > > > > > >=20
-> > > > > > > > Can you make this value per-vq instead of per-vdev since
-> > > > > > > > virtqueues
-> > > > > > > > can
-> > > > > > > > have different queue sizes?
-> > > > > > > >=20
-> > > > > > > > The same applies to the rest of this patch. Anything using
-> > > > > > > > vdev->queue_max_size should probably use vq->vring.num inst=
-ead.
-> > > > > > >=20
-> > > > > > > I would like to avoid that and keep it per device. The maximu=
-m
-> > > > > > > size
-> > > > > > > stored
-> > > > > > > there is the maximum size supported by virtio user (or vortio
-> > > > > > > device
-> > > > > > > model,
-> > > > > > > however you want to call it). So that's really a limit per de=
-vice,
-> > > > > > > not
-> > > > > > > per
-> > > > > > > queue, as no queue of the device would ever exceed that limit=
-.
-> > > > > > >=20
-> > > > > > > Plus a lot more code would need to be refactored, which I thi=
-nk is
-> > > > > > > unnecessary.
-> > > > > >=20
-> > > > > > I'm against a per-device limit because it's a concept that cann=
-ot
-> > > > > > accurately describe reality. Some devices have multiple classes=
- of
-> > > > >=20
-> > > > > It describes current reality, because VIRTQUEUE_MAX_SIZE obviousl=
-y is
-> > > > > not
-> > > > > per queue either ATM, and nobody ever cared.
-> > > > >=20
-> > > > > All this series does, is allowing to override that currently
-> > > > > project-wide
-> > > > > compile-time constant to a per-driver-model compile-time constant=
-.
-> > > > > Which
-> > > > > makes sense, because that's what it is: some drivers could cope w=
-ith
-> > > > > any
-> > > > > transfer size, and some drivers are constrained to a certain maxi=
-mum
-> > > > > application specific transfer size (e.g. IOV_MAX).
-> > > > >=20
-> > > > > > virtqueues and they are sized differently, so a per-device limi=
-t is
-> > > > > > insufficient. virtio-net has separate rx_queue_size and
-> > > > > > tx_queue_size
-> > > > > > parameters (plus a control vq hardcoded to 64 descriptors).
-> > > > >=20
-> > > > > I simply find this overkill. This value semantically means "my dr=
-iver
-> > > > > model
-> > > > > supports at any time and at any coincidence at the very most x *
-> > > > > PAGE_SIZE
-> > > > > =3D max_transfer_size". Do you see any driver that might want a m=
-ore
-> > > > > fine
-> > > > > graded control over this?
-> > > >=20
-> > > > One reason why per-vq limits could make sense is that the maximum
-> > > > possible number of struct elements is allocated upfront in some cod=
-e
-> > > > paths. Those code paths may need to differentiate between per-vq li=
-mits
-> > > > for performance or memory utilization reasons. Today some places
-> > > > allocate 1024 elements on the stack in some code paths, but maybe t=
-hat's
-> > > > not acceptable when the per-device limit is 32k. This can matter wh=
-en a
-> > > > device has vqs with very different sizes.
-> > >=20
-> > > [...]
-> > >=20
-> > > > > ... I leave that up to Michael or whoever might be in charge to
-> > > > > decide. I
-> > > > > still find this overkill, but I will adapt this to whatever the
-> > > > > decision
-> > > > > eventually will be in v3.
-> > > > >=20
-> > > > > But then please tell me the precise representation that you find
-> > > > > appropriate, i.e. whether you want a new function for that, or ra=
-ther
-> > > > > an
-> > > > > additional argument to virtio_add_queue(). Your call.
-> > > >=20
-> > > > virtio_add_queue() already takes an int queue_size argument. I thin=
-k the
-> > > > necessary information is already there.
-> > > >=20
-> > > > This patch just needs to be tweaked to use the virtio_queue_get_num=
-()
-> > > > (or a new virtqueue_get_num() API if that's easier because only a
-> > > > VirtQueue *vq pointer is available) instead of introducing a new
-> > > > per-device limit.
-> > >=20
-> > > My understanding is that both the original 9p virtio device authors, =
-as
-> > > well as other virtio device authors in QEMU have been and are still u=
-sing
-> > > this as a default value (i.e. to allocate some upfront, and the rest =
-on
-> > > demand).
-> > >=20
-> > > So yes, I know your argument about the specs, but AFAICS if I would j=
-ust
-> > > take this existing numeric argument for the limit, then it would prob=
-ably
-> > > break those other QEMU devices as well.
-> >=20
-> > This is a good point that I didn't consider. If guest drivers currently
-> > violate the spec, then restricting descriptor chain length to vring.num
-> > will introduce regressions.
-> >=20
-> > We can't use virtio_queue_get_num() directly. A backwards-compatible
-> > limit is required:
-> >=20
-> >   int virtio_queue_get_desc_chain_max(VirtIODevice *vdev, int n)
-> >   {
-> >       /*
-> >        * QEMU historically allowed 1024 descriptors even if the
-> >        * descriptor table was smaller.
-> >        */
-> >       return MAX(virtio_queue_get_num(vdev, qidx), 1024);
-> >   }
->=20
-> That was an alternative that I thought about as well, but decided against=
-. It=20
-> would require devices (that would want to support large transmissions siz=
-es)=20
-> to create the virtio queue(s) with the maximum possible size, i.e:
->=20
->   virtio_add_queue(32k);
+IIUC the prototype is exposed to all targets, while with
+this patch, only to the files including "monitor/hmp-target.h".
 
-The spec allows drivers to set the size of the vring as long as they do
-not exceed Queue Size.
+You are right the command is only added for TARGET_I386 in
+hmp-commands-info.hx.
 
-The Linux drivers accept the device's default size, so you're right that
-this would cause large vrings to be allocated if the device sets the
-virtqueue size to 32k.
+> 
+> Anyway,
+> 
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> 
+> but please adjust the commit message in v4.
 
-> And that's the point where my current lack of knowledge, of what this wou=
-ld=20
-> precisely mean to the resulting allocation set, decided against it. I mea=
-n=20
-> would that mean would QEMU's virtio implementation would just a) allocate=
- 32k=20
-> scatter gather list entries? Or would it rather b) additionally also allo=
-cate=20
-> the destination memory pages as well?
-
-The vring consumes guest RAM but it just consists of descriptors, not
-the buffer memory pages. The guest RAM requirements are:
-- split layout: 32k * 16 + 6 + 32k * 2 + 6 + 8 * 32k =3D 851,980 bytes
-- packed layout: 32k * 16 + 4 + 4 =3D 524,296 bytes
-
-That's still quite large!
-
-By the way, virtio-blk currently uses a virtqueue size of 256
-descriptors and this has been found reasonable for disk I/O performance.
-The Linux block layer splits requests at around 1.25 MB for virtio-blk.
-The virtio-blk queue limits are reported by the device and the guest
-Linux block layer uses them to size/split requests appropriately. I'm
-not sure 9p really needs 32k, although you're right that fragmented
-physical memory requires 32k descriptors to describe 128 MB of buffers.
-
-Going back to the original problem, a vring feature bit could be added
-to the VIRTIO specification indicating that indirect descriptor tables
-are limited to the maximum (32k) instead of Queue Size. This way the
-device's default vring size could be small but drivers could allocate
-indirect descriptor tables that are large when necessary. Then the Linux
-virtio driver API would need to report the maximum supported sglist
-length for a given virtqueue so drivers can take advantage of this
-information.
-
-Stefan
-
---LAHpfhj4GA/IJNp6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFfD6sACgkQnKSrs4Gr
-c8haHQgArCAWxGJT52W8n4BpLRlj+nF5Imb7lTc6RilzPt7fdsplpMIYa0wnoSuP
-Xi7FROy/DtBanu6gmTh7AspN9gdgQhXziSVP6GGR+2FXnBiDGTxfG5QpAvViJN87
-mXgkgH1na/xU0dGO62//vubMwfIg5FUdLgs2OpZWUQyrRE0XnnYoZ4b9l0fm2GPl
-4KOqjpmOQRnoYTbP6eW4Y+kjkPOIdtfryY4OsjBHDWEagViLxchCFJwKXt3oRjHY
-rUvq/yrhSn3BbBA7+T3nTOpa1LMdUBuDx3HrJk38Ap3MS8dSlD7UYaeWbjxbAJ6Z
-AlaXX7/F26eZ/gvaj9/qrypA6oLHHg==
-=wq6c
------END PGP SIGNATURE-----
-
---LAHpfhj4GA/IJNp6--
+OK, thanks.
 
 
