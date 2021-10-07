@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66835425046
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 11:43:56 +0200 (CEST)
-Received: from localhost ([::1]:42968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D0B42502F
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 11:35:46 +0200 (CEST)
+Received: from localhost ([::1]:45080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYPwR-0000IY-DN
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 05:43:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37312)
+	id 1mYPoX-00088j-6k
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 05:35:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYPs1-0001oi-AQ
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:39:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22400)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mYPmk-0007De-Uf
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:33:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYPrz-0004zm-Qh
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:39:21 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mYPmh-0007aI-Vl
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 05:33:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633599559;
+ s=mimecast20190719; t=1633599229;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=O6gHvl+V3DdX2ER9EkW+g056NvC3DDNHig7lmoGLbJo=;
- b=LFi9lNzMMj1K8JrMsATZL2+XXPjMW68zCrjKg0FKS92oNBb8SxjjCRsEZzCGynU/z1D03x
- 4yiovwBu38HPbE4U7eon+MXYjBXJrrhtBrJMDSQSfptq0ZAVCkGJP4+cPv6e1wKXA4Ls/m
- BXzGOMJPl/htqMXAST+Z48/CkMnzfE4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-wS2icdN2NtODAKLHCdmYwg-1; Thu, 07 Oct 2021 05:39:18 -0400
-X-MC-Unique: wS2icdN2NtODAKLHCdmYwg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- m17-20020adffa11000000b00160c1ac74e9so4209095wrr.9
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 02:39:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=O6gHvl+V3DdX2ER9EkW+g056NvC3DDNHig7lmoGLbJo=;
- b=FM47FBF/v51wBB2fhiTkCKh+MJ6RxDU9NrojljQNBcuqPPsSyRmrGZIlxR7JF4ERcs
- gqIEVjLujs1Oey23aAFFiUS8cq8JsC2gLOTx0Fp50oNsXJxl6rTIxXT9fTZIOzdut4cl
- wpHhx4XYXyNQCsCGQ+GwL//KUzDA1lAM4McUN9wk4YylGesSgFgZP/VLqzxRS8O9QM8H
- kUiWSg+c6EemgHLt8Qx2Ndy21maS6oXbxKHOd1xeIt1+zPjnDKLKFEyCeqiTw53VXihi
- LQvzurDd+eALC2hWFNcV4gTs19J/hhJAoSxipdN8TCSbl4BtV66VLhCBZjFQIAnPQ4Sw
- DmSQ==
-X-Gm-Message-State: AOAM530aPFR7Tfi3PnmrlSpw55PrAOVK4B+IQhcXv/6NmESiY0AEytko
- RUEIcR1nVTUU3/Miyljvv5ZlqZut/aUOg983SgX0sFXDI4aJDdC2vKOSec5a0C8PnO9Ud5zVjs+
- fW8Sfs7Wu3QTO9vbtmiKWYruhDWP5QCtRLHYGObGYZ3xfUGy/SktEDYO7eV3iqDAA
-X-Received: by 2002:adf:8bdd:: with SMTP id w29mr3973307wra.49.1633599070061; 
- Thu, 07 Oct 2021 02:31:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwmb3/xqoaRaAuKDWYmQaFbK3pyag8zv1KmFFp4HwgS6gazHzy07Y0Cn9G47LKatWfvrSQbXw==
-X-Received: by 2002:adf:8bdd:: with SMTP id w29mr3973266wra.49.1633599069841; 
- Thu, 07 Oct 2021 02:31:09 -0700 (PDT)
-Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id c18sm8144571wmb.27.2021.10.07.02.31.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 02:31:09 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] MAINTAINERS: Add myself as reviewer of 'Machine core' API
-Date: Thu,  7 Oct 2021 11:31:08 +0200
-Message-Id: <20211007093108.323223-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ in-reply-to:in-reply-to:references:references;
+ bh=rKROfRZL2N1WWE4Jn6JC8IuwUdDjOuDDO/ODLLSBFOQ=;
+ b=E7GtdgnJcddQPpvDQatvOl63uaXyUFLYCtCUPZkxxT+YhwXvk0CP5Hxua2fsOljKN9MP9E
+ nsZOH8MFuG7yhtKRErZ/Z0Ui3DwM1U17hS2oFfzhJhjex8rnR9Z5m/Bevj63db/2PEsbec
+ fZYiY/zW8T0qGJRDTqzxu7kRcy49O/c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-qnyk6qOcNmeKNUXRY85hTA-1; Thu, 07 Oct 2021 05:33:48 -0400
+X-MC-Unique: qnyk6qOcNmeKNUXRY85hTA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EB5545DCA;
+ Thu,  7 Oct 2021 09:33:47 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A15B22635E;
+ Thu,  7 Oct 2021 09:33:40 +0000 (UTC)
+Date: Thu, 7 Oct 2021 10:33:39 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [RFC PATCH v2 04/25] include/block/block: split header into I/O
+ and global state API
+Message-ID: <YV6+8+NiBO8uG/GC@stefanha-x1.localdomain>
+References: <20211005143215.29500-1-eesposit@redhat.com>
+ <20211005143215.29500-5-eesposit@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20211005143215.29500-5-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1FR6fmp4E/qqnY6p"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -91,34 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to help Eduardo and Marcel with the machine
-core API, add myself as reviewer. That will also help
-me to learn more about this subsystem :)
+--1FR6fmp4E/qqnY6p
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+On Tue, Oct 05, 2021 at 10:31:54AM -0400, Emanuele Giuseppe Esposito wrote:
+> +int bdrv_pwrite_sync(BdrvChild *child, int64_t offset,
+> +                     const void *buf, int64_t bytes);
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 50435b8d2f5..b0a7bf36aa4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1617,6 +1617,7 @@ F: pc-bios/bios-microvm.bin
- Machine core
- M: Eduardo Habkost <ehabkost@redhat.com>
- M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-+R: Philippe Mathieu-Daudé <philmd@redhat.com>
- S: Supported
- F: cpu.c
- F: hw/core/cpu.c
--- 
-2.31.1
+Why is this bit of a surprise since the other synchronous I/O functions
+aren't included in this header. Why did you put it here? This one may be
+safe to move to the I/O API.
+
+> +int bdrv_block_status(BlockDriverState *bs, int64_t offset,
+> +                      int64_t bytes, int64_t *pnum, int64_t *map,
+> +                      BlockDriverState **file);
+
+This function just called bdrv_block_status_above(), which is in the I/O
+API. I think it's safe to move this to the I/O API or else
+bdrv_block_status_above() shouldn't be there :).
+
+--1FR6fmp4E/qqnY6p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFevvMACgkQnKSrs4Gr
+c8jO0Qf/ZhBvwGCn1twvpsoEuDPTfA7jw/u6k5y33nMX35WmUDMlVoeYFEAkyhcE
+S70PDEer3CV+euNZG2YnUDmyK5M9PDFpzvwMYUaqjl/DjTXvn5t0UIkMNXl1NZx1
+1DV0jPYBO4dgjjNNwpWxousEj/8lIGWtcaf85iU/G4duma4wsQLLNhbiEPlGHRC6
+J86ci85BlJo51/DDvpOWRnyjXGlLQ2hukWoHNWbViry/AhFpwC/8R2KF6z4dYsnW
+2ZubspHVksN5coWJsp6IcS5OmdkFW0R93uXydrOAod4ppO0zeKL/8TfFQmb8UDOj
+mUVpy/0jumATTgeNjHcuIYI6WJK/lQ==
+=lZhv
+-----END PGP SIGNATURE-----
+
+--1FR6fmp4E/qqnY6p--
 
 
