@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF5942537D
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:53:22 +0200 (CEST)
-Received: from localhost ([::1]:55464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0B542538C
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 14:58:20 +0200 (CEST)
+Received: from localhost ([::1]:38756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYStl-0001oV-1B
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:53:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51934)
+	id 1mYSyZ-0001P1-B8
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 08:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mYSsa-0000ND-S3; Thu, 07 Oct 2021 08:52:09 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:43005)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYSuF-0003dY-3R
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:53:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mYSsY-0000BT-Iu; Thu, 07 Oct 2021 08:52:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=2c6CeQRCKMhgBVE9BGVHMVfDNDbbu3ZbfUEEaVFdDz8=; b=BP+MLJdZNqyFKNyN2x8NuREFjg
- L/qHlbvWM9g7SQPongjonazZxWe0+dJ2uA4hd32wfXP5PTOXYZFMSnlXIHwQkkL+c6h6ekFdSWfm4
- Arv1OCjvwHZ3LH33iTNyicYIgRjV9LxeqmnjrSw0ETvDsRQvBfbCUTpDywnbc2vV8Ag+zeDl7AhMr
- aUrM+LLLGebiockQIT/infQ5Ci13tOPielBq+Ah8+pVf5SY/8Xx35+h7YwEGydilRFOmKzT669Ujd
- pV5TwZbiH4fGgOm4gFD5oQ7Z5bPNvjlKOzjq3LWlp6utyenqARlBqYaTUPTovDa3f01XcvuXjSLNu
- fuSMWfP0f5LEAI0270kNz3zshbTHarlZJ4CLMgzZPruknMKRQSgR8lvI89tmwTYKOADf53VUbKOiR
- 31IZmjr1oNpJ6veGA2NQPDKhQ24+Ib2H9WaXTEOtHYiinzxkeNKnSTLNX/s+8pp4zMkuZnDF/VPNt
- 5757jYP2lKuHyaUrPH3eSg0lDzlbw+VmocI/t6y4YVYDP8h7i9Dg1ecj6W4T3H1hZxteZCEB19G2H
- khqAlkSdDHmROYY/W3lZbU+aH4nxXXK1wgBvkYrzhgYX/nknYJjz+7+ujjCuiEjnxDU/6f+mnRKP0
- lfWUXsOXXBgVx6zHx2GwfahRXMwP5fovNXkiXGyz4=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Amit Shah <amit@kernel.org>, David Hildenbrand <david@redhat.com>,
- Greg Kurz <groug@kaod.org>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- virtio-fs@redhat.com, Eric Auger <eric.auger@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 0/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
-Date: Thu, 07 Oct 2021 14:51:55 +0200
-Message-ID: <2233456.PtHKNz60go@silver>
-In-Reply-To: <YV6EbwMFmcIEC+za@stefanha-x1.localdomain>
-References: <cover.1633376313.git.qemu_oss@crudebyte.com>
- <YV6EbwMFmcIEC+za@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYSuC-0001Ay-9q
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 08:53:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633611227;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jSvxeCEW2wI3FiImPLAZtC4HxOyE2nUc5GELz6Dej/E=;
+ b=NhC1zYMQeiQAY0SbtrAbXCrtDAfI+gSxWaxO6ErphveDHD3BTgnOFULjCCYVEz9NdcC1PD
+ Mm5z/8SEdunMa/dd4w+aPE5iuQ1nReplsJy7ZSKtJnXeN4S56z7gY/8H1H5fCmELaquTpD
+ iGBxKt3c1ioZSyza5QaYt8cD1CCH+Yg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-314-xwtkyBhCMC60mKECg_cDjQ-1; Thu, 07 Oct 2021 08:53:46 -0400
+X-MC-Unique: xwtkyBhCMC60mKECg_cDjQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37E5F802928
+ for <qemu-devel@nongnu.org>; Thu,  7 Oct 2021 12:53:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F3A25F4ED;
+ Thu,  7 Oct 2021 12:53:20 +0000 (UTC)
+Date: Thu, 7 Oct 2021 14:53:19 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: QAPI sync meeting
+Message-ID: <YV7tv9t7FznwRbdw@redhat.com>
+References: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
+ <YVMeUbGdnsTpwSbD@redhat.com>
+ <CAFn=p-ZG6SAVDz-cOtviekvMvibw+ukhYmSOqH7UTrcH-9fCNA@mail.gmail.com>
+ <87ee97y3q5.fsf@dusky.pond.sub.org> <YV7Fh2DihM65rgnN@redhat.com>
+ <3abc4e8e-5657-14bb-ba89-5b7669c01201@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <3abc4e8e-5657-14bb-ba89-5b7669c01201@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,84 +79,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 7. Oktober 2021 07:23:59 CEST Stefan Hajnoczi wrote:
-> On Mon, Oct 04, 2021 at 09:38:00PM +0200, Christian Schoenebeck wrote:
-> > At the moment the maximum transfer size with virtio is limited to 4M
-> > (1024 * PAGE_SIZE). This series raises this limit to its maximum
-> > theoretical possible transfer size of 128M (32k pages) according to the
-> > virtio specs:
+Am 07.10.2021 um 12:23 hat Paolo Bonzini geschrieben:
+> On 07/10/21 12:01, Kevin Wolf wrote:
 > > 
-> > https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#
-> > x1-240006
-> Hi Christian,
-> I took a quick look at the code:
+> >    * -chardev: I have patches that QAPIfy the option based on aliases,
+> >      getting rid of the old handwritten parser that is inconsistent with
+> >      QMP in non-obvious ways and replacing it with translation to QMP
+> >      (both using aliases and a little C code) that makes the differences
+> >      obvious.
+> > 
+> >      First posted in November 2020, more details in the cover letter:
+> >      https://patchew.org/QEMU/20201112175905.404472-1-kwolf@redhat.com/
+> > 
+> >      Later versions (not yet posted as a series because I'm waiting for
+> >      aliases) also make -chardev accept JSON syntax, which is what
+> >      libvirt really wants to use.
 > 
-> - The Linux 9p driver restricts descriptor chains to 128 elements
->   (net/9p/trans_virtio.c:VIRTQUEUE_NUM)
+> I'm still not sure about this...  It's an awful lot of code if the aliases
+> are only used by -chardev, and I'd rather use -object/object-add for
+> chardevs if that's at all possible.
 
-Yes, that's the limitation that I am about to remove (WIP); current kernel 
-patches:
-https://lore.kernel.org/netdev/cover.1632327421.git.linux_oss@crudebyte.com/
+The important part for me there is getting rid of the second parser that
+is inconsistent with QAPI - and people add to it without fully realising
+that it's a separate implementation, so they test -chardev and leave
+chardev-add behind broken.
 
-> - The QEMU 9pfs code passes iovecs directly to preadv(2) and will fail
->   with EINVAL when called with more than IOV_MAX iovecs
->   (hw/9pfs/9p.c:v9fs_read())
+My approach keeps the existing command line syntax and still makes sure
+that inputs from both the CLI and QMP go through a single code path,
+making sure that they are consistent.
 
-Hmm, which makes me wonder why I never encountered this error during testing.
+Aliases are a helpful tool to achieve this, but the series can be
+rewritten a bit if people are fundamentally against having aliases.
+Aliases do nothing that C code can't do.
 
-Most people will use the 9p qemu 'local' fs driver backend in practice, so 
-that v9fs_read() call would translate for most people to this implementation 
-on QEMU side (hw/9p/9p-local.c):
+I don't think that aliases are a lot of code, or even complicated code.
+Current v4 looks like a lot of lines of code because Markus made me add
+big comments everywhere and tons of tests. The actual code additions are
+rather small. But I also notice that there is resistance against having
+multiple ways to specify the same thing (which is the essence of
+aliases), so if people hate them, let's throw them away. The only part I
+really dislike with this scenario is that I could have been told almost
+a year ago...
 
-static ssize_t local_preadv(FsContext *ctx, V9fsFidOpenState *fs,
-                            const struct iovec *iov,
-                            int iovcnt, off_t offset)
-{
-#ifdef CONFIG_PREADV
-    return preadv(fs->fd, iov, iovcnt, offset);
-#else
-    int err = lseek(fs->fd, offset, SEEK_SET);
-    if (err == -1) {
-        return err;
-    } else {
-        return readv(fs->fd, iov, iovcnt);
-    }
-#endif
-}
+Anyway, your approach provides a different solution to the goal of
+getting rid of the second parser if you extend it: Add -object support
+to all chardev backends, then deprecate -chardev wholesale and drop it
+two releases later. This feels contentious, but I'm not opposed.
 
-> Unless I misunderstood the code, neither side can take advantage of the
-> new 32k descriptor chain limit?
-> 
-> Thanks,
-> Stefan
+Timeline: My series could be done for 6.2. Yours could have the
+replacement in 6.2 the earliest if we start working on it right now,
+then libvirt starts using it, deprecation in 7.0 or 7.1, then drop the
+old interface two releases later, i.e.  December next year or March
+2023.
 
-I need to check that when I have some more time. One possible explanation 
-might be that preadv() already has this wrapped into a loop in its 
-implementation to circumvent a limit like IOV_MAX. It might be another "it 
-works, but not portable" issue, but not sure.
-
-There are still a bunch of other issues I have to resolve. If you look at
-net/9p/client.c on kernel side, you'll notice that it basically does this ATM
-
-    kmalloc(msize);
-
-for every 9p request. So not only does it allocate much more memory for every 
-request than actually required (i.e. say 9pfs was mounted with msize=8M, then 
-a 9p request that actually would just need 1k would nevertheless allocate 8M), 
-but also it allocates > PAGE_SIZE, which obviously may fail at any time.
-
-With those kernel patches above and QEMU being patched with these series as 
-well, I can go above 4M msize now, and the test system runs stable if 9pfs was 
-mounted with an msize not being "too high". If I try to mount 9pfs with msize 
-being very high, the upper described kmalloc() issue would kick in and cause 
-an immediate kernel oops when mounting. So that's a high priority issue that I 
-still need to resolve.
-
-Best regards,
-Christian Schoenebeck
-
+Kevin
 
 
