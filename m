@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF8A94256D4
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 17:43:07 +0200 (CEST)
-Received: from localhost ([::1]:58672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6F34256F2
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 17:45:46 +0200 (CEST)
+Received: from localhost ([::1]:36252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYVY2-0005dM-QN
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 11:43:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38854)
+	id 1mYVab-00014b-Lq
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 11:45:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mYVUe-0002Y7-Nm; Thu, 07 Oct 2021 11:39:36 -0400
+ id 1mYVUi-0002ef-KV; Thu, 07 Oct 2021 11:39:40 -0400
 Received: from mail-am6eur05on20719.outbound.protection.outlook.com
  ([2a01:111:f400:7e1b::719]:49281
  helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mYVUc-0007Fx-3Q; Thu, 07 Oct 2021 11:39:36 -0400
+ id 1mYVUg-0007Fx-2B; Thu, 07 Oct 2021 11:39:40 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jiLi0ama/XwBTkRCpLtjSDYDyowc49JY0fOGigO+UdxHnSXpNRw+i5oMHNgR9KBFWg/o9a3QCnFzprkfXXX+QFVmeoSnYjPez2BQc5b1rkKrceNr/hPvyrYPF7M+zXdiX+2w049ZNDaCfIrEC+ulunw//EiFDn8WKj2JgOh+NoqDmcVcerwhqdyZuqOKrgyGuNwjYZoMR6Wa+nP8j1sxLuIXOIGQ85TE/dSwREUaP886s+s8RN48CQNu7Ghvtng/wkg8cCnScyz3T+8YonNGvoIv0zi7PqMeDSb0YP+MhtaymcwS1VKGW9Zmy0y8JOHoPptDt3p1lm76gP2YbB2gmg==
+ b=QwyfTA+4vFII1sjsTCuP4HNBiXWPbRman51AnEZ4XWa2WOBGcwaM66bSjstM9oSnhkKvOTIZTMXYi8URr6X+jTTxCyl469O6Mjf3kGj2jGHGQUgR0EQSgM0Umfoyyg2fRcdWr6wAD0zom2/hP+UOOJjVocXX1uzEdziXPG6qKs8GosxTBZt1ncCd9klWeDtiM4c14CClwMG4iVll90IysIqkxGLlmAzMf24bOtAKA39K36D73pQnqXkrs6UXnzrbbvnvuOXhQ1UZRgoD43dv0DKm3NLTXe+00Fu+iE+4nhMxfh+uUAxjd451R22iL9zbB33MuNZ2n4vkx0j+cHpO+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wid2L+9imfwPEuSCp7YnrG47bsLS1JFpSPlgukYTavU=;
- b=UANp2/2gP/Ck6O6hRVKTnWc2Mq7SBAAhwv9hXiPleeJ+B09qSkeI0D77qYNZoSHizxDaLkkDg6EdFh+1EJLUly8QYoC9/H6SkDUgdJouaNCH7Pj9IZpdi5QmR+TzqVkyhvObZ7gluv2NOnQsjghCL/QfIX2W9LrSRswN8/p0xt0tT3bLLfnEhuWp7aVOYIYStrMt37gOyDKjkPrvcfejo2PnHYPSpiiTICpfocrKsEfFsEws6YyYgpmuq2Uv2o3u57Jbj2BqUfF3UrBUiPZAa4qw3bKGAL57R+V6sZr8QpS6voUW7MpHkcKZ7M0l6rEySL8CG/Y45rnQVgZuKyHX4A==
+ bh=zKZPmX/LcSladWMQoWU2IfHJEGNcrvXsGQSDIk+COHw=;
+ b=kdLW0/1Pe5ICIHJ0VuKl37pI+2H2G/uVjJcMZ+ThU5IaqK7EsQxR7sy1B76eCuIKmXqykzkjsM2V7j4lz7U5mmJupQkiv2RnlAjb0+oKrmEj+joYhainIWPTCrpF3XFg7/G00v4UD9UHQIydyhaZKXdnZT5rBFMUYq71vwwBLmeaggqU3/3aI+aVwiZwqLWGAV2J16zByjbyT5v5Mj2t5fr/LhX6k1UUWU2gXfhuSUJYenw4Wvn/2Lbz7A/q3//oZNuYqbUyi9bbLiQ9FfYTmoaE8Zd7ng165D/Z1nHLR3iJR/a67otiKFkiUxlJV0G9HH7LqfFRdnWiyRZWae0YLg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wid2L+9imfwPEuSCp7YnrG47bsLS1JFpSPlgukYTavU=;
- b=dX0iEo/31BR2OsEtFdQjOU9QS12wJX3tECr6OmYKKCZQd7iqx4Pz8sHCW/cDisKWtKAD1uiLz962/0bd3P+HW6g+0CilY7As3JLPFOB7O1XLVfug3it3agT2xJI+WXSx0C1J9HTawLT9y51rbQJXmMz0arRY5Zm98zKdWN4WIqo=
+ bh=zKZPmX/LcSladWMQoWU2IfHJEGNcrvXsGQSDIk+COHw=;
+ b=mrLKWUCLd+q40v3YXiMvjd1LA93spzIB0dkYNiZdlHg+fOOFLJy67j5G2wXDea6vDNVx9gVv80uk/gRs9b3tPvxN5ZAnnkSD5AmpCFUpTSPIhUp3P5E0GD+igWXdQHxonIenk7MR++504YkXcbMKWEXKm+TElQiazllvH8X9mtE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
@@ -50,9 +50,10 @@ To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, kwolf@redhat.com,
  hreitz@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  richard.henderson@linaro.org, Stefano Garzarella <sgarzare@redhat.com>
-Subject: [PULL v2 01/15] block/backup: avoid integer overflow of `max-workers`
-Date: Thu,  7 Oct 2021 17:39:01 +0200
-Message-Id: <20211007153904.445009-2-vsementsov@virtuozzo.com>
+Subject: [PULL v2 02/15] block/aio_task: assert `max_busy_tasks` is greater
+ than 0
+Date: Thu,  7 Oct 2021 17:39:02 +0200
+Message-Id: <20211007153904.445009-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211007153904.445009-1-vsementsov@virtuozzo.com>
 References: <20211007153904.445009-1-vsementsov@virtuozzo.com>
@@ -66,32 +67,32 @@ Received: from kvm.ch-qa.sw.ru (130.117.225.5) by
  AS9PR06CA0347.eurprd06.prod.outlook.com (2603:10a6:20b:466::33) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15 via Frontend
- Transport; Thu, 7 Oct 2021 15:39:18 +0000
+ Transport; Thu, 7 Oct 2021 15:39:19 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 097eb58f-6a1c-4196-881f-08d989a8a05f
+X-MS-Office365-Filtering-Correlation-Id: b4a32b1d-8edb-4b10-16a8-08d989a8a0b3
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6134:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB61343559895C032BAF5B5B8FC1B19@AS8PR08MB6134.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB613416BE5683204897E31D22C1B19@AS8PR08MB6134.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: P7N67IJ2zmFcviiz8azIy+3kZZxbpyEHwjvMHKYKsJtivhteaAD1PkvohxxD4N2vDp2fabbpJ/sxEHLbfIf+5iKfJ50S7bBHTdrOrG2fmW5fPTBjxB7k+qukF/GRZ5XsEygfC2ifKXUGvJRr8mCAsQ5rvxLnW4FI9QczFDdgQN0mcLIyzUvq9gHDzDu+vGyaAamUchY/uXy6T6ghW1LIeSllXb9R8DT5tJ2VUopPXGi8s3sv9LQ8hS/WEjD3rFfp234AyigAHgQgbxlsvDYqcpJMDJoUt7cxJM6wNBmJI+Gjw1WTutDHgMqK3D23ZXleSdq1q9KjYTK9yMOo7bO7tZ/smgADOrMkq3dx2pb8FkCGsYsGjxUk5yO4SSzJs3Rdv4Os5dZlRA7aDjDBXdToKks1KBeb1uQ0T/1LXndgU1+r0FQ9KjTiyfMRtaX1B/y4rn+TlpINCaE1h9oHabt/3+kh11S8jvoirVhf28Cbz2Y9ISGYqM3EPL6W7pe135O23qsE8dWKXE2cMi82uBHPeGCfFgjcRJs6mV3Z7bLxnwjs3MqQeZ3I2PQXruHjFj3tlU75jdgvSIsdhDV0qKSMNP1wMVcrGekRBYztVtSFgIW2amEt1tQS/8ku4sx5sBLzlvk9EncYJy4e2CdZ7EYVwOJjodkwkH+OmktudyV+ZHlRfiNoIVgbH9YVc+SiBkBZ0WqTW13d3K/BAGYnhXHt3Z1eniiRtcASZF9Lo23eCm/xl92SBildbhVI/wZ0rhp1IFmQ7SIwJBtgBaFQ2q2XjF0anMTkN48/BpvbA32xDOBQ+xA0hw/7vDRTHCVcdYwo
+X-Microsoft-Antispam-Message-Info: VdvUYV8ktZBZcXSEYgxh5U71bj+SE5L991FQBcRwdgfEX3ii+cTIZbgx9Nj8ji0YXadOR/sKSFaC2MjlbNtrAUX1si36QQ4kvUDeny567FtIHNUc5h3j4LDQ2mqDLkAbF4kOEff3OJVRmLyCAN0wLbGeRzPP0eevKQ5mIg/kdFpahUK4oFEvhPi4UYDGz7o0aWW2zEwjpO9PTVfcPeHXOKgo69bbHdCLg55KEWLO2Kt3rR8jIc4jJiqAbO+7Y1RE6DFkMg60U5K0Z3Pk7FHKxTCWMbzu81oCYuOlEZ53H18WlSFRByWT3Tusu63HkBBYkUG1Ro527NhmLhyqAp5cgFN/i5UhQhSWiaCpfkJuKAysPlXaqdT5JCvYyOUVhc3kTWFj04X+dYttOR7F2yos1rTA0NbgQlyO9BkNfsXoFCf+gyXYQAe0hx8aobQYlrLqXHOnfpADr5MRe/jOVhbjbMeMLc3EbnLPE6lncKcyEXJzwLI/9kDDDe/7g5VBFStksZiudeywCwTRO7yM9Ozq7Z44eVEVeQy9CfetIyYmliX6xL2/UJ1V6a/5K21I48KFCEYJITndcPPZSeXUbzBy5TwtS8SWNK0gI4BQJ+FImuvqeboixrcPWsQYW0dME0ga+Q7btkzUbSoe3JOnjCxe1wyaG4whcq4eqclKkuTBPocGLh7iQDY3bLUBYiK74Q3QVuV0pudKtHs3NbkEQg06Irt2ROV4Xzrmpzxes4vjCXc=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(36756003)(38350700002)(83380400001)(6486002)(2906002)(38100700002)(316002)(508600001)(4326008)(6512007)(8936002)(86362001)(966005)(1076003)(2616005)(8676002)(5660300002)(6666004)(6506007)(66476007)(66556008)(186003)(52116002)(66946007)(956004)(26005)(6916009)(81973001);
+ SFS:(4636009)(366004)(36756003)(38350700002)(83380400001)(6486002)(2906002)(38100700002)(316002)(508600001)(4326008)(6512007)(8936002)(86362001)(1076003)(2616005)(8676002)(5660300002)(6666004)(6506007)(66476007)(66556008)(186003)(52116002)(66946007)(4744005)(956004)(26005)(6916009)(81973001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: gtdt1iecwK6fi1aTg18ogVFG5Em+jPWH8NLu2pmJ+241o3vXwztH0ZNqKK3jyt30jzdE7vUbxq6gCI0tAFv8Tq343zDzMfKI4JrJeebPsErRYmbC9G803SJUoQVuMTuKMfS0PXMGhbcF+rNmY5eNXTpjAU79EjDlu+g5xGYa8knSZNbLpw+pSwL4apBXUX18dckkNHhPPDcrdJlf028kg3reDpkm+Kms08dtkz2U2h318XOT9BlCqxkELMerNzJWUNmW9lJP9HDc7QOJSJZL7G+ok4fvxi5MevV1g1ftFuO/y9UgbmpGqScVZVQBoIeMaC4CZez//H25d0nBwUt4ofEW3FK5cqg0OAOU4mtVd/yAQ67YEnB0D5DVjKhDWZw8syuv/HiQUfQp9fUTRiqiqRA/Fn8A3dHa20hdvrm7bhF8CsWMPlhIOYBK9e8p/bKwArJtZ2dazM058ytOuqyZWuanpSYnyLbyG6UqqM7u5IqTF/4nT8sIKTLllI8UkAD8glm+72275aggJISFPcXp0e5+4uX4OsjQD+/IxGazP29Rw6XN+kCfQOdYh8DKAKwesaLmGH288UC1ubn+i2iC75UINFg7ygPnwi9OFE8pmj1axH03OLjrGsamPa2kjGjUYNWtq3L3ng/k6CBkoNYbfM/7vbYHAQwjneb9gfpDFgwIDrbh+akNb9mDe8y4xMHuBFM0KQFWRDR7aCmVyjzBEMFP6yQfJPTYJj9zMzOgJnU4MuioAaAcXmd+zMJldl5O
+X-MS-Exchange-AntiSpam-MessageData-0: T5Y7d/q1hhoNEqsET2QtwxfrguwQ4x00MbjnWMj+tQm9AvsTNIP9LH8wNvnGzW5IRtY+8xjsJoHBqk5Gne5ggYmZ3sHEbJ0j3ZwJ7dGUZRBpSEuJL9ZX+H84tXgkV91vB9QCSEIOyazx/RFOreohx48Bl3fweJ8BPHzBwHp++tv1ze8RvibNSQJaDGvSVDql9njua1Dq4ahT+8+NMFD65IdDWK4wIrOcfRsiD5s+cdfQ++uGYayWLqv2EDEQp5AIdyMbfEhkNzhb6XIVbtYzXZDEUWoZDjIqd9vby1/diAYO+UzCH98rgTvH9jIPjMf9r1uDbt5NfDeVscB3dDX29ijmfkLj9JLwDnPURGJKCIkcojLfQWvM4w3Gd+lQRWW1EPYo3GB6QmLmTOpz3CEEKgx3uy4UHws6TY1rgfF7utis+m5Rqe+LONT+cY/3a0tm7Oj2sft09rCdcSGOsCNt/1XgMOzUjK32IO2+0F3aAnrxbyL+xWTRxnNFua4sDo80zjpQAhsACvcy0coIzogMkaQb3pYx6g6nWEtQOvHPE5tj2B1NWlIyCU1GfHV2DONEH1KadETOeY6TCP80PXhYw8GoUn55gt6qnvNyyu4bbJivUfOLMA5S/HG1mGoizPDh7X3980nqFeOGM6RGkXWO3U8caOsbVS4nHSXWvVF+eLL3udo+6UUT+/eyIAGtxYg+wTKOAKg2W9DsJ+Uc2t5eYU6KK1FAaKdDTG267NChPGl60D6Tg2MdVhtJhA3IWQuk
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 097eb58f-6a1c-4196-881f-08d989a8a05f
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4a32b1d-8edb-4b10-16a8-08d989a8a0b3
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2021 15:39:18.9116 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2021 15:39:19.4502 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y50knpWB6z2UEGyl8u88VVMJvqQ12by3ZQhl3GNs7Kdwtktkt2sUSbD+ykJytWYUYvCbjlXvjznE5nKZmzrMgA6/pj5EO1Zvk1BCifUBOow=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ovo48DIyxCFGfKXHB6tRuVU4pT/ogJNiYdibYNWRtExayMJ+BakebpL4HXZLPNGr7sFrTLJoLPokxDrntVfzDsqNQG9ckEUMHY/bXW5Rb1Y=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6134
 Received-SPF: pass client-ip=2a01:111:f400:7e1b::719;
  envelope-from=vsementsov@virtuozzo.com;
@@ -120,42 +121,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefano Garzarella <sgarzare@redhat.com>
 
-QAPI generates `struct BackupPerf` where `max-workers` value is stored
-in an `int64_t` variable.
-But block_copy_async(), and the underlying code, uses an `int` parameter.
+All code in block/aio_task.c expects `max_busy_tasks` to always
+be greater than 0.
 
-At the end that variable is used to initialize `max_busy_tasks` in
-block/aio_task.c causing the following assertion failure if a value
-greater than INT_MAX(2147483647) is used:
+Assert this condition during the AioTaskPool creation where
+`max_busy_tasks` is set.
 
-  ../block/aio_task.c:63: aio_task_pool_wait_one: Assertion `pool->busy_tasks > 0' failed.
-
-Let's check that `max-workers` doesn't exceed INT_MAX and print an
-error in that case.
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2009310
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20211005161157.282396-2-sgarzare@redhat.com>
+Message-Id: <20211005161157.282396-3-sgarzare@redhat.com>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/backup.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ block/aio_task.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/block/backup.c b/block/backup.c
-index 687d2882bc..8b072db5d9 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -407,8 +407,8 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-         return NULL;
-     }
+diff --git a/block/aio_task.c b/block/aio_task.c
+index 88989fa248..9bd17ea2c1 100644
+--- a/block/aio_task.c
++++ b/block/aio_task.c
+@@ -98,6 +98,8 @@ AioTaskPool *coroutine_fn aio_task_pool_new(int max_busy_tasks)
+ {
+     AioTaskPool *pool = g_new0(AioTaskPool, 1);
  
--    if (perf->max_workers < 1) {
--        error_setg(errp, "max-workers must be greater than zero");
-+    if (perf->max_workers < 1 || perf->max_workers > INT_MAX) {
-+        error_setg(errp, "max-workers must be between 1 and %d", INT_MAX);
-         return NULL;
-     }
++    assert(max_busy_tasks > 0);
++
+     pool->main_co = qemu_coroutine_self();
+     pool->max_busy_tasks = max_busy_tasks;
  
 -- 
 2.31.1
