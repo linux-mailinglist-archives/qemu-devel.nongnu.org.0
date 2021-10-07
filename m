@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207914257B4
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 18:19:27 +0200 (CEST)
-Received: from localhost ([::1]:37510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A314257DB
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 18:24:29 +0200 (CEST)
+Received: from localhost ([::1]:54682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYW7B-00059r-Am
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 12:19:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46886)
+	id 1mYWC4-0008DH-8R
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 12:24:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYW5L-0002ws-D6
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:17:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23240)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYW5T-0003Cg-O3
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:17:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYW5J-0004WF-Uj
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:17:31 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mYW5R-0004eg-Hd
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 12:17:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633623448;
+ s=mimecast20190719; t=1633623456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GNtxCZGvnxhj0iwK4swW8c7ZuwhRSlRGtvMCk2ldQWo=;
- b=i4uWre7dXPq3Egm63tsxtJoMasKOl29mBbITddMdCKqgi/dJSar3iFBq/Z74yZZa6NjxAd
- mfK6sdyy1cBmkstGGPuhI/pztZaIzV3cslCaaFFUj6sSkMR7dsKnE+s88HEPuBbvzm1IGS
- XyZvsEy5QSfi8b9cDIZzr6LnMr8RtfU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-mp5nRv4OPnSHBeu6diM8vA-1; Thu, 07 Oct 2021 12:17:25 -0400
-X-MC-Unique: mp5nRv4OPnSHBeu6diM8vA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- y12-20020a056000168c00b00160da4de2c7so2031142wrd.5
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 09:17:24 -0700 (PDT)
+ bh=T2ImpqtRm6esWhnoDgzoQLTDZKGPR7WZ/icRmMlGH5o=;
+ b=Fo0sdOOcLpO7nqXoseb9+xIKXUtY1sp5KjteTDiIbGUBKi4qdTxOSKiO/gegqgRIWDuCq/
+ tQNU20Pdq+UCFMwboWlayzqr5VJ2z5u8ztyIwinYujucaS+4M9j12gWUttaAgL3mZ2v7+c
+ KXYXt4+lOCoLmGo7Hd4n5uIF8+GFJE8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-178-ksnyOWZFMySUGoZd_rHIrw-1; Thu, 07 Oct 2021 12:17:29 -0400
+X-MC-Unique: ksnyOWZFMySUGoZd_rHIrw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ l9-20020adfc789000000b00160111fd4e8so5140992wrg.17
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 09:17:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GNtxCZGvnxhj0iwK4swW8c7ZuwhRSlRGtvMCk2ldQWo=;
- b=DDhgqF+ceMaU0wDreBV0qCZbLijD7sLCuOi5VNcdkpNkIBbi99obQIWAcg97BUmSFN
- zwvX8TWF5T6Esl83FeDX9Ojn/vM1AQUn3Yvht6gh8/2AYh/VJQRucfXyymoHPdBhQe/N
- pDbbgnmHHhhPYnPcgQKuiJAV5aSBj3+jJyhaOo8YuabcjNmVCPbc3821TrLaYgV1RnKJ
- S4qhATA6R/C09Swev8/ypkrDAZ+e4tOMIqGkmBL0jq/VDy4XcWKU9qm9T50XYCj8UdGw
- IAL1i7juIVaW237cqEKzU8mTbeALNYxOi9cm1siPkHIY9n2R0o90plPmlIfmUDyqaLsB
- KTig==
-X-Gm-Message-State: AOAM532bb2GSXzUcjAdSZCJ2ti6UskNGJlzcvF/WbaVQi0D69DCZUtCg
- ymkjDTyavkpC6fLTEOENiuvwoS45u1ieXUVtRcS9igdIgWMHpq24NumIj+gZUgVnuZeqDbEv6cG
- RW+Aa8rQaQsuymU38wM8L9URAZb9CVLKrCgBB2Uf8AFbnObpi0bLpIs93ukbxkbVy
-X-Received: by 2002:adf:a15c:: with SMTP id r28mr6657742wrr.287.1633623443237; 
- Thu, 07 Oct 2021 09:17:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz+RMzqKfLp1HEW7IFDLlNjEi/iRuCQ1sFP+CVWglEu2hUVLxRR+2IyjSGZpZn9KcPO5riLYQ==
-X-Received: by 2002:adf:a15c:: with SMTP id r28mr6657700wrr.287.1633623443022; 
- Thu, 07 Oct 2021 09:17:23 -0700 (PDT)
+ bh=T2ImpqtRm6esWhnoDgzoQLTDZKGPR7WZ/icRmMlGH5o=;
+ b=oLOO40QeivEIT+C9aFGKhY74AYZVVtaHVtpPVS1l3h5GlcTdVJnFkADbXieSCn09wi
+ WnbnUCzu5J/iAiiTvqXGSHzaUx1yXUuP2AOhHvXs/T290970lY5QfE1jEyAzI0WD6b7n
+ 20KbZmnW+6PT0BnSt6tLrULJEm+OE2ok72cede6Q3DMKmQrnrBEq9bfRDnRBH3w3wliv
+ vs6WSEPvC925Zg91yjoEWWuxMpOYECXHl+KVNoQCcpFRq4DeF0UcYf1RBO8mv0duUG3U
+ MlAr8KI3vhqdUgRMqPEiPCtpKH238Ruk5mFnmIKAGwBmYfE1Tge33gRs+xJy0BxAOroQ
+ /rww==
+X-Gm-Message-State: AOAM531XTHzmE3tmG0bDhG/bUJR8tRwXO4Uyq8Xr7sjiS4sg2eLD8t2u
+ 3cc8BDTW/u0Lo4ZcdB3uqM6Om0MSCBZgcDnyO4q/2C/JkDYdohivocGZOD1EKiQjxyxzWHah52f
+ MvNKM6hxFSFHIm8qLi1j1IvYWa4VadO8Dtu08eiHmgGxNaIjX1NWzmZYwRA5nugDT
+X-Received: by 2002:a05:600c:240a:: with SMTP id
+ 10mr17330265wmp.170.1633623448024; 
+ Thu, 07 Oct 2021 09:17:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxXiHFJgriMo7TGc679FzXDocjunP1esVffm6c4eGKKXk96WSVJZU9pFdlw5+ue8yJioBiocA==
+X-Received: by 2002:a05:600c:240a:: with SMTP id
+ 10mr17330219wmp.170.1633623447678; 
+ Thu, 07 Oct 2021 09:17:27 -0700 (PDT)
 Received: from x1w.redhat.com (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id d8sm48710wrz.84.2021.10.07.09.17.22
+ by smtp.gmail.com with ESMTPSA id w11sm4476wmc.44.2021.10.07.09.17.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 09:17:22 -0700 (PDT)
+ Thu, 07 Oct 2021 09:17:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/23] qapi/misc-target: Wrap long 'SEV Attestation Report'
- long lines
-Date: Thu,  7 Oct 2021 18:16:54 +0200
-Message-Id: <20211007161716.453984-2-philmd@redhat.com>
+Subject: [PATCH v4 02/23] qapi/misc-target: Group SEV QAPI definitions
+Date: Thu,  7 Oct 2021 18:16:55 +0200
+Message-Id: <20211007161716.453984-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211007161716.453984-1-philmd@redhat.com>
 References: <20211007161716.453984-1-philmd@redhat.com>
@@ -76,11 +77,11 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.05, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,68 +101,118 @@ Cc: Brijesh Singh <brijesh.singh@amd.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Sergio Lopez <slp@redhat.com>,
  James Bottomley <jejb@linux.ibm.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wrap long lines before 70 characters for legibility.
+There is already a section with various SEV commands / types,
+so move the SEV guest attestation together.
 
-Suggested-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- qapi/misc-target.json | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ qapi/misc-target.json | 80 +++++++++++++++++++++----------------------
+ 1 file changed, 40 insertions(+), 40 deletions(-)
 
 diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index 594fbd1577f..ae5577e0390 100644
+index ae5577e0390..5aa2b95b7d4 100644
 --- a/qapi/misc-target.json
 +++ b/qapi/misc-target.json
-@@ -300,8 +300,8 @@
- ##
- # @SevAttestationReport:
- #
--# The struct describes attestation report for a Secure Encrypted Virtualization
--# feature.
-+# The struct describes attestation report for a Secure Encrypted
-+# Virtualization feature.
- #
- # @data:  guest attestation report (base64 encoded)
- #
-@@ -315,10 +315,11 @@
- ##
- # @query-sev-attestation-report:
- #
--# This command is used to get the SEV attestation report, and is supported on AMD
--# X86 platforms only.
-+# This command is used to get the SEV attestation report, and is
-+# supported on AMD X86 platforms only.
- #
--# @mnonce: a random 16 bytes value encoded in base64 (it will be included in report)
-+# @mnonce: a random 16 bytes value encoded in base64 (it will be
-+#          included in report)
- #
- # Returns: SevAttestationReport objects.
- #
-@@ -326,11 +327,13 @@
- #
- # Example:
- #
--# -> { "execute" : "query-sev-attestation-report", "arguments": { "mnonce": "aaaaaaa" } }
-+# -> { "execute" : "query-sev-attestation-report",
-+#                  "arguments": { "mnonce": "aaaaaaa" } }
- # <- { "return" : { "data": "aaaaaaaabbbddddd"} }
- #
- ##
--{ 'command': 'query-sev-attestation-report', 'data': { 'mnonce': 'str' },
-+{ 'command': 'query-sev-attestation-report',
-+  'data': { 'mnonce': 'str' },
-   'returns': 'SevAttestationReport',
+@@ -229,6 +229,46 @@
+   'data': { 'packet-header': 'str', 'secret': 'str', '*gpa': 'uint64' },
    'if': 'TARGET_I386' }
  
++##
++# @SevAttestationReport:
++#
++# The struct describes attestation report for a Secure Encrypted
++# Virtualization feature.
++#
++# @data:  guest attestation report (base64 encoded)
++#
++#
++# Since: 6.1
++##
++{ 'struct': 'SevAttestationReport',
++  'data': { 'data': 'str'},
++  'if': 'TARGET_I386' }
++
++##
++# @query-sev-attestation-report:
++#
++# This command is used to get the SEV attestation report, and is
++# supported on AMD X86 platforms only.
++#
++# @mnonce: a random 16 bytes value encoded in base64 (it will be
++#          included in report)
++#
++# Returns: SevAttestationReport objects.
++#
++# Since: 6.1
++#
++# Example:
++#
++# -> { "execute" : "query-sev-attestation-report",
++#                  "arguments": { "mnonce": "aaaaaaa" } }
++# <- { "return" : { "data": "aaaaaaaabbbddddd"} }
++#
++##
++{ 'command': 'query-sev-attestation-report',
++  'data': { 'mnonce': 'str' },
++  'returns': 'SevAttestationReport',
++  'if': 'TARGET_I386' }
++
+ ##
+ # @dump-skeys:
+ #
+@@ -297,46 +337,6 @@
+   'if': 'TARGET_ARM' }
+ 
+ 
+-##
+-# @SevAttestationReport:
+-#
+-# The struct describes attestation report for a Secure Encrypted
+-# Virtualization feature.
+-#
+-# @data:  guest attestation report (base64 encoded)
+-#
+-#
+-# Since: 6.1
+-##
+-{ 'struct': 'SevAttestationReport',
+-  'data': { 'data': 'str'},
+-  'if': 'TARGET_I386' }
+-
+-##
+-# @query-sev-attestation-report:
+-#
+-# This command is used to get the SEV attestation report, and is
+-# supported on AMD X86 platforms only.
+-#
+-# @mnonce: a random 16 bytes value encoded in base64 (it will be
+-#          included in report)
+-#
+-# Returns: SevAttestationReport objects.
+-#
+-# Since: 6.1
+-#
+-# Example:
+-#
+-# -> { "execute" : "query-sev-attestation-report",
+-#                  "arguments": { "mnonce": "aaaaaaa" } }
+-# <- { "return" : { "data": "aaaaaaaabbbddddd"} }
+-#
+-##
+-{ 'command': 'query-sev-attestation-report',
+-  'data': { 'mnonce': 'str' },
+-  'returns': 'SevAttestationReport',
+-  'if': 'TARGET_I386' }
+-
+ ##
+ # @SGXInfo:
+ #
 -- 
 2.31.1
 
