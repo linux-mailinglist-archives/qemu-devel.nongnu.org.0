@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1571425D2B
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 22:23:37 +0200 (CEST)
-Received: from localhost ([::1]:38358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29226425CFC
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 22:11:27 +0200 (CEST)
+Received: from localhost ([::1]:35702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYZvU-0007M3-Ly
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 16:23:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60050)
+	id 1mYZjh-00034F-SK
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 16:11:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYZUC-0000OX-Hn
+ id 1mYZUC-0000OY-Gw
  for qemu-devel@nongnu.org; Thu, 07 Oct 2021 15:55:26 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:33340)
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:36586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYZU3-0007Fm-4e
+ id 1mYZU4-0007GQ-DQ
  for qemu-devel@nongnu.org; Thu, 07 Oct 2021 15:55:22 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id a73so876624pge.0
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 12:55:14 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id y5so4645415pll.3
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 12:55:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=EHVDwnG6dREWQKRf227cIpmq7UBRaNolNQfJjNu7bOI=;
- b=BpTeB0hUFx4G2LJ214aOxbui16oSY+LyBm0f/FKsSdjBg2qK43pNpOwmTYdBz6FtKj
- WOwLvgfQXavXCNzaBZluhHEVIdzmPvSWJLNU+XvyG0ldZBVzAnNa5wAED+V/RKv6ehqm
- aHJD+0sEEH6y0qb9aHfXHxogQVRNZemViRFLLZqliYspPHktqE0Mm/MRHOOPPNZUKI1a
- GRRsiQU89OMW0ENehSEZwNx/OW0CWSfm3FraO+mXpvcJzWUJDVvZvnanCKJ3Y2Dunl2g
- G5fwT2txZy2T5Jf0Q8uCimBizX2XzA54dWdI1oaVYSRtbWixAFB8icHflHJIpajb3XpW
- vlTw==
+ bh=GGGoLkGVm3XuJy/LLBpNptjDTMVJbB7q3LUXP3AL6AM=;
+ b=zrCmRIT44zjw46hhRaQ/63/LQx9Le4qFylq1RZwgntVf5n2NurByDiM+xJZDNtTxAE
+ dYYiUb394N5hKtl6QUED8z6KMgPll3ZkFawU6YQwIUByYj741FbJnyxuEVgu4F/l6Vym
+ bvWfmxSL/OdfgwVACyWvEIWyoLyfz0OOBGXeFwjfaqWOpPXfMmhisQw6SvLDXJ/MmYt9
+ 4MjOiXtl5mzljWQ7li71faoa3fLV9vdIDi6/A76zGUt36UEOU7XMMbKNfQhSPLsE42F5
+ L9ildimTa443jMTJT9tMFFl6NVxJrg6uBBsG3VCiYXyD46DdiLob7mzxpfvidWsSYvEF
+ bo4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EHVDwnG6dREWQKRf227cIpmq7UBRaNolNQfJjNu7bOI=;
- b=PowYUrDIOpgFpPiU3zQ7kcNDjxqysup2+Dcvbjd7qg/EDJmzvzstjslAuU0btSS1gU
- Jc9rXYUBLvR085xIZOPzHA7AXDIzsnEPe44joQ7N5vtFLsbmg6rjIo23KPPX/Ye7lLIR
- FXF8fStLWam475KQ+Q1GdrW02fhaeVJP8vrnoMuO9Gnos9irMJhPAtW5QdpqdhRkV8Mp
- uffJPlvn1R7LidQwX88vgM/bSdrim6nSkx5nygDihvtjHPGhfhH3N44HBPKplNuV9Adx
- cL/GF7S8jmKKGeX0DHnMU3Ub1N4sDJFOVXpPqnO8Jhpq9h6HaW9KWP4Hk9m2OZXUV11V
- SFxA==
-X-Gm-Message-State: AOAM5321eCs1LS3BCY+O+S20BjTfJP4ZrelStpJQlH3bT/gjyuxHlva+
- odep5VOQbPTp7CwEtNT6uPmy6YAnAKvwFg==
-X-Google-Smtp-Source: ABdhPJxb+82XJE5MctQprUoME9NPmXzMUnNY4qG+WcsTmcw3p3JKBb2YCt7xda6XkCHppP/UsAW1UQ==
-X-Received: by 2002:a62:77d8:0:b0:44c:8618:1bed with SMTP id
- s207-20020a6277d8000000b0044c86181bedmr6278991pfc.27.1633636513879; 
- Thu, 07 Oct 2021 12:55:13 -0700 (PDT)
+ bh=GGGoLkGVm3XuJy/LLBpNptjDTMVJbB7q3LUXP3AL6AM=;
+ b=xFfJssMAizFVtfmgIoThJFT9dBcm7JCZIFi9gXRMJF92/xN20BmKGJNKee2u474RXv
+ qzbmhWuNPJmMQOMb6qKxsObQii8zvmpWaQszYziPv3A3+6Ngu4z6wslVdE6XM36TJRaq
+ FSPV9IIuDKfDgC/fwUhkeSTJ5K5uU7qCaMHW9qVNGjYnaWPwBIYrAe9K8gQ4diKIFp8U
+ 6KCwFYxT2udY8mfImQScujnvm2qAU8SuoWZXAD0omBDK3jpX30uFxNBcfsQDxXU0eFeO
+ 4+h5H1gVQRhaEODQavgXC8cTzZnlVP/aPyi1BPWKRhnUlrAqpOOmkRYtSsd15dsiAfwW
+ xJUw==
+X-Gm-Message-State: AOAM533BqipLlFSOoTMUlrgfE5AbGi56OV2Kiu+gOFUHFvXqG8OxZ1rZ
+ 2Dgvx7SUVRvTI+ovf9MTxI8VhBa18dteTQ==
+X-Google-Smtp-Source: ABdhPJzxZsu6ojdEi5izm7ace5VKaz+6u9iH101BH22pHxmvPfmjvLBZofwMOVjdiHz4zQN79PBvhA==
+X-Received: by 2002:a17:90a:d90c:: with SMTP id
+ c12mr7711136pjv.237.1633636514614; 
+ Thu, 07 Oct 2021 12:55:14 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id y4sm216555pfn.193.2021.10.07.12.55.13
+ by smtp.gmail.com with ESMTPSA id y4sm216555pfn.193.2021.10.07.12.55.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 12:55:13 -0700 (PDT)
+ Thu, 07 Oct 2021 12:55:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 22/48] tcg/optimize: Split out fold_movcond
-Date: Thu,  7 Oct 2021 12:54:30 -0700
-Message-Id: <20211007195456.1168070-23-richard.henderson@linaro.org>
+Subject: [PATCH v2 23/48] tcg/optimize: Split out fold_extract2
+Date: Thu,  7 Oct 2021 12:54:31 -0700
+Message-Id: <20211007195456.1168070-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211007195456.1168070-1-richard.henderson@linaro.org>
 References: <20211007195456.1168070-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,90 +89,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 56 ++++++++++++++++++++++++++++----------------------
- 1 file changed, 31 insertions(+), 25 deletions(-)
+ tcg/optimize.c | 39 ++++++++++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 17 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 1cec06aa81..c8aa027a5a 100644
+index c8aa027a5a..8229a67192 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -919,6 +919,34 @@ static bool fold_mb(OptContext *ctx, TCGOp *op)
-     return true;
+@@ -885,6 +885,25 @@ static bool fold_eqv(OptContext *ctx, TCGOp *op)
+     return fold_const2(ctx, op);
  }
  
-+static bool fold_movcond(OptContext *ctx, TCGOp *op)
++static bool fold_extract2(OptContext *ctx, TCGOp *op)
 +{
-+    TCGOpcode opc = op->opc;
-+    TCGCond cond = op->args[5];
-+    int i = do_constant_folding_cond(opc, op->args[1], op->args[2], cond);
++    if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
++        uint64_t v1 = arg_info(op->args[1])->val;
++        uint64_t v2 = arg_info(op->args[2])->val;
++        int shr = op->args[3];
 +
-+    if (i >= 0) {
-+        return tcg_opt_gen_mov(ctx, op, op->args[0], op->args[4 - i]);
-+    }
-+
-+    if (arg_is_const(op->args[3]) && arg_is_const(op->args[4])) {
-+        uint64_t tv = arg_info(op->args[3])->val;
-+        uint64_t fv = arg_info(op->args[4])->val;
-+
-+        opc = (opc == INDEX_op_movcond_i32
-+               ? INDEX_op_setcond_i32 : INDEX_op_setcond_i64);
-+
-+        if (tv == 1 && fv == 0) {
-+            op->opc = opc;
-+            op->args[3] = cond;
-+        } else if (fv == 1 && tv == 0) {
-+            op->opc = opc;
-+            op->args[3] = tcg_invert_cond(cond);
++        if (op->opc == INDEX_op_extract2_i64) {
++            v1 >>= shr;
++            v2 <<= 64 - shr;
++        } else {
++            v1 = (uint32_t)v1 >> shr;
++            v2 = (int32_t)v2 << (32 - shr);
 +        }
++        return tcg_opt_gen_movi(ctx, op, op->args[0], v1 | v2);
 +    }
 +    return false;
 +}
 +
- static bool fold_multiply(OptContext *ctx, TCGOp *op)
+ static bool fold_exts(OptContext *ctx, TCGOp *op)
  {
-     return fold_const2(ctx, op);
-@@ -1702,31 +1730,6 @@ void tcg_optimize(TCGContext *s)
+     return fold_const1(ctx, op);
+@@ -1713,23 +1732,6 @@ void tcg_optimize(TCGContext *s)
              }
              break;
  
--        CASE_OP_32_64(movcond):
--            i = do_constant_folding_cond(opc, op->args[1],
--                                         op->args[2], op->args[5]);
--            if (i >= 0) {
--                tcg_opt_gen_mov(&ctx, op, op->args[0], op->args[4 - i]);
+-        CASE_OP_32_64(extract2):
+-            if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
+-                uint64_t v1 = arg_info(op->args[1])->val;
+-                uint64_t v2 = arg_info(op->args[2])->val;
+-                int shr = op->args[3];
+-
+-                if (opc == INDEX_op_extract2_i64) {
+-                    tmp = (v1 >> shr) | (v2 << (64 - shr));
+-                } else {
+-                    tmp = (int32_t)(((uint32_t)v1 >> shr) |
+-                                    ((uint32_t)v2 << (32 - shr)));
+-                }
+-                tcg_opt_gen_movi(&ctx, op, op->args[0], tmp);
 -                continue;
 -            }
--            if (arg_is_const(op->args[3]) && arg_is_const(op->args[4])) {
--                uint64_t tv = arg_info(op->args[3])->val;
--                uint64_t fv = arg_info(op->args[4])->val;
--                TCGCond cond = op->args[5];
--
--                if (fv == 1 && tv == 0) {
--                    cond = tcg_invert_cond(cond);
--                } else if (!(tv == 1 && fv == 0)) {
--                    break;
--                }
--                op->args[3] = cond;
--                op->opc = opc = (opc == INDEX_op_movcond_i32
--                                 ? INDEX_op_setcond_i32
--                                 : INDEX_op_setcond_i64);
--            }
 -            break;
--
 -
          default:
              break;
  
-@@ -1778,6 +1781,9 @@ void tcg_optimize(TCGContext *s)
-         case INDEX_op_mb:
-             done = fold_mb(&ctx, op);
+@@ -1764,6 +1766,9 @@ void tcg_optimize(TCGContext *s)
+         CASE_OP_32_64(eqv):
+             done = fold_eqv(&ctx, op);
              break;
-+        CASE_OP_32_64(movcond):
-+            done = fold_movcond(&ctx, op);
++        CASE_OP_32_64(extract2):
++            done = fold_extract2(&ctx, op);
 +            break;
-         CASE_OP_32_64(mul):
-         CASE_OP_32_64(mulsh):
-         CASE_OP_32_64(muluh):
+         CASE_OP_32_64(ext8s):
+         CASE_OP_32_64(ext16s):
+         case INDEX_op_ext32s_i64:
 -- 
 2.25.1
 
