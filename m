@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627A5424C8C
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 06:42:55 +0200 (CEST)
-Received: from localhost ([::1]:42576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CDB424CD8
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 07:42:27 +0200 (CEST)
+Received: from localhost ([::1]:57848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYLF7-00020h-UZ
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 00:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42672)
+	id 1mYMAi-0006xo-DQ
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 01:42:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mYLCN-00016a-Od
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 00:40:03 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:41551)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mYM6J-00059A-KS; Thu, 07 Oct 2021 01:37:53 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:34437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mYLCM-0004X8-0E
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 00:40:03 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- na16-20020a17090b4c1000b0019f5bb661f9so4162914pjb.0
- for <qemu-devel@nongnu.org>; Wed, 06 Oct 2021 21:40:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=LwYJF+Y4wl1u0xbNOmuY98t7YDEOXKuSKOp7Oa9S4Oc=;
- b=A5Vf0Wu9mk3uF9rLtB2Qzi5roxYRPKCqHjOm4yIKFKvEy0j1LoVXW6xiSA0z8QJJbe
- LzuGiee1p/KCOrUH4fjdEkiWjFNb1EDRZksQX2DWcUrfOdeBkNxlJe0nb2jmYfGoaZh0
- /u6BF12CjsqT4EF3T7RGZzPnSUhhDfR5ZvCM7q/tCHMeBsVAxX3LBGlFaefvHcvrgD1U
- lPK2tN4KhqQGqZcrXIUv+Traxp2cLNzB4VvUKyBoWElIhTn5LKJTDanVAH9ValPo0cX3
- FRsefl27BxMKG9Cn70K1MQ9kWyFge0D+F/UtaGCqcHXAlfEIvnDVyasW/muSmFbLgJ+d
- hN5w==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mYM6I-0004Dp-73; Thu, 07 Oct 2021 01:37:51 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id q189so10757588ybq.1;
+ Wed, 06 Oct 2021 22:37:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=C9SpfKMtTpjSyjxFcx9d+0id7+Uwpp38poZPKInaPL8=;
+ b=GLzxEdOIXTBWJ1QwzbWSYhmAsknzuGSz3xJL46KNLxzG88YbF7QMdKOFC1FlDWs5V8
+ EfEDOpsZhHFI6gERHdDUBZEOflo+NE/TNZRX/GDIj96E+AdTWYa1JDhm4gJQpElkhDbY
+ JlA4q5Iu4NER3sg6EtgAqvLDuQHOZMSjyfthnSUMiBuER0zsWb+KnK0qmq4B5LXPtz19
+ eUlrsumQ3Yn4Nlra4xIVQFPWm9vIlKdgSemMqDsE1hwOGl1PY/desGaoHMS9s2wBwChb
+ szY9J8Ywat7Frx317/xv1ESB4luFpeRh/X1sYsNAh4x0h4UbcocedWFFz5a+z7jOUhAs
+ SRog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=LwYJF+Y4wl1u0xbNOmuY98t7YDEOXKuSKOp7Oa9S4Oc=;
- b=eBTTtiBAEV0lHGJToJcN9VOVHp5gOPcw36b8xSfVUu8cz4Teub/6esxobQd3KBDFeh
- 7CUFsKW44CBuaKUKSCtkgvPvAO1lKTbKdfH7/4WGOg+zMr2yxTczthGfXp1nJFeAmjJH
- nsXUW0P923+V945eKV6F5bwfgszcrDKZ2tRZt49jZEfAyrDDNACHPbbqWIUtxPubP9xv
- MO0G3n6AkhUsCykY3uGynYxDCXht9keNIrGHOnTI64JPBNpJALEfrD+8Bs9PAzre5/Sl
- JMQLo/NuMkKtKlt3C3CSm/fJelBzd/vVG1roHLAKqLW/E3U+5oUldtDPzS47Ns83rZ4U
- nWxw==
-X-Gm-Message-State: AOAM532lQDnMMAQrchX3FK1e0MNoz5D/lIuuqUOqIJNI7anga1Wr9l0h
- FwcEOnuqMXriTWnJ9EerKvTJRA==
-X-Google-Smtp-Source: ABdhPJwvjwJ3eBuUMqawv6P8qNXqYMHrwZCGMZ0v0/tKZLWUU68PRz3EH641emB20Qs/rLCbZZEsfA==
-X-Received: by 2002:a17:90a:bf91:: with SMTP id
- d17mr3002553pjs.158.1633581600207; 
- Wed, 06 Oct 2021 21:40:00 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.196.214])
- by smtp.googlemail.com with ESMTPSA id q18sm27358006pfj.46.2021.10.06.21.39.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 21:39:59 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Thu, 7 Oct 2021 10:09:53 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH] ACPI ERST: specification for ERST support
-In-Reply-To: <abc8898c-9795-83df-3374-78267cfc09bf@oracle.com>
-Message-ID: <alpine.DEB.2.22.394.2110071007560.820442@anisinha-lenovo>
-References: <1628202639-16361-3-git-send-email-eric.devolder@oracle.com>
- <20211006065808.1054102-1-ani@anisinha.ca>
- <alpine.DEB.2.22.394.2110061229270.820442@anisinha-lenovo>
- <abc8898c-9795-83df-3374-78267cfc09bf@oracle.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=C9SpfKMtTpjSyjxFcx9d+0id7+Uwpp38poZPKInaPL8=;
+ b=x4m5LVGCYsPFHlevJ5eSILYTxidrdYjHqngejzQlzkpbVu8lEDz8aa1nLsy2f6YKKH
+ JaCArNG1Y8Ailhix3PNONhe+MJd5Z/F54k1l3CcCfE9RJbVYG46C3yoZDn/RoYtzcGkH
+ Bgl1hhDX/I7kHQKC/r9XG0uLitYbplHquUdrcKifEpBx42KZatbbbTmL17uc+S6mJje0
+ wG1PnyejJ3AZCXp7vkff0iQOMRpbyEPdQhLWDJRRVvwqCctVU09vmlJQZ44uV6Qk0evC
+ DZJFD+Srz9SocL5X/gYH/TMybFWKDmCNjNYFSKPME0DYM7wQKgVKmpmpTOsNN4JQsqsU
+ 0QYg==
+X-Gm-Message-State: AOAM531tjULkmf37uuECYxml0rfvkihAo1+fo5luOFYXIv3LNZaHl9GD
+ 2wOi9GIlWvFwAPWpSOuTXafm9Rkfasy4qPo6zjg=
+X-Google-Smtp-Source: ABdhPJwaT9GD9hyAzoJJtrxJIWGp6hMT2pt7NHOIBnDe9H7dmlDEuWTqwYaptwM0KLwsB8uURIn4eyIGwCodMdX/KVs=
+X-Received: by 2002:a25:e048:: with SMTP id x69mr2366651ybg.293.1633585068260; 
+ Wed, 06 Oct 2021 22:37:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20211003112855.960081-1-rpathak@ventanamicro.com>
+In-Reply-To: <20211003112855.960081-1-rpathak@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 7 Oct 2021 13:37:37 +0800
+Message-ID: <CAEUhbmUsMrSvQHWWoFRzdUuOyxcaaw=L7h7tk0f5_wsd692=ow@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: csr: Implement mconfigptr CSR
+To: Rahul Pathak <rpathak@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,42 +74,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, Ani Sinha <ani@anisinha.ca>,
- imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, pathakraul@gmail.com,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, Oct 3, 2021 at 7:29 PM Rahul Pathak <rpathak@ventanamicro.com> wrote:
+>
+> mconfigptr is an mandatory CSR as per the priv spec.
 
+%s/an/a
 
-On Wed, 6 Oct 2021, Eric DeVolder wrote:
+as per the priv spec v1.12
+
+> This csr holds the physical address of the configuration
+> data structure if this data structure is implemented
+> Its an readonly csr set to zero making configuration
+> data structure not supported.
+>
+> Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
+> ---
+>  target/riscv/cpu_bits.h | 1 +
+>  target/riscv/csr.c      | 1 +
+>  2 files changed, 2 insertions(+)
+>
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 999187a9ee..5dc4729ed5 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -140,6 +140,7 @@
+>  #define CSR_MARCHID         0xf12
+>  #define CSR_MIMPID          0xf13
+>  #define CSR_MHARTID         0xf14
+> +#define CSR_MCONFIGPTR      0xf15
+>
+>  /* Machine Trap Setup */
+>  #define CSR_MSTATUS         0x300
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 23fbbd3216..2182943f54 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -1549,6 +1549,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>      [CSR_MARCHID]   = { "marchid",   any,   read_zero    },
+>      [CSR_MIMPID]    = { "mimpid",    any,   read_zero    },
+>      [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
+> +    [CSR_MCONFIGPTR] = {"mconfigptr", any,  read_zero    },
+
+Not any, as we need to check the priv version >= 1.12
 
 >
->
-> On 10/6/21 2:00 AM, Ani Sinha wrote:
-> >
-> >
-> > On Wed, 6 Oct 2021, Ani Sinha wrote:
-> >
-> > > From: Eric DeVolder <eric.devolder@oracle.com>
-> > >
-> > > > ---
-> > > > docs/specs/acpi_erst.txt | 147 +++++++++++++++++++++++++++++++++++++++
-> > > > 1 file changed, 147 insertions(+)
-> > > > create mode 100644 docs/specs/acpi_erst.txt
-> > > >
-> >
-> > OK it did not come out the way I wanted. But
-> >
-> > Acked-by: Ani Sinha <ani@anisinha.ca>
-> >
-> thank you!
+>      /* Machine Trap Setup */
+>      [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,     write_mstatus     },
+> --
 
-So this patchset was sent when I was still not in MAINTAINERS file. Hence
-I was not on the CC list. Its a little hard to send reviews when the
-patches are not in my inbox (this resulted in the mess above). So if you
-have pending updates to the patch series, maybe you can spin out a new
-revision and I can review it more comfortably (this time hopefully I will
-be on the cc list).
-
+Regards,
+Bin
 
