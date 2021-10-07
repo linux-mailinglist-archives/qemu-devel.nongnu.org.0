@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8EA54255DA
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 16:54:35 +0200 (CEST)
-Received: from localhost ([::1]:35292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8C7E4255D0
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 16:52:47 +0200 (CEST)
+Received: from localhost ([::1]:57972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYUn4-0002oR-HQ
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 10:54:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53942)
+	id 1mYUlK-0007Tf-TX
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 10:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYUid-0004QE-NX
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:50:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31252)
+ id 1mYUjZ-0005BX-2X
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:50:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mYUib-00062g-UQ
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:49:59 -0400
+ id 1mYUjU-0006qU-I6
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 10:50:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633618197;
+ s=mimecast20190719; t=1633618252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2IsTsCTxjxztO8tNsL68EfviiRmoAFnDUq0R3l5mUpA=;
- b=XGPKG6LgHRJ4AXPWarIWvXCbSenmNqzqvPdPVovFyXs9agiCutm/mYECpjyuWsnh447K2h
- 4EZhXASbSFFKril1q1BSwi6se3EJB3aV1O4sMkPxK/FlaRrkgvsknS6Tv4Y4jPPbCWJ84A
- LlUg0s/DxaGnZPSrLVWUV8/3K/R5GgU=
+ bh=VXXIdHM2mgLduo923WAZlOCMFZ4Y0GpUn2NAT9lqXUU=;
+ b=Y0ELM6CklSxO8BtOBWslP3FcRhfkIilaiZOIBAL1oq5De8kOONYN4kI1BQCQVLTZKxptE5
+ JD6xBsNZ5GhH3J9wqexGh0uBHUrxVfBj3Ol2yplSccVwOzH17268M0j2wEA1vECgrFW9d6
+ z7gA6X6M0lHxl1ST9stkjdW5rYmVJBY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-tlOXwZccMUmVryuVy1YKsQ-1; Thu, 07 Oct 2021 10:49:56 -0400
-X-MC-Unique: tlOXwZccMUmVryuVy1YKsQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-474-qNG-gMUfPAOrDg0Nm8CoMQ-1; Thu, 07 Oct 2021 10:50:48 -0400
+X-MC-Unique: qNG-gMUfPAOrDg0Nm8CoMQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BF9EDF8C9;
- Thu,  7 Oct 2021 14:49:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BBE91006AB1;
+ Thu,  7 Oct 2021 14:50:47 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D8DA26574;
- Thu,  7 Oct 2021 14:49:54 +0000 (UTC)
-Date: Thu, 7 Oct 2021 15:49:53 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0ED3B5D6D5;
+ Thu,  7 Oct 2021 14:50:46 +0000 (UTC)
+Date: Thu, 7 Oct 2021 15:50:46 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH v2 19/25] block_int-common.h: split function pointers
- in BlockDriver
-Message-ID: <YV8JEbSlCpgw/l09@stefanha-x1.localdomain>
+Subject: Re: [RFC PATCH v2 20/25] block_int-common.h: assertion in the
+ callers of BlockDriver function pointers
+Message-ID: <YV8JRoAdYbWaLRt5@stefanha-x1.localdomain>
 References: <20211005143215.29500-1-eesposit@redhat.com>
- <20211005143215.29500-20-eesposit@redhat.com>
+ <20211005143215.29500-21-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211005143215.29500-20-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20211005143215.29500-21-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6oSAZtWyiq0UyNFv"
+ protocol="application/pgp-signature"; boundary="KWsTRx+wAkt5NOGF"
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -93,37 +93,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---6oSAZtWyiq0UyNFv
+--KWsTRx+wAkt5NOGF
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 05, 2021 at 10:32:09AM -0400, Emanuele Giuseppe Esposito wrote:
-> Similar to the header split, also the function pointers in BlockDriver
-> can be split in I/O and global state.
->=20
+On Tue, Oct 05, 2021 at 10:32:10AM -0400, Emanuele Giuseppe Esposito wrote:
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->  include/block/block_int-common.h | 472 ++++++++++++++++---------------
->  1 file changed, 251 insertions(+), 221 deletions(-)
+>  block.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---6oSAZtWyiq0UyNFv
+--KWsTRx+wAkt5NOGF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFfCREACgkQnKSrs4Gr
-c8i+bQgAxHViHKUlIxhduJNW+FpeC4jjuratwL6B1tVCWF5GiOSsfEow0fTsjd06
-kMbJvyaJ48te+IASxFc6kQgEIexps8Lsk11gyNzLl7iH03M9yA3D94nDor2HgL7t
-0/H2LMcvu0b8E97lTE1NjizhEBxFUbovYCOL34DCGiMIpY+g2K3/2SJZpWkBKyPQ
-2eFK1yrhb/7ZoWTt9A2TfvHDnNAchS0lrI1c8aIcFGYcuNMbXX1eog8flJzLj33Z
-yDqWRC7QQzGjv0X9laiR5Mn9jN5FjAelmrPPxCejdY/j7di8puvgoeE7eq0ng7Pb
-aEa5OtH3Gb0dAwtmmv2AryBSa0ZBDw==
-=wJ1h
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFfCUUACgkQnKSrs4Gr
+c8h0NggAr78xafVafz9f00U7w0CiSIaQSoQWjsDuyc5g6m3+Z7oJm4oWUZ6DIBF8
+3awXAnpAPeccKS55gLTZyXXHvX4JnCmBdOXl/YRU7tJDG3E+pdTOsK2OAjV6gf4h
+hNJ9w4LtQ5EKXdksW9wY7XME9slA5811twbw3OHcM5Hz4FUfnwrg5K5SU/XFXLPj
+Z09kP5ziyjfkcYelda7yeennp6XnvXjADQjVC2nUhO4vqhr48lNaKoNTB7WIw3Mg
+J26Aiwc1tN0Qp7sDvRVkB+SzsAWMzePit4rDXJYX9OWO4lPS80fyN5HH1Eqmb6Gh
+qI2zD7xlW0bzyqrtPbXFo62B07rodA==
+=LR11
 -----END PGP SIGNATURE-----
 
---6oSAZtWyiq0UyNFv--
+--KWsTRx+wAkt5NOGF--
 
 
