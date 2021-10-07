@@ -2,93 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA82A42598E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 19:32:46 +0200 (CEST)
-Received: from localhost ([::1]:52270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39406425998
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 19:34:46 +0200 (CEST)
+Received: from localhost ([::1]:33590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYXG9-0002GT-Rs
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 13:32:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60918)
+	id 1mYXI5-0000C4-6s
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 13:34:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mYX6X-0001GD-FO
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:22:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46290)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mYX6S-0001Lb-O4
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:22:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633627362;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y2c+YGN6wU3B+050Do8UhDaOlKhi7UqTcLqGXK6cv28=;
- b=fBUusiZbIWtkEzOu8TawoH+VY94wygJjbDR3W9Fg79gyP8IhKGVOlfNT0MxoHl8ZnxrYVt
- vonqdLwbuFcax+As0sLJAzGsq8oZ36gohzwhdg/4+QCMNltmExomsFa5FbzQSwAIYt64FJ
- Uh0m9OUMO/ArUp9UAG4n5g9VlmOMEvo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-Wov9Vw4ePaq7_hELgIXEwg-1; Thu, 07 Oct 2021 13:22:38 -0400
-X-MC-Unique: Wov9Vw4ePaq7_hELgIXEwg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- p12-20020adfc38c000000b00160d6a7e293so2767355wrf.18
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 10:22:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mYX9X-0007df-F5
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:25:55 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:41801)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mYX9V-0003mC-5I
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 13:25:55 -0400
+Received: by mail-pg1-x529.google.com with SMTP id v11so447308pgb.8
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 10:25:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=G5dIOQfTAnDyPM6tY9NBKnGkBV5a8G9OehWdO3jZQmM=;
+ b=W5+umAGT8/Qb816YfDP6wCEEhvOS9+EHWJ/lhewK46s2cXJQr0n8anbq/czgPbZ+O3
+ auyoKlODIV2hYDps0AclZ7p+hJfBOv3ePxExxr7Fe7fb2ukHJvDXRLDfUHe5sXsq9xUI
+ WjBAhwvpEQ9XA63xhxvkTq6JWwHrN0vBK2sYFCbQGC6/unTxBt2/K1kvSpQtENpjK6s+
+ VW/4/naFUhzplhi+ySGYtRxU9WcVZsAzaCno14yMkT6QGzGDdbcprXxkbDIJTZPK0NjP
+ Eayvmlz1qInQh5s7+yG2ib1gvpPTl2y3UpDBbojvynJnAXgwy7tLZvxm0qnDRkk1JNFm
+ 6//g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=y2c+YGN6wU3B+050Do8UhDaOlKhi7UqTcLqGXK6cv28=;
- b=3MXd+ESdkk3liirH+kRaBQMfvr78JBPcep3otQ3jW2B1Bu6i65d4iB3Km5dlo6Ebgp
- CdU7pQz0HIGK7wVfXBkol97/zhtLz4YU6inHdQjXZ/HT5IVei8CVXLvgXVbvlOrhnfPt
- AHQhiilrX4gJ+MPngmXN09606WxS0WimDHOtdSO2tCq6tGOoHtHH0vZ54MNikcr6M9uZ
- PouhF7mQIn4mLrD8KeL3PjgPbzLkkjAAHSJn7/eveEPkRUT8LGsaX40L/rpoPkXL4F1J
- TRPfYWZDBSSvkahsAXmHLkfltxxJ6mwaoDuuh99sub3vPbhN3dAAqcg/eMKVJTUTtab+
- pV3w==
-X-Gm-Message-State: AOAM530lYSr72cVebnq4W3/TIRuo416k1D4D3kxtv2UyIXONtk5/ctRf
- DzuljyfY3O36y588UzHjWpILJxgNeAAdi50IqrCIeJfvR9SmBeBjCPDuy569OOpQZRVZIFvdo5D
- NCm0nggFNMXHtGu0=
-X-Received: by 2002:a1c:9892:: with SMTP id a140mr5988968wme.187.1633627357403; 
- Thu, 07 Oct 2021 10:22:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy3Y9mAKHjCv2YKJWmeW2zQEasbnHiNok9T+WfiQrpReSdPvc4ydF10Uql1MwWxw6bYFDjz3A==
-X-Received: by 2002:a1c:9892:: with SMTP id a140mr5988927wme.187.1633627357125; 
- Thu, 07 Oct 2021 10:22:37 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id h17sm229723wrx.55.2021.10.07.10.22.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 10:22:36 -0700 (PDT)
-Date: Thu, 7 Oct 2021 18:22:34 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 16/23] target/i386/sev: Remove stubs by using code
- elision
-Message-ID: <YV8s2r+lNyP/sX7u@work-vm>
-References: <20211007161716.453984-1-philmd@redhat.com>
- <20211007161716.453984-17-philmd@redhat.com>
- <YV8pS2D8e14qmFBq@work-vm>
- <6080fa16-66aa-570e-93c8-09be2ced9431@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=G5dIOQfTAnDyPM6tY9NBKnGkBV5a8G9OehWdO3jZQmM=;
+ b=B0hKTfL2e7dQGimarUWMzP6dOii6VQktdt1QxdBw49WBiV4syv7aYzBC/fQPou73WO
+ v1flQgmc8/tN8Y4uWOba5NE7abaq+GwzqGDUNgYD5l7sogxItRxmeaKforBz/H4I855A
+ dskos6X0Ij1OjQ1uSQsP1J1954MmwS20BwTNCqvE4kH0TRB/9M0qrLsidYrkQbZRSVk8
+ hXzXEgETdQFZ7yqcFFapHgdoR56WigmxzZkPyaLPXE7WHkZevv58fytLUYqv/lQ+UyZG
+ QNVHJvUqQJuFDBdXFzvghyPqFguh7bJrBL0+9NwtUhzDC3z6cb6pTuZVnw/UqVUlYBE9
+ oQyQ==
+X-Gm-Message-State: AOAM5338YKW0sWrAcsjUzowwo+LPX1PCbsHWDFTo8+yMKTRLWe6sJCkH
+ WmYzZFJ1jSj/O/jnBiBZgdQagw==
+X-Google-Smtp-Source: ABdhPJwlVUQecOG/AyROsu2ng6+wmtEXJW6jU2WhUz+8PU5CuwAWfSjA95ftjaiH8scjvyq4ymhIhQ==
+X-Received: by 2002:aa7:914d:0:b0:44c:61e3:99b9 with SMTP id
+ 13-20020aa7914d000000b0044c61e399b9mr5545626pfi.65.1633627550774; 
+ Thu, 07 Oct 2021 10:25:50 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id kb15sm80834pjb.43.2021.10.07.10.25.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Oct 2021 10:25:50 -0700 (PDT)
+Subject: Re: [PULL 00/26] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, peter.maydell@linaro.org
+References: <20211007064751.608580-1-alistair.francis@opensource.wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ee3a99c2-a6f6-8768-71be-5816ae4da1b2@linaro.org>
+Date: Thu, 7 Oct 2021 10:25:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <6080fa16-66aa-570e-93c8-09be2ced9431@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20211007064751.608580-1-alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.964,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,182 +88,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Sergio Lopez <slp@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Dov Murik <dovmurik@linux.ibm.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
-> On 10/7/21 19:07, Dr. David Alan Gilbert wrote:
-> > * Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
-> >> Only declare sev_enabled() and sev_es_enabled() when CONFIG_SEV is
-> >> set, to allow the compiler to elide unused code. Remove unnecessary
-> >> stubs.
-> >>
-> >> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > 
-> > What makes it allowed to *rely* on the compiler eliding calls?
+On 10/6/21 11:47 PM, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 > 
-> I am not aware of a particular requirement on the compiler for code
-> elision, however we already use this syntax:
+> The following changes since commit ca61fa4b803e5d0abaf6f1ceb690f23bb78a4def:
 > 
-> $ git grep -A4 'ifdef CONFIG_' include/sysemu/
-> ...
-> include/sysemu/tcg.h:11:#ifdef CONFIG_TCG
-> include/sysemu/tcg.h-12-extern bool tcg_allowed;
-> include/sysemu/tcg.h-13-#define tcg_enabled() (tcg_allowed)
-> include/sysemu/tcg.h-14-#else
-> include/sysemu/tcg.h-15-#define tcg_enabled() 0
-
-So that I'm fine with, the bit I'm more worried about is the bit where
-inside the if () we call functions (like sev_get_cbit_position )  which
-we know the compiler will elide; I'm sure any sane compiler will,
-but.....
-
-Looking at your example, in cpu.c there's still places that ifdef around
-areas with tcg_enabled.
-
-Dave
-
-> ...
+>    Merge remote-tracking branch 'remotes/quic/tags/pull-hex-20211006' into staging (2021-10-06 12:11:14 -0700)
 > 
-> Cc'ing Richard/Eric/Daniel who have more experience with compiler
-> features in case they can enlighten me here.
+> are available in the Git repository at:
 > 
-> >> ---
-> >>  target/i386/sev.h       | 14 ++++++++++++--
-> >>  target/i386/cpu.c       | 13 +++++++------
-> >>  target/i386/sev-stub.c  | 41 -----------------------------------------
-> >>  target/i386/meson.build |  2 +-
-> >>  4 files changed, 20 insertions(+), 50 deletions(-)
-> >>  delete mode 100644 target/i386/sev-stub.c
-> >>
-> >> diff --git a/target/i386/sev.h b/target/i386/sev.h
-> >> index c96072bf78d..d9548e3e642 100644
-> >> --- a/target/i386/sev.h
-> >> +++ b/target/i386/sev.h
-> >> @@ -14,6 +14,10 @@
-> >>  #ifndef QEMU_SEV_I386_H
-> >>  #define QEMU_SEV_I386_H
-> >>  
-> >> +#ifndef CONFIG_USER_ONLY
-> >> +#include CONFIG_DEVICES /* CONFIG_SEV */
-> >> +#endif
-> >> +
-> >>  #include "exec/confidential-guest-support.h"
-> >>  #include "qapi/qapi-types-misc-target.h"
-> >>  
-> >> @@ -35,8 +39,14 @@ typedef struct SevKernelLoaderContext {
-> >>      size_t cmdline_size;
-> >>  } SevKernelLoaderContext;
-> >>  
-> >> -bool sev_enabled(void);
-> >> -extern bool sev_es_enabled(void);
-> >> +#ifdef CONFIG_SEV
-> >> + bool sev_enabled(void);
-> >> +bool sev_es_enabled(void);
-> >> +#else
-> >> +#define sev_enabled() 0
-> >> +#define sev_es_enabled() 0
-> >> +#endif
-> >> +
-> >>  extern SevInfo *sev_get_info(void);
-> >>  extern uint32_t sev_get_cbit_position(void);
-> >>  extern uint32_t sev_get_reduced_phys_bits(void);
-> >> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> >> index 8289dc87bd5..fc3ed80ef1e 100644
-> >> --- a/target/i386/cpu.c
-> >> +++ b/target/i386/cpu.c
-> >> @@ -5764,12 +5764,13 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >>          *edx = 0;
-> >>          break;
-> >>      case 0x8000001F:
-> >> -        *eax = sev_enabled() ? 0x2 : 0;
-> >> -        *eax |= sev_es_enabled() ? 0x8 : 0;
-> >> -        *ebx = sev_get_cbit_position();
-> >> -        *ebx |= sev_get_reduced_phys_bits() << 6;
-> >> -        *ecx = 0;
-> >> -        *edx = 0;
-> >> +        *eax = *ebx = *ecx = *edx = 0;
-> >> +        if (sev_enabled()) {
-> >> +            *eax = 0x2;
-> >> +            *eax |= sev_es_enabled() ? 0x8 : 0;
-> >> +            *ebx = sev_get_cbit_position();
-> >> +            *ebx |= sev_get_reduced_phys_bits() << 6;
-> >> +        }
-> >>          break;
-> >>      default:
-> >>          /* reserved values: zero */
-> >> diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
-> >> deleted file mode 100644
-> >> index 7e8b6f9a259..00000000000
-> >> --- a/target/i386/sev-stub.c
-> >> +++ /dev/null
-> >> @@ -1,41 +0,0 @@
-> >> -/*
-> >> - * QEMU SEV stub
-> >> - *
-> >> - * Copyright Advanced Micro Devices 2018
-> >> - *
-> >> - * Authors:
-> >> - *      Brijesh Singh <brijesh.singh@amd.com>
-> >> - *
-> >> - * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> >> - * See the COPYING file in the top-level directory.
-> >> - *
-> >> - */
-> >> -
-> >> -#include "qemu/osdep.h"
-> >> -#include "qapi/error.h"
-> >> -#include "sev.h"
-> >> -
-> >> -bool sev_enabled(void)
-> >> -{
-> >> -    return false;
-> >> -}
-> >> -
-> >> -uint32_t sev_get_cbit_position(void)
-> >> -{
-> >> -    return 0;
-> >> -}
-> >> -
-> >> -uint32_t sev_get_reduced_phys_bits(void)
-> >> -{
-> >> -    return 0;
-> >> -}
-> >> -
-> >> -bool sev_es_enabled(void)
-> >> -{
-> >> -    return false;
-> >> -}
-> >> -
-> >> -bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
-> >> -{
-> >> -    g_assert_not_reached();
-> >> -}
-> >> diff --git a/target/i386/meson.build b/target/i386/meson.build
-> >> index a4f45c3ec1d..ae38dc95635 100644
-> >> --- a/target/i386/meson.build
-> >> +++ b/target/i386/meson.build
-> >> @@ -6,7 +6,7 @@
-> >>    'xsave_helper.c',
-> >>    'cpu-dump.c',
-> >>  ))
-> >> -i386_ss.add(when: 'CONFIG_SEV', if_true: files('host-cpu.c'), if_false: files('sev-stub.c'))
-> >> +i386_ss.add(when: 'CONFIG_SEV', if_true: files('host-cpu.c'))
-> >>  
-> >>  # x86 cpu type
-> >>  i386_ss.add(when: 'CONFIG_KVM', if_true: files('host-cpu.c'))
-> >> -- 
-> >> 2.31.1
-> >>
+>    git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20211007
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> for you to fetch changes up to 9ae6ecd848dcd1b32003526ab65a0d4c644dfb07:
+> 
+>    hw/riscv: shakti_c: Mark as not user creatable (2021-10-07 08:41:33 +1000)
+> 
+> ----------------------------------------------------------------
+> Third RISC-V PR for QEMU 6.2
+> 
+>   - Add Zb[abcs] instruction support
+>   - Remove RVB support
+>   - Bug fix of setting mstatus_hs.[SD|FS] bits
+>   - Mark some UART devices as 'input'
+>   - QOMify PolarFire MMUART
+>   - Fixes for sifive PDMA
+>   - Mark shakti_c as not user creatable
+> 
+> ----------------------------------------------------------------
+> Alistair Francis (1):
+>        hw/riscv: shakti_c: Mark as not user creatable
+> 
+> Bin Meng (5):
+>        hw/char: ibex_uart: Register device in 'input' category
+>        hw/char: shakti_uart: Register device in 'input' category
+>        hw/char: sifive_uart: Register device in 'input' category
+>        hw/dma: sifive_pdma: Fix Control.claim bit detection
+>        hw/dma: sifive_pdma: Don't run DMA when channel is disclaimed
+> 
+> Frank Chang (1):
+>        target/riscv: Set mstatus_hs.[SD|FS] bits if Clean and V=1 in mark_fs_dirty()
+> 
+> Philipp Tomsich (16):
+>        target/riscv: Introduce temporary in gen_add_uw()
+>        target/riscv: fix clzw implementation to operate on arg1
+>        target/riscv: clwz must ignore high bits (use shift-left & changed logic)
+>        target/riscv: Add x-zba, x-zbb, x-zbc and x-zbs properties
+>        target/riscv: Reassign instructions to the Zba-extension
+>        target/riscv: Remove the W-form instructions from Zbs
+>        target/riscv: Remove shift-one instructions (proposed Zbo in pre-0.93 draft-B)
+>        target/riscv: Reassign instructions to the Zbs-extension
+>        target/riscv: Add instructions of the Zbc-extension
+>        target/riscv: Reassign instructions to the Zbb-extension
+>        target/riscv: Add orc.b instruction for Zbb, removing gorc/gorci
+>        target/riscv: Add a REQUIRE_32BIT macro
+>        target/riscv: Add rev8 instruction, removing grev/grevi
+>        target/riscv: Add zext.h instructions to Zbb, removing pack/packu/packh
+>        target/riscv: Remove RVB (replaced by Zb[abcs])
+>        disas/riscv: Add Zb[abcs] instructions
+> 
+> Philippe Mathieu-DaudÃ© (3):
+>        hw/char/mchp_pfsoc_mmuart: Simplify MCHP_PFSOC_MMUART_REG definition
+>        hw/char/mchp_pfsoc_mmuart: Use a MemoryRegion container
+>        hw/char/mchp_pfsoc_mmuart: QOM'ify PolarFire MMUART
+> 
+>   include/hw/char/mchp_pfsoc_mmuart.h     |  17 +-
+>   target/riscv/cpu.h                      |  11 +-
+>   target/riscv/helper.h                   |   6 +-
+>   target/riscv/insn32.decode              | 115 ++++-----
+>   disas/riscv.c                           | 157 +++++++++++-
+>   hw/char/ibex_uart.c                     |   1 +
+>   hw/char/mchp_pfsoc_mmuart.c             | 116 +++++++--
+>   hw/char/shakti_uart.c                   |   1 +
+>   hw/char/sifive_uart.c                   |   1 +
+>   hw/dma/sifive_pdma.c                    |  13 +-
+>   hw/riscv/shakti_c.c                     |   7 +
+>   target/riscv/bitmanip_helper.c          |  65 +----
+>   target/riscv/cpu.c                      |  30 +--
+>   target/riscv/translate.c                |  36 ++-
+>   target/riscv/insn_trans/trans_rvb.c.inc | 419 ++++++++++----------------------
+>   15 files changed, 516 insertions(+), 479 deletions(-)
 
+Applied, thanks.
+
+Remember to update the wiki for the user-facing changes.
+
+
+r~
 
