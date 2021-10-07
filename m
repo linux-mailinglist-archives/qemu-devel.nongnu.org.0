@@ -2,62 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1234250A9
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 12:04:43 +0200 (CEST)
-Received: from localhost ([::1]:40556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E2E4250B6
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 12:08:02 +0200 (CEST)
+Received: from localhost ([::1]:42760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYQGX-0001m3-Sv
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 06:04:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41954)
+	id 1mYQJl-0003N1-8I
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 06:08:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYQE4-0000y6-Ck
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 06:02:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42422)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mYQHR-0002fU-M0
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 06:05:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51198)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYQDx-0001s0-GW
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 06:02:06 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mYQHQ-0001Ap-2v
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 06:05:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633600919;
+ s=mimecast20190719; t=1633601133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ir2PYgDS7E/HsgfbxfYJmhA97ZSzSb2b703avJccg6g=;
- b=FQ0rHkz+Sh3jf6uFIVRGCsKo0anpxEfSwc6/gs2d9SGayFS/T6q//rH9Hxflv6pmwL7utw
- HJDSFvWt3AbSWSW65HUMgaCYbhYMrKy1BqZ5ib9UmaQKd9rEdDM1ysWSf28O596O8gea/A
- r1z60UiKX7qPo5e3eSoYqN6myNrcCvQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-idatI4dNNQWJIJSutqkK8g-1; Thu, 07 Oct 2021 06:01:56 -0400
-X-MC-Unique: idatI4dNNQWJIJSutqkK8g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4411802C92
- for <qemu-devel@nongnu.org>; Thu,  7 Oct 2021 10:01:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D10811017CE4;
- Thu,  7 Oct 2021 10:01:44 +0000 (UTC)
-Date: Thu, 7 Oct 2021 12:01:43 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: QAPI sync meeting
-Message-ID: <YV7Fh2DihM65rgnN@redhat.com>
-References: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
- <YVMeUbGdnsTpwSbD@redhat.com>
- <CAFn=p-ZG6SAVDz-cOtviekvMvibw+ukhYmSOqH7UTrcH-9fCNA@mail.gmail.com>
- <87ee97y3q5.fsf@dusky.pond.sub.org>
+ bh=uiZGH0Deyll/StKx+fHTeOYAtFzk7Iw9PxiN5/Wycj4=;
+ b=BPHiNZBbgG5DacG8YEPxctnt7kP7sMY2jt/FVcfKj3LaERJaITzzm0zXw9BKdwHl+40JCj
+ PPs2MJljpcm067h8T2C5RXxbE+v8AapvoOsbAhEqYavprht8f2rO38QhFSOQR08sEYVlHw
+ LLnFlDNqOynVM7ymF1PBhLCr25Fdoes=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177-gQlJ8aFFPZ2DWaXQ1Nv0Zw-1; Thu, 07 Oct 2021 06:05:28 -0400
+X-MC-Unique: gQlJ8aFFPZ2DWaXQ1Nv0Zw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ k16-20020a5d6290000000b00160753b430fso4289425wru.11
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 03:05:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=uiZGH0Deyll/StKx+fHTeOYAtFzk7Iw9PxiN5/Wycj4=;
+ b=h8GbtwhYXc6xb1XC9A+R2x2ya917yEralRJFwvlrWX0Q2LsHRV6U8+UFzfn4BxqHRk
+ mMFTtStHW4U+dDGxhoF6FzZyaSNkDibRk9sLm6Qzda65zqwgPE8L4uk1SmjkJfTkOd66
+ 0oBqvSDGr406fxWhZQTrg6v9ZQI+PV6iWZVhIAo9Fz+vytemganPRXUbivoeZFWhZ4ut
+ HdakXCBAhfYHMd5AbrQoC5MEe5kNxquNh50v1C7xBtCyLFi56iB70mwRP1iSaMlF4Uv3
+ Fb+jsJqZeL0U8S94Pag+bWGY+fzzXaby1qdOl1WlBm/ut5zAPRdfxpfJSZ5fZWsBf6v5
+ YjVQ==
+X-Gm-Message-State: AOAM5316B0d0PTlofl5XyCDIipnU3MRl3iKP2iZNy0tsvuhMU69wQ0WA
+ 2XrFmAOgwfUsT4pAhyd2NjnBZEOyuogFs776q5njW4uALdRNosTf2ik5nbyiDoAa1+8c8HfCFLW
+ wf4rLb7SFdHLph5c=
+X-Received: by 2002:adf:9bc4:: with SMTP id e4mr4133175wrc.257.1633601127611; 
+ Thu, 07 Oct 2021 03:05:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQNE72TRg0mtKZkIlbu77NO0KipjxBwdfzd+Xtzq6dYDXrq5FO/k5lLuByCf6aZHSgU5+aHA==
+X-Received: by 2002:adf:9bc4:: with SMTP id e4mr4133149wrc.257.1633601127329; 
+ Thu, 07 Oct 2021 03:05:27 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id u2sm23081106wrr.35.2021.10.07.03.05.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Oct 2021 03:05:26 -0700 (PDT)
+Date: Thu, 7 Oct 2021 11:05:24 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v4 3/7] util/oslib-posix: Introduce and use MemsetContext
+ for touch_all_pages()
+Message-ID: <YV7GZIYZBC5ZoiGU@work-vm>
+References: <20211004120208.7409-1-david@redhat.com>
+ <20211004120208.7409-4-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87ee97y3q5.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20211004120208.7409-4-david@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,116 +100,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 29.09.2021 um 14:18 hat Markus Armbruster geschrieben:
-> > I'm proposing a one-off here just for some initial discussion and planning.
-> > (We didn't have a QAPI BoF at KVM Forum and I'd like something similar
-> > now.) I don't expect we'll really "finish" plotting out a roadmap in a
-> > single 60 minute meeting, but it will probably give us good, targeted
-> > discussions on the ML to follow. If more meetings are desired to discuss
-> > specific topics, I'm not against scheduling them as-needed.
+* David Hildenbrand (david@redhat.com) wrote:
+> Let's minimize the number of global variables to prepare for
+> os_mem_prealloc() getting called concurrently and make the code a bit
+> easier to read.
 > 
-> Let's have one now, and then more as needed.
+> The only consumer that really needs a global variable is the sigbus
+> handler, which will require protection via a mutex in the future either way
+> as we cannot concurrently mess with the SIGBUS handler.
 > 
-> Jumping into the meeting unprepared, then spending half of the alloted
-> time listening to people explaining where they want to take QAPI seems
-> like a bad use of our time.  Better: write it up and post it, so we can
-> all read before we meet.  Do not reply, except perhaps to ask for
-> clarification.  Discuss in the meeting.
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  util/oslib-posix.c | 73 +++++++++++++++++++++++++++++-----------------
+>  1 file changed, 47 insertions(+), 26 deletions(-)
 > 
-> I can see such posts from Marc-Andre, Kevin, and Daniel.  Some of them
-> could use a bit more detail, perhaps.
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index cb89e07770..cf2ead54ad 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -73,21 +73,30 @@
+>  
+>  #define MAX_MEM_PREALLOC_THREAD_COUNT 16
+>  
+> +struct MemsetThread;
+> +
+> +typedef struct MemsetContext {
+> +    bool all_threads_created;
+> +    bool any_thread_failed;
+> +    struct MemsetThread *threads;
+> +    int num_threads;
+> +} MemsetContext;
+> +
+>  struct MemsetThread {
+>      char *addr;
+>      size_t numpages;
+>      size_t hpagesize;
+>      QemuThread pgthread;
+>      sigjmp_buf env;
+> +    MemsetContext *context;
+>  };
+>  typedef struct MemsetThread MemsetThread;
+>  
+> -static MemsetThread *memset_thread;
+> -static int memset_num_threads;
+> +/* used by sigbus_handler() */
+> +static MemsetContext *sigbus_memset_context;
+>  
+>  static QemuMutex page_mutex;
+>  static QemuCond page_cond;
+> -static bool threads_created_flag;
 
-To be a bit more specific and give more details about what I'm currently
-working on:
+Is there a reason you didn't lift page_mutex and page_cond into the
+MemsetContext ?
 
-* The larger theme is command line QAPIfication, with the eventual goals
-  of having introspection and a config file.
+(You don't need to change it for this series, just a thought;
+another thought is that I think we hav ea few threadpools like this
+with hooks to check they've all been created and to do something if one
+fails).
 
-* Support for member aliases: This provides a way to bridge much of the
-  gap between command line and QMP syntax. Markus tells me that it's
-  unclear yet whether we want this in both QMP and CLI (unlikely for
-  now), just CLI or not at all.
+Dave
 
-  First posted in November 2020, latest version is v4:
-  https://patchew.org/QEMU/20210917161320.201086-1-kwolf@redhat.com/
-
-  * Does anyone apart from myself have additional uses for aliases that
-    should be considered in the evaluation of the feature?
-
-  * -chardev: I have patches that QAPIfy the option based on aliases,
-    getting rid of the old handwritten parser that is inconsistent with
-    QMP in non-obvious ways and replacing it with translation to QMP
-    (both using aliases and a little C code) that makes the differences
-    obvious.
-
-    First posted in November 2020, more details in the cover letter:
-    https://patchew.org/QEMU/20201112175905.404472-1-kwolf@redhat.com/
-
-    Later versions (not yet posted as a series because I'm waiting for
-    aliases) also make -chardev accept JSON syntax, which is what
-    libvirt really wants to use.
-
-  * Came up during the discussion of the patches:
-    Maybe we should actually start defining some command line options in
-    the schema now, even if many options will still have to defer to the
-    old parsing code. But it would be a start, could set an example for
-    any new options and provides a clear path to incrementally convert
-    everything. If we don't even start, we're sure to never finish it.
-
-* -object: First part is done, we have a full QAPI schema of all
-  user-creatable objects. object-add and --object in tools go through
-  pure QAPI paths. System emulator -object is still based on QemuOpts
-  because of compatibility concerns with list hacks (affects one single
-  property of one object), but JSON syntax has been added that goes
-  straight to QAPI.
-
-  Next part is actual integration of QOM with QAPI so that the
-  configuration isn't duplicated between QOM code and the schema, but
-  user-creatable QOM classes are defined and QOM boilerplate is
-  generated from the schema. I've started looking into this, but still
-  in an early stage.
-
-* -device/device-add: This is in a terrible state all around. Even QMP
-  device-add is based on QemuOpts, and libvirt makes use of this by
-  passes everything as strings instead of the proper types.
-
-  Peter Krempa is working on using the proper types in libvirt.
-
-  I sent patches to at least add a JSON variant for the command line
-  option -device which is a non-QemuOpts code path. It also tried to fix
-  device-add to be type safe, but until libvirt is fixed, we must stay
-  bug compatible. So for this and other reasons this is not ready yet
-  and needs a v2.
-  https://patchew.org/QEMU/20210924090427.9218-1-kwolf@redhat.com/
-
-  Full QAPIfication with a schema and introspection will still take a
-  while. The QOM/QAPI integration work mentioned above is a dependency
-  there. A schema like for object-add, with a big union of all possible
-  devices, just doesn't scale.
-
-  Having JSON CLI and a non-QemuOpts QMP command allow us to make the
-  traditional syntax unstable (HMP-like support) and should be very
-  helpful when we eventually do get to do proper QAPIfication.
-
-  * Should we have a general rule that for command line options that
-    accept both JSON and a human format, only JSON is considered a
-    stable API and the human format works more like HMP?
-
-Also one non-technical topic that may or may not be worth discussing:
-
-* Patches to QAPI tend to take a long time to be merged (or rejected).
-  This is understandable as a lot of things are going on and QAPI is an
-  external interface with compatibility promises, so we need to be
-  careful. Can we still still do anything to improve the situation? For
-  example, can the load be spread across more people?
-
-Kevin
+>  int qemu_get_thread_id(void)
+>  {
+> @@ -438,10 +447,13 @@ const char *qemu_get_exec_dir(void)
+>  static void sigbus_handler(int signal)
+>  {
+>      int i;
+> -    if (memset_thread) {
+> -        for (i = 0; i < memset_num_threads; i++) {
+> -            if (qemu_thread_is_self(&memset_thread[i].pgthread)) {
+> -                siglongjmp(memset_thread[i].env, 1);
+> +
+> +    if (sigbus_memset_context) {
+> +        for (i = 0; i < sigbus_memset_context->num_threads; i++) {
+> +            MemsetThread *thread = &sigbus_memset_context->threads[i];
+> +
+> +            if (qemu_thread_is_self(&thread->pgthread)) {
+> +                siglongjmp(thread->env, 1);
+>              }
+>          }
+>      }
+> @@ -459,7 +471,7 @@ static void *do_touch_pages(void *arg)
+>       * clearing until all threads have been created.
+>       */
+>      qemu_mutex_lock(&page_mutex);
+> -    while(!threads_created_flag){
+> +    while (!memset_args->context->all_threads_created) {
+>          qemu_cond_wait(&page_cond, &page_mutex);
+>      }
+>      qemu_mutex_unlock(&page_mutex);
+> @@ -502,7 +514,7 @@ static void *do_madv_populate_write_pages(void *arg)
+>  
+>      /* See do_touch_pages(). */
+>      qemu_mutex_lock(&page_mutex);
+> -    while (!threads_created_flag) {
+> +    while (!memset_args->context->all_threads_created) {
+>          qemu_cond_wait(&page_cond, &page_mutex);
+>      }
+>      qemu_mutex_unlock(&page_mutex);
+> @@ -529,6 +541,9 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+>                             int smp_cpus, bool use_madv_populate_write)
+>  {
+>      static gsize initialized = 0;
+> +    MemsetContext context = {
+> +        .num_threads = get_memset_num_threads(smp_cpus),
+> +    };
+>      size_t numpages_per_thread, leftover;
+>      void *(*touch_fn)(void *);
+>      int ret = 0, i = 0;
+> @@ -546,35 +561,41 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+>          touch_fn = do_touch_pages;
+>      }
+>  
+> -    threads_created_flag = false;
+> -    memset_num_threads = get_memset_num_threads(smp_cpus);
+> -    memset_thread = g_new0(MemsetThread, memset_num_threads);
+> -    numpages_per_thread = numpages / memset_num_threads;
+> -    leftover = numpages % memset_num_threads;
+> -    for (i = 0; i < memset_num_threads; i++) {
+> -        memset_thread[i].addr = addr;
+> -        memset_thread[i].numpages = numpages_per_thread + (i < leftover);
+> -        memset_thread[i].hpagesize = hpagesize;
+> -        qemu_thread_create(&memset_thread[i].pgthread, "touch_pages",
+> -                           touch_fn, &memset_thread[i],
+> +    context.threads = g_new0(MemsetThread, context.num_threads);
+> +    numpages_per_thread = numpages / context.num_threads;
+> +    leftover = numpages % context.num_threads;
+> +    for (i = 0; i < context.num_threads; i++) {
+> +        context.threads[i].addr = addr;
+> +        context.threads[i].numpages = numpages_per_thread + (i < leftover);
+> +        context.threads[i].hpagesize = hpagesize;
+> +        context.threads[i].context = &context;
+> +        qemu_thread_create(&context.threads[i].pgthread, "touch_pages",
+> +                           touch_fn, &context.threads[i],
+>                             QEMU_THREAD_JOINABLE);
+> -        addr += memset_thread[i].numpages * hpagesize;
+> +        addr += context.threads[i].numpages * hpagesize;
+> +    }
+> +
+> +    if (!use_madv_populate_write) {
+> +        sigbus_memset_context = &context;
+>      }
+>  
+>      qemu_mutex_lock(&page_mutex);
+> -    threads_created_flag = true;
+> +    context.all_threads_created = true;
+>      qemu_cond_broadcast(&page_cond);
+>      qemu_mutex_unlock(&page_mutex);
+>  
+> -    for (i = 0; i < memset_num_threads; i++) {
+> -        int tmp = (uintptr_t)qemu_thread_join(&memset_thread[i].pgthread);
+> +    for (i = 0; i < context.num_threads; i++) {
+> +        int tmp = (uintptr_t)qemu_thread_join(&context.threads[i].pgthread);
+>  
+>          if (tmp) {
+>              ret = tmp;
+>          }
+>      }
+> -    g_free(memset_thread);
+> -    memset_thread = NULL;
+> +
+> +    if (!use_madv_populate_write) {
+> +        sigbus_memset_context = NULL;
+> +    }
+> +    g_free(context.threads);
+>  
+>      return ret;
+>  }
+> -- 
+> 2.31.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
