@@ -2,56 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A8D424C2D
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 05:17:07 +0200 (CEST)
-Received: from localhost ([::1]:51266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002DA424C45
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Oct 2021 05:47:50 +0200 (CEST)
+Received: from localhost ([::1]:58250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYJu5-0000pm-Ug
-	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 23:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51534)
+	id 1mYKNp-0007EQ-Jl
+	for lists+qemu-devel@lfdr.de; Wed, 06 Oct 2021 23:47:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mYJlU-0004rh-CP; Wed, 06 Oct 2021 23:08:12 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2819)
+ id 1mYKL1-0005Yj-ER; Wed, 06 Oct 2021 23:44:55 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mYJlR-00018m-6W; Wed, 06 Oct 2021 23:08:12 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HPx3W5WKSzbcwt;
- Thu,  7 Oct 2021 11:03:35 +0800 (CST)
+ id 1mYKKy-00076q-On; Wed, 06 Oct 2021 23:44:55 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HPxxH0TX1z1DHHx;
+ Thu,  7 Oct 2021 11:43:15 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Thu, 7 Oct 2021 11:07:58 +0800
-Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ 15.1.2308.8; Thu, 7 Oct 2021 11:44:44 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Thu, 7 Oct 2021 11:07:57 +0800
-From: Yanan Wang <wangyanan55@huawei.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
- <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
- <imammedo@redhat.com>
-Subject: [PATCH v7 8/8] tests/data/acpi/virt: Update binary files for PPTT
-Date: Thu, 7 Oct 2021 11:07:46 +0800
-Message-ID: <20211007030746.10420-9-wangyanan55@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20211007030746.10420-1-wangyanan55@huawei.com>
-References: <20211007030746.10420-1-wangyanan55@huawei.com>
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.8; Thu, 7 Oct 2021 11:44:43 +0800
+Subject: Re: [PATCH v12 16/16] machine: Make smp_parse return a boolean
+To: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210929025816.21076-1-wangyanan55@huawei.com>
+ <20210929025816.21076-17-wangyanan55@huawei.com>
+ <0343d17f-bb46-a266-7ba4-20bdf30631d0@redhat.com>
+ <YVdCRYvRHIio6MZe@redhat.com>
+ <afa63e10-2999-4073-e440-a5d87fd6da49@redhat.com>
+ <87bl47ll9l.fsf@dusky.pond.sub.org>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <0c458d28-563a-1c12-3b9e-2fd86ae576a6@huawei.com>
+Date: Thu, 7 Oct 2021 11:44:42 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <87bl47ll9l.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+X-ClientProxiedBy: dggeme717-chm.china.huawei.com (10.1.199.113) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.964,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,128 +70,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, wanghaibin.wang@huawei.com,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, Eduardo
+ Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>, Pankaj
+ Gupta <pankaj.gupta.linux@gmail.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ wanghaibin.wang@huawei.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Run ./tests/data/acpi/rebuild-expected-aml.sh from build directory
-to update PPTT binary. Also empty bios-tables-test-allowed-diff.h.
 
-Disassembled output of the updated new files:
+On 2021/10/2 19:27, Markus Armbruster wrote:
+> Paolo Bonzini <pbonzini@redhat.com> writes:
+>
+>> On 01/10/21 19:15, Daniel P. Berrangé wrote:
+>>> On Fri, Oct 01, 2021 at 07:08:51PM +0200, Paolo Bonzini wrote:
+>>>> On 29/09/21 04:58, Yanan Wang wrote:
+>>>>> @@ -933,8 +935,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+>>>>>             return;
+>>>>>         }
+>>>>> -    smp_parse(ms, config, errp);
+>>>>> -    if (*errp) {
+>>>>> +    if (!smp_parse(ms, config, errp)) {
+>>>>>             qapi_free_SMPConfiguration(config);
+>>>>>         }
+>>>>>     }
+>>>>>
+>>>> This is actually a leak, so I'm replacing this patch with
+>>> This patch isn't adding a leak, as there's no change in
+>>> control flow / exit paths.  AFAICT, the leak was introduced
+>>> in patch 15 instead, so the code below shoudl be squashed
+>>> into that, and this patch left as-is.
+>> Yes, even better make it a separate patch and fix the conflict in patch
+>> 15.  But I'm still not sure of the wisdom of this patch.
+>>
+>> At this point smp_parse has exactly one caller and it doesn't care about
+>> the return value.  The "return a boolean" rule adds some complexity (and
+>> a possibility for things to be wrong/inconsistent) to the function for
+>> the benefit of the callers.
+> Yes, but returning something is only a minor burden.  It also makes
+> success vs. failure obvious at a glance.
+>
+> I'm not worrying about inconsistency anymore.  In a way, void functions
+> are an exception.  Many non-void functions return a distinct error value
+> on failure, like NULL.  The only kind of inconsistency I can remember
+> seeing in these functions is forgetting to set an error.  Can be screwed
+> up in a void function just as easily.
+>
+>>                               If there is only one caller, as is the case
+>> here or for virtual functions, the benefit can well be zero (this case)
+>> or negative (virtual functions).
+> Two small benefits here:
+>
+> 1. No need for ERRP_GUARD().
+>
+> 2. Conforms to the rules.  Rules are not laws, but let's stick to them
+> when it's as easy as it is here.
+>
+> For what it's worth, GLib always advised users of GError to return a
+> value.  We chose to deviate for our Error, then spent nine years
+> learning how that leads to cumbersome code, leading us to:
+>
+> commit e3fe3988d7851cac30abffae06d2f555ff7bee62
+> Author: Markus Armbruster <armbru@redhat.com>
+> Date:   Tue Jul 7 18:05:31 2020 +0200
+>
+>      error: Document Error API usage rules
+>      
+>      This merely codifies existing practice, with one exception: the rule
+>      advising against returning void, where existing practice is mixed.
+>      
+>      When the Error API was created, we adopted the (unwritten) rule to
+>      return void when the function returns no useful value on success,
+>      unlike GError, which recommends to return true on success and false on
+>      error then.
+>      
+>      When a function returns a distinct error value, say false, a checked
+>      call that passes the error up looks like
+>      
+>          if (!frobnicate(..., errp)) {
+>              handle the error...
+>          }
+>      
+>      When it returns void, we need
+>      
+>          Error *err = NULL;
+>      
+>          frobnicate(..., &err);
+>          if (err) {
+>              handle the error...
+>              error_propagate(errp, err);
+>          }
+>      
+>      Not only is this more verbose, it also creates an Error object even
+>      when @errp is null, &error_abort or &error_fatal.
+>      
+>      People got tired of the additional boilerplate, and started to ignore
+>      the unwritten rule.  The result is confusion among developers about
+>      the preferred usage.
+>      
+>      Make the rule advising against returning void official by putting it
+>      in writing.  This will hopefully reduce confusion.
+>      
+>      Update the examples accordingly.
+>      
+>      The remainder of this series will update a substantial amount of code
+>      to honor the rule.
+>      
+>      Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>      Reviewed-by: Eric Blake <eblake@redhat.com>
+>      Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>      Reviewed-by: Greg Kurz <groug@kaod.org>
+>      Message-Id: <20200707160613.848843-4-armbru@redhat.com>
+>      [Tweak prose as per advice from Eric]
+>
+Hi,
 
-/*
- * Intel ACPI Component Architecture
- * AML/ASL+ Disassembler version 20180810 (64-bit version)
- * Copyright (c) 2000 - 2018 Intel Corporation
- *
- * Disassembly of tests/data/acpi/virt/PPTT.pxb, Thu Oct  7 09:58:26 2021
- *
- * ACPI Data Table [PPTT]
- *
- * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
- */
+Thanks for the fix, Paolo!
 
-[000h 0000   4]                    Signature : "PPTT"    [Processor Properties Topology Table]
-[004h 0004   4]                 Table Length : 0000004C
-[008h 0008   1]                     Revision : 02
-[009h 0009   1]                     Checksum : A8
-[00Ah 0010   6]                       Oem ID : "BOCHS "
-[010h 0016   8]                 Oem Table ID : "BXPC    "
-[018h 0024   4]                 Oem Revision : 00000001
-[01Ch 0028   4]              Asl Compiler ID : "BXPC"
-[020h 0032   4]        Asl Compiler Revision : 00000001
+I notice that with Paolo's fix applied first and then Patch15 removing
+the sanity checks out, machine_set_smp() at last simply becomes:
 
-[024h 0036   1]                Subtable Type : 00 [Processor Hierarchy Node]
-[025h 0037   1]                       Length : 14
-[026h 0038   2]                     Reserved : 0000
-[028h 0040   4]        Flags (decoded below) : 00000001
-                            Physical package : 1
-                     ACPI Processor ID valid : 0
-[02Ch 0044   4]                       Parent : 00000000
-[030h 0048   4]            ACPI Processor ID : 00000000
-[034h 0052   4]      Private Resource Number : 00000000
+static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+                             void *opaque, Error **errp)
+{
+     MachineState *ms = MACHINE(obj);
+     g_autoptr(SMPConfiguration) config = NULL;
 
-[038h 0056   1]                Subtable Type : 00 [Processor Hierarchy Node]
-[039h 0057   1]                       Length : 14
-[03Ah 0058   2]                     Reserved : 0000
-[03Ch 0060   4]        Flags (decoded below) : 0000000A
-                            Physical package : 0
-                     ACPI Processor ID valid : 1
-[040h 0064   4]                       Parent : 00000024
-[044h 0068   4]            ACPI Processor ID : 00000000
-[048h 0072   4]      Private Resource Number : 00000000
+     if (!visit_type_SMPConfiguration(v, name, &config, errp)) {
+return;
+}
 
-Raw Table Data: Length 76 (0x4C)
+     smp_parse(ms, config, errp);
+}
 
-    0000: 50 50 54 54 4C 00 00 00 02 A8 42 4F 43 48 53 20  // PPTTL.....BOCHS
-    0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-    0020: 01 00 00 00 00 14 00 00 01 00 00 00 00 00 00 00  // ................
-    0030: 00 00 00 00 00 00 00 00 00 14 00 00 0A 00 00 00  // ................
-    0040: 24 00 00 00 00 00 00 00 00 00 00 00              // $...........
+It looks good currently, neither the returned boolean nor the errp needs to
+be checked here now, and smp_parse is only called here. So in this case,
+we may avoid the boolean until we need to use it and honor the rule. :）
 
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
----
- tests/data/acpi/virt/PPTT                   | Bin 0 -> 76 bytes
- tests/data/acpi/virt/PPTT.memhp             | Bin 0 -> 76 bytes
- tests/data/acpi/virt/PPTT.numamem           | Bin 0 -> 76 bytes
- tests/data/acpi/virt/PPTT.pxb               | Bin 0 -> 76 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
- 5 files changed, 4 deletions(-)
-
-diff --git a/tests/data/acpi/virt/PPTT b/tests/data/acpi/virt/PPTT
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7a1258ecf123555b24462c98ccbb76b4ac1d0c2b 100644
-GIT binary patch
-literal 76
-zcmV-S0JHy4P*hY*00002s6tOeNK+s}SWrVCARr(C0000&SWrU&000006aWAL00000
-i0000000000000006aWAU0000a00000000000001^0tW#A
-
-literal 0
-KcmV+b0RR6000031
-
-diff --git a/tests/data/acpi/virt/PPTT.memhp b/tests/data/acpi/virt/PPTT.memhp
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7a1258ecf123555b24462c98ccbb76b4ac1d0c2b 100644
-GIT binary patch
-literal 76
-zcmV-S0JHy4P*hY*00002s6tOeNK+s}SWrVCARr(C0000&SWrU&000006aWAL00000
-i0000000000000006aWAU0000a00000000000001^0tW#A
-
-literal 0
-KcmV+b0RR6000031
-
-diff --git a/tests/data/acpi/virt/PPTT.numamem b/tests/data/acpi/virt/PPTT.numamem
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7a1258ecf123555b24462c98ccbb76b4ac1d0c2b 100644
-GIT binary patch
-literal 76
-zcmV-S0JHy4P*hY*00002s6tOeNK+s}SWrVCARr(C0000&SWrU&000006aWAL00000
-i0000000000000006aWAU0000a00000000000001^0tW#A
-
-literal 0
-KcmV+b0RR6000031
-
-diff --git a/tests/data/acpi/virt/PPTT.pxb b/tests/data/acpi/virt/PPTT.pxb
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7a1258ecf123555b24462c98ccbb76b4ac1d0c2b 100644
-GIT binary patch
-literal 76
-zcmV-S0JHy4P*hY*00002s6tOeNK+s}SWrVCARr(C0000&SWrU&000006aWAL00000
-i0000000000000006aWAU0000a00000000000001^0tW#A
-
-literal 0
-KcmV+b0RR6000031
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 4b365aa46b..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,5 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/PPTT",
--"tests/data/acpi/virt/PPTT.memhp",
--"tests/data/acpi/virt/PPTT.numamem",
--"tests/data/acpi/virt/PPTT.pxb",
--- 
-2.19.1
+Thanks,
+Yanan
 
 
