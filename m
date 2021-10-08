@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68990426BEC
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 15:48:08 +0200 (CEST)
-Received: from localhost ([::1]:37336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A531C426BD4
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 15:39:27 +0200 (CEST)
+Received: from localhost ([::1]:46832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYqEH-00015M-F6
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 09:48:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46730)
+	id 1mYq5u-0005AE-NX
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 09:39:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYq3d-0002Dt-MN
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:37:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28460)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYq3E-0001Wr-4V
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:36:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYq3b-0002S0-HW
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:37:04 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYq3B-000131-8n
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:36:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633700222;
+ s=mimecast20190719; t=1633700195;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=codMzKXiJWIIVqlPlfb1TvkiHXqb8YDcX0IZ7i+za1c=;
- b=DOSNTjbRZlcWzNRqIkhdHVDStMqwWkMNHNVZULYj1OHoRUPWPbBV4eIplcgYA3A3mGT8GX
- cBGh/HygCdMTuQmAehnnA88YFxhKynA8b1oijypeXxbRK9tzsaH+rGU0wHHtXFQQsjk2/Y
- av8JI/kc3M17U956ePqQ5B4k41CifDM=
+ bh=dpF8PWXRg9BQq46sQasqGh8bAJI1EYP9auU70H1nmco=;
+ b=Np9t9KRDudZD5H7Yta+9zPRyPBuCkmOykBtg0MUcQXadhtosutdK+Fq7YQL6uXJ3Ol4FNJ
+ vtuAjDjMzaVyVZhRzFrDOgM7Fdfq7QwHXmzeRFAk+tr1WKrt3FV36qQfyF+JZNaorkhRFZ
+ F3Jp/6kEBwKX8DsVDvdNqrTo8nG4Tw4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-wFqoLe4jPP6KSEkA8TDTUw-1; Fri, 08 Oct 2021 09:36:51 -0400
-X-MC-Unique: wFqoLe4jPP6KSEkA8TDTUw-1
+ us-mta-465-QhFB5yUbP-qSlXErwe-6-w-1; Fri, 08 Oct 2021 09:36:34 -0400
+X-MC-Unique: QhFB5yUbP-qSlXErwe-6-w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2C6818B4488;
- Fri,  8 Oct 2021 13:35:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 326DB8D6926;
+ Fri,  8 Oct 2021 13:35:22 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.204])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99B4E19729;
- Fri,  8 Oct 2021 13:35:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3444419724;
+ Fri,  8 Oct 2021 13:35:19 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/15] iotests/245: Fix type for iothread property
-Date: Fri,  8 Oct 2021 15:34:32 +0200
-Message-Id: <20211008133442.141332-6-kwolf@redhat.com>
+Subject: [PATCH v2 06/15] iotests/051: Fix typo
+Date: Fri,  8 Oct 2021 15:34:33 +0200
+Message-Id: <20211008133442.141332-7-kwolf@redhat.com>
 In-Reply-To: <20211008133442.141332-1-kwolf@redhat.com>
 References: <20211008133442.141332-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,13 +55,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.051, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.051,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,32 +84,46 @@ Cc: kwolf@redhat.com, damien.hedde@greensocs.com, pkrempa@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-iothread is a string property, so None (= JSON null) is not a valid
-value for it. Pass the empty string instead to get the default iothread.
+The iothread isn't called 'iothread0', but 'thread0'. Depending on the
+order that properties are parsed, the error message may change from the
+expected one to another one saying that the iothread doesn't exist.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/245 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/051        | 2 +-
+ tests/qemu-iotests/051.pc.out | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index bf8261eec0..9b12b42eed 100755
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -1189,10 +1189,10 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.run_test_iothreads('iothread0', 'iothread0')
+diff --git a/tests/qemu-iotests/051 b/tests/qemu-iotests/051
+index 7bf29343d7..1d2fa93a11 100755
+--- a/tests/qemu-iotests/051
++++ b/tests/qemu-iotests/051
+@@ -199,7 +199,7 @@ case "$QEMU_DEFAULT_MACHINE" in
+         # virtio-blk enables the iothread only when the driver initialises the
+         # device, so a second virtio-blk device can't be added even with the
+         # same iothread. virtio-scsi allows this.
+-        run_qemu $iothread -device virtio-blk-pci,drive=disk,iothread=iothread0,share-rw=on
++        run_qemu $iothread -device virtio-blk-pci,drive=disk,iothread=thread0,share-rw=on
+         run_qemu $iothread -device virtio-scsi,id=virtio-scsi1,iothread=thread0 -device scsi-hd,bus=virtio-scsi1.0,drive=disk,share-rw=on
+         ;;
+      *)
+diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.out
+index afe7632964..063e4fc584 100644
+--- a/tests/qemu-iotests/051.pc.out
++++ b/tests/qemu-iotests/051.pc.out
+@@ -183,9 +183,9 @@ Testing: -drive file=TEST_DIR/t.qcow2,if=none,node-name=disk -object iothread,id
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) QEMU_PROG: -device scsi-hd,bus=virtio-scsi1.0,drive=disk,share-rw=on: Cannot change iothread of active block backend
  
-     def test_iothreads_switch_backing(self):
--        self.run_test_iothreads('iothread0', None)
-+        self.run_test_iothreads('iothread0', '')
+-Testing: -drive file=TEST_DIR/t.qcow2,if=none,node-name=disk -object iothread,id=thread0 -device virtio-scsi,iothread=thread0,id=virtio-scsi0 -device scsi-hd,bus=virtio-scsi0.0,drive=disk,share-rw=on -device virtio-blk-pci,drive=disk,iothread=iothread0,share-rw=on
++Testing: -drive file=TEST_DIR/t.qcow2,if=none,node-name=disk -object iothread,id=thread0 -device virtio-scsi,iothread=thread0,id=virtio-scsi0 -device scsi-hd,bus=virtio-scsi0.0,drive=disk,share-rw=on -device virtio-blk-pci,drive=disk,iothread=thread0,share-rw=on
+ QEMU X.Y.Z monitor - type 'help' for more information
+-(qemu) QEMU_PROG: -device virtio-blk-pci,drive=disk,iothread=iothread0,share-rw=on: Cannot change iothread of active block backend
++(qemu) QEMU_PROG: -device virtio-blk-pci,drive=disk,iothread=thread0,share-rw=on: Cannot change iothread of active block backend
  
-     def test_iothreads_switch_overlay(self):
--        self.run_test_iothreads(None, 'iothread0')
-+        self.run_test_iothreads('', 'iothread0')
- 
- if __name__ == '__main__':
-     iotests.activate_logging()
+ Testing: -drive file=TEST_DIR/t.qcow2,if=none,node-name=disk -object iothread,id=thread0 -device virtio-scsi,iothread=thread0,id=virtio-scsi0 -device scsi-hd,bus=virtio-scsi0.0,drive=disk,share-rw=on -device virtio-scsi,id=virtio-scsi1,iothread=thread0 -device scsi-hd,bus=virtio-scsi1.0,drive=disk,share-rw=on
+ QEMU X.Y.Z monitor - type 'help' for more information
 -- 
 2.31.1
 
