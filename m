@@ -2,67 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 649D1426C1B
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 15:54:40 +0200 (CEST)
-Received: from localhost ([::1]:59026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C515426C11
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 15:53:44 +0200 (CEST)
+Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYqKd-0007Ei-Fw
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 09:54:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47116)
+	id 1mYqJj-00050e-Gh
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 09:53:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYq53-0005e5-Ms
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:38:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35537)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mYqIG-0002mb-IN
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:52:12 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYq51-00080s-R2
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:38:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633700311;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=46+HggZvA8el5Zm0rXyn2M+7aEiaAhUzmoPk0W1vD9w=;
- b=H9AdnIv0gXSBBHcPGzi8lACt0PjTyuoNhIe1l3naJ8HI91cVGUPsfT2gBPpTCWTk1jqcVc
- t/N36Ijs/EBVB9hJl4a2FffRf9/nqCiVBg9YgN4KDXrpAeXOZXZwvWJFmNE0mdi95OzBAt
- bV4gbZTbuwGDblgE36saKwIjE0jmrzY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-2eXdS-lhNpSMLB7srARNew-1; Fri, 08 Oct 2021 09:38:30 -0400
-X-MC-Unique: 2eXdS-lhNpSMLB7srARNew-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5C6B8F9A95;
- Fri,  8 Oct 2021 13:37:10 +0000 (UTC)
-Received: from merkur.redhat.com (unknown [10.39.193.204])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D59E519724;
- Fri,  8 Oct 2021 13:37:07 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/15] vl: Enable JSON syntax for -device
-Date: Fri,  8 Oct 2021 15:34:42 +0200
-Message-Id: <20211008133442.141332-16-kwolf@redhat.com>
-In-Reply-To: <20211008133442.141332-1-kwolf@redhat.com>
-References: <20211008133442.141332-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mYqIE-0006eb-68
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:52:12 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 198DcrWE006278; 
+ Fri, 8 Oct 2021 09:52:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=K567I+7jxfCQg2Gkz57JmtngrImX/7p0SSN0LwX1PsY=;
+ b=a1oGPW7Tph2T8irdRKGDJNX5WAfkv0qTjsyMPbxnAkE+UO0dAurNNwxi9a77Hk69sS2u
+ E7CZiyGUXPk3dYyIrYP0OPLKyLkAHaVb7yngCLFw7+TE1BLmLxjgizfGNnx7giBh0xWO
+ 6ys36j3ipuncbJrj/Z6oq4MggZUm0Gs85scWgqhJzE20Ql2f46mRLDEAwu8Lc/JQpB2n
+ a0/AEFUIipOlg4GoUaKxbrY5CMNkRF0pp7OJL79GViQDUq2SOi3w1B10bosZiZb+sh6X
+ ds7k3rG6UAeo3/QatZI8b68R2DdA7+0N1ZaLQRa4l91NLMWQXiru7O2pnro5yC8/BawJ Yg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bjk0epb2y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Oct 2021 09:52:06 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 198DmoaK013412;
+ Fri, 8 Oct 2021 09:52:06 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bjk0epb2a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Oct 2021 09:52:06 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 198DgGxr028375;
+ Fri, 8 Oct 2021 13:52:04 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3bhepdc0sc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Oct 2021 13:52:04 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 198DkXdF50987514
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 8 Oct 2021 13:46:33 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 48045A405F;
+ Fri,  8 Oct 2021 13:52:00 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2776EA4062;
+ Fri,  8 Oct 2021 13:51:59 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.45.119])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri,  8 Oct 2021 13:51:59 +0000 (GMT)
+Date: Fri, 8 Oct 2021 15:51:56 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 1/1] virtio: write back F_VERSION_1 before validate
+Message-ID: <20211008155156.626e78b5.pasic@linux.ibm.com>
+In-Reply-To: <20211008085839-mutt-send-email-mst@kernel.org>
+References: <20211008123422.1415577-1-pasic@linux.ibm.com>
+ <20211008085839-mutt-send-email-mst@kernel.org>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: AwLL2TwiE5bb7sR5YjTQOfnp3HJWl-Nz
+X-Proofpoint-ORIG-GUID: pXbbnkG0k_9qzQg33cFNFi_GxeNjjWsS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-10-08_03,2021-10-07_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 clxscore=1015
+ malwarescore=0 spamscore=0 priorityscore=1501 mlxscore=0 adultscore=0
+ bulkscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2110080081
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.051,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,202 +113,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, damien.hedde@greensocs.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- mst@redhat.com, libvir-list@redhat.com, jasowang@redhat.com,
- quintela@redhat.com, armbru@redhat.com, vsementsov@virtuozzo.com,
- lvivier@redhat.com, its@irrelevant.dk, pbonzini@redhat.com, eblake@redhat.com
+Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, Halil Pasic <pasic@linux.ibm.com>,
+ Xie Yongji <xieyongji@bytedance.com>, stefanha@redhat.com,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like we already do for -object, introduce support for JSON syntax in
--device, which can be kept stable in the long term and guarantees that a
-single code path with identical behaviour is used for both QMP and the
-command line. Compared to the QemuOpts based code, the parser contains
-less surprises and has support for non-scalar options (lists and
-structs). Switching management tools to JSON means that we can more
-easily change the "human" CLI syntax from QemuOpts to the keyval parser
-later.
+On Fri, 8 Oct 2021 09:05:03 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-In the QAPI schema, a feature flag is added to the device-add command to
-allow management tools to detect support for this.
+> On Fri, Oct 08, 2021 at 02:34:22PM +0200, Halil Pasic wrote:
+> > The virtio specification virtio-v1.1-cs01 states: "Transitional devices
+> > MUST detect Legacy drivers by detecting that VIRTIO_F_VERSION_1 has not
+> > been acknowledged by the driver."  This is exactly what QEMU as of 6.1
+> > has done relying solely on VIRTIO_F_VERSION_1 for detecting that.
+> > 
+> > However, the specification also says: "... the driver MAY read (but MUST
+> > NOT write) the device-specific configuration fields to check that it can
+> > support the device ..." before setting FEATURES_OK.
+> > 
+> > In that case, any transitional device relying solely on
+> > VIRTIO_F_VERSION_1 for detecting legacy drivers will return data in
+> > legacy format.  In particular, this implies that it is in big endian
+> > format for big endian guests. This naturally confuses the driver which
+> > expects little endian in the modern mode.
+> > 
+> > It is probably a good idea to amend the spec to clarify that
+> > VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
+> > is complete. However, we already have a regression so let's try to address  
+> 
+> actually, regressions. and we can add 
+> "since originally before validate callback existed
+> config space was only read after
+> FEATURES_OK. See Fixes tags for relevant commits"
+> 
+> > it.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- qapi/qdev.json | 15 ++++++++----
- softmmu/vl.c   | 63 ++++++++++++++++++++++++++++++++++++++++++++------
- 2 files changed, 67 insertions(+), 11 deletions(-)
+How about replacing the paragraph above with the following?
 
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index d75e68908b..69656b14df 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -32,17 +32,23 @@
- ##
- # @device_add:
- #
-+# Add a device.
-+#
- # @driver: the name of the new device's driver
- #
- # @bus: the device's parent bus (device tree path)
- #
- # @id: the device's ID, must be unique
- #
--# Additional arguments depend on the type.
--#
--# Add a device.
-+# Features:
-+# @json-cli: If present, the "-device" command line option supports JSON
-+#            syntax with a structure identical to the arguments of this
-+#            command.
- #
- # Notes:
-+#
-+# Additional arguments depend on the type.
-+#
- # 1. For detailed information about this command, please refer to the
- #    'docs/qdev-device-use.txt' file.
- #
-@@ -67,7 +73,8 @@
- ##
- { 'command': 'device_add',
-   'data': {'driver': 'str', '*bus': 'str', '*id': 'str'},
--  'gen': false } # so we can get the additional arguments
-+  'gen': false, # so we can get the additional arguments
-+  'features': ['json-cli'] }
- 
- ##
- # @device_del:
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 55ab70eb97..af0c4cbd99 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -144,6 +144,12 @@ typedef struct ObjectOption {
-     QTAILQ_ENTRY(ObjectOption) next;
- } ObjectOption;
- 
-+typedef struct DeviceOption {
-+    QDict *opts;
-+    Location loc;
-+    QTAILQ_ENTRY(DeviceOption) next;
-+} DeviceOption;
-+
- static const char *cpu_option;
- static const char *mem_path;
- static const char *incoming;
-@@ -151,6 +157,7 @@ static const char *loadvm;
- static const char *accelerators;
- static QDict *machine_opts_dict;
- static QTAILQ_HEAD(, ObjectOption) object_opts = QTAILQ_HEAD_INITIALIZER(object_opts);
-+static QTAILQ_HEAD(, DeviceOption) device_opts = QTAILQ_HEAD_INITIALIZER(device_opts);
- static ram_addr_t maxram_size;
- static uint64_t ram_slots;
- static int display_remote;
-@@ -494,21 +501,39 @@ const char *qemu_get_vm_name(void)
-     return qemu_name;
- }
- 
--static int default_driver_check(void *opaque, QemuOpts *opts, Error **errp)
-+static void default_driver_disable(const char *driver)
- {
--    const char *driver = qemu_opt_get(opts, "driver");
-     int i;
- 
--    if (!driver)
--        return 0;
-+    if (!driver) {
-+        return;
-+    }
-+
-     for (i = 0; i < ARRAY_SIZE(default_list); i++) {
-         if (strcmp(default_list[i].driver, driver) != 0)
-             continue;
-         *(default_list[i].flag) = 0;
-     }
-+}
-+
-+static int default_driver_check(void *opaque, QemuOpts *opts, Error **errp)
-+{
-+    const char *driver = qemu_opt_get(opts, "driver");
-+
-+    default_driver_disable(driver);
-     return 0;
- }
- 
-+static void default_driver_check_json(void)
-+{
-+    DeviceOption *opt;
-+
-+    QTAILQ_FOREACH(opt, &device_opts, next) {
-+        const char *driver = qdict_get_try_str(opt->opts, "driver");
-+        default_driver_disable(driver);
-+    }
-+}
-+
- static int parse_name(void *opaque, QemuOpts *opts, Error **errp)
- {
-     const char *proc_name;
-@@ -1311,6 +1336,7 @@ static void qemu_disable_default_devices(void)
- {
-     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
- 
-+    default_driver_check_json();
-     qemu_opts_foreach(qemu_find_opts("device"),
-                       default_driver_check, NULL, NULL);
-     qemu_opts_foreach(qemu_find_opts("global"),
-@@ -2637,6 +2663,8 @@ static void qemu_init_board(void)
- 
- static void qemu_create_cli_devices(void)
- {
-+    DeviceOption *opt;
-+
-     soundhw_init();
- 
-     qemu_opts_foreach(qemu_find_opts("fw_cfg"),
-@@ -2652,6 +2680,18 @@ static void qemu_create_cli_devices(void)
-     rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
-     qemu_opts_foreach(qemu_find_opts("device"),
-                       device_init_func, NULL, &error_fatal);
-+    QTAILQ_FOREACH(opt, &device_opts, next) {
-+        loc_push_restore(&opt->loc);
-+        /*
-+         * TODO Eventually we should call qmp_device_add() here to make sure it
-+         * behaves the same, but QMP still has to accept incorrectly typed
-+         * options until libvirt is fixed and we want to be strict on the CLI
-+         * from the start, so call qdev_device_add_from_qdict() directly for
-+         * now.
-+         */
-+        qdev_device_add_from_qdict(opt->opts, true, &error_fatal);
-+        loc_pop(&opt->loc);
-+    }
-     rom_reset_order_override();
- }
- 
-@@ -3352,9 +3392,18 @@ void qemu_init(int argc, char **argv, char **envp)
-                 add_device_config(DEV_USB, optarg);
-                 break;
-             case QEMU_OPTION_device:
--                if (!qemu_opts_parse_noisily(qemu_find_opts("device"),
--                                             optarg, true)) {
--                    exit(1);
-+                if (optarg[0] == '{') {
-+                    QObject *obj = qobject_from_json(optarg, &error_fatal);
-+                    DeviceOption *opt = g_new0(DeviceOption, 1);
-+                    opt->opts = qobject_to(QDict, obj);
-+                    loc_save(&opt->loc);
-+                    assert(opt->opts != NULL);
-+                    QTAILQ_INSERT_TAIL(&device_opts, opt, next);
-+                } else {
-+                    if (!qemu_opts_parse_noisily(qemu_find_opts("device"),
-+                                                 optarg, true)) {
-+                        exit(1);
-+                    }
-                 }
-                 break;
-             case QEMU_OPTION_smp:
--- 
-2.31.1
+"It is probably a good idea to amend the spec to clarify that
+VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
+is complete. Before validate callback existed, config space was only
+read after FEATURES_OK. However, we already have two regression, so
+let's address this here as well."
+> > 
+> > The regressions affect the VIRTIO_NET_F_MTU feature of virtio-net and
+> > the VIRTIO_BLK_F_BLK_SIZE feature of virtio-blk for BE guests when
+> > virtio 1.0 is used on both sides. The latter renders virtio-blk
+> > unusable with DASD backing, because things simply don't work with
+> > the default.  
+
+and add 
+"See Fixes tags for relevant commits."
+here.
+> 
+> Let's add a work around description now:
+> 
+> 
+> For QEMU, we can work around the issue by writing out the features
+> register with VIRTIO_F_VERSION_1 bit set.  We (ab) use the
+s/features register/feature bits/
+rationale: ccw does not have a features register, and qemu does not
+really act as if its behavior was controlled by the values in a features
+register. I.e. when we read the register we see VIRTIO_F_VERSION_!
+because the feature is offered. In QEMU we basically read host_featues
+but write the guest_features. And what drives device behavior is mostly
+guest_features. 
+
+s/(ab) use/(ab)use/
+
+> finalize_features config op for this. It's not enough to address vhost
+
+s/It's/This is/
+
+> user and vhost block devices since these do not get the features until
+
+s/vhost user and vhost block/some vhost-user and vhost-vdpa/ ?
+
+Ratioale: I think vhost block is just a vhost-user device. On the other
+hand vhost-user-fs works like charm because the config space is
+implemented in qemu and not in the vhost-user device. I
+didn't check vhost_net. I'm not even sure qemu offers a vhost_net
+implementation. Anyway I wouldn't like to make any false statements here.
+
+> FEATURES_OK, however it looks like these two actually never handled the
+> endian-ness for legacy mode correctly, so at least that's not a
+> regression.
+> 
+> No devices except virtio net and virtio blk seem to be affected.
+> 
+> Long term the right thing to do is to fix the hypervisors.
+> 
+
+Sounds good. Thanks! Are you OK with my changes proposed to your changes?
+
+Regards,
+Halil
+> 
+> > 
+> > Cc: <stable@vger.kernel.org> #v4.11
+> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> > Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in
+> > config space") Fixes: fe36cbe0671e ("virtio_net: clear MTU when out
+> > of range") Reported-by: markver@us.ibm.com
+> > ---
+> >  drivers/virtio/virtio.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+> > index 0a5b54034d4b..236081afe9a2 100644
+> > --- a/drivers/virtio/virtio.c
+> > +++ b/drivers/virtio/virtio.c
+> > @@ -239,6 +239,17 @@ static int virtio_dev_probe(struct device *_d)
+> >  		driver_features_legacy = driver_features;
+> >  	}
+> >  
+> > +	/*
+> > +	 * Some devices detect legacy solely via F_VERSION_1. Write
+> > +	 * F_VERSION_1 to force LE config space accesses before
+> > FEATURES_OK for
+> > +	 * these when needed.
+> > +	 */
+> > +	if (drv->validate && !virtio_legacy_is_little_endian()
+> > +			  && device_features &
+> > BIT_ULL(VIRTIO_F_VERSION_1)) {
+> > +		dev->features = BIT_ULL(VIRTIO_F_VERSION_1);
+> > +		dev->config->finalize_features(dev);
+> > +	}
+> > +
+> >  	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
+> >  		dev->features = driver_features & device_features;
+> >  	else
+> > 
+> > base-commit: 60a9483534ed0d99090a2ee1d4bb0b8179195f51
+> > -- 
+> > 2.25.1  
+> 
 
 
