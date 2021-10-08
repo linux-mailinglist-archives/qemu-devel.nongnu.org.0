@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43504261A4
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 03:22:06 +0200 (CEST)
-Received: from localhost ([::1]:48882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B37426202
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 03:27:55 +0200 (CEST)
+Received: from localhost ([::1]:52690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYeaL-0002go-QK
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 21:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55896)
+	id 1mYefy-0005TI-BA
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 21:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mYeZA-0001wY-60
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 21:20:52 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:40929)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mYeZ8-0003yV-OW
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 21:20:51 -0400
-Received: by mail-pf1-x436.google.com with SMTP id o133so547069pfg.7
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 18:20:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=YHyAVA1tkLvC54KAK4bvHf1EF4ZQJFDd98l0i2A6s+k=;
- b=Nyux0zd7NLOK2L0IjzYeMZabNP3Iz5ku3u7VbjFdnov7XmBUpye5eYc73we62hPuy0
- EhyKEEznG/yDL9/KoizdN3nEKJugPwwFVdKQCS1zrqP2bv05bE2VIBs2ULs0uIWDx2DX
- Wf0XZLL6XMtHwxjKV+2hQVHqkcsZ6Yyid47vqCqKt0fTlOmkAc3SV0VoeoWztypdI7NC
- nL/Rw9s6piESYgiXb2aKN5tYydmQpk7kFm9en7ZcXBHtNzvvVL4+2WmjFQ1wrvNwtymU
- vVhGzXeaBHY00BLM7ZmfKQ/QPJMPv5+4ZoWIG6wvheZIkYjA2macpRRgDbqKlN3jDQlk
- +6sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=YHyAVA1tkLvC54KAK4bvHf1EF4ZQJFDd98l0i2A6s+k=;
- b=TvWvpDFsFLvGzSffdAWWMaz8HQATIR9p7AJ6TOJbtFvaAnkeHnx01NEXzc7tWWD+yb
- 64uS3hqvrQP7rWxbm1C76ab6pe7azmdGhUggGDyxHbVT5Jbr9ooeVeHG1petKAwYq2Ac
- MVzXNIQXHUi5NcWjfohEiUBHMroO+AxVZ9j0pbsiXUQeqIhdPAaVFEyy0iKvbIrAVCYO
- ud1f9MJ6pEzJtvO9bO97vbFgynjY5RgNxoJkpuGcrUcfzldLzKMT8nQd0CgMNoB4z6J9
- w7j7BdJAqR87P6wqxIuPmK9OIZyZTcVbNFHxqEVP61cBFliksRG+oNB6IMVBrVDqARVX
- QdlA==
-X-Gm-Message-State: AOAM532ZZ5ebSYrxuY0hcjnCWRsvJoLGzv1URUOEn7Lkbaon3LhKlLD6
- d6pLq8SJTmveqpIMXbWGhhmdfw==
-X-Google-Smtp-Source: ABdhPJz6Bls6gjPhKHjexNHKM72BZapASUek74O736Dm9oxcj+7WrR9XWC/R1aFk4HsXFI4e2/BXlw==
-X-Received: by 2002:a65:44c4:: with SMTP id g4mr2399369pgs.254.1633656049135; 
- Thu, 07 Oct 2021 18:20:49 -0700 (PDT)
-Received: from anisinha-lenovo ([203.212.240.146])
- by smtp.googlemail.com with ESMTPSA id i2sm6428764pjg.48.2021.10.07.18.20.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 18:20:48 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Fri, 8 Oct 2021 06:50:42 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v7 02/10] ACPI ERST: PCI device_id for ERST
-In-Reply-To: <1633626876-12115-3-git-send-email-eric.devolder@oracle.com>
-Message-ID: <alpine.DEB.2.22.394.2110080650280.820442@anisinha-lenovo>
-References: <1633626876-12115-1-git-send-email-eric.devolder@oracle.com>
- <1633626876-12115-3-git-send-email-eric.devolder@oracle.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mYef4-0004j6-TX
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 21:26:58 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2877)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mYef0-0002tW-PU
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 21:26:58 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HQVqb4dRZz1DHQt;
+ Fri,  8 Oct 2021 09:25:15 +0800 (CST)
+Received: from dggpemm100011.china.huawei.com (7.185.36.112) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Fri, 8 Oct 2021 09:26:45 +0800
+Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
+ dggpemm100011.china.huawei.com (7.185.36.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Fri, 8 Oct 2021 09:26:45 +0800
+Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
+ dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.008;
+ Fri, 8 Oct 2021 09:26:45 +0800
+From: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: RE: [PATCH v3 7/9] vfio: add infrastructure to commit the deferred
+ kvm routing
+Thread-Topic: [PATCH v3 7/9] vfio: add infrastructure to commit the deferred
+ kvm routing
+Thread-Index: AQHXrnOMPSigY+pQpkiHLIe464yflKu+TmOAgAoVKTA=
+Date: Fri, 8 Oct 2021 01:26:45 +0000
+Message-ID: <8f33cf0934b04b1d9d95d8868509c4d2@huawei.com>
+References: <20210920230202.1439-1-longpeng2@huawei.com>
+ <20210920230202.1439-8-longpeng2@huawei.com>
+ <20211001170435.36024305.alex.williamson@redhat.com>
+In-Reply-To: <20211001170435.36024305.alex.williamson@redhat.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.148.223]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::436;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255; envelope-from=longpeng2@huawei.com;
+ helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,42 +76,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- ani@anisinha.ca, imammedo@redhat.com, boris.ostrovsky@oracle.com,
- rth@twiddle.net
+Cc: chenjiashang <chenjiashang@huawei.com>, "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "philmd@redhat.com" <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On Thu, 7 Oct 2021, Eric DeVolder wrote:
+> -----Original Message-----
+> From: Alex Williamson [mailto:alex.williamson@redhat.com]
+> Sent: Saturday, October 2, 2021 7:05 AM
+> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+> <longpeng2@huawei.com>
+> Cc: philmd@redhat.com; pbonzini@redhat.com; marcel.apfelbaum@gmail.com;
+> mst@redhat.com; qemu-devel@nongnu.org; Gonglei (Arei)
+> <arei.gonglei@huawei.com>; chenjiashang <chenjiashang@huawei.com>
+> Subject: Re: [PATCH v3 7/9] vfio: add infrastructure to commit the deferr=
+ed kvm
+> routing
+>=20
+> On Tue, 21 Sep 2021 07:02:00 +0800
+> "Longpeng(Mike)" <longpeng2@huawei.com> wrote:
+>=20
+> > 'defer_kvm_irq_routing' indicates whether we should defer to commit
+> > the kvm routing.
+> >
+> > Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
+> > ---
+> >  hw/vfio/pci.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
+> >  hw/vfio/pci.h |  1 +
+> >  2 files changed, 43 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> > index 8e97ca93cf..8fe238b11d 100644
+> > --- a/hw/vfio/pci.c
+> > +++ b/hw/vfio/pci.c
+> > @@ -423,12 +423,24 @@ static void vfio_add_kvm_msi_virq(VFIOPCIDevice *=
+vdev,
+> VFIOMSIVector *vector,
+> >          return;
+> >      }
+> >
+> > -    virq =3D kvm_irqchip_add_msi_route(kvm_state, vector_n, &vdev->pde=
+v);
+> > +    virq =3D kvm_irqchip_add_deferred_msi_route(kvm_state, vector_n,
+> &vdev->pdev);
+> >      if (virq < 0) {
+> >          event_notifier_cleanup(&vector->kvm_interrupt);
+> >          return;
+> >      }
+> >
+> > +    if (vdev->defer_kvm_irq_routing) {
+> > +        /*
+> > +         * Hold the allocated virq in vector->virq temporarily, will
+> > +         * reset it to -1 when we fail to add the corresponding irqfd
+> > +         * in vfio_commit_kvm_msi_virq().
+>=20
+> s/when/if/
+>=20
 
-> This change reserves the PCI device_id for the new ACPI ERST
-> device.
->
-> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> Acked-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Ani Sinha <ani@anisinha.ca>
+OK, thanks.
 
-> ---
->  include/hw/pci/pci.h | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index d0f4266..58101d8 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -108,6 +108,7 @@ extern bool pci_available;
->  #define PCI_DEVICE_ID_REDHAT_MDPY        0x000f
->  #define PCI_DEVICE_ID_REDHAT_NVME        0x0010
->  #define PCI_DEVICE_ID_REDHAT_PVPANIC     0x0011
-> +#define PCI_DEVICE_ID_REDHAT_ACPI_ERST   0x0012
->  #define PCI_DEVICE_ID_REDHAT_QXL         0x0100
->
->  #define FMT_PCIBUS                      PRIx64
-> --
-> 1.8.3.1
->
->
+> > +         */
+> > +        vector->virq =3D virq;
+>=20
+> Do we need to make this unique to the deferred case or could we use
+> vector->virq directly and fill it with -1 on all error paths like we do
+> on a failure in vfio_commit_kvm_msi_virq()?
+>=20
+
+OK, I will use vector->irq directly, it looks neater.
+
+>=20
+> > +        return;
+> > +    }
+> > +
+> > +    kvm_irqchip_commit_routes(kvm_state);
+> > +
+> >      if (kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
+> &vector->kvm_interrupt,
+> >                                         NULL, virq) < 0) {
+> >          kvm_irqchip_release_virq(kvm_state, virq);
+> > @@ -567,6 +579,35 @@ static void vfio_msix_vector_release(PCIDevice *pd=
+ev,
+> unsigned int nr)
+> >      }
+> >  }
+> >
+> > +/* TODO: invoked when enclabe msi/msix vectors */
+>=20
+> "enclabe"?  Is this meant to be "enable"?
+>=20
+
+Yes, it's a typo.
+
+> > +static __attribute__((unused)) void vfio_commit_kvm_msi_virq(VFIOPCIDe=
+vice
+> *vdev)
+>=20
+> I'd move this function, if not this entire change, to patch 9 rather
+> than adding these attributes for an unused function.  Thanks,
+>=20
+
+OK. I think I should merge this patch into patch 9 entirely if we decide to
+move this function.
+
+> Alex
+>=20
+> > +{
+> > +    int i;
+> > +    VFIOMSIVector *vector;
+> > +
+> > +    if (!vdev->defer_kvm_irq_routing || !vdev->nr_vectors) {
+> > +        return;
+> > +    }
+> > +
+> > +    kvm_irqchip_commit_routes(kvm_state);
+> > +
+> > +    for (i =3D 0; i < vdev->nr_vectors; i++) {
+> > +        vector =3D &vdev->msi_vectors[i];
+> > +
+> > +        if (!vector->use || vector->virq < 0) {
+> > +            continue;
+> > +        }
+> > +
+> > +        if (kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
+> > +                                               &vector->kvm_interrupt,
+> > +                                               NULL, vector->virq) < 0=
+) {
+> > +            kvm_irqchip_release_virq(kvm_state, vector->virq);
+> > +            event_notifier_cleanup(&vector->kvm_interrupt);
+> > +            vector->virq =3D -1;
+> > +        }
+> > +    }
+> > +}
+> > +
+> >  static void vfio_msix_enable(VFIOPCIDevice *vdev)
+> >  {
+> >      PCIDevice *pdev =3D &vdev->pdev;
+> > diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+> > index 64777516d1..d3c5177d37 100644
+> > --- a/hw/vfio/pci.h
+> > +++ b/hw/vfio/pci.h
+> > @@ -171,6 +171,7 @@ struct VFIOPCIDevice {
+> >      bool no_kvm_ioeventfd;
+> >      bool no_vfio_ioeventfd;
+> >      bool enable_ramfb;
+> > +    bool defer_kvm_irq_routing;
+> >      VFIODisplay *dpy;
+> >      Notifier irqchip_change_notifier;
+> >  };
+
 
