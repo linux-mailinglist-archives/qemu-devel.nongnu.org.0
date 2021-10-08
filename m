@@ -2,104 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C515426C11
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 15:53:44 +0200 (CEST)
-Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72388426CFB
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 16:49:34 +0200 (CEST)
+Received: from localhost ([::1]:58002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYqJj-00050e-Gh
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 09:53:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49768)
+	id 1mYrBl-0002kW-Hz
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 10:49:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mYqIG-0002mb-IN
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:52:12 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mYqIE-0006eb-68
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:52:12 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 198DcrWE006278; 
- Fri, 8 Oct 2021 09:52:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=K567I+7jxfCQg2Gkz57JmtngrImX/7p0SSN0LwX1PsY=;
- b=a1oGPW7Tph2T8irdRKGDJNX5WAfkv0qTjsyMPbxnAkE+UO0dAurNNwxi9a77Hk69sS2u
- E7CZiyGUXPk3dYyIrYP0OPLKyLkAHaVb7yngCLFw7+TE1BLmLxjgizfGNnx7giBh0xWO
- 6ys36j3ipuncbJrj/Z6oq4MggZUm0Gs85scWgqhJzE20Ql2f46mRLDEAwu8Lc/JQpB2n
- a0/AEFUIipOlg4GoUaKxbrY5CMNkRF0pp7OJL79GViQDUq2SOi3w1B10bosZiZb+sh6X
- ds7k3rG6UAeo3/QatZI8b68R2DdA7+0N1ZaLQRa4l91NLMWQXiru7O2pnro5yC8/BawJ Yg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bjk0epb2y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 08 Oct 2021 09:52:06 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 198DmoaK013412;
- Fri, 8 Oct 2021 09:52:06 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bjk0epb2a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 08 Oct 2021 09:52:06 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 198DgGxr028375;
- Fri, 8 Oct 2021 13:52:04 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3bhepdc0sc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 08 Oct 2021 13:52:04 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 198DkXdF50987514
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 8 Oct 2021 13:46:33 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 48045A405F;
- Fri,  8 Oct 2021 13:52:00 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2776EA4062;
- Fri,  8 Oct 2021 13:51:59 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.45.119])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri,  8 Oct 2021 13:51:59 +0000 (GMT)
-Date: Fri, 8 Oct 2021 15:51:56 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 1/1] virtio: write back F_VERSION_1 before validate
-Message-ID: <20211008155156.626e78b5.pasic@linux.ibm.com>
-In-Reply-To: <20211008085839-mutt-send-email-mst@kernel.org>
-References: <20211008123422.1415577-1-pasic@linux.ibm.com>
- <20211008085839-mutt-send-email-mst@kernel.org>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mYr8o-00010y-BX
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 10:46:30 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35545)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mYr8l-000626-D4
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 10:46:30 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id v25so30546322wra.2
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 07:46:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=A46RgzRLjsqZjcBRK2bZVk/fE1RVdkWowsdnr+K9aLM=;
+ b=ejywRGpJXuPX3TEQJzeJqp6Wn/Ke6ZoFiOSPHEsTjTaGfyHnVJYrtHuaIyRWqr5rln
+ aWbo420sOQ2bGTG1/q9UjvWmJTrHCYS5KvWXMaQKmVCEsaljVME/IXGRqLl+ljpDCbDl
+ HTW+3ReXP26mVtr+V4Zybu1men9u6guK4crFrVhQK36yFZzom8oS1+nOnAZ8KrMBNrZt
+ saMJRMkQeg1/hUVMHyEGGDNwg9K6CKsRgrHrfnrfcmKr0GgN5Miq34XvCTljs+S7RxXe
+ pfbk7HvMk0qrY0kUSFZDrtYm+kCbWuZyJXtjYDt6cFHbf4OkZUnnztprcBSIQOVXYQEe
+ 8sAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=A46RgzRLjsqZjcBRK2bZVk/fE1RVdkWowsdnr+K9aLM=;
+ b=MW2xsiGjgqGtt+2BuZWtsb/+2vdybxTYRUUjULwVRFuqwfB9g3a2v5/fS0KMmaotfU
+ RnQ2yvncE3F98G97QSMiBLdFQXb9Cs3aZW78P+4fNMdapprIcPNl/a1tAnodcg+YsffS
+ Q4mobGw2dg1kJM9r61N9C84h8hEvrr37am0zsvlJppErbMmMvHxe6pRLC6CkdL8Je9Zg
+ b6PEejoX74S3rRC312+bSqw7hIqkRLPfk+YMwvxKpmPyJsBgWLW1iBH1QFMdRtNCZqOW
+ ai5S4UeA1Umpqa7deoc/Y5OworRMqksCCzKVJBZY+TjVeHr3TisLPDG1xPllPjAY2TJs
+ +tUA==
+X-Gm-Message-State: AOAM531TX9phJmHc+kXdzBPb2Uq1bBEn3eXntjqVK+jJQx5LITn7l0N+
+ M6nebeAqQ2SD0lrMlIxqo6fegQ==
+X-Google-Smtp-Source: ABdhPJzXzYODiX2ydjCjtXpk1iWI2VLrLXf/1thIOGM1rBGTDgNRTTOUBhv3ro6QdTgFqERAmnz7kA==
+X-Received: by 2002:adf:fe4e:: with SMTP id m14mr4595489wrs.14.1633704385667; 
+ Fri, 08 Oct 2021 07:46:25 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z5sm16402546wmp.26.2021.10.08.07.46.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Oct 2021 07:46:24 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5D7971FF96;
+ Fri,  8 Oct 2021 15:46:24 +0100 (BST)
+References: <20210810134844.166490-1-ma.mandourr@gmail.com>
+ <20210810134844.166490-4-ma.mandourr@gmail.com>
+User-agent: mu4e 1.7.0; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH 3/5] plugins/cache: split command line arguments into
+ name and value
+Date: Fri, 08 Oct 2021 15:05:59 +0100
+In-reply-to: <20210810134844.166490-4-ma.mandourr@gmail.com>
+Message-ID: <875yu7d16n.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: AwLL2TwiE5bb7sR5YjTQOfnp3HJWl-Nz
-X-Proofpoint-ORIG-GUID: pXbbnkG0k_9qzQg33cFNFi_GxeNjjWsS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-10-08_03,2021-10-07_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 clxscore=1015
- malwarescore=0 spamscore=0 priorityscore=1501 mlxscore=0 adultscore=0
- bulkscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110080081
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,145 +88,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- virtualization@lists.linux-foundation.org, Halil Pasic <pasic@linux.ibm.com>,
- Xie Yongji <xieyongji@bytedance.com>, stefanha@redhat.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Alexandre Iooss <erdnaxe@crans.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 Oct 2021 09:05:03 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-> On Fri, Oct 08, 2021 at 02:34:22PM +0200, Halil Pasic wrote:
-> > The virtio specification virtio-v1.1-cs01 states: "Transitional devices
-> > MUST detect Legacy drivers by detecting that VIRTIO_F_VERSION_1 has not
-> > been acknowledged by the driver."  This is exactly what QEMU as of 6.1
-> > has done relying solely on VIRTIO_F_VERSION_1 for detecting that.
-> > 
-> > However, the specification also says: "... the driver MAY read (but MUST
-> > NOT write) the device-specific configuration fields to check that it can
-> > support the device ..." before setting FEATURES_OK.
-> > 
-> > In that case, any transitional device relying solely on
-> > VIRTIO_F_VERSION_1 for detecting legacy drivers will return data in
-> > legacy format.  In particular, this implies that it is in big endian
-> > format for big endian guests. This naturally confuses the driver which
-> > expects little endian in the modern mode.
-> > 
-> > It is probably a good idea to amend the spec to clarify that
-> > VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
-> > is complete. However, we already have a regression so let's try to address  
-> 
-> actually, regressions. and we can add 
-> "since originally before validate callback existed
-> config space was only read after
-> FEATURES_OK. See Fixes tags for relevant commits"
-> 
-> > it.
+Mahmoud Mandour <ma.mandourr@gmail.com> writes:
 
-How about replacing the paragraph above with the following?
+> This way of handling args is more lenient and sets a better framework to
+> parse boolean command line arguments.
+>
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+> ---
+>  contrib/plugins/cache.c | 57 ++++++++++++++++++++++-------------------
+>  1 file changed, 30 insertions(+), 27 deletions(-)
+>
+> diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
+> index 908c967a09..ff325beb9f 100644
+> --- a/contrib/plugins/cache.c
+> +++ b/contrib/plugins/cache.c
+> @@ -11,6 +11,8 @@
+>=20=20
+>  #include <qemu-plugin.h>
+>=20=20
+> +#define STRTOLL(x) g_ascii_strtoll(x, NULL, 10)
+> +
 
-"It is probably a good idea to amend the spec to clarify that
-VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
-is complete. Before validate callback existed, config space was only
-read after FEATURES_OK. However, we already have two regression, so
-let's address this here as well."
-> > 
-> > The regressions affect the VIRTIO_NET_F_MTU feature of virtio-net and
-> > the VIRTIO_BLK_F_BLK_SIZE feature of virtio-blk for BE guests when
-> > virtio 1.0 is used on both sides. The latter renders virtio-blk
-> > unusable with DASD backing, because things simply don't work with
-> > the default.  
+Why wrap the strtoll in a macro here? Also do we deal with signed
+numbers, otherwise strtoull makes more sense.
 
-and add 
-"See Fixes tags for relevant commits."
-here.
-> 
-> Let's add a work around description now:
-> 
-> 
-> For QEMU, we can work around the issue by writing out the features
-> register with VIRTIO_F_VERSION_1 bit set.  We (ab) use the
-s/features register/feature bits/
-rationale: ccw does not have a features register, and qemu does not
-really act as if its behavior was controlled by the values in a features
-register. I.e. when we read the register we see VIRTIO_F_VERSION_!
-because the feature is offered. In QEMU we basically read host_featues
-but write the guest_features. And what drives device behavior is mostly
-guest_features. 
+>  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
+>=20=20
+>  static enum qemu_plugin_mem_rw rw =3D QEMU_PLUGIN_MEM_RW;
+> @@ -746,35 +748,36 @@ int qemu_plugin_install(qemu_plugin_id_t id, const =
+qemu_info_t *info,
+>=20=20
+>      for (i =3D 0; i < argc; i++) {
+>          char *opt =3D argv[i];
+> -        if (g_str_has_prefix(opt, "iblksize=3D")) {
+> -            l1_iblksize =3D g_ascii_strtoll(opt + 9, NULL, 10);
+> -        } else if (g_str_has_prefix(opt, "iassoc=3D")) {
+> -            l1_iassoc =3D g_ascii_strtoll(opt + 7, NULL, 10);
+> -        } else if (g_str_has_prefix(opt, "icachesize=3D")) {
+> -            l1_icachesize =3D g_ascii_strtoll(opt + 11, NULL, 10);
+> -        } else if (g_str_has_prefix(opt, "dblksize=3D")) {
+> -            l1_dblksize =3D g_ascii_strtoll(opt + 9, NULL, 10);
+> -        } else if (g_str_has_prefix(opt, "dassoc=3D")) {
+> -            l1_dassoc =3D g_ascii_strtoll(opt + 7, NULL, 10);
+> -        } else if (g_str_has_prefix(opt, "dcachesize=3D")) {
+> -            l1_dcachesize =3D g_ascii_strtoll(opt + 11, NULL, 10);
+> -        } else if (g_str_has_prefix(opt, "limit=3D")) {
+> -            limit =3D g_ascii_strtoll(opt + 6, NULL, 10);
+> -        } else if (g_str_has_prefix(opt, "cores=3D")) {
+> -            cores =3D g_ascii_strtoll(opt + 6, NULL, 10);
+> -        } else if (g_str_has_prefix(opt, "l2cachesize=3D")) {
+> -            l2_cachesize =3D g_ascii_strtoll(opt + 6, NULL, 10);
+> -        } else if (g_str_has_prefix(opt, "l2blksize=3D")) {
+> -            l2_blksize =3D g_ascii_strtoll(opt + 6, NULL, 10);
+> -        } else if (g_str_has_prefix(opt, "l2assoc=3D")) {
+> -            l2_assoc =3D g_ascii_strtoll(opt + 6, NULL, 10);
+> -        } else if (g_str_has_prefix(opt, "evict=3D")) {
+> -            gchar *p =3D opt + 6;
+> -            if (g_strcmp0(p, "rand") =3D=3D 0) {
+> +        g_autofree char **tokens =3D g_strsplit(opt, "=3D", 2);
 
-s/(ab) use/(ab)use/
+I think using strssplit here is fine, but we don't seem to to take care
+that there is a valid tokens[1].=20
 
-> finalize_features config op for this. It's not enough to address vhost
+> +
+> +        if (g_strcmp0(tokens[0], "iblksize") =3D=3D 0) {
+> +            l1_iblksize =3D STRTOLL(tokens[1]);
+> +        } else if (g_strcmp0(tokens[0], "iassoc") =3D=3D 0) {
+> +            l1_iassoc =3D STRTOLL(tokens[1]);
+> +        } else if (g_strcmp0(tokens[0], "icachesize") =3D=3D 0) {
+> +            l1_icachesize =3D STRTOLL(tokens[1]);
+> +        } else if (g_strcmp0(tokens[0], "dblksize") =3D=3D 0) {
+> +            l1_dblksize =3D STRTOLL(tokens[1]);
+> +        } else if (g_strcmp0(tokens[0], "dassoc") =3D=3D 0) {
+> +            l1_dassoc =3D STRTOLL(tokens[1]);
+> +        } else if (g_strcmp0(tokens[0], "dcachesize") =3D=3D 0) {
+> +            l1_dcachesize =3D STRTOLL(tokens[1]);
+> +        } else if (g_strcmp0(tokens[0], "limit") =3D=3D 0) {
+> +            limit =3D STRTOLL(tokens[1]);
+> +        } else if (g_strcmp0(tokens[0], "cores") =3D=3D 0) {
+> +            cores =3D STRTOLL(tokens[1]);
+> +        } else if (g_strcmp0(tokens[0], "l2cachesize") =3D=3D 0) {
+> +            l2_cachesize =3D STRTOLL(tokens[1]);
+> +        } else if (g_strcmp0(tokens[0], "l2blksize") =3D=3D 0) {
+> +            l2_blksize =3D STRTOLL(tokens[1]);
+> +        } else if (g_strcmp0(tokens[0], "l2assoc") =3D=3D 0) {
+> +            l2_assoc =3D STRTOLL(tokens[1]);
+> +        } else if (g_strcmp0(tokens[0], "evict") =3D=3D 0) {
+> +            if (g_strcmp0(tokens[1], "rand") =3D=3D 0) {
+>                  policy =3D RAND;
+> -            } else if (g_strcmp0(p, "lru") =3D=3D 0) {
+> +            } else if (g_strcmp0(tokens[1], "lru") =3D=3D 0) {
+>                  policy =3D LRU;
+> -            } else if (g_strcmp0(p, "fifo") =3D=3D 0) {
+> +            } else if (g_strcmp0(tokens[1], "fifo") =3D=3D 0) {
+>                  policy =3D FIFO;
+>              } else {
+>                  fprintf(stderr, "invalid eviction policy: %s\n", opt);
 
-s/It's/This is/
 
-> user and vhost block devices since these do not get the features until
-
-s/vhost user and vhost block/some vhost-user and vhost-vdpa/ ?
-
-Ratioale: I think vhost block is just a vhost-user device. On the other
-hand vhost-user-fs works like charm because the config space is
-implemented in qemu and not in the vhost-user device. I
-didn't check vhost_net. I'm not even sure qemu offers a vhost_net
-implementation. Anyway I wouldn't like to make any false statements here.
-
-> FEATURES_OK, however it looks like these two actually never handled the
-> endian-ness for legacy mode correctly, so at least that's not a
-> regression.
-> 
-> No devices except virtio net and virtio blk seem to be affected.
-> 
-> Long term the right thing to do is to fix the hypervisors.
-> 
-
-Sounds good. Thanks! Are you OK with my changes proposed to your changes?
-
-Regards,
-Halil
-> 
-> > 
-> > Cc: <stable@vger.kernel.org> #v4.11
-> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> > Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in
-> > config space") Fixes: fe36cbe0671e ("virtio_net: clear MTU when out
-> > of range") Reported-by: markver@us.ibm.com
-> > ---
-> >  drivers/virtio/virtio.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> > 
-> > diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-> > index 0a5b54034d4b..236081afe9a2 100644
-> > --- a/drivers/virtio/virtio.c
-> > +++ b/drivers/virtio/virtio.c
-> > @@ -239,6 +239,17 @@ static int virtio_dev_probe(struct device *_d)
-> >  		driver_features_legacy = driver_features;
-> >  	}
-> >  
-> > +	/*
-> > +	 * Some devices detect legacy solely via F_VERSION_1. Write
-> > +	 * F_VERSION_1 to force LE config space accesses before
-> > FEATURES_OK for
-> > +	 * these when needed.
-> > +	 */
-> > +	if (drv->validate && !virtio_legacy_is_little_endian()
-> > +			  && device_features &
-> > BIT_ULL(VIRTIO_F_VERSION_1)) {
-> > +		dev->features = BIT_ULL(VIRTIO_F_VERSION_1);
-> > +		dev->config->finalize_features(dev);
-> > +	}
-> > +
-> >  	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
-> >  		dev->features = driver_features & device_features;
-> >  	else
-> > 
-> > base-commit: 60a9483534ed0d99090a2ee1d4bb0b8179195f51
-> > -- 
-> > 2.25.1  
-> 
-
+--=20
+Alex Benn=C3=A9e
 
