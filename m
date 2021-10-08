@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C995426A2E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 13:54:05 +0200 (CEST)
-Received: from localhost ([::1]:34010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB5D7426A54
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 13:58:36 +0200 (CEST)
+Received: from localhost ([::1]:47074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYoRw-0008NX-26
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 07:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50336)
+	id 1mYoWJ-0000HL-Kp
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 07:58:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJc-0006GD-85
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:29 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:55705)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJo-0006PM-Pr
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:40 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:45323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJW-0006vT-E1
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:25 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJi-00072i-7n
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:40 -0400
 Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MV5rK-1mA5dW2WnO-00SB52; Fri, 08
- Oct 2021 13:45:20 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N2lzA-1ml4Ll0joS-0139jC; Fri, 08
+ Oct 2021 13:45:21 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/13] macfb: update macfb.c to use the Error API best practices
-Date: Fri,  8 Oct 2021 13:45:07 +0200
-Message-Id: <20211008114518.757615-3-laurent@vivier.eu>
+Subject: [PULL 03/13] macfb: fix invalid object reference in
+ macfb_common_realize()
+Date: Fri,  8 Oct 2021 13:45:08 +0200
+Message-Id: <20211008114518.757615-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211008114518.757615-1-laurent@vivier.eu>
 References: <20211008114518.757615-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1GT30kE0iunnH0/coSR3T5rY2VuRR8bjAiXqHi5G/E/lzhRGZ+e
- nwJD2vcDa8mTHPOye5q1lmhvo7C6W+3izNmDiwC+cPVu0PxAzZvVVWmDYRDn3VvKF/ogXIJ
- +PEVfNF/rsWte3P09lFG67i/Qaddg4wsdEK+gOJx1wHYkeCcRhyukbkQHjrDVfcOzmuQrBd
- sGukoCdtCKn4ErRP36nFw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hiA/1KaLx34=:vwIpio/B+8OzxejmNWQWbA
- UBJuRszeTqybQCE7X2+NqiXeBun11RJAIc+6AAE28UT6bdrkrErjmBLW/+00b2bHIjBRiDm5d
- XfQZRwsVaKKd8X/XLCM5ICFxxfUsdPd+u1+cwHKd/kMUvu+AB81hhDVXuWgnXCaNwm3PQ1Q48
- Zv4dXKAn1pArdOHO6LoHEvna/HCWEDGbpOxVFfPNKyp0TB9Ml1ltafOd+gLR+ey3GpORo4Lwi
- sUmDPyuTFyLxZ/+obQFzW82dkvWMLJyd4+kG3rpPXml8rWXaYM83DcHaePPlMKQwc/vUMeSwJ
- Oiyyq3aiB6GKRops7bNB/kIbCXijP5OuB89W8/vaRLx4DISVYj+IJHQh+/Xazs/v+einAepui
- HKk1bV3PbEbTfHVMe0LUtDoP58TZ8qDYXwoX0MFTwcalxVPJvsHLg/8BVXxQNxg4vKqYfFniY
- uFtaKv69Aj/Xey2SUNM2bPfH7sDYpt2/dWcQE2WMBUYrtjB29K+qHk/3HOHiVzzFR7v/asEdd
- 0mYuQCJJqHamfpx5ZsKmpkwxmjLyAXnwmfvJ5lKYPMFoOLabyiZgU9vYM2XD3tiX57/cAlxRe
- xiNiINXP5UPF0pPt6Zav073Ob6XkIt4grMOBkKIbp50qfMNLKVVShW9EuCxXrT0P2v7pF8+OC
- 1Bm3cSfo0Fb9WWPaubyo9jsN+tBO2Hz5YEOb6mkTDrdttHPwsK6d9cBNK3Sgv0Nte/DGEMeOr
- iuADvWAsw6Y69bX6vMwkjNmvL3mCgsmDwCIlNw==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ZHt51d+LxgmjezZkjI8FOq+6UScoPtk0HBv16HnD30+HDt6jLrW
+ Nw+54Je/+eoATco1G/jG8ifvirUppYM2opqhZVtF/DOhYT8tHxCf1W5WGoY2SXQAtI/U5qR
+ EeIGxlS7iFAyx9MkhzERV6uxA1s8LKHhILdd5AqV7tw6FAS2tAnlZUjmMZLBqJO0ZPnwFBN
+ CG0jaeId5j/3nitQ4JVdg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tpyvMbSZOrw=:2u3IvYVpNyfShpWhpFxWP9
+ VEVlJELHeUSlCPq2jQoJJAhgoLIqVFtszzZSiBVQVUAMTaTliL5DK4RRWBgf7el6KwjkUkAgd
+ up7H43uhCc/Ffd0AWo0Wa9J9PvF4Mo/qDtMzunpBC5x6Qf3/2TNASnGSo51NHSgT18g0bNOyI
+ asiRlz0o5TNue+eyJfjvGPpzMsjohhEO+iZAnjT+nDALJ5/vPIbLV2FXufkexbw9RP9ayh3sz
+ oHR8JirPt1Edc88dWa6aOwMLxnoH6pt2s5YX4mvmVT70N2y5l+e5u6NCsFjLwK78dD52vbkri
+ 3hhsONQ49WQsuLUR4qwADWmSxKQ6JkdHMa4Kkk6XWS9uJmsNIlPVG1A17VHThAaVAbTSYBUV5
+ QDe3JxRR9BSpVLl/uojY6JhQltA/ymZFWko7ihBumxXxttjSMkvOniDdiXxnhlXAMF7KBkYLA
+ 04Fyem9I45lf6+DvaZK6DI7PsfIVkF1IzyXqtWsEAAvoYlOfgAcV3rwvnHMQpEHMEEiHCMi/r
+ yYsySjMJ0oJOTGBs+c8ukVQIxf/1+HWY4R3eNUNSNzQgmMCAh3yPiFfZHc8+FYaJM+kHlrSU8
+ clXXpf6Ci6W28hNYTIUwqUErm0ChzbYl5I+28Jd76d1Y7XCawOCyuPtjNnuncHUAnlmb8bAM4
+ 9M/ErC64H9+OXyCmfQ68Te3Eqs31TnaB2+BhiUVTuJKbLdRw6j4T3Gmi78rM5xhIGU+FzYIY8
+ azolPjhOEDRx01ZxV6EkNPtuk9bCxymJpCGLzQ==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,91 +68,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-As per the current Error API best practices, change macfb_commom_realize() to return
-a boolean indicating success to reduce errp boiler-plate handling code. Note that
-memory_region_init_ram_nomigrate() is also updated to use &error_abort to indicate
-a non-recoverable error, matching the behaviour recommended after similar
-discussions on memory API failures for the recent nubus changes.
+During realize memory_region_init_ram_nomigrate() is used to initialise the RAM
+memory region used for the framebuffer but the owner object reference is
+incorrect since MacFbState is a typedef and not a QOM type.
+
+Change the memory region owner to be the corresponding DeviceState to fix the
+issue and prevent random crashes during macfb_common_realize().
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Fixes: 8ac919a0654 ("hw/m68k: add Nubus macfb video card")
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20211007221253.29024-3-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20211007221253.29024-4-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/display/macfb.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ hw/display/macfb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 2b747a8de8a1..2ec25c5d6f7a 100644
+index 2ec25c5d6f7a..b363bab8896a 100644
 --- a/hw/display/macfb.c
 +++ b/hw/display/macfb.c
-@@ -343,14 +343,14 @@ static const GraphicHwOps macfb_ops = {
-     .gfx_update = macfb_update_display,
- };
- 
--static void macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
-+static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
- {
-     DisplaySurface *surface;
- 
-     if (s->depth != 1 && s->depth != 2 && s->depth != 4 && s->depth != 8 &&
-         s->depth != 16 && s->depth != 24) {
-         error_setg(errp, "unknown guest depth %d", s->depth);
--        return;
-+        return false;
-     }
- 
-     s->con = graphic_console_init(dev, 0, &macfb_ops, s);
-@@ -359,18 +359,20 @@ static void macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
-     if (surface_bits_per_pixel(surface) != 32) {
-         error_setg(errp, "unknown host depth %d",
-                    surface_bits_per_pixel(surface));
--        return;
-+        return false;
-     }
- 
+@@ -365,7 +365,7 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
      memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &macfb_ctrl_ops, s,
                            "macfb-ctrl", 0x1000);
  
-     memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram",
--                                     MACFB_VRAM_SIZE, errp);
-+                                     MACFB_VRAM_SIZE, &error_abort);
+-    memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(s), "macfb-vram",
++    memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(dev), "macfb-vram",
+                                      MACFB_VRAM_SIZE, &error_abort);
      s->vram = memory_region_get_ram_ptr(&s->mem_vram);
      s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
-     vmstate_register_ram(&s->mem_vram, dev);
-     memory_region_set_coalescing(&s->mem_vram);
-+
-+    return true;
- }
- 
- static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
-@@ -378,8 +380,7 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
-     MacfbSysBusState *s = MACFB(dev);
-     MacfbState *ms = &s->macfb;
- 
--    macfb_common_realize(dev, ms, errp);
--    if (*errp) {
-+    if (!macfb_common_realize(dev, ms, errp)) {
-         return;
-     }
- 
-@@ -399,8 +400,7 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    macfb_common_realize(dev, ms, errp);
--    if (*errp) {
-+    if (!macfb_common_realize(dev, ms, errp)) {
-         return;
-     }
- 
 -- 
 2.31.1
 
