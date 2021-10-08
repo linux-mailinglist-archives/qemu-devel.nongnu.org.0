@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220D9426BD5
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 15:39:34 +0200 (CEST)
-Received: from localhost ([::1]:47252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782D0426BD7
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 15:42:39 +0200 (CEST)
+Received: from localhost ([::1]:54488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYq61-0005TK-5a
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 09:39:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46588)
+	id 1mYq90-00020y-GT
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 09:42:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYq3K-0001ga-81
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:36:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39703)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYq37-0001FV-1p
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:36:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYq3I-000184-3P
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:36:45 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYq35-0000yz-Ay
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:36:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633700203;
+ s=mimecast20190719; t=1633700190;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=An3rlqqtX/BUcmE8YQxipfru8u0V/Sx9fhWF0Iscit4=;
- b=b30SwWD+HixS4B2ztsv1DwNLjcN+ebUagPsr+QrQ2/KzKZ/ZDS6IgEPeThRvpawu//i8FD
- HmqbXkFGc79vWVF+yvnKc9+N2W03TwdF9UVg3I21hV2rH85dBBZMOXQc9KJw4uRIZ4YZA2
- Zj+mPf1c3mZvji1SLLQ6RmHfGq7VZA4=
+ bh=aOjODVqE3mI7ZA3cSCIXOVZGgsm9P5SR8aFH2fWUDkU=;
+ b=UmBrB23foLGm+KfigrHKagnZx4nkaWNQxI3h3s51TGcJdYVf2jW/OUtL5wiZrzxaAbkUgO
+ XY5aLBVJuF05Ne/5HZFTXCs9ii1oMPH8mP7cfHKIDYIWeJNh5/Xzr87maDFokTy/qwnaDI
+ 5cCmdXjIX9dj/PAFLPFJJAno7xlKzxE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-4LTQoXkTOjudDgUQbWgEMg-1; Fri, 08 Oct 2021 09:36:26 -0400
-X-MC-Unique: 4LTQoXkTOjudDgUQbWgEMg-1
+ us-mta-96-fIvvtwZlPKqXsdh2_rV0jg-1; Fri, 08 Oct 2021 09:36:28 -0400
+X-MC-Unique: fIvvtwZlPKqXsdh2_rV0jg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B0FB13967AC;
- Fri,  8 Oct 2021 13:35:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D99B08D63C4;
+ Fri,  8 Oct 2021 13:35:11 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.204])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D9BA196E2;
- Fri,  8 Oct 2021 13:35:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1D0A19729;
+ Fri,  8 Oct 2021 13:35:08 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/15] net/vhost-user: Fix device compatibility check
-Date: Fri,  8 Oct 2021 15:34:29 +0200
-Message-Id: <20211008133442.141332-3-kwolf@redhat.com>
+Subject: [PATCH v2 03/15] net/vhost-vdpa: Fix device compatibility check
+Date: Fri,  8 Oct 2021 15:34:30 +0200
+Message-Id: <20211008133442.141332-4-kwolf@redhat.com>
 In-Reply-To: <20211008133442.141332-1-kwolf@redhat.com>
 References: <20211008133442.141332-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,7 +84,7 @@ Cc: kwolf@redhat.com, damien.hedde@greensocs.com, pkrempa@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vhost-user works only with specific devices. At startup, it second
+vhost-vdpa works only with specific devices. At startup, it second
 guesses what the command line option handling will do and error out if
 it thinks a non-virtio device will attach to them.
 
@@ -99,43 +99,42 @@ legacy QemuOpts infrastructure and even reduces the code size.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- net/vhost-user.c | 41 ++++++++++++++---------------------------
- 1 file changed, 14 insertions(+), 27 deletions(-)
+ net/vhost-vdpa.c | 37 ++++++++++++++-----------------------
+ 1 file changed, 14 insertions(+), 23 deletions(-)
 
-diff --git a/net/vhost-user.c b/net/vhost-user.c
-index 4a939124d2..b1a0247b59 100644
---- a/net/vhost-user.c
-+++ b/net/vhost-user.c
-@@ -198,6 +198,19 @@ static bool vhost_user_has_ufo(NetClientState *nc)
-     return true;
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 912686457c..6dc68d8677 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -147,12 +147,26 @@ static bool vhost_vdpa_has_ufo(NetClientState *nc)
+ 
  }
  
-+static bool vhost_user_check_peer_type(NetClientState *nc, ObjectClass *oc,
++static bool vhost_vdpa_check_peer_type(NetClientState *nc, ObjectClass *oc,
 +                                       Error **errp)
 +{
 +    const char *driver = object_class_get_name(oc);
 +
 +    if (!g_str_has_prefix(driver, "virtio-net-")) {
-+        error_setg(errp, "vhost-user requires frontend driver virtio-net-*");
++        error_setg(errp, "vhost-vdpa requires frontend driver virtio-net-*");
 +        return false;
 +    }
 +
 +    return true;
 +}
 +
- static NetClientInfo net_vhost_user_info = {
-         .type = NET_CLIENT_DRIVER_VHOST_USER,
-         .size = sizeof(NetVhostUserState),
-@@ -207,6 +220,7 @@ static NetClientInfo net_vhost_user_info = {
-         .has_ufo = vhost_user_has_ufo,
-         .set_vnet_be = vhost_user_set_vnet_endianness,
-         .set_vnet_le = vhost_user_set_vnet_endianness,
-+        .check_peer_type = vhost_user_check_peer_type,
+ static NetClientInfo net_vhost_vdpa_info = {
+         .type = NET_CLIENT_DRIVER_VHOST_VDPA,
+         .size = sizeof(VhostVDPAState),
+         .cleanup = vhost_vdpa_cleanup,
+         .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
+         .has_ufo = vhost_vdpa_has_ufo,
++        .check_peer_type = vhost_vdpa_check_peer_type,
  };
  
- static gboolean net_vhost_user_watch(void *do_not_use, GIOCondition cond,
-@@ -397,27 +411,6 @@ static Chardev *net_vhost_claim_chardev(
-     return chr;
+ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
+@@ -179,24 +193,6 @@ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
+     return ret;
  }
  
 -static int net_vhost_check_net(void *opaque, QemuOpts *opts, Error **errp)
@@ -145,36 +144,31 @@ index 4a939124d2..b1a0247b59 100644
 -
 -    driver = qemu_opt_get(opts, "driver");
 -    netdev = qemu_opt_get(opts, "netdev");
--
 -    if (!driver || !netdev) {
 -        return 0;
 -    }
--
 -    if (strcmp(netdev, name) == 0 &&
 -        !g_str_has_prefix(driver, "virtio-net-")) {
--        error_setg(errp, "vhost-user requires frontend driver virtio-net-*");
+-        error_setg(errp, "vhost-vdpa requires frontend driver virtio-net-*");
 -        return -1;
 -    }
--
 -    return 0;
 -}
 -
- int net_init_vhost_user(const Netdev *netdev, const char *name,
+ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
                          NetClientState *peer, Error **errp)
  {
-@@ -433,12 +426,6 @@ int net_init_vhost_user(const Netdev *netdev, const char *name,
-         return -1;
-     }
+@@ -204,10 +200,5 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
  
+     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+     opts = &netdev->u.vhost_vdpa;
 -    /* verify net frontend */
 -    if (qemu_opts_foreach(qemu_find_opts("device"), net_vhost_check_net,
 -                          (char *)name, errp)) {
 -        return -1;
 -    }
--
-     queues = vhost_user_opts->has_queues ? vhost_user_opts->queues : 1;
-     if (queues < 1 || queues > MAX_QUEUE_NUM) {
-         error_setg(errp,
+     return net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, opts->vhostdev);
+ }
 -- 
 2.31.1
 
