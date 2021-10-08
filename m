@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1163542663C
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 10:51:01 +0200 (CEST)
-Received: from localhost ([::1]:47274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1977A426638
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 10:50:08 +0200 (CEST)
+Received: from localhost ([::1]:46194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYlam-0003s5-4I
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 04:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37338)
+	id 1mYlZu-00037b-To
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 04:50:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mYlWi-0000he-Mz
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 04:46:51 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33280)
+ id 1mYlXX-0001Lg-Fu
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 04:47:39 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mYlWh-0003wM-8U
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 04:46:48 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id m22so27499097wrb.0
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 01:46:46 -0700 (PDT)
+ id 1mYlXV-0004Xm-UG
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 04:47:39 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id t8so27556766wri.1
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 01:47:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HVDj5Lz8e+K1aRnG+hMy8IwRte6w7yNdH5xZOGcpCW4=;
- b=XeFw5Jq4vcqsDwC5/VvUkc0F+611uhClXoM0yuiiGG6X+qEpiFMe7Xij5wW1LHmcWn
- XldI5IOewn3E4lIP2fL64Pkq4FXreVq3V/2XAhD5ixgoZvMwVrv3F/tDxwdz3OUbBaPf
- 2UsQvJ+LE30M6cvd+X59QRKzwSfAyRbrbnWtunGKFAVINHrW2erJ8dDJzQtNGVHaFP75
- Xt2T/kevlKe0EWHBUhRZP18UzITRyDOMc2k8a9FhDmDAK1DNTmJwzmu7usID7dLhNkyW
- G2YXEJJajYRHlIfTS3Qu7c3Rs1ABfJxZhx/OZriTPcB5UQFPs18ZiuhNnzkYXD1tDrCw
- rGFw==
+ :cc; bh=iokKqXZ81pe06POM/h6myGwvwgbpU+RsKso6ITukyik=;
+ b=i9jGMGUomdQu/82+cVCg6qHwr6euhmdG6Ze2sPAqjopO0cgjVxCu9G6qlCJH1SZR6+
+ Bm2eKSGiejc7VqU0Ezdnp2HbjO7Ars7lFhqPiTEYOUIhM114U7f70KZhp8it26QBLp6z
+ 0m9ozH4k6B2rWQVaaIVA3MnjCcrumNLBFDPmXpbojLOhuR55Wt8UHHAVhy6ScJua2jBl
+ yCDrtjRyj6aUFT82Z/f7w2F5mVAgDFD+OCNGXarVH6DlnX9vyavePaCfh+WcM8G6bxPc
+ WZMjRMworLD/FvdtB1ibDv5bAuiJB4Ymp4EZYTt/0v4gJ7XwMII69SZ+EYnmSy4owRJB
+ Qr7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HVDj5Lz8e+K1aRnG+hMy8IwRte6w7yNdH5xZOGcpCW4=;
- b=yUJoYKPoUwVUGaIa7VZWxPPxD9orh4mKOlpNEHVp89YkpSqvMBHCIFmCbSUtRPirf9
- TrMANAx5eKwPy8NQgaAYiQnnS6Vb62UEBHJzWdC8kU990fKktwu2AlP8w/MlmQguaTzf
- G1ltVZ2wAvN7QUkbFrPI6AHE3MTzFtqqhBvyDKjZjcffPxPdhUEbfunoJ+T3MWeKaBK2
- wWbaETiQ7BdbJE3++T38GvedioELZ/C/yTFyw3h3suWQwMZHq+ATp0+qi42x2isi+fGT
- XDwoFyomY7TWdDQdEv8T7jLbLY7Z140TYBjolD3pTKG/sk4NJFltVhMExISep6b3Mkpm
- Kh5g==
-X-Gm-Message-State: AOAM530Q1G+Q0raT03bgoZ6/xmU6TlY4ogZCRl3b4hdT6KhTHwndPKAP
- 1Un5fWs8GlPwX9jrN+jRlCNfkQMNayeF43YBmRE=
-X-Google-Smtp-Source: ABdhPJwNy+2/n1vA5bAhD2c2lo84srkc1+5ugsrY1nLxITRFaD+Zcbyj6upuC8TH6iIaWGIcTwQOEleDp5+Zebe3PEk=
-X-Received: by 2002:a1c:a5cd:: with SMTP id o196mr2105976wme.96.1633682805494; 
- Fri, 08 Oct 2021 01:46:45 -0700 (PDT)
+ bh=iokKqXZ81pe06POM/h6myGwvwgbpU+RsKso6ITukyik=;
+ b=fDXi65j8lveZ9TdXT3gxImXg//O0F+GuFxhjLOQsmeIWttq4LyilzLQFsu3FCeVuLk
+ 8FWrm0865SKc0oftdSUoBGz9iz2GMJlJUZEkCUqNF/672lQXQwWiaPcNUuHYgZcYlZAV
+ T8C1R0WRlVSW1odVSzC1bR4br9TALLeecTQwLvCMKK6VUGsLCeKqG8yBE/2Pfg+KEdat
+ tNfArctNf5EyLM14BcbncmGmzp/jZjCgg8bjYkZknWYyVHzfF4DYx0zzeELWjv+Vzsjs
+ 4YJKbd5criwrUjuLSwFXow1X5B9RjP5ucxtv3UQ3WFM/DmTpOHQ7ez/IXZTUza8l773y
+ imKQ==
+X-Gm-Message-State: AOAM530wdXfoHRpFNLxWAAPej2/H3JaGWbHQ1iwIhAcOnSie9c5qfu8o
+ xPL526Z0XTOy0vkIP49Xj9awdi8WdqEizNsa0ArOg0+X+Aw=
+X-Google-Smtp-Source: ABdhPJx83mJVL0xxDSjNZI9ynLzTwIGvISwjMZ0GC0i9Gfy5UkYuNaT//4GJ2FBegweNRI40REmhH/AAjTbWwqWaxzY=
+X-Received: by 2002:a5d:47a4:: with SMTP id 4mr2481882wrb.374.1633682856301;
+ Fri, 08 Oct 2021 01:47:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211007130630.632028-1-pbonzini@redhat.com>
- <20211007130829.632254-19-pbonzini@redhat.com>
- <CAJ+F1C+YriVhkYRtiHe=US3MmhEyLkVPnfwuAJqYvSOCR-uGEg@mail.gmail.com>
- <32011430-0e48-46c7-9f1e-c5b484a4eaf4@redhat.com>
-In-Reply-To: <32011430-0e48-46c7-9f1e-c5b484a4eaf4@redhat.com>
+ <20211007130829.632254-10-pbonzini@redhat.com>
+ <dc8d3342-96fa-a0fb-f337-c87066eba911@linaro.org>
+ <52debbd6-574b-1f33-c880-28d229679eb0@redhat.com>
+In-Reply-To: <52debbd6-574b-1f33-c880-28d229679eb0@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 8 Oct 2021 12:46:33 +0400
-Message-ID: <CAJ+F1C+dx-=7tydmWfrEZKctXVp0k_TXNhoCbqdFvTZyQhFjbw@mail.gmail.com>
-Subject: Re: [PATCH 24/24] configure: automatically parse command line for
- meson -D options
+Date: Fri, 8 Oct 2021 12:47:24 +0400
+Message-ID: <CAJ+F1CKeTxojeVVWfS1WS9b7b+B7rXS5ASRtXP3cAsLd6A77pA@mail.gmail.com>
+Subject: Re: [PATCH 15/24] configure, meson: move libaio check to meson.build
 To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000004c18d105cdd36b0f"
+Content-Type: multipart/alternative; boundary="0000000000005357cf05cdd36ea2"
 Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
  envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
@@ -80,74 +79,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004c18d105cdd36b0f
+--0000000000005357cf05cdd36ea2
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-On Fri, Oct 8, 2021 at 12:43 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Fri, Oct 8, 2021 at 12:32 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> On 07/10/21 22:41, Marc-Andr=C3=A9 Lureau wrote:
+> On 07/10/21 21:24, Richard Henderson wrote:
+> > On 10/7/21 6:08 AM, Paolo Bonzini wrote:
+> >> +++ b/stubs/meson.build
+> >> @@ -20,7 +20,9 @@ endif
+> >>   stub_ss.add(files('iothread-lock.c'))
+> >>   stub_ss.add(files('isa-bus.c'))
+> >>   stub_ss.add(files('is-daemonized.c'))
+> >> -stub_ss.add(when: 'CONFIG_LINUX_AIO', if_true: files('linux-aio.c'))
+> >> +if libaio.found()
+> >> +  stub_ss.add(if_true: files('linux-aio.c'))
+> >> +endif
 > >
-> > I have not investigated why, but this broke at least
-> > --enable-trace-backend=3Dlog for me:
-> > ERROR: unknown option --enable-trace-backend=3Dlog
+> > This bit doesn't look quite right, with the if_true.
 >
->  From the commit message:
->
-> "A few options change name: --enable-tcmalloc and --enable-jemalloc
-> become --enable-malloc=3D{tcmalloc,jemalloc}; --disable-blobs becomes
-> --disable-install-blobs; --enable-trace-backend becomes
-> --enable-trace-backends".
+> It looks silly but it works ("when: []" is always-true, just like in
+> python all([]) is true).  I'll remove the if_true in v2.
 >
 >
-Right, I got tired of reviewing at this point to read the whole thing.
-
-
-> I'll add some code for backwards compatibility.
->
-
-Yes, I guess that will help others as well, thanks!
+and why not  keep the one-liner version?:
+stub_ss.add(when: libaio, if_true: files('linux-aio.c'))
 
 
 --=20
 Marc-Andr=C3=A9 Lureau
 
---0000000000004c18d105cdd36b0f
+--0000000000005357cf05cdd36ea2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 8, 2021 at 12:43 PM Pao=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 8, 2021 at 12:32 PM Pao=
 lo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</=
 a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
 x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
- 07/10/21 22:41, Marc-Andr=C3=A9 Lureau wrote:<br>
+ 07/10/21 21:24, Richard Henderson wrote:<br>
+&gt; On 10/7/21 6:08 AM, Paolo Bonzini wrote:<br>
+&gt;&gt; +++ b/stubs/meson.build<br>
+&gt;&gt; @@ -20,7 +20,9 @@ endif<br>
+&gt;&gt; =C2=A0 stub_ss.add(files(&#39;iothread-lock.c&#39;))<br>
+&gt;&gt; =C2=A0 stub_ss.add(files(&#39;isa-bus.c&#39;))<br>
+&gt;&gt; =C2=A0 stub_ss.add(files(&#39;is-daemonized.c&#39;))<br>
+&gt;&gt; -stub_ss.add(when: &#39;CONFIG_LINUX_AIO&#39;, if_true: files(&#39=
+;linux-aio.c&#39;))<br>
+&gt;&gt; +if libaio.found()<br>
+&gt;&gt; +=C2=A0 stub_ss.add(if_true: files(&#39;linux-aio.c&#39;))<br>
+&gt;&gt; +endif<br>
 &gt; <br>
-&gt; I have not investigated why, but this broke at least <br>
-&gt; --enable-trace-backend=3Dlog for me:<br>
-&gt; ERROR: unknown option --enable-trace-backend=3Dlog<br>
+&gt; This bit doesn&#39;t look quite right, with the if_true.<br>
 <br>
-=C2=A0From the commit message:<br>
-<br>
-&quot;A few options change name: --enable-tcmalloc and --enable-jemalloc<br=
->
-become --enable-malloc=3D{tcmalloc,jemalloc}; --disable-blobs becomes<br>
---disable-install-blobs; --enable-trace-backend becomes<br>
---enable-trace-backends&quot;.<br>
-<br></blockquote><div><br></div><div>Right, I got tired of reviewing at thi=
-s point to read the whole thing.<br></div><div>=C2=A0</div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
-I&#39;ll add some code for backwards compatibility.<br>
-</blockquote><div><br></div><div>Yes, I guess that will help others as well=
-, thanks! <br></div></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" cla=
-ss=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+It looks silly but it works (&quot;when: []&quot; is always-true, just like=
+ in <br>
+python all([]) is true).=C2=A0 I&#39;ll remove the if_true in v2.<br>
+<br></blockquote><div><br></div><div>and why not=C2=A0 keep the one-liner v=
+ersion?:</div><div>stub_ss.add(when: libaio, if_true: files(&#39;linux-aio.=
+c&#39;))<br></div></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=
+=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---0000000000004c18d105cdd36b0f--
+--0000000000005357cf05cdd36ea2--
 
