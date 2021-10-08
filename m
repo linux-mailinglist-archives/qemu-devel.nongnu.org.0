@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B88426A4D
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 13:56:06 +0200 (CEST)
-Received: from localhost ([::1]:40006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC941426A58
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 14:01:08 +0200 (CEST)
+Received: from localhost ([::1]:50626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYoTt-0003uQ-2B
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 07:56:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50382)
+	id 1mYoYl-0002eg-TM
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 08:01:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJg-0006IR-Lz
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:35 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:33505)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJn-0006Mf-Vi
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:40 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:58287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJc-0006zT-0B
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:31 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJc-0006zz-JD
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:39 -0400
 Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MeCYx-1nA40Y16EJ-00bHkb; Fri, 08
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MysmQ-1mva3b2trm-00vxw0; Fri, 08
  Oct 2021 13:45:25 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/13] macfb: fix 24-bit RGB pixel encoding
-Date: Fri,  8 Oct 2021 13:45:16 +0200
-Message-Id: <20211008114518.757615-12-laurent@vivier.eu>
+Subject: [PULL 12/13] macfb: add vertical blank interrupt
+Date: Fri,  8 Oct 2021 13:45:17 +0200
+Message-Id: <20211008114518.757615-13-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211008114518.757615-1-laurent@vivier.eu>
 References: <20211008114518.757615-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MbQ0v3HaxcJH9NXMsMupu9zhnM1IvxDigB3NKdl2QbD8s+3DPST
- LALtVgCN94tNKHg7QbJJBl2RpWXJMcQ5LTcnRgyJAlIslxia2r4XL+2tx3IuPchRSQ21U8r
- 2u/Gp6eIo+M5S2KXYCADgB4Y45lgMViFECsAVSnfUQkq2quLdKU1lpiRlBltTLkp1j5jxcM
- YSUR31ESvfX0Ig6HPkkfg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Jvgti8FG1jo=:tfOG9LR2suayo8do9jKzvl
- qn64q3bQdfayBlWeFhPYDvsgrPdKSrLeO1JaoJLIO2o82THr7GiXKe5hHpd2xlFTVpgCBKvQh
- MISN5PLVJeGFoPmYPLk85q+qIBov7u8DmEBarTxBrKkXmHp73GWiYal64RvDd9/uoYw7z4PDw
- +XTJEgP5lRXXQ39je6FperS3WivviX1vwDKSCUU+avVjhp9GMooBdHzC60aOu+3SdtW9cyn13
- fqamzccjEdFW/kXAJe45QsvHcaIMThMDL68NUHLhzHrC+qKXBaLiI+6AXl+wC92dA8IPWlP9i
- QW510uFYICcYVOMccfthbmc6h8wmdkfvoOSkejotjx1cVyvyB1qnQbP4joo3s4iNwiLoa6Vzp
- tkAob1iL8KZcupXCzOTDBRaqojaGeRbN+K0qclhU/y043U6C0yTwlrFNxeD6O1kPBHaXu2BfW
- ZJxjOlq97FxiSIypWa+gkDFEQvEOLvDV4F3W8nWCDx9WV+79IS/oexCo86YT05zRgEdk9fX29
- fUNNS+xA95Msg3TUdU/GKc6ue64oRMbnrarFIc43nNKDZjAyiId2PLOKeCYjKsENi+CNtcgJt
- ky1fDkLHotpypAWVXTFMVdIRdlAQyvu0fm7bZND1tym1msaEvyaImRJUMsYRASxxdYvaEz5aq
- XrRQWBG0xOtmU7AhxKWdDxc3iQLf4CMUzglir/rMPD2DwSWAoXb4ODEhn/RmcPuWMbaefGe67
- mzO/fUxLytHIGlciXyUxTwxHdDnws2wyvv2aFw==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:zYA0sBfbLhG52JE7dFGrJWCXykAyFc5U09fD6Ps+qarwfGNpoCv
+ H6M5vtv7mdoEGJhszpcNI/XZKcYd98oJYZcwhsj8fv6QdnEebXsaRguNXJr7WadkwfAGL1r
+ 502Kam0NuUTJSiwr7NJXyfnIiXjtvSmkIfZuRIGnI+Ga0th54ts88PVAouKbDfsHliOqGGq
+ 7nyAKHJwwlZeVHPfBV47A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZLDN3QZnwYs=:YEJ4MUxqk2Tnn3voEF995q
+ 68QLl9czz0qvrNrsp0GqWyIG77+u0/46g6Axcz+s4XcLr76qclOnBnvOaghxKVEPrB8EmYRDQ
+ 3g4ABFZgN2E0+D2evmusO3xPB/htY567g7sBMvHSkPYIf/TvVyTWJ/OpyvO2W1NxuFjGTNlRx
+ z4lLo9ckim1suqiTfeCyXrVKJ2Yu7CYlEQGoFNRWsNU3pkMKycDazXLRoOQwA8mu0gS516Zfq
+ CNnza7+4Jh3FxheMDZ6d17E6we+jAz8I0el7dzpJziOBJwPFIcWkBmV2wrQ35//qZDw/WLc21
+ owdV28FJlHEpT/IpFv2ZoXoKO9hsnAW7yXdUWmQnRVKVwAYEC5wOMdrgrAKUBKnp2sDm45l3R
+ NmkptZtuHfxDVpHDZ9ChYtvvj63lUkTx8xafYID70Q/apb7772zACgCoU1JKdknsRK5yyihpk
+ xFRf8dFd/W5clGaiSPkJ9Ol1hOYdO1jIJxNlDfVL0G4UrE8T0l1R0urSb3UPpWdJdjTheTe+r
+ UwHGq/UbB2MJIJyob14QhXIeAMjXiL/1P2EDJ4syBo8QTHEC0KfQr+cgmWv8o+tOlsbRyyt1T
+ C1TETta+dcqo4PvoqNMz0+J/XtryWsswUhAa+XP5N914H/fb6Z9tjAUtwdlJKXaK3NIP17x/y
+ tQCe94Rbnu902r2php9uNlR5Nd5WDFGxaD6ZPqZsffEa4/PO0L4sovPKk/Da1wtQkrpg2IOoQ
+ w+TZbgB8lB8FgiTrOR87EhtFzB+ttW9lCFROOA==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,38 +73,208 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-According to Apple Technical Note HW26: "Macintosh Quadra Built-In Video" the
-in-built framebuffer encodes each 24-bit pixel into 4 bytes. Adjust the 24-bit
-RGB pixel encoding accordingly which agrees with the encoding expected by MacOS
-when changing into 24-bit colour mode.
+The MacOS driver expects a 60.15Hz vertical blank interrupt to be generated by
+the framebuffer which in turn schedules the mouse driver via the Vertical Retrace
+Manager.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20211007221253.29024-12-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20211007221253.29024-13-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/display/macfb.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/hw/display/macfb.h |  8 ++++
+ hw/display/macfb.c         | 83 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 91 insertions(+)
 
+diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
+index 0aff0d84d2af..e52775aa2151 100644
+--- a/include/hw/display/macfb.h
++++ b/include/hw/display/macfb.h
+@@ -14,7 +14,9 @@
+ #define MACFB_H
+ 
+ #include "exec/memory.h"
++#include "hw/irq.h"
+ #include "ui/console.h"
++#include "qemu/timer.h"
+ #include "qom/object.h"
+ 
+ typedef enum  {
+@@ -63,6 +65,11 @@ typedef struct MacfbState {
+ 
+     uint32_t regs[MACFB_NUM_REGS];
+     MacFbMode *mode;
++
++    uint32_t irq_state;
++    uint32_t irq_mask;
++    QEMUTimer *vbl_timer;
++    qemu_irq irq;
+ } MacfbState;
+ 
+ #define TYPE_MACFB "sysbus-macfb"
+@@ -81,6 +88,7 @@ struct MacfbNubusDeviceClass {
+     DeviceClass parent_class;
+ 
+     DeviceRealize parent_realize;
++    DeviceUnrealize parent_unrealize;
+ };
+ 
+ 
 diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index e49c8b6f4b52..3288a71b89a6 100644
+index 3288a71b89a6..4b352eb89c3f 100644
 --- a/hw/display/macfb.c
 +++ b/hw/display/macfb.c
-@@ -224,10 +224,10 @@ static void macfb_draw_line24(MacfbState *s, uint8_t *d, uint32_t addr,
-     int x;
+@@ -33,9 +33,16 @@
+ #define DAFB_MODE_CTRL1     0x8
+ #define DAFB_MODE_CTRL2     0xc
+ #define DAFB_MODE_SENSE     0x1c
++#define DAFB_INTR_MASK      0x104
++#define DAFB_INTR_STAT      0x108
++#define DAFB_INTR_CLEAR     0x10c
+ #define DAFB_RESET          0x200
+ #define DAFB_LUT            0x213
  
-     for (x = 0; x < width; x++) {
--        r = macfb_read_byte(s, addr);
--        g = macfb_read_byte(s, addr + 1);
--        b = macfb_read_byte(s, addr + 2);
--        addr += 3;
-+        r = macfb_read_byte(s, addr + 1);
-+        g = macfb_read_byte(s, addr + 2);
-+        b = macfb_read_byte(s, addr + 3);
-+        addr += 4;
++#define DAFB_INTR_VBL   0x4
++
++/* Vertical Blank period (60.15Hz) */
++#define DAFB_INTR_VBL_PERIOD_NS 16625800
  
-         *(uint32_t *)d = rgb_to_pixel32(r, g, b);
-         d += 4;
+ /*
+  * Quadra sense codes taken from Apple Technical Note HW26:
+@@ -470,6 +477,36 @@ static void macfb_update_display(void *opaque)
+     macfb_draw_graphic(s);
+ }
+ 
++static void macfb_update_irq(MacfbState *s)
++{
++    uint32_t irq_state = s->irq_state & s->irq_mask;
++
++    if (irq_state) {
++        qemu_irq_raise(s->irq);
++    } else {
++        qemu_irq_lower(s->irq);
++    }
++}
++
++static int64_t macfb_next_vbl(void)
++{
++    return (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + DAFB_INTR_VBL_PERIOD_NS) /
++            DAFB_INTR_VBL_PERIOD_NS * DAFB_INTR_VBL_PERIOD_NS;
++}
++
++static void macfb_vbl_timer(void *opaque)
++{
++    MacfbState *s = opaque;
++    int64_t next_vbl;
++
++    s->irq_state |= DAFB_INTR_VBL;
++    macfb_update_irq(s);
++
++    /* 60 Hz irq */
++    next_vbl = macfb_next_vbl();
++    timer_mod(s->vbl_timer, next_vbl);
++}
++
+ static void macfb_reset(MacfbState *s)
+ {
+     int i;
+@@ -498,6 +535,9 @@ static uint64_t macfb_ctrl_read(void *opaque,
+     case DAFB_MODE_CTRL2:
+         val = s->regs[addr >> 2];
+         break;
++    case DAFB_INTR_STAT:
++        val = s->irq_state;
++        break;
+     case DAFB_MODE_SENSE:
+         val = macfb_sense_read(s);
+         break;
+@@ -513,6 +553,8 @@ static void macfb_ctrl_write(void *opaque,
+                              unsigned int size)
+ {
+     MacfbState *s = opaque;
++    int64_t next_vbl;
++
+     switch (addr) {
+     case DAFB_MODE_VADDR1:
+     case DAFB_MODE_VADDR2:
+@@ -528,8 +570,23 @@ static void macfb_ctrl_write(void *opaque,
+     case DAFB_MODE_SENSE:
+         macfb_sense_write(s, val);
+         break;
++    case DAFB_INTR_MASK:
++        s->irq_mask = val;
++        if (val & DAFB_INTR_VBL) {
++            next_vbl = macfb_next_vbl();
++            timer_mod(s->vbl_timer, next_vbl);
++        } else {
++            timer_del(s->vbl_timer);
++        }
++        break;
++    case DAFB_INTR_CLEAR:
++        s->irq_state &= ~DAFB_INTR_VBL;
++        macfb_update_irq(s);
++        break;
+     case DAFB_RESET:
+         s->palette_current = 0;
++        s->irq_state &= ~DAFB_INTR_VBL;
++        macfb_update_irq(s);
+         break;
+     case DAFB_LUT:
+         s->color_palette[s->palette_current] = val;
+@@ -611,6 +668,7 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
+     s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
+     memory_region_set_coalescing(&s->mem_vram);
+ 
++    s->vbl_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, macfb_vbl_timer, s);
+     macfb_update_mode(s);
+     return true;
+ }
+@@ -626,6 +684,16 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
+ 
+     sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_ctrl);
+     sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
++
++    qdev_init_gpio_out(dev, &ms->irq, 1);
++}
++
++static void macfb_nubus_set_irq(void *opaque, int n, int level)
++{
++    MacfbNubusState *s = NUBUS_MACFB(opaque);
++    NubusDevice *nd = NUBUS_DEVICE(s);
++
++    nubus_set_irq(nd, level);
+ }
+ 
+ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
+@@ -646,6 +714,19 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
+ 
+     memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
+     memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
++
++    ms->irq = qemu_allocate_irq(macfb_nubus_set_irq, s, 0);
++}
++
++static void macfb_nubus_unrealize(DeviceState *dev)
++{
++    MacfbNubusState *s = NUBUS_MACFB(dev);
++    MacfbNubusDeviceClass *ndc = NUBUS_MACFB_GET_CLASS(dev);
++    MacfbState *ms = &s->macfb;
++
++    ndc->parent_unrealize(dev);
++
++    qemu_free_irq(ms->irq);
+ }
+ 
+ static void macfb_sysbus_reset(DeviceState *d)
+@@ -696,6 +777,8 @@ static void macfb_nubus_class_init(ObjectClass *klass, void *data)
+ 
+     device_class_set_parent_realize(dc, macfb_nubus_realize,
+                                     &ndc->parent_realize);
++    device_class_set_parent_unrealize(dc, macfb_nubus_unrealize,
++                                      &ndc->parent_unrealize);
+     dc->desc = "Nubus Macintosh framebuffer";
+     dc->reset = macfb_nubus_reset;
+     dc->vmsd = &vmstate_macfb;
 -- 
 2.31.1
 
