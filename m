@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC2842652D
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 09:22:36 +0200 (CEST)
-Received: from localhost ([::1]:42398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4756542652E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 09:23:12 +0200 (CEST)
+Received: from localhost ([::1]:44806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYkDD-000065-JE
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 03:22:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44340)
+	id 1mYkDn-0001kE-Ba
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 03:23:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mYk9v-000693-Ni
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 03:19:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21318)
+ id 1mYkBW-0007WV-Ii
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 03:20:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mYk9p-000724-7w
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 03:19:08 -0400
+ id 1mYkBS-0008JD-U1
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 03:20:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633677543;
+ s=mimecast20190719; t=1633677643;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D/T+pm5Iz7mkJlzU/8mCW3jcpJxQOoDC9bvPadONQIc=;
- b=g9v4BHXLSjRRsczb736IT9N1kdsLykAr8pi60PoJg1az5z0VN81SrVnt6EWTBXuICgHjwv
- lgXmmm8z/YMOdqwzZe5giRYhGYKpszgzRArBy6ZxsdYrW+3/UH0OTuEqZZ9a1QAVletkrt
- LetZVb68SqznxdH7ZW6d/GZr1MEuLbY=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-YpX4zRUYOl6Fo9ObZFlrMQ-1; Fri, 08 Oct 2021 03:19:02 -0400
-X-MC-Unique: YpX4zRUYOl6Fo9ObZFlrMQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- z6-20020a50cd06000000b003d2c2e38f1fso8354243edi.1
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 00:19:01 -0700 (PDT)
+ bh=p/KPfQJX0pfmAImPdFOGiX1wUDh5DDMtKjVERHcyUqo=;
+ b=e4bHqNWaPC5lQf/f+XOZbXCQ4+BYsblCeYmcGNvzwiujI5R695VZxFB1Jxwgcdal+AJ3eG
+ I74fq13p+WPBDnwm7ywiRR7Fowhp2egaQ8dmrANbl7VBeT+Wsr0wVVoHSyJc7lM/cFN6Ic
+ j84MVW3TjzJB+g7RhEGtPBQFvMZ0V1o=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-88-OyE3_6r2ObiIiqsPH41Ipg-1; Fri, 08 Oct 2021 03:20:40 -0400
+X-MC-Unique: OyE3_6r2ObiIiqsPH41Ipg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ 1-20020a508741000000b003da559ba1eeso8340350edv.13
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 00:20:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=D/T+pm5Iz7mkJlzU/8mCW3jcpJxQOoDC9bvPadONQIc=;
- b=MnnOIgMsSiWLQ8+8uBELkUselwQgZGjQ3m/uwRw903mhTy5GxcAnPw734vxBRxpIIh
- 5EB7zd0G1QC8C5+dcZ8s/4qJXKJzQtfZQ4GkNF3hviF6y5LeZHB6x63JXCUQwSvwQZas
- 7xzoEYrAUYsWHAcizEcN6rc5XMuuN5TLEiex6zQKhKybqHREiPh9AZNoj6OWRouKM4Bp
- jQy6cbX1B6oS8yD+x/yJclvsUOf7DeD5nYA44os/fP0HHXwjF7SOEzmIQju53AflqirI
- 7/dq5e5Dc/DntAv7hmLSFc5s+d6ND6kv6PkiqBWjTrNrrLYNRaRoHP6z7a2CGPf+yFrI
- e+4Q==
-X-Gm-Message-State: AOAM533JrE76lUBpM6jltBgCJL6xvbzbO2bx2MuGyTrNoJ4EqSM6wfQc
- xJy56UGNgTEn0lC3G6yqAFIq6sXvYpclanpBfnnrRCgNGRSfJmVWm9wU4KigGlvo6RTEPxWqsT9
- S1baTrrctzvArrNfz3npMZlA66/898bnnt6N/94dBnvHNpaaQLi/E11BAnZ0BUX0ODp0=
-X-Received: by 2002:a17:906:4895:: with SMTP id
- v21mr2213611ejq.299.1633677540824; 
- Fri, 08 Oct 2021 00:19:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwdqUb6UWgwnGnfslph1wUjE1c3PT37PJZJpl+bw6C0H64hhxraDqgjE++Q52hFOVed0TzhVw==
-X-Received: by 2002:a17:906:4895:: with SMTP id
- v21mr2213561ejq.299.1633677540444; 
- Fri, 08 Oct 2021 00:19:00 -0700 (PDT)
+ bh=p/KPfQJX0pfmAImPdFOGiX1wUDh5DDMtKjVERHcyUqo=;
+ b=y5o8zAuL2TeaK1BBPPXBtrtuOuf197G/BxlPtmGgDrtULyIh8kwdWAGvDmGdOoYi8/
+ r9qUO7aqiQU8H3VyHevSBM6WueOL1iH0AfggQ28r4CsKliTtB2RJs3D6lty+gLR4im1O
+ VQMZuq5IWJbJNVged3En0xUbfkngEOogdcAX+TV13nZ9SaQyLAyOFnY7nANcYImkZkyi
+ T0MiZZuVZTi8xfZcztN0AyRj10FFPprpmbpoxcL/JxkG1El8g4Xl09jV3dMzBLURo2vD
+ xJNUMaywDzRCPKTPBiKxGWuxkVdC3VS/gaRNrD2S0xTNOefPjzcpPWLCJp0OPHLKXx+6
+ 1U1g==
+X-Gm-Message-State: AOAM530inNKZ0r+w4/Gspwd3xZvFQnzrX5Do5oCzV2PpNHYjo3gT6xBy
+ JpJrotHDkHvPaJt/2xewrrHy1Zea+DBD68rqTsjz/jR1+1bWuyQamrCzQcKtJ0Kkc4dyZhjcmKW
+ RlOQZcpQc09sZDcjm3s6mcD7L2WA57PQliC59K6uhNhRo4iwv2WqVyTDub660uqSCLDU=
+X-Received: by 2002:a17:906:6448:: with SMTP id
+ l8mr2187355ejn.301.1633677639124; 
+ Fri, 08 Oct 2021 00:20:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzrRL+TGBnCNjNhI98ZysZmtGfmrCfyzUqL7PrDMpuMgnn5ZHk/BFGwTe39lGAWrhewF4mHlQ==
+X-Received: by 2002:a17:906:6448:: with SMTP id
+ l8mr2187320ejn.301.1633677638895; 
+ Fri, 08 Oct 2021 00:20:38 -0700 (PDT)
 Received: from localhost.localdomain ([213.55.224.75])
- by smtp.gmail.com with ESMTPSA id b2sm590775ejz.119.2021.10.08.00.18.57
+ by smtp.gmail.com with ESMTPSA id q10sm600432ejt.121.2021.10.08.00.20.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Oct 2021 00:18:58 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 17/25] include/block/transactions: global state API
- + assertions
+ Fri, 08 Oct 2021 00:20:38 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 11/25] include/block/blockjob.h: global state API
 To: Stefan Hajnoczi <stefanha@redhat.com>
 References: <20211005143215.29500-1-eesposit@redhat.com>
- <20211005143215.29500-18-eesposit@redhat.com>
- <YV8IeFCtejooaE9l@stefanha-x1.localdomain>
+ <20211005143215.29500-12-eesposit@redhat.com>
+ <YV8C+W7PQkVI4+gR@stefanha-x1.localdomain>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <790d60d4-04dd-3eac-b81c-ebe22f9ce37c@redhat.com>
-Date: Fri, 8 Oct 2021 09:18:56 +0200
+Message-ID: <dc0ca1d9-1dd6-c139-394a-7d5671289d47@redhat.com>
+Date: Fri, 8 Oct 2021 09:20:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YV8IeFCtejooaE9l@stefanha-x1.localdomain>
+In-Reply-To: <YV8C+W7PQkVI4+gR@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -47
 X-Spam_score: -4.8
@@ -117,27 +116,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+>> +/*
+>> + * Global state (GS) API. These functions run under the BQL lock.
+>> + *
+>> + * If a function modifies the graph, it also uses drain and/or
+>> + * aio_context_acquire/release to be sure it has unique access.
+>> + * aio_context locking is needed together with BQL because of
+>> + * the thread-safe I/O API that concurrently runs and accesses
+>> + * the graph without the BQL.
+>> + *
+>> + * It is important to note that not all of these functions are
+>> + * necessarily limited to running under the BQL, but they would
+>> + * require additional auditing and may small thread-safety changes
+>> + * to move them into the I/O API. Often it's not worth doing that
+>> + * work since the APIs are only used with the BQL held at the
+>> + * moment, so they have been placed in the GS API (for now).
+>> + *
+>> + * All functions below must use this assertion:
+>> + * g_assert(qemu_in_main_thread());
+>> + * to catch when they are accidentally called without the BQL.
+>> + */
+> 
+> This is comment is duplicated in many places. I suggest explaining it in
+> one place and using references in the other files:
+> 
+>    /*
+>     * Global state (GS) API. These functions run under the BQL lock.
+>     *
+>     * See include/block/block.h for more information about the GS API.
+>     */
+> 
 
-On 07/10/2021 16:47, Stefan Hajnoczi wrote:
-> On Tue, Oct 05, 2021 at 10:32:07AM -0400, Emanuele Giuseppe Esposito wrote:
->> transactions run always under the BQL lock, so they are all
->> in the global state API.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>   include/qemu/transactions.h | 24 ++++++++++++++++++++++++
->>   util/transactions.c         |  4 ++++
->>   2 files changed, 28 insertions(+)
-> 
-> Hmm...not sure about this. Maybe Vladimir can share his thoughts.
-> 
-> This seems like a library that can be used in various situations. It has
-> no connection to the BQL. There's no need to declare it GS or I/O
-> because it's just a utility just like QEMUIOVector, etc.
-> 
-
-Ok, I can remove this patch for next version, and then we can discuss 
-whether to add it or not.
+Good idea. Should I also do that for I/O, or it's not worth for very few 
+lines?
 
 Thank you,
 Emanuele
