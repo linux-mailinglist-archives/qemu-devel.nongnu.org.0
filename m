@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC941426A58
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 14:01:08 +0200 (CEST)
-Received: from localhost ([::1]:50626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CE3426A4F
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 13:57:19 +0200 (CEST)
+Received: from localhost ([::1]:43708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYoYl-0002eg-TM
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 08:01:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50460)
+	id 1mYoV4-0006Ui-C8
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 07:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJn-0006Mf-Vi
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:40 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:58287)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJp-0006SS-Pj
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:41 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:44865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJc-0006zz-JD
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:39 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJj-00072y-5C
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:41 -0400
 Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MysmQ-1mva3b2trm-00vxw0; Fri, 08
- Oct 2021 13:45:25 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mati7-1nB9wL0pmV-00cNgH; Fri, 08
+ Oct 2021 13:45:26 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/13] macfb: add vertical blank interrupt
-Date: Fri,  8 Oct 2021 13:45:17 +0200
-Message-Id: <20211008114518.757615-13-laurent@vivier.eu>
+Subject: [PULL 13/13] q800: wire macfb IRQ to separate video interrupt on VIA2
+Date: Fri,  8 Oct 2021 13:45:18 +0200
+Message-Id: <20211008114518.757615-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211008114518.757615-1-laurent@vivier.eu>
 References: <20211008114518.757615-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zYA0sBfbLhG52JE7dFGrJWCXykAyFc5U09fD6Ps+qarwfGNpoCv
- H6M5vtv7mdoEGJhszpcNI/XZKcYd98oJYZcwhsj8fv6QdnEebXsaRguNXJr7WadkwfAGL1r
- 502Kam0NuUTJSiwr7NJXyfnIiXjtvSmkIfZuRIGnI+Ga0th54ts88PVAouKbDfsHliOqGGq
- 7nyAKHJwwlZeVHPfBV47A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZLDN3QZnwYs=:YEJ4MUxqk2Tnn3voEF995q
- 68QLl9czz0qvrNrsp0GqWyIG77+u0/46g6Axcz+s4XcLr76qclOnBnvOaghxKVEPrB8EmYRDQ
- 3g4ABFZgN2E0+D2evmusO3xPB/htY567g7sBMvHSkPYIf/TvVyTWJ/OpyvO2W1NxuFjGTNlRx
- z4lLo9ckim1suqiTfeCyXrVKJ2Yu7CYlEQGoFNRWsNU3pkMKycDazXLRoOQwA8mu0gS516Zfq
- CNnza7+4Jh3FxheMDZ6d17E6we+jAz8I0el7dzpJziOBJwPFIcWkBmV2wrQ35//qZDw/WLc21
- owdV28FJlHEpT/IpFv2ZoXoKO9hsnAW7yXdUWmQnRVKVwAYEC5wOMdrgrAKUBKnp2sDm45l3R
- NmkptZtuHfxDVpHDZ9ChYtvvj63lUkTx8xafYID70Q/apb7772zACgCoU1JKdknsRK5yyihpk
- xFRf8dFd/W5clGaiSPkJ9Ol1hOYdO1jIJxNlDfVL0G4UrE8T0l1R0urSb3UPpWdJdjTheTe+r
- UwHGq/UbB2MJIJyob14QhXIeAMjXiL/1P2EDJ4syBo8QTHEC0KfQr+cgmWv8o+tOlsbRyyt1T
- C1TETta+dcqo4PvoqNMz0+J/XtryWsswUhAa+XP5N914H/fb6Z9tjAUtwdlJKXaK3NIP17x/y
- tQCe94Rbnu902r2php9uNlR5Nd5WDFGxaD6ZPqZsffEa4/PO0L4sovPKk/Da1wtQkrpg2IOoQ
- w+TZbgB8lB8FgiTrOR87EhtFzB+ttW9lCFROOA==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:nEm9MPuJR+mgEUR5WMSOssJHt+LcMuZUc1D0RbU2huVa54emPym
+ 6ORXppOE+yjNjSehjc5zKxItf6z8ZAzsVZp2ewP9nXMGh0dUc4F+Kd09K+rbO+RvKDCvPgv
+ 0fWkwJcblrSQde1eRKPvCQ0GKFbmxMbCjoOX0Kdez2+4cX8TDyA9tOVeawJ+FGuUSAq/gBR
+ 67fcMzwR9/CM+Hcash5ug==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sOZY2ANzCro=:HEJa9izIulRJ4WFYnvTfol
+ AL+SquH1PGRLU0MZUmOYwR8SVbgxML+jzbFogYlU2hon1jLn2bCUSUty62mTDioerL5U+sGzf
+ DjvMwTmvtSEvs/AqwUSo3cNEC1hclx2WUp0x+tFmkmSl+eXJ6xEHV5icNZFbAx5Hd/sD8o65j
+ TT7T8fkAZWxdv3iHuyZJTlBGqfjlDusKPfkOP5djjt4//IewSOrwIixWtWTqFA5qX7tQBGePe
+ hahiFNklno+89sIq1TdVb46xou6lCSYetHfnG9lVto5EZgMhHYM3/IkczLz9WfC+OevHFI6jE
+ sQHGspd3NyUoHp39ZiHuTBDhSebbKWROwRrVI3OUV1Dr4x7aogmh+UMI1d/jmza3DYobpy9Yb
+ SnxxVtCfDwGe3X7mBCG6zcL7AgUgrG++GIF/OVrMumFVP6IxqQKMkz8aQ4P4RLJntX1wvFjzD
+ h3KOKFHPOpuzbcY26f/hESjNNE5hdxHR0UiOZ5mtnshiJght5fZtDWzFOVEIylrni8hyD4HOD
+ btTbm8XXEgMR4FRm4TTaUQUj2zFSFxs0yb6EZIYHrw9RSGyTyWvsX4VSxkprQRMoma6eKSjfH
+ Szy8uMASX4Rqr9CdhKiBtw6X5e5rlyxPC6oOHSMc8S4Ob951wQQxDaTSFnYUYnmk4MfXX0fwE
+ I5ge7ko5j+YGje0jT3j8gtIt3JoF4R/Lw1MFD2Ru5Adj5OJm3VEYY36nlAnM8GOIrpxOuY/QO
+ 7Au7Sq7T9TpT9K5CvCsNI6kwfch44kVuKqSDOQ==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: 0
 X-Spam_score: 0.0
@@ -67,214 +68,53 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-The MacOS driver expects a 60.15Hz vertical blank interrupt to be generated by
-the framebuffer which in turn schedules the mouse driver via the Vertical Retrace
-Manager.
+Whilst the in-built Quadra 800 framebuffer exists within the Nubus address
+space for slot 9, it has its own dedicated interrupt on VIA2. Force the
+macfb device to occupy slot 9 in the q800 machine and wire its IRQ to the
+separate video interrupt since this is what is expected by the MacOS
+interrupt handler.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20211007221253.29024-13-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20211007221253.29024-14-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/hw/display/macfb.h |  8 ++++
- hw/display/macfb.c         | 83 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 91 insertions(+)
+ hw/m68k/q800.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
-index 0aff0d84d2af..e52775aa2151 100644
---- a/include/hw/display/macfb.h
-+++ b/include/hw/display/macfb.h
-@@ -14,7 +14,9 @@
- #define MACFB_H
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index df3fd3711e6e..fd4855047e3f 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -407,8 +407,10 @@ static void q800_init(MachineState *machine)
+                     MAC_NUBUS_FIRST_SLOT * NUBUS_SUPER_SLOT_SIZE);
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 1, NUBUS_SLOT_BASE +
+                     MAC_NUBUS_FIRST_SLOT * NUBUS_SLOT_SIZE);
+-
+-    for (i = 0; i < VIA2_NUBUS_IRQ_NB; i++) {
++    qdev_connect_gpio_out(dev, 9,
++                          qdev_get_gpio_in_named(via2_dev, "nubus-irq",
++                          VIA2_NUBUS_IRQ_INTVIDEO));
++    for (i = 1; i < VIA2_NUBUS_IRQ_NB; i++) {
+         qdev_connect_gpio_out(dev, 9 + i,
+                               qdev_get_gpio_in_named(via2_dev, "nubus-irq",
+                                                      VIA2_NUBUS_IRQ_9 + i));
+@@ -419,6 +421,7 @@ static void q800_init(MachineState *machine)
+     /* framebuffer in nubus slot #9 */
  
- #include "exec/memory.h"
-+#include "hw/irq.h"
- #include "ui/console.h"
-+#include "qemu/timer.h"
- #include "qom/object.h"
- 
- typedef enum  {
-@@ -63,6 +65,11 @@ typedef struct MacfbState {
- 
-     uint32_t regs[MACFB_NUM_REGS];
-     MacFbMode *mode;
-+
-+    uint32_t irq_state;
-+    uint32_t irq_mask;
-+    QEMUTimer *vbl_timer;
-+    qemu_irq irq;
- } MacfbState;
- 
- #define TYPE_MACFB "sysbus-macfb"
-@@ -81,6 +88,7 @@ struct MacfbNubusDeviceClass {
-     DeviceClass parent_class;
- 
-     DeviceRealize parent_realize;
-+    DeviceUnrealize parent_unrealize;
- };
- 
- 
-diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 3288a71b89a6..4b352eb89c3f 100644
---- a/hw/display/macfb.c
-+++ b/hw/display/macfb.c
-@@ -33,9 +33,16 @@
- #define DAFB_MODE_CTRL1     0x8
- #define DAFB_MODE_CTRL2     0xc
- #define DAFB_MODE_SENSE     0x1c
-+#define DAFB_INTR_MASK      0x104
-+#define DAFB_INTR_STAT      0x108
-+#define DAFB_INTR_CLEAR     0x10c
- #define DAFB_RESET          0x200
- #define DAFB_LUT            0x213
- 
-+#define DAFB_INTR_VBL   0x4
-+
-+/* Vertical Blank period (60.15Hz) */
-+#define DAFB_INTR_VBL_PERIOD_NS 16625800
- 
- /*
-  * Quadra sense codes taken from Apple Technical Note HW26:
-@@ -470,6 +477,36 @@ static void macfb_update_display(void *opaque)
-     macfb_draw_graphic(s);
- }
- 
-+static void macfb_update_irq(MacfbState *s)
-+{
-+    uint32_t irq_state = s->irq_state & s->irq_mask;
-+
-+    if (irq_state) {
-+        qemu_irq_raise(s->irq);
-+    } else {
-+        qemu_irq_lower(s->irq);
-+    }
-+}
-+
-+static int64_t macfb_next_vbl(void)
-+{
-+    return (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + DAFB_INTR_VBL_PERIOD_NS) /
-+            DAFB_INTR_VBL_PERIOD_NS * DAFB_INTR_VBL_PERIOD_NS;
-+}
-+
-+static void macfb_vbl_timer(void *opaque)
-+{
-+    MacfbState *s = opaque;
-+    int64_t next_vbl;
-+
-+    s->irq_state |= DAFB_INTR_VBL;
-+    macfb_update_irq(s);
-+
-+    /* 60 Hz irq */
-+    next_vbl = macfb_next_vbl();
-+    timer_mod(s->vbl_timer, next_vbl);
-+}
-+
- static void macfb_reset(MacfbState *s)
- {
-     int i;
-@@ -498,6 +535,9 @@ static uint64_t macfb_ctrl_read(void *opaque,
-     case DAFB_MODE_CTRL2:
-         val = s->regs[addr >> 2];
-         break;
-+    case DAFB_INTR_STAT:
-+        val = s->irq_state;
-+        break;
-     case DAFB_MODE_SENSE:
-         val = macfb_sense_read(s);
-         break;
-@@ -513,6 +553,8 @@ static void macfb_ctrl_write(void *opaque,
-                              unsigned int size)
- {
-     MacfbState *s = opaque;
-+    int64_t next_vbl;
-+
-     switch (addr) {
-     case DAFB_MODE_VADDR1:
-     case DAFB_MODE_VADDR2:
-@@ -528,8 +570,23 @@ static void macfb_ctrl_write(void *opaque,
-     case DAFB_MODE_SENSE:
-         macfb_sense_write(s, val);
-         break;
-+    case DAFB_INTR_MASK:
-+        s->irq_mask = val;
-+        if (val & DAFB_INTR_VBL) {
-+            next_vbl = macfb_next_vbl();
-+            timer_mod(s->vbl_timer, next_vbl);
-+        } else {
-+            timer_del(s->vbl_timer);
-+        }
-+        break;
-+    case DAFB_INTR_CLEAR:
-+        s->irq_state &= ~DAFB_INTR_VBL;
-+        macfb_update_irq(s);
-+        break;
-     case DAFB_RESET:
-         s->palette_current = 0;
-+        s->irq_state &= ~DAFB_INTR_VBL;
-+        macfb_update_irq(s);
-         break;
-     case DAFB_LUT:
-         s->color_palette[s->palette_current] = val;
-@@ -611,6 +668,7 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
-     s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
-     memory_region_set_coalescing(&s->mem_vram);
- 
-+    s->vbl_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, macfb_vbl_timer, s);
-     macfb_update_mode(s);
-     return true;
- }
-@@ -626,6 +684,16 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
- 
-     sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_ctrl);
-     sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
-+
-+    qdev_init_gpio_out(dev, &ms->irq, 1);
-+}
-+
-+static void macfb_nubus_set_irq(void *opaque, int n, int level)
-+{
-+    MacfbNubusState *s = NUBUS_MACFB(opaque);
-+    NubusDevice *nd = NUBUS_DEVICE(s);
-+
-+    nubus_set_irq(nd, level);
- }
- 
- static void macfb_nubus_realize(DeviceState *dev, Error **errp)
-@@ -646,6 +714,19 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
- 
-     memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
-     memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
-+
-+    ms->irq = qemu_allocate_irq(macfb_nubus_set_irq, s, 0);
-+}
-+
-+static void macfb_nubus_unrealize(DeviceState *dev)
-+{
-+    MacfbNubusState *s = NUBUS_MACFB(dev);
-+    MacfbNubusDeviceClass *ndc = NUBUS_MACFB_GET_CLASS(dev);
-+    MacfbState *ms = &s->macfb;
-+
-+    ndc->parent_unrealize(dev);
-+
-+    qemu_free_irq(ms->irq);
- }
- 
- static void macfb_sysbus_reset(DeviceState *d)
-@@ -696,6 +777,8 @@ static void macfb_nubus_class_init(ObjectClass *klass, void *data)
- 
-     device_class_set_parent_realize(dc, macfb_nubus_realize,
-                                     &ndc->parent_realize);
-+    device_class_set_parent_unrealize(dc, macfb_nubus_unrealize,
-+                                      &ndc->parent_unrealize);
-     dc->desc = "Nubus Macintosh framebuffer";
-     dc->reset = macfb_nubus_reset;
-     dc->vmsd = &vmstate_macfb;
+     dev = qdev_new(TYPE_NUBUS_MACFB);
++    qdev_prop_set_uint32(dev, "slot", 9);
+     qdev_prop_set_uint32(dev, "width", graphic_width);
+     qdev_prop_set_uint32(dev, "height", graphic_height);
+     qdev_prop_set_uint8(dev, "depth", graphic_depth);
 -- 
 2.31.1
 
