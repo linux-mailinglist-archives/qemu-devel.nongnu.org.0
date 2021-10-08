@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3FE42730F
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 23:28:33 +0200 (CEST)
-Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 357E7427312
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 23:29:57 +0200 (CEST)
+Received: from localhost ([::1]:33836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYxPs-0001mw-TI
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 17:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41152)
+	id 1mYxRE-0004cP-4J
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 17:29:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYxLb-0003Dh-8X
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYxLb-0003DW-5j
  for qemu-devel@nongnu.org; Fri, 08 Oct 2021 17:24:07 -0400
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:36439)
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:36785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYxLY-0007dq-QJ
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 17:24:07 -0400
-Received: by mail-il1-x12b.google.com with SMTP id h10so4319747ilq.3
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 14:24:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYxLZ-0007eQ-MC
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 17:24:06 -0400
+Received: by mail-io1-xd29.google.com with SMTP id e144so12198816iof.3
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 14:24:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+iCM+yR0qcttTMwYSn2e4jAE9+L2FqOFocc4ASN0OLo=;
- b=WaZNQ98svrVxbeiuAHb3aA3S5AADbwwegmXYeRgqm4h0HHLSGaGtUUOgULHc7EVxZe
- F0/XFhQV33ca1wICtcmANt/OQaeKbQaV19C9KyeXtQzqkWh1x6+UiJOsEvRcdam5tYrC
- lIWmxn+UHfA/cXN2zODHUS1UCcaGpBLl6yFGSKch7xlEEoRobyiZuOx+PnPbQC6DAKpk
- R0G5ZZEdLHB5wDsAQgsD5vqLwoSvY1aUoUnOneQ2sRuZpdXmNcQmaJNa3dKnp9QIgztg
- 7J7bktJ7BJEfxq3u8uoyMmzq80hN7n9KAjhtqWJEUUx3GQyzeAsQiVSMaHzwFyfNqS9i
- qC1w==
+ bh=1e18TD5eHR2hUes2puSFLwrXKaZMLfYPBvZiD2Wr2TM=;
+ b=3VYYXCluck2vnrtNqBTeMT3yj33QlxkDu+Yt3UzkDD8ah5sw8Olq+johIEyJSNIADi
+ r8rHdA7nqqAAtmCU4i8Nak4iLN7ZyLmodf+6AEmgfHJlHARWvYSDtDPzwlKQygwzWOzX
+ iZtqj+DeqEMX9ykSERIiugAT8PtNzWrgDAC0Lxvr+VjMeFEF/FXSZaKXSXEazFuYOlxL
+ vzu7o8cYx/aUUUxZeaNqa07F1GqYaIizIbI3HvglTRM5z3zT2Hq2CDfG8soj8948AsGY
+ hDx+cVJuRU/sDOihnSTVOmq3B1/XFjWQWwAvojRdey92sHJAQqYlpKPCSOnujUxB0gDq
+ 1G4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+iCM+yR0qcttTMwYSn2e4jAE9+L2FqOFocc4ASN0OLo=;
- b=lC9OBK02dfP14MqIzPkVhyxCmxY1fXhj4qfRC6y855IGVhYpx5wgQhN1MURFXjyKYz
- 7EP5xvUvFtAeZ1Us0Z9rGPVSBR9EW49esVZ3wFsJ2dU3zeJ0azbXeSUq5VmL+9rVxAIb
- 2RuaPc+oiA/arbhpEJJB4cGd2TC9tDYGOSkAmqQhhcbuxyNPlR3xbCEmGHY7PfS9lAcE
- Ctmk6FlEBGwpwu6TYqVGIow0mUCRVojlADGepEXlYs4iiBhYovqga72IH3mI7K4ScGjZ
- /LWHgerFGBtU4yTNRlcHhglDhB4iQYynQcpRTELHJ18wTAp/8UZFBwlyBBJvFgQkbrdi
- nIfw==
-X-Gm-Message-State: AOAM531Itegzq+88eQyLyowD7CsSPrV0tGKwN2TEn5sUxasM08b1bxcI
- zrIwpeCD4p4/oBtF3KBgrqDNG4hNSEaszw==
-X-Google-Smtp-Source: ABdhPJxwHjiy0WYUE8csiTpcD1Y+ZPD2Xk/nVCljnBSX0YSP9wZIfGm+b9nkfSOmQV+fq9fUwUS4YQ==
-X-Received: by 2002:a05:6e02:14d3:: with SMTP id
- o19mr9806343ilk.156.1633728243477; 
- Fri, 08 Oct 2021 14:24:03 -0700 (PDT)
+ bh=1e18TD5eHR2hUes2puSFLwrXKaZMLfYPBvZiD2Wr2TM=;
+ b=lqmUw9k0FqykOb3R7rr8E1bZQ/clrp/ANuScuGdmwAN2qwACNeGNKMb9exfA+Hrpp4
+ X9sU9zos7x8c06KqjqXPlX3uJNUUe0azqERtD2LBKy8uZ3zqIERLCqgqlsVyhtZNLemK
+ LxBUqmNkruUHPT0bPzvo0TAgvhpPAkFUBZD8DTnQ775nELdX+d3SNhtFUiUa9IqbjdRy
+ rRNu0QeENoxnjqvA5ZT5u/xy6A39HLwkpqtja8cddZ4PQ2+Dsq3kqLMf6Nw+dPQ7W6Ab
+ uhwW2zCgb0cXp0QL1NfvqfXsPuHF9hnXVy0izHSw9ev8Sj4RnEmefSR47cLr9Wk7DYri
+ N51g==
+X-Gm-Message-State: AOAM533uL3XJjforcpmSFfagR3P9YziafTh8qEmxx4z+k4au7e872ICB
+ 3gxfUJBWZPXUS2+BtIP4UagbLcYR8Xjigw==
+X-Google-Smtp-Source: ABdhPJwu8Utgr3l+JOKSe4a0cy3RgM6puGnlkkDI4GlNLGLvWkvkRBUM4vLDNMqQjjPVjOrngCuudg==
+X-Received: by 2002:a6b:2b52:: with SMTP id r79mr3835597ior.103.1633728244432; 
+ Fri, 08 Oct 2021 14:24:04 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a4sm186620ild.52.2021.10.08.14.24.02
+ by smtp.gmail.com with ESMTPSA id a4sm186620ild.52.2021.10.08.14.24.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 08 Oct 2021 14:24:03 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/9] bsd-user/mmap.c: mmap return ENOMEM on overflow
-Date: Fri,  8 Oct 2021 15:23:39 -0600
-Message-Id: <20211008212344.95537-5-imp@bsdimp.com>
+Subject: [PATCH v3 5/9] bsd-user/mmap.c: mmap prefer MAP_ANON for BSD
+Date: Fri,  8 Oct 2021 15:23:40 -0600
+Message-Id: <20211008212344.95537-6-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211008212344.95537-1-imp@bsdimp.com>
 References: <20211008212344.95537-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12b;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,40 +87,65 @@ Cc: kevans@freebsd.org, richard.henderson@linaro.org, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mmap should return ENOMEM on len overflow rather than EINVAL. Return
-EINVAL when len == 0 and ENOMEM when the rounded to a page length is 0.
-Found by make check-tcg.
+MAP_ANON and MAP_ANONYMOUS are identical. Prefer MAP_ANON for BSD since
+the file is now a confusing mix of the two.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/mmap.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ bsd-user/mmap.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
-index 6f33aec58b..f0be3b12cf 100644
+index f0be3b12cf..301108ed25 100644
 --- a/bsd-user/mmap.c
 +++ b/bsd-user/mmap.c
-@@ -455,11 +455,18 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-         goto fail;
+@@ -285,7 +285,7 @@ static abi_ulong mmap_find_vma_aligned(abi_ulong start, abi_ulong size,
+     addr = start;
+     wrapped = repeat = 0;
+     prev = 0;
+-    flags = MAP_ANONYMOUS | MAP_PRIVATE;
++    flags = MAP_ANON | MAP_PRIVATE;
+     if (alignment != 0) {
+         flags |= MAP_ALIGNED(alignment);
      }
+@@ -409,7 +409,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+         if (flags & MAP_FIXED) {
+             printf("MAP_FIXED ");
+         }
+-        if (flags & MAP_ANONYMOUS) {
++        if (flags & MAP_ANON) {
+             printf("MAP_ANON ");
+         }
+         if (flags & MAP_EXCL) {
+@@ -431,7 +431,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+     }
+ #endif
  
--    len = TARGET_PAGE_ALIGN(len);
-     if (len == 0) {
+-    if ((flags & MAP_ANONYMOUS) && fd != -1) {
++    if ((flags & MAP_ANON) && fd != -1) {
          errno = EINVAL;
          goto fail;
      }
-+
-+    /* Check for overflows */
-+    len = TARGET_PAGE_ALIGN(len);
-+    if (len == 0) {
-+        errno = ENOMEM;
-+        goto fail;
-+    }
-+
-     real_start = start & qemu_host_page_mask;
-     host_offset = offset & qemu_host_page_mask;
+@@ -533,7 +533,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+          * qemu_real_host_page_size
+          */
+         p = mmap(g2h_untagged(start), host_len, prot,
+-                 flags | MAP_FIXED | ((fd != -1) ? MAP_ANONYMOUS : 0), -1, 0);
++                 flags | MAP_FIXED | ((fd != -1) ? MAP_ANON : 0), -1, 0);
+         if (p == MAP_FAILED)
+             goto fail;
+         /* update start so that it points to the file position at 'offset' */
+@@ -696,8 +696,7 @@ static void mmap_reserve(abi_ulong start, abi_ulong size)
+     }
+     if (real_start != real_end) {
+         mmap(g2h_untagged(real_start), real_end - real_start, PROT_NONE,
+-                 MAP_FIXED | MAP_ANONYMOUS | MAP_PRIVATE,
+-                 -1, 0);
++                 MAP_FIXED | MAP_ANON | MAP_PRIVATE, -1, 0);
+     }
+ }
  
 -- 
 2.32.0
