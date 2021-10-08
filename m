@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E85B426A2F
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 13:54:17 +0200 (CEST)
-Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CD4B426A4E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 13:57:00 +0200 (CEST)
+Received: from localhost ([::1]:42528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYoS8-0000kN-BR
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 07:54:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50514)
+	id 1mYoUl-0005e4-5K
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 07:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJp-0006Si-Pe
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:41 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:49631)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJj-0006Ix-Ce
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:35 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:58665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJi-00072o-7M
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:41 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJb-0006yk-VI
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:34 -0400
 Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MNtGq-1mNt8N39Q0-00OH50; Fri, 08
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MEmIl-1mXPHL10DT-00GGL3; Fri, 08
  Oct 2021 13:45:24 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/13] macfb: add qdev property to specify display type
-Date: Fri,  8 Oct 2021 13:45:13 +0200
-Message-Id: <20211008114518.757615-9-laurent@vivier.eu>
+Subject: [PULL 09/13] macfb: add common monitor modes supported by the MacOS
+ toolbox ROM
+Date: Fri,  8 Oct 2021 13:45:14 +0200
+Message-Id: <20211008114518.757615-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211008114518.757615-1-laurent@vivier.eu>
 References: <20211008114518.757615-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lo76DOm9QLp+EsrAabaM2vPa23U0emVhihPVU8hr3vPiRRfytZy
- pXTD2AqroGfHeMNJLGqm8M+gkCWeQHgIkAimYp+IdvPwmesTBfNZr4fc48HYBEbRd/tbRqb
- Ba0yom42p9ofRnp2UoqCSLj7Xn21k28GvIdPqLPwt9EO+ipn+U1i5dSWIyrwYlZDO9K+9wc
- IzhWwpgSqqkka3MJ0fyoQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZqeySFZM2DA=:SeqNzLBzgUlFfy5+/21EAY
- PS6L9XfhrzzMeGmRqnQ3TMB/iV6ivdkcM8Mb6pb8BbcF5jUbDXHPBZ3NxxDOp0WE6d21jgHrE
- /8tKoAp47xAvk4TsvETT72cwwyccjB0Ds+Rxy/UdNy9cIGurVTVcslWnkq5T2dfP/zWtilbEs
- +u9kjNVCkAoMkq2yZYTJvoZiKAKAKWrXiJE4EFQAlyN3ngpHEnZPDSPl0HQI6bZtT9J373xdF
- KiLhBj1phA3IvL0VoBfCyevBt5ZRGP5tht/PkuSgzKhLJzLJGPDVV0gYLyYWGpfXwZrPD9tQN
- EEMyN8aM22j94JSrwjABrw4LbmUljbgxf4ImKjHIV5wXvD3tWgBTcFpsAHV76pmtPM5+tZ0EF
- arybXiVXIfKyon8J+mf1xwh/X6YvCGUW+tX4PWj8IjwN63gVIZpY9+ugcBPNDlpgw4AlYLdI8
- j06QwO9ARtFPljTG/fnroZJb5Dg7z1TYyPM1/BaMouqZNl+mzuQJeRgLNQxiUEyjXL0UdYWfD
- +TOb26GN6zg0OMuT5LOPvPc004afRU7LU0k+CSd9A1D1faSVY2i2ifU0lv6pnRB0sVSJtNTrT
- ZGBD4fJ8TfHhLCEL6YCogFztiZ3XHVbnp/dxM+ypkHKJrE6aUQ3ypRGxXv9bme7nxn37nkvn7
- eps2292JWw+Xu7f7unUQ6ft99Mm9CjW6jjNa7lQm9fGv1ZtnETETgFzgWKzK37EW+ms8QzGhb
- hO+EkZ7VH/NpFepW4rsgBtIjD/3RdLra1SDqXg==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:H13Xp2T9dxvsvX7ucsMAvlqvyR8qrrSJW89PAQ2cL1gzbAwgGDL
+ I9LQ/++S96qOEvYNO+GUxQoMtEewO3EZs6akDZnfL8RPtxfJLIwR99JcpeM4YxaEXlToHWd
+ lPbVO1Zl7NWebWnDpvFnQEi8ERnWzhAY/vWZB5TT2JUFvTz3DfNQ4ek6gcwxrNp8Pcslivd
+ 0xYcK1Qe6rYd9Y4qSobhA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2vFseOhnQnk=:e/nQGh6jdXpnTK41DC2uz4
+ ngL2wzM9f+RMLgqg1QPYJHpOwg9k9KMHpmBCY1YxglEyTbb8pEBzbBUBf+wUEznH8ju4nLd+Z
+ gsBsER4qR8UeNGcupHd0iRnu49moxkhVYwwhnL8ZKbuIk0rsXVpXhs3Z+qQYu0CLJztwX1uhX
+ L8VbsBs3YDoYwnjrgXPtWkE21134H8chjGFreul4N0lbe9Pq8TvFZJD52TcFn2nQ+CwhhQc2w
+ SyIgTYaDqP1WwO588my9POKXRBPVPm3HFbb6vVyvcgJHxd/v5aziWIwfW9MiqO5+YAQenHPov
+ 1gX4Y7M98y0dEG6sBk6/xKILixwk1hJ5NIyQCAV1gTCT/xOgXDi/OxF3OHAMX+nqTFznac1ue
+ czMBSw7w6Xub7K5dz0lF+XlVrwIwi5hJOwWwx+YOjgpNKfIxIKOpA15QASSx1fPGyqWG08237
+ jp2DZpw6FhucY6pCcw+oOBUBObfMm1qz2zl93ZYzjVdA+vpsh7cCBkhGJLxcEsbTBQNmJu0lr
+ 2F4XYpWakkOjmFS2IeQk4OwnSgv/z6gYlxK+/mszpmi+RVX2V027lfnKZoLUiTrfUufrpFZ4C
+ Etvl3A9JvgCBUejMqSE5RU+FHuTqiZFCLA9I2NoXmn7G+WjvHwoRWm5UU6BCb/XNL+juCz/x2
+ 39Bo2+jLqhchCdTuBPacV1SfXaX7wmqJ5u8NJjI1InpbPPjlQGn3fPLuenXUogJ7Tyg/7xzvP
+ G+hW66Z6Dzu65enQKJi/+hTQ6gle825/GsxViQ==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,91 +68,391 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Since the available resolutions and colour depths are determined by the attached
-display type, add a qdev property to allow the display type to be specified.
+The monitor modes table is found by experimenting with the Monitors Control
+Panel in MacOS and analysing the reads/writes. From this it can be found that
+the mode is controlled by writes to the DAFB_MODE_CTRL1 and DAFB_MODE_CTRL2
+registers.
 
-The main resolutions of interest are high resolution 1152x870 with 8-bit colour
-and SVGA resolution up to 800x600 with 24-bit colour so update the q800 machine
-to allow high resolution mode if specified and otherwise fall back to SVGA.
+Implement the first block of DAFB registers as a register array including the
+existing sense register, the newly discovered control registers above, and also
+the DAFB_MODE_VADDR1 and DAFB_MODE_VADDR2 registers which are used by NetBSD to
+determine the current video mode.
+
+These experiments also show that the offset of the start of video RAM and the
+stride can change depending upon the monitor mode, so update macfb_draw_graphic()
+and both the BI_MAC_VADDR and BI_MAC_VROW bootinfo for the q800 machine
+accordingly.
+
+Finally update macfb_common_realize() so that only the resolution and depth
+supported by the display type can be specified on the command line, and add an
+error hint showing the list of supported resolutions and depths if the user tries
+to specify an invalid display mode.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20211007221253.29024-9-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20211007221253.29024-10-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/hw/display/macfb.h | 1 +
- hw/display/macfb.c         | 7 ++++++-
- hw/m68k/q800.c             | 5 +++++
- 3 files changed, 12 insertions(+), 1 deletion(-)
+ include/hw/display/macfb.h |  16 +++-
+ hw/display/macfb.c         | 149 +++++++++++++++++++++++++++++++++----
+ hw/m68k/q800.c             |  11 ++-
+ hw/display/trace-events    |   1 +
+ 4 files changed, 156 insertions(+), 21 deletions(-)
 
 diff --git a/include/hw/display/macfb.h b/include/hw/display/macfb.h
-index febf4ce0e843..e95a97ebdcda 100644
+index e95a97ebdcda..0aff0d84d2af 100644
 --- a/include/hw/display/macfb.h
 +++ b/include/hw/display/macfb.h
-@@ -46,6 +46,7 @@ typedef struct MacfbState {
-     uint8_t color_palette[256 * 3];
-     uint32_t width, height; /* in pixels */
-     uint8_t depth;
-+    uint8_t type;
+@@ -35,6 +35,19 @@ typedef enum  {
+     MACFB_DISPLAY_SVGA = 14,
+ } MacfbDisplayType;
  
-     uint32_t sense;
++typedef struct MacFbMode {
++    uint8_t type;
++    uint8_t depth;
++    uint32_t mode_ctrl1;
++    uint32_t mode_ctrl2;
++    uint32_t width;
++    uint32_t height;
++    uint32_t stride;
++    uint32_t offset;
++} MacFbMode;
++
++#define MACFB_NUM_REGS      8
++
+ typedef struct MacfbState {
+     MemoryRegion mem_vram;
+     MemoryRegion mem_ctrl;
+@@ -48,7 +61,8 @@ typedef struct MacfbState {
+     uint8_t depth;
+     uint8_t type;
+ 
+-    uint32_t sense;
++    uint32_t regs[MACFB_NUM_REGS];
++    MacFbMode *mode;
  } MacfbState;
+ 
+ #define TYPE_MACFB "sysbus-macfb"
 diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 6e485d7aef90..f98bcdec2dc6 100644
+index f98bcdec2dc6..2759fb5e34d1 100644
 --- a/hw/display/macfb.c
 +++ b/hw/display/macfb.c
-@@ -316,7 +316,8 @@ static uint32_t macfb_sense_read(MacfbState *s)
-     MacFbSense *macfb_sense;
-     uint8_t sense;
+@@ -22,12 +22,16 @@
+ #include "migration/vmstate.h"
+ #include "trace.h"
  
--    macfb_sense = &macfb_sense_table[MACFB_DISPLAY_VGA];
-+    assert(s->type < ARRAY_SIZE(macfb_sense_table));
-+    macfb_sense = &macfb_sense_table[s->type];
-     if (macfb_sense->sense == 0x7) {
-         /* Extended sense */
+-#define VIDEO_BASE 0x00001000
++#define VIDEO_BASE 0x0
+ #define DAFB_BASE  0x00800000
+ 
+ #define MACFB_PAGE_SIZE 4096
+ #define MACFB_VRAM_SIZE (4 * MiB)
+ 
++#define DAFB_MODE_VADDR1    0x0
++#define DAFB_MODE_VADDR2    0x4
++#define DAFB_MODE_CTRL1     0x8
++#define DAFB_MODE_CTRL2     0xc
+ #define DAFB_MODE_SENSE     0x1c
+ #define DAFB_RESET          0x200
+ #define DAFB_LUT            0x213
+@@ -89,6 +93,22 @@ static MacFbSense macfb_sense_table[] = {
+     { MACFB_DISPLAY_SVGA, 0x7, 0x5 },
+ };
+ 
++static MacFbMode macfb_mode_table[] = {
++    { MACFB_DISPLAY_VGA, 1, 0x100, 0x71e, 640, 480, 0x400, 0x1000 },
++    { MACFB_DISPLAY_VGA, 2, 0x100, 0x70e, 640, 480, 0x400, 0x1000 },
++    { MACFB_DISPLAY_VGA, 4, 0x100, 0x706, 640, 480, 0x400, 0x1000 },
++    { MACFB_DISPLAY_VGA, 8, 0x100, 0x702, 640, 480, 0x400, 0x1000 },
++    { MACFB_DISPLAY_VGA, 24, 0x100, 0x7ff, 640, 480, 0x1000, 0x1000 },
++    { MACFB_DISPLAY_VGA, 1, 0xd0 , 0x70e, 800, 600, 0x340, 0xe00 },
++    { MACFB_DISPLAY_VGA, 2, 0xd0 , 0x706, 800, 600, 0x340, 0xe00 },
++    { MACFB_DISPLAY_VGA, 4, 0xd0 , 0x702, 800, 600, 0x340, 0xe00 },
++    { MACFB_DISPLAY_VGA, 8, 0xd0,  0x700, 800, 600, 0x340, 0xe00 },
++    { MACFB_DISPLAY_VGA, 24, 0x340, 0x100, 800, 600, 0xd00, 0xe00 },
++    { MACFB_DISPLAY_APPLE_21_COLOR, 1, 0x90, 0x506, 1152, 870, 0x240, 0x80 },
++    { MACFB_DISPLAY_APPLE_21_COLOR, 2, 0x90, 0x502, 1152, 870, 0x240, 0x80 },
++    { MACFB_DISPLAY_APPLE_21_COLOR, 4, 0x90, 0x500, 1152, 870, 0x240, 0x80 },
++    { MACFB_DISPLAY_APPLE_21_COLOR, 8, 0x120, 0x5ff, 1152, 870, 0x480, 0x80 },
++};
+ 
+ typedef void macfb_draw_line_func(MacfbState *s, uint8_t *d, uint32_t addr,
+                                   int width);
+@@ -246,7 +266,7 @@ static void macfb_draw_graphic(MacfbState *s)
+     ram_addr_t page;
+     uint32_t v = 0;
+     int y, ymin;
+-    int macfb_stride = (s->depth * s->width + 7) / 8;
++    int macfb_stride = s->mode->stride;
+     macfb_draw_line_func *macfb_draw_line;
+ 
+     switch (s->depth) {
+@@ -278,7 +298,7 @@ static void macfb_draw_graphic(MacfbState *s)
+                                              DIRTY_MEMORY_VGA);
+ 
+     ymin = -1;
+-    page = 0;
++    page = s->mode->offset;
+     for (y = 0; y < s->height; y++, page += macfb_stride) {
+         if (macfb_check_dirty(s, snap, page, macfb_stride)) {
+             uint8_t *data_display;
+@@ -323,25 +343,26 @@ static uint32_t macfb_sense_read(MacfbState *s)
          sense = 0;
-@@ -544,6 +545,8 @@ static Property macfb_sysbus_properties[] = {
-     DEFINE_PROP_UINT32("width", MacfbSysBusState, macfb.width, 640),
-     DEFINE_PROP_UINT32("height", MacfbSysBusState, macfb.height, 480),
-     DEFINE_PROP_UINT8("depth", MacfbSysBusState, macfb.depth, 8),
-+    DEFINE_PROP_UINT8("display", MacfbSysBusState, macfb.type,
-+                      MACFB_DISPLAY_VGA),
-     DEFINE_PROP_END_OF_LIST(),
- };
+         if (!(macfb_sense->ext_sense & 1)) {
+             /* Pins 7-4 together */
+-            if (~s->sense & 3) {
+-                sense = (~s->sense & 7) | 3;
++            if (~s->regs[DAFB_MODE_SENSE >> 2] & 3) {
++                sense = (~s->regs[DAFB_MODE_SENSE >> 2] & 7) | 3;
+             }
+         }
+         if (!(macfb_sense->ext_sense & 2)) {
+             /* Pins 10-7 together */
+-            if (~s->sense & 6) {
+-                sense = (~s->sense & 7) | 6;
++            if (~s->regs[DAFB_MODE_SENSE >> 2] & 6) {
++                sense = (~s->regs[DAFB_MODE_SENSE >> 2] & 7) | 6;
+             }
+         }
+         if (!(macfb_sense->ext_sense & 4)) {
+             /* Pins 4-10 together */
+-            if (~s->sense & 5) {
+-                sense = (~s->sense & 7) | 5;
++            if (~s->regs[DAFB_MODE_SENSE >> 2] & 5) {
++                sense = (~s->regs[DAFB_MODE_SENSE >> 2] & 7) | 5;
+             }
+         }
+     } else {
+         /* Normal sense */
+-        sense = (~macfb_sense->sense & 7) | (~s->sense & 7);
++        sense = (~macfb_sense->sense & 7) |
++                (~s->regs[DAFB_MODE_SENSE >> 2] & 7);
+     }
  
-@@ -551,6 +554,8 @@ static Property macfb_nubus_properties[] = {
-     DEFINE_PROP_UINT32("width", MacfbNubusState, macfb.width, 640),
-     DEFINE_PROP_UINT32("height", MacfbNubusState, macfb.height, 480),
-     DEFINE_PROP_UINT8("depth", MacfbNubusState, macfb.depth, 8),
-+    DEFINE_PROP_UINT8("display", MacfbNubusState, macfb.type,
-+                      MACFB_DISPLAY_VGA),
-     DEFINE_PROP_END_OF_LIST(),
+     trace_macfb_sense_read(sense);
+@@ -350,12 +371,84 @@ static uint32_t macfb_sense_read(MacfbState *s)
+ 
+ static void macfb_sense_write(MacfbState *s, uint32_t val)
+ {
+-    s->sense = val;
++    s->regs[DAFB_MODE_SENSE >> 2] = val;
+ 
+     trace_macfb_sense_write(val);
+     return;
+ }
+ 
++static void macfb_update_mode(MacfbState *s)
++{
++    s->width = s->mode->width;
++    s->height = s->mode->height;
++    s->depth = s->mode->depth;
++
++    trace_macfb_update_mode(s->width, s->height, s->depth);
++    macfb_invalidate_display(s);
++}
++
++static void macfb_mode_write(MacfbState *s)
++{
++    MacFbMode *macfb_mode;
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
++        macfb_mode = &macfb_mode_table[i];
++
++        if (s->type != macfb_mode->type) {
++            continue;
++        }
++
++        if ((s->regs[DAFB_MODE_CTRL1 >> 2] & 0xff) ==
++             (macfb_mode->mode_ctrl1 & 0xff) &&
++            (s->regs[DAFB_MODE_CTRL2 >> 2] & 0xff) ==
++             (macfb_mode->mode_ctrl2 & 0xff)) {
++            s->mode = macfb_mode;
++            macfb_update_mode(s);
++            break;
++        }
++    }
++}
++
++static MacFbMode *macfb_find_mode(MacfbDisplayType display_type,
++                                  uint16_t width, uint16_t height,
++                                  uint8_t depth)
++{
++    MacFbMode *macfb_mode;
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
++        macfb_mode = &macfb_mode_table[i];
++
++        if (display_type == macfb_mode->type && width == macfb_mode->width &&
++                height == macfb_mode->height && depth == macfb_mode->depth) {
++            return macfb_mode;
++        }
++    }
++
++    return NULL;
++}
++
++static gchar *macfb_mode_list(void)
++{
++    gchar *list = NULL;
++    gchar *mode;
++    MacFbMode *macfb_mode;
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(macfb_mode_table); i++) {
++        macfb_mode = &macfb_mode_table[i];
++
++        mode = g_strdup_printf("    %dx%dx%d\n", macfb_mode->width,
++                               macfb_mode->height, macfb_mode->depth);
++        list = g_strconcat(mode, list, NULL);
++        g_free(mode);
++    }
++
++    return list;
++}
++
++
+ static void macfb_update_display(void *opaque)
+ {
+     MacfbState *s = opaque;
+@@ -397,6 +490,12 @@ static uint64_t macfb_ctrl_read(void *opaque,
+     uint64_t val = 0;
+ 
+     switch (addr) {
++    case DAFB_MODE_VADDR1:
++    case DAFB_MODE_VADDR2:
++    case DAFB_MODE_CTRL1:
++    case DAFB_MODE_CTRL2:
++        val = s->regs[addr >> 2];
++        break;
+     case DAFB_MODE_SENSE:
+         val = macfb_sense_read(s);
+         break;
+@@ -413,6 +512,17 @@ static void macfb_ctrl_write(void *opaque,
+ {
+     MacfbState *s = opaque;
+     switch (addr) {
++    case DAFB_MODE_VADDR1:
++    case DAFB_MODE_VADDR2:
++        s->regs[addr >> 2] = val;
++        break;
++    case DAFB_MODE_CTRL1 ... DAFB_MODE_CTRL1 + 3:
++    case DAFB_MODE_CTRL2 ... DAFB_MODE_CTRL2 + 3:
++        s->regs[addr >> 2] = val;
++        if (val) {
++            macfb_mode_write(s);
++        }
++        break;
+     case DAFB_MODE_SENSE:
+         macfb_sense_write(s, val);
+         break;
+@@ -442,7 +552,7 @@ static const MemoryRegionOps macfb_ctrl_ops = {
+ 
+ static int macfb_post_load(void *opaque, int version_id)
+ {
+-    macfb_invalidate_display(opaque);
++    macfb_mode_write(opaque);
+     return 0;
+ }
+ 
+@@ -455,7 +565,7 @@ static const VMStateDescription vmstate_macfb = {
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT8_ARRAY(color_palette, MacfbState, 256 * 3),
+         VMSTATE_UINT32(palette_current, MacfbState),
+-        VMSTATE_UINT32(sense, MacfbState),
++        VMSTATE_UINT32_ARRAY(regs, MacfbState, MACFB_NUM_REGS),
+         VMSTATE_END_OF_LIST()
+     }
  };
+@@ -469,9 +579,15 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
+ {
+     DisplaySurface *surface;
+ 
+-    if (s->depth != 1 && s->depth != 2 && s->depth != 4 && s->depth != 8 &&
+-        s->depth != 16 && s->depth != 24) {
+-        error_setg(errp, "unknown guest depth %d", s->depth);
++    s->mode = macfb_find_mode(s->type, s->width, s->height, s->depth);
++    if (!s->mode) {
++        gchar *list;
++        error_setg(errp, "unknown display mode: width %d, height %d, depth %d",
++                   s->width, s->height, s->depth);
++        list =  macfb_mode_list();
++        error_append_hint(errp, "Available modes:\n%s", list);
++        g_free(list);
++
+         return false;
+     }
+ 
+@@ -493,6 +609,7 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
+     s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
+     memory_region_set_coalescing(&s->mem_vram);
+ 
++    macfb_update_mode(s);
+     return true;
+ }
  
 diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 09b336602482..5223b880bc2d 100644
+index 5223b880bc2d..df3fd3711e6e 100644
 --- a/hw/m68k/q800.c
 +++ b/hw/m68k/q800.c
-@@ -421,6 +421,11 @@ static void q800_init(MachineState *machine)
-     qdev_prop_set_uint32(dev, "width", graphic_width);
-     qdev_prop_set_uint32(dev, "height", graphic_height);
-     qdev_prop_set_uint8(dev, "depth", graphic_depth);
-+    if (graphic_width == 1152 && graphic_height == 870 && graphic_depth == 8) {
-+        qdev_prop_set_uint8(dev, "display", MACFB_DISPLAY_APPLE_21_COLOR);
-+    } else {
-+        qdev_prop_set_uint8(dev, "display", MACFB_DISPLAY_VGA);
-+    }
+@@ -74,7 +74,7 @@
+  * is needed by the kernel to have early display and
+  * thus provided by the bootloader
+  */
+-#define VIDEO_BASE            0xf9001000
++#define VIDEO_BASE            0xf9000000
+ 
+ #define MAC_CLOCK  3686418
+ 
+@@ -221,6 +221,7 @@ static void q800_init(MachineState *machine)
+     uint8_t *prom;
+     const int io_slice_nb = (IO_SIZE / IO_SLICE) - 1;
+     int i, checksum;
++    MacFbMode *macfb_mode;
+     ram_addr_t ram_size = machine->ram_size;
+     const char *kernel_filename = machine->kernel_filename;
+     const char *initrd_filename = machine->initrd_filename;
+@@ -428,6 +429,8 @@ static void q800_init(MachineState *machine)
+     }
      qdev_realize_and_unref(dev, BUS(nubus), &error_fatal);
  
++    macfb_mode = (NUBUS_MACFB(dev)->macfb).mode;
++
      cs = CPU(cpu);
+     if (linux_boot) {
+         uint64_t high;
+@@ -450,12 +453,12 @@ static void q800_init(MachineState *machine)
+         BOOTINFO1(cs->as, parameters_base,
+                   BI_MAC_MEMSIZE, ram_size >> 20); /* in MB */
+         BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_VADDR, VIDEO_BASE);
++        BOOTINFO1(cs->as, parameters_base, BI_MAC_VADDR,
++                  VIDEO_BASE + macfb_mode->offset);
+         BOOTINFO1(cs->as, parameters_base, BI_MAC_VDEPTH, graphic_depth);
+         BOOTINFO1(cs->as, parameters_base, BI_MAC_VDIM,
+                   (graphic_height << 16) | graphic_width);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_VROW,
+-                  (graphic_width * graphic_depth + 7) / 8);
++        BOOTINFO1(cs->as, parameters_base, BI_MAC_VROW, macfb_mode->stride);
+         BOOTINFO1(cs->as, parameters_base, BI_MAC_SCCBASE, SCC_BASE);
+ 
+         rom = g_malloc(sizeof(*rom));
+diff --git a/hw/display/trace-events b/hw/display/trace-events
+index 30cb460e4d1b..3a7a2c957f4f 100644
+--- a/hw/display/trace-events
++++ b/hw/display/trace-events
+@@ -173,3 +173,4 @@ macfb_ctrl_read(uint64_t addr, uint64_t value, unsigned int size) "addr 0x%"PRIx
+ macfb_ctrl_write(uint64_t addr, uint64_t value, unsigned int size) "addr 0x%"PRIx64 " value 0x%"PRIx64 " size %u"
+ macfb_sense_read(uint32_t value) "video sense: 0x%"PRIx32
+ macfb_sense_write(uint32_t value) "video sense: 0x%"PRIx32
++macfb_update_mode(uint32_t width, uint32_t height, uint8_t depth) "setting mode to width %"PRId32 " height %"PRId32 " size %d"
 -- 
 2.31.1
 
