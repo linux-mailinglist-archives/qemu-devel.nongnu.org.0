@@ -2,63 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A86942681F
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 12:44:09 +0200 (CEST)
-Received: from localhost ([::1]:53122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8AE942684B
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 12:51:43 +0200 (CEST)
+Received: from localhost ([::1]:60904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYnMF-0001UE-Lg
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 06:44:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36630)
+	id 1mYnTa-00075h-PX
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 06:51:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mYnHM-0000Ha-3e
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 06:39:04 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:47432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mYnH6-0006Mh-EO
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 06:39:03 -0400
-Received: from [192.168.15.195] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 4A5EF21C38;
- Fri,  8 Oct 2021 10:38:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1633689523;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o7ITtSaOABSeha5K6gkLBGf3rzaHjdnTxEo1tX0srFY=;
- b=Io2Gqyo8dohGjWIEj81+4C8tOGEsoI1QnfVEIaPPD/jOkWWVzhdM6JHjqfZS3gf+WRSBgO
- 38E4oMgisDn2sr3Dup0QJF0uWAKMSJkATpdPP2kVI/EXQg254Dn7YyaHS2MLElub0k3q7c
- mTztVKEz4eB3j2h3TTqXhHGYZYm5KCk=
-Message-ID: <97f817b9-9455-9899-ff20-530baa77190d@greensocs.com>
-Date: Fri, 8 Oct 2021 12:38:41 +0200
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mYnRg-0005k2-R7
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 06:49:44 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45965)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mYnRf-0004U0-3T
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 06:49:44 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id r10so28472616wra.12
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 03:49:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=KomL0vATO0KWTCb9Asr/HKi0QnGnEjCHTaoy2mPsYM4=;
+ b=grFpIwTOdJM/v0pNkD0M9YzJj7OYmz45QzRL56mRTM8D4stuDgQydEHeawElG6CcYs
+ HTI85trCHDIyOHk5ytjj0i5GooCW7L3DtuACRtFUTieLUA27BcHwuk12eoXmMienO2YG
+ QKc57k9Ew64vBzOfQNVYdpPFwzaBvbwPa19haQSTn/ttaSRfWOz4QNat3nT5ZPAdvp5g
+ rx5jFi+TT5phw3rUUyiT8VMwDi3zaip3MYAH0tfSpDEfZ5YlPl/W2HxrMxr3GT2WZuof
+ qhMQOfdSN/EpKqXNIu46boQUQny6pag4UOlyCAhZA7qoMc8w1HKv1LCqsxlhLckU1sM6
+ S+tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=KomL0vATO0KWTCb9Asr/HKi0QnGnEjCHTaoy2mPsYM4=;
+ b=ysGb0NriWV33hIQmbjbRaWxADZy56+0BDnT0ioALzDyHtxBJI7GP1QjqPXKuIJOOfp
+ xDEvun0lazSsmCtzwr3tCPjIcKhszyG0cKFDjbxJfvULMPFgO3pM+j5tAjw613uD4mwa
+ ihDpe/otSsTE6c34Bm3BtmKktqMe+GCp0jqjJ0uyMcgocPUmhwg/cduNYPqlI5wZHW42
+ PQilhXVzE1cm2+vhuoiVL1VAlwYhq8rgDi/UXVJy4Zchug+Kt2gDcfTk5D37cfkSfvc7
+ k5k3c2xcpCM/t8H8TsvoVh+p4MwmKrRDNPMuxRtQmRvv02QP3s6DDq6yLjOX+Cu8gSWO
+ UKQg==
+X-Gm-Message-State: AOAM532w2A/aRJfPBlfzXtboNQnOi4wSftV/RnHUZ8ImRpJ9npnaKIbz
+ +P0HXsNVlQVnvcU9DHItb+XEmQ==
+X-Google-Smtp-Source: ABdhPJxR8ZpJAu/H/g5K3wlnMkH7jp0x1fhon5bYMt2dVthVUtfa5l9FVSm4osvwom0PWtj+83jvRg==
+X-Received: by 2002:adf:b31d:: with SMTP id j29mr3104145wrd.429.1633690181214; 
+ Fri, 08 Oct 2021 03:49:41 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q12sm2068247wmj.6.2021.10.08.03.49.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Oct 2021 03:49:40 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 98B7C1FF96;
+ Fri,  8 Oct 2021 11:49:39 +0100 (BST)
+References: <877deoevj8.fsf@linaro.org>
+ <CAK8P3a3rKZLq3UuE=w9W5A9G9tfmPvc-ObnWVX=PJKQKrTX5dA@mail.gmail.com>
+User-agent: mu4e 1.7.0; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: Approaches for same-on-same linux-user execve?
+Date: Fri, 08 Oct 2021 11:44:20 +0100
+In-reply-to: <CAK8P3a3rKZLq3UuE=w9W5A9G9tfmPvc-ObnWVX=PJKQKrTX5dA@mail.gmail.com>
+Message-ID: <87lf33dc58.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: [PATCH] generic-loader: remove the ram_size limit when a loading
- binary file
-Content-Language: en-US-large
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Alistair Francis <alistair23@gmail.com>
-References: <20211006113707.96907-1-damien.hedde@greensocs.com>
- <03e1e2d6-d974-272b-9d25-805914ec0026@redhat.com>
- <4fd0ab8a-7edb-a855-09ce-312ab2057325@greensocs.com>
- <CAKmqyKPF+91=qpqmd-5OwLvDCTE_8vb083RA_k-NGi+7Bwa51Q@mail.gmail.com>
- <6b919273-ab23-6822-fdeb-66e18009f70a@redhat.com>
-From: Damien Hedde <damien.hedde@greensocs.com>
-In-Reply-To: <6b919273-ab23-6822-fdeb-66e18009f70a@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.964,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,93 +87,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: assad.hashmi@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ qemu-arm <qemu-arm@nongnu.org>, "Eric W.
+ Biederman" <ebiederm@xmission.com>, Arnd Bergmann <arnd.bergmann@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Arnd Bergmann <arnd@arndb.de> writes:
 
-On 10/7/21 09:59, Philippe Mathieu-Daudé wrote:
-> On 10/7/21 08:41, Alistair Francis wrote:
->> On Wed, Oct 6, 2021 at 10:04 PM Damien Hedde <damien.hedde@greensocs.com> wrote:
->>> On 10/6/21 13:49, Philippe Mathieu-Daudé wrote:
->>>> On 10/6/21 13:37, Damien Hedde wrote:
->>>>> Right now, we cannot load some binary file if it is bigger than the
->>>>> machine's ram size. This limitation only occurs when loading a
->>>>> binary file: we can load a corresponding elf file without this
->>>>> limitation.
->>>>>
->>>>> This is an issue for machines that have small ram or do not use the
->>>>> ram_size feature at all.
->>>>>
->>>>> Also get rid of "hw/boards.h" include, since we needed it only
->>>>> to access `current_machine`.
->>>>>
->>>>> Fixes: e481a1f63c9 ("generic-loader: Add a generic loader")
->>>>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
->>>>> ---
->>>>>
->>>>> Hi Alistair,
->>>>>
->>>>> I found this while experimenting with a ram_size=0 machine.
->>>
->>>
->>>
->>>>
->>>> Where are you loading your file?
->>>>
->>>
->>> In a rom.
->>>
->>> The loader does not check at all that we are loading to the machine's
->>> ram. It just check the size for the raw binary file format.
+> On Thu, Oct 7, 2021 at 4:32 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
 >>
->> Hmmm... This is probably correct, in that a user might want to load a
->> binary into ROM and doesn't want to be blocked by the ram size.
+>> I came across a use-case this week for ARM although this may be also
+>> applicable to architectures where QEMU's emulation is ahead of the
+>> hardware currently widely available - for example if you want to
+>> exercise SVE code on AArch64. When the linux-user architecture is not
+>> the same as the host architecture then binfmt_misc works perfectly fine.
 >>
->> In general though a user would expect an error if they are loading a
->> file into RAM that is larger then the RAM. So I'm not fully convinced
->> we want this change.
-> 
-> I agree with Damien using current_machine->ram_size is not ideal,
-> for example some machines have the RAM split and mapped at different
-> regions, so even if ram_size is enough for the image to load,
-> a region might not be big enough and I'd expect load_image_targphys_as()
-> to fail.
-> 
-> Maybe we can call memory_region_find(s->addr) then on match:
-> 
->   if (memory_region_is_ram*(match)) {
->     size = memory_region_size(match);
->   } else {
->     size = -1;
->   }
-> 
+>> However in the case you are running same-on-same you can't use
+>> binfmt_misc to redirect execution to using QEMU because any attempt to
+>> trap native binaries will cause your userspace to hang as binfmt_misc
+>> will be invoked to run the QEMU binary needed to run your application
+>> and a deadlock ensues.
+>
+> Can you clarify how the code would run in this case? Does qemu-user
+> still emulate every single instruction, both the compatible and the incom=
+patible
+> ones, or is the idea here to run as much as possible natively and only
+> emulate the instructions that are not available natively, using either
+> SIGILL or searching through the object code for those instructions?
 
-So I worked a bit on this.
+qemu-user only every does a complete translation. The hope is of course
+our translator is "fairly efficient" so for example integer SVE
+operations should get unrolled into a series of AdvSIMD instructions on
+the backend.
 
-We could call memory_region_find(get_system_memory(), addr, ...) like 
-Philippe proposed.
-and check that the memory is big enough and has the proper "type" (ram, 
-rom, ...)
+ARM's armie takes a different approach with the trap and emulate of
+SIGILL instructions. This works well for the occasional "new"
+instruction but will be less efficient overall if your instruction
+stream is entirely novel.
 
-Note that we will check only the current state of the address space. So 
-it means the region must already exists (sounds reasonable to me).
+>> Trap execve in QEMU linux-user
+>> ------------------------------
+>>
+>> We could add a flag to QEMU so at the point of execve it manually
+>> invokes the new process with QEMU, passing on the flag to persist this
+>> behaviour.
+>
+> This sounds like the obvious approach if you already do a full
+> instruction emulation. You'd still need to run the parent process
+> by calling qemu-user manually, but I suppose you need to do
+> something like this in any case.
+>
+>> Add path mask to binfmt_misc
+>> ----------------------------
+>>
+>> The other option would be to extend binfmt_misc to have a path mask so
+>> it only applies it's alternative execution scheme to binaries in a
+>> particular section of the file-system (or maybe some sort of pattern?).
+>
+> The main downside I see here is that it requires kernel modification, so
+> it would not work for old kernels.
+>
+>> Are there any other approaches you could take? Which do you think has
+>> the most merit?
+>
+> If we modify binfmt_misc in the kernel, it might be helpful to do it
+> by extending it with namespace support, so it could be constrained
+> to a single container without having to do the emulation outside.
+> Unfortunately that does not solve the problem of preventing the
+> qemu-user binary from triggering the binfmt_misc lookup.
 
-If this sounds like a good direction to you, I'll propose an updated 
-version of the patch.
+I wonder how that would interact with the persistent ("P") mode of
+binfmt_misc. The backend is identified at the start and gets re-used
+rather than looked up each time.
 
-regarding relying on load_image_targphys to check this. I don't know...
-all these functions (load_targphys_...() and rom_add_...()) just put 
-rom(s) in a list. The list is checked afterward against overlap and 
-loaded at reset.
-It is possible but it changes the behavior of all rom_add_...() functions.
+>
+>        Arnd
 
-We could also check, during the reset, that the rom loading works. But 
-maybe some part of qemu expects that we silently skip some missing bits.
-Maybe a log/warning there ?
 
-Thanks,
-Damien
+--=20
+Alex Benn=C3=A9e
 
