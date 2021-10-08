@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05026426D7C
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 17:28:23 +0200 (CEST)
-Received: from localhost ([::1]:35438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B092426D7E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 17:29:10 +0200 (CEST)
+Received: from localhost ([::1]:38288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYrnK-0001ln-2S
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 11:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40266)
+	id 1mYro5-0003eZ-4z
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 11:29:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mYrlp-00005F-3k
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:26:49 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35796)
+ id 1mYrmb-00012l-EO
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:27:37 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mYrlm-0006YF-TN
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:26:48 -0400
-Received: by mail-wr1-x431.google.com with SMTP id v25so30902539wra.2
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 08:26:46 -0700 (PDT)
+ id 1mYrmW-00079M-9y
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:27:35 -0400
+Received: by mail-wr1-x433.google.com with SMTP id e12so30967853wra.4
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 08:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=wcWyrvxOKLEpdq6q7EwxjxFJw9h5PmcqB4+2loQL3ls=;
- b=tzivasKij+So4F0iZc1QDLAFUrbjwWWTXQVezttHk4Hz6HSCEnDXvlFiC0DQoUASuS
- T0nDLv5QJWoumOn/wK07hfVPUIHvh058o+ALc7tMHD9TCtAG2cUd53BUzo6ZvdGCxQFI
- JbcZQtQj7zZfQiSfTqACfljfi5agctOo2eVxUtKRqUCD7SP4xmSwU4Veaag17wIp/IIR
- p1yg9TnH/EEiky4fSJh8rvMer5niH65eetGLZi/5bqTfITJSofpPIfLH26E4pj75j43M
- qoNVlL4ShmtdjRfa6VObEJk9Q3D4dcBjKkqTl9XQnsV3LIHtDWdvLb3iWxTKykaJP0VE
- BJvg==
+ bh=XM92KNyY8ssiKhgafzShXuuJk+BtFgYt61/l12lThvs=;
+ b=eskSE94d3+G8To9qWjp6BEBZ3NGhaaKC/cULyYhcej8RdQd3CG4ZVbUnkSiKO3vyR6
+ jO8VhBeUTBUZuis/f2RU8Ai1ZRZnYozOiTkQEeNdDyPSh54IOXBF23847gglz/CcrmsJ
+ x3/1LzQm3BnDgd3t6EL8S0HnTVnT0vkSWewz7w0E3LC3BB/5DhtFx3SqTEri5MP21F61
+ y9D4/hZKz+fhDp3p78B6qBrguKAYbgzoQFyD9JJ/DpbnwbOGUzH40f8gXXcUKpTf9eK7
+ IOCmoojdnETNf2/tXed844zhXiDhvsBx5XC6PtJMcKmoYIlO5VLF1j4EIGLNP088ABzM
+ zUQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=wcWyrvxOKLEpdq6q7EwxjxFJw9h5PmcqB4+2loQL3ls=;
- b=tPsRKpMHCo/isJj3PgQO/P9q74SrcPaCF034zCtufuMhoB8gaRmzDWNL7p06YKaiLy
- QueA3bTpjyfMyCXaoFTmb11GL9tRm9wpTPnLk75OK3/4h/fgMK4sc+ReZHKisNWB9mdP
- JhN/V4rAF9l0mmt0hjw5T2Kn0/DYL7O2jaNgcJu/rHGr7FbQoWSeH9thJ81M1YTfHMIi
- Cl4UBeOGoP+O8ln9f3FUC+4W/gLzGTKg362ZUU/f4V4z3OTEiYcPuRmXggGvVgMI9bjs
- NS+7x/rYaXkaGrNHEve/QestW1/ueyfO3tw2bKQjypJsHSNvcbxQ8OLrkOaT8VUGszN6
- Zz0Q==
-X-Gm-Message-State: AOAM530K/c6U/e+pli6ZZf6ldjrRPXKMrNlooMRF3jS1nHpCe7isQkZM
- F/Gn1+J63cXsNVxf5/5eD2A78A==
-X-Google-Smtp-Source: ABdhPJyCZCGGXEGhEm6GrDmrwBRMlTgN1fQrVEbAbpSgMmc78LUZgXtKJmF6uzat9KoFU6Y0DtsMnA==
-X-Received: by 2002:adf:a35d:: with SMTP id d29mr4718159wrb.318.1633706804956; 
- Fri, 08 Oct 2021 08:26:44 -0700 (PDT)
+ bh=XM92KNyY8ssiKhgafzShXuuJk+BtFgYt61/l12lThvs=;
+ b=oWgyOryYf83DrCfJp1TLgggYoq8tBbRPGSvrQDETC3YFKVxSohwHpsrn9d0aK3LRPW
+ DEO06FopakK/GY4X+uj7xrJ8jqn33tfgCfmwOChlkmHdfnOmhvWiEBWhCSkLJUbuWRw7
+ uqTCDIe8onlm7js1BEDGtuAvJQc606w99BQ/Sif81e4O2rliJQPTn2cWsi9cVw51Owsh
+ T5mOS0BuPp5VNpNdDQIy8b8TfNs11YxfZqSM8bmC7Dgd8Z87ZOyPCZrnubbcIydWYtYa
+ K1iuR3qKgxg79aJmxE84jpt1pMQe1pfwf4pOgixta5cfJAIRh7PtnqaN5CQPy2xyywDt
+ LPWQ==
+X-Gm-Message-State: AOAM532ZQ/4YelAQqTEr7lflsvLGpM1VJso99ruMaQMdBwlJ+OQh8O/e
+ hdr0zud65GMSV8cgE7Vls63EzA==
+X-Google-Smtp-Source: ABdhPJzWQa6mrR7jBpZ0cGLjuVFunIReFlGd2F8HzjEaaUulZosEcNtgGDPaxnDvCRzkkipp//aSFA==
+X-Received: by 2002:a1c:e901:: with SMTP id q1mr4047378wmc.185.1633706850928; 
+ Fri, 08 Oct 2021 08:27:30 -0700 (PDT)
 Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
  [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id v23sm2777723wmj.4.2021.10.08.08.26.44
+ by smtp.gmail.com with ESMTPSA id l124sm12193068wml.8.2021.10.08.08.27.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Oct 2021 08:26:44 -0700 (PDT)
-Date: Fri, 8 Oct 2021 16:26:22 +0100
+ Fri, 08 Oct 2021 08:27:30 -0700 (PDT)
+Date: Fri, 8 Oct 2021 16:27:08 +0100
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v4 08/11] tests/acpi: allow updates of VIOT expected data
- files
-Message-ID: <YWBjHrELdZIBXcOD@myrica>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v4 09/11] tests/acpi: add test cases for VIOT
+Message-ID: <YWBjTODTiGc/vTTU@myrica>
 References: <20211001173358.863017-1-jean-philippe@linaro.org>
- <20211001173358.863017-9-jean-philippe@linaro.org>
- <20211006101215.24414401@redhat.com>
+ <20211001173358.863017-10-jean-philippe@linaro.org>
+ <alpine.DEB.2.22.394.2110051556270.820442@anisinha-lenovo>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211006101215.24414401@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x431.google.com
+In-Reply-To: <alpine.DEB.2.22.394.2110051556270.820442@anisinha-lenovo>
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,56 +87,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
  mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, ani@anisinha.ca,
- pbonzini@redhat.com
+ eric.auger@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 06, 2021 at 10:12:15AM +0200, Igor Mammedov wrote:
-> On Fri,  1 Oct 2021 18:33:56 +0100
-> Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+On Tue, Oct 05, 2021 at 03:57:17PM +0530, Ani Sinha wrote:
 > 
-> > Create empty data files and allow updates for the upcoming VIOT tests.
-> > 
+> 
+> On Fri, 1 Oct 2021, Jean-Philippe Brucker wrote:
+> 
+> > Add two test cases for VIOT, one on the q35 machine and the other on
+> > virt. To test complex topologies the q35 test has two PCIe buses that
+> > bypass the IOMMU (and are therefore not described by VIOT), and two
+> > buses that are translated by virtio-iommu.
+> >
 > > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > ---
-> >  tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
-> >  tests/data/acpi/q35/DSDT.viot               | 0
 > 
-> does default tests/data/acpi/q35/DSDT differs from
-> DSDT.viot?
+> This might be a stupid question but what about virtio-mmio and single mmio
+> cases? I see none of your tables has nodes for those and here too you do
+> not add test cases for it.
 
-Yes the VIOT test has one more PCI device (virtio-iommu) and PXB devices,
-so there are additional descriptors in the DSDT
+No it's a good question, there is no support for either at the moment.
+virtio-mmio based virtio-iommu is relatively easy to implement, just
+requires a little more machine support. QEMU doesn't support putting MMIO
+endpoints behind an IOMMU at the moment, and implementing that is more
+complicated.
+
+To test the Linux VIOT driver I did both prototypes, but I don't have a
+compelling reason or time to upstream them at the moment
+https://jpbrucker.net/git/qemu/log/?h=virtio-iommu/acpi-2021-06-02
 
 Thanks,
 Jean
 
-> 
-> >  tests/data/acpi/q35/VIOT.viot               | 0
-> >  tests/data/acpi/virt/VIOT                   | 0
-> >  4 files changed, 3 insertions(+)
-> >  create mode 100644 tests/data/acpi/q35/DSDT.viot
-> >  create mode 100644 tests/data/acpi/q35/VIOT.viot
-> >  create mode 100644 tests/data/acpi/virt/VIOT
-> > 
-> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> > index dfb8523c8b..29b5b1eabc 100644
-> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> > @@ -1 +1,4 @@
-> >  /* List of comma-separated changed AML files to ignore */
-> > +"tests/data/acpi/virt/VIOT",
-> > +"tests/data/acpi/q35/DSDT.viot",
-> > +"tests/data/acpi/q35/VIOT.viot",
-> > diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
-> > new file mode 100644
-> > index 0000000000..e69de29bb2
-> > diff --git a/tests/data/acpi/q35/VIOT.viot b/tests/data/acpi/q35/VIOT.viot
-> > new file mode 100644
-> > index 0000000000..e69de29bb2
-> > diff --git a/tests/data/acpi/virt/VIOT b/tests/data/acpi/virt/VIOT
-> > new file mode 100644
-> > index 0000000000..e69de29bb2
-> 
 
