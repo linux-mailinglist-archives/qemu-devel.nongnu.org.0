@@ -2,60 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55AEE426A5F
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 14:04:38 +0200 (CEST)
-Received: from localhost ([::1]:55494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19AA5426A70
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 14:09:31 +0200 (CEST)
+Received: from localhost ([::1]:33184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYoc8-0006QJ-Ua
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 08:04:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50480)
+	id 1mYogs-0002BM-5Y
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 08:09:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJo-0006Oy-L3
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:40 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:40743)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mYoKc-0007P8-KD
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:46:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJi-00072W-7O
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:40 -0400
-Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N5FtF-1mj9TL0qP7-011Eql; Fri, 08
- Oct 2021 13:45:22 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 05/13] macfb: use memory_region_init_ram() in
- macfb_common_realize() for the framebuffer
-Date: Fri,  8 Oct 2021 13:45:10 +0200
-Message-Id: <20211008114518.757615-6-laurent@vivier.eu>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211008114518.757615-1-laurent@vivier.eu>
-References: <20211008114518.757615-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mYoKW-0007VB-WB
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:46:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633693580;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lh+diEwAf8U3ReLTasZgr3/j+zvIsi8Y6VYOcH4j0ls=;
+ b=fh1w60f55yvNQiFBxh4nMGMyAB0OZB9cCT1g6P3flUpMnTY7LXG2YA2CnQx2qrmi1/NqFN
+ VBSrQCqwHophcRpkyfjgxR2BNV5ijJ+6eP4g9aYHbuQNRlBHiHbY6gNuI8GQwtupMBmYV1
+ PTNRNM1x6Z72t6YPlDd1E0NxxIVznls=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-V1pIlefOM8SoT8YzAx84Cw-1; Fri, 08 Oct 2021 07:46:19 -0400
+X-MC-Unique: V1pIlefOM8SoT8YzAx84Cw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ k2-20020adfc702000000b0016006b2da9bso7097226wrg.1
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 04:46:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Lh+diEwAf8U3ReLTasZgr3/j+zvIsi8Y6VYOcH4j0ls=;
+ b=RB7ejCeMplVux+1ukfZKf4IjIBHufdNL4KwL830sXNO07nLm0XcRyb8Fz2HUHV3u5Q
+ lSoQ7VqoHJl05v90mcjk/ETtx6FF+/v5P2m/I9JBT9VsEBEBFXRWqjkO3VtDkxWVO20N
+ oTU/ojAnNyoMTle6q/JS62tPwgDL7ZhLjVcLocEDY4rXLbAGwBWBffXG0SuAs90sLAIz
+ xY39UGAAQuQAe0xKQ+A+rqitPH5yhaAFM7mr2MkrQGAFyKIoQ0EoBknrdIE36mPzpJwx
+ tz94LAGjWFUQcT+tPhcg/KBAfZz7hbhFgZk1u2P6xfDOx3W8jbynHrfUo1QbCPVcQv5B
+ Kfog==
+X-Gm-Message-State: AOAM5318g086Rpty3C90I8I2XVnCSq0QQosB9hd81QwhyWBCvX9Q6JZa
+ yErGsviOEGo4pXvDvvNo2ckfuaOXuTfIpCv3I9ry6dkX9EIugJAJhd9IVq1nXtmqMh3Tu3I6O4j
+ M0BxRSR7ICM5k0z4=
+X-Received: by 2002:a5d:4eca:: with SMTP id s10mr3354524wrv.290.1633693578100; 
+ Fri, 08 Oct 2021 04:46:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxen0P/zZgCn2jHENZdGynWMKtpMJlE0YDux4vIqlCdyBrGUI/ELpDzW2sAkC1c700Lwvbrzw==
+X-Received: by 2002:a5d:4eca:: with SMTP id s10mr3354491wrv.290.1633693577894; 
+ Fri, 08 Oct 2021 04:46:17 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id o8sm12665914wme.38.2021.10.08.04.46.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Oct 2021 04:46:17 -0700 (PDT)
+Message-ID: <8c3b3841-1daa-64aa-b2be-8f0e54a96df3@redhat.com>
+Date: Fri, 8 Oct 2021 13:46:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+YOIURghBOvBiZDnikeXkHAk2nh7Ga+lhIfGKTQ1jKRM9+tJycR
- 2oqu8aFdxZDYJ+ORc8jG7prLB6K5IN8UplkQSRlft8NlQMwoqBFY1YeWmuWdXehzbQfONvj
- +jl5IVk4T0zZshi6qQyDQKmf8WwyW7vMTCgE7/jKptSRZaiAORz5lQFXJ/1rY6390ggEo5u
- NVyGFW9A+o6l/GpjkBGWw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:aDxXFUAJIzo=:EyUtUzsAGN2S3Z7jty80n3
- VG4jSDhLynyvQn5++ty/63mxa4U4wV41R1L1z1KtLlU/tCJgXu8GK9skhZHPYHzMN3FMVmRL6
- nmqKE5SSCm9kMevnvDo7NrGRzAqHAxRft8hHPPPbajMxYAGLkQucm12MSoUTItvAdnJ8hNeTs
- bzdLMo7PK7daeIMKL5hjpVoI0COX2SqQKEvHdV9iziqRPD2RCF++bAWNa/2h6BaDrAxnpBgsA
- /M9BGwM/A+5L7St5OKAu8sLsncW/K2xuCYk0Xk70zQJoSHBNk+By1rEBnpnoJe0C2iasBnmHa
- s6/tgB2mPtKguFxOLDGtnRnVIHdSDrmVYtKuB+whb8WGLwiI/xinTtpV6BNTmPEgleQlTRrn0
- u3zNQBd3oaYnJauajtx0/JX/d+30FQZz46iUCHBWaSgjKl9XjTGvxCqvzyN9e5M0MYRsam7KE
- b2VKOVhgnprqRievf1tyiG2rodI22oVi/jJ0MCq84rqxYzSR3C2aR/ieCzEYaMfCn/kkfabJz
- 44TL4GF4fsan7kFgE4BZyGOh18nbBHUaoPt4VUllHJtvCxySk0JH8DACcPFQ8h89Su0LUfnvf
- FFbp5a+Ltg3rlh4vv43HceBsKEqHMTKeRKhSiGwzo0689v1pwEE9PKqyxmq10q3WpHf0V/ZUc
- E3q7f00Ym39zABAr4pMPG/HGIEBjyByPV0/EsZeLRTd0Y3EADcDTxFXlxd/wxjwwKA8LIVoBQ
- 1NbcQpYq9ojtTj9rCDPqTKwra+pgCqp6ejlfvw==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v4 16/23] target/i386/sev: Remove stubs by using code
+ elision
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20211007161716.453984-1-philmd@redhat.com>
+ <20211007161716.453984-17-philmd@redhat.com> <YV8pS2D8e14qmFBq@work-vm>
+ <6080fa16-66aa-570e-93c8-09be2ced9431@redhat.com> <YV8s2r+lNyP/sX7u@work-vm>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YV8s2r+lNyP/sX7u@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.051,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,48 +103,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Dov Murik <dovmurik@linux.ibm.com>, kvm@vger.kernel.org,
+ Brijesh Singh <brijesh.singh@amd.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+On 07/10/21 19:22, Dr. David Alan Gilbert wrote:
+> So that I'm fine with, the bit I'm more worried about is the bit where
+> inside the if () we call functions (like sev_get_cbit_position )  which
+> we know the compiler will elide; I'm sure any sane compiler will,
+> but.....
+> 
+> Looking at your example, in cpu.c there's still places that ifdef around
+> areas with tcg_enabled.
 
-Currently macfb_common_realize() defines the framebuffer RAM memory region as
-being non-migrateable but then immediately registers it for migration. Replace
-memory_region_init_ram_nomigrate() with memory_region_init_ram() which is clearer
-and does exactly the same thing.
+I think that's just because nobody tried changing it; it should work 
+there as well.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20211007221253.29024-6-mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/display/macfb.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 39dab49026c3..f88f5a652394 100644
---- a/hw/display/macfb.c
-+++ b/hw/display/macfb.c
-@@ -367,11 +367,10 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
-     memory_region_init_io(&s->mem_ctrl, OBJECT(dev), &macfb_ctrl_ops, s,
-                           "macfb-ctrl", 0x1000);
- 
--    memory_region_init_ram_nomigrate(&s->mem_vram, OBJECT(dev), "macfb-vram",
--                                     MACFB_VRAM_SIZE, &error_abort);
-+    memory_region_init_ram(&s->mem_vram, OBJECT(dev), "macfb-vram",
-+                           MACFB_VRAM_SIZE, &error_abort);
-     s->vram = memory_region_get_ram_ptr(&s->mem_vram);
-     s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
--    vmstate_register_ram(&s->mem_vram, dev);
-     memory_region_set_coalescing(&s->mem_vram);
- 
-     return true;
--- 
-2.31.1
+Paolo
 
 
