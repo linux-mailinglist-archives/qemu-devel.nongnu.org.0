@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7768D42741C
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 01:20:39 +0200 (CEST)
-Received: from localhost ([::1]:53944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C809427423
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 01:23:23 +0200 (CEST)
+Received: from localhost ([::1]:34212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYzAM-0008RH-7B
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 19:20:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33896)
+	id 1mYzCz-0005k9-TN
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 19:23:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYz5M-00004r-Ei
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 19:15:28 -0400
-Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:34662)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYz5N-00007L-EU
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 19:15:29 -0400
+Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:34718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYz5K-0006jP-Q8
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 19:15:28 -0400
-Received: by mail-io1-xd2e.google.com with SMTP id i189so4699644ioa.1
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 16:15:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYz5L-0006kD-Mo
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 19:15:29 -0400
+Received: by mail-il1-x133.google.com with SMTP id g2so10428672ild.1
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 16:15:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DSuGwz93zTnJPuHkeKfY3uCmx4ow+sgYGpnTK4hqzWc=;
- b=uH5RmUPm7FgLWZfCSymdX07jjMKjXXqioft9yX3VkDHa8hvdYvVgO/+5skSJHFTygZ
- +r/LWaVaHktM4vLFi+Bxcjg3tqndbQIweNrL6KAQU8kSCEMaI1lvEmi3SBCogVOPuqV3
- LYRfFwdN54I1xTu4mur+CMwgztAVJhHCeUTVhxlNAAHbQqvC7Jb5cnyj1ch99if+Nvnb
- Qfmd+/9QcP8Rwp+bK6ldtqZ4kTUyWEslbXCGgdPDOwlkag8GupaTsus4XYGO6VwhLCPL
- H9nEX7RBPj19Lp6ARm6hCNeBPPJD+yNNtUPv0dqK7LX9mg4CzFbm5vpV+AVOalTJnHwt
- K3JQ==
+ bh=lzsrSCdLmohaYjA922DztDXVjy0WqIWWd5Kt064dJN8=;
+ b=OwjzKyqK69ktQxrE9ksfkFtKM1o6sQUm8szL+e3uhzDqi/L8Tpmi7QBe21Sd1khvPz
+ 8UKLnnkrV5lf72v4y2JFPFsY0oJhKCeOfC6pm1JFwhaGvCaidxZJBm1RITXr3MuRCQGU
+ L+ihAQDItmwq7jCiczj/Q9dS/eUJ5/p86YM+VSh04onwRkyoMLzlP9pT8WvI13W/X9bh
+ 0qgoZznzeUwjlrfn/9Z+TiT1Fssf01EDsNh4HLk5djqZVByAq0SkyPkHUTRaQKP4zIfB
+ N+qJs8I7HIUT/qC54W5/19jm/1v2CPVvfS9bQXdU+8o+XArSv5eH0Zjh93lWfN8z5Bu2
+ 6YKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DSuGwz93zTnJPuHkeKfY3uCmx4ow+sgYGpnTK4hqzWc=;
- b=ZS33PJTC32Cw1oNzFsN0u9s3aMxJUZ0iTcd4JKPTFIy11fj+60oeY14x7GTeaL2PGp
- zPyd4p7QxBDMeSidOtysK46QFjbApOmE4U46dlsGHHU9EJDOWyWXPH/H54ear4Dxdd3u
- 12ibichCkd0wdrdwhtNtAOikiJNaV620hUvDlFNxvuOKeN3SvF3SHFAKxRG1C/RXFOR5
- Jo8Tr+jaiDg8xe0S5v4O9n8wDqVGL1E9W4xhG12R8azuRoForVhGHwnUbaOrhc9vnlw5
- QRNTOrPNDpiqBL12FY0Oo2W+M00P7G+sRi+ljTvgo4UQS9oYnq0qB4wkubh7wPEW71An
- NZrw==
-X-Gm-Message-State: AOAM530jbYCtwwGBt+DxmbI7y9v9SrqtBbK0emp+Ccp4Vkg9qnoXhlFw
- +M4aRxSvh7QiQRoyrAL9jtPK2M7fpI1mXA==
-X-Google-Smtp-Source: ABdhPJwcv3c6utH5KWheqfUt3Etop/1MmYUq6/pBTcYNJKGL6/4JQvgqRwvkY8/Aosf9mdADDo/ccw==
-X-Received: by 2002:a6b:cd87:: with SMTP id d129mr9096114iog.28.1633734925347; 
- Fri, 08 Oct 2021 16:15:25 -0700 (PDT)
+ bh=lzsrSCdLmohaYjA922DztDXVjy0WqIWWd5Kt064dJN8=;
+ b=MzD25YGwQiYGdHd7/M5zhdGA+0LCnksNFnWAGy16yZk0dj0DGy3wsf/p+1ju7w1bD9
+ 5ArrVu9bdra0RFE16sV2Q1xW6iiY0fONA21Hc8D/XMLDv3TFi8CQFdZndgypMnQ07e7I
+ PEFM4RpGF2YW39mDrNsqUQ/SuYyYeV3UenqVzR2al5MjlNWUFedWIXV53aZv904QRYEz
+ y9REaD9SYZtDrkFvI6U/yZNGhmLGQsx5uxVgdSgiRVAMnW2fxX4AL3Upd7Z+vH1Nkcz3
+ u8fY3k27Xb8dozFB+3ZVT8T4gsfmpvgejSM313uqIPCTBM+Aw5N4HI6Wp5oTUaBO8afk
+ wX/Q==
+X-Gm-Message-State: AOAM531xIZURs3Xqhoj0wcnu8dz6CoVduZZNdnWUyu0/jQxjtP16ELxF
+ DSWXtQ5064SdLlXJ9Vy7ylbi9B/k84/9Yw==
+X-Google-Smtp-Source: ABdhPJyIV44JhG4RTYAtxV//wAg9McuGVxlREdySk8yY0uhNLUctxEIDOBdmIfb9RdPiHPMWupdl5g==
+X-Received: by 2002:a05:6e02:1a27:: with SMTP id
+ g7mr9831937ile.123.1633734926238; 
+ Fri, 08 Oct 2021 16:15:26 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id b15sm293628ion.8.2021.10.08.16.15.24
+ by smtp.gmail.com with ESMTPSA id b15sm293628ion.8.2021.10.08.16.15.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Oct 2021 16:15:24 -0700 (PDT)
+ Fri, 08 Oct 2021 16:15:25 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/15] bsd-user/errno_defs.h: Add internal error numbers
-Date: Fri,  8 Oct 2021 17:14:57 -0600
-Message-Id: <20211008231506.17471-7-imp@bsdimp.com>
+Subject: [PATCH v2 07/15] bsd-user: move TARGET_MC_GET_CLEAR_RET to
+ target_os_signal.h
+Date: Fri,  8 Oct 2021 17:14:58 -0600
+Message-Id: <20211008231506.17471-8-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211008231506.17471-1-imp@bsdimp.com>
 References: <20211008231506.17471-1-imp@bsdimp.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2e;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::133;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x133.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -81,57 +84,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@FreeBSD.org>, Kyle Evans <kevans@freebsd.org>,
- richard.henderson@linaro.org, Laurent Vivier <laurent@vivier.eu>,
- f4bug@amsat.org, Warner Losh <imp@bsdimp.com>
+Cc: Kyle Evans <kevans@freebsd.org>, richard.henderson@linaro.org,
+ Laurent Vivier <laurent@vivier.eu>, Warner Losh <imp@bsdimp.com>,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stacey Son <sson@FreeBSD.org>
+Move TARGET_MC_GET_CLEAR_RET to freebsd/target_os_signal.h since it's
+architecture agnostic on FreeBSD.
 
-To emulate signals and interrupted system calls, we need to have the
-same mechanisms we have in the kernel, including these errno values.
-
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- bsd-user/errno_defs.h | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ bsd-user/freebsd/target_os_signal.h  | 3 +++
+ bsd-user/i386/target_arch_signal.h   | 2 --
+ bsd-user/x86_64/target_arch_signal.h | 2 --
+ 3 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/bsd-user/errno_defs.h b/bsd-user/errno_defs.h
-index 1efa502a12..b538dd93da 100644
---- a/bsd-user/errno_defs.h
-+++ b/bsd-user/errno_defs.h
-@@ -1,6 +1,3 @@
--/*      $OpenBSD: errno.h,v 1.20 2007/09/03 14:37:52 millert Exp $      */
--/*      $NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $   */
--
- /*
-  * Copyright (c) 1982, 1986, 1989, 1993
-  *      The Regents of the University of California.  All rights reserved.
-@@ -37,6 +34,9 @@
-  *      @(#)errno.h     8.5 (Berkeley) 1/21/94
-  */
+diff --git a/bsd-user/freebsd/target_os_signal.h b/bsd-user/freebsd/target_os_signal.h
+index 3ed454e086..1a4c5faf19 100644
+--- a/bsd-user/freebsd/target_os_signal.h
++++ b/bsd-user/freebsd/target_os_signal.h
+@@ -1,6 +1,9 @@
+ #ifndef _TARGET_OS_SIGNAL_H_
+ #define _TARGET_OS_SIGNAL_H_
  
-+#ifndef _ERRNO_DEFS_H_
-+#define _ERRNO_DEFS_H_
++/* FreeBSD's sys/ucontext.h defines this */
++#define TARGET_MC_GET_CLEAR_RET 0x0001
 +
- #define TARGET_EPERM            1               /* Operation not permitted */
- #define TARGET_ENOENT           2               /* No such file or directory */
- #define TARGET_ESRCH            3               /* No such process */
-@@ -147,3 +147,11 @@
- #define TARGET_EIDRM            89              /* Identifier removed */
- #define TARGET_ENOMSG           90              /* No message of desired type */
- #define TARGET_ELAST            90              /* Must be equal largest errno */
-+
-+/* Internal errors: */
-+#define TARGET_EJUSTRETURN      254             /* Just return without
-+                                                   modifing regs */
-+#define TARGET_ERESTART         255             /* Restart syscall */
-+#define TARGET_ERESTARTSYS      TARGET_ERESTART /* Linux compat */
-+
-+#endif /* !  _ERRNO_DEFS_H_ */
+ #include "target_os_siginfo.h"
+ #include "target_arch_signal.h"
+ 
+diff --git a/bsd-user/i386/target_arch_signal.h b/bsd-user/i386/target_arch_signal.h
+index 9812c6b034..a90750d602 100644
+--- a/bsd-user/i386/target_arch_signal.h
++++ b/bsd-user/i386/target_arch_signal.h
+@@ -27,8 +27,6 @@
+ #define TARGET_MINSIGSTKSZ  (512 * 4)               /* min sig stack size */
+ #define TARGET_SIGSTKSZ     (MINSIGSTKSZ + 32768)   /* recommended size */
+ 
+-#define TARGET_MC_GET_CLEAR_RET 0x0001
+-
+ struct target_sigcontext {
+     /* to be added */
+ };
+diff --git a/bsd-user/x86_64/target_arch_signal.h b/bsd-user/x86_64/target_arch_signal.h
+index 4c1ff0e5ba..4bb753b08b 100644
+--- a/bsd-user/x86_64/target_arch_signal.h
++++ b/bsd-user/x86_64/target_arch_signal.h
+@@ -27,8 +27,6 @@
+ #define TARGET_MINSIGSTKSZ  (512 * 4)               /* min sig stack size */
+ #define TARGET_SIGSTKSZ     (MINSIGSTKSZ + 32768)   /* recommended size */
+ 
+-#define TARGET_MC_GET_CLEAR_RET 0x0001
+-
+ struct target_sigcontext {
+     /* to be added */
+ };
 -- 
 2.32.0
 
