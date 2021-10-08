@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7853426D6A
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 17:22:39 +0200 (CEST)
-Received: from localhost ([::1]:56576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B17F426D78
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 17:27:48 +0200 (CEST)
+Received: from localhost ([::1]:33028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYrhm-0005Gq-Qq
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 11:22:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39434)
+	id 1mYrml-00008B-2y
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 11:27:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mYrgU-0003jo-Qe
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:21:18 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36841)
+ id 1mYrkL-0007Q5-W0
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:25:18 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mYrgR-00025f-AG
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:21:18 -0400
-Received: by mail-wr1-x436.google.com with SMTP id o20so30832138wro.3
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 08:21:14 -0700 (PDT)
+ id 1mYrkJ-0005Ec-GI
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:25:17 -0400
+Received: by mail-wr1-x429.google.com with SMTP id r7so30888380wrc.10
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 08:25:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=1x64kse4Zr0c//FOG48TBDK9XBZTgCF9BcgvQ0vjh2o=;
- b=HMv2Wf/CfsDaH7icTHBNG8eEyNvsU9WfasCDlntzy3+B4aMzdKR4xjsZEU4HvTYT6s
- qtOy085OHxxkWjXMwUSYs9NYg++TRTzhjB5wJFvTAyHWvbkF4DpsAg7gZ18+m4dIP9It
- /IMjt9ccgMDrM6vq7hMrv5oMD07qMch79X8+wlKOIawbMNzFPFXNlOAvH0IYGCX54Txn
- o0DTUhKHFSCx7oBOky9S/XddGacH/FV6cbQQ6Zb/H8474inojbkqT3ZyhAGxf2FbafUh
- VVg3e5Zr0pteOP1QoyqV4hxD06EXalsxos9CAJszYdNZOywUuzBrlCPUx0J5hK8bdMZO
- jtnQ==
+ bh=VNabXKhYcjV6fLHI6e8xkRNQIZAKA0eLj8zphGSrurc=;
+ b=Rn4i3PVocIZ3oR/exvO4kdZRtTy4hXBMWkKGMR/6noeQxRH4+bu4MEC2+rx0rtXskI
+ bHXBjjkZBk4LDQgM+fJg3kcuWWe2vo4KzpbTH9QEYQKTuoVaAo6v5P5d8HurWIZPSvMc
+ WSmzfOsvYJi2Yq2yeoSpuLt+KobWRpnLvTjz9O9ba+fT/VKu8aavpcE8bpejtheqcUDM
+ gmVG/dPzon5lxGywkdpUP2Wzb2Nsvshvd8W6JqSOJBYhgG4entmkFzgq0jv5GDNGBGao
+ /sZY12BGzEZa+/P2NxVcqgkbUfwJnD83ZuUAQeJo3u8HOBXQYdqQbjgPuyg7m+KlbGVR
+ yCFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=1x64kse4Zr0c//FOG48TBDK9XBZTgCF9BcgvQ0vjh2o=;
- b=4bg1qCbfOjzPTd0gY3CzkIb1AiFrmjDtY7wMGtn3xI/lsHAW8Rx9eNMC7u7Rc+j3in
- UxYM8PAFPqh9az5rxITDcWyYp7Qh4d0qKnE19QUqXLuSLvJype2CPR4T0oTE8k7i4YoS
- x7nI2L44gQb6APx9xPzdYvfLUOsg3eFyEmN9YQEd1Fqc2jWDxsj69q19ekrjdCi9waHT
- p1AvuDcMHHmU/ZtctktR3Ii34y+jImQoCRUE44wPGsfTLR2dsjll5LA3gRHkMKJm/Wox
- YiF5VMU3S1GozEBvYYIlBKLs0n/kWC60sUP7jFtqd4ri4fpE0Dq9dIf3MkbJbuhHcFHf
- Gp2Q==
-X-Gm-Message-State: AOAM532vMncndvg1S/z1YtwHlDj+jvVcSqAzRc3GAHZqCsOpKWkX1fjU
- I6yO9xHjJcVoFtX61/g2Wi2qyA==
-X-Google-Smtp-Source: ABdhPJxR8d2Sl974TXe8mLXppFIR2f30aR364+TQzWlOOVOxk5wUaCHNspHK9NKTA6/5saVWS6FYqQ==
-X-Received: by 2002:a1c:3b06:: with SMTP id i6mr4137708wma.172.1633706473977; 
- Fri, 08 Oct 2021 08:21:13 -0700 (PDT)
+ bh=VNabXKhYcjV6fLHI6e8xkRNQIZAKA0eLj8zphGSrurc=;
+ b=bciy1bm6SAVKuW99nTJNDM2fePX/M1aqKGChOc9BmWO1t1V5G0HMPNgcH+77vCUKP3
+ Hb1KeG5pB7FMwbxEiArpMLnPETEvUxOexrlH4tZPLmLeSkeMNsRuilEOe45rRFmpNBtS
+ IWUSXqZE07BkhqGT6GjDXnV+tq+nFqcNz3TSGYF4sXmjPZoaTWcTSA86oLxL2Nl36Lal
+ hHpFwO5nfBb7njAWOZFUfqBf8pg4G2D3kBe4gui2cQX2irfTQ8/iPwy5HfW53W+p2iUs
+ pLDdz0dlqKNYeicN2fDwExflXQjkb1spdT/c1Y77m3Vh49wkvU7unxAjwAY2iBrls8Q0
+ bhBw==
+X-Gm-Message-State: AOAM531mGOcQq6q1UfgGEADgonB6x7eaqScbA660P02g76oP9Ina94Lr
+ 2xkhcDDmwLv/MaH5So9mKrPfPw==
+X-Google-Smtp-Source: ABdhPJz09qSyllhY/6pbiuBe7KZeNknPIHUyHOi8v6etg9z2LLagMtQF7OsAakaEyPi69lTaIl4/wQ==
+X-Received: by 2002:adf:9c02:: with SMTP id f2mr4926818wrc.201.1633706713581; 
+ Fri, 08 Oct 2021 08:25:13 -0700 (PDT)
 Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
  [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id h17sm2864488wrx.55.2021.10.08.08.21.13
+ by smtp.gmail.com with ESMTPSA id g188sm2880849wmg.46.2021.10.08.08.25.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Oct 2021 08:21:13 -0700 (PDT)
-Date: Fri, 8 Oct 2021 16:20:51 +0100
+ Fri, 08 Oct 2021 08:25:13 -0700 (PDT)
+Date: Fri, 8 Oct 2021 16:24:50 +0100
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v4 03/11] hw/arm/virt: Remove device tree restriction for
- virtio-iommu
-Message-ID: <YWBh02zKwxJ9IGU1@myrica>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v4 07/11] pc: Allow instantiating a virtio-iommu device
+Message-ID: <YWBiwiyrLfDYiZNC@myrica>
 References: <20211001173358.863017-1-jean-philippe@linaro.org>
- <20211001173358.863017-4-jean-philippe@linaro.org>
- <e4732c80-d813-d16b-c91b-1884b33accb8@redhat.com>
+ <20211001173358.863017-8-jean-philippe@linaro.org>
+ <20211006091954.79fd0a8d@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e4732c80-d813-d16b-c91b-1884b33accb8@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x436.google.com
+In-Reply-To: <20211006091954.79fd0a8d@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,35 +85,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com, ani@anisinha.ca, imammedo@redhat.com
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
+ mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ eric.auger@redhat.com, qemu-arm@nongnu.org, ani@anisinha.ca,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 05, 2021 at 01:57:35PM +0200, Eric Auger wrote:
-> > diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-> > index 770c286be7..f30eb16cbf 100644
-> > --- a/hw/virtio/virtio-iommu-pci.c
-> > +++ b/hw/virtio/virtio-iommu-pci.c
-> > @@ -48,16 +48,9 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-> >      VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
-> >  
-> >      if (!qdev_get_machine_hotplug_handler(DEVICE(vpci_dev))) {
-> > -        MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
-> > -
-> > -        error_setg(errp,
-> > -                   "%s machine fails to create iommu-map device tree bindings",
-> > -                   mc->name);
-> actually this does not work. To add a hint you need the *errp to be set.
-> Otherwise when running through this path you will get
+On Wed, Oct 06, 2021 at 09:19:54AM +0200, Igor Mammedov wrote:
+> > @@ -1367,8 +1368,11 @@ static void pc_virtio_md_pci_unplug(HotplugHandler *hotplug_dev,
+> >  static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+> >                                            DeviceState *dev, Error **errp)
+> >  {
+> > -    if (object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) &&
+> > -        x86_iommu_get_default()) {
+> > +    PCMachineState *pcms = PC_MACHINE(hotplug_dev);
+> > +
+> > +    if ((object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) ||
+> > +         object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) &&
+> > +        (x86_iommu_get_default() || pcms->virtio_iommu)) {
 > 
-> emu-system-x86_64: ../util/error.c:158: error_append_hint: Assertion
-> `err && errp != &error_abort && errp != &error_fatal' failed.
-> 
-> replace the error_append_hint with an error_setg (without the \n)
+> this check is getting uglier,
+> may be instead of introducing pcms->virtio_iommu boolean, better approach
+> would be adding 'Device* PCMachineState::iommu' and setting it to IOMMU
+> so the check would reduce to:
+>       if ((object_dynamic_cast(OBJECT(dev), TYPE_X86_IOMMU_DEVICE) ||
+>            object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)))
+>       {
+>           if (pcms->iommu)
+>             err
+>           else set pcms->iommu in plug handler or here
+>       }
+>       
+> that also will let to cleanup/get rid of x86_iommu_[s|g]et_default()
+> and x86_iommu_default 'global'.
+> Maybe replace previous patch with one that would remove
+> x86_iommu_[s|g]et_default().
 
-Woops sorry, will fix
+Ok, I can't figure out a nice way to do this at the moment, will think
+more about it. Callers of x86_iommu_get_default() still need a helper, and
+most but not all assume that the returned object is for IRQ remapping. At
+least adding Device *iommu to pcms should be nicer, but not sure about
+removing the x86_iommu_get/set_default helpers.
 
 Thanks,
 Jean
