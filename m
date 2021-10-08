@@ -2,68 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D2B42633A
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 05:41:56 +0200 (CEST)
-Received: from localhost ([::1]:49928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 887BE42643D
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 07:48:49 +0200 (CEST)
+Received: from localhost ([::1]:59128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYglf-0005z5-Ey
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 23:41:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46670)
+	id 1mYikS-0001si-64
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 01:48:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mYgkS-00057u-0O; Thu, 07 Oct 2021 23:40:41 -0400
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:38877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mYgkQ-00008h-D2; Thu, 07 Oct 2021 23:40:39 -0400
-Received: by mail-il1-x131.google.com with SMTP id r9so8570790ile.5;
- Thu, 07 Oct 2021 20:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SYqCTgYUj5Jocl7tBlzk43HAc7x3CqTQ0czuC3Szp0Y=;
- b=gMcKOEIe3HqVP2XRpjDjuoh27KPxx9o+UAJkL91ydK6rZaNhnoSEM5gXnUc3cdG1rJ
- 478cYrGXzq0WL5r72W2BN9p2azPsWJYIMONsc+Kijy63EAYHUhzU/eCoy/fzVRY4jxlM
- Km/hQMuPYdpVWFdM/DsfnMTHGxCNg193QV77hQ6+K0evx12YgMcSOdBh2TzfCXOCZ5uV
- KkWv2aHq5TbtSps5sf9lXaVcdMWFK+CTYRQmNWwyHXraSGb/Q55zPhNuHwPLZfIObbtu
- KLrgb7tOiS3nAgwREZlgeCz0LIountPVlP2RQxHlkY8vb6WCabAPwlpTnFIVePK0Fqlo
- fTTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SYqCTgYUj5Jocl7tBlzk43HAc7x3CqTQ0czuC3Szp0Y=;
- b=BaM+YhRXyUTefw1gH0jfW0kguBkzf8le0vgzFLVm4jD0+oauBlwI+9JrIXKSJqYRqR
- +RNwrPSjF9F0FbzBxEKEk7Cudsfkxgpc5G+2aCy4OorpxH1Ekq7bLas4JwWbsYGyygmY
- glD3J+xvRYiDH5zvmqNos9LdsDiBuK5JftY7dw3WGHh2ps+v0dI8Rgmp8zjHsCHUtqqa
- PylmmDUwXOhk0mpJoyUWI2pXnUuwpkZ8zZBLeCEV6PBzjzfkRaBrkBOlZBSEQwJMJ+cV
- JkL8U59KPI+1I8InahGXdfD4tkGer1pSMqyWPzStviLsMK33AxsuRWKgvWCap6OvWLSo
- ff+Q==
-X-Gm-Message-State: AOAM533XHbeWAC0YTmeYwXdW6evJXvgLGzziXjXa9xh9lIRYrbbkMMoK
- pf+tVP5If+UbBRnBtrQuR7Y21YF50jvXTlqg1CM=
-X-Google-Smtp-Source: ABdhPJzUG16Kk/u9pCqYd/ieYQSjlMLKsYuHHp4k0VcFgRmXepcM47jn+sajgf5/PjE5g0tglkcmG1LtpKbc8OvAyc0=
-X-Received: by 2002:a05:6e02:1402:: with SMTP id
- n2mr5975229ilo.208.1633664436550; 
- Thu, 07 Oct 2021 20:40:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>) id 1mYiiK-0000Yd-Gl
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 01:46:36 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:34842 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>) id 1mYiiE-0004QB-I9
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 01:46:36 -0400
+Received: from localhost.localdomain (unknown [46.183.103.8])
+ by csgraf.de (Postfix) with ESMTPSA id C918760801CD;
+ Fri,  8 Oct 2021 07:46:20 +0200 (CEST)
+From: Alexander Graf <agraf@csgraf.de>
+To: QEMU Developers <qemu-devel@nongnu.org>
+Subject: [PATCH] hvf: Determine slot count from struct layout
+Date: Fri,  8 Oct 2021 07:46:16 +0200
+Message-Id: <20211008054616.43828-1-agraf@csgraf.de>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-References: <20211007081803.1705656-1-frank.chang@sifive.com>
-In-Reply-To: <20211007081803.1705656-1-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 8 Oct 2021 13:40:10 +1000
-Message-ID: <CAKmqyKPYJMg=e46xrF81EgeD=38M50gzAPdux8q=gnRU6Qt8dw@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Pass the same value to oprsz and maxsz for
- vmv.v.v
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x131.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,52 +47,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 7, 2021 at 6:18 PM <frank.chang@sifive.com> wrote:
->
-> From: Frank Chang <frank.chang@sifive.com>
->
-> oprsz and maxsz are passed with the same value in commit: eee2d61e202.
-> However, vmv.v.v was missed in that commit and should pass the same
-> value as well in its tcg_gen_gvec_2_ptr() call.
->
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+We can handle up to a static amount of memory slots, capped by the size of
+an internal array.
 
-Thanks!
+Let's make sure that array size is the only source of truth for the number
+of elements in that array.
 
-Applied to riscv-to-apply.next
+Signed-off-by: Alexander Graf <agraf@csgraf.de>
+---
+ accel/hvf/hvf-accel-ops.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alistair
+diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
+index 6cbd2c3f97..2b2c411076 100644
+--- a/accel/hvf/hvf-accel-ops.c
++++ b/accel/hvf/hvf-accel-ops.c
+@@ -321,7 +321,7 @@ static int hvf_accel_init(MachineState *ms)
+ 
+     s = g_new0(HVFState, 1);
+ 
+-    s->num_slots = 32;
++    s->num_slots = ARRAY_SIZE(s->slots);
+     for (x = 0; x < s->num_slots; ++x) {
+         s->slots[x].size = 0;
+         s->slots[x].slot_id = x;
+-- 
+2.30.1 (Apple Git-130)
 
-> ---
->  target/riscv/insn_trans/trans_rvv.c.inc | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index fa451938f1e..f730bd68d18 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -1619,7 +1619,8 @@ static bool trans_vmv_v_v(DisasContext *s, arg_vmv_v_v *a)
->              tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
->
->              tcg_gen_gvec_2_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, a->rs1),
-> -                               cpu_env, 0, s->vlen / 8, data, fns[s->sew]);
-> +                               cpu_env, s->vlen / 8, s->vlen / 8, data,
-> +                               fns[s->sew]);
->              gen_set_label(over);
->          }
->          return true;
-> --
-> 2.25.1
->
->
 
