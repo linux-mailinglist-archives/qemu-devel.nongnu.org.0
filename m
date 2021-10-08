@@ -2,71 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1977A426638
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 10:50:08 +0200 (CEST)
-Received: from localhost ([::1]:46194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66132426684
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 11:17:10 +0200 (CEST)
+Received: from localhost ([::1]:56152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYlZu-00037b-To
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 04:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37486)
+	id 1mYm04-0002jP-VL
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 05:17:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mYlXX-0001Lg-Fu
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 04:47:39 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34384)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mYlXV-0004Xm-UG
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 04:47:39 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id t8so27556766wri.1
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 01:47:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iokKqXZ81pe06POM/h6myGwvwgbpU+RsKso6ITukyik=;
- b=i9jGMGUomdQu/82+cVCg6qHwr6euhmdG6Ze2sPAqjopO0cgjVxCu9G6qlCJH1SZR6+
- Bm2eKSGiejc7VqU0Ezdnp2HbjO7Ars7lFhqPiTEYOUIhM114U7f70KZhp8it26QBLp6z
- 0m9ozH4k6B2rWQVaaIVA3MnjCcrumNLBFDPmXpbojLOhuR55Wt8UHHAVhy6ScJua2jBl
- yCDrtjRyj6aUFT82Z/f7w2F5mVAgDFD+OCNGXarVH6DlnX9vyavePaCfh+WcM8G6bxPc
- WZMjRMworLD/FvdtB1ibDv5bAuiJB4Ymp4EZYTt/0v4gJ7XwMII69SZ+EYnmSy4owRJB
- Qr7A==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mYlyi-000226-Rs
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 05:15:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57128)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mYlyb-00089g-Si
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 05:15:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633684534;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rAH5OaRGVEwZlp4InZhXnsoq6LNAlT9l8fI8re1cUtI=;
+ b=DGgYZldY04AOgYA9a1i0HIeYVszPrSF953QhrBzbIwdktsH8OTDoWjRmoik3VPMZUGNvVS
+ WxjpHkzaaBQGi0XY5Q9KpKXTTeKXhgvRF9xfVKsKHhOjpfSbYB0V0BKbhFf9Xs1vt0tMSF
+ mEBwFesi+JNOlzdZa7wjXGiYA5I1GQE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-V15r_HKZMFCZBIydSOhJMA-1; Fri, 08 Oct 2021 05:15:18 -0400
+X-MC-Unique: V15r_HKZMFCZBIydSOhJMA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d13-20020adfa34d000000b00160aa1cc5f1so6799448wrb.14
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 02:15:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iokKqXZ81pe06POM/h6myGwvwgbpU+RsKso6ITukyik=;
- b=fDXi65j8lveZ9TdXT3gxImXg//O0F+GuFxhjLOQsmeIWttq4LyilzLQFsu3FCeVuLk
- 8FWrm0865SKc0oftdSUoBGz9iz2GMJlJUZEkCUqNF/672lQXQwWiaPcNUuHYgZcYlZAV
- T8C1R0WRlVSW1odVSzC1bR4br9TALLeecTQwLvCMKK6VUGsLCeKqG8yBE/2Pfg+KEdat
- tNfArctNf5EyLM14BcbncmGmzp/jZjCgg8bjYkZknWYyVHzfF4DYx0zzeELWjv+Vzsjs
- 4YJKbd5criwrUjuLSwFXow1X5B9RjP5ucxtv3UQ3WFM/DmTpOHQ7ez/IXZTUza8l773y
- imKQ==
-X-Gm-Message-State: AOAM530wdXfoHRpFNLxWAAPej2/H3JaGWbHQ1iwIhAcOnSie9c5qfu8o
- xPL526Z0XTOy0vkIP49Xj9awdi8WdqEizNsa0ArOg0+X+Aw=
-X-Google-Smtp-Source: ABdhPJx83mJVL0xxDSjNZI9ynLzTwIGvISwjMZ0GC0i9Gfy5UkYuNaT//4GJ2FBegweNRI40REmhH/AAjTbWwqWaxzY=
-X-Received: by 2002:a5d:47a4:: with SMTP id 4mr2481882wrb.374.1633682856301;
- Fri, 08 Oct 2021 01:47:36 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=rAH5OaRGVEwZlp4InZhXnsoq6LNAlT9l8fI8re1cUtI=;
+ b=aNC9KO314A6yg/EhwNH1jTavTBbi64fiRvHrgzzAFC9Je6UynvRyhfd++S55FXWoZV
+ za6fQfLaYe0J7E7CQzGn/jc6owBhIcD6BQ88Q7wEtlk7zHZz4pPKDJCWBboTiFZv7KO4
+ YkKSjq5A6rcrE/ZPhNNe3Nks4DTplwPR0MyYQNgHJPdQMzRIpotCDQj+EkwgdWxGxiX/
+ cVDpm697ypEKYvebgnVzYxbVI2iBWGV4oYKN/d1kqw4Ne3JHAIKobg/bh8fI2QDV9JkY
+ Y1UXm/km6/wzaNQX2LC1qQJIYPAEtqkm4hgcrhDFOLalA9m4Eg9GrsC5/V5l3g3HEiAN
+ IP4w==
+X-Gm-Message-State: AOAM533A9/dseyPo6mTF+D6Hd6yPB7dpcGRMRfoID7/IMliDO5+azcar
+ 5jIIvJOgbQddHVbT4EY8LEegcbH1fQtY3zpu+iwaLEWMtqt2zQF2M1AtKhMgtQArDZ1IU3mOhiA
+ dWCg2k1dJ6JmDeBw=
+X-Received: by 2002:a7b:cb49:: with SMTP id v9mr2172770wmj.76.1633684517548;
+ Fri, 08 Oct 2021 02:15:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzwNUF5gmiCNxHh6NE+LYoTM4MqswpdIc28yZ50UPhJ9vyii+qiWMDeBEK+0qNIvRhHxh6Cug==
+X-Received: by 2002:a7b:cb49:: with SMTP id v9mr2172746wmj.76.1633684517246;
+ Fri, 08 Oct 2021 02:15:17 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id x17sm1880363wrc.51.2021.10.08.02.15.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Oct 2021 02:15:16 -0700 (PDT)
+Message-ID: <581e0147-3c0b-dbec-7b6d-2d32e44b8ad1@redhat.com>
+Date: Fri, 8 Oct 2021 11:15:15 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 15/24] configure, meson: move libaio check to meson.build
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
 References: <20211007130630.632028-1-pbonzini@redhat.com>
  <20211007130829.632254-10-pbonzini@redhat.com>
  <dc8d3342-96fa-a0fb-f337-c87066eba911@linaro.org>
  <52debbd6-574b-1f33-c880-28d229679eb0@redhat.com>
-In-Reply-To: <52debbd6-574b-1f33-c880-28d229679eb0@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 8 Oct 2021 12:47:24 +0400
-Message-ID: <CAJ+F1CKeTxojeVVWfS1WS9b7b+B7rXS5ASRtXP3cAsLd6A77pA@mail.gmail.com>
-Subject: Re: [PATCH 15/24] configure, meson: move libaio check to meson.build
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000005357cf05cdd36ea2"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <CAJ+F1CKeTxojeVVWfS1WS9b7b+B7rXS5ASRtXP3cAsLd6A77pA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAJ+F1CKeTxojeVVWfS1WS9b7b+B7rXS5ASRtXP3cAsLd6A77pA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,70 +108,28 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005357cf05cdd36ea2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 08/10/21 10:47, Marc-André Lureau wrote:
+> 
+> 
+>     It looks silly but it works ("when: []" is always-true, just like in
+>     python all([]) is true).  I'll remove the if_true in v2.
+> 
+> 
+> and why not  keep the one-liner version?:
+> stub_ss.add(when: libaio, if_true: files('linux-aio.c'))
 
-Hi
+It would link libaio even in files that don't use it.  The stub is used 
+by those files that get util/async.c via libqemuutil, but not 
+block/linux-aio.c.
 
-On Fri, Oct 8, 2021 at 12:32 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+This particular stub (and the equivalent io_uring one) is a bit silly 
+though.
 
-> On 07/10/21 21:24, Richard Henderson wrote:
-> > On 10/7/21 6:08 AM, Paolo Bonzini wrote:
-> >> +++ b/stubs/meson.build
-> >> @@ -20,7 +20,9 @@ endif
-> >>   stub_ss.add(files('iothread-lock.c'))
-> >>   stub_ss.add(files('isa-bus.c'))
-> >>   stub_ss.add(files('is-daemonized.c'))
-> >> -stub_ss.add(when: 'CONFIG_LINUX_AIO', if_true: files('linux-aio.c'))
-> >> +if libaio.found()
-> >> +  stub_ss.add(if_true: files('linux-aio.c'))
-> >> +endif
-> >
-> > This bit doesn't look quite right, with the if_true.
->
-> It looks silly but it works ("when: []" is always-true, just like in
-> python all([]) is true).  I'll remove the if_true in v2.
->
->
-and why not  keep the one-liner version?:
-stub_ss.add(when: libaio, if_true: files('linux-aio.c'))
+Someone should check exactly which files get which stub, maybe there are 
+opportunities for simplifications.  For example if a stub is only used 
+by the unit tests, we might as well move more code to libqemuutil and 
+remove the stub.
 
+Paolo
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000005357cf05cdd36ea2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 8, 2021 at 12:32 PM Pao=
-lo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
- 07/10/21 21:24, Richard Henderson wrote:<br>
-&gt; On 10/7/21 6:08 AM, Paolo Bonzini wrote:<br>
-&gt;&gt; +++ b/stubs/meson.build<br>
-&gt;&gt; @@ -20,7 +20,9 @@ endif<br>
-&gt;&gt; =C2=A0 stub_ss.add(files(&#39;iothread-lock.c&#39;))<br>
-&gt;&gt; =C2=A0 stub_ss.add(files(&#39;isa-bus.c&#39;))<br>
-&gt;&gt; =C2=A0 stub_ss.add(files(&#39;is-daemonized.c&#39;))<br>
-&gt;&gt; -stub_ss.add(when: &#39;CONFIG_LINUX_AIO&#39;, if_true: files(&#39=
-;linux-aio.c&#39;))<br>
-&gt;&gt; +if libaio.found()<br>
-&gt;&gt; +=C2=A0 stub_ss.add(if_true: files(&#39;linux-aio.c&#39;))<br>
-&gt;&gt; +endif<br>
-&gt; <br>
-&gt; This bit doesn&#39;t look quite right, with the if_true.<br>
-<br>
-It looks silly but it works (&quot;when: []&quot; is always-true, just like=
- in <br>
-python all([]) is true).=C2=A0 I&#39;ll remove the if_true in v2.<br>
-<br></blockquote><div><br></div><div>and why not=C2=A0 keep the one-liner v=
-ersion?:</div><div>stub_ss.add(when: libaio, if_true: files(&#39;linux-aio.=
-c&#39;))<br></div></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=
-=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000005357cf05cdd36ea2--
 
