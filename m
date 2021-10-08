@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEAB0426BB6
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 15:32:18 +0200 (CEST)
-Received: from localhost ([::1]:37710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F19D426BD0
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 15:39:09 +0200 (CEST)
+Received: from localhost ([::1]:46198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYpyz-0006lc-81
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 09:32:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44956)
+	id 1mYq5c-0004hV-03
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 09:39:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYpwe-00060r-Mu
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:29:52 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:45580)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mYpwd-0003HG-1Z
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:29:52 -0400
-Received: by mail-pf1-x431.google.com with SMTP id i65so5307676pfe.12
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 06:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=gPmQcCutNEbekUj8xgwpW2Iy93S37lvlxWsAb9J08WA=;
- b=JZ66t6CAbO62DugBHd+PbpzOkQ1iOjxZIZmOxxP70Rn6fqSXFQIwdhAHSAToaEHpgN
- +9CEGui5AXuj5lL8nYXFpEDtMiqAHKxtxc09u8Zzv2xMTT2cSplhbtRtaa4z4Rzkh084
- 9MhCckOfskxazs4BA45TqK3OmSRlHXGaJiTq9zwZdozv4br/3UNMlJ1enDJ8bfZRaN9R
- RCg2DUCWNgGjK7857qRGvUxxwmnS0++z0NEWYeI9g3hPCMIwNLlAJdKYhU92crh033bM
- /j9oBGCaWhqHravaJh3ZU2grtUgW+utezdKvkMdWHqOcSr6KJTWDq7EF5YuWU6osw9uR
- Xnig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gPmQcCutNEbekUj8xgwpW2Iy93S37lvlxWsAb9J08WA=;
- b=BsGLfSG/QIv5mlqrPKJe8YoGPPdY3Vja2b67mNFs2xeTL5UXSgMwGpaM/hV5t1kQqH
- gm4I889AnNWjZ74LXVK4xMiGBwEZL3U4wptnjJ6oyh7AgSz4KbKGi8eg4XY802uff8wQ
- 92RV/q04EMrxOcHfLmrWtHrXclgdf4quPR1QEaTIct7DaAW2DFyvVfW+Cq3sOoN2nnpE
- 90B1ZLeKNVl7BIuipNzwvOP4jlcco9fKa5DXCaLcP/+e6Ec/jM7fuia9cdlng/JztySb
- VKuIWMS7Y7U3yZBgiWZqmw68ju3uv+I4gsHtjQO6bWrKjSQfmHH85BpNkYoh/uOhOIRM
- voiQ==
-X-Gm-Message-State: AOAM532pUDVa6gTqkUjuHzXWHyBwqYDPtlsnLn/c/14qwVlwaA0wH9Tu
- QzBtKROcWAWtBVZ3Isk8y/50qFxwDjOy+g==
-X-Google-Smtp-Source: ABdhPJwY3G4PN51oY+esdWl36ZIY0SnQSa/8TXfb664U/MNw97yzT5YpMFM08ymdvPhnI0V5y6aZKQ==
-X-Received: by 2002:a05:6a00:140c:b0:447:96be:2ade with SMTP id
- l12-20020a056a00140c00b0044796be2ademr10088291pfu.26.1633699789265; 
- Fri, 08 Oct 2021 06:29:49 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id s7sm2797906pgc.60.2021.10.08.06.29.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Oct 2021 06:29:48 -0700 (PDT)
-Subject: Re: [PULL 00/13] M68k next patches
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20211008114518.757615-1-laurent@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <78410b27-b7d3-3978-7eac-f13a1bafe16e@linaro.org>
-Date: Fri, 8 Oct 2021 06:29:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYq30-0001A8-Ot
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:36:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22758)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mYq2x-0000u8-M3
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 09:36:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633700181;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HCy1HrQdgYBR9jNg9soGMzKztHWdn+QEftTkVNbRWpA=;
+ b=ecoWsCbJWtanIXt4hTrTIxj5GJyJxcxTFEgTvScHTJ/WAs0h51ZJrvSQY7RXz9FYEJn0Y3
+ n3+uoDs5AfQLd+rMbd4yaZWv/vZnJzojAVOuX/MJ/XcFrgG08+JQt5S9tYjNW53X9dEbwu
+ F0btIYB1Ch+Jhqam0kb9m0nVTtW89n8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-113-pbWJjEadNv6hS2cvMoxciA-1; Fri, 08 Oct 2021 09:36:19 -0400
+X-MC-Unique: pbWJjEadNv6hS2cvMoxciA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCB76BD52D;
+ Fri,  8 Oct 2021 13:35:01 +0000 (UTC)
+Received: from merkur.redhat.com (unknown [10.39.193.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 54FEA19724;
+ Fri,  8 Oct 2021 13:34:58 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/15] qdev: Add JSON -device
+Date: Fri,  8 Oct 2021 15:34:27 +0200
+Message-Id: <20211008133442.141332-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211008114518.757615-1-laurent@vivier.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.051,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,53 +73,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, damien.hedde@greensocs.com, pkrempa@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ mst@redhat.com, libvir-list@redhat.com, jasowang@redhat.com,
+ quintela@redhat.com, armbru@redhat.com, vsementsov@virtuozzo.com,
+ lvivier@redhat.com, its@irrelevant.dk, pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/8/21 4:45 AM, Laurent Vivier wrote:
-> The following changes since commit 14f12119aa675e9e28207a48b0728a2daa5b88d6:
-> 
->    Merge remote-tracking branch 'remotes/vsementsov/tags/pull-jobs-2021-10-07-v2' into staging (2021-10-07 10:26:35 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://github.com/vivier/qemu-m68k.git tags/m68k-next-pull-request
-> 
-> for you to fetch changes up to efd0c37edc8efe7dccc2356f4a07f33581bc9e67:
-> 
->    q800: wire macfb IRQ to separate video interrupt on VIA2 (2021-10-08 13:31:03 +0200)
-> 
-> ----------------------------------------------------------------
-> Pull request q800 20211008
-> 
-> macfb: fixes for booting MacOS
-> 
-> ----------------------------------------------------------------
-> 
-> Mark Cave-Ayland (13):
->    macfb: handle errors that occur during realize
->    macfb: update macfb.c to use the Error API best practices
->    macfb: fix invalid object reference in macfb_common_realize()
->    macfb: fix overflow of color_palette array
->    macfb: use memory_region_init_ram() in macfb_common_realize() for the
->      framebuffer
->    macfb: add trace events for reading and writing the control registers
->    macfb: implement mode sense to allow display type to be detected
->    macfb: add qdev property to specify display type
->    macfb: add common monitor modes supported by the MacOS toolbox ROM
->    macfb: fix up 1-bit pixel encoding
->    macfb: fix 24-bit RGB pixel encoding
->    macfb: add vertical blank interrupt
->    q800: wire macfb IRQ to separate video interrupt on VIA2
-> 
->   include/hw/display/macfb.h |  43 +++++
->   hw/display/macfb.c         | 386 ++++++++++++++++++++++++++++++++++---
->   hw/m68k/q800.c             |  23 ++-
->   hw/display/trace-events    |   7 +
->   4 files changed, 429 insertions(+), 30 deletions(-)
+It's still a long way until we'll have QAPIfied devices, but there are
+some improvements that we can already make now to make the future switch
+easier.
 
-Applied, thanks.  Please update the wiki for the changelog.
+One important part of this is having code paths without QemuOpts, which
+we want to get rid of and replace with the keyval parser in the long
+run. This series adds support for JSON syntax to -device, which bypasses
+QemuOpts.
 
-r~
+While we're not using QAPI yet, devices are based on QOM, so we already
+do have type checks and an implied schema. JSON syntax supported now can
+be supported by QAPI later and regarding command line compatibility,
+actually switching to it becomes an implementation detail this way (of
+course, it will still add valuable user-visible features like
+introspection and documentation).
+
+Apart from making things more future proof, this also immediately adds
+a way to do non-scalar properties on the command line. nvme could have
+used list support recently, and the lack of it in -device led to some
+rather unnatural solution in the first version (doing the relationship
+between a device and objects backwards) and loss of features in the
+following. With this series, using a list as a device property should be
+possible without any weird tricks.
+
+Unfortunately, even QMP device_add goes through QemuOpts before this
+series, which destroys any type safety QOM provides and also can't
+support non-scalar properties. This is a bug, but it turns out that
+libvirt actually relies on it and passes only strings for everything.
+So this series still leaves device_add alone until libvirt is fixed.
+
+v2:
+- Drop type safe QMP device_add because libvirt gets it wrong, too
+- More network patches to eliminate dependencies on the legacy QemuOpts
+  data structures which would not contain all devices any more after
+  this series. Fix some bugs there as a side effect.
+- Remove an unnecessary use of ERRP_GUARD()
+- Replaced error handling patch for qdev_set_id() with Damien's
+- Drop the deprecation patch until libvirt uses the new JSON syntax
+
+Damien Hedde (1):
+  softmmu/qdev-monitor: add error handling in qdev_set_id
+
+Kevin Wolf (14):
+  net: Introduce NetClientInfo.check_peer_type()
+  net/vhost-user: Fix device compatibility check
+  net/vhost-vdpa: Fix device compatibility check
+  qom: Reduce use of error_propagate()
+  iotests/245: Fix type for iothread property
+  iotests/051: Fix typo
+  qdev: Avoid using string visitor for properties
+  qdev: Make DeviceState.id independent of QemuOpts
+  qemu-option: Allow deleting opts during qemu_opts_foreach()
+  qdev: Add Error parameter to hide_device() callbacks
+  virtio-net: Store failover primary opts pointer locally
+  virtio-net: Avoid QemuOpts in failover_find_primary_device()
+  qdev: Base object creation on QDict rather than QemuOpts
+  vl: Enable JSON syntax for -device
+
+ qapi/qdev.json                      | 15 +++--
+ include/hw/qdev-core.h              | 15 +++--
+ include/hw/virtio/virtio-net.h      |  2 +
+ include/monitor/qdev.h              | 27 +++++++-
+ include/net/net.h                   |  2 +
+ hw/arm/virt.c                       |  2 +-
+ hw/core/qdev-properties-system.c    |  6 ++
+ hw/core/qdev.c                      | 11 +++-
+ hw/net/virtio-net.c                 | 85 ++++++++++++-------------
+ hw/pci-bridge/pci_expander_bridge.c |  2 +-
+ hw/ppc/e500.c                       |  2 +-
+ hw/vfio/pci.c                       |  4 +-
+ hw/xen/xen-legacy-backend.c         |  3 +-
+ net/vhost-user.c                    | 41 ++++--------
+ net/vhost-vdpa.c                    | 37 ++++-------
+ qom/object.c                        |  7 +-
+ qom/object_interfaces.c             | 19 ++----
+ softmmu/qdev-monitor.c              | 99 +++++++++++++++++++----------
+ softmmu/vl.c                        | 63 ++++++++++++++++--
+ util/qemu-option.c                  |  4 +-
+ tests/qemu-iotests/051              |  2 +-
+ tests/qemu-iotests/051.pc.out       |  4 +-
+ tests/qemu-iotests/245              |  4 +-
+ 23 files changed, 278 insertions(+), 178 deletions(-)
+
+-- 
+2.31.1
 
 
