@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0035C427411
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 01:18:17 +0200 (CEST)
-Received: from localhost ([::1]:45448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91CE442741D
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 01:20:40 +0200 (CEST)
+Received: from localhost ([::1]:54008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYz84-0002ne-Es
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 19:18:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33838)
+	id 1mYzAN-0008Tw-Hn
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 19:20:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYz5J-0008QJ-QM
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 19:15:25 -0400
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:46002)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYz5K-0008Rt-MX
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 19:15:26 -0400
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:33471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYz5H-0006cr-Nn
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 19:15:25 -0400
-Received: by mail-il1-x12b.google.com with SMTP id i11so10490266ila.12
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 16:15:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYz5I-0006gL-MA
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 19:15:26 -0400
+Received: by mail-io1-xd2d.google.com with SMTP id n7so3565927iod.0
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 16:15:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nemaLJ3YI2rLMZki8aqe2bhWUhXyuEblpfd7VRz22Jc=;
- b=sLZlDwtRbR3t+EoiqnVTo6UNCR83KNi7vewdIgREymvRNkvumNPbh4N45s8GM73bMg
- 3NdRzKJTvXpX2g3bbpBEElsrPsftZqgOS65z1BvXWwL5c6yY1VZVfDOLsRv7QcQYNQeN
- uugWwUffKZQaGWvLRPhovXhneOTjhwhdWkNDF/Bv+nurjQPxB3bYd71psoYUL6Cnecjq
- h/5EcGuyBBwDt/XPWxoWKqb+wKkVBDBa4a3rTAFSsrb7c/Ux7HznizceuKvb2KDjNz5i
- m/Kyj5FgRUajuyfHmDr46UPjyHguOdS1qzzhGrS+j4IVO4qt0xgvffrRvtEgHPLWcQni
- ASMw==
+ bh=06eB4JezVTDOp6PNsNCkhgYjdtZ/snCLoQwHZu1R2oc=;
+ b=r6SEq8zJcw7wt2jRlFbujSBNajeMDsuKcvnh9Sv5sJqMrLnh8zvBhe+E5d1qn1T3qO
+ LA3HxOaNmWCjCClgnQtp7vrhLzl3ZMNhk5+xdbjGauqZP9xeOhH3BP7RceXRbidXYatc
+ xXSY3i4UQsed0NG/bXZeT5lA5/UDQGsbMMm12ZVtccgMJwSN3Bby+R7I7l+e/bfz3sCG
+ l5XwgEk/Q5S6MfekNgrIrr7j79TJ0tK/Bq1qNT/+7EMcqVdaaCXS+oK99nzEt7lqB768
+ lMYXcALkqquPyHhZ1pj1sX39uVJb8Zh1lx5wqv1XoeoJi0027dCMs0qyXODyWAkeeUKw
+ 81ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nemaLJ3YI2rLMZki8aqe2bhWUhXyuEblpfd7VRz22Jc=;
- b=SIcYBcwFoGc82+D1UIAtlLOVCm1fWnuKiwIiWoB0XRwQ2fxQYMo/EykZvG4Tcc0F02
- tRWDfDglP0YOq5WCOFxv8CrD/Xg1XE7v8IxBUlyyP3KnOEAWJKsKoATPnvsN18egA1R7
- ekME/PtvuAduJI4g+tdDSEoM2oCk2Wju0cPfZ1KbtaJHE07JSLOh8IeIh4gb5EQszKrC
- HR5IFLQFDUnLtSHXbcupeqBByJj155yp61aiaNwOFa6O0RNQWnZnMUkTbuJXP+waT7tH
- QsFa8VYkayQ82mbopEmk40ebtpg9gefwEEVyx8C1TMBGPgnvYaozoYNOJ7KbfwISuxHM
- TwuA==
-X-Gm-Message-State: AOAM5322y973C1woKggd1+V0xV0s6XH3RJwAlIb+hNFHS8UUbRCOycKU
- vAwIFB4cB0GVaoeGZvolh0BRpScNR/3a5g==
-X-Google-Smtp-Source: ABdhPJyJUmyvOwf/UINZfBP+AE1awboJFEtY1RWT2eoZ94A+L7kyVIRmBgOaDn//elifbgu0G5waMA==
-X-Received: by 2002:a05:6e02:1bae:: with SMTP id
- n14mr10499659ili.253.1633734922450; 
- Fri, 08 Oct 2021 16:15:22 -0700 (PDT)
+ bh=06eB4JezVTDOp6PNsNCkhgYjdtZ/snCLoQwHZu1R2oc=;
+ b=6cx2tv0Z3HsTlynjiN+2PbqlHH59NyWXXPYPjUc7TjyLNqqMnOJmsrF4XiEe2fhgXv
+ 2sCG84yV2UodN8hsNUHNyIgpuFsCQceJQprnOV+NPsG6UYnDkwGoTjDcvj1leLkFD9Uk
+ 3au2xZdTkZ1h08/YadpjWjt/qdXkrK0ACRH1nWq3uTDecUBWXlwBwcFbZb1sfUUEsyzN
+ /L0tjTzSzj4UFJnH6U5jy5V4V0n/0JVO64a4wwcps+igz/fs+q64DciRhdnaRnBlSGpS
+ QH8G8JOw3xjD82Z+GNb2liwXAT70i9hFWIb/t1BBbN/ZTDRlwUJ4I4a7lJYAxo/qExC+
+ r+Jg==
+X-Gm-Message-State: AOAM531Ofs2RqFHt1PVEY2kcLj8NcJ9e9J3QApbz4rD7c5YCw+pvHxgW
+ likUE0VUSZ9bk8IBogdjXjVfUyjeNabtDA==
+X-Google-Smtp-Source: ABdhPJxlA2iPTTq7l61NQ24aG1Rfd36rohpws5RyYclCBb41Ve1nnCN3EGn1Kzu0uaQQTx7gStGCTg==
+X-Received: by 2002:a05:6638:1909:: with SMTP id
+ p9mr9813960jal.108.1633734923215; 
+ Fri, 08 Oct 2021 16:15:23 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id b15sm293628ion.8.2021.10.08.16.15.21
+ by smtp.gmail.com with ESMTPSA id b15sm293628ion.8.2021.10.08.16.15.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Oct 2021 16:15:21 -0700 (PDT)
+ Fri, 08 Oct 2021 16:15:22 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/15] bsd-user/strace.list: Remove support for FreeBSD
- versions older than 12.0
-Date: Fri,  8 Oct 2021 17:14:54 -0600
-Message-Id: <20211008231506.17471-4-imp@bsdimp.com>
+Subject: [PATCH v2 04/15] bsd-user: TARGET_RESET define is unused, remove it
+Date: Fri,  8 Oct 2021 17:14:55 -0600
+Message-Id: <20211008231506.17471-5-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211008231506.17471-1-imp@bsdimp.com>
 References: <20211008231506.17471-1-imp@bsdimp.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12b;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,46 +91,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- bsd-user/freebsd/strace.list | 11 -----------
- 1 file changed, 11 deletions(-)
+ bsd-user/i386/target_arch_cpu.h   | 2 --
+ bsd-user/x86_64/target_arch_cpu.h | 2 --
+ 2 files changed, 4 deletions(-)
 
-diff --git a/bsd-user/freebsd/strace.list b/bsd-user/freebsd/strace.list
-index b01b5f36e8..275d2dbe27 100644
---- a/bsd-user/freebsd/strace.list
-+++ b/bsd-user/freebsd/strace.list
-@@ -33,10 +33,6 @@
- { TARGET_FREEBSD_NR___syscall, "__syscall", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR___sysctl, "__sysctl", NULL, print_sysctl, NULL },
- { TARGET_FREEBSD_NR__umtx_op, "_umtx_op", "%s(%#x, %d, %d, %#x, %#x)", NULL, NULL },
--#if defined(__FreeBSD_version) && __FreeBSD_version < 1000000
--{ TARGET_FREEBSD_NR__umtx_lock, "__umtx_lock", NULL, NULL, NULL },
--{ TARGET_FREEBSD_NR__umtx_unlock, "__umtx_unlock", NULL, NULL, NULL },
--#endif
- { TARGET_FREEBSD_NR_accept, "accept", "%s(%d,%#x,%#x)", NULL, NULL },
- { TARGET_FREEBSD_NR_accept4, "accept4", "%s(%d,%d,%#x,%#x)", NULL, NULL },
- { TARGET_FREEBSD_NR_access, "access", "%s(\"%s\",%#o)", NULL, NULL },
-@@ -49,10 +45,6 @@
- { TARGET_FREEBSD_NR_cap_fcntls_get, "cap_fcntls_get", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_cap_fcntls_limit, "cap_fcntls_limit", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_cap_getmode, "cap_getmode", NULL, NULL, NULL },
--#if defined(__FreeBSD_version) && __FreeBSD_version < 1000000
--{ TARGET_FREEBSD_NR_cap_getrights, "cap_getrights", NULL, NULL, NULL },
--{ TARGET_FREEBSD_NR_cap_new, "cap_new", NULL, NULL, NULL },
--#endif
- { TARGET_FREEBSD_NR_cap_ioctls_get, "cap_ioctls_get", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_cap_ioctls_limit, "cap_ioctls_limit", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_cap_rights_limit, "cap_rights_limit", NULL, NULL, NULL },
-@@ -146,9 +138,6 @@
- { TARGET_FREEBSD_NR_freebsd11_kevent, "freebsd11_kevent", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_kevent, "kevent", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_kill, "kill", NULL, NULL, NULL },
--#if defined(__FreeBSD_version) && __FreeBSD_version < 1000000
--{ TARGET_FREEBSD_NR_killpg, "killpg", NULL, NULL, NULL },
--#endif
- { TARGET_FREEBSD_NR_kqueue, "kqueue", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_ktrace, "ktrace", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_lchown, "lchown", NULL, NULL, NULL },
+diff --git a/bsd-user/i386/target_arch_cpu.h b/bsd-user/i386/target_arch_cpu.h
+index 978e8066af..b28602adbb 100644
+--- a/bsd-user/i386/target_arch_cpu.h
++++ b/bsd-user/i386/target_arch_cpu.h
+@@ -23,8 +23,6 @@
+ 
+ #define TARGET_DEFAULT_CPU_MODEL "qemu32"
+ 
+-#define TARGET_CPU_RESET(cpu)
+-
+ static inline void target_cpu_init(CPUX86State *env,
+         struct target_pt_regs *regs)
+ {
+diff --git a/bsd-user/x86_64/target_arch_cpu.h b/bsd-user/x86_64/target_arch_cpu.h
+index 5f5ee602f9..5172b230f0 100644
+--- a/bsd-user/x86_64/target_arch_cpu.h
++++ b/bsd-user/x86_64/target_arch_cpu.h
+@@ -23,8 +23,6 @@
+ 
+ #define TARGET_DEFAULT_CPU_MODEL "qemu64"
+ 
+-#define TARGET_CPU_RESET(cpu)
+-
+ static inline void target_cpu_init(CPUX86State *env,
+         struct target_pt_regs *regs)
+ {
 -- 
 2.32.0
 
