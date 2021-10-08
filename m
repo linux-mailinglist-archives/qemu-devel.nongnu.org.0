@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3A9426204
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 03:28:48 +0200 (CEST)
-Received: from localhost ([::1]:55484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCAD42620C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 03:32:09 +0200 (CEST)
+Received: from localhost ([::1]:57634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYegp-0007KM-Dp
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 21:28:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56450)
+	id 1mYek4-0000V7-Ch
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 21:32:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1mYefU-0005J6-BC
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 21:27:24 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2878)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1mYefS-0003KG-Ok
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 21:27:24 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HQVrB44VZz1DHf0;
- Fri,  8 Oct 2021 09:25:46 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.8; Fri, 8 Oct 2021 09:27:16 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.8; Fri, 8 Oct 2021 09:27:16 +0800
-Subject: Re: [PATCH v2 0/2] vfio: Some fixes about vfio-pci MMIO RAM mapping
-To: Alex Williamson <alex.williamson@redhat.com>, Eric Auger
- <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>, "open
- list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20210914015326.1494-1-jiangkunkun@huawei.com>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <59ccc25e-3a5e-8963-209e-a3c9e5dece92@huawei.com>
-Date: Fri, 8 Oct 2021 09:27:04 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mYei6-00089d-J8
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 21:30:06 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:43578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mYei3-0005tO-9Z
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 21:30:06 -0400
+Received: by mail-pf1-x433.google.com with SMTP id 187so6808067pfc.10
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 18:30:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=nnE+J3L35ZEdJmkp88m+c74jNcDbm+2JV3IhsX9s2ws=;
+ b=Rt5uT8DX2zfXRa4B/1gc+S5uGEKleQSjGpN63Fd9fvERwHWhI3+rDYEcgs0p1gY5Gb
+ ilb1kYPHAI3lHUiVWIoc8geDUZEJqy0CGfjtkZhPP7wTEX6dnSYrKppOy3QOe7FfjDMt
+ xmeDfdLSd5nSGWJO2tMtd7g/6RfLp03tEShItWqjMNwKXKCguAiGdTqbwFLtRVG0YkYm
+ MJVlXNnm6kmFOBKObFjNE7b3TUToctWJ/Xl8xQtJBT4eTf8Cs5MRJDowxQgUqVCbJ0tf
+ /HOwBB/UdlGxzc2+MIg9HlmUQ99xQf+yY55mPLNDfEf12P1xLKpieMmmMaUyo37nHmHh
+ 7j3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=nnE+J3L35ZEdJmkp88m+c74jNcDbm+2JV3IhsX9s2ws=;
+ b=yJrR3vPKO+dsZOyeU/DTYzelLuk2DWfFqU3K8OBnghhw+V1DbG2x/gfbOMVz9kjiG/
+ KGh6sWAWG53stUblI4zv7HWeJ4+BfkUaoNHxARFiLgywlv/4rKZUvjMB/1ss5UbTBt8P
+ HncNDR+yv6efE/m5w6uIZ5r2TFHQZVNdlpS5xl+r3MMXNN0z6ShFs9nEA1ORycyhkJIG
+ 5rLTZbYR1KwvxjJDOQlGAFjWTypgy0A96T7FiyNkYBBVDrJs0r3HF6XgT1ys7j+RpPuN
+ 3Z+oGOaOZl+BBWhap9gy9fsKEBX9v54x7hrRX/CjnG2sEJ/0GEd0GMAxBwvufsWJkyFz
+ 1Y7w==
+X-Gm-Message-State: AOAM533rqcEV1hkmGgOq8k6hTfAjZ0qZL2jmOBwuy4i+j2rZhZHH/XKq
+ dMr9b1Cxu6wuuCdkbV8XJ4yMsw==
+X-Google-Smtp-Source: ABdhPJxYcduAHIEDJKewCqJzbh0WfTQ23Fiyh1X5gIRxFyeYz122GaQB8muu75fG479BjgkL/BlZSQ==
+X-Received: by 2002:aa7:9a1d:0:b0:44c:af89:e24 with SMTP id
+ w29-20020aa79a1d000000b0044caf890e24mr7544168pfj.12.1633656600024; 
+ Thu, 07 Oct 2021 18:30:00 -0700 (PDT)
+Received: from anisinha-lenovo ([203.212.240.146])
+ by smtp.googlemail.com with ESMTPSA id z13sm352261pfq.130.2021.10.07.18.29.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Oct 2021 18:29:59 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Fri, 8 Oct 2021 06:59:52 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v7 04/10] ACPI ERST: support for ACPI ERST feature
+In-Reply-To: <1633626876-12115-5-git-send-email-eric.devolder@oracle.com>
+Message-ID: <alpine.DEB.2.22.394.2110080658350.820442@anisinha-lenovo>
+References: <1633626876-12115-1-git-send-email-eric.devolder@oracle.com>
+ <1633626876-12115-5-git-send-email-eric.devolder@oracle.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <20210914015326.1494-1-jiangkunkun@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme717-chm.china.huawei.com (10.1.199.113) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=jiangkunkun@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -61
-X-Spam_score: -6.2
-X-Spam_bar: ------
-X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.964,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::433;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,41 +84,914 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wanghaibin.wang@huawei.com, tangnianyao@huawei.com, ganqixin@huawei.com
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ konrad.wilk@oracle.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ ani@anisinha.ca, imammedo@redhat.com, boris.ostrovsky@oracle.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kindly ping,
 
-Hi all,
 
-Will this patch be picked up soon, or is there any other advice?
+On Thu, 7 Oct 2021, Eric DeVolder wrote:
 
-Thanks,
-Kunkun Jiang
+> This implements a PCI device for ACPI ERST. This implements the
+> non-NVRAM "mode" of operation for ERST as it is supported by
+> Linux and Windows.
+>
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> ---
+>  hw/acpi/erst.c       | 836 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  hw/acpi/meson.build  |   1 +
+>  hw/acpi/trace-events |  15 +
+>  3 files changed, 852 insertions(+)
+>  create mode 100644 hw/acpi/erst.c
+>
+> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> new file mode 100644
+> index 0000000..af7e1a9
+> --- /dev/null
+> +++ b/hw/acpi/erst.c
+> @@ -0,0 +1,836 @@
+> +/*
+> + * ACPI Error Record Serialization Table, ERST, Implementation
+> + *
+> + * ACPI ERST introduced in ACPI 4.0, June 16, 2009.
+> + * ACPI Platform Error Interfaces : Error Serialization
+> + *
+> + * Copyright (c) 2021 Oracle and/or its affiliates.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#include <sys/types.h>
+> +#include <sys/stat.h>
+> +#include <unistd.h>
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "hw/qdev-core.h"
+> +#include "exec/memory.h"
+> +#include "qom/object.h"
+> +#include "hw/pci/pci.h"
+> +#include "qom/object_interfaces.h"
+> +#include "qemu/error-report.h"
+> +#include "migration/vmstate.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/acpi/acpi.h"
+> +#include "hw/acpi/acpi-defs.h"
+> +#include "hw/acpi/aml-build.h"
+> +#include "hw/acpi/bios-linker-loader.h"
+> +#include "exec/address-spaces.h"
+> +#include "sysemu/hostmem.h"
+> +#include "hw/acpi/erst.h"
+> +#include "trace.h"
+> +
+> +/* ACPI 4.0: Table 17-16 Serialization Actions */
+> +#define ACTION_BEGIN_WRITE_OPERATION         0x0
+> +#define ACTION_BEGIN_READ_OPERATION          0x1
+> +#define ACTION_BEGIN_CLEAR_OPERATION         0x2
+> +#define ACTION_END_OPERATION                 0x3
+> +#define ACTION_SET_RECORD_OFFSET             0x4
+> +#define ACTION_EXECUTE_OPERATION             0x5
+> +#define ACTION_CHECK_BUSY_STATUS             0x6
+> +#define ACTION_GET_COMMAND_STATUS            0x7
+> +#define ACTION_GET_RECORD_IDENTIFIER         0x8
+> +#define ACTION_SET_RECORD_IDENTIFIER         0x9
+> +#define ACTION_GET_RECORD_COUNT              0xA
+> +#define ACTION_BEGIN_DUMMY_WRITE_OPERATION   0xB
+> +#define ACTION_RESERVED                      0xC
+> +#define ACTION_GET_ERROR_LOG_ADDRESS_RANGE   0xD
+> +#define ACTION_GET_ERROR_LOG_ADDRESS_LENGTH  0xE
+> +#define ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES 0xF
+> +#define ACTION_GET_EXECUTE_OPERATION_TIMINGS 0x10
+> +
+> +/* ACPI 4.0: Table 17-17 Command Status Definitions */
+> +#define STATUS_SUCCESS                0x00
+> +#define STATUS_NOT_ENOUGH_SPACE       0x01
+> +#define STATUS_HARDWARE_NOT_AVAILABLE 0x02
+> +#define STATUS_FAILED                 0x03
+> +#define STATUS_RECORD_STORE_EMPTY     0x04
+> +#define STATUS_RECORD_NOT_FOUND       0x05
+> +
+> +
+> +/* UEFI 2.1: Appendix N Common Platform Error Record */
+> +#define UEFI_CPER_RECORD_MIN_SIZE 128U
+> +#define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
+> +#define UEFI_CPER_RECORD_ID_OFFSET 96U
+> +#define IS_UEFI_CPER_RECORD(ptr) \
+> +    (((ptr)[0] == 'C') && \
+> +     ((ptr)[1] == 'P') && \
+> +     ((ptr)[2] == 'E') && \
+> +     ((ptr)[3] == 'R'))
+> +
+> +/*
+> + * NOTE that when accessing CPER fields within a record, memcpy()
+> + * is utilized to avoid a possible misaligned access on the host.
+> + */
+> +
+> +/*
+> + * This implementation is an ACTION (cmd) and VALUE (data)
+> + * interface consisting of just two 64-bit registers.
+> + */
+> +#define ERST_REG_SIZE (16UL)
+> +#define ERST_ACTION_OFFSET (0UL) /* action (cmd) */
+> +#define ERST_VALUE_OFFSET  (8UL) /* argument/value (data) */
+> +
+> +/*
+> + * ERST_RECORD_SIZE is the buffer size for exchanging ERST
+> + * record contents. Thus, it defines the maximum record size.
+> + * As this is mapped through a PCI BAR, it must be a power of
+> + * two and larger than UEFI_CPER_RECORD_MIN_SIZE.
+> + * The backing storage is divided into fixed size "slots",
+> + * each ERST_RECORD_SIZE in length, and each "slot"
+> + * storing a single record. No attempt at optimizing storage
+> + * through compression, compaction, etc is attempted.
+> + * NOTE that slot 0 is reserved for the backing storage header.
+> + * Depending upon the size of the backing storage, additional
+> + * slots will be part of the slot 0 header in order to account
+> + * for a record_id for each available remaining slot.
+> + */
+> +/* 8KiB records, not too small, not too big */
+> +#define ERST_RECORD_SIZE (8192UL)
+> +
+> +#define ACPI_ERST_MEMDEV_PROP "memdev"
+> +#define ACPI_ERST_RECORD_SIZE_PROP "record_size"
+> +
+> +/*
+> + * From the ACPI ERST spec sections:
+> + * A record id of all 0s is used to indicate 'unspecified' record id.
+> + * A record id of all 1s is used to indicate empty or end.
+> + */
+> +#define ERST_UNSPECIFIED_RECORD_ID (0UL)
+> +#define ERST_EMPTY_END_RECORD_ID (~0UL)
+> +#define ERST_EXECUTE_OPERATION_MAGIC 0x9CUL
+> +#define ERST_IS_VALID_RECORD_ID(rid) \
+> +    ((rid != ERST_UNSPECIFIED_RECORD_ID) && \
+> +     (rid != ERST_EMPTY_END_RECORD_ID))
+> +#define ERST_STORE_MAGIC 0x524F545354535245UL /* ERSTSTOR */
+> +
+> +typedef struct {
+> +    uint64_t magic;
+> +    uint32_t record_size;
+> +    uint32_t storage_offset; /* offset to record storage beyond header */
+> +    uint16_t version;
+> +    uint16_t reserved;
+> +    uint32_t record_count;
+> +    uint64_t map[]; /* contains record_ids, and position indicates index */
+> +} __attribute__((packed)) ERSTStorageHeader;
+> +
+> +/*
+> + * Object cast macro
+> + */
+> +#define ACPIERST(obj) \
+> +    OBJECT_CHECK(ERSTDeviceState, (obj), TYPE_ACPI_ERST)
+> +
+> +/*
+> + * Main ERST device state structure
+> + */
+> +typedef struct {
+> +    PCIDevice parent_obj;
+> +
+> +    /* Backend storage */
+> +    HostMemoryBackend *hostmem;
+> +    MemoryRegion *hostmem_mr;
+> +    uint32_t storage_size;
+> +    uint32_t default_record_size;
+> +
+> +    /* Programming registers */
+> +    MemoryRegion iomem_mr;
+> +
+> +    /* Exchange buffer */
+> +    MemoryRegion exchange_mr;
+> +
+> +    /* Interface state */
+> +    uint8_t operation;
+> +    uint8_t busy_status;
+> +    uint8_t command_status;
+> +    uint32_t record_offset;
+> +    uint64_t reg_action;
+> +    uint64_t reg_value;
+> +    uint64_t record_identifier;
+> +    ERSTStorageHeader *header;
+> +    unsigned first_record_index;
+> +    unsigned last_record_index;
+> +    unsigned next_record_index;
+> +
+> +} ERSTDeviceState;
+> +
+> +/*******************************************************************/
+> +/*******************************************************************/
+> +
+> +static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
+> +{
+> +    uint8_t *rc = NULL;
+> +    off_t offset = (index * le32_to_cpu(s->header->record_size));
+> +
+> +    g_assert(offset < s->storage_size);
+> +
+> +    rc = memory_region_get_ram_ptr(s->hostmem_mr);
+> +    rc += offset;
+> +
+> +    return rc;
+> +}
+> +
+> +static void make_erst_storage_header(ERSTDeviceState *s)
+> +{
+> +    ERSTStorageHeader *header = s->header;
+> +    unsigned mapsz, headersz;
+> +
+> +    header->magic = cpu_to_le64(ERST_STORE_MAGIC);
+> +    header->record_size = cpu_to_le32(s->default_record_size);
+> +    header->version = cpu_to_le16(0x0100);
+> +    header->reserved = cpu_to_le16(0x0000);
+> +
+> +    /* Compute mapsize */
+> +    mapsz = s->storage_size / s->default_record_size;
+> +    mapsz *= sizeof(uint64_t);
+> +    /* Compute header+map size */
+> +    headersz = sizeof(ERSTStorageHeader) + mapsz;
+> +    /* Round up to nearest integer multiple of ERST_RECORD_SIZE */
+> +    headersz = QEMU_ALIGN_UP(headersz, s->default_record_size);
+> +    header->storage_offset = cpu_to_le32(headersz);
+> +
+> +    /*
+> +     * The HostMemoryBackend initializes contents to zero,
+> +     * so all record_ids stashed in the map are zero'd.
+> +     * As well the record_count is zero. Properly initialized.
+> +     */
+> +}
+> +
+> +static void check_erst_backend_storage(ERSTDeviceState *s, Error **errp)
+> +{
+> +    ERSTStorageHeader *header;
+> +    uint32_t record_size;
+> +
+> +    header = memory_region_get_ram_ptr(s->hostmem_mr);
+> +    s->header = header;
+> +
+> +    /* Ensure pointer to header is 64-bit aligned */
+> +    g_assert(QEMU_PTR_IS_ALIGNED(header, sizeof(uint64_t)));
+> +
+> +    /*
+> +     * Check if header is uninitialized; HostMemoryBackend inits to 0
+> +     */
+> +    if (le64_to_cpu(header->magic) == 0UL) {
+> +        make_erst_storage_header(s);
+> +    }
+> +
+> +    /* Validity check record_size */
+> +    record_size = le32_to_cpu(header->record_size);
+> +    if (!(
+> +        (record_size) && /* non zero */
+> +        (record_size >= UEFI_CPER_RECORD_MIN_SIZE) &&
+> +        (((record_size - 1) & record_size) == 0) && /* is power of 2 */
+> +        (record_size >= 4096) /* PAGE_SIZE */
+> +        )) {
+> +        error_setg(errp, "ERST record_size %u is invalid", record_size);
+> +    }
+> +
+> +    /* Validity check header */
+> +    if (!(
+> +        (le64_to_cpu(header->magic) == ERST_STORE_MAGIC) &&
+> +        ((le32_to_cpu(header->storage_offset) % record_size) == 0) &&
+> +        (le16_to_cpu(header->version) == 0x0100) &&
+> +        (le16_to_cpu(header->reserved) == 0)
+> +        )) {
+> +        error_setg(errp, "ERST backend storage header is invalid");
+> +    }
+> +
+> +    /* Check storage_size against record_size */
+> +    if (((s->storage_size % record_size) != 0) ||
+> +         (record_size > s->storage_size)) {
+> +        error_setg(errp, "ACPI ERST requires size be multiple of "
+> +            "record size (%uKiB)", record_size);
+> +    }
+> +
+> +    /* Compute offset of first and last record storage slot */
+> +    s->first_record_index = le32_to_cpu(header->storage_offset)
+> +        / record_size;
+> +    s->last_record_index = (s->storage_size / record_size);
+> +}
+> +
+> +static void update_map_entry(ERSTDeviceState *s, unsigned index,
+> +    uint64_t record_id)
+> +{
+> +    if (index < s->last_record_index) {
+> +        s->header->map[index] = cpu_to_le64(record_id);
+> +    }
+> +}
+> +
+> +static unsigned allocate_erst_record(ERSTDeviceState *s)
+> +{
+> +    unsigned rc = 0; /* 0 not a valid index */
+> +    unsigned index = s->first_record_index;
+> +
+> +    for (; index < s->last_record_index; ++index) {
+> +        if (le64_to_cpu(s->header->map[index]) == ERST_UNSPECIFIED_RECORD_ID) {
+> +            rc = index;
+> +            break;
+> +        }
+> +    }
+> +
+> +    return rc;
+> +}
+> +
+> +static unsigned lookup_erst_record(ERSTDeviceState *s,
+> +    uint64_t record_identifier)
+> +{
+> +    unsigned rc = 0; /* 0 not a valid index */
+> +
+> +    /* Find the record_identifier in the map */
+> +    if (record_identifier != ERST_UNSPECIFIED_RECORD_ID) {
+> +        /*
+> +         * Count number of valid records encountered, and
+> +         * short-circuit the loop if identifier not found
+> +         */
+> +        uint32_t record_count = le32_to_cpu(s->header->record_count);
+> +        unsigned count = 0;
+> +        unsigned index;
+> +        for (index = s->first_record_index; index < s->last_record_index &&
+> +                count < record_count; ++index) {
+> +            if (le64_to_cpu(s->header->map[index]) == record_identifier) {
+> +                rc = index;
+> +                break;
+> +            }
+> +            if (le64_to_cpu(s->header->map[index]) !=
+> +                ERST_UNSPECIFIED_RECORD_ID) {
+> +                ++count;
+> +            }
+> +        }
+> +    }
+> +
+> +    return rc;
+> +}
+> +
+> +/*
+> + * ACPI 4.0: 17.4.1.1 Serialization Actions, also see
+> + * ACPI 4.0: 17.4.2.2 Operations - Reading 6.c and 2.c
+> + */
+> +static unsigned get_next_record_identifier(ERSTDeviceState *s,
+> +    uint64_t *record_identifier, bool first)
+> +{
+> +    unsigned found = 0;
+> +    unsigned index;
+> +
+> +    /* For operations needing to return 'first' record identifer */
+> +    if (first) {
+> +        /* Reset initial index to beginning */
+> +        s->next_record_index = s->first_record_index;
+> +    }
+> +    index = s->next_record_index;
+> +
+> +    *record_identifier = ERST_EMPTY_END_RECORD_ID;
+> +
+> +    if (le32_to_cpu(s->header->record_count)) {
+> +        for (; index < s->last_record_index; ++index) {
+> +            if (le64_to_cpu(s->header->map[index]) !=
+> +                    ERST_UNSPECIFIED_RECORD_ID) {
+> +                    /* where to start next time */
+> +                    s->next_record_index = index + 1;
+> +                    *record_identifier = le64_to_cpu(s->header->map[index]);
+> +                    found = 1;
+> +                    break;
+> +            }
+> +        }
+> +    }
+> +    if (!found) {
+> +        /* at end (ie scan complete), reset */
+> +        s->next_record_index = s->first_record_index;
+> +    }
+> +
+> +    return STATUS_SUCCESS;
+> +}
+> +
+> +/* ACPI 4.0: 17.4.2.3 Operations - Clearing */
+> +static unsigned clear_erst_record(ERSTDeviceState *s)
+> +{
+> +    unsigned rc = STATUS_RECORD_NOT_FOUND;
+> +    unsigned index;
+> +
+> +    /* Check for valid record identifier */
+> +    if (!ERST_IS_VALID_RECORD_ID(s->record_identifier)) {
+> +        return STATUS_FAILED;
+> +    }
+> +
+> +    index = lookup_erst_record(s, s->record_identifier);
+> +    if (index) {
+> +        /* No need to wipe record, just invalidate its map entry */
+> +        uint32_t record_count;
+> +        update_map_entry(s, index, ERST_UNSPECIFIED_RECORD_ID);
+> +        record_count = le32_to_cpu(s->header->record_count);
+> +        record_count -= 1;
+> +        s->header->record_count = cpu_to_le32(record_count);
+> +        rc = STATUS_SUCCESS;
+> +    }
+> +
+> +    return rc;
+> +}
+> +
+> +/* ACPI 4.0: 17.4.2.2 Operations - Reading */
+> +static unsigned read_erst_record(ERSTDeviceState *s)
+> +{
+> +    unsigned rc = STATUS_RECORD_NOT_FOUND;
+> +    unsigned exchange_length;
+> +    unsigned index;
+> +
+> +    /* Check if backend storage is empty */
+> +    if (le32_to_cpu(s->header->record_count) == 0) {
+> +        return STATUS_RECORD_STORE_EMPTY;
+> +    }
+> +
+> +    exchange_length = memory_region_size(&s->exchange_mr);
+> +
+> +    /* Check for record identifier of all 0s */
+> +    if (s->record_identifier == ERST_UNSPECIFIED_RECORD_ID) {
+> +        /* Set to 'first' record in storage */
+> +        get_next_record_identifier(s, &s->record_identifier, true);
+> +        /* record_identifier is now a valid id, or all 1s */
+> +    }
+> +
+> +    /* Check for record identifier of all 1s */
+> +    if (s->record_identifier == ERST_EMPTY_END_RECORD_ID) {
+> +        return STATUS_FAILED;
+> +    }
+> +
+> +    /* Validate record_offset */
+> +    if (s->record_offset > (exchange_length - UEFI_CPER_RECORD_MIN_SIZE)) {
+> +        return STATUS_FAILED;
+> +    }
+> +
+> +    index = lookup_erst_record(s, s->record_identifier);
+> +    if (index) {
+> +        uint8_t *nvram;
+> +        uint8_t *exchange;
+> +        uint32_t record_length;
+> +
+> +        /* Obtain pointer to the exchange buffer */
+> +        exchange = memory_region_get_ram_ptr(&s->exchange_mr);
+> +        exchange += s->record_offset;
+> +        /* Obtain pointer to slot in storage */
+> +        nvram = get_nvram_ptr_by_index(s, index);
+> +        /* Validate CPER record_length */
+> +        memcpy((uint8_t *)&record_length,
+> +            &nvram[UEFI_CPER_RECORD_LENGTH_OFFSET],
+> +            sizeof(uint32_t));
+> +        record_length = le32_to_cpu(record_length);
+> +        if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
+> +            rc = STATUS_FAILED;
+> +        }
+> +        if ((s->record_offset + record_length) > exchange_length) {
+> +            rc = STATUS_FAILED;
+> +        }
+> +        /* If all is ok, copy the record to the exchange buffer */
+> +        if (rc != STATUS_FAILED) {
+> +            memcpy(exchange, nvram, record_length);
+> +            rc = STATUS_SUCCESS;
+> +        }
+> +    } else {
+> +        /* Set to 'first' record in storage */
+> +        get_next_record_identifier(s, &s->record_identifier, true);
+> +    }
+> +
+> +    return rc;
+> +}
+> +
+> +/* ACPI 4.0: 17.4.2.1 Operations - Writing */
+> +static unsigned write_erst_record(ERSTDeviceState *s)
+> +{
+> +    unsigned rc = STATUS_FAILED;
+> +    unsigned exchange_length;
+> +    unsigned index;
+> +    uint64_t record_identifier;
+> +    uint32_t record_length;
+> +    uint8_t *exchange;
+> +    uint8_t *nvram = NULL;
+> +    bool record_found = false;
+> +
+> +    exchange_length = memory_region_size(&s->exchange_mr);
+> +
+> +    /* Validate record_offset */
+> +    if (s->record_offset > (exchange_length - UEFI_CPER_RECORD_MIN_SIZE)) {
+> +        return STATUS_FAILED;
+> +    }
+> +
+> +    /* Obtain pointer to record in the exchange buffer */
+> +    exchange = memory_region_get_ram_ptr(&s->exchange_mr);
+> +    exchange += s->record_offset;
+> +
+> +    /* Validate CPER record_length */
+> +    memcpy((uint8_t *)&record_length, &exchange[UEFI_CPER_RECORD_LENGTH_OFFSET],
+> +        sizeof(uint32_t));
+> +    record_length = le32_to_cpu(record_length);
+> +    if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
+> +        return STATUS_FAILED;
+> +    }
+> +    if ((s->record_offset + record_length) > exchange_length) {
+> +        return STATUS_FAILED;
+> +    }
+> +
+> +    /* Extract record identifier */
+> +    memcpy((uint8_t *)&record_identifier, &exchange[UEFI_CPER_RECORD_ID_OFFSET],
+> +        sizeof(uint64_t));
+> +    record_identifier = le64_to_cpu(record_identifier);
+> +
+> +    /* Check for valid record identifier */
+> +    if (!ERST_IS_VALID_RECORD_ID(record_identifier)) {
+> +        return STATUS_FAILED;
+> +    }
+> +
+> +    index = lookup_erst_record(s, record_identifier);
+> +    if (index) {
+> +        /* Record found, overwrite existing record */
+> +        nvram = get_nvram_ptr_by_index(s, index);
+> +        record_found = true;
+> +    } else {
+> +        /* Record not found, not an overwrite, allocate for write */
+> +        index = allocate_erst_record(s);
+> +        if (index) {
+> +            nvram = get_nvram_ptr_by_index(s, index);
+> +        } else {
+> +            rc = STATUS_NOT_ENOUGH_SPACE;
+> +        }
+> +    }
+> +    if (nvram) {
+> +        /* Write the record into the slot */
+> +        memcpy(nvram, exchange, record_length);
+> +        memset(nvram + record_length, exchange_length - record_length, 0xFF);
+> +        /* If a new record, increment the record_count */
+> +        if (!record_found) {
+> +            uint32_t record_count;
+> +            record_count = le32_to_cpu(s->header->record_count);
+> +            record_count += 1; /* writing new record */
+> +            s->header->record_count = cpu_to_le32(record_count);
+> +        }
+> +        update_map_entry(s, index, record_identifier);
+> +        rc = STATUS_SUCCESS;
+> +    }
+> +
+> +    return rc;
+> +}
+> +
+> +/*******************************************************************/
+> +
+> +static uint64_t erst_rd_reg64(hwaddr addr,
+> +    uint64_t reg, unsigned size)
+> +{
+> +    uint64_t rdval;
+> +    uint64_t mask;
+> +    unsigned shift;
+> +
+> +    if (size == sizeof(uint64_t)) {
+> +        /* 64b access */
+> +        mask = 0xFFFFFFFFFFFFFFFFUL;
+> +        shift = 0;
+> +    } else {
+> +        /* 32b access */
+> +        mask = 0x00000000FFFFFFFFUL;
+> +        shift = ((addr & 0x4) == 0x4) ? 32 : 0;
+> +    }
+> +
+> +    rdval = reg;
+> +    rdval >>= shift;
+> +    rdval &= mask;
+> +
+> +    return rdval;
+> +}
+> +
+> +static uint64_t erst_wr_reg64(hwaddr addr,
+> +    uint64_t reg, uint64_t val, unsigned size)
+> +{
+> +    uint64_t wrval;
+> +    uint64_t mask;
+> +    unsigned shift;
+> +
+> +    if (size == sizeof(uint64_t)) {
+> +        /* 64b access */
+> +        mask = 0xFFFFFFFFFFFFFFFFUL;
+> +        shift = 0;
+> +    } else {
+> +        /* 32b access */
+> +        mask = 0x00000000FFFFFFFFUL;
+> +        shift = ((addr & 0x4) == 0x4) ? 32 : 0;
+> +    }
+> +
+> +    val &= mask;
+> +    val <<= shift;
+> +    mask <<= shift;
+> +    wrval = reg;
+> +    wrval &= ~mask;
+> +    wrval |= val;
+> +
+> +    return wrval;
+> +}
+> +
+> +static void erst_reg_write(void *opaque, hwaddr addr,
+> +    uint64_t val, unsigned size)
+> +{
+> +    ERSTDeviceState *s = (ERSTDeviceState *)opaque;
+> +
+> +    /*
+> +     * NOTE: All actions/operations/side effects happen on the WRITE,
+> +     * by this implementation's design. The READs simply return the
+> +     * reg_value contents.
+> +     */
+> +    trace_acpi_erst_reg_write(addr, val, size);
+> +
+> +    switch (addr) {
+> +    case ERST_VALUE_OFFSET + 0:
+> +    case ERST_VALUE_OFFSET + 4:
+> +        s->reg_value = erst_wr_reg64(addr, s->reg_value, val, size);
+> +        break;
+> +    case ERST_ACTION_OFFSET + 0:
+> +        /*
+> +         * NOTE: all valid values written to this register are of the
+> +         * ACTION_* variety. Thus there is no need to make this a 64-bit
+> +         * register, 32-bits is appropriate. As such ERST_ACTION_OFFSET+4
+> +         * is not needed.
+> +         */
+> +        switch (val) {
+> +        case ACTION_BEGIN_WRITE_OPERATION:
+> +        case ACTION_BEGIN_READ_OPERATION:
+> +        case ACTION_BEGIN_CLEAR_OPERATION:
+> +        case ACTION_BEGIN_DUMMY_WRITE_OPERATION:
+> +        case ACTION_END_OPERATION:
+> +            s->operation = val;
+> +            break;
+> +        case ACTION_SET_RECORD_OFFSET:
+> +            s->record_offset = s->reg_value;
+> +            break;
+> +        case ACTION_EXECUTE_OPERATION:
+> +            if ((uint8_t)s->reg_value == ERST_EXECUTE_OPERATION_MAGIC) {
+> +                s->busy_status = 1;
+> +                switch (s->operation) {
+> +                case ACTION_BEGIN_WRITE_OPERATION:
+> +                    s->command_status = write_erst_record(s);
+> +                    break;
+> +                case ACTION_BEGIN_READ_OPERATION:
+> +                    s->command_status = read_erst_record(s);
+> +                    break;
+> +                case ACTION_BEGIN_CLEAR_OPERATION:
+> +                    s->command_status = clear_erst_record(s);
+> +                    break;
+> +                case ACTION_BEGIN_DUMMY_WRITE_OPERATION:
+> +                    s->command_status = STATUS_SUCCESS;
+> +                    break;
+> +                case ACTION_END_OPERATION:
+> +                    s->command_status = STATUS_SUCCESS;
+> +                    break;
+> +                default:
+> +                    s->command_status = STATUS_FAILED;
+> +                    break;
+> +                }
+> +                s->busy_status = 0;
+> +            }
+> +            break;
+> +        case ACTION_CHECK_BUSY_STATUS:
+> +            s->reg_value = s->busy_status;
+> +            break;
+> +        case ACTION_GET_COMMAND_STATUS:
+> +            s->reg_value = s->command_status;
+> +            break;
+> +        case ACTION_GET_RECORD_IDENTIFIER:
+> +            s->command_status = get_next_record_identifier(s,
+> +                                    &s->reg_value, false);
+> +            break;
+> +        case ACTION_SET_RECORD_IDENTIFIER:
+> +            s->record_identifier = s->reg_value;
+> +            break;
+> +        case ACTION_GET_RECORD_COUNT:
+> +            s->reg_value = le32_to_cpu(s->header->record_count);
+> +            break;
+> +        case ACTION_GET_ERROR_LOG_ADDRESS_RANGE:
+> +            s->reg_value = (hwaddr)pci_get_bar_addr(PCI_DEVICE(s), 1);
+> +            break;
+> +        case ACTION_GET_ERROR_LOG_ADDRESS_LENGTH:
+> +            s->reg_value = le32_to_cpu(s->header->record_size);
+> +            break;
+> +        case ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES:
+> +            s->reg_value = 0x0; /* intentional, not NVRAM mode */
+> +            break;
+> +        case ACTION_GET_EXECUTE_OPERATION_TIMINGS:
+> +            s->reg_value =
+> +                (100ULL << 32) | /* 100us max time */
+> +                (10ULL  <<  0) ; /*  10us min time */
+> +            break;
+> +        default:
+> +            /* Unknown action/command, NOP */
+> +            break;
+> +        }
+> +        break;
+> +    default:
+> +        /* This should not happen, but if it does, NOP */
+> +        break;
+> +    }
+> +}
+> +
+> +static uint64_t erst_reg_read(void *opaque, hwaddr addr,
+> +                                unsigned size)
+> +{
+> +    ERSTDeviceState *s = (ERSTDeviceState *)opaque;
+> +    uint64_t val = 0;
+> +
+> +    switch (addr) {
+> +    case ERST_ACTION_OFFSET + 0:
+> +    case ERST_ACTION_OFFSET + 4:
+> +        val = erst_rd_reg64(addr, s->reg_action, size);
+> +        break;
+> +    case ERST_VALUE_OFFSET + 0:
+> +    case ERST_VALUE_OFFSET + 4:
+> +        val = erst_rd_reg64(addr, s->reg_value, size);
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +    trace_acpi_erst_reg_read(addr, val, size);
+> +    return val;
+> +}
+> +
+> +static const MemoryRegionOps erst_reg_ops = {
+> +    .read = erst_reg_read,
+> +    .write = erst_reg_write,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+> +};
+> +
+> +/*******************************************************************/
+> +/*******************************************************************/
+> +static int erst_post_load(void *opaque, int version_id)
+> +{
+> +    ERSTDeviceState *s = opaque;
+> +
+> +    /* Recompute pointer to header */
+> +    s->header = (ERSTStorageHeader *)get_nvram_ptr_by_index(s, 0);
+> +    trace_acpi_erst_post_load(s->header, le32_to_cpu(s->header->record_size));
+> +
+> +    return 0;
+> +}
+> +
+> +static const VMStateDescription erst_vmstate  = {
+> +    .name = "acpi-erst",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .post_load = erst_post_load,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT8(operation, ERSTDeviceState),
+> +        VMSTATE_UINT8(busy_status, ERSTDeviceState),
+> +        VMSTATE_UINT8(command_status, ERSTDeviceState),
+> +        VMSTATE_UINT32(record_offset, ERSTDeviceState),
+> +        VMSTATE_UINT64(reg_action, ERSTDeviceState),
+> +        VMSTATE_UINT64(reg_value, ERSTDeviceState),
+> +        VMSTATE_UINT64(record_identifier, ERSTDeviceState),
+> +        VMSTATE_UINT32(next_record_index, ERSTDeviceState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static void erst_realizefn(PCIDevice *pci_dev, Error **errp)
+> +{
+> +    ERSTDeviceState *s = ACPIERST(pci_dev);
+> +
+> +    trace_acpi_erst_realizefn_in();
+> +
+> +    if (!s->hostmem) {
+> +        error_setg(errp, "'" ACPI_ERST_MEMDEV_PROP "' property is not set");
+> +        return;
+> +    } else if (host_memory_backend_is_mapped(s->hostmem)) {
+> +        error_setg(errp, "can't use already busy memdev: %s",
+> +                   object_get_canonical_path_component(OBJECT(s->hostmem)));
+> +        return;
+> +    }
+> +
+> +    s->hostmem_mr = host_memory_backend_get_memory(s->hostmem);
+> +
+> +    /* HostMemoryBackend size will be multiple of PAGE_SIZE */
+> +    s->storage_size = object_property_get_int(OBJECT(s->hostmem), "size", errp);
+> +
+> +    /* Initialize backend storage and record_count */
+> +    check_erst_backend_storage(s, errp);
+> +
+> +    /* BAR 0: Programming registers */
+> +    memory_region_init_io(&s->iomem_mr, OBJECT(pci_dev), &erst_reg_ops, s,
+> +                          TYPE_ACPI_ERST, ERST_REG_SIZE);
+> +    pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->iomem_mr);
+> +
+> +    /* BAR 1: Exchange buffer memory */
+> +    memory_region_init_ram(&s->exchange_mr, OBJECT(pci_dev),
+> +                            "erst.exchange",
+> +                            le32_to_cpu(s->header->record_size), errp);
+> +    pci_register_bar(pci_dev, 1, PCI_BASE_ADDRESS_SPACE_MEMORY,
+> +                        &s->exchange_mr);
+> +
+> +    /* Include the backend storage in the migration stream */
+> +    vmstate_register_ram_global(s->hostmem_mr);
+> +
+> +    trace_acpi_erst_realizefn_out(s->storage_size);
+> +}
+> +
+> +static void erst_reset(DeviceState *dev)
+> +{
+> +    ERSTDeviceState *s = ACPIERST(dev);
+> +
+> +    trace_acpi_erst_reset_in(le32_to_cpu(s->header->record_count));
+> +    s->operation = 0;
+> +    s->busy_status = 0;
+> +    s->command_status = STATUS_SUCCESS;
+> +    s->record_identifier = ERST_UNSPECIFIED_RECORD_ID;
+> +    s->record_offset = 0;
+> +    s->next_record_index = s->first_record_index;
+> +    /* NOTE: first/last_record_index are computed only once */
+> +    trace_acpi_erst_reset_out(le32_to_cpu(s->header->record_count));
+> +}
+> +
+> +static Property erst_properties[] = {
+> +    DEFINE_PROP_LINK(ACPI_ERST_MEMDEV_PROP, ERSTDeviceState, hostmem,
+> +                     TYPE_MEMORY_BACKEND, HostMemoryBackend *),
+> +    DEFINE_PROP_UINT32(ACPI_ERST_RECORD_SIZE_PROP, ERSTDeviceState,
+> +                     default_record_size, ERST_RECORD_SIZE),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void erst_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+> +
+> +    trace_acpi_erst_class_init_in();
+> +    k->realize = erst_realizefn;
+> +    k->vendor_id = PCI_VENDOR_ID_REDHAT;
+> +    k->device_id = PCI_DEVICE_ID_REDHAT_ACPI_ERST;
+> +    k->revision = 0x00;
+> +    k->class_id = PCI_CLASS_OTHERS;
+> +    dc->reset = erst_reset;
+> +    dc->vmsd = &erst_vmstate;
+> +    dc->user_creatable = true;
+> +    dc->hotpluggable = false;
+> +    device_class_set_props(dc, erst_properties);
+> +    dc->desc = "ACPI Error Record Serialization Table (ERST) device";
+> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+> +    trace_acpi_erst_class_init_out();
+> +}
+> +
+> +static const TypeInfo erst_type_info = {
+> +    .name          = TYPE_ACPI_ERST,
+> +    .parent        = TYPE_PCI_DEVICE,
+> +    .class_init    = erst_class_init,
+> +    .instance_size = sizeof(ERSTDeviceState),
+> +    .interfaces = (InterfaceInfo[]) {
+> +        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> +        { }
+> +    }
+> +};
+> +
+> +static void erst_register_types(void)
+> +{
+> +    type_register_static(&erst_type_info);
+> +}
+> +
+> +type_init(erst_register_types)
+> diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+> index 7d8c0eb..348b94f 100644
+> --- a/hw/acpi/meson.build
+> +++ b/hw/acpi/meson.build
+> @@ -5,6 +5,7 @@ acpi_ss.add(files(
+>    'bios-linker-loader.c',
+>    'core.c',
+>    'utils.c',
+> +  'erst.c',
 
-On 2021/9/14 9:53, Kunkun Jiang wrote:
-> This series include patches as below:
->
-> Patch 1:
-> - vfio/pci: Fix vfio-pci sub-page MMIO BAR mmaping in live migration
->
-> Patch 2:
-> - Added a trace point to informe users when a MMIO RAM ection less than PAGE_SIZE
->
-> History:
->
-> v1 -> v2:
-> - Add iterate sub-page BARs in vfio_pci_load_config and try to update them [Alex Williamson]
->
-> Kunkun Jiang (2):
->    vfio/pci: Fix vfio-pci sub-page MMIO BAR mmaping in live migration
->    vfio/common: Add trace point when a MMIO RAM section less than
->      PAGE_SIZE
->
->   hw/vfio/common.c |  7 +++++++
->   hw/vfio/pci.c    | 15 ++++++++++++++-
->   2 files changed, 21 insertions(+), 1 deletion(-)
->
+I think we should introduce a CONFIG variable here and specific archs
+can then use the earst device by enabling that config. Adding erst.c in
+the general section isn't right.
 
+
+>  ))
+>  acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c', 'cpu_hotplug.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_false: files('acpi-cpu-hotplug-stub.c'))
+> diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
+> index 974d770..2250126 100644
+> --- a/hw/acpi/trace-events
+> +++ b/hw/acpi/trace-events
+> @@ -55,3 +55,18 @@ piix4_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64
+>  # tco.c
+>  tco_timer_reload(int ticks, int msec) "ticks=%d (%d ms)"
+>  tco_timer_expired(int timeouts_no, bool strap, bool no_reboot) "timeouts_no=%d no_reboot=%d/%d"
+> +
+> +# erst.c
+> +acpi_erst_reg_write(uint64_t addr, uint64_t val, unsigned size) "addr: 0x%04" PRIx64 " <== 0x%016" PRIx64 " (size: %u)"
+> +acpi_erst_reg_read(uint64_t addr, uint64_t val, unsigned size) " addr: 0x%04" PRIx64 " ==> 0x%016" PRIx64 " (size: %u)"
+> +acpi_erst_mem_write(uint64_t addr, uint64_t val, unsigned size) "addr: 0x%06" PRIx64 " <== 0x%016" PRIx64 " (size: %u)"
+> +acpi_erst_mem_read(uint64_t addr, uint64_t val, unsigned size) " addr: 0x%06" PRIx64 " ==> 0x%016" PRIx64 " (size: %u)"
+> +acpi_erst_pci_bar_0(uint64_t addr) "BAR0: 0x%016" PRIx64
+> +acpi_erst_pci_bar_1(uint64_t addr) "BAR1: 0x%016" PRIx64
+> +acpi_erst_realizefn_in(void)
+> +acpi_erst_realizefn_out(unsigned size) "total nvram size %u bytes"
+> +acpi_erst_reset_in(unsigned record_count) "record_count %u"
+> +acpi_erst_reset_out(unsigned record_count) "record_count %u"
+> +acpi_erst_post_load(void *header, unsigned slot_size) "header: 0x%p slot_size %u"
+> +acpi_erst_class_init_in(void)
+> +acpi_erst_class_init_out(void)
+> --
+> 1.8.3.1
+>
+>
 
