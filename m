@@ -2,145 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B81426E24
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 17:53:19 +0200 (CEST)
-Received: from localhost ([::1]:56204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCE6426E69
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 18:10:12 +0200 (CEST)
+Received: from localhost ([::1]:46718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYsBR-0008Me-Sg
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 11:53:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45072)
+	id 1mYsRn-0004XP-3R
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 12:10:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1mYsAB-0007c8-8X
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:51:59 -0400
-Received: from mail-bn8nam12on20624.outbound.protection.outlook.com
- ([2a01:111:f400:fe5b::624]:60004
- helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mYsQe-0003jB-4c; Fri, 08 Oct 2021 12:09:00 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:58425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1mYsA8-0003Fo-Qw
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:51:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iXUZxnBf71QKW7AMgdj1ls4RCJ8Cg8lXqTo1zakPsltiH60nyKK8X4KMkTccX6c2kFVoSZnEcLZOsBDXtaQHtwxAMo+FgMsCbPTdrOuDNcDxgGvnbm7BVnCzrB2EaM1S/o2ccNRlJ5AS7f1gqhzDlbH/Zmn9C0pIa64+y6VRrSkqF9PGOveysgNrvTHcx3kWNwPc6UoBaII9uy3OuQ7DXNgQSj1N64Q/22HakXu9BTy8axIVBiQoUpMeOe3Tvwq4n1drDLvo1QVTs3w+pj3cTiSz790+pxcP1kvz+ny2Bw/i2Gd79BdgSVHQwCZhfgC9Z7gEZU7Ng0xg1mL2GlzYgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GgDmcdgz4VZE6hThyp/Yd28EgOnuOqLEzYXjG5zi61s=;
- b=TgiUd9xgCGqkKXbyM24JPF1XRbEFN2sgfmO/XqsFbPfLqPOnzKwExEUljLT+6QCQVPmeQ6ckf0oBslZlY1HwfU8b52CO+O96vRlWRj7Zu6R+4dTFXuok2107IAfSqm5z7oRXJ2J8nkgrTGRGZBQd9wGQR6UezhfRhZYq4EqXVhK0y7/QcApsKwGOXr0AKZiz+Zx2H+BpYZCIzx3TsLTSFnDD8CGfbX0ya0wPiPZAt1e5CQi+WVDyqSJqZkLLfPsSZvyzlZ0xMfJVIRUf7ZTcK3BwKHfL4GL0h8caLn1E2iwsI4F5BNvk081DnO7VQCbwKj0z++PnYYw69t+Jg2Z7OA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GgDmcdgz4VZE6hThyp/Yd28EgOnuOqLEzYXjG5zi61s=;
- b=pNvhpbxf5tjnim9Uvd5NFzPCknrXyxdNm48fg+V1fuo5f1GwSXPH6xyob3d/2iyxHLfJ2RdAaX0y1hl876VhH75kWgqNRdw5pVlQQfyZiGt7SnQpOXZYJeK9OM/tKMN4RqGTJ2Hu7m5jPFSlyGihj9beD8mC7rZy0oXjo/esNwM=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
- by SN1PR12MB2448.namprd12.prod.outlook.com (2603:10b6:802:28::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18; Fri, 8 Oct
- 2021 15:46:50 +0000
-Received: from SN6PR12MB2718.namprd12.prod.outlook.com
- ([fe80::78b7:7336:d363:9be3]) by SN6PR12MB2718.namprd12.prod.outlook.com
- ([fe80::78b7:7336:d363:9be3%6]) with mapi id 15.20.4587.022; Fri, 8 Oct 2021
- 15:46:50 +0000
-Cc: brijesh.singh@amd.com, kvm@vger.kernel.org, Sergio Lopez
- <slp@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, "Daniel P . Berrange"
- <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v3 13/22] target/i386/sev: Remove stubs by using code
- elision
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211002125317.3418648-1-philmd@redhat.com>
- <20211002125317.3418648-14-philmd@redhat.com>
- <84e1213b-c6c0-85a4-0d3e-854cd3dc0fa0@redhat.com>
- <6a6629d7-2441-1711-d181-8b2b2127dd21@redhat.com>
-From: Brijesh Singh <brijesh.singh@amd.com>
-Message-ID: <bdd96643-45f4-e00e-17ad-16be6ad160f7@amd.com>
-Date: Fri, 8 Oct 2021 10:46:48 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
-In-Reply-To: <6a6629d7-2441-1711-d181-8b2b2127dd21@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: SA9P221CA0027.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:806:25::32) To SN6PR12MB2718.namprd12.prod.outlook.com
- (2603:10b6:805:6f::22)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mYsQa-00018h-KX; Fri, 08 Oct 2021 12:08:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=vBNlGsFfxAMJasg2xaw1tA/8bhJQ/QzW2d99MEym6Yw=; b=J6Dye207QzdnzHGb80gpquxM+g
+ YNm21tu55kfqWAeZkja5VkX2vlxQiDNhBqg2bT9E/hKCRCYmAnIyDDRaKWn9+ZwHQHJN84dTjGJBz
+ 8edMpy8vjdglhX3/POvdpu3HqDNe9ThosrKg7crSI3ifodtp9n22oMbwz23+qdnonv69p2IIt10L2
+ WGKXJc1xBODjHv/2OIOFT9hNJ779VdwpurPuO08uYgT19x6HXcy63ubEYIhdz5u+ewPHXg3N6m/D1
+ d8/ssbt80fmWQWY0Wxv5QZ/6BRo4Sa3gn5GLGkulrIreo6sI3oU6DPrE1RsvLVY9ezvfyaNXxN9DJ
+ oLzNU1PWZGFskg89FYDmyJ+gPdEYsDOH+NLuMVTET8F6O7yzQg4hWV0tIshB8ThTbKFeNNAe9mKZs
+ zcWL+uFd4FhuxwG2RPaFhdL+HrV/HM+a2RJKgHEz8XwMigThytd5Kz/aBNlv5qxXzetX9IseTxT5l
+ sRhFA5tVE7PQx67Hnzwi17PbBSJ8rTuq2Fi2ZWyki5tSKctDM2txfLPIiV1xWDzXKzMpyb3hLLK34
+ tyrUTb7w63bb6vBmuYhTGAYVk9mCt/TCFGf5l1LAz8rsiSCLbG+0ruupR/IlRiemdZfqv/IIeUFgQ
+ PWmQfbXlI4Wjz9EzYdXUft8vZLKt317tcLO49wGJw=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Amit Shah <amit@kernel.org>,
+ David Hildenbrand <david@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, virtio-fs@redhat.com,
+ Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 0/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
+Date: Fri, 08 Oct 2021 18:08:48 +0200
+Message-ID: <2657765.azTuxnmmC0@silver>
+In-Reply-To: <1853723.Wj769PA2Ue@silver>
+References: <cover.1633376313.git.qemu_oss@crudebyte.com>
+ <20211008092533.376b568b@bahia.huguette> <1853723.Wj769PA2Ue@silver>
 MIME-Version: 1.0
-Received: from Brijeshs-MacBook-Pro.local (165.204.77.11) by
- SA9P221CA0027.NAMP221.PROD.OUTLOOK.COM (2603:10b6:806:25::32) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4587.18 via Frontend Transport; Fri, 8 Oct 2021 15:46:49 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 08a8ace3-059d-431c-acc6-08d98a72d821
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2448:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN1PR12MB2448565296D48E82B1FBEABAE5B29@SN1PR12MB2448.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PpDnKWqn/vixftadbg57UhTj6WIcREIoJSMLI82G1b8UZ2gPZkYc/pS2IyvtvI2f4T8FAOuzv07FVXi+WoIs59xtlVfWidENlueNNA8tVS0UUkOOEPqvcrZR1eabNLNjL38mQnEA0JVGriKrlhBVv++GkL3hZga2yZITn/HgqYf32sBzkRrCz8qMQxiBb1PZhnetOYcOoVSTg7EYVoSOs2S8BLzNjbWraZMq4/qIAnSHn6w2TlH7wraWVWp9LzdBak6DzAF5+IqgZ/7as+/3FRN4VVYMkMO00hpSbhB2xM8hVu2RC1t9iz7/mWOlUCosMDiAgtXi9dcBbmkzcnKuVgE/BLID8fJMykuna/K6A3cJ7XHPCZCM2TbUwC22u7Noa+paNHOauCuo7GSTx2I7QWIZM0bo+uJU3gcP7R9sZw9wNsqQiyWo05s0wVOnKUnOzZeCMTKzB2iBo64mfMRgisPV1A9R3aExxenSSkvj1EYL+xZ3r1TXhtC3vG/yJZMDN9WaT3zXVthJnh0VpNfN04zLWbGPt8Csg7zD3QeXzxANDZHYc19insyCGKT0CdkD+UyDolhDmz/jqD/jhSjl4YVH4hbIV8YzHbaZvLSUuPzPOVmUPof8lz6DYF9wckJChvcqv2mb7sDAmJFWx3N5K5cmmGemUTYXGlN4VjQCUH6dt2/JiaVDdWxVVzcTKUSYAt69AkA2n9kpOmIQtmf/IgRHpf0xzb+JhhuxkYfWCT2fjMC7ZhbYSyLklqOGepze
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB2718.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(8936002)(110136005)(54906003)(31686004)(7416002)(6506007)(66946007)(53546011)(44832011)(66556008)(86362001)(66476007)(31696002)(316002)(2616005)(956004)(26005)(186003)(83380400001)(38100700002)(8676002)(6486002)(2906002)(5660300002)(6512007)(36756003)(4326008)(508600001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SU1LbE92WlVtaEFmemQ0eU8rLzhCckR5Wll0VUFzcDNETlczcDJwK0QrRDBi?=
- =?utf-8?B?M25FdzVCNzdFWCsvdnZRUHNTUzBoWHU0U1czNXdUb1pFbTBncVFDakN6TzBD?=
- =?utf-8?B?eG1Wb2s2NnZzZmUzbnFkc2pyMHRDcXBSK0EzUGRJWkY5MWhFUkc4ejBncGow?=
- =?utf-8?B?djFnTllFaHQvR2ZZR2gwcytXWVREc0dvZHFjdFVEY0tWelU4OURZR0IrVGRh?=
- =?utf-8?B?djVadFFIQldveGd2eWRjcHRndTdVaHk1S09VZVlGSEs2VDNudWQraEo4NXlR?=
- =?utf-8?B?OUxTcUJuM0FmbTNZSmE0T1EydS83SnRNWjNES20yVXhPbkZPMmJicUtZUVY5?=
- =?utf-8?B?dE8rNWNCWHFpd0MxNWpHeVp4UnJWS3ZhRG9xb2FjS1hxWWtKZy9waThpL3Fh?=
- =?utf-8?B?bzROMjlteEdhZUFYRHZQYmY2NEFZcTY4UjI5WU41bDg1TUZYU3ZYWmJZbDE5?=
- =?utf-8?B?UFI4OWk4TUxkTXY3Q1pPVmRvTWtxYmEvcEoxNVFrVGt6bUtTY2plR2RqUzdv?=
- =?utf-8?B?T3d6a3RjT2diUVlkSmQ5SVRZOXMyOFRtZ2VTL045TmNsYy9XTXBwcjZEbEJO?=
- =?utf-8?B?K0VkOURHYVRHcGlMSVNZbHRKSFRYNVVXb1g3N0pBbjVORjN6UnhueHRzZ1hK?=
- =?utf-8?B?N2xxMGhXaXlGZ095ek1JbXFOOUNhSUVkcU9jNzR1QnZrU1NpUmZqd2NEemdQ?=
- =?utf-8?B?QWlVREdhOTA4M2N0TUl0QUUyczkvSkJZbXgrRHd4SjJMM0V3ZGN4aTJadVZR?=
- =?utf-8?B?cXdVZ08xemVOTEhoaFVZWUtHb3NYNHZEeWFMMkgzeXB6T3lNRjVFSnlOaEha?=
- =?utf-8?B?N0orSDlsYVhEZzhjcFNGRktnMmwxbUhRZ1FPMnVzVFNLTHd4eG5Hb0Y4MHhI?=
- =?utf-8?B?Q25UWEE0S3dxMnBlMTBhdjVIL3VZamppNEhCNk9SY3RMQUZlWjJJUnRlaW5M?=
- =?utf-8?B?VXIxckFvTWkrVTdOMjE0Mi9xaEEwUzhZRU5HRkN0NVRxUW13VGVkL1NkamFD?=
- =?utf-8?B?NG84UDlyZjlEakZJejY2QTYvR1NiSUJ2dlJ0SGhhS0hCdnUzMng3NHNyVk1M?=
- =?utf-8?B?SzYvM1JyMXlFalB6K3hKQTBwNm9iREtGTHlnYVZHRFg4ZWJTSGtqQVBFR0tv?=
- =?utf-8?B?MGJPV1dhVUNrTENDZ3BZWXFaYjA3cWVqSkd3dTE3Q2VVK0pmK3VudzZMRmpK?=
- =?utf-8?B?bGJqVTRnb2QrakRKdXhpQTR6OUY4Q2JsVVhiN0FRaXdSdElYY3FvRmp4MDVD?=
- =?utf-8?B?NVY5RWdqQkpvbHIyb2hOQ1dwYnJMM3FnYVN4cDUzNTdQRVVzSHE1ZERrWWh6?=
- =?utf-8?B?NUREajlLdndHbjBCVHhMcmJXbmJwbXVzcWk2QzJhUU1yU3JlamtkQ1BxM3kx?=
- =?utf-8?B?bHdsK2RzY1V2UFZETXpKOFFETVdXVnpIY1ZFeDYxUW9YT0dUT3M2VVZNd1ZT?=
- =?utf-8?B?M1NEbFpYcjFETjdTa3ZpTUcyaTZBT3l5RWlWeWpnTStGUVdNcUsyenN5c0hM?=
- =?utf-8?B?NmVRN1haWkN2VlAwZW93Y3RZdzRsYTVpcUI0aWZyRkttaXFJZXdrekk3c3Rz?=
- =?utf-8?B?UFJ0YkRQb1RaSGhxeFhKMHVjZ3Y4ODc4NkdkeFQxczlCcXZsQVJTVzdnT2sx?=
- =?utf-8?B?NkFlQlRkM2ZJYnNVeXR1ZDgxL2dsdnNITFEzYUh0RzJGTTYvdkFKT3hqT3hD?=
- =?utf-8?B?WFV3OVhvL1FscG1UK1ZEZlBzakxCNXFxMjVUOGd4bGlucW51Y0c2bmRyeGtu?=
- =?utf-8?Q?fvO+IDtV8kUQnId2Ka8FeOWPoBviMSiY3BD0P+s?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08a8ace3-059d-431c-acc6-08d98a72d821
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2021 15:46:50.8705 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bXrGxVkq2GMRQITU7slGB7DoOMf3iLHup3b+6TBmAzIrWSOSav8gdRBJbm2Xa1GqY+Y3P79oien7kzgA5giJDQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2448
-Received-SPF: softfail client-ip=2a01:111:f400:fe5b::624;
- envelope-from=brijesh.singh@amd.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -156,69 +76,260 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Freitag, 8. Oktober 2021 16:24:42 CEST Christian Schoenebeck wrote:
+> On Freitag, 8. Oktober 2021 09:25:33 CEST Greg Kurz wrote:
+> > On Thu, 7 Oct 2021 16:42:49 +0100
+> > 
+> > Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > > On Thu, Oct 07, 2021 at 02:51:55PM +0200, Christian Schoenebeck wrote:
+> > > > On Donnerstag, 7. Oktober 2021 07:23:59 CEST Stefan Hajnoczi wrote:
+> > > > > On Mon, Oct 04, 2021 at 09:38:00PM +0200, Christian Schoenebeck 
+wrote:
+> > > > > > At the moment the maximum transfer size with virtio is limited to
+> > > > > > 4M
+> > > > > > (1024 * PAGE_SIZE). This series raises this limit to its maximum
+> > > > > > theoretical possible transfer size of 128M (32k pages) according
+> > > > > > to
+> > > > > > the
+> > > > > > virtio specs:
+> > > > > > 
+> > > > > > https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs
+> > > > > > 01
+> > > > > > .html#
+> > > > > > x1-240006
+> > > > > 
+> > > > > Hi Christian,
+> > 
+> > > > > I took a quick look at the code:
+> > Hi,
+> > 
+> > Thanks Stefan for sharing virtio expertise and helping Christian !
+> > 
+> > > > > - The Linux 9p driver restricts descriptor chains to 128 elements
+> > > > > 
+> > > > >   (net/9p/trans_virtio.c:VIRTQUEUE_NUM)
+> > > > 
+> > > > Yes, that's the limitation that I am about to remove (WIP); current
+> > > > kernel
+> > > > patches:
+> > > > https://lore.kernel.org/netdev/cover.1632327421.git.linux_oss@crudebyt
+> > > > e.
+> > > > com/>
+> > > 
+> > > I haven't read the patches yet but I'm concerned that today the driver
+> > > is pretty well-behaved and this new patch series introduces a spec
+> > > violation. Not fixing existing spec violations is okay, but adding new
+> > > ones is a red flag. I think we need to figure out a clean solution.
+> 
+> Nobody has reviewed the kernel patches yet. My main concern therefore
+> actually is that the kernel patches are already too complex, because the
+> current situation is that only Dominique is handling 9p patches on kernel
+> side, and he barely has time for 9p anymore.
+> 
+> Another reason for me to catch up on reading current kernel code and
+> stepping in as reviewer of 9p on kernel side ASAP, independent of this
+> issue.
+> 
+> As for current kernel patches' complexity: I can certainly drop patch 7
+> entirely as it is probably just overkill. Patch 4 is then the biggest chunk,
+> I have to see if I can simplify it, and whether it would make sense to
+> squash with patch 3.
+> 
+> > > > > - The QEMU 9pfs code passes iovecs directly to preadv(2) and will
+> > > > > fail
+> > > > > 
+> > > > >   with EINVAL when called with more than IOV_MAX iovecs
+> > > > >   (hw/9pfs/9p.c:v9fs_read())
+> > > > 
+> > > > Hmm, which makes me wonder why I never encountered this error during
+> > > > testing.
+> > > > 
+> > > > Most people will use the 9p qemu 'local' fs driver backend in
+> > > > practice,
+> > > > so
+> > > > that v9fs_read() call would translate for most people to this
+> > > > implementation on QEMU side (hw/9p/9p-local.c):
+> > > > 
+> > > > static ssize_t local_preadv(FsContext *ctx, V9fsFidOpenState *fs,
+> > > > 
+> > > >                             const struct iovec *iov,
+> > > >                             int iovcnt, off_t offset)
+> > > > 
+> > > > {
+> > > > #ifdef CONFIG_PREADV
+> > > > 
+> > > >     return preadv(fs->fd, iov, iovcnt, offset);
+> > > > 
+> > > > #else
+> > > > 
+> > > >     int err = lseek(fs->fd, offset, SEEK_SET);
+> > > >     if (err == -1) {
+> > > >     
+> > > >         return err;
+> > > >     
+> > > >     } else {
+> > > >     
+> > > >         return readv(fs->fd, iov, iovcnt);
+> > > >     
+> > > >     }
+> > > > 
+> > > > #endif
+> > > > }
+> > > > 
+> > > > > Unless I misunderstood the code, neither side can take advantage of
+> > > > > the
+> > > > > new 32k descriptor chain limit?
+> > > > > 
+> > > > > Thanks,
+> > > > > Stefan
+> > > > 
+> > > > I need to check that when I have some more time. One possible
+> > > > explanation
+> > > > might be that preadv() already has this wrapped into a loop in its
+> > > > implementation to circumvent a limit like IOV_MAX. It might be another
+> > > > "it
+> > > > works, but not portable" issue, but not sure.
+> > > > 
+> > > > There are still a bunch of other issues I have to resolve. If you look
+> > > > at
+> > > > net/9p/client.c on kernel side, you'll notice that it basically does
+> > > > this ATM> >
+> > > > 
+> > > >     kmalloc(msize);
+> > 
+> > Note that this is done twice : once for the T message (client request) and
+> > once for the R message (server answer). The 9p driver could adjust the
+> > size
+> > of the T message to what's really needed instead of allocating the full
+> > msize. R message size is not known though.
+> 
+> Would it make sense adding a second virtio ring, dedicated to server
+> responses to solve this? IIRC 9p server already calculates appropriate
+> exact sizes for each response type. So server could just push space that's
+> really needed for its responses.
+> 
+> > > > for every 9p request. So not only does it allocate much more memory
+> > > > for
+> > > > every request than actually required (i.e. say 9pfs was mounted with
+> > > > msize=8M, then a 9p request that actually would just need 1k would
+> > > > nevertheless allocate 8M), but also it allocates > PAGE_SIZE, which
+> > > > obviously may fail at any time.>
+> > > 
+> > > The PAGE_SIZE limitation sounds like a kmalloc() vs vmalloc() situation.
+> 
+> Hu, I didn't even consider vmalloc(). I just tried the kvmalloc() wrapper as
+> a quick & dirty test, but it crashed in the same way as kmalloc() with
+> large msize values immediately on mounting:
+> 
+> diff --git a/net/9p/client.c b/net/9p/client.c
+> index a75034fa249b..cfe300a4b6ca 100644
+> --- a/net/9p/client.c
+> +++ b/net/9p/client.c
+> @@ -227,15 +227,18 @@ static int parse_opts(char *opts, struct p9_client
+> *clnt)
+>  static int p9_fcall_init(struct p9_client *c, struct p9_fcall *fc,
+>                          int alloc_msize)
+>  {
+> -       if (likely(c->fcall_cache) && alloc_msize == c->msize) {
+> +       //if (likely(c->fcall_cache) && alloc_msize == c->msize) {
+> +       if (false) {
+>                 fc->sdata = kmem_cache_alloc(c->fcall_cache, GFP_NOFS);
+>                 fc->cache = c->fcall_cache;
+>         } else {
+> -               fc->sdata = kmalloc(alloc_msize, GFP_NOFS);
+> +               fc->sdata = kvmalloc(alloc_msize, GFP_NOFS);
 
-On 10/6/21 11:55 AM, Philippe Mathieu-Daudé wrote:
-> On 10/4/21 10:19, Paolo Bonzini wrote:
->> On 02/10/21 14:53, Philippe Mathieu-Daudé wrote:
->>> Only declare sev_enabled() and sev_es_enabled() when CONFIG_SEV is
->>> set, to allow the compiler to elide unused code. Remove unnecessary
->>> stubs.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>>   include/sysemu/sev.h    | 14 +++++++++++++-
->>>   target/i386/sev_i386.h  |  3 ---
->>>   target/i386/cpu.c       | 16 +++++++++-------
->>>   target/i386/sev-stub.c  | 36 ------------------------------------
->>>   target/i386/meson.build |  2 +-
->>>   5 files changed, 23 insertions(+), 48 deletions(-)
->>>   delete mode 100644 target/i386/sev-stub.c
->>>
->>> diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
->>> index a329ed75c1c..f5c625bb3b3 100644
->>> --- a/include/sysemu/sev.h
->>> +++ b/include/sysemu/sev.h
->>> @@ -14,9 +14,21 @@
->>>   #ifndef QEMU_SEV_H
->>>   #define QEMU_SEV_H
->>>   -#include "sysemu/kvm.h"
->>> +#ifndef CONFIG_USER_ONLY
->>> +#include CONFIG_DEVICES /* CONFIG_SEV */
->>> +#endif
->>>   +#ifdef CONFIG_SEV
->>>   bool sev_enabled(void);
->>> +bool sev_es_enabled(void);
->>> +#else
->>> +#define sev_enabled() 0
->>> +#define sev_es_enabled() 0
->>> +#endif
->> This means that sev.h can only be included from target-specific files.
->>
->> An alternative could be:
->>
->> #ifdef NEED_CPU_H
->> # include CONFIG_DEVICES
-> <command-line>: fatal error: x86_64-linux-user-config-devices.h: No such
-> file or directory
->
->> #endif
->>
->> #if defined NEED_CPU_H && !defined CONFIG_SEV
->> # define sev_enabled() 0
->> # define sev_es_enabled() 0
->> #else
->> bool sev_enabled(void);
->> bool sev_es_enabled(void);
->> #endif
->>
->> ... but in fact sysemu/sev.h _is_ only used from x86-specific files. So
->> should it be moved to include/hw/i386, and even merged with
->> target/i386/sev_i386.h?  Do we need two files?
-> No clue, I don't think we need. Brijesh?
+Ok, GFP_NOFS -> GFP_KERNEL did the trick.
+
+Now I get:
+
+   virtio: bogus descriptor or out of resources
+
+So, still some work ahead on both ends.
+
+>                 fc->cache = NULL;
+>         }
+> -       if (!fc->sdata)
+> +       if (!fc->sdata) {
+> +               pr_info("%s !fc->sdata", __func__);
+>                 return -ENOMEM;
+> +       }
+>         fc->capacity = alloc_msize;
+>         return 0;
+>  }
+> 
+> I try to look at this at the weekend, I would have expected this hack to
+> bypass this issue.
+> 
+> > > I saw zerocopy code in the 9p guest driver but didn't investigate when
+> > > it's used. Maybe that should be used for large requests (file
+> > > reads/writes)?
+> > 
+> > This is the case already : zero-copy is only used for reads/writes/readdir
+> > if the requested size is 1k or more.
+> > 
+> > Also you'll note that in this case, the 9p driver doesn't allocate msize
+> > for the T/R messages but only 4k, which is largely enough to hold the
+> > header.
+> > 
+> > 	/*
+> > 	
+> > 	 * We allocate a inline protocol data of only 4k bytes.
+> > 	 * The actual content is passed in zero-copy fashion.
+> > 	 */
+> > 	
+> > 	req = p9_client_prepare_req(c, type, P9_ZC_HDR_SZ, fmt, ap);
+> > 
+> > and
+> > 
+> > /* size of header for zero copy read/write */
+> > #define P9_ZC_HDR_SZ 4096
+> > 
+> > A huge msize only makes sense for Twrite, Rread and Rreaddir because
+> > of the amount of data they convey. All other messages certainly fit
+> > in a couple of kilobytes only (sorry, don't remember the numbers).
+> > 
+> > A first change should be to allocate MIN(XXX, msize) for the
+> > regular non-zc case, where XXX could be a reasonable fixed
+> > value (8k?). In the case of T messages, it is even possible
+> > to adjust the size to what's exactly needed, ala snprintf(NULL).
+> 
+> Good idea actually! That would limit this problem to reviewing the 9p specs
+> and picking one reasonable max value. Because you are right, those message
+> types are tiny. Probably not worth to pile up new code to calculate exact
+> message sizes for each one of them.
+> 
+> Adding some safety net would make sense though, to force e.g. if a new
+> message type is added in future, that this value would be reviewed as well,
+> something like:
+> 
+> static int max_msg_size(int msg_type) {
+>     switch (msg_type) {
+>         /* large zero copy messages */
+>         case Twrite:
+>         case Tread:
+>         case Treaddir:
+>             BUG_ON(true);
+> 
+>         /* small messages */
+>         case Tversion:
+>         ....
+>             return 8k; /* to be replaced with appropriate max value */
+>     }
+> }
+> 
+> That way the compiler would bark on future additions. But on doubt, a simple
+> comment on msg type enum might do as well though.
+> 
+> > > virtio-blk/scsi don't memcpy data into a new buffer, they
+> > > directly access page cache or O_DIRECT pinned pages.
+> > > 
+> > > Stefan
+> > 
+> > Cheers,
+> > 
+> > --
+> > Greg
 
 
-Sorry for the late reply, we do not need two files and it can be easily
-merged.
-
-thanks
 
