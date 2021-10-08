@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 183B3426A22
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 13:49:48 +0200 (CEST)
-Received: from localhost ([::1]:51160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 096A4426A27
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 13:51:12 +0200 (CEST)
+Received: from localhost ([::1]:53244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYoNm-0000mM-Hv
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 07:49:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50300)
+	id 1mYoP9-0002CD-1I
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 07:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJW-0006Cz-N7
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:22 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:53751)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJa-0006FK-1f
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:26 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:41899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJV-0006u2-4n
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:22 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mYoJW-0006vb-E0
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 07:45:24 -0400
 Received: from quad ([82.142.3.114]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MryCb-1n56Co1Cpp-00nxCB; Fri, 08
- Oct 2021 13:45:19 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MXGes-1mGhLC0TCY-00Ykf6; Fri, 08
+ Oct 2021 13:45:20 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/13] M68k next patches
-Date: Fri,  8 Oct 2021 13:45:05 +0200
-Message-Id: <20211008114518.757615-1-laurent@vivier.eu>
+Subject: [PULL 01/13] macfb: handle errors that occur during realize
+Date: Fri,  8 Oct 2021 13:45:06 +0200
+Message-Id: <20211008114518.757615-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211008114518.757615-1-laurent@vivier.eu>
+References: <20211008114518.757615-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:lbBuozqK3nVf918tiibo05wqXTflJPPS8oNXgIg1FpxMXVD7DTb
- PvKHrps1wdH8lRf1QAY3s0uPrlKCrNkATcUmBFTFC3WynlOb46LpAKQTl4kJCKuE2iZUiHB
- KHi9PaI8ETpvCPZ15qFLHbQHM+QJ3DzzNnNLtDxCAAn9wfml3JBkqMWl1CyYIgXNflTbjNl
- DMoB56+W/82m1Y0Xk51uA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CFfyQu1bEdU=:0bULcVjY7LMMto310X904W
- htfN/DvQDjJzhEfHIFa6UffDHRSbSvYCJJgJ9PhNdTR9Q623ebN2Ats3/aAFvtF6YK/7PMswy
- KzPlgIaPHy9RIy7jNGVA3DHZa06EgLIrskD4/INYmbY4ZPZwv+UcEbl2ArrgpV7Fb1/Z/gKgW
- KcAdAqsBdoDmzJ3/9f7FcWDnLEsCM1UmkdBC2SVO36SKH2tkORNnBTiZo2EQzS9zLRk49RzY+
- BfwiELuDu9u+ZM60V4mGnoaGcUPsMuck1xEg+nUY3uSfEcAC4isLvw1U/pUTtUlcgqw22CsYp
- U73Tk0lJwzqGGk+mWZxb10CCAwEiiyNRcQ4yrPSWERGnHZw4riejhsPamADcfszf5IkOsnw6+
- qOSihvTfbg0zx/5EjJ1Q2QKOeaGuXpSuUQWkXdQ8LjEGI8aokBerTBq/dvUxVrqHLYeVZfDuZ
- QjmQhVWbEKJh53UwOb1FF4a1FtoAwx3ZUVk4hR7BcJ+ZGzhgihi+mz95XDxhAYWWdEHTOr5Pd
- 80pBI3iRy+KDgTmb/aydo/FuZUPoZ0kAE7Ythq3cGYB39z52nDAWrbZ6gmqLXIc7NIgK+hzMx
- BEPpAbeRtdJgka3Sm7IBPaKbM4BjfNgLVTq2u71+aWznDS1qbNBHJ/q1Hq0eQC+yqhxUM+0r8
- BZxnrQhLURl8oQ9NMERXc4YSYOw4S8Drh+aX6v8+pxFKiz/33oyjnVi8YOW4WpnZKLAgT9MV5
- NPAbN+zD7+JcM5D/zQ6crOBGAXIEDjNy2BbrSg==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:jXSR2tl6XeQCaVMLGmYv7eIEdZkbzU6Prx4qMAgHWjReKdBO37M
+ YWmv2u/D0AdBOFQxF4m183JKJ31a+tiugi/WpafU5R5ndum4+G/pzHdO+BKcOU9qCv1E9Tr
+ RU0hh/XMvhQyzLUX8jjh2CB1+jX7tQgPxhkEZYtwANIihnWYypl6xh32RxLvrSToZ+ABVH0
+ 71BGtJjZ8ilwiuQTD9YEg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hWsWAxG7GyA=:ZAIvpSRbFRvHW9GqGtUyZe
+ Oie3lfRleuXCD/pE0sEc8eRCL0pP+fFSSbErHJ8CKu49bPuaCbn7kZkpvMTG1qAJfBjO8TpO9
+ aYjp070AWDelEgKNAtLtcHvUiUfyVy2WNCNKensBKG3tZ7oZAaSuo0UsZJZ1STrb1sPZP5HCe
+ YvHkcz/d9N4qio4PkmSipb55tU1OxZeb+ORLjyO+KPUSVSAFR8SUYof+MViKqDupaY2GLV8wt
+ MLw2aKS2c62EepwpfYXpDzvgApKsUWLeqFKFK7A9Abo8Fy6Cv8YStQDDyaZUEHkl8w6hLH94X
+ LXC1LckZo7jsJ48EiWgzWCcq6UKYlqijTnBo6/fflHXwRq9G2LbDUU0VOkx/iR7GpK5wwHj5R
+ YaI4qozqiyEBs79nUBSiBxsUEicrmcnRI3ZZTNQ78B85f1tz6M8KstYaUC5cQr0U8rIneIfw4
+ 8WsjHAjbFV3lPQjgcWA9ItR6ZTIcUDFYWlYh5wqyKbAaRv1YJXXW/hD68BsdQyKAWGor2nBAI
+ 8FTOo5caD0zrED4jmoeqMRvYDuEq20T3UXeV3uBbDG4pGxIF4PEm7rT342CUgJsyOkIR/z9dk
+ Rz13eoqwYUOlU/kP2FshXoZQtm3PGicxu3fMrB+fIfweYkkZgoDGUowxFEkDpb8bP5x8V8U6u
+ uai33MUJr2DsqzmFqE1dlLIhS7lmX2gRpXfQBIqt2iXPqiEmaZuzszxd0nlISlVVqKtf8EnRm
+ Pb5EWd4Kvsy70fBvhK4StgRGqRb+7NjcUckg/Q==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -65,55 +66,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 14f12119aa675e9e28207a48b0728a2daa5b88d6=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/vsementsov/tags/pull-jobs-2021-10-0=
-7-v2' into staging (2021-10-07 10:26:35 -0700)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu-m68k.git tags/m68k-next-pull-request=0D
-=0D
-for you to fetch changes up to efd0c37edc8efe7dccc2356f4a07f33581bc9e67:=0D
-=0D
-  q800: wire macfb IRQ to separate video interrupt on VIA2 (2021-10-08 13:3=
-1:03 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-Pull request q800 20211008=0D
-=0D
-macfb: fixes for booting MacOS=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Mark Cave-Ayland (13):=0D
-  macfb: handle errors that occur during realize=0D
-  macfb: update macfb.c to use the Error API best practices=0D
-  macfb: fix invalid object reference in macfb_common_realize()=0D
-  macfb: fix overflow of color_palette array=0D
-  macfb: use memory_region_init_ram() in macfb_common_realize() for the=0D
-    framebuffer=0D
-  macfb: add trace events for reading and writing the control registers=0D
-  macfb: implement mode sense to allow display type to be detected=0D
-  macfb: add qdev property to specify display type=0D
-  macfb: add common monitor modes supported by the MacOS toolbox ROM=0D
-  macfb: fix up 1-bit pixel encoding=0D
-  macfb: fix 24-bit RGB pixel encoding=0D
-  macfb: add vertical blank interrupt=0D
-  q800: wire macfb IRQ to separate video interrupt on VIA2=0D
-=0D
- include/hw/display/macfb.h |  43 +++++=0D
- hw/display/macfb.c         | 386 ++++++++++++++++++++++++++++++++++---=0D
- hw/m68k/q800.c             |  23 ++-=0D
- hw/display/trace-events    |   7 +=0D
- 4 files changed, 429 insertions(+), 30 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+Make sure any errors that occur within the macfb realize chain are detected
+and handled correctly to prevent crashes and to ensure that error messages are
+reported back to the user.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20211007221253.29024-2-mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/display/macfb.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+index 76808b69ccc8..2b747a8de8a1 100644
+--- a/hw/display/macfb.c
++++ b/hw/display/macfb.c
+@@ -379,6 +379,10 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
+     MacfbState *ms = &s->macfb;
+ 
+     macfb_common_realize(dev, ms, errp);
++    if (*errp) {
++        return;
++    }
++
+     sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_ctrl);
+     sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
+ }
+@@ -391,8 +395,15 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
+     MacfbState *ms = &s->macfb;
+ 
+     ndc->parent_realize(dev, errp);
++    if (*errp) {
++        return;
++    }
+ 
+     macfb_common_realize(dev, ms, errp);
++    if (*errp) {
++        return;
++    }
++
+     memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
+     memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
+ }
+-- 
+2.31.1
+
 
