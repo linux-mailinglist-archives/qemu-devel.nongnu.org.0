@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B092426D7E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 17:29:10 +0200 (CEST)
-Received: from localhost ([::1]:38288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E895D426D89
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 17:32:27 +0200 (CEST)
+Received: from localhost ([::1]:41542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYro5-0003eZ-4z
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 11:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40428)
+	id 1mYrrH-00061c-0E
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 11:32:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mYrmb-00012l-EO
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:27:37 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37805)
+ id 1mYrpN-0004bk-PZ
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:30:29 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mYrmW-00079M-9y
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:27:35 -0400
-Received: by mail-wr1-x433.google.com with SMTP id e12so30967853wra.4
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 08:27:31 -0700 (PDT)
+ id 1mYrpL-0001Md-5d
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:30:29 -0400
+Received: by mail-wr1-x432.google.com with SMTP id u18so31044458wrg.5
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 08:30:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=XM92KNyY8ssiKhgafzShXuuJk+BtFgYt61/l12lThvs=;
- b=eskSE94d3+G8To9qWjp6BEBZ3NGhaaKC/cULyYhcej8RdQd3CG4ZVbUnkSiKO3vyR6
- jO8VhBeUTBUZuis/f2RU8Ai1ZRZnYozOiTkQEeNdDyPSh54IOXBF23847gglz/CcrmsJ
- x3/1LzQm3BnDgd3t6EL8S0HnTVnT0vkSWewz7w0E3LC3BB/5DhtFx3SqTEri5MP21F61
- y9D4/hZKz+fhDp3p78B6qBrguKAYbgzoQFyD9JJ/DpbnwbOGUzH40f8gXXcUKpTf9eK7
- IOCmoojdnETNf2/tXed844zhXiDhvsBx5XC6PtJMcKmoYIlO5VLF1j4EIGLNP088ABzM
- zUQA==
+ bh=bwwiKFsHy4N2r8I++KMRDAwlT3fDo4NGnqHTIh6JNsM=;
+ b=bW6B4WGPKOKstqk2PpsP5lY+4oKzx4EoPyF5UuRIFhsjibgZaFv/P6lTQT1W6kbdyR
+ +d0Ll4fI7iJOKQGbhRKlX0x0ZndvAMNZ5MG3SmuiqrwmM/ysJZjMIdVEqF3lCthoHNtS
+ DvqxcJhoaRCvGJos3A1O+yGfPTndpmcJATEzQEdjOUoN5thzeJhOk2/uat5c1Te/UP2q
+ mPGPbnaIZrRCFqwb3BR4QWginIdaP//sljwKI3fJTXejKlLv3t257ZdexO8+cLkZ7bTB
+ l7lNvATo8u6gh8dMTOc2QZVBlquaIgBu7jeqp5iRXsVmvCLdRX55VPTCfZUY3fsfwL8G
+ TAIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=XM92KNyY8ssiKhgafzShXuuJk+BtFgYt61/l12lThvs=;
- b=oWgyOryYf83DrCfJp1TLgggYoq8tBbRPGSvrQDETC3YFKVxSohwHpsrn9d0aK3LRPW
- DEO06FopakK/GY4X+uj7xrJ8jqn33tfgCfmwOChlkmHdfnOmhvWiEBWhCSkLJUbuWRw7
- uqTCDIe8onlm7js1BEDGtuAvJQc606w99BQ/Sif81e4O2rliJQPTn2cWsi9cVw51Owsh
- T5mOS0BuPp5VNpNdDQIy8b8TfNs11YxfZqSM8bmC7Dgd8Z87ZOyPCZrnubbcIydWYtYa
- K1iuR3qKgxg79aJmxE84jpt1pMQe1pfwf4pOgixta5cfJAIRh7PtnqaN5CQPy2xyywDt
- LPWQ==
-X-Gm-Message-State: AOAM532ZQ/4YelAQqTEr7lflsvLGpM1VJso99ruMaQMdBwlJ+OQh8O/e
- hdr0zud65GMSV8cgE7Vls63EzA==
-X-Google-Smtp-Source: ABdhPJzWQa6mrR7jBpZ0cGLjuVFunIReFlGd2F8HzjEaaUulZosEcNtgGDPaxnDvCRzkkipp//aSFA==
-X-Received: by 2002:a1c:e901:: with SMTP id q1mr4047378wmc.185.1633706850928; 
- Fri, 08 Oct 2021 08:27:30 -0700 (PDT)
+ bh=bwwiKFsHy4N2r8I++KMRDAwlT3fDo4NGnqHTIh6JNsM=;
+ b=ZcKvELhj3aq4Mo3nA0OL2klJf7i25uWYXtbiwa1N2FqDi+d9zLIQMLqpo3f6oJZwYZ
+ eX4xxjY+XhwjeT6b2GJhpM4dRA7tfzqFW17OlHrG2Fb1owXWYvpkGh2o5WJmCsD/WpI7
+ CIH8Fkr4g447d49Km3wFIbGWVLlBVXT034muVcz3+fw5hkHF0E6bZboV0Amwo2GjorlX
+ JsLnxHbE4KiLag4tbBemj4R4ouZKGwjiAbM367v2LsVClr5+4/6gqOvYKR5LRQZFeXx8
+ OrBBolinQeR1ZODN3Q819UZE9N/sVTLPi8YlR5JmXVbsHKjzmsDiMcrCnBZ0w+4az8yA
+ 9Crg==
+X-Gm-Message-State: AOAM530Ebj9pRMbKiFh7zrAeXZi87cCIEvurWDc+LPPOzpX6+AnwHQOK
+ 2LYsEG6Oik9hiHL4fLnHaMI7ow==
+X-Google-Smtp-Source: ABdhPJzQp783k1W9h6ZVEc5l7kUHuCfBbyqvfbyCl3T7yfnbdkRTEkrO5nHaRzhjJDklar0sxE3PDA==
+X-Received: by 2002:a05:6000:154f:: with SMTP id
+ 15mr5022339wry.254.1633707025430; 
+ Fri, 08 Oct 2021 08:30:25 -0700 (PDT)
 Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
  [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id l124sm12193068wml.8.2021.10.08.08.27.30
+ by smtp.gmail.com with ESMTPSA id c17sm2697324wrq.4.2021.10.08.08.30.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Oct 2021 08:27:30 -0700 (PDT)
-Date: Fri, 8 Oct 2021 16:27:08 +0100
+ Fri, 08 Oct 2021 08:30:24 -0700 (PDT)
+Date: Fri, 8 Oct 2021 16:30:02 +0100
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH v4 09/11] tests/acpi: add test cases for VIOT
-Message-ID: <YWBjTODTiGc/vTTU@myrica>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v4 10/11] tests/acpi: add expected blob for VIOT test on
+ virt machine
+Message-ID: <YWBj+ngyUL3QSCwn@myrica>
 References: <20211001173358.863017-1-jean-philippe@linaro.org>
- <20211001173358.863017-10-jean-philippe@linaro.org>
- <alpine.DEB.2.22.394.2110051556270.820442@anisinha-lenovo>
+ <20211001173358.863017-11-jean-philippe@linaro.org>
+ <f5293d9e-10b1-6a85-a35f-66b12680cdd2@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2110051556270.820442@anisinha-lenovo>
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x433.google.com
+In-Reply-To: <f5293d9e-10b1-6a85-a35f-66b12680cdd2@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,40 +87,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
- mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
- imammedo@redhat.com
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, pbonzini@redhat.com, ani@anisinha.ca, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 05, 2021 at 03:57:17PM +0530, Ani Sinha wrote:
+On Tue, Oct 05, 2021 at 09:38:13PM +0200, Eric Auger wrote:
+> Hi Jean,
 > 
-> 
-> On Fri, 1 Oct 2021, Jean-Philippe Brucker wrote:
-> 
-> > Add two test cases for VIOT, one on the q35 machine and the other on
-> > virt. To test complex topologies the q35 test has two PCIe buses that
-> > bypass the IOMMU (and are therefore not described by VIOT), and two
-> > buses that are translated by virtio-iommu.
+> On 10/1/21 7:33 PM, Jean-Philippe Brucker wrote:
+> > The VIOT blob contains the following:
 > >
-> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> > [000h 0000   4]                    Signature : "VIOT"    [Virtual I/O Translation Table]
+> > [004h 0004   4]                 Table Length : 00000058
+> > [008h 0008   1]                     Revision : 00
+> > [009h 0009   1]                     Checksum : 66
+> > [00Ah 0010   6]                       Oem ID : "BOCHS "
+> > [010h 0016   8]                 Oem Table ID : "BXPC    "
+> > [018h 0024   4]                 Oem Revision : 00000001
+> > [01Ch 0028   4]              Asl Compiler ID : "BXPC"
+> > [020h 0032   4]        Asl Compiler Revision : 00000001
+> >
+> > [024h 0036   2]                   Node count : 0002
+> > [026h 0038   2]                  Node offset : 0030
+> > [028h 0040   8]                     Reserved : 0000000000000000
+> >
+> > [030h 0048   1]                         Type : 03 [VirtIO-PCI IOMMU]
+> > [031h 0049   1]                     Reserved : 00
+> > [032h 0050   2]                       Length : 0010
+> >
+> > [034h 0052   2]                  PCI Segment : 0000
+> > [036h 0054   2]               PCI BDF number : 0008
+> > [038h 0056   8]                     Reserved : 0000000000000000
+> >
+> > [040h 0064   1]                         Type : 01 [PCI Range]
+> > [041h 0065   1]                     Reserved : 00
+> > [042h 0066   2]                       Length : 0018
+> >
+> > [044h 0068   4]               Endpoint start : 00000000
+> > [048h 0072   2]            PCI Segment start : 0000
+> > [04Ah 0074   2]              PCI Segment end : 0000
+> > [04Ch 0076   2]                PCI BDF start : 0000
+> > [04Eh 0078   2]                  PCI BDF end : 00FF
+> > [050h 0080   2]                  Output node : 0030
+> > [052h 0082   6]                     Reserved : 000000000000
+> I noticed the spec does not clearly say the virtio-iommu-pci BDF does
+> not need to be excluded from the PCI range.
+> Shouldn't it be clarified?
+
+Possibly, but I didn't want to complicate things. As the spec doesn't
+specify any exception the driver should handle it
+
 > 
-> This might be a stupid question but what about virtio-mmio and single mmio
-> cases? I see none of your tables has nodes for those and here too you do
-> not add test cases for it.
+> Besides
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-No it's a good question, there is no support for either at the moment.
-virtio-mmio based virtio-iommu is relatively easy to implement, just
-requires a little more machine support. QEMU doesn't support putting MMIO
-endpoints behind an IOMMU at the moment, and implementing that is more
-complicated.
-
-To test the Linux VIOT driver I did both prototypes, but I don't have a
-compelling reason or time to upstream them at the moment
-https://jpbrucker.net/git/qemu/log/?h=virtio-iommu/acpi-2021-06-02
-
-Thanks,
+Thanks!
 Jean
-
 
