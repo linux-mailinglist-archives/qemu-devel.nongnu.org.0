@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB45426CBC
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 16:26:53 +0200 (CEST)
-Received: from localhost ([::1]:46752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077DE426CDC
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 16:42:21 +0200 (CEST)
+Received: from localhost ([::1]:53412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYqpo-0002Xw-3X
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 10:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56132)
+	id 1mYr4i-0007jJ-9p
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 10:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mYqo5-0001aA-S9; Fri, 08 Oct 2021 10:25:05 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:53921)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mYqo0-0003dn-6j; Fri, 08 Oct 2021 10:25:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=UEm64WBqeHW+xueK/f9xgl4MrWz3kHdIrrqJfikL/aU=; b=GAfO6e3STVUWj21OnVXRo+w7Mo
- LV8XGfpX/OFYl60ID7aLsNuMKSbkwMBFqEWm3USeGRRG8R0uKcfLZ1omyVEEIdmwPGUJwCm5KTolq
- lho2dgKBIohNNK8JaMPsHFrmIluXy52YFfxAmN6xJG578SwTY9E0WNUhthTey1nyF+x94zqC2AjAv
- bUPG73KJg+7Pb5Vy+fkk/SKEmVEnQCRzqREWVNuRc8UactzsnsrQ24FDMyWC0tSp85XVqwtPYM3N5
- 5GdEcw6StMdNB6/6jwdVUUaxpSyckgqE0+bIXYvADIFjuqJBzGjK4vLfdJQ30SuGyLTGRF+Ncson1
- 3fzIwklKgF6kIUP3iY3rHPXbSrolmtRZCE2QLyJOLbR3cKlkpTzqC0Ro4oVfAqvpePNutWQe/GW1M
- 7pDCwO8AyNlWL+Zncom9ceBr47X0KumLmoEpXcS6WVT4PmvlqovDf7B5A58VQB19tMwdynu1D5uuS
- rXSxVmHLg8c7vmeqEsoCxKNMPgwuWIcdMUnX9y3OYHU9/NuqsLYLfEZ6/gqfb1LiV2laVl8Pt76gp
- lTDO9YNnExTTaFANjd3UkDBvOvv2nv6/j6PRX0M61hIRzOAKt2+ydONWrJrx53hsKJTEFM5OQIyQ8
- ND7Ol8H54D9DPy8WV0vOxteR/WvpDCzFNKt9ZGt4I=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Amit Shah <amit@kernel.org>,
- David Hildenbrand <david@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, virtio-fs@redhat.com,
- Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 0/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
-Date: Fri, 08 Oct 2021 16:24:42 +0200
-Message-ID: <1853723.Wj769PA2Ue@silver>
-In-Reply-To: <20211008092533.376b568b@bahia.huguette>
-References: <cover.1633376313.git.qemu_oss@crudebyte.com>
- <YV8VeaWiwD8DRFtz@stefanha-x1.localdomain>
- <20211008092533.376b568b@bahia.huguette>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mYr3k-000704-DE
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 10:41:16 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:40529)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mYr3i-0006ew-Ik
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 10:41:16 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ pf6-20020a17090b1d8600b0019fa884ab85so9549069pjb.5
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 07:41:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=seVKogE/xQwT0R078Ra+cwyqo5KMptuW2fhf2+5MUt4=;
+ b=iQ6QFxHUGd5YEfA/X7+SKplM+2UGJDu+nmB2DcrUzdbakyFvt8G+wZsrdAz696UbG8
+ 0LpwKF2xoZN+BPsjwLlF1gH5ZLGfLn5dUbVb+XPUaRuf/ueOzJgBbrD7KVmGeePOMt4X
+ K7sYYwFan3e2mmj9oz5zeapLW+lnmnMOn45eeUgFixaHmQKmyDesheZLb1B/B14QeygR
+ DIcBC1+k/KhgK5RA2/kS9HSVbBl40rLFKB1sh/bZJbu83LbKAsw4lEfZ2PIj+cJ1eeLP
+ XawMZJ4J/dYdQROhyZG6DhaMCy1inuKCFh8kxA3oY0m3gB5o+HwUVnAHtR2tLKVkoh+k
+ xjfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=seVKogE/xQwT0R078Ra+cwyqo5KMptuW2fhf2+5MUt4=;
+ b=je9nX2D5j+y9V63rPAP2drJALBih5BN4XS6CtG7ZusQsJ/5qYnBkv69KAUDqmpzE6s
+ H7jf1arDVOAVgkhP/AnwjNTmGCgYJNBW8sWBCyN4AgTP4mNdkOiI6BaYm4H5Jud6dO7L
+ ezQx61WNZPcL5PmEix6alwE0mkdFXUTvwrZtdoc9FpQlGANUHl8uUsjT1MK2JQrEiCDo
+ A0pXBmAGfL3tXwgQnn6V0j60zSgUrHtyiEd3VC96ro+9iMaICab3U1EecvFtdQCYER+a
+ s0iSfxNAt9mhsj4BFhPDUr7FnJBmwjPyYxwdYFBHesUIziTrzW6jG6PJhcpWfAMANkWm
+ xu4A==
+X-Gm-Message-State: AOAM530J82y9Xn8TrGDaLo81bxe7sScGsx2sUrNrvwDln9+fKPFhwwNL
+ swax0trNxveYw4WLSQDzHNgXMqbIkdUaWg==
+X-Google-Smtp-Source: ABdhPJwxgTL4k0+Fg1loR/WB70urpYwGbr9f709l/94P7OBBtlAvpLf+/RNg6UiX4S0QYbJ69E5PBw==
+X-Received: by 2002:a17:90a:8807:: with SMTP id
+ s7mr2355798pjn.226.1633704072619; 
+ Fri, 08 Oct 2021 07:41:12 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id js18sm2634745pjb.3.2021.10.08.07.41.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Oct 2021 07:41:12 -0700 (PDT)
+Subject: Re: [PULL 00/12] some testing and plugin updates
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20211008122556.757252-1-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c22a0b4e-e679-6b00-018f-161611685fb8@linaro.org>
+Date: Fri, 8 Oct 2021 07:41:10 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+In-Reply-To: <20211008122556.757252-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,239 +88,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 8. Oktober 2021 09:25:33 CEST Greg Kurz wrote:
-> On Thu, 7 Oct 2021 16:42:49 +0100
+On 10/8/21 5:25 AM, Alex Bennée wrote:
+> The following changes since commit 14f12119aa675e9e28207a48b0728a2daa5b88d6:
 > 
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > On Thu, Oct 07, 2021 at 02:51:55PM +0200, Christian Schoenebeck wrote:
-> > > On Donnerstag, 7. Oktober 2021 07:23:59 CEST Stefan Hajnoczi wrote:
-> > > > On Mon, Oct 04, 2021 at 09:38:00PM +0200, Christian Schoenebeck wrote:
-> > > > > At the moment the maximum transfer size with virtio is limited to 4M
-> > > > > (1024 * PAGE_SIZE). This series raises this limit to its maximum
-> > > > > theoretical possible transfer size of 128M (32k pages) according to
-> > > > > the
-> > > > > virtio specs:
-> > > > > 
-> > > > > https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01
-> > > > > .html#
-> > > > > x1-240006
-> > > > 
-> > > > Hi Christian,
+>    Merge remote-tracking branch 'remotes/vsementsov/tags/pull-jobs-2021-10-07-v2' into staging (2021-10-07 10:26:35 -0700)
 > 
-> > > > I took a quick look at the code:
-> Hi,
+> are available in the Git repository at:
 > 
-> Thanks Stefan for sharing virtio expertise and helping Christian !
+>    https://github.com/stsquad/qemu.git tags/pull-for-6.2-081021-1
 > 
-> > > > - The Linux 9p driver restricts descriptor chains to 128 elements
-> > > > 
-> > > >   (net/9p/trans_virtio.c:VIRTQUEUE_NUM)
-> > > 
-> > > Yes, that's the limitation that I am about to remove (WIP); current
-> > > kernel
-> > > patches:
-> > > https://lore.kernel.org/netdev/cover.1632327421.git.linux_oss@crudebyte.
-> > > com/> 
-> > I haven't read the patches yet but I'm concerned that today the driver
-> > is pretty well-behaved and this new patch series introduces a spec
-> > violation. Not fixing existing spec violations is okay, but adding new
-> > ones is a red flag. I think we need to figure out a clean solution.
-
-Nobody has reviewed the kernel patches yet. My main concern therefore actually 
-is that the kernel patches are already too complex, because the current 
-situation is that only Dominique is handling 9p patches on kernel side, and he 
-barely has time for 9p anymore.
-
-Another reason for me to catch up on reading current kernel code and stepping 
-in as reviewer of 9p on kernel side ASAP, independent of this issue.
-
-As for current kernel patches' complexity: I can certainly drop patch 7 
-entirely as it is probably just overkill. Patch 4 is then the biggest chunk, I 
-have to see if I can simplify it, and whether it would make sense to squash 
-with patch 3.
-
-> > 
-> > > > - The QEMU 9pfs code passes iovecs directly to preadv(2) and will fail
-> > > > 
-> > > >   with EINVAL when called with more than IOV_MAX iovecs
-> > > >   (hw/9pfs/9p.c:v9fs_read())
-> > > 
-> > > Hmm, which makes me wonder why I never encountered this error during
-> > > testing.
-> > > 
-> > > Most people will use the 9p qemu 'local' fs driver backend in practice,
-> > > so
-> > > that v9fs_read() call would translate for most people to this
-> > > implementation on QEMU side (hw/9p/9p-local.c):
-> > > 
-> > > static ssize_t local_preadv(FsContext *ctx, V9fsFidOpenState *fs,
-> > > 
-> > >                             const struct iovec *iov,
-> > >                             int iovcnt, off_t offset)
-> > > 
-> > > {
-> > > #ifdef CONFIG_PREADV
-> > > 
-> > >     return preadv(fs->fd, iov, iovcnt, offset);
-> > > 
-> > > #else
-> > > 
-> > >     int err = lseek(fs->fd, offset, SEEK_SET);
-> > >     if (err == -1) {
-> > >     
-> > >         return err;
-> > >     
-> > >     } else {
-> > >     
-> > >         return readv(fs->fd, iov, iovcnt);
-> > >     
-> > >     }
-> > > 
-> > > #endif
-> > > }
-> > > 
-> > > > Unless I misunderstood the code, neither side can take advantage of
-> > > > the
-> > > > new 32k descriptor chain limit?
-> > > > 
-> > > > Thanks,
-> > > > Stefan
-> > > 
-> > > I need to check that when I have some more time. One possible
-> > > explanation
-> > > might be that preadv() already has this wrapped into a loop in its
-> > > implementation to circumvent a limit like IOV_MAX. It might be another
-> > > "it
-> > > works, but not portable" issue, but not sure.
-> > > 
-> > > There are still a bunch of other issues I have to resolve. If you look
-> > > at
-> > > net/9p/client.c on kernel side, you'll notice that it basically does
-> > > this ATM> > 
-> > >     kmalloc(msize);
+> for you to fetch changes up to 755c4aefd86f8b8eda1eb37f20024765c70ebbcb:
 > 
-> Note that this is done twice : once for the T message (client request) and
-> once for the R message (server answer). The 9p driver could adjust the size
-> of the T message to what's really needed instead of allocating the full
-> msize. R message size is not known though.
-
-Would it make sense adding a second virtio ring, dedicated to server responses 
-to solve this? IIRC 9p server already calculates appropriate exact sizes for 
-each response type. So server could just push space that's really needed for 
-its responses.
-
-> > > for every 9p request. So not only does it allocate much more memory for
-> > > every request than actually required (i.e. say 9pfs was mounted with
-> > > msize=8M, then a 9p request that actually would just need 1k would
-> > > nevertheless allocate 8M), but also it allocates > PAGE_SIZE, which
-> > > obviously may fail at any time.> 
-> > The PAGE_SIZE limitation sounds like a kmalloc() vs vmalloc() situation.
-
-Hu, I didn't even consider vmalloc(). I just tried the kvmalloc() wrapper as a 
-quick & dirty test, but it crashed in the same way as kmalloc() with large 
-msize values immediately on mounting:
-
-diff --git a/net/9p/client.c b/net/9p/client.c
-index a75034fa249b..cfe300a4b6ca 100644
---- a/net/9p/client.c
-+++ b/net/9p/client.c
-@@ -227,15 +227,18 @@ static int parse_opts(char *opts, struct p9_client 
-*clnt)
- static int p9_fcall_init(struct p9_client *c, struct p9_fcall *fc,
-                         int alloc_msize)
- {
--       if (likely(c->fcall_cache) && alloc_msize == c->msize) {
-+       //if (likely(c->fcall_cache) && alloc_msize == c->msize) {
-+       if (false) {
-                fc->sdata = kmem_cache_alloc(c->fcall_cache, GFP_NOFS);
-                fc->cache = c->fcall_cache;
-        } else {
--               fc->sdata = kmalloc(alloc_msize, GFP_NOFS);
-+               fc->sdata = kvmalloc(alloc_msize, GFP_NOFS);
-                fc->cache = NULL;
-        }
--       if (!fc->sdata)
-+       if (!fc->sdata) {
-+               pr_info("%s !fc->sdata", __func__);
-                return -ENOMEM;
-+       }
-        fc->capacity = alloc_msize;
-        return 0;
- }
-
-I try to look at this at the weekend, I would have expected this hack to 
-bypass this issue.
-
-> > I saw zerocopy code in the 9p guest driver but didn't investigate when
-> > it's used. Maybe that should be used for large requests (file
-> > reads/writes)?
+>    tests/docker: add a debian-native image and make available (2021-10-08 12:55:27 +0100)
 > 
-> This is the case already : zero-copy is only used for reads/writes/readdir
-> if the requested size is 1k or more.
+> ----------------------------------------------------------------
+> Some testing and plugin updates:
 > 
-> Also you'll note that in this case, the 9p driver doesn't allocate msize
-> for the T/R messages but only 4k, which is largely enough to hold the
-> header.
+>    - don't override the test compiler when specified
+>    - split some multiarch tests by guest OS
+>    - add riscv64 docker image and cross-compile tests
+>    - drop release tarball test from Travis
+>    - skip check-patch on master repo
+>    - fix passing of TEST_TARGETS to cirrus
+>    - fix missing symbols in plugins
+>    - refactor plugin instruction boundary detection
+>    - update github repo lockdown
+>    - add a debian-native test image for multi-arch builds
 > 
-> 	/*
-> 	 * We allocate a inline protocol data of only 4k bytes.
-> 	 * The actual content is passed in zero-copy fashion.
-> 	 */
-> 	req = p9_client_prepare_req(c, type, P9_ZC_HDR_SZ, fmt, ap);
+> ----------------------------------------------------------------
+> Alex Bennée (7):
+>        configure: don't override the selected host test compiler if defined
+>        tests/tcg/sha1: remove endian include
+>        tests/tcg: move some multiarch files and make conditional
+>        tests/docker: promote debian-riscv64-cross to a full image
+>        accel/tcg: re-factor plugin_inject_cb so we can assert insn_idx is valid
+>        .github: move repo lockdown to the v2 configuration
+>        tests/docker: add a debian-native image and make available
 > 
-> and
+> Daniel P. Berrangé (2):
+>        gitlab: skip the check-patch job on the upstream repo
+>        gitlab: fix passing of TEST_TARGETS env to cirrus
 > 
-> /* size of header for zero copy read/write */
-> #define P9_ZC_HDR_SZ 4096
+> Lukas Jünger (1):
+>        plugins/: Add missing functions to symbol list
 > 
-> A huge msize only makes sense for Twrite, Rread and Rreaddir because
-> of the amount of data they convey. All other messages certainly fit
-> in a couple of kilobytes only (sorry, don't remember the numbers).
+> Richard Henderson (1):
+>        gitlab: Add cross-riscv64-system, cross-riscv64-user
 > 
-> A first change should be to allocate MIN(XXX, msize) for the
-> regular non-zc case, where XXX could be a reasonable fixed
-> value (8k?). In the case of T messages, it is even possible
-> to adjust the size to what's exactly needed, ala snprintf(NULL).
+> Thomas Huth (1):
+>        travis.yml: Remove the "Release tarball" job
+> 
+>   configure                                          |   6 +-
+>   include/tcg/tcg.h                                  |   6 -
+>   accel/tcg/plugin-gen.c                             | 157 +++++++++++----------
+>   tests/tcg/multiarch/{ => libs}/float_helpers.c     |   2 +-
+>   tests/tcg/multiarch/{ => linux}/linux-test.c       |   0
+>   tests/tcg/multiarch/sha1.c                         |   1 -
+>   .github/lockdown.yml                               |  34 -----
+>   .github/workflows/lockdown.yml                     |  30 ++++
+>   .gitlab-ci.d/cirrus.yml                            |   2 +-
+>   .gitlab-ci.d/cirrus/build.yml                      |   1 +
+>   .gitlab-ci.d/container-cross.yml                   |   3 +-
+>   .gitlab-ci.d/crossbuilds.yml                       |  19 +++
+>   .gitlab-ci.d/static_checks.yml                     |   2 +-
+>   .travis.yml                                        |  23 ---
+>   plugins/qemu-plugins.symbols                       |   3 +
+>   tests/docker/Makefile.include                      |   6 +-
+>   tests/docker/common.rc                             |  10 +-
+>   tests/docker/dockerfiles/debian-native.docker      |  49 +++++++
+>   .../docker/dockerfiles/debian-riscv64-cross.docker |  46 +++++-
+>   tests/tcg/multiarch/Makefile.target                |  15 +-
+>   tests/tcg/x86_64/Makefile.target                   |   4 +
+>   21 files changed, 263 insertions(+), 156 deletions(-)
+>   rename tests/tcg/multiarch/{ => libs}/float_helpers.c (99%)
+>   rename tests/tcg/multiarch/{ => linux}/linux-test.c (100%)
+>   delete mode 100644 .github/lockdown.yml
+>   create mode 100644 .github/workflows/lockdown.yml
+>   create mode 100644 tests/docker/dockerfiles/debian-native.docker
 
-Good idea actually! That would limit this problem to reviewing the 9p specs 
-and picking one reasonable max value. Because you are right, those message 
-types are tiny. Probably not worth to pile up new code to calculate exact 
-message sizes for each one of them.
+I'm seeing:
 
-Adding some safety net would make sense though, to force e.g. if a new message 
-type is added in future, that this value would be reviewed as well, something 
-like:
+   TEST    threadcount-with-libmem.so on s390x
+**
+ERROR:../accel/tcg/plugin-gen.c:795:plugin_gen_inject: assertion failed: (insn_idx >= 0)
+qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+timeout: the monitored command dumped core
+Segmentation fault
 
-static int max_msg_size(int msg_type) {
-    switch (msg_type) {
-        /* large zero copy messages */
-        case Twrite:
-        case Tread:
-        case Treaddir:
-            BUG_ON(true);
+on the build-user job.
 
-        /* small messages */
-        case Tversion:
-        ....
-            return 8k; /* to be replaced with appropriate max value */
-    }
-}
+https://gitlab.com/qemu-project/qemu/-/jobs/1662530140
 
-That way the compiler would bark on future additions. But on doubt, a simple 
-comment on msg type enum might do as well though.
 
-> > virtio-blk/scsi don't memcpy data into a new buffer, they
-> > directly access page cache or O_DIRECT pinned pages.
-> > 
-> > Stefan
-> 
-> Cheers,
-> 
-> --
-> Greg
-
+r~
 
 
