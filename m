@@ -2,66 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210C1426D46
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 17:10:08 +0200 (CEST)
-Received: from localhost ([::1]:41998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D90426D63
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 17:19:31 +0200 (CEST)
+Received: from localhost ([::1]:50846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYrVf-0003SU-6a
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 11:10:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36650)
+	id 1mYrek-0001Ld-FD
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 11:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mYrUQ-0002mN-Cv
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:08:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41216)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mYrd4-0007x5-Ry
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:17:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mYrUO-00082Z-Mk
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:08:50 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mYrcv-0004ec-0M
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:17:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633705726;
+ s=mimecast20190719; t=1633706254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PUCyJf0CD/kcfrq7C8GdCqWYBNHc0A3utB2YFlkZ+S0=;
- b=EXIkvoZbUDjt0SdLXAwf6457T0L3GHlHF0C7MfPrWe4euWw4CsMoWotWD5zopiCd3zopgo
- zt+VCsTBleqheYvQeoqVcjrT5wCS8GPptYDZI6zv/14cgbd3tN47eWrGlJzs66/5cJnaxk
- FP1JSPEqyNvXTm55WZg8VrAwnFPXjDk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-Q5UmhENRNISgc1ByGcD4Ig-1; Fri, 08 Oct 2021 11:08:45 -0400
-X-MC-Unique: Q5UmhENRNISgc1ByGcD4Ig-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48617814615;
- Fri,  8 Oct 2021 15:08:37 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CBE65BAF4;
- Fri,  8 Oct 2021 15:08:13 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 1/1] virtio: write back F_VERSION_1 before validate
-In-Reply-To: <20211008155156.626e78b5.pasic@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20211008123422.1415577-1-pasic@linux.ibm.com>
- <20211008085839-mutt-send-email-mst@kernel.org>
- <20211008155156.626e78b5.pasic@linux.ibm.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Fri, 08 Oct 2021 17:08:11 +0200
-Message-ID: <87ily7y2p0.fsf@redhat.com>
+ bh=gpbJUyhX+0Q2+Kl//tuSLdYoL1L5OUtVk8j4IpUmJNo=;
+ b=b7h6yQK4uPmrR1pfs2BftxuUZblbJ37NjTPiTSP9lb25HOj9sIH7+sOD1MAVLnQzQ4xuAN
+ 93UJfxrIjplZWQ2FUXObcxI9WHcgTd8lgDxA/jDdMkh2WzhbpEczVGSpTYOZ1p/Yn7l9P0
+ LCSNLd487g2ddDTGcOr7oG/UeU6ute4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-nptFM3XJPQ2r1byC4gw8CA-1; Fri, 08 Oct 2021 11:17:34 -0400
+X-MC-Unique: nptFM3XJPQ2r1byC4gw8CA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ k16-20020a5d6290000000b00160753b430fso7617074wru.11
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 08:17:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=gpbJUyhX+0Q2+Kl//tuSLdYoL1L5OUtVk8j4IpUmJNo=;
+ b=H4ff1e8NZJ5X1GlBo6LsWryMhvqridm/3WM4wwrvo1HWYWDGcYuDmuhO5577BnJ29Q
+ B2t+x7semy4rf0UYcfRQ6amcHNzzit+/cm32ffrCY6mPpVo3Sb4rTGGiUdlCsGPj4jcQ
+ vXjIiO9gbbdT/qbDxHP1hF5vOzxFjGkOfDfVNH83GaYpTtfmccZHZOxS0RbTApTU/8Ly
+ P4H49nUjpYS+yN9autk7OFo+CZy5+j+pkX4OnP0l9SNJ4FwuDcCZgUfQkLUZHdgeTmBR
+ 0GvAKAvFjL1gerPNJdd6UyVCrpxtT8K2xIA/DjWFQsp3ImD3ZW1ex96sYxoJVHzqaDZM
+ ZDyg==
+X-Gm-Message-State: AOAM530sEMLoii8ZZSOzeFeOb4kjVILa/IKjz+le3p35B2qCT4LyKtlP
+ TXRHNcAuCqiPrpbL5ZETDMqYiYMhUJiAnmWz4dyv72/SdP4YsTjVqEhnz+79rzb2CN88FPwc5fz
+ o4q9i43JEQ4HxrcU=
+X-Received: by 2002:a05:600c:4f12:: with SMTP id
+ l18mr4084659wmq.156.1633706252861; 
+ Fri, 08 Oct 2021 08:17:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzeaxMQ9IU/CDRcxqDiZBQ4hqjgAYQ+MwtCaE2J8fXwky4ykQb4OriUnlxa2P/QGfKSFVmkkA==
+X-Received: by 2002:a05:600c:4f12:: with SMTP id
+ l18mr4084532wmq.156.1633706251685; 
+ Fri, 08 Oct 2021 08:17:31 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.3.114])
+ by smtp.gmail.com with ESMTPSA id v10sm2945747wri.29.2021.10.08.08.17.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Oct 2021 08:17:31 -0700 (PDT)
+Message-ID: <924b4711-574f-0629-782f-09199a799d78@redhat.com>
+Date: Fri, 8 Oct 2021 17:17:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v2 14/15] qdev: Base object creation on QDict rather than
+ QemuOpts
+To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+References: <20211008133442.141332-1-kwolf@redhat.com>
+ <20211008133442.141332-15-kwolf@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <20211008133442.141332-15-kwolf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.051,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,147 +102,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, virtualization@lists.linux-foundation.org,
- Halil Pasic <pasic@linux.ibm.com>, Xie Yongji <xieyongji@bytedance.com>,
- stefanha@redhat.com, Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: damien.hedde@greensocs.com, pkrempa@redhat.com, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, mst@redhat.com,
+ libvir-list@redhat.com, jasowang@redhat.com, quintela@redhat.com,
+ armbru@redhat.com, vsementsov@virtuozzo.com, its@irrelevant.dk,
+ pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 08 2021, Halil Pasic <pasic@linux.ibm.com> wrote:
+On 08/10/2021 15:34, Kevin Wolf wrote:
+> QDicts are both what QMP natively uses and what the keyval parser
+> produces. Going through QemuOpts isn't useful for either one, so switch
+> the main device creation function to QDicts. By sharing more code with
+> the -object/object-add code path, we can even reduce the code size a
+> bit.
+> 
+> This commit doesn't remove the detour through QemuOpts from any code
+> path yet, but it allows the following commits to do so.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>   include/hw/qdev-core.h         | 11 +++---
+>   include/hw/virtio/virtio-net.h |  3 +-
+>   include/monitor/qdev.h         |  2 +
+>   hw/core/qdev.c                 |  7 ++--
+>   hw/net/virtio-net.c            | 23 +++++++-----
+>   hw/vfio/pci.c                  |  4 +-
+>   softmmu/qdev-monitor.c         | 69 +++++++++++++++-------------------
+>   7 files changed, 60 insertions(+), 59 deletions(-)
+> 
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index 74d8b614a7..910042c650 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -180,7 +180,7 @@ struct DeviceState {
+>       char *canonical_path;
+>       bool realized;
+>       bool pending_deleted_event;
+> -    QemuOpts *opts;
+> +    QDict *opts;
+>       int hotplugged;
+>       bool allow_unplug_during_migration;
+>       BusState *parent_bus;
+> @@ -205,8 +205,8 @@ struct DeviceListener {
+>        * On errors, it returns false and errp is set. Device creation
+>        * should fail in this case.
+>        */
+> -    bool (*hide_device)(DeviceListener *listener, QemuOpts *device_opts,
+> -                        Error **errp);
+> +    bool (*hide_device)(DeviceListener *listener, const QDict *device_opts,
+> +                        bool from_json, Error **errp);
+>       QTAILQ_ENTRY(DeviceListener) link;
+>   };
+>   
+> @@ -835,13 +835,14 @@ void device_listener_unregister(DeviceListener *listener);
+>   
+>   /**
+>    * @qdev_should_hide_device:
+> - * @opts: QemuOpts as passed on cmdline.
+> + * @opts: options QDict > + * @from_json: true if @opts entries are typed, false for all strings
 
-> On Fri, 8 Oct 2021 09:05:03 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->
->> On Fri, Oct 08, 2021 at 02:34:22PM +0200, Halil Pasic wrote:
->> > The virtio specification virtio-v1.1-cs01 states: "Transitional devices
->> > MUST detect Legacy drivers by detecting that VIRTIO_F_VERSION_1 has not
->> > been acknowledged by the driver."  This is exactly what QEMU as of 6.1
->> > has done relying solely on VIRTIO_F_VERSION_1 for detecting that.
->> > 
->> > However, the specification also says: "... the driver MAY read (but MUST
->> > NOT write) the device-specific configuration fields to check that it can
->> > support the device ..." before setting FEATURES_OK.
->> > 
->> > In that case, any transitional device relying solely on
->> > VIRTIO_F_VERSION_1 for detecting legacy drivers will return data in
->> > legacy format.  In particular, this implies that it is in big endian
->> > format for big endian guests. This naturally confuses the driver which
->> > expects little endian in the modern mode.
->> > 
->> > It is probably a good idea to amend the spec to clarify that
->> > VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
->> > is complete. However, we already have a regression so let's try to address  
->> 
->> actually, regressions. and we can add 
->> "since originally before validate callback existed
->> config space was only read after
->> FEATURES_OK. See Fixes tags for relevant commits"
->> 
->> > it.
->
-> How about replacing the paragraph above with the following?
->
-> "It is probably a good idea to amend the spec to clarify that
-> VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
-> is complete. Before validate callback existed, config space was only
-> read after FEATURES_OK. However, we already have two regression, so
-> let's address this here as well."
->> > 
->> > The regressions affect the VIRTIO_NET_F_MTU feature of virtio-net and
->> > the VIRTIO_BLK_F_BLK_SIZE feature of virtio-blk for BE guests when
->> > virtio 1.0 is used on both sides. The latter renders virtio-blk
->> > unusable with DASD backing, because things simply don't work with
->> > the default.  
->
-> and add 
-> "See Fixes tags for relevant commits."
-> here.
->> 
->> Let's add a work around description now:
->> 
->> 
->> For QEMU, we can work around the issue by writing out the features
->> register with VIRTIO_F_VERSION_1 bit set.  We (ab) use the
-> s/features register/feature bits/
-> rationale: ccw does not have a features register, and qemu does not
-> really act as if its behavior was controlled by the values in a features
-> register. I.e. when we read the register we see VIRTIO_F_VERSION_!
-> because the feature is offered. In QEMU we basically read host_featues
-> but write the guest_features. And what drives device behavior is mostly
-> guest_features. 
->
-> s/(ab) use/(ab)use/
->
->> finalize_features config op for this. It's not enough to address vhost
->
-> s/It's/This is/
->
->> user and vhost block devices since these do not get the features until
->
-> s/vhost user and vhost block/some vhost-user and vhost-vdpa/ ?
->
-> Ratioale: I think vhost block is just a vhost-user device. On the other
-> hand vhost-user-fs works like charm because the config space is
-> implemented in qemu and not in the vhost-user device. I
-> didn't check vhost_net. I'm not even sure qemu offers a vhost_net
-> implementation. Anyway I wouldn't like to make any false statements here.
->
->> FEATURES_OK, however it looks like these two actually never handled the
->> endian-ness for legacy mode correctly, so at least that's not a
->> regression.
->> 
->> No devices except virtio net and virtio blk seem to be affected.
->> 
->> Long term the right thing to do is to fix the hypervisors.
->> 
->
-> Sounds good. Thanks! Are you OK with my changes proposed to your changes?
->
-> Regards,
-> Halil
->> 
->> > 
->> > Cc: <stable@vger.kernel.org> #v4.11
->> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
->> > Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in
->> > config space") Fixes: fe36cbe0671e ("virtio_net: clear MTU when out
->> > of range") Reported-by: markver@us.ibm.com
->> > ---
->> >  drivers/virtio/virtio.c | 11 +++++++++++
->> >  1 file changed, 11 insertions(+)
->> > 
->> > diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
->> > index 0a5b54034d4b..236081afe9a2 100644
->> > --- a/drivers/virtio/virtio.c
->> > +++ b/drivers/virtio/virtio.c
->> > @@ -239,6 +239,17 @@ static int virtio_dev_probe(struct device *_d)
->> >  		driver_features_legacy = driver_features;
->> >  	}
->> >  
->> > +	/*
->> > +	 * Some devices detect legacy solely via F_VERSION_1. Write
->> > +	 * F_VERSION_1 to force LE config space accesses before
->> > FEATURES_OK for
->> > +	 * these when needed.
->> > +	 */
->> > +	if (drv->validate && !virtio_legacy_is_little_endian()
->> > +			  && device_features &
->> > BIT_ULL(VIRTIO_F_VERSION_1)) {
->> > +		dev->features = BIT_ULL(VIRTIO_F_VERSION_1);
->> > +		dev->config->finalize_features(dev);
->> > +	}
->> > +
->> >  	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
->> >  		dev->features = driver_features & device_features;
->> >  	else
->> > 
->> > base-commit: 60a9483534ed0d99090a2ee1d4bb0b8179195f51
+Add the errp here too:
 
-FWIW, with the amends:
+     * @errp: pointer to error object
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+>    *
+>    * Check if a device should be added.
+>    * When a device is added via qdev_device_add() this will be called,
+>    * and return if the device should be added now or not.
+>    */
+> -bool qdev_should_hide_device(QemuOpts *opts, Error **errp);
+> +bool qdev_should_hide_device(const QDict *opts, bool from_json, Error **errp);
+>   
+>   typedef enum MachineInitPhase {
+>       /* current_machine is NULL.  */
+
+Thank you to have added the errp pointer in the hide_device helpers, it helps in my series.
+
+Laurent
 
 
