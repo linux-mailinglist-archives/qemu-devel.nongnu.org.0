@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72388426CFB
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 16:49:34 +0200 (CEST)
-Received: from localhost ([::1]:58002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB45426CBC
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 16:26:53 +0200 (CEST)
+Received: from localhost ([::1]:46752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYrBl-0002kW-Hz
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 10:49:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60030)
+	id 1mYqpo-0002Xw-3X
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 10:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mYr8o-00010y-BX
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 10:46:30 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mYr8l-000626-D4
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 10:46:30 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id v25so30546322wra.2
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 07:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=A46RgzRLjsqZjcBRK2bZVk/fE1RVdkWowsdnr+K9aLM=;
- b=ejywRGpJXuPX3TEQJzeJqp6Wn/Ke6ZoFiOSPHEsTjTaGfyHnVJYrtHuaIyRWqr5rln
- aWbo420sOQ2bGTG1/q9UjvWmJTrHCYS5KvWXMaQKmVCEsaljVME/IXGRqLl+ljpDCbDl
- HTW+3ReXP26mVtr+V4Zybu1men9u6guK4crFrVhQK36yFZzom8oS1+nOnAZ8KrMBNrZt
- saMJRMkQeg1/hUVMHyEGGDNwg9K6CKsRgrHrfnrfcmKr0GgN5Miq34XvCTljs+S7RxXe
- pfbk7HvMk0qrY0kUSFZDrtYm+kCbWuZyJXtjYDt6cFHbf4OkZUnnztprcBSIQOVXYQEe
- 8sAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=A46RgzRLjsqZjcBRK2bZVk/fE1RVdkWowsdnr+K9aLM=;
- b=MW2xsiGjgqGtt+2BuZWtsb/+2vdybxTYRUUjULwVRFuqwfB9g3a2v5/fS0KMmaotfU
- RnQ2yvncE3F98G97QSMiBLdFQXb9Cs3aZW78P+4fNMdapprIcPNl/a1tAnodcg+YsffS
- Q4mobGw2dg1kJM9r61N9C84h8hEvrr37am0zsvlJppErbMmMvHxe6pRLC6CkdL8Je9Zg
- b6PEejoX74S3rRC312+bSqw7hIqkRLPfk+YMwvxKpmPyJsBgWLW1iBH1QFMdRtNCZqOW
- ai5S4UeA1Umpqa7deoc/Y5OworRMqksCCzKVJBZY+TjVeHr3TisLPDG1xPllPjAY2TJs
- +tUA==
-X-Gm-Message-State: AOAM531TX9phJmHc+kXdzBPb2Uq1bBEn3eXntjqVK+jJQx5LITn7l0N+
- M6nebeAqQ2SD0lrMlIxqo6fegQ==
-X-Google-Smtp-Source: ABdhPJzXzYODiX2ydjCjtXpk1iWI2VLrLXf/1thIOGM1rBGTDgNRTTOUBhv3ro6QdTgFqERAmnz7kA==
-X-Received: by 2002:adf:fe4e:: with SMTP id m14mr4595489wrs.14.1633704385667; 
- Fri, 08 Oct 2021 07:46:25 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z5sm16402546wmp.26.2021.10.08.07.46.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Oct 2021 07:46:24 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5D7971FF96;
- Fri,  8 Oct 2021 15:46:24 +0100 (BST)
-References: <20210810134844.166490-1-ma.mandourr@gmail.com>
- <20210810134844.166490-4-ma.mandourr@gmail.com>
-User-agent: mu4e 1.7.0; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH 3/5] plugins/cache: split command line arguments into
- name and value
-Date: Fri, 08 Oct 2021 15:05:59 +0100
-In-reply-to: <20210810134844.166490-4-ma.mandourr@gmail.com>
-Message-ID: <875yu7d16n.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mYqo5-0001aA-S9; Fri, 08 Oct 2021 10:25:05 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:53921)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mYqo0-0003dn-6j; Fri, 08 Oct 2021 10:25:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=UEm64WBqeHW+xueK/f9xgl4MrWz3kHdIrrqJfikL/aU=; b=GAfO6e3STVUWj21OnVXRo+w7Mo
+ LV8XGfpX/OFYl60ID7aLsNuMKSbkwMBFqEWm3USeGRRG8R0uKcfLZ1omyVEEIdmwPGUJwCm5KTolq
+ lho2dgKBIohNNK8JaMPsHFrmIluXy52YFfxAmN6xJG578SwTY9E0WNUhthTey1nyF+x94zqC2AjAv
+ bUPG73KJg+7Pb5Vy+fkk/SKEmVEnQCRzqREWVNuRc8UactzsnsrQ24FDMyWC0tSp85XVqwtPYM3N5
+ 5GdEcw6StMdNB6/6jwdVUUaxpSyckgqE0+bIXYvADIFjuqJBzGjK4vLfdJQ30SuGyLTGRF+Ncson1
+ 3fzIwklKgF6kIUP3iY3rHPXbSrolmtRZCE2QLyJOLbR3cKlkpTzqC0Ro4oVfAqvpePNutWQe/GW1M
+ 7pDCwO8AyNlWL+Zncom9ceBr47X0KumLmoEpXcS6WVT4PmvlqovDf7B5A58VQB19tMwdynu1D5uuS
+ rXSxVmHLg8c7vmeqEsoCxKNMPgwuWIcdMUnX9y3OYHU9/NuqsLYLfEZ6/gqfb1LiV2laVl8Pt76gp
+ lTDO9YNnExTTaFANjd3UkDBvOvv2nv6/j6PRX0M61hIRzOAKt2+ydONWrJrx53hsKJTEFM5OQIyQ8
+ ND7Ol8H54D9DPy8WV0vOxteR/WvpDCzFNKt9ZGt4I=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Greg Kurz <groug@kaod.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Amit Shah <amit@kernel.org>,
+ David Hildenbrand <david@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, virtio-fs@redhat.com,
+ Eric Auger <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 0/3] virtio: increase VIRTQUEUE_MAX_SIZE to 32k
+Date: Fri, 08 Oct 2021 16:24:42 +0200
+Message-ID: <1853723.Wj769PA2Ue@silver>
+In-Reply-To: <20211008092533.376b568b@bahia.huguette>
+References: <cover.1633376313.git.qemu_oss@crudebyte.com>
+ <YV8VeaWiwD8DRFtz@stefanha-x1.localdomain>
+ <20211008092533.376b568b@bahia.huguette>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,109 +74,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexandre Iooss <erdnaxe@crans.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Freitag, 8. Oktober 2021 09:25:33 CEST Greg Kurz wrote:
+> On Thu, 7 Oct 2021 16:42:49 +0100
+> 
+> Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > On Thu, Oct 07, 2021 at 02:51:55PM +0200, Christian Schoenebeck wrote:
+> > > On Donnerstag, 7. Oktober 2021 07:23:59 CEST Stefan Hajnoczi wrote:
+> > > > On Mon, Oct 04, 2021 at 09:38:00PM +0200, Christian Schoenebeck wrote:
+> > > > > At the moment the maximum transfer size with virtio is limited to 4M
+> > > > > (1024 * PAGE_SIZE). This series raises this limit to its maximum
+> > > > > theoretical possible transfer size of 128M (32k pages) according to
+> > > > > the
+> > > > > virtio specs:
+> > > > > 
+> > > > > https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01
+> > > > > .html#
+> > > > > x1-240006
+> > > > 
+> > > > Hi Christian,
+> 
+> > > > I took a quick look at the code:
+> Hi,
+> 
+> Thanks Stefan for sharing virtio expertise and helping Christian !
+> 
+> > > > - The Linux 9p driver restricts descriptor chains to 128 elements
+> > > > 
+> > > >   (net/9p/trans_virtio.c:VIRTQUEUE_NUM)
+> > > 
+> > > Yes, that's the limitation that I am about to remove (WIP); current
+> > > kernel
+> > > patches:
+> > > https://lore.kernel.org/netdev/cover.1632327421.git.linux_oss@crudebyte.
+> > > com/> 
+> > I haven't read the patches yet but I'm concerned that today the driver
+> > is pretty well-behaved and this new patch series introduces a spec
+> > violation. Not fixing existing spec violations is okay, but adding new
+> > ones is a red flag. I think we need to figure out a clean solution.
 
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+Nobody has reviewed the kernel patches yet. My main concern therefore actually 
+is that the kernel patches are already too complex, because the current 
+situation is that only Dominique is handling 9p patches on kernel side, and he 
+barely has time for 9p anymore.
 
-> This way of handling args is more lenient and sets a better framework to
-> parse boolean command line arguments.
->
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> ---
->  contrib/plugins/cache.c | 57 ++++++++++++++++++++++-------------------
->  1 file changed, 30 insertions(+), 27 deletions(-)
->
-> diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-> index 908c967a09..ff325beb9f 100644
-> --- a/contrib/plugins/cache.c
-> +++ b/contrib/plugins/cache.c
-> @@ -11,6 +11,8 @@
->=20=20
->  #include <qemu-plugin.h>
->=20=20
-> +#define STRTOLL(x) g_ascii_strtoll(x, NULL, 10)
-> +
+Another reason for me to catch up on reading current kernel code and stepping 
+in as reviewer of 9p on kernel side ASAP, independent of this issue.
 
-Why wrap the strtoll in a macro here? Also do we deal with signed
-numbers, otherwise strtoull makes more sense.
+As for current kernel patches' complexity: I can certainly drop patch 7 
+entirely as it is probably just overkill. Patch 4 is then the biggest chunk, I 
+have to see if I can simplify it, and whether it would make sense to squash 
+with patch 3.
 
->  QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
->=20=20
->  static enum qemu_plugin_mem_rw rw =3D QEMU_PLUGIN_MEM_RW;
-> @@ -746,35 +748,36 @@ int qemu_plugin_install(qemu_plugin_id_t id, const =
-qemu_info_t *info,
->=20=20
->      for (i =3D 0; i < argc; i++) {
->          char *opt =3D argv[i];
-> -        if (g_str_has_prefix(opt, "iblksize=3D")) {
-> -            l1_iblksize =3D g_ascii_strtoll(opt + 9, NULL, 10);
-> -        } else if (g_str_has_prefix(opt, "iassoc=3D")) {
-> -            l1_iassoc =3D g_ascii_strtoll(opt + 7, NULL, 10);
-> -        } else if (g_str_has_prefix(opt, "icachesize=3D")) {
-> -            l1_icachesize =3D g_ascii_strtoll(opt + 11, NULL, 10);
-> -        } else if (g_str_has_prefix(opt, "dblksize=3D")) {
-> -            l1_dblksize =3D g_ascii_strtoll(opt + 9, NULL, 10);
-> -        } else if (g_str_has_prefix(opt, "dassoc=3D")) {
-> -            l1_dassoc =3D g_ascii_strtoll(opt + 7, NULL, 10);
-> -        } else if (g_str_has_prefix(opt, "dcachesize=3D")) {
-> -            l1_dcachesize =3D g_ascii_strtoll(opt + 11, NULL, 10);
-> -        } else if (g_str_has_prefix(opt, "limit=3D")) {
-> -            limit =3D g_ascii_strtoll(opt + 6, NULL, 10);
-> -        } else if (g_str_has_prefix(opt, "cores=3D")) {
-> -            cores =3D g_ascii_strtoll(opt + 6, NULL, 10);
-> -        } else if (g_str_has_prefix(opt, "l2cachesize=3D")) {
-> -            l2_cachesize =3D g_ascii_strtoll(opt + 6, NULL, 10);
-> -        } else if (g_str_has_prefix(opt, "l2blksize=3D")) {
-> -            l2_blksize =3D g_ascii_strtoll(opt + 6, NULL, 10);
-> -        } else if (g_str_has_prefix(opt, "l2assoc=3D")) {
-> -            l2_assoc =3D g_ascii_strtoll(opt + 6, NULL, 10);
-> -        } else if (g_str_has_prefix(opt, "evict=3D")) {
-> -            gchar *p =3D opt + 6;
-> -            if (g_strcmp0(p, "rand") =3D=3D 0) {
-> +        g_autofree char **tokens =3D g_strsplit(opt, "=3D", 2);
+> > 
+> > > > - The QEMU 9pfs code passes iovecs directly to preadv(2) and will fail
+> > > > 
+> > > >   with EINVAL when called with more than IOV_MAX iovecs
+> > > >   (hw/9pfs/9p.c:v9fs_read())
+> > > 
+> > > Hmm, which makes me wonder why I never encountered this error during
+> > > testing.
+> > > 
+> > > Most people will use the 9p qemu 'local' fs driver backend in practice,
+> > > so
+> > > that v9fs_read() call would translate for most people to this
+> > > implementation on QEMU side (hw/9p/9p-local.c):
+> > > 
+> > > static ssize_t local_preadv(FsContext *ctx, V9fsFidOpenState *fs,
+> > > 
+> > >                             const struct iovec *iov,
+> > >                             int iovcnt, off_t offset)
+> > > 
+> > > {
+> > > #ifdef CONFIG_PREADV
+> > > 
+> > >     return preadv(fs->fd, iov, iovcnt, offset);
+> > > 
+> > > #else
+> > > 
+> > >     int err = lseek(fs->fd, offset, SEEK_SET);
+> > >     if (err == -1) {
+> > >     
+> > >         return err;
+> > >     
+> > >     } else {
+> > >     
+> > >         return readv(fs->fd, iov, iovcnt);
+> > >     
+> > >     }
+> > > 
+> > > #endif
+> > > }
+> > > 
+> > > > Unless I misunderstood the code, neither side can take advantage of
+> > > > the
+> > > > new 32k descriptor chain limit?
+> > > > 
+> > > > Thanks,
+> > > > Stefan
+> > > 
+> > > I need to check that when I have some more time. One possible
+> > > explanation
+> > > might be that preadv() already has this wrapped into a loop in its
+> > > implementation to circumvent a limit like IOV_MAX. It might be another
+> > > "it
+> > > works, but not portable" issue, but not sure.
+> > > 
+> > > There are still a bunch of other issues I have to resolve. If you look
+> > > at
+> > > net/9p/client.c on kernel side, you'll notice that it basically does
+> > > this ATM> > 
+> > >     kmalloc(msize);
+> 
+> Note that this is done twice : once for the T message (client request) and
+> once for the R message (server answer). The 9p driver could adjust the size
+> of the T message to what's really needed instead of allocating the full
+> msize. R message size is not known though.
 
-I think using strssplit here is fine, but we don't seem to to take care
-that there is a valid tokens[1].=20
+Would it make sense adding a second virtio ring, dedicated to server responses 
+to solve this? IIRC 9p server already calculates appropriate exact sizes for 
+each response type. So server could just push space that's really needed for 
+its responses.
 
-> +
-> +        if (g_strcmp0(tokens[0], "iblksize") =3D=3D 0) {
-> +            l1_iblksize =3D STRTOLL(tokens[1]);
-> +        } else if (g_strcmp0(tokens[0], "iassoc") =3D=3D 0) {
-> +            l1_iassoc =3D STRTOLL(tokens[1]);
-> +        } else if (g_strcmp0(tokens[0], "icachesize") =3D=3D 0) {
-> +            l1_icachesize =3D STRTOLL(tokens[1]);
-> +        } else if (g_strcmp0(tokens[0], "dblksize") =3D=3D 0) {
-> +            l1_dblksize =3D STRTOLL(tokens[1]);
-> +        } else if (g_strcmp0(tokens[0], "dassoc") =3D=3D 0) {
-> +            l1_dassoc =3D STRTOLL(tokens[1]);
-> +        } else if (g_strcmp0(tokens[0], "dcachesize") =3D=3D 0) {
-> +            l1_dcachesize =3D STRTOLL(tokens[1]);
-> +        } else if (g_strcmp0(tokens[0], "limit") =3D=3D 0) {
-> +            limit =3D STRTOLL(tokens[1]);
-> +        } else if (g_strcmp0(tokens[0], "cores") =3D=3D 0) {
-> +            cores =3D STRTOLL(tokens[1]);
-> +        } else if (g_strcmp0(tokens[0], "l2cachesize") =3D=3D 0) {
-> +            l2_cachesize =3D STRTOLL(tokens[1]);
-> +        } else if (g_strcmp0(tokens[0], "l2blksize") =3D=3D 0) {
-> +            l2_blksize =3D STRTOLL(tokens[1]);
-> +        } else if (g_strcmp0(tokens[0], "l2assoc") =3D=3D 0) {
-> +            l2_assoc =3D STRTOLL(tokens[1]);
-> +        } else if (g_strcmp0(tokens[0], "evict") =3D=3D 0) {
-> +            if (g_strcmp0(tokens[1], "rand") =3D=3D 0) {
->                  policy =3D RAND;
-> -            } else if (g_strcmp0(p, "lru") =3D=3D 0) {
-> +            } else if (g_strcmp0(tokens[1], "lru") =3D=3D 0) {
->                  policy =3D LRU;
-> -            } else if (g_strcmp0(p, "fifo") =3D=3D 0) {
-> +            } else if (g_strcmp0(tokens[1], "fifo") =3D=3D 0) {
->                  policy =3D FIFO;
->              } else {
->                  fprintf(stderr, "invalid eviction policy: %s\n", opt);
+> > > for every 9p request. So not only does it allocate much more memory for
+> > > every request than actually required (i.e. say 9pfs was mounted with
+> > > msize=8M, then a 9p request that actually would just need 1k would
+> > > nevertheless allocate 8M), but also it allocates > PAGE_SIZE, which
+> > > obviously may fail at any time.> 
+> > The PAGE_SIZE limitation sounds like a kmalloc() vs vmalloc() situation.
+
+Hu, I didn't even consider vmalloc(). I just tried the kvmalloc() wrapper as a 
+quick & dirty test, but it crashed in the same way as kmalloc() with large 
+msize values immediately on mounting:
+
+diff --git a/net/9p/client.c b/net/9p/client.c
+index a75034fa249b..cfe300a4b6ca 100644
+--- a/net/9p/client.c
++++ b/net/9p/client.c
+@@ -227,15 +227,18 @@ static int parse_opts(char *opts, struct p9_client 
+*clnt)
+ static int p9_fcall_init(struct p9_client *c, struct p9_fcall *fc,
+                         int alloc_msize)
+ {
+-       if (likely(c->fcall_cache) && alloc_msize == c->msize) {
++       //if (likely(c->fcall_cache) && alloc_msize == c->msize) {
++       if (false) {
+                fc->sdata = kmem_cache_alloc(c->fcall_cache, GFP_NOFS);
+                fc->cache = c->fcall_cache;
+        } else {
+-               fc->sdata = kmalloc(alloc_msize, GFP_NOFS);
++               fc->sdata = kvmalloc(alloc_msize, GFP_NOFS);
+                fc->cache = NULL;
+        }
+-       if (!fc->sdata)
++       if (!fc->sdata) {
++               pr_info("%s !fc->sdata", __func__);
+                return -ENOMEM;
++       }
+        fc->capacity = alloc_msize;
+        return 0;
+ }
+
+I try to look at this at the weekend, I would have expected this hack to 
+bypass this issue.
+
+> > I saw zerocopy code in the 9p guest driver but didn't investigate when
+> > it's used. Maybe that should be used for large requests (file
+> > reads/writes)?
+> 
+> This is the case already : zero-copy is only used for reads/writes/readdir
+> if the requested size is 1k or more.
+> 
+> Also you'll note that in this case, the 9p driver doesn't allocate msize
+> for the T/R messages but only 4k, which is largely enough to hold the
+> header.
+> 
+> 	/*
+> 	 * We allocate a inline protocol data of only 4k bytes.
+> 	 * The actual content is passed in zero-copy fashion.
+> 	 */
+> 	req = p9_client_prepare_req(c, type, P9_ZC_HDR_SZ, fmt, ap);
+> 
+> and
+> 
+> /* size of header for zero copy read/write */
+> #define P9_ZC_HDR_SZ 4096
+> 
+> A huge msize only makes sense for Twrite, Rread and Rreaddir because
+> of the amount of data they convey. All other messages certainly fit
+> in a couple of kilobytes only (sorry, don't remember the numbers).
+> 
+> A first change should be to allocate MIN(XXX, msize) for the
+> regular non-zc case, where XXX could be a reasonable fixed
+> value (8k?). In the case of T messages, it is even possible
+> to adjust the size to what's exactly needed, ala snprintf(NULL).
+
+Good idea actually! That would limit this problem to reviewing the 9p specs 
+and picking one reasonable max value. Because you are right, those message 
+types are tiny. Probably not worth to pile up new code to calculate exact 
+message sizes for each one of them.
+
+Adding some safety net would make sense though, to force e.g. if a new message 
+type is added in future, that this value would be reviewed as well, something 
+like:
+
+static int max_msg_size(int msg_type) {
+    switch (msg_type) {
+        /* large zero copy messages */
+        case Twrite:
+        case Tread:
+        case Treaddir:
+            BUG_ON(true);
+
+        /* small messages */
+        case Tversion:
+        ....
+            return 8k; /* to be replaced with appropriate max value */
+    }
+}
+
+That way the compiler would bark on future additions. But on doubt, a simple 
+comment on msg type enum might do as well though.
+
+> > virtio-blk/scsi don't memcpy data into a new buffer, they
+> > directly access page cache or O_DIRECT pinned pages.
+> > 
+> > Stefan
+> 
+> Cheers,
+> 
+> --
+> Greg
 
 
---=20
-Alex Benn=C3=A9e
 
