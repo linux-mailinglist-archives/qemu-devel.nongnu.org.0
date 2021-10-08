@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8A942670B
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 11:42:22 +0200 (CEST)
-Received: from localhost ([::1]:38068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD641426725
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 11:49:44 +0200 (CEST)
+Received: from localhost ([::1]:41844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYmOT-0002cB-0R
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 05:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48926)
+	id 1mYmVb-0005Wq-L4
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 05:49:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mYmM7-00016X-Lv
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 05:39:55 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35607)
+ (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
+ id 1mYmTg-0004gw-EF
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 05:47:44 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:34427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mYmM6-0007fJ-1v
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 05:39:55 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id v25so27791966wra.2
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 02:39:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=pq2uTY2UsQZFlM38Oubsafd5rDgJBlBfbxHGvADF2DU=;
- b=kwHE1X1obJisdYfzJxDaAqLCnmhGQVHS45Awn5BmE/64cSvDoU8L/iORectRy3dhra
- PfJCtrQeSqLVCP/h1w8eJOX/Fnovb89ZPI1fCwIkO1/lxd8X9VQUH+cYRNgnyiwAuLTq
- hP947hQACd7VR/Ef/W05QmIUpNLrVX71ascq34SuCial8sGIeUvQE4DTNjj28gcVoChy
- eoyAYlrSAFLx2Z5MTejvMSJi2wWWYZbYeUCh3NTLLure9MHfT+6b3y7MKjbLbTB3c3jY
- TDb2o2YI9Uy8gjBL3oQv8YwHAfhIbL+QKbgiAQU8araDWPUcc7l4gYhJCgEmSwdkMH7I
- wkxA==
+ (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
+ id 1mYmTe-0003Gj-S6
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 05:47:44 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id g10so33242591edj.1
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 02:47:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+JUrYc6P16NZzBkzvzqyOHjP5/4wv/mYZ80N/CFD/Zk=;
+ b=HmzoD5SP5E+KvQzTtXkwCLq9ZVX4ZElK6DAzBzLdqibmiQA1w9FDc1yIk4M7Rly3N1
+ Sn7bC2GDVOr4E/jgwAdungxrubFJdG9fQiYBhikQtOhYGq80xss5tqe8G37rWr0W2W82
+ JVe6TCnZZw/bgZ6uK0Mxkz4IcMyqcjWEHeS/BYQradD3kBr8J1IqpokK2aIlqk1e9gx9
+ Si30gLN/LDWYzUhn7vHFuaTveZA3F52zdWqITBevM0GGqPwpQKONS48lU1bMjutGlmxW
+ Jx+zJsxEnbkXo194zSUAKERJAql9mcOj3qboKD278fczxDvxYBabWhjSXTM1lGnOB7s/
+ vb9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=pq2uTY2UsQZFlM38Oubsafd5rDgJBlBfbxHGvADF2DU=;
- b=0wfy3EpI1piNJJ3Qq+OZh1AcC9/MP8Pd6EtWeb8x5ngIf7yoeIDd4lPRfLaoE+QDAg
- ytCEvM3ANpfqNuvKSCH77/aFxo12wVt4gMKO8sEeBLKhgBTRyqrST4wtOJRJ2vOUgFrG
- zadYkQqv+dG0E33s6fswzdASwmJ7Fr00r6bWVblJpNdrBfSE11nv8KKwjPT0i8BGZOXs
- sjvTatnm71jYMBNkd3kr2L4tkrL9WFnzAzawF7Wzic5p1LZd4NTLcgmJUH/PR+e8ltA+
- +BdCeCseH+BAaS9r5u1Yh9UCUR2BPT5D/FzW50eKXniu/H8L8yMmd0scNX0XPSA0lmsP
- t7Bw==
-X-Gm-Message-State: AOAM532XRV3GvNPKs/8CZtlLQasBDRR0DgzL0dNTr4x9JmsVq0AjN4nT
- ICiKeW19XZ0CHex03wF5FhmEbA==
-X-Google-Smtp-Source: ABdhPJwE6NXfsU6npkbAxDpV54YH0VtjVF+6N4lN0Rpmqhlge+OF4D8Be8/V/mHlr0L8SYgI7oKkxg==
-X-Received: by 2002:a5d:64e2:: with SMTP id g2mr2712324wri.323.1633685992193; 
- Fri, 08 Oct 2021 02:39:52 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 189sm12527747wmz.27.2021.10.08.02.39.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Oct 2021 02:39:51 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 92B1B1FF96;
- Fri,  8 Oct 2021 10:39:50 +0100 (BST)
-References: <20211008063604.670699-1-ishii.shuuichir@fujitsu.com>
-User-agent: mu4e 1.7.0; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
-Subject: Re: [PATCH] hw/arm/sbsa-ref: Fixed cpu type error message typo.
-Date: Fri, 08 Oct 2021 10:39:34 +0100
-In-reply-to: <20211008063604.670699-1-ishii.shuuichir@fujitsu.com>
-Message-ID: <87tuhrdfdl.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+JUrYc6P16NZzBkzvzqyOHjP5/4wv/mYZ80N/CFD/Zk=;
+ b=2oy2YeHUcM0KFxINqk9Q6RYQIvW3/uiyl7S72qp2YGnun/PeJt4Q2lKbyozJDcaUaq
+ nWe6daWWfbEJWWe3IAqOKwFTo42KGNljFRR8mZJTSzr5lEhGzojYgmcFRcZcN5/EaoPU
+ Tz4WI2YO1Q5Mc+3IA5DV/mP2OO7OhV/0dGkOKforhyF8PAoCOJ1wBXlNaVzdB5KafryS
+ Yg8DjCGsiT9GtUfhs1IpgR9ZSIHwy5NtJQ3IblYKk95QGMsWZYDwSqlJtCdSK64n03pX
+ 7ct34r1F8oS8KSL64hgmDfgPThlShMWeSMirKOdW30kpv8qudQkQfCGfym80dM/+giVY
+ iDpQ==
+X-Gm-Message-State: AOAM533Gl4bTMmSYVKKzmS69Pj89gGHF1lNb01y+KmK5w/SjcoSUabfp
+ sl37oUB0DPYrXSc5NVm72gOMdgbxuh1QNp4KKK2C1Q==
+X-Google-Smtp-Source: ABdhPJzg3tZyDkvQapcTlEexBTjASM9watTXvK151i8Ra1IQ94KGsv/D9re64H5fhNqyEyKJhQ9CYtnvqrbZWdMlAco=
+X-Received: by 2002:a05:6402:1a3a:: with SMTP id
+ be26mr13688358edb.356.1633686459978; 
+ Fri, 08 Oct 2021 02:47:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+References: <20211003112855.960081-1-rpathak@ventanamicro.com>
+ <CAEUhbmUsMrSvQHWWoFRzdUuOyxcaaw=L7h7tk0f5_wsd692=ow@mail.gmail.com>
+In-Reply-To: <CAEUhbmUsMrSvQHWWoFRzdUuOyxcaaw=L7h7tk0f5_wsd692=ow@mail.gmail.com>
+From: Rahul Pathak <rpathak@ventanamicro.com>
+Date: Fri, 8 Oct 2021 15:17:04 +0530
+Message-ID: <CA+Oz1=YrvVA2q=Pg6_vwRmQgLgMEwxirTM-pgAkNcCk+Lj2TVw@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: csr: Implement mconfigptr CSR
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=rpathak@ventanamicro.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,38 +79,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, rad@semihalf.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, pathakraul@gmail.com,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Bin
 
-Shuuichirou Ishii <ishii.shuuichir@fujitsu.com> writes:
 
-> Signed-off-by: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
-> ---
->  hw/arm/sbsa-ref.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Oct 7, 2021 at 11:07 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-> index 509c5f09b4..358714bd3e 100644
-> --- a/hw/arm/sbsa-ref.c
-> +++ b/hw/arm/sbsa-ref.c
-> @@ -670,7 +670,7 @@ static void sbsa_ref_init(MachineState *machine)
->      int n, sbsa_max_cpus;
->=20=20
->      if (!cpu_type_valid(machine->cpu_type)) {
-> -        error_report("mach-virt: CPU type %s not supported", machine->cp=
-u_type);
-> +        error_report("sbsa-ref: CPU type %s not supported", machine->cpu=
-_type);
->          exit(1);
->      }
+> On Sun, Oct 3, 2021 at 7:29 PM Rahul Pathak <rpathak@ventanamicro.com> wrote:
+> >
+> > mconfigptr is an mandatory CSR as per the priv spec.
+>
+> %s/an/a
+>
 
-copy and paste detected ;-)
+Done
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+> as per the priv spec v1.12
+>
+> > This csr holds the physical address of the configuration
+> > data structure if this data structure is implemented
+> > Its an readonly csr set to zero making configuration
+> > data structure not supported.
+> >
+> > Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
+> > ---
+> >  target/riscv/cpu_bits.h | 1 +
+> >  target/riscv/csr.c      | 1 +
+> >  2 files changed, 2 insertions(+)
+> >
+> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> > index 999187a9ee..5dc4729ed5 100644
+> > --- a/target/riscv/cpu_bits.h
+> > +++ b/target/riscv/cpu_bits.h
+> > @@ -140,6 +140,7 @@
+> >  #define CSR_MARCHID         0xf12
+> >  #define CSR_MIMPID          0xf13
+> >  #define CSR_MHARTID         0xf14
+> > +#define CSR_MCONFIGPTR      0xf15
+> >
+> >  /* Machine Trap Setup */
+> >  #define CSR_MSTATUS         0x300
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index 23fbbd3216..2182943f54 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -1549,6 +1549,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+> >      [CSR_MARCHID]   = { "marchid",   any,   read_zero    },
+> >      [CSR_MIMPID]    = { "mimpid",    any,   read_zero    },
+> >      [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
+> > +    [CSR_MCONFIGPTR] = {"mconfigptr", any,  read_zero    },
+>
+> Not any, as we need to check the priv version >= 1.12
 
---=20
-Alex Benn=C3=A9e
+
+To check the priv version, I am thinking of creating a generic
+predicate function
+which checks the env->priv_ver.?
+Generic predicate function for the priv version can be reused in other such
+scenarios also.
+
+
+>
+> >
+> >      /* Machine Trap Setup */
+> >      [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,     write_mstatus     },
+> > --
+>
+> Regards,
+> Bin
 
