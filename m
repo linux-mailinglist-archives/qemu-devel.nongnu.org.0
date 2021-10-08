@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAEBD42742F
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 01:27:44 +0200 (CEST)
-Received: from localhost ([::1]:45974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0593542742B
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 01:27:29 +0200 (CEST)
+Received: from localhost ([::1]:45182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYzHD-0005G7-Me
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 19:27:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34012)
+	id 1mYzGx-0004jr-Od
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 19:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYz5W-0000Hj-Kc
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 19:15:40 -0400
-Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:34713)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYz5Z-0000J3-1r
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 19:15:42 -0400
+Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:46011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYz5R-0006sN-NG
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 19:15:37 -0400
-Received: by mail-il1-x12d.google.com with SMTP id g2so10428808ild.1
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 16:15:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mYz5W-0006tN-6j
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 19:15:40 -0400
+Received: by mail-il1-x134.google.com with SMTP id i11so10490582ila.12
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 16:15:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RsH2uGQG+H5kNjUvUvYqnVTq0HxSNPvaGumcXkHmkA4=;
- b=IVVV0Bt/4uxAgY2Apkk92ai52h8DHM1WXCmmFvB6N4Jj1ph9SYVE2STgTKVyJAV0UR
- Sgs0GD6eDclNt5lGhnLDKhy1rnQ1/ma8o57R6PK8j/69/mH5yK1XnpDAvh/FeB99ppWN
- +bZymFjbxtYSSFQp9AbIKMncN5uwxBEbCfOovyA3Z33sRz4F2jYUYBSjnn2aHNlCB1qK
- euVG/+gU15AtlqnbeLxGEZi8RXN+r4QwzJyZoxaFFy/MeW25kSB9ejC1Cd9Q8H8xixOM
- NBGXjwF7yo69fjwQ77qQHuYh2WaQHJhe+TvLtnPlc3gJzs+A+3hYDVCUBzWuiK2d3XwG
- APhQ==
+ bh=XEk73uKVfZpm8z5h/+0J1fZF1BlRdZmKpQRA57KJATI=;
+ b=mpNKan6AIQvIu3/Oq9KoiZVdMfp4zXd4jR+dK/rjoaK4hQlIsbAmBnbtF+qhLGiW5T
+ x+5c+U18NPHZbxrptSTDRhvs6Mzf0C683ZLxFEkfb+rnpv0NIhoCjaBQEX/bCIzXOng4
+ ywsLV6PGGXwiFqGftTiz+MGotCE2eH9p83IMnSohipCuw0v05QyjqpHSakKyzlhEoHxd
+ vYf/EyzkxBBr7+FjYk+nw/2EIXKb7ZQgdP2QoZQuqtQcUCHutxqe9PDJd65UtpEM9dSC
+ 1f4dyM+9LMRZIGWjdC9spPdbtFXTXWSNzODqlNxSMtPT+BaGkOg9uuE37k0RqyLOElSm
+ Ic1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RsH2uGQG+H5kNjUvUvYqnVTq0HxSNPvaGumcXkHmkA4=;
- b=X2gHahKv3TbA/KMYltW4Gpp6kF4Do1NK4GK2Xgzh82FGPW+7orxEfJkmyLyhQOM4lH
- N6g2maNwQflZ28XlxXKZZGue3PC8exazahb7iRSXnDYBIzzkxQb79vvkqs60LXhLlWeQ
- zkrAm6p0xihEqT0MAP+crEFL1iBr2YhFFJPrNMLCHkFvv5T/huKcRRo0oOujUIL0HryF
- 90BOCuuJ2eoz1/8/b2BiN6oB69j+zCtgcaPv0Bp89Ovklx1VGzW8rLyAFaxLV2Lwdzax
- oTAwKdk0LhJSVQZ20fwqPgs8vvZ3NB2q+5kU4+lfd5Z6QJnj2BquKhcbIK/mRcmBQXkG
- 4w/g==
-X-Gm-Message-State: AOAM532Ad7bV2oUl670bCjWWDM3O1od3bvSIRmq1QB14VETc5zTsny+2
- B3Mn+T7YcJ8UUOdrIK0m6fdcudGO5nG0eg==
-X-Google-Smtp-Source: ABdhPJxuszGg4KOWIoXSfiQd9KT/xMGH4uDWkEt2DZt8QEAuXaenweo4r38IKTsvBhF1ZROZMcmqOw==
-X-Received: by 2002:a92:1a08:: with SMTP id a8mr9844819ila.301.1633734932417; 
- Fri, 08 Oct 2021 16:15:32 -0700 (PDT)
+ bh=XEk73uKVfZpm8z5h/+0J1fZF1BlRdZmKpQRA57KJATI=;
+ b=799sILadYSMwwevyzT3tX9ziwW3OQPL7+VTsOYQsKFtnzdFeGVmuUehnbtsWLou3mc
+ 0LuPiR779YNV2UnzRElxc+lq/310Kpr5lg5QMVoYDW8IpCcMHmyZ/lRFsS8BBkBWw0n7
+ Y/HlQKYwatXY5d8ZEjgFks8QG9IYg4guriv0lLsKboPJQk4gz0YT4BTzTzXx/gJ7qLjl
+ FQ4JzeXan8E9MV0RKMxdyX262fvQNeyqsC2WwtnS2GMo3KM/hpRXAKodPvnzQyJdZM6o
+ fvcf7gKtgIg87AheBUAlYnmyaqYu97qr2KGig2g3NEwHBQ3Nojf1G8Rtv/UIGP1QbUY/
+ mjAA==
+X-Gm-Message-State: AOAM530DBw9kNC5vC5efRQqTvEago2vrI+rKA9Doac6dtBquCrRqinEk
+ rDHrHj4j0vM4vWUyZ2lyHY9shCQlU25dIA==
+X-Google-Smtp-Source: ABdhPJw3AIJ9STtBZJfXfEk3BwnDaP6yJ6r0yvzsZV7AZYYWxs65WBuiv8kGwR1YDg8p/jpcJu0OFw==
+X-Received: by 2002:a05:6e02:18ce:: with SMTP id
+ s14mr824268ilu.96.1633734933586; 
+ Fri, 08 Oct 2021 16:15:33 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id b15sm293628ion.8.2021.10.08.16.15.31
+ by smtp.gmail.com with ESMTPSA id b15sm293628ion.8.2021.10.08.16.15.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Oct 2021 16:15:32 -0700 (PDT)
+ Fri, 08 Oct 2021 16:15:33 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/15] bsd-user: Rename sigqueue to qemu_sigqueue
-Date: Fri,  8 Oct 2021 17:15:05 -0600
-Message-Id: <20211008231506.17471-15-imp@bsdimp.com>
+Subject: [PATCH v2 15/15] bsd-user/signal: Create a dummy signal queueing
+ function
+Date: Fri,  8 Oct 2021 17:15:06 -0600
+Message-Id: <20211008231506.17471-16-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211008231506.17471-1-imp@bsdimp.com>
 References: <20211008231506.17471-1-imp@bsdimp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12d;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::134;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x134.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,53 +89,62 @@ Cc: Kyle Evans <kevans@freebsd.org>, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To avoid a name clash with FreeBSD's sigqueue data structure in
-signalvar.h, rename sigqueue to qemu_sigqueue. This sturcture
-is currently defined, but unused.
+Create dummy signal queueing function so we can start to integrate other
+architectures (at the cost of signals remaining broken) to tame the
+dependency graph a bit and to bring in signals in a more controlled
+fashion. Log unimplemented events to it in the mean time.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- bsd-user/qemu.h | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ bsd-user/qemu.h   |  2 +-
+ bsd-user/signal.c | 11 ++++++++++-
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index e65e41d53d..5b815c3a23 100644
+index 5b815c3a23..62095eb975 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
-@@ -73,15 +73,15 @@ struct image_info {
+@@ -17,7 +17,6 @@
+ #ifndef QEMU_H
+ #define QEMU_H
  
- #define MAX_SIGQUEUE_SIZE 1024
+-
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "qemu/units.h"
+@@ -209,6 +208,7 @@ void process_pending_signals(CPUArchState *cpu_env);
+ void signal_init(void);
+ long do_sigreturn(CPUArchState *env);
+ long do_rt_sigreturn(CPUArchState *env);
++void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
+ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
  
--struct sigqueue {
--    struct sigqueue *next;
-+struct qemu_sigqueue {
-+    struct qemu_sigqueue *next;
-+    target_siginfo_t info;
- };
+ /* mmap.c */
+diff --git a/bsd-user/signal.c b/bsd-user/signal.c
+index ad6d935569..0c1093deb1 100644
+--- a/bsd-user/signal.c
++++ b/bsd-user/signal.c
+@@ -16,10 +16,19 @@
+  *  You should have received a copy of the GNU General Public License
+  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+  */
+-#include "qemu/osdep.h"
  
- struct emulated_sigtable {
-     int pending; /* true if signal is pending */
--    struct sigqueue *first;
--    /* in order to always have memory for the first signal, we put it here */
--    struct sigqueue info;
-+    struct qemu_sigqueue *first;
-+    struct qemu_sigqueue info;	/* Put first signal info here */
- };
++#include "qemu/osdep.h"
+ #include "qemu.h"
  
- /*
-@@ -95,8 +95,8 @@ typedef struct TaskState {
-     struct image_info *info;
- 
-     struct emulated_sigtable sigtab[TARGET_NSIG];
--    struct sigqueue sigqueue_table[MAX_SIGQUEUE_SIZE]; /* siginfo queue */
--    struct sigqueue *first_free; /* first free siginfo queue entry */
-+    struct qemu_sigqueue sigqueue_table[MAX_SIGQUEUE_SIZE]; /* siginfo queue */
-+    struct qemu_sigqueue *first_free; /* first free siginfo queue entry */
-     int signal_pending; /* non zero if a signal may be pending */
- 
-     uint8_t stack[];
++/*
++ * Queue a signal so that it will be send to the virtual CPU as soon as
++ * possible.
++ */
++void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info)
++{
++    qemu_log_mask(LOG_UNIMP, "No signal queueing, dropping signal %d\n", sig);
++}
++
+ void signal_init(void)
+ {
+ }
 -- 
 2.32.0
 
