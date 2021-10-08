@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2141A426150
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 02:29:22 +0200 (CEST)
-Received: from localhost ([::1]:45026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88AC42615F
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 02:34:30 +0200 (CEST)
+Received: from localhost ([::1]:53700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYdlJ-0003nr-4g
-	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 20:29:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48076)
+	id 1mYdqH-0001LC-Qq
+	for lists+qemu-devel@lfdr.de; Thu, 07 Oct 2021 20:34:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3SZBfYQgKCvg1zmftyxmlttlqj.htrvjrz-ij0jqstslsz.twl@flex--wuhaotsh.bounces.google.com>)
- id 1mYdiv-00010e-41
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 20:26:53 -0400
-Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a]:56976)
+ <3S5BfYQgKCvoywjcqvujiqqing.eqosgow-fgxgnpqpipw.qti@flex--wuhaotsh.bounces.google.com>)
+ id 1mYdiw-00014F-JU
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 20:26:54 -0400
+Received: from mail-pl1-x64a.google.com ([2607:f8b0:4864:20::64a]:49674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3SZBfYQgKCvg1zmftyxmlttlqj.htrvjrz-ij0jqstslsz.twl@flex--wuhaotsh.bounces.google.com>)
- id 1mYdit-0004ER-Bd
- for qemu-devel@nongnu.org; Thu, 07 Oct 2021 20:26:52 -0400
-Received: by mail-pf1-x44a.google.com with SMTP id
- f9-20020a056a001ac900b0044c4f04a6b1so3658246pfv.23
- for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 17:26:50 -0700 (PDT)
+ <3S5BfYQgKCvoywjcqvujiqqing.eqosgow-fgxgnpqpipw.qti@flex--wuhaotsh.bounces.google.com>)
+ id 1mYdiv-0004JU-0g
+ for qemu-devel@nongnu.org; Thu, 07 Oct 2021 20:26:54 -0400
+Received: by mail-pl1-x64a.google.com with SMTP id
+ y13-20020a1709029b8d00b0013dc7c668e2so3996733plp.16
+ for <qemu-devel@nongnu.org>; Thu, 07 Oct 2021 17:26:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=RUFIHqQgzKHAYzgvfLX2dBhiI3z1o+bUvwHqnylQN7c=;
- b=nQGKgDaXsdMMSoQIe/qQFp2D62Z/eQCNlmluEOAsbdI3sF3FwUGhGGWs81+6aK5EV0
- ii6iWC4DXJGjcZZTQw/wIOWjZtVHD3A6JxwfsNaWljnxGGxqglVu9LvwtsPK3oCI71f8
- XVxcXOus5h5UrWkGloxcWxeVuq4xs2NN7EkUJW52UGhN6aiKw9HqhdF5vukxnztOdmdv
- FpUXxy0NIuCHvJPXoBQ2eL31ZM2HqoLpxZpD3bbh8vsvo1sbFMc4d75BCS58nBuD+vt1
- MqC2Yg8WXHc0+jl9V4zc0Y0/MCSLhOydMTWrgqYdN3Li7raksxcSIs028bjUJ7DV+ECl
- CTUg==
+ :cc; bh=rEeP2b49EvWZof6Fv/RhovI0fLSmlZy99n+P5p6YrW0=;
+ b=qhyAbzK7XmpR5p+7c77HWe8kcAQmVNkugLXKw8eb1uGBlcurJSH6EN5u3X4Z9S+Fnc
+ K0tDgugShv0Zb1ZVr4HVw3f6F1M5fbXYw3ZtwFlfdRAp/wZDDRcJvzbWd2gCaPCFMrkn
+ h0Uy+L1TQ1CVr5lMb2DkkUZl2O6d+Jm5yFPWFK3tlUXF+jscmVDBfo3UK1neFSDFvIuQ
+ mqAf7/UVaFxcTtiYYnaaALPl3Rv0pP8gItvWlTJnG+0bkSlBh0abW7wgYVWqfz1FpIVi
+ zrQwZHHob4bXnecUP2IraRZF4jn3fr8U3trNtV5g+2mGJbaJFB/PzrKt3oAcONZ7avEj
+ 5+sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=RUFIHqQgzKHAYzgvfLX2dBhiI3z1o+bUvwHqnylQN7c=;
- b=OT4gKNWv0bivoxnYaa3Ro8lUurqHelbuKyJFANJpr5IShFwyBUTtOg0O+8+/bM6vW1
- 49NsPqHaFfadmlOhjCANz3N5XZc1fKiuDZQqZiqqHM4/8UUQhNjd2//h9LeR8As4JrEM
- M/QEIiRv5bWsH9e5Xn39hMDmpYStAo8Ju6TLpFFlBylSCEPgYdM0EnKtcT4itMl8kepI
- hDgaKA/rFIildgkzVm/oHmj26AZVntujhSfYJdCN4oGDtU3jsUgBJxdwYYZuW+YHB4Z+
- tTG9CNSat3ELdZj8ExQ6CGtlDsq8drPJZT0JBLzWJONKhQzWbG3omPmXh/SMqS2eO29Q
- dHqw==
-X-Gm-Message-State: AOAM530Vsc6tciwUf64I70Sm+aTgn/Bz6q1t8uhAHc5awqQg0M2KD5Vq
- 124YC6AsWO0vyyuI7ZreKaPB4wEQDtxxhQ==
-X-Google-Smtp-Source: ABdhPJxPhlDO7LB01yci67IyGueRJxjQmoRh+hb+Z5GWmBrZpP2wFoQaRlACSbNYerOgXrj1DGHO/BrwHL/tGA==
+ bh=rEeP2b49EvWZof6Fv/RhovI0fLSmlZy99n+P5p6YrW0=;
+ b=LkaO1odWK2Q2yxc3DUDFSMceZnpa5jSjUKlFjgLJpPd9RDMSMfXvWoiJjla8uBmj79
+ s7pA7p5nl5mYZ13Z/ONXX/2+REbWRaPF/tUKEaCsZDs/t54poQ94yLFI+cKrqoplKcP8
+ 79ZiuyW/GQpbsVyGBeU+T3tmJs8kpE+mZZ5Ayta4o3BaBKkLxA58OTH2S6Y6gSfV/FmH
+ ymBzDaMrAcF7f9gvGFXFQgaiU9YVaKPkpff3TaAByyfaNKZZ96FQzw66Z7GLTsHntpEt
+ dy24l7XIe1zhcEH4kXeBy90Ve803p4hMngV0mJ0nus99ggerShT4lFgcBhNjXn90QDZz
+ ug3A==
+X-Gm-Message-State: AOAM531TSvRQQI1J1wGjL6tgswgTOWwa0lsxRLECm/uaTRpDoHcVQJE7
+ 8Xzki1LvCC1fV0zIZsRYjtwDCqWXa1a8bA==
+X-Google-Smtp-Source: ABdhPJylMSQsJgVV+PMePWESzkD+XCE41oZRmN1CZpn3s6z4js/Z91tHIgd7dXMlQjKDB75xh7p9iSD9zbsxXg==
 X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a17:90a:3ec2:: with SMTP id
- k60mr6864140pjc.176.1633652809556; Thu, 07 Oct 2021 17:26:49 -0700 (PDT)
-Date: Thu,  7 Oct 2021 17:26:25 -0700
+ (user=wuhaotsh job=sendgmr) by 2002:a17:902:ea0a:b0:13e:8b24:b94 with SMTP id
+ s10-20020a170902ea0a00b0013e8b240b94mr6714454plg.45.1633652811113; Thu, 07
+ Oct 2021 17:26:51 -0700 (PDT)
+Date: Thu,  7 Oct 2021 17:26:26 -0700
 In-Reply-To: <20211008002628.1958285-1-wuhaotsh@google.com>
-Message-Id: <20211008002628.1958285-3-wuhaotsh@google.com>
+Message-Id: <20211008002628.1958285-4-wuhaotsh@google.com>
 Mime-Version: 1.0
 References: <20211008002628.1958285-1-wuhaotsh@google.com>
 X-Mailer: git-send-email 2.33.0.882.g93a45727a2-goog
-Subject: [PATCH v2 2/5] hw/arm: Add Nuvoton SD module to board
+Subject: [PATCH v2 3/5] hw/arm: Attach MMC to quanta-gbs-bmc
 From: Hao Wu <wuhaotsh@google.com>
 To: peter.maydell@linaro.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com, 
  venture@google.com, Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
  hskinnemoen@google.com, f4bug@amsat.org, bin.meng@windriver.com, 
  qemu-block@nongnu.org, maoshengtan2011@gmail.com, 
- Shengtan Mao <stmao@google.com>, Chris Rauer <crauer@google.com>
+ Shengtan Mao <stmao@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::44a;
- envelope-from=3SZBfYQgKCvg1zmftyxmlttlqj.htrvjrz-ij0jqstslsz.twl@flex--wuhaotsh.bounces.google.com;
- helo=mail-pf1-x44a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::64a;
+ envelope-from=3S5BfYQgKCvoywjcqvujiqqing.eqosgow-fgxgnpqpipw.qti@flex--wuhaotsh.bounces.google.com;
+ helo=mail-pl1-x64a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -94,85 +95,58 @@ From: Shengtan Mao <stmao@google.com>
 
 Signed-off-by: Shengtan Mao <stmao@google.com>
 Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Chris Rauer <crauer@google.com>
 Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
 Signed-off-by: Hao Wu <wuhaotsh@google.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/npcm7xx.c         | 12 +++++++++++-
- include/hw/arm/npcm7xx.h |  2 ++
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ hw/arm/npcm7xx_boards.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
-index 2ab0080e0b..878c2208e0 100644
---- a/hw/arm/npcm7xx.c
-+++ b/hw/arm/npcm7xx.c
-@@ -63,6 +63,8 @@
- #define NPCM7XX_ROM_BA          (0xffff0000)
- #define NPCM7XX_ROM_SZ          (64 * KiB)
+diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+index a656169f61..dec7d16ae5 100644
+--- a/hw/arm/npcm7xx_boards.c
++++ b/hw/arm/npcm7xx_boards.c
+@@ -27,6 +27,9 @@
+ #include "qemu-common.h"
+ #include "qemu/datadir.h"
+ #include "qemu/units.h"
++#include "sysemu/blockdev.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/block-backend.h"
  
-+/* SDHCI Modules */
-+#define NPCM7XX_MMC_BA          (0xf0842000)
- 
- /* Clock configuration values to be fixed up when bypassing bootloader */
- 
-@@ -83,6 +85,7 @@ enum NPCM7xxInterrupt {
-     NPCM7XX_UART3_IRQ,
-     NPCM7XX_EMC1RX_IRQ          = 15,
-     NPCM7XX_EMC1TX_IRQ,
-+    NPCM7XX_MMC_IRQ             = 26,
-     NPCM7XX_TIMER0_IRQ          = 32,   /* Timer Module 0 */
-     NPCM7XX_TIMER1_IRQ,
-     NPCM7XX_TIMER2_IRQ,
-@@ -443,6 +446,8 @@ static void npcm7xx_init(Object *obj)
-     for (i = 0; i < ARRAY_SIZE(s->emc); i++) {
-         object_initialize_child(obj, "emc[*]", &s->emc[i], TYPE_NPCM7XX_EMC);
-     }
-+
-+    object_initialize_child(obj, "mmc", &s->mmc, TYPE_NPCM7XX_SDHCI);
+ #define NPCM750_EVB_POWER_ON_STRAPS 0x00001ff7
+ #define QUANTA_GSJ_POWER_ON_STRAPS 0x00001fff
+@@ -81,6 +84,22 @@ static void npcm7xx_connect_dram(NPCM7xxState *soc, MemoryRegion *dram)
+                              &error_abort);
  }
  
- static void npcm7xx_realize(DeviceState *dev, Error **errp)
-@@ -707,6 +712,12 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-                            &error_abort);
-     memory_region_add_subregion(get_system_memory(), NPCM7XX_ROM_BA, &s->irom);
- 
-+    /* SDHCI */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->mmc), &error_abort);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->mmc), 0, NPCM7XX_MMC_BA);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->mmc), 0,
-+            npcm7xx_irq(s, NPCM7XX_MMC_IRQ));
++static void sdhci_attach_drive(SDHCIState *sdhci)
++{
++        DriveInfo *di = drive_get_next(IF_SD);
++        BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
 +
-     create_unimplemented_device("npcm7xx.shm",          0xc0001000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.vdmx",         0xe0800000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.pcierc",       0xe1000000,  64 * KiB);
-@@ -736,7 +747,6 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-     create_unimplemented_device("npcm7xx.usbd[8]",      0xf0838000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.usbd[9]",      0xf0839000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.sd",           0xf0840000,   8 * KiB);
--    create_unimplemented_device("npcm7xx.mmc",          0xf0842000,   8 * KiB);
-     create_unimplemented_device("npcm7xx.pcimbx",       0xf0848000, 512 * KiB);
-     create_unimplemented_device("npcm7xx.aes",          0xf0858000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.des",          0xf0859000,   4 * KiB);
-diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
-index 61ecc57ab9..ce593235d9 100644
---- a/include/hw/arm/npcm7xx.h
-+++ b/include/hw/arm/npcm7xx.h
-@@ -35,6 +35,7 @@
- #include "hw/usb/hcd-ehci.h"
- #include "hw/usb/hcd-ohci.h"
- #include "target/arm/cpu.h"
-+#include "hw/sd/npcm7xx_sdhci.h"
++        BusState *bus = qdev_get_child_bus(DEVICE(sdhci), "sd-bus");
++        if (bus == NULL) {
++            error_report("No SD bus found in SOC object");
++            exit(1);
++        }
++
++        DeviceState *carddev = qdev_new(TYPE_SD_CARD);
++        qdev_prop_set_drive_err(carddev, "drive", blk, &error_fatal);
++        qdev_realize_and_unref(carddev, bus, &error_fatal);
++}
++
+ static NPCM7xxState *npcm7xx_create_soc(MachineState *machine,
+                                         uint32_t hw_straps)
+ {
+@@ -355,6 +374,7 @@ static void quanta_gbs_init(MachineState *machine)
+                           drive_get(IF_MTD, 0, 0));
  
- #define NPCM7XX_MAX_NUM_CPUS    (2)
+     quanta_gbs_i2c_init(soc);
++    sdhci_attach_drive(&soc->mmc.sdhci);
+     npcm7xx_load_kernel(machine, soc);
+ }
  
-@@ -103,6 +104,7 @@ typedef struct NPCM7xxState {
-     OHCISysBusState     ohci;
-     NPCM7xxFIUState     fiu[2];
-     NPCM7xxEMCState     emc[2];
-+    NPCM7xxSDHCIState   mmc;
- } NPCM7xxState;
- 
- #define TYPE_NPCM7XX    "npcm7xx"
 -- 
 2.33.0.882.g93a45727a2-goog
 
