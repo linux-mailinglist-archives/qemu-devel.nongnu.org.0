@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD641426725
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 11:49:44 +0200 (CEST)
-Received: from localhost ([::1]:41844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF822426769
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 12:09:11 +0200 (CEST)
+Received: from localhost ([::1]:58626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYmVb-0005Wq-L4
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 05:49:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51542)
+	id 1mYmoQ-0001GB-4s
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 06:09:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
- id 1mYmTg-0004gw-EF
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 05:47:44 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:34427)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rpathak@ventanamicro.com>)
- id 1mYmTe-0003Gj-S6
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 05:47:44 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id g10so33242591edj.1
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 02:47:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+JUrYc6P16NZzBkzvzqyOHjP5/4wv/mYZ80N/CFD/Zk=;
- b=HmzoD5SP5E+KvQzTtXkwCLq9ZVX4ZElK6DAzBzLdqibmiQA1w9FDc1yIk4M7Rly3N1
- Sn7bC2GDVOr4E/jgwAdungxrubFJdG9fQiYBhikQtOhYGq80xss5tqe8G37rWr0W2W82
- JVe6TCnZZw/bgZ6uK0Mxkz4IcMyqcjWEHeS/BYQradD3kBr8J1IqpokK2aIlqk1e9gx9
- Si30gLN/LDWYzUhn7vHFuaTveZA3F52zdWqITBevM0GGqPwpQKONS48lU1bMjutGlmxW
- Jx+zJsxEnbkXo194zSUAKERJAql9mcOj3qboKD278fczxDvxYBabWhjSXTM1lGnOB7s/
- vb9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+JUrYc6P16NZzBkzvzqyOHjP5/4wv/mYZ80N/CFD/Zk=;
- b=2oy2YeHUcM0KFxINqk9Q6RYQIvW3/uiyl7S72qp2YGnun/PeJt4Q2lKbyozJDcaUaq
- nWe6daWWfbEJWWe3IAqOKwFTo42KGNljFRR8mZJTSzr5lEhGzojYgmcFRcZcN5/EaoPU
- Tz4WI2YO1Q5Mc+3IA5DV/mP2OO7OhV/0dGkOKforhyF8PAoCOJ1wBXlNaVzdB5KafryS
- Yg8DjCGsiT9GtUfhs1IpgR9ZSIHwy5NtJQ3IblYKk95QGMsWZYDwSqlJtCdSK64n03pX
- 7ct34r1F8oS8KSL64hgmDfgPThlShMWeSMirKOdW30kpv8qudQkQfCGfym80dM/+giVY
- iDpQ==
-X-Gm-Message-State: AOAM533Gl4bTMmSYVKKzmS69Pj89gGHF1lNb01y+KmK5w/SjcoSUabfp
- sl37oUB0DPYrXSc5NVm72gOMdgbxuh1QNp4KKK2C1Q==
-X-Google-Smtp-Source: ABdhPJzg3tZyDkvQapcTlEexBTjASM9watTXvK151i8Ra1IQ94KGsv/D9re64H5fhNqyEyKJhQ9CYtnvqrbZWdMlAco=
-X-Received: by 2002:a05:6402:1a3a:: with SMTP id
- be26mr13688358edb.356.1633686459978; 
- Fri, 08 Oct 2021 02:47:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mYmm2-00084a-Uh
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 06:06:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21071)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mYmly-00060x-Oc
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 06:06:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633687595;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2t7tQEuibjRY7EG6c/9yPGFUvp1Z5Hh+lm2g7RUhPjM=;
+ b=Jq5Y32+CdJgDN0nEgtQJtH73y+tUwVa/YiFE5LnKZYEc1PlH7cJ7MmThUDnwSwZSpewv1B
+ bQNqK1xosT/R5pj5ayGRczqKzjg4BJ2S1yCdnTlQJ5OQQpF1mePeetUkPRU0aUxRR+Zq3f
+ e6GJBjmA2Hi9p5apuVejiWUmECPuSGY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-cP8TEcVIMbWomPXB4KKnXA-1; Fri, 08 Oct 2021 06:06:30 -0400
+X-MC-Unique: cP8TEcVIMbWomPXB4KKnXA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AA8610A8E01
+ for <qemu-devel@nongnu.org>; Fri,  8 Oct 2021 10:06:29 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F7FD5D740;
+ Fri,  8 Oct 2021 10:06:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D6203113865F; Fri,  8 Oct 2021 12:06:23 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: QAPI sync meeting
+References: <CAFn=p-axq90h+UGa_R2a=LZzXTcjsua3O8xnNvonvFD4ZjwmBQ@mail.gmail.com>
+ <YVMeUbGdnsTpwSbD@redhat.com>
+ <CAFn=p-ZG6SAVDz-cOtviekvMvibw+ukhYmSOqH7UTrcH-9fCNA@mail.gmail.com>
+ <87ee97y3q5.fsf@dusky.pond.sub.org> <YV7Fh2DihM65rgnN@redhat.com>
+ <3abc4e8e-5657-14bb-ba89-5b7669c01201@redhat.com>
+Date: Fri, 08 Oct 2021 12:06:23 +0200
+In-Reply-To: <3abc4e8e-5657-14bb-ba89-5b7669c01201@redhat.com> (Paolo
+ Bonzini's message of "Thu, 7 Oct 2021 12:23:58 +0200")
+Message-ID: <87bl3z96g0.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20211003112855.960081-1-rpathak@ventanamicro.com>
- <CAEUhbmUsMrSvQHWWoFRzdUuOyxcaaw=L7h7tk0f5_wsd692=ow@mail.gmail.com>
-In-Reply-To: <CAEUhbmUsMrSvQHWWoFRzdUuOyxcaaw=L7h7tk0f5_wsd692=ow@mail.gmail.com>
-From: Rahul Pathak <rpathak@ventanamicro.com>
-Date: Fri, 8 Oct 2021 15:17:04 +0530
-Message-ID: <CA+Oz1=YrvVA2q=Pg6_vwRmQgLgMEwxirTM-pgAkNcCk+Lj2TVw@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: csr: Implement mconfigptr CSR
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=rpathak@ventanamicro.com; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.05,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,78 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, pathakraul@gmail.com,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr?= =?utf-8?Q?=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bin
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
+> On 07/10/21 12:01, Kevin Wolf wrote:
+>>    * -chardev: I have patches that QAPIfy the option based on
+>> aliases,
+>>      getting rid of the old handwritten parser that is inconsistent with
+>>      QMP in non-obvious ways and replacing it with translation to QMP
+>>      (both using aliases and a little C code) that makes the differences
+>>      obvious.
+>>      First posted in November 2020, more details in the cover
+>> letter:
+>>      https://patchew.org/QEMU/20201112175905.404472-1-kwolf@redhat.com/
+>>      Later versions (not yet posted as a series because I'm waiting
+>> for
+>>      aliases) also make -chardev accept JSON syntax, which is what
+>>      libvirt really wants to use.
+>
+> I'm still not sure about this...  It's an awful lot of code if the
+> aliases are only used by -chardev,
 
-On Thu, Oct 7, 2021 at 11:07 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Sun, Oct 3, 2021 at 7:29 PM Rahul Pathak <rpathak@ventanamicro.com> wrote:
-> >
-> > mconfigptr is an mandatory CSR as per the priv spec.
->
-> %s/an/a
->
+We might use them for replacing other ad hoc parsers.  We have a bunch,
+but -chardev's one is perhaps the worst one.  Whether aliases could be
+useful for replacing others is not yet clear.
 
-Done
+I initially hoped that they could help us clean up QMP some, but further
+(and sadly much later) thought led me to obstacles.
 
->
-> as per the priv spec v1.12
->
-> > This csr holds the physical address of the configuration
-> > data structure if this data structure is implemented
-> > Its an readonly csr set to zero making configuration
-> > data structure not supported.
-> >
-> > Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
-> > ---
-> >  target/riscv/cpu_bits.h | 1 +
-> >  target/riscv/csr.c      | 1 +
-> >  2 files changed, 2 insertions(+)
-> >
-> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > index 999187a9ee..5dc4729ed5 100644
-> > --- a/target/riscv/cpu_bits.h
-> > +++ b/target/riscv/cpu_bits.h
-> > @@ -140,6 +140,7 @@
-> >  #define CSR_MARCHID         0xf12
-> >  #define CSR_MIMPID          0xf13
-> >  #define CSR_MHARTID         0xf14
-> > +#define CSR_MCONFIGPTR      0xf15
-> >
-> >  /* Machine Trap Setup */
-> >  #define CSR_MSTATUS         0x300
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index 23fbbd3216..2182943f54 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -1549,6 +1549,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >      [CSR_MARCHID]   = { "marchid",   any,   read_zero    },
-> >      [CSR_MIMPID]    = { "mimpid",    any,   read_zero    },
-> >      [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
-> > +    [CSR_MCONFIGPTR] = {"mconfigptr", any,  read_zero    },
->
-> Not any, as we need to check the priv version >= 1.12
+>                                    and I'd rather use
+> -object/object-add for chardevs if that's at all possible.
 
+How far are we from making -object the preferred machine-friendly
+interface for creating character devices?
 
-To check the priv version, I am thinking of creating a generic
-predicate function
-which checks the env->priv_ver.?
-Generic predicate function for the priv version can be reused in other such
-scenarios also.
-
-
->
-> >
-> >      /* Machine Trap Setup */
-> >      [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,     write_mstatus     },
-> > --
->
-> Regards,
-> Bin
 
