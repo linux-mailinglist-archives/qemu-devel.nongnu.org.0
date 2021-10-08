@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37EB7426D8C
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 17:35:42 +0200 (CEST)
-Received: from localhost ([::1]:44260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A76426DDE
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 17:44:11 +0200 (CEST)
+Received: from localhost ([::1]:49056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYruP-0007vE-9w
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 11:35:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41976)
+	id 1mYs2b-00033L-Oz
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 11:44:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mYrsu-0006zY-Va
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:34:08 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33661)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mYrsr-0004eR-P4
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:34:08 -0400
-Received: by mail-wr1-x436.google.com with SMTP id m22so31133795wrb.0
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 08:34:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=TgxX5dR3hV1a5Hu1oGqFbjg6jROCYDGxMzPV+J2OHcw=;
- b=om+jGEqlYMK88Lwz2SkzhdbH3M6uHQ0aEvxgshdpenUcGibXFCcEwp+s3C0NABqg/B
- iAHe0ylLNZ18tED53HsXo8vTccDgCvsvG/eFqfv7dZo+iOsPZMknNpAm2TdxfO1ocpBU
- 5ZhBo4zbHhYQ03Q1PQfQ7eT944DLYxOnCd3neMZzwCpOToZ5smf+UlTlU5VElAjhZ6V8
- jYncmaJMBQ/rkiTeqbFxm0CpLisfe5Y2qyXYB9fQd2FheoPzoJn/WWmW8mSV5liypkyE
- hEnuZoGsH4lbnnFeGRbohyNAjN7iSE/Hzd7Z7rCsOtbVCdnfQOGBrYm/FLJoEYCLbKyw
- aC2Q==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mYs0q-0001md-Dt
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:42:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44533)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mYs0l-0002NK-GH
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 11:42:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633707730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qMC5Klotg1aJNEk7elIqSRCi23Sna03uJX/agMDIgxg=;
+ b=hfG3zom7+tWBYTRUDnC3e7/50qouLfw3ciRb2G5ZG0Kn38JGdJz5/rc9MTxIgLHoBcb8mo
+ oRDpLvVzxVl4W+8LJ9OexglyqZc9n7xXkcb7b4HtmCOa0rcb6oDUKdGLCaBitA8KaTFizC
+ e4rTYcqPJv4F8jp7yNFVg7+x8gk1w40=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-icog4bE6M_Gx649Q2OVUIg-1; Fri, 08 Oct 2021 11:42:09 -0400
+X-MC-Unique: icog4bE6M_Gx649Q2OVUIg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ f4-20020a50e084000000b003db585bc274so3979210edl.17
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 08:42:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=TgxX5dR3hV1a5Hu1oGqFbjg6jROCYDGxMzPV+J2OHcw=;
- b=OuNvr04Q9BIx3jjBIb706k22c5EGzhRKPdTY88fN3BrE82UWf6XhuX13LuQdYCEuVM
- 6TNvWEA6f3yBI7Aq/WSdDWUCMG2+nQ+1n4ow5GuWpZWnoSwes180k1TAH3q4QuRIyDk+
- PjR5+IdYgJGYrpIHLveozvtbRiUu14u1Q2dyUtnrj6OW00uqy1au0Run4vEgmfVzEakG
- C/c/WV53jf/EezGZdhMYYluy0aFkw+NhZXMXmh71ILAf8GE+ni1uzqDZU9lbpG1yUFt6
- VhRH7Bgq9d9+9An6dUQOBtTJS0bBo/wvgfvQ326PxX3V8m7e2nYnfAIHZE9SrzsxigKR
- km3w==
-X-Gm-Message-State: AOAM530+wHZ6m/noSTZwG4+TvyJ7+cqfqi/rWzznJVTbM03L6Ch/FQl5
- eT2AF2zDQ1K/q8FdM4CRtyaALA==
-X-Google-Smtp-Source: ABdhPJzshQV/6NgCpEbmIw3oc1pvGUjA+0Kmijh7p8vz5r0juka5DzehCLD7cq3kUzr+ML1ZQP9kIA==
-X-Received: by 2002:a7b:c386:: with SMTP id s6mr4228801wmj.183.1633707242346; 
- Fri, 08 Oct 2021 08:34:02 -0700 (PDT)
-Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
- [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id o19sm2849275wrg.60.2021.10.08.08.34.01
+ bh=qMC5Klotg1aJNEk7elIqSRCi23Sna03uJX/agMDIgxg=;
+ b=a9HRtiRF6tl/ra/wLDJfEvXczgp33L+fVZjPkLHs3vQ0kH5TcnjZJYhh0zMKSArX2P
+ K/53h4IqaQb64lKGERwAZpTz5YDyHfpHenXZzZQyskBBsBSXfILwygZ5DYTxNAaXnGV1
+ 9wSd0PgylsMeScXPbw6YdwZD9c7uVojk2dXeom/yRJV9H6cIPrGhbUkPHOAEaMdNe2DX
+ p7fdY6Lh9R8ReKe+Pel3RkqQWQx8DUrDrUTfJYxQ0xffFTSZnyzRTstMpnMTWxjene2I
+ s6A840Xbhup+Krk9w8zXRmVAREMsH1X4QbutytI9xZYSgwQrEn9laOz6CgewJVZvEP0z
+ bjCg==
+X-Gm-Message-State: AOAM5321FGOXlKzK+mEqwALDeQPKZmbfe06XrGDg1ylzJA8GlYFGZLR7
+ I6OwFTS68VJdkzXYFs/37JaZ4Dq395bcVi1n55tyFWeTJ2jDA9OnULTlgMl+8Yalo79fekaJu9y
+ bG8j6FtBJo3obuJ8=
+X-Received: by 2002:a50:da04:: with SMTP id z4mr15752286edj.52.1633707728445; 
+ Fri, 08 Oct 2021 08:42:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHLSNoBYozNsq5483RYGKOQ6xoIu8y6Sysra7Dpoor+71RjKofWVLel+TDlQXhZNhKirsgbQ==
+X-Received: by 2002:a50:da04:: with SMTP id z4mr15752226edj.52.1633707728015; 
+ Fri, 08 Oct 2021 08:42:08 -0700 (PDT)
+Received: from redhat.com ([2.55.132.170])
+ by smtp.gmail.com with ESMTPSA id m9sm1193458edl.66.2021.10.08.08.42.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Oct 2021 08:34:01 -0700 (PDT)
-Date: Fri, 8 Oct 2021 16:33:39 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH v4 10/11] tests/acpi: add expected blob for VIOT test on
- virt machine
-Message-ID: <YWBk0887TuK1fIR2@myrica>
-References: <20211001173358.863017-1-jean-philippe@linaro.org>
- <20211001173358.863017-11-jean-philippe@linaro.org>
- <alpine.DEB.2.22.394.2110051532450.820442@anisinha-lenovo>
+ Fri, 08 Oct 2021 08:42:07 -0700 (PDT)
+Date: Fri, 8 Oct 2021 11:42:02 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH v2 1/1] virtio: write back F_VERSION_1 before validate
+Message-ID: <20211008113904-mutt-send-email-mst@kernel.org>
+References: <20211008123422.1415577-1-pasic@linux.ibm.com>
+ <20211008085839-mutt-send-email-mst@kernel.org>
+ <20211008155156.626e78b5.pasic@linux.ibm.com>
 MIME-Version: 1.0
+In-Reply-To: <20211008155156.626e78b5.pasic@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2110051532450.820442@anisinha-lenovo>
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.051,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,96 +93,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
- mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
- imammedo@redhat.com
+Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ virtualization@lists.linux-foundation.org,
+ Xie Yongji <xieyongji@bytedance.com>, stefanha@redhat.com,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 05, 2021 at 03:34:57PM +0530, Ani Sinha wrote:
+On Fri, Oct 08, 2021 at 03:51:56PM +0200, Halil Pasic wrote:
+> On Fri, 8 Oct 2021 09:05:03 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
 > 
+> > On Fri, Oct 08, 2021 at 02:34:22PM +0200, Halil Pasic wrote:
+> > > The virtio specification virtio-v1.1-cs01 states: "Transitional devices
+> > > MUST detect Legacy drivers by detecting that VIRTIO_F_VERSION_1 has not
+> > > been acknowledged by the driver."  This is exactly what QEMU as of 6.1
+> > > has done relying solely on VIRTIO_F_VERSION_1 for detecting that.
+> > > 
+> > > However, the specification also says: "... the driver MAY read (but MUST
+> > > NOT write) the device-specific configuration fields to check that it can
+> > > support the device ..." before setting FEATURES_OK.
+> > > 
+> > > In that case, any transitional device relying solely on
+> > > VIRTIO_F_VERSION_1 for detecting legacy drivers will return data in
+> > > legacy format.  In particular, this implies that it is in big endian
+> > > format for big endian guests. This naturally confuses the driver which
+> > > expects little endian in the modern mode.
+> > > 
+> > > It is probably a good idea to amend the spec to clarify that
+> > > VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
+> > > is complete. However, we already have a regression so let's try to address  
+> > 
+> > actually, regressions. and we can add 
+> > "since originally before validate callback existed
+> > config space was only read after
+> > FEATURES_OK. See Fixes tags for relevant commits"
+> > 
+> > > it.
 > 
-> On Fri, 1 Oct 2021, Jean-Philippe Brucker wrote:
+> How about replacing the paragraph above with the following?
 > 
-> > The VIOT blob contains the following:
-> >
-> > [000h 0000   4]                    Signature : "VIOT"    [Virtual I/O Translation Table]
-> > [004h 0004   4]                 Table Length : 00000058
-> > [008h 0008   1]                     Revision : 00
-> > [009h 0009   1]                     Checksum : 66
-> > [00Ah 0010   6]                       Oem ID : "BOCHS "
-> > [010h 0016   8]                 Oem Table ID : "BXPC    "
-> > [018h 0024   4]                 Oem Revision : 00000001
-> > [01Ch 0028   4]              Asl Compiler ID : "BXPC"
-> > [020h 0032   4]        Asl Compiler Revision : 00000001
-> >
-> > [024h 0036   2]                   Node count : 0002
-> > [026h 0038   2]                  Node offset : 0030
-> > [028h 0040   8]                     Reserved : 0000000000000000
-> >
-> > [030h 0048   1]                         Type : 03 [VirtIO-PCI IOMMU]
-> > [031h 0049   1]                     Reserved : 00
-> > [032h 0050   2]                       Length : 0010
-> >
-> > [034h 0052   2]                  PCI Segment : 0000
-> > [036h 0054   2]               PCI BDF number : 0008
-> > [038h 0056   8]                     Reserved : 0000000000000000
-> >
-> > [040h 0064   1]                         Type : 01 [PCI Range]
-> > [041h 0065   1]                     Reserved : 00
-> > [042h 0066   2]                       Length : 0018
-> >
-> > [044h 0068   4]               Endpoint start : 00000000
-> > [048h 0072   2]            PCI Segment start : 0000
-> > [04Ah 0074   2]              PCI Segment end : 0000
-> > [04Ch 0076   2]                PCI BDF start : 0000
-> > [04Eh 0078   2]                  PCI BDF end : 00FF
-> > [050h 0080   2]                  Output node : 0030
-> > [052h 0082   6]                     Reserved : 000000000000
-> >
-> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> 
-> Acked-by: Ani Sinha <ani@anisinha.ca>
-> 
-> Without looking at the other patches, the disassembly looks good (with
-> latest iasl from upstream git).
-> One suggestion : maybe also add the raw table data as well of length 88.
+> "It is probably a good idea to amend the spec to clarify that
+> VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
+> is complete. Before validate callback existed, config space was only
+> read after FEATURES_OK. However, we already have two regression,
 
-Hmm, the raw VIOT table is included at the end of the patch (encoded by
-git in base85). Or did you mean any other data?
+two regressions
 
-Thanks,
-Jean
+> so
+> let's address this here as well."
+> > > 
+> > > The regressions affect the VIRTIO_NET_F_MTU feature of virtio-net and
+> > > the VIRTIO_BLK_F_BLK_SIZE feature of virtio-blk for BE guests when
+> > > virtio 1.0 is used on both sides. The latter renders virtio-blk
+> > > unusable with DASD backing, because things simply don't work with
+> > > the default.  
+> 
+> and add 
+> "See Fixes tags for relevant commits."
+> here.
+> > 
+> > Let's add a work around description now:
+> > 
+> > 
+> > For QEMU, we can work around the issue by writing out the features
+> > register with VIRTIO_F_VERSION_1 bit set.  We (ab) use the
+> s/features register/feature bits/
+> rationale: ccw does not have a features register, and qemu does not
+> really act as if its behavior was controlled by the values in a features
+> register. I.e. when we read the register we see VIRTIO_F_VERSION_!
+> because the feature is offered. In QEMU we basically read host_featues
+> but write the guest_features. And what drives device behavior is mostly
+> guest_features. 
+> 
+> s/(ab) use/(ab)use/
+> 
+> > finalize_features config op for this. It's not enough to address vhost
+> 
+> s/It's/This is/
+> 
+> > user and vhost block devices since these do not get the features until
+> 
+> s/vhost user and vhost block/some vhost-user and vhost-vdpa/ ?
 
+Let's just say "not enough to address vhost devices since some
+of these etc" 
+
+> Ratioale: I think vhost block is just a vhost-user device. On the other
+> hand vhost-user-fs works like charm because the config space is
+> implemented in qemu and not in the vhost-user device. I
+> didn't check vhost_net. I'm not even sure qemu offers a vhost_net
+> implementation.
+
+it does
+
+> Anyway I wouldn't like to make any false statements here.
+
+ok
+
+> > FEATURES_OK, however it looks like these two actually never handled the
+> > endian-ness for legacy mode correctly, so at least that's not a
+> > regression.
+> > 
+> > No devices except virtio net and virtio blk seem to be affected.
+> > 
+> > Long term the right thing to do is to fix the hypervisors.
+> > 
 > 
+> Sounds good. Thanks! Are you OK with my changes proposed to your changes?
 > 
-> > ---
-> >  tests/qtest/bios-tables-test-allowed-diff.h |   1 -
-> >  tests/data/acpi/virt/VIOT                   | Bin 0 -> 88 bytes
-> >  2 files changed, 1 deletion(-)
-> >
-> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> > index 29b5b1eabc..fa213e4738 100644
-> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> > @@ -1,4 +1,3 @@
-> >  /* List of comma-separated changed AML files to ignore */
-> > -"tests/data/acpi/virt/VIOT",
-> >  "tests/data/acpi/q35/DSDT.viot",
-> >  "tests/data/acpi/q35/VIOT.viot",
-> > diff --git a/tests/data/acpi/virt/VIOT b/tests/data/acpi/virt/VIOT
-> > index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..921f40d88c28ba2171a4d664e119914335309e7d 100644
-> > GIT binary patch
-> > literal 88
-> > zcmWIZ^bd((0D?3pe`k+i1*eDrX9XZ&1PX!JAexE60Hgv8m>C3sGzXN&z`)2L0cSHX
-> > I{D-Rq0Q5fy0RR91
-> >
-> > literal 0
-> > HcmV?d00001
-> >
-> > --
-> > 2.33.0
-> >
-> >
+> Regards,
+> Halil
+
+yes.
+
+> > 
+> > > 
+> > > Cc: <stable@vger.kernel.org> #v4.11
+> > > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> > > Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in
+> > > config space") Fixes: fe36cbe0671e ("virtio_net: clear MTU when out
+> > > of range") Reported-by: markver@us.ibm.com
+> > > ---
+> > >  drivers/virtio/virtio.c | 11 +++++++++++
+> > >  1 file changed, 11 insertions(+)
+> > > 
+> > > diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+> > > index 0a5b54034d4b..236081afe9a2 100644
+> > > --- a/drivers/virtio/virtio.c
+> > > +++ b/drivers/virtio/virtio.c
+> > > @@ -239,6 +239,17 @@ static int virtio_dev_probe(struct device *_d)
+> > >  		driver_features_legacy = driver_features;
+> > >  	}
+> > >  
+> > > +	/*
+> > > +	 * Some devices detect legacy solely via F_VERSION_1. Write
+> > > +	 * F_VERSION_1 to force LE config space accesses before
+> > > FEATURES_OK for
+> > > +	 * these when needed.
+> > > +	 */
+> > > +	if (drv->validate && !virtio_legacy_is_little_endian()
+> > > +			  && device_features &
+> > > BIT_ULL(VIRTIO_F_VERSION_1)) {
+> > > +		dev->features = BIT_ULL(VIRTIO_F_VERSION_1);
+> > > +		dev->config->finalize_features(dev);
+> > > +	}
+> > > +
+> > >  	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
+> > >  		dev->features = driver_features & device_features;
+> > >  	else
+> > > 
+> > > base-commit: 60a9483534ed0d99090a2ee1d4bb0b8179195f51
+> > > -- 
+> > > 2.25.1  
+> > 
+
 
