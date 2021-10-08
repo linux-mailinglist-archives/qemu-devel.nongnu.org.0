@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A5E427369
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 00:08:52 +0200 (CEST)
-Received: from localhost ([::1]:52958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DB342736E
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 00:10:25 +0200 (CEST)
+Received: from localhost ([::1]:59432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYy2t-0002JE-OZ
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 18:08:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50794)
+	id 1mYy4L-0006cR-7Q
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 18:10:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mYy13-0008Dx-SQ
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 18:06:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20643)
+ id 1mYy1C-0000BA-Ux
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 18:07:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mYy12-0003lL-DT
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 18:06:57 -0400
+ id 1mYy1B-0003vm-AB
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 18:07:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633730815;
+ s=mimecast20190719; t=1633730824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kQ25sZ1mvv2JgY1z9za9qTy89uXBeYCXXDglke9DOUM=;
- b=Mt4o3Odnhfdeu/Iij198EW1ZUPsVBun+hhKMW83grx3ySSSKzf4RX9gqGTX+BRuD27yQ5D
- pN9EcoKNVag41oqbyy8hGm5Y7M0fSASkpmwEBZikBnINRLkrwB13CrmDm76O9xPkAU8ThP
- WDaN5xoYO++NcDC5WKLwu9ebwGFXG0w=
+ bh=W5zHA8hCrgyhLO494iRJBti75d+iM5jvjC+7puKx8gQ=;
+ b=Bmmwy39gjH3nsKvEFoO9CM6T7yKlMGRD9ju27vfLyYc5i0ubgipLcVxHrgIoUF2Qo/gV45
+ 90Ao3H9HGEERALxNXvBtCgFV9mt0xW5XE0r896YH8iIF4aDGZX1+bPD1Qc3dtTb3ju1n83
+ hPADdUJnRaN8vmOZ/2HzKJOLTdUOPLY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-EihiodGTPFuL6YJVmLDMeQ-1; Fri, 08 Oct 2021 18:06:54 -0400
-X-MC-Unique: EihiodGTPFuL6YJVmLDMeQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-603-WBl8yzaqOTaLaLuWn2scXw-1; Fri, 08 Oct 2021 18:07:01 -0400
+X-MC-Unique: WBl8yzaqOTaLaLuWn2scXw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19EB71006AA3;
- Fri,  8 Oct 2021 22:06:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E325100F943;
+ Fri,  8 Oct 2021 22:07:00 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 847EB5C1B4;
- Fri,  8 Oct 2021 22:06:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 615A919729;
+ Fri,  8 Oct 2021 22:06:56 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] docs/sphinx: add templates files to generated depfile
-Date: Sat,  9 Oct 2021 02:06:17 +0400
-Message-Id: <20211008220620.1488179-4-marcandre.lureau@redhat.com>
+Subject: [PATCH 4/6] meson: remove explicit extensions dependency file list
+Date: Sat,  9 Oct 2021 02:06:18 +0400
+Message-Id: <20211008220620.1488179-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20211008220620.1488179-1-marcandre.lureau@redhat.com>
 References: <20211008220620.1488179-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -87,37 +87,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+This is now generated automatically by depfile.py.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- docs/conf.py           | 2 +-
- docs/sphinx/depfile.py | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ docs/meson.build              | 10 ----------
+ tests/qapi-schema/meson.build |  5 ++++-
+ 2 files changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/docs/conf.py b/docs/conf.py
-index ff6e92c6e2..edc2bf8fcb 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -74,7 +74,7 @@
- extensions = ['kerneldoc', 'qmp_lexer', 'hxtool', 'depfile', 'qapidoc']
+diff --git a/docs/meson.build b/docs/meson.build
+index be4dc30f39..6177c967ff 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -37,15 +37,6 @@ endif
+ if build_docs
+   SPHINX_ARGS += ['-Dversion=' + meson.project_version(), '-Drelease=' + config_host['PKGVERSION']]
  
- # Add any paths that contain templates here, relative to this directory.
--templates_path = ['_templates']
-+templates_path = [os.path.join(qemu_docdir, '_templates')]
+-  sphinx_extn_depends = [ meson.current_source_dir() / 'sphinx/depfile.py',
+-                          meson.current_source_dir() / 'sphinx/hxtool.py',
+-                          meson.current_source_dir() / 'sphinx/kerneldoc.py',
+-                          meson.current_source_dir() / 'sphinx/kernellog.py',
+-                          meson.current_source_dir() / 'sphinx/qapidoc.py',
+-                          meson.current_source_dir() / 'sphinx/qmp_lexer.py',
+-                          qapi_gen_depends ]
+-  sphinx_template_files = [ meson.project_source_root() / 'docs/_templates/footer.html' ]
+-
+   have_ga = have_tools and config_host.has_key('CONFIG_GUEST_AGENT')
  
- # The suffix(es) of source filenames.
- # You can specify multiple suffix as a list of string:
-diff --git a/docs/sphinx/depfile.py b/docs/sphinx/depfile.py
-index 99539adb48..afdcbcec6e 100644
---- a/docs/sphinx/depfile.py
-+++ b/docs/sphinx/depfile.py
-@@ -27,7 +27,7 @@ def get_infiles(env):
-             if mod.__file__:
-                 yield mod.__file__
-     # this is perhaps going to include unused files:
--    for static_path in env.config.html_static_path:
-+    for static_path in env.config.html_static_path + env.config.templates_path:
-         for path in Path(static_path).rglob('*'):
-             yield str(path)
+   man_pages = {
+@@ -77,7 +68,6 @@ if build_docs
+                 output: 'docs.stamp',
+                 input: files('conf.py'),
+                 depfile: 'docs.d',
+-                depend_files: [ sphinx_extn_depends, sphinx_template_files ],
+                 command: [SPHINX_ARGS, '-Ddepfile=@DEPFILE@',
+                           '-Ddepfile_stamp=@OUTPUT0@',
+                           '-b', 'html', '-d', private_dir,
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index df5acfd08b..a5eae6253f 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -241,7 +241,8 @@ if build_docs
+                                output: ['doc-good.txt'],
+                                input: files('doc-good.json', 'doc-good.rst'),
+                                build_by_default: true,
+-                               depend_files: sphinx_extn_depends,
++                               output: 'docs.stamp',
++                               depfile: 'docs.d',
+                                # We use -E to suppress Sphinx's caching, because
+                                # we want it to always really run the QAPI doc
+                                # generation code. It also means we don't
+@@ -250,6 +251,8 @@ if build_docs
+                                          '-b', 'text', '-E',
+                                          '-c', meson.project_source_root() / 'docs',
+                                          '-D', 'master_doc=doc-good',
++                                         '-Ddepfile=@DEPFILE@',
++                                         '-Ddepfile_stamp=@OUTPUT0@',
+                                          meson.current_source_dir(),
+                                          meson.current_build_dir()])
  
 -- 
 2.33.0.721.g106298f7f9
