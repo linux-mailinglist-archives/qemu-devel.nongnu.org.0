@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D2B426AE0
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 14:34:36 +0200 (CEST)
-Received: from localhost ([::1]:57158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEFF1426ADB
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 14:31:17 +0200 (CEST)
+Received: from localhost ([::1]:49056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYp59-0003qw-8L
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 08:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60578)
+	id 1mYp1x-0006GK-0u
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 08:31:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mYowz-00032G-E6
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 08:26:11 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44969)
+ id 1mYox5-00037W-52
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 08:26:16 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mYowx-0006vT-FJ
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 08:26:09 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id s15so29382056wrv.11
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 05:26:07 -0700 (PDT)
+ id 1mYox2-0006xZ-JA
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 08:26:14 -0400
+Received: by mail-wr1-x435.google.com with SMTP id v25so29247658wra.2
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 05:26:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ntHPAm7ZTn3P7GMc4eSupec9FlVNAY5eKw7rkTf/RLU=;
- b=e36UzqJ+2WHKi4j1zXyKR7/CUVaPtkfm1PZJe/hjQuWX7VjBN25G+YPRAWYshSqWgr
- dPHLw4SGWrUdlcNZGFoKBG0yOocPFyVMjMKL6NVpj++HJrUZToNT3FEdCEfuwvxfWCg2
- KuveMR695UoV4yYsQppqgSuebKwmwuwYDGr6ilCLlbXopBVA25ee0zLNrnLOl9WBhLKG
- dzopEro1cFsf5VrK5QowgFSIYDntxy8MLBOs4FIFgFPbKQEbyea29+H6Awb0e3mayGxY
- AmpoYf88KTq3UAem0F3bxwFBF02b4KujdrlZgNMU0M/tsw9Sv9HegbYHtaH8wOTnX/1X
- VM6A==
+ bh=UlbD6XGfCfOXQupeOaSvEq6gHfGN83XYP2EpCj2vfsk=;
+ b=dg+F8z3jmyzi9qAi4YnugEblf9Js7jis7RShYJeqyCGaqi5Q93Usdq7EptitIMcXAZ
+ ils/DYNvKNzZl2K/Lr1IesZi1HbYRu1ylDAA7bQ9NOa/onJCpmAifP/vLWpRkDh8SJr+
+ WU7todvkmAAnPozvn/AV0RqDpB1XCeZAmVzfkUIEB6yGpaXfQpQzVr/DnIf0FoUd9dii
+ VuwuTm0JyGvRj8x3xfszgsWQfrsE1UFlXJgN1jYB+fEkfh6Vt7gcz8cPhEySWrvVTcns
+ HDeihKN1AczOeNQOSFjazcf9EV8avtIinAWYbMDCe0GSbjEwLji7CDFh+8w6MKq3G0sV
+ wnKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ntHPAm7ZTn3P7GMc4eSupec9FlVNAY5eKw7rkTf/RLU=;
- b=L+ldnQ4YVRRfk6DY6lvi2AOZIpalOStiPOsuYY5Oj3zk1umq8DTy3pc8BWgjx1Jb40
- PbntgNitrTCNp3TMtPXh6F0ig/9xSf5WgPuJO53kujTmcQRGWHPFVAchJjp9YOSEv6Sf
- tEUgaYABI0k7eScHR8mN/KfIcCoiMx3U3j2fLTwqIBLw+bo6Kj62nrJxpbLbnW2pUj6k
- 8bPtI4pOnwA4zHnbrvlrT6T9xh+t5SLiHPb+kaJ0BTxIEprsyZ4qQCtNPlsdY5onlvqe
- zfFj37VnuUVqALMloAInzFgAaYba70eNtXIINr7KH87sRcFYsdM8/9jCajYhHOpx8LQc
- /QXw==
-X-Gm-Message-State: AOAM531SNmId/0cJJyjf1xlW5BL2InRrstU8PrVi3D27CRCQUaQ1SWYL
- /Iplgl80dz8xoXrmm9grTf6pqg==
-X-Google-Smtp-Source: ABdhPJwAuKbf0Vc4oWoGMVfxJb+TA4szYKDNRO9Dkg8X/JzieZuw77WvOFB1SrDi/ReZRPw9DLIzAA==
-X-Received: by 2002:adf:97d0:: with SMTP id t16mr3549183wrb.124.1633695966185; 
- Fri, 08 Oct 2021 05:26:06 -0700 (PDT)
+ bh=UlbD6XGfCfOXQupeOaSvEq6gHfGN83XYP2EpCj2vfsk=;
+ b=cg22qqn8rThFf5E6vuXd4ZmA+QNylGj9EzfRC29XWfNbLn14Lm9MsgcIEvLhtByq6Q
+ k/R+ynUqbZCjiHUSD38ioaVIqO0uJv0PbmaTIeJH+sEExpW4JKSUh4gG0KZuvI0yNHVR
+ HlF3sRWwoCFRvHtTRpvGYgvOzfZ+BxdMYbmOpMXpbp9lhskR6HGCpY3hIf0szKG4xRI6
+ rr/AfqN2jnjO+pAKmZA6wZkPQAu90XWuSMndVTIKN/wID4ZSdAWYMGFphTDBnNAgSzIw
+ r5ghq0kTdOMvNddx4dgnLuVxG71N16QRx9S8F/hx9fDQp9bx7M6uTVgcXi5qvp+Yb/vu
+ yCog==
+X-Gm-Message-State: AOAM5312yW3w1Uo88FQWMC9OCqoN6JEAl8GJTTbr3FCsyVNwTwc4yB/n
+ DJoGPA1Dw6LJEOEPoFcZrRt78A==
+X-Google-Smtp-Source: ABdhPJwUpJqsHyYM+gVo+kvg4Ew9rSNZ94m/42yR1BdEl5/rEdxkpph8Z3BRrD52Z7L7YBXXej1LOw==
+X-Received: by 2002:a5d:6481:: with SMTP id o1mr3882998wri.140.1633695970739; 
+ Fri, 08 Oct 2021 05:26:10 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s3sm2383556wrm.40.2021.10.08.05.25.59
+ by smtp.gmail.com with ESMTPSA id l21sm2418952wmh.31.2021.10.08.05.26.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Oct 2021 05:26:00 -0700 (PDT)
+ Fri, 08 Oct 2021 05:26:09 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C7FEA1FF9F;
+ by zen.linaroharston (Postfix) with ESMTP id DD9DB1FFA5;
  Fri,  8 Oct 2021 13:25:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: richard.henderson@linaro.org
-Subject: [PULL 08/12] gitlab: fix passing of TEST_TARGETS env to cirrus
-Date: Fri,  8 Oct 2021 13:25:52 +0100
-Message-Id: <20211008122556.757252-9-alex.bennee@linaro.org>
+Subject: [PULL 09/12] plugins/: Add missing functions to symbol list
+Date: Fri,  8 Oct 2021 13:25:53 +0100
+Message-Id: <20211008122556.757252-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211008122556.757252-1-alex.bennee@linaro.org>
 References: <20211008122556.757252-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,56 +86,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ =?UTF-8?q?Lukas=20J=C3=BCnger?= <lukas.junger@greensocs.com>,
+ Alexandre Iooss <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Lukas Jünger <lukas.junger@greensocs.com>
 
-A typo meant the substitution would not work, and the placeholder in the
-target file didn't even exist.
+Some functions of the plugin API were missing in
+the symbol list. However, they are all used by
+the contributed example plugins. QEMU fails to
+load the plugin if the function symbol is not
+exported.
 
-The result was that tests were never run on the FreeBSD and macOS jobs,
-only a basic build.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210915125452.1704899-3-berrange@redhat.com>
+Signed-off-by: Lukas Jünger <lukas.junger@greensocs.com>
+Message-Id: <20210905140939.638928-2-lukas.junger@greensocs.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210917162332.3511179-10-alex.bennee@linaro.org>
+Message-Id: <20210917162332.3511179-11-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-index 675db69622..e7b25e7427 100644
---- a/.gitlab-ci.d/cirrus.yml
-+++ b/.gitlab-ci.d/cirrus.yml
-@@ -35,7 +35,7 @@
-           -e "s|[@]PIP3@|$PIP3|g"
-           -e "s|[@]PYPI_PKGS@|$PYPI_PKGS|g"
-           -e "s|[@]CONFIGURE_ARGS@|$CONFIGURE_ARGS|g"
--          -e "s|[@]TEST_TARGETSS@|$TEST_TARGETSS|g"
-+          -e "s|[@]TEST_TARGETS@|$TEST_TARGETS|g"
-       <.gitlab-ci.d/cirrus/build.yml >.gitlab-ci.d/cirrus/$NAME.yml
-     - cat .gitlab-ci.d/cirrus/$NAME.yml
-     - cirrus-run -v --show-build-log always .gitlab-ci.d/cirrus/$NAME.yml
-diff --git a/.gitlab-ci.d/cirrus/build.yml b/.gitlab-ci.d/cirrus/build.yml
-index 857bdc5536..c555f5d36e 100644
---- a/.gitlab-ci.d/cirrus/build.yml
-+++ b/.gitlab-ci.d/cirrus/build.yml
-@@ -13,6 +13,7 @@ env:
-   PYTHON: "@PYTHON@"
-   MAKE: "@MAKE@"
-   CONFIGURE_ARGS: "@CONFIGURE_ARGS@"
-+  TEST_TARGETS: "@TEST_TARGETS@"
- 
- build_task:
-   install_script:
+diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
+index 67b309ea2a..4834756ba3 100644
+--- a/plugins/qemu-plugins.symbols
++++ b/plugins/qemu-plugins.symbols
+@@ -1,11 +1,14 @@
+ {
+   qemu_plugin_bool_parse;
+   qemu_plugin_get_hwaddr;
++  qemu_plugin_hwaddr_device_name;
+   qemu_plugin_hwaddr_is_io;
++  qemu_plugin_hwaddr_phys_addr;
+   qemu_plugin_insn_data;
+   qemu_plugin_insn_disas;
+   qemu_plugin_insn_haddr;
+   qemu_plugin_insn_size;
++  qemu_plugin_insn_symbol;
+   qemu_plugin_insn_vaddr;
+   qemu_plugin_mem_is_big_endian;
+   qemu_plugin_mem_is_sign_extended;
 -- 
 2.30.2
 
