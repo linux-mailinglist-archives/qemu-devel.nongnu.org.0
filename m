@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58BD2426F66
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 19:16:02 +0200 (CEST)
-Received: from localhost ([::1]:49842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C0E426F67
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 19:16:49 +0200 (CEST)
+Received: from localhost ([::1]:51608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYtTV-00037c-Cx
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 13:16:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58152)
+	id 1mYtUG-0004Oo-DS
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 13:16:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mYtRB-0002LD-B8
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 13:13:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47143)
+ id 1mYtS8-0002t6-CA
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 13:14:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mYtR8-0006d7-PP
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 13:13:37 -0400
+ id 1mYtS6-0002Aw-Sc
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 13:14:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633713213;
+ s=mimecast20190719; t=1633713271;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uYjudHKE5MwrNWAf8qwD+HtLnWPjfk+ayqKekwTbQmc=;
- b=HOeQB4PtExy8eIDoPFzrH1tM+ZgRdbCGT55OIENc9e9mn3oeVozRaYr3c9K9JnuuqzDBYW
- 1oM1csFiD4tJ4NXTSYzFnB00Vv2165tiX9yzAlnGWfrxQwkFf4Jbeyg7P/G3scUVFZUHSC
- z7trIDpSv9n30C3+CG7unH+N7TOLTJw=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-NOumroKoO7SOQwC4MApTCw-1; Fri, 08 Oct 2021 13:13:19 -0400
-X-MC-Unique: NOumroKoO7SOQwC4MApTCw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- f4-20020a50e084000000b003db585bc274so4226090edl.17
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 10:13:19 -0700 (PDT)
+ bh=TGLzhyyYie3jvBbYIQgFKfXNCYzD5u56oHGuVeVvEdc=;
+ b=DFtOUafNwVpktMwG1Vueu1f/wIzcs/zUHcpesEVf3n+OH2pHR8XHq4RP39j/AEhV+dhIYN
+ 8f9m16/rGngFLY0PwZgl4O7uoGa+XPxyr2kanOh/+WfHajlUXgYuMcrEx/PAF2hUpZE0nr
+ azaXmvYezdIrNuGlKD/cw/T/WOHTJZc=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-iZs-CU-yM2eYWGjfFg-taA-1; Fri, 08 Oct 2021 13:14:10 -0400
+X-MC-Unique: iZs-CU-yM2eYWGjfFg-taA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ p20-20020a50cd94000000b003db23619472so9813881edi.19
+ for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 10:14:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=uYjudHKE5MwrNWAf8qwD+HtLnWPjfk+ayqKekwTbQmc=;
- b=oaWZompzuyd66zctNQGxqvlxdM2XFjy9pa4fb5EhnB2oOz8AgSoRhXQ2n05DL4cbiT
- xwcsfMeqhTAhTYnr/x0V2Lzpp1CIKG95+DoYxIa8AeMxLtmoxCsO07nese1BKhNncmM2
- pLPNK83V6lsDwfM08NN4H6ZsnwY0Ufjw539jve8o2x3oANaUVyxRV5NcbxdeCbcs0qWe
- fJ3AiDFwn+w5urxFXTk3hsW4IG5c++wP0VSkRFf7CZxj6ftTo6dEytrJuSotsvT7Rp+E
- 4oGodCEKRRGdTO71CrhF8gk32tkTmTDNff+6B+PoJ8CUrnRJ/7++ebrvT4UqiBwoD2DY
- RflQ==
-X-Gm-Message-State: AOAM531/sXbW1HOL3MlwiGgN8uFd4eVCdwE6qcPIR4vHr3yyg/lgKQoO
- QYqbJ73cnxbptLyx0l4aN6iTuc3GVzSj54HUMPzdB8b7UjAuBb7fXVxgx8m4kOALX/Dva8spNIm
- hWc8hG/zbvI94jp0=
-X-Received: by 2002:a50:d98d:: with SMTP id w13mr16860037edj.51.1633713198830; 
- Fri, 08 Oct 2021 10:13:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzK/w5tLvUE/o3qBlWPvWculmas605zCrkbMdaGLnGgb5lUXXf+z8iYEggUMVoEqbpQXarlDg==
-X-Received: by 2002:a50:d98d:: with SMTP id w13mr16860010edj.51.1633713198651; 
- Fri, 08 Oct 2021 10:13:18 -0700 (PDT)
+ bh=TGLzhyyYie3jvBbYIQgFKfXNCYzD5u56oHGuVeVvEdc=;
+ b=meFTvEnOUiSufw71dWh6Kuurua3IGGom0RWsVI2JW//sXB+9lmfZndPdJ/FuQG+sWt
+ T2c91QDQMBLcxF4nzQ2oSsFXY7jUdzcwBEtFv0RWSQii4x/mYo6y93a1y5M8PQKXQ0xn
+ AyHa1AUpN1cQPIFWvewCH8pfvkPNWF+X7o4dAz+tNhO5Kesqt6za11lM2CSPZ6o9yspC
+ cveH7IXnghO/8Mr8ZuNGk2gMA7YKGsbyQbouCPVfmO7/lXOqkMALELnrwCUphaijoBXw
+ qddBxULcNAzDesy2MICkj1q2KZAyU3r87QPxX5SQTC3HhgAY1gzigAWNjtg3DtD07zMJ
+ +F/w==
+X-Gm-Message-State: AOAM531red3PAGrz+MOsY68xTHds8/RCWwBH8voQQ9w56NyQjesv/BRh
+ N4rg1dZ/ZOxoKRIL/8450nnRYfehvdZU4r4SH+uUtwD6nPjeqytz0eF2owxTYUWhuXkBiMVmcXA
+ tCiTTzXfIvOjxE18=
+X-Received: by 2002:a17:906:838c:: with SMTP id
+ p12mr5517174ejx.181.1633713249145; 
+ Fri, 08 Oct 2021 10:14:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSGWFqIncot+atkO3/1zb+P176MTHvtdrIi81QQKyuPXnlJxYfoZWWxUJbcAfvjo41QHku1Q==
+X-Received: by 2002:a17:906:838c:: with SMTP id
+ p12mr5517147ejx.181.1633713248943; 
+ Fri, 08 Oct 2021 10:14:08 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
  ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id l13sm1272427eds.92.2021.10.08.10.13.17
+ by smtp.gmail.com with ESMTPSA id r19sm1266105edt.54.2021.10.08.10.14.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Oct 2021 10:13:18 -0700 (PDT)
-Message-ID: <dd45c9c4-02b8-dfab-b7b0-f6d2346d4e70@redhat.com>
-Date: Fri, 8 Oct 2021 19:13:11 +0200
+ Fri, 08 Oct 2021 10:14:08 -0700 (PDT)
+Message-ID: <8847ccd3-f2a5-4834-afba-d27bd735d359@redhat.com>
+Date: Fri, 8 Oct 2021 19:14:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH] qapi: Make some ObjectTypes depend on the build settings
-To: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <20210928160232.432980-1-thuth@redhat.com>
- <87ee8v7mjq.fsf@dusky.pond.sub.org>
+Subject: Re: [PATCH] tests: tcg: Fix PVH test with binutils 2.36+
+To: Cole Robinson <crobinso@redhat.com>, qemu-devel@nongnu.org
+References: <5ab2a54c262c61f64c22dbb49ade3e2db8a740bb.1633708346.git.crobinso@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <87ee8v7mjq.fsf@dusky.pond.sub.org>
+In-Reply-To: <5ab2a54c262c61f64c22dbb49ade3e2db8a740bb.1633708346.git.crobinso@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -100,22 +101,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: alex.bennee@linaro.org, richard.henderson@linaro.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/10/21 14:01, Markus Armbruster wrote:
-> Paolo, do you have something for QOM queued up already?  If not, I'm
-> happy to take this through my tree.
+On 08/10/21 18:21, Cole Robinson wrote:
+> binutils started adding a .note.gnu.property ELF section which
+> makes the PVH test fail:
+> 
+>    TEST    hello on x86_64
+> qemu-system-x86_64: Error loading uncompressed kernel without PVH ELF Note
+> 
+> Discard .note.gnu* while keeping the PVH .note bits intact.
+> 
+> This also strips the build-id note, so drop the related comment.
+> 
+> Signed-off-by: Cole Robinson <crobinso@redhat.com>
+> ---
+>   tests/tcg/x86_64/system/kernel.ld | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/tcg/x86_64/system/kernel.ld b/tests/tcg/x86_64/system/kernel.ld
+> index 49c12b04ae..ca5d6bd850 100644
+> --- a/tests/tcg/x86_64/system/kernel.ld
+> +++ b/tests/tcg/x86_64/system/kernel.ld
+> @@ -16,7 +16,10 @@ SECTIONS {
+>   		*(.rodata)
+>   	} :text
+>   
+> -        /* Keep build ID and PVH notes in same section */
+> +        /DISCARD/ : {
+> +                *(.note.gnu*)
+> +        }
+> +
+>           .notes :  {
+>                  *(.note.*)
+>           } :note
 > 
 
-I don't but I have enough stuff that I'll be sending a pull request 
-shortly.  So, queued, and while at it I also made memory-backend-epc 
-depend on CONFIG_LINUX (more strictly it depends on CONFIG_SGX, which 
-depends on CONFIG_KVM, which depends on CONFIG_LINUX; but the other two 
-are target-dependent so we have to do with CONFIG_LINUX).
+Queued, thanks.
 
 Paolo
 
