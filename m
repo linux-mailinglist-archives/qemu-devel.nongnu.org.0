@@ -2,79 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA9A426B13
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 14:42:04 +0200 (CEST)
-Received: from localhost ([::1]:45096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 381BE426B19
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Oct 2021 14:43:58 +0200 (CEST)
+Received: from localhost ([::1]:49278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mYpCN-0006k1-6N
-	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 08:42:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60682)
+	id 1mYpEC-0001Fg-WB
+	for lists+qemu-devel@lfdr.de; Fri, 08 Oct 2021 08:43:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mYoxC-00039t-Q1
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 08:26:25 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mYox9-00070a-6l
- for qemu-devel@nongnu.org; Fri, 08 Oct 2021 08:26:22 -0400
-Received: by mail-wr1-x436.google.com with SMTP id s15so29383072wrv.11
- for <qemu-devel@nongnu.org>; Fri, 08 Oct 2021 05:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=F6Md3DXGhaogoIPC2KfJR0RFUjtrXYLoKKIxGJdWSbA=;
- b=VYpbx2A7aV7Wp3oBifjKjvEFTyKwcMA6bNaVFq4nNKaR0pz+jlVCCofwYWYx1iewhK
- ZbKkE2BQqb2+q0QBcZ0ZLAZC6yRz4xin0DOCsDvJ/6Ep4uk8mCdiSSUkAYD89m2YpquP
- 4IrYvZOIvjvdfgBvszRY9GESqbL6zFY2OBcbXB+lYMWEk1/4U/jvSljWQ0EFu1kVbErV
- vvPeqCMYnmIMQ2I/TzXsRGOLMfNq/h87lBolnVDVXbydIUkA7Kmd0ZqjC8+zf1jdihnN
- vtOlut7bkPDTT9ceVuwrS5Mwr+79Sn6eQZiAXMpAArLIemQTgEwslAJdl/H+NbGfagKo
- BG3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=F6Md3DXGhaogoIPC2KfJR0RFUjtrXYLoKKIxGJdWSbA=;
- b=Tom6NyaiOFeoBK7dPQ1F67GeWfy9gcL2TZ+K9LeIvDUXard4y7ZfdDPjx9NJX1Nn7U
- maXr9qJ8AWvtUzX1nC0wNFsnkBd3OAEegQ5wUwDj4OFAesU/mAo/RLO7VGOrVvBMNYeR
- quo/4kVRur6AHfz9O2AtKMzNasmGFz5TVKTFIy21zoGnS3050EmDk0vNJL/nUv4VHJmT
- 69At0Gu6YN3G8tZ+bAjJ7GIfRHmODybhJejMepgy5KDP8FTB5e2qMuKe+B6iWlYzUnw7
- o7AHILPvw9Ql6+4y/JJR0easiZlPObSSbX9ildLSbTQ84vYgL1XcZI5AkUcQRaa4Oj9E
- eJvQ==
-X-Gm-Message-State: AOAM533NJYf0UXNDj30HRtmRVT6ypyBBVDWCH/tYz5westvDa3joR2hR
- wPAbgUomFQ6SJsDozzJlxBdLow==
-X-Google-Smtp-Source: ABdhPJyNvBhGob0Sa+LicKAPvjq0JOcvinwMNz5QtKnvCFccgA3NRvPAt2r3XAGlQIQNhszPPXzsmQ==
-X-Received: by 2002:adf:fe8a:: with SMTP id l10mr3703466wrr.434.1633695974178; 
- Fri, 08 Oct 2021 05:26:14 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w26sm2199473wmk.34.2021.10.08.05.26.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Oct 2021 05:26:09 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1F9741FFAA;
- Fri,  8 Oct 2021 13:25:57 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: richard.henderson@linaro.org
-Subject: [PULL 12/12] tests/docker: add a debian-native image and make
- available
-Date: Fri,  8 Oct 2021 13:25:56 +0100
-Message-Id: <20211008122556.757252-13-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211008122556.757252-1-alex.bennee@linaro.org>
-References: <20211008122556.757252-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mYp5M-0005zW-LQ
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 08:34:48 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mYp5K-0007SS-5A
+ for qemu-devel@nongnu.org; Fri, 08 Oct 2021 08:34:48 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 198BBSUZ010882; 
+ Fri, 8 Oct 2021 08:34:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=zDWl+Gvb2G7P5eX8606PTSAJ0wHLXDHgjjBiCJqb8ok=;
+ b=cc/HwbEt0flnCbDL/nXG5Fko0xmDqyuHIUEJt07YzvNzkagDuiFCduiws3OBTPBiFggf
+ 8N4xFCW1iO9o1P1hs2o7Z2shGdCmp28QEu7auW9UJKICy6zKIR0XhcPImnS26tiS1HKf
+ ul4wcoRglHrtdl+gDJLj49MTHhRjIY2j6BjvkrrSq+I8vp/8/IlweTObIt24FBQrsTRY
+ OlLnRzWBhkziT9hOUuFUnv0oYvPJteOnUf8IHKVPx7uoD0d7it+9xxXGFngJWKikGhtw
+ 46RhnNPEBOrHNSwCUen6YD2GSPffnrEfuRp6G9R2K+J6Cvb7LGxFfh+13YqQVuyOw7sR 2A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bjmw3sufq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Oct 2021 08:34:42 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 198C99ME024914;
+ Fri, 8 Oct 2021 08:34:41 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bjmw3suek-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Oct 2021 08:34:41 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 198CWYbJ001067;
+ Fri, 8 Oct 2021 12:34:39 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04fra.de.ibm.com with ESMTP id 3bef2axdus-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Oct 2021 12:34:39 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 198CYZra32375104
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 8 Oct 2021 12:34:35 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5C052A4051;
+ Fri,  8 Oct 2021 12:34:35 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C5069A4057;
+ Fri,  8 Oct 2021 12:34:34 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  8 Oct 2021 12:34:34 +0000 (GMT)
+From: Halil Pasic <pasic@linux.ibm.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xie Yongji <xieyongji@bytedance.com>,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/1] virtio: write back F_VERSION_1 before validate
+Date: Fri,  8 Oct 2021 14:34:22 +0200
+Message-Id: <20211008123422.1415577-1-pasic@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: fS-bXBOkSH9r5eaQokYyjUjWFdYwkQxk
+X-Proofpoint-ORIG-GUID: FBv8P9RSm_0qv0GyOEuQkJiwApF1RJUN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-10-08_03,2021-10-07_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015
+ suspectscore=0 spamscore=0 mlxscore=0 priorityscore=1501 bulkscore=0
+ impostorscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2110080074
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,122 +108,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- Anders Roxell <anders.roxell@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ stable@vger.kernel.org, Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This image is intended for building whatever the native versions of
-QEMU are for the host architecture. This will hopefully be an aid for
-3rd parties who want to be able to build QEMU themselves without
-redoing all the dependencies themselves.
+The virtio specification virtio-v1.1-cs01 states: "Transitional devices
+MUST detect Legacy drivers by detecting that VIRTIO_F_VERSION_1 has not
+been acknowledged by the driver."  This is exactly what QEMU as of 6.1
+has done relying solely on VIRTIO_F_VERSION_1 for detecting that.
 
-We disable the registry because we currently don't have multi-arch
-support there.
+However, the specification also says: "... the driver MAY read (but MUST
+NOT write) the device-specific configuration fields to check that it can
+support the device ..." before setting FEATURES_OK.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Anders Roxell <anders.roxell@linaro.org>
-Acked-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20210922151528.2192966-1-alex.bennee@linaro.org>
+In that case, any transitional device relying solely on
+VIRTIO_F_VERSION_1 for detecting legacy drivers will return data in
+legacy format.  In particular, this implies that it is in big endian
+format for big endian guests. This naturally confuses the driver which
+expects little endian in the modern mode.
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 450c76a3ca..b9d4094c2e 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -145,6 +145,10 @@ docker-image-debian-s390x-cross: docker-image-debian10
- docker-image-debian-sh4-cross: docker-image-debian10
- docker-image-debian-sparc64-cross: docker-image-debian10
+It is probably a good idea to amend the spec to clarify that
+VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
+is complete. However, we already have a regression so let's try to address
+it.
+
+The regressions affect the VIRTIO_NET_F_MTU feature of virtio-net and
+the VIRTIO_BLK_F_BLK_SIZE feature of virtio-blk for BE guests when
+virtio 1.0 is used on both sides. The latter renders virtio-blk unusable
+with DASD backing, because things simply don't work with the default.
+
+Cc: <stable@vger.kernel.org> #v4.11
+Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in config space")
+Fixes: fe36cbe0671e ("virtio_net: clear MTU when out of range")
+Reported-by: markver@us.ibm.com
+---
+ drivers/virtio/virtio.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+index 0a5b54034d4b..236081afe9a2 100644
+--- a/drivers/virtio/virtio.c
++++ b/drivers/virtio/virtio.c
+@@ -239,6 +239,17 @@ static int virtio_dev_probe(struct device *_d)
+ 		driver_features_legacy = driver_features;
+ 	}
  
-+# The native build should never use the registry
-+docker-image-debian-native: DOCKER_REGISTRY=
++	/*
++	 * Some devices detect legacy solely via F_VERSION_1. Write
++	 * F_VERSION_1 to force LE config space accesses before FEATURES_OK for
++	 * these when needed.
++	 */
++	if (drv->validate && !virtio_legacy_is_little_endian()
++			  && device_features & BIT_ULL(VIRTIO_F_VERSION_1)) {
++		dev->features = BIT_ULL(VIRTIO_F_VERSION_1);
++		dev->config->finalize_features(dev);
++	}
 +
-+
- #
- # The build rule for hexagon-cross is special in so far for most of
- # the time we don't want to build it. While dockers caching does avoid
-diff --git a/tests/docker/common.rc b/tests/docker/common.rc
-index c5cc33d366..e6f8cee0d6 100755
---- a/tests/docker/common.rc
-+++ b/tests/docker/common.rc
-@@ -12,8 +12,14 @@
- # the top-level directory.
- 
- # This might be set by ENV of a docker container... it is always
--# overriden by TARGET_LIST if the user sets it.
--DEF_TARGET_LIST=${DEF_TARGET_LIST:-"x86_64-softmmu,aarch64-softmmu"}
-+# overriden by TARGET_LIST if the user sets it. We special case
-+# "none" to allow for other options like --disable-tcg to restrict the
-+# builds we eventually do.
-+if test "$DEF_TARGET_LIST" = "none"; then
-+    DEF_TARGET_LIST=""
-+else
-+    DEF_TARGET_LIST=${DEF_TARGET_LIST:-"x86_64-softmmu,aarch64-softmmu"}
-+fi
- 
- requires_binary()
- {
-diff --git a/tests/docker/dockerfiles/debian-native.docker b/tests/docker/dockerfiles/debian-native.docker
-new file mode 100644
-index 0000000000..efd55cb6e0
---- /dev/null
-+++ b/tests/docker/dockerfiles/debian-native.docker
-@@ -0,0 +1,49 @@
-+#
-+# Docker Debian Native
-+#
-+# This this intended to build QEMU on native host systems. Debian is
-+# chosen due to the broadest range on supported host systems for QEMU.
-+#
-+# This docker target is based on the docker.io Debian Bullseye base
-+# image rather than QEMU's base because we would otherwise confuse the
-+# build grabbing stuff from the registry built for other
-+# architectures.
-+#
-+FROM docker.io/library/debian:bullseye-slim
-+MAINTAINER Alex Bennée <alex.bennee@linaro.org>
-+
-+# Duplicate deb line as deb-src
-+RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
-+
-+# Install common build utilities
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata
-+
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata \
-+    apt build-dep -yy --arch-only qemu
-+
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata \
-+    apt install -y --no-install-recommends \
-+        cscope \
-+        genisoimage \
-+        exuberant-ctags \
-+        global \
-+        libbz2-dev \
-+        liblzo2-dev \
-+        libgcrypt20-dev \
-+        libfdt-dev \
-+        librdmacm-dev \
-+        libsasl2-dev \
-+        libsnappy-dev \
-+        libvte-dev \
-+        netcat-openbsd \
-+        ninja-build \
-+        openssh-client \
-+        python3-numpy \
-+        python3-opencv \
-+        python3-venv
-+
-+ENV QEMU_CONFIGURE_OPTS $QEMU_CONFIGURE_OPTS
-+ENV DEF_TARGET_LIST "none"
+ 	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
+ 		dev->features = driver_features & device_features;
+ 	else
+
+base-commit: 60a9483534ed0d99090a2ee1d4bb0b8179195f51
 -- 
-2.30.2
+2.25.1
 
 
