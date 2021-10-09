@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5066C427A06
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 14:16:58 +0200 (CEST)
-Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09087427A55
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 14:52:56 +0200 (CEST)
+Received: from localhost ([::1]:51178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZBHd-0007o6-B1
-	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 08:16:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47780)
+	id 1mZBqQ-0000rv-Iw
+	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 08:52:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZBBk-00088I-0A
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 08:10:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58251)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZBpP-00006j-8v
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 08:51:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZBBi-0007Cf-8o
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 08:10:51 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZBpM-0003ai-Ex
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 08:51:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633781449;
+ s=mimecast20190719; t=1633783906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MW6cCujDtG/w5q52vzs2If7HJOGXs5Vt1MAUMQQsSuY=;
- b=V5iuIseB3UctoqUb50gkxYrLwFKmEgpt4/cvp7MLTe/otL7rSsvW+t6IqomIbj9XXaTU/+
- Vdb0HbBlSBvicHfUNpjZMZE3LaGJUNBMquAOYTuYi0zUWDJLGeLd/8o8Fnka0aHHjUjPfF
- WFxnp0mUKqUH/v7wUEwO13sS6NP3LbU=
+ bh=ue0sQNf8VZDV0P0UpW3TLMz5U2u943KGiyCqAZ6kMtc=;
+ b=JVeLFlMROQPfdze9N3vYycTUGlynv0fN+yVXAYCt2J9sBzZL4jcmZfkEYJigPlYAjdEwV0
+ qYVQXkzRFJINTXqWMADKWVttj6Sy1r6UQp53pbrmI/gVSkoq62nUa7jdNSc3LxgNj4PZ+g
+ SDCh+Cf9hA1KXymGurcU4UUwLbnqdoY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-jBzY55W0MEePG3slsFL9aw-1; Sat, 09 Oct 2021 08:10:46 -0400
-X-MC-Unique: jBzY55W0MEePG3slsFL9aw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-434-FFHvwHcHPXer6Fx2Nvmzyg-1; Sat, 09 Oct 2021 08:51:43 -0400
+X-MC-Unique: FFHvwHcHPXer6Fx2Nvmzyg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 044438145E6;
- Sat,  9 Oct 2021 12:10:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70BF710A8E00
+ for <qemu-devel@nongnu.org>; Sat,  9 Oct 2021 12:51:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9235E57CAB;
- Sat,  9 Oct 2021 12:10:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DC9A60C05;
+ Sat,  9 Oct 2021 12:51:42 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 521591138529; Sat,  9 Oct 2021 14:09:44 +0200 (CEST)
+ id 9D253113865F; Sat,  9 Oct 2021 14:51:40 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v2 5/5] block: Deprecate transaction type drive-backup
-Date: Sat,  9 Oct 2021 14:09:44 +0200
-Message-Id: <20211009120944.2858887-6-armbru@redhat.com>
-In-Reply-To: <20211009120944.2858887-1-armbru@redhat.com>
-References: <20211009120944.2858887-1-armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] qapi: Make some ObjectTypes depend on the build settings
+References: <20210928160232.432980-1-thuth@redhat.com>
+ <87ee8v7mjq.fsf@dusky.pond.sub.org>
+ <dd45c9c4-02b8-dfab-b7b0-f6d2346d4e70@redhat.com>
+Date: Sat, 09 Oct 2021 14:51:40 +0200
+In-Reply-To: <dd45c9c4-02b8-dfab-b7b0-f6d2346d4e70@redhat.com> (Paolo
+ Bonzini's message of "Fri, 8 Oct 2021 19:13:11 +0200")
+Message-ID: <87bl3yz7hf.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -79,62 +81,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
- libvir-list@redhat.com, eblake@redhat.com, mdroth@linux.vnet.ibm.com,
- pkrempa@redhat.com, marcandre.lureau@redhat.com, jsnow@redhat.com,
- libguestfs@redhat.com
+Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Several moons ago, Vladimir posted
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-    Subject: [PATCH v2 3/3] qapi: deprecate drive-backup
-    Date: Wed,  5 May 2021 16:58:03 +0300
-    Message-Id: <20210505135803.67896-4-vsementsov@virtuozzo.com>
-    https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01394.html
+> On 08/10/21 14:01, Markus Armbruster wrote:
+>> Paolo, do you have something for QOM queued up already?  If not, I'm
+>> happy to take this through my tree.
+>> 
+>
+> I don't but I have enough stuff that I'll be sending a pull request
+> shortly.  So, queued, and while at it I also made memory-backend-epc 
+> depend on CONFIG_LINUX (more strictly it depends on CONFIG_SGX, which
+> depends on CONFIG_KVM, which depends on CONFIG_LINUX; but the other
+> two are target-dependent so we have to do with CONFIG_LINUX).
 
-with this
+Thanks!
 
-    TODO: We also need to deprecate drive-backup transaction action..
-    But union members in QAPI doesn't support 'deprecated' feature. I tried
-    to dig a bit, but failed :/ Markus, could you please help with it? At
-    least by advice?
+Could you throw in this one?
 
-This is one way to resolve it.  Sorry it took so long.
-
-John explored another way, namely adding feature flags to union
-branches.  Could also be useful, say to add different features to
-branches in multiple unions sharing the same tag enum.
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/transaction.json | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/qapi/transaction.json b/qapi/transaction.json
-index d175b5f863..0564a893b3 100644
---- a/qapi/transaction.json
-+++ b/qapi/transaction.json
-@@ -54,6 +54,9 @@
- # @blockdev-snapshot-sync: since 1.1
- # @drive-backup: Since 1.6
- #
-+# Features:
-+# @deprecated: Member @drive-backup is deprecated.  Use FIXME instead.
-+#
- # Since: 1.1
- ##
- { 'enum': 'TransactionActionKind',
-@@ -62,7 +65,7 @@
-             'block-dirty-bitmap-disable', 'block-dirty-bitmap-merge',
-             'blockdev-backup', 'blockdev-snapshot',
-             'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
--            'drive-backup' ] }
-+            { 'name': 'drive-backup', 'features': [ 'deprecated' ] } ] }
- 
- ##
- # @AbortWrapper:
--- 
-2.31.1
+    Subject: [PATCH] monitor: Tidy up find_device_state()
+    Date: Thu, 16 Sep 2021 13:17:07 +0200
+    Message-Id: <20210916111707.84999-1-armbru@redhat.com>
 
 
