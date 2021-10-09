@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 422F4427AE4
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 16:42:01 +0200 (CEST)
-Received: from localhost ([::1]:57258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1973A427B4E
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 17:25:46 +0200 (CEST)
+Received: from localhost ([::1]:51846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZDXz-0004vu-DL
-	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 10:41:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43148)
+	id 1mZEEK-0005WH-8f
+	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 11:25:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mZDWN-0003yx-3q
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 10:40:19 -0400
-Received: from mail-vk1-xa35.google.com ([2607:f8b0:4864:20::a35]:45621)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mZDWK-0000PV-BQ
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 10:40:18 -0400
-Received: by mail-vk1-xa35.google.com with SMTP id n201so4664075vkn.12
- for <qemu-devel@nongnu.org>; Sat, 09 Oct 2021 07:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tdo+lPR8l6EZ1T7PCFWd+Rx4pjCGe7jlE+x6J5GJAy8=;
- b=OvELH0WMV+TL/pu6YegHoEBCKjpvZ6KoZmp1uDYnn419LqTnmGO+7vuhPRVLOBmygL
- +HyL6foc3ndbGn6JLG8iM6/P3UIK4RNPnK+PcZAajRALM9ac8vKS9AhLvZ2yGI3LZi3x
- /cXGd7MWOxLv5B90oDUlWDgDAdqSYu4ys7kZ0HYgQ54ORhbS1E7XZ288dF/ChX+vou0u
- LeXaXAz8xSS78NlV5n8+13LU3MaAFm4fuEOzPKMTivmg93XbSKncNK+3BUaZhkFJXxwo
- 2fjN6PwgFOnXGb/+Hu/9Mo+xIxRvY7AneN5hgDWrqYaTUKxJwjOWjjf9BSiOwkUXy9Fj
- R+qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tdo+lPR8l6EZ1T7PCFWd+Rx4pjCGe7jlE+x6J5GJAy8=;
- b=2twQ6ugqP1Q6Ri2Lw4budpsENbBBWlhohDvNZetrINllKnx8VnYgUjglkknEZ+t7Ar
- RsbQsWlqYehjVC/M7dPY0xYNslgesyCxW9RwTIsWd8p1ymQ0+NXhLbUpKR6zw5aUbX76
- 7W3KbvDzyJZwGiZmWP5dtVPW+V/yCb6wqrIh+VWHoNH5hdMyH3UyU95DmvcldnPVXOlC
- RXuMaGhfCprUYLbBbReVxdIEgD6R4GEy82pzZOHtFr6CKlYkYGrI3EhckAvFsu9Rbmwi
- tsJgOL2HIa4FXkRkJWhC/bDKManu4PRjBQZ5wVErnxsUaEnepnDBftAftbWWc/5FKwXL
- XKPg==
-X-Gm-Message-State: AOAM533bbmX5f2rKV/uoNrO5LNn3Hqhhb1y9O1NGjdjx5t9g8YAxzD3r
- iV2zmeVYQz/bG1h/++ZXskeKVLL8dRgcxPNUmow6DxIG+Bk=
-X-Google-Smtp-Source: ABdhPJz6SyYqrE5hsRQFh319PJCY/slAKZItpPeA31nyGINWT8x6+gqRyCSW+/RzCOPLq3Mc51gIAXApGMJsVlBoMQc=
-X-Received: by 2002:a1f:2d83:: with SMTP id t125mr14259319vkt.23.1633790413832; 
- Sat, 09 Oct 2021 07:40:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZECu-0004lA-Qe
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 11:24:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZECq-0001eC-U2
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 11:24:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633793051;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=irRVTQOI2r0AxMwHKoBZ/HNmoWgCTzoTczpTSSIcnrw=;
+ b=DJeTmBDwMl4o07YRj64twqLLT/7J4JM9cyPmYdPCv+5Kf+A/SdZPmnpf3WcGYU+lNKLuXw
+ NxoCkWXB4f1nJr3lho1t18Nso1sesfc5YkrAFETqILA9DJ6W/UMfirSsAHS0bt5Kz4mupz
+ s0VYT+CgpneIDXbe98GSNqJXj3r37Vw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-1M5WBmjjPXeKImzhXSmtSg-1; Sat, 09 Oct 2021 11:24:09 -0400
+X-MC-Unique: 1M5WBmjjPXeKImzhXSmtSg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9780180830E;
+ Sat,  9 Oct 2021 15:24:08 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A981F5D740;
+ Sat,  9 Oct 2021 15:24:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2F517113865F; Sat,  9 Oct 2021 17:24:01 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Trim some trailing space from human-readable output
+Date: Sat,  9 Oct 2021 17:24:01 +0200
+Message-Id: <20211009152401.2982862-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20211008231506.17471-1-imp@bsdimp.com>
- <20211008231506.17471-2-imp@bsdimp.com>
-In-Reply-To: <20211008231506.17471-2-imp@bsdimp.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Sat, 9 Oct 2021 08:40:03 -0600
-Message-ID: <CANCZdfrtXDx2y195eHj--YHRMo=jRZmJc4TDGbfuS99aO9rhcA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/15] meson: *-user: only descend into *-user when
- configured
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000041141c05cdec79e2"
-Received-SPF: none client-ip=2607:f8b0:4864:20::a35;
- envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa35.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,165 +76,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: jcmvbkbc@gmail.com, david@redhat.com, jiri@resnulli.us, ehabkost@redhat.com,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000041141c05cdec79e2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I noticed -cpu help printing enough trailing spaces to make the output
+at least 84 characters wide.  Looks ugly unless the terminal is wider.
+Ugly or not, trailing spaces are stupid.
 
-(looks like Paolo's email bounced, so try again with cut and paste)
+The culprit is this line in x86_cpu_list_entry():
 
-On Fri, Oct 8, 2021 at 5:15 PM Warner Losh <imp@bsdimp.com> wrote:
+    qemu_printf("x86 %-20s  %-58s\n", name, desc);
 
-> To increase flexibility, only descend into *-user when that is
-> configured. This allows *-user to selectively include directories based
-> on the host OS which may not exist on all hosts. Adopt Paolo's
-> suggestion of checking the configuration in the directories that know
-> about the configuration.
->
-> Message-Id: <20210926220103.1721355-2-f4bug@amsat.org>
-> Message-Id: <20210926220103.1721355-3-f4bug@amsat.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Warner Losh <wlosh@bsdimp.com>
-> Acked-by: Paolo Bonzini <pbonzinni@redhat.com>
->
-> Sponsored by:           Netflix
-> ---
->  bsd-user/meson.build   | 4 ++++
->  linux-user/meson.build | 4 ++++
->  meson.build            | 3 +--
->  3 files changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/bsd-user/meson.build b/bsd-user/meson.build
-> index 0369549340..243fb78930 100644
-> --- a/bsd-user/meson.build
-> +++ b/bsd-user/meson.build
-> @@ -1,3 +1,7 @@
-> +if not config_target.has_key('CONFIG_BSD_USER')
-> +   subdir_done()
-> +endif
-> +
->  bsd_user_ss.add(files(
->    'bsdload.c',
->    'elfload.c',
-> diff --git a/linux-user/meson.build b/linux-user/meson.build
-> index 9549f81682..602255a3d6 100644
-> --- a/linux-user/meson.build
-> +++ b/linux-user/meson.build
-> @@ -1,3 +1,7 @@
-> +if not config_target.has_key('CONFIG_LINUX_USER')
-> +   subdir_done()
-> +endif
-> +
->  linux_user_ss.add(files(
->    'elfload.c',
->    'exit.c',
-> diff --git a/meson.build b/meson.build
-> index 99a0a3e689..1f2da5f7d9 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2303,10 +2303,9 @@ subdir('ebpf')
->
->  common_ss.add(libbpf)
->
-> -bsd_user_ss.add(files('gdbstub.c'))
->  specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
->
-> -linux_user_ss.add(files('gdbstub.c', 'thunk.c'))
-> +linux_user_ss.add(files('thunk.c'))
->  specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
->
->  # needed for fuzzing binaries
-> --
-> 2.32.0
->
->
+This prints a string with minimum field left-justified right before a
+newline.  Change it to
 
---00000000000041141c05cdec79e2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+    qemu_printf("x86 %-20s  %s\n", name, desc);
 
-<div dir=3D"ltr">(looks like Paolo&#39;s email bounced, so try again with c=
-ut and paste)</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Fri, Oct 8, 2021 at 5:15 PM Warner Losh &lt;<a href=3D"mail=
-to:imp@bsdimp.com">imp@bsdimp.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">To increase flexibility, only descend into=
- *-user when that is<br>
-configured. This allows *-user to selectively include directories based<br>
-on the host OS which may not exist on all hosts. Adopt Paolo&#39;s<br>
-suggestion of checking the configuration in the directories that know<br>
-about the configuration.<br>
-<br>
-Message-Id: &lt;<a href=3D"mailto:20210926220103.1721355-2-f4bug@amsat.org"=
- target=3D"_blank">20210926220103.1721355-2-f4bug@amsat.org</a>&gt;<br>
-Message-Id: &lt;<a href=3D"mailto:20210926220103.1721355-3-f4bug@amsat.org"=
- target=3D"_blank">20210926220103.1721355-3-f4bug@amsat.org</a>&gt;<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
-t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-Signed-off-by: Warner Losh &lt;<a href=3D"mailto:wlosh@bsdimp.com" target=
-=3D"_blank">wlosh@bsdimp.com</a>&gt;<br>
-Acked-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzinni@redhat.com" target=
-=3D"_blank">pbonzinni@redhat.com</a>&gt;<br>
-<br>
-Sponsored by:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Netflix<br>
----<br>
-=C2=A0bsd-user/meson.build=C2=A0 =C2=A0| 4 ++++<br>
-=C2=A0linux-user/meson.build | 4 ++++<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3 +--<br>
-=C2=A03 files changed, 9 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/bsd-user/meson.build b/bsd-user/meson.build<br>
-index 0369549340..243fb78930 100644<br>
---- a/bsd-user/meson.build<br>
-+++ b/bsd-user/meson.build<br>
-@@ -1,3 +1,7 @@<br>
-+if not config_target.has_key(&#39;CONFIG_BSD_USER&#39;)<br>
-+=C2=A0 =C2=A0subdir_done()<br>
-+endif<br>
-+<br>
-=C2=A0bsd_user_ss.add(files(<br>
-=C2=A0 =C2=A0&#39;bsdload.c&#39;,<br>
-=C2=A0 =C2=A0&#39;elfload.c&#39;,<br>
-diff --git a/linux-user/meson.build b/linux-user/meson.build<br>
-index 9549f81682..602255a3d6 100644<br>
---- a/linux-user/meson.build<br>
-+++ b/linux-user/meson.build<br>
-@@ -1,3 +1,7 @@<br>
-+if not config_target.has_key(&#39;CONFIG_LINUX_USER&#39;)<br>
-+=C2=A0 =C2=A0subdir_done()<br>
-+endif<br>
-+<br>
-=C2=A0linux_user_ss.add(files(<br>
-=C2=A0 =C2=A0&#39;elfload.c&#39;,<br>
-=C2=A0 =C2=A0&#39;exit.c&#39;,<br>
-diff --git a/meson.build b/meson.build<br>
-index 99a0a3e689..1f2da5f7d9 100644<br>
---- a/meson.build<br>
-+++ b/meson.build<br>
-@@ -2303,10 +2303,9 @@ subdir(&#39;ebpf&#39;)<br>
-<br>
-=C2=A0common_ss.add(libbpf)<br>
-<br>
--bsd_user_ss.add(files(&#39;gdbstub.c&#39;))<br>
-=C2=A0specific_ss.add_all(when: &#39;CONFIG_BSD_USER&#39;, if_true: bsd_use=
-r_ss)<br>
-<br>
--linux_user_ss.add(files(&#39;gdbstub.c&#39;, &#39;thunk.c&#39;))<br>
-+linux_user_ss.add(files(&#39;thunk.c&#39;))<br>
-=C2=A0specific_ss.add_all(when: &#39;CONFIG_LINUX_USER&#39;, if_true: linux=
-_user_ss)<br>
-<br>
-=C2=A0# needed for fuzzing binaries<br>
--- <br>
-2.32.0<br>
-<br>
-</blockquote></div>
+which avoids the trailing spaces and is simpler to boot.
 
---00000000000041141c05cdec79e2--
+A search for the pattern with "git-grep -E '%-[0-9]+s\\n'" found a few
+more instances.  Change them similarly.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ monitor/hmp-cmds.c         | 2 +-
+ target/i386/cpu-dump.c     | 4 ++--
+ target/i386/cpu.c          | 2 +-
+ target/ppc/cpu_init.c      | 2 +-
+ target/s390x/cpu_models.c  | 4 ++--
+ target/xtensa/mmu_helper.c | 2 +-
+ 6 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index bcaa41350e..9e45a138a5 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1945,7 +1945,7 @@ void hmp_rocker_ports(Monitor *mon, const QDict *qdict)
+     monitor_printf(mon, "      port  link    duplex neg?\n");
+ 
+     for (port = list; port; port = port->next) {
+-        monitor_printf(mon, "%10s  %-4s   %-3s  %2s  %-3s\n",
++        monitor_printf(mon, "%10s  %-4s   %-3s  %2s  %s\n",
+                        port->value->name,
+                        port->value->enabled ? port->value->link_up ?
+                        "up" : "down" : "!ena",
+diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
+index 02b635a52c..08ac957e99 100644
+--- a/target/i386/cpu-dump.c
++++ b/target/i386/cpu-dump.c
+@@ -464,13 +464,13 @@ void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+             snprintf(cc_op_name, sizeof(cc_op_name), "[%d]", env->cc_op);
+ #ifdef TARGET_X86_64
+         if (env->hflags & HF_CS64_MASK) {
+-            qemu_fprintf(f, "CCS=%016" PRIx64 " CCD=%016" PRIx64 " CCO=%-8s\n",
++            qemu_fprintf(f, "CCS=%016" PRIx64 " CCD=%016" PRIx64 " CCO=%s\n",
+                          env->cc_src, env->cc_dst,
+                          cc_op_name);
+         } else
+ #endif
+         {
+-            qemu_fprintf(f, "CCS=%08x CCD=%08x CCO=%-8s\n",
++            qemu_fprintf(f, "CCS=%08x CCD=%08x CCO=%s\n",
+                          (uint32_t)env->cc_src, (uint32_t)env->cc_dst,
+                          cc_op_name);
+         }
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index a7b1b6aa93..8d2c0ded10 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4876,7 +4876,7 @@ static void x86_cpu_list_entry(gpointer data, gpointer user_data)
+         desc = g_strdup_printf("%s", model_id);
+     }
+ 
+-    qemu_printf("x86 %-20s  %-58s\n", name, desc);
++    qemu_printf("x86 %-20s  %s\n", name, desc);
+ }
+ 
+ /* list available CPU models and flags */
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 6aad01d1d3..8ab81dd1ed 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -8734,7 +8734,7 @@ void ppc_cpu_list(void)
+ 
+ #ifdef CONFIG_KVM
+     qemu_printf("\n");
+-    qemu_printf("PowerPC %-16s\n", "host");
++    qemu_printf("PowerPC %s\n", "host");
+ #endif
+ }
+ 
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index 4e4598cc77..11e06cc51f 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -398,14 +398,14 @@ void s390_cpu_list(void)
+     for (feat = 0; feat < S390_FEAT_MAX; feat++) {
+         const S390FeatDef *def = s390_feat_def(feat);
+ 
+-        qemu_printf("%-20s %-50s\n", def->name, def->desc);
++        qemu_printf("%-20s %s\n", def->name, def->desc);
+     }
+ 
+     qemu_printf("\nRecognized feature groups:\n");
+     for (group = 0; group < S390_FEAT_GROUP_MAX; group++) {
+         const S390FeatGroupDef *def = s390_feat_group_def(group);
+ 
+-        qemu_printf("%-20s %-50s\n", def->name, def->desc);
++        qemu_printf("%-20s %s\n", def->name, def->desc);
+     }
+ }
+ 
+diff --git a/target/xtensa/mmu_helper.c b/target/xtensa/mmu_helper.c
+index b01ff9399a..57e319a1af 100644
+--- a/target/xtensa/mmu_helper.c
++++ b/target/xtensa/mmu_helper.c
+@@ -1098,7 +1098,7 @@ static void dump_tlb(CPUXtensaState *env, bool dtlb)
+                     qemu_printf("\tVaddr       Paddr       ASID  Attr RWX Cache\n"
+                                 "\t----------  ----------  ----  ---- --- -------\n");
+                 }
+-                qemu_printf("\t0x%08x  0x%08x  0x%02x  0x%02x %c%c%c %-7s\n",
++                qemu_printf("\t0x%08x  0x%08x  0x%02x  0x%02x %c%c%c %s\n",
+                             entry->vaddr,
+                             entry->paddr,
+                             entry->asid,
+-- 
+2.31.1
+
 
