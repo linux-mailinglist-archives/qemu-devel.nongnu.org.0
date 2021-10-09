@@ -2,72 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 431B24277A6
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 07:51:54 +0200 (CEST)
-Received: from localhost ([::1]:40654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 676304277C0
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 08:29:27 +0200 (CEST)
+Received: from localhost ([::1]:48186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZ5Gz-0006My-8D
-	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 01:51:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33408)
+	id 1mZ5rJ-0003Zl-LZ
+	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 02:29:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <travisg@gmail.com>)
- id 1mZ5Fc-0005gQ-5P; Sat, 09 Oct 2021 01:50:28 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:53871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <travisg@gmail.com>)
- id 1mZ5Fa-0004Sc-JQ; Sat, 09 Oct 2021 01:50:27 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id ls18so9139034pjb.3;
- Fri, 08 Oct 2021 22:50:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vORwKxkrYODDxvr7F2h57qLME77fhK2UJHPI/LCULSE=;
- b=Sg2h5n1KoGUdKNKtrrnOL69qTUTabqKVRBfsX2ZFD4EIeCKRkH3BNIdRFfQUq9PVJG
- ANMvyaJdZQZaJWhPhF8DO0EOFA2vTJGDeVcO+gE3L5OnvXhVHDxnO8QUSsBN6Tfap4Us
- BM7Ul4QVZrqd0Unmfko2L65bOiTMwpAKxFopdnLoTMlY8KtPWGRoCx19N6nMCXUfnvUV
- be8iyu5OFuoXcH107bIWqMxDkzO00wCPaq+MHtra+//xlTxHKlEjmNc8Y4aCKYi0Koet
- aRUm7/4/X9VCyq6qrydt3MQJZJw5cXS139GXWU34ev0cVZt8qZiUGIZT8mi8bZOjfEd3
- 5mtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vORwKxkrYODDxvr7F2h57qLME77fhK2UJHPI/LCULSE=;
- b=ianUcbrX1cS9ZraWIKISmxGmpx9NpJyLbYX3YIWuVaM6ilD7lSjLrjUOPtjCbeK7Px
- qX4Kc8iJ3Bf/I0a5MFKlz0PgB7uVUTIJVmTEljcvAdHDxctQ3n3Sno660bZhvz2dKgzd
- pUTmACQy84Rk7qpmnJgLF7Empu4mjzEmu6suRDvK8nifEjgFQm/+EdWS9xMGOFnYoY9r
- x4MFS0tal6L65UzyPYU0NAuVojl8lZZaDrypzpMxN1cogLIU2JqnNPmUfOLEAvlKDM+g
- azrMwQvyzQLtR6MgeQY2z4VgYqMP8N8Tws48A2A/UiR6RstfiXP2jdLeGvI/5cUjvCBp
- M0Aw==
-X-Gm-Message-State: AOAM530QifDMdGFPP0oV2p3jailBnv2Zv02xvyBV9JVm6w7rxnK5SZPP
- v0gYx14LzH77ljR2P2Wf5rSd1I4vf5Hueg==
-X-Google-Smtp-Source: ABdhPJzxMT/ZpM2oVSQJ945MY6EHeIOLQyQ3UjGEgI4QKhZ3lieY5YcQtJoODhKEtnPb+YbPOwcFrw==
-X-Received: by 2002:a17:902:e78f:b0:13d:f99f:34bb with SMTP id
- cp15-20020a170902e78f00b0013df99f34bbmr12946769plb.48.1633758623007; 
- Fri, 08 Oct 2021 22:50:23 -0700 (PDT)
-Received: from geist.localdomain ([2601:600:c701:1370:5363:1a3b:86cf:95])
- by smtp.gmail.com with ESMTPSA id e17sm880042pjh.17.2021.10.08.22.50.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Oct 2021 22:50:22 -0700 (PDT)
-From: Travis Geiselbrecht <travisg@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/riscv: line up all of the registers in the info
- register dump
-Date: Fri,  8 Oct 2021 22:50:19 -0700
-Message-Id: <20211009055019.545153-1-travisg@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1mZ5qO-0002vc-Kk
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 02:28:28 -0400
+Received: from mga07.intel.com ([134.134.136.100]:5706)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1mZ5qM-0006XP-DE
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 02:28:28 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="290137089"
+X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; d="scan'208";a="290137089"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2021 23:28:21 -0700
+X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; d="scan'208";a="489750761"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.144.101])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 08 Oct 2021 23:28:19 -0700
+Date: Sat, 9 Oct 2021 14:14:06 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 2/4] hw/i386/sgx: Have sgx_epc_get_section() return a
+ boolean
+Message-ID: <20211009061406.GA14769@yangzhon-Virtual>
+References: <20211007175612.496366-1-philmd@redhat.com>
+ <20211007175612.496366-3-philmd@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=travisg@gmail.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20211007175612.496366-3-philmd@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=yang.zhong@intel.com; helo=mga07.intel.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,61 +62,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Travis Geiselbrecht <travisg@gmail.com>, qemu-riscv@nongnu.org
+Cc: yang.zhong@intel.com, ehabkost@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ensure the columns for all of the register names and values line up.
-No functional change, just a minor tweak to the output.
+On Thu, Oct 07, 2021 at 07:56:10PM +0200, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  include/hw/i386/sgx-epc.h | 2 +-
+>  hw/i386/sgx-stub.c        | 2 +-
+>  hw/i386/sgx.c             | 6 +++---
+>  3 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
+> index 65a68ca753a..a6a65be854f 100644
+> --- a/include/hw/i386/sgx-epc.h
+> +++ b/include/hw/i386/sgx-epc.h
+> @@ -55,7 +55,7 @@ typedef struct SGXEPCState {
+>      int nr_sections;
+>  } SGXEPCState;
+>  
+> -int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size);
+> +bool sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size);
+>  
+>  static inline uint64_t sgx_epc_above_4g_end(SGXEPCState *sgx_epc)
+>  {
+> diff --git a/hw/i386/sgx-stub.c b/hw/i386/sgx-stub.c
+> index 3be9f5ca32c..45c473119ef 100644
+> --- a/hw/i386/sgx-stub.c
+> +++ b/hw/i386/sgx-stub.c
+> @@ -20,7 +20,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+>      memset(&pcms->sgx_epc, 0, sizeof(SGXEPCState));
+>  }
+>  
+> -int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size)
+> +bool sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size)
+>  {
+>      g_assert_not_reached();
+>  }
+> diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+> index e481e9358f1..29724ff8f08 100644
+> --- a/hw/i386/sgx.c
+> +++ b/hw/i386/sgx.c
+> @@ -115,13 +115,13 @@ SGXInfo *sgx_get_info(Error **errp)
+>      return info;
+>  }
+>  
+> -int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size)
+> +bool sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size)
+>  {
+>      PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
+>      SGXEPCDevice *epc;
+>  
+>      if (pcms->sgx_epc.size == 0 || pcms->sgx_epc.nr_sections <= section_nr) {
+> -        return 1;
+> +        return true;
 
-Signed-off-by: Travis Geiselbrecht <travisg@gmail.com>
----
- target/riscv/cpu.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1d69d1887e..660f9ce131 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -258,7 +258,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-     }
-     if (riscv_has_ext(env, RVH)) {
-         qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "hstatus ", env->hstatus);
--        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsstatus ",
-+        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsstatus",
-                      (target_ulong)env->vsstatus);
-     }
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mip     ", env->mip);
-@@ -289,8 +289,8 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtval   ", env->mtval);
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "stval   ", env->stval);
-     if (riscv_has_ext(env, RVH)) {
--        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "htval ", env->htval);
--        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtval2 ", env->mtval2);
-+        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "htval   ", env->htval);
-+        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtval2  ", env->mtval2);
-     }
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mscratch", env->mscratch);
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "sscratch", env->sscratch);
-@@ -298,7 +298,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- #endif
- 
-     for (i = 0; i < 32; i++) {
--        qemu_fprintf(f, " %s " TARGET_FMT_lx,
-+        qemu_fprintf(f, " %-8s " TARGET_FMT_lx,
-                      riscv_int_regnames[i], env->gpr[i]);
-         if ((i & 3) == 3) {
-             qemu_fprintf(f, "\n");
-@@ -306,7 +306,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-     }
-     if (flags & CPU_DUMP_FPU) {
-         for (i = 0; i < 32; i++) {
--            qemu_fprintf(f, " %s %016" PRIx64,
-+            qemu_fprintf(f, " %-8s %016" PRIx64,
-                          riscv_fpr_regnames[i], env->fpr[i]);
-             if ((i & 3) == 3) {
-                 qemu_fprintf(f, "\n");
--- 
-2.25.1
+If return boolean, here should be return false, Sean wrote this(return 0 or 1) like Linux kernel did.  
 
+
+>      }
+>  
+>      epc = pcms->sgx_epc.sections[section_nr];
+> @@ -129,7 +129,7 @@ int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size)
+>      *addr = epc->addr;
+>      *size = memory_device_get_region_size(MEMORY_DEVICE(epc), &error_fatal);
+>  
+> -    return 0;
+> +    return false;
+
+Here should be return true.
+
+Then in the ./target/i386/cpu.c file,
+
+ if (sgx_epc_get_section(count - 2, &epc_addr, &epc_size))
+
+ should be
+
+ if (!sgx_epc_get_section(count - 2, &epc_addr, &epc_size))
+
+
+Yang
+
+
+>  }
+>  
+>  void pc_machine_init_sgx_epc(PCMachineState *pcms)
+> -- 
+> 2.31.1
 
