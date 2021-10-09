@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA3B427807
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 10:11:15 +0200 (CEST)
-Received: from localhost ([::1]:57750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E0D427834
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 10:55:15 +0200 (CEST)
+Received: from localhost ([::1]:45502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZ7Rp-0007ub-RQ
-	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 04:11:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45720)
+	id 1mZ88P-0003nP-Vc
+	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 04:55:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZ7Pi-0007E6-Mx
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 04:09:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZ7Pc-0000Jt-Ou
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 04:09:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633766935;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fhdSnnAmnjlhd3Y6GOKhLf1rHBJybDytntcujvwvaS0=;
- b=RdtAfV4reqFCdprrgyXWs5mP4UxR1X2ew4/gW+Qk313PR29XnS5haGQFsJE75ThbAJlvZ7
- nybnmsI37hjR1+EwtipRVvo0Ye9La7/lIQY9d/xig+fCMe8DUv8jADgYwiZTSduyMpWHmY
- 7X7NNF0I4E6uSA12/+kqU/LgJkIXUZ8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-JCXuCb7jODiOo6DTPkhGvA-1; Sat, 09 Oct 2021 04:08:54 -0400
-X-MC-Unique: JCXuCb7jODiOo6DTPkhGvA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF7EF100C609;
- Sat,  9 Oct 2021 08:08:52 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 84E075C1C5;
- Sat,  9 Oct 2021 08:08:41 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0D950113865F; Sat,  9 Oct 2021 10:08:40 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Krempa <pkrempa@redhat.com>
-Subject: Re: [PATCH RFC 1/5] qapi: Enable enum member introspection to show
- more than name
-References: <20210915192425.4104210-1-armbru@redhat.com>
- <20210915192425.4104210-2-armbru@redhat.com>
- <YUSq/ZDfLPInPIc8@angien.pipo.sk> <87zgs7bolw.fsf@dusky.pond.sub.org>
- <YUha7xwblG1cqeNx@angien.pipo.sk>
-Date: Sat, 09 Oct 2021 10:08:40 +0200
-In-Reply-To: <YUha7xwblG1cqeNx@angien.pipo.sk> (Peter Krempa's message of
- "Mon, 20 Sep 2021 11:57:03 +0200")
-Message-ID: <87r1cu39iv.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mZ865-00025Z-KT
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 04:52:49 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33464)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mZ863-000480-P0
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 04:52:49 -0400
+Received: by mail-wr1-x430.google.com with SMTP id m22so37116068wrb.0
+ for <qemu-devel@nongnu.org>; Sat, 09 Oct 2021 01:52:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xsV6bRt3GeylI8HAMSi63UItARmV41b4t9endUe9eJ4=;
+ b=G382moG4EKE+wNVzYwruNTlyNClNB2jkOl3r6iUWpjH+I/d6XAVkcRbdJTOCHAf93b
+ QMIBbZtN8u6Cdv2hg1qJHSXTnjOdR7eLLLDAST0BW9gRXMUux0ZelLihfnYmhO1CPBkp
+ T8336YYXPym5CHj9+gTsIO+TG8Qp4I03sZG1UZ8NROWs5LhLN8GUe3JkmhFD4K6Xot9O
+ o0FHqUoxTb3TXoIbgRNieSrItDhRMWgka/o5AS5/lPl0AyD5ukK/28SAra00+0X22qgG
+ iPVQiHx0gkfdefoY+zazBvhtEEq7v0I2NeDEgIT+aWyMSF7J2X6c1fxSdVjI2jW5J0Zd
+ uI4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xsV6bRt3GeylI8HAMSi63UItARmV41b4t9endUe9eJ4=;
+ b=ERWxYPUMr7GnUB5rt7PxCKQI0z2vSzyijRhDxXnODuwPjxMwwvt/Tj/L1Q+3qh45yk
+ YIVLDthXQErc3l9dk/0mFUmEVdmrnzILbc+qCJZEK0YJwH4ATDc4gkmt18NU3VmNaryq
+ UZEtBZGekFYKXTpo86EGahtRQmV2xSQw8avhwTlaLMeI5lLusStQOQpB7I0ESIgGLrXt
+ uryRg1fzH1FTlnw2LA9DNNbQ8UCHQYBmYqkDgSe7bNgXuVaA0av7tR6moGT0LV4TTUz9
+ 0qZxWY0izinOBmXRe1hUwDvCIgAkIGERwEsJ6ryFAGuIuZzYCJOuZMUrnvzRuFfVhXnR
+ BmAw==
+X-Gm-Message-State: AOAM531hXIGmnpu/2v8cs6SSups/hDhEb1GP72s5Z6kfH5NpRuURbCtr
+ dIWvb676+QDzVn+HEfQtiA41qjf2GqxpA1fB5dTOFvRo
+X-Google-Smtp-Source: ABdhPJw2VZftsEdF+ZrIITODg2AAKjagxyvo6l6pa+lGZPBEAnCyxyMYo/rG1GmKGDKTpQDExnz4zWzNdbiEOICf6IY=
+X-Received: by 2002:a1c:3b44:: with SMTP id i65mr8696004wma.129.1633769565219; 
+ Sat, 09 Oct 2021 01:52:45 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20211008220620.1488179-1-marcandre.lureau@redhat.com>
+ <20211008220620.1488179-5-marcandre.lureau@redhat.com>
+In-Reply-To: <20211008220620.1488179-5-marcandre.lureau@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Sat, 9 Oct 2021 12:52:33 +0400
+Message-ID: <CAJ+F1CKTBb40=skwiPdcXNB75tNTnzOOOxiqre6N9DaZtma3Dg@mail.gmail.com>
+Subject: Re: [PATCH 4/6] meson: remove explicit extensions dependency file list
+To: QEMU <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000946f5f05cde79eb6"
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.051,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,147 +77,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
- libvir-list@redhat.com, eblake@redhat.com, mdroth@linux.vnet.ibm.com,
- qemu-devel@nongnu.org, marcandre.lureau@redhat.com, jsnow@redhat.com,
- libguestfs@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Krempa <pkrempa@redhat.com> writes:
+--000000000000946f5f05cde79eb6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Mon, Sep 20, 2021 at 11:08:59 +0200, Markus Armbruster wrote:
->> Peter Krempa <pkrempa@redhat.com> writes:
->> 
->> > On Wed, Sep 15, 2021 at 21:24:21 +0200, Markus Armbruster wrote:
->> >> The next commit will add feature flags to enum members.  There's a
->> >> problem, though: query-qmp-schema shows an enum type's members as an
->> >> array of member names (SchemaInfoEnum member @values).  If it showed
->> >> an array of objects with a name member, we could simply add more
->> >> members to these objects.  Since it's just strings, we can't.
->> >> 
->> >> I can see three ways to correct this design mistake:
->> >> 
->> >> 1. Do it the way we should have done it, plus compatibility goo.
->> >> 
->> >>    We want a ['SchemaInfoEnumMember'] member in SchemaInfoEnum.  Since
->> >>    changing @values would be a compatibility break, add a new member
->> >>    @members instead.
->> >> 
->> >>    @values is now redundant.  We should be able to get rid of it
->> >>    eventually.
->> >> 
->> >>    In my testing, output of qemu-system-x86_64's query-qmp-schema
->> >>    grows by 11% (18.5KiB).
->> >
->> > I prefer this one. While the schema output grows, nobody is really
->> > reading it manually.
->> 
->> True, but growing schema output can only slow down client startup.
->> Negligible for libvirt, I presume?
+Hi
+
+On Sat, Oct 9, 2021 at 2:09 AM <marcandre.lureau@redhat.com> wrote:
+
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> Libvirt employs caching, so unless it's the first VM started after a
-> qemu/libvirt upgrade, the results are already processed and cached.
-
-Good!
-
-> In fact we don't even keep the full schema around, we just extract
-> information and store them as capability bits. For now we didn't run
-> into the need to have the full schema around when starting a VM.
+> This is now generated automatically by depfile.py.
 >
-> [...]
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  docs/meson.build              | 10 ----------
+>  tests/qapi-schema/meson.build |  5 ++++-
+>  2 files changed, 4 insertions(+), 11 deletions(-)
 >
->> >> 3. Versioned query-qmp-schema.
->> >> 
->> >>    query-qmp-schema provides either @values or @members.  The QMP
->> >>    client can select which version it wants.
->> >
->> > At least for libvirt this poses a chicken & egg problem. We'd have to
->> > query the schema to see that it has the switch to do the selection and
->> > then probe with the modern one.
->> 
->> The simplest solution is to try the versions the management application
->> can understand in order of preference (newest to oldest) until one
->> succeeds.  I'd expect the first try to work most of the time.  Only when
->> you combine new libvirt with old QEMU, the fallback has to kick in.
->> 
->> Other parts of the management application should remain oblivous of the
->> differences.
+> diff --git a/docs/meson.build b/docs/meson.build
+> index be4dc30f39..6177c967ff 100644
+> --- a/docs/meson.build
+> +++ b/docs/meson.build
+> @@ -37,15 +37,6 @@ endif
+>  if build_docs
+>    SPHINX_ARGS +=3D ['-Dversion=3D' + meson.project_version(), '-Drelease=
+=3D' +
+> config_host['PKGVERSION']]
 >
-> That would certainly work and be reasonably straightforward for libvirt
-> to implement, but:
->  1) libvirt's code for using the QMP schema would be exactly the same as
->     with approach 1), as we need to handle old clients too and the new
->     way is simply a superset of what we have
-
-Yes, libvirt would need the same code for processing old and new.  The
-only difference would be how it decides which method to use.  With 1,
-it's "if @members is present, use it, else @values".  With 2, it's "if
-the version we use is new enough, use @members, else @values".
-
->  2) qemu's deprecation approach itself wouldn't be any easier in either
->     of those scenarios
+> -  sphinx_extn_depends =3D [ meson.current_source_dir() /
+> 'sphinx/depfile.py',
+> -                          meson.current_source_dir() / 'sphinx/hxtool.py=
+',
+> -                          meson.current_source_dir() /
+> 'sphinx/kerneldoc.py',
+> -                          meson.current_source_dir() /
+> 'sphinx/kernellog.py',
+> -                          meson.current_source_dir() /
+> 'sphinx/qapidoc.py',
+> -                          meson.current_source_dir() /
+> 'sphinx/qmp_lexer.py',
+> -                          qapi_gen_depends ]
+> -  sphinx_template_files =3D [ meson.project_source_root() /
+> 'docs/_templates/footer.html' ]
+> -
+>    have_ga =3D have_tools and config_host.has_key('CONFIG_GUEST_AGENT')
 >
-> Basically the only thing this would gain us is that if the deprecation
-> period is over old clients which were not fixed could fail silently:
+>    man_pages =3D {
+> @@ -77,7 +68,6 @@ if build_docs
+>                  output: 'docs.stamp',
+>                  input: files('conf.py'),
+>                  depfile: 'docs.d',
+> -                depend_files: [ sphinx_extn_depends,
+> sphinx_template_files ],
+>                  command: [SPHINX_ARGS, '-Ddepfile=3D@DEPFILE@',
+>                            '-Ddepfile_stamp=3D@OUTPUT0@',
+>                            '-b', 'html', '-d', private_dir,
+> diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.buil=
+d
+> index df5acfd08b..a5eae6253f 100644
+> --- a/tests/qapi-schema/meson.build
+> +++ b/tests/qapi-schema/meson.build
+> @@ -241,7 +241,8 @@ if build_docs
+>                                 output: ['doc-good.txt'],
+>                                 input: files('doc-good.json',
+> 'doc-good.rst'),
+>                                 build_by_default: true,
+> -                               depend_files: sphinx_extn_depends,
+> +                               output: 'docs.stamp',
 >
-> Assuming that 'query-qmp-schema' gains a boolean option such as
-> 'fancier-enums' and setting that to true returns the new format of
-> schema, after the deprecation is over you could simply return an error
-> if a caller omits 'fancier-enums' or sets it to false, which creates a
-> clean cut for the removal.
 
-Yes.
+This line should be removed (it breaks the test)
 
-> With approach 1) itself, clients which were not adapted would start
-> lacking information based on enum values.
++                               depfile: 'docs.d',
+>                                 # We use -E to suppress Sphinx's caching,
+> because
+>                                 # we want it to always really run the QAP=
+I
+> doc
+>                                 # generation code. It also means we don't
+> @@ -250,6 +251,8 @@ if build_docs
+>                                           '-b', 'text', '-E',
+>                                           '-c',
+> meson.project_source_root() / 'docs',
+>                                           '-D', 'master_doc=3Ddoc-good',
+> +                                         '-Ddepfile=3D@DEPFILE@',
+> +                                         '-Ddepfile_stamp=3D@OUTPUT0@',
+>                                           meson.current_source_dir(),
+>                                           meson.current_build_dir()])
 >
-> Now for those it depends on how they actually handled it until now. E.g.
-> old libvirt would report that the QMP schema is broken if 'values' would
-> be missing.
-
-Which I consider the sensible thing to do.
-
-> Whether that's a worthwhile thing to do? I'm not really persuaded. (And
-> I'm biased since libvirt handles it correctly).
-
-I think 3 has the following advantages over 1:
-
-* As you noted, it ensures outmoded clients fail cleanly.  Not much of
-  an advantage for clients that handle missing @values sensibly.
-  Perhaps it could enable better error messages.
-
-* It avoids duplicated contents in old an new format.  Not much of an
-  advantage for clients that cache their schema interrogation.
-
-* It can enable more radical introspection changes.  Without versioning,
-  the common rules for compatible evolution apply (section
-  "Compatibility considerations" in qapi-code-gen.rst).  With
-  versioning, they don't.
-
-I agree this is not really compelling just for the problem at hand.  We
-can reconsider when we run into more problems.
-
->> We could of course try to reduce the number of roundtrips, say by
->> putting sufficient information into the QMP greeting (one roundtrip), or
->> the output of query-qmp-schema (try oldest to find the best one, then
->> try the best one unless it's the oldest).  I doubt that's worthwhile.
+> --
+> 2.33.0.721.g106298f7f9
 >
-> In this particular scenario, I'd doubt that it's worthwhile as the
-> change isn't really fundamental and issuing one extra QMP call isn't as
-> problematic as other cases, e.g probing of CPU features which results in
-> a QMP call per feature when starting a VM.
 >
-> Currently libvirt issues 50 + 5 QMP commands(kvm, and non-kvm) for
-> probing capabilities.
 >
->> I'm not trying to talk you into this solution.  We're just exploring the
->> solution space together, and with an open mind.
->
-> The idea of unconditionally trying a newer approach is a good one to
-> hold onto when we'll need it in the future!
 
-Only where the failure modes are simple enough to make misinterpretation
-basically impossible.
+--=20
+Marc-Andr=C3=A9 Lureau
 
+--000000000000946f5f05cde79eb6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+PGRpdiBkaXI9Imx0ciI+PGRpdiBkaXI9Imx0ciI+SGk8YnI+PC9kaXY+PGJyPjxkaXYgY2xhc3M9
+ImdtYWlsX3F1b3RlIj48ZGl2IGRpcj0ibHRyIiBjbGFzcz0iZ21haWxfYXR0ciI+T24gU2F0LCBP
+Y3QgOSwgMjAyMSBhdCAyOjA5IEFNICZsdDs8YSBocmVmPSJtYWlsdG86bWFyY2FuZHJlLmx1cmVh
+dUByZWRoYXQuY29tIj5tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb208L2E+Jmd0OyB3cm90ZTo8
+YnI+PC9kaXY+PGJsb2NrcXVvdGUgY2xhc3M9ImdtYWlsX3F1b3RlIiBzdHlsZT0ibWFyZ2luOjBw
+eCAwcHggMHB4IDAuOGV4O2JvcmRlci1sZWZ0OjFweCBzb2xpZCByZ2IoMjA0LDIwNCwyMDQpO3Bh
+ZGRpbmctbGVmdDoxZXgiPkZyb206IE1hcmMtQW5kcsOpIEx1cmVhdSAmbHQ7PGEgaHJlZj0ibWFp
+bHRvOm1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbSIgdGFyZ2V0PSJfYmxhbmsiPm1hcmNhbmRy
+ZS5sdXJlYXVAcmVkaGF0LmNvbTwvYT4mZ3Q7PGJyPg0KPGJyPg0KVGhpcyBpcyBub3cgZ2VuZXJh
+dGVkIGF1dG9tYXRpY2FsbHkgYnkgZGVwZmlsZS5weS48YnI+DQo8YnI+DQpTaWduZWQtb2ZmLWJ5
+OiBNYXJjLUFuZHLDqSBMdXJlYXUgJmx0OzxhIGhyZWY9Im1haWx0bzptYXJjYW5kcmUubHVyZWF1
+QHJlZGhhdC5jb20iIHRhcmdldD0iX2JsYW5rIj5tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb208
+L2E+Jmd0Ozxicj4NCi0tLTxicj4NCsKgZG9jcy9tZXNvbi5idWlsZMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIHwgMTAgLS0tLS0tLS0tLTxicj4NCsKgdGVzdHMvcWFwaS1zY2hlbWEvbWVzb24uYnVpbGQg
+fMKgIDUgKysrKy08YnI+DQrCoDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAxMSBk
+ZWxldGlvbnMoLSk8YnI+DQo8YnI+DQpkaWZmIC0tZ2l0IGEvZG9jcy9tZXNvbi5idWlsZCBiL2Rv
+Y3MvbWVzb24uYnVpbGQ8YnI+DQppbmRleCBiZTRkYzMwZjM5Li42MTc3Yzk2N2ZmIDEwMDY0NDxi
+cj4NCi0tLSBhL2RvY3MvbWVzb24uYnVpbGQ8YnI+DQorKysgYi9kb2NzL21lc29uLmJ1aWxkPGJy
+Pg0KQEAgLTM3LDE1ICszNyw2IEBAIGVuZGlmPGJyPg0KwqBpZiBidWlsZF9kb2NzPGJyPg0KwqAg
+wqBTUEhJTlhfQVJHUyArPSBbJiMzOTstRHZlcnNpb249JiMzOTsgKyBtZXNvbi5wcm9qZWN0X3Zl
+cnNpb24oKSwgJiMzOTstRHJlbGVhc2U9JiMzOTsgKyBjb25maWdfaG9zdFsmIzM5O1BLR1ZFUlNJ
+T04mIzM5O11dPGJyPg0KPGJyPg0KLcKgIHNwaGlueF9leHRuX2RlcGVuZHMgPSBbIG1lc29uLmN1
+cnJlbnRfc291cmNlX2RpcigpIC8gJiMzOTtzcGhpbngvZGVwZmlsZS5weSYjMzk7LDxicj4NCi3C
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBtZXNvbi5jdXJyZW50X3NvdXJj
+ZV9kaXIoKSAvICYjMzk7c3BoaW54L2h4dG9vbC5weSYjMzk7LDxicj4NCi3CoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBtZXNvbi5jdXJyZW50X3NvdXJjZV9kaXIoKSAvICYj
+Mzk7c3BoaW54L2tlcm5lbGRvYy5weSYjMzk7LDxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCBtZXNvbi5jdXJyZW50X3NvdXJjZV9kaXIoKSAvICYjMzk7c3BoaW54
+L2tlcm5lbGxvZy5weSYjMzk7LDxicj4NCi3CoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCBtZXNvbi5jdXJyZW50X3NvdXJjZV9kaXIoKSAvICYjMzk7c3BoaW54L3FhcGlkb2Mu
+cHkmIzM5Oyw8YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgbWVz
+b24uY3VycmVudF9zb3VyY2VfZGlyKCkgLyAmIzM5O3NwaGlueC9xbXBfbGV4ZXIucHkmIzM5Oyw8
+YnI+DQotwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgcWFwaV9nZW5fZGVw
+ZW5kcyBdPGJyPg0KLcKgIHNwaGlueF90ZW1wbGF0ZV9maWxlcyA9IFsgbWVzb24ucHJvamVjdF9z
+b3VyY2Vfcm9vdCgpIC8gJiMzOTtkb2NzL190ZW1wbGF0ZXMvZm9vdGVyLmh0bWwmIzM5OyBdPGJy
+Pg0KLTxicj4NCsKgIMKgaGF2ZV9nYSA9IGhhdmVfdG9vbHMgYW5kIGNvbmZpZ19ob3N0Lmhhc19r
+ZXkoJiMzOTtDT05GSUdfR1VFU1RfQUdFTlQmIzM5Oyk8YnI+DQo8YnI+DQrCoCDCoG1hbl9wYWdl
+cyA9IHs8YnI+DQpAQCAtNzcsNyArNjgsNiBAQCBpZiBidWlsZF9kb2NzPGJyPg0KwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqBvdXRwdXQ6ICYjMzk7ZG9jcy5zdGFtcCYjMzk7LDxicj4NCsKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgaW5wdXQ6IGZpbGVzKCYjMzk7Y29uZi5weSYjMzk7KSw8YnI+
+DQrCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGRlcGZpbGU6ICYjMzk7ZG9jcy5kJiMzOTssPGJy
+Pg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGRlcGVuZF9maWxlczogWyBzcGhpbnhfZXh0bl9k
+ZXBlbmRzLCBzcGhpbnhfdGVtcGxhdGVfZmlsZXMgXSw8YnI+DQrCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoGNvbW1hbmQ6IFtTUEhJTlhfQVJHUywgJiMzOTstRGRlcGZpbGU9QERFUEZJTEVAJiMz
+OTssPGJyPg0KwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAmIzM5Oy1E
+ZGVwZmlsZV9zdGFtcD1AT1VUUFVUMEAmIzM5Oyw8YnI+DQrCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCYjMzk7LWImIzM5OywgJiMzOTtodG1sJiMzOTssICYjMzk7LWQm
+IzM5OywgcHJpdmF0ZV9kaXIsPGJyPg0KZGlmZiAtLWdpdCBhL3Rlc3RzL3FhcGktc2NoZW1hL21l
+c29uLmJ1aWxkIGIvdGVzdHMvcWFwaS1zY2hlbWEvbWVzb24uYnVpbGQ8YnI+DQppbmRleCBkZjVh
+Y2ZkMDhiLi5hNWVhZTYyNTNmIDEwMDY0NDxicj4NCi0tLSBhL3Rlc3RzL3FhcGktc2NoZW1hL21l
+c29uLmJ1aWxkPGJyPg0KKysrIGIvdGVzdHMvcWFwaS1zY2hlbWEvbWVzb24uYnVpbGQ8YnI+DQpA
+QCAtMjQxLDcgKzI0MSw4IEBAIGlmIGJ1aWxkX2RvY3M8YnI+DQrCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBvdXRwdXQ6IFsmIzM5O2RvYy1nb29kLnR4dCYj
+Mzk7XSw8YnI+DQrCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCBpbnB1dDogZmlsZXMoJiMzOTtkb2MtZ29vZC5qc29uJiMzOTssICYjMzk7ZG9jLWdvb2QucnN0
+JiMzOTspLDxicj4NCsKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIGJ1aWxkX2J5X2RlZmF1bHQ6IHRydWUsPGJyPg0KLcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgZGVwZW5kX2ZpbGVzOiBzcGhpbnhfZXh0bl9kZXBlbmRz
+LDxicj4NCivCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoG91
+dHB1dDogJiMzOTtkb2NzLnN0YW1wJiMzOTssPGJyPjwvYmxvY2txdW90ZT48ZGl2Pjxicj48L2Rp
+dj48ZGl2PlRoaXMgbGluZSBzaG91bGQgYmUgcmVtb3ZlZCAoaXQgYnJlYWtzIHRoZSB0ZXN0KTwv
+ZGl2PjxkaXY+IDxicj48L2Rpdj48YmxvY2txdW90ZSBjbGFzcz0iZ21haWxfcXVvdGUiIHN0eWxl
+PSJtYXJnaW46MHB4IDBweCAwcHggMC44ZXg7Ym9yZGVyLWxlZnQ6MXB4IHNvbGlkIHJnYigyMDQs
+MjA0LDIwNCk7cGFkZGluZy1sZWZ0OjFleCI+DQorwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqBkZXBmaWxlOiAmIzM5O2RvY3MuZCYjMzk7LDxicj4NCsKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgICMgV2UgdXNlIC1FIHRv
+IHN1cHByZXNzIFNwaGlueCYjMzk7cyBjYWNoaW5nLCBiZWNhdXNlPGJyPg0KwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgIyB3ZSB3YW50IGl0IHRvIGFsd2F5
+cyByZWFsbHkgcnVuIHRoZSBRQVBJIGRvYzxicj4NCsKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgICMgZ2VuZXJhdGlvbiBjb2RlLiBJdCBhbHNvIG1lYW5zIHdl
+IGRvbiYjMzk7dDxicj4NCkBAIC0yNTAsNiArMjUxLDggQEAgaWYgYnVpbGRfZG9jczxicj4NCsKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgICYjMzk7LWImIzM5OywgJiMzOTt0ZXh0JiMzOTssICYjMzk7LUUmIzM5Oyw8YnI+DQrCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCAmIzM5Oy1jJiMzOTssIG1lc29uLnByb2plY3Rfc291cmNlX3Jvb3QoKSAvICYjMzk7ZG9jcyYj
+Mzk7LDxicj4NCsKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgICYjMzk7LUQmIzM5OywgJiMzOTttYXN0ZXJfZG9jPWRvYy1nb29kJiMz
+OTssPGJyPg0KK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgJiMzOTstRGRlcGZpbGU9QERFUEZJTEVAJiMzOTssPGJyPg0KK8KgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+JiMzOTstRGRlcGZpbGVfc3RhbXA9QE9VVFBVVDBAJiMzOTssPGJyPg0KwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgbWVzb24uY3Vy
+cmVudF9zb3VyY2VfZGlyKCksPGJyPg0KwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgbWVzb24uY3VycmVudF9idWlsZF9kaXIoKV0p
+PGJyPg0KPGJyPg0KLS0gPGJyPg0KMi4zMy4wLjcyMS5nMTA2Mjk4ZjdmOTxicj4NCjxicj4NCjxi
+cj4NCjwvYmxvY2txdW90ZT48L2Rpdj48YnIgY2xlYXI9ImFsbCI+PGJyPi0tIDxicj48ZGl2IGRp
+cj0ibHRyIiBjbGFzcz0iZ21haWxfc2lnbmF0dXJlIj5NYXJjLUFuZHLDqSBMdXJlYXU8YnI+PC9k
+aXY+PC9kaXY+DQo=
+--000000000000946f5f05cde79eb6--
 
