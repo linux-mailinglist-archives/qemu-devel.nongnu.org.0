@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6E7B4277FF
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 09:58:42 +0200 (CEST)
-Received: from localhost ([::1]:46206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6F1427803
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 10:01:36 +0200 (CEST)
+Received: from localhost ([::1]:51512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZ7Fh-00083w-Ts
-	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 03:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44362)
+	id 1mZ7IV-0003A1-5F
+	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 04:01:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1mZ7Dp-0005eA-FJ
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 03:56:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29812)
+ id 1mZ7Dr-0005kV-W6
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 03:56:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1mZ7Dn-0002YR-J9
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 03:56:45 -0400
+ id 1mZ7Dq-0002aJ-0M
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 03:56:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633766202;
+ s=mimecast20190719; t=1633766205;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VA+pEssq3CA2VJwfUYWEEnuxy9e9r4mkgUVhxttCbnA=;
- b=duEuWMmSKMICoCDewe95pNOGn8jbfZlImwPOQx+SAhB4Jtoct8aj9Wnbma5ltOdBbYNZ32
- hplFMrwksW90tdWU/eARl59024RVLUqnSbsObYAc80NZCYiBE23Q+lbOe8VI7XFEtWulZX
- Z9TyQ5cOXYaZ0ogM1oGKwiKNjCPdf5A=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-R7AYRHRIMIurqb6wL5EpxQ-1; Sat, 09 Oct 2021 03:56:41 -0400
-X-MC-Unique: R7AYRHRIMIurqb6wL5EpxQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- c8-20020a50d648000000b003daa53c7518so11228121edj.21
- for <qemu-devel@nongnu.org>; Sat, 09 Oct 2021 00:56:40 -0700 (PDT)
+ bh=grvQoPFfVCbC/cdjgucE0lRS2FIaC8jLcY6gpdvCkr4=;
+ b=OZsziVo3ZBHvwkg4TctpUV3MELVLWIDCA9ILXln4mHEslyU1wLWV35MNuwKhEoGMvLytQF
+ zikcgz1lz56cqT7Ohi1nvKKjXgDAoqFjog4vDbpAAWKlFFxkbXGunEArVSfdrTlyjprAy+
+ TR3ZvwR5H3dErq1kAlf2jqcpZn3ko+c=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-gCRbBPg2OP-bhxll76-AWg-1; Sat, 09 Oct 2021 03:56:44 -0400
+X-MC-Unique: gCRbBPg2OP-bhxll76-AWg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ p20-20020a50cd94000000b003db23619472so11279523edi.19
+ for <qemu-devel@nongnu.org>; Sat, 09 Oct 2021 00:56:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VA+pEssq3CA2VJwfUYWEEnuxy9e9r4mkgUVhxttCbnA=;
- b=Mqx28wO7X/pZxiwiK8/griX2QF6Eow3CJMSHFG/bCzP+LoRDQjl1oI4NUHfuZ/2lbM
- VPCUAyPL2cDcWakMOCQKfWmxL4Ut5RPQDXtdtDc/Is1Hknum1t2cTWrPHEWuEYCe2X6r
- 8PwZ6e6QuYti4/0gkQ1zk5N2Tf9I5BpY6smWjA5PK+VWu95Er7QegUfIKhJ2kjjcbM5j
- 4CIdDb8Ec0Eh3wvC3hk1KITWOE/YXV9MQLlbGN63BAJyLKf5s53n82aadB2Vc5uzMOwd
- W27xlHgm5XF9B+/q3MwptwyHplffX6lPabSa6dTceaVeo29q4gZBeH9ULUOlNqBhgWAV
- BHoQ==
-X-Gm-Message-State: AOAM533fW+suxOXFAIJKLKJycbKOCPMDpjlrf8qvikLClA1aXo4vCJ6/
- 8YZyC85hXlifq3g9Ed1iPZxIZ5DwiBatSfUWDJAne1q8wiEVoSiAJSQZFQgs4ZVGfQFcatLcRVe
- QN20yGjZmyEJ5z34=
-X-Received: by 2002:aa7:c945:: with SMTP id h5mr21939691edt.350.1633766199937; 
- Sat, 09 Oct 2021 00:56:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy4dy+EXkF5VWbBXgiu1hySj4TFjnR8jSbkQzWSOMMqkoAjbMvZmb5+qZD0HC1auQEBZa+ekA==
-X-Received: by 2002:aa7:c945:: with SMTP id h5mr21939654edt.350.1633766199663; 
- Sat, 09 Oct 2021 00:56:39 -0700 (PDT)
+ bh=grvQoPFfVCbC/cdjgucE0lRS2FIaC8jLcY6gpdvCkr4=;
+ b=yTsR1AYVjckG5xHKoYANnEy8MagxAM+y2Lg5+nx3s0s5tWzGu+aqt86aa4TvJEPMqk
+ r9DuR+T2MLKdEuugl6WXC+iu3iVPjXF5omxXuxRo4ogOFb6bpQH/5CgL3lrZl73wTzp8
+ L/0ZMgvR24+s4qhaorG95R0t4sAoY38rpV9miD1CuYqKxUeB4bWV9glmfhPF+fs8dtVh
+ l2NxztnAt2UPOHitytw8A4YCdG/a8FTMu6QEhV3ZVUByJWw1v9KR/LHKc13nKuzupOmI
+ YhSXom36/kVKqLJ+LTOry8H1LapXUeZqaqwZbZzUluqzRCCVyY8l0ERucLWCsKYTuQsg
+ FbEg==
+X-Gm-Message-State: AOAM530nPUuqG5mNopAjoIxXRMeKtsoukF1PgtK4SqyQJW7si1shkR0j
+ 5cFBpmOAMGVepaRLriO9H+RIeRWBkCEueYcWLETtpnlkU+SnWV0EKKR51QB0g4orpUGX9dBZEqr
+ VY2+XvvgDZpVL6Bw=
+X-Received: by 2002:a05:6402:16d8:: with SMTP id
+ r24mr21593679edx.47.1633766202945; 
+ Sat, 09 Oct 2021 00:56:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyC6kp+r7PSHw5num+XzofmHATBaWNN9Oo4Sf1XMqXUtfeIP8xV7vDlL8Fqf3XEGDWmh0Rk+Q==
+X-Received: by 2002:a05:6402:16d8:: with SMTP id
+ r24mr21593652edx.47.1633766202677; 
+ Sat, 09 Oct 2021 00:56:42 -0700 (PDT)
 Received: from LeoBras.redhat.com ([2804:431:c7f0:5307:af36:9661:8efc:9b2c])
- by smtp.gmail.com with ESMTPSA id p23sm782059edw.94.2021.10.09.00.56.36
+ by smtp.gmail.com with ESMTPSA id p23sm782059edw.94.2021.10.09.00.56.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 09 Oct 2021 00:56:39 -0700 (PDT)
+ Sat, 09 Oct 2021 00:56:42 -0700 (PDT)
 From: Leonardo Bras <leobras@redhat.com>
 To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PATCH v4 2/3] QIOChannelSocket: Implement io_writev_zerocopy &
- io_flush_zerocopy for CONFIG_LINUX
-Date: Sat,  9 Oct 2021 04:56:12 -0300
-Message-Id: <20211009075612.230283-3-leobras@redhat.com>
+Subject: [PATCH v4 3/3] multifd: Implement zerocopy write in multifd migration
+ (multifd-zerocopy)
+Date: Sat,  9 Oct 2021 04:56:13 -0300
+Message-Id: <20211009075612.230283-4-leobras@redhat.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211009075612.230283-1-leobras@redhat.com>
 References: <20211009075612.230283-1-leobras@redhat.com>
@@ -79,7 +81,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=leobras@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,329 +106,338 @@ Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For CONFIG_LINUX, implement the new optional callbacks io_write_zerocopy and
-io_flush_zerocopy on QIOChannelSocket, but enables it only when MSG_ZEROCOPY
-feature is available in the host kernel, which is checked on
-qio_channel_socket_connect_sync()
+Implement zerocopy on nocomp_send_write(), by making use of QIOChannel
+zerocopy interface.
 
-qio_channel_socket_writev() contents were moved to a helper function
-qio_channel_socket_writev_flags() which accepts an extra argument for flags.
-(This argument is passed directly to sendmsg().
+Change multifd_send_sync_main() so it can distinguish the last sync from
+the setup and per-iteration ones, so a flush_zerocopy() can be called
+at the last sync in order to make sure all RAM is sent before finishing
+the migration.
 
-The above helper function is used to implement qio_channel_socket_writev(),
-with flags = 0, keeping it's behavior unchanged, and
-qio_channel_socket_writev_zerocopy() with flags = MSG_ZEROCOPY.
+Also make it return -1 if flush_zerocopy() fails, in order to cancel
+the migration process, and avoid resuming the guest in the target host
+without receiving all current RAM.
 
-qio_channel_socket_flush_zerocopy() was implemented by counting how many times
-sendmsg(...,MSG_ZEROCOPY) was sucessfully called, and then reading the
-socket's error queue, in order to find how many of them finished sending.
-Flush will loop until those counters are the same, or until some error ocurs.
+This will work fine on RAM migration because the RAM pages are not usually freed,
+and there is no problem on changing the pages content between async_send() and
+the actual sending of the buffer, because this change will dirty the page and
+cause it to be re-sent on a next iteration anyway.
 
-A new function qio_channel_socket_poll() was also created in order to avoid
-busy-looping recvmsg() in qio_channel_socket_flush_zerocopy() while waiting for
-updates in socket's error queue.
-
-Notes on using writev_zerocopy():
-1: Buffer
-- As MSG_ZEROCOPY tells the kernel to use the same user buffer to avoid copying,
-some caution is necessary to avoid overwriting any buffer before it's sent.
-If something like this happen, a newer version of the buffer may be sent instead.
-- If this is a problem, it's recommended to call flush_zerocopy() before freeing
-or re-using the buffer.
-
-2: Locked memory
-- When using MSG_ZERCOCOPY, the buffer memory will be locked after queued, and
-unlocked after it's sent.
-- Depending on the size of each buffer, and how often it's sent, it may require
-a larger amount of locked memory than usually available to non-root user.
-- If the required amount of locked memory is not available, writev_zerocopy
-will return an error, which can abort an operation like migration,
-- Because of this, when an user code wants to add zerocopy as a feature, it
-requires a mechanism to disable it, so it can still be acessible to less
-privileged users.
+Given a lot of locked memory may be needed in order to use multid migration
+with zerocopy enabled, make it optional by creating a new parameter
+multifd-zerocopy on qapi, so low-privileged users can still perform multifd
+migrations.
 
 Signed-off-by: Leonardo Bras <leobras@redhat.com>
 ---
- include/io/channel-socket.h |   2 +
- include/io/channel.h        |   1 +
- io/channel-socket.c         | 180 ++++++++++++++++++++++++++++++++++--
- 3 files changed, 173 insertions(+), 10 deletions(-)
+ qapi/migration.json   | 18 ++++++++++++++++++
+ migration/migration.h |  1 +
+ migration/multifd.h   |  2 +-
+ migration/migration.c | 20 ++++++++++++++++++++
+ migration/multifd.c   | 33 ++++++++++++++++++++++++++++-----
+ migration/ram.c       | 20 +++++++++++++-------
+ monitor/hmp-cmds.c    |  4 ++++
+ 7 files changed, 85 insertions(+), 13 deletions(-)
 
-diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
-index e747e63514..81d04baa4c 100644
---- a/include/io/channel-socket.h
-+++ b/include/io/channel-socket.h
-@@ -47,6 +47,8 @@ struct QIOChannelSocket {
-     socklen_t localAddrLen;
-     struct sockaddr_storage remoteAddr;
-     socklen_t remoteAddrLen;
-+    ssize_t zerocopy_queued;
-+    ssize_t zerocopy_sent;
- };
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 88f07baedd..c4890cbb54 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -724,6 +724,11 @@
+ #                      will consume more CPU.
+ #                      Defaults to 1. (Since 5.0)
+ #
++# @multifd-zerocopy: Controls behavior on sending memory pages on multifd migration.
++#                    When true, enables a zerocopy mechanism for sending memory
++#                    pages, if host does support it.
++#                    Defaults to false. (Since 6.2)
++#
+ # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+ #                        aliases for the purpose of dirty bitmap migration.  Such
+ #                        aliases may for example be the corresponding names on the
+@@ -758,6 +763,7 @@
+            'xbzrle-cache-size', 'max-postcopy-bandwidth',
+            'max-cpu-throttle', 'multifd-compression',
+            'multifd-zlib-level' ,'multifd-zstd-level',
++	   'multifd-zerocopy',
+            'block-bitmap-mapping' ] }
  
+ ##
+@@ -884,6 +890,11 @@
+ #                      will consume more CPU.
+ #                      Defaults to 1. (Since 5.0)
+ #
++# @multifd-zerocopy: Controls behavior on sending memory pages on multifd migration.
++#                    When true, enables a zerocopy mechanism for sending memory
++#                    pages, if host does support it.
++#                    Defaults to false. (Since 6.2)
++#
+ # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+ #                        aliases for the purpose of dirty bitmap migration.  Such
+ #                        aliases may for example be the corresponding names on the
+@@ -934,6 +945,7 @@
+             '*multifd-compression': 'MultiFDCompression',
+             '*multifd-zlib-level': 'uint8',
+             '*multifd-zstd-level': 'uint8',
++	    '*multifd-zerocopy': 'bool',
+             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
  
-diff --git a/include/io/channel.h b/include/io/channel.h
-index e7d4e1521f..9d74629226 100644
---- a/include/io/channel.h
-+++ b/include/io/channel.h
-@@ -31,6 +31,7 @@ OBJECT_DECLARE_TYPE(QIOChannel, QIOChannelClass,
+ ##
+@@ -1080,6 +1092,11 @@
+ #                      will consume more CPU.
+ #                      Defaults to 1. (Since 5.0)
+ #
++# @multifd-zerocopy: Controls behavior on sending memory pages on multifd migration.
++#                    When true, enables a zerocopy mechanism for sending memory
++#                    pages, if host does support it.
++#                    Defaults to false. (Since 6.2)
++#
+ # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+ #                        aliases for the purpose of dirty bitmap migration.  Such
+ #                        aliases may for example be the corresponding names on the
+@@ -1128,6 +1145,7 @@
+             '*multifd-compression': 'MultiFDCompression',
+             '*multifd-zlib-level': 'uint8',
+             '*multifd-zstd-level': 'uint8',
++	    '*multifd-zerocopy': 'bool',
+             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
  
+ ##
+diff --git a/migration/migration.h b/migration/migration.h
+index 7a5aa8c2fd..860d83cc41 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -338,6 +338,7 @@ int migrate_multifd_channels(void);
+ MultiFDCompression migrate_multifd_compression(void);
+ int migrate_multifd_zlib_level(void);
+ int migrate_multifd_zstd_level(void);
++int migrate_multifd_zerocopy(void);
  
- #define QIO_CHANNEL_ERR_BLOCK -2
-+#define QIO_CHANNEL_ERR_NOBUFS -3
+ int migrate_use_xbzrle(void);
+ uint64_t migrate_xbzrle_cache_size(void);
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 8d6751f5ed..8f5c5a6953 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -20,7 +20,7 @@ int multifd_load_cleanup(Error **errp);
+ bool multifd_recv_all_channels_created(void);
+ bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
+ void multifd_recv_sync_main(void);
+-void multifd_send_sync_main(QEMUFile *f);
++int multifd_send_sync_main(QEMUFile *f, bool last_sync);
+ int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset);
  
- #define QIO_CHANNEL_WRITE_FLAG_ZEROCOPY 0x1
- 
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index 606ec97cf7..6cc42057b2 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -26,6 +26,10 @@
- #include "io/channel-watch.h"
- #include "trace.h"
- #include "qapi/clone-visitor.h"
-+#ifdef CONFIG_LINUX
-+#include <linux/errqueue.h>
-+#include <poll.h>
-+#endif
- 
- #define SOCKET_MAX_FDS 16
- 
-@@ -55,6 +59,8 @@ qio_channel_socket_new(void)
- 
-     sioc = QIO_CHANNEL_SOCKET(object_new(TYPE_QIO_CHANNEL_SOCKET));
-     sioc->fd = -1;
-+    sioc->zerocopy_queued = 0;
-+    sioc->zerocopy_sent = 0;
- 
-     ioc = QIO_CHANNEL(sioc);
-     qio_channel_set_feature(ioc, QIO_CHANNEL_FEATURE_SHUTDOWN);
-@@ -140,6 +146,7 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
-                                     Error **errp)
- {
-     int fd;
-+    int ret, v = 1;
- 
-     trace_qio_channel_socket_connect_sync(ioc, addr);
-     fd = socket_connect(addr, errp);
-@@ -154,6 +161,17 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
-         return -1;
+ /* Multifd Compression flags */
+diff --git a/migration/migration.c b/migration/migration.c
+index 6ac807ef3d..326f7c515f 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -879,6 +879,8 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
+     params->multifd_zlib_level = s->parameters.multifd_zlib_level;
+     params->has_multifd_zstd_level = true;
+     params->multifd_zstd_level = s->parameters.multifd_zstd_level;
++    params->has_multifd_zerocopy = true;
++    params->multifd_zerocopy = s->parameters.multifd_zerocopy;
+     params->has_xbzrle_cache_size = true;
+     params->xbzrle_cache_size = s->parameters.xbzrle_cache_size;
+     params->has_max_postcopy_bandwidth = true;
+@@ -1523,6 +1525,9 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
+     if (params->has_multifd_compression) {
+         dest->multifd_compression = params->multifd_compression;
      }
++    if (params->has_multifd_zerocopy) {
++        dest->multifd_zerocopy = params->multifd_zerocopy;
++    }
+     if (params->has_xbzrle_cache_size) {
+         dest->xbzrle_cache_size = params->xbzrle_cache_size;
+     }
+@@ -1635,6 +1640,9 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
+     if (params->has_multifd_compression) {
+         s->parameters.multifd_compression = params->multifd_compression;
+     }
++    if (params->has_multifd_zerocopy) {
++        s->parameters.multifd_zerocopy = params->multifd_zerocopy;
++    }
+     if (params->has_xbzrle_cache_size) {
+         s->parameters.xbzrle_cache_size = params->xbzrle_cache_size;
+         xbzrle_cache_resize(params->xbzrle_cache_size, errp);
+@@ -2516,6 +2524,15 @@ int migrate_multifd_zstd_level(void)
+     return s->parameters.multifd_zstd_level;
+ }
  
-+#ifdef CONFIG_LINUX
-+    ret = qemu_setsockopt(fd, SOL_SOCKET, SO_ZEROCOPY, &v, sizeof(v));
-+    if (ret < 0) {
-+        /* Zerocopy not available on host */
++int migrate_multifd_zerocopy(void)
++{
++    MigrationState *s;
++
++    s = migrate_get_current();
++
++    return s->parameters.multifd_zerocopy;
++}
++
+ int migrate_use_xbzrle(void)
+ {
+     MigrationState *s;
+@@ -4164,6 +4181,8 @@ static Property migration_properties[] = {
+     DEFINE_PROP_UINT8("multifd-zstd-level", MigrationState,
+                       parameters.multifd_zstd_level,
+                       DEFAULT_MIGRATE_MULTIFD_ZSTD_LEVEL),
++    DEFINE_PROP_BOOL("multifd-zerocopy", MigrationState,
++                      parameters.multifd_zerocopy, false),
+     DEFINE_PROP_SIZE("xbzrle-cache-size", MigrationState,
+                       parameters.xbzrle_cache_size,
+                       DEFAULT_MIGRATE_XBZRLE_CACHE_SIZE),
+@@ -4261,6 +4280,7 @@ static void migration_instance_init(Object *obj)
+     params->has_multifd_compression = true;
+     params->has_multifd_zlib_level = true;
+     params->has_multifd_zstd_level = true;
++    params->has_multifd_zerocopy = true;
+     params->has_xbzrle_cache_size = true;
+     params->has_max_postcopy_bandwidth = true;
+     params->has_max_cpu_throttle = true;
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 377da78f5b..17a7d90de3 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -105,7 +105,13 @@ static int nocomp_send_prepare(MultiFDSendParams *p, uint32_t used,
+  */
+ static int nocomp_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
+ {
+-    return qio_channel_writev_all(p->c, p->pages->iov, used, errp);
++    int flags = 0;
++
++    if (migrate_multifd_zerocopy()) {
++        flags = QIO_CHANNEL_WRITE_FLAG_ZEROCOPY;
++    }
++
++    return qio_channel_writev_all_flags(p->c, p->pages->iov, used, flags, errp);
+ }
+ 
+ /**
+@@ -575,19 +581,23 @@ void multifd_save_cleanup(void)
+     multifd_send_state = NULL;
+ }
+ 
+-void multifd_send_sync_main(QEMUFile *f)
++int multifd_send_sync_main(QEMUFile *f, bool last_sync)
+ {
+     int i;
++    bool flush_zerocopy;
+ 
+     if (!migrate_use_multifd()) {
+-        return;
 +        return 0;
-+    }
-+
-+    qio_channel_set_feature(QIO_CHANNEL(ioc),
-+                            QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY);
-+#endif
-+
-     return 0;
- }
- 
-@@ -520,12 +538,13 @@ static ssize_t qio_channel_socket_readv(QIOChannel *ioc,
-     return ret;
- }
- 
--static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
--                                         const struct iovec *iov,
--                                         size_t niov,
--                                         int *fds,
--                                         size_t nfds,
--                                         Error **errp)
-+static ssize_t qio_channel_socket_writev_flags(QIOChannel *ioc,
-+                                               const struct iovec *iov,
-+                                               size_t niov,
-+                                               int *fds,
-+                                               size_t nfds,
-+                                               int flags,
-+                                               Error **errp)
- {
-     QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
-     ssize_t ret;
-@@ -558,20 +577,34 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
      }
- 
-  retry:
--    ret = sendmsg(sioc->fd, &msg, 0);
-+    ret = sendmsg(sioc->fd, &msg, flags);
-     if (ret <= 0) {
--        if (errno == EAGAIN) {
-+        switch (errno) {
-+        case EAGAIN:
-             return QIO_CHANNEL_ERR_BLOCK;
--        }
--        if (errno == EINTR) {
-+        case EINTR:
-             goto retry;
-+        case ENOBUFS:
-+            return QIO_CHANNEL_ERR_NOBUFS;
+     if (multifd_send_state->pages->used) {
+         if (multifd_send_pages(f) < 0) {
+             error_report("%s: multifd_send_pages fail", __func__);
+-            return;
++            return 0;
          }
-+
-         error_setg_errno(errp, errno,
-                          "Unable to write to socket");
-         return -1;
      }
-     return ret;
- }
 +
-+static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
-+                                         const struct iovec *iov,
-+                                         size_t niov,
-+                                         int *fds,
-+                                         size_t nfds,
-+                                         Error **errp)
-+{
-+    return qio_channel_socket_writev_flags(ioc, iov, niov, fds, nfds, 0, errp);
-+}
++    flush_zerocopy = last_sync && migrate_multifd_zerocopy();
 +
- #else /* WIN32 */
- static ssize_t qio_channel_socket_readv(QIOChannel *ioc,
-                                         const struct iovec *iov,
-@@ -658,6 +691,129 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
- }
- #endif /* WIN32 */
+     for (i = 0; i < migrate_multifd_channels(); i++) {
+         MultiFDSendParams *p = &multifd_send_state->params[i];
  
+@@ -598,7 +608,7 @@ void multifd_send_sync_main(QEMUFile *f)
+         if (p->quit) {
+             error_report("%s: channel %d has already quit", __func__, i);
+             qemu_mutex_unlock(&p->mutex);
+-            return;
++            return 0;
+         }
+ 
+         p->packet_num = multifd_send_state->packet_num++;
+@@ -609,6 +619,17 @@ void multifd_send_sync_main(QEMUFile *f)
+         ram_counters.transferred += p->packet_len;
+         qemu_mutex_unlock(&p->mutex);
+         qemu_sem_post(&p->sem);
 +
-+#ifdef CONFIG_LINUX
++        if (flush_zerocopy) {
++            int ret;
++            Error *err = NULL;
 +
-+static int qio_channel_socket_poll(QIOChannelSocket *sioc, bool zerocopy,
-+                                   Error **errp)
-+{
-+    struct pollfd pfd;
-+    int ret;
-+
-+    pfd.fd = sioc->fd;
-+    pfd.events = 0;
-+
-+ retry:
-+    ret = poll(&pfd, 1, -1);
-+    if (ret < 0) {
-+        switch (errno) {
-+        case EAGAIN:
-+        case EINTR:
-+            goto retry;
-+        default:
-+            error_setg_errno(errp, errno,
-+                             "Poll error");
-+            return ret;
-+        }
-+    }
-+
-+    if (pfd.revents & (POLLHUP | POLLNVAL)) {
-+        error_setg(errp, "Poll error: Invalid or disconnected fd");
-+        return -1;
-+    }
-+
-+    if (!zerocopy && (pfd.revents & POLLERR)) {
-+        error_setg(errp, "Poll error: Errors present in errqueue");
-+        return -1;
-+    }
-+
-+    return ret;
-+}
-+
-+static ssize_t qio_channel_socket_writev_zerocopy(QIOChannel *ioc,
-+                                                  const struct iovec *iov,
-+                                                  size_t niov,
-+                                                  Error **errp)
-+{
-+    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
-+    ssize_t ret;
-+
-+    ret = qio_channel_socket_writev_flags(ioc, iov, niov, NULL, 0,
-+                                          MSG_ZEROCOPY, errp);
-+    if (ret == QIO_CHANNEL_ERR_NOBUFS) {
-+        if (errp && *errp) {
-+            error_setg_errno(errp, errno,
-+                             "Process can't lock enough memory for using MSG_ZEROCOPY");
-+        }
-+        return -1;
-+    }
-+
-+    sioc->zerocopy_queued++;
-+    return ret;
-+}
-+
-+static int qio_channel_socket_flush_zerocopy(QIOChannel *ioc,
-+                                             Error **errp)
-+{
-+    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
-+    struct msghdr msg = {};
-+    struct sock_extended_err *serr;
-+    struct cmsghdr *cm;
-+    char control[CMSG_SPACE(sizeof(*serr))];
-+    int ret;
-+
-+    msg.msg_control = control;
-+    msg.msg_controllen = sizeof(control);
-+    memset(control, 0, sizeof(control));
-+
-+    while (sioc->zerocopy_sent < sioc->zerocopy_queued) {
-+        ret = recvmsg(sioc->fd, &msg, MSG_ERRQUEUE);
-+        if (ret < 0) {
-+            switch (errno) {
-+            case EAGAIN:
-+                /* Nothing on errqueue, wait until something is available*/
-+                ret = qio_channel_socket_poll(sioc, true, errp);
-+                if (ret < 0) {
-+                    return -1;
-+                }
-+                continue;
-+            case EINTR:
-+                continue;
-+            default:
-+                error_setg_errno(errp, errno,
-+                                 "Unable to read errqueue");
++            ret = qio_channel_flush_zerocopy(p->c, &err);
++            if (ret < 0) {
++                error_report_err(err);
 +                return -1;
 +            }
 +        }
+     }
+     for (i = 0; i < migrate_multifd_channels(); i++) {
+         MultiFDSendParams *p = &multifd_send_state->params[i];
+@@ -617,6 +638,8 @@ void multifd_send_sync_main(QEMUFile *f)
+         qemu_sem_wait(&p->sem_sync);
+     }
+     trace_multifd_send_sync_main(multifd_send_state->packet_num);
 +
-+        cm = CMSG_FIRSTHDR(&msg);
-+        if (cm->cmsg_level != SOL_IP &&
-+            cm->cmsg_type != IP_RECVERR) {
-+            error_setg_errno(errp, EPROTOTYPE,
-+                             "Wrong cmsg in errqueue");
-+            return -1;
-+        }
-+
-+        serr = (void *) CMSG_DATA(cm);
-+        if (serr->ee_errno != SO_EE_ORIGIN_NONE) {
-+            error_setg_errno(errp, serr->ee_errno,
-+                             "Error on socket");
-+            return -1;
-+        }
-+        if (serr->ee_origin != SO_EE_ORIGIN_ZEROCOPY) {
-+            error_setg_errno(errp, serr->ee_origin,
-+                             "Error not from zerocopy");
-+            return -1;
-+        }
-+
-+        /* No errors, count sucessfully finished sendmsg()*/
-+        sioc->zerocopy_sent += serr->ee_data - serr->ee_info + 1;
-+    }
 +    return 0;
-+}
-+
-+#endif /* CONFIG_LINUX */
-+
- static int
- qio_channel_socket_set_blocking(QIOChannel *ioc,
-                                 bool enabled,
-@@ -787,6 +943,10 @@ static void qio_channel_socket_class_init(ObjectClass *klass,
-     ioc_klass->io_set_delay = qio_channel_socket_set_delay;
-     ioc_klass->io_create_watch = qio_channel_socket_create_watch;
-     ioc_klass->io_set_aio_fd_handler = qio_channel_socket_set_aio_fd_handler;
-+#ifdef CONFIG_LINUX
-+    ioc_klass->io_writev_zerocopy = qio_channel_socket_writev_zerocopy;
-+    ioc_klass->io_flush_zerocopy = qio_channel_socket_flush_zerocopy;
-+#endif
  }
  
- static const TypeInfo qio_channel_socket_info = {
+ static void *multifd_send_thread(void *opaque)
+diff --git a/migration/ram.c b/migration/ram.c
+index 7a43bfd7af..ada57846a5 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2839,7 +2839,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
+     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
+     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+ 
+-    multifd_send_sync_main(f);
++    multifd_send_sync_main(f, false);
+     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+     qemu_fflush(f);
+ 
+@@ -2948,7 +2948,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
+ out:
+     if (ret >= 0
+         && migration_is_setup_or_active(migrate_get_current()->state)) {
+-        multifd_send_sync_main(rs->f);
++        multifd_send_sync_main(rs->f, false);
+         qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+         qemu_fflush(f);
+         ram_counters.transferred += 8;
+@@ -3006,13 +3006,19 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+         ram_control_after_iterate(f, RAM_CONTROL_FINISH);
+     }
+ 
+-    if (ret >= 0) {
+-        multifd_send_sync_main(rs->f);
+-        qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+-        qemu_fflush(f);
++    if (ret < 0) {
++        return ret;
+     }
+ 
+-    return ret;
++    ret = multifd_send_sync_main(rs->f, true);
++    if (ret < 0) {
++        return -1;
++    }
++
++    qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
++    qemu_fflush(f);
++
++    return 0;
+ }
+ 
+ static void ram_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index bcaa41350e..b04f14ec1e 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1364,6 +1364,10 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
+         p->has_multifd_zstd_level = true;
+         visit_type_uint8(v, param, &p->multifd_zstd_level, &err);
+         break;
++    case MIGRATION_PARAMETER_MULTIFD_ZEROCOPY:
++        p->has_multifd_zerocopy = true;
++        visit_type_bool(v, param, &p->multifd_zerocopy, &err);
++        break;
+     case MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE:
+         p->has_xbzrle_cache_size = true;
+         if (!visit_type_size(v, param, &cache_size, &err)) {
 -- 
 2.33.0
 
