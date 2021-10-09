@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 915ED427D83
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 23:10:06 +0200 (CEST)
-Received: from localhost ([::1]:38414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBDF427D88
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 23:13:31 +0200 (CEST)
+Received: from localhost ([::1]:45398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZJbY-00066S-OI
-	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 17:10:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37594)
+	id 1mZJes-0002QQ-Ez
+	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 17:13:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mZJaU-0004te-LD
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:08:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50760)
+ id 1mZJac-00051g-8Z
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:09:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mZJaR-0008Fe-6B
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:08:57 -0400
+ id 1mZJaa-0008G6-Ab
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:09:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633813733;
+ s=mimecast20190719; t=1633813743;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=k14dEvMnbbOQUT5Lb0p60MJVapmniC9z+oRhtt7ZhoE=;
- b=BJ/bn+82rNkCgoy5QQdHClaLuuziwoe2j8HmKOcJQoynxUQ0qBs5ehGvXZ9tJKF/82mEjK
- QF2gFowPtPcDSQHPNjtpwM6MpDQTyM1Qc0/loMOMa8g4Qst/yzykZfOLp84/KimjYZS1PU
- j52uXYBMRJJ8JhR/FPX89+8x01pnamA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nlGQH7tT+dv3NlEIwKaVuvZxQ8G3doM3wk5rMJgTbVk=;
+ b=KPpP2vQX6hy3aFCSuHVMAn3KzEOj6ubC+XOlTXCe7gXEWSFlX7GyTsllVUvsmQU82fiwm1
+ JQzdEl/HJ0p+wIvWUWVGkGs0YGWK9Dwn1TsUjGa5ARRsqWmLa43j/GadNVyJy9pi6v82f0
+ b8lorxg2S5JAgsL+VQ6qI6sQ6YwxDTo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-nXLYozZCPYCNzCpQwz3Y2A-1; Sat, 09 Oct 2021 17:08:48 -0400
-X-MC-Unique: nXLYozZCPYCNzCpQwz3Y2A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-224-xRAu9noCNoS6F0DYmfiELg-1; Sat, 09 Oct 2021 17:09:02 -0400
+X-MC-Unique: xRAu9noCNoS6F0DYmfiELg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC720801A93
- for <qemu-devel@nongnu.org>; Sat,  9 Oct 2021 21:08:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43E6B8042C3
+ for <qemu-devel@nongnu.org>; Sat,  9 Oct 2021 21:09:01 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D4C5A5D9D3;
- Sat,  9 Oct 2021 21:08:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA1105C1B4;
+ Sat,  9 Oct 2021 21:08:51 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/37] Add D-Bus display backend
-Date: Sun, 10 Oct 2021 01:08:01 +0400
-Message-Id: <20211009210838.2219430-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 01/37] build-sys: move Spice configure handling to meson
+Date: Sun, 10 Oct 2021 01:08:02 +0400
+Message-Id: <20211009210838.2219430-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20211009210838.2219430-1-marcandre.lureau@redhat.com>
+References: <20211009210838.2219430-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -81,218 +84,210 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,=0D
-=0D
-Both Spice and VNC are relatively complex and inefficient for local-only=0D
-display/console export.=0D
-=0D
-The goal of this display backend is to export over D-Bus an interface close=
- to=0D
-the QEMU internal APIs. Any -display or -audio backend should be possible t=
-o=0D
-implement externally that way. It will allow third-parties to maintain thei=
-r own=0D
-backends (UI toolkits, servers etc), and eventually reduce the responsabili=
-ty on=0D
-QEMU.=0D
-=0D
-D-Bus is the protocol of choice for the desktop, it has many convenient bin=
-dings=0D
-for various languages and tools. Data blob transfer is more efficient than =
-QMP=0D
-too. Backends can come and go as needed: you can have several display opene=
-d=0D
-(say Boxes & virt-manager), while exporting the display over VNC for exampl=
-e=0D
-from a different process. It works best on Unix, but there is some Windows=
-=0D
-support too (even Windows has some AF_UNIX nowadays, and the WSL2 situation=
- may=0D
-change the future of QEMU on Windows anyway).=0D
-=0D
-Using it only requires "-display dbus" on any reasonable Linux desktop with=
- a=0D
-D-Bus session bus. Then you use can use busctl, d-feet or gdbus, ex:=0D
-$ gdbus introspect --session -r -d org.qemu -o /=0D
-=0D
-See the different patches and documentation for further options. The p2p=3D=
-on mode=0D
-should also allow users running bus-less (on MacOS for ex). We can also add=
- TCP=0D
-socket if needed (although more work would be needed in this case to replac=
-e=0D
-the FD-passing with some extra TCP listening socket).=0D
-=0D
-A WIP Rust/Gtk4 client and VNC server is: https://gitlab.com/marcandre.lure=
-au/qemu-display/=0D
-(check README.md for details, then `cargo run` should connect to QEMU)=0D
-=0D
-The Sphinx build support works best with "[PATCH 0/6] Some Sphinx improveme=
-nts",=0D
-where module dependency tracking is improved.=0D
-=0D
-I can resend the first set of preliminary patches after some feedback.=0D
-=0D
-Thanks=0D
-=0D
-v2:=0D
- - rebased=0D
- - drop for the vhost-user-gpu work for now=0D
- - add documentation, including D-Bus Sphinx directive=0D
- - add bus-less option (p2p=3Don)=0D
- - add some basic tests for the Console/Keyboard interfaces=0D
- - add clipboard sharing support=0D
- - add chardev redirection support (allowing USB redirection, monitors,=0D
-   serials...)=0D
- - register a VC handler to export default serial/monitors=0D
- - probably a few bug fixes here and there too=0D
-=0D
-Marc-Andr=C3=A9 Lureau (37):=0D
-  build-sys: move Spice configure handling to meson=0D
-  ui/vdagent: add CHECK_SPICE_PROTOCOL_VERSION=0D
-  ui/vdagent: replace #if 0 with protocol version check=0D
-  ui: generalize clipboard notifier=0D
-  ui/vdagent: add serial capability support=0D
-  ui/clipboard: add qemu_clipboard_check_serial()=0D
-  ui/clipboard: add a clipboard reset serial event=0D
-  hw/display: report an error if virgl initialization failed=0D
-  virtio-gpu: use VIRTIO_GPU_RESOURCE_FLAG_Y_0_TOP=0D
-  ui: do not delay further remote resize=0D
-  ui: factor out qemu_console_set_display_gl_ctx()=0D
-  ui: associate GL context outside of display listener registration=0D
-  ui: make gl_block use a counter=0D
-  ui: add a gl-unblock warning timer=0D
-  ui: simplify gl unblock & flush=0D
-  ui: dispatch GL events to all listeners=0D
-  ui: split the GL context in a different object=0D
-  ui: move qemu_spice_fill_device_address to ui/util.c=0D
-  console: save current scanout details=0D
-  scripts: teach modinfo to skip non-C sources=0D
-  docs/sphinx: add sphinx modules to include D-Bus documentation=0D
-  backends: move dbus-vmstate1.xml to backends/=0D
-  docs: move D-Bus VMState documentation to source XML=0D
-  docs: add dbus-display documentation=0D
-  build-sys: set glib dependency version=0D
-  ui: add a D-Bus display backend=0D
-  ui/dbus: add p2p=3Don/off option=0D
-  tests/qtests: add qtest_qmp_add_client()=0D
-  tests: start dbus-display-test=0D
-  audio: add "dbus" audio backend=0D
-  ui/dbus: add clipboard interface=0D
-  chardev: teach socket to accept no addresses=0D
-  chardev: make socket derivable=0D
-  option: add g_auto for QemuOpts=0D
-  ui/dbus: add chardev backend & interface=0D
-  ui/dbus: register D-Bus VC handler=0D
-  MAINTAINERS: update D-Bus section=0D
-=0D
- docs/conf.py                    |   8 +=0D
- docs/interop/dbus-display.rst   |  31 ++=0D
- docs/interop/dbus-vmstate.rst   |  52 +--=0D
- docs/interop/dbus.rst           |   2 +=0D
- docs/interop/index.rst          |   1 +=0D
- docs/sphinx/dbusdoc.py          | 166 +++++++=0D
- docs/sphinx/dbusdomain.py       | 406 +++++++++++++++++=0D
- docs/sphinx/dbusparser.py       | 373 ++++++++++++++++=0D
- docs/sphinx/fakedbusdoc.py      |  25 ++=0D
- configure                       |  49 +-=0D
- meson.build                     |  46 +-=0D
- qapi/audio.json                 |   3 +-=0D
- qapi/char.json                  |  27 ++=0D
- qapi/misc.json                  |   4 +-=0D
- qapi/ui.json                    |  34 +-=0D
- audio/audio_int.h               |   7 +=0D
- audio/audio_template.h          |   2 +=0D
- include/chardev/char-socket.h   |  86 ++++=0D
- include/qemu/cutils.h           |   5 +=0D
- include/qemu/dbus.h             |  24 +=0D
- include/qemu/option.h           |   2 +=0D
- include/ui/clipboard.h          |  55 ++-=0D
- include/ui/console.h            |  70 ++-=0D
- include/ui/dbus-display.h       |  17 +=0D
- include/ui/dbus-module.h        |  11 +=0D
- include/ui/egl-context.h        |   6 +-=0D
- include/ui/gtk.h                |  11 +-=0D
- include/ui/sdl2.h               |   7 +-=0D
- include/ui/spice-display.h      |   5 +-=0D
- tests/qtest/libqos/libqtest.h   |  10 +=0D
- ui/dbus.h                       | 144 ++++++=0D
- audio/audio.c                   |   1 +=0D
- audio/dbusaudio.c               | 654 +++++++++++++++++++++++++++=0D
- chardev/char-socket.c           |  72 +--=0D
- hw/display/qxl.c                |   7 +-=0D
- hw/display/vhost-user-gpu.c     |   2 +-=0D
- hw/display/virtio-gpu-base.c    |   5 +-=0D
- hw/display/virtio-gpu-virgl.c   |   3 +-=0D
- hw/display/virtio-vga.c         |  11 -=0D
- monitor/qmp-cmds.c              |  13 +=0D
- tests/qtest/dbus-display-test.c | 281 ++++++++++++=0D
- tests/qtest/libqtest.c          |  19 +=0D
- ui/clipboard.c                  |  34 +-=0D
- ui/console.c                    | 305 +++++++++----=0D
- ui/dbus-chardev.c               | 296 +++++++++++++=0D
- ui/dbus-clipboard.c             | 457 +++++++++++++++++++=0D
- ui/dbus-console.c               | 497 +++++++++++++++++++++=0D
- ui/dbus-error.c                 |  48 ++=0D
- ui/dbus-listener.c              | 486 ++++++++++++++++++++=0D
- ui/dbus-module.c                |  35 ++=0D
- ui/dbus.c                       | 477 ++++++++++++++++++++=0D
- ui/egl-context.c                |   6 +-=0D
- ui/egl-headless.c               |  20 +-=0D
- ui/gtk-clipboard.c              |  23 +-=0D
- ui/gtk-egl.c                    |  11 +-=0D
- ui/gtk-gl-area.c                |   9 +-=0D
- ui/gtk.c                        |  28 +-=0D
- ui/sdl2-gl.c                    |  12 +-=0D
- ui/sdl2.c                       |  16 +-=0D
- ui/spice-core.c                 |  50 ---=0D
- ui/spice-display.c              |  27 +-=0D
- ui/util.c                       |  75 ++++=0D
- ui/vdagent.c                    |  94 +++-=0D
- ui/vnc-clipboard.c              |  21 +-=0D
- ui/vnc.c                        |   4 +-=0D
- MAINTAINERS                     |  10 +-=0D
- audio/meson.build               |   8 +-=0D
- audio/trace-events              |   5 +=0D
- backends/dbus-vmstate1.xml      |  52 +++=0D
- chardev/meson.build             |   2 +-=0D
- meson_options.txt               |   6 +=0D
- qemu-options.hx                 |  20 +=0D
- scripts/modinfo-collect.py      |   3 +=0D
- tests/qtest/dbus-vmstate1.xml   |  12 -=0D
- tests/qtest/meson.build         |  10 +-=0D
- ui/cocoa.m                      |  20 +-=0D
- ui/dbus-display1.xml            | 761 ++++++++++++++++++++++++++++++++=0D
- ui/meson.build                  |  32 +-=0D
- ui/trace-events                 |  15 +=0D
- 79 files changed, 6284 insertions(+), 460 deletions(-)=0D
- create mode 100644 docs/interop/dbus-display.rst=0D
- create mode 100644 docs/sphinx/dbusdoc.py=0D
- create mode 100644 docs/sphinx/dbusdomain.py=0D
- create mode 100644 docs/sphinx/dbusparser.py=0D
- create mode 100644 docs/sphinx/fakedbusdoc.py=0D
- create mode 100644 include/chardev/char-socket.h=0D
- create mode 100644 include/ui/dbus-display.h=0D
- create mode 100644 include/ui/dbus-module.h=0D
- create mode 100644 ui/dbus.h=0D
- create mode 100644 audio/dbusaudio.c=0D
- create mode 100644 tests/qtest/dbus-display-test.c=0D
- create mode 100644 ui/dbus-chardev.c=0D
- create mode 100644 ui/dbus-clipboard.c=0D
- create mode 100644 ui/dbus-console.c=0D
- create mode 100644 ui/dbus-error.c=0D
- create mode 100644 ui/dbus-listener.c=0D
- create mode 100644 ui/dbus-module.c=0D
- create mode 100644 ui/dbus.c=0D
- create mode 100644 ui/util.c=0D
- create mode 100644 backends/dbus-vmstate1.xml=0D
- delete mode 100644 tests/qtest/dbus-vmstate1.xml=0D
- create mode 100644 ui/dbus-display1.xml=0D
-=0D
---=20=0D
-2.33.0.721.g106298f7f9=0D
-=0D
+Add meson feature options for Spice and Spice protocol, and move
+detection logic out of configure.
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ configure           | 48 ++-------------------------------------------
+ meson.build         | 27 ++++++++++++-------------
+ chardev/meson.build |  2 +-
+ meson_options.txt   |  4 ++++
+ ui/meson.build      |  4 ++--
+ 5 files changed, 22 insertions(+), 63 deletions(-)
+
+diff --git a/configure b/configure
+index 877bf3d76a..375cde2b44 100755
+--- a/configure
++++ b/configure
+@@ -372,7 +372,7 @@ pie=""
+ qom_cast_debug="yes"
+ trace_backends="log"
+ trace_file="trace"
+-spice="$default_feature"
++spice="auto"
+ spice_protocol="auto"
+ rbd="auto"
+ smartcard="auto"
+@@ -3525,41 +3525,6 @@ EOF
+   fi
+ fi
+ 
+-##########################################
+-# spice probe
+-if test "$spice_protocol" != "no" ; then
+-  spice_protocol_cflags=$($pkg_config --cflags spice-protocol 2>/dev/null)
+-  if $pkg_config --atleast-version=0.12.3 spice-protocol; then
+-    spice_protocol="yes"
+-  else
+-    if test "$spice_protocol" = "yes" ; then
+-      feature_not_found "spice_protocol" \
+-          "Install spice-protocol(>=0.12.3) devel"
+-    fi
+-    spice_protocol="no"
+-  fi
+-fi
+-
+-if test "$spice" != "no" ; then
+-  cat > $TMPC << EOF
+-#include <spice.h>
+-int main(void) { spice_server_new(); return 0; }
+-EOF
+-  spice_cflags=$($pkg_config --cflags spice-protocol spice-server 2>/dev/null)
+-  spice_libs=$($pkg_config --libs spice-protocol spice-server 2>/dev/null)
+-  if $pkg_config --atleast-version=0.12.5 spice-server && \
+-     test "$spice_protocol" = "yes" && \
+-     compile_prog "$spice_cflags" "$spice_libs" ; then
+-    spice="yes"
+-  else
+-    if test "$spice" = "yes" ; then
+-      feature_not_found "spice" \
+-          "Install spice-server(>=0.12.5) devel"
+-    fi
+-    spice="no"
+-  fi
+-fi
+-
+ ##########################################
+ # check if we have VSS SDK headers for win
+ 
+@@ -4659,16 +4624,6 @@ if test "$tcg" = "enabled" -a "$tcg_interpreter" = "true" ; then
+   echo "CONFIG_TCG_INTERPRETER=y" >> $config_host_mak
+ fi
+ 
+-if test "$spice_protocol" = "yes" ; then
+-  echo "CONFIG_SPICE_PROTOCOL=y" >> $config_host_mak
+-  echo "SPICE_PROTOCOL_CFLAGS=$spice_protocol_cflags" >> $config_host_mak
+-fi
+-if test "$spice" = "yes" ; then
+-  echo "CONFIG_SPICE=y" >> $config_host_mak
+-  echo "SPICE_CFLAGS=$spice_cflags $spice_protocol_cflags" >> $config_host_mak
+-  echo "SPICE_LIBS=$spice_libs" >> $config_host_mak
+-fi
+-
+ if test "$opengl" = "yes" ; then
+   echo "CONFIG_OPENGL=y" >> $config_host_mak
+   echo "OPENGL_CFLAGS=$opengl_cflags" >> $config_host_mak
+@@ -5202,6 +5157,7 @@ if test "$skip_meson" = no; then
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
+         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
++        -Dspice=$spice -Dspice_protocol=$spice_protocol \
+         $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
+ 	-Dtcg_interpreter=$tcg_interpreter \
+         $cross_arg \
+diff --git a/meson.build b/meson.build
+index 99a0a3e689..fe621413a4 100644
+--- a/meson.build
++++ b/meson.build
+@@ -442,17 +442,14 @@ jack = not_found
+ if 'CONFIG_LIBJACK' in config_host
+   jack = declare_dependency(link_args: config_host['JACK_LIBS'].split())
+ endif
+-spice = not_found
+-spice_headers = not_found
+-spice_protocol = not_found
+-if 'CONFIG_SPICE' in config_host
+-  spice = declare_dependency(compile_args: config_host['SPICE_CFLAGS'].split(),
+-                             link_args: config_host['SPICE_LIBS'].split())
+-  spice_headers = declare_dependency(compile_args: config_host['SPICE_CFLAGS'].split())
+-endif
+-if 'CONFIG_SPICE_PROTOCOL' in config_host
+-  spice_protocol = declare_dependency(compile_args: config_host['SPICE_PROTOCOL_CFLAGS'].split())
+-endif
++spice_protocol = dependency('spice-protocol', version: '>=0.12.3',
++                            required: get_option('spice_protocol'))
++spice = dependency('spice-server', version: '>=0.12.5',
++                   required: get_option('spice'))
++if spice.found()
++  config_host += { 'CONFIG_SPICE': 'y' } # for audio/meson.build
++endif
++spice_headers = spice.partial_dependency(compile_args: true, includes: true)
+ rt = cc.find_library('rt', required: false)
+ libdl = not_found
+ if 'CONFIG_PLUGIN' in config_host
+@@ -1293,6 +1290,9 @@ config_host_data.set('CONFIG_ZSTD', zstd.found())
+ config_host_data.set('CONFIG_FUSE', fuse.found())
+ config_host_data.set('CONFIG_FUSE_LSEEK', fuse_lseek.found())
+ config_host_data.set('CONFIG_X11', x11.found())
++config_host_data.set('CONFIG_SPICE_PROTOCOL', spice_protocol.found())
++config_host_data.set('CONFIG_SPICE', spice.found())
++config_host_data.set('CONFIG_X11', x11.found())
+ config_host_data.set('CONFIG_CFI', get_option('cfi'))
+ config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
+ config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
+@@ -1516,7 +1516,7 @@ endif
+ have_ivshmem = config_host_data.get('CONFIG_EVENTFD')
+ host_kconfig = \
+   ('CONFIG_TPM' in config_host ? ['CONFIG_TPM=y'] : []) + \
+-  ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
++  (spice.found() ? ['CONFIG_SPICE=y'] : []) + \
+   (have_ivshmem ? ['CONFIG_IVSHMEM=y'] : []) + \
+   ('CONFIG_OPENGL' in config_host ? ['CONFIG_OPENGL=y'] : []) + \
+   (x11.found() ? ['CONFIG_X11=y'] : []) + \
+@@ -3082,8 +3082,7 @@ summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
+ summary_info += {'fdt support':       fdt_opt == 'disabled' ? false : fdt_opt}
+ summary_info += {'libcap-ng support': libcap_ng}
+ summary_info += {'bpf support':       libbpf}
+-# TODO: add back protocol and server version
+-summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
++summary_info += {'spice support':     spice}
+ summary_info += {'rbd support':       rbd}
+ summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
+ summary_info += {'smartcard support': cacard}
+diff --git a/chardev/meson.build b/chardev/meson.build
+index 32377af383..325ba2bdb9 100644
+--- a/chardev/meson.build
++++ b/chardev/meson.build
+@@ -35,7 +35,7 @@ if brlapi.found()
+   chardev_modules += { 'baum': module_ss }
+ endif
+ 
+-if config_host.has_key('CONFIG_SPICE')
++if spice.found()
+   module_ss = ss.source_set()
+   module_ss.add(when: [spice], if_true: files('spice.c'))
+   chardev_modules += { 'spice': module_ss }
+diff --git a/meson_options.txt b/meson_options.txt
+index 2c89e79e8b..b064b0b46c 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -114,6 +114,10 @@ option('smartcard', type : 'feature', value : 'auto',
+        description: 'CA smartcard emulation support')
+ option('snappy', type : 'feature', value : 'auto',
+        description: 'snappy compression support')
++option('spice', type : 'feature', value : 'auto',
++       description: 'Spice support')
++option('spice_protocol', type : 'feature', value : 'auto',
++       description: 'Spice protocol support')
+ option('u2f', type : 'feature', value : 'auto',
+        description: 'U2F emulation support')
+ option('usb_redir', type : 'feature', value : 'auto',
+diff --git a/ui/meson.build b/ui/meson.build
+index a73beb0e54..ee8ef27714 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -89,7 +89,7 @@ if sdl.found()
+   ui_modules += {'sdl' : sdl_ss}
+ endif
+ 
+-if config_host.has_key('CONFIG_SPICE')
++if spice.found()
+   spice_core_ss = ss.source_set()
+   spice_core_ss.add(spice, pixman, files(
+     'spice-core.c',
+@@ -99,7 +99,7 @@ if config_host.has_key('CONFIG_SPICE')
+   ui_modules += {'spice-core' : spice_core_ss}
+ endif
+ 
+-if config_host.has_key('CONFIG_SPICE') and config_host.has_key('CONFIG_GIO')
++if spice.found() and config_host.has_key('CONFIG_GIO')
+   spice_ss = ss.source_set()
+   spice_ss.add(spice, gio, pixman, files('spice-app.c'))
+   ui_modules += {'spice-app': spice_ss}
+-- 
+2.33.0.721.g106298f7f9
 
 
