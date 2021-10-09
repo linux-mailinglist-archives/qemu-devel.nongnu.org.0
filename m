@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6F1427803
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 10:01:36 +0200 (CEST)
-Received: from localhost ([::1]:51512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA3B427807
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 10:11:15 +0200 (CEST)
+Received: from localhost ([::1]:57750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZ7IV-0003A1-5F
-	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 04:01:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44380)
+	id 1mZ7Rp-0007ub-RQ
+	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 04:11:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1mZ7Dr-0005kV-W6
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 03:56:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21831)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZ7Pi-0007E6-Mx
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 04:09:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1mZ7Dq-0002aJ-0M
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 03:56:47 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZ7Pc-0000Jt-Ou
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 04:09:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633766205;
+ s=mimecast20190719; t=1633766935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=grvQoPFfVCbC/cdjgucE0lRS2FIaC8jLcY6gpdvCkr4=;
- b=OZsziVo3ZBHvwkg4TctpUV3MELVLWIDCA9ILXln4mHEslyU1wLWV35MNuwKhEoGMvLytQF
- zikcgz1lz56cqT7Ohi1nvKKjXgDAoqFjog4vDbpAAWKlFFxkbXGunEArVSfdrTlyjprAy+
- TR3ZvwR5H3dErq1kAlf2jqcpZn3ko+c=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-gCRbBPg2OP-bhxll76-AWg-1; Sat, 09 Oct 2021 03:56:44 -0400
-X-MC-Unique: gCRbBPg2OP-bhxll76-AWg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- p20-20020a50cd94000000b003db23619472so11279523edi.19
- for <qemu-devel@nongnu.org>; Sat, 09 Oct 2021 00:56:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=grvQoPFfVCbC/cdjgucE0lRS2FIaC8jLcY6gpdvCkr4=;
- b=yTsR1AYVjckG5xHKoYANnEy8MagxAM+y2Lg5+nx3s0s5tWzGu+aqt86aa4TvJEPMqk
- r9DuR+T2MLKdEuugl6WXC+iu3iVPjXF5omxXuxRo4ogOFb6bpQH/5CgL3lrZl73wTzp8
- L/0ZMgvR24+s4qhaorG95R0t4sAoY38rpV9miD1CuYqKxUeB4bWV9glmfhPF+fs8dtVh
- l2NxztnAt2UPOHitytw8A4YCdG/a8FTMu6QEhV3ZVUByJWw1v9KR/LHKc13nKuzupOmI
- YhSXom36/kVKqLJ+LTOry8H1LapXUeZqaqwZbZzUluqzRCCVyY8l0ERucLWCsKYTuQsg
- FbEg==
-X-Gm-Message-State: AOAM530nPUuqG5mNopAjoIxXRMeKtsoukF1PgtK4SqyQJW7si1shkR0j
- 5cFBpmOAMGVepaRLriO9H+RIeRWBkCEueYcWLETtpnlkU+SnWV0EKKR51QB0g4orpUGX9dBZEqr
- VY2+XvvgDZpVL6Bw=
-X-Received: by 2002:a05:6402:16d8:: with SMTP id
- r24mr21593679edx.47.1633766202945; 
- Sat, 09 Oct 2021 00:56:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyC6kp+r7PSHw5num+XzofmHATBaWNN9Oo4Sf1XMqXUtfeIP8xV7vDlL8Fqf3XEGDWmh0Rk+Q==
-X-Received: by 2002:a05:6402:16d8:: with SMTP id
- r24mr21593652edx.47.1633766202677; 
- Sat, 09 Oct 2021 00:56:42 -0700 (PDT)
-Received: from LeoBras.redhat.com ([2804:431:c7f0:5307:af36:9661:8efc:9b2c])
- by smtp.gmail.com with ESMTPSA id p23sm782059edw.94.2021.10.09.00.56.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 09 Oct 2021 00:56:42 -0700 (PDT)
-From: Leonardo Bras <leobras@redhat.com>
-To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PATCH v4 3/3] multifd: Implement zerocopy write in multifd migration
- (multifd-zerocopy)
-Date: Sat,  9 Oct 2021 04:56:13 -0300
-Message-Id: <20211009075612.230283-4-leobras@redhat.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211009075612.230283-1-leobras@redhat.com>
-References: <20211009075612.230283-1-leobras@redhat.com>
+ bh=fhdSnnAmnjlhd3Y6GOKhLf1rHBJybDytntcujvwvaS0=;
+ b=RdtAfV4reqFCdprrgyXWs5mP4UxR1X2ew4/gW+Qk313PR29XnS5haGQFsJE75ThbAJlvZ7
+ nybnmsI37hjR1+EwtipRVvo0Ye9La7/lIQY9d/xig+fCMe8DUv8jADgYwiZTSduyMpWHmY
+ 7X7NNF0I4E6uSA12/+kqU/LgJkIXUZ8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-414-JCXuCb7jODiOo6DTPkhGvA-1; Sat, 09 Oct 2021 04:08:54 -0400
+X-MC-Unique: JCXuCb7jODiOo6DTPkhGvA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF7EF100C609;
+ Sat,  9 Oct 2021 08:08:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 84E075C1C5;
+ Sat,  9 Oct 2021 08:08:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0D950113865F; Sat,  9 Oct 2021 10:08:40 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Krempa <pkrempa@redhat.com>
+Subject: Re: [PATCH RFC 1/5] qapi: Enable enum member introspection to show
+ more than name
+References: <20210915192425.4104210-1-armbru@redhat.com>
+ <20210915192425.4104210-2-armbru@redhat.com>
+ <YUSq/ZDfLPInPIc8@angien.pipo.sk> <87zgs7bolw.fsf@dusky.pond.sub.org>
+ <YUha7xwblG1cqeNx@angien.pipo.sk>
+Date: Sat, 09 Oct 2021 10:08:40 +0200
+In-Reply-To: <YUha7xwblG1cqeNx@angien.pipo.sk> (Peter Krempa's message of
+ "Mon, 20 Sep 2021 11:57:03 +0200")
+Message-ID: <87r1cu39iv.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=leobras@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=leobras@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -102,343 +83,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
+ libvir-list@redhat.com, eblake@redhat.com, mdroth@linux.vnet.ibm.com,
+ qemu-devel@nongnu.org, marcandre.lureau@redhat.com, jsnow@redhat.com,
+ libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement zerocopy on nocomp_send_write(), by making use of QIOChannel
-zerocopy interface.
+Peter Krempa <pkrempa@redhat.com> writes:
 
-Change multifd_send_sync_main() so it can distinguish the last sync from
-the setup and per-iteration ones, so a flush_zerocopy() can be called
-at the last sync in order to make sure all RAM is sent before finishing
-the migration.
+> On Mon, Sep 20, 2021 at 11:08:59 +0200, Markus Armbruster wrote:
+>> Peter Krempa <pkrempa@redhat.com> writes:
+>> 
+>> > On Wed, Sep 15, 2021 at 21:24:21 +0200, Markus Armbruster wrote:
+>> >> The next commit will add feature flags to enum members.  There's a
+>> >> problem, though: query-qmp-schema shows an enum type's members as an
+>> >> array of member names (SchemaInfoEnum member @values).  If it showed
+>> >> an array of objects with a name member, we could simply add more
+>> >> members to these objects.  Since it's just strings, we can't.
+>> >> 
+>> >> I can see three ways to correct this design mistake:
+>> >> 
+>> >> 1. Do it the way we should have done it, plus compatibility goo.
+>> >> 
+>> >>    We want a ['SchemaInfoEnumMember'] member in SchemaInfoEnum.  Since
+>> >>    changing @values would be a compatibility break, add a new member
+>> >>    @members instead.
+>> >> 
+>> >>    @values is now redundant.  We should be able to get rid of it
+>> >>    eventually.
+>> >> 
+>> >>    In my testing, output of qemu-system-x86_64's query-qmp-schema
+>> >>    grows by 11% (18.5KiB).
+>> >
+>> > I prefer this one. While the schema output grows, nobody is really
+>> > reading it manually.
+>> 
+>> True, but growing schema output can only slow down client startup.
+>> Negligible for libvirt, I presume?
+>
+> Libvirt employs caching, so unless it's the first VM started after a
+> qemu/libvirt upgrade, the results are already processed and cached.
 
-Also make it return -1 if flush_zerocopy() fails, in order to cancel
-the migration process, and avoid resuming the guest in the target host
-without receiving all current RAM.
+Good!
 
-This will work fine on RAM migration because the RAM pages are not usually freed,
-and there is no problem on changing the pages content between async_send() and
-the actual sending of the buffer, because this change will dirty the page and
-cause it to be re-sent on a next iteration anyway.
+> In fact we don't even keep the full schema around, we just extract
+> information and store them as capability bits. For now we didn't run
+> into the need to have the full schema around when starting a VM.
+>
+> [...]
+>
+>> >> 3. Versioned query-qmp-schema.
+>> >> 
+>> >>    query-qmp-schema provides either @values or @members.  The QMP
+>> >>    client can select which version it wants.
+>> >
+>> > At least for libvirt this poses a chicken & egg problem. We'd have to
+>> > query the schema to see that it has the switch to do the selection and
+>> > then probe with the modern one.
+>> 
+>> The simplest solution is to try the versions the management application
+>> can understand in order of preference (newest to oldest) until one
+>> succeeds.  I'd expect the first try to work most of the time.  Only when
+>> you combine new libvirt with old QEMU, the fallback has to kick in.
+>> 
+>> Other parts of the management application should remain oblivous of the
+>> differences.
+>
+> That would certainly work and be reasonably straightforward for libvirt
+> to implement, but:
+>  1) libvirt's code for using the QMP schema would be exactly the same as
+>     with approach 1), as we need to handle old clients too and the new
+>     way is simply a superset of what we have
 
-Given a lot of locked memory may be needed in order to use multid migration
-with zerocopy enabled, make it optional by creating a new parameter
-multifd-zerocopy on qapi, so low-privileged users can still perform multifd
-migrations.
+Yes, libvirt would need the same code for processing old and new.  The
+only difference would be how it decides which method to use.  With 1,
+it's "if @members is present, use it, else @values".  With 2, it's "if
+the version we use is new enough, use @members, else @values".
 
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
----
- qapi/migration.json   | 18 ++++++++++++++++++
- migration/migration.h |  1 +
- migration/multifd.h   |  2 +-
- migration/migration.c | 20 ++++++++++++++++++++
- migration/multifd.c   | 33 ++++++++++++++++++++++++++++-----
- migration/ram.c       | 20 +++++++++++++-------
- monitor/hmp-cmds.c    |  4 ++++
- 7 files changed, 85 insertions(+), 13 deletions(-)
+>  2) qemu's deprecation approach itself wouldn't be any easier in either
+>     of those scenarios
+>
+> Basically the only thing this would gain us is that if the deprecation
+> period is over old clients which were not fixed could fail silently:
+>
+> Assuming that 'query-qmp-schema' gains a boolean option such as
+> 'fancier-enums' and setting that to true returns the new format of
+> schema, after the deprecation is over you could simply return an error
+> if a caller omits 'fancier-enums' or sets it to false, which creates a
+> clean cut for the removal.
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 88f07baedd..c4890cbb54 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -724,6 +724,11 @@
- #                      will consume more CPU.
- #                      Defaults to 1. (Since 5.0)
- #
-+# @multifd-zerocopy: Controls behavior on sending memory pages on multifd migration.
-+#                    When true, enables a zerocopy mechanism for sending memory
-+#                    pages, if host does support it.
-+#                    Defaults to false. (Since 6.2)
-+#
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
- #                        aliases for the purpose of dirty bitmap migration.  Such
- #                        aliases may for example be the corresponding names on the
-@@ -758,6 +763,7 @@
-            'xbzrle-cache-size', 'max-postcopy-bandwidth',
-            'max-cpu-throttle', 'multifd-compression',
-            'multifd-zlib-level' ,'multifd-zstd-level',
-+	   'multifd-zerocopy',
-            'block-bitmap-mapping' ] }
- 
- ##
-@@ -884,6 +890,11 @@
- #                      will consume more CPU.
- #                      Defaults to 1. (Since 5.0)
- #
-+# @multifd-zerocopy: Controls behavior on sending memory pages on multifd migration.
-+#                    When true, enables a zerocopy mechanism for sending memory
-+#                    pages, if host does support it.
-+#                    Defaults to false. (Since 6.2)
-+#
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
- #                        aliases for the purpose of dirty bitmap migration.  Such
- #                        aliases may for example be the corresponding names on the
-@@ -934,6 +945,7 @@
-             '*multifd-compression': 'MultiFDCompression',
-             '*multifd-zlib-level': 'uint8',
-             '*multifd-zstd-level': 'uint8',
-+	    '*multifd-zerocopy': 'bool',
-             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
- 
- ##
-@@ -1080,6 +1092,11 @@
- #                      will consume more CPU.
- #                      Defaults to 1. (Since 5.0)
- #
-+# @multifd-zerocopy: Controls behavior on sending memory pages on multifd migration.
-+#                    When true, enables a zerocopy mechanism for sending memory
-+#                    pages, if host does support it.
-+#                    Defaults to false. (Since 6.2)
-+#
- # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
- #                        aliases for the purpose of dirty bitmap migration.  Such
- #                        aliases may for example be the corresponding names on the
-@@ -1128,6 +1145,7 @@
-             '*multifd-compression': 'MultiFDCompression',
-             '*multifd-zlib-level': 'uint8',
-             '*multifd-zstd-level': 'uint8',
-+	    '*multifd-zerocopy': 'bool',
-             '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
- 
- ##
-diff --git a/migration/migration.h b/migration/migration.h
-index 7a5aa8c2fd..860d83cc41 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -338,6 +338,7 @@ int migrate_multifd_channels(void);
- MultiFDCompression migrate_multifd_compression(void);
- int migrate_multifd_zlib_level(void);
- int migrate_multifd_zstd_level(void);
-+int migrate_multifd_zerocopy(void);
- 
- int migrate_use_xbzrle(void);
- uint64_t migrate_xbzrle_cache_size(void);
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 8d6751f5ed..8f5c5a6953 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -20,7 +20,7 @@ int multifd_load_cleanup(Error **errp);
- bool multifd_recv_all_channels_created(void);
- bool multifd_recv_new_channel(QIOChannel *ioc, Error **errp);
- void multifd_recv_sync_main(void);
--void multifd_send_sync_main(QEMUFile *f);
-+int multifd_send_sync_main(QEMUFile *f, bool last_sync);
- int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset);
- 
- /* Multifd Compression flags */
-diff --git a/migration/migration.c b/migration/migration.c
-index 6ac807ef3d..326f7c515f 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -879,6 +879,8 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
-     params->multifd_zlib_level = s->parameters.multifd_zlib_level;
-     params->has_multifd_zstd_level = true;
-     params->multifd_zstd_level = s->parameters.multifd_zstd_level;
-+    params->has_multifd_zerocopy = true;
-+    params->multifd_zerocopy = s->parameters.multifd_zerocopy;
-     params->has_xbzrle_cache_size = true;
-     params->xbzrle_cache_size = s->parameters.xbzrle_cache_size;
-     params->has_max_postcopy_bandwidth = true;
-@@ -1523,6 +1525,9 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
-     if (params->has_multifd_compression) {
-         dest->multifd_compression = params->multifd_compression;
-     }
-+    if (params->has_multifd_zerocopy) {
-+        dest->multifd_zerocopy = params->multifd_zerocopy;
-+    }
-     if (params->has_xbzrle_cache_size) {
-         dest->xbzrle_cache_size = params->xbzrle_cache_size;
-     }
-@@ -1635,6 +1640,9 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
-     if (params->has_multifd_compression) {
-         s->parameters.multifd_compression = params->multifd_compression;
-     }
-+    if (params->has_multifd_zerocopy) {
-+        s->parameters.multifd_zerocopy = params->multifd_zerocopy;
-+    }
-     if (params->has_xbzrle_cache_size) {
-         s->parameters.xbzrle_cache_size = params->xbzrle_cache_size;
-         xbzrle_cache_resize(params->xbzrle_cache_size, errp);
-@@ -2516,6 +2524,15 @@ int migrate_multifd_zstd_level(void)
-     return s->parameters.multifd_zstd_level;
- }
- 
-+int migrate_multifd_zerocopy(void)
-+{
-+    MigrationState *s;
-+
-+    s = migrate_get_current();
-+
-+    return s->parameters.multifd_zerocopy;
-+}
-+
- int migrate_use_xbzrle(void)
- {
-     MigrationState *s;
-@@ -4164,6 +4181,8 @@ static Property migration_properties[] = {
-     DEFINE_PROP_UINT8("multifd-zstd-level", MigrationState,
-                       parameters.multifd_zstd_level,
-                       DEFAULT_MIGRATE_MULTIFD_ZSTD_LEVEL),
-+    DEFINE_PROP_BOOL("multifd-zerocopy", MigrationState,
-+                      parameters.multifd_zerocopy, false),
-     DEFINE_PROP_SIZE("xbzrle-cache-size", MigrationState,
-                       parameters.xbzrle_cache_size,
-                       DEFAULT_MIGRATE_XBZRLE_CACHE_SIZE),
-@@ -4261,6 +4280,7 @@ static void migration_instance_init(Object *obj)
-     params->has_multifd_compression = true;
-     params->has_multifd_zlib_level = true;
-     params->has_multifd_zstd_level = true;
-+    params->has_multifd_zerocopy = true;
-     params->has_xbzrle_cache_size = true;
-     params->has_max_postcopy_bandwidth = true;
-     params->has_max_cpu_throttle = true;
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 377da78f5b..17a7d90de3 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -105,7 +105,13 @@ static int nocomp_send_prepare(MultiFDSendParams *p, uint32_t used,
-  */
- static int nocomp_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
- {
--    return qio_channel_writev_all(p->c, p->pages->iov, used, errp);
-+    int flags = 0;
-+
-+    if (migrate_multifd_zerocopy()) {
-+        flags = QIO_CHANNEL_WRITE_FLAG_ZEROCOPY;
-+    }
-+
-+    return qio_channel_writev_all_flags(p->c, p->pages->iov, used, flags, errp);
- }
- 
- /**
-@@ -575,19 +581,23 @@ void multifd_save_cleanup(void)
-     multifd_send_state = NULL;
- }
- 
--void multifd_send_sync_main(QEMUFile *f)
-+int multifd_send_sync_main(QEMUFile *f, bool last_sync)
- {
-     int i;
-+    bool flush_zerocopy;
- 
-     if (!migrate_use_multifd()) {
--        return;
-+        return 0;
-     }
-     if (multifd_send_state->pages->used) {
-         if (multifd_send_pages(f) < 0) {
-             error_report("%s: multifd_send_pages fail", __func__);
--            return;
-+            return 0;
-         }
-     }
-+
-+    flush_zerocopy = last_sync && migrate_multifd_zerocopy();
-+
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-         MultiFDSendParams *p = &multifd_send_state->params[i];
- 
-@@ -598,7 +608,7 @@ void multifd_send_sync_main(QEMUFile *f)
-         if (p->quit) {
-             error_report("%s: channel %d has already quit", __func__, i);
-             qemu_mutex_unlock(&p->mutex);
--            return;
-+            return 0;
-         }
- 
-         p->packet_num = multifd_send_state->packet_num++;
-@@ -609,6 +619,17 @@ void multifd_send_sync_main(QEMUFile *f)
-         ram_counters.transferred += p->packet_len;
-         qemu_mutex_unlock(&p->mutex);
-         qemu_sem_post(&p->sem);
-+
-+        if (flush_zerocopy) {
-+            int ret;
-+            Error *err = NULL;
-+
-+            ret = qio_channel_flush_zerocopy(p->c, &err);
-+            if (ret < 0) {
-+                error_report_err(err);
-+                return -1;
-+            }
-+        }
-     }
-     for (i = 0; i < migrate_multifd_channels(); i++) {
-         MultiFDSendParams *p = &multifd_send_state->params[i];
-@@ -617,6 +638,8 @@ void multifd_send_sync_main(QEMUFile *f)
-         qemu_sem_wait(&p->sem_sync);
-     }
-     trace_multifd_send_sync_main(multifd_send_state->packet_num);
-+
-+    return 0;
- }
- 
- static void *multifd_send_thread(void *opaque)
-diff --git a/migration/ram.c b/migration/ram.c
-index 7a43bfd7af..ada57846a5 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2839,7 +2839,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
-     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
- 
--    multifd_send_sync_main(f);
-+    multifd_send_sync_main(f, false);
-     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-     qemu_fflush(f);
- 
-@@ -2948,7 +2948,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
- out:
-     if (ret >= 0
-         && migration_is_setup_or_active(migrate_get_current()->state)) {
--        multifd_send_sync_main(rs->f);
-+        multifd_send_sync_main(rs->f, false);
-         qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-         qemu_fflush(f);
-         ram_counters.transferred += 8;
-@@ -3006,13 +3006,19 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-         ram_control_after_iterate(f, RAM_CONTROL_FINISH);
-     }
- 
--    if (ret >= 0) {
--        multifd_send_sync_main(rs->f);
--        qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
--        qemu_fflush(f);
-+    if (ret < 0) {
-+        return ret;
-     }
- 
--    return ret;
-+    ret = multifd_send_sync_main(rs->f, true);
-+    if (ret < 0) {
-+        return -1;
-+    }
-+
-+    qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-+    qemu_fflush(f);
-+
-+    return 0;
- }
- 
- static void ram_save_pending(QEMUFile *f, void *opaque, uint64_t max_size,
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index bcaa41350e..b04f14ec1e 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1364,6 +1364,10 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
-         p->has_multifd_zstd_level = true;
-         visit_type_uint8(v, param, &p->multifd_zstd_level, &err);
-         break;
-+    case MIGRATION_PARAMETER_MULTIFD_ZEROCOPY:
-+        p->has_multifd_zerocopy = true;
-+        visit_type_bool(v, param, &p->multifd_zerocopy, &err);
-+        break;
-     case MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE:
-         p->has_xbzrle_cache_size = true;
-         if (!visit_type_size(v, param, &cache_size, &err)) {
--- 
-2.33.0
+Yes.
+
+> With approach 1) itself, clients which were not adapted would start
+> lacking information based on enum values.
+>
+> Now for those it depends on how they actually handled it until now. E.g.
+> old libvirt would report that the QMP schema is broken if 'values' would
+> be missing.
+
+Which I consider the sensible thing to do.
+
+> Whether that's a worthwhile thing to do? I'm not really persuaded. (And
+> I'm biased since libvirt handles it correctly).
+
+I think 3 has the following advantages over 1:
+
+* As you noted, it ensures outmoded clients fail cleanly.  Not much of
+  an advantage for clients that handle missing @values sensibly.
+  Perhaps it could enable better error messages.
+
+* It avoids duplicated contents in old an new format.  Not much of an
+  advantage for clients that cache their schema interrogation.
+
+* It can enable more radical introspection changes.  Without versioning,
+  the common rules for compatible evolution apply (section
+  "Compatibility considerations" in qapi-code-gen.rst).  With
+  versioning, they don't.
+
+I agree this is not really compelling just for the problem at hand.  We
+can reconsider when we run into more problems.
+
+>> We could of course try to reduce the number of roundtrips, say by
+>> putting sufficient information into the QMP greeting (one roundtrip), or
+>> the output of query-qmp-schema (try oldest to find the best one, then
+>> try the best one unless it's the oldest).  I doubt that's worthwhile.
+>
+> In this particular scenario, I'd doubt that it's worthwhile as the
+> change isn't really fundamental and issuing one extra QMP call isn't as
+> problematic as other cases, e.g probing of CPU features which results in
+> a QMP call per feature when starting a VM.
+>
+> Currently libvirt issues 50 + 5 QMP commands(kvm, and non-kvm) for
+> probing capabilities.
+>
+>> I'm not trying to talk you into this solution.  We're just exploring the
+>> solution space together, and with an open mind.
+>
+> The idea of unconditionally trying a newer approach is a good one to
+> hold onto when we'll need it in the future!
+
+Only where the failure modes are simple enough to make misinterpretation
+basically impossible.
 
 
