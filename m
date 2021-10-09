@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC535427A04
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 14:14:15 +0200 (CEST)
-Received: from localhost ([::1]:36542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E385D427A05
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 14:14:38 +0200 (CEST)
+Received: from localhost ([::1]:37860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZBEz-0004Wx-Kx
-	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 08:14:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47732)
+	id 1mZBFO-0005Pw-0L
+	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 08:14:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZBBN-00081a-L9
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 08:10:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54292)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZBBF-0007yY-4C
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 08:10:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZBBK-000770-Ue
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 08:10:28 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZBBB-00076P-Pv
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 08:10:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633781426;
+ s=mimecast20190719; t=1633781416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JDJVDKML8cwkNFZpoP9eXaiNHz/9pMM7hSz57ZlvH00=;
- b=S124fA0mzIZ030pwxIEylETv8Zqy1OpOqrhuEYSLOKBnUNC3aPMmU9Dn/q2Wj7sDaKuKBP
- ox6U3vTlJx8RYvfLWKzXvpMdSzD/zL1an5VeXFd+GLIWlu3yIWEnJ1yZLtzjQHY6lldo7K
- +bQXmnhpQlbE8PAJ7cjtCwxPYU1t2oc=
+ bh=0jjQzczD4kEqGuY9oEEI2ywnjprqrl9/YheOgfujrm8=;
+ b=Wn152d+mj4wvmkhDcwd5sN1muMISJsR2ymhZX+Ax1RRzCqBiIrCZ5YBUihZco7KpL0M5KP
+ r4UC9nyl+ZMyDzR95+47c4VXs1UNoY7anzFXb4JTFyiQelHrGGQQ/7EQZCKoAVD1Na5Fgk
+ hc2TTwv1ukfZiZQfkDDDk1faZ82iVkw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-qjy2OXMLMFae-ps05QxNIA-1; Sat, 09 Oct 2021 08:10:13 -0400
-X-MC-Unique: qjy2OXMLMFae-ps05QxNIA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-491-NR8iGG3aNwyj79yEXYxPkQ-1; Sat, 09 Oct 2021 08:10:15 -0400
+X-MC-Unique: NR8iGG3aNwyj79yEXYxPkQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86DF510A8E01;
- Sat,  9 Oct 2021 12:10:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B7C7801AFC;
+ Sat,  9 Oct 2021 12:10:14 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD0B260C05;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BBE0E5F4EE;
  Sat,  9 Oct 2021 12:09:45 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4719111385C1; Sat,  9 Oct 2021 14:09:44 +0200 (CEST)
+ id 4AB4511385C3; Sat,  9 Oct 2021 14:09:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/5] qapi: Add feature flags to enum members
-Date: Sat,  9 Oct 2021 14:09:41 +0200
-Message-Id: <20211009120944.2858887-3-armbru@redhat.com>
+Subject: [PATCH v2 3/5] qapi: Move compat policy from QObject to generic
+ visitor
+Date: Sat,  9 Oct 2021 14:09:42 +0200
+Message-Id: <20211009120944.2858887-4-armbru@redhat.com>
 In-Reply-To: <20211009120944.2858887-1-armbru@redhat.com>
 References: <20211009120944.2858887-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,261 +87,243 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is quite similar to commit 84ab008687 "qapi: Add feature flags to
-struct members", only for enums instead of structs.
-
-Special feature flag 'deprecated' is silently ignored there.  This is
-okay only because it will be implemented shortly.
+The next commit needs to access compat policy from the generic visitor
+core.  Move it there from qobject input and output visitor.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- docs/devel/qapi-code-gen.rst                  |  4 +++-
- qapi/compat.json                              |  2 ++
- qapi/introspect.json                          |  5 ++++-
- scripts/qapi/expr.py                          |  3 ++-
- scripts/qapi/introspect.py                    |  5 +++--
- scripts/qapi/schema.py                        | 22 +++++++++++++++++--
- tests/qapi-schema/doc-good.json               |  5 ++++-
- tests/qapi-schema/doc-good.out                |  3 +++
- tests/qapi-schema/doc-good.txt                |  3 +++
- .../qapi-schema/enum-dict-member-unknown.err  |  2 +-
- tests/qapi-schema/qapi-schema-test.json       |  3 ++-
- tests/qapi-schema/qapi-schema-test.out        |  1 +
- tests/qapi-schema/test-qapi.py                |  1 +
- 13 files changed, 49 insertions(+), 10 deletions(-)
+ include/qapi/qobject-input-visitor.h  |  4 ----
+ include/qapi/qobject-output-visitor.h |  4 ----
+ include/qapi/visitor-impl.h           |  3 +++
+ include/qapi/visitor.h                |  9 +++++++++
+ qapi/qapi-visit-core.c                |  9 +++++++++
+ qapi/qmp-dispatch.c                   |  4 ++--
+ qapi/qobject-input-visitor.c          | 14 +-------------
+ qapi/qobject-output-visitor.c         | 14 +-------------
+ 8 files changed, 25 insertions(+), 36 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
-index b2569de486..00334e9fb8 100644
---- a/docs/devel/qapi-code-gen.rst
-+++ b/docs/devel/qapi-code-gen.rst
-@@ -200,7 +200,9 @@ Syntax::
-              '*if': COND,
-              '*features': FEATURES }
-     ENUM-VALUE = STRING
--               | { 'name': STRING, '*if': COND }
-+               | { 'name': STRING,
-+                   '*if': COND,
-+                   '*features': FEATURES }
+diff --git a/include/qapi/qobject-input-visitor.h b/include/qapi/qobject-input-visitor.h
+index 8d69388810..95985e25e5 100644
+--- a/include/qapi/qobject-input-visitor.h
++++ b/include/qapi/qobject-input-visitor.h
+@@ -15,7 +15,6 @@
+ #ifndef QOBJECT_INPUT_VISITOR_H
+ #define QOBJECT_INPUT_VISITOR_H
  
- Member 'enum' names the enum type.
+-#include "qapi/qapi-types-compat.h"
+ #include "qapi/visitor.h"
  
-diff --git a/qapi/compat.json b/qapi/compat.json
-index ae3afc22df..1d2b76f00c 100644
---- a/qapi/compat.json
-+++ b/qapi/compat.json
-@@ -42,6 +42,8 @@
- # with feature 'deprecated'.  We may want to extend it to cover
- # semantic aspects, CLI, and experimental features.
- #
-+# Limitation: not implemented for deprecated enumeration values.
-+#
- # @deprecated-input: how to handle deprecated input (default 'accept')
- # @deprecated-output: how to handle deprecated output (default 'accept')
- #
-diff --git a/qapi/introspect.json b/qapi/introspect.json
-index f806bd7281..4a3b76464e 100644
---- a/qapi/introspect.json
-+++ b/qapi/introspect.json
-@@ -163,10 +163,13 @@
- #
- # @name: the member's name, as defined in the QAPI schema.
- #
-+# @features: names of features associated with the member, in no
-+#            particular order.
-+#
- # Since: 6.2
- ##
- { 'struct': 'SchemaInfoEnumMember',
--  'data': { 'name': 'str' } }
-+  'data': { 'name': 'str', '*features': [ 'str' ] } }
+ typedef struct QObjectInputVisitor QObjectInputVisitor;
+@@ -59,9 +58,6 @@ typedef struct QObjectInputVisitor QObjectInputVisitor;
+  */
+ Visitor *qobject_input_visitor_new(QObject *obj);
  
- ##
- # @SchemaInfoArray:
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 819ea6ad97..3cb389e875 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -472,7 +472,7 @@ def check_enum(expr: _JSONObject, info: QAPISourceInfo) -> None:
-                   for m in members]
-     for member in members:
-         source = "'data' member"
--        check_keys(member, info, source, ['name'], ['if'])
-+        check_keys(member, info, source, ['name'], ['if', 'features'])
-         member_name = member['name']
-         check_name_is_str(member_name, info, source)
-         source = "%s '%s'" % (source, member_name)
-@@ -483,6 +483,7 @@ def check_enum(expr: _JSONObject, info: QAPISourceInfo) -> None:
-                          permit_upper=permissive,
-                          permit_underscore=permissive)
-         check_if(member, info, source)
-+        check_features(member.get('features'), info)
+-void qobject_input_visitor_set_policy(Visitor *v,
+-                                      CompatPolicyInput deprecated);
+-
+ /*
+  * Create a QObject input visitor for @obj for use with keyval_parse()
+  *
+diff --git a/include/qapi/qobject-output-visitor.h b/include/qapi/qobject-output-visitor.h
+index f2a2f92a00..2b1726baf5 100644
+--- a/include/qapi/qobject-output-visitor.h
++++ b/include/qapi/qobject-output-visitor.h
+@@ -15,7 +15,6 @@
+ #define QOBJECT_OUTPUT_VISITOR_H
  
+ #include "qapi/visitor.h"
+-#include "qapi/qapi-types-compat.h"
  
- def check_struct(expr: _JSONObject, info: QAPISourceInfo) -> None:
-diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 6334546363..67c7d89aae 100644
---- a/scripts/qapi/introspect.py
-+++ b/scripts/qapi/introspect.py
-@@ -275,12 +275,13 @@ def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
-             obj['features'] = self._gen_features(features)
-         self._trees.append(Annotated(obj, ifcond, comment))
+ typedef struct QObjectOutputVisitor QObjectOutputVisitor;
  
--    @staticmethod
--    def _gen_enum_member(member: QAPISchemaEnumMember
-+    def _gen_enum_member(self, member: QAPISchemaEnumMember
-                          ) -> Annotated[SchemaInfoEnumMember]:
-         obj: SchemaInfoEnumMember = {
-             'name': member.name,
-         }
-+        if member.features:
-+            obj['features'] = self._gen_features(member.features)
-         return Annotated(obj, member.ifcond)
+@@ -54,7 +53,4 @@ typedef struct QObjectOutputVisitor QObjectOutputVisitor;
+  */
+ Visitor *qobject_output_visitor_new(QObject **result);
  
-     def _gen_object_member(self, member: QAPISchemaObjectTypeMember
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 004d7095ff..6d5f46509a 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -708,6 +708,19 @@ def describe(self, info):
- class QAPISchemaEnumMember(QAPISchemaMember):
-     role = 'value'
+-void qobject_output_visitor_set_policy(Visitor *v,
+-                                       CompatPolicyOutput deprecated);
+-
+ #endif
+diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
+index 3b950f6e3d..72b6537bef 100644
+--- a/include/qapi/visitor-impl.h
++++ b/include/qapi/visitor-impl.h
+@@ -122,6 +122,9 @@ struct Visitor
+     /* Must be set */
+     VisitorType type;
  
-+    def __init__(self, name, info, ifcond=None, features=None):
-+        super().__init__(name, info, ifcond)
-+        for f in features or []:
-+            assert isinstance(f, QAPISchemaFeature)
-+            f.set_defined_in(name)
-+        self.features = features or []
++    /* Optional */
++    struct CompatPolicy compat_policy;
 +
-+    def connect_doc(self, doc):
-+        super().connect_doc(doc)
-+        if doc:
-+            for f in self.features:
-+                doc.connect_feature(f)
+     /* Must be set for output visitors, optional otherwise. */
+     void (*complete)(Visitor *v, void *opaque);
+ 
+diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
+index b3c9ef7a81..dcb96018a9 100644
+--- a/include/qapi/visitor.h
++++ b/include/qapi/visitor.h
+@@ -16,6 +16,7 @@
+ #define QAPI_VISITOR_H
+ 
+ #include "qapi/qapi-builtin-types.h"
++#include "qapi/qapi-types-compat.h"
+ 
+ /*
+  * The QAPI schema defines both a set of C data types, and a QMP wire
+@@ -477,6 +478,14 @@ bool visit_deprecated_accept(Visitor *v, const char *name, Error **errp);
+  */
+ bool visit_deprecated(Visitor *v, const char *name);
+ 
++/*
++ * Set policy for handling deprecated management interfaces.
++ *
++ * Intended use: call visit_set_policy(v, &compat_policy) when
++ * visiting management interface input or output.
++ */
++void visit_set_policy(Visitor *v, CompatPolicy *policy);
 +
+ /*
+  * Visit an enum value.
+  *
+diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
+index a641adec51..066f77a26d 100644
+--- a/qapi/qapi-visit-core.c
++++ b/qapi/qapi-visit-core.c
+@@ -19,6 +19,10 @@
+ #include "qapi/visitor-impl.h"
+ #include "trace.h"
  
- class QAPISchemaFeature(QAPISchemaMember):
-     role = 'feature'
-@@ -980,9 +993,14 @@ def _make_features(self, features, info):
-                                   QAPISchemaIfCond(f.get('if')))
-                 for f in features]
- 
-+    def _make_enum_member(self, name, ifcond, features, info):
-+        return QAPISchemaEnumMember(name, info,
-+                                    QAPISchemaIfCond(ifcond),
-+                                    self._make_features(features, info))
++/* Zero-initialization must result in default policy */
++QEMU_BUILD_BUG_ON(COMPAT_POLICY_INPUT_ACCEPT || COMPAT_POLICY_OUTPUT_ACCEPT);
 +
-     def _make_enum_members(self, values, info):
--        return [QAPISchemaEnumMember(v['name'], info,
--                                     QAPISchemaIfCond(v.get('if')))
-+        return [self._make_enum_member(v['name'], v.get('if'),
-+                                       v.get('features'), info)
-                 for v in values]
- 
-     def _make_array_type(self, element_type, info):
-diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.json
-index 86dc25d2bd..74745fb405 100644
---- a/tests/qapi-schema/doc-good.json
-+++ b/tests/qapi-schema/doc-good.json
-@@ -58,11 +58,14 @@
- #
- # Features:
- # @enum-feat: Also _one_ {and only}
-+# @enum-member-feat: a member feature
- #
- # @two is undocumented
- ##
- { 'enum': 'Enum',
--  'data': [ { 'name': 'one', 'if': 'IFONE' }, 'two' ],
-+  'data': [ { 'name': 'one', 'if': 'IFONE',
-+              'features': [ 'enum-member-feat' ] },
-+            'two' ],
-   'features': [ 'enum-feat' ],
-   'if': 'IFCOND' }
- 
-diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
-index 5a324e2627..9dd65b9d92 100644
---- a/tests/qapi-schema/doc-good.out
-+++ b/tests/qapi-schema/doc-good.out
-@@ -13,6 +13,7 @@ module doc-good.json
- enum Enum
-     member one
-         if IFONE
-+        feature enum-member-feat
-     member two
-     if IFCOND
-     feature enum-feat
-@@ -108,6 +109,8 @@ The _one_ {and only}
- 
-     feature=enum-feat
- Also _one_ {and only}
-+    feature=enum-member-feat
-+a member feature
-     section=None
- @two is undocumented
- doc symbol=Base
-diff --git a/tests/qapi-schema/doc-good.txt b/tests/qapi-schema/doc-good.txt
-index 701402ee5e..b3b76bd43f 100644
---- a/tests/qapi-schema/doc-good.txt
-+++ b/tests/qapi-schema/doc-good.txt
-@@ -56,6 +56,9 @@ Features
- "enum-feat"
-    Also _one_ {and only}
- 
-+"enum-member-feat"
-+   a member feature
 +
- "two" is undocumented
+ void visit_complete(Visitor *v, void *opaque)
+ {
+     assert(v->type != VISITOR_OUTPUT || v->complete);
+@@ -153,6 +157,11 @@ bool visit_deprecated(Visitor *v, const char *name)
+     return true;
+ }
  
++void visit_set_policy(Visitor *v, CompatPolicy *policy)
++{
++    v->compat_policy = *policy;
++}
++
+ bool visit_is_input(Visitor *v)
+ {
+     return v->type == VISITOR_INPUT;
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index 59600210ce..7e943a0af5 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -32,7 +32,7 @@ Visitor *qobject_input_visitor_new_qmp(QObject *obj)
+ {
+     Visitor *v = qobject_input_visitor_new(obj);
  
-diff --git a/tests/qapi-schema/enum-dict-member-unknown.err b/tests/qapi-schema/enum-dict-member-unknown.err
-index f8617ea179..235cde0c49 100644
---- a/tests/qapi-schema/enum-dict-member-unknown.err
-+++ b/tests/qapi-schema/enum-dict-member-unknown.err
-@@ -1,3 +1,3 @@
- enum-dict-member-unknown.json: In enum 'MyEnum':
- enum-dict-member-unknown.json:2: 'data' member has unknown key 'bad-key'
--Valid keys are 'if', 'name'.
-+Valid keys are 'features', 'if', 'name'.
-diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
-index 2ec50109cb..b677ab861d 100644
---- a/tests/qapi-schema/qapi-schema-test.json
-+++ b/tests/qapi-schema/qapi-schema-test.json
-@@ -301,7 +301,8 @@
-                                  'TEST_IF_COND_2'] } } ] }
+-    qobject_input_visitor_set_policy(v, compat_policy.deprecated_input);
++    visit_set_policy(v, &compat_policy);
+     return v;
+ }
  
- { 'enum': 'FeatureEnum1',
--  'data': [ 'eins', 'zwei', 'drei' ],
-+  'data': [ 'eins', 'zwei',
-+            { 'name': 'drei', 'features': [ 'deprecated' ] } ],
-   'features': [ 'feature1' ] }
+@@ -40,7 +40,7 @@ Visitor *qobject_output_visitor_new_qmp(QObject **result)
+ {
+     Visitor *v = qobject_output_visitor_new(result);
  
- { 'union': 'FeatureUnion1',
-diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
-index 9337adc9ea..16846dbeb8 100644
---- a/tests/qapi-schema/qapi-schema-test.out
-+++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -341,6 +341,7 @@ enum FeatureEnum1
-     member eins
-     member zwei
-     member drei
-+        feature deprecated
-     feature feature1
- object q_obj_FeatureUnion1-base
-     member tag: FeatureEnum1 optional=False
-diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.py
-index c717a7a90b..2160cef082 100755
---- a/tests/qapi-schema/test-qapi.py
-+++ b/tests/qapi-schema/test-qapi.py
-@@ -37,6 +37,7 @@ def visit_enum_type(self, name, info, ifcond, features, members, prefix):
-         for m in members:
-             print('    member %s' % m.name)
-             self._print_if(m.ifcond, indent=8)
-+            self._print_features(m.features, indent=8)
-         self._print_if(ifcond)
-         self._print_features(features)
+-    qobject_output_visitor_set_policy(v, compat_policy.deprecated_output);
++    visit_set_policy(v, &compat_policy);
+     return v;
+ }
  
+diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
+index 04b790412e..71b24a4429 100644
+--- a/qapi/qobject-input-visitor.c
++++ b/qapi/qobject-input-visitor.c
+@@ -14,7 +14,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include <math.h>
+-#include "qapi/compat-policy.h"
+ #include "qapi/error.h"
+ #include "qapi/qobject-input-visitor.h"
+ #include "qapi/visitor-impl.h"
+@@ -44,7 +43,6 @@ typedef struct StackObject {
+ 
+ struct QObjectInputVisitor {
+     Visitor visitor;
+-    CompatPolicyInput deprecated_policy;
+ 
+     /* Root of visit at visitor creation. */
+     QObject *root;
+@@ -667,9 +665,7 @@ static void qobject_input_optional(Visitor *v, const char *name, bool *present)
+ static bool qobject_input_deprecated_accept(Visitor *v, const char *name,
+                                             Error **errp)
+ {
+-    QObjectInputVisitor *qiv = to_qiv(v);
+-
+-    switch (qiv->deprecated_policy) {
++    switch (v->compat_policy.deprecated_input) {
+     case COMPAT_POLICY_INPUT_ACCEPT:
+         return true;
+     case COMPAT_POLICY_INPUT_REJECT:
+@@ -739,14 +735,6 @@ Visitor *qobject_input_visitor_new(QObject *obj)
+     return &v->visitor;
+ }
+ 
+-void qobject_input_visitor_set_policy(Visitor *v,
+-                                       CompatPolicyInput deprecated)
+-{
+-    QObjectInputVisitor *qiv = to_qiv(v);
+-
+-    qiv->deprecated_policy = deprecated;
+-}
+-
+ Visitor *qobject_input_visitor_new_keyval(QObject *obj)
+ {
+     QObjectInputVisitor *v = qobject_input_visitor_base_new(obj);
+diff --git a/qapi/qobject-output-visitor.c b/qapi/qobject-output-visitor.c
+index e4873308d4..9b7f510036 100644
+--- a/qapi/qobject-output-visitor.c
++++ b/qapi/qobject-output-visitor.c
+@@ -13,7 +13,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qapi/compat-policy.h"
+ #include "qapi/qobject-output-visitor.h"
+ #include "qapi/visitor-impl.h"
+ #include "qemu/queue.h"
+@@ -32,7 +31,6 @@ typedef struct QStackEntry {
+ 
+ struct QObjectOutputVisitor {
+     Visitor visitor;
+-    CompatPolicyOutput deprecated_policy;
+ 
+     QSLIST_HEAD(, QStackEntry) stack; /* Stack of unfinished containers */
+     QObject *root; /* Root of the output visit */
+@@ -212,9 +210,7 @@ static bool qobject_output_type_null(Visitor *v, const char *name,
+ 
+ static bool qobject_output_deprecated(Visitor *v, const char *name)
+ {
+-    QObjectOutputVisitor *qov = to_qov(v);
+-
+-    return qov->deprecated_policy != COMPAT_POLICY_OUTPUT_HIDE;
++    return v->compat_policy.deprecated_output != COMPAT_POLICY_OUTPUT_HIDE;
+ }
+ 
+ /* Finish building, and return the root object.
+@@ -275,11 +271,3 @@ Visitor *qobject_output_visitor_new(QObject **result)
+ 
+     return &v->visitor;
+ }
+-
+-void qobject_output_visitor_set_policy(Visitor *v,
+-                                       CompatPolicyOutput deprecated)
+-{
+-    QObjectOutputVisitor *qov = to_qov(v);
+-
+-    qov->deprecated_policy = deprecated;
+-}
 -- 
 2.31.1
 
