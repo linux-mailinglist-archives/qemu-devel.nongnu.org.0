@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E849A427DB8
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 23:38:34 +0200 (CEST)
-Received: from localhost ([::1]:58690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCFEF427DBD
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 23:39:29 +0200 (CEST)
+Received: from localhost ([::1]:60468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZK37-0007xM-Vq
-	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 17:38:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38728)
+	id 1mZK40-0000pc-Q2
+	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 17:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mZJip-00030g-77
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:17:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40177)
+ id 1mZJir-000388-0l
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:17:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mZJim-0002cz-Jo
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:17:34 -0400
+ id 1mZJip-0002de-FW
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:17:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633814252;
+ s=mimecast20190719; t=1633814254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VlS3ZNjbkDXZXJ1iKjmJ/g8VYkdG81ScSTBMGMmqNq0=;
- b=Zt9/YEzNMrN5fgsClBi2qYXM7Od32KJF7GI1R4B/k4dHwvIeRuDwUNzUIbkOCkbTpilCh5
- e0GgyGUnT2eKQ7ABVu30aTQNwJoiaaFFoixfxjdqen6lJY4BHH+bRHyaGQt0jo0G/jHZb/
- cqay+46V4hLOwu10NXG631L8QG/Wmng=
+ bh=ylGqsmrwEbiHQ6b11M8f27Vu9LcXipQBy+MGOyWaZBI=;
+ b=WsdhjfYFkLEx2kFsid/oyjtHvOhVpf4/gHMOIqbzWvmdpR7+mYqAJQ6VnXNb1p1JxpkILM
+ H8dtL21qqG/sKpeXRcZ4eBQKEXSdUZQkE1/Os583wgkPIzQ9P04OcK7MwTvfm5CORVs27h
+ JrWNhImoMED0V1VLhgbR9JWJYmFI5Ro=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-YbOV9CHbPjyfaz41cOJUfQ-1; Sat, 09 Oct 2021 17:17:28 -0400
-X-MC-Unique: YbOV9CHbPjyfaz41cOJUfQ-1
+ us-mta-225-RtPStId6MN6jK6nTLw1Y1A-1; Sat, 09 Oct 2021 17:17:33 -0400
+X-MC-Unique: RtPStId6MN6jK6nTLw1Y1A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E983814314
- for <qemu-devel@nongnu.org>; Sat,  9 Oct 2021 21:17:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE4C7180830F
+ for <qemu-devel@nongnu.org>; Sat,  9 Oct 2021 21:17:32 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E372519729;
- Sat,  9 Oct 2021 21:17:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C089319729;
+ Sat,  9 Oct 2021 21:17:31 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 35/37] ui/dbus: add chardev backend & interface
-Date: Sun, 10 Oct 2021 01:08:36 +0400
-Message-Id: <20211009210838.2219430-36-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 36/37] ui/dbus: register D-Bus VC handler
+Date: Sun, 10 Oct 2021 01:08:37 +0400
+Message-Id: <20211009210838.2219430-37-marcandre.lureau@redhat.com>
 In-Reply-To: <20211009210838.2219430-1-marcandre.lureau@redhat.com>
 References: <20211009210838.2219430-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -86,640 +86,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Add a new chardev backend which allows D-Bus client to handle the
-chardev stream & events.
+Export the default consoles over the D-Bus chardev.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- qapi/char.json                |  27 ++++
- include/chardev/char-socket.h |   2 +
- include/qemu/dbus.h           |   5 +
- ui/dbus.h                     |  44 +++++
- ui/dbus-chardev.c             | 296 ++++++++++++++++++++++++++++++++++
- ui/dbus.c                     |  26 +++
- ui/dbus-display1.xml          |  75 +++++++++
- ui/meson.build                |   1 +
- 8 files changed, 476 insertions(+)
- create mode 100644 ui/dbus-chardev.c
+ ui/dbus.c | 53 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-diff --git a/qapi/char.json b/qapi/char.json
-index f5133a5eeb..6ed424d07c 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -358,6 +358,20 @@
-   'base': 'ChardevCommon',
-   'if': 'CONFIG_SPICE' }
- 
-+##
-+# @ChardevDBus:
-+#
-+# Configuration info for DBus chardevs.
-+#
-+# @name: name of the channel (following docs/spice-port-fqdn.txt)
-+#
-+# Since: 6.2
-+##
-+{ 'struct': 'ChardevDBus',
-+  'data': { 'name': 'str' },
-+  'base': 'ChardevCommon',
-+  'if': 'CONFIG_DBUS_DISPLAY' }
-+
- ##
- # @ChardevVC:
- #
-@@ -422,6 +436,7 @@
- # @spicevmc: Since 1.5
- # @spiceport: Since 1.5
- # @qemu-vdagent: Since 6.1
-+# @dbus: Since 6.2
- # @vc: v1.5
- # @ringbuf: Since 1.6
- # @memory: Since 1.5
-@@ -447,6 +462,7 @@
-             { 'name': 'spicevmc', 'if': 'CONFIG_SPICE' },
-             { 'name': 'spiceport', 'if': 'CONFIG_SPICE' },
-             { 'name': 'qemu-vdagent', 'if': 'CONFIG_SPICE_PROTOCOL' },
-+            { 'name': 'dbus', 'if': 'CONFIG_DBUS_DISPLAY' },
-             'vc',
-             'ringbuf',
-             # next one is just for compatibility
-@@ -535,6 +551,15 @@
-   'data': { 'data': 'ChardevQemuVDAgent' },
-   'if': 'CONFIG_SPICE_PROTOCOL' }
- 
-+##
-+# @ChardevDBusWrapper:
-+#
-+# Since: 6.2
-+##
-+{ 'struct': 'ChardevDBusWrapper',
-+  'data': { 'data': 'ChardevDBus' },
-+  'if': 'CONFIG_DBUS_DISPLAY' }
-+
- ##
- # @ChardevVCWrapper:
- #
-@@ -582,6 +607,8 @@
-                            'if': 'CONFIG_SPICE' },
-             'qemu-vdagent': { 'type': 'ChardevQemuVDAgentWrapper',
-                               'if': 'CONFIG_SPICE_PROTOCOL' },
-+            'dbus': { 'type': 'ChardevDBusWrapper',
-+                      'if': 'CONFIG_DBUS_DISPLAY' },
-             'vc': 'ChardevVCWrapper',
-             'ringbuf': 'ChardevRingbufWrapper',
-             # next one is just for compatibility
-diff --git a/include/chardev/char-socket.h b/include/chardev/char-socket.h
-index 1a9274f2e3..6b6e2ceba1 100644
---- a/include/chardev/char-socket.h
-+++ b/include/chardev/char-socket.h
-@@ -43,6 +43,8 @@ typedef enum {
-     TCP_CHARDEV_STATE_CONNECTED,
- } TCPChardevState;
- 
-+typedef ChardevClass SocketChardevClass;
-+
- struct SocketChardev {
-     Chardev parent;
-     QIOChannel *ioc; /* Client I/O channel */
-diff --git a/include/qemu/dbus.h b/include/qemu/dbus.h
-index c0cbb1ca44..08f00dfd53 100644
---- a/include/qemu/dbus.h
-+++ b/include/qemu/dbus.h
-@@ -12,6 +12,11 @@
- 
- #include <gio/gio.h>
- 
-+#include "qom/object.h"
-+#include "chardev/char.h"
-+#include "qemu/notify.h"
-+#include "qemu/typedefs.h"
-+
- /* glib/gio 2.68 */
- #define DBUS_METHOD_INVOCATION_HANDLED TRUE
- #define DBUS_METHOD_INVOCATION_UNHANDLED FALSE
-diff --git a/ui/dbus.h b/ui/dbus.h
-index 3e89eafcab..64c77cab44 100644
---- a/ui/dbus.h
-+++ b/ui/dbus.h
-@@ -24,6 +24,7 @@
- #ifndef UI_DBUS_H_
- #define UI_DBUS_H_
- 
-+#include "chardev/char-socket.h"
- #include "qemu/dbus.h"
- #include "qom/object.h"
- #include "ui/console.h"
-@@ -56,11 +57,15 @@ struct DBusDisplay {
-     QemuDBusDisplay1Clipboard *clipboard;
-     QemuDBusDisplay1Clipboard *clipboard_proxy;
-     DBusClipboardRequest clipboard_request[QEMU_CLIPBOARD_SELECTION__COUNT];
-+
-+    Notifier notifier;
- };
- 
- #define TYPE_DBUS_DISPLAY "dbus-display"
- OBJECT_DECLARE_SIMPLE_TYPE(DBusDisplay, DBUS_DISPLAY)
- 
-+void dbus_display_notifier_add(Notifier *notifier);
-+
- #define DBUS_DISPLAY_TYPE_CONSOLE dbus_display_console_get_type()
- G_DECLARE_FINAL_TYPE(DBusDisplayConsole,
-                      dbus_display_console,
-@@ -95,6 +100,45 @@ dbus_display_listener_get_bus_name(DBusDisplayListener *ddl);
- extern const DisplayChangeListenerOps dbus_gl_dcl_ops;
- extern const DisplayChangeListenerOps dbus_dcl_ops;
- 
-+#define TYPE_CHARDEV_DBUS "chardev-dbus"
-+
-+typedef struct DBusChardevClass {
-+    SocketChardevClass parent_class;
-+
-+    void (*parent_chr_be_event)(Chardev *s, QEMUChrEvent event);
-+} DBusChardevClass;
-+
-+DECLARE_CLASS_CHECKERS(DBusChardevClass, DBUS_CHARDEV,
-+                       TYPE_CHARDEV_DBUS)
-+
-+typedef struct DBusChardev {
-+    SocketChardev parent;
-+
-+    bool exported;
-+    QemuDBusDisplay1Chardev *iface;
-+} DBusChardev;
-+
-+DECLARE_INSTANCE_CHECKER(DBusChardev, DBUS_CHARDEV, TYPE_CHARDEV_DBUS)
-+
-+#define CHARDEV_IS_DBUS(chr) \
-+    object_dynamic_cast(OBJECT(chr), TYPE_CHARDEV_DBUS)
-+
-+typedef enum {
-+    DBUS_DISPLAY_CHARDEV_OPEN,
-+    DBUS_DISPLAY_CHARDEV_CLOSE,
-+} DBusDisplayEventType;
-+
-+typedef struct DBusDisplayEvent {
-+    DBusDisplayEventType type;
-+    union {
-+        DBusChardev *chardev;
-+    };
-+} DBusDisplayEvent;
-+
-+void dbus_display_notify(DBusDisplayEvent *event);
-+
-+void dbus_chardev_init(DBusDisplay *dpy);
-+
- void dbus_clipboard_init(DBusDisplay *dpy);
- 
- #endif /* UI_DBUS_H_ */
-diff --git a/ui/dbus-chardev.c b/ui/dbus-chardev.c
-new file mode 100644
-index 0000000000..940ef937cd
---- /dev/null
-+++ b/ui/dbus-chardev.c
-@@ -0,0 +1,296 @@
-+/*
-+ * QEMU DBus display
-+ *
-+ * Copyright (c) 2021 Marc-André Lureau <marcandre.lureau@redhat.com>
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+#include "qemu/osdep.h"
-+#include "trace.h"
-+#include "qapi/error.h"
-+#include "qemu/config-file.h"
-+#include "qemu/option.h"
-+
-+#include <gio/gunixfdlist.h>
-+
-+#include "dbus.h"
-+
-+static char *
-+dbus_display_chardev_path(DBusChardev *chr)
-+{
-+    return g_strdup_printf(DBUS_DISPLAY1_ROOT "/Chardev_%s",
-+                           CHARDEV(chr)->label);
-+}
-+
-+static void
-+dbus_display_chardev_export(DBusDisplay *dpy, DBusChardev *chr)
-+{
-+    g_autoptr(GDBusObjectSkeleton) sk = NULL;
-+    g_autofree char *path = dbus_display_chardev_path(chr);
-+
-+    if (chr->exported) {
-+        return;
-+    }
-+
-+    sk = g_dbus_object_skeleton_new(path);
-+    g_dbus_object_skeleton_add_interface(
-+        sk, G_DBUS_INTERFACE_SKELETON(chr->iface));
-+    g_dbus_object_manager_server_export(dpy->server, sk);
-+    chr->exported = true;
-+}
-+
-+static void
-+dbus_display_chardev_unexport(DBusDisplay *dpy, DBusChardev *chr)
-+{
-+    g_autofree char *path = dbus_display_chardev_path(chr);
-+
-+    if (!chr->exported) {
-+        return;
-+    }
-+
-+    g_dbus_object_manager_server_unexport(dpy->server, path);
-+    chr->exported = false;
-+}
-+
-+static int
-+dbus_display_chardev_foreach(Object *obj, void *data)
-+{
-+    DBusDisplay *dpy = DBUS_DISPLAY(data);
-+
-+    if (!CHARDEV_IS_DBUS(obj)) {
-+        return 0;
-+    }
-+
-+    dbus_display_chardev_export(dpy, DBUS_CHARDEV(obj));
-+
-+    return 0;
-+}
-+
-+static void
-+dbus_display_on_notify(Notifier *notifier, void *data)
-+{
-+    DBusDisplay *dpy = container_of(notifier, DBusDisplay, notifier);
-+    DBusDisplayEvent *event = data;
-+
-+    switch (event->type) {
-+    case DBUS_DISPLAY_CHARDEV_OPEN:
-+        dbus_display_chardev_export(dpy, event->chardev);
-+        break;
-+    case DBUS_DISPLAY_CHARDEV_CLOSE:
-+        dbus_display_chardev_unexport(dpy, event->chardev);
-+        break;
-+    }
-+}
-+
-+void
-+dbus_chardev_init(DBusDisplay *dpy)
-+{
-+    dpy->notifier.notify = dbus_display_on_notify;
-+    dbus_display_notifier_add(&dpy->notifier);
-+
-+    object_child_foreach(container_get(object_get_root(), "/chardevs"),
-+                         dbus_display_chardev_foreach, dpy);
-+}
-+
-+static gboolean
-+dbus_chr_register(
-+    DBusChardev *dc,
-+    GDBusMethodInvocation *invocation,
-+    GUnixFDList *fd_list,
-+    GVariant *arg_stream,
-+    QemuDBusDisplay1Chardev *object)
-+{
-+    g_autoptr(GError) err = NULL;
-+    int fd;
-+
-+    fd = g_unix_fd_list_get(fd_list, g_variant_get_handle(arg_stream), &err);
-+    if (err) {
-+        g_dbus_method_invocation_return_error(
-+            invocation,
-+            DBUS_DISPLAY_ERROR,
-+            DBUS_DISPLAY_ERROR_FAILED,
-+            "Couldn't get peer FD: %s", err->message);
-+        return DBUS_METHOD_INVOCATION_HANDLED;
-+    }
-+
-+    if (qemu_chr_add_client(CHARDEV(dc), fd) < 0) {
-+        g_dbus_method_invocation_return_error(invocation,
-+                                              DBUS_DISPLAY_ERROR,
-+                                              DBUS_DISPLAY_ERROR_FAILED,
-+                                              "Couldn't register FD!");
-+        close(fd);
-+        return DBUS_METHOD_INVOCATION_HANDLED;
-+    }
-+
-+    g_object_set(dc->iface,
-+                 "owner", g_dbus_method_invocation_get_sender(invocation),
-+                 NULL);
-+
-+    qemu_dbus_display1_chardev_complete_register(object, invocation, NULL);
-+    return DBUS_METHOD_INVOCATION_HANDLED;
-+}
-+
-+static gboolean
-+dbus_chr_send_break(
-+    DBusChardev *dc,
-+    GDBusMethodInvocation *invocation,
-+    QemuDBusDisplay1Chardev *object)
-+{
-+    qemu_chr_be_event(CHARDEV(dc), CHR_EVENT_BREAK);
-+
-+    qemu_dbus_display1_chardev_complete_send_break(object, invocation);
-+    return DBUS_METHOD_INVOCATION_HANDLED;
-+}
-+
-+static void
-+dbus_chr_open(Chardev *chr, ChardevBackend *backend,
-+              bool *be_opened, Error **errp)
-+{
-+    ERRP_GUARD();
-+
-+    DBusChardev *dc = DBUS_CHARDEV(chr);
-+    DBusDisplayEvent event = {
-+        .type = DBUS_DISPLAY_CHARDEV_OPEN,
-+        .chardev = dc,
-+    };
-+    g_autoptr(ChardevBackend) be = NULL;
-+    g_autoptr(QemuOpts) opts = NULL;
-+
-+    dc->iface = qemu_dbus_display1_chardev_skeleton_new();
-+    g_object_set(dc->iface, "name", backend->u.dbus.data->name, NULL);
-+    g_object_connect(dc->iface,
-+                     "swapped-signal::handle-register",
-+                     dbus_chr_register, dc,
-+                     "swapped-signal::handle-send-break",
-+                     dbus_chr_send_break, dc,
-+                     NULL);
-+
-+    dbus_display_notify(&event);
-+
-+    be = g_new0(ChardevBackend, 1);
-+    opts = qemu_opts_create(qemu_find_opts("chardev"), NULL, 0, &error_abort);
-+    qemu_opt_set(opts, "server", "on", &error_abort);
-+    qemu_opt_set(opts, "wait", "off", &error_abort);
-+    CHARDEV_CLASS(object_class_by_name(TYPE_CHARDEV_SOCKET))->parse(
-+        opts, be, errp);
-+    if (*errp) {
-+        return;
-+    }
-+    CHARDEV_CLASS(object_class_by_name(TYPE_CHARDEV_SOCKET))->open(
-+        chr, be, be_opened, errp);
-+}
-+
-+static void
-+dbus_chr_set_fe_open(Chardev *chr, int fe_open)
-+{
-+    DBusChardev *dc = DBUS_CHARDEV(chr);
-+
-+    g_object_set(dc->iface, "feopened", fe_open, NULL);
-+}
-+
-+static void
-+dbus_chr_set_echo(Chardev *chr, bool echo)
-+{
-+    DBusChardev *dc = DBUS_CHARDEV(chr);
-+
-+    g_object_set(dc->iface, "echo", echo, NULL);
-+}
-+
-+static void
-+dbus_chr_be_event(Chardev *chr, QEMUChrEvent event)
-+{
-+    DBusChardev *dc = DBUS_CHARDEV(chr);
-+    DBusChardevClass *klass = DBUS_CHARDEV_GET_CLASS(chr);
-+
-+    switch (event) {
-+    case CHR_EVENT_CLOSED:
-+        if (dc->iface) {
-+            /* on finalize, iface is set to NULL */
-+            g_object_set(dc->iface, "owner", "", NULL);
-+        }
-+        break;
-+    default:
-+        break;
-+    };
-+
-+    klass->parent_chr_be_event(chr, event);
-+}
-+
-+static void
-+dbus_chr_parse(QemuOpts *opts, ChardevBackend *backend,
-+               Error **errp)
-+{
-+    const char *name = qemu_opt_get(opts, "name");
-+    ChardevDBus *dbus;
-+
-+    if (name == NULL) {
-+        error_setg(errp, "chardev: dbus: no name given");
-+        return;
-+    }
-+
-+    backend->type = CHARDEV_BACKEND_KIND_DBUS;
-+    dbus = backend->u.dbus.data = g_new0(ChardevDBus, 1);
-+    qemu_chr_parse_common(opts, qapi_ChardevDBus_base(dbus));
-+    dbus->name = g_strdup(name);
-+}
-+
-+static void
-+char_dbus_class_init(ObjectClass *oc, void *data)
-+{
-+    DBusChardevClass *klass = DBUS_CHARDEV_CLASS(oc);
-+    ChardevClass *cc = CHARDEV_CLASS(oc);
-+
-+    cc->parse = dbus_chr_parse;
-+    cc->open = dbus_chr_open;
-+    cc->chr_set_fe_open = dbus_chr_set_fe_open;
-+    cc->chr_set_echo = dbus_chr_set_echo;
-+    klass->parent_chr_be_event = cc->chr_be_event;
-+    cc->chr_be_event = dbus_chr_be_event;
-+}
-+
-+static void
-+char_dbus_finalize(Object *obj)
-+{
-+    DBusChardev *dc = DBUS_CHARDEV(obj);
-+    DBusDisplayEvent event = {
-+        .type = DBUS_DISPLAY_CHARDEV_CLOSE,
-+        .chardev = dc,
-+    };
-+
-+    dbus_display_notify(&event);
-+    g_clear_object(&dc->iface);
-+}
-+
-+static const TypeInfo char_dbus_type_info = {
-+    .name = TYPE_CHARDEV_DBUS,
-+    .parent = TYPE_CHARDEV_SOCKET,
-+    .class_size = sizeof(DBusChardevClass),
-+    .instance_size = sizeof(DBusChardev),
-+    .instance_finalize = char_dbus_finalize,
-+    .class_init = char_dbus_class_init,
-+};
-+module_obj(TYPE_CHARDEV_DBUS);
-+
-+static void
-+register_types(void)
-+{
-+    type_register_static(&char_dbus_type_info);
-+}
-+
-+type_init(register_types);
 diff --git a/ui/dbus.c b/ui/dbus.c
-index ac34fab3cb..38d6ccc607 100644
+index 38d6ccc607..97248ceadb 100644
 --- a/ui/dbus.c
 +++ b/ui/dbus.c
-@@ -55,6 +55,27 @@ static const DisplayGLCtxOps dbus_gl_ops = {
-     .dpy_gl_ctx_make_current = qemu_egl_make_context_current,
- };
+@@ -352,6 +352,57 @@ dbus_display_class_init(ObjectClass *oc, void *data)
+                                    get_gl_mode, set_gl_mode);
+ }
  
-+static NotifierList dbus_display_notifiers =
-+    NOTIFIER_LIST_INITIALIZER(dbus_display_notifiers);
++#define TYPE_CHARDEV_VC "chardev-vc"
 +
-+void
-+dbus_display_notifier_add(Notifier *notifier)
++typedef struct DBusVCClass {
++    DBusChardevClass parent_class;
++
++    void (*parent_parse)(QemuOpts *opts, ChardevBackend *b, Error **errp);
++} DBusVCClass;
++
++DECLARE_CLASS_CHECKERS(DBusVCClass, DBUS_VC,
++                       TYPE_CHARDEV_VC)
++
++static void
++dbus_vc_parse(QemuOpts *opts, ChardevBackend *backend,
++              Error **errp)
 +{
-+    notifier_list_add(&dbus_display_notifiers, notifier);
++    DBusVCClass *klass = DBUS_VC_CLASS(object_class_by_name(TYPE_CHARDEV_VC));
++    const char *name = qemu_opt_get(opts, "name");
++    const char *id = qemu_opts_id(opts);
++
++    if (name == NULL) {
++        name = "";
++        if (g_str_has_prefix(id, "compat_monitor")) {
++            name = "org.qemu.monitor.hmp.0";
++        }
++        if (g_str_has_prefix(id, "serial")) {
++            name = "org.qemu.console.serial.0";
++        }
++        if (!qemu_opt_set(opts, "name", name, errp)) {
++            return;
++        }
++    }
++
++    klass->parent_parse(opts, backend, errp);
 +}
 +
 +static void
-+dbus_display_notifier_remove(Notifier *notifier)
++dbus_vc_class_init(ObjectClass *oc, void *data)
 +{
-+    notifier_remove(notifier);
++    DBusVCClass *klass = DBUS_VC_CLASS(oc);
++    ChardevClass *cc = CHARDEV_CLASS(oc);
++
++    klass->parent_parse = cc->parse;
++    cc->parse = dbus_vc_parse;
 +}
 +
-+void
-+dbus_display_notify(DBusDisplayEvent *event)
-+{
-+    notifier_list_notify(&dbus_display_notifiers, event);
-+}
++static const TypeInfo dbus_vc_type_info = {
++    .name = TYPE_CHARDEV_VC,
++    .parent = TYPE_CHARDEV_DBUS,
++    .class_init = dbus_vc_class_init,
++};
 +
  static void
- dbus_display_init(Object *o)
+ early_dbus_init(DisplayOptions *opts)
  {
-@@ -73,6 +94,7 @@ dbus_display_init(Object *o)
-     g_dbus_object_manager_server_export(dd->server, vm);
+@@ -365,6 +416,8 @@ early_dbus_init(DisplayOptions *opts)
  
-     dbus_clipboard_init(dd);
-+    dbus_chardev_init(dd);
+         display_opengl = 1;
+     }
++
++    type_register(&dbus_vc_type_info);
  }
  
  static void
-@@ -80,6 +102,10 @@ dbus_display_finalize(Object *o)
- {
-     DBusDisplay *dd = DBUS_DISPLAY(o);
- 
-+    if (dd->notifier.notify) {
-+        dbus_display_notifier_remove(&dd->notifier);
-+    }
-+
-     qemu_clipboard_peer_unregister(&dd->clipboard_peer);
-     g_clear_object(&dd->clipboard);
- 
-diff --git a/ui/dbus-display1.xml b/ui/dbus-display1.xml
-index 767562ad1e..cc45078ec8 100644
---- a/ui/dbus-display1.xml
-+++ b/ui/dbus-display1.xml
-@@ -683,4 +683,79 @@
-       </arg>
-     </method>
-   </interface>
-+
-+  <!--
-+      org.qemu.Display1.Chardev:
-+
-+      Character devices may be available on ``/org/qemu/Display1/Chardev_$id``.
-+
-+      They may be used for different kind of streams, which are identified via
-+      their FQDN :dbus:prop:`Name`.
-+
-+      .. _dbus-chardev-fqdn:
-+
-+      Here are some known reserved kind names (the `org.qemu` prefix is reserved
-+      by QEMU):
-+
-+      org.qemu.console.serial.0
-+        A serial console stream.
-+
-+      org.qemu.monitor.hmp.0
-+        A QEMU HMP human monitor.
-+
-+      org.qemu.monitor.qmp.0
-+        A QEMU QMP monitor.
-+
-+      org.qemu.usbredir
-+        A usbredir stream.
-+  -->
-+  <interface name="org.qemu.Display1.Chardev">
-+    <!--
-+        Register:
-+        @stream: a Unix FD to redirect the stream to.
-+
-+        Register a file-descriptor for the stream handling.
-+
-+        The current handler, if any, will be replaced.
-+    -->
-+    <method name="Register">
-+      <arg type="h" name="stream" direction="in"/>
-+    </method>
-+
-+    <!--
-+        SendBreak:
-+
-+        Send a break event to the character device.
-+    -->
-+    <method name="SendBreak"/>
-+
-+    <!--
-+        Name:
-+
-+        The FQDN name to identify the kind of stream. See :ref:`reserved
-+        names<dbus-chardev-fqdn>`.
-+    -->
-+    <property name="Name" type="s" access="read"/>
-+
-+    <!--
-+        FEOpened:
-+
-+        Whether the front-end side is opened.
-+    -->
-+    <property name="FEOpened" type="b" access="read"/>
-+
-+    <!--
-+        Echo:
-+
-+        Whether the input should be echo'ed (for serial streams).
-+    -->
-+    <property name="Echo" type="b" access="read"/>
-+
-+    <!--
-+        Owner:
-+
-+        The D-Bus unique name of the registered handler.
-+    -->
-+    <property name="Owner" type="s" access="read"/>
-+  </interface>
- </node>
-diff --git a/ui/meson.build b/ui/meson.build
-index 8982ab63c4..64286ba150 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -82,6 +82,7 @@ if dbus_display
-                                           '--generate-c-code', '@BASENAME@'])
-   dbus_ss.add(when: [gio, pixman, opengl, 'CONFIG_GIO'],
-               if_true: [files(
-+                'dbus-chardev.c',
-                 'dbus-clipboard.c',
-                 'dbus-console.c',
-                 'dbus-error.c',
 -- 
 2.33.0.721.g106298f7f9
 
