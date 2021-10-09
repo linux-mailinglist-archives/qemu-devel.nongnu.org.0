@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E385D427A05
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 14:14:38 +0200 (CEST)
-Received: from localhost ([::1]:37860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7700A427A08
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 14:17:52 +0200 (CEST)
+Received: from localhost ([::1]:42476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZBFO-0005Pw-0L
-	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 08:14:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47682)
+	id 1mZBIV-0000GM-Ez
+	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 08:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZBBF-0007yY-4C
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZBBF-0007yk-Cm
  for qemu-devel@nongnu.org; Sat, 09 Oct 2021 08:10:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55519)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZBBB-00076P-Pv
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 08:10:20 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZBBD-00076a-9O
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 08:10:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633781416;
+ s=mimecast20190719; t=1633781417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0jjQzczD4kEqGuY9oEEI2ywnjprqrl9/YheOgfujrm8=;
- b=Wn152d+mj4wvmkhDcwd5sN1muMISJsR2ymhZX+Ax1RRzCqBiIrCZ5YBUihZco7KpL0M5KP
- r4UC9nyl+ZMyDzR95+47c4VXs1UNoY7anzFXb4JTFyiQelHrGGQQ/7EQZCKoAVD1Na5Fgk
- hc2TTwv1ukfZiZQfkDDDk1faZ82iVkw=
+ bh=uJR8Sv8Xd/WQ5Q0X0Kbg81qzZtluBesx0b9o4FNGtHE=;
+ b=P/6308Qu58dTO7cijGw//kae4B2M6yJa3cggDxFDcB3hjRruTInzoiNyYyPVtfQ1os2ZJX
+ M5yjDGW7AyDOWuRaJ1jYpjKD+TpzKMUW6YZHZgKcxb5NfZpsjWGiddbv2DN5boXjajNOzX
+ KXtZYv6tX5JMhW+Yrbb3nONVUAjYT6A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-NR8iGG3aNwyj79yEXYxPkQ-1; Sat, 09 Oct 2021 08:10:15 -0400
-X-MC-Unique: NR8iGG3aNwyj79yEXYxPkQ-1
+ us-mta-252-Lr9zo2fIMw2jXvRxPT0kJA-1; Sat, 09 Oct 2021 08:10:15 -0400
+X-MC-Unique: Lr9zo2fIMw2jXvRxPT0kJA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B7C7801AFC;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B871804302;
  Sat,  9 Oct 2021 12:10:14 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBE0E5F4EE;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BBE505F4F1;
  Sat,  9 Oct 2021 12:09:45 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4AB4511385C3; Sat,  9 Oct 2021 14:09:44 +0200 (CEST)
+ id 4ED481138526; Sat,  9 Oct 2021 14:09:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/5] qapi: Move compat policy from QObject to generic
- visitor
-Date: Sat,  9 Oct 2021 14:09:42 +0200
-Message-Id: <20211009120944.2858887-4-armbru@redhat.com>
+Subject: [PATCH v2 4/5] qapi: Implement deprecated-input={reject,
+ crash} for enum values
+Date: Sat,  9 Oct 2021 14:09:43 +0200
+Message-Id: <20211009120944.2858887-5-armbru@redhat.com>
 In-Reply-To: <20211009120944.2858887-1-armbru@redhat.com>
 References: <20211009120944.2858887-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -87,243 +87,149 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The next commit needs to access compat policy from the generic visitor
-core.  Move it there from qobject input and output visitor.
+This copies the code implementing the policy from qapi/qmp-dispatch.c
+to qapi/qobject-input-visitor.c.  Tolerable, but if we acquire more
+copes, we should look into factoring them out.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- include/qapi/qobject-input-visitor.h  |  4 ----
- include/qapi/qobject-output-visitor.h |  4 ----
- include/qapi/visitor-impl.h           |  3 +++
- include/qapi/visitor.h                |  9 +++++++++
- qapi/qapi-visit-core.c                |  9 +++++++++
- qapi/qmp-dispatch.c                   |  4 ++--
- qapi/qobject-input-visitor.c          | 14 +-------------
- qapi/qobject-output-visitor.c         | 14 +-------------
- 8 files changed, 25 insertions(+), 36 deletions(-)
+ docs/devel/qapi-code-gen.rst |  6 ++++--
+ qapi/compat.json             |  3 ++-
+ include/qapi/util.h          |  6 +++++-
+ qapi/qapi-visit-core.c       | 18 +++++++++++++++---
+ scripts/qapi/types.py        | 17 ++++++++++++++++-
+ 5 files changed, 42 insertions(+), 8 deletions(-)
 
-diff --git a/include/qapi/qobject-input-visitor.h b/include/qapi/qobject-input-visitor.h
-index 8d69388810..95985e25e5 100644
---- a/include/qapi/qobject-input-visitor.h
-+++ b/include/qapi/qobject-input-visitor.h
-@@ -15,7 +15,6 @@
- #ifndef QOBJECT_INPUT_VISITOR_H
- #define QOBJECT_INPUT_VISITOR_H
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+index 00334e9fb8..006a6f4a9a 100644
+--- a/docs/devel/qapi-code-gen.rst
++++ b/docs/devel/qapi-code-gen.rst
+@@ -708,8 +708,10 @@ QEMU shows a certain behaviour.
+ Special features
+ ~~~~~~~~~~~~~~~~
  
--#include "qapi/qapi-types-compat.h"
- #include "qapi/visitor.h"
+-Feature "deprecated" marks a command, event, or struct member as
+-deprecated.  It is not supported elsewhere so far.
++Feature "deprecated" marks a command, event, struct or enum member as
++deprecated.  It is not supported elsewhere so far.  Interfaces so
++marked may be withdrawn in future releases in accordance with QEMU's
++deprecation policy.
  
- typedef struct QObjectInputVisitor QObjectInputVisitor;
-@@ -59,9 +58,6 @@ typedef struct QObjectInputVisitor QObjectInputVisitor;
-  */
- Visitor *qobject_input_visitor_new(QObject *obj);
  
--void qobject_input_visitor_set_policy(Visitor *v,
--                                      CompatPolicyInput deprecated);
--
- /*
-  * Create a QObject input visitor for @obj for use with keyval_parse()
-  *
-diff --git a/include/qapi/qobject-output-visitor.h b/include/qapi/qobject-output-visitor.h
-index f2a2f92a00..2b1726baf5 100644
---- a/include/qapi/qobject-output-visitor.h
-+++ b/include/qapi/qobject-output-visitor.h
-@@ -15,7 +15,6 @@
- #define QOBJECT_OUTPUT_VISITOR_H
+ Naming rules and reserved names
+diff --git a/qapi/compat.json b/qapi/compat.json
+index 1d2b76f00c..74a8493d3d 100644
+--- a/qapi/compat.json
++++ b/qapi/compat.json
+@@ -42,7 +42,8 @@
+ # with feature 'deprecated'.  We may want to extend it to cover
+ # semantic aspects, CLI, and experimental features.
+ #
+-# Limitation: not implemented for deprecated enumeration values.
++# Limitation: deprecated-output policy @hide is not implemented for
++# enumeration values.  They behave the same as with policy @accept.
+ #
+ # @deprecated-input: how to handle deprecated input (default 'accept')
+ # @deprecated-output: how to handle deprecated output (default 'accept')
+diff --git a/include/qapi/util.h b/include/qapi/util.h
+index d7bfb30e25..257c600f99 100644
+--- a/include/qapi/util.h
++++ b/include/qapi/util.h
+@@ -11,9 +11,13 @@
+ #ifndef QAPI_UTIL_H
+ #define QAPI_UTIL_H
  
- #include "qapi/visitor.h"
--#include "qapi/qapi-types-compat.h"
- 
- typedef struct QObjectOutputVisitor QObjectOutputVisitor;
- 
-@@ -54,7 +53,4 @@ typedef struct QObjectOutputVisitor QObjectOutputVisitor;
-  */
- Visitor *qobject_output_visitor_new(QObject **result);
- 
--void qobject_output_visitor_set_policy(Visitor *v,
--                                       CompatPolicyOutput deprecated);
--
- #endif
-diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
-index 3b950f6e3d..72b6537bef 100644
---- a/include/qapi/visitor-impl.h
-+++ b/include/qapi/visitor-impl.h
-@@ -122,6 +122,9 @@ struct Visitor
-     /* Must be set */
-     VisitorType type;
- 
-+    /* Optional */
-+    struct CompatPolicy compat_policy;
++/* QEnumLookup flags */
++#define QAPI_ENUM_DEPRECATED 1
 +
-     /* Must be set for output visitors, optional otherwise. */
-     void (*complete)(Visitor *v, void *opaque);
+ typedef struct QEnumLookup {
+     const char *const *array;
+-    int size;
++    const unsigned char *const flags;
++    const int size;
+ } QEnumLookup;
  
-diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
-index b3c9ef7a81..dcb96018a9 100644
---- a/include/qapi/visitor.h
-+++ b/include/qapi/visitor.h
-@@ -16,6 +16,7 @@
- #define QAPI_VISITOR_H
- 
- #include "qapi/qapi-builtin-types.h"
-+#include "qapi/qapi-types-compat.h"
- 
- /*
-  * The QAPI schema defines both a set of C data types, and a QMP wire
-@@ -477,6 +478,14 @@ bool visit_deprecated_accept(Visitor *v, const char *name, Error **errp);
-  */
- bool visit_deprecated(Visitor *v, const char *name);
- 
-+/*
-+ * Set policy for handling deprecated management interfaces.
-+ *
-+ * Intended use: call visit_set_policy(v, &compat_policy) when
-+ * visiting management interface input or output.
-+ */
-+void visit_set_policy(Visitor *v, CompatPolicy *policy);
-+
- /*
-  * Visit an enum value.
-  *
+ const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);
 diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index a641adec51..066f77a26d 100644
+index 066f77a26d..49136ae88e 100644
 --- a/qapi/qapi-visit-core.c
 +++ b/qapi/qapi-visit-core.c
-@@ -19,6 +19,10 @@
- #include "qapi/visitor-impl.h"
- #include "trace.h"
- 
-+/* Zero-initialization must result in default policy */
-+QEMU_BUILD_BUG_ON(COMPAT_POLICY_INPUT_ACCEPT || COMPAT_POLICY_OUTPUT_ACCEPT);
-+
-+
- void visit_complete(Visitor *v, void *opaque)
+@@ -393,7 +393,7 @@ static bool input_type_enum(Visitor *v, const char *name, int *obj,
+                             const QEnumLookup *lookup, Error **errp)
  {
-     assert(v->type != VISITOR_OUTPUT || v->complete);
-@@ -153,6 +157,11 @@ bool visit_deprecated(Visitor *v, const char *name)
+     int64_t value;
+-    char *enum_str;
++    g_autofree char *enum_str = NULL;
+ 
+     if (!visit_type_str(v, name, &enum_str, errp)) {
+         return false;
+@@ -402,11 +402,23 @@ static bool input_type_enum(Visitor *v, const char *name, int *obj,
+     value = qapi_enum_parse(lookup, enum_str, -1, NULL);
+     if (value < 0) {
+         error_setg(errp, QERR_INVALID_PARAMETER, enum_str);
+-        g_free(enum_str);
+         return false;
+     }
+ 
+-    g_free(enum_str);
++    if (lookup->flags && (lookup->flags[value] & QAPI_ENUM_DEPRECATED)) {
++        switch (v->compat_policy.deprecated_input) {
++        case COMPAT_POLICY_INPUT_ACCEPT:
++            break;
++        case COMPAT_POLICY_INPUT_REJECT:
++            error_setg(errp, "Deprecated value '%s' disabled by policy",
++                       enum_str);
++            return false;
++        case COMPAT_POLICY_INPUT_CRASH:
++        default:
++            abort();
++        }
++    }
++
+     *obj = value;
      return true;
  }
+diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+index 831294fe42..ab2441adc9 100644
+--- a/scripts/qapi/types.py
++++ b/scripts/qapi/types.py
+@@ -38,6 +38,8 @@
+ def gen_enum_lookup(name: str,
+                     members: List[QAPISchemaEnumMember],
+                     prefix: Optional[str] = None) -> str:
++    max_index = c_enum_const(name, '_MAX', prefix)
++    flags = ''
+     ret = mcgen('''
  
-+void visit_set_policy(Visitor *v, CompatPolicy *policy)
-+{
-+    v->compat_policy = *policy;
-+}
+ const QEnumLookup %(c_name)s_lookup = {
+@@ -52,13 +54,26 @@ def gen_enum_lookup(name: str,
+ ''',
+                      index=index, name=memb.name)
+         ret += memb.ifcond.gen_endif()
++        if 'deprecated' in (f.name for f in memb.features):
++            flags += mcgen('''
++        [%(index)s] = QAPI_ENUM_DEPRECATED,
++''',
++                           index=index)
 +
- bool visit_is_input(Visitor *v)
- {
-     return v->type == VISITOR_INPUT;
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 59600210ce..7e943a0af5 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -32,7 +32,7 @@ Visitor *qobject_input_visitor_new_qmp(QObject *obj)
- {
-     Visitor *v = qobject_input_visitor_new(obj);
++    if flags:
++        ret += mcgen('''
++    },
++    .flags = (const unsigned char[%(max_index)s]) {
++''',
++                     max_index=max_index)
++        ret += flags
  
--    qobject_input_visitor_set_policy(v, compat_policy.deprecated_input);
-+    visit_set_policy(v, &compat_policy);
-     return v;
- }
+     ret += mcgen('''
+     },
+     .size = %(max_index)s
+ };
+ ''',
+-                 max_index=c_enum_const(name, '_MAX', prefix))
++                 max_index=max_index)
+     return ret
  
-@@ -40,7 +40,7 @@ Visitor *qobject_output_visitor_new_qmp(QObject **result)
- {
-     Visitor *v = qobject_output_visitor_new(result);
  
--    qobject_output_visitor_set_policy(v, compat_policy.deprecated_output);
-+    visit_set_policy(v, &compat_policy);
-     return v;
- }
- 
-diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index 04b790412e..71b24a4429 100644
---- a/qapi/qobject-input-visitor.c
-+++ b/qapi/qobject-input-visitor.c
-@@ -14,7 +14,6 @@
- 
- #include "qemu/osdep.h"
- #include <math.h>
--#include "qapi/compat-policy.h"
- #include "qapi/error.h"
- #include "qapi/qobject-input-visitor.h"
- #include "qapi/visitor-impl.h"
-@@ -44,7 +43,6 @@ typedef struct StackObject {
- 
- struct QObjectInputVisitor {
-     Visitor visitor;
--    CompatPolicyInput deprecated_policy;
- 
-     /* Root of visit at visitor creation. */
-     QObject *root;
-@@ -667,9 +665,7 @@ static void qobject_input_optional(Visitor *v, const char *name, bool *present)
- static bool qobject_input_deprecated_accept(Visitor *v, const char *name,
-                                             Error **errp)
- {
--    QObjectInputVisitor *qiv = to_qiv(v);
--
--    switch (qiv->deprecated_policy) {
-+    switch (v->compat_policy.deprecated_input) {
-     case COMPAT_POLICY_INPUT_ACCEPT:
-         return true;
-     case COMPAT_POLICY_INPUT_REJECT:
-@@ -739,14 +735,6 @@ Visitor *qobject_input_visitor_new(QObject *obj)
-     return &v->visitor;
- }
- 
--void qobject_input_visitor_set_policy(Visitor *v,
--                                       CompatPolicyInput deprecated)
--{
--    QObjectInputVisitor *qiv = to_qiv(v);
--
--    qiv->deprecated_policy = deprecated;
--}
--
- Visitor *qobject_input_visitor_new_keyval(QObject *obj)
- {
-     QObjectInputVisitor *v = qobject_input_visitor_base_new(obj);
-diff --git a/qapi/qobject-output-visitor.c b/qapi/qobject-output-visitor.c
-index e4873308d4..9b7f510036 100644
---- a/qapi/qobject-output-visitor.c
-+++ b/qapi/qobject-output-visitor.c
-@@ -13,7 +13,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qapi/compat-policy.h"
- #include "qapi/qobject-output-visitor.h"
- #include "qapi/visitor-impl.h"
- #include "qemu/queue.h"
-@@ -32,7 +31,6 @@ typedef struct QStackEntry {
- 
- struct QObjectOutputVisitor {
-     Visitor visitor;
--    CompatPolicyOutput deprecated_policy;
- 
-     QSLIST_HEAD(, QStackEntry) stack; /* Stack of unfinished containers */
-     QObject *root; /* Root of the output visit */
-@@ -212,9 +210,7 @@ static bool qobject_output_type_null(Visitor *v, const char *name,
- 
- static bool qobject_output_deprecated(Visitor *v, const char *name)
- {
--    QObjectOutputVisitor *qov = to_qov(v);
--
--    return qov->deprecated_policy != COMPAT_POLICY_OUTPUT_HIDE;
-+    return v->compat_policy.deprecated_output != COMPAT_POLICY_OUTPUT_HIDE;
- }
- 
- /* Finish building, and return the root object.
-@@ -275,11 +271,3 @@ Visitor *qobject_output_visitor_new(QObject **result)
- 
-     return &v->visitor;
- }
--
--void qobject_output_visitor_set_policy(Visitor *v,
--                                       CompatPolicyOutput deprecated)
--{
--    QObjectOutputVisitor *qov = to_qov(v);
--
--    qov->deprecated_policy = deprecated;
--}
 -- 
 2.31.1
 
