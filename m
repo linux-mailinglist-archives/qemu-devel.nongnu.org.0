@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B828F427D84
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 23:10:51 +0200 (CEST)
-Received: from localhost ([::1]:39540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F446427D85
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 23:11:27 +0200 (CEST)
+Received: from localhost ([::1]:40954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZJcI-0006qR-QN
-	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 17:10:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37630)
+	id 1mZJcr-0007nC-UM
+	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 17:11:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mZJag-00058M-Hk
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:09:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43221)
+ id 1mZJas-0005cL-7g
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:09:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mZJaf-0008GG-1e
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:09:10 -0400
+ id 1mZJaq-0008Hs-OW
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:09:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633813748;
+ s=mimecast20190719; t=1633813760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aEzKvp6CrZi9sJoBG3qzIk1ikMFmUHF++SaXGnQu9uw=;
- b=TL072fuQOnrkPtJxtA27GdQWmpyi3dZDj+xC/zF5HHS4QzI7Yo4hZYkfLTU89JzCbhG4Qm
- 1NQ+bkZXjsy82AEEynhVmgVC2oK4udbqSyzabRTi7bmkbFpGz/yyxmiARbMCgbUoL3UVkA
- sQQQ36v5RfZmmI5MwKSyYXBijls5GNI=
+ bh=S9dnnky8Puw6TUxpeTXKz9l90VBu3DwcE18l6sNaD3w=;
+ b=QSRo/wXTYAGlcTP9nZOrvEYlRWG13CgJn5T/zLLykCnounI0uuxlK4uF0Yc98lpNfh9Fpj
+ tdOfMraxi6pjBWmoc3VI8bRZIdOJM/5Qww8FzH1hQVJGm/+OPZyxjJ2EBgYouc7Gd7ZEXV
+ k/aJ9SkUM0Qm6YyrGcvikALg+iS9sEM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-sQxTzx9lONOswJSr5LIkUw-1; Sat, 09 Oct 2021 17:09:06 -0400
-X-MC-Unique: sQxTzx9lONOswJSr5LIkUw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-134-2jOi-y0ROIS7c4fD4sAORQ-1; Sat, 09 Oct 2021 17:09:18 -0400
+X-MC-Unique: 2jOi-y0ROIS7c4fD4sAORQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1538A1808312
- for <qemu-devel@nongnu.org>; Sat,  9 Oct 2021 21:09:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56E5F1808304
+ for <qemu-devel@nongnu.org>; Sat,  9 Oct 2021 21:09:17 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 118535C1B4;
- Sat,  9 Oct 2021 21:09:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 746165F4EE;
+ Sat,  9 Oct 2021 21:09:09 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/37] ui/vdagent: add CHECK_SPICE_PROTOCOL_VERSION
-Date: Sun, 10 Oct 2021 01:08:03 +0400
-Message-Id: <20211009210838.2219430-3-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 03/37] ui/vdagent: replace #if 0 with protocol version check
+Date: Sun, 10 Oct 2021 01:08:04 +0400
+Message-Id: <20211009210838.2219430-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20211009210838.2219430-1-marcandre.lureau@redhat.com>
 References: <20211009210838.2219430-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -88,45 +88,43 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- meson.build  | 5 +++++
- ui/vdagent.c | 8 ++++++++
- 2 files changed, 13 insertions(+)
+ ui/vdagent.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index fe621413a4..e1cddf5139 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1291,6 +1291,11 @@ config_host_data.set('CONFIG_FUSE', fuse.found())
- config_host_data.set('CONFIG_FUSE_LSEEK', fuse_lseek.found())
- config_host_data.set('CONFIG_X11', x11.found())
- config_host_data.set('CONFIG_SPICE_PROTOCOL', spice_protocol.found())
-+if spice_protocol.found()
-+config_host_data.set('CONFIG_SPICE_PROTOCOL_MAJOR', spice_protocol.version().split('.')[0])
-+config_host_data.set('CONFIG_SPICE_PROTOCOL_MINOR', spice_protocol.version().split('.')[1])
-+config_host_data.set('CONFIG_SPICE_PROTOCOL_MICRO', spice_protocol.version().split('.')[2])
-+endif
- config_host_data.set('CONFIG_SPICE', spice.found())
- config_host_data.set('CONFIG_X11', x11.found())
- config_host_data.set('CONFIG_CFI', get_option('cfi'))
 diff --git a/ui/vdagent.c b/ui/vdagent.c
-index 19e8fbfc96..1f8fc77ee8 100644
+index 1f8fc77ee8..64e0017001 100644
 --- a/ui/vdagent.c
 +++ b/ui/vdagent.c
-@@ -17,6 +17,14 @@
- 
- #include "spice/vd_agent.h"
- 
-+#define CHECK_SPICE_PROTOCOL_VERSION(major, minor, micro) \
-+    (CONFIG_SPICE_PROTOCOL_MAJOR > (major) ||             \
-+     (CONFIG_SPICE_PROTOCOL_MAJOR == (major) &&           \
-+      CONFIG_SPICE_PROTOCOL_MINOR > (minor)) ||           \
-+     (CONFIG_SPICE_PROTOCOL_MAJOR == (major) &&           \
-+      CONFIG_SPICE_PROTOCOL_MINOR == (minor) &&           \
-+      CONFIG_SPICE_PROTOCOL_MICRO >= (micro)))
-+
- #define VDAGENT_BUFFER_LIMIT (1 * MiB)
- #define VDAGENT_MOUSE_DEFAULT true
- #define VDAGENT_CLIPBOARD_DEFAULT false
+@@ -87,8 +87,10 @@ static const char *cap_name[] = {
+     [VD_AGENT_CAP_MONITORS_CONFIG_POSITION]       = "monitors-config-position",
+     [VD_AGENT_CAP_FILE_XFER_DISABLED]             = "file-xfer-disabled",
+     [VD_AGENT_CAP_FILE_XFER_DETAILED_ERRORS]      = "file-xfer-detailed-errors",
+-#if 0
++#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 0)
+     [VD_AGENT_CAP_GRAPHICS_DEVICE_INFO]           = "graphics-device-info",
++#endif
++#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 1)
+     [VD_AGENT_CAP_CLIPBOARD_NO_RELEASE_ON_REGRAB] = "clipboard-no-release-on-regrab",
+     [VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL]          = "clipboard-grab-serial",
+ #endif
+@@ -110,7 +112,7 @@ static const char *msg_name[] = {
+     [VD_AGENT_CLIENT_DISCONNECTED]   = "client-disconnected",
+     [VD_AGENT_MAX_CLIPBOARD]         = "max-clipboard",
+     [VD_AGENT_AUDIO_VOLUME_SYNC]     = "audio-volume-sync",
+-#if 0
++#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 0)
+     [VD_AGENT_GRAPHICS_DEVICE_INFO]  = "graphics-device-info",
+ #endif
+ };
+@@ -128,7 +130,7 @@ static const char *type_name[] = {
+     [VD_AGENT_CLIPBOARD_IMAGE_BMP]  = "bmp",
+     [VD_AGENT_CLIPBOARD_IMAGE_TIFF] = "tiff",
+     [VD_AGENT_CLIPBOARD_IMAGE_JPG]  = "jpg",
+-#if 0
++#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 3)
+     [VD_AGENT_CLIPBOARD_FILE_LIST]  = "files",
+ #endif
+ };
 -- 
 2.33.0.721.g106298f7f9
 
