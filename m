@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74DBD427D89
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 23:13:46 +0200 (CEST)
-Received: from localhost ([::1]:46944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DBE427D8C
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Oct 2021 23:14:24 +0200 (CEST)
+Received: from localhost ([::1]:48754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZJf7-0003UQ-DJ
-	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 17:13:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37690)
+	id 1mZJfk-0004iS-01
+	for lists+qemu-devel@lfdr.de; Sat, 09 Oct 2021 17:14:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mZJbB-0006UT-T6
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:09:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45424)
+ id 1mZJbO-00076i-Ly
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:09:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mZJb9-0008Ii-Qr
- for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:09:41 -0400
+ id 1mZJbM-0008JN-OZ
+ for qemu-devel@nongnu.org; Sat, 09 Oct 2021 17:09:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633813779;
+ s=mimecast20190719; t=1633813792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fXwzRpHiwwHViYexpW+i8Nl9ZynVj0FoKExsyPWFCBQ=;
- b=LMQGb/sNCjkbrBBbgXTuNAawS4nGzoa5Bmpi9WtKP5RupVWRHbF+zbv4x1EcA5TPpKYLcy
- oSxo5KXXunYyMSBUn9qeev7ngoGbdj5CWk4/560rrGccviPhwFv+nTH2HnbgVOlPRfdlLD
- Gcdn9G5ky6ZTVVpfnf3nLw06KflPjQY=
+ bh=k4W21a76+QGMmZ2mVT1kSjr31Jy71dJE0yk7DKdWUwM=;
+ b=BYIotTEQj7blOTwmLWWFTQaYZdAj8SBotA1gF/wfgj0e8a550+sWmzwUNKfUHBhiXPX665
+ gmToO68M3OP5lppUmyOdnM7FZ3N5KncCypF9xfqj4p0l0L+lyVIYC9bzo11DmZECIMQggy
+ qDRC+z2ssjNLHylUocJe6fDVxhITX6w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-J-WpAb8mOeWBNWavExTzFQ-1; Sat, 09 Oct 2021 17:09:37 -0400
-X-MC-Unique: J-WpAb8mOeWBNWavExTzFQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-496-0_jxM0dkMcm9Ev5FiGMu6Q-1; Sat, 09 Oct 2021 17:09:48 -0400
+X-MC-Unique: 0_jxM0dkMcm9Ev5FiGMu6Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A2A48042EF
- for <qemu-devel@nongnu.org>; Sat,  9 Oct 2021 21:09:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A112180830F
+ for <qemu-devel@nongnu.org>; Sat,  9 Oct 2021 21:09:47 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88D80179B3;
- Sat,  9 Oct 2021 21:09:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD6BC5C1B4;
+ Sat,  9 Oct 2021 21:09:40 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/37] ui: generalize clipboard notifier
-Date: Sun, 10 Oct 2021 01:08:05 +0400
-Message-Id: <20211009210838.2219430-5-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 05/37] ui/vdagent: add serial capability support
+Date: Sun, 10 Oct 2021 01:08:06 +0400
+Message-Id: <20211009210838.2219430-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20211009210838.2219430-1-marcandre.lureau@redhat.com>
 References: <20211009210838.2219430-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -86,333 +86,133 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Use a QemuClipboardNotify union type for extendable clipboard events.
+The Spice agent implements a simple serial mechanism to avoid clipboard
+races between client & guest. See:
+https://gitlab.freedesktop.org/spice/spice-protocol/-/commit/045a6978d6dbbf7046affc5c321fa8177c8cce56
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/ui/clipboard.h | 32 ++++++++++++++++++++++++++++++--
- ui/clipboard.c         | 12 ++++++++----
- ui/gtk-clipboard.c     | 20 ++++++++++++++++----
- ui/vdagent.c           | 27 ++++++++++++++++++---------
- ui/vnc-clipboard.c     | 18 ++++++++++++++----
- ui/vnc.c               |  2 +-
- ui/cocoa.m             | 17 +++++++++++++----
- 7 files changed, 100 insertions(+), 28 deletions(-)
+ include/ui/clipboard.h |  4 ++++
+ ui/vdagent.c           | 39 ++++++++++++++++++++++++++++++++++++++-
+ ui/trace-events        |  1 +
+ 3 files changed, 43 insertions(+), 1 deletion(-)
 
 diff --git a/include/ui/clipboard.h b/include/ui/clipboard.h
-index 6298986b15..d82cf31481 100644
+index d82cf31481..e590b453c8 100644
 --- a/include/ui/clipboard.h
 +++ b/include/ui/clipboard.h
-@@ -20,8 +20,10 @@
+@@ -102,6 +102,8 @@ struct QemuClipboardNotify {
+  * @owner: clipboard owner.
+  * @selection: clipboard selection.
+  * @types: clipboard data array (one entry per type).
++ * @has_serial: whether @serial is available.
++ * @serial: the grab serial counter.
+  *
+  * Clipboard content data and metadata.
   */
- 
- typedef enum QemuClipboardType QemuClipboardType;
-+typedef enum QemuClipboardNotifyType QemuClipboardNotifyType;
- typedef enum QemuClipboardSelection QemuClipboardSelection;
- typedef struct QemuClipboardPeer QemuClipboardPeer;
-+typedef struct QemuClipboardNotify QemuClipboardNotify;
- typedef struct QemuClipboardInfo QemuClipboardInfo;
- 
- /**
-@@ -55,18 +57,44 @@ enum QemuClipboardSelection {
-  * struct QemuClipboardPeer
-  *
-  * @name: peer name.
-- * @update: notifier for clipboard updates.
-+ * @notifier: notifier for clipboard updates.
-  * @request: callback for clipboard data requests.
-  *
-  * Clipboard peer description.
-  */
- struct QemuClipboardPeer {
-     const char *name;
--    Notifier update;
-+    Notifier notifier;
-     void (*request)(QemuClipboardInfo *info,
-                     QemuClipboardType type);
- };
- 
-+/**
-+ * enum QemuClipboardNotifyType
-+ *
-+ * @QEMU_CLIPBOARD_UPDATE_INFO: clipboard info update
-+ *
-+ * Clipboard notify type.
-+ */
-+enum QemuClipboardNotifyType {
-+    QEMU_CLIPBOARD_UPDATE_INFO,
-+};
-+
-+/**
-+ * struct QemuClipboardNotify
-+ *
-+ * @type: the type of event.
-+ * @info: a QemuClipboardInfo event.
-+ *
-+ * Clipboard notify data.
-+ */
-+struct QemuClipboardNotify {
-+    QemuClipboardNotifyType type;
-+    union {
-+        QemuClipboardInfo *info;
-+    };
-+};
-+
- /**
-  * struct QemuClipboardInfo
-  *
-diff --git a/ui/clipboard.c b/ui/clipboard.c
-index d7b008d62a..743b39edf4 100644
---- a/ui/clipboard.c
-+++ b/ui/clipboard.c
-@@ -8,7 +8,7 @@ static QemuClipboardInfo *cbinfo[QEMU_CLIPBOARD_SELECTION__COUNT];
- 
- void qemu_clipboard_peer_register(QemuClipboardPeer *peer)
- {
--    notifier_list_add(&clipboard_notifiers, &peer->update);
-+    notifier_list_add(&clipboard_notifiers, &peer->notifier);
- }
- 
- void qemu_clipboard_peer_unregister(QemuClipboardPeer *peer)
-@@ -18,8 +18,7 @@ void qemu_clipboard_peer_unregister(QemuClipboardPeer *peer)
-     for (i = 0; i < QEMU_CLIPBOARD_SELECTION__COUNT; i++) {
-         qemu_clipboard_peer_release(peer, i);
-     }
--
--    notifier_remove(&peer->update);
-+    notifier_remove(&peer->notifier);
- }
- 
- bool qemu_clipboard_peer_owns(QemuClipboardPeer *peer,
-@@ -44,10 +43,15 @@ void qemu_clipboard_peer_release(QemuClipboardPeer *peer,
- 
- void qemu_clipboard_update(QemuClipboardInfo *info)
- {
-+    QemuClipboardNotify notify = {
-+        .type = QEMU_CLIPBOARD_UPDATE_INFO,
-+        .info = info,
-+    };
-     g_autoptr(QemuClipboardInfo) old = NULL;
-+
-     assert(info->selection < QEMU_CLIPBOARD_SELECTION__COUNT);
- 
--    notifier_list_notify(&clipboard_notifiers, info);
-+    notifier_list_notify(&clipboard_notifiers, &notify);
- 
-     old = cbinfo[info->selection];
-     cbinfo[info->selection] = qemu_clipboard_info_ref(info);
-diff --git a/ui/gtk-clipboard.c b/ui/gtk-clipboard.c
-index 35b7a2c228..44ff810234 100644
---- a/ui/gtk-clipboard.c
-+++ b/ui/gtk-clipboard.c
-@@ -74,10 +74,9 @@ static void gd_clipboard_clear(GtkClipboard *clipboard,
-     gd->cbowner[s] = false;
- }
- 
--static void gd_clipboard_notify(Notifier *notifier, void *data)
-+static void gd_clipboard_update_info(GtkDisplayState *gd,
-+                                     QemuClipboardInfo *info)
- {
--    GtkDisplayState *gd = container_of(notifier, GtkDisplayState, cbpeer.update);
--    QemuClipboardInfo *info = data;
-     QemuClipboardSelection s = info->selection;
-     bool self_update = info->owner == &gd->cbpeer;
- 
-@@ -118,6 +117,19 @@ static void gd_clipboard_notify(Notifier *notifier, void *data)
-      */
- }
- 
-+static void gd_clipboard_notify(Notifier *notifier, void *data)
-+{
-+    GtkDisplayState *gd =
-+        container_of(notifier, GtkDisplayState, cbpeer.notifier);
-+    QemuClipboardNotify *notify = data;
-+
-+    switch (notify->type) {
-+    case QEMU_CLIPBOARD_UPDATE_INFO:
-+        gd_clipboard_update_info(gd, notify->info);
-+        return;
-+    }
-+}
-+
- static void gd_clipboard_request(QemuClipboardInfo *info,
-                                  QemuClipboardType type)
- {
-@@ -172,7 +184,7 @@ static void gd_owner_change(GtkClipboard *clipboard,
- void gd_clipboard_init(GtkDisplayState *gd)
- {
-     gd->cbpeer.name = "gtk";
--    gd->cbpeer.update.notify = gd_clipboard_notify;
-+    gd->cbpeer.notifier.notify = gd_clipboard_notify;
-     gd->cbpeer.request = gd_clipboard_request;
-     qemu_clipboard_peer_register(&gd->cbpeer);
- 
+@@ -109,6 +111,8 @@ struct QemuClipboardInfo {
+     uint32_t refcount;
+     QemuClipboardPeer *owner;
+     QemuClipboardSelection selection;
++    bool has_serial;
++    uint32_t serial;
+     struct {
+         bool available;
+         bool requested;
 diff --git a/ui/vdagent.c b/ui/vdagent.c
-index 64e0017001..de827aad27 100644
+index de827aad27..b4fdae6917 100644
 --- a/ui/vdagent.c
 +++ b/ui/vdagent.c
-@@ -417,10 +417,9 @@ static void vdagent_send_empty_clipboard_data(VDAgentChardev *vd,
-     vdagent_send_clipboard_data(vd, info, type);
- }
+@@ -59,6 +59,7 @@ struct VDAgentChardev {
  
--static void vdagent_clipboard_notify(Notifier *notifier, void *data)
-+static void vdagent_clipboard_update_info(VDAgentChardev *vd,
-+                                          QemuClipboardInfo *info)
- {
--    VDAgentChardev *vd = container_of(notifier, VDAgentChardev, cbpeer.update);
--    QemuClipboardInfo *info = data;
-     QemuClipboardSelection s = info->selection;
-     QemuClipboardType type;
-     bool self_update = info->owner == &vd->cbpeer;
-@@ -449,6 +448,19 @@ static void vdagent_clipboard_notify(Notifier *notifier, void *data)
+     /* clipboard */
+     QemuClipboardPeer cbpeer;
++    uint32_t last_serial[QEMU_CLIPBOARD_SELECTION__COUNT];
+     uint32_t cbpending[QEMU_CLIPBOARD_SELECTION__COUNT];
+ };
+ typedef struct VDAgentChardev VDAgentChardev;
+@@ -203,6 +204,9 @@ static void vdagent_send_caps(VDAgentChardev *vd)
+     if (vd->clipboard) {
+         caps->caps[0] |= (1 << VD_AGENT_CAP_CLIPBOARD_BY_DEMAND);
+         caps->caps[0] |= (1 << VD_AGENT_CAP_CLIPBOARD_SELECTION);
++#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 1)
++        caps->caps[0] |= (1 << VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL);
++#endif
      }
- }
  
-+static void vdagent_clipboard_notify(Notifier *notifier, void *data)
-+{
-+    VDAgentChardev *vd =
-+        container_of(notifier, VDAgentChardev, cbpeer.notifier);
-+    QemuClipboardNotify *notify = data;
-+
-+    switch (notify->type) {
-+    case QEMU_CLIPBOARD_UPDATE_INFO:
-+        vdagent_clipboard_update_info(vd, notify->info);
-+        return;
-+    }
-+}
-+
- static void vdagent_clipboard_request(QemuClipboardInfo *info,
-                                       QemuClipboardType qtype)
+     vdagent_send_msg(vd, msg);
+@@ -333,7 +337,8 @@ static void vdagent_send_clipboard_grab(VDAgentChardev *vd,
  {
-@@ -658,9 +670,9 @@ static void vdagent_chr_recv_caps(VDAgentChardev *vd, VDAgentMessage *msg)
-     if (have_mouse(vd) && vd->mouse_hs) {
+     g_autofree VDAgentMessage *msg =
+         g_malloc0(sizeof(VDAgentMessage) +
+-                  sizeof(uint32_t) * (QEMU_CLIPBOARD_TYPE__COUNT + 1));
++                  sizeof(uint32_t) * (QEMU_CLIPBOARD_TYPE__COUNT + 1) +
++                  sizeof(uint32_t));
+     uint8_t *s = msg->data;
+     uint32_t *data = (uint32_t *)msg->data;
+     uint32_t q, type;
+@@ -346,6 +351,19 @@ static void vdagent_send_clipboard_grab(VDAgentChardev *vd,
+         return;
+     }
+ 
++#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 1)
++    if (vd->caps & (1 << VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL)) {
++        if (!info->has_serial) {
++            /* client should win */
++            info->serial = vd->last_serial[info->selection]++;
++            info->has_serial = true;
++        }
++        *data = info->serial;
++        data++;
++        msg->size += sizeof(uint32_t);
++    }
++#endif
++
+     for (q = 0; q < QEMU_CLIPBOARD_TYPE__COUNT; q++) {
+         type = type_qemu_to_vdagent(q);
+         if (type != VD_AGENT_CLIPBOARD_NONE && info->types[q].available) {
+@@ -494,6 +512,24 @@ static void vdagent_clipboard_recv_grab(VDAgentChardev *vd, uint8_t s, uint32_t
+ 
+     trace_vdagent_cb_grab_selection(GET_NAME(sel_name, s));
+     info = qemu_clipboard_info_new(&vd->cbpeer, s);
++#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 1)
++    if (vd->caps & (1 << VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL)) {
++        if (size < sizeof(uint32_t)) {
++            /* this shouldn't happen! */
++            return;
++        }
++
++        info->has_serial = true;
++        info->serial = *(uint32_t *)data;
++        if (info->serial < vd->last_serial[s]) {
++            /* discard lower-ordering guest grab */
++            return;
++        }
++        vd->last_serial[s] = info->serial;
++        data += sizeof(uint32_t);
++        size -= sizeof(uint32_t);
++    }
++#endif
+     if (size > sizeof(uint32_t) * 10) {
+         /*
+          * spice has 6 types as of 2021. Limiting to 10 entries
+@@ -671,6 +707,7 @@ static void vdagent_chr_recv_caps(VDAgentChardev *vd, VDAgentMessage *msg)
          qemu_input_handler_activate(vd->mouse_hs);
      }
--    if (have_clipboard(vd) && vd->cbpeer.update.notify == NULL) {
-+    if (have_clipboard(vd) && vd->cbpeer.notifier.notify == NULL) {
+     if (have_clipboard(vd) && vd->cbpeer.notifier.notify == NULL) {
++        memset(vd->last_serial, 0, sizeof(vd->last_serial));
          vd->cbpeer.name = "vdagent";
--        vd->cbpeer.update.notify = vdagent_clipboard_notify;
-+        vd->cbpeer.notifier.notify = vdagent_clipboard_notify;
+         vd->cbpeer.notifier.notify = vdagent_clipboard_notify;
          vd->cbpeer.request = vdagent_clipboard_request;
-         qemu_clipboard_peer_register(&vd->cbpeer);
-     }
-@@ -799,7 +811,7 @@ static void vdagent_disconnect(VDAgentChardev *vd)
-     if (vd->mouse_hs) {
-         qemu_input_handler_deactivate(vd->mouse_hs);
-     }
--    if (vd->cbpeer.update.notify) {
-+    if (vd->cbpeer.notifier.notify) {
-         qemu_clipboard_peer_unregister(&vd->cbpeer);
-         memset(&vd->cbpeer, 0, sizeof(vd->cbpeer));
-     }
-@@ -807,11 +819,8 @@ static void vdagent_disconnect(VDAgentChardev *vd)
- 
- static void vdagent_chr_set_fe_open(struct Chardev *chr, int fe_open)
- {
--    VDAgentChardev *vd = QEMU_VDAGENT_CHARDEV(chr);
--
-     if (!fe_open) {
-         trace_vdagent_close();
--        vdagent_disconnect(vd);
-         return;
-     }
- 
-diff --git a/ui/vnc-clipboard.c b/ui/vnc-clipboard.c
-index 9f077965d0..41aeff1085 100644
---- a/ui/vnc-clipboard.c
-+++ b/ui/vnc-clipboard.c
-@@ -189,10 +189,8 @@ static void vnc_clipboard_provide(VncState *vs,
-     vnc_flush(vs);
- }
- 
--static void vnc_clipboard_notify(Notifier *notifier, void *data)
-+static void vnc_clipboard_update_info(VncState *vs, QemuClipboardInfo *info)
- {
--    VncState *vs = container_of(notifier, VncState, cbpeer.update);
--    QemuClipboardInfo *info = data;
-     QemuClipboardType type;
-     bool self_update = info->owner == &vs->cbpeer;
-     uint32_t flags = 0;
-@@ -223,6 +221,18 @@ static void vnc_clipboard_notify(Notifier *notifier, void *data)
-     }
- }
- 
-+static void vnc_clipboard_notify(Notifier *notifier, void *data)
-+{
-+    VncState *vs = container_of(notifier, VncState, cbpeer.notifier);
-+    QemuClipboardNotify *notify = data;
-+
-+    switch (notify->type) {
-+    case QEMU_CLIPBOARD_UPDATE_INFO:
-+        vnc_clipboard_update_info(vs, notify->info);
-+        return;
-+    }
-+}
-+
- static void vnc_clipboard_request(QemuClipboardInfo *info,
-                                   QemuClipboardType type)
- {
-@@ -317,7 +327,7 @@ void vnc_server_cut_text_caps(VncState *vs)
-     vnc_clipboard_send(vs, 2, caps);
- 
-     vs->cbpeer.name = "vnc";
--    vs->cbpeer.update.notify = vnc_clipboard_notify;
-+    vs->cbpeer.notifier.notify = vnc_clipboard_notify;
-     vs->cbpeer.request = vnc_clipboard_request;
-     qemu_clipboard_peer_register(&vs->cbpeer);
- }
-diff --git a/ui/vnc.c b/ui/vnc.c
-index af02522e84..9b603382e7 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -1354,7 +1354,7 @@ void vnc_disconnect_finish(VncState *vs)
-         /* last client gone */
-         vnc_update_server_surface(vs->vd);
-     }
--    if (vs->cbpeer.update.notify) {
-+    if (vs->cbpeer.notifier.notify) {
-         qemu_clipboard_peer_unregister(&vs->cbpeer);
-     }
- 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 68a6302184..6745e3fc8c 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -1808,14 +1808,12 @@ static void cocoa_clipboard_request(QemuClipboardInfo *info,
- 
- static QemuClipboardPeer cbpeer = {
-     .name = "cocoa",
--    .update = { .notify = cocoa_clipboard_notify },
-+    .notifier = { .notify = cocoa_clipboard_notify },
-     .request = cocoa_clipboard_request
- };
- 
--static void cocoa_clipboard_notify(Notifier *notifier, void *data)
-+static void cocoa_clipboard_update_info(QemuClipboardInfo *info)
- {
--    QemuClipboardInfo *info = data;
--
-     if (info->owner == &cbpeer || info->selection != QEMU_CLIPBOARD_SELECTION_CLIPBOARD) {
-         return;
-     }
-@@ -1831,6 +1829,17 @@ static void cocoa_clipboard_notify(Notifier *notifier, void *data)
-     qemu_event_set(&cbevent);
- }
- 
-+static void cocoa_clipboard_notify(Notifier *notifier, void *data)
-+{
-+    QemuClipboardNotify *notify = data;
-+
-+    switch (notify->event) {
-+    case QEMU_CLIPBOARD_UPDATE_INFO:
-+        cocoa_clipboard_update_info(notify->info);
-+        return;
-+    }
-+}
-+
- static void cocoa_clipboard_request(QemuClipboardInfo *info,
-                                     QemuClipboardType type)
- {
+diff --git a/ui/trace-events b/ui/trace-events
+index b9c0dd0fa1..e832c3e365 100644
+--- a/ui/trace-events
++++ b/ui/trace-events
+@@ -135,3 +135,4 @@ vdagent_recv_msg(const char *name, uint32_t size) "msg %s, size %d"
+ vdagent_peer_cap(const char *name) "cap %s"
+ vdagent_cb_grab_selection(const char *name) "selection %s"
+ vdagent_cb_grab_type(const char *name) "type %s"
++vdagent_cb_serial_discard(uint32_t current, uint32_t received) "current=%u, received=%u"
 -- 
 2.33.0.721.g106298f7f9
 
