@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E29B34282B4
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Oct 2021 19:48:33 +0200 (CEST)
-Received: from localhost ([::1]:59850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA0A4282C0
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Oct 2021 19:51:31 +0200 (CEST)
+Received: from localhost ([::1]:40262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZcw2-0003Ie-N8
-	for lists+qemu-devel@lfdr.de; Sun, 10 Oct 2021 13:48:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50780)
+	id 1mZcyw-0000bP-Kg
+	for lists+qemu-devel@lfdr.de; Sun, 10 Oct 2021 13:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mZcro-0000Sh-Pv
+ id 1mZcrq-0000Sj-2n
  for qemu-devel@nongnu.org; Sun, 10 Oct 2021 13:44:10 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:44972)
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:34755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mZcrn-0005mq-5R
- for qemu-devel@nongnu.org; Sun, 10 Oct 2021 13:44:08 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id s11so8603328pgr.11
- for <qemu-devel@nongnu.org>; Sun, 10 Oct 2021 10:44:06 -0700 (PDT)
+ id 1mZcro-0005nh-Go
+ for qemu-devel@nongnu.org; Sun, 10 Oct 2021 13:44:09 -0400
+Received: by mail-pg1-x534.google.com with SMTP id 133so8632091pgb.1
+ for <qemu-devel@nongnu.org>; Sun, 10 Oct 2021 10:44:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=issvR+5Tb5pYCgV3cOo6EeKof5gpcpR/vqySCKb4w1c=;
- b=q+raBKjOuOzk/BE1lmXMdCSlTX4qjaMESQBx2QRNu37eY+/zDcNC1BA7RJLI9sluQV
- INnWJWkC+z8OPaw3sTyp7nQQWhdu3ln/PQky3ihVCIWi6ibun51Fr8mDx91NKsIRjBOb
- KyUO8z5FFoco7h4uf84uThqei4rXRWp/mZtJ8U0o8EKELElZJL4AH0ZBsjSnr3u29oDf
- 8ccacVmLxSJkU8OUxpiavC1eLAXvsjPx6fnfs3ZbexNyEY1U0hnKAbUwEY0QrP0zqCB3
- JCeJnHnIn7IcKyTK+IP5xdVtHFNLh6X1goEDwevz8bXlnBu4rlEAgPNqTHOn7Kiu3cMC
- mLiw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=M/4DccFejM9tuchtxwnYOK2Yuhc7vks/tEm5XhG4ki0=;
+ b=v4eTKvgUM8STMOEZQu+m6eFugUylSowKOIlCE1ybt2xTgYUOeFtXK0XziZ+7+rEolX
+ 5aluMMEyIyGzpVlEKHespx+QMe6+039Q3Oi4J2zNVHaWvwm5KovTzpQD/rvXEyRElf4n
+ g341nAZ4sL4I2ue+L4jO6MdK+wO4b7T4NxhfcWYiqCXoqZIYKVKfTueS+g3A2NXASxQZ
+ aQ9iN7yl4hZvgs+UgSXfhiRbSTVRu7zVQy3mi4bjttimqOXX3W48KvBjjeOzvf3tCJzO
+ ywO3vt76ccPQNtq9FwahrpIRUIrl8hDf0ORDpnvh9J7jFEdKacKabbP12p6n08Js1krF
+ vFSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=issvR+5Tb5pYCgV3cOo6EeKof5gpcpR/vqySCKb4w1c=;
- b=LnxQJSU3nfLhjQJuYCswNdSd6IXvIj20ByM3d+e/mi5OheUVzLwPmMmE1xxCywDE7W
- rclf6HvvWy67HlfKJmvUNbFuZ2+okhhb67GVzC3+oEAtU2ONlAuEHvvmnwByEOp+gU4B
- Egw1ILmeaHKY/E46ctQ+qV8zEA/09ImJpj7Da3EnPz1DnjBddBoRfvoAUS9NmcWYBFlp
- ePigaGqOHUTzvXzrHDGpwhPsdFDo8pvKWgNje/D5y3l/GpcTFwZkPIgoq6pBURmdMnyk
- 3j+CW35fLg7Bns1HrEN8pRecNVvkDZz4ItAHH0EjTdcIIgs05uiAEHkvPLocl+Dae9Q7
- HP+w==
-X-Gm-Message-State: AOAM532kiGAqbh8fRAZrsoS3PCXU//1hz2srrcr4SvI8wsPvbPGb3mx+
- KtYtOPRdjSl6SYSeO5He0uA9PTxA5v/wo1YZ
-X-Google-Smtp-Source: ABdhPJzheRp+xMRNl96ll3LNPEjVKAJCzOLQgiC3OCk85x34FA8OjKtztm85wI/F4nKA3928+PtrLQ==
-X-Received: by 2002:a05:6a00:b96:b0:44c:65df:2760 with SMTP id
- g22-20020a056a000b9600b0044c65df2760mr21292569pfj.3.1633887845070; 
- Sun, 10 Oct 2021 10:44:05 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=M/4DccFejM9tuchtxwnYOK2Yuhc7vks/tEm5XhG4ki0=;
+ b=jEYTiO1yKfu/Xuh7ut52GvXRGJflUhpZ7PCXb9m3/Uqo869AKagDwntcQh8CzO3it2
+ syi8Vn7sV2cLCyglXr884VYS7qA/sSsXlX4QOCjt5Xtjoi8Zr7qTthDVq9WtEFIFWPKh
+ fXjKy59YjWHnk1FLTxCVjapaHXDOQ98MuSXC/ApDzYl4AFpQX/2cEEjjgYf5ajqfIJ12
+ yMc6p4u+3e8V8oLUl0iiQH4R07lVgs5fmt4mlTnE1eXThbMXzQpcdjQ/UjIacKnLLdXK
+ ULxNdC98a5YMNslHy63JmoXiIf0XxPeITLR7t/g64+dM0IbDKGKqcldKbzz2+cd6OeUb
+ TTVQ==
+X-Gm-Message-State: AOAM533BtToIoorCA+CkeX7yzIRvWK6B04UzpeawgsHystTNMbkQMit9
+ xXe2MtgwN2tdxmS8r+y4wcgvXg/ZAYNFMFln
+X-Google-Smtp-Source: ABdhPJwPOo99b9WvuoIAQksP0klM40ArXYVD90svM47G1VuYA2vlCZpvlStdffgFYNOrJoTJhu50XQ==
+X-Received: by 2002:a63:df05:: with SMTP id u5mr14444660pgg.323.1633887847144; 
+ Sun, 10 Oct 2021 10:44:07 -0700 (PDT)
 Received: from localhost.localdomain (068-185-026-038.biz.spectrum.com.
  [68.185.26.38])
- by smtp.gmail.com with ESMTPSA id 18sm5095391pfh.115.2021.10.10.10.44.03
+ by smtp.gmail.com with ESMTPSA id 18sm5095391pfh.115.2021.10.10.10.44.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Oct 2021 10:44:04 -0700 (PDT)
+ Sun, 10 Oct 2021 10:44:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/8] tcg: support 32-bit guest addresses as signed
-Date: Sun, 10 Oct 2021 10:43:53 -0700
-Message-Id: <20211010174401.141339-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/8] tcg: Add TCG_TARGET_SIGNED_ADDR32
+Date: Sun, 10 Oct 2021 10:43:54 -0700
+Message-Id: <20211010174401.141339-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211010174401.141339-1-richard.henderson@linaro.org>
+References: <20211010174401.141339-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,50 +87,22 @@ Cc: git@xen0n.name, Alistair.Francis@wdc.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have 2, and nearly 3, hosts that naturally produce sign-extended
-values, and have to work extra hard (with 1 or 2 insns) to produce
-the zero-extended address that we expect today.
+Define as 0 for all tcg hosts.  Put this in a separate header,
+because we'll want this in places that do not ordinarily have
+access to all of tcg/tcg.h.
 
-However, it's a simple matter of arithmetic for the middle-end to
-require sign-extended addresses instead.  For user-only, we do have
-to be careful not to allow a guest object to wrap around the signed
-boundary, but that's fairly easily done.
-
-Tested with aarch64, as that's the best hw currently available.
-
-
-r~
-
-
-Richard Henderson (8):
-  tcg: Add TCG_TARGET_SIGNED_ADDR32
-  accel/tcg: Split out g2h_tlbe
-  accel/tcg: Support TCG_TARGET_SIGNED_ADDR32 for softmmu
-  accel/tcg: Add guest_base_signed_addr32 for user-only
-  linux-user: Support TCG_TARGET_SIGNED_ADDR32
-  tcg/aarch64: Support TCG_TARGET_SIGNED_ADDR32
-  target/mips: Support TCG_TARGET_SIGNED_ADDR32
-  target/riscv: Support TCG_TARGET_SIGNED_ADDR32
-
- include/exec/cpu-all.h        | 20 ++++++++---
- include/exec/cpu_ldst.h       |  3 +-
- tcg/aarch64/tcg-target-sa32.h |  7 ++++
- tcg/arm/tcg-target-sa32.h     |  1 +
- tcg/i386/tcg-target-sa32.h    |  1 +
- tcg/mips/tcg-target-sa32.h    |  9 +++++
- tcg/ppc/tcg-target-sa32.h     |  1 +
- tcg/riscv/tcg-target-sa32.h   |  5 +++
- tcg/s390x/tcg-target-sa32.h   |  1 +
- tcg/sparc/tcg-target-sa32.h   |  1 +
- tcg/tci/tcg-target-sa32.h     |  1 +
- accel/tcg/cputlb.c            | 36 +++++++++++++------
- bsd-user/main.c               |  4 +++
- linux-user/elfload.c          | 62 +++++++++++++++++++++++++-------
- linux-user/main.c             |  3 ++
- tcg/aarch64/tcg-target.c.inc  | 68 ++++++++++++++++++++++-------------
- tcg/mips/tcg-target.c.inc     | 13 ++-----
- tcg/riscv/tcg-target.c.inc    |  8 ++---
- 18 files changed, 176 insertions(+), 68 deletions(-)
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/aarch64/tcg-target-sa32.h | 1 +
+ tcg/arm/tcg-target-sa32.h     | 1 +
+ tcg/i386/tcg-target-sa32.h    | 1 +
+ tcg/mips/tcg-target-sa32.h    | 1 +
+ tcg/ppc/tcg-target-sa32.h     | 1 +
+ tcg/riscv/tcg-target-sa32.h   | 1 +
+ tcg/s390x/tcg-target-sa32.h   | 1 +
+ tcg/sparc/tcg-target-sa32.h   | 1 +
+ tcg/tci/tcg-target-sa32.h     | 1 +
+ 9 files changed, 9 insertions(+)
  create mode 100644 tcg/aarch64/tcg-target-sa32.h
  create mode 100644 tcg/arm/tcg-target-sa32.h
  create mode 100644 tcg/i386/tcg-target-sa32.h
@@ -140,6 +113,69 @@ Richard Henderson (8):
  create mode 100644 tcg/sparc/tcg-target-sa32.h
  create mode 100644 tcg/tci/tcg-target-sa32.h
 
+diff --git a/tcg/aarch64/tcg-target-sa32.h b/tcg/aarch64/tcg-target-sa32.h
+new file mode 100644
+index 0000000000..cb185b1526
+--- /dev/null
++++ b/tcg/aarch64/tcg-target-sa32.h
+@@ -0,0 +1 @@
++#define TCG_TARGET_SIGNED_ADDR32 0
+diff --git a/tcg/arm/tcg-target-sa32.h b/tcg/arm/tcg-target-sa32.h
+new file mode 100644
+index 0000000000..cb185b1526
+--- /dev/null
++++ b/tcg/arm/tcg-target-sa32.h
+@@ -0,0 +1 @@
++#define TCG_TARGET_SIGNED_ADDR32 0
+diff --git a/tcg/i386/tcg-target-sa32.h b/tcg/i386/tcg-target-sa32.h
+new file mode 100644
+index 0000000000..cb185b1526
+--- /dev/null
++++ b/tcg/i386/tcg-target-sa32.h
+@@ -0,0 +1 @@
++#define TCG_TARGET_SIGNED_ADDR32 0
+diff --git a/tcg/mips/tcg-target-sa32.h b/tcg/mips/tcg-target-sa32.h
+new file mode 100644
+index 0000000000..cb185b1526
+--- /dev/null
++++ b/tcg/mips/tcg-target-sa32.h
+@@ -0,0 +1 @@
++#define TCG_TARGET_SIGNED_ADDR32 0
+diff --git a/tcg/ppc/tcg-target-sa32.h b/tcg/ppc/tcg-target-sa32.h
+new file mode 100644
+index 0000000000..cb185b1526
+--- /dev/null
++++ b/tcg/ppc/tcg-target-sa32.h
+@@ -0,0 +1 @@
++#define TCG_TARGET_SIGNED_ADDR32 0
+diff --git a/tcg/riscv/tcg-target-sa32.h b/tcg/riscv/tcg-target-sa32.h
+new file mode 100644
+index 0000000000..cb185b1526
+--- /dev/null
++++ b/tcg/riscv/tcg-target-sa32.h
+@@ -0,0 +1 @@
++#define TCG_TARGET_SIGNED_ADDR32 0
+diff --git a/tcg/s390x/tcg-target-sa32.h b/tcg/s390x/tcg-target-sa32.h
+new file mode 100644
+index 0000000000..cb185b1526
+--- /dev/null
++++ b/tcg/s390x/tcg-target-sa32.h
+@@ -0,0 +1 @@
++#define TCG_TARGET_SIGNED_ADDR32 0
+diff --git a/tcg/sparc/tcg-target-sa32.h b/tcg/sparc/tcg-target-sa32.h
+new file mode 100644
+index 0000000000..cb185b1526
+--- /dev/null
++++ b/tcg/sparc/tcg-target-sa32.h
+@@ -0,0 +1 @@
++#define TCG_TARGET_SIGNED_ADDR32 0
+diff --git a/tcg/tci/tcg-target-sa32.h b/tcg/tci/tcg-target-sa32.h
+new file mode 100644
+index 0000000000..cb185b1526
+--- /dev/null
++++ b/tcg/tci/tcg-target-sa32.h
+@@ -0,0 +1 @@
++#define TCG_TARGET_SIGNED_ADDR32 0
 -- 
 2.25.1
 
