@@ -2,48 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D654281E7
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Oct 2021 16:27:43 +0200 (CEST)
-Received: from localhost ([::1]:54450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25896428241
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Oct 2021 17:18:28 +0200 (CEST)
+Received: from localhost ([::1]:43904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZZnh-00005T-Jh
-	for lists+qemu-devel@lfdr.de; Sun, 10 Oct 2021 10:27:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56320)
+	id 1mZaao-0006LF-Or
+	for lists+qemu-devel@lfdr.de; Sun, 10 Oct 2021 11:18:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mZZmc-0007nH-PF
- for qemu-devel@nongnu.org; Sun, 10 Oct 2021 10:26:34 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:14117)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mZaZj-0005Wj-6F; Sun, 10 Oct 2021 11:17:19 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:58336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mZZmZ-0001CM-Hy
- for qemu-devel@nongnu.org; Sun, 10 Oct 2021 10:26:34 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 9B045746333;
- Sun, 10 Oct 2021 16:26:26 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 71906745953; Sun, 10 Oct 2021 16:26:26 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 6FBE67457EE;
- Sun, 10 Oct 2021 16:26:26 +0200 (CEST)
-Date: Sun, 10 Oct 2021 16:26:26 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: ACPI endianness
-In-Reply-To: <20211010100318-mutt-send-email-mst@kernel.org>
-Message-ID: <517ba062-ecb8-335-2924-e873d36de8d3@eik.bme.hu>
-References: <957db5ec-fc70-418-44d9-da4f81f5b98@eik.bme.hu>
- <20211010100318-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mZaZg-0001eB-SA; Sun, 10 Oct 2021 11:17:18 -0400
+Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 4DE384194D;
+ Sun, 10 Oct 2021 17:17:09 +0200 (CEST)
+Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 43D0660067;
+ Sun, 10 Oct 2021 17:17:09 +0200 (CEST)
+Received: from [192.168.1.36] (35.201.90.79.rev.sfr.net [79.90.201.35])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id CA5A514005C;
+ Sun, 10 Oct 2021 17:17:08 +0200 (CEST)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211007174722.929993-1-richard.henderson@linaro.org>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: Re: [RFC PATCH 00/13] target/riscv: Rationalize XLEN and operand
+ length
+Message-ID: <20311b4d-b2a8-82e9-f6cf-4e3595e9a847@univ-grenoble-alpes.fr>
+Date: Sun, 10 Oct 2021 17:17:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+In-Reply-To: <20211007174722.929993-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (41)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,100 +71,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org,
+ fabien.portas@grenoble-inp.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 10 Oct 2021, Michael S. Tsirkin wrote:
-> On Sun, Oct 10, 2021 at 03:24:32PM +0200, BALATON Zoltan wrote:
->> Hello,
->>
->> I'm trying to fix shutdown and reboot on pegasos2 which uses ACPI as part of
->> the VIA VT8231 (similar to and modelled in hw/isa/vt82c686b.c) and found
->> that the guest writes to ACPI PM1aCNT register come out with wrong
->> endianness but not shure why. I have this:
->>
->> $ qemu-system-ppc -M pegasos2 -monitor stdio
->> (qemu) info mtree
->> [...]
->> memory-region: pci1-io
->>   0000000000000000-000000000000ffff (prio 0, i/o): pci1-io
->> [...]
->>     0000000000000f00-0000000000000f7f (prio 0, i/o): via-pm
->>       0000000000000f00-0000000000000f03 (prio 0, i/o): acpi-evt
->>       0000000000000f04-0000000000000f05 (prio 0, i/o): acpi-cnt
->>       0000000000000f08-0000000000000f0b (prio 0, i/o): acpi-tmr
->>
->> memory-region: system
->>   0000000000000000-ffffffffffffffff (prio 0, i/o): system
->>     0000000000000000-000000001fffffff (prio 0, ram): pegasos2.ram
->>     0000000080000000-00000000bfffffff (prio 0, i/o): alias pci1-mem0-win @pci1-mem 0000000080000000-00000000bfffffff
->>     00000000c0000000-00000000dfffffff (prio 0, i/o): alias pci0-mem0-win @pci0-mem 00000000c0000000-00000000dfffffff
->>     00000000f1000000-00000000f100ffff (prio 0, i/o): mv64361
->>     00000000f8000000-00000000f8ffffff (prio 0, i/o): alias pci0-io-win @pci0-io 0000000000000000-0000000000ffffff
->>     00000000f9000000-00000000f9ffffff (prio 0, i/o): alias pci0-mem1-win @pci0-mem 0000000000000000-0000000000ffffff
->>     00000000fd000000-00000000fdffffff (prio 0, i/o): alias pci1-mem1-win @pci1-mem 0000000000000000-0000000000ffffff
->>     00000000fe000000-00000000feffffff (prio 0, i/o): alias pci1-io-win @pci1-io 0000000000000000-0000000000ffffff
->>     00000000ff800000-00000000ffffffff (prio 0, i/o): alias pci1-mem3-win @pci1-mem 00000000ff800000-00000000ffffffff
->>     00000000fff00000-00000000fff7ffff (prio 0, rom): pegasos2.rom
->>
->> The guest (which is big endian PPC and I think wotks on real hardware)
->> writes to 0xf05 in the io region which should be the high byte of the little
->> endian register but in the acpi code it comes out wrong, instead of 0x2800 I
->> get in acpi_pm1_cnt_write: val=0x28
->>
->> The memory regions involved are:
->>
->> acpi-cnt (hw/acpi/core.c):
->>
->> static const MemoryRegionOps acpi_pm_cnt_ops = {
->>     .read = acpi_pm_cnt_read,
->>     .write = acpi_pm_cnt_write,
->>     .impl.min_access_size = 2,
->>     .valid.min_access_size = 1,
->>     .valid.max_access_size = 2,
->>     .endianness = DEVICE_LITTLE_ENDIAN,
->> };
->>
->> via-pm (hw/isa/vt82c686.c):
->>
->> static const MemoryRegionOps pm_io_ops = {
->>     .read = pm_io_read,
->>     .write = pm_io_write,
->>     .endianness = DEVICE_NATIVE_ENDIAN,
->>     .impl = {
->>         .min_access_size = 1,
->>         .max_access_size = 1,
->>     },
->> };
->>
->> Also tried removing .impl from pm_io_ops but that does not help. Changing
->> acpi_pm_cnt_ops to DEVICE_NATIVE_ENDIAN fixes it but not sure what else
->> could that break. Should these ACPI regions be native endian or how else to
->> fix this for the vt82xx case?
->>
->> Regards,
->> BALATON Zoltan
->
-> Does it help if you change via to DEVICE_LITTLE_ENDIAN?
+Le 07/10/2021 à 19:47, Richard Henderson a écrit :
+> This is a partial patch set attempting to set things in the
+> right direction for both the UXL and RV128 patch sets.
+> 
+> One of the things that struck me while reading the RV128 patches
+> is the proliferation of riscv_cpu_is_<size>bits functions.  These
+> should be all combined into a single function returning an enum.
+> 
+> Further, that the current set of tests for misa.mxl is frought
+> with peril, because the location of the field within misa varies,
+> and that the RV128 patch set gets some of it wrong.  It is much
+> easier to split out that field for use within QEMU, and only
+> reassemble the full MISA csr upon read.
 
-No. That region is just acting as a container for the ACPI regions so they 
-can be moved together to the base address settable by the guest (and maybe 
-implementing some other regs later if needed but we don't do that now) but 
-looks like it's not involved in read/write to acpi regs as its ops are not 
-called and the write goes through to the acpi-cnt region. So it also does 
-not matter if I change endianness or impl in pm_io_ops in vt82c686.c.
+  Couldn't more agree.
+  The convoluted process of determining misa length seems to be here to ensure
+  that there is no way for a 32-bit arch to "announce" that it is a 64-bit one.
 
-These acpi bits only seem to be used on piix4 and ich9 apart from vt82xx 
-and those are probably used on little endian hosts while vt8231 is used on 
-pegasos2 which is big endian PPC and vt82c686b on fullong2e which I think 
-is little endian MIPS. What does NATIVE_ENDIAN actually mean? It does not 
-seem to be documented anywhere. Would it change anything if the ACPI 
-regions are changed ro NATIVE_ENDIAN for little endian machines that are 
-all the other usages? If not then maybe that's the way to go.
+> There are a few changes at the end for pointing the correct
+> direction for how it might be best to extend expanders for
+> different operand lengths.  I believe the form used in RV128,
+> 
+> static bool gen_arith_imm_fn(DisasContext *ctx, arg_i *a, DisasExtend ext,
+>                              void (*fn32)(TCGv, TCGv, target_long),
+>                              void (*fn64)(TCGv, TCGv, target_long),
+>                              void (*fn128)(TCGv, TCGv, TCGv, TCGv, target_long))
+> 
+> is incorrect, because it assumes that is easy to select the
+> fn32 and fn64 functions.  But so long as TARGET_RISCV32 is
+> still around, and target_long may be 32, that is not the case.
+> Instead, pass f_tl and f_32, where f_32 will only ever be used
+> when sizeof(target_ulong) > 4.
 
-Regards,
-BALATON Zoltan
+  I got the point.
+  Frédéric
+> 
+> r~
+> 
+> 
+> Richard Henderson (13):
+>   target/riscv: Move cpu_get_tb_cpu_state out of line
+>   target/riscv: Create RISCVMXL enumeration
+>   target/riscv: Split misa.mxl and misa.ext
+>   target/riscv: Replace riscv_cpu_is_32bit with riscv_cpu_mxl
+>   target/riscv: Add MXL/SXL/UXL to TB_FLAGS
+>   target/riscv: Use REQUIRE_64BIT in amo_check64
+>   target/riscv: Properly check SEW in amo_op
+>   target/riscv: Replace is_32bit with get_xl/get_xlen
+>   target/riscv: Replace DisasContext.w with DisasContext.ol
+>   target/riscv: Use gen_arith_per_ol for RVM
+>   target/riscv: Adjust trans_rev8_32 for riscv64
+>   target/riscv: Use gen_unary_per_ol for RVB
+>   target/riscv: Use gen_shift*_per_ol for RVB, RVI
+> 
+>  target/riscv/cpu.h                      |  73 +++-------
+>  target/riscv/cpu_bits.h                 |   8 +-
+>  hw/riscv/boot.c                         |   2 +-
+>  linux-user/elfload.c                    |   2 +-
+>  linux-user/riscv/cpu_loop.c             |   2 +-
+>  semihosting/arm-compat-semi.c           |   2 +-
+>  target/riscv/cpu.c                      |  99 ++++++++------
+>  target/riscv/cpu_helper.c               |  91 ++++++++++++-
+>  target/riscv/csr.c                      |  68 ++++++----
+>  target/riscv/gdbstub.c                  |  10 +-
+>  target/riscv/machine.c                  |  10 +-
+>  target/riscv/monitor.c                  |   4 +-
+>  target/riscv/translate.c                | 170 ++++++++++++++++++------
+>  target/riscv/insn_trans/trans_rvb.c.inc | 140 ++++++++++---------
+>  target/riscv/insn_trans/trans_rvi.c.inc |  44 +++---
+>  target/riscv/insn_trans/trans_rvm.c.inc |  36 +++--
+>  target/riscv/insn_trans/trans_rvv.c.inc |  29 ++--
+>  17 files changed, 498 insertions(+), 292 deletions(-)
+> 
+
+-- 
++---------------------------------------------------------------------------+
+| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
+| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
+| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
++---------------------------------------------------------------------------+
 
