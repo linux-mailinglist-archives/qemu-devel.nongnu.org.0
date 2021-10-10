@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25896428241
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Oct 2021 17:18:28 +0200 (CEST)
-Received: from localhost ([::1]:43904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E29B34282B4
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Oct 2021 19:48:33 +0200 (CEST)
+Received: from localhost ([::1]:59850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZaao-0006LF-Or
-	for lists+qemu-devel@lfdr.de; Sun, 10 Oct 2021 11:18:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34282)
+	id 1mZcw2-0003Ie-N8
+	for lists+qemu-devel@lfdr.de; Sun, 10 Oct 2021 13:48:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mZaZj-0005Wj-6F; Sun, 10 Oct 2021 11:17:19 -0400
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:58336)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1mZaZg-0001eB-SA; Sun, 10 Oct 2021 11:17:18 -0400
-Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 4DE384194D;
- Sun, 10 Oct 2021 17:17:09 +0200 (CEST)
-Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 43D0660067;
- Sun, 10 Oct 2021 17:17:09 +0200 (CEST)
-Received: from [192.168.1.36] (35.201.90.79.rev.sfr.net [79.90.201.35])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id CA5A514005C;
- Sun, 10 Oct 2021 17:17:08 +0200 (CEST)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211007174722.929993-1-richard.henderson@linaro.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Subject: Re: [RFC PATCH 00/13] target/riscv: Rationalize XLEN and operand
- length
-Message-ID: <20311b4d-b2a8-82e9-f6cf-4e3595e9a847@univ-grenoble-alpes.fr>
-Date: Sun, 10 Oct 2021 17:17:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mZcro-0000Sh-Pv
+ for qemu-devel@nongnu.org; Sun, 10 Oct 2021 13:44:10 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:44972)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mZcrn-0005mq-5R
+ for qemu-devel@nongnu.org; Sun, 10 Oct 2021 13:44:08 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id s11so8603328pgr.11
+ for <qemu-devel@nongnu.org>; Sun, 10 Oct 2021 10:44:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=issvR+5Tb5pYCgV3cOo6EeKof5gpcpR/vqySCKb4w1c=;
+ b=q+raBKjOuOzk/BE1lmXMdCSlTX4qjaMESQBx2QRNu37eY+/zDcNC1BA7RJLI9sluQV
+ INnWJWkC+z8OPaw3sTyp7nQQWhdu3ln/PQky3ihVCIWi6ibun51Fr8mDx91NKsIRjBOb
+ KyUO8z5FFoco7h4uf84uThqei4rXRWp/mZtJ8U0o8EKELElZJL4AH0ZBsjSnr3u29oDf
+ 8ccacVmLxSJkU8OUxpiavC1eLAXvsjPx6fnfs3ZbexNyEY1U0hnKAbUwEY0QrP0zqCB3
+ JCeJnHnIn7IcKyTK+IP5xdVtHFNLh6X1goEDwevz8bXlnBu4rlEAgPNqTHOn7Kiu3cMC
+ mLiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=issvR+5Tb5pYCgV3cOo6EeKof5gpcpR/vqySCKb4w1c=;
+ b=LnxQJSU3nfLhjQJuYCswNdSd6IXvIj20ByM3d+e/mi5OheUVzLwPmMmE1xxCywDE7W
+ rclf6HvvWy67HlfKJmvUNbFuZ2+okhhb67GVzC3+oEAtU2ONlAuEHvvmnwByEOp+gU4B
+ Egw1ILmeaHKY/E46ctQ+qV8zEA/09ImJpj7Da3EnPz1DnjBddBoRfvoAUS9NmcWYBFlp
+ ePigaGqOHUTzvXzrHDGpwhPsdFDo8pvKWgNje/D5y3l/GpcTFwZkPIgoq6pBURmdMnyk
+ 3j+CW35fLg7Bns1HrEN8pRecNVvkDZz4ItAHH0EjTdcIIgs05uiAEHkvPLocl+Dae9Q7
+ HP+w==
+X-Gm-Message-State: AOAM532kiGAqbh8fRAZrsoS3PCXU//1hz2srrcr4SvI8wsPvbPGb3mx+
+ KtYtOPRdjSl6SYSeO5He0uA9PTxA5v/wo1YZ
+X-Google-Smtp-Source: ABdhPJzheRp+xMRNl96ll3LNPEjVKAJCzOLQgiC3OCk85x34FA8OjKtztm85wI/F4nKA3928+PtrLQ==
+X-Received: by 2002:a05:6a00:b96:b0:44c:65df:2760 with SMTP id
+ g22-20020a056a000b9600b0044c65df2760mr21292569pfj.3.1633887845070; 
+ Sun, 10 Oct 2021 10:44:05 -0700 (PDT)
+Received: from localhost.localdomain (068-185-026-038.biz.spectrum.com.
+ [68.185.26.38])
+ by smtp.gmail.com with ESMTPSA id 18sm5095391pfh.115.2021.10.10.10.44.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 10 Oct 2021 10:44:04 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/8] tcg: support 32-bit guest addresses as signed
+Date: Sun, 10 Oct 2021 10:43:53 -0700
+Message-Id: <20211010174401.141339-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211007174722.929993-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (41)
-X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,89 +82,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org,
- fabien.portas@grenoble-inp.org
+Cc: git@xen0n.name, Alistair.Francis@wdc.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 07/10/2021 à 19:47, Richard Henderson a écrit :
-> This is a partial patch set attempting to set things in the
-> right direction for both the UXL and RV128 patch sets.
-> 
-> One of the things that struck me while reading the RV128 patches
-> is the proliferation of riscv_cpu_is_<size>bits functions.  These
-> should be all combined into a single function returning an enum.
-> 
-> Further, that the current set of tests for misa.mxl is frought
-> with peril, because the location of the field within misa varies,
-> and that the RV128 patch set gets some of it wrong.  It is much
-> easier to split out that field for use within QEMU, and only
-> reassemble the full MISA csr upon read.
+We have 2, and nearly 3, hosts that naturally produce sign-extended
+values, and have to work extra hard (with 1 or 2 insns) to produce
+the zero-extended address that we expect today.
 
-  Couldn't more agree.
-  The convoluted process of determining misa length seems to be here to ensure
-  that there is no way for a 32-bit arch to "announce" that it is a 64-bit one.
+However, it's a simple matter of arithmetic for the middle-end to
+require sign-extended addresses instead.  For user-only, we do have
+to be careful not to allow a guest object to wrap around the signed
+boundary, but that's fairly easily done.
 
-> There are a few changes at the end for pointing the correct
-> direction for how it might be best to extend expanders for
-> different operand lengths.  I believe the form used in RV128,
-> 
-> static bool gen_arith_imm_fn(DisasContext *ctx, arg_i *a, DisasExtend ext,
->                              void (*fn32)(TCGv, TCGv, target_long),
->                              void (*fn64)(TCGv, TCGv, target_long),
->                              void (*fn128)(TCGv, TCGv, TCGv, TCGv, target_long))
-> 
-> is incorrect, because it assumes that is easy to select the
-> fn32 and fn64 functions.  But so long as TARGET_RISCV32 is
-> still around, and target_long may be 32, that is not the case.
-> Instead, pass f_tl and f_32, where f_32 will only ever be used
-> when sizeof(target_ulong) > 4.
+Tested with aarch64, as that's the best hw currently available.
 
-  I got the point.
-  Frédéric
-> 
-> r~
-> 
-> 
-> Richard Henderson (13):
->   target/riscv: Move cpu_get_tb_cpu_state out of line
->   target/riscv: Create RISCVMXL enumeration
->   target/riscv: Split misa.mxl and misa.ext
->   target/riscv: Replace riscv_cpu_is_32bit with riscv_cpu_mxl
->   target/riscv: Add MXL/SXL/UXL to TB_FLAGS
->   target/riscv: Use REQUIRE_64BIT in amo_check64
->   target/riscv: Properly check SEW in amo_op
->   target/riscv: Replace is_32bit with get_xl/get_xlen
->   target/riscv: Replace DisasContext.w with DisasContext.ol
->   target/riscv: Use gen_arith_per_ol for RVM
->   target/riscv: Adjust trans_rev8_32 for riscv64
->   target/riscv: Use gen_unary_per_ol for RVB
->   target/riscv: Use gen_shift*_per_ol for RVB, RVI
-> 
->  target/riscv/cpu.h                      |  73 +++-------
->  target/riscv/cpu_bits.h                 |   8 +-
->  hw/riscv/boot.c                         |   2 +-
->  linux-user/elfload.c                    |   2 +-
->  linux-user/riscv/cpu_loop.c             |   2 +-
->  semihosting/arm-compat-semi.c           |   2 +-
->  target/riscv/cpu.c                      |  99 ++++++++------
->  target/riscv/cpu_helper.c               |  91 ++++++++++++-
->  target/riscv/csr.c                      |  68 ++++++----
->  target/riscv/gdbstub.c                  |  10 +-
->  target/riscv/machine.c                  |  10 +-
->  target/riscv/monitor.c                  |   4 +-
->  target/riscv/translate.c                | 170 ++++++++++++++++++------
->  target/riscv/insn_trans/trans_rvb.c.inc | 140 ++++++++++---------
->  target/riscv/insn_trans/trans_rvi.c.inc |  44 +++---
->  target/riscv/insn_trans/trans_rvm.c.inc |  36 +++--
->  target/riscv/insn_trans/trans_rvv.c.inc |  29 ++--
->  17 files changed, 498 insertions(+), 292 deletions(-)
-> 
+
+r~
+
+
+Richard Henderson (8):
+  tcg: Add TCG_TARGET_SIGNED_ADDR32
+  accel/tcg: Split out g2h_tlbe
+  accel/tcg: Support TCG_TARGET_SIGNED_ADDR32 for softmmu
+  accel/tcg: Add guest_base_signed_addr32 for user-only
+  linux-user: Support TCG_TARGET_SIGNED_ADDR32
+  tcg/aarch64: Support TCG_TARGET_SIGNED_ADDR32
+  target/mips: Support TCG_TARGET_SIGNED_ADDR32
+  target/riscv: Support TCG_TARGET_SIGNED_ADDR32
+
+ include/exec/cpu-all.h        | 20 ++++++++---
+ include/exec/cpu_ldst.h       |  3 +-
+ tcg/aarch64/tcg-target-sa32.h |  7 ++++
+ tcg/arm/tcg-target-sa32.h     |  1 +
+ tcg/i386/tcg-target-sa32.h    |  1 +
+ tcg/mips/tcg-target-sa32.h    |  9 +++++
+ tcg/ppc/tcg-target-sa32.h     |  1 +
+ tcg/riscv/tcg-target-sa32.h   |  5 +++
+ tcg/s390x/tcg-target-sa32.h   |  1 +
+ tcg/sparc/tcg-target-sa32.h   |  1 +
+ tcg/tci/tcg-target-sa32.h     |  1 +
+ accel/tcg/cputlb.c            | 36 +++++++++++++------
+ bsd-user/main.c               |  4 +++
+ linux-user/elfload.c          | 62 +++++++++++++++++++++++++-------
+ linux-user/main.c             |  3 ++
+ tcg/aarch64/tcg-target.c.inc  | 68 ++++++++++++++++++++++-------------
+ tcg/mips/tcg-target.c.inc     | 13 ++-----
+ tcg/riscv/tcg-target.c.inc    |  8 ++---
+ 18 files changed, 176 insertions(+), 68 deletions(-)
+ create mode 100644 tcg/aarch64/tcg-target-sa32.h
+ create mode 100644 tcg/arm/tcg-target-sa32.h
+ create mode 100644 tcg/i386/tcg-target-sa32.h
+ create mode 100644 tcg/mips/tcg-target-sa32.h
+ create mode 100644 tcg/ppc/tcg-target-sa32.h
+ create mode 100644 tcg/riscv/tcg-target-sa32.h
+ create mode 100644 tcg/s390x/tcg-target-sa32.h
+ create mode 100644 tcg/sparc/tcg-target-sa32.h
+ create mode 100644 tcg/tci/tcg-target-sa32.h
 
 -- 
-+---------------------------------------------------------------------------+
-| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
-| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
-| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
-+---------------------------------------------------------------------------+
+2.25.1
+
 
