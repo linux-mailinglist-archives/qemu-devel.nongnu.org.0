@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1856429642
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 20:01:42 +0200 (CEST)
-Received: from localhost ([::1]:39298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5B0429632
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 19:57:55 +0200 (CEST)
+Received: from localhost ([::1]:59304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZzcL-0005SQ-KI
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 14:01:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59890)
+	id 1mZzYg-0008MM-RF
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 13:57:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzWX-0005Tk-VP
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:55:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27830)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzWw-0005Zl-El
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:56:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzWU-0001bo-7T
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:55:41 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzWr-0002XM-T4
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:56:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633974936;
+ s=mimecast20190719; t=1633974961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cj5MedymjR7c6ZHFVSvxkNcwjQe9r3qGLc089wLPVNE=;
- b=DjlQoiE5wGXYVcGoMYzePXi+AbMKXY9LmAqU/9SHjEDvSwOLEjQYhEmZNcGITAUAfg3fYH
- syzFHh388RFyAqls0THoxzbe4mrgkc8srJyPljMsIifsW2+pqVS7t2h5JIXec3nIFmEbO6
- /yEO4vY8AVqwvluuMEviVJ/Z6a8JyD0=
+ bh=aknv+rhIU//dZzeWLjyq5A28L0a3a/nH+oAFCjD1Wpo=;
+ b=JbXC3JPbq3qlW8mI88L8M/pOXN9q3sajPQLmDvL8G+IW4ojLmwtEiwZdTE0nTv3JUEJPem
+ 3++xSXiDvscxKj+uNYfSya34XauATuLDuvLQZvT5QNQ/qJNN8p0IvYl0OPogEoTF1ywN4j
+ X4xcii0Hcya71vFnE5o0GquOuGDr2aM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-hsUotCMRNICc0IprmLvcDg-1; Mon, 11 Oct 2021 13:55:25 -0400
-X-MC-Unique: hsUotCMRNICc0IprmLvcDg-1
+ us-mta-533-c2fI5pkbP7aXvrYxzYebgw-1; Mon, 11 Oct 2021 13:55:57 -0400
+X-MC-Unique: c2fI5pkbP7aXvrYxzYebgw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E055A10B3943;
- Mon, 11 Oct 2021 17:55:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6F0410B3940;
+ Mon, 11 Oct 2021 17:55:56 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F584652A0;
- Mon, 11 Oct 2021 17:54:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48FB1652A0;
+ Mon, 11 Oct 2021 17:55:24 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/9] memory: Introduce replay_discarded callback for
- RamDiscardManager
-Date: Mon, 11 Oct 2021 19:53:38 +0200
-Message-Id: <20211011175346.15499-2-david@redhat.com>
+Subject: [PATCH v1 2/9] virtio-mem: Implement replay_discarded
+ RamDiscardManager callback
+Date: Mon, 11 Oct 2021 19:53:39 +0200
+Message-Id: <20211011175346.15499-3-david@redhat.com>
 In-Reply-To: <20211011175346.15499-1-david@redhat.com>
 References: <20211011175346.15499-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -91,85 +91,97 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce replay_discarded callback similar to our existing
-replay_populated callback, to be used my migration code to never migrate
-discarded memory.
+Implement it similar to the replay_populated callback.
 
 Acked-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/exec/memory.h | 21 +++++++++++++++++++++
- softmmu/memory.c      | 11 +++++++++++
- 2 files changed, 32 insertions(+)
+ hw/virtio/virtio-mem.c | 58 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index a185b6dcb8..75b4f600e3 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -540,6 +540,7 @@ static inline void ram_discard_listener_init(RamDiscardListener *rdl,
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index df91e454b2..284096ec5f 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -228,6 +228,38 @@ static int virtio_mem_for_each_plugged_section(const VirtIOMEM *vmem,
+     return ret;
  }
  
- typedef int (*ReplayRamPopulate)(MemoryRegionSection *section, void *opaque);
-+typedef void (*ReplayRamDiscard)(MemoryRegionSection *section, void *opaque);
- 
- /*
-  * RamDiscardManagerClass:
-@@ -628,6 +629,21 @@ struct RamDiscardManagerClass {
-                             MemoryRegionSection *section,
-                             ReplayRamPopulate replay_fn, void *opaque);
- 
-+    /**
-+     * @replay_discarded:
-+     *
-+     * Call the #ReplayRamDiscard callback for all discarded parts within the
-+     * #MemoryRegionSection via the #RamDiscardManager.
-+     *
-+     * @rdm: the #RamDiscardManager
-+     * @section: the #MemoryRegionSection
-+     * @replay_fn: the #ReplayRamDiscard callback
-+     * @opaque: pointer to forward to the callback
-+     */
-+    void (*replay_discarded)(const RamDiscardManager *rdm,
-+                             MemoryRegionSection *section,
-+                             ReplayRamDiscard replay_fn, void *opaque);
-+
-     /**
-      * @register_listener:
-      *
-@@ -672,6 +688,11 @@ int ram_discard_manager_replay_populated(const RamDiscardManager *rdm,
-                                          ReplayRamPopulate replay_fn,
-                                          void *opaque);
- 
-+void ram_discard_manager_replay_discarded(const RamDiscardManager *rdm,
-+                                          MemoryRegionSection *section,
-+                                          ReplayRamDiscard replay_fn,
-+                                          void *opaque);
-+
- void ram_discard_manager_register_listener(RamDiscardManager *rdm,
-                                            RamDiscardListener *rdl,
-                                            MemoryRegionSection *section);
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index db182e5d3d..3bcfc3899b 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2081,6 +2081,17 @@ int ram_discard_manager_replay_populated(const RamDiscardManager *rdm,
-     return rdmc->replay_populated(rdm, section, replay_fn, opaque);
- }
- 
-+void ram_discard_manager_replay_discarded(const RamDiscardManager *rdm,
-+                                          MemoryRegionSection *section,
-+                                          ReplayRamDiscard replay_fn,
-+                                          void *opaque)
++static int virtio_mem_for_each_unplugged_section(const VirtIOMEM *vmem,
++                                                 MemoryRegionSection *s,
++                                                 void *arg,
++                                                 virtio_mem_section_cb cb)
 +{
-+    RamDiscardManagerClass *rdmc = RAM_DISCARD_MANAGER_GET_CLASS(rdm);
++    unsigned long first_bit, last_bit;
++    uint64_t offset, size;
++    int ret = 0;
 +
-+    g_assert(rdmc->replay_discarded);
-+    rdmc->replay_discarded(rdm, section, replay_fn, opaque);
++    first_bit = s->offset_within_region / vmem->bitmap_size;
++    first_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size, first_bit);
++    while (first_bit < vmem->bitmap_size) {
++        MemoryRegionSection tmp = *s;
++
++        offset = first_bit * vmem->block_size;
++        last_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
++                                 first_bit + 1) - 1;
++        size = (last_bit - first_bit + 1) * vmem->block_size;
++
++        if (!virito_mem_intersect_memory_section(&tmp, offset, size)) {
++            break;
++        }
++        ret = cb(&tmp, arg);
++        if (ret) {
++            break;
++        }
++        first_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
++                                       last_bit + 2);
++    }
++    return ret;
 +}
 +
- void ram_discard_manager_register_listener(RamDiscardManager *rdm,
-                                            RamDiscardListener *rdl,
-                                            MemoryRegionSection *section)
+ static int virtio_mem_notify_populate_cb(MemoryRegionSection *s, void *arg)
+ {
+     RamDiscardListener *rdl = arg;
+@@ -1170,6 +1202,31 @@ static int virtio_mem_rdm_replay_populated(const RamDiscardManager *rdm,
+                                             virtio_mem_rdm_replay_populated_cb);
+ }
+ 
++static int virtio_mem_rdm_replay_discarded_cb(MemoryRegionSection *s,
++                                              void *arg)
++{
++    struct VirtIOMEMReplayData *data = arg;
++
++    ((ReplayRamDiscard)data->fn)(s, data->opaque);
++    return 0;
++}
++
++static void virtio_mem_rdm_replay_discarded(const RamDiscardManager *rdm,
++                                            MemoryRegionSection *s,
++                                            ReplayRamDiscard replay_fn,
++                                            void *opaque)
++{
++    const VirtIOMEM *vmem = VIRTIO_MEM(rdm);
++    struct VirtIOMEMReplayData data = {
++        .fn = replay_fn,
++        .opaque = opaque,
++    };
++
++    g_assert(s->mr == &vmem->memdev->mr);
++    virtio_mem_for_each_unplugged_section(vmem, s, &data,
++                                          virtio_mem_rdm_replay_discarded_cb);
++}
++
+ static void virtio_mem_rdm_register_listener(RamDiscardManager *rdm,
+                                              RamDiscardListener *rdl,
+                                              MemoryRegionSection *s)
+@@ -1234,6 +1291,7 @@ static void virtio_mem_class_init(ObjectClass *klass, void *data)
+     rdmc->get_min_granularity = virtio_mem_rdm_get_min_granularity;
+     rdmc->is_populated = virtio_mem_rdm_is_populated;
+     rdmc->replay_populated = virtio_mem_rdm_replay_populated;
++    rdmc->replay_discarded = virtio_mem_rdm_replay_discarded;
+     rdmc->register_listener = virtio_mem_rdm_register_listener;
+     rdmc->unregister_listener = virtio_mem_rdm_unregister_listener;
+ }
 -- 
 2.31.1
 
