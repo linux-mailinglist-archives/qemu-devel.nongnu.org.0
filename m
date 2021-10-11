@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B2A428DBC
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 15:23:25 +0200 (CEST)
-Received: from localhost ([::1]:55394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37595428DB3
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 15:19:00 +0200 (CEST)
+Received: from localhost ([::1]:48540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZvH2-0002H8-Df
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 09:23:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57474)
+	id 1mZvCi-0005aB-V2
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 09:18:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1mZv8y-0003Lb-AL
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 09:15:05 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2150)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZvA6-0003sk-7y
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 09:16:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1mZv8t-0002uq-F2
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 09:15:03 -0400
-Received: from fraeml734-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4HSfLY3xFMz6H7h6;
- Mon, 11 Oct 2021 21:11:01 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml734-chm.china.huawei.com (10.206.15.215) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Mon, 11 Oct 2021 15:14:47 +0200
-Received: from localhost (10.52.122.204) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Mon, 11 Oct
- 2021 14:14:46 +0100
-Date: Mon, 11 Oct 2021 14:14:28 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: ACPI endianness
-Message-ID: <20211011141428.000073af@Huawei.com>
-In-Reply-To: <20211011080528-mutt-send-email-mst@kernel.org>
-References: <957db5ec-fc70-418-44d9-da4f81f5b98@eik.bme.hu>
- <612d2f0b-f312-073d-b796-c76357ba51a2@redhat.com>
- <d8284c4-c2e7-15e9-bec5-b2f619e1e6ad@eik.bme.hu>
- <20211011080528-mutt-send-email-mst@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mZvA2-0004Q9-0x
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 09:16:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633958167;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=U2BGjC65dTNGcGx8Nv2uco0pXvDZgrp+LseDXsRC030=;
+ b=SLVnfxcbRpEH06vTPJJwmA8Dtcp60rOOS0HViOYsE37oUjvrLZO+1plplZYqcZX1wLUN0m
+ co+uQRzOYMhxahyimYENUFDJICeJX03BIdQ6eBeVZ29ZriCN+PMN5rrp+4WGAeXQTd73Uu
+ 8Uv/QvN5vikq5TdDenCLO66XojKxaQc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-qxtUHQFfMJeCFgEzVDyVeg-1; Mon, 11 Oct 2021 09:16:06 -0400
+X-MC-Unique: qxtUHQFfMJeCFgEzVDyVeg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2A4410168C0;
+ Mon, 11 Oct 2021 13:16:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C7221017CE8;
+ Mon, 11 Oct 2021 13:16:03 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 84A2D113865F; Mon, 11 Oct 2021 15:15:58 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qapi: Improve input_type_enum()'s error message
+Date: Mon, 11 Oct 2021 15:15:58 +0200
+Message-Id: <20211011131558.3273255-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.52.122.204]
-X-ClientProxiedBy: lhreml723-chm.china.huawei.com (10.201.108.74) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,191 +76,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, pbonzini@redhat.com,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ michael.roth@amd.com, hreitz@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Oct 2021 08:19:01 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+The error message claims the parameter is invalid:
 
-> On Mon, Oct 11, 2021 at 12:13:55PM +0200, BALATON Zoltan wrote:
-> > On Mon, 11 Oct 2021, Philippe Mathieu-Daud=E9 wrote: =20
-> > > On 10/10/21 15:24, BALATON Zoltan wrote: =20
-> > > > Hello,
-> > > >=20
-> > > > I'm trying to fix shutdown and reboot on pegasos2 which uses ACPI as
-> > > > part of the VIA VT8231 (similar to and modelled in hw/isa/vt82c686b=
-.c)
-> > > > and found that the guest writes to ACPI PM1aCNT register come out w=
-ith
-> > > > wrong endianness but not shure why. I have this:
-> > > >=20
-> > > > $ qemu-system-ppc -M pegasos2 -monitor stdio
-> > > > (qemu) info mtree
-> > > > [...]
-> > > > memory-region: pci1-io
-> > > > =A0 0000000000000000-000000000000ffff (prio 0, i/o): pci1-io
-> > > > [...]
-> > > > =A0=A0=A0 0000000000000f00-0000000000000f7f (prio 0, i/o): via-pm
-> > > > =A0=A0=A0=A0=A0 0000000000000f00-0000000000000f03 (prio 0, i/o): ac=
-pi-evt
-> > > > =A0=A0=A0=A0=A0 0000000000000f04-0000000000000f05 (prio 0, i/o): ac=
-pi-cnt
-> > > > =A0=A0=A0=A0=A0 0000000000000f08-0000000000000f0b (prio 0, i/o): ac=
-pi-tmr
-> > > >=20
-> > > > memory-region: system
-> > > > =A0 0000000000000000-ffffffffffffffff (prio 0, i/o): system
-> > > > =A0=A0=A0 0000000000000000-000000001fffffff (prio 0, ram): pegasos2=
-.ram
-> > > > =A0=A0=A0 0000000080000000-00000000bfffffff (prio 0, i/o): alias pc=
-i1-mem0-win
-> > > > @pci1-mem 0000000080000000-00000000bfffffff
-> > > > =A0=A0=A0 00000000c0000000-00000000dfffffff (prio 0, i/o): alias pc=
-i0-mem0-win
-> > > > @pci0-mem 00000000c0000000-00000000dfffffff
-> > > > =A0=A0=A0 00000000f1000000-00000000f100ffff (prio 0, i/o): mv64361
-> > > > =A0=A0=A0 00000000f8000000-00000000f8ffffff (prio 0, i/o): alias pc=
-i0-io-win
-> > > > @pci0-io 0000000000000000-0000000000ffffff
-> > > > =A0=A0=A0 00000000f9000000-00000000f9ffffff (prio 0, i/o): alias pc=
-i0-mem1-win
-> > > > @pci0-mem 0000000000000000-0000000000ffffff
-> > > > =A0=A0=A0 00000000fd000000-00000000fdffffff (prio 0, i/o): alias pc=
-i1-mem1-win
-> > > > @pci1-mem 0000000000000000-0000000000ffffff
-> > > > =A0=A0=A0 00000000fe000000-00000000feffffff (prio 0, i/o): alias pc=
-i1-io-win
-> > > > @pci1-io 0000000000000000-0000000000ffffff
-> > > > =A0=A0=A0 00000000ff800000-00000000ffffffff (prio 0, i/o): alias pc=
-i1-mem3-win
-> > > > @pci1-mem 00000000ff800000-00000000ffffffff
-> > > > =A0=A0=A0 00000000fff00000-00000000fff7ffff (prio 0, rom): pegasos2=
-.rom
-> > > >=20
-> > > > The guest (which is big endian PPC and I think wotks on real hardwa=
-re)
-> > > > writes to 0xf05 in the io region which should be the high byte of t=
-he
-> > > > little endian register but in the acpi code it comes out wrong, ins=
-tead
-> > > > of 0x2800 I get in acpi_pm1_cnt_write: val=3D0x28 =20
-> > >=20
-> > > Looks like a northbridge issue (MV64340).
-> > > Does Pegasos2 enables bus swapping?
-> > > See hw/pci-host/mv64361.c:585:
-> > >=20
-> > > static void warn_swap_bit(uint64_t val)
-> > > {
-> > >    if ((val & 0x3000000ULL) >> 24 !=3D 1) {
-> > >        qemu_log_mask(LOG_UNIMP, "%s: Data swap not implemented", __fu=
-nc__);
-> > >    }
-> > > } =20
-> >=20
-> > No, guests don't use this feature just byteswap themselves and write li=
-ttle
-> > endian values to the mapped io region. (Or in this case just write one =
-byte
-> > of the 16 bit value, it specifically writes 0x28 to 0xf05.) That's why I
-> > think the device model should not byteswap itself so the acpi regions s=
-hould
-> > be declared native endian and let the guest handle it. Some mentions I'=
-ve
-> > found say that native endian means don't byteswap, little endian means
-> > byteswap if vcpu is big endian and big endian means byteswap if vcpu is
-> > little endian. Since guests already account for this and write little e=
-ndian
-> > values to these regions there's no need to byteswap in device model and
-> > changing to native endian should not affect little endian machines so u=
-nless
-> > there's a better argument I'll try sending a patch.
-> >=20
-> > Regards,
-> > BALATON Zoltan =20
->=20
-> native endian means endian-ness is open-coded in the device handler
-> itself.  I think you just found a bug in memory core.
->=20
-> static const MemoryRegionOps acpi_pm_cnt_ops =3D {
->     .read =3D acpi_pm_cnt_read,
->     .write =3D acpi_pm_cnt_write,
->     .impl.min_access_size =3D 2,
->     .valid.min_access_size =3D 1,
->     .valid.max_access_size =3D 2,
->     .endianness =3D DEVICE_LITTLE_ENDIAN,
-> };
->=20
->=20
-> Because of that     .impl.min_access_size =3D 2,
-> the 1 byte write should be converted to a 2 byte
-> read+2 byte write.
->=20
-> docs/devel/memory.rst just says:
-> - .impl.min_access_size, .impl.max_access_size define the access sizes
->   (in bytes) supported by the *implementation*; other access sizes will be
->   emulated using the ones available.  For example a 4-byte write will be
->   emulated using four 1-byte writes, if .impl.max_access_size =3D 1.
->=20
->=20
->=20
-> Instead what we have is:
->=20
-> MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
->                                          hwaddr addr,
->                                          uint64_t data,
->                                          MemOp op,
->                                          MemTxAttrs attrs)
-> {
->     unsigned size =3D memop_size(op);
->=20
->     if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
->         unassigned_mem_write(mr, addr, data, size);
->         return MEMTX_DECODE_ERROR;
->     }
->=20
->     adjust_endianness(mr, &data, op);
->=20
->=20
-> ---
->=20
->=20
-> static void adjust_endianness(MemoryRegion *mr, uint64_t *data, MemOp op)
-> {
->     if ((op & MO_BSWAP) !=3D devend_memop(mr->ops->endianness)) {
->         switch (op & MO_SIZE) {
->         case MO_8:
->             break;
->         case MO_16:
->             *data =3D bswap16(*data);
->             break;
->         case MO_32:
->             *data =3D bswap32(*data);
->             break;
->         case MO_64:
->             *data =3D bswap64(*data);
->             break;
->         default:
->             g_assert_not_reached();
->         }
->     }
-> }
->=20
-> so the byte swap is based on size before extending it to
-> .impl.min_access_size, not after.
->=20
-> Also, no read happens which I suspect is also a bug,
-> but could be harmless ...
+    $ qemu-system-x86_64 -object qom-type=nonexistent
+    qemu-system-x86_64: -object qom-type=nonexistent: Invalid parameter 'nonexistent'
 
-The lack of read modify write looks like this again:
-https://lore.kernel.org/qemu-devel/20210513124737.00002b2d@Huawei.com/
+What's wrong is actually the *value* 'nonexistent'.  Improve the
+message to
 
-byte swap part is new to me though...
+    qemu-system-x86_64: -object qom-type=nonexistent: Parameter 'qom-type' does not accept value 'nonexistent'
 
->=20
-> Paolo, any feedback here?
->=20
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ qapi/qapi-visit-core.c          | 3 ++-
+ tests/unit/check-qom-proplist.c | 2 +-
+ tests/qemu-iotests/049.out      | 6 +++---
+ tests/qemu-iotests/206.out      | 2 +-
+ tests/qemu-iotests/237.out      | 6 +++---
+ tests/qemu-iotests/245          | 2 +-
+ 6 files changed, 11 insertions(+), 10 deletions(-)
+
+diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
+index a641adec51..7310f0a0ca 100644
+--- a/qapi/qapi-visit-core.c
++++ b/qapi/qapi-visit-core.c
+@@ -392,7 +392,8 @@ static bool input_type_enum(Visitor *v, const char *name, int *obj,
+ 
+     value = qapi_enum_parse(lookup, enum_str, -1, NULL);
+     if (value < 0) {
+-        error_setg(errp, QERR_INVALID_PARAMETER, enum_str);
++        error_setg(errp, "Parameter '%s' does not accept value '%s'",
++                   name ? name : "null", enum_str);
+         g_free(enum_str);
+         return false;
+     }
+diff --git a/tests/unit/check-qom-proplist.c b/tests/unit/check-qom-proplist.c
+index 48503e0dff..ed341088d3 100644
+--- a/tests/unit/check-qom-proplist.c
++++ b/tests/unit/check-qom-proplist.c
+@@ -488,7 +488,7 @@ static void test_dummy_badenum(void)
+     g_assert(dobj == NULL);
+     g_assert(err != NULL);
+     g_assert_cmpstr(error_get_pretty(err), ==,
+-                    "Invalid parameter 'yeti'");
++                    "Parameter 'av' does not accept value 'yeti'");
+ 
+     g_assert(object_resolve_path_component(parent, "dummy0")
+              == NULL);
+diff --git a/tests/qemu-iotests/049.out b/tests/qemu-iotests/049.out
+index 01f7b1f240..8719c91b48 100644
+--- a/tests/qemu-iotests/049.out
++++ b/tests/qemu-iotests/049.out
+@@ -174,11 +174,11 @@ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off comp
+ 
+ qemu-img create -f qcow2 -o compat=0.42 TEST_DIR/t.qcow2 64M
+ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=67108864 compat=0.42 lazy_refcounts=off refcount_bits=16
+-qemu-img: TEST_DIR/t.qcow2: Invalid parameter '0.42'
++qemu-img: TEST_DIR/t.qcow2: Parameter 'version' does not accept value '0.42'
+ 
+ qemu-img create -f qcow2 -o compat=foobar TEST_DIR/t.qcow2 64M
+ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=67108864 compat=foobar lazy_refcounts=off refcount_bits=16
+-qemu-img: TEST_DIR/t.qcow2: Invalid parameter 'foobar'
++qemu-img: TEST_DIR/t.qcow2: Parameter 'version' does not accept value 'foobar'
+ 
+ == Check preallocation option ==
+ 
+@@ -190,7 +190,7 @@ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off prea
+ 
+ qemu-img create -f qcow2 -o preallocation=1234 TEST_DIR/t.qcow2 64M
+ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off preallocation=1234 compression_type=zlib size=67108864 lazy_refcounts=off refcount_bits=16
+-qemu-img: TEST_DIR/t.qcow2: Invalid parameter '1234'
++qemu-img: TEST_DIR/t.qcow2: Parameter 'preallocation' does not accept value '1234'
+ 
+ == Check encryption option ==
+ 
+diff --git a/tests/qemu-iotests/206.out b/tests/qemu-iotests/206.out
+index b68c443867..3593e8e9c2 100644
+--- a/tests/qemu-iotests/206.out
++++ b/tests/qemu-iotests/206.out
+@@ -192,7 +192,7 @@ Job failed: Could not resize image: Failed to grow the L1 table: File too large
+ 
+ === Invalid version ===
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "qcow2", "file": "node0", "size": 67108864, "version": "v1"}}}
+-{"error": {"class": "GenericError", "desc": "Invalid parameter 'v1'"}}
++{"error": {"class": "GenericError", "desc": "Parameter 'version' does not accept value 'v1'"}}
+ 
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"driver": "qcow2", "file": "node0", "lazy-refcounts": true, "size": 67108864, "version": "v2"}}}
+ {"return": {}}
+diff --git a/tests/qemu-iotests/237.out b/tests/qemu-iotests/237.out
+index aa94986803..2f09ff5512 100644
+--- a/tests/qemu-iotests/237.out
++++ b/tests/qemu-iotests/237.out
+@@ -116,13 +116,13 @@ Job failed: Cannot find device='this doesn't exist' nor node-name='this doesn't
+ == Invalid adapter types ==
+ 
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"adapter-type": "foo", "driver": "vmdk", "file": "node0", "size": 33554432}}}
+-{"error": {"class": "GenericError", "desc": "Invalid parameter 'foo'"}}
++{"error": {"class": "GenericError", "desc": "Parameter 'adapter-type' does not accept value 'foo'"}}
+ 
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"adapter-type": "IDE", "driver": "vmdk", "file": "node0", "size": 33554432}}}
+-{"error": {"class": "GenericError", "desc": "Invalid parameter 'IDE'"}}
++{"error": {"class": "GenericError", "desc": "Parameter 'adapter-type' does not accept value 'IDE'"}}
+ 
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"adapter-type": "legacyesx", "driver": "vmdk", "file": "node0", "size": 33554432}}}
+-{"error": {"class": "GenericError", "desc": "Invalid parameter 'legacyesx'"}}
++{"error": {"class": "GenericError", "desc": "Parameter 'adapter-type' does not accept value 'legacyesx'"}}
+ 
+ {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options": {"adapter-type": 1, "driver": "vmdk", "file": "node0", "size": 33554432}}}
+ {"error": {"class": "GenericError", "desc": "Invalid parameter type for 'options.adapter-type', expected: string"}}
+diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+index bf8261eec0..1898807f25 100755
+--- a/tests/qemu-iotests/245
++++ b/tests/qemu-iotests/245
+@@ -149,7 +149,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+         self.reopen(opts, {'node-name': ''}, "Failed to find node with node-name=''")
+         self.reopen(opts, {'node-name': None}, "Invalid parameter type for 'options[0].node-name', expected: string")
+         self.reopen(opts, {'driver': 'raw'}, "Cannot change the option 'driver'")
+-        self.reopen(opts, {'driver': ''}, "Invalid parameter ''")
++        self.reopen(opts, {'driver': ''}, "Parameter 'driver' does not accept value ''")
+         self.reopen(opts, {'driver': None}, "Invalid parameter type for 'options[0].driver', expected: string")
+         self.reopen(opts, {'file': 'not-found'}, "Cannot find device='' nor node-name='not-found'")
+         self.reopen(opts, {'file': ''}, "Cannot find device='' nor node-name=''")
+-- 
+2.31.1
 
 
