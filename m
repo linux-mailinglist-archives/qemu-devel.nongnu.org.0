@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE624285ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 06:31:51 +0200 (CEST)
-Received: from localhost ([::1]:60482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DB44285F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 06:39:01 +0200 (CEST)
+Received: from localhost ([::1]:52484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZmyc-0003hN-MM
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 00:31:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44570)
+	id 1mZn5Y-0000Vm-Ch
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 00:39:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mZmvw-000103-4V
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 00:29:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24162)
+ id 1mZmwD-0001Ik-MH
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 00:29:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mZmvu-0001wD-Ki
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 00:29:03 -0400
+ id 1mZmwA-000365-3p
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 00:29:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633926542;
+ s=mimecast20190719; t=1633926557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kH1UTptXVdaLI2EPFK8X4tEZ6jfUajhr7TEx+5kSbhM=;
- b=QTfR82bvfMBrMd42Np9LYPEvnqFfTyjsk8LGJA6e/joO98fTOkevmITekM+oZdhdOT0w0q
- xtbJoG/uHaNIRNscGqBEIQJobHrHAIGl6SKkeOghyaM+V+nEQuc5idFtPa/1fpJUJO+y4A
- SYAaVqpkdaMECI4Ds2bvI7ugN70+4zU=
+ bh=qrKIFwvO1KWD1hYthrofeVlarJwkjjhJoX4eFsAZ6m4=;
+ b=Qz+Dxnlu440g8tGJFjV3SOywld9zimlO3lR2cgCgT+325jKETM7hHRoRWWM1lYUSCE8wPC
+ apKm8n/gFf2Nu2rZBXKBzN67KhMMPzlft1v6E+6k6lJPICpmjzLH+b7eA/EHiVwFhRf6MX
+ CLaLjF3lW0hV9VknaXh7z1qfTgulx9A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-2770FSUjMNCTM-Ei8dMoRw-1; Mon, 11 Oct 2021 00:28:58 -0400
-X-MC-Unique: 2770FSUjMNCTM-Ei8dMoRw-1
+ us-mta-160-xTjK2AN-NTq5rGLyi34XBQ-1; Mon, 11 Oct 2021 00:29:01 -0400
+X-MC-Unique: xTjK2AN-NTq5rGLyi34XBQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80EEF1006AA2;
- Mon, 11 Oct 2021 04:28:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBDE9824FA6;
+ Mon, 11 Oct 2021 04:29:00 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-160.pek2.redhat.com
  [10.72.13.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABACA19D9B;
- Mon, 11 Oct 2021 04:28:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1830F19D9B;
+ Mon, 11 Oct 2021 04:28:57 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: mst@redhat.com,
 	jasowang@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH V4 04/10] vhost-vdpa: let net_vhost_vdpa_init() returns
- NetClientState *
-Date: Mon, 11 Oct 2021 12:28:23 +0800
-Message-Id: <20211011042829.4159-5-jasowang@redhat.com>
+Subject: [PATCH V4 05/10] net: introduce control client
+Date: Mon, 11 Oct 2021 12:28:24 +0800
+Message-Id: <20211011042829.4159-6-jasowang@redhat.com>
 In-Reply-To: <20211011042829.4159-1-jasowang@redhat.com>
 References: <20211011042829.4159-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -63,11 +62,11 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,71 +86,99 @@ Cc: eperezma@redhat.com, elic@nvidia.com, gdawar@xilinx.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch switches to let net_vhost_vdpa_init() to return
-NetClientState *. This is used for the callers to allocate multiqueue
-NetClientState for multiqueue support.
+This patch introduces a boolean for the device has control queue which
+can accepts control command via network queue.
+
+The first user would be the control virtqueue support for vhost.
 
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20210907090322.1756-5-jasowang@redhat.com>
+Message-Id: <20210907090322.1756-6-jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- net/vhost-vdpa.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ include/net/net.h |  5 +++++
+ net/net.c         | 24 +++++++++++++++++++++---
+ 2 files changed, 26 insertions(+), 3 deletions(-)
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 73d29a74ef..834dab28dd 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -155,8 +155,10 @@ static NetClientInfo net_vhost_vdpa_info = {
-         .has_ufo = vhost_vdpa_has_ufo,
+diff --git a/include/net/net.h b/include/net/net.h
+index 5d1508081f..4f400b8a09 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -103,6 +103,7 @@ struct NetClientState {
+     int vnet_hdr_len;
+     bool is_netdev;
+     bool do_not_pad; /* do not pad to the minimum ethernet frame length */
++    bool is_datapath;
+     QTAILQ_HEAD(, NetFilterState) filters;
  };
  
--static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
--                               const char *name, int vdpa_device_fd)
-+static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-+                                           const char *device,
-+                                           const char *name,
-+                                           int vdpa_device_fd)
+@@ -134,6 +135,10 @@ NetClientState *qemu_new_net_client(NetClientInfo *info,
+                                     NetClientState *peer,
+                                     const char *model,
+                                     const char *name);
++NetClientState *qemu_new_net_control_client(NetClientInfo *info,
++                                        NetClientState *peer,
++                                        const char *model,
++                                        const char *name);
+ NICState *qemu_new_nic(NetClientInfo *info,
+                        NICConf *conf,
+                        const char *model,
+diff --git a/net/net.c b/net/net.c
+index 52c99196c6..f0d14dbfc1 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -239,7 +239,8 @@ static void qemu_net_client_setup(NetClientState *nc,
+                                   NetClientState *peer,
+                                   const char *model,
+                                   const char *name,
+-                                  NetClientDestructor *destructor)
++                                  NetClientDestructor *destructor,
++                                  bool is_datapath)
  {
-     NetClientState *nc = NULL;
-     VhostVDPAState *s;
-@@ -170,8 +172,9 @@ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
-     if (ret) {
-         qemu_del_net_client(nc);
-+        return NULL;
-     }
--    return ret;
+     nc->info = info;
+     nc->model = g_strdup(model);
+@@ -258,6 +259,7 @@ static void qemu_net_client_setup(NetClientState *nc,
+ 
+     nc->incoming_queue = qemu_new_net_queue(qemu_deliver_packet_iov, nc);
+     nc->destructor = destructor;
++    nc->is_datapath = is_datapath;
+     QTAILQ_INIT(&nc->filters);
+ }
+ 
+@@ -272,7 +274,23 @@ NetClientState *qemu_new_net_client(NetClientInfo *info,
+ 
+     nc = g_malloc0(info->size);
+     qemu_net_client_setup(nc, info, peer, model, name,
+-                          qemu_net_client_destructor);
++                          qemu_net_client_destructor, true);
++
 +    return nc;
- }
- 
- static int net_vhost_check_net(void *opaque, QemuOpts *opts, Error **errp)
-@@ -196,7 +199,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-                         NetClientState *peer, Error **errp)
- {
-     const NetdevVhostVDPAOptions *opts;
--    int vdpa_device_fd, ret;
-+    int vdpa_device_fd;
++}
++
++NetClientState *qemu_new_net_control_client(NetClientInfo *info,
++                                            NetClientState *peer,
++                                            const char *model,
++                                            const char *name)
++{
 +    NetClientState *nc;
++
++    assert(info->size >= sizeof(NetClientState));
++
++    nc = g_malloc0(info->size);
++    qemu_net_client_setup(nc, info, peer, model, name,
++                          qemu_net_client_destructor, false);
  
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-     opts = &netdev->u.vhost_vdpa;
-@@ -211,10 +215,11 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         return -errno;
-     }
- 
--    ret = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, vdpa_device_fd);
--    if (ret) {
-+    nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name, vdpa_device_fd);
-+    if (!nc) {
-         qemu_close(vdpa_device_fd);
-+        return -1;
-     }
- 
--    return ret;
-+    return 0;
+     return nc;
  }
+@@ -297,7 +315,7 @@ NICState *qemu_new_nic(NetClientInfo *info,
+ 
+     for (i = 0; i < queues; i++) {
+         qemu_net_client_setup(&nic->ncs[i], info, peers[i], model, name,
+-                              NULL);
++                              NULL, true);
+         nic->ncs[i].queue_index = i;
+     }
+ 
 -- 
 2.25.1
 
