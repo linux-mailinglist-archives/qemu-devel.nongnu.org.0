@@ -2,89 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF7F429631
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 19:57:48 +0200 (CEST)
-Received: from localhost ([::1]:58928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A264429670
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 20:05:48 +0200 (CEST)
+Received: from localhost ([::1]:47694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZzYY-00087W-LI
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 13:57:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59870)
+	id 1mZzgI-0002jV-FQ
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 14:05:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mZzWJ-0005QF-Md
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:55:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46234)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzXR-0006hO-0f
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:56:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mZzWI-0001XK-8M
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:55:27 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzXK-0003YM-Th
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:56:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633974925;
+ s=mimecast20190719; t=1633974990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PXOJlnevGWDMoKd6h49IaIBV6Im57KrkuuWGi6JgTnY=;
- b=VSh2WCT4CJpLf022AohadlUIi+fc9XHe53kJcsEJetjEI7RaCOlNSQg1X7NkOml4gNTvno
- 8IaY/kCYoV43aeFxC5eja1zCxWy1ahqcqIWva50IjcShIpTVp6P1igbGpLiTvz49fXMDuD
- rb058FLuPOpZ4YhEqYhrZjMYEBl7YFQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-zwxcx-ciNMODzw3_sbWsng-1; Mon, 11 Oct 2021 13:55:24 -0400
-X-MC-Unique: zwxcx-ciNMODzw3_sbWsng-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d13-20020adf9b8d000000b00160a94c235aso13872805wrc.2
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 10:55:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=PXOJlnevGWDMoKd6h49IaIBV6Im57KrkuuWGi6JgTnY=;
- b=MNIurkm5UqfQ9omtws1SbjlSGyF5sGTZDeupgN9VMaA7BtnPYO53eqNSwx8gSZ1PkM
- g/yg78SxNxSJHK3EctIHpOdH0SpUf4M9mcMgmEvQYbYEHQ5tlvHl1YNak3gyCobx7dU8
- ayeFnELIQGYzRCEnv4vKB+yZpca7kVGHsHDuinCcK+0HYBYPKdC/fP49EupwztOG2pRs
- QLRCbWHYwJC/8L4gBZ9XT/RDJy4qx2PhTERwma1o0Qn0vC//DKeeF8CkPXMzEELx0ezv
- imfcY8BayFUpg2owppEIUENl5n/Jk0BEeiLv0PX+K6Dp9bMGh5iPLzUrmUh9L6OCoMTZ
- Ml1g==
-X-Gm-Message-State: AOAM533hZbI+sEzSeDTIkCKo+fczYp3s0iiw7Kgi4tlHO9KLqTcD9geA
- YFMFLdFs/Sx3SdHLvQPOayW8sFPZloxXJreT/JdznFejE4MVdoNlJOwUZdYBoWl+FXNX9w305Zw
- LNzUPmtxx5hHONYM=
-X-Received: by 2002:adf:d1ee:: with SMTP id g14mr26788282wrd.165.1633974923429; 
- Mon, 11 Oct 2021 10:55:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAG7SfkNTr0h2RaxxL3+uRS+t0P3wXCgZU5kMCKMR5x+zTSlkUHyJfD2dPRbI1x5Kbuq432w==
-X-Received: by 2002:adf:d1ee:: with SMTP id g14mr26788252wrd.165.1633974923193; 
- Mon, 11 Oct 2021 10:55:23 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id l6sm222726wmg.10.2021.10.11.10.55.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Oct 2021 10:55:22 -0700 (PDT)
-Date: Mon, 11 Oct 2021 18:55:20 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Dov Murik <dovmurik@linux.ibm.com>
-Subject: Re: [PATCH 1/2] target/i386/sev: Use local variable for
- kvm_sev_launch_start
-Message-ID: <YWR6iPrZQUiv3FWC@work-vm>
-References: <20211011173026.2454294-1-dovmurik@linux.ibm.com>
- <20211011173026.2454294-2-dovmurik@linux.ibm.com>
+ bh=HneWBVd9+b3hwhMciCk1OP7NxKoLQ5EC/yXfG2IKI2U=;
+ b=OeThAEQlJN22jZn56vvjN8ZZrJPfA1kETp9ba7XZxkBvOSJG0DgWZ2ZiQUhQoV9JhLvRLv
+ CWWbxct/pgYXC7rDTxJ7p/xDlrENWoWmI0bkanheluW+PlWb8QHb45eznRw5mxBTNvM2uN
+ PVhN3p/NgxmosbSUzEhyk3r9APxgD8U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-23-ukUUJDIqNS-ImedixdR8aQ-1; Mon, 11 Oct 2021 13:56:27 -0400
+X-MC-Unique: ukUUJDIqNS-ImedixdR8aQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED16719200C3;
+ Mon, 11 Oct 2021 17:56:25 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.192.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 10582652A0;
+ Mon, 11 Oct 2021 17:55:56 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 3/9] migration/ram: Don't passs RAMState to
+ migration_clear_memory_region_dirty_bitmap_*()
+Date: Mon, 11 Oct 2021 19:53:40 +0200
+Message-Id: <20211011175346.15499-4-david@redhat.com>
+In-Reply-To: <20211011175346.15499-1-david@redhat.com>
+References: <20211011175346.15499-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211011173026.2454294-2-dovmurik@linux.ibm.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,89 +77,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dov Murik (dovmurik@linux.ibm.com) wrote:
-> The struct kvm_sev_launch_start has a constant and small size, and
-> therefore we can use a regular local variable for it instead of
-> allocating and freeing heap memory for it.
-> 
-> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+The parameter is unused, let's drop it.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ migration/ram.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-> ---
->  target/i386/sev.c | 23 ++++++++++-------------
->  1 file changed, 10 insertions(+), 13 deletions(-)
-> 
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 4c64c68244..0062566c71 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -647,31 +647,29 @@ sev_launch_start(SevGuestState *sev)
->      gsize sz;
->      int ret = 1;
->      int fw_error, rc;
-> -    struct kvm_sev_launch_start *start;
-> +    struct kvm_sev_launch_start start = {
-> +        .handle = sev->handle, .policy = sev->policy
-> +    };
->      guchar *session = NULL, *dh_cert = NULL;
->  
-> -    start = g_new0(struct kvm_sev_launch_start, 1);
-> -
-> -    start->handle = sev->handle;
-> -    start->policy = sev->policy;
->      if (sev->session_file) {
->          if (sev_read_file_base64(sev->session_file, &session, &sz) < 0) {
->              goto out;
->          }
-> -        start->session_uaddr = (unsigned long)session;
-> -        start->session_len = sz;
-> +        start.session_uaddr = (unsigned long)session;
-> +        start.session_len = sz;
->      }
->  
->      if (sev->dh_cert_file) {
->          if (sev_read_file_base64(sev->dh_cert_file, &dh_cert, &sz) < 0) {
->              goto out;
->          }
-> -        start->dh_uaddr = (unsigned long)dh_cert;
-> -        start->dh_len = sz;
-> +        start.dh_uaddr = (unsigned long)dh_cert;
-> +        start.dh_len = sz;
->      }
->  
-> -    trace_kvm_sev_launch_start(start->policy, session, dh_cert);
-> -    rc = sev_ioctl(sev->sev_fd, KVM_SEV_LAUNCH_START, start, &fw_error);
-> +    trace_kvm_sev_launch_start(start.policy, session, dh_cert);
-> +    rc = sev_ioctl(sev->sev_fd, KVM_SEV_LAUNCH_START, &start, &fw_error);
->      if (rc < 0) {
->          error_report("%s: LAUNCH_START ret=%d fw_error=%d '%s'",
->                  __func__, ret, fw_error, fw_error_to_str(fw_error));
-> @@ -679,11 +677,10 @@ sev_launch_start(SevGuestState *sev)
->      }
->  
->      sev_set_guest_state(sev, SEV_STATE_LAUNCH_UPDATE);
-> -    sev->handle = start->handle;
-> +    sev->handle = start.handle;
->      ret = 0;
->  
->  out:
-> -    g_free(start);
->      g_free(session);
->      g_free(dh_cert);
->      return ret;
-> -- 
-> 2.25.1
-> 
+diff --git a/migration/ram.c b/migration/ram.c
+index 7a43bfd7af..bb908822d5 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -789,8 +789,7 @@ unsigned long migration_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
+     return find_next_bit(bitmap, size, start);
+ }
+ 
+-static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
+-                                                       RAMBlock *rb,
++static void migration_clear_memory_region_dirty_bitmap(RAMBlock *rb,
+                                                        unsigned long page)
+ {
+     uint8_t shift;
+@@ -818,8 +817,7 @@ static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
+ }
+ 
+ static void
+-migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
+-                                                 RAMBlock *rb,
++migration_clear_memory_region_dirty_bitmap_range(RAMBlock *rb,
+                                                  unsigned long start,
+                                                  unsigned long npages)
+ {
+@@ -832,7 +830,7 @@ migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
+      * exclusive.
+      */
+     for (i = chunk_start; i < chunk_end; i += chunk_pages) {
+-        migration_clear_memory_region_dirty_bitmap(rs, rb, i);
++        migration_clear_memory_region_dirty_bitmap(rb, i);
+     }
+ }
+ 
+@@ -850,7 +848,7 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+      * the page in the chunk we clear the remote dirty bitmap for all.
+      * Clearing it earlier won't be a problem, but too late will.
+      */
+-    migration_clear_memory_region_dirty_bitmap(rs, rb, page);
++    migration_clear_memory_region_dirty_bitmap(rb, page);
+ 
+     ret = test_and_clear_bit(page, rb->bmap);
+     if (ret) {
+@@ -2777,8 +2775,7 @@ void qemu_guest_free_page_hint(void *addr, size_t len)
+          * are initially set. Otherwise those skipped pages will be sent in
+          * the next round after syncing from the memory region bitmap.
+          */
+-        migration_clear_memory_region_dirty_bitmap_range(ram_state, block,
+-                                                         start, npages);
++        migration_clear_memory_region_dirty_bitmap_range(block, start, npages);
+         ram_state->migration_dirty_pages -=
+                       bitmap_count_one_with_offset(block->bmap, start, npages);
+         bitmap_clear(block->bmap, start, npages);
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.31.1
 
 
