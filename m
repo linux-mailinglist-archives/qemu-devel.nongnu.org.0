@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED084299C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 01:22:28 +0200 (CEST)
-Received: from localhost ([::1]:58124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24DCF4299CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 01:26:36 +0200 (CEST)
+Received: from localhost ([::1]:60368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ma4cl-0003LQ-Fg
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 19:22:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36762)
+	id 1ma4gl-00055V-2l
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 19:26:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ma4aT-0002Dj-EE
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 19:20:06 -0400
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:33521)
+ id 1ma4eB-0004EI-J4; Mon, 11 Oct 2021 19:23:55 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:34635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ma4aO-000337-W4
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 19:20:05 -0400
-Received: by mail-io1-xd35.google.com with SMTP id n7so12783023iod.0
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 16:20:00 -0700 (PDT)
+ id 1ma4e9-0006v1-5N; Mon, 11 Oct 2021 19:23:55 -0400
+Received: by mail-io1-xd32.google.com with SMTP id i189so13931573ioa.1;
+ Mon, 11 Oct 2021 16:23:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jBwV0nr9Id/PDzZCJjpAPJ/BYNXaGg0ZMaTtTGKEPh4=;
- b=HvUAcrgze7nOk2Q7Ha2qHx2paXKD0zmvZobDIMdJdg3Mr/fZAq8IaZe2fxdh/Qqfv5
- drdRuPll1sDbN3nNmZI3HfTXtVZRBXIXqlV3x6P9INydp6kLHZF3gkLdf1v0OVkYhy59
- Qk1B/Viezfblls+7MzO13R9n9kv5EQ17Fb5k2HxrQwa5XzAA8L05kqWEaxJpaRfp/PcE
- DYvXjEyN5ZJNGn57w6QEYE/olDu5vQdAEROsmXDj2KBZjRCzTdw7F/cWixaUN1NZIznm
- Pzv4KN/qR3Tnsp5tqtJKaWwX9QC7LNxwuZSRf5MGRHAyllsYI7CbRzvV87qBeh0BAHrj
- pytA==
+ :cc; bh=Dt8na1SBz2hW55Dmw3HjoF4MOcC7R10fP7OAGxOig3Y=;
+ b=OhRG4Ea/QkhYlruUUnxFWuynxZQE4Tnt+7QmZObdJeN6MFmC+UX/sXAr8X0wncghZF
+ Wav5BYRItlp2/nG97egX6o+EeMxAQO/kucvjSbx6+SWYB1fGkG92CVYYI0PnZsak456x
+ Pm40tXJhHBjkbkYG5BoLD4UV9Q80lexdIlkO5ai3fZVcGYaKcbmareRXZWa84OUVoDE8
+ PgtnTCGrDuk1eKH0oFXps2jPgd2q1FAsLNLqRxjMKalcW/RGx/+r/zFQ4WUfgVKOOIrQ
+ NpKYIOhgX/2L/48CLUZq1tmm/RVyt7q4/AU0E8g3os/GDb3OiQC+RO+kpezdZeeoHTMO
+ RuRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jBwV0nr9Id/PDzZCJjpAPJ/BYNXaGg0ZMaTtTGKEPh4=;
- b=JikLg7qnFCRv5SVCjfpCRmE6es0T6hAiN/1RLlNe96sWydj6/jlF6ACi4j3Os5GFLZ
- 0ZdqYnH3//fCtODlJvo2Px+yNaY3A3XkNWwlCCvfp9moIVC/cpCVGqUnJow/WvjlYywC
- Sg+0KtnRyghxtQnQukUh7zJwBdje1/2NQ1eA0+dfRGLBhLfDNkIVh5WsyiOqsxvvXvbu
- lbUniLC5SP4hW2DlltlRDn3jvNYMugoWgLAg9GcFc3SlCHQuWSpEfdyOTpxRfzJ8hAwB
- G3+rxWyetvf8iBjMPYykWjPhheqECvE26wmuu8die7B4xVUGBWcuNT9BK7+x5DycoQPd
- 6P0w==
-X-Gm-Message-State: AOAM530r6hvmme8tycLsvMWffVRFdEumkxvdW5zB7wzH1gQDuMQs3GgZ
- MLisd5QpTbKd2j8c/LfvBEpUqDX49loHXbsPE24=
-X-Google-Smtp-Source: ABdhPJx4BhzPLe5JoCT0tAHly86hoOQfCGvtBn4uNUmvCnqcod12GbpS0HrdTIncSuBTUXortmWjcbXFJF7hYJxmSWA=
-X-Received: by 2002:a05:6638:9a:: with SMTP id
- v26mr6161716jao.18.1633994399524; 
- Mon, 11 Oct 2021 16:19:59 -0700 (PDT)
+ bh=Dt8na1SBz2hW55Dmw3HjoF4MOcC7R10fP7OAGxOig3Y=;
+ b=7KT5cR/dFMyYa6ZBXQ2v5nEq4pbjrJlDFPWiNFj+oo7EZOv1j50aJl9T+6p+1he1eA
+ s3kbBEJULGAz1IA8DbE/hRDeNwFlSv/8z99+twHgAwC91HlW6T13+53/VYxElrQzlK2P
+ nart+phRYOKMGiurH3VwDSUKLQ+e9Y/D6yEL82fTY37x12pMosEFD+/8ruzmSSS85Iv3
+ HDFJt69oTZH0w60RxWIahR5xp+MxRo4frJPduo8bEd4NmygQAlk75locIYdGXhHuGQbc
+ 8T4de4lzL9OtxhTEkm0CTWDgztUsFPgFZb6tQBTHDKnz32uk9mejA9GALUwXhnsbim6J
+ tCcA==
+X-Gm-Message-State: AOAM532OD8R2Z6tpr4j9VG/5lHLsFQwlHRNWIQYReWY1ys1IdGyDTxFL
+ qlnSYaRk+1wKskPT3nECYT1aCalBlKMyOpu/GQ6A4P6yp18=
+X-Google-Smtp-Source: ABdhPJwqJB2lpbC1byKaTrK+ffnMYuYp+RXc/NrpMywWjmdSkc1DleAoulprScaHJBHfmVTAh9IsbZtfXX7oNmJtNVg=
+X-Received: by 2002:a6b:8d4a:: with SMTP id p71mr21416663iod.16.1633994631537; 
+ Mon, 11 Oct 2021 16:23:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211010174401.141339-1-richard.henderson@linaro.org>
- <20211010174401.141339-3-richard.henderson@linaro.org>
-In-Reply-To: <20211010174401.141339-3-richard.henderson@linaro.org>
+References: <20211009055019.545153-1-travisg@gmail.com>
+In-Reply-To: <20211009055019.545153-1-travisg@gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 12 Oct 2021 09:19:33 +1000
-Message-ID: <CAKmqyKM1UzoJgpXdwhpfuke7eVDB7DGckPZtW77rPK+h4usuNA@mail.gmail.com>
-Subject: Re: [PATCH 2/8] accel/tcg: Split out g2h_tlbe
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Tue, 12 Oct 2021 09:23:25 +1000
+Message-ID: <CAKmqyKNNxxML9Z4aqBaiZwafBrvZvnSQR=pCSnaTukjFZ0f12Q@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: line up all of the registers in the info
+ register dump
+To: Travis Geiselbrecht <travisg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -79,126 +76,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: git@xen0n.name, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 11, 2021 at 3:44 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Sat, Oct 9, 2021 at 3:51 PM Travis Geiselbrecht <travisg@gmail.com> wrote:
 >
-> Create a new function to combine a CPUTLBEntry addend
-> with the guest address to form a host address.
+> Ensure the columns for all of the register names and values line up.
+> No functional change, just a minor tweak to the output.
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Travis Geiselbrecht <travisg@gmail.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  accel/tcg/cputlb.c | 24 ++++++++++++++----------
->  1 file changed, 14 insertions(+), 10 deletions(-)
+>  target/riscv/cpu.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >
-> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-> index 46140ccff3..761f726722 100644
-> --- a/accel/tcg/cputlb.c
-> +++ b/accel/tcg/cputlb.c
-> @@ -90,6 +90,11 @@ static inline size_t sizeof_tlb(CPUTLBDescFast *fast)
->      return fast->mask + (1 << CPU_TLB_ENTRY_BITS);
->  }
->
-> +static inline uintptr_t g2h_tlbe(const CPUTLBEntry *tlb, target_ulong gaddr)
-> +{
-> +    return tlb->addend + (uintptr_t)gaddr;
-> +}
-> +
->  static void tlb_window_reset(CPUTLBDesc *desc, int64_t ns,
->                               size_t max_entries)
->  {
-> @@ -976,8 +981,7 @@ static void tlb_reset_dirty_range_locked(CPUTLBEntry *tlb_entry,
->
->      if ((addr & (TLB_INVALID_MASK | TLB_MMIO |
->                   TLB_DISCARD_WRITE | TLB_NOTDIRTY)) == 0) {
-> -        addr &= TARGET_PAGE_MASK;
-> -        addr += tlb_entry->addend;
-> +        addr = g2h_tlbe(tlb_entry, addr & TARGET_PAGE_MASK);
->          if ((addr - start) < length) {
->  #if TCG_OVERSIZED_GUEST
->              tlb_entry->addr_write |= TLB_NOTDIRTY;
-> @@ -1527,7 +1531,7 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
->          return -1;
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 1d69d1887e..660f9ce131 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -258,7 +258,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
 >      }
->
-> -    p = (void *)((uintptr_t)addr + entry->addend);
-> +    p = (void *)g2h_tlbe(entry, addr);
->      if (hostp) {
->          *hostp = p;
+>      if (riscv_has_ext(env, RVH)) {
+>          qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "hstatus ", env->hstatus);
+> -        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsstatus ",
+> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsstatus",
+>                       (target_ulong)env->vsstatus);
 >      }
-> @@ -1619,7 +1623,7 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mip     ", env->mip);
+> @@ -289,8 +289,8 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtval   ", env->mtval);
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "stval   ", env->stval);
+>      if (riscv_has_ext(env, RVH)) {
+> -        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "htval ", env->htval);
+> -        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtval2 ", env->mtval2);
+> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "htval   ", env->htval);
+> +        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mtval2  ", env->mtval2);
 >      }
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mscratch", env->mscratch);
+>      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "sscratch", env->sscratch);
+> @@ -298,7 +298,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+>  #endif
 >
->      /* Everything else is RAM. */
-> -    *phost = (void *)((uintptr_t)addr + entry->addend);
-> +    *phost = (void *)g2h_tlbe(entry, addr);
->      return flags;
->  }
->
-> @@ -1727,7 +1731,7 @@ bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
->              data->v.io.offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
->          } else {
->              data->is_io = false;
-> -            data->v.ram.hostaddr = (void *)((uintptr_t)addr + tlbe->addend);
-> +            data->v.ram.hostaddr = (void *)g2h_tlbe(tlbe, addr);
->          }
->          return true;
->      } else {
-> @@ -1826,7 +1830,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
->          goto stop_the_world;
+>      for (i = 0; i < 32; i++) {
+> -        qemu_fprintf(f, " %s " TARGET_FMT_lx,
+> +        qemu_fprintf(f, " %-8s " TARGET_FMT_lx,
+>                       riscv_int_regnames[i], env->gpr[i]);
+>          if ((i & 3) == 3) {
+>              qemu_fprintf(f, "\n");
+> @@ -306,7 +306,7 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
 >      }
->
-> -    hostaddr = (void *)((uintptr_t)addr + tlbe->addend);
-> +    hostaddr = (void *)g2h_tlbe(tlbe, addr);
->
->      if (unlikely(tlb_addr & TLB_NOTDIRTY)) {
->          notdirty_write(env_cpu(env), addr, size,
-> @@ -1938,7 +1942,7 @@ load_helper(CPUArchState *env, target_ulong addr, MemOpIdx oi,
->                              access_type, op ^ (need_swap * MO_BSWAP));
->          }
->
-> -        haddr = (void *)((uintptr_t)addr + entry->addend);
-> +        haddr = (void *)g2h_tlbe(entry, addr);
->
->          /*
->           * Keep these two load_memop separate to ensure that the compiler
-> @@ -1975,7 +1979,7 @@ load_helper(CPUArchState *env, target_ulong addr, MemOpIdx oi,
->          return res & MAKE_64BIT_MASK(0, size * 8);
->      }
->
-> -    haddr = (void *)((uintptr_t)addr + entry->addend);
-> +    haddr = (void *)g2h_tlbe(entry, addr);
->      return load_memop(haddr, op);
->  }
->
-> @@ -2467,7 +2471,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
->              notdirty_write(env_cpu(env), addr, size, iotlbentry, retaddr);
->          }
->
-> -        haddr = (void *)((uintptr_t)addr + entry->addend);
-> +        haddr = (void *)g2h_tlbe(entry, addr);
->
->          /*
->           * Keep these two store_memop separate to ensure that the compiler
-> @@ -2492,7 +2496,7 @@ store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
->          return;
->      }
->
-> -    haddr = (void *)((uintptr_t)addr + entry->addend);
-> +    haddr = (void *)g2h_tlbe(entry, addr);
->      store_memop(haddr, val, op);
->  }
->
+>      if (flags & CPU_DUMP_FPU) {
+>          for (i = 0; i < 32; i++) {
+> -            qemu_fprintf(f, " %s %016" PRIx64,
+> +            qemu_fprintf(f, " %-8s %016" PRIx64,
+>                           riscv_fpr_regnames[i], env->fpr[i]);
+>              if ((i & 3) == 3) {
+>                  qemu_fprintf(f, "\n");
 > --
 > 2.25.1
 >
