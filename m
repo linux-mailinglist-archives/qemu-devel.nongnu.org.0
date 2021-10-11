@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9157429372
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 17:33:18 +0200 (CEST)
-Received: from localhost ([::1]:34050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5962A4293C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 17:48:37 +0200 (CEST)
+Received: from localhost ([::1]:38414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZxIi-0004Gs-W7
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 11:33:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57370)
+	id 1mZxXX-0007oi-Ae
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 11:48:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mZxHf-0003Wd-Ka
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:32:11 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:36563)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mZxHd-000762-HQ
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:32:11 -0400
-Received: by mail-pf1-x434.google.com with SMTP id m26so15160848pff.3
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 08:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gG2qD1Gc0h3+yZ/kc9GVN4oo8JYSlHb21COGBuKsWmw=;
- b=F+8bK1xC9NV4lVwH6CKSthlMUSZj3YjGExal7+89bsEWeJrjR7uYO0+Wis9zbCUDQt
- M/YyM+OyS3/5qNtsSPMAT4OcET5CkFzWHlfmSCmnrLl9iuaPqKWjSTwaiDoersnScGZz
- /X7NDUUddnaWlTRSGUOKoN0WO4VPf7Y1DyiobTGfRyW1z18kvp/9ThRkoEFywWp8jFRu
- Wfr3FDtS1bLzTL6SGSQgaWZzb/jCjELH+Xpm7j79BbV2yUO5nT5ttML3uQ2yVNYXIY9n
- UwFtq8s7EgIYT2AO6e57rhaktJtzCVviAin7d4TMb/vVeN70pgp6Gh/KwEdyz+B7zuvA
- YfSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gG2qD1Gc0h3+yZ/kc9GVN4oo8JYSlHb21COGBuKsWmw=;
- b=J5/7viNI6VJMCK7vzamxgJSiygADXT+utYqb90tmS36cCVEAlzZ080o/XEQ+bXI+/Q
- 6EaPCv1vwy2Qc8h7Uv19Wn6rt25nQCADLO9qFAwA6kYxvCNbeDlhVOZeFbPHPYTfRfMh
- pVrGZdWVs3zlwN5O8xM2pSlrPvXaFV2WzcdU8vNr5yOfk9NOR6p6hIqxUZKx2eCdGb1r
- w6St+l+/F5/bxIduHFVQl7Yk5sJiuiizhlANwWL6FkQu1OIxStURgpxpH6O57kLKAoCK
- n240E6YfGLXhQyeqBrVN0I4/rqpIQuTJSwRgCMa4WZ8EJgqtbeoAYWncVLNzpqBHczjh
- RIaQ==
-X-Gm-Message-State: AOAM533sUkJeCWOfTNxBWhHJDcbmmmq7sCcHwW2I3m42x1RbIMdr8LdE
- AiAOaabrWwb3B9Vw9xAfJAPdORijk9wQ2g==
-X-Google-Smtp-Source: ABdhPJz/eFKjV4R+UNxNcI+qYjqX81Yz2qB5MPPULM6h4LSG6mrBgAFKiXhskxkADad1ro1b/h+yBQ==
-X-Received: by 2002:a63:7e11:: with SMTP id z17mr18667640pgc.114.1633966327840; 
- Mon, 11 Oct 2021 08:32:07 -0700 (PDT)
-Received: from [192.168.71.106] (50-205-213-50-static.hfc.comcastbusiness.net.
- [50.205.213.50])
- by smtp.gmail.com with ESMTPSA id c11sm13946342pji.38.2021.10.11.08.32.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Oct 2021 08:32:07 -0700 (PDT)
-Subject: Re: [PATCH 5/8] linux-user: Support TCG_TARGET_SIGNED_ADDR32
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20211010174401.141339-1-richard.henderson@linaro.org>
- <20211010174401.141339-6-richard.henderson@linaro.org>
- <87bl3vyi0p.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <709bfead-acb8-16fb-5f97-9d584a694610@linaro.org>
-Date: Mon, 11 Oct 2021 08:32:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mZxVF-00078D-WF
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:46:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28338)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mZxVC-00046g-GM
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:46:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633967168;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=76x/raaXs8ZiXbZ4uaOmuO/V9TSZg15ZlcIQtVxgavQ=;
+ b=h8EGbvBzqFWjkAeEjM2CLZUAMRG+BH5Sd11Cf8lWHOQFn95v/vRY/ftGmZjdC7l6pPcYj5
+ IvBk46k+0u19IPRC8JYMy4IEWXLmRuQ52GlMF8fkr2TKRhlHew++rfOij9UH8fNra86jQf
+ hk1p8pUznYQbRKp79bG/Otq0RaA9u2I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-xQZCv-SeNzmHniz9Sj0v4Q-1; Mon, 11 Oct 2021 11:46:05 -0400
+X-MC-Unique: xQZCv-SeNzmHniz9Sj0v4Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DA0F84A5E1;
+ Mon, 11 Oct 2021 15:46:04 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.224])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD6035D9C6;
+ Mon, 11 Oct 2021 15:46:03 +0000 (UTC)
+Date: Mon, 11 Oct 2021 16:46:01 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Warner Losh <imp@bsdimp.com>
+Subject: Re: Moving QEMU downloads to GitLab Releases?
+Message-ID: <YWRcOYbxH6ygs/tj@stefanha-x1.localdomain>
+References: <YVW+ZGmIs+repvj4@stefanha-x1.localdomain>
+ <769a612c-9a78-6fc8-0893-43ce2c173957@amsat.org>
+ <YVrC4niegCWq+1kM@stefanha-x1.localdomain>
+ <163337608907.347510.4401699281486806089@amd.com>
+ <YVxTHAMCVncGvbFi@stefanha-x1.localdomain>
+ <20211011072130.i3vemilk23o4djdz@sirius.home.kraxel.org>
+ <YWQY1CQ/qUsMBnoD@stefanha-x1.localdomain>
+ <CANCZdfpsHTr0=Lc8TB0L846ZbfjFS0sNDyna_74HQaXdcuWSYw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <87bl3vyi0p.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <CANCZdfpsHTr0=Lc8TB0L846ZbfjFS0sNDyna_74HQaXdcuWSYw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sFF7yuLhD0JiOTC/"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,57 +85,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: git@xen0n.name, Alistair.Francis@wdc.com, f4bug@amsat.org,
- qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/21 3:22 AM, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> When using reserved_va, which is the default for a 64-bit host
->> and a 32-bit guest, set guest_base_signed_addr32 if requested
->> by TCG_TARGET_SIGNED_ADDR32, and the executable layout allows.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   include/exec/cpu-all.h |  4 ---
->>   linux-user/elfload.c   | 62 ++++++++++++++++++++++++++++++++++--------
->>   2 files changed, 50 insertions(+), 16 deletions(-)
->>
->> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
->> index 80b5e17329..71d8e1de7a 100644
->> --- a/include/exec/cpu-all.h
->> +++ b/include/exec/cpu-all.h
->> @@ -278,11 +278,7 @@ extern intptr_t qemu_host_page_mask;
->>   #define PAGE_RESET     0x0040
->>   /* For linux-user, indicates that the page is MAP_ANON. */
->>   #define PAGE_ANON      0x0080
->> -
->> -#if defined(CONFIG_BSD) && defined(CONFIG_USER_ONLY)
->> -/* FIXME: Code that sets/uses this is broken and needs to go away.  */
->>   #define PAGE_RESERVED  0x0100
->> -#endif
-> 
-> Can we reference why this FIXME is being dropped in the commit message?
+--sFF7yuLhD0JiOTC/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm not sure to what pbrook was referring with "... and is already broken" there.  I need 
-something here to reserve a page, PAGE_RESERVED seems like a good name, so I took it out 
-of the cupboard.
+On Mon, Oct 11, 2021 at 08:28:34AM -0600, Warner Losh wrote:
+> On Mon, Oct 11, 2021 at 4:59 AM Stefan Hajnoczi <stefanha@redhat.com> wro=
+te:
+>=20
+> > On Mon, Oct 11, 2021 at 09:21:30AM +0200, Gerd Hoffmann wrote:
+> > >   Hi,
+> > >
+> > > > > I guess the main question is who is using the ROM/BIOS sources in=
+ the
+> > > > > tarballs, and would this 2-step process work for those users? If
+> > there
+> > > > > are distros relying on them then maybe there are some more logist=
+ics
+> > to
+> > > > > consider since the make-release downloads are both time-consuming=
+ and
+> > > > > prone to network errors/stalls since it relies on the availabilit=
+y
+> > of a
+> > > > > good number of different hosts.
+> > > >
+> > > > Great, maybe Gerd can comment on splitting out firmware.
+> > >
+> > > I think the binaries are mostly a convenience feature for developers.
+> > > Distros typically build from source anyway, and typically they build
+> > > from upstream source instead of qemu submodule.
+> > >
+> > > The idea to split them out to a separate repo is exists for quite a
+> > > while.  I have an old qemu-firmware repo laying around on my disk, wh=
+ich
+> > > basically moves roms/ + submodules and the binaries built from it ove=
+r.
+> > >
+> > > I think with the switch to gitlab it doesn't make sense any more to
+> > > commit pre-built firmware binaries to a git repo.  Instead we should
+> > > build the firmware in gitlab ci, i.e. effectively move the build rule=
+s
+> > > we have right now in roms/Makefile to .gitlab-ci.d/, then publish the
+> > > firmware binaries as build artifacts or gitlab pages.
+> > >
+> > > When done just remove the pre-build binaries from git and add a helpe=
+r
+> > > script to fetch firmware binaries from gitlab instead.
+> > >
+> > > > QEMU mirrors firmware sources on GitLab too. We're able to provide =
+the
+> > > > same level of download availability on our mirror firmware repos as=
+ for
+> > > > the main qemu.git repo.
+> > >
+> > > I think enabling CI for the firmware mirrors should work given that i=
+t
+> > > is possible to specify a custom CI/CD configuration file, i.e. use
+> > > something like
+> > >
+> > >     /qemu-project/qemu/.gitlab-ci.d/firmware/seabios.yml
+> > >
+> > > or
+> > >
+> > >     /qemu-project/qemu-firmware/seabios.yml
+> > >
+> > > as config file for the
+> > >
+> > >     /qemu-project/seabios/
+> > >
+> > > mirror.  Then we can publish binaries using gitlab pages at
+> > >
+> > >     https://qemu-project.gitlab.io/seabios/
+> > >
+> > > That way we also don't need the roms/ submodules any more, i.e. we
+> > > can remove both sources and binaries for the firmware from the
+> > > release tarballs.
+> >
+> > Thanks!
+> >
+> > For developer convenience it would be nice to avoid manual steps after
+> > git clone qemu.git. Maybe ./configure should check for firmware blobs
+> > and automatically download them. There could be a ./configure
+> > --disable-firmware-download option that distros can use to skip the
+> > download when building everything from source.
+> >
+>=20
+> One thing to keep in mind about the downstream consumers: Many
+> of them have two phases to their build process that run asynchronously
+> to each other. There is a fetch phase that grabs everything, and a build
+> phase that builds the binaries. The second phase may not have access
+> to the internet for a variety of reasons (these days being a security
+> measure, for good or ill). Please make sure that any such plans
+> allow for this model.
+>=20
+> Today, that's all dealt with by grabbing tarballs from github which
+> is how the submodules are dealt with. So long as the images
+> had well known names, and could be fetched with the normal
+> wget/cgit/fetch programs, that would suffice. Requiring use of
+> some weird bespoke script would cause friction for the downstreams
+> using qemu.
+>=20
+> So while I'm all for making things a little more independent,
+> let's not do it in a way that makes life difficult for downstreams.
+> There are more there than just a couple of big distro builders.
 
-I'll do some archaeology.
+I think this is fine. Firmware blobs aren't needed to build QEMU, only
+to run the system emulator.
 
+Stefan
 
-r~
+--sFF7yuLhD0JiOTC/
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Looking at the current tree state I can see several uses of it due to
-> moves in 5b6dd8683d (exec: move TB handling to translate-all.c) which
-> post-date 2e9a5713f0 (Remove PAGE_RESERVED).
-> 
-> Otherwise looks reasonable:
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFkXDkACgkQnKSrs4Gr
+c8iTTAf/ZOXR0MdVpdhv+W6HFXPqSewl13JNJf+H5mZpld6a5dsUfUlPViWILG2u
+a61o51IQpumjJgF1f9S4Ip3rIIDobv2zaZrzNQ0PudI39bHMQc6GPbch/V9Xtok5
+ZYHHbZJMKCfJV5+OiirWRq+qGhtJr9I0K8Ya3EcVoGySlKA3I9Bu7phEhIYNpYx1
+7FdzmyzL1L2lubvA1FK0rDArpHzsAY5fFb87AtFLFjzvR57WNq2H9Bce1Y2F+xfR
+OWqoVKN0L2N6RdUcbAn32J6CoyIZnh7w4kd40b0derD16lYxu202JNrSXR8jcxqf
+sAaPn/3C8duZb+SBEDivet3YuoPybA==
+=O6fd
+-----END PGP SIGNATURE-----
+
+--sFF7yuLhD0JiOTC/--
 
 
