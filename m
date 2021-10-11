@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D20428CBC
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 14:11:36 +0200 (CEST)
-Received: from localhost ([::1]:39798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14AB3428CEE
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 14:21:09 +0200 (CEST)
+Received: from localhost ([::1]:52962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZu9X-0006QL-Ml
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 08:11:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38564)
+	id 1mZuIl-0008N4-Fo
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 08:21:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mZu4L-0006GA-E4
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 08:06:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54250)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mZuGx-0007RH-7Q
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 08:19:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mZu4J-0004VE-UL
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 08:06:13 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mZuGr-0003lC-Hk
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 08:19:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633953971;
+ s=mimecast20190719; t=1633954748;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T52qkV6p0EqIPaRnDHzBDcMR40tyCSd7kE1e9itdo+Y=;
- b=EVCP0Xll7F9wiVUIKn1odtigMzH66hb5ZNPecTprI8F4f4hx4tjWdu/arFI9LAVGtP/HYT
- a9R1U+EdDLYrMDYeeXFxnC9L+30bv+q/HStvUohifa9OY0c6AWvXGmeLcjbnuajbgvnVI+
- oRRw0+gjfv7TVvWYZ32nDapWzJ94lnI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-cwPMBUGIOLqot81Nog823Q-1; Mon, 11 Oct 2021 08:06:10 -0400
-X-MC-Unique: cwPMBUGIOLqot81Nog823Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 777DB801A93;
- Mon, 11 Oct 2021 12:06:09 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7304960C4A;
- Mon, 11 Oct 2021 12:05:57 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BF22518009EB; Mon, 11 Oct 2021 14:05:04 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] pcie: expire pending delete
-Date: Mon, 11 Oct 2021 14:05:04 +0200
-Message-Id: <20211011120504.254053-7-kraxel@redhat.com>
-In-Reply-To: <20211011120504.254053-1-kraxel@redhat.com>
-References: <20211011120504.254053-1-kraxel@redhat.com>
+ bh=Jb7CpB0d+Wl1ehagdarIsNFaoEb0mjOUCUsG+KBIjIE=;
+ b=MBy0eG6ipWaQlrsaGxUcXojGQvEmvnkSwqkrHyloHSHKzP1bpeITA0DUlfWDtGtr5KqLgH
+ ApILYQlg/16c5AwYpexTv8VpymCPuQLiYonDqFL4rQ9pSOBxnJDf06smJNYCDwtQ2mMIwY
+ 9fQ46zRuYDUvuxkBS/hSq5cxpU7q3uM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-timbkqMyOFGnwdcMyIr5QQ-1; Mon, 11 Oct 2021 08:19:06 -0400
+X-MC-Unique: timbkqMyOFGnwdcMyIr5QQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ e14-20020a056402088e00b003db6ebb9526so6124893edy.22
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 05:19:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Jb7CpB0d+Wl1ehagdarIsNFaoEb0mjOUCUsG+KBIjIE=;
+ b=qtfVNME4BY8skPmrxguihksxhSqAMscaLqlJK09zaNDuxObKVglTWdYaEeVPwfOyxh
+ uJPtguRwNpx/NkmSz3IzLqHLoxxMXD03DWf6vFfmvoajjF1GjheD5P9NWax7vW/BOM+c
+ TTYN7Le6LI6TpugSXeiQIyNujddcGAkevYP6uVnVERO7xTUVerwx7Gt8MHmZYoH4RHCS
+ 7OOztirqbRsM2iMlMkyno+5iGK+EBZB14SrTyomfsXq7rzcFmCBMkGlVYHqsvD5ZiePR
+ MNAWybyzZCmIRjVm12a46xYyo/1oXf0PcSCuM2SPPnvpVn8rNQaMFdfY8ed64i7OOG4X
+ S3WA==
+X-Gm-Message-State: AOAM532unzVcahpcjsVfSgqscZaz01qdPxPkoyxL92xpLv238jdc2HXT
+ bZcanoaqfC9w1wxucTk2pwqYxmyQd8LRzNV3I+y+apN5vj2qmNx5KRG9GHsCojk8xvC5SpOUxVJ
+ SfFfa9mOAdOQioyI=
+X-Received: by 2002:a17:906:4e89:: with SMTP id
+ v9mr18223681eju.354.1633954745723; 
+ Mon, 11 Oct 2021 05:19:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJybvghp/xcOq6rQW31hAX6ZkytN056s3dyc0EzVdYDjJ7JFYaZ/q5iwOloQoE2inocKC9VT+A==
+X-Received: by 2002:a17:906:4e89:: with SMTP id
+ v9mr18223644eju.354.1633954745387; 
+ Mon, 11 Oct 2021 05:19:05 -0700 (PDT)
+Received: from redhat.com ([2.55.159.57])
+ by smtp.gmail.com with ESMTPSA id dh16sm4069638edb.63.2021.10.11.05.19.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Oct 2021 05:19:04 -0700 (PDT)
+Date: Mon, 11 Oct 2021 08:19:01 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: ACPI endianness
+Message-ID: <20211011080528-mutt-send-email-mst@kernel.org>
+References: <957db5ec-fc70-418-44d9-da4f81f5b98@eik.bme.hu>
+ <612d2f0b-f312-073d-b796-c76357ba51a2@redhat.com>
+ <d8284c4-c2e7-15e9-bec5-b2f619e1e6ad@eik.bme.hu>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <d8284c4-c2e7-15e9-bec5-b2f619e1e6ad@eik.bme.hu>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,67 +98,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an expire time for pending delete, once the time is over allow
-pressing the attention button again.
+On Mon, Oct 11, 2021 at 12:13:55PM +0200, BALATON Zoltan wrote:
+> On Mon, 11 Oct 2021, Philippe Mathieu-Daudé wrote:
+> > On 10/10/21 15:24, BALATON Zoltan wrote:
+> > > Hello,
+> > > 
+> > > I'm trying to fix shutdown and reboot on pegasos2 which uses ACPI as
+> > > part of the VIA VT8231 (similar to and modelled in hw/isa/vt82c686b.c)
+> > > and found that the guest writes to ACPI PM1aCNT register come out with
+> > > wrong endianness but not shure why. I have this:
+> > > 
+> > > $ qemu-system-ppc -M pegasos2 -monitor stdio
+> > > (qemu) info mtree
+> > > [...]
+> > > memory-region: pci1-io
+> > >   0000000000000000-000000000000ffff (prio 0, i/o): pci1-io
+> > > [...]
+> > >     0000000000000f00-0000000000000f7f (prio 0, i/o): via-pm
+> > >       0000000000000f00-0000000000000f03 (prio 0, i/o): acpi-evt
+> > >       0000000000000f04-0000000000000f05 (prio 0, i/o): acpi-cnt
+> > >       0000000000000f08-0000000000000f0b (prio 0, i/o): acpi-tmr
+> > > 
+> > > memory-region: system
+> > >   0000000000000000-ffffffffffffffff (prio 0, i/o): system
+> > >     0000000000000000-000000001fffffff (prio 0, ram): pegasos2.ram
+> > >     0000000080000000-00000000bfffffff (prio 0, i/o): alias pci1-mem0-win
+> > > @pci1-mem 0000000080000000-00000000bfffffff
+> > >     00000000c0000000-00000000dfffffff (prio 0, i/o): alias pci0-mem0-win
+> > > @pci0-mem 00000000c0000000-00000000dfffffff
+> > >     00000000f1000000-00000000f100ffff (prio 0, i/o): mv64361
+> > >     00000000f8000000-00000000f8ffffff (prio 0, i/o): alias pci0-io-win
+> > > @pci0-io 0000000000000000-0000000000ffffff
+> > >     00000000f9000000-00000000f9ffffff (prio 0, i/o): alias pci0-mem1-win
+> > > @pci0-mem 0000000000000000-0000000000ffffff
+> > >     00000000fd000000-00000000fdffffff (prio 0, i/o): alias pci1-mem1-win
+> > > @pci1-mem 0000000000000000-0000000000ffffff
+> > >     00000000fe000000-00000000feffffff (prio 0, i/o): alias pci1-io-win
+> > > @pci1-io 0000000000000000-0000000000ffffff
+> > >     00000000ff800000-00000000ffffffff (prio 0, i/o): alias pci1-mem3-win
+> > > @pci1-mem 00000000ff800000-00000000ffffffff
+> > >     00000000fff00000-00000000fff7ffff (prio 0, rom): pegasos2.rom
+> > > 
+> > > The guest (which is big endian PPC and I think wotks on real hardware)
+> > > writes to 0xf05 in the io region which should be the high byte of the
+> > > little endian register but in the acpi code it comes out wrong, instead
+> > > of 0x2800 I get in acpi_pm1_cnt_write: val=0x28
+> > 
+> > Looks like a northbridge issue (MV64340).
+> > Does Pegasos2 enables bus swapping?
+> > See hw/pci-host/mv64361.c:585:
+> > 
+> > static void warn_swap_bit(uint64_t val)
+> > {
+> >    if ((val & 0x3000000ULL) >> 24 != 1) {
+> >        qemu_log_mask(LOG_UNIMP, "%s: Data swap not implemented", __func__);
+> >    }
+> > }
+> 
+> No, guests don't use this feature just byteswap themselves and write little
+> endian values to the mapped io region. (Or in this case just write one byte
+> of the 16 bit value, it specifically writes 0x28 to 0xf05.) That's why I
+> think the device model should not byteswap itself so the acpi regions should
+> be declared native endian and let the guest handle it. Some mentions I've
+> found say that native endian means don't byteswap, little endian means
+> byteswap if vcpu is big endian and big endian means byteswap if vcpu is
+> little endian. Since guests already account for this and write little endian
+> values to these regions there's no need to byteswap in device model and
+> changing to native endian should not affect little endian machines so unless
+> there's a better argument I'll try sending a patch.
+> 
+> Regards,
+> BALATON Zoltan
 
-This makes pcie hotplug behave more like acpi hotplug, where one can
-try sending an 'device_del' monitor command again in case the guest
-didn't respond to the first attempt.
+native endian means endian-ness is open-coded in the device handler
+itself.  I think you just found a bug in memory core.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+static const MemoryRegionOps acpi_pm_cnt_ops = {
+    .read = acpi_pm_cnt_read,
+    .write = acpi_pm_cnt_write,
+    .impl.min_access_size = 2,
+    .valid.min_access_size = 1,
+    .valid.max_access_size = 2,
+    .endianness = DEVICE_LITTLE_ENDIAN,
+};
+
+
+Because of that     .impl.min_access_size = 2,
+the 1 byte write should be converted to a 2 byte
+read+2 byte write.
+
+docs/devel/memory.rst just says:
+- .impl.min_access_size, .impl.max_access_size define the access sizes
+  (in bytes) supported by the *implementation*; other access sizes will be
+  emulated using the ones available.  For example a 4-byte write will be
+  emulated using four 1-byte writes, if .impl.max_access_size = 1.
+
+
+
+Instead what we have is:
+
+MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
+                                         hwaddr addr,
+                                         uint64_t data,
+                                         MemOp op,
+                                         MemTxAttrs attrs)
+{
+    unsigned size = memop_size(op);
+
+    if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
+        unassigned_mem_write(mr, addr, data, size);
+        return MEMTX_DECODE_ERROR;
+    }
+
+    adjust_endianness(mr, &data, op);
+
+
 ---
- include/hw/qdev-core.h | 1 +
- hw/pci/pcie.c          | 2 ++
- softmmu/qdev-monitor.c | 4 +++-
- 3 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 4ff19c714bd8..d082a9a00aca 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -180,6 +180,7 @@ struct DeviceState {
-     char *canonical_path;
-     bool realized;
-     bool pending_deleted_event;
-+    int64_t pending_deleted_expires_ms;
-     QemuOpts *opts;
-     int hotplugged;
-     bool allow_unplug_during_migration;
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index f3ac04399969..477c8776aa27 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -549,6 +549,8 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
-     }
- 
-     dev->pending_deleted_event = true;
-+    dev->pending_deleted_expires_ms =
-+        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 5000; /* 5 secs */
- 
-     /* In case user cancel the operation of multi-function hot-add,
-      * remove the function that is unexposed to guest individually,
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 0705f008466d..5e7960c52a0a 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -910,7 +910,9 @@ void qmp_device_del(const char *id, Error **errp)
- {
-     DeviceState *dev = find_device_state(id, errp);
-     if (dev != NULL) {
--        if (dev->pending_deleted_event) {
-+        if (dev->pending_deleted_event &&
-+            (dev->pending_deleted_expires_ms == 0 ||
-+             dev->pending_deleted_expires_ms > qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL))) {
-             error_setg(errp, "Device %s is already in the "
-                              "process of unplug", id);
-             return;
+
+static void adjust_endianness(MemoryRegion *mr, uint64_t *data, MemOp op)
+{
+    if ((op & MO_BSWAP) != devend_memop(mr->ops->endianness)) {
+        switch (op & MO_SIZE) {
+        case MO_8:
+            break;
+        case MO_16:
+            *data = bswap16(*data);
+            break;
+        case MO_32:
+            *data = bswap32(*data);
+            break;
+        case MO_64:
+            *data = bswap64(*data);
+            break;
+        default:
+            g_assert_not_reached();
+        }
+    }
+}
+
+so the byte swap is based on size before extending it to
+.impl.min_access_size, not after.
+
+Also, no read happens which I suspect is also a bug,
+but could be harmless ...
+
+Paolo, any feedback here?
+
 -- 
-2.31.1
+MST
 
 
