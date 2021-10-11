@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7AB429972
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 00:28:28 +0200 (CEST)
-Received: from localhost ([::1]:45166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A224742997A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 00:31:28 +0200 (CEST)
+Received: from localhost ([::1]:47338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ma3mV-0000de-SQ
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 18:28:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59124)
+	id 1ma3pP-00026u-No
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 18:31:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ma3lD-0008K0-Ar
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 18:27:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45797)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ma3mH-0000oq-L2
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 18:28:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ma3l9-00030R-OE
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 18:27:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ma3mF-0003Vx-PO
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 18:28:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633991222;
+ s=mimecast20190719; t=1633991290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sm+njK8nuzPKx70OYGQJvVHe5rtN7ZspPDGnLwYZg5s=;
- b=G2wG5Wp3q4Tjx3fYPQHZA3Dlal//I7DzJq4bmU8dYkmKHWUaH6dtwVP2M3L9N8eLxjyA3l
- A/bmf8+Bvg2bEALT6A+RSQQcPfvH/Ax7hJlp3qy2Hb67DuusRPtvgXdlheG8nfNTBF8kXK
- lP7VFQBOgrJ0484QkMkd7j/JvxHLcHM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-gz3CXMr-NwGN4mDQz5fC_g-1; Mon, 11 Oct 2021 18:26:47 -0400
-X-MC-Unique: gz3CXMr-NwGN4mDQz5fC_g-1
-Received: by mail-wr1-f69.google.com with SMTP id
- y12-20020a056000168c00b00160da4de2c7so11175037wrd.5
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 15:26:46 -0700 (PDT)
+ bh=SbpLwm9pZznXJQT8rFPiD/8nq0Yb+qZxk1wkGmlHlWU=;
+ b=exaOK2KhI9KLvOXsHK2f8liAJTVFFkSFCOJSvffiYFttGyXqML43m6gXO9DHF7Yaf/fub0
+ t1+uEpDsfWSBSuKE2Wgi35Bv7W7iQLv/w8HxiVBe1qFFszVQQVAMJZn9AxLegE0WMC92kR
+ 0tzZlOY+c/zNB2PJ+xZnSq+vEJoLt+8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-515-fBlJcwtDNPyKjXx_LPtSDQ-1; Mon, 11 Oct 2021 18:28:08 -0400
+X-MC-Unique: fBlJcwtDNPyKjXx_LPtSDQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ k2-20020adfc702000000b0016006b2da9bso14248487wrg.1
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 15:28:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Sm+njK8nuzPKx70OYGQJvVHe5rtN7ZspPDGnLwYZg5s=;
- b=h3cEWFFKvQWfgHxc0d0gN41Df75mQ7fK1OijQFk1TKfyXrOJclsYcGlxMu30yRU2bQ
- oBVz0M6FXVj/gXf2wLrqKPsz/O8qV4YDkoapjBhSXOX1/Ut54sBJc3O98IHFKKykZ2HH
- 9n8130Kjm0TnMPEuX+AkW4NPfDOyweZ/rMyaI0EQZFBenJVfYwVVnmG4cM0DuHsANgix
- iIkGisHcdV8cFJD87wUD9kOVxVS2xO2y6hlf1GiU//eekQNUqKE54o+US8IjTnA88o+m
- VZDd2H1IVQcrC/0tTHcNvHyRs4gQCDD/t7R1WDv3OV3Fq2CoSvqqhhuto7XA4kW/a9pv
- Q00w==
-X-Gm-Message-State: AOAM533fe5UirnBkW0riByTMQ/0GyFq4nL5PujkBSsbDQafCfUg0bUK0
- 2Uv+MUjqA2ZA/rrRQ8N8e4cBWReatUjjS6eCIWhK2YvSglINcJjUUWLxaxBSuN0PWKUpSk0+KCD
- TxzH79UjPX3kah1w=
-X-Received: by 2002:a1c:ed0a:: with SMTP id l10mr1880402wmh.140.1633991205979; 
- Mon, 11 Oct 2021 15:26:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxi3U4cnXfCdK7VHDGXN6phFfSprujS8l0NK1giLYa+BvbhotQeJ9q/7Y1+EPEpNCGhFNm9g==
-X-Received: by 2002:a1c:ed0a:: with SMTP id l10mr1880367wmh.140.1633991205751; 
- Mon, 11 Oct 2021 15:26:45 -0700 (PDT)
+ bh=SbpLwm9pZznXJQT8rFPiD/8nq0Yb+qZxk1wkGmlHlWU=;
+ b=BUL1xy11N6xof3RSQGrqa6akPyrASL35Q3EAgeZ4z2YieUVHipuzxxUZJ7PG2bjxTq
+ OK9ggO607c7RdUtBDxl1N8bokvYs39psgyitglDO+4CahIPVR18e3Udfb/5kwS1RD8bF
+ A4w0a2gHQrF8xEukx1n63Y/lNza2setXf/vw62rxGyJieAujAIY+U0BGJKTOGQaItDmh
+ SOrAJFj3W1WA4p7NMGALIGzGhWXxXyXVdaK4LRO+xKRktMhVo7eQOCclvY2Kj+IGGJUE
+ 6+KHZlreiN2PPSfqHwquOZM8go4ddrTgzsgTkevQ6LqSp0evBPHGA+5q7cTqZDaI9v3r
+ SRWA==
+X-Gm-Message-State: AOAM531A3AgzpSjS/a2DT9CgrU8jCDd6/uA0828AZttZ9l7sEoJQC7tE
+ 3wQJMbzI2/IgxVuOrmequyC8xhr9ElxgikhhHLG2AlFYi9hmHgGXqJjj2FO+HaRLT9MUYmP3XtD
+ NXBN2Ver0RpYG0h0=
+X-Received: by 2002:adf:a496:: with SMTP id g22mr28793450wrb.13.1633991287818; 
+ Mon, 11 Oct 2021 15:28:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzUgbmn07wDZupLiid0qk7DOWS18LGcqL23a7HwKPWiAVfw+HgoOU3blWRgBbohWJduwochnQ==
+X-Received: by 2002:adf:a496:: with SMTP id g22mr28793428wrb.13.1633991287643; 
+ Mon, 11 Oct 2021 15:28:07 -0700 (PDT)
 Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id z6sm4860409wro.25.2021.10.11.15.26.44
+ by smtp.gmail.com with ESMTPSA id p11sm772376wmi.0.2021.10.11.15.28.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Oct 2021 15:26:45 -0700 (PDT)
-Message-ID: <17984661-19d2-18a2-a2a2-f2aa68d96194@redhat.com>
-Date: Tue, 12 Oct 2021 00:26:44 +0200
+ Mon, 11 Oct 2021 15:28:07 -0700 (PDT)
+Message-ID: <a3e15dc2-5c33-d785-7bb8-b70e1722ce3f@redhat.com>
+Date: Tue, 12 Oct 2021 00:28:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v3 12/12] vfio-user: acceptance test
-To: Jagannathan Raman <jag.raman@oracle.com>, qemu-devel@nongnu.org
-References: <cover.1633929457.git.jag.raman@oracle.com>
- <b5d78f1452a85057c257e1f9efca527d05ff0388.1633929457.git.jag.raman@oracle.com>
+Subject: Re: [PATCH] Trim some trailing space from human-readable output
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20211009152401.2982862-1-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <b5d78f1452a85057c257e1f9efca527d05ff0388.1633929457.git.jag.raman@oracle.com>
+In-Reply-To: <20211009152401.2982862-1-armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -77,7 +76,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -99,74 +98,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
- swapnil.ingle@nutanix.com, john.levon@nutanix.com, alex.williamson@redhat.com,
- marcandre.lureau@gmail.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
- pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: jcmvbkbc@gmail.com, groug@kaod.org, jiri@resnulli.us, ehabkost@redhat.com,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/21 07:31, Jagannathan Raman wrote:
-> Acceptance test for libvfio-user in QEMU
+On 10/9/21 17:24, Markus Armbruster wrote:
+> I noticed -cpu help printing enough trailing spaces to make the output
+> at least 84 characters wide.  Looks ugly unless the terminal is wider.
+> Ugly or not, trailing spaces are stupid.
 > 
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> The culprit is this line in x86_cpu_list_entry():
+> 
+>     qemu_printf("x86 %-20s  %-58s\n", name, desc);
+> 
+> This prints a string with minimum field left-justified right before a
+> newline.  Change it to
+> 
+>     qemu_printf("x86 %-20s  %s\n", name, desc);
+> 
+> which avoids the trailing spaces and is simpler to boot.
+> 
+> A search for the pattern with "git-grep -E '%-[0-9]+s\\n'" found a few
+> more instances.  Change them similarly.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  MAINTAINERS                   |  1 +
->  tests/acceptance/vfio-user.py | 96 +++++++++++++++++++++++++++++++++++
->  2 files changed, 97 insertions(+)
->  create mode 100644 tests/acceptance/vfio-user.py
+>  monitor/hmp-cmds.c         | 2 +-
+>  target/i386/cpu-dump.c     | 4 ++--
+>  target/i386/cpu.c          | 2 +-
+>  target/ppc/cpu_init.c      | 2 +-
+>  target/s390x/cpu_models.c  | 4 ++--
+>  target/xtensa/mmu_helper.c | 2 +-
+>  6 files changed, 8 insertions(+), 8 deletions(-)
 
-> +class VfioUser(Test):
-> +    """
-> +    :avocado: tags=vfiouser
-> +    """
-> +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-> +
-> +    def do_test(self, kernel_url, initrd_url, kernel_command_line,
-> +                machine_type):
-> +        """Main test method"""
-> +        self.require_accelerator('kvm')
-> +
-> +        kernel_path = self.fetch_asset(kernel_url)
-> +        initrd_path = self.fetch_asset(initrd_url)
-> +
-> +        socket = os.path.join('/tmp', str(uuid.uuid4()))
-> +        if os.path.exists(socket):
-> +            os.remove(socket)
-> +
-> +        # Create remote process
-> +        remote_vm = self.get_vm()
-> +        remote_vm.add_args('-machine', 'x-remote')
-> +        remote_vm.add_args('-nodefaults')
-> +        remote_vm.add_args('-device', 'lsi53c895a,id=lsi1')
-> +        remote_vm.add_args('-object', 'vfio-user,id=vfioobj1,'
-> +                           'devid=lsi1,socket='+socket)
+Nitpicking, do you mind prefixing the patch subject with 'monitor:'?
 
-Nitpicking for style: spaces around '+' here,
-
-> +        remote_vm.launch()
-> +
-> +        # Create proxy process
-> +        self.vm.set_console()
-> +        self.vm.add_args('-machine', machine_type)
-> +        self.vm.add_args('-accel', 'kvm')
-> +        self.vm.add_args('-cpu', 'host')
-> +        self.vm.add_args('-object',
-> +                         'memory-backend-memfd,id=sysmem-file,size=2G')
-> +        self.vm.add_args('--numa', 'node,memdev=sysmem-file')
-> +        self.vm.add_args('-m', '2048')
-> +        self.vm.add_args('-kernel', kernel_path,
-> +                         '-initrd', initrd_path,
-> +                         '-append', kernel_command_line)
-> +        self.vm.add_args('-device',
-> +                         'vfio-user-pci,'
-> +                         'socket='+socket)
-
-and here. Otherwise:
+Otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Thanks for adding this test :)
 
 
