@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F95E42877E
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 09:11:40 +0200 (CEST)
-Received: from localhost ([::1]:35496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E707D428796
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 09:23:03 +0200 (CEST)
+Received: from localhost ([::1]:42676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZpTH-0002RQ-FC
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 03:11:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36354)
+	id 1mZpeI-0007mp-GF
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 03:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZpRE-0001bQ-Vk
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 03:09:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36674)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mZpd2-000768-Vx
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 03:21:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZpRD-0000ar-Ku
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 03:09:32 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mZpcz-0006dY-4Z
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 03:21:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633936171;
+ s=mimecast20190719; t=1633936899;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=khc/tvIdKIoA9knrPZpjiSLEP82Gnlag1a0g2epACgc=;
- b=MHayM9pMW2xwlhqDJg4Kjqh9nJW4iIYbsgu00EwKprnEIqKFHbTufRroDY1iyD8Rxb1Gwr
- h6A0c5lByLuis5giBMIZFdVTEeARzBj/dH4ryy6N18+VNLNBJLbeW95UPQ3kmy2sfIcMvD
- bnadpvmZqJbYyx/HXKY0gzF2ycyfVEI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-72F2qNd2MHmBnbz0dUh79g-1; Mon, 11 Oct 2021 03:09:28 -0400
-X-MC-Unique: 72F2qNd2MHmBnbz0dUh79g-1
-Received: by mail-wr1-f69.google.com with SMTP id
- 10-20020a5d47aa000000b001610cbda93dso1278694wrb.23
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 00:09:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=khc/tvIdKIoA9knrPZpjiSLEP82Gnlag1a0g2epACgc=;
- b=VOL8xe4ofCbtwjfTyaBJAm3RKLtl2nIwLDO8ciDtZIomX38YAVwABSonkHQ0C3YwEy
- F+nwwEnXEO4Yq8oDt2khm2xgSJh5zDkMxQCl8Z+FyFT0xdzTID+OFItoTn+SsVpWfw9N
- DLZquGg+3i2PS/5Sv529k/ESZQfFEcea6CmMODj2Jc8SVrBrOEi5a6j8QMMYVYra+JeA
- 6dQWGbCX5MtG+TcKfYHNRS7QW+LT1/Xe6rGp64U1bKOMLJuvd6hxymwCkJPB6EgeV5w3
- Z34vdqg5qCUh3ifHCwlZBgSxpP1lDDt+DmAe/XD0Wa/zoUyZM88FVA4xZ+gNcnIYdzd3
- ebSA==
-X-Gm-Message-State: AOAM533NBfzeCEzm63jdopWcHy8b13gGUkgkoY2OfAhZOUI06eHm8qn1
- q1H2priqMWPbdMpAV1HXkExvLS/kxp/QC02wn4q777m68Xtry/6JvJeEqt5Jw0da2+tol6OX0p1
- DJO2kYZTC/9Y0mYM=
-X-Received: by 2002:a1c:9a4d:: with SMTP id c74mr18772072wme.139.1633936166794; 
- Mon, 11 Oct 2021 00:09:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+ZZCROK8nhXsiRLM+Em8LYrWNVr3r1dAKwbD1SdULd9brFs3fty6mUsGQoicsGsh0nsSHYw==
-X-Received: by 2002:a1c:9a4d:: with SMTP id c74mr18772058wme.139.1633936166629; 
- Mon, 11 Oct 2021 00:09:26 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c64ba.dip0.t-ipconnect.de. [91.12.100.186])
- by smtp.gmail.com with ESMTPSA id k18sm2945905wmi.2.2021.10.11.00.09.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Oct 2021 00:09:26 -0700 (PDT)
-Subject: Re: [RFC PATCH v1 2/2] s390x/kvm: Pass SIGP Stop flags
-To: Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20211008203811.1980478-1-farman@linux.ibm.com>
- <20211008203811.1980478-3-farman@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <0addcdbc-50cb-420d-5864-af3a8a894321@redhat.com>
-Date: Mon, 11 Oct 2021 09:09:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=haOhTD444/Ft2rRWDKH1rJO8mzJe9iFJVI5GcB69AzY=;
+ b=VRIwAdbfQH1tNlVUx2dwFoO6Yp0RaJtD6dpAVwow1mD0QLhK0NZHzBQ93qpn85cAAEhlTo
+ s0zpiWFdKEb7e40kVqJDK9xBXlafO+4IKKi53V409nDtCYAEezkNOGTYb6ZCSi6KNRaRmb
+ AmU9OGivYSczL2EMi0ojOytoSAGqm2I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-MtvfyZOnPkSm8DRAcjIMTQ-1; Mon, 11 Oct 2021 03:21:35 -0400
+X-MC-Unique: MtvfyZOnPkSm8DRAcjIMTQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2090362F8;
+ Mon, 11 Oct 2021 07:21:34 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CDADD5D6CF;
+ Mon, 11 Oct 2021 07:21:31 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 1B9E118009D4; Mon, 11 Oct 2021 09:21:30 +0200 (CEST)
+Date: Mon, 11 Oct 2021 09:21:30 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: Moving QEMU downloads to GitLab Releases?
+Message-ID: <20211011072130.i3vemilk23o4djdz@sirius.home.kraxel.org>
+References: <YVW+ZGmIs+repvj4@stefanha-x1.localdomain>
+ <769a612c-9a78-6fc8-0893-43ce2c173957@amsat.org>
+ <YVrC4niegCWq+1kM@stefanha-x1.localdomain>
+ <163337608907.347510.4401699281486806089@amd.com>
+ <YVxTHAMCVncGvbFi@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20211008203811.1980478-3-farman@linux.ibm.com>
+In-Reply-To: <YVxTHAMCVncGvbFi@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,45 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Janosch Frank <frankja@linux.ibm.com>
+Cc: Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.10.21 22:38, Eric Farman wrote:
-> When building a Stop IRQ to pass to KVM, we should incorporate
-> the flags if handling the SIGP Stop and Store Status order.
-> With that, KVM can reject other orders that are submitted for
-> the same CPU while the operation is fully processed.
+  Hi,
+
+> > I guess the main question is who is using the ROM/BIOS sources in the
+> > tarballs, and would this 2-step process work for those users? If there
+> > are distros relying on them then maybe there are some more logistics to
+> > consider since the make-release downloads are both time-consuming and
+> > prone to network errors/stalls since it relies on the availability of a
+> > good number of different hosts.
 > 
-> Signed-off-by: Eric Farman <farman@linux.ibm.com>
-> Acked-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->   target/s390x/kvm/kvm.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-> index 5b1fdb55c4..701b9ddc88 100644
-> --- a/target/s390x/kvm/kvm.c
-> +++ b/target/s390x/kvm/kvm.c
-> @@ -2555,6 +2555,10 @@ void kvm_s390_stop_interrupt(S390CPU *cpu)
->           .type = KVM_S390_SIGP_STOP,
->       };
->   
-> +    if (cpu->env.sigp_order == SIGP_STOP_STORE_STATUS) {
-> +        irq.u.stop.flags = KVM_S390_STOP_FLAG_STORE_STATUS;
-> +    }
-> +
+> Great, maybe Gerd can comment on splitting out firmware.
 
-KVM_S390_STOP_FLAG_STORE_STATUS tells KVM to perform the store status as 
-well ... is that really what we want?
+I think the binaries are mostly a convenience feature for developers.
+Distros typically build from source anyway, and typically they build
+from upstream source instead of qemu submodule.
 
-Maybe we want a different (more generic) way to tell KVM that a CPU is 
-temporarily busy for SIGP orders?
+The idea to split them out to a separate repo is exists for quite a
+while.  I have an old qemu-firmware repo laying around on my disk, which
+basically moves roms/ + submodules and the binaries built from it over.
 
--- 
-Thanks,
+I think with the switch to gitlab it doesn't make sense any more to
+commit pre-built firmware binaries to a git repo.  Instead we should
+build the firmware in gitlab ci, i.e. effectively move the build rules
+we have right now in roms/Makefile to .gitlab-ci.d/, then publish the
+firmware binaries as build artifacts or gitlab pages.
 
-David / dhildenb
+When done just remove the pre-build binaries from git and add a helper
+script to fetch firmware binaries from gitlab instead.
+
+> QEMU mirrors firmware sources on GitLab too. We're able to provide the
+> same level of download availability on our mirror firmware repos as for
+> the main qemu.git repo.
+
+I think enabling CI for the firmware mirrors should work given that it
+is possible to specify a custom CI/CD configuration file, i.e. use
+something like
+
+    /qemu-project/qemu/.gitlab-ci.d/firmware/seabios.yml
+
+or
+
+    /qemu-project/qemu-firmware/seabios.yml
+
+as config file for the 
+
+    /qemu-project/seabios/
+
+mirror.  Then we can publish binaries using gitlab pages at
+
+    https://qemu-project.gitlab.io/seabios/
+
+That way we also don't need the roms/ submodules any more, i.e. we
+can remove both sources and binaries for the firmware from the
+release tarballs.
+
+take care,
+  Gerd
 
 
