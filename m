@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1432342977C
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 21:18:46 +0200 (CEST)
-Received: from localhost ([::1]:40708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DAAB429791
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 21:29:45 +0200 (CEST)
+Received: from localhost ([::1]:44228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ma0ou-0005oT-4a
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 15:18:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47172)
+	id 1ma0zX-0000EY-SV
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 15:29:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ma0nj-00052C-Ub
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 15:17:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27468)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ma0yU-0007xp-VY
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 15:28:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ma0ng-0005JG-7A
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 15:17:30 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ma0yQ-0002JY-Ov
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 15:28:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633979846;
+ s=mimecast20190719; t=1633980513;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kwkXnr37FRvElGN1jiUnXY3M3/yINf8Y0Q8jVJ9foWo=;
- b=PZE3+XCBg2Q7WeMg2Pw6mkssd3RJxNUNfUvINcj+dDYRekeDJ2eD0vopUdTZJqiI2tFvw1
- Ut27jEAN3HQOvWkufVIXGS22gRvYByt5WBxcKpKLLc/KDYui9zaQ4ZjixujvGDMq1yXHPH
- 0DuTbAJjNcYghOw5t9MAjtSRL9DGwHM=
+ bh=xQJE9E92a/t1InxoWwJm3s2TQDHg3rgNerbJLHAO7Ow=;
+ b=CG6Y/DR+VzXpxnuWqRcoar0G85I3UQyh012ElM64YHyWABJcZ3Wvot6fC71h4rk+aj756N
+ iKrFQndCGbICIHgz2SmUKQ/04NgzC96bApVUsEqZAPTGFCom+VN5l7pM4sFMiuXeCnCbJe
+ YsgBAQYPUGjgslZec3bQYKo/1ktQVX8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-3EPTtPx5Pp6aAYo3iREcxg-1; Mon, 11 Oct 2021 15:17:22 -0400
-X-MC-Unique: 3EPTtPx5Pp6aAYo3iREcxg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-460-sy9TFgndNqqEOlA_uyb_4A-1; Mon, 11 Oct 2021 15:28:32 -0400
+X-MC-Unique: sy9TFgndNqqEOlA_uyb_4A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85699835DE0
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 19:17:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7344584A5F8
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 19:28:31 +0000 (UTC)
 Received: from redhat.com (ovpn-113-152.phx2.redhat.com [10.3.113.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F7A32657D;
- Mon, 11 Oct 2021 19:17:11 +0000 (UTC)
-Date: Mon, 11 Oct 2021 14:17:08 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65DAFADC9;
+ Mon, 11 Oct 2021 19:27:17 +0000 (UTC)
+Date: Mon, 11 Oct 2021 14:27:10 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v4 1/3] QIOChannel: Add io_writev_zerocopy &
- io_flush_zerocopy callbacks
-Message-ID: <20211011191708.or43v24srlm6srog@redhat.com>
+Subject: Re: [PATCH v4 2/3] QIOChannelSocket: Implement io_writev_zerocopy &
+ io_flush_zerocopy for CONFIG_LINUX
+Message-ID: <20211011192710.vu7yhmtit5uo4m4j@redhat.com>
 References: <20211009075612.230283-1-leobras@redhat.com>
- <20211009075612.230283-2-leobras@redhat.com>
+ <20211009075612.230283-3-leobras@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211009075612.230283-2-leobras@redhat.com>
+In-Reply-To: <20211009075612.230283-3-leobras@redhat.com>
 User-Agent: NeoMutt/20210205-852-339c0c
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,230 +85,92 @@ Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 09, 2021 at 04:56:11AM -0300, Leonardo Bras wrote:
-> Adds io_async_writev and io_async_flush as optional callback to QIOChannelClass,
-
-Are these names accurate?
-
-> allowing the implementation of asynchronous writes by subclasses.
+On Sat, Oct 09, 2021 at 04:56:12AM -0300, Leonardo Bras wrote:
+> For CONFIG_LINUX, implement the new optional callbacks io_write_zerocopy and
+> io_flush_zerocopy on QIOChannelSocket, but enables it only when MSG_ZEROCOPY
+> feature is available in the host kernel, which is checked on
+> qio_channel_socket_connect_sync()
 > 
-> How to use them:
-> - Write data using qio_channel_writev_zerocopu(),
-
-s/copu/copy/
-
-> - Wait write completion with qio_channel_flush_zerocopy().
+> qio_channel_socket_writev() contents were moved to a helper function
+> qio_channel_socket_writev_flags() which accepts an extra argument for flags.
+> (This argument is passed directly to sendmsg().
 > 
-> Notes:
-> As some zerocopy implementations work asynchronously, it's
-> recommended to keep the write buffer untouched until the return of
-> qio_channel_flush_zerocopy(), by the risk of sending an updated buffer
+> The above helper function is used to implement qio_channel_socket_writev(),
+> with flags = 0, keeping it's behavior unchanged, and
 
-s/by/to avoid/
+its (remember, "it's" is shorthand for "it is", which does not fit here)
 
-> instead of the one at the write.
+> qio_channel_socket_writev_zerocopy() with flags = MSG_ZEROCOPY.
 > 
-> As the new callbacks are optional, if a subclass does not implement them, then:
-> - io_async_writev will return -1,
-> - io_async_flush will return 0 without changing anything.
+> qio_channel_socket_flush_zerocopy() was implemented by counting how many times
+> sendmsg(...,MSG_ZEROCOPY) was sucessfully called, and then reading the
+> socket's error queue, in order to find how many of them finished sending.
+> Flush will loop until those counters are the same, or until some error ocurs.
 
-Are these names accurate?
+occurs
 
 > 
-> Also, some functions like qio_channel_writev_full_all() were adapted to
-> receive a flag parameter. That allows shared code between zerocopy and
-> non-zerocopy writev.
+> A new function qio_channel_socket_poll() was also created in order to avoid
+> busy-looping recvmsg() in qio_channel_socket_flush_zerocopy() while waiting for
+> updates in socket's error queue.
+> 
+> Notes on using writev_zerocopy():
+> 1: Buffer
+> - As MSG_ZEROCOPY tells the kernel to use the same user buffer to avoid copying,
+> some caution is necessary to avoid overwriting any buffer before it's sent.
+> If something like this happen, a newer version of the buffer may be sent instead.
+> - If this is a problem, it's recommended to call flush_zerocopy() before freeing
+> or re-using the buffer.
+> 
+> 2: Locked memory
+> - When using MSG_ZERCOCOPY, the buffer memory will be locked after queued, and
+> unlocked after it's sent.
+> - Depending on the size of each buffer, and how often it's sent, it may require
+> a larger amount of locked memory than usually available to non-root user.
+> - If the required amount of locked memory is not available, writev_zerocopy
+> will return an error, which can abort an operation like migration,
+> - Because of this, when an user code wants to add zerocopy as a feature, it
+> requires a mechanism to disable it, so it can still be acessible to less
+> privileged users.
 > 
 > Signed-off-by: Leonardo Bras <leobras@redhat.com>
 > ---
->  include/io/channel.h | 103 +++++++++++++++++++++++++++++++++++--------
->  io/channel.c         |  74 +++++++++++++++++++++++--------
->  2 files changed, 141 insertions(+), 36 deletions(-)
+>  include/io/channel-socket.h |   2 +
+>  include/io/channel.h        |   1 +
+>  io/channel-socket.c         | 180 ++++++++++++++++++++++++++++++++++--
+>  3 files changed, 173 insertions(+), 10 deletions(-)
 > 
-> diff --git a/include/io/channel.h b/include/io/channel.h
-> index 88988979f8..e7d4e1521f 100644
-> --- a/include/io/channel.h
-> +++ b/include/io/channel.h
-> @@ -32,12 +32,15 @@ OBJECT_DECLARE_TYPE(QIOChannel, QIOChannelClass,
->  
->  #define QIO_CHANNEL_ERR_BLOCK -2
->  
-> +#define QIO_CHANNEL_WRITE_FLAG_ZEROCOPY 0x1
-> +
->  typedef enum QIOChannelFeature QIOChannelFeature;
->  
->  enum QIOChannelFeature {
->      QIO_CHANNEL_FEATURE_FD_PASS,
->      QIO_CHANNEL_FEATURE_SHUTDOWN,
->      QIO_CHANNEL_FEATURE_LISTEN,
-> +    QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY,
->  };
->  
->  
-> @@ -136,6 +139,12 @@ struct QIOChannelClass {
->                                    IOHandler *io_read,
->                                    IOHandler *io_write,
->                                    void *opaque);
-> +    ssize_t (*io_writev_zerocopy)(QIOChannel *ioc,
-> +                                  const struct iovec *iov,
-> +                                  size_t niov,
-> +                                  Error **errp);
-> +    int (*io_flush_zerocopy)(QIOChannel *ioc,
-> +                              Error **errp);
-
-Indentation is off by one.
-
->  };
->  
->  /* General I/O handling functions */
-> @@ -222,12 +231,13 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
->  
->  
->  /**
-> - * qio_channel_writev_full:
-> + * qio_channel_writev_full_flags:
->   * @ioc: the channel object
->   * @iov: the array of memory regions to write data from
->   * @niov: the length of the @iov array
->   * @fds: an array of file handles to send
->   * @nfds: number of file handles in @fds
-> + * @flags: write flags (QIO_CHANNEL_WRITE_FLAG_*)
->   * @errp: pointer to a NULL-initialized error object
->   *
->   * Write data to the IO channel, reading it from the
-> @@ -242,6 +252,10 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
->   * guaranteed. If the channel is non-blocking and no
->   * data can be sent, it will return QIO_CHANNEL_ERR_BLOCK
->   *
-> + * If flag QIO_CHANNEL_WRITE_FLAG_ZEROCOPY is passed,
-> + * function will return once each buffer was queued for
-> + * sending.
-
-This would be a good place to document the requirement to keep the
-buffer unchanged until the zerocopy sequence completes.
-
->                                 Error **errp);
->  
->  /**
-> - * qio_channel_writev_full_all:
-> + * qio_channel_writev_full_all_flags:
->   * @ioc: the channel object
->   * @iov: the array of memory regions to write data from
->   * @niov: the length of the @iov array
->   * @fds: an array of file handles to send
->   * @nfds: number of file handles in @fds
-> + * @flags: write flags (QIO_CHANNEL_WRITE_FLAG_*)
->   * @errp: pointer to a NULL-initialized error object
->   *
->   *
-> @@ -846,13 +868,58 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
->   * to be written, yielding from the current coroutine
->   * if required.
->   *
-> + * If QIO_CHANNEL_WRITE_FLAG_ZEROCOPY is passed in flags,
-> + * instead of waiting for all requested data to be written,
-> + * this function will wait until it's all queued for writing.
-
-Another good place to document restrictions on buffer stability.
-
-> + *
->   * Returns: 0 if all bytes were written, or -1 on error
->   */
->  
-> -int qio_channel_writev_full_all(QIOChannel *ioc,
-> -                                const struct iovec *iov,
-> -                                size_t niov,
-> -                                int *fds, size_t nfds,
-> -                                Error **errp);
-> +int qio_channel_writev_full_all_flags(QIOChannel *ioc,
-> +                                      const struct iovec *iov,
-> +                                      size_t niov,
-> +                                      int *fds, size_t nfds,
-> +                                      int flags, Error **errp);
-> +#define qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, errp) \
-> +    qio_channel_writev_full_all_flags(ioc, iov, niov, fds, nfds, 0, errp)
-> +
-> +/**
-> + * qio_channel_writev_zerocopy:
-> + * @ioc: the channel object
-> + * @iov: the array of memory regions to write data from
-> + * @niov: the length of the @iov array
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + * Behaves like qio_channel_writev_full_all_flags, but will write
-> + * data asynchronously while avoiding unnecessary data copy.
-> + * This function may return before any data is actually written,
-> + * but should queue every buffer for writting.
-
-writing
-
-Another place to document buffer stability considerations.
-
-> + *
-> + * If at some point it's necessary wait for all data to be
-
-s/wait/to wait/
-
-> + * written, use qio_channel_flush_zerocopy().
-> + *
-> + * If zerocopy is not available, returns -1 and set errp.
-> + */
-> +
-> +ssize_t qio_channel_writev_zerocopy(QIOChannel *ioc,
-> +                                    const struct iovec *iov,
-> +                                    size_t niov,
-> +                                    Error **errp);
-> +
-> +/**
-> + * qio_channel_flush_zerocopy:
-> + * @ioc: the channel object
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + * Will lock until every packet queued with
-
-s/lock/block/
-
-> + * qio_channel_writev_zerocopy() is sent, or return
-> + * in case of any error.
-> + *
-> + * Returns -1 if any error is found, 0 otherwise.
-> + * If not implemented, returns 0 without changing anything.
-> + */
-> +
-> +int qio_channel_flush_zerocopy(QIOChannel *ioc,
-> +                               Error **errp);
->  
->  #endif /* QIO_CHANNEL_H */
-> diff --git a/io/channel.c b/io/channel.c
-> index e8b019dc36..811c93ae23 100644
-> --- a/io/channel.c
-> +++ b/io/channel.c
-
-> +int qio_channel_flush_zerocopy(QIOChannel *ioc,
-> +                               Error **errp)
+> +static int qio_channel_socket_flush_zerocopy(QIOChannel *ioc,
+> +                                             Error **errp)
 > +{
-> +    QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
+
 > +
-> +    if (!klass->io_flush_zerocopy ||
-> +        !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY)) {
-> +        return 0;
+> +        /* No errors, count sucessfully finished sendmsg()*/
 
-Matches your documentation, but an ideal app should not be trying to
-flush if the write failed in the first place.  So wouldn't it be
-better to return -1 or even abort() on a coding error?
+Space before */
 
+> +        sioc->zerocopy_sent += serr->ee_data - serr->ee_info + 1;
 > +    }
-> +
-> +    return klass->io_flush_zerocopy(ioc, errp);
+> +    return 0;
 > +}
 > +
+> +#endif /* CONFIG_LINUX */
 > +
->  static void qio_channel_restart_read(void *opaque)
->  {
->      QIOChannel *ioc = opaque;
-> -- 
-> 2.33.0
-> 
+>  static int
+>  qio_channel_socket_set_blocking(QIOChannel *ioc,
+>                                  bool enabled,
+> @@ -787,6 +943,10 @@ static void qio_channel_socket_class_init(ObjectClass *klass,
+>      ioc_klass->io_set_delay = qio_channel_socket_set_delay;
+>      ioc_klass->io_create_watch = qio_channel_socket_create_watch;
+>      ioc_klass->io_set_aio_fd_handler = qio_channel_socket_set_aio_fd_handler;
+> +#ifdef CONFIG_LINUX
+> +    ioc_klass->io_writev_zerocopy = qio_channel_socket_writev_zerocopy;
+> +    ioc_klass->io_flush_zerocopy = qio_channel_socket_flush_zerocopy;
+> +#endif
+>  }
+
+I did a high-level look at the code, rather than an in-depth review of
+whether zero-copy was being used correctly.
 
 -- 
 Eric Blake, Principal Software Engineer
