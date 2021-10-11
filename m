@@ -2,100 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48566428683
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 07:55:58 +0200 (CEST)
-Received: from localhost ([::1]:41550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A653942868C
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 07:59:34 +0200 (CEST)
+Received: from localhost ([::1]:45762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZoI1-0000Td-5P
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 01:55:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52548)
+	id 1mZoLV-0003P7-PJ
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 01:59:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mZo2G-0006N3-Jk
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 01:39:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27842)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mZoEe-00070J-PN
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 01:52:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mZo2E-0002kz-1g
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 01:39:40 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19B4482n036941; 
- Mon, 11 Oct 2021 01:39:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=4HW4pQ25GO1K6URUKRqS+7ujDcAMEDeHj0XORmuOSA8=;
- b=Fr4eXMe4OkDkyiQmqrBL1+8IzDGUg+4XlH/GOfVLDc05Wz+GqSmqX4QCgQgoN2InZsqQ
- 9al/6cazEusi2dieO+HhlZuuf94GIhONYgfFzw5/5SMHmBlarli8aWimkPx89jIVeGzp
- ORvIT7fpybLJ9ukJmQg6goAyXjRgxa85YzgQUapdX9TEfLXzAaTpFlSlHsYQwaH4EMSg
- zrCOfr22XNXArC6wQiTrcN+Cb7nEF5aWwvfW7BFqUHghCYQ2YMPoYRIHNKdqk+oH94b1
- GrBXyX5RKK/jG3gxcA8lMO6fcssgShwVAfL090RY1H7sL140D6AeZ8s0iguk/wV4DDYq qQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bm25mugj6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Oct 2021 01:39:32 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19B5K9pm038567;
- Mon, 11 Oct 2021 01:39:32 -0400
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bm25mughk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Oct 2021 01:39:32 -0400
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19B5VlGF019479;
- Mon, 11 Oct 2021 05:39:30 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma06ams.nl.ibm.com with ESMTP id 3bk2bht3y9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Oct 2021 05:39:30 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 19B5dQCl5440160
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 11 Oct 2021 05:39:27 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D9F3442045;
- Mon, 11 Oct 2021 05:39:26 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 445CB42041;
- Mon, 11 Oct 2021 05:39:26 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 11 Oct 2021 05:39:26 +0000 (GMT)
-From: Halil Pasic <pasic@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xie Yongji <xieyongji@bytedance.com>,
- virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/1] virtio: write back F_VERSION_1 before validate
-Date: Mon, 11 Oct 2021 07:39:21 +0200
-Message-Id: <20211011053921.1198936-1-pasic@linux.ibm.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mZoEa-0000aY-U7
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 01:52:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633931539;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dShaisREntm8h7FIxVB33aS5faUcSx5BNl3jM6lwQbA=;
+ b=F+MuA6t8OgK0PwZeh+07lnbXWb7SkedgTAqaVjpUmkO4wtsH/f+w6Yg+YiXaHVKXWEr6YJ
+ d9OjOcJyH14VCquDh4Xfqqtf4qZ/3rCbYFYGWs2+ZAzJHDQu76dexdjbwBXOLFs5B9yoKi
+ /UWIQAi3j9uCKZK4rpgphvQeLMmQTv0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-nmEuAMiOOQSbT-EPUllJoA-1; Mon, 11 Oct 2021 01:52:18 -0400
+X-MC-Unique: nmEuAMiOOQSbT-EPUllJoA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r25-20020adfab59000000b001609ddd5579so12328810wrc.21
+ for <qemu-devel@nongnu.org>; Sun, 10 Oct 2021 22:52:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dShaisREntm8h7FIxVB33aS5faUcSx5BNl3jM6lwQbA=;
+ b=JRHuzEAyemmUTmVkUJMeg0Cjpe6jyYOJsGwtj5yRqHn4bJVvbFzXwi0PKdb9InuefW
+ s5kY272Xdox8DNHMDlOgaz4+yMSijTuGSsaico7C2HKM82/5qF9E5//iTWqIaiLxz6Xb
+ iSDMxLySxAZF5xPrqkMV7ypUmGyCsB1WzjdxpNP5NlCqIPyZneRS/CBVQp/lBUbOXM6t
+ zXQZGAM1TaQprUyNMuWzoqsZicGj5xghxTOLRFg7fENGUHH4FMnctMXciu48qZRjFDE/
+ o5+RiF3VYb5RczqCgs6D3SAwxB3c2RZnezyd8HvbqUsUu0jXFAq8qcMctuyMS/nao2eQ
+ 1iDw==
+X-Gm-Message-State: AOAM530NwRVQw13ZnKLFvRR2nGKlFiQ8qw+cfhyf2yP1fn5gfv4H0UIt
+ ne1NKhDKN549k2mn745mOHiQuXudPJAXNYEcQgEtwcgU8j1VuS6vuR5WqBNBQkiDv916Uo8wJK0
+ 4sigPPwyqIa3buXQ=
+X-Received: by 2002:a1c:7201:: with SMTP id n1mr18516517wmc.19.1633931537245; 
+ Sun, 10 Oct 2021 22:52:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNx/9ZTP6OEsKQpyxHwI2JrtXI3QlgY0U6nGhGFiSYe3QggkMepmE/KgKW579vIIgJvblS/Q==
+X-Received: by 2002:a1c:7201:: with SMTP id n1mr18516503wmc.19.1633931537027; 
+ Sun, 10 Oct 2021 22:52:17 -0700 (PDT)
+Received: from [192.168.3.103] (120.net-94.228.4.isbl.embou.net.
+ [94.228.4.120])
+ by smtp.gmail.com with ESMTPSA id g188sm6810649wmg.46.2021.10.10.22.52.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 10 Oct 2021 22:52:16 -0700 (PDT)
+Message-ID: <612d2f0b-f312-073d-b796-c76357ba51a2@redhat.com>
+Date: Mon, 11 Oct 2021 07:52:15 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: ACPI endianness
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <957db5ec-fc70-418-44d9-da4f81f5b98@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <957db5ec-fc70-418-44d9-da4f81f5b98@eik.bme.hu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: MkvVeVrmStp-ePltWRF4RTURcd9rcOLa
-X-Proofpoint-GUID: nhX1dJtH4R_VgKXe83_52DJi-xKWhRzH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-10-10_07,2021-10-07_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxscore=0
- clxscore=1015 spamscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
- mlxlogscore=999 adultscore=0 impostorscore=0 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2110110032
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,92 +97,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, markver@us.ibm.com,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- stable@vger.kernel.org, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, stefanha@redhat.com
+Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virtio specification virtio-v1.1-cs01 states: "Transitional devices
-MUST detect Legacy drivers by detecting that VIRTIO_F_VERSION_1 has not
-been acknowledged by the driver."  This is exactly what QEMU as of 6.1
-has done relying solely on VIRTIO_F_VERSION_1 for detecting that.
+On 10/10/21 15:24, BALATON Zoltan wrote:
+> Hello,
+> 
+> I'm trying to fix shutdown and reboot on pegasos2 which uses ACPI as
+> part of the VIA VT8231 (similar to and modelled in hw/isa/vt82c686b.c)
+> and found that the guest writes to ACPI PM1aCNT register come out with
+> wrong endianness but not shure why. I have this:
+> 
+> $ qemu-system-ppc -M pegasos2 -monitor stdio
+> (qemu) info mtree
+> [...]
+> memory-region: pci1-io
+>   0000000000000000-000000000000ffff (prio 0, i/o): pci1-io
+> [...]
+>     0000000000000f00-0000000000000f7f (prio 0, i/o): via-pm
+>       0000000000000f00-0000000000000f03 (prio 0, i/o): acpi-evt
+>       0000000000000f04-0000000000000f05 (prio 0, i/o): acpi-cnt
+>       0000000000000f08-0000000000000f0b (prio 0, i/o): acpi-tmr
+> 
+> memory-region: system
+>   0000000000000000-ffffffffffffffff (prio 0, i/o): system
+>     0000000000000000-000000001fffffff (prio 0, ram): pegasos2.ram
+>     0000000080000000-00000000bfffffff (prio 0, i/o): alias pci1-mem0-win
+> @pci1-mem 0000000080000000-00000000bfffffff
+>     00000000c0000000-00000000dfffffff (prio 0, i/o): alias pci0-mem0-win
+> @pci0-mem 00000000c0000000-00000000dfffffff
+>     00000000f1000000-00000000f100ffff (prio 0, i/o): mv64361
+>     00000000f8000000-00000000f8ffffff (prio 0, i/o): alias pci0-io-win
+> @pci0-io 0000000000000000-0000000000ffffff
+>     00000000f9000000-00000000f9ffffff (prio 0, i/o): alias pci0-mem1-win
+> @pci0-mem 0000000000000000-0000000000ffffff
+>     00000000fd000000-00000000fdffffff (prio 0, i/o): alias pci1-mem1-win
+> @pci1-mem 0000000000000000-0000000000ffffff
+>     00000000fe000000-00000000feffffff (prio 0, i/o): alias pci1-io-win
+> @pci1-io 0000000000000000-0000000000ffffff
+>     00000000ff800000-00000000ffffffff (prio 0, i/o): alias pci1-mem3-win
+> @pci1-mem 00000000ff800000-00000000ffffffff
+>     00000000fff00000-00000000fff7ffff (prio 0, rom): pegasos2.rom
+> 
+> The guest (which is big endian PPC and I think wotks on real hardware)
+> writes to 0xf05 in the io region which should be the high byte of the
+> little endian register but in the acpi code it comes out wrong, instead
+> of 0x2800 I get in acpi_pm1_cnt_write: val=0x28
 
-However, the specification also says: "... the driver MAY read (but MUST
-NOT write) the device-specific configuration fields to check that it can
-support the device ..." before setting FEATURES_OK.
+Looks like a northbridge issue (MV64340).
+Does Pegasos2 enables bus swapping?
+See hw/pci-host/mv64361.c:585:
 
-In that case, any transitional device relying solely on
-VIRTIO_F_VERSION_1 for detecting legacy drivers will return data in
-legacy format.  In particular, this implies that it is in big endian
-format for big endian guests. This naturally confuses the driver which
-expects little endian in the modern mode.
-
-It is probably a good idea to amend the spec to clarify that
-VIRTIO_F_VERSION_1 can only be relied on after the feature negotiation
-is complete. Before validate callback existed, config space was only
-read after FEATURES_OK. However, we already have two regressions, so
-let's address this here as well.
-
-The regressions affect the VIRTIO_NET_F_MTU feature of virtio-net and
-the VIRTIO_BLK_F_BLK_SIZE feature of virtio-blk for BE guests when
-virtio 1.0 is used on both sides. The latter renders virtio-blk unusable
-with DASD backing, because things simply don't work with the default.
-See Fixes tags for relevant commits.
-
-For QEMU, we can work around the issue by writing out the feature bits
-with VIRTIO_F_VERSION_1 bit set.  We (ab)use the finalize_features
-config op for this. This isn't enough to address all vhost devices since
-these do not get the features until FEATURES_OK, however it looks like
-the affected devices actually never handled the endianness for legacy
-mode correctly, so at least that's not a regression.
-
-No devices except virtio net and virtio blk seem to be affected.
-
-Long term the right thing to do is to fix the hypervisors.
-
-Cc: <stable@vger.kernel.org> #v4.11
-Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-Fixes: 82e89ea077b9 ("virtio-blk: Add validation for block size in config space")
-Fixes: fe36cbe0671e ("virtio_net: clear MTU when out of range")
-Reported-by: markver@us.ibm.com
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
----
-
-@Connie: I made some more commit message changes to accommodate Michael's
-requests. I just assumed these will work or you as well and kept your
-r-b. Please shout at me if it needs to be dropped :)
----
- drivers/virtio/virtio.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-index 0a5b54034d4b..236081afe9a2 100644
---- a/drivers/virtio/virtio.c
-+++ b/drivers/virtio/virtio.c
-@@ -239,6 +239,17 @@ static int virtio_dev_probe(struct device *_d)
- 		driver_features_legacy = driver_features;
- 	}
- 
-+	/*
-+	 * Some devices detect legacy solely via F_VERSION_1. Write
-+	 * F_VERSION_1 to force LE config space accesses before FEATURES_OK for
-+	 * these when needed.
-+	 */
-+	if (drv->validate && !virtio_legacy_is_little_endian()
-+			  && device_features & BIT_ULL(VIRTIO_F_VERSION_1)) {
-+		dev->features = BIT_ULL(VIRTIO_F_VERSION_1);
-+		dev->config->finalize_features(dev);
-+	}
-+
- 	if (device_features & (1ULL << VIRTIO_F_VERSION_1))
- 		dev->features = driver_features & device_features;
- 	else
-
-base-commit: 60a9483534ed0d99090a2ee1d4bb0b8179195f51
--- 
-2.25.1
+static void warn_swap_bit(uint64_t val)
+{
+    if ((val & 0x3000000ULL) >> 24 != 1) {
+        qemu_log_mask(LOG_UNIMP, "%s: Data swap not implemented", __func__);
+    }
+}
 
 
