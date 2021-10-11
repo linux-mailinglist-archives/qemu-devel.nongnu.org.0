@@ -2,54 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960BC428F15
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 15:53:03 +0200 (CEST)
-Received: from localhost ([::1]:34242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C265428F41
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 15:54:55 +0200 (CEST)
+Received: from localhost ([::1]:37486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZvjh-00024Q-LL
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 09:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36264)
+	id 1mZvlW-0004G4-Jg
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 09:54:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mZvht-0000CT-Gr
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 09:51:09 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:19556)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mZvkf-0003ZE-Mp
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 09:54:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mZvhp-0007uI-JY
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 09:51:08 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 241B1748F51;
- Mon, 11 Oct 2021 15:51:02 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CF91A748F4B; Mon, 11 Oct 2021 15:51:01 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id CDEBE7475FA;
- Mon, 11 Oct 2021 15:51:01 +0200 (CEST)
-Date: Mon, 11 Oct 2021 15:51:01 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: ACPI endianness
-In-Reply-To: <20211011093206-mutt-send-email-mst@kernel.org>
-Message-ID: <f247499d-ced0-5b98-85ac-57a79b72816a@eik.bme.hu>
-References: <957db5ec-fc70-418-44d9-da4f81f5b98@eik.bme.hu>
- <612d2f0b-f312-073d-b796-c76357ba51a2@redhat.com>
- <d8284c4-c2e7-15e9-bec5-b2f619e1e6ad@eik.bme.hu>
- <20211011080528-mutt-send-email-mst@kernel.org>
- <327dd794-f698-3187-c17d-80b33db664b@eik.bme.hu>
- <20211011093206-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mZvkc-0006Wt-4B
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 09:53:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633960436;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3zc32ub7Sldwt/JQnZgUNNuD6mChs/1oN6aBYOUfJSE=;
+ b=dsp0NPgEoDB628gGuJQrghz/krED9OnOVH3Uzp+z79QSx1MXtnhAL5yGt8U2q6dNIh0kzS
+ RSnVOddhkofpbh0/J9x23daU2qFQrQEMe1r/zkp2hdO28D3vL8WjNeSeSv7XKpGKBTmnyf
+ kVMvSuA3dOIJbxZGKbcNbWCdk+nq0SM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-350--Q5oQSBTO4-2OPQ7BBDftw-1; Mon, 11 Oct 2021 09:53:55 -0400
+X-MC-Unique: -Q5oQSBTO4-2OPQ7BBDftw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ u23-20020a50a417000000b003db23c7e5e2so15984299edb.8
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 06:53:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3zc32ub7Sldwt/JQnZgUNNuD6mChs/1oN6aBYOUfJSE=;
+ b=EJqS2ypwvwXvx/LHHTD64k02eAGX7KP0FBywz9Otdw3JkdF1QuarnGXVyYhX4y4YAb
+ lIZX8lRQ0+uc3o6vlG6FjK+MOJQfP5GiTIr3e3Hq+NHVmygDW+Vu/25Qlm3eba7t7n+o
+ nnZQwLsLFreT4j4Qt7D5IPZbFGObVSmPGWAoGey9nRzXsGlI5DWewxQKUPd1L5tBfZ1+
+ 128rKRyvVscSuIjfxyohz5tA0Yr/MqHAm8IqlbcYKLZqPWc5qF8gZSiPJ1HqWP9iDDmF
+ C4NU+YoZ7Foj/lNhKMuB65H8xevtx25CoKnS2AVVkpkgyADHU8SpVPm/kb+iuIgD5gp4
+ /a0Q==
+X-Gm-Message-State: AOAM5337ygKoxPssWAIox3aPjfHiklzVvmYNamZfUNAGPVyGpindOrHN
+ 1bZ1o3DRtsjYBmWZTL2zrW/Iai1Mq4PBxEjsgOyxWFny0TCRIKRQt9Y6EbxPXohOIzAT0sn1p4i
+ pYrv93tBKqGYE4Nw=
+X-Received: by 2002:a50:e1cf:: with SMTP id m15mr41744530edl.309.1633960434052; 
+ Mon, 11 Oct 2021 06:53:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZ8+/aUGzNurVOeekTYEI/bkOh/cYxAvXQGEQYh9WDwBDEki6Pf00dKw/eR4O+yeWTjok9tA==
+X-Received: by 2002:a50:e1cf:: with SMTP id m15mr41744508edl.309.1633960433844; 
+ Mon, 11 Oct 2021 06:53:53 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id g7sm2795542edu.48.2021.10.11.06.53.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Oct 2021 06:53:53 -0700 (PDT)
+Date: Mon, 11 Oct 2021 15:53:51 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v3 2/3] tests/acpi/pcihp: add unit tests for hotplug on
+ multifunction bridges for q35
+Message-ID: <20211011155351.27d22f0c@redhat.com>
+In-Reply-To: <20211007135750.1277213-3-ani@anisinha.ca>
+References: <20211007135750.1277213-1-ani@anisinha.ca>
+ <20211007135750.1277213-3-ani@anisinha.ca>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1733744232-1633960261=:13402"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,193 +97,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Thu,  7 Oct 2021 19:27:49 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
---3866299591-1733744232-1633960261=:13402
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: 8BIT
+> commit d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
+> added ACPI hotplug descriptions for cold plugged bridges for functions other
+> than 0. For all other devices, the ACPI hotplug descriptions are limited to
+> function 0 only. This change adds unit tests for this feature.
+> 
+> This test adds the following devices to qemu and then checks the changes
+> introduced in the DSDT table due to the addition of the following devices:
+> 
+> (a) a multifunction bridge device
+> (b) a bridge device with function 1
+> (c) a non-bridge device with function 2
+> 
+> In the DSDT table, we should see AML hotplug descriptions for (a) and (b).
+> For (a) we should find a hotplug AML description for function 0.
+> 
+> The following diff compares the DSDT table AML with the new unit test before
+> and after the change d7346e614f4ec is introduced. In other words,
+> this diff reflects the changes that occurs in the DSDT table due to the change
+> d7346e614f4ec .
+> 
+> @@ -1,60 +1,38 @@
+>  /*
+>   * Intel ACPI Component Architecture
+>   * AML/ASL+ Disassembler version 20190509 (64-bit version)
+>   * Copyright (c) 2000 - 2019 Intel Corporation
+>   *
+>   * Disassembling to symbolic ASL+ operators
+>   *
+> - * Disassembly of tests/data/acpi/q35/DSDT.multi-bridge, Thu Oct  7 18:56:05 2021
+> + * Disassembly of /tmp/aml-AN0DA1, Thu Oct  7 18:56:05 2021
+>   *
+>   * Original Table Header:
+>   *     Signature        "DSDT"
+> - *     Length           0x000020FE (8446)
+> + *     Length           0x00002187 (8583)
+>   *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+> - *     Checksum         0xDE
+> + *     Checksum         0x8D
+>   *     OEM ID           "BOCHS "
+>   *     OEM Table ID     "BXPC    "
+>   *     OEM Revision     0x00000001 (1)
+>   *     Compiler ID      "BXPC"
+>   *     Compiler Version 0x00000001 (1)
+>   */
+>  DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
+>  {
+> -    /*
+> -     * iASL Warning: There was 1 external control method found during
+> -     * disassembly, but only 0 were resolved (1 unresolved). Additional
+> -     * ACPI tables may be required to properly disassemble the code. This
+> -     * resulting disassembler output file may not compile because the
+> -     * disassembler did not know how many arguments to assign to the
+> -     * unresolved methods. Note: SSDTs can be dynamically loaded at
+> -     * runtime and may or may not be available via the host OS.
+> -     *
+> -     * In addition, the -fe option can be used to specify a file containing
+> -     * control method external declarations with the associated method
+> -     * argument counts. Each line of the file must be of the form:
+> -     *     External (<method pathname>, MethodObj, <argument count>)
+> -     * Invocation:
+> -     *     iasl -fe refs.txt -d dsdt.aml
+> -     *
+> -     * The following methods were unresolved and many not compile properly
+> -     * because the disassembler had to guess at the number of arguments
+> -     * required for each:
+> -     */
+> -    External (_SB_.PCI0.S19_.PCNT, MethodObj)    // Warning: Unknown method, guessing 1 arguments
+> -
+>      Scope (\)
+>      {
+>          OperationRegion (DBG, SystemIO, 0x0402, One)
+>          Field (DBG, ByteAcc, NoLock, Preserve)
+>          {
+>              DBGB,   8
+>          }
+> 
+>          Method (DBUG, 1, NotSerialized)
+>          {
+>              ToHexString (Arg0, Local0)
+>              ToBuffer (Local0, Local0)
+>              Local1 = (SizeOf (Local0) - One)
+>              Local2 = Zero
+>              While ((Local2 < Local1))
+>              {
+> @@ -3322,24 +3300,60 @@
+>                  Method (DVNT, 2, NotSerialized)
+>                  {
+>                      If ((Arg0 & One))
+>                      {
+>                          Notify (S00, Arg1)
+>                      }
+>                  }
+> 
+>                  Method (PCNT, 0, NotSerialized)
+>                  {
+>                      BNUM = One
+>                      DVNT (PCIU, One)
+>                      DVNT (PCID, 0x03)
+>                  }
+>              }
+> 
+> +            Device (S19)
+> +            {
+> +                Name (_ADR, 0x00030001)  // _ADR: Address
+> +                Name (BSEL, Zero)
+> +                Device (S00)
+> +                {
+> +                    Name (_SUN, Zero)  // _SUN: Slot User Number
+> +                    Name (_ADR, Zero)  // _ADR: Address
+> +                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
+> +                    {
+> +                        PCEJ (BSEL, _SUN)
+> +                    }
+> +
+> +                    Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+> +                    {
+> +                        Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
+> +                    }
+> +                }
+> +
+> +                Method (DVNT, 2, NotSerialized)
+> +                {
+> +                    If ((Arg0 & One))
+> +                    {
+> +                        Notify (S00, Arg1)
+> +                    }
+> +                }
+> +
+> +                Method (PCNT, 0, NotSerialized)
+> +                {
+> +                    BNUM = Zero
+> +                    DVNT (PCIU, One)
+> +                    DVNT (PCID, 0x03)
+> +                }
+> +            }
+> +
+>              Method (PCNT, 0, NotSerialized)
+>              {
+> -                ^S19.PCNT (^S10.PCNT ())
+> +                ^S19.PCNT ()
+> +                ^S10.PCNT ()
+>              }
+>          }
+>      }
+>  }
+> 
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
 
-On Mon, 11 Oct 2021, Michael S. Tsirkin wrote:
-> On Mon, Oct 11, 2021 at 03:27:44PM +0200, BALATON Zoltan wrote:
->> On Mon, 11 Oct 2021, Michael S. Tsirkin wrote:
->>> On Mon, Oct 11, 2021 at 12:13:55PM +0200, BALATON Zoltan wrote:
->>>> On Mon, 11 Oct 2021, Philippe Mathieu-Daudé wrote:
->>>>> On 10/10/21 15:24, BALATON Zoltan wrote:
->>>>>> Hello,
->>>>>>
->>>>>> I'm trying to fix shutdown and reboot on pegasos2 which uses ACPI as
->>>>>> part of the VIA VT8231 (similar to and modelled in hw/isa/vt82c686b.c)
->>>>>> and found that the guest writes to ACPI PM1aCNT register come out with
->>>>>> wrong endianness but not shure why. I have this:
->>>>>>
->>>>>> $ qemu-system-ppc -M pegasos2 -monitor stdio
->>>>>> (qemu) info mtree
->>>>>> [...]
->>>>>> memory-region: pci1-io
->>>>>>   0000000000000000-000000000000ffff (prio 0, i/o): pci1-io
->>>>>> [...]
->>>>>>     0000000000000f00-0000000000000f7f (prio 0, i/o): via-pm
->>>>>>       0000000000000f00-0000000000000f03 (prio 0, i/o): acpi-evt
->>>>>>       0000000000000f04-0000000000000f05 (prio 0, i/o): acpi-cnt
->>>>>>       0000000000000f08-0000000000000f0b (prio 0, i/o): acpi-tmr
->>>>>>
->>>>>> memory-region: system
->>>>>>   0000000000000000-ffffffffffffffff (prio 0, i/o): system
->>>>>>     0000000000000000-000000001fffffff (prio 0, ram): pegasos2.ram
->>>>>>     0000000080000000-00000000bfffffff (prio 0, i/o): alias pci1-mem0-win
->>>>>> @pci1-mem 0000000080000000-00000000bfffffff
->>>>>>     00000000c0000000-00000000dfffffff (prio 0, i/o): alias pci0-mem0-win
->>>>>> @pci0-mem 00000000c0000000-00000000dfffffff
->>>>>>     00000000f1000000-00000000f100ffff (prio 0, i/o): mv64361
->>>>>>     00000000f8000000-00000000f8ffffff (prio 0, i/o): alias pci0-io-win
->>>>>> @pci0-io 0000000000000000-0000000000ffffff
->>>>>>     00000000f9000000-00000000f9ffffff (prio 0, i/o): alias pci0-mem1-win
->>>>>> @pci0-mem 0000000000000000-0000000000ffffff
->>>>>>     00000000fd000000-00000000fdffffff (prio 0, i/o): alias pci1-mem1-win
->>>>>> @pci1-mem 0000000000000000-0000000000ffffff
->>>>>>     00000000fe000000-00000000feffffff (prio 0, i/o): alias pci1-io-win
->>>>>> @pci1-io 0000000000000000-0000000000ffffff
->>>>>>     00000000ff800000-00000000ffffffff (prio 0, i/o): alias pci1-mem3-win
->>>>>> @pci1-mem 00000000ff800000-00000000ffffffff
->>>>>>     00000000fff00000-00000000fff7ffff (prio 0, rom): pegasos2.rom
->>>>>>
->>>>>> The guest (which is big endian PPC and I think wotks on real hardware)
->>>>>> writes to 0xf05 in the io region which should be the high byte of the
->>>>>> little endian register but in the acpi code it comes out wrong, instead
->>>>>> of 0x2800 I get in acpi_pm1_cnt_write: val=0x28
->>>>>
->>>>> Looks like a northbridge issue (MV64340).
->>>>> Does Pegasos2 enables bus swapping?
->>>>> See hw/pci-host/mv64361.c:585:
->>>>>
->>>>> static void warn_swap_bit(uint64_t val)
->>>>> {
->>>>>    if ((val & 0x3000000ULL) >> 24 != 1) {
->>>>>        qemu_log_mask(LOG_UNIMP, "%s: Data swap not implemented", __func__);
->>>>>    }
->>>>> }
->>>>
->>>> No, guests don't use this feature just byteswap themselves and write little
->>>> endian values to the mapped io region. (Or in this case just write one byte
->>>> of the 16 bit value, it specifically writes 0x28 to 0xf05.) That's why I
->>>> think the device model should not byteswap itself so the acpi regions should
->>>> be declared native endian and let the guest handle it. Some mentions I've
->>>> found say that native endian means don't byteswap, little endian means
->>>> byteswap if vcpu is big endian and big endian means byteswap if vcpu is
->>>> little endian. Since guests already account for this and write little endian
->>>> values to these regions there's no need to byteswap in device model and
->>>> changing to native endian should not affect little endian machines so unless
->>>> there's a better argument I'll try sending a patch.
->>>>
->>>> Regards,
->>>> BALATON Zoltan
->>>
->>> native endian means endian-ness is open-coded in the device handler
->>> itself.  I think you just found a bug in memory core.
->>>
->>> static const MemoryRegionOps acpi_pm_cnt_ops = {
->>>    .read = acpi_pm_cnt_read,
->>>    .write = acpi_pm_cnt_write,
->>>    .impl.min_access_size = 2,
->>>    .valid.min_access_size = 1,
->>>    .valid.max_access_size = 2,
->>>    .endianness = DEVICE_LITTLE_ENDIAN,
->>> };
->>>
->>>
->>> Because of that     .impl.min_access_size = 2,
->>> the 1 byte write should be converted to a 2 byte
->>> read+2 byte write.
->>>
->>> docs/devel/memory.rst just says:
->>> - .impl.min_access_size, .impl.max_access_size define the access sizes
->>>  (in bytes) supported by the *implementation*; other access sizes will be
->>>  emulated using the ones available.  For example a 4-byte write will be
->>>  emulated using four 1-byte writes, if .impl.max_access_size = 1.
->>>
->>>
->>>
->>> Instead what we have is:
->>>
->>> MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
->>>                                         hwaddr addr,
->>>                                         uint64_t data,
->>>                                         MemOp op,
->>>                                         MemTxAttrs attrs)
->>> {
->>>    unsigned size = memop_size(op);
->>>
->>>    if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
->>>        unassigned_mem_write(mr, addr, data, size);
->>>        return MEMTX_DECODE_ERROR;
->>>    }
->>>
->>>    adjust_endianness(mr, &data, op);
->>>
->>>
->>> ---
->>>
->>>
->>> static void adjust_endianness(MemoryRegion *mr, uint64_t *data, MemOp op)
->>> {
->>>    if ((op & MO_BSWAP) != devend_memop(mr->ops->endianness)) {
->>>        switch (op & MO_SIZE) {
->>>        case MO_8:
->>>            break;
->>>        case MO_16:
->>>            *data = bswap16(*data);
->>>            break;
->>>        case MO_32:
->>>            *data = bswap32(*data);
->>>            break;
->>>        case MO_64:
->>>            *data = bswap64(*data);
->>>            break;
->>>        default:
->>>            g_assert_not_reached();
->>>        }
->>>    }
->>> }
->>>
->>> so the byte swap is based on size before extending it to
->>> .impl.min_access_size, not after.
->>
->> OK thanks for the analysis, I'll wait what comes out of this.
->>
->>> Also, no read happens which I suspect is also a bug,
->>> but could be harmless ...
->>
->> I did not check if a read happens or not but generally I think that may be
->> another source of bugs if the memory core changes writes to read + write
->> because for some devices a read might have side effects
->
->
-> IMHO if reads have side effects then devices should not set .impl.min_access_size
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-If all this was documented somewhere then you could expect people know how 
-to use it. I could not find any info on how to correctly use these so had 
-to guess most of the time. Maybe it's somewhere there but not an obvious 
-place. The code implementing this is not something that most people read 
-just expect it to work. Could be useful to make a section about it in the 
-docs. Maybe some words about it might help in here: 
-https://www.qemu.org/docs/master/devel/memory.html
+> ---
+>  tests/qtest/bios-tables-test.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index 4f11d03055..33107caeed 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -859,6 +859,23 @@ static void test_acpi_q35_tcg_bridge(void)
+>      free_test_data(&data);
+>  }
+>  
+> +static void test_acpi_q35_multif_bridge(void)
+> +{
+> +    test_data data = {
+> +        .machine = MACHINE_Q35,
+> +        .variant = ".multi-bridge",
+> +    };
+> +    test_acpi_one("-device pcie-root-port,id=pcie-root-port-0,"
+> +                  "multifunction=on,"
+> +                  "port=0x0,chassis=1,addr=0x2,bus=pcie.0 "
+> +                  "-device pcie-root-port,id=pcie-root-port-1,"
+> +                  "port=0x1,chassis=2,addr=0x3.0x1,bus=pcie.0 "
+> +                  "-device virtio-balloon,id=balloon0,"
+> +                  "bus=pcie.0,addr=0x4.0x2",
+> +                  &data);
+> +    free_test_data(&data);
+> +}
+> +
+>  static void test_acpi_q35_tcg_mmio64(void)
+>  {
+>      test_data data = {
+> @@ -1534,6 +1551,7 @@ int main(int argc, char *argv[])
+>                         test_acpi_piix4_no_acpi_pci_hotplug);
+>          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+>          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+> +        qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
+>          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
+>          qtest_add_func("acpi/piix4/ipmi", test_acpi_piix4_tcg_ipmi);
+>          qtest_add_func("acpi/q35/ipmi", test_acpi_q35_tcg_ipmi);
 
-> ... but given we did not previously do the read, maybe we should keep
-> it that way at least for the time being.
-
-How do you know there was no read before this write? Did you check it? 
-I've only added a printf in the write method and saw the value was swapped 
-but did not check if there was a read before that. There are no traces in 
-these methods so maybe I would not see it unless adding a printf there too.
-
-Regards,
-BALATON Zoltan
---3866299591-1733744232-1633960261=:13402--
 
