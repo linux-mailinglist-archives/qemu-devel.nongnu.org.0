@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A73428CAC
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 14:08:46 +0200 (CEST)
-Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F69428CD7
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 14:14:55 +0200 (CEST)
+Received: from localhost ([::1]:45604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZu6m-00012p-Tb
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 08:08:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38490)
+	id 1mZuCk-0002OG-Gx
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 08:14:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mZu45-00063E-Ja
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 08:05:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26311)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mZu4G-0006Ch-I1
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 08:06:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mZu41-0004M0-Sl
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 08:05:57 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mZu4E-0004Uh-Px
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 08:06:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633953952;
+ s=mimecast20190719; t=1633953966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8KXxjvzwEushWIdcMmb/D4s2ClTPy0CVLK6ZiwQw0b0=;
- b=eRIdu7sMbbRcXFZUmjiNxAE0Ibkgue8lbVHCPVRikWAn181kO2AMk7l/OpetktzEBynUyE
- AKIs0LTraW3ZzQCQwVKv0OePN1alxSXsH7zFPYWTx1Zq2tk9cnrUl48UNJAQwTUl//zLgn
- wdXABl0XIoc/aJzOWtinNBlz1TO47Wo=
+ bh=oDLA+4+iKASCGil0eq2ZETz5bWhYhZ31WJt/CwWJNWw=;
+ b=JWNmnPUSE3Z2BHtFllHIrNIh15P9vNtL+u8CyPfGzP8L3Nhn3NBH33q/MCJ9Al/7I4CZJU
+ Aw0tuCL717o6Ur+FCAWBEWZB1VBpViFePCgwvo6mHy29Pt5eG3byqCJyEqo/yjfuVY0gG5
+ LzSj8vbtGvhpMFQ+6WAetlNMuwO6NyE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-ya7YBBqkNb6ToqGSogilCg-1; Mon, 11 Oct 2021 08:05:49 -0400
-X-MC-Unique: ya7YBBqkNb6ToqGSogilCg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-258-lFwOsxH4OdCVwIrJJQd94w-1; Mon, 11 Oct 2021 08:06:03 -0400
+X-MC-Unique: lFwOsxH4OdCVwIrJJQd94w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E83D824FA6;
- Mon, 11 Oct 2021 12:05:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5391810A8E08;
+ Mon, 11 Oct 2021 12:06:02 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.193.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE00260BF4;
- Mon, 11 Oct 2021 12:05:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CED91017CF2;
+ Mon, 11 Oct 2021 12:05:42 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9863318009E6; Mon, 11 Oct 2021 14:05:04 +0200 (CEST)
+ id A3C7118009E8; Mon, 11 Oct 2021 14:05:04 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] pcie: add power indicator blink check
-Date: Mon, 11 Oct 2021 14:05:01 +0200
-Message-Id: <20211011120504.254053-4-kraxel@redhat.com>
+Subject: [PATCH 4/6] pcie: factor out pcie_cap_slot_unplug()
+Date: Mon, 11 Oct 2021 14:05:02 +0200
+Message-Id: <20211011120504.254053-5-kraxel@redhat.com>
 In-Reply-To: <20211011120504.254053-1-kraxel@redhat.com>
 References: <20211011120504.254053-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,39 +84,73 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Refuse to push the attention button in case the guest is busy with some
-hotplug operation (as indicated by the power indicator blinking).
+No functional change.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/pci/pcie.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/pci/pcie.c | 35 +++++++++++++++++++++--------------
+ 1 file changed, 21 insertions(+), 14 deletions(-)
 
 diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index 4a52c250615e..c455f92e16bf 100644
+index c455f92e16bf..70fc11ba4c7d 100644
 --- a/hw/pci/pcie.c
 +++ b/hw/pci/pcie.c
-@@ -506,6 +506,7 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
-     PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
-     uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
-     uint32_t sltcap = pci_get_word(exp_cap + PCI_EXP_SLTCAP);
-+    uint16_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
+@@ -497,6 +497,26 @@ static void pcie_unplug_device(PCIBus *bus, PCIDevice *dev, void *opaque)
+     object_unparent(OBJECT(dev));
+ }
  
-     /* Check if hot-unplug is disabled on the slot */
-     if ((sltcap & PCI_EXP_SLTCAP_HPC) == 0) {
-@@ -521,6 +522,12 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
-         return;
-     }
- 
-+    if ((sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_BLINK) {
-+        error_setg(errp, "Hot-unplug failed: "
-+                   "guest is busy (power indicator blinking)");
-+        return;
-+    }
++static void pcie_cap_slot_do_unplug(PCIDevice *dev)
++{
++    PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
++    uint8_t *exp_cap = dev->config + dev->exp.exp_cap;
++    uint32_t lnkcap = pci_get_long(exp_cap + PCI_EXP_LNKCAP);
 +
-     dev->pending_deleted_event = true;
++    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
++                        pcie_unplug_device, NULL);
++
++    pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
++                                 PCI_EXP_SLTSTA_PDS);
++    if (dev->cap_present & QEMU_PCIE_LNKSTA_DLLLA ||
++        (lnkcap & PCI_EXP_LNKCAP_DLLLARC)) {
++        pci_word_test_and_clear_mask(exp_cap + PCI_EXP_LNKSTA,
++                                     PCI_EXP_LNKSTA_DLLLA);
++    }
++    pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
++                               PCI_EXP_SLTSTA_PDC);
++}
++
+ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
+                                      DeviceState *dev, Error **errp)
+ {
+@@ -676,7 +696,6 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
+     uint32_t pos = dev->exp.exp_cap;
+     uint8_t *exp_cap = dev->config + pos;
+     uint16_t sltsta = pci_get_word(exp_cap + PCI_EXP_SLTSTA);
+-    uint32_t lnkcap = pci_get_long(exp_cap + PCI_EXP_LNKCAP);
  
-     /* In case user cancel the operation of multi-function hot-add,
+     if (ranges_overlap(addr, len, pos + PCI_EXP_SLTSTA, 2)) {
+         /*
+@@ -726,19 +745,7 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
+         (val & PCI_EXP_SLTCTL_PIC_OFF) == PCI_EXP_SLTCTL_PIC_OFF &&
+         (!(old_slt_ctl & PCI_EXP_SLTCTL_PCC) ||
+         (old_slt_ctl & PCI_EXP_SLTCTL_PIC_OFF) != PCI_EXP_SLTCTL_PIC_OFF)) {
+-        PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
+-        pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+-                            pcie_unplug_device, NULL);
+-
+-        pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
+-                                     PCI_EXP_SLTSTA_PDS);
+-        if (dev->cap_present & QEMU_PCIE_LNKSTA_DLLLA ||
+-            (lnkcap & PCI_EXP_LNKCAP_DLLLARC)) {
+-            pci_word_test_and_clear_mask(exp_cap + PCI_EXP_LNKSTA,
+-                                         PCI_EXP_LNKSTA_DLLLA);
+-        }
+-        pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
+-                                       PCI_EXP_SLTSTA_PDC);
++        pcie_cap_slot_do_unplug(dev);
+     }
+     pcie_cap_update_power(dev);
+ 
 -- 
 2.31.1
 
