@@ -2,88 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F14429690
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 20:12:03 +0200 (CEST)
-Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC914296B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 20:16:29 +0200 (CEST)
+Received: from localhost ([::1]:35212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZzmN-00010Z-05
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 14:12:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60308)
+	id 1mZzqe-0005i1-3T
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 14:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mZzYq-0002TE-RX
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:58:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55295)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1mZzZ2-00039l-FQ; Mon, 11 Oct 2021 13:58:16 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43158
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mZzYp-0004Fh-9I
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:58:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633975082;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=g7QzTfoU1QAxpAq8IQJ10ibFQTWERt9RsM+3c0a6M0M=;
- b=RJ9rB2w28ua0YboPXgq1qJu+mQ6rYqBmoav3d9P/pk0YjiL7DQTgfSxigZ0ysQ5+cs9MHh
- skNgFBpl4cJPsJwGlvQ/qYzvPXuagOfasexnp0eatAglqRPkrAQ/1O5u3LVtkHJnQ4NxT9
- JpuyWnIwnzohwxjJVfy49BRK4xmxV5A=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-Pwn-2oyGO9GB_-pth3hTMQ-1; Mon, 11 Oct 2021 13:58:01 -0400
-X-MC-Unique: Pwn-2oyGO9GB_-pth3hTMQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- j19-20020adfb313000000b00160a9de13b3so13870648wrd.8
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 10:58:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=g7QzTfoU1QAxpAq8IQJ10ibFQTWERt9RsM+3c0a6M0M=;
- b=E93juHMytg87u6AbKAV02bQVeymXVlq457+pkFgnyt/EQPTrAsLCTDPVM1N9tcxPov
- 5fHGM0zpshWu/KlVjJ/XqMv9NL5t1++1WV/kMYn6YPT/+MWHvy7OOVVIALoUF/ISaG7z
- EdOeBvKTyvKowh5TkckVQAjgbCzuEOuUSkv6Y+r4SHc03FtE4//3PPwXzQkbIryF95mu
- +JWdNluqhI9KZzF6R9ExiBzU/Eu2dv+ZN+5YIA9fghdVevYihqYQTtEpqZGbVWb26EZm
- 8o3gu8gcAstDkn8WMgA3DtCvp7fDfF9Tak9A6SDSy21Ba5xkMYlPlqmodce4Ajj820+K
- mY7Q==
-X-Gm-Message-State: AOAM5337C5Tq5qAoVMtL7e4YKbEEhszuxEgmlUdSYFPFq6TD36fGffVG
- Cld7WSvDoJqx7adc0JT3nOTNzBWf9qjvizWLZFMFhwBNu9xtylfcN3eZ/YNYnb9JkBxi5uTbnqJ
- rxifYA1+snNqAd7k=
-X-Received: by 2002:a1c:7fd0:: with SMTP id a199mr483766wmd.96.1633975080232; 
- Mon, 11 Oct 2021 10:58:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwBCXcnWfGdQihLTers6t02/hnnCbE5TODilGFb5Yx6LPyrjapLBoJDMw+i6C6Vi9cGeoaYeQ==
-X-Received: by 2002:a1c:7fd0:: with SMTP id a199mr483739wmd.96.1633975080049; 
- Mon, 11 Oct 2021 10:58:00 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225])
- by smtp.gmail.com with ESMTPSA id e15sm1110091wrv.74.2021.10.11.10.57.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Oct 2021 10:57:59 -0700 (PDT)
-Date: Mon, 11 Oct 2021 18:57:57 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Dov Murik <dovmurik@linux.ibm.com>
-Subject: Re: [PATCH 2/2] target/i386/sev: Use local variable for
- kvm_sev_launch_measure
-Message-ID: <YWR7JT6XcqEL6R4B@work-vm>
-References: <20211011173026.2454294-1-dovmurik@linux.ibm.com>
- <20211011173026.2454294-3-dovmurik@linux.ibm.com>
-MIME-Version: 1.0
-In-Reply-To: <20211011173026.2454294-3-dovmurik@linux.ibm.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1mZzYy-0004Iv-Jm; Mon, 11 Oct 2021 13:58:15 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19BHfJJW009814; 
+ Mon, 11 Oct 2021 13:58:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=FdYN1l8Z1rfKDygHr+lfhzzlOyiFONqjwR6g23+EENk=;
+ b=LLHb4YRIBEH3kikfojve84R14cuo3sbExML/K8oyGqg4/CnfFgDrBJuo1gQM0GOnK6Cf
+ uPcA27hxLxo9WSe+4ljqsh+ABET9ktHVdaAjlM9HYLOOlmOolBYnustKHJjiOQaijV0Y
+ pvoWPP0bzBcVDCfcifvBuBItRo3uNEOPVVKNTbF3kNLQjtkMK7IG4bg1SeTnZJcwBBmC
+ jpWZ5yRwczBSYGLiKI5RQl9z7z50i4o5T6VmFuM/abTxtF5tkUld8O1cqtsRQlB9m+rC
+ UjWEc/wmF//5x1qbYNrTEvHsCpRwrSL6FQmAvaaLSxkKMG+Kigk7oZh/jNB3zyAEM96R Fg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3bmj9sbeby-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Oct 2021 13:58:08 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19BHg4un016075;
+ Mon, 11 Oct 2021 13:58:08 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3bmj9sbebq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Oct 2021 13:58:08 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19BHvH2M032641;
+ Mon, 11 Oct 2021 17:58:07 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma03wdc.us.ibm.com with ESMTP id 3bk2qa2q1v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Oct 2021 17:58:07 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
+ [9.57.199.108])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 19BHw6Ci52822382
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Oct 2021 17:58:06 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8C7E1B206A;
+ Mon, 11 Oct 2021 17:58:06 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5F143B206E;
+ Mon, 11 Oct 2021 17:58:04 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.211.134.52])
+ by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+ Mon, 11 Oct 2021 17:58:04 +0000 (GMT)
+Message-ID: <5f68f12b09b6ec0b4fa23a89ba8c944c22714990.camel@linux.ibm.com>
+Subject: Re: [RFC PATCH v1 2/2] s390x/kvm: Pass SIGP Stop flags
+From: Eric Farman <farman@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>, Christian Borntraeger
+ <borntraeger@de.ibm.com>, Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck
+ <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
+Date: Mon, 11 Oct 2021 13:58:03 -0400
+In-Reply-To: <fd2325a4-7c3a-b677-d259-b3731da507a2@redhat.com>
+References: <20211008203811.1980478-1-farman@linux.ibm.com>
+ <20211008203811.1980478-3-farman@linux.ibm.com>
+ <0addcdbc-50cb-420d-5864-af3a8a894321@redhat.com>
+ <28832611-02f0-7e52-6f15-39427c96d8bf@de.ibm.com>
+ <fd2325a4-7c3a-b677-d259-b3731da507a2@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: UG__cr_OHMRV1uO690b01G3-Jent-leL
+X-Proofpoint-ORIG-GUID: apciqbtmLwDyZZfB-Y8OISVlgh7xSgr0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-11_06,2021-10-11_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ mlxlogscore=873 clxscore=1015 mlxscore=0 adultscore=0 bulkscore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2110110103
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,82 +115,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Janosch Frank <frankja@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dov Murik (dovmurik@linux.ibm.com) wrote:
-> The struct kvm_sev_launch_measure has a constant and small size, and
-> therefore we can use a regular local variable for it instead of
-> allocating and freeing heap memory for it.
+On Mon, 2021-10-11 at 11:21 +0200, David Hildenbrand wrote:
+> On 11.10.21 10:40, Christian Borntraeger wrote:
+> > 
+> > Am 11.10.21 um 09:09 schrieb David Hildenbrand:
+> > > On 08.10.21 22:38, Eric Farman wrote:
+> > > > When building a Stop IRQ to pass to KVM, we should incorporate
+> > > > the flags if handling the SIGP Stop and Store Status order.
+> > > > With that, KVM can reject other orders that are submitted for
+> > > > the same CPU while the operation is fully processed.
+> > > > 
+> > > > Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> > > > Acked-by: Janosch Frank <frankja@linux.ibm.com>
+> > > > ---
+> > > >    target/s390x/kvm/kvm.c | 4 ++++
+> > > >    1 file changed, 4 insertions(+)
+> > > > 
+> > > > diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+> > > > index 5b1fdb55c4..701b9ddc88 100644
+> > > > --- a/target/s390x/kvm/kvm.c
+> > > > +++ b/target/s390x/kvm/kvm.c
+> > > > @@ -2555,6 +2555,10 @@ void kvm_s390_stop_interrupt(S390CPU
+> > > > *cpu)
+> > > >            .type = KVM_S390_SIGP_STOP,
+> > > >        };
+> > > > +    if (cpu->env.sigp_order == SIGP_STOP_STORE_STATUS) {
+> > > > +        irq.u.stop.flags = KVM_S390_STOP_FLAG_STORE_STATUS;
+> > > > +    }
+> > > > +
+> > > 
+> > > KVM_S390_STOP_FLAG_STORE_STATUS tells KVM to perform the store
+> > > status as well ... is that really what we want?
+> > At least it should not hurt I guess. QEMU then does it again?
 > 
-> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+> The thing is, that before we officially completed the action in user 
+> space (and let other SIGP actions actually succeed in user space on
+> the 
+> CPU), the target CPU will be reported as !busy in the kernel
+> already. 
+> And before we even inject the stop interrupt, the CPU will be
+> detected 
+> as !busy in the kernel. I guess it will fix some cases where we poll
+> via 
+> SENSE if the stop and store happened, because the store *did* happen
+> in 
+> the kernel and we'll simply store again in user space.
+> 
+> However, I wonder if we want to handle it more generically: Properly 
+> flag a CPU as busy for SIGP when we start processing the order until
+> we 
+> completed processing the order. That would allow to handle other
+> SIGP 
+> operations in user space cleanly, without any chance for races with 
+> SENSE code running in the kernel.
+> 
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+I think a generic solution would be ideal, but I'm wrestling with the
+race with the kernel's SENSE code. Today, handle_sigp_single_dst
+already checks to see if a CPU is currently processing an order and
+returns a CC2 when it does, but of course the kernel's SENSE code
+doesn't know that. We could flag the CPU as busy in the kernel when
+sending a SIGP to userspace, so that the SENSE code indicates BUSY, but
+then how do we know when userspace is finished and the CPU is no longer
+BUSY?
 
-> ---
->  target/i386/sev.c | 16 +++++++---------
->  1 file changed, 7 insertions(+), 9 deletions(-)
-> 
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 0062566c71..eede07f11d 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -729,7 +729,7 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
->      SevGuestState *sev = sev_guest;
->      int ret, error;
->      g_autofree guchar *data = NULL;
-> -    g_autofree struct kvm_sev_launch_measure *measurement = NULL;
-> +    struct kvm_sev_launch_measure measurement = {};
->  
->      if (!sev_check_state(sev, SEV_STATE_LAUNCH_UPDATE)) {
->          return;
-> @@ -743,23 +743,21 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
->          }
->      }
->  
-> -    measurement = g_new0(struct kvm_sev_launch_measure, 1);
-> -
->      /* query the measurement blob length */
->      ret = sev_ioctl(sev->sev_fd, KVM_SEV_LAUNCH_MEASURE,
-> -                    measurement, &error);
-> -    if (!measurement->len) {
-> +                    &measurement, &error);
-> +    if (!measurement.len) {
->          error_report("%s: LAUNCH_MEASURE ret=%d fw_error=%d '%s'",
->                       __func__, ret, error, fw_error_to_str(errno));
->          return;
->      }
->  
-> -    data = g_new0(guchar, measurement->len);
-> -    measurement->uaddr = (unsigned long)data;
-> +    data = g_new0(guchar, measurement.len);
-> +    measurement.uaddr = (unsigned long)data;
->  
->      /* get the measurement blob */
->      ret = sev_ioctl(sev->sev_fd, KVM_SEV_LAUNCH_MEASURE,
-> -                    measurement, &error);
-> +                    &measurement, &error);
->      if (ret) {
->          error_report("%s: LAUNCH_MEASURE ret=%d fw_error=%d '%s'",
->                       __func__, ret, error, fw_error_to_str(errno));
-> @@ -769,7 +767,7 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
->      sev_set_guest_state(sev, SEV_STATE_LAUNCH_SECRET);
->  
->      /* encode the measurement value and emit the event */
-> -    sev->measurement = g_base64_encode(data, measurement->len);
-> +    sev->measurement = g_base64_encode(data, measurement.len);
->      trace_kvm_sev_launch_measurement(sev->measurement);
->  }
->  
-> -- 
-> 2.25.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Eric
 
 
