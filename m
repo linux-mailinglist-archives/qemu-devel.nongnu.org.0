@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D1ED429414
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 18:01:50 +0200 (CEST)
-Received: from localhost ([::1]:50910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0113942941E
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 18:04:36 +0200 (CEST)
+Received: from localhost ([::1]:55416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZxkK-00089x-Ai
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 12:01:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34098)
+	id 1mZxn0-0002uI-KT
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 12:04:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mZxeh-0005Ih-Cl
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:56:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38061)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mZxep-0005Jc-0L
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:56:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50980)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mZxed-0004iY-CH
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:55:57 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mZxem-0004nl-HR
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:56:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633967754;
+ s=mimecast20190719; t=1633967764;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6kkGhvhYCg69b9tw4a7/BkigX/HW29v5oKQ14DewJwo=;
- b=dfPn6DchU7y5cZKYGBV9/SLs1vAquq3jQpg1eEoxrkh+dnMroMySyWGB389PYAubLL8S+2
- senc2WbCz/XMR2rCmbbBNI/AbQXRoYvrIE1aBBOAKV0j1ypQDTpRiPQfFJA+EESKpBB7Qb
- upvnB+BlW67+P9hmEBDlyB2+9iqvjUo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-6GURCbzTNTWU22-95WE3_w-1; Mon, 11 Oct 2021 11:55:53 -0400
-X-MC-Unique: 6GURCbzTNTWU22-95WE3_w-1
-Received: by mail-ed1-f70.google.com with SMTP id
- c30-20020a50f61e000000b003daf3955d5aso16317684edn.4
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 08:55:52 -0700 (PDT)
+ bh=f7J8ErIyYnJFcKyKhyY+pn7w6HQ5L7yIOoHmuELwx4w=;
+ b=IN1IZ2mQrg21e+2G6s/QIKWGZc0ourtv3+xlQYeBq61Z7jGOq2VX4/y0LvHiZGXX1xntcz
+ w0ZIzFa0n9FEhUqtyeSWUQegKkwfYbefn1eHhLLEFbz+BZAEas7g0s3/SOUup8JYkFBRyG
+ v1K+smzZxT7BzSTLm1HR8nTZwSqkT94=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-NItCEjnlPcGqVxZD4l080A-1; Mon, 11 Oct 2021 11:56:02 -0400
+X-MC-Unique: NItCEjnlPcGqVxZD4l080A-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ r11-20020aa7cfcb000000b003d4fbd652b9so14251778edy.14
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 08:56:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=6kkGhvhYCg69b9tw4a7/BkigX/HW29v5oKQ14DewJwo=;
- b=asFDpQOD9RLfPujiBXyVnhJj84opiReK5VOUcKRw2yfeS5MmJ5vLrH3J1ZjurB8kRe
- IgAzabC3MeBt2vZHxh71vch114iITQ6E0iST1oWXT47pGniE59wJOeWnoqIJVguBEOqG
- 2qsCDynPHeeumdJcd5Xj3vG/8+k51g+aGdZ1n8ARuzcM8gku9ypWfouWJGK3PwOOvIhp
- 4PU95mSaRqBmnPfk8i0RKem0G1G6nvr/pWAy82kaOrRhFx2pqHrT7xoxM6GXYyjwnGa2
- uEY+YIQdq831RpfvG63tVVLRZ5KcH3mhFqDt7heyt1QT96l/qpRuKGuK8Kq3jtadMi6Y
- sCSg==
-X-Gm-Message-State: AOAM530fGCvOGH9p8lLiv3IJ1WTEHWJ8ZeGXzVkzJOJ9G7LLgu4IOrr+
- ClgFqTi5FGFoWMor8onzArAyaAld8D71T3NxIH4L4HwHEfNunxU8aY/Xg7qITeflt04ZmrFtmo6
- fXQPUgSkSDIJl9iM=
-X-Received: by 2002:a50:d4cd:: with SMTP id e13mr41871216edj.29.1633967752058; 
- Mon, 11 Oct 2021 08:55:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzkKhJ08fT/kV/cPCr3ZavDqEQST7PjF2BAS9Wn+lX9H/Tww92D7lknrxo793I2Gg+XezaPIg==
-X-Received: by 2002:a50:d4cd:: with SMTP id e13mr41871195edj.29.1633967751896; 
- Mon, 11 Oct 2021 08:55:51 -0700 (PDT)
-Received: from redhat.com ([2.55.159.57])
- by smtp.gmail.com with ESMTPSA id u6sm4372390edt.30.2021.10.11.08.55.50
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=f7J8ErIyYnJFcKyKhyY+pn7w6HQ5L7yIOoHmuELwx4w=;
+ b=y2/XscZK/Vm4m2yF8aH2GNNqvtoKzctxFHUqLPbFabumM4sa9GP58IwfcRpn+QD3Uf
+ OUcSuVdWl7XTZSbQ5BX/QVLjVlS+wThcGjnJByTqInLYV0WPaTfpEyS/qlE5op2j8Xrm
+ AQepx966jU+ZaAjnIiwWYqoja+boofdV47WXfvJbXenPeU9gWZgzYMJZoLUY/FMte5D1
+ F7PjL/52ihGU4koN90o+vMKTZIXN8clMLTy/btZbCDv/p60C3daD5pwkj4Fq7zM5yhPv
+ 7843UrSz5RvL7HBXsnAC7b8AbkkwmXEWFll2BfeYt46Dr65KhproKmv29herZi64AB3L
+ d/mg==
+X-Gm-Message-State: AOAM533G0a3ze5/LOA8Zlzor8D8b8wtOBUS9HZ3ieMXgm5L+h9uiDu0v
+ A7jLuAwdJahDgw4/G527QYv8eX4EK6KnUXKtgpr7dmQWUytEge2INosHyloIBH6ThNLfCEC7Hrh
+ MZ+is9MKPDWe52dY=
+X-Received: by 2002:a50:d809:: with SMTP id o9mr42724358edj.149.1633967761580; 
+ Mon, 11 Oct 2021 08:56:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQIvGMK5zdDhbEUGcVHsLdRAYVuv9XcO7Lgm3oNZJd2TPjapPopeBgk5VNw1eA986ZJflW+g==
+X-Received: by 2002:a50:d809:: with SMTP id o9mr42724332edj.149.1633967761412; 
+ Mon, 11 Oct 2021 08:56:01 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id lm14sm3673760ejb.24.2021.10.11.08.56.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Oct 2021 08:55:51 -0700 (PDT)
-Date: Mon, 11 Oct 2021 11:55:48 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: ACPI endianness
-Message-ID: <20211011115521-mutt-send-email-mst@kernel.org>
-References: <957db5ec-fc70-418-44d9-da4f81f5b98@eik.bme.hu>
- <612d2f0b-f312-073d-b796-c76357ba51a2@redhat.com>
- <d8284c4-c2e7-15e9-bec5-b2f619e1e6ad@eik.bme.hu>
- <20211011080528-mutt-send-email-mst@kernel.org>
- <327dd794-f698-3187-c17d-80b33db664b@eik.bme.hu>
- <20211011093206-mutt-send-email-mst@kernel.org>
- <f247499d-ced0-5b98-85ac-57a79b72816a@eik.bme.hu>
+ Mon, 11 Oct 2021 08:56:00 -0700 (PDT)
+Date: Mon, 11 Oct 2021 17:55:59 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v4 08/11] tests/acpi: allow updates of VIOT expected
+ data files
+Message-ID: <20211011175559.3d10bab3@redhat.com>
+In-Reply-To: <YWBjHrELdZIBXcOD@myrica>
+References: <20211001173358.863017-1-jean-philippe@linaro.org>
+ <20211001173358.863017-9-jean-philippe@linaro.org>
+ <20211006101215.24414401@redhat.com> <YWBjHrELdZIBXcOD@myrica>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <f247499d-ced0-5b98-85ac-57a79b72816a@eik.bme.hu>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,22 +98,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, pbonzini@redhat.com
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
+ mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ eric.auger@redhat.com, qemu-arm@nongnu.org, ani@anisinha.ca,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 11, 2021 at 03:51:01PM +0200, BALATON Zoltan wrote:
-> > ... but given we did not previously do the read, maybe we should keep
-> > it that way at least for the time being.
-> 
-> How do you know there was no read before this write? Did you check it? I've
-> only added a printf in the write method and saw the value was swapped but
-> did not check if there was a read before that. There are no traces in these
-> methods so maybe I would not see it unless adding a printf there too.
+On Fri, 8 Oct 2021 16:26:22 +0100
+Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
 
-All I am saying is that qemu did not convert a write into
-a read+write.
+> On Wed, Oct 06, 2021 at 10:12:15AM +0200, Igor Mammedov wrote:
+> > On Fri,  1 Oct 2021 18:33:56 +0100
+> > Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+> >   
+> > > Create empty data files and allow updates for the upcoming VIOT tests.
+> > > 
+> > > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> > > ---
+> > >  tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
+> > >  tests/data/acpi/q35/DSDT.viot               | 0  
+> > 
+> > does default tests/data/acpi/q35/DSDT differs from
+> > DSDT.viot?  
+> 
+> Yes the VIOT test has one more PCI device (virtio-iommu) and PXB devices,
+> so there are additional descriptors in the DSDT
+
+
+also see tests/qtest/bios-tables-test.c step 6
+(---include diff--- part)
+
+> 
+> Thanks,
+> Jean
+> 
+> >   
+> > >  tests/data/acpi/q35/VIOT.viot               | 0
+> > >  tests/data/acpi/virt/VIOT                   | 0
+> > >  4 files changed, 3 insertions(+)
+> > >  create mode 100644 tests/data/acpi/q35/DSDT.viot
+> > >  create mode 100644 tests/data/acpi/q35/VIOT.viot
+> > >  create mode 100644 tests/data/acpi/virt/VIOT
+> > > 
+> > > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> > > index dfb8523c8b..29b5b1eabc 100644
+> > > --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> > > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> > > @@ -1 +1,4 @@
+> > >  /* List of comma-separated changed AML files to ignore */
+> > > +"tests/data/acpi/virt/VIOT",
+> > > +"tests/data/acpi/q35/DSDT.viot",
+> > > +"tests/data/acpi/q35/VIOT.viot",
+> > > diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
+> > > new file mode 100644
+> > > index 0000000000..e69de29bb2
+> > > diff --git a/tests/data/acpi/q35/VIOT.viot b/tests/data/acpi/q35/VIOT.viot
+> > > new file mode 100644
+> > > index 0000000000..e69de29bb2
+> > > diff --git a/tests/data/acpi/virt/VIOT b/tests/data/acpi/virt/VIOT
+> > > new file mode 100644
+> > > index 0000000000..e69de29bb2  
+> >   
+> 
 
 
