@@ -2,49 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F9F428C13
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 13:29:16 +0200 (CEST)
-Received: from localhost ([::1]:60404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B14A428C42
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 13:43:40 +0200 (CEST)
+Received: from localhost ([::1]:40568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZtUZ-0003nh-N8
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 07:29:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56572)
+	id 1mZtiU-0002C9-LL
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 07:43:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mZtNL-0001Ya-Sy
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:21:47 -0400
-Received: from mga04.intel.com ([192.55.52.120]:28238)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mZtf3-0000We-K4
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:40:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mZtNK-00080y-56
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:21:47 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10133"; a="225624876"
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="225624876"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2021 04:21:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="490432244"
-Received: from icx-2s.bj.intel.com ([10.240.193.41])
- by orsmga008.jf.intel.com with ESMTP; 11 Oct 2021 04:21:37 -0700
-From: Yang Zhong <yang.zhong@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] doc: Add the SGX numa description
-Date: Mon, 11 Oct 2021 19:15:54 +0800
-Message-Id: <20211011111554.12403-7-yang.zhong@intel.com>
-X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
-In-Reply-To: <20211011111554.12403-1-yang.zhong@intel.com>
-References: <20211011111554.12403-1-yang.zhong@intel.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mZtey-0005Nw-QE
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:40:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633952398;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=i9E5Labj9ctry4vYYle3h8R9QqEXBnvzJBe/fP9+1xA=;
+ b=cRZgaujJ8WBO6FEeVr9LpmeM16DnKqed6e9OKRGLpqxeiV9BJ2V+cAvkkUC8tvw8Ts2Nqf
+ WrCC6iMR7oWjh+rgQ3+SUNriUQcyAelHxjsMsj3Km3cW6hNAaQVCz0v+xax8wMpYrOluVJ
+ zZXqhqrcWUPC0PiHoIyReOG4gljTqMs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-42-0Tk_AMk4OrCc2d-HCBuWXg-1; Mon, 11 Oct 2021 07:39:57 -0400
+X-MC-Unique: 0Tk_AMk4OrCc2d-HCBuWXg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ d13-20020adf9b8d000000b00160a94c235aso13073965wrc.2
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 04:39:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=i9E5Labj9ctry4vYYle3h8R9QqEXBnvzJBe/fP9+1xA=;
+ b=jh27GBb5N4L3wCIRpR9EJ3oWu6cuLw92qeOIoza0feziYF5jvkHSfOwgobBzPaWgMz
+ rGsLGAm3SFzfnfr+dD/7p5DfeoWuNU7RSt4eJci/3jnkMEaU/Y5eMpT9zn6Rguc/QIAe
+ I7ZgvvSV90uJ/91NTP17crIxv/sfsPCnIk5gIp/PMHHLKbVbZADxLw/m/VVsW0wbYguk
+ DBShJ705Y2NdYcBCryWgprHePi1UfdqEaWbuJEIaFjkA/GVbo6NNpXpXU96q0WEJ5H4x
+ Y1XWmeVMZud8z9Jrt2twD9azSxOjD/EV+YfljYs9kuXlnlXy8dH3LfgUB6y08UOcPhqx
+ FmVA==
+X-Gm-Message-State: AOAM53310ZhCVx95KBZixYYB6uPtfeGrq2WEbIR+0qepYYbmltUAE0Yl
+ Bpsvdz4ew56NGbUWBcP+JuuJ/TK8YGn278wyGe7XshDIdH80owEMKGwNW6wLKyM2DPsELyS6RIQ
+ rSLyvwMBsEZUPiGg=
+X-Received: by 2002:adf:ec4f:: with SMTP id w15mr23881350wrn.219.1633952396200; 
+ Mon, 11 Oct 2021 04:39:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwMbniszZlVkPu/vMl4RZb92zyfSixtN+OtGACKjEq8rzXnrktLv4GRvYoTjbkNIhpfL70vZQ==
+X-Received: by 2002:adf:ec4f:: with SMTP id w15mr23881323wrn.219.1633952395985; 
+ Mon, 11 Oct 2021 04:39:55 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id d7sm7692076wrh.13.2021.10.11.04.39.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Oct 2021 04:39:55 -0700 (PDT)
+Date: Mon, 11 Oct 2021 12:39:53 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Reiter <s.reiter@proxmox.com>
+Subject: Re: [PATCH v4 1/2] monitor/hmp: add support for flag argument with
+ value
+Message-ID: <YWQiiZKoewnzOXBt@work-vm>
+References: <20210928090326.1056010-1-s.reiter@proxmox.com>
+ <20210928090326.1056010-2-s.reiter@proxmox.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=yang.zhong@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210928090326.1056010-2-s.reiter@proxmox.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,66 +97,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, eblake@redhat.com,
- philmd@redhat.com
+Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the SGX numa reference command and how to check if
-SGX numa is support or not with multiple EPC sections.
+* Stefan Reiter (s.reiter@proxmox.com) wrote:
+> Adds support for the "-xS" parameter type, where "-x" denotes a flag
+> name and the "S" suffix indicates that this flag is supposed to take an
+> arbitrary string parameter.
+> 
+> These parameters are always optional, the entry in the qdict will be
+> omitted if the flag is not given.
+> 
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
 
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
----
- docs/system/i386/sgx.rst | 31 +++++++++++++++++++++++++++----
- 1 file changed, 27 insertions(+), 4 deletions(-)
+It would be great if you could send a patch to update the big comment in
+monitor/monitor-internal.h that describes all the parameters.
+But that can come another time.
 
-diff --git a/docs/system/i386/sgx.rst b/docs/system/i386/sgx.rst
-index f103ae2a2f..9e4ada761f 100644
---- a/docs/system/i386/sgx.rst
-+++ b/docs/system/i386/sgx.rst
-@@ -141,8 +141,7 @@ To launch a SGX guest:
-   |qemu_system_x86| \\
-    -cpu host,+sgx-provisionkey \\
-    -object memory-backend-epc,id=mem1,size=64M,prealloc=on \\
--   -object memory-backend-epc,id=mem2,size=28M \\
--   -M sgx-epc.0.memdev=mem1,sgx-epc.1.memdev=mem2
-+   -M sgx-epc.0.memdev=mem1,sgx-epc.0.node=0
- 
- Utilizing SGX in the guest requires a kernel/OS with SGX support.
- The support can be determined in guest by::
-@@ -152,8 +151,32 @@ The support can be determined in guest by::
- and SGX epc info by::
- 
-   $ dmesg | grep sgx
--  [    1.242142] sgx: EPC section 0x180000000-0x181bfffff
--  [    1.242319] sgx: EPC section 0x181c00000-0x1837fffff
-+  [    0.182807] sgx: EPC section 0x140000000-0x143ffffff
-+  [    0.183695] sgx: [Firmware Bug]: Unable to map EPC section to online node. Fallback to the NUMA node 0.
-+
-+To launch a SGX numa guest:
-+
-+.. parsed-literal::
-+
-+  |qemu_system_x86| \\
-+   -cpu host,+sgx-provisionkey \\
-+   -object memory-backend-ram,size=2G,host-nodes=0,policy=bind,id=node0 \\
-+   -object memory-backend-epc,id=mem0,size=64M,prealloc=on,host-nodes=0,policy=bind \\
-+   -numa node,nodeid=0,cpus=0-1,memdev=node0 \\
-+   -object memory-backend-ram,size=2G,host-nodes=1,policy=bind,id=node1 \\
-+   -object memory-backend-epc,id=mem1,size=28M,prealloc=on,host-nodes=1,policy=bind \\
-+   -numa node,nodeid=1,cpus=2-3,memdev=node1 \\
-+   -M sgx-epc.0.memdev=mem0,sgx-epc.0.node=0,sgx-epc.1.memdev=mem1,sgx-epc.1.node=1
-+
-+and SGX epc numa info by::
-+
-+  $ dmesg | grep sgx
-+  [    0.369937] sgx: EPC section 0x180000000-0x183ffffff
-+  [    0.370259] sgx: EPC section 0x184000000-0x185bfffff
-+
-+  $ dmesg | grep SRAT
-+  [    0.009981] ACPI: SRAT: Node 0 PXM 0 [mem 0x180000000-0x183ffffff]
-+  [    0.009982] ACPI: SRAT: Node 1 PXM 1 [mem 0x184000000-0x185bfffff]
- 
- References
- ----------
+Dave
+
+> ---
+>  monitor/hmp.c | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/monitor/hmp.c b/monitor/hmp.c
+> index d50c3124e1..a32dce7a35 100644
+> --- a/monitor/hmp.c
+> +++ b/monitor/hmp.c
+> @@ -980,6 +980,7 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+>              {
+>                  const char *tmp = p;
+>                  int skip_key = 0;
+> +                int ret;
+>                  /* option */
+>  
+>                  c = *typestr++;
+> @@ -1002,8 +1003,22 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+>                      }
+>                      if (skip_key) {
+>                          p = tmp;
+> +                    } else if (*typestr == 'S') {
+> +                        /* has option with string value */
+> +                        typestr++;
+> +                        tmp = p++;
+> +                        while (qemu_isspace(*p)) {
+> +                            p++;
+> +                        }
+> +                        ret = get_str(buf, sizeof(buf), &p);
+> +                        if (ret < 0) {
+> +                            monitor_printf(mon, "%s: value expected for -%c\n",
+> +                                           cmd->name, *tmp);
+> +                            goto fail;
+> +                        }
+> +                        qdict_put_str(qdict, key, buf);
+>                      } else {
+> -                        /* has option */
+> +                        /* has boolean option */
+>                          p++;
+>                          qdict_put_bool(qdict, key, true);
+>                      }
+> -- 
+> 2.30.2
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
