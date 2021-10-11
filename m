@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E62A429336
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 17:27:11 +0200 (CEST)
-Received: from localhost ([::1]:55846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3CC42935C
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 17:28:46 +0200 (CEST)
+Received: from localhost ([::1]:58634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZxCn-0008BQ-Q8
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 11:27:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56052)
+	id 1mZxEL-0001dw-6V
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 11:28:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mZxAn-0006ye-6M
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:25:05 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:44022)
+ id 1mZxDR-0000xq-KW
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:27:49 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:43728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mZxAl-0007Zy-5j
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:25:04 -0400
-Received: by mail-pf1-x434.google.com with SMTP id 187so15108652pfc.10
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 08:25:02 -0700 (PDT)
+ id 1mZxDH-0000mv-5k
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:27:48 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ k23-20020a17090a591700b001976d2db364so239489pji.2
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 08:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hFKZUEwZ3orj5PFfNoQn1dvb7AST1G0RstaiQajawt4=;
- b=Ro5nExklCPiuvKBWSEIVWbwNR0v2X1S5mxsajanJ8PA8MtfY61WFNCb2VBkM118AbZ
- ivYc32HbuHWTJRs6hduSXACj+9L5jm+b0pCBNpKB/+E231A/wZK4lAXXZGrP3fwTDk/7
- E4AANkSIpVr3IGErgT3PtylL4mnQw8KjsFNAuycBLxZLH+w55E90Si+y+udkiP9Cty6y
- D4fJKY/9LHtGZmt5O1WInjvmaSS2/yAENUuSa7hIFvPuZZdXcBTI2BrIgCYW9EkdzNUB
- TaQuc+1wq3p4tvyfZmhrEis+hOlhcvV9KI+IVYu+0io6SBAJd4+cOUHE7mI5WVI35Di/
- hATg==
+ bh=xChmQHCA86CyJR361yYiY07ai3+Y9FmiLebYXrjFF5I=;
+ b=hks/CE/MJGK5ULYEfbQGYqFiUwmU0tVqVi0gBnvq69y3NZSOgorxHPdW/+OF9IRg1M
+ FzN/HOQho0LuAJcCC4nKxz1L/OJnXamNyoeap3dU+tM7iwOm/gJghbsQpHdfN9LCHGK4
+ AYZ5U/fictLRxI97jrUSWzME7ZOxac/3GRECdTnnyJDu17DPuvYMcBMxds3TB7cdLN7O
+ LOYbr57zw7iMzkG6EQp/e1YtoQi2UJTslSirGSKZTFqut1aHjTXmkyf6S1FcQ787kM74
+ 4HjgC1y2xP6jSFkWkdq0dR4HAH19EvoWBLlzTPC3MWhXJhG0Z8UAdX0hnO7q3QI1UhlP
+ NbTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hFKZUEwZ3orj5PFfNoQn1dvb7AST1G0RstaiQajawt4=;
- b=6HZsjOA9KStJ7sxIRk7u21nsjp92tQhc/zHc5u1ZR918btugJXLRwiuSZI8bvStaHk
- hmjgNcXuSGpXnodOFtr3UowKf8bgLB5y/KNMjab+MVOOb7VA846vkoaGhck05+jQzpaj
- qKewGiHxzj4TWK8hH0UacJd0WUcFdmhi3yLc1BxJG+275p6fifCmGBYFKBqOfnIMvks0
- 4x+q7MfQg5KVuCle+CLnb7RRKesYGTeCvQxc+0KIXtkynRr4LmNV9M9wj7O/1e3VDLBO
- P7TgxPdwNYpSWBxNArp4Ovzce7hCZxdO6lu6lOQpxzJ6aU0ykjYtZSE+Iea88ZPN9cRf
- w6OA==
-X-Gm-Message-State: AOAM5312qGkeMZAuCKpLVEXy6O1awEsEEHfJ96wfdMvmZvLqVpiyXiCY
- 7II/l282wvYdUazVcXb/dxmazqAdEJNxJA==
-X-Google-Smtp-Source: ABdhPJzC/AP7PrBg5sN3BqE8RIMO8ReGdnFuJbq0tqMK4G60SJDqI1yOZpLDN9Ml/q3GDj+qJv2mdA==
-X-Received: by 2002:a63:bf45:: with SMTP id i5mr18480769pgo.161.1633965901606; 
- Mon, 11 Oct 2021 08:25:01 -0700 (PDT)
+ bh=xChmQHCA86CyJR361yYiY07ai3+Y9FmiLebYXrjFF5I=;
+ b=M74KzGiWXiY6/NTbc6W1bh2HiQtgVCfkRr09KMFHkwaPm/UepqoNs5fNhpgXy9nAi1
+ uIpkdEEULeAqClO3yuFp7Ofe5Sg7/RE87gViCialM2FTR1PTPs1r/zXCxg9R7BgP702h
+ bDZp2JD0O+SKh6YysGlrBP32vP/ezaHyQIE1Buv/WuDkegz6OVo+jHHyu1I/CzHCvwyx
+ xJCFwbzf5mE+Pntq/XRBbpwYIO1Au+HInhvcYa2NDbu2w+6W5XvPF51ZJsMdUPMLPWKL
+ c1+aNxPnGGWOWzn+N6ybgFXy5FbQL66xT3XIFuQkLYiUsVmglbhGdkBXNsB9HGR92kmL
+ R2MA==
+X-Gm-Message-State: AOAM5320la+pJbkX5q4NWD0W9dVH/HuK5Gn5OmjliOpgDrbUmhgXVU7n
+ c2HwELUruUbzOHNMwQa6Jm78Cw==
+X-Google-Smtp-Source: ABdhPJw5GTNMavG0nU1p2wCZwB9ZE5tdsJnHOtWYD43Q2hNaI3A68ns5zL+zaYmxzYOnJtnN9GIhEA==
+X-Received: by 2002:a17:90a:190:: with SMTP id
+ 16mr31416831pjc.152.1633966057042; 
+ Mon, 11 Oct 2021 08:27:37 -0700 (PDT)
 Received: from [192.168.71.106] (50-205-213-50-static.hfc.comcastbusiness.net.
  [50.205.213.50])
- by smtp.gmail.com with ESMTPSA id b11sm8337106pge.57.2021.10.11.08.25.01
+ by smtp.gmail.com with ESMTPSA id v13sm8745872pgt.7.2021.10.11.08.27.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Oct 2021 08:25:01 -0700 (PDT)
-Subject: Re: [PATCH 6/8] tcg/aarch64: Support TCG_TARGET_SIGNED_ADDR32
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ Mon, 11 Oct 2021 08:27:36 -0700 (PDT)
+Subject: Re: [PATCH 3/8] accel/tcg: Support TCG_TARGET_SIGNED_ADDR32 for
+ softmmu
+To: WANG Xuerui <i.qemu@xen0n.name>, qemu-devel@nongnu.org
 References: <20211010174401.141339-1-richard.henderson@linaro.org>
- <20211010174401.141339-7-richard.henderson@linaro.org>
- <877dejyhrb.fsf@linaro.org>
+ <20211010174401.141339-4-richard.henderson@linaro.org>
+ <ded6a5f0-dfcd-d908-afce-491b0273e531@xen0n.name>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5e3693da-301b-cc99-e3ac-844c9be622a4@linaro.org>
-Date: Mon, 11 Oct 2021 08:24:59 -0700
+Message-ID: <516e085e-4e58-c45b-10d9-0c7e73cfd241@linaro.org>
+Date: Mon, 11 Oct 2021 08:27:35 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <877dejyhrb.fsf@linaro.org>
+In-Reply-To: <ded6a5f0-dfcd-d908-afce-491b0273e531@xen0n.name>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,28 +92,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: git@xen0n.name, Alistair.Francis@wdc.com, f4bug@amsat.org,
- qemu-devel@nongnu.org
+Cc: Alistair.Francis@wdc.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/21 3:28 AM, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> AArch64 has both sign and zero-extending addressing modes, which
->> means that either treatment of guest addresses is equally efficient.
->> Enabling this for AArch64 gives us testing of the feature in CI.
-> 
-> So which guests front ends will exercise this backend?
+On 10/10/21 9:30 PM, WANG Xuerui wrote:
+>> @@ -92,6 +93,9 @@ static inline size_t sizeof_tlb(CPUTLBDescFast *fast)
+>>   
+>>   static inline uintptr_t g2h_tlbe(const CPUTLBEntry *tlb, target_ulong gaddr)
+>>   {
+>> +    if (TCG_TARGET_SIGNED_ADDR32 && TARGET_LONG_BITS == 32) {
+> It seems this branch's direction should always match that of the branch
+> added below, so if TARGET_LONG_BITS == TARGET_LONG_BITS == 32 this
+> invariant is broken? Or is this expected behavior?
 
-All 32-bit guests.
+The conditions should match, yes.
 
-> Is this something we can exercise in 32 bit user mode tests?
-
-Yes.
-
-Which is why I enabled this for aarch64, so that we'd have a major platform testing it daily.
+In revising the patch set I decided that the tcg backend should simply not set this flag 
+for a 32-bit host.
 
 
 r~
