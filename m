@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90D7428BE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 13:24:54 +0200 (CEST)
-Received: from localhost ([::1]:48442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE693428BF0
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 13:27:28 +0200 (CEST)
+Received: from localhost ([::1]:55168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZtQK-000497-SF
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 07:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56508)
+	id 1mZtSp-0000Hj-SB
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 07:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mZtNE-0001TH-Ln
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:21:40 -0400
+ id 1mZtNJ-0001Tw-PN
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:21:45 -0400
 Received: from mga04.intel.com ([192.55.52.120]:28240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mZtNB-0008Kp-1g
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:21:39 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10133"; a="225624851"
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="225624851"
+ id 1mZtNE-0008Kp-Ij
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:21:41 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10133"; a="225624856"
+X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="225624856"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2021 04:21:32 -0700
+ 11 Oct 2021 04:21:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="490432152"
+X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="490432173"
 Received: from icx-2s.bj.intel.com ([10.240.193.41])
- by orsmga008.jf.intel.com with ESMTP; 11 Oct 2021 04:21:30 -0700
+ by orsmga008.jf.intel.com with ESMTP; 11 Oct 2021 04:21:32 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/6] monitor: Support 'info numa' command
-Date: Mon, 11 Oct 2021 19:15:50 +0800
-Message-Id: <20211011111554.12403-3-yang.zhong@intel.com>
+Subject: [PATCH 3/6] numa: Add SGXEPCSection list for multiple sections
+Date: Mon, 11 Oct 2021 19:15:51 +0800
+Message-Id: <20211011111554.12403-4-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20211011111554.12403-1-yang.zhong@intel.com>
 References: <20211011111554.12403-1-yang.zhong@intel.com>
@@ -62,36 +62,56 @@ Cc: yang.zhong@intel.com, pbonzini@redhat.com, eblake@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the MEMORY_DEVICE_INFO_KIND_SGX_EPC case for SGX numa info
-with 'info numa' command in the monitor.
+The SGXEPCSection list added into SGXInfo to show the multiple
+SGX EPC sections detailed info, not the total size like before.
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- hw/core/numa.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ qapi/misc-target.json | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 510d096a88..1aa05dcf42 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -756,6 +756,7 @@ static void numa_stat_memory_devices(NumaNodeMem node_mem[])
-     PCDIMMDeviceInfo     *pcdimm_info;
-     VirtioPMEMDeviceInfo *vpi;
-     VirtioMEMDeviceInfo *vmi;
-+    SgxEPCDeviceInfo *se;
+diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+index 594fbd1577..89a5a4250a 100644
+--- a/qapi/misc-target.json
++++ b/qapi/misc-target.json
+@@ -334,6 +334,21 @@
+   'returns': 'SevAttestationReport',
+   'if': 'TARGET_I386' }
  
-     for (info = info_list; info; info = info->next) {
-         MemoryDeviceInfo *value = info->value;
-@@ -781,6 +782,11 @@ static void numa_stat_memory_devices(NumaNodeMem node_mem[])
-                 node_mem[vmi->node].node_mem += vmi->size;
-                 node_mem[vmi->node].node_plugged_mem += vmi->size;
-                 break;
-+            case MEMORY_DEVICE_INFO_KIND_SGX_EPC:
-+                se = value->u.sgx_epc.data;
-+                node_mem[se->node].node_mem += se->size;
-+                node_mem[se->node].node_plugged_mem = 0;
-+                break;
-             default:
-                 g_assert_not_reached();
-             }
++##
++# @SGXEPCSection:
++#
++# Information about intel SGX EPC section info
++#
++# @index: the SGX epc section index
++#
++# @size: the size of epc section
++#
++# Since: 6.2
++##
++{ 'struct': 'SGXEPCSection',
++  'data': { 'index': 'uint64',
++            'size': 'uint64'}}
++
+ ##
+ # @SGXInfo:
+ #
+@@ -347,7 +362,7 @@
+ #
+ # @flc: true if FLC is supported
+ #
+-# @section-size: The EPC section size for guest
++# @sections: The EPC sections info for guest
+ #
+ # Since: 6.2
+ ##
+@@ -356,7 +371,7 @@
+             'sgx1': 'bool',
+             'sgx2': 'bool',
+             'flc': 'bool',
+-            'section-size': 'uint64'},
++            'sections': ['SGXEPCSection']},
+    'if': 'TARGET_I386' }
+ 
+ ##
 
