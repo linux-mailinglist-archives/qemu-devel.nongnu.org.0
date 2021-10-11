@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1C3428BF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 13:27:45 +0200 (CEST)
-Received: from localhost ([::1]:55152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E872B428BEA
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 13:25:03 +0200 (CEST)
+Received: from localhost ([::1]:48912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZtT6-0000H6-UN
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 07:27:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56564)
+	id 1mZtQV-0004SI-06
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 07:25:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mZtNL-0001Wh-DD
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:21:47 -0400
-Received: from mga04.intel.com ([192.55.52.120]:28236)
+ id 1mZtNM-0001bU-Mc
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:21:48 -0400
+Received: from mga04.intel.com ([192.55.52.120]:28240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mZtNJ-0007q1-JO
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:21:47 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10133"; a="225624865"
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="225624865"
+ id 1mZtNK-0008Kp-54
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:21:48 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10133"; a="225624872"
+X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="225624872"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2021 04:21:35 -0700
+ 11 Oct 2021 04:21:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="490432195"
+X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="490432226"
 Received: from icx-2s.bj.intel.com ([10.240.193.41])
- by orsmga008.jf.intel.com with ESMTP; 11 Oct 2021 04:21:34 -0700
+ by orsmga008.jf.intel.com with ESMTP; 11 Oct 2021 04:21:36 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] monitor: numa support for 'info sgx' command
-Date: Mon, 11 Oct 2021 19:15:52 +0800
-Message-Id: <20211011111554.12403-5-yang.zhong@intel.com>
+Subject: [PATCH 5/6] numa: Enable numa for libvirt interface
+Date: Mon, 11 Oct 2021 19:15:53 +0800
+Message-Id: <20211011111554.12403-6-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20211011111554.12403-1-yang.zhong@intel.com>
 References: <20211011111554.12403-1-yang.zhong@intel.com>
@@ -62,105 +62,62 @@ Cc: yang.zhong@intel.com, pbonzini@redhat.com, eblake@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch can enable numa support for 'info sgx' command
-in the monitor, which can show detailed SGX EPC sections
-info.
+Libvirt need get the detailed host SGX EPC capabilities to support
+numa function. Libvirt can decide how to allocate host EPC sections
+to guest numa from host numa info.
 
-(qemu) info sgx
- SGX support: enabled
- SGX1 support: enabled
- SGX2 support: enabled
- FLC support: enabled
- SECTION #0: size=67108864
- SECTION #1: size=29360128
-
- The QMP interface show:
- (QEMU) query-sgx
- {"return": {"sgx": true, "sgx2": true, "sgx1": true, "sections": \
- [{"index": 0, "size": 67108864}, {"index": 1, "size": 29360128}], "flc": true}}
+(QEMU) query-sgx-capabilities
+{"return": {"sgx": true, "sgx2": true, "sgx1": true, "sections": \
+[{"index": 0, "size": 17070817280}, {"index": 1, "size": 17079205888}], "flc": true}}
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- hw/i386/sgx.c         | 25 +++++++++++++++++++++++--
- target/i386/monitor.c | 11 +++++++++--
- 2 files changed, 32 insertions(+), 4 deletions(-)
+ hw/i386/sgx.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-index 906facb645..8af45925c6 100644
+index 8af45925c6..fe3034060d 100644
 --- a/hw/i386/sgx.c
 +++ b/hw/i386/sgx.c
-@@ -126,6 +126,28 @@ SGXInfo *sgx_get_capabilities(Error **errp)
-     return info;
+@@ -74,11 +74,13 @@ static uint64_t sgx_calc_section_metric(uint64_t low, uint64_t high)
+            ((high & MAKE_64BIT_MASK(0, 20)) << 32);
  }
  
-+static SGXEPCSectionList *sgx_get_epc_sections_list(void)
-+{
-+    GSList *device_list = sgx_epc_get_device_list();
+-static uint64_t sgx_calc_host_epc_section_size(void)
++static SGXEPCSectionList *sgx_calc_host_epc_sections(void)
+ {
 +    SGXEPCSectionList *head = NULL, **tail = &head;
 +    SGXEPCSection *section;
-+    uint64_t i = 0;
-+
-+    for (; device_list; device_list = device_list->next) {
-+        DeviceState *dev = device_list->data;
-+        Object *obj = OBJECT(dev);
-+
+     uint32_t i, type;
+     uint32_t eax, ebx, ecx, edx;
+-    uint64_t size = 0;
++    uint32_t j = 0;
+ 
+     for (i = 0; i < SGX_MAX_EPC_SECTIONS; i++) {
+         host_cpuid(0x12, i + 2, &eax, &ebx, &ecx, &edx);
+@@ -92,10 +94,13 @@ static uint64_t sgx_calc_host_epc_section_size(void)
+             break;
+         }
+ 
+-        size += sgx_calc_section_metric(ecx, edx);
 +        section = g_new0(SGXEPCSection, 1);
-+        section->index = i++;
-+        section->size = object_property_get_uint(obj, SGX_EPC_SIZE_PROP,
-+                                                 &error_abort);
++        section->index = j++;
++        section->size = sgx_calc_section_metric(ecx, edx);
 +        QAPI_LIST_APPEND(tail, section);
-+    }
-+    g_slist_free(device_list);
-+
-+    return head;
-+}
-+
- SGXInfo *sgx_get_info(Error **errp)
- {
-     SGXInfo *info = NULL;
-@@ -144,14 +166,13 @@ SGXInfo *sgx_get_info(Error **errp)
-         return NULL;
      }
  
--    SGXEPCState *sgx_epc = &pcms->sgx_epc;
-     info = g_new0(SGXInfo, 1);
- 
-     info->sgx = true;
-     info->sgx1 = true;
-     info->sgx2 = true;
-     info->flc = true;
--    info->section_size = sgx_epc->size;
-+    info->sections = sgx_get_epc_sections_list();
- 
-     return info;
- }
-diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index 196c1c9e77..08e7d4a425 100644
---- a/target/i386/monitor.c
-+++ b/target/i386/monitor.c
-@@ -773,6 +773,7 @@ SGXInfo *qmp_query_sgx(Error **errp)
- void hmp_info_sgx(Monitor *mon, const QDict *qdict)
- {
-     Error *err = NULL;
-+    SGXEPCSectionList *section_list, *section;
-     g_autoptr(SGXInfo) info = qmp_query_sgx(&err);
- 
-     if (err) {
-@@ -787,8 +788,14 @@ void hmp_info_sgx(Monitor *mon, const QDict *qdict)
-                    info->sgx2 ? "enabled" : "disabled");
-     monitor_printf(mon, "FLC support: %s\n",
-                    info->flc ? "enabled" : "disabled");
--    monitor_printf(mon, "size: %" PRIu64 "\n",
--                   info->section_size);
-+
-+    section_list = info->sections;
-+    for (section = section_list; section; section = section->next) {
-+        monitor_printf(mon, "SECTION #%" PRId64 ": ",
-+                       section->value->index);
-+        monitor_printf(mon, "size=%" PRIu64 "\n",
-+                       section->value->size);
-+    }
+-    return size;
++    return head;
  }
  
- SGXInfo *qmp_query_sgx_capabilities(Error **errp)
+ SGXInfo *sgx_get_capabilities(Error **errp)
+@@ -119,7 +124,7 @@ SGXInfo *sgx_get_capabilities(Error **errp)
+     info->sgx1 = eax & (1U << 0) ? true : false;
+     info->sgx2 = eax & (1U << 1) ? true : false;
+ 
+-    info->section_size = sgx_calc_host_epc_section_size();
++    info->sections = sgx_calc_host_epc_sections();
+ 
+     close(fd);
+ 
 
