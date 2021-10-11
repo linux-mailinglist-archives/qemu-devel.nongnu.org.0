@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1EC429658
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 20:04:06 +0200 (CEST)
-Received: from localhost ([::1]:45694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F14429690
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 20:12:03 +0200 (CEST)
+Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZzef-0001Qd-7s
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 14:04:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60484)
+	id 1mZzmN-00010Z-05
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 14:12:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzZa-0004oc-8y
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:58:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48272)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mZzYq-0002TE-RX
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:58:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzZY-0004bx-Mg
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:58:50 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mZzYp-0004Fh-9I
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:58:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633975128;
+ s=mimecast20190719; t=1633975082;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FGP3+YKNRWWOzC7iTmyTI6XwoTGpxGSmohCN5TZNxwk=;
- b=gwGXFHvTQZ6DPZqbpOAeE62VCreCK6DOb21jrra54IpMBQaTu+0HJ/n5yrIRApEmgsHYAD
- XwW5yj/Tc4F/QgNJC5od8kkxJj3oc71E6BoaNyda+oWuXVRBx8D7LxU/3W94F21e3N2gJS
- +C0nVmgU17qtUGzPBQZkKzdlFvKELKs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-jqz7Q27AOwiU1ZcPNVjyAA-1; Mon, 11 Oct 2021 13:58:45 -0400
-X-MC-Unique: jqz7Q27AOwiU1ZcPNVjyAA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C37B2100C660;
- Mon, 11 Oct 2021 17:58:43 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6F920652A0;
- Mon, 11 Oct 2021 17:58:04 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 9/9] migration/ram: Handle RAMBlocks with a
- RamDiscardManager on background snapshots
-Date: Mon, 11 Oct 2021 19:53:46 +0200
-Message-Id: <20211011175346.15499-10-david@redhat.com>
-In-Reply-To: <20211011175346.15499-1-david@redhat.com>
-References: <20211011175346.15499-1-david@redhat.com>
+ bh=g7QzTfoU1QAxpAq8IQJ10ibFQTWERt9RsM+3c0a6M0M=;
+ b=RJ9rB2w28ua0YboPXgq1qJu+mQ6rYqBmoav3d9P/pk0YjiL7DQTgfSxigZ0ysQ5+cs9MHh
+ skNgFBpl4cJPsJwGlvQ/qYzvPXuagOfasexnp0eatAglqRPkrAQ/1O5u3LVtkHJnQ4NxT9
+ JpuyWnIwnzohwxjJVfy49BRK4xmxV5A=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-Pwn-2oyGO9GB_-pth3hTMQ-1; Mon, 11 Oct 2021 13:58:01 -0400
+X-MC-Unique: Pwn-2oyGO9GB_-pth3hTMQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ j19-20020adfb313000000b00160a9de13b3so13870648wrd.8
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 10:58:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=g7QzTfoU1QAxpAq8IQJ10ibFQTWERt9RsM+3c0a6M0M=;
+ b=E93juHMytg87u6AbKAV02bQVeymXVlq457+pkFgnyt/EQPTrAsLCTDPVM1N9tcxPov
+ 5fHGM0zpshWu/KlVjJ/XqMv9NL5t1++1WV/kMYn6YPT/+MWHvy7OOVVIALoUF/ISaG7z
+ EdOeBvKTyvKowh5TkckVQAjgbCzuEOuUSkv6Y+r4SHc03FtE4//3PPwXzQkbIryF95mu
+ +JWdNluqhI9KZzF6R9ExiBzU/Eu2dv+ZN+5YIA9fghdVevYihqYQTtEpqZGbVWb26EZm
+ 8o3gu8gcAstDkn8WMgA3DtCvp7fDfF9Tak9A6SDSy21Ba5xkMYlPlqmodce4Ajj820+K
+ mY7Q==
+X-Gm-Message-State: AOAM5337C5Tq5qAoVMtL7e4YKbEEhszuxEgmlUdSYFPFq6TD36fGffVG
+ Cld7WSvDoJqx7adc0JT3nOTNzBWf9qjvizWLZFMFhwBNu9xtylfcN3eZ/YNYnb9JkBxi5uTbnqJ
+ rxifYA1+snNqAd7k=
+X-Received: by 2002:a1c:7fd0:: with SMTP id a199mr483766wmd.96.1633975080232; 
+ Mon, 11 Oct 2021 10:58:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwBCXcnWfGdQihLTers6t02/hnnCbE5TODilGFb5Yx6LPyrjapLBoJDMw+i6C6Vi9cGeoaYeQ==
+X-Received: by 2002:a1c:7fd0:: with SMTP id a199mr483739wmd.96.1633975080049; 
+ Mon, 11 Oct 2021 10:58:00 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225])
+ by smtp.gmail.com with ESMTPSA id e15sm1110091wrv.74.2021.10.11.10.57.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Oct 2021 10:57:59 -0700 (PDT)
+Date: Mon, 11 Oct 2021 18:57:57 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Dov Murik <dovmurik@linux.ibm.com>
+Subject: Re: [PATCH 2/2] target/i386/sev: Use local variable for
+ kvm_sev_launch_measure
+Message-ID: <YWR7JT6XcqEL6R4B@work-vm>
+References: <20211011173026.2454294-1-dovmurik@linux.ibm.com>
+ <20211011173026.2454294-3-dovmurik@linux.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20211011173026.2454294-3-dovmurik@linux.ibm.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -77,110 +97,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: Brijesh Singh <brijesh.singh@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already don't ever migrate memory that corresponds to discarded ranges
-as managed by a RamDiscardManager responsible for the mapped memory region
-of the RAMBlock.
+* Dov Murik (dovmurik@linux.ibm.com) wrote:
+> The struct kvm_sev_launch_measure has a constant and small size, and
+> therefore we can use a regular local variable for it instead of
+> allocating and freeing heap memory for it.
+> 
+> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
 
-virtio-mem uses this mechanism to logically unplug parts of a RAMBlock.
-Right now, we still populate zeropages for the whole usable part of the
-RAMBlock, which is undesired because:
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-1. Even populating the shared zeropage will result in memory getting
-   consumed for page tables.
-2. Memory backends without a shared zeropage (like hugetlbfs and shmem)
-   will populate an actual, fresh page, resulting in an unintended
-   memory consumption.
-
-Discarded ("logically unplugged") parts have to remain discarded. As
-these pages are never part of the migration stream, there is no need to
-track modifications via userfaultfd WP reliably for these parts.
-
-Further, any writes to these ranges by the VM are invalid and the
-behavior is undefined.
-
-Note that Linux only supports userfaultfd WP on private anonymous memory
-for now, which usually results in the shared zeropage getting populated.
-The issue will become more relevant once userfaultfd WP supports shmem
-and hugetlb.
-
-Acked-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- migration/ram.c | 38 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
-
-diff --git a/migration/ram.c b/migration/ram.c
-index c212081f85..dbbb1e6712 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1656,6 +1656,17 @@ static inline void populate_read_range(RAMBlock *block, ram_addr_t offset,
-     }
- }
- 
-+static inline int populate_read_section(MemoryRegionSection *section,
-+                                        void *opaque)
-+{
-+    const hwaddr size = int128_get64(section->size);
-+    hwaddr offset = section->offset_within_region;
-+    RAMBlock *block = section->mr->ram_block;
-+
-+    populate_read_range(block, offset, size);
-+    return 0;
-+}
-+
- /*
-  * ram_block_populate_read: preallocate page tables and populate pages in the
-  *   RAM block by reading a byte of each page.
-@@ -1665,9 +1676,32 @@ static inline void populate_read_range(RAMBlock *block, ram_addr_t offset,
-  *
-  * @block: RAM block to populate
-  */
--static void ram_block_populate_read(RAMBlock *block)
-+static void ram_block_populate_read(RAMBlock *rb)
- {
--    populate_read_range(block, 0, block->used_length);
-+    /*
-+     * Skip populating all pages that fall into a discarded range as managed by
-+     * a RamDiscardManager responsible for the mapped memory region of the
-+     * RAMBlock. Such discarded ("logically unplugged") parts of a RAMBlock
-+     * must not get populated automatically. We don't have to track
-+     * modifications via userfaultfd WP reliably, because these pages will
-+     * not be part of the migration stream either way -- see
-+     * ramblock_dirty_bitmap_exclude_discarded_pages().
-+     *
-+     * Note: The result is only stable while migrating (precopy/postcopy).
-+     */
-+    if (rb->mr && memory_region_has_ram_discard_manager(rb->mr)) {
-+        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(rb->mr);
-+        MemoryRegionSection section = {
-+            .mr = rb->mr,
-+            .offset_within_region = 0,
-+            .size = rb->mr->size,
-+        };
-+
-+        ram_discard_manager_replay_populated(rdm, &section,
-+                                             populate_read_section, NULL);
-+    } else {
-+        populate_read_range(rb, 0, rb->used_length);
-+    }
- }
- 
- /*
+> ---
+>  target/i386/sev.c | 16 +++++++---------
+>  1 file changed, 7 insertions(+), 9 deletions(-)
+> 
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 0062566c71..eede07f11d 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -729,7 +729,7 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
+>      SevGuestState *sev = sev_guest;
+>      int ret, error;
+>      g_autofree guchar *data = NULL;
+> -    g_autofree struct kvm_sev_launch_measure *measurement = NULL;
+> +    struct kvm_sev_launch_measure measurement = {};
+>  
+>      if (!sev_check_state(sev, SEV_STATE_LAUNCH_UPDATE)) {
+>          return;
+> @@ -743,23 +743,21 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
+>          }
+>      }
+>  
+> -    measurement = g_new0(struct kvm_sev_launch_measure, 1);
+> -
+>      /* query the measurement blob length */
+>      ret = sev_ioctl(sev->sev_fd, KVM_SEV_LAUNCH_MEASURE,
+> -                    measurement, &error);
+> -    if (!measurement->len) {
+> +                    &measurement, &error);
+> +    if (!measurement.len) {
+>          error_report("%s: LAUNCH_MEASURE ret=%d fw_error=%d '%s'",
+>                       __func__, ret, error, fw_error_to_str(errno));
+>          return;
+>      }
+>  
+> -    data = g_new0(guchar, measurement->len);
+> -    measurement->uaddr = (unsigned long)data;
+> +    data = g_new0(guchar, measurement.len);
+> +    measurement.uaddr = (unsigned long)data;
+>  
+>      /* get the measurement blob */
+>      ret = sev_ioctl(sev->sev_fd, KVM_SEV_LAUNCH_MEASURE,
+> -                    measurement, &error);
+> +                    &measurement, &error);
+>      if (ret) {
+>          error_report("%s: LAUNCH_MEASURE ret=%d fw_error=%d '%s'",
+>                       __func__, ret, error, fw_error_to_str(errno));
+> @@ -769,7 +767,7 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
+>      sev_set_guest_state(sev, SEV_STATE_LAUNCH_SECRET);
+>  
+>      /* encode the measurement value and emit the event */
+> -    sev->measurement = g_base64_encode(data, measurement->len);
+> +    sev->measurement = g_base64_encode(data, measurement.len);
+>      trace_kvm_sev_launch_measurement(sev->measurement);
+>  }
+>  
+> -- 
+> 2.25.1
+> 
 -- 
-2.31.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
