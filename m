@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79D2429747
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 21:07:17 +0200 (CEST)
-Received: from localhost ([::1]:36192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1432342977C
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 21:18:46 +0200 (CEST)
+Received: from localhost ([::1]:40708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ma0do-0002G3-UX
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 15:07:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44124)
+	id 1ma0ou-0005oT-4a
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 15:18:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ma0cr-0001Xw-Oh
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 15:06:17 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:46893)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ma0cp-0007ym-Eu
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 15:06:16 -0400
-Received: by mail-pf1-x431.google.com with SMTP id t15so1899884pfl.13
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 12:06:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mY5KLwTcu11mT63hmQyY3YPkkD2Bfczm0fE25RmyR6w=;
- b=u069f/UlPorseQtSgw4ilcFGsS35UKf4dMLYquIQx/T8o7FAbT+cBnjlDkUI9crHin
- powbaT7aR19+/SNnd5aFY+x1S6TDjkx2BhotDMXnYPXrJ5Hnhmz7pTs7SK1v34JnvJIz
- b6WW8584zY+pTJ02zWkaoWQNNg0P2hWqTHY/U+s1bql9kSI7CNFbKqamWE67A+nmKROU
- nHYLoRr8CRMmeK7MZIosYA20HBeceGravh8wyuUmuxym3VPfXAP/BG7AoJsHXHgHOn1L
- 7g5/YHq9sr6mM3YC7u27p+f47WA9gtE+Fnt428DaF73nmUMoumOmyXoQ3egukbtigTRV
- aSFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mY5KLwTcu11mT63hmQyY3YPkkD2Bfczm0fE25RmyR6w=;
- b=yY1YZAVp/geE634YF4eLmlqWjjMkmBzEKqG/AayknvPB+vcT6xwKt4VDRCHXSNtAiM
- rH5JNvJdGHbksXvNhljtE4objRAVziS15L3Xn2JkjIrdTKDWY2hEfI23HN0p/QuvY/2r
- 0j9whd+Ce6OonPdJi6KzQR226iXh1KMHUZ+e9fCe8uJDv1iFpy8ubFTeY/E8zQIz1mvw
- 9wPseDUkP2YGSb/RYIjy7aYzo6MIwxoJ83+c4gz17YQXJbWSBgxTSBnhMtL1Yvz97+IL
- Y7PNjtphAvV6O+ehZXATNA4WT8lpqdJ9N/xg6a2K4/kUMJ/tkSMDYhVUVJG0cbMSm1qE
- JUvw==
-X-Gm-Message-State: AOAM531iTFY94WG0yMP+aUjoN2u2P20cr/a3A4/oTJqblFzuNpGZEp+N
- eJ6VjUMHvG3+7BVX4j5bzKl43g==
-X-Google-Smtp-Source: ABdhPJw6HtOVoImUY3JUL0g02sxZGJP/F5IaXREaQQK9Nqe3cuUgoSvJ68OVAGOdiqdH8FHx5a70sA==
-X-Received: by 2002:a63:4f56:: with SMTP id p22mr19627420pgl.134.1633979173923; 
- Mon, 11 Oct 2021 12:06:13 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id fh3sm216625pjb.8.2021.10.11.12.06.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Oct 2021 12:06:13 -0700 (PDT)
-Subject: Re: [PATCH 0/9] nios2: Enable cross compile and fix signals
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20211001153347.1736014-1-richard.henderson@linaro.org>
-Message-ID: <72265bb4-4173-9ce9-12d6-da2a115d34cc@linaro.org>
-Date: Mon, 11 Oct 2021 12:06:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ma0nj-00052C-Ub
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 15:17:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27468)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ma0ng-0005JG-7A
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 15:17:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633979846;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kwkXnr37FRvElGN1jiUnXY3M3/yINf8Y0Q8jVJ9foWo=;
+ b=PZE3+XCBg2Q7WeMg2Pw6mkssd3RJxNUNfUvINcj+dDYRekeDJ2eD0vopUdTZJqiI2tFvw1
+ Ut27jEAN3HQOvWkufVIXGS22gRvYByt5WBxcKpKLLc/KDYui9zaQ4ZjixujvGDMq1yXHPH
+ 0DuTbAJjNcYghOw5t9MAjtSRL9DGwHM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-84-3EPTtPx5Pp6aAYo3iREcxg-1; Mon, 11 Oct 2021 15:17:22 -0400
+X-MC-Unique: 3EPTtPx5Pp6aAYo3iREcxg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85699835DE0
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 19:17:20 +0000 (UTC)
+Received: from redhat.com (ovpn-113-152.phx2.redhat.com [10.3.113.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F7A32657D;
+ Mon, 11 Oct 2021 19:17:11 +0000 (UTC)
+Date: Mon, 11 Oct 2021 14:17:08 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH v4 1/3] QIOChannel: Add io_writev_zerocopy &
+ io_flush_zerocopy callbacks
+Message-ID: <20211011191708.or43v24srlm6srog@redhat.com>
+References: <20211009075612.230283-1-leobras@redhat.com>
+ <20211009075612.230283-2-leobras@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211001153347.1736014-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20211009075612.230283-2-leobras@redhat.com>
+User-Agent: NeoMutt/20210205-852-339c0c
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,53 +78,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, crwulff@gmail.com, alex.bennee@linaro.org, laurent@vivier.eu
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping.
+On Sat, Oct 09, 2021 at 04:56:11AM -0300, Leonardo Bras wrote:
+> Adds io_async_writev and io_async_flush as optional callback to QIOChannelClass,
 
-On 10/1/21 8:33 AM, Richard Henderson wrote:
-> Patches 2, 3, and 5 have appeared before.
+Are these names accurate?
+
+> allowing the implementation of asynchronous writes by subclasses.
 > 
-> The patch for the kuser page has been updated to use the commpage
-> infrastructure, which needed expanding just a bit to handle the
-> page being at the beginning of the address space.
+> How to use them:
+> - Write data using qio_channel_writev_zerocopu(),
+
+s/copu/copy/
+
+> - Wait write completion with qio_channel_flush_zerocopy().
 > 
-> Getting the toolchain built allowed the code to actually be tested,
-> which showed up a few more problems in the testsuite.
+> Notes:
+> As some zerocopy implementations work asynchronously, it's
+> recommended to keep the write buffer untouched until the return of
+> qio_channel_flush_zerocopy(), by the risk of sending an updated buffer
+
+s/by/to avoid/
+
+> instead of the one at the write.
 > 
-> I have already pushed the debian-nios2-cross image to gitlab, much
-> like we did for hexagon and its locally built toolchain.
+> As the new callbacks are optional, if a subclass does not implement them, then:
+> - io_async_writev will return -1,
+> - io_async_flush will return 0 without changing anything.
+
+Are these names accurate?
+
 > 
+> Also, some functions like qio_channel_writev_full_all() were adapted to
+> receive a flag parameter. That allows shared code between zerocopy and
+> non-zerocopy writev.
 > 
-> r~
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+>  include/io/channel.h | 103 +++++++++++++++++++++++++++++++++++--------
+>  io/channel.c         |  74 +++++++++++++++++++++++--------
+>  2 files changed, 141 insertions(+), 36 deletions(-)
 > 
+> diff --git a/include/io/channel.h b/include/io/channel.h
+> index 88988979f8..e7d4e1521f 100644
+> --- a/include/io/channel.h
+> +++ b/include/io/channel.h
+> @@ -32,12 +32,15 @@ OBJECT_DECLARE_TYPE(QIOChannel, QIOChannelClass,
+>  
+>  #define QIO_CHANNEL_ERR_BLOCK -2
+>  
+> +#define QIO_CHANNEL_WRITE_FLAG_ZEROCOPY 0x1
+> +
+>  typedef enum QIOChannelFeature QIOChannelFeature;
+>  
+>  enum QIOChannelFeature {
+>      QIO_CHANNEL_FEATURE_FD_PASS,
+>      QIO_CHANNEL_FEATURE_SHUTDOWN,
+>      QIO_CHANNEL_FEATURE_LISTEN,
+> +    QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY,
+>  };
+>  
+>  
+> @@ -136,6 +139,12 @@ struct QIOChannelClass {
+>                                    IOHandler *io_read,
+>                                    IOHandler *io_write,
+>                                    void *opaque);
+> +    ssize_t (*io_writev_zerocopy)(QIOChannel *ioc,
+> +                                  const struct iovec *iov,
+> +                                  size_t niov,
+> +                                  Error **errp);
+> +    int (*io_flush_zerocopy)(QIOChannel *ioc,
+> +                              Error **errp);
+
+Indentation is off by one.
+
+>  };
+>  
+>  /* General I/O handling functions */
+> @@ -222,12 +231,13 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
+>  
+>  
+>  /**
+> - * qio_channel_writev_full:
+> + * qio_channel_writev_full_flags:
+>   * @ioc: the channel object
+>   * @iov: the array of memory regions to write data from
+>   * @niov: the length of the @iov array
+>   * @fds: an array of file handles to send
+>   * @nfds: number of file handles in @fds
+> + * @flags: write flags (QIO_CHANNEL_WRITE_FLAG_*)
+>   * @errp: pointer to a NULL-initialized error object
+>   *
+>   * Write data to the IO channel, reading it from the
+> @@ -242,6 +252,10 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
+>   * guaranteed. If the channel is non-blocking and no
+>   * data can be sent, it will return QIO_CHANNEL_ERR_BLOCK
+>   *
+> + * If flag QIO_CHANNEL_WRITE_FLAG_ZEROCOPY is passed,
+> + * function will return once each buffer was queued for
+> + * sending.
+
+This would be a good place to document the requirement to keep the
+buffer unchanged until the zerocopy sequence completes.
+
+>                                 Error **errp);
+>  
+>  /**
+> - * qio_channel_writev_full_all:
+> + * qio_channel_writev_full_all_flags:
+>   * @ioc: the channel object
+>   * @iov: the array of memory regions to write data from
+>   * @niov: the length of the @iov array
+>   * @fds: an array of file handles to send
+>   * @nfds: number of file handles in @fds
+> + * @flags: write flags (QIO_CHANNEL_WRITE_FLAG_*)
+>   * @errp: pointer to a NULL-initialized error object
+>   *
+>   *
+> @@ -846,13 +868,58 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
+>   * to be written, yielding from the current coroutine
+>   * if required.
+>   *
+> + * If QIO_CHANNEL_WRITE_FLAG_ZEROCOPY is passed in flags,
+> + * instead of waiting for all requested data to be written,
+> + * this function will wait until it's all queued for writing.
+
+Another good place to document restrictions on buffer stability.
+
+> + *
+>   * Returns: 0 if all bytes were written, or -1 on error
+>   */
+>  
+> -int qio_channel_writev_full_all(QIOChannel *ioc,
+> -                                const struct iovec *iov,
+> -                                size_t niov,
+> -                                int *fds, size_t nfds,
+> -                                Error **errp);
+> +int qio_channel_writev_full_all_flags(QIOChannel *ioc,
+> +                                      const struct iovec *iov,
+> +                                      size_t niov,
+> +                                      int *fds, size_t nfds,
+> +                                      int flags, Error **errp);
+> +#define qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, errp) \
+> +    qio_channel_writev_full_all_flags(ioc, iov, niov, fds, nfds, 0, errp)
+> +
+> +/**
+> + * qio_channel_writev_zerocopy:
+> + * @ioc: the channel object
+> + * @iov: the array of memory regions to write data from
+> + * @niov: the length of the @iov array
+> + * @errp: pointer to a NULL-initialized error object
+> + *
+> + * Behaves like qio_channel_writev_full_all_flags, but will write
+> + * data asynchronously while avoiding unnecessary data copy.
+> + * This function may return before any data is actually written,
+> + * but should queue every buffer for writting.
+
+writing
+
+Another place to document buffer stability considerations.
+
+> + *
+> + * If at some point it's necessary wait for all data to be
+
+s/wait/to wait/
+
+> + * written, use qio_channel_flush_zerocopy().
+> + *
+> + * If zerocopy is not available, returns -1 and set errp.
+> + */
+> +
+> +ssize_t qio_channel_writev_zerocopy(QIOChannel *ioc,
+> +                                    const struct iovec *iov,
+> +                                    size_t niov,
+> +                                    Error **errp);
+> +
+> +/**
+> + * qio_channel_flush_zerocopy:
+> + * @ioc: the channel object
+> + * @errp: pointer to a NULL-initialized error object
+> + *
+> + * Will lock until every packet queued with
+
+s/lock/block/
+
+> + * qio_channel_writev_zerocopy() is sent, or return
+> + * in case of any error.
+> + *
+> + * Returns -1 if any error is found, 0 otherwise.
+> + * If not implemented, returns 0 without changing anything.
+> + */
+> +
+> +int qio_channel_flush_zerocopy(QIOChannel *ioc,
+> +                               Error **errp);
+>  
+>  #endif /* QIO_CHANNEL_H */
+> diff --git a/io/channel.c b/io/channel.c
+> index e8b019dc36..811c93ae23 100644
+> --- a/io/channel.c
+> +++ b/io/channel.c
+
+> +int qio_channel_flush_zerocopy(QIOChannel *ioc,
+> +                               Error **errp)
+> +{
+> +    QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
+> +
+> +    if (!klass->io_flush_zerocopy ||
+> +        !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_WRITE_ZEROCOPY)) {
+> +        return 0;
+
+Matches your documentation, but an ideal app should not be trying to
+flush if the write failed in the first place.  So wouldn't it be
+better to return -1 or even abort() on a coding error?
+
+> +    }
+> +
+> +    return klass->io_flush_zerocopy(ioc, errp);
+> +}
+> +
+> +
+>  static void qio_channel_restart_read(void *opaque)
+>  {
+>      QIOChannel *ioc = opaque;
+> -- 
+> 2.33.0
 > 
-> Richard Henderson (9):
->    tests/docker: Add debian-nios2-cross image
->    linux-user/nios2: Properly emulate EXCP_TRAP
->    linux-user/nios2: Fixes for signal frame setup
->    linux-user/elfload: Rename ARM_COMMPAGE to HI_COMMPAGE
->    linux-user/nios2: Map a real kuser page
->    linux-user/nios2: Fix EA vs PC confusion
->    linux-user/nios2: Fix sigmask in setup_rt_frame
->    linux-user/nios2: Use set_sigmask in do_rt_sigreturn
->    tests/tcg: Enable container_cross_cc for nios2
-> 
->   target/nios2/cpu.h                            |  2 +-
->   linux-user/elfload.c                          | 66 +++++++++++--
->   linux-user/nios2/cpu_loop.c                   | 93 +++++++++---------
->   linux-user/nios2/signal.c                     | 56 +++++------
->   linux-user/signal.c                           |  2 -
->   target/nios2/translate.c                      | 26 +++--
->   tests/docker/Makefile.include                 | 19 ++++
->   .../dockerfiles/debian-nios2-cross.docker     | 34 +++++++
->   .../build-toolchain.sh                        | 97 +++++++++++++++++++
->   tests/tcg/configure.sh                        |  6 ++
->   10 files changed, 302 insertions(+), 99 deletions(-)
->   create mode 100644 tests/docker/dockerfiles/debian-nios2-cross.docker
->   create mode 100755 tests/docker/dockerfiles/debian-nios2-cross.docker.d/build-toolchain.sh
-> 
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
