@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272B1429962
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 00:19:44 +0200 (CEST)
-Received: from localhost ([::1]:36386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94DF429969
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 00:24:09 +0200 (CEST)
+Received: from localhost ([::1]:40830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ma3e2-0002r9-Ks
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 18:19:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57380)
+	id 1ma3iK-00060S-9j
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 18:24:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ma3bo-0001y1-VH
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 18:17:25 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42595)
+ id 1ma3g8-0004XL-SX
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 18:21:52 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ma3bm-0007dW-Ur
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 18:17:24 -0400
-Received: by mail-wr1-x435.google.com with SMTP id v17so60518671wrv.9
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 15:17:22 -0700 (PDT)
+ id 1ma3g5-0007EK-IR
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 18:21:52 -0400
+Received: by mail-wr1-x433.google.com with SMTP id g25so14113587wrb.2
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 15:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=1c6xlXQ1QTb0juz95q6iUa0+1i5jkm1gQO3SWxBdgBY=;
- b=KcLrZN4jzTqfbYgRmYiLpNDG2kRO+whUH18DReiI7GTYr9FmuUnMq4BggDzCtad0Ua
- 1eRovM0GYQzwHikfpg39Dld3WeE+2tKGR9QcaXYWS0wM6W1lgQyWa260o+G1oN7b4Xb5
- 7zF3E4gQRE5DtWcb/8MO53YY/wpW9Z/hyA7Crkd9GWv7JfDIEkGGjywj7hNHAACINN3S
- dZilb/hCDUqz3I2IHB49+Dq/orlYtLyOHMQXjevTPTF8jl6ACzbcqDDyQd1Mn6TXCYNA
- C9t10qBPP6/hj/9JMY7Hls+qmZacUb3jq+xB18zpw4Hv3bbwDSpUu57EwNaV8BhvMP5A
- 11KQ==
+ bh=SVjMBRpAFrFEt6QM8OaQ7tL3c1sySvze9cQ+itkUrxE=;
+ b=WVCKtnimAPNgYS1fQNZdrLDzySFBdQb3HiZA0+7Xk7XCfArk+9Mk89zfcLfV1O/J1F
+ dCDuR6g4XG2MSMKGaHTk9B+ummVNITitGPHtBwpNDmKajpTbGEn0US0SxVacUKNXjt8v
+ n/VDZEkRsubLIy3PPN+f4GlI4t5vl1Qrnhd5Algd8jgPxV9sCKumFtl2p0P9v+ViHLhl
+ E6QhcYXIFW/5XZx8X6cKZosvYZjVnTVkYBJ8WywUAbn7vk6Sy6MKprUEf16zz7KTjg1j
+ kpF5EMe4GFj9i/DsSO7/xURPRzgjvD0UuN3SpYAorWOTJfJgLLD4oAETLQa5JsEIbdFa
+ WFKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=1c6xlXQ1QTb0juz95q6iUa0+1i5jkm1gQO3SWxBdgBY=;
- b=FbKAh86bslO6HwAk9LzStKe4fhWt2mwaw2opJSY0MJEE9jRNlZ2N1xtbeVhY5yE+Vb
- 4IDb2e4pY5ntI2uPa0RxGOfyxKRSSyeeE5dpuqCPaTBKBUXc5uPPXOnbFS0YGzgkTf4/
- E0qSfEFliwyJFug9sAQN7bvtImyFyiVgGP69T1Qt4oEqbGlfWv270Qg+TcApIDrfq8UY
- JtKuNZ1OCs11S7sMllmZ27t5Ipo9SHEhRUfm3SdzxsTffE3oshHcd55u/sNB1H7idwTM
- ltQ+iTih4yuvTQi027ZV4L/eoFH3ieYSa/Qp2S0z+NSDpIDrPgQQs21w0uoVEvNiCw0W
- q9Eg==
-X-Gm-Message-State: AOAM5337U9pRMTHM3fOg3kVgxg6I95XvXcIvKUE9N674x22/bQyqTDl5
- qg2+64C0R98971Gx4hOM0QI=
-X-Google-Smtp-Source: ABdhPJwRBrLc5rt2tvpRC+6JMQC6TtnXwOUlAPfh9UW2RalmRbOeIUaNtJgwhHCHsa8XrgyPnMB7Ew==
-X-Received: by 2002:a05:600c:354a:: with SMTP id
- i10mr1766550wmq.70.1633990640918; 
- Mon, 11 Oct 2021 15:17:20 -0700 (PDT)
+ bh=SVjMBRpAFrFEt6QM8OaQ7tL3c1sySvze9cQ+itkUrxE=;
+ b=obQBfE73v3qOACcgWTXpmDQRIZxZIXLh6A5ngdYCQHQkkUa9JfPcPCbDx5DdCo1eoy
+ 0LDWEuynnkn/dsQcxbwG+SmIy5J1B9iKjwU5Nz30W1wGS1m0K+Acd7hVKFfKVUTsLGi5
+ zkyhrqyzEaQuKZ3rM+IeRZr1VuppBVE8fhL9Tda0J7boo7yP5IY9TtQVDFYE7Zn79A1Z
+ XiDWqQohICj0fhy768wF7qZRA9fZ/wALHqQ/sb3dA3Rf3y/5nrAXLNlSo39UxtkEwLvk
+ Ih9Nqm5fxqfb1fIzWlf3KCD6pBu4bDI5tSHkTjDo9RV6jOdqxsEEYZHPxt317gFxroWU
+ +TBw==
+X-Gm-Message-State: AOAM533CQzwp+PRCqdazdQQplZDY7VsGVnRaZkt/mxiGIAvx0fLnduDi
+ ZxIssba8f2J/CajB5CRsuE8xDY07KeM=
+X-Google-Smtp-Source: ABdhPJyqXXAQ13pWPomN4NPc/RmZPUw4C9rLaI50LhqFPa83VvrssHk8yuvNOaiuZl18MbM/x64Iew==
+X-Received: by 2002:a1c:9dd1:: with SMTP id g200mr1792217wme.42.1633990907737; 
+ Mon, 11 Oct 2021 15:21:47 -0700 (PDT)
 Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id c132sm724700wma.22.2021.10.11.15.17.19
+ by smtp.gmail.com with ESMTPSA id o19sm9164128wrg.60.2021.10.11.15.21.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Oct 2021 15:17:20 -0700 (PDT)
-Message-ID: <8108c69d-a596-d6c9-a116-783f47904deb@amsat.org>
-Date: Tue, 12 Oct 2021 00:17:19 +0200
+ Mon, 11 Oct 2021 15:21:47 -0700 (PDT)
+Message-ID: <bac271eb-bae1-d13f-5605-b82559222ef1@amsat.org>
+Date: Tue, 12 Oct 2021 00:21:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v1 2/2] memory: Update description of
- memory_region_is_mapped()
+Subject: Re: [PATCH 2/4] MAINTAINERS: Add entries to cover MIPS CPS / GIC
+ hardware
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20211011174522.14351-1-david@redhat.com>
- <20211011174522.14351-3-david@redhat.com>
- <93dead18-5ea5-0afe-18c1-de9a06773687@linaro.org>
+To: qemu-devel@nongnu.org, Paul Burton <paulburton@kernel.org>
+References: <20211004092515.3819836-1-f4bug@amsat.org>
+ <20211004092515.3819836-3-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <93dead18-5ea5-0afe-18c1-de9a06773687@linaro.org>
+In-Reply-To: <20211004092515.3819836-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,29 +91,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/21 23:21, Richard Henderson wrote:
-> On 10/11/21 10:45 AM, David Hildenbrand wrote:
->>   /**
->>    * memory_region_is_mapped: returns true if #MemoryRegion is mapped
->> - * into any address space.
->> + * into another #MemoryRegion directly. Will return false if the
->> + * #MemoryRegion is mapped indirectly via an alias.
+Hi Paul,
+
+You are the maintainer of the Boston machine which is the
+only one using these peripherals; would you agree to be
+(co-)maintainer of these files?
+
+Regards,
+
+Phil.
+
+On 10/4/21 11:25, Philippe Mathieu-Daudé wrote:
+> MIPS CPS and GIC models are unrelated to the TCG frontend.
+> Move them as new sections under the 'Devices' group.
 > 
-> Hmm.  I guess.  It kinda sorta sounds like a bug, but I don't know the
-> interface well enough to tell.
-
-I tend to agree there is a generic issue with aliases, see:
-
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg732527.html
-then
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg799622.html
-"memory: Directly dispatch alias accesses on origin memory region"
-
-The API description looks OK to me, I'd rather change the
-implementation... Maybe we need a MR_ALIAS_FOREACH() macro?
+> Cc: Paul Burton <paulburton@kernel.org>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  MAINTAINERS | 22 ++++++++++++++++------
+>  1 file changed, 16 insertions(+), 6 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cfee52a3046..a5268ad0651 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -239,14 +239,8 @@ F: target/mips/
+>  F: configs/devices/mips*/*
+>  F: disas/mips.c
+>  F: docs/system/cpu-models-mips.rst.inc
+> -F: hw/intc/mips_gic.c
+>  F: hw/mips/
+> -F: hw/misc/mips_*
+> -F: hw/timer/mips_gictimer.c
+> -F: include/hw/intc/mips_gic.h
+>  F: include/hw/mips/
+> -F: include/hw/misc/mips_*
+> -F: include/hw/timer/mips_gictimer.h
+>  F: tests/tcg/mips/
+>  
+>  MIPS TCG CPUs (nanoMIPS ISA)
+> @@ -2271,6 +2265,22 @@ S: Odd Fixes
+>  F: hw/intc/openpic.c
+>  F: include/hw/ppc/openpic.h
+>  
+> +MIPS CPS
+> +M: Paul Burton <paulburton@kernel.org>
+> +M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> +S: Odd Fixes
+> +F: hw/misc/mips_*
+> +F: include/hw/misc/mips_*
+> +
+> +MIPS GIC
+> +M: Paul Burton <paulburton@kernel.org>
+> +M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> +S: Odd Fixes
+> +F: hw/intc/mips_gic.c
+> +F: hw/timer/mips_gictimer.c
+> +F: include/hw/intc/mips_gic.h
+> +F: include/hw/timer/mips_gictimer.h
+> +
+>  Subsystems
+>  ----------
+>  Overall Audio backends
+> 
 
