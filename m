@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3CC42935C
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 17:28:46 +0200 (CEST)
-Received: from localhost ([::1]:58634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9157429372
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 17:33:18 +0200 (CEST)
+Received: from localhost ([::1]:34050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZxEL-0001dw-6V
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 11:28:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56396)
+	id 1mZxIi-0004Gs-W7
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 11:33:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mZxDR-0000xq-KW
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:27:49 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:43728)
+ id 1mZxHf-0003Wd-Ka
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:32:11 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:36563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mZxDH-0000mv-5k
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:27:48 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- k23-20020a17090a591700b001976d2db364so239489pji.2
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 08:27:38 -0700 (PDT)
+ id 1mZxHd-000762-HQ
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:32:11 -0400
+Received: by mail-pf1-x434.google.com with SMTP id m26so15160848pff.3
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 08:32:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xChmQHCA86CyJR361yYiY07ai3+Y9FmiLebYXrjFF5I=;
- b=hks/CE/MJGK5ULYEfbQGYqFiUwmU0tVqVi0gBnvq69y3NZSOgorxHPdW/+OF9IRg1M
- FzN/HOQho0LuAJcCC4nKxz1L/OJnXamNyoeap3dU+tM7iwOm/gJghbsQpHdfN9LCHGK4
- AYZ5U/fictLRxI97jrUSWzME7ZOxac/3GRECdTnnyJDu17DPuvYMcBMxds3TB7cdLN7O
- LOYbr57zw7iMzkG6EQp/e1YtoQi2UJTslSirGSKZTFqut1aHjTXmkyf6S1FcQ787kM74
- 4HjgC1y2xP6jSFkWkdq0dR4HAH19EvoWBLlzTPC3MWhXJhG0Z8UAdX0hnO7q3QI1UhlP
- NbTA==
+ bh=gG2qD1Gc0h3+yZ/kc9GVN4oo8JYSlHb21COGBuKsWmw=;
+ b=F+8bK1xC9NV4lVwH6CKSthlMUSZj3YjGExal7+89bsEWeJrjR7uYO0+Wis9zbCUDQt
+ M/YyM+OyS3/5qNtsSPMAT4OcET5CkFzWHlfmSCmnrLl9iuaPqKWjSTwaiDoersnScGZz
+ /X7NDUUddnaWlTRSGUOKoN0WO4VPf7Y1DyiobTGfRyW1z18kvp/9ThRkoEFywWp8jFRu
+ Wfr3FDtS1bLzTL6SGSQgaWZzb/jCjELH+Xpm7j79BbV2yUO5nT5ttML3uQ2yVNYXIY9n
+ UwFtq8s7EgIYT2AO6e57rhaktJtzCVviAin7d4TMb/vVeN70pgp6Gh/KwEdyz+B7zuvA
+ YfSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xChmQHCA86CyJR361yYiY07ai3+Y9FmiLebYXrjFF5I=;
- b=M74KzGiWXiY6/NTbc6W1bh2HiQtgVCfkRr09KMFHkwaPm/UepqoNs5fNhpgXy9nAi1
- uIpkdEEULeAqClO3yuFp7Ofe5Sg7/RE87gViCialM2FTR1PTPs1r/zXCxg9R7BgP702h
- bDZp2JD0O+SKh6YysGlrBP32vP/ezaHyQIE1Buv/WuDkegz6OVo+jHHyu1I/CzHCvwyx
- xJCFwbzf5mE+Pntq/XRBbpwYIO1Au+HInhvcYa2NDbu2w+6W5XvPF51ZJsMdUPMLPWKL
- c1+aNxPnGGWOWzn+N6ybgFXy5FbQL66xT3XIFuQkLYiUsVmglbhGdkBXNsB9HGR92kmL
- R2MA==
-X-Gm-Message-State: AOAM5320la+pJbkX5q4NWD0W9dVH/HuK5Gn5OmjliOpgDrbUmhgXVU7n
- c2HwELUruUbzOHNMwQa6Jm78Cw==
-X-Google-Smtp-Source: ABdhPJw5GTNMavG0nU1p2wCZwB9ZE5tdsJnHOtWYD43Q2hNaI3A68ns5zL+zaYmxzYOnJtnN9GIhEA==
-X-Received: by 2002:a17:90a:190:: with SMTP id
- 16mr31416831pjc.152.1633966057042; 
- Mon, 11 Oct 2021 08:27:37 -0700 (PDT)
+ bh=gG2qD1Gc0h3+yZ/kc9GVN4oo8JYSlHb21COGBuKsWmw=;
+ b=J5/7viNI6VJMCK7vzamxgJSiygADXT+utYqb90tmS36cCVEAlzZ080o/XEQ+bXI+/Q
+ 6EaPCv1vwy2Qc8h7Uv19Wn6rt25nQCADLO9qFAwA6kYxvCNbeDlhVOZeFbPHPYTfRfMh
+ pVrGZdWVs3zlwN5O8xM2pSlrPvXaFV2WzcdU8vNr5yOfk9NOR6p6hIqxUZKx2eCdGb1r
+ w6St+l+/F5/bxIduHFVQl7Yk5sJiuiizhlANwWL6FkQu1OIxStURgpxpH6O57kLKAoCK
+ n240E6YfGLXhQyeqBrVN0I4/rqpIQuTJSwRgCMa4WZ8EJgqtbeoAYWncVLNzpqBHczjh
+ RIaQ==
+X-Gm-Message-State: AOAM533sUkJeCWOfTNxBWhHJDcbmmmq7sCcHwW2I3m42x1RbIMdr8LdE
+ AiAOaabrWwb3B9Vw9xAfJAPdORijk9wQ2g==
+X-Google-Smtp-Source: ABdhPJz/eFKjV4R+UNxNcI+qYjqX81Yz2qB5MPPULM6h4LSG6mrBgAFKiXhskxkADad1ro1b/h+yBQ==
+X-Received: by 2002:a63:7e11:: with SMTP id z17mr18667640pgc.114.1633966327840; 
+ Mon, 11 Oct 2021 08:32:07 -0700 (PDT)
 Received: from [192.168.71.106] (50-205-213-50-static.hfc.comcastbusiness.net.
  [50.205.213.50])
- by smtp.gmail.com with ESMTPSA id v13sm8745872pgt.7.2021.10.11.08.27.36
+ by smtp.gmail.com with ESMTPSA id c11sm13946342pji.38.2021.10.11.08.32.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Oct 2021 08:27:36 -0700 (PDT)
-Subject: Re: [PATCH 3/8] accel/tcg: Support TCG_TARGET_SIGNED_ADDR32 for
- softmmu
-To: WANG Xuerui <i.qemu@xen0n.name>, qemu-devel@nongnu.org
+ Mon, 11 Oct 2021 08:32:07 -0700 (PDT)
+Subject: Re: [PATCH 5/8] linux-user: Support TCG_TARGET_SIGNED_ADDR32
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20211010174401.141339-1-richard.henderson@linaro.org>
- <20211010174401.141339-4-richard.henderson@linaro.org>
- <ded6a5f0-dfcd-d908-afce-491b0273e531@xen0n.name>
+ <20211010174401.141339-6-richard.henderson@linaro.org>
+ <87bl3vyi0p.fsf@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <516e085e-4e58-c45b-10d9-0c7e73cfd241@linaro.org>
-Date: Mon, 11 Oct 2021 08:27:35 -0700
+Message-ID: <709bfead-acb8-16fb-5f97-9d584a694610@linaro.org>
+Date: Mon, 11 Oct 2021 08:32:05 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <ded6a5f0-dfcd-d908-afce-491b0273e531@xen0n.name>
+In-Reply-To: <87bl3vyi0p.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,25 +89,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair.Francis@wdc.com, f4bug@amsat.org
+Cc: git@xen0n.name, Alistair.Francis@wdc.com, f4bug@amsat.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/10/21 9:30 PM, WANG Xuerui wrote:
->> @@ -92,6 +93,9 @@ static inline size_t sizeof_tlb(CPUTLBDescFast *fast)
->>   
->>   static inline uintptr_t g2h_tlbe(const CPUTLBEntry *tlb, target_ulong gaddr)
->>   {
->> +    if (TCG_TARGET_SIGNED_ADDR32 && TARGET_LONG_BITS == 32) {
-> It seems this branch's direction should always match that of the branch
-> added below, so if TARGET_LONG_BITS == TARGET_LONG_BITS == 32 this
-> invariant is broken? Or is this expected behavior?
+On 10/11/21 3:22 AM, Alex Bennée wrote:
+> 
+> Richard Henderson <richard.henderson@linaro.org> writes:
+> 
+>> When using reserved_va, which is the default for a 64-bit host
+>> and a 32-bit guest, set guest_base_signed_addr32 if requested
+>> by TCG_TARGET_SIGNED_ADDR32, and the executable layout allows.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   include/exec/cpu-all.h |  4 ---
+>>   linux-user/elfload.c   | 62 ++++++++++++++++++++++++++++++++++--------
+>>   2 files changed, 50 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+>> index 80b5e17329..71d8e1de7a 100644
+>> --- a/include/exec/cpu-all.h
+>> +++ b/include/exec/cpu-all.h
+>> @@ -278,11 +278,7 @@ extern intptr_t qemu_host_page_mask;
+>>   #define PAGE_RESET     0x0040
+>>   /* For linux-user, indicates that the page is MAP_ANON. */
+>>   #define PAGE_ANON      0x0080
+>> -
+>> -#if defined(CONFIG_BSD) && defined(CONFIG_USER_ONLY)
+>> -/* FIXME: Code that sets/uses this is broken and needs to go away.  */
+>>   #define PAGE_RESERVED  0x0100
+>> -#endif
+> 
+> Can we reference why this FIXME is being dropped in the commit message?
 
-The conditions should match, yes.
+I'm not sure to what pbrook was referring with "... and is already broken" there.  I need 
+something here to reserve a page, PAGE_RESERVED seems like a good name, so I took it out 
+of the cupboard.
 
-In revising the patch set I decided that the tcg backend should simply not set this flag 
-for a 32-bit host.
+I'll do some archaeology.
 
 
 r~
+
+> Looking at the current tree state I can see several uses of it due to
+> moves in 5b6dd8683d (exec: move TB handling to translate-all.c) which
+> post-date 2e9a5713f0 (Remove PAGE_RESERVED).
+> 
+> Otherwise looks reasonable:
+> 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+
 
