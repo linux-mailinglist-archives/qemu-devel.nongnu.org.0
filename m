@@ -2,55 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8580A429612
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 19:50:23 +0200 (CEST)
-Received: from localhost ([::1]:49660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4EA42962A
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 19:57:18 +0200 (CEST)
+Received: from localhost ([::1]:56688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZzRO-0001XW-Jz
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 13:50:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58360)
+	id 1mZzY5-0006dP-Nw
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 13:57:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mZzPA-0008Vl-63
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:48:04 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:46238)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzVl-00054Z-QN
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:54:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mZzP7-00086g-Sa
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:48:03 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B1FE7755F86;
- Mon, 11 Oct 2021 19:47:59 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8F984748F4B; Mon, 11 Oct 2021 19:47:59 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 8DBD0748F52;
- Mon, 11 Oct 2021 19:47:59 +0200 (CEST)
-Date: Mon, 11 Oct 2021 19:47:59 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: ACPI endianness
-In-Reply-To: <20211011115521-mutt-send-email-mst@kernel.org>
-Message-ID: <864f1144-b2ba-c5ab-cff2-2fce3518f4ab@eik.bme.hu>
-References: <957db5ec-fc70-418-44d9-da4f81f5b98@eik.bme.hu>
- <612d2f0b-f312-073d-b796-c76357ba51a2@redhat.com>
- <d8284c4-c2e7-15e9-bec5-b2f619e1e6ad@eik.bme.hu>
- <20211011080528-mutt-send-email-mst@kernel.org>
- <327dd794-f698-3187-c17d-80b33db664b@eik.bme.hu>
- <20211011093206-mutt-send-email-mst@kernel.org>
- <f247499d-ced0-5b98-85ac-57a79b72816a@eik.bme.hu>
- <20211011115521-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzVk-0001ID-0O
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:54:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633974890;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kfL7Ru2uRFL4TPcKcrKOBXv3vkUTz91c9Uvm0rjfi14=;
+ b=RUqCAg54M9R6jKsKkFAuHvWkqMlPx7y7WO9YCgsV6es5NtExyOkq4mtClykkMUKaKow6kC
+ Kj3+zGWrldt6Mts3dtZeQhz7UHUAKVEsmQTeH0j16SMBAlmHmSIisGR6GeLVYG0lC9Y5cp
+ ZX4cJfztxcbjbjKKeRHrFiFEdzZACN0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-572-IRG9cT19MHGSzqdzUa4VYQ-1; Mon, 11 Oct 2021 13:54:47 -0400
+X-MC-Unique: IRG9cT19MHGSzqdzUa4VYQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5E3410B3940;
+ Mon, 11 Oct 2021 17:54:46 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.192.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE4DE1981C;
+ Mon, 11 Oct 2021 17:53:47 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/9] migration/ram: Optimize for virtio-mem via
+ RamDiscardManager
+Date: Mon, 11 Oct 2021 19:53:37 +0200
+Message-Id: <20211011175346.15499-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,46 +74,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, pbonzini@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Oct 2021, Michael S. Tsirkin wrote:
-> On Mon, Oct 11, 2021 at 03:51:01PM +0200, BALATON Zoltan wrote:
->>> ... but given we did not previously do the read, maybe we should keep
->>> it that way at least for the time being.
->>
->> How do you know there was no read before this write? Did you check it? I've
->> only added a printf in the write method and saw the value was swapped but
->> did not check if there was a read before that. There are no traces in these
->> methods so maybe I would not see it unless adding a printf there too.
->
-> All I am saying is that qemu did not convert a write into
-> a read+write.
+This series is fully reviewed by Peter and I hope we can get either more
+review feedback or get it merged via the migration tree soonish. Thanks.
 
-OK confirmed that by disabling pm_io_space_update() in hw/isa/vt82c686.c 
-so the via-pm region is never mapped and then modifying the log messages 
-for invalid accesses (patch sent separately) I get:
+---
 
-~ # poweroff
-Sent SIGKILL to all processes
-Requesting system poweroff
-pci_cfg_write vt82c686b-usb-uhci 12:3 @0xc0 <- 0x8f00
-pci_cfg_write vt82c686b-usb-uhci 12:2 @0xc0 <- 0x8f00
-[   16.498465] reboot: Power down
-Invalid write at addr 0xFE000F05, size 1, region '(null)', reason: rejected
-Invalid write at addr 0xF05, size 1, region '(null)', reason: rejected
+virtio-mem exposes a dynamic amount of memory within RAMBlocks by
+coordinating with the VM. Memory within a RAMBlock can either get
+plugged and consequently used by the VM, or unplugged and consequently no
+longer used by the VM. Logical unplug is realized by discarding the
+physical memory backing for virtual memory ranges, similar to memory
+ballooning.
 
-So the guest only tries to write one byte but not sure if the read 
-generated within memory.c would show up in these logs. I suspect if you 
-fixed that you'd get all sorts of problems with other device models so the 
-less likely to break anything fix would be to go back to native endian for 
-acpi but I wait for what you come up with. I'd like this to be fixed one 
-way or another for 6.2 and fixing endianness would probably be enough for 
-that.
+However, important difference to virtio-balloon are:
 
-Regards,
-BALATON Zoltan
+a) A virtio-mem device only operates on its assigned memory region /
+   RAMBlock ("device memory")
+b) Initially, all device memory is logically unplugged
+c) Virtual machines will never accidentally reuse memory that is currently
+   logically unplugged. The spec defines most accesses to unplugged memory
+   as "undefined behavior" -- except reading unplugged memory, which is
+   currently expected to work, but that will change in the future.
+d) The (un)plug granularity is in the range of megabytes -- "memory blocks"
+e) The state (plugged/unplugged) of a memory block is always known and
+   properly tracked.
+
+Whenever memory blocks within the RAMBlock get (un)plugged, changes are
+communicated via the RamDiscardManager to other QEMU subsystems, most
+prominently vfio which updates the DMA mapping accordingly. "Unplugging"
+corresponds to "discarding" and "plugging" corresponds to "populating".
+
+While migrating (precopy/postcopy) that state of such memory blocks cannot
+change, as virtio-mem will reject any guest requests that would change
+the state of blocks with "busy". We don't want to migrate such logically
+unplugged memory, because it can result in an unintended memory consumption
+both, on the source (when reading memory from some memory backends) and on
+the destination (when writing memory). Further, migration time can be
+heavily reduced when skipping logically unplugged blocks and we avoid
+populating unnecessary page tables in Linux.
+
+Right now, virtio-mem reuses the free page hinting infrastructure during
+precopy to exclude all logically unplugged ("discarded") parts from the
+migration stream. However, there are some scenarios that are not handled
+properly and need fixing. Further, there are some ugly corner cases in
+postcopy code and background snapshotting code that similarly have to
+handle such special RAMBlocks.
+
+Let's reuse the RamDiscardManager infrastructure to essentially handle
+precopy, postcopy and background snapshots cleanly, which means:
+
+a) In precopy code, fixing up the initial dirty bitmaps (in the RAMBlock
+   and e.g., KVM) to exclude discarded ranges.
+b) In postcopy code, placing a zeropage when requested to handle a page
+   falling into a discarded range -- because the source will never send it.
+   Further, fix up the dirty bitmap when overwriting it in recovery mode.
+c) In background snapshot code, never populating discarded ranges, not even
+   with the shared zeropage, to avoid unintended memory consumption,
+   especially in the future with hugetlb and shmem.
+
+Detail: When realizing a virtio-mem devices, it will register the RAM
+        for migration via vmstate_register_ram(). Further, it will
+        set itself as the RamDiscardManager for the corresponding memory
+        region of the RAMBlock via memory_region_set_ram_discard_manager().
+        Last but not least, memory device code will actually map the
+        memory region into guest physical address space. So migration
+        code can always properly identify such RAMBlocks.
+
+Tested with precopy/postcopy on shmem, where even reading unpopulated
+memory ranges will populate actual memory and not the shared zeropage.
+Tested with background snapshots on anonymous memory, because other
+backends are not supported yet with upstream Linux.
+
+
+v5 -> v6:
+- Rebased and added ACKs
+
+v4 -> v5:
+- "migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
+   destination"
+-- Use ROUND_DOWN and fix compile warning on 32 bit
+-- Use int128_make64() instead of wrongly int128_get64()
+- "migration: Simplify alignment and alignment checks"
+-- Use ROUND_DOWN where possible instead of QEMU_ALIGN_DOWN and fix
+   compilation warning on 32 bit
+- "migration/ram: Factor out populating pages readable in
+   ram_block_populate_pages()"
+-- Rename functions, add a comment.
+- "migration/ram: Handle RAMBlocks with a RamDiscardManager on background
+   snapshots"
+-- Adjust to changed function names
+
+v3 -> v4:
+- Added ACKs
+- "migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
+   destination"
+-- Use QEMU_ALIGN_DOWN() to align to ram pagesize
+- "migration: Simplify alignment and alignment checks"
+-- Added
+- "migration/ram: Factor out populating pages readable in
+   ram_block_populate_pages()"
+-- Added
+- "migration/ram: Handle RAMBlocks with a RamDiscardManager on background
+   snapshots"
+-- Simplified due to factored out code
+
+v2 -> v3:
+- "migration/ram: Don't passs RAMState to
+   migration_clear_memory_region_dirty_bitmap_*()"
+-- Added to make the next patch easier to implement
+- "migration/ram: Handle RAMBlocks with a RamDiscardManager on the migration
+   source"
+-- Fixup the dirty bitmaps only initially and during postcopy recovery,
+   not after every bitmap sync. Also properly clear the dirty bitmaps e.g.,
+   in KVM. [Peter]
+- "migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
+   destination"
+-- Take care of proper host-page alignment [Peter]
+
+v1 -> v2:
+- "migration/ram: Handle RAMBlocks with a RamDiscardManager on the
+   migration source"
+-- Added a note how it interacts with the clear_bmap and what we might want
+   to further optimize in the future when synchronizing bitmaps.
+
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Cc: Marek Kedzierski <mkedzier@redhat.com>
+Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: teawater <teawaterz@linux.alibaba.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+David Hildenbrand (9):
+  memory: Introduce replay_discarded callback for RamDiscardManager
+  virtio-mem: Implement replay_discarded RamDiscardManager callback
+  migration/ram: Don't passs RAMState to
+    migration_clear_memory_region_dirty_bitmap_*()
+  migration/ram: Handle RAMBlocks with a RamDiscardManager on the
+    migration source
+  virtio-mem: Drop precopy notifier
+  migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
+    destination
+  migration: Simplify alignment and alignment checks
+  migration/ram: Factor out populating pages readable in
+    ram_block_populate_pages()
+  migration/ram: Handle RAMBlocks with a RamDiscardManager on background
+    snapshots
+
+ hw/virtio/virtio-mem.c         |  92 ++++++++++-------
+ include/exec/memory.h          |  21 ++++
+ include/hw/virtio/virtio-mem.h |   3 -
+ migration/migration.c          |   6 +-
+ migration/postcopy-ram.c       |  40 ++++++--
+ migration/ram.c                | 180 +++++++++++++++++++++++++++++----
+ migration/ram.h                |   1 +
+ softmmu/memory.c               |  11 ++
+ 8 files changed, 284 insertions(+), 70 deletions(-)
+
+-- 
+2.31.1
+
 
