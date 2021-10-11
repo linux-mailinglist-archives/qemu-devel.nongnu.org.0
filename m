@@ -2,90 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0113942941E
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 18:04:36 +0200 (CEST)
-Received: from localhost ([::1]:55416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 613ED42944B
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 18:10:43 +0200 (CEST)
+Received: from localhost ([::1]:32822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZxn0-0002uI-KT
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 12:04:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34150)
+	id 1mZxsu-0006oZ-4h
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 12:10:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mZxep-0005Jc-0L
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:56:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50980)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mZxem-0004nl-HR
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:56:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633967764;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f7J8ErIyYnJFcKyKhyY+pn7w6HQ5L7yIOoHmuELwx4w=;
- b=IN1IZ2mQrg21e+2G6s/QIKWGZc0ourtv3+xlQYeBq61Z7jGOq2VX4/y0LvHiZGXX1xntcz
- w0ZIzFa0n9FEhUqtyeSWUQegKkwfYbefn1eHhLLEFbz+BZAEas7g0s3/SOUup8JYkFBRyG
- v1K+smzZxT7BzSTLm1HR8nTZwSqkT94=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-NItCEjnlPcGqVxZD4l080A-1; Mon, 11 Oct 2021 11:56:02 -0400
-X-MC-Unique: NItCEjnlPcGqVxZD4l080A-1
-Received: by mail-ed1-f72.google.com with SMTP id
- r11-20020aa7cfcb000000b003d4fbd652b9so14251778edy.14
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 08:56:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mZxgP-0006vX-K2
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:57:45 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42955)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mZxgN-0006AD-Pl
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 11:57:45 -0400
+Received: by mail-wr1-x430.google.com with SMTP id v17so57679989wrv.9
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 08:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8QeImzhxeArYxA8dgfjiuewMOTyjc4+cRdvgVAToBmc=;
+ b=Bxx3JVpH0HCdmEprt/m4I119EFgT3lCTuZjatAMPuOiAaCU1FBjaZn91kWWXnol/rd
+ ht55MEZsEn8uVXfqmDpc+OkOUBXVS/+uywuqeSoaJ6Diq3d1H0eeYaewSRt4cJjLvGjg
+ ADIlrvHiWKgFxZ+sFTwT7z7p3e1voGXurpfgmpAHHPmSRU+LlOp0QU6w3enTY+pcCK1s
+ mjtPN8x/v/DMO/lKVNGDCk+Ylh7SGx7vERGhn8jwjc4oegMKIeFxfI0ybaVwx94gjxyA
+ WVMDga3NX/hStAgn6rfTgFZ6VCkUTXkZy267lG9gR4EmVlX41Rd8f+igo5g1dg3ht+CE
+ Pw9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=f7J8ErIyYnJFcKyKhyY+pn7w6HQ5L7yIOoHmuELwx4w=;
- b=y2/XscZK/Vm4m2yF8aH2GNNqvtoKzctxFHUqLPbFabumM4sa9GP58IwfcRpn+QD3Uf
- OUcSuVdWl7XTZSbQ5BX/QVLjVlS+wThcGjnJByTqInLYV0WPaTfpEyS/qlE5op2j8Xrm
- AQepx966jU+ZaAjnIiwWYqoja+boofdV47WXfvJbXenPeU9gWZgzYMJZoLUY/FMte5D1
- F7PjL/52ihGU4koN90o+vMKTZIXN8clMLTy/btZbCDv/p60C3daD5pwkj4Fq7zM5yhPv
- 7843UrSz5RvL7HBXsnAC7b8AbkkwmXEWFll2BfeYt46Dr65KhproKmv29herZi64AB3L
- d/mg==
-X-Gm-Message-State: AOAM533G0a3ze5/LOA8Zlzor8D8b8wtOBUS9HZ3ieMXgm5L+h9uiDu0v
- A7jLuAwdJahDgw4/G527QYv8eX4EK6KnUXKtgpr7dmQWUytEge2INosHyloIBH6ThNLfCEC7Hrh
- MZ+is9MKPDWe52dY=
-X-Received: by 2002:a50:d809:: with SMTP id o9mr42724358edj.149.1633967761580; 
- Mon, 11 Oct 2021 08:56:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwQIvGMK5zdDhbEUGcVHsLdRAYVuv9XcO7Lgm3oNZJd2TPjapPopeBgk5VNw1eA986ZJflW+g==
-X-Received: by 2002:a50:d809:: with SMTP id o9mr42724332edj.149.1633967761412; 
- Mon, 11 Oct 2021 08:56:01 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id lm14sm3673760ejb.24.2021.10.11.08.56.00
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8QeImzhxeArYxA8dgfjiuewMOTyjc4+cRdvgVAToBmc=;
+ b=gZw2NUvVoWbAj0aDyywgb2H8Mm36xm5ZZRTl6eJSDj4IF534bvs7g3HpwbPUPvvnnZ
+ LldG8+UbgtzWOY8gZCTZIFHfKu+pQiCC1zxLslzYvU5COeIo0iLSHxp3fkRQ7zAYbrGZ
+ wQ1S85ZjwtQ+igfYk3pV+n6bz6/U0rZYDniiDMLx8LxYBBPIn2PsQvs/hdmgbfIDj/LI
+ W/mG6H7sTQTL/rgGay5vKCnAnKRc77J5lrPiZnfvzu227NxskLqBmDVfIqirSEFDZYAy
+ B5XyRifRrgYEXA/stSW2wYLxrhXIHX2T+xQVFRpQvJvRJd7S6s4qvlfK2UZaOMXGwveh
+ dwVg==
+X-Gm-Message-State: AOAM533iDU7WmdburJUztMO07da587vqtH1FpJbCTcrnVfdi56XpGz72
+ /SK8Oqnfytl1RiBohL4Amn0dyA==
+X-Google-Smtp-Source: ABdhPJx6IAnzoD9zdYofOLLY95BPWefRs4hrb5KjZTUZgUUnH/ZA3vK9NAv12JM7SrlBqiPqXiwc8w==
+X-Received: by 2002:a05:6000:18a2:: with SMTP id
+ b2mr25963921wri.155.1633967861786; 
+ Mon, 11 Oct 2021 08:57:41 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d3sm8499360wrb.36.2021.10.11.08.57.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Oct 2021 08:56:00 -0700 (PDT)
-Date: Mon, 11 Oct 2021 17:55:59 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v4 08/11] tests/acpi: allow updates of VIOT expected
- data files
-Message-ID: <20211011175559.3d10bab3@redhat.com>
-In-Reply-To: <YWBjHrELdZIBXcOD@myrica>
-References: <20211001173358.863017-1-jean-philippe@linaro.org>
- <20211001173358.863017-9-jean-philippe@linaro.org>
- <20211006101215.24414401@redhat.com> <YWBjHrELdZIBXcOD@myrica>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ Mon, 11 Oct 2021 08:57:40 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D35EB1FF96;
+ Mon, 11 Oct 2021 16:57:39 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] target/s390x: move tcg_gen_insn_start to
+ s390x_tr_insn_start
+Date: Mon, 11 Oct 2021 16:57:29 +0100
+Message-Id: <20211011155729.3222362-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,68 +86,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
- mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, ani@anisinha.ca,
- pbonzini@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, richard.henderson@linaro.org,
+ "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 Oct 2021 16:26:22 +0100
-Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+We use INDEX_op_insn_start to make the start of instruction
+boundaries. If we don't do it in the .insn_start hook things get
+confused especially now plugins want to use that marking to identify
+the start of instructions and will bomb out if it sees instrumented
+ops before the first instruction boundary.
 
-> On Wed, Oct 06, 2021 at 10:12:15AM +0200, Igor Mammedov wrote:
-> > On Fri,  1 Oct 2021 18:33:56 +0100
-> > Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
-> >   
-> > > Create empty data files and allow updates for the upcoming VIOT tests.
-> > > 
-> > > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > > ---
-> > >  tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
-> > >  tests/data/acpi/q35/DSDT.viot               | 0  
-> > 
-> > does default tests/data/acpi/q35/DSDT differs from
-> > DSDT.viot?  
-> 
-> Yes the VIOT test has one more PCI device (virtio-iommu) and PXB devices,
-> so there are additional descriptors in the DSDT
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ target/s390x/tcg/translate.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-
-also see tests/qtest/bios-tables-test.c step 6
-(---include diff--- part)
-
-> 
-> Thanks,
-> Jean
-> 
-> >   
-> > >  tests/data/acpi/q35/VIOT.viot               | 0
-> > >  tests/data/acpi/virt/VIOT                   | 0
-> > >  4 files changed, 3 insertions(+)
-> > >  create mode 100644 tests/data/acpi/q35/DSDT.viot
-> > >  create mode 100644 tests/data/acpi/q35/VIOT.viot
-> > >  create mode 100644 tests/data/acpi/virt/VIOT
-> > > 
-> > > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> > > index dfb8523c8b..29b5b1eabc 100644
-> > > --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> > > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> > > @@ -1 +1,4 @@
-> > >  /* List of comma-separated changed AML files to ignore */
-> > > +"tests/data/acpi/virt/VIOT",
-> > > +"tests/data/acpi/q35/DSDT.viot",
-> > > +"tests/data/acpi/q35/VIOT.viot",
-> > > diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
-> > > new file mode 100644
-> > > index 0000000000..e69de29bb2
-> > > diff --git a/tests/data/acpi/q35/VIOT.viot b/tests/data/acpi/q35/VIOT.viot
-> > > new file mode 100644
-> > > index 0000000000..e69de29bb2
-> > > diff --git a/tests/data/acpi/virt/VIOT b/tests/data/acpi/virt/VIOT
-> > > new file mode 100644
-> > > index 0000000000..e69de29bb2  
-> >   
-> 
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index f284870cd2..fe145ff2eb 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -6380,9 +6380,6 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
+     /* Search for the insn in the table.  */
+     insn = extract_insn(env, s);
+ 
+-    /* Emit insn_start now that we know the ILEN.  */
+-    tcg_gen_insn_start(s->base.pc_next, s->cc_op, s->ilen);
+-
+     /* Not found means unimplemented/illegal opcode.  */
+     if (insn == NULL) {
+         qemu_log_mask(LOG_UNIMP, "unimplemented opcode 0x%02x%02x\n",
+@@ -6550,8 +6547,30 @@ static void s390x_tr_tb_start(DisasContextBase *db, CPUState *cs)
+ {
+ }
+ 
++/*
++ * We just enough partial instruction decoding here to calculate the
++ * length of the instruction so we can drop the INDEX_op_insn_start
++ * before anything else is emitted in the TCGOp stream.
++ *
++ * See extract_insn for the full decode.
++ */
+ static void s390x_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
+ {
++    CPUS390XState *env = cs->env_ptr;
++    DisasContext *s = container_of(dcbase, DisasContext, base);
++    uint64_t insn, pc = s->base.pc_next;
++    int op, ilen;
++
++    if (unlikely(s->ex_value)) {
++        ilen = s->ex_value & 0xf;
++    } else {
++        insn = ld_code2(env, s, pc);  /* FIXME: don't reload same pc twice */
++        op = (insn >> 8) & 0xff;
++        ilen = get_ilen(op);
++    }
++
++    /* Emit insn_start now that we know the ILEN.  */
++    tcg_gen_insn_start(s->base.pc_next, s->cc_op, ilen);
+ }
+ 
+ static void s390x_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+-- 
+2.30.2
 
 
