@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20A7429609
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 19:47:28 +0200 (CEST)
-Received: from localhost ([::1]:44986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D21D42960F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 19:49:54 +0200 (CEST)
+Received: from localhost ([::1]:49078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZzOZ-0006kC-GL
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 13:47:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57586)
+	id 1mZzQu-00018C-RK
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 13:49:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzMs-0005I2-5o
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:45:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32171)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzMj-0001QL-MK
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzMo-0005GT-89
  for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:45:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mZzMk-0001Qe-Al
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:45:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633974332;
+ s=mimecast20190719; t=1633974333;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2C6ZPQ/IUloN0BLppwVSOFa1qzaeGoIE0ME10GKv/1o=;
- b=IJTvB6xiPqAtq98Tk5kUNvhsxLcpDKyvlyHUwyUn6CnNwbib8pLrCqsGnRm8hy77cHh1vd
- jcVX5DoU0cx2A0AzjY5FBG8NfMnbyjmxACnyMTbN0kseSIjRw5BwkCDL9UGMJTl0opYeJF
- chqej4geK+DXi636GXfk23Y2fgMnhVM=
+ bh=uJZT7kZKsjzVFTbBDJjSNXKf9s3+cTG9pTvhqdd9ups=;
+ b=arG83VfDgq7iepsWxnXfV7R0G7xYeNrsiYwZ/tGvfaNBBPFv6HE0C6vnWz8DlbAn5JnSWV
+ kLg0Hk976TaMcYKX1T0F5Z0c7OIAzre1k9a34l4tSZR7SwZF6E2/D+53RW9yOBx/KOLFMy
+ CTad/UL/t33l/gmcGT0cQaaXWABP/BM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-JTphlqWzMSGFoRl7OjXwzw-1; Mon, 11 Oct 2021 13:45:29 -0400
-X-MC-Unique: JTphlqWzMSGFoRl7OjXwzw-1
+ us-mta-113-3uP3GOZ0Ov-t7UTTtJ_wiA-1; Mon, 11 Oct 2021 13:45:32 -0400
+X-MC-Unique: 3uP3GOZ0Ov-t7UTTtJ_wiA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BB6D100C67B;
- Mon, 11 Oct 2021 17:45:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5940618125DF;
+ Mon, 11 Oct 2021 17:45:31 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.192.99])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD688ADCF;
- Mon, 11 Oct 2021 17:45:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6AA63ADEB;
+ Mon, 11 Oct 2021 17:45:28 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/2] machine: Use host_memory_backend_is_mapped() in
- machine_consume_memdev()
-Date: Mon, 11 Oct 2021 19:45:20 +0200
-Message-Id: <20211011174522.14351-2-david@redhat.com>
+Subject: [PATCH v1 2/2] memory: Update description of memory_region_is_mapped()
+Date: Mon, 11 Oct 2021 19:45:21 +0200
+Message-Id: <20211011174522.14351-3-david@redhat.com>
 In-Reply-To: <20211011174522.14351-1-david@redhat.com>
 References: <20211011174522.14351-1-david@redhat.com>
 MIME-Version: 1.0
@@ -85,32 +84,31 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_is_mapped() is the wrong check, we actually want to check
-whether the backend is already marked mapped.
+memory_region_is_mapped() only indicates if the memory region is mapped
+into a different memory region, and only if it is mapped directly
+(->container), not via an alias.
 
-For example, memory regions mapped via an alias, such as NVDIMMs,
-currently don't make memory_region_is_mapped() return "true". As the
-machine is initialized before any memory devices (and thereby before
-NVDIMMs are initialized), this isn't a fix but merely a cleanup.
+Update the documentation to make this clearer.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/core/machine.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/exec/memory.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index b8d95eec32..a1db865939 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -1260,7 +1260,7 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
- {
-     MemoryRegion *ret = host_memory_backend_get_memory(backend);
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index a185b6dcb8..abc17fc3c0 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2265,7 +2265,8 @@ bool memory_region_present(MemoryRegion *container, hwaddr addr);
  
--    if (memory_region_is_mapped(ret)) {
-+    if (host_memory_backend_is_mapped(backend)) {
-         error_report("memory backend %s can't be used multiple times.",
-                      object_get_canonical_path_component(OBJECT(backend)));
-         exit(EXIT_FAILURE);
+ /**
+  * memory_region_is_mapped: returns true if #MemoryRegion is mapped
+- * into any address space.
++ * into another #MemoryRegion directly. Will return false if the
++ * #MemoryRegion is mapped indirectly via an alias.
+  *
+  * @mr: a #MemoryRegion which should be checked if it's mapped
+  */
 -- 
 2.31.1
 
