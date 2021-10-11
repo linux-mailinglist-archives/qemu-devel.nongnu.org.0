@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD09429959
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 00:10:52 +0200 (CEST)
-Received: from localhost ([::1]:58214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272B1429962
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 00:19:44 +0200 (CEST)
+Received: from localhost ([::1]:36386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ma3VT-0006aX-Si
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 18:10:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55690)
+	id 1ma3e2-0002r9-Ks
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 18:19:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ma3SQ-0005Bz-FO
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 18:07:42 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44928)
+ id 1ma3bo-0001y1-VH
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 18:17:25 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ma3SM-00083e-7f
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 18:07:39 -0400
-Received: by mail-wr1-x436.google.com with SMTP id e3so26909605wrc.11
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 15:07:37 -0700 (PDT)
+ id 1ma3bm-0007dW-Ur
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 18:17:24 -0400
+Received: by mail-wr1-x435.google.com with SMTP id v17so60518671wrv.9
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 15:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+Tyy+CuLcnc7Z1pev45M2cc4fld5sb0G5OqJFdd5A84=;
- b=LL51qgU0ZRzCh+WXkE1IrZn0cLKDKdFXcwaHFNTavK3pupPasachMsVhfZewg4HqMm
- TMuo7t8calh5xHgqPrrNKsgYsX7eHYwjAyCF2/4HqVgcNgAqYmqu+eIXAWvM4En1JQLW
- gqgdbl1zhMZ9bFSI7baVxOzVhr2C/ph5TLx9vkv/U6ucs/HCtqP5ux35/1+2NpQaSogc
- kXIcFwWYg8IpE8bSLNzInLSurUAqXRzuMpuMYz+tslAzkDArL1IDNhUb7yB4OF/IMYgU
- HpOZ1Y6MVpYfl2STEQMzbFi78D3AeBZAzD40VIT8dhKdtjogOkOMetKYUTPz+9+PS1yY
- AGrw==
+ bh=1c6xlXQ1QTb0juz95q6iUa0+1i5jkm1gQO3SWxBdgBY=;
+ b=KcLrZN4jzTqfbYgRmYiLpNDG2kRO+whUH18DReiI7GTYr9FmuUnMq4BggDzCtad0Ua
+ 1eRovM0GYQzwHikfpg39Dld3WeE+2tKGR9QcaXYWS0wM6W1lgQyWa260o+G1oN7b4Xb5
+ 7zF3E4gQRE5DtWcb/8MO53YY/wpW9Z/hyA7Crkd9GWv7JfDIEkGGjywj7hNHAACINN3S
+ dZilb/hCDUqz3I2IHB49+Dq/orlYtLyOHMQXjevTPTF8jl6ACzbcqDDyQd1Mn6TXCYNA
+ C9t10qBPP6/hj/9JMY7Hls+qmZacUb3jq+xB18zpw4Hv3bbwDSpUu57EwNaV8BhvMP5A
+ 11KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+Tyy+CuLcnc7Z1pev45M2cc4fld5sb0G5OqJFdd5A84=;
- b=n/u2YGmuoA5goccpFO4ok3VmHFzIsRjY22bolJoRDkNPaqJy8bJlt4MHzvrZQ+JFns
- YWTcS2ezib57/s3jeji3Qd+cznA/r8/kEB/xdPxtWQnNpRI99W+obRHWs/4BblXZV40g
- 5lykpdoXjU+9P6q7HHPUWoZiZSwA3+WaMswcIKtw6zaJ6v5QwlMd50i62g5MQaC2ecm1
- Mz1kIA2WTiqXd6fgwRD1MzFCIpnq28WqkgqPbzxCMQbIbQXmAh8Rc2kR6Hp4fArjL1rZ
- Lb+pA6bj+KAfeGfDAMclKQ5TgYc8DU3/PRh33fNp7du0DIWB2G8DpB55ZHaSM9AFt/WA
- AU/w==
-X-Gm-Message-State: AOAM530p35MjIdyv6z5i2hY6oAhsPqpg9aRc8zlOaYmFLQIcSxyvQfjl
- bDoHby13b5KIK0sz75N15/8=
-X-Google-Smtp-Source: ABdhPJwlwJUJRFU2t1hovxkmH1ipyk6GNoZYL/7LgfpnAJmkw0bZ7+LVQbnYDIzhIEqqdVultqQGag==
-X-Received: by 2002:adf:b604:: with SMTP id f4mr28185438wre.111.1633990056945; 
- Mon, 11 Oct 2021 15:07:36 -0700 (PDT)
+ bh=1c6xlXQ1QTb0juz95q6iUa0+1i5jkm1gQO3SWxBdgBY=;
+ b=FbKAh86bslO6HwAk9LzStKe4fhWt2mwaw2opJSY0MJEE9jRNlZ2N1xtbeVhY5yE+Vb
+ 4IDb2e4pY5ntI2uPa0RxGOfyxKRSSyeeE5dpuqCPaTBKBUXc5uPPXOnbFS0YGzgkTf4/
+ E0qSfEFliwyJFug9sAQN7bvtImyFyiVgGP69T1Qt4oEqbGlfWv270Qg+TcApIDrfq8UY
+ JtKuNZ1OCs11S7sMllmZ27t5Ipo9SHEhRUfm3SdzxsTffE3oshHcd55u/sNB1H7idwTM
+ ltQ+iTih4yuvTQi027ZV4L/eoFH3ieYSa/Qp2S0z+NSDpIDrPgQQs21w0uoVEvNiCw0W
+ q9Eg==
+X-Gm-Message-State: AOAM5337U9pRMTHM3fOg3kVgxg6I95XvXcIvKUE9N674x22/bQyqTDl5
+ qg2+64C0R98971Gx4hOM0QI=
+X-Google-Smtp-Source: ABdhPJwRBrLc5rt2tvpRC+6JMQC6TtnXwOUlAPfh9UW2RalmRbOeIUaNtJgwhHCHsa8XrgyPnMB7Ew==
+X-Received: by 2002:a05:600c:354a:: with SMTP id
+ i10mr1766550wmq.70.1633990640918; 
+ Mon, 11 Oct 2021 15:17:20 -0700 (PDT)
 Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id z79sm668636wmc.17.2021.10.11.15.07.35
+ by smtp.gmail.com with ESMTPSA id c132sm724700wma.22.2021.10.11.15.17.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Oct 2021 15:07:36 -0700 (PDT)
-Message-ID: <a46d7a56-8f1e-758b-c1f0-eea0221b0b27@amsat.org>
-Date: Tue, 12 Oct 2021 00:07:35 +0200
+ Mon, 11 Oct 2021 15:17:20 -0700 (PDT)
+Message-ID: <8108c69d-a596-d6c9-a116-783f47904deb@amsat.org>
+Date: Tue, 12 Oct 2021 00:17:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 1/8] tcg: Add TCG_TARGET_SIGNED_ADDR32
+Subject: Re: [PATCH v1 2/2] memory: Update description of
+ memory_region_is_mapped()
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211010174401.141339-1-richard.henderson@linaro.org>
- <20211010174401.141339-2-richard.henderson@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20211011174522.14351-1-david@redhat.com>
+ <20211011174522.14351-3-david@redhat.com>
+ <93dead18-5ea5-0afe-18c1-de9a06773687@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211010174401.141339-2-richard.henderson@linaro.org>
+In-Reply-To: <93dead18-5ea5-0afe-18c1-de9a06773687@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,27 +94,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: git@xen0n.name, Alistair.Francis@wdc.com
+Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/10/21 19:43, Richard Henderson wrote:
-> Define as 0 for all tcg hosts.  Put this in a separate header,
-> because we'll want this in places that do not ordinarily have
-> access to all of tcg/tcg.h.
+On 10/11/21 23:21, Richard Henderson wrote:
+> On 10/11/21 10:45 AM, David Hildenbrand wrote:
+>>   /**
+>>    * memory_region_is_mapped: returns true if #MemoryRegion is mapped
+>> - * into any address space.
+>> + * into another #MemoryRegion directly. Will return false if the
+>> + * #MemoryRegion is mapped indirectly via an alias.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/aarch64/tcg-target-sa32.h | 1 +
->  tcg/arm/tcg-target-sa32.h     | 1 +
->  tcg/i386/tcg-target-sa32.h    | 1 +
->  tcg/mips/tcg-target-sa32.h    | 1 +
->  tcg/ppc/tcg-target-sa32.h     | 1 +
->  tcg/riscv/tcg-target-sa32.h   | 1 +
->  tcg/s390x/tcg-target-sa32.h   | 1 +
->  tcg/sparc/tcg-target-sa32.h   | 1 +
->  tcg/tci/tcg-target-sa32.h     | 1 +
->  9 files changed, 9 insertions(+)
+> Hmm.  I guess.  It kinda sorta sounds like a bug, but I don't know the
+> interface well enough to tell.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+I tend to agree there is a generic issue with aliases, see:
+
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg732527.html
+then
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg799622.html
+"memory: Directly dispatch alias accesses on origin memory region"
+
+The API description looks OK to me, I'd rather change the
+implementation... Maybe we need a MR_ALIAS_FOREACH() macro?
 
