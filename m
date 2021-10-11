@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1D5428BCD
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 13:13:10 +0200 (CEST)
-Received: from localhost ([::1]:33636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD79428BCF
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 13:13:44 +0200 (CEST)
+Received: from localhost ([::1]:35072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZtEz-0001nK-Eg
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 07:13:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53356)
+	id 1mZtFV-0002mV-EW
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 07:13:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mZtCV-0008Fy-7o
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:10:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27768)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mZtCR-0007hB-KP
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:10:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633950630;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sFZlcV+c3vnePYS4ANGNK8XN5Lx4T6xplkM754Xt+2E=;
- b=QyURNC55da36EzyTSnn6LV9MmMDRPaZRK9nBvhSRL0yS6W5Sqc/HQr+y5T3cm4ueTzvfWa
- SagtAVDpX+C2KcD9SrKaeIo/ugzwKHATgxU+/+sjqCSyKkadMV528cZyU+Z1fmKzXm9r2i
- 8IW0BK46Bnd3/S/pUMrek0DXar98w6Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-g2XxsJAMN-aSW4otwYSk6g-1; Mon, 11 Oct 2021 07:10:27 -0400
-X-MC-Unique: g2XxsJAMN-aSW4otwYSk6g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED33F835DE6;
- Mon, 11 Oct 2021 11:10:25 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.224])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69B9B26E4C;
- Mon, 11 Oct 2021 11:10:12 +0000 (UTC)
-Date: Mon, 11 Oct 2021 12:10:11 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH v2 11/25] include/block/blockjob.h: global state API
-Message-ID: <YWQbkx4oAnCK7kXV@stefanha-x1.localdomain>
-References: <20211005143215.29500-1-eesposit@redhat.com>
- <20211005143215.29500-12-eesposit@redhat.com>
- <YV8C+W7PQkVI4+gR@stefanha-x1.localdomain>
- <dc0ca1d9-1dd6-c139-394a-7d5671289d47@redhat.com>
+ (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
+ id 1mZtDV-0000jT-FV
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:11:37 -0400
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:33584)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
+ id 1mZtDS-0007vt-Es
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 07:11:36 -0400
+Received: by mail-lf1-x132.google.com with SMTP id j21so54391451lfe.0
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 04:11:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=thKMvx2/Oik4deTXCBKXlDjROfopMKfjIXTbpftNZkI=;
+ b=NiuP47YXvRiFIlqgoKy1zO0ugOe1HhreGSbCdvDCmg6uyise3x/VhqqJGN0e0phNNp
+ xc1X3hrlle7S7jXJPQZ/NxrDKUpO0IqBEkhJ8gKPensDGvnbAR0LaBOO0yrKohXuAVk4
+ gHAvJs5yT40OIzn6PyPyHQrP3F1xI22hggbTfBxLva5IvY2mDrzfMFzhzY3PiixGny8E
+ RGNshcyvRA2oveXYw1MKHiffE239/J2GhX1LX8fM5coZo8MJLbfN7aMdfEx2skyJc9aN
+ hIsc6irj1hpR8Sg4Aei0CX2BM5Naqaynnwu/ZmvgPCb1fbQDWKWYxW/gZUQoZy44FZbK
+ PXYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=thKMvx2/Oik4deTXCBKXlDjROfopMKfjIXTbpftNZkI=;
+ b=wdplbmMCIHhj53l28e93A4d2hRKftkJn45mPPbA1boIXvJTj1ErlgaRCwRggzbwfqJ
+ reYmh9bd5PKsb4uqRZMF+wNCUDk2Rv9gfSLvHCR8wLNMPok8SMi2gRX6Rck2k7jl+Qnr
+ KpvBWiUd2T1juMTdthRexJzeGa0olW3B8yFtUgtHMOAB8c3lfHLTdwOV5xrPCuIbVuB/
+ wsMykY2wsXXhyw6rBUhc4HKFHuam++oydman7mXmkgxlIjtQZHbpQwGQaid88coX6sP1
+ uXM/ZPli1+uEFQw2TgvOdG52xz//q0O3xZFMHbHtrAddNYUrfikYvBGHYIk5q64lDYeX
+ 8i2A==
+X-Gm-Message-State: AOAM530tbPs3szaqd8ESnvVZbRMEDv9r3VilFbSxqhW/AP47IjJrkh1I
+ LWwjg83UFqFTL6wPBUxUgxUOijGa0PkXbw==
+X-Google-Smtp-Source: ABdhPJzVw3vjasGHs0xai1b0lgDbVYRLMvRuwsBMWhbd1CwZZqs2MREXVxTX4oHayx9Q4s9plODGnQ==
+X-Received: by 2002:a2e:94cd:: with SMTP id r13mr22117517ljh.529.1633950691701; 
+ Mon, 11 Oct 2021 04:11:31 -0700 (PDT)
+Received: from pc-System-Product-Name.intra.ispras.ru ([85.142.117.226])
+ by smtp.gmail.com with ESMTPSA id v62sm705333lfa.23.2021.10.11.04.11.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Oct 2021 04:11:31 -0700 (PDT)
+From: Arkadiy <arkaisp2021@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] contrib/plugins: add a drcov plugin
+Date: Mon, 11 Oct 2021 14:11:30 +0300
+Message-Id: <20211011111130.170178-1-arkaisp2021@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <dc0ca1d9-1dd6-c139-394a-7d5671289d47@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="B8toEKuAEPDI+uyj"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::132;
+ envelope-from=arkaisp2021@gmail.com; helo=mail-lf1-x132.google.com
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,81 +80,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: NDNF <arkaisp2021@gmail.com>, Ivanov Arkady <arkadiy.ivanov@ispras.ru>,
+ alex.bennee@linaro.org, pavel.dovgaluk@ispras.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---B8toEKuAEPDI+uyj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: NDNF <arkaisp2021@gmail.com>
 
-On Fri, Oct 08, 2021 at 09:20:35AM +0200, Emanuele Giuseppe Esposito wrote:
->=20
-> > > +/*
-> > > + * Global state (GS) API. These functions run under the BQL lock.
-> > > + *
-> > > + * If a function modifies the graph, it also uses drain and/or
-> > > + * aio_context_acquire/release to be sure it has unique access.
-> > > + * aio_context locking is needed together with BQL because of
-> > > + * the thread-safe I/O API that concurrently runs and accesses
-> > > + * the graph without the BQL.
-> > > + *
-> > > + * It is important to note that not all of these functions are
-> > > + * necessarily limited to running under the BQL, but they would
-> > > + * require additional auditing and may small thread-safety changes
-> > > + * to move them into the I/O API. Often it's not worth doing that
-> > > + * work since the APIs are only used with the BQL held at the
-> > > + * moment, so they have been placed in the GS API (for now).
-> > > + *
-> > > + * All functions below must use this assertion:
-> > > + * g_assert(qemu_in_main_thread());
-> > > + * to catch when they are accidentally called without the BQL.
-> > > + */
-> >=20
-> > This is comment is duplicated in many places. I suggest explaining it i=
-n
-> > one place and using references in the other files:
-> >=20
-> >    /*
-> >     * Global state (GS) API. These functions run under the BQL lock.
-> >     *
-> >     * See include/block/block.h for more information about the GS API.
-> >     */
-> >=20
->=20
-> Good idea. Should I also do that for I/O, or it's not worth for very few
-> lines?
+This patch adds the ability to generate files in drcov format.
+Primary goal this script is to have coverage
+logfiles thatwork in Lighthouse.
+Problems:
+    - The path to the executable file is not specified.
+    - base, end, entry take incorrect values.
+      (Lighthouse + IDA Pro anyway work).
 
-Up to you, but I think it makes sense to have a minimal comment for both
-the GS and I/O API.
+Signed-off-by: Ivanov Arkady <arkadiy.ivanov@ispras.ru>
+---
+ contrib/plugins/Makefile |   1 +
+ contrib/plugins/drcov.c  | 112 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 113 insertions(+)
+ create mode 100644 contrib/plugins/drcov.c
 
-Stefan
-
---B8toEKuAEPDI+uyj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFkG5MACgkQnKSrs4Gr
-c8hjTAgAgwouBjGbMWjXjMKV/xr1QnrpIhODVhIcZNFAKg6RtA5n1w85K6BUhcze
-mcCkwdtGaI66fmi0AvYcQLps7GlL4CeH4RL4Jg52feSG5h0YXqI6covHMV45coQT
-r6WIkQj8MTxdEu1yOSKNOUgkPkkxCyIkuUUzIqAQUX+c2wZzzf+SEfn4ycfszFid
-oFplS2pZbzS35GttC9A/RlrzmT43TlY9aweQ6V+auMyBKZZYYMKpoQ2t1MZ8ValD
-O4wqyxOMvYkdkhkVelQtrYd+GbkmTl56A0XVHy/j65ghgqChv5d1o5SRQWXmzmBI
-2yalcPzNEGnBa6JoKxXn6kmoNu4UUg==
-=wGpc
------END PGP SIGNATURE-----
-
---B8toEKuAEPDI+uyj--
+diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
+index 7801b08b0d..0a681efeec 100644
+--- a/contrib/plugins/Makefile
++++ b/contrib/plugins/Makefile
+@@ -17,6 +17,7 @@ NAMES += hotblocks
+ NAMES += hotpages
+ NAMES += howvec
+ NAMES += lockstep
++NAMES += drcov
+ 
+ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
+ 
+diff --git a/contrib/plugins/drcov.c b/contrib/plugins/drcov.c
+new file mode 100644
+index 0000000000..d6a7d131c0
+--- /dev/null
++++ b/contrib/plugins/drcov.c
+@@ -0,0 +1,112 @@
++/*
++ * Copyright (C) 2021, Ivanov Arkady <arkadiy.ivanov@ispras.ru>
++ *
++ * Drcov - a DynamoRIO-based tool that collects coverage information
++ * from a binary. Primary goal this script is to have coverage log
++ * files that work in Lighthouse.
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
++
++#include <inttypes.h>
++#include <assert.h>
++#include <stdlib.h>
++#include <inttypes.h>
++#include <string.h>
++#include <unistd.h>
++#include <stdio.h>
++#include <glib.h>
++
++#include <qemu-plugin.h>
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
++static char header[] = "DRCOV VERSION: 2\n"
++                "DRCOV FLAVOR: drcov-64\n"
++                "Module Table: version 2, count 1\n"
++                "Columns: id, base, end, entry, path\n";
++
++static FILE *fp;
++
++typedef struct {
++    uint32_t start;
++    uint16_t size;
++    uint16_t mod_id;
++} bb_entry_t;
++
++static GSList *bbs;
++
++static void printfHeader()
++{
++    g_autoptr(GString) head = g_string_new("");
++    g_string_append(head, header);
++    g_string_append_printf(head, "0, 0x%x, 0x%x, 0x%x, %s\n",
++                           0, 0xffffffff, 0, "path");
++    g_string_append_printf(head, "BB Table: %d bbs\n", g_slist_length(bbs));
++    fwrite(head->str, sizeof(char), head->len, fp);
++}
++
++static void printfCharArray32(uint32_t data)
++{
++    const uint8_t *bytes = (const uint8_t *)(&data);
++    fwrite(bytes, sizeof(char), sizeof(data), fp);
++}
++
++static void printfCharArray16(uint16_t data)
++{
++    const uint8_t *bytes = (const uint8_t *)(&data);
++    fwrite(bytes, sizeof(char), sizeof(data), fp);
++}
++
++
++static void printf_el(gpointer data, gpointer user_data)
++{
++    bb_entry_t *bb = (bb_entry_t *)data;
++    printfCharArray32(bb->start);
++    printfCharArray16(bb->size);
++    printfCharArray16(bb->mod_id);
++}
++
++static void plugin_exit(qemu_plugin_id_t id, void *p)
++{
++    /* Print function */
++    printfHeader();
++    g_slist_foreach(bbs, printf_el, NULL);
++
++    /* Clear */
++    g_slist_free_full(bbs, &g_free);
++    fclose(fp);
++}
++
++static void plugin_init(void)
++{
++    fp = fopen("file.drcov.trace", "wb");
++}
++
++static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
++{
++    bb_entry_t *bb = g_new0(bb_entry_t, 1);
++    uint64_t pc = qemu_plugin_tb_vaddr(tb);
++
++    size_t n = qemu_plugin_tb_n_insns(tb);
++    for (int i = 0; i < n; i++) {
++        bb->size += qemu_plugin_insn_size(qemu_plugin_tb_get_insn(tb, i));
++    }
++
++    bb->start = pc;
++    bb->mod_id = 0;
++    bbs = g_slist_append(bbs, bb);
++
++}
++
++QEMU_PLUGIN_EXPORT
++int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
++                        int argc, char **argv)
++{
++    plugin_init();
++
++    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
++    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++    return 0;
++}
+-- 
+2.25.1
 
 
