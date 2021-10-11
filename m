@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA364296FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 20:39:50 +0200 (CEST)
-Received: from localhost ([::1]:48438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB200429715
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 20:47:01 +0200 (CEST)
+Received: from localhost ([::1]:50776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ma0DE-0007Bh-T1
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 14:39:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39428)
+	id 1ma0KC-0000gW-TF
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 14:47:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ma0C4-0006QN-6C
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 14:38:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36472)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ma0IK-0008Kr-KH
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 14:45:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ma0Bz-0000Om-SI
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 14:38:34 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ma0II-0005MK-1l
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 14:45:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633977509;
+ s=mimecast20190719; t=1633977900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=5OuhW2GghLeMr75sm3Gfa0NJwA+IRVUpxZH372KEKhI=;
- b=bLcwAxqp9wJ5Ei/HMOLmDn+MA/k/ZZx9dvBThuCnl0Qmpc4YX/yNdz9+2mfIrv/NLsfsiP
- rKfvLfuVK1kJQ0Jx/PEsU1ICUcCdq8S9meow5r2L5KqGqGIkSPIY4geSmbOmM91phL0hlQ
- aC5Gj74K8M+DiSsylUFovRzGIOsvKGI=
+ bh=C/MwrKU8SG4luihh3jvCWIFSEK6cxU57ULMzsI8OjB8=;
+ b=NEjYqc8xs6buYl8nQeuq+y2dlBSjLcDtMiJE8MhYT5O55ZM9+KsA0caBNSeVEAGMq5iOWk
+ He6F27msnQqiU83noIEnHt8szzk+TVqtC52rzkXkjO52IDWAWcp3+pbbIyY8E9wbzfht5a
+ dRcXMkQgaDOdocc/xL/L2aTmd+P8b3c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-LhXtf--fO4eL8jjWrJXCIg-1; Mon, 11 Oct 2021 14:38:24 -0400
-X-MC-Unique: LhXtf--fO4eL8jjWrJXCIg-1
+ us-mta-578-Od8cDSbYNlyW9tyggrmoGg-1; Mon, 11 Oct 2021 14:44:59 -0400
+X-MC-Unique: Od8cDSbYNlyW9tyggrmoGg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B24A8801AC3;
- Mon, 11 Oct 2021 18:38:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9263783DB2A;
+ Mon, 11 Oct 2021 18:44:58 +0000 (UTC)
 Received: from redhat.com (ovpn-113-152.phx2.redhat.com [10.3.113.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA4E660C2B;
- Mon, 11 Oct 2021 18:37:57 +0000 (UTC)
-Date: Mon, 11 Oct 2021 13:37:55 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D3AB5BAEC;
+ Mon, 11 Oct 2021 18:44:58 +0000 (UTC)
+Date: Mon, 11 Oct 2021 13:44:56 -0500
 From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 1/5] qapi: Enable enum member introspection to show
- more than name
-Message-ID: <20211011183755.zu6sdrj7xaxudoyr@redhat.com>
-References: <20211009120944.2858887-1-armbru@redhat.com>
- <20211009120944.2858887-2-armbru@redhat.com>
+To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Subject: Re: [PATCH v2 1/6] net/vmnet: dependencies setup, initial preparations
+Message-ID: <20211011184456.rohhk5b3umslmmdz@redhat.com>
+References: <20210831192720.33406-1-yaroshchuk2000@gmail.com>
+ <20210831192720.33406-2-yaroshchuk2000@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20211009120944.2858887-2-armbru@redhat.com>
+In-Reply-To: <20210831192720.33406-2-yaroshchuk2000@gmail.com>
 User-Agent: NeoMutt/20210205-852-339c0c
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -78,80 +77,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
- libvir-list@redhat.com, qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com,
- pkrempa@redhat.com, marcandre.lureau@redhat.com, jsnow@redhat.com,
- libguestfs@redhat.com
+Cc: jasowang@redhat.com, r.bolshakov@yadro.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 09, 2021 at 02:09:40PM +0200, Markus Armbruster wrote:
-> The next commit will add feature flags to enum members.  There's a
-> problem, though: query-qmp-schema shows an enum type's members as an
-> array of member names (SchemaInfoEnum member @values).  If it showed
-> an array of objects with a name member, we could simply add more
-> members to these objects.  Since it's just strings, we can't.
+On Tue, Aug 31, 2021 at 10:27:15PM +0300, Vladislav Yaroshchuk wrote:
+> Add 'vmnet' customizable option and 'vmnet.framework' probe into
+> configure;
 > 
-> I can see three ways to correct this design mistake:
+> Create separate netdev per each vmnet operating mode
+> because they use quite different settings. Especially since
+> macOS 11.0 (vmnet.framework API gets lots of updates)
+> Create source files for network client driver, update meson.build;
 > 
-> 1. Do it the way we should have done it, plus compatibility goo.
-...
-> 2. Like 1, but omit "boring" elements of @member, and empty @member.
-
-> 3. Versioned query-qmp-schema.
-
-> This commit implements 1.  Libvirt developers prefer it.
+> Three new netdevs are added:
+> - vmnet-host
+> - vmnet-shared
+> - vmnet-bridged
 > 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 > ---
->  qapi/introspect.json       | 21 +++++++++++++++++++--
->  scripts/qapi/introspect.py | 18 ++++++++++++++----
->  2 files changed, 33 insertions(+), 6 deletions(-)
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+While I'm not the best for reviewing the overall series, I can at
+least comment on the proposed QAPI changes:
 
-> 
-> diff --git a/qapi/introspect.json b/qapi/introspect.json
-> index 39bd303778..f806bd7281 100644
-> --- a/qapi/introspect.json
-> +++ b/qapi/introspect.json
-> @@ -142,14 +142,31 @@
->  #
->  # Additional SchemaInfo members for meta-type 'enum'.
->  #
-> -# @values: the enumeration type's values, in no particular order.
-> +# @members: the enum type's members, in no particular order
-> +#           (since 6.2).
+> +++ b/qapi/net.json
+> @@ -452,6 +452,89 @@
+>      '*vhostdev':     'str',
+>      '*queues':       'int' } }
+>  
+> +##
+> +# @NetdevVmnetHostOptions:
 > +#
-> +# @values: the enumeration type's member names, in no particular order.
-> +#          Redundant with @members.  Just for backward compatibility.
->  #
->  # Values of this type are JSON string on the wire.
->  #
->  # Since: 2.5
->  ##
->  { 'struct': 'SchemaInfoEnum',
-> -  'data': { 'values': ['str'] } }
-> +  'data': { 'members': [ 'SchemaInfoEnumMember' ],
-> +            'values': ['str'] } }
+> +# vmnet (host mode) network backend.
+> +#
+> +# Allows the vmnet interface to communicate with
+> +# other vmnet interfaces that are in host mode and also with the native host.
+> +#
+> +# @dhcpstart: The starting IPv4 address to use for the interface. Must be in the
+> +#             private IP range (RFC 1918). Must be specified along
+> +#             with @dhcpend and @subnetmask.
+> +#             This address is used as the gateway address. The subsequent address
+> +#             up to and including dhcpend are placed in the DHCP pool.
 
-Not deprecated at this time, I agree with your choice to make the
-actual deprecation of 'values' to be in a later patch (if at all).
+Long lines.  Most of the qapi docs wrap around 70 or so columns rather
+than pushing right up to the 80 column limit.
+
+> +#
+> +# @dhcpend: The DHCP IPv4 range end address to use for the interface. Must be in
+> +#           the private IP range (RFC 1918). Must be specified along
+> +#           with @dhcpstart and @subnetmask.
+> +#
+> +# @subnetmask: The IPv4 subnet mask to use on the interface. Must be specified
+> +#              along with @dhcpstart and @subnetmask.
+> +#
+> +#
+> +# Since: 6.2,
+
+Drop the trailing comma
+
+> +##
+> +{ 'struct': 'NetdevVmnetHostOptions',
+> +  'data': {
+> +    '*dhcpstart':   'str',
+> +    '*dhcpend':     'str',
+> +    '*subnetmask':  'str'
+> +  },
+> +  'if': 'CONFIG_VMNET' }
+> +
+> +##
+> +# @NetdevVmnetSharedOptions:
+> +#
+> +# vmnet (shared mode) network backend.
+> +#
+> +# Allows traffic originating from the vmnet interface to reach the
+> +# Internet through a network address translator (NAT). The vmnet interface
+> +# can also communicate with the native host. By default, the vmnet interface
+> +# is able to communicate with other shared mode interfaces. If a subnet range
+> +# is specified, the vmnet interface can communicate with other shared mode
+> +# interfaces on the same subnet.
+> +#
+> +# @dhcpstart: The starting IPv4 address to use for the interface. Must be in the
+> +#             private IP range (RFC 1918). Must be specified along
+> +#             with @dhcpend and @subnetmask.
+> +#             This address is used as the gateway address. The subsequent address
+> +#             up to and including dhcpend are  placed in the DHCP pool.
+
+extra space
+
+> +#
+> +# @dhcpend: The DHCP IPv4 range end address to use for the interface. Must be in
+> +#           the private IP range (RFC 1918). Must be specified along
+> +#           with @dhcpstart and @subnetmask.
+> +#
+> +# @subnetmask: The IPv4 subnet mask to use on the interface. Must be specified
+> +#              along with @dhcpstart and @subnetmask.
+> +#
+> +#
+> +# Since: 6.2,
+
+Another odd comma
+
+> +##
+> +{ 'struct': 'NetdevVmnetSharedOptions',
+> +  'data': {
+> +    '*dhcpstart':    'str',
+> +    '*dhcpend':      'str',
+> +    '*subnetmask':   'str'
+> +  },
+> +  'if': 'CONFIG_VMNET' }
+
+The NetdevVmnetHostOptions and NetdevVmnetSharedOptions types are
+identical; why do you need two types?
 
 > +
 > +##
-> +# @SchemaInfoEnumMember:
+> +# @NetdevVmnetBridgedOptions:
 > +#
-> +# An object member.
+> +# vmnet (bridged mode) network backend.
 > +#
-> +# @name: the member's name, as defined in the QAPI schema.
+> +# Bridges the vmnet interface with a physical network interface.
+> +#
+> +# @ifname: The name of the physical interface to be bridged.
 > +#
 > +# Since: 6.2
 > +##
-> +{ 'struct': 'SchemaInfoEnumMember',
-> +  'data': { 'name': 'str' } }
+> +{ 'struct': 'NetdevVmnetBridgedOptions',
+> +  'data': { 'ifname': 'str' },
+> +  'if': 'CONFIG_VMNET' }
+> +
+>  ##
+>  # @NetClientDriver:
+>  #
+> @@ -460,10 +543,16 @@
+>  # Since: 2.7
+>  #
+>  #        @vhost-vdpa since 5.1
+> +#        @vmnet-host since 6.2
+> +#        @vmnet-shared since 6.2
+> +#        @vmnet-bridged since 6.2
+>  ##
+>  { 'enum': 'NetClientDriver',
+>    'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
+> +            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
+> +            { 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' },
+> +            { 'name': 'vmnet-shared', 'if': 'CONFIG_VMNET' },
+> +            { 'name': 'vmnet-bridged', 'if': 'CONFIG_VMNET' }] }
+>  
+>  ##
+>  # @Netdev:
+> @@ -477,6 +566,9 @@
+>  # Since: 1.2
+>  #
+>  #        'l2tpv3' - since 2.1
+> +#        'vmnet-host' - since 6.2
+> +#        'vmnet-shared' - since 6.2
+> +#        'vmnet-bridged' - since 6.2
+>  ##
+>  { 'union': 'Netdev',
+>    'base': { 'id': 'str', 'type': 'NetClientDriver' },
+> @@ -492,7 +584,10 @@
+>      'hubport':  'NetdevHubPortOptions',
+>      'netmap':   'NetdevNetmapOptions',
+>      'vhost-user': 'NetdevVhostUserOptions',
+> -    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
+> +    'vhost-vdpa': 'NetdevVhostVDPAOptions',
+> +    'vmnet-host': 'NetdevVmnetHostOptions',
+> +    'vmnet-shared': 'NetdevVmnetSharedOptions',
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+If you only declare one type instead of two above, then both these
+branches can use that same type.
+
+> +    'vmnet-bridged': 'NetdevVmnetBridgedOptions' } }
+>  
+>  ##
+>  # @RxState:
+> -- 
+> 2.23.0
+> 
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
