@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F534291D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 16:31:14 +0200 (CEST)
-Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D2042921C
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 16:38:16 +0200 (CEST)
+Received: from localhost ([::1]:41228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZwKe-0001y0-Uq
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 10:31:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44398)
+	id 1mZwRS-0002Xl-Tf
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 10:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mZwIN-0000dk-L5
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 10:28:52 -0400
-Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929]:40460)
+ (Exim 4.90_1) (envelope-from <gsomlo@gmail.com>) id 1mZwPV-00016G-SP
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 10:36:14 -0400
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:44781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mZwIJ-0000QF-Di
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 10:28:50 -0400
-Received: by mail-ua1-x929.google.com with SMTP id i8so13153578uae.7
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 07:28:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IZCmHyRFbrMNNefMgCD5HnaqWh0fIRVdm6DuPCqQGd4=;
- b=JyCsiOj/XpM5luuVUBXykng/KnGov585bqffpVbWWd3CnARW1jobMrmdhUgmmMz90l
- DzjG0SbygyvH7ohNaRbHVeLGGnPBr9L3yL6pYpFYD2fZlC6lFAND18Lfe1CCD5esbh79
- FJn9FbeRLq12z6grxtM0/zrZi7p9sjApc0QI5Tda5oAkJDaZI9hw1/Vk09T/zMGwVFlV
- +zwz6fAVoC3fjaRhdbCuG8ri6jp+oEopN4TSr/MEcUqpd+GNJIYDZodHtXLHaB8y63Uy
- 6BeV7CaHN0WcsHiXrDFLnJLXCh+G+gSxgcifzi3nqxaHS3vYyVsZCQkDobeBrnt0Fonv
- O+Ag==
+ (Exim 4.90_1) (envelope-from <gsomlo@gmail.com>) id 1mZwPU-0001FD-CD
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 10:36:13 -0400
+Received: by mail-qt1-x832.google.com with SMTP id r16so16531171qtw.11
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 07:36:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :in-reply-to; bh=OFPjncNKcFa1uoibtjUN2TZCnZurHkPVpnRywtKazRs=;
+ b=Ytz9vTJB2WRpqLxDrVKqNRY3MyunHRC3AY3E+tSCf1g/jJLVgRayE1Cg0T240siS+U
+ aytVsYW4qo3Pc6Ir6IKb7VjKUWThDKXCMVYboaoTXCI7u32FWERfPPCoGFf+3ut0+1SN
+ CO4gMVonG2jnp2Tnd0pyT6KhPk3dfRp8ZZuuufvfKURmxVXdZVFIYN826h8FWwWW87Vu
+ 7DD4VaqaWuT2sWRjCoVGeFfhuYRtLjIgglBrha1bEXwu9ElgQlhIQeUX1JFMTWHfa/Wr
+ BRMww4tElO/Bd/UaSRRlGKEMa2PrBLCYYsNvOLkNVybsU9BLQ7pEOxn3F7l0SkRO3baW
+ G1GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IZCmHyRFbrMNNefMgCD5HnaqWh0fIRVdm6DuPCqQGd4=;
- b=kCerk4TG1ksr+OfYQDVHBjwq42rf2iN+5kfcMiRHaqiZNa36+tRA4FLZtUrfnGCeWp
- 8alFaurQoCCvLshedTlA/pKnRPgej4P+4Wyi66QpQDxvq0YqgTv1QyxKprY+DfS1w4pB
- RSn/wlc4iXljoO1/Afol+dLC5iYn3QqgQqGnb1lTCeRcE+oo4yXeXE57chWZ1xVOfLhv
- yXr//emNu2FL2hHbPExw2pgFqroFyNDHkCSiVGBKn/Hmt0XLVTm78oulnmTgGwYtkjJk
- 1bzzmWHHvQTztq4W7pv8Xqlm7mZhs1/2cIPI0ialLMUD6EoN6N3PYs0NytNSuxv7F4LW
- jP8Q==
-X-Gm-Message-State: AOAM532u9NT9TtnhyswwqBefq8UKto3TtTECLPeThjUqA/VqVVNTfIXO
- eWGf9W8o/Aod+aYbBCPRLxwWVL9n62DgFQFcpBDTjg==
-X-Google-Smtp-Source: ABdhPJz08MZuoa2ctPiz8mi26Vd8Y3ffF1Dde1rAhKYGw2he0Mhs1RSN/SaIQVfSwrcanR7cX880sWL1gJZvUn1hagA=
-X-Received: by 2002:a9f:23d0:: with SMTP id 74mr14867727uao.69.1633962525213; 
- Mon, 11 Oct 2021 07:28:45 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:in-reply-to;
+ bh=OFPjncNKcFa1uoibtjUN2TZCnZurHkPVpnRywtKazRs=;
+ b=7ApqkjZ3HnE+EZRs8Dr9tNFY8RvvHi5sCtUjKrjCi54wfERpTZyxeN3yT/EhZgsviy
+ E6AbjAliFUIaid9f7yR8QrE3E7D3XfX3r4l1/DeoxKI7HtMkN5F5zD1WMexPSoKFoFCi
+ Dvc9LceU7KQpcrLs+g0ZZ465CG9sAh/TUF/K9vfs3KE5jG/FnzPrh0eUMdMWMbF5165G
+ LJ/6E3jMaxt/Ca7iU6kBgwLXu5nlPfJ0KOybOu6FdDsIE5s2ZV/S5VNKxe2zFdqwSbhx
+ gqFty8h7yfTXq3JxbNyoXHaXx1Ooot4dMznxvsSsmfSydvJ4uF9U3HXSwMK6v8m/2tzX
+ ZROA==
+X-Gm-Message-State: AOAM531+a+eJBv8SoJqRr7iMb7TMqhNqOFHMsJ9k+dW+EaDsYJo904xu
+ ntMuupN27HFx/qWNyxZx/jU=
+X-Google-Smtp-Source: ABdhPJw284Sz7PP8B1J6RfVW2XY9visB/1yzn63erp5di+o9WF4Dh0InlO/ARfTixHy4exKnVEDyxw==
+X-Received: by 2002:a05:622a:11c9:: with SMTP id
+ n9mr15517595qtk.295.1633962971413; 
+ Mon, 11 Oct 2021 07:36:11 -0700 (PDT)
+Received: from errol.ini.cmu.edu (pool-108-39-235-221.pitbpa.fios.verizon.net.
+ [108.39.235.221])
+ by smtp.gmail.com with ESMTPSA id g13sm4297273qkk.22.2021.10.11.07.36.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Oct 2021 07:36:10 -0700 (PDT)
+Date: Mon, 11 Oct 2021 10:36:08 -0400
+From: "Gabriel L. Somlo" <gsomlo@gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH] hw/misc: applesmc: use host osk as default on macs
+Message-ID: <YWRL2DmlJK3yjV8c@errol.ini.cmu.edu>
 MIME-Version: 1.0
-References: <YVW+ZGmIs+repvj4@stefanha-x1.localdomain>
- <769a612c-9a78-6fc8-0893-43ce2c173957@amsat.org>
- <YVrC4niegCWq+1kM@stefanha-x1.localdomain>
- <163337608907.347510.4401699281486806089@amd.com>
- <YVxTHAMCVncGvbFi@stefanha-x1.localdomain>
- <20211011072130.i3vemilk23o4djdz@sirius.home.kraxel.org>
- <YWQY1CQ/qUsMBnoD@stefanha-x1.localdomain>
-In-Reply-To: <YWQY1CQ/qUsMBnoD@stefanha-x1.localdomain>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 11 Oct 2021 08:28:34 -0600
-Message-ID: <CANCZdfpsHTr0=Lc8TB0L846ZbfjFS0sNDyna_74HQaXdcuWSYw@mail.gmail.com>
-Subject: Re: Moving QEMU downloads to GitLab Releases?
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e45d0505ce148b6d"
-Received-SPF: none client-ip=2607:f8b0:4864:20::929;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x929.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d5ab8786-bec9-b551-bf22-ef1bdace3f2b@eik.bme.hu>
+X-Clacks-Overhead: GNU Terry Pratchett
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=gsomlo@gmail.com; helo=mail-qt1-x832.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,216 +81,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Michael Roth <michael.roth@amd.com>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Phil Dennis-Jordan <phil@philjordan.eu>,
+ Pedro =?iso-8859-1?Q?T=F4rres?= <t0rr3sp3dr0@gmail.com>, rene@exactcode.de,
+ "Kiszka, Jan" <jan.kiszka@siemens.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "Graf, Alexander" <agraf@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ suse@csgraf.de, afaerber <afaerber@suse.de>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e45d0505ce148b6d
-Content-Type: text/plain; charset="UTF-8"
+On Mon, 11 Oct 2021 15:40:07 +0200, balaton@eik.bme.hu wrote:
+> I guess a frequent use case for running macOS guests with keys from host 
+> would be on hosts running macOS too so a solution that works both on macOS 
+> and Linux might be better than a Linux specific one which then needs 
+> another way to do the same on macOS. Looks like there's free code for that 
+> too and you don't have to convince a maintainer either.
 
-On Mon, Oct 11, 2021 at 4:59 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+I mostly agree with you (hadn't given much thought to qemu on macOSX),
+with the small caveat that (on Linux) you'll end up racing the kernel
+applesmc driver for access to the physical hardware; not sure whether
+you'd run into anything similar on host-side macOSX as well, never
+actually used it much as a developer... :)
 
-> On Mon, Oct 11, 2021 at 09:21:30AM +0200, Gerd Hoffmann wrote:
-> >   Hi,
-> >
-> > > > I guess the main question is who is using the ROM/BIOS sources in the
-> > > > tarballs, and would this 2-step process work for those users? If
-> there
-> > > > are distros relying on them then maybe there are some more logistics
-> to
-> > > > consider since the make-release downloads are both time-consuming and
-> > > > prone to network errors/stalls since it relies on the availability
-> of a
-> > > > good number of different hosts.
-> > >
-> > > Great, maybe Gerd can comment on splitting out firmware.
-> >
-> > I think the binaries are mostly a convenience feature for developers.
-> > Distros typically build from source anyway, and typically they build
-> > from upstream source instead of qemu submodule.
-> >
-> > The idea to split them out to a separate repo is exists for quite a
-> > while.  I have an old qemu-firmware repo laying around on my disk, which
-> > basically moves roms/ + submodules and the binaries built from it over.
-> >
-> > I think with the switch to gitlab it doesn't make sense any more to
-> > commit pre-built firmware binaries to a git repo.  Instead we should
-> > build the firmware in gitlab ci, i.e. effectively move the build rules
-> > we have right now in roms/Makefile to .gitlab-ci.d/, then publish the
-> > firmware binaries as build artifacts or gitlab pages.
-> >
-> > When done just remove the pre-build binaries from git and add a helper
-> > script to fetch firmware binaries from gitlab instead.
-> >
-> > > QEMU mirrors firmware sources on GitLab too. We're able to provide the
-> > > same level of download availability on our mirror firmware repos as for
-> > > the main qemu.git repo.
-> >
-> > I think enabling CI for the firmware mirrors should work given that it
-> > is possible to specify a custom CI/CD configuration file, i.e. use
-> > something like
-> >
-> >     /qemu-project/qemu/.gitlab-ci.d/firmware/seabios.yml
-> >
-> > or
-> >
-> >     /qemu-project/qemu-firmware/seabios.yml
-> >
-> > as config file for the
-> >
-> >     /qemu-project/seabios/
-> >
-> > mirror.  Then we can publish binaries using gitlab pages at
-> >
-> >     https://qemu-project.gitlab.io/seabios/
-> >
-> > That way we also don't need the roms/ submodules any more, i.e. we
-> > can remove both sources and binaries for the firmware from the
-> > release tarballs.
->
-> Thanks!
->
-> For developer convenience it would be nice to avoid manual steps after
-> git clone qemu.git. Maybe ./configure should check for firmware blobs
-> and automatically download them. There could be a ./configure
-> --disable-firmware-download option that distros can use to skip the
-> download when building everything from source.
->
-
-One thing to keep in mind about the downstream consumers: Many
-of them have two phases to their build process that run asynchronously
-to each other. There is a fetch phase that grabs everything, and a build
-phase that builds the binaries. The second phase may not have access
-to the internet for a variety of reasons (these days being a security
-measure, for good or ill). Please make sure that any such plans
-allow for this model.
-
-Today, that's all dealt with by grabbing tarballs from github which
-is how the submodules are dealt with. So long as the images
-had well known names, and could be fetched with the normal
-wget/cgit/fetch programs, that would suffice. Requiring use of
-some weird bespoke script would cause friction for the downstreams
-using qemu.
-
-So while I'm all for making things a little more independent,
-let's not do it in a way that makes life difficult for downstreams.
-There are more there than just a couple of big distro builders.
-
-Warner
-
---000000000000e45d0505ce148b6d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 11, 2021 at 4:59 AM Stefa=
-n Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com">stefanha@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
- Mon, Oct 11, 2021 at 09:21:30AM +0200, Gerd Hoffmann wrote:<br>
-&gt;=C2=A0 =C2=A0Hi,<br>
-&gt; <br>
-&gt; &gt; &gt; I guess the main question is who is using the ROM/BIOS sourc=
-es in the<br>
-&gt; &gt; &gt; tarballs, and would this 2-step process work for those users=
-? If there<br>
-&gt; &gt; &gt; are distros relying on them then maybe there are some more l=
-ogistics to<br>
-&gt; &gt; &gt; consider since the make-release downloads are both time-cons=
-uming and<br>
-&gt; &gt; &gt; prone to network errors/stalls since it relies on the availa=
-bility of a<br>
-&gt; &gt; &gt; good number of different hosts.<br>
-&gt; &gt; <br>
-&gt; &gt; Great, maybe Gerd can comment on splitting out firmware.<br>
-&gt; <br>
-&gt; I think the binaries are mostly a convenience feature for developers.<=
-br>
-&gt; Distros typically build from source anyway, and typically they build<b=
-r>
-&gt; from upstream source instead of qemu submodule.<br>
-&gt; <br>
-&gt; The idea to split them out to a separate repo is exists for quite a<br=
->
-&gt; while.=C2=A0 I have an old qemu-firmware repo laying around on my disk=
-, which<br>
-&gt; basically moves roms/ + submodules and the binaries built from it over=
-.<br>
-&gt; <br>
-&gt; I think with the switch to gitlab it doesn&#39;t make sense any more t=
-o<br>
-&gt; commit pre-built firmware binaries to a git repo.=C2=A0 Instead we sho=
-uld<br>
-&gt; build the firmware in gitlab ci, i.e. effectively move the build rules=
-<br>
-&gt; we have right now in roms/Makefile to .gitlab-ci.d/, then publish the<=
-br>
-&gt; firmware binaries as build artifacts or gitlab pages.<br>
-&gt; <br>
-&gt; When done just remove the pre-build binaries from git and add a helper=
-<br>
-&gt; script to fetch firmware binaries from gitlab instead.<br>
-&gt; <br>
-&gt; &gt; QEMU mirrors firmware sources on GitLab too. We&#39;re able to pr=
-ovide the<br>
-&gt; &gt; same level of download availability on our mirror firmware repos =
-as for<br>
-&gt; &gt; the main qemu.git repo.<br>
-&gt; <br>
-&gt; I think enabling CI for the firmware mirrors should work given that it=
-<br>
-&gt; is possible to specify a custom CI/CD configuration file, i.e. use<br>
-&gt; something like<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0/qemu-project/qemu/.gitlab-ci.d/firmware/seabios.ym=
-l<br>
-&gt; <br>
-&gt; or<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0/qemu-project/qemu-firmware/seabios.yml<br>
-&gt; <br>
-&gt; as config file for the <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0/qemu-project/seabios/<br>
-&gt; <br>
-&gt; mirror.=C2=A0 Then we can publish binaries using gitlab pages at<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://qemu-project.gitlab.io/seabios/"=
- rel=3D"noreferrer" target=3D"_blank">https://qemu-project.gitlab.io/seabio=
-s/</a><br>
-&gt; <br>
-&gt; That way we also don&#39;t need the roms/ submodules any more, i.e. we=
-<br>
-&gt; can remove both sources and binaries for the firmware from the<br>
-&gt; release tarballs.<br>
-<br>
-Thanks!<br>
-<br>
-For developer convenience it would be nice to avoid manual steps after<br>
-git clone qemu.git. Maybe ./configure should check for firmware blobs<br>
-and automatically download them. There could be a ./configure<br>
---disable-firmware-download option that distros can use to skip the<br>
-download when building everything from source.<br></blockquote><div><br></d=
-iv><div>One thing to keep in mind about the downstream consumers: Many</div=
-><div>of them have two phases to their build process that run asynchronousl=
-y</div><div>to each other. There is a fetch phase that grabs everything, an=
-d a build</div><div>phase that builds the binaries. The second phase may no=
-t have access</div><div>to the internet for a variety of reasons (these day=
-s being a security</div><div>measure, for good or ill). Please make sure th=
-at any such plans</div><div>allow for this model.</div><div><br></div><div>=
-Today, that&#39;s all dealt with by grabbing tarballs from github which</di=
-v><div>is how the submodules are dealt with. So long as the images</div><di=
-v>had well known names, and could be fetched with the normal</div><div>wget=
-/cgit/fetch programs, that would suffice. Requiring use of</div><div>some w=
-eird bespoke script would cause friction for the downstreams</div><div>usin=
-g qemu.</div><div><br></div><div>So while I&#39;m all for making things a l=
-ittle more independent,</div><div>let&#39;s not do it in a way that makes l=
-ife difficult for downstreams.</div><div>There are more there than just a c=
-ouple of big distro builders.</div><div><br></div><div>Warner</div><div><br=
-></div></div></div>
-
---000000000000e45d0505ce148b6d--
+Cheers,
+--Gabriel
 
