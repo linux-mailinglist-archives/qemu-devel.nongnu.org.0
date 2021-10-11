@@ -2,68 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29DD7429533
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 19:06:14 +0200 (CEST)
-Received: from localhost ([::1]:49294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E596D4295B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 19:33:01 +0200 (CEST)
+Received: from localhost ([::1]:60250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZyke-0005Rl-N4
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 13:06:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49678)
+	id 1mZzAa-0005jt-F4
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 13:33:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mZyiC-0004fp-76
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:03:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39487)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mZz8W-0003hm-69
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:30:52 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mZyi6-0006ZQ-No
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:03:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633971811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p2O5aWA1zS1SmjZOk4gGk8Az/yw5NNfli8KVOfouv1Q=;
- b=O64/PdsWP5TRzEAcqRHwQ9BamK8eZVXImQU7+vHRN5zTLc/+pBF/EHv08p6HfEKEtwM9tR
- tVBkOdJRs7XKiWcrfwKK3XYIc4TureZ6hl7aZcPQqf5hajmul3jwdBl4kZdbgQjCRbzVIL
- y55UWSrlMj/Q5U6DjdqaPqqCzEJymtw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-0cvWxgkfNVqZ-35Lkm8Aag-1; Mon, 11 Oct 2021 13:03:27 -0400
-X-MC-Unique: 0cvWxgkfNVqZ-35Lkm8Aag-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA63E101AFA9;
- Mon, 11 Oct 2021 17:03:26 +0000 (UTC)
-Received: from redhat.com (ovpn-113-152.phx2.redhat.com [10.3.113.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38E8760BF4;
- Mon, 11 Oct 2021 17:03:26 +0000 (UTC)
-Date: Mon, 11 Oct 2021 12:03:24 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Yang Zhong <yang.zhong@intel.com>
-Subject: Re: [PATCH 3/6] numa: Add SGXEPCSection list for multiple sections
-Message-ID: <20211011170324.2f5oacnghualbu45@redhat.com>
-References: <20211011111554.12403-1-yang.zhong@intel.com>
- <20211011111554.12403-4-yang.zhong@intel.com>
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mZz8Q-0001ry-73
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 13:30:51 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19BF1HY3005579; 
+ Mon, 11 Oct 2021 13:30:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=PyU6jTwzefpMa7AFXWORdTe5UVRjxdQ7Vj1B+zf183A=;
+ b=DPXjHb7ymiYmWtRzq/90/0QVVevlAzJ5bD6vAcz1ifd3KesBXyT91WtDxT8+mODRqMB5
+ ezQoYJu0AHrKo6CR7a+S4VssbY9Sa3ogfZfgNknhEtu+XFPMOTiGnfHnZBO2ByB/JWPY
+ gL3wSqLSgiLwDRY0HI5yoqhwH6iVA6oFf7SGQ6IPNBpOeEpqVWQt8RngPuRI2ZlmjLFq
+ DWgLkrUDvA0GkBN966FtCNb4FZCRi/6YXTq6PIvefNozdj5I6e4MowWAHkUJNY8a0Tbj
+ 8Dnb9B4pT4D5gJbR6GHX3NExwfxmdivZYxk9AODKLYffBKCvddoLk2koD1mJWfiIj3uG pg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bmqhxu7kp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Oct 2021 13:30:39 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19BHFWPG009281;
+ Mon, 11 Oct 2021 13:30:39 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3bmqhxu7ka-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Oct 2021 13:30:39 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19BHCfMd020245;
+ Mon, 11 Oct 2021 17:30:38 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma02dal.us.ibm.com with ESMTP id 3bk2qaj491-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Oct 2021 17:30:38 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 19BHUaKX24445266
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Oct 2021 17:30:36 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 641CB7806B;
+ Mon, 11 Oct 2021 17:30:36 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BD78B78060;
+ Mon, 11 Oct 2021 17:30:35 +0000 (GMT)
+Received: from amdrome3.watson.ibm.com (unknown [9.2.130.16])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 11 Oct 2021 17:30:35 +0000 (GMT)
+From: Dov Murik <dovmurik@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] target/i386/sev: Replace malloc with local variables
+Date: Mon, 11 Oct 2021 17:30:24 +0000
+Message-Id: <20211011173026.2454294-1-dovmurik@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: QjbrrQXsoQhwfRRccA1ZNL6jpz0jrHK6
+X-Proofpoint-ORIG-GUID: l8mDxJ19I1DxwdD1kfJeaGAgru0B6t6Y
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <20211011111554.12403-4-yang.zhong@intel.com>
-User-Agent: NeoMutt/20210205-852-339c0c
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-11_06,2021-10-11_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ mlxlogscore=845 spamscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ mlxscore=0 suspectscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2110110101
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,71 +107,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org
+Cc: Brijesh Singh <brijesh.singh@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 11, 2021 at 07:15:51PM +0800, Yang Zhong wrote:
-> The SGXEPCSection list added into SGXInfo to show the multiple
-> SGX EPC sections detailed info, not the total size like before.
-> 
-> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> ---
->  qapi/misc-target.json | 19 +++++++++++++++++--
->  1 file changed, 17 insertions(+), 2 deletions(-)
-> 
-> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-> index 594fbd1577..89a5a4250a 100644
-> --- a/qapi/misc-target.json
-> +++ b/qapi/misc-target.json
-> @@ -334,6 +334,21 @@
->    'returns': 'SevAttestationReport',
->    'if': 'TARGET_I386' }
->  
-> +##
-> +# @SGXEPCSection:
-> +#
-> +# Information about intel SGX EPC section info
-> +#
-> +# @index: the SGX epc section index
-> +#
-> +# @size: the size of epc section
-> +#
-> +# Since: 6.2
-> +##
-> +{ 'struct': 'SGXEPCSection',
-> +  'data': { 'index': 'uint64',
-> +            'size': 'uint64'}}
-> +
->  ##
->  # @SGXInfo:
->  #
-> @@ -347,7 +362,7 @@
->  #
->  # @flc: true if FLC is supported
->  #
-> -# @section-size: The EPC section size for guest
-> +# @sections: The EPC sections info for guest
->  #
->  # Since: 6.2
+In two places in sev.c we use malloc+free to manage memory for small
+constant struct variables.  Modify this to use local variables.
 
-Given this has not yet been in a stable release, we can make this change...
+This small series can be applied on top of master or on top of Phil's
+Housekeeping SEV series [1].
 
->  ##
-> @@ -356,7 +371,7 @@
->              'sgx1': 'bool',
->              'sgx2': 'bool',
->              'flc': 'bool',
-> -            'section-size': 'uint64'},
-> +            'sections': ['SGXEPCSection']},
->     'if': 'TARGET_I386' }
+[1] https://lore.kernel.org/qemu-devel/20211007161716.453984-1-philmd@redhat.com/
 
-...but are we sure we have the best interface possible if we are still
-expressing uncertainty about the QAPI used to represent it?
+Dov Murik (2):
+  target/i386/sev: Use local variable for kvm_sev_launch_start
+  target/i386/sev: Use local variable for kvm_sev_launch_measure
+
+ target/i386/sev.c | 39 +++++++++++++++++----------------------
+ 1 file changed, 17 insertions(+), 22 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.25.1
 
 
