@@ -2,49 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F252428AC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 12:32:37 +0200 (CEST)
-Received: from localhost ([::1]:36458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E42428AF4
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 12:42:20 +0200 (CEST)
+Received: from localhost ([::1]:42748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZsbk-0006em-9i
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 06:32:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46644)
+	id 1mZsl9-00032L-49
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 06:42:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mZsaZ-0005pP-Hg
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 06:31:24 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:12127)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mZsj8-0001pM-VL
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 06:40:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mZsaW-0002Os-Kk
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 06:31:22 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3A52B748F51;
- Mon, 11 Oct 2021 12:31:17 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 1940C748F4B; Mon, 11 Oct 2021 12:31:17 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 17E747475FA;
- Mon, 11 Oct 2021 12:31:17 +0200 (CEST)
-Date: Mon, 11 Oct 2021 12:31:17 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2] hw/usb/vt82c686-uhci-pci: Use ISA instead of PCI
- interrupts
-In-Reply-To: <20211011093758.kpjpw2htfvcra5mb@sirius.home.kraxel.org>
-Message-ID: <1afcbf3-37cf-b7fa-b6cd-e37592956bac@eik.bme.hu>
-References: <20211005132041.B884E745953@zero.eik.bme.hu>
- <20211011093758.kpjpw2htfvcra5mb@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mZsj4-0007Rl-PK
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 06:40:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633948809;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0/wK6pozg1mX3Bn/1MBYBMUvizNehIz1zzRUeDqmIUY=;
+ b=iKZN7GmBRxn1+LdA1t2w3Wwy8oSdXFomBcaLpcf4JG0r0woCvtHWlt9uzn4JzKuiQpEagF
+ +w8DODX9lIaGQDBQbz2MlFAcQCP9JKzp9M2J9O5SuMob5lqA7OtHZmNNLB/fUnGwi/GoKp
+ rNYuxky9Y27jwsL7xOyrAFS7/xs66uU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-5dWhswDHPqi_peoYG6btlA-1; Mon, 11 Oct 2021 06:40:07 -0400
+X-MC-Unique: 5dWhswDHPqi_peoYG6btlA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d13-20020adfa34d000000b00160aa1cc5f1so12948275wrb.14
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 03:40:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0/wK6pozg1mX3Bn/1MBYBMUvizNehIz1zzRUeDqmIUY=;
+ b=ELsEBrDe1B11TWkXIZFKS01MTc9xWxb/aDudhuhM3DlE3FQFXTWz3GOSK7u80KF1LU
+ VOdIrnk7cRnV1ge15R0emSV5xqbM+jOhQUTQLYdaZY0ee3PI4vV5IqiXXllZ2TlJUtFl
+ NzoW2rgbpgGU/ZrgtB7N0tbaHkFBgrS3yTcKUfFxjSa+uMoeUZp+P0GtJjGc5yMLB0m3
+ XX/I7GQHfjxU4I25ujWvmBEPhukOOB+sy0U3E1yCckG6AU5k1HoJbIlHc6P8hDZVFm2u
+ 4nWH87c081B2F2GF3OpNBEGPjuBcoY6a2rNFpf1lBm1tzo1D9P2x/QZeK1q7dkgfzKD/
+ EPww==
+X-Gm-Message-State: AOAM530MpMQ9KAw4XZ3oLMFnPeaM7Nb3CWJjN6XLP0M5uo6ezQInUPcm
+ CayaK3RVtV1r/G32ghHck1Smf/IMtgAHnOZ2nbRyZZd02l9JsasaYhmvisRfo73v70dOINZVM/H
+ ovMDEeVCV2PLRvFw=
+X-Received: by 2002:a1c:c906:: with SMTP id f6mr20467099wmb.136.1633948806703; 
+ Mon, 11 Oct 2021 03:40:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzGbqyWznBmwHMkUw64TmMzoJM6uhCtn5WvCv37xFp47KXmw1xjH5Q1OGxj87i3Q6XNzU+3tw==
+X-Received: by 2002:a1c:c906:: with SMTP id f6mr20467065wmb.136.1633948806443; 
+ Mon, 11 Oct 2021 03:40:06 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1e48:3780:4451:9a65:d4e9:9bb6?
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id f184sm7290251wmf.22.2021.10.11.03.40.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Oct 2021 03:40:06 -0700 (PDT)
+Message-ID: <46ec0ebe-f0a3-cba3-7d72-e2edd9613ec6@redhat.com>
+Date: Mon, 11 Oct 2021 12:40:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] qemu-img: Consistent docs for convert -F
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20210921142812.2631605-1-eblake@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20210921142812.2631605-1-eblake@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,30 +97,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- Philippe M-D <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Oct 2021, Gerd Hoffmann wrote:
-> On Tue, Oct 05, 2021 at 03:12:05PM +0200, BALATON Zoltan wrote:
->> This device is part of a superio/ISA bridge chip and IRQs from it are
->> routed to an ISA interrupt set by the Interrupt Line PCI config
->> register. Change uhci_update_irq() to allow this and use it from
->> vt82c686-uhci-pci.
+On 21.09.21 16:28, Eric Blake wrote:
+> Use consistent capitalization, and fix a missed line (we duplicate the
+> qemu-img synopses in too many places).
 >
-> Hmm, shouldn't this logic be part of the superio bridge emulation?
+> Fixes: 1899bf4737 (qemu-img: Add -F shorthand to convert)
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>   docs/tools/qemu-img.rst | 2 +-
+>   qemu-img-cmds.hx        | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 
-But how? The ISA bridge does not know about PCI and PCI does not know 
-about ISA. UHCI is a PCIDevice and would raise PCI interrupts. Where and 
-how could I convert that to ISA interrupts? (Oh and ISA in QEMU is not 
-Qdev'ified and I don't want to do that as it's too much work and too much 
-to break that I can't even test so if an alternative solution involves 
-that then get somebody do that first.) This patch puts the irq mapping in 
-the vt82xx specific vt82c686-uhci-pci.c which in the real chip also 
-contains the ISA bridge so in a way it's part of the superio bridge 
-emulation in that this uhci variant is part of that chip model.
+Thanks, applied to my block branch:
 
-Regards,
-BALATON Zoltan
+https://gitlab.com/hreitz/qemu/-/commits/block
+
+Speaking of duplicating in too many places, comparing the lines in 
+qemu-img.rst and qemu-img-cmds.hx I noticed that `--skip-broken-bitmaps` 
+too is missing from qemu-img-cmds.hx, so perhaps that’s also something 
+we want to fix.
+
+Hanna
+
 
