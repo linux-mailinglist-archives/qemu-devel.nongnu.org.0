@@ -2,89 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3088A428DC6
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 15:27:30 +0200 (CEST)
-Received: from localhost ([::1]:35954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D59428DF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Oct 2021 15:29:41 +0200 (CEST)
+Received: from localhost ([::1]:41914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mZvKz-0008LR-37
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 09:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59494)
+	id 1mZvN6-0003uy-0X
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 09:29:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mZvJH-0006Xr-8N
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 09:25:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55831)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mZvLP-0001dg-Id
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 09:27:56 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:25172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mZvJD-0000G1-Ry
- for qemu-devel@nongnu.org; Mon, 11 Oct 2021 09:25:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633958734;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iIM1vsEjjKFusFrg2dft3P1qmVjzUobCp6J8dREylY8=;
- b=YGCkJX/g+HAbYWz8nqLtlovVRr/raySXELqBDnj/IAnF9wLNLvbQ3xX0HFdlZxYfDChiuP
- 9hu4Na/zjpOGmuUawpI54lNvYcPiq2SBcUideTgU1vJjIwvlkhnfZtliMxOLuGv3csZp5F
- BTy8u0eqRRUPK8CsUAdola7+rL0N6zI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-fj7_FmR9Nvm2cROrOk5xyw-1; Mon, 11 Oct 2021 09:25:07 -0400
-X-MC-Unique: fj7_FmR9Nvm2cROrOk5xyw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d13-20020adf9b8d000000b00160a94c235aso13302680wrc.2
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 06:25:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=iIM1vsEjjKFusFrg2dft3P1qmVjzUobCp6J8dREylY8=;
- b=E3AwR7eEeAG+GM1ITNNwjqaJ67239et8cYOkCq8DelCpcwBHq3zFvoxZo6EQa6DyUg
- J6pcrYYfekarfvHScwMuhs3C/mIsLBbnEgx79mrqe1IPlwro/w3K+PHc0n/HmgQRj8ZG
- HobCZpzQY1Ua6GzhrLUzC9tqsZU7c+XMW7E66hj1dr5QG77ZJdrX9NCmBRv/KChpqPbA
- ZhSCtdc2vrqJcuxVd/C8l4i9fds8aKgW7A13KOfh54NYejsDKClh+gqnrch7pVuTNUY0
- ohwZNM8gJXqGTefaz9Iw2kx5nYJqjPhdsbo/4+awjy4Eqc//lDftUlJHMl1E/G82awTs
- rQEQ==
-X-Gm-Message-State: AOAM532TVEw+zpMhkq7x039ZxL6numW2uYpp6iGx49oTGevKsn4vpo8S
- aP/XD7g5VocvewSFi7OIRkaCgcqbH+uEaAJA/Nn+VFGWCiDLE32piuBOaDc4GytNsn/NbgNmoE8
- zaKpZOubDG9BqHx8=
-X-Received: by 2002:adf:f243:: with SMTP id b3mr21120028wrp.60.1633958706177; 
- Mon, 11 Oct 2021 06:25:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+N0sZvaqrhJn7d5/1uoOiLY60THwBfqmSj24PXYejPS+lMWHhwVQ4qtXcMRQLvW7foCCb5g==
-X-Received: by 2002:adf:f243:: with SMTP id b3mr21120012wrp.60.1633958706042; 
- Mon, 11 Oct 2021 06:25:06 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1e48:3780:4451:9a65:d4e9:9bb6?
- ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
- by smtp.gmail.com with ESMTPSA id l20sm6227938wmq.42.2021.10.11.06.25.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Oct 2021 06:25:05 -0700 (PDT)
-Message-ID: <ea6b1763-1bb0-5687-f401-4f732092bcf5@redhat.com>
-Date: Mon, 11 Oct 2021 15:25:04 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mZvLL-0001Jw-G7
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 09:27:54 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id CD2D3748F51;
+ Mon, 11 Oct 2021 15:27:44 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 8CA08748F52; Mon, 11 Oct 2021 15:27:44 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 8A894748F4B;
+ Mon, 11 Oct 2021 15:27:44 +0200 (CEST)
+Date: Mon, 11 Oct 2021 15:27:44 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: ACPI endianness
+In-Reply-To: <20211011080528-mutt-send-email-mst@kernel.org>
+Message-ID: <327dd794-f698-3187-c17d-80b33db664b@eik.bme.hu>
+References: <957db5ec-fc70-418-44d9-da4f81f5b98@eik.bme.hu>
+ <612d2f0b-f312-073d-b796-c76357ba51a2@redhat.com>
+ <d8284c4-c2e7-15e9-bec5-b2f619e1e6ad@eik.bme.hu>
+ <20211011080528-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] qemu-iotests: flush after every test
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211006092726.383737-1-pbonzini@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211006092726.383737-1-pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1485178737-1633958864=:13402"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,24 +60,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.10.21 11:27, Paolo Bonzini wrote:
-> This makes it possible to see what is happening, even if the output of
-> "make check-block" is not sent to a tty (for example if it is sent to
-> grep or tee).
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-1485178737-1633958864=:13402
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Mon, 11 Oct 2021, Michael S. Tsirkin wrote:
+> On Mon, Oct 11, 2021 at 12:13:55PM +0200, BALATON Zoltan wrote:
+>> On Mon, 11 Oct 2021, Philippe Mathieu-Daudé wrote:
+>>> On 10/10/21 15:24, BALATON Zoltan wrote:
+>>>> Hello,
+>>>>
+>>>> I'm trying to fix shutdown and reboot on pegasos2 which uses ACPI as
+>>>> part of the VIA VT8231 (similar to and modelled in hw/isa/vt82c686b.c)
+>>>> and found that the guest writes to ACPI PM1aCNT register come out with
+>>>> wrong endianness but not shure why. I have this:
+>>>>
+>>>> $ qemu-system-ppc -M pegasos2 -monitor stdio
+>>>> (qemu) info mtree
+>>>> [...]
+>>>> memory-region: pci1-io
+>>>>   0000000000000000-000000000000ffff (prio 0, i/o): pci1-io
+>>>> [...]
+>>>>     0000000000000f00-0000000000000f7f (prio 0, i/o): via-pm
+>>>>       0000000000000f00-0000000000000f03 (prio 0, i/o): acpi-evt
+>>>>       0000000000000f04-0000000000000f05 (prio 0, i/o): acpi-cnt
+>>>>       0000000000000f08-0000000000000f0b (prio 0, i/o): acpi-tmr
+>>>>
+>>>> memory-region: system
+>>>>   0000000000000000-ffffffffffffffff (prio 0, i/o): system
+>>>>     0000000000000000-000000001fffffff (prio 0, ram): pegasos2.ram
+>>>>     0000000080000000-00000000bfffffff (prio 0, i/o): alias pci1-mem0-win
+>>>> @pci1-mem 0000000080000000-00000000bfffffff
+>>>>     00000000c0000000-00000000dfffffff (prio 0, i/o): alias pci0-mem0-win
+>>>> @pci0-mem 00000000c0000000-00000000dfffffff
+>>>>     00000000f1000000-00000000f100ffff (prio 0, i/o): mv64361
+>>>>     00000000f8000000-00000000f8ffffff (prio 0, i/o): alias pci0-io-win
+>>>> @pci0-io 0000000000000000-0000000000ffffff
+>>>>     00000000f9000000-00000000f9ffffff (prio 0, i/o): alias pci0-mem1-win
+>>>> @pci0-mem 0000000000000000-0000000000ffffff
+>>>>     00000000fd000000-00000000fdffffff (prio 0, i/o): alias pci1-mem1-win
+>>>> @pci1-mem 0000000000000000-0000000000ffffff
+>>>>     00000000fe000000-00000000feffffff (prio 0, i/o): alias pci1-io-win
+>>>> @pci1-io 0000000000000000-0000000000ffffff
+>>>>     00000000ff800000-00000000ffffffff (prio 0, i/o): alias pci1-mem3-win
+>>>> @pci1-mem 00000000ff800000-00000000ffffffff
+>>>>     00000000fff00000-00000000fff7ffff (prio 0, rom): pegasos2.rom
+>>>>
+>>>> The guest (which is big endian PPC and I think wotks on real hardware)
+>>>> writes to 0xf05 in the io region which should be the high byte of the
+>>>> little endian register but in the acpi code it comes out wrong, instead
+>>>> of 0x2800 I get in acpi_pm1_cnt_write: val=0x28
+>>>
+>>> Looks like a northbridge issue (MV64340).
+>>> Does Pegasos2 enables bus swapping?
+>>> See hw/pci-host/mv64361.c:585:
+>>>
+>>> static void warn_swap_bit(uint64_t val)
+>>> {
+>>>    if ((val & 0x3000000ULL) >> 24 != 1) {
+>>>        qemu_log_mask(LOG_UNIMP, "%s: Data swap not implemented", __func__);
+>>>    }
+>>> }
+>>
+>> No, guests don't use this feature just byteswap themselves and write little
+>> endian values to the mapped io region. (Or in this case just write one byte
+>> of the 16 bit value, it specifically writes 0x28 to 0xf05.) That's why I
+>> think the device model should not byteswap itself so the acpi regions should
+>> be declared native endian and let the guest handle it. Some mentions I've
+>> found say that native endian means don't byteswap, little endian means
+>> byteswap if vcpu is big endian and big endian means byteswap if vcpu is
+>> little endian. Since guests already account for this and write little endian
+>> values to these regions there's no need to byteswap in device model and
+>> changing to native endian should not affect little endian machines so unless
+>> there's a better argument I'll try sending a patch.
+>>
+>> Regards,
+>> BALATON Zoltan
 >
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> native endian means endian-ness is open-coded in the device handler
+> itself.  I think you just found a bug in memory core.
+>
+> static const MemoryRegionOps acpi_pm_cnt_ops = {
+>    .read = acpi_pm_cnt_read,
+>    .write = acpi_pm_cnt_write,
+>    .impl.min_access_size = 2,
+>    .valid.min_access_size = 1,
+>    .valid.max_access_size = 2,
+>    .endianness = DEVICE_LITTLE_ENDIAN,
+> };
+>
+>
+> Because of that     .impl.min_access_size = 2,
+> the 1 byte write should be converted to a 2 byte
+> read+2 byte write.
+>
+> docs/devel/memory.rst just says:
+> - .impl.min_access_size, .impl.max_access_size define the access sizes
+>  (in bytes) supported by the *implementation*; other access sizes will be
+>  emulated using the ones available.  For example a 4-byte write will be
+>  emulated using four 1-byte writes, if .impl.max_access_size = 1.
+>
+>
+>
+> Instead what we have is:
+>
+> MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
+>                                         hwaddr addr,
+>                                         uint64_t data,
+>                                         MemOp op,
+>                                         MemTxAttrs attrs)
+> {
+>    unsigned size = memop_size(op);
+>
+>    if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
+>        unassigned_mem_write(mr, addr, data, size);
+>        return MEMTX_DECODE_ERROR;
+>    }
+>
+>    adjust_endianness(mr, &data, op);
+>
+>
 > ---
->   tests/qemu-iotests/testrunner.py | 1 +
->   1 file changed, 1 insertion(+)
+>
+>
+> static void adjust_endianness(MemoryRegion *mr, uint64_t *data, MemOp op)
+> {
+>    if ((op & MO_BSWAP) != devend_memop(mr->ops->endianness)) {
+>        switch (op & MO_SIZE) {
+>        case MO_8:
+>            break;
+>        case MO_16:
+>            *data = bswap16(*data);
+>            break;
+>        case MO_32:
+>            *data = bswap32(*data);
+>            break;
+>        case MO_64:
+>            *data = bswap64(*data);
+>            break;
+>        default:
+>            g_assert_not_reached();
+>        }
+>    }
+> }
+>
+> so the byte swap is based on size before extending it to
+> .impl.min_access_size, not after.
 
-Thanks, applied to my block branch:
+OK thanks for the analysis, I'll wait what comes out of this.
 
-https://gitlab.com/hreitz/qemu/-/commits/block/
+> Also, no read happens which I suspect is also a bug,
+> but could be harmless ...
 
-Hanna
+I did not check if a read happens or not but generally I think that may be 
+another source of bugs if the memory core changes writes to read + write 
+because for some devices a read might have side effects (like changing 
+bits, clearing interrupt status, whatever) so the emulation would behave 
+differently than real hardware if a guest tries to write such a register. 
+So this may have problems either way even if this particular case is not 
+affected by that and could just be "fixed" by declaring the regions native 
+endian to disable this part of memory core or fixing that up to do byte 
+swapping back and forth. I don't mind either way as long as it works.
 
+Regards,
+BALATON Zoltan
+--3866299591-1485178737-1633958864=:13402--
 
