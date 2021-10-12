@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618D942A147
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:39:56 +0200 (CEST)
-Received: from localhost ([::1]:58902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD88342A13A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:35:52 +0200 (CEST)
+Received: from localhost ([::1]:50358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maEGJ-00076n-Cy
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:39:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40318)
+	id 1maECN-0001Gh-LV
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:35:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maE22-0002AT-MA
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:25:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29097)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maE4T-0004bU-2Y
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:27:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maE1z-00011u-H5
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:25:09 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maE4R-0002qg-8p
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:27:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634030705;
+ s=mimecast20190719; t=1634030858;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Se63wesqE5R9N23BbdQekpYM1kJBzZ17Ssy/Ic4Vxx8=;
- b=FfTfhxryTO+tj1X8NP7zZzOPWd8T0d8FJBylcsu58/Nd9R7rCOpcYqtJ1/S8TOGawm0lEr
- I8M9YNc4BdyYZzqEYtqAztzEbl/Qsy5Jt0BMmd10/b295a7Byfir694BIbJd6CEaUZjct6
- i/wQ1PaOv2H+oll7RHMauSZ0kRBwGzM=
+ bh=377yCBR6iG/uRTZlvr2K9qUTikP9zY6a0sVRbqydcdU=;
+ b=PE2KZsojGFvFEOTzEANoR7LBe3ES1eHOQJdxcl0gsjwkwqtqFXmtLZGt4Es8t5r2pCvTrM
+ JD+ZCpz74Pl4Rwdk4fqrNxVb8BJxcY/t3AdmcBXOC9kOQTEinT4yxBb4aeR8YrQ5yheGvu
+ qHuitAsWyuQoP+63c0lnh0gUB3FVaaw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-BsxwjPVFPHi8ajoCfTI1iw-1; Tue, 12 Oct 2021 05:25:03 -0400
-X-MC-Unique: BsxwjPVFPHi8ajoCfTI1iw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-422-g359PAj0PVuHk15n0UPCNw-1; Tue, 12 Oct 2021 05:27:35 -0400
+X-MC-Unique: g359PAj0PVuHk15n0UPCNw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B400800471;
- Tue, 12 Oct 2021 09:25:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F1C9CC622;
+ Tue, 12 Oct 2021 09:27:34 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 19D385C1B4;
- Tue, 12 Oct 2021 09:24:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D84CF69C9E;
+ Tue, 12 Oct 2021 09:27:27 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 961D9113865F; Tue, 12 Oct 2021 11:24:50 +0200 (CEST)
+ id 79061113865F; Tue, 12 Oct 2021 11:27:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [PATCH v4 2/2] monitor: refactor set/expire_password and allow
- VNC display id
-References: <20210928090326.1056010-1-s.reiter@proxmox.com>
- <20210928090326.1056010-3-s.reiter@proxmox.com>
-Date: Tue, 12 Oct 2021 11:24:50 +0200
-In-Reply-To: <20210928090326.1056010-3-s.reiter@proxmox.com> (Stefan Reiter's
- message of "Tue, 28 Sep 2021 11:03:26 +0200")
-Message-ID: <87zgrebnod.fsf@dusky.pond.sub.org>
+Subject: Re: [PATCH] monitor/qmp: fix race with clients disconnecting early
+References: <20210823101115.2015354-1-s.reiter@proxmox.com>
+ <87r1eh4j0f.fsf@dusky.pond.sub.org>
+ <87r1eguxgi.fsf@dusky.pond.sub.org>
+ <91f2fb28-fd4d-f7ad-13d1-61c7ba16ae3c@proxmox.com>
+ <87eea9wrcf.fsf@dusky.pond.sub.org>
+ <871r67b0yr.fsf@dusky.pond.sub.org>
+Date: Tue, 12 Oct 2021 11:27:26 +0200
+In-Reply-To: <871r67b0yr.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Thu, 02 Sep 2021 14:45:16 +0200")
+Message-ID: <87v922bnk1.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -83,303 +84,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Michael Roth <michael.roth@amd.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>, Thomas Lamprecht <t.lamprecht@proxmox.com>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Reiter <s.reiter@proxmox.com> writes:
+Stefan, any thoughts on this?
 
-> It is possible to specify more than one VNC server on the command line,
-> either with an explicit ID or the auto-generated ones =C3=A0 la "default"=
-,
-> "vnc2", "vnc3", ...
+Markus Armbruster <armbru@redhat.com> writes:
+
+> I've thought a bit more.
 >
-> It is not possible to change the password on one of these extra VNC
-> displays though. Fix this by adding a "display" parameter to the
-> "set_password" and "expire_password" QMP and HMP commands.
+> A monitor can serve a series of clients.
 >
-> For HMP, the display is specified using the "-d" value flag.
+> Back when all of the monitor ran in the main thread, we completely
+> finished serving the current client before we started serving the next
+> one (I think).  In other words, sessions did not overlap.
 >
-> For QMP, the schema is updated to explicitly express the supported
-> variants of the commands with protocol-discriminated unions.
+> Since we moved parts of the monitor to the monitor I/O thread (merge
+> commit 4bdc24fa018), sessions can overlap, and this causes issues, as
+> you demonstrated.
 >
-> Suggested-by: Eric Blake <eblake@redhat.com>
-> Suggested-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
-
-[...]
-
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index d7567ac866..4244c62c30 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -9,22 +9,23 @@
->  { 'include': 'common.json' }
->  { 'include': 'sockets.json' }
-> =20
-> +##
-> +# @DisplayProtocol:
-> +#
-> +# Display protocols which support changing password options.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'enum': 'DisplayProtocol',
-> +  'data': [ { 'name': 'vnc', 'if': 'CONFIG_VNC' },
-> +            { 'name': 'spice', 'if': 'CONFIG_SPICE' } ] }
-> +
-
-
-
->  ##
->  # @set_password:
->  #
->  # Sets the password of a remote display session.
->  #
-> -# @protocol: - 'vnc' to modify the VNC server password
-> -#            - 'spice' to modify the Spice server password
-> -#
-> -# @password: the new password
-> -#
-> -# @connected: how to handle existing clients when changing the
-> -#             password.  If nothing is specified, defaults to 'keep'
-> -#             'fail' to fail the command if clients are connected
-> -#             'disconnect' to disconnect existing clients
-> -#             'keep' to maintain existing clients
-> -#
->  # Returns: - Nothing on success
->  #          - If Spice is not enabled, DeviceNotFound
->  #
-> @@ -37,33 +38,106 @@
->  # <- { "return": {} }
->  #
->  ##
-> -{ 'command': 'set_password',
-> -  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} }
-> +{ 'command': 'set_password', 'boxed': true, 'data': 'SetPasswordOptions'=
- }
-> +
-> +##
-> +# @SetPasswordOptions:
-> +#
-> +# Data required to set a new password on a display server protocol.
-> +#
-> +# @protocol: - 'vnc' to modify the VNC server password
-> +#            - 'spice' to modify the Spice server password
-> +#
-> +# @password: the new password
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'union': 'SetPasswordOptions',
-> +  'base': { 'protocol': 'DisplayProtocol',
-> +            'password': 'str' },
-> +  'discriminator': 'protocol',
-> +  'data': { 'vnc': 'SetPasswordOptionsVnc',
-> +            'spice': 'SetPasswordOptionsSpice' } }
-> +
-> +##
-> +# @SetPasswordAction:
-> +#
-> +# An action to take on changing a password on a connection with active c=
-lients.
-> +#
-> +# @fail: fail the command if clients are connected
-> +#
-> +# @disconnect: disconnect existing clients
-> +#
-> +# @keep: maintain existing clients
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'enum': 'SetPasswordAction',
-> +  'data': [ 'fail', 'disconnect', 'keep' ] }
-> +
-> +##
-> +# @SetPasswordActionVnc:
-> +#
-> +# See @SetPasswordAction. VNC only supports the keep action. 'connection=
-'
-> +# should just be omitted for VNC, this is kept for backwards compatibili=
-ty.
-> +#
-> +# @keep: maintain existing clients
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'enum': 'SetPasswordActionVnc',
-> +  'data': [ 'keep' ] }
-> +
-> +##
-> +# @SetPasswordOptionsSpice:
-> +#
-> +# Options for set_password specific to the VNC procotol.
-> +#
-> +# @connected: How to handle existing clients when changing the
-> +#             password. If nothing is specified, defaults to 'keep'.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'struct': 'SetPasswordOptionsSpice',
-> +  'data': { '*connected': 'SetPasswordAction' } }
-> +
-> +##
-> +# @SetPasswordOptionsVnc:
-> +#
-> +# Options for set_password specific to the VNC procotol.
-> +#
-> +# @display: The id of the display where the password should be changed.
-> +#           Defaults to the first.
-> +#
-> +# @connected: How to handle existing clients when changing the
-> +#             password.
-> +#
-> +# Features:
-> +# @deprecated: For VNC, @connected will always be 'keep', parameter shou=
-ld be
-> +#              omitted.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'struct': 'SetPasswordOptionsVnc',
-> +  'data': { '*display': 'str',
-> +            '*connected': { 'type': 'SetPasswordActionVnc',
-> +                            'features': ['deprecated'] } } }
-
-Let me describe what you're doing in my own words, to make sure I got
-both the what and the why:
-
-1. Change @protocol and @connected from str to enum.
-
-2. Turn the argument struct into a union tagged by @protocol, to enable
-   3. and 4.
-
-3. Add argument @display in branch 'vnc'.
-
-4. Use a separate enum for @connected in each union branch, to enable 4.
-
-5. Trim this enum in branch 'vnc' to the values that are actually
-   supported.  Note that just one value remains, i.e. @connected is now
-   an optional argument that can take only the default value.
-
-6. Since such an argument is pointless, deprecate @connected in branch
-   'vnc'.
-
-Correct?
-
-Ignorant question: is it possible to have more than one 'spice' display?
-
-Item 5. is not a compatibility break: before your patch,
-qmp_set_password() rejects the values you drop.
-
-Item 5. adds another enum to the schema in return for more accurate
-introspection and slightly simpler qmp_set_password().  I'm not sure
-that's worthwhile.  I think we could use the same enum for both union
-branches.
-
-I'd split this patch into three parts: item 1., 2.+3., 4.-6., because
-each part can stand on its own.
-
-> =20
->  ##
->  # @expire_password:
->  #
->  # Expire the password of a remote display server.
->  #
-> -# @protocol: the name of the remote display protocol 'vnc' or 'spice'
-> -#
-> -# @time: when to expire the password.
-> -#
-> -#        - 'now' to expire the password immediately
-> -#        - 'never' to cancel password expiration
-> -#        - '+INT' where INT is the number of seconds from now (integer)
-> -#        - 'INT' where INT is the absolute time in seconds
-> -#
->  # Returns: - Nothing on success
->  #          - If @protocol is 'spice' and Spice is not active, DeviceNotF=
-ound
->  #
->  # Since: 0.14
->  #
-> -# Notes: Time is relative to the server and currently there is no way to
-> -#        coordinate server time with client time.  It is not recommended=
- to
-> -#        use the absolute time version of the @time parameter unless you=
-'re
-> -#        sure you are on the same machine as the QEMU instance.
-> -#
->  # Example:
->  #
->  # -> { "execute": "expire_password", "arguments": { "protocol": "vnc",
-> @@ -71,7 +145,50 @@
->  # <- { "return": {} }
->  #
->  ##
-> -{ 'command': 'expire_password', 'data': {'protocol': 'str', 'time': 'str=
-'} }
-> +{ 'command': 'expire_password', 'boxed': true, 'data': 'ExpirePasswordOp=
-tions' }
-> +
-> +##
-> +# @ExpirePasswordOptions:
-> +#
-> +# Data required to set password expiration on a display server protocol.
-> +#
-> +# @protocol: - 'vnc' to modify the VNC server expiration
-> +#            - 'spice' to modify the Spice server expiration
-> +
-> +# @time: when to expire the password.
-> +#
-> +#        - 'now' to expire the password immediately
-> +#        - 'never' to cancel password expiration
-> +#        - '+INT' where INT is the number of seconds from now (integer)
-> +#        - 'INT' where INT is the absolute time in seconds
-> +#
-> +# Notes: Time is relative to the server and currently there is no way to
-> +#        coordinate server time with client time.  It is not recommended=
- to
-> +#        use the absolute time version of the @time parameter unless you=
-'re
-> +#        sure you are on the same machine as the QEMU instance.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'union': 'ExpirePasswordOptions',
-> +  'base': { 'protocol': 'DisplayProtocol',
-> +            'time': 'str' },
-> +  'discriminator': 'protocol',
-> +  'data': { 'vnc': 'ExpirePasswordOptionsVnc' } }
-> +
-> +##
-> +# @ExpirePasswordOptionsVnc:
-> +#
-> +# Options for expire_password specific to the VNC procotol.
-> +#
-> +# @display: The id of the display where the expiration should be changed=
-.
-> +#           Defaults to the first.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'struct': 'ExpirePasswordOptionsVnc',
-> +  'data': { '*display': 'str' } }
-> =20
->  ##
->  # @screendump:
-
-Same as above, less item 4.-6.
+> Possible fixes:
+>
+> 1. Go back to "don't overlap" with suitable synchronization.
+>
+>    I'm afraid this won't cut it, because exec-oob would have wait in
+>    line behind reconnect.
+>
+>    It currently waits for other reasons, but that feels fixable.  Going
+>    back to "don't overlap" would make it unfixable.
+>
+> 2. Make the lingering session not affect / be affected by the new
+>    session's state
+>
+>    This is what your patch tries.  Every access of session state needs
+>    to be guarded like
+>
+>         if (conn_nr_before == qatomic_read(&mon->connection_nr)) {
+>             access session state
+>         } else {
+>             ???
+>         }
+>
+>    Issues:
+>
+>    * We have to find and guard all existing accesses.  That's work.
+>
+>    * We have to guard all future accesses.  More work, and easy to
+>      forget, which makes this fix rather brittle.
+>
+>    * The fix is spread over many places.
+>
+>    * We may run into cases where the ??? part gets complicated.
+>      Consider file descriptors.  The command in flight will have its
+>      monitor_get_fd() fail after disconnect.  Probably okay, because it
+>      can also fail for other reasons.  But we might run into cases where
+>      the ??? part creates new failure modes for us to handle.
+>
+> 3. Per-session state
+>
+>    Move per-session state from monitor state into a separate object.
+>
+>    Use reference counts to keep this object alive until both threads are
+>    done with the session.
+>
+>    Monitor I/O thread executes monitor core and the out-of-band
+>    commands; its stops using the old session on disconnect, and starts
+>    using the new session on connect.
+>
+>    Main thread executes in-band commands, and these use the session that
+>    submitted them.
+>
+>    Do I make sense, or should I explain my idea in more detail?
 
 
