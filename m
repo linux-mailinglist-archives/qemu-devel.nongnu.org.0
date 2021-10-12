@@ -2,98 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C648042A1B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 12:13:32 +0200 (CEST)
-Received: from localhost ([::1]:40084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 856EB42A1C4
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 12:18:02 +0200 (CEST)
+Received: from localhost ([::1]:48650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maEmp-0000RN-Cu
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 06:13:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49900)
+	id 1maErB-0006Pc-KA
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 06:18:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1maEj5-0007O7-Je
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 06:09:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1maEj3-0005Vq-Vh
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 06:09:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634033377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ClKN3K6ksmerflvy/OnQHpBtnCXB6sP6jvc/la0Qn74=;
- b=LUmcxqoP8qFYD4IW+h4X+k6TmwUD3WQj2DUgHnBkE1qQwjvwJtbfrou+B4uUbwtnoT7a9r
- BmBi/j2K1E/cdQNdy5qHiqjlW0zP+y5QZj5wE4hM+z1iMX0rtCTmccQhz4HjUNXvxHy752
- Zun0+XPCP+F4QlilSc3uw6HLunuRat8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-HfiTFc60M62mt5ghOeBLJw-1; Tue, 12 Oct 2021 06:09:34 -0400
-X-MC-Unique: HfiTFc60M62mt5ghOeBLJw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- r16-20020adfb1d0000000b00160bf8972ceso15361054wra.13
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 03:09:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=ClKN3K6ksmerflvy/OnQHpBtnCXB6sP6jvc/la0Qn74=;
- b=rK7jCAhtGfWibjmeBlJJICYOlPtz+sbp3zRt8e/oy8pATJ/jIa4XlUjSjTsCF8Gsqp
- IGh5FDmKH+Jjd34kwbyl9OopwbZ1RiPu/OD4hu9KuT0JzPACxFdeWO1LxZZaAU8ATVA/
- ueUQj0fes6WAqL1Zhx0cBKMSYmYMpWKO6+7wdzgtQahjZz/ONfqlo/Dezx1rB6CaizWa
- yfmsHdOX0t93tHAWBWm6Tohf1HV4/SucKOGsgoMgphn74tG16DuCYMIERM2qlivOosv7
- cFiX1usRzrDXtS/zuEowDXG/Zc3zzSzyStRrooCatxqzOknNh6OqxorDK7ttSmWyLkPG
- Dktg==
-X-Gm-Message-State: AOAM532340gsf8SPrdtM549l7sQA0PY6U9fBYI0JNzzFU6eJU2UL3GHt
- VWxgDIDeKA8NKHE7wbRvCi4ShKFKvtNfhz5hq1tr8Bmx0unrN+/ZJuPabfCYzccB1CIOITQFNcf
- TmyBt8AyfZZaRvpc=
-X-Received: by 2002:adf:aa4e:: with SMTP id q14mr30712133wrd.100.1634033372888; 
- Tue, 12 Oct 2021 03:09:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzYjgUwszQigAywoLGggybaaOG1rs0cbWocwBbX3p6mnZOi3y1mn+tkTzcYy3/Yjl109guAYw==
-X-Received: by 2002:adf:aa4e:: with SMTP id q14mr30712105wrd.100.1634033372616; 
- Tue, 12 Oct 2021 03:09:32 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6a12.dip0.t-ipconnect.de. [91.12.106.18])
- by smtp.gmail.com with ESMTPSA id
- z8sm10287695wrq.16.2021.10.12.03.09.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 03:09:32 -0700 (PDT)
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20211011174522.14351-1-david@redhat.com>
- <20211011174522.14351-3-david@redhat.com>
- <93dead18-5ea5-0afe-18c1-de9a06773687@linaro.org>
- <8108c69d-a596-d6c9-a116-783f47904deb@amsat.org>
- <845d3d5f-f9e9-d59d-c868-5a9825eb7fba@redhat.com>
- <20211012105300.1ef25440@redhat.com>
- <a2078241-1dc9-782e-38a3-eab06c1b162c@redhat.com>
- <20211012120059.14e19dc1@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v1 2/2] memory: Update description of
- memory_region_is_mapped()
-Message-ID: <84adb9d1-6e30-7d5e-a362-0a81ea4b8b01@redhat.com>
-Date: Tue, 12 Oct 2021 12:09:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1maEks-0000SB-7w
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 06:11:30 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:64080)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1maEkp-0006xP-Bt
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 06:11:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1634033487; x=1665569487;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9DKVx4G3y0AxTb/AEL3Q3yRpZK/CrSPN0gcKhGXUdb8=;
+ b=SLnIQC/EJNSieJpBVmsBVNkw+/PJU3bkVfH18GA9jUwx756dYFNEvF3T
+ ChVJ62LnM+WKzsB/rYQfAk/W9PWzlKZ6ifV3CTOl5mcG5St9rNhAdMHaR
+ S983f1itWAO45DemrKHxDRE1Wf24oQopbJfZJadjVHEkKYYJjAdCalwlr w=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 12 Oct 2021 03:11:23 -0700
+X-QCInternal: smtphost
+Received: from vu-tsimpson-aus.qualcomm.com (HELO
+ vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
+ by ironmsg04-sd.qualcomm.com with ESMTP; 12 Oct 2021 03:11:22 -0700
+Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
+ id 36D18DC5; Tue, 12 Oct 2021 05:11:22 -0500 (CDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/30] Hexagon HVX (target/hexagon) patch series
+Date: Tue, 12 Oct 2021 05:10:38 -0500
+Message-Id: <1634033468-23566-1-git-send-email-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20211012120059.14e19dc1@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=199.106.114.39;
+ envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-02.qualcomm.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,81 +66,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: ale@rev.ng, bcain@quicinc.com, tsimpson@quicinc.com,
+ richard.henderson@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> 
-> The less confusing would be one where check works for any memory region
-> involved.
-
-Exactly, so for any alias, even in-between another alias and the target.
-
->   
->>>
->>>    
->>>>        I am not aware of actual issues, this is rather a cleanup.
->>>>        
->>>>        Signed-off-by: David Hildenbrand <david@redhat.com>
->>>>
->>>> diff --git a/include/exec/memory.h b/include/exec/memory.h
->>>> index 75b4f600e3..93d0190202 100644
->>>> --- a/include/exec/memory.h
->>>> +++ b/include/exec/memory.h
->>>> @@ -728,6 +728,7 @@ struct MemoryRegion {
->>>>         const MemoryRegionOps *ops;
->>>>         void *opaque;
->>>>         MemoryRegion *container;
->>>> +    int mapped_via_alias; /* Mapped via an alias, container might be NULL */
->>>>         Int128 size;
->>>>         hwaddr addr;
->>>>         void (*destructor)(MemoryRegion *mr);
->>>> diff --git a/softmmu/memory.c b/softmmu/memory.c
->>>> index 3bcfc3899b..1168a00819 100644
->>>> --- a/softmmu/memory.c
->>>> +++ b/softmmu/memory.c
->>>> @@ -2535,8 +2535,13 @@ static void memory_region_add_subregion_common(MemoryRegion *mr,
->>>>                                                    hwaddr offset,
->>>>                                                    MemoryRegion *subregion)
->>>>     {
->>>> +    MemoryRegion *alias;
->>>> +
->>>>         assert(!subregion->container);
->>>>         subregion->container = mr;
->>>> +    for (alias = subregion->alias; alias; alias = alias->alias) {
->>>> +       alias->mapped_via_alias++;
->>>
->>> it it necessary to update mapped_via_alias for intermediate aliases?
->>> Why not just update on counter only on leaf (aliased region)?
->>
->> Assume we have alias0 -> alias1 -> region and map alias0.
->>
->> Once alias0 is mapped it will have ->container set and
->> memory_region_is_mapped(alias0) will return "true".
->>
->> With my patch, both, "alias1" and the region will be marked
->> "mapped_via_alias" and memory_region_is_mapped() will succeed on both of
->> them. With what you propose, memory_region_is_mapped() would only
->> succeed on the region (well, and on alias 0) but not on alias1.
-> 
-> as long as add_subregion increments counter on leaf it doesn't matter
-> how many intermediate aliases are there. Check on every one of them
-> should end up at the leaf counter (at expense of traversing
-> chain on every check but less state to track/think about).
-> 
-
-Sure, we could also let memory_region_is_mapped() walk all aliases to 
-the leaf. Not sure though, if it really simplifies things. It merely 
-adds another loop and doesn't get rid of the others :) But I don't 
-particularly care.
-
--- 
-Thanks,
-
-David / dhildenb
-
+VGhpcyBzZXJpZXMgYWRkcyBzdXBwb3J0IGZvciB0aGUgSGV4YWdvbiBWZWN0b3IgZVh0ZW5zaW9u
+cyAoSFZYKQoKVGhlc2UgaW5zdHJ1Y3Rpb25zIGFyZSBkb2N1bWVudGVkIGhlcmUKaHR0cHM6Ly9k
+ZXZlbG9wZXIucXVhbGNvbW0uY29tL2Rvd25sb2Fkcy9xdWFsY29tbS1oZXhhZ29uLXY2Ni1odngt
+cHJvZ3JhbW1lci1zLXJlZmVyZW5jZS1tYW51YWwKCkhleGFnb24gSFZYIGlzIGEgd2lkZSB2ZWN0
+b3IgZW5naW5lIHdpdGggMTI4IGJ5dGUgdmVjdG9ycy4KClNlZSBwYXRjaCAwMSBIZXhhZ29uIEhW
+WCBSRUFETUUgZm9yIG1vcmUgaW5mb3JtYXRpb24uCgoKKioqIEtub3duIGNoZWNrcGF0Y2ggaXNz
+dWVzICoqKgoKVGhlIGZvbGxvd2luZyBhcmUga25vd24gY2hlY2twYXRjaCBlcnJvcnMgaW4gdGhl
+IHNlcmllcwogICAgdGFyZ2V0L2hleGFnb24vZ2VuX3NlbWFudGljcy5jICAgIFN1c3BpY2lvdXMg
+OyBhZnRlciB3aGlsZSAoMCkKICAgIHRlc3RzL3RjZy9oZXhhZ29uL2h2eF9taXNjLmMgICAgICBT
+cGFjZXMgYXJvdW5kIG9wZXJhdG9yIGluIG1hY3JvIGludm9jYXRpb24KCgoqKiogQ2hhbmdlcyBp
+biB2NCAqKioKQWRkcmVzcyBmZWVkYmFjayBmcm9tIFJpY2hhcmQgSGVuZGVyc29uIDxyaWNoYXJk
+LmhlbmRlcnNvbkBsaW5hcm8ub3JnPgotIFVzZSB0Y2dfZ2VuX2d2ZWNfb3JjL3RjZ19nZW5fZ3Zl
+Y19hbmRjCkFkZCB0ZXN0cyBmb3IgdGhlIGZvbGxvd2luZyBvcGNvZGVzCiAgICBWNl9wcmVkX29y
+CiAgICBWNl9wcmVkX29yX24KICAgIFY2X3ByZWRfYW5kCiAgICBWNl9wcmVkX2FuZF9uCiAgICBW
+Nl9wcmVkX3hvcgpQcm9iZSB0aGUgSFZYIHN0b3JlcyBhdCB0aGUgYmVnaW5uaW5nIG9mIGdlbl9j
+b21taXRfcGFja2V0CiAgICBTZWUgcGF0Y2hlcyAxMSAoaGVscGVyIGZ1bmN0aW9ucykgYW5kIDEy
+IChUQ0cgZ2VuZXJhdGlvbikKVXNlIHRjZ19jb25zdGFudF8qIGluc3RlYWQgb2YgdGNnX2NvbnN0
+XyoKCioqKiBDaGFuZ2VzIGluIHYzICoqKgpDbGVhbiB1cCBnZW5fbG9nX3ZyZWdfd3JpdGUKLSBS
+ZW1vdmUgaGFzX3ZoaXN0IHBhcmFtZXRlcgpSZW1vdmUgVlJlZ3NfdXBkYXRlZF90bXAgZnJvbSBy
+dW50aW1lIHN0YXRlCi0gQ2hlY2sgdGhlcmUgaXMgZXhhY3RseSBvbmUgdG1wIGZvciB2aGlzdCBh
+dCBUQ0cgZ2VuZXJhdGlvbiB0aW1lClJlbW92ZSBWUmVnc19zZWxlY3QgZnJvbSBydW50aW1lIHN0
+YXRlCkFkZCB0ZXN0X21heF90ZW1wcyB0ZXN0IHRvIHRlc3RzL3RjZy9oZXhhZ29uL2h2eF9taXNj
+LmMKRG9uJ3QgcGFzcyBzbG90IHRvIEhWWCBoZWxwZXJzCgoqKiogQ2hhbmdlcyBpbiB2MiAqKioK
+QWRkcmVzcyBmZWVkYmFjayBmcm9tIFJpY2hhcmQgSGVuZGVyc29uIDxyaWNoYXJkLmhlbmRlcnNv
+bkBsaW5hcm8ub3JnPgotIFJlbW92ZSB6ZXJvX3ZlY3RvciBmcm9tIENQVUhleGFnb25TdGF0ZQot
+IFJlbW92ZSBnYXRoZXJfaXNzdWVkIGZyb20gQ1BVSGV4YWdvblN0YXRlCi0gUmVtb3ZlIGlzX2dh
+dGhlcl9zdG9yZV9pbnNuIGZyb20gRGlzYXNDb250ZXh0IGFuZCBDUFVIZXhhZ29uU3RhdGUKLSBD
+aGFuZ2UgVlN0b3JlTG9nLm1hc2sgdG8gYSBiaXRtYXAKLSBDaGFuZ2UgVlRDTVN0b3JlTG9nLm1h
+c2sgdG8gYSBiaXRtYXAKLSBDb252ZXJ0IGZ1dHVyZV9WUmVncywgdG1wX1ZyZWdzIHRvIGFsbG9j
+YXRlIGFzLW5lZWRlZAotIERvbid0IGNhc3QgYXdheSBjb25zdAotIFJlbW92ZS9zaW1wbGlmeSBj
+b3VudF9sZWFkaW5nX29uZXNfMgotIENvbnRyb2wgSFZYIGR1bXAgd2l0aCBDUFVfRFVNUF9GUFUK
+UmVtb3ZlIEhWWCBzdXBwb3J0IGZyb20gdGFyZ2V0L2hleGFnb24vZ2Ric3R1Yi5jCi0gSGV4YWdv
+biB1c2VzIGxsZGIgd2hpY2ggd2lsbCByZXF1aXJlIHN1cHBvcnQgZm9yIHFSZWdpc3RlckluZm8g
+aW4gdGhlCiAgdGFyZ2V0LWluZGVwZW5kZW50IGdkYnN0dWIuICBXaWxsIGNvbnRyaWJ1dGUgdGhp
+cyBzZXBhcmF0ZWx5CkNvbnZlcnQgdGhlIGhpc3RvZ3JhbSBpbnN0cnVjdGlvbnMgdG8gZXhlY3V0
+ZSBhdCB0aGUgZW5kIG9mIHBhY2tldCBjb21taXQKLSBUaGlzIGlzIG5lY2Vzc2FyeSB0byBhbGxv
+Y2F0ZSBmdXR1cmVfVlJlZ3MgYXMtbmVlZGVkCkFkZGl0aW9uYWwgdGVzdHMgYWRkZWQgaW4gdGVz
+dHMvdGNnL2hleGFnb24KQWRkZWQgaGVscGVyIG92ZXJyaWRlcyBmb3Igc2V2ZXJhbCBpbnN0cnVj
+dGlvbnMKLSBBcyBhIHJlc3VsdCwgY2xlYW5lZCB1cCB1dGlsaXR5IGZ1bmN0aW9ucwpBZGRpdGlv
+bmFsX2NsZWFudXAKLSBDaGFuZ2UgVENHdl9wdHIgdG8gbm90IF9sb2NhbF8KLSBSZW1vdmUgZW52
+IGFyZ3VtZW50IGZyb20gZ2VuX2NvbW1pdF9odngKCgpUYXlsb3IgU2ltcHNvbiAoMzApOgogIEhl
+eGFnb24gSFZYICh0YXJnZXQvaGV4YWdvbikgUkVBRE1FCiAgSGV4YWdvbiBIVlggKHRhcmdldC9o
+ZXhhZ29uKSBhZGQgSGV4YWdvbiBWZWN0b3IgZVh0ZW5zaW9ucyAoSFZYKSB0bwogICAgY29yZQog
+IEhleGFnb24gSFZYICh0YXJnZXQvaGV4YWdvbikgcmVnaXN0ZXIgbmFtZXMKICBIZXhhZ29uIEhW
+WCAodGFyZ2V0L2hleGFnb24pIGluc3RydWN0aW9uIGF0dHJpYnV0ZXMKICBIZXhhZ29uIEhWWCAo
+dGFyZ2V0L2hleGFnb24pIG1hY3JvcwogIEhleGFnb24gSFZYICh0YXJnZXQvaGV4YWdvbikgaW1w
+b3J0IG1hY3JvIGRlZmluaXRpb25zCiAgSGV4YWdvbiBIVlggKHRhcmdldC9oZXhhZ29uKSBzZW1h
+bnRpY3MgZ2VuZXJhdG9yCiAgSGV4YWdvbiBIVlggKHRhcmdldC9oZXhhZ29uKSBzZW1hbnRpY3Mg
+Z2VuZXJhdG9yIC0gcGFydCAyCiAgSGV4YWdvbiBIVlggKHRhcmdldC9oZXhhZ29uKSBDIHByZXBy
+b2Nlc3NvciBmb3IgZGVjb2RlIHRyZWUKICBIZXhhZ29uIEhWWCAodGFyZ2V0L2hleGFnb24pIGlu
+c3RydWN0aW9uIHV0aWxpdHkgZnVuY3Rpb25zCiAgSGV4YWdvbiBIVlggKHRhcmdldC9oZXhhZ29u
+KSBoZWxwZXIgZnVuY3Rpb25zCiAgSGV4YWdvbiBIVlggKHRhcmdldC9oZXhhZ29uKSBUQ0cgZ2Vu
+ZXJhdGlvbgogIEhleGFnb24gSFZYICh0YXJnZXQvaGV4YWdvbikgaGVscGVyIG92ZXJyaWRlcyBp
+bmZyYXN0cnVjdHVyZQogIEhleGFnb24gSFZYICh0YXJnZXQvaGV4YWdvbikgaGVscGVyIG92ZXJy
+aWRlcyBmb3IgaGlzdG9ncmFtCiAgICBpbnN0cnVjdGlvbnMKICBIZXhhZ29uIEhWWCAodGFyZ2V0
+L2hleGFnb24pIGhlbHBlciBvdmVycmlkZXMgLSB2ZWN0b3IgYXNzaWduICYgY21vdgogIEhleGFn
+b24gSFZYICh0YXJnZXQvaGV4YWdvbikgaGVscGVyIG92ZXJyaWRlcyAtIHZlY3RvciBhZGQgJiBz
+dWIKICBIZXhhZ29uIEhWWCAodGFyZ2V0L2hleGFnb24pIGhlbHBlciBvdmVycmlkZXMgLSB2ZWN0
+b3Igc2hpZnRzCiAgSGV4YWdvbiBIVlggKHRhcmdldC9oZXhhZ29uKSBoZWxwZXIgb3ZlcnJpZGVz
+IC0gdmVjdG9yIG1heC9taW4KICBIZXhhZ29uIEhWWCAodGFyZ2V0L2hleGFnb24pIGhlbHBlciBv
+dmVycmlkZXMgLSB2ZWN0b3IgbG9naWNhbCBvcHMKICBIZXhhZ29uIEhWWCAodGFyZ2V0L2hleGFn
+b24pIGhlbHBlciBvdmVycmlkZXMgLSB2ZWN0b3IgY29tcGFyZXMKICBIZXhhZ29uIEhWWCAodGFy
+Z2V0L2hleGFnb24pIGhlbHBlciBvdmVycmlkZXMgLSB2ZWN0b3Igc3BsYXQgYW5kIGFicwogIEhl
+eGFnb24gSFZYICh0YXJnZXQvaGV4YWdvbikgaGVscGVyIG92ZXJyaWRlcyAtIHZlY3RvciBsb2Fk
+cwogIEhleGFnb24gSFZYICh0YXJnZXQvaGV4YWdvbikgaGVscGVyIG92ZXJyaWRlcyAtIHZlY3Rv
+ciBzdG9yZXMKICBIZXhhZ29uIEhWWCAodGFyZ2V0L2hleGFnb24pIGltcG9ydCBzZW1hbnRpY3MK
+ICBIZXhhZ29uIEhWWCAodGFyZ2V0L2hleGFnb24pIGluc3RydWN0aW9uIGRlY29kaW5nCiAgSGV4
+YWdvbiBIVlggKHRhcmdldC9oZXhhZ29uKSBpbXBvcnQgaW5zdHJ1Y3Rpb24gZW5jb2RpbmdzCiAg
+SGV4YWdvbiBIVlggKHRlc3RzL3RjZy9oZXhhZ29uKSB2ZWN0b3JfYWRkX2ludCB0ZXN0CiAgSGV4
+YWdvbiBIVlggKHRlc3RzL3RjZy9oZXhhZ29uKSBodnhfbWlzYyB0ZXN0CiAgSGV4YWdvbiBIVlgg
+KHRlc3RzL3RjZy9oZXhhZ29uKSBzY2F0dGVyX2dhdGhlciB0ZXN0CiAgSGV4YWdvbiBIVlggKHRl
+c3RzL3RjZy9oZXhhZ29uKSBoaXN0b2dyYW0gdGVzdAoKIHRhcmdldC9oZXhhZ29uL2NwdS5oICAg
+ICAgICAgICAgICAgICAgICAgICAgIHwgICAzNSArLQogdGFyZ2V0L2hleGFnb24vZ2VuX3RjZ19o
+dnguaCAgICAgICAgICAgICAgICAgfCAgOTAzICsrKysrKysrKwogdGFyZ2V0L2hleGFnb24vaGVs
+cGVyLmggICAgICAgICAgICAgICAgICAgICAgfCAgIDE2ICsKIHRhcmdldC9oZXhhZ29uL2hleF9h
+cmNoX3R5cGVzLmggICAgICAgICAgICAgIHwgICAgNSArCiB0YXJnZXQvaGV4YWdvbi9oZXhfcmVn
+cy5oICAgICAgICAgICAgICAgICAgICB8ICAgIDEgKwogdGFyZ2V0L2hleGFnb24vaW5zbi5oICAg
+ICAgICAgICAgICAgICAgICAgICAgfCAgICAzICsKIHRhcmdldC9oZXhhZ29uL2ludGVybmFsLmgg
+ICAgICAgICAgICAgICAgICAgIHwgICAgMyArCiB0YXJnZXQvaGV4YWdvbi9tYWNyb3MuaCAgICAg
+ICAgICAgICAgICAgICAgICB8ICAgMjIgKwogdGFyZ2V0L2hleGFnb24vbW12ZWMvZGVjb2RlX2V4
+dF9tbXZlYy5oICAgICAgfCAgIDI0ICsKIHRhcmdldC9oZXhhZ29uL21tdmVjL21hY3Jvcy5oICAg
+ICAgICAgICAgICAgIHwgIDM1NCArKysrCiB0YXJnZXQvaGV4YWdvbi9tbXZlYy9tbXZlYy5oICAg
+ICAgICAgICAgICAgICB8ICAgODMgKwogdGFyZ2V0L2hleGFnb24vbW12ZWMvc3lzdGVtX2V4dF9t
+bXZlYy5oICAgICAgfCAgIDI5ICsKIHRhcmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5oICAgICAgICAg
+ICAgICAgICAgIHwgICA2MSArCiB0ZXN0cy90Y2cvaGV4YWdvbi9odnhfaGlzdG9ncmFtX2lucHV0
+LmggICAgICB8ICA3MTcgKysrKysrKwogdGVzdHMvdGNnL2hleGFnb24vaHZ4X2hpc3RvZ3JhbV9y
+b3cuaCAgICAgICAgfCAgIDI0ICsKIHRhcmdldC9oZXhhZ29uL2F0dHJpYnNfZGVmLmguaW5jICAg
+ICAgICAgICAgIHwgICAyMiArCiB0YXJnZXQvaGV4YWdvbi9jcHUuYyAgICAgICAgICAgICAgICAg
+ICAgICAgICB8ICAgODAgKy0KIHRhcmdldC9oZXhhZ29uL2RlY29kZS5jICAgICAgICAgICAgICAg
+ICAgICAgIHwgICAyOCArLQogdGFyZ2V0L2hleGFnb24vZ2VuX2RlY3RyZWVfaW1wb3J0LmMgICAg
+ICAgICAgfCAgIDEzICsKIHRhcmdldC9oZXhhZ29uL2dlbl9zZW1hbnRpY3MuYyAgICAgICAgICAg
+ICAgIHwgICAzMyArCiB0YXJnZXQvaGV4YWdvbi9nZW5wdHIuYyAgICAgICAgICAgICAgICAgICAg
+ICB8ICAxODggKysKIHRhcmdldC9oZXhhZ29uL21tdmVjL2RlY29kZV9leHRfbW12ZWMuYyAgICAg
+IHwgIDIzNiArKysKIHRhcmdldC9oZXhhZ29uL21tdmVjL3N5c3RlbV9leHRfbW12ZWMuYyAgICAg
+IHwgICA2NiArCiB0YXJnZXQvaGV4YWdvbi9vcF9oZWxwZXIuYyAgICAgICAgICAgICAgICAgICB8
+ICAyODIgKystCiB0YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuYyAgICAgICAgICAgICAgICAgICB8
+ICAyNDMgKystCiB0ZXN0cy90Y2cvaGV4YWdvbi9odnhfaGlzdG9ncmFtLmMgICAgICAgICAgICB8
+ICAgODggKwogdGVzdHMvdGNnL2hleGFnb24vaHZ4X21pc2MuYyAgICAgICAgICAgICAgICAgfCAg
+NDY5ICsrKysrCiB0ZXN0cy90Y2cvaGV4YWdvbi9zY2F0dGVyX2dhdGhlci5jICAgICAgICAgICB8
+IDEwMTEgKysrKysrKysrKwogdGVzdHMvdGNnL2hleGFnb24vdmVjdG9yX2FkZF9pbnQuYyAgICAg
+ICAgICAgfCAgIDYxICsKIHRhcmdldC9oZXhhZ29uL1JFQURNRSAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgICA4MSArLQogdGFyZ2V0L2hleGFnb24vZ2VuX2hlbHBlcl9mdW5jcy5weSAgICAgICAg
+ICAgfCAgMTE1ICstCiB0YXJnZXQvaGV4YWdvbi9nZW5faGVscGVyX3Byb3Rvcy5weSAgICAgICAg
+ICB8ICAgMTkgKy0KIHRhcmdldC9oZXhhZ29uL2dlbl90Y2dfZnVuY3MucHkgICAgICAgICAgICAg
+IHwgIDI1NyArKy0KIHRhcmdldC9oZXhhZ29uL2hleF9jb21tb24ucHkgICAgICAgICAgICAgICAg
+IHwgICAxMyArCiB0YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9hbGxleHQuaWRlZiAgICAgICAgICB8
+ICAgMjUgKwogdGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQvYWxsZXh0X21hY3Jvcy5kZWYgICAgfCAg
+IDI1ICsKIHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkL2FsbGV4dGVuYy5kZWYgICAgICAgIHwgICAy
+MCArCiB0YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9hbGxpZGVmcy5kZWYgICAgICAgICB8ICAgIDEg
+KwogdGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQvZW5jb2RlLmRlZiAgICAgICAgICAgfCAgICAxICsK
+IHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkL21hY3Jvcy5kZWYgICAgICAgICAgIHwgICA4OCArCiB0
+YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9tbXZlYy9lbmNvZGVfZXh0LmRlZiB8ICA3OTQgKysrKysr
+KysKIHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkL21tdmVjL2V4dC5pZGVmICAgICAgIHwgMjYwNiAr
+KysrKysrKysrKysrKysrKysrKysrKysrKwogdGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQvbW12ZWMv
+bWFjcm9zLmRlZiAgICAgfCAgODQyICsrKysrKysrKwogdGFyZ2V0L2hleGFnb24vbWVzb24uYnVp
+bGQgICAgICAgICAgICAgICAgICAgfCAgIDE1ICstCiB0ZXN0cy90Y2cvaGV4YWdvbi9NYWtlZmls
+ZS50YXJnZXQgICAgICAgICAgICB8ICAgMTIgKwogdGVzdHMvdGNnL2hleGFnb24vaHZ4X2hpc3Rv
+Z3JhbV9yb3cuUyAgICAgICAgfCAgMjk0ICsrKwogNDYgZmlsZXMgY2hhbmdlZCwgMTAyNjEgaW5z
+ZXJ0aW9ucygrKSwgNDcgZGVsZXRpb25zKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgdGFyZ2V0L2hl
+eGFnb24vZ2VuX3RjZ19odnguaAogY3JlYXRlIG1vZGUgMTAwNjQ0IHRhcmdldC9oZXhhZ29uL21t
+dmVjL2RlY29kZV9leHRfbW12ZWMuaAogY3JlYXRlIG1vZGUgMTAwNjQ0IHRhcmdldC9oZXhhZ29u
+L21tdmVjL21hY3Jvcy5oCiBjcmVhdGUgbW9kZSAxMDA2NDQgdGFyZ2V0L2hleGFnb24vbW12ZWMv
+bW12ZWMuaAogY3JlYXRlIG1vZGUgMTAwNjQ0IHRhcmdldC9oZXhhZ29uL21tdmVjL3N5c3RlbV9l
+eHRfbW12ZWMuaAogY3JlYXRlIG1vZGUgMTAwNjQ0IHRlc3RzL3RjZy9oZXhhZ29uL2h2eF9oaXN0
+b2dyYW1faW5wdXQuaAogY3JlYXRlIG1vZGUgMTAwNjQ0IHRlc3RzL3RjZy9oZXhhZ29uL2h2eF9o
+aXN0b2dyYW1fcm93LmgKIGNyZWF0ZSBtb2RlIDEwMDY0NCB0YXJnZXQvaGV4YWdvbi9tbXZlYy9k
+ZWNvZGVfZXh0X21tdmVjLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCB0YXJnZXQvaGV4YWdvbi9tbXZl
+Yy9zeXN0ZW1fZXh0X21tdmVjLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy90Y2cvaGV4YWdv
+bi9odnhfaGlzdG9ncmFtLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy90Y2cvaGV4YWdvbi9o
+dnhfbWlzYy5jCiBjcmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMvdGNnL2hleGFnb24vc2NhdHRlcl9n
+YXRoZXIuYwogY3JlYXRlIG1vZGUgMTAwNjQ0IHRlc3RzL3RjZy9oZXhhZ29uL3ZlY3Rvcl9hZGRf
+aW50LmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCB0YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9hbGxleHQu
+aWRlZgogY3JlYXRlIG1vZGUgMTAwNjQ0IHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkL2FsbGV4dF9t
+YWNyb3MuZGVmCiBjcmVhdGUgbW9kZSAxMDA2NDQgdGFyZ2V0L2hleGFnb24vaW1wb3J0ZWQvYWxs
+ZXh0ZW5jLmRlZgogY3JlYXRlIG1vZGUgMTAwNjQ0IHRhcmdldC9oZXhhZ29uL2ltcG9ydGVkL21t
+dmVjL2VuY29kZV9leHQuZGVmCiBjcmVhdGUgbW9kZSAxMDA2NDQgdGFyZ2V0L2hleGFnb24vaW1w
+b3J0ZWQvbW12ZWMvZXh0LmlkZWYKIGNyZWF0ZSBtb2RlIDEwMDc1NSB0YXJnZXQvaGV4YWdvbi9p
+bXBvcnRlZC9tbXZlYy9tYWNyb3MuZGVmCiBjcmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMvdGNnL2hl
+eGFnb24vaHZ4X2hpc3RvZ3JhbV9yb3cuUwoKLS0gCjIuNy40Cgo=
 
