@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D672429EFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 09:51:18 +0200 (CEST)
-Received: from localhost ([::1]:41250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A01429EF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 09:48:10 +0200 (CEST)
+Received: from localhost ([::1]:60180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maCZB-0008ED-I7
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 03:51:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44262)
+	id 1maCW9-00024K-D6
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 03:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCMG-0000Xc-R5
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCMF-0000XY-9l
  for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:37:58 -0400
-Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:54851)
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:58895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCM3-0004wp-Gb
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCM3-0004xQ-E2
  for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:37:55 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.108.20.177])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 27BB92111C;
- Tue, 12 Oct 2021 07:37:31 +0000 (UTC)
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 6EE402110F;
+ Tue, 12 Oct 2021 07:37:32 +0000 (UTC)
 Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 12 Oct
  2021 09:37:30 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006a434bfd8-f1cd-49e3-a73b-028b8ae84292,
+ (GARM-106R00674b7f126-e028-4693-95cf-565727b05996,
  B93E5558764F88B003587FF4B0B721A638511A69) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/18] aspeed queue
-Date: Tue, 12 Oct 2021 09:37:10 +0200
-Message-ID: <20211012073728.257748-1-clg@kaod.org>
+Subject: [PULL 01/18] aspeed/smc: Add watchdog Control/Status Registers
+Date: Tue, 12 Oct 2021 09:37:11 +0200
+Message-ID: <20211012073728.257748-2-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211012073728.257748-1-clg@kaod.org>
+References: <20211012073728.257748-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.106]
 X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: feb3354c-8048-43f6-8079-8e7d91f41f9c
-X-Ovh-Tracer-Id: 4267723598869728038
+X-Ovh-Tracer-GUID: a23552ed-bd73-4413-932a-93b73127ab26
+X-Ovh-Tracer-Id: 4268005075868617577
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtjedguddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeutdeikeeklefguddvieejueejhfehfeejtdelgedtheetjeetuddutdejfeejkeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
- helo=3.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtjedguddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,74 +67,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Peter Delevoryas <pdel@fb.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit c09124dcb8401a0d635b4a52b295e9b3fc12392a:
+The Aspeed SoCs have a dual boot function for firmware fail-over
+recovery. The system auto-reboots from the second flash if the main
+flash does not boot successfully within a certain amount of time. This
+function is called alternate boot (ABR) in the FMC controllers.
 
-  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2021-10-11 08:15:32 -0700)
+On AST2400/AST2500, ABR is enabled by hardware strapping in SCU70 to
+enable the 2nd watchdog timer, on AST2600, through register SCU510.
+If the boot on the the main flash succeeds, the firmware should
+disable the 2nd watchdog timer. If not, the BMC is reset and the CE0
+and CE1 mappings are swapped to restart the BMC from the 2nd flash.
 
-are available in the Git repository at:
+On the AST2600, the ABR registers controlling the 2nd watchdog timer
+were moved from the watchdog register to the FMC controller and the
+FMC model should be able to control WDT2 through its own register set.
+This requires more work. For now, add dummy read/write handlers to let
+the FW disable the 2nd watchdog without error.
 
-  https://github.com/legoater/qemu/ tags/pull-aspeed-20211012
+Reviewed-by: Peter Delevoryas <pdel@fb.com>
+Reported-by: Peter Delevoryas <pdel@fb.com>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ hw/ssi/aspeed_smc.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-for you to fetch changes up to e2804a1ec97ceede14b69a2a6e9a8b5dfa0b15c2:
+diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+index 331a2c544635..715f85007d5e 100644
+--- a/hw/ssi/aspeed_smc.c
++++ b/hw/ssi/aspeed_smc.c
+@@ -124,6 +124,13 @@
+ /* SPI dummy cycle data */
+ #define R_DUMMY_DATA      (0x54 / 4)
+ 
++/* FMC_WDT2 Control/Status Register for Alternate Boot (AST2600) */
++#define R_FMC_WDT2_CTRL   (0x64 / 4)
++#define   FMC_WDT2_CTRL_ALT_BOOT_MODE    BIT(6) /* O: 2 chips 1: 1 chip */
++#define   FMC_WDT2_CTRL_SINGLE_BOOT_MODE BIT(5)
++#define   FMC_WDT2_CTRL_BOOT_SOURCE      BIT(4) /* O: primary 1: alternate */
++#define   FMC_WDT2_CTRL_EN               BIT(0)
++
+ /* DMA Control/Status Register */
+ #define R_DMA_CTRL        (0x80 / 4)
+ #define   DMA_CTRL_REQUEST      (1 << 31)
+@@ -263,12 +270,18 @@ static void aspeed_2600_smc_dma_ctrl(AspeedSMCState *s, uint32_t value);
+ 
+ #define ASPEED_SMC_FEATURE_DMA       0x1
+ #define ASPEED_SMC_FEATURE_DMA_GRANT 0x2
++#define ASPEED_SMC_FEATURE_WDT_CONTROL 0x4
+ 
+ static inline bool aspeed_smc_has_dma(const AspeedSMCState *s)
+ {
+     return !!(s->ctrl->features & ASPEED_SMC_FEATURE_DMA);
+ }
+ 
++static inline bool aspeed_smc_has_wdt_control(const AspeedSMCState *s)
++{
++    return !!(s->ctrl->features & ASPEED_SMC_FEATURE_WDT_CONTROL);
++}
++
+ static const AspeedSMCController controllers[] = {
+     {
+         .name              = "aspeed.smc-ast2400",
+@@ -388,7 +401,8 @@ static const AspeedSMCController controllers[] = {
+         .segments          = aspeed_segments_ast2600_fmc,
+         .flash_window_base = ASPEED26_SOC_FMC_FLASH_BASE,
+         .flash_window_size = 0x10000000,
+-        .features          = ASPEED_SMC_FEATURE_DMA,
++        .features          = ASPEED_SMC_FEATURE_DMA |
++                             ASPEED_SMC_FEATURE_WDT_CONTROL,
+         .dma_flash_mask    = 0x0FFFFFFC,
+         .dma_dram_mask     = 0x3FFFFFFC,
+         .nregs             = ASPEED_SMC_R_MAX,
+@@ -1019,6 +1033,7 @@ static uint64_t aspeed_smc_read(void *opaque, hwaddr addr, unsigned int size)
+         addr == R_CE_CMD_CTRL ||
+         addr == R_INTR_CTRL ||
+         addr == R_DUMMY_DATA ||
++        (aspeed_smc_has_wdt_control(s) && addr == R_FMC_WDT2_CTRL) ||
+         (aspeed_smc_has_dma(s) && addr == R_DMA_CTRL) ||
+         (aspeed_smc_has_dma(s) && addr == R_DMA_FLASH_ADDR) ||
+         (aspeed_smc_has_dma(s) && addr == R_DMA_DRAM_ADDR) ||
+@@ -1350,6 +1365,8 @@ static void aspeed_smc_write(void *opaque, hwaddr addr, uint64_t data,
+         s->regs[addr] = value & 0xff;
+     } else if (addr == R_DUMMY_DATA) {
+         s->regs[addr] = value & 0xff;
++    } else if (aspeed_smc_has_wdt_control(s) && addr == R_FMC_WDT2_CTRL) {
++        s->regs[addr] = value & FMC_WDT2_CTRL_EN;
+     } else if (addr == R_INTR_CTRL) {
+         s->regs[addr] = value;
+     } else if (aspeed_smc_has_dma(s) && addr == R_DMA_CTRL) {
+-- 
+2.31.1
 
-  aspeed/smc: Dump address offset in trace events (2021-10-12 08:20:08 +0200)
-
-----------------------------------------------------------------
-Aspeed patches :
-
-* I2C QOMify (Cedric)
-* SMC model cleanup and QOMify (Cedric)
-* ADC model (Peter and Andrew)
-* GPIO fixes (Peter)
-
-----------------------------------------------------------------
-Andrew Jeffery (2):
-      hw/adc: Add basic Aspeed ADC model
-      hw/arm: Integrate ADC model into Aspeed SoC
-
-Cédric Le Goater (14):
-      aspeed/smc: Add watchdog Control/Status Registers
-      aspeed/smc: Introduce aspeed_smc_error() helper
-      aspeed/smc: Stop using the model name for the memory regions
-      aspeed/smc: Drop AspeedSMCController structure
-      aspeed/smc: Remove the 'flash' attribute from AspeedSMCFlash
-      aspeed/smc: Remove the 'size' attribute from AspeedSMCFlash
-      aspeed/smc: Rename AspeedSMCFlash 'id' to 'cs'
-      aspeed/smc: QOMify AspeedSMCFlash
-      aspeed/smc: Add default reset values
-      aspeed/smc: Introduce a new addr_width() class handler
-      aspeed/smc: Remove unused attribute 'irqline'
-      aspeed/i2c: QOMify AspeedI2CBus
-      aspeed/wdt: Add trace events
-      aspeed/smc: Dump address offset in trace events
-
-Peter Delevoryas (2):
-      hw: aspeed_gpio: Fix pin I/O type declarations
-      hw: aspeed_gpio: Fix GPIO array indexing
-
- include/hw/adc/aspeed_adc.h   |   55 ++
- include/hw/arm/aspeed_soc.h   |    2 +
- include/hw/gpio/aspeed_gpio.h |    5 +-
- include/hw/i2c/aspeed_i2c.h   |    8 +-
- include/hw/ssi/aspeed_smc.h   |   82 ++-
- hw/adc/aspeed_adc.c           |  427 ++++++++++++++++
- hw/arm/aspeed.c               |   18 +-
- hw/arm/aspeed_ast2600.c       |   22 +-
- hw/arm/aspeed_soc.c           |   15 +-
- hw/gpio/aspeed_gpio.c         |   88 ++--
- hw/i2c/aspeed_i2c.c           |  101 +++-
- hw/ssi/aspeed_smc.c           | 1134 +++++++++++++++++++++++------------------
- hw/watchdog/wdt_aspeed.c      |    5 +
- hw/adc/meson.build            |    1 +
- hw/adc/trace-events           |    3 +
- hw/watchdog/trace-events      |    4 +
- 16 files changed, 1352 insertions(+), 618 deletions(-)
- create mode 100644 include/hw/adc/aspeed_adc.h
- create mode 100644 hw/adc/aspeed_adc.c
 
