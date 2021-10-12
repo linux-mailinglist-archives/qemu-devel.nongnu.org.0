@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368FE42A3DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 14:06:54 +0200 (CEST)
-Received: from localhost ([::1]:52922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DA642A402
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 14:10:07 +0200 (CEST)
+Received: from localhost ([::1]:33890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maGYX-0003Ao-9T
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 08:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43246)
+	id 1maGbe-00018T-AX
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 08:10:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maGUy-0000vM-0s
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 08:03:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36629)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maGZd-0006vQ-RH
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 08:08:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maGUo-00031P-SI
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 08:03:11 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maGZY-0008EA-Mi
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 08:08:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634040181;
+ s=mimecast20190719; t=1634040475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fNZZ6B9rgTd81M30j5MzzJGNjgiMEXGkz5Qbg8Q3EW4=;
- b=WAEbd6mNGOXyaIkPD3Po4XqIuG/Dk/XukZdr65NrauAFnlmop1Gm+IPn5/x68VNAIkoE1M
- U+6NTruUMJZ8ixVzL1WELi9unRjNigWpFLq4/5ha5oqD2/uYWO+JfEg8P8wIbXHVJ0do7l
- JC3MYh7quOHqVuiYY0mkP6wawA1CGuA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-BJgyQS8iPRefaggXlrUoHQ-1; Tue, 12 Oct 2021 08:02:59 -0400
-X-MC-Unique: BJgyQS8iPRefaggXlrUoHQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- d11-20020a50cd4b000000b003da63711a8aso18642671edj.20
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 05:02:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fNZZ6B9rgTd81M30j5MzzJGNjgiMEXGkz5Qbg8Q3EW4=;
- b=YZ3BOnym43ycNZbh2Ov1epuybeDL8SoSH5VXqSqHGMxtq3CUrrjjmRiv1Fxh8qtQSQ
- 2VcxkssBDzBCni9mGvahsVy+nbds8dvb5GDRimz/fZWkwGPEFTsZlFdKKrAKYWwz4gKi
- TV39gU+Sb0wMhjh+6coWYb5/qKZF0a95hLFWbEHN8qc/qJ1HcOuUH42gWh2/bqtTkxvB
- kJDqCjszGq/tC4Bpall9rcBEaSBPUHtkwkdusLYB6McBvgh1jgBJLS4lW5par5rE+/ws
- 5HdE4WS84QnDVUWMFkdh/F7IzWosQ3r0zjLVhlmjQ+u/OGAe9M3Wogpjn57j4XyK2lwj
- NGiQ==
-X-Gm-Message-State: AOAM533XdLywJhEmqTLzfNxPK/ZL8msMhXVst/VBMHSVuCt/5zKxcvGi
- dPbNzsC4jdUEMMBdWGcUu002qJ6L0b63uDZZdyJZiQ0YKT659PlsndzH+2SaE9eo9bka/VIl7qN
- 7eoBzoCVn5SDIDzw=
-X-Received: by 2002:a17:906:c256:: with SMTP id
- bl22mr20543630ejb.459.1634040178750; 
- Tue, 12 Oct 2021 05:02:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzgXrNs51Y8z5bnyUkIlliPC0U5gLtQEBBzvhUs5rtFvKLH1dyxlQf6zyCfKrKoA/MYdMDuXA==
-X-Received: by 2002:a17:906:c256:: with SMTP id
- bl22mr20543604ejb.459.1634040178571; 
- Tue, 12 Oct 2021 05:02:58 -0700 (PDT)
-Received: from thuth.remote.csb (p54886540.dip0.t-ipconnect.de.
- [84.136.101.64])
- by smtp.gmail.com with ESMTPSA id k19sm4779848ejg.13.2021.10.12.05.02.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 05:02:58 -0700 (PDT)
-Subject: Re: [PATCH v2 02/24] audio: remove CONFIG_AUDIO_WIN_INT
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211012111302.246627-1-pbonzini@redhat.com>
- <20211012111302.246627-3-pbonzini@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <df6e54e1-2ce8-ea29-6801-2b23941ac94b@redhat.com>
-Date: Tue, 12 Oct 2021 14:02:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ bh=yJoHrWOdMzNSDrC+7PT+B6790NTPzUSt5busnVrspaM=;
+ b=Wxe2n9Ef5NCbu9NSnVVRaIE6b2da7gZ0IYn/SbPGKdG+D5m6x45KpdAimgJC935oAlODjW
+ L+loWuS8ywo6exUqxcN2kiHpSWShy0TqhftjvdsvhTR4IphGR2G3q1nwDPtCtzllrn92BV
+ haWwaNxJRzIGyRtKSbHtsklM5F1dNf8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-Vbm_xb6wOSifVRPRrVFlnA-1; Tue, 12 Oct 2021 08:06:26 -0400
+X-MC-Unique: Vbm_xb6wOSifVRPRrVFlnA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12A65100CCC6;
+ Tue, 12 Oct 2021 12:06:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B14281972D;
+ Tue, 12 Oct 2021 12:06:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 39561113865F; Tue, 12 Oct 2021 14:06:23 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] qapi: Improve input_type_enum()'s error message
+References: <20211011131558.3273255-1-armbru@redhat.com>
+ <YWVsheOBwyx+3QOM@redhat.com>
+Date: Tue, 12 Oct 2021 14:06:23 +0200
+In-Reply-To: <YWVsheOBwyx+3QOM@redhat.com> (Kevin Wolf's message of "Tue, 12
+ Oct 2021 13:07:49 +0200")
+Message-ID: <87r1cq78hs.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20211012111302.246627-3-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,28 +80,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com,
- =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffman <kraxel@redhat.com>
+Cc: berrange@redhat.com, ehabkost@redhat.com, michael.roth@amd.com,
+ qemu-devel@nongnu.org, hreitz@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/2021 13.12, Paolo Bonzini wrote:
-> Ever since winwaveaudio was removed in 2015, CONFIG_AUDIO_WIN_INT
-> is only set if dsound is in use, so use CONFIG_AUDIO_DSOUND directly.
-> 
-> Cc: Gerd Hoffman <kraxel@redhat.com>
-> Cc: Volker Rümelin <vr_qemu@t-online.de>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Message-Id: <20211007130630.632028-3-pbonzini@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   audio/meson.build | 4 ++--
->   configure         | 5 -----
->   2 files changed, 2 insertions(+), 7 deletions(-)
+Kevin Wolf <kwolf@redhat.com> writes:
 
+> Am 11.10.2021 um 15:15 hat Markus Armbruster geschrieben:
+>> The error message claims the parameter is invalid:
+>> 
+>>     $ qemu-system-x86_64 -object qom-type=nonexistent
+>>     qemu-system-x86_64: -object qom-type=nonexistent: Invalid parameter 'nonexistent'
+>> 
+>> What's wrong is actually the *value* 'nonexistent'.  Improve the
+>> message to
+>> 
+>>     qemu-system-x86_64: -object qom-type=nonexistent: Parameter 'qom-type' does not accept value 'nonexistent'
+>> 
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  qapi/qapi-visit-core.c          | 3 ++-
+>>  tests/unit/check-qom-proplist.c | 2 +-
+>>  tests/qemu-iotests/049.out      | 6 +++---
+>>  tests/qemu-iotests/206.out      | 2 +-
+>>  tests/qemu-iotests/237.out      | 6 +++---
+>>  tests/qemu-iotests/245          | 2 +-
+>
+> Good that you remembered to update iotests cases. I'm afraid there are
+> two more that need an update.
+>
+> 287 contains these lines:
+>
+>     output=$(_make_test_img -o 'compression_type=zstd' 64M; _cleanup_test_img)
+>     if echo "$output" | grep -q "Invalid parameter 'zstd'"; then
+>         _notrun "ZSTD is disabled"
+>     fi
+>
+> Instead of skipping the test case when zstd support is not compiled in,
+> this test fails now.
+>
+> 308 contains a similar check for FUSE support and fails now when FUSE
+> support is disabled.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+287 passes for me.  I figure that's because I built with CONFIG_ZSTD.
+308 I simply missed.
+
+Thanks for your help!
 
 
