@@ -2,58 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234A5429ECB
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 09:40:52 +0200 (CEST)
-Received: from localhost ([::1]:36942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A41F429F21
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 09:58:39 +0200 (CEST)
+Received: from localhost ([::1]:59388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maCP3-0003JN-RH
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 03:40:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44018)
+	id 1maCgI-0003nP-M9
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 03:58:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCM3-0000La-SQ
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:37:43 -0400
-Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:50933)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1maCMQ-0000mf-Ox
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:38:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCM0-000534-N4
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:37:43 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.193])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 5508E210D2;
- Tue, 12 Oct 2021 07:37:39 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 12 Oct
- 2021 09:37:38 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R0064dccca85-9cfd-49e6-8499-2f13dcbacafb,
- B93E5558764F88B003587FF4B0B721A638511A69) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 18/18] aspeed/smc: Dump address offset in trace events
-Date: Tue, 12 Oct 2021 09:37:28 +0200
-Message-ID: <20211012073728.257748-19-clg@kaod.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211012073728.257748-1-clg@kaod.org>
-References: <20211012073728.257748-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1maCMD-0005Be-DI
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:38:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634024272;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lIztIAc/uu6T3F/7GN3i5xzbPqDStcJa5FI43fqO+Yo=;
+ b=b+dEPxLioaqLpTHi2B34DfTBbwK5ce2qX5Z1g6UGo8UzMGGYkglr2ZmDsTvRirQV/eshYc
+ Iuuc103To9PYNTVAfE+N1xsnkgVK0LLU+AUUIzVYGzJYaRHpv+/Z7VPOisyl4zlNim7/lM
+ Iqj4HlKX8y4BWZ4b2RHWEflwds8Vmtw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548-6GyAPLkDPVCq-w99P_FSeA-1; Tue, 12 Oct 2021 03:37:51 -0400
+X-MC-Unique: 6GyAPLkDPVCq-w99P_FSeA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ a15-20020a056000188f00b00161068d8461so4714234wri.11
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 00:37:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=lIztIAc/uu6T3F/7GN3i5xzbPqDStcJa5FI43fqO+Yo=;
+ b=CYE+PLj7mKT0RcZnUeI1ma/OS2ZRDajNn/WC/8q217gOl0770SZDaoJjz6AxAr73/M
+ ObNCXSQKA7OTc6maSRI5f9VcmqhslowMgDk0+ygqSi6nCSK+YrKOTL9ilv67/uokqIPK
+ QJVLgdIfhs4bAyEfss10l72Vp5P1OATYzzrr1LOhuePM9PC/R8CfFy5PKOXrRhVsXada
+ AePhuhpOtr3FNzMWh+ApzABuCGpnMyC0rLME2+tpnu511l8zbcOyQQ/CBq9uMX8vQGHP
+ 1t52AsDgIrXBRzvAvnSBPHuUXL9vBmwuT4cDo/KNw0T8n89GebFLl/6zZBZ8HLu69Irv
+ 1MiA==
+X-Gm-Message-State: AOAM531v/FAmGny9WOrB5X5/Bbx2atvS2mvmfOSImfN1nJ/76LKNUdnJ
+ zv3uGH7sbp33z9V7haP2A0dDBDGY1kIxdwTNNkuSKe4eE6Uo2DZc9xjpmQB7O8aVnFj0hlWH0PF
+ yo51YuREAiLvQcwA=
+X-Received: by 2002:adf:fa8f:: with SMTP id h15mr5500379wrr.323.1634024269899; 
+ Tue, 12 Oct 2021 00:37:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxcc6KokrneZXtJomPZS0pkzimCh7YvS8Mb2PBCNKCbsd2Ua2h/R/clvH3ZbOoPlNuU+Xriow==
+X-Received: by 2002:adf:fa8f:: with SMTP id h15mr5500359wrr.323.1634024269618; 
+ Tue, 12 Oct 2021 00:37:49 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1e48:3780:4451:9a65:d4e9:9bb6?
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id y8sm1590400wmi.43.2021.10.12.00.37.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Oct 2021 00:37:49 -0700 (PDT)
+Message-ID: <dd96f766-26ca-de6d-911f-8352f6b27a5f@redhat.com>
+Date: Tue, 12 Oct 2021 09:37:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 0717d916-357d-4bb6-b914-86dc1c1258ce
-X-Ovh-Tracer-Id: 4270256872521501545
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtjedguddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
- helo=2.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] qcow2: Silence clang -m32 compiler warning
+To: Eric Blake <eblake@redhat.com>
+References: <20211011155031.149158-1-hreitz@redhat.com>
+ <20211011162402.2wqnhxof2r52637w@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211011162402.2wqnhxof2r52637w@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.452,
+ DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,48 +99,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- Francisco Iglesias <frasse.iglesias@gmail.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The register index is currently printed and this is confusing.
+On 11.10.21 18:24, Eric Blake wrote:
+> On Mon, Oct 11, 2021 at 05:50:31PM +0200, Hanna Reitz wrote:
+>> With -m32, size_t is generally only a uint32_t.  That makes clang
+>> complain that in the assertion
+>>
+>>    assert(qiov->size <= INT64_MAX);
+>>
+>> the range of the type of qiov->size (size_t) is too small for any of its
+>> values to ever exceed INT64_MAX.
+> Yep, I'm not surprised that we hit that.
+>
+>> Cast qiov->size to uint64_t to silence clang.
+>>
+>> Fixes: f7ef38dd1310d7d9db76d0aa16899cbc5744f36d
+>>         ("block: use int64_t instead of uint64_t in driver read
+>>         handlers")
+>> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+>> ---
+>> I don't know whether this is the best possible solution, or whether we
+>> should care about this at all (I personally think it's basically just
+>> wrong for clang to warn about always-true conditions in assertions), but
+>> I thought I might as well just send this patch as the basis for a
+>> discussion.
+> I agree that the compiler is overly noisy, but the fix is simple
+> enough that I'm fine with it as written.
 
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- hw/ssi/aspeed_smc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Well, I just hope clang won’t become even more clever in the future and 
+realize the cast has no real effect...
 
-diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 7129341c129e..8a988c167604 100644
---- a/hw/ssi/aspeed_smc.c
-+++ b/hw/ssi/aspeed_smc.c
-@@ -728,7 +728,7 @@ static uint64_t aspeed_smc_read(void *opaque, hwaddr addr, unsigned int size)
-          addr < R_SEG_ADDR0 + asc->max_peripherals) ||
-         (addr >= s->r_ctrl0 && addr < s->r_ctrl0 + asc->max_peripherals)) {
- 
--        trace_aspeed_smc_read(addr, size, s->regs[addr]);
-+        trace_aspeed_smc_read(addr << 2, size, s->regs[addr]);
- 
-         return s->regs[addr];
-     } else {
-@@ -1029,10 +1029,10 @@ static void aspeed_smc_write(void *opaque, hwaddr addr, uint64_t data,
-     AspeedSMCClass *asc = ASPEED_SMC_GET_CLASS(s);
-     uint32_t value = data;
- 
--    addr >>= 2;
--
-     trace_aspeed_smc_write(addr, size, data);
- 
-+    addr >>= 2;
-+
-     if (addr == s->r_conf ||
-         (addr >= s->r_timings &&
-          addr < s->r_timings + asc->nregs_timings) ||
--- 
-2.31.1
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+>
+> Since the original went through my tree, I'm happy to take this one
+> through my NBD tree as well.
+
+Thanks!
+
+Hanna
 
 
