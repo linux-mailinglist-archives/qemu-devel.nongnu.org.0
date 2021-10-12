@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6073442A963
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 18:27:32 +0200 (CEST)
-Received: from localhost ([::1]:59322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A12F642A9CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 18:42:26 +0200 (CEST)
+Received: from localhost ([::1]:41118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maKcl-0006Ed-8E
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 12:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35104)
+	id 1maKrB-0007Pf-OK
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 12:42:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maKXa-00069A-Bo
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:22:10 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:35827)
+ id 1maKXo-00072e-Ln
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:22:24 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:41824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maKXX-00043P-O6
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:22:09 -0400
-Received: by mail-pg1-x532.google.com with SMTP id e7so14350206pgk.2
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 09:22:07 -0700 (PDT)
+ id 1maKXY-00044I-Ek
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:22:24 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id y7so8459033pfg.8
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 09:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=l8F0yKfEV2474L4Ct30BbTSDAfxIN/YXChfrODh7eN4=;
- b=g/LVaS2IVTh4FTFsMgoFarMzBSENpkDD/XkvePL/52UKKZ/kBYP0MESwSILah9IFRU
- 2Dr3Ki9mgb4AZv+KRt9/QpjJDehbNJFW7mpYVV/zcVHiptnlHBzrQsAFxShCdG3d5my/
- BdwGxdTd431VQkkgjAkpOFQfsNwAOD9FrzqEQSA1BXsEzHDo9xWR8/b4DshxchaFPwXE
- UE5ZyvalItCpUMAeeuFp/w2qJy6YEaYCkhFAm4zafqa6xDc6O7w24qhRFwcyVvkKKBAv
- Y7+U15qYPp8R5C4uUSXYytMMlgmIKWcAuyNw2hLtnOAGSix6WkLHiNTYtx8iEjYKRd1e
- TJdw==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=jQKQj7yC7oasjm6gEezfZCoepcbFAh4lW7SLWUNzRbc=;
+ b=ooTxSuyEuUV2AcC1yYLam202lPWvJnSqYXcjnaTZCHXPzbviXZUdJc5ANF74mKzrI2
+ mPsZptUEuvzF4Dl9MqrqfN+Zj6cCMAHrQFdcH9x39R9UqviuvjXGcZX4wANBDdC0NpOD
+ pniT9h9imCOqdcvysLz9i3AcsuF+ODtqCIRhIWXeM85pntNs+Y9e1M8MDdq+jI03isfj
+ f5FB937CrRqcqnC10cYB1Dtuwe0Cf1oxdYVaw0fZ5l0pv6DtQwajl4WhLajWQZ3pcotq
+ qAK5mf6tSCsCx2yaL/4tQTSFwKnR7ziLxKI5P5abZETVn7Upu3PrVJ/W5BsHKJTr2EJC
+ kriw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l8F0yKfEV2474L4Ct30BbTSDAfxIN/YXChfrODh7eN4=;
- b=1cm22r9+ydRcFYzFoG/jN6cOjinXtlboHCvgQ3W/CKK2EegRgbOYx4Pb5nQuk6UBcB
- 58YFbCmbRjbc1tYXJnq0No5t0G/sSFazmK8JiRpYg7NCddmTc5A+zvDEuIPzoRD+o5uK
- cxwqLHF7qFgULBJ9KHWLBkCWD8GIWW73dFjw7VEhOdinqjJBEEdFQ9R5w1NUyuo3PPP+
- kHsVm7MAjBKrVrDeF5C7C0It296qjsuTp9GJHE7HSZDhlb2iGJ2ejdeaITZf1TSDO0pK
- KgN64pdJ5pMgyPmaO0WQzI1BqxJQ2QxkoBmjHhJBCbcE5AaRXVE4QlGa4FLK3BnkNiB9
- FzTg==
-X-Gm-Message-State: AOAM531KHuxyDpdwF6ady2vWWETGIxDIpSkQRafguj1miGtyeTjnpAWY
- ZLj1PwqSoB5k53VUSxNMU4+8F4MsLxBwwg==
-X-Google-Smtp-Source: ABdhPJzNSeXTxfPhPfT/nvkAK3gKtFW3szO37PGBi+0AckBuHInih5KwH2eqE8zsAhjtGIu2jc9suQ==
-X-Received: by 2002:a63:b349:: with SMTP id x9mr17084219pgt.421.1634055726405; 
- Tue, 12 Oct 2021 09:22:06 -0700 (PDT)
+ bh=jQKQj7yC7oasjm6gEezfZCoepcbFAh4lW7SLWUNzRbc=;
+ b=goktJG8aSVh66XfZUhFNmv+hylKo/t/RPv7t6dNrPMrzGWHdVj6NkCaC1KRfe7Xte7
+ X4yZo2UIYynBRO6Y1BpuvfU4QZMHqSB2e7LwmbwABwB/27UxdmXIQ8+DFnyGgpdjPtbW
+ utpBVlXjkmRLe4doSNKZLWyYBdVvF3t7MT3Ruy6CWaCjczN6R/4leUuQImBvqhqofCKS
+ zcjhxr3W69sZf8A208RBJDwWmlVdLcwFQX4pArQWBLjvliy91sCeQLM6dv4CKZA1dy2P
+ bKp92trJqfliQ1UUMI9Btv3NjLGdmwXoEQtqcnrtQ9A7PD+8ZP0kP94cqSnwbCs7F1EO
+ E76w==
+X-Gm-Message-State: AOAM531HHdV3tctv3ysfSqR3VeDP5DYA1JpofPrRqb2jX9Tl+39ndyYx
+ /D6HHVETnMeEjgT4sbaTAOstpVmQlqvRfQ==
+X-Google-Smtp-Source: ABdhPJwo5gwUtsdamOB6RPth8tJS1P0wHJY8TcyqE6njJQVFB3k4oDCZLsPWB+S+Yu02Tt3dwyBNjQ==
+X-Received: by 2002:a62:dd15:0:b0:44c:61de:537 with SMTP id
+ w21-20020a62dd15000000b0044c61de0537mr32141055pff.57.1634055727205; 
+ Tue, 12 Oct 2021 09:22:07 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id k190sm11525023pfd.211.2021.10.12.09.22.05
+ by smtp.gmail.com with ESMTPSA id k190sm11525023pfd.211.2021.10.12.09.22.06
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 12 Oct 2021 09:22:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/23] target/hppa: Drop checks for singlestep_enabled
-Date: Tue, 12 Oct 2021 09:21:43 -0700
-Message-Id: <20211012162159.471406-8-richard.henderson@linaro.org>
+Subject: [PATCH v2 08/23] target/i386: Check CF_NO_GOTO_TB for dc->jmp_opt
+Date: Tue, 12 Oct 2021 09:21:44 -0700
+Message-Id: <20211012162159.471406-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211012162159.471406-1-richard.henderson@linaro.org>
 References: <20211012162159.471406-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,61 +83,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GDB single-stepping is now handled generically.
+We were using singlestep_enabled as a proxy for whether
+translator_use_goto_tb would always return false.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hppa/translate.c | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ target/i386/tcg/translate.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index c3698cf067..3b9744deb4 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -814,11 +814,7 @@ static void gen_goto_tb(DisasContext *ctx, int which,
-     } else {
-         copy_iaoq_entry(cpu_iaoq_f, f, cpu_iaoq_b);
-         copy_iaoq_entry(cpu_iaoq_b, b, ctx->iaoq_n_var);
--        if (ctx->base.singlestep_enabled) {
--            gen_excp_1(EXCP_DEBUG);
--        } else {
--            tcg_gen_lookup_and_goto_ptr();
--        }
-+        tcg_gen_lookup_and_goto_ptr();
-     }
- }
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index a46be75b00..c8d919bc3f 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -8556,6 +8556,7 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
+     CPUX86State *env = cpu->env_ptr;
+     uint32_t flags = dc->base.tb->flags;
++    uint32_t cflags = tb_cflags(dc->base.tb);
+     int cpl = (flags >> HF_CPL_SHIFT) & 3;
+     int iopl = (flags >> IOPL_SHIFT) & 3;
  
-@@ -2346,11 +2342,7 @@ static bool do_rfi(DisasContext *ctx, bool rfi_r)
-         gen_helper_rfi(cpu_env);
-     }
-     /* Exit the TB to recognize new interrupts.  */
--    if (ctx->base.singlestep_enabled) {
--        gen_excp_1(EXCP_DEBUG);
--    } else {
--        tcg_gen_exit_tb(NULL, 0);
--    }
-+    tcg_gen_exit_tb(NULL, 0);
-     ctx->base.is_jmp = DISAS_NORETURN;
+@@ -8593,14 +8594,14 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
+     dc->cpuid_ext3_features = env->features[FEAT_8000_0001_ECX];
+     dc->cpuid_7_0_ebx_features = env->features[FEAT_7_0_EBX];
+     dc->cpuid_xsave_features = env->features[FEAT_XSAVE];
+-    dc->jmp_opt = !(dc->base.singlestep_enabled ||
++    dc->jmp_opt = !((cflags & CF_NO_GOTO_TB) ||
+                     (flags & (HF_TF_MASK | HF_INHIBIT_IRQ_MASK)));
+     /*
+      * If jmp_opt, we want to handle each string instruction individually.
+      * For icount also disable repz optimization so that each iteration
+      * is accounted separately.
+      */
+-    dc->repz_opt = !dc->jmp_opt && !(tb_cflags(dc->base.tb) & CF_USE_ICOUNT);
++    dc->repz_opt = !dc->jmp_opt && !(cflags & CF_USE_ICOUNT);
  
-     return nullify_end(ctx);
-@@ -4274,10 +4266,9 @@ static void hppa_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-         nullify_save(ctx);
-         /* FALLTHRU */
-     case DISAS_IAQ_N_UPDATED:
--        if (ctx->base.singlestep_enabled) {
--            gen_excp_1(EXCP_DEBUG);
--        } else if (is_jmp != DISAS_IAQ_N_STALE_EXIT) {
-+        if (is_jmp != DISAS_IAQ_N_STALE_EXIT) {
-             tcg_gen_lookup_and_goto_ptr();
-+            break;
-         }
-         /* FALLTHRU */
-     case DISAS_EXIT:
+     dc->T0 = tcg_temp_new();
+     dc->T1 = tcg_temp_new();
 -- 
 2.25.1
 
