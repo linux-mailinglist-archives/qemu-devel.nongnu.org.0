@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFE342A130
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:33:44 +0200 (CEST)
-Received: from localhost ([::1]:47554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144BF42A148
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:40:01 +0200 (CEST)
+Received: from localhost ([::1]:59194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maEAJ-0007ei-IN
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:33:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34214)
+	id 1maEGN-0007Ix-VT
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:40:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1maDX4-0001lr-9Q
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:53:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47699)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1maDng-0003m2-Lg
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:10:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1maDX1-0004nd-JF
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:53:10 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1maDnd-0002H3-RI
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:10:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634028787;
+ s=mimecast20190719; t=1634029817;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pzoJzu8b+3oONIIaNP2U+v01qtn63ZrC9SGmnn0HdgE=;
- b=RNwu8pXuClBTpKzrN5AqqAAlX+Mi6Y55Usqx0wRQdi9yFT9Mohf0t+IfkRmSQuX8ZtPsbp
- iWPRGMYdQfVwKc0EyRmHYEao/LEEUtY6p7BFLGHsbdWvEzLU+YgVQSWsBDddHYMLrGy07+
- qSqhamiRRgonQQoJNd4wL4XiViqHN6Q=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-iTrDeX-wPpyt9srEoXJQ3w-1; Tue, 12 Oct 2021 04:53:03 -0400
-X-MC-Unique: iTrDeX-wPpyt9srEoXJQ3w-1
-Received: by mail-ed1-f71.google.com with SMTP id
- g28-20020a50d0dc000000b003dae69dfe3aso18261557edf.7
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 01:53:03 -0700 (PDT)
+ bh=slWNj4rdiP2FfVo1MQK2/I8FGxzLON0GbUV+xUfKMGE=;
+ b=McXgD3A8z2ae6kwdUMODlocxV3ctop0LkaL1V80lCuNRo0zcjKQ3jYqCAGNFpLASXRzVjE
+ DBkI/Y04S8L8h73k9GXdtWOEzm2D3tlM6imLCvasHRaDW6wETA0KH1iPGphFnxkTL6rpaD
+ 1HUERO2P6f5eM7OhHiCi1yjLPUEUB0c=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-W4E8l2zkOuC2WeVg8L4_9Q-1; Tue, 12 Oct 2021 05:10:13 -0400
+X-MC-Unique: W4E8l2zkOuC2WeVg8L4_9Q-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ m10-20020ad4448a000000b003833687f674so11561473qvt.2
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 02:10:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/H4Gs3COdVYAoGAcbWgKAfHqQvctZyCdwA+TUgd0iWY=;
- b=TIQeYMzzpQgr9RDL3Sel3vvwBMfF7zQ3eUHR6JdnjmWwUer602kSTPUt1eI9uAuqLn
- I1isdKYZtzR+QsJI0t0tRCEqMco/iAN9yttkW+FLQAHqUbKscsCqfWPPE0Lt66K40odv
- vM/sSIURQ5aJiHZpQlISbQk93BezQuEVqesqeW8BHASh10x3jkLlX3RsYBt5wHvYcg7L
- whOgntR4sMK+CoOBkCJefNZ9n+uqA15rbbQngwFYzjXPAAhqePTQjAAFnrdUtFD7jMvi
- UOuLiWf/IZ2hOmQaX57Bg+3jUcQ2sGwHNh/jZ8Jj9jsQf3YV1kB9ul0Ieoz0ielV7zYL
- lejw==
-X-Gm-Message-State: AOAM530EQYnf/+mVDOd/uGIyop98vI8QbBEBw9NXyX+Kp4a/MqZVjsJH
- AjbpoTH3nC5arabG+/cdTlP9jQyclnUnZh5TA0phTi97EnMGiOzsyzYQjQegSG5sGMhxvukO+EU
- 08EiBoQKP4VFzHSM=
-X-Received: by 2002:a17:906:16d0:: with SMTP id
- t16mr31043474ejd.199.1634028782414; 
- Tue, 12 Oct 2021 01:53:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxEabdSeQw3nH3OBiBudDHX7YVo8WluZgtyMMGED89M22YfmZBHDAnFAOidHVLXdzcVjSvpOg==
-X-Received: by 2002:a17:906:16d0:: with SMTP id
- t16mr31043440ejd.199.1634028782119; 
- Tue, 12 Oct 2021 01:53:02 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id yz9sm4602172ejb.51.2021.10.12.01.53.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 01:53:01 -0700 (PDT)
-Date: Tue, 12 Oct 2021 10:53:00 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v1 2/2] memory: Update description of
- memory_region_is_mapped()
-Message-ID: <20211012105300.1ef25440@redhat.com>
-In-Reply-To: <845d3d5f-f9e9-d59d-c868-5a9825eb7fba@redhat.com>
-References: <20211011174522.14351-1-david@redhat.com>
- <20211011174522.14351-3-david@redhat.com>
- <93dead18-5ea5-0afe-18c1-de9a06773687@linaro.org>
- <8108c69d-a596-d6c9-a116-783f47904deb@amsat.org>
- <845d3d5f-f9e9-d59d-c868-5a9825eb7fba@redhat.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=slWNj4rdiP2FfVo1MQK2/I8FGxzLON0GbUV+xUfKMGE=;
+ b=vqaaCZ04rLZ5NYyHlAxhfj0lhCcH/7/9E1OCeMWoabOL8ix+JHlqGugKMk+RvpMryM
+ 1mSRlgjzQXbLnfZqYRie4pUW3U1obQB5fHKqVq3Fhfp64mAafX/tz1aRVvOf2JgJkgrD
+ MJSzyRI9YxdLqE7p8V3qVmRpaUJLorAGeM3I8UphD62Kx7JDaYYjCDYQpa1h4qpNcKJn
+ nMqNvS27POliCkq3xSE8j+3dmu+dg2N5yy60H72xMX5suhLJcL7N1QGEae8ntog223Sg
+ jymuhYzcYI0kSB43NHa7f4GRMGqASZ79MddCqi4punfErUIPkpZv9rh1srlCF5RZOJK4
+ /k9w==
+X-Gm-Message-State: AOAM533prdf3StT3susDzbiIBKDnaamSi2Po5PBX87K+WPg7k9CRiSO1
+ jTBH0mLilEMcrFuUghqNFlmkuGW3AHlpK4LVUr8OMSkGqoUeZBmGYktHwu8TXzi8ubLa2I7joVw
+ PYWEoA4TJI/UUn5ocNjwz+TPT+gXoob8=
+X-Received: by 2002:a05:620a:4154:: with SMTP id
+ k20mr18683317qko.316.1634029813447; 
+ Tue, 12 Oct 2021 02:10:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzyiXNLdXqo+a0KU+89LdwqFrXn046GMI7ZJAe8oj0n1NP0c3qTclJQm+mlwbFLFWEeF2H/rCp4xjMGF5y222E=
+X-Received: by 2002:a05:620a:4154:: with SMTP id
+ k20mr18683293qko.316.1634029813193; 
+ Tue, 12 Oct 2021 02:10:13 -0700 (PDT)
 MIME-Version: 1.0
+References: <20211001070603.307037-1-eperezma@redhat.com>
+ <9f438a35-a5ff-1891-24e6-dd11d1a3bba6@redhat.com>
+ <CACGkMEvQrJKYZ_xm+f5saZwd7jkYcDOdhNQXwHPU1PvGjGCFLA@mail.gmail.com>
+In-Reply-To: <CACGkMEvQrJKYZ_xm+f5saZwd7jkYcDOdhNQXwHPU1PvGjGCFLA@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 12 Oct 2021 11:09:37 +0200
+Message-ID: <CAJaqyWf6sGMe=Nm4uZDvhu=O+kbfTtcC=g5zbQ=O6VtT0dRGnA@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 00/20] vDPA shadow virtqueue
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -102,144 +94,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Eric Blake <eblake@redhat.com>, Michael Lilja <ml@napatech.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Oct 2021 08:50:25 +0200
-David Hildenbrand <david@redhat.com> wrote:
+On Tue, Oct 12, 2021 at 6:06 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Tue, Oct 12, 2021 at 11:59 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> >
+> > =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:05, Eugenio P=C3=A9rez =E5=86=
+=99=E9=81=93:
+> > > This series enable shadow virtqueue (SVQ) for vhost-vdpa devices. Thi=
+s
+> > > is intended as a new method of tracking the memory the devices touch
+> > > during a migration process: Instead of relay on vhost device's dirty
+> > > logging capability, SVQ intercepts the VQ dataplane forwarding the
+> > > descriptors between VM and device. This way qemu is the effective
+> > > writer of guests memory, like in qemu's virtio device operation.
+> > >
+> > > When SVQ is enabled qemu offers a new vring to the device to read
+> > > and write into, and also intercepts kicks and calls between the devic=
+e
+> > > and the guest. Used buffers relay would cause dirty memory being
+> > > tracked, but at this RFC SVQ is not enabled on migration automaticall=
+y.
+> > >
+> > > It is based on the ideas of DPDK SW assisted LM, in the series of
+> > > DPDK's https://patchwork.dpdk.org/cover/48370/ . However, these does
+> > > not map the shadow vq in guest's VA, but in qemu's.
+> > >
+> > > For qemu to use shadow virtqueues the guest virtio driver must not us=
+e
+> > > features like event_idx or indirect descriptors. These limitations wi=
+ll
+> > > be addressed in later series, but they are left out for simplicity at
+> > > the moment.
+> > >
+> > > SVQ needs to be enabled with QMP command:
+> > >
+> > > { "execute": "x-vhost-enable-shadow-vq",
+> > >        "arguments": { "name": "dev0", "enable": true } }
+> > >
+> > > This series includes some patches to delete in the final version that
+> > > helps with its testing. The first two of the series freely implements
+> > > the feature to stop the device and be able to retrieve its status. It=
+'s
+> > > intended to be used with vp_vpda driver in a nested environment. This
+> > > driver also need modifications to forward the new status bit.
+> > >
+> > > Patches 2-8 prepares the SVQ and QMP command to support guest to host
+> > > notifications forwarding. If the SVQ is enabled with these ones
+> > > applied and the device supports it, that part can be tested in
+> > > isolation (for example, with networking), hopping through SVQ.
+> > >
+> > > Same thing is true with patches 9-13, but with device to guest
+> > > notifications.
+> > >
+> > > The rest of the patches implements the actual buffer forwarding.
+> > >
+> > > Comments are welcome.
+> >
+> >
+> > Hi Eugenio:
+> >
+> >
+> > It would be helpful to have a public git repo for us to ease the review=
+.
+> >
+> > Thanks
+> >
 
-> On 12.10.21 00:17, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 10/11/21 23:21, Richard Henderson wrote: =20
-> >> On 10/11/21 10:45 AM, David Hildenbrand wrote: =20
-> >>>  =C2=A0 /**
-> >>>  =C2=A0=C2=A0 * memory_region_is_mapped: returns true if #MemoryRegio=
-n is mapped
-> >>> - * into any address space.
-> >>> + * into another #MemoryRegion directly. Will return false if the
-> >>> + * #MemoryRegion is mapped indirectly via an alias. =20
-> >>
-> >> Hmm.=C2=A0 I guess.=C2=A0 It kinda sorta sounds like a bug, but I don'=
-t know the
-> >> interface well enough to tell. =20
-> >=20
-> > I tend to agree there is a generic issue with aliases, see:
-> >=20
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg732527.html
-> > then
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg799622.html
-> > "memory: Directly dispatch alias accesses on origin memory region"
-> >=20
-> > The API description looks OK to me, I'd rather change the
-> > implementation... Maybe we need a MR_ALIAS_FOREACH() macro?
-> >  =20
->=20
-> The API description regarding "address spaces" is certainly not
-> correct.
->=20
-> The question is if we care about aliases for
-> memory_region_is_mapped() for aliases. Anything that relies on ->containe=
-r
-> is problematic when the target region is mapped via aliases -- see the co=
-ver
-> letter.
->=20
-> Before sending this patch, I had
->=20
-> commit 71d15e90d513327c90d346ef73865d2db749fbba
-> Author: David Hildenbrand <david@redhat.com>
-> Date:   Thu Oct 7 11:25:18 2021 +0200
->=20
->      memory: make memory_region_is_mapped() succeed when mapped via an al=
-ias
->     =20
->      memory_region_is_mapped() currently does not return "true" when a me=
-mory
->      region is mapped via an alias. Let's fix that by adding a
->      "mapped_via_alias" counter to memory regions and updating it accordi=
-ngly
->      when an alias gets (un)mapped.
+Hi Jason,
 
-this needs a clarification,
-is memory_region_is_mapped() used on aliased memory region or on alias?
+I just pushed this tag to
+https://github.com/eugpermar/qemu/tree/vdpa_sw_live_migration.d/vdpa-v4
+,
+but let me know if you find another way more convenient.
 
+Thanks!
 
->      I am not aware of actual issues, this is rather a cleanup.
->     =20
->      Signed-off-by: David Hildenbrand <david@redhat.com>
->=20
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 75b4f600e3..93d0190202 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -728,6 +728,7 @@ struct MemoryRegion {
->       const MemoryRegionOps *ops;
->       void *opaque;
->       MemoryRegion *container;
-> +    int mapped_via_alias; /* Mapped via an alias, container might be NUL=
-L */
->       Int128 size;
->       hwaddr addr;
->       void (*destructor)(MemoryRegion *mr);
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 3bcfc3899b..1168a00819 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -2535,8 +2535,13 @@ static void memory_region_add_subregion_common(Mem=
-oryRegion *mr,
->                                                  hwaddr offset,
->                                                  MemoryRegion *subregion)
->   {
-> +    MemoryRegion *alias;
-> +
->       assert(!subregion->container);
->       subregion->container =3D mr;
-> +    for (alias =3D subregion->alias; alias; alias =3D alias->alias) {
-> +       alias->mapped_via_alias++;
+>
+> Btw, we also need to measure the performance impact of the shadow virtque=
+ue.
+>
 
-it it necessary to update mapped_via_alias for intermediate aliases?
-Why not just update on counter only on leaf (aliased region)?
+I will measure it in subsequent series, since I'm still making some
+changes. At the moment I'm also testing with nested virtualization
+that can affect it.
 
-> +    }
->       subregion->addr =3D offset;
->       memory_region_update_container_subregions(subregion);
->   }
-> @@ -2561,9 +2566,14 @@ void memory_region_add_subregion_overlap(MemoryReg=
-ion *mr,
->   void memory_region_del_subregion(MemoryRegion *mr,
->                                    MemoryRegion *subregion)
->   {
-> +    MemoryRegion *alias;
-> +
->       memory_region_transaction_begin();
->       assert(subregion->container =3D=3D mr);
->       subregion->container =3D NULL;
-> +    for (alias =3D subregion->alias; alias; alias =3D alias->alias) {
-> +       alias->mapped_via_alias--;
-> +    }
->       QTAILQ_REMOVE(&mr->subregions, subregion, subregions_link);
->       memory_region_unref(subregion);
->       memory_region_update_pending |=3D mr->enabled && subregion->enabled=
-;
-> @@ -2660,7 +2670,7 @@ static FlatRange *flatview_lookup(FlatView *view, A=
-ddrRange addr)
+However we need to take into account that this series still has a lot
+of room for improvement. I would say that packed vq and isolating code
+in its own aio context could give a noticeable boost on the numbers.
 
+Thanks!
 
->   bool memory_region_is_mapped(MemoryRegion *mr)
->   {
-> -    return mr->container ? true : false;
-> +    return !!mr->container || mr->mapped_via_alias;
->   }
->  =20
->   /* Same as memory_region_find, but it does not add a reference to the
->=20
->=20
->=20
-> But then, I do wonder if we should even care.
-
+> Thanks
+>
 
 
