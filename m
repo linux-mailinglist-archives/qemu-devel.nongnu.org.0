@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5473142A443
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 14:21:59 +0200 (CEST)
-Received: from localhost ([::1]:52438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 368FE42A3DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 14:06:54 +0200 (CEST)
+Received: from localhost ([::1]:52922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maGn8-0006Zj-6m
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 08:21:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40214)
+	id 1maGYX-0003Ao-9T
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 08:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maGHw-0007IK-Ab
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:49:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46396)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maGUy-0000vM-0s
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 08:03:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maGHu-000494-Mj
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:49:44 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maGUo-00031P-SI
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 08:03:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634039381;
+ s=mimecast20190719; t=1634040181;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p8+bfNwTS/Sj1m2ZFxEhNggdvYM8bxlcKl5k7MkEvmY=;
- b=OZigl735xI6JSFDy7ojxIMspa+9N6dBlaPop78NxnAm2rh/AyBYg3wfbO6WoSZ4PxNd27z
- IemmaUR9iKmvf9wvqv0ylQJzHcqGPB4oFZyk34ux0KUUT69dJroXKweasd0EnP3V7i5vMi
- P2BRSB4/TTeWijqBao8tM0oZeuMWAYY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-vAhHIgJQNw28qK4azzuJQw-1; Tue, 12 Oct 2021 07:49:38 -0400
-X-MC-Unique: vAhHIgJQNw28qK4azzuJQw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9EAF8802588;
- Tue, 12 Oct 2021 11:49:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A4F7019C79;
- Tue, 12 Oct 2021 11:49:23 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2D611113865F; Tue, 12 Oct 2021 13:49:22 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 0/5] trace: inroduce qmp: trace namespace
-References: <20210923195451.714796-1-vsementsov@virtuozzo.com>
-Date: Tue, 12 Oct 2021 13:49:22 +0200
-In-Reply-To: <20210923195451.714796-1-vsementsov@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Thu, 23 Sep 2021 22:54:46 +0300")
-Message-ID: <87czoa8nul.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=fNZZ6B9rgTd81M30j5MzzJGNjgiMEXGkz5Qbg8Q3EW4=;
+ b=WAEbd6mNGOXyaIkPD3Po4XqIuG/Dk/XukZdr65NrauAFnlmop1Gm+IPn5/x68VNAIkoE1M
+ U+6NTruUMJZ8ixVzL1WELi9unRjNigWpFLq4/5ha5oqD2/uYWO+JfEg8P8wIbXHVJ0do7l
+ JC3MYh7quOHqVuiYY0mkP6wawA1CGuA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-72-BJgyQS8iPRefaggXlrUoHQ-1; Tue, 12 Oct 2021 08:02:59 -0400
+X-MC-Unique: BJgyQS8iPRefaggXlrUoHQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ d11-20020a50cd4b000000b003da63711a8aso18642671edj.20
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 05:02:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fNZZ6B9rgTd81M30j5MzzJGNjgiMEXGkz5Qbg8Q3EW4=;
+ b=YZ3BOnym43ycNZbh2Ov1epuybeDL8SoSH5VXqSqHGMxtq3CUrrjjmRiv1Fxh8qtQSQ
+ 2VcxkssBDzBCni9mGvahsVy+nbds8dvb5GDRimz/fZWkwGPEFTsZlFdKKrAKYWwz4gKi
+ TV39gU+Sb0wMhjh+6coWYb5/qKZF0a95hLFWbEHN8qc/qJ1HcOuUH42gWh2/bqtTkxvB
+ kJDqCjszGq/tC4Bpall9rcBEaSBPUHtkwkdusLYB6McBvgh1jgBJLS4lW5par5rE+/ws
+ 5HdE4WS84QnDVUWMFkdh/F7IzWosQ3r0zjLVhlmjQ+u/OGAe9M3Wogpjn57j4XyK2lwj
+ NGiQ==
+X-Gm-Message-State: AOAM533XdLywJhEmqTLzfNxPK/ZL8msMhXVst/VBMHSVuCt/5zKxcvGi
+ dPbNzsC4jdUEMMBdWGcUu002qJ6L0b63uDZZdyJZiQ0YKT659PlsndzH+2SaE9eo9bka/VIl7qN
+ 7eoBzoCVn5SDIDzw=
+X-Received: by 2002:a17:906:c256:: with SMTP id
+ bl22mr20543630ejb.459.1634040178750; 
+ Tue, 12 Oct 2021 05:02:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzgXrNs51Y8z5bnyUkIlliPC0U5gLtQEBBzvhUs5rtFvKLH1dyxlQf6zyCfKrKoA/MYdMDuXA==
+X-Received: by 2002:a17:906:c256:: with SMTP id
+ bl22mr20543604ejb.459.1634040178571; 
+ Tue, 12 Oct 2021 05:02:58 -0700 (PDT)
+Received: from thuth.remote.csb (p54886540.dip0.t-ipconnect.de.
+ [84.136.101.64])
+ by smtp.gmail.com with ESMTPSA id k19sm4779848ejg.13.2021.10.12.05.02.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Oct 2021 05:02:58 -0700 (PDT)
+Subject: Re: [PATCH v2 02/24] audio: remove CONFIG_AUDIO_WIN_INT
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211012111302.246627-1-pbonzini@redhat.com>
+ <20211012111302.246627-3-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <df6e54e1-2ce8-ea29-6801-2b23941ac94b@redhat.com>
+Date: Tue, 12 Oct 2021 14:02:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20211012111302.246627-3-pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,108 +100,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, pbonzini@redhat.com, den@openvz.org
+Cc: marcandre.lureau@redhat.com,
+ =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffman <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+On 12/10/2021 13.12, Paolo Bonzini wrote:
+> Ever since winwaveaudio was removed in 2015, CONFIG_AUDIO_WIN_INT
+> is only set if dsound is in use, so use CONFIG_AUDIO_DSOUND directly.
+> 
+> Cc: Gerd Hoffman <kraxel@redhat.com>
+> Cc: Volker Rümelin <vr_qemu@t-online.de>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Message-Id: <20211007130630.632028-3-pbonzini@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   audio/meson.build | 4 ++--
+>   configure         | 5 -----
+>   2 files changed, 2 insertions(+), 7 deletions(-)
 
-> Hi all!
->
-> We have handle_qmp_command and qmp_command_repond trace points to trace
-> qmp commands. They are very useful to debug problems involving
-> management tools like libvirt.
->
-> But tracing all qmp commands is too much.
->
-> Here I suggest a kind of tracing namespace. Formally this series adds a
-> trace points called qmp:<some-command> for every command, which may be
-> enabled in separate like
->
->   --trace qmp:drive-backup
->
-> or by pattern like
->
->   --trace qmp:block-job-*
->
-> or similarly with help of qmp command trace-event-set-state.
->
-> This also allows to enable tracing of some qmp commands permanently
->  (by downstream patch or in libvirt xml). For example, I'm going to
-> enable tracing of block job comamnds and blockdev-* commands in
-> Virtuozzo. Qemu logs are often too empty (for example, in comparison
-> with Libvirt), logging block jobs is not too much but will be very
-> helpful.
 
-What exactly is traced?  Peeking at PATCH 5... looks like it's input
-that makes it to qmp_dispatch() and command responses, but not events.
-
-Fine print on "input that makes it to qmp_dispatch()":
-
-* You trace right before we execute the command, not when we receive,
-  parse and enqueue input.
-
-* Corollary: input with certain errors is not traced.
-
-* You don't trace the input text, you trace the unparsed parse tree.
-
-All fine, I presume.
-
-Existing tracepoints in monitor/qmp.c, and what information they send
-(inessential bits omitted for clarity):
-
-* handle_qmp_command
-
-  Handling a QMP command: unparsed parse tree
-
-  Fine print, safe to ignore:
-
-  - Out-of-band commands will be executed right away, in-band commands
-    will be queued.  Tracepoints monitor_qmp_in_band_enqueue and
-    monitor_qmp_in_band_dequeue provide insight into that.
-
-  - This also receives and queues parse errors, without tracing them.
-    Tracepoint monitor_qmp_err_in_band traces them as they are dequeued.
-
-* monitor_qmp_cmd_in_band
-
-  About to execute in-band command: command ID, if any
-
-* monitor_qmp_cmd_out_of_band
-
-  About to execute out-of-band command: command ID, if any
-
-* monitor_qmp_respond
-
-  About to send command response or event: QObject
-
-For input, --trace qmp:* is like --trace handle_qmp_command, except it
-traces late rather than early.
-
-For output, --trace qmp:* is like --trace monitor_qmp_respond less
-events.
-
-The main improvement over existing tracepoints seems to be the ability
-to filter on command names.
-
-To get that, you overload the @name argument of QMP command
-trace-event-set-state.  In addition to the documented meaning "Event
-name pattern", it also has an alternate, undocumented meaning "QMP
-command name pattern".  The "undocumented" part is easy enough to fix.
-However, QMP heavily frowns on argument values that need to be parsed.
-But before we discuss this in depth, we should decide whether we want
-the filtering feature.
-
-Management applications can enable and disable tracing as needed, but
-doing it all in QEMU might be more convenient or robust.
-
-Libvirt logs all QMP traffic.  I doubt it'll make use of your filtering
-feature.  Cc'ing libvir-list just in case.
-
-Another way to log all traffic is to route it through socat -x or
-similar.
-
-Opinions?
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
