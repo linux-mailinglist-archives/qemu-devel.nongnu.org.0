@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12F642A9CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 18:42:26 +0200 (CEST)
-Received: from localhost ([::1]:41118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D8942A970
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 18:30:42 +0200 (CEST)
+Received: from localhost ([::1]:39478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maKrB-0007Pf-OK
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 12:42:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35422)
+	id 1maKfo-0003TF-T0
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 12:30:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maKXo-00072e-Ln
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:22:24 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:41824)
+ id 1maKXc-0006GU-5L
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:22:12 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:35758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maKXY-00044I-Ek
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:22:24 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id y7so8459033pfg.8
+ id 1maKXa-00044r-Dz
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:22:11 -0400
+Received: by mail-pf1-x433.google.com with SMTP id c29so18108pfp.2
  for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 09:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=jQKQj7yC7oasjm6gEezfZCoepcbFAh4lW7SLWUNzRbc=;
- b=ooTxSuyEuUV2AcC1yYLam202lPWvJnSqYXcjnaTZCHXPzbviXZUdJc5ANF74mKzrI2
- mPsZptUEuvzF4Dl9MqrqfN+Zj6cCMAHrQFdcH9x39R9UqviuvjXGcZX4wANBDdC0NpOD
- pniT9h9imCOqdcvysLz9i3AcsuF+ODtqCIRhIWXeM85pntNs+Y9e1M8MDdq+jI03isfj
- f5FB937CrRqcqnC10cYB1Dtuwe0Cf1oxdYVaw0fZ5l0pv6DtQwajl4WhLajWQZ3pcotq
- qAK5mf6tSCsCx2yaL/4tQTSFwKnR7ziLxKI5P5abZETVn7Upu3PrVJ/W5BsHKJTr2EJC
- kriw==
+ bh=Quiv5vbH7lzjgQxwPWoCohOnwSfDfP+7M3aharRivYE=;
+ b=BGUlTWZFIMtS2cP2U1v0WA/iPHhT200xg8xmNDLyy79QcXDlbLfRnIpa9EM6z90vlm
+ g3F3jicLEeBJfTXhL8UrtmFxL01AR3yJUzNodlOuhVzwJiIkZDILmAG389eRKW2GjISL
+ PMVsqz51co9HmW5flaq6MnXmMwQbqXch7Nq0Dg/Qy1aCzyWQEJhML1nuuJTB1RtEnY0f
+ w0Ni+eMc1ivfTD++Lj+npriWHK4okX3coWOsdMdk4HvKyC6wH/7IL38Qza8XL/QUlT7b
+ LqzweDASW3fv/XUdM7KrYxZfITZFJLwAAMEX+g+B+CmCiwI9IO3P6EC2f8L+gLwbnQl0
+ DIyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jQKQj7yC7oasjm6gEezfZCoepcbFAh4lW7SLWUNzRbc=;
- b=goktJG8aSVh66XfZUhFNmv+hylKo/t/RPv7t6dNrPMrzGWHdVj6NkCaC1KRfe7Xte7
- X4yZo2UIYynBRO6Y1BpuvfU4QZMHqSB2e7LwmbwABwB/27UxdmXIQ8+DFnyGgpdjPtbW
- utpBVlXjkmRLe4doSNKZLWyYBdVvF3t7MT3Ruy6CWaCjczN6R/4leUuQImBvqhqofCKS
- zcjhxr3W69sZf8A208RBJDwWmlVdLcwFQX4pArQWBLjvliy91sCeQLM6dv4CKZA1dy2P
- bKp92trJqfliQ1UUMI9Btv3NjLGdmwXoEQtqcnrtQ9A7PD+8ZP0kP94cqSnwbCs7F1EO
- E76w==
-X-Gm-Message-State: AOAM531HHdV3tctv3ysfSqR3VeDP5DYA1JpofPrRqb2jX9Tl+39ndyYx
- /D6HHVETnMeEjgT4sbaTAOstpVmQlqvRfQ==
-X-Google-Smtp-Source: ABdhPJwo5gwUtsdamOB6RPth8tJS1P0wHJY8TcyqE6njJQVFB3k4oDCZLsPWB+S+Yu02Tt3dwyBNjQ==
-X-Received: by 2002:a62:dd15:0:b0:44c:61de:537 with SMTP id
- w21-20020a62dd15000000b0044c61de0537mr32141055pff.57.1634055727205; 
- Tue, 12 Oct 2021 09:22:07 -0700 (PDT)
+ bh=Quiv5vbH7lzjgQxwPWoCohOnwSfDfP+7M3aharRivYE=;
+ b=DzxWV8PGvoJTPr2ApzsIcUCAaqW+UjAFvs9p69DkM1/6Ip1wntCl7Ku7f0UUtwVt24
+ voOh0Uzb4jBVy2LWkvxyEezTVl0C7BiT8EhHdKwyHaa46O8dURtZ6PslL4IjJxUTCvJ3
+ QD65MvN8yIWgnqOrMWKVjmAQTgFNPq/S+2sMDXitLyez52OPzFs9/eKo1wiKog4sL4x6
+ FI/Qu5NtkgknJY73Z6WNGz6Z2yp2isf24gN/YR/8XEIjL5vmasdZJPfP2sN06RUipET4
+ GakhveInukyXevO3e6G5mpGM1biQJqJM+CymWHSc2kTgzMyhEXoQcgtNYOvTucS487BL
+ QiRw==
+X-Gm-Message-State: AOAM530ZRxh8Smy/udQ4gKZFhvm7NH3gpsa1y6sMT85QEZ0xiabJxU4w
+ qWKhEBpJQCmaNTxwuruVXpFSr3bpzllOPw==
+X-Google-Smtp-Source: ABdhPJwggJJs7t0tXaZvB3Fz7fmShjP7AWgqFkOEYxAOXy7dD/nd7WeQLQ28Kvj6U6MBNT8mHFeIwQ==
+X-Received: by 2002:a63:e041:: with SMTP id n1mr24109530pgj.211.1634055728090; 
+ Tue, 12 Oct 2021 09:22:08 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id k190sm11525023pfd.211.2021.10.12.09.22.06
+ by smtp.gmail.com with ESMTPSA id k190sm11525023pfd.211.2021.10.12.09.22.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 09:22:06 -0700 (PDT)
+ Tue, 12 Oct 2021 09:22:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/23] target/i386: Check CF_NO_GOTO_TB for dc->jmp_opt
-Date: Tue, 12 Oct 2021 09:21:44 -0700
-Message-Id: <20211012162159.471406-9-richard.henderson@linaro.org>
+Subject: [PATCH v2 09/23] target/i386: Drop check for singlestep_enabled
+Date: Tue, 12 Oct 2021 09:21:45 -0700
+Message-Id: <20211012162159.471406-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211012162159.471406-1-richard.henderson@linaro.org>
 References: <20211012162159.471406-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,43 +86,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We were using singlestep_enabled as a proxy for whether
-translator_use_goto_tb would always return false.
+GDB single-stepping is now handled generically.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/i386/helper.h          | 1 -
+ target/i386/tcg/misc_helper.c | 8 --------
+ target/i386/tcg/translate.c   | 4 +---
+ 3 files changed, 1 insertion(+), 12 deletions(-)
 
+diff --git a/target/i386/helper.h b/target/i386/helper.h
+index 574ff75615..ac3b4d1ee3 100644
+--- a/target/i386/helper.h
++++ b/target/i386/helper.h
+@@ -56,7 +56,6 @@ DEF_HELPER_2(syscall, void, env, int)
+ DEF_HELPER_2(sysret, void, env, int)
+ #endif
+ DEF_HELPER_FLAGS_2(pause, TCG_CALL_NO_WG, noreturn, env, int)
+-DEF_HELPER_FLAGS_1(debug, TCG_CALL_NO_WG, noreturn, env)
+ DEF_HELPER_1(reset_rf, void, env)
+ DEF_HELPER_FLAGS_3(raise_interrupt, TCG_CALL_NO_WG, noreturn, env, int, int)
+ DEF_HELPER_FLAGS_2(raise_exception, TCG_CALL_NO_WG, noreturn, env, int)
+diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
+index baffa5d7ba..5769db5ace 100644
+--- a/target/i386/tcg/misc_helper.c
++++ b/target/i386/tcg/misc_helper.c
+@@ -110,14 +110,6 @@ void QEMU_NORETURN helper_pause(CPUX86State *env, int next_eip_addend)
+     do_pause(env);
+ }
+ 
+-void QEMU_NORETURN helper_debug(CPUX86State *env)
+-{
+-    CPUState *cs = env_cpu(env);
+-
+-    cs->exception_index = EXCP_DEBUG;
+-    cpu_loop_exit(cs);
+-}
+-
+ uint64_t helper_rdpkru(CPUX86State *env, uint32_t ecx)
+ {
+     if ((env->cr[4] & CR4_PKE_MASK) == 0) {
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index a46be75b00..c8d919bc3f 100644
+index c8d919bc3f..e9e1451540 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -8556,6 +8556,7 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
-     DisasContext *dc = container_of(dcbase, DisasContext, base);
-     CPUX86State *env = cpu->env_ptr;
-     uint32_t flags = dc->base.tb->flags;
-+    uint32_t cflags = tb_cflags(dc->base.tb);
-     int cpl = (flags >> HF_CPL_SHIFT) & 3;
-     int iopl = (flags >> IOPL_SHIFT) & 3;
- 
-@@ -8593,14 +8594,14 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
-     dc->cpuid_ext3_features = env->features[FEAT_8000_0001_ECX];
-     dc->cpuid_7_0_ebx_features = env->features[FEAT_7_0_EBX];
-     dc->cpuid_xsave_features = env->features[FEAT_XSAVE];
--    dc->jmp_opt = !(dc->base.singlestep_enabled ||
-+    dc->jmp_opt = !((cflags & CF_NO_GOTO_TB) ||
-                     (flags & (HF_TF_MASK | HF_INHIBIT_IRQ_MASK)));
-     /*
-      * If jmp_opt, we want to handle each string instruction individually.
-      * For icount also disable repz optimization so that each iteration
-      * is accounted separately.
-      */
--    dc->repz_opt = !dc->jmp_opt && !(tb_cflags(dc->base.tb) & CF_USE_ICOUNT);
-+    dc->repz_opt = !dc->jmp_opt && !(cflags & CF_USE_ICOUNT);
- 
-     dc->T0 = tcg_temp_new();
-     dc->T1 = tcg_temp_new();
+@@ -2660,9 +2660,7 @@ do_gen_eob_worker(DisasContext *s, bool inhibit, bool recheck_tf, bool jr)
+     if (s->base.tb->flags & HF_RF_MASK) {
+         gen_helper_reset_rf(cpu_env);
+     }
+-    if (s->base.singlestep_enabled) {
+-        gen_helper_debug(cpu_env);
+-    } else if (recheck_tf) {
++    if (recheck_tf) {
+         gen_helper_rechecking_single_step(cpu_env);
+         tcg_gen_exit_tb(NULL, 0);
+     } else if (s->flags & HF_TF_MASK) {
 -- 
 2.25.1
 
