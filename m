@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D839342AF18
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 23:38:41 +0200 (CEST)
-Received: from localhost ([::1]:46420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2898642AF26
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 23:44:24 +0200 (CEST)
+Received: from localhost ([::1]:49612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maPTs-0002Mi-Vs
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 17:38:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53092)
+	id 1maPZP-0004uN-34
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 17:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1maPSj-0000X2-Ll
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 17:37:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32963)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1maPXZ-0003ek-SL
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 17:42:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1maPSh-0002CK-0w
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 17:37:29 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1maPXX-0007Zd-4i
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 17:42:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634074646;
+ s=mimecast20190719; t=1634074946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1Ov/HeRio/2qrg1gb2glPH9C2QxO/YALl5oF4wVtEV4=;
- b=QEH1O8y86XtxqL5wsaBKvM+in46PNF67vAkAs7Lu3j/3vEfU01WIZ8CXQYAolHRri8LQPm
- 9ZCBWG7Hk+rEBtD5MfMugHlDUu1x/yE3OEg9C/2btOOpOuZDQHZPRNm3qPFEEZDCpvEWq+
- koMwVCMCEHdOA6z6esJDsm/x3E4eNfg=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/N1hz+vfiE05CCD07/1H7+60TEoF4s1sJO1Epznmgzk=;
+ b=GZFR5vaVM/fKFzRZKOu2p/SwoK8pUR5xEQ0bioV4DB0b5/3ad3P0Jr60Qec5AaRzapUbrS
+ DodsxUICeFZaJrUOVxPWGVMxW5b1AdkEYQqnw29sHKNBSAJ9M9Dsr0ya0XRVLVdTjr4xrm
+ U8xG6gWXl2p7n8V4KMyG5iFyX1uSwGw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-RJno8eNON8GpilkUprCkhQ-1; Tue, 12 Oct 2021 17:37:21 -0400
-X-MC-Unique: RJno8eNON8GpilkUprCkhQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-541-bYKOBZm-NYW6V3Tp2LS28g-1; Tue, 12 Oct 2021 17:42:25 -0400
+X-MC-Unique: bYKOBZm-NYW6V3Tp2LS28g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 548FF801A93;
- Tue, 12 Oct 2021 21:37:20 +0000 (UTC)
-Received: from redhat.com (ovpn-113-152.phx2.redhat.com [10.3.113.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E360104253A;
- Tue, 12 Oct 2021 21:37:05 +0000 (UTC)
-Date: Tue, 12 Oct 2021 16:37:03 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 10/12] block-backend: convert blk_aio_ functions to
- int64_t bytes paramter
-Message-ID: <20211012213703.5knzppc4rzgymp5v@redhat.com>
-References: <20211006131718.214235-1-vsementsov@virtuozzo.com>
- <20211006131718.214235-11-vsementsov@virtuozzo.com>
- <20211006202925.x56o344sxsgbkrvh@redhat.com>
- <b251f39d-d727-311e-e6e4-f84c360cb3af@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F170800FF0;
+ Tue, 12 Oct 2021 21:42:24 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.16.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2946E5F4E2;
+ Tue, 12 Oct 2021 21:41:52 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/10] Python patches
+Date: Tue, 12 Oct 2021 17:41:42 -0400
+Message-Id: <20211012214152.802483-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <b251f39d-d727-311e-e6e4-f84c360cb3af@virtuozzo.com>
-User-Agent: NeoMutt/20210205-852-339c0c
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,43 +73,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, hreitz@redhat.com, stefanha@redhat.com,
- crosa@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 12, 2021 at 07:13:23PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > > @@ -1530,6 +1531,7 @@ BlockAIOCB *blk_aio_preadv(BlockBackend *blk, int64_t offset,
-> > >                              QEMUIOVector *qiov, BdrvRequestFlags flags,
-> > >                              BlockCompletionFunc *cb, void *opaque)
-> > >   {
-> > > +    assert(qiov->size <= INT64_MAX);
-> > 
-> > I hope this doesn't cause 32-bit compilers to warn about an
-> > always-true expression; but if it does, we'll figure something out.
-> > That's not enough for me to ask for you to respin this, though, so:
-> > 
-> > Reviewed-by: Eric Blake <eblake@redhat.com>
-> > 
-> 
-> So, here we need
-> 
-> assert((uint64_t)qiov->size <= INT64_MAX);
-> 
-> as in recent fix by Hanna.
->
-
-Indeed.
-
-> Eric, will you stage this as continuation of 64bit series, or do we wait for Kevin or Hanna, or for me resending it with this small fix and your wording fixes?
-
-At this point, I think I'm fine touching up the series and staging it
-through my tree.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+The following changes since commit bfd9a76f9c143d450ab5545dedfa74364b39fc56=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-for-6.2-121021-2'=
+ into staging (2021-10-12 06:16:25 -0700)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/jsnow/qemu.git tags/python-pull-request=0D
+=0D
+for you to fetch changes up to c163c723ef92d0f629d015902396f2c67328b2e5:=0D
+=0D
+  python, iotests: remove socket_scm_helper (2021-10-12 12:22:11 -0400)=0D
+=0D
+----------------------------------------------------------------=0D
+Pull request=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+John Snow (10):=0D
+  python/aqmp: add greeting property to QMPClient=0D
+  python/aqmp: add .empty() method to EventListener=0D
+  python/aqmp: Return cleared events from EventListener.clear()=0D
+  python/aqmp: add send_fd_scm=0D
+  python/aqmp: Add dict conversion method to Greeting object=0D
+  python/aqmp: Reduce severity of EOFError-caused loop terminations=0D
+  python/aqmp: Disable logging messages by default=0D
+  python/qmp: clear events on get_events() call=0D
+  python/qmp: add send_fd_scm directly to QEMUMonitorProtocol=0D
+  python, iotests: remove socket_scm_helper=0D
+=0D
+ tests/qemu-iotests/socket_scm_helper.c | 136 -------------------------=0D
+ python/qemu/aqmp/__init__.py           |   4 +=0D
+ python/qemu/aqmp/events.py             |  15 ++-=0D
+ python/qemu/aqmp/models.py             |  13 +++=0D
+ python/qemu/aqmp/protocol.py           |   7 +-=0D
+ python/qemu/aqmp/qmp_client.py         |  27 +++++=0D
+ python/qemu/machine/machine.py         |  48 ++-------=0D
+ python/qemu/machine/qtest.py           |   2 -=0D
+ python/qemu/qmp/__init__.py            |  27 +++--=0D
+ python/qemu/qmp/qmp_shell.py           |   1 -=0D
+ tests/Makefile.include                 |   1 -=0D
+ tests/meson.build                      |   4 -=0D
+ tests/qemu-iotests/iotests.py          |   3 -=0D
+ tests/qemu-iotests/meson.build         |   5 -=0D
+ tests/qemu-iotests/testenv.py          |   8 +-=0D
+ 15 files changed, 85 insertions(+), 216 deletions(-)=0D
+ delete mode 100644 tests/qemu-iotests/socket_scm_helper.c=0D
+ delete mode 100644 tests/qemu-iotests/meson.build=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
