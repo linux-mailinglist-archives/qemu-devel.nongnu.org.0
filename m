@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61C742A090
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:05:23 +0200 (CEST)
-Received: from localhost ([::1]:35464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E9642A0C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:11:14 +0200 (CEST)
+Received: from localhost ([::1]:43894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maDis-0004tm-M6
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:05:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33452)
+	id 1maDoX-0002JA-UF
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:11:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1maDUb-0006H2-7A
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33138)
+ id 1maDUb-0006H3-7e
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1maDUX-0002y7-38
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:36 -0400
+ id 1maDUU-0002xZ-Uw
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634028630;
+ s=mimecast20190719; t=1634028629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VBxq7t6YAhdPDHI7QZl3mqxMFQvElP0KaNEbRXYFnWc=;
- b=E1cMlQE5X9HVsGZsI+ckJxN4Om3BILibvtqUr1EMJOv/aq+tTrm8xu814W5me6SltC5GrI
- ZxO7d8CNHLyMJTvzveJ+A9KgIpdQ+Ulk0B5RK7YlhQXXpI5yCt8o7g8SHPjyc97S9fGLPc
- T+pOmQ69W1AGFQyG4tk7BDGLOaXeXvY=
+ bh=7XmWWfAkLFE2tUo6uck21SNDay0SRayp0iCtwrY24bk=;
+ b=RY4uaiaVEywlOXqBkXdSFvqPMLeMysUCvCq+u6fHJLd/tppa1DwimTSo/DBoxeNotwPnE2
+ q5Mhtm/ssyAFprIqp3Xe+MC/hZ+CpUGjmzbKGrDRoNlcne58A0kD1hBog5bSYWWxpopR7S
+ chNMXQvWTAqs6Jd3gpOWjH86agKfTcU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-I8Iq1ACjNrWS-fZMdJRcPA-1; Tue, 12 Oct 2021 04:50:27 -0400
-X-MC-Unique: I8Iq1ACjNrWS-fZMdJRcPA-1
+ us-mta-415-PkMVvzolNOWgBdcXyjQwKw-1; Tue, 12 Oct 2021 04:50:28 -0400
+X-MC-Unique: PkMVvzolNOWgBdcXyjQwKw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40282800FF0;
- Tue, 12 Oct 2021 08:50:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88F078018D9;
+ Tue, 12 Oct 2021 08:50:27 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 080DB5C1B4;
- Tue, 12 Oct 2021 08:50:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A0E55C1B4;
+ Tue, 12 Oct 2021 08:50:26 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 13/25] include/sysemu/blockdev.h: move drive_add and inline
- drive_def
-Date: Tue, 12 Oct 2021 04:48:54 -0400
-Message-Id: <20211012084906.2060507-14-eesposit@redhat.com>
+Subject: [PATCH v3 14/25] include/systemu/blockdev.h: global state API
+Date: Tue, 12 Oct 2021 04:48:55 -0400
+Message-Id: <20211012084906.2060507-15-eesposit@redhat.com>
 In-Reply-To: <20211012084906.2060507-1-eesposit@redhat.com>
 References: <20211012084906.2060507-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -94,154 +93,48 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-drive_add is only used in softmmu/vl.c, so it can be a static
-function there, and drive_def is only a particular use case of
-qemu_opts_parse_noisily, so it can be inlined.
-
-Also remove drive_mark_claimed_by_board, as it is only defined
-but not implemented (nor used) anywhere.
-
-This also helps simplifying next patch.
+blockdev functions run always under the BQL lock.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/monitor/block-hmp-cmds.c |  2 +-
- blockdev.c                     | 27 +--------------------------
- include/sysemu/blockdev.h      |  6 ++----
- softmmu/vl.c                   | 25 ++++++++++++++++++++++++-
- 4 files changed, 28 insertions(+), 32 deletions(-)
+ include/sysemu/blockdev.h | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
-index 2ac4aedfff..bfb3c043a0 100644
---- a/block/monitor/block-hmp-cmds.c
-+++ b/block/monitor/block-hmp-cmds.c
-@@ -101,7 +101,7 @@ void hmp_drive_add(Monitor *mon, const QDict *qdict)
-         return;
-     }
- 
--    opts = drive_def(optstr);
-+    opts = qemu_opts_parse_noisily(qemu_find_opts("drive"), optstr, false);
-     if (!opts)
-         return;
- 
-diff --git a/blockdev.c b/blockdev.c
-index c1f6171c6c..1bf49ef610 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -73,7 +73,7 @@ void bdrv_set_monitor_owned(BlockDriverState *bs)
-     QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
- }
- 
--static const char *const if_name[IF_COUNT] = {
-+const char *const if_name[IF_COUNT] = {
-     [IF_NONE] = "none",
-     [IF_IDE] = "ide",
-     [IF_SCSI] = "scsi",
-@@ -199,31 +199,6 @@ static int drive_index_to_unit_id(BlockInterfaceType type, int index)
-     return max_devs ? index % max_devs : index;
- }
- 
--QemuOpts *drive_def(const char *optstr)
--{
--    return qemu_opts_parse_noisily(qemu_find_opts("drive"), optstr, false);
--}
--
--QemuOpts *drive_add(BlockInterfaceType type, int index, const char *file,
--                    const char *optstr)
--{
--    QemuOpts *opts;
--
--    opts = drive_def(optstr);
--    if (!opts) {
--        return NULL;
--    }
--    if (type != IF_DEFAULT) {
--        qemu_opt_set(opts, "if", if_name[type], &error_abort);
--    }
--    if (index >= 0) {
--        qemu_opt_set_number(opts, "index", index, &error_abort);
--    }
--    if (file)
--        qemu_opt_set(opts, "file", file, &error_abort);
--    return opts;
--}
--
- DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit)
- {
-     BlockBackend *blk;
 diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
-index 32c2d6023c..960b54d320 100644
+index 960b54d320..cc9dfb5181 100644
 --- a/include/sysemu/blockdev.h
 +++ b/include/sysemu/blockdev.h
-@@ -27,6 +27,8 @@ typedef enum {
-     IF_COUNT
- } BlockInterfaceType;
+@@ -40,7 +40,13 @@ struct DriveInfo {
+     QTAILQ_ENTRY(DriveInfo) next;
+ };
  
-+extern const char *const if_name[];
+-DriveInfo *blk_legacy_dinfo(BlockBackend *blk);
++/*
++ * Global state (GS) API. These functions run under the BQL lock.
++ *
++ * See include/block/block-global-state.h for more information about
++ * the GS API.
++ */
 +
- struct DriveInfo {
-     BlockInterfaceType type;
-     int bus;
-@@ -45,16 +47,12 @@ BlockBackend *blk_by_legacy_dinfo(DriveInfo *dinfo);
- void override_max_devs(BlockInterfaceType type, int max_devs);
+ DriveInfo *blk_set_legacy_dinfo(BlockBackend *blk, DriveInfo *dinfo);
+ BlockBackend *blk_by_legacy_dinfo(DriveInfo *dinfo);
  
- DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit);
--void drive_mark_claimed_by_board(void);
+@@ -50,10 +56,14 @@ DriveInfo *drive_get(BlockInterfaceType type, int bus, int unit);
  void drive_check_orphaned(void);
  DriveInfo *drive_get_by_index(BlockInterfaceType type, int index);
  int drive_get_max_bus(BlockInterfaceType type);
- int drive_get_max_devs(BlockInterfaceType type);
+-int drive_get_max_devs(BlockInterfaceType type);
  DriveInfo *drive_get_next(BlockInterfaceType type);
  
--QemuOpts *drive_def(const char *optstr);
--QemuOpts *drive_add(BlockInterfaceType type, int index, const char *file,
--                    const char *optstr);
  DriveInfo *drive_new(QemuOpts *arg, BlockInterfaceType block_default_type,
                       Error **errp);
  
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 55ab70eb97..2e76300820 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -625,6 +625,27 @@ static int drive_enable_snapshot(void *opaque, QemuOpts *opts, Error **errp)
-     return 0;
- }
- 
-+static QemuOpts *drive_add(BlockInterfaceType type, int index,
-+                           const char *file, const char *optstr)
-+{
-+    QemuOpts *opts;
++/* Common functions that are neither I/O nor Global State */
 +
-+    opts = qemu_opts_parse_noisily(qemu_find_opts("drive"), optstr, false);
-+    if (!opts) {
-+        return NULL;
-+    }
-+    if (type != IF_DEFAULT) {
-+        qemu_opt_set(opts, "if", if_name[type], &error_abort);
-+    }
-+    if (index >= 0) {
-+        qemu_opt_set_number(opts, "index", index, &error_abort);
-+    }
-+    if (file) {
-+        qemu_opt_set(opts, "file", file, &error_abort);
-+    }
-+    return opts;
-+}
++DriveInfo *blk_legacy_dinfo(BlockBackend *blk);
++int drive_get_max_devs(BlockInterfaceType type);
 +
- static void default_drive(int enable, int snapshot, BlockInterfaceType type,
-                           int index, const char *optstr)
- {
-@@ -2844,7 +2865,9 @@ void qemu_init(int argc, char **argv, char **envp)
-                     break;
-                 }
-             case QEMU_OPTION_drive:
--                if (drive_def(optarg) == NULL) {
-+                opts = qemu_opts_parse_noisily(qemu_find_opts("drive"),
-+                                               optarg, false);
-+                if (opts == NULL) {
-                     exit(1);
-                 }
-                 break;
+ #endif
 -- 
 2.27.0
 
