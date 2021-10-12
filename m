@@ -2,84 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620BE42A68A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 15:56:41 +0200 (CEST)
-Received: from localhost ([::1]:46612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1B842A6C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 16:07:52 +0200 (CEST)
+Received: from localhost ([::1]:56658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maIGm-0002RE-5B
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 09:56:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49318)
+	id 1maIRa-0001HQ-9u
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 10:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1maIDk-0000BN-T1
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:53:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57068)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1maIL4-00075o-ML
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 10:01:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1maIDf-0007cm-Sc
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:53:32 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1maIKs-0007CK-Iq
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 10:01:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634046807;
+ s=mimecast20190719; t=1634047251;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nbMG2ANWbDgQcLlYfLO3PZOLLTcBzyquLybCUaE5jwg=;
- b=Cy+LmW7ptQiboRhtKZ/h+Kkg17M0LofJlG+rgECDVFgtxZxRNn0TrIDhlQvgLE17ivvrrj
- y8nqilLAwCBQxRIcMFn0EV+pZYzKz7UIN9vCAWHHsTtvU3R1Yzkz1v9HTnxFUpVhAR7Bcy
- nAEfDe8JAPfDbLRUGNSXHqzfle+kgFI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-79sAp5ncNrKB58d9nQtILw-1; Tue, 12 Oct 2021 09:53:24 -0400
-X-MC-Unique: 79sAp5ncNrKB58d9nQtILw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- e14-20020a056402088e00b003db6ebb9526so9388585edy.22
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 06:53:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nbMG2ANWbDgQcLlYfLO3PZOLLTcBzyquLybCUaE5jwg=;
- b=i88MNdREJtsqxKIVAdtvJpeNsH3h3W/bIAid4L7BzMNuKmIFzw8ZKNkCQQy/POeZNj
- WMuL7ewU+z1uV8askgRWJS6sEBrAT0sD2IAvbVTINAowv+WguHFVxL0aGvRFbt27xMxi
- ZQLmjqHnC7HkvsJ1ZO5/YRHfG82mAvIKYJjM46gRog2zjla1iCh7bQ6o5n+qEh5JhIUP
- yiNTmfmVenchvaHT3uF/2lf3vAe36pujNwlk7lRRos0AZRaZmxEYKxgGROBWoF5y/T2T
- bycEEKwfdWTuMnUJTZujZAMbc1d+5fcrD/8We8xu4L9vWSeWSwMWofNj42E3aSdjo34F
- 2tTQ==
-X-Gm-Message-State: AOAM532Im1fyxHBtstynaCPMOOaLl+vGVorv/3ER9JjBK7bkJOJseNzY
- 8f0xsuZfA6QsUheTpeW1LxpnIGUX8Ax/6SzHJV1s8fFMTZ7TmJYJeBH2zrJg9dewqEfn4jLfilc
- KF4AWnaDsV+BZis4=
-X-Received: by 2002:a50:d88b:: with SMTP id p11mr50996527edj.287.1634046803608; 
- Tue, 12 Oct 2021 06:53:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOZEqQiqNt3EWSEmLaUCZ37EJ1cpfFiNEHg/4gln9y0voR6j5RgL9ClPMsEADvKLerTgV0UQ==
-X-Received: by 2002:a50:d88b:: with SMTP id p11mr50996499edj.287.1634046803352; 
- Tue, 12 Oct 2021 06:53:23 -0700 (PDT)
-Received: from localhost (nat-pool-brq-u.redhat.com. [213.175.37.12])
- by smtp.gmail.com with ESMTPSA id g17sm5939810edv.72.2021.10.12.06.53.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 06:53:22 -0700 (PDT)
-Date: Tue, 12 Oct 2021 15:53:21 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Andrew Jones <drjones@redhat.com>
-Subject: Re: [PATCH 1/2] numa: Set default distance map if needed
-Message-ID: <20211012155321.256e8867@redhat.com>
-In-Reply-To: <20211012131308.45j7ofd4xwk42epv@gator>
-References: <20211006102209.6989-1-gshan@redhat.com>
- <20211006102209.6989-2-gshan@redhat.com>
- <20211012114016.6f4a0c10@redhat.com>
- <20211012103754.kbyd3du26rpsi3ie@gator.home>
- <20211012142754.1c4e5071@redhat.com>
- <20211012131308.45j7ofd4xwk42epv@gator>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ bh=D7wC6TU87sFFjLOuC/zZkTRZ/bNQ7vWz1pfl7QSKYVs=;
+ b=Dk9StbacHbSKo3fqRqEILmkgv9qw01ViW2WzlZOZm4hTKcPpMSJvIlOi0cYyG9GTxjtjDl
+ LMoAM72UAbPnIJsomcriY2y0DLSq9vDP8S+AQTuQyZiZuc2PhUUxq83Vc3MoPhO6C1AVSQ
+ Tq3MnX6fPSEFAWwN9IhRVLilzBJc5mo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-72-dksVnEWbPC2thj0FzH_3ag-1; Tue, 12 Oct 2021 10:00:43 -0400
+X-MC-Unique: dksVnEWbPC2thj0FzH_3ag-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AFCB19057A2
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 14:00:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.219])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 94B681970E;
+ Tue, 12 Oct 2021 14:00:11 +0000 (UTC)
+Date: Tue, 12 Oct 2021 16:00:10 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 6/6] tests/qapi-schema: Test cases for aliases
+Message-ID: <YWWU6sUMfhk4UYJV@redhat.com>
+References: <YUSuThJtW9ar2wCY@redhat.com> <87a6jrimaf.fsf@dusky.pond.sub.org>
+ <YVsKpClmGgq5ki7r@redhat.com> <87mtnnvay7.fsf@dusky.pond.sub.org>
+ <YVyFwWHY7a7CKMxN@redhat.com> <874k9uqov5.fsf@dusky.pond.sub.org>
+ <YV3QlKi4jeW+54Yb@redhat.com> <87ee8xhz6u.fsf@dusky.pond.sub.org>
+ <YV8ccu9MpKjyXT/G@redhat.com> <87wnmn7rc9.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
+In-Reply-To: <87wnmn7rc9.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -100,140 +79,263 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Gavin Shan <gshan@redhat.com>,
- ehabkost@redhat.com, robh@kernel.org, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, shan.gavin@gmail.com
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Oct 2021 15:13:08 +0200
-Andrew Jones <drjones@redhat.com> wrote:
-
-> On Tue, Oct 12, 2021 at 02:27:54PM +0200, Igor Mammedov wrote:
-> > On Tue, 12 Oct 2021 12:37:54 +0200
-> > Andrew Jones <drjones@redhat.com> wrote:
-> >   
-> > > On Tue, Oct 12, 2021 at 11:40:16AM +0200, Igor Mammedov wrote:  
-> > > > On Wed,  6 Oct 2021 18:22:08 +0800
-> > > > Gavin Shan <gshan@redhat.com> wrote:
-> > > >     
-> > > > > The following option is used to specify the distance map. It's
-> > > > > possible the option isn't provided by user. In this case, the
-> > > > > distance map isn't populated and exposed to platform. On the
-> > > > > other hand, the empty NUMA node, where no memory resides, is
-> > > > > allowed on ARM64 virt platform. For these empty NUMA nodes,
-> > > > > their corresponding device-tree nodes aren't populated, but
-> > > > > their NUMA IDs should be included in the "/distance-map"
-> > > > > device-tree node, so that kernel can probe them properly if
-> > > > > device-tree is used.
-> > > > > 
-> > > > >   -numa,dist,src=<numa_id>,dst=<numa_id>,val=<distance>
-> > > > > 
-> > > > > So when user doesn't specify distance map, we need to generate
-> > > > > the default distance map, where the local and remote distances
-> > > > > are 10 and 20 separately. This adds an extra parameter to the
-> > > > > exiting complete_init_numa_distance() to generate the default
-> > > > > distance map for this case.
-> > > > > 
-> > > > > Signed-off-by: Gavin Shan <gshan@redhat.com>    
-> > > > 
-> > > > 
-> > > > how about error-ing out if distance map is required but
-> > > > not provided by user explicitly and asking user to fix
-> > > > command line?
-> > > > 
-> > > > Reasoning behind this that defaults are hard to maintain
-> > > > and will require compat hacks and being raod blocks down
-> > > > the road.
-> > > > Approach I was taking with generic NUMA code, is deprecating
-> > > > defaults and replacing them with sanity checks, which bail
-> > > > out on incorrect configuration and ask user to correct command line.
-> > > > Hence I dislike approach taken in this patch.
-> > > > 
-> > > > If you really wish to provide default, push it out of
-> > > > generic code into ARM specific one
-> > > > (then I won't oppose it that much (I think PPC does
-> > > > some magic like this))
-> > > > Also behavior seems to be ARM specific so generic
-> > > > NUMA code isn't a place for it anyways    
-> > > 
-> > > The distance-map DT node and the default 10/20 distance-map values
-> > > aren't arch-specific. RISCV is using it too.
-> > > 
-> > > I'm on the fence with this. I see erroring-out to require users
-> > > to provide explicit command lines as a good thing, but I also
-> > > see it as potentially an unnecessary burden for those that want
-> > > the default map anyway. The optional nature of the distance-map
-> > > node and the specification of the default map is here [1]
-> > > 
-> > > [1] Linux source: Documentation/devicetree/bindings/numa.txt  
-> > 
-> > Looking at proposed linux patches [ https://lkml.org/lkml/2021/9/27/31 ],
-> > using optional distance table as source for numa-node-ids,
-> > looks like a hack around kernel's inability to fish them out
-> > from CPU &| PCI nodes (using those nodes as source should
-> > cover memory-less node use-case).
-> > 
-> > I consider including optional node as a policy decision.
-> > So user shall include it explicitly on QEMU command line
-> > if necessary (that works just fine for x86), or guest OS
-> > can make up defaults on its own in absence of data.  
+Am 08.10.2021 um 12:17 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> > Am 07.10.2021 um 13:06 hat Markus Armbruster geschrieben:
+> >> What's the smallest set of aliases sufficient to make your -chardev
+> >> QAPIfication work?
+> >
+> > How do you define "make the QAPIfication work"?
+> >
+> > The -chardev conversion adds the following aliases to the schema:
+> >
+> > * SocketAddressLegacy: Flatten a simple union (wildcard alias +
+> >   non-local alias)
+> >
+> >     { 'source': ['data'] },
+> >     { 'name': 'fd', 'source': ['data', 'str'] }
+> >
+> > * ChardevFile: Rename local member
+> >
+> >     { 'name': 'path', 'source': ['out'] }
+> >
+> > * ChardevHostdev: Rename local member
+> >
+> >     { 'name': 'path', 'source': ['device'] }
+> >
+> > * ChardevSocket: Flatten embedded struct (wildcard alias)
+> >
+> >     { 'source': ['addr'] }
+> >
+> > * ChardevUdp: Flatten two embedded structs with renaming (wildcard
+> >   alias + non-local alias)
+> >
+> >     { 'source': ['remote'] },
+> >     { 'name': 'localaddr', 'source': ['local', 'data', 'host'] },
+> >     { 'name': 'localport', 'source': ['local', 'data', 'port'] }
+> >
+> > * ChardevSpiceChannel: Rename local member
+> >
+> >     { 'name': 'name', 'source': ['type'] }
+> >
+> > * ChardevSpicePort: Rename local member
+> >
+> >     { 'name': 'name', 'source': ['fqdn'] }
+> >
+> > * ChardevBackend: Flatten a simple union (wildcard alias)
+> >
+> >     { 'source': ['data'] }
+> >
+> > * ChardevOptions: Flatten embedded struct (wildcard alias)
+> >
+> >     { 'source': ['backend'] }
 > 
-> OK, so erroring-out on configs that must provide distance-maps, rather
-> than automatically generating them for all configs is better.
+> Aside: most of the renames are due to "reuse" of existing QemuOpts
+> parameters.  I'm sure it has saved "lots" of typing.
 > 
-> >   
-> > > So, my r-b stands for this patch, but I also wouldn't complain
-> > > about respinning it to error out instead.  
-> >   
-> > > I would complain about
-> > > moving the logic to Arm specific code, though, since RISCV would
-> > > then need to duplicate it.  
-> > 
-> > Instead of putting workaround in QEMU and then making them generic,
-> > I'd prefer to:
-> >  1. make QEMU to be able generate DT with memory-less nodes  
+> > The deeper they are nested in the type hierarchy, especially when unions
+> > with different variants come into play, the nastier they are to replace
+> > with C code. The C code stays the simplest if all of the aliases are
+> > there, and it gets uglier the more of them you leave out.
+> >
+> > I don't know your idea of "sufficient", so I'll leave mapping that to a
+> > scale of sufficiency to you.
 > 
-> How? DT syntax doesn't allow this, because each node needs a unique
-> name which is derived from its base address, which an empty numa
-you are talking about memory@foo nodes, aren't you?
-
-> node doesn't have.
-
-Looking at Documentation/devicetree/bindings/numa.txt
-
-mem/cpu/pci nodes also contain numa-node-id attribute,
-so idea is to collect IDs from all present sources
-instead of abusing distance map.
- 
-That would allow QEMU to skip memory@foo elements for
-memory-less nodes because they obviously do not exist
-and there is no way to describe them using 'memory' nodes.
-
-> >  2. fix guest to get numa-node-id from CPU/PCI nodes if
-> >     memory node isn't present,  
+> Alright let me see what we got.
 > 
-> I'm not sure that's possible with DT. If it is, then proposing it
-> upstream to Linux DT maintainers would be the next step.
-Added Rob to CC.
-
+> This is the tree structure with branches not mentioned in aliases
+> omitted:
 > 
-> > or use ACPI tables which can
-> >     describe memory-less NUMA nodes if fixing how DT is
-> >     parsed unfeasible.  
+>     ChardevOptions
+>         backend: ChardevBackend
+>             data: ChardevFile
+>             data: ChardevHostdev
+>             data: ChardevSocket
+>                 addr: SocketAddressLegacy
+>                     data: String
+>                         str: str
+>                     data: ...
+>             data: ChardevUdp
+>                 remote: SocketAddressLegacy
+>                     data: String
+>                         str: str
+>                     data: ...
+>                 local: SocketAddressLegacy
+>                     data: String
+>                         str: str
+>                     data: ...
+>             data: ChardevSpiceChannel
+>             data: ChardevSpicePort
+>             data: ...
 > 
-> We use ACPI already for our guests, but we also generate a DT (which
-> edk2 consumes). We can't generate a valid DT when empty numa nodes
-does edk2 actually uses numa info from QEMU?
-
-> are put on the command line unless we follow a DT spec saying how
-> to do that. The current spec says we should have a distance-map
-> that contains those nodes.
-
-can you point out to the spec and place within it, pls?
- 
-> Thanks,
-> drew
+> This is how we map -chardev's argument to the tree structure:
 > 
+> * Always, in qemu_chr_new_from_opts(), qemu_chr_parse_opts(),
+>   qemu_chr_parse_common():
+> log
+>   - id=id                       id
+>   - [backend=]T                 backend.type
+>   - logfile                     backend.data.logfile
+>   - logappend                   backend.data.logappend
+> 
+> * When T is file, in qemu_chr_parse_file_out():
+> 
+>   - path                        backend.data.out
+>   - append                      backend.data.append
+> 
+>   Note: there is no way to set backend.data.in.
+> 
+> * When T is serial, parallel, or pipe, in qemu_chr_parse_serial(),
+>   qemu_chr_parse_parallel(), qemu_chr_parse_pipe():
+> 
+>   - path                        backend.data.device
+> 
+> * When T is socket, in qemu_chr_parse_socket()
+> 
+>   - delay and nodelay           backend.data.nodelay
+>   - server                      backend.data.server
+>   - telnet                      backend.data.telnet
+>   - tn3270                      backend.data.tn3270
+>   - websocket                   backend.data.websocket
+>   - wait                        backend.data.wait
+>   - reconnect                   backend.data.reconnect
+>   - tls-creds                   backend.data.tls-creds
+>   - tls-authz                   backend.data.tls-authz
+>   - host, path, fd              backend.data.addr.type
+> 
+>   Note: there is no way to set backend.data.addr.type to vsock.
+> 
+>   Additionally, when path is present:
+> 
+>   - path                        backend.data.addr.data.path
+>   - abstract                    backend.data.addr.data.abstract
+>   - tight                       backend.data.addr.data.tight
+> 
+>   Additionally, when host is present:
+> 
+>   - host                        backend.data.addr.data.host
+>   - port                        backend.data.addr.data.port
+>   - to                          backend.data.addr.data.to
+>   - ipv4                        backend.data.addr.data.ipv4
+>   - ipv6                        backend.data.addr.data.ipv6
+> 
+>   Note: there is no way to set backend.data.addr.data.numeric,
+>   .keep-alive, .mptcp.
+> 
+>   Additionally, when fd is present:
+> 
+>   - fd                          backend.data.addr.data.str
+> 
+> * When T is udp, in qemu_chr_parse_udp():
+> 
+>   - host                        backend.data.remote.data.host
+>   - port                        backend.data.remote.data.port
+>   - ipv4                        backend.data.remote.data.ipv4
+>   - ipv6                        backend.data.remote.data.ipv6
+>   - localaddr                   backend.data.local.data.host
+>   - localport                   backend.data.local.data.port
+> 
+>   Note: there is no way to set backend.data.remote.type and
+>   backend.data.local.type; both can only be inet.  There is no way to
+>   set backend.data.{remote,local}.data.to, .numeric, .keep-alive,
+>   .mptcp.  There is no way to set backend.data.local.data.ipv4, .ipv6.
+> 
+> * I'm omitting the remaining values of T.
+> 
+> * Parameters that exist for any value of T other than the one given are
+>   silently ignored.  Example: -chardev null,id=woot,ipv4=on.
+> 
+>   Do you preserve this wart for compatibility's sake?
+
+No, unless someone can show me some important real life user that would
+be affected by it, I think it should be considered a bug and just be
+fixed.
+
+If contrary to all expectations users do come and shout at us, we can
+consider adding back those silently ignored options that are actually
+in use.
+
+> Observations:
+> 
+> * Your replacement of this mapping code makes the dotted keys
+>   corresponding to the schema available in addition to the traditional
+>   key.  Example: backend.data.addr.data.host in addition to host.
+> 
+> * This makes some parameters available that weren't before.  Example:
+>   backend.data.addr.data.numeric and numeric.  Also
+>   backend.data.local.data.host but not host, because that's already
+>   backend.data.remote.data.host.
+> 
+> * It also creates "ghost" aliases, i.e. keys that don't exist in either
+>   of the two interfaces before.  These are artifacts of the alias chain
+>   from traditional key to schema member.  Example:
+>   backend.data.addr.host, backend.addr.data.host, backend.addr.host,
+>   data.addr.host, addr.data.host, and addr.host.  I think.  No, I missed
+>   backend.host.  Did I get them all?  No idea :)
+
+At least it feels like a quite consistent way of having "ghost"
+aliases...
+
+> All this should be spelled out in commit message(s).  I didn't peek
+> ahead to check them.
+> 
+> A different way to skin this cat would be putting the aliases at the
+> top, i.e. ChardevOptions.  I'm aware of your arguments against this.
+> Let's explore it anyway.
+> 
+>     backend                     backend.type
+>     path                        backend.data.out
+>     path                        backend.data.device
+>     *                           backend.data.*
+>     fd                          backend.data.addr.data.str
+>     *                           backend.data.addr.data.*
+>     *                           backend.data.remote.data.*
+>     localaddr                   backend.data.local.data.host
+>     localport                   backend.data.local.data.port
+> 
+> Observations / questions:
+> 
+> * Look ma, no "ghosts"!
+
+I assume '*' doesn't mean wildcard aliases like in the current series
+(because this would add back some ghosts for nested objects), but an
+individual listing of all aliased scalar members?
+
+> * We need "path" twice.  They resolve to different branches of the
+>   union.  Hmm.
+> 
+>   Aliases pointing into union branches give me a queasy feeling.  What
+>   if we define an alias just for one branch, but then have it resolve in
+>   an unwanted way in another branch?  "Ghost" aliases, I guess.
+
+...compared to this one where they appear only sporadically on name
+collisions.
+
+>   Perhaps we should attach the aliases to the union branch instead.  The
+>   "put them at the top" idea falls apart then.
+> 
+>   The issue exists just as much with "chained" use of aliases.  But
+>   there, it's just a few more ghosts joining ghost congress.
+> 
+> * How to provide full access to backend.data.local.data.*?  Assuming
+>   that's desired.
+
+I think having access to all options is desirable.
+
+My simple approach gives you "local.*". It's considered a ghost by your
+listing, but it's actually not because the individual fields are
+inaccessible on the top level (they are shadowed by "remote.*").
+
+All of this goes on top of the problems we already knew, like that this
+list of aliases is hard to maintain because you don't necessarily think
+of updating ChardevOptions when you add something to SocketAddress.
+
+So I still feel like having aliases only on the top level is a dead end.
+
+Kevin
 
 
