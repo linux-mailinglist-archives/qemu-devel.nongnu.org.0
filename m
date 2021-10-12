@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DAA429D59
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 07:48:47 +0200 (CEST)
-Received: from localhost ([::1]:49266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51993429D64
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 07:55:54 +0200 (CEST)
+Received: from localhost ([::1]:53480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maAeb-0006xA-VS
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 01:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55962)
+	id 1maAlV-0001bc-E2
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 01:55:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1maAci-00065d-NM
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 01:46:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32032)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maAjs-0000vY-SF
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 01:54:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1maAcf-0002ub-D0
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 01:46:47 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maAjq-0007kz-1k
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 01:54:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634017602;
+ s=mimecast20190719; t=1634018048;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3EaoEMrMXxra4tS8r1rDEHAvdiDDhbH4+K13J/dnk3k=;
- b=A72Ngjq/AtBy5CzhfSxpRW5/lIqiHM8BLBF6TiVDDJevI2K/JUULWEsUVmR7wne8HEhJJI
- /VQxryJR+3LSNMMYmKnbodeBFS9YFbN/z5PO6TFKhiB/SKyCYkACWBr5xXBjPztgazODz8
- emmchNm+pVPXW3en+i7jCqqt4ZjIh+s=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-d-sAfHXbOlCQ6FjbnYh-zA-1; Tue, 12 Oct 2021 01:46:41 -0400
-X-MC-Unique: d-sAfHXbOlCQ6FjbnYh-zA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- d11-20020a50cd4b000000b003da63711a8aso17825156edj.20
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 22:46:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3EaoEMrMXxra4tS8r1rDEHAvdiDDhbH4+K13J/dnk3k=;
- b=MaHh5MPCGld4SZ9NlaM2nXG5U+D140fhsvNSTW0dV5iUELzQsMxLMqQ/QjQACr+Fdl
- GPvUH+NVPoWQq7zTWE5hRcuvN5RHIP2FS5aIBTmdzbr1jQUixyZAgI8kedmVsy7+VKm0
- p5A+C1Qzjm1dQh/FKJRvmdvieUa2XkBfOzaobwgRwB47hlycNC/VgdixrtAc3Cefxs+5
- BfCNcqDn3/ne3P9cGKa+BIl092XeoDgNxd/zu9DwYmj3QrUwW2+kSrPSgTYZ8AlHyG6c
- 16N3iE0BCP/uwIsNxXCfq8fApwB7Vi+ZiuBVIWjumyaZpj1OhAaikddOnmUWreNMP0+6
- t62Q==
-X-Gm-Message-State: AOAM5320tpQBuR36Wn6XkeFrfiMQkhbjdZT9uILChtHDdVt4bfclltC8
- VvYyWCpPCNDPPEj44b3C4edkhSyeFhMAHgrSa0Ws4FS9RxNdfEDnNRyPo9wg9lfKZUX1n+mJ0xQ
- Y20cc4um86etoRCg=
-X-Received: by 2002:a50:fc8e:: with SMTP id f14mr48324070edq.87.1634017600063; 
- Mon, 11 Oct 2021 22:46:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxehnoIq3hwBkFeMqEF+LWhFitMMG6jND2nWAzukeT6HCfANUzr7PML78mJ13tErZvIXyF9+A==
-X-Received: by 2002:a50:fc8e:: with SMTP id f14mr48324055edq.87.1634017599840; 
- Mon, 11 Oct 2021 22:46:39 -0700 (PDT)
-Received: from redhat.com ([2.55.159.57])
- by smtp.gmail.com with ESMTPSA id v6sm5705925edc.52.2021.10.11.22.46.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Oct 2021 22:46:39 -0700 (PDT)
-Date: Tue, 12 Oct 2021 01:46:35 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 6/6] pcie: expire pending delete
-Message-ID: <20211012014515-mutt-send-email-mst@kernel.org>
-References: <20211011120504.254053-1-kraxel@redhat.com>
- <20211011120504.254053-7-kraxel@redhat.com>
- <20211011084310-mutt-send-email-mst@kernel.org>
- <20211012053034.faskn5y6b2hbbfys@sirius.home.kraxel.org>
+ bh=6umyIMdJqohtjNf7VOELtSPkHW4hamoAx5h2m95zzbc=;
+ b=J6og/bn4WAfWU2PQuE4qERKwo9+91AsnjBxUuthQfqa9l5aHvsjEPVYi/T5Bg6q1jUOEog
+ NToasbN5TypglCJddO9zp0/Cfx+OezA4qsRxcDM5Gb+AhggWLLjkO2awNisJRcho+KUQAy
+ +2XKFpDcWBQH29zTLLPgzhftixj6YMU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-26-5NsdqLHKND2C4yEdlFHitA-1; Tue, 12 Oct 2021 01:54:01 -0400
+X-MC-Unique: 5NsdqLHKND2C4yEdlFHitA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2E511005E53
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 05:54:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DED6D60853;
+ Tue, 12 Oct 2021 05:53:42 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 51FE6113865F; Tue, 12 Oct 2021 07:53:41 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Leonardo Bras Soares Passos <leobras@redhat.com>
+Subject: Re: [PATCH v4 3/3] multifd: Implement zerocopy write in multifd
+ migration (multifd-zerocopy)
+References: <20211009075612.230283-1-leobras@redhat.com>
+ <20211009075612.230283-4-leobras@redhat.com>
+ <20211011193156.biedorxjetduaf7y@redhat.com>
+ <CAJ6HWG5neqLVdO_o+uzykOj3S-N5T0XUHv1_7Qo37_pw0eP_ZQ@mail.gmail.com>
+Date: Tue, 12 Oct 2021 07:53:41 +0200
+In-Reply-To: <CAJ6HWG5neqLVdO_o+uzykOj3S-N5T0XUHv1_7Qo37_pw0eP_ZQ@mail.gmail.com>
+ (Leonardo Bras Soares Passos's message of "Mon, 11 Oct 2021 16:56:22
+ -0300")
+Message-ID: <87sfx6g55m.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20211012053034.faskn5y6b2hbbfys@sirius.home.kraxel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -94,50 +84,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 12, 2021 at 07:30:34AM +0200, Gerd Hoffmann wrote:
-> > > index f3ac04399969..477c8776aa27 100644
-> > > --- a/hw/pci/pcie.c
-> > > +++ b/hw/pci/pcie.c
-> > > @@ -549,6 +549,8 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
-> > >      }
-> > >  
-> > >      dev->pending_deleted_event = true;
-> > > +    dev->pending_deleted_expires_ms =
-> > > +        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 5000; /* 5 secs */
-> > >  
-> > >      /* In case user cancel the operation of multi-function hot-add,
-> > >       * remove the function that is unexposed to guest individually,
-> > 
-> > 
-> > Well this will be barely enough, right?
-> > 
-> > 	Once the Power
-> > 	Indicator begins blinking, a 5-second abort interval exists during which a second depression of the
-> > 	Attention Button cancels the operation.
-> 
-> Well, canceling the hot-plug is not supported in qemu right now (there
-> is no qmp command for that).  I'm also not sure it makes sense in the
-> first place for virtual machines.
+Leonardo Bras Soares Passos <leobras@redhat.com> writes:
 
-Yes. However if you resend an attention button press within the
-5 second window, guest will think you cancelled hot-plug
-and act accordingly.
-It's a fundamentally racy algorithm :(
+> Hello Eric,
+>
+> On Mon, Oct 11, 2021 at 4:32 PM Eric Blake <eblake@redhat.com> wrote:
+>>
+>> On Sat, Oct 09, 2021 at 04:56:13AM -0300, Leonardo Bras wrote:
+>> > Implement zerocopy on nocomp_send_write(), by making use of QIOChannel
+>> > zerocopy interface.
+>> >
+>> > Change multifd_send_sync_main() so it can distinguish the last sync from
+>> > the setup and per-iteration ones, so a flush_zerocopy() can be called
+>> > at the last sync in order to make sure all RAM is sent before finishing
+>> > the migration.
+>> >
+>> > Also make it return -1 if flush_zerocopy() fails, in order to cancel
+>> > the migration process, and avoid resuming the guest in the target host
+>> > without receiving all current RAM.
+>> >
+>> > This will work fine on RAM migration because the RAM pages are not usually freed,
+>> > and there is no problem on changing the pages content between async_send() and
+>> > the actual sending of the buffer, because this change will dirty the page and
+>> > cause it to be re-sent on a next iteration anyway.
+>> >
+>> > Given a lot of locked memory may be needed in order to use multid migration
+>> > with zerocopy enabled, make it optional by creating a new parameter
+>> > multifd-zerocopy on qapi, so low-privileged users can still perform multifd
+>> > migrations.
+>> >
+>> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+>> > ---
+>> >  qapi/migration.json   | 18 ++++++++++++++++++
+>> >  migration/migration.h |  1 +
+>> >  migration/multifd.h   |  2 +-
+>> >  migration/migration.c | 20 ++++++++++++++++++++
+>> >  migration/multifd.c   | 33 ++++++++++++++++++++++++++++-----
+>> >  migration/ram.c       | 20 +++++++++++++-------
+>> >  monitor/hmp-cmds.c    |  4 ++++
+>> >  7 files changed, 85 insertions(+), 13 deletions(-)
+>> >
+>> > diff --git a/qapi/migration.json b/qapi/migration.json
+>> > index 88f07baedd..c4890cbb54 100644
+>> > --- a/qapi/migration.json
+>> > +++ b/qapi/migration.json
+>> > @@ -724,6 +724,11 @@
+>> >  #                      will consume more CPU.
+>> >  #                      Defaults to 1. (Since 5.0)
+>> >  #
+>> > +# @multifd-zerocopy: Controls behavior on sending memory pages on multifd migration.
+>> > +#                    When true, enables a zerocopy mechanism for sending memory
+>> > +#                    pages, if host does support it.
+>>
+>> s/does support/supports/ (several instances this patch)
+>
+> I will make sure to fix that in v5.
+>
+>>
+>> > +#                    Defaults to false. (Since 6.2)
+>> > +#
+>> >  # @block-bitmap-mapping: Maps block nodes and bitmaps on them to
+>> >  #                        aliases for the purpose of dirty bitmap migration.  Such
+>> >  #                        aliases may for example be the corresponding names on the
+>> > @@ -758,6 +763,7 @@
+>> >             'xbzrle-cache-size', 'max-postcopy-bandwidth',
+>> >             'max-cpu-throttle', 'multifd-compression',
+>> >             'multifd-zlib-level' ,'multifd-zstd-level',
+>> > +        'multifd-zerocopy',
+>> >             'block-bitmap-mapping' ] }
+>>
+>> Should this feature be guarded with 'if':'CONFIG_LINUX', since that's
+>> the only platform where you even compile the code (even then, it can
+>> still fail if the kernel doesn't support it).
+>
+> I think it makes sense for the feature to always be available, even
+> though it's not supported
+> outside linux > v4.14.
+>
+> IMHO it makes more sense for the user to get an error when it starts
+> migration, due to host
+> not supporting zerocopy, than the error happening in the config step,
+> which may cause the user
+> to question if it was the right parameter.
+>
+> The config message error here could also be ignored, and users can
+> think zerocopy is working, while it's not.
+>
+> For automated migrations, this feature should never be enabled  for
+> non-linux / older linux hosts anyway.
+>
+> Is there a good argument I am missing for this feature being disabled
+> on non-linux?
+
+The general argument for having QAPI schema 'if' mirror the C
+implementation's #if is introspection.  Let me explain why that matters.
+
+Consider a management application that supports a range of QEMU
+versions, say 5.0 to 6.2.  Say it wants to use an QMP command that is
+new in QEMU 6.2.  The sane way to do that is to probe for the command
+with query-qmp-schema.  Same for command arguments, and anything else
+QMP.
+
+If you doubt "sane", check out Part II of "QEMU interface introspection:
+From hacks to solutions"[*].
+
+The same technique works when a QMP command / argument / whatever is
+compile-time conditional ('if' in the schema).  The code the management
+application needs anyway to deal with older QEMU now also deals with
+"compiled out".  Nice.
+
+Of course, a command or argument present in QEMU can still fail, and the
+management application still needs to handle failure.  Distinguishing
+different failure modes can be bothersome and/or fragile.
+
+By making the QAPI schema conditional mirror the C conditional, you
+squash the failure mode "this version of QEMU supports it, but this
+build of QEMU does not" into "this version of QEMU does not support
+it".  Makes sense, doesn't it?
+
+A minor additional advantage is less generated code.
 
 
-> > So I guess it needs to be more. Problem is of course if guest is
-> > busy because of interrupts and whatnot, it might not get to
-> > handling that in time ...
-> 
-> See patch #3, that one should take care of a busy guest ...
-> 
-> take care,
->   Gerd
+
+[*] http://events17.linuxfoundation.org/sites/events/files/slides/armbru-qemu-introspection.pdf
 
 
