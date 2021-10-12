@@ -2,49 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116E6429B24
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 03:47:38 +0200 (CEST)
-Received: from localhost ([::1]:33104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4BF429C13
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 05:48:44 +0200 (CEST)
+Received: from localhost ([::1]:54536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ma6tE-0005bV-Jb
-	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 21:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54242)
+	id 1ma8mR-0000F5-AB
+	for lists+qemu-devel@lfdr.de; Mon, 11 Oct 2021 23:48:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <limingwang@huawei.com>)
- id 1ma6rg-0004pT-Hi; Mon, 11 Oct 2021 21:46:00 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3152)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ma8je-0007Rx-Ku
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 23:45:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <limingwang@huawei.com>)
- id 1ma6rd-0006wn-2v; Mon, 11 Oct 2021 21:46:00 -0400
-Received: from dggeme703-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HSyzm47RDz8yfT;
- Tue, 12 Oct 2021 09:40:52 +0800 (CST)
-Received: from huawei.com (10.174.187.17) by dggeme703-chm.china.huawei.com
- (10.1.199.99) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.8; Tue, 12
- Oct 2021 09:45:41 +0800
-From: MingWang Li <limingwang@huawei.com>
-To: <palmer@dabbelt.com>, <alistair.francis@wdc.com>, <bin.meng@windriver.com>
-Subject: [PATCH v2] hw/riscv: virt: bugfix the memory-backend-file command is
- invalid
-Date: Tue, 12 Oct 2021 09:45:01 +0800
-Message-ID: <20211012014501.24996-1-limingwang@huawei.com>
-X-Mailer: git-send-email 2.19.1.windows.1
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ma8jb-0008S1-Si
+ for qemu-devel@nongnu.org; Mon, 11 Oct 2021 23:45:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634010346;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zeexGU51e3vYmEUlaGSPpjbIySlFsVG+RPUlciCb13Y=;
+ b=iuDl8hIakqHPpwhAenKUE0kv1o7ii5exU+oUP377UX9fBzNv5Ptdyi3HbFJFrQl/Z19Wj4
+ a1KzSxI1jDMMDZ2HrVUXA5O3D7xmgppBa+kh3pQ5hwPimZ37OEaPDXboPMLq9I6a9N2GTg
+ Qib9D2FtfMhDDWE6LTWjbn/mAFbg3mo=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-4_B4VZZwMf6spRI4VTWwjg-1; Mon, 11 Oct 2021 23:45:44 -0400
+X-MC-Unique: 4_B4VZZwMf6spRI4VTWwjg-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ bi16-20020a0565120e9000b003fd56ef5a94so13057272lfb.3
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 20:45:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zeexGU51e3vYmEUlaGSPpjbIySlFsVG+RPUlciCb13Y=;
+ b=glydFJZX8g1VQFph2FxM4Tj5sLSAh0I+VyuEfwb7UcnXlC1hetBFXQgUPuISvmi3bc
+ kTF+JmCL/r7/Jmxz/iOYk8lTfvNBZ4mpblTIdxwPUvD8Vy7ylPyY7N+62MpSJdXxSXLC
+ frJ9ykXFyRdpxSDE3vm6Z0spB2gRfcSRzpHItggbuihtGSonZIsOpKfNFbHWHQUZKMiN
+ Gij986waT6amOuGyq7MctMyTWB/yUoqLHK2jZ7LJR5yyVR/tZWwPN6+JffBMy7N+jBlQ
+ +RPcsnIm7kATWvWDUbpTByMfgmCAKBTYfAwofuECXJ1tApTHAjZ+HGx+F9FmlSI+fHxv
+ fdZw==
+X-Gm-Message-State: AOAM532FLmJszCjH8ChKz7zbZaCsmxr7iFAHMsRNRm/Lw06roMZoG8p9
+ FZBSiYzASsYljfbvZXVO5HcGlcJAJuV1e0sbUJVbE75/VzQDT7TjxSsQME3b90QkrNsWeqbHXF2
+ nJNM1RjrfHoEYCfUAnjGwfHN76189NdA=
+X-Received: by 2002:a05:6512:3b22:: with SMTP id
+ f34mr29615054lfv.629.1634010343366; 
+ Mon, 11 Oct 2021 20:45:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxBfhDcD8P9heIBeiFoVy3OsD6cBfwDChLGhGX26b6vPJdSsrG3Px6fUedr0m9nS4ZP8ZIOdqPkC0YqeD5xI04=
+X-Received: by 2002:a05:6512:3b22:: with SMTP id
+ f34mr29615031lfv.629.1634010343108; 
+ Mon, 11 Oct 2021 20:45:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.17]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggeme703-chm.china.huawei.com (10.1.199.99)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=limingwang@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20211005134843.439050-1-eperezma@redhat.com>
+ <20211005134843.439050-2-eperezma@redhat.com>
+In-Reply-To: <20211005134843.439050-2-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 12 Oct 2021 11:45:32 +0800
+Message-ID: <CACGkMEtHdXSNT8v0UwWMd+eSVk6D0ztpOA9LpzF38b0eqiGcmg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] vdpa: Skip protected ram IOMMU mappings
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,86 +93,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Mingwang Li <limingwang@huawei.com>,
- qemu-devel@nongnu.org, jiangyifei@huawei.com, wanghaibin.wang@huawei.com,
- fanliang@huawei.com, wu.wubin@huawei.com
+Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mingwang Li <limingwang@huawei.com>
+On Tue, Oct 5, 2021 at 9:49 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wro=
+te:
+>
+> Following the logic of commit 56918a126ae ("memory: Add RAM_PROTECTED
+> flag to skip IOMMU mappings") with VFIO, skip memory sections
+> inaccessible via normal mechanisms, including DMA.
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
-When I start the VM with the following command:
-$ ./qemu-system-riscv64 -M virt,accel=kvm -m 4096M -cpu host -nographic \
-    -name guest=riscv-guset \
-    -smp 2 \
-    -bios none \
-    -kernel ./Image \
-    -drive file=./guest.img,format=raw,id=hd0 \
-    -device virtio-blk-device,drive=hd0 \
-    -append "root=/dev/vda rw console=ttyS0 earlycon=sbi" \
-    -object memory-backend-file,id=mem,size=4096M,mem-path=/dev/hugepages,share=on \
-    -numa node,memdev=mem -mem-prealloc \
-    -chardev socket,id=char0,path=/mnt/vhost-net0 \
-    -netdev type=vhost-user,id=mynet1,chardev=char0,vhostforce \
-    -device virtio-net-pci,mac=52:54:00:00:00:01,netdev=mynet1,mrg_rxbuf=on,csum=on,guest_csum=on,guest_ecn=on \
+Acked-by: Jason Wang <jasowang@redhat.com>
 
-Then, QEMU displays the following error information:
-qemu-system-riscv64: Failed initializing vhost-user memory map, consider using -object memory-backend-file share=on
-qemu-system-riscv64: vhost_set_mem_table failed: Interrupted system call (4)
-qemu-system-riscv64: unable to start vhost net: 4: falling back on userspace virtio
-
-Note that, before starting the kvm-acceled QEMU VM, following
-temporarily unaccepted QEMU patches should be used:
-https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg02516.html
-
-This error was made bacause default main_mem is used to be registered
-as the system memory, other memory cannot be initialized. Therefore,
-the system memory should be initialized to the machine->ram, which
-consists of the default main_mem and other possible memory required
-by applications, such as shared hugepage memory in DPDK.
-Also, the mc->defaul_ram_id should be set to the default main_mem,
-such as "riscv_virt_board.ram" for the virt machine.
-
-Signed-off-by: Mingwang Li <limingwang@huawei.com>
-Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/virt.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index ec0cb69b8c..b3b431c847 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -771,7 +771,6 @@ static void virt_machine_init(MachineState *machine)
-     const MemMapEntry *memmap = virt_memmap;
-     RISCVVirtState *s = RISCV_VIRT_MACHINE(machine);
-     MemoryRegion *system_memory = get_system_memory();
--    MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-     char *plic_hart_config, *soc_name;
-     target_ulong start_addr = memmap[VIRT_DRAM].base;
-@@ -890,10 +889,8 @@ static void virt_machine_init(MachineState *machine)
-     }
- 
-     /* register system main memory (actual RAM) */
--    memory_region_init_ram(main_mem, NULL, "riscv_virt_board.ram",
--                           machine->ram_size, &error_fatal);
-     memory_region_add_subregion(system_memory, memmap[VIRT_DRAM].base,
--        main_mem);
-+        machine->ram);
- 
-     /* create device tree */
-     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
-@@ -1032,6 +1029,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     mc->cpu_index_to_instance_props = riscv_numa_cpu_index_to_props;
-     mc->get_default_cpu_node_id = riscv_numa_get_default_cpu_node_id;
-     mc->numa_mem_supported = true;
-+    mc->default_ram_id = "riscv_virt_board.ram";
- 
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
- 
--- 
-2.19.1
+> ---
+>  hw/virtio/vhost-vdpa.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 47d7a5a23d..ea1aa71ad8 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -28,6 +28,7 @@ static bool vhost_vdpa_listener_skipped_section(MemoryR=
+egionSection *section)
+>  {
+>      return (!memory_region_is_ram(section->mr) &&
+>              !memory_region_is_iommu(section->mr)) ||
+> +            memory_region_is_protected(section->mr) ||
+>             /* vhost-vDPA doesn't allow MMIO to be mapped  */
+>              memory_region_is_ram_device(section->mr) ||
+>             /*
+> --
+> 2.27.0
+>
 
 
