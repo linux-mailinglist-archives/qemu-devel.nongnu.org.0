@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C796D42A076
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 10:59:15 +0200 (CEST)
-Received: from localhost ([::1]:54688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCDAC42A08E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:05:08 +0200 (CEST)
+Received: from localhost ([::1]:35078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maDcw-0007JG-Ra
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 04:59:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33178)
+	id 1maDid-0004d6-BT
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:05:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1maDTy-0005nT-Oa
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:49:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30888)
+ id 1maDU1-0005rk-5A
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1maDTw-0002Zo-IK
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:49:58 -0400
+ id 1maDTx-0002au-Od
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634028596;
+ s=mimecast20190719; t=1634028597;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3BeeOyaMHh4Xwn9iq0LSveBxzzyw/Vr3UAUeAXXqN4U=;
- b=SPyxyEPiMJFhYZkHSOihcXw9C3zo04mKnwnfuGCyMSZgcmcpwDcbmiM0hkErK7tcg0uG2z
- bMa4famGYK2dOaPoBIyxvaGCscbIq+QvRqx2wcFAKJ9s0B33wsbhlmsfk2buY/y8fxE7lG
- FtIN7D2Y62ipgomcCjRZHHuhnxQjLEM=
+ bh=be7TcUiYqqu2cMC9kDjcjKYjHA2773D2gysXspe1eYA=;
+ b=RJGLnThmQ6d+fXfF8sN0z/oOB6O8JFB0MLz7aL8aPzCiNO/NEf9AlSbRwsziPWUpi5MurI
+ 8t8mUj0ofstDAu7jeT7SVI8WDst8wUwMA2wocjUkl8FoS+eIErli89AcNPMrcpfhqnKWnV
+ X+LiNLu77/F/Gox9HraT7R1XWI/2lGs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-TNe79XIPPz2AQe-eWAs2FQ-1; Tue, 12 Oct 2021 04:49:53 -0400
-X-MC-Unique: TNe79XIPPz2AQe-eWAs2FQ-1
+ us-mta-531-IndhoVN9P1ia_XxhqM4Ntg-1; Tue, 12 Oct 2021 04:49:54 -0400
+X-MC-Unique: IndhoVN9P1ia_XxhqM4Ntg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C20A3100F943;
- Tue, 12 Oct 2021 08:49:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F100018125CC;
+ Tue, 12 Oct 2021 08:49:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D8985C1B4;
- Tue, 12 Oct 2021 08:49:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C0140717C8;
+ Tue, 12 Oct 2021 08:49:51 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 07/25] assertions for block_int global state API
-Date: Tue, 12 Oct 2021 04:48:48 -0400
-Message-Id: <20211012084906.2060507-8-eesposit@redhat.com>
+Subject: [PATCH v3 08/25] block: introduce assert_bdrv_graph_writable
+Date: Tue, 12 Oct 2021 04:48:49 -0400
+Message-Id: <20211012084906.2060507-9-eesposit@redhat.com>
 In-Reply-To: <20211012084906.2060507-1-eesposit@redhat.com>
 References: <20211012084906.2060507-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -93,334 +93,107 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We want to be sure that the functions that write the child and
+parent list of a bs are under BQL and drain.
+
+BQL prevents from concurrent writings from the GS API, while
+drains protect from I/O.
+
+TODO: drains are missing in some functions using this assert.
+Therefore a proper assertion will fail. Because adding drains
+requires additional discussions, they will be added in future
+series.
+
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block.c                         | 17 +++++++++++++++++
- block/backup.c                  |  1 +
- block/block-backend.c           |  3 +++
- block/commit.c                  |  2 ++
- block/dirty-bitmap.c            |  1 +
- block/io.c                      |  6 ++++++
- block/mirror.c                  |  4 ++++
- block/monitor/bitmap-qmp-cmds.c |  6 ++++++
- block/stream.c                  |  2 ++
- blockdev.c                      |  7 +++++++
- 10 files changed, 49 insertions(+)
+ block.c                                |  5 +++++
+ block/io.c                             | 11 +++++++++++
+ include/block/block_int-global-state.h | 10 +++++++++-
+ 3 files changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/block.c b/block.c
-index 672f946065..41c5883c5c 100644
+index 41c5883c5c..94bff5c757 100644
 --- a/block.c
 +++ b/block.c
-@@ -653,6 +653,8 @@ int coroutine_fn bdrv_co_create_opts_simple(BlockDriver *drv,
-     Error *local_err = NULL;
-     int ret;
- 
-+    assert(qemu_in_main_thread());
-+
-     size = qemu_opt_get_size_del(opts, BLOCK_OPT_SIZE, 0);
-     buf = qemu_opt_get_del(opts, BLOCK_OPT_PREALLOC);
-     prealloc = qapi_enum_parse(&PreallocMode_lookup, buf,
-@@ -2428,6 +2430,8 @@ void bdrv_get_cumulative_perm(BlockDriverState *bs, uint64_t *perm,
-     uint64_t cumulative_perms = 0;
-     uint64_t cumulative_shared_perms = BLK_PERM_ALL;
- 
-+    assert(qemu_in_main_thread());
-+
-     QLIST_FOREACH(c, &bs->parents, next_parent) {
-         cumulative_perms |= c->perm;
-         cumulative_shared_perms &= c->shared_perm;
-@@ -2486,6 +2490,8 @@ int bdrv_child_try_set_perm(BdrvChild *c, uint64_t perm, uint64_t shared,
-     Transaction *tran = tran_new();
-     int ret;
- 
-+    assert(qemu_in_main_thread());
-+
-     bdrv_child_set_perm(c, perm, shared, tran);
- 
-     ret = bdrv_refresh_perms(c->bs, &local_err);
-@@ -2516,6 +2522,8 @@ int bdrv_child_refresh_perms(BlockDriverState *bs, BdrvChild *c, Error **errp)
-     uint64_t parent_perms, parent_shared;
-     uint64_t perms, shared;
- 
-+    assert(qemu_in_main_thread());
-+
-     bdrv_get_cumulative_perm(bs, &parent_perms, &parent_shared);
-     bdrv_child_perm(bs, c->bs, c, c->role, NULL,
-                     parent_perms, parent_shared, &perms, &shared);
-@@ -2658,6 +2666,7 @@ void bdrv_default_perms(BlockDriverState *bs, BdrvChild *c,
-                         uint64_t perm, uint64_t shared,
-                         uint64_t *nperm, uint64_t *nshared)
- {
-+    assert(qemu_in_main_thread());
-     if (role & BDRV_CHILD_FILTERED) {
-         assert(!(role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
-                          BDRV_CHILD_COW)));
-@@ -2984,6 +2993,8 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
-     BdrvChild *child = NULL;
-     Transaction *tran = tran_new();
- 
-+    assert(qemu_in_main_thread());
-+
-     ret = bdrv_attach_child_common(child_bs, child_name, child_class,
-                                    child_role, perm, shared_perm, opaque,
-                                    &child, tran, errp);
-@@ -6027,6 +6038,8 @@ const char *bdrv_get_parent_name(const BlockDriverState *bs)
-     BdrvChild *c;
-     const char *name;
- 
-+    assert(qemu_in_main_thread());
-+
-     /* If multiple parents have a name, just pick the first one. */
-     QLIST_FOREACH(c, &bs->parents, next_parent) {
-         if (c->klass->get_name) {
-@@ -7302,6 +7315,8 @@ bool bdrv_recurse_can_replace(BlockDriverState *bs,
- {
-     BlockDriverState *filtered;
- 
-+    assert(qemu_in_main_thread());
-+
-     if (!bs || !bs->drv) {
-         return false;
+@@ -2734,12 +2734,14 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
+         if (child->klass->detach) {
+             child->klass->detach(child);
+         }
++        assert_bdrv_graph_writable(old_bs);
+         QLIST_REMOVE(child, next_parent);
      }
-@@ -7473,6 +7488,7 @@ static bool append_strong_runtime_options(QDict *d, BlockDriverState *bs)
-  * would result in exactly bs->backing. */
- bool bdrv_backing_overridden(BlockDriverState *bs)
- {
-+    assert(qemu_in_main_thread());
-     if (bs->backing) {
-         return strcmp(bs->auto_backing_file,
-                       bs->backing->bs->filename);
-@@ -7861,6 +7877,7 @@ static BlockDriverState *bdrv_do_skip_filters(BlockDriverState *bs,
-  */
- BlockDriverState *bdrv_skip_implicit_filters(BlockDriverState *bs)
- {
-+    assert(qemu_in_main_thread());
-     return bdrv_do_skip_filters(bs, true);
- }
  
-diff --git a/block/backup.c b/block/backup.c
-index 21d5983779..c53041772c 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -372,6 +372,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+     child->bs = new_bs;
  
-     assert(bs);
-     assert(target);
-+    assert(qemu_in_main_thread());
+     if (new_bs) {
++        assert_bdrv_graph_writable(new_bs);
+         QLIST_INSERT_HEAD(&new_bs->parents, child, next_parent);
  
-     /* QMP interface protects us from these cases */
-     assert(sync_mode != MIRROR_SYNC_MODE_INCREMENTAL);
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 55aaaf7527..6f36a54e82 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1086,6 +1086,7 @@ static void blk_root_change_media(BdrvChild *child, bool load)
-  */
- bool blk_dev_has_removable_media(BlockBackend *blk)
- {
-+    assert(qemu_in_main_thread());
-     return !blk->dev || (blk->dev_ops && blk->dev_ops->change_media_cb);
- }
- 
-@@ -1103,6 +1104,7 @@ bool blk_dev_has_tray(BlockBackend *blk)
-  */
- void blk_dev_eject_request(BlockBackend *blk, bool force)
- {
-+    assert(qemu_in_main_thread());
-     if (blk->dev_ops && blk->dev_ops->eject_request_cb) {
-         blk->dev_ops->eject_request_cb(blk->dev_opaque, force);
+         /*
+@@ -2940,6 +2942,7 @@ static int bdrv_attach_child_noperm(BlockDriverState *parent_bs,
+         return ret;
      }
-@@ -1125,6 +1127,7 @@ bool blk_dev_is_tray_open(BlockBackend *blk)
-  */
- bool blk_dev_is_medium_locked(BlockBackend *blk)
- {
-+    assert(qemu_in_main_thread());
-     if (blk->dev_ops && blk->dev_ops->is_medium_locked) {
-         return blk->dev_ops->is_medium_locked(blk->dev_opaque);
-     }
-diff --git a/block/commit.c b/block/commit.c
-index 45a414a19b..f639eb49c5 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -253,6 +253,8 @@ void commit_start(const char *job_id, BlockDriverState *bs,
-     uint64_t base_perms, iter_shared_perms;
-     int ret;
  
-+    assert(qemu_in_main_thread());
-+
-     assert(top != bs);
-     if (bdrv_skip_filters(top) == bdrv_skip_filters(base)) {
-         error_setg(errp, "Invalid files for merge: top and base are the same");
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 0ef46163e3..49462ca121 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -673,6 +673,7 @@ void bdrv_restore_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap *backup)
++    assert_bdrv_graph_writable(parent_bs);
+     QLIST_INSERT_HEAD(&parent_bs->children, *child, next);
+     /*
+      * child is removed in bdrv_attach_child_common_abort(), so don't care to
+@@ -3140,6 +3143,7 @@ static void bdrv_unset_inherits_from(BlockDriverState *root, BdrvChild *child,
+ void bdrv_unref_child(BlockDriverState *parent, BdrvChild *child)
  {
-     HBitmap *tmp = bitmap->bitmap;
-     assert(!bdrv_dirty_bitmap_readonly(bitmap));
-+    assert(qemu_in_main_thread());
-     bitmap->bitmap = backup;
-     hbitmap_free(tmp);
- }
+     assert(qemu_in_main_thread());
++    assert_bdrv_graph_writable(parent);
+     if (child == NULL) {
+         return;
+     }
+@@ -4903,6 +4907,7 @@ static void bdrv_remove_filter_or_cow_child_abort(void *opaque)
+     BdrvRemoveFilterOrCowChild *s = opaque;
+     BlockDriverState *parent_bs = s->child->opaque;
+ 
++    assert_bdrv_graph_writable(parent_bs);
+     QLIST_INSERT_HEAD(&parent_bs->children, s->child, next);
+     if (s->is_backing) {
+         parent_bs->backing = s->child;
 diff --git a/block/io.c b/block/io.c
-index c5d7f8495e..f271ab3684 100644
+index f271ab3684..1c71e354d6 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -560,6 +560,7 @@ void bdrv_subtree_drained_end(BlockDriverState *bs)
- void bdrv_apply_subtree_drain(BdrvChild *child, BlockDriverState *new_parent)
- {
-     int i;
-+    assert(qemu_in_main_thread());
- 
-     for (i = 0; i < new_parent->recursive_quiesce_counter; i++) {
-         bdrv_do_drained_begin(child->bs, true, child, false, true);
-@@ -571,6 +572,8 @@ void bdrv_unapply_subtree_drain(BdrvChild *child, BlockDriverState *old_parent)
-     int drained_end_counter = 0;
-     int i;
- 
-+    assert(qemu_in_main_thread());
-+
-     for (i = 0; i < old_parent->recursive_quiesce_counter; i++) {
-         bdrv_do_drained_end(child->bs, true, child, false,
-                             &drained_end_counter);
-@@ -690,6 +693,7 @@ void bdrv_drain_all_end_quiesce(BlockDriverState *bs)
- {
-     int drained_end_counter = 0;
- 
-+    assert(qemu_in_main_thread());
-     g_assert(bs->quiesce_counter > 0);
-     g_assert(!bs->refcnt);
- 
-@@ -3419,6 +3423,7 @@ int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, int64_t src_offset,
- {
-     trace_bdrv_co_copy_range_from(src, src_offset, dst, dst_offset, bytes,
-                                   read_flags, write_flags);
-+    assert(qemu_in_main_thread());
-     return bdrv_co_copy_range_internal(src, src_offset, dst, dst_offset,
-                                        bytes, read_flags, write_flags, true);
- }
-@@ -3435,6 +3440,7 @@ int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, int64_t src_offset,
- {
-     trace_bdrv_co_copy_range_to(src, src_offset, dst, dst_offset, bytes,
-                                 read_flags, write_flags);
-+    assert(qemu_in_main_thread());
-     return bdrv_co_copy_range_internal(src, src_offset, dst, dst_offset,
-                                        bytes, read_flags, write_flags, false);
- }
-diff --git a/block/mirror.c b/block/mirror.c
-index efec2c7674..00089e519b 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1880,6 +1880,8 @@ void mirror_start(const char *job_id, BlockDriverState *bs,
-     bool is_none_mode;
-     BlockDriverState *base;
- 
-+    assert(qemu_in_main_thread());
-+
-     if ((mode == MIRROR_SYNC_MODE_INCREMENTAL) ||
-         (mode == MIRROR_SYNC_MODE_BITMAP)) {
-         error_setg(errp, "Sync mode '%s' not supported",
-@@ -1905,6 +1907,8 @@ BlockJob *commit_active_start(const char *job_id, BlockDriverState *bs,
-     bool base_read_only;
-     BlockJob *job;
- 
-+    assert(qemu_in_main_thread());
-+
-     base_read_only = bdrv_is_read_only(base);
- 
-     if (base_read_only) {
-diff --git a/block/monitor/bitmap-qmp-cmds.c b/block/monitor/bitmap-qmp-cmds.c
-index 9f11deec64..8b8d30287a 100644
---- a/block/monitor/bitmap-qmp-cmds.c
-+++ b/block/monitor/bitmap-qmp-cmds.c
-@@ -56,6 +56,8 @@ BdrvDirtyBitmap *block_dirty_bitmap_lookup(const char *node,
-     BlockDriverState *bs;
-     BdrvDirtyBitmap *bitmap;
- 
-+    assert(qemu_in_main_thread());
-+
-     if (!node) {
-         error_setg(errp, "Node cannot be NULL");
-         return NULL;
-@@ -155,6 +157,8 @@ BdrvDirtyBitmap *block_dirty_bitmap_remove(const char *node, const char *name,
-     BdrvDirtyBitmap *bitmap;
-     AioContext *aio_context;
- 
-+    assert(qemu_in_main_thread());
-+
-     bitmap = block_dirty_bitmap_lookup(node, name, &bs, errp);
-     if (!bitmap || !bs) {
-         return NULL;
-@@ -261,6 +265,8 @@ BdrvDirtyBitmap *block_dirty_bitmap_merge(const char *node, const char *target,
-     BlockDirtyBitmapMergeSourceList *lst;
-     Error *local_err = NULL;
- 
-+    assert(qemu_in_main_thread());
-+
-     dst = block_dirty_bitmap_lookup(node, target, &bs, errp);
-     if (!dst) {
-         return NULL;
-diff --git a/block/stream.c b/block/stream.c
-index 97bee482dc..b85c3742b2 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -216,6 +216,8 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-     QDict *opts;
-     int ret;
- 
-+    assert(qemu_in_main_thread());
-+
-     assert(!(base && bottom));
-     assert(!(backing_file_str && bottom));
- 
-diff --git a/blockdev.c b/blockdev.c
-index ddba382abd..c1f6171c6c 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -69,6 +69,7 @@ QTAILQ_HEAD(, BlockDriverState) monitor_bdrv_states =
- 
- void bdrv_set_monitor_owned(BlockDriverState *bs)
- {
-+    assert(qemu_in_main_thread());
-     QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
+@@ -740,6 +740,17 @@ void bdrv_drain_all(void)
+     bdrv_drain_all_end();
  }
  
-@@ -661,6 +662,7 @@ BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp)
- {
-     int bdrv_flags = 0;
- 
++void assert_bdrv_graph_writable(BlockDriverState *bs)
++{
++    /*
++     * TODO: this function is incomplete. Because the users of this
++     * assert lack the necessary drains, check only for BQL.
++     * Once the necessary drains are added,
++     * assert also for qatomic_read(&bs->quiesce_counter) > 0
++     */
 +    assert(qemu_in_main_thread());
-     /* bdrv_open() defaults to the values in bdrv_flags (for compatibility
-      * with other callers) rather than what we want as the real defaults.
-      * Apply the defaults here instead. */
-@@ -679,6 +681,7 @@ void blockdev_close_all_bdrv_states(void)
- {
-     BlockDriverState *bs, *next_bs;
- 
-+    assert(qemu_in_main_thread());
-     QTAILQ_FOREACH_SAFE(bs, &monitor_bdrv_states, monitor_list, next_bs) {
-         AioContext *ctx = bdrv_get_aio_context(bs);
- 
-@@ -2332,6 +2335,8 @@ void qmp_transaction(TransactionActionList *dev_list,
-     BlkActionState *state, *next;
-     Error *local_err = NULL;
- 
-+    assert(qemu_in_main_thread());
++}
 +
-     QTAILQ_HEAD(, BlkActionState) snap_bdrv_states;
-     QTAILQ_INIT(&snap_bdrv_states);
+ /**
+  * Remove an active request from the tracked requests list
+  *
+diff --git a/include/block/block_int-global-state.h b/include/block/block_int-global-state.h
+index d08e80222c..6bd7746409 100644
+--- a/include/block/block_int-global-state.h
++++ b/include/block/block_int-global-state.h
+@@ -316,4 +316,12 @@ void bdrv_remove_aio_context_notifier(BlockDriverState *bs,
+  */
+ void bdrv_drain_all_end_quiesce(BlockDriverState *bs);
  
-@@ -3625,6 +3630,8 @@ void qmp_blockdev_del(const char *node_name, Error **errp)
-     AioContext *aio_context;
-     BlockDriverState *bs;
- 
-+    assert(qemu_in_main_thread());
+-#endif /* BLOCK_INT_GLOBAL_STATE*/
++/**
++ * Make sure that the function is either running under
++ * drain and BQL. The latter protects from concurrent writings
++ * from the GS API, while the former prevents concurrent reads
++ * from I/O.
++ */
++void assert_bdrv_graph_writable(BlockDriverState *bs);
 +
-     bs = bdrv_find_node(node_name);
-     if (!bs) {
-         error_setg(errp, "Failed to find node with node-name='%s'", node_name);
++#endif /* BLOCK_INT_GLOBAL_STATE */
 -- 
 2.27.0
 
