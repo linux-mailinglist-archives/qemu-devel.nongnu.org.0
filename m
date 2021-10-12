@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1128429E9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 09:28:09 +0200 (CEST)
-Received: from localhost ([::1]:39706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3E4429EA3
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 09:29:54 +0200 (CEST)
+Received: from localhost ([::1]:44168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maCCm-0002hn-8B
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 03:28:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41602)
+	id 1maCET-0005g5-7T
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 03:29:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1maCAM-0000qC-R7
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:25:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30386)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1maCBz-0002Y5-Va
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:27:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1maCAF-0002n9-Tu
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:25:35 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1maCBy-00043n-Ef
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:27:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634023530;
+ s=mimecast20190719; t=1634023637;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9VIhLI+H19CmeU9enkdJEfYpka3vgydxcHQy1jQ1V1c=;
- b=L3INi2BqiM12HWk7/8SLuczaSP2PxAS2yldmL/bNUyI+KTyNmsPYqrGSZZhXsOp7tGSrqT
- Y2fJNq9KGI3XyrHqcqogVQIt8+lRVevu2MjuNvb8uTGY8THZP9zqmZyhIHXx4AwRo68JDr
- DZheYXlkuACruQ7INqiWhV4eav2YF9w=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-Ofz5rKXyMtC3et0UZnIP3Q-1; Tue, 12 Oct 2021 03:25:19 -0400
-X-MC-Unique: Ofz5rKXyMtC3et0UZnIP3Q-1
-Received: by mail-ed1-f71.google.com with SMTP id
- t18-20020a056402021200b003db9e6b0e57so3841986edv.10
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 00:25:19 -0700 (PDT)
+ bh=M5lqUJgL6bWQErtMrAoObrnnBQsIrh+MTni3XXOl+2c=;
+ b=hdtbMKCtuareKTK+Vt2iq4aSJd5iRSy/RBZjg49jQRpjvcWG4UHjSYa7TwwxC1RGgOKg4C
+ 2okaHEdiDqsPa8MlXK62XKVVBiqfPFrgY8pYxMXb7UcOa4nTTWxOECyH8yDTKVed53rCiB
+ 4lGVBoJV5yMwOGF8kVsMaKyn0lgNoww=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-400-YmSs_WgJPp6XdfL3H0ER3Q-1; Tue, 12 Oct 2021 03:27:16 -0400
+X-MC-Unique: YmSs_WgJPp6XdfL3H0ER3Q-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ p13-20020a056402044d00b003db3256e4f2so18187250edw.3
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 00:27:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=9VIhLI+H19CmeU9enkdJEfYpka3vgydxcHQy1jQ1V1c=;
- b=Ee6vHbmyDWj6KLFYyzMLpii/QNG49FBeCUmVq+PhlYSxgUckGpG+2oCyRe2ORcCmy5
- NyfRLcnXGNSMrrxtb+M/8UdFgQMt/Fqv5WsMKlPB6VON2eTd+o7eU/6jiYH5W8tQtxkn
- 7pNBN7sWHafJMT8f9PKKSEfIVNGUOT8FamPyi5GDULjUDHwQpHmAbzh3ITqYGRKB1sQk
- bucML/AuM+4WJRttGt+gAUC4oQfIe7sFW5fKWnjNhUGRuPWNPqAglIj0+5Xy9z3xcy8D
- m/+ikYxjig404I2rg0nOsYnDsi9pYciqeI5K0BsTDF0MX5aonbwq+BfPOTdtT+9eDFDi
- cZJg==
-X-Gm-Message-State: AOAM530B1tI0CJhoFJ4wherKtTcUf4fynwFICd60Sa5uYKRNnnUCTHxw
- s5asLXTvU1Zom4nKS1fu25i9UHMONvk3aGb8kTqwbOO7Ul9CyvhMR8OAnICOKmrPObXJz4hFuzZ
- /ZyEa9xVZka7A3CM=
-X-Received: by 2002:a17:906:31d7:: with SMTP id
- f23mr29906329ejf.190.1634023517510; 
- Tue, 12 Oct 2021 00:25:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyxukKCV8S63kaIup6oblZJk34P8PssEF6EEwTn/2NEa7dlATTEhk7nDyXrTzXE5Jx5AgPfLA==
-X-Received: by 2002:a17:906:31d7:: with SMTP id
- f23mr29906307ejf.190.1634023517225; 
- Tue, 12 Oct 2021 00:25:17 -0700 (PDT)
+ bh=M5lqUJgL6bWQErtMrAoObrnnBQsIrh+MTni3XXOl+2c=;
+ b=HOL9aOyzaj5SJl6x/KkzmQgrLQRkkBOnYvUcnzwiMDjtr9YBYUj4blnDYeVsOg2mZ7
+ 2scSYxeDbcGAqKysGn2QgGw8OS0oh0/PE8hvzP0GqO09oso0Lc8EP2qIQU0tf1HFQIQ2
+ NFefKua+2PjSMmwb9EQxmQ4SKMEFkp+btC4TsEooHHNNfmEiFmdvdy4GsICsdabZXP5o
+ Dt+rwVuN+eWaMmTgmrBlsYrWHlPAea1go/QqywPbHDmIIKcC8RTey2yqTlJT0jz4KT9A
+ YRenuFm3he5VcQRete8N+3ndyIWJpjuDC1hnNtOAsCis7ON8nzq7w/ciLocDozjtEiSq
+ kDCw==
+X-Gm-Message-State: AOAM532KsVUEVXY5TCaCwXjDosgHn8e7/b2MsfLXbeV/Pc/32HO+5V7+
+ VfaG4KT6tz9R6tmtgL5XDvG3wmLhOJvpNuBWcEyNV97hFIUDwe366Oh4NBc+p+LhBGQOMvdYhV9
+ 1yx4BKSuAlDi7pPo=
+X-Received: by 2002:a17:907:8a12:: with SMTP id
+ sc18mr28616860ejc.569.1634023635526; 
+ Tue, 12 Oct 2021 00:27:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzah0Y0hhQ7SGqDz8W6kHMZ84i3hMvRWL9YFUBFYC9+6XN/GSeylj3ExqzshtBhIT//Yz2lng==
+X-Received: by 2002:a17:907:8a12:: with SMTP id
+ sc18mr28616851ejc.569.1634023635377; 
+ Tue, 12 Oct 2021 00:27:15 -0700 (PDT)
 Received: from redhat.com ([2.55.159.57])
- by smtp.gmail.com with ESMTPSA id i6sm4407312ejd.57.2021.10.12.00.25.15
+ by smtp.gmail.com with ESMTPSA id ox9sm4419475ejb.66.2021.10.12.00.27.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 00:25:16 -0700 (PDT)
-Date: Tue, 12 Oct 2021 03:25:12 -0400
+ Tue, 12 Oct 2021 00:27:14 -0700 (PDT)
+Date: Tue, 12 Oct 2021 03:27:11 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Lukasz Maniak <lukasz.maniak@linux.intel.com>
-Subject: Re: [PATCH 04/15] pcie: Add callback preceding SR-IOV VFs update
-Message-ID: <20211012032026-mutt-send-email-mst@kernel.org>
-References: <20211007162406.1920374-1-lukasz.maniak@linux.intel.com>
- <20211007162406.1920374-5-lukasz.maniak@linux.intel.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1] virtio-mem: Don't skip alignment checks when warning
+ about block size
+Message-ID: <20211012032705-mutt-send-email-mst@kernel.org>
+References: <20211011173305.13778-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211007162406.1920374-5-lukasz.maniak@linux.intel.com>
+In-Reply-To: <20211011173305.13778-1-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,132 +94,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?=C5=81ukasz?= Gieryk <lukasz.gieryk@linux.intel.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 07, 2021 at 06:23:55PM +0200, Lukasz Maniak wrote:
-> PCIe devices implementing SR-IOV may need to perform certain actions
-> before the VFs are unrealized or vice versa.
+On Mon, Oct 11, 2021 at 07:33:05PM +0200, David Hildenbrand wrote:
+> If we warn about the block size being smaller than the default, we skip
+> some alignment checks.
 > 
-> Signed-off-by: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+> This can currently only fail on x86-64, when specifying a block size of
+> 1 MiB, however, we detect the THP size of 2 MiB.
+> 
+> Fixes: 228957fea3a9 ("virtio-mem: Probe THP size to determine default block size")
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Callbacks are annoying and easy to misuse though.
-VFs are enabled through a config cycle, we generally just
-have devices invoke the capability handler.
-E.g.
-
-static void pci_bridge_dev_write_config(PCIDevice *d,
-                                        uint32_t address, uint32_t val, int len)
-{
-    pci_bridge_write_config(d, address, val, len);
-    if (msi_present(d)) {
-        msi_write_config(d, address, val, len);
-    }
-}
-
-this makes it easy to do whatever you want before/after
-the write. You can also add a helper to check
-that SRIOV is being enabled/disabled if necessary.
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
 > ---
->  docs/pcie_sriov.txt         |  2 +-
->  hw/pci/pcie_sriov.c         | 14 +++++++++++++-
->  include/hw/pci/pcie_sriov.h |  8 +++++++-
->  3 files changed, 21 insertions(+), 3 deletions(-)
+>  hw/virtio/virtio-mem.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/docs/pcie_sriov.txt b/docs/pcie_sriov.txt
-> index f5e891e1d4..63ca1a7b8e 100644
-> --- a/docs/pcie_sriov.txt
-> +++ b/docs/pcie_sriov.txt
-> @@ -57,7 +57,7 @@ setting up a BAR for a VF.
->        /* Add and initialize the SR/IOV capability */
->        pcie_sriov_pf_init(d, 0x200, "your_virtual_dev",
->                         vf_devid, initial_vfs, total_vfs,
-> -                       fun_offset, stride);
-> +                       fun_offset, stride, pre_vfs_update_cb);
->  
->        /* Set up individual VF BARs (parameters as for normal BARs) */
->        pcie_sriov_pf_init_vf_bar( ... )
-> diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
-> index 501a1ff433..cac2aee061 100644
-> --- a/hw/pci/pcie_sriov.c
-> +++ b/hw/pci/pcie_sriov.c
-> @@ -30,7 +30,8 @@ static void unregister_vfs(PCIDevice *dev);
->  void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
->                          const char *vfname, uint16_t vf_dev_id,
->                          uint16_t init_vfs, uint16_t total_vfs,
-> -                        uint16_t vf_offset, uint16_t vf_stride)
-> +                        uint16_t vf_offset, uint16_t vf_stride,
-> +                        SriovVfsUpdate pre_vfs_update)
->  {
->      uint8_t *cfg = dev->config + offset;
->      uint8_t *wmask;
-> @@ -41,6 +42,7 @@ void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
->      dev->exp.sriov_pf.num_vfs = 0;
->      dev->exp.sriov_pf.vfname = g_strdup(vfname);
->      dev->exp.sriov_pf.vf = NULL;
-> +    dev->exp.sriov_pf.pre_vfs_update = pre_vfs_update;
->  
->      pci_set_word(cfg + PCI_SRIOV_VF_OFFSET, vf_offset);
->      pci_set_word(cfg + PCI_SRIOV_VF_STRIDE, vf_stride);
-> @@ -180,6 +182,11 @@ static void register_vfs(PCIDevice *dev)
->      assert(dev->exp.sriov_pf.vf);
->  
->      trace_sriov_register_vfs(SRIOV_ID(dev), num_vfs);
-> +
-> +    if (dev->exp.sriov_pf.pre_vfs_update) {
-> +        dev->exp.sriov_pf.pre_vfs_update(dev, dev->exp.sriov_pf.num_vfs, num_vfs);
+> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+> index df91e454b2..7ce9901791 100644
+> --- a/hw/virtio/virtio-mem.c
+> +++ b/hw/virtio/virtio-mem.c
+> @@ -701,7 +701,8 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+>          warn_report("'%s' property is smaller than the default block size (%"
+>                      PRIx64 " MiB)", VIRTIO_MEM_BLOCK_SIZE_PROP,
+>                      virtio_mem_default_block_size(rb) / MiB);
+> -    } else if (!QEMU_IS_ALIGNED(vmem->requested_size, vmem->block_size)) {
 > +    }
-> +
->      for (i = 0; i < num_vfs; i++) {
->          dev->exp.sriov_pf.vf[i] = register_vf(dev, devfn, dev->exp.sriov_pf.vfname, i);
->          if (!dev->exp.sriov_pf.vf[i]) {
-> @@ -198,6 +205,11 @@ static void unregister_vfs(PCIDevice *dev)
->      uint16_t i;
->  
->      trace_sriov_unregister_vfs(SRIOV_ID(dev), num_vfs);
-> +
-> +    if (dev->exp.sriov_pf.pre_vfs_update) {
-> +        dev->exp.sriov_pf.pre_vfs_update(dev, dev->exp.sriov_pf.num_vfs, 0);
-> +    }
-> +
->      for (i = 0; i < num_vfs; i++) {
->          PCIDevice *vf = dev->exp.sriov_pf.vf[i];
->          object_property_set_bool(OBJECT(vf), "realized", false, &local_err);
-> diff --git a/include/hw/pci/pcie_sriov.h b/include/hw/pci/pcie_sriov.h
-> index 0974f00054..9ab48b79c0 100644
-> --- a/include/hw/pci/pcie_sriov.h
-> +++ b/include/hw/pci/pcie_sriov.h
-> @@ -13,11 +13,16 @@
->  #ifndef QEMU_PCIE_SRIOV_H
->  #define QEMU_PCIE_SRIOV_H
->  
-> +typedef void (*SriovVfsUpdate)(PCIDevice *dev, uint16_t prev_num_vfs,
-> +                               uint16_t num_vfs);
-> +
->  struct PCIESriovPF {
->      uint16_t num_vfs;           /* Number of virtual functions created */
->      uint8_t vf_bar_type[PCI_NUM_REGIONS];  /* Store type for each VF bar */
->      const char *vfname;         /* Reference to the device type used for the VFs */
->      PCIDevice **vf;             /* Pointer to an array of num_vfs VF devices */
-> +
-> +    SriovVfsUpdate pre_vfs_update;  /* Callback preceding VFs count change */
->  };
->  
->  struct PCIESriovVF {
-> @@ -28,7 +33,8 @@ struct PCIESriovVF {
->  void pcie_sriov_pf_init(PCIDevice *dev, uint16_t offset,
->                          const char *vfname, uint16_t vf_dev_id,
->                          uint16_t init_vfs, uint16_t total_vfs,
-> -                        uint16_t vf_offset, uint16_t vf_stride);
-> +                        uint16_t vf_offset, uint16_t vf_stride,
-> +                        SriovVfsUpdate pre_vfs_update);
->  void pcie_sriov_pf_exit(PCIDevice *dev);
->  
->  /* Set up a VF bar in the SR/IOV bar area */
+> +    if (!QEMU_IS_ALIGNED(vmem->requested_size, vmem->block_size)) {
+>          error_setg(errp, "'%s' property has to be multiples of '%s' (0x%" PRIx64
+>                     ")", VIRTIO_MEM_REQUESTED_SIZE_PROP,
+>                     VIRTIO_MEM_BLOCK_SIZE_PROP, vmem->block_size);
 > -- 
-> 2.25.1
+> 2.31.1
 
 
