@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A37142A2E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 13:12:26 +0200 (CEST)
-Received: from localhost ([::1]:46924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9875842A2EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 13:16:25 +0200 (CEST)
+Received: from localhost ([::1]:57562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maFhp-0005lK-K5
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 07:12:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57342)
+	id 1maFlg-0004bf-Li
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 07:16:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1maFPD-0008LS-35
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 06:53:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39769)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1maFPB-0000tS-8G
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 06:53:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634035987;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7X95XO2ex8D3Uum7qUeOUAwnZblq59TSgCIoDNzMvkE=;
- b=bGNsqXnh3IyAqBo6QHXAPCGGdLdpe+FpvZjeb7yfb0f919G5w2Bp4icxNVkqY4gL59iitG
- WcELgtD4iZb/h8Ww34LQpFQOMAYKFgMc47H/aKyueA2nlg2AjTD7Fa1Y0tDV4BlaW7sYju
- gCRPESYAEAFLAxsFgno/6EDE+fhqkIY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-QUu8453vMuKJ1-Pqpat6Yg-1; Tue, 12 Oct 2021 06:53:03 -0400
-X-MC-Unique: QUu8453vMuKJ1-Pqpat6Yg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F3559F92D;
- Tue, 12 Oct 2021 10:53:02 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.219])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 960481B472;
- Tue, 12 Oct 2021 10:53:00 +0000 (UTC)
-Date: Tue, 12 Oct 2021 12:52:58 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH RFC v2 5/5] block: Deprecate transaction type drive-backup
-Message-ID: <YWVpCp1VcsnfYVkF@redhat.com>
-References: <20211009120944.2858887-1-armbru@redhat.com>
- <20211009120944.2858887-6-armbru@redhat.com>
- <20211011185817.czv4tmlsxiyhuqrp@redhat.com>
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1maFSQ-00036s-4F
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 06:56:30 -0400
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:41625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1maFSO-0003wQ-C9
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 06:56:29 -0400
+Received: by mail-lf1-x131.google.com with SMTP id j5so86196269lfg.8
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 03:56:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S2A/XixTNZnkCarSr2DpxSYLI5DQAWL40GjWfQu/xXg=;
+ b=K7pdRv6jmE8eRLCbO62KyEkceixRnhKrD2cn9UYqiQKAd+apYCRUR0za/RL0j87HnA
+ s+6iObKJQjaamp2Na4ZN/3q1QeNsG+CcG/Oz66Z4lh1kBZdwfVSJ856v0AWvoBpUq/AC
+ L/YUjyCaLYH2CYxoHEKRpJqH9bTXmnbU5VPgjPf7E4D4pq6t2ZkClWWjWfg44naUq6AM
+ d8nAKqRbCFxpWqT9bAmUsHkHeESox7bR9U/JI+soGR+uLhCtAIGGIr8Wg8PckH8rR1Kz
+ 7q4ysGyRmHA/MPmDVINeWllKgGDVc02FW3/xGvEEuv3ZJX/sgvh2LjSSYPMmQqXfSxeE
+ zIHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S2A/XixTNZnkCarSr2DpxSYLI5DQAWL40GjWfQu/xXg=;
+ b=s6X1k4ZaTFGIIokv/RQZVFpwHyF7k8hS+5pzX6rThjVyfTRO48zd5sDGRDndUQ1KQq
+ Pz1dfv2CFW21ajwzFBhwOZZUmgtqPcCEJ80A19Zmt97Jy+CX3o6WA9oj43yDWrO/E2Uk
+ hxIxvAJ4QBjMvFPNHq5Ceg3AU+5aUeM+BsSZ2vnCVHlxloom9izrqgUbiPuNfGcb0+PQ
+ XY/6aRAF4/2pvJsMVHa4KPU7Deyi3h0obdWEXfc1PDwyjRh7NqJ0zPU+pC4u8fUCZrc7
+ Fcicgba8THHjqI8D9LGNReBhw8Ju69lYLebVy7jb7F2kOsnCs0uBcIgu/Jb/jIGPahuM
+ 0sJQ==
+X-Gm-Message-State: AOAM5314qa8jIJCjIqQsJlRIkMxziBKVjY22Ebyylj2GSx7YyL0pbMTZ
+ Uk5ZPOWmdRrhvT/gVijBZ7Ch0MObSIXYsVfc
+X-Google-Smtp-Source: ABdhPJxmei8GasqWo4b2elWEstNncE+xxVU13VHL4GYgs5F3k6ElR17+jtVflKF+T66AcDGaoAz7JQ==
+X-Received: by 2002:a05:6512:202a:: with SMTP id
+ s10mr7715610lfs.560.1634036185140; 
+ Tue, 12 Oct 2021 03:56:25 -0700 (PDT)
+Received: from localhost.localdomain ([77.234.205.3])
+ by smtp.gmail.com with ESMTPSA id p16sm995361lfe.166.2021.10.12.03.56.24
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 12 Oct 2021 03:56:24 -0700 (PDT)
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/6] Add vmnet.framework based network backend
+Date: Tue, 12 Oct 2021 13:55:52 +0300
+Message-Id: <20211012105558.21530-1-yaroshchuk2000@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20211011185817.czv4tmlsxiyhuqrp@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::131;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-lf1-x131.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,63 +82,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, berrange@redhat.com, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com, Markus Armbruster <armbru@redhat.com>,
- libvir-list@redhat.com, pkrempa@redhat.com, marcandre.lureau@redhat.com,
- jsnow@redhat.com, libguestfs@redhat.com
+Cc: jasowang@redhat.com, eblake@redhat.com, r.bolshakov@yadro.com,
+ Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 11.10.2021 um 20:58 hat Eric Blake geschrieben:
-> On Sat, Oct 09, 2021 at 02:09:44PM +0200, Markus Armbruster wrote:
-> > Several moons ago, Vladimir posted
-> > 
-> >     Subject: [PATCH v2 3/3] qapi: deprecate drive-backup
-> >     Date: Wed,  5 May 2021 16:58:03 +0300
-> >     Message-Id: <20210505135803.67896-4-vsementsov@virtuozzo.com>
-> >     https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01394.html
-> > 
-> > with this
-> > 
-> >     TODO: We also need to deprecate drive-backup transaction action..
-> >     But union members in QAPI doesn't support 'deprecated' feature. I tried
-> >     to dig a bit, but failed :/ Markus, could you please help with it? At
-> >     least by advice?
-> > 
-> > This is one way to resolve it.  Sorry it took so long.
-> > 
-> > John explored another way, namely adding feature flags to union
-> > branches.  Could also be useful, say to add different features to
-> > branches in multiple unions sharing the same tag enum.
-> > 
-> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> > ---
-> >  qapi/transaction.json | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/qapi/transaction.json b/qapi/transaction.json
-> > index d175b5f863..0564a893b3 100644
-> > --- a/qapi/transaction.json
-> > +++ b/qapi/transaction.json
-> > @@ -54,6 +54,9 @@
-> >  # @blockdev-snapshot-sync: since 1.1
-> >  # @drive-backup: Since 1.6
-> >  #
-> > +# Features:
-> > +# @deprecated: Member @drive-backup is deprecated.  Use FIXME instead.
-> 
-> Obviously, we'd need to flesh this out ("'blockdev-backup' with proper
-> node names"? something else?) before dropping RFC on this patch.
+macOS provides networking API for VMs called vmnet.framework.
+I tried to add it as a network backend. All three modes are supported:
 
-What does 'blockdev-backup' with improper node names look like?
+-shared:
+  allows the guest to communicate with other guests in shared mode and
+  also with external network (Internet) via NAT
 
-I think it's sufficient to say "Use @blockdev-backup instead", which is
-already documented to take a node/device name instead of a file name.
+-host:
+  allows the guest to communicate with other guests in host mode
 
-> And we'd want to edit docs/about/deprecated.rst to match.
+-bridged:
+  bridges the guest with a physical network interface
 
-Yes.
+Separate netdev for each vmnet mode was created because they use quite
+different settings, especially since macOS 11.0 when vmnet.framework
+gets a lot of updates.
 
-Kevin
+Not sure that I use qemu_mutex_lock_iothread() and
+qemu_mutex_unlock_iothread() in correct way while sending packet
+from vmnet interface to QEMU. I'll be happy to receive
+recommendations how to make this thing better if I done sth wrong.
+
+Also vmnet.framework requires com.apple.vm.networking entitlement to
+run without root privileges. Ad-hoc signing does not fit there,
+so I didn't touch anything related to signing. As a result we should
+run qemu-system by a privileged user:
+`$ sudo qemu-system-x86_64 -nic vmnet-shared`
+otherwise vmnet fails with 'general failure'.
+
+But in any way it seems working now,
+I tested it within qemu-system-x86-64 on macOS 10.15.7 host, with nic
+models:
+- e1000-82545em
+- virtio-net-pci
+
+and having such guests:
+- macOS 10.15.7
+- Ubuntu Bionic (server cloudimg)
+
+v1 -> v2:
+ Since v1 minor typos were fixed, patches rebased onto latest master, redundant
+ changes removed (small commits squashed)
+
+v2 -> v3:
+ - QAPI style fixes
+ - Typos fixes in comments
+ - `#include`'s updated to be in sync with recent master
+
+Vladislav Yaroshchuk (6):
+  net/vmnet: dependencies setup, initial preparations
+  net/vmnet: create common netdev state structure
+  net/vmnet: implement shared mode (vmnet-shared)
+  net/vmnet: implement host mode (vmnet-host)
+  net/vmnet: implement bridged mode (vmnet-bridged)
+  net/vmnet: update qemu-options.hx
+
+ configure           |  31 +++++
+ meson.build         |   5 +
+ net/clients.h       |  11 ++
+ net/meson.build     |   7 ++
+ net/net.c           |  10 ++
+ net/vmnet-bridged.m | 123 ++++++++++++++++++
+ net/vmnet-common.m  | 295 ++++++++++++++++++++++++++++++++++++++++++++
+ net/vmnet-host.c    |  93 ++++++++++++++
+ net/vmnet-shared.c  |  94 ++++++++++++++
+ net/vmnet_int.h     |  48 +++++++
+ qapi/net.json       |  99 ++++++++++++++-
+ qemu-options.hx     |  17 +++
+ 12 files changed, 831 insertions(+), 2 deletions(-)
+ create mode 100644 net/vmnet-bridged.m
+ create mode 100644 net/vmnet-common.m
+ create mode 100644 net/vmnet-host.c
+ create mode 100644 net/vmnet-shared.c
+ create mode 100644 net/vmnet_int.h
+
+-- 
+2.23.0
 
 
