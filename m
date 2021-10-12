@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60CEA42A7CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 17:02:29 +0200 (CEST)
-Received: from localhost ([::1]:47774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD37342A7BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 16:57:20 +0200 (CEST)
+Received: from localhost ([::1]:42852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maJIQ-0004fP-Qu
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 11:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41178)
+	id 1maJDT-00016I-GL
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 10:57:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1maJFl-000344-Ca
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 10:59:41 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1maJFi-0006pn-Ga
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 10:59:41 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id e12so67849596wra.4
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 07:59:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ikVVv1M7q+jpOBlwTdQK6Roa7jXZQIcDztGD1IoZA78=;
- b=E0/G8hvJSlgpjCvDRnsCuJR1XGRR64zGv7jRF0tznVrfNAjOXrYnh89aYdFSomkPRg
- i3iI2zdzegpQot6/HTU+avhLm6Savi1LcNzBURYmQPDqFHa7Ji07SIBwYS6DsN0PHXhO
- 5PbWNvYVA0gRNFIfP9qy9MExyLjo3VoMLnmt71zuBP5hdGkO8tgXKtIwBkTXpSqxvi5p
- An57PDHO18JnWiY0HpoVnk0YOq1wY3vvvmZ0a1RYOzJX60AVpsKghTvcqfwndN9h/bzn
- R+0fQniIHmfCObKQmzk1WyvWYXELK/XFq3H87flgtwU3Kuxe1YOX5uREm31N0sCqm1mj
- +l3w==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maJBs-0008G7-4a
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 10:55:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30665)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maJBm-0003fx-Jj
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 10:55:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634050532;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zuG+oJeBVtyfeh6wViGwus6jGJ10fvW7j4a/r7cvgvg=;
+ b=Hip54cy52P3BmQ6JTMMaK7mcF0Q1mZbsobGvMgH4R8kcNmPdAxy5X+G6XYMx2nZRWysLrv
+ vB7oX7b6dlKMxJ/4zxXQgS4rKBDrLO5wK+nr7LOtNab1ouqStd28bV0Vdm5iZhoS7xTcWi
+ AF0MRAUXk3u6i0JVbzSEc13eG5axAdw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-58-2WPmZEp9OwyFS9w41Xlwng-1; Tue, 12 Oct 2021 10:55:29 -0400
+X-MC-Unique: 2WPmZEp9OwyFS9w41Xlwng-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ d3-20020a056402516300b003db863a248eso127194ede.16
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 07:55:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ikVVv1M7q+jpOBlwTdQK6Roa7jXZQIcDztGD1IoZA78=;
- b=trKU48KIpce/LqRxXQRHOP+kMLA3Mn5qzLlwq1SLAK8xX0NjpcfTWcl9K6hD22UVYE
- JMetD5Cfytf0zhXP7cTIsLMIn3wMgm3hzI9iXPGr6Pt9/rn+Yrv4CeOpAKMiuquFSwhn
- tmmFvByi+hDv9iRxRYwbalKX3TvuVz8x2/tb6YMmmIG9RMthbZVOPg2rmVE0JfA/3q7S
- DkHyv4d5f/qPkm0QBZjRBDdLaiZ4JX579Td7M+tn1sOwomZ6p8LxuAO0ryTcVpycJwrz
- NCZGO7KwAZmb6APqoeix8Di5nfP7VWOSYBX3JE9MbJ8XwZs4mJIw9vKVnVLAxR8H/mwb
- bkaw==
-X-Gm-Message-State: AOAM530Sm2hQoM+uT7nsurwVcJChKBKcYoVyX6YRJX1qMo6sHVOyIZYH
- 05lbH18RiMniVhXV8awBFe/IiA==
-X-Google-Smtp-Source: ABdhPJwIPy5Z2zX8AqHjU7vux27mGLnKkuCXy/CNt3ENnOvd2steqbO5a2Q+5zRleeJuKkYLsfB75Q==
-X-Received: by 2002:a05:600c:1548:: with SMTP id
- f8mr6338187wmg.35.1634050776639; 
- Tue, 12 Oct 2021 07:59:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x21sm2735196wmc.14.2021.10.12.07.59.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 07:59:35 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 211711FF96;
- Tue, 12 Oct 2021 15:59:35 +0100 (BST)
-References: <20211012093128.3909859-1-alex.bennee@linaro.org>
- <b512ff29-4db2-5574-7e2b-b806db624d0e@linaro.org>
-User-agent: mu4e 1.7.0; emacs 28.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [RFC PATCH] target/s390x: don't double ld_code() when reading
- instructions
-Date: Tue, 12 Oct 2021 15:52:13 +0100
-In-reply-to: <b512ff29-4db2-5574-7e2b-b806db624d0e@linaro.org>
-Message-ID: <87lf2ywap4.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zuG+oJeBVtyfeh6wViGwus6jGJ10fvW7j4a/r7cvgvg=;
+ b=JIdNbY9Ensjja/3H71EEUdWyQn75lV/p93iLN4qaBdoBRmHz+UQSD/FgIBE4XhggC6
+ fLqTyPmQYwsKhbv3vX5kKZmllA3X/Sfn//NYdXGBhbTls5eu5vijyWQ8fm5CCQWCN52i
+ aBiuADx3mgEoBICuFVNyswwACGKILAqzMR03hcESMTdjSAQb6o4d/AAPKSapPCmxcX37
+ AlbzZ3H0Uo1imNW5x+7Uuvh5a6AL9GivoZuPDMLuQEKzkP49Z86P9zO+UMT/UZIXUzea
+ 2gq1DQ4ziB9luGehcUqIIVHEgw2qesf6cXKxCgIhNUJByG9fMC7sdX/bwxabpsN8wdSt
+ YNZw==
+X-Gm-Message-State: AOAM533xXxO1M61LGTeSqDn1kRjnT6XFFpKOeYKkwiZdn2XpShctJyCr
+ hrbF9qh9r6+3bzNIfR+eL8rPaG1OMWFpJSF8LF0Cve6X7SyO7J6h2NaukJdHmg1v6d12y7xkw5I
+ AZijqbKZ65WGzS1c=
+X-Received: by 2002:a17:906:9b46:: with SMTP id
+ ep6mr33026648ejc.226.1634050527826; 
+ Tue, 12 Oct 2021 07:55:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwxrWVjjpwR3ClhoDSgHpHMvsvmQ+Md1U2eijcaKfup4rgnH95V3xro9YtyQbFexTqvlKhKGQ==
+X-Received: by 2002:a17:906:9b46:: with SMTP id
+ ep6mr33026626ejc.226.1634050527665; 
+ Tue, 12 Oct 2021 07:55:27 -0700 (PDT)
+Received: from thuth.remote.csb (p54886540.dip0.t-ipconnect.de.
+ [84.136.101.64])
+ by smtp.gmail.com with ESMTPSA id fx4sm5055865ejb.113.2021.10.12.07.55.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Oct 2021 07:55:27 -0700 (PDT)
+Subject: Re: [PATCH v2 17/24] configure, meson: move netmap detection to meson
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211012111302.246627-1-pbonzini@redhat.com>
+ <20211012111302.246627-18-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <1bbeccf1-ae76-e461-1a48-116a29db121d@redhat.com>
+Date: Tue, 12 Oct 2021 16:55:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20211012111302.246627-18-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,42 +100,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:S390
- TCG CPUs" <qemu-s390x@nongnu.org>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- David Hildenbrand <david@redhat.com>
+Cc: marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/10/2021 13.12, Paolo Bonzini wrote:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Message-Id: <20211007130829.632254-12-pbonzini@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   configure         | 40 ++++------------------------------------
+>   meson.build       | 19 ++++++++++++++++++-
+>   meson_options.txt |  2 ++
+>   net/meson.build   |  4 +++-
+>   4 files changed, 27 insertions(+), 38 deletions(-)
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-> On 10/12/21 2:31 AM, Alex Benn=C3=A9e wrote:
->> For the 4 byte instruction case we started doing an ld_code2 and then
->> reloaded the data with ld_code4 once it was identified as a 4 byte op.
->> This is confusing for the plugin hooks which are expecting to see
->> simple sequential loading so end up reporting a malformed 6 byte
->> instruction buffer.
->
-> I think the plugin stuff could be more clever, knowing where the read
-> occurs within the sequence.  Otherwise, we should simplify the
-> interface so that it is not possible to make this mistake.
-
-It's plugin_insn_append which is doing the tracking here so we could
-extend the interface to include the current pc of the load and make the
-appropriate adjustments. That said it's a bunch hoops to jump every
-instruction when we could just as easily add an assert and fix up any
-cases where we do. I guess it comes down to how prevalent double dipping
-in the instruction stream is when constructing a translation?
-
-What happens if the protection of the code area changes half way through
-a translation? Could a mapping change in flight?
-
->
->
-> r~
-
-
---=20
-Alex Benn=C3=A9e
 
