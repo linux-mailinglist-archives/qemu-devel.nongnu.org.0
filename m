@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8B642AFA4
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 00:27:17 +0200 (CEST)
-Received: from localhost ([::1]:40312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB1D142AFA5
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 00:27:26 +0200 (CEST)
+Received: from localhost ([::1]:40934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maQEu-0005QS-GB
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 18:27:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34106)
+	id 1maQF4-0005pn-0C
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 18:27:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1maQDI-00045Y-UH; Tue, 12 Oct 2021 18:25:37 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:35707)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1maQDq-0004Tb-2k
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 18:26:10 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1maQDD-0004lb-Sv; Tue, 12 Oct 2021 18:25:34 -0400
-Received: by mail-io1-xd34.google.com with SMTP id h196so620997iof.2;
- Tue, 12 Oct 2021 15:25:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1maQDn-0005Dn-3f
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 18:26:09 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id i12so1748877wrb.7
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 15:26:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XmXWcURKTPZbu8+vMykz0wo7aGuZpEedRj7aUcQW/64=;
- b=jXP0Q6BYUaRM1g/D3kGRJaogyDNoXsMFf191OtG8ORGfqlH0QuWlkt3HNBo9PJfjF4
- q2ALCcfrBgKjp5dmcOASInobV+9gI7eBewus6GQw3nWBj5c5zdAczLbIF9ag2oRnY3k3
- RlycwIS2PzEhnccX5VbLXkAHUOYdM3dNG2A8HiuqAZvd5DF+0cKddahq4bvJmfro3a/W
- ppTNvUpJ4NQ9CFScQXQZYKdytzv9whHQwpayRU2mny766/62FwzY+XmJ1E49HBjU64m2
- AiEhm+27VgvQ2twDTfkqlPacg+dTyANr6ImfQGjoEIINDrbsXKJPJs9Qjj3pB+KyBmf/
- V3Pg==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=UETwBuCiVxOUOzQf+b6fB3GhRtfjQc8pbXB9Tq1AB28=;
+ b=KLzpQYf/WIO5Hab4fW3i+mm8blD7qWTt7io/9U4iYIp8kTI05aAELqBOaDHNEpwFxk
+ wODiLoYRxxpXRo5XJ8j/ccNp7gjCrJgiVDBGXmYkvvMyBB+8/83SHIYDXTeix58rzMvn
+ zREqGPU1zMLivPdmPcmo07eYpYDEq6qQufNjtOdgaj/5MnezrLKMXgso0jHmfgJvC9c9
+ CvAyASPXb8tiVrDyppqGi2CVEJ4kNMHzHNWSYdg+LVGUE5WKAoudBGqUi4oxFh5xNg6b
+ EsUCskd9o13kOFsJI0rXgXOw+1TO+P7qgcfbapNP2WGup7yXz8E+Vxal3bVD+XFcHAq9
+ QZkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XmXWcURKTPZbu8+vMykz0wo7aGuZpEedRj7aUcQW/64=;
- b=oYFJFe5QpMhu2wt6RXHS3xku4jdTx1qDZ6M6TvhJKlfXJCbC3iX8OMTbVOKyyg7zQL
- 0u/VirK6keO2THRRpR4cNwqBiQIrMtLaajJfn1RBCyup8OVQFC9/12P57yjYic85uUG5
- hB+HGU5Udsd8jL6GSBgLvt68M1SVrIi2o0ki1NzwoseDLYgXMY7QwfQTOQ3vBKf0mOJx
- okkhLS76f0IkZutOS0p2eXhwFbfdLoZ8w4hiYGtspvglgwR0eQIQv6jwTi1YwLFLaKVp
- RnCTfD72buoIxdiZLhnxPq2w5ypdwtVrAmNu3fNzq8aJLbzck7Pz7VqIrWQUb5Z2TAeB
- yLYw==
-X-Gm-Message-State: AOAM530HIGaSzdyDmvEdmWaBQ5BW+haeuBqSjR1PCbe3tVFDjdEGO92C
- rXjtWgR6WSorHEfbekYlLR4T1taU3YpxXgBIAG8=
-X-Google-Smtp-Source: ABdhPJwY/7LCnJc4zrqz9k9AXZF5iV8jUexLQGaXC27y6KYjx+BhCMwCI+QO/p2VwL5gS3+DRS/txPkgBlsx8+654+g=
-X-Received: by 2002:a05:6638:1483:: with SMTP id
- j3mr24996253jak.63.1634077528483; 
- Tue, 12 Oct 2021 15:25:28 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=UETwBuCiVxOUOzQf+b6fB3GhRtfjQc8pbXB9Tq1AB28=;
+ b=ppVv3ZBdgKuO2hTKTodkCKU5E0jRtBhpPNePDH75flmaGyPoAKWbZ5FDDD0GWPVai0
+ dW4TTDXIwjuVJRoORjkyYCY2xrODutQ0GV6vX0eoKexJDJsfXsRVH0bZsohyx3Cz+XTt
+ 0gX3HAo9sLtcEOYWN9YYD6RXDv1iNZOzq0lh5C/z1TZDgn9UA77MSdxf8Zm1Tqk+DYFA
+ qZMllqBR51sN5QjLN27vRNVmoq5r6nd1P6BjVX6Yka8Suy/i69CoL9oESFckr1t4faUG
+ TxOGuvJrne+3wzz0GLFZjZguK9SFPt+V29L6s8bkEM8lTuLR14GGpsHcq9w7bPdRH1hV
+ 4yyA==
+X-Gm-Message-State: AOAM531yFTTwTFF5TyqS/q5CFHn/2Qgwb0z29kWlBun/rcVthjFg1l+D
+ mGYD1jlc4sL/rKiTHJOXZkVSuNZxJB0=
+X-Google-Smtp-Source: ABdhPJyFsZey0F5mgkIMQuVl2oBLdP9Ts/fGh1j9f8xT3yQpGvBbs4qt4t+VXcaPs8bZeKQQoii1sQ==
+X-Received: by 2002:adf:a18f:: with SMTP id u15mr34212231wru.183.1634077565354; 
+ Tue, 12 Oct 2021 15:26:05 -0700 (PDT)
+Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
+ [81.36.146.213])
+ by smtp.gmail.com with ESMTPSA id h1sm3540151wmb.7.2021.10.12.15.26.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Oct 2021 15:26:04 -0700 (PDT)
+Message-ID: <adb77e5b-e8bf-4d84-f0e0-8f9d49cbffb6@amsat.org>
+Date: Wed, 13 Oct 2021 00:26:03 +0200
 MIME-Version: 1.0
-References: <20210922161405.140018-1-damien.hedde@greensocs.com>
- <20210922161405.140018-7-damien.hedde@greensocs.com>
-In-Reply-To: <20210922161405.140018-7-damien.hedde@greensocs.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 13 Oct 2021 08:25:02 +1000
-Message-ID: <CAKmqyKNuOppuy2i=dF7SD0pZ0u_Us5J0CRGe8CJ-Zay-KMFBRA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 06/16] qapi: Allow device_add to execute in machine
- initialized phase
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v2 13/23] target/mips: Fix single stepping
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211012162159.471406-1-richard.henderson@linaro.org>
+ <20211012162159.471406-14-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211012162159.471406-14-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,104 +90,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, mirela.grujic@greensocs.com,
- Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Eric Blake <eblake@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
- Eric Auger <eric.auger@redhat.com>,
- "open list:X86" <xen-devel@lists.xenproject.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Mark Burton <mark.burton@greensocs.com>, Edgar Iglesias <edgari@xilinx.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 23, 2021 at 2:26 AM Damien Hedde <damien.hedde@greensocs.com> wrote:
->
-> From: Mirela Grujic <mirela.grujic@greensocs.com>
->
-> To configure a machine using QMP we need the device_add command to
-> execute at machine initialized phase.
->
-> Note: for device_add command in qdev.json adding the 'allow-init-config'
-> option has no effect because the command appears to bypass QAPI (see
-> TODO at qapi/qdev.json:61). The option is added there solely to document
-> the intent.
-> For the same reason, the flags have to be explicitly set in
-> monitor_init_qmp_commands() when the device_add command is registered.
->
-> Signed-off-by: Mirela Grujic <mirela.grujic@greensocs.com>
-
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 10/12/21 18:21, Richard Henderson wrote:
+> As per an ancient comment in mips_tr_translate_insn about the
+> expectations of gdb, when restarting the insn in a delay slot
+> we also re-execute the branch.  Which means that we are
+> expected to execute two insns in this case.
+> 
+> This has been broken since 8b86d6d2580, where we forced max_insns
+> to 1 while single-stepping.  This resulted in an exit from the
+> translator loop after the branch but before the delay slot is
+> translated.
+> 
+> Increase the max_insns to 2 for this case.  In addition, bypass
+> the end-of-page check, for when the branch itself ends the page.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->
-> The commit is fine, but we may add intermediate commits before this one
-> in order to add or change the condition for a device type to be accepted
-> in the 'initialized' state (see the cover-letter of the series).
-> ---
->  qapi/qdev.json         | 3 ++-
->  monitor/misc.c         | 2 +-
->  softmmu/qdev-monitor.c | 6 ++++++
->  3 files changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/qapi/qdev.json b/qapi/qdev.json
-> index b83178220b..ad669ae175 100644
-> --- a/qapi/qdev.json
-> +++ b/qapi/qdev.json
-> @@ -67,7 +67,8 @@
->  ##
->  { 'command': 'device_add',
->    'data': {'driver': 'str', '*bus': 'str', '*id': 'str'},
-> -  'gen': false } # so we can get the additional arguments
-> +  'gen': false, # so we can get the additional arguments
-> +  'allow-preconfig': true }
->
->  ##
->  # @device_del:
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index ffe7966870..2c476de316 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -231,7 +231,7 @@ static void monitor_init_qmp_commands(void)
->      qmp_init_marshal(&qmp_commands);
->
->      qmp_register_command(&qmp_commands, "device_add", qmp_device_add,
-> -                         QCO_NO_OPTIONS);
-> +                         QCO_ALLOW_PRECONFIG);
->
->      QTAILQ_INIT(&qmp_cap_negotiation_commands);
->      qmp_register_command(&qmp_cap_negotiation_commands, "qmp_capabilities",
-> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> index 834f2b56b5..47ccd90be8 100644
-> --- a/softmmu/qdev-monitor.c
-> +++ b/softmmu/qdev-monitor.c
-> @@ -824,6 +824,12 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
->      QemuOpts *opts;
->      DeviceState *dev;
->
-> +    if (!phase_check(MACHINE_INIT_PHASE_INITIALIZED)) {
-> +        error_setg(errp, "The command is permitted only after "
-> +                         "the machine is initialized");
-> +        return;
-> +    }
-> +
->      opts = qemu_opts_from_qdict(qemu_find_opts("device"), qdict, errp);
->      if (!opts) {
->          return;
-> --
-> 2.33.0
->
->
+>  target/mips/tcg/translate.c | 25 ++++++++++++++++---------
+>  1 file changed, 16 insertions(+), 9 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
