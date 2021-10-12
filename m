@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82AF442A359
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 13:32:39 +0200 (CEST)
-Received: from localhost ([::1]:43748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC2B42A3AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 13:54:27 +0200 (CEST)
+Received: from localhost ([::1]:60984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maG1O-00085R-3K
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 07:32:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33400)
+	id 1maGMU-0005yM-4b
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 07:54:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maFil-0000uh-Fe
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:13:23 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:41717)
+ id 1maFin-0000xt-5k
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:13:25 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:38430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maFik-0007aL-1n
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:13:23 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id a25so63797251edx.8
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 04:13:21 -0700 (PDT)
+ id 1maFik-0007ar-M4
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:13:24 -0400
+Received: by mail-ed1-x531.google.com with SMTP id d9so55753874edh.5
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 04:13:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z6UgxE/8tlX9AdbKXPGLp6eGWQ6K18vN2+aOdIn9xwc=;
- b=GKWE/kVlIvUy0UIu27gXt4BMIpaP34YYWklnEI9tZ1pDTLSrLbG9puKeSiG+x2/JwF
- AS0na46Rxfpdj2OTsP3dpKoFQ+3GvoUTAyYcIXqKg8aZimT7fwCj8zEUVW42GU7TZMK+
- edxTOsCy+BnDqtRojLc71zO03GVUEY7u+hCq/uF43X5zdYlykwKRCMPAoHWxd/S86QC3
- 9Y189OglzbrTva/g7OiWx22evka7wZGGnnepVygiw6xQ4gvpCMPNNuSCMjJZ7OeVqF1m
- ajIz70rDc6XzuFyceENTQZjLiBpibNEedD8uiKiWnsZ0X2876Wgf3Ht31DE2x8oSny08
- +7yQ==
+ bh=2OGn+S76MId8XJEbb53T+rgcMaIZkJDsd20b1SjwZfQ=;
+ b=a/8AWxdh2Xp33i9wRjmkkjqRhIgPxhui4SRbj3zs9pPzrvFc1EP36k5VTNNCrHvzUk
+ ujV4iPHFoSfNdJoC2/HPCljMuuhXrcWJFiQJ/uUaDr2W4ouIAdEg2eoLiqZORQAIe1Zc
+ qB1f9uN5xSsE7EXybMy+yWRebGcvMbQVBqyDKp7OV6N6A8PiAUgsqPSgddZU00XW4lef
+ xPEqdln0+Ap5fB3hFyIsw6BkPjliAVGmaK/R67tnv1BPOUWJWtRaNn60Q3RznJysG9Az
+ bIltWhlLhaLy9rLIJ44YTv/JZjnliuvqlKb4JcvBMYFUP3bvqJ9rSfGHINZwzLzkX4G5
+ P71g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Z6UgxE/8tlX9AdbKXPGLp6eGWQ6K18vN2+aOdIn9xwc=;
- b=2ChPehu//kJCXdDREUFCtrVVQrEGHCuaF8dNL2idIV1eUKsq6Za4eZCXx5L96chFZj
- 95mGBR1NX0PQPbX5GRypa0HLdjfJ8CoU5GlmNL9/EVqU0BYa2CZAqcmQs4HJspRdAqvN
- nPPgB5GCmaA87f14z2gGNqDhMZn6Lhvcvh5xnTApCp4Yg40sYxWhRlw+1HH8Uflth7ki
- q8nno4JCaIYm8TO0ghzWy5L2eWk69Lber5w4VAmU+m6Vf9dxclBf6ZZyotUslScGxX5A
- f02y57MC1v2Jmwv76ez8CVEdsLXGvEhDUtcg4tf5F7H4sNe4SVGTF4SYFfH10c6CTJkI
- Qp3w==
-X-Gm-Message-State: AOAM531lwNR4KJbP38KixWHzvVeZ4kb3iA+kw8n49jjysjjtrD2oXqZQ
- w4JGxvoy3YJzlBD2LRlccIC7GvMNnZI=
-X-Google-Smtp-Source: ABdhPJyDi+xAUxFl2X2U3kX4Dqy+EnGYGdOlCIjap5c/hI9MGgcfJ8SWYm7BuXqQ114qCK1F+CuUnQ==
-X-Received: by 2002:aa7:db85:: with SMTP id u5mr49615494edt.234.1634037200742; 
- Tue, 12 Oct 2021 04:13:20 -0700 (PDT)
+ bh=2OGn+S76MId8XJEbb53T+rgcMaIZkJDsd20b1SjwZfQ=;
+ b=Ol2hseejD22jGZ0WUck7O/lgWkykyuvGS5Pw3N4nb1u7d1xLUQoh+5bPVcbMKEvxGU
+ DfrGLsIMAGS+u5LahqU1t/HZSajWeGjbf1VrBw+fpeclLGaDyExdxlVdvMRBNxlKAE8V
+ e6JFQQdJcJn7kf/bEJhAhGkqmgYTlLfae6jKwvHGxT142ir5VLNxXUZJLwVCb8DTtX0O
+ s7lZ+vHqHNF1IPrutMYZtay6W2/qVkq5kQzx2EDoKgZMtTgfnctVBNvQd+jQC5XvF4WM
+ jIX2CmGUBDxwXBJDdk+YvJ37Iw8GxkxiT4DYmPSX9xbvtgAeJIGKas6KRf+dv9aOWM9s
+ Mg8g==
+X-Gm-Message-State: AOAM530LeJqkwoTCQVbrh0Vapbwa0Dq53BuVn4L4OWiN64lFntGxpknm
+ qkhA1tjn9mEIhAc0388P68zgt/n7/fw=
+X-Google-Smtp-Source: ABdhPJz1/eQytysYrxWEgthJCnDSWw+Pltr6I7k1EloSIs/n6Q/ZQg3NaQjTJih3V057YF6XcoKFVQ==
+X-Received: by 2002:a17:906:2f94:: with SMTP id
+ w20mr33766340eji.14.1634037201430; 
+ Tue, 12 Oct 2021 04:13:21 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id m23sm4742802eja.6.2021.10.12.04.13.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 04:13:20 -0700 (PDT)
+ Tue, 12 Oct 2021 04:13:21 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 21/24] configure: remove deprecated --{enable,
- disable}-git-update
-Date: Tue, 12 Oct 2021 13:12:59 +0200
-Message-Id: <20211012111302.246627-22-pbonzini@redhat.com>
+Subject: [PATCH v2 22/24] configure: accept "internal" for
+ --enable-capstone/slirp/fdt
+Date: Tue, 12 Oct 2021 13:13:00 +0200
+Message-Id: <20211012111302.246627-23-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211012111302.246627-1-pbonzini@redhat.com>
 References: <20211012111302.246627-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,36 +90,47 @@ Cc: marcandre.lureau@redhat.com, thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The options were deprecated in 6.0.  That said, we do not really have a
-formal deprecation cycle for build-time changes, since they do not affect
-users.
+Options such as "--enable-capstone=git" do not make much sense when building
+from a tarball.  Accept "internal" for consistency with the meson options.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20211007130829.632254-16-pbonzini@redhat.com>
+Message-Id: <20211007130829.632254-17-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 8 --------
- 1 file changed, 8 deletions(-)
+ configure | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/configure b/configure
-index 33d330dcc9..d00ba0cbd2 100755
+index d00ba0cbd2..d2f754d5d1 100755
 --- a/configure
 +++ b/configure
-@@ -1483,14 +1483,6 @@ for opt do
+@@ -1019,7 +1019,7 @@ for opt do
+   ;;
+   --enable-slirp=git) slirp="internal"
+   ;;
+-  --enable-slirp=system) slirp="system"
++  --enable-slirp=*) slirp="$optarg"
+   ;;
+   --disable-vde) vde="disabled"
+   ;;
+@@ -1193,7 +1193,7 @@ for opt do
+   ;;
+   --enable-fdt=git) fdt="internal"
+   ;;
+-  --enable-fdt=system) fdt="system"
++  --enable-fdt=*) fdt="$optarg"
+   ;;
+   --disable-linux-aio) linux_aio="disabled"
+   ;;
+@@ -1479,7 +1479,7 @@ for opt do
+   ;;
+   --enable-capstone=git) capstone="internal"
+   ;;
+-  --enable-capstone=system) capstone="system"
++  --enable-capstone=*) capstone="$optarg"
    ;;
    --with-git=*) git="$optarg"
-   ;;
--  --enable-git-update)
--      git_submodules_action="update"
--      echo "--enable-git-update deprecated, use --with-git-submodules=update"
--  ;;
--  --disable-git-update)
--      git_submodules_action="validate"
--      echo "--disable-git-update deprecated, use --with-git-submodules=validate"
--  ;;
-   --with-git-submodules=*)
-       git_submodules_action="$optarg"
    ;;
 -- 
 2.31.1
