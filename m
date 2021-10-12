@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C753242A171
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:56:43 +0200 (CEST)
-Received: from localhost ([::1]:58526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 990CD42A15C
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:46:41 +0200 (CEST)
+Received: from localhost ([::1]:42788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maEWY-0001aI-T1
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:56:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42932)
+	id 1maEMq-0007FI-Ig
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:46:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1maED2-0004om-Fg
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:36:32 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1maED0-0001Al-M5
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:36:32 -0400
-Received: by mail-wr1-x435.google.com with SMTP id u18so65145410wrg.5
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 02:36:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RG/TYOAiNiz7Zjzo//Or7kcqS2r2Xb76n7z6Z3gZ41I=;
- b=cuBjksCtwTn+Qje7gaMeClrskn3RlpDh9ZGexUCHCoxMI5fV2XHUix9dGWjiRvd1BA
- U5H5M63jfDB6oz+3M4tihkh+ImI5JEIsxO+B1vXyA8+07RbrRwEaIUBSs/kCmQ77HdP8
- 0f76lLZdbU/SEAIgqVQUDOEJmJKE+ARWfaEJDAJVnourk6FWr7szifg2Yp5WBJo27QTz
- 8p9SdFGx/Di3tpFCEF+T3eVsQPi1UVYmXUc/vUeDERgSFzPnOSREYDRlpY+6BG9ZTTxl
- VAtV6BWOs1UhvFSiyjQ8JGZSXeDR4XG3tyEaLTSrrQwZe26vzIbenL2d2m6ysXdZNoJc
- hfvQ==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1maEGo-0001LG-GZ
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:40:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52056)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1maEGk-00080I-Da
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:40:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634031620;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Eur7foO9ZVc+5zHIOm5JzUjGGP4dZ6TFlrChc26XriE=;
+ b=JEXJ4VXSdJ1YuajV1rd1HkwxLlKtp8MF81rzzeetrE0az21RpoZXlPSNrzudoaSCbprPxe
+ AK3WexCTnUbvuPaC/11XQC86GJ95g7QOweFJHl/lXAJpaN2snrTIDOCAJwxtcdfNeL+2Z6
+ 3JldZDYcK7mgy5EZW8Vu03jbiIO35g8=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-Hfk_fKK-MzW0N3JLg94vPg-1; Tue, 12 Oct 2021 05:40:19 -0400
+X-MC-Unique: Hfk_fKK-MzW0N3JLg94vPg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ u23-20020a50a417000000b003db23c7e5e2so18421533edb.8
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 02:40:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RG/TYOAiNiz7Zjzo//Or7kcqS2r2Xb76n7z6Z3gZ41I=;
- b=rz9sq5iGVSF+mQ7M3ZgmzhF9tspZs2QQa1yP3XPeB/CUZdCvYi8H09IHzrh8huNAgI
- vrwyFmK17DcO4nqTx6jotzdXuwWLk6T/RpxqfxnXoXtVG/yEQwN+XaxF7U3JmVtAmcy+
- KwUMLKXNk2+kNxUsyTEXEh1bPXAx35bGbr7dFinjkYmWV3kKeOhDIVWmBvbKtBLoS5Fc
- NHKNBbswkbSVM9/0u01hF9leb8ERIGW79bzbEUMM12Gk+JXyoGTlyuHGm7IULJzTtNfI
- lpxBImv7n+HxlfZfSIxcjRKvROXmfoY1yAAKsj7Ue/zt/FgUhvakypj0/2YVkuccnVXW
- jBiQ==
-X-Gm-Message-State: AOAM532tzGVUllmzZYxdoz1lD4aNeT6RyW37o0/0+jV8CI8muhUi7/Ic
- cS7F/vyHQp/rUDo3vmziEhRE3g==
-X-Google-Smtp-Source: ABdhPJxfJgv6nEf37IdtmMU/1uOJ+0V9qkfbmCapq4aJosYoGf147qbUsQmTDFyDESlwfyokd1YXPw==
-X-Received: by 2002:a1c:3807:: with SMTP id f7mr4448445wma.117.1634031380112; 
- Tue, 12 Oct 2021 02:36:20 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g2sm10495482wrb.20.2021.10.12.02.36.18
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Eur7foO9ZVc+5zHIOm5JzUjGGP4dZ6TFlrChc26XriE=;
+ b=V3zfM6K3Em9eC8U4JnTvrb6p4KnwEr+LNtUhjwmF1zI79NBMAmSlnOGdjPpjQV8pf8
+ cP6CJfJqAhAP0dFkwiyPH0vndYS8BbXQD8OTYAzD8+UOFLcz4dixsS+7hmHIUleElsmy
+ ibIa3ad4Lj7wuxC7SpcYjWMOQv15py7hSDu6ZkCl8lf4ck+3bP5LswEx8YAoYLf7Uqgl
+ BlIEwFeRaCgM0Lx6LIJ7dVZSKWdlJi8jtV53aUO08Wi56dw2h/BEmtzFUqzbtBOxYevu
+ hTNytYmnmpOSFbI3dyE2PUG7JtKCeuf5ZIhE8OPOWvQgbWpF4/9U3Pa3E3oOU0cxBNhr
+ hzsA==
+X-Gm-Message-State: AOAM532pxZY1CTghH44eGKzMMa8WEeMm2Gzdmk9sm29HdM+DTYzaF4NC
+ OK70bDl9Hfczf/GaR2xWMj8OFXjFDdqAh/wzntXbgBL/2CSuD2idQHi7CWPwMg8+KNbiDLmcRL1
+ V0+m4EDiPEeMuJLU=
+X-Received: by 2002:a17:906:5482:: with SMTP id
+ r2mr30635525ejo.348.1634031618578; 
+ Tue, 12 Oct 2021 02:40:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxH/KYvSGxgDrAdreKiROFxymIZru7ZbOS113IXBfb3iCcOerurjH9kgF/01k5c8L8XyUU55Q==
+X-Received: by 2002:a17:906:5482:: with SMTP id
+ r2mr30635492ejo.348.1634031618306; 
+ Tue, 12 Oct 2021 02:40:18 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id w6sm1315886edt.12.2021.10.12.02.40.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 02:36:19 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0D7FD1FF96;
- Tue, 12 Oct 2021 10:36:18 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: richard.henderson@linaro.org
-Subject: [PULL v2 00/13] some testing and plugin updates
-Date: Tue, 12 Oct 2021 10:36:17 +0100
-Message-Id: <20211012093618.3914052-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ Tue, 12 Oct 2021 02:40:17 -0700 (PDT)
+Date: Tue, 12 Oct 2021 11:40:16 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH 1/2] numa: Set default distance map if needed
+Message-ID: <20211012114016.6f4a0c10@redhat.com>
+In-Reply-To: <20211006102209.6989-2-gshan@redhat.com>
+References: <20211006102209.6989-1-gshan@redhat.com>
+ <20211006102209.6989-2-gshan@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,92 +98,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, drjones@redhat.com, ehabkost@redhat.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, shan.gavin@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit c09124dcb8401a0d635b4a52b295e9b3fc12392a:
+On Wed,  6 Oct 2021 18:22:08 +0800
+Gavin Shan <gshan@redhat.com> wrote:
 
-  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2021-10-11 08:15:32 -0700)
+> The following option is used to specify the distance map. It's
+> possible the option isn't provided by user. In this case, the
+> distance map isn't populated and exposed to platform. On the
+> other hand, the empty NUMA node, where no memory resides, is
+> allowed on ARM64 virt platform. For these empty NUMA nodes,
+> their corresponding device-tree nodes aren't populated, but
+> their NUMA IDs should be included in the "/distance-map"
+> device-tree node, so that kernel can probe them properly if
+> device-tree is used.
+> 
+>   -numa,dist,src=<numa_id>,dst=<numa_id>,val=<distance>
+> 
+> So when user doesn't specify distance map, we need to generate
+> the default distance map, where the local and remote distances
+> are 10 and 20 separately. This adds an extra parameter to the
+> exiting complete_init_numa_distance() to generate the default
+> distance map for this case.
+> 
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
 
-are available in the Git repository at:
 
-  https://github.com/stsquad/qemu.git tags/pull-for-6.2-121021-2
+how about error-ing out if distance map is required but
+not provided by user explicitly and asking user to fix
+command line?
 
-for you to fetch changes up to 17888749ba0fb06694de5efe0b941f16a0fba6fa:
+Reasoning behind this that defaults are hard to maintain
+and will require compat hacks and being raod blocks down
+the road.
+Approach I was taking with generic NUMA code, is deprecating
+defaults and replacing them with sanity checks, which bail
+out on incorrect configuration and ask user to correct command line.
+Hence I dislike approach taken in this patch.
 
-  tests/docker: add a debian-native image and make available (2021-10-12 08:38:10 +0100)
+If you really wish to provide default, push it out of
+generic code into ARM specific one
+(then I won't oppose it that much (I think PPC does
+some magic like this))
+Also behavior seems to be ARM specific so generic
+NUMA code isn't a place for it anyways
 
-----------------------------------------------------------------
-Some testing and plugin updates:
-
-  - don't override the test compiler when specified
-  - split some multiarch tests by guest OS
-  - add riscv64 docker image and cross-compile tests
-  - drop release tarball test from Travis
-  - skip check-patch on master repo
-  - fix passing of TEST_TARGETS to cirrus
-  - fix missing symbols in plugins
-  - ensure s390x insn start ops precede plugin instrumentation
-  - refactor plugin instruction boundary detection
-  - update github repo lockdown
-  - add a debian-native test image for multi-arch builds
-
-----------------------------------------------------------------
-Alex Bennée (7):
-      configure: don't override the selected host test compiler if defined
-      tests/tcg/sha1: remove endian include
-      tests/tcg: move some multiarch files and make conditional
-      tests/docker: promote debian-riscv64-cross to a full image
-      accel/tcg: re-factor plugin_inject_cb so we can assert insn_idx is valid
-      .github: move repo lockdown to the v2 configuration
-      tests/docker: add a debian-native image and make available
-
-Daniel P. Berrangé (2):
-      gitlab: skip the check-patch job on the upstream repo
-      gitlab: fix passing of TEST_TARGETS env to cirrus
-
-Lukas Jünger (1):
-      plugins/: Add missing functions to symbol list
-
-Richard Henderson (2):
-      gitlab: Add cross-riscv64-system, cross-riscv64-user
-      target/s390x: move tcg_gen_insn_start to s390x_tr_insn_start
-
-Thomas Huth (1):
-      travis.yml: Remove the "Release tarball" job
-
- configure                                          |   6 +-
- include/tcg/tcg.h                                  |   6 -
- accel/tcg/plugin-gen.c                             | 157 +++++++++++----------
- target/s390x/tcg/translate.c                       |  10 +-
- tests/tcg/multiarch/{ => libs}/float_helpers.c     |   2 +-
- tests/tcg/multiarch/{ => linux}/linux-test.c       |   0
- tests/tcg/multiarch/sha1.c                         |   1 -
- .github/lockdown.yml                               |  34 -----
- .github/workflows/lockdown.yml                     |  30 ++++
- .gitlab-ci.d/cirrus.yml                            |   2 +-
- .gitlab-ci.d/cirrus/build.yml                      |   1 +
- .gitlab-ci.d/container-cross.yml                   |   3 +-
- .gitlab-ci.d/crossbuilds.yml                       |  19 +++
- .gitlab-ci.d/static_checks.yml                     |   2 +-
- .travis.yml                                        |  23 ---
- plugins/qemu-plugins.symbols                       |   3 +
- tests/docker/Makefile.include                      |   6 +-
- tests/docker/common.rc                             |  10 +-
- tests/docker/dockerfiles/debian-native.docker      |  49 +++++++
- .../docker/dockerfiles/debian-riscv64-cross.docker |  46 +++++-
- tests/tcg/multiarch/Makefile.target                |  15 +-
- tests/tcg/x86_64/Makefile.target                   |   4 +
- 22 files changed, 271 insertions(+), 158 deletions(-)
- rename tests/tcg/multiarch/{ => libs}/float_helpers.c (99%)
- rename tests/tcg/multiarch/{ => linux}/linux-test.c (100%)
- delete mode 100644 .github/lockdown.yml
- create mode 100644 .github/workflows/lockdown.yml
- create mode 100644 tests/docker/dockerfiles/debian-native.docker
-
--- 
-2.30.2
+> ---
+>  hw/core/numa.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/core/numa.c b/hw/core/numa.c
+> index 510d096a88..fdb3a4aeca 100644
+> --- a/hw/core/numa.c
+> +++ b/hw/core/numa.c
+> @@ -594,7 +594,7 @@ static void validate_numa_distance(MachineState *ms)
+>      }
+>  }
+>  
+> -static void complete_init_numa_distance(MachineState *ms)
+> +static void complete_init_numa_distance(MachineState *ms, bool is_default)
+>  {
+>      int src, dst;
+>      NodeInfo *numa_info = ms->numa_state->nodes;
+> @@ -609,6 +609,8 @@ static void complete_init_numa_distance(MachineState *ms)
+>              if (numa_info[src].distance[dst] == 0) {
+>                  if (src == dst) {
+>                      numa_info[src].distance[dst] = NUMA_DISTANCE_MIN;
+> +                } else if (is_default) {
+> +                    numa_info[src].distance[dst] = NUMA_DISTANCE_DEFAULT;
+>                  } else {
+>                      numa_info[src].distance[dst] = numa_info[dst].distance[src];
+>                  }
+> @@ -716,13 +718,20 @@ void numa_complete_configuration(MachineState *ms)
+>           * A->B != distance B->A, then that means the distance table is
+>           * asymmetric. In this case, the distances for both directions
+>           * of all node pairs are required.
+> +         *
+> +         * The default node pair distances, which are 10 and 20 for the
+> +         * local and remote nodes separatly, are provided if user doesn't
+> +         * specify any node pair distances.
+>           */
+>          if (ms->numa_state->have_numa_distance) {
+>              /* Validate enough NUMA distance information was provided. */
+>              validate_numa_distance(ms);
+>  
+>              /* Validation succeeded, now fill in any missing distances. */
+> -            complete_init_numa_distance(ms);
+> +            complete_init_numa_distance(ms, false);
+> +        } else {
+> +            complete_init_numa_distance(ms, true);
+> +            ms->numa_state->have_numa_distance = true;
+>          }
+>      }
+>  }
 
 
