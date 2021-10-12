@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD44C42A519
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 15:08:32 +0200 (CEST)
-Received: from localhost ([::1]:54440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD2042A52A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 15:14:22 +0200 (CEST)
+Received: from localhost ([::1]:38102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maHWB-00071j-BU
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 09:08:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35032)
+	id 1maHbp-0006gU-9J
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 09:14:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1maHTM-0004aV-8G
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:05:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25325)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1maHX5-0001cP-K9
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:09:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1maHTH-0007s9-Gt
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:05:35 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1maHX1-0003ia-Gt
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:09:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634043930;
+ s=mimecast20190719; t=1634044162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U97xBi/cOvgiO1EGumQBHYbeHwpC/pJ7evrzNNJsrMw=;
- b=bp6lEna1vPiJklQg+UMVi/rumdnulsRu5rQ/VeAXc7IYfJWgJsVpgdEO9C7GvjnXs7Vwgn
- 8YKwjNmyDbHk3FbekHCGqqh2EDgtMur7YM5UlUJki/1de/U65EhKikDbVQ4HgU8i2JjzUu
- ABlZX4pQ8nyUzWJaA0E1ksXak7QSC1c=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-MDTU431bOu6yFeNYrqFuWQ-1; Tue, 12 Oct 2021 09:05:28 -0400
-X-MC-Unique: MDTU431bOu6yFeNYrqFuWQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- l6-20020adfa386000000b00160c4c1866eso15694232wrb.4
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 06:05:28 -0700 (PDT)
+ bh=tzb/vRQDUatqunSm5Na27whA5LatkphNfghL8D3vr2Y=;
+ b=UIfHzK0cJDSNMURSYv9DO86TNmV7Kq5yif0zGWM+cMjuxOIOYLKA1yBRBlPfLjGbmfjm/U
+ tsYMrdY6ISsjLnOcrBnxEZjzxemPw0FJ78x29nilxmWOOjjaw1T0hOXCzYYS6wgTsEdF0Q
+ pSo1DzVsCPtWChFdirw+cAIHZhWwRqc=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-232-WdHJlrM3OpyDSU4Ro9njEQ-1; Tue, 12 Oct 2021 09:09:21 -0400
+X-MC-Unique: WdHJlrM3OpyDSU4Ro9njEQ-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ z29-20020a05620a08dd00b0045fa369b83dso629985qkz.9
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 06:09:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=U97xBi/cOvgiO1EGumQBHYbeHwpC/pJ7evrzNNJsrMw=;
- b=jYUVgJIYq4huW72tueeCxLKakzdiV56CadzlaU3RlbNeBL/hgBy11F9g6BL2inHo+t
- 2hBt36mujEjfeizmj+3rnlt8vXpECzlRrjusLrVHl17oVxqfblYbUt1kvgynjC0y19Tj
- Tz82nbNxUuxmQbRV+E+pzFT2YCgcDoglxfFMOQbR+nlanHrngzHodAARnyXKP8F+I3ce
- E37PZfc4Q+JUemdkCUmX0mzsThfbQrkAdG9J0IjFKmwuKH/F8ueib2iNCxq+thoPlBq4
- +S4cnpay9ZVXmWVZ+C4/4YvARVp4qfqBhtJhS6dZ7MdnAy1z9vboxCWc2bZl+cEOEfEf
- 4XVw==
-X-Gm-Message-State: AOAM532pNGPXG/M6wloTSvKycJYibAOzN0uCFQM4gvNszuipC4hZ3EJR
- yNB/U1JCGyUDyrr7w2qUCl64CZVlsgtjIaw5GJNuobYh9VfbtjaYbjy3VfaLuK70QmKQRV4DvW5
- TAcsOMev3EindrU8=
-X-Received: by 2002:a1c:a302:: with SMTP id m2mr5381744wme.111.1634043927692; 
- Tue, 12 Oct 2021 06:05:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyQHfx+dl8W3Ci31OmCQXu1luYQaY8oYE0axfAELKgJg6YEvQdlS9H/cC0oX2AQrtVPL6KQCA==
-X-Received: by 2002:a1c:a302:: with SMTP id m2mr5381685wme.111.1634043927344; 
- Tue, 12 Oct 2021 06:05:27 -0700 (PDT)
-Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
- by smtp.gmail.com with ESMTPSA id w5sm10648462wra.87.2021.10.12.06.05.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 06:05:26 -0700 (PDT)
-Date: Tue, 12 Oct 2021 15:05:25 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 1/2] numa: Set default distance map if needed
-Message-ID: <20211012130525.ubzeatio4kntidqj@gator>
-References: <20211006102209.6989-1-gshan@redhat.com>
- <20211006102209.6989-2-gshan@redhat.com>
- <20211012114016.6f4a0c10@redhat.com>
- <669adddb-5603-ed67-bc75-21bf4f68f186@redhat.com>
- <20211012114802.u3og3lmei35qacpx@gator>
- <20211012143430.17b7ca99@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tzb/vRQDUatqunSm5Na27whA5LatkphNfghL8D3vr2Y=;
+ b=6QXSS73dyJ9yYenlvkbg/AvQFrbPujTxENSfUwwtVOB/8hnfQBXxaUClHv5mY+E7gG
+ M4MqzSUdMk4fls3ApHIvm8ZdLe8jNbrfFzKYM/ZBszPieiy88hXTjnu0DaIfOxBYZiba
+ K0KvGKYZSRqve+YyRgJFyPYRoybPhlAGVzYFo2rmX1ZJsVmrDaQBSGp5+8M4uuAva8wl
+ mXXb2jgj0bAoCUkQ6nSsAxx8Ldq0vSaJKxTBcZL5Uopz0yERtB6l6jIiVvtVHnS7pMq5
+ IbFgQo9ZVrlgyQmmO1g82DFrIf3KvMK8CffthkcvEBx1kWm5z3cQR6Pu2Z0nZdAHYZx6
+ M1zw==
+X-Gm-Message-State: AOAM532ymKbei5RMqHQ/hZdmLxIGN8N5pXAwtt75jYRgpsf4YpGoJjfj
+ Vj3KV9Mwe2wlsnuhGTgsxYoCth/rEyauJihFW9w3SIvZ9ApQQAzEeUNpeSSVvd/s1ZR2m6zwKpo
+ wBusrQOI9x+LzLj9jco9JlmZI6qHcyLI=
+X-Received: by 2002:ac8:6112:: with SMTP id a18mr21847379qtm.401.1634044160869; 
+ Tue, 12 Oct 2021 06:09:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyhcs6g7ukHN5N7UJR3tR9+i9SrZQdPKhc3EOm2iyFNjhOE4ccIBU31SLk/LavT4lQmt3OPagFA6Bi777aBni0=
+X-Received: by 2002:ac8:6112:: with SMTP id a18mr21847345qtm.401.1634044160599; 
+ Tue, 12 Oct 2021 06:09:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211012143430.17b7ca99@redhat.com>
+References: <20211001070603.307037-1-eperezma@redhat.com>
+ <20211001070603.307037-6-eperezma@redhat.com>
+ <877deihlcd.fsf@dusky.pond.sub.org>
+In-Reply-To: <877deihlcd.fsf@dusky.pond.sub.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 12 Oct 2021 15:08:44 +0200
+Message-ID: <CAJaqyWcz6+ce+T3GYPa7durLEwxN8OdwK=7KCYbcD1o03uj4Xw@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 05/20] vhost: Add x-vhost-enable-shadow-vq qmp
+To: Markus Armbruster <armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -85,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,99 +92,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Gavin Shan <gshan@redhat.com>,
- ehabkost@redhat.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- shan.gavin@gmail.com
+Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>,
+ virtualization <virtualization@lists.linux-foundation.org>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Eric Blake <eblake@redhat.com>, Michael Lilja <ml@napatech.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 12, 2021 at 02:34:30PM +0200, Igor Mammedov wrote:
-> On Tue, 12 Oct 2021 13:48:02 +0200
-> Andrew Jones <drjones@redhat.com> wrote:
-> 
-> > On Tue, Oct 12, 2021 at 09:31:55PM +1100, Gavin Shan wrote:
-> > > Hi Igor,
-> > > 
-> > > On 10/12/21 8:40 PM, Igor Mammedov wrote:  
-> > > > On Wed,  6 Oct 2021 18:22:08 +0800
-> > > > Gavin Shan <gshan@redhat.com> wrote:
-> > > >   
-> > > > > The following option is used to specify the distance map. It's
-> > > > > possible the option isn't provided by user. In this case, the
-> > > > > distance map isn't populated and exposed to platform. On the
-> > > > > other hand, the empty NUMA node, where no memory resides, is
-> > > > > allowed on ARM64 virt platform. For these empty NUMA nodes,
-> > > > > their corresponding device-tree nodes aren't populated, but
-> > > > > their NUMA IDs should be included in the "/distance-map"
-> > > > > device-tree node, so that kernel can probe them properly if
-> > > > > device-tree is used.
-> > > > > 
-> > > > >    -numa,dist,src=<numa_id>,dst=<numa_id>,val=<distance>
-> > > > > 
-> > > > > So when user doesn't specify distance map, we need to generate
-> > > > > the default distance map, where the local and remote distances
-> > > > > are 10 and 20 separately. This adds an extra parameter to the
-> > > > > exiting complete_init_numa_distance() to generate the default
-> > > > > distance map for this case.
-> > > > > 
-> > > > > Signed-off-by: Gavin Shan <gshan@redhat.com>  
-> > > > 
-> > > > 
-> > > > how about error-ing out if distance map is required but
-> > > > not provided by user explicitly and asking user to fix
-> > > > command line?
-> > > > 
-> > > > Reasoning behind this that defaults are hard to maintain
-> > > > and will require compat hacks and being raod blocks down
-> > > > the road.
-> > > > Approach I was taking with generic NUMA code, is deprecating
-> > > > defaults and replacing them with sanity checks, which bail
-> > > > out on incorrect configuration and ask user to correct command line.
-> > > > Hence I dislike approach taken in this patch.
-> > > > 
-> > > > If you really wish to provide default, push it out of
-> > > > generic code into ARM specific one
-> > > > (then I won't oppose it that much (I think PPC does
-> > > > some magic like this))
-> > > > Also behavior seems to be ARM specific so generic
-> > > > NUMA code isn't a place for it anyways
-> > > >   
-> > > 
-> > > Thanks for your comments.
-> > > 
-> > > Yep, Lets move the logic into hw/arm/virt in v3 because I think simply
-> > > error-ing out will block the existing configuration where the distance
-> > > map isn't provided by user. After moving the logic to hw/arm/virt,
-> > > this patch is consistent with PATCH[02/02] and the specific platform
-> > > is affected only.  
-> > 
-> > Please don't move anything NUMA DT generic to hw/arm/virt. If the spec
-> > isn't arch-specific, then the modeling shouldn't be either.
-> 
-> 
-> > If you want to error-out for all configs missing the distance map, then
-> > you'll need compat code.
-> 
-> > If you only want to error-out for configs that
-> > have empty NUMA nodes and are missing a distance map, then you don't
-> > need compat code, because those configs never worked before anyway.
-> 
-> I think memory-less configs without distance map worked for x86 just fine.
+On Tue, Oct 12, 2021 at 7:18 AM Markus Armbruster <armbru@redhat.com> wrote=
+:
+>
+> Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
+>
+> > Command to enable shadow virtqueue.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  qapi/net.json          | 23 +++++++++++++++++++++++
+> >  hw/virtio/vhost-vdpa.c |  8 ++++++++
+> >  2 files changed, 31 insertions(+)
+> >
+> > diff --git a/qapi/net.json b/qapi/net.json
+> > index 7fab2e7cd8..a2c30fd455 100644
+> > --- a/qapi/net.json
+> > +++ b/qapi/net.json
+> > @@ -79,6 +79,29 @@
+> >  { 'command': 'netdev_del', 'data': {'id': 'str'},
+> >    'allow-preconfig': true }
+> >
+> > +##
+> > +# @x-vhost-enable-shadow-vq:
+> > +#
+> > +# Use vhost shadow virtqueue.
+> > +#
+> > +# @name: the device name of the VirtIO device
+>
+> Is this a qdev ID?  A network client name?
+>
 
-Ah, yes, we should make the condition for erroring-out be
+At this moment is the virtio device name, the one specified at the
+call of "virtio_init". But this should change, maybe the qdev id or
+something that can be provided by the command line fits better here.
 
- have-memoryless-nodes && !have-distance-map && generate-DT
+> > +#
+> > +# @enable: true to use the alternate shadow VQ notifications
+> > +#
+> > +# Returns: Always error, since SVQ is not implemented at the moment.
+> > +#
+> > +# Since: 6.2
+> > +#
+> > +# Example:
+> > +#
+> > +# -> { "execute": "x-vhost-enable-shadow-vq",
+> > +#     "arguments": { "name": "virtio-net", "enable": false } }
+> > +#
+> > +##
+> > +{ 'command': 'x-vhost-enable-shadow-vq',
+> > +  'data': {'name': 'str', 'enable': 'bool'},
+> > +  'if': 'defined(CONFIG_VHOST_KERNEL)' }
+> > +
+>
+> Adding an command just for controlling a flag in some object is fine for
+> quick experiments.  As a permanent interface, it's problematic: one
+> command per flag would result in way too many commands.  Better: one
+> command to control a set of related properties.
+>
+> I hesitate to suggest qom-set, because qom-set is not introspectable.
+> Recurring complaint about QOM: poor integration with QAPI/QMP.
+>
 
-ACPI only architectures, x86, don't need to care about this.
+I will take it into account, but it's only temporary, that's why it
+has the x- prefix. It's not like event_idx or other device feature
+flags: Every vDPA device can potentially use SVQ datapath in a
+transparent way, neither the vDPA device nor the guest know that qemu
+supports it.
 
-> 
-> After looking at this thread all over again it seems to me that using
-> distance map as a source of numa ids is a mistake.
+Ideally, this mode will kick in at the migration time automatically,
+no need to perform more actions.
 
-You'll have to discuss that with Rob Herring, as that was his proposal.
-He'll expect a counterproposal though, which we don't have...
+> Naming nitpick: since the command can both enable and disable, I'd call
+> it -set-vq instead of -enable-vq.
+>
 
-Thanks,
-drew
+Got it, I will replace it.
+
+Thanks!
+
+> >  ##
+> >  # @NetLegacyNicOptions:
+> >  #
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 4fa414feea..c63e311d7c 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -23,6 +23,8 @@
+> >  #include "cpu.h"
+> >  #include "trace.h"
+> >  #include "qemu-common.h"
+> > +#include "qapi/qapi-commands-net.h"
+> > +#include "qapi/error.h"
+> >
+> >  static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *s=
+ection)
+> >  {
+> > @@ -656,6 +658,12 @@ static bool  vhost_vdpa_force_iommu(struct vhost_d=
+ev *dev)
+> >      return true;
+> >  }
+> >
+> > +
+> > +void qmp_x_vhost_enable_shadow_vq(const char *name, bool enable, Error=
+ **errp)
+> > +{
+> > +    error_setg(errp, "Shadow virtqueue still not implemented");
+> > +}
+> > +
+> >  const VhostOps vdpa_ops =3D {
+> >          .backend_type =3D VHOST_BACKEND_TYPE_VDPA,
+> >          .vhost_backend_init =3D vhost_vdpa_init,
+>
 
 
