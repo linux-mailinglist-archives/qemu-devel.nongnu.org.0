@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3808D429E40
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 09:03:30 +0200 (CEST)
-Received: from localhost ([::1]:54978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2AD429E5E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 09:13:28 +0200 (CEST)
+Received: from localhost ([::1]:57780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maBov-0001If-88
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 03:03:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38282)
+	id 1maByZ-0003gW-IA
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 03:13:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1maBn3-0000R6-Ar
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:01:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60978)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maBxe-0002xQ-JE
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:12:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1maBn1-0002iW-Id
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:01:33 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maBxc-0002ZX-G1
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:12:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634022090;
+ s=mimecast20190719; t=1634022747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=915TpsrsmVYezSUkvJDaanmSGnPLJLB5c5vRPw7yvq8=;
- b=YWCDmVKIXPXRgIZ5ws49aZPy+Hp86niDPiuSnQfi34MqicSknTeZ7v/LoaJmGvcWoGdzu5
- PwS7PbbEKlniyF9R5U5i8pBdQ/BOFDh/y9CL7WnF9jVaSzK24aZbDbn1OJJzjdkeXYl7co
- HKONFo0rRTov8J5memk81HkBh49E3VI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-X65VVV0OM9-0h4ppZOC_KQ-1; Tue, 12 Oct 2021 03:01:29 -0400
-X-MC-Unique: X65VVV0OM9-0h4ppZOC_KQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- t28-20020a508d5c000000b003dad7fc5caeso18005922edt.11
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 00:01:29 -0700 (PDT)
+ bh=8ozMvJsarxbY9U2A6r5wTbGCpiZICleciDE1wXQdATk=;
+ b=LmPk5GoJhS60UFigBlTQ72XUwm6zjmkuvKqOqFju+JgOxneK5jCdsBeaEu2xcwbFgHgbwf
+ ZeRtV0uzFDb5uENlp8LAo3Zp+QUe4GiCxDZw8YAoAK/T9dkF6ZwxmBCbrud1E5+U0CoInA
+ oWP8ij5obpAzpLCl/sWD3nsPw4i6U/0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-373-PO4LpIbRM3aDXwOMXerJvA-1; Tue, 12 Oct 2021 03:12:26 -0400
+X-MC-Unique: PO4LpIbRM3aDXwOMXerJvA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ 75-20020adf82d1000000b00160cbb0f800so14292604wrc.22
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 00:12:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=915TpsrsmVYezSUkvJDaanmSGnPLJLB5c5vRPw7yvq8=;
- b=lKaWMPOz8KEC6OgcUEajDYvqydOwOJOF7v3cquYM+sEMmCSHcpp6iBsTbSAsqrt0Mp
- H2njqSHmhIe9jA+5MyA5XgY/CbVARe3S5yeOFA4pgPOlXIMifq8ksU4eaqfl9y59qlm6
- jEH3TgiDgajhNY8x16/wUD+YkxdvpErLwdoOsX6z6u3hdsKLlePucE1+iSHvkz1DzeSf
- lvihghTvRg405T+S8ItOX0bwtFcfNRKwKJv/PpRDrOV224ZqXbMfukUhJay6Tad26f2d
- 5ho0zUGvZqAM6iAU4A1isTJWzyudAeufqrvBjFo40U/Sp/LZU8U2yWRvH0+eZaC5ipg8
- ts/A==
-X-Gm-Message-State: AOAM531iUl2HvxSRyJYxi+wGAYQ6P9MeOSOtNEaUW/3oMx5ivQypGZFS
- QxtGN1GHQvB7aQ0YjV1Vk3TaHBAv12bKsNfg09KFAHP9cagMqJRX94zlyh1N9mubJZMSrHgzAKq
- aEn4USLY9QPEfv1M=
-X-Received: by 2002:a05:6402:274c:: with SMTP id
- z12mr49563975edd.57.1634022088138; 
- Tue, 12 Oct 2021 00:01:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCIitHjk32+slwt998dVaicOUx1+DfeNVD9HB0Lrho6pUHNVz+b6KtoM+n7X6eJe12oohafw==
-X-Received: by 2002:a05:6402:274c:: with SMTP id
- z12mr49563894edd.57.1634022087534; 
- Tue, 12 Oct 2021 00:01:27 -0700 (PDT)
-Received: from redhat.com ([2.55.159.57])
- by smtp.gmail.com with ESMTPSA id w6sm1103518edt.12.2021.10.12.00.01.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 00:01:26 -0700 (PDT)
-Date: Tue, 12 Oct 2021 03:01:22 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 6/6] pcie: expire pending delete
-Message-ID: <20211012025611-mutt-send-email-mst@kernel.org>
-References: <20211011120504.254053-1-kraxel@redhat.com>
- <20211011120504.254053-7-kraxel@redhat.com>
- <20211011084310-mutt-send-email-mst@kernel.org>
- <20211012053034.faskn5y6b2hbbfys@sirius.home.kraxel.org>
- <20211012014515-mutt-send-email-mst@kernel.org>
- <20211012064445.ur4ihnuaftzn76wc@sirius.home.kraxel.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8ozMvJsarxbY9U2A6r5wTbGCpiZICleciDE1wXQdATk=;
+ b=os2CdWDQukPN3zhU15Hp9HPf36+M2xZZn7RhBHYa2JbB/C+zw7fgaD2Jucr/NRY4Vq
+ YibTpwpf3kggrOZuJgbgVKoOJzsBx73Jmd6A9t/Pqe7QzZmpoiJiCmpL0zjfoFxbdx52
+ 72oafcLFzorNKZlKs7zZgllXIbA7CoBFgqVPCvZAXGLZHJ1rtmCoAaJ2kCJYC3CkZHRN
+ VzfDHrrNOf7bMa6Je0aFJcGWQN3rc/VEBWIQwytBSQbpPF2zMcjyBu3hPGTh7N75QAZ1
+ /beRUiCB0Bq8UfkS+M6mZBJ/AHN51JELtfBYLeyxXLUcHAExdbrUgEFriVMM4uVNPdre
+ oGkw==
+X-Gm-Message-State: AOAM5336C75W2QBiFFL6dzSBF3rbPLsjE/oFn8ZV6Hr5YG/WUYuWszte
+ YCTQobWExhBY7/7TqsQJtKa2VNFlReZ+3t+EtTgETy3NNMrx9sahWHJALE4EWsripAqQtTvYdq9
+ 9r9INt7BJW+wvhh8=
+X-Received: by 2002:adf:a4d5:: with SMTP id h21mr29679623wrb.203.1634022745365; 
+ Tue, 12 Oct 2021 00:12:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwT/Qz/B35gJ79MoiF7+XU3zXjENuIa35wukGLhh1H3Cjqp8TKecrH5pM38k4R2YtcdoTv1bg==
+X-Received: by 2002:adf:a4d5:: with SMTP id h21mr29679582wrb.203.1634022745123; 
+ Tue, 12 Oct 2021 00:12:25 -0700 (PDT)
+Received: from thuth.remote.csb (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id o19sm10058864wrg.60.2021.10.12.00.12.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Oct 2021 00:12:24 -0700 (PDT)
+Subject: Re: [PATCH v3 13/19] qapi: introduce x-query-skeys QMP command
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210930132349.3601823-1-berrange@redhat.com>
+ <20210930132349.3601823-14-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <e09570bc-cbf6-2f60-481a-94c1ca71c2eb@redhat.com>
+Date: Tue, 12 Oct 2021 09:12:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211012064445.ur4ihnuaftzn76wc@sirius.home.kraxel.org>
+In-Reply-To: <20210930132349.3601823-14-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,68 +98,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Cornelia Huck <cohuck@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 12, 2021 at 08:44:45AM +0200, Gerd Hoffmann wrote:
-> On Tue, Oct 12, 2021 at 01:46:35AM -0400, Michael S. Tsirkin wrote:
-> > On Tue, Oct 12, 2021 at 07:30:34AM +0200, Gerd Hoffmann wrote:
-> > > > > index f3ac04399969..477c8776aa27 100644
-> > > > > --- a/hw/pci/pcie.c
-> > > > > +++ b/hw/pci/pcie.c
-> > > > > @@ -549,6 +549,8 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
-> > > > >      }
-> > > > >  
-> > > > >      dev->pending_deleted_event = true;
-> > > > > +    dev->pending_deleted_expires_ms =
-> > > > > +        qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 5000; /* 5 secs */
-> > > > >  
-> > > > >      /* In case user cancel the operation of multi-function hot-add,
-> > > > >       * remove the function that is unexposed to guest individually,
-> > > > 
-> > > > 
-> > > > Well this will be barely enough, right?
-> > > > 
-> > > > 	Once the Power
-> > > > 	Indicator begins blinking, a 5-second abort interval exists during which a second depression of the
-> > > > 	Attention Button cancels the operation.
-> > > 
-> > > Well, canceling the hot-plug is not supported in qemu right now (there
-> > > is no qmp command for that).  I'm also not sure it makes sense in the
-> > > first place for virtual machines.
-> > 
-> > Yes. However if you resend an attention button press within the
-> > 5 second window, guest will think you cancelled hot-plug
-> > and act accordingly.
-> > It's a fundamentally racy algorithm :(
+On 30/09/2021 15.23, Daniel P. Berrangé wrote:
+> This is a counterpart to the HMP "info skeys" command. It is being
+> added with an "x-" prefix because this QMP command is intended as an
+> adhoc debugging tool and will thus not be modelled in QAPI as fully
+> structured data, nor will it have long term guaranteed stability.
+> The existing HMP command is rewritten to call the QMP command.
 > 
-> That's why re-sending an attention button press is blocked
-> for 5 seconds.
-> It's also blocked in case the guest blinks the power
-> indicator (see patch #3).
+> Including 'common.json' into 'machine-target.json' created a little
+> problem because the static marshalling method for HumanReadableText
+> is generated unconditionally. It is only used, however, conditionally
+> on certain target architectures.
 > 
-> Both together work well in my testing, I can flood a (linux) guest
-> with device_del commands without bad side effects:
+> To deal with this we change the QAPI code generator to simply mark
+> all static marshalling functions with G_GNUC_UNSED to hide the
+> compiler warning.
 > 
-> First device_del command sends attention button press.
-> Then device_del is rejected because the 5 secs are not over yet.
-> Then device_del is rejected because the indicator blinks.
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+...
+> +void hmp_info_skeys(Monitor *mon, const QDict *qdict)
+> +{
+> +    Error *err = NULL;
+> +    g_autoptr(HumanReadableText) info = NULL;
+> +    uint64_t addr = qdict_get_int(qdict, "addr");
+> +
+> +    info = qmp_x_query_skeys(addr, &err);
+> +    if (err) {
+> +        error_report_err(err);
 
-Ah, I see. 5 secs is a lot so yea, most likely it's gonnu
-be ok, worst case we'll wait another 5 seconds and
-send again, right?
+Shouldn't that rather be:
 
-Worth checking with windows guests BTW, we saw lots of
-races with these too.
+            monitor_printf(mon, "%s\n", error_get_pretty(err));
 
+or something similar?
 
-> Then unplug completes (and qemu sends event).
-> Then device_del fails because the device doesn't exist any more.
-> 
-> take care,
->   Gerd
+>           return;
+>       }
+>   
+> -    monitor_printf(mon, "  key: 0x%X\n", key);
+> +    monitor_printf(mon, "%s", info->human_readable_text);
+>   }
+
+Apart the question above, patch looks fine to me.
+
+  Thomas
 
 
