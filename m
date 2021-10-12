@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9479B42A146
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:39:52 +0200 (CEST)
-Received: from localhost ([::1]:58650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F87842A15D
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:47:44 +0200 (CEST)
+Received: from localhost ([::1]:44672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maEGF-0006xI-5S
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:39:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41424)
+	id 1maENq-0000Fv-7w
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:47:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1maE5q-0005qR-9N
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:29:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58682)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maE83-0007qL-Vm
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:31:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1maE5o-0003lN-H0
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:29:06 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1maE7z-0006Da-CZ
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:31:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634030942;
+ s=mimecast20190719; t=1634031078;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W2bXYbn/8upsJKEgNdw2V1mzIuDFv3N3MNfj4J2cmRI=;
- b=CnmvVIMEVehyYNrAzChTJ4SfhvnNxBhO8O+CQRsI7Aq+vNUyfrL2cK5uYaFPteXluwVDc8
- JGWPff5zxnVqPhFC1TPeX/vGhTkQSjIWJ3uRxM65ZUxuBSuyOMW5oTUQhU8vuMvtiM5wnf
- 2844SfHgOrbImGM6CZYjyoEDFgGmdzY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-xJ3pLugTN4ysK9erOV28_g-1; Tue, 12 Oct 2021 05:28:58 -0400
-X-MC-Unique: xJ3pLugTN4ysK9erOV28_g-1
-Received: by mail-wr1-f72.google.com with SMTP id
- 41-20020adf812c000000b00160dfbfe1a2so11623029wrm.3
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 02:28:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=W2bXYbn/8upsJKEgNdw2V1mzIuDFv3N3MNfj4J2cmRI=;
- b=hL+q5IMwgRXg2gHZHJc/IUGIpRq6vnbrW1hRrHYPDRE2yfp2unRkVZLIdOmia8dCC9
- auafiZyH1yaWBM2OZ8IuVJRoPKA9vn+2ZYeFW2Pc8syLVLOLFv0RwI5gXoqonaVKBsFv
- WzcEUzDEdKLsRP7XGe+ZVEayq6EaxRCvNfsvmHPmQ02SWWWL9FvVu6EhWjhD5s7/lna7
- +iauU/6k1EWqGS9VUqLl8UYjWyaVA6nXfHdr4SWQLvBWTmRN45m0D433oY7V5PKgIneb
- TQbaDuabavI3AXaVQFrvxNGbRWpu062PqrBDzBKlCTEGFDJSR367sb6iNNTFBjX9GCxR
- AV7g==
-X-Gm-Message-State: AOAM532i2Sxds4ORlnwLJQBUjdQp3J1QY8j9hdAQQyrfUeo8IitLv1+4
- 5EFi2Z3lHsOpTW+tG90CmLVhpbV298RHTxdt0t3wUkJi8LOpLMcZbGwCCDL05JACINyibNPmJWw
- uHPp7OF63S/iqrDA=
-X-Received: by 2002:a7b:c406:: with SMTP id k6mr4271039wmi.170.1634030937693; 
- Tue, 12 Oct 2021 02:28:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwzxu6mh3s4NpsBJWqIPvBYbBv+pm7PnhWa1AFJgVqj2Ld1fJa+D4dhtQ2PUEVO/+tL1ba29Q==
-X-Received: by 2002:a7b:c406:: with SMTP id k6mr4271024wmi.170.1634030937395; 
- Tue, 12 Oct 2021 02:28:57 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6a12.dip0.t-ipconnect.de. [91.12.106.18])
- by smtp.gmail.com with ESMTPSA id
- a5sm8257656wrn.71.2021.10.12.02.28.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 02:28:56 -0700 (PDT)
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20211011174522.14351-1-david@redhat.com>
- <20211011174522.14351-3-david@redhat.com>
- <93dead18-5ea5-0afe-18c1-de9a06773687@linaro.org>
- <8108c69d-a596-d6c9-a116-783f47904deb@amsat.org>
- <845d3d5f-f9e9-d59d-c868-5a9825eb7fba@redhat.com>
- <20211012105300.1ef25440@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v1 2/2] memory: Update description of
- memory_region_is_mapped()
-Message-ID: <a2078241-1dc9-782e-38a3-eab06c1b162c@redhat.com>
-Date: Tue, 12 Oct 2021 11:28:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=khxk077nx0yLEVCZhFP7l/GtDotKmJyJeqR8rcKfzxo=;
+ b=Wj56qIYuGqXH/k8vqKR0wSvKn0ZnnFimLOCWCpyHg/a7H8LDyAaJ++SkElyK/gBGJRdFsz
+ wi0gK7zZckZsC64FZIEP4Jf+rT2+fchLldX8ksU6acYGWPNIGtpBpNdgA7mhWpMEckmaja
+ YJNsrycSZ35UdPbBofMsO/1qFHd/UxI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-tpbASP72MZCP6eNrvOqSUg-1; Tue, 12 Oct 2021 05:31:14 -0400
+X-MC-Unique: tpbASP72MZCP6eNrvOqSUg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92DE6802CB9;
+ Tue, 12 Oct 2021 09:31:13 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 02E2560854;
+ Tue, 12 Oct 2021 09:31:12 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6085B113865F; Tue, 12 Oct 2021 11:31:11 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Zhang Chen <chen.zhang@intel.com>
+Subject: Re: [PATCH V3] net/colo: check vnet_hdr_support flag when using
+ virtio-net
+References: <20210918020437.1822937-1-chen.zhang@intel.com>
+Date: Tue, 12 Oct 2021 11:31:11 +0200
+In-Reply-To: <20210918020437.1822937-1-chen.zhang@intel.com> (Zhang Chen's
+ message of "Sat, 18 Sep 2021 10:04:37 +0800")
+Message-ID: <87r1cqbnds.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20211012105300.1ef25440@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,88 +80,308 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Lukas Straub <lukasstraub2@web.de>, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Tao Xu <tao3.xu@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Eric Blake <eblake@redhat.com>, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> Before sending this patch, I had
->>
->> commit 71d15e90d513327c90d346ef73865d2db749fbba
->> Author: David Hildenbrand <david@redhat.com>
->> Date:   Thu Oct 7 11:25:18 2021 +0200
->>
->>       memory: make memory_region_is_mapped() succeed when mapped via an alias
->>       
->>       memory_region_is_mapped() currently does not return "true" when a memory
->>       region is mapped via an alias. Let's fix that by adding a
->>       "mapped_via_alias" counter to memory regions and updating it accordingly
->>       when an alias gets (un)mapped.
-> 
-> this needs a clarification,
-> is memory_region_is_mapped() used on aliased memory region or on alias?
+Jason, did this fall through the cracks?
 
-I think right now it's barely used with aliases 
-(memory_region_is_mapped(alias)), at least I am not aware of users.
+Zhang Chen <chen.zhang@intel.com> writes:
 
-What's more likely is that the final memory region will be the target of 
-memory_region_is_mapped().
-
-The question is: which semantics do we want to have so we can properly 
-document and eventually fix.
-
-> 
-> 
->>       I am not aware of actual issues, this is rather a cleanup.
->>       
->>       Signed-off-by: David Hildenbrand <david@redhat.com>
->>
->> diff --git a/include/exec/memory.h b/include/exec/memory.h
->> index 75b4f600e3..93d0190202 100644
->> --- a/include/exec/memory.h
->> +++ b/include/exec/memory.h
->> @@ -728,6 +728,7 @@ struct MemoryRegion {
->>        const MemoryRegionOps *ops;
->>        void *opaque;
->>        MemoryRegion *container;
->> +    int mapped_via_alias; /* Mapped via an alias, container might be NULL */
->>        Int128 size;
->>        hwaddr addr;
->>        void (*destructor)(MemoryRegion *mr);
->> diff --git a/softmmu/memory.c b/softmmu/memory.c
->> index 3bcfc3899b..1168a00819 100644
->> --- a/softmmu/memory.c
->> +++ b/softmmu/memory.c
->> @@ -2535,8 +2535,13 @@ static void memory_region_add_subregion_common(MemoryRegion *mr,
->>                                                   hwaddr offset,
->>                                                   MemoryRegion *subregion)
->>    {
->> +    MemoryRegion *alias;
->> +
->>        assert(!subregion->container);
->>        subregion->container = mr;
->> +    for (alias = subregion->alias; alias; alias = alias->alias) {
->> +       alias->mapped_via_alias++;
-> 
-> it it necessary to update mapped_via_alias for intermediate aliases?
-> Why not just update on counter only on leaf (aliased region)?
-
-Assume we have alias0 -> alias1 -> region and map alias0.
-
-Once alias0 is mapped it will have ->container set and 
-memory_region_is_mapped(alias0) will return "true".
-
-With my patch, both, "alias1" and the region will be marked 
-"mapped_via_alias" and memory_region_is_mapped() will succeed on both of 
-them. With what you propose, memory_region_is_mapped() would only 
-succeed on the region (well, and on alias 0) but not on alias1.
-
--- 
-Thanks,
-
-David / dhildenb
+> When COLO use only one vnet_hdr_support parameter between
+> COLO network filter(filter-mirror, filter-redirector or
+> filter-rewriter and colo-compare, packet will not be parsed
+> correctly. Acquire network driver related to COLO, if it is
+> nirtio-net, check vnet_hdr_support flag of COLO network filter
+> and colo-compare.
+>
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> ---
+>
+> Changelog:
+> v3:
+>     Fix some typos.
+>     Rebased for Qemu 6.2.
+>
+> v2:
+>     Detect virtio-net driver and apply vnet_hdr_support
+>     automatically. (Jason)
+> ---
+>  net/colo-compare.c    | 57 +++++++++++++++++++++++++++++++++++++++++++
+>  net/colo.c            | 20 +++++++++++++++
+>  net/colo.h            |  4 +++
+>  net/filter-mirror.c   | 21 ++++++++++++++++
+>  net/filter-rewriter.c | 10 ++++++++
+>  qapi/qom.json         |  6 +++++
+>  qemu-options.hx       |  6 +++--
+>  7 files changed, 122 insertions(+), 2 deletions(-)
+>
+> diff --git a/net/colo-compare.c b/net/colo-compare.c
+> index b100e7b51f..870bd05a41 100644
+> --- a/net/colo-compare.c
+> +++ b/net/colo-compare.c
+> @@ -110,6 +110,7 @@ struct CompareState {
+>      char *sec_indev;
+>      char *outdev;
+>      char *notify_dev;
+> +    char *netdev;
+>      CharBackend chr_pri_in;
+>      CharBackend chr_sec_in;
+>      CharBackend chr_out;
+> @@ -838,6 +839,28 @@ static int compare_chr_can_read(void *opaque)
+>      return COMPARE_READ_LEN_MAX;
+>  }
+>  
+> +static int colo_set_default_netdev(void *opaque, QemuOpts *opts, Error **errp)
+> +{
+> +    const char *colo_obj_type, *netdev_from_filter;
+> +    char **netdev = (char **)opaque;
+> +
+> +    colo_obj_type = qemu_opt_get(opts, "qom-type");
+> +
+> +    if (colo_obj_type &&
+> +        (strcmp(colo_obj_type, "filter-mirror") == 0 ||
+> +         strcmp(colo_obj_type, "filter-redirector") == 0 ||
+> +         strcmp(colo_obj_type, "filter-rewriter") == 0)) {
+> +        netdev_from_filter = qemu_opt_get(opts, "netdev");
+> +        if (*netdev == NULL) {
+> +            *netdev = g_strdup(netdev_from_filter);
+> +        } else if (strcmp(*netdev, netdev_from_filter) != 0) {
+> +            warn_report("%s is using a different netdev from other COLO "
+> +                        "component", colo_obj_type);
+> +        }
+> +    }
+> +    return 0;
+> +}
+> +
+>  /*
+>   * Called from the main thread on the primary for packets
+>   * arriving over the socket from the primary.
+> @@ -1050,6 +1073,21 @@ static void compare_set_vnet_hdr(Object *obj,
+>      s->vnet_hdr = value;
+>  }
+>  
+> +static char *compare_get_netdev(Object *obj, Error **errp)
+> +{
+> +    CompareState *s = COLO_COMPARE(obj);
+> +
+> +    return g_strdup(s->netdev);
+> +}
+> +
+> +static void compare_set_netdev(Object *obj, const char *value, Error **errp)
+> +{
+> +    CompareState *s = COLO_COMPARE(obj);
+> +
+> +    g_free(s->netdev);
+> +    s->netdev = g_strdup(value);
+> +}
+> +
+>  static char *compare_get_notify_dev(Object *obj, Error **errp)
+>  {
+>      CompareState *s = COLO_COMPARE(obj);
+> @@ -1274,6 +1312,12 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+>          max_queue_size = MAX_QUEUE_SIZE;
+>      }
+>  
+> +    if (!s->netdev) {
+> +        /* Set default netdev as the first colo netfilter found */
+> +        qemu_opts_foreach(qemu_find_opts("object"),
+> +                          colo_set_default_netdev, &s->netdev, NULL);
+> +    }
+> +
+>      if (find_and_check_chardev(&chr, s->pri_indev, errp) ||
+>          !qemu_chr_fe_init(&s->chr_pri_in, chr, errp)) {
+>          return;
+> @@ -1289,6 +1333,16 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+>          return;
+>      }
+>  
+> +    if (!s->vnet_hdr &&
+> +        qemu_opts_foreach(qemu_find_opts("device"),
+> +                          vnet_driver_check, s->netdev, NULL)) {
+> +        /*
+> +         * colo compare needs 'vnet_hdr_support' when it works on virtio-net,
+> +         * add 'vnet_hdr_support' automatically
+> +         */
+> +        s->vnet_hdr = true;
+> +    }
+> +
+>      net_socket_rs_init(&s->pri_rs, compare_pri_rs_finalize, s->vnet_hdr);
+>      net_socket_rs_init(&s->sec_rs, compare_sec_rs_finalize, s->vnet_hdr);
+>  
+> @@ -1400,6 +1454,9 @@ static void colo_compare_init(Object *obj)
+>      s->vnet_hdr = false;
+>      object_property_add_bool(obj, "vnet_hdr_support", compare_get_vnet_hdr,
+>                               compare_set_vnet_hdr);
+> +    /* colo compare can't varify that netdev is correct */
+> +    object_property_add_str(obj, "netdev", compare_get_netdev,
+> +                            compare_set_netdev);
+>  }
+>  
+>  void colo_compare_cleanup(void)
+> diff --git a/net/colo.c b/net/colo.c
+> index 3a3e6e89a0..4a03780f45 100644
+> --- a/net/colo.c
+> +++ b/net/colo.c
+> @@ -243,3 +243,23 @@ bool connection_has_tracked(GHashTable *connection_track_table,
+>  
+>      return conn ? true : false;
+>  }
+> +
+> +/* check the network driver related to COLO, return 1 if it is virtio-net */
+> +int vnet_driver_check(void *opaque, QemuOpts *opts, Error **errp)
+> +{
+> +    const char *driver_type, *netdev_from_driver;
+> +    char *netdev_from_filter = (char *)opaque;
+> +
+> +    driver_type = qemu_opt_get(opts, "driver");
+> +    netdev_from_driver = qemu_opt_get(opts, "netdev");
+> +
+> +    if (!driver_type || !netdev_from_driver || !netdev_from_filter) {
+> +        return 0;
+> +    }
+> +
+> +    if (g_str_has_prefix(driver_type, "virtio-net") &&
+> +        strcmp(netdev_from_driver, netdev_from_filter) == 0) {
+> +        return 1;
+> +    }
+> +    return 0;
+> +}
+> diff --git a/net/colo.h b/net/colo.h
+> index d91cd245c4..d401fc76b6 100644
+> --- a/net/colo.h
+> +++ b/net/colo.h
+> @@ -18,6 +18,9 @@
+>  #include "qemu/jhash.h"
+>  #include "qemu/timer.h"
+>  #include "net/eth.h"
+> +#include "qemu/option.h"
+> +#include "qemu/option_int.h"
+> +#include "qemu/config-file.h"
+>  
+>  #define HASHTABLE_MAX_SIZE 16384
+>  
+> @@ -104,5 +107,6 @@ Packet *packet_new(const void *data, int size, int vnet_hdr_len);
+>  Packet *packet_new_nocopy(void *data, int size, int vnet_hdr_len);
+>  void packet_destroy(void *opaque, void *user_data);
+>  void packet_destroy_partial(void *opaque, void *user_data);
+> +int vnet_driver_check(void *opaque, QemuOpts *opts, Error **errp);
+>  
+>  #endif /* NET_COLO_H */
+> diff --git a/net/filter-mirror.c b/net/filter-mirror.c
+> index f20240cc9f..69ca9c9839 100644
+> --- a/net/filter-mirror.c
+> +++ b/net/filter-mirror.c
+> @@ -12,6 +12,7 @@
+>  #include "qemu/osdep.h"
+>  #include "net/filter.h"
+>  #include "net/net.h"
+> +#include "net/colo.h"
+>  #include "qapi/error.h"
+>  #include "qom/object.h"
+>  #include "qemu/main-loop.h"
+> @@ -224,6 +225,16 @@ static void filter_mirror_setup(NetFilterState *nf, Error **errp)
+>          return;
+>      }
+>  
+> +    if (!s->vnet_hdr &&
+> +        qemu_opts_foreach(qemu_find_opts("device"),
+> +                          vnet_driver_check, nf->netdev_id, NULL)) {
+> +        /*
+> +         * filter mirror needs 'vnet_hdr_support' when colo filter modules
+> +         * work on virtio-net, add 'vnet_hdr_support' automatically
+> +         */
+> +        s->vnet_hdr = true;
+> +    }
+> +
+>      qemu_chr_fe_init(&s->chr_out, chr, errp);
+>  }
+>  
+> @@ -252,6 +263,16 @@ static void filter_redirector_setup(NetFilterState *nf, Error **errp)
+>          }
+>      }
+>  
+> +    if (!s->vnet_hdr &&
+> +        qemu_opts_foreach(qemu_find_opts("device"),
+> +                          vnet_driver_check, nf->netdev_id, NULL)) {
+> +        /*
+> +         * filter redirector needs 'vnet_hdr_support' when colo filter modules
+> +         * work on virtio-net, add 'vnet_hdr_support' automatically
+> +         */
+> +        s->vnet_hdr = true;
+> +    }
+> +
+>      net_socket_rs_init(&s->rs, redirector_rs_finalize, s->vnet_hdr);
+>  
+>      if (s->indev) {
+> diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
+> index cb3a96cde1..637ef4ce71 100644
+> --- a/net/filter-rewriter.c
+> +++ b/net/filter-rewriter.c
+> @@ -388,6 +388,16 @@ static void colo_rewriter_setup(NetFilterState *nf, Error **errp)
+>  {
+>      RewriterState *s = FILTER_REWRITER(nf);
+>  
+> +    if (!s->vnet_hdr &&
+> +        qemu_opts_foreach(qemu_find_opts("device"),
+> +                          vnet_driver_check, nf->netdev_id, NULL)) {
+> +        /*
+> +         * filter rewriter needs 'vnet_hdr_support' when colo filter modules
+> +         * work on virtio-net, add 'vnet_hdr_support' automatically
+> +         */
+> +        s->vnet_hdr = true;
+> +    }
+> +
+>      s->connection_track_table = g_hash_table_new_full(connection_key_hash,
+>                                                        connection_key_equal,
+>                                                        g_free,
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index a25616bc7a..5760107160 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -241,6 +241,11 @@
+>  # @notify_dev: name of the character device backend to be used to communicate
+>  #              with the remote colo-frame (only for Xen COLO)
+>  #
+> +# @netdev: id of the network device backend to colo-compare. Although
+> +#          colo-compare doesn't depend on network device directly, this
+> +#          parameter helps colo-compare know what network driver it is
+> +#          working on.(since 6.2)
+> +#
+>  # @compare_timeout: the maximum time to hold a packet from @primary_in for
+>  #                   comparison with an incoming packet on @secondary_in in
+>  #                   milliseconds (default: 3000)
+> @@ -264,6 +269,7 @@
+>              'outdev': 'str',
+>              'iothread': 'str',
+>              '*notify_dev': 'str',
+> +            '*netdev': 'str',
+>              '*compare_timeout': 'uint64',
+>              '*expired_scan_cycle': 'uint32',
+>              '*max_queue_size': 'uint32',
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 8f603cc7e6..250937fbbf 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -4964,12 +4964,14 @@ SRST
+>          stored. The file format is libpcap, so it can be analyzed with
+>          tools such as tcpdump or Wireshark.
+>  
+> -    ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,vnet_hdr_support][,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}][,max_queue_size=@var{size}]``
+> +    ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,netdev=netdevid][,vnet_hdr_support][,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}][,max_queue_size=@var{size}]``
+>          Colo-compare gets packet from primary\_in chardevid and
+>          secondary\_in, then compare whether the payload of primary packet
+>          and secondary packet are the same. If same, it will output
+>          primary packet to out\_dev, else it will notify COLO-framework to do
+> -        checkpoint and send primary packet to out\_dev. In order to
+> +        checkpoint and send primary packet to out\_dev. Although colo-compare
+> +        does not depend on network device directly, netdevid helps
+> +        colo-compare know what network driver it is working on. In order to
+>          improve efficiency, we need to put the task of comparison in
+>          another iothread. If it has the vnet\_hdr\_support flag,
+>          colo compare will send/recv packet with vnet\_hdr\_len.
 
 
