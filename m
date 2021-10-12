@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457AE42ACFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 21:09:38 +0200 (CEST)
-Received: from localhost ([::1]:46300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB71D42AE70
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 23:03:04 +0200 (CEST)
+Received: from localhost ([::1]:49322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maN9d-00030Z-6k
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 15:09:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47986)
+	id 1maOvP-0008Fd-Ct
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 17:03:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maN5x-0000jn-En
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 15:05:52 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:54919)
+ (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
+ id 1maOre-0005pw-O2
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 16:59:10 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:45816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maN5v-0002BB-Pd
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 15:05:49 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id np13so362642pjb.4
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 12:05:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
+ id 1maOrc-0005BE-UA
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 16:59:10 -0400
+Received: by mail-pf1-x436.google.com with SMTP id i65so547577pfe.12
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 13:59:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=kDhtejP4ma4Z730w3NCx1iv06qPAtdt0h6DdlAwYf4I=;
- b=iTz9N4fFUAG4F8HqdZmKMYLQ184wbNd2HODBoXMSzBE8NXXWYAfYFgZc5QixycZQQV
- +LKZb3iTMz8m2pMiau4FAfNZ59qu/47ZxYfqzBv2B5p+RDHfJaxljhYK6V/REvhQmFZW
- tgoT0CeDP9SXXtlFW2/pznUrcfY6/6FlJM6cIESMJra1d4ycvQQmDU3AwheBuiNB8vWs
- KYtbCraRv07Qt5XHJ0VaFofYJjO7CU9VCaGk9ZcR3BnNqJ8T31rUOYBJOoaDnYlEYsaH
- F2pft7HvGvTZaY2LAbTC2E7Wq0ff6ziW5jCkpQSnqwiYkntaMHOxY3PbXekrXKWBVT/+
- IDVg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JeBFfQ/+qvVCxbX10oVdP+9CpdaapRqqSfiSwCgvArI=;
+ b=xSg3DcqIagg3zegsvN5xZceTUfarxU10z2g8k74MZbJMR2mfbTZ+prX+OeQ432lzL1
+ xZOYyErbRSY10blEU1mqb/vhEw9LQKVCmh8UDau9od4HvTZQ+Jt2JC9Br/f3M4z1mK6K
+ UyHKGVNnm46sqi8L9hIECfDxmUqeFYkw51BwWO8bBYXCXWyDsTK1oSlGhzFpo7ipNXju
+ fqc7ERywxfmHgQ5I7gSg/1T4yVfpQ1OF/CIIXPNIHApxEteLK0H4X8ePLYRXgR0Pt1ag
+ Zcc6VFqXF4J1Nt6cHZqg52cOxaYWHZdONAAuD9nxHRmRDRMdVhPbi8UC2FMg6h1MVhtt
+ muYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=kDhtejP4ma4Z730w3NCx1iv06qPAtdt0h6DdlAwYf4I=;
- b=NISGkUuuNepF9xKe5S3VNtKA4uf0qSYp3i6Cz4F3UYpmuqXsIdwMP8YeujcY3Y5Qrf
- dEFx+g4E1L/epQ+dH4gzlGqRTq1LyrjLGkKP/7W+Lkt3JCWq+AGNDaQ1+U1+Q6Sy2Ux2
- Cp690c5/OiHx8M0u8KjeyMp9v1QSWFcnBR/Hs544TjkrkeEhacHuEScjbOO7gIJ6aVMz
- 7/1gjq7mO8KxalDTU9Gff4sXpT+Exnh3aZTA2qzWelfe4ZxO+eBUHvkfRjlKf+wSEoGB
- HySMm62ILlymmvJuQZFJMwjh00VKHJq9fc/XDsbs+2zxqanP0bLVDlSxDGl+eoLHYAYa
- ku4Q==
-X-Gm-Message-State: AOAM531Gx2ErswhckEDyypyS9c8jZMjN6SjN6hOcl7i3kUrZ0OcZjr1o
- 8OwHPHQM9EdF407Q951R5ib9EZsCgKWb/Q==
-X-Google-Smtp-Source: ABdhPJzue1b6zNq13vpmSw+BJ0OUUyjqW0ihTnlOlhi4/wcLh/1tkN/pvm4CR8K81FGhVPpuuNx1Fw==
-X-Received: by 2002:a17:90a:a386:: with SMTP id
- x6mr8056925pjp.56.1634065546179; 
- Tue, 12 Oct 2021 12:05:46 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id w11sm12047577pgf.5.2021.10.12.12.05.45
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 12:05:45 -0700 (PDT)
-Subject: Re: [PULL 0/1] target/hppa update
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20211012190357.528140-1-richard.henderson@linaro.org>
-Message-ID: <8b8cd79f-886a-3ecc-e1ad-6480d5a320a7@linaro.org>
-Date: Tue, 12 Oct 2021 12:05:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ bh=JeBFfQ/+qvVCxbX10oVdP+9CpdaapRqqSfiSwCgvArI=;
+ b=47pZk0DRCPasawFy8MDLOMQcNQwM/T5H54CMVpsLwsscsSiAxrFAyv/To4tmKDJqB9
+ NRZ/u1BPhkusuczQ5TFdq30ONJlQPsPriU0n3Sx5zYd0FHzUNZi+KDv2PLZtRZiZchIc
+ MvSXFoOqgtnVuSdgFWHU1waJyJOT5/adM6r+oS5C7AVbVLkFT6tFzkMzZi8vBPsFR49W
+ ExMOXQhB4obgWQJF5s3VJw8N79RhnMKsXYqfMc7BB2VKTHzijwcnELQeO7JAbYg2Srcl
+ JsqslgIkEg+LzmzmUctYbv/3SEBpqIo9udS7qT6povm4LqkxEq3Y6I+WHftBFmh1+KYi
+ iLMQ==
+X-Gm-Message-State: AOAM533V1rvWoHgTmh/UTAEbA9Y2fqoEntJDVxYX2qAEdFLaphEa/YHl
+ x5iLw1UdQOfOrm2MtjdJfUY7ZQ==
+X-Google-Smtp-Source: ABdhPJxLp0p08Z7+FQLstc/HLFyL4klSq/frKczzyZl0jEbPWTLqICFx2dwA2/SSVjYNlRf/zo7pDg==
+X-Received: by 2002:a62:5209:0:b0:44c:68a7:3a61 with SMTP id
+ g9-20020a625209000000b0044c68a73a61mr33564201pfb.83.1634072346387; 
+ Tue, 12 Oct 2021 13:59:06 -0700 (PDT)
+Received: from p14s.cg.shawcable.net (S0106889e681aac74.cg.shawcable.net.
+ [68.147.0.187])
+ by smtp.gmail.com with ESMTPSA id e24sm11695087pfn.8.2021.10.12.13.59.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Oct 2021 13:59:05 -0700 (PDT)
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: mst@redhat.com
+Subject: [PATCH v5 0/3] virtio: Add vhost-user based RNG 
+Date: Tue, 12 Oct 2021 14:59:01 -0600
+Message-Id: <20211012205904.4106769-1-mathieu.poirier@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211012190357.528140-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=mathieu.poirier@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,35 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/21 12:03 PM, Richard Henderson wrote:
-> The following changes since commit c09124dcb8401a0d635b4a52b295e9b3fc12392a:
-> 
->    Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2021-10-11 08:15:32 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/rth7680/qemu.git tags/pull-hppa-20211012
-> 
-> for you to fetch changes up to e770b8cf76083cc51497b854e73f0a9bb92d1bc7:
-> 
->    pc-bios: Update hppa-firmware.img (2021-10-12 09:27:28 -0700)
-> 
-> ----------------------------------------------------------------
-> seabios-hppa update
-> 
-> ----------------------------------------------------------------
-> Helge Deller (1):
->        pc-bios: Update hppa-firmware.img
-> 
->   pc-bios/hppa-firmware.img | Bin 785696 -> 757144 bytes
->   roms/seabios-hppa         |   2 +-
->   2 files changed, 1 insertion(+), 1 deletion(-)
+This set implements a random number generator (RNG) device that follows
+the vhost-user protocol.  Aside from a new reference to file
+vhost-user-rng.rst, the code and features of this revision are
+unchanged.
 
-Applied, thanks.
+Applies cleanly to git://git.qemu.org/qemu.git master(8be1d4ed9838).
+ 
+Thanks,
+Mathieu
+ 
+[1]. https://github.com/rust-vmm/vhost-device/pull/29
 
-r~
+Mathieu Poirier (3):
+  vhost-user-rng: Add vhost-user-rng implementation
+  vhost-user-rng-pci: Add vhost-user-rng-pci implementation
+  docs: Add documentation for vhost based RNG implementation
+
+ docs/system/device-emulation.rst       |   1 +
+ docs/system/devices/vhost-user-rng.rst |  39 ++++
+ hw/virtio/Kconfig                      |   5 +
+ hw/virtio/meson.build                  |   2 +
+ hw/virtio/vhost-user-rng-pci.c         |  79 +++++++
+ hw/virtio/vhost-user-rng.c             | 289 +++++++++++++++++++++++++
+ include/hw/virtio/vhost-user-rng.h     |  33 +++
+ 7 files changed, 448 insertions(+)
+ create mode 100644 docs/system/devices/vhost-user-rng.rst
+ create mode 100644 hw/virtio/vhost-user-rng-pci.c
+ create mode 100644 hw/virtio/vhost-user-rng.c
+ create mode 100644 include/hw/virtio/vhost-user-rng.h
+
+-- 
+2.25.1
 
 
