@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E071442A0BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:10:13 +0200 (CEST)
-Received: from localhost ([::1]:42916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 440E042A0C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:11:05 +0200 (CEST)
+Received: from localhost ([::1]:43474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maDnY-0001fk-ES
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:10:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33256)
+	id 1maDoO-00021Y-97
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:11:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1maDU2-0005vx-Rc
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42910)
+ id 1maDUB-00063f-Ti
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1maDU1-0002dK-8F
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:02 -0400
+ id 1maDU4-0002g4-Ih
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634028600;
+ s=mimecast20190719; t=1634028603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WPA/p2dWagRIpiYlhK4uwWCg79uRYzRg5ABGy7I7VcY=;
- b=gOdMY575FcZAx7fR5zc2gqPUS7TTPMzZymoN5mISc1cBso7LNp+8y1kVVPo1YikZkglkd3
- UqfTKLMv68UjV/24RJIN3lJCGw4XnSatG89MHf7a4JLVXHY/m1OwXVLv7tjQ8PFGma8+h8
- uRDX21O5NicQHn+wnHiDXPC7TMyWmoQ=
+ bh=FL9r18fhxLIANxPQB/apkNSCBNorZnLFRqGJv/YiG0I=;
+ b=eO22YP2JyytavLjxzEnK1FaI0csLpVPgUETuJoTsUDqLeTSHNyyqqo4qxs0RtOqmSRFeSJ
+ xzci2vAJvsObbDf5qGJlvCZjNRBGJCQV3DyQ8WPmXxO0LaRjy1i+RUorBWQQ+nxTMr7ahg
+ 0IczxrrlTXTHhfpgT+1v5U/mukWMKdU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-ckHkE69HND2IwUYWMSEa2g-1; Tue, 12 Oct 2021 04:49:59 -0400
-X-MC-Unique: ckHkE69HND2IwUYWMSEa2g-1
+ us-mta-336-l1lFa31ZNCWlYz2p7c11cg-1; Tue, 12 Oct 2021 04:50:00 -0400
+X-MC-Unique: l1lFa31ZNCWlYz2p7c11cg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3723ABBEE7;
- Tue, 12 Oct 2021 08:49:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81F0518125C0;
+ Tue, 12 Oct 2021 08:49:59 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 096136788C;
- Tue, 12 Oct 2021 08:49:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5183D5C1B4;
+ Tue, 12 Oct 2021 08:49:58 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 10/25] assertions for blockjob_int.h
-Date: Tue, 12 Oct 2021 04:48:51 -0400
-Message-Id: <20211012084906.2060507-11-eesposit@redhat.com>
+Subject: [PATCH v3 11/25] include/block/blockjob.h: global state API
+Date: Tue, 12 Oct 2021 04:48:52 -0400
+Message-Id: <20211012084906.2060507-12-eesposit@redhat.com>
 In-Reply-To: <20211012084906.2060507-1-eesposit@redhat.com>
 References: <20211012084906.2060507-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -93,41 +93,40 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- blockjob.c | 4 ++++
- 1 file changed, 4 insertions(+)
+blockjob functions run always under the BQL lock.
 
-diff --git a/blockjob.c b/blockjob.c
-index 4bad1408cb..fbd6c7d873 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -83,6 +83,7 @@ BlockJob *block_job_get(const char *id)
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+ include/block/blockjob.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/include/block/blockjob.h b/include/block/blockjob.h
+index d200f33c10..fa0c3f7a47 100644
+--- a/include/block/blockjob.h
++++ b/include/block/blockjob.h
+@@ -77,6 +77,13 @@ typedef struct BlockJob {
+     GSList *nodes;
+ } BlockJob;
  
- void block_job_free(Job *job)
- {
-+    assert(qemu_in_main_thread());
-     BlockJob *bjob = container_of(job, BlockJob, job);
- 
-     block_job_remove_all_bdrv(bjob);
-@@ -436,6 +437,8 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
-     BlockBackend *blk;
-     BlockJob *job;
- 
-+    assert(qemu_in_main_thread());
++/*
++ * Global state (GS) API. These functions run under the BQL lock.
++ *
++ * See include/block/block-global-state.h for more information about
++ * the GS API.
++ */
 +
-     if (job_id == NULL && !(flags & JOB_INTERNAL)) {
-         job_id = bdrv_get_device_name(bs);
-     }
-@@ -504,6 +507,7 @@ void block_job_iostatus_reset(BlockJob *job)
+ /**
+  * block_job_next:
+  * @job: A block job, or %NULL.
+@@ -158,6 +165,8 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp);
+  */
+ void block_job_iostatus_reset(BlockJob *job);
  
- void block_job_user_resume(Job *job)
- {
-+    assert(qemu_in_main_thread());
-     BlockJob *bjob = container_of(job, BlockJob, job);
-     block_job_iostatus_reset(bjob);
- }
++/* Common functions that are neither I/O nor Global State */
++
+ /**
+  * block_job_is_internal:
+  * @job: The job to determine if it is user-visible or not.
 -- 
 2.27.0
 
