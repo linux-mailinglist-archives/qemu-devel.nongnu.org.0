@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E2E42AF36
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 23:45:49 +0200 (CEST)
-Received: from localhost ([::1]:51290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B1242AF44
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 23:48:20 +0200 (CEST)
+Received: from localhost ([::1]:57740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maPam-00068A-9h
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 17:45:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53810)
+	id 1maPdD-00028a-6T
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 17:48:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1maPXn-00047J-Vo
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 17:42:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49623)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1maPY3-0004lu-05
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 17:42:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1maPXm-0008LC-Fs
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 17:42:43 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1maPY0-0008TR-1H
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 17:42:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634074961;
+ s=mimecast20190719; t=1634074975;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fIku1dT1BCZE/yp0Syj+eaTkXNerprru01g/5AhWtqA=;
- b=ZeYvxGKsNhSUSK26AOQpDM4/YXVjqQMo/olENxJgEqPjSsd3aKTckoI/mi4SSV41bPIjs+
- jSRGroaBGi8W9tfE+d5vS7efsXmLRfwyi05BQql5aDIUoQcedMpk8+ZrpzrGCQ5NmS6JPw
- Jo4cHsvcFi3H5rY/UIoPHiHZ3PMHbYI=
+ bh=0AD1Y+EG93KjbPXq649/ERVjoahBAHdSJDykccernNs=;
+ b=WsUm1pg5RSf6GndwiO55o16PDxbl7dpAiU3zRTs8d1pvcxkxLOINucGfNDuVhEl+xvNRsu
+ WxjTKPvyE4ndzXvFElnGwZuPqGBNJL+Cedi4C1ND1ccZDDFe08wW02BjWbCQbBRmf+l4Yz
+ 5lp4VNeb5sPzqYtn+dxpUGDpvQvdBxQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-d6OrDgV-OCuzBpxUBokcgw-1; Tue, 12 Oct 2021 17:42:39 -0400
-X-MC-Unique: d6OrDgV-OCuzBpxUBokcgw-1
+ us-mta-544-xfs0pyCqMW6264KNCDfgfw-1; Tue, 12 Oct 2021 17:42:51 -0400
+X-MC-Unique: xfs0pyCqMW6264KNCDfgfw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7BCC10A8E08;
- Tue, 12 Oct 2021 21:42:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58AE21006AA2;
+ Tue, 12 Oct 2021 21:42:50 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.16.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3571C5D6A8;
- Tue, 12 Oct 2021 21:42:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE4905D6A8;
+ Tue, 12 Oct 2021 21:42:38 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/10] python/aqmp: add greeting property to QMPClient
-Date: Tue, 12 Oct 2021 17:41:43 -0400
-Message-Id: <20211012214152.802483-2-jsnow@redhat.com>
+Subject: [PULL 02/10] python/aqmp: add .empty() method to EventListener
+Date: Tue, 12 Oct 2021 17:41:44 -0400
+Message-Id: <20211012214152.802483-3-jsnow@redhat.com>
 In-Reply-To: <20211012214152.802483-1-jsnow@redhat.com>
 References: <20211012214152.802483-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -88,34 +88,37 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Expose the greeting as a read-only property of QMPClient so it can be
-retrieved at-will.
+Synchronous clients may want to know if they're about to block waiting
+for an event or not. A method such as this is necessary to implement a
+compatible interface for the old QEMUMonitorProtocol using the new async
+internals.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-id: 20210923004938.3999963-2-jsnow@redhat.com
+Message-id: 20210923004938.3999963-3-jsnow@redhat.com
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/qmp_client.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ python/qemu/aqmp/events.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/python/qemu/aqmp/qmp_client.py b/python/qemu/aqmp/qmp_client.py
-index 82e9dab124c..d2ad7459f9f 100644
---- a/python/qemu/aqmp/qmp_client.py
-+++ b/python/qemu/aqmp/qmp_client.py
-@@ -224,6 +224,11 @@ def __init__(self, name: Optional[str] = None) -> None:
-             'asyncio.Queue[QMPClient._PendingT]'
-         ] = {}
- 
-+    @property
-+    def greeting(self) -> Optional[Greeting]:
-+        """The `Greeting` from the QMP server, if any."""
-+        return self._greeting
-+
-     @upper_half
-     async def _establish_session(self) -> None:
+diff --git a/python/qemu/aqmp/events.py b/python/qemu/aqmp/events.py
+index fb81d216102..271899f6b82 100644
+--- a/python/qemu/aqmp/events.py
++++ b/python/qemu/aqmp/events.py
+@@ -556,6 +556,12 @@ async def get(self) -> Message:
          """
+         return await self._queue.get()
+ 
++    def empty(self) -> bool:
++        """
++        Return `True` if there are no pending events.
++        """
++        return self._queue.empty()
++
+     def clear(self) -> None:
+         """
+         Clear this listener of all pending events.
 -- 
 2.31.1
 
