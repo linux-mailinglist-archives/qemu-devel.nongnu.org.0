@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F36429C2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 06:08:37 +0200 (CEST)
-Received: from localhost ([::1]:35880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E421429C7A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 06:36:01 +0200 (CEST)
+Received: from localhost ([::1]:48564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ma95g-0007W9-7v
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 00:08:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43948)
+	id 1ma9WB-0000Nx-WE
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 00:36:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ma93n-0006pK-S1
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 00:06:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ma93m-0007di-2r
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 00:06:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634011597;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FEEfo6/fO7vnWVX0k3aMZCS0u4yEik1OBiwvcb73+bY=;
- b=iY7GebVThfzUVhGP1vtYDM0F4OysIHKXd7puzbPqBfj6qlgMMV1XqjbyKg4OsCtzP9+HRR
- /XQHDrX5h6H9gBw2bCXHv6gwAN62hypdM7QOPRD4WromO4CO5fh0Ns2/j4WM6Oot5X1HHk
- JeaUApuS/ikOSlBD86RWui7wBKEGXRU=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-TruKgbrwNQ20os3iWF-4xg-1; Tue, 12 Oct 2021 00:06:35 -0400
-X-MC-Unique: TruKgbrwNQ20os3iWF-4xg-1
-Received: by mail-lf1-f70.google.com with SMTP id
- bi16-20020a0565120e9000b003fd56ef5a94so13085161lfb.3
- for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 21:06:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1ma9U4-0007ks-W4
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 00:33:49 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:41636)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
+ id 1ma9U3-00050G-Dm
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 00:33:48 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ na16-20020a17090b4c1000b0019f5bb661f9so1604136pjb.0
+ for <qemu-devel@nongnu.org>; Mon, 11 Oct 2021 21:33:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CQbaNe6aj0xbKRlEs32OQhErI+4t+xvuDfmcY1XqKS4=;
+ b=geoUBCS6vIaHIXR4G9U69Cd+UbZpSLvKzrSxrW9gHYu3jdspvt/V3o+LEkCjeOW74T
+ 14cO/ZdBjsnn1UxyXW/9YlI6ITi6vcRx8ASXhhVBE6SnuWQxQ7JK5jd0d6krH0lGqqw+
+ z2ul3ue1OsOPhGHxiZOHsaEazQyd6BuWz2BdlTfL3DX+oDKK49iek5wgjEvT5SIgNog7
+ 8zZwiQPqZcoM+ytNVDN2GNWSdJsUxGcmDh2yqEpsOiVBA6Pp9bQ+flQmkswAKtQDiP+U
+ 96FqdhE9UuYS7SzIZl1Dkepc0QaKFKY5AwNGjulJKYG9bofgMregVCENV4xoDkLrWukz
+ ibEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=FEEfo6/fO7vnWVX0k3aMZCS0u4yEik1OBiwvcb73+bY=;
- b=bRssqaXvB2DXcHy+8JDNMth7dVuhlFVo540rv8aGZEQzsTffy38kddHDpirs6Hv45O
- YrQe0OXLYkP4hXevqcFkCChO0rLT5m+6lGcpDCfjM2OWgludoUrwQsLa1nGYF8LlBoom
- JuQmM7oGqdg/dp+JwKn358OXj5V1FaIaT939hhpxMnbSl1r8TBOzXRVTlqzpPsgUgmER
- k1MU2HvyILdB4MYtVXtvZDtGtO1mJGC6JMR5wtsAapQOJSekrg3O70xl/ifL9ehrcuNF
- 5Iz9hyql7s89rMl4K6YFGyaqtwUZNmy1+1Dih9Z5IaVoDA5RCq9XUM0xVA3XNIIkwayA
- GTqw==
-X-Gm-Message-State: AOAM531o8n7+z3K9l72sDDk3gbrpnOu/7CsamOWuU7dXk21d/oMqDq3C
- DOTvLa2ngSADsWZTYxR4Pi+ofxpNRyhA+A9Eh1wbneoCw6ExSl+qx1Rx2BGI6PcTmNtOr/BJV1i
- JkoQUb6fWg1jdsNyMJQg5CmHNTloNz+0=
-X-Received: by 2002:a2e:5c8:: with SMTP id 191mr7851187ljf.107.1634011593880; 
- Mon, 11 Oct 2021 21:06:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzT2mncpArnx1I4VGQ2+qfICD/ll4RDk/14xrqiwVrrF92XtuUcahJCyNw/3aVVN3pnra8I4t/Lc6MRY/KUQOA=
-X-Received: by 2002:a2e:5c8:: with SMTP id 191mr7851162ljf.107.1634011593595; 
- Mon, 11 Oct 2021 21:06:33 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CQbaNe6aj0xbKRlEs32OQhErI+4t+xvuDfmcY1XqKS4=;
+ b=uSiXHYR89vmoxUB+QqiB72LoJHYjt1uDNeWarzRGrCZAIsX9RJXk4QGMtg6SEUohTu
+ KDYww1g7RUGu07P5EuWnH42wiSSXQiP6CTXaXagJQNllBsD6yDvNmGkg+975GvJRKTTV
+ gR1wgz0vyULhqUfoQZ0Mef4jouGWeCgZ0JjHnRFkR4UgpMuqedLZdmxSncHxC9UhLQzM
+ shgJIySyTbalBUy10Zbi2iSb/Y3lBtNpRwz16lCOMtpsfdUGfo+6gg+d/D5auwPa70wy
+ WZ3nfA7Uh0inYVktYNKZQrgHULwM6Nbg1+3EBfodVawwv31CbFO5UGMCsZv8EJL1k2Zn
+ Hg8A==
+X-Gm-Message-State: AOAM5330GJdHyTRZLoUMHHdTv9J153aBW3nS2ONNk2nfr3NhwzLyiue1
+ YJ4lnDLOS7FZRx0btGIef9K+1YtFhxw=
+X-Google-Smtp-Source: ABdhPJwzfbSl1T6I5tH56qArSTJwHr5Ixi19xNNMBafuvkzLsILg0OvnssBZUNX3Bq1mDIrFWaLtEw==
+X-Received: by 2002:a17:902:868d:b0:13d:dfa7:f3f2 with SMTP id
+ g13-20020a170902868d00b0013ddfa7f3f2mr28304760plo.30.1634013225619; 
+ Mon, 11 Oct 2021 21:33:45 -0700 (PDT)
+Received: from octofox.cadence.com ([2601:641:401:1d20:ecea:c8ec:ff7b:52])
+ by smtp.gmail.com with ESMTPSA id c8sm981781pjr.38.2021.10.11.21.33.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Oct 2021 21:33:44 -0700 (PDT)
+From: Max Filippov <jcmvbkbc@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/tcg/xtensa: allow testing big-endian cores
+Date: Mon, 11 Oct 2021 21:33:24 -0700
+Message-Id: <20211012043324.24045-1-jcmvbkbc@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20211001070603.307037-1-eperezma@redhat.com>
- <9f438a35-a5ff-1891-24e6-dd11d1a3bba6@redhat.com>
-In-Reply-To: <9f438a35-a5ff-1891-24e6-dd11d1a3bba6@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 12 Oct 2021 12:06:17 +0800
-Message-ID: <CACGkMEvQrJKYZ_xm+f5saZwd7jkYcDOdhNQXwHPU1PvGjGCFLA@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 00/20] vDPA shadow virtqueue
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=jcmvbkbc@gmail.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,77 +83,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- virtualization <virtualization@lists.linux-foundation.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Eric Blake <eblake@redhat.com>, Michael Lilja <ml@napatech.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 12, 2021 at 11:59 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/10/1 =E4=B8=8B=E5=8D=883:05, Eugenio P=C3=A9rez =E5=86=99=
-=E9=81=93:
-> > This series enable shadow virtqueue (SVQ) for vhost-vdpa devices. This
-> > is intended as a new method of tracking the memory the devices touch
-> > during a migration process: Instead of relay on vhost device's dirty
-> > logging capability, SVQ intercepts the VQ dataplane forwarding the
-> > descriptors between VM and device. This way qemu is the effective
-> > writer of guests memory, like in qemu's virtio device operation.
-> >
-> > When SVQ is enabled qemu offers a new vring to the device to read
-> > and write into, and also intercepts kicks and calls between the device
-> > and the guest. Used buffers relay would cause dirty memory being
-> > tracked, but at this RFC SVQ is not enabled on migration automatically.
-> >
-> > It is based on the ideas of DPDK SW assisted LM, in the series of
-> > DPDK's https://patchwork.dpdk.org/cover/48370/ . However, these does
-> > not map the shadow vq in guest's VA, but in qemu's.
-> >
-> > For qemu to use shadow virtqueues the guest virtio driver must not use
-> > features like event_idx or indirect descriptors. These limitations will
-> > be addressed in later series, but they are left out for simplicity at
-> > the moment.
-> >
-> > SVQ needs to be enabled with QMP command:
-> >
-> > { "execute": "x-vhost-enable-shadow-vq",
-> >        "arguments": { "name": "dev0", "enable": true } }
-> >
-> > This series includes some patches to delete in the final version that
-> > helps with its testing. The first two of the series freely implements
-> > the feature to stop the device and be able to retrieve its status. It's
-> > intended to be used with vp_vpda driver in a nested environment. This
-> > driver also need modifications to forward the new status bit.
-> >
-> > Patches 2-8 prepares the SVQ and QMP command to support guest to host
-> > notifications forwarding. If the SVQ is enabled with these ones
-> > applied and the device supports it, that part can be tested in
-> > isolation (for example, with networking), hopping through SVQ.
-> >
-> > Same thing is true with patches 9-13, but with device to guest
-> > notifications.
-> >
-> > The rest of the patches implements the actual buffer forwarding.
-> >
-> > Comments are welcome.
->
->
-> Hi Eugenio:
->
->
-> It would be helpful to have a public git repo for us to ease the review.
->
-> Thanks
->
+Don't disable all big-endian tests, instead check whether $(CORE) is
+supported by the configured $(QEMU) and enable tests if it is.
 
-Btw, we also need to measure the performance impact of the shadow virtqueue=
-.
+Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
+---
+ MAINTAINERS                                | 1 +
+ tests/tcg/xtensa/Makefile.softmmu-target   | 4 ++--
+ tests/tcg/xtensaeb/Makefile.softmmu-target | 5 +++++
+ 3 files changed, 8 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/xtensaeb/Makefile.softmmu-target
 
-Thanks
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 50435b8d2f50..8b5ed46a5f1c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -343,6 +343,7 @@ S: Maintained
+ F: target/xtensa/
+ F: hw/xtensa/
+ F: tests/tcg/xtensa/
++F: tests/tcg/xtensaeb/
+ F: disas/xtensa.c
+ F: include/hw/xtensa/xtensa-isa.h
+ F: configs/devices/xtensa*/default.mak
+diff --git a/tests/tcg/xtensa/Makefile.softmmu-target b/tests/tcg/xtensa/Makefile.softmmu-target
+index 9530cac2ad95..f1cf2a6496d2 100644
+--- a/tests/tcg/xtensa/Makefile.softmmu-target
++++ b/tests/tcg/xtensa/Makefile.softmmu-target
+@@ -2,7 +2,8 @@
+ # Xtensa softmmu tests
+ #
+ 
+-ifneq ($(TARGET_WORDS_BIGENDIAN),y)
++CORE=dc232b
++ifneq ($(shell $(QEMU) -cpu help | grep -w $(CORE)),)
+ 
+ XTENSA_SRC = $(SRC_PATH)/tests/tcg/xtensa
+ XTENSA_ALL = $(filter-out $(XTENSA_SRC)/linker.ld.S,$(wildcard $(XTENSA_SRC)/*.S))
+@@ -15,7 +16,6 @@ XTENSA_USABLE_TESTS = $(filter-out $(XTENSA_BROKEN_TESTS), $(XTENSA_TESTS))
+ TESTS += $(XTENSA_USABLE_TESTS)
+ VPATH += $(XTENSA_SRC)
+ 
+-CORE=dc232b
+ QEMU_OPTS+=-M sim -cpu $(CORE) -nographic -semihosting -icount 6 $(EXTFLAGS) -kernel
+ 
+ INCLUDE_DIRS = $(SRC_PATH)/target/xtensa/core-$(CORE)
+diff --git a/tests/tcg/xtensaeb/Makefile.softmmu-target b/tests/tcg/xtensaeb/Makefile.softmmu-target
+new file mode 100644
+index 000000000000..4204a96d53c0
+--- /dev/null
++++ b/tests/tcg/xtensaeb/Makefile.softmmu-target
+@@ -0,0 +1,5 @@
++#
++# Xtensa softmmu tests
++#
++
++include $(SRC_PATH)/tests/tcg/xtensa/Makefile.softmmu-target
+-- 
+2.20.1
 
 
