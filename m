@@ -2,67 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB5542AF50
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 23:51:44 +0200 (CEST)
-Received: from localhost ([::1]:40884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CD542AF65
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 23:56:09 +0200 (CEST)
+Received: from localhost ([::1]:48424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maPgV-0001NT-CT
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 17:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54156)
+	id 1maPkm-0006UE-Vr
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 17:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1maPYf-00063q-Oa
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 17:43:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49790)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1maPbx-0002SQ-Kw; Tue, 12 Oct 2021 17:47:01 -0400
+Received: from mail-eopbgr140108.outbound.protection.outlook.com
+ ([40.107.14.108]:14725 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1maPYc-0000T0-J9
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 17:43:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634075014;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OmNmlMU+lMrXtw7ojfZ4dpUPDyEE5IsCQi4bwPQDLI8=;
- b=bBoJRD8he98PBbfGz++O15A0iWYsjhTyz3+qHxf5/GY9JGLTwCtv3MUzn1n/FXJd4it9PZ
- IfSN5aBssh+2o5fr9GnE9FwcehpRrw/fXl6a1dbBum4Q8oQEOEEZ1ONmJQGaSVFTfi7VUW
- 4p90TDjcQr9uSJCTMsbRIIk2qgJOpAY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-1x9YnXSKMRWwdyasHZj_jA-1; Tue, 12 Oct 2021 17:43:30 -0400
-X-MC-Unique: 1x9YnXSKMRWwdyasHZj_jA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 884CA800FF0;
- Tue, 12 Oct 2021 21:43:29 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.16.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B92A05D6A8;
- Tue, 12 Oct 2021 21:43:24 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 10/10] python, iotests: remove socket_scm_helper
-Date: Tue, 12 Oct 2021 17:41:52 -0400
-Message-Id: <20211012214152.802483-11-jsnow@redhat.com>
-In-Reply-To: <20211012214152.802483-1-jsnow@redhat.com>
-References: <20211012214152.802483-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1maPbu-000679-Sl; Tue, 12 Oct 2021 17:47:01 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i4SvcoaNuWFMUJyIl3KpL76fKz388d1j1bM7MQ7AbGF5bvlBFv8pTdtsj+ZwME5qyP9o4UzMAmO9pyufab6mrdwkR44DXRof6HRUNHHPsqToZzlwmMSwM5oBtZTAPNqMQmXiQcUm5L0E945h6DT4RMRfzQYCUXorJzo7mvLAy8fd2WiioZwGl7xW7Eil+q4mV/iWtLaNr9yQdnlzr0PUsAjsmf81c4Xi+bteUtZmwWsIpCYfs7gKvWYlAbg4CKg+F/2WOBFHpa90x/1y2vcLWr9TMG2A+s1I16Jos6uBBGedh9a9zc2HtUgJeFQEe4OEeCc83q2bIKjGPMp2FODp8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=h8wT1oQAHsHIAIekDqiLNQDgvR+qufhMERDcdqRcy2s=;
+ b=F/ARD3tLdxEmmdJV9ei3DWCKDJfUnVXmg6oLXPUiSHKxYu7/itd0zdm92hQqyXjn6Hne53EwN1DLJRvkXesQx+P2iSSI6GH/ZdHiyaWDKzvRfP/c466fJwDkW8MDyR+qWjcu6xwi8Pevd0emvbXEpi9pbUQmpLkL1GOYcGoPPWVAZ+YDmjqE7qCXoZhmZjExHTQ+71dTNrMLhgVkoSViEJ6ZANFkMHXBqc8eP1fVVxAMiro/zbh9oIspZTmyeifjJWQGB3pqEtPGdFLB9T1zvUJpryBbUEWQi/R0JrtQZa/8YGIMPRblIyPY3G+XmuAemcF3EPb03YeZhP8yvlKjzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=h8wT1oQAHsHIAIekDqiLNQDgvR+qufhMERDcdqRcy2s=;
+ b=tMAi+XTPHRqFdn1HwVDwlwCgAc51KUaABI9YLryhtfI3c9hMQ/DJOF+I9cB61Q53qfpbVA1L1t2+78WpL46wh2CBAHpkqaGbqLtBTHyUxq6fsbRZx5+fhENIK5zo5JKgzbR299OfBRrr/Ye+Y+SS8VdgxGcwhcMnMqJlr/Qgejw=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4690.eurprd08.prod.outlook.com (2603:10a6:20b:cd::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.19; Tue, 12 Oct
+ 2021 21:46:54 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a994:9f7c:53a5:84bc%5]) with mapi id 15.20.4587.026; Tue, 12 Oct 2021
+ 21:46:54 +0000
+Message-ID: <4d24c91a-4ba7-0f1d-9776-e04daf2abe16@virtuozzo.com>
+Date: Wed, 13 Oct 2021 00:46:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 10/12] block-backend: convert blk_aio_ functions to
+ int64_t bytes paramter
+Content-Language: en-US
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, crosa@redhat.com,
+ ehabkost@redhat.com, hreitz@redhat.com, kwolf@redhat.com, stefanha@redhat.com
+References: <20211006131718.214235-1-vsementsov@virtuozzo.com>
+ <20211006131718.214235-11-vsementsov@virtuozzo.com>
+ <20211006202925.x56o344sxsgbkrvh@redhat.com>
+ <b251f39d-d727-311e-e6e4-f84c360cb3af@virtuozzo.com>
+ <20211012213703.5knzppc4rzgymp5v@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <20211012213703.5knzppc4rzgymp5v@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM6P191CA0045.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:209:7f::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received: from [192.168.100.10] (185.215.60.43) by
+ AM6P191CA0045.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:7f::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4587.25 via Frontend Transport; Tue, 12 Oct 2021 21:46:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 99936444-c8b5-4a93-e17e-08d98dc9ce93
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4690:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4690022F02EAAA2BB791F56EC1B69@AM6PR08MB4690.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: L2y3Kmv6upL6bc+VY6lLIGm63v/XhnRCjZGhlfSezBkEHPS2/8zeQjvjx7LrZU0AypEzyiLHByp7Ke6Kdm+yMT1EQwGOWwQDY9qPwTjDa8EKCaJaOsUWkqRosUNRH8g6ciDRD8hTUi518Wbt0Z1p1qY4QvEnE+al/6Amdjk+eHRvIKpR61NAIRCJtQ3tWKi3X7n6yOw/Z4neNJsFMA/bNPX8o2ViIFC3iwrW7bLnFDYFvuwXE1y+/s45VhBj4sKReCXkPDSrDARf+IYe9zbguxJF26iBJx25tiFxCbkStRQ4kl6bF5A6oz3AbjEaoeFNqRuC44fh0JQvA2GPIBmb011Ij26e2fzxXW72zkvUDqeRAgvMw28XkxSsWYAYXB1vtyyr7uxxg/p6n04tUXrV5Ouz/5yL0SEMMhPg7LpsIgCe1kpLirBWQkdaUOv2rru3PndYsKdYxZmjYa6zDwSGnZTqR4ST4OnfmN4p8IlgEtXo/F5EBdQDhPwkBrSWrZOilGsmiLWhfHO4TARn9a3vyEH7XS1jkPuVmm4WgQAQf1C7wCtLOnjzI3NZH9DVQ4ioTMF5VkpYOUbgQJVPSq5uVxR9O8RGdEFH4vRU0GJsRhJPM9aCqzAvDmjVUuoYs0dkW+RB6sb4xYS/PeXxr4xmh9vPWRwvEa0B+Wx1QaJxLCuojXRVX4PgVSpDcrp7X15cJl7kKHH7h4h7R4VdenR0R8NQZs5wJ4UAWfmIopxKjHvhhoqQyRpC+zEhKdbhCXfNSrfQpLMGs2Ah7Tw8/BFC5g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(186003)(66476007)(956004)(316002)(31686004)(2616005)(508600001)(8936002)(66946007)(26005)(6486002)(86362001)(66556008)(52116002)(2906002)(5660300002)(16576012)(38350700002)(6916009)(38100700002)(8676002)(4326008)(36756003)(31696002)(83380400001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OWtWTEsrc0lHUDAydmF5Q1RqTUlJcUdwS0JuMEF1N3JiRTNwNWhEZ2hmOUx4?=
+ =?utf-8?B?c2g2VWFoUGY4cjIvL1N6TUhpV0FYM29EUWIrVXdiRVdMeExRNXZsbXBGOTdG?=
+ =?utf-8?B?R0ZGb1pXVEdSVnRZWmRpMzRZWXRTbitHQVZSR2wwRU1ncXFrblliK0NxVVBX?=
+ =?utf-8?B?NHZsZXFpWmxMTFNRQ1UxbUFiK2FlemdTNTVWa1BtK3JJQm5zQUFVNGh0c0Vj?=
+ =?utf-8?B?UlF1OFlWMHZ0bnNxVW90NVN3QXo3cEVwM2I5c1dKS2RwK0lqZUpUK0JEcm13?=
+ =?utf-8?B?eTIzQlAvVHZBbStmR1VzNnJNY2hZYkhaNENGeENrQTVaRFRiTjQyL1p0QTBj?=
+ =?utf-8?B?V2p0VVB2U0Y5ck4xWFUxQkFPcGNkY1RSWEFIUVR6QzdDdEhuVUVOV0pDRDhw?=
+ =?utf-8?B?L1BuTWJCZkdBYXR1Smh0Nyt2eGp6ZzBnd3B6THJINmtwcktEUlZVRVRCdGRB?=
+ =?utf-8?B?emt1b3JZSll5NExmQnRUM0tTeDRYcjdTSCtlSmFCV2pSTGlMNzVWOFQvNE96?=
+ =?utf-8?B?RmxzaWdISkZ2QnFsRTg1RjhNSDN1WDE0L1ovbzltZDZyM0hQYm8zRUZnU0du?=
+ =?utf-8?B?LzV2NUFYcUtKTWJYQUt0dWdWWXVvaWwrblliZUZ2c0daTWN4TFJSVGhKS1Ft?=
+ =?utf-8?B?ZHpMWENxOWRLMEZkdW1FM2xhd0hFZjZGRTBJdUh3WUdBYm9qOVlEZGZwMWdl?=
+ =?utf-8?B?bkh6bC8zcUl0eHQrVlZKZkFNaG9MYzgyMGFKQ1Y4eWxPN1I5WStPWmQyVjB2?=
+ =?utf-8?B?Zk5QL2ttS1ZSUEg4TXBocXdMbHBwS1ZhMlQ2cU0zd2F4b2MrbDB1clM4NUsv?=
+ =?utf-8?B?OUJZYjYzK2dIWGhiT0xzMVUvL0ZaRGVuZHg0b29FWVJwRnNGNmx1MW5kSTZm?=
+ =?utf-8?B?S0RDWUJwdFRFd1UyZCt2d1B4eVpwOTF0VlVYTVNBcjFralZnejlOejVkN2Zo?=
+ =?utf-8?B?dzJMWHg0WUJ5S3dTQmxFdmJZRVFrZFJmNVRHUXlMaCtQR3R1MC9UT1lxc1dz?=
+ =?utf-8?B?UFF1U1Y5ZzB3YXFQM2dvWjhjZU9ocGpaNGphRFMrNmFPaVJzR0RVdmY1Mmlx?=
+ =?utf-8?B?bEpjcXlJZVlFVmRaNW1GZDZXOGRYZmphcUtwMTlXOUlsV0hQZ3hNNm0xc2FB?=
+ =?utf-8?B?Nkx0WmFNWVJaekpFcTAzbGhOZWt2RzRPems5aHc1ZGE1T3p3bjRRUlczNGVi?=
+ =?utf-8?B?Wk96N3JrVXBtOHQxbnlvTjh1eWN3TXJydUhydlpPV05vMFNTOE9GZ2ZsSXY5?=
+ =?utf-8?B?T0laWXMyYkQ3cDhzaGZ4ak4yNFRrelRORGlqSC9nT0tqSnlwbUVsOGswb09x?=
+ =?utf-8?B?cnpNWFNyQkxPWXZiUHREQlBLOWpjeDZoZXdpam51ZDhQbWROWG41d3hmTnZq?=
+ =?utf-8?B?S3ZKaExpanBKOHdFN283eUV2a2ZKblVuazV6WHhmekg0alR1bGEvcHBnQVg0?=
+ =?utf-8?B?TjlWT0tRT3hMaWJyRERyN3Vtb1JNM0FKMjdNejU4T0FLcFJON1FVcmw0Wks3?=
+ =?utf-8?B?aGtHKzdSVmtFNHhzdjZIZ2dBT1ZkTTVmK0RpbEZYL0IwK1dER0h3cHhJcmh3?=
+ =?utf-8?B?NzFnL01FRWEwUzFtWFYvTTcyeVhaSXRNT1gxNy9TL2NsdmorMnpqSHVCS2tw?=
+ =?utf-8?B?cXUrMVRDS1Jzd3lyUTNwdlNsSS82SVFrcDN3bHVpOGErZ2V2bTVTMVFsWnZk?=
+ =?utf-8?B?anpTUVgzdDZaQXBCblVCTnlGUVk5SEFtNC9TUFhxd2pyS3hNYk8zb3dsd1FM?=
+ =?utf-8?Q?P48Inci+i6BGK0wbMfga6qHM5XmukMZrU6cuNUu?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99936444-c8b5-4a93-e17e-08d98dc9ce93
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2021 21:46:54.4880 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: E36NNJBXTmSIYVtlnGr7KXJss3m20DJllzxaj9AbdfT4u/ENmSdMNgUFhr6YPeQsSVmXrIMCWD3nJlsg7SXUrTavW5OgUa/c9+j6acrQaIA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4690
+Received-SPF: pass client-ip=40.107.14.108;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,328 +148,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's not used anymore, now.
+13.10.2021 00:37, Eric Blake wrote:
+> On Tue, Oct 12, 2021 at 07:13:23PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>>>> @@ -1530,6 +1531,7 @@ BlockAIOCB *blk_aio_preadv(BlockBackend *blk, int64_t offset,
+>>>>                               QEMUIOVector *qiov, BdrvRequestFlags flags,
+>>>>                               BlockCompletionFunc *cb, void *opaque)
+>>>>    {
+>>>> +    assert(qiov->size <= INT64_MAX);
+>>>
+>>> I hope this doesn't cause 32-bit compilers to warn about an
+>>> always-true expression; but if it does, we'll figure something out.
+>>> That's not enough for me to ask for you to respin this, though, so:
+>>>
+>>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>>>
+>>
+>> So, here we need
+>>
+>> assert((uint64_t)qiov->size <= INT64_MAX);
+>>
+>> as in recent fix by Hanna.
+>>
+> 
+> Indeed.
+> 
+>> Eric, will you stage this as continuation of 64bit series, or do we wait for Kevin or Hanna, or for me resending it with this small fix and your wording fixes?
+> 
+> At this point, I think I'm fine touching up the series and staging it
+> through my tree.
+> 
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-id: 20210923004938.3999963-11-jsnow@redhat.com
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- tests/qemu-iotests/socket_scm_helper.c | 136 -------------------------
- python/qemu/machine/machine.py         |   3 -
- python/qemu/machine/qtest.py           |   2 -
- tests/Makefile.include                 |   1 -
- tests/meson.build                      |   4 -
- tests/qemu-iotests/iotests.py          |   3 -
- tests/qemu-iotests/meson.build         |   5 -
- tests/qemu-iotests/testenv.py          |   8 +-
- 8 files changed, 1 insertion(+), 161 deletions(-)
- delete mode 100644 tests/qemu-iotests/socket_scm_helper.c
- delete mode 100644 tests/qemu-iotests/meson.build
+Great, thanks!
 
-diff --git a/tests/qemu-iotests/socket_scm_helper.c b/tests/qemu-iotests/socket_scm_helper.c
-deleted file mode 100644
-index eb76d31aa94..00000000000
---- a/tests/qemu-iotests/socket_scm_helper.c
-+++ /dev/null
-@@ -1,136 +0,0 @@
--/*
-- * SCM_RIGHTS with unix socket help program for test
-- *
-- * Copyright IBM, Inc. 2013
-- *
-- * Authors:
-- *  Wenchao Xia    <xiawenc@linux.vnet.ibm.com>
-- *
-- * This work is licensed under the terms of the GNU LGPL, version 2 or later.
-- * See the COPYING.LIB file in the top-level directory.
-- */
--
--#include "qemu/osdep.h"
--#include <sys/socket.h>
--#include <sys/un.h>
--
--/* #define SOCKET_SCM_DEBUG */
--
--/*
-- * @fd and @fd_to_send will not be checked for validation in this function,
-- * a blank will be sent as iov data to notify qemu.
-- */
--static int send_fd(int fd, int fd_to_send)
--{
--    struct msghdr msg;
--    struct iovec iov[1];
--    int ret;
--    char control[CMSG_SPACE(sizeof(int))];
--    struct cmsghdr *cmsg;
--
--    memset(&msg, 0, sizeof(msg));
--    memset(control, 0, sizeof(control));
--
--    /* Send a blank to notify qemu */
--    iov[0].iov_base = (void *)" ";
--    iov[0].iov_len = 1;
--
--    msg.msg_iov = iov;
--    msg.msg_iovlen = 1;
--
--    msg.msg_control = control;
--    msg.msg_controllen = sizeof(control);
--
--    cmsg = CMSG_FIRSTHDR(&msg);
--
--    cmsg->cmsg_len = CMSG_LEN(sizeof(int));
--    cmsg->cmsg_level = SOL_SOCKET;
--    cmsg->cmsg_type = SCM_RIGHTS;
--    memcpy(CMSG_DATA(cmsg), &fd_to_send, sizeof(int));
--
--    do {
--        ret = sendmsg(fd, &msg, 0);
--    } while (ret < 0 && errno == EINTR);
--
--    if (ret < 0) {
--        fprintf(stderr, "Failed to send msg, reason: %s\n", strerror(errno));
--    }
--
--    return ret;
--}
--
--/* Convert string to fd number. */
--static int get_fd_num(const char *fd_str, bool silent)
--{
--    int sock;
--    char *err;
--
--    errno = 0;
--    sock = strtol(fd_str, &err, 10);
--    if (errno) {
--        if (!silent) {
--            fprintf(stderr, "Failed in strtol for socket fd, reason: %s\n",
--                    strerror(errno));
--        }
--        return -1;
--    }
--    if (!*fd_str || *err || sock < 0) {
--        if (!silent) {
--            fprintf(stderr, "bad numerical value for socket fd '%s'\n", fd_str);
--        }
--        return -1;
--    }
--
--    return sock;
--}
--
--/*
-- * To make things simple, the caller needs to specify:
-- * 1. socket fd.
-- * 2. path of the file to be sent.
-- */
--int main(int argc, char **argv, char **envp)
--{
--    int sock, fd, ret;
--
--#ifdef SOCKET_SCM_DEBUG
--    int i;
--    for (i = 0; i < argc; i++) {
--        fprintf(stderr, "Parameter %d: %s\n", i, argv[i]);
--    }
--#endif
--
--    if (argc != 3) {
--        fprintf(stderr,
--                "Usage: %s < socket-fd > < file-path >\n",
--                argv[0]);
--        return EXIT_FAILURE;
--    }
--
--
--    sock = get_fd_num(argv[1], false);
--    if (sock < 0) {
--        return EXIT_FAILURE;
--    }
--
--    fd = get_fd_num(argv[2], true);
--    if (fd < 0) {
--        /* Now only open a file in readonly mode for test purpose. If more
--           precise control is needed, use python script in file operation, which
--           is supposed to fork and exec this program. */
--        fd = open(argv[2], O_RDONLY);
--        if (fd < 0) {
--            fprintf(stderr, "Failed to open file '%s'\n", argv[2]);
--            return EXIT_FAILURE;
--        }
--    }
--
--    ret = send_fd(sock, fd);
--    if (ret < 0) {
--        close(fd);
--        return EXIT_FAILURE;
--    }
--
--    close(fd);
--    return EXIT_SUCCESS;
--}
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index 1c6532a3d68..056d340e355 100644
---- a/python/qemu/machine/machine.py
-+++ b/python/qemu/machine/machine.py
-@@ -98,7 +98,6 @@ def __init__(self,
-                  name: Optional[str] = None,
-                  base_temp_dir: str = "/var/tmp",
-                  monitor_address: Optional[SocketAddrT] = None,
--                 socket_scm_helper: Optional[str] = None,
-                  sock_dir: Optional[str] = None,
-                  drain_console: bool = False,
-                  console_log: Optional[str] = None,
-@@ -113,7 +112,6 @@ def __init__(self,
-         @param name: prefix for socket and log file names (default: qemu-PID)
-         @param base_temp_dir: default location where temp files are created
-         @param monitor_address: address for QMP monitor
--        @param socket_scm_helper: helper program, required for send_fd_scm()
-         @param sock_dir: where to create socket (defaults to base_temp_dir)
-         @param drain_console: (optional) True to drain console socket to buffer
-         @param console_log: (optional) path to console log file
-@@ -134,7 +132,6 @@ def __init__(self,
-         self._base_temp_dir = base_temp_dir
-         self._sock_dir = sock_dir or self._base_temp_dir
-         self._log_dir = log_dir
--        self._socket_scm_helper = socket_scm_helper
- 
-         if monitor_address is not None:
-             self._monitor_address = monitor_address
-diff --git a/python/qemu/machine/qtest.py b/python/qemu/machine/qtest.py
-index 395cc8fbfe9..f2f9aaa5e50 100644
---- a/python/qemu/machine/qtest.py
-+++ b/python/qemu/machine/qtest.py
-@@ -115,7 +115,6 @@ def __init__(self,
-                  wrapper: Sequence[str] = (),
-                  name: Optional[str] = None,
-                  base_temp_dir: str = "/var/tmp",
--                 socket_scm_helper: Optional[str] = None,
-                  sock_dir: Optional[str] = None,
-                  qmp_timer: Optional[float] = None):
-         # pylint: disable=too-many-arguments
-@@ -126,7 +125,6 @@ def __init__(self,
-             sock_dir = base_temp_dir
-         super().__init__(binary, args, wrapper=wrapper, name=name,
-                          base_temp_dir=base_temp_dir,
--                         socket_scm_helper=socket_scm_helper,
-                          sock_dir=sock_dir, qmp_timer=qmp_timer)
-         self._qtest: Optional[QEMUQtestProtocol] = None
-         self._qtest_path = os.path.join(sock_dir, name + "-qtest.sock")
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 7426522bbed..7bb8961515c 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -148,7 +148,6 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
- check:
- 
- ifeq ($(CONFIG_TOOLS)$(CONFIG_POSIX),yy)
--QEMU_IOTESTS_HELPERS-$(CONFIG_LINUX) = tests/qemu-iotests/socket_scm_helper$(EXESUF)
- check: check-block
- export PYTHON
- check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
-diff --git a/tests/meson.build b/tests/meson.build
-index 55a7b082751..3f3882748ae 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -67,10 +67,6 @@ if have_tools and 'CONFIG_VHOST_USER' in config_host and 'CONFIG_LINUX' in confi
-              dependencies: [qemuutil, vhost_user])
- endif
- 
--if have_system and 'CONFIG_POSIX' in config_host
--  subdir('qemu-iotests')
--endif
--
- test('decodetree', sh,
-      args: [ files('decode/check.sh'), config_host['PYTHON'], files('../scripts/decodetree.py') ],
-      workdir: meson.current_source_dir() / 'decode',
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index b06ad76e0c5..e5fff6ddcfc 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -107,8 +107,6 @@
- 
-     qemu_valgrind = ['valgrind', valgrind_logfile, '--error-exitcode=99']
- 
--socket_scm_helper = os.environ.get('SOCKET_SCM_HELPER', 'socket_scm_helper')
--
- luks_default_secret_object = 'secret,id=keysec0,data=' + \
-                              os.environ.get('IMGKEYSECRET', '')
- luks_default_key_secret_opt = 'key-secret=keysec0'
-@@ -598,7 +596,6 @@ def __init__(self, path_suffix=''):
-         super().__init__(qemu_prog, qemu_opts, wrapper=wrapper,
-                          name=name,
-                          base_temp_dir=test_dir,
--                         socket_scm_helper=socket_scm_helper,
-                          sock_dir=sock_dir, qmp_timer=timer)
-         self._num_drives = 0
- 
-diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
-deleted file mode 100644
-index 67aed1e4927..00000000000
---- a/tests/qemu-iotests/meson.build
-+++ /dev/null
-@@ -1,5 +0,0 @@
--if 'CONFIG_LINUX' in config_host
--    socket_scm_helper = executable('socket_scm_helper', 'socket_scm_helper.c')
--else
--    socket_scm_helper = []
--endif
-diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-index 99a57a69f3a..c33454fa685 100644
---- a/tests/qemu-iotests/testenv.py
-+++ b/tests/qemu-iotests/testenv.py
-@@ -68,7 +68,7 @@ class TestEnv(ContextManager['TestEnv']):
-     env_variables = ['PYTHONPATH', 'TEST_DIR', 'SOCK_DIR', 'SAMPLE_IMG_DIR',
-                      'OUTPUT_DIR', 'PYTHON', 'QEMU_PROG', 'QEMU_IMG_PROG',
-                      'QEMU_IO_PROG', 'QEMU_NBD_PROG', 'QSD_PROG',
--                     'SOCKET_SCM_HELPER', 'QEMU_OPTIONS', 'QEMU_IMG_OPTIONS',
-+                     'QEMU_OPTIONS', 'QEMU_IMG_OPTIONS',
-                      'QEMU_IO_OPTIONS', 'QEMU_IO_OPTIONS_NO_FMT',
-                      'QEMU_NBD_OPTIONS', 'IMGOPTS', 'IMGFMT', 'IMGPROTO',
-                      'AIOMODE', 'CACHEMODE', 'VALGRIND_QEMU',
-@@ -140,7 +140,6 @@ def init_binaries(self) -> None:
-         """Init binary path variables:
-              PYTHON (for bash tests)
-              QEMU_PROG, QEMU_IMG_PROG, QEMU_IO_PROG, QEMU_NBD_PROG, QSD_PROG
--             SOCKET_SCM_HELPER
-         """
-         self.python = sys.executable
- 
-@@ -174,10 +173,6 @@ def root(*names: str) -> str:
-             if not isxfile(b):
-                 sys.exit('Not executable: ' + b)
- 
--        helper_path = os.path.join(self.build_iotests, 'socket_scm_helper')
--        if isxfile(helper_path):
--            self.socket_scm_helper = helper_path  # SOCKET_SCM_HELPER
--
-     def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
-                  cachemode: Optional[str] = None,
-                  imgopts: Optional[str] = None,
-@@ -303,7 +298,6 @@ def print_env(self) -> None:
- PLATFORM      -- {platform}
- TEST_DIR      -- {TEST_DIR}
- SOCK_DIR      -- {SOCK_DIR}
--SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}
- GDB_OPTIONS   -- {GDB_OPTIONS}
- VALGRIND_QEMU -- {VALGRIND_QEMU}
- PRINT_QEMU_OUTPUT -- {PRINT_QEMU}
 -- 
-2.31.1
-
+Best regards,
+Vladimir
 
