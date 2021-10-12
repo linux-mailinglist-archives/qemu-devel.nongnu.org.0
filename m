@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F321429ED2
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 09:43:59 +0200 (CEST)
-Received: from localhost ([::1]:46718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 239D7429F16
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 09:56:29 +0200 (CEST)
+Received: from localhost ([::1]:54096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maCS6-0001SL-6F
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 03:43:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44090)
+	id 1maCeC-00008V-6H
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 03:56:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCM8-0000QB-LC
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:37:49 -0400
-Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220]:47849)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCMA-0000Sn-LK
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:37:52 -0400
+Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:55881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCM0-00052F-Kw
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:37:48 -0400
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCM1-00052H-0B
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:37:50 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.109.138.5])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 54F3421E9A;
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 6C9C421A51;
  Tue, 12 Oct 2021 07:37:38 +0000 (UTC)
 Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 12 Oct
- 2021 09:37:36 +0200
+ 2021 09:37:37 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-106R0060199f69e-3a94-4e08-8453-898e4d9d1b31,
+ (GARM-106R006eeafb683-62c9-4e81-b6b7-4ba7d74a99f0,
  B93E5558764F88B003587FF4B0B721A638511A69) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 14/18] hw: aspeed_gpio: Fix GPIO array indexing
-Date: Tue, 12 Oct 2021 09:37:24 +0200
-Message-ID: <20211012073728.257748-15-clg@kaod.org>
+Subject: [PULL 15/18] hw/adc: Add basic Aspeed ADC model
+Date: Tue, 12 Oct 2021 09:37:25 +0200
+Message-ID: <20211012073728.257748-16-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211012073728.257748-1-clg@kaod.org>
 References: <20211012073728.257748-1-clg@kaod.org>
@@ -42,13 +42,13 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.106]
 X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 9809bfe2-3c81-457e-8616-e21f4db6a991
-X-Ovh-Tracer-Id: 4269693922953366377
+X-Ovh-Tracer-GUID: 2ef14759-8b55-471e-98f7-e57a7fefd074
+X-Ovh-Tracer-Id: 4269693922482883433
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtjedguddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
- helo=5.mo552.mail-out.ovh.net
+Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
+ helo=10.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -73,256 +73,546 @@ Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Delevoryas <pdel@fb.com>
+From: Andrew Jeffery <andrew@aj.id.au>
 
-The gpio array is declared as a dense array:
+This model implements enough behaviour to do basic functionality tests
+such as device initialisation and read out of dummy sample values. The
+sample value generation strategy is similar to the STM ADC already in
+the tree.
 
-  qemu_irq gpios[ASPEED_GPIO_NR_PINS];
-
-(AST2500 has 228, AST2400 has 216, AST2600 has 208)
-
-However, this array is used like a matrix of GPIO sets
-(e.g. gpio[NR_SETS][NR_PINS_PER_SET] = gpio[8][32])
-
-  size_t offset = set * GPIOS_PER_SET + gpio;
-  qemu_set_irq(s->gpios[offset], !!(new & mask));
-
-This can result in an out-of-bounds access to "s->gpios" because the
-gpio sets do _not_ have the same length. Some of the groups (e.g.
-GPIOAB) only have 4 pins. 228 != 8 * 32 == 256.
-
-To fix this, I converted the gpio array from dense to sparse, to that
-match both the hardware layout and this existing indexing code.
-
-Fixes: 4b7f956862dc2db4c5c ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+[clg : support for multiple engines (AST2600) ]
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+[pdel : refactored engine register struct fields to regs[] array field]
+[pdel : added guest-error checking for upper-8 channel regs in AST2600]
+[pdel : allow 16-bit reads of the channel data registers]
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
-Message-Id: <20211008033501.934729-2-pdel@fb.com>
+Message-Id: <20211005052604.1674891-2-pdel@fb.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/gpio/aspeed_gpio.h |  5 +--
- hw/gpio/aspeed_gpio.c         | 80 +++++++++++++++--------------------
- 2 files changed, 35 insertions(+), 50 deletions(-)
+ include/hw/adc/aspeed_adc.h |  55 +++++
+ hw/adc/aspeed_adc.c         | 427 ++++++++++++++++++++++++++++++++++++
+ hw/adc/meson.build          |   1 +
+ hw/adc/trace-events         |   3 +
+ 4 files changed, 486 insertions(+)
+ create mode 100644 include/hw/adc/aspeed_adc.h
+ create mode 100644 hw/adc/aspeed_adc.c
 
-diff --git a/include/hw/gpio/aspeed_gpio.h b/include/hw/gpio/aspeed_gpio.h
-index e1636ce7fea9..801846befb3b 100644
---- a/include/hw/gpio/aspeed_gpio.h
-+++ b/include/hw/gpio/aspeed_gpio.h
-@@ -17,9 +17,9 @@
- OBJECT_DECLARE_TYPE(AspeedGPIOState, AspeedGPIOClass, ASPEED_GPIO)
- 
- #define ASPEED_GPIO_MAX_NR_SETS 8
-+#define ASPEED_GPIOS_PER_SET 32
- #define ASPEED_REGS_PER_BANK 14
- #define ASPEED_GPIO_MAX_NR_REGS (ASPEED_REGS_PER_BANK * ASPEED_GPIO_MAX_NR_SETS)
--#define ASPEED_GPIO_NR_PINS 228
- #define ASPEED_GROUPS_PER_SET 4
- #define ASPEED_GPIO_NR_DEBOUNCE_REGS 3
- #define ASPEED_CHARS_PER_GROUP_LABEL 4
-@@ -60,7 +60,6 @@ struct AspeedGPIOClass {
-     const GPIOSetProperties *props;
-     uint32_t nr_gpio_pins;
-     uint32_t nr_gpio_sets;
--    uint32_t gap;
-     const AspeedGPIOReg *reg_table;
- };
- 
-@@ -72,7 +71,7 @@ struct AspeedGPIOState {
-     MemoryRegion iomem;
-     int pending;
-     qemu_irq irq;
--    qemu_irq gpios[ASPEED_GPIO_NR_PINS];
-+    qemu_irq gpios[ASPEED_GPIO_MAX_NR_SETS][ASPEED_GPIOS_PER_SET];
- 
- /* Parallel GPIO Registers */
-     uint32_t debounce_regs[ASPEED_GPIO_NR_DEBOUNCE_REGS];
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index 33a40a624ac4..911d21c8cfbe 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -16,11 +16,7 @@
- #include "hw/irq.h"
- #include "migration/vmstate.h"
- 
--#define GPIOS_PER_REG 32
--#define GPIOS_PER_SET GPIOS_PER_REG
--#define GPIO_PIN_GAP_SIZE 4
- #define GPIOS_PER_GROUP 8
--#define GPIO_GROUP_SHIFT 3
- 
- /* GPIO Source Types */
- #define ASPEED_CMD_SRC_MASK         0x01010101
-@@ -259,7 +255,7 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
- 
-     diff = old ^ new;
-     if (diff) {
--        for (gpio = 0; gpio < GPIOS_PER_REG; gpio++) {
-+        for (gpio = 0; gpio < ASPEED_GPIOS_PER_SET; gpio++) {
-             uint32_t mask = 1 << gpio;
- 
-             /* If the gpio needs to be updated... */
-@@ -283,8 +279,7 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
-             if (direction & mask) {
-                 /* ...trigger the line-state IRQ */
-                 ptrdiff_t set = aspeed_gpio_set_idx(s, regs);
--                size_t offset = set * GPIOS_PER_SET + gpio;
--                qemu_set_irq(s->gpios[offset], !!(new & mask));
-+                qemu_set_irq(s->gpios[set][gpio], !!(new & mask));
-             } else {
-                 /* ...otherwise if we meet the line's current IRQ policy... */
-                 if (aspeed_evaluate_irq(regs, old & mask, gpio)) {
-@@ -297,21 +292,6 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
-     qemu_set_irq(s->irq, !!(s->pending));
- }
- 
--static uint32_t aspeed_adjust_pin(AspeedGPIOState *s, uint32_t pin)
--{
--    AspeedGPIOClass *agc = ASPEED_GPIO_GET_CLASS(s);
--    /*
--     * The 2500 has a 4 pin gap in group AB and the 2400 has a 4 pin
--     * gap in group Y (and only four pins in AB but this is the last group so
--     * it doesn't matter).
--     */
--    if (agc->gap && pin >= agc->gap) {
--        pin += GPIO_PIN_GAP_SIZE;
--    }
--
--    return pin;
--}
--
- static bool aspeed_gpio_get_pin_level(AspeedGPIOState *s, uint32_t set_idx,
-                                       uint32_t pin)
- {
-@@ -367,7 +347,7 @@ static uint32_t update_value_control_source(GPIOSets *regs, uint32_t old_value,
-     uint32_t new_value = 0;
- 
-     /* for each group in set */
--    for (i = 0; i < GPIOS_PER_REG; i += GPIOS_PER_GROUP) {
-+    for (i = 0; i < ASPEED_GPIOS_PER_SET; i += GPIOS_PER_GROUP) {
-         cmd_source = extract32(regs->cmd_source_0, i, 1)
-                 | (extract32(regs->cmd_source_1, i, 1) << 1);
- 
-@@ -637,7 +617,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
-          *   bidirectional  |   1       |   1        |  data
-          *   input only     |   1       |   0        |   0
-          *   output only    |   0       |   1        |   1
--         *   no pin / gap   |   0       |   0        |   0
-+         *   no pin         |   0       |   0        |   0
-          *
-          *  which is captured by:
-          *  data = ( data | ~input) & output;
-@@ -779,7 +759,7 @@ static void aspeed_gpio_set_pin(Object *obj, Visitor *v, const char *name,
- }
- 
- /****************** Setup functions ******************/
--static const GPIOSetProperties ast2400_set_props[] = {
-+static const GPIOSetProperties ast2400_set_props[ASPEED_GPIO_MAX_NR_SETS] = {
-     [0] = {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
-     [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
-     [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
-@@ -789,7 +769,7 @@ static const GPIOSetProperties ast2400_set_props[] = {
-     [6] = {0x0000000f,  0x0fffff0f,  {"Y", "Z", "AA", "AB"} },
- };
- 
--static const GPIOSetProperties ast2500_set_props[] = {
-+static const GPIOSetProperties ast2500_set_props[ASPEED_GPIO_MAX_NR_SETS] = {
-     [0] = {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
-     [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
-     [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
-@@ -800,7 +780,7 @@ static const GPIOSetProperties ast2500_set_props[] = {
-     [7] = {0x000000ff,  0x000000ff,  {"AC"} },
- };
- 
--static GPIOSetProperties ast2600_3_3v_set_props[] = {
-+static GPIOSetProperties ast2600_3_3v_set_props[ASPEED_GPIO_MAX_NR_SETS] = {
-     [0] = {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
-     [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
-     [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
-@@ -810,7 +790,7 @@ static GPIOSetProperties ast2600_3_3v_set_props[] = {
-     [6] = {0x0000ffff,  0x0000ffff,  {"Y", "Z"} },
- };
- 
--static GPIOSetProperties ast2600_1_8v_set_props[] = {
-+static GPIOSetProperties ast2600_1_8v_set_props[ASPEED_GPIO_MAX_NR_SETS] = {
-     [0] = {0xffffffff,  0xffffffff,  {"18A", "18B", "18C", "18D"} },
-     [1] = {0x0000000f,  0x0000000f,  {"18E"} },
- };
-@@ -836,14 +816,20 @@ static void aspeed_gpio_realize(DeviceState *dev, Error **errp)
-     AspeedGPIOState *s = ASPEED_GPIO(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-     AspeedGPIOClass *agc = ASPEED_GPIO_GET_CLASS(s);
--    int pin;
- 
-     /* Interrupt parent line */
-     sysbus_init_irq(sbd, &s->irq);
- 
-     /* Individual GPIOs */
--    for (pin = 0; pin < agc->nr_gpio_pins; pin++) {
--        sysbus_init_irq(sbd, &s->gpios[pin]);
-+    for (int i = 0; i < ASPEED_GPIO_MAX_NR_SETS; i++) {
-+        const GPIOSetProperties *props = &agc->props[i];
-+        uint32_t skip = ~(props->input | props->output);
-+        for (int j = 0; j < ASPEED_GPIOS_PER_SET; j++) {
-+            if (skip >> j & 1) {
-+                continue;
-+            }
-+            sysbus_init_irq(sbd, &s->gpios[i][j]);
-+        }
-     }
- 
-     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_gpio_ops, s,
-@@ -856,20 +842,22 @@ static void aspeed_gpio_init(Object *obj)
- {
-     AspeedGPIOState *s = ASPEED_GPIO(obj);
-     AspeedGPIOClass *agc = ASPEED_GPIO_GET_CLASS(s);
--    int pin;
--
--    for (pin = 0; pin < agc->nr_gpio_pins; pin++) {
--        char *name;
--        int set_idx = pin / GPIOS_PER_SET;
--        int pin_idx = aspeed_adjust_pin(s, pin) - (set_idx * GPIOS_PER_SET);
--        int group_idx = pin_idx >> GPIO_GROUP_SHIFT;
--        const GPIOSetProperties *props = &agc->props[set_idx];
--
--        name = g_strdup_printf("gpio%s%d", props->group_label[group_idx],
--                               pin_idx % GPIOS_PER_GROUP);
--        object_property_add(obj, name, "bool", aspeed_gpio_get_pin,
--                            aspeed_gpio_set_pin, NULL, NULL);
--        g_free(name);
+diff --git a/include/hw/adc/aspeed_adc.h b/include/hw/adc/aspeed_adc.h
+new file mode 100644
+index 000000000000..2f166e8be111
+--- /dev/null
++++ b/include/hw/adc/aspeed_adc.h
+@@ -0,0 +1,55 @@
++/*
++ * Aspeed ADC
++ *
++ * Copyright 2017-2021 IBM Corp.
++ *
++ * Andrew Jeffery <andrew@aj.id.au>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
 +
-+    for (int i = 0; i < ASPEED_GPIO_MAX_NR_SETS; i++) {
-+        const GPIOSetProperties *props = &agc->props[i];
-+        uint32_t skip = ~(props->input | props->output);
-+        for (int j = 0; j < ASPEED_GPIOS_PER_SET; j++) {
-+            if (skip >> j & 1) {
-+                continue;
-+            }
-+            int group_idx = j / GPIOS_PER_GROUP;
-+            int pin_idx = j % GPIOS_PER_GROUP;
-+            const char *group = &props->group_label[group_idx][0];
-+            char *name = g_strdup_printf("gpio%s%d", group, pin_idx);
-+            object_property_add(obj, name, "bool", aspeed_gpio_get_pin,
-+                                aspeed_gpio_set_pin, NULL, NULL);
-+            g_free(name);
++#ifndef HW_ADC_ASPEED_ADC_H
++#define HW_ADC_ASPEED_ADC_H
++
++#include "hw/sysbus.h"
++
++#define TYPE_ASPEED_ADC "aspeed.adc"
++#define TYPE_ASPEED_2400_ADC TYPE_ASPEED_ADC "-ast2400"
++#define TYPE_ASPEED_2500_ADC TYPE_ASPEED_ADC "-ast2500"
++#define TYPE_ASPEED_2600_ADC TYPE_ASPEED_ADC "-ast2600"
++OBJECT_DECLARE_TYPE(AspeedADCState, AspeedADCClass, ASPEED_ADC)
++
++#define TYPE_ASPEED_ADC_ENGINE "aspeed.adc.engine"
++OBJECT_DECLARE_SIMPLE_TYPE(AspeedADCEngineState, ASPEED_ADC_ENGINE)
++
++#define ASPEED_ADC_NR_CHANNELS 16
++#define ASPEED_ADC_NR_REGS     (0xD0 >> 2)
++
++struct AspeedADCEngineState {
++    /* <private> */
++    SysBusDevice parent;
++
++    MemoryRegion mmio;
++    qemu_irq irq;
++    uint32_t engine_id;
++    uint32_t nr_channels;
++    uint32_t regs[ASPEED_ADC_NR_REGS];
++};
++
++struct AspeedADCState {
++    /* <private> */
++    SysBusDevice parent;
++
++    MemoryRegion mmio;
++    qemu_irq irq;
++
++    AspeedADCEngineState engines[2];
++};
++
++struct AspeedADCClass {
++    SysBusDeviceClass parent_class;
++
++    uint32_t nr_engines;
++};
++
++#endif /* HW_ADC_ASPEED_ADC_H */
+diff --git a/hw/adc/aspeed_adc.c b/hw/adc/aspeed_adc.c
+new file mode 100644
+index 000000000000..c5fcae29f635
+--- /dev/null
++++ b/hw/adc/aspeed_adc.c
+@@ -0,0 +1,427 @@
++/*
++ * Aspeed ADC
++ *
++ * Copyright 2017-2021 IBM Corp.
++ *
++ * Andrew Jeffery <andrew@aj.id.au>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "qemu/log.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
++#include "migration/vmstate.h"
++#include "hw/adc/aspeed_adc.h"
++#include "trace.h"
++
++#define ASPEED_ADC_MEMORY_REGION_SIZE           0x1000
++#define ASPEED_ADC_ENGINE_MEMORY_REGION_SIZE    0x100
++#define  ASPEED_ADC_ENGINE_CH_EN_MASK           0xffff0000
++#define   ASPEED_ADC_ENGINE_CH_EN(x)            ((BIT(x)) << 16)
++#define  ASPEED_ADC_ENGINE_INIT                 BIT(8)
++#define  ASPEED_ADC_ENGINE_AUTO_COMP            BIT(5)
++#define  ASPEED_ADC_ENGINE_COMP                 BIT(4)
++#define  ASPEED_ADC_ENGINE_MODE_MASK            0x0000000e
++#define   ASPEED_ADC_ENGINE_MODE_OFF            (0b000 << 1)
++#define   ASPEED_ADC_ENGINE_MODE_STANDBY        (0b001 << 1)
++#define   ASPEED_ADC_ENGINE_MODE_NORMAL         (0b111 << 1)
++#define  ASPEED_ADC_ENGINE_EN                   BIT(0)
++#define ASPEED_ADC_HYST_EN                      BIT(31)
++
++#define ASPEED_ADC_L_MASK       ((1 << 10) - 1)
++#define ASPEED_ADC_L(x)         ((x) & ASPEED_ADC_L_MASK)
++#define ASPEED_ADC_H(x)         (((x) >> 16) & ASPEED_ADC_L_MASK)
++#define ASPEED_ADC_LH_MASK      (ASPEED_ADC_L_MASK << 16 | ASPEED_ADC_L_MASK)
++#define LOWER_CHANNEL_MASK      ((1 << 10) - 1)
++#define LOWER_CHANNEL_DATA(x)   ((x) & LOWER_CHANNEL_MASK)
++#define UPPER_CHANNEL_DATA(x)   (((x) >> 16) & LOWER_CHANNEL_MASK)
++
++#define TO_REG(addr) (addr >> 2)
++
++#define ENGINE_CONTROL              TO_REG(0x00)
++#define INTERRUPT_CONTROL           TO_REG(0x04)
++#define VGA_DETECT_CONTROL          TO_REG(0x08)
++#define CLOCK_CONTROL               TO_REG(0x0C)
++#define DATA_CHANNEL_1_AND_0        TO_REG(0x10)
++#define DATA_CHANNEL_7_AND_6        TO_REG(0x1C)
++#define DATA_CHANNEL_9_AND_8        TO_REG(0x20)
++#define DATA_CHANNEL_15_AND_14      TO_REG(0x2C)
++#define BOUNDS_CHANNEL_0            TO_REG(0x30)
++#define BOUNDS_CHANNEL_7            TO_REG(0x4C)
++#define BOUNDS_CHANNEL_8            TO_REG(0x50)
++#define BOUNDS_CHANNEL_15           TO_REG(0x6C)
++#define HYSTERESIS_CHANNEL_0        TO_REG(0x70)
++#define HYSTERESIS_CHANNEL_7        TO_REG(0x8C)
++#define HYSTERESIS_CHANNEL_8        TO_REG(0x90)
++#define HYSTERESIS_CHANNEL_15       TO_REG(0xAC)
++#define INTERRUPT_SOURCE            TO_REG(0xC0)
++#define COMPENSATING_AND_TRIMMING   TO_REG(0xC4)
++
++static inline uint32_t update_channels(uint32_t current)
++{
++    return ((((current >> 16) & ASPEED_ADC_L_MASK) + 7) << 16) |
++        ((current + 5) & ASPEED_ADC_L_MASK);
++}
++
++static bool breaks_threshold(AspeedADCEngineState *s, int reg)
++{
++    assert(reg >= DATA_CHANNEL_1_AND_0 &&
++           reg < DATA_CHANNEL_1_AND_0 + s->nr_channels / 2);
++
++    int a_bounds_reg = BOUNDS_CHANNEL_0 + (reg - DATA_CHANNEL_1_AND_0) * 2;
++    int b_bounds_reg = a_bounds_reg + 1;
++    uint32_t a_and_b = s->regs[reg];
++    uint32_t a_bounds = s->regs[a_bounds_reg];
++    uint32_t b_bounds = s->regs[b_bounds_reg];
++    uint32_t a = ASPEED_ADC_L(a_and_b);
++    uint32_t b = ASPEED_ADC_H(a_and_b);
++    uint32_t a_lower = ASPEED_ADC_L(a_bounds);
++    uint32_t a_upper = ASPEED_ADC_H(a_bounds);
++    uint32_t b_lower = ASPEED_ADC_L(b_bounds);
++    uint32_t b_upper = ASPEED_ADC_H(b_bounds);
++
++    return (a < a_lower || a > a_upper) ||
++           (b < b_lower || b > b_upper);
++}
++
++static uint32_t read_channel_sample(AspeedADCEngineState *s, int reg)
++{
++    assert(reg >= DATA_CHANNEL_1_AND_0 &&
++           reg < DATA_CHANNEL_1_AND_0 + s->nr_channels / 2);
++
++    /* Poor man's sampling */
++    uint32_t value = s->regs[reg];
++    s->regs[reg] = update_channels(s->regs[reg]);
++
++    if (breaks_threshold(s, reg)) {
++        s->regs[INTERRUPT_CONTROL] |= BIT(reg - DATA_CHANNEL_1_AND_0);
++        qemu_irq_raise(s->irq);
++    }
++
++    return value;
++}
++
++static uint64_t aspeed_adc_engine_read(void *opaque, hwaddr addr,
++                                       unsigned int size)
++{
++    AspeedADCEngineState *s = ASPEED_ADC_ENGINE(opaque);
++    int reg = TO_REG(addr);
++    uint32_t value = 0;
++
++    switch (reg) {
++    case BOUNDS_CHANNEL_8 ... BOUNDS_CHANNEL_15:
++        if (s->nr_channels <= 8) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: engine[%u]: "
++                          "bounds register %u invalid, only 0...7 valid\n",
++                          __func__, s->engine_id, reg - BOUNDS_CHANNEL_0);
++            break;
 +        }
-     }
- }
- 
-@@ -926,7 +914,6 @@ static void aspeed_gpio_ast2400_class_init(ObjectClass *klass, void *data)
-     agc->props = ast2400_set_props;
-     agc->nr_gpio_pins = 216;
-     agc->nr_gpio_sets = 7;
--    agc->gap = 196;
-     agc->reg_table = aspeed_3_3v_gpios;
- }
- 
-@@ -937,7 +924,6 @@ static void aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
-     agc->props = ast2500_set_props;
-     agc->nr_gpio_pins = 228;
-     agc->nr_gpio_sets = 8;
--    agc->gap = 220;
-     agc->reg_table = aspeed_3_3v_gpios;
- }
- 
++        /* fallthrough */
++    case HYSTERESIS_CHANNEL_8 ... HYSTERESIS_CHANNEL_15:
++        if (s->nr_channels <= 8) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: engine[%u]: "
++                          "hysteresis register %u invalid, only 0...7 valid\n",
++                          __func__, s->engine_id, reg - HYSTERESIS_CHANNEL_0);
++            break;
++        }
++        /* fallthrough */
++    case BOUNDS_CHANNEL_0 ... BOUNDS_CHANNEL_7:
++    case HYSTERESIS_CHANNEL_0 ... HYSTERESIS_CHANNEL_7:
++    case ENGINE_CONTROL:
++    case INTERRUPT_CONTROL:
++    case VGA_DETECT_CONTROL:
++    case CLOCK_CONTROL:
++    case INTERRUPT_SOURCE:
++    case COMPENSATING_AND_TRIMMING:
++        value = s->regs[reg];
++        break;
++    case DATA_CHANNEL_9_AND_8 ... DATA_CHANNEL_15_AND_14:
++        if (s->nr_channels <= 8) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: engine[%u]: "
++                          "data register %u invalid, only 0...3 valid\n",
++                          __func__, s->engine_id, reg - DATA_CHANNEL_1_AND_0);
++            break;
++        }
++        /* fallthrough */
++    case DATA_CHANNEL_1_AND_0 ... DATA_CHANNEL_7_AND_6:
++        value = read_channel_sample(s, reg);
++        /* Allow 16-bit reads of the data registers */
++        if (addr & 0x2) {
++            assert(size == 2);
++            value >>= 16;
++        }
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: engine[%u]: 0x%" HWADDR_PRIx "\n",
++                      __func__, s->engine_id, addr);
++        break;
++    }
++
++    trace_aspeed_adc_engine_read(s->engine_id, addr, value);
++    return value;
++}
++
++static void aspeed_adc_engine_write(void *opaque, hwaddr addr, uint64_t value,
++                                    unsigned int size)
++{
++    AspeedADCEngineState *s = ASPEED_ADC_ENGINE(opaque);
++    int reg = TO_REG(addr);
++    uint32_t init = 0;
++
++    trace_aspeed_adc_engine_write(s->engine_id, addr, value);
++
++    switch (reg) {
++    case ENGINE_CONTROL:
++        init = !!(value & ASPEED_ADC_ENGINE_EN);
++        init *= ASPEED_ADC_ENGINE_INIT;
++
++        value &= ~ASPEED_ADC_ENGINE_INIT;
++        value |= init;
++
++        value &= ~ASPEED_ADC_ENGINE_AUTO_COMP;
++        break;
++    case INTERRUPT_CONTROL:
++    case VGA_DETECT_CONTROL:
++    case CLOCK_CONTROL:
++        break;
++    case DATA_CHANNEL_9_AND_8 ... DATA_CHANNEL_15_AND_14:
++        if (s->nr_channels <= 8) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: engine[%u]: "
++                          "data register %u invalid, only 0...3 valid\n",
++                          __func__, s->engine_id, reg - DATA_CHANNEL_1_AND_0);
++            return;
++        }
++        /* fallthrough */
++    case BOUNDS_CHANNEL_8 ... BOUNDS_CHANNEL_15:
++        if (s->nr_channels <= 8) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: engine[%u]: "
++                          "bounds register %u invalid, only 0...7 valid\n",
++                          __func__, s->engine_id, reg - BOUNDS_CHANNEL_0);
++            return;
++        }
++        /* fallthrough */
++    case DATA_CHANNEL_1_AND_0 ... DATA_CHANNEL_7_AND_6:
++    case BOUNDS_CHANNEL_0 ... BOUNDS_CHANNEL_7:
++        value &= ASPEED_ADC_LH_MASK;
++        break;
++    case HYSTERESIS_CHANNEL_8 ... HYSTERESIS_CHANNEL_15:
++        if (s->nr_channels <= 8) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: engine[%u]: "
++                          "hysteresis register %u invalid, only 0...7 valid\n",
++                          __func__, s->engine_id, reg - HYSTERESIS_CHANNEL_0);
++            return;
++        }
++        /* fallthrough */
++    case HYSTERESIS_CHANNEL_0 ... HYSTERESIS_CHANNEL_7:
++        value &= (ASPEED_ADC_HYST_EN | ASPEED_ADC_LH_MASK);
++        break;
++    case INTERRUPT_SOURCE:
++        value &= 0xffff;
++        break;
++    case COMPENSATING_AND_TRIMMING:
++        value &= 0xf;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: engine[%u]: "
++                      "0x%" HWADDR_PRIx " 0x%" PRIx64 "\n",
++                      __func__, s->engine_id, addr, value);
++        break;
++    }
++
++    s->regs[reg] = value;
++}
++
++static const MemoryRegionOps aspeed_adc_engine_ops = {
++    .read = aspeed_adc_engine_read,
++    .write = aspeed_adc_engine_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 2,
++        .max_access_size = 4,
++        .unaligned = false,
++    },
++};
++
++static const uint32_t aspeed_adc_resets[ASPEED_ADC_NR_REGS] = {
++    [ENGINE_CONTROL]     = 0x00000000,
++    [INTERRUPT_CONTROL]  = 0x00000000,
++    [VGA_DETECT_CONTROL] = 0x0000000f,
++    [CLOCK_CONTROL]      = 0x0000000f,
++};
++
++static void aspeed_adc_engine_reset(DeviceState *dev)
++{
++    AspeedADCEngineState *s = ASPEED_ADC_ENGINE(dev);
++
++    memcpy(s->regs, aspeed_adc_resets, sizeof(aspeed_adc_resets));
++}
++
++static void aspeed_adc_engine_realize(DeviceState *dev, Error **errp)
++{
++    AspeedADCEngineState *s = ASPEED_ADC_ENGINE(dev);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++    g_autofree char *name = g_strdup_printf(TYPE_ASPEED_ADC_ENGINE ".%d",
++                                            s->engine_id);
++
++    assert(s->engine_id < 2);
++
++    sysbus_init_irq(sbd, &s->irq);
++
++    memory_region_init_io(&s->mmio, OBJECT(s), &aspeed_adc_engine_ops, s, name,
++                          ASPEED_ADC_ENGINE_MEMORY_REGION_SIZE);
++
++    sysbus_init_mmio(sbd, &s->mmio);
++}
++
++static const VMStateDescription vmstate_aspeed_adc_engine = {
++    .name = TYPE_ASPEED_ADC,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32_ARRAY(regs, AspeedADCEngineState, ASPEED_ADC_NR_REGS),
++        VMSTATE_END_OF_LIST(),
++    }
++};
++
++static Property aspeed_adc_engine_properties[] = {
++    DEFINE_PROP_UINT32("engine-id", AspeedADCEngineState, engine_id, 0),
++    DEFINE_PROP_UINT32("nr-channels", AspeedADCEngineState, nr_channels, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void aspeed_adc_engine_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = aspeed_adc_engine_realize;
++    dc->reset = aspeed_adc_engine_reset;
++    device_class_set_props(dc, aspeed_adc_engine_properties);
++    dc->desc = "Aspeed Analog-to-Digital Engine";
++    dc->vmsd = &vmstate_aspeed_adc_engine;
++}
++
++static const TypeInfo aspeed_adc_engine_info = {
++    .name = TYPE_ASPEED_ADC_ENGINE,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(AspeedADCEngineState),
++    .class_init = aspeed_adc_engine_class_init,
++};
++
++static void aspeed_adc_instance_init(Object *obj)
++{
++    AspeedADCState *s = ASPEED_ADC(obj);
++    AspeedADCClass *aac = ASPEED_ADC_GET_CLASS(obj);
++    uint32_t nr_channels = ASPEED_ADC_NR_CHANNELS / aac->nr_engines;
++
++    for (int i = 0; i < aac->nr_engines; i++) {
++        AspeedADCEngineState *engine = &s->engines[i];
++        object_initialize_child(obj, "engine[*]", engine,
++                                TYPE_ASPEED_ADC_ENGINE);
++        qdev_prop_set_uint32(DEVICE(engine), "engine-id", i);
++        qdev_prop_set_uint32(DEVICE(engine), "nr-channels", nr_channels);
++    }
++}
++
++static void aspeed_adc_set_irq(void *opaque, int n, int level)
++{
++    AspeedADCState *s = opaque;
++    AspeedADCClass *aac = ASPEED_ADC_GET_CLASS(s);
++    uint32_t pending = 0;
++
++    /* TODO: update Global IRQ status register on AST2600 (Need specs) */
++    for (int i = 0; i < aac->nr_engines; i++) {
++        uint32_t irq_status = s->engines[i].regs[INTERRUPT_CONTROL] & 0xFF;
++        pending |= irq_status << (i * 8);
++    }
++
++    qemu_set_irq(s->irq, !!pending);
++}
++
++static void aspeed_adc_realize(DeviceState *dev, Error **errp)
++{
++    AspeedADCState *s = ASPEED_ADC(dev);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++    AspeedADCClass *aac = ASPEED_ADC_GET_CLASS(dev);
++
++    qdev_init_gpio_in_named_with_opaque(DEVICE(sbd), aspeed_adc_set_irq,
++                                        s, NULL, aac->nr_engines);
++
++    sysbus_init_irq(sbd, &s->irq);
++
++    memory_region_init(&s->mmio, OBJECT(s), TYPE_ASPEED_ADC,
++                       ASPEED_ADC_MEMORY_REGION_SIZE);
++
++    sysbus_init_mmio(sbd, &s->mmio);
++
++    for (int i = 0; i < aac->nr_engines; i++) {
++        Object *eng = OBJECT(&s->engines[i]);
++
++        if (!sysbus_realize(SYS_BUS_DEVICE(eng), errp)) {
++            return;
++        }
++        sysbus_connect_irq(SYS_BUS_DEVICE(eng), 0,
++                           qdev_get_gpio_in(DEVICE(sbd), i));
++        memory_region_add_subregion(&s->mmio,
++                                    i * ASPEED_ADC_ENGINE_MEMORY_REGION_SIZE,
++                                    &s->engines[i].mmio);
++    }
++}
++
++static void aspeed_adc_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedADCClass *aac = ASPEED_ADC_CLASS(klass);
++
++    dc->realize = aspeed_adc_realize;
++    dc->desc = "Aspeed Analog-to-Digital Converter";
++    aac->nr_engines = 1;
++}
++
++static void aspeed_2600_adc_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    AspeedADCClass *aac = ASPEED_ADC_CLASS(klass);
++
++    dc->desc = "ASPEED 2600 ADC Controller";
++    aac->nr_engines = 2;
++}
++
++static const TypeInfo aspeed_adc_info = {
++    .name = TYPE_ASPEED_ADC,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_init = aspeed_adc_instance_init,
++    .instance_size = sizeof(AspeedADCState),
++    .class_init = aspeed_adc_class_init,
++    .class_size = sizeof(AspeedADCClass),
++    .abstract   = true,
++};
++
++static const TypeInfo aspeed_2400_adc_info = {
++    .name = TYPE_ASPEED_2400_ADC,
++    .parent = TYPE_ASPEED_ADC,
++};
++
++static const TypeInfo aspeed_2500_adc_info = {
++    .name = TYPE_ASPEED_2500_ADC,
++    .parent = TYPE_ASPEED_ADC,
++};
++
++static const TypeInfo aspeed_2600_adc_info = {
++    .name = TYPE_ASPEED_2600_ADC,
++    .parent = TYPE_ASPEED_ADC,
++    .class_init = aspeed_2600_adc_class_init,
++};
++
++static void aspeed_adc_register_types(void)
++{
++    type_register_static(&aspeed_adc_engine_info);
++    type_register_static(&aspeed_adc_info);
++    type_register_static(&aspeed_2400_adc_info);
++    type_register_static(&aspeed_2500_adc_info);
++    type_register_static(&aspeed_2600_adc_info);
++}
++
++type_init(aspeed_adc_register_types);
+diff --git a/hw/adc/meson.build b/hw/adc/meson.build
+index ac4f093fea7c..b29ac7ccdf53 100644
+--- a/hw/adc/meson.build
++++ b/hw/adc/meson.build
+@@ -1,4 +1,5 @@
+ softmmu_ss.add(when: 'CONFIG_STM32F2XX_ADC', if_true: files('stm32f2xx_adc.c'))
++softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_adc.c'))
+ softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_adc.c'))
+ softmmu_ss.add(when: 'CONFIG_ZYNQ', if_true: files('zynq-xadc.c'))
+ softmmu_ss.add(when: 'CONFIG_MAX111X', if_true: files('max111x.c'))
+diff --git a/hw/adc/trace-events b/hw/adc/trace-events
+index 456f21c8f438..5a4c444d773a 100644
+--- a/hw/adc/trace-events
++++ b/hw/adc/trace-events
+@@ -3,3 +3,6 @@
+ # npcm7xx_adc.c
+ npcm7xx_adc_read(const char *id, uint64_t offset, uint32_t value) " %s offset: 0x%04" PRIx64 " value 0x%04" PRIx32
+ npcm7xx_adc_write(const char *id, uint64_t offset, uint32_t value) "%s offset: 0x%04" PRIx64 " value 0x%04" PRIx32
++
++aspeed_adc_engine_read(uint32_t engine_id, uint64_t addr, uint64_t value) "engine[%u] 0x%" PRIx64 " 0x%" PRIx64
++aspeed_adc_engine_write(uint32_t engine_id, uint64_t addr, uint64_t value) "engine[%u] 0x%" PRIx64 " 0x%" PRIx64
 -- 
 2.31.1
 
