@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E248642AFAA
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 00:33:46 +0200 (CEST)
-Received: from localhost ([::1]:51092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE3142AFAC
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Oct 2021 00:34:32 +0200 (CEST)
+Received: from localhost ([::1]:53036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maQLB-0004hb-UP
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 18:33:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35108)
+	id 1maQLv-0006Ah-Ut
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 18:34:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1maQJn-0002qr-ED
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 18:32:21 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42953)
+ id 1maQKT-0004F9-AV
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 18:33:01 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1maQJk-0006VW-2U
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 18:32:19 -0400
-Received: by mail-wr1-x435.google.com with SMTP id v17so1752984wrv.9
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 15:32:15 -0700 (PDT)
+ id 1maQKR-0006zd-W5
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 18:33:01 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id e3so1726555wrc.11
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 15:32:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PLhuDI3JBrAQr7zZ6sptI5KjH+F7mlhDUtMdi8wPBeM=;
- b=a00CA4TnuWCrRejRgQ/lsM6PL+ekZFQXlgtZ4pYnURmnE/bDruN3+6rn6Ua1c5r9dV
- 961FXIK0Gn/LhCq06P8PikewBW7vhl7PbxQ5ODgBG637UWWLGN8xlHGDImUa783eT0jZ
- ilg2lRs7J3k6Q3e00dZUJ1vhI6HYuTq4Y1WT9YSkEs/yqoPxCxlM6y+PJIjJijOh5lZ3
- IIzGO9N9Yux96vlw9nQuzg2lPIYHhhs2ewR2HhuU6jfUJnU7P0i0cPL4xCrYsBnu1dw8
- ZQd24DT9zQWRq2fNmDeJqRTHhJdITtCj+8CffKBG7coZeCGYcbu3jiBnLR4iK9IjdK70
- ZkJg==
+ bh=Lao7/uWT2Ak7tRalWhrYyKE3IqsZCOiPcAkHz72pObo=;
+ b=Y4MUJcDu+tvVjo+c/6TrYjjJYafZ3DT+SyneOEpqYaIVC5VSUvejKQgbXJHeQDd3r/
+ YY2Lft3Tlpi05iYrNzaQnXbcWc4xTmJXK8Q1IRvMeawIxxQXcnhibSrzVCMZOuNXjIGi
+ rnWadIeRTi0DY5b3DMQrEO6J/qyiizKyUzE3QntOTp6CseIjvaYZUNM01rFtVNzWQvyx
+ EIElyT45XHskov7jA+l2vAoPdqsVg5QCqfHlbstiJ1NN1uOtv2HPRE8rahy4+M1iTRzY
+ aCLg3Y0vxwEkiCbAWXHMK5LS/MPsbOJvV3949X8zl67apoxdme1Zy6KAxmgSaNaZs0hg
+ 9NQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=PLhuDI3JBrAQr7zZ6sptI5KjH+F7mlhDUtMdi8wPBeM=;
- b=kJWgL9a6uxAOHg35nbsh70HZfP1nKtqLkefiECD1xFbMVg+eWkaVMWdJyNPzPUWxsg
- 6nF9KIJfu8Ij4BjA7SjoL/ZEl+oAm0zIzmdUtJXu4uMOAvtJeM+HmKWK0FeiownhRwqk
- 74GU1ABkKbFU4OK0F0clgCmClf0SwBhm/6ifKa6QEp02eoif8pTdfFEyCUtVLFvuFPkN
- h45PAGZCOPDY3REXP013DPbMI5tXoUJEu/w6HeySEHfSDwxn89YcwAakU5CpUgziOkiW
- zX7XFhjjFvdTE55PbhEmXoGb1yXUlsw2oaNGF9kEpPxEV7f6l93DWY5ubJLpnuQN39NY
- po0g==
-X-Gm-Message-State: AOAM531yx4DElf+RaeSjN1x81KTMsDpRQdxotehPdkF06AJgDmjvsHsA
- ymB9ijUWjBdOZpN74Jd2qpcJzEYwjE0=
-X-Google-Smtp-Source: ABdhPJxdmG2Anhkn+rgLGFgdPhUCLt27dURtK56mDz55mZ4nBxtlP2dTn5eHoY2gMVdAmK8EnOjE4g==
-X-Received: by 2002:a1c:f201:: with SMTP id s1mr8683045wmc.101.1634077934188; 
- Tue, 12 Oct 2021 15:32:14 -0700 (PDT)
+ bh=Lao7/uWT2Ak7tRalWhrYyKE3IqsZCOiPcAkHz72pObo=;
+ b=8PJ54KiZi5J2aZtMXX+Cqe4E+q9SG/p9k86rGgKYpzvcqFL3nHJ76APh5FL5LUxRwg
+ mUTgqJbbQ74v/9ZGwQ55TjrzkH1Av29lJ3arTv95lkNyN0Vz9E9L9IKztioSSbgeU09m
+ jvHo4rXzR4v4q3S/BkPOsnquw3BMs1NmmnaXIcs7sHOsEOY+JNMKKsgD9jsQISB069ep
+ U10dot74vKm8nz8QIfpo9b6lZ+zN0wckIeRjhd+ddiWTinY+VShGrQIxSxKRHNg3asK9
+ UWqvAC/hFQ50gDBzycD/J/zB+g810TwPeSPM4b2M7nImsOUxeVeWECL19jkezD/R4vEd
+ 5FRA==
+X-Gm-Message-State: AOAM530D+I1+5IMkWKn/uNUXnpyce54CtZGgqnpP0kCMNLSp+IE1cRIS
+ Hvf1jXSJ5bl2V/FUfzvCgZc=
+X-Google-Smtp-Source: ABdhPJx9VvMXWhx8G2okZgwAcJoj0w3Y+WiLR2u9GncbNgFe5Zj+/EIvP4bX890ui2maVcoQ9JO8SA==
+X-Received: by 2002:a05:600c:2212:: with SMTP id
+ z18mr8695063wml.39.1634077978624; 
+ Tue, 12 Oct 2021 15:32:58 -0700 (PDT)
 Received: from [192.168.1.36] (213.red-81-36-146.dynamicip.rima-tde.net.
  [81.36.146.213])
- by smtp.gmail.com with ESMTPSA id m15sm3892769wmq.0.2021.10.12.15.32.12
+ by smtp.gmail.com with ESMTPSA id k17sm4047717wmj.0.2021.10.12.15.32.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 15:32:13 -0700 (PDT)
-Message-ID: <cf606e40-d9c3-4212-c723-4a414eb66344@amsat.org>
-Date: Wed, 13 Oct 2021 00:32:11 +0200
+ Tue, 12 Oct 2021 15:32:57 -0700 (PDT)
+Message-ID: <2acd5c52-0c57-6ee9-3de9-e86c5d0752b7@amsat.org>
+Date: Wed, 13 Oct 2021 00:32:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v2 02/23] target/alpha: Drop checks for singlestep_enabled
+Subject: Re: [PATCH v2 15/23] target/openrisc: Drop checks for
+ singlestep_enabled
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211012162159.471406-1-richard.henderson@linaro.org>
- <20211012162159.471406-3-richard.henderson@linaro.org>
+ <20211012162159.471406-16-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211012162159.471406-3-richard.henderson@linaro.org>
+In-Reply-To: <20211012162159.471406-16-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,8 +100,8 @@ On 10/12/21 18:21, Richard Henderson wrote:
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/alpha/translate.c | 13 +++----------
->  1 file changed, 3 insertions(+), 10 deletions(-)
+>  target/openrisc/translate.c | 18 +++---------------
+>  1 file changed, 3 insertions(+), 15 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
