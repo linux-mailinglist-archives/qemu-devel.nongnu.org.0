@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD2042A52A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 15:14:22 +0200 (CEST)
-Received: from localhost ([::1]:38102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A74242A563
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 15:20:16 +0200 (CEST)
+Received: from localhost ([::1]:51698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maHbp-0006gU-9J
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 09:14:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36056)
+	id 1maHhW-0007Zg-2K
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 09:20:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1maHX5-0001cP-K9
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:09:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20062)
+ id 1maHY2-0003Vc-4W
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:10:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1maHX1-0003ia-Gt
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:09:26 -0400
+ id 1maHXz-0004ke-Gs
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:10:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634044162;
+ s=mimecast20190719; t=1634044220;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tzb/vRQDUatqunSm5Na27whA5LatkphNfghL8D3vr2Y=;
- b=UIfHzK0cJDSNMURSYv9DO86TNmV7Kq5yif0zGWM+cMjuxOIOYLKA1yBRBlPfLjGbmfjm/U
- tsYMrdY6ISsjLnOcrBnxEZjzxemPw0FJ78x29nilxmWOOjjaw1T0hOXCzYYS6wgTsEdF0Q
- pSo1DzVsCPtWChFdirw+cAIHZhWwRqc=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-WdHJlrM3OpyDSU4Ro9njEQ-1; Tue, 12 Oct 2021 09:09:21 -0400
-X-MC-Unique: WdHJlrM3OpyDSU4Ro9njEQ-1
-Received: by mail-qk1-f198.google.com with SMTP id
- z29-20020a05620a08dd00b0045fa369b83dso629985qkz.9
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 06:09:21 -0700 (PDT)
+ bh=o6KMfTRk5RczZ0PnbZWRpl29bQ0RqbCziFmmN6NJ82o=;
+ b=EILyXqJS63DyRSbUY8g/DnzJLDE8gSfPH+zsyyYQ4UZGb0X2FtxB4dNlBMxrHSrG/FxLZ/
+ KJh3YmpCgVOnT5NpklrcCtJRQli9Jbwpnw8v4sVYYoBeuy/lztPSvcX2pdydVBhs8Pw5GZ
+ UM5eOJVC56Fdesy82uENURbjh2UcvKE=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-507-3Lnsa0ekO-u9hQqE8n8wGA-1; Tue, 12 Oct 2021 09:10:19 -0400
+X-MC-Unique: 3Lnsa0ekO-u9hQqE8n8wGA-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ o90-20020a0c85e3000000b0038310a20003so16878739qva.1
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 06:10:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=tzb/vRQDUatqunSm5Na27whA5LatkphNfghL8D3vr2Y=;
- b=6QXSS73dyJ9yYenlvkbg/AvQFrbPujTxENSfUwwtVOB/8hnfQBXxaUClHv5mY+E7gG
- M4MqzSUdMk4fls3ApHIvm8ZdLe8jNbrfFzKYM/ZBszPieiy88hXTjnu0DaIfOxBYZiba
- K0KvGKYZSRqve+YyRgJFyPYRoybPhlAGVzYFo2rmX1ZJsVmrDaQBSGp5+8M4uuAva8wl
- mXXb2jgj0bAoCUkQ6nSsAxx8Ldq0vSaJKxTBcZL5Uopz0yERtB6l6jIiVvtVHnS7pMq5
- IbFgQo9ZVrlgyQmmO1g82DFrIf3KvMK8CffthkcvEBx1kWm5z3cQR6Pu2Z0nZdAHYZx6
- M1zw==
-X-Gm-Message-State: AOAM532ymKbei5RMqHQ/hZdmLxIGN8N5pXAwtt75jYRgpsf4YpGoJjfj
- Vj3KV9Mwe2wlsnuhGTgsxYoCth/rEyauJihFW9w3SIvZ9ApQQAzEeUNpeSSVvd/s1ZR2m6zwKpo
- wBusrQOI9x+LzLj9jco9JlmZI6qHcyLI=
-X-Received: by 2002:ac8:6112:: with SMTP id a18mr21847379qtm.401.1634044160869; 
- Tue, 12 Oct 2021 06:09:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyhcs6g7ukHN5N7UJR3tR9+i9SrZQdPKhc3EOm2iyFNjhOE4ccIBU31SLk/LavT4lQmt3OPagFA6Bi777aBni0=
-X-Received: by 2002:ac8:6112:: with SMTP id a18mr21847345qtm.401.1634044160599; 
- Tue, 12 Oct 2021 06:09:20 -0700 (PDT)
+ bh=o6KMfTRk5RczZ0PnbZWRpl29bQ0RqbCziFmmN6NJ82o=;
+ b=PiP7HdrAct372YQ8EQ2VOScjpKMZ9r3qz41rgnk26sVO7Snxh6VLYueoggsceotQ+r
+ 0+c+jINwrGTlLPmGn+7HAL8RRkrkDVhDkV8SUR+yeXnsWL/msg5BcThFp1no52BOstuu
+ FtZXx6KgSTLYKbS0WzApJTWadGspuIr9WMVPgd0jaXfp/XAsxkxXNmsdkhuNv2wTOw6S
+ 8+iwdiXPzjlpK5r91dsTb8tHav45odxLs6fb1wBd32hPnEfIWfIhNV0d9tYTVM4hXYoa
+ PfAW9aFK6AnCWon1mQibZzKkj2UuD08ChJoEIgEzDsoNCope/hgEb81Gf/JkjVIzfmxx
+ dbrQ==
+X-Gm-Message-State: AOAM533bogHUZcQX51OAMuS8b4RHCDC0UnP/8A1p6mzdOEcU5tbYTbf/
+ p6B6PO0pLr28n84CZmuSCaRbUkEKrwzoAfQ6AHeMgJstuAliip+CwwIACdS0WydM/tecQmXz6oX
+ t5EmzOomOaKZofVgj+6YhUbr+PiOLos4=
+X-Received: by 2002:aed:3022:: with SMTP id 31mr22561696qte.322.1634044218925; 
+ Tue, 12 Oct 2021 06:10:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNxmzHkshQj2x8o+3V+WUaVI2Z7lwZHyXTDABQJ2zgQeU0KhXcyBYd0W5H71MB8rtZ3HXbmnojhgx5A9898i0=
+X-Received: by 2002:aed:3022:: with SMTP id 31mr22561649qte.322.1634044218588; 
+ Tue, 12 Oct 2021 06:10:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20211001070603.307037-1-eperezma@redhat.com>
- <20211001070603.307037-6-eperezma@redhat.com>
- <877deihlcd.fsf@dusky.pond.sub.org>
-In-Reply-To: <877deihlcd.fsf@dusky.pond.sub.org>
+ <20211001070603.307037-9-eperezma@redhat.com>
+ <8735p6hlae.fsf@dusky.pond.sub.org>
+In-Reply-To: <8735p6hlae.fsf@dusky.pond.sub.org>
 From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 12 Oct 2021 15:08:44 +0200
-Message-ID: <CAJaqyWcz6+ce+T3GYPa7durLEwxN8OdwK=7KCYbcD1o03uj4Xw@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 05/20] vhost: Add x-vhost-enable-shadow-vq qmp
+Date: Tue, 12 Oct 2021 15:09:42 +0200
+Message-ID: <CAJaqyWf+tO8irEGBNXB4yN0Af86YKCpfb5efd6zQ1GVfTiC2cw@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 08/20] vhost: Route guest->host notification
+ through shadow virtqueue
 To: Markus Armbruster <armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
@@ -71,13 +72,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,117 +104,50 @@ Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 12, 2021 at 7:18 AM Markus Armbruster <armbru@redhat.com> wrote=
+On Tue, Oct 12, 2021 at 7:20 AM Markus Armbruster <armbru@redhat.com> wrote=
 :
 >
 > Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
 >
-> > Command to enable shadow virtqueue.
+> > Shadow virtqueue notifications forwarding is disabled when vhost_dev
+> > stops, so code flow follows usual cleanup.
+> >
+> > Also, host notifiers must be disabled at SVQ start, and they will not
+> > start if SVQ has been enabled when device is stopped. This is trivial
+> > to address, but it is left out for simplicity at this moment.
 > >
 > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > > ---
-> >  qapi/net.json          | 23 +++++++++++++++++++++++
-> >  hw/virtio/vhost-vdpa.c |  8 ++++++++
-> >  2 files changed, 31 insertions(+)
+> >  qapi/net.json                      |   2 +-
+> >  hw/virtio/vhost-shadow-virtqueue.h |   8 ++
+> >  include/hw/virtio/vhost-vdpa.h     |   4 +
+> >  hw/virtio/vhost-shadow-virtqueue.c | 138 ++++++++++++++++++++++++++++-
+> >  hw/virtio/vhost-vdpa.c             | 116 +++++++++++++++++++++++-
+> >  5 files changed, 264 insertions(+), 4 deletions(-)
 > >
 > > diff --git a/qapi/net.json b/qapi/net.json
-> > index 7fab2e7cd8..a2c30fd455 100644
+> > index a2c30fd455..fe546b0e7c 100644
 > > --- a/qapi/net.json
 > > +++ b/qapi/net.json
-> > @@ -79,6 +79,29 @@
-> >  { 'command': 'netdev_del', 'data': {'id': 'str'},
-> >    'allow-preconfig': true }
-> >
-> > +##
-> > +# @x-vhost-enable-shadow-vq:
-> > +#
-> > +# Use vhost shadow virtqueue.
-> > +#
-> > +# @name: the device name of the VirtIO device
+> > @@ -88,7 +88,7 @@
+> >  #
+> >  # @enable: true to use the alternate shadow VQ notifications
+> >  #
+> > -# Returns: Always error, since SVQ is not implemented at the moment.
+> > +# Returns: Error if failure, or 'no error' for success.
 >
-> Is this a qdev ID?  A network client name?
+> Delete the whole line, please.
 >
 
-At this moment is the virtio device name, the one specified at the
-call of "virtio_init". But this should change, maybe the qdev id or
-something that can be provided by the command line fits better here.
-
-> > +#
-> > +# @enable: true to use the alternate shadow VQ notifications
-> > +#
-> > +# Returns: Always error, since SVQ is not implemented at the moment.
-> > +#
-> > +# Since: 6.2
-> > +#
-> > +# Example:
-> > +#
-> > +# -> { "execute": "x-vhost-enable-shadow-vq",
-> > +#     "arguments": { "name": "virtio-net", "enable": false } }
-> > +#
-> > +##
-> > +{ 'command': 'x-vhost-enable-shadow-vq',
-> > +  'data': {'name': 'str', 'enable': 'bool'},
-> > +  'if': 'defined(CONFIG_VHOST_KERNEL)' }
-> > +
->
-> Adding an command just for controlling a flag in some object is fine for
-> quick experiments.  As a permanent interface, it's problematic: one
-> command per flag would result in way too many commands.  Better: one
-> command to control a set of related properties.
->
-> I hesitate to suggest qom-set, because qom-set is not introspectable.
-> Recurring complaint about QOM: poor integration with QAPI/QMP.
->
-
-I will take it into account, but it's only temporary, that's why it
-has the x- prefix. It's not like event_idx or other device feature
-flags: Every vDPA device can potentially use SVQ datapath in a
-transparent way, neither the vDPA device nor the guest know that qemu
-supports it.
-
-Ideally, this mode will kick in at the migration time automatically,
-no need to perform more actions.
-
-> Naming nitpick: since the command can both enable and disable, I'd call
-> it -set-vq instead of -enable-vq.
->
-
-Got it, I will replace it.
+I will do it.
 
 Thanks!
 
-> >  ##
-> >  # @NetLegacyNicOptions:
+
 > >  #
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 4fa414feea..c63e311d7c 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -23,6 +23,8 @@
-> >  #include "cpu.h"
-> >  #include "trace.h"
-> >  #include "qemu-common.h"
-> > +#include "qapi/qapi-commands-net.h"
-> > +#include "qapi/error.h"
-> >
-> >  static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *s=
-ection)
-> >  {
-> > @@ -656,6 +658,12 @@ static bool  vhost_vdpa_force_iommu(struct vhost_d=
-ev *dev)
-> >      return true;
-> >  }
-> >
-> > +
-> > +void qmp_x_vhost_enable_shadow_vq(const char *name, bool enable, Error=
- **errp)
-> > +{
-> > +    error_setg(errp, "Shadow virtqueue still not implemented");
-> > +}
-> > +
-> >  const VhostOps vdpa_ops =3D {
-> >          .backend_type =3D VHOST_BACKEND_TYPE_VDPA,
-> >          .vhost_backend_init =3D vhost_vdpa_init,
+> >  # Since: 6.2
+> >  #
+> [...]
 >
 
 
