@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E21042A409
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 14:11:02 +0200 (CEST)
-Received: from localhost ([::1]:36262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4861842A41F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 14:13:47 +0200 (CEST)
+Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maGcX-0002ie-1M
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 08:11:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33300)
+	id 1maGfB-00076o-JP
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 08:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maFig-0000Zo-Og
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:13:18 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:38431)
+ id 1maFik-0000pG-7e
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:13:22 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:37690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maFie-0007Xl-RV
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:13:18 -0400
-Received: by mail-ed1-x535.google.com with SMTP id d9so55752977edh.5
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 04:13:16 -0700 (PDT)
+ id 1maFii-0007Zf-Nb
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:13:21 -0400
+Received: by mail-ed1-x531.google.com with SMTP id y12so66814519eda.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 04:13:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SXwJWI5doSd/IDqwD+5r/Ku8HGS7DFHwlBHwHwh8g0I=;
- b=pDoEVx5zIyC4XxTlljaUsBNPuGZuCcL3LbjMtxngqLhaLMeX1ESVV8Zw+vfxwjbP5x
- watStRzJ6M8w+0RbnMpUdYeDaYBZtZyvvFFOgMjiHYYn0BXqcEjd+7lo9Seqav8bK30e
- Zn7zZuIu41bT1DwDx8CZEa06ZvOOHajF1E5kIrtsf8Ly6cHjH12o2nRSHAswgrmBI3ur
- CKoOVcTir8aLZQn+k3H5aQKGFE471pSrj3eLDiIV/kvz/bNRn2GmvwVteNo90uluMJwb
- BCYUufi+KiG1AOvB5EU5lLgfnOKqE9/zPD6Zxu6/GIWDnJ5695C0ZBuHAW2TZc0/uyKI
- ax7g==
+ bh=uBCh3FBpRTKb8F3VLtXmr6hJ+AmaUFecRv60QOVixJM=;
+ b=OvGpb2yMB648VzBT62bJiqv2FJz9dkYEUGsRvRa0jvwZ6/9ABTPYQDSmFMoPzJyZAG
+ XYsZxWyqq6JZIUMttIo+OnCbUK4lyjze3pc0ErpWdUkUNNV/LHo+9iX0ER9K57hBNAKW
+ NvVlPEbZ2n+r3aAzNXsh4lArg+2hM3OHM4nutYU7DBRn9xG4aQWzO7aTAXvKxP96PXjz
+ Z9urLUzF0VLnKCA6VK9ey5YFLAtfDaSwlV9srJVKuLNUqwR7rNSBew52uBF4HOyp+c+8
+ DV8YUMB397gcXPkXgsTacq0e1/7NEafiURqTkNrbsLMv25IeLotD38iAyh5/YyCbO0N/
+ /YpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SXwJWI5doSd/IDqwD+5r/Ku8HGS7DFHwlBHwHwh8g0I=;
- b=EBhPeRPjuL8zviB/WOgetXwCQJye2Y5SvCofXVYCKyMg7nYp1HLCKseYHPesgqHoLI
- u30eu1GSQ3cdahGjI+UGc+n9h4WZivGsXDs0p6a/zwJMLJg92SVxzbuevH369BJ+aZ/M
- C8aOGunPYKF/e3XiPyHQjVl0TllJoPdwo6OJO3CPbZOsphwDBd6DCR1UIE3cPEDN1d/s
- /3bKlJK0aV6Vvmyhk9FhqJe7a+NvorNTtFSlTlaj9/gO+f1xOCPksAOcFxw/Mi/LGdH9
- +2B8sPeukJNfktmmfD2ZIgHEV0rgsRUX5YS7wR6PCgR9sZML8ViOFCAET0Ugn/Zc/wqj
- e67w==
-X-Gm-Message-State: AOAM531/7yqDlv1nPWDYVEmjwUEQLjTt4gfufYbQEXzByRDqLHXDDqSC
- 2Z+9Eo74nDeyn2Ei98By3A0n7RPUcXM=
-X-Google-Smtp-Source: ABdhPJzWf6yDO/Ml3NeRU6V+cEcH8VI4OAhMw24KsbM6ITLON1q6uJ9qt4A1M915/NLK5XVQ3MPmyQ==
-X-Received: by 2002:a05:6402:2550:: with SMTP id
- l16mr45602680edb.229.1634037195656; 
- Tue, 12 Oct 2021 04:13:15 -0700 (PDT)
+ bh=uBCh3FBpRTKb8F3VLtXmr6hJ+AmaUFecRv60QOVixJM=;
+ b=zMOPadwqMVI5PtYFaMn9dh53MJVLHTV4oKvV5+gwWct+J9BSnSrUqEkrzHasleVIZa
+ AhL9ppvT63obODZLoGZ/jjkhqZjw6UV5DASBszq6aGruKV8mQgak/AKHXMmvAnJOsFGe
+ f4aatmF8PM15C1bYbKfn7R4sbsSZMZIxlJVxSH1wY7egqYvq0FIfSIyCkzqtA2ZQFc2A
+ NJznumS7crznPp3Y9kz2SNsvV0Zs1+56am9LB7Wqy9CQyJRWweM8aL8Fa5yosfbr9i5t
+ R2NF6+C6omkFLdbj8eR+2BpAck2TeKiOi4FT9tpE1npLCFc+yUXx0CKo4a6HQwRAwmNf
+ QOUg==
+X-Gm-Message-State: AOAM533FnCfc99dMGfWD21e6/6soldGjWrE/jZmLhjMCZjbSKnQjJW49
+ bJC0IkrWgCoBJSpRFmPG/8kgb6F2/Tc=
+X-Google-Smtp-Source: ABdhPJxMJOWb3lhu2ZIzVRR2k5lZCh5+SNHzJivsbYm7icgez6LtB2N04GJsCBbbZi9cvZ41dnwSig==
+X-Received: by 2002:a17:906:9414:: with SMTP id
+ q20mr33205971ejx.241.1634037199349; 
+ Tue, 12 Oct 2021 04:13:19 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m23sm4742802eja.6.2021.10.12.04.13.14
+ by smtp.gmail.com with ESMTPSA id m23sm4742802eja.6.2021.10.12.04.13.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 04:13:15 -0700 (PDT)
+ Tue, 12 Oct 2021 04:13:19 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/24] configure,
- meson: move pthread_setname_np checks to Meson
-Date: Tue, 12 Oct 2021 13:12:52 +0200
-Message-Id: <20211012111302.246627-15-pbonzini@redhat.com>
+Subject: [PATCH v2 19/24] configure: remove obsolete Solaris ar check
+Date: Tue, 12 Oct 2021 13:12:57 +0200
+Message-Id: <20211012111302.246627-20-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211012111302.246627-1-pbonzini@redhat.com>
 References: <20211012111302.246627-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,179 +89,44 @@ Cc: marcandre.lureau@redhat.com, thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes the pthreads check dead in configure, so remove it
-as well.
+Meson already has its own logic to find the "ar" binary, so remove the
+Solaris specific check.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20211007130829.632254-9-pbonzini@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20211007130829.632254-14-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                | 78 ----------------------------------------
- meson.build              | 23 ++++++++++++
- util/qemu-thread-posix.c |  5 ++-
- 3 files changed, 25 insertions(+), 81 deletions(-)
+ configure | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
 diff --git a/configure b/configure
-index 52f89b05d6..a1e142d5f8 100755
+index 016814d23b..2091844ad6 100755
 --- a/configure
 +++ b/configure
-@@ -3146,71 +3146,6 @@ if test "$modules" = yes; then
-     fi
+@@ -2284,21 +2284,6 @@ EOF
+   fi
  fi
  
--##########################################
--# pthread probe
--PTHREADLIBS_LIST="-pthread -lpthread -lpthreadGC2"
+-#########################################
+-# Solaris specific configure tool chain decisions
 -
--pthread=no
--cat > $TMPC << EOF
--#include <pthread.h>
--static void *f(void *p) { return NULL; }
--int main(void) {
--  pthread_t thread;
--  pthread_create(&thread, 0, f, 0);
--  return 0;
--}
--EOF
--if compile_prog "" "" ; then
--  pthread=yes
--else
--  for pthread_lib in $PTHREADLIBS_LIST; do
--    if compile_prog "" "$pthread_lib" ; then
--      pthread=yes
--      break
+-if test "$solaris" = "yes" ; then
+-  if has ar; then
+-    :
+-  else
+-    if test -f /usr/ccs/bin/ar ; then
+-      error_exit "No path includes ar" \
+-          "Add /usr/ccs/bin to your path and rerun configure"
 -    fi
--  done
+-    error_exit "No path includes ar"
+-  fi
 -fi
 -
--if test "$mingw32" != yes && test "$pthread" = no; then
--  error_exit "pthread check failed" \
--      "Make sure to have the pthread libs and headers installed."
--fi
--
--# check for pthread_setname_np with thread id
--pthread_setname_np_w_tid=no
--cat > $TMPC << EOF
--#include <pthread.h>
--
--static void *f(void *p) { return NULL; }
--int main(void)
--{
--    pthread_t thread;
--    pthread_create(&thread, 0, f, 0);
--    pthread_setname_np(thread, "QEMU");
--    return 0;
--}
--EOF
--if compile_prog "" "$pthread_lib" ; then
--  pthread_setname_np_w_tid=yes
--fi
--
--# check for pthread_setname_np without thread id
--pthread_setname_np_wo_tid=no
--cat > $TMPC << EOF
--#include <pthread.h>
--
--static void *f(void *p) { pthread_setname_np("QEMU"); return NULL; }
--int main(void)
--{
--    pthread_t thread;
--    pthread_create(&thread, 0, f, 0);
--    return 0;
--}
--EOF
--if compile_prog "" "$pthread_lib" ; then
--  pthread_setname_np_wo_tid=yes
--fi
--
- ##########################################
- # libssh probe
- if test "$libssh" != "no" ; then
-@@ -4496,19 +4431,6 @@ if test "$debug_mutex" = "yes" ; then
-   echo "CONFIG_DEBUG_MUTEX=y" >> $config_host_mak
- fi
- 
--# Hold two types of flag:
--#   CONFIG_THREAD_SETNAME_BYTHREAD  - we've got a way of setting the name on
--#                                     a thread we have a handle to
--#   CONFIG_PTHREAD_SETNAME_NP_W_TID - A way of doing it on a particular
--#                                     platform
--if test "$pthread_setname_np_w_tid" = "yes" ; then
--  echo "CONFIG_THREAD_SETNAME_BYTHREAD=y" >> $config_host_mak
--  echo "CONFIG_PTHREAD_SETNAME_NP_W_TID=y" >> $config_host_mak
--elif test "$pthread_setname_np_wo_tid" = "yes" ; then
--  echo "CONFIG_THREAD_SETNAME_BYTHREAD=y" >> $config_host_mak
--  echo "CONFIG_PTHREAD_SETNAME_NP_WO_TID=y" >> $config_host_mak
--fi
--
- if test "$bochs" = "yes" ; then
-   echo "CONFIG_BOCHS=y" >> $config_host_mak
- fi
-diff --git a/meson.build b/meson.build
-index c712963170..97dda9aee7 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1584,6 +1584,29 @@ config_host_data.set('CONFIG_POSIX_MADVISE', cc.links(gnu_source_prefix + '''
-   #include <sys/mman.h>
-   #include <stddef.h>
-   int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED); }'''))
-+
-+config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_W_TID', cc.links('''
-+  #include <pthread.h>
-+
-+  static void *f(void *p) { return NULL; }
-+  int main(void)
-+  {
-+    pthread_t thread;
-+    pthread_create(&thread, 0, f, 0);
-+    pthread_setname_np(thread, "QEMU");
-+    return 0;
-+  }''', dependencies: threads))
-+config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_WO_TID', cc.links('''
-+  #include <pthread.h>
-+
-+  static void *f(void *p) { pthread_setname_np("QEMU"); return NULL; }
-+  int main(void)
-+  {
-+    pthread_t thread;
-+    pthread_create(&thread, 0, f, 0);
-+    return 0;
-+  }''', dependencies: threads))
-+
- config_host_data.set('CONFIG_SIGNALFD', cc.links(gnu_source_prefix + '''
-   #include <sys/signalfd.h>
-   #include <stddef.h>
-diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-index 6c5004220d..e1225b63bd 100644
---- a/util/qemu-thread-posix.c
-+++ b/util/qemu-thread-posix.c
-@@ -23,7 +23,8 @@ void qemu_thread_naming(bool enable)
- {
-     name_threads = enable;
- 
--#ifndef CONFIG_THREAD_SETNAME_BYTHREAD
-+#if !defined CONFIG_PTHREAD_SETNAME_NP_W_TID && \
-+    !defined CONFIG_PTHREAD_SETNAME_NP_WO_TID
-     /* This is a debugging option, not fatal */
-     if (enable) {
-         fprintf(stderr, "qemu: thread naming not supported on this host\n");
-@@ -522,7 +523,6 @@ static void *qemu_thread_start(void *args)
-     void *arg = qemu_thread_args->arg;
-     void *r;
- 
--#ifdef CONFIG_THREAD_SETNAME_BYTHREAD
-     /* Attempt to set the threads name; note that this is for debug, so
-      * we're not going to fail if we can't set it.
-      */
-@@ -533,7 +533,6 @@ static void *qemu_thread_start(void *args)
-         pthread_setname_np(qemu_thread_args->name);
- # endif
-     }
--#endif
-     QEMU_TSAN_ANNOTATE_THREAD_NAME(qemu_thread_args->name);
-     g_free(qemu_thread_args->name);
-     g_free(qemu_thread_args);
+ if test "$tcg" = "enabled"; then
+     git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
+     git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
 -- 
 2.31.1
 
