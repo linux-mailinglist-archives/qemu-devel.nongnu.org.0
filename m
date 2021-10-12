@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BCB42A3AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 13:54:58 +0200 (CEST)
-Received: from localhost ([::1]:33818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82AF442A359
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 13:32:39 +0200 (CEST)
+Received: from localhost ([::1]:43748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maGN0-0006fe-0J
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 07:54:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33396)
+	id 1maG1O-00085R-3K
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 07:32:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maFim-0000tj-9k
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:13:24 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:40752)
+ id 1maFil-0000uh-Fe
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:13:23 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:41717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1maFij-0007Zr-CW
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:13:22 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id g8so79736759edt.7
+ id 1maFik-0007aL-1n
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 07:13:23 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id a25so63797251edx.8
  for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 04:13:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1fuusyPU1muAnX8OHmMRKHrFEYQim3jxp9adT/chl64=;
- b=FeiutYi1ey45hYJjnH2QasLbvdKo55TfllCro+QR31uCd31h9IdVR5GWbH67D5+0mD
- Lqc8Le5MKSI1fbZXGr54f9oPx0kpmLkiLmI6yeAyCmY5QdIOrEm4fMuMNXgM8rrkaHaU
- jGbTJMU3upJO1wFZVRJj2j1TF1ViexJ5RLZ2bsVYzIfUXt0b/HrtNk9nIuDrhyFFNyQI
- MhriPz8r4NM/si8/ucYBN4tOU5ZTpAM6aoUToG98KJdX8G1eeBnFhV6qaqAbulsGss6Y
- 13uRHkIBb6qoR+GhFgjY6/2ntb8IifjxPCvO62QApQcCdsXcaD4+05MqYBXpGIU8RF3Z
- uNjQ==
+ bh=Z6UgxE/8tlX9AdbKXPGLp6eGWQ6K18vN2+aOdIn9xwc=;
+ b=GKWE/kVlIvUy0UIu27gXt4BMIpaP34YYWklnEI9tZ1pDTLSrLbG9puKeSiG+x2/JwF
+ AS0na46Rxfpdj2OTsP3dpKoFQ+3GvoUTAyYcIXqKg8aZimT7fwCj8zEUVW42GU7TZMK+
+ edxTOsCy+BnDqtRojLc71zO03GVUEY7u+hCq/uF43X5zdYlykwKRCMPAoHWxd/S86QC3
+ 9Y189OglzbrTva/g7OiWx22evka7wZGGnnepVygiw6xQ4gvpCMPNNuSCMjJZ7OeVqF1m
+ ajIz70rDc6XzuFyceENTQZjLiBpibNEedD8uiKiWnsZ0X2876Wgf3Ht31DE2x8oSny08
+ +7yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=1fuusyPU1muAnX8OHmMRKHrFEYQim3jxp9adT/chl64=;
- b=5u05lFns/v4l9F/VeY1c7cjgL0dfdTKvgSFNets4NQ/3JZWJNGJI363XLsv/Pm3z3r
- ZfnFBgYYgxiCsz/DzcmT/rOEAILt0yJ+8MYREgoGlAGTQujwE/KPoyrB5PXuluFOWpfX
- L+LHKoZqwcou8slFlqtD1Dg/R4+99jt+z4ao7gVJlZYTuQrJaZk6XdDDzv/7BU1hTL13
- 84XP9KzsB61brOdNvgdLPc3zW3xRHFpfxT9Ia8w4k4UiqlmMzKa9wjUZcZFKO17jk93Z
- bz5Z0yPIXeXlwMRbZQkcKz70qMwYvGzedJXhrOEH1VCM6XxLdlcDYZl7nwdN+C7PSDvU
- OBaQ==
-X-Gm-Message-State: AOAM531ASLBeKUuGJPeBQVDxbTFmtAh7QJ62FmtkwNgvvH7u6YUxB2D9
- /jiVT30TQxN1J5dDuk4qgqxLBILNs8E=
-X-Google-Smtp-Source: ABdhPJyk7i0iOQJ7FZwMfHcNyTtG04XxzifgTDsRB3yX4ijmXCGp0xYLNHn68kYllLxoUIwu+hTgZw==
-X-Received: by 2002:a17:906:70c5:: with SMTP id
- g5mr34043238ejk.63.1634037200067; 
+ bh=Z6UgxE/8tlX9AdbKXPGLp6eGWQ6K18vN2+aOdIn9xwc=;
+ b=2ChPehu//kJCXdDREUFCtrVVQrEGHCuaF8dNL2idIV1eUKsq6Za4eZCXx5L96chFZj
+ 95mGBR1NX0PQPbX5GRypa0HLdjfJ8CoU5GlmNL9/EVqU0BYa2CZAqcmQs4HJspRdAqvN
+ nPPgB5GCmaA87f14z2gGNqDhMZn6Lhvcvh5xnTApCp4Yg40sYxWhRlw+1HH8Uflth7ki
+ q8nno4JCaIYm8TO0ghzWy5L2eWk69Lber5w4VAmU+m6Vf9dxclBf6ZZyotUslScGxX5A
+ f02y57MC1v2Jmwv76ez8CVEdsLXGvEhDUtcg4tf5F7H4sNe4SVGTF4SYFfH10c6CTJkI
+ Qp3w==
+X-Gm-Message-State: AOAM531lwNR4KJbP38KixWHzvVeZ4kb3iA+kw8n49jjysjjtrD2oXqZQ
+ w4JGxvoy3YJzlBD2LRlccIC7GvMNnZI=
+X-Google-Smtp-Source: ABdhPJyDi+xAUxFl2X2U3kX4Dqy+EnGYGdOlCIjap5c/hI9MGgcfJ8SWYm7BuXqQ114qCK1F+CuUnQ==
+X-Received: by 2002:aa7:db85:: with SMTP id u5mr49615494edt.234.1634037200742; 
  Tue, 12 Oct 2021 04:13:20 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m23sm4742802eja.6.2021.10.12.04.13.19
+ by smtp.gmail.com with ESMTPSA id m23sm4742802eja.6.2021.10.12.04.13.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 04:13:19 -0700 (PDT)
+ Tue, 12 Oct 2021 04:13:20 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 20/24] configure, meson: move more compiler checks to Meson
-Date: Tue, 12 Oct 2021 13:12:58 +0200
-Message-Id: <20211012111302.246627-21-pbonzini@redhat.com>
+Subject: [PATCH v2 21/24] configure: remove deprecated --{enable,
+ disable}-git-update
+Date: Tue, 12 Oct 2021 13:12:59 +0200
+Message-Id: <20211012111302.246627-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211012111302.246627-1-pbonzini@redhat.com>
 References: <20211012111302.246627-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,228 +89,37 @@ Cc: marcandre.lureau@redhat.com, thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The options were deprecated in 6.0.  That said, we do not really have a
+formal deprecation cycle for build-time changes, since they do not affect
+users.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20211007130829.632254-15-pbonzini@redhat.com>
+Message-Id: <20211007130829.632254-16-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure        | 91 ------------------------------------------------
- meson.build      | 44 +++++++++++++++++++++++
- util/meson.build |  4 ++-
- 3 files changed, 47 insertions(+), 92 deletions(-)
+ configure | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/configure b/configure
-index 2091844ad6..33d330dcc9 100755
+index 33d330dcc9..d00ba0cbd2 100755
 --- a/configure
 +++ b/configure
-@@ -3108,19 +3108,6 @@ elif test "$tpm" = "yes"; then
-   fi
- fi
- 
--##########################################
--# iovec probe
--cat > $TMPC <<EOF
--#include <sys/types.h>
--#include <sys/uio.h>
--#include <unistd.h>
--int main(void) { return sizeof(struct iovec); }
--EOF
--iovec=no
--if compile_prog "" "" ; then
--  iovec=yes
--fi
--
- ##########################################
- # fdt probe
- 
-@@ -3562,42 +3549,6 @@ EOF
-   fi
- fi
- 
--#########################################
--# See if 64-bit atomic operations are supported.
--# Note that without __atomic builtins, we can only
--# assume atomic loads/stores max at pointer size.
--
--cat > $TMPC << EOF
--#include <stdint.h>
--int main(void)
--{
--  uint64_t x = 0, y = 0;
--  y = __atomic_load_n(&x, __ATOMIC_RELAXED);
--  __atomic_store_n(&x, y, __ATOMIC_RELAXED);
--  __atomic_compare_exchange_n(&x, &y, x, 0, __ATOMIC_RELAXED, __ATOMIC_RELAXED);
--  __atomic_exchange_n(&x, y, __ATOMIC_RELAXED);
--  __atomic_fetch_add(&x, y, __ATOMIC_RELAXED);
--  return 0;
--}
--EOF
--if compile_prog "" "" ; then
--  atomic64=yes
--fi
--
--########################################
--# check if getauxval is available.
--
--getauxval=no
--cat > $TMPC << EOF
--#include <sys/auxv.h>
--int main(void) {
--  return getauxval(AT_HWCAP) == 0;
--}
--EOF
--if compile_prog "" "" ; then
--    getauxval=yes
--fi
--
- ########################################
- # check if ccache is interfering with
- # semantic analysis of macros
-@@ -3671,33 +3622,6 @@ else
-     membarrier=no
- fi
- 
--##########################################
--# check for usable AF_VSOCK environment
--have_af_vsock=no
--cat > $TMPC << EOF
--#include <errno.h>
--#include <sys/types.h>
--#include <sys/socket.h>
--#if !defined(AF_VSOCK)
--# error missing AF_VSOCK flag
--#endif
--#include <linux/vm_sockets.h>
--int main(void) {
--    int sock, ret;
--    struct sockaddr_vm svm;
--    socklen_t len = sizeof(svm);
--    sock = socket(AF_VSOCK, SOCK_STREAM, 0);
--    ret = getpeername(sock, (struct sockaddr *)&svm, &len);
--    if ((ret == -1) && (errno == ENOTCONN)) {
--        return 0;
--    }
--    return -1;
--}
--EOF
--if compile_prog "" "" ; then
--    have_af_vsock=yes
--fi
--
- ##########################################
- # check for usable AF_ALG environment
- have_afalg=no
-@@ -4173,9 +4097,6 @@ fi
- if test "$vhost_user_fs" = "yes" ; then
-   echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
- fi
--if test "$iovec" = "yes" ; then
--  echo "CONFIG_IOVEC=y" >> $config_host_mak
--fi
- if test "$membarrier" = "yes" ; then
-   echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
- fi
-@@ -4245,14 +4166,6 @@ if test "$cmpxchg128" = "yes" ; then
-   echo "CONFIG_CMPXCHG128=y" >> $config_host_mak
- fi
- 
--if test "$atomic64" = "yes" ; then
--  echo "CONFIG_ATOMIC64=y" >> $config_host_mak
--fi
--
--if test "$getauxval" = "yes" ; then
--  echo "CONFIG_GETAUXVAL=y" >> $config_host_mak
--fi
--
- if test "$libssh" = "yes" ; then
-   echo "CONFIG_LIBSSH=y" >> $config_host_mak
-   echo "LIBSSH_CFLAGS=$libssh_cflags" >> $config_host_mak
-@@ -4280,10 +4193,6 @@ if test "$replication" = "yes" ; then
-   echo "CONFIG_REPLICATION=y" >> $config_host_mak
- fi
- 
--if test "$have_af_vsock" = "yes" ; then
--  echo "CONFIG_AF_VSOCK=y" >> $config_host_mak
--fi
--
- if test "$debug_mutex" = "yes" ; then
-   echo "CONFIG_DEBUG_MUTEX=y" >> $config_host_mak
- fi
-diff --git a/meson.build b/meson.build
-index bf1b372a4a..ca7b9d60af 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1550,6 +1550,8 @@ config_host_data.set('CONFIG_INOTIFY',
-                      cc.has_header_symbol('sys/inotify.h', 'inotify_init'))
- config_host_data.set('CONFIG_INOTIFY1',
-                      cc.has_header_symbol('sys/inotify.h', 'inotify_init1'))
-+config_host_data.set('CONFIG_IOVEC',
-+                     cc.has_header_symbol('sys/uio.h', 'struct iovec'))
- config_host_data.set('CONFIG_MACHINE_BSWAP_H',
-                      cc.has_header_symbol('machine/bswap.h', 'bswap32',
-                                           prefix: '''#include <sys/endian.h>
-@@ -1697,6 +1699,48 @@ config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
-         return printf("%zu", SIZE_MAX);
-     }''', args: ['-Werror']))
- 
-+# See if 64-bit atomic operations are supported.
-+# Note that without __atomic builtins, we can only
-+# assume atomic loads/stores max at pointer size.
-+config_host_data.set('CONFIG_ATOMIC64', cc.links('''
-+  #include <stdint.h>
-+  int main(void)
-+  {
-+    uint64_t x = 0, y = 0;
-+    y = __atomic_load_n(&x, __ATOMIC_RELAXED);
-+    __atomic_store_n(&x, y, __ATOMIC_RELAXED);
-+    __atomic_compare_exchange_n(&x, &y, x, 0, __ATOMIC_RELAXED, __ATOMIC_RELAXED);
-+    __atomic_exchange_n(&x, y, __ATOMIC_RELAXED);
-+    __atomic_fetch_add(&x, y, __ATOMIC_RELAXED);
-+    return 0;
-+  }'''))
-+
-+config_host_data.set('CONFIG_GETAUXVAL', cc.links(gnu_source_prefix + '''
-+  #include <sys/auxv.h>
-+  int main(void) {
-+    return getauxval(AT_HWCAP) == 0;
-+  }'''))
-+
-+config_host_data.set('CONFIG_AF_VSOCK', cc.compiles(gnu_source_prefix + '''
-+  #include <errno.h>
-+  #include <sys/types.h>
-+  #include <sys/socket.h>
-+  #if !defined(AF_VSOCK)
-+  # error missing AF_VSOCK flag
-+  #endif
-+  #include <linux/vm_sockets.h>
-+  int main(void) {
-+    int sock, ret;
-+    struct sockaddr_vm svm;
-+    socklen_t len = sizeof(svm);
-+    sock = socket(AF_VSOCK, SOCK_STREAM, 0);
-+    ret = getpeername(sock, (struct sockaddr *)&svm, &len);
-+    if ((ret == -1) && (errno == ENOTCONN)) {
-+        return 0;
-+    }
-+    return -1;
-+  }'''))
-+
- ignored = ['CONFIG_QEMU_INTERP_PREFIX', # actually per-target
-     'HAVE_GDB_BIN']
- arrays = ['CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
-diff --git a/util/meson.build b/util/meson.build
-index 779f413c86..05b593055a 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -1,5 +1,7 @@
- util_ss.add(files('osdep.c', 'cutils.c', 'unicode.c', 'qemu-timer-common.c'))
--util_ss.add(when: 'CONFIG_ATOMIC64', if_false: files('atomic64.c'))
-+if not config_host_data.get('CONFIG_ATOMIC64')
-+  util_ss.add(files('atomic64.c'))
-+endif
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('aio-posix.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('fdmon-poll.c'))
- if config_host_data.get('CONFIG_EPOLL_CREATE1')
+@@ -1483,14 +1483,6 @@ for opt do
+   ;;
+   --with-git=*) git="$optarg"
+   ;;
+-  --enable-git-update)
+-      git_submodules_action="update"
+-      echo "--enable-git-update deprecated, use --with-git-submodules=update"
+-  ;;
+-  --disable-git-update)
+-      git_submodules_action="validate"
+-      echo "--disable-git-update deprecated, use --with-git-submodules=validate"
+-  ;;
+   --with-git-submodules=*)
+       git_submodules_action="$optarg"
+   ;;
 -- 
 2.31.1
 
