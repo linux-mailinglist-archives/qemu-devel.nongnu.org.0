@@ -2,110 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED29E429D95
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 08:17:58 +0200 (CEST)
-Received: from localhost ([::1]:38778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42533429D96
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 08:18:00 +0200 (CEST)
+Received: from localhost ([::1]:39214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maB6s-0003Gy-1X
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 02:17:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59732)
+	id 1maB6t-0003YX-B1
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 02:17:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1maB4q-0001Qm-NR
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 02:15:52 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62868)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1maB5k-0001yX-1Y
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 02:16:49 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:34499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1maB4o-0007Ov-Aj
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 02:15:52 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19C3aRQU004363; 
- Tue, 12 Oct 2021 02:15:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=NMIaYgIWaa2mEFGRjAVpgl+cOJ7az3sdVVNdN20k24A=;
- b=SqCew9PY0LLEeRW5mc4GDdfEmVHUvshVKa/bGyw/oPRFz3dV4lL/S9hC40bKopvkssY5
- z7Ksxqa0wvZOG2PzWUzNGauU2wknhTPj7V927/nA2bV6wWzHyKPE2XISzKX50QyulpXE
- I0Z0c0vrg1/7LlfPvCivMSStV6LfD2JBMOjHqhD8psFOzng7ti1qQfLjXXDOO+rUcZBZ
- BHlCYEtUR39njNN1RA5Vr3Q4s4IWPtdeFO+wAJgBBhkMcx6jC/An+kk0Gdx7Jkj4roVU
- Ruh7EfDLArTEzFvJJTqas7rY/yMxsvqooLancHKiGyG788Rkc+pFHebwuIltAnaKvjrS Ag== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bmx9pepks-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Oct 2021 02:15:46 -0400
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19C6FjhP030967;
- Tue, 12 Oct 2021 02:15:45 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3bmx9pepkd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Oct 2021 02:15:45 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19C5vPlB007098;
- Tue, 12 Oct 2021 06:15:44 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma02wdc.us.ibm.com with ESMTP id 3bk2qavd34-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 12 Oct 2021 06:15:44 +0000
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 19C6FhXT45220242
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 12 Oct 2021 06:15:43 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 51D0B13604F;
- Tue, 12 Oct 2021 06:15:43 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C8DA2136069;
- Tue, 12 Oct 2021 06:15:40 +0000 (GMT)
-Received: from [9.65.95.104] (unknown [9.65.95.104])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 12 Oct 2021 06:15:40 +0000 (GMT)
-Subject: Re: [PATCH v4 12/23] target/i386/sev: Use g_autofree in
- sev_launch_get_measure()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211007161716.453984-1-philmd@redhat.com>
- <20211007161716.453984-13-philmd@redhat.com>
- <73fbdf51-411c-71da-56bf-644ee45a1cbe@linux.ibm.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <4fe7f260-7aa3-9b86-20df-f8dc4f841929@linux.ibm.com>
-Date: Tue, 12 Oct 2021 09:15:39 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <73fbdf51-411c-71da-56bf-644ee45a1cbe@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: fOWabils-SRXqnCzGKrPpKHCgsrGQHeI
-X-Proofpoint-ORIG-GUID: OJrXmRet3GW0vf_DytRG_gmYM4OBDybh
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1maB5i-00082H-EZ
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 02:16:47 -0400
+Received: from [192.168.100.1] ([82.142.24.54]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MxV8b-1myJkY35ir-00xwLV; Tue, 12 Oct 2021 08:16:43 +0200
+Subject: Re: [PATCH 7/9] linux-user/nios2: Fix sigmask in setup_rt_frame
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211001153347.1736014-1-richard.henderson@linaro.org>
+ <20211001153347.1736014-10-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <c5b718d1-caf7-3862-6ff9-099a3d851840@vivier.eu>
+Date: Tue, 12 Oct 2021 08:16:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-10-12_01,2021-10-11_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- lowpriorityscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501
- spamscore=0 phishscore=0 suspectscore=0 malwarescore=0 impostorscore=0
- clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2110120033
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211001153347.1736014-10-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:cZuCqW/dpssCHMTo9/Nle5uIsdPOFPw8CJvnS/Ct1DM0+Lu2naK
+ +Josohx5AwAuDo5KeMBySUz1Yf8JdJT0AJ2Q9qippeAh093qGI5S3OIg2gVbhAClYRxTh0T
+ ZYja5hf0+0gNlKK9cJ6h35vHtw58NP2HIKLRSaDwmwHbkB0mZ1cB32fw3TrFpyPCYUsJzJp
+ iVkK4JrUIMiHgi50vdpjg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dKzbZ/dl8/Q=:3PfzHjXviFOTciPEPkV9ck
+ DWoUIDPLNhyt5W6L2U8/wtUDmqkm2IwpSGYC0B3SHzwVhWj9NpghvbzHmQAW7GfGAQSi5iW8S
+ drl6OnFhcoe5Lnr4O2By2Lnfo81nlwVvbGfdZoZltBqUVoA/htyJoXRJupMxU2+2KhGqn9J0P
+ 3JiLkE6z/b+xWatsF8aBhLYX7iOTYW/lFWRSoERa3iFC08N4o0q3pGuuY2jj9MoTYE2UgdtGc
+ cX978w4oTRCafKOtAOpN+I/WxKDsQ/mF3Tya0rJJYylWJQG4idhH+zmAC1Rodk4mKpxndqTg2
+ VHgW915jOSzuFCQ/9aQIiwqAAMQ2PtEmyOjm3pvqheSsvxKF6UfrWWYBmE1YWoWkr9k54tRa2
+ pCnnnpukGPg0foujf+GgxV1HUOSK2mFv3k9d17/Wgwxg1zPpa1R8INcVRVQ7YUWdjOJxBnvJY
+ VUOyhn+M0KkmIPENcTZ48NwsoUSwWfPA0MhO6bk3n0odyi1OblY38fpoi61mFtPT4kbs8gpsv
+ VcuMLH3AsY7yZfuy3ucmJPBIHGDeSPpwQlO1hio8Lx5ep6pl6qcQvSjC/dM4fvTlCO2mPrqDa
+ qDmzCLrLZpIF2cBdaCNC+savFoFTggp8Z2vXqKw2vZdw3r8bmrH6nV2byD3lPqtn3Z5BPSyIF
+ Vu+e3gfveBop1sdjeh9eAWUJDw9bZTtQlEQuCC7tQymevB3awEIb3AsZw8jizOKXAmgIgqiOf
+ ZP3zuArkzkX97Rsocrn5aRwmIv4T2M84wmOsag==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,89 +70,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Sergio Lopez <slp@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: marex@denx.de, crwulff@gmail.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 07/10/2021 19:28, Dov Murik wrote:
+Le 01/10/2021 à 17:33, Richard Henderson a écrit :
+> Do not cast the signal mask elements; trust __put_user.
 > 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/nios2/signal.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> On 07/10/2021 19:17, Philippe Mathieu-Daudé wrote:
->> Use g_autofree to remove a pair of g_free/goto.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  target/i386/sev.c | 13 ++++---------
->>  1 file changed, 4 insertions(+), 9 deletions(-)
->>
->> diff --git a/target/i386/sev.c b/target/i386/sev.c
->> index 3a30ba6d94a..5cbbcf0bb93 100644
->> --- a/target/i386/sev.c
->> +++ b/target/i386/sev.c
->> @@ -685,8 +685,8 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
->>  {
->>      SevGuestState *sev = sev_guest;
->>      int ret, error;
->> -    guchar *data;
->> -    struct kvm_sev_launch_measure *measurement;
->> +    g_autofree guchar *data = NULL;
->> +    g_autofree struct kvm_sev_launch_measure *measurement = NULL;
-> 
-> Sorry for joining so late, but why do we allocate struct
-> kvm_sev_launch_measure on the heap (even before this patch)? It's only
-> 12 bytes. Might be simpler to have a local (stack) variable and not care
-> about memory management.
+> diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
+> index 20b65aa06e..80e3d42fc9 100644
+> --- a/linux-user/nios2/signal.c
+> +++ b/linux-user/nios2/signal.c
+> @@ -168,8 +168,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+>      target_save_altstack(&frame->uc.tuc_stack, env);
+>      rt_setup_ucontext(&frame->uc, env);
+>      for (i = 0; i < TARGET_NSIG_WORDS; i++) {
+> -        __put_user((abi_ulong)set->sig[i],
+> -                   (abi_ulong *)&frame->uc.tuc_sigmask.sig[i]);
+> +        __put_user(set->sig[i], &frame->uc.tuc_sigmask.sig[i]);
+>      }
+>  
+>      /* Set up to return from userspace; jump to fixed address sigreturn
 > 
 
-I sent another series [1] with this fix (and a similar fix in
-launch_start); it can be added as part of this housekeeping series.
-
-[1] https://lore.kernel.org/qemu-devel/20211011173026.2454294-1-dovmurik@linux.ibm.com/
-
--Dov
-
-> -Dov
-> 
-> 
->>  
->>      if (!sev_check_state(sev, SEV_STATE_LAUNCH_UPDATE)) {
->>          return;
->> @@ -708,7 +708,7 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
->>      if (!measurement->len) {
->>          error_report("%s: LAUNCH_MEASURE ret=%d fw_error=%d '%s'",
->>                       __func__, ret, error, fw_error_to_str(errno));
->> -        goto free_measurement;
->> +        return;
->>      }
->>  
->>      data = g_new0(guchar, measurement->len);
->> @@ -720,7 +720,7 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
->>      if (ret) {
->>          error_report("%s: LAUNCH_MEASURE ret=%d fw_error=%d '%s'",
->>                       __func__, ret, error, fw_error_to_str(errno));
->> -        goto free_data;
->> +        return;
->>      }
->>  
->>      sev_set_guest_state(sev, SEV_STATE_LAUNCH_SECRET);
->> @@ -728,11 +728,6 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
->>      /* encode the measurement value and emit the event */
->>      sev->measurement = g_base64_encode(data, measurement->len);
->>      trace_kvm_sev_launch_measurement(sev->measurement);
->> -
->> -free_data:
->> -    g_free(data);
->> -free_measurement:
->> -    g_free(measurement);
->>  }
->>  
->>  char *
->>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
