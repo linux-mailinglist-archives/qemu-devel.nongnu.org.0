@@ -2,91 +2,138 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C40842A918
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 18:08:36 +0200 (CEST)
-Received: from localhost ([::1]:33378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7770742A934
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 18:16:58 +0200 (CEST)
+Received: from localhost ([::1]:39846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maKKR-0004o5-59
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 12:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58248)
+	id 1maKSW-0001I4-TX
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 12:16:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1maKIr-0003Va-JA
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:06:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37141)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1maKPP-0007Ds-L1; Tue, 12 Oct 2021 12:13:44 -0400
+Received: from mail-vi1eur05on2137.outbound.protection.outlook.com
+ ([40.107.21.137]:34400 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1maKIn-0002bb-BI
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:06:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634054811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ABBdUgwWimyiRXD4iyHEjMxHxVqW2X8xQdB/Ah35p+k=;
- b=PmnZezbgMZZckRYMdLBXcJcHOdlqGM7HY0RE1qLatM6OK7cPbE5+GW+d7OW0rkFfQoQstC
- A4BOsQhZB5H2kvEYqUO4bK1nDQtYuAnsHASQlCpfrHMFz6bm9GuDzUpnDSI/4/MSF3lLZR
- K0tR9IQzVpg/e4UfuUFK0UatJvfMY0o=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-555-gZ8MBBqANwCUG4VdYNW01A-1; Tue, 12 Oct 2021 12:06:49 -0400
-X-MC-Unique: gZ8MBBqANwCUG4VdYNW01A-1
-Received: by mail-wr1-f71.google.com with SMTP id
- r25-20020adfab59000000b001609ddd5579so16127228wrc.21
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 09:06:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ABBdUgwWimyiRXD4iyHEjMxHxVqW2X8xQdB/Ah35p+k=;
- b=O6wCjypPWdwEgmqTaUWJRly92fvdshc/EP+p9ckHYvNBe79lnpLV+WUnicUKVb1laO
- 9HY0jVRKLOq40GtcYflepy+mCm4npDMxAVTn/od2fS0FpIFw4IaquF3QV74McMP0qWYG
- bNCwfX61Jb9JCaj4hNVg0dSQFN3L26hhdXdFojv9RwFdAQefmHnmeHBoHIofUeV4Mtb+
- pxtJQSrG3pk7/mdBNTWDtb7wUcjriABOFoafYst6Umq4qVJO2mfErVKtog7WGqNdXt+M
- xj8j/zNg0D82cuDeQPsOL+2xO0QrTf0t44Dz/yyxC0XDRvR4cMDWSMy/w8595MyvSbVK
- QeNA==
-X-Gm-Message-State: AOAM5339ErdPXgSveCCaGod/bSBQ50aE0J3mD8SbCUV5caZLcXHEGJwe
- jmQVCq3PWnxGQNXUfSyawwxQSk00nbSf8VikotcwHVpxtOqlSvUYTkBsr532cbL70hkTKVNv4bM
- Tv851m+LdCS/jYT0=
-X-Received: by 2002:adf:d1ee:: with SMTP id g14mr33416057wrd.264.1634054808227; 
- Tue, 12 Oct 2021 09:06:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyOS0U1U25GhDL8l6urUenlMlHnBc3d2rD8jR52rQ8JuSolJNoJqphzUJRv+x19CQRQGaBe7g==
-X-Received: by 2002:adf:d1ee:: with SMTP id g14mr33416012wrd.264.1634054807894; 
- Tue, 12 Oct 2021 09:06:47 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1e48:3780:4451:9a65:d4e9:9bb6?
- ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
- by smtp.gmail.com with ESMTPSA id 1sm3058289wmb.24.2021.10.12.09.06.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 09:06:47 -0700 (PDT)
-Message-ID: <4e34bf3c-c9eb-1bb5-15a1-a9e88a0b468f@redhat.com>
-Date: Tue, 12 Oct 2021 18:06:46 +0200
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1maKPG-00013l-LN; Tue, 12 Oct 2021 12:13:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=etBSBPPQaR+v0e4WTEb5qWOHVoJH7gaFE1AXRs+53AFVsJTXZtIeLpbIwOiWqhRS0yMBiLyKaAe+d8MM+k0pb5Zh5sMm3WKbJX8v13gEXSv8Y4mzQXJFtePLXMQqAaNf3lF/FznWanccTjUmoCe+3WTgWZ/HRvr2rzY09HpyFNBJCulk/HDATpJieX5aeOhYEpy2XCQYVDwr3hnM9qTcU27cJx8mRaXLyQ9et05tsLxReHVXmQH+LGeJEECs/fo2B/6oHp6i9VYQc48gnbzYmbNXnUrHJhnTCjd1glb6F0/P1w1R7DdD6p2yWzkMbtKO27oJ7s+Qv0W6LEUbkLprDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m9e70jHAGyjat7m7KmZ0ZhvRhdEj/GSDTKW91APgUVE=;
+ b=Vvq+xgt+nKOVlYvquIIY4nRVe6vW6NBjJnVXZX8k/8BQ9HN5aUQJCm1XCRiWpN3m2yVi+G0jd130IApKWyjqI11ZrnTBi7KM+6nc2c4U2Jh9dCffCStnjBansKl4NGLdQ10bzW/tkA6G8hD0XP3+CYs18fSk0UM9PvPiju9n+wDHI/TAW+hdr5sCil2sg1yvXmNAD2GxwCbsiJCr0k/dJiw4xUYS3eMGS3u5k3+o8tEAHy2Ul5pFUkw/Q9rPbRfzKrWF1aglejI8RN5SzU+WMf/MOwSBsW5iUZbWlihWM0cc/ERRGgqxF09hUpCAI/OyxN/ZXTb10BkYy6ApTPBMgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m9e70jHAGyjat7m7KmZ0ZhvRhdEj/GSDTKW91APgUVE=;
+ b=relWuPtBAFxYejmzN/+Yj+LydqlOSfVgnu8Wr6UgDDEU4Vt/c9vrx5XyEoeCVi7wpjTQ/i9UdrMalVkuKOyKFtmWtqKChUMP17POOP4kqeDoiwB3EatzX2MnWF7zgs/2hmWjut40HXijVmBTKEUEpwjQBwN5LvRr4i82yEy58vI=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5032.eurprd08.prod.outlook.com (2603:10a6:20b:ea::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.24; Tue, 12 Oct
+ 2021 16:13:25 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a994:9f7c:53a5:84bc]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::a994:9f7c:53a5:84bc%5]) with mapi id 15.20.4587.026; Tue, 12 Oct 2021
+ 16:13:25 +0000
+Message-ID: <b251f39d-d727-311e-e6e4-f84c360cb3af@virtuozzo.com>
+Date: Tue, 12 Oct 2021 19:13:23 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v2 13/17] iotests: Accommodate async QMP Exception classes
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210923004938.3999963-1-jsnow@redhat.com>
- <20210923004938.3999963-14-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20210923004938.3999963-14-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 10/12] block-backend: convert blk_aio_ functions to
+ int64_t bytes paramter
 Content-Language: en-US
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, crosa@redhat.com,
+ ehabkost@redhat.com, hreitz@redhat.com, kwolf@redhat.com, stefanha@redhat.com
+References: <20211006131718.214235-1-vsementsov@virtuozzo.com>
+ <20211006131718.214235-11-vsementsov@virtuozzo.com>
+ <20211006202925.x56o344sxsgbkrvh@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <20211006202925.x56o344sxsgbkrvh@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.452,
- DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-ClientProxiedBy: AS8PR04CA0007.eurprd04.prod.outlook.com
+ (2603:10a6:20b:310::12) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+Received: from [192.168.100.10] (185.215.60.43) by
+ AS8PR04CA0007.eurprd04.prod.outlook.com (2603:10a6:20b:310::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend
+ Transport; Tue, 12 Oct 2021 16:13:24 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3c2ccd23-480c-4d82-358b-08d98d9b37db
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5032:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB50328AA79D723526327FCFF0C1B69@AM6PR08MB5032.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1775;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JTR+V8owFXsJtAxLMijMfQrzuql+0gi/fhKO4DuLUOPDmQsPYLHoiKXCjrjlykOZCD+V5bRbmiEz/U7QZjCwL0+ccitWO3cN3XFgutZwgSChqbdsVWUcZdd2mVVoWD2U5Xsn50FQ9RXemAYkhITw7kgFPZxD6H9nTLAF3qXO23t/Fs4uyiRsATYZ8jlum6ykZdzuQEjePhXIq67dUDKxF3h/NAd5F0dF7+JWpinJuOEwST8Cew57v/kmNaSXcm1LTmkFu5YZjfrrqgVnlpPKTDysYihfIFUv5rQZQ1YFtJd2b0UeLEz9x4U0fJqJIAofDNNcqtbSf1vxZ2VD7F9ERzz6Kwl2NJ4a97GdpWiRokL1kZmOU5OXC5XJVU+SIVNaVHpmCenDvrzHCqobT+JQcEhxjyEVTi2NNEmUKguaPzTnGkMEVbg17TnkxRZs/2QAhlw+oVLpzPH7Ec3WqFiVhPO4f9BH6/VlW3vcWWgFdwOp0yh5W316D8MK5h5NsvbA0jBMzhL1cAz65BylbfSNwdI1b27io/9l+WteN3IuRCj6fy4tv9F97zfp/RGUvNnF3sm7GC3o8l7Covp0m8OxhnbVbpNQDZTmg/qo0qb3Dshd2210kUez8P5CNBFPgblNzic4QGXoQn2ePYQN4r/Pl6pT5V7C2phQ9dYjhdV0B/C6NVFHA0T4G5Z1CBA2nLx6a6oxts6k345ABQ6+eNUmuXr3eBp0L2plXQUklo559xgAl9lex5FiGDa36sWcyDuQLCav37AW+R3F/5HbYQc8Og==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(38100700002)(508600001)(316002)(6486002)(38350700002)(6916009)(5660300002)(83380400001)(186003)(66946007)(8936002)(86362001)(26005)(16576012)(31686004)(2616005)(956004)(8676002)(2906002)(31696002)(4326008)(66476007)(66556008)(36756003)(52116002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TStYSTZWSUZnQ2s3SzNiRG4wQ2k5dW5LREdhVXViYk9YS0lmNGR2a2ExbG5p?=
+ =?utf-8?B?RUEzOHF0OE9zSWRyMTAwZGFJNFRaS1NmcnAxYVAva3d2Z1lWQkNrangxUmw4?=
+ =?utf-8?B?c1pUaHVKaGFqWGZDUVVGUCtJdDREQXVOTXE5ZmIzVm5WeHVEendiVHl3UVRi?=
+ =?utf-8?B?OFNtK3hLTzlRWUdtbkZKa2VHWFV2OXBnUmZZbHlvU2s4Y3RMSURRdms0Z3Zu?=
+ =?utf-8?B?d0xrVFZETkdXRDNFVmJwWSs1VEgvYzFxY0ZKai9KN0NNb2taNHhBVHpkVVJX?=
+ =?utf-8?B?Z1ErMkpVUStJTVViUDhlWExTY2pqR3hJN3dIdWoyeXJ6Qk1aK3VRTkxYRU5p?=
+ =?utf-8?B?YWpUMmhKVzdINjdKWW5sN1paQkwyWElXUDhkYi9sbE42WjlvYXlzNFVmeFJT?=
+ =?utf-8?B?QndGN2dOeEFMZ1paUDE3eFNCMUFlZmJ5YmZhUWVncGJKTXFjOEowbUNlV292?=
+ =?utf-8?B?VGZQRDlKaGs5a2VRWE5aY1FuNXJLZHFMZGY2ZUU5c1kwbzN0OTdzVHdzQUxp?=
+ =?utf-8?B?SFJQWDJYREFoSmtmSFAvTG1NMElxemJtZXBKZXVPcU93R1JpTU5qaW1sME5M?=
+ =?utf-8?B?ZjYvRmx2RlNjSzhhNWxLeG1hY3lERWt4QzJNcTh3VTlySVNNd1hlWTZNdndU?=
+ =?utf-8?B?TkcxRHk1SDlrOXlaMERkVlQ5U29FWFIzZXBBdVJhUnFXclcxTFMxRC8yMW16?=
+ =?utf-8?B?cnhMTGV2QWZvSWZ0VUtOb3kwajVZajhmUWNUS2pYL0FYV3BoMFNRTVlkYlVr?=
+ =?utf-8?B?SHp5RmZJdnVBMTFzbFh1VFFCczQ0T2VXRlYzeFNpcG4vU3E5TGhtMkhKSXVK?=
+ =?utf-8?B?My9QeUZ1QU9ReFhManVkS1RMcmtLYzZnaWdwZzdXUHczaWhCOFFLY2diOUYr?=
+ =?utf-8?B?MWxvdWxTOG9XMzlrRGNlWU5qZTdSYUFTQlh6dUlIT2l3aEFucDZXMXZqNkZo?=
+ =?utf-8?B?WDJhU1MyK1BWOGhwMFNTUnB3V2s2ZlE2d2JTNEdkUWxhc0R0Wml4SGRNZGYr?=
+ =?utf-8?B?bGIzYk93WTZRM2JCWUY3ZzU4dTk5clhaRjNnNGtEaFg3VHAyZ3UxWGxqeGh5?=
+ =?utf-8?B?MjdNVnBrTGY5aUhqdmRCeHJLakRCeWNaUTA3MEU0L0dMM1RYVTFaZFBQUTdV?=
+ =?utf-8?B?UUxUWlAzSG5HdHRwY0FMRGYrNE1DMllxNTNTMHRQd0E0QmhEeWNITGhZblZO?=
+ =?utf-8?B?MjBWaEZQVTRleDBieTVvSXMrcHRhRkJ5QnJRTmNHL28vWTRBNXF4Y1prSEFh?=
+ =?utf-8?B?anBvT05TRjVvUi9iUllmbW5EdlpTcFczeTFZVTJVczNUekxNSG16d2lBRGRr?=
+ =?utf-8?B?c2M0NjROUEdzbHFZMVExZ0N1VC9OTFE2TU1Vb29weVNzT28yMEJTOFJWU1BR?=
+ =?utf-8?B?bWpjaHcyaHo0OUY0TzFjYktadkJianJSUVRtOU45S0hLano0SmR1WWFVU3JW?=
+ =?utf-8?B?dm1rL0V0T0xNS3Nlb0NVYzlLN01NWHlnMGdUUUtRdE5EUnRINzZXNFFVZzhu?=
+ =?utf-8?B?VnRaRzF3TDNVcENQZmNvRnkyN3ZaS2V4akRJcVFXQ2pNYncrTnpwUUpJNS9X?=
+ =?utf-8?B?QmpodUE5bzVHbkRsTzloSVlrdDcraFFFOTJlcmRQUllJdjJ6TDZvRWFwS1k3?=
+ =?utf-8?B?TFlCRDlLZy85U1lRNm01aiswUVMvRHQzM2YrRUk2clFMMW5jQ0lBQ1gzVjBO?=
+ =?utf-8?B?TTQzNXJxOXdsTUQrNHdLS3N6Yjlpa3dLa21RV0YzWktuR0Uzb0lSZDE1V3Z4?=
+ =?utf-8?Q?YmOwq2LfhOp6WUd5Pw8RG8Jh6DughYZPXoCoxs6?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c2ccd23-480c-4d82-358b-08d98d9b37db
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2021 16:13:24.9959 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4D8nww0fsub8dM6QwJFecl2sHwLXMt7wUSL85WPQXH0oYLjHj3knlXLq6BoSN1tUq9o7rG5vAfY8G+1XTaYBzj7Qes6zM97fnfKCN9ms/Iw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5032
+Received-SPF: pass client-ip=40.107.21.137;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,84 +146,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.09.21 02:49, John Snow wrote:
-> (But continue to support the old ones for now, too.)
->
-> There are very few cases of any user of QEMUMachine or a subclass
-> thereof relying on a QMP Exception type. If you'd like to check for
-> yourself, you want to grep for all of the derivatives of QMPError,
-> excluding 'AQMPError' and its derivatives. That'd be these:
->
-> - QMPError
-> - QMPConnectError
-> - QMPCapabilitiesError
-> - QMPTimeoutError
-> - QMPProtocolError
-> - QMPResponseError
-> - QMPBadPortError
->
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   scripts/simplebench/bench_block_job.py    | 3 ++-
->   tests/qemu-iotests/tests/mirror-top-perms | 3 ++-
->   2 files changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench/bench_block_job.py
-> index 4f03c121697..a403c35b08f 100755
-> --- a/scripts/simplebench/bench_block_job.py
-> +++ b/scripts/simplebench/bench_block_job.py
-> @@ -28,6 +28,7 @@
->   sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
->   from qemu.machine import QEMUMachine
->   from qemu.qmp import QMPConnectError
-> +from qemu.aqmp import ConnectError
->   
->   
->   def bench_block_job(cmd, cmd_args, qemu_args):
-> @@ -49,7 +50,7 @@ def bench_block_job(cmd, cmd_args, qemu_args):
->           vm.launch()
->       except OSError as e:
->           return {'error': 'popen failed: ' + str(e)}
-> -    except (QMPConnectError, socket.timeout):
-> +    except (QMPConnectError, ConnectError, socket.timeout):
->           return {'error': 'qemu failed: ' + str(vm.get_log())}
->   
->       try:
-> diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
-> index 2fc8dd66e0a..9fe315e3b01 100755
-> --- a/tests/qemu-iotests/tests/mirror-top-perms
-> +++ b/tests/qemu-iotests/tests/mirror-top-perms
-> @@ -26,6 +26,7 @@ from iotests import qemu_img
->   # Import qemu after iotests.py has amended sys.path
->   # pylint: disable=wrong-import-order
->   import qemu
-> +from qemu.aqmp import ConnectError
+10/6/21 23:29, Eric Blake wrote:
+> On Wed, Oct 06, 2021 at 03:17:16PM +0200, Vladimir Sementsov-Ogievskiy wrote:
+>> 1. Convert bytes in BlkAioEmAIOCB:
+>>    aio->bytes is only passed to already int64_t interfaces, and set in
+>>    blk_aio_prwv, which is updated here.
+>>
+>> 2. For all updated functions parameter type becomes wider so callers
+>>     are safe.
+>>
+>> 3. In blk_aio_prwv we only store bytes to BlkAioEmAIOCB, which is
+>>     updated here.
+>>
+>> 4. Other updated functions are wrappers on blk_aio_prwv.
+>>
+>> Note that blk_aio_preadv and blk_aio_pwritev become safer: before this
+>> commit, it's theoretically possible to pass qiov with size exceeding
+>> INT_MAX, which than converted to int argument of blk_aio_prwv. Now it's
+>> converted to int64_t which is a lot better. Still add assertions.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   include/sysemu/block-backend.h |  4 ++--
+>>   block/block-backend.c          | 13 ++++++++-----
+>>   2 files changed, 10 insertions(+), 7 deletions(-)
+>>
+>> @@ -1530,6 +1531,7 @@ BlockAIOCB *blk_aio_preadv(BlockBackend *blk, int64_t offset,
+>>                              QEMUIOVector *qiov, BdrvRequestFlags flags,
+>>                              BlockCompletionFunc *cb, void *opaque)
+>>   {
+>> +    assert(qiov->size <= INT64_MAX);
+> 
+> I hope this doesn't cause 32-bit compilers to warn about an
+> always-true expression; but if it does, we'll figure something out.
+> That's not enough for me to ask for you to respin this, though, so:
+> 
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> 
 
-With this change, the test emits the “AQMP is in development” warning, 
-breaking the test.  Do we want to pull patch 16 before this patch?
+So, here we need
 
-(I also wonder whether we want to import QMPConnectError, too, because 
-the `except (qemu.qmp.*, *)` below looks so... heterogeneous.)
+assert((uint64_t)qiov->size <= INT64_MAX);
 
-Hanna
+as in recent fix by Hanna.
 
->   image_size = 1 * 1024 * 1024
-> @@ -102,7 +103,7 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
->               self.vm_b.launch()
->               print('ERROR: VM B launched successfully, this should not have '
->                     'happened')
-> -        except qemu.qmp.QMPConnectError:
-> +        except (qemu.qmp.QMPConnectError, ConnectError):
->               assert 'Is another process using the image' in self.vm_b.get_log()
->   
->           result = self.vm.qmp('block-job-cancel',
+Eric, will you stage this as continuation of 64bit series, or do we wait for Kevin or Hanna, or for me resending it with this small fix and your wording fixes?
 
+-- 
+Best regards,
+Vladimir
 
