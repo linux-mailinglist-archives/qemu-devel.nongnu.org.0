@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4654442A122
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:32:23 +0200 (CEST)
-Received: from localhost ([::1]:45606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C612942A0ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:23:08 +0200 (CEST)
+Received: from localhost ([::1]:60946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maE90-0006MD-0s
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:32:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33692)
+	id 1maE03-00061D-PF
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:23:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1maDUv-0006yY-T5
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59246)
+ id 1maDUw-00070O-K8
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:51:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1maDUt-0003JG-Sd
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:57 -0400
+ id 1maDUv-0003KX-0I
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 04:50:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634028655;
+ s=mimecast20190719; t=1634028656;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gK0ll+F7P/91Xa6bvFOkD2r1M+KSiqbmblh8npRLZIk=;
- b=CeLC9ii8SGqcQyZkeCWhjg/CvU0CzG09f9BC7VJShPvktB6HcxvbKVe191wpWIWoabG3mT
- jCCiKI48bI5Pk7B0krv1LBStdPmfcX3Xij1kej+VDsU25IiwPy2kCZVIT8x4aHNUVPLYr9
- lR4dnSuCe0pXl+RhYF1qkAitioMybrg=
+ bh=IRn/4jt2t+ft2uC6vp+4pd5D6Hadu6tGQ3OwBP4EfHc=;
+ b=GpQyAgGutwKeXJti75Xlj6QDDWKgI12AKuUHq9CtX3t3NO2Vgi9T9iMfS2qVVNDoYUd2+r
+ tUNSBXh78OkaePrFi+9wutc36iXZXZ5y7ZyXqiljFMotpaFZ0gJcRhpKdeAk3VofrFaUss
+ ezWDjpgi/k9iivpt51/5xJi4/vde7no=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-g1_LT08ZMYiF3JXYjwNKlQ-1; Tue, 12 Oct 2021 04:50:52 -0400
-X-MC-Unique: g1_LT08ZMYiF3JXYjwNKlQ-1
+ us-mta-16-_o1jFoVeMQO8ud1ZfMjLwQ-1; Tue, 12 Oct 2021 04:50:53 -0400
+X-MC-Unique: _o1jFoVeMQO8ud1ZfMjLwQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06908800FF0;
- Tue, 12 Oct 2021 08:50:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DF69BBEE6;
+ Tue, 12 Oct 2021 08:50:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CBA9E5C1B4;
- Tue, 12 Oct 2021 08:50:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 206E65C1B4;
+ Tue, 12 Oct 2021 08:50:51 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 23/25] block-backend-common.h: split function pointers in
- BlockDevOps
-Date: Tue, 12 Oct 2021 04:49:04 -0400
-Message-Id: <20211012084906.2060507-24-eesposit@redhat.com>
+Subject: [PATCH v3 24/25] job.h: split function pointers in JobDriver
+Date: Tue, 12 Oct 2021 04:49:05 -0400
+Message-Id: <20211012084906.2060507-25-eesposit@redhat.com>
 In-Reply-To: <20211012084906.2060507-1-eesposit@redhat.com>
 References: <20211012084906.2060507-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -61,11 +60,11 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.049, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,24 +93,43 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Assertions in the callers of the funciton pointrs are already
-added by previous patches.
+The job API will be handled separately in another serie.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/sysemu/block-backend-common.h | 28 ++++++++++++++++++++++-----
- 1 file changed, 23 insertions(+), 5 deletions(-)
+ include/qemu/job.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/include/sysemu/block-backend-common.h b/include/sysemu/block-backend-common.h
-index 52ff6a4d26..9ffd098458 100644
---- a/include/sysemu/block-backend-common.h
-+++ b/include/sysemu/block-backend-common.h
-@@ -17,6 +17,14 @@
- 
- /* Callbacks for block device models */
- typedef struct BlockDevOps {
+diff --git a/include/qemu/job.h b/include/qemu/job.h
+index 6e67b6977f..7e9e59f4b8 100644
+--- a/include/qemu/job.h
++++ b/include/qemu/job.h
+@@ -169,12 +169,21 @@ typedef struct Job {
+  * Callbacks and other information about a Job driver.
+  */
+ struct JobDriver {
 +
++    /* Fields initialized in struct definition and never changed. */
++
+     /** Derived Job struct size */
+     size_t instance_size;
+ 
+     /** Enum describing the operation */
+     JobType job_type;
+ 
++    /*
++     * Functions run without regard to the BQL and may run in any
++     * arbitrary thread. These functions do not need to be thread-safe
++     * because the caller ensures that are invoked from one thread at time.
++     */
++
+     /**
+      * Mandatory: Entrypoint for the Coroutine.
+      *
+@@ -201,6 +210,13 @@ struct JobDriver {
+      */
+     void coroutine_fn (*resume)(Job *job);
+ 
 +    /*
 +     * Global state (GS) API. These functions run under the BQL lock.
 +     *
@@ -119,41 +137,9 @@ index 52ff6a4d26..9ffd098458 100644
 +     * the GS API.
 +     */
 +
-     /*
-      * Runs when virtual media changed (monitor commands eject, change)
-      * Argument load is true on load and false on eject.
-@@ -34,16 +42,26 @@ typedef struct BlockDevOps {
-      * true, even if they do not support eject requests.
-      */
-     void (*eject_request_cb)(void *opaque, bool force);
--    /*
--     * Is the virtual tray open?
--     * Device models implement this only when the device has a tray.
--     */
--    bool (*is_tray_open)(void *opaque);
-+
-     /*
-      * Is the virtual medium locked into the device?
-      * Device models implement this only when device has such a lock.
-      */
-     bool (*is_medium_locked)(void *opaque);
-+
-+    /*
-+     * I/O API functions. These functions are thread-safe.
-+     *
-+     * See include/block/block-io.h for more information about
-+     * the I/O API.
-+     */
-+
-+    /*
-+     * Is the virtual tray open?
-+     * Device models implement this only when the device has a tray.
-+     */
-+    bool (*is_tray_open)(void *opaque);
-+
-     /*
-      * Runs when the size changed (e.g. monitor command block_resize)
-      */
+     /**
+      * Called when the job is resumed by the user (i.e. user_paused becomes
+      * false). .user_resume is called before .resume.
 -- 
 2.27.0
 
