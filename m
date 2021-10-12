@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9109542A78C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 16:44:29 +0200 (CEST)
-Received: from localhost ([::1]:56054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60CEA42A7CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 17:02:29 +0200 (CEST)
+Received: from localhost ([::1]:47774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maJ12-00078k-Kl
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 10:44:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35982)
+	id 1maJIQ-0004fP-Qu
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 11:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1maIxe-0001bQ-22
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 10:40:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25071)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1maIxb-0002vk-Nc
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 10:40:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634049653;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R3AEetESzG5t7HhYXGZzrX0pknn9DrpwYqKial/3nIw=;
- b=O7Pq5xwLz41F1lEDSts6a1VsAcSAJKWMu5VPZ3wEgULudYu5nDdFsaFnKQfZP4dc4KWs4F
- /E2j+RXpAmC15QdQ/EpFfyjEcYlHJYpwKGPyLrAYJu8UiYeh2yKcCM5EA+6ZfQonoR+wdR
- fKjDqJ0gtaIVBxTpLEdBTEcb4/mcPB8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-014uQm0tPHiFmOd9H6OlKA-1; Tue, 12 Oct 2021 10:40:52 -0400
-X-MC-Unique: 014uQm0tPHiFmOd9H6OlKA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32F3818D6A33;
- Tue, 12 Oct 2021 14:40:51 +0000 (UTC)
-Received: from gondolin.fritz.box (unknown [10.39.193.61])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C0445C1B4;
- Tue, 12 Oct 2021 14:40:49 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 3/3] s390x virtio-ccw machine: step down as maintainer
-Date: Tue, 12 Oct 2021 16:40:40 +0200
-Message-Id: <20211012144040.360887-4-cohuck@redhat.com>
-In-Reply-To: <20211012144040.360887-1-cohuck@redhat.com>
-References: <20211012144040.360887-1-cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1maJFl-000344-Ca
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 10:59:41 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37635)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1maJFi-0006pn-Ga
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 10:59:41 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id e12so67849596wra.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 07:59:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ikVVv1M7q+jpOBlwTdQK6Roa7jXZQIcDztGD1IoZA78=;
+ b=E0/G8hvJSlgpjCvDRnsCuJR1XGRR64zGv7jRF0tznVrfNAjOXrYnh89aYdFSomkPRg
+ i3iI2zdzegpQot6/HTU+avhLm6Savi1LcNzBURYmQPDqFHa7Ji07SIBwYS6DsN0PHXhO
+ 5PbWNvYVA0gRNFIfP9qy9MExyLjo3VoMLnmt71zuBP5hdGkO8tgXKtIwBkTXpSqxvi5p
+ An57PDHO18JnWiY0HpoVnk0YOq1wY3vvvmZ0a1RYOzJX60AVpsKghTvcqfwndN9h/bzn
+ R+0fQniIHmfCObKQmzk1WyvWYXELK/XFq3H87flgtwU3Kuxe1YOX5uREm31N0sCqm1mj
+ +l3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=ikVVv1M7q+jpOBlwTdQK6Roa7jXZQIcDztGD1IoZA78=;
+ b=trKU48KIpce/LqRxXQRHOP+kMLA3Mn5qzLlwq1SLAK8xX0NjpcfTWcl9K6hD22UVYE
+ JMetD5Cfytf0zhXP7cTIsLMIn3wMgm3hzI9iXPGr6Pt9/rn+Yrv4CeOpAKMiuquFSwhn
+ tmmFvByi+hDv9iRxRYwbalKX3TvuVz8x2/tb6YMmmIG9RMthbZVOPg2rmVE0JfA/3q7S
+ DkHyv4d5f/qPkm0QBZjRBDdLaiZ4JX579Td7M+tn1sOwomZ6p8LxuAO0ryTcVpycJwrz
+ NCZGO7KwAZmb6APqoeix8Di5nfP7VWOSYBX3JE9MbJ8XwZs4mJIw9vKVnVLAxR8H/mwb
+ bkaw==
+X-Gm-Message-State: AOAM530Sm2hQoM+uT7nsurwVcJChKBKcYoVyX6YRJX1qMo6sHVOyIZYH
+ 05lbH18RiMniVhXV8awBFe/IiA==
+X-Google-Smtp-Source: ABdhPJwIPy5Z2zX8AqHjU7vux27mGLnKkuCXy/CNt3ENnOvd2steqbO5a2Q+5zRleeJuKkYLsfB75Q==
+X-Received: by 2002:a05:600c:1548:: with SMTP id
+ f8mr6338187wmg.35.1634050776639; 
+ Tue, 12 Oct 2021 07:59:36 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id x21sm2735196wmc.14.2021.10.12.07.59.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Oct 2021 07:59:35 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 211711FF96;
+ Tue, 12 Oct 2021 15:59:35 +0100 (BST)
+References: <20211012093128.3909859-1-alex.bennee@linaro.org>
+ <b512ff29-4db2-5574-7e2b-b806db624d0e@linaro.org>
+User-agent: mu4e 1.7.0; emacs 28.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [RFC PATCH] target/s390x: don't double ld_code() when reading
+ instructions
+Date: Tue, 12 Oct 2021 15:52:13 +0100
+In-reply-to: <b512ff29-4db2-5574-7e2b-b806db624d0e@linaro.org>
+Message-ID: <87lf2ywap4.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,43 +89,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>
+Cc: "open list:S390
+ TCG CPUs" <qemu-s390x@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I currently don't have time to work on the s390x virtio-ccw machine
-anymore, so let's step down. (I will, however, continue as a
-maintainer for the virtio-ccw *transport*.)
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- MAINTAINERS | 2 --
- 1 file changed, 2 deletions(-)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 234fcaa23344..c25793bc393e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1509,7 +1509,6 @@ F: tests/acceptance/machine_sparc_leon3.py
- S390 Machines
- -------------
- S390 Virtio-ccw
--M: Cornelia Huck <cohuck@redhat.com>
- M: Halil Pasic <pasic@linux.ibm.com>
- M: Christian Borntraeger <borntraeger@de.ibm.com>
- S: Supported
-@@ -1521,7 +1520,6 @@ F: hw/watchdog/wdt_diag288.c
- F: include/hw/watchdog/wdt_diag288.h
- F: configs/devices/s390x-softmmu/default.mak
- F: tests/acceptance/machine_s390_ccw_virtio.py
--T: git https://gitlab.com/cohuck/qemu.git s390-next
- T: git https://github.com/borntraeger/qemu.git s390-next
- L: qemu-s390x@nongnu.org
- 
--- 
-2.31.1
+> On 10/12/21 2:31 AM, Alex Benn=C3=A9e wrote:
+>> For the 4 byte instruction case we started doing an ld_code2 and then
+>> reloaded the data with ld_code4 once it was identified as a 4 byte op.
+>> This is confusing for the plugin hooks which are expecting to see
+>> simple sequential loading so end up reporting a malformed 6 byte
+>> instruction buffer.
+>
+> I think the plugin stuff could be more clever, knowing where the read
+> occurs within the sequence.  Otherwise, we should simplify the
+> interface so that it is not possible to make this mistake.
 
+It's plugin_insn_append which is doing the tracking here so we could
+extend the interface to include the current pc of the load and make the
+appropriate adjustments. That said it's a bunch hoops to jump every
+instruction when we could just as easily add an assert and fix up any
+cases where we do. I guess it comes down to how prevalent double dipping
+in the instruction stream is when constructing a translation?
+
+What happens if the protection of the code area changes half way through
+a translation? Could a mapping change in flight?
+
+>
+>
+> r~
+
+
+--=20
+Alex Benn=C3=A9e
 
