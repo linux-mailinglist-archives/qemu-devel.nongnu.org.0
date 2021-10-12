@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23BD42A86A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 17:39:42 +0200 (CEST)
-Received: from localhost ([::1]:56500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E9842A8C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 17:49:15 +0200 (CEST)
+Received: from localhost ([::1]:33148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maJsT-0006LQ-6x
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 11:39:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51334)
+	id 1maK1h-0001qc-R6
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 11:49:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maJrP-0005Ts-4Q
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 11:38:35 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:53832)
+ id 1maK0P-00017m-TY
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 11:47:53 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:45036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maJrN-0001TH-Aj
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 11:38:34 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id ls18so15960791pjb.3
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 08:38:32 -0700 (PDT)
+ id 1maK0K-0007tG-Kc
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 11:47:53 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ oa12-20020a17090b1bcc00b0019f715462a8so2902575pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 08:47:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ib1tya9M8db2jxQzWjUPlEaelwKWU/CeSN4Nfs9yNtk=;
- b=zwrD/s/WRbxNQi/9PF74YZSicjblPY6gmp3hIsdSNnY0Y1ikVK/3GGYtamaGym+DWK
- hEBUXsivIPNUUg6VGa6Xq6CvZrY2v2T7/NlnwsO3bPYK+PQg8SQPstsRRiKRNjW6dc3Z
- 1whoe7PpF2wzLsuCGlNH23wQMbGc6r1wusSazT8Npjn2SD1l2cQmkGyuKaBQcUoGErFI
- Wt8XGhZesOt1z9iZb/43iSXsMGdpxwyF917oCdLLbK+TvoIoXJw9Sa2Ecq7WCQervm4z
- iL3VAAf/p0uHOFhqKC+Us9o7cZY2SxHd4lJl+YL1Bwk8aanL8IMTYz0Gse8iC63EhEYr
- SYIA==
+ bh=ugA81lw5mza9utQYdH6DtYNg3BDdfZD8/GbpuZNM9v8=;
+ b=ee+VhC1Cl4KrjGGaJO0fr/AFFXk2d9XKWcd6txiOqDpwTPjrp7tcPk+rMc/0Ynddbv
+ s+OBelN1q5WwJGhk4pXXkh0fB6VNpJkrCRwzOsZWOvccSL9jObW1g/TzoL+Av1xpvtsK
+ aadv0UxL6oJOACU4a4zI1FPVUVLYIQEoxott23t5OXPMD+OMToqpWkU7DoqV17BsKYUZ
+ TrrrPbhoadGNiwqz2wQ141BiAk0oXbAyIJaIv0gZQr6kqSBM+SU76Q6kNrXD1t82ICr8
+ hZPamzv3HIn62sg3nH+B9XGdAiihIivPX2UGyZs3L8/wM5TC4vmuWSGlR37h2nbuj8r9
+ d0cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ib1tya9M8db2jxQzWjUPlEaelwKWU/CeSN4Nfs9yNtk=;
- b=m8LPhagqdlDv1ov70krqjCb7c08A3oI199NSBid57PDg7/og9rRKO8duAl8Z6fVLz7
- TX2fbxTvLdZlkD+8U8klD+RsC4Lvq332aEkqgehu34tFfsXvsCELoFlv4tOcwgijjLz0
- aJZ16lxeHJhClJaG1vobDE7HajROkju8uA57sf3nVk+l1XDeZk5Fxqeubh5mcNsZsgvP
- 7DnLpYRjoaq7yq075nkaWquOu/hsFM1I4hh0bT5J9MD9MxFvaefNyVQ6g3hxGMIg46A7
- D+cwoJ/xZpYFaclUFSbD1pRAGntzha7aTLrX1wxj2zJg1MGhMuzT2OSTd5EomGlZd60W
- TAlQ==
-X-Gm-Message-State: AOAM532MDQSPCN6qcJRe9xcMFa53nLnkHomB2jy/XaPnvVeCwfqwl7SO
- mKZFK5nvA0xWnQqHxpqGpYIpQQ==
-X-Google-Smtp-Source: ABdhPJzcRXoj89RbamwZBTRoIcSk6XBqRY6TPLQkGce9PzTXbeYq8IDPc90MoDu7Dmp6bdY9cjzW5w==
-X-Received: by 2002:a17:90b:1c0e:: with SMTP id
- oc14mr6763006pjb.159.1634053111775; 
- Tue, 12 Oct 2021 08:38:31 -0700 (PDT)
+ bh=ugA81lw5mza9utQYdH6DtYNg3BDdfZD8/GbpuZNM9v8=;
+ b=QQBNE8+CX7vECxmnxOjgSVWklWDO8tIBvf2cQ+S9hNt7oM4D+H7td88tel1c1cllFK
+ XpdMm+vntEFCKnw5wyX09RoEQnNBG8Jwum7kl5C0miwGOg+WjrBHwVZ2g+Kroy4sTM03
+ N6GE49EfpT2zkXGsDmCsM97qg8OZtuORJzEjLlDvWGuEnWWneMXWKOZpXxp7d9LHNzWV
+ fasGlm5k8uzvCwTcalosNerM7SPpl4KyTGmAIDNa1Z0ar/ldlI8WmoTDgoEXRj5tOdd+
+ jqLtWc4F5XmjyruabXQkO5mL745LA1q66vQeL+2YxTeCF3FJaj5E65lSLPth5Ju2FIkH
+ 8oIA==
+X-Gm-Message-State: AOAM533gdNRA0YTI4ceubGTVJToNvuWHcFEWUT8bWQXAuy6SDJ/lapnl
+ tBqSDoIZ2DKlUpMUlpXpht/7bSXmBayV2w==
+X-Google-Smtp-Source: ABdhPJx6h/0e1hh2KBntIdFTExENEqNCXwdLi7ryY+Gudv7Yt/1ABmoDAxWxwr7X1MPDlJ1qri48eA==
+X-Received: by 2002:a17:90b:8a:: with SMTP id
+ bb10mr6886852pjb.149.1634053666994; 
+ Tue, 12 Oct 2021 08:47:46 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id b142sm11767261pfb.17.2021.10.12.08.38.30
+ by smtp.gmail.com with ESMTPSA id p17sm3240803pjg.54.2021.10.12.08.47.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 08:38:31 -0700 (PDT)
-Subject: Re: [RFC PATCH] target/s390x: don't double ld_code() when reading
- instructions
+ Tue, 12 Oct 2021 08:47:46 -0700 (PDT)
+Subject: Re: [PULL v2 00/13] some testing and plugin updates
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20211012093128.3909859-1-alex.bennee@linaro.org>
- <b512ff29-4db2-5574-7e2b-b806db624d0e@linaro.org> <87lf2ywap4.fsf@linaro.org>
+References: <20211012093618.3914052-1-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <615facec-1751-778d-2187-b6a93afff9eb@linaro.org>
-Date: Tue, 12 Oct 2021 08:38:29 -0700
+Message-ID: <6b20c744-56c4-6f21-03c3-c598da698aa5@linaro.org>
+Date: Tue, 12 Oct 2021 08:47:44 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <87lf2ywap4.fsf@linaro.org>
+In-Reply-To: <20211012093618.3914052-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,32 +88,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
- Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/21 7:52 AM, Alex Bennée wrote:
->> I think the plugin stuff could be more clever, knowing where the read
->> occurs within the sequence.  Otherwise, we should simplify the
->> interface so that it is not possible to make this mistake.
+On 10/12/21 2:36 AM, Alex Bennée wrote:
+> The following changes since commit c09124dcb8401a0d635b4a52b295e9b3fc12392a:
 > 
-> It's plugin_insn_append which is doing the tracking here so we could
-> extend the interface to include the current pc of the load and make the
-> appropriate adjustments. That said it's a bunch hoops to jump every
-> instruction when we could just as easily add an assert and fix up any
-> cases where we do. I guess it comes down to how prevalent double dipping
-> in the instruction stream is when constructing a translation?
+>    Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2021-10-11 08:15:32 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/stsquad/qemu.git tags/pull-for-6.2-121021-2
+> 
+> for you to fetch changes up to 17888749ba0fb06694de5efe0b941f16a0fba6fa:
+> 
+>    tests/docker: add a debian-native image and make available (2021-10-12 08:38:10 +0100)
+> 
+> ----------------------------------------------------------------
+> Some testing and plugin updates:
+> 
+>    - don't override the test compiler when specified
+>    - split some multiarch tests by guest OS
+>    - add riscv64 docker image and cross-compile tests
+>    - drop release tarball test from Travis
+>    - skip check-patch on master repo
+>    - fix passing of TEST_TARGETS to cirrus
+>    - fix missing symbols in plugins
+>    - ensure s390x insn start ops precede plugin instrumentation
+>    - refactor plugin instruction boundary detection
+>    - update github repo lockdown
+>    - add a debian-native test image for multi-arch builds
+> 
+> ----------------------------------------------------------------
+> Alex Bennée (7):
+>        configure: don't override the selected host test compiler if defined
+>        tests/tcg/sha1: remove endian include
+>        tests/tcg: move some multiarch files and make conditional
+>        tests/docker: promote debian-riscv64-cross to a full image
+>        accel/tcg: re-factor plugin_inject_cb so we can assert insn_idx is valid
+>        .github: move repo lockdown to the v2 configuration
+>        tests/docker: add a debian-native image and make available
+> 
+> Daniel P. Berrangé (2):
+>        gitlab: skip the check-patch job on the upstream repo
+>        gitlab: fix passing of TEST_TARGETS env to cirrus
+> 
+> Lukas Jünger (1):
+>        plugins/: Add missing functions to symbol list
+> 
+> Richard Henderson (2):
+>        gitlab: Add cross-riscv64-system, cross-riscv64-user
+>        target/s390x: move tcg_gen_insn_start to s390x_tr_insn_start
+> 
+> Thomas Huth (1):
+>        travis.yml: Remove the "Release tarball" job
+> 
+>   configure                                          |   6 +-
+>   include/tcg/tcg.h                                  |   6 -
+>   accel/tcg/plugin-gen.c                             | 157 +++++++++++----------
+>   target/s390x/tcg/translate.c                       |  10 +-
+>   tests/tcg/multiarch/{ => libs}/float_helpers.c     |   2 +-
+>   tests/tcg/multiarch/{ => linux}/linux-test.c       |   0
+>   tests/tcg/multiarch/sha1.c                         |   1 -
+>   .github/lockdown.yml                               |  34 -----
+>   .github/workflows/lockdown.yml                     |  30 ++++
+>   .gitlab-ci.d/cirrus.yml                            |   2 +-
+>   .gitlab-ci.d/cirrus/build.yml                      |   1 +
+>   .gitlab-ci.d/container-cross.yml                   |   3 +-
+>   .gitlab-ci.d/crossbuilds.yml                       |  19 +++
+>   .gitlab-ci.d/static_checks.yml                     |   2 +-
+>   .travis.yml                                        |  23 ---
+>   plugins/qemu-plugins.symbols                       |   3 +
+>   tests/docker/Makefile.include                      |   6 +-
+>   tests/docker/common.rc                             |  10 +-
+>   tests/docker/dockerfiles/debian-native.docker      |  49 +++++++
+>   .../docker/dockerfiles/debian-riscv64-cross.docker |  46 +++++-
+>   tests/tcg/multiarch/Makefile.target                |  15 +-
+>   tests/tcg/x86_64/Makefile.target                   |   4 +
+>   22 files changed, 271 insertions(+), 158 deletions(-)
+>   rename tests/tcg/multiarch/{ => libs}/float_helpers.c (99%)
+>   rename tests/tcg/multiarch/{ => linux}/linux-test.c (100%)
+>   delete mode 100644 .github/lockdown.yml
+>   create mode 100644 .github/workflows/lockdown.yml
+>   create mode 100644 tests/docker/dockerfiles/debian-native.docker
 
-Yes, which is why I suggested simplifying the interface to translate_ld*.  It currently 
-takes the DisasContextBase; it could potentially read from pc_next, and increment it.  It 
-would completely eliminate the problem you're encountering.
-
-> What happens if the protection of the code area changes half way through
-> a translation? Could a mapping change in flight?
-
-No, we hold mmap_lock.
+Applied, thanks.
 
 r~
+
 
