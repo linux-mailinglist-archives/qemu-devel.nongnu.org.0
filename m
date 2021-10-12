@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85C9429EEF
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C60B429EEE
 	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 09:47:40 +0200 (CEST)
-Received: from localhost ([::1]:58906 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:58766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maCVf-0001Da-Pn
+	id 1maCVf-00018C-5H
 	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 03:47:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44260)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCMG-0000Xb-Mx
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:37:58 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:36055)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCM9-0000Qp-E9
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:37:50 -0400
+Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:40065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCM8-00050l-8V
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:37:56 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.11])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8EA41C407D01;
- Tue, 12 Oct 2021 09:37:36 +0200 (CEST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1maCM0-00052C-Tb
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 03:37:49 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.5])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 1C40021D20;
+ Tue, 12 Oct 2021 07:37:37 +0000 (UTC)
 Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 12 Oct
  2021 09:37:36 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-106R00680e21fa2-d8fb-43a7-807a-974c3eb8c9f2,
+ (GARM-106R006790c14c4-7504-4b07-8b94-effe6ada1987,
  B93E5558764F88B003587FF4B0B721A638511A69) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/18] aspeed/i2c: QOMify AspeedI2CBus
-Date: Tue, 12 Oct 2021 09:37:22 +0200
-Message-ID: <20211012073728.257748-13-clg@kaod.org>
+Subject: [PULL 13/18] hw: aspeed_gpio: Fix pin I/O type declarations
+Date: Tue, 12 Oct 2021 09:37:23 +0200
+Message-ID: <20211012073728.257748-14-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211012073728.257748-1-clg@kaod.org>
 References: <20211012073728.257748-1-clg@kaod.org>
@@ -42,19 +42,19 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.106]
 X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 06e29efb-e746-43cd-b911-f70a27246768
-X-Ovh-Tracer-Id: 4269412447050763046
+X-Ovh-Tracer-GUID: f74e55bc-02b7-4991-9520-01baab35bf4d
+X-Ovh-Tracer-Id: 4269412447473208111
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtjedguddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
+Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
+ helo=10.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,216 +67,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
+Cc: Damien Hedde <damien.hedde@greensocs.com>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ Peter Delevoryas <pdel@fb.com>, Rashmica Gupta <rashmica.g@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce an AspeedI2CBus SysBusDevice model and attach the associated
-memory region and IRQ to the newly instantiated objects.
+From: Peter Delevoryas <pdel@fb.com>
 
-Before this change, the I2C bus IRQs were all attached to the
-SysBusDevice model of the I2C controller. Adapt the AST2600 SoC
-realize routine to take into account this change.
+Some of the pin declarations in the Aspeed GPIO module were incorrect,
+probably because of confusion over which bits in the input and output
+uint32_t's correspond to which groups in the label array. Since the
+uint32_t literals are in big endian, it's sort of the opposite of what
+would be intuitive. The least significant bit in ast2500_set_props[6]
+corresponds to GPIOY0, not GPIOAB7.
 
+GPIOxx indicates input and output capabilities, GPIxx indicates only
+input, GPOxx indicates only output.
+
+AST2500:
+- Previously had GPIW0..GPIW7 and GPIX0..GPIX7, that's correct.
+- Previously had GPIOY0..GPIOY3, should have been GPIOY0..GPIOY7.
+- Previously had GPIOAB0..GPIOAB3 and GPIAB4..GPIAB7, should only have
+  been GPIOAB0..GPIOAB3.
+
+AST2600:
+- GPIOT0..GPIOT7 should have been GPIT0..GPIT7.
+- GPIOU0..GPIOU7 should have been GPIU0..GPIU7.
+- GPIW0..GPIW7 should have been GPIOW0..GPIOW7.
+- GPIOY0..GPIOY7 and GPIOZ0...GPIOZ7 were disabled.
+
+Fixes: 4b7f956862dc2db4c5c ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
+Fixes: 36d737ee82b2972167e ("hw/gpio: Add in AST2600 specific implementation")
+Signed-off-by: Peter Delevoryas <pdel@fb.com>
+Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
+Message-Id: <20210928032456.3192603-2-pdel@fb.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/i2c/aspeed_i2c.h |   8 ++-
- hw/arm/aspeed_ast2600.c     |   7 +--
- hw/i2c/aspeed_i2c.c         | 101 +++++++++++++++++++++++++++++-------
- 3 files changed, 91 insertions(+), 25 deletions(-)
+ hw/gpio/aspeed_gpio.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
-index 565f83306624..4b9be09274c7 100644
---- a/include/hw/i2c/aspeed_i2c.h
-+++ b/include/hw/i2c/aspeed_i2c.h
-@@ -36,7 +36,11 @@ OBJECT_DECLARE_TYPE(AspeedI2CState, AspeedI2CClass, ASPEED_I2C)
- 
- struct AspeedI2CState;
- 
--typedef struct AspeedI2CBus {
-+#define TYPE_ASPEED_I2C_BUS "aspeed.i2c.bus"
-+OBJECT_DECLARE_SIMPLE_TYPE(AspeedI2CBus, ASPEED_I2C_BUS)
-+struct AspeedI2CBus {
-+    SysBusDevice parent_obj;
-+
-     struct AspeedI2CState *controller;
- 
-     MemoryRegion mr;
-@@ -54,7 +58,7 @@ typedef struct AspeedI2CBus {
-     uint32_t pool_ctrl;
-     uint32_t dma_addr;
-     uint32_t dma_len;
--} AspeedI2CBus;
-+};
- 
- struct AspeedI2CState {
-     SysBusDevice parent_obj;
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index c69f27dff62a..a70e4c48a73c 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -337,11 +337,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     for (i = 0; i < ASPEED_I2C_GET_CLASS(&s->i2c)->num_busses; i++) {
-         qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->a7mpcore),
-                                         sc->irqmap[ASPEED_DEV_I2C] + i);
--        /*
--         * The AST2600 SoC has one IRQ per I2C bus. Skip the common
--         * IRQ (AST2400 and AST2500) and connect all bussses.
--         */
--        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c), i + 1, irq);
-+        /* The AST2600 I2C controller has one IRQ per bus. */
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c.busses[i]), 0, irq);
-     }
- 
-     /* FMC, The number of CS is set at the board level */
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index 8d276d9ed391..03a4f5a91010 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -740,20 +740,20 @@ static const VMStateDescription aspeed_i2c_vmstate = {
- 
- static void aspeed_i2c_reset(DeviceState *dev)
- {
--    int i;
-     AspeedI2CState *s = ASPEED_I2C(dev);
--    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
- 
-     s->intr_status = 0;
-+}
-+
-+static void aspeed_i2c_instance_init(Object *obj)
-+{
-+    AspeedI2CState *s = ASPEED_I2C(obj);
-+    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
-+    int i;
- 
-     for (i = 0; i < aic->num_busses; i++) {
--        s->busses[i].intr_ctrl = 0;
--        s->busses[i].intr_status = 0;
--        s->busses[i].cmd = 0;
--        s->busses[i].buf = 0;
--        s->busses[i].dma_addr = 0;
--        s->busses[i].dma_len = 0;
--        i2c_end_transfer(s->busses[i].bus);
-+        object_initialize_child(obj, "bus[*]", &s->busses[i],
-+                                TYPE_ASPEED_I2C_BUS);
-     }
- }
- 
-@@ -791,17 +791,21 @@ static void aspeed_i2c_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(sbd, &s->iomem);
- 
-     for (i = 0; i < aic->num_busses; i++) {
--        char name[32];
-+        Object *bus = OBJECT(&s->busses[i]);
-         int offset = i < aic->gap ? 1 : 5;
- 
--        sysbus_init_irq(sbd, &s->busses[i].irq);
--        snprintf(name, sizeof(name), "aspeed.i2c.%d", i);
--        s->busses[i].controller = s;
--        s->busses[i].id = i;
--        s->busses[i].bus = i2c_init_bus(dev, name);
--        memory_region_init_io(&s->busses[i].mr, OBJECT(dev),
--                              &aspeed_i2c_bus_ops, &s->busses[i], name,
--                              aic->reg_size);
-+        if (!object_property_set_link(bus, "controller", OBJECT(s), errp)) {
-+            return;
-+        }
-+
-+        if (!object_property_set_uint(bus, "bus-id", i, errp)) {
-+            return;
-+        }
-+
-+        if (!sysbus_realize(SYS_BUS_DEVICE(bus), errp)) {
-+            return;
-+        }
-+
-         memory_region_add_subregion(&s->iomem, aic->reg_size * (i + offset),
-                                     &s->busses[i].mr);
-     }
-@@ -841,12 +845,72 @@ static void aspeed_i2c_class_init(ObjectClass *klass, void *data)
- static const TypeInfo aspeed_i2c_info = {
-     .name          = TYPE_ASPEED_I2C,
-     .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_init = aspeed_i2c_instance_init,
-     .instance_size = sizeof(AspeedI2CState),
-     .class_init    = aspeed_i2c_class_init,
-     .class_size = sizeof(AspeedI2CClass),
-     .abstract   = true,
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index dfa6d6cb40a9..33a40a624ac4 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -796,7 +796,7 @@ static const GPIOSetProperties ast2500_set_props[] = {
+     [3] = {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
+     [4] = {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
+     [5] = {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
+-    [6] = {0xffffff0f,  0x0fffff0f,  {"Y", "Z", "AA", "AB"} },
++    [6] = {0x0fffffff,  0x0fffffff,  {"Y", "Z", "AA", "AB"} },
+     [7] = {0x000000ff,  0x000000ff,  {"AC"} },
  };
  
-+static void aspeed_i2c_bus_reset(DeviceState *dev)
-+{
-+    AspeedI2CBus *s = ASPEED_I2C_BUS(dev);
-+
-+    s->intr_ctrl = 0;
-+    s->intr_status = 0;
-+    s->cmd = 0;
-+    s->buf = 0;
-+    s->dma_addr = 0;
-+    s->dma_len = 0;
-+    i2c_end_transfer(s->bus);
-+}
-+
-+static void aspeed_i2c_bus_realize(DeviceState *dev, Error **errp)
-+{
-+    AspeedI2CBus *s = ASPEED_I2C_BUS(dev);
-+    AspeedI2CClass *aic;
-+    g_autofree char *name = g_strdup_printf(TYPE_ASPEED_I2C_BUS ".%d", s->id);
-+
-+    if (!s->controller) {
-+        error_setg(errp, TYPE_ASPEED_I2C_BUS ": 'controller' link not set");
-+        return;
-+    }
-+
-+    aic = ASPEED_I2C_GET_CLASS(s->controller);
-+
-+    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
-+
-+    s->bus = i2c_init_bus(dev, name);
-+
-+    memory_region_init_io(&s->mr, OBJECT(s), &aspeed_i2c_bus_ops,
-+                          s, name, aic->reg_size);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mr);
-+}
-+
-+static Property aspeed_i2c_bus_properties[] = {
-+    DEFINE_PROP_UINT8("bus-id", AspeedI2CBus, id, 0),
-+    DEFINE_PROP_LINK("controller", AspeedI2CBus, controller, TYPE_ASPEED_I2C,
-+                     AspeedI2CState *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void aspeed_i2c_bus_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->desc = "Aspeed I2C Bus";
-+    dc->realize = aspeed_i2c_bus_realize;
-+    dc->reset = aspeed_i2c_bus_reset;
-+    device_class_set_props(dc, aspeed_i2c_bus_properties);
-+}
-+
-+static const TypeInfo aspeed_i2c_bus_info = {
-+    .name           = TYPE_ASPEED_I2C_BUS,
-+    .parent         = TYPE_SYS_BUS_DEVICE,
-+    .instance_size  = sizeof(AspeedI2CBus),
-+    .class_init     = aspeed_i2c_bus_class_init,
-+};
-+
- static qemu_irq aspeed_2400_i2c_bus_get_irq(AspeedI2CBus *bus)
- {
-     return bus->controller->irq;
-@@ -951,6 +1015,7 @@ static const TypeInfo aspeed_2600_i2c_info = {
+@@ -805,9 +805,9 @@ static GPIOSetProperties ast2600_3_3v_set_props[] = {
+     [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
+     [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
+     [3] = {0xffffffff,  0xffffffff,  {"M", "N", "O", "P"} },
+-    [4] = {0xffffffff,  0xffffffff,  {"Q", "R", "S", "T"} },
+-    [5] = {0xffffffff,  0x0000ffff,  {"U", "V", "W", "X"} },
+-    [6] = {0xffff0000,  0x0fff0000,  {"Y", "Z", "", ""} },
++    [4] = {0xffffffff,  0x00ffffff,  {"Q", "R", "S", "T"} },
++    [5] = {0xffffffff,  0xffffff00,  {"U", "V", "W", "X"} },
++    [6] = {0x0000ffff,  0x0000ffff,  {"Y", "Z"} },
+ };
  
- static void aspeed_i2c_register_types(void)
- {
-+    type_register_static(&aspeed_i2c_bus_info);
-     type_register_static(&aspeed_i2c_info);
-     type_register_static(&aspeed_2400_i2c_info);
-     type_register_static(&aspeed_2500_i2c_info);
+ static GPIOSetProperties ast2600_1_8v_set_props[] = {
 -- 
 2.31.1
 
