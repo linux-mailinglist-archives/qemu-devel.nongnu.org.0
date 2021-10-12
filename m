@@ -2,80 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED90242A55A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 15:19:49 +0200 (CEST)
-Received: from localhost ([::1]:51268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD66942A570
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 15:21:29 +0200 (CEST)
+Received: from localhost ([::1]:53780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maHh6-0007HJ-QS
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 09:19:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37744)
+	id 1maHii-0000aS-Dl
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 09:21:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maHdM-0002ZL-Ds
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:16:00 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:42853)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maHdF-00073R-Q3
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:15:56 -0400
-Received: by mail-pf1-x430.google.com with SMTP id m14so17557352pfc.9
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 06:15:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0z6JDl0dpDKiHhytDpsiH/NbZQb5fPTigeWUlHBas/A=;
- b=f3N/hrBVeZ99c14gTreuzlR28+PFf6vMWZBcJLHUtd+9FJJRBwum9b3cZSxiWvGHjb
- 3f41MWFVIrE7/vTN5dDu+hNecErH6+V7GlS9ntbVZVxX902nS/HoFfADBPcKG7AwdqNq
- cyqWbR/SE0pw4lxMje/dT0jU47O5uBu6cHSy6yS7AC+khluHwp427FgJgpTIeN4XX3zS
- t1zry8YkUWmxDRkfhF78dGyhBnmf4JbyF7Te/S7nF4eloy8/qyBO0p9AE18Zd8EdoLcn
- qK1FTqc00Ng5w1xtzH7H9JMahv1JxvPLrC9rtMLhO+XWb2/Qfur6cw0JleuZWu+PWD6w
- H3yw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maHea-0004gY-3U
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:17:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23139)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1maHeV-0007hK-P0
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 09:17:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634044625;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JTq5N6uLewTfLjymwF4p1QW9I3pbBgd+eB0c7l5bGK0=;
+ b=flm0NA7ZvZbcHzP0mS3YeXcV6uDG3pbl8otU0gSyqTc+QbH2qgsrBZDZWwWoJQbHV2xjK2
+ yQUA99kEQoE2Cuiup426HeSbkO2JbGCGB0eiTAYoot0OKzQ4iKCp/x82azTrGgkjk1U214
+ yv3LPmezEBdNsJBF/5QuieLN+GqM/1g=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-DfUWcby6MRSgxNVqsn3QjQ-1; Tue, 12 Oct 2021 09:17:04 -0400
+X-MC-Unique: DfUWcby6MRSgxNVqsn3QjQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ i7-20020a50d747000000b003db0225d219so18955903edj.0
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 06:17:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0z6JDl0dpDKiHhytDpsiH/NbZQb5fPTigeWUlHBas/A=;
- b=vZMGjC+2dG1A1hocTONUsHfRjLphBCgznpErOOrTnqxCIa/rtAqjQfFYiTN9upN0QX
- qofWcoJ27hICAfEpRoZ+kjXQEUgWfN7Ucp3HVQE6xPsqZsOXDenCXm4j0MqL+KX0lAZZ
- Zak/2J8I5660qsCrtn5sZKld2Dyw12JWnEko9g71mVBqB+sFAt2sjN1ZcPEKMVX32kKQ
- iwiXZ8/v7R4otqbFq/cRklK5gXLyYVggAl2r/HVvw0Jtr+m2z8cezTekrRnMOb2Rvt5L
- T0cM3vLXP0ozEXG1o9VtjbUlk6a5ELI2Wqn8YroKRoGOD4cn5IxreZS9ytPA8vHFfFvx
- GoIw==
-X-Gm-Message-State: AOAM530mN5398ugJA7cx1N8xfr9qNDDjxCje3Kpt8fqbvfnrnOKLa3kf
- ElKU/n95Z0Jc5wbOpiX3G2dh3bElCav2OQ==
-X-Google-Smtp-Source: ABdhPJzGtPHMHBd/uqG1ywRdgdxU15UBb43cYtusSnHs8GW5TSm/+HJVl4FdhMlU/jYRl6Nlnm0qbg==
-X-Received: by 2002:aa7:8891:0:b0:44d:a66:2f1b with SMTP id
- z17-20020aa78891000000b0044d0a662f1bmr15350611pfe.22.1634044547997; 
- Tue, 12 Oct 2021 06:15:47 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id s8sm2827105pjm.32.2021.10.12.06.15.47
+ bh=JTq5N6uLewTfLjymwF4p1QW9I3pbBgd+eB0c7l5bGK0=;
+ b=W01q0TdX5bphAZYfb1ZnPdmZVquLIiwWiTPUKG0cHs8/bUxAKyEe7wQPAeGZqTdRDs
+ HxQdB7OI9yyFUz78vAb1ggwEzns78ZlkRuNBc1F6S1RanRlsNnVQKNLME6Swxc1sHttq
+ pj1LdZTWe5wwojLMpRXz7c3SMU59s2dwbMOaFxH5Ho5PPB7DbeTmhUo4/J2gZNYOTNF1
+ IUvREhEp5+UPrdfK0nFS45cjhDjRvLHFx3qfpSSNt4OgDP8/55WjXEafbPgwLM07HwpC
+ Tluc64/9gofWgv5c2FiNkEf+gr1s99hV5FQT1s2BUuXsd68LZa1JHUBUnlfDA5xgGhGU
+ m8hA==
+X-Gm-Message-State: AOAM531zdcM7tOT1vUWobYowoJrC8GkmVJGitOXBWB5iQ4gy5zmsNsee
+ JPth0iuC5NAafoqi8/G9OfStMBDRJhKusFMr3z8h2t5XhaqaqL0nAKEdUnEHaAQoyX+bPetBN2g
+ TXUwnNQw+flDwYec=
+X-Received: by 2002:a17:906:5d5:: with SMTP id
+ t21mr34191375ejt.160.1634044623204; 
+ Tue, 12 Oct 2021 06:17:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwyT06vpGTvLAnR47nHwSZT1CeuHAY2XImo4MxWgkY0SsC4PVF7CmmTLYH5893/e4tuY3bx0Q==
+X-Received: by 2002:a17:906:5d5:: with SMTP id
+ t21mr34191357ejt.160.1634044622983; 
+ Tue, 12 Oct 2021 06:17:02 -0700 (PDT)
+Received: from thuth.remote.csb (p54886540.dip0.t-ipconnect.de.
+ [84.136.101.64])
+ by smtp.gmail.com with ESMTPSA id p7sm5946198edr.6.2021.10.12.06.17.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 06:15:47 -0700 (PDT)
-Subject: Re: [PULL 00/18] aspeed queue
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20211012073728.257748-1-clg@kaod.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a4d33ddf-cf48-3a2e-e135-26584f6452d3@linaro.org>
-Date: Tue, 12 Oct 2021 06:15:45 -0700
+ Tue, 12 Oct 2021 06:17:02 -0700 (PDT)
+Subject: Re: [PATCH v2 13/24] configure, meson: move remaining HAVE_* compiler
+ tests to Meson
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211012111302.246627-1-pbonzini@redhat.com>
+ <20211012111302.246627-14-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <730e39f2-69c2-b26e-24b7-1be52ae4e23d@redhat.com>
+Date: Tue, 12 Oct 2021 15:17:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211012073728.257748-1-clg@kaod.org>
+In-Reply-To: <20211012111302.246627-14-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,78 +101,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/21 12:37 AM, Cédric Le Goater wrote:
-> The following changes since commit c09124dcb8401a0d635b4a52b295e9b3fc12392a:
+On 12/10/2021 13.12, Paolo Bonzini wrote:
+> Remove some special cases by moving them to Meson.
 > 
->    Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2021-10-11 08:15:32 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/legoater/qemu/ tags/pull-aspeed-20211012
-> 
-> for you to fetch changes up to e2804a1ec97ceede14b69a2a6e9a8b5dfa0b15c2:
-> 
->    aspeed/smc: Dump address offset in trace events (2021-10-12 08:20:08 +0200)
-> 
-> ----------------------------------------------------------------
-> Aspeed patches :
-> 
-> * I2C QOMify (Cedric)
-> * SMC model cleanup and QOMify (Cedric)
-> * ADC model (Peter and Andrew)
-> * GPIO fixes (Peter)
-> 
-> ----------------------------------------------------------------
-> Andrew Jeffery (2):
->        hw/adc: Add basic Aspeed ADC model
->        hw/arm: Integrate ADC model into Aspeed SoC
-> 
-> Cédric Le Goater (14):
->        aspeed/smc: Add watchdog Control/Status Registers
->        aspeed/smc: Introduce aspeed_smc_error() helper
->        aspeed/smc: Stop using the model name for the memory regions
->        aspeed/smc: Drop AspeedSMCController structure
->        aspeed/smc: Remove the 'flash' attribute from AspeedSMCFlash
->        aspeed/smc: Remove the 'size' attribute from AspeedSMCFlash
->        aspeed/smc: Rename AspeedSMCFlash 'id' to 'cs'
->        aspeed/smc: QOMify AspeedSMCFlash
->        aspeed/smc: Add default reset values
->        aspeed/smc: Introduce a new addr_width() class handler
->        aspeed/smc: Remove unused attribute 'irqline'
->        aspeed/i2c: QOMify AspeedI2CBus
->        aspeed/wdt: Add trace events
->        aspeed/smc: Dump address offset in trace events
-> 
-> Peter Delevoryas (2):
->        hw: aspeed_gpio: Fix pin I/O type declarations
->        hw: aspeed_gpio: Fix GPIO array indexing
-> 
->   include/hw/adc/aspeed_adc.h   |   55 ++
->   include/hw/arm/aspeed_soc.h   |    2 +
->   include/hw/gpio/aspeed_gpio.h |    5 +-
->   include/hw/i2c/aspeed_i2c.h   |    8 +-
->   include/hw/ssi/aspeed_smc.h   |   82 ++-
->   hw/adc/aspeed_adc.c           |  427 ++++++++++++++++
->   hw/arm/aspeed.c               |   18 +-
->   hw/arm/aspeed_ast2600.c       |   22 +-
->   hw/arm/aspeed_soc.c           |   15 +-
->   hw/gpio/aspeed_gpio.c         |   88 ++--
->   hw/i2c/aspeed_i2c.c           |  101 +++-
->   hw/ssi/aspeed_smc.c           | 1134 +++++++++++++++++++++++------------------
->   hw/watchdog/wdt_aspeed.c      |    5 +
->   hw/adc/meson.build            |    1 +
->   hw/adc/trace-events           |    3 +
->   hw/watchdog/trace-events      |    4 +
->   16 files changed, 1352 insertions(+), 618 deletions(-)
->   create mode 100644 include/hw/adc/aspeed_adc.h
->   create mode 100644 hw/adc/aspeed_adc.c
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Message-Id: <20211007130829.632254-8-pbonzini@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+...
+> @@ -1609,7 +1626,8 @@ config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
+>           return printf("%zu", SIZE_MAX);
+>       }''', args: ['-Werror']))
+>   
+> -ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
+> +ignored = ['CONFIG_QEMU_INTERP_PREFIX', # actually per-target
+> +    'HAVE_GDB_BIN']
 
-Applied, thanks.
+That HAVE_GDB_BIN shows up here a little bit by surprise  ... maybe mention 
+it in the patch description?
 
-r~
+>   arrays = ['CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
+>   strings = ['CONFIG_IASL']
+>   foreach k, v: config_host
+> @@ -1624,7 +1642,7 @@ foreach k, v: config_host
+>       config_host_data.set('HOST_' + v.to_upper(), 1)
+>     elif strings.contains(k)
+>       config_host_data.set_quoted(k, v)
+> -  elif k.startswith('CONFIG_') or k.startswith('HAVE_')
+> +  elif k.startswith('CONFIG_')
+>       config_host_data.set(k, v == 'y' ? 1 : v)
+>     endif
+>   endforeach
+> 
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
 
