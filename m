@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F6C42A955
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 18:24:09 +0200 (CEST)
-Received: from localhost ([::1]:50384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD20E42A956
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 18:24:11 +0200 (CEST)
+Received: from localhost ([::1]:50382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maKZT-0000GH-O9
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 12:24:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35018)
+	id 1maKZV-0000GA-B1
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 12:24:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maKXU-0005yO-Qh
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:22:04 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:36438)
+ id 1maKXV-0005yS-1s
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:22:05 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:36440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1maKXS-0003zv-V1
+ id 1maKXT-00040F-HO
  for qemu-devel@nongnu.org; Tue, 12 Oct 2021 12:22:04 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id 75so14322839pga.3
+Received: by mail-pg1-x52d.google.com with SMTP id 75so14322859pga.3
  for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 09:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=t69l7OginBn0arCjGEwAKimGOwlun2z6Uax0cQ4RYhM=;
- b=GZMEImQRF3dnkq4k5l7hYs6VRSkPTNS1ezHRn2NEZvGkuLMuI8etSATM08YSDIh8JN
- 6rVDUbn/cGEZZMq7aCmQr2q2/Ni05qPm+IdQ9SMzJ3HbiFj2XlWuLFiRypJrhZ5TSiZH
- bJlggcTFGtZH5J85mbCCPSWFfek6ioY5v3kXQu5GT9vMnw21TgP1wlRhaxkaD2wCmPtQ
- AYKsjbpMnSWZnODL5JBKnxky8Lh61dl8lM/d3YfHqnpfx7vuqIrTa38sVSQ66UpGRB16
- eJdJRJjnVzrs6PV0ji2+feej+Mp4ZJyuqpPdAd8OQ1VIB3VmOjFVt0txLrPooYucQJKv
- mYaQ==
+ bh=q7mA/5NMDye+T6oTs6PprYj8IGolC1UqhFN/enpkEuI=;
+ b=U5AyijA/9NbFRVVwElD8cbfOHT12WJP9PBO6WI7JHzKeDxpOIrnxs2vdUDjx5xsgAD
+ 7cNW9maV+P05LhQNHjYcyXMq2kbySU/lG8dV8b2Y/BsmHg2ONzmnBB6oYowxOa2qI7TA
+ 0XpyzZu/kpO6uL31OmZ68Z5VtIS5Du+UPXW2eQMbYCPBQeMl8h6NnUVt+pDFsPYLLMmm
+ x++IfzYZ3JnXDJ42VzH94Qe9WxErBSu4ahimN6rVa3NDKk+3Aay2qbRAvTbt/KnE68Jx
+ ZHDgst+7BYMY1dErpRNbgcNk5n7ysHRtQ/wNyCbzogaq2UHQIyFkQnYuA4WyjMpjbknd
+ kYXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=t69l7OginBn0arCjGEwAKimGOwlun2z6Uax0cQ4RYhM=;
- b=8DkigBKG/Zn66TwLI1OACLxFHi7upxnEcWhukH0v2SjYjIJrsOobbiCd3RClVcM6fD
- e2BGtjN9gVO1q/4k3HEHNiGC1E0GBH+8ZjTaGMI97rTo+a6OXVnibPs5MmHGB1hDLdBS
- K5ZQqVoKMp+9wNxZP5M41tYUbxv+JOWm/VRFNz/Psb5GE9H+iiwbTfAZ5ZkXXckZxV5Q
- PzqOWuL3aBiSZi5yj2kV/d5j1P96nFQ3owdWmyXuAlMwLrd6WTyRrmtSYnPlDxW1zzoE
- wV0Y2OuO+XAF83Pw8mgaEsCWLmQInJxFn+/IRv7rK8sWNkS5WZV3IZj/es+LSuOu5OhL
- 4vAA==
-X-Gm-Message-State: AOAM531oU5xxiIfbcL73B8hX7uwUDgU66yaA465wH/Rbf+Xrge5OXHtU
- uHwUce9MpwUsuAt5QDtf+LGYmUl7XpOcWQ==
-X-Google-Smtp-Source: ABdhPJz0QdyMLM47Ornah9TvRQwsq63+hcAvaLQaGu9FSbAtBy0qRfDTByr5stluJrESe+W4E1OoOw==
-X-Received: by 2002:a65:6107:: with SMTP id z7mr23738415pgu.43.1634055721098; 
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=q7mA/5NMDye+T6oTs6PprYj8IGolC1UqhFN/enpkEuI=;
+ b=0Pqf7eJAXmz/yvrmB/Z4Bb86Kje5l8b7A+PLVrh28QRQopE5rnDLGN0iBfI9qn7KkK
+ dQ6f0lE8CnAaW8lHaf9p6tqNnyjSGKQvRaacXP8h7lQmQ/MRPC10tVcrlgV492ppSFZ3
+ 9ALuZU8esQW084UO3BZeZobW1fMhNACSr5pzNLQV9WEu3Lgzvf8YITw/KnA0mvoTXth6
+ oIAgvcMMbD2zTxtEVdcF3JaNxfppf6rlGuKRIvg9hPRYPY4ErIsNkmqyYncXf0Sma6VG
+ ean5UnwLSH36IvRkmAi36bBO0q3QpePj0knostedIwa8QP1YCrRtDbPGIxJx4LIR4OdS
+ 6zxA==
+X-Gm-Message-State: AOAM531XibTJjtb2MhpxD+tWODRrLXXZmqDVe7bNRm/mT+XD/cQWy4zL
+ Shqt2BZ8eVPIXRid2am0AslwOEO0G53IJg==
+X-Google-Smtp-Source: ABdhPJzypAPO37esvoOnrNiKIBmTyETrAdhwZhI16OVQRFv1IKEo6FNSazL3Ni7sfZgMJLw/DDysVQ==
+X-Received: by 2002:a63:3388:: with SMTP id z130mr7053313pgz.476.1634055721857; 
  Tue, 12 Oct 2021 09:22:01 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id k190sm11525023pfd.211.2021.10.12.09.22.00
+ by smtp.gmail.com with ESMTPSA id k190sm11525023pfd.211.2021.10.12.09.22.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 09:22:00 -0700 (PDT)
+ Tue, 12 Oct 2021 09:22:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/23] tcg: singlestep reorg
-Date: Tue, 12 Oct 2021 09:21:36 -0700
-Message-Id: <20211012162159.471406-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 01/23] accel/tcg: Handle gdb singlestep in cpu_tb_exec
+Date: Tue, 12 Oct 2021 09:21:37 -0700
+Message-Id: <20211012162159.471406-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211012162159.471406-1-richard.henderson@linaro.org>
+References: <20211012162159.471406-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,79 +86,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Consolidate all handling for gdb singlestep to 4 lines in cpu_tb_exec.
-Drop all of the code from target/*.  Note that nios2 and sparc, lacked
-support for gdb singlestep entirely, which was a bit of a surprise.
+Currently the change in cpu_tb_exec is masked by the debug exception
+being raised by the translators.  But this allows us to remove that code.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ accel/tcg/cpu-exec.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-r~
-
-
-Changes for v2:
-  * Rebase; prereq is now upstream.
-
-v1:
-https://lore.kernel.org/qemu-devel/20210721064155.645508-1-richard.henderson@linaro.org/
-
-
-Richard Henderson (23):
-  accel/tcg: Handle gdb singlestep in cpu_tb_exec
-  target/alpha: Drop checks for singlestep_enabled
-  target/avr: Drop checks for singlestep_enabled
-  target/cris: Drop checks for singlestep_enabled
-  target/hexagon: Drop checks for singlestep_enabled
-  target/arm: Drop checks for singlestep_enabled
-  target/hppa: Drop checks for singlestep_enabled
-  target/i386: Check CF_NO_GOTO_TB for dc->jmp_opt
-  target/i386: Drop check for singlestep_enabled
-  target/m68k: Drop checks for singlestep_enabled
-  target/microblaze: Check CF_NO_GOTO_TB for DISAS_JUMP
-  target/microblaze: Drop checks for singlestep_enabled
-  target/mips: Fix single stepping
-  target/mips: Drop exit checks for singlestep_enabled
-  target/openrisc: Drop checks for singlestep_enabled
-  target/ppc: Drop exit checks for singlestep_enabled
-  target/riscv: Remove dead code after exception
-  target/riscv: Remove exit_tb and lookup_and_goto_ptr
-  target/rx: Drop checks for singlestep_enabled
-  target/s390x: Drop check for singlestep_enabled
-  target/sh4: Drop check for singlestep_enabled
-  target/tricore: Drop check for singlestep_enabled
-  target/xtensa: Drop check for singlestep_enabled
-
- target/i386/helper.h                          |  1 -
- target/rx/helper.h                            |  1 -
- target/sh4/helper.h                           |  1 -
- target/tricore/helper.h                       |  1 -
- accel/tcg/cpu-exec.c                          | 11 +++
- target/alpha/translate.c                      | 13 +---
- target/arm/translate-a64.c                    | 10 +--
- target/arm/translate.c                        | 36 ++-------
- target/avr/translate.c                        | 19 +----
- target/cris/translate.c                       | 16 ----
- target/hexagon/translate.c                    | 12 +--
- target/hppa/translate.c                       | 17 +----
- target/i386/tcg/misc_helper.c                 |  8 --
- target/i386/tcg/translate.c                   |  9 +--
- target/m68k/translate.c                       | 44 +++--------
- target/microblaze/translate.c                 | 18 +----
- target/mips/tcg/translate.c                   | 75 +++++++++----------
- target/openrisc/translate.c                   | 18 +----
- target/ppc/translate.c                        | 38 ++--------
- target/riscv/translate.c                      | 27 +------
- target/rx/op_helper.c                         |  8 --
- target/rx/translate.c                         | 12 +--
- target/s390x/tcg/translate.c                  |  8 +-
- target/sh4/op_helper.c                        |  5 --
- target/sh4/translate.c                        | 14 +---
- target/tricore/op_helper.c                    |  7 --
- target/tricore/translate.c                    | 14 +---
- target/xtensa/translate.c                     | 25 ++-----
- .../riscv/insn_trans/trans_privileged.c.inc   | 10 +--
- target/riscv/insn_trans/trans_rvi.c.inc       |  8 +-
- target/riscv/insn_trans/trans_rvv.c.inc       |  2 +-
- 31 files changed, 118 insertions(+), 370 deletions(-)
-
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 5fd1ed3422..c9764c1325 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -383,6 +383,17 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
+             cc->set_pc(cpu, last_tb->pc);
+         }
+     }
++
++    /*
++     * If gdb single-step, and we haven't raised another exception,
++     * raise a debug exception.  Single-step with another exception
++     * is handled in cpu_handle_exception.
++     */
++    if (unlikely(cpu->singlestep_enabled) && cpu->exception_index == -1) {
++        cpu->exception_index = EXCP_DEBUG;
++        cpu_loop_exit(cpu);
++    }
++
+     return last_tb;
+ }
+ 
 -- 
 2.25.1
 
