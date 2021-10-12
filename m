@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9908042A157
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:44:32 +0200 (CEST)
-Received: from localhost ([::1]:39412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C753242A171
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Oct 2021 11:56:43 +0200 (CEST)
+Received: from localhost ([::1]:58526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1maEKk-0004tP-TN
-	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:44:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41920)
+	id 1maEWY-0001aI-T1
+	for lists+qemu-devel@lfdr.de; Tue, 12 Oct 2021 05:56:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1maE8K-00081h-Vg
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:31:41 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36646)
+ id 1maED2-0004om-Fg
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:36:32 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1maE8J-0006s2-6w
- for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:31:40 -0400
-Received: by mail-wr1-x432.google.com with SMTP id o20so64742413wro.3
- for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 02:31:38 -0700 (PDT)
+ id 1maED0-0001Al-M5
+ for qemu-devel@nongnu.org; Tue, 12 Oct 2021 05:36:32 -0400
+Received: by mail-wr1-x435.google.com with SMTP id u18so65145410wrg.5
+ for <qemu-devel@nongnu.org>; Tue, 12 Oct 2021 02:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=D31p4w+XxPf7qh2R9A9ZV5R3vW3dq1sdIgNLtk3IWtU=;
- b=x6Fy9Tmg+q1iwwM95nLM0SON06W6MBheO2iDyKoa5ew3uiCk8Cb8i9any9uK7hmpDi
- WtdLMv8ae0Us9uZivPpGRZrpg8GWaCSrqG8gcmj3BOPCa91ehImN+SRt+kLG3IlTDV06
- UAMPgCxsv1DCx13U8pEAFHHgJvpWaPJjcSleQ3KjG4sIidR5zFIqmJx33WPpkqebSmBE
- l3STYVXAj3zBci3w0srapiPIFmZA0oMfgWSXCdaXbcK573ik3bdCLKvxRhtmiC7V7q5m
- ZYLqVMrIqcJuctrU6yf4IoqeYtf9qLpMCILHagU7Fvf/icO41jcjbcDpPB8HuvWMHHvk
- J48g==
+ bh=RG/TYOAiNiz7Zjzo//Or7kcqS2r2Xb76n7z6Z3gZ41I=;
+ b=cuBjksCtwTn+Qje7gaMeClrskn3RlpDh9ZGexUCHCoxMI5fV2XHUix9dGWjiRvd1BA
+ U5H5M63jfDB6oz+3M4tihkh+ImI5JEIsxO+B1vXyA8+07RbrRwEaIUBSs/kCmQ77HdP8
+ 0f76lLZdbU/SEAIgqVQUDOEJmJKE+ARWfaEJDAJVnourk6FWr7szifg2Yp5WBJo27QTz
+ 8p9SdFGx/Di3tpFCEF+T3eVsQPi1UVYmXUc/vUeDERgSFzPnOSREYDRlpY+6BG9ZTTxl
+ VAtV6BWOs1UhvFSiyjQ8JGZSXeDR4XG3tyEaLTSrrQwZe26vzIbenL2d2m6ysXdZNoJc
+ hfvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=D31p4w+XxPf7qh2R9A9ZV5R3vW3dq1sdIgNLtk3IWtU=;
- b=PTtKom1UBVVjhBXY0EgUvufvxru2rAD2EJTOcFWGozEHJHefbDND5rEW7ws0kFR0LP
- CQXGBr8AFpgnBYStnjQmddLZMR5fHLL8ixXCDKYL241vrg95FU6lVpO+j1HIFpmOoRpa
- nUc1YdCriMwO9xpmhcjMcTHeLEbMdBWOSg4U6h3wf+WCstm4fX/xsvzU4qThzXG+cpUH
- kbzBcZIbNb8mblZQHBpcFr6aFBnv8vOuus1yRBAG90D2sc+0W6L7hzYzVyXCUyiZa/VO
- 2iNCWqHy8xufPMlDODCIxedSZAcrxcGHd3dPpWc0zJNwzK3L646ONCEVzZpxS1kMCP42
- br5w==
-X-Gm-Message-State: AOAM531ieki56v7kmSagsIOmMl6Qis4/F9thCqBa/nnTn+tfR4ELAlGL
- HnKcBef66IvSAVhXLyGyqm5KyD2S4dDxZA==
-X-Google-Smtp-Source: ABdhPJyYYaSVHV3kWA90tfbafMkNa2kpQ8CSlW40OaU4XLuV49Cb7gjQj9BRl06kHljrW/LzL6shbw==
-X-Received: by 2002:a1c:1b89:: with SMTP id b131mr4262321wmb.71.1634031097492; 
- Tue, 12 Oct 2021 02:31:37 -0700 (PDT)
+ bh=RG/TYOAiNiz7Zjzo//Or7kcqS2r2Xb76n7z6Z3gZ41I=;
+ b=rz9sq5iGVSF+mQ7M3ZgmzhF9tspZs2QQa1yP3XPeB/CUZdCvYi8H09IHzrh8huNAgI
+ vrwyFmK17DcO4nqTx6jotzdXuwWLk6T/RpxqfxnXoXtVG/yEQwN+XaxF7U3JmVtAmcy+
+ KwUMLKXNk2+kNxUsyTEXEh1bPXAx35bGbr7dFinjkYmWV3kKeOhDIVWmBvbKtBLoS5Fc
+ NHKNBbswkbSVM9/0u01hF9leb8ERIGW79bzbEUMM12Gk+JXyoGTlyuHGm7IULJzTtNfI
+ lpxBImv7n+HxlfZfSIxcjRKvROXmfoY1yAAKsj7Ue/zt/FgUhvakypj0/2YVkuccnVXW
+ jBiQ==
+X-Gm-Message-State: AOAM532tzGVUllmzZYxdoz1lD4aNeT6RyW37o0/0+jV8CI8muhUi7/Ic
+ cS7F/vyHQp/rUDo3vmziEhRE3g==
+X-Google-Smtp-Source: ABdhPJxfJgv6nEf37IdtmMU/1uOJ+0V9qkfbmCapq4aJosYoGf147qbUsQmTDFyDESlwfyokd1YXPw==
+X-Received: by 2002:a1c:3807:: with SMTP id f7mr4448445wma.117.1634031380112; 
+ Tue, 12 Oct 2021 02:36:20 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x24sm2114032wmk.31.2021.10.12.02.31.36
+ by smtp.gmail.com with ESMTPSA id g2sm10495482wrb.20.2021.10.12.02.36.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 02:31:36 -0700 (PDT)
+ Tue, 12 Oct 2021 02:36:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CC5541FF96;
- Tue, 12 Oct 2021 10:31:35 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0D7FD1FF96;
+ Tue, 12 Oct 2021 10:36:18 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] target/s390x: don't double ld_code() when reading
- instructions
-Date: Tue, 12 Oct 2021 10:31:28 +0100
-Message-Id: <20211012093128.3909859-1-alex.bennee@linaro.org>
+To: richard.henderson@linaro.org
+Subject: [PULL v2 00/13] some testing and plugin updates
+Date: Tue, 12 Oct 2021 10:36:17 +0100
+Message-Id: <20211012093618.3914052-1-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,58 +84,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, richard.henderson@linaro.org,
- "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the 4 byte instruction case we started doing an ld_code2 and then
-reloaded the data with ld_code4 once it was identified as a 4 byte op.
-This is confusing for the plugin hooks which are expecting to see
-simple sequential loading so end up reporting a malformed 6 byte
-instruction buffer. While we are at it lets clean up some of the
-shifts with nice deposit/extrac calls.
+The following changes since commit c09124dcb8401a0d635b4a52b295e9b3fc12392a:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- target/s390x/tcg/translate.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2021-10-11 08:15:32 -0700)
 
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index a2d6fa5cca..7fc870bbb9 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -6273,21 +6273,20 @@ static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s)
- 
-         /* Extract the values saved by EXECUTE.  */
-         insn = s->ex_value & 0xffffffffffff0000ull;
--        ilen = s->ex_value & 0xf;
--        op = insn >> 56;
-+        ilen = extract64(s->ex_value, 0, 8);
-+        op = extract64(insn, 56, 8);
-     } else {
--        insn = ld_code2(env, s, pc);
--        op = (insn >> 8) & 0xff;
-+        insn = deposit64(0, 48, 16, ld_code2(env, s, pc));
-+        op = extract64(insn, 56, 8);
-         ilen = get_ilen(op);
-         switch (ilen) {
-         case 2:
--            insn = insn << 48;
-             break;
-         case 4:
--            insn = ld_code4(env, s, pc) << 32;
-+            insn = deposit64(insn, 32, 16, ld_code2(env, s, pc + 2));
-             break;
--        case 6:
--            insn = (insn << 48) | (ld_code4(env, s, pc + 2) << 16);
-+         case 6:
-+             insn = deposit64(insn, 16, 32, ld_code4(env, s, pc + 2));
-             break;
-         default:
-             g_assert_not_reached();
+are available in the Git repository at:
+
+  https://github.com/stsquad/qemu.git tags/pull-for-6.2-121021-2
+
+for you to fetch changes up to 17888749ba0fb06694de5efe0b941f16a0fba6fa:
+
+  tests/docker: add a debian-native image and make available (2021-10-12 08:38:10 +0100)
+
+----------------------------------------------------------------
+Some testing and plugin updates:
+
+  - don't override the test compiler when specified
+  - split some multiarch tests by guest OS
+  - add riscv64 docker image and cross-compile tests
+  - drop release tarball test from Travis
+  - skip check-patch on master repo
+  - fix passing of TEST_TARGETS to cirrus
+  - fix missing symbols in plugins
+  - ensure s390x insn start ops precede plugin instrumentation
+  - refactor plugin instruction boundary detection
+  - update github repo lockdown
+  - add a debian-native test image for multi-arch builds
+
+----------------------------------------------------------------
+Alex Bennée (7):
+      configure: don't override the selected host test compiler if defined
+      tests/tcg/sha1: remove endian include
+      tests/tcg: move some multiarch files and make conditional
+      tests/docker: promote debian-riscv64-cross to a full image
+      accel/tcg: re-factor plugin_inject_cb so we can assert insn_idx is valid
+      .github: move repo lockdown to the v2 configuration
+      tests/docker: add a debian-native image and make available
+
+Daniel P. Berrangé (2):
+      gitlab: skip the check-patch job on the upstream repo
+      gitlab: fix passing of TEST_TARGETS env to cirrus
+
+Lukas Jünger (1):
+      plugins/: Add missing functions to symbol list
+
+Richard Henderson (2):
+      gitlab: Add cross-riscv64-system, cross-riscv64-user
+      target/s390x: move tcg_gen_insn_start to s390x_tr_insn_start
+
+Thomas Huth (1):
+      travis.yml: Remove the "Release tarball" job
+
+ configure                                          |   6 +-
+ include/tcg/tcg.h                                  |   6 -
+ accel/tcg/plugin-gen.c                             | 157 +++++++++++----------
+ target/s390x/tcg/translate.c                       |  10 +-
+ tests/tcg/multiarch/{ => libs}/float_helpers.c     |   2 +-
+ tests/tcg/multiarch/{ => linux}/linux-test.c       |   0
+ tests/tcg/multiarch/sha1.c                         |   1 -
+ .github/lockdown.yml                               |  34 -----
+ .github/workflows/lockdown.yml                     |  30 ++++
+ .gitlab-ci.d/cirrus.yml                            |   2 +-
+ .gitlab-ci.d/cirrus/build.yml                      |   1 +
+ .gitlab-ci.d/container-cross.yml                   |   3 +-
+ .gitlab-ci.d/crossbuilds.yml                       |  19 +++
+ .gitlab-ci.d/static_checks.yml                     |   2 +-
+ .travis.yml                                        |  23 ---
+ plugins/qemu-plugins.symbols                       |   3 +
+ tests/docker/Makefile.include                      |   6 +-
+ tests/docker/common.rc                             |  10 +-
+ tests/docker/dockerfiles/debian-native.docker      |  49 +++++++
+ .../docker/dockerfiles/debian-riscv64-cross.docker |  46 +++++-
+ tests/tcg/multiarch/Makefile.target                |  15 +-
+ tests/tcg/x86_64/Makefile.target                   |   4 +
+ 22 files changed, 271 insertions(+), 158 deletions(-)
+ rename tests/tcg/multiarch/{ => libs}/float_helpers.c (99%)
+ rename tests/tcg/multiarch/{ => linux}/linux-test.c (100%)
+ delete mode 100644 .github/lockdown.yml
+ create mode 100644 .github/workflows/lockdown.yml
+ create mode 100644 tests/docker/dockerfiles/debian-native.docker
+
 -- 
 2.30.2
 
